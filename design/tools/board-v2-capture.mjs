@@ -43,8 +43,18 @@
 // touched; that the top bar keeps its box and says the stage and the server's countdown; that no
 // side or role is on the page; and that a participant's claim panel is never under the film. It
 // compares the display's page with a player's, a reconnect's board with the film's settled one, and
-// the board after the exit with the idle board. These are statements about desktop Chromium laying
-// out a review page from synthetic fixtures, not measurements of a phone and nothing about a match.
+// the board after the exit with the idle board. With the real controls' places (&ui=, the owner's
+// "controls take turns", design/board-v2/js/turns.mjs) it measures that every room is where
+// turns.mjs puts it below the match's top bar (124 px at 200% text); that while a character choice
+// is open the choosing row is the navigation's box, the navigation and the Pass give way, every
+// offered seat is ringed on each of its targets and a pointer lands on every target and on every
+// control in the row; that otherwise the sheet is its box over the Hospital and the Jail, covers no
+// other room or target, keeps its pinned actions 44 px, clear of the Pass and pressable, scrolls
+// inside by exactly what turns.mjs plans, and shows the private claim whole in the result stage;
+// and where no board fits, the too-short page. It compares each page's board with the same page
+// without the controls, which must be the same. These are statements about desktop Chromium laying
+// out a review page from synthetic fixtures and stand-ins sized from Frontend's measurements, not
+// measurements of a phone or of Frontend's controls, and nothing about a match.
 
 import { mkdir, readFile, readdir, rm, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
@@ -67,6 +77,8 @@ const { CREW } = await import(pathToFileURL(resolve(repoRoot, 'design/board-moti
 const NAMES = Object.values(CREW).map(member => member.sign);
 const { CAPSULE_FILM, capsuleFrame } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/films/capsule.mjs')).href);
 const { CAPSULE_SEATS } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/scenes/capsule.mjs')).href);
+const { SHEET_ROOMS, boardTargets, turnsLayout } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/js/turns.mjs')).href);
+const { ENLARGED } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/js/turns-view.mjs')).href);
 /** Words of a side or a role: never on a capsule page, which is public. */
 const PRIVATE_WORDS = /\b(?:Blue|Red|Officer|Insider|Cracker|Disabler|Supplier|Undercover|Hacker|Alien|faction)\b/;
 
@@ -209,6 +221,30 @@ function plan() {
   capsule('participant-result-2400', at320, '&stage=result&t=2400&viewer=participant', 'A participant\'s screen on the smallest phone: the claim panel\'s stand-in clear of the film (2 400 ms)');
   for (const roster of [7, 8]) capsule(`talk-30000-r${roster}`, at390, '&stage=talk&t=30000', `${roster} players: the capsule beside the Command Room, the conversation (0:30)`, { roster });
   shots.push({ file: 'capsule-sheet.png', group: 'capsule', viewport: [1240, 920], query: 'sheet=capsule', scale: 1, sheetHeight: 460, about: 'The capsule\'s art for review: its layers (empty, the door\'s four positions, occupied, dark), the badge, the seats\' anchors and the paths, and every pose by public status' });
+  // The real controls by the owner's "controls take turns" (js/turns.mjs), with stand-ins sized from Frontend's
+  // measurements (js/turns-view.mjs), on the mixed board with the capsule; Vega (1) and Orion (5) the pair.
+  const turns = (name, viewport, query, about) => shots.push({ file: `turns-${vp(viewport)}-${name}.png`, group: 'turns', viewport, query: `roster=9&fixture=mixed&film=capsule${query}&hit=1`, about, turns: true });
+  const talk = '&stage=talk&t=30000';
+  turns('choosing', at390, `${talk}&ui=choosing&chosen=5,8`, 'A character choice open (a Code, during the conversation): the board is the chooser. Every living character ringed where it is, Vega and Orion at their slots and in the capsule; Orion and Mira chosen. The choosing row in the navigation\'s box, the Pass hidden; the top bar says what is chosen');
+  turns('choosing', at320, `${talk}&ui=choosing&chosen=5&viewer=participant&tab=1`, 'A participant choosing on the smallest phone: the sheet folded to its tab at the row\'s start; every target pressable');
+  turns('choosing-safe', at390, `${talk}&ui=choosing&safe=47,0,34,0`, 'With 47/34 px safe areas: the choosing row takes the navigation\'s box, its inset included');
+  for (const t of [400, 2400, 3600]) turns(`result-${String(t).padStart(4, '0')}`, at390, `&stage=result&t=${t}&viewer=participant&ui=sheet&claim=result`, `A participant's private result whole in the sheet over the Hospital and the Jail while the pair walks in (${t} ms): the capsule never under it`);
+  turns('result-2400', at320, '&stage=result&t=2400&viewer=participant&ui=sheet&claim=result', 'The private result through the entrance on the smallest phone (2 400 ms)');
+  for (const viewport of [at390, at320]) {
+    turns('talk-receipt', viewport, `${talk}&viewer=participant&ui=sheet&claim=conversation&receipt=1`, 'The conversation: the claim, and a sent command\'s recovery row with its 44 px Check again');
+    turns('talk-code-confirm', viewport, `${talk}&viewer=participant&ui=sheet&claim=conversation&command=code-confirm`, 'A participant confirming a Code in the conversation: the claim folded to its row, the confirmation\'s words, Cancel and Confirm pinned either side of the Pass');
+    turns('declare-offer', viewport, '&stage=declare&t=4000&viewer=participant&ui=sheet&claim=declare&command=declare-offer', 'The declaration: its claim and the offer');
+    turns('declare-side-choice', viewport, '&stage=declare&t=4000&viewer=participant&ui=sheet&claim=declare&command=side-choice', 'The side choice: three stand-in choices; the claim folded where both do not fit');
+  }
+  turns('declare-side-confirm', at390, '&stage=declare&t=4000&viewer=participant&ui=sheet&claim=declare&command=side-confirm', 'The declaration\'s confirmation, the claim folded');
+  turns('rescue-confirm', at390, '&stage=idle&ui=sheet&command=rescue-confirm', 'Another player\'s confirmation: no claim; the capsule idle');
+  // Enlarged text (200%): the top bar measured once for the match at 124 px, the board laid out below it.
+  turns('text2-choosing', at390, `${talk}&ui=choosing&chosen=5&viewer=participant&tab=1&text=2`, '200% text: the top bar 124 px, chosen before the board is laid out; every target still 44 px; the choosing row\'s words at 200%');
+  turns('text2-result-2400', at390, '&stage=result&t=2400&viewer=participant&ui=sheet&claim=result&text=2', '200% text: the private result whole in the sheet through the entrance (2 400 ms)');
+  turns('text2-code-confirm', at390, `${talk}&viewer=participant&ui=sheet&claim=conversation&command=code-confirm&text=2`, '200% text: the confirmation scrolls inside the sheet; its 64 px actions stay pinned');
+  turns('text2-side-choice', [375, 667], '&stage=declare&t=4000&viewer=participant&ui=sheet&claim=declare&command=side-choice&text=2', '200% text at 375 x 667: the narrower board (fallback narrow); the side choice scrolls inside the sheet');
+  turns('text2-too-short', at320, `${talk}&ui=sheet&claim=conversation&text=2`, '200% text at 320 x 568: no board fits below the 124 px top bar, so the explicit too-short page with the navigation, as the owner decided');
+  turns('safe-too-short', at320, `${talk}&ui=choosing&safe=20,0,16,0`, '320 x 568 with 20/16 px safe areas: 36 px short at any text size, so the too-short page, as the owner decided');
   return shots;
 }
 
@@ -616,6 +652,153 @@ function pointerProblems(measured) {
   return problems;
 }
 
+/** Reads the real controls' places back (&ui=): the bars, every room, the choosing row or the sheet, the rings, and a pointer at every target and control. */
+const MEASURE_TURNS = `(() => {
+  const box = node => { if (!node) return null; const b = node.getBoundingClientRect(); return { left: b.left, top: b.top, width: b.width, height: b.height, right: b.right, bottom: b.bottom }; };
+  const shown = node => Boolean(node) && getComputedStyle(node).display !== 'none';
+  // A real pointer at the centre and at each corner 3 px inside: how many land on the node.
+  const hits = (node, corners = true) => { const b = node.getBoundingClientRect(); const points = [[b.left + b.width / 2, b.top + b.height / 2], ...(corners ? [[b.left + 3, b.top + 3], [b.right - 3, b.top + 3], [b.left + 3, b.bottom - 3], [b.right - 3, b.bottom - 3]] : [])]; return points.filter(([x, y]) => { const hit = document.elementFromPoint(x, y); return hit && (hit === node || node.contains(hit)); }).length; };
+  const sheet = document.querySelector('.v2-sheet-ui');
+  const body = sheet ? sheet.querySelector('.v2-sheet-ui__body') : null;
+  const claim = sheet ? sheet.querySelector('.v2-ui-claim, .v2-ui-claimrow') : null;
+  const receipt = sheet ? sheet.querySelector('.v2-ui-receipt .v2-ui-button') : null;
+  return {
+    ui: document.documentElement.dataset.ui ?? null,
+    fallback: document.documentElement.dataset.fallback ?? null,
+    unfit: Boolean(document.querySelector('.v2-unfit')),
+    scrolls: document.documentElement.scrollHeight > innerHeight + 1 || document.documentElement.scrollWidth > innerWidth + 1,
+    top: box(document.querySelector('.v2-top')),
+    nav: shown(document.querySelector('.v2-nav')) ? box(document.querySelector('.v2-nav')) : null,
+    pass: shown(document.querySelector('.v2-pass')) ? box(document.querySelector('.v2-pass')) : null,
+    phase: document.querySelector('.v2-top__phase')?.textContent ?? null,
+    rooms: Object.fromEntries([...document.querySelectorAll('.v2-room[data-room]')].map(node => [node.dataset.room, box(node)])),
+    choosing: box(document.querySelector('.v2-choosing')),
+    controls: [...document.querySelectorAll('.v2-choosing .v2-ui-button')].map(node => ({ ...box(node), label: node.textContent, hits: hits(node) })),
+    count: document.querySelector('.v2-choosing__count')?.textContent ?? null,
+    rings: [...document.querySelectorAll('.v2-ring')].map(node => ({ ...box(node), seat: Number(node.dataset.seat), target: node.dataset.target, chosen: node.classList.contains('v2-ring--chosen') })),
+    sheet: sheet ? { ...box(sheet), claim: sheet.dataset.claim, scroll: Number(sheet.dataset.scroll), body: { ...box(body), overflow: body.scrollHeight - body.clientHeight },
+      actions: [...sheet.querySelectorAll('.v2-sheet-ui__actions')].map(node => ({ part: node.dataset.part, ...box(node), buttons: [...node.querySelectorAll('.v2-ui-button')].map(button => ({ ...box(button), label: button.textContent, hits: hits(button) })) })),
+      claimBlock: claim ? { ...box(claim), folded: claim.classList.contains('v2-ui-claimrow'), hits: hits(claim, false) } : null,
+      receipt: receipt ? { ...box(receipt), hits: hits(receipt) } : null } : null,
+    targets: [...document.querySelectorAll('.v2-slot-hit')].map(node => ({ room: node.closest('[data-room]')?.dataset.room ?? null, slot: node.dataset.capsuleTarget ?? node.dataset.slot, ...box(node), hits: hits(node) })),
+    words: document.body.innerText,
+  };
+})()`;
+
+/** The pair seated in the capsule at a page's stage and moment, as the film draws them: [{ id, seat }]. */
+function seatedPair(query) {
+  if (query.get('film') !== 'capsule') return [];
+  const pair = (query.get('pair') ?? '1,5').split(',').map(Number).sort((a, b) => a - b);
+  const ids = CAPSULE_SEATS.map(seat => seat.id).slice(0, Math.min(2, Math.max(0, Number(query.get('known') ?? 2))));
+  const known = Object.fromEntries(ids.map((id, index) => [id, query.get('settled') === '1' || (query.get('late') === '1' && index === 1) ? 'settled' : 'live']));
+  const frame = capsuleFrame(query.get('stage') ?? 'idle', Number(query.get('t') ?? 0), { known, reduced: query.get('motion') === 'reduced' });
+  return ids.filter(id => frame.people[id]?.capsule.state === 'seated').map(id => ({ id, seat: pair[ids.indexOf(id)] }));
+}
+
+/** The real controls' places as turns.mjs lays them out for a page's viewport, roster, insets and text size. */
+function turnsOf(viewport, query) {
+  const enlarged = query.get('text') === '2';
+  return turnsLayout({ width: viewport[0], height: viewport[1] }, Number(query.get('roster') ?? 9), { insets: insetsOf(query.get('safe')), bars: enlarged ? ENLARGED.bars : null, actions: enlarged ? ENLARGED.actions : undefined });
+}
+
+function problemsOfTurns(shot, m) {
+  const problems = [];
+  const query = new URLSearchParams(shot.query);
+  const roster = Number(query.get('roster') ?? 9);
+  const layout = turnsOf(shot.viewport, query);
+  const near = (a, b) => Math.abs(a - b) <= 0.6;
+  const at = (drawn, want) => Boolean(drawn) && ['left', 'top', 'width', 'height'].every(key => near(drawn[key], want[key]));
+  const meet = (a, b) => a.left < b.left + b.width - 0.5 && b.left < a.left + a.width - 0.5 && a.top < b.top + b.height - 0.5 && b.top < a.top + a.height - 0.5;
+  if (m.scrolls) problems.push('the page scrolls');
+  // The top bar is the match's: its tier's, or taller where the text size needs it, and the same at every moment.
+  const topWant = layout.board.insets.top + layout.board.shell.top;
+  if (!m.top || !near(m.top.top, 0) || !near(m.top.height, topWant)) problems.push(`the top bar is ${m.top?.height?.toFixed(1)} px high; the match's is ${topWant}`);
+  if (PRIVATE_WORDS.test(m.words)) problems.push(`a side or role word on the page: "${m.words.match(PRIVATE_WORDS)[0]}"`);
+  if (!layout.fits) {
+    if (m.fallback !== layout.board.fallback || !m.unfit) problems.push(`no too-short page where no board fits (${m.fallback})`);
+    if (Object.keys(m.rooms).length || m.choosing || m.sheet || m.targets.length || m.rings.length) problems.push('a board or a control where no board fits');
+    if (!m.nav) problems.push('no navigation on the too-short page');
+    return problems;
+  }
+  // Every room, the capsule included, where turns.mjs puts it: no control moves the board.
+  for (const [room, want] of Object.entries(layout.board.boxes)) if (!at(m.rooms[room], want)) problems.push(`${room} is not where turns.mjs puts it`);
+  const targets = boardTargets(layout.board, roster);
+  const square = target => ({ left: target.left, top: target.top, width: target.side, height: target.side });
+  if (query.get('ui') === 'choosing') {
+    if (!at(m.choosing, layout.choosing)) problems.push('the choosing row is not the navigation\'s box');
+    if (m.nav || m.pass) problems.push('the navigation or the Pass shows while a character choice is open');
+    if (m.sheet) problems.push('the sheet is up while a character choice is open');
+    for (const control of m.controls) {
+      if (Math.min(control.width, control.height) < 43.5) problems.push(`the row's ${control.label} is ${control.width.toFixed(1)} x ${control.height.toFixed(1)}`);
+      if (control.top < layout.choosing.row.top - 0.5 || control.bottom > layout.choosing.row.top + layout.choosing.row.height + 0.5) problems.push(`the row's ${control.label} leaves the row above the inset`);
+      if (control.hits !== 5) problems.push(`a pointer misses the row's ${control.label}`);
+    }
+    if (!['Cancel', 'Done'].every(label => m.controls.some(control => control.label === label))) problems.push('no Cancel or no Done in the choosing row');
+    // Every target pressable; every offered seat ringed on each of its targets, at the target's own square.
+    for (const target of m.targets) if (target.hits !== 5) problems.push(`${target.room} ${target.slot}: a pointer misses it while choosing`);
+    const fixture = fixtureSeats(query.get('fixture') ?? 'mixed', roster);
+    const offered = query.get('offered') ? query.get('offered').split(',').map(Number) : fixture.filter(seat => seat.health !== 'Eliminated').map(seat => seat.seat);
+    const chosen = query.get('chosen') ? query.get('chosen').split(',').map(Number) : [];
+    const seated = seatedPair(query);
+    const want = offered.flatMap(number => {
+      const seat = fixture.find(entry => entry.seat === number);
+      return [`${seat.room}:${seat.slot}`, ...seated.filter(entry => entry.seat === number).map(entry => `capsule:${entry.id}`)].map(key => ({ seat: number, key }));
+    });
+    if (m.rings.length !== want.length) problems.push(`${m.rings.length} rings for ${want.length} offered targets`);
+    for (const { seat, key } of want) {
+      const ring = m.rings.find(entry => entry.target === key && entry.seat === seat);
+      const target = targets.find(entry => `${entry.room}:${entry.id}` === key);
+      if (!ring || !target || !at(ring, square(target))) problems.push(`seat ${seat}: no ring on its target ${key}`);
+      else if (ring.chosen !== chosen.includes(seat)) problems.push(`seat ${seat}: its ring at ${key} is ${ring.chosen ? '' : 'not '}marked chosen`);
+    }
+    if (m.count !== `${chosen.length} of ${Number(query.get('choose') ?? 4)}`) problems.push(`the count says "${m.count}"`);
+  } else if (query.get('ui') === 'sheet') {
+    const { sheet } = layout;
+    if (!at(m.sheet, sheet)) problems.push('the sheet is not its box over the Hospital and the Jail');
+    if (!m.nav || !m.pass) problems.push('the navigation or the Pass is hidden while the sheet is up');
+    if (m.choosing || m.rings.length) problems.push('a choosing row or a ring while no character choice is open');
+    if (m.sheet) {
+      for (const [room, drawn] of Object.entries(m.rooms)) if (!SHEET_ROOMS.includes(room) && meet(drawn, m.sheet)) problems.push(`the sheet covers ${room}`);
+      for (const target of m.targets) {
+        const under = SHEET_ROOMS.includes(target.room);
+        if (!under && target.hits !== 5) problems.push(`${target.room} ${target.slot}: covered while the sheet is up`);
+        if (under && target.hits !== 0) problems.push(`${target.room} ${target.slot}: pressable through the sheet`);
+      }
+      // The pinned actions: each control 44 px, inside its part, clear of the Pass's circle, pressable.
+      const pass = m.pass ? { cx: m.pass.left + m.pass.width / 2, cy: m.pass.top + m.pass.height / 2, r: m.pass.width / 2 } : null;
+      for (const part of m.sheet.actions) {
+        const want = sheet.actions[part.part];
+        if (!near(part.left, want.left) || !near(part.width, want.width) || !near(part.top, sheet.actions.top) || !near(part.height, sheet.actions.height)) problems.push(`the actions' ${part.part} part is not where turns.mjs puts it`);
+        for (const button of part.buttons) {
+          if (Math.min(button.width, button.height) < 43.5) problems.push(`the sheet's ${button.label} is ${button.width.toFixed(1)} x ${button.height.toFixed(1)}`);
+          if (button.left < part.left - 0.5 || button.right > part.right + 0.5) problems.push(`the sheet's ${button.label} leaves its part`);
+          if (button.hits !== 5) problems.push(`a pointer misses the sheet's ${button.label}`);
+          if (pass) {
+            const dx = Math.max(button.left - pass.cx, 0, pass.cx - button.right), dy = Math.max(button.top - pass.cy, 0, pass.cy - button.bottom);
+            if (Math.hypot(dx, dy) < pass.r + 0.5) problems.push(`the sheet's ${button.label} is under the Pass`);
+          }
+        }
+      }
+      // The body scrolls inside by exactly what the plan says, never the page.
+      if (Math.abs(Math.max(0, m.sheet.body.overflow) - m.sheet.scroll) > 1.5) problems.push(`the sheet's body overflows by ${m.sheet.body.overflow} px; the plan says ${m.sheet.scroll}`);
+      // The claim: drawn as planned, whole on screen in the result stage, and not covered.
+      if (query.get('claim')) {
+        const block = m.sheet.claimBlock;
+        if (!block) problems.push('no claim in the sheet');
+        else {
+          if (block.folded !== (m.sheet.claim === 'collapsed')) problems.push(`the claim is drawn ${block.folded ? 'folded' : 'whole'}; the plan says ${m.sheet.claim}`);
+          if (block.hits !== 1) problems.push('the claim is covered');
+          if (block.top < m.sheet.body.top - 0.5 || block.bottom > m.sheet.body.bottom + 0.5) problems.push('the claim is not whole in the sheet\'s view');
+        }
+        if (query.get('stage') === 'result' && m.sheet.claim !== 'full') problems.push('the claim is folded in the result stage');
+        if (m.rooms.capsule && meet(m.rooms.capsule, m.sheet)) problems.push('the sheet covers the capsule');
+      }
+      if (query.get('receipt') === '1' && (!m.sheet.receipt || Math.min(m.sheet.receipt.width, m.sheet.receipt.height) < 43.5 || m.sheet.receipt.hits !== 5)) problems.push('the recovery row\'s control is missing, under 44 px or covered');
+    }
+  }
+  return problems;
+}
+
 function problemsOf(shot, measured) {
   const problems = [];
   const [width, height] = shot.viewport;
@@ -838,8 +1021,9 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
       const filmed = shot.film ? await page.evaluate(MEASURE_FILM) : null;
       const blockedMeasured = shot.blocked ? await page.evaluate(MEASURE_BLOCKED) : null;
       const capsuleMeasured = shot.capsule ? await page.evaluate(MEASURE_CAPSULE) : null;
+      const turnsMeasured = shot.turns ? await page.evaluate(MEASURE_TURNS) : null;
       await page.screenshot(resolve(repoRoot, OUT, shot.file), { selector: shot.selector ?? null, viewport: !shot.selector });
-      const problems = [...(measured ? problemsOf(shot, measured) : []), ...(filmed ? problemsOfFilm(shot, filmed) : []), ...(blockedMeasured ? problemsOfBlocked(shot, blockedMeasured) : []), ...(capsuleMeasured ? problemsOfCapsule(shot, capsuleMeasured) : []), ...page.problems()];
+      const problems = [...(measured ? problemsOf(shot, measured) : []), ...(filmed ? problemsOfFilm(shot, filmed) : []), ...(blockedMeasured ? problemsOfBlocked(shot, blockedMeasured) : []), ...(capsuleMeasured ? problemsOfCapsule(shot, capsuleMeasured) : []), ...(turnsMeasured ? problemsOfTurns(shot, turnsMeasured) : []), ...page.problems()];
       const fit = shot.measure ? fitBoardV2({ width, height }, Number(new URLSearchParams(shot.query).get('roster') ?? 9), { insets: insetsOf(new URLSearchParams(shot.query).get('safe')), capsule: Boolean(shot.capsule) }) : null;
       report.push({ file: shot.file, viewport: `${width}x${height}`, query: shot.query, problems, shell: fit?.shell.tier ?? null, fallback: fit?.fallback ?? null, fits: fit?.fits ?? null, boardProblems: fit?.problems ?? [] });
       console.log(`${problems.length ? 'PROBLEM' : 'ok     '} ${shot.file}${problems.length ? `: ${problems.join('; ')}` : ''}`);
@@ -876,6 +1060,23 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
       const board = fitBoardV2({ width, height }, probe.roster, { capsule: true });
       probes.push({ viewport: `${width}x${height}`, roster: probe.roster, safe: null, capsule: probe.query.includes('film=capsule') ? probe.query.split('&').filter(part => /^(stage|t)=/.test(part)).join('&') : 'empty', ceiling: board.ceiling, shell: board.shell.tier, fallback: board.fallback, slots: measured.pointer.length, problems });
       if (problems.length) console.log(`PROBLEM probe ${width}x${height} ${probe.roster}p ${probe.query}: ${problems.join('; ')}`);
+    }
+    // The real controls at every phone and roster on the stress board (every slot taken): a character choice open,
+    // every slot ringed and pressed; and the sheet up, the Hospital's and the Jail's covered and every other pressed.
+    for (const viewport of VIEWPORTS) {
+      for (const roster of [7, 8, 9]) {
+        for (const ui of ['&ui=choosing', '&ui=sheet&claim=conversation&receipt=1']) {
+          const query = `roster=${roster}&fixture=stress&hit=1${ui}`;
+          const page = await openPage(browser, { width: viewport[0], height: viewport[1], scale: 1 });
+          await page.goto(`${server.origin}/board-v2/index.html?${query}`, 'document.readyState === "complete" && window.__designReady === true');
+          const measuredTurns = await page.evaluate(MEASURE_TURNS);
+          const problems = [...problemsOfTurns({ viewport, query }, measuredTurns), ...page.problems()];
+          await page.close();
+          const board = fitBoardV2({ width: viewport[0], height: viewport[1] }, roster, { capsule: true });
+          probes.push({ viewport: vp(viewport), roster, safe: null, turns: ui.slice(4).split('&')[0], ceiling: board.ceiling, shell: board.shell.tier, fallback: board.fallback, slots: measuredTurns.targets.length, problems });
+          if (problems.length) console.log(`PROBLEM probe ${vp(viewport)} ${roster}p ${query}: ${problems.join('; ')}`);
+        }
+      }
     }
     console.log(`Pointer probes: ${probes.length} pages, ${probes.reduce((n, entry) => n + entry.slots, 0)} slots pressed at five points each, ${probes.filter(entry => entry.problems.length).length} with problems`);
     // The Disabler's selection pressed with a real pointer.
@@ -976,6 +1177,23 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
       const boxOf = bar => JSON.stringify(JSON.parse(bar.bar)[0]?.slice(0, 5) ?? null);
       disclosure.push({ compare: `the top bar's box at every capsule stage, ${vp(viewport)}`, same: bars.every(bar => boxOf(bar) === boxOf(bars[0])) && boxOf(bars[0]) !== 'null' });
     }
+    // The real controls never touch the board: each page's board, and its top bar's box, the same as the
+    // same page's without its controls (the same film, the same viewer, the same text size).
+    const withoutControls = query => query.split('&').filter(part => !/^(ui|chosen|offered|choose|prompt|tab|claim|command|receipt|viewer)=/.test(part)).join('&');
+    const controlPages = [
+      `${capsuleBase}&stage=talk&t=30000&ui=choosing&chosen=5,8`,
+      `${capsuleBase}&stage=talk&t=30000&ui=choosing&chosen=5&viewer=participant&tab=1`,
+      ...[400, 1200, 2400, 3600, 4999].map(t => `${capsuleBase}&stage=result&t=${t}&viewer=participant&ui=sheet&claim=result`),
+      `${capsuleBase}&stage=talk&t=30000&viewer=participant&ui=sheet&claim=conversation&command=code-confirm`,
+      `${capsuleBase}&stage=declare&t=4000&viewer=participant&ui=sheet&claim=declare&command=side-choice`,
+    ];
+    for (const viewport of [[390, 844], [320, 568]]) {
+      for (const query of [...controlPages, ...(viewport[0] === 390 ? [`${capsuleBase}&stage=result&t=2400&viewer=participant&ui=sheet&claim=result&text=2`, `${capsuleBase}&stage=talk&t=30000&ui=choosing&chosen=5&text=2`] : [])]) {
+        const [withControls, without] = await Promise.all([pageAt(viewport, query), pageAt(viewport, withoutControls(query))]);
+        const box = bar => JSON.stringify(JSON.parse(bar)[0]?.slice(0, 5) ?? null);
+        disclosure.push({ compare: `the board and the top bar's box with the controls and without, ${vp(viewport)}, ${query.replace(`${capsuleBase}&`, '')}`, same: withControls.surface !== null && withControls.surface === without.surface && box(withControls.bar) === box(without.bar) });
+      }
+    }
     for (const entry of disclosure) console.log(`${entry.same ? 'same   ' : 'DIFFERS'} ${entry.compare}`);
     // The label for every slot of every room: every slot taken, each blocked at once (the art review's
     // screen, which no player receives), measured but not pictured.
@@ -1001,7 +1219,7 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
     const index = { devOnly: 'mothership:dev-only', inputsSha256, note: 'Desktop Chromium laying out design/board-v2/index.html from synthetic fixtures. Not a phone measurement and nothing about a match.', captures: shots.map(({ file, group, query, about, sheetHeight }) => ({ file, group, query, about, sheetHeight })) };
     await writeFile(resolve(repoRoot, OUT, 'index.json'), `${JSON.stringify(index, null, 2)}\n`);
     await writeFile(resolve(repoRoot, OUT, 'report.json'), `${JSON.stringify({ devOnly: 'mothership:dev-only', inputsSha256, shots: report, probes, interactions, disclosure, labels }, null, 2)}\n`);
-    for (const [file, query] of [['contact.png', ''], ['contact-blackout.png', '?group=blackout'], ['contact-blocked.png', '?group=blocked'], ['contact-capsule.png', '?group=capsule']]) {
+    for (const [file, query] of [['contact.png', ''], ['contact-blackout.png', '?group=blackout'], ['contact-blocked.png', '?group=blocked'], ['contact-capsule.png', '?group=capsule'], ['contact-turns.png', '?group=turns']]) {
       const page = await openPage(browser, { width: 1600, height: 900, scale: 1 });
       await page.goto(`${server.origin}/board-v2/contact.html${query}`, 'document.readyState === "complete" && window.__designReady === true');
       await page.fitHeight();
@@ -1018,6 +1236,6 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
   const probing = probes.filter(entry => entry.problems.length);
   const pressing = interactions.filter(entry => entry.problems.length);
   const misplaced = labels.filter(entry => entry.problems.length);
-  console.log(`Board-v2 captures: ${report.length} pictures and four contact sheets, ${failing.length} with problems; ${probes.length} pointer probes, ${probing.length} with problems; ${interactions.length} press tests, ${pressing.length} with problems; ${disclosure.length} page comparisons, ${differing.length} differing; ${labels.length} label placements, ${misplaced.length} with problems`);
+  console.log(`Board-v2 captures: ${report.length} pictures and five contact sheets, ${failing.length} with problems; ${probes.length} pointer probes, ${probing.length} with problems; ${interactions.length} press tests, ${pressing.length} with problems; ${disclosure.length} page comparisons, ${differing.length} differing; ${labels.length} label placements, ${misplaced.length} with problems`);
   if (failing.length || probing.length || pressing.length || differing.length || misplaced.length) process.exitCode = 1;
 }

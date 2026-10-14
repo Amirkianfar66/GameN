@@ -59,6 +59,8 @@ const { CAPSULE_FILM, CAPSULE_STAGES, capsuleContract, capsuleEnd, capsuleFrame,
 const { BESIDE, CAPSULE_ACCENTS, CAPSULE_KEEP, CAPSULE_SEATS, CAPSULE_SIZE, CAPSULE_VIEW, CAPTION_CLEAR, DECK, DOOR, DOOR_FRAMES, DOORWAY, PATHS, TABLE, TAG_STRIP, capsuleTargets, frameCapsule } = await load('design/board-v2/scenes/capsule.mjs');
 const { LOOP, POSE_NAMES, capsuleLoop, sittingPose, walkingPose } = await load('design/board-v2/figures/capsule.mjs');
 const { cie76 } = await load('design/board-v2/fx/blocked.mjs');
+const { SHEET, SHEET_ROOMS, barsShell, boardTargets, sheetPlan, turnsLayout } = await load('design/board-v2/js/turns.mjs');
+const { ENLARGED, MEASURED, WORDS_CHROME } = await load('design/board-v2/js/turns-view.mjs');
 
 // ---------- Development material, fenced ----------
 {
@@ -431,6 +433,70 @@ const { cie76 } = await load('design/board-v2/fx/blocked.mjs');
   check(`the private-talk capsule: beside the Command Room at exactly 2:1, every other room where it is without it, each seated participant a whole 44 px target apart from the other's (${layouts} phone layouts), the seated pair's heads always in view (${framings} framings); the entrance inside the result stage with a second to spare, the minute the server's, the exit blocking nothing; only public inputs; never in two places; a reconnect and the reduced variant play nothing; the paths clear of the table; patients and prisoners as the board draws them; no faction color`, problems);
 }
 
+// ---------- The real controls take turns (the owner's decision of 14 October 2026) ----------
+{
+  const problems = [];
+  const meet = (a, b) => a.left < b.left + b.width - 0.01 && b.left < a.left + a.width - 0.01 && a.top < b.top + b.height - 0.01 && b.top < a.top + a.height - 0.01;
+  const square = target => ({ left: target.left, top: target.top, width: target.side, height: target.side });
+  // At every phone layout, in normal and 200% text: the choosing row is the navigation's box and covers no target;
+  // the sheet covers the Hospital and the Jail and nothing else, its actions either side of the Pass; the board is
+  // fitBoardV2's with the capsule (below the match's top bar), every target 44 px; where it does not fit, nothing.
+  let layouts = 0, enlargedFits = 0, minCapacity = Infinity;
+  for (const width of WIDTHS) {
+    for (const safe of [...INSETS, '20,0,16,0']) {
+      for (let height = 540; height <= 960; height += 3) {
+        for (const roster of ROSTERS) {
+          for (const enlarged of [false, true]) {
+            layouts += 1;
+            const where = `${width}x${height}${safe ? ` +${safe}` : ''} ${roster}p${enlarged ? ' 200%' : ''}`;
+            const options = { insets: insetsOf(safe), bars: enlarged ? ENLARGED.bars : null, actions: enlarged ? ENLARGED.actions : SHEET.actions };
+            const layout = turnsLayout({ width, height }, roster, options);
+            const plain = fitBoardV2({ width, height }, roster, { insets: insetsOf(safe), capsule: true, shell: barsShell(options.bars) });
+            if (JSON.stringify(layout.board) !== JSON.stringify(plain)) problems.push(`${where}: the board is not fitBoardV2's`);
+            if (!enlarged && JSON.stringify(layout.board) !== JSON.stringify(fitBoardV2({ width, height }, roster, { insets: insetsOf(safe), capsule: true }))) problems.push(`${where}: without bars, not the capsule's board`);
+            if (!layout.fits) { if (layout.choosing || layout.sheet) problems.push(`${where}: controls where no board fits`); continue; }
+            if (enlarged) enlargedFits += 1;
+            const { board, choosing, sheet } = layout;
+            if (board.boardTop < (enlarged ? ENLARGED.bars.top : 0)) problems.push(`${where}: the board under the top bar`);
+            if (choosing.left !== 0 || choosing.top !== board.navTop || choosing.width !== width || choosing.height !== height - board.navTop || choosing.row.height !== board.shell.nav || choosing.row.height < 44) problems.push(`${where}: the choosing row is not the navigation's box`);
+            const targets = boardTargets(board, roster);
+            for (const target of targets) {
+              if (target.side < 44) problems.push(`${where}: ${target.room} ${target.id} is ${target.side} px`);
+              if (target.top + target.side > choosing.top + 0.01) problems.push(`${where}: ${target.room} ${target.id} under the choosing row`);
+              if (meet(sheet, square(target)) && !SHEET_ROOMS.includes(target.room)) problems.push(`${where}: the sheet covers ${target.room} ${target.id}`);
+            }
+            for (const [room, box] of Object.entries(board.boxes)) if (!SHEET_ROOMS.includes(room) && meet(sheet, box)) problems.push(`${where}: the sheet covers ${room}`);
+            if (Math.abs(sheet.top + sheet.height - board.navTop) > 1e-9 || sheet.top !== Math.min(...SHEET_ROOMS.map(room => board.boxes[room].top))) problems.push(`${where}: the sheet is not the Hospital's and the Jail's band down to the navigation`);
+            const { actions } = sheet;
+            if (actions.start.width < 88 || actions.end.width < 88) problems.push(`${where}: an actions part under 88 px (${actions.start.width}, ${actions.end.width})`);
+            if (actions.start.left + actions.start.width > board.pass.cx - board.pass.r - SHEET.passMargin + 1e-9 || actions.end.left < board.pass.cx + board.pass.r + SHEET.passMargin - 1e-9) problems.push(`${where}: the actions under the Pass`);
+            if (Math.abs(sheet.capacity - (sheet.body.height + SHEET.gap + actions.height)) > 1e-9) problems.push(`${where}: the sheet's capacity`);
+            if (!enlarged) minCapacity = Math.min(minCapacity, sheet.capacity);
+          }
+        }
+      }
+    }
+  }
+  if (minCapacity < 160) problems.push(`the sheet holds ${minCapacity} px somewhere in normal text: under 160`);
+  // The owner's too-short cases: 320 x 568 with 20/16 px safe areas at any text size; at 200% text the smallest phones.
+  for (const enlarged of [false, true]) if (turnsLayout({ width: 320, height: 568 }, 9, { insets: insetsOf('20,0,16,0'), bars: enlarged ? ENLARGED.bars : null }).fits) problems.push('320 x 568 with 20/16 px safe areas: a board');
+  for (const [width, height] of [[320, 568], [360, 640]]) if (turnsLayout({ width, height }, 9, { bars: ENLARGED.bars }).board.fallback !== 'too-short') problems.push(`${width}x${height} at 200% text: not too short`);
+  for (const [width, height] of [[375, 667], [390, 664], [390, 844]]) if (!turnsLayout({ width, height }, 9, { bars: ENLARGED.bars }).fits) problems.push(`${width}x${height} at 200% text: no board`);
+  // The plan: the claim alone is never folded, and the private result fits whole at every phone in normal text.
+  for (const [width, height] of VIEWPORTS) {
+    const { sheet } = turnsLayout({ width, height }, 9);
+    const column = width < 360 ? 320 : 390;
+    if (sheetPlan(sheet, { claim: MEASURED.claims.result[column][0] }).scroll > 0) problems.push(`${width}x${height}: the private result does not fit the sheet whole`);
+    for (const kind of Object.keys(MEASURED.claims)) if (sheetPlan(sheet, { claim: MEASURED.claims[kind][column][1], receipt: 64 }).claim !== 'full') problems.push(`${width}x${height}: a claim alone folded`);
+    for (const [name, command] of Object.entries(MEASURED.commands)) {
+      const words = command.words[column][0];
+      const plan = sheetPlan(sheet, { claim: MEASURED.claims.declare[column][0], command: (words ? words + WORDS_CHROME + SHEET.gap : 0) + SHEET.actions });
+      if (plan.claim === 'none') problems.push(`${width}x${height} ${name}: the claim dropped`);
+    }
+  }
+  check(`the real controls take turns: the choosing row the navigation's box and over no target, the sheet over the Hospital and the Jail and nothing else, its actions either side of the Pass, the board fitBoardV2's with the capsule below the match's top bar (${layouts} layouts in normal and 200% text, ${enlargedFits} fitting at 200%; the sheet holds ${minCapacity} px at least); the owner's too-short cases`, problems);
+}
+
 // ---------- The slots ----------
 {
   const problems = [];
@@ -588,8 +654,11 @@ const { cie76 } = await load('design/board-v2/fx/blocked.mjs');
     // The capsule's every stage, mode, status, loading state, viewer and roster is pictured.
     const files = index.captures.map(shot => shot.file);
     for (const name of ['390x844-idle', '320x568-idle', '390x844-declare-4000', '390x844-result-2400', '390x844-result-3600', '390x844-talk-0000', '390x844-talk-30000', '390x844-exit-0800', '390x844-reduced-result-0760', '390x844-reduced-exit-0040', '390x844-talk-20000-patient-prisoner', '390x844-talk-20000-captain-detainee', '390x844-loading-0', '390x844-loading-1', '390x844-late', '390x844-reconnect-result-2400', '390x844-reconnect-exit-0800', '390x844-moved-exit-1250', '390x844-participant-result-2400', '320x568-talk-30000', '390x844-talk-30000-r7', '390x844-talk-30000-r8', 'sheet']) if (!files.includes(`capsule-${name}.png`)) problems.push(`capsule-${name}.png: not captured`);
+    // The real controls in every turn, at both phones, in normal and 200% text, and the owner's too-short cases.
+    for (const name of ['390x844-choosing', '320x568-choosing', '390x844-choosing-safe', '390x844-result-0400', '390x844-result-2400', '390x844-result-3600', '320x568-result-2400', '390x844-talk-receipt', '320x568-talk-receipt', '390x844-talk-code-confirm', '320x568-talk-code-confirm', '390x844-declare-offer', '390x844-declare-side-choice', '390x844-declare-side-confirm', '390x844-rescue-confirm', '390x844-text2-choosing', '390x844-text2-result-2400', '390x844-text2-code-confirm', '375x667-text2-side-choice', '320x568-text2-too-short', '320x568-safe-too-short']) if (!files.includes(`turns-${name}.png`)) problems.push(`turns-${name}.png: not captured`);
+    if ((report.probes ?? []).filter(probe => probe.turns).length !== 2 * 3 * 4) problems.push('the controls\' pointer probes did not all run');
   }
-  check('the captures are current, every measured board passed, every pointer probe and press landed, every compared page is the same, and the capsule is pictured in every state', problems);
+  check('the captures are current, every measured board passed, every pointer probe and press landed, every compared page is the same, and the capsule and the real controls are pictured in every state', problems);
 }
 
 for (const name of passed) console.log(`ok    ${name}`);

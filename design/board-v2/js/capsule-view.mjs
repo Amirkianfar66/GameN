@@ -15,7 +15,8 @@
 //   &settled=1             a reconnect: drawn at the stage's settled state
 //   &moved=<seat>:<slot>   a voluntary move accepted meanwhile: that seat's latest place (its away marker and its return use it)
 //   &viewer=player|display|participant   the screen; participant adds a stand-in for the participants'
-//                          own claim panel (never its content), to show the film never covers it
+//                          own claim panel (never its content), to show the film never covers it; with
+//                          &ui=sheet, the sheet over the Hospital and the Jail instead (js/turns-view.mjs)
 //   &exchange=<id>         the exchange's public id: the seed of the seated variations (default x-review)
 //   &motion=reduced        the device's reduced-motion setting
 //   &hit=1                 every target as a button, as for the board's slots: here each seated
@@ -130,7 +131,7 @@ export function mountCapsule({ app, board, roster, seats, params, drawFigure, dr
   const timer = el('span', { class: 'v2-top__timer', 'data-timer': 'stage' });
   top.querySelector('.v2-top__label').replaceWith(phase, timer);
   // The participants' own claim panel, as a stand-in on a participant's screen: where the phone puts it, never its content.
-  const standin = viewer === 'participant' ? el('div', { class: 'v2-private-standin', 'aria-hidden': 'true' }, el('b', {}, 'Private claim panel'), ' (stand-in: the two participants only)') : null;
+  const standin = viewer === 'participant' && !params.has('ui') ? el('div', { class: 'v2-private-standin', 'aria-hidden': 'true' }, el('b', {}, 'Private claim panel'), ' (stand-in: the two participants only)') : null;
   if (standin) { standin.style.bottom = `${board.shell.nav + board.insets.bottom + 6}px`; app.append(standin); }
 
   let added = [];

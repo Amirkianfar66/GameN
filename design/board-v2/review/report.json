@@ -1,6 +1,6 @@
 {
   "devOnly": "mothership:dev-only",
-  "inputsSha256": "98dd36b135f00ff5e887ea8539bd64ef0b70957fa0732721bf94db34839f0b6a",
+  "inputsSha256": "f60fed3c6288fae1d9db374900cb200146d73d4d1f33616223ad668e887a5924",
   "shots": [
     {
       "file": "board-320x568-ward.png",
@@ -1363,6 +1363,236 @@
       "file": "capsule-sheet.png",
       "viewport": "1240x920",
       "query": "sheet=capsule",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "turns-390x844-choosing.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=30000&ui=choosing&chosen=5,8&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "turns-320x568-choosing.png",
+      "viewport": "320x568",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=30000&ui=choosing&chosen=5&viewer=participant&tab=1&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "turns-390x844-choosing-safe.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=30000&ui=choosing&safe=47,0,34,0&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "turns-390x844-result-0400.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=result&t=400&viewer=participant&ui=sheet&claim=result&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "turns-390x844-result-2400.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=result&t=2400&viewer=participant&ui=sheet&claim=result&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "turns-390x844-result-3600.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=result&t=3600&viewer=participant&ui=sheet&claim=result&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "turns-320x568-result-2400.png",
+      "viewport": "320x568",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=result&t=2400&viewer=participant&ui=sheet&claim=result&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "turns-390x844-talk-receipt.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=30000&viewer=participant&ui=sheet&claim=conversation&receipt=1&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "turns-390x844-talk-code-confirm.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=30000&viewer=participant&ui=sheet&claim=conversation&command=code-confirm&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "turns-390x844-declare-offer.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=declare&t=4000&viewer=participant&ui=sheet&claim=declare&command=declare-offer&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "turns-390x844-declare-side-choice.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=declare&t=4000&viewer=participant&ui=sheet&claim=declare&command=side-choice&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "turns-320x568-talk-receipt.png",
+      "viewport": "320x568",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=30000&viewer=participant&ui=sheet&claim=conversation&receipt=1&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "turns-320x568-talk-code-confirm.png",
+      "viewport": "320x568",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=30000&viewer=participant&ui=sheet&claim=conversation&command=code-confirm&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "turns-320x568-declare-offer.png",
+      "viewport": "320x568",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=declare&t=4000&viewer=participant&ui=sheet&claim=declare&command=declare-offer&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "turns-320x568-declare-side-choice.png",
+      "viewport": "320x568",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=declare&t=4000&viewer=participant&ui=sheet&claim=declare&command=side-choice&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "turns-390x844-declare-side-confirm.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=declare&t=4000&viewer=participant&ui=sheet&claim=declare&command=side-confirm&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "turns-390x844-rescue-confirm.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=idle&ui=sheet&command=rescue-confirm&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "turns-390x844-text2-choosing.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=30000&ui=choosing&chosen=5&viewer=participant&tab=1&text=2&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "turns-390x844-text2-result-2400.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=result&t=2400&viewer=participant&ui=sheet&claim=result&text=2&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "turns-390x844-text2-code-confirm.png",
+      "viewport": "390x844",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=30000&viewer=participant&ui=sheet&claim=conversation&command=code-confirm&text=2&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "turns-375x667-text2-side-choice.png",
+      "viewport": "375x667",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=declare&t=4000&viewer=participant&ui=sheet&claim=declare&command=side-choice&text=2&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "turns-320x568-text2-too-short.png",
+      "viewport": "320x568",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=30000&ui=sheet&claim=conversation&text=2&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "turns-320x568-safe-too-short.png",
+      "viewport": "320x568",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=30000&ui=choosing&safe=20,0,16,0&hit=1",
       "problems": [],
       "shell": null,
       "fallback": null,
@@ -3450,6 +3680,270 @@
       "fallback": null,
       "slots": 25,
       "problems": []
+    },
+    {
+      "viewport": "320x568",
+      "roster": 7,
+      "safe": null,
+      "turns": "choosing",
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "320x568",
+      "roster": 7,
+      "safe": null,
+      "turns": "sheet",
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "320x568",
+      "roster": 8,
+      "safe": null,
+      "turns": "choosing",
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 24,
+      "problems": []
+    },
+    {
+      "viewport": "320x568",
+      "roster": 8,
+      "safe": null,
+      "turns": "sheet",
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 24,
+      "problems": []
+    },
+    {
+      "viewport": "320x568",
+      "roster": 9,
+      "safe": null,
+      "turns": "choosing",
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "320x568",
+      "roster": 9,
+      "safe": null,
+      "turns": "sheet",
+      "ceiling": "compact",
+      "shell": "compact",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "360x740",
+      "roster": 7,
+      "safe": null,
+      "turns": "choosing",
+      "ceiling": "tall",
+      "shell": "tall",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "360x740",
+      "roster": 7,
+      "safe": null,
+      "turns": "sheet",
+      "ceiling": "tall",
+      "shell": "tall",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "360x740",
+      "roster": 8,
+      "safe": null,
+      "turns": "choosing",
+      "ceiling": "tall",
+      "shell": "tall",
+      "fallback": null,
+      "slots": 24,
+      "problems": []
+    },
+    {
+      "viewport": "360x740",
+      "roster": 8,
+      "safe": null,
+      "turns": "sheet",
+      "ceiling": "tall",
+      "shell": "tall",
+      "fallback": null,
+      "slots": 24,
+      "problems": []
+    },
+    {
+      "viewport": "360x740",
+      "roster": 9,
+      "safe": null,
+      "turns": "choosing",
+      "ceiling": "tall",
+      "shell": "tall",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "360x740",
+      "roster": 9,
+      "safe": null,
+      "turns": "sheet",
+      "ceiling": "tall",
+      "shell": "tall",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "390x844",
+      "roster": 7,
+      "safe": null,
+      "turns": "choosing",
+      "ceiling": "tall",
+      "shell": "tall",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "390x844",
+      "roster": 7,
+      "safe": null,
+      "turns": "sheet",
+      "ceiling": "tall",
+      "shell": "tall",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "390x844",
+      "roster": 8,
+      "safe": null,
+      "turns": "choosing",
+      "ceiling": "tall",
+      "shell": "tall",
+      "fallback": null,
+      "slots": 24,
+      "problems": []
+    },
+    {
+      "viewport": "390x844",
+      "roster": 8,
+      "safe": null,
+      "turns": "sheet",
+      "ceiling": "tall",
+      "shell": "tall",
+      "fallback": null,
+      "slots": 24,
+      "problems": []
+    },
+    {
+      "viewport": "390x844",
+      "roster": 9,
+      "safe": null,
+      "turns": "choosing",
+      "ceiling": "tall",
+      "shell": "tall",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "390x844",
+      "roster": 9,
+      "safe": null,
+      "turns": "sheet",
+      "ceiling": "tall",
+      "shell": "tall",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "430x932",
+      "roster": 7,
+      "safe": null,
+      "turns": "choosing",
+      "ceiling": "tall",
+      "shell": "tall",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "430x932",
+      "roster": 7,
+      "safe": null,
+      "turns": "sheet",
+      "ceiling": "tall",
+      "shell": "tall",
+      "fallback": null,
+      "slots": 23,
+      "problems": []
+    },
+    {
+      "viewport": "430x932",
+      "roster": 8,
+      "safe": null,
+      "turns": "choosing",
+      "ceiling": "tall",
+      "shell": "tall",
+      "fallback": null,
+      "slots": 24,
+      "problems": []
+    },
+    {
+      "viewport": "430x932",
+      "roster": 8,
+      "safe": null,
+      "turns": "sheet",
+      "ceiling": "tall",
+      "shell": "tall",
+      "fallback": null,
+      "slots": 24,
+      "problems": []
+    },
+    {
+      "viewport": "430x932",
+      "roster": 9,
+      "safe": null,
+      "turns": "choosing",
+      "ceiling": "tall",
+      "shell": "tall",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
+    },
+    {
+      "viewport": "430x932",
+      "roster": 9,
+      "safe": null,
+      "turns": "sheet",
+      "ceiling": "tall",
+      "shell": "tall",
+      "fallback": null,
+      "slots": 25,
+      "problems": []
     }
   ],
   "interactions": [
@@ -4704,6 +5198,86 @@
     },
     {
       "compare": "the top bar's box at every capsule stage, 320x568",
+      "same": true
+    },
+    {
+      "compare": "the board and the top bar's box with the controls and without, 390x844, stage=talk&t=30000&ui=choosing&chosen=5,8",
+      "same": true
+    },
+    {
+      "compare": "the board and the top bar's box with the controls and without, 390x844, stage=talk&t=30000&ui=choosing&chosen=5&viewer=participant&tab=1",
+      "same": true
+    },
+    {
+      "compare": "the board and the top bar's box with the controls and without, 390x844, stage=result&t=400&viewer=participant&ui=sheet&claim=result",
+      "same": true
+    },
+    {
+      "compare": "the board and the top bar's box with the controls and without, 390x844, stage=result&t=1200&viewer=participant&ui=sheet&claim=result",
+      "same": true
+    },
+    {
+      "compare": "the board and the top bar's box with the controls and without, 390x844, stage=result&t=2400&viewer=participant&ui=sheet&claim=result",
+      "same": true
+    },
+    {
+      "compare": "the board and the top bar's box with the controls and without, 390x844, stage=result&t=3600&viewer=participant&ui=sheet&claim=result",
+      "same": true
+    },
+    {
+      "compare": "the board and the top bar's box with the controls and without, 390x844, stage=result&t=4999&viewer=participant&ui=sheet&claim=result",
+      "same": true
+    },
+    {
+      "compare": "the board and the top bar's box with the controls and without, 390x844, stage=talk&t=30000&viewer=participant&ui=sheet&claim=conversation&command=code-confirm",
+      "same": true
+    },
+    {
+      "compare": "the board and the top bar's box with the controls and without, 390x844, stage=declare&t=4000&viewer=participant&ui=sheet&claim=declare&command=side-choice",
+      "same": true
+    },
+    {
+      "compare": "the board and the top bar's box with the controls and without, 390x844, stage=result&t=2400&viewer=participant&ui=sheet&claim=result&text=2",
+      "same": true
+    },
+    {
+      "compare": "the board and the top bar's box with the controls and without, 390x844, stage=talk&t=30000&ui=choosing&chosen=5&text=2",
+      "same": true
+    },
+    {
+      "compare": "the board and the top bar's box with the controls and without, 320x568, stage=talk&t=30000&ui=choosing&chosen=5,8",
+      "same": true
+    },
+    {
+      "compare": "the board and the top bar's box with the controls and without, 320x568, stage=talk&t=30000&ui=choosing&chosen=5&viewer=participant&tab=1",
+      "same": true
+    },
+    {
+      "compare": "the board and the top bar's box with the controls and without, 320x568, stage=result&t=400&viewer=participant&ui=sheet&claim=result",
+      "same": true
+    },
+    {
+      "compare": "the board and the top bar's box with the controls and without, 320x568, stage=result&t=1200&viewer=participant&ui=sheet&claim=result",
+      "same": true
+    },
+    {
+      "compare": "the board and the top bar's box with the controls and without, 320x568, stage=result&t=2400&viewer=participant&ui=sheet&claim=result",
+      "same": true
+    },
+    {
+      "compare": "the board and the top bar's box with the controls and without, 320x568, stage=result&t=3600&viewer=participant&ui=sheet&claim=result",
+      "same": true
+    },
+    {
+      "compare": "the board and the top bar's box with the controls and without, 320x568, stage=result&t=4999&viewer=participant&ui=sheet&claim=result",
+      "same": true
+    },
+    {
+      "compare": "the board and the top bar's box with the controls and without, 320x568, stage=talk&t=30000&viewer=participant&ui=sheet&claim=conversation&command=code-confirm",
+      "same": true
+    },
+    {
+      "compare": "the board and the top bar's box with the controls and without, 320x568, stage=declare&t=4000&viewer=participant&ui=sheet&claim=declare&command=side-choice",
       "same": true
     }
   ],

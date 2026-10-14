@@ -1,6 +1,6 @@
 {
   "devOnly": "mothership:dev-only",
-  "inputsSha256": "98dd36b135f00ff5e887ea8539bd64ef0b70957fa0732721bf94db34839f0b6a",
+  "inputsSha256": "f60fed3c6288fae1d9db374900cb200146d73d4d1f33616223ad668e887a5924",
   "note": "Desktop Chromium laying out design/board-v2/index.html from synthetic fixtures. Not a phone measurement and nothing about a match.",
   "captures": [
     {
@@ -823,6 +823,144 @@
       "query": "sheet=capsule",
       "about": "The capsule's art for review: its layers (empty, the door's four positions, occupied, dark), the badge, the seats' anchors and the paths, and every pose by public status",
       "sheetHeight": 460
+    },
+    {
+      "file": "turns-390x844-choosing.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=30000&ui=choosing&chosen=5,8&hit=1",
+      "about": "A character choice open (a Code, during the conversation): the board is the chooser. Every living character ringed where it is, Vega and Orion at their slots and in the capsule; Orion and Mira chosen. The choosing row in the navigation's box, the Pass hidden; the top bar says what is chosen"
+    },
+    {
+      "file": "turns-320x568-choosing.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=30000&ui=choosing&chosen=5&viewer=participant&tab=1&hit=1",
+      "about": "A participant choosing on the smallest phone: the sheet folded to its tab at the row's start; every target pressable"
+    },
+    {
+      "file": "turns-390x844-choosing-safe.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=30000&ui=choosing&safe=47,0,34,0&hit=1",
+      "about": "With 47/34 px safe areas: the choosing row takes the navigation's box, its inset included"
+    },
+    {
+      "file": "turns-390x844-result-0400.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=result&t=400&viewer=participant&ui=sheet&claim=result&hit=1",
+      "about": "A participant's private result whole in the sheet over the Hospital and the Jail while the pair walks in (400 ms): the capsule never under it"
+    },
+    {
+      "file": "turns-390x844-result-2400.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=result&t=2400&viewer=participant&ui=sheet&claim=result&hit=1",
+      "about": "A participant's private result whole in the sheet over the Hospital and the Jail while the pair walks in (2400 ms): the capsule never under it"
+    },
+    {
+      "file": "turns-390x844-result-3600.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=result&t=3600&viewer=participant&ui=sheet&claim=result&hit=1",
+      "about": "A participant's private result whole in the sheet over the Hospital and the Jail while the pair walks in (3600 ms): the capsule never under it"
+    },
+    {
+      "file": "turns-320x568-result-2400.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=result&t=2400&viewer=participant&ui=sheet&claim=result&hit=1",
+      "about": "The private result through the entrance on the smallest phone (2 400 ms)"
+    },
+    {
+      "file": "turns-390x844-talk-receipt.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=30000&viewer=participant&ui=sheet&claim=conversation&receipt=1&hit=1",
+      "about": "The conversation: the claim, and a sent command's recovery row with its 44 px Check again"
+    },
+    {
+      "file": "turns-390x844-talk-code-confirm.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=30000&viewer=participant&ui=sheet&claim=conversation&command=code-confirm&hit=1",
+      "about": "A participant confirming a Code in the conversation: the claim folded to its row, the confirmation's words, Cancel and Confirm pinned either side of the Pass"
+    },
+    {
+      "file": "turns-390x844-declare-offer.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=declare&t=4000&viewer=participant&ui=sheet&claim=declare&command=declare-offer&hit=1",
+      "about": "The declaration: its claim and the offer"
+    },
+    {
+      "file": "turns-390x844-declare-side-choice.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=declare&t=4000&viewer=participant&ui=sheet&claim=declare&command=side-choice&hit=1",
+      "about": "The side choice: three stand-in choices; the claim folded where both do not fit"
+    },
+    {
+      "file": "turns-320x568-talk-receipt.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=30000&viewer=participant&ui=sheet&claim=conversation&receipt=1&hit=1",
+      "about": "The conversation: the claim, and a sent command's recovery row with its 44 px Check again"
+    },
+    {
+      "file": "turns-320x568-talk-code-confirm.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=30000&viewer=participant&ui=sheet&claim=conversation&command=code-confirm&hit=1",
+      "about": "A participant confirming a Code in the conversation: the claim folded to its row, the confirmation's words, Cancel and Confirm pinned either side of the Pass"
+    },
+    {
+      "file": "turns-320x568-declare-offer.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=declare&t=4000&viewer=participant&ui=sheet&claim=declare&command=declare-offer&hit=1",
+      "about": "The declaration: its claim and the offer"
+    },
+    {
+      "file": "turns-320x568-declare-side-choice.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=declare&t=4000&viewer=participant&ui=sheet&claim=declare&command=side-choice&hit=1",
+      "about": "The side choice: three stand-in choices; the claim folded where both do not fit"
+    },
+    {
+      "file": "turns-390x844-declare-side-confirm.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=declare&t=4000&viewer=participant&ui=sheet&claim=declare&command=side-confirm&hit=1",
+      "about": "The declaration's confirmation, the claim folded"
+    },
+    {
+      "file": "turns-390x844-rescue-confirm.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=idle&ui=sheet&command=rescue-confirm&hit=1",
+      "about": "Another player's confirmation: no claim; the capsule idle"
+    },
+    {
+      "file": "turns-390x844-text2-choosing.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=30000&ui=choosing&chosen=5&viewer=participant&tab=1&text=2&hit=1",
+      "about": "200% text: the top bar 124 px, chosen before the board is laid out; every target still 44 px; the choosing row's words at 200%"
+    },
+    {
+      "file": "turns-390x844-text2-result-2400.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=result&t=2400&viewer=participant&ui=sheet&claim=result&text=2&hit=1",
+      "about": "200% text: the private result whole in the sheet through the entrance (2 400 ms)"
+    },
+    {
+      "file": "turns-390x844-text2-code-confirm.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=30000&viewer=participant&ui=sheet&claim=conversation&command=code-confirm&text=2&hit=1",
+      "about": "200% text: the confirmation scrolls inside the sheet; its 64 px actions stay pinned"
+    },
+    {
+      "file": "turns-375x667-text2-side-choice.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=declare&t=4000&viewer=participant&ui=sheet&claim=declare&command=side-choice&text=2&hit=1",
+      "about": "200% text at 375 x 667: the narrower board (fallback narrow); the side choice scrolls inside the sheet"
+    },
+    {
+      "file": "turns-320x568-text2-too-short.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=30000&ui=sheet&claim=conversation&text=2&hit=1",
+      "about": "200% text at 320 x 568: no board fits below the 124 px top bar, so the explicit too-short page with the navigation, as the owner decided"
+    },
+    {
+      "file": "turns-320x568-safe-too-short.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=30000&ui=choosing&safe=20,0,16,0&hit=1",
+      "about": "320 x 568 with 20/16 px safe areas: 36 px short at any text size, so the too-short page, as the owner decided"
     }
   ]
 }
