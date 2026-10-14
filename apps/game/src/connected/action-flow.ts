@@ -160,6 +160,7 @@ export function offeredChoices(view: FullPlayerView, kind: ActionKind): ActionCh
 /** The wire command a choice stands for. The shared strict schema judges it before anything is sent. */
 function commandOf(choice: ActionChoice): unknown {
   switch (choice.kind) {
+    case 'declare-hack-side': return { type: 'DECLARE_HACK_SIDE', declaredSide: choice.declaredSide };
     case 'pass': return { type: 'PASS_TURN' };
     case 'move': return { type: 'MOVE', destination: choice.destination };
     case 'vote':

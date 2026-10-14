@@ -131,9 +131,10 @@ export type ReleaseVoteKind = 'release-vote';
  * seat and a guessed faction, a Supply names two seats, a Code attempt names four.
  */
 export type CompoundActionKind = 'scan' | 'supply' | 'code';
-export type ActionKind = 'pass' | 'move' | TargetActionKind | SeatBallotKind | ReleaseVoteKind | CompoundActionKind;
+export type ActionKind = 'declare-hack-side' | 'pass' | 'move' | TargetActionKind | SeatBallotKind | ReleaseVoteKind | CompoundActionKind;
 /** What a player picked for one action. It exists on the page that picked it and is never stored. */
 export type ActionChoice =
+  | { readonly kind: 'declare-hack-side'; readonly declaredSide: FactionName }
   | { readonly kind: 'pass' }
   | { readonly kind: 'move'; readonly destination: Destination }
   | { readonly kind: TargetActionKind; readonly targetSeatId: SeatId }
@@ -402,6 +403,17 @@ export interface VotePanelModel {
   } | null;
 }
 
+/** Current participant-private claim. It contains no actual faction or truth result. */
+export interface HackFeedbackModel {
+  readonly id: string;
+  readonly phaseId: string;
+  readonly stage: 'HACK_DECLARE' | 'HACK_RESULT' | 'HACK';
+  readonly heading: string;
+  readonly message: string;
+  readonly note: string;
+  readonly declaredSide: FactionName | null;
+}
+
 /** One current server result window, separate from the historical tally and game winner. */
 export interface VoteResultModel {
   readonly id: string;
@@ -562,6 +574,7 @@ export interface ConnectedPrivateAreaModel {
     /** While the server says this seat is in a Hack: who with. Known to the two of them only. */
     readonly hack: string | null;
     readonly hackPartnerSeatId: SeatId | null;
+    readonly hackFeedback: HackFeedbackModel | null;
     /** While the server's view says this seat has voted in the open vote: its own ballot, as the server recorded it. */
     readonly ballot: string | null;
     /**

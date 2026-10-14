@@ -1,3 +1,5 @@
+import { supportsDeclaredHack } from '@mothership/contracts';
+import { buildHackFeedback } from './hack-feedback.js';
 import type { FullPlayerView, SeatId } from '@mothership/contracts';
 import { en } from '../copy/en.js';
 import { actionChoiceId, actionOpenId, SHELL_IDS } from '../ids.js';
@@ -39,6 +41,7 @@ function button(id: string, label: string, intent: CardButtonModel['intent'], pr
 const OFFER_WORDS = { available: 'available', paused: 'paused', unavailable: 'unavailable', 'no-target': 'noTarget', 'too-few': 'tooFew' } as const satisfies Record<ActionOfferState, keyof typeof en.action.offer>;
 
 function offer(input: ConnectedPlayerInput, view: FullPlayerView, kind: ActionKind): ActionOfferModel | null {
+  if (kind === 'declare-hack-side' && !supportsDeclaredHack(view.versions)) return null;
   const openState = openness(view, kind);
   if (openState === 'closed' && kind !== 'shot') return null;
   // On a view the server no longer confirms, or after the countdown, "available" would be a
@@ -74,6 +77,7 @@ function seatChoice(view: FullPlayerView, seatId: SeatId, seats: readonly SeatMo
 
 function choiceModel(view: FullPlayerView, choice: Exclude<ActionChoice, { kind: 'scan' | 'supply' | 'code' }>, seats: readonly SeatModel[]): ActionChoiceModel {
   const value = choiceValue(choice);
+  if (choice.kind === 'declare-hack-side') return answerChoice(value, choice.declaredSide);
   if (choice.kind === 'pass') return answerChoice(value, 'Pass');
   if (choice.kind === 'move') return answerChoice(value, en.location.name(choice.destination));
   if (choice.kind === 'release-vote') return answerChoice(value, choice.approve === null ? en.action.ballot.abstain : choice.approve ? en.action.ballot.yes : en.action.ballot.no);
@@ -133,6 +137,7 @@ function undoLabel(view: FullPlayerView, picked: readonly string[]): string {
 function confirmPrompt(choice: ActionChoice, view: FullPlayerView): string {
   const who = (seatId: SeatId): string => whoIs(seatId, view.self.seatId);
   switch (choice.kind) {
+    case 'declare-hack-side': return `Declare ${choice.declaredSide}?`;
     case 'pass': return 'End your turn now?';
     case 'move': return en.action.confirmMove(choice.destination);
     case 'vote': return choice.targetSeatId === null ? en.action.ballot.confirmAbstain : en.action.ballot.confirmVote[votedOn(view)](who(choice.targetSeatId));
@@ -157,6 +162,7 @@ const consequence = (choice: ActionChoice): string =>
 /** What the server accepted, in the words of its receipt. Never what came of it. */
 function acceptedText(choice: ActionChoice, selfSeatId: SeatId | null): string {
   switch (choice.kind) {
+    case 'declare-hack-side': return `Declaration of ${choice.declaredSide} accepted.`;
     case 'pass': return 'Turn passed.';
     case 'move': return en.action.moved(choice.destination);
     case 'vote': return choice.targetSeatId === null ? en.action.ballot.abstained : en.action.ballot.votedFor(whoIs(choice.targetSeatId, selfSeatId));
@@ -176,6 +182,7 @@ function acceptedText(choice: ActionChoice, selfSeatId: SeatId | null): string {
 /** Where the outcome of an accepted command is to be read. A receipt is not an outcome. */
 function acceptedDetail(choice: ActionChoice): string {
   switch (choice.kind) {
+    case 'declare-hack-side': return 'The private Hack claim follows the current server phase.';
     case 'pass': return 'The next phase is shown at the top of the board.';
     case 'move': return en.action.movedDetail;
     case 'vote':
@@ -215,6 +222,7 @@ const NO_MARKS: ActionBoardMarksModel = { eligible: [], picked: [], numbered: fa
 /** The seats a choice names, in the order they were picked. A move names a room; a release vote, the public ballot's subject. */
 function chosenSeats(choice: ActionChoice): SeatId[] {
   switch (choice.kind) {
+    case 'declare-hack-side':
     case 'pass':
     case 'move':
     case 'release-vote': return [];
@@ -225,7 +233,7 @@ function chosenSeats(choice: ActionChoice): SeatId[] {
 }
 
 /** Kinds whose choice is made by tapping characters on the board. */
-const namesSeats = (kind: ActionKind): boolean => kind !== 'pass' && kind !== 'move' && kind !== 'release-vote';
+const namesSeats = (kind: ActionKind): boolean => kind !== 'declare-hack-side' && kind !== 'pass' && kind !== 'move' && kind !== 'release-vote';
 
 /**
  * What the player's own command marks on the board. The press areas are exactly the seats the
@@ -362,6 +370,7 @@ function buildPrivateArea(input: ConnectedPlayerInput, view: FullPlayerView, sea
       // The server's own statement that this seat is in a Hack, and who with.
       hack: view.hackPartnerSeatId === null ? null : en.action.hackWith(seatNumber(view.hackPartnerSeatId)),
       hackPartnerSeatId: view.hackPartnerSeatId,
+      hackFeedback: buildHackFeedback(input, view),
       // The server's own statement of this seat's ballot in the vote that is open.
       ballot: ownBallotLine(view),
       knowledge: buildKnowledge(view),

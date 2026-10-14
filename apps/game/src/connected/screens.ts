@@ -1,6 +1,6 @@
 import type { FullPlayerView, FullPublicView, SeatId } from '@mothership/contracts';
 import {
-  actionStepFocusId, buildConnectedPlayerShellModel, buildTableShellModel, createConnectedPlayerAnnouncer, createTableAnnouncer, isCurrent,
+  actionStepFocusId, buildConnectedPlayerShellModel, buildHackFeedback, buildTableShellModel, createConnectedPlayerAnnouncer, createTableAnnouncer, isCurrent,
 } from '@mothership/presentation';
 import type { ConnectedPlayerInput, ConnectedPlayerShellModel, ShellIntent, TableShellInput, TableShellModel } from '@mothership/presentation';
 import type { ClientPorts, PlayerPorts } from '../ports.js';
@@ -92,6 +92,10 @@ export function createConnectedPlayerScreen(options: ConnectedPlayerScreenOption
     host: options.host,
     phaseOf: view => view.phase,
     concealPrivate: view => view?.phase.kind === 'VOTE_RESULT',
+    privateAnnouncementScope(input) {
+      const feedback = input.view === null ? null : buildHackFeedback(input, input.view);
+      return feedback === null ? null : JSON.stringify([input.view?.matchId, feedback.id, feedback.phaseId, feedback.stage, feedback.declaredSide]);
+    },
     buildInput(environment, view, local) {
       // The server refused this device the match: the seat is no longer its own. Whatever it
       // was doing with a command is dropped, and nothing more is asked about it.

@@ -1,7 +1,7 @@
 // Brings a real match up on the local emulators through the client core, for tests that
 // need one already running. Test-only.
 import assert from 'node:assert/strict';
-import { FullSetupDocumentSchema, FullSetupPlayerViewSchema, SeatSessionSchema, sameFullGameplayPins, supportsVoteResults, VOTE_RESULT_VERSION_PINS } from '@mothership/contracts';
+import { FullSetupDocumentSchema, FullSetupPlayerViewSchema, SeatSessionSchema, sameFullGameplayPins, supportsVoteResults, VOTE_RESULT_VERSION_PINS, DECLARED_HACK_VERSION_PINS } from '@mothership/contracts';
 import { createConnectedApi, createConnectedPlayerStore, createConnectedPublicStore, readAdmission } from '@mothership/game';
 import { createRestEmulatorTransport, realPorts, until } from './rest-transport.mjs';
 
@@ -12,7 +12,7 @@ export const requestId = () => ports.ids.next();
  * It makes no browser-loading or production-art claim and cannot echo an unknown version. */
 export function readyTestAcknowledgment(versions) {
   if (!supportsVoteResults(versions)) return {};
-  assert.ok(sameFullGameplayPins(versions,VOTE_RESULT_VERSION_PINS),'Harness must explicitly adopt the new gameplay tuple');
+  assert.ok([VOTE_RESULT_VERSION_PINS, DECLARED_HACK_VERSION_PINS].some(pins => sameFullGameplayPins(versions,pins)),'Harness must explicitly adopt the new gameplay tuple');
   assert.ok(['0.0.0-no-assets','design-0.2.0'].includes(versions.assetManifestVersion),'Known emulator artifact pin required');
   return {acceptedVersions:{...versions}};
 }

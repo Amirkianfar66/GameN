@@ -1,6 +1,6 @@
 import { en } from '../copy/en.js';
 import { SHELL_IDS } from '../ids.js';
-import type { ActionChoiceModel, CardButtonModel, ConnectedActionBody, ConnectedActionCardModel, ConnectedPlayerShellModel, ConnectedPrivateAreaModel } from '../model/types.js';
+import type { ActionChoiceModel, CardButtonModel, ConnectedActionBody, ConnectedActionCardModel, ConnectedPlayerShellModel, ConnectedPrivateAreaModel, HackFeedbackModel } from '../model/types.js';
 import { h } from './node.js';
 import type { MarkupChild, MarkupElement } from './node.js';
 import { hiddenText, renderDetails, renderPhase, renderResult, renderShell, renderVote, renderZones } from './parts.js';
@@ -82,6 +82,14 @@ export function renderConnectedActionCard(card: ConnectedActionCardModel): Marku
   );
 }
 
+export function renderHackFeedback(feedback: HackFeedbackModel | null): MarkupElement | null {
+  return feedback ? h('section', { class: 'hack-feedback', 'data-region': 'hack-feedback', 'data-hack-id': feedback.id, 'data-phase-id': feedback.phaseId, 'aria-labelledby': 'ms-hack-feedback-heading' },
+    h('h3', { id: 'ms-hack-feedback-heading' }, feedback.heading),
+    h('p', { class: 'hack-feedback__claim' }, feedback.message),
+    h('p', { class: 'hack-feedback__note' }, feedback.note),
+  ) : null;
+}
+
 function renderPrivateArea(area: ConnectedPrivateAreaModel): MarkupElement {
   return h('section', {
     class: 'ms-panel ms-private', 'aria-labelledby': 'ms-private-heading', 'data-region': 'private', 'data-open': String(area.open),
@@ -99,6 +107,7 @@ function renderPrivateArea(area: ConnectedPrivateAreaModel): MarkupElement {
       area.content ? [
         h('h3', { class: 'ms-private__subheading', id: 'ms-role-heading' }, area.content.role.label),
         h('p', { class: 'ms-role-card' }, area.content.role.name),
+        renderHackFeedback(area.content.hackFeedback),
         area.content.hack ? h('p', { class: 'ms-notice', id: 'ms-hack-with' }, area.content.hack) : null,
         area.content.ballot ? h('p', { class: 'ms-notice', id: 'ms-own-ballot' }, area.content.ballot) : null,
         // What the server tells this seat alone. No id or class here varies with what is known.

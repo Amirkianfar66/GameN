@@ -29,3 +29,8 @@
 .ms-shell--table .feedback-window { grid-column: 1/-1; max-width: 42rem; }
 .ms-shell--table .ms-main:has(.feedback-window--vote) > :is([data-region="board"],[data-region="roster"],[data-region="vote"]) { display: none; }
 @media (max-width: 18em) { .feedback-window__counts { grid-template-columns: minmax(0,1fr); } }
+
+.hack-feedback { min-width: 0; padding: 8px; border: 2px solid var(--ms-color-steel-mid); border-radius: 8px; }
+.hack-feedback h3 { margin: 0 0 6px; }
+.hack-feedback__claim { margin: 4px 0; font-weight: 700; overflow-wrap: anywhere; }
+.hack-feedback__note { margin: 4px 0; font-size: .8125rem; overflow-wrap: anywhere; }

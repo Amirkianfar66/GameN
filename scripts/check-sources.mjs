@@ -66,3 +66,12 @@ assert.deepEqual(voteResult.decisions.map(d=>d.id),Array.from({length:5},(_,i)=>
 assert.ok(model.includes(hash(voteResultPath)) && model.includes(voteResult.ruleset_version) && model.includes(voteResult.engine_version));
 assert.ok(read('packages/contracts/src/full-game-versions.ts').toString().includes(hash(voteResultPath)));
 console.log('Vote result integrity: approved five-second checkpoints and exact new tuple bound');
+
+const declaredHackPath = 'rules/overlays/declared-hack-owner-decision-2026-10-12.json';
+const declaredHack = json(declaredHackPath);
+assert.equal(declaredHack.status,'confirmed'); assert.equal(declaredHack.protocol_version,2);
+assert.equal(declaredHack.parent_ruleset.hash,hash(voteResultPath));
+assert.deepEqual(declaredHack.decisions.map(d=>d.id),Array.from({length:7},(_,i)=>`HACK-DECLARE-${String(i+1).padStart(2,'0')}`));
+assert.ok(model.includes(hash(declaredHackPath)) && model.includes(declaredHack.ruleset_version) && model.includes(declaredHack.engine_version));
+assert.ok(read('packages/contracts/src/full-game-versions.ts').toString().includes(hash(declaredHackPath)));
+console.log('Declared Hack integrity: approved claim, bounded flow and exact historical tuple preservation');

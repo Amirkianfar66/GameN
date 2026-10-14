@@ -1,6 +1,6 @@
 {
   "status": "Proposed exact pins for Integration review; not adopted into the runtime",
-  "sourceCommit": "ca78625bf9f97629cf7cfd8c40a2f97d7cc078ca",
+  "sourceCommit": "5c9a1510d35d4b9762f9bc2a27dae3f5d53bd5d7",
   "sourcePr": "https://github.com/Amirkianfar66/GameN/pull/127",
   "supersedesVisualInput": "44c25268a04debaa00d6a7ec3f02d254775704c8",
   "transformation": "Remove only the leading // mothership:dev-only comment line; imports and drawing code remain unchanged",
@@ -27,12 +27,24 @@
     "prototype fixtures and stand-in server"
   ],
   "requiredBeforeAdoption": [
-    "Integration reviews and pins the two exact derivatives and current source/manifest identity",
+    "Integration reviews and pins the two exact derivatives from the published Claude head and current source/manifest identity",
     "Replace provisional compact target rows with reviewed character hit areas; preserve old commits",
     "Map Claude shell/layer/timing specification into the existing production controllers",
     "Validate current phaseId, hackId, own audience, fresh view, trusted deadline and foreground before private rendering",
     "Conceal private DOM/live lines/cues on blur or obsolete feedback while retaining receipt identifiers",
-    "Integration allocates the compatible art-version acknowledgment; never echo unknown Ready pins",
+    "Integration allocates the compatible immutable art-version acknowledgment for declared-Hack 1.5; Hosted Ready remains limited to 1.4 with design-0.2.0",
     "Measure the complete production phone with targeting and confirmation, safe areas and enlarged text"
-  ]
+  ],
+  "backendCheckpoint": {
+    "pullRequest": "https://github.com/Amirkianfar66/GameN/pull/131",
+    "commit": "a9b77a7bd535efc8bdb5041cee18fd6526c0e354",
+    "parentCommit": "bd4d77ccc1c46d90c5beafb770252fdae6f086ae"
+  },
+  "preparedReplacement": {
+    "generator": "apps/game/dev/prepare-claude-phone-kit.mjs",
+    "status": "Unapplied drawing/removal slice only; shell styles, static result wiring and source-provenance tests remain pending",
+    "sharedSourceFenceChanged": false,
+    "assetManifestChanged": false,
+    "hostedReady15Enabled": false
+  }
 }

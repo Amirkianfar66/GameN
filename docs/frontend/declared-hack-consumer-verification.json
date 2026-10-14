@@ -1,0 +1,142 @@
+{
+  "status": "Review checkpoint; hosted Hack 1.5 activation remains gated",
+  "date": "2026-10-14",
+  "checkout": "/private/tmp/gamen-frontend-vote-hack",
+  "branch": "codex/frontend-vote-hack-followup",
+  "verifiedImplementationCommit": "5e4028281fcf32d011dd161a5b56d893faec3c15",
+  "frontendImplementationCommit": "a119da6cabbb2c3611c7717e9bddf2f8aac652be",
+  "frontendParentCheckpoint": "bc92e581063cd2c4123a740755579fdfd1522b95",
+  "backendDependency": {
+    "pullRequest": "https://github.com/Amirkianfar66/GameN/pull/131",
+    "commit": "a9b77a7bd535efc8bdb5041cee18fd6526c0e354",
+    "parentCommit": "bd4d77ccc1c46d90c5beafb770252fdae6f086ae",
+    "integration": "Exact published head merged as ancestor, including restored vote-result parent tests and metadata; no independent Backend runtime edit"
+  },
+  "gameplayPins": {
+    "protocolVersion": 2,
+    "engineVersion": "full-game-1.5.0",
+    "rulesetVersion": "in-person-v1-declared-hack-2026-10-12",
+    "rulesetHash": "1d8a5e509372ea816af8d6782bf1d73720532ed672ee2f77e2938805976d8d6c"
+  },
+  "behavior": [
+    "Uniform Blue/Red/Alien choices for the fixed target only; no actual-faction inference",
+    "Exact private exchange, phase, round, participant, audience, current-view and trusted-deadline checks",
+    "Private 15-second declaration, 5-second claim and separate full 60-second conversation from server timestamps",
+    "Current claim remains beside accepted or unresolved receipt in the compact action panel",
+    "Blur, stale views, obsolete feedback and deadlines withdraw claim DOM and retained private live text without dropping command IDs or recovery",
+    "Public display and uninvolved players receive no claim or participant association",
+    "Hosted Ready remains limited to explicit vote-result 1.4 with design-0.2.0; emulator fixture acknowledgment is not art adoption"
+  ],
+  "claudeProposal": {
+    "sourceCommit": "5c9a1510d35d4b9762f9bc2a27dae3f5d53bd5d7",
+    "ports": [
+      {
+        "source": "design/board-motion/figures/wardrobe.mjs",
+        "destination": "apps/game/hosted/scene-drawing/wardrobe.mjs",
+        "sourceSha256": "1c30862d77ce7fa94275934467c5b596e68dbe0d41f3d102bd0c040bc5feca6f",
+        "derivativeSha256": "312c4cda048585f9270b3de095e2dcf44dc0dadd4c73392b1206da303ae8ddc3"
+      },
+      {
+        "source": "design/phone-kit/source/art.mjs",
+        "destination": "apps/game/hosted/scene-drawing/phone-kit-art.mjs",
+        "sourceSha256": "c86770765e06f487b5fa0f3b2be57c824d114a796a5930f96ff35c7358f95761",
+        "derivativeSha256": "713b860ffaaa91ba6610457d39b6c818bad9aad28fb4967f830d21c0dcf61e86"
+      }
+    ],
+    "patchSha256": "083ea231aab0ba8d680787a8096da5446fbb656176ffb8765ab150d8512116e7",
+    "changedPaths": [
+      "apps/game/hosted/scene-drawing/wardrobe.mjs",
+      "apps/game/hosted/scene-drawing/phone-kit-art.mjs",
+      "apps/game/hosted/scene-board.mjs",
+      "apps/game/hosted/comic-motion.mjs",
+      "apps/game/hosted/browser-host.js",
+      "apps/game/hosted/main.js",
+      "apps/game/hosted/phone-feedback.mjs",
+      "apps/game/hosted/phone-feedback.css",
+      "apps/game/hosted/phone-feedback-tokens.json",
+      "apps/game/hosted/scene-drawing/compact-layout.mjs",
+      "apps/game/hosted/scene-drawing/icons.mjs"
+    ],
+    "applied": false,
+    "gitApplyCheck": "passed",
+    "generator": "apps/game/dev/prepare-claude-phone-kit.mjs",
+    "remainingConsumerWork": [
+      "Map reviewed Claude shell tokens/styles with exact provenance",
+      "Render static vote and participant-private Hack art against approved identity/deadlines",
+      "Update owned source-provenance tests after approved replacement",
+      "Measure the complete production phone and verify source exclusion"
+    ]
+  },
+  "designerReview": {
+    "inventoryAtInitialReview": {
+      "commit": "84ddef43a6cb60488d7dd109863878eef3d3ccc1",
+      "files": 47,
+      "mismatches": 0,
+      "runBy": "Frontend"
+    },
+    "latestIntegrationReportRead": {
+      "commit": "15e61f0bbd043930a578900862be9d5156b3b602",
+      "correctionCommit": "ebf0263d92cbe66c67a4ce5c64b822a3658031e8",
+      "injuredFixtureFinding": "closed",
+      "remainingFindings": [
+        "Blocked label covers neighbouring Hospital names; hold helper hash 86acb6f2de5fea096c34b5c336dcc327cfcc17cfda4e6cd3e0ab5a814e63d45c",
+        "Correct handoff packet suffix; controlling full SHA256 b5b4ba2dea6063e20f559894183d0c675a3f754b2789db2e38c5b33e1590b743"
+      ],
+      "ownership": "Integration report evidence, not Frontend rerun or runtime adoption"
+    }
+  },
+  "checks": {
+    "node": "22.21.1",
+    "npm": "10.9.4",
+    "dependencySetup": "Reused local dependency trees with matching root package-lock SHA256 e6f3fc29e3953a470c780bb119ffb9ee310d61d1c5988931cb9a7034742e2e9a; npm ci was not run in this recovered checkout",
+    "toolchain": "passed",
+    "workspace": "passed",
+    "historicalSources": "passed",
+    "typecheck": "passed",
+    "build": "passed",
+    "bootstrap": 116,
+    "engine": 403,
+    "backendUnit": 188,
+    "tooling": 130,
+    "presentation": 204,
+    "game": 463,
+    "productionExclusion": "passed; 60 reachable modules, 181 shipped/source files, 48 labeled development files",
+    "hostedViteBuild": "passed",
+    "focusedNewRegressions": 12,
+    "hackBrowserRecords": 25,
+    "voteBrowserRecords": 22,
+    "browserScope": "Headless Chromium synthetic snapshots; touch input, explicitly dispatched window blur, enlarged text and reduced motion. No real-device, OS-window focus or Backend acceptance claim",
+    "browserEvidence": "docs/frontend/evidence/vote-hack-followup-2026-10-14"
+  },
+  "fullVerify": {
+    "status": "failed at shared Designer guard",
+    "designTests": 223,
+    "designPass": 222,
+    "designFail": 1,
+    "failures": [
+      "Five frozen provisional phone-feedback source hashes differ from 49f0db4d34d2a2a418f669a13bed660fc665b1b6",
+      "Designer board-motion coverage lacks declare-hack-side and DECLARE_HACK_SIDE"
+    ],
+    "laterBalanceAndCapacity": "not reached; Integration owns exact combined acceptance"
+  },
+  "functionsAndFrontendEmulators": {
+    "status": "blocked before gameplay execution",
+    "preparedTest": "apps/game/test-emulator/connected-declared-hack.test.mjs",
+    "attemptedTests": 9,
+    "passed": 0,
+    "reason": "Existing standard ports belong to another running checkout. Isolated alternate ports loaded Functions, then assertRuntimeEnvironment rejected them because it requires the complete fixed-port loopback demo-mothership suite. No guard, port owner, cloud configuration or existing emulator was changed."
+  },
+  "sharedDependencies": [
+    "Integration-reviewed Claude derivative/source fence",
+    "Compatible immutable art manifest and explicit five-pin Hosted Ready agreement for 1.5",
+    "Designer declaration coverage and source guard reconciliation",
+    "Eligible Functions/HTTP and Frontend emulator run on exact common head",
+    "Independent Balance and combined root/capacity acceptance"
+  ],
+  "holds": [
+    "No Oct13 Blackout, Clone, direct Captain, Hospital or EJECT mechanics implemented",
+    "No board-v2 source or helper port adopted",
+    "No runtime art manifest or shared source guard independently edited",
+    "No merge to release, deployment or cloud action"
+  ]
+}

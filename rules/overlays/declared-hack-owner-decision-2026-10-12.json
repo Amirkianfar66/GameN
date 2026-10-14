@@ -1,0 +1,48 @@
+{
+  "decision_id": "declared-hack-owner-decision-2026-10-12",
+  "status": "confirmed",
+  "decided_on": "2026-10-12",
+  "authority": "Owner selected declared side preserving permitted bluffing and approved the bounded 15/5/60 flow in issue #120; Integration review preserves existing before-voting movement.",
+  "issue": "https://github.com/Amirkianfar66/GameN/issues/120",
+  "base_commit": "abb6839524b6dc3e5225e600f2f067c3fa3f9501",
+  "parent_ruleset": {
+    "version": "in-person-v1-vote-results-2026-10-12",
+    "hash": "617173762d5a1589d0adce55d4742a3aa70f6d5af03a968b6ab9f90d5392b010"
+  },
+  "protocol_version": 2,
+  "engine_version": "full-game-1.5.0",
+  "ruleset_version": "in-person-v1-declared-hack-2026-10-12",
+  "optional_powers": false,
+  "decisions": [
+    {
+      "id": "HACK-DECLARE-01",
+      "decision": "After an ordinary turn closes or is passed with pending Standard Hack, open up to 15000ms for the fixed target to declare Blue, Red or Alien. A valid declaration may end this window early."
+    },
+    {
+      "id": "HACK-DECLARE-02",
+      "decision": "Normal roles must declare their own side; Undercover and Alien retain permission to bluff. Use identical three-side controls and fixed-target eligibility for all roles. A declaration is a claim, never app-verified truth or Scan."
+    },
+    {
+      "id": "HACK-DECLARE-03",
+      "decision": "Open a full private 5000ms result after valid acceptance or declaration timeout. Missing input displays No side declared without fabricating a side. Then open the full existing 60000ms private talk at actual transition time."
+    },
+    {
+      "id": "HACK-DECLARE-04",
+      "decision": "Only the initiator and fixed target receive current exchange feedback and partner association. Uninvolved players, host and shared display receive no claim, role, truthfulness or target-specific art/network activity. Clear live feedback when talk ends or aborts; retain server-only journal/receipt evidence for replay without public history or general chat."
+    },
+    {
+      "id": "HACK-DECLARE-05",
+      "decision": "Bots automatically declare their own side from their own authorized role view. Preserve existing target/range registration, no-self-target, lifetime initiation limit, per-round cap, discussion embargoes and ordinary/Pass sequencing. Scan remains unchanged."
+    },
+    {
+      "id": "HACK-DECLARE-06",
+      "decision": "Existing once-per-round before-voting movement remains legal during declaration and result. No Code input during either prelude. The full talk retains existing movement and Code behavior. Public activeSeatId remains the initiator across all three phases."
+    },
+    {
+      "id": "HACK-DECLARE-07",
+      "decision": "Server deadlines, replayed commands and immutable phase identifiers govern every transition. Duplicate/conflicting/stale submissions, tasks and reconnect never restart committed windows. A first late valid repair gives the next complete duration. Feedback has stable exchange identity plus exact current phase binding; stale feedback cannot be a live result."
+    }
+  ],
+  "version_policy": "New creation only after affected Frontend/schema/manifest adoption. Inherit pinned vote-result parent; preserve exact historical 1.4, 1.3, 1.2, 1.1 and 1.0.1 matches, assignments, deals, receipts, replay and asset pins. No migration.",
+  "contract_review": "Protocol2 exact-tuple gating; DECLARE_HACK_SIDE contains only declaredSide. Participant-only current hackFeedback with hackId, phaseId, round, status and nullable declaredSide, required nullable on 1.5 only. Affected Frontend review before adoption."
+}
