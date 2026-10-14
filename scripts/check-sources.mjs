@@ -75,3 +75,12 @@ assert.deepEqual(declaredHack.decisions.map(d=>d.id),Array.from({length:7},(_,i)
 assert.ok(model.includes(hash(declaredHackPath)) && model.includes(declaredHack.ruleset_version) && model.includes(declaredHack.engine_version));
 assert.ok(read('packages/contracts/src/full-game-versions.ts').toString().includes(hash(declaredHackPath)));
 console.log('Declared Hack integrity: approved claim, bounded flow and exact historical tuple preservation');
+
+const publicHackPath = 'rules/overlays/public-hack-owner-decision-2026-10-14.json';
+const publicHack = json(publicHackPath);
+assert.equal(publicHack.status,'confirmed'); assert.equal(publicHack.protocol_version,2);
+assert.equal(publicHack.parent_ruleset.hash,hash(declaredHackPath));
+assert.deepEqual(publicHack.decisions.map(d=>d.id),Array.from({length:6},(_,i)=>`HACK-PUBLIC-${String(i+1).padStart(2,'0')}`));
+assert.ok(model.includes(hash(publicHackPath)) && model.includes(publicHack.ruleset_version) && model.includes(publicHack.engine_version));
+assert.ok(read('packages/contracts/src/full-game-versions.ts').toString().includes(hash(publicHackPath)));
+console.log('Public Hack draft integrity: public pair and approved turn-stage movement isolated to exact new tuple; creation defaults unchanged');

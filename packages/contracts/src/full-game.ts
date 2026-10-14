@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { IdentifierSchema, SeatIdSchema, TimestampSchema, RevisionSchema } from './protocol.js';
 import { RoleSchema, LocationSchema, HealthSchema } from './views.js';
-import { isKnownFullGameplayPins, supportsVoteResults, supportsDeclaredHack } from './full-game-versions.js';
+import { isKnownFullGameplayPins, supportsVoteResults, supportsDeclaredHack, supportsPublicHack } from './full-game-versions.js';
 
 // Product V1 uses wire protocol 2. Protocol 1 remains the reviewed Officer fixture.
 export const FULL_PROTOCOL_VERSION = 2 as const;
@@ -73,6 +73,9 @@ export const FullHackFeedbackSchema = z.strictObject({ hackId:IdentifierSchema, 
   declaredSide:FactionSchema.nullable(),
 }).refine(f=>(f.status==='DECLARED') === (f.declaredSide!==null),'Only a declared claim has a side');
 export type FullHackFeedback = z.infer<typeof FullHackFeedbackSchema>;
+export const FullHackSessionSchema = z.strictObject({ hackId:IdentifierSchema, actorSeatId:SeatIdSchema, targetSeatId:SeatIdSchema })
+  .refine(s=>s.actorSeatId!==s.targetSeatId,'Distinct Hack participants required');
+export type FullHackSession = z.infer<typeof FullHackSessionSchema>;
 const publicFacts = {
   versions: FullVersionsSchema, matchId: IdentifierSchema, viewRevision: RevisionSchema,
   playerCount: z.union([z.literal(7),z.literal(8),z.literal(9)]), round: z.number().int().min(1).max(5),
@@ -81,6 +84,7 @@ const publicFacts = {
   ballot: z.strictObject({ eligibleVoters: z.array(SeatIdSchema), eligibleTargets: z.array(SeatIdSchema), releaseTargetSeatId: SeatIdSchema.nullable() }),
   lastTally: FullTallySchema.nullable(),
   voteResult: FullVoteResultSchema.nullable().optional(),
+  hackSession: FullHackSessionSchema.nullable().optional(),
   result: z.strictObject({ winner:z.enum(['Blue','Red','Alien','Draw']),alienCoWinner:z.boolean() }).nullable(),
   endReveal: z.strictObject({ roles:z.array(z.strictObject({seatId:SeatIdSchema,role:RoleSchema})),code:z.array(SeatIdSchema).length(4) }).nullable(),
 };
@@ -106,9 +110,18 @@ function validTerminalReveal(view:z.infer<typeof FullPublicViewShape>):boolean {
     && alien!==undefined && undercover!==undefined && view.endReveal.code.includes(alien) && !view.endReveal.code.includes(undercover)
     && view.seats.every(s=>s.revealedFaction===null || s.revealedFaction===faction(roles.find(r=>r.seatId===s.seatId)?.role ?? ''));
 }
+function validHackSession(view:z.infer<typeof FullPublicViewShape>):boolean {
+  if(!supportsPublicHack(view.versions)) return !Object.hasOwn(view,'hackSession');
+  if(!Object.hasOwn(view,'hackSession') || view.hackSession===undefined) return false;
+  const session=view.hackSession;
+  if(!['HACK_DECLARE','HACK_RESULT','HACK'].includes(view.phase.kind)) return session===null;
+  if(session===null || session.actorSeatId!==view.activeSeatId || session.actorSeatId===session.targetSeatId
+    || ![session.actorSeatId,session.targetSeatId].every(id=>view.seats.some(s=>s.seatId===id))) return false;
+  return view.phase.kind==='HACK_DECLARE' ? session.hackId===view.phase.id : session.hackId!==view.phase.id;
+}
 function validPublicReferences(view:z.infer<typeof FullPublicViewShape>):boolean {
   const ids=view.seats.map(s=>s.seatId),has=(id:string|null)=>id===null || ids.includes(id as z.infer<typeof SeatIdSchema>);
-  return validVoteResult(view) && (supportsDeclaredHack(view.versions) || !['HACK_DECLARE','HACK_RESULT'].includes(view.phase.kind))
+  return validVoteResult(view) && validHackSession(view) && (supportsDeclaredHack(view.versions) || !['HACK_DECLARE','HACK_RESULT'].includes(view.phase.kind))
     && (!['HACK_DECLARE','HACK_RESULT','HACK'].includes(view.phase.kind) || !supportsDeclaredHack(view.versions) || view.activeSeatId!==null) && (view.phase.kind==='FINISHED'?view.endReveal!==null && view.result!==null:view.endReveal===null && view.result===null)
     && view.seats.every(s=>s.health==='Eliminated'?s.revealedFaction!==null:view.phase.kind==='FINISHED'||s.revealedFaction===null)
     && (!view.result || !view.result.alienCoWinner || view.result.winner==='Blue')
@@ -133,6 +146,14 @@ export const FullPlayerViewSchema = z.strictObject({ ...publicFacts, audience:z.
   const ids=v.seats.map(s=>s.seatId),has=(id:string|null)=>id===null || ids.includes(id as z.infer<typeof SeatIdSchema>);
   const unique=(items:string[])=>new Set(items).size===items.length && items.every(has);
   const k=v.knowledge,role=v.self.role;
+  if(supportsPublicHack(v.versions)) {
+    const session=v.hackSession,feedback=v.hackFeedback;
+    const partner=session?.actorSeatId===v.self.seatId?session.targetSeatId:session?.targetSeatId===v.self.seatId?session.actorSeatId:null;
+    if(partner===null) {
+      if(v.hackPartnerSeatId!==null || feedback!==null) return false;
+    } else if(v.hackPartnerSeatId!==partner || !feedback || feedback.hackId!==session?.hackId
+      || feedback.phaseId!==v.phase.id || feedback.round!==v.round) return false;
+  }
   const prelude=['HACK_DECLARE','HACK_RESULT'].includes(v.phase.kind),exchange=prelude || v.phase.kind==='HACK';
   if(!supportsDeclaredHack(v.versions)) {
     if(Object.hasOwn(v,'hackFeedback') || Object.hasOwn(v.legalTargets,'DECLARE_HACK_SIDE')) return false;
