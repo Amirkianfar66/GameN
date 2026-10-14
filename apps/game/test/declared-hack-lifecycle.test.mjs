@@ -67,4 +67,5 @@ test('a declaration keeps one request ID through a lost reply, new phase, concea
 });
 test('hosted Ready does not activate Hack 1.5 with the old or an unreviewed art pin',()=>{
  for(const assetManifestVersion of ['design-0.2.0','0.0.0-no-assets','unreviewed-claude-kit']) assert.deepEqual(readyCompatibility({...DECLARED_HACK_VERSION_PINS,assetManifestVersion},{bundles:bundlesFor('player'),settled:true}),{kind:'reload',acceptedVersions:null});
+ assert.equal(readyCompatibility({...DECLARED_HACK_VERSION_PINS,assetManifestVersion:'design-0.3.0'},{bundles:bundlesFor('player'),settled:true}).kind,'supported');
 });

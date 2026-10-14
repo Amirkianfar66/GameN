@@ -1,7 +1,0 @@
-{
-  "version": "phone-frame-0.1.0",
-  "status": "Designer proposal for owner review",
-  "color": { "navy": "#0B1522", "panel": "#162638", "edge": "#536B83", "gold": "#F3CB3F", "goldShade": "#B98F12", "paper": "#F4EBDD", "muted": "#B9C4D3", "ink": "#151923", "patient": "#B9C4D3", "prisonStripe": "#55657E" },
-  "layout": { "topBarPx": 54, "dockPx": 66, "minimumPressPx": 44, "roomGutterPx": 4, "safeArea": "env(safe-area-inset-*)", "enlargedText": "Preserve content and access; scrolling is permitted." },
-  "motion": { "selectionMs": 120, "publicMoveMs": 450, "resultEnterMs": 300, "resultExitMs": 200, "voteWindowMs": 5000, "hackDeclareMaxMs": 15000, "hackResultMs": 5000, "hackTalkMs": 60000, "easing": "cubic-bezier(.16,.84,.3,1)", "reduced": "Direct settled result, same deadline; no spatial movement", "none": "Direct state; same facts, access and deadlines" }
-}

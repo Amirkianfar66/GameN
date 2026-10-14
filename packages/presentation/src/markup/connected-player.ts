@@ -83,7 +83,8 @@ export function renderConnectedActionCard(card: ConnectedActionCardModel): Marku
 }
 
 export function renderHackFeedback(feedback: HackFeedbackModel | null): MarkupElement | null {
-  return feedback ? h('section', { class: 'hack-feedback', 'data-region': 'hack-feedback', 'data-hack-id': feedback.id, 'data-phase-id': feedback.phaseId, 'aria-labelledby': 'ms-hack-feedback-heading' },
+  return feedback ? h('section', { class: 'hack-feedback', 'data-region': 'hack-feedback', 'data-hack-id': feedback.id, 'data-phase-id': feedback.phaseId, 'data-hack-stage': feedback.stage, 'aria-labelledby': 'ms-hack-feedback-heading', 'data-focus-fallback': 'ms-phone-actions' },
+    h('span', { class: 'pk-hack__lead', 'data-phone-kit': 'hack-lead', 'aria-hidden': 'true' }),
     h('h3', { id: 'ms-hack-feedback-heading' }, feedback.heading),
     h('p', { class: 'hack-feedback__claim' }, feedback.message),
     h('p', { class: 'hack-feedback__note' }, feedback.note),

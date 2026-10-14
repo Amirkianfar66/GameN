@@ -9,8 +9,7 @@ import { SCENES } from './scene-drawing/scenes.mjs';
 import { CREW } from './scene-drawing/crew.mjs';
 import { hasFront } from './scene-drawing/body.mjs';
 import { skeletonOf } from './scene-drawing/gestures.mjs';
-import { wardrobeSvg, outfitFor } from './scene-drawing/wardrobe.mjs';
-import { compactBands, compactSlots } from './scene-drawing/compact-layout.mjs';
+import { dressedFigureSvg, outfitFor } from './scene-drawing/wardrobe.mjs';
 
 const BANDS = { top: ['command-room'], middle: ['room-a', 'room-b'], lower: ['hospital', 'jail'] };
 const WEIGHTS = [0.8, 1.25, 1];
@@ -41,34 +40,13 @@ export function scenePressAreasFit(places, size) {
   return rects.every((a, i) => rects.every((b, j) => j <= i || a.left + a.side <= b.left + 0.01 || b.left + b.side <= a.left + 0.01 || a.top + a.side <= b.top + 0.01 || b.top + b.side <= a.top + 0.01));
 }
 
-function fitSceneBands(board, placed, seats, compact) {
+function fitSceneBands(board, placed) {
   const zones = board.querySelector(':scope > .ms-zones');
   if (!zones || zones.dataset.final === 'true') return;
   const style = getComputedStyle(zones);
   const height = zones.clientHeight;
   if (!height) return;
   const outer = number(style.paddingTop) + number(style.paddingBottom) + 2 * number(style.rowGap);
-  if (compact) {
-    const count = id => seats.filter(seat => seat.location === LOCATION_OF[id]).length;
-    const counts = { command: count('command-room'), a: count('room-a'), b: count('room-b'), h: count('hospital'), j: count('jail') };
-    const captions = { top: 6, middle: 44, lower: 30 };
-    const borders = { top: 0, middle: 0, lower: 0 };
-    for (const [band, rooms] of Object.entries(BANDS)) for (const id of rooms) {
-      const zone = zones.querySelector(`.ms-zone[data-zone="${id}"]`);
-      const heading = zone.querySelector('.ms-zone__name');
-      const wideCommand = id === 'command-room' && heading.offsetWidth + 50 > zone.clientWidth;
-      const measured = heading.querySelector('.phone-room-move') ? Math.max(44, heading.offsetHeight) : (heading.querySelector('.phone-room-tag')?.offsetHeight ?? heading.offsetHeight) + 6;
-      const cap = id === 'command-room' && !wideCommand ? 6 : Math.max(captions[band], measured);
-      captions[band] = Math.max(captions[band], cap);
-      const css = getComputedStyle(zone);
-      borders[band] = Math.max(borders[band], number(css.borderTopWidth) + number(css.borderBottomWidth));
-      set(zone, '--cap', px(cap)); set(zone, '--pad', '4px');
-    }
-    const bands = Object.keys(BANDS), additions = bands.map((band, i) => borders[band] + captions[band] - [6,44,30][i]);
-    const sizes = compactBands(counts, { available: height - outer - additions.reduce((sum, n) => sum + n, 0) });
-    bands.forEach((band, index) => set(zones, `--band-${band}`, px(sizes[index] + additions[index])));
-    return;
-  }
   const needs = Object.values(BANDS).map(rooms => rooms.map(id => {
     const zone = zones.querySelector(`.ms-zone[data-zone="${id}"]`);
     const css = getComputedStyle(zone);
@@ -105,8 +83,8 @@ function figure(token, front, character, gesture, seat, location) {
   if (token.dataset.figure === key) return;
   token.dataset.figure = key;
   const sk = skeletonOf(gesture);
-  token.innerHTML = wardrobeSvg(CREW[character], sk, { outfit, prefix: `scene-${seat}-body` });
-  front.innerHTML = hasFront(sk) ? wardrobeSvg(CREW[character], sk, { outfit, prefix: `scene-${seat}-front`, layer: 'front' }) : '';
+  token.innerHTML = dressedFigureSvg(CREW[character], sk, { outfit, prefix: `scene-${seat}-body` });
+  front.innerHTML = hasFront(sk) ? dressedFigureSvg(CREW[character], sk, { outfit, prefix: `scene-${seat}-front`, layer: 'front' }) : '';
 }
 
 /** Drawing after layout, also on resize/art arrival. It never emits or replays a cue. */
@@ -117,10 +95,8 @@ export function applySceneBoard(root, model) {
   const placed = placements(seats);
   for (const board of root.querySelectorAll('.ms-board')) {
     board.dataset.scenes = 'true';
-    const compact = board.dataset.board === 'own' && fullRoomCapacityForVersions(model.match.versions, 'Hospital') === 5
-      && !seats.some(seat => seat.location === 'Final Zone');
-    board.dataset.compact = String(compact);
-    if (board.dataset.board === 'own') fitSceneBands(board, placed, seats, compact);
+    board.dataset.compact = 'false';
+    if (board.dataset.board === 'own') fitSceneBands(board, placed);
     for (const zone of board.querySelectorAll('.ms-zone')) {
       if (zone.hidden) continue;
       const scene = SCENES[zone.dataset.zone];
@@ -128,9 +104,6 @@ export function applySceneBoard(root, model) {
       const size = { width: zone.clientWidth, height: zone.clientHeight, cap: number(css.getPropertyValue('--cap')) || (board.dataset.board === 'own' ? 32 : 36), pad: number(css.getPropertyValue('--pad')) || 6 };
       if (!size.width || !size.height) continue;
       const location = LOCATION_OF[zone.dataset.zone];
-      const roomSeats = seats.filter(seat => seat.location === location).sort((a,b) => a.n-b.n);
-      const headingWidth = zone.dataset.zone === 'command-room' && size.cap === 6 ? zone.querySelector('.ms-zone__name').offsetWidth + 6 : 0;
-      const slots = compact && roomSeats.length <= 5 ? compactSlots(roomSeats.length, { width: size.width - headingWidth, height: size.height, caption: size.cap, pad: size.pad }) : null;
       const label = capacityLabel(model.match.versions, location, seats.filter(seat => seat.location === location).length);
       const heading = zone.querySelector('.ms-zone__name');
       let full = heading.querySelector('.scene-full');
@@ -156,8 +129,7 @@ export function applySceneBoard(root, model) {
         const place = placed.get(seat);
         if (!place) continue;
         const g = geometry(place, size);
-        const slot = slots?.[roomSeats.findIndex(item => item.n === seat)];
-        const press = slot ? { ...slot, left: slot.left + headingWidth } : pressRect(g, size);
+        const press = pressRect(g, size);
         piece.dataset.place = place.place; piece.dataset.gesture = place.gesture; piece.dataset.mirror = String(place.mirror);
         for (const [name, value] of Object.entries({ '--body-x': g.left, '--body-y': g.top, '--body-size': g.side, '--press-x': press.left, '--press-y': press.top, '--press-size': press.side })) set(piece, name, px(value));
         const depth = place.kind === 'place' ? place.depth : 1000 - place.at[1] * 100;
@@ -170,15 +142,6 @@ export function applySceneBoard(root, model) {
         if (!front) { front = document.createElement('span'); front.className = 'scene-front'; front.setAttribute('aria-hidden', 'true'); token.after(front); }
         figure(token, front, character, place.gesture, seat, location);
         piece.dataset.outfit = outfitFor(location);
-        let leader = piece.querySelector('.scene-leader');
-        if (slot && !leader) { leader = document.createElement('span'); leader.className = 'scene-leader'; leader.setAttribute('aria-hidden', 'true'); piece.append(leader); }
-        if (!slot) leader?.remove();
-        if (slot) {
-          const x = press.left + press.side / 2, y = press.top + press.side / 2;
-          set(leader, '--leader-x', px(x)); set(leader, '--leader-y', px(y));
-          set(leader, '--leader-length', px(Math.hypot(g.press[0] - x, g.press[1] - y)));
-          set(leader, '--leader-angle', `${Math.atan2(g.press[1] - y, g.press[0] - x)}rad`);
-        }
       }
       // A private tentative move is a separate drawing, never an occupant or a capacity
       // fact. Its known own character uses the same unpainted rig as the public figures.
@@ -191,7 +154,7 @@ export function applySceneBoard(root, model) {
           for (const [name, value] of Object.entries({ '--body-x': g.left, '--body-y': g.top, '--body-size': g.side, '--press-x': press.left, '--press-y': press.top, '--press-size': press.side })) set(ghost, name, px(value));
           ghost.dataset.mirror = String(future.mirror);
           const token = ghost.querySelector('.phone-move-ghost__art');
-          token.innerHTML = wardrobeSvg(CREW[ghost.dataset.character], skeletonOf(future.gesture), { outfit: outfitFor(location), prefix: `ghost-${self.n}` });
+          token.innerHTML = dressedFigureSvg(CREW[ghost.dataset.character], skeletonOf(future.gesture), { outfit: outfitFor(location), prefix: `ghost-${self.n}` });
         }
       }
     }

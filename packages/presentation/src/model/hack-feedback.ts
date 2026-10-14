@@ -23,7 +23,7 @@ export function buildHackFeedback(input: ConnectedPlayerInput, view: FullPlayerV
   const message = stage === 'HACK_DECLARE'
     ? (declarer === view.self.seatId ? 'Choose Blue, Red or Alien.' : `Waiting for Player ${seatNumber(declarer)}’s declaration.`)
     : f.status === 'NO_DECLARATION' ? 'No side declared' : `Player ${seatNumber(declarer)} claims ${f.declaredSide?.toUpperCase()}.`;
-  return { id: f.hackId, phaseId: f.phaseId, stage: stage as HackFeedbackModel['stage'],
+  return { id: f.hackId, phaseId: f.phaseId, stage: stage as HackFeedbackModel['stage'], declaringSeatId: declarer,
     heading: stage === 'HACK_DECLARE' ? 'Private declaration' : stage === 'HACK_RESULT' ? 'Private Hack claim' : 'Private conversation',
     message, note: stage === 'HACK_DECLARE' ? 'Only the two participants receive this declaration.' : 'Declarations may be bluffs.', declaredSide: f.declaredSide };
 }

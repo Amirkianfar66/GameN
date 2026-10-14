@@ -31,7 +31,7 @@ import '../../hosted/board-play.css';
 import '../../hosted/private-card.css';
 import '../../hosted/scene-board.css';
 import '../../hosted/ability-art.css';
-import '../../hosted/phone-feedback.css';
+import '../../hosted/claude-phone-kit.css';
 import '../../hosted/phase-feedback.css';
 import { browserPorts, mountScreen } from '../../hosted/browser-host.js';
 import { loadArt } from '../../hosted/art.mjs';
