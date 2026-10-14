@@ -13,7 +13,10 @@
 //                          The top bar's line is the prompt.
 //     &choose=<n>          how many to choose (default 4, the Code's)
 //     &chosen=1,5          the seats chosen so far (default none)
-//     &offered=1,2,5       the seats the server offers (default every living seat)
+//     &offered=1,2,5       the seats the server offers. Synthetic: the default, every living seat,
+//                          is the review's stand-in and not the Code's rule. Production rings
+//                          exactly the legal targets Backend offers, retained Eliminated
+//                          identities included (name them here to see one ringed)
 //     &prompt=<words>      the top bar's line (default "Code: choose <n>")
 //     &tab=1               the sheet holds a claim or a recovery row: its tab at the row's start
 //   &ui=sheet              no character choice is open: the sheet over the Hospital and the Jail
@@ -137,8 +140,11 @@ function mountChoosing({ app, layer, layout, roster, seats, params, insets }) {
   const { board, choosing } = layout;
   const n = Math.max(1, Number(params.get('choose') ?? 4));
   const list = name => (params.get(name) ? params.get(name).split(',').filter(Boolean).map(Number) : null);
-  const living = seats.filter(seat => seat.health !== 'Eliminated').map(seat => seat.seat);
-  const offered = list('offered') ?? living;
+  // Synthetic: with no &offered=, the review offers every living seat. That is a stand-in, not the
+  // Code's rule: production rings exactly the legal targets Backend offers, retained Eliminated
+  // identities included, and never works them out itself.
+  const syntheticOffer = seats.filter(seat => seat.health !== 'Eliminated').map(seat => seat.seat);
+  const offered = list('offered') ?? syntheticOffer;
   const chosen = list('chosen') ?? [];
   if (chosen.length > n || chosen.some(number => !offered.includes(number))) throw new Error(`chosen=${chosen}: more than ${n}, or not offered`);
   setLine(app, params.get('prompt') ?? `Code: choose ${n}`);

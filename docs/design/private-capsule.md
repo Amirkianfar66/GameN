@@ -46,6 +46,12 @@ The fit needed the owner. Frontend's measurements show that at 320 × 568 the un
 
 In a strip of their own, a 63 px choosing row needs a phone at least 631 px tall, and that row with an 83 px claim and its margin at least 720 px (no safe areas; from `fitBoardV2()` in this session). Rather than turn away the phones under those heights, the owner chose to let the controls take turns with parts of the screen a moment does not need (section 12).
 
+**After Integration's renewed review of #144 (14 October 2026, at `3599cfe`):**
+
+- The result-stage example in section 11 is corrected (`f15782a`).
+- The review page's default Code offer, every living seat, is labelled synthetic in `js/turns-view.mjs` and section 12. Production rings exactly the legal targets Backend offers, retained Eliminated identities included.
+- The Designer's deliveries, and the productions still to come, are indexed in [deliverables.md](deliverables.md).
+
 The review pictures are `design/board-v2/review/capsule-*.png`. **`contact-capsule.png` is the phone preview:** synthetic participants (Vega and Orion unless a picture says otherwise) on the review page's mixed fixture. `capsule-sheet.png` is the art on one sheet.
 
 ## 1. Where it is
@@ -280,13 +286,13 @@ These were run on this branch in this container. Desktop Chromium laid out a rev
 | The same run: **304 whole-page comparisons, 0 differing** | #130's 222; 62 for the capsule, each at 390 × 844 and 320 × 568, with and without reduced motion: the display's page and a player's at nine moments of every stage (36); a reconnect's board and the film's settled board at five moments (20); the page after the exit and the idle page (4); and the top bar's box at five stages (2). And 20 for the controls: the board and the top bar's box with the controls and without, the same page otherwise, at 390 × 844 and 320 × 568: two choosing pages, the result stage's claim at five moments from 400 to 4 999 ms, a confirmation and a side choice, and two at 200% text |
 | The same run: **230 pointer probes** | #130's 186; 20 with the capsule: every slot of every roster at four phones with the capsule empty (12 pages), and while the film plays at 320 × 568 and 390 × 844 (8 pages); and 24 with the controls, every slot of every roster taken at four phones, a character choice open (every slot ringed and pressed) and the sheet up (the Hospital's and the Jail's covered, every other pressed). Every slot's press area, C1's included, and while the pair is seated each participant's own target in the capsule, is its own button at its centre and at its four corners 3 px inside; nothing else in the capsule can be pressed. 5 496 press areas in all, 0 problems |
 | The same run: #130's **23 real-pointer press tests** (129 presses) and **12 label placements** | 0 problems, with the capsule's code on the page |
-| Pictures byte for byte the same | `capsule-390x844-idle.png`, `capsule-390x844-reconnect-exit-0800.png` and `capsule-390x844-reduced-exit-0400.png` (`78851c93…`): after the exit, a reconnect during it and the reduced exit leave exactly the idle board. Every review picture made before the capsule re-rendered byte for byte the same, and so did the five 320 × 568 capsule pictures and the sheet from the first push (`4f3d25b`), where the band already split into whole pixels. Adding the controls changed no earlier picture or contact sheet |
+| Pictures byte for byte the same | `capsule-390x844-idle.png`, `capsule-390x844-reconnect-exit-0800.png` and `capsule-390x844-reduced-exit-0400.png` (`78851c93…`): after the exit, a reconnect during it and the reduced exit leave exactly the idle board. Every review picture made before the capsule re-rendered byte for byte the same, and so did the five 320 × 568 capsule pictures and the sheet from the first push (`4f3d25b`), where the band already split into whole pixels. Adding the controls changed no earlier picture or contact sheet. The capture run again after the review controller's synthetic-offer label (a comment and a variable name) re-rendered all 159 pictures and five contact sheets byte for byte the same; only the inputs hash in `index.json` and `report.json` changed |
 | `fitBoardV2()` without the capsule | **49 680 layouts byte for byte #130's** (`ebf0263`), boards and slot rects: 16 widths from 280 to 1 024 px, heights 380 to 1 000 px, five inset cases, three rosters. A comparison run in this session on the revision; `fit.mjs` is unchanged since. Not a committed check |
 | `node design/tools/board-v2-assets.mjs --check` | 47 files current |
 | `npm test --workspace @mothership/design-tokens` | **268 / 268**, 13 of them in `capsule.test.mjs` and 7 in `turns.test.mjs` |
 | Existing checks, re-run unchanged | board-motion 13 / 13; phone kit 7 / 7 and its flows 109 / 109 (on the controls' commit one run had one flow fail, "a duplicate snapshot replays nothing", on its animations' start times, and the re-run passed all 109; this branch does not touch the phone kit); ability art 12 / 12; design assets 15 / 15; shell 0 failures; board-motion, phone-kit and ability assets current; `typecheck`, `build`; `check:toolchain`, `check:workspace`, `check:sources`; tooling 130 / 130; `git diff --check` clean |
 
-The captures' inputs hash is `f60fed3c6288fae1d9db374900cb200146d73d4d1f33616223ad668e887a5924`.
+The captures' inputs hash is `bb547e286d95b6a660d0dfc1efeb310e8905e7e77b48155a0396cb918f164a11`.
 
 **Not run:**
 
@@ -339,7 +345,7 @@ bae4c518d7732b2ccbf8179351ed3d7d815d0204dd4a1666b190148cee237185  design/board-v
 781f913784385fcc9842e450c52a4eb730e8106098db24dfafe055c86d7ee918  design/board-v2/assets/manifest.json
 ab687508df829b33e13e5b98243615794e14e0ff3b57e793ce6e6f335f1f4785  design/board-v2/contract/slots.json
 451e6fcaea0d3ad6fe043634031c4edf7ba9098ed14bef2393700ca04b38bafd  design/board-v2/js/capsule-view.mjs
-261c1bf5b2a0d63c56c85b2f80a9e249043ad2d24a324caba9668f8e3d456a89  design/board-v2/js/turns-view.mjs
+3025da9f1c8e28c01e2b82aebca9a493f8b0b3178df44708b75854a34bd95752  design/board-v2/js/turns-view.mjs
 bc145e1693064fb42d9db25c3e572b3c874cc2bfe41b10df767d9e5f9a1955c3  design/board-v2/js/page.js
 f3902c9e6a183afb8323a2b3c2b90b1e57889a4c09e662b2704b43d64fa6a2e2  design/board-v2/css/page.css
 0c6d6a38f7653ddfa34ebf8532119b9a5a92f538ef70a5a90c2b1f4a08cc67d9  design/board-v2/contact.html
@@ -356,8 +362,8 @@ f3902c9e6a183afb8323a2b3c2b90b1e57889a4c09e662b2704b43d64fa6a2e2  design/board-v
 efc652a3c12e6fc95b483c476c02eef765dc8bb04cfabe6af42df2b48b0b531f  design/board-v2/review/contact-capsule.png
 eb4484df1017c25e7febd4bf6855a3c40fd2ff8700dc2cceecece8bf9099be08  design/board-v2/review/contact-turns.png
 ea1f292a9e913e10566422368bd42485c953c5920a4615eea63bd60d9a0bece2  design/board-v2/review/capsule-sheet.png
-2ab8ab58bc4ac904e57260c2d4c9dcd8c9c1803aac8f694abfa0c88546f13a1c  design/board-v2/review/index.json
-dff4ebfc51e869eac2ab54cf7363fcc5894ed830fec3ebf827d2e9e264aa1ffb  design/board-v2/review/report.json
+53c6e8e1b5605e7366e49b3c6828730f1330ca4e765a883da0f6ca95b825f94e  design/board-v2/review/index.json
+b5e7502214d01acaf076db869a7c13f66f4c76963ed66d0788c35c2e3dc5c481  design/board-v2/review/report.json
 ```
 
 **Every capsule picture:**
@@ -527,6 +533,8 @@ The top bar's height is chosen once for the match at its text size, before play 
 
 1. **Measure the bars once per match**, at its text size and before play, and lay the board out with `turnsLayout(viewport, roster, { insets, bars, actions })`. Re-lay it out only on a resize, a rotation or a text-size change, as a deliberate reflow that cancels obsolete motion. Phase words, the timer and the lighting line never move it. At 320 × 568 the board has no height to spare, so the top bar must fit the compact shell's 36 px there; any taller bar gives the too-short page. The released status bar is 45.39 px at 320 px wide, so the compact header is still to be built and measured.
 2. **A character choice open:** hide the navigation and the Pass, and draw the choosing row in `choosing` (its controls in `choosing.row`, each 44 px at least). Keep every target live and ring every server-offered seat on each of its targets. The top bar's line says what is chosen. Done or Cancel closes the choice and brings the navigation back; a confirmation then opens in the sheet.
+   - **Ring exactly the legal targets Backend sends**, never a list the client works out. They include retained Eliminated identities: in #140 a Code may name any seat. An Eliminated character still on the board is ringed at its slot, like anyone else.
+   - **An identity off the board has no target here.** None is off the board today. The Captain's EJECT (#145) will put the Jail's prisoners and bodies there, and its production (storyboard S7, [deliverables.md](deliverables.md)) has to give each one a target.
 3. **The sheet's tab:** while a choice is open and the sheet holds a claim or a recovery row, a 44 px tab at the start of the choosing row shows the sheet. While it shows, the Hospital's and the Jail's characters cannot be chosen; closing it returns to the choice.
 4. **No character choice open:** the sheet in `sheet`, its controls only in `sheet.actions.start` and `sheet.actions.end`, never in the Pass's span. What does not fit scrolls inside its body. `sheetPlan()` decides whether the claim folds, and the claim is never folded in the result stage.
 5. **Never:** a control over C1, Rooms A or B, their captions or the capsule; a scrolling page or board; a target under 44 px.
@@ -535,3 +543,5 @@ The top bar's height is chosen once for the match at its text size, before play 
 The marks are the Designer's proposal. An offered seat's ring is a 2 px dashed ring in caption yellow on its target's own square. A chosen seat's is a 3 px solid ring with an ink check disc at the upper left. Caption yellow is no side's color, as with the capsule's light. The press area never changes.
 
 **Review page:** `design/board-v2/index.html?roster=9&fixture=mixed&film=capsule&stage=talk&t=30000&ui=choosing` or `…&ui=sheet&claim=result`; the options are listed in `js/turns-view.mjs`. Its blocks are stand-ins at Frontend's measured heights and say so. Not to port: `js/turns-view.mjs`, like the other controllers.
+
+**Its default offer is synthetic.** With no `&offered=`, the review page rings every living seat, as in the pictures. That is a stand-in, not the Code's rule (rule 2). `&offered=` names the seats to ring, Eliminated ones included: `&offered=1,2,3,4,5,6,7,8,9` also rings Echo, Eliminated in berth H4.

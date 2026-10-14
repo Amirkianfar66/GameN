@@ -1,6 +1,6 @@
 {
   "devOnly": "mothership:dev-only",
-  "inputsSha256": "f60fed3c6288fae1d9db374900cb200146d73d4d1f33616223ad668e887a5924",
+  "inputsSha256": "bb547e286d95b6a660d0dfc1efeb310e8905e7e77b48155a0396cb918f164a11",
   "shots": [
     {
       "file": "board-320x568-ward.png",
