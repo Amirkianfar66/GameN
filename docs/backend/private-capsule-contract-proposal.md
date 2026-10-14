@@ -47,3 +47,9 @@ Publish this prerequisite separately from the capsule disclosure PR. Neither pur
 Frontend: confirm field naming, strict-reader/capability handling, participants mapped to original seats while art travels, latest-placement return, settled recovery, private blur, reduced motion and unchanged movement/targeting. Balance: review public pair/private claim split and 7/8/9 lifecycle, full 60 seconds, bots, last-turn cutoff boundary and unchanged gameplay. Designer owns capsule drawing/geometry, not shared contracts.
 
 Backend verification after review: strict malformed/cross-session/legacy contract rejection; 7/8/9 engine histories with accepted and missing declarations, late/duplicate/stale deadlines, movement during conversation, termination, bots and replay; real Auth/Firestore receipt/claim privacy and timer races. Run relevant existing declared-Hack regressions and pinned toolchain checks. Report actual results separately from future connected/browser/device acceptance; no deployment or IAM changes by Backend.
+
+## Actual proposal checkpoint verification
+
+Pinned Node 22.21.1 / npm 10.9.4 `npm ci` passed (887 packages), and the unchanged released-source build passed. The focused existing declared-Hack, room-capacity and capacity-resolution engine suites passed **201/201**, with zero failures, skips or cancellations. These are baseline regression results, not acceptance of the proposed unimplemented public session or movement change. No new schema/runtime, emulator, browser/device, cloud or IAM acceptance is claimed.
+
+Integration direction review is recorded on PR #140 comment 6166470070. Frontend and independent Claude Balance review requests are delivered; their acceptance remains pending at this checkpoint. The concrete Board-v2 prerequisite is [prepared separately](board-v2-authority-prerequisite.md).
