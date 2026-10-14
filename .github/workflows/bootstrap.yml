@@ -35,9 +35,10 @@ jobs:
       - run: npm run package:backend -- --verify-install
 
   backend-emulator:
-    # Separate runners preserve fixed demo ports and real setup windows without shared state.
+    # Keep all data tests plus real timed Functions acceptance on one fresh pair of suites.
+    # The 505 data cases alone take about 20 minutes on the hosted runner.
     runs-on: ubuntu-24.04
-    timeout-minutes: 25
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
