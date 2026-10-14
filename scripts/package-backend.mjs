@@ -74,7 +74,7 @@ try {
     mkdirSync(stage, { recursive: true });
     const include = location === 'packages/contracts' ? () => true
       : location === 'packages/engine' ? file => file.startsWith('full-game/')
-      : file => /^(?:full-game|practice-bot-policy|joint-starting-rooms)\.(?:js|d\.ts)$/.test(file);
+      : file => /^(?:full-game|practice-bot-policy|joint-starting-rooms|prepared-art)\.(?:js|d\.ts)$/.test(file);
     copyDist(join(root, location, 'dist'), join(stage, 'dist'), include);
     if (indexes[location] !== undefined) {
       writeFileSync(join(stage, 'dist/index.js'), indexes[location].js);
