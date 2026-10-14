@@ -1,0 +1,15 @@
+{
+  "frontendCommit": "be9859442c631b73e262cb29a652ba78128fe705",
+  "catalogSha256": "b44c9ef74fff41b5409949b628b360b1f12e736cc88d8321d58ed3c2226f78ac",
+  "verifiedPorts": [
+    "apps/game/hosted/board-v2-drawing/slots.mjs",
+    "apps/game/hosted/board-v2-drawing/hospital-ward.mjs",
+    "apps/game/hosted/board-v2-drawing/scene-kit.mjs",
+    "apps/game/hosted/board-v2-drawing/capsule-scene.mjs",
+    "apps/game/hosted/board-v2-drawing/capsule-figures.mjs",
+    "apps/game/hosted/board-v2-drawing/capsule-film.mjs",
+    "apps/game/hosted/board-v2-drawing/fit.mjs",
+    "apps/game/hosted/board-v2-drawing/turns.mjs"
+  ],
+  "method": "Original committed Designer bytes independently fetched from the local Git object store, hashed, transformed with sentinel/import-only recipe and compared byte-for-byte with each runtime derivative."
+}
