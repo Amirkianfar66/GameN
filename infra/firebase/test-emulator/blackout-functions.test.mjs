@@ -1,5 +1,5 @@
 // Real local Auth/Firestore/Functions acceptance, not deployed Tasks/IAM evidence.
-// Native HTTP creates/admissions/configures an unchanged 1.3/1.5 lobby. Its real
+// Native HTTP creates/admissions/configures the exact selected 1.3/1.5/1.10 lobby. Its real
 // Auth identities and UID-free practice bindings are reused in a SEPARATE fresh
 // 1.9 fixture. One legal synthetic SETUP + complete pure-engine journal prefix
 // ends at a fresh 5-second Jail VOTE_RESULT before the first fixture engine write.
@@ -12,7 +12,7 @@ import { test } from 'node:test';
 import { initializeApp, deleteApp } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 import { BLACKOUT_FULL_GAME_VERSION_PINS as PINS, FULL_GAME_VERSION_PINS as BASELINE,
-  DECLARED_HACK_FULL_GAME_VERSION_PINS as DECLARED, createFullGame, executeFullGame,
+  DECLARED_HACK_FULL_GAME_VERSION_PINS as DECLARED, CLONE_FULL_GAME_VERSION_PINS as CLONE, createFullGame, executeFullGame,
   advanceFullGame, abortFullGame, projectFullGame, projectOwnAcknowledgments } from '@mothership/engine';
 import { FullOperationResponseSchema, FullSetPracticeBotsResponseSchema, FullPracticeBotsDocumentSchema,
   FullPublicViewSchema, FullPlayerViewSchema, FullLobbyViewSchema, FullCommandResponseSchema,
@@ -25,6 +25,9 @@ const canonical = value => Array.isArray(value) ? value.map(canonical) : value !
   ? Object.fromEntries(Object.entries(value).sort(([a], [b]) => a.localeCompare(b)).map(([key, item]) => [key, canonical(item)])) : value;
 const digest = value => hash(canonical(value));
 const pause = () => new Promise(resolve => setTimeout(resolve, 150));
+const nativeProfiles = { 'historical': BASELINE, 'declared-hack-1.5': DECLARED, 'board-v2-1.10': CLONE };
+const selectedNativeProfile = process.env.MOTHERSHIP_NEW_MATCH_PROFILE ?? 'historical';
+assert.ok(Object.hasOwn(nativeProfiles, selectedNativeProfile), 'Explicit native creation profile required');
 const operations = new Set(['v1CreateMatch', 'v1RequestAdmission', 'v1ApproveAdmission',
   'v1AdmitDisplay', 'v1SetPracticeBots', 'v1Command', 'v1Receipt', 'v1ServerTime', 'v1AbortMatch']);
 async function invoke(name, payload, identity) {
@@ -82,7 +85,7 @@ async function nativeConfiguration(db, count, cleanup) {
   for (const id of humanIds.filter(id => !['seat-1', 'seat-2'].includes(id))) await admit(id);
   success(await invoke('v1AdmitDisplay', body({ displayUid: display.uid }), host));
   const pins = (await base.collection('engine').doc('gameplayPins').get()).data();
-  assert.ok([BASELINE, DECLARED].some(expected => sameFullGameplayPins(pins, expected)), 'Native creation remains the configured historical 1.3/1.5 profile');
+  assert.ok(sameFullGameplayPins(pins, nativeProfiles[selectedNativeProfile]), 'Native creation must match the exact configured release profile');
   assert.equal((await base.collection('engine').doc('current').get()).exists, false, 'No native setup or running match is rewritten');
   const bindings = (await base.collection('seats').get()).docs.map(doc => ({ seatId: doc.id, ...doc.data() }));
   assert.equal(bindings.length, count);
@@ -93,7 +96,7 @@ async function nativeConfiguration(db, count, cleanup) {
   const practice = FullPracticeBotsDocumentSchema.parse((await base.collection('practice').doc('public').get()).data());
   assert.deepEqual(practice.botSeatIds, botIds);
   await abortIfOpen(base, host);
-  assert.deepEqual((await base.collection('engine').doc('gameplayPins').get()).data(), pins, 'Native historical creation pins remain immutable');
+  assert.deepEqual((await base.collection('engine').doc('gameplayPins').get()).data(), pins, 'Native creation pins remain immutable');
   assert.equal((await base.collection('engine').doc('current').get()).exists, false);
   return { host, display, outsider, humans, humanIds, botIds, ids, bindings, practice };
 }
