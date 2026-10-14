@@ -1,6 +1,6 @@
 # Private Capsule contract proposal — issue #139
 
-Status: proposed for affected Frontend, Balance and Integration review before implementation. No runtime or shared schema change is adopted by this document.
+Status: provisional implementation for affected Frontend, Balance and Integration review, not adopted into a combined release. Integration explicitly authorized reversible draft code/tests before review completion; shared adoption, merge/activation and deployment still require the affected reviews. Creation defaults/profiles remain unchanged.
 
 ## Exact starting point and authority
 
@@ -8,7 +8,7 @@ Branch `codex/backend-private-capsule`, clean starting SHA `37f573afca9023e8e4a9
 
 ## Minimal shared boundary
 
-Propose a new exact protocol-2 gameplay tuple: engine `full-game-1.6.0`, ruleset `in-person-v1-public-hack-2026-10-14`; bind its hash to a new immutable overlay after review. Do not change default creation pins or assign an art manifest in this Backend PR. Integration selects a reviewed compatible art/version pairing for new matches only.
+Propose a new exact protocol-2 gameplay tuple: engine `full-game-1.6.0`, ruleset `in-person-v1-public-hack-2026-10-14`; draft overlay SHA-256 `28bc2eb81e3687c63746018e392227ded1989f398e2667495e0b6f499f0f3969` binds the exact provisional implementation. This is not a release approval. Do not change default creation pins or assign an art manifest in this Backend PR. Integration selects a reviewed compatible art/version pairing for new matches only.
 
 Add one **new-tuple-only** required nullable field on public and every player view:
 
@@ -46,10 +46,16 @@ Publish this prerequisite separately from the capsule disclosure PR. Neither pur
 
 Frontend: confirm field naming, strict-reader/capability handling, participants mapped to original seats while art travels, latest-placement return, settled recovery, private blur, reduced motion and unchanged movement/targeting. Balance: review public pair/private claim split and 7/8/9 lifecycle, full 60 seconds, bots, last-turn cutoff boundary and unchanged gameplay. Designer owns capsule drawing/geometry, not shared contracts.
 
-Backend verification after review: strict malformed/cross-session/legacy contract rejection; 7/8/9 engine histories with accepted and missing declarations, late/duplicate/stale deadlines, movement during conversation, termination, bots and replay; real Auth/Firestore receipt/claim privacy and timer races. Run relevant existing declared-Hack regressions and pinned toolchain checks. Report actual results separately from future connected/browser/device acceptance; no deployment or IAM changes by Backend.
+Backend draft verification: strict malformed/cross-session/legacy contract rejection; 7/8/9 engine histories with accepted and missing declarations, late/duplicate/stale deadlines, movement during conversation, termination, bots and replay; real Auth/Firestore receipt/claim privacy and timer races. Run relevant existing declared-Hack regressions and pinned toolchain checks. Report actual results separately from future connected/browser/device acceptance; no deployment or IAM changes by Backend.
 
 ## Actual proposal checkpoint verification
 
 Pinned Node 22.21.1 / npm 10.9.4 `npm ci` passed (887 packages), and the unchanged released-source build passed. The focused existing declared-Hack, room-capacity and capacity-resolution engine suites passed **201/201**, with zero failures, skips or cancellations. These are baseline regression results, not acceptance of the proposed unimplemented public session or movement change. No new schema/runtime, emulator, browser/device, cloud or IAM acceptance is claimed.
 
 Integration direction review is recorded on PR #140 comment 6166470070. Frontend and independent Claude Balance review requests are delivered; their acceptance remains pending at this checkpoint. The concrete Board-v2 prerequisite is [prepared separately](board-v2-authority-prerequisite.md).
+
+## Provisional implementation scope
+
+The draft now implements the strict tuple-gated session and feedback binding and the approved G-09 movement predicate. The public projection selects only the pair and stable ID from existing authoritative Hack state; it adds no stored gameplay state, command, scheduler phase or location. New engine/contract tests and real Auth/Firestore service tests cover the candidate. Current results and limits are recorded in the PR handoff; baseline numbers above remain the earlier documentation checkpoint, not the current candidate total.
+
+The global default remains full-game-1.3.0 and the explicit runtime profile remains declared-hack-1.5/design-0.3.0. No 1.6 runtime profile or asset pairing is enabled. This draft does not implement persistent slots, full-roster Hospital, Blackout, Clone, direct Captain commands, room events or the capsule drawings/consumer.

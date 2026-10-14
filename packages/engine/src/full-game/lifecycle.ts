@@ -4,7 +4,7 @@ import { buildRoster } from './roster.js';
 import type { GameSeat } from './roster.js';
 import { tallyJailVote, tallyElection, tallyReleaseVote } from './votes.js';
 import { evaluateVictory } from './victory.js';
-import { FULL_ENGINE_VERSION, FULL_RULESET_VERSION, FULL_RULESET_HASH, isSupportedFullGameVersions, passTurnEnabled, roomCapacityEnabled, resolutionPlacementEnabled, voteResultEnabled, declaredHackEnabled } from './model.js';
+import { FULL_ENGINE_VERSION, FULL_RULESET_VERSION, FULL_RULESET_HASH, isSupportedFullGameVersions, passTurnEnabled, roomCapacityEnabled, resolutionPlacementEnabled, voteResultEnabled, declaredHackEnabled, publicHackEnabled } from './model.js';
 import type { FullGameState, FullGameSetup, FullGameContext } from './model.js';
 import { roomHasSpace, assertInitialRoomCapacity, ordinaryReturnDestination } from './capacity.js';
 import { placeResolvedSeats } from './placement.js';
@@ -15,6 +15,15 @@ const ready = (seat: GameSeat) => seat.health === 'Healthy' && !seat.jailed;
 const voterIds = (state: FullGameState) => state.seats.filter(alive).map(s => s.seatId);
 const find = (state: FullGameState, id: SeatId) => state.seats.find(s => s.seatId === id);
 const beforeVoting = (state: FullGameState) => ['ORDINARY_TURN','HACK','HACK_DECLARE','HACK_RESULT','CAPTAIN_ELECTION'].includes(state.phase.kind);
+// FINAL G-09 applies only to the new tuple; historical movement stays exact.
+function movementWindowOpen(state: FullGameState): boolean {
+  if(!publicHackEnabled(state.versions)) return beforeVoting(state);
+  if(!Number.isInteger(state.turnIndex) || state.turnIndex<0 || state.turnIndex>=state.turnOrder.length
+    || state.turnOrder[state.turnIndex]!==state.activeSeatId) return false;
+  if(state.phase.kind==='ORDINARY_TURN') return true;
+  if(!['HACK_DECLARE','HACK_RESULT','HACK'].includes(state.phase.kind)) return false;
+  return state.turnOrder.slice(state.turnIndex+1).some(id=>state.seats.some(seat=>seat.seatId===id && alive(seat)));
+}
 function validateContext(context: FullGameContext) {
   if (!Number.isSafeInteger(context.now) || context.now < 0 || context.now > Number.MAX_SAFE_INTEGER - 60_000
     || !IdentifierSchema.safeParse(context.nextPhaseId).success || !IdentifierSchema.safeParse(context.nextDeadlineToken).success) throw new Error('Invalid trusted transition context');
@@ -241,7 +250,7 @@ export function executeFullGame(before:FullGameState,actorSeatId:SeatId,request:
         || (!['Undercover','Alien'].includes(actor.role) && command.declaredSide!==actor.faction)) return reject('NOT_ALLOWED');
       requireNewPhaseIdentifiers(state,context);advanceHack(state,'HACK_RESULT',context,command.declaredSide);break;
     case 'MOVE':
-      if (!beforeVoting(state)||!ready(actor)||actor.movedInRound||!['Room A','Room B','Command Room'].includes(actor.location)
+      if (!movementWindowOpen(state)||!ready(actor)||actor.movedInRound||!['Room A','Room B','Command Room'].includes(actor.location)
         ||command.destination===actor.location||(command.destination==='Command Room'&&!actor.captain)||!roomHasSpace(state,command.destination)) return reject('NOT_ALLOWED');
       actor.location=command.destination; if(command.destination!=='Command Room')actor.lastRoom=command.destination; actor.movedInRound=true; break;
     case 'SUBMIT_CODE':
@@ -359,13 +368,15 @@ export function projectFullGame(state:FullGameState) {
     seats:state.seats.map(s=>({seatId:s.seatId,health:s.health,location:s.location,jailed:s.jailed,captain:s.captain,revealedFaction:s.health==='Eliminated'?s.faction:null})),
     ballot:{eligibleVoters:state.eligibleVoters,eligibleTargets:state.eligibleTargets,releaseTargetSeatId:state.phase.kind==='RELEASE_VOTE'?state.releaseTargetSeatId:null},lastTally:state.lastTally,result:state.result,
     ...(voteResultEnabled(state.versions)?{voteResult:state.voteResult??null}:{}),
+    ...(publicHackEnabled(state.versions)?{hackSession:state.activeHack && state.hackFeedback
+      ? {hackId:state.hackFeedback.hackId,actorSeatId:state.activeHack.actorSeatId,targetSeatId:state.activeHack.targetSeatId}:null}:{}),
     endReveal:terminal?{roles:state.seats.map(s=>({seatId:s.seatId,role:s.role})),code:state.code}:null};
   const publicView=FullPublicViewSchema.parse({...facts,audience:{kind:'public'}});
   const players:Partial<Record<SeatId,FullPlayerView>>={};
   for(const self of state.seats) {
     const targets=legalTargets(state,self),own=state.ballots.find(b=>b.voterSeatId===self.seatId);
     players[self.seatId]=FullPlayerViewSchema.parse({...facts,viewRevision:state.viewRevisions.players[self.seatId]??0,audience:{kind:'player',seatId:self.seatId},
-      self:{seatId:self.seatId,role:self.role,movementDestinations:beforeVoting(state)&&ready(self)&&!self.movedInRound?(['Room A','Room B',...(self.captain?['Command Room']:[])] as Array<'Room A'|'Room B'|'Command Room'>).filter(room=>room!==self.location && roomHasSpace(state,room)):[],releaseVoteAvailable:state.phase.kind==='RELEASE_VOTE'&&state.eligibleVoters.includes(self.seatId)&&!own,ordinaryWeapons:self.ordinaryWeapons,shotAvailable:!!targets['REGISTER_SHOT'],rescuesRemaining:self.rescuesRemaining,disablerAvailable:!!targets['DISABLE'],hackAvailable:!!targets['REQUEST_HACK'],scanAvailable:!!targets['SCAN'],codeAttemptAvailable:self.role==='Hacker' && alive(self) && state.round===5 && !state.codeSubmitted && !['VOTE_RESULT','HACK_DECLARE','HACK_RESULT','SHOWDOWN','FINISHED','ABORTED'].includes(state.phase.kind)},
+      self:{seatId:self.seatId,role:self.role,movementDestinations:movementWindowOpen(state)&&ready(self)&&!self.movedInRound?(['Room A','Room B',...(self.captain?['Command Room']:[])] as Array<'Room A'|'Room B'|'Command Room'>).filter(room=>room!==self.location && roomHasSpace(state,room)):[],releaseVoteAvailable:state.phase.kind==='RELEASE_VOTE'&&state.eligibleVoters.includes(self.seatId)&&!own,ordinaryWeapons:self.ordinaryWeapons,shotAvailable:!!targets['REGISTER_SHOT'],rescuesRemaining:self.rescuesRemaining,disablerAvailable:!!targets['DISABLE'],hackAvailable:!!targets['REQUEST_HACK'],scanAvailable:!!targets['SCAN'],codeAttemptAvailable:self.role==='Hacker' && alive(self) && state.round===5 && !state.codeSubmitted && !['VOTE_RESULT','HACK_DECLARE','HACK_RESULT','SHOWDOWN','FINISHED','ABORTED'].includes(state.phase.kind)},
       knowledge:{...self.knowledge,protections:self.role==='Undercover'?state.seats.filter(s=>s.protection!==null).map(s=>({seatId:s.seatId,activeFromRound:s.protection!.activeFromRound,consumed:s.protection!.consumed})):[]},
       legalTargets:targets,ownPendingCommandIds:state.queued.filter(q=>q.actorSeatId===self.seatId).map(q=>q.commandId),ownBallot:own?(state.phase.kind==='RELEASE_VOTE'?own.approve:own.targetSeatId):null,hasVoted:!!own,
       ...(declaredHackEnabled(state.versions)?{hackFeedback:state.activeHack && [state.activeHack.actorSeatId,state.activeHack.targetSeatId].includes(self.seatId)?state.hackFeedback??null:null}:{}),
