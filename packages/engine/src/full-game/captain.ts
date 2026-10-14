@@ -1,6 +1,6 @@
 import { IdentifierSchema, SeatIdSchema } from '@mothership/contracts';
 import type { SeatId } from '@mothership/contracts';
-import { captainCommandsEnabled } from './model.js';
+import { captainCommandsEnabled, blackoutEnabled } from './model.js';
 import type { FullGameState } from './model.js';
 import type { GameSeat } from './roster.js';
 import { assertMedicalState, placeMedicalSeats } from './medical.js';
@@ -52,7 +52,8 @@ export function assertCaptainState(state: FullGameState): void {
     || new Set(reveal.seatIds).size !== reveal.seatIds.length || !reveal.seatIds.every(id => SeatIdSchema.safeParse(id).success)
     || !SeatIdSchema.safeParse(stage.actorSeatId).success || !IdentifierSchema.safeParse(stage.commandId).success
     || !survivalShape(stage.before) || !survivalShape(stage.after)
-    || !['ORDINARY_TURN', 'HACK_DECLARE', 'HACK_RESULT', 'HACK', 'JAIL_VOTE', 'VOTE_RESULT', 'ABORTED'].includes(state.phase.kind)) {
+    || (state.phase.kind==='BLACKOUT' && !blackoutEnabled(state.versions))
+    || !['BLACKOUT','ORDINARY_TURN', 'HACK_DECLARE', 'HACK_RESULT', 'HACK', 'JAIL_VOTE', 'VOTE_RESULT', 'ABORTED'].includes(state.phase.kind)) {
     throw new Error('Invalid pending Captain checkpoint evidence');
   }
   const actor = state.seats.find(seat => seat.seatId === stage.actorSeatId);

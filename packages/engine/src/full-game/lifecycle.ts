@@ -1,15 +1,17 @@
+import { initializeCloneState, assertCloneState, cloneActivationAllowed, activateClone, cloneBlocksAttack, finishCloneCheckpoint, stopCloneEffects, clearEliminatedCloneEffects } from './clone.js';
 import { FullCommandRequestSchema, FullPublicViewSchema, FullPlayerViewSchema, FullAssetManifestVersionSchema, FullVersionsSchema, FullHackFeedbackSchema, IdentifierSchema } from '@mothership/contracts';
 import type { FullCommand, FullCommandRequest, FullReceipt, FullPlayerView, SeatId } from '@mothership/contracts';
 import { buildRoster } from './roster.js';
 import type { GameSeat } from './roster.js';
 import { tallyJailVote, tallyElection, tallyReleaseVote } from './votes.js';
 import { evaluateVictory } from './victory.js';
-import { FULL_ENGINE_VERSION, FULL_RULESET_VERSION, FULL_RULESET_HASH, isSupportedFullGameVersions, passTurnEnabled, roomCapacityEnabled, resolutionPlacementEnabled, voteResultEnabled, declaredHackEnabled, publicHackEnabled, boardMedicalEnabled, captainCommandsEnabled } from './model.js';
+import { FULL_ENGINE_VERSION, FULL_RULESET_VERSION, FULL_RULESET_HASH, isSupportedFullGameVersions, passTurnEnabled, roomCapacityEnabled, resolutionPlacementEnabled, voteResultEnabled, declaredHackEnabled, publicHackEnabled, boardMedicalEnabled, captainCommandsEnabled, blackoutEnabled, cloneEnabled } from './model.js';
 import type { FullGameState, FullGameSetup, FullGameContext } from './model.js';
 import { roomHasSpace, assertInitialRoomCapacity, ordinaryReturnDestination } from './capacity.js';
 import { placeResolvedSeats } from './placement.js';
 import { captainCommandAllowed, executeCaptainCommand, assertCaptainState, closeCaptainCheckpoint } from './captain.js';
-import { appendOutcome, assertOutcomes } from './outcomes.js';
+import { blackoutRequestAllowed, openBlackout, selectBlackoutSlot, finishBlackout, assertBlackoutState, projectBlackoutTargeting } from './blackout.js';
+import { appendOutcome, assertOutcomes, roomBlockOutcome } from './outcomes.js';
 import { moveBoardSeat } from './slots.js';
 import { initializeMedicalState, assertMedicalState, recordMedicalDamage, healMedicalSeat, applyDueMedicalDeaths, placeImmediateMedicalSeat, placeMedicalSeats, projectMedicalStatus } from './medical.js';
 
@@ -33,9 +35,11 @@ function validateContext(context: FullGameContext) {
     || !IdentifierSchema.safeParse(context.nextPhaseId).success || !IdentifierSchema.safeParse(context.nextDeadlineToken).success) throw new Error('Invalid trusted transition context');
 }
 function phase(state: FullGameState, kind: FullGameState['phase']['kind'], context: FullGameContext) {
-  state.phase = { id: context.nextPhaseId, kind, startedAt: context.now, endsAt: ['FINISHED','ABORTED'].includes(kind) ? null : context.now + (kind==='HACK_DECLARE'?15_000:['VOTE_RESULT','HACK_RESULT'].includes(kind)?5_000:60_000) };
+  if(['FINISHED','ABORTED'].includes(kind))stopCloneEffects(state);
+  state.phase = { id: context.nextPhaseId, kind, startedAt: context.now, endsAt: ['FINISHED','ABORTED'].includes(kind) ? null : context.now + (['HACK_DECLARE','BLACKOUT'].includes(kind)?15_000:['VOTE_RESULT','HACK_RESULT'].includes(kind)?5_000:60_000) };
   state.deadlineToken = state.phase.endsAt === null ? null : context.nextDeadlineToken;
   state.activeSeatId = null; state.activeHack = null;
+  if(blackoutEnabled(state.versions))state.blackout=null;
   if(declaredHackEnabled(state.versions)) state.hackFeedback=null;
   if(voteResultEnabled(state.versions)) {state.voteResult=null;state.voteResultContinuation=null;}
   state.ballots = []; state.eligibleVoters = []; state.eligibleTargets = []; state.releaseTargetSeatId = null;
@@ -115,30 +119,34 @@ function placement(state: FullGameState, seat: GameSeat) {
     seat.location=ordinaryReturnDestination(state,seat);
   }
 }
-function attack(state: FullGameState, target: GameSeat) {
+function attack(state: FullGameState, target: GameSeat, showdown=false) {
   if (!alive(target)) return;
+  if(cloneBlocksAttack(state,target,showdown)) { roomBlockOutcome(state,target); return; }
   // Registration has already locked target location and Command legality (V1-06).
   if (target.protection && !target.protection.consumed && target.protection.activeFromRound <= state.round) {
-    target.protection.consumed=true; return;
+    target.protection.consumed=true; roomBlockOutcome(state,target); return;
   }
-  if (boardMedicalEnabled(state.versions)) { recordMedicalDamage(state,target); return; }
+  if (boardMedicalEnabled(state.versions)) { recordMedicalDamage(state,target); clearEliminatedCloneEffects(state); return; }
   target.health=target.health === 'Healthy' ? 'Injured' : 'Eliminated';
   if (target.captain) loseCaptain(state,target);
 }
 function factionSurvives(state: FullGameState, faction: 'Blue'|'Red') { return state.seats.some(s=>s.faction===faction && alive(s)); }
-function resolveRound(state: FullGameState, context: FullGameContext, showdown=false) {
+function resolveRound(state: FullGameState, context: FullGameContext, showdown=false,blackoutTargets:Record<string,SeatId|null>={}) {
   const blueBefore=factionSurvives(state,'Blue'), redBefore=factionSurvives(state,'Red');
   // Complete stages are evaluated without intermediate victory. Actor status never cancels.
   for (const actorId of state.turnOrder) {
     const queued=state.queued.filter(q=>q.actorSeatId===actorId);
-    const main=queued.filter(q=>q.command.type==='DISABLE' || q.command.type==='PROTECT');
+    const main=queued.filter(q=>q.command.type==='DISABLE' || q.command.type==='PROTECT' || q.command.type==='REQUEST_BLACKOUT');
     const shots=queued.filter(q=>q.command.type===(showdown?'SHOWDOWN_SHOT':'REGISTER_SHOT'));
     for (const q of [...main,...shots]) {
+      if(q.command.type==='REQUEST_BLACKOUT') {
+        const id=blackoutTargets[actorId];if(id)attack(state,find(state,id)!);continue;
+      }
       if (!('targetSeatId' in q.command) || q.command.targetSeatId === null) continue;
       const target=find(state,q.command.targetSeatId)!;
       if (q.command.type==='PROTECT') {
         if (alive(target)) target.protection={activeFromRound:state.round+1,consumed:false,grantedBy:q.actorSeatId};
-      } else attack(state,target);
+      } else attack(state,target,showdown);
     }
   }
   if (!showdown) {
@@ -173,6 +181,8 @@ function resolveRound(state: FullGameState, context: FullGameContext, showdown=f
     }
   }
   if (showdown && boardMedicalEnabled(state.versions)) placeMedicalSeats(state);
+  clearEliminatedCloneEffects(state);
+  if(!showdown)finishCloneCheckpoint(state);
   const ejectStage=captainCommandsEnabled(state.versions) && !showdown ? closeCaptainCheckpoint(state) : false;
   const simultaneousElimination=ejectStage || (blueBefore && redBefore && !factionSurvives(state,'Blue') && !factionSurvives(state,'Red'));
   state.result=evaluateVictory({ seats:state.seats,round:state.round,correctCode:state.correctCode,
@@ -202,12 +212,14 @@ export function createFullGame({matchId,setup,now,phaseId,deadlineToken,assetMan
     playerCount:setup.playerCount,round:1,seats,code,phase:{id:phaseId,kind:'ORDINARY_TURN',startedAt:now,endsAt:now+60_000},deadlineToken,activeSeatId:null,
     turnIndex:0,turnOrder:[],queued:[],ballots:[],eligibleVoters:[],eligibleTargets:[],releaseTargetSeatId:null,releaseUsed:false,releaseChoiceMade:false,
     hacksThisRound:0,pendingHack:null,activeHack:null,codeSubmitted:false,correctCode:false,lastTally:null,result:null,electionForNextRound:false,supplierGrantResults:[],journalSequence:0,
+    ...(blackoutEnabled(recordedVersions)?{blackout:null}:{}),
     ...(captainCommandsEnabled(recordedVersions)?{captainPowersUsed:{releaseUsed:false,ejectUsed:false},pendingCaptainReveal:null,pendingEjectStage:null,outcomes:[]}:{}),
     ...(voteResultEnabled(recordedVersions)?{voteResult:null,voteResultContinuation:null}:{}),
     ...(declaredHackEnabled(recordedVersions)?{hackFeedback:null}:{}),
     viewRevisions:{public:0,players:Object.fromEntries(seatIds.map(id=>[id,0]))}};
   if (boardMedicalEnabled(state.versions)) initializeMedicalState(state);
-  beginRound(state,context); assertMedicalState(state); assertCaptainState(state); assertOutcomes(state); return state;
+  initializeCloneState(state);
+  beginRound(state,context); assertMedicalState(state); assertCaptainState(state); assertOutcomes(state); assertBlackoutState(state); assertCloneState(state); return state;
 }
 const ordinaryShotAllowed=(state:FullGameState, actor:GameSeat)=>ready(actor) && actor.ordinaryWeapons>0
   && (actor.role==='Officer' ? !actor.officerShotSpent : state.round>=4);
@@ -221,13 +233,17 @@ export function legalTargets(state:FullGameState, actor:GameSeat):Record<string,
   const ids=(filter:(s:GameSeat)=>boolean)=>state.seats.filter(filter).map(s=>s.seatId);
   if(declaredHackEnabled(state.versions) && state.phase.kind==='HACK_DECLARE' && state.activeHack?.targetSeatId===actor.seatId && alive(actor)) targets['DECLARE_HACK_SIDE']=[actor.seatId];
   const ownTurn=state.phase.kind==='ORDINARY_TURN' && state.activeSeatId===actor.seatId;
+  if(cloneActivationAllowed(state,actor))targets['ACTIVATE_CLONE']=[actor.seatId];
+  if(blackoutRequestAllowed(state,actor))targets['REQUEST_BLACKOUT']=[actor.seatId];
+  const targeting=blackoutEnabled(state.versions)?projectBlackoutTargeting(state,actor):null;
+  if(targeting && targeting.selectedSlotId===null)targets['SELECT_BLACKOUT_SLOT']=[actor.seatId];
   for(const type of ['CAPTAIN_RELEASE','CAPTAIN_EJECT'] as const) if(captainCommandAllowed(state,actor,type)) targets[type]=[actor.seatId];
   if (ownTurn && alive(actor) && passTurnEnabled(state.versions)) targets['PASS_TURN']=[actor.seatId];
   if (ownTurn && ordinaryShotAllowed(state,actor) && !state.queued.some(q=>q.actorSeatId===actor.seatId && q.command.type==='REGISTER_SHOT')) targets['REGISTER_SHOT']=ids(s=>localTarget(state,actor,s,false));
   if (ownTurn && alive(actor) && !actor.hackUsed && state.hacksThisRound<2) targets['REQUEST_HACK']=ids(s=>localTarget(state,actor,s,false));
   if (mainAllowed(state,actor)) {
     if (ready(actor)) {
-      if ((actor.role==='Blue Disabler'||actor.role==='Red Disabler') && !actor.disablerSpent) targets['DISABLE']=ids(s=>localTarget(state,actor,s,false));
+      if (!blackoutEnabled(state.versions) && (actor.role==='Blue Disabler'||actor.role==='Red Disabler') && !actor.disablerSpent) targets['DISABLE']=ids(s=>localTarget(state,actor,s,false));
       // This lifetime knowledge belongs only to Undercover. No other target hint sees it.
       if (actor.role==='Undercover') targets['PROTECT']=ids(s=>localTarget(state,actor,s,true) && !s.lifetimeProtectionReceived);
       if (actor.role==='Supplier' && state.round===3) targets['SUPPLY']=ids(s=>localTarget(state,actor,s,true));
@@ -248,7 +264,7 @@ function revise(before:FullGameState,after:FullGameState):FullGameState {
   return after;
 }
 export function executeFullGame(before:FullGameState,actorSeatId:SeatId,request:FullCommandRequest,context:FullGameContext):{state:FullGameState;receipt:FullReceipt} {
-  assertMedicalState(before); assertCaptainState(before); assertOutcomes(before);
+  assertMedicalState(before); assertCaptainState(before); assertOutcomes(before); assertBlackoutState(before); assertCloneState(before);
   validateContext(context); FullCommandRequestSchema.parse(request);
   const receiptBase={protocolVersion:2 as const,matchId:request.matchId,phaseId:request.phaseId,commandId:request.commandId};
   const reject=(code:'PHASE_CLOSED'|'NOT_ALLOWED')=>({state:before,receipt:{...receiptBase,status:'rejected' as const,code}});
@@ -257,6 +273,11 @@ export function executeFullGame(before:FullGameState,actorSeatId:SeatId,request:
   const state=clone(before),actor=find(state,actorSeatId); if (!actor || !alive(actor)) return reject('NOT_ALLOWED');
   const command=request.command,allowed=legalTargets(state,actor);
   switch(command.type) {
+    case 'REQUEST_BLACKOUT':
+      if(!blackoutRequestAllowed(state,actor))return reject('NOT_ALLOWED');
+      actor.mainActionUsedRound=state.round;state.queued.push({commandId:request.commandId,actorSeatId,command});break;
+    case 'SELECT_BLACKOUT_SLOT':
+      if(!selectBlackoutSlot(state,actor,command,request.commandId,context.now))return reject('NOT_ALLOWED');break;
     case 'CAPTAIN_RELEASE': case 'CAPTAIN_EJECT': {
       if(!captainCommandAllowed(state,actor,command.type)) return reject('NOT_ALLOWED');
       const affected=state.seats.filter(s=>s.location==='Jail' && (command.type==='CAPTAIN_EJECT' || alive(s))).map(s=>s.seatId);
@@ -277,6 +298,9 @@ export function executeFullGame(before:FullGameState,actorSeatId:SeatId,request:
       if (boardMedicalEnabled(state.versions)) moveBoardSeat(state,actor,command.destination);
       else actor.location=command.destination;
       if(command.destination!=='Command Room')actor.lastRoom=command.destination; actor.movedInRound=true; break;
+    case 'ACTIVATE_CLONE':
+      if(!allowed['ACTIVATE_CLONE']?.includes(actorSeatId))return reject('NOT_ALLOWED');
+      activateClone(state,actor);break;
     case 'SUBMIT_CODE':
       if (actor.role!=='Hacker'||state.round!==5||state.codeSubmitted||['SHOWDOWN','HACK_DECLARE','HACK_RESULT'].includes(state.phase.kind)||command.seatIds.some(id=>!find(state,id))) return reject('NOT_ALLOWED');
       state.codeSubmitted=true;state.correctCode=[...command.seatIds].sort().join(',')===state.code.join(',');break;
@@ -313,11 +337,12 @@ export function executeFullGame(before:FullGameState,actorSeatId:SeatId,request:
         state.queued.push({commandId:request.commandId,actorSeatId,command});
       }
   }
+  clearEliminatedCloneEffects(state);
   state.journalSequence++;
   return {state:revise(before,state),receipt:{...receiptBase,status:'accepted',code:'REGISTERED'}};
 }
 export function advanceFullGame(before:FullGameState,context:FullGameContext & {phaseId:string;deadlineToken:string}):{state:FullGameState;advanced:boolean} {
-  assertMedicalState(before); assertCaptainState(before); assertOutcomes(before);
+  assertMedicalState(before); assertCaptainState(before); assertOutcomes(before); assertBlackoutState(before); assertCloneState(before);
   validateContext(context);
   if(context.phaseId!==before.phase.id||context.deadlineToken!==before.deadlineToken||before.phase.endsAt===null||context.now<before.phase.endsAt)return {state:before,advanced:false};
   requireNewPhaseIdentifiers(before, context);
@@ -373,29 +398,34 @@ export function advanceFullGame(before:FullGameState,context:FullGameContext & {
         case 'BEGIN_ROUND':beginRound(state,context);break;
         case 'CAPTAIN_RUNOFF':openElection(state,context,continuation.candidates);break;
         case 'JAIL_VOTE':openJailVote(state,context);break;
-        case 'RESOLVE_ROUND':resolveRound(state,context);break;
+        case 'RESOLVE_ROUND':
+          if(blackoutEnabled(state.versions)){phase(state,'BLACKOUT',context);openBlackout(state);}else resolveRound(state,context);break;
         default:throw new Error('Invalid vote result continuation');
       }
       break;
     }
+    case 'BLACKOUT':
+      if(!blackoutEnabled(state.versions))throw new Error('Unsupported Blackout phase');
+      resolveRound(state,context,false,finishBlackout(state));break;
     case 'SHOWDOWN':resolveRound(state,context,true);break;
     case 'FINISHED':case 'ABORTED':return {state:before,advanced:false};
   }
   state.journalSequence++;return {state:revise(before,state),advanced:true};
 }
 export function abortFullGame(before:FullGameState,context:FullGameContext):FullGameState {
-  assertMedicalState(before); assertCaptainState(before); assertOutcomes(before);
+  assertMedicalState(before); assertCaptainState(before); assertOutcomes(before); assertBlackoutState(before); assertCloneState(before);
   validateContext(context);if(context.now<before.phase.startedAt)throw new Error('Abort cannot precede the current phase');if(before.phase.endsAt===null)return before;
   const state=clone(before);phase(state,'ABORTED',context);state.queued=[];state.pendingHack=null;state.journalSequence++;return revise(before,state);
 }
 export function projectFullGame(state:FullGameState) {
-  assertMedicalState(state); assertCaptainState(state); assertOutcomes(state);
+  assertMedicalState(state); assertCaptainState(state); assertOutcomes(state); assertBlackoutState(state); assertCloneState(state);
   const terminal=state.phase.kind==='FINISHED';
   const facts={versions:state.versions,matchId:state.matchId,viewRevision:state.viewRevisions.public,playerCount:state.playerCount,round:state.round,phase:state.phase,activeSeatId:state.activeSeatId,
     seats:state.seats.map(s=>({seatId:s.seatId,health:s.health,location:s.location,jailed:s.jailed,captain:s.captain,revealedFaction:s.health==='Eliminated' && !(captainCommandsEnabled(state.versions) && state.pendingCaptainReveal?.seatIds.includes(s.seatId))?s.faction:null,
       ...(boardMedicalEnabled(state.versions)?{slotId:s.slotId!,medical:projectMedicalStatus(state,s)}:{})})),
     ballot:{eligibleVoters:state.eligibleVoters,eligibleTargets:state.eligibleTargets,releaseTargetSeatId:state.phase.kind==='RELEASE_VOTE'?state.releaseTargetSeatId:null},lastTally:state.lastTally,result:state.result,
     ...(voteResultEnabled(state.versions)?{voteResult:state.voteResult??null}:{}),
+    ...(blackoutEnabled(state.versions)?{blackout:state.blackout?{snapshotId:state.blackout.snapshotId,layoutRevision:'board-v2-0.1.1',darkStartsAt:state.blackout.darkStartsAt}:null}:{}),
     ...(publicHackEnabled(state.versions)?{hackSession:state.activeHack && state.hackFeedback
       ? {hackId:state.hackFeedback.hackId,actorSeatId:state.activeHack.actorSeatId,targetSeatId:state.activeHack.targetSeatId}:null}:{}),
     endReveal:terminal?{roles:state.seats.map(s=>({seatId:s.seatId,role:s.role})),code:state.code}:null};
@@ -404,7 +434,7 @@ export function projectFullGame(state:FullGameState) {
   for(const self of state.seats) {
     const targets=legalTargets(state,self),own=state.ballots.find(b=>b.voterSeatId===self.seatId);
     players[self.seatId]=FullPlayerViewSchema.parse({...facts,viewRevision:state.viewRevisions.players[self.seatId]??0,audience:{kind:'player',seatId:self.seatId},
-      self:{seatId:self.seatId,role:self.role,...(captainCommandsEnabled(state.versions)?{captainCommandUses:self.captain?{...state.captainPowersUsed!}:null}:{}),movementDestinations:movementWindowOpen(state)&&ready(self)&&!self.movedInRound?(['Room A','Room B',...(self.captain?['Command Room']:[])] as Array<'Room A'|'Room B'|'Command Room'>).filter(room=>room!==self.location && roomHasSpace(state,room)):[],releaseVoteAvailable:state.phase.kind==='RELEASE_VOTE'&&state.eligibleVoters.includes(self.seatId)&&!own,ordinaryWeapons:self.ordinaryWeapons,shotAvailable:!!targets['REGISTER_SHOT'],rescuesRemaining:self.rescuesRemaining,disablerAvailable:!!targets['DISABLE'],hackAvailable:!!targets['REQUEST_HACK'],scanAvailable:!!targets['SCAN'],codeAttemptAvailable:self.role==='Hacker' && alive(self) && state.round===5 && !state.codeSubmitted && !['VOTE_RESULT','HACK_DECLARE','HACK_RESULT','SHOWDOWN','FINISHED','ABORTED'].includes(state.phase.kind)},
+      self:{seatId:self.seatId,role:self.role,...(cloneEnabled(state.versions)?{cloneStatus:self.cloneStatus}:{}),...(blackoutEnabled(state.versions)?{blackoutTargeting:projectBlackoutTargeting(state,self)}:{}),...(captainCommandsEnabled(state.versions)?{captainCommandUses:self.captain?{...state.captainPowersUsed!}:null}:{}),movementDestinations:movementWindowOpen(state)&&ready(self)&&!self.movedInRound?(['Room A','Room B',...(self.captain?['Command Room']:[])] as Array<'Room A'|'Room B'|'Command Room'>).filter(room=>room!==self.location && roomHasSpace(state,room)):[],releaseVoteAvailable:state.phase.kind==='RELEASE_VOTE'&&state.eligibleVoters.includes(self.seatId)&&!own,ordinaryWeapons:self.ordinaryWeapons,shotAvailable:!!targets['REGISTER_SHOT'],rescuesRemaining:self.rescuesRemaining,disablerAvailable:!!targets['DISABLE'] || !!targets['REQUEST_BLACKOUT'],hackAvailable:!!targets['REQUEST_HACK'],scanAvailable:!!targets['SCAN'],codeAttemptAvailable:self.role==='Hacker' && alive(self) && state.round===5 && !state.codeSubmitted && !['VOTE_RESULT','HACK_DECLARE','HACK_RESULT','SHOWDOWN','FINISHED','ABORTED'].includes(state.phase.kind)},
       knowledge:{...self.knowledge,protections:self.role==='Undercover'?state.seats.filter(s=>s.protection!==null).map(s=>({seatId:s.seatId,activeFromRound:s.protection!.activeFromRound,consumed:s.protection!.consumed})):[]},
       legalTargets:targets,ownPendingCommandIds:state.queued.filter(q=>q.actorSeatId===self.seatId).map(q=>q.commandId),ownBallot:own?(state.phase.kind==='RELEASE_VOTE'?own.approve:own.targetSeatId):null,hasVoted:!!own,
       ...(declaredHackEnabled(state.versions)?{hackFeedback:state.activeHack && [state.activeHack.actorSeatId,state.activeHack.targetSeatId].includes(self.seatId)?state.hackFeedback??null:null}:{}),

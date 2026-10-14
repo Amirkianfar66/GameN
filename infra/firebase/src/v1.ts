@@ -12,7 +12,7 @@ import {
   FullBeginSetupRequestSchema, FullBeginSetupResponseSchema,
   FullConfirmSetupChoiceRequestSchema, FullConfirmSetupChoiceResponseSchema,
   FullReadyForMatchRequestSchema, FullReadyForMatchResponseSchema,
-  FullAdvanceResponseSchema,
+  FullAdvanceResponseSchema, FullVersionsSchema, FullPhaseSchema, supportsBlackout,
 } from '@mothership/contracts';
 import { onSchedule } from 'firebase-functions/v2/scheduler';
 import type { RuntimeConfiguration } from './runtime.js';
@@ -204,6 +204,17 @@ export function createV1RepairHandler(service: Pick<V1Service, 'repairOutbox'>, 
       || !('failed' in result) || result.failed !== 0) throw new Error('Deadline repair unavailable');
   };
 }
+/** A private bot wake waits only for the public fixed lighting boundary.
+ * Never read requester counts/roles or change a gameplay deadline. Late workers
+ * still revalidate authority in the transaction, including timeout misses.
+ */
+export function practiceBlackoutWaitMs(versions:unknown,phase:unknown,now:number):number {
+  if(!Number.isSafeInteger(now) || now<0)throw new Error('Invalid trusted practice clock');
+  const pins=FullVersionsSchema.safeParse(versions),window=FullPhaseSchema.safeParse(phase);
+  if(!pins.success || !supportsBlackout(pins.data) || !window.success || window.data.kind!=='BLACKOUT')return 0;
+  return Math.max(0,Math.min(5_000,window.data.startedAt+5_000-now));
+}
+
 export function createV1PracticeBotsHandler(service: Pick<V1Service, 'runPracticeBots'>) {
   return async (matchId: unknown): Promise<void> => {
     if (typeof matchId !== 'string' || !identity.test(matchId)) throw new Error('Invalid practice bot match');
@@ -286,6 +297,8 @@ export function createV1Entrypoints(resolveContext: () => V1RuntimeContext) {
   const runPracticeBots = onDocumentWritten({ document: 'matches/{matchId}/engine/current', region: 'us-central1', retry: true, timeoutSeconds: 60, maxInstances: 12, minInstances: 0 }, async event => {
     const after = event.data?.after;
     if (after?.exists !== true || after.get('versions.protocolVersion') !== 2) return;
+    const waitMs=practiceBlackoutWaitMs(after.get('versions'),after.get('phase'),Date.now());
+    if(waitMs>0)await new Promise<void>(resolve=>setTimeout(resolve,waitMs));
     await createV1PracticeBotsHandler(resolveContext().service)(event.params.matchId);
   });
   // One bounded page per invocation; pending intents outside the page remain eligible next minute.

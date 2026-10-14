@@ -11,3 +11,6 @@ export * from './staged-start.js';
 export * from './room-capacity.js';
 export * from './board-medical.js';
 export * from './captain-outcomes.js';
+export * from './blackout.js';
+
+export * from './clone.js';

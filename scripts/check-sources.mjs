@@ -106,3 +106,11 @@ const captain=json(captainPath);
 assert.equal(captain.status,'confirmed');assert.equal(captain.parent_ruleset.hash,hash(boardMedicalPath));
 assert.ok(model.includes(hash(captainPath)) && read('packages/contracts/src/full-game-versions.ts').toString().includes(hash(captainPath)));
 console.log('Captain outcome candidate integrity: exact successor; historical source and activation pins retained');
+
+const blackoutPath='rules/overlays/blackout-owner-decision-2026-10-14.json';
+const blackout=json(blackoutPath);assert.equal(blackout.status,'confirmed');assert.equal(blackout.parent_ruleset.hash,hash(captainPath));
+assert.ok(model.includes(hash(blackoutPath)) && read('packages/contracts/src/full-game-versions.ts').toString().includes(hash(blackoutPath)));
+console.log('Blackout candidate integrity: exact fixed-window successor and private room outcome boundary');
+
+assert.equal(hash('rules/overlays/clone-owner-decision-2026-10-14.json'),'6168feb6931a8f590176521e3d2eb1cb9de800eec5171cdfd5b77b4d952e1234');
+console.log('Clone candidate integrity: exact lifetime/normal-round successor; historical pins and defaults retained');

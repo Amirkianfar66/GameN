@@ -1,3 +1,7 @@
+export const CLONE_VERSION_PINS = Object.freeze({protocolVersion:2 as const,engineVersion:'full-game-1.10.0',rulesetVersion:'in-person-v1-clone-2026-10-14',
+  rulesetHash:'6168feb6931a8f590176521e3d2eb1cb9de800eec5171cdfd5b77b4d952e1234'});
+export const BLACKOUT_VERSION_PINS = Object.freeze({protocolVersion:2 as const,engineVersion:'full-game-1.9.0',rulesetVersion:'in-person-v1-blackout-2026-10-14',
+  rulesetHash:'7784630d4e6a51f7a8e6c89873dfab479b5281f10ddbcb4918503525096ed7a0'});
 export const CAPTAIN_OUTCOMES_VERSION_PINS = Object.freeze({ protocolVersion: 2 as const,
   engineVersion: 'full-game-1.8.0', rulesetVersion: 'in-person-v1-captain-outcomes-2026-10-14',
   rulesetHash: '0f84f61cf9407c45ccef7e99c28556d7ede64f06f7dd3284ca6782bbf7a5f030' });
@@ -26,7 +30,9 @@ const HISTORICAL_PINS: readonly FullGameplayPins[] = [
   { protocolVersion:2,engineVersion:'full-game-1.1.0',rulesetVersion:'in-person-v1-pass-2026-10-08',rulesetHash:'a25cec290370a3140829292b3cb8bdda3fb4402e0b529b56c6ef9692f7870183' },
   { protocolVersion:2,engineVersion:'full-game-1.0.1',rulesetVersion:'in-person-v1-2026-10-06',rulesetHash:'6ca355ebf3553e24a16eae847f5b550b1d3da8bd0a2daf80f69ec94dd2809a90' },
 ];
-export const supportsCaptainCommands = (pins: FullGameplayPins): boolean => sameFullGameplayPins(pins,CAPTAIN_OUTCOMES_VERSION_PINS);
+export const supportsClone = (pins:FullGameplayPins):boolean => sameFullGameplayPins(pins,CLONE_VERSION_PINS);
+export const supportsBlackout = (pins:FullGameplayPins):boolean => supportsClone(pins) || sameFullGameplayPins(pins,BLACKOUT_VERSION_PINS);
+export const supportsCaptainCommands = (pins: FullGameplayPins): boolean => supportsBlackout(pins) || sameFullGameplayPins(pins,CAPTAIN_OUTCOMES_VERSION_PINS);
 export const supportsBoardMedical = (pins: FullGameplayPins): boolean => supportsCaptainCommands(pins) || sameFullGameplayPins(pins,BOARD_MEDICAL_VERSION_PINS);
 export const supportsPublicHack = (pins: FullGameplayPins): boolean => supportsBoardMedical(pins) || sameFullGameplayPins(pins,PUBLIC_HACK_VERSION_PINS);
 export const supportsDeclaredHack = (pins: FullGameplayPins): boolean => supportsPublicHack(pins) || sameFullGameplayPins(pins,DECLARED_HACK_VERSION_PINS);

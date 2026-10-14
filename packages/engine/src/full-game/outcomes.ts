@@ -1,6 +1,6 @@
-import { FullOutcomeFactSchema } from '@mothership/contracts';
+import { FullOutcomeFactSchema, SeatIdSchema } from '@mothership/contracts';
 import type { FullOutcomeFact, SeatId } from '@mothership/contracts';
-import { captainCommandsEnabled } from './model.js';
+import { captainCommandsEnabled, blackoutEnabled } from './model.js';
 import type { FullGameState } from './model.js';
 
 // Server-only frozen recipients. Never transmit or recompute this list at delivery.
@@ -19,6 +19,17 @@ export function assertOutcomes(state:FullGameState):void {
   if(!Array.isArray(state.outcomes) || state.outcomes.length>512) throw new Error('Invalid outcome history');
   for(const event of state.outcomes) {
     if(Object.keys(event).sort().join(',')!=='fact,recipientSeatIds' || !FullOutcomeFactSchema.safeParse(event.fact).success
-      || event.fact.round>state.round || event.recipientSeatIds!==null) throw new Error('Invalid outcome record');
+      || event.fact.round>state.round || (event.fact.type==='ATTACK_BLOCKED'
+        ? !blackoutEnabled(state.versions) || event.recipientSeatIds===null || event.recipientSeatIds.length===0
+          || new Set(event.recipientSeatIds).size!==event.recipientSeatIds.length || !event.recipientSeatIds.includes(event.fact.seatId)
+          || event.recipientSeatIds.some(id=>!SeatIdSchema.safeParse(id).success || !state.seats.some(s=>s.seatId===id))
+        : event.recipientSeatIds!==null)) throw new Error('Invalid outcome record');
   }
+}
+
+export function roomBlockOutcome(state:FullGameState,subject:import('./roster.js').GameSeat):void {
+  if(!blackoutEnabled(state.versions))return;
+  if(subject.location===null || subject.location==='Final Zone' || typeof subject.slotId!=='string')throw new Error('Missing physical block anchor');
+  const recipients=state.seats.filter(s=>s.location===subject.location).map(s=>s.seatId);
+  appendOutcome(state,{type:'ATTACK_BLOCKED',phaseId:state.phase.id,round:state.round,seatId:subject.seatId,location:subject.location,slotId:subject.slotId},recipients);
 }
