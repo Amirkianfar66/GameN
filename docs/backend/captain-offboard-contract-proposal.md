@@ -65,6 +65,42 @@ Deferring victory does not itself broaden Alien's simultaneous-elimination condi
 
 Independent Balance/Integration review must bind direct-command stage accounting before implementation: compare one atomic EJECT that removes both actual factions' last survivors against EJECT removing one faction followed by a later registered effect/due Hospital death removing the other. Record actual complete-stage before/after evidence under the existing formula, including deferred evaluation; identify any needed private journal/state evidence rather than inventing a public fact or gameplay exception. This proposal does not assign an unreviewed winner to those companion cases. They are an explicit implementation/audit dependency, not an unresolved owner rule or a change to frozen 1.7.
 
+## Concrete private elimination-stage evidence
+
+Propose one additional required future-tuple-only private field; one global EJECT use bounds it to zero or one pending stage:
+
+```ts
+pendingEjectStage: null | {
+  round: 1 | 2 | 3 | 4 | 5;
+  commandId: string;
+  before: { blueAlive: boolean; redAlive: boolean };
+  after: { blueAlive: boolean; redAlive: boolean };
+};
+```
+
+On accepted EJECT, capture actual faction survival immediately before and after that complete atomic command, using the committed physical-Jail set. Record the accepted stable command ID privately. Rejected/duplicate commands do not replace the evidence; ordered replay derives the same record from recorded inputs. No field is accepted from a client or projected to any audience. This is actual-faction survival, not the power formula or Alien's contribution to Blue power.
+
+At the full normal checkpoint, keep the existing normal-resolution before/after comparison. A stage proves simultaneous elimination exactly when both actual factions survive before that stage and neither survives after it. Pass the logical OR of the pending EJECT stage's proof and the existing complete normal-stage proof to the unchanged victory evaluator, using final post-effect seats and Alien survival. Thus an ejected actor's retained effect can still eliminate the Alien and prevent that Alien win; an Injured surviving Alien still uses existing survival semantics. Never OR individual faction losses across different stages.
+
+Validate the pending record against the current round, independent global EJECT-used flag and recorded command identity; survival cannot change false-to-true in an elimination-only stage. There is no carried prior-round latch. Clear the record after full normal evaluation before opening another round or showdown, regardless of whether it produced a winner. Reconnect is read-only. An abort before the checkpoint retains the same existing no-reveal/no-victory semantics and does not evaluate the record. The journal reconstructs completed evidence; no unbounded stage history is needed in current state.
+
+The following are **proposed expected outcomes, not executed Captain tests or independent Balance acceptance**. Expand every row separately for 7/8/9. `TT -> FF` means both actual factions had a surviving member before the stage and neither does afterward. All winner rows use normal R5, no valid Code and no remaining actual-team survivor at the final checkpoint. A null normal result means the existing conditional showdown remains necessary; Draw is only after its complete final checkpoint.
+
+| Control | EJECT stage | Complete normal stage | Final Alien | Expected unchanged-formula outcome | Required evidence |
+| --- | --- | --- | --- | --- | --- |
+| CST-01 | TT -> FF | FF -> FF | Healthy | Alien at normal checkpoint | Legal command history and independent stage audit required |
+| CST-02 | TT -> FT | FT -> FF, including later due Hospital death | Healthy | No normal winner; lone-Alien showdown then Draw | Legal split-stage negative control; never merge the two losses |
+| CST-03 | TT -> FF | FF -> FF; retained EJECT victims' two unblocked registered hits | Eliminated | No Alien win; empty showdown then Draw | Explicit synthetic queue-retention invariant unless canonical reachability is established |
+| CST-04 | TT -> FF | FF -> FF; one retained unblocked hit | Injured | Alien at normal checkpoint | Same synthetic classification; survival is not Healthy-only |
+| CST-05 | No EJECT stage | TT -> FF | Healthy | Alien at normal checkpoint | Existing complete-normal-stage positive control and historical comparison |
+| CST-06 | Record belongs to an earlier round | Any | Any | Private invariant failure before gameplay/projection | Explicit corrupt restored-state fixture |
+| CST-07 | Any false-to-true survival transition | Any | Any | Private invariant failure | Explicit malformed private-stage fixture |
+| CST-08 | Exact accepted EJECT ID retried | Unchanged pending stage | Any | Recover original receipt; no new stage/use/effect | Real transaction/restart/replay history |
+| CST-09 | Competing new EJECT ID after use | Unchanged pending stage | Any | Reject without overwriting evidence | Real concurrent transaction and conflict controls |
+| CST-10 | Accepted stage then abort | No normal resolution | Any | No inferred winner or premature pending faction reveal | Actual abort/recovery plus private/public persistence checks |
+
+CST-03/04 reachability must be reported honestly. In the current canonical sequence, physical Jail occupants cannot register ordinary damage while detained, the Jail vote follows ordinary turns, and EJECT is only on the Captain's own ordinary turn before that vote. Those rules may make a same-round damaging EJECT victim unreachable in a native history. Preserve the registered-action engine invariant with an explicitly labeled synthetic queued predecessor; do not claim a real service/native history or alter timing/eligibility to manufacture one. Claude Balance independently audits this classification and any reachable alternative. The required semantic control remains: already accepted effects are retained, and final Alien survival is evaluated only afterward.
+
 ## Event and consumer boundary
 
 Publish neutral current health/placement facts atomically. Existing PUBLIC_MOVE has non-null locations and no gameplay tuple; widening it globally would change legacy event contracts. Proposed companion implementation must avoid emitting a physical-room PUBLIC_MOVE for an off-board transition. A strict current snapshot supplies nullable placement; existing authorized neutral health facts may still be emitted. Do not replace null with a fake destination to satisfy an old event schema.
