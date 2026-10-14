@@ -22,11 +22,12 @@
   <script type="module">
     const params = new URLSearchParams(location.search);
     const group = params.get('group');
-    const titles = { blackout: 'Board v2 proposal: the Blackout\'s lighting window (storyboard S1)', blocked: 'Board v2 proposal: ATTACK BLOCKED, the same for every defense (storyboard S4)' };
+    const titles = { blackout: 'Board v2 proposal: the Blackout\'s lighting window (storyboard S1)', blocked: 'Board v2 proposal: ATTACK BLOCKED, the same for every defense (storyboard S4)', capsule: 'Board v2 proposal: the private-talk capsule (storyboard S2), synthetic participants' };
     if (titles[group]) document.getElementById('title').textContent = titles[group];
     const index = await (await fetch('review/index.json')).json();
     const grid = document.getElementById('grid');
-    for (const shot of index.captures.filter(entry => !group || entry.group === group)) {
+    // Unfiltered, every capture but the capsule's, which has its own sheet (?group=capsule).
+    for (const shot of index.captures.filter(entry => (group ? entry.group === group : entry.group !== 'capsule'))) {
       const figure = document.createElement('figure');
       const img = document.createElement('img');
       img.src = `review/${shot.file}`;

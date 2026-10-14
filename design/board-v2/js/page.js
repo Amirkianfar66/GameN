@@ -15,6 +15,9 @@
 //   &scene=<room>        that room's whole scene alone, at its own 1024 x 768 size (for the art review)
 //   &film=blackout       the Blackout's lighting window on the board (js/blackout-view.mjs has its options)
 //   &film=blocked        ATTACK BLOCKED on its target, for the room's occupants (js/blocked-view.mjs has its options)
+//   &capsule=1           the private-talk capsule beside the Command Room (fit.mjs { capsule: true }), empty
+//   &film=capsule        the Hack's public pair going to the capsule and back (js/capsule-view.mjs has its options)
+//   ?sheet=capsule       the capsule's art on one sheet, for the art review (no board)
 
 import { FRAME } from '../../board-motion/figures/body.mjs';
 import { CREW } from '../../board-motion/figures/crew.mjs';
@@ -24,15 +27,17 @@ import { frameScene } from '../../board-motion/scenes/frame.mjs';
 import { SCENES } from '../../board-motion/scenes/index.mjs';
 import { wardScene } from '../scenes/hospital-ward.mjs';
 import { BOARD_ROOMS, LOCATION_OF, sceneOf, slotsOf } from '../scenes/slots.mjs';
-import { SHELL, fitBoardV2, insetsOf, slotRects } from './fit.mjs';
+import { CAPSULE, SHELL, fitBoardV2, insetsOf, slotRects } from './fit.mjs';
 import { fixtureSeats } from './fixtures.mjs';
 import { mountBlackout } from './blackout-view.mjs';
 import { mountBlockedPage } from './blocked-view.mjs';
+import { drawCapsulePanel, drawCapsuleSheet, fitCapsuleCaption, mountCapsule } from './capsule-view.mjs';
 
 const params = new URLSearchParams(location.search);
 const roster = Number(params.get('roster') ?? 9);
 const fixture = params.get('fixture') ?? 'ward';
 const show = name => params.get(name) === '1';
+const capsule = show('capsule') || params.get('film') === 'capsule';
 const app = document.getElementById('v2-app');
 const [BX, BY, BOX] = FRAME.box;
 const [AX, AY] = FRAME.anchor;
@@ -129,7 +134,7 @@ function drawScene(room) {
 function draw() {
   const viewport = { width: innerWidth, height: innerHeight };
   const insets = insetsOf(params.get('safe'));
-  const board = fitBoardV2(viewport, roster, { insets });
+  const board = fitBoardV2(viewport, roster, { insets, capsule });
   const { shell, pass } = board;
   const seats = fixtureSeats(fixture, roster);
   const fallback = board.fallback ? ` · ${board.fallback}` : '';
@@ -154,6 +159,13 @@ function draw() {
       const box = board.boxes[room];
       surface.append(drawRoom(room, { left: box.left - board.boardLeft, top: box.top - board.boardTop }, board.panels[room], seats));
     }
+    // The capsule, where the layout has one: scenery beside the Command Room, nothing on it to press.
+    if (board.capsule) {
+      const box = board.boxes[CAPSULE.id];
+      const section = drawCapsulePanel({ left: box.left - board.boardLeft, top: box.top - board.boardTop }, board.panels[CAPSULE.id]);
+      surface.append(section);
+      fitCapsuleCaption(section, board.panels[CAPSULE.id]);
+    }
   }
   document.documentElement.dataset.fits = String(board.fits);
   document.documentElement.dataset.shell = shell.tier;
@@ -161,10 +173,16 @@ function draw() {
   // A film only where a board is drawn: never over the too-short or too-narrow message.
   if (params.get('film') === 'blackout' && board.fits) mountBlackout({ app, board, roster, seats, params, drawFigure, drawTag });
   if (params.get('film') === 'blocked' && board.fits) mountBlockedPage({ app, board, roster, seats, params });
+  if (params.get('film') === 'capsule' && board.fits) mountCapsule({ app, board, roster, seats, params, drawFigure, drawTag });
   const pictures = [...document.images];
   Promise.all(pictures.map(img => (img.complete ? null : new Promise(done => { img.onload = done; img.onerror = done; })))).then(() => { window.__designReady = true; });
 }
 
 window.__designReady = false;
 for (const room of BOARD_ROOMS) if (!sceneOf(room, roster)) throw new Error(`No scene for ${room}`);
-if (params.get('scene')) drawScene(params.get('scene')); else draw();
+if (params.get('sheet') === 'capsule') {
+  document.documentElement.dataset.sheet = 'capsule';
+  drawCapsuleSheet(app);
+  const pictures = [...document.images];
+  Promise.all(pictures.map(img => (img.complete ? null : new Promise(done => { img.onload = done; img.onerror = done; })))).then(() => { window.__designReady = true; });
+} else if (params.get('scene')) drawScene(params.get('scene')); else draw();

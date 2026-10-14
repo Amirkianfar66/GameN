@@ -85,6 +85,23 @@ const WEIGHTS = [0.8, 1.25, 1];
 const captionOf = (room, shell) => (room === 'hospital' || room === 'jail' ? shell.captionFixed : shell.captionMove);
 
 /**
+ * The private-talk capsule (the owner's request of 14 October 2026, recorded by Integration;
+ * docs/design/private-capsule.md): a permanent panel beside the Command Room, on its right, in
+ * the top band. The band's inside width less the gap between the two panels and their four
+ * borders is shared 2:1, so the capsule is half the Command Room's width (to the pixel the
+ * rounding leaves). It is scenery, not a room: no slots, no press areas and no tag; its caption
+ * is the fixed kind. fitBoardV2() lays it out only when asked ({ capsule: true }); without it,
+ * every layout is the one before.
+ */
+export const CAPSULE = Object.freeze({ id: 'capsule', side: 'right', share: Object.freeze([2, 1]) });
+/** The Command Room's and the capsule's panel widths (their insides) in a top band of this inside width. */
+export function capsuleSplit(inner, shell = SHELL) {
+  const room = inner - shell.gap - 4 * shell.border;
+  const command = Math.round((room * CAPSULE.share[0]) / (CAPSULE.share[0] + CAPSULE.share[1]));
+  return { command, capsule: room - command };
+}
+
+/**
  * Every slot's press area in a panel { width, height, cap, pad } (CSS pixels, the panel's
  * inside): its square on the slot's press point, moved inward to stay whole and clear of the
  * caption, as board.js's pressRect() does. Also the centres of its position number (in the press
@@ -129,10 +146,11 @@ export function needHeight(room, roster, width, { cap, pad }) {
  * most useful height, and whether they fit the board's height (problems empty) or by how much
  * they do not (deficit).
  */
-function bandsAt(boardWidth, boardHeight, roster, shell) {
+function bandsAt(boardWidth, boardHeight, roster, shell, capsule = false) {
   const inner = boardWidth - 2 * shell.boardPadX;
   const half = (inner - 2 * shell.gap - shell.spine) / 2;
-  const panelWidth = room => (room === 'command-room' ? inner : half) - 2 * shell.border;
+  const split = capsule ? capsuleSplit(inner, shell) : null;
+  const panelWidth = room => (room === CAPSULE.id ? split.capsule : room === 'command-room' && split ? split.command : (room === 'command-room' ? inner : half) - 2 * shell.border);
   const problems = [];
   const list = Object.values(BANDS).map(rooms => rooms.map(room => {
     const cap = captionOf(room, shell);
@@ -140,7 +158,10 @@ function bandsAt(boardWidth, boardHeight, roster, shell) {
     const need = needHeight(room, roster, width, { cap, pad: shell.pad });
     if (need === null) problems.push(`${room}: its slots do not fit at ${width} px wide`);
     const scene = sceneOf(room, roster);
-    const most = (width * (scene.inner[3] - scene.inner[1])) / (scene.focus[2] - scene.focus[0]);
+    // The band's most useful height is the whole band's, capsule or not: the capsule takes part of
+    // the Command Room's width and nothing else, so every band is as tall as without it.
+    const sceneWidth = room === 'command-room' && split ? inner - 2 * shell.border : width;
+    const most = (sceneWidth * (scene.inner[3] - scene.inner[1])) / (scene.focus[2] - scene.focus[0]);
     return { need: (need ?? 900) + 2 * shell.border, most: Math.max(need ?? 900, most) + 2 * shell.border };
   }));
   const need = list.map(rooms => Math.max(...rooms.map(entry => entry.need)));
@@ -148,7 +169,7 @@ function bandsAt(boardWidth, boardHeight, roster, shell) {
   const available = boardHeight - 2 * shell.boardPadY - 2 * shell.gap;
   const deficit = Math.max(0, need.reduce((a, b) => a + b, 0) - available);
   if (deficit > 0) problems.push(`the rooms need ${Math.ceil(deficit)} px more than the board's ${available} px`);
-  return { inner, half, panelWidth, need, most, available, deficit, problems };
+  return { inner, half, panelWidth, split, need, most, available, deficit, problems };
 }
 
 /**
@@ -166,13 +187,21 @@ function bandsAt(boardWidth, boardHeight, roster, shell) {
  *   4. Where no width fits, fallback 'too-short' ('too-narrow' where the usable width is under
  *      MIN_BOARD_WIDTH) and fits false: the page must not draw the board (the bands are given at
  *      their needs only so that the problem can be measured).
+ *   5. With { capsule: true }, the top band holds the Command Room and the capsule (CAPSULE), 2:1,
+ *      and steps 2 to 4 measure the Command Room at its share. The capsule has a panel and a box
+ *      in the top band, the Command Room's height; it needs nothing of its own, as its art fits any
+ *      panel the band gives it (scenes/capsule.mjs). It takes part of the Command Room's width
+ *      and nothing else: each band's most useful height is the whole band's, so on a phone (every
+ *      width up to 430 px) every other room is exactly where it is without the capsule and the
+ *      Command Room keeps its place and height. On a wide window, where C1 needs less height in
+ *      the narrower panel, the bands may be shared differently.
  *
  * Returns { roster, viewport, insets, usable, ceiling (the phone kit's tier for the usable
  * height), shell, fallback (null, 'narrow', 'too-short' or 'too-narrow'), boardLeft, boardTop, boardWidth,
  * boardHeight, available, needs, deficit, bands, panels, boxes (viewport pixels), navTop, pass,
- * problems, fits }.
+ * problems, fits, and capsule: true when the capsule is laid out }.
  */
-export function fitBoardV2({ width, height }, roster, { insets = NO_INSETS, shell: shellSpec = SHELL } = {}) {
+export function fitBoardV2({ width, height }, roster, { insets = NO_INSETS, shell: shellSpec = SHELL, capsule = false } = {}) {
   const safe = insetsOf(insets);
   const usable = { width: width - safe.left - safe.right, height: height - safe.top - safe.bottom };
   const ceiling = shellFor(usable.height, shellSpec);
@@ -184,19 +213,19 @@ export function fitBoardV2({ width, height }, roster, { insets = NO_INSETS, shel
   let fallback = null;
   let layout = null;
   for (const candidate of tiers) {
-    const at = bandsAt(usable.width, heightIn(candidate), roster, candidate);
+    const at = bandsAt(usable.width, heightIn(candidate), roster, candidate, capsule);
     if (!at.problems.length) { shell = candidate; layout = at; break; }
   }
   if (!shell) {
     for (let narrower = Math.floor(usable.width) - 2; narrower >= MIN_BOARD_WIDTH; narrower -= 2) {
-      const at = bandsAt(narrower, heightIn(compact), roster, compact);
+      const at = bandsAt(narrower, heightIn(compact), roster, compact, capsule);
       if (!at.problems.length) { shell = compact; layout = at; boardWidth = narrower; fallback = 'narrow'; break; }
     }
   }
   if (!shell) {
     shell = compact;
     fallback = usable.width < MIN_BOARD_WIDTH ? 'too-narrow' : 'too-short';
-    layout = bandsAt(usable.width, heightIn(compact), roster, compact);
+    layout = bandsAt(usable.width, heightIn(compact), roster, compact, capsule);
   }
   const boardHeight = heightIn(shell);
   const { half, panelWidth, need, most, available, deficit, problems } = layout;
@@ -225,10 +254,16 @@ export function fitBoardV2({ width, height }, roster, { insets = NO_INSETS, shel
     });
     y += bands[band] + shell.gap;
   });
+  // The capsule: on the Command Room's right in the top band, a gap apart, as tall as it.
+  if (capsule) {
+    const command = boxes['command-room'];
+    panels[CAPSULE.id] = { width: panelWidth(CAPSULE.id), height: panels['command-room'].height, cap: shell.captionFixed, pad: shell.pad };
+    boxes[CAPSULE.id] = { left: command.left + command.width + shell.gap, top: command.top, width: panels[CAPSULE.id].width + 2 * shell.border, height: command.height };
+  }
   const navTop = height - safe.bottom - shell.nav;
   // The Pass is a circle in the navigation's middle, over the spine, rising above its top edge.
   const pass = { cx: safe.left + usable.width / 2, cy: navTop - shell.passRise + shell.pass / 2, r: shell.pass / 2 };
-  return { roster, viewport: { width, height }, insets: safe, usable, ceiling: ceiling.tier, shell, fallback, boardLeft, boardTop, boardWidth, boardHeight, available, needs: need, deficit, bands, panels, boxes, navTop, pass, problems, fits: (fallback === null || fallback === 'narrow') && problems.length === 0 };
+  return { roster, viewport: { width, height }, insets: safe, usable, ceiling: ceiling.tier, shell, fallback, boardLeft, boardTop, boardWidth, boardHeight, available, needs: need, deficit, bands, panels, boxes, navTop, pass, problems, fits: (fallback === null || fallback === 'narrow') && problems.length === 0, ...(capsule ? { capsule: true } : {}) };
 }
 
 /** The board's panels' slots, each with its press area, for a viewport and a roster (and fitBoardV2's options). */

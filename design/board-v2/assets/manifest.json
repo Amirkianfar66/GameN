@@ -1,10 +1,10 @@
 {
   "devOnly": "mothership:dev-only",
-  "manifestVersion": "board-v2-0.3.0",
+  "manifestVersion": "board-v2-0.4.0",
   "status": "proposal",
   "baseBoard": "board-motion-0.3.0",
   "baseManifest": "design-0.2.0",
-  "note": "The Hospital as a ward with one berth per seat (7, 8 or 9), the board's fixed slot table, the Blackout's lighting art and the shared ATTACK BLOCKED effects, for the owner's motion specification of 13 October 2026. The reviewed manifest, the board-motion proposal and every pinned drawing source are unchanged; this art is proposed for a later export revision and is adopted only through Integration.",
+  "note": "The Hospital as a ward with one berth per seat (7, 8 or 9), the board's fixed slot table, the Blackout's lighting art, the shared ATTACK BLOCKED effects and the private-talk capsule, for the owner's motion specification of 13 October 2026 and the owner's capsule request of 14 October 2026. The reviewed manifest, the board-motion proposal and every pinned drawing source are unchanged; this art is proposed for a later export revision and is adopted only through Integration.",
   "rights": {
     "origin": "The approved Hospital's groups copied element for element from the repository's original vector source design/source/board/board-hospital.svg, recolored by the reviewed export recipe, around new vector drawing generated for this repository by design/board-v2/scenes/hospital-ward.mjs. No third-party artwork, font, photograph, traced image or generated raster image.",
     "author": "Visual and Motion Designer workstream: a Claude Code session working for the game owner.",
@@ -884,10 +884,193 @@
       }
     ]
   },
+  "capsule": {
+    "version": "board-v2-capsule-0.1.0",
+    "scenery": "Not a room: no slots, no press areas, no tag; it changes no location, occupancy, capacity, eligibility, movement or immunity (G-02).",
+    "layout": "fit.mjs fitBoardV2(viewport, roster, { capsule: true }): beside the Command Room, on its right, in the top band; the band's inside width less the gap and the four borders shared 2:1.",
+    "recolor": {
+      "#222B3A": "#0D1733",
+      "#34415A": "#1B2A57",
+      "#55657E": "#303F80",
+      "#8696AE": "#5763A9",
+      "#B9C4D3": "#9C9CD9"
+    },
+    "accents": {
+      "lamp": "#F7C52B",
+      "glow": "#F9E48C",
+      "busy": "#F7C52B",
+      "busyGlow": "#F9E48C"
+    },
+    "door": {
+      "x0": 318,
+      "x1": 418,
+      "top": 164,
+      "sill": 372,
+      "frame": 12
+    },
+    "doorway": {
+      "at": [
+        368,
+        374
+      ],
+      "scale": 0.9
+    },
+    "seats": [
+      {
+        "id": "P1",
+        "side": "left",
+        "at": [
+          134.4,
+          650
+        ],
+        "scale": 1.05,
+        "mirror": true,
+        "beside": [
+          164,
+          650
+        ],
+        "normalized": [
+          0.2625,
+          0.8464
+        ],
+        "path": [
+          [
+            368,
+            374
+          ],
+          [
+            164,
+            480
+          ],
+          [
+            164,
+            650
+          ]
+        ]
+      },
+      {
+        "id": "P2",
+        "side": "right",
+        "at": [
+          377.6,
+          650
+        ],
+        "scale": 1.05,
+        "mirror": false,
+        "beside": [
+          348,
+          650
+        ],
+        "normalized": [
+          0.7375,
+          0.8464
+        ],
+        "path": [
+          [
+            368,
+            374
+          ],
+          [
+            348,
+            650
+          ]
+        ]
+      }
+    ],
+    "paths": "Each seat's path in: the points its feet pass, from the doorway to its stop beside its chair (scene units); the way out is the same path backward. Neither crosses the table.",
+    "view": {
+      "top": 140,
+      "bottom": 660,
+      "left": 32,
+      "right": 480
+    },
+    "film": {
+      "id": "private-capsule",
+      "file": "design/board-v2/contract/films.json"
+    },
+    "files": [
+      {
+        "id": "capsule.back",
+        "kind": "back",
+        "viewBox": "0 0 512 768",
+        "file": "design/board-v2/assets/capsule/back.svg",
+        "bytes": 9500,
+        "sha256": "1bcfd91e11e73d5c6a6205abf0c12b9b111ee4887c872975fca1dc8b41e87cc5",
+        "audience": "public"
+      },
+      {
+        "id": "capsule.door-0",
+        "kind": "door",
+        "position": 0,
+        "viewBox": "0 0 512 768",
+        "file": "design/board-v2/assets/capsule/door-0.svg",
+        "bytes": 2667,
+        "sha256": "63026f9971904a750fed9b6caa04e061f74d0b39b42e40165dea8f812314491e",
+        "audience": "public"
+      },
+      {
+        "id": "capsule.door-1",
+        "kind": "door",
+        "position": 1,
+        "viewBox": "0 0 512 768",
+        "file": "design/board-v2/assets/capsule/door-1.svg",
+        "bytes": 2734,
+        "sha256": "ddb0d2d2855c352366db5ca4a9e2470440fa134f613cf92cd8e0a1a47aedc24f",
+        "audience": "public"
+      },
+      {
+        "id": "capsule.door-2",
+        "kind": "door",
+        "position": 2,
+        "viewBox": "0 0 512 768",
+        "file": "design/board-v2/assets/capsule/door-2.svg",
+        "bytes": 2734,
+        "sha256": "9b7d9fdd9f6f02fcfc190a03fcd3d19b6a2d2123a78ce4187c27c5294dc784c9",
+        "audience": "public"
+      },
+      {
+        "id": "capsule.door-3",
+        "kind": "door",
+        "position": 3,
+        "viewBox": "0 0 512 768",
+        "file": "design/board-v2/assets/capsule/door-3.svg",
+        "bytes": 1615,
+        "sha256": "55cc7717d8f733ce38e6ac5c7c14ac19e8b0296ce44ba0d95ad98415fb8b31e7",
+        "audience": "public"
+      },
+      {
+        "id": "capsule.busy",
+        "kind": "busy",
+        "viewBox": "0 0 512 768",
+        "file": "design/board-v2/assets/capsule/busy.svg",
+        "bytes": 1994,
+        "sha256": "d5e45edd0af0115e0e87b64f0da8985d04d1166ee27ebbf8df2b687f6871dca9",
+        "audience": "public"
+      },
+      {
+        "id": "capsule.badge",
+        "kind": "badge",
+        "viewBox": "0 0 48 48",
+        "file": "design/board-v2/assets/capsule/badge.svg",
+        "bytes": 1021,
+        "sha256": "f624378a91c11f67f7ffc7c4fd15e65eccc5287f57f0b50a75b5332988761dc7",
+        "audience": "public"
+      },
+      {
+        "id": "capsule.dark",
+        "kind": "dark",
+        "viewBox": "0 0 512 768",
+        "file": "design/board-v2/assets/capsule/dark.svg",
+        "bytes": 10734,
+        "sha256": "bae4c518d7732b2ccbf8179351ed3d7d815d0204dd4a1666b190148cee237185",
+        "audience": "public"
+      }
+    ]
+  },
   "films": {
     "file": "design/board-v2/contract/films.json",
     "version": "board-v2-films-0.2.0",
-    "sha256": "cc22bc167b6e4380d8cf952bc8b8b01d241d03409a919081d3d6c3f7af52b551",
-    "bytes": 8690
+    "sha256": "79e475cad13c7376d17bb1b63be47211881fb6cf4b4da4e116cbd85ec456f909",
+    "bytes": 14663
   }
 }
