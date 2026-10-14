@@ -15,6 +15,7 @@ import type {
 } from './types.js';
 import { buildVotePanel, ownBallotLine } from './votes.js';
 import { buildVoteResult } from './phase-feedback.js';
+import { publicCapsuleProps } from './public-capsule.js';
 
 // A player's phone connected under wire protocol 2. Everything outside the private panel is
 // built by the same functions as for every other audience. Inside it there is one card for
@@ -386,6 +387,7 @@ function buildMatch(input: ConnectedPlayerInput, view: FullPlayerView): Connecte
   if (!self) throw new Error('A validated player view always contains its own seat');
   return {
     versions: view.versions,
+    ...publicCapsuleProps(view, input),
     phaseKind: view.phase.kind,
     identity: { seatId: selfSeatId, number: seatNumber(selfSeatId), label: en.seat.label(seatNumber(selfSeatId)) },
     phase: buildPhaseStrip(view, selfSeatId, input.deadline),

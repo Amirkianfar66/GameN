@@ -453,6 +453,9 @@ export interface ResultModel {
 
 export interface TableMatchModel {
   readonly versions: PublicFacts['versions'];
+  /** New public-Hack capability only; historical models omit these fields. */
+  readonly playerCount?: number;
+  readonly capsule?: PublicCapsuleModel | null;
   readonly phase: PhaseStripModel;
   /** Null while the match is being played, and for a view that cannot carry an end. */
   readonly result: ResultModel | null;
@@ -615,6 +618,8 @@ export interface InsiderSetModel {
 
 export interface ConnectedPlayerMatchModel extends Omit<PlayerMatchModel, 'privateArea'> {
   readonly phaseKind: FullPlayerView['phase']['kind'];
+  readonly playerCount?: number;
+  readonly capsule?: PublicCapsuleModel | null;
   /** Ending your own turn is role-neutral; it does not require revealing the private card. */
   /**
    * inRules is false only in a match whose ruleset has no Pass (the legacy tuple) and whose
@@ -627,6 +632,21 @@ export interface ConnectedPlayerMatchModel extends Omit<PlayerMatchModel, 'priva
   /** How the match ended, once it has. The same on every phone and on the shared display. */
   readonly result: ResultModel | null;
   readonly voteResult: VoteResultModel | null;
+}
+
+/** Public pair/stage only. No private claim, role, conversation content or cached address. */
+export interface PublicCapsuleModel {
+  readonly hackId: string;
+  readonly actorSeatId: SeatId;
+  readonly targetSeatId: SeatId;
+  readonly phaseId: string;
+  readonly stage: 'HACK_DECLARE' | 'HACK_RESULT' | 'HACK';
+  readonly startedAt: number;
+  readonly endsAt: number;
+  readonly elapsedMs: number;
+  readonly remainingMs: number;
+  readonly current: boolean;
+  readonly inTime: boolean;
 }
 
 export interface ConnectedPlayerShellModel extends ShellModelBase {
