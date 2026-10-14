@@ -23,7 +23,7 @@ export function createBoardV2Host(root,{now=()=>performance.now()}={}) {
  const blocks=new Map(),announced=new Set();
  const settleBlocks=()=>{blocks.clear();for(const fx of holder.querySelectorAll('.bv2-block-fx'))fx.remove();for(const figure of holder.querySelectorAll('.bv2-figure'))figure.style.translate='0px 0px';};
  const media=matchMedia('(prefers-reduced-motion: reduce)');
- let model=null,layout=null,frame=null,geometryKey=null,raf=null,disposed=false,tab=false,worldKey=null;
+ let model=null,layout=null,frame=null,geometryKey=null,raf=null,disposed=false,tab=false,worldKey=null,claimExpanded=false;
  const stop=()=>{if(raf!==null)cancelAnimationFrame(raf);raf=null;};
  const artForRoom=room=>{
   if(room==='hospital')return [{id:'back',cssVar:`--board-v2-art-ward-${model.match.boardLayout.playerCount}-back`,sceneDepth:-1000},
@@ -134,7 +134,8 @@ export function createBoardV2Host(root,{now=()=>performance.now()}={}) {
   if(reconnect)box(reconnect,{left:sheet.actions.start.left,top:sheet.actions.top,width:sheet.actions.start.width,height:sheet.actions.height});
   const recovery=root.querySelector('.bv2-recovery');
   if(recovery){const top=sheet.top+(banners&&!banners.hidden?Math.min(sheet.body.height-30,banners.querySelector('.ms-banner__text')?.getBoundingClientRect().height??70)+8:0);
-   box(recovery,{left:sheet.left,top,width:sheet.width,height:Math.max(44,board.navTop-top)});
+   box(recovery,{left:sheet.left,top,width:sheet.width});
+   recovery.style.height=px(Math.max(44,Math.min(sheet.actions.top-top-4,(recovery.querySelector('p')?.getBoundingClientRect().height??32)+12)));
    box(recovery.querySelector('[data-intent="action/check-again"]'),{left:sheet.actions.end.left,top:sheet.actions.top,width:sheet.actions.end.width,height:sheet.actions.height});}
   if(!layout.fits)return;
   for(const surface of root.querySelectorAll('.ms-private[data-open="true"],.phone-menu,.phone-action-dock')){
@@ -143,16 +144,21 @@ export function createBoardV2Host(root,{now=()=>performance.now()}={}) {
   const claim=root.querySelector('.hack-feedback');
   const docks=[...root.querySelectorAll('.phone-action-dock')];
   let claimHeight=0;
-  if(claim){box(claim,{left:sheet.left,top:sheet.top,width:sheet.width});claim.style.maxHeight=px(sheet.capacity);claim.style.height='auto';
+  if(claim){box(claim,{left:sheet.left,top:sheet.top,width:sheet.width});claim.style.maxHeight=px(claimExpanded?sheet.height:sheet.capacity);claim.style.height='auto';
    claimHeight=claim.getBoundingClientRect().height;
    const command=docks.find(d=>!d.querySelector('.bv2-choosing'));
    const idleActions=root.dataset.phoneView==='actions'?root.querySelector('.ms-private[data-open="true"]:not(.phone-action-dock)'):null;
    const body=command?.querySelector('.bv2-command-body')??idleActions?.querySelector('.ms-private__panel');
    const intrinsic=(body?.scrollHeight??0)+(idleActions?.querySelector('.phone-panel-head')?.getBoundingClientRect().height??0);
-   const fold=Boolean(command||idleActions)&&model.match.capsule?.stage!=='HACK_RESULT'&&claimHeight+intrinsic+6+sheet.actions.height>sheet.capacity;
+   const fold=!claimExpanded&&Boolean(command||idleActions)&&model.match.capsule?.stage!=='HACK_RESULT'&&claimHeight+intrinsic+6+sheet.actions.height>sheet.capacity;
    claim.dataset.folded=String(fold);
    let reveal=claim.querySelector('.bv2-claim-show');
-   if(fold){if(!reveal){reveal=document.createElement('button');reveal.type='button';reveal.className='bv2-claim-show';reveal.id='bv2-claim-show';reveal.dataset.boardClaim='show';reveal.textContent='Show claim';claim.append(reveal);}claimHeight=sheet.actions.height;claim.style.height=px(claimHeight);}
+   if(fold||claimExpanded){if(!reveal){reveal=document.createElement('button');reveal.type='button';reveal.className='bv2-claim-show';reveal.id='bv2-claim-show';claim.append(reveal);}
+    reveal.dataset.boardClaim=claimExpanded?'hide':'show';reveal.textContent=claimExpanded?'Hide claim':'Show claim';reveal.style.height='44px';
+    claim.style.paddingBottom=claimExpanded?'52px':'';
+    if(claimExpanded){reveal.style.position='fixed';box(reveal,{left:sheet.actions.end.left,top:sheet.actions.top,width:sheet.actions.end.width,height:44});}
+    else {reveal.style.position='static';reveal.style.width='100%';reveal.style.left='auto';reveal.style.top='auto';}
+    if(fold){claimHeight=sheet.actions.height;claim.style.height=px(claimHeight);}}
    else reveal?.remove();
   }
   for(const panel of root.querySelectorAll('.ms-private[data-open="true"]:not(.phone-action-dock)')){
@@ -197,7 +203,8 @@ export function createBoardV2Host(root,{now=()=>performance.now()}={}) {
   frame=boardV2SceneFrame(next.match.boardLayout.playerCount,seats,layoutFrame);
   if(frame.problems.length){holder.replaceChildren();const warning=document.createElement('p');warning.className='bv2-too-short';warning.textContent='The board could not be read. Reconnect to continue.';holder.append(warning);return true;}
   const publicKey=JSON.stringify([next.match.capsule?.phaseId,next.match.boardLayout.clock.phaseId]);
-  if(publicKey!==worldKey){tab=false;worldKey=publicKey;}
+  if(publicKey!==worldKey){tab=false;claimExpanded=false;worldKey=publicKey;}
+  if(!next.match.privateArea?.open)claimExpanded=false;
   capsule.update(next.match.capsule,next.match.boardLayout.clock,{visible:document.visibilityState==='visible',reducedMotion:next.motion==='reduced'||media.matches});
   blackout.update(next.match.boardLayout.clock,next.match.boardLayout.blackout,{visible:document.visibilityState==='visible',reducedMotion:next.motion==='reduced'||media.matches});
   controls();paint();return true;
@@ -205,7 +212,7 @@ export function createBoardV2Host(root,{now=()=>performance.now()}={}) {
  const reduced=()=>{stop();capsule.settle();blackout.settle();settleBlocks();if(model)after(model);};
  const visibility=()=>{if(document.visibilityState!=='visible'){stop();capsule.settle();blackout.settle();settleBlocks();if(model)paint();}else if(model)after(model);};
  const onClick=event=>{const button=event.target.closest?.('[data-board-private],[data-board-claim]');if(!button||!root.contains(button))return;
-  if(button.dataset.boardClaim){const claim=root.querySelector('.hack-feedback');if(claim){claim.dataset.folded='false';claim.style.height='auto';claim.style.zIndex='6700';claim.style.maxHeight=px(layout.sheet.height);button.remove();}return;}
+  if(button.dataset.boardClaim){claimExpanded=button.dataset.boardClaim==='show';controls();return;}
   tab=!tab;controls();
  };
  root.addEventListener('click',onClick);media.addEventListener('change',reduced);document.addEventListener('visibilitychange',visibility);
