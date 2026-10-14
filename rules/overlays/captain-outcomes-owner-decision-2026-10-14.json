@@ -1,0 +1,52 @@
+{
+  "decision_id": "captain-outcomes-owner-decision-2026-10-14",
+  "status": "confirmed",
+  "decided_on": "2026-10-14",
+  "authority": "Closed owner specification G-05/G-06/G-07 and rules-contracts; completion authorized by owner via Integration; exact1.8 allocation recorded on #139. Shared consumer reviews remain adoption gates.",
+  "issue": "https://github.com/Amirkianfar66/GameN/issues/145",
+  "base_commit": "82998e6be14166a01d7fd60960c56cf3656be4e1",
+  "owner_specification": {
+    "packet_sha256": "b5b4ba2dea6063e20f559894183d0c675a3f754b2789db2e38c5b33e1590b743",
+    "sections": [
+      "G-05",
+      "G-06",
+      "G-07",
+      "rules-contracts"
+    ]
+  },
+  "parent_ruleset": {
+    "version": "in-person-v1-board-medical-2026-10-14",
+    "hash": "82be55c66a9925712d4cce1e1a56ff4f7aae001c363c2ba93e3267b6e6e70275"
+  },
+  "protocol_version": 2,
+  "engine_version": "full-game-1.8.0",
+  "ruleset_version": "in-person-v1-captain-outcomes-2026-10-14",
+  "optional_powers": false,
+  "decisions": [
+    {
+      "id": "CAPTAIN-01",
+      "decision": "Direct targetless RELEASE/EJECT only on the Healthy free current Captain's own ordinary turn in Command. Independent match-global once resources survive office changes; neither spends Main Action or movement. Require a living physical Jail prisoner. Bodies-only/empty attempts reject without charge; defenses cannot block."
+    },
+    {
+      "id": "CAPTAIN-02",
+      "decision": "RELEASE all living physical Jail prisoners to remembered actual A/B, fallback other ordinary room; numeric simultaneous returns; no voluntary move charge. Medical detainees and Jail bodies are unaffected."
+    },
+    {
+      "id": "CAPTAIN-03",
+      "decision": "EJECT every physical Jail occupant, including retained bodies. Eliminate living prisoners and remove all Jail occupants to true null location/slot, with no current detention/Captain/medical episode. Preserve roster identity, Code eligibility, private history and accepted actions."
+    },
+    {
+      "id": "CAPTAIN-04",
+      "decision": "New EJECT victims' factions reveal only at the full normal checkpoint. Retain private atomic EJECT before/after Blue/Red survival evidence separately from the later complete normal elimination stage. Evaluate unchanged V1-19 after all effects with final Alien survival. Never combine faction losses from separate stages. Abort does not reveal or award victory."
+    },
+    {
+      "id": "OUTCOME-01",
+      "decision": "Publish sanitized authoritative Captain and clinical occurrence facts, including transient injury then Rescue in the same batch. Stable checkpoint/subject occurrence IDs, public clinical facts without attacker/healer/source/role/cause. No movie inference from receipts or final snapshot differences. Keep historical non-null PUBLIC_MOVE exact; new nullable placements use a distinct version-gated fact."
+    },
+    {
+      "id": "COMPATIBILITY-01",
+      "decision": "Inherit exact1.7 board/medical/Hack/placement behavior. New commands, private state, nullable offboard and event envelopes require exact1.8 tuple; all1.0-1.7 omission/rejection, journals/receipts/deals/art remain unchanged."
+    }
+  ],
+  "version_policy": "Inactive candidate. No default/profile/art activation, migration, deployment or merge. Blackout and Clone follow separately allocated successors."
+}

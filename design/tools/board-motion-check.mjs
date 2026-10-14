@@ -18,6 +18,7 @@ import { planCoverage, COVERAGE_PATH } from './board-motion-docs.mjs';
 import { boardMotionInputsSha256 } from './lib/board-motion-inputs.mjs';
 import { offerProblems } from './lib/board-motion-offers.mjs';
 import { productionDrawingProblems } from './lib/drawing-port-fence.mjs';
+import { historicalReleaseCoverageProblems } from './lib/historical-release-actions.mjs';
 import { readReleaseActionCoverage } from './lib/release-action-coverage.mjs';
 
 const repoRoot = resolve(fileURLToPath(new URL('../../', import.meta.url)));
@@ -166,12 +167,9 @@ if (loadError) {
   const kinds = actions.match(/ACTION_KINDS[^=]*=\s*\[([^\]]*)\]/)?.[1].match(/'([^']+)'/g)?.map(quoted => quoted.slice(1, -1)) ?? [];
   const contract = await text('packages/contracts/src/full-game.ts');
   const block = contract.slice(contract.indexOf('FullCommandSchema'), contract.indexOf('FullCommandRequestSchema'));
-  const commands = [...block.matchAll(/type: z\.literal\('([A-Z_]+)'\)/g)].map(match => match[1]);
+  const commands = [...block.matchAll(/type\s*:\s*z\.literal\(\s*'([A-Z_]+)'\s*\)/g)].map(match => match[1]);
   if (kinds.length === 0 || commands.length === 0) problems.push('could not read ACTION_KINDS or FullCommandSchema');
-  const covered = coverage.actions.map(action => action.kind);
-  for (const kind of kinds) if (!covered.includes(kind)) problems.push(`action ${kind} of the release is not covered`);
-  for (const kind of covered) if (!kinds.includes(kind)) problems.push(`action ${kind} is not an action of the release`);
-  for (const command of commands) if (!coverage.actions.some(action => action.command === command)) problems.push(`command ${command} is not covered`);
+  problems.push(...historicalReleaseCoverageProblems(coverage,kinds,commands,await json('design/releases/design-0.3.0.json')));
   const factions = contract.match(/FactionSchema = z\.enum\(\[([^\]]*)\]/)?.[1].match(/'([^']+)'/g)?.map(quoted => quoted.slice(1, -1)) ?? [];
   for (const action of coverage.actions) {
     for (const field of ['offers', 'board', 'self', 'hospitalJail', 'public']) if (!action[field]) problems.push(`${action.kind}: no ${field}`);
