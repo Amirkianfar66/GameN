@@ -1,5 +1,5 @@
 import type { FullGameplayVersions, FullGameSetup, FullGameState } from './model.js';
-import { MAX_ROOM_OCCUPANTS, roomCapacityEnabled, resolutionPlacementEnabled } from './model.js';
+import { MAX_ROOM_OCCUPANTS, boardMedicalEnabled, roomCapacityEnabled, resolutionPlacementEnabled } from './model.js';
 import type { GameSeat, Room } from './roster.js';
 
 type Location = GameSeat['location'];
@@ -7,7 +7,7 @@ type Location = GameSeat['location'];
 /** Eliminated occupants retain their place. Capacity is a rule of the exact new tuple only. */
 export function roomHasSpace(state: FullGameState, destination: Location): boolean {
   if (!roomCapacityEnabled(state.versions) || destination === 'Final Zone') return true;
-  const maximum = destination === 'Command Room' ? 1 : MAX_ROOM_OCCUPANTS;
+  const maximum = destination === 'Command Room' ? 1 : destination === 'Hospital' && boardMedicalEnabled(state.versions) ? state.playerCount : MAX_ROOM_OCCUPANTS;
   return state.seats.filter(seat => seat.location === destination).length < maximum;
 }
 
