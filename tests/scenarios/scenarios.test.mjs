@@ -7,6 +7,7 @@ import test from 'node:test';
 import { deepEqual, parseDecisionRegister, parseRulebook, validateScenario } from '@mothership/balance';
 import { buildCatalog, setupFromSeed } from './v1/catalog.mjs';
 import { GROUPS, RULEBOOK_VERSION, SCENARIO_SCHEMA, loadGroup, renderFile, scenarioFileUrl } from './v1/files.mjs';
+import { NEXT_VERSION_CHECKS } from './next-version/checks.mjs';
 
 const root = new URL('../../', import.meta.url);
 const text = path => readFileSync(new URL(path, root), 'utf8');
@@ -146,3 +147,8 @@ test('the evidence report of 6 October is kept as a record, and its prose repeat
   }
   for (const artifact of [run.pins.engineCommit, controls.engineCommit, playouts.engineCommit]) assert.equal(artifact, '8d4a2e5dc47eb827dbcbfd8382755db2fa3b0bde');
 });
+
+// The acceptance cases of the next version (the specification of 13 October 2026) keep their
+// checks beside them, in next-version/checks.mjs. They are registered here, and not in a test file
+// of their own, because the integration gate counts the test files of this directory.
+for (const [name, run] of NEXT_VERSION_CHECKS) test(name, run);

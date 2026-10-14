@@ -18,10 +18,14 @@
 // finished, and there was no failure, cancellation, skip or todo; otherwise 1. 2 when the command
 // line cannot be understood.
 //
+// A test that a listed file registers through another module is reported by the runner under
+// that module, where a skip would go unnoticed. Such a test fails the check: a file registers its
+// own tests, and may take their bodies from wherever it likes.
+//
 // What it cannot see: a test that decides for itself to return before it asserts anything, and a
 // test that its file never registers because the file ends the process first. The runner is told
 // of neither. A test that cannot run where it is must say so by skipping.
-import { existsSync, readdirSync } from 'node:fs';
+import { existsSync, readdirSync, realpathSync } from 'node:fs';
 import { basename, dirname, join, relative, resolve } from 'node:path';
 import { finished } from 'node:stream/promises';
 import { run } from 'node:test';
@@ -62,12 +66,19 @@ const perFile = new Map(files.map(file => [basename(file), { ran: 0, started: 0,
 const of = event => (typeof event.file === 'string' && event.name !== event.file ? perFile.get(basename(event.file)) : undefined);
 const skipped = [];
 const todo = [];
+const elsewhere = new Set();
+// Two spellings of one path, through a link, are one path.
+const real = path => { try { return realpathSync(path); } catch { return path; } };
 stream.on('test:enqueue', event => { const file = of(event); if (file !== undefined) file.started += 1; });
 stream.on('test:complete', event => { const file = of(event); if (file !== undefined) file.finished += 1; });
 for (const kind of ['test:pass', 'test:fail']) {
   stream.on(kind, event => {
     const file = of(event);
-    if (file === undefined) return;
+    if (file === undefined) {
+      // Not the file's own closing line, and not a test of a listed file: registered from another module.
+      if (typeof event.file === 'string' && event.name !== event.file && !files.includes(event.file)) elsewhere.add(relative(real(directory), real(event.file)));
+      return;
+    }
     if (event.skip !== undefined && event.skip !== false) skipped.push({ name: event.name, reason: typeof event.skip === 'string' ? event.skip : '' });
     else if (event.todo !== undefined && event.todo !== false) todo.push(event.name);
     if (event.details?.type !== 'suite') file.ran += 1;
@@ -92,6 +103,7 @@ const accepted = flags['allow-missing-overlay'] ? skipped.filter(item => item.re
 const refused = skipped.filter(item => !accepted.includes(item));
 if (refused.length > 0) problems.push(`${refused.length} skipped (${refused.slice(0, 5).map(item => (item.reason === '' ? item.name : `${item.name}: ${item.reason}`)).join('; ')})`);
 if (todo.length > 0) problems.push(`${todo.length} marked todo`);
+if (elsewhere.size > 0) problems.push(`tests were registered from a file this check does not list (${[...elsewhere].sort().join(', ')})`);
 if (counts.failed !== 0) problems.push(`${counts.failed} failed`);
 if (counts.cancelled !== 0) problems.push(`${counts.cancelled} cancelled`);
 const ran = `${tests} test${tests === 1 ? '' : 's'} in ${files.length} file${files.length === 1 ? '' : 's'}`;

@@ -7,7 +7,9 @@ Work for issue [#5](https://github.com/Amirkianfar66/GameN/issues/5): the rules 
 
 **Finding G17 and its fix.** The integration review of 7 October found that the engine did not tell Supplier whom the weapons reached, which the approved decision V1-16 requires. Seventeen fixtures ask for it. They fail against the engine before the fix, and that run is kept as a record. Backend's fix, draft PR [#65](https://github.com/Amirkianfar66/GameN/pull/65), adds a read of a seat's own acknowledgments; against that engine the whole catalogue passes, the comparisons of what each player may learn included. An engine without that read is not one the binding runs.
 
-**The room capacity of five (issue #96).** The owner decided on 11 October that at most five players are in Room A, Room B, Hospital and Jail. [capacity-audit.md](capacity-audit.md) is the independent audit of the rule and of Backend's implementation in PR #98, for seven, eight and nine players separately: 122 fixtures of their own beside the Version 1 catalogue, seven invariants, one defect found in the implementation, and the six decisions the owner took on 11 October on what the audit had found open, which the implementation does not follow yet. The rulebook and the catalogue are unchanged and describe the rulesets before the rule; the catalogue cannot run under the new one until it is re-seated.
+**The room capacity of five (issue #96).** The owner decided on 11 October that at most five players are in Room A, Room B, Hospital and Jail. [capacity-audit.md](capacity-audit.md) is the independent audit of the rule and of Backend's implementation in PR #98, for seven, eight and nine players separately: 122 fixtures of their own beside the Version 1 catalogue, seven invariants, one defect found in the implementation of that day, and the six decisions the owner took on 11 October on what the audit had found open. That evidence is against Backend's commit `dd04f68` and engine 1.2, and is kept as the record it is. Backend's later commit implements the decisions as engine 1.3, and the integration baseline (PR #114) runs this suite as its own capacity gate: the fifteen cases that failed on 11 October are not findings against an engine of today. The rulebook and the catalogue are unchanged and describe the rulesets before the rule; the catalogue cannot run under the new one until it is re-seated.
+
+**The specification of 13 October 2026.** The owner approved a specification for the next version: the Blackout Strike, the Private Chamber, the Alien's Phantom Clone, blocks a room can see, a Hospital as large as the roster with a deadline of one round, the Captain's RELEASE and EJECT, and a cutoff for movement. No engine plays it. [next-version/README.md](next-version/README.md) is the independent audit of it, with an acceptance matrix for seven, eight and nine players separately. Every case of it is specified and not run. What was run are controls on the three versions that exist, each under its own ruleset.
 
 ## Start here
 
@@ -18,6 +20,7 @@ Work for issue [#5](https://github.com/Amirkianfar66/GameN/issues/5): the rules 
 | What has actually been run, and against what | The current evidence, against the engine with the fix for G17: [evidence/2026-10-07-supplier-fix.md](evidence/2026-10-07-supplier-fix.md). Records: the defect before the fix, [evidence/2026-10-07-supplier-disclosure.md](evidence/2026-10-07-supplier-disclosure.md); the catalogue as it was earlier, [evidence/2026-10-06-baseline.md](evidence/2026-10-06-baseline.md) and [evidence/2026-10-07-report-gate.md](evidence/2026-10-07-report-gate.md) |
 | What Balance asks of Codex Integration | [integration-requests.md](integration-requests.md), [contract-review.md](contract-review.md) |
 | What the room capacity of five does, and what was run against its implementation | [capacity-audit.md](capacity-audit.md), [evidence/2026-10-11-capacity.md](evidence/2026-10-11-capacity.md) |
+| What the next version has to do, case by case, and what the packet leaves open | [next-version/README.md](next-version/README.md), and the matrices for [seven](next-version/matrix-7.md), [eight](next-version/matrix-8.md) and [nine](next-version/matrix-9.md) players |
 | To run a playtest | [playtest/protocol.md](playtest/protocol.md) |
 | What the owner is asked to decide | The nine open rule edges, with a proposal for each: [rules-audit-v1.md](rules-audit-v1.md#triage-of-7-october-a-proposal-for-each-edge) |
 
@@ -29,6 +32,8 @@ Work for issue [#5](https://github.com/Amirkianfar66/GameN/issues/5): the rules 
 | [rules-audit-v1.md](rules-audit-v1.md) | Pins and provenance, how precedence was applied, the decision register D01 to D40, and consequences derived from the rules |
 | [invariants.md](invariants.md) | Statements that must hold in every match, with the rule behind each |
 | [capacity-audit.md](capacity-audit.md) | The audit of the room-capacity rule of issue #96: the rows of the rule, where it can bind, the nine areas for each number of players, findings in three kinds, and what is left for the owner |
+| [next-version/README.md](next-version/README.md) | The audit of the owner's specification of 13 October 2026: findings on the packet, what follows from its rules, hypotheses about play, and what Backend and Frontend have to provide. Its tables are generated |
+| [next-version/matrix-7.md](next-version/matrix-7.md), [matrix-8.md](next-version/matrix-8.md), [matrix-9.md](next-version/matrix-9.md) | Generated. The acceptance cases of the next version for each number of players, none of them run, and the controls on the versions that exist |
 | [scenario-traceability.md](scenario-traceability.md) | Generated. Maps the earlier 35 specifications to the Version 1 scenarios, and lists the blocked cases, the scenarios that touch each reading, and the rules without a scenario |
 | [contract-review.md](contract-review.md) | Independent review of the shared contracts, the Officer and Protection fixture and Backend's draft engine |
 | [integration-requests.md](integration-requests.md) | The exact shared changes requested |
@@ -46,6 +51,7 @@ Code and fixtures:
 | `tests/scenarios/v1/catalog.mjs` | The authoring source of those files |
 | `tests/scenarios/v1/exceptions.json` | The reviewed list of the fixtures that are blocked or manual, each with its decision and its reason |
 | `tests/scenarios/*.test.mjs` | Static checks of sources, rulebook, scenarios, tooling and the report gate |
+| `tests/scenarios/next-version/` | The acceptance cases of the next version (`catalog.mjs` and one generated file for each number of players), the controls on the existing versions (`controls.mjs`), the packet's hashes and references, and the checks of all of it |
 | `tests/scenarios/adapters/full-game-v1.mjs` | The binding to Backend's engine API |
 | `tools/balance/src/` | Runner, invariants, report gate, rulebook parser, statistics and record validator |
 
@@ -62,7 +68,9 @@ Run from the repository root with Node 22.21.1 and npm 10.9.4, after `npm ci`.
 | `npm run gate --workspace @mothership/balance -- --scenarios <file> --controls <file> --playouts <file> --engine-commit <sha> --playouts-per-mode <n>` | The report gate. Executes nothing. Decides whether three reports are a complete and clean run against that engine: every fixture once, every ready case passed, the exceptions exactly the reviewed ones, every control and playout run, and the same engine, fixtures and rule sources in all three |
 | `npm run engine-gate --workspace @mothership/balance` | The three engine commands and then the gate, as one command. Needs a clean commit, and the engine in this checkout or, with `-- --engine-root <checkout>`, in a clean checkout of another commit |
 | `npm run facts --workspace @mothership/balance` | Prints the arithmetic quoted in the audit |
-| `npm run materialize --workspace @mothership/balance` | Rewrites the scenario files from the catalogue |
+| `npm run materialize --workspace @mothership/balance` | Rewrites the scenario files from the catalogues, and the acceptance files, matrices and document tables of the next-version audit |
+| `npm run next-controls --workspace @mothership/balance -- --ruleset <ruleset> --engine-root <dir>` | Runs the controls on one existing version through a built engine, under that ruleset and no other. It cannot run a case of the next version |
+| `npm run next-controls-contrast --workspace @mothership/balance -- --engine-root <dir>` | Runs each control on purpose under the ruleset it is contrasted with, where it must fail |
 | `npm run traceability --workspace @mothership/balance` | Rewrites the traceability table |
 
 At the bootstrap baseline the engine package has no rules in it, so `npm run scenarios` executes nothing and reports every ready scenario as **not run**. That is the correct result at this commit and is not a pass. On this branch these commands are not part of `npm run verify`. Integration's draft PR #47 adds them to it on the landing candidate, with a guard of its own; see request BAL-REQ-1.
