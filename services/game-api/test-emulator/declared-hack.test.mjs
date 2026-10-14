@@ -400,4 +400,3 @@ for (const playerCount of [7, 8, 9]) {
     assert.deepEqual(await h.current(), aborted); await assertReplay(h);
   });
 }
-
