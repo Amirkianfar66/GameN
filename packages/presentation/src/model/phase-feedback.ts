@@ -41,5 +41,7 @@ export function buildVoteResult(
     ? result.yesCount === null ? [] : [`${result.yesCount} Yes · ${result.eligibleVoterCount} eligible voters`]
     : [`${result.eligibleVoterCount} eligible voters`, `${result.eligibleVoterCount - counts.reduce((total, count) => total + count.votes, 0)} abstentions or missing ballots`];
   return { id: result.id, round: result.round, kind: result.kind, outcome: result.outcome, heading: HEADINGS[result.outcome],
-    summary: voteResultSummary(result), selectedSeatId: result.selectedSeatId, tiedSeatIds: [...result.tiedSeatIds].sort((a,b) => seatNumber(a)-seatNumber(b)), counts, lines };
+    summary: voteResultSummary(result), selectedSeatId: result.selectedSeatId, tiedSeatIds: [...result.tiedSeatIds].sort((a,b) => seatNumber(a)-seatNumber(b)), counts,
+    eligibleVoterCount: result.eligibleVoterCount, yesCount: result.yesCount,
+    elapsedMs: Math.max(0,Math.min(5000,5000-environment.deadline.remainingMs)), lines };
 }

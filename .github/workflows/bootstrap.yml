@@ -57,6 +57,33 @@ jobs:
         env:
           FIREBASE_CLI_DISABLE_UPDATE_CHECK: 'true'
 
+  backend-declared-hack-emulator:
+    # Exercise the actual release selector and automatic 15/5/60-second flow.
+    # A separate runner prevents historical fixtures from sharing task state.
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - run: npm install --global npm@10.9.4
+      - run: npm ci
+      - uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00 # v4.7.1
+        with:
+          distribution: temurin
+          java-version: '21'
+      - run: npm run build && node scripts/test-emulator.mjs functions
+        env:
+          FIREBASE_CLI_DISABLE_UPDATE_CHECK: 'true'
+          MOTHERSHIP_NEW_MATCH_PROFILE: declared-hack-1.5
+          MOTHERSHIP_ASSET_MANIFEST_VERSION: design-0.3.0
+          MOTHERSHIP_LEGACY_ASSET_MANIFEST_VERSION: v1-preview-469bf64fe98cac5a
+
   frontend-emulator:
     runs-on: ubuntu-24.04
     timeout-minutes: 20
@@ -81,7 +108,7 @@ jobs:
 
   # Preserve the existing required check name and fail if any suite fails, cancels or skips.
   bootstrap:
-    needs: [verify, backend-emulator, frontend-emulator]
+    needs: [verify, backend-emulator, backend-declared-hack-emulator, frontend-emulator]
     if: always()
     runs-on: ubuntu-24.04
     timeout-minutes: 1
@@ -90,9 +117,11 @@ jobs:
         env:
           VERIFY_RESULT: ${{ needs.verify.result }}
           BACKEND_RESULT: ${{ needs['backend-emulator'].result }}
+          DECLARED_HACK_RESULT: ${{ needs['backend-declared-hack-emulator'].result }}
           FRONTEND_RESULT: ${{ needs['frontend-emulator'].result }}
         run: |
           set -eu
           test "$VERIFY_RESULT" = success
           test "$BACKEND_RESULT" = success
+          test "$DECLARED_HACK_RESULT" = success
           test "$FRONTEND_RESULT" = success

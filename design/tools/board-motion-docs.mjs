@@ -9,6 +9,7 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { readReleaseActionCoverage } from './lib/release-action-coverage.mjs';
 
 const repoRoot = resolve(fileURLToPath(new URL('../../', import.meta.url)));
 export const COVERAGE_PATH = 'docs/design/board-motion-coverage.md';
@@ -22,7 +23,7 @@ const png = path => `[png](../../${path})`;
 
 /** The seats an action's scenario offers or shows as chosen, read from the fixture as the prototype reads it. */
 function seatsOf(kind, state) {
-  const offer = state.private.offers[kind];
+  const offer = state.private.offers[kind === 'declare-hack-side' ? 'declare' : kind];
   const offered = kind === 'code' ? (offer ? state.public.seats.map(seat => seat.n) : [])
     : kind === 'vote' ? (offer?.targets ?? [])
       : kind === 'release-vote' ? (state.public.ballot?.release ? [state.public.ballot.release] : [])
@@ -33,7 +34,7 @@ function seatsOf(kind, state) {
 
 export async function planCoverage(repo = repoRoot) {
   const json = async path => JSON.parse(await readFile(resolve(repo, path), 'utf8'));
-  const coverage = await json('design/board-motion/contract/coverage.json');
+  const coverage = await readReleaseActionCoverage(repo);
   const cues = await json('design/board-motion/contract/cues.json');
   const manifest = await json('design/board-motion/assets/manifest.json');
   const { SCENARIOS, CREW } = await import(pathToFileURL(resolve(repo, 'design/board-motion/js/fixtures.js')).href);

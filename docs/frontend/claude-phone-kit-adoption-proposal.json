@@ -1,5 +1,5 @@
 {
-  "status": "Proposed exact pins for Integration review; not adopted into the runtime",
+  "status": "Adopted production consumer; this preparation record is superseded by claude-phone-kit-provenance.json",
   "sourceCommit": "5c9a1510d35d4b9762f9bc2a27dae3f5d53bd5d7",
   "sourcePr": "https://github.com/Amirkianfar66/GameN/pull/127",
   "supersedesVisualInput": "44c25268a04debaa00d6a7ec3f02d254775704c8",
@@ -26,15 +26,6 @@
     "design/board-motion/js/dress.js",
     "prototype fixtures and stand-in server"
   ],
-  "requiredBeforeAdoption": [
-    "Integration reviews and pins the two exact derivatives from the published Claude head and current source/manifest identity",
-    "Replace provisional compact target rows with reviewed character hit areas; preserve old commits",
-    "Map Claude shell/layer/timing specification into the existing production controllers",
-    "Validate current phaseId, hackId, own audience, fresh view, trusted deadline and foreground before private rendering",
-    "Conceal private DOM/live lines/cues on blur or obsolete feedback while retaining receipt identifiers",
-    "Integration allocates the compatible immutable art-version acknowledgment for declared-Hack 1.5; Hosted Ready remains limited to 1.4 with design-0.2.0",
-    "Measure the complete production phone with targeting and confirmation, safe areas and enlarged text"
-  ],
   "backendCheckpoint": {
     "pullRequest": "https://github.com/Amirkianfar66/GameN/pull/131",
     "commit": "a9b77a7bd535efc8bdb5041cee18fd6526c0e354",
@@ -42,9 +33,20 @@
   },
   "preparedReplacement": {
     "generator": "apps/game/dev/prepare-claude-phone-kit.mjs",
-    "status": "Unapplied drawing/removal slice only; shell styles, static result wiring and source-provenance tests remain pending",
-    "sharedSourceFenceChanged": false,
-    "assetManifestChanged": false,
-    "hostedReady15Enabled": false
-  }
+    "status": "Applied exact drawing/removal slice, shell, vote/Hack composition and entry fades",
+    "sharedSourceFenceChanged": true,
+    "assetManifestChanged": true,
+    "hostedReady15Enabled": true,
+    "sharedChangesOwner": "Integration",
+    "sharedCheckpoint": "bbdb95102fdd7b979ec64d4903031042724f8bde"
+  },
+  "reviewedPrerequisites": [
+    "Integration reviews and pins the two exact derivatives from the published Claude head and current source/manifest identity",
+    "Replace provisional compact target rows with reviewed character hit areas; preserve old commits",
+    "Map Claude shell/layer/timing specification into the existing production controllers",
+    "Validate current phaseId, hackId, own audience, fresh view, trusted deadline and foreground before private rendering",
+    "Conceal private DOM/live lines/cues on blur or obsolete feedback while retaining receipt identifiers",
+    "Integration allocates the compatible immutable art-version acknowledgment for declared-Hack 1.5; Hosted Ready remains limited to 1.4 with design-0.2.0",
+    "Measure the complete production phone with targeting and confirmation, safe areas and enlarged text"
+  ]
 }

@@ -28,7 +28,7 @@ function scratchCopy() {
   scratchRoots.push(root);
   // The fence uses the already-pinned TypeScript parser; no dependency is installed in scratch copies.
   symlinkSync(join(repoRoot, 'node_modules'), join(root, 'node_modules'), 'dir');
-  for (const path of ['design/tools', 'design/prototypes', 'design/exports', 'design/contract', 'design/source', 'docs/design', 'packages/design-tokens/src',
+  for (const path of ['design/tools', 'design/prototypes', 'design/exports', 'design/contract', 'design/source', 'design/releases', 'scripts/runtime-art-release.mjs', 'docs/design', 'packages/design-tokens/src',
     'design/abilities/css', 'design/abilities/js', 'design/abilities/assets',
     'packages/presentation/src/model/actions.ts', 'packages/presentation/src/markup/comic-shell.ts', 'packages/contracts/src/full-game.ts', 'apps/game/hosted', BUILT_COPY, ...RELEASE_FILES]) {
     mkdirSync(dirname(join(root, path)), { recursive: true });
@@ -36,6 +36,8 @@ function scratchCopy() {
   }
   // The captures are checked for being listed, present and current: empty stand-ins keep the copy small.
   cpSync(join(repoRoot, 'design/board-motion'), join(root, 'design/board-motion'), { recursive: true, filter: source => !source.includes('/review/') });
+  // The page draws the phone kit too (issue #121): its styles, scripts and pictures are inputs of the captures.
+  cpSync(join(repoRoot, 'design/phone-kit'), join(root, 'design/phone-kit'), { recursive: true, filter: source => !source.includes('/review/') });
   for (const entry of readdirSync(join(repoRoot, 'design/board-motion/review'), { withFileTypes: true, recursive: true })) {
     if (!entry.isFile()) continue;
     const path = join(entry.parentPath, entry.name).slice(repoRoot.length);

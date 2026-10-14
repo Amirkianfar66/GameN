@@ -14,6 +14,7 @@ export function renderVoteResultPanel(result: VoteResultModel | null, context: C
     'data-outcome': result.outcome, 'data-origin-round': String(result.round), 'aria-labelledby': 'ms-vote-result-heading', 'data-focus-fallback': 'ms-vote-result-heading' },
     h('p', { class: 'feedback-window__origin' }, `Round ${result.round} · ${en.phase.kind[result.kind]}`),
     h('h2', { id: 'ms-vote-result-heading', tabindex: '-1' }, result.heading),
+    compact ? null : h('div', { class: 'pk-vr__stage', 'data-phone-kit': 'vote-stage', 'aria-hidden': 'true' }),
     compact || result.selectedSeatId === null ? null : h('div', { class: 'feedback-window__selected' }, chip(result.selectedSeatId, context),
       h('strong', null, name(result.selectedSeatId))),
     h('p', { class: 'feedback-window__summary' }, result.summary),

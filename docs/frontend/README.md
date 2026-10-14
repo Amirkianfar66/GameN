@@ -4,6 +4,8 @@ Issue [#3](https://github.com/Amirkianfar66/GameN/issues/3) · brief [agents/fro
 
 Frontend owns `apps/game/`, `packages/presentation/` and this directory. Shared contracts, rules, root manifests, the lockfile, CI and the workspace guard belong to Codex Integration and are changed only through the requests below.
 
+The current playable-release adoption is documented in [claude-phone-kit-release.md](claude-phone-kit-release.md), with exact source/style provenance, mobile fit, private lifecycle and receipt evidence.
+
 ## For Codex Integration
 
 | Document | What it asks |

@@ -31,6 +31,11 @@ const cases = [
   ['a mismatched ballot phase', 'vote.election', s => { s.private.offers.vote.on = 'JAIL_VOTE'; }, /vote requires its current/],
   ['excluding Injured/Jailed voters', 'vote.election', s => { s.public.ballot.voters = [1, 2, 3, 4, 5, 7, 8]; }, /include all living players/],
   ['an Injured Cracker rescuing another player', 'rescue.self', s => { s.private.offers.rescue = [6]; }, /injured rescue offers another player/],
+  // The declared-side Hack (issue #120): the declaration is the fixed target's own, in its own window, before it is made.
+  ['a declaration outside its window', 'hack.declare', s => { s.public.phase.kind = 'HACK_RESULT'; }, /declare requires HACK_DECLARE/],
+  ['a declaration offering another seat', 'hack.declare', s => { s.private.offers.declare = [5]; }, /declare offers anything but the viewer's own seat/],
+  ['a declaration offered to the initiator', 'hack.waiting', s => { s.private.offers.declare = [3]; }, /declare requires the fixed target/],
+  ['a second declaration', 'hack.declare', s => { s.private.hackFeedback = { ...s.private.hackFeedback, status: 'DECLARED', declaredSide: 'Red' }; }, /declare requires the fixed target/],
 ];
 for (const [name, id, change, diagnostic] of cases) test(`the offer guard refuses ${name}`, () => {
   const state = fixture(id); change(state);
@@ -47,4 +52,9 @@ test('the guard preserves the canon exceptions for Code, Hack, injured self-Resc
   assert.deepEqual(offerProblems(hack, VIEWER), []); // Hack needs a living actor, not a ready actor.
   assert.deepEqual(offerProblems(fixture('rescue.self'), VIEWER), []);
   assert.deepEqual(offerProblems(fixture('vote.election'), VIEWER), []); // Injured/Jailed still vote.
+  // The Hack's prelude keeps the before-voting move; the vote result offers nothing.
+  assert.deepEqual(offerProblems(fixture('hack.declare'), VIEWER), []);
+  assert.deepEqual(offerProblems(fixture('hack.claim-red'), VIEWER), []);
+  const result = fixture('result.captain'); result.private.offers.move = ['Room B'];
+  assert.match(offerProblems(result, VIEWER).join('\n'), /before voting/);
 });

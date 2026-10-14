@@ -39,17 +39,26 @@ export function seatsFor(count, locations = SPREAD) {
   }));
 }
 
+/** The declared-side Hack's windows, ms (Backend's proposal): the declaration at most 15 s, the claim exactly 5 s, the talk 60 s. */
+const HACK_WINDOW = { HACK_DECLARE: 15000, HACK_RESULT: 5000, HACK: 60000 };
+
 /** A whole synthetic state: public facts, the viewer's private facts, the action flow and what is open. */
-function state({ count = 9, locations, seats: change = () => {}, round = 2, phase = 'ORDINARY_TURN', active = VIEWER, seconds = 42, role = count === 9 ? 'Officer' : 'Insider', offers = {}, flow = { step: 'idle' }, view = 'board', ballot = null, tally = null, result = null, endReveal = null, knowledge = [], intel = null, hackPartner = null, resources = null, acks = null, answer = 'accept', banner = null, staleCard = false, legacy = false, notice = null, pending = 0 }) {
+function state({ count = 9, locations, seats: change = () => {}, round = 2, phase = 'ORDINARY_TURN', active = VIEWER, seconds = 42, voteResult = null, resultElapsed = 1500, hackFeedback = null, hackElapsed = null, phaseId = null, hackFlow = null, role = count === 9 ? 'Officer' : 'Insider', offers = {}, flow = { step: 'idle' }, view = 'board', ballot = null, tally = null, result = null, endReveal = null, knowledge = [], intel = null, hackPartner = null, resources = null, acks = null, answer = 'accept', banner = null, staleCard = false, legacy = false, notice = null, pending = 0 }) {
   const seats = seatsFor(count, locations);
   change(seats);
   return {
     // A finished or ended match has no deadline (the contract's terminal phase: endsAt null).
-    public: { playerCount: count, round, phase: { kind: phase, seconds: ['FINISHED', 'ABORTED'].includes(phase) ? 0 : seconds }, active: ['ORDINARY_TURN', 'HACK', 'RELEASE_CHOICE'].includes(phase) ? active : null, seats, ballot, tally, result, endReveal },
+    // A vote's result (issue #119) is its own five-second phase: its clock is the page's here (app.js sets startedAt
+    // and endsAt from resultElapsed, how far into the five seconds the page loads), the server's in the game.
+    // The declared-side Hack (issue #120): its prelude's windows (15 s at most, then 5 s) are timed the same way, from
+    // hackElapsed; the initiator stays the active seat through HACK_DECLARE, HACK_RESULT and HACK.
+    public: { playerCount: count, round, phase: { kind: phase, seconds: ['FINISHED', 'ABORTED'].includes(phase) ? 0 : phase === 'VOTE_RESULT' ? Math.ceil((5000 - resultElapsed) / 1000) : HACK_WINDOW[phase] && hackElapsed !== null ? Math.ceil((HACK_WINDOW[phase] - hackElapsed) / 1000) : seconds, ...(phaseId ? { id: phaseId } : {}) },
+      active: ['ORDINARY_TURN', 'HACK_DECLARE', 'HACK_RESULT', 'HACK', 'RELEASE_CHOICE'].includes(phase) ? active : null, seats, ballot, tally, result, endReveal, voteResult, resultElapsed, hackElapsed },
     // resources: what the seat holds (self.rescuesRemaining as rescues); acks: its own acknowledgments
     // (supplierResults with the recipients' seat numbers, receivedSupply, historyAvailable).
-    private: { role, offers: { pass: phase === 'ORDINARY_TURN' && active === VIEWER && !legacy, move: [], ...offers }, knowledge, intel, hackPartner, resources, acks, pending },
-    flow, view, answer, banner, staleCard, legacy, notice,
+    // hackFeedback: the participants' own, bound to its phase (hackFeedbackFixture), null for everyone else.
+    private: { role, offers: { pass: phase === 'ORDINARY_TURN' && active === VIEWER && !legacy, move: [], ...offers }, knowledge, intel, hackPartner, hackFeedback, resources, acks, pending },
+    flow, view, answer, banner, staleCard, legacy, notice, hackFlow,
   };
 }
 
@@ -74,6 +83,73 @@ const moveTo = ['Room B'];
 const END_ROLES = { 1: 'Insider', 2: 'Hacker', 3: 'Officer', 4: 'Red Disabler', 5: 'Undercover', 6: 'Cracker', 7: 'Supplier', 8: 'Alien', 9: 'Blue Disabler' };
 const END_REVEAL = { roles: EVERYONE.map(seat => ({ seat, role: END_ROLES[seat] })), code: [6, 1, 8, 4] };
 const fallen = (seats, list) => { for (const [n, faction] of list) { seats[n - 1].health = 'Eliminated'; seats[n - 1].revealedFaction = faction; seats[n - 1].captain = false; } };
+
+/**
+ * A published vote result (synthetic), in the shape of Backend's proposal (FullVoteResultSchema, PR #125): the
+ * contract's seat IDs and outcome, the aggregate count only. Its startedAt and endsAt are set by the page.
+ */
+export function voteResultFixture(kind, outcome, { round = 2, counts = {}, eligible = 9, selected = null, tied = [], yes = null, released = null } = {}) {
+  const slug = kind.toLowerCase().replace(/_/g, '-');
+  return {
+    id: `fixture-result-${slug}-r${round}`, votePhaseId: `fixture-${slug}-r${round}`, round, kind, outcome,
+    tiedSeatIds: tied.map(n => `seat-${n}`), counts: Object.fromEntries(Object.entries(counts).map(([n, votes]) => [`seat-${n}`, votes])),
+    eligibleVoterCount: eligible, yesCount: yes, selectedSeatId: selected === null ? null : `seat-${selected}`, released,
+  };
+}
+/** A Hack exchange's id (synthetic), the same through its three phases, and the id of each of those phases. */
+export const hackExchangeId = round => `fixture-hack-exchange-r${round}`;
+const HACK_PHASE_NAME = { HACK_DECLARE: 'hack-declare', HACK_RESULT: 'hack-result', HACK: 'hack-talk' };
+export const hackPhaseId = (kind, round) => `fixture-phase-${HACK_PHASE_NAME[kind]}-r${round}`;
+/**
+ * The two participants' own hackFeedback (synthetic), as Frontend's review reads Backend's ba1842f (not on the remote):
+ * hackId, the same for the whole exchange; phaseId, the phase it belongs to (kind: HACK_DECLARE while a declaration is
+ * awaited, HACK_RESULT or HACK after it); the status; the declared side only once the server has accepted it. Nobody
+ * else's view has it.
+ */
+export function hackFeedbackFixture(status, declaredSide = null, { kind = status === 'AWAITING_DECLARATION' ? 'HACK_DECLARE' : 'HACK_RESULT', round = 2 } = {}) {
+  return { hackId: hackExchangeId(round), phaseId: hackPhaseId(kind, round), status, declaredSide: status === 'DECLARED' ? declaredSide : null };
+}
+/**
+ * Out of order (synthetic, the fixture panel): hackFeedback a participant's view must not draw in this phase. 'earlier':
+ * the same exchange's feedback from its previous phase (none in HACK_DECLARE); 'other': another exchange's, the last
+ * round's Hack, claiming Blue. Each is consistent in itself; only its phase id says it is not this phase's.
+ */
+export function staleHackFeedback(from, phase, current, round) {
+  if (!HACK_PHASE_NAME[phase.kind]) return null;
+  if (from === 'other') {
+    const declaring = phase.kind === 'HACK_DECLARE';
+    return { hackId: hackExchangeId(round - 1), phaseId: hackPhaseId(phase.kind, round - 1), status: declaring ? 'AWAITING_DECLARATION' : 'DECLARED', declaredSide: declaring ? null : 'Blue' };
+  }
+  if (phase.kind === 'HACK_RESULT') return { ...current, phaseId: hackPhaseId('HACK_DECLARE', round), status: 'AWAITING_DECLARATION', declaredSide: null };
+  if (phase.kind === 'HACK') return { ...current, phaseId: hackPhaseId('HACK_RESULT', round) };
+  return null;
+}
+/** This phone (Player 3) as the Hack's target, Player 5 the initiator (the active seat); or as the initiator, Player 5 the target. */
+const AS_TARGET = { locations: BUSY_A, active: 5, hackPartner: 5 };
+const AS_INITIATOR = { locations: BUSY_A, active: VIEWER, hackPartner: 5 };
+const DECLARING = { phase: 'HACK_DECLARE', phaseId: hackPhaseId('HACK_DECLARE', 2), hackElapsed: 3000 };
+const CLAIMING = { phase: 'HACK_RESULT', phaseId: hackPhaseId('HACK_RESULT', 2), hackElapsed: 1200 };
+const TALKING = { phase: 'HACK', phaseId: hackPhaseId('HACK', 2), hackElapsed: 8000 };
+/** Five in Room A with this phone (seats 1, 3, 4, 5 and 8). */
+const FIVE_A = ['Room A', 'Room B', 'Room A', 'Room A', 'Room A', 'Hospital', 'Command Room', 'Room A', 'Jail'];
+const awaiting = () => hackFeedbackFixture('AWAITING_DECLARATION');
+const declared = (side, kind = 'HACK_RESULT') => hackFeedbackFixture('DECLARED', side, { kind });
+const undeclared = (kind = 'HACK_RESULT') => hackFeedbackFixture('NO_DECLARATION', null, { kind });
+// Before voting, the prelude keeps the once-a-round move (Integration, docs/frontend/phone-feedback-contract-review.md).
+const declareOffer = { declare: [VIEWER], move: moveTo };
+
+/** Where the nine are once Player 5 is elected Captain: in the Command Room, the last Captain back in Room A. */
+const ELECTED_5 = ['Room A', 'Room B', 'Room A', 'Room B', 'Command Room', 'Hospital', 'Room A', 'Room B', 'Jail'];
+/** Player 4 sent to Jail beside Player 9. */
+const JAILED_4 = ['Room A', 'Room B', 'Room A', 'Jail', 'Room A', 'Hospital', 'Command Room', 'Room B', 'Jail'];
+/** Player 9 released from the Jail to Room A. */
+const RELEASED_9 = ['Room A', 'Room B', 'Room A', 'Room B', 'Room A', 'Hospital', 'Command Room', 'Room B', 'Room A'];
+/** Five in the Hospital, in gowns (the owner's capacity of five). */
+const FIVE_HOSPITAL = ['Hospital', 'Hospital', 'Room A', 'Hospital', 'Hospital', 'Hospital', 'Command Room', 'Room B', 'Jail'];
+/** Five in the Jail, in stripes. */
+const FIVE_JAIL = ['Jail', 'Jail', 'Room A', 'Jail', 'Jail', 'Hospital', 'Command Room', 'Room B', 'Jail'];
+/** The Hospital full (five); Player 9 released but Injured, still waiting in the Jail beside Player 2. */
+const FULL_HOSPITAL_WAITING = ['Hospital', 'Jail', 'Room A', 'Hospital', 'Hospital', 'Hospital', 'Command Room', 'Hospital', 'Jail'];
 
 export const SCENARIOS = [
   // ---------- the board ----------
@@ -242,6 +318,45 @@ export const SCENARIOS = [
   { id: 'robust.dropped', group: 'Robustness', title: 'Backgrounded while choosing: the choice was not sent', s: () => state({ locations: BUSY_A, offers: { move: moveTo, shot: [1, 5, 8] }, notice: COPY.choiceDropped }) },
   { id: 'robust.withdrawn', group: 'Robustness', title: 'A fresh view no longer offers a chosen character', s: () => state({ locations: BUSY_A, offers: { move: moveTo, shot: [1, 8] }, flow: { step: 'choosing', kind: 'shot', picked: [] }, notice: PROPOSED.noLongerOffered(5) }) },
   { id: 'robust.queued', group: 'Robustness', title: 'One command at a time: an earlier one is still registered', s: () => state({ locations: BUSY_A, offers: { move: moveTo }, pending: 1, view: 'actions' }) },
+  // ---------- the vote's result: five seconds after each vote (issue #119; phone kit, issue #121) ----------
+  { id: 'result.captain', group: 'Vote results', title: 'Captain elected: Player 5, five votes of nine (the count, five seconds)', s: () => state({ phase: 'VOTE_RESULT', locations: ELECTED_5, seats: s => { s[6].captain = false; s[4].captain = true; }, voteResult: voteResultFixture('CAPTAIN_ELECTION', 'CAPTAIN_ELECTED', { counts: { 5: 5, 2: 2, 8: 1 }, eligible: 9, selected: 5 }) }) },
+  { id: 'result.runoff', group: 'Vote results', title: 'Captain election tied: Players 2 and 7, a runoff next', s: () => state({ phase: 'VOTE_RESULT', seats: s => { s[6].captain = false; s[6].location = 'Room B'; }, voteResult: voteResultFixture('CAPTAIN_ELECTION', 'RUNOFF_REQUIRED', { counts: { 2: 4, 7: 4 }, eligible: 9, tied: [2, 7] }) }) },
+  { id: 'result.no-captain', group: 'Vote results', title: 'No Captain: everyone abstained', s: () => state({ phase: 'VOTE_RESULT', seats: s => { s[6].captain = false; s[6].location = 'Room B'; }, voteResult: voteResultFixture('CAPTAIN_ELECTION', 'NO_CAPTAIN_ELECTED', { counts: {}, eligible: 9 }) }) },
+  { id: 'result.jailed', group: 'Vote results', title: 'Jail vote: Player 4 sent to Jail, five votes of eight', s: () => state({ phase: 'VOTE_RESULT', round: 3, locations: JAILED_4, seats: s => { s[3].jailed = true; }, voteResult: voteResultFixture('JAIL_VOTE', 'PLAYER_JAILED', { round: 3, counts: { 4: 5, 2: 1, 8: 1 }, eligible: 8, selected: 4 }) }) },
+  { id: 'result.no-jail-tie', group: 'Vote results', title: 'Jail vote tied: Players 2 and 4, nobody sent to Jail', s: () => state({ phase: 'VOTE_RESULT', round: 3, voteResult: voteResultFixture('JAIL_VOTE', 'NO_JAIL_SELECTION', { round: 3, counts: { 2: 3, 4: 3, 8: 1 }, eligible: 8, tied: [2, 4] }) }) },
+  { id: 'result.no-jail', group: 'Vote results', title: 'Jail vote: three votes for Player 4 of nine, nobody sent to Jail', s: () => state({ phase: 'VOTE_RESULT', round: 3, voteResult: voteResultFixture('JAIL_VOTE', 'NO_JAIL_SELECTION', { round: 3, counts: { 4: 3, 2: 2, 8: 1 }, eligible: 9 }) }) },
+  { id: 'result.released', group: 'Vote results', title: 'Release vote: Player 9 released, five yes of eight', s: () => state({ phase: 'VOTE_RESULT', round: 3, locations: RELEASED_9, seats: s => { s[8].jailed = false; }, voteResult: voteResultFixture('RELEASE_VOTE', 'PLAYER_RELEASED', { round: 3, eligible: 8, selected: 9, yes: 5, released: true }) }) },
+  { id: 'result.denied', group: 'Vote results', title: 'Release vote: Player 9 not released, three yes of eight', s: () => state({ phase: 'VOTE_RESULT', round: 3, voteResult: voteResultFixture('RELEASE_VOTE', 'RELEASE_DENIED', { round: 3, eligible: 8, selected: 9, yes: 3, released: false }) }) },
+  { id: 'result.late', group: 'Vote results', title: 'A screen that joins at 3.2 s (a reconnect): the settled result for the time left, no entrance', s: () => state({ phase: 'VOTE_RESULT', locations: ELECTED_5, resultElapsed: 3200, seats: s => { s[6].captain = false; s[4].captain = true; }, voteResult: voteResultFixture('CAPTAIN_ELECTION', 'CAPTAIN_ELECTED', { counts: { 5: 5, 2: 2, 8: 1 }, eligible: 9, selected: 5 }) }) },
+  { id: 'result.long-names', group: 'Vote results', names: 'long', title: 'Tie with long names', s: () => state({ phase: 'VOTE_RESULT', seats: s => { s[6].captain = false; s[6].location = 'Room B'; }, voteResult: voteResultFixture('CAPTAIN_ELECTION', 'RUNOFF_REQUIRED', { counts: { 2: 3, 7: 3, 8: 3 }, eligible: 9, tied: [2, 7, 8] }) }) },
+
+  // ---------- room clothes: the public location's (issue #121) ----------
+  { id: 'clothes.hospital-five', group: 'Room clothes', title: 'Five in the Hospital in gowns (one Healthy again, still in the gown until the next move)', s: () => state({ locations: FIVE_HOSPITAL, seats: s => { s[3].health = 'Healthy'; }, offers: { move: moveTo } }) },
+  { id: 'clothes.jail-five', group: 'Room clothes', title: 'Five in the Jail in stripes, one of them Injured', s: () => state({ locations: FIVE_JAIL, seats: s => { s[3].health = 'Injured'; }, offers: { move: moveTo } }) },
+  { id: 'clothes.waiting', group: 'Room clothes', title: 'Released, Injured, still waiting in the Jail (Hospital full): stripes, no Jailed badge', s: () => state({ locations: FULL_HOSPITAL_WAITING, active: 3, seats: s => { for (const n of [1, 4, 5, 6, 8]) s[n - 1].health = 'Injured'; s[1].jailed = true; s[8].jailed = false; s[8].health = 'Injured'; }, offers: { move: moveTo } }) },
+
+  // ---------- the private Hack, declared side first (issue #120; the phone kit, issue #121) ----------
+  { id: 'hack.declare', group: 'Private Hack', title: 'Target: declare a side within 15 s (the same three for every target)', s: () => state({ ...AS_TARGET, ...DECLARING, hackFeedback: awaiting(), offers: declareOffer }) },
+  { id: 'hack.declare-undercover', group: 'Private Hack', title: 'Target holding the Undercover: the same three, alike', s: () => state({ ...AS_TARGET, ...DECLARING, role: 'Undercover', hackFeedback: awaiting(), offers: declareOffer }) },
+  { id: 'hack.declare-confirm', group: 'Private Hack', title: 'Target: Red chosen, confirm before it is sent', s: () => state({ ...AS_TARGET, ...DECLARING, hackElapsed: 6000, hackFeedback: awaiting(), offers: declareOffer, hackFlow: { step: 'confirming', side: 'Red' } }) },
+  { id: 'hack.declare-sending', group: 'Private Hack', title: 'Target: the declaration on its way (pending)', s: () => state({ ...AS_TARGET, ...DECLARING, hackElapsed: 7000, hackFeedback: awaiting(), offers: declareOffer, hackFlow: { step: 'sending', side: 'Red' } }) },
+  { id: 'hack.declare-not-accepted', group: 'Private Hack', title: 'Target: not accepted, choose again', s: () => state({ ...AS_TARGET, ...DECLARING, hackElapsed: 8000, hackFeedback: awaiting(), offers: declareOffer, hackFlow: { step: 'not-accepted' } }) },
+  { id: 'hack.declare-unknown', group: 'Private Hack', title: 'Target: sent, no answer yet (the next view decides)', s: () => state({ ...AS_TARGET, ...DECLARING, hackElapsed: 9000, hackFeedback: awaiting(), offers: declareOffer, hackFlow: { step: 'unknown', side: 'Red' } }) },
+  { id: 'hack.declare-accepted', group: 'Private Hack', title: 'Target: declared (the receipt, before the claim\'s view)', s: () => state({ ...AS_TARGET, ...DECLARING, hackElapsed: 7600, hackFeedback: awaiting(), offers: declareOffer, hackFlow: { step: 'accepted', side: 'Red' } }) },
+  { id: 'hack.declare-five', group: 'Private Hack', title: 'Target in a room of five', s: () => state({ ...AS_TARGET, ...DECLARING, locations: FIVE_A, hackFeedback: awaiting(), offers: { declare: [VIEWER], move: moveTo } }) },
+  { id: 'hack.declare-long-names', group: 'Private Hack', names: 'long', title: 'Target: twelve-character names', s: () => state({ ...AS_TARGET, ...DECLARING, hackFeedback: awaiting(), offers: declareOffer }) },
+  { id: 'hack.waiting', group: 'Private Hack', title: 'Initiator: waiting for Player 5 to declare', s: () => state({ ...AS_INITIATOR, ...DECLARING, hackElapsed: 5000, hackFeedback: awaiting(), offers: { move: moveTo } }) },
+  { id: 'hack.claim-blue', group: 'Private Hack', title: 'Initiator: Player 5 claims Blue (five seconds)', s: () => state({ ...AS_INITIATOR, ...CLAIMING, hackFeedback: declared('Blue'), offers: { move: moveTo } }) },
+  { id: 'hack.claim-red', group: 'Private Hack', title: 'Initiator: Player 5 claims Red', s: () => state({ ...AS_INITIATOR, ...CLAIMING, hackFeedback: declared('Red'), offers: { move: moveTo } }) },
+  { id: 'hack.claim-alien', group: 'Private Hack', title: 'Initiator: Player 5 claims Alien', s: () => state({ ...AS_INITIATOR, ...CLAIMING, hackFeedback: declared('Alien'), offers: { move: moveTo } }) },
+  { id: 'hack.claim-none', group: 'Private Hack', title: 'Initiator: no side declared', s: () => state({ ...AS_INITIATOR, ...CLAIMING, hackFeedback: undeclared(), offers: { move: moveTo } }) },
+  { id: 'hack.claim-late', group: 'Private Hack', title: 'Initiator joins at 3.2 s (a reconnect): the settled claim, no entrance', s: () => state({ ...AS_INITIATOR, ...CLAIMING, hackElapsed: 3200, hackFeedback: declared('Red'), offers: { move: moveTo } }) },
+  { id: 'hack.own-claim', group: 'Private Hack', title: 'Target: what you declared, shown to Player 5 only', s: () => state({ ...AS_TARGET, ...CLAIMING, hackFeedback: declared('Red'), offers: { move: moveTo } }) },
+  { id: 'hack.own-none', group: 'Private Hack', title: 'Target: time ran out, no side declared', s: () => state({ ...AS_TARGET, ...CLAIMING, hackFeedback: undeclared(), offers: { move: moveTo } }) },
+  { id: 'hack.talk', group: 'Private Hack', title: 'Initiator: the full minute\'s talk, the claim beside it', s: () => state({ ...AS_INITIATOR, ...TALKING, hackFeedback: declared('Red', 'HACK') }) },
+  { id: 'hack.talk-target', group: 'Private Hack', title: 'Target: the full minute\'s talk', s: () => state({ ...AS_TARGET, ...TALKING, hackFeedback: declared('Red', 'HACK') }) },
+  { id: 'hack.talk-none', group: 'Private Hack', title: 'Initiator: the talk after no declaration', s: () => state({ ...AS_INITIATOR, ...TALKING, hackFeedback: undeclared('HACK') }) },
+  { id: 'hack.public', group: 'Private Hack', title: 'Any other phone during the prelude: the phase only, no partner, no claim', s: () => state({ locations: BUSY_A, active: 5, ...DECLARING, offers: { move: moveTo } }) },
 ];
 
 /** Public events the fixture panel can deliver to every screen. Each is one public fact. */
@@ -260,14 +375,31 @@ export const EVENTS = [
   { id: 'round', label: 'Next round', fact: { type: 'PHASE_CHANGED', next: 'round' } },
   { id: 'replay', label: 'Deliver the last snapshot again', fact: { type: 'REPLAY' } },
   { id: 'reconnect', label: 'Reconnect: a fresh snapshot', fact: { type: 'RECONNECT' } },
+  { id: 'close-vote', label: 'The vote closes: its result for five seconds', fact: { type: 'VOTE_CLOSED' } },
+  { id: 'result-ends', label: 'The result’s five seconds end: the next phase', fact: { type: 'RESULT_ENDED' } },
+  // The declared-side Hack's windows (synthetic): each a public phase change; a participant's view also says what it means for them.
+  { id: 'hack-declare-ends', label: 'The declaration window closes: the five-second claim', fact: { type: 'HACK_PHASE', next: 'HACK_RESULT' } },
+  { id: 'hack-result-ends', label: 'The claim\u2019s five seconds end: the Hack\u2019s full minute', fact: { type: 'HACK_PHASE', next: 'HACK' } },
+  { id: 'hack-ends', label: 'The Hack\u2019s minute ends: the next turn', fact: { type: 'HACK_PHASE', next: 'ORDINARY_TURN' } },
   { id: 'finish', label: 'The match ends: Blue wins', fact: { type: 'MATCH_ENDED', phase: 'FINISHED', result: { winner: 'Blue', alienCoWinner: false }, endReveal: END_REVEAL } },
   { id: 'abort', label: 'The host ends the match', fact: { type: 'MATCH_ENDED', phase: 'ABORTED' } },
 ];
 
-/** Facts of the seat's own view alone (synthetic), for the fixture panel: nothing public changes with them. */
+/**
+ * Facts of the seat's own view alone (synthetic), for the fixture panel: nothing public changes with them, except that
+ * the Hack partner's accepted declaration also ends the public declaration window, as the server does (the phase, never the claim).
+ */
 export const PRIVATE_EVENTS = [
   { id: 'guard-granted', label: 'The round resolves: your Protection for Player 5', fact: { type: 'PRIVATE_GUARD_GRANTED', seat: 5 } },
   { id: 'guard-used', label: 'Your Protection for Player 5 is used up', fact: { type: 'PRIVATE_GUARD_USED', seat: 5 } },
+  { id: 'hack-declared-blue', label: 'Your Hack partner declares Blue', fact: { type: 'PRIVATE_HACK_DECLARED', side: 'Blue' } },
+  { id: 'hack-declared-red', label: 'Your Hack partner declares Red', fact: { type: 'PRIVATE_HACK_DECLARED', side: 'Red' } },
+  { id: 'hack-declared-alien', label: 'Your Hack partner declares Alien', fact: { type: 'PRIVATE_HACK_DECLARED', side: 'Alien' } },
+  { id: 'hack-audience', label: 'Your view stops carrying the Hack (the audience changes)', fact: { type: 'PRIVATE_HACK_CLEARED' } },
+  // Out of order: feedback that is not this phase's reaches the view, then this phase's own again (hackFeedbackProblem).
+  { id: 'hack-stale-earlier', label: 'Out of order: this Hack\u2019s feedback from its previous phase', fact: { type: 'PRIVATE_HACK_STALE', from: 'earlier' } },
+  { id: 'hack-stale-other', label: 'Out of order: another Hack\u2019s feedback', fact: { type: 'PRIVATE_HACK_STALE', from: 'other' } },
+  { id: 'hack-current', label: 'This phase\u2019s own Hack feedback again', fact: { type: 'PRIVATE_HACK_CURRENT' } },
 ];
 
 export const scenario = id => SCENARIOS.find(entry => entry.id === id) ?? SCENARIOS[0];

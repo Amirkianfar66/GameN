@@ -1,0 +1,42 @@
+import assert from 'node:assert/strict';
+import test from 'node:test';
+import { phoneKitEntries, createPhoneKitCues } from '../hosted/phone-kit-cues.mjs';
+const current=(change={})=>({current:true,reduced:false,result:null,hack:null,...change});
+const claim=(stage,elapsedMs=0)=>({id:'exchange',phaseId:stage,stage,elapsedMs});
+test('fresh entries use remaining reviewed time; initial, reconnect, late and repeated results render settled',()=>{
+ const entry=current({result:{id:'vote',elapsedMs:120}});
+ assert.deepEqual(phoneKitEntries(null,entry),[]);
+ assert.deepEqual(phoneKitEntries(current({current:false}),entry),[]);
+ assert.deepEqual(phoneKitEntries(current(),entry),[{kind:'public',duration:320,elapsedMs:120}]);
+ assert.deepEqual(phoneKitEntries(entry,entry),[]);
+ assert.deepEqual(phoneKitEntries(current(),current({result:{id:'late',elapsedMs:320}})),[]);
+ assert.deepEqual(phoneKitEntries(current(),current({reduced:true,result:{id:'vote',elapsedMs:30}})),[{kind:'public',duration:80,elapsedMs:30}]);
+ assert.deepEqual(phoneKitEntries(current(),current({reduced:true,result:{id:'vote',elapsedMs:80}})),[]);
+});
+test('a claim entry requires its observed declaration; another exchange, talk and explicit reopen never replay it',()=>{
+ const declaring=current({hack:claim('HACK_DECLARE')});
+ const result=current({hack:claim('HACK_RESULT',50)});
+ assert.deepEqual(phoneKitEntries(declaring,result),[{kind:'private',duration:300,elapsedMs:50}]);
+ assert.deepEqual(phoneKitEntries(current(),result),[]);
+ assert.deepEqual(phoneKitEntries(declaring,current({hack:{...result.hack,id:'another'}})),[]);
+ assert.deepEqual(phoneKitEntries(result,result),[]);
+ assert.deepEqual(phoneKitEntries(declaring,current({hack:claim('HACK',0)})),[]);
+ assert.deepEqual(phoneKitEntries(declaring,current({hack:claim('HACK_RESULT',300)})),[]);
+});
+test('concealment cancels private fades, background settles public fades, and a motion preference change cancels without a redraw',t=>{
+ let changed;const media={matches:false,addEventListener:(_,callback)=>{changed=callback;},removeEventListener:()=>{changed=null;}};
+ const old=globalThis.matchMedia;globalThis.matchMedia=()=>media;t.after(()=>{globalThis.matchMedia=old;});
+ const played=[];const target={animate:(_,options)=>{const animation={options,cancelled:false,finished:new Promise(()=>{}),cancel(){this.cancelled=true;}};played.push(animation);return animation;}};
+ const document={visibilityState:'visible'};
+ const root={ownerDocument:document,querySelector:()=>target};
+ const model=(result=null,hack=null)=>({screen:'match',connection:'live',motion:'full',banners:[],match:{voteResult:result,privateArea:{content:{hackFeedback:hack}}}});
+ const cues=createPhoneKitCues(root);t.after(()=>cues.dispose());
+ cues.after(model(null,claim('HACK_DECLARE')));cues.after(model(null,claim('HACK_RESULT',10)));
+ assert.equal(played.length,1);assert.equal(played[0].options.delay,-10);
+ cues.after(model());assert.equal(played[0].cancelled,true);
+ cues.after(model({id:'vote',elapsedMs:20}));assert.equal(played.length,2);
+ document.visibilityState='hidden';cues.after(model({id:'vote',elapsedMs:25}));assert.equal(played[1].cancelled,true);
+ document.visibilityState='visible';cues.after(model());cues.after(model({id:'another-vote',elapsedMs:0}));
+ media.matches=true;changed();assert.equal(played[2].cancelled,true);
+ cues.dispose();assert.equal(changed,null);
+});

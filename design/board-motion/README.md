@@ -37,15 +37,16 @@ The controls on the right are the prototype's own, not the design: pick a scenar
 
 | Path | What it is |
 | --- | --- |
-| `index.html`, `js/app.js` | The phone: the controller (the release's steps, one command at a time), drawing, the board's fit, the observer, the fixture panel and `?play=&t=` holds |
+| `index.html`, `js/app.js` | The phone: the controller (the release's steps, one command at a time), drawing, the board's fit, the observer, the fixture panel and `?play=&t=` holds. It loads the phone kit (`design/phone-kit/`, issue #121: the navy and gold shell, the vote result, the private Hack); `?kit=0` leaves out the kit's stylesheet |
 | `js/board.js` | The comic board from public facts: each room a framed scene, each character drawn live at its place; private cues passed in by the viewer's own action only |
 | `js/layout.js` | Places and gestures from public facts: who is in the room by seat number and the places drawn before, the Captain, Injured, Eliminated. Pure: the checks run it in Node |
 | `scenes/` | The five rooms as scenes: `kit.mjs` (the drawing of decks, props and light), one module a room (its approved groups, its props, its 21 places' points, scales, depths, gestures and falls, the layers drawn in front of a place), `compose.mjs` (lifts the approved groups and recolors them), `frame.mjs` (how a scene is framed in a panel of any size, and its press areas) |
-| `figures/` | The figures' drawing rig: `rig.mjs` (ink, cel shadow, halftone, hatching), `crew.mjs` (the nine characters, in `color.crew`, front and back heads), `parts.mjs` (hands, boots, held things), `body.mjs` (a skeleton drawn as a body), `gestures.mjs` (27 gestures; the marks `+injured` and `+still`), `motion.mjs` (blending, the walk, the jolt, flinch and fall, and the timelines), `plan.mjs` (the review sheets) |
+| `figures/` | The figures' drawing rig: `rig.mjs` (ink, cel shadow, halftone, hatching), `crew.mjs` (the nine characters, in `color.crew`, front and back heads), `parts.mjs` (hands, boots, held things), `body.mjs` (a skeleton drawn as a body), `gestures.mjs` (27 gestures; the marks `+injured` and `+still`), `motion.mjs` (blending, the walk, the jolt, flinch and fall, and the timelines), `plan.mjs` (the review sheets), `wardrobe.mjs` (the room clothes, issue #121: the Hospital gown and the Jail suit by public location; the crew suit is `body.mjs`'s figure byte for byte) |
 | `lab/` | The figure lab: gestures for all nine, a scene with its places taken, an animation as a row of frames |
-| `js/director.js` | Public cues from the difference between two drawn views: moves (out of the place, the walk, into the new one), hits, status changes, turn, phase, round, the match's end |
+| `js/director.js` | Public cues from the difference between two drawn views: moves (out of the place, the walk, into the new one, in the clothes of the room left and then of the room reached), hits, status changes, turn, phase, round, the match's end |
+| `js/dress.js` | Dresses the board's figures in their room's clothes after each update (`board.js` is a frozen drawing source and is not changed) |
 | `js/copy.js` | The release's words (`COPY`, compared with the built `en`; `SHELL`, found verbatim), and the new words (`PROPOSED`) |
-| `js/fixtures.js` | 129 synthetic scenarios, the nine characters, and the public and private facts the panel delivers |
+| `js/fixtures.js` | 163 synthetic scenarios, the nine characters, and the public and private facts the panel delivers |
 | `js/vocabulary.js`, `vocabulary.html` | Nine characters in eleven states, drawn by the rig as the board draws them |
 | `css/board.css` | Tokens only, art only behind the bundle marks, private cues only on the own board, roles only inside the card and, at a finished match, the end's result sheet; nothing repeats |
 | `contract/cues.json` | Every cue: trigger, audience, facts, anchor, timing, cancellation, settled state, reduced motion, asset |

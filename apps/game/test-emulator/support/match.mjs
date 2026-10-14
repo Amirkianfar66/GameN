@@ -13,7 +13,10 @@ export const requestId = () => ports.ids.next();
 export function readyTestAcknowledgment(versions) {
   if (!supportsVoteResults(versions)) return {};
   assert.ok([VOTE_RESULT_VERSION_PINS, DECLARED_HACK_VERSION_PINS].some(pins => sameFullGameplayPins(versions,pins)),'Harness must explicitly adopt the new gameplay tuple');
-  assert.ok(['0.0.0-no-assets','design-0.2.0'].includes(versions.assetManifestVersion),'Known emulator artifact pin required');
+  const knownPair = versions.assetManifestVersion === '0.0.0-no-assets'
+    || sameFullGameplayPins(versions,VOTE_RESULT_VERSION_PINS) && versions.assetManifestVersion === 'design-0.2.0'
+    || sameFullGameplayPins(versions,DECLARED_HACK_VERSION_PINS) && versions.assetManifestVersion === 'design-0.3.0';
+  assert.ok(knownPair,'Known emulator gameplay and artifact pair required');
   return {acceptedVersions:{...versions}};
 }
 
