@@ -31,7 +31,7 @@ const requests = {
 const responseSchemas = [FullOperationResponseSchema, FullCommandResponseSchema,
   FullLookupResponseSchema, FullAdvanceResponseSchema, FullServerTimeResponseSchema];
 
-test('protocol-2 handoff includes strict requests for every endpoint and every gameplay command type', () => {
+test('historical protocol-2 handoff preserves every original endpoint and gameplay command example', () => {
   assert.equal(examples.syntheticOnly, true);
   assert.deepEqual(Object.keys(examples.requests).sort(), Object.keys(requests).sort());
   for (const [endpoint, schema] of Object.entries(requests)) {
@@ -40,7 +40,8 @@ test('protocol-2 handoff includes strict requests for every endpoint and every g
     assert.equal(schema.safeParse({ ...request, actorSeatId: 'seat-5' }).success, false, endpoint);
     assert.equal(schema.safeParse({ ...request, protocolVersion: 1 }).success, false, endpoint);
   }
-  const expected = FullCommandSchema.options.map(schema => schema.shape.type.value).sort();
+  // Preserve the immutable historical artifact; new versioned declarations have separate acceptance coverage.
+  const expected = FullCommandSchema.options.map(schema => schema.shape.type.value).filter(type => type !== 'DECLARE_HACK_SIDE').sort();
   assert.deepEqual(examples.commandRequests.map(request => request.command.type).sort(), expected);
   for (const request of examples.commandRequests) {
     assert.deepEqual(FullCommandRequestSchema.parse(request), request);
