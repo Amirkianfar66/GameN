@@ -11,7 +11,7 @@ export const KNOWN_SUCCESSOR_COMMANDS=Object.freeze({CAPTAIN_RELEASE:'full-game-
   REQUEST_BLACKOUT:'full-game-1.9.0',SELECT_BLACKOUT_SLOT:'full-game-1.9.0',ACTIVATE_CLONE:'full-game-1.10.0'});
 // Add exact affected-consumer kind names only with its reviewed adoption patch.
 export const KNOWN_SUCCESSOR_ACTIONS=Object.freeze({'captain-release':'CAPTAIN_RELEASE','captain-eject':'CAPTAIN_EJECT',
-  'blackout-request':'REQUEST_BLACKOUT','blackout-slot':'SELECT_BLACKOUT_SLOT'});
+  'blackout-request':'REQUEST_BLACKOUT','blackout-slot':'SELECT_BLACKOUT_SLOT','activate-clone':'ACTIVATE_CLONE'});
 export function historicalReleaseCoverageProblems(coverage,kinds,commands,manifest) {
   const problems=[];
   const pins=manifest.gameplayPins;

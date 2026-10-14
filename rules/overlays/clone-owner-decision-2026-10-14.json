@@ -1,0 +1,52 @@
+{
+  "decision_id": "clone-owner-decision-2026-10-14",
+  "status": "confirmed",
+  "decided_on": "2026-10-14",
+  "authority": "Closed owner G-03/Q-C01/Q-C02d/e/f/Q-H03; owner completion delegated through Integration; reserved1.10 on #139; Frontend reviewed cloneStatus and activate-clone reader.",
+  "issue": "https://github.com/Amirkianfar66/GameN/issues/149",
+  "base_commit": "f10ff876ae9c6d838332c01c7be112f15d6e796e",
+  "owner_specification": {
+    "packet_sha256": "b5b4ba2dea6063e20f559894183d0c675a3f754b2789db2e38c5b33e1590b743",
+    "sections": [
+      "G-03",
+      "G-04",
+      "rules-contracts",
+      "Q-C01",
+      "Q-C02d",
+      "Q-C02e",
+      "Q-C02f",
+      "Q-H03"
+    ]
+  },
+  "parent_ruleset": {
+    "version": "in-person-v1-blackout-2026-10-14",
+    "hash": "7784630d4e6a51f7a8e6c89873dfab479b5281f10ddbcb4918503525096ed7a0"
+  },
+  "protocol_version": 2,
+  "engine_version": "full-game-1.10.0",
+  "ruleset_version": "in-person-v1-clone-2026-10-14",
+  "optional_powers": false,
+  "decisions": [
+    {
+      "id": "CLONE-01",
+      "decision": "Targetless ACTIVATE_CLONE requires Alien Healthy/free own ordinary turn, unused Main Action and lifetime use. Activate immediately and spend both once, independently of ordinary Shot/Hack. No new public activation/use/expiry cue."
+    },
+    {
+      "id": "CLONE-02",
+      "decision": "Active through complete following numbered normal resolution; expires after min(activationRound+1,5), never Round6. Later injury/detention/move/heal/reconnect/retry cannot restart, cancel or extend original expiry. Elimination and match completion end active effect."
+    },
+    {
+      "id": "CLONE-03",
+      "decision": "Blocks normal ordinary shots and Blackout, including repeated attacks, before Protection. Clone is not consumed by block and Protection remains independently valid. Publish identical frozen room ATTACK_BLOCKED only to actual checkpoint room occupants, no defensive cause/grantor/role/activation cue."
+    },
+    {
+      "id": "CLONE-04",
+      "decision": "Special showdown shots bypass Clone and consume applicable Protection normally. Hospital aging and Captain EJECT bypass both defenses; voting/Hack/Scan/Rescue/Captain commands unaffected. No healing/movement/ammunition grant by activation."
+    },
+    {
+      "id": "CLONE-COMPATIBILITY-01",
+      "decision": "Exact1.10 only, inherits1.9 Blackout/Captain/medical. All1.0\u20131.9 tuples, replay, original identity Code, defaults/profile/art remain immutable. Requirednew-only private self.cloneStatus nullnonAlien or used/activatedRound/expiresAfterRound/active Alien, no shared field."
+    }
+  ],
+  "version_policy": "Inactive candidate; final creation/profile/art activation and deployment remain Integration-owned. Independent Balance and affected consumer acceptance remain gates."
+}
