@@ -51,7 +51,7 @@ const hide = page => page.evaluate(`(() => { Object.defineProperty(document, 'vi
 const show = page => page.evaluate(`(() => { Object.defineProperty(document, 'visibilityState', { value: 'visible', configurable: true }); document.dispatchEvent(new Event('visibilitychange')); })()`);
 const privateDOM = page => page.evaluate(`(() => {
   const app = document.getElementById('bm-app');
-  return [...app.querySelectorAll('[data-target], .bm-piece__target, .bm-piece__pick, .bm-ghost, .bm-stamp, .bm-private, .bm-know, [data-device], [data-team], #bm-strip[data-step], #bm-live-private > *')].map(n => n.className || n.id);
+  return [...app.querySelectorAll('[data-target], .bm-piece__target, .bm-piece__pick, .bm-ghost, .bm-stamp, .bm-private, .bm-know, [data-device], [data-team], #bm-strip[data-step], #bm-live-private > *, .pk-hack, [data-art^="hack-"]')].map(n => n.className || n.id);
 })()`);
 /** A real key press, as the browser's input pipeline delivers it to the focused element. */
 async function key(page, name, code = name, keyCode = 0, text = undefined) {

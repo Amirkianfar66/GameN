@@ -14,7 +14,8 @@ export function offerProblems(state, viewer) {
   const alive = seat => Boolean(seat) && seat.health !== 'Eliminated';
   const ready = seat => seat?.health === 'Healthy' && !seat.jailed;
   const ownTurn = phase.kind === 'ORDINARY_TURN' && active === viewer;
-  const beforeVoting = ['ORDINARY_TURN', 'HACK', 'CAPTAIN_ELECTION'].includes(phase.kind);
+  // The declared-side Hack's prelude (HACK_DECLARE, HACK_RESULT) keeps the before-voting move (Backend's proposal, PR #125).
+  const beforeVoting = ['ORDINARY_TURN', 'HACK_DECLARE', 'HACK_RESULT', 'HACK', 'CAPTAIN_ELECTION'].includes(phase.kind);
   const fail = (condition, message) => { if (!condition) problems.push(message); };
   const present = value => Array.isArray(value) ? value.length > 0 : Boolean(value);
   const seatById = n => seats.find(seat => seat.n === n);
@@ -65,6 +66,13 @@ export function offerProblems(state, viewer) {
       for (const n of offer) fail(alive(seatById(n)) && seatById(n)?.jailed, `release-choice offers a free or Eliminated Player ${n}`);
     }
     if (kind === 'release-vote') fail(phase.kind === 'RELEASE_VOTE' && alive(self) && ballot?.voters.includes(viewer), 'release-vote requires a living eligible voter in Release vote');
+    // legalTargets.DECLARE_HACK_SIDE: only the fixed target's own seat, in HACK_DECLARE, before a declaration.
+    if (kind === 'declare') {
+      const feedback = state.private.hackFeedback;
+      fail(phase.kind === 'HACK_DECLARE', 'declare requires HACK_DECLARE');
+      fail(JSON.stringify(offer) === JSON.stringify([viewer]), 'declare offers anything but the viewer\'s own seat');
+      fail(feedback?.status === 'AWAITING_DECLARATION' && active !== viewer && state.private.hackPartner === active, 'declare requires the fixed target (the initiator\'s partner), before a declaration');
+    }
   }
   if (['CAPTAIN_ELECTION', 'JAIL_VOTE', 'RELEASE_VOTE'].includes(phase.kind)) {
     const voters = seats.filter(alive).map(seat => seat.n);

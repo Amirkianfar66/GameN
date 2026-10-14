@@ -1,7 +1,7 @@
 {
   "devOnly": "mothership:dev-only",
   "sourceCommit": "49f0db4d34d2a2a418f669a13bed660fc665b1b6",
-  "version": "drawing-port-adoption-2",
+  "version": "drawing-port-adoption-3",
   "sourceHashes": {
     "design/board-motion/figures/body.mjs": "9d081fc4926d07dd1d56e90bd5452ed05052a806f2d33212a1b76c8e107fc958",
     "design/board-motion/figures/crew.mjs": "bb65a81f52013fc71966ae813d2d7929e871ed9b837c2f2c1cab9093135cb171",
@@ -19,11 +19,8 @@
     "design/board-motion/scenes/hospital.mjs": "55e56114ccc150ca8048f2851d9168b7bdbe6f7c79575e5273ae8d8cbc972fa9",
     "design/board-motion/scenes/jail.mjs": "c2eed83374299fb205683244d50873b3a0029308c45c4505cd1dc998b401eef4",
     "design/board-motion/js/board.js": "56a1cfcd9c838ab65c4c381a334acee083d5698f5d1099fba69102dfd3adbeb6",
-    "design/phone-feedback/assets/manifest.json": "03cdd6b0f02477b2f094c7e502249f5780c7dfc9685ba2cc1c16df5e8c66d77e",
-    "design/phone-feedback/source/wardrobe.mjs": "9eb24fce2a7559a45e6442de54d720d33a246560758d44bc3e454bb19419fd35",
-    "design/phone-feedback/source/compact-layout.mjs": "9ce56537b5f0e0d85ee8da7a65c507fb93108b904334e15b08731be5d21dc87f",
-    "design/phone-feedback/source/icons.mjs": "4cfb567bad09e58d675b76d3226e4c37f9baf23904fe9092badea2f0b8dbdefc",
-    "design/phone-feedback/contract/tokens.json": "c8afa32df4b29df64f7e037a408c33702f5b7877867ca5ffa24626b767d5c38d"
+    "design/board-motion/figures/wardrobe.mjs": "1c30862d77ce7fa94275934467c5b596e68dbe0d41f3d102bd0c040bc5feca6f",
+    "design/phone-kit/source/art.mjs": "c86770765e06f487b5fa0f3b2be57c824d114a796a5930f96ff35c7358f95761"
   },
   "ports": {
     "apps/game/hosted/scene-drawing/body.mjs": {
@@ -67,20 +64,12 @@
       "sha256": "5d6a73cc5e20daad520e69a70747fdb74ced22873d36be175ddb596afe77b861"
     },
     "apps/game/hosted/scene-drawing/wardrobe.mjs": {
-      "source": "design/phone-feedback/source/wardrobe.mjs",
-      "sha256": "1150f67bea3df821fe513777b3de353fb0d54b82fb90b4a4e6160cf1fe8b95fd"
+      "source": "design/board-motion/figures/wardrobe.mjs",
+      "sha256": "312c4cda048585f9270b3de095e2dcf44dc0dadd4c73392b1206da303ae8ddc3"
     },
-    "apps/game/hosted/scene-drawing/compact-layout.mjs": {
-      "source": "design/phone-feedback/source/compact-layout.mjs",
-      "sha256": "cc4f06755db5651334dc658745ccf2f4e18c3e9d57ab92ed5a9259af8cc383a3"
-    },
-    "apps/game/hosted/scene-drawing/icons.mjs": {
-      "source": "design/phone-feedback/source/icons.mjs",
-      "sha256": "9b4913f9b5d78d58a543e7d4d163e5870f840361b7d13143752b532f710a4380"
-    },
-    "apps/game/hosted/phone-feedback-tokens.json": {
-      "source": "design/phone-feedback/contract/tokens.json",
-      "sha256": "c8afa32df4b29df64f7e037a408c33702f5b7877867ca5ffa24626b767d5c38d"
+    "apps/game/hosted/scene-drawing/phone-kit-art.mjs": {
+      "source": "design/phone-kit/source/art.mjs",
+      "sha256": "713b860ffaaa91ba6610457d39b6c818bad9aad28fb4967f830d21c0dcf61e86"
     }
   },
   "styles": {
@@ -93,12 +82,14 @@
   },
   "buildFiles": {
     "apps/game/hosted/comic-assets.mjs": {
-      "sha256": "89b48e78c88c2cfbe7e9f507a16b580989d123b0d417385c2a417598973a5cb0",
+      "sha256": "54886f2b7e82a8da65030830a4940ff06a74beca7562773fc5eb8b2d0bfe37c8",
       "assetHashes": {
         "design/board-motion/assets/manifest.json": "1983f9ad21e0a71b43bf865a2b1aeff11b7ad2f96ffc57dce4b5dcc788148c7a",
         "design/board-motion/assets/board-motion.scenes.css": "bf80c2fd41dad78f2b65b5e643b9e2c3fe05407d2d281b82cf45d6d6c4cf5e20",
         "design/abilities/assets/manifest.json": "fa39d6d2d5e9f0149c1aa5df7f9edd06180e61bbd79140d2cb15c6a74e269316",
-        "design/abilities/assets/abilities.art.css": "606cab7facc8ad8542e2b7d0ac1ad17ceaae68328aa9fc8f123c4872e7a35b1b"
+        "design/abilities/assets/abilities.art.css": "606cab7facc8ad8542e2b7d0ac1ad17ceaae68328aa9fc8f123c4872e7a35b1b",
+        "design/releases/design-0.3.0.json": "2c0fb40cd20ef4f0c46707010921c1206f0ee54ed7a293a2b3aee13160b0a3ba",
+        "scripts/runtime-art-release.mjs": "bce98c93c73aed212d9c7855ccce837da29cc9c3dbea860f76d1c773c4eaddcd"
       },
       "permittedLiterals": [
         "board-motion/assets/manifest.json",
@@ -107,11 +98,11 @@
       ]
     }
   },
-  "scope": "Owner-authorized frozen slice-7 pure drawing ports, stylesheet derivative and hashed build-only asset plugin. No prototype imports or directory exemption.",
+  "scope": "Owner-authorized release integration: retain the historical pure drawing ports and ability stylesheet, replace provisional phone-feedback ports with exact reviewed Claude phone-kit derivatives. No prototype imports or directory exemption.",
   "styleSourceCommit": "d87163358ea85878fd3e9e4ffb347c4e71d6de5d",
-  "phoneFeedbackAdoption": {
-    "sourceCommit": "44c25268a04debaa00d6a7ec3f02d254775704c8",
-    "sourceManifest": "design/phone-feedback/assets/manifest.json",
-    "scope": "Three pure drawing/layout/icon derivatives and exact token bytes; no prototype runtime imports."
+  "phoneKitAdoption": {
+    "sourceCommit": "5c9a1510d35d4b9762f9bc2a27dae3f5d53bd5d7",
+    "sourceManifest": "design/phone-kit/assets/manifest.json",
+    "scope": "Exactly two pure Claude drawing derivatives; only the leading dev-only comment is removed. No prototype controller, fixture, timing or layout module is adopted."
   }
 }

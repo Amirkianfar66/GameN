@@ -18,6 +18,7 @@ import { planCoverage, COVERAGE_PATH } from './board-motion-docs.mjs';
 import { boardMotionInputsSha256 } from './lib/board-motion-inputs.mjs';
 import { offerProblems } from './lib/board-motion-offers.mjs';
 import { productionDrawingProblems } from './lib/drawing-port-fence.mjs';
+import { readReleaseActionCoverage } from './lib/release-action-coverage.mjs';
 
 const repoRoot = resolve(fileURLToPath(new URL('../../', import.meta.url)));
 const text = path => readFile(resolve(repoRoot, path), 'utf8');
@@ -34,7 +35,7 @@ const load = path => import(pathToFileURL(resolve(repoRoot, path)).href);
 const ROLE_WORDS = ['Officer', 'Insider', 'Cracker', 'Blue Disabler', 'Supplier', 'Undercover', 'Hacker', 'Red Disabler', 'Alien'];
 const TOOLS = ['design/tools/board-motion-assets.mjs', 'design/tools/board-motion-capture.mjs', 'design/tools/board-motion-check.mjs', 'design/tools/board-motion-docs.mjs',
   'design/tools/board-motion-flows.mjs', 'design/tools/lib/board-motion-inputs.mjs', 'design/tools/lib/drawing-port-fence.mjs', 'design/tools/lib/reviewed-drawing-ports.json'];
-const coverage = await json('design/board-motion/contract/coverage.json');
+const coverage = await readReleaseActionCoverage(repoRoot);
 const cues = await json('design/board-motion/contract/cues.json');
 // The prototype's own modules run here in Node. One that does not load is refused by name below,
 // after the fence check, which reads files as text and so still says why.
@@ -177,7 +178,7 @@ if (loadError) {
     for (const cue of action.cues) if (!cueIds.has(cue)) problems.push(`${action.kind}: unknown cue ${cue}`);
     if (action.scenarios.length === 0) problems.push(`${action.kind}: no scenario`);
     for (const id of action.scenarios) if (!scenarioIds.has(id)) problems.push(`${action.kind}: no scenario ${id}`);
-    if (!['move', 'pass', 'release-vote'].includes(action.kind) && !action.cues.includes('cue-target-eligible')) problems.push(`${action.kind}: names players and has no eligible cue`);
+    if (!['move', 'pass', 'release-vote', 'declare-hack-side'].includes(action.kind) && !action.cues.includes('cue-target-eligible')) problems.push(`${action.kind}: names players and has no eligible cue`);
   }
   const scan = coverage.actions.find(action => action.kind === 'scan');
   if (JSON.stringify(scan?.inline) !== JSON.stringify(factions)) problems.push(`the Scan's answers are not the contract's factions (${factions.join(', ')})`);
@@ -390,7 +391,14 @@ if (loadError) {
       if (endReveal.code.length !== 4 || new Set(endReveal.code).size !== 4 || !endReveal.code.includes(alien) || endReveal.code.includes(undercover)) problems.push(`${entry.id}: the end reveal's Code is not four seats with the Alien and without the Undercover`);
       for (const seat of state.public.seats) if (seat.revealedFaction && seat.revealedFaction !== side(roleOf(seat.n))) problems.push(`${entry.id}: Player ${seat.n} is revealed ${seat.revealedFaction} and was ${roleOf(seat.n)}`);
     }
-    for (const key of ['role', 'offers', 'legalTargets', 'knowledge', 'hackPartner', 'ownBallot', 'protections']) if (new RegExp(`"${key}"`).test(publicPart)) problems.push(`${entry.id}: the public state holds ${key}`);
+    for (const key of ['role', 'offers', 'legalTargets', 'knowledge', 'hackPartner', 'hackFeedback', 'declaredSide', 'ownBallot', 'protections']) if (new RegExp(`"${key}"`).test(publicPart)) problems.push(`${entry.id}: the public state holds ${key}`);
+    // The declared-side Hack (issue #120): its feedback only in a participant's own view, for its own phases.
+    const feedback = state.private.hackFeedback;
+    if (feedback && !['HACK_DECLARE', 'HACK_RESULT', 'HACK'].includes(state.public.phase.kind)) problems.push(`${entry.id}: hackFeedback outside the Hack`);
+    if (feedback && (state.private.hackPartner === null || state.private.hackPartner === fixtures.VIEWER)) problems.push(`${entry.id}: hackFeedback without a partner`);
+    if (feedback && state.public.active !== fixtures.VIEWER && state.public.active !== state.private.hackPartner) problems.push(`${entry.id}: a target whose partner is not the initiator (the active seat)`);
+    if (feedback && (feedback.status === 'DECLARED') !== ['Blue', 'Red', 'Alien'].includes(feedback.declaredSide)) problems.push(`${entry.id}: a declared side without DECLARED, or DECLARED without one of the three`);
+    if (feedback && (!feedback.hackId || !state.public.phase.id || feedback.phaseId !== state.public.phase.id)) problems.push(`${entry.id}: hackFeedback not bound to its phase (a hackId, and the phase's own id as phaseId)`);
     for (const seat of state.public.seats) if (seat.revealedFaction && seat.health !== 'Eliminated') problems.push(`${entry.id}: Player ${seat.n} has a revealed faction and is not Eliminated`);
     if (state.public.seats.length !== state.public.playerCount || ![7, 8, 9].includes(state.public.playerCount)) problems.push(`${entry.id}: not a 7, 8 or 9 player roster`);
     const offers = state.private.offers;
@@ -410,12 +418,13 @@ if (loadError) {
     }
   }
   // MATCH_ENDED: the view's phase turning FINISHED (with the result and the end reveal, public then) or ABORTED (with neither).
-  const allowed = new Set(['PUBLIC_MOVE', 'PUBLIC_HEALTH_CHANGED', 'PHASE_CHANGED', 'VIEW_CAPTAIN', 'MATCH_ENDED', 'REPLAY', 'RECONNECT']);
+  // VOTE_CLOSED and RESULT_ENDED: a vote's public result opens and ends (issue #119); HACK_PHASE: the Hack's next public window (issue #120).
+  const allowed = new Set(['PUBLIC_MOVE', 'PUBLIC_HEALTH_CHANGED', 'PHASE_CHANGED', 'VIEW_CAPTAIN', 'MATCH_ENDED', 'REPLAY', 'RECONNECT', 'VOTE_CLOSED', 'RESULT_ENDED', 'HACK_PHASE']);
   for (const event of fixtures.EVENTS) {
     if (!allowed.has(event.fact.type)) problems.push(`event ${event.id}: ${event.fact.type} is not a public fact`);
     // A finished match carries both the result and the end reveal; any other end carries neither.
     if (event.fact.type === 'MATCH_ENDED' && (event.fact.phase === 'FINISHED' ? !(event.fact.result && event.fact.endReveal) : Boolean(event.fact.result || event.fact.endReveal))) problems.push(`event ${event.id}: a result or an end reveal outside a finished match, or a finished match without them`);
-    for (const key of Object.keys(event.fact)) if (/attacker|shooter|source|cause|weapon|giver|by|from|actor|protect/i.test(key)) problems.push(`event ${event.id}: carries ${key}`);
+    for (const key of Object.keys(event.fact)) if (/attacker|shooter|source|cause|weapon|giver|by|from|actor|protect|side|claim|declared|partner|target/i.test(key)) problems.push(`event ${event.id}: carries ${key}`);
   }
   if (!fixtures.SYNTHETIC_LABEL || !/synthetic/i.test(fixtures.SYNTHETIC_LABEL)) problems.push('the fixtures are not labeled synthetic');
   check('public fixtures carry nothing private, offers meet static engine predicates (not reachability), events are public facts', problems);

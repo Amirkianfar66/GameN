@@ -16,7 +16,7 @@ function normalize(value) {
   for (let i = 0; i < 2; i++) { try { value = decodeURIComponent(value); } catch { break; } }
   return value.replaceAll('\\', '/').replace(/\/+/g, '/').toLowerCase();
 }
-const prototypeLocation = value => /(?:^|\/)(?:board-motion|phone-feedback)(?:\/|$)/.test(normalize(value));
+const prototypeLocation = value => /(?:^|\/)(?:board-motion|phone-feedback|phone-kit|board-v2)(?:\/|$)/.test(normalize(value));
 function staticString(node) {
   if (ts.isStringLiteralLike(node)) return node.text;
   if (ts.isParenthesizedExpression(node)) return staticString(node.expression);
@@ -49,7 +49,7 @@ export function prototypeReferences(path, content) {
   // Non-JavaScript resources still cannot name the prototype. JS comments in an
   // exact port are historical prose, not imports; unknown prose remains refused below.
   if (!/\.[cm]?[jt]sx?$/.test(path)) {
-    for (const match of content.matchAll(/(?:design[\\/])?(?:board-motion|phone-feedback)[\\/][\w./%\\-]*/gi)) references.add(match[0]);
+    for (const match of content.matchAll(/(?:design[\\/])?(?:board-motion|phone-feedback|phone-kit|board-v2)[\\/][\w./%\\-]*/gi)) references.add(match[0]);
   }
   return [...references];
 }
@@ -87,7 +87,7 @@ export async function productionDrawingProblems(root) {
     const permitted = new Set(reviewedBuild ? build.permittedLiterals.map(normalize) : []);
     const forbidden = prototypeReferences(path, content).filter(value => !permitted.has(normalize(value)));
     if (forbidden.length || (content.toLowerCase().includes('board-motion') && !reviewedPort && !reviewedStyle && !reviewedBuild)) {
-      const family = forbidden.some(value => /(?:^|\/)phone-feedback(?:\/|$)/.test(normalize(value))) ? 'phone-feedback' : 'board-motion';
+      const family = forbidden.map(value => normalize(value).match(/(?:^|\/)(phone-feedback|phone-kit|board-v2|board-motion)(?:\/|$)/)?.[1]).find(Boolean) ?? 'board-motion';
       problems.push(`${path}: production code refers to the ${family} prototype`);
     }
   }

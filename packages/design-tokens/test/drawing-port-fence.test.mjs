@@ -59,16 +59,14 @@ const pressSize = unit => Math.max(PRESS, Math.min(64, 0.26 * STAND_HEIGHT * uni
 ${geometry}`;
   assert.equal(contentSha256(geometrySource), pins.ports['apps/game/hosted/scene-drawing/geometry.mjs'].sha256);
   await write(root, 'apps/game/hosted/scene-drawing/geometry.mjs', geometrySource);
-  for (const name of ['wardrobe', 'compact-layout', 'icons']) {
-    const path = `design/phone-feedback/source/${name}.mjs`;
-    const value = (await original(path)).replace(/^\/\/ mothership:dev-only\n/, '').replaceAll("'../../board-motion/figures/", "'./");
-    const runtime = `apps/game/hosted/scene-drawing/${name}.mjs`;
+  for (const [path, runtime] of [
+    ['design/board-motion/figures/wardrobe.mjs', 'apps/game/hosted/scene-drawing/wardrobe.mjs'],
+    ['design/phone-kit/source/art.mjs', 'apps/game/hosted/scene-drawing/phone-kit-art.mjs'],
+  ]) {
+    const value = (await original(path)).replace(/^\/\/ mothership:dev-only\n/, '');
     assert.equal(contentSha256(value), pins.ports[runtime].sha256);
     await write(root, runtime, value);
   }
-  const tokenSource = await original('design/phone-feedback/contract/tokens.json');
-  assert.equal(contentSha256(tokenSource), pins.ports['apps/game/hosted/phone-feedback-tokens.json'].sha256);
-  await write(root, 'apps/game/hosted/phone-feedback-tokens.json', tokenSource);
   const plugin = await readFile(resolve(repo, 'packages/design-tokens/test/fixtures/reviewed-comic-assets.txt'));
   assert.equal(contentSha256(plugin), pins.buildFiles['apps/game/hosted/comic-assets.mjs'].sha256);
   await write(root, 'apps/game/hosted/comic-assets.mjs', plugin);
@@ -152,15 +150,31 @@ for (const injection of [
   });
 }
 
-for (const path of ['apps/game/hosted/scene-drawing/wardrobe.mjs', 'apps/game/hosted/scene-drawing/compact-layout.mjs', 'apps/game/hosted/scene-drawing/icons.mjs', 'apps/game/hosted/phone-feedback-tokens.json']) {
+for (const path of ['apps/game/hosted/scene-drawing/wardrobe.mjs', 'apps/game/hosted/scene-drawing/phone-kit-art.mjs']) {
   test('new phone derivative drift requires review: ' + path, async () => {
     const root = await seed(); await append(root, path, ' ');
     await refuses(root, /reviewed drawing port content hash differs/);
   });
 }
-test('new phone source and manifest drift cannot self-approve', async () => {
+test('Claude phone drawing source drift cannot self-approve', async () => {
   const root = await seed();
-  await append(root, 'design/phone-feedback/source/wardrobe.mjs', '// unreviewed');
-  await append(root, 'design/phone-feedback/assets/manifest.json', ' ');
+  await append(root, 'design/board-motion/figures/wardrobe.mjs', '// unreviewed');
+  await append(root, 'design/phone-kit/source/art.mjs', ' ');
   await refuses(root, /frozen drawing source hash differs/);
+});
+
+for (const [family, injection] of [
+  ['phone-kit', "import '../../../design/phone-kit/js/hack.js';"],
+  ['phone-kit', "export const bad = () => import('design/' + 'phone-kit/js/vote-result.js');"],
+  ['phone-kit', "export const bad = () => fetch('/design/%70hone-kit/contract/phone-kit.json');"],
+  ['board-v2', "import '../../../design/board-v2/js/blocked-view.mjs';"],
+]) test(`new prototype exclusion: ${injection}`, async () => {
+  const root = await seed(); await write(root, 'apps/game/hosted/leak.mjs', injection);
+  await refuses(root, new RegExp(`production code refers to the ${family} prototype`));
+});
+
+test('removed provisional drawing paths cannot re-enter as unreviewed files', async () => {
+  const root = await seed();
+  await write(root, 'apps/game/hosted/scene-drawing/compact-layout.mjs', 'export const old = true;');
+  await refuses(root, /compact-layout\.mjs: unreviewed file/);
 });

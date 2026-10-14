@@ -20,7 +20,9 @@ after(() => { for (const path of scratchRoots) rmSync(path, { recursive: true, f
 function scratchCopy() {
   const root = mkdtempSync(join(tmpdir(), 'mothership-abilities-check-'));
   scratchRoots.push(root);
-  for (const path of ['design/tools', 'design/board-motion/js', 'design/board-motion/css', 'design/board-motion/index.html', 'docs/design/abilities-inventory.md',
+  // The board-motion page the art is captured on also draws the phone kit and the room clothes (issue #121): their files are inputs too.
+  for (const path of ['design/tools', 'design/board-motion/js', 'design/board-motion/css', 'design/board-motion/index.html', 'design/board-motion/figures/wardrobe.mjs',
+    'design/phone-kit/css', 'design/phone-kit/js', 'design/phone-kit/source', 'docs/design/abilities-inventory.md',
     'packages/contracts/src', 'packages/presentation/src', 'apps/game/src', 'apps/game/hosted']) {
     mkdirSync(dirname(join(root, path)), { recursive: true });
     cpSync(join(repoRoot, path), join(root, path), { recursive: true });
