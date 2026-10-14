@@ -1,3 +1,4 @@
+import { clinicalOutcome } from './outcomes.js';
 import { medicalRescueOpportunity } from '@mothership/contracts';
 import type { FullMedicalStatus } from '@mothership/contracts';
 import { boardMedicalEnabled } from './model.js';
@@ -39,22 +40,22 @@ export function recordMedicalDamage(state: FullGameState, seat: GameSeat): void 
   if (seat.health === 'Eliminated') return;
   seat.captain = false;
   if (seat.health === 'Injured') {
-    seat.health = 'Eliminated'; seat.medicalEpisode = null;
+    seat.health = 'Eliminated'; seat.medicalEpisode = null; clinicalOutcome(state,seat.seatId,'DEATH');
     return;
   }
   const count = seat.medicalEpisodeCount! + 1;
   if (!Number.isSafeInteger(count)) throw new Error('Medical episode counter exhausted');
   seat.medicalEpisodeCount = count;
   seat.medicalEpisode = { number:count, admittedRound:state.round, deathDueAfterRound:state.round === 5 ? null : state.round + 1 };
-  seat.health = 'Injured';
+  seat.health = 'Injured'; clinicalOutcome(state,seat.seatId,'INJURY');
   seat.location = 'Hospital';
   // Remember actual departure even if Rescue returns to the same room in this batch.
   delete seat.slotId;
 }
 
-export function healMedicalSeat(seat: GameSeat): void {
+export function healMedicalSeat(seat: GameSeat, state?:FullGameState): void {
   if (seat.health !== 'Injured') return;
-  seat.health = 'Healthy'; seat.medicalEpisode = null;
+  seat.health = 'Healthy'; seat.medicalEpisode = null; if(state) clinicalOutcome(state,seat.seatId,'HEALED');
 }
 
 export function applyDueMedicalDeaths(state: FullGameState): void {
@@ -63,7 +64,7 @@ export function applyDueMedicalDeaths(state: FullGameState): void {
     if (seat.medicalEpisode === undefined || seat.medicalEpisode === null) throw new Error('Missing medical episode');
     const due = seat.medicalEpisode.deathDueAfterRound;
     if (due !== null && due <= state.round) {
-      seat.health = 'Eliminated'; seat.captain = false; seat.medicalEpisode = null;
+      seat.health = 'Eliminated'; seat.captain = false; seat.medicalEpisode = null; clinicalOutcome(state,seat.seatId,'DEATH');
     }
   }
 }

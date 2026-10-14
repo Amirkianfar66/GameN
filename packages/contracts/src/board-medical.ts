@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { supportsBoardMedical } from './full-game-versions.js';
+import { supportsBoardMedical, supportsCaptainCommands } from './full-game-versions.js';
 import type { FullGameplayPins } from './full-game-versions.js';
 
 export const BoardSlotIdSchema = z.string().regex(/^(?:[ABJ][1-5]|C1|H[1-9])$/);
@@ -19,20 +19,24 @@ export function medicalRescueOpportunity(round: number, phaseKind: string, due: 
 
 type MedicalView = {
   versions: FullGameplayPins; playerCount: number; round: number; phase: { kind: string };
-  seats: Array<{ location: string; health: string; jailed: boolean; captain: boolean;
-    slotId?: string | undefined; medical?: FullMedicalStatus | null | undefined }>;
+  seats: Array<{ location: string | null; health: string; jailed: boolean; captain: boolean;
+    slotId?: string | null | undefined; medical?: FullMedicalStatus | null | undefined }>;
 };
 
 /** Version gate placement and clinical facts together, including legacy omission. */
 export function validBoardMedicalView(view: MedicalView): boolean {
-  if (!supportsBoardMedical(view.versions)) return view.seats.every(s => !Object.hasOwn(s,'slotId') && !Object.hasOwn(s,'medical'));
+  if (!supportsBoardMedical(view.versions)) return view.seats.every(s => s.location!==null && !Object.hasOwn(s,'slotId') && !Object.hasOwn(s,'medical'));
   if (['RELEASE_CHOICE','RELEASE_VOTE'].includes(view.phase.kind)) return false;
   const occupied = new Set<string>();
   const prefixes: Record<string,string> = { 'Room A':'A','Room B':'B',Jail:'J','Command Room':'C',Hospital:'H' };
   for (const seat of view.seats) {
     if (!Object.hasOwn(seat,'slotId') || !Object.hasOwn(seat,'medical') || seat.slotId === undefined || seat.medical === undefined) return false;
+    if(seat.location===null) {
+      if(!supportsCaptainCommands(view.versions) || seat.slotId!==null || seat.health!=='Eliminated' || seat.jailed || seat.captain || seat.medical!==null) return false;
+      continue;
+    }
     const prefix = prefixes[seat.location], maximum = prefix === 'H' ? view.playerCount : prefix === 'C' ? 1 : 5;
-    if (prefix === undefined || !BoardSlotIdSchema.safeParse(seat.slotId).success
+    if (seat.slotId===null || prefix === undefined || !BoardSlotIdSchema.safeParse(seat.slotId).success
       || seat.slotId[0] !== prefix || Number(seat.slotId.slice(1)) > maximum || occupied.has(seat.slotId)) return false;
     occupied.add(seat.slotId);
     if ((seat.captain && (seat.health !== 'Healthy' || seat.jailed))
