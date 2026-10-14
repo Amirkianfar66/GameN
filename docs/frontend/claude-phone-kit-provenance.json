@@ -1,0 +1,97 @@
+{
+  "status": "Frontend verified checkpoint; Integration owns the final stylesheet inventory pin, combined checks and deployment",
+  "sourcePr": "https://github.com/Amirkianfar66/GameN/pull/127",
+  "sourceCommit": "5c9a1510d35d4b9762f9bc2a27dae3f5d53bd5d7",
+  "preservedPreviousPr": "https://github.com/Amirkianfar66/GameN/pull/132",
+  "preservedPreviousHead": "3dbc3699c7589d1031f5e2ca6b163e5cf150a246",
+  "sharedCheckpoint": "bbdb95102fdd7b979ec64d4903031042724f8bde",
+  "transformation": "Remove only the leading // mothership:dev-only comment line; imports and drawing code remain unchanged",
+  "ports": {
+    "apps/game/hosted/scene-drawing/wardrobe.mjs": {
+      "source": "design/board-motion/figures/wardrobe.mjs",
+      "sourceSha256": "1c30862d77ce7fa94275934467c5b596e68dbe0d41f3d102bd0c040bc5feca6f",
+      "runtimeSha256": "312c4cda048585f9270b3de095e2dcf44dc0dadd4c73392b1206da303ae8ddc3",
+      "interface": "dressedFigureSvg(character, skeleton, {outfit, prefix, layer}); outfitFor(public location) returns crew, gown or prison"
+    },
+    "apps/game/hosted/scene-drawing/phone-kit-art.mjs": {
+      "source": "design/phone-kit/source/art.mjs",
+      "sourceSha256": "c86770765e06f487b5fa0f3b2be57c824d114a796a5930f96ff35c7358f95761",
+      "runtimeSha256": "713b860ffaaa91ba6610457d39b6c818bad9aad28fb4967f830d21c0dcf61e86",
+      "interface": "Uniform static RESULT_ART and HACK_ART drawing functions; private side-card output is used only in an authorized private layer"
+    }
+  },
+  "style": {
+    "source": "design/phone-kit/css/phone-kit.css",
+    "sourceSha256": "fd56e406b635929f438ec853fb673bc540720d661d9c625bb033dbfa464f0c6e",
+    "runtime": "apps/game/hosted/claude-phone-kit.css",
+    "runtimeSha256": "347eb4fbfce476c4e406b0fdb6084f4213c7fbf6ac8ba0b0f69947af7512b9fc",
+    "adaptation": "Hosted selectors and five production grid rows; palette and normal status/nav/Pass dimensions from source. Status can grow with enlarged text. Short-phone gutter 2 px and piece pad 4 px; Code repeats no portrait gallery or picked-name sentence, retains the exact prompt, accessible selection sentence and confirmation warning. Outcome pieces use the reviewed shoulder/bars/empty/tie anchors. Vote overlay uses the actual header-to-nav grid area; enlarged text scrolls natively."
+  },
+  "gameplayArtPairs": [
+    [
+      "full-game-1.4.0",
+      "design-0.2.0"
+    ],
+    [
+      "full-game-1.5.0",
+      "design-0.3.0"
+    ]
+  ],
+  "ready": "Exact exported gameplay tuples and known art pairs only; all five player bundles must finish loading. SDK test helper also retains explicit no-assets fixtures; it never claims browser art loading.",
+  "motion": {
+    "retained": "Existing public board, movement and action controllers",
+    "added": "Phase-relative opacity entry only: fresh observed public result 320 ms; declaration-to-claim on the same exchange 300 ms; reduced motion 80 ms. A late/initial/reconnected/reopened result renders settled. Motion preference change, obsolete feedback, concealment, background and disposal cancel the applicable entry. No completion callback changes content or phase.",
+    "notAdopted": "Prototype controllers, claim flip, per-piece/ribbon/count stagger and exit choreography; no prototype timing authority or new gameplay mechanics."
+  },
+  "excluded": [
+    "design/phone-kit/js/hack.js",
+    "design/phone-kit/js/vote-result.js",
+    "design/board-motion/js/app.js",
+    "design/board-motion/js/director.js",
+    "design/board-motion/js/dress.js",
+    "prototype fixtures and stand-in server"
+  ],
+  "verification": {
+    "matrix": {
+      "baseline": 72,
+      "partialCode": 36,
+      "normalSize": 72,
+      "enlarged200Percent": 36,
+      "normalFailures": 0,
+      "enlargedFailures": 0,
+      "sizes": [
+        [
+          320,
+          568
+        ],
+        [
+          390,
+          844
+        ]
+      ],
+      "scope": "Chromium over authored schema-checked fixtures; normal/safe-area/actual 200% text, on-character >=44 px targets, hit testing, all five nav buttons and raised Pass upper edge"
+    },
+    "visualLifecycle": {
+      "records": 34,
+      "scope": "All seven explicit vote outcomes at both sizes; declaration offer/three choices/result/conversation, mid-entry blur/reduced motion, settled explicit reopen, enlarged result bounds and native final-text reach, same-ID uncertain receipt recovery with one command send"
+    },
+    "hackLifecycleRecords": 25,
+    "voteLifecycleRecords": 22,
+    "notRunHere": "Full shared verify, final native Frontend emulator run, combined CI, physical devices and deployment; Integration owns these checks.",
+    "ownedTests": {
+      "presentation": {
+        "pass": 204,
+        "fail": 0
+      },
+      "game": {
+        "pass": 472,
+        "fail": 0
+      },
+      "focused": {
+        "pass": 26,
+        "fail": 0
+      }
+    },
+    "production": "Hosted Vite build and production exclusion passed: 60 modules reachable from 2 entries; 190 shipped/source files scanned; 49 development modules labeled; no fixture/test/dev marker reachable"
+  }
+}

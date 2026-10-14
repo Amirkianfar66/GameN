@@ -55,7 +55,9 @@ function fitSceneBands(board, placed) {
     const width = zone.clientWidth;
     const offered = [...zone.querySelectorAll('.ms-seat:has(.phone-character-target)')].map(node => placed.get(Number(node.dataset.seat.slice(5)))).filter(Boolean);
     const occupied = zone.querySelector('.ms-seat') !== null;
-    let need = cap + (occupied ? 50 : 24);
+    // Quiet figures may use the existing 30 px row. Offered press areas still set
+    // their own measured minimum through the unchanged character geometry below.
+    let need = cap + (occupied ? 30 : 24);
     while (need < 900 && !scenePressAreasFit(offered, { width, height: need, cap, pad })) need += 2;
     const scene = SCENES[id];
     const most = scene ? width * (scene.inner[3] - scene.inner[1]) / (scene.focus[2] - scene.focus[0]) : need;

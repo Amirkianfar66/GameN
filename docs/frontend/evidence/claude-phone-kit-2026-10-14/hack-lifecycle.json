@@ -1,0 +1,377 @@
+{
+  "source": "schema-checked synthetic snapshots, not Backend acceptance",
+  "facts": [
+    {
+      "name": "three-uniform-choices",
+      "size": [
+        320,
+        568
+      ],
+      "fixture": true,
+      "claim": "Private declaration\n\nChoose Blue, Red or Alien.\n\nOnly the two participants receive this declaration.",
+      "phase": "Hack declaration",
+      "timer": "0:1515 seconds remaining",
+      "privateOpen": "true",
+      "sideways": false,
+      "commands": 0,
+      "animations": 1
+    },
+    {
+      "name": "one-declaration",
+      "size": [
+        320,
+        568
+      ],
+      "fixture": true,
+      "claim": "Private declaration\n\nChoose Blue, Red or Alien.\n\nOnly the two participants receive this declaration.",
+      "phase": "Hack declaration",
+      "timer": "0:1414 seconds remaining",
+      "privateOpen": "true",
+      "sideways": false,
+      "commands": 1,
+      "animations": 0
+    },
+    {
+      "name": "five-second-private-claim",
+      "size": [
+        320,
+        568
+      ],
+      "fixture": true,
+      "claim": "Private Hack claim\n\nPlayer 3 claims BLUE.\n\nDeclarations may be bluffs.",
+      "phase": "Hack claim",
+      "timer": "0:055 seconds remaining",
+      "privateOpen": "true",
+      "sideways": false,
+      "commands": 1,
+      "animations": 2
+    },
+    {
+      "name": "blur-with-visible-document",
+      "size": [
+        320,
+        568
+      ],
+      "fixture": true,
+      "claim": null,
+      "phase": "Hack claim",
+      "timer": "0:055 seconds remaining",
+      "privateOpen": "false",
+      "sideways": false,
+      "commands": 1,
+      "animations": 1
+    },
+    {
+      "name": "focus-does-not-reopen",
+      "size": [
+        320,
+        568
+      ],
+      "fixture": true,
+      "claim": null,
+      "phase": "Hack claim",
+      "timer": "0:055 seconds remaining",
+      "privateOpen": "false",
+      "sideways": false,
+      "commands": 1,
+      "animations": 0
+    },
+    {
+      "name": "explicit-reopen",
+      "size": [
+        320,
+        568
+      ],
+      "fixture": true,
+      "claim": "Private Hack claim\n\nPlayer 3 claims BLUE.\n\nDeclarations may be bluffs.",
+      "phase": "Hack claim",
+      "timer": "0:055 seconds remaining",
+      "privateOpen": "true",
+      "sideways": false,
+      "commands": 1,
+      "animations": 1
+    },
+    {
+      "name": "stale-concealment",
+      "size": [
+        320,
+        568
+      ],
+      "fixture": true,
+      "claim": null,
+      "phase": "Hack claim",
+      "timer": "0:055 seconds remaining",
+      "privateOpen": "false",
+      "sideways": false,
+      "commands": 1,
+      "animations": 0
+    },
+    {
+      "name": "reconnect-does-not-reopen",
+      "size": [
+        320,
+        568
+      ],
+      "fixture": true,
+      "claim": null,
+      "phase": "Hack claim",
+      "timer": "0:055 seconds remaining",
+      "privateOpen": "false",
+      "sideways": false,
+      "commands": 1,
+      "animations": 0
+    },
+    {
+      "name": "full-conversation",
+      "size": [
+        320,
+        568
+      ],
+      "fixture": true,
+      "claim": "Private conversation\n\nPlayer 3 claims BLUE.\n\nDeclarations may be bluffs.",
+      "phase": "Hack",
+      "timer": "1:0060 seconds remaining",
+      "privateOpen": "true",
+      "sideways": false,
+      "commands": 1,
+      "animations": 1
+    },
+    {
+      "name": "reduced-motion-current-state",
+      "size": [
+        320,
+        568
+      ],
+      "fixture": true,
+      "claim": "Private conversation\n\nPlayer 3 claims BLUE.\n\nDeclarations may be bluffs.",
+      "phase": "Hack",
+      "timer": "1:0060 seconds remaining",
+      "privateOpen": "true",
+      "sideways": false,
+      "commands": 1,
+      "animations": 0
+    },
+    {
+      "name": "enlarged-text",
+      "size": [
+        320,
+        568
+      ],
+      "fixture": true,
+      "claim": "Private conversation\n\nPlayer 3 claims BLUE.\n\nDeclarations may be bluffs.",
+      "phase": "Hack",
+      "timer": "1:0060 seconds remaining",
+      "privateOpen": "true",
+      "sideways": false,
+      "commands": 1,
+      "animations": 0
+    },
+    {
+      "name": "enlarged-receipt-control-reachable",
+      "size": [
+        320,
+        568
+      ],
+      "fixture": true,
+      "claim": "Private conversation\n\nPlayer 3 claims BLUE.\n\nDeclarations may be bluffs.",
+      "phase": "Hack",
+      "timer": "1:0060 seconds remaining",
+      "sideways": false,
+      "commands": 1,
+      "animations": 0
+    },
+    {
+      "name": "three-uniform-choices",
+      "size": [
+        390,
+        844
+      ],
+      "fixture": true,
+      "claim": "Private declaration\n\nChoose Blue, Red or Alien.\n\nOnly the two participants receive this declaration.",
+      "phase": "Hack declaration",
+      "timer": "0:1515 seconds remaining",
+      "privateOpen": "true",
+      "sideways": false,
+      "commands": 0,
+      "animations": 1
+    },
+    {
+      "name": "one-declaration",
+      "size": [
+        390,
+        844
+      ],
+      "fixture": true,
+      "claim": "Private declaration\n\nChoose Blue, Red or Alien.\n\nOnly the two participants receive this declaration.",
+      "phase": "Hack declaration",
+      "timer": "0:1414 seconds remaining",
+      "privateOpen": "true",
+      "sideways": false,
+      "commands": 1,
+      "animations": 0
+    },
+    {
+      "name": "five-second-private-claim",
+      "size": [
+        390,
+        844
+      ],
+      "fixture": true,
+      "claim": "Private Hack claim\n\nPlayer 3 claims BLUE.\n\nDeclarations may be bluffs.",
+      "phase": "Hack claim",
+      "timer": "0:055 seconds remaining",
+      "privateOpen": "true",
+      "sideways": false,
+      "commands": 1,
+      "animations": 2
+    },
+    {
+      "name": "blur-with-visible-document",
+      "size": [
+        390,
+        844
+      ],
+      "fixture": true,
+      "claim": null,
+      "phase": "Hack claim",
+      "timer": "0:055 seconds remaining",
+      "privateOpen": "false",
+      "sideways": false,
+      "commands": 1,
+      "animations": 1
+    },
+    {
+      "name": "focus-does-not-reopen",
+      "size": [
+        390,
+        844
+      ],
+      "fixture": true,
+      "claim": null,
+      "phase": "Hack claim",
+      "timer": "0:055 seconds remaining",
+      "privateOpen": "false",
+      "sideways": false,
+      "commands": 1,
+      "animations": 0
+    },
+    {
+      "name": "explicit-reopen",
+      "size": [
+        390,
+        844
+      ],
+      "fixture": true,
+      "claim": "Private Hack claim\n\nPlayer 3 claims BLUE.\n\nDeclarations may be bluffs.",
+      "phase": "Hack claim",
+      "timer": "0:055 seconds remaining",
+      "privateOpen": "true",
+      "sideways": false,
+      "commands": 1,
+      "animations": 1
+    },
+    {
+      "name": "stale-concealment",
+      "size": [
+        390,
+        844
+      ],
+      "fixture": true,
+      "claim": null,
+      "phase": "Hack claim",
+      "timer": "0:055 seconds remaining",
+      "privateOpen": "false",
+      "sideways": false,
+      "commands": 1,
+      "animations": 0
+    },
+    {
+      "name": "reconnect-does-not-reopen",
+      "size": [
+        390,
+        844
+      ],
+      "fixture": true,
+      "claim": null,
+      "phase": "Hack claim",
+      "timer": "0:055 seconds remaining",
+      "privateOpen": "false",
+      "sideways": false,
+      "commands": 1,
+      "animations": 0
+    },
+    {
+      "name": "full-conversation",
+      "size": [
+        390,
+        844
+      ],
+      "fixture": true,
+      "claim": "Private conversation\n\nPlayer 3 claims BLUE.\n\nDeclarations may be bluffs.",
+      "phase": "Hack",
+      "timer": "1:0060 seconds remaining",
+      "privateOpen": "true",
+      "sideways": false,
+      "commands": 1,
+      "animations": 1
+    },
+    {
+      "name": "reduced-motion-current-state",
+      "size": [
+        390,
+        844
+      ],
+      "fixture": true,
+      "claim": "Private conversation\n\nPlayer 3 claims BLUE.\n\nDeclarations may be bluffs.",
+      "phase": "Hack",
+      "timer": "1:0060 seconds remaining",
+      "privateOpen": "true",
+      "sideways": false,
+      "commands": 1,
+      "animations": 0
+    },
+    {
+      "name": "enlarged-text",
+      "size": [
+        390,
+        844
+      ],
+      "fixture": true,
+      "claim": "Private conversation\n\nPlayer 3 claims BLUE.\n\nDeclarations may be bluffs.",
+      "phase": "Hack",
+      "timer": "1:0060 seconds remaining",
+      "privateOpen": "true",
+      "sideways": false,
+      "commands": 1,
+      "animations": 0
+    },
+    {
+      "name": "enlarged-receipt-control-reachable",
+      "size": [
+        390,
+        844
+      ],
+      "fixture": true,
+      "claim": "Private conversation\n\nPlayer 3 claims BLUE.\n\nDeclarations may be bluffs.",
+      "phase": "Hack",
+      "timer": "1:0060 seconds remaining",
+      "sideways": false,
+      "commands": 1,
+      "animations": 0
+    },
+    {
+      "name": "public-display",
+      "size": [
+        1280,
+        720
+      ],
+      "fixture": true,
+      "claim": null,
+      "phase": "Hack claim",
+      "timer": "0:055 seconds remaining",
+      "sideways": false,
+      "commands": 0,
+      "animations": 0
+    }
+  ]
+}

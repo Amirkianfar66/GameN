@@ -20,7 +20,7 @@ test('Hacker printouts retain view order; wrong results never draw Code membersh
   assert.equal(findAll(drawn, byClass('ab-photo__tape')).length, 1);
   assert.match(toHtml(drawn), /&lt;Eli&gt;/);
 });
-test('Alien Code and compound strip windows are unordered sets in seat order; every board pick uses the same check', () => {
+test('Alien Code is an unordered set; the compact Code prompt preserves sorted picks and its one-use warning without a duplicate gallery', () => {
   const view = role('Alien', v => { v.knowledge.code = ['seat-7', 'seat-1', 'seat-3', 'seat-2']; });
   const drawn = draw(view); assert.equal(find(drawn, byClass('ab-file')).attrs['aria-labelledby'], 'ab-file-title');
   assert.deepEqual(findAll(drawn, byClass('ab-photo')).map(node => node.attrs['data-seat']), ['1', '2', '3', '7']);
@@ -29,8 +29,9 @@ test('Alien Code and compound strip windows are unordered sets in seat order; ev
   const coding = role('Hacker', v => { v.knowledge.undercoverSeatId = 'seat-5'; v.legalTargets.CODE_ATTEMPT = v.seats.map(seat => seat.seatId); v.self.codeAttemptAvailable = true; v.round = 5; });
   const action = { step: 'confirming', choice: { kind: 'code', seatIds: ['seat-7', 'seat-1', 'seat-3', 'seat-2'] }, armed: true };
   const strip = draw(coding, action, {}, { phoneView: 'actions' });
-  const card = find(strip, byClass('ab-code-card'));
-  assert.deepEqual(findAll(card, byClass('ab-chip')).map(node => node.attrs['data-seat']), ['1', '2', '3', '7']);
+  assert.equal(findAll(strip, byClass('ab-code-card')).length,0);
+  assert.match(toHtml(find(strip,byClass('ms-card__prompt'))),/Player 1 \(you\), Player 2, Player 3, Player 7/);
+  assert.match(toHtml(strip),/one Code attempt in this match/);
   const board = toHtml(find(strip, byRegion('comic-board'))); assert.equal([...board.matchAll(/data-mark="check"/g)].length, 4); assert.doesNotMatch(board, /data-mark="number"/);
 });
 test('known private resources render empty Cracker vials and consumed shields; unavailable offers cannot manufacture durable spent flags', () => {

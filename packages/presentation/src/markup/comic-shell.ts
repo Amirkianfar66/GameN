@@ -271,12 +271,16 @@ function renderOwnBoard(
  */
 function renderActionStrip(card: ConnectedActionCardModel, context: ComicContext): MarkupElement {
   const body = card.body;
-  const art = stripArt(card, context);
+  const sourceArt = stripArt(card, context);
+  // The Code's identities are already on its picked characters and in the exact prompt.
+  // Its decorative four-portrait gallery repeats those facts and consumes phone height.
+  const compactCode = card.kind === 'code' && (body.step === 'choosing' || body.step === 'confirming');
+  const art = compactCode ? { prompt: null, detail: null } : sourceArt;
   const codeConfirmation = card.kind === 'code' && body.step === 'confirming';
   // The step's line, focused after every step. The action's name is set into it as a caption,
   // so "Choose a target" is never read without saying which action it is for.
   const line = (className: string, text: string): MarkupElement => h('p', { class: className, id: SHELL_IDS.actionStep, tabindex: '-1' },
-    art.prompt ?? (codeConfirmation ? art.detail : null), h('span', { class: 'phone-strip__kind' }, card.title), hiddenText(': '), text);
+    art.prompt ?? (codeConfirmation ? art.detail : null), compactCode ? null : h('span', { class: 'phone-strip__kind' }, card.title), compactCode ? null : hiddenText(': '), text);
   const detail = (...children: readonly MarkupChild[]): MarkupElement => h('p', { class: 'phone-strip__detail' }, codeConfirmation ? null : art.detail, ...children);
   const controls = (...buttons: readonly (CardButtonModel | null)[]): MarkupElement =>
     h('div', { class: 'ms-card__controls', 'data-region': 'action-controls' }, buttons.map(button => (button ? renderButton(button) : null)));
@@ -288,7 +292,12 @@ function renderActionStrip(card: ConnectedActionCardModel, context: ComicContext
   let layout: 'side' | 'pair' | 'row' | 'none' = 'side';
   switch (body.step) {
     case 'idle':
-      return h('div', { class: 'ms-card', 'data-action': 'connected' });
+      buttons = h('div', { class: 'ms-card__controls', 'data-region': 'action-controls' },
+        body.offers.filter(offer => offer.kind === 'declare-hack-side' && offer.open !== null).map(offer =>
+          h('button', { type: 'button', class: 'ms-button ms-button--primary', id: offer.open!.id,
+            'data-intent': 'action/open', 'data-kind': offer.kind }, offer.label)));
+      layout = 'none';
+      break;
     case 'choosing': {
       const offered = body.choices.filter(choice => choice.number === null);
       const seats = body.choices.length - offered.length;
@@ -299,6 +308,9 @@ function renderActionStrip(card: ConnectedActionCardModel, context: ComicContext
         Array.from({ length: parts }, (_, index) => h('span', { 'data-done': String(index < picked) }, index < picked ? String(index + 1) : ''))) : null;
       words = [
         line('ms-card__prompt', body.prompt),
+        // The picked characters already carry the names and equal check marks. Keep
+        // the full selection sentence accessible; the dots show its count compactly.
+        card.kind === 'code' ? detail(dots, hiddenText(body.progress ?? 'No players selected.')) :
         // A Scan's line already names its seat; the others say what is chosen so far, or how to choose.
         picked > 0 && card.kind !== 'scan' && body.progress ? detail(dots, body.progress)
           : seats > 0 ? detail(dots, hiddenText(card.title), ' · Tap a character') : null,
@@ -308,7 +320,7 @@ function renderActionStrip(card: ConnectedActionCardModel, context: ComicContext
         offered.map(choice => h('li', null, h('button', { type: 'button', class: 'ms-button ms-target', id: choice.id, 'data-intent': 'action/choose', 'data-value': choice.value },
           h('span', { class: 'ms-target__name' }, choice.label)))));
       buttons = controls(body.back);
-      layout = offered.length === 1 ? 'pair' : offered.length === 0 && body.back.label.length > 11 ? 'row' : 'side';
+      layout = offered.length === 1 ? 'pair' : card.kind !== 'code' && offered.length === 0 && body.back.label.length > 11 ? 'row' : 'side';
       break;
     }
     case 'confirming':
@@ -374,7 +386,8 @@ export function renderComicPlayerShell(model: ConnectedPlayerShellModel, context
   const voteResultPanel = renderVoteResultPanel(match.voteResult, context);
   const card = phoneView === 'actions' && !match.result && !match.voteResult ? privateContent?.actions.card : undefined;
   const hackFeedback = ['actions','role'].includes(phoneView) ? privateContent?.hackFeedback ?? null : null;
-  const dockedAction = card !== undefined && (card.body.step !== 'idle' || hackFeedback !== null);
+  const declarationOffer = card?.body.step === 'idle' && card.body.offers.some(offer => offer.kind === 'declare-hack-side' && offer.open !== null);
+  const dockedAction = card !== undefined && (card.body.step !== 'idle' || hackFeedback !== null && declarationOffer);
   const passCard = phoneView === 'board' && !match.privateArea.open && !match.result && !match.voteResult ? match.passTurn.card : null;
   // Selection cues live only on this player's explicitly open action surface. The shared
   // display and the ordinary public board never receive legal targets or picks.
@@ -410,6 +423,7 @@ export function renderComicPlayerShell(model: ConnectedPlayerShellModel, context
       }, h('h2', { id: 'ms-private-heading', class: 'ms-visually-hidden', tabindex: '-1' }, 'Actions'),
       h('div', { id: 'ms-private-panel', class: 'ms-private__panel' }, context.phoneNotice ? h('p', { class: 'phone-panel-notice ms-notice', role: 'status' }, context.phoneNotice) : null,
         h('div', { class: 'ms-actions' }, renderActionStrip(card, context))));
+      if (hackFeedback && phoneView === 'actions') return h('div', { 'data-region': 'private' });
       return { ...node, attrs: { ...node.attrs, hidden: !match!.privateArea.open }, children: [h('div', { class: 'phone-panel-head' }, h('h2', { id: 'ms-private-heading', tabindex: '-1' }, phoneView === 'role' ? 'Your card' : 'Actions'), closePanel('phone-private-close')), ...(context.phoneNotice && match!.privateArea.open ? [h('p', { class: 'phone-panel-notice', role: 'status' }, context.phoneNotice)] : []), ...node.children.filter(child => !isElement(child) || !['ms-private-toggle', 'ms-private-hint', 'ms-private-heading'].includes(String(child.attrs.id))).map(visit)] };
     }
     if (node.attrs.id === 'ms-private-heading') return { ...node, attrs: { ...node.attrs, tabindex: '-1', class: 'ms-visually-hidden' }, children: [phoneView === 'role' ? 'Your role' : 'Actions'] };
