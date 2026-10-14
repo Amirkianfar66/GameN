@@ -39,6 +39,7 @@ export function choosePracticeBotActions(input: FullPlayerView): readonly FullCo
     commands.push({type:'SELECT_BLACKOUT_SLOT',snapshotId:targeting.snapshotId,room:targeting.room,slotId:targeting.slotIds[0]!});
   }
   if (ownTurn) {
+    if(targets('ACTIVATE_CLONE').includes(self.seatId))commands.push({type:'ACTIVATE_CLONE'});
     if(targets('REQUEST_BLACKOUT').includes(self.seatId))commands.push({type:'REQUEST_BLACKOUT'});
     if (view.self.role === 'Cracker' && view.self.rescuesRemaining > 0) {
       const target = targets('RESCUE').find(seat => view.seats.find(candidate => candidate.seatId === seat)?.health === 'Injured');
