@@ -23,10 +23,14 @@ test('ported drawing bytes and generated bundles match their reviewed source has
   for (const [file, pin] of Object.entries(proof.styles)) assert.equal(digest(readFileSync(join(root, 'apps/game/hosted', file))), pin.sha256, file);
   const emitted = [];
   comicAssetsPlugin(root).buildStart.call({ emitFile: asset => emitted.push(asset) });
-  assert.equal(emitted.length, 6);
+  assert.equal(emitted.length, 8);
   const boardV2 = emitted.find(asset => asset.fileName === 'art/board-v2.art.5dedbf2450.css');
   assert.ok(boardV2, 'The uniform reviewed Board V2 supplement is emitted independently of the five historical bundles');
   assert.equal(createHash('sha256').update(boardV2.source).digest('hex'), '5dedbf2450adca159480d3ba448501ce6957595f1a018c5ced4d9d17f5031cd2');
+  for (const [name, hash] of [
+    ['art/setup.art.f196649c9c.css', 'f196649c9c117d402ac1ee2483870be279f7a347c823c0175b0caa07be9ebe15'],
+    ['art/board-v2-motion.art.7793869d6b.css', '7793869d6bef7d4a851ba5d5aa12e686544c3ae3f842409ac70598d864532677'],
+  ]) assert.equal(digest(emitted.find(asset => asset.fileName === name).source), hash, name);
   for (const name of ['scene-art', 'abilities']) {
     const bundle = emitted.find(asset => asset.fileName === ART_BUNDLES[name].slice(1));
     assert.equal(digest(bundle.source), TRIAL_ART[name].runtimeHash);
