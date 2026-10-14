@@ -94,3 +94,9 @@ assert.deepEqual(boardMedical.decisions.map(d=>d.id),Array.from({length:7},(_,i)
 assert.ok(model.includes(hash(boardMedicalPath)) && model.includes(boardMedical.ruleset_version) && model.includes(boardMedical.engine_version));
 assert.ok(read('packages/contracts/src/full-game-versions.ts').toString().includes(hash(boardMedicalPath)));
 console.log('Board/medical draft integrity: final owner slots and episode rules bound to separate inactive tuple; historical pins preserved');
+
+const captainPath='rules/overlays/captain-outcomes-owner-decision-2026-10-14.json';
+const captain=json(captainPath);
+assert.equal(captain.status,'confirmed');assert.equal(captain.parent_ruleset.hash,hash(boardMedicalPath));
+assert.ok(model.includes(hash(captainPath)) && read('packages/contracts/src/full-game-versions.ts').toString().includes(hash(captainPath)));
+console.log('Captain outcome candidate integrity: exact successor; historical source and activation pins retained');

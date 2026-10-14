@@ -1,3 +1,6 @@
+export const CAPTAIN_OUTCOMES_FULL_GAME_VERSION_PINS = Object.freeze({ protocolVersion: 2 as const,
+  engineVersion: 'full-game-1.8.0', rulesetVersion: 'in-person-v1-captain-outcomes-2026-10-14',
+  rulesetHash: '0f84f61cf9407c45ccef7e99c28556d7ede64f06f7dd3284ca6782bbf7a5f030' });
 import type { FullCommand, FullPhase, FullPublicView, FullVoteResult, FullHackFeedback, SeatId } from '@mothership/contracts';
 import type { GameSeat, Role, Room } from './roster.js';
 export const FULL_ENGINE_VERSION = 'full-game-1.3.0' as const;
@@ -31,10 +34,11 @@ const sameGameplayVersions = (versions: FullGameplayVersions, pins: FullGameplay
   && versions.rulesetVersion === pins.rulesetVersion && versions.rulesetHash === pins.rulesetHash;
 // Support exact reviewed tuples; mixing a new engine with an old ruleset is invalid.
 export const isSupportedFullGameVersions = (versions: FullGameplayVersions): boolean =>
-  sameGameplayVersions(versions, BOARD_MEDICAL_FULL_GAME_VERSION_PINS) || sameGameplayVersions(versions, PUBLIC_HACK_FULL_GAME_VERSION_PINS) || sameGameplayVersions(versions, DECLARED_HACK_FULL_GAME_VERSION_PINS) || sameGameplayVersions(versions, VOTE_RESULT_FULL_GAME_VERSION_PINS) || sameGameplayVersions(versions, RESOLUTION_FULL_GAME_VERSION_PINS) || sameGameplayVersions(versions, CAPACITY_FULL_GAME_VERSION_PINS)
+  sameGameplayVersions(versions, CAPTAIN_OUTCOMES_FULL_GAME_VERSION_PINS) || sameGameplayVersions(versions, BOARD_MEDICAL_FULL_GAME_VERSION_PINS) || sameGameplayVersions(versions, PUBLIC_HACK_FULL_GAME_VERSION_PINS) || sameGameplayVersions(versions, DECLARED_HACK_FULL_GAME_VERSION_PINS) || sameGameplayVersions(versions, VOTE_RESULT_FULL_GAME_VERSION_PINS) || sameGameplayVersions(versions, RESOLUTION_FULL_GAME_VERSION_PINS) || sameGameplayVersions(versions, CAPACITY_FULL_GAME_VERSION_PINS)
     || sameGameplayVersions(versions, PASS_FULL_GAME_VERSION_PINS)
     || sameGameplayVersions(versions, LEGACY_FULL_GAME_VERSION_PINS);
-export const boardMedicalEnabled = (versions: FullGameplayVersions): boolean => sameGameplayVersions(versions, BOARD_MEDICAL_FULL_GAME_VERSION_PINS);
+export const captainCommandsEnabled = (versions: FullGameplayVersions): boolean => sameGameplayVersions(versions, CAPTAIN_OUTCOMES_FULL_GAME_VERSION_PINS);
+export const boardMedicalEnabled = (versions: FullGameplayVersions): boolean => captainCommandsEnabled(versions) || sameGameplayVersions(versions, BOARD_MEDICAL_FULL_GAME_VERSION_PINS);
 export const publicHackEnabled = (versions: FullGameplayVersions): boolean => boardMedicalEnabled(versions) || sameGameplayVersions(versions, PUBLIC_HACK_FULL_GAME_VERSION_PINS);
 export const declaredHackEnabled = (versions: FullGameplayVersions): boolean => publicHackEnabled(versions) || sameGameplayVersions(versions, DECLARED_HACK_FULL_GAME_VERSION_PINS);
 export const voteResultEnabled = (versions: FullGameplayVersions): boolean => declaredHackEnabled(versions) || sameGameplayVersions(versions, VOTE_RESULT_FULL_GAME_VERSION_PINS);
@@ -77,5 +81,9 @@ export interface FullGameState {
   electionForNextRound:boolean;
   // Absence identifies a legacy save with no recorded Supply acknowledgment history.
   supplierGrantResults?: FullSupplierGrantResult[];
+  captainPowersUsed?: { releaseUsed:boolean; ejectUsed:boolean };
+  pendingCaptainReveal?: { round:number; seatIds:SeatId[] } | null;
+  pendingEjectStage?: { round:number; actorSeatId:SeatId; commandId:string; before:{blueAlive:boolean;redAlive:boolean}; after:{blueAlive:boolean;redAlive:boolean} } | null;
+  outcomes?: import('./outcomes.js').FullGameOutcome[];
   journalSequence:number; viewRevisions:{public:number;players:Partial<Record<SeatId,number>>};
 }

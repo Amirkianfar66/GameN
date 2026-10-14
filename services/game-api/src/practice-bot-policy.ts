@@ -87,7 +87,7 @@ export function choosePracticeBotActions(input: FullPlayerView): readonly FullCo
 
   // Movement can be available outside one's ordinary turn, including Hack/election.
   if (['ORDINARY_TURN', 'HACK', 'HACK_DECLARE', 'HACK_RESULT', 'CAPTAIN_ELECTION'].includes(view.phase.kind)
-    && self.health === 'Healthy' && !self.jailed && ['Room A', 'Room B', 'Command Room'].includes(self.location)
+    && self.health === 'Healthy' && !self.jailed && (self.location!==null && ['Room A', 'Room B', 'Command Room'].includes(self.location))
     && !(self.captain && self.location === 'Command Room')) {
     const preference = self.captain ? ['Command Room', 'Room A', 'Room B'] as const : ['Room A', 'Room B'] as const;
     const destination = preference.find(room => room !== self.location && view.self.movementDestinations.includes(room));
