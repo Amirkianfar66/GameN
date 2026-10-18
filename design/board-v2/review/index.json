@@ -1,6 +1,6 @@
 {
   "devOnly": "mothership:dev-only",
-  "inputsSha256": "4ab33822bc5205919747de575728e420ba538a30c5000f190e4981e5cc6bc96a",
+  "inputsSha256": "0c8b6661ecc7e1624c9a73f92b223c0cc50b6198bd19dde61fae47cb801e3787",
   "note": "Desktop Chromium laying out design/board-v2/index.html from synthetic fixtures. Not a phone measurement and nothing about a match.",
   "captures": [
     {
@@ -1839,6 +1839,36 @@
       "group": "four",
       "query": "roster=9&beds=4&film=rescue&outcome=rescue-taken&t=2600&hit=1",
       "about": "Rigel healed while Lyra takes H1 in the same batch: no film over Lyra, the words alone (2 600 ms)"
+    },
+    {
+      "file": "four-390x844-fifth-2600.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=rescue&outcome=rescue-fifth&t=2600&hit=1",
+      "about": "Rigel healed with the anchor HV5, a fifth subject's (constructed): it names none of the four beds, so no film plays; the words alone (2 600 ms)"
+    },
+    {
+      "file": "four-390x844-fifth-reduced-0600.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=rescue&outcome=rescue-fifth&t=600&motion=reduced&hit=1",
+      "about": "The same in reduced motion: no film, the words alone (600 ms)"
+    },
+    {
+      "file": "four-390x844-body-2600.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=rescue&outcome=rescue-body&t=2600&hit=1",
+      "about": "Rigel healed with the anchor HV4 (constructed), the bed where a body lies: no film over the body, the words alone (2 600 ms)"
+    },
+    {
+      "file": "four-390x844-body-reduced-0600.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=rescue&outcome=rescue-body&t=600&motion=reduced&hit=1",
+      "about": "The same in reduced motion: no film over the body (600 ms)"
+    },
+    {
+      "file": "four-390x844-death-fifth-2000.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=flatline&outcome=death-fifth&t=2000&hit=1",
+      "about": "Rigel dies with the anchor HV5 (constructed): no flatline film, the words alone; the body stays at H1 (2 000 ms)"
     },
     {
       "file": "four-390x844-flatline-2000.png",

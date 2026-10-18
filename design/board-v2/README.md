@@ -53,7 +53,7 @@
 | `scenes/slots-four.mjs` | The successor's slot table: `slots.mjs` with the Hospital's four berths, H1 to H4 |
 | `js/fit-four.mjs` | The successor's layout: `fit.mjs`'s `fitBoardV2()` itself (the current board panel for panel) and its four slot functions over the successor's table |
 | `js/turns-four.mjs` | `turns.mjs` with its two imports changed, for the successor's board |
-| `fx/medical-four.mjs` | #158's films on the four berths: each berth's furniture, the drone's hover, the anchor read as a bed |
+| `fx/medical-four.mjs` | #158's films on the four berths: each berth's furniture, the drone's hover, the anchor read as a bed, and the film's decision (no film over a bed another seat holds, or for an anchor beyond the four beds) |
 | `fx/overflow.mjs` | Where the successor draws its off-board plaque (the spine between the Hospital and the Jail), the FULL stamp and the overflow victim's way |
 | `films/overflow.mjs` | The overflow victim's beat: its beats and what it draws at any moment, from public inputs alone (a proposal on an unallocated occurrence) |
 | `js/layout.mjs` | The review page's layout, the current one or with `&beds=4` the successor's. Review controller, not to port |

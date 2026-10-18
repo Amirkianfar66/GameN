@@ -4,14 +4,14 @@
 
 Nothing here is a rule, a server contract or an adopted asset:
 
-- **Rules:** the Clone's eligibility, its duration (through the following normal round's resolution, Round 5 its own), its blocks and its end are the owner's decisions as Backend implements them in `full-game-1.10.0` ([#153](https://github.com/Amirkianfar66/GameN/pull/153), draft, from #149). The card reads the own view; it starts nothing and decides nothing.
-- **The contract** is 1.10's: `self.cloneStatus { used, activatedRound, expiresAfterRound, active }` on the Alien's own view, null on every other seat's, and the targetless `ACTIVATE_CLONE`. 1.10 is a draft.
+- **Rules:** the Clone's eligibility, its duration (through the following normal round's resolution, Round 5 its own), its blocks and its end are the owner's decisions as Backend implements them in `full-game-1.10.0`: the release source `6ca4b51`, which staging runs, from #149 and [#153](https://github.com/Amirkianfar66/GameN/pull/153) (whose head `a9dd543` has the same Clone code). The card reads the own view; it starts nothing and decides nothing.
+- **The contract** is 1.10's: `self.cloneStatus { used, activatedRound, expiresAfterRound, active }` on the Alien's own view, null on every other seat's, and the targetless `ACTIVATE_CLONE`, as that release publishes them.
 - **The words** are the hosted board's (Frontend's release at the 1.10 baseline `6ca4b51`), quoted. The films add none.
 - **Adoption:** each new file needs Integration's approval by name and hash (section 11).
 
 | | |
 | --- | --- |
-| Branch | `claude/designer-clone-s3`, stacked on #160 (`claude/designer-hospital-four`) at `a668c10`, itself on #159, #158, #144, #130, #129, #128, #127 and the integration baseline `abb6839` |
+| Branch | `claude/designer-clone-s3`, stacked on #160 (`claude/designer-hospital-four`) at `90dcd58` (merged in after #160's fix for a fifth clinical anchor; first stacked at `a668c10`), itself on #159, #158, #144, #130, #129, #128, #127 and the integration baseline `abb6839` |
 | Why stacked | The card is the sheet's private claim (#144's controls take turns); the board it leaves alone is #128's with #144's capsule; the block is #130's S4; the four-berth board (#160) draws the same card |
 | Toolchain | Node 22.21.1, npm 10.9.4, headless Chromium 141 |
 | New files | `design/board-v2/fx/clone.mjs`, `films/clone.mjs`, `js/clone-view.mjs`, `js/clone-fixtures.mjs`, 21 SVGs under `assets/clone/`, `packages/design-tokens/test/clone.test.mjs`, this page |
@@ -103,7 +103,7 @@ Not an input: an actor, a target, an attacker, a block, another seat's view, a r
 
 ## 7. For Frontend
 
-Frontend has reviewed none of this. Please review it before anything is ported.
+Frontend's consumer review (#162) covers this PR at `cb9386b`. Please review any later change before it is ported.
 
 1. Draw the card as the sheet's private claim on the Alien's own phone alone, only while the private area is revealed in the foreground; remove it as the private area's rules remove private content.
 2. Take its state from `cloneCard()` and its film from `cloneFilmFor()`, both from the own view, with `matchEnded` for the view that finishes or aborts the match. Play a film once, the first time the card is in the foreground after the live change; never on a reconnect, a baseline or a resumed page.
@@ -128,11 +128,11 @@ Frontend has reviewed none of this. Please review it before anything is ported.
 
 ## 8. For Backend
 
-No new field. The card needs `self.cloneStatus` alone, as 1.10 shapes it, with the own seat's health and the view's phase. The films rely on three things 1.10 does at `a9dd543` (`packages/engine/src/full-game/clone.ts`); please confirm that they are the contract, not an accident of the draft:
+No new field. The card needs `self.cloneStatus` alone, as 1.10 shapes it, with the own seat's health and the view's phase. The films rely on three things 1.10 does. Backend confirmed all three against the release source `6ca4b51` ([reconciliation](https://github.com/Amirkianfar66/GameN/blob/8e423a7d19b2df64e351b738ab37dae1e1ead854/docs/backend/designer-contract-reconciliation-2026-10-19.md), #157 `8e423a7`, answering the question on #153):
 
-1. The view published after the last covered round's resolution says `active: false` with `used: true` (`finishCloneCheckpoint()`, before the next phase), so that the expiry film can play then.
-2. An elimination publishes `active: false` and the seat Eliminated in the same view (`clearEliminatedCloneEffects()`), so that no expiry film plays for it.
-3. The match's end clears `active` in the view whose phase is `FINISHED` or `ABORTED` (`stopCloneEffects()`), and in no earlier one, so that `matchEnded` keeps the expiry film from playing for it.
+1. **The expiry.** The first view after the last covered round's resolution says `active: false` with `used: true` (`finishCloneCheckpoint()`, after the whole batch, before victory and the next phase); no view shows a half-finished checkpoint. The expiry film plays on that change.
+2. **An elimination.** The view that publishes the Alien Eliminated also publishes its Clone inactive (`clearEliminatedCloneEffects()`), so no expiry film plays for it, and the card is removed.
+3. **The match's end.** If the Clone is still active when the match finishes or is aborted, `active` clears in that same `FINISHED` or `ABORTED` view (`stopCloneEffects()`); the match's end publishes no earlier deactivation view of its own. A normal expiry or an elimination may already have cleared it. `matchEnded` keeps the expiry film from playing for that view. The showdown is live play, not the match's end: when Round 5's resolution ends a Clone and the match goes on to the showdown, the expiry plays; when it goes to `FINISHED`, it does not.
 
 ## 9. For Integration
 
@@ -148,21 +148,21 @@ These were run on this branch in this container. Desktop Chromium laid out a rev
 | Check | Result |
 | --- | --- |
 | `node design/tools/board-v2-check.mjs` | **15 / 15.** #160's fourteen and the Clone's own. Its films are checked every 10 ms in both motion modes: the activation lasts 1.8 s and the expiry 0.9 s (0.48 s each reduced); the activation draws no card before its start; nothing but the moment, the film and the setting changes a frame (an attacker, a role, a side, a target or a block changes none); the character only fades out and the duplicate only in during the activation, and the reverse during the expiry; the reduced variants have no scan, halftone or pop and change only within their 80 ms cross-fade; each film ends exactly on the card at rest. The triggers: an activation only on a live change from unused to active, an expiry only on a live change from active to ended, none on a baseline, for an Eliminated Alien or for the view that ends the match; the card none, active or ended as the own view says. The words are the hosted board's, and the review's statuses have 1.10's shape. The card fits the sheet at every phone and roster the controls' layout fits, at normal and 200% text (42 layouts): its body clear of the raised Pass and tall enough for the card, the portrait whole, the duplicate beside the character, the words' column 150 px or wider. The palette is 35 or more from every faction accent, the card's styles use the palette alone, the shipped art names no role, and the controller never reaches a room, a figure or the board's surface. It also checks that the captures are current |
-| `node design/tools/board-v2-capture.mjs` | **357 pictures and nine contact sheets, 0 with problems**, 31 of them the Clone's. Every Clone picture on the Alien's own phone is measured against its frame and its layout: the page at the film's stage; the card shown or not as the frame has it; its status line the client's words; the sheet's body where `turnsLayout()` and `cloneBodyHeight()` put it, clear of the raised Pass, the card whole in it and never scrolled; the portrait and the four figures where `cloneCardLayout()` puts them (to 0.6 px); each figure's opacity and the halftone's density as the frame has them; the scan band over its figure, its leading edge where the frame puts it (to 1 px); each stamp as the frame has it, whole in the card and clear of the portrait; a real pointer landing on every target outside the sheet. On another player's phone and the display: no card and no sheet, a pointer landing on every target, and no side or role word on any page |
-| The same run: **400 whole-page comparisons, 0 differing** | #160's 391, and 9 for the Clone. The Alien's own page without its sheet and another player's page, character for character: during the activation at 390 × 844 and 320 × 568, during the expiry, in the Jail and on the four-berth board: 5. Another player's page and the display's: 1. The Alien's page without its sheet during the activation and after it: 1. The request logs of the Alien's page and another player's, during the activation and during the expiry: 2 |
+| `node design/tools/board-v2-capture.mjs` | **362 pictures and nine contact sheets, 0 with problems**, 31 of them the Clone's. Every Clone picture on the Alien's own phone is measured against its frame and its layout: the page at the film's stage; the card shown or not as the frame has it; its status line the client's words; the sheet's body where `turnsLayout()` and `cloneBodyHeight()` put it, clear of the raised Pass, the card whole in it and never scrolled; the portrait and the four figures where `cloneCardLayout()` puts them (to 0.6 px); each figure's opacity and the halftone's density as the frame has them; the scan band over its figure, its leading edge where the frame puts it (to 1 px); each stamp as the frame has it, whole in the card and clear of the portrait; a real pointer landing on every target outside the sheet. On another player's phone and the display: no card and no sheet, a pointer landing on every target, and no side or role word on any page |
+| The same run: **412 whole-page comparisons, 0 differing** | #160's 403, and 9 for the Clone. The Alien's own page without its sheet and another player's page, character for character: during the activation at 390 × 844 and 320 × 568, during the expiry, in the Jail and on the four-berth board: 5. Another player's page and the display's: 1. The Alien's page without its sheet during the activation and after it: 1. The request logs of the Alien's page and another player's, during the activation and during the expiry: 2 |
 | The same run: **230 pointer probes, 23 press tests (129 presses), 12 label placements** | 0 problems |
-| Pictures byte for byte the same | Every review picture and contact sheet made before the Clone (326 pictures, eight sheets) re-rendered byte for byte the same; only `index.json` and `report.json` changed, with the new pictures. After the trigger's fix for the match's end (`matchEnded`, this PR's second commit), the whole capture was run again: all 357 pictures and nine sheets byte for byte the same as at `99c3ce3`; only the two records changed, with the inputs hash |
+| Pictures byte for byte the same | Every review picture and contact sheet made before the Clone (326 pictures, eight sheets) re-rendered byte for byte the same; only `index.json` and `report.json` changed, with the new pictures. After the trigger's fix for the match's end (`matchEnded`, this PR's second commit), the whole capture was run again: all 357 pictures and nine sheets byte for byte the same as at `99c3ce3`; only the two records changed, with the inputs hash. After #160's fix was merged in (`90dcd58`, this PR's merge commit), the whole capture was run again: the same 357 pictures and eight of the nine sheets byte for byte as at `243a4f7`; the four-berth sheet gains #160's five new pictures, each byte for byte #160's, and the two records change with them |
 | `node design/tools/board-v2-assets.mjs --check` | 148 files current |
-| `npm test --workspace @mothership/design-tokens` | **316 / 316**, 11 of them in `clone.test.mjs` |
-| `npm run verify` | Passed through `test:balance`'s static gate: toolchain, workspace and sources checks, both typechecks, bootstrap 55 / 55, engine 253 / 253, backend 187 / 187, tooling 130 / 130, frontend 194 / 194 and 448 / 448, design 316 / 316, balance static 103 / 103. `test:scenarios` refuses an uncommitted tree, so it was re-run on `243a4f7` in a clean checkout of that commit, clean before and after. Its catalogue passed (555 ids: 516 passed, 33 reviewed blocked, 6 explicit manual, zero errors), and its engine controls detected all 4490 (1419, 1418 and 1653 in modes 7, 8 and 9; none undetected), every listed leak caught. The gate then stopped at its 20-minute limit in this container, with no failure in its logs. `test:capacity` was not run here. Neither gate touches this PR's files; the PR's CI runs both. On `99c3ce3`, CI's `verify` passed the whole scenario gate (catalogue, controls, playouts and report gate) and stopped only at `test:capacity`'s 600 s limit, in Integration's script |
+| `npm test --workspace @mothership/design-tokens` | **317 / 317**, 11 of them in `clone.test.mjs` (and 13 in #160's `four.test.mjs`, with its fix) |
+| `npm run verify` | Passed through `test:balance`'s static gate: toolchain, workspace and sources checks, both typechecks, bootstrap 55 / 55, engine 253 / 253, backend 187 / 187, tooling 130 / 130, frontend 194 / 194 and 448 / 448, design 317 / 317, balance static 103 / 103. `test:scenarios` refuses an uncommitted tree, so it was re-run on `243a4f7` in a clean checkout of that commit, clean before and after. Its catalogue passed (555 ids: 516 passed, 33 reviewed blocked, 6 explicit manual, zero errors), and its engine controls detected all 4490 (1419, 1418 and 1653 in modes 7, 8 and 9; none undetected), every listed leak caught. The gate then stopped at its 20-minute limit in this container, with no failure in its logs. `test:capacity` was not run here. Neither gate touches this PR's files; the PR's CI runs both. After the merge of #160's fix, `npm run verify` passed again through the same static gate; the scenario gate on the merge commit is the PR's CI's. On `99c3ce3`, CI's `verify` passed the whole scenario gate (catalogue, controls, playouts and report gate) and stopped only at `test:capacity`'s 600 s limit, in Integration's script |
 | Two mutations (this session, not committed) | The films' clock: measuring each Clone picture against the frame 150 ms later than its query made 13 of the 23 pictures taken mid-film fail: on the stage, the figures' and the halftone's opacity and density, the scan band's place and the stamps. The trigger: without its match's-end guard, the static check failed on the Clone's triggers and `clone.test.mjs` failed 1 of its 11 tests |
 
-The captures' inputs hash is `4ab33822bc5205919747de575728e420ba538a30c5000f190e4981e5cc6bc96a`.
+The captures' inputs hash is `0c8b6661ecc7e1624c9a73f92b223c0cc50b6198bd19dde61fae47cb801e3787`.
 
 **Not run:**
 
 - Real phones, a screen reader, a phone's own text-size setting, or reduced motion set on a device: the review page takes `&motion=reduced` from its query.
-- A match or any server: the views come from the review page's synthetic statuses, not from 1.10, which is a draft.
+- A match or any server: the views come from the review page's synthetic statuses, not from a 1.10 server.
 - The private area's concealment (blur, a hidden page) and a film stopped by a newer view: specified (sections 5 and 7), not pictured.
 - The owner's review.
 
@@ -210,7 +210,7 @@ dcd2f4e32e6b26721de3a9725aca546431d3485116676e04231538fb6280a2ce  design/board-v
 7da28398ec36fabb15d5b744ac8f36964e8004049b14b57614710e6e71ff63ea  design/board-v2/assets/clone/outline-c9.svg
 a1eb01b2acfe983cf6423ff55d3b5586de1b46159b5383993dff769f3ef7388e  design/board-v2/assets/clone/halftone-c9.svg
 97f542eebed655d323c271f4074068a686a36508a2a81a607cc51f6d93959b7f  design/board-v2/contract/films.json
-57e84c596e660e788cd732b5d50ae4db2339f1bca523bf2c053ef64e6d2675db  design/board-v2/assets/manifest.json
+01608612e16b59626358d8d9b70b24e5cd8d0dc551313a58f36eba54af9131d6  design/board-v2/assets/manifest.json
 ```
 
 **Review only, not to port:**
@@ -222,22 +222,21 @@ ea40454bb3e199dde122c1b4a487d38226adec67e14fac1ae6d79c1a99483cfe  design/board-v
 877cbc6a296bb941c5db42837f948b665c741a44b9a929b91fbd5a293f289fdf  design/board-v2/css/page.css
 1069aaffdeeec6dff5fbd1f71a939f7a936731a5ff96da0c5046324801e1a34f  design/board-v2/contact.html
 805e8fba6f4740d1545adbfe89cc4a1363d1f0add7f60e0d3d23165e119ac981  design/tools/board-v2-assets.mjs
-1bfc4c1f811572933de1ad0004089ef4d6d9368b81065d590996d4f5ece70d17  design/tools/board-v2-capture.mjs
-388d4ff4607e7f989bad3d795f1aa7698b6d1df613d555f4f17823e47a2b0279  design/tools/board-v2-check.mjs
+80e64e94a50af28cea3a20e65b8d7c3da794d411e972ac498c55f17cfcbc47a6  design/tools/board-v2-capture.mjs
+5188ff632e7261178cc72c99fcba8c45758f553d48e57cff45fbd00022dcf583  design/tools/board-v2-check.mjs
 871c8bb4b17f2f6daa2403e7526fa060909425333a94fb7defc15405179d785d  packages/design-tokens/test/clone.test.mjs
 28cfdf0f6df564872faa44945cab5062c58759eefe3c7f90c1a96ac24cb2ecb6  design/board-v2/review/contact-clone.png
-a30d50a10f95bf56bc13a16ae80d9258b8edcf520f422eaee213fba7862e308f  design/board-v2/review/index.json
-25cc898eaa6fef144bb8146f497d4f36d4219244a7da640aaf62f733798441fd  design/board-v2/review/report.json
+81cc9b09df3ac1be84d4274aba5cb4340f7f6128a7bc25e33c3d53f54697d73f  design/board-v2/review/index.json
+5769735f3a97b7f47bd15b62a833674654d89c619c13c0648da48df2597a8409  design/board-v2/review/report.json
 ```
 
-The complete list of every path this PR changes, its pictures included, with each SHA-256 at the head that delivered it, is in the [deliverables index](deliverables.md), version 6.
+The complete list of every path this PR changes, its pictures included, with each SHA-256 at the head that delivered it, is in the [deliverables index](deliverables.md), version 8.
 
 ## 12. Unresolved
 
 | Question | Owner | Meanwhile |
 | --- | --- | --- |
 | The status line's words | Frontend | The hosted board's, quoted |
-| The views of the expiry, an elimination and the match's end (section 8) | Backend | `cloneFilmFor()` reads them as 1.10 at `a9dd543` publishes them |
 | The tray's mark in the Actions kit | Integration, Frontend | `assets/clone/mark.svg`, beside the card |
 | An idle shimmer while active | Owner, with the idle loops (step 7) | None: the card is still |
 | A private sound | Owner | None: silent |

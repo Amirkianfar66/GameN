@@ -2742,7 +2742,7 @@
       }
     ],
     "berthKits": {
-      "version": "board-v2-medical-four-0.1.0",
+      "version": "board-v2-medical-four-0.1.1",
       "module": "design/board-v2/fx/medical-four.mjs fourBerthKit()",
       "kits": [
         {

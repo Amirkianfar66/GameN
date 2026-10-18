@@ -920,9 +920,25 @@ const CLONE_COMPARISONS = 9;
     if (strip(a) !== strip(b)) { problems.push(`four beds, ${berth.id}${reduced ? ', reduced' : ''}, ${t} ms: the rescue is not #158's`); break; }
     if (reduced && b.drone.at && JSON.stringify(b.drone.at) !== JSON.stringify(fourBerthKit(berth.id).hover)) { problems.push(`four beds, ${berth.id}: the reduced drone moves`); break; }
   }
-  // An anchor names one of the four beds; a film plays there unless another seat holds it.
+  // An anchor names one of the four beds; a film plays there unless another seat holds it. The bed
+  // function stays strict; the film declines an authorized anchor beyond the four beds before asking
+  // for a bed (no film, the words alone), and refuses anything that is not a clinical anchor.
   if (fourClinicalBerth({ anchorId: 'HV3' }) !== 'H3' || fourClinicalBerth('HV1') !== 'H1') problems.push('four beds: HVn is not bed Hn');
-  for (const bad of ['HV5', 'HV9', 'H2']) { try { fourClinicalBerth(bad); problems.push(`four beds: ${bad} plays on a four-berth ward`); } catch { /* refused */ } }
+  for (const bad of ['HV5', 'HV9', 'H2', 'HV0', 'HV10', '']) { try { fourClinicalBerth(bad); problems.push(`four beds: ${bad || 'an empty anchor'} names a bed of a four-berth ward`); } catch { /* refused */ } }
+  for (const fifth of ['HV5', 'HV9']) {
+    let placed;
+    try { placed = fourFilmBerth({ kind: 'CLINICAL_VIGNETTE', anchorId: fifth }, [{ seat: 2, slotId: null }], 2); } catch (error) { placed = `a throw (${error.message})`; }
+    if (JSON.stringify(placed) !== JSON.stringify({ berth: null, plays: false, holder: null })) problems.push(`four beds: ${fifth} does not decline its film on a four-berth ward: ${JSON.stringify(placed)}`);
+  }
+  for (const bad of ['H2', 'HV0', 'HV10', '']) { try { fourFilmBerth(bad, [], 2); problems.push(`four beds: a film takes ${bad || 'an empty anchor'} for a clinical anchor`); } catch { /* refused */ } }
+  // The successor keeps the roster-sized anchors, slotCount its starting roster: HV5 with slotCount 7, 8 or 9 declines;
+  // an anchor beyond its slotCount, or a slotCount that is no roster (4 included), is refused.
+  for (const roster of FOUR_ROSTERS) {
+    let placed;
+    try { placed = fourFilmBerth({ anchorId: 'HV5', slotCount: roster }, [], 2); } catch (error) { placed = `a throw (${error.message})`; }
+    if (JSON.stringify(placed) !== JSON.stringify({ berth: null, plays: false, holder: null })) problems.push(`four beds: HV5 of a ${roster}-player match does not decline its film: ${JSON.stringify(placed)}`);
+  }
+  for (const bad of [{ anchorId: 'HV8', slotCount: 7 }, { anchorId: 'HV2', slotCount: 4 }, { anchorId: 'HV5', slotCount: 4 }]) { try { fourFilmBerth(bad, [], 2); problems.push(`four beds: a film takes ${JSON.stringify(bad)} for a clinical anchor`); } catch { /* refused */ } }
   const taken = fourFilmBerth('HV4', [{ seat: 7, slotId: null }, { seat: 1, slotId: 'H4' }], 7);
   if (taken.plays || taken.holder !== 1 || !fourFilmBerth('HV4', [{ seat: 7, slotId: 'H4' }], 7).plays) problems.push('four beds: a film plays over a bed another seat holds, or not at its subject\'s own');
   // The board: the current one, so the four berths must fit every Hospital panel it draws: at every width, inset case and
@@ -1325,8 +1341,8 @@ const CLONE_COMPARISONS = 9;
     if ((report.disclosure ?? []).filter(entry => /^(the Captain's (release|eject) film on the display|the page after the (release|release-full|eject|eject-full) film|(hospital|room-a, room-b, hospital) during the (release|eject) film|the top bar's box on the plain board and in each Captain film)/.test(entry.compare)).length !== 2 * 16) problems.push('the Captain films\' page comparisons did not all run');
     // The successor's four-berth board: its boards at every phone, the Blackout's dark, #158's films on it, the controls, the
     // Captain's plaque in the spine and the overflow beat at every beat in both motion modes.
-    for (const name of ['320x568-ward', '360x740-ward', '390x844-ward', '430x932-ward', '320x568-mixed', '390x844-mixed', '390x844-mixed-capsule', '390x844-slots', '320x568-slots', '390x844-stress', '390x844-ward-r7', '390x844-ward-r8', '390x844-hospital', '320x568-hospital', 'scene-hospital', '390x844-blackout-8000-dark', '390x844-blackout-8000-disabler-hospital', '390x844-blackout-16300-settled', '390x844-critical-r3', '320x568-critical-r3', '390x844-rescue-2600', '390x844-rescue-3550', '320x568-rescue-2600', '390x844-reduced-rescue-0900', '390x844-vignette-2600', '390x844-taken-2600', '390x844-flatline-2000', '390x844-turns-choosing', '320x568-turns-choosing', '390x844-turns-result-2400', '390x844-eject-7300', '390x844-offboard-choosing', '390x844-overflow-0150', '390x844-overflow-0700', '390x844-overflow-1600', '390x844-overflow-2350', '390x844-overflow-2900', '320x568-overflow-1600', '390x844-overflow-reduced-0040', '390x844-overflow-reduced-0900']) if (!files.includes(`four-${name}.png`)) problems.push(`four-${name}.png: not captured`);
-    if ((report.disclosure ?? []).filter(entry => !/^the Clone's/.test(entry.compare) && /four-berth board|the overflow beat|during the overflow beat|on four berths/.test(entry.compare)).length !== 15) problems.push('the four-berth board\'s page comparisons did not all run');
+    for (const name of ['320x568-ward', '360x740-ward', '390x844-ward', '430x932-ward', '320x568-mixed', '390x844-mixed', '390x844-mixed-capsule', '390x844-slots', '320x568-slots', '390x844-stress', '390x844-ward-r7', '390x844-ward-r8', '390x844-hospital', '320x568-hospital', 'scene-hospital', '390x844-blackout-8000-dark', '390x844-blackout-8000-disabler-hospital', '390x844-blackout-16300-settled', '390x844-critical-r3', '320x568-critical-r3', '390x844-rescue-2600', '390x844-rescue-3550', '320x568-rescue-2600', '390x844-reduced-rescue-0900', '390x844-vignette-2600', '390x844-taken-2600', '390x844-fifth-2600', '390x844-fifth-reduced-0600', '390x844-body-2600', '390x844-body-reduced-0600', '390x844-death-fifth-2000', '390x844-flatline-2000', '390x844-turns-choosing', '320x568-turns-choosing', '390x844-turns-result-2400', '390x844-eject-7300', '390x844-offboard-choosing', '390x844-overflow-0150', '390x844-overflow-0700', '390x844-overflow-1600', '390x844-overflow-2350', '390x844-overflow-2900', '320x568-overflow-1600', '390x844-overflow-reduced-0040', '390x844-overflow-reduced-0900']) if (!files.includes(`four-${name}.png`)) problems.push(`four-${name}.png: not captured`);
+    if ((report.disclosure ?? []).filter(entry => !/^the Clone's/.test(entry.compare) && /four-berth board|the overflow beat|during the overflow beat|on four berths/.test(entry.compare)).length !== 27) problems.push('the four-berth board\'s page comparisons did not all run');
     // The Clone's card at every beat of both films, in both motion modes, at the phones and text sizes, in its cases, and on nobody else's screen.
     for (const name of CLONE_SHOTS) if (!files.includes(`clone-${name}.png`)) problems.push(`clone-${name}.png: not captured`);
     if ((report.disclosure ?? []).filter(entry => /^the Clone's|Clone's card/.test(entry.compare)).length !== CLONE_COMPARISONS) problems.push('the Clone\'s page comparisons did not all run');

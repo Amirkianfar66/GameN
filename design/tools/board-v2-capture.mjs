@@ -453,6 +453,13 @@ function plan() {
   fourMedical('rescue-detained-2600', at390, '&film=rescue&outcome=rescue-detained&t=2600', 'S5 on four berths: Mira, detained, at H2 (2 600 ms)');
   fourMedical('vignette-2600', at390, '&film=rescue&outcome=vignette&t=2600', 'S5 on four berths, injured and healed in one batch: the anchor HV3 names bed H3, the free one (synthetic anchor, the Designer\'s proposal on #155) (2 600 ms)');
   fourMedical('taken-2600', at390, '&film=rescue&outcome=rescue-taken&t=2600', 'Rigel healed while Lyra takes H1 in the same batch: no film over Lyra, the words alone (2 600 ms)');
+  // fourFilmBerth()'s no-film paths, with constructed anchors (synthetic): an anchor beyond the four beds, and one on a
+  // bed a body holds. Nothing of a film is drawn, nobody is hidden or marked away, and the words are said at once.
+  fourMedical('fifth-2600', at390, '&film=rescue&outcome=rescue-fifth&t=2600', 'Rigel healed with the anchor HV5, a fifth subject\'s (constructed): it names none of the four beds, so no film plays; the words alone (2 600 ms)');
+  fourMedical('fifth-reduced-0600', at390, '&film=rescue&outcome=rescue-fifth&t=600&motion=reduced', 'The same in reduced motion: no film, the words alone (600 ms)');
+  fourMedical('body-2600', at390, '&film=rescue&outcome=rescue-body&t=2600', 'Rigel healed with the anchor HV4 (constructed), the bed where a body lies: no film over the body, the words alone (2 600 ms)');
+  fourMedical('body-reduced-0600', at390, '&film=rescue&outcome=rescue-body&t=600&motion=reduced', 'The same in reduced motion: no film over the body (600 ms)');
+  fourMedical('death-fifth-2000', at390, '&film=flatline&outcome=death-fifth&t=2000', 'Rigel dies with the anchor HV5 (constructed): no flatline film, the words alone; the body stays at H1 (2 000 ms)');
   for (const [t, about] of [[2000, 'the flatline, the light dipped to 0.72'], [2700, 'the shutdown']]) fourMedical(`flatline-${ms(t)}`, at390, `&film=flatline&t=${t}`, `S10 on four berths: ${about} (${t} ms)`);
   fourMedical('rescue-2600-panel', at390, '&film=rescue&t=2600', 'S5 on four berths: the scan, the Hospital panel alone (3x)', { selector: '.v2-room[data-room=hospital]', scale: 3 });
   // The controls take turns on the four-berth board: the same choosing row and sheet, the Hospital's four targets.
@@ -940,7 +947,8 @@ function medicalExpected(shot) {
   const seats = medicalSeats(outcome ? outcome.after : fixtureSeats(query.get('fixture') ?? 'mixed', roster), { round });
   const placed = outcome ? filmBerth(outcome.anchor, roster, outcome.after.map(seat => ({ seat: seat.seat, slotId: seat.room === 'hospital' ? seat.slot : null })), outcome.subject.seat) : null;
   const end = film === 'rescue' ? rescueEnd(reduced) : film === 'flatline' ? flatlineEnd(reduced) : 0;
-  const frame = film === 'rescue' ? rescueFrame(t, placed.berth, { reduced }) : film === 'flatline' ? flatlineFrame(t, { reduced }) : null;
+  // A rescue's frame needs its berth; where no film plays (a held bed, or an anchor that names none) there is none.
+  const frame = film === 'rescue' ? (placed.plays ? rescueFrame(t, placed.berth, { reduced }) : null) : film === 'flatline' ? flatlineFrame(t, { reduced }) : null;
   const during = Boolean(outcome) && t >= 0 && t < end;
   return { roster, film, reduced, round, t, outcome, seats, berth: placed?.berth ?? null, plays: placed?.plays ?? false, frame, entry: query.has('entry') ? Number(query.get('entry')) : null, during, live: during && placed.plays };
 }
@@ -1687,6 +1695,19 @@ async function fourComparisons(pageAt) {
   out.push({ compare: 'the rescue on four berths on the display and on a player\'s screen, 390x844, 2600 ms', same: player.html === display.html });
   const [during, ahead] = await Promise.all([2600, -1].map(time => pageAt(at390, `roster=9&beds=4&film=rescue&t=${time}`)));
   out.push({ compare: 'command-room, room-b, jail during the rescue on four berths (2600 ms) and before it, 390x844', same: rooms(during, ['command-room', 'room-b', 'jail']) === rooms(ahead, ['command-room', 'room-b', 'jail']) });
+  // fourFilmBerth()'s no-film paths (constructed anchors): every room but the Hospital as before the outcome (nobody
+  // marked away), and the Hospital's interactive targets the same, none added (its monitors' traces move with time,
+  // so the Hospital itself is the measurement's: no node of a film, the words at once in the live region).
+  const targets = page => JSON.stringify(JSON.parse(page.rooms).hospital.match(/<button\b[^>]*>/g) ?? []);
+  for (const [outcome, film, t] of [['rescue-fifth', 'rescue', 2600], ['rescue-body', 'rescue', 2600], ['death-fifth', 'flatline', 2000]]) {
+    for (const reducedMotion of ['', '&motion=reduced']) {
+      const time = reducedMotion ? 600 : t;
+      const [during, ahead] = await Promise.all([time, -1].map(at => pageAt(at390, `roster=9&beds=4&film=${film}&outcome=${outcome}&t=${at}${reducedMotion}&hit=1`)));
+      const when = `the ${outcome} outcome, which plays no film (${time} ms), and before it, 390x844${reducedMotion ? ', reduced motion' : ''}`;
+      out.push({ compare: `every room but the Hospital on the four-berth board during ${when}`, same: rooms(during, notHospital) === rooms(ahead, notHospital) });
+      out.push({ compare: `the Hospital's targets on the four-berth board during ${when}`, same: targets(during) === targets(ahead) && targets(during) !== '[]' });
+    }
+  }
   return out;
 }
 

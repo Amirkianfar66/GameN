@@ -1,6 +1,6 @@
 {
   "devOnly": "mothership:dev-only",
-  "inputsSha256": "4ab33822bc5205919747de575728e420ba538a30c5000f190e4981e5cc6bc96a",
+  "inputsSha256": "0c8b6661ecc7e1624c9a73f92b223c0cc50b6198bd19dde61fae47cb801e3787",
   "shots": [
     {
       "file": "board-320x568-ward.png",
@@ -3053,6 +3053,56 @@
       "file": "four-390x844-taken-2600.png",
       "viewport": "390x844",
       "query": "roster=9&beds=4&film=rescue&outcome=rescue-taken&t=2600&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "four-390x844-fifth-2600.png",
+      "viewport": "390x844",
+      "query": "roster=9&beds=4&film=rescue&outcome=rescue-fifth&t=2600&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "four-390x844-fifth-reduced-0600.png",
+      "viewport": "390x844",
+      "query": "roster=9&beds=4&film=rescue&outcome=rescue-fifth&t=600&motion=reduced&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "four-390x844-body-2600.png",
+      "viewport": "390x844",
+      "query": "roster=9&beds=4&film=rescue&outcome=rescue-body&t=2600&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "four-390x844-body-reduced-0600.png",
+      "viewport": "390x844",
+      "query": "roster=9&beds=4&film=rescue&outcome=rescue-body&t=600&motion=reduced&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "four-390x844-death-fifth-2000.png",
+      "viewport": "390x844",
+      "query": "roster=9&beds=4&film=flatline&outcome=death-fifth&t=2000&hit=1",
       "problems": [],
       "shell": "tall",
       "fallback": null,
@@ -7606,6 +7656,54 @@
     },
     {
       "compare": "command-room, room-b, jail during the rescue on four berths (2600 ms) and before it, 390x844",
+      "same": true
+    },
+    {
+      "compare": "every room but the Hospital on the four-berth board during the rescue-fifth outcome, which plays no film (2600 ms), and before it, 390x844",
+      "same": true
+    },
+    {
+      "compare": "the Hospital's targets on the four-berth board during the rescue-fifth outcome, which plays no film (2600 ms), and before it, 390x844",
+      "same": true
+    },
+    {
+      "compare": "every room but the Hospital on the four-berth board during the rescue-fifth outcome, which plays no film (600 ms), and before it, 390x844, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the Hospital's targets on the four-berth board during the rescue-fifth outcome, which plays no film (600 ms), and before it, 390x844, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "every room but the Hospital on the four-berth board during the rescue-body outcome, which plays no film (2600 ms), and before it, 390x844",
+      "same": true
+    },
+    {
+      "compare": "the Hospital's targets on the four-berth board during the rescue-body outcome, which plays no film (2600 ms), and before it, 390x844",
+      "same": true
+    },
+    {
+      "compare": "every room but the Hospital on the four-berth board during the rescue-body outcome, which plays no film (600 ms), and before it, 390x844, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the Hospital's targets on the four-berth board during the rescue-body outcome, which plays no film (600 ms), and before it, 390x844, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "every room but the Hospital on the four-berth board during the death-fifth outcome, which plays no film (2000 ms), and before it, 390x844",
+      "same": true
+    },
+    {
+      "compare": "the Hospital's targets on the four-berth board during the death-fifth outcome, which plays no film (2000 ms), and before it, 390x844",
+      "same": true
+    },
+    {
+      "compare": "every room but the Hospital on the four-berth board during the death-fifth outcome, which plays no film (600 ms), and before it, 390x844, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the Hospital's targets on the four-berth board during the death-fifth outcome, which plays no film (600 ms), and before it, 390x844, reduced motion",
       "same": true
     },
     {
