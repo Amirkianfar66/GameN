@@ -1,6 +1,6 @@
 {
   "devOnly": "mothership:dev-only",
-  "inputsSha256": "852ad7976f6879ee35220e51001141bd2003a243924ab9983487b5c43db870fb",
+  "inputsSha256": "09d8cf39c89bc8b2b044c2294f5a0a19895dec63c8bfa6098803ba28d98268b2",
   "shots": [
     {
       "file": "board-320x568-ward.png",
@@ -2157,6 +2157,596 @@
       "shell": "tall",
       "fallback": null,
       "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-390x844-release-0250.png",
+      "viewport": "390x844",
+      "query": "roster=9&capsule=1&film=release&t=250&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-390x844-release-0650.png",
+      "viewport": "390x844",
+      "query": "roster=9&capsule=1&film=release&t=650&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-390x844-release-1050.png",
+      "viewport": "390x844",
+      "query": "roster=9&capsule=1&film=release&t=1050&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-390x844-release-1500.png",
+      "viewport": "390x844",
+      "query": "roster=9&capsule=1&film=release&t=1500&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-390x844-release-1950.png",
+      "viewport": "390x844",
+      "query": "roster=9&capsule=1&film=release&t=1950&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-390x844-release-2500.png",
+      "viewport": "390x844",
+      "query": "roster=9&capsule=1&film=release&t=2500&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-390x844-release-3000.png",
+      "viewport": "390x844",
+      "query": "roster=9&capsule=1&film=release&t=3000&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-390x844-release-3350.png",
+      "viewport": "390x844",
+      "query": "roster=9&capsule=1&film=release&t=3350&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-390x844-release-3700.png",
+      "viewport": "390x844",
+      "query": "roster=9&capsule=1&film=release&t=3700&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-390x844-release-4100.png",
+      "viewport": "390x844",
+      "query": "roster=9&capsule=1&film=release&t=4100&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-390x844-release-4300.png",
+      "viewport": "390x844",
+      "query": "roster=9&capsule=1&film=release&t=4300&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-390x844-reduced-release-0040.png",
+      "viewport": "390x844",
+      "query": "roster=9&capsule=1&film=release&t=40&motion=reduced&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-390x844-reduced-release-0300.png",
+      "viewport": "390x844",
+      "query": "roster=9&capsule=1&film=release&t=300&motion=reduced&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-390x844-reduced-release-0700.png",
+      "viewport": "390x844",
+      "query": "roster=9&capsule=1&film=release&t=700&motion=reduced&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-390x844-reduced-release-1250.png",
+      "viewport": "390x844",
+      "query": "roster=9&capsule=1&film=release&t=1250&motion=reduced&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-390x844-reduced-release-1800.png",
+      "viewport": "390x844",
+      "query": "roster=9&capsule=1&film=release&t=1800&motion=reduced&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-390x844-reduced-release-2300.png",
+      "viewport": "390x844",
+      "query": "roster=9&capsule=1&film=release&t=2300&motion=reduced&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-320x568-release-0650.png",
+      "viewport": "320x568",
+      "query": "roster=9&capsule=1&film=release&t=650&hit=1",
+      "problems": [],
+      "shell": "compact",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-320x568-release-3000.png",
+      "viewport": "320x568",
+      "query": "roster=9&capsule=1&film=release&t=3000&hit=1",
+      "problems": [],
+      "shell": "compact",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-360x740-release-0650.png",
+      "viewport": "360x740",
+      "query": "roster=9&capsule=1&film=release&t=650&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-430x932-release-0650.png",
+      "viewport": "430x932",
+      "query": "roster=9&capsule=1&film=release&t=650&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-390x844-nocapsule-release-0650.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=release&t=650&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-390x844-nocapsule-release-3000.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=release&t=3000&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-390x844-release-full-2700.png",
+      "viewport": "390x844",
+      "query": "roster=9&capsule=1&film=release&outcome=release-full&t=2700&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-390x844-release-full-3300.png",
+      "viewport": "390x844",
+      "query": "roster=9&capsule=1&film=release&outcome=release-full&t=3300&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-390x844-release-full-3700.png",
+      "viewport": "390x844",
+      "query": "roster=9&capsule=1&film=release&outcome=release-full&t=3700&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-320x568-release-full-3500.png",
+      "viewport": "320x568",
+      "query": "roster=9&capsule=1&film=release&outcome=release-full&t=3500&hit=1",
+      "problems": [],
+      "shell": "compact",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-390x844-release-3000-r7.png",
+      "viewport": "390x844",
+      "query": "roster=7&capsule=1&film=release&t=3000&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-390x844-eject-0300.png",
+      "viewport": "390x844",
+      "query": "roster=9&capsule=1&film=eject&t=300&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-390x844-eject-0650.png",
+      "viewport": "390x844",
+      "query": "roster=9&capsule=1&film=eject&t=650&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-390x844-eject-1200.png",
+      "viewport": "390x844",
+      "query": "roster=9&capsule=1&film=eject&t=1200&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-390x844-eject-1900.png",
+      "viewport": "390x844",
+      "query": "roster=9&capsule=1&film=eject&t=1900&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-390x844-eject-2600.png",
+      "viewport": "390x844",
+      "query": "roster=9&capsule=1&film=eject&t=2600&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-390x844-eject-3000.png",
+      "viewport": "390x844",
+      "query": "roster=9&capsule=1&film=eject&t=3000&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-390x844-eject-3500.png",
+      "viewport": "390x844",
+      "query": "roster=9&capsule=1&film=eject&t=3500&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-390x844-eject-3900.png",
+      "viewport": "390x844",
+      "query": "roster=9&capsule=1&film=eject&t=3900&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-390x844-eject-4900.png",
+      "viewport": "390x844",
+      "query": "roster=9&capsule=1&film=eject&t=4900&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-390x844-eject-6000.png",
+      "viewport": "390x844",
+      "query": "roster=9&capsule=1&film=eject&t=6000&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-390x844-eject-6500.png",
+      "viewport": "390x844",
+      "query": "roster=9&capsule=1&film=eject&t=6500&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-390x844-eject-7000.png",
+      "viewport": "390x844",
+      "query": "roster=9&capsule=1&film=eject&t=7000&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-390x844-eject-7300.png",
+      "viewport": "390x844",
+      "query": "roster=9&capsule=1&film=eject&t=7300&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-390x844-reduced-eject-0040.png",
+      "viewport": "390x844",
+      "query": "roster=9&capsule=1&film=eject&t=40&motion=reduced&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-390x844-reduced-eject-0300.png",
+      "viewport": "390x844",
+      "query": "roster=9&capsule=1&film=eject&t=300&motion=reduced&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-390x844-reduced-eject-0800.png",
+      "viewport": "390x844",
+      "query": "roster=9&capsule=1&film=eject&t=800&motion=reduced&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-390x844-reduced-eject-1400.png",
+      "viewport": "390x844",
+      "query": "roster=9&capsule=1&film=eject&t=1400&motion=reduced&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-390x844-reduced-eject-2000.png",
+      "viewport": "390x844",
+      "query": "roster=9&capsule=1&film=eject&t=2000&motion=reduced&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-390x844-reduced-eject-2600.png",
+      "viewport": "390x844",
+      "query": "roster=9&capsule=1&film=eject&t=2600&motion=reduced&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-320x568-eject-0650.png",
+      "viewport": "320x568",
+      "query": "roster=9&capsule=1&film=eject&t=650&hit=1",
+      "problems": [],
+      "shell": "compact",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-320x568-eject-full-3600.png",
+      "viewport": "320x568",
+      "query": "roster=9&capsule=1&film=eject&outcome=eject-full&t=3600&hit=1",
+      "problems": [],
+      "shell": "compact",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-320x568-eject-full-4900.png",
+      "viewport": "320x568",
+      "query": "roster=9&capsule=1&film=eject&outcome=eject-full&t=4900&hit=1",
+      "problems": [],
+      "shell": "compact",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-390x844-nocapsule-eject-0650.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=eject&t=650&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-390x844-eject-full-3600.png",
+      "viewport": "390x844",
+      "query": "roster=9&capsule=1&film=eject&outcome=eject-full&t=3600&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-390x844-eject-full-4000.png",
+      "viewport": "390x844",
+      "query": "roster=9&capsule=1&film=eject&outcome=eject-full&t=4000&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-390x844-eject-3500-r8.png",
+      "viewport": "390x844",
+      "query": "roster=8&capsule=1&film=eject&t=3500&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-390x844-offboard-choosing.png",
+      "viewport": "390x844",
+      "query": "roster=9&capsule=1&film=eject&t=7300&ui=choosing&offboard=1&offered=1,2,3,4,5,6,7,8,9&chosen=4&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-320x568-offboard-choosing.png",
+      "viewport": "320x568",
+      "query": "roster=9&capsule=1&film=eject&t=7300&ui=choosing&offboard=1&offered=1,2,3,4,5,6,7,8,9&chosen=4&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-320x568-offboard-full-choosing.png",
+      "viewport": "320x568",
+      "query": "roster=9&capsule=1&film=eject&outcome=eject-full&t=7300&ui=choosing&offboard=1&offered=1,2,3,4,5,6,7,8,9&chosen=2,6&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-390x844-offboard-choosing-text2.png",
+      "viewport": "390x844",
+      "query": "roster=9&capsule=1&film=eject&t=7300&ui=choosing&offboard=1&offered=1,2,3,4,5,6,7,8,9&chosen=4&text=2&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "captain-sheet.png",
+      "viewport": "1240x1260",
+      "query": "sheet=captain",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
       "boardProblems": []
     }
   ],
@@ -5998,6 +6588,134 @@
     },
     {
       "compare": "the top bar's box on the plain board and in each medical film, 320x568",
+      "same": true
+    },
+    {
+      "compare": "the Captain's release film on the display and on a player's screen, 390x844, film=release&t=2600",
+      "same": true
+    },
+    {
+      "compare": "the Captain's eject film on the display and on a player's screen, 390x844, film=eject&t=3500",
+      "same": true
+    },
+    {
+      "compare": "the page after the release film (4300 ms) and before it (-1 ms), 390x844",
+      "same": true
+    },
+    {
+      "compare": "the page after the release film (2290 ms) and before it (-1 ms), 390x844, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the page after the release-full film (4300 ms) and before it (-1 ms), 390x844",
+      "same": true
+    },
+    {
+      "compare": "the page after the release-full film (2290 ms) and before it (-1 ms), 390x844, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the page after the eject film (7300 ms) and before it (-1 ms), 390x844",
+      "same": true
+    },
+    {
+      "compare": "the page after the eject film (2610 ms) and before it (-1 ms), 390x844, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the page after the eject-full film (7300 ms) and before it (-1 ms), 390x844",
+      "same": true
+    },
+    {
+      "compare": "the page after the eject-full film (2610 ms) and before it (-1 ms), 390x844, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "hospital during the release film (1500 ms) and before it, 390x844",
+      "same": true
+    },
+    {
+      "compare": "hospital during the release film (3000 ms) and before it, 390x844",
+      "same": true
+    },
+    {
+      "compare": "room-a, room-b, hospital during the eject film (1200 ms) and before it, 390x844",
+      "same": true
+    },
+    {
+      "compare": "room-a, room-b, hospital during the eject film (3500 ms) and before it, 390x844",
+      "same": true
+    },
+    {
+      "compare": "room-a, room-b, hospital during the eject film (4900 ms) and before it, 390x844",
+      "same": true
+    },
+    {
+      "compare": "the top bar's box on the plain board and in each Captain film, 390x844",
+      "same": true
+    },
+    {
+      "compare": "the Captain's release film on the display and on a player's screen, 320x568, film=release&t=2600",
+      "same": true
+    },
+    {
+      "compare": "the Captain's eject film on the display and on a player's screen, 320x568, film=eject&t=3500",
+      "same": true
+    },
+    {
+      "compare": "the page after the release film (4300 ms) and before it (-1 ms), 320x568",
+      "same": true
+    },
+    {
+      "compare": "the page after the release film (2290 ms) and before it (-1 ms), 320x568, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the page after the release-full film (4300 ms) and before it (-1 ms), 320x568",
+      "same": true
+    },
+    {
+      "compare": "the page after the release-full film (2290 ms) and before it (-1 ms), 320x568, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the page after the eject film (7300 ms) and before it (-1 ms), 320x568",
+      "same": true
+    },
+    {
+      "compare": "the page after the eject film (2610 ms) and before it (-1 ms), 320x568, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the page after the eject-full film (7300 ms) and before it (-1 ms), 320x568",
+      "same": true
+    },
+    {
+      "compare": "the page after the eject-full film (2610 ms) and before it (-1 ms), 320x568, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "hospital during the release film (1500 ms) and before it, 320x568",
+      "same": true
+    },
+    {
+      "compare": "hospital during the release film (3000 ms) and before it, 320x568",
+      "same": true
+    },
+    {
+      "compare": "room-a, room-b, hospital during the eject film (1200 ms) and before it, 320x568",
+      "same": true
+    },
+    {
+      "compare": "room-a, room-b, hospital during the eject film (3500 ms) and before it, 320x568",
+      "same": true
+    },
+    {
+      "compare": "room-a, room-b, hospital during the eject film (4900 ms) and before it, 320x568",
+      "same": true
+    },
+    {
+      "compare": "the top bar's box on the plain board and in each Captain film, 320x568",
       "same": true
     }
   ],
