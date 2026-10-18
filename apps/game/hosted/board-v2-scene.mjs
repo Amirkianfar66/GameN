@@ -13,7 +13,7 @@ import {frameCapsule,capsuleTargets,CAPSULE_SIZE} from './board-v2-drawing/capsu
 const [bx,by,box]=FRAME.box,[ax,ay]=FRAME.anchor;
 
 /** Inputs are an internal public scene model, not an independently widened wire view. */
-export function boardV2SceneFrame(roster,seats,{panels,pressAreas}) {
+export function boardV2SceneFrame(roster,seats,{panels,pressAreas,geometry={sceneOf,slotsOf}}) {
  const problems=[],usedSlots=new Set(),usedSeats=new Set(),rooms=[];
  if(![7,8,9].includes(roster))return {rooms:[],problems:['unsupported starting roster']};
  for(const seat of seats){
@@ -21,13 +21,13 @@ export function boardV2SceneFrame(roster,seats,{panels,pressAreas}) {
   usedSeats.add(seat.seatId);
   if(seat.location===null&&seat.slotId===null&&seat.health==='Eliminated')continue;
   const room=BOARD_ROOMS.find(room=>LOCATION_OF[room]===seat.location);
-  if(!room||!slotsOf(room,roster).some(slot=>slot.id===seat.slotId))problems.push(`${seat.seatId}: missing or incompatible stored slot`);
+  if(!room||!geometry.slotsOf(room,roster).some(slot=>slot.id===seat.slotId))problems.push(`${seat.seatId}: missing or incompatible stored slot`);
   if(usedSlots.has(seat.slotId))problems.push('duplicate stored slot');usedSlots.add(seat.slotId);
  }
  if(problems.length)return {rooms:[],problems};
  for(const room of BOARD_ROOMS){
   const panel=panels[room];if(!panel||panel.width<=0||panel.height<=0){problems.push(`${room}: missing laid-out panel`);continue;}
-  const scene=sceneOf(room,roster),frame=frameScene(scene,panel),slots=slotsOf(room,roster);
+  const scene=geometry.sceneOf(room,roster),frame=frameScene(scene,panel),slots=geometry.slotsOf(room,roster);
   // The revised approved layout supplies its exact slot rectangles. Do not substitute
   // the historical fixed-44 helper or copy an unadopted fit implementation here.
   const presses=new Map((pressAreas[room]??[]).map(rect=>[rect.id,rect]));

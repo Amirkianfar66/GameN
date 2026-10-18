@@ -9,6 +9,10 @@ import {slotsOf,LOCATION_OF} from './board-v2-drawing/slots.mjs';
 import {blockedFrame} from './board-v2-drawing/blocked-film.mjs';
 import {labelBox} from './board-v2-drawing/label-box.mjs';
 import {createBoardV2Capsule} from './board-v2-capsule.mjs';
+import {supportsHospitalFour,HOSPITAL_FOUR_LAYOUT_REVISION} from '@mothership/contracts';
+import {turnsLayout as turnsFour} from './board-v2-drawing/turns-four.mjs';
+import {slotRects as rectsFour} from './board-v2-drawing/fit-four.mjs';
+import {sceneOf as sceneFour,slotsOf as slotsFour} from './board-v2-drawing/slots-four.mjs';
 
 const px=n=>`${n}px`;
 const box=(node,r)=>{if(!node||!r)return;for(const name of ['left','top','width','height'])if(Number.isFinite(r[name]))node.style[name]=px(r[name]);};
@@ -24,11 +28,17 @@ export function createBoardV2Host(root,{now=()=>performance.now()}={}) {
  const settleBlocks=()=>{blocks.clear();for(const fx of holder.querySelectorAll('.bv2-block-fx'))fx.remove();for(const figure of holder.querySelectorAll('.bv2-figure'))figure.style.translate='0px 0px';};
  const media=matchMedia('(prefers-reduced-motion: reduce)');
  let model=null,layout=null,frame=null,geometryKey=null,raf=null,disposed=false,tab=false,worldKey=null,claimExpanded=false;
+ const legacyGeometry={turnsLayout,slotRects,sceneOf,slotsOf};
+ const fourGeometry={turnsLayout:turnsFour,slotRects:rectsFour,sceneOf:sceneFour,slotsOf:slotsFour};
+ let geometry=legacyGeometry;
  const stop=()=>{if(raf!==null)cancelAnimationFrame(raf);raf=null;};
  const artForRoom=room=>{
-  if(room==='hospital')return [{id:'back',cssVar:`--board-v2-art-ward-${model.match.boardLayout.playerCount}-back`,sceneDepth:-1000},
-   ...Object.entries(sceneOf(room,model.match.boardLayout.playerCount).layers).map(([id,layer])=>({id,cssVar:`--board-v2-art-ward-berth-${id}`,sceneDepth:layer.depth,paintZIndex:2*Math.round(layer.depth)+1}))];
-  return [{id:'back',cssVar:`--bm-scene-${room}-back`,sceneDepth:-1000},...Object.entries(sceneOf(room,model.match.boardLayout.playerCount).layers).map(([id,layer])=>({id,cssVar:`--bm-scene-${room}-${id.replace(/[A-Z]/g,c=>'-'+c.toLowerCase())}`,sceneDepth:layer.depth}))];
+  if(room==='hospital'){
+   const four=geometry===fourGeometry;
+   return [{id:'back',cssVar:four?'--board-v2-film-scenes-hospital-ward-four-back':`--board-v2-art-ward-${model.match.boardLayout.playerCount}-back`,sceneDepth:-1000},
+    ...Object.entries(geometry.sceneOf(room,model.match.boardLayout.playerCount).layers).map(([id,layer])=>({id,cssVar:four?`--board-v2-film-scenes-hospital-ward-four-berth-${id}`:`--board-v2-art-ward-berth-${id}`,sceneDepth:layer.depth,paintZIndex:2*Math.round(layer.depth)+1}))];
+  }
+  return [{id:'back',cssVar:`--bm-scene-${room}-back`,sceneDepth:-1000},...Object.entries(geometry.sceneOf(room,model.match.boardLayout.playerCount).layers).map(([id,layer])=>({id,cssVar:`--bm-scene-${room}-${id.replace(/[A-Z]/g,c=>'-'+c.toLowerCase())}`,sceneDepth:layer.depth}))];
  };
  function paint(){
   if(disposed||!layout?.fits||!frame)return;
@@ -53,8 +63,9 @@ export function createBoardV2Host(root,{now=()=>performance.now()}={}) {
    const section=active.rooms.get(room.room),f=night?.film;
    if(!f){section.querySelector('.bv2-room-heading').style.opacity='1';for(const node of section.querySelectorAll('.bv2-night-layer'))node.remove();continue;}
    const darkName=room.room==='hospital'?`hospital-ward-${model.match.boardLayout.playerCount}-dark`:`${room.room}-dark`;
-   commonLayer(section,'dark',`--board-v2-motion-${darkName}`,{left:room.frame.tx,top:room.frame.ty,width:1024*room.frame.k,height:768*room.frame.k},f.darkness);
-   for(const rect of slotRects(room.room,model.match.boardLayout.playerCount,room.panel)){
+   const darkVar=room.room==='hospital'&&geometry===fourGeometry?'--board-v2-film-lighting-hospital-ward-four-dark':`--board-v2-motion-${darkName}`;
+   commonLayer(section,'dark',darkVar,{left:room.frame.tx,top:room.frame.ty,width:1024*room.frame.k,height:768*room.frame.k},f.darkness);
+   for(const rect of geometry.slotRects(room.room,model.match.boardLayout.playerCount,room.panel)){
     commonLayer(section,`marker-${rect.id}`,`--board-v2-motion-marker-${f.markers.style}`,{left:rect.left,top:rect.top,width:rect.side,height:rect.side},f.markers.opacity);
    }
    const caption=section.querySelector('.bv2-room-heading');caption.style.opacity=String(f.captions);
@@ -67,8 +78,8 @@ export function createBoardV2Host(root,{now=()=>performance.now()}={}) {
   if(!choices.length){controls?.remove();return;}
   if(!controls){controls=document.createElement('div');controls.className='bv2-blackout-controls';controls.setAttribute('aria-label','Your private frozen positions');holder.append(controls);}
   const slotSet=new Set(choices.map(c=>c.value));for(const node of controls.children)if(!slotSet.has(node.dataset.value))node.remove();
-  for(const choice of choices){const room=BOARD_ROOMS.find(r=>slotsOf(r,model.match.boardLayout.playerCount).some(s=>s.id===choice.value));if(!room)continue;
-   const r=slotRects(room,model.match.boardLayout.playerCount,layout.board.panels[room]).find(r=>r.id===choice.value),b=layout.board.boxes[room];
+  for(const choice of choices){const room=BOARD_ROOMS.find(r=>geometry.slotsOf(r,model.match.boardLayout.playerCount).some(s=>s.id===choice.value));if(!room)continue;
+   const r=geometry.slotRects(room,model.match.boardLayout.playerCount,layout.board.panels[room]).find(r=>r.id===choice.value),b=layout.board.boxes[room];
    let button=controls.querySelector(`[data-value="${choice.value}"]`);if(!button){button=document.createElement('button');button.type='button';button.className='bv2-slot-target';button.dataset.value=choice.value;button.dataset.intent='action/choose';controls.append(button);}
    button.id=choice.id;button.setAttribute('aria-label',choice.label);button.setAttribute('aria-describedby','ms-action-step');button.textContent=choice.value;
    box(button,{left:b.left+layout.board.shell.border+r.left,top:b.top+layout.board.shell.border+r.top,width:r.side,height:r.side});
@@ -182,15 +193,17 @@ export function createBoardV2Host(root,{now=()=>performance.now()}={}) {
  }
  function after(next){
   model=next;
-  const enabled=next.screen==='match'&&next.match?.boardLayout?.id==='board-v2-0.1.1';
+  const four=supportsHospitalFour(next.match?.versions??{});
+  const enabled=next.screen==='match'&&next.match?.boardLayout?.id===(four?HOSPITAL_FOUR_LAYOUT_REVISION:'board-v2-0.1.1');
+  geometry=four?fourGeometry:legacyGeometry;
   stop();
   if(!enabled){holder.remove();delete root.dataset.boardLayout;capsule.dispose();blackout.dispose();settleBlocks();geometryKey=null;frame=null;return false;}
   root.dataset.boardLayout='board-v2';
   const original=root.querySelector('.ms-board');if(!original)return false;
   for(const node of original.querySelectorAll('.ms-seat[data-seat]'))identities.set(node.dataset.seat,{characterId:node.dataset.character??null,displayName:node.dataset.displayName??null});
   const safe=safeInsets(document),ratio=Math.max(1,parseFloat(getComputedStyle(document.documentElement).fontSize)/16);
-  const key=JSON.stringify([window.innerWidth,window.innerHeight,next.match.boardLayout.playerCount,safe,ratio]);
-  if(key!==geometryKey){capsule.settle();layout=turnsLayout({width:window.innerWidth,height:window.innerHeight},next.match.boardLayout.playerCount,{insets:safe,bars:ratio>1?{top:Math.ceil(36+88*(ratio-1))}:undefined,actions:ratio>=2?64:44});geometryKey=key;}
+  const key=JSON.stringify([window.innerWidth,window.innerHeight,next.match.boardLayout.playerCount,next.match.boardLayout.id,safe,ratio]);
+  if(key!==geometryKey){capsule.settle();layout=geometry.turnsLayout({width:window.innerWidth,height:window.innerHeight},next.match.boardLayout.playerCount,{insets:safe,bars:ratio>1?{top:Math.ceil(36+88*(ratio-1))}:undefined,actions:ratio>=2?64:44});geometryKey=key;}
   original.dataset.boardV2='true';
   if(holder.parentNode!==original)original.replaceChildren(holder);
   holder.style.width=px(window.innerWidth);holder.style.height=px(window.innerHeight);
@@ -199,8 +212,8 @@ export function createBoardV2Host(root,{now=()=>performance.now()}={}) {
    const message=document.createElement('p');message.className='bv2-too-short';message.id='ms-comic-board-heading';message.tabIndex=-1;
    message.textContent='This screen is too short to show the board. Use a taller view or reduce the text size. Navigation remains available.';holder.append(message);frame=null;controls();return true;}
   const seats=(next.match.boardLayout.seats??(next.match.board?.zones??next.match.roster?.zones??[]).flatMap(z=>z.seats)).map(s=>({...s,...identities.get(s.seatId)}));
-  const layoutFrame={panels:layout.board.panels,pressAreas:Object.fromEntries(BOARD_ROOMS.map(r=>[r,slotRects(r,next.match.boardLayout.playerCount,layout.board.panels[r])]))};
-  frame=boardV2SceneFrame(next.match.boardLayout.playerCount,seats,layoutFrame);
+  const layoutFrame={panels:layout.board.panels,pressAreas:Object.fromEntries(BOARD_ROOMS.map(r=>[r,geometry.slotRects(r,next.match.boardLayout.playerCount,layout.board.panels[r])]))};
+  frame=boardV2SceneFrame(next.match.boardLayout.playerCount,seats,{...layoutFrame,geometry});
   if(frame.problems.length){holder.replaceChildren();const warning=document.createElement('p');warning.className='bv2-too-short';warning.textContent='The board could not be read. Reconnect to continue.';holder.append(warning);return true;}
   const publicKey=JSON.stringify([next.match.capsule?.phaseId,next.match.boardLayout.clock.phaseId]);
   if(publicKey!==worldKey){tab=false;claimExpanded=false;worldKey=publicKey;}
