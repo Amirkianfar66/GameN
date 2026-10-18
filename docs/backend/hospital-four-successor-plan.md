@@ -2,6 +2,8 @@
 
 Status: **owner-approved gameplay; specification proposal only; not implemented or deployed**. Tracks [issue #155](https://github.com/Amirkianfar66/GameN/issues/155), decision `HOSPITAL-4-2026-10-18`.
 
+The [19 October Designer / Backend source reconciliation](designer-contract-reconciliation-2026-10-19.md) answers S3, clarifies clinical occupancy and full EJECT seat lists, and records the unadopted #160 HV5 fallback mismatch plus independent Balance follow-up. It does not settle H4-ORDER-01 or adopt a successor event/anchor contract.
+
 Actual clean starting commit and source baseline: `6ca4b51d5acd1454daec68c5108c8f12ee2286bf`, branch `codex/backend-hospital-four-plan`, isolated managed worktree `backend-hospital-four-plan`. The primary checkout remains on its original branch with its pre-existing image and reviews preserved. Existing Backend worktrees and completed changes are untouched.
 
 The exact Integration record is copied without modification to [the owner evidence](evidence/hospital-four-owner-decision-2026-10-18.json), SHA-256 `e8200252806d5e468805b6e00cc9ea85eb37651d72522293b533ee31f3d27c5d`. Integration recorded the owner's explicit clarification: **“Yes—eliminate the incoming player.”** This new decision overrides the earlier roster-sized/no-overflow Hospital direction only for a future successor. It does not authorize blanket removal of every existing body, erase identities/history or change the released match tuple.
@@ -178,10 +180,10 @@ Recommended future sequence: Integration allocates/reviews the successor contrac
 
 ## Verification of this planning change
 
-Only owner evidence and this Backend plan are added. Actual documentation verification:
+Owner evidence, this Backend plan and the linked source reconciliation are the three added Backend documents. Actual documentation verification:
 
-- **Passed:** all 35 local Markdown link occurrences (25 unique targets) exist; owner JSON parses, exactly matches Integration's bytes and the recorded SHA-256, and remains marked not implemented/deployed. The direct #96 question/answer and question item identifier are preserved in this plan.
-- **Passed:** all tracked baseline files remain unchanged; the only added paths are these two Backend documents. Read-only SHA checks cover 24 pinned source files, 7 rule sources and 119 original Canvas files, plus exact Canvas inventory and the matching token proposal.
+- **Passed:** all 36 local Markdown link occurrences (26 unique targets) exist; owner JSON parses, exactly matches Integration's bytes and the recorded SHA-256, and remains marked not implemented/deployed. The direct #96 question/answer and question item identifier are preserved in this plan.
+- **Passed:** all tracked baseline files remain unchanged; the only added paths are these three Backend documents. Read-only SHA checks cover 24 pinned source files, 7 rule sources and 119 original Canvas files, plus exact Canvas inventory and the matching token proposal.
 - **Passed:** pinned toolchain check with Node `22.21.1` and npm `10.9.4`. The initial invocation found global npm `11.9.0`; setting the existing pinned Node directory first in PATH corrected it without installation or repository changes.
 - **Passed:** final staged `git diff --check` and documentation-only path check before commit.
 
