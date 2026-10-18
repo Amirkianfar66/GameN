@@ -611,6 +611,9 @@ export interface ConnectedPrivateAreaModel {
         readonly rescues: { readonly count: number; readonly sentence: string } | null;
       };
     } | null;
+    /** Own-only drawing facts. Never attached to a public/table model or a concealed panel. */
+    readonly clone?: { readonly status: NonNullable<FullPlayerView['self']['cloneStatus']>; readonly seatId: SeatId; readonly eliminated: boolean; readonly matchEnded: boolean } | null;
+    readonly captain?: { readonly uses: NonNullable<FullPlayerView['self']['captainCommandUses']>; readonly releaseAvailable: boolean; readonly ejectAvailable: boolean } | null;
     readonly actions: { readonly heading: string; readonly notice: string | null; readonly card: ConnectedActionCardModel };
   } | null;
 }
@@ -675,7 +678,9 @@ export interface PublicBoardModel {
   readonly blackout?: { readonly snapshotId: string; readonly darkStartsAt: number } | null;
   readonly seats?: readonly { readonly seatId: SeatId; readonly location: LocationName; readonly health: HealthState; readonly jailed: boolean; readonly slotId?: string | null }[];
   readonly dark?: boolean;
-  readonly id: 'board-v2-0.1.1';
+  readonly id: 'board-v2-0.1.1' | 'board-v2-four-0.1.0';
+  readonly matchId?: string;
+  readonly viewRevision?: number;
   readonly playerCount: number;
   readonly clock: {
     readonly phaseId: string; readonly kind: PhaseFacts['kind'];

@@ -398,6 +398,15 @@ function buildPrivateArea(input: ConnectedPlayerInput, view: FullPlayerView, sea
       // The server's own statement of this seat's ballot in the vote that is open.
       ballot: ownBallotLine(view),
       knowledge: buildKnowledge(view),
+      clone: !over && supportsClone(view.versions) && view.self.cloneStatus ? {
+        status: { ...view.self.cloneStatus }, seatId: view.self.seatId,
+        eliminated: view.seats.find(seat => seat.seatId === view.self.seatId)?.health === 'Eliminated', matchEnded: over,
+      } : null,
+      captain: !over && supportsCaptainCommands(view.versions) && view.self.captainCommandUses ? {
+        uses: { ...view.self.captainCommandUses },
+        releaseAvailable: view.legalTargets['CAPTAIN_RELEASE']?.includes(view.self.seatId) ?? false,
+        ejectAvailable: view.legalTargets['CAPTAIN_EJECT']?.includes(view.self.seatId) ?? false,
+      } : null,
       actions: { heading: en.actions.heading, notice, card: buildCard(input, view, seats) },
     } : null,
   };
