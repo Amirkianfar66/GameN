@@ -59,14 +59,19 @@ import { BLOCKED_VERSION, PARTICLE_FRAMES, SHIELD, SHIELD_BOX, SHIELD_FLASH_RADI
 import { WARD_BERTHS, WARD_ROSTERS, wardScene } from '../board-v2/scenes/hospital-ward.mjs';
 import { FIXTURES, IMPACT_BOX, IMPACT_FLASH_RADIUS, LIGHTING_VERSION, NIGHT, SPARK_BOX, SPARK_LIGHT, SPARK_ORIGIN, boltIconSvg, impactSvg, markerSvg, nightMarkup, sparkSvg } from '../board-v2/scenes/lighting.mjs';
 import { BOARD_ROOMS, ROSTERS, SLOTS_VERSION, SLOT_TABLE_VERSION, slotsOf } from '../board-v2/scenes/slots.mjs';
+import { FOUR_BEDS, FOUR_BERTHS, FOUR_ROSTERS, wardFourScene } from '../board-v2/scenes/hospital-ward-four.mjs';
+import { SLOTS_VERSION as FOUR_SLOTS_VERSION, SLOT_TABLE_VERSION as FOUR_TABLE_VERSION, slotsOf as fourSlotsOf } from '../board-v2/scenes/slots-four.mjs';
+import { MEDICAL_FOUR_VERSION, fourBerthKits } from '../board-v2/fx/medical-four.mjs';
+import { overflowContract } from '../board-v2/films/overflow.mjs';
 import { groupOuter } from './lib/svg-lift.mjs';
 
 const repoRoot = resolve(fileURLToPath(new URL('../../', import.meta.url)));
 const OUT = 'design/board-v2/assets';
 const SLOTS_FILE = 'design/board-v2/contract/slots.json';
+const SLOTS_FOUR_FILE = 'design/board-v2/contract/slots-four.json';
 const FILMS_FILE = 'design/board-v2/contract/films.json';
-/** The board-v2 art set's version: 0.1.0 the slots and the ward, 0.2.0 with the Blackout's lighting, 0.3.0 with ATTACK BLOCKED, 0.4.0 with the private-talk capsule, 0.5.0 with the Hospital's medical films, 0.6.0 with the Captain's films. */
-export const ASSETS_VERSION = 'board-v2-0.6.0';
+/** The board-v2 art set's version: 0.1.0 the slots and the ward, 0.2.0 with the Blackout's lighting, 0.3.0 with ATTACK BLOCKED, 0.4.0 with the private-talk capsule, 0.5.0 with the Hospital's medical films, 0.6.0 with the Captain's films, 0.7.0 with the four-berth ward of the successor. */
+export const ASSETS_VERSION = 'board-v2-0.7.0';
 const kebab = id => id.replace(/[A-Z]/g, letter => `-${letter.toLowerCase()}`);
 const kebabAll = ids => ids.map(kebab);
 const sha = content => createHash('sha256').update(content).digest('hex');
@@ -116,12 +121,13 @@ export async function planAssets(root = repoRoot) {
   };
   const slotsJson = `${JSON.stringify(slots, null, 2)}\n`;
   files.set(SLOTS_FILE, slotsJson);
+  const four = await planFour(root, files);
   const lighting = await planLighting(root, files);
   const fx = planBlocked(files);
   const capsule = planCapsule(files);
   const medical = planMedical(files);
   const captain = await planCaptain(root, files);
-  const films = { devOnly: 'mothership:dev-only', version: FILMS_VERSION, status: 'proposal', note: 'The board-v2 films as data, from design/board-v2/films/. Durations are targets for drawing; the server\'s deadlines are the only clock. Not a rule and not an adopted contract.', films: [blackoutContract(), blockedContract(), capsuleContract(), ...medicalContracts(), ...captainContracts()] };
+  const films = { devOnly: 'mothership:dev-only', version: FILMS_VERSION, status: 'proposal', note: 'The board-v2 films as data, from design/board-v2/films/. Durations are targets for drawing; the server\'s deadlines are the only clock. Not a rule and not an adopted contract.', films: [blackoutContract(), blockedContract(), capsuleContract(), ...medicalContracts(), ...captainContracts(), overflowContract()] };
   const filmsJson = `${JSON.stringify(films, null, 2)}\n`;
   files.set(FILMS_FILE, filmsJson);
   const recipes = JSON.parse(await readFile(resolve(root, 'design/source/export-recipes.json'), 'utf8'));
@@ -131,7 +137,7 @@ export async function planAssets(root = repoRoot) {
     status: 'proposal',
     baseBoard: 'board-motion-0.3.0',
     baseManifest: 'design-0.2.0',
-    note: 'The Hospital as a ward with one berth per seat (7, 8 or 9), the board\'s fixed slot table, the Blackout\'s lighting art, the shared ATTACK BLOCKED effects, the private-talk capsule, the Hospital\'s medical films (the critical state, the drone\'s rescue and the flatline) and the Captain\'s films (RELEASE, EJECT and the command plates), for the owner\'s motion specification of 13 October 2026 and the owner\'s capsule request of 14 October 2026. The reviewed manifest, the board-motion proposal and every pinned drawing source are unchanged; this art is proposed for a later export revision and is adopted only through Integration.',
+    note: 'The Hospital as a ward with one berth per seat (7, 8 or 9), the board\'s fixed slot table, the Blackout\'s lighting art, the shared ATTACK BLOCKED effects, the private-talk capsule, the Hospital\'s medical films (the critical state, the drone\'s rescue and the flatline), the Captain\'s films (RELEASE, EJECT and the command plates) and the successor\'s four-berth ward, for the owner\'s motion specification of 13 October 2026, the owner\'s capsule request of 14 October 2026 and the owner\'s four-bed decision of 18 October 2026. The reviewed manifest, the board-motion proposal and every pinned drawing source are unchanged; this art is proposed for a later export revision and is adopted only through Integration.',
     rights: {
       origin: 'The approved Hospital\'s groups copied element for element from the repository\'s original vector source design/source/board/board-hospital.svg, recolored by the reviewed export recipe, around new vector drawing generated for this repository by design/board-v2/scenes/hospital-ward.mjs. No third-party artwork, font, photograph, traced image or generated raster image.',
       author: 'Visual and Motion Designer workstream: a Claude Code session working for the game owner.',
@@ -146,6 +152,7 @@ export async function planAssets(root = repoRoot) {
     capsule,
     medical,
     captain,
+    four,
     films: { file: FILMS_FILE, version: FILMS_VERSION, sha256: sha(filmsJson), bytes: Buffer.byteLength(filmsJson) },
   };
   files.set(`${OUT}/manifest.json`, `${JSON.stringify(manifest, null, 2)}\n`);
@@ -205,6 +212,17 @@ async function planLighting(root, files) {
     const layers = paths.map(path => ({ path, text: files.get(path) }));
     const content = header(`hospital ward, ${roster} players · dark`, `The ward of ${roster} berths with its lights out, drawn empty, by the night rule.`, `${paths.join(', ')} and design/board-v2/scenes/lighting.mjs`) + darkRoom('hospital', layers);
     add(`${OUT}/lighting/hospital-ward-${roster}.dark.svg`, content, { id: `lighting.hospital-ward-${roster}.dark`, room: 'hospital', rosters: [roster], kind: 'dark-room', from: paths, viewBox: '0 0 1024 768' });
+  }
+  {
+    // The successor's four-berth ward (issue #155): its back, then its layers in depth order, so
+    // that the front berths' headboards stand over the back berths' blankets.
+    const scene = wardFourScene(FOUR_ROSTERS[0]);
+    const ordered = Object.entries(scene.layers).sort(([, a], [, b]) => a.depth - b.depth).map(([id]) => id);
+    const paths = [`${OUT}/scenes/hospital-ward-four.back.svg`, ...ordered.map(id => `${OUT}/scenes/hospital-ward-four.${id}.svg`)];
+    const layers = paths.map(path => ({ path, text: files.get(path) }));
+    if (layers.some(layer => !layer.text)) throw new Error('The four-berth ward\'s lit files are planned before its dark one');
+    const content = header('hospital ward, four berths · dark', 'The successor\'s four-berth ward with its lights out, drawn empty, by the night rule. The same for 7, 8 and 9 players.', `${paths.join(', ')} and design/board-v2/scenes/lighting.mjs`) + darkRoom('hospital', layers);
+    add(`${OUT}/lighting/hospital-ward-four.dark.svg`, content, { id: 'lighting.hospital-ward-four.dark', room: 'hospital', rosters: [...FOUR_ROSTERS], beds: FOUR_BEDS, kind: 'dark-room', from: paths, viewBox: '0 0 1024 768' });
   }
   for (const frame of [1, 2, 3]) {
     add(`${OUT}/lighting/fx-spark-${frame}.svg`, header(`spark, frame ${frame}`, ['It shorts: a white-hot star at the light and three bolts.', 'It bursts: longer bolts, the first embers.', 'The embers fall; smoke at the light.'][frame - 1] + ` Drawn at a room's light (lighting.mjs FIXTURES), its lower edge at (${SPARK_ORIGIN.join(', ')}) of the ${SPARK_BOX} x ${SPARK_BOX} box. The same in every room and for every window.`, 'design/board-v2/scenes/lighting.mjs') + sparkSvg(frame),
@@ -440,6 +458,69 @@ async function planCaptain(root, files) {
     airlock: AIRLOCK, exterior: EXTERIOR,
     placement: { console: 'fx/captain.mjs consoleBox()', pulse: 'fx/captain.mjs conduitPoints()', plaque: 'fx/captain.mjs plaqueBox()' },
     reuses: ['design/exports/public-board/fx-ink-trail.paper.fdbb7f4fce.svg', 'design/exports/public-board/fx-landing-puff.paper.8d5f3998bd.svg'],
+    files: entries,
+  };
+}
+
+/**
+ * The successor's four-berth ward (the owner's four-bed decision of 18 October 2026, issue #155):
+ * its back and its layers, the same drawing for 7, 8 and 9 players (checked), and its slot table.
+ * The roster-sized ward and its table are unchanged. Adds the files to `files`; returns the
+ * manifest's four section.
+ */
+async function planFour(root, files) {
+  const scenes = FOUR_ROSTERS.map(roster => wardFourScene(roster));
+  const composed = await Promise.all(scenes.map(scene => composeScene(scene, root)));
+  for (const out of composed.slice(1)) {
+    if (out.back !== composed[0].back || JSON.stringify(out.layers) !== JSON.stringify(composed[0].layers)) throw new Error('The four-berth ward is not the same drawing for every roster');
+  }
+  const [scene, out] = [scenes[0], composed[0]];
+  const header = (name, purpose) => `<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  mothership:dev-only · board-v2 four-berth proposal ${FOUR_SLOTS_VERSION} · ${name} · generated, do not edit by hand
+  ${purpose}
+  Built by design/tools/board-v2-assets.mjs from design/board-v2/scenes/hospital-ward-four.mjs and ${out.sourcePath} (lifted unchanged:
+  ${[...scene.under, ...scene.over].join(', ')}), printed in the room's colors by ${out.recipe}. For the successor's four-bed Hospital
+  (the owner's decision of 18 October 2026, issue #155); the roster-sized ward is unchanged. Not in the reviewed manifest design-0.2.0.
+-->
+`;
+  const entries = [];
+  const add = (file, content, entry) => {
+    files.set(file, content);
+    entries.push({ ...entry, file, viewBox: '0 0 1024 768', bytes: Buffer.byteLength(content), sha256: sha(content), audience: 'public' });
+  };
+  add(`${OUT}/scenes/hospital-ward-four.back.svg`, header('hospital ward, four berths · back', 'The successor\'s Hospital as a ward of four berths: the approved room, the deck, the back row\'s headboards, pillows, monitors and lamps, and their light.') + out.back,
+    { id: 'scene.hospital-ward-four.back', room: 'hospital', rosters: [...FOUR_ROSTERS], layer: 'back', depth: null, source: out.sourcePath, sourceSha256: sha(out.source), recolor: out.recipe, lifted: [...scene.under, ...scene.over] });
+  for (const [id, layer] of Object.entries(out.layers)) {
+    const head = id.endsWith('-head');
+    add(`${OUT}/scenes/hospital-ward-four.${id}.svg`, header(`hospital ward, four berths · ${id}`, head
+      ? `Drawn in front of the back row and behind its own patient (depth ${layer.depth}): the front berth's headboard, with its plate, lamp and monitor, its pillow and the far end of its mattress.`
+      : `Drawn again in front of its patient (depth ${layer.depth}): the blanket, the rail and the foot of the berth.`) + layer.svg,
+    { id: `scene.hospital-ward-four.${id}`, room: 'hospital', rosters: [...FOUR_ROSTERS], layer: id, depth: layer.depth });
+  }
+  const table = {
+    devOnly: 'mothership:dev-only',
+    version: FOUR_TABLE_VERSION,
+    status: 'proposal',
+    note: 'The successor board\'s fixed slots for each roster, as design/board-v2/scenes/slots-four.mjs gives them: contract/slots.json\'s, with a Hospital of four berths (H1 to H4) whatever the roster, for the owner\'s four-bed decision of 18 October 2026 (issue #155). The roster stays 7, 8 or 9. The table allocates nothing, and its version is a proposal for Integration to allocate with the successor\'s tuple. Not a rule and not an adopted contract.',
+    beds: FOUR_BEDS,
+    anchors: { feet: 'where the figure stands', press: 'centre of the press area (the place\'s gesture\'s press point; never moves)', badge: 'status tag (detention, rescue deadline)', fx: 'impact or shield centre' },
+    rosters: Object.fromEntries(FOUR_ROSTERS.map(roster => [roster, Object.fromEntries(BOARD_ROOMS.map(room => [room, fourSlotsOf(room, roster).map(slot => ({
+      id: slot.id, feet: slot.feet, press: slot.press, badge: slot.badge, fx: slot.fx,
+      depth: slot.depth, scale: slot.scale, mirror: slot.mirror, gesture: slot.gesture, down: slot.down, front: slot.front, about: slot.about,
+    }))]))])),
+  };
+  const tableJson = `${JSON.stringify(table, null, 2)}\n`;
+  files.set(SLOTS_FOUR_FILE, tableJson);
+  return {
+    version: FOUR_SLOTS_VERSION,
+    status: 'proposal: the successor\'s four-bed Hospital (issue #155), beside the roster-sized ward, which is unchanged',
+    beds: FOUR_BEDS,
+    rosters: [...FOUR_ROSTERS],
+    berths: FOUR_BERTHS.map(berth => ({ id: berth.id, row: berth.row, column: berth.column, gesture: berth.gesture, scale: berth.scale, mirror: berth.mirror, about: berth.about })),
+    berthKits: { version: MEDICAL_FOUR_VERSION, module: 'design/board-v2/fx/medical-four.mjs fourBerthKit()', kits: fourBerthKits() },
+    slotTable: { file: SLOTS_FOUR_FILE, version: FOUR_TABLE_VERSION, sha256: sha(tableJson), bytes: Buffer.byteLength(tableJson) },
+    layout: { slots: 'design/board-v2/scenes/slots-four.mjs', fit: 'design/board-v2/js/fit-four.mjs (fit.mjs\'s fitBoardV2 itself: the current board panel for panel; its four slot functions fit.mjs\'s code over the successor\'s table)', turns: 'design/board-v2/js/turns-four.mjs (turns.mjs with its two imports alone changed)' },
     files: entries,
   };
 }

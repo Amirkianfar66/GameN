@@ -10,7 +10,7 @@
 //   stress   every slot of every room taken (characters repeat): layout only, never a match
 //   empty    nobody: the slots and their markers alone
 
-import { BOARD_ROOMS, slotsOf } from '../scenes/slots.mjs';
+import { BOARD_ROOMS, slotsOf } from './layout.mjs';
 
 export const FIXTURES = Object.freeze(['ward', 'mixed', 'stress', 'empty']);
 

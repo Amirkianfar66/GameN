@@ -1,6 +1,6 @@
 {
   "devOnly": "mothership:dev-only",
-  "inputsSha256": "09d8cf39c89bc8b2b044c2294f5a0a19895dec63c8bfa6098803ba28d98268b2",
+  "inputsSha256": "1da609e974f2505a7c867b6ce0a7d61939f3269dd8c45b3f0506f67c038107ae",
   "note": "Desktop Chromium laying out design/board-v2/index.html from synthetic fixtures. Not a phone measurement and nothing about a match.",
   "captures": [
     {
@@ -1652,6 +1652,319 @@
       "query": "sheet=captain",
       "about": "The Captain's art for review: S8's plates in every state at a phone's size and the cover's frames; the console inset at its moments; the Jail's door, the airlock, the suction and the debris over the Jail; the exterior; the plaque and the history's grey cut-outs; the poses",
       "sheetHeight": 630
+    },
+    {
+      "file": "four-320x568-ward.png",
+      "group": "four",
+      "query": "roster=9&beds=4&fixture=ward&hit=1",
+      "about": "Four beds: four patients, the ward full; the current board's rooms and press areas everywhere else, at 320x568"
+    },
+    {
+      "file": "four-320x568-mixed.png",
+      "group": "four",
+      "query": "roster=9&beds=4&fixture=mixed&hit=1",
+      "about": "Four beds on a third-round board: Rigel at H1, Mira detained at H2, a body at H4, at 320x568"
+    },
+    {
+      "file": "four-360x740-ward.png",
+      "group": "four",
+      "query": "roster=9&beds=4&fixture=ward&hit=1",
+      "about": "Four beds: four patients, the ward full; the current board's rooms and press areas everywhere else, at 360x740"
+    },
+    {
+      "file": "four-360x740-mixed.png",
+      "group": "four",
+      "query": "roster=9&beds=4&fixture=mixed&hit=1",
+      "about": "Four beds on a third-round board: Rigel at H1, Mira detained at H2, a body at H4, at 360x740"
+    },
+    {
+      "file": "four-390x844-ward.png",
+      "group": "four",
+      "query": "roster=9&beds=4&fixture=ward&hit=1",
+      "about": "Four beds: four patients, the ward full; the current board's rooms and press areas everywhere else, at 390x844"
+    },
+    {
+      "file": "four-390x844-mixed.png",
+      "group": "four",
+      "query": "roster=9&beds=4&fixture=mixed&hit=1",
+      "about": "Four beds on a third-round board: Rigel at H1, Mira detained at H2, a body at H4, at 390x844"
+    },
+    {
+      "file": "four-430x932-ward.png",
+      "group": "four",
+      "query": "roster=9&beds=4&fixture=ward&hit=1",
+      "about": "Four beds: four patients, the ward full; the current board's rooms and press areas everywhere else, at 430x932"
+    },
+    {
+      "file": "four-430x932-mixed.png",
+      "group": "four",
+      "query": "roster=9&beds=4&fixture=mixed&hit=1",
+      "about": "Four beds on a third-round board: Rigel at H1, Mira detained at H2, a body at H4, at 430x932"
+    },
+    {
+      "file": "four-390x844-mixed-capsule.png",
+      "group": "four",
+      "query": "roster=9&beds=4&fixture=mixed&capsule=1&hit=1",
+      "about": "Four beds with the capsule beside the Command Room"
+    },
+    {
+      "file": "four-390x844-slots.png",
+      "group": "four",
+      "query": "roster=9&beds=4&fixture=empty&markers=1&press=1&ids=1",
+      "about": "Every slot: the Hospital's four, H1 to H4, their press areas and position numbers, nobody there"
+    },
+    {
+      "file": "four-320x568-slots.png",
+      "group": "four",
+      "query": "roster=9&beds=4&fixture=empty&markers=1&press=1&ids=1",
+      "about": "Every slot: the Hospital's four, H1 to H4, their press areas and position numbers, nobody there"
+    },
+    {
+      "file": "four-390x844-stress.png",
+      "group": "four",
+      "query": "roster=9&beds=4&fixture=stress&markers=1&press=1",
+      "about": "Every slot taken (layout only): four patients in the ward"
+    },
+    {
+      "file": "four-390x844-ward-r7.png",
+      "group": "four",
+      "query": "roster=7&beds=4&fixture=ward&hit=1",
+      "about": "Four beds for 7 players: the same four berths"
+    },
+    {
+      "file": "four-390x844-ward-r8.png",
+      "group": "four",
+      "query": "roster=8&beds=4&fixture=ward&hit=1",
+      "about": "Four beds for 8 players: the same four berths"
+    },
+    {
+      "file": "four-390x844-hospital.png",
+      "group": "four",
+      "query": "roster=9&beds=4&fixture=ward",
+      "about": "The four-berth ward alone (3x): larger berths in two rows of two, none under the caption"
+    },
+    {
+      "file": "four-320x568-hospital.png",
+      "group": "four",
+      "query": "roster=9&beds=4&fixture=ward",
+      "about": "The four-berth ward alone (3x): larger berths in two rows of two, none under the caption"
+    },
+    {
+      "file": "four-scene-hospital.png",
+      "group": "four",
+      "query": "scene=hospital&roster=9&beds=4&fixture=ward",
+      "about": "The whole four-berth ward scene: the approved back wall whole (its monitor, medicine cabinet and window), the back row at its foot, the front row cut by the panel",
+      "sheetHeight": 300
+    },
+    {
+      "file": "four-390x844-blackout-8000-dark.png",
+      "group": "four",
+      "query": "roster=9&beds=4&fixture=mixed&film=blackout&t=8000",
+      "about": "The Blackout's dark on the four-berth board: the ward's own dark art, its four positions' markers"
+    },
+    {
+      "file": "four-390x844-blackout-8000-disabler-hospital.png",
+      "group": "four",
+      "query": "roster=9&beds=4&fixture=mixed&film=blackout&t=8000&viewer=disabler&bound=hospital&step=choose",
+      "about": "A Disabler bound to the Hospital: its four positions live in the dark, H1 to H4"
+    },
+    {
+      "file": "four-390x844-blackout-16300-settled.png",
+      "group": "four",
+      "query": "roster=9&beds=4&fixture=mixed&film=blackout&t=16300",
+      "about": "Lights back after a hit at B2: Orion admitted at H3, the free bed"
+    },
+    {
+      "file": "four-390x844-critical-r3.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=critical&round=3&hit=1",
+      "about": "S9 on four berths: Rigel (H1) in his due round, Mira (H2) detained, the body at H4"
+    },
+    {
+      "file": "four-320x568-critical-r3.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=critical&round=3&hit=1",
+      "about": "S9 on four berths, the smallest phone: every tag whole in the panel"
+    },
+    {
+      "file": "four-390x844-rescue-1300.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=rescue&t=1300&hit=1",
+      "about": "S5 on four berths: the drone coming down from the ceiling dock (1300 ms)"
+    },
+    {
+      "file": "four-390x844-rescue-2600.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=rescue&t=2600&hit=1",
+      "about": "S5 on four berths: the scan over Rigel at H1 (2600 ms)"
+    },
+    {
+      "file": "four-390x844-rescue-3550.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=rescue&t=3550&hit=1",
+      "about": "S5 on four berths: the revival pulse (3550 ms)"
+    },
+    {
+      "file": "four-390x844-rescue-4500.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=rescue&t=4500&hit=1",
+      "about": "S5 on four berths: Rigel sitting up, Healthy (4500 ms)"
+    },
+    {
+      "file": "four-320x568-rescue-2600.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=rescue&t=2600&hit=1",
+      "about": "S5 on four berths, the smallest phone (2 600 ms)"
+    },
+    {
+      "file": "four-390x844-reduced-rescue-0900.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=rescue&t=900&motion=reduced&hit=1",
+      "about": "S5 on four berths, reduced motion: switched once (900 ms)"
+    },
+    {
+      "file": "four-390x844-rescue-detained-2600.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=rescue&outcome=rescue-detained&t=2600&hit=1",
+      "about": "S5 on four berths: Mira, detained, at H2 (2 600 ms)"
+    },
+    {
+      "file": "four-390x844-vignette-2600.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=rescue&outcome=vignette&t=2600&hit=1",
+      "about": "S5 on four berths, injured and healed in one batch: the anchor HV3 names bed H3, the free one (synthetic anchor, the Designer's proposal on #155) (2 600 ms)"
+    },
+    {
+      "file": "four-390x844-taken-2600.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=rescue&outcome=rescue-taken&t=2600&hit=1",
+      "about": "Rigel healed while Lyra takes H1 in the same batch: no film over Lyra, the words alone (2 600 ms)"
+    },
+    {
+      "file": "four-390x844-flatline-2000.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=flatline&t=2000&hit=1",
+      "about": "S10 on four berths: the flatline, the light dipped to 0.72 (2000 ms)"
+    },
+    {
+      "file": "four-390x844-flatline-2700.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=flatline&t=2700&hit=1",
+      "about": "S10 on four berths: the shutdown (2700 ms)"
+    },
+    {
+      "file": "four-390x844-rescue-2600-panel.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=rescue&t=2600&hit=1",
+      "about": "S5 on four berths: the scan, the Hospital panel alone (3x)"
+    },
+    {
+      "file": "four-390x844-turns-choosing.png",
+      "group": "four",
+      "query": "roster=9&beds=4&fixture=mixed&film=capsule&stage=talk&t=30000&ui=choosing&chosen=5,8&hit=1",
+      "about": "A character choice on the four-berth board: every target ringed, the Hospital's at its four berths"
+    },
+    {
+      "file": "four-320x568-turns-choosing.png",
+      "group": "four",
+      "query": "roster=9&beds=4&fixture=mixed&film=capsule&stage=talk&t=30000&ui=choosing&chosen=5&viewer=participant&tab=1&hit=1",
+      "about": "The same on the smallest phone"
+    },
+    {
+      "file": "four-390x844-turns-result-2400.png",
+      "group": "four",
+      "query": "roster=9&beds=4&fixture=mixed&film=capsule&stage=result&t=2400&viewer=participant&ui=sheet&claim=result&hit=1",
+      "about": "The private result whole in the sheet over the Hospital and the Jail: the same sheet as the current board's"
+    },
+    {
+      "file": "four-320x568-turns-talk-code-confirm.png",
+      "group": "four",
+      "query": "roster=9&beds=4&fixture=mixed&film=capsule&stage=talk&t=30000&viewer=participant&ui=sheet&claim=conversation&command=code-confirm&hit=1",
+      "about": "A Code confirmation on the smallest phone: the same sheet"
+    },
+    {
+      "file": "four-390x844-release-3000.png",
+      "group": "four",
+      "query": "roster=9&beds=4&capsule=1&film=release&t=3000&hit=1",
+      "about": "S6 on the four-berth board: Mira stays in her berth (3 000 ms)"
+    },
+    {
+      "file": "four-390x844-eject-3500.png",
+      "group": "four",
+      "query": "roster=9&beds=4&capsule=1&film=eject&t=3500&hit=1",
+      "about": "S7 on the four-berth board (3 500 ms)"
+    },
+    {
+      "file": "four-390x844-eject-7300.png",
+      "group": "four",
+      "query": "roster=9&beds=4&capsule=1&film=eject&t=7300&hit=1",
+      "about": "S7 done: the plaque in the spine between the Hospital and the Jail, counting the three off the board"
+    },
+    {
+      "file": "four-390x844-offboard-choosing.png",
+      "group": "four",
+      "query": "roster=9&beds=4&capsule=1&film=eject&t=7300&ui=choosing&offboard=1&offered=1,2,3,4,5,6,7,8,9&chosen=4&hit=1",
+      "about": "After the EJECT, the off-board cards in the same sheet"
+    },
+    {
+      "file": "four-390x844-overflow-0150.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=overflow&t=150&hit=1",
+      "about": "The overflow beat: the Hospital's FULL stamp appearing; Orion at B2 (150 ms)"
+    },
+    {
+      "file": "four-390x844-overflow-0700.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=overflow&t=700&hit=1",
+      "about": "The overflow beat: Orion turning into the grey cut-out at his place (700 ms)"
+    },
+    {
+      "file": "four-390x844-overflow-1600.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=overflow&t=1600&hit=1",
+      "about": "The overflow beat: the cut-out leaving the board on its arc to the spine; the client's words (1600 ms)"
+    },
+    {
+      "file": "four-390x844-overflow-2350.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=overflow&t=2350&hit=1",
+      "about": "The overflow beat: the plaque taking it: its count 1 (2350 ms)"
+    },
+    {
+      "file": "four-390x844-overflow-2900.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=overflow&t=2900&hit=1",
+      "about": "The overflow beat: done: Orion nowhere on the board, the plaque in the spine (2900 ms)"
+    },
+    {
+      "file": "four-320x568-overflow-1600.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=overflow&t=1600&hit=1",
+      "about": "The overflow beat on the smallest phone (1600 ms)"
+    },
+    {
+      "file": "four-320x568-overflow-2900.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=overflow&t=2900&hit=1",
+      "about": "The overflow beat on the smallest phone (2900 ms)"
+    },
+    {
+      "file": "four-390x844-overflow-reduced-0040.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=overflow&t=40&motion=reduced&hit=1",
+      "about": "The overflow beat, reduced motion: the cut-out at its place with FULL, fading in (40 ms)"
+    },
+    {
+      "file": "four-390x844-overflow-reduced-0900.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=overflow&t=900&motion=reduced&hit=1",
+      "about": "The overflow beat, reduced motion: the place empty, the plaque counting it (900 ms)"
+    },
+    {
+      "file": "four-390x844-overflow-reduced-1600.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=overflow&t=1600&motion=reduced&hit=1",
+      "about": "The overflow beat, reduced motion: done (1600 ms)"
     }
   ]
 }

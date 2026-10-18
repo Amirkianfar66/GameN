@@ -69,6 +69,14 @@ const { outcomeWords } = await load('design/board-v2/js/medical-view.mjs');
 const { AIRLOCK, CAPTAIN, CARD, CONSOLE, JAIL_DOOR, JAIL_DOOR_ELEMENTS, captainColorDistances, conduitAt, conduitPoints, conduitSegment, consoleBox, jailDoorSvg, offBoardCards } = await load('design/board-v2/fx/captain.mjs');
 const { CAPTAIN_BUTTONS, EJECT_FILM, RELEASE_FILM, captainButtonStates, captainContracts, captainWords, ejectEnd, ejectFrame, releaseEnd, releaseFrame } = await load('design/board-v2/films/captain.mjs');
 const { CAPTAIN_OUTCOMES, captainOutcome } = await load('design/board-v2/js/captain-fixtures.mjs');
+const { FOUR_BACK, FOUR_BEDS, FOUR_BERTHS, FOUR_FRONT, FOUR_ROSTERS, fourBerths, wardFourScene } = await load('design/board-v2/scenes/hospital-ward-four.mjs');
+const slotsFour = await load('design/board-v2/scenes/slots-four.mjs');
+const fitFour = await load('design/board-v2/js/fit-four.mjs');
+const turnsFour = await load('design/board-v2/js/turns-four.mjs');
+const { fourBerthKit, fourClinicalBerth, fourDronePosition, fourFilmBerth, fourRescueFrame } = await load('design/board-v2/fx/medical-four.mjs');
+const { fullStampBox, overflowWay, spinePlaqueBox } = await load('design/board-v2/fx/overflow.mjs');
+const { OVERFLOW_FILM, overflowContract, overflowEnd, overflowFrame } = await load('design/board-v2/films/overflow.mjs');
+const { OVERFLOW_OCCURRENCE, overflowOutcome } = await load('design/board-v2/js/overflow-fixtures.mjs');
 
 // ---------- Development material, fenced ----------
 {
@@ -818,9 +826,232 @@ const { CAPTAIN_OUTCOMES, captainOutcome } = await load('design/board-v2/js/capt
     }
   }
   const films = await json('design/board-v2/contract/films.json').catch(() => null);
-  if (!films || JSON.stringify(films.films?.slice(6)) !== JSON.stringify(captainContracts())) problems.push('contract/films.json does not hold the Captain films\' contracts: run design/tools/board-v2-assets.mjs');
+  if (!films || JSON.stringify(films.films?.slice(6, 9)) !== JSON.stringify(captainContracts())) problems.push('contract/films.json does not hold the Captain films\' contracts: run design/tools/board-v2-assets.mjs');
   for (const word of ROLE_WORDS) if (JSON.stringify(captainContracts()).includes(word)) problems.push(`the Captain contracts name ${word}`);
   check(`the Captain's films: the characters off the board a 44 px card each in the sheet (${decks} layouts); the Jail's own door, lamp and keypad; the console inset (${placed} placed, ${none} none) below the captions and off the Captain's place, the pulse's way (${ways} ways) in the gutters and over no press area, the hatch whole below the caption at every phone; the storyboards' lengths, nothing drawn outside them, one set of words, still reduced variants, a full Jail through the door and out in time, the light under 2 Hz; Backend's listed seats, detainees and bodies untouched; S8 from the Captain's own view; memorial greys; no faction color`, problems);
+}
+
+// ---------- The successor's four-berth Hospital (the owner's decision of 18 October 2026, #155) ----------
+{
+  const problems = [];
+  // The successor's layout is the current one: fit-four.mjs re-exports fit.mjs (fitBoardV2 itself, so every band, panel and
+  // box is the current board's) and redefines its four slot functions with fit.mjs's own code; turns-four.mjs is turns.mjs,
+  // line for line, but a header after the first line and the import lines named here.
+  const fitCurrent = await load('design/board-v2/js/fit.mjs');
+  for (const name of ['BANDS', 'CAPSULE', 'FALLBACKS', 'MARKER_RADIUS', 'MIN_BOARD_WIDTH', 'SHELL', 'SHELL_TIERS', 'capsuleSplit', 'fitBoardV2', 'insetsOf', 'pressSide', 'shellFor']) if (fitFour[name] !== fitCurrent[name]) problems.push(`fit-four.mjs: ${name} is not fit.mjs's`);
+  for (const name of ['slotRects', 'slotsFit', 'boardRects', 'passClearance']) if (typeof fitFour[name] !== 'function' || fitFour[name] === fitCurrent[name] || String(fitFour[name]) !== String(fitCurrent[name])) problems.push(`fit-four.mjs: ${name} is not fit.mjs's code over the successor's table`);
+  if ('needHeight' in fitFour) problems.push('fit-four.mjs exports a need of its own: the successor\'s bands are the current board\'s');
+  const derived = async (name, swaps) => {
+    const [one, four] = await Promise.all([text(`design/board-v2/js/${name}.mjs`), text(`design/board-v2/js/${name}-four.mjs`)]);
+    const a = one.split('\n'), b = four.split('\n');
+    const header = b.slice(1, b.length - a.length + 1);
+    if (!header.length || header.some(line => !line.startsWith('//')) || !header.join(' ').includes('#155')) return [`${name}-four.mjs: no header saying what it is`];
+    const rest = [b[0], ...b.slice(header.length + 1)];
+    const out = [];
+    let swapped = 0;
+    rest.forEach((line, i) => {
+      if (line === a[i]) return;
+      const swap = swaps.find(([from, to]) => a[i] === line.replace(to, from) && line.includes(to));
+      if (swap) swapped += 1; else out.push(`${name}-four.mjs, line ${i + header.length + 1}: not ${name}.mjs's`);
+    });
+    if (swapped !== swaps.length) out.push(`${name}-four.mjs: ${swapped} of its ${swaps.length} imports changed`);
+    return out;
+  };
+  problems.push(...await derived('turns', [["'./fit.mjs'", "'./fit-four.mjs'"], ["'../scenes/slots.mjs'", "'../scenes/slots-four.mjs'"]]));
+  // The successor's slot table: four berths, H1 to H4, whatever the roster; every other room the current table's own.
+  for (const roster of FOUR_ROSTERS) {
+    problems.push(...slotsFour.slotProblems(roster).map(problem => `four beds, ${roster} players: ${problem}`));
+    const ward = slotsFour.slotsOf('hospital', roster).map(slot => slot.id).join();
+    if (ward !== 'H1,H2,H3,H4' || fourBerths(roster).length !== FOUR_BEDS) problems.push(`four beds, ${roster} players: the ward's berths are ${ward}`);
+    for (const room of BOARD_ROOMS.filter(room => room !== 'hospital')) if (slotsFour.slotsOf(room, roster) !== slotsOf(room, roster)) problems.push(`four beds, ${roster} players, ${room}: not the current table's slots`);
+    const scene = wardFourScene(roster);
+    for (const slot of scene.slots) {
+      const front = scene.layers[slot.front];
+      if (!front || !(front.depth > slot.depth)) problems.push(`four beds: ${slot.id}'s blanket is not drawn over its patient`);
+      for (const other of scene.slots) if (other.row !== slot.row && other.depth > slot.depth && front && !(front.depth < other.depth)) problems.push(`four beds: ${slot.id}'s blanket is drawn over ${other.id}`);
+      // A front berth's headboard stands over the back row and under its own patient.
+      const head = scene.layers[`${slot.front}-head`];
+      if (slot.row === 'front' && (!head || !(head.depth < slot.depth) || scene.slots.filter(s => s.row === 'back').some(s => !(head.depth > scene.layers[s.front].depth)))) problems.push(`four beds: ${slot.id}'s headboard is not between the back row and its patient`);
+    }
+    if (JSON.stringify(scene.slots.map(slot => slot.at)) !== JSON.stringify(wardFourScene(FOUR_ROSTERS[0]).slots.map(slot => slot.at))) problems.push(`four beds, ${roster} players: not the same berths as for ${FOUR_ROSTERS[0]}`);
+  }
+  for (const name of Object.keys(slotsFour)) if (/entry|alloc|assign|pick|take/i.test(name)) problems.push(`slots-four.mjs exports ${name}: the drawing module allocates no slot`);
+  if (FOUR_BERTHS.some(berth => !['bedLying', 'bedSitting'].includes(berth.gesture))) problems.push('a four-berth ward\'s berth uses a gesture other than the approved Hospital beds\'');
+  const tableFour = await json('design/board-v2/contract/slots-four.json').catch(() => null);
+  if (!tableFour || tableFour.beds !== 4 || !/allocates nothing/.test(tableFour.note) || !/#155/.test(tableFour.note)) problems.push('contract/slots-four.json does not say it is the four-bed table that allocates nothing');
+  for (const word of ROLE_WORDS) if (JSON.stringify(tableFour ?? {}).includes(word)) problems.push(`the four-bed table names ${word}`);
+  // The berths' furniture is the four-berth ward's own: monitor, plate and lamp where its back (H3, H4) or its front
+  // berths' headboard layers (H1, H2) draw them; the plate the slot's badge; the chest its press point; the dock the ward's.
+  const near = (a, b) => Math.abs(a - b) <= 0.051;
+  const numbers = (tag, attrs) => [...tag.matchAll(new RegExp(`<${attrs[0]}\\b[^>]*>`, 'g'))].map(([element]) => attrs.slice(1).map(name => Number(new RegExp(`\\b${name}="([-\\d.]+)"`).exec(element)?.[1])));
+  const backSvg = await text('design/board-v2/assets/scenes/hospital-ward-four.back.svg').catch(() => '');
+  for (const berth of FOUR_BERTHS) {
+    const svg = berth.row === 'back' ? backSvg : await text(`design/board-v2/assets/scenes/hospital-ward-four.berth-four-${berth.id.toLowerCase()}-head.svg`).catch(() => '');
+    const rects = numbers(svg, ['rect', 'x', 'y', 'width', 'height']);
+    const circles = numbers(svg, ['circle', 'cx', 'cy', 'r']);
+    const kit = fourBerthKit(berth.id);
+    const { monitor: m, plate: p, lamp: l } = kit;
+    if (!rects.some(([x, y, w, h]) => near(x, m.x) && near(y, m.y) && near(w, m.w) && near(h, m.h))) problems.push(`four beds, ${berth.id}: its monitor is not the ward's`);
+    if (!rects.some(([x, y, w, h]) => near(x, p.x) && near(y, p.y) && near(w, p.w) && near(h, p.h))) problems.push(`four beds, ${berth.id}: its plate is not the ward's`);
+    if (!circles.some(([cx, cy, r]) => near(cx, l.cx) && near(cy, l.cy) && near(r, l.r))) problems.push(`four beds, ${berth.id}: its lamp is not the ward's`);
+    const slot = slotsFour.slotsOf('hospital', 9).find(entry => entry.id === berth.id);
+    if (Math.abs(slot.badgeAt[0] - (p.x + p.w / 2)) > 0.1 || Math.abs(slot.badgeAt[1] - (p.y + p.h / 2)) > 0.1) problems.push(`four beds, ${berth.id}: its badge anchor is not its plate`);
+    if (kit.chest[0] !== slot.pressAt[0] || kit.chest[1] !== slot.pressAt[1]) problems.push(`four beds, ${berth.id}: the chest is not the berth's press point`);
+    for (const fit of [1, 0.75, DRONE_MIN_FIT]) {
+      const at = fourDronePosition(RESCUE.scan[0], berth.id, fit), hover = hoverAt(kit, fit);
+      if (!at || Math.abs(at[0] - hover[0]) > 0.01 || Math.abs(at[1] - hover[1]) > DRONE_SCENE.bob + 0.01) problems.push(`four beds, ${berth.id}, fit ${fit}: the drone is not over the berth while it scans`);
+    }
+    const start = fourDronePosition(RESCUE.arrive[0], berth.id), back = fourDronePosition(RESCUE.depart[1] - 1, berth.id);
+    if (!start || Math.hypot(start[0] - DOCK[0], start[1] - DOCK[1]) > 0.01 || !back || Math.hypot(back[0] - DOCK[0], back[1] - DOCK[1]) > 3) problems.push(`four beds, ${berth.id}: the drone does not come from the dock and go back to it`);
+  }
+  if (!numbers(backSvg, ['ellipse', 'cx', 'cy']).some(([cx, cy]) => cx === DOCK[0] && cy === DOCK[1])) problems.push('four beds: the drone\'s dock is not the ward\'s');
+  if (FOUR_FRONT.k <= FOUR_BACK.k) problems.push('four beds: the front row is not drawn larger than the back');
+  // #158's rescue, frame for frame, on the four berths: every field but the drone's lens as #158 gives it.
+  for (const reduced of [false, true]) for (const berth of FOUR_BERTHS) for (let t = -200; t <= rescueEnd(reduced) + 400; t += 10) {
+    const a = rescueFrame(t, 'H1', { reduced }), b = fourRescueFrame(t, berth.id, { reduced });
+    const strip = frame => JSON.stringify({ ...frame, drone: { ...frame.drone, at: frame.drone.at === null } });
+    if (strip(a) !== strip(b)) { problems.push(`four beds, ${berth.id}${reduced ? ', reduced' : ''}, ${t} ms: the rescue is not #158's`); break; }
+    if (reduced && b.drone.at && JSON.stringify(b.drone.at) !== JSON.stringify(fourBerthKit(berth.id).hover)) { problems.push(`four beds, ${berth.id}: the reduced drone moves`); break; }
+  }
+  // An anchor names one of the four beds; a film plays there unless another seat holds it.
+  if (fourClinicalBerth({ anchorId: 'HV3' }) !== 'H3' || fourClinicalBerth('HV1') !== 'H1') problems.push('four beds: HVn is not bed Hn');
+  for (const bad of ['HV5', 'HV9', 'H2']) { try { fourClinicalBerth(bad); problems.push(`four beds: ${bad} plays on a four-berth ward`); } catch { /* refused */ } }
+  const taken = fourFilmBerth('HV4', [{ seat: 7, slotId: null }, { seat: 1, slotId: 'H4' }], 7);
+  if (taken.plays || taken.holder !== 1 || !fourFilmBerth('HV4', [{ seat: 7, slotId: 'H4' }], 7).plays) problems.push('four beds: a film plays over a bed another seat holds, or not at its subject\'s own');
+  // The board: the current one, so the four berths must fit every Hospital panel it draws: at every width, inset case and
+  // shell boundary the shell check visits, with the capsule and without, every roster. Every other room's press areas
+  // are the current board's, and nothing is under the Pass.
+  let boards = 0;
+  for (const width of WIDTHS) {
+    const rooms = fitBoardV2({ width, height: 2000 }, 9).needs.reduce((a, b) => a + b, 0) + 2 * SHELL.gap;
+    for (const safe of INSETS) {
+      const insets = insetsOf(safe);
+      const extra = insets.top + insets.bottom;
+      const heights = [...new Set([...SHELL.tiers.flatMap(tier => [-1, 0, 1].map(d => Math.ceil(rooms + tier.top + tier.nav + 2 * tier.boardPadY + d + extra))), ...[568, 599, 600, 601, 640, 667, 740, 844, 932].map(h => h + extra)])];
+      for (const height of heights) for (const capsule of [false, true]) for (const roster of FOUR_ROSTERS) {
+        const options = { insets, capsule };
+        const board = fitBoardV2({ width, height }, roster, options);
+        if (!board.fits) continue;
+        boards += 1;
+        const where = `four beds, ${width}x${height}${safe ? ` (insets ${safe})` : ''}${capsule ? ', capsule' : ''}, ${roster} players`;
+        if (!fitFour.slotsFit('hospital', roster, board.panels.hospital)) problems.push(`${where}: the four berths do not fit the Hospital's ${board.panels.hospital.width} x ${board.panels.hospital.height} panel`);
+        for (const rect of fitFour.slotRects('hospital', roster, board.panels.hospital)) if (rect.side < 44) problems.push(`${where}, ${rect.id}: a ${rect.side} px press area`);
+        for (const room of BOARD_ROOMS.filter(room => room !== 'hospital')) if (JSON.stringify(fitFour.slotRects(room, roster, board.panels[room])) !== JSON.stringify(slotRects(room, roster, board.panels[room]))) problems.push(`${where}, ${room}: not the current board's press areas`);
+        for (const slot of fitFour.passClearance({ width, height }, roster, options)) if (slot.clearance <= 0) problems.push(`${where}, ${slot.id}: under the Pass`);
+      }
+    }
+  }
+  // The medical films' placement on the four berths, at every phone and roster, the ward full or empty (#158's rules).
+  const CAPTION = { left: 3, top: 3, width: 100, height: 26 };
+  const meets = (a, b) => a.left < b.left + b.width - 0.01 && b.left < a.left + a.width - 0.01 && a.top < b.top + b.height - 0.01 && b.top < a.top + a.height - 0.01;
+  let insetsPlaced = 0;
+  for (const [width, height] of VIEWPORTS) for (const roster of FOUR_ROSTERS) {
+    const panel = fitFour.fitBoardV2({ width, height }, roster).panels.hospital;
+    const frame = frameScene(slotsFour.sceneOf('hospital', roster), panel);
+    const rects = fitFour.slotRects('hospital', roster, panel);
+    const press = r => ({ left: r.left, top: r.top, width: r.side, height: r.side });
+    const names = r => ({ left: r.press[0] - 30, top: Math.min(panel.height - 16, r.top + r.side - 14), width: 60, height: 17 });
+    for (const rect of rects) {
+      const where = `four beds, ${width}x${height}, ${roster} players, ${rect.id}`;
+      for (const size of [[34, 13], [52, 13]]) {
+        const box = tagBox({ plate: rect.badge, size, panel, keepClear: rects.filter(other => other !== rect).map(names) });
+        const tag = { left: box.left, top: box.top, width: size[0], height: size[1] };
+        if (tag.left < LABEL_MARGIN - 0.01 || tag.left + tag.width > panel.width - LABEL_MARGIN + 0.01 || tag.top + tag.height > panel.height - LABEL_MARGIN + 0.01) problems.push(`${where}: a tag leaves the panel`);
+        if (tag.top < panel.cap - 0.01) problems.push(`${where}: a tag in the caption's band`);
+        for (const other of rects.filter(entry => entry !== rect)) if (meets(tag, names(other))) problems.push(`${where}: a tag over ${other.id}'s name tag`);
+      }
+      for (const full of [true, false]) {
+        const held = full ? rects.filter(other => other !== rect).map(press) : [];
+        const inset = insetBox({ rect, panel, width: Math.max(60, Math.min(84, Math.round(panel.width * 0.42))), caption: CAPTION, keepClear: held });
+        if (inset) {
+          insetsPlaced += 1;
+          for (const box of [CAPTION, press(rect), ...held]) if (meets(inset, box)) problems.push(`${where}${full ? ', the ward full' : ''}: the inset meets ${JSON.stringify(box)}`);
+        }
+        const kit = fourBerthKit(rect.id);
+        const fit = droneFit({ kit, frame, keepClear: [{ left: CAPTION.left - LABEL_MARGIN, top: CAPTION.top - LABEL_MARGIN, width: CAPTION.width + 2 * LABEL_MARGIN, height: CAPTION.height + 2 * LABEL_MARGIN }, ...held] });
+        const w = DRONE_SCENE.width * kit.scale * frame.k * fit;
+        const [lx, ly] = hoverAt(kit, fit);
+        const drone = { left: frame.tx + lx * frame.k - w / 2, top: frame.ty + (ly - DRONE_SCENE.bob) * frame.k - (DRONE.lens[1] / DRONE.w) * w, width: w, height: (w * DRONE.h) / DRONE.w };
+        if (fit > DRONE_MIN_FIT) for (const box of [CAPTION, ...held]) if (box.top + box.height <= frame.ty + kit.chest[1] * frame.k && meets(drone, box)) problems.push(`${where}${full ? ', the ward full' : ''}: the drone meets ${JSON.stringify(box)} at fit ${fit}`);
+      }
+    }
+  }
+  // The controls take turns on the successor board too, and the cards of the characters off the board fit its sheet:
+  // up to eight (an EJECT's five and three overflows) at every phone the controls' layout fits, in normal and 200% text.
+  let sheets = 0, decks = 0;
+  for (const [width, height] of VIEWPORTS) for (const enlarged of [false, true]) for (const roster of FOUR_ROSTERS) {
+    const bars = enlarged ? ENLARGED.bars : null;
+    const one = turnsLayout({ width, height }, roster, { insets: insetsOf(null), bars });
+    const four = turnsFour.turnsLayout({ width, height }, roster, { insets: insetsOf(null), bars });
+    const where = `four beds, ${width}x${height}${enlarged ? ', 200% text' : ''}, ${roster} players`;
+    if (JSON.stringify(one.sheet) !== JSON.stringify(four.sheet) || JSON.stringify(one.choosing) !== JSON.stringify(four.choosing)) problems.push(`${where}: the controls' layout is not the current board's`);
+    const targets = four.fits ? turnsFour.boardTargets(four.board, roster).filter(target => target.room === 'hospital').map(target => target.id).join() : 'H1,H2,H3,H4';
+    if (targets !== 'H1,H2,H3,H4') problems.push(`${where}: the Hospital's targets are ${targets}`);
+    if (!four.fits || !four.sheet) continue;
+    sheets += 1;
+    for (let count = 1; count <= 8; count += 1) {
+      const cards = offBoardCards({ left: four.sheet.body.left - four.sheet.left, top: four.sheet.body.top - four.sheet.top, width: four.sheet.body.width, height: four.sheet.body.height }, count);
+      if (!cards) { if (count <= 5) problems.push(`${where}: ${count} off-board cards do not fit the sheet`); continue; }
+      decks += 1;
+      if (cards.some(card => card.width < 44)) problems.push(`${where}: an off-board card under 44 px`);
+    }
+  }
+  // The overflow victim's beat: its length, nothing drawn outside it, its words once, still reduced panels, no input but the
+  // moment and the setting; the plaque in the spine and the stamp in the Hospital's band at every phone.
+  for (const reduced of [false, true]) {
+    let said = false;
+    const end = overflowEnd(reduced);
+    for (let t = -200; t <= end + 400; t += 10) {
+      const frame = overflowFrame(t, { reduced });
+      const where = `the overflow beat${reduced ? ', reduced' : ''}, ${t} ms`;
+      for (const extra of [{ cause: 'shot' }, { attacker: 5, role: 'x', side: 'y', bed: 'H5' }]) if (JSON.stringify(overflowFrame(t, { reduced, ...extra })) !== JSON.stringify(frame)) problems.push(`${where}: ${Object.keys(extra).join(', ')} changes the beat`);
+      if (frame.done !== t >= end) problems.push(`${where}: done is ${frame.done}`);
+      const drawn = frame.full.opacity > 0 || frame.flyer || (t >= 0 && t < end && frame.figure.grey > 0);
+      if ((t < 0 || t >= end) && (frame.full.opacity > 0 || frame.flyer || frame.figure.grey > 0)) problems.push(`${where}: something drawn outside the beat`);
+      if (said && !frame.announce && t < end) problems.push(`${where}: the words withdrawn`);
+      said = said || frame.announce;
+      if (reduced && (frame.flyer || frame.full.scale !== 1 || frame.plaque.scale !== 1)) problems.push(`${where}: motion in the reduced variant`);
+      if (drawn && t < 0) problems.push(`${where}: drawn before the beat`);
+    }
+    if (!said) problems.push(`the overflow beat${reduced ? ', reduced' : ''}: no words`);
+  }
+  if (overflowEnd(false) !== OVERFLOW_FILM.end || OVERFLOW_FILM.end > 3000) problems.push(`the overflow beat lasts ${overflowEnd(false)} ms`);
+  for (const v of [0, 0.5, 1]) { const at = overflowWay([10, 100], [200, 20], v); if (v === 0 && (at[0] !== 10 || at[1] !== 100)) problems.push('the way does not start at the victim'); if (v === 1 && (at[0] !== 200 || at[1] !== 20)) problems.push('the way does not end at the plaque'); }
+  let plaques = 0;
+  for (const [width, height] of VIEWPORTS) for (const capsule of [false, true]) for (const roster of FOUR_ROSTERS) {
+    const board = fitFour.fitBoardV2({ width, height }, roster, { capsule });
+    const at = spinePlaqueBox({ hospital: board.boxes.hospital, jail: board.boxes.jail, border: board.shell.border, cap: board.panels.hospital.cap, size: [18, 30] });
+    if (!at) { problems.push(`four beds, ${width}x${height}: no room for the plaque in the spine`); continue; }
+    plaques += 1;
+    const spine = { left: board.boxes.hospital.left + board.boxes.hospital.width, right: board.boxes.jail.left };
+    if (at.left < spine.left - 0.01 || at.left + at.width > spine.right + 0.01 || at.top < board.boxes.hospital.top - 0.01 || at.top + at.height > board.boxes.hospital.top + board.boxes.hospital.height) problems.push(`four beds, ${width}x${height}: the plaque leaves the spine`);
+    // The FULL stamp beside the caption, or just under its left end on the smallest phones: whole in the panel, over neither
+    // the caption nor a bed's press area. The caption is drawn up to 104 px wide (HOSPITAL at the caption's size).
+    const presses = fitFour.slotRects('hospital', roster, board.panels.hospital).map(rect => ({ left: rect.left, top: rect.top, width: rect.side, height: rect.side }));
+    const caption = { left: 2, top: 2, width: 104, height: 28 };
+    const stamp = fullStampBox({ caption, size: [42, 19], panel: board.panels.hospital, keepClear: presses });
+    const meetsBox = (a, b) => a.left < b.left + b.width - 0.01 && b.left < a.left + a.width - 0.01 && a.top < b.top + b.height - 0.01 && b.top < a.top + a.height - 0.01;
+    if (!stamp) problems.push(`four beds, ${width}x${height}: no room for the FULL stamp`);
+    else {
+      const box = { left: stamp.left, top: stamp.top, width: 42, height: 19 };
+      if (box.left + box.width > board.panels.hospital.width || box.top + box.height > board.panels.hospital.height) problems.push(`four beds, ${width}x${height}: the FULL stamp leaves the panel`);
+      for (const other of [caption, ...presses]) if (meetsBox(box, other)) problems.push(`four beds, ${width}x${height}: the FULL stamp meets ${JSON.stringify(other)}`);
+    }
+  }
+  // The review page's synthetic occurrence: the four beds full, the victim off the board afterwards, nobody else moved.
+  for (const roster of FOUR_ROSTERS) {
+    const { subject, before, after } = overflowOutcome(roster);
+    if (before.filter(seat => seat.room === 'hospital').length !== FOUR_BEDS) problems.push(`the overflow example, ${roster} players: the ward is not full`);
+    if (subject.seat !== OVERFLOW_OCCURRENCE.seatId || subject.room === 'hospital' || subject.health !== 'Healthy') problems.push(`the overflow example, ${roster} players: the victim is not an incoming Healthy player`);
+    const victim = after.find(seat => seat.seat === subject.seat);
+    if (victim.room !== null || victim.slot !== null || victim.health !== 'Eliminated') problems.push(`the overflow example, ${roster} players: the victim is not off the board`);
+    for (const seat of after) if (seat.seat !== subject.seat && JSON.stringify(seat) !== JSON.stringify(before.find(entry => entry.seat === seat.seat))) problems.push(`the overflow example, ${roster} players: seat ${seat.seat} moved`);
+  }
+  const contract = JSON.stringify(overflowContract());
+  for (const word of ROLE_WORDS) if (contract.includes(word)) problems.push(`the overflow contract names ${word}`);
+  const films = await json('design/board-v2/contract/films.json').catch(() => null);
+  if (!films || JSON.stringify(films.films?.slice(9)) !== JSON.stringify([overflowContract()])) problems.push('contract/films.json does not hold the overflow beat\'s contract: run design/tools/board-v2-assets.mjs');
+  check(`the successor's four-berth Hospital: fit-four.mjs the current layout with the successor's slots and turns-four.mjs turns.mjs but its imports; four berths H1 to H4 for every roster, every other room the current table's; the berths' furniture, dock and plates the ward's own; #158's rescue frame for frame on them; the current board panel for panel, the four berths whole in every Hospital panel it draws (${boards} boards); #158's tags, insets (${insetsPlaced} placed) and drone clear at every phone; the controls' sheet (${sheets} layouts) holding up to eight off-board cards (${decks} decks); the overflow beat's length, words and still reduced panels, its plaque in the spine (${plaques} boards) and its example the server's shape`, problems);
 }
 
 // ---------- The slots ----------
@@ -985,12 +1216,16 @@ const { CAPTAIN_OUTCOMES, captainOutcome } = await load('design/board-v2/js/capt
     if ((report.probes ?? []).filter(probe => probe.turns).length !== 2 * 3 * 4) problems.push('the controls\' pointer probes did not all run');
     // The medical films at every beat, in both motion modes, at both phones, with every placement rule pictured.
     for (const name of ['390x844-critical-r3', '390x844-critical-r5', '390x844-critical-entry-0150', '390x844-reduced-critical-r3', '320x568-critical-r3', '320x568-critical-ward', '430x932-critical-ward', '390x844-rescue-0400', '390x844-rescue-1300', '390x844-rescue-2600', '390x844-rescue-3550', '390x844-rescue-4500', '390x844-rescue-5700', '390x844-reduced-rescue-0900', '320x568-rescue-2600', '390x844-rescue-detained-4500', '390x844-vignette-2600', '390x844-vignette-2600-r7', '390x844-taken-2600', '390x844-ward-2600', '320x568-upper-2600', '390x844-flatline-0800', '390x844-flatline-2000', '390x844-flatline-2700', '390x844-flatline-4300', '390x844-reduced-flatline-0900', '320x568-flatline-2000']) if (!files.includes(`medical-${name}.png`)) problems.push(`medical-${name}.png: not captured`);
-    if ((report.disclosure ?? []).filter(entry => /^(the Hospital's (critical|rescue|flatline) on the display|the page after the (rescue|rescue-detained|vignette|death) film|every room but the Hospital|the top bar's box on the plain board and in each medical film)/.test(entry.compare)).length !== 2 * 20) problems.push('the medical films\' page comparisons did not all run');
+    if ((report.disclosure ?? []).filter(entry => /^(the Hospital's (critical|rescue|flatline) on the display|the page after the (rescue|rescue-detained|vignette|death) film|every room but the Hospital(?! on the four-berth board)|the top bar's box on the plain board and in each medical film)/.test(entry.compare)).length !== 2 * 20) problems.push('the medical films\' page comparisons did not all run');
     // The Captain's films at every beat, in both motion modes, at both phones, with and without the capsule, a full Jail.
     for (const name of ['390x844-release-0250', '390x844-release-0650', '390x844-release-1050', '390x844-release-1500', '390x844-release-1950', '390x844-release-2500', '390x844-release-3000', '390x844-release-3350', '390x844-release-3700', '390x844-release-4100', '390x844-release-4300', '390x844-reduced-release-0300', '390x844-reduced-release-0700', '390x844-reduced-release-1250', '390x844-reduced-release-1800', '320x568-release-0650', '320x568-release-3000', '390x844-nocapsule-release-0650', '390x844-release-full-3300', '320x568-release-full-3500', '390x844-release-3000-r7', '390x844-eject-0300', '390x844-eject-0650', '390x844-eject-1200', '390x844-eject-1900', '390x844-eject-2600', '390x844-eject-3000', '390x844-eject-3500', '390x844-eject-3900', '390x844-eject-4900', '390x844-eject-6000', '390x844-eject-6500', '390x844-eject-7300', '390x844-reduced-eject-0300', '390x844-reduced-eject-0800', '390x844-reduced-eject-1400', '390x844-reduced-eject-2000', '320x568-eject-0650', '320x568-eject-full-3600', '320x568-eject-full-4900', '390x844-nocapsule-eject-0650', '390x844-eject-full-3600', '390x844-eject-3500-r8', '390x844-offboard-choosing', '320x568-offboard-choosing', '320x568-offboard-full-choosing', '390x844-offboard-choosing-text2', 'sheet']) if (!files.includes(`captain-${name}.png`)) problems.push(`captain-${name}.png: not captured`);
     if ((report.disclosure ?? []).filter(entry => /^(the Captain's (release|eject) film on the display|the page after the (release|release-full|eject|eject-full) film|(hospital|room-a, room-b, hospital) during the (release|eject) film|the top bar's box on the plain board and in each Captain film)/.test(entry.compare)).length !== 2 * 16) problems.push('the Captain films\' page comparisons did not all run');
+    // The successor's four-berth board: its boards at every phone, the Blackout's dark, #158's films on it, the controls, the
+    // Captain's plaque in the spine and the overflow beat at every beat in both motion modes.
+    for (const name of ['320x568-ward', '360x740-ward', '390x844-ward', '430x932-ward', '320x568-mixed', '390x844-mixed', '390x844-mixed-capsule', '390x844-slots', '320x568-slots', '390x844-stress', '390x844-ward-r7', '390x844-ward-r8', '390x844-hospital', '320x568-hospital', 'scene-hospital', '390x844-blackout-8000-dark', '390x844-blackout-8000-disabler-hospital', '390x844-blackout-16300-settled', '390x844-critical-r3', '320x568-critical-r3', '390x844-rescue-2600', '390x844-rescue-3550', '320x568-rescue-2600', '390x844-reduced-rescue-0900', '390x844-vignette-2600', '390x844-taken-2600', '390x844-flatline-2000', '390x844-turns-choosing', '320x568-turns-choosing', '390x844-turns-result-2400', '390x844-eject-7300', '390x844-offboard-choosing', '390x844-overflow-0150', '390x844-overflow-0700', '390x844-overflow-1600', '390x844-overflow-2350', '390x844-overflow-2900', '320x568-overflow-1600', '390x844-overflow-reduced-0040', '390x844-overflow-reduced-0900']) if (!files.includes(`four-${name}.png`)) problems.push(`four-${name}.png: not captured`);
+    if ((report.disclosure ?? []).filter(entry => /four-berth board|the overflow beat|during the overflow beat|on four berths/.test(entry.compare)).length !== 15) problems.push('the four-berth board\'s page comparisons did not all run');
   }
-  check('the captures are current, every measured board passed, every pointer probe and press landed, every compared page is the same, and the capsule, the real controls, the medical films and the Captain\'s films are pictured in every state', problems);
+  check('the captures are current, every measured board passed, every pointer probe and press landed, every compared page is the same, and the capsule, the real controls, the medical films, the Captain\'s films and the four-berth board are pictured in every state', problems);
 }
 
 for (const name of passed) console.log(`ok    ${name}`);

@@ -13,6 +13,7 @@
 - The real controls' places, by the owner's decision of 14 October 2026: they take turns with the board (the choosing row in the navigation's box during a character choice, the sheet over the Hospital and the Jail otherwise), and a board that does not fit says so: the same page, section 12.
 - The Hospital's medical films (storyboards S9, S5 and S10): a patient's critical state on the berth (monitor, lamp, the rescue round and the detention tag), the medical drone's rescue, and the flatline and life-support shutdown, from the server's public facts and outcomes alone: [docs/design/hospital-films.md](../../docs/design/hospital-films.md). On 18 October 2026 the owner approved four beds for the successor ([#155](https://github.com/Amirkianfar66/GameN/issues/155)); the four-berth ward is drawn beside this one, which stays as it is.
 - The Captain's films (storyboards S6, S7 and S8): RELEASE (the console, the green pulse down the board's gutters, the Jail's door opening, the prisoners walking out to their new places) and EJECT (the protected red button, the emergency light, the airlock, the prisoners taken out as silhouettes and the bodies as grey cut-outs, the exterior, the memorial plaque), and the Captain's command plates in every state, from the public outcome and snapshots alone: [docs/design/captain-films.md](../../docs/design/captain-films.md).
+- The successor's four-berth Hospital, by the owner's decision of 18 October 2026 (four beds whatever the roster; an incoming player who finds them full is off the board): the four-berth ward beside the current one, the current board panel for panel, #158's films on its berths, and the overflow victim's beat (`&beds=4`): [docs/design/hospital-four.md](../../docs/design/hospital-four.md).
 
 **The handoff:** [docs/design/board-v2-slots.md](../../docs/design/board-v2-slots.md).
 
@@ -47,6 +48,15 @@
 | `figures/captain.mjs` | The Captain at the console, and a prisoner's start, brace and tumble, as skeletons in the shared figure frame |
 | `js/captain-fixtures.mjs` | Synthetic Captain outcomes for review (test-only); the released prisoners' places written by hand |
 | `js/captain-view.mjs` | The Captain's films on the review page (`&film=release\|eject`) and the art sheet (`?sheet=captain`). A controller: not to be ported |
+| `scenes/hospital-ward-four.mjs` | The successor's four-berth ward: the approved sick bay's shell, back wall and window around the deck and four larger berths, the same for every roster. Editable source |
+| `scenes/slots-four.mjs` | The successor's slot table: `slots.mjs` with the Hospital's four berths, H1 to H4 |
+| `js/fit-four.mjs` | The successor's layout: `fit.mjs`'s `fitBoardV2()` itself (the current board panel for panel) and its four slot functions over the successor's table |
+| `js/turns-four.mjs` | `turns.mjs` with its two imports changed, for the successor's board |
+| `fx/medical-four.mjs` | #158's films on the four berths: each berth's furniture, the drone's hover, the anchor read as a bed |
+| `fx/overflow.mjs` | Where the successor draws its off-board plaque (the spine between the Hospital and the Jail), the FULL stamp and the overflow victim's way |
+| `films/overflow.mjs` | The overflow victim's beat: its beats and what it draws at any moment, from public inputs alone (a proposal on an unallocated occurrence) |
+| `js/layout.mjs` | The review page's layout, the current one or with `&beds=4` the successor's. Review controller, not to port |
+| `js/overflow-fixtures.mjs`, `js/overflow-view.mjs` | The overflow beat's synthetic example and its review controller (`&film=overflow&beds=4`). Not to port |
 | `js/fixtures.mjs` | Synthetic boards for review (test-only) |
 | `js/page.js`, `index.html`, `css/page.css` | The review page: a phone-sized board, or one room's whole scene |
 | `contact.html` | The contact sheet of the captures |

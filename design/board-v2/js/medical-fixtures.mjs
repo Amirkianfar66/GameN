@@ -8,6 +8,7 @@
 // copied for this review page only, so that its synthetic answers look like the server's.
 
 import { fixtureSeats } from './fixtures.mjs';
+import { FOUR } from './layout.mjs';
 
 /** The mixed board's Injured patients' admissions: Rigel (seat 2, H1) in round 2, Mira (seat 8, H2, detained) in round 3. */
 export const ADMISSIONS = Object.freeze({ 2: 2, 8: 3 });
@@ -78,10 +79,13 @@ export const MEDICAL_OUTCOMES = Object.freeze({
  * number; a new clinical subject takes the lowest unused one, in public player-number order.
  */
 export function serverAnchor(subject, startSeats, roster) {
+  // With &beds=4 the successor's anchor contract is not settled (H4-CLINICAL-01 on #157): the page
+  // uses the Designer's proposal on #155, HVn for bed Hn of the four, with no slotCount. Synthetic.
+  const shape = anchorId => (FOUR ? { kind: 'CLINICAL_VIGNETTE', batchId: 'review-batch', anchorId } : { kind: 'CLINICAL_VIGNETTE', batchId: 'review-batch', anchorId, slotCount: roster });
   const own = startSeats.find(seat => seat.seat === subject && seat.room === 'hospital');
-  if (own) return { kind: 'CLINICAL_VIGNETTE', batchId: 'review-batch', anchorId: `HV${own.slot.slice(1)}`, slotCount: roster };
+  if (own) return shape(`HV${own.slot.slice(1)}`);
   const reserved = new Set(startSeats.filter(seat => seat.room === 'hospital').map(seat => Number(seat.slot.slice(1))));
-  for (let n = 1; n <= roster; n += 1) if (!reserved.has(n)) return { kind: 'CLINICAL_VIGNETTE', batchId: 'review-batch', anchorId: `HV${n}`, slotCount: roster };
+  for (let n = 1; n <= (FOUR ? 4 : roster); n += 1) if (!reserved.has(n)) return shape(`HV${n}`);
   throw new Error('No free clinical anchor');
 }
 
