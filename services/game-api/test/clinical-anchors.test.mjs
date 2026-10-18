@@ -33,3 +33,17 @@ for(const count of [7,8,9]) {
     after.outcomes.push(medical('unknown-seat'));assert.throws(()=>clinicalPresentationAnchors(before,after));
   });
 }
+
+for(const count of [7,8,9]) test(`${count}: four physical beds retain roster-sized distinct clinical vignettes and omit only non-medical removal`,()=>{
+  const before={playerCount:count,seats:rows(count),outcomes:[]};
+  for(let i=0;i<4;i++)Object.assign(before.seats[i],{location:'Hospital',slotId:`H${i+1}`,health:i===0?'Injured':'Eliminated'});
+  const after=structuredClone(before);
+  Object.assign(after.seats[0],{location:'Room A',slotId:'A1',health:'Healthy'});
+  Object.assign(after.seats[4],{location:'Hospital',slotId:'H1',health:'Injured'});
+  Object.assign(after.seats[5],{location:null,slotId:null,health:'Eliminated'});
+  after.outcomes=[medical('seat-1','HEALED'),medical('seat-5'),{recipientSeatIds:null,
+    fact:{type:'HOSPITAL_OVERFLOW_REMOVED',phaseId:'phase-batch',round:1,seatId:'seat-6'}}];
+  const original=structuredClone({before,after});
+  assert.deepEqual(clinicalPresentationAnchors(before,after),{'seat-1':'HV1','seat-5':'HV5'});
+  assert.deepEqual({before,after},original,'Presentation cannot mutate authoritative physical placement or suppress a medical fact');
+});

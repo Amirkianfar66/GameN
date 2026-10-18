@@ -1,3 +1,5 @@
+export const HOSPITAL_FOUR_FULL_GAME_VERSION_PINS = Object.freeze({protocolVersion:2 as const,engineVersion:'full-game-1.11.0',rulesetVersion:'in-person-v1-hospital-four-2026-10-19',
+  rulesetHash:'7d9d3519df8813feb1213f1ad4439cae90895af6850c223264c28907824aeb9c'});
 export const CLONE_FULL_GAME_VERSION_PINS = Object.freeze({protocolVersion:2 as const,engineVersion:'full-game-1.10.0',rulesetVersion:'in-person-v1-clone-2026-10-14',
   rulesetHash:'6168feb6931a8f590176521e3d2eb1cb9de800eec5171cdfd5b77b4d952e1234'});
 export const BLACKOUT_FULL_GAME_VERSION_PINS = Object.freeze({protocolVersion:2 as const,engineVersion:'full-game-1.9.0',rulesetVersion:'in-person-v1-blackout-2026-10-14',
@@ -38,10 +40,11 @@ const sameGameplayVersions = (versions: FullGameplayVersions, pins: FullGameplay
   && versions.rulesetVersion === pins.rulesetVersion && versions.rulesetHash === pins.rulesetHash;
 // Support exact reviewed tuples; mixing a new engine with an old ruleset is invalid.
 export const isSupportedFullGameVersions = (versions: FullGameplayVersions): boolean =>
-  sameGameplayVersions(versions, CLONE_FULL_GAME_VERSION_PINS) || sameGameplayVersions(versions, BLACKOUT_FULL_GAME_VERSION_PINS) || sameGameplayVersions(versions, CAPTAIN_OUTCOMES_FULL_GAME_VERSION_PINS) || sameGameplayVersions(versions, BOARD_MEDICAL_FULL_GAME_VERSION_PINS) || sameGameplayVersions(versions, PUBLIC_HACK_FULL_GAME_VERSION_PINS) || sameGameplayVersions(versions, DECLARED_HACK_FULL_GAME_VERSION_PINS) || sameGameplayVersions(versions, VOTE_RESULT_FULL_GAME_VERSION_PINS) || sameGameplayVersions(versions, RESOLUTION_FULL_GAME_VERSION_PINS) || sameGameplayVersions(versions, CAPACITY_FULL_GAME_VERSION_PINS)
+  sameGameplayVersions(versions, HOSPITAL_FOUR_FULL_GAME_VERSION_PINS) || sameGameplayVersions(versions, CLONE_FULL_GAME_VERSION_PINS) || sameGameplayVersions(versions, BLACKOUT_FULL_GAME_VERSION_PINS) || sameGameplayVersions(versions, CAPTAIN_OUTCOMES_FULL_GAME_VERSION_PINS) || sameGameplayVersions(versions, BOARD_MEDICAL_FULL_GAME_VERSION_PINS) || sameGameplayVersions(versions, PUBLIC_HACK_FULL_GAME_VERSION_PINS) || sameGameplayVersions(versions, DECLARED_HACK_FULL_GAME_VERSION_PINS) || sameGameplayVersions(versions, VOTE_RESULT_FULL_GAME_VERSION_PINS) || sameGameplayVersions(versions, RESOLUTION_FULL_GAME_VERSION_PINS) || sameGameplayVersions(versions, CAPACITY_FULL_GAME_VERSION_PINS)
     || sameGameplayVersions(versions, PASS_FULL_GAME_VERSION_PINS)
     || sameGameplayVersions(versions, LEGACY_FULL_GAME_VERSION_PINS);
-export const cloneEnabled = (versions:FullGameplayVersions):boolean => sameGameplayVersions(versions,CLONE_FULL_GAME_VERSION_PINS);
+export const hospitalFourEnabled = (versions:FullGameplayVersions):boolean => sameGameplayVersions(versions,HOSPITAL_FOUR_FULL_GAME_VERSION_PINS);
+export const cloneEnabled = (versions:FullGameplayVersions):boolean => hospitalFourEnabled(versions) || sameGameplayVersions(versions,CLONE_FULL_GAME_VERSION_PINS);
 export const blackoutEnabled = (versions:FullGameplayVersions):boolean => cloneEnabled(versions) || sameGameplayVersions(versions,BLACKOUT_FULL_GAME_VERSION_PINS);
 export const captainCommandsEnabled = (versions: FullGameplayVersions): boolean => blackoutEnabled(versions) || sameGameplayVersions(versions, CAPTAIN_OUTCOMES_FULL_GAME_VERSION_PINS);
 export const boardMedicalEnabled = (versions: FullGameplayVersions): boolean => captainCommandsEnabled(versions) || sameGameplayVersions(versions, BOARD_MEDICAL_FULL_GAME_VERSION_PINS);

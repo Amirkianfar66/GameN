@@ -5,7 +5,7 @@ import { FullOutcomeEventSchema } from './captain-outcomes.js';
 import { IdentifierSchema, SeatIdSchema, TimestampSchema, RevisionSchema } from './protocol.js';
 import { RoleSchema, LocationSchema, HealthSchema } from './views.js';
 import { BoardSlotIdSchema, FullMedicalStatusSchema, validBoardMedicalView } from './board-medical.js';
-import { isKnownFullGameplayPins, supportsVoteResults, supportsDeclaredHack, supportsPublicHack, supportsCaptainCommands, supportsBlackout, supportsClone } from './full-game-versions.js';
+import { isKnownFullGameplayPins, supportsVoteResults, supportsDeclaredHack, supportsPublicHack, supportsCaptainCommands, supportsBlackout, supportsClone, supportsHospitalFour, HOSPITAL_FOUR_ASSET_MANIFEST_VERSION } from './full-game-versions.js';
 
 // Product V1 uses wire protocol 2. Protocol 1 remains the reviewed Officer fixture.
 export const FULL_PROTOCOL_VERSION = 2 as const;
@@ -51,7 +51,7 @@ export const FullPhaseSchema = z.strictObject({ id: IdentifierSchema,
 export type FullPhase = z.infer<typeof FullPhaseSchema>;
 export const FullAssetManifestVersionSchema = z.string().regex(/^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$/);
 export const FullVersionsSchema = z.strictObject({ protocolVersion: z.literal(2), rulesetVersion: IdentifierSchema,
-  rulesetHash: z.string().regex(/^[a-f0-9]{64}$/), engineVersion: z.string().min(1).max(128), assetManifestVersion: FullAssetManifestVersionSchema }).refine(isKnownFullGameplayPins, 'Exact reviewed gameplay tuple required');
+  rulesetHash: z.string().regex(/^[a-f0-9]{64}$/), engineVersion: z.string().min(1).max(128), assetManifestVersion: FullAssetManifestVersionSchema }).refine(isKnownFullGameplayPins, 'Exact reviewed gameplay tuple required').refine(v=>supportsHospitalFour(v) ? v.assetManifestVersion===HOSPITAL_FOUR_ASSET_MANIFEST_VERSION : v.assetManifestVersion!==HOSPITAL_FOUR_ASSET_MANIFEST_VERSION, 'Exact successor art pairing required');
 const FullTallySchema = z.strictObject({ kind:z.enum(['CAPTAIN_ELECTION','RELEASE_VOTE','JAIL_VOTE']),counts:z.partialRecord(SeatIdSchema,z.number().int().nonnegative()),eligibleVoterCount:z.number().int().nonnegative(), yesCount:z.number().int().nonnegative().nullable(), selectedSeatId:SeatIdSchema.nullable(),released:z.boolean().nullable() });
 export const FullVoteResultSchema = FullTallySchema.extend({ id:IdentifierSchema,votePhaseId:IdentifierSchema,
   round:z.number().int().min(1).max(5),startedAt:TimestampSchema,endsAt:TimestampSchema,
@@ -170,7 +170,7 @@ export const FullPlayerViewSchema = z.strictObject({ ...publicFacts, audience:z.
     if(t!==null && (v.phase.kind!=='BLACKOUT' || !['Blue Disabler','Red Disabler'].includes(role)
       || current?.health!=='Healthy' || current.jailed || current.location!==t.room || t.snapshotId!==v.blackout?.snapshotId
       || t.darkStartsAt!==v.blackout.darkStartsAt || t.endsAt!==v.phase.endsAt
-      || JSON.stringify(t.slotIds)!==JSON.stringify(blackoutSlotIds(t.room,v.playerCount))))return false;
+      || JSON.stringify(t.slotIds)!==JSON.stringify(blackoutSlotIds(t.room,v.playerCount,v.versions))))return false;
     const selecting=v.legalTargets['SELECT_BLACKOUT_SLOT'];
     if(selecting!==undefined && (t===null || t.selectedSlotId!==null || selecting.length!==1 || selecting[0]!==v.self.seatId))return false;
   } else if(Object.hasOwn(v.self,'blackoutTargeting') || Object.hasOwn(v.legalTargets,'REQUEST_BLACKOUT') || Object.hasOwn(v.legalTargets,'SELECT_BLACKOUT_SLOT'))return false;

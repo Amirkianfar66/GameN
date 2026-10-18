@@ -1,0 +1,56 @@
+{
+  "decision_id": "hospital-four-owner-decision-2026-10-19",
+  "status": "owner-approved-implementation-candidate",
+  "tracking_issue": "https://github.com/Amirkianfar66/GameN/issues/155",
+  "implementation_authorization": "https://github.com/Amirkianfar66/GameN/issues/155#issuecomment-6256068599",
+  "base_commit": "6ca4b51d5acd1454daec68c5108c8f12ee2286bf",
+  "parent_ruleset": {
+    "version": "in-person-v1-clone-2026-10-14",
+    "hash": "6168feb6931a8f590176521e3d2eb1cb9de800eec5171cdfd5b77b4d952e1234"
+  },
+  "protocol_version": 2,
+  "engine_version": "full-game-1.11.0",
+  "ruleset_version": "in-person-v1-hospital-four-2026-10-19",
+  "owner_decision": {
+    "id": "HOSPITAL-4-2026-10-18",
+    "evidence_sha256": "e8200252806d5e468805b6e00cc9ea85eb37651d72522293b533ee31f3d27c5d",
+    "clarification": "Yes—eliminate the incoming player"
+  },
+  "ordering_owner_reply": {
+    "question": "Issue #96 leaves one ordering question: when several Injured players compete for the last Hospital place at the same end-of-round, which rule should apply? I’ll record this as unresolved until you decide; other capacity work can continue.",
+    "answer": "Free healed Hospital places first, then use existing seat order",
+    "question_item_id": [
+      "request_user_input_async",
+      "call_aa4dac80a0a8494882e1e5d35336cb8f",
+      0
+    ],
+    "scope": "Original issue #96; preserved as the owner authority for healed-first/numeric admission reconciliation; historical tuples unchanged."
+  },
+  "decisions": [
+    {
+      "id": "H4-CAPACITY",
+      "rule": "Exactly four physical Hospital positions H1-H4 in all 7/8/9-player matches; all physical occupants including retained bodies count. Other capacities unchanged."
+    },
+    {
+      "id": "H4-CHECKPOINT",
+      "rule": "Keep stored Main then Shot effects, Rescue, R3 Supply and due deaths. During the atomic stage new injuries wait at their origin without a physical Hospital position. Free healed Hospital departures first; admit remaining new candidates in numeric seat order before ordinary returns. New second-hit bodies compete in that same order; existing bodies never vacate. Healthy same-batch Rescue recipients return without failed admission. No intermediate projection or persistent waitlist."
+    },
+    {
+      "id": "H4-OVERFLOW",
+      "rule": "A pending new candidate denied admission is permanently Eliminated and offboard, current detention/Captain/medical cleared. Publish only HOSPITAL_OVERFLOW_REMOVED plus ordinary health/placement, no provisional medical facts/anchor for that denied candidate. No later Rescue; complete original identity/Code/accepted actions/resources/receipts/history retained."
+    },
+    {
+      "id": "H4-PROVENANCE",
+      "rule": "Validate private hospitalOverflow phaseId/round against exactly matching authoritative overflow outcome independently of Captain EJECT; no public per-seat cause field and no fabricated Captain use."
+    },
+    {
+      "id": "H4-CLINICAL",
+      "rule": "Preserve distinct roster-sized HV1-HV7/8/9 clinical namespace and slotCount7/8/9, separate from four physical beds. Reserve starting Hospital occupants including bodies. Every medical wire fact retains its mandatory anchor. A valid HV5+ on the four-bed renderer is words-only after strict validation; never create H5 or silently reuse another subject anchor."
+    },
+    {
+      "id": "H4-PAIRING",
+      "rule": "Exact successor layout board-v2-four-0.1.0 and reserved production art design-0.5.0 acknowledged through existing exact FullVersions Ready shape. No default/profile/art activation, migration or historical-byte change."
+    }
+  ],
+  "review_boundary": "Focused candidate allocation for affected-role and final Integration review. No individual merge, profile activation, cloud/IAM change or deployment."
+}

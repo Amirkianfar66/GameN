@@ -21,7 +21,7 @@ export async function retryUnavailable(deliver) {
   }
   assert.fail('Persistent service transaction failure');
 }
-export async function boardMedicalFixture(db, playerCount, { pins, roomACount = 5 } = {}) {
+export async function boardMedicalFixture(db, playerCount, { pins, roomACount = 5, assetManifestVersion = 'board-medical-service-fixture-assets-v1' } = {}) {
   assert.ok(pins, 'Every fixture supplies an explicit immutable tuple');
   let now = 1_800_000_000_000;
   const players = await Promise.all(Array.from({ length: playerCount }, () => createEmulatorIdentity()));
@@ -33,7 +33,6 @@ export async function boardMedicalFixture(db, playerCount, { pins, roomACount = 
     initialRooms: Object.fromEntries(ids.map((id, index) => [id, index < roomACount ? 'Room A' : 'Room B'])),
     roundOrders: Array.from({ length: 5 }, () => [...ids]) };
   const matchId = `board-medical-${randomUUID()}`, base = db.collection('matches').doc(matchId);
-  const assetManifestVersion = 'board-medical-service-fixture-assets-v1';
   const context = { matchId, now, phaseId: randomUUID(), deadlineToken: randomUUID(),
     assetManifestVersion, versions: { ...pins, assetManifestVersion } };
   const initial = { ...createFullGame({ ...context, setup }), journalSequence: 1 };
