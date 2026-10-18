@@ -1,4 +1,4 @@
-import { captainCommandsEnabled } from './model.js';
+import { captainCommandsEnabled, hospitalFourEnabled } from './model.js';
 import type { FullGameState } from './model.js';
 import type { GameSeat } from './roster.js';
 
@@ -20,12 +20,18 @@ export function slotIdsFor(location: Location, playerCount: FullGameState['playe
   return Array.from({ length: count }, (_, index) => `${prefix}${index + 1}`);
 }
 
+/** Exact successor inventory. The two-argument historical primitive remains unchanged. */
+export function boardSlotIdsFor(state: Pick<FullGameState, 'versions' | 'playerCount'>, location: Location): string[] {
+  const historical = slotIdsFor(location, state.playerCount);
+  return location === 'Hospital' && hospitalFourEnabled(state.versions) ? historical.slice(0, 4) : historical;
+}
+
 const playerNumber = (seat: GameSeat): number => Number(seat.seatId.slice(5));
 
 function collectSlots(state: FullGameState, complete: boolean, allowMissing: boolean): Set<string> {
   // Working resolution rosters may be subsets, but never contain aliases,
   // duplicate players or players outside the recorded starting roster.
-  slotIdsFor('Hospital', state.playerCount);
+  boardSlotIdsFor(state, 'Hospital');
   if (!Array.isArray(state.seats) || state.seats.length > state.playerCount
     || (complete && state.seats.length !== state.playerCount)) throw new Error('Invalid board roster');
   const ids = new Set<string>(), occupied = new Set<string>(), counts = new Map<Location, number>();
@@ -38,7 +44,7 @@ function collectSlots(state: FullGameState, complete: boolean, allowMissing: boo
       if(!captainCommandsEnabled(state.versions) || seat.slotId!==null || seat.health!=='Eliminated' || seat.jailed || seat.captain || seat.medicalEpisode!==null) throw new Error('Invalid offboard placement');
       continue;
     }
-    const available = slotIdsFor(seat.location, state.playerCount);
+    const available = boardSlotIdsFor(state, seat.location);
     const count = (counts.get(seat.location) ?? 0) + 1;
     if (count > available.length) throw new Error('Board room capacity exceeded');
     counts.set(seat.location, count);
@@ -76,7 +82,7 @@ export function assignMissingBoardSlots(state: FullGameState): void {
   const assignments: Array<{ seat: GameSeat; slotId: string }> = [];
   for (const seat of [...state.seats].sort((a, b) => playerNumber(a) - playerNumber(b))) {
     if (seat.slotId !== undefined) continue;
-    const slotId = slotIdsFor(seat.location, state.playerCount).find(id => !occupied.has(id));
+    const slotId = boardSlotIdsFor(state, seat.location).find(id => !occupied.has(id));
     if (slotId === undefined) throw new Error('No free board slot');
     occupied.add(slotId);
     assignments.push({ seat, slotId });
@@ -97,7 +103,7 @@ export function initializeBoardSlots(state: FullGameState): void {
 export function moveBoardSeat(state: FullGameState, seat: GameSeat, destination: Location): void {
   if (!state.seats.includes(seat)) throw new Error('Board transfer requires the current seat object');
   const occupied = collectSlots(state, true, false);
-  const candidates = slotIdsFor(destination, state.playerCount);
+  const candidates = boardSlotIdsFor(state, destination);
   if (destination === 'Command Room' && (seat.health !== 'Healthy' || seat.jailed || !seat.captain)) {
     throw new Error('Command requires a Healthy free Captain');
   }
