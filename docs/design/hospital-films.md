@@ -6,7 +6,7 @@ Nothing here is a rule, a server contract or an adopted asset:
 
 - **Rules:** who is Injured, when a patient dies, who may be rescued and where a patient lies are Backend's. The films draw the server's facts and outcomes; they decide none of them. No local countdown, timer or animation kills a patient or shortens a rescue opportunity.
 - **Adoption:** each new file needs Integration's approval by name and hash (section 9).
-- **The owner's request of 18 October 2026 for a 4-bed ward** is open: Balance and Backend confirm the real maximum occupancy first ([Amirkianfar66/GameN#155](https://github.com/Amirkianfar66/GameN/issues/155)). Until it is settled the films play on #128's ward (one berth per seat), as the owner chose. Their logic carries over to a smaller ward unchanged: the berth geometry, tags, inset, drone fit and anchors are functions of a berth and a panel.
+- **The owner's four-bed decision of 18 October 2026** (`HOSPITAL-4-2026-10-18`, [Amirkianfar66/GameN#155](https://github.com/Amirkianfar66/GameN/issues/155)): the successor match has four beds, and an incoming player who finds them full is permanently eliminated and off the board. It supersedes the request first recorded here, which asked Balance and Backend to confirm the maximum before anything was redrawn. These films stay on #128's ward (one berth per seat), the current release's; the four-berth ward is drawn beside it as a separate proposal. Their logic carries over unchanged: the berth geometry, tags, inset, drone fit and anchors are functions of a berth and a panel.
 - **Checked against the specification packet** (`GameN-owner-specification-agent-handoff-2026-10-13-v2.txt`, SHA-256 `b5b4ba2d…1b590743`, preserved in [evidence/owner-motion-spec-2026-10-13/](evidence/owner-motion-spec-2026-10-13/PROVENANCE.md)): G-05, G-07, Q-H03a, Q-H04, the rules contracts' Hospital and outcome rows, the motion requirements' Hospital scenes and storyboard sections 5, 9 and 10.
 
 | | |
@@ -147,13 +147,13 @@ Frontend has reviewed none of this. Please review the placement rules and the be
 **No new field is needed.** Two questions:
 
 1. **The anchor held by a same-batch admission** (section 2). Please confirm that a clinical anchor's berth can be another seat's slot in the published snapshot, as #146's text implies. The films then draw nothing there, and the outcome's words stand alone.
-2. **The owner's 4-bed request** ([#155](https://github.com/Amirkianfar66/GameN/issues/155)): what a 4-bed Hospital would need in the slot and anchor contracts, once Balance has confirmed the maximum occupancy.
+2. **The four-bed successor** ([#155](https://github.com/Amirkianfar66/GameN/issues/155)): Backend's plan is draft #157. The Designer's review of its overflow event and anchor bounds is on [#155](https://github.com/Amirkianfar66/GameN/issues/155#issuecomment-6252817010).
 
 ## 7. For Integration
 
 1. **Approval by name and hash** of the two modules (`fx/medical.mjs`, `films/medical.mjs`) and the 28 SVGs (section 9). The medical palette's eleven colors are 35 or more (CIE76) from every faction accent of `tokens-0.4.0` (the manifest lists each distance).
 2. **The films' contracts** are in `contract/films.json` (entries 4 to 6: `hospital-critical`, `medical-rescue`, `medical-flatline`), as proposals.
-3. **The owner's 4-bed request** (#155) belongs in the decision register once settled.
+3. **The owner's four-bed decision** (#155, `HOSPITAL-4-2026-10-18`) is Integration's record. It applies to the successor, not to this ward.
 4. **No playable build** until 1.7 and 1.8 are adopted and Frontend has implemented the films against them. This page is not evidence that a film is implemented or deployed.
 
 ## 8. Verification
@@ -256,9 +256,9 @@ The complete list of every path this PR changes, the 56 medical pictures include
 
 | Question | Owner | Meanwhile |
 | --- | --- | --- |
-| A 4-bed Hospital ([#155](https://github.com/Amirkianfar66/GameN/issues/155)) | The owner, after Balance and Backend | The roster-sized ward of #128 |
+| The four-berth successor ward ([#155](https://github.com/Amirkianfar66/GameN/issues/155), approved by the owner) | The Designer, in its own PR; Backend's #157 for the contract | The roster-sized ward of #128, the current release's |
 | A same-batch admission at the subject's anchor | Backend | No film; the words alone |
 | When the client says the outcome: on receipt or at `announce` | Frontend | The review page says it at `announce` |
 | Several films at once | Frontend | Each at its own berth, insets clear of the earlier ones; not pictured |
-| H7's and H8's bezels under the caption on phones | The owner's 4-bed request may remove them | Their tags below the caption's band |
+| H7's and H8's bezels under the caption on phones | Gone in the four-berth successor | Their tags below the caption's band |
 | Real phones, a screen reader, the owner's review | — | Not run |
