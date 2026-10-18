@@ -8,7 +8,9 @@ export function verifyBoardV2RuntimePorts(root) {
  if(sha(bytes)!=='b44c9ef74fff41b5409949b628b360b1f12e736cc88d8321d58ed3c2226f78ac')throw Error('Board V2 reviewed port catalog drift');
  const motionBytes=readFileSync(resolve(root,'design/releases/board-v2-motion-ports.json'));
  if(sha(motionBytes)!=='d667358a96438942943999bd643e7a16c717373f9393ff9ec8c5a43e87a0d87f')throw Error('Board V2 reviewed motion port catalog drift');
- const catalog={entries:[...JSON.parse(bytes).entries,...JSON.parse(motionBytes).entries]};
+ const filmsBytes=readFileSync(resolve(root,'design/releases/board-v2-films-ports.json'));
+ if(sha(filmsBytes)!=='a750b2e49e1c0f086e687b24f8569e66f318cd03468452ec131a29dd6f78f0d3')throw Error('Board V2 candidate film port catalog drift');
+ const catalog={entries:[...JSON.parse(bytes).entries,...JSON.parse(motionBytes).entries,...JSON.parse(filmsBytes).entries]};
  const directory='apps/game/hosted/board-v2-drawing/';
  const expected=catalog.entries.map(entry=>entry.runtime).sort();
  const actual=readdirSync(resolve(root,directory),{withFileTypes:true,recursive:true})
@@ -21,6 +23,7 @@ export function verifyBoardV2RuntimePorts(root) {
   if(sha(source)!==entry.sourceSha256)throw Error(`Board V2 original source drift: ${entry.source}`);
   let derivative=source.toString('utf8').replace(/^\/\/ mothership:dev-only\n/,'');
   for(const[from,to]of Object.entries(entry.imports))derivative=derivative.replaceAll("'"+from+"'","'"+to+"'");
+  derivative=(entry.runtimeHeader??'')+derivative;
   if(derivative!==bytes.toString('utf8'))throw Error(`Board V2 source reconstruction drift: ${entry.source}`);
  }
  return catalog.entries.length;

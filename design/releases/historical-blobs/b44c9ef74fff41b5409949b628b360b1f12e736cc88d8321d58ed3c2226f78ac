@@ -1,0 +1,92 @@
+{
+  "status": "Exact approved pure derivatives; no historical release or creation profile mutation",
+  "entries": [
+    {
+      "runtime": "apps/game/hosted/board-v2-drawing/slots.mjs",
+      "runtimeSha256": "2881bd68bbe9869811813dba6013fac5c1dcea4c8626ae2b2d7e1f0e9a09946b",
+      "source": "design/board-v2/scenes/slots.mjs",
+      "sourceSha256": "cf329360c86b512d83a9ab4a2df5a7147ba30d7e716c82a7ffa27c5308dadbc1",
+      "sourceCommit": "15e61f0bbd043930a578900862be9d5156b3b602",
+      "imports": {
+        "../../board-motion/figures/gestures.mjs": "../scene-drawing/gestures.mjs",
+        "../../board-motion/scenes/frame.mjs": "../scene-drawing/frame.mjs",
+        "../../board-motion/scenes/index.mjs": "../scene-drawing/scenes.mjs"
+      }
+    },
+    {
+      "runtime": "apps/game/hosted/board-v2-drawing/hospital-ward.mjs",
+      "runtimeSha256": "ce1ca9ddb4ec5f00f30514b61a43f93d7b3ee233fdd2a35cb98db74dd7940c55",
+      "source": "design/board-v2/scenes/hospital-ward.mjs",
+      "sourceSha256": "d6af092a86322a81cc941bc41aade276063b5ba209a18a402a1c5195096dc2be",
+      "sourceCommit": "15e61f0bbd043930a578900862be9d5156b3b602",
+      "imports": {
+        "../../board-motion/figures/body.mjs": "../scene-drawing/body.mjs",
+        "../../board-motion/figures/gestures.mjs": "../scene-drawing/gestures.mjs",
+        "../../board-motion/scenes/frame.mjs": "../scene-drawing/frame.mjs",
+        "../../board-motion/scenes/kit.mjs": "./scene-kit.mjs"
+      }
+    },
+    {
+      "runtime": "apps/game/hosted/board-v2-drawing/scene-kit.mjs",
+      "runtimeSha256": "055640dad54bbc1b8b0be409e9a694acf8c02ead44feaaa2c0b07a10a1322e46",
+      "source": "design/board-motion/scenes/kit.mjs",
+      "sourceSha256": "9e9489bfddaa37ccac06b049934e097b068cae54539a455c151a66935055c14b",
+      "sourceCommit": "15e61f0bbd043930a578900862be9d5156b3b602",
+      "imports": {}
+    },
+    {
+      "runtime": "apps/game/hosted/board-v2-drawing/capsule-scene.mjs",
+      "runtimeSha256": "92b6d78c6ce75b3ac39c5499ac7638521b158697b211b41f2880b7d84889e365",
+      "source": "design/board-v2/scenes/capsule.mjs",
+      "sourceSha256": "51150af446d8553d687ebc621451fb49b962d8cf4435ef843e0f7b79c8fdc3b6",
+      "sourceCommit": "f15782aa39d7e84cff305ef5eaa60d8768e2b71c",
+      "imports": {
+        "../../board-motion/scenes/kit.mjs": "./scene-kit.mjs"
+      }
+    },
+    {
+      "runtime": "apps/game/hosted/board-v2-drawing/capsule-figures.mjs",
+      "runtimeSha256": "193c6dbd76180e0b00502432f2e204c096f4c458970e043b6a12dd89fc725408",
+      "source": "design/board-v2/figures/capsule.mjs",
+      "sourceSha256": "a90ae47382d5ec2bc152c1e915bc5a34c258821228bd769b9b76c7472975adc2",
+      "sourceCommit": "f15782aa39d7e84cff305ef5eaa60d8768e2b71c",
+      "imports": {
+        "../../board-motion/figures/motion.mjs": "../scene-drawing/motion.mjs"
+      }
+    },
+    {
+      "runtime": "apps/game/hosted/board-v2-drawing/capsule-film.mjs",
+      "runtimeSha256": "8d4fc256c8a41696b3f52208c018095c986e53fbc15b2425d8a85dd72d92922c",
+      "source": "design/board-v2/films/capsule.mjs",
+      "sourceSha256": "889b2dc4b30dfeede373f8cbc38ec860d0f829502aef899b3c9c17debeef798b",
+      "sourceCommit": "f15782aa39d7e84cff305ef5eaa60d8768e2b71c",
+      "imports": {
+        "../../board-motion/figures/motion.mjs": "../scene-drawing/motion.mjs",
+        "../figures/capsule.mjs": "./capsule-figures.mjs",
+        "../scenes/capsule.mjs": "./capsule-scene.mjs"
+      }
+    },
+    {
+      "runtime": "apps/game/hosted/board-v2-drawing/fit.mjs",
+      "runtimeSha256": "19a53979aec6ec85b6c0a2fc943a352caa31617c90f86f035939e5d73aae120d",
+      "source": "design/board-v2/js/fit.mjs",
+      "sourceSha256": "fdd9976755605266f7514a9beb5cbee8a11daf75773299849a8059cd844fc688",
+      "sourceCommit": "f15782aa39d7e84cff305ef5eaa60d8768e2b71c",
+      "imports": {
+        "../../board-motion/scenes/frame.mjs": "../scene-drawing/frame.mjs",
+        "../scenes/slots.mjs": "./slots.mjs"
+      }
+    },
+    {
+      "runtime": "apps/game/hosted/board-v2-drawing/turns.mjs",
+      "runtimeSha256": "717d24e1175120b42742c7a10cba71235ac20dfcc3d8bc2285bdd473ad78cfe4",
+      "source": "design/board-v2/js/turns.mjs",
+      "sourceSha256": "12cb3d6d3386ae7a0021f10a0a1c173747039134857b62b6dde89851d6ab5ab0",
+      "sourceCommit": "f15782aa39d7e84cff305ef5eaa60d8768e2b71c",
+      "imports": {
+        "../scenes/slots.mjs": "./slots.mjs",
+        "../scenes/capsule.mjs": "./capsule-scene.mjs"
+      }
+    }
+  ]
+}

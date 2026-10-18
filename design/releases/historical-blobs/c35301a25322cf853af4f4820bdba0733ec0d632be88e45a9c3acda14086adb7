@@ -1,0 +1,672 @@
+/* mothership:dev-only · ability art proposal abilities-0.8.0 · the treatments' reference styles.
+   Colors are tokens (design/prototypes/css/tokens.css); pictures come only from loaded bundles:
+   the kit behind [data-art~="abilities"], the crew cards behind [data-art~="public-board"]. Without
+   them every treatment is complete in paper, ink and words (the missing-asset fallback). Private:
+   nothing here is drawn outside a seat's own open private sheet. */
+
+.ab-vh { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* A card that holds a file or a note takes the height it needs, up to the whole space between the status bar (or the connection banner,
+   --bm-banner-clear) and the dock. */
+#bm-card:has(.ab-file, .ab-folder, .ab-kit, .ab-deliveries, .ab-guards) { max-height: calc(100% - var(--bm-nav) - 4px - max(var(--bm-safe-top, 0px) + var(--bm-status) + 6px, var(--bm-banner-clear, 0px))); }
+
+/* ---------- the Insider's file: an investigation board ---------- */
+.ab-file {
+  position: relative; margin: 12px 0 2px; padding: 0 10px 10px; color: var(--ms-color-ink);
+  background: var(--ms-color-paper-deep); border: 3px solid var(--ms-color-ink); border-radius: 8px;
+  box-shadow: 4px 5px 0 rgb(21 25 35 / 0.55); isolation: isolate;
+}
+[data-art~="abilities"] .ab-file { background: var(--ab-asset-dossier-cork) 0 0 / 96px 96px repeat, var(--ms-color-paper-deep); }
+/* Tape on the two top corners. */
+[data-art~="abilities"] .ab-file::before, [data-art~="abilities"] .ab-file::after {
+  content: ''; position: absolute; top: -9px; width: 58px; height: 20px; background: var(--ab-asset-dossier-tape) center / contain no-repeat; z-index: 3; pointer-events: none;
+}
+[data-art~="abilities"] .ab-file::before { left: -14px; rotate: -38deg; }
+[data-art~="abilities"] .ab-file::after { right: -14px; rotate: 38deg; }
+
+.ab-file__tab { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 0 -10px; padding: 8px 12px 6px; }
+.ab-file__title {
+  margin: 0; padding: 3px 10px 2px; font-family: var(--ms-font-lettering); font-weight: var(--ms-weight-lettering); font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap;
+  background: var(--ms-color-paper); border: 2px solid var(--ms-color-ink); border-radius: 4px 4px 0 0; border-bottom-width: 3px; rotate: -1deg;
+}
+.ab-stamp {
+  --ab-stamp-turn: -8deg; display: inline-block; padding: 4px 9px 3px; font-family: var(--ms-font-lettering); font-weight: var(--ms-weight-lettering);
+  font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ms-color-steel-shadow);
+  border: 3px double var(--ms-color-steel-shadow); border-radius: 4px; transform: rotate(var(--ab-stamp-turn)); opacity: 0.92; white-space: nowrap;
+}
+/* The frame is nine-sliced: its corners keep their shape and its sides stretch to the word, however long. */
+[data-art~="abilities"] .ab-stamp { border: 8px solid transparent; border-image: var(--ab-asset-dossier-stamp) 10 12 fill / 8px 10px stretch; padding: 0 2px; }
+
+/* The field: corner pins for the string, the snapshots, the envelope. */
+.ab-file__field { position: relative; padding: 12px 4px 12px; }
+.ab-corner-pin { position: absolute; width: 18px; height: 20px; z-index: 4; }
+.ab-corner-pin[data-corner="tl"] { left: -4px; top: -2px; }
+.ab-corner-pin[data-corner="tr"] { right: -4px; top: -2px; }
+.ab-corner-pin[data-corner="br"] { right: -4px; bottom: -6px; }
+.ab-corner-pin[data-corner="bl"] { left: -4px; bottom: -6px; }
+.ab-corner-pin, .ab-photo__pin { background: var(--ms-color-steel-mid); border: 2px solid var(--ms-color-ink); border-radius: 50%; }
+[data-art~="abilities"] :is(.ab-corner-pin, .ab-photo__pin) { background: var(--ab-asset-dossier-pin) center / contain no-repeat; border: 0; border-radius: 0; }
+
+.ab-suspects { list-style: none; margin: 0; padding: 6px 2px 4px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; align-items: start; }
+.ab-suspect { display: grid; justify-items: center; }
+/* One tilt per position, the same for any candidates: a public order, never a role. */
+.ab-suspect:nth-child(1) { --ab-tilt: -3deg; }
+.ab-suspect:nth-child(2) { --ab-tilt: 1.5deg; }
+.ab-suspect:nth-child(3) { --ab-tilt: -1.5deg; }
+.ab-photo {
+  position: relative; display: grid; justify-items: center; width: 100%; max-width: 112px; min-height: 44px; margin: 0; padding: 0; border: 0; background: none;
+  color: inherit; font: inherit; cursor: pointer; rotate: var(--ab-tilt, 0deg); transition: transform var(--ab-inspect, 200ms) cubic-bezier(0.2, 0.8, 0.2, 1), opacity 160ms linear;
+}
+.ab-photo:focus-visible { outline: 3px solid var(--ms-color-focus); outline-offset: 4px; border-radius: 4px; }
+.ab-photo__frame {
+  position: relative; display: block; width: 100%; aspect-ratio: 104 / 134; background: var(--ms-color-paper); border: 3px solid var(--ms-color-ink); border-radius: 3px;
+  box-shadow: 3px 4px 0 rgb(21 25 35 / 0.35);
+}
+[data-art~="abilities"] .ab-photo__frame { background: var(--ab-asset-dossier-photo) center / 100% 100% no-repeat; border: 0; box-shadow: none; }
+/* The portrait: the player's own chosen crew card, in the frame's window (10, 10, 80 x 92 of 104 x 134). */
+.ab-photo__art { position: absolute; left: 9.6%; top: 7.5%; width: 76.9%; height: 68.7%; background: var(--ms-color-canvas) center bottom / cover no-repeat; overflow: hidden; }
+.ab-photo__numeral {
+  position: absolute; left: 9.6%; top: 7.5%; width: 76.9%; height: 68.7%; display: grid; place-items: center; font-family: var(--ms-font-lettering);
+  font-weight: var(--ms-weight-lettering); font-size: 34px; color: var(--ms-color-paper); pointer-events: none;
+}
+[data-art~="public-board"] :is(.ab-photo__numeral, .ab-chip__numeral) { display: none; }
+[data-art~="public-board"] :is(.ab-photo__art, .ab-chip__art)[data-character="c1"] { background-image: var(--ms-asset-piece-crew-card-c1); }
+[data-art~="public-board"] :is(.ab-photo__art, .ab-chip__art)[data-character="c2"] { background-image: var(--ms-asset-piece-crew-card-c2); }
+[data-art~="public-board"] :is(.ab-photo__art, .ab-chip__art)[data-character="c3"] { background-image: var(--ms-asset-piece-crew-card-c3); }
+[data-art~="public-board"] :is(.ab-photo__art, .ab-chip__art)[data-character="c4"] { background-image: var(--ms-asset-piece-crew-card-c4); }
+[data-art~="public-board"] :is(.ab-photo__art, .ab-chip__art)[data-character="c5"] { background-image: var(--ms-asset-piece-crew-card-c5); }
+[data-art~="public-board"] :is(.ab-photo__art, .ab-chip__art)[data-character="c6"] { background-image: var(--ms-asset-piece-crew-card-c6); }
+[data-art~="public-board"] :is(.ab-photo__art, .ab-chip__art)[data-character="c7"] { background-image: var(--ms-asset-piece-crew-card-c7); }
+[data-art~="public-board"] :is(.ab-photo__art, .ab-chip__art)[data-character="c8"] { background-image: var(--ms-asset-piece-crew-card-c8); }
+[data-art~="public-board"] :is(.ab-photo__art, .ab-chip__art)[data-character="c9"] { background-image: var(--ms-asset-piece-crew-card-c9); }
+/* The pin, the query tag and the seat marker sit on the frame, so they follow it in any layout. */
+.ab-photo__pin { position: absolute; left: calc(50% - 11px); top: -12px; width: 22px; height: 24px; z-index: 2; }
+.ab-photo__query { position: absolute; right: -12px; top: 6px; width: 24px; height: 31px; rotate: 8deg; transform-origin: 50% 10%; z-index: 2; }
+.ab-photo__query::before { content: '?'; display: grid; place-items: center; width: 100%; height: 100%; font-weight: 900; font-size: 16px; background: var(--ms-color-paper); border: 2px solid var(--ms-color-ink); border-radius: 3px; }
+[data-art~="abilities"] .ab-photo__query { background: var(--ab-asset-dossier-query) center / contain no-repeat; }
+[data-art~="abilities"] .ab-photo__query::before { content: none; }
+/* A seat number: the player's public number, in ink, as the board shows it. */
+.ab-seat {
+  flex: none; display: inline-grid; place-items: center; min-width: 20px; height: 20px; padding: 0 4px; border-radius: 10px; background: var(--ms-color-ink); color: var(--ms-color-paper);
+  font-family: var(--ms-font-lettering); font-weight: var(--ms-weight-lettering); font-size: 12px; line-height: 1;
+}
+/* On a snapshot it is an evidence sticker in the portrait's top left corner, ringed in paper; the caption's own number is for large text.
+   Without the crew cards the window shows the number large instead, so the sticker waits for the portraits. */
+.ab-photo__seat { position: absolute; left: 6%; top: 4.5%; z-index: 2; box-shadow: 0 0 0 2px var(--ms-color-paper); }
+.ab-photo__frame .ab-photo__seat { display: none; }
+[data-art~="public-board"] .ab-photo__frame .ab-photo__seat { display: inline-grid; }
+.ab-photo__caption-seat { display: none; }
+/* The caption on the frame's lower margin: the name, the player's public identity, whole width; too long, it ends in an ellipsis. */
+.ab-photo__caption {
+  position: absolute; left: 6%; right: 6%; bottom: 2.5%; height: 18%; display: grid; place-items: center; min-width: 0;
+  font-size: 12px; line-height: 1.1; font-weight: 700; text-align: center;
+}
+.ab-photo__name { max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* The three names as one set: a slip standing in an open envelope, clipped, stamped once. */
+.ab-roles { position: relative; width: min(232px, 86%); margin: 10px auto 0; padding-top: 6px; display: grid; justify-items: center; }
+.ab-roles__back, .ab-roles__front { position: absolute; left: 0; right: 0; bottom: 0; aspect-ratio: 224 / 88; pointer-events: none; }
+.ab-roles__back { z-index: 0; }
+.ab-roles__front { z-index: 2; background: var(--ms-color-paper-shade); border: 3px solid var(--ms-color-ink); border-radius: 0 0 5px 5px; height: auto; aspect-ratio: 224 / 44; }
+[data-art~="abilities"] .ab-roles__back { background: var(--ab-asset-dossier-envelope-back) center bottom / 100% auto no-repeat; }
+[data-art~="abilities"] .ab-roles__front { aspect-ratio: 224 / 88; background: var(--ab-asset-dossier-envelope-front) center bottom / 100% auto no-repeat; border: 0; border-radius: 0; }
+.ab-roles__slip {
+  position: relative; z-index: 1; display: grid; gap: 4px; justify-items: center; width: 70%; margin-bottom: 5%; padding: 9px 8px 52px; background: var(--ms-color-paper);
+  border: 2px solid var(--ms-color-ink); border-radius: 3px; box-shadow: 2px 2px 0 rgb(21 25 35 / 0.3);
+}
+.ab-roles__name {
+  display: block; padding: 3px 10px 2px; background: var(--ms-color-ink); color: var(--ms-color-paper); border-radius: 2px;
+  font-family: var(--ms-font-lettering); font-weight: var(--ms-weight-lettering); font-size: 14px; letter-spacing: 0.14em; text-transform: uppercase; line-height: 1.15;
+}
+/* Three label tapes in one slip, each set a little askew: a bundle, never a column under a portrait. */
+.ab-roles__name:nth-child(1) { rotate: -2deg; }
+.ab-roles__name:nth-child(2) { rotate: 1.5deg; }
+.ab-roles__name:nth-child(3) { rotate: -1deg; }
+.ab-roles__clip { position: absolute; z-index: 3; left: calc(15% + 6px); top: 26px; width: 15px; height: 38px; rotate: -8deg; }
+[data-art~="abilities"] .ab-roles__clip { background: var(--ab-asset-dossier-clip) center / contain no-repeat; }
+.ab-roles .ab-stamp { position: absolute; z-index: 3; right: 2px; bottom: 9%; --ab-stamp-turn: -10deg; font-size: 12px; }
+.ab-file__note { position: relative; z-index: 2; margin: 12px 0 0; text-align: center; font-weight: 700; font-size: 13px; }
+
+/* The string round the whole set. */
+.ab-thread { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; z-index: 3; }
+.ab-thread path { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.ab-thread__ink { stroke: var(--ms-color-ink); stroke-width: 4.2; }
+.ab-thread__core { stroke: var(--ms-color-caption); stroke-width: 2; }
+
+/* Inspect: the snapshot is lifted toward the middle; the others step back. No clue is added. */
+.ab-file[data-inspect]:not([data-inspect=""]) .ab-photo[aria-pressed="false"],
+.ab-file[data-inspect]:not([data-inspect=""]) :is(.ab-roles, .ab-thread, .ab-file__note, .ab-known__words, .ab-scans, .ab-code-tag) { opacity: 0.3; }
+/* Lifted from its pin: it grows downward, over the dimmed envelope, never over the file's tab. */
+.ab-photo[aria-pressed="true"] { z-index: 5; transform-origin: 50% 0; transform: translateX(var(--ab-lift-x, 0px)) translateY(2px) scale(1.42); rotate: 0deg; }
+/* The inspect card lies over the lower part of the file, where the envelope is dimmed: the file keeps its height. */
+.ab-inspect {
+  position: absolute; z-index: 6; left: 10px; right: 10px; bottom: 10px; margin: 0; padding: 10px 12px; background: var(--ms-color-paper); border: 2px solid var(--ms-color-ink); border-radius: 6px;
+  box-shadow: 3px 3px 0 rgb(21 25 35 / 0.4);
+}
+.ab-inspect[hidden] { display: none; }
+.ab-inspect__who { margin: 0; font-size: 16px; font-weight: 900; display: flex; align-items: center; gap: 6px; min-width: 0; }
+.ab-inspect__lens { flex: none; width: 22px; height: 22px; border: 2px solid var(--ms-color-ink); border-radius: 50%; }
+[data-art~="abilities"] .ab-inspect__lens { background: var(--ab-asset-dossier-lens) center / contain no-repeat; border: 0; border-radius: 0; }
+.ab-inspect__name { min-width: 0; overflow-wrap: anywhere; }
+.ab-inspect__facts { margin: 4px 0 8px; font-size: 13px; }
+.ab-inspect__controls { display: flex; flex-wrap: wrap; gap: 8px; }
+.ab-button {
+  min-height: 44px; padding: 8px 14px; border: 2px solid var(--ms-color-ink); border-radius: var(--ms-radius-control); background: var(--ms-color-paper-shade); color: var(--ms-color-ink);
+  font: inherit; font-weight: 800; cursor: pointer;
+}
+.ab-button:first-child { background: var(--ms-color-caption); }
+.ab-button:focus-visible { outline: 3px solid var(--ms-color-focus); outline-offset: 2px; }
+
+/* The closed folder: a hidden private file, the same for every role. */
+.ab-folder { display: grid; justify-items: center; gap: 8px; margin: 12px 0 4px; }
+.ab-folder__art { width: 180px; aspect-ratio: 228 / 156; background: var(--ms-color-paper-deep); border: 3px solid var(--ms-color-ink); border-radius: 6px; }
+[data-art~="abilities"] .ab-folder__art { background: var(--ab-asset-dossier-folder) center / contain no-repeat; border: 0; }
+.ab-folder__label { margin: 0; max-width: 34ch; text-align: center; font-size: 13px; color: var(--ms-color-text-secondary); }
+
+/* ---------- slice 2: the Hacker's file, the Alien's file, the Code and the Scan ---------- */
+
+/* The own seat's snapshot in a file: a YOU tag on the frame's top right. */
+.ab-photo__own {
+  position: absolute; right: -10px; top: 8px; z-index: 2; padding: 1px 5px; rotate: 8deg; font-family: var(--ms-font-lettering); font-weight: var(--ms-weight-lettering);
+  font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; background: var(--ms-color-caption); border: 2px solid var(--ms-color-ink); border-radius: 2px;
+}
+
+/* A portrait chip: the player's own crew card, its face in a round window; the seat number beside it. */
+.ab-chip { position: relative; flex: none; display: inline-block; width: 36px; height: 36px; border-radius: 50%; background: var(--ms-color-paper); border: 2px solid var(--ms-color-ink); }
+[data-art~="abilities"] .ab-chip { background: var(--ab-asset-dossier-chip) center / contain no-repeat; border: 0; }
+.ab-chip__art { position: absolute; inset: 14%; border-radius: 50%; overflow: hidden; background: var(--ms-color-canvas) 50% 22% / 175% auto no-repeat; }
+.ab-chip__numeral {
+  position: absolute; inset: 14%; display: grid; place-items: center; border-radius: 50%; font-family: var(--ms-font-lettering); font-weight: var(--ms-weight-lettering);
+  font-size: 13px; color: var(--ms-color-paper); background: var(--ms-color-canvas);
+}
+.ab-chip__seat { position: absolute; right: -7px; bottom: -5px; min-width: 16px; height: 16px; padding: 0 3px; font-size: 10px; box-shadow: 0 0 0 2px var(--ms-color-paper); display: none; }
+[data-art~="public-board"] .ab-chip__seat { display: inline-grid; }
+
+/* The Code's mark: a punch card with four holes, two by two; struck through, not in the Code. */
+.ab-code-mark {
+  position: relative; flex: none; display: inline-block; width: 28px; height: 21px; border: 2px solid var(--ms-color-ink); border-radius: 3px; background-color: var(--ms-color-paper);
+  background-image: radial-gradient(circle, var(--ms-color-ink) 0 2.4px, transparent 2.8px); background-size: 50% 50%; background-position: 2px 1px;
+}
+[data-art~="abilities"] .ab-code-mark { background: var(--ab-asset-dossier-code-mark) center / contain no-repeat; border: 0; border-radius: 0; }
+.ab-code-mark[data-struck="true"]::after {
+  content: ''; position: absolute; left: -3px; right: -3px; top: calc(50% - 2px); height: 4px; rotate: -24deg; background: var(--ms-color-ink); border-radius: 2px;
+  box-shadow: 0 0 0 1.5px var(--ms-color-paper);
+}
+
+/* The Hacker's file: the known Undercover, the one pairing that is the Hacker's own knowledge. */
+.ab-known { position: relative; z-index: 2; display: grid; grid-template-columns: minmax(0, 112px) minmax(0, 1fr); gap: 16px; align-items: center; padding: 10px 8px 8px; }
+.ab-known__photo { position: relative; display: grid; justify-items: center; --ab-tilt: -2deg; }
+/* The label tape, on the frame: here the pairing is the Hacker's own knowledge. */
+.ab-photo__tape {
+  position: absolute; left: -8px; right: -12px; bottom: 27%; z-index: 3; padding: 3px 4px 2px; text-align: center; pointer-events: none; rotate: -7deg; white-space: nowrap;
+  font-family: var(--ms-font-lettering); font-weight: var(--ms-weight-lettering); font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; line-height: 1.15;
+  color: var(--ms-color-paper); background: var(--ms-color-ink); border-radius: 2px; box-shadow: 2px 2px 0 rgb(21 25 35 / 0.3);
+}
+.ab-known__words { display: grid; gap: 8px; justify-items: start; }
+.ab-known__code { display: flex; align-items: center; gap: 8px; margin: 0; font-weight: 800; font-size: 13px; line-height: 1.2; }
+.ab-known__role {
+  display: none; padding: 3px 8px 2px; rotate: -2deg; font-family: var(--ms-font-lettering); font-weight: var(--ms-weight-lettering); letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--ms-color-paper); background: var(--ms-color-ink); border-radius: 2px;
+}
+
+/* The Scans: one printout each, in the view's order. */
+.ab-scans { position: relative; z-index: 2; margin: 10px 0 0; }
+.ab-scans__title {
+  display: inline-block; margin: 0 0 6px; padding: 2px 8px 1px; rotate: -1.5deg; background: var(--ms-color-paper); border: 2px solid var(--ms-color-ink);
+  font-family: var(--ms-font-lettering); font-weight: var(--ms-weight-lettering); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;
+}
+.ab-scans__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.ab-printout__paper {
+  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 10px; min-height: 46px; padding: 5px 12px 5px 10px;
+  background: var(--ms-color-paper); border: 2px solid var(--ms-color-ink); border-radius: 2px;
+}
+[data-art~="abilities"] .ab-printout__paper { border: 8px solid transparent; border-width: 8px 14px; border-image: var(--ab-asset-dossier-printout) 12 14 fill / 8px 14px stretch; padding: 0 2px; }
+.ab-printout:nth-child(odd) .ab-printout__paper { rotate: -0.6deg; }
+.ab-printout:nth-child(even) .ab-printout__paper { rotate: 0.5deg; }
+.ab-printout__words { display: grid; min-width: 0; font-size: 12px; line-height: 1.25; }
+.ab-printout__round { font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ab-printout__guess { color: var(--ms-color-steel-shadow); font-weight: 700; }
+.ab-printout__marks { display: grid; justify-items: end; gap: 3px; }
+.ab-printout__stamp { --ab-stamp-turn: -6deg; font-size: 11px; padding: 2px 7px 1px; }
+.ab-printout__stamp[data-stamp="right"] { color: var(--ms-color-ink); border-color: var(--ms-color-ink); }
+[data-art~="abilities"] .ab-printout__stamp { padding: 0 2px; }
+.ab-printout__code { display: flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 800; white-space: nowrap; }
+.ab-printout__code .ab-code-mark { width: 22px; height: 17px; }
+
+/* The Alien's file: the Code's four players as one set, two by two, in seat order; one string round the four. */
+.ab-code-set { list-style: none; margin: 0; padding: 8px 12px 18px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 26px; justify-items: center; }
+.ab-code-set__member { display: grid; justify-items: center; width: 100%; }
+.ab-code-set__member:nth-child(1) { --ab-tilt: -2.5deg; }
+.ab-code-set__member:nth-child(2) { --ab-tilt: 2deg; }
+.ab-code-set__member:nth-child(3) { --ab-tilt: 1.5deg; }
+.ab-code-set__member:nth-child(4) { --ab-tilt: -1.5deg; }
+.ab-code-set .ab-photo { max-width: 104px; }
+.ab-code-tag {
+  position: absolute; left: 50%; bottom: -14px; z-index: 4; translate: -50% 0; transform-origin: 50% 0; display: flex; align-items: center; gap: 7px; padding: 5px 10px 4px 7px;
+  rotate: -3deg; background: var(--ms-color-paper); border: 2px solid var(--ms-color-ink); border-radius: 4px; box-shadow: 2px 2px 0 rgb(21 25 35 / 0.35);
+  font-family: var(--ms-font-lettering); font-weight: var(--ms-weight-lettering); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap;
+}
+.ab-file[data-file="alien"] .ab-file__note { margin-top: 22px; }
+
+/* The Code card in the Hacker's strip: four windows, the picks in seat order. Windows sit where the art has them (240 x 76). */
+.ab-code-card {
+  position: relative; display: block; width: 196px; aspect-ratio: 240 / 76; margin: 6px 0 2px; background: var(--ms-color-paper); border: 2px solid var(--ms-color-ink); border-radius: 4px;
+}
+[data-art~="abilities"] .ab-code-card { background: var(--ab-asset-dossier-code-card) center / 100% 100% no-repeat; border: 0; border-radius: 0; }
+.ab-code-card__window { position: absolute; top: 31.6%; width: 16.7%; aspect-ratio: 1; display: grid; place-items: center; border: 2px dashed var(--ms-color-steel-mid); border-radius: 50%; }
+.ab-code-card__window:nth-child(1) { left: 7.5%; }
+.ab-code-card__window:nth-child(2) { left: 30%; }
+.ab-code-card__window:nth-child(3) { left: 53.3%; }
+.ab-code-card__window:nth-child(4) { left: 75.8%; }
+[data-art~="abilities"] .ab-code-card__window { border-color: transparent; }
+.ab-code-card__window[data-filled="true"] { border-color: transparent; }
+.ab-code-card .ab-chip { width: 100%; height: 100%; }
+.ab-code-card .ab-chip__seat { right: -6px; bottom: -6px; }
+/* A pick clipping into its window and the card punched on the receipt are one-shot beats (intel.js), played once when the strip changes. */
+
+/* The Scan's target in the Hacker's strip; the scanner sweeps it while the Scan is on its way. */
+.ab-scan-target { position: relative; float: left; margin: 0 8px 2px 0; width: 36px; height: 36px; }
+.ab-scan-target .ab-chip { width: 36px; height: 36px; }
+.ab-scan-target__sweep { position: absolute; left: -3px; right: -3px; top: 2px; height: 3px; border-radius: 2px; background: var(--ms-color-focus); opacity: 0; pointer-events: none; }
+.ab-scan-target[data-sweeping="true"] .ab-scan-target__sweep { opacity: 1; animation: ab-sweep 900ms ease-in-out infinite alternate; }
+@keyframes ab-sweep { from { top: 2px; } to { top: 31px; } }
+
+/* ---------- slice 3: the Rescue, the Disable, the Supply ---------- */
+
+/* What an action uses, at the start of the strip's detail line: the Cracker's vials, the Disabler's one cell, Supply's two tags. */
+.ab-vials { display: inline-flex; gap: 3px; margin: 0 6px 0 0; vertical-align: -6px; }
+/* A vial: the full ones first. Its liquid is its ::after, so that emptying is a beat of its own (tools.js drain). */
+.ab-vial { position: relative; flex: none; display: inline-block; width: 13px; height: 21px; border: 2px dashed var(--ms-color-ink); border-radius: 3px 3px 6px 6px; background: var(--ms-color-paper-deep); }
+.ab-vial::after { content: ''; position: absolute; left: 1px; right: 1px; top: 40%; bottom: 1px; border-radius: 0 0 4px 4px; background: var(--ms-color-caption); opacity: 0; }
+.ab-vial[data-full="true"] { border-style: solid; background: var(--ms-color-paper); }
+.ab-vial[data-full="true"]::after { opacity: 1; }
+[data-art~="abilities"] .ab-vial { border: 0; border-radius: 0; background: var(--ab-asset-dossier-vial-empty) center / contain no-repeat; }
+[data-art~="abilities"] .ab-vial::after { inset: 0; border-radius: 0; background: var(--ab-asset-dossier-vial) center / contain no-repeat; }
+
+/* The one Disable: a charge cell, its charge the ::after (tools.js discharge). */
+.ab-cell { position: relative; flex: none; display: inline-block; width: 14px; height: 21px; margin: 0 6px 0 0; vertical-align: -6px; border: 2px dashed var(--ms-color-ink); border-radius: 3px; background: var(--ms-color-paper-deep); }
+.ab-cell::after { content: ''; position: absolute; inset: 2px; border-radius: 1px; background: var(--ms-color-caption); opacity: 0; }
+.ab-cell[data-spent="false"] { border-style: solid; }
+.ab-cell[data-spent="false"]::after { opacity: 1; }
+[data-art~="abilities"] .ab-cell { border: 0; border-radius: 0; background: var(--ab-asset-dossier-cell-empty) center / contain no-repeat; }
+[data-art~="abilities"] .ab-cell::after { inset: 0; border-radius: 0; background: var(--ab-asset-dossier-cell) center / contain no-repeat; }
+
+/* Supply's two tags: each pick's chip where the art has its window (42, 20 of 70 x 40), in seat order; the string ties them on the receipt. */
+.ab-tags { position: relative; display: inline-flex; gap: 6px; margin: 0 6px 0 0; vertical-align: -9px; }
+.ab-tag { position: relative; flex: none; display: inline-block; width: 46px; height: 26px; background: var(--ms-color-paper-shade); border: 2px solid var(--ms-color-ink); border-radius: 3px; }
+.ab-tag::before { content: ''; position: absolute; left: 4px; top: calc(50% - 3px); width: 6px; height: 6px; border-radius: 50%; background: var(--ms-color-paper); border: 1.5px solid var(--ms-color-ink); }
+.ab-tag[data-filled="false"]::after { content: ''; position: absolute; left: calc(60% - 9px); top: calc(50% - 9px); width: 18px; height: 18px; border-radius: 50%; border: 2px dashed var(--ms-color-steel-mid); box-sizing: border-box; }
+[data-art~="abilities"] .ab-tag { border: 0; border-radius: 0; background: var(--ab-asset-dossier-tag) center / 100% 100% no-repeat; }
+[data-art~="abilities"] .ab-tag::before { content: none; }
+.ab-tag .ab-chip { position: absolute; left: calc(60% - 10px); top: calc(50% - 10px); width: 20px; height: 20px; }
+.ab-tag .ab-chip__seat { right: -8px; bottom: -6px; min-width: 14px; height: 14px; font-size: 9px; }
+/* The string: from the first tag's eyelet, over the first chip, to the second tag's eyelet. */
+.ab-tags__string { display: none; position: absolute; left: 6px; top: -7px; width: 52px; height: 20px; border: 2.5px solid var(--ms-color-ink); border-bottom: 0; border-radius: 50% 50% 0 0 / 100% 100% 0 0; transform-origin: 0 100%; pointer-events: none; }
+.ab-tags[data-tied="true"] .ab-tags__string { display: block; }
+
+/* An action's target in the strip: the player's chip, the action's mark over it, beside the question. */
+.ab-target { position: relative; float: left; margin: 0 9px 2px 0; width: 40px; height: 42px; }
+.ab-target .ab-chip { position: absolute; left: 4px; top: 7px; width: 32px; height: 32px; }
+.ab-target__mark { position: absolute; pointer-events: none; }
+/* The seat badge stays above the mark, so the reticle, the cross or the sparks never hide the player's number. */
+.ab-target .ab-chip__seat { z-index: 2; }
+/* A Rescue: the medical cross ring (48 x 48, its ring round (24, 26)). Without the kit, a plain ring and a cross of two bars. */
+.ab-target[data-mark="cross"] .ab-target__mark { left: 0; top: 0; width: 40px; height: 40px; }
+.ab-target[data-mark="cross"] .ab-target__mark::before { content: ''; position: absolute; left: 1px; right: 1px; top: 4px; bottom: -3px; border: 2.5px solid var(--ms-color-ink); border-radius: 50%; }
+.ab-target[data-mark="cross"] .ab-target__mark::after {
+  content: ''; position: absolute; left: calc(50% - 7px); top: -3px; width: 14px; height: 14px;
+  background: linear-gradient(var(--ms-color-ink), var(--ms-color-ink)) center / 4px 100% no-repeat, linear-gradient(var(--ms-color-ink), var(--ms-color-ink)) center / 100% 4px no-repeat;
+}
+[data-art~="abilities"] .ab-target[data-mark="cross"] .ab-target__mark { background: var(--ab-asset-dossier-cross) center / contain no-repeat; }
+[data-art~="abilities"] .ab-target[data-mark="cross"] .ab-target__mark::before, [data-art~="abilities"] .ab-target[data-mark="cross"] .ab-target__mark::after { content: none; }
+/* A Disable: the sparks (56 x 56) round the chip. Without the kit, a dashed caption ring. */
+.ab-target[data-mark="spark"] .ab-target__mark { left: -4px; top: 1px; width: 48px; height: 48px; border: 2px dashed var(--ms-color-ink); border-radius: 50%; }
+[data-art~="abilities"] .ab-target[data-mark="spark"] .ab-target__mark { border: 0; border-radius: 0; background: var(--ab-asset-dossier-spark) center / contain no-repeat; }
+
+/* The Cracker's Rescues in the card, and Supply's slips: notes on the slip paper, nine-sliced so its perforation and its shaded edge keep their shape. */
+.ab-kit, .ab-slip { position: relative; color: var(--ms-color-ink); background: var(--ms-color-paper); border: 2px solid var(--ms-color-ink); border-top-style: dashed; border-radius: 2px; box-shadow: 2px 3px 0 rgb(21 25 35 / 0.35); }
+[data-art~="abilities"] :is(.ab-kit, .ab-slip) { border-style: solid; border-color: transparent; border-width: 12px 22px 7px 7px; border-image: var(--ab-asset-dossier-slip) 18 34 10 10 fill / 12px 22px 7px 7px round stretch; border-radius: 0; box-shadow: none; }
+.ab-kit { display: flex; align-items: center; gap: 12px; margin: 10px 0 2px; padding: 6px 10px; }
+[data-art~="abilities"] .ab-kit { padding: 0 4px 2px; }
+.ab-kit .ab-vials { margin: 0; gap: 5px; vertical-align: 0; }
+.ab-kit .ab-vial { width: 20px; height: 33px; }
+.ab-kit__words { margin: 0; font-weight: 800; font-size: 14px; line-height: 1.25; }
+
+.ab-deliveries { margin: 12px 0 2px; }
+.ab-deliveries__title {
+  display: inline-block; margin: 0 0 6px; padding: 2px 8px 1px; rotate: -1.5deg; color: var(--ms-color-ink); background: var(--ms-color-paper); border: 2px solid var(--ms-color-ink);
+  font-family: var(--ms-font-lettering); font-weight: var(--ms-weight-lettering); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;
+}
+.ab-deliveries__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+/* A slip: its words, then the tags of the players it names and, when a weapon arrived, its stamp. */
+.ab-slip { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "words words" "tags stamp"; align-items: end; gap: 6px 10px; padding: 8px 12px 10px 10px; }
+[data-art~="abilities"] .ab-slip { padding: 0 4px 6px 4px; }
+.ab-slip:nth-child(odd) { rotate: -0.6deg; }
+.ab-slip:nth-child(even) { rotate: 0.5deg; }
+.ab-slip__tags { grid-area: tags; display: flex; flex-wrap: wrap; gap: 6px; }
+.ab-slip .ab-tag { width: 58px; height: 33px; }
+.ab-slip .ab-tag .ab-chip { left: calc(60% - 13px); top: calc(50% - 13px); width: 26px; height: 26px; }
+.ab-slip__words { grid-area: words; margin: 0; font-size: 13px; font-weight: 700; line-height: 1.3; }
+.ab-slip__stamp { grid-area: stamp; justify-self: end; margin: 0 2px 2px 0; --ab-stamp-turn: -8deg; font-size: 11px; padding: 2px 7px 1px; color: var(--ms-color-ink); border-color: var(--ms-color-ink); }
+[data-art~="abilities"] .ab-slip__stamp { padding: 0 2px; }
+
+/* ---------- slice 4: the shot and Protection ---------- */
+
+/* The rounds a seat holds, full first, then the one an accepted shot used. The round is its ::after, so that spending is a beat of its own (guard.js spend). */
+.ab-rounds { display: inline-flex; gap: 3px; margin: 0 6px 0 0; vertical-align: -6px; }
+.ab-round { position: relative; flex: none; display: inline-block; width: 10px; height: 21px; border: 2px dashed var(--ms-color-ink); border-radius: 5px 5px 1px 1px; background: var(--ms-color-paper-deep); }
+.ab-round::after { content: ''; position: absolute; inset: 1px; border-radius: 4px 4px 0 0; background: linear-gradient(transparent 55%, var(--ms-color-caption) 55% 72%, var(--ms-color-steel-mid) 72%); opacity: 0; }
+.ab-round[data-spent="false"] { border-style: solid; background: var(--ms-color-paper); }
+.ab-round[data-spent="false"]::after { opacity: 1; }
+[data-art~="abilities"] .ab-round { border: 0; border-radius: 0; background: var(--ab-asset-dossier-round-spent) center / contain no-repeat; }
+[data-art~="abilities"] .ab-round::after { inset: 0; border-radius: 0; background: var(--ab-asset-dossier-round) center / contain no-repeat; }
+
+/* A shot's target: the reticle round the chip. Without the kit, a ring with four ticks in ink. */
+.ab-target[data-mark="reticle"] .ab-target__mark { left: -4px; top: 1px; width: 48px; height: 48px; border: 2.5px solid var(--ms-color-ink); border-radius: 50%; }
+.ab-target[data-mark="reticle"] .ab-target__mark::before {
+  content: ''; position: absolute; inset: -6px; pointer-events: none;
+  background: linear-gradient(var(--ms-color-ink), var(--ms-color-ink)) 50% 0 / 3px 9px no-repeat, linear-gradient(var(--ms-color-ink), var(--ms-color-ink)) 50% 100% / 3px 9px no-repeat,
+    linear-gradient(var(--ms-color-ink), var(--ms-color-ink)) 0 50% / 9px 3px no-repeat, linear-gradient(var(--ms-color-ink), var(--ms-color-ink)) 100% 50% / 9px 3px no-repeat;
+}
+[data-art~="abilities"] .ab-target[data-mark="reticle"] .ab-target__mark { border: 0; border-radius: 0; background: var(--ab-asset-dossier-reticle) center / contain no-repeat; }
+[data-art~="abilities"] .ab-target[data-mark="reticle"] .ab-target__mark::before { content: none; }
+
+/* Protection's target: the chip on a shield, the shield behind it (48 x 56, the window round (24, 25)). Without the kit, a pointed paper badge. */
+.ab-target:is([data-mark="shield"], [data-mark="shield-used"]) { width: 40px; height: 47px; }
+.ab-target:is([data-mark="shield"], [data-mark="shield-used"]) .ab-chip { z-index: 1; left: 5px; top: 4px; width: 30px; height: 30px; }
+.ab-target:is([data-mark="shield"], [data-mark="shield-used"]) .ab-target__mark { z-index: 0; inset: 0; background: var(--ms-color-paper-shade); border: 2.5px solid var(--ms-color-ink); border-radius: 6px 6px 50% 50% / 6px 6px 60% 60%; }
+.ab-target[data-mark="shield-used"] .ab-target__mark { background: var(--ms-color-paper-deep); border-style: dashed; }
+[data-art~="abilities"] .ab-target[data-mark="shield"] .ab-target__mark { border: 0; border-radius: 0; background: var(--ab-asset-dossier-shield) center / contain no-repeat; }
+[data-art~="abilities"] .ab-target[data-mark="shield-used"] .ab-target__mark { border: 0; border-radius: 0; background: var(--ab-asset-dossier-shield-used) center / contain no-repeat; }
+/* A used-up Protection: the shield split behind its player, whose chip is drawn whole: the shield is what was spent, the player is unchanged. */
+
+/* The Undercover's own notes of its Protections: the shield and the release's words, on the slip paper. */
+.ab-guards { list-style: none; margin: 10px 0 2px; padding: 0; display: grid; gap: 8px; }
+.ab-guard {
+  position: relative; display: flex; align-items: center; gap: 12px; padding: 6px 10px; color: var(--ms-color-ink); background: var(--ms-color-paper);
+  border: 2px solid var(--ms-color-ink); border-top-style: dashed; border-radius: 2px; box-shadow: 2px 3px 0 rgb(21 25 35 / 0.35);
+}
+[data-art~="abilities"] .ab-guard { border-style: solid; border-color: transparent; border-width: 12px 22px 7px 7px; border-image: var(--ab-asset-dossier-slip) 18 34 10 10 fill / 12px 22px 7px 7px round stretch; border-radius: 0; box-shadow: none; padding: 0 4px 2px; }
+.ab-guard .ab-target { float: none; flex: none; margin: 0; }
+.ab-guard__words { margin: 0; font-weight: 800; font-size: 14px; line-height: 1.25; }
+.ab-kit[data-kit="weapons"] .ab-round { width: 14px; height: 30px; }
+.ab-kit[data-kit="weapons"] .ab-rounds { gap: 4px; }
+
+/* ---------- slice 5: ballots, the release request, a Hack and Pass ---------- */
+
+/* A ballot slip (48 x 56, its box round (24, 25)): the named player's chip in the box, the pencil at its top corner. An abstention:
+   the box empty and a pencil dash across it. Without the kit, a paper slip with a ruled box, and the pencil drawn in ink. */
+.ab-target[data-mark="ballot"] { width: 40px; height: 47px; }
+.ab-target[data-mark="ballot"] .ab-chip { z-index: 1; left: 6px; top: 6px; width: 28px; height: 28px; }
+.ab-target[data-mark="ballot"] .ab-target__mark { z-index: 0; inset: 0; background: var(--ms-color-paper); border: 2px solid var(--ms-color-ink); border-radius: 2px; }
+.ab-target[data-mark="ballot"] .ab-target__mark::before { content: ''; position: absolute; left: 4px; top: 4px; right: 4px; height: 27px; border: 1.5px solid var(--ms-color-steel-mid); border-radius: 3px; }
+[data-art~="abilities"] .ab-target[data-mark="ballot"] .ab-target__mark { border: 0; border-radius: 0; background: var(--ab-asset-dossier-ballot) center / contain no-repeat; }
+[data-art~="abilities"] .ab-target[data-mark="ballot"] .ab-target__mark::before { content: none; }
+.ab-ballot__pencil { position: absolute; z-index: 3; right: -7px; top: -5px; width: 20px; height: 20px; pointer-events: none; }
+.ab-ballot__pencil[data-pencil="tick"]::before { content: ''; position: absolute; left: 6px; top: 0; width: 6px; height: 13px; border: solid var(--ms-color-ink); border-width: 0 3.5px 3.5px 0; rotate: 40deg; }
+.ab-ballot__pencil[data-pencil="x-mark"] {
+  background: linear-gradient(45deg, transparent 41%, var(--ms-color-ink) 41% 59%, transparent 59%) center / 16px 16px no-repeat,
+    linear-gradient(-45deg, transparent 41%, var(--ms-color-ink) 41% 59%, transparent 59%) center / 16px 16px no-repeat;
+}
+.ab-ballot__pencil[data-pencil="dash"] { right: auto; top: 16px; left: 8px; width: 24px; height: 4px; border-radius: 2px; background: var(--ms-color-ink); rotate: -10deg; }
+[data-art~="abilities"] .ab-ballot__pencil[data-pencil="tick"] { background: var(--ab-asset-dossier-tick) center / contain no-repeat; }
+[data-art~="abilities"] .ab-ballot__pencil[data-pencil="tick"]::before { content: none; }
+[data-art~="abilities"] .ab-ballot__pencil[data-pencil="x-mark"] { background: var(--ab-asset-dossier-x-mark) center / contain no-repeat; }
+
+/* The ballot box at the start of the detail line (36 x 34, its slot at (17, 9)); the slip's edge (18 x 12) stands in the slot
+   once the ballot is accepted. The edge is its ::after, so that posting is a beat of its own (ballot.js post). */
+.ab-box { position: relative; flex: none; display: inline-block; width: 25px; height: 24px; margin: 0 6px 0 0; vertical-align: -7px; }
+.ab-box::before { content: ''; position: absolute; left: 1px; right: 1px; top: 5px; bottom: 0; background: var(--ms-color-steel-mid); border: 2px solid var(--ms-color-ink); border-radius: 2px; box-shadow: inset 0 3px 0 var(--ms-color-ink); }
+.ab-box::after { content: ''; position: absolute; left: 5.6px; top: -1.4px; width: 12.6px; height: 8.4px; background: var(--ms-color-paper); border: 1.5px solid var(--ms-color-ink); border-bottom: 0; border-radius: 2px 2px 0 0; opacity: 0; }
+.ab-box[data-posted="true"]::after { opacity: 1; }
+[data-art~="abilities"] .ab-box::before { inset: 0; border: 0; border-radius: 0; box-shadow: none; background: var(--ab-asset-dossier-ballot-box) center / contain no-repeat; }
+[data-art~="abilities"] .ab-box::after { border: 0; border-radius: 0; background: var(--ab-asset-dossier-ballot-edge) center / contain no-repeat; }
+
+/* The Captain's release request: the jailed player's chip in the key ring (48 x 48, its ring round (24, 26)). Without the kit, a ring and the key's bow. */
+.ab-target[data-mark="key"] .ab-target__mark { left: 0; top: 0; width: 40px; height: 40px; }
+.ab-target[data-mark="key"] .ab-target__mark::before { content: ''; position: absolute; left: 1px; right: 1px; top: 4px; bottom: -3px; border: 2.5px solid var(--ms-color-ink); border-radius: 50%; }
+.ab-target[data-mark="key"] .ab-target__mark::after { content: ''; position: absolute; right: -2px; bottom: -6px; width: 9px; height: 9px; background: var(--ms-color-caption); border: 2px solid var(--ms-color-ink); border-radius: 50%; }
+[data-art~="abilities"] .ab-target[data-mark="key"] .ab-target__mark { background: var(--ab-asset-dossier-key-ring) center / contain no-repeat; }
+[data-art~="abilities"] .ab-target[data-mark="key"] .ab-target__mark::before, [data-art~="abilities"] .ab-target[data-mark="key"] .ab-target__mark::after { content: none; }
+/* At the start of the detail line it is small and drops its seat badge: the words name the player. */
+.bm-strip__detail > .ab-target { float: none; display: inline-block; width: 30px; height: 31px; margin: 0 6px 0 0; vertical-align: -11px; }
+.bm-strip__detail > .ab-target .ab-chip { left: 4px; top: 6px; width: 22px; height: 22px; }
+.bm-strip__detail > .ab-target .ab-target__mark { width: 30px; height: 30px; }
+.bm-strip__detail > .ab-target .ab-chip__seat { display: none; }
+
+/* A Hack's request: the asked player's chip in the comms ring (56 x 56). Without the kit, a ring and a caption arc each side. */
+.ab-target[data-mark="comms"] .ab-target__mark { left: -4px; top: 1px; width: 48px; height: 48px; border: 2.5px solid var(--ms-color-ink); border-radius: 50%; }
+.ab-target[data-mark="comms"] .ab-target__mark::before { content: ''; position: absolute; inset: 8px -8px; border: 2.5px solid var(--ms-color-caption); border-top-color: transparent; border-bottom-color: transparent; border-radius: 50%; }
+[data-art~="abilities"] .ab-target[data-mark="comms"] .ab-target__mark { border: 0; border-radius: 0; background: var(--ab-asset-dossier-comms) center / contain no-repeat; }
+[data-art~="abilities"] .ab-target[data-mark="comms"] .ab-target__mark::before { content: none; }
+
+/* The note each partner of a Hack sees: its own chip, the cord (64 x 24), the other's chip, and the release's words. Without the kit, a dotted line. */
+.ab-link { flex: none; display: inline-flex; align-items: center; }
+.ab-link .ab-chip { width: 30px; height: 30px; }
+.ab-link__cord { flex: none; width: 40px; height: 15px; margin: 0 -2px; background: radial-gradient(circle, var(--ms-color-ink) 1.6px, transparent 2px) 0 50% / 6px 6px repeat-x; }
+[data-art~="abilities"] .ab-link__cord { background: var(--ab-asset-dossier-cord) center / 100% 100% no-repeat; }
+
+/* The speaking turn's microphone at the start of the Pass strip (22 x 36): held, then handed on. The held microphone is its ::after,
+   so that handing it on is a beat of its own on an element already drawn as its outline (ballot.js handOn). */
+.ab-mic { position: relative; flex: none; display: inline-block; width: 13px; height: 21px; margin: 0 6px 0 0; vertical-align: -6px; border: 2px dashed var(--ms-color-ink); border-radius: 6px 6px 2px 2px; background: var(--ms-color-paper-deep); }
+.ab-mic::after { content: ''; position: absolute; inset: -2px; border-radius: 6px 6px 2px 2px; background: linear-gradient(var(--ms-color-steel-mid) 58%, var(--ms-color-caption) 58% 70%, var(--ms-color-ink) 70%); opacity: 0; }
+.ab-mic[data-passed="false"]::after { opacity: 1; }
+[data-art~="abilities"] .ab-mic { border: 0; border-radius: 0; background: var(--ab-asset-dossier-mic-passed) center / contain no-repeat; }
+[data-art~="abilities"] .ab-mic::after { inset: 0; border-radius: 0; background: var(--ab-asset-dossier-mic) center / contain no-repeat; }
+
+/* ---------- slice 6: the showdown's special shot ---------- */
+
+/* The special shot at the start of the showdown strip (14 x 30): full while offered, spent on its receipt. The full round is its ::after,
+   so that spending is the slice 4 beat (guard.js spend) on an element already drawn spent. Without the kit, a caption round in ink. */
+.ab-special { position: relative; flex: none; display: inline-block; width: 13px; height: 21px; margin: 0 6px 0 0; vertical-align: -6px; border: 2px dashed var(--ms-color-ink); border-radius: 5px 5px 1px 1px; background: var(--ms-color-paper-deep); }
+.ab-special::after { content: ''; position: absolute; inset: -2px; border: 2px solid var(--ms-color-ink); border-radius: 5px 5px 1px 1px; background: linear-gradient(var(--ms-color-caption) 62%, var(--ms-color-steel-mid) 62%); opacity: 0; }
+.ab-special[data-spent="false"]::after { opacity: 1; }
+[data-art~="abilities"] .ab-special { border: 0; border-radius: 0; background: var(--ab-asset-dossier-round-spent) center / contain no-repeat; }
+[data-art~="abilities"] .ab-special::after { inset: 0; border: 0; border-radius: 0; background: var(--ab-asset-dossier-round-special) center / contain no-repeat; }
+
+/* ---------- slice 7: one mark for each action, in the seat's own Actions tray ----------
+   The tray's chip (board-motion's .bm-chip__icon: a caption-yellow disc holding a glyph) draws its action's mark, the strip's own, once
+   the kit has arrived, its glyph hidden; the Shot keeps the reviewed icon-action-shot once the player bundle has. Without them the
+   glyph stays, and the label beside it says the action in words. The tray is the seat's own, drawn from its own view's offers. */
+[data-art~="abilities"] .bm-chip__icon[data-kind]:not([data-kind="shot"]) { color: transparent; background-color: var(--ms-color-caption); background-position: center; background-size: 20px 20px; background-repeat: no-repeat; }
+[data-art~="abilities"] .bm-chip__icon[data-kind="disable"] { background-image: var(--ab-asset-icon-action-disable); }
+[data-art~="abilities"] .bm-chip__icon[data-kind="protect"] { background-image: var(--ab-asset-icon-action-protect); }
+[data-art~="abilities"] .bm-chip__icon[data-kind="rescue"] { background-image: var(--ab-asset-icon-action-rescue); }
+[data-art~="abilities"] .bm-chip__icon[data-kind="scan"] { background-image: var(--ab-asset-icon-action-scan); }
+[data-art~="abilities"] .bm-chip__icon[data-kind="supply"] { background-image: var(--ab-asset-icon-action-supply); }
+[data-art~="abilities"] .bm-chip__icon[data-kind="hack"] { background-image: var(--ab-asset-icon-action-hack); }
+[data-art~="abilities"] .bm-chip__icon[data-kind="code"] { background-image: var(--ab-asset-icon-action-code); }
+[data-art~="abilities"] .bm-chip__icon[data-kind="showdown-shot"] { background-image: var(--ab-asset-icon-action-showdown); }
+[data-art~="abilities"] .bm-chip__icon:is([data-kind="vote"], [data-kind="release-vote"]) { background-image: var(--ab-asset-icon-action-ballot); }
+[data-art~="abilities"] .bm-chip__icon[data-kind="release-choice"] { background-image: var(--ab-asset-icon-action-key); }
+[data-art~="player-ui"] .bm-chip__icon[data-kind="shot"] { color: transparent; background: var(--ms-color-caption) var(--ms-asset-icon-action-shot-ink) center / 20px 20px no-repeat; }
+
+/* A board seen from the file: the character the player asked to see, its press area ringed for a moment, on this phone's own board only. */
+[data-board="own"] .bm-piece[data-spot] .bm-piece__ring { display: block; border: 3.5px solid var(--ms-color-focus); animation: ab-spot 1600ms ease-out forwards; }
+@keyframes ab-spot { 0% { opacity: 0; transform: scale(1.5); } 20% { opacity: 1; transform: scale(1); } 80% { opacity: 1; } 100% { opacity: 0; } }
+
+/* Reduced motion: nothing is lifted or flies; the inspected snapshot is ringed instead. */
+[data-motion="reduced"] .ab-photo { transition: none; }
+[data-motion="reduced"] .ab-photo[aria-pressed="true"] { transform: none; }
+[data-motion="reduced"] .ab-photo[aria-pressed="true"] .ab-photo__frame { outline: 4px solid var(--ms-color-focus); outline-offset: 3px; }
+[data-motion="reduced"] [data-board="own"] .bm-piece[data-spot] .bm-piece__ring { animation: ab-spot-reduced 1600ms linear forwards; }
+@keyframes ab-spot-reduced { 0%, 95% { opacity: 1; } 100% { opacity: 0; } }
+[data-motion="reduced"] .ab-scan-target[data-sweeping="true"] .ab-scan-target__sweep { animation: none; opacity: 0; }
+[data-motion="reduced"] .ab-scan-target[data-sweeping="true"] .ab-chip { outline: 3px solid var(--ms-color-focus); outline-offset: 1px; border-radius: 50%; }
+@media (prefers-reduced-motion: reduce) {
+  .ab-photo { transition: none; }
+  .ab-photo[aria-pressed="true"] { transform: none; }
+  .ab-scan-target__sweep { animation: none !important; opacity: 0 !important; }
+}
+
+/* A short phone (320 x 568 and the like) at the default text size: the role card shrinks to a row and the
+   file tightens, so the whole file fits the card without scrolling. At large text the reflow below applies instead. */
+@media (min-width: 18.01em) {
+  .bm-app[data-short="true"] #bm-card:has(.ab-file, .ab-kit, .ab-deliveries, .ab-guards) .bm-hint { margin: 0 0 6px; font-size: 11px; line-height: 1.25; }
+  .bm-app[data-short="true"] #bm-card:has(.ab-file, .ab-kit, .ab-deliveries, .ab-guards) .bm-card { grid-template-columns: 40px minmax(0, 1fr); padding: 4px 8px; gap: 8px; }
+  .bm-app[data-short="true"] #bm-card:has(.ab-file, .ab-kit, .ab-deliveries, .ab-guards) .bm-card__art { width: 40px; height: 46px; }
+  .bm-app[data-short="true"] #bm-card:has(.ab-file, .ab-kit, .ab-deliveries, .ab-guards) .bm-card__name { font-size: 16px; }
+  .bm-app[data-short="true"] #bm-card:has(.ab-file, .ab-kit, .ab-deliveries, .ab-guards) .bm-card__team { margin-top: 0; font-size: 11px; }
+  .bm-app[data-short="true"] .ab-file { margin-top: 8px; }
+  .bm-app[data-short="true"] .ab-file__tab { padding: 4px 12px 0; }
+  .bm-app[data-short="true"] .ab-file__title { font-size: 13px; padding: 2px 8px 1px; }
+  .bm-app[data-short="true"] .ab-file__tab .ab-stamp { font-size: 11px; }
+  .bm-app[data-short="true"] .ab-file__field { padding: 4px 4px 6px; }
+  .bm-app[data-short="true"] .ab-suspects { gap: 8px; }
+  .bm-app[data-short="true"] .ab-photo { max-width: 70px; }
+  .bm-app[data-short="true"] .ab-photo__caption { font-size: 11px; }
+  .bm-app[data-short="true"] .ab-seat { min-width: 18px; height: 18px; font-size: 11px; }
+  .bm-app[data-short="true"] .ab-roles { width: min(190px, 80%); margin-top: 6px; }
+  .bm-app[data-short="true"] .ab-roles__slip { padding: 5px 6px 32px; gap: 2px; }
+  .bm-app[data-short="true"] .ab-roles__name { font-size: 12px; padding: 2px 8px 1px; }
+  .bm-app[data-short="true"] .ab-file__note { margin-top: 2px; font-size: 12px; }
+  .bm-app[data-short="true"] .ab-inspect { padding: 8px 10px; }
+  .bm-app[data-short="true"] .ab-inspect__who { font-size: 15px; }
+  .bm-app[data-short="true"] .ab-inspect__facts { margin: 2px 0 6px; }
+  .bm-app[data-short="true"] .ab-button { padding: 8px 11px; }
+  /* The Hacker's file: a smaller snapshot beside its words, closer printouts. */
+  .bm-app[data-short="true"] .ab-known { grid-template-columns: minmax(0, 72px) minmax(0, 1fr); gap: 12px; padding: 4px 6px; }
+  .bm-app[data-short="true"] .ab-photo__tape { left: -3px; right: -9px; font-size: 9px; letter-spacing: 0.08em; padding: 2px 2px 1px; }
+  .bm-app[data-short="true"] .ab-known__code { font-size: 12px; gap: 6px; }
+  .bm-app[data-short="true"] .ab-scans { margin-top: 4px; }
+  .bm-app[data-short="true"] .ab-scans__title { margin-bottom: 3px; padding: 1px 7px 0; font-size: 11px; }
+  .bm-app[data-short="true"] .ab-scans__list { gap: 4px; }
+  .bm-app[data-short="true"] .ab-printout__paper { min-height: 34px; gap: 8px; border-top-width: 6px; border-bottom-width: 6px; }
+  .bm-app[data-short="true"] .ab-printout .ab-chip { width: 28px; height: 28px; }
+  .bm-app[data-short="true"] .ab-printout__words { font-size: 11px; }
+  /* The Alien's file: smaller snapshots, the tag and the note kept apart. */
+  .bm-app[data-short="true"] .ab-code-set { gap: 10px 22px; padding: 2px 12px 14px; }
+  .bm-app[data-short="true"] .ab-code-set .ab-photo { max-width: 64px; }
+  .bm-app[data-short="true"] .ab-file[data-file="alien"] .ab-file__note { margin-top: 20px; }
+  /* The Code card, small, at the start of the strip's detail line. */
+  .bm-app[data-short="true"] .bm-strip__detail .ab-code-card { display: inline-block; vertical-align: -9px; width: 86px; margin: 0 6px 0 0; }
+  .bm-app[data-short="true"] .bm-strip__detail .ab-code-card .ab-chip__seat { display: none; }
+  /* Slice 3: the Cracker's note and Supply's slips, closer, their tags smaller. */
+  .bm-app[data-short="true"] .ab-kit { margin-top: 8px; }
+  .bm-app[data-short="true"] .ab-kit__words { font-size: 13px; }
+  .bm-app[data-short="true"] .ab-deliveries { margin-top: 8px; }
+  .bm-app[data-short="true"] .ab-deliveries__title { margin-bottom: 4px; padding: 1px 7px 0; font-size: 11px; }
+  .bm-app[data-short="true"] .ab-deliveries__list { gap: 6px; }
+  .bm-app[data-short="true"] .ab-slip { gap: 4px 8px; }
+  .bm-app[data-short="true"] .ab-slip__words { font-size: 12px; line-height: 1.25; }
+  .bm-app[data-short="true"] .ab-slip .ab-tag { width: 46px; height: 26px; }
+  .bm-app[data-short="true"] .ab-slip .ab-tag .ab-chip { left: calc(60% - 10px); top: calc(50% - 10px); width: 20px; height: 20px; }
+  /* Slice 4: the Protection notes, closer. */
+  .bm-app[data-short="true"] .ab-guards { margin-top: 8px; gap: 6px; }
+  .bm-app[data-short="true"] .ab-guard__words { font-size: 13px; }
+}
+
+/* Large text (the board's own large-text query): every word grows with the reader's text size and the file
+   reflows into one column, a snapshot and its words to a row, inside the card, which scrolls; nothing is clipped
+   or shrunk. The envelope stays below the three, so no role name stands beside a portrait. */
+@media (max-width: 18em) {
+  .ab-file__tab { flex-wrap: wrap; row-gap: 6px; }
+  .ab-file__title { font-size: 0.8rem; white-space: normal; }
+  .ab-stamp { font-size: 0.6rem; }
+  .ab-suspects { grid-template-columns: minmax(0, 1fr); gap: 18px; padding: 14px 6px 4px 10px; }
+  .ab-photo { grid-template-columns: 84px minmax(0, 1fr); align-items: center; justify-items: start; column-gap: 18px; max-width: none; rotate: 0deg; text-align: start; }
+  .ab-photo__frame { width: 84px; rotate: var(--ab-tilt, 0deg); }
+  .ab-photo__frame .ab-photo__seat, [data-art~="public-board"] .ab-photo__frame .ab-photo__seat { display: none; }
+  .ab-photo__caption { position: static; height: auto; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; font-size: 0.85rem; line-height: 1.2; text-align: start; }
+  .ab-photo__caption-seat { display: inline-grid; }
+  .ab-photo__name { white-space: normal; overflow: visible; overflow-wrap: anywhere; }
+  .ab-photo[aria-pressed="true"] { transform: none; }
+  .ab-photo[aria-pressed="true"] .ab-photo__frame { outline: 4px solid var(--ms-color-focus); outline-offset: 3px; }
+  .ab-seat { min-width: 1.3rem; height: 1.3rem; border-radius: 0.65rem; font-size: 0.7rem; }
+  .ab-inspect { position: static; margin: 14px 0 0; }
+  .ab-roles { width: 100%; margin-top: 14px; }
+  .ab-roles__slip { width: 78%; padding-bottom: 3.4rem; }
+  .ab-roles__name { font-size: 0.75rem; }
+  .ab-roles .ab-stamp { font-size: 0.6rem; }
+  .ab-file__note { font-size: 0.85rem; }
+  .ab-inspect__who { font-size: 1rem; flex-wrap: wrap; }
+  .ab-inspect__facts { font-size: 0.85rem; }
+  .ab-button { font-size: 0.85rem; }
+  .ab-folder__label { font-size: 0.85rem; }
+  /* The Hacker's file and the Alien's: the same one column, the words growing; marks beneath the words. */
+  .ab-known { grid-template-columns: minmax(0, 1fr); justify-items: start; }
+  .ab-known__photo { justify-items: start; }
+  .ab-photo__tape { display: none; }
+  .ab-known__role { display: inline-block; font-size: 0.7rem; }
+  .ab-chip__seat { min-width: 1rem; height: 1rem; font-size: 0.5rem; right: -0.7rem; bottom: -0.45rem; }
+  .ab-printout .ab-chip { width: 52px; height: 52px; margin-right: 0.4rem; }
+  .ab-code-set .ab-photo { max-width: none; }
+  .ab-known__code { font-size: 0.8rem; flex-wrap: wrap; }
+  .ab-scans__title { font-size: 0.7rem; }
+  .ab-printout__paper { grid-template-columns: auto minmax(0, 1fr); }
+  .ab-printout__words { font-size: 0.8rem; }
+  .ab-printout__round { white-space: normal; overflow-wrap: anywhere; }
+  .ab-printout__marks { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; justify-content: start; }
+  .ab-printout__stamp { font-size: 0.6rem; }
+  .ab-printout__code { font-size: 0.7rem; white-space: normal; }
+  .ab-code-set { grid-template-columns: minmax(0, 1fr); justify-items: start; padding: 14px 6px 22px 10px; }
+  .ab-code-tag { font-size: 0.6rem; }
+  .ab-photo__own { font-size: 0.5rem; }
+  /* Slice 3: the notes' words grow with the reader's text. In the strip a chip keeps no seat badge: the strip's words
+     name the seat, in large type, and a badge grown to match would cover them. */
+  .ab-kit__words { font-size: 0.9rem; }
+  .ab-kit .ab-vial { width: 1.1rem; height: 1.8rem; }
+  .ab-deliveries__title { font-size: 0.7rem; }
+  .ab-slip__words { font-size: 0.85rem; }
+  .ab-slip__stamp { font-size: 0.6rem; }
+  .bm-strip :is(.ab-target, .ab-scan-target, .ab-tags, .ab-code-card) .ab-chip__seat { display: none; }
+  /* Slice 4: the Protection notes' words grow; the weapons note's with the Rescues'. */
+  .ab-guard__words { font-size: 0.9rem; }
+}
+
+/* ---------- slice 8: choosing a character, and the role card's reveal (design/abilities/setup.html) ----------
+   On the release's setup hooks (apps/game/hosted/setup-controls.js, role-confirmation.js). Who has taken which character is
+   public: every phone stamps a taken card with its taker's seat. The seat's own pick: a dashed ring while it is on its way
+   (data-sending, proposed), its check stamped once confirmed. The role card's back, and the card put away once Ready, are the
+   same for every role: one picture, the kit's setup-back, and no hook on them names a role. */
+
+/* A taken card: its taker's seat, stamped across it (span.ab-taken, aria-hidden: the card's name says "taken by Player 4"). */
+.crew-picker { isolation: isolate; }
+.crew-option .ab-taken {
+  position: absolute; z-index: 1; left: 50%; bottom: 30%; translate: -50% 0; transform: rotate(var(--ms-stamp-rotation)); pointer-events: none;
+  box-sizing: border-box; width: max-content; max-width: calc(100% - 6px); padding: 1px 6px; text-align: center; line-height: 1.05;
+  font-family: var(--ms-font-lettering); font-weight: var(--ms-weight-lettering); font-size: 0.68rem; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--ms-color-ink); background: var(--ms-color-paper); border: 2px solid var(--ms-color-ink); border-radius: 4px;
+}
+[data-art~="abilities"] .crew-option .ab-taken { padding: 3px 9px; border-color: transparent; background: var(--ms-color-paper) var(--ab-asset-dossier-stamp) center / 100% 100% no-repeat; }
+/* A card too narrow for the whole word at the reader's text size keeps the seat's number, larger: the card's name still says it all. */
+.crew-option { container-type: inline-size; }
+@container (max-width: 6.5em) {
+  .crew-option .ab-taken__word { display: none; }
+  .crew-option .ab-taken { padding-inline: 8px; font-size: 0.9rem; }
+}
+/* The seat's own pick on its way to the server: its ring dashed; kept dashed after a lost answer, until Retry selection. */
+.crew-option[data-sending] { border-style: dashed; box-shadow: none; }
+/* Confirmed: the release's check (the card's ::after), stamped: a caption-yellow disc holding the kit's tick. */
+[data-art~="abilities"] .crew-option[data-confirmed="true"]::after {
+  content: ''; top: 0.25rem; right: 0.25rem; width: 26px; height: 26px; padding: 0; box-sizing: border-box;
+  background: var(--ms-color-caption) var(--ab-asset-dossier-tick) center / 18px 18px no-repeat; border: 2px solid var(--ms-color-ink);
+}
+/* The pop's burst, around the card for its 220 ms: the approved fx-landing-burst, behind the card. */
+.crew-option .ab-burst { position: absolute; z-index: -1; inset: -16%; pointer-events: none; }
+[data-art~="public-board"] .crew-option .ab-burst { background: var(--ms-asset-fx-landing-burst-paper) center / contain no-repeat; }
+
+/* The role card's back: the kit's picture inside the release's border, its words on a caption band below the seal. The seal
+   carries the closed eye, so the release's icon over the words stands down while the picture is there. */
+[data-art~="abilities"] .phone-role-back { isolation: isolate; background: var(--ms-color-steel-shadow) var(--ab-asset-setup-back) center / cover no-repeat; }
+[data-art~="abilities"] .phone-role-back::before { display: none; }
+[data-art~="abilities"] .phone-role-surface .phone-role-back { align-content: end; padding-bottom: 2.4rem; }
+[data-art~="abilities"] .phone-role-back .ab-back-words {
+  position: relative; isolation: isolate; max-width: 76%; padding: 0.45rem 1rem; text-align: center; line-height: 1.15;
+  font-family: var(--ms-font-lettering); font-weight: var(--ms-weight-lettering); font-size: 0.95rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ms-color-ink);
+}
+[data-art~="abilities"] .phone-role-back .ab-back-words::before {
+  content: ''; position: absolute; z-index: -1; inset: 0; background: var(--ms-color-caption); border: 2px solid var(--ms-color-ink); transform: skewX(var(--ms-caption-skew));
+}
+/* Ready: the card put away, face down, and READY stamped across its seal (span.ab-ready-stamp, aria-hidden: the note's name
+   says it). Without the picture, the release's check stays. */
+#setup-ready-waiting .ab-ready-stamp { display: none; }
+[data-art~="abilities"] #setup-ready-waiting { color: transparent; }
+[data-art~="abilities"] #setup-ready-waiting .ab-ready-stamp {
+  display: block; position: absolute; left: 50%; top: 50%; translate: -50% -50%; transform: rotate(var(--ms-stamp-rotation));
+  padding: 0.45rem 1.1rem 0.45rem 2.7rem; white-space: nowrap;
+  font-family: var(--ms-font-lettering); font-weight: var(--ms-weight-lettering); font-size: 1.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ms-color-ink);
+  background: var(--ms-color-paper) var(--ab-asset-dossier-tick) 0.75rem center / 1.5rem 1.5rem no-repeat; border: 3px solid var(--ms-color-ink); border-radius: 6px;
+}
+/* The turn: the back turns away and the face turns in (setup.js turnUp()); both stay flat, so neither shows its reverse. */
+.phone-role-surface :is(.phone-role-back, .ms-role-card--full) { backface-visibility: hidden; }
