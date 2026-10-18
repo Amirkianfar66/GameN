@@ -91,12 +91,41 @@ test('#158\'s rescue plays on the four berths frame for frame; only the drone\'s
   }
 });
 
-test('an anchor names one of the four beds; a film plays there unless another seat holds it', () => {
+test('an anchor names one of the four beds; a film plays there unless another seat holds it, and declines for an anchor beyond them', () => {
   assert.equal(fourClinicalBerth('HV3'), 'H3');
   assert.equal(fourClinicalBerth({ kind: 'CLINICAL_VIGNETTE', anchorId: 'HV4' }), 'H4');
-  for (const bad of ['HV5', 'HV9', 'H1', '']) assert.throws(() => fourClinicalBerth(bad));
+  for (const bad of ['HV5', 'HV9', 'H1', 'HV0', 'HV10', '']) assert.throws(() => fourClinicalBerth(bad));
+  for (const fifth of ['HV5', 'HV9']) assert.deepEqual(fourFilmBerth({ kind: 'CLINICAL_VIGNETTE', anchorId: fifth }, [{ seat: 2, slotId: null }], 2), { berth: null, plays: false, holder: null });
+  for (const bad of ['H1', 'HV0', 'HV10', '']) assert.throws(() => fourFilmBerth(bad, [], 2));
   assert.deepEqual(fourFilmBerth('HV2', [{ seat: 6, slotId: 'H2' }], 6), { berth: 'H2', plays: true, holder: null });
   assert.deepEqual(fourFilmBerth('HV2', [{ seat: 6, slotId: null }, { seat: 1, slotId: 'H2' }], 6), { berth: 'H2', plays: false, holder: 1 });
+});
+
+test('the film\'s decision for every input the caller can pass: four drawable beds, a held or body-held bed, no bed, nothing valid', () => {
+  // Every one of the four beds can be drawn: free, or held by the subject itself.
+  for (let n = 1; n <= 4; n += 1) {
+    assert.deepEqual(fourFilmBerth(`HV${n}`, [], 'seat-2'), { berth: `H${n}`, plays: true, holder: null });
+    assert.deepEqual(fourFilmBerth(`HV${n}`, [{ seat: 'seat-2', slotId: `H${n}` }], 'seat-2'), { berth: `H${n}`, plays: true, holder: null });
+  }
+  // A bed another seat holds, a retained body included, is never drawn over; the seat identity is the caller's stable one.
+  const seats = [{ seat: 'seat-2', slotId: null }, { seat: 'seat-8', slotId: 'H2' }, { seat: 'seat-9', slotId: 'H4' }];
+  assert.deepEqual(fourFilmBerth('HV2', seats, 'seat-2'), { berth: 'H2', plays: false, holder: 'seat-8' });
+  assert.deepEqual(fourFilmBerth({ kind: 'CLINICAL_VIGNETTE', anchorId: 'HV4' }, seats, 'seat-2'), { berth: 'H4', plays: false, holder: 'seat-9' });
+  // The identity is { seat, slotId }: a wire seat left unmapped ({ seatId }) is not read as a holder, so a caller maps it first.
+  assert.equal(fourFilmBerth('HV4', [{ seatId: 'seat-9', slotId: 'H4' }], 'seat-2').holder, null);
+  // An authorized anchor beyond the four beds: no film, explicitly, whoever holds what. The successor keeps the
+  // roster-sized anchors, slotCount its starting roster (Integration's accepted boundary on #155).
+  for (const fifth of ['HV5', 'HV6', 'HV7', 'HV8', 'HV9']) assert.deepEqual(fourFilmBerth(fifth, seats, 'seat-2'), { berth: null, plays: false, holder: null });
+  for (const roster of [7, 8, 9]) {
+    assert.deepEqual(fourFilmBerth({ kind: 'CLINICAL_VIGNETTE', anchorId: 'HV5', slotCount: roster }, seats, 'seat-2'), { berth: null, plays: false, holder: null });
+    assert.deepEqual(fourFilmBerth({ kind: 'CLINICAL_VIGNETTE', anchorId: 'HV3', slotCount: roster }, seats, 'seat-2'), { berth: 'H3', plays: true, holder: null });
+  }
+  // Anything that is not a clinical anchor of a successor match fails closed: a malformed id, an anchor beyond its
+  // slotCount, or a slotCount that is no roster (never 4: the clinical namespace is not the ward's capacity).
+  for (const bad of [undefined, null, '', 'H4', 'HV', 'HV0', 'HV10', 'hv1', ' HV1', { anchorId: 'BAD' }, {}, { anchorId: 'HV8', slotCount: 7 }, { anchorId: 'HV2', slotCount: 4 }, { anchorId: 'HV5', slotCount: 4 }]) {
+    assert.throws(() => fourFilmBerth(bad, seats, 'seat-2'));
+    assert.throws(() => fourClinicalBerth(bad));
+  }
 });
 
 test('the overflow beat: FULL, the grey cut-out, the lift to the plaque and the count, in 2.8 s; words once; nothing outside it', () => {

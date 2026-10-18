@@ -7,18 +7,20 @@
 // (../scenes/hospital-ward-four.mjs). ./medical.mjs and ../films/medical.mjs are unchanged for the
 // current release.
 //
-// The clinical anchor of a successor match is not settled (H4-CLINICAL-01 on draft #157). The
-// films need one place per bed: fourClinicalBerth() reads an anchor as the bed whose geometry a film
-// uses, HVn for Hn with n from 1 to 4, which is the Designer's proposal on issue #155. A film still
-// plays only where no other seat holds that bed in the published snapshot (fourFilmBerth(), the
-// rule of ../films/medical.mjs's filmBerth()). Nothing here takes a role, a side or a cause.
+// A successor match keeps the roster-sized clinical anchors, HV1 to HV7, HV8 or HV9 with slotCount
+// the starting roster, whatever its four beds (Integration's accepted boundary on issue #155). The
+// films need one place per bed: fourClinicalBerth() reads HV1 to HV4 as the beds H1 to H4 whose
+// geometry a film uses. A film plays only where no other seat holds that bed in the published
+// snapshot (fourFilmBerth(), the rule of ../films/medical.mjs's filmBerth()), and an anchor beyond
+// the four beds, a valid presentation with no drawable berth, plays none: the outcome's words stand
+// alone. Nothing here takes a role, a side or a cause.
 
 import { DOCK, DRONE_SCENE, hoverAt } from './medical.mjs';
 import { RESCUE, rescueFrame } from '../films/medical.mjs';
-import { FOUR_BACK, FOUR_BEDS, FOUR_BERTHS, FOUR_COLUMNS, FOUR_FRONT, FOUR_ROWS } from '../scenes/hospital-ward-four.mjs';
+import { FOUR_BACK, FOUR_BEDS, FOUR_BERTHS, FOUR_COLUMNS, FOUR_FRONT, FOUR_ROSTERS, FOUR_ROWS } from '../scenes/hospital-ward-four.mjs';
 
 /** This module's version (a proposal, beside board-v2-medical-0.1.0, whose films it plays). */
-export const MEDICAL_FOUR_VERSION = 'board-v2-medical-four-0.1.0';
+export const MEDICAL_FOUR_VERSION = 'board-v2-medical-four-0.1.1';
 
 // ./medical.mjs's rounding, so that a kit's numbers are its berthKit()'s shape exactly.
 const f = n => Number(n.toFixed(2));
@@ -57,23 +59,44 @@ export function fourBerthKit(id) {
 export const fourBerthKits = () => FOUR_BERTHS.map(berth => fourBerthKit(berth.id));
 
 /**
- * The bed a clinical anchor names on the four-berth ward: HVn names bed Hn, n from 1 to 4. A
- * proposal (issue #155): the successor's anchor contract is Backend's and Integration's to settle.
+ * A clinical anchor's number, failing closed: an anchorId of the form HV1 to HV9 and, where the
+ * anchor carries one, a slotCount that is a successor roster (7, 8 or 9) and not below that number.
+ * The successor keeps the roster-sized clinical namespace whatever its four beds (Integration on
+ * issue #155): HV1 to HV7, HV8 or HV9. This is no wire validation, which the caller does first.
  */
-export function fourClinicalBerth(anchor) {
+function anchorNumber(anchor) {
   const anchorId = typeof anchor === 'string' ? anchor : anchor?.anchorId;
   if (!/^HV[1-9]$/.test(anchorId ?? '')) throw new Error(`No clinical anchor ${anchorId}`);
   const n = Number(anchorId.slice(2));
-  if (n > FOUR_BEDS) throw new Error(`${anchorId} names no bed of a four-berth ward`);
+  const slotCount = typeof anchor === 'string' ? undefined : anchor.slotCount;
+  if (slotCount !== undefined && (!FOUR_ROSTERS.includes(slotCount) || n > slotCount)) throw new Error(`${anchorId} with slotCount ${slotCount} is no clinical anchor of a successor match`);
+  return n;
+}
+
+/**
+ * The bed a clinical anchor names on the four-berth ward: HVn names bed Hn, n from 1 to 4. It is
+ * strict: anything else throws, an anchor beyond the four beds included, since that names no bed
+ * (fourFilmBerth() declines it before asking).
+ */
+export function fourClinicalBerth(anchor) {
+  const n = anchorNumber(anchor);
+  if (n > FOUR_BEDS) throw new Error(`HV${n} names no bed of a four-berth ward`);
   return `H${n}`;
 }
 
 /**
  * Where a clinical film plays on the four-berth ward and whether it can: at the bed its anchor
  * names, unless another seat holds that bed in the published snapshot (../films/medical.mjs's
- * filmBerth() rule). seats are the snapshot's ({ seat, slotId }); subject is the outcome's seat.
+ * filmBerth() rule). The anchor is one the caller has already validated on the wire: this neither
+ * validates nor authorizes one. An authorized anchor beyond the four beds (HV5 and up, a valid
+ * presentation with no drawable berth) declines here, before the bed is asked for: berth null, no
+ * film, never a fifth bed or another subject's. Where no film plays, the outcome's words stand
+ * alone. Anything that is not a clinical anchor still throws. seats are the snapshot's
+ * ({ seat, slotId }), bodies included, and subject the outcome's seat, in the same identity: a
+ * caller maps the wire's seatId to it first.
  */
 export function fourFilmBerth(anchor, seats, subject) {
+  if (anchorNumber(anchor) > FOUR_BEDS) return { berth: null, plays: false, holder: null };
   const berth = fourClinicalBerth(anchor);
   const holder = seats.find(seat => seat.slotId === berth && seat.seat !== subject)?.seat ?? null;
   return { berth, plays: holder === null, holder };

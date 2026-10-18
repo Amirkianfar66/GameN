@@ -5,8 +5,8 @@
 Nothing here is a rule, a server contract or an adopted asset:
 
 - **Rules:** who is admitted and who overflows, and in what order (H4-ORDER-01), are Backend's and Integration's. The board draws the server's facts; it allocates no bed and infers no admission or death from a full ward.
-- **The successor's contract is a draft:** Backend's plan on [#157](https://github.com/Amirkianfar66/GameN/pull/157) (`full-game-1.11.0` proposed and unallocated). Its overflow event (H4-CLINICAL-01) is undecided; the beat here is a proposal on Backend's preferred choice A, whose occurrence is still unallocated, with labelled synthetic inputs. The Designer's review of #157 is on [#155](https://github.com/Amirkianfar66/GameN/issues/155#issuecomment-6252817010).
-- **Adoption:** each new file needs Integration's approval by name and hash (section 10). The layout's identity (`board-v2-four-0.1.0` here) is a proposal for Integration to allocate with the successor's tuple.
+- **The successor's contract is being implemented:** Integration accepted a minimal consumer boundary for implementation on [#155](https://github.com/Amirkianfar66/GameN/issues/155#issuecomment-6256117269), and Backend's runtime draft is #163, its early shared contract at `6023d43`. The overflow event is choice A, `HOSPITAL_OVERFLOW_REMOVED { phaseId, round, seatId }`, a non-bed outcome with no clinical anchor and no overflow `MEDICAL_OUTCOME`; the clinical anchors stay roster-sized. The candidate identities (`full-game-1.11.0`, layout `board-v2-four-0.1.0`, art `design-0.5.0`) are reserved, not activated. The beat here was drawn on #157's plan with labelled synthetic inputs, before that runtime contract. The Designer's review of #157 is on [#155](https://github.com/Amirkianfar66/GameN/issues/155#issuecomment-6252817010).
+- **Adoption:** each new file needs Integration's approval by name and hash (section 10). The layout's identity (`board-v2-four-0.1.0`) is reserved by Integration with the successor's candidate tuple, not activated.
 
 | | |
 | --- | --- |
@@ -45,14 +45,26 @@ The films are #158's, unchanged; only the berths' geometry is the four-berth war
 | --- | --- |
 | `fourBerthKit(id)` | A berth's monitor, lamp, plate, bed light, bed, chest and the drone's hover point, in the shape of #158's `berthKit()`, as the four-berth ward draws them. The check holds the numbers to the ward's own SVG elements |
 | `fourRescueFrame(t, berth)` | #158's `rescueFrame()`, every field as it gives it, but the drone's lens over this ward's berth (its path from the same dock, the same timings and bob). The check compares the two every 10 ms in both motion modes |
-| `fourClinicalBerth(anchor)` | The bed an anchor names: `HVn` for `Hn`, n from 1 to 4. The Designer's proposal on #155, not a contract |
-| `fourFilmBerth(anchor, seats, subject)` | #158's rule: the film plays at that bed unless another seat holds it in the published snapshot; then the outcome's words stand alone |
+| `fourClinicalBerth(anchor)` | The bed an anchor names: `HVn` for `Hn`, n from 1 to 4. Strict, for actual beds: anything else throws, an anchor beyond the four beds included |
+| `fourFilmBerth(anchor, seats, subject)` | #158's rule: the film plays at that bed unless another seat holds it in the published snapshot. An anchor the caller has validated on the wire that names none of the four beds (`HV5` and up) declines before the bed is asked for: `{ berth: null, plays: false, holder: null }`, never a fifth bed or another subject's. Where no film plays, the outcome's words stand alone. Anything that is not a clinical anchor throws; the helper validates and authorizes no anchor |
 
-**One place per bed is enough.** An admission plays at the patient's own `slotId`. A rescue (S5) or a flatline (S10) plays at its anchor's bed only when no other seat holds it. So the healed-first case of #157 needs no fifth place: when P7 is healed out of a bed and P1 admitted to it in the same batch, P1's arrival plays at the bed and P7's rescue is said in words. The Designer draws no fifth berth and no clinical place off a bed.
+**The film's decision, for a caller:** `fourFilmBerth(anchor, seats, subject)`.
+
+- `anchor`: one the caller has already validated against the successor's wire contract, with its tuple, audience, revision and expiry: `{ kind: 'CLINICAL_VIGNETTE', batchId, anchorId: 'HVn', slotCount }` (or `'HVn'`). A successor match keeps the roster-sized anchors, `HV1` to `HV7`, `HV8` or `HV9` with `slotCount` its starting roster, whatever its four beds: Integration's accepted boundary on #155, and Backend's runtime contract in #163. The helper validates and authorizes nothing.
+- `seats`: every seat of the snapshot published with the outcome, retained bodies included, as `{ seat, slotId }`. `seat` is the stable seat identity (the wire's `seatId`, mapped; never a display index or a renumbered roster), and `slotId` is the Hospital bed or null.
+- `subject`: the outcome's seat, in the same identity.
+- It returns one of three decisions:
+  - `{ berth: 'Hn', plays: true, holder: null }`: the film at bed `Hn`;
+  - `{ berth: 'Hn', plays: false, holder }`: another seat holds the bed, a body included; the words alone;
+  - `{ berth: null, plays: false, holder: null }`: an authorized anchor beyond the four beds; the words alone.
+- It throws for anything that is not a clinical anchor of a successor match: a malformed `anchorId`, an anchor beyond its `slotCount`, or a `slotCount` that is no roster (never 4: the clinical namespace is not the ward's capacity). The caller's validation has then failed, and nothing is drawn.
+- Where no film plays, the caller says the authorized outcome once, in words, and keeps the snapshot's placement. Nothing invents a fifth bed, reuses another subject's anchor or hides a fact.
+
+**One place per bed is enough.** An admission plays at the patient's own `slotId`. A rescue (S5) or a flatline (S10) plays at its anchor's bed only when no other seat holds it. So the healed-first case of #157 needs no fifth place: when P7 is healed out of a bed and P1 admitted to it in the same batch, P1's arrival plays at the bed and P7's rescue is said in words. The successor's allocator keeps one distinct anchor per subject from the roster-sized namespace, so such a batch can give a subject `HV5` (#156's case: the four starting reservations and P1). That anchor names no bed: `fourFilmBerth()` plays nothing for it, and its outcome is said in words, as when another seat holds the bed (the review picture `four-390x844-taken-2600.png`). The Designer draws no fifth berth and no clinical place off a bed, and reuses no other subject's anchor.
 
 ## 3. The overflow victim's beat
 
-A proposal on Backend's preferred event choice A (H4-CLINICAL-01): a non-bed occurrence (illustratively `HOSPITAL_OVERFLOW_REMOVED { phaseId, round, seatId }`, unallocated), with the existing health and placement facts and no `MEDICAL_OUTCOME`. The victim never had a bed, so the beat is not clinical: no bed, berth, monitor, drone or flatline. It plays where the victim was and ends with the victim off the board, as the snapshot published with it has it (`films/overflow.mjs`, 2.8 s):
+On event choice A, which Integration accepted for implementation (#155): a non-bed occurrence, `HOSPITAL_OVERFLOW_REMOVED { phaseId, round, seatId }`, with the existing health and placement facts and no `MEDICAL_OUTCOME`. The victim never had a bed, so the beat is not clinical: no bed, berth, monitor, drone or flatline. It plays where the victim was and ends with the victim off the board, as the snapshot published with it has it (`films/overflow.mjs`, 2.8 s):
 
 | Beat | ms | What it draws |
 | --- | --- | --- |
@@ -73,9 +85,9 @@ Reduced motion (1.56 s): two still panels, each faded in over 80 ms. They show t
 
 | Input | From |
 | --- | --- |
-| The beds | The successor's stored `slotId`s, `H1` to `H4` (#157, proposed) |
+| The beds | The successor's stored `slotId`s, `H1` to `H4` (Integration's accepted boundary on #155; Backend's runtime draft #163) |
 | A patient's state | #158's: `location`, `slotId`, `health`, `jailed` and the server's `medical` facts |
-| A medical film's place | Its clinical anchor, read as `HVn` for bed `Hn` (the Designer's proposal; the successor's anchor contract is Backend's) |
+| A medical film's place | Its clinical anchor: `HV1` to `HV4` name beds `H1` to `H4`; `HV5` and up, a valid presentation with no drawable berth, play no film (`fourFilmBerth()`; the roster-sized anchors are Integration's accepted boundary on #155) |
 | The overflow beat | The non-bed occurrence's `seatId`; the victim's room and slot in the snapshot before it (when the client held it); the snapshot published with it (`location: null`, `slotId: null`, Eliminated) |
 | `t` | Milliseconds from the event's presentation start; live only |
 
@@ -87,11 +99,11 @@ Everything here is public: every phone and the display draw the same, from publi
 
 ## 6. For Frontend
 
-Frontend has reviewed none of this. Please review it before anything is ported.
+Frontend's consumer review (#162) covers this PR at `a668c10`, and its finding on `HV5` is fixed here (section 2). Please review the fix before anything is ported.
 
 1. Select the four-berth ward and its table only for a successor match whose tuple names it; never infer four beds from a roster or a full ward. The current release keeps the roster-sized ward.
 2. The board's geometry is the current one: keep `fit.mjs`'s bands, panels and sheet. Take the Hospital's slots, press areas and markers from `slots-four.mjs` and `fit-four.mjs`.
-3. Play #158's films on the four berths with `fx/medical-four.mjs`. Play the overflow beat only for a live, fresh occurrence, over the snapshot published with it, and never on a reconnect or for an expired, duplicate or baseline-suppressed one. The removal itself comes from the snapshot, so it holds when the occurrence is missed.
+3. Play #158's films on the four berths with `fx/medical-four.mjs`, in this order. Validate the successor's wire contract first: its tuple, audience, revision, expiry and anchor; the helper validates and authorizes nothing. Then `fourFilmBerth()` maps the authorized anchor to its bed, or declines one that names none of the four beds before asking for a bed (`fourClinicalBerth()` stays strict for actual beds). Where it plays no film (another seat holds the bed, or the anchor names none), say the authorized outcome once, in words alone, and keep the snapshot's placement; never draw a fifth bed or at another subject's anchor, and never drop the outcome. Pass the snapshot's seats as `{ seat, slotId }`, bodies included, with the outcome's subject as the same seat number: map the wire's `seatId` to that identity first, or port the comparison on `seatId` (Backend's reconciliation on #157, `8e423a7`; Frontend's consumer review, #162, plans a typed adapter with acceptance coverage). Raw wire seats would find no holder and could draw over an occupied bed. #158's `filmBerth()` takes the same identity. Play the overflow beat only for a live, fresh occurrence, over the snapshot published with it, and never on a reconnect or for an expired, duplicate or baseline-suppressed one. The removal itself comes from the snapshot, so it holds when the occurrence is missed.
 4. Draw the victim at its earlier place only where the client held the snapshot before; otherwise the beat draws nothing of it.
 5. Keep every slot's target live and on top. Stop the beat at once for a newer snapshot that moves anyone, the Blackout's window, or a hidden page.
 6. Say the occurrence once, in the client's words; time them to `announce` if they are timed to the beat. The review page uses the hosted board's elimination words as a stand-in.
@@ -108,11 +120,12 @@ Frontend has reviewed none of this. Please review it before anything is ported.
 | `&film=critical\|rescue\|flatline` | #158's films on the four berths (`&outcome=` the mixed board's examples) |
 | `&film=blackout`, `&film=capsule&ui=…`, `&film=release\|eject` | The other films and the controls, on the successor board |
 | `&film=overflow&t=` | The overflow beat (default 700 ms); `&motion=reduced`, `&play=1` |
+| `&film=rescue&outcome=rescue-fifth\|rescue-body`, `&film=flatline&outcome=death-fifth` | `fourFilmBerth()`'s no-film paths, with constructed anchors (synthetic): `HV5`, which names none of the four beds, and `HV4`, the bed a body holds. No film; the words alone |
 | `?scene=hospital&beds=4` | The whole four-berth scene |
 
 ## 7. For Backend
 
-1. **Anchors.** The films need one place per bed (section 2). If the successor keeps one distinct anchor per subject, a fifth anchor has no bed to be drawn at, and that subject's outcome would be words only.
+1. **Anchors.** Settled by Integration's accepted boundary (#155) and carried by Backend's runtime contract (#163): the successor keeps the roster-sized anchors, `HV1` to `HV7`, `HV8` or `HV9`, with `slotCount` the starting roster. The films need one place per bed (section 2): `HV1` to `HV4` name the beds, and `HV5` and up are valid presentations with no drawable berth, which `fourFilmBerth()` declines, the outcome said in words only.
 2. **The occurrence.** The beat needs only `seatId`, with the placement facts. Under choice A no clinical record is drawn for the victim.
 
 ## 8. For Integration
@@ -128,22 +141,22 @@ These were run on this branch in this container. Desktop Chromium laid out a rev
 
 | Check | Result |
 | --- | --- |
-| `node design/tools/board-v2-check.mjs` | **14 / 14.** #159's thirteen and the successor's own. `fit-four.mjs` exports `fit.mjs`'s own `fitBoardV2()`, bands, shell and fallbacks, the same functions, and its four slot functions are `fit.mjs`'s code over the successor's table; `turns-four.mjs` is `turns.mjs` line for line but its two imports. Four berths, `H1` to `H4`, for 7, 8 and 9 players, the same drawing for each; every other room has the current table's own slots. Each blanket is over its own patient and under nobody else; each front headboard is between the back row and its patient. The berths' monitors, plates and lamps are the ward's own SVG elements, each badge is at its plate, each chest at its press point, and the drone comes from the dock, hovers over each berth while it scans and goes back. #158's rescue, every 10 ms in both motion modes, is #158's frame on each of the four berths, field for field, except for where the drone is; in the reduced variant the drone stays at its berth. `HVn` names bed `Hn` and nothing else, and no film plays over a bed another seat holds. The four berths are whole, apart and 44 px or more in every Hospital panel the current board draws (5 610 boards: every width, inset case and shell boundary the shell check visits, with the capsule and without, for every roster), and clear of the Pass; every other room's press areas are exactly the current board's. #158's tags, insets (186 placed) and drone are clear at the 8 phone sizes, the ward full or empty. The controls' sheet and choosing row are the current board's (42 layouts, normal and 200% text), with up to eight off-board cards of 44 px or more (285 decks). The overflow beat, every 10 ms in both motion modes: 2.8 s, nothing drawn outside it, the words never withdrawn, still reduced panels, and no input but the moment and the setting changes it. The plaque fits the spine at every phone size (48 boards), and the FULL stamp is whole in the panel, over neither the caption nor a bed's press area. The example has the server's shape: the ward full, the victim an incoming Healthy player and off the board afterwards, nobody else moved. The contracts name no role. It also checks that the captures are current |
-| `node design/tools/board-v2-capture.mjs` | **326 pictures and eight contact sheets, 0 with problems**, 52 of them the four-berth board's. Each four-berth picture is measured as the current board's are, with `fit-four.mjs`'s expectations: no scroll; every room's press areas and position numbers where `fit-four.mjs` puts them; a real pointer landing on every slot's target. #158's films on the four berths are measured against `fx/medical-four.mjs` as #158's are against `fx/medical.mjs`: the tags, the inset, the drone and its lens, the light; the Blackout's dark at its four positions; the controls' sheet; the Captain's films with the plaque in the spine. Every overflow picture is checked for: the page at the beat's stage and the live region's words at the beat; no side or role word; the FULL stamp where `fullStampBox()` puts it and at the frame's opacity, over neither the caption nor a bed's press area; the victim's own figure and grey cut-out at its place alone, as the frame has them; one plaque, where `spinePlaqueBox()` puts it, its count the snapshot's; the flyer on `overflowWay()` from the victim's press point to the plaque's centre (to 1.5 px); nothing of the beat on the page before or after it |
-| The same run: **391 whole-page comparisons, 0 differing** | #159's 376, and 15 for the successor. Every room but the Hospital on the four-berth board and on the current one, at 390 × 844 and 320 × 568, with the capsule and without: 4. The page after the overflow beat and before it, in both motion modes: 4. The display's page and a player's, during the beat (2) and the rescue on four berths (1): 3. The rooms the beat never touches (the Command Room, Room A and the Jail) during it and before it: 3. The rooms the rescue never touches during it and before it: 1 |
+| `node design/tools/board-v2-check.mjs` | **14 / 14.** #159's thirteen and the successor's own. `fit-four.mjs` exports `fit.mjs`'s own `fitBoardV2()`, bands, shell and fallbacks, the same functions, and its four slot functions are `fit.mjs`'s code over the successor's table; `turns-four.mjs` is `turns.mjs` line for line but its two imports. Four berths, `H1` to `H4`, for 7, 8 and 9 players, the same drawing for each; every other room has the current table's own slots. Each blanket is over its own patient and under nobody else; each front headboard is between the back row and its patient. The berths' monitors, plates and lamps are the ward's own SVG elements, each badge is at its plate, each chest at its press point, and the drone comes from the dock, hovers over each berth while it scans and goes back. #158's rescue, every 10 ms in both motion modes, is #158's frame on each of the four berths, field for field, except for where the drone is; in the reduced variant the drone stays at its berth. `HVn` names bed `Hn` and nothing else (`fourClinicalBerth()` refuses `HV5` and up); the film declines an anchor beyond the four beds before asking for a bed (no film, the words alone), with `slotCount` 7, 8 or 9, and refuses anything that is not a clinical anchor of a successor match (a malformed id, an anchor beyond its `slotCount`, a `slotCount` of 4); no film plays over a bed another seat holds. The four berths are whole, apart and 44 px or more in every Hospital panel the current board draws (5 610 boards: every width, inset case and shell boundary the shell check visits, with the capsule and without, for every roster), and clear of the Pass; every other room's press areas are exactly the current board's. #158's tags, insets (186 placed) and drone are clear at the 8 phone sizes, the ward full or empty. The controls' sheet and choosing row are the current board's (42 layouts, normal and 200% text), with up to eight off-board cards of 44 px or more (285 decks). The overflow beat, every 10 ms in both motion modes: 2.8 s, nothing drawn outside it, the words never withdrawn, still reduced panels, and no input but the moment and the setting changes it. The plaque fits the spine at every phone size (48 boards), and the FULL stamp is whole in the panel, over neither the caption nor a bed's press area. The example has the server's shape: the ward full, the victim an incoming Healthy player and off the board afterwards, nobody else moved. The contracts name no role. It also checks that the captures are current |
+| `node design/tools/board-v2-capture.mjs` | **331 pictures and eight contact sheets, 0 with problems**, 57 of them the four-berth board's. Each four-berth picture is measured as the current board's are, with `fit-four.mjs`'s expectations: no scroll; every room's press areas and position numbers where `fit-four.mjs` puts them; a real pointer landing on every slot's target. #158's films on the four berths are measured against `fx/medical-four.mjs` as #158's are against `fx/medical.mjs`: the tags, the inset, the drone and its lens, the light; the Blackout's dark at its four positions; the controls' sheet; the Captain's films with the plaque in the spine. Every overflow picture is checked for: the page at the beat's stage and the live region's words at the beat; no side or role word; the FULL stamp where `fullStampBox()` puts it and at the frame's opacity, over neither the caption nor a bed's press area; the victim's own figure and grey cut-out at its place alone, as the frame has them; one plaque, where `spinePlaqueBox()` puts it, its count the snapshot's; the flyer on `overflowWay()` from the victim's press point to the plaque's centre (to 1.5 px); nothing of the beat on the page before or after it. Five pictures are `fourFilmBerth()`'s no-film paths, with constructed anchors: `HV5`, which names none of the four beds (a rescue in both motion modes, and a death), and `HV4` on the bed a body holds (a rescue in both motion modes). On each: no node of a film, nobody hidden or marked away, every berth's state from the snapshot's facts, the client's words at once in the live region, and a real pointer landing on every slot's target |
+| The same run: **403 whole-page comparisons, 0 differing** | #159's 376, and 27 for the successor. Every room but the Hospital on the four-berth board and on the current one, at 390 × 844 and 320 × 568, with the capsule and without: 4. The page after the overflow beat and before it, in both motion modes: 4. The display's page and a player's, during the beat (2) and the rescue on four berths (1): 3. The rooms the beat never touches (the Command Room, Room A and the Jail) during it and before it: 3. The rooms the rescue never touches during it and before it: 1. For each no-film case in both motion modes, during the outcome and before it: every room but the Hospital, and the Hospital's targets, none added: 12 |
 | The same run: **230 pointer probes, 23 press tests (129 presses), 12 label placements** | 0 problems |
-| Pictures byte for byte the same | Every review picture and contact sheet made before the successor (274 pictures, seven sheets) re-rendered byte for byte the same; only `index.json` and `report.json` changed, with the new pictures |
+| Pictures byte for byte the same | Every review picture and contact sheet made before the successor (274 pictures, seven sheets) re-rendered byte for byte the same; only `index.json` and `report.json` changed, with the new pictures. After the fix for an anchor beyond the four beds (Integration's review, this PR's third commit), the whole capture was run again: all 326 earlier pictures, and seven of the eight sheets, byte for byte the same as at `8f615f0`; the four-berth sheet gains the five new pictures, and the two records change with them |
 | `node design/tools/board-v2-assets.mjs --check` | 127 files current |
-| `npm test --workspace @mothership/design-tokens` | **305 / 305**, 12 of them in `four.test.mjs` |
-| `npm run verify` | Passed through `test:balance`'s static gate: toolchain, workspace and sources checks, both typechecks, bootstrap 55 / 55, engine 253 / 253, backend 187 / 187, tooling 130 / 130, frontend 194 / 194 and 448 / 448, design 305 / 305, balance static 103 / 103. `test:scenarios` refuses an uncommitted tree, so it was re-run on `8f615f0` in a clean checkout of that commit, clean before and after. Its catalogue passed (555 ids: 516 passed, 33 reviewed blocked, 6 explicit manual, zero errors), and its engine controls detected all 4490 (1419, 1418 and 1653 in modes 7, 8 and 9; none undetected), every listed leak caught. The gate then stopped at its 20-minute limit in this container, with no failure in its logs. `test:capacity` was not run here. Neither gate touches this PR's files; the PR's CI runs both |
-| A mutation of the beat's clock (this session, not committed) | Measuring each overflow picture against the frame 150 ms later than its query made 6 of the 10 fail: on the stage, the FULL stamp's opacity, the victim's figures and the flyer's place |
+| `npm test --workspace @mothership/design-tokens` | **306 / 306**, 13 of them in `four.test.mjs`: among them every decision the film can take (the four beds drawable, a held or body-held bed, an anchor beyond them, nothing valid) with stable seat ids, and an unmapped `seatId` not read as a holder |
+| `npm run verify` | Passed through `test:balance`'s static gate: toolchain, workspace and sources checks, both typechecks, bootstrap 55 / 55, engine 253 / 253, backend 187 / 187, tooling 130 / 130, frontend 194 / 194 and 448 / 448, design 306 / 306, balance static 103 / 103. `test:scenarios` refuses an uncommitted tree, so it was re-run on `8f615f0` in a clean checkout of that commit, clean before and after. Its catalogue passed (555 ids: 516 passed, 33 reviewed blocked, 6 explicit manual, zero errors), and its engine controls detected all 4490 (1419, 1418 and 1653 in modes 7, 8 and 9; none undetected), every listed leak caught. The gate then stopped at its 20-minute limit in this container, with no failure in its logs. `test:capacity` was not run here. Neither gate touches this PR's files; the PR's CI runs both. On the fix (this PR's third commit), `npm run verify` passed again through the same static gate; the scenario gate on that commit is the PR's CI's |
+| Two mutations (this session, not committed) | The beat's clock: measuring each overflow picture against the frame 150 ms later than its query made 6 of the 10 fail: on the stage, the FULL stamp's opacity, the victim's figures and the flyer's place. The anchors: without the film's decline (`fourFilmBerth()` throwing on `HV5` again, as at `8f615f0`), the static check failed on the four beds' anchors (`HV5 does not decline its film`, for `HV5` and `HV9` and for `HV5` with `slotCount` 7, 8 and 9) and 2 of `four.test.mjs`'s 13 tests |
 
-The captures' inputs hash is `1da609e974f2505a7c867b6ce0a7d61939f3269dd8c45b3f0506f67c038107ae`.
+The captures' inputs hash is `7c084bc3f26645b98ee772e282f76eb6d8106d2571d4dc288e3f255ca0c8e960`.
 
 **Not run:**
 
 - Real phones, a screen reader, a phone's own text-size setting, or reduced motion set on a device: the review page takes `&motion=reduced` from its query.
-- A match or any server: the four beds' patients, the anchors and the overflow occurrence come from the review page's synthetic fixtures, not from #157, which is a plan.
+- A match or any server: the four beds' patients, the anchors and the overflow occurrence come from the review page's synthetic fixtures, not from Backend's runtime draft (#163), which was not run here.
 - An overflow beat cut by a newer snapshot or the Blackout's window: specified (section 6), not pictured.
 - Two overflow victims in one batch: not pictured, and how their beats follow each other is open (section 11).
 - The owner's review.
@@ -162,7 +175,7 @@ Read every file at this PR's commit. Every file carries the `mothership:dev-only
 | `design/board-v2/scenes/slots-four.mjs` | The successor's slot table, `board-v2-four-0.1.0` (proposed) | `slots.mjs`'s exports: `BOARD_ROOMS`, `LOCATION_OF`, `SCENE_UNITS`, `SLOTS_VERSION`, `SLOT_TABLE_VERSION`, `ROSTERS`, `slotCount`, `sceneOf`, `slotsOf`, `boardSlots`, `slotProblems` |
 | `design/board-v2/js/fit-four.mjs` | The successor's layout: `fit.mjs` re-exported, its four slot functions over the successor's table | `fit.mjs`'s exports but `needHeight` |
 | `design/board-v2/js/turns-four.mjs` | `turns.mjs` with its two imports changed | `turns.mjs`'s exports |
-| `design/board-v2/fx/medical-four.mjs` | #158's films on the four berths, `board-v2-medical-four-0.1.0` | `MEDICAL_FOUR_VERSION`, `fourBerthKit`, `fourBerthKits`, `fourClinicalBerth`, `fourFilmBerth`, `fourDronePosition`, `fourRescueFrame` |
+| `design/board-v2/fx/medical-four.mjs` | #158's films on the four berths, `board-v2-medical-four-0.1.1` | `MEDICAL_FOUR_VERSION`, `fourBerthKit`, `fourBerthKits`, `fourClinicalBerth`, `fourFilmBerth`, `fourDronePosition`, `fourRescueFrame` |
 | `design/board-v2/fx/overflow.mjs` | The plaque in the spine, the FULL stamp, the victim's way, `board-v2-overflow-0.1.0` | `OVERFLOW_FX_VERSION`, `spinePlaqueBox`, `fullStampBox`, `overflowWay` |
 | `design/board-v2/films/overflow.mjs` | The overflow victim's beat, `board-v2-overflow-films-0.1.0` | `OVERFLOW_FILMS_VERSION`, `OVERFLOW_FILM`, `overflowEnd`, `overflowFrame`, `overflowContract` |
 
@@ -177,7 +190,7 @@ To check every file proposed for import, and the generated contracts, run `sha25
 268d53c7a807df9f465b9c632ec6f962f94551cdeabcfa06475af21fff1df085  design/board-v2/scenes/slots-four.mjs
 9091cee28f6265675ea33f2d59e3598773ba714a8240997140b5c35a44c1c1ca  design/board-v2/js/fit-four.mjs
 a1099fee5c44ddbc147d6f8b58ec38ba3d7e1e022e31bfc02a0b62dff1ef1e6e  design/board-v2/js/turns-four.mjs
-c289a932a955a28ef9a1be4635bfb1632badc77b42c06e9c062fc42970fd166b  design/board-v2/fx/medical-four.mjs
+90ae67a8cd9c5d92454417cc1a7ba5dd16172e7081ae4c5427caa013e9627ee0  design/board-v2/fx/medical-four.mjs
 916d17bb81dcadb18a71f2e4ac044853c7067522ba02c91df9a22c3f4a413a8f  design/board-v2/fx/overflow.mjs
 074df18a98baeb57fbead94f3be22d544530dc1950518b1e2be0264cc3f67428  design/board-v2/films/overflow.mjs
 d6e47a6b16f44dc125066a65a51cb12ddd0d7af0a932c7057cab44dfd71b3f73  design/board-v2/assets/scenes/hospital-ward-four.back.svg
@@ -190,7 +203,7 @@ c1750f7c8c2ed967063b37e9814466a30746bb6aecf8c7fd807c9028d49f02a1  design/board-v
 1965030a05caeaff8f778317bcc687789aa40728a164dd5a8340a07e4132f542  design/board-v2/assets/lighting/hospital-ward-four.dark.svg
 4f74c8112c5e6434e6e81e224d30140a46ecb67289f7e29b37119a3d464c4cfd  design/board-v2/contract/slots-four.json
 b570c7700a425857664a1b7839473f22eb980a7b0d2e942851902fb409159283  design/board-v2/contract/films.json
-1ba7d642fedd017fdad02885465305e776dc7108e4c73118270e52a64a59668b  design/board-v2/assets/manifest.json
+fae0e87d3bdad4a2ec3115d05c58096714ada3bbbc6f06fdfcf1fa64700f01e2  design/board-v2/assets/manifest.json
 ```
 
 **Review only, not to port:**
@@ -201,7 +214,7 @@ b570c7700a425857664a1b7839473f22eb980a7b0d2e942851902fb409159283  design/board-v
 f3f07a3c49e80ab2b4b2c01daf6a64d4b5f43a6ad0329fcfbe98a4a86726f262  design/board-v2/js/overflow-fixtures.mjs
 a340041000d9b3ce01db896bfe64523a5d093cb7dfef21bb3cfb7cb7c5bc87bd  design/board-v2/js/page.js
 1689ae8dff12a59b98f58e2e786c1eb0f22b9194a5f746240908625582d1fae1  design/board-v2/js/medical-view.mjs
-4d09fe24a4530b81c6884323ae8a6d688664cb7c7841596e0dfd8a600e8c9ce3  design/board-v2/js/medical-fixtures.mjs
+401c614f36b7da102d370554c7a8eecd0852a962fe797ad657ed0504075a073e  design/board-v2/js/medical-fixtures.mjs
 ba46ec99d074c0076fb111caeca1f43f50be81b104aba99f896bd2c5188300f6  design/board-v2/js/captain-view.mjs
 094ab866130ee7102f3bb91273fa6f6e092ab93248b6ed10fa21cca5ea92649d  design/board-v2/js/captain-fixtures.mjs
 fa4e51d42418d8b5fed200450bf289f92dbc7dc29798b8e9c615dfdfc93fe099  design/board-v2/js/blackout-view.mjs
@@ -212,24 +225,22 @@ a049f7719f1bf3d1c72f072ba918d7a034c964f0aec8b9453c8004c4023fef0a  design/board-v
 bb97d48f750a2eb4dcde63d207301461f321e1756adeba0868ec7efe1e8847d8  design/board-v2/css/page.css
 acc3f635d714c3b23b4a07ebcb6eaaebe70409b9fc546778b25ab9d21963fa7a  design/board-v2/contact.html
 49a311593f7a9bb79f955ee2fa04ddd788bab2309e0076d8946a914863c9f470  design/tools/board-v2-assets.mjs
-c8513a63c4fa730b376d497247e473fe548826a490bcbea13e2fb9da88df579c  design/tools/board-v2-capture.mjs
-a1b865c4e9f580f6e7a07509f16559acd4de78cd37e4c196c380a28c00094c39  design/tools/board-v2-check.mjs
-3c79fdc0610fb3113764054482d6dd419443335dce5034a4f1e464e191644d74  packages/design-tokens/test/four.test.mjs
-336abc9ce5c9b01070d8a9bbf2ea0708426119501b0545aa38ab0ccb256f63ce  design/board-v2/review/contact-four.png
-ce1abab54d0e0c0e6afb06440b5a789048a9053c8f509fe1ee6416a3a1f268d1  design/board-v2/review/index.json
-94792a4d58550268f05e11c5ac014e5b42191d4da392db55326b7dd6dca5b54c  design/board-v2/review/report.json
+bf9bdef78d384297cc29ca2501ea6518922dbc73267fd3d00622c829ca8b28de  design/tools/board-v2-capture.mjs
+cefb46b0f446e07fa94a78be59d528dd81c6b324aaf5bc0667f353f2c3313498  design/tools/board-v2-check.mjs
+c50ec8f86efc47184cf602ced6cfb925b945339bafeb1963dddc9755b3caa814  packages/design-tokens/test/four.test.mjs
+593c004916cbd5d442450f79a3bf7ed20734b5b7af266edb0dd9edf118e963ca  design/board-v2/review/contact-four.png
+7a5941b8e9efdeba0d1016a671268e13488f6cc1adc5d234ec3343ac8b9c2c9b  design/board-v2/review/index.json
+7b649031b6c61f53264160ba03042c11b6a1b9161684f9c8c229d72c488e2f68  design/board-v2/review/report.json
 ```
 
-The complete list of every path this PR changes, its pictures included, with each SHA-256 at the PR's first head, is in the [deliverables index](deliverables.md), version 5.
+The complete list of every path this PR changes, its pictures included, with each SHA-256 at the head that delivered it, is in the [deliverables index](deliverables.md), version 7.
 
 ## 11. Unresolved
 
 | Question | Owner | Meanwhile |
 | --- | --- | --- |
-| Admission order at the last bed (H4-ORDER-01) | Integration, Balance, Backend | The board draws whatever the server places |
-| The overflow event (H4-CLINICAL-01): A or B | Integration, Frontend, Designer, Backend | The beat is a proposal on A, with labelled synthetic inputs |
-| The successor's clinical anchors | Backend, Integration | `HVn` read as bed `Hn` (the Designer's proposal) |
+| Admission order at the last bed (H4-ORDER-01) | Backend's implementation candidate (healed departures first, then seat order; #155, #163), Balance's review | The board draws whatever the server places |
 | The occurrence's words | Frontend | The review page uses the elimination words as a stand-in |
 | Two overflow victims in one batch: one beat after the other, or together | Frontend, Designer, after H4-ORDER-01 | Not pictured; the plaque's count is the snapshot's |
-| The layout's identity and the Ready mapping | Integration | `board-v2-four-0.1.0`, proposed |
+| The layout's identity and the Ready mapping | Integration, end to end | `board-v2-four-0.1.0` and `design-0.5.0`, reserved and not activated (#155) |
 | Real phones, a screen reader, the owner's review | — | Not run |

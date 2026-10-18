@@ -8,7 +8,6 @@
 // copied for this review page only, so that its synthetic answers look like the server's.
 
 import { fixtureSeats } from './fixtures.mjs';
-import { FOUR } from './layout.mjs';
 
 /** The mixed board's Injured patients' admissions: Rigel (seat 2, H1) in round 2, Mira (seat 8, H2, detained) in round 3. */
 export const ADMISSIONS = Object.freeze({ 2: 2, 8: 3 });
@@ -59,6 +58,15 @@ export function medicalSeats(seats, { round = 3 } = {}) {
  *                    holds a living patient, so the inset goes to the band beside the caption
  *   rescue-upper     on the full ward, Mira (seat 8, H8, an upper berth) is healed and returns to A1
  *
+ * And three for the four-berth board (&beds=4), each with a constructed anchor (anchorId, labelled
+ * synthetic: not the allocator's), for fourFilmBerth()'s no-film paths:
+ *
+ *   rescue-fifth     Rigel is healed and returns to A2 with the anchor HV5, a fifth distinct subject's,
+ *                    which names none of the four beds: no film plays, the words stand alone
+ *   rescue-body      Rigel is healed and returns to A2 with the anchor HV4, the bed where the body of
+ *                    seat 9 lies (nine players): the body holds it, so no film plays over it
+ *   death-fifth      Rigel dies with the anchor HV5: no flatline film, the words alone; the body stays at H1
+ *
  * kinds is the subject's chronology in the batch, as Backend publishes it; also, the batch's other
  * seats that move, with theirs.
  */
@@ -71,6 +79,9 @@ export const MEDICAL_OUTCOMES = Object.freeze({
   'rescue-taken': Object.freeze({ fixture: 'mixed', ...moved(2, ['HEALED'], { room: 'room-a', slot: 'A2', health: 'Healthy' }), also: Object.freeze([moved(3, ['INJURY'], { room: 'hospital', slot: 'H1', health: 'Injured' })]) }),
   'rescue-ward': Object.freeze({ fixture: 'ward', ...moved(1, ['HEALED'], { room: 'room-a', slot: 'A1', health: 'Healthy' }) }),
   'rescue-upper': Object.freeze({ fixture: 'ward', ...moved(8, ['HEALED'], { room: 'room-a', slot: 'A1', health: 'Healthy' }), rosters: Object.freeze([8, 9]) }),
+  'rescue-fifth': Object.freeze({ fixture: 'mixed', ...moved(2, ['HEALED'], { room: 'room-a', slot: 'A2', health: 'Healthy' }), anchorId: 'HV5' }),
+  'rescue-body': Object.freeze({ fixture: 'mixed', ...moved(2, ['HEALED'], { room: 'room-a', slot: 'A2', health: 'Healthy' }), anchorId: 'HV4', rosters: Object.freeze([9]) }),
+  'death-fifth': Object.freeze({ fixture: 'mixed', ...moved(2, ['DEATH'], { room: 'hospital', slot: 'H1', health: 'Eliminated' }), anchorId: 'HV5' }),
 });
 
 /**
@@ -79,13 +90,13 @@ export const MEDICAL_OUTCOMES = Object.freeze({
  * number; a new clinical subject takes the lowest unused one, in public player-number order.
  */
 export function serverAnchor(subject, startSeats, roster) {
-  // With &beds=4 the successor's anchor contract is not settled (H4-CLINICAL-01 on #157): the page
-  // uses the Designer's proposal on #155, HVn for bed Hn of the four, with no slotCount. Synthetic.
-  const shape = anchorId => (FOUR ? { kind: 'CLINICAL_VIGNETTE', batchId: 'review-batch', anchorId } : { kind: 'CLINICAL_VIGNETTE', batchId: 'review-batch', anchorId, slotCount: roster });
+  // With &beds=4 the same: a successor match keeps the roster-sized anchors, slotCount its starting
+  // roster, whatever its four beds (Integration's accepted boundary on #155). Synthetic.
+  const shape = anchorId => ({ kind: 'CLINICAL_VIGNETTE', batchId: 'review-batch', anchorId, slotCount: roster });
   const own = startSeats.find(seat => seat.seat === subject && seat.room === 'hospital');
   if (own) return shape(`HV${own.slot.slice(1)}`);
   const reserved = new Set(startSeats.filter(seat => seat.room === 'hospital').map(seat => Number(seat.slot.slice(1))));
-  for (let n = 1; n <= (FOUR ? 4 : roster); n += 1) if (!reserved.has(n)) return shape(`HV${n}`);
+  for (let n = 1; n <= roster; n += 1) if (!reserved.has(n)) return shape(`HV${n}`);
   throw new Error('No free clinical anchor');
 }
 
@@ -99,5 +110,7 @@ export function medicalOutcome(name, roster) {
   if (!subject) throw new Error(`Seat ${outcome.seat} is not in a ${roster}-player match`);
   const moves = new Map([outcome, ...(outcome.also ?? [])].map(entry => [entry.seat, entry.after]));
   const after = before.map(seat => (moves.has(seat.seat) ? { ...seat, ...moves.get(seat.seat) } : seat));
-  return { name, fixture: outcome.fixture, subject, kinds: outcome.kinds, anchor: serverAnchor(outcome.seat, before, roster), before, after };
+  // A constructed anchor is the four-berth board's no-film cases' (synthetic, not the allocator's).
+  const anchor = outcome.anchorId ? Object.freeze({ kind: 'CLINICAL_VIGNETTE', batchId: 'review-batch', anchorId: outcome.anchorId, slotCount: roster }) : serverAnchor(outcome.seat, before, roster);
+  return { name, fixture: outcome.fixture, subject, kinds: outcome.kinds, anchor, before, after };
 }
