@@ -128,3 +128,25 @@ body:has(#app [data-board-layout="board-v2"]) { height:100dvh; overflow:hidden; 
 #app .ms-shell[data-board-layout="board-v2"] #ms-hack-with { display:none; }
 #app .ms-shell[data-board-layout="board-v2"] .hack-feedback[data-folded="true"] { padding:0; border:0; }
 #app .ms-shell[data-board-layout="board-v2"] .hack-feedback[data-folded="false"] .bv2-claim-show { position:sticky; bottom:0; height:44px; }
+/* Reviewed film layers are decorative. Existing native seat buttons retain their hit areas. */
+.bv2-film { position:absolute; display:block; pointer-events:none; background-size:100% 100%; background-repeat:no-repeat; transform-origin:center; }
+.bv2-film svg { width:100%; height:100%; display:block; }
+.bv2-film[data-film-part^="tag-"],.bv2-film[data-film-part$="-full"] { box-sizing:border-box; background:var(--bv2-navy); border:1px solid var(--bv2-gold); color:var(--bv2-paper); text-align:center; font-size:10px; line-height:12px; padding:2px; }
+.bv2-clone-card { position:relative; flex:none; color:#BFF5DE; background:#0B1814; border:1px solid #2F9E7E; margin:4px 0 8px; overflow:hidden; }
+.bv2-clone-drawing { position:absolute; overflow:hidden; }
+.bv2-clone-card p { position:relative; margin:12px 6px; padding:4px; font-size:.875rem; line-height:1.3; }
+#app [data-captain-plate] { background-image:var(--captain-plate); background-size:100% 100%; background-color:var(--bv2-navy); color:var(--bv2-paper); min-height:64px; padding-left:34%; }
+.bv2-offboard-sheet { position:fixed; z-index:6400; box-sizing:border-box; color:var(--bv2-paper); background:var(--bv2-navy); border:2px solid var(--bv2-gold); padding:6px; overflow:auto; }
+.bv2-offboard-sheet[hidden] { display:none; }
+.bv2-offboard-sheet h2 { margin:0; height:32px; font-size:1rem; }
+.bv2-offboard-cards { position:relative; min-height:80px; }
+.bv2-offboard-cards button { position:absolute; min-width:44px; min-height:66px; padding:0; margin:0; border:2px solid var(--bv2-gold); background:var(--bv2-navy-mid); color:var(--bv2-paper); overflow:hidden; }
+.bv2-offboard-cards button > span:first-child { display:block; width:100%; height:calc(100% - 22px); filter:grayscale(1); }
+.bv2-offboard-cards svg { display:block; width:100%; height:100%; }
+.bv2-offboard-cards button > span:last-child { display:block; height:22px; line-height:22px; font-size:10px; white-space:nowrap; text-overflow:ellipsis; overflow:hidden; }
+.bv2-offboard-cards[data-scroll="true"] { display:grid; grid-template-columns:repeat(4,minmax(44px,1fr)); gap:6px; }
+.bv2-offboard-cards[data-scroll="true"] button { position:relative; height:78px; }
+#app .ms-shell[data-board-offboard="true"] .bv2-seat-target { pointer-events:none; }
+
+.bv2-captain-states { display:grid; gap:6px; margin-bottom:8px; }
+.bv2-captain-states > div { box-sizing:border-box; display:flex; align-items:center; min-height:64px; font-size:12px; }

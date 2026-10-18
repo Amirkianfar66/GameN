@@ -1,0 +1,32 @@
+// Native 1.11 consumer compatibility with mixed human/practice setup. Demo emulators only.
+import assert from 'node:assert/strict';
+import test,{before,after} from 'node:test';
+import {randomUUID} from 'node:crypto';
+import {initializeApp,deleteApp} from 'firebase-admin/app';
+import {getFirestore} from 'firebase-admin/firestore';
+import {HOSPITAL_FOUR_VERSION_PINS,FullOperationResponseSchema,FullPublicViewSchema,FullPlayerViewSchema,FullCommandResponseSchema} from '@mothership/contracts';
+import {createV1Service} from '../../../services/game-api/dist/index.js';
+import {decodeV1State} from '../../../services/game-api/dist/full-game.js';
+import {assertLocalEmulators,createEmulatorIdentity} from '../../../infra/firebase/test/helpers.mjs';
+import {beginStagedSetup,confirmStagedChoices,completeStagedSetup,setupDocument} from '../../../services/game-api/test-emulator/staged-start-helper.mjs';
+let app,db;before(()=>{assertLocalEmulators();app=initializeApp({projectId:'demo-mothership'},'frontend-four-'+randomUUID());db=getFirestore(app);});after(async()=>{await db?.terminate();if(app)await deleteApp(app);});
+const op=value=>{const parsed=FullOperationResponseSchema.parse(value);assert.equal(parsed.ok,true,JSON.stringify(parsed));return parsed.result;};
+for(const count of[7,8,9])test(`${count}: fresh mixed human/bot setup preserves both30s windows, exact Ready, native bot execution and audience reads`,async()=>{
+ let now=1900000000000;
+ const service=createV1Service({db,clock:()=>now,creationVersions:HOSPITAL_FOUR_VERSION_PINS,assetManifestVersion:'design-0.5.0',historicalAssetManifestVersion:'v1-preview-469bf64fe98cac5a',shuffle:items=>[...items],randomStartingRoomRank:()=>0});
+ const host=await createEmulatorIdentity(),human=await createEmulatorIdentity();
+ const created=op(await service.createMatch(host.uid,{protocolVersion:2,requestId:randomUUID(),playerCount:count})),base=db.collection('matches').doc(created.matchId);
+ const request=(fields={})=>({protocolVersion:2,matchId:base.id,requestId:randomUUID(),...fields});
+ const admission=op(await service.requestAdmission(human.uid,{protocolVersion:2,requestId:randomUUID(),roomCode:created.roomCode}));
+ op(await service.approveAdmission(host.uid,request({admissionId:admission.admissionId,seatId:'seat-1'})));
+ const configured=await service.setPracticeBots(host.uid,{schemaVersion:1,...request({botCount:count-1})});assert.equal(configured.ok,true);assert.equal(configured.botSeatIds.length,count-1);
+ const h={base,service,host,request,now:()=>now,setTime:n=>{assert.ok(n>=now);now=n;}};
+ await beginStagedSetup(h);const choosing=await setupDocument(h);assert.equal(choosing.choosingEndsAt-choosing.choosingStartedAt,30000);
+ const reading=await confirmStagedChoices(h);assert.equal(reading.readingEndsAt-reading.readingStartedAt,30000);assert.ok(reading.seats.filter(s=>s.seatId!=='seat-1').every(s=>s.confirmed&&s.ready));
+ assert.equal((await base.collection('engine').doc('current').get()).exists,false);
+ await completeStagedSetup(h);const state=decodeV1State((await base.collection('engine').doc('current').get()).data());assert.deepEqual(state.versions,{...HOSPITAL_FOUR_VERSION_PINS,assetManifestVersion:'design-0.5.0'});
+ assert.equal(state.activeSeatId,'seat-1');const sent=FullCommandResponseSchema.parse(await service.submit(human.uid,{protocolVersion:2,matchId:base.id,phaseId:state.phase.id,commandId:randomUUID(),command:{type:'PASS_TURN'}}));assert.equal(sent.receipt.status,'accepted');
+ const bots=await service.runPracticeBots(base.id,{limit:18});assert.notEqual(bots.status,'failed');assert.notEqual(bots.status,'blocked');assert.ok(bots.processed>0);
+ FullPublicViewSchema.parse((await base.collection('views').doc('public').get()).data());const own=FullPlayerViewSchema.parse((await base.collection('playerViews').doc(human.uid).get()).data());assert.equal(own.self.seatId,'seat-1');assert.deepEqual(own.versions,state.versions);
+ assert.ok(!JSON.stringify((await base.collection('views').doc('public').get()).data()).includes('cloneStatus'));
+});

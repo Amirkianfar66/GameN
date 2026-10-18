@@ -2,9 +2,10 @@ import { readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { basename, resolve } from 'node:path';
 import { ART_BUNDLES } from './art.mjs';
-import { readRuntimeArtRelease, assertRuntimeArtBundle } from '../../../scripts/runtime-art-release.mjs';
+import { readRuntimeArtRelease, readHistoricalRuntimeArtRelease, assertRuntimeArtBundle } from '../../../scripts/runtime-art-release.mjs';
 import { prepareBoardV2Art } from '../../../scripts/board-v2-art-candidate.mjs';
 import { prepareSetupArt } from '../../../scripts/setup-art-candidate.mjs';
+import { prepareBoardV2FilmsArt } from './build/board-v2-films-art.mjs';
 import { prepareBoardV2MotionArt } from '../../../scripts/board-v2-motion-art.mjs';
 
 // Integration-authorized trial additions. The base reviewed manifest remains separate.
@@ -37,9 +38,13 @@ export function comicAssetsPlugin(root) {
   return {
     name: 'mothership-production-comic-art',
     buildStart() {
-      const release = readRuntimeArtRelease(root);
+      const release = readRuntimeArtRelease(root, 'design-0.5.0');
       // Historical sources remain independently verifiable after adding the new art.
-      readRuntimeArtRelease(root, 'design-0.3.0');
+      readHistoricalRuntimeArtRelease(root, 'design-0.3.0');
+      readHistoricalRuntimeArtRelease(root, 'design-0.4.0');
+      const films = prepareBoardV2FilmsArt(root);
+      assertRuntimeArtBundle(release, 'board-v2-films-art', films.url, films.stylesheet);
+      this.emitFile({ type: 'asset', fileName: films.url.slice(1), source: films.stylesheet });
       const candidate = prepareBoardV2Art(root);
       if (candidate.sha256 !== '5dedbf2450adca159480d3ba448501ce6957595f1a018c5ced4d9d17f5031cd2') throw Error('Board V2 candidate derivative drift');
       assertRuntimeArtBundle(release, 'board-v2-art', candidate.url, candidate.stylesheet);

@@ -9,6 +9,10 @@ import {slotsOf,LOCATION_OF} from './board-v2-drawing/slots.mjs';
 import {blockedFrame} from './board-v2-drawing/blocked-film.mjs';
 import {labelBox} from './board-v2-drawing/label-box.mjs';
 import {createBoardV2Capsule} from './board-v2-capsule.mjs';
+import {createBoardV2Presentations,supportsCompleteDrawings,outcomeWords} from './board-v2-presentations.mjs';
+import {createBoardV2Films} from './board-v2-films.mjs';
+import {offBoardCards} from './board-v2-drawing/captain-fx.mjs';
+import {boardV2FigureSvg} from './board-v2-scene.mjs';
 import {supportsHospitalFour,HOSPITAL_FOUR_LAYOUT_REVISION} from '@mothership/contracts';
 import {turnsLayout as turnsFour} from './board-v2-drawing/turns-four.mjs';
 import {slotRects as rectsFour} from './board-v2-drawing/fit-four.mjs';
@@ -21,10 +25,11 @@ const safeInsets=document=>{
  const s=getComputedStyle(probe),out={top:parseFloat(s.paddingTop)||0,right:parseFloat(s.paddingRight)||0,bottom:parseFloat(s.paddingBottom)||0,left:parseFloat(s.paddingLeft)||0};probe.remove();return out;
 };
 
-export function createBoardV2Host(root,{now=()=>performance.now()}={}) {
+export function createBoardV2Host(root,{now=()=>performance.now(),publicIdentities=()=>[]}={}) {
  const document=root.ownerDocument,holder=document.createElement('div');holder.className='bv2-mount';
  const capsule=createBoardV2Capsule({now}),blackout=createBoardV2Blackout({now}),identities=new Map();
- const blocks=new Map(),announced=new Set();
+ const blocks=new Map(),announced=new Set(),presentations=createBoardV2Presentations({now}),films=createBoardV2Films(root,holder);
+ let focused=true,offboardTab=false,matchKey=null;
  const settleBlocks=()=>{blocks.clear();for(const fx of holder.querySelectorAll('.bv2-block-fx'))fx.remove();for(const figure of holder.querySelectorAll('.bv2-figure'))figure.style.translate='0px 0px';};
  const media=matchMedia('(prefers-reduced-motion: reduce)');
  let model=null,layout=null,frame=null,geometryKey=null,raf=null,disposed=false,tab=false,worldKey=null,claimExpanded=false;
@@ -36,7 +41,7 @@ export function createBoardV2Host(root,{now=()=>performance.now()}={}) {
   if(room==='hospital'){
    const four=geometry===fourGeometry;
    return [{id:'back',cssVar:four?'--board-v2-film-scenes-hospital-ward-four-back':`--board-v2-art-ward-${model.match.boardLayout.playerCount}-back`,sceneDepth:-1000},
-    ...Object.entries(geometry.sceneOf(room,model.match.boardLayout.playerCount).layers).map(([id,layer])=>({id,cssVar:four?`--board-v2-film-scenes-hospital-ward-four-berth-${id}`:`--board-v2-art-ward-berth-${id}`,sceneDepth:layer.depth,paintZIndex:2*Math.round(layer.depth)+1}))];
+    ...Object.entries(geometry.sceneOf(room,model.match.boardLayout.playerCount).layers).map(([id,layer])=>({id,cssVar:four?`--board-v2-film-scenes-hospital-ward-four-${id}`:`--board-v2-art-ward-berth-${id}`,sceneDepth:layer.depth,paintZIndex:2*Math.round(layer.depth)+1}))];
   }
   return [{id:'back',cssVar:`--bm-scene-${room}-back`,sceneDepth:-1000},...Object.entries(geometry.sceneOf(room,model.match.boardLayout.playerCount).layers).map(([id,layer])=>({id,cssVar:`--bm-scene-${room}-${id.replace(/[A-Z]/g,c=>'-'+c.toLowerCase())}`,sceneDepth:layer.depth}))];
  };
@@ -44,12 +49,15 @@ export function createBoardV2Host(root,{now=()=>performance.now()}={}) {
   if(disposed||!layout?.fits||!frame)return;
   const card=root.dataset.phoneView==='actions'?model.match.privateArea?.content?.actions.card:null;
   const choices=card?.body.step==='choosing'?card.body.choices.filter(c=>c.number!==null):[];
-  const sample=capsule.sample(),night=blackout.sample();
+  const sample=capsule.sample(),night=blackout.sample(),drawings=presentations.sample();
+  films.beforePaint();
   paintBoardV2(holder,frame,layout.board.boxes,{artForRoom,choices,marks:card?.board??null,capsule:night?.dark?null:sample,canMove:model.surface==='player',blackout:night});
   paintNight(night,card);
   paintOutcomes(night);
+  films.paint({sample:drawings,frame,board:model.match.boardLayout,seats:allSeats(),geometry,layout,enabled:completeArt()&&focused&&document.visibilityState==='visible'&&model.match.boardLayout.clock.current,dark:night?.dark===true,privateOpen:model.match.privateArea?.open===true&&root.dataset.phoneView==='actions',captain:model.match.privateArea?.content?.captain,card,time:now()});
+  if(holder._boardV2Paint?.board&&offboardTab){holder._boardV2Paint.board.inert=true;}
   root.dataset.boardDark=String(night?.dark===true);
-  if((sample.animate||night?.animate||blocks.size>0)&&document.visibilityState==='visible')raf=requestAnimationFrame(paint);else raf=null;
+  if((sample.animate||night?.animate||blocks.size>0||drawings.animate)&&document.visibilityState==='visible')raf=requestAnimationFrame(paint);else raf=null;
  }
 
  function commonLayer(section,name,cssVar,rect,opacity){
@@ -89,12 +97,7 @@ export function createBoardV2Host(root,{now=()=>performance.now()}={}) {
   const events=model.match.outcomes??[],reduced=media.matches||model.motion==='reduced';
   let notes=holder.querySelector('.bv2-outcomes');
   if(!notes){notes=document.createElement('section');notes.className='bv2-outcomes';notes.setAttribute('aria-live','polite');notes.setAttribute('aria-label','Authoritative outcomes');holder.append(notes);}
-  const texts=events.filter(e=>e.fact.type!=='ATTACK_BLOCKED').map(e=>{
-   const f=e.fact,who='seatId'in f?`Player ${f.seatId.slice(5)}`:f.seatIds.map(id=>`Player ${id.slice(5)}`).join(', ');
-   return f.type==='MEDICAL_OUTCOME'?`${who}: ${f.kind==='INJURY'?'Injured':f.kind==='HEALED'?'Healed':'Eliminated'}.`
-    :f.type==='CAPTAIN_OUTCOME'?`${who}: ${f.kind==='RELEASE'?'released from detention':'ejected'}.`
-    :`${who}: ${f.location??'off board'}.`;
-  });
+  const texts=events.filter(e=>e.fact.type!=='ATTACK_BLOCKED').map(outcomeWords);
   for(const event of events.filter(e=>e.fact.type==='ATTACK_BLOCKED'))if(!announced.has(event.eventId)){
    announced.add(event.eventId);blocks.set(event.eventId,{event,start:now()+(night?520:0)});
   }
@@ -132,6 +135,7 @@ export function createBoardV2Host(root,{now=()=>performance.now()}={}) {
     start:{left:board.insets.left+8,width:board.pass.cx-board.pass.r-board.insets.left-14},
     end:{left:board.pass.cx+board.pass.r+6,width:window.innerWidth-board.insets.right-board.pass.cx-board.pass.r-14}}};
   const nativeChoose=root.querySelector('.bv2-choosing');
+  offboardControls(nativeChoose);
   const choosingSeats=layout.fits&&Boolean(nativeChoose);
   root.dataset.boardChoosing=String(choosingSeats);root.dataset.boardPrivateTab=String(choosingSeats&&tab);
   const nav=root.querySelector('.phone-nav');
@@ -191,16 +195,46 @@ export function createBoardV2Host(root,{now=()=>performance.now()}={}) {
    }
   }
  }
+ function offboardControls(native){
+  const card=model.match.privateArea?.open&&root.dataset.phoneView==='actions'?model.match.privateArea.content?.actions.card:null;
+  const choices=completeArt()&&card?.kind==='code'&&card.body.step==='choosing'?card.body.choices.filter(c=>model.match.boardLayout.seats.some(s=>s.seatId===c.value&&s.location===null&&s.slotId===null&&s.health==='Eliminated')):[];
+  const row=native?.querySelector('.bv2-command-controls');
+  let toggle=root.querySelector('[data-board-offboard]'),sheet=root.querySelector('.bv2-offboard-sheet');
+  if(!choices.length||!row){offboardTab=false;toggle?.remove();sheet?.remove();root.dataset.boardOffboard='false';return;}
+  if(!toggle){toggle=document.createElement('button');toggle.type='button';toggle.dataset.boardOffboard='toggle';toggle.id='bv2-offboard-toggle';row.append(toggle);}
+  toggle.textContent=`Off board (${choices.length})`;toggle.setAttribute('aria-expanded',String(offboardTab));
+  root.dataset.boardOffboard=String(offboardTab);
+  if(!sheet){sheet=document.createElement('section');sheet.className='bv2-offboard-sheet';sheet.setAttribute('aria-label','Off board Code targets');holder.append(sheet);}
+  sheet.hidden=!offboardTab;box(sheet,layout.sheet);
+  if(!sheet.firstElementChild){const heading=document.createElement('h2');heading.textContent='Off board';const body=document.createElement('div');body.className='bv2-offboard-cards';sheet.append(heading,body);}
+  const body=sheet.lastElementChild;
+  for(const button of body.children)if(!choices.some(c=>c.id===button.id))button.remove();
+  const area={left:6,top:6,width:layout.sheet.width-16,height:Math.max(66,layout.sheet.capacity-48)};
+  const places=offBoardCards(area,choices.length);
+  if(!places)body.dataset.scroll='true';
+  choices.forEach((choice,i)=>{
+   const original=root.querySelector(`[id="${choice.id}"]`);if(original&&!body.contains(original))original.remove();
+   const seat=allSeats().find(s=>s.seatId===choice.value);let button=body.querySelector(`[id="${choice.id}"]`);if(!button){button=document.createElement('button');button.type='button';button.id=choice.id;body.append(button);}button.dataset.intent='action/choose';button.dataset.value=choice.value;button.setAttribute('aria-label',choice.label);button.setAttribute('aria-describedby','ms-action-step');
+   if(places){const r=places[i];box(button,{left:r.left,top:r.top,width:r.width,height:r.height});}
+   const art=document.createElement('span');art.setAttribute('aria-hidden','true');art.innerHTML=boardV2FigureSvg({...seat,gesture:'stand',outfit:'crew'})??'';
+   const label=document.createElement('span');label.textContent=`${choice.number} ${seat.displayName??choice.label}`;if(button.dataset.character!==seat.characterId){button.replaceChildren(art,label);button.dataset.character=seat.characterId;}button.setAttribute('aria-pressed',String(card.board.picked.includes(choice.value)));
+  });
+ }
+ function completeArt(){return supportsCompleteDrawings(model?.match?.versions)&&document.documentElement.dataset.art?.split(' ').includes('board-v2-films-art');}
+ function allSeats(){return (model?.match?.boardLayout?.seats??[]).map(s=>({...s,...identities.get(s.seatId)}));}
  function after(next){
+  const nextMatch=next.match?.boardLayout?JSON.stringify([next.match.boardLayout.matchId,next.match.boardLayout.id]):null;
+  if(nextMatch!==matchKey){films.clear();presentations.dispose();capsule.dispose();blackout.dispose();settleBlocks();announced.clear();identities.clear();holder.replaceChildren();holder._boardV2Paint=null;geometryKey=null;matchKey=nextMatch;offboardTab=false;}
   model=next;
   const four=supportsHospitalFour(next.match?.versions??{});
   const enabled=next.screen==='match'&&next.match?.boardLayout?.id===(four?HOSPITAL_FOUR_LAYOUT_REVISION:'board-v2-0.1.1');
   geometry=four?fourGeometry:legacyGeometry;
   stop();
-  if(!enabled){holder.remove();delete root.dataset.boardLayout;capsule.dispose();blackout.dispose();settleBlocks();geometryKey=null;frame=null;return false;}
+  if(!enabled){holder.remove();delete root.dataset.boardLayout;capsule.dispose();blackout.dispose();presentations.dispose();films.clear();settleBlocks();geometryKey=null;frame=null;return false;}
   root.dataset.boardLayout='board-v2';
   const original=root.querySelector('.ms-board');if(!original)return false;
   for(const node of original.querySelectorAll('.ms-seat[data-seat]'))identities.set(node.dataset.seat,{characterId:node.dataset.character??null,displayName:node.dataset.displayName??null});
+  for(const identity of publicIdentities())identities.set(identity.seatId,{characterId:identity.characterId??identity.character??null,displayName:identity.displayName??null});
   const safe=safeInsets(document),ratio=Math.max(1,parseFloat(getComputedStyle(document.documentElement).fontSize)/16);
   const key=JSON.stringify([window.innerWidth,window.innerHeight,next.match.boardLayout.playerCount,next.match.boardLayout.id,safe,ratio]);
   if(key!==geometryKey){capsule.settle();layout=geometry.turnsLayout({width:window.innerWidth,height:window.innerHeight},next.match.boardLayout.playerCount,{insets:safe,bars:ratio>1?{top:Math.ceil(36+88*(ratio-1))}:undefined,actions:ratio>=2?64:44});geometryKey=key;}
@@ -211,7 +245,7 @@ export function createBoardV2Host(root,{now=()=>performance.now()}={}) {
   if(!layout.fits){holder.replaceChildren();holder._boardV2Paint=null;
    const message=document.createElement('p');message.className='bv2-too-short';message.id='ms-comic-board-heading';message.tabIndex=-1;
    message.textContent='This screen is too short to show the board. Use a taller view or reduce the text size. Navigation remains available.';holder.append(message);frame=null;controls();return true;}
-  const seats=(next.match.boardLayout.seats??(next.match.board?.zones??next.match.roster?.zones??[]).flatMap(z=>z.seats)).map(s=>({...s,...identities.get(s.seatId)}));
+  const seats=allSeats();
   const layoutFrame={panels:layout.board.panels,pressAreas:Object.fromEntries(BOARD_ROOMS.map(r=>[r,geometry.slotRects(r,next.match.boardLayout.playerCount,layout.board.panels[r])]))};
   frame=boardV2SceneFrame(next.match.boardLayout.playerCount,seats,{...layoutFrame,geometry});
   if(frame.problems.length){holder.replaceChildren();const warning=document.createElement('p');warning.className='bv2-too-short';warning.textContent='The board could not be read. Reconnect to continue.';holder.append(warning);return true;}
@@ -220,14 +254,18 @@ export function createBoardV2Host(root,{now=()=>performance.now()}={}) {
   if(!next.match.privateArea?.open)claimExpanded=false;
   capsule.update(next.match.capsule,next.match.boardLayout.clock,{visible:document.visibilityState==='visible',reducedMotion:next.motion==='reduced'||media.matches});
   blackout.update(next.match.boardLayout.clock,next.match.boardLayout.blackout,{visible:document.visibilityState==='visible',reducedMotion:next.motion==='reduced'||media.matches});
+  presentations.update({board:next.match.boardLayout,versions:next.match.versions,events:next.match.outcomes??[],visible:document.visibilityState==='visible',focused,privateOpen:next.match.privateArea?.open===true&&root.dataset.phoneView==='actions',ownClone:next.match.privateArea?.content?.clone,blackout:next.match.boardLayout.clock.kind==='BLACKOUT',enabled:completeArt(),reducedMotion:next.motion==='reduced'||media.matches});
   controls();paint();return true;
  }
- const reduced=()=>{stop();capsule.settle();blackout.settle();settleBlocks();if(model)after(model);};
- const visibility=()=>{if(document.visibilityState!=='visible'){stop();capsule.settle();blackout.settle();settleBlocks();if(model)paint();}else if(model)after(model);};
- const onClick=event=>{const button=event.target.closest?.('[data-board-private],[data-board-claim]');if(!button||!root.contains(button))return;
+ const reduced=()=>{stop();capsule.settle();blackout.settle();presentations.settle();films.clear();settleBlocks();if(model)after(model);};
+ const visibility=()=>{if(document.visibilityState!=='visible'){stop();capsule.settle();blackout.settle();presentations.settle();films.clear();settleBlocks();if(model)paint();}else if(model)after(model);};
+ const focus=()=>{focused=true;if(model)after(model);};
+ const blur=()=>{focused=false;stop();presentations.settle();films.clear();if(model)paint();};
+ const onClick=event=>{const button=event.target.closest?.('[data-board-private],[data-board-claim],[data-board-offboard]');if(!button||!root.contains(button))return;
+  if(button.dataset.boardOffboard){offboardTab=!offboardTab;tab=false;controls();paint();return;}
   if(button.dataset.boardClaim){claimExpanded=button.dataset.boardClaim==='show';controls();return;}
   tab=!tab;controls();
  };
- root.addEventListener('click',onClick);media.addEventListener('change',reduced);document.addEventListener('visibilitychange',visibility);
- return {after,resize(){if(model){geometryKey=null;after(model);}},dispose(){disposed=true;stop();capsule.dispose();blackout.dispose();blocks.clear();holder.remove();root.removeEventListener('click',onClick);media.removeEventListener('change',reduced);document.removeEventListener('visibilitychange',visibility);},getLayout:()=>layout};
+ root.addEventListener('click',onClick);window.addEventListener('blur',blur);window.addEventListener('focus',focus);media.addEventListener('change',reduced);document.addEventListener('visibilitychange',visibility);
+ return {after,resize(){if(model){geometryKey=null;after(model);}},dispose(){disposed=true;stop();capsule.dispose();blackout.dispose();presentations.dispose();films.dispose();blocks.clear();holder.remove();window.removeEventListener('blur',blur);window.removeEventListener('focus',focus);root.removeEventListener('click',onClick);media.removeEventListener('change',reduced);document.removeEventListener('visibilitychange',visibility);},getLayout:()=>layout};
 }

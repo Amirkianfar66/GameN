@@ -285,7 +285,7 @@ function showMatch(screen, render, matchId, seatId) {
   mounted = true;
   for (const stop of lobbyWatchers.splice(0)) stop();
   const feeds = createComicFeeds({ transport, ports, matchId, ...(seatId ? { seatId } : {}) });
-  mountScreen({ container: app, screen, render: (model, phone) => render(model, {
+  mountScreen({ container: app, screen, publicIdentities: () => feeds.identities()?.seats ?? [], render: (model, phone) => render(model, {
     ...phone,
     identities: feeds.identities()?.seats ?? [],
     practice: model.connection === 'live' ? feeds.practice() : null,

@@ -38,7 +38,7 @@ export function outcomeWords(event){
 
 export function createBoardV2Presentations({now=()=>performance.now()}={}){
  let matchKey=null,previous=null,current=null,previousLive=false,reduced=false,receivedAt=0,privateBefore=null,privateMoving=null,privateCurrent=null;
- const seen=new Set(),active=new Map();
+ const seen=new Set(),active=new Map(),heldBefore=new Map();
  const elapsed=entry=>Math.max(0,now()-entry.startedAt+entry.age);
  const serverNow=()=>current?.clock?.nowMs==null?null:current.clock.nowMs+Math.max(0,now()-receivedAt);
  function cancel(){active.clear();privateMoving=null;privateBefore=null;previousLive=false;}
@@ -48,6 +48,7 @@ export function createBoardV2Presentations({now=()=>performance.now()}={}){
   let entry=null;
   if(f.type==='MEDICAL_OUTCOME'){
    if(!clinicalTypes.has(f.kind)||!subject)return;
+   for(const[id,old]of active)if(old.kind==='medical'&&old.subjectId===f.seatId)active.delete(id);
    const anchor=event.presentationAnchor??f.presentationAnchor;
    const selection=clinicalDrawingChoice(anchor,current.playerCount,seats,f.seatId,{four:current.four});
    if(!selection.plays)return;
@@ -55,8 +56,7 @@ export function createBoardV2Presentations({now=()=>performance.now()}={}){
    if(f.kind==='HEALED'&&subject.health!=='Healthy'||f.kind==='DEATH'&&subject.health!=='Eliminated')return;
    const berth=f.kind==='INJURY'?subject.slotId:selection.berth;
    if(!berth||current.four&&!/^H[1-4]$/.test(berth))return;
-   // Preserve all facts/narration, but one optional subject drawing wins in its published chronology.
-   for(const[id,old]of active)if(old.kind==='medical'&&old.subjectId===f.seatId)active.delete(id);
+   // Preserve all facts/narration, but only the latest optional subject drawing.
    entry={kind:'medical',clinical:f.kind,subjectId:f.seatId,berth,subject:clone(subject),origin:origin(f.seatId),expected:seatKey(subject)};
   }else if(f.type==='CAPTAIN_OUTCOME'){
    const subjects=f.seatIds.map(id=>({seatId:id,before:origin(id),after:clone(seats.find(s=>s.seatId===id)),body:origin(id)?.health==='Eliminated'}));
@@ -70,12 +70,14 @@ export function createBoardV2Presentations({now=()=>performance.now()}={}){
  return {
   update({board,versions,events=[],visible=true,focused=true,privateOpen=false,ownClone=null,blackout=false,enabled=true,reducedMotion=false}={}){
    const nextKey=board?.matchId??board?.clock?.phaseId??null;
-   if(nextKey!==matchKey){cancel();seen.clear();previous=null;matchKey=nextKey;}
+   if(nextKey!==matchKey){cancel();seen.clear();heldBefore.clear();previous=null;matchKey=nextKey;}
    const fresh=Boolean(enabled&&supportsCompleteDrawings(versions)&&board?.clock?.current&&visible&&focused);
    const live=fresh&&!blackout&&!['FINISHED','ABORTED'].includes(board?.clock?.kind);
    const nextReduced=Boolean(reducedMotion);
    if(nextReduced!==reduced){active.clear();privateMoving=null;}reduced=nextReduced;
-   const seats=board?.seats??[],before=previous?.seats;
+   const seats=board?.seats??[];
+   if(board&&previous?.viewRevision!==board.viewRevision){heldBefore.set(board.viewRevision,clone(previous?.seats));while(heldBefore.size>4)heldBefore.delete(heldBefore.keys().next().value);}
+   const before=heldBefore.get(board?.viewRevision)??null;
    current=board?{...board,four:supportsHospitalFour(versions)}:null;receivedAt=now();
    if(!live)cancel();
    if(live&&previousLive){
@@ -103,7 +105,7 @@ export function createBoardV2Presentations({now=()=>performance.now()}={}){
     }
     privateBefore=clone(privateCurrent);
    }
-   previous=board?{seats:clone(seats)}:null;previousLive=live;
+   previous=board?{viewRevision:board.viewRevision,seats:clone(seats)}:null;previousLive=live;
    return this.sample();
   },
   sample(){
@@ -133,6 +135,6 @@ export function createBoardV2Presentations({now=()=>performance.now()}={}){
    return {items,own,reduced,animate:items.length>0||Boolean(own?.film)};
   },
   settle(){cancel();privateCurrent=null;},
-  dispose(){cancel();privateCurrent=null;current=null;previous=null;matchKey=null;seen.clear();},
+  dispose(){cancel();privateCurrent=null;current=null;previous=null;matchKey=null;seen.clear();heldBefore.clear();},
  };
 }

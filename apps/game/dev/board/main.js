@@ -18,7 +18,7 @@ import { boardV2View } from './board-v2-scenarios.mjs';
 
 import { createComicFeeds, createConnectedPlayerScreen, createConnectedTableScreen, shellTokenStylesheet } from '@mothership/game';
 import { nextDesignTokens } from '@mothership/design-tokens';
-import { FullReceiptSchema, FullPlayerViewSchema, FullPublicViewSchema } from '@mothership/contracts';
+import { FullOutcomeEventSchema, FullReceiptSchema, FullPlayerViewSchema, FullPublicViewSchema } from '@mothership/contracts';
 import { renderComicPlayerShell, renderComicTableShell } from '@mothership/presentation';
 import '../../src/styles/shell.css';
 import '../../hosted/preview.css';
@@ -75,11 +75,11 @@ let hackSide = params.get('declared-side') === 'none' ? null : params.get('decla
 let revision = 1;
 let awaitingResult = params.has('await-result'), resultStarted = started;
 let moved = null;
-const publicOverrides = new Map();
+const publicOverrides = new Map(),privateOverrides={},eventListeners=new Map(),events=[];
 let deadlineExpired = false, terminal = null;
 const listeners = new Map();
 const viewFor = () => {
-  if(isBoardV2)return boardV2View({stage:hackStage==='idle'?'ORDINARY_TURN':hackStage,startedAt:hackStarted,count:Number(params.get('roster')??9),revision,publicOnly:display,side:hackSide,overrides:publicOverrides,profile:params.get('profile')??'medical',seatId:self,role:params.get('role')??'Hacker'});
+  if(isBoardV2)return boardV2View({stage:hackStage==='idle'?'ORDINARY_TURN':hackStage,startedAt:hackStarted,count:Number(params.get('roster')??9),revision,publicOnly:display,side:hackSide,overrides:publicOverrides,profile:params.get('profile')??'medical',seatId:self,role:params.get('role')??'Hacker',privateOverrides});
   const baseView = display ? publicView(definition, resultStarted, revision, moved) : playerView(definition, resultStarted, revision, moved);
   const view = isDeclaredHack ? declaredHackView(baseView, { stage: hackStage, startedAt: hackStarted, side: hackSide, publicOnly: display }) : baseView;
   if (awaitingResult && definition.voteResult) {
@@ -153,7 +153,7 @@ const transport = {
     setTimeout(() => listener.onSnapshot({ value: structuredClone(documents[target.kind]?.() ?? null), fresh: true }), 20);
     return () => listeners.get(target.kind).delete(listener);
   },
-  listenCollection: () => () => {},
+  listenCollection(target,listener){if(!eventListeners.has(target.kind))eventListeners.set(target.kind,new Set());eventListeners.get(target.kind).add(listener);setTimeout(()=>listener.onSnapshot({fresh:true,value:structuredClone(events)}),20);return()=>eventListeners.get(target.kind).delete(listener);},
 };
 
 const ports = browserPorts();
@@ -165,13 +165,20 @@ let frameCount = 0;
 const stopCounting = screen.subscribe(() => { frameCount += 1; });
 const render = display ? renderComicTableShell : renderComicPlayerShell;
 await transport.signIn();
-const unmount = mountScreen({ container: app, screen, render: (model, phone) => render(model, { ...phone, identities: feeds.identities()?.seats ?? [], practice: null, acknowledgments: display || model.connection !== 'live' ? null : ownAcknowledgments(definition) }),
+const unmount = mountScreen({ container: app, screen, publicIdentities:()=>feeds.identities()?.seats??[], render: (model, phone) => render(model, { ...phone, identities: feeds.identities()?.seats ?? [], practice: null, acknowledgments: display || model.connection !== 'live' ? null : ownAcknowledgments(definition) }),
   subscribeExtra: listener => feeds.subscribe(listener), onDispose: () => { stopCounting(); feeds.dispose(); } });
 feeds.start();
 if (params.get('motion') === 'reduced') screen.dispatch({ type: 'settings/reduce-motion', checked: true });
 
 window.__simulation = {
   model: () => screen.getFrame().model,
+  own(fields,stage=null){if(stage){hackStage=stage;hackStarted=Date.now();}Object.assign(privateOverrides,fields);revision+=1;publish(display?'public-view':'player-view');},
+  batch(changes,facts=[]){
+   for(const[id,fields]of Object.entries(changes))publicOverrides.set(id,{...(publicOverrides.get(id)??{}),...fields});
+   revision+=1;publish(display?'public-view':'player-view');
+   facts.forEach((fact,i)=>{const view=viewFor(),now=Date.now(),eventId=crypto.randomUUID(),event=FullOutcomeEventSchema.parse({protocolVersion:2,matchId:MATCH,eventId,outcomeId:eventId,viewRevision:revision,versions:(({assetManifestVersion,...pins})=>pins)(view.versions),publishedAt:now,expiresAt:now+30000,audience:view.audience,fact:{phaseId:view.phase.id,round:view.round,...fact}});events.push({id:`${revision}-${events.length}`,data:event});});
+   setTimeout(()=>{for(const set of eventListeners.values())for(const l of set)l.onSnapshot({fresh:true,value:structuredClone(events)});},30);
+  },
   scenario: id, title: definition.title, log, operations,
   get frames() { return frameCount; }, // Actual screen emissions, not DOM mutation/animation guesses.
   /** Synthetic server closes the vote; the consumer still only reads its next snapshot. */
