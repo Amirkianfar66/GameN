@@ -36,7 +36,7 @@ Each list in [deliverables/](deliverables/) names every path the PR changes agai
 | #158 | `claude/designer-hospital-films` | `e589e7a7a32a491fb417de582acc82dc94c9cf31` | `95d70f0c885f6b7d619c4ebff935093dfe891ea6` (#144) | 103 (91, 12) | [pr158-hospital-films-s9-s5-s10.sha256](deliverables/pr158-hospital-films-s9-s5-s10.sha256) |
 | #116 | `claude/designer-ability-art-8` | `27be8749b51775fee3a0d81b62a3cdabedafe1be` | `8f1f356f2208ff49bcaef3f501f9778da19ccab0` (#111) | 84 (45, 39) | [pr116-setup-art.sha256](deliverables/pr116-setup-art.sha256) |
 
-#144's list is at `7786b91`, the head that delivered the capsule and the controls. The commit after it (`95d70f0`) adds only documentation: this index's version 2, the lists, the specification packet and its provenance, and a row in [README.md](README.md). #158's list is at `e589e7a`, the head that delivered the Hospital films; the commit after it adds only this index's version 3 and #158's list.
+#144's list is at `7786b91`, the head that delivered the capsule and the controls. The commit after it (`95d70f0`) adds only documentation: this index's version 2, the lists, the specification packet and its provenance, and a row in [README.md](README.md). #158's list is at `e589e7a`, the head that delivered the Hospital films. The commits after it add only documentation: this index's version 3, #158's list and, in the Hospital doc, the balance gates re-run on that head.
 
 ## Still to be delivered
 
@@ -88,4 +88,4 @@ Also received, as messages: the coordinator's creative brief and the owner's not
 | --- | --- | --- |
 | 1 | `7786b91` | The first index: delivered, still to be delivered, and the session's files |
 | 2 | `95d70f0` on #144 | Exact heads and bases, complete path lists with SHA-256, the specification packet preserved, the uploaded inputs listed, and the completion request's scope |
-| 3 | The commit after `e589e7a` on #158 | The Hospital films (S9, S5, S10) delivered in #158 with their complete path list; the Captain films in production next; S3's Backend dependency (#149, #153); the owner's 4-bed request (#155) |
+| 3 | `7a2af10` and the commit after it on #158 | The Hospital films (S9, S5, S10) delivered in #158 with their complete path list; the Captain films in production next; S3's Backend dependency (#149, #153); the owner's 4-bed request (#155) |
