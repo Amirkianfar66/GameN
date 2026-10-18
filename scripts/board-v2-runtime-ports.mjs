@@ -9,7 +9,7 @@ export function verifyBoardV2RuntimePorts(root) {
  const motionBytes=readFileSync(resolve(root,'design/releases/board-v2-motion-ports.json'));
  if(sha(motionBytes)!=='d667358a96438942943999bd643e7a16c717373f9393ff9ec8c5a43e87a0d87f')throw Error('Board V2 reviewed motion port catalog drift');
  const filmsBytes=readFileSync(resolve(root,'design/releases/board-v2-films-ports.json'));
- if(sha(filmsBytes)!=='a750b2e49e1c0f086e687b24f8569e66f318cd03468452ec131a29dd6f78f0d3')throw Error('Board V2 candidate film port catalog drift');
+ if(sha(filmsBytes)!=='06391d9b6770157fffef5698cea1b2642057f1c2856d5bbd66f7c9a5a244daf8')throw Error('Board V2 candidate film port catalog drift');
  const catalog={entries:[...JSON.parse(bytes).entries,...JSON.parse(motionBytes).entries,...JSON.parse(filmsBytes).entries]};
  const directory='apps/game/hosted/board-v2-drawing/';
  const expected=catalog.entries.map(entry=>entry.runtime).sort();

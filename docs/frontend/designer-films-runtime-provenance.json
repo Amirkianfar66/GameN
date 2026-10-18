@@ -232,11 +232,11 @@
       ]
     },
     {
-      "sourceCommit": "cb9386bd716dc346160509d5e49d7348fdaf4f84",
+      "sourceCommit": "1fbdb541ec4b8389dcf2220125b4666278a12b0e",
       "sourcePath": "design/board-v2/fx/medical-four.mjs",
-      "sourceSha256": "c289a932a955a28ef9a1be4635bfb1632badc77b42c06e9c062fc42970fd166b",
+      "sourceSha256": "90ae67a8cd9c5d92454417cc1a7ba5dd16172e7081ae4c5427caa013e9627ee0",
       "runtimePath": "apps/game/hosted/board-v2-drawing/medical-four.mjs",
-      "runtimeSha256": "1b9b823fdbdf3abcdedba6661f2df3360e7eef1491e6aa8156d8e18913b476d7",
+      "runtimeSha256": "9e212739636b1cff522c79f36eee64e14add6dad29aa2054cac7e4452532a1e7",
       "adaptations": [
         "development header",
         "relative module imports"
@@ -1226,5 +1226,14 @@
     }
   ],
   "reviewPlanCommit": "98ec3a299332ed4935683821f61602d660a300e0",
-  "independentPortCommit": "36af8c97b064d479e721271defdb3924f394aa5b"
+  "independentPortCommit": "36af8c97b064d479e721271defdb3924f394aa5b",
+  "sourceCorrections": [
+    {
+      "sourceCommit": "1fbdb541ec4b8389dcf2220125b4666278a12b0e",
+      "sourcePath": "design/board-v2/fx/medical-four.mjs",
+      "sourceSha256": "90ae67a8cd9c5d92454417cc1a7ba5dd16172e7081ae4c5427caa013e9627ee0",
+      "runtimePath": "apps/game/hosted/board-v2-drawing/medical-four.mjs",
+      "runtimeSha256": "9e212739636b1cff522c79f36eee64e14add6dad29aa2054cac7e4452532a1e7"
+    }
+  ]
 }

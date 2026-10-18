@@ -1,5 +1,5 @@
 {
-  "status": "Exact candidate pure derivatives; no release/default activation; Designer HV5 correction remains required before adoption",
+  "status": "Exact candidate pure derivatives including the reviewed HV5 no-film correction; no release/default activation",
   "entries": [
     {
       "runtime": "apps/game/hosted/board-v2-drawing/medical-fx.mjs",
@@ -128,12 +128,12 @@
     },
     {
       "runtime": "apps/game/hosted/board-v2-drawing/medical-four.mjs",
-      "runtimeSha256": "1b9b823fdbdf3abcdedba6661f2df3360e7eef1491e6aa8156d8e18913b476d7",
-      "source": "design/releases/source-snapshots/cb9386bd716dc346160509d5e49d7348fdaf4f84/design/board-v2/fx/medical-four.mjs",
+      "runtimeSha256": "9e212739636b1cff522c79f36eee64e14add6dad29aa2054cac7e4452532a1e7",
+      "source": "design/releases/source-snapshots/1fbdb541ec4b8389dcf2220125b4666278a12b0e/design/board-v2/fx/medical-four.mjs",
       "originalSource": "design/board-v2/fx/medical-four.mjs",
-      "sourceSha256": "c289a932a955a28ef9a1be4635bfb1632badc77b42c06e9c062fc42970fd166b",
-      "sourceCommit": "cb9386bd716dc346160509d5e49d7348fdaf4f84",
-      "runtimeHeader": "// Runtime drawing port of Claude cb9386bd716dc346160509d5e49d7348fdaf4f84; source design/board-v2/fx/medical-four.mjs.\n// Only development fence and relative imports adapted; canonical source preserved.\n",
+      "sourceSha256": "90ae67a8cd9c5d92454417cc1a7ba5dd16172e7081ae4c5427caa013e9627ee0",
+      "sourceCommit": "1fbdb541ec4b8389dcf2220125b4666278a12b0e",
+      "runtimeHeader": "// Runtime drawing port of Claude 1fbdb541ec4b8389dcf2220125b4666278a12b0e; source design/board-v2/fx/medical-four.mjs.\n// Only development fence and relative imports adapted; canonical source preserved.\n",
       "imports": {
         "./medical.mjs": "./medical-fx.mjs",
         "../films/medical.mjs": "./medical-film.mjs",

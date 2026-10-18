@@ -18,13 +18,17 @@ The new art inventory identifies drawing source, drawing modules and assets. Gen
 
 ## Outstanding adoption gates
 
-The registered drawing source is Designer combined head `cb9386bd716dc346160509d5e49d7348fdaf4f84`. Its known `medical-four` HV5 no-film defect is still awaiting the Designer correction. The explicit candidate registration does not approve that defect for execution. After the correction is reviewed, its exact source and derivative hashes must be updated in this unreleased candidate before adoption.
+The registered base drawing source is Designer combined head `cb9386bd716dc346160509d5e49d7348fdaf4f84`, with the focused `medical-four` correction from #160 at `1fbdb541ec4b8389dcf2220125b4666278a12b0e`. Do not replace the complete stack with #160: #161's separate Clone family remains preserved from its original source.
+
+The corrected source SHA-256 is `90ae67a8cd9c5d92454417cc1a7ba5dd16172e7081ae4c5427caa013e9627ee0`; the exact runtime derivative is `9e212739636b1cff522c79f36eee64e14add6dad29aa2054cac7e4452532a1e7`. Only the recorded development header and relative imports differ. `fourFilmBerth` returns `{berth:null,plays:false,holder:null}` for a validated HV5+ presentation, rejects malformed or supplied out-of-roster anchors, and still protects another occupant's bed. `fourClinicalBerth` remains a strict bed-only primitive. Caller wire validation and stable seat identity normalization remain required. All 100 SVG derivatives and the generated common CSS identity are unchanged.
 
 Frontend emission, uniform preloading, exact Ready agreement, authorized lifecycle rendering, normal/reduced motion and stale/cancel/reconnect behavior still need implementation and connected verification. Backend runtime, independent Balance expectations and final 7/8/9 acceptance remain separate. No browser, real-device, multiplayer, Hosting or cloud/IAM result is implied by the build-time art tests.
 
 ## Checks actually run
 
 Node `22.21.1`: 68 focused tests passed across the runtime release validator, original and supplemental drawing-port reconstruction, common film bundle, existing Board V2 art/motion and setup art. Workspace and source-integrity checks passed. The 27 Board V2 drawing modules reconstruct exactly from their recorded original source plus declared comment/import adaptations. Historical manifest and original port-catalog bytes are unchanged from the preserved baseline.
+
+After the #160 correction, all 70 focused runtime/art tests passed, including explicit roster-sized no-film and retained-body regressions; workspace and source checks passed again. Independently against the exact Designer source archive: 13 four-bed tests, all 14 Board V2 checks, 127 current generated files and all 40 hashes in the updated handoff passed. The new fifth-anchor, body-held and death/no-film committed pictures were inspected. No fresh Chromium capture or real-device run was performed by this source review.
 
 The isolated tree reused local TypeScript `5.9.3` read-only for the workspace check; `npm ci`, full `npm run verify`, engine/service/emulator checks and connected/browser/device tests were not run for this art-registration change. These focused results do not satisfy the outstanding playable-release gates above.
 
