@@ -17,6 +17,11 @@
 // - the private-talk capsule (design/board-v2/scenes/capsule.mjs): its empty cabin, its door's four
 //   positions, its door-status light, its badge and its dark drawing for the Blackout, and its
 //   film's timeline (design/board-v2/films/capsule.mjs) in contract/films.json;
+// - the Hospital's medical art (design/board-v2/fx/medical.mjs): the drone's four frames, the vitals
+//   inset and a berth's small screen for each trace, the status lamp's states, the rescue and
+//   detention tags, the scan line, the hologram and the revival pulse's two frames; and the
+//   critical state's, the rescue's and the flatline's timelines (design/board-v2/films/medical.mjs)
+//   in contract/films.json;
 // - the manifest, with every file's size and hash.
 //
 //   node design/tools/board-v2-assets.mjs           writes design/board-v2/assets/, contract/slots.json and contract/films.json
@@ -35,6 +40,8 @@ import { SCENES } from '../board-motion/scenes/index.mjs';
 import { BLACKOUT, FILMS_VERSION, blackoutContract } from '../board-v2/films/blackout.mjs';
 import { BLOCKED, blockedContract } from '../board-v2/films/blocked.mjs';
 import { CAPSULE_FILM, capsuleContract } from '../board-v2/films/capsule.mjs';
+import { MEDICAL_FILMS_VERSION, medicalContracts } from '../board-v2/films/medical.mjs';
+import { DOCK, DRONE, DRONE_SCENE, INSET, LAMP_STATES, MEDICAL, MEDICAL_VERSION, PULSE_BOX, PULSE_FLASH_RADIUS, RESCUE_TONES, TRACE_KINDS, berthKit, berthScreenSvg, detentionTagSvg, droneSvg, hologramSvg, lampSvg, medicalColorDistances, pulseSvg, rescueCrossSvg, scanLineSvg, vitalsInsetSvg } from '../board-v2/fx/medical.mjs';
 import { BADGE_SIZE, BESIDE, CAPSULE_ACCENTS, CAPSULE_RECOLOR, CAPSULE_SEATS, CAPSULE_SIZE, CAPSULE_VERSION, CAPSULE_VIEW, DOOR, DOOR_FRAMES, DOORWAY, PATHS, capsuleBadgeSvg, capsuleLayers } from '../board-v2/scenes/capsule.mjs';
 import { BLOCKED_VERSION, PARTICLE_FRAMES, SHIELD, SHIELD_BOX, SHIELD_FLASH_RADIUS, SHIELD_RADIUS, SHIELD_SIZE, FACTION_ACCENTS, MIN_ACCENT_DISTANCE, blockParticlesSvg, blockRingSvg, shieldColorDistances, shieldSvg } from '../board-v2/fx/blocked.mjs';
 import { WARD_BERTHS, WARD_ROSTERS, wardScene } from '../board-v2/scenes/hospital-ward.mjs';
@@ -46,8 +53,8 @@ const repoRoot = resolve(fileURLToPath(new URL('../../', import.meta.url)));
 const OUT = 'design/board-v2/assets';
 const SLOTS_FILE = 'design/board-v2/contract/slots.json';
 const FILMS_FILE = 'design/board-v2/contract/films.json';
-/** The board-v2 art set's version: 0.1.0 the slots and the ward, 0.2.0 with the Blackout's lighting, 0.3.0 with ATTACK BLOCKED, 0.4.0 with the private-talk capsule. */
-export const ASSETS_VERSION = 'board-v2-0.4.0';
+/** The board-v2 art set's version: 0.1.0 the slots and the ward, 0.2.0 with the Blackout's lighting, 0.3.0 with ATTACK BLOCKED, 0.4.0 with the private-talk capsule, 0.5.0 with the Hospital's medical films. */
+export const ASSETS_VERSION = 'board-v2-0.5.0';
 const kebab = id => id.replace(/[A-Z]/g, letter => `-${letter.toLowerCase()}`);
 const kebabAll = ids => ids.map(kebab);
 const sha = content => createHash('sha256').update(content).digest('hex');
@@ -100,7 +107,8 @@ export async function planAssets(root = repoRoot) {
   const lighting = await planLighting(root, files);
   const fx = planBlocked(files);
   const capsule = planCapsule(files);
-  const films = { devOnly: 'mothership:dev-only', version: FILMS_VERSION, status: 'proposal', note: 'The board-v2 films as data, from design/board-v2/films/. Durations are targets for drawing; the server\'s deadlines are the only clock. Not a rule and not an adopted contract.', films: [blackoutContract(), blockedContract(), capsuleContract()] };
+  const medical = planMedical(files);
+  const films = { devOnly: 'mothership:dev-only', version: FILMS_VERSION, status: 'proposal', note: 'The board-v2 films as data, from design/board-v2/films/. Durations are targets for drawing; the server\'s deadlines are the only clock. Not a rule and not an adopted contract.', films: [blackoutContract(), blockedContract(), capsuleContract(), ...medicalContracts()] };
   const filmsJson = `${JSON.stringify(films, null, 2)}\n`;
   files.set(FILMS_FILE, filmsJson);
   const recipes = JSON.parse(await readFile(resolve(root, 'design/source/export-recipes.json'), 'utf8'));
@@ -110,7 +118,7 @@ export async function planAssets(root = repoRoot) {
     status: 'proposal',
     baseBoard: 'board-motion-0.3.0',
     baseManifest: 'design-0.2.0',
-    note: 'The Hospital as a ward with one berth per seat (7, 8 or 9), the board\'s fixed slot table, the Blackout\'s lighting art, the shared ATTACK BLOCKED effects and the private-talk capsule, for the owner\'s motion specification of 13 October 2026 and the owner\'s capsule request of 14 October 2026. The reviewed manifest, the board-motion proposal and every pinned drawing source are unchanged; this art is proposed for a later export revision and is adopted only through Integration.',
+    note: 'The Hospital as a ward with one berth per seat (7, 8 or 9), the board\'s fixed slot table, the Blackout\'s lighting art, the shared ATTACK BLOCKED effects, the private-talk capsule and the Hospital\'s medical films (the critical state, the drone\'s rescue and the flatline), for the owner\'s motion specification of 13 October 2026 and the owner\'s capsule request of 14 October 2026. The reviewed manifest, the board-motion proposal and every pinned drawing source are unchanged; this art is proposed for a later export revision and is adopted only through Integration.',
     rights: {
       origin: 'The approved Hospital\'s groups copied element for element from the repository\'s original vector source design/source/board/board-hospital.svg, recolored by the reviewed export recipe, around new vector drawing generated for this repository by design/board-v2/scenes/hospital-ward.mjs. No third-party artwork, font, photograph, traced image or generated raster image.',
       author: 'Visual and Motion Designer workstream: a Claude Code session working for the game owner.',
@@ -123,6 +131,7 @@ export async function planAssets(root = repoRoot) {
     lighting,
     fx,
     capsule,
+    medical,
     films: { file: FILMS_FILE, version: FILMS_VERSION, sha256: sha(filmsJson), bytes: Buffer.byteLength(filmsJson) },
   };
   files.set(`${OUT}/manifest.json`, `${JSON.stringify(manifest, null, 2)}\n`);
@@ -276,6 +285,67 @@ function planCapsule(files) {
     paths: 'Each seat\'s path in: the points its feet pass, from the doorway to its stop beside its chair (scene units); the way out is the same path backward. Neither crosses the table.',
     view: CAPSULE_VIEW,
     film: { id: CAPSULE_FILM.id, file: FILMS_FILE },
+    files: entries,
+  };
+}
+
+/**
+ * The Hospital's medical art: the drone's frames, the vitals inset and a berth's small screen for
+ * each trace, the status lamp's states, the rescue and detention tags, the scan line, the hologram
+ * and the revival pulse. Adds the files to `files`; returns the manifest's medical section.
+ */
+function planMedical(files) {
+  const header = (name, purpose) => `<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  mothership:dev-only · board-v2 medical proposal ${MEDICAL_VERSION} · ${name} · generated, do not edit by hand
+  ${purpose}
+  Built by design/tools/board-v2-assets.mjs from design/board-v2/fx/medical.mjs. Public: the same on every phone and the display; it reads no role, side, attacker, healer or cause. Not in the reviewed manifest design-0.2.0.
+-->
+`;
+  const entries = [];
+  const add = (file, content, entry) => {
+    files.set(file, content);
+    entries.push({ ...entry, file, bytes: Buffer.byteLength(content), sha256: sha(content), audience: 'public' });
+  };
+  for (const frame of DRONE.frames) {
+    const what = { folded: 'arriving or leaving, its three arms tucked under', open: 'over the bed, its arms unfolded', charge: 'its probes and lens charging', pulse: 'the revival pulse leaving its probes' }[frame];
+    add(`${OUT}/medical/drone-${frame}.svg`, header(`drone, ${frame}`, `The medical drone, ${what}. It leaves the Hospital's ceiling dock (${DOCK.join(', ')} in the ward's scene) and returns to it; its lens is at (${DRONE.lens.join(', ')}) of the ${DRONE.w} x ${DRONE.h} box, drawn ${DRONE_SCENE.width} scene units wide at a berth of scale 1.`) + droneSvg(frame),
+      { id: `medical.drone-${frame}`, kind: 'drone', frame, viewBox: `0 0 ${DRONE.w} ${DRONE.h}`, anchor: DRONE.lens });
+  }
+  for (const kind of TRACE_KINDS) {
+    const what = { off: 'powered down: the screen dark', boot: 'booting: a bright line', unstable: 'an Injured patient: uneven beats, one dropped', stable: 'a stable heartbeat', slowing: 'failing: two weak beats far apart', flat: 'the flatline' }[kind];
+    add(`${OUT}/medical/vitals-${kind}.svg`, header(`vitals inset, ${kind}`, `The vitals inset, ${what}: a comic panel that shows the berth's monitor large while a film plays. The film draws the trace up to its sweep; this is the whole trace.`) + vitalsInsetSvg(kind),
+      { id: `medical.vitals-${kind}`, kind: 'vitals-inset', trace: kind, viewBox: `0 0 ${INSET.w} ${INSET.h}` });
+    add(`${OUT}/medical/berth-screen-${kind}.svg`, header(`berth screen, ${kind}`, `A berth's own small monitor, ${what}, drawn over the ward's dark monitor at its headboard (berthKit().monitor).`) + berthScreenSvg(kind),
+      { id: `medical.berth-screen-${kind}`, kind: 'berth-screen', trace: kind, viewBox: '0 0 40 24' });
+  }
+  for (const state of LAMP_STATES) {
+    add(`${OUT}/medical/lamp-${state}.svg`, header(`lamp, ${state}`, { off: 'The status lamp off: a body\'s equipment, or a blink\'s dark beat.', amber: 'The warning amber of an Injured patient.', red: 'The critical red: the due round in progress, or a failing heart.', calm: 'The calm cyan of a revived patient.' }[state] + ' Centred on the berth\'s lamp (berthKit().lamp).') + lampSvg(state),
+      { id: `medical.lamp-${state}`, kind: 'lamp', state, viewBox: '0 0 40 40', anchor: [20, 20] });
+  }
+  for (const tone of RESCUE_TONES) {
+    add(`${OUT}/medical/rescue-${tone}.svg`, header(`rescue tag, ${tone}`, { next: 'A later normal round is still to come.', current: 'The due round is in progress.', none: 'No Rescue round left (a new injury in round 5 or the showdown): a struck cross, no round.' }[tone] + ' The round number beside it is the page\'s text, from the seat\'s rescueDueAfterRound; never in the art.') + rescueCrossSvg(tone),
+      { id: `medical.rescue-${tone}`, kind: 'rescue-tag', tone, viewBox: '0 0 16 16' });
+  }
+  add(`${OUT}/medical/detention.svg`, header('detention tag', 'A detained patient\'s neutral tag: a slate wristband with the Jail\'s stripes, beside the rescue tag on the berth\'s plate. The patient keeps the gown.') + detentionTagSvg(),
+    { id: 'medical.detention', kind: 'detention-tag', viewBox: '0 0 16 16' });
+  add(`${OUT}/medical/scan-line.svg`, header('scan line', 'The drone\'s scan line, going down the patient and back.') + scanLineSvg(),
+    { id: 'medical.scan-line', kind: 'scan-line', viewBox: '0 0 140 16' });
+  add(`${OUT}/medical/hologram.svg`, header('hologram', 'The faint diagnostic hologram over the patient during the scan: a torso outline, a cross and three ticks. No words.') + hologramSvg(),
+    { id: 'medical.hologram', kind: 'hologram', viewBox: '0 0 64 64' });
+  for (const frame of [1, 2]) {
+    add(`${OUT}/medical/pulse-${frame}.svg`, header(`revival pulse, frame ${frame}`, ['One controlled pulse: a white-hot core, the only part bright enough to count as a flash, and four short arcs.', 'The ring and the arcs fading out.'][frame - 1] + ' Centred on the patient\'s chest (berthKit().chest).') + pulseSvg(frame),
+      { id: `medical.pulse-${frame}`, kind: 'pulse', frame, viewBox: `0 0 ${PULSE_BOX} ${PULSE_BOX}`, anchor: [PULSE_BOX / 2, PULSE_BOX / 2], flashRadius: frame === 1 ? PULSE_FLASH_RADIUS : null });
+  }
+  return {
+    version: MEDICAL_VERSION,
+    films: { version: MEDICAL_FILMS_VERSION, ids: medicalContracts().map(film => film.id), file: FILMS_FILE },
+    colors: MEDICAL,
+    colorDistances: { method: 'CIE76 in L*a*b*, rounded, to the nearest of color.factionPrivateOrRevealed in tokens-0.4.0', atLeast: 30, toNearestFactionAccent: medicalColorDistances() },
+    dock: DOCK,
+    drone: { box: [DRONE.w, DRONE.h], lens: DRONE.lens, sceneWidth: DRONE_SCENE.width, reach: DRONE_SCENE.reach },
+    inset: { box: [INSET.w, INSET.h], screen: INSET.screen, placement: 'fx/label-box.mjs labelBox() with the inset\'s size: above the berth\'s press area, else below its name tag; never over the room\'s caption' },
+    berths: Object.fromEntries(['H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'H7', 'H8', 'H9'].map(id => [id, berthKit(id)])),
     files: entries,
   };
 }
