@@ -14,6 +14,7 @@
 - The Hospital's medical films (storyboards S9, S5 and S10): a patient's critical state on the berth (monitor, lamp, the rescue round and the detention tag), the medical drone's rescue, and the flatline and life-support shutdown, from the server's public facts and outcomes alone: [docs/design/hospital-films.md](../../docs/design/hospital-films.md). On 18 October 2026 the owner approved four beds for the successor ([#155](https://github.com/Amirkianfar66/GameN/issues/155)); the four-berth ward is drawn beside this one, which stays as it is.
 - The Captain's films (storyboards S6, S7 and S8): RELEASE (the console, the green pulse down the board's gutters, the Jail's door opening, the prisoners walking out to their new places) and EJECT (the protected red button, the emergency light, the airlock, the prisoners taken out as silhouettes and the bodies as grey cut-outs, the exterior, the memorial plaque), and the Captain's command plates in every state, from the public outcome and snapshots alone: [docs/design/captain-films.md](../../docs/design/captain-films.md).
 - The successor's four-berth Hospital, by the owner's decision of 18 October 2026 (four beds whatever the roster; an incoming player who finds them full is off the board): the four-berth ward beside the current one, the current board panel for panel, #158's films on its berths, and the overflow victim's beat (`&beds=4`): [docs/design/hospital-four.md](../../docs/design/hospital-four.md).
+- The Phantom Clone, privately (storyboard S3): a card in the Alien's own sheet, never on the board, with its activation (scan lines, a halftone duplicate, the character resolved twice, the real one faded to a dotted outline) and its expiry, from the own view alone; the tray's mark (`&film=clone`): [docs/design/clone-s3.md](../../docs/design/clone-s3.md).
 
 **The handoff:** [docs/design/board-v2-slots.md](../../docs/design/board-v2-slots.md).
 
@@ -57,6 +58,9 @@
 | `films/overflow.mjs` | The overflow victim's beat: its beats and what it draws at any moment, from public inputs alone (a proposal on an unallocated occurrence) |
 | `js/layout.mjs` | The review page's layout, the current one or with `&beds=4` the successor's. Review controller, not to port |
 | `js/overflow-fixtures.mjs`, `js/overflow-view.mjs` | The overflow beat's synthetic example and its review controller (`&film=overflow&beds=4`). Not to port |
+| `fx/clone.mjs` | The Clone's private art: the card's layout, the scan band, the halftone duplicate and the dotted outline of the character's own drawing, the stage, the tray's mark |
+| `films/clone.mjs` | The Clone's activation and expiry on the card, and which card and which film the own view gives |
+| `js/clone-fixtures.mjs`, `js/clone-view.mjs` | The Clone's synthetic cases (seat 3, Lyra, as the Alien) and its review controller (`&film=clone`, `?sheet=clone`). Not to port |
 | `js/fixtures.mjs` | Synthetic boards for review (test-only) |
 | `js/page.js`, `index.html`, `css/page.css` | The review page: a phone-sized board, or one room's whole scene |
 | `contact.html` | The contact sheet of the captures |

@@ -28,6 +28,10 @@
 //   suction, the debris, the emergency light and the exterior; the memorial plaque and the history's
 //   grey cut-outs; and the RELEASE, EJECT and button timelines (design/board-v2/films/captain.mjs) in
 //   contract/films.json;
+// - the Clone's private art (design/board-v2/fx/clone.mjs): the tray's mark, a scan band and the
+//   card's stage at a phone's size, and each character's dotted outline and halftone duplicate, as
+//   the card draws them; and the activation's and the expiry's timelines (design/board-v2/films/
+//   clone.mjs) in contract/films.json;
 // - the manifest, with every file's size and hash.
 //
 //   node design/tools/board-v2-assets.mjs           writes design/board-v2/assets/, contract/slots.json and contract/films.json
@@ -63,6 +67,8 @@ import { FOUR_BEDS, FOUR_BERTHS, FOUR_ROSTERS, wardFourScene } from '../board-v2
 import { SLOTS_VERSION as FOUR_SLOTS_VERSION, SLOT_TABLE_VERSION as FOUR_TABLE_VERSION, slotsOf as fourSlotsOf } from '../board-v2/scenes/slots-four.mjs';
 import { MEDICAL_FOUR_VERSION, fourBerthKits } from '../board-v2/fx/medical-four.mjs';
 import { overflowContract } from '../board-v2/films/overflow.mjs';
+import { CLONE_FILM, CLONE_FILMS_VERSION, cloneContract } from '../board-v2/films/clone.mjs';
+import { CLONE, CLONE_CARD, CLONE_FX_VERSION, CLONE_MIN_DISTANCE, FIGURE_SPAN, PASS_GAP, cloneCardLayout, cloneColorDistances, halftoneSvg, markSvg, outlineSvg, scanSvg, stageSvg } from '../board-v2/fx/clone.mjs';
 import { groupOuter } from './lib/svg-lift.mjs';
 
 const repoRoot = resolve(fileURLToPath(new URL('../../', import.meta.url)));
@@ -70,8 +76,8 @@ const OUT = 'design/board-v2/assets';
 const SLOTS_FILE = 'design/board-v2/contract/slots.json';
 const SLOTS_FOUR_FILE = 'design/board-v2/contract/slots-four.json';
 const FILMS_FILE = 'design/board-v2/contract/films.json';
-/** The board-v2 art set's version: 0.1.0 the slots and the ward, 0.2.0 with the Blackout's lighting, 0.3.0 with ATTACK BLOCKED, 0.4.0 with the private-talk capsule, 0.5.0 with the Hospital's medical films, 0.6.0 with the Captain's films, 0.7.0 with the four-berth ward of the successor. */
-export const ASSETS_VERSION = 'board-v2-0.7.0';
+/** The board-v2 art set's version: 0.1.0 the slots and the ward, 0.2.0 with the Blackout's lighting, 0.3.0 with ATTACK BLOCKED, 0.4.0 with the private-talk capsule, 0.5.0 with the Hospital's medical films, 0.6.0 with the Captain's films, 0.7.0 with the four-berth ward of the successor, 0.8.0 with the Clone's private card. */
+export const ASSETS_VERSION = 'board-v2-0.8.0';
 const kebab = id => id.replace(/[A-Z]/g, letter => `-${letter.toLowerCase()}`);
 const kebabAll = ids => ids.map(kebab);
 const sha = content => createHash('sha256').update(content).digest('hex');
@@ -127,7 +133,8 @@ export async function planAssets(root = repoRoot) {
   const capsule = planCapsule(files);
   const medical = planMedical(files);
   const captain = await planCaptain(root, files);
-  const films = { devOnly: 'mothership:dev-only', version: FILMS_VERSION, status: 'proposal', note: 'The board-v2 films as data, from design/board-v2/films/. Durations are targets for drawing; the server\'s deadlines are the only clock. Not a rule and not an adopted contract.', films: [blackoutContract(), blockedContract(), capsuleContract(), ...medicalContracts(), ...captainContracts(), overflowContract()] };
+  const clone = planClone(files);
+  const films = { devOnly: 'mothership:dev-only', version: FILMS_VERSION, status: 'proposal', note: 'The board-v2 films as data, from design/board-v2/films/. Durations are targets for drawing; the server\'s deadlines are the only clock. Not a rule and not an adopted contract.', films: [blackoutContract(), blockedContract(), capsuleContract(), ...medicalContracts(), ...captainContracts(), overflowContract(), cloneContract()] };
   const filmsJson = `${JSON.stringify(films, null, 2)}\n`;
   files.set(FILMS_FILE, filmsJson);
   const recipes = JSON.parse(await readFile(resolve(root, 'design/source/export-recipes.json'), 'utf8'));
@@ -137,7 +144,7 @@ export async function planAssets(root = repoRoot) {
     status: 'proposal',
     baseBoard: 'board-motion-0.3.0',
     baseManifest: 'design-0.2.0',
-    note: 'The Hospital as a ward with one berth per seat (7, 8 or 9), the board\'s fixed slot table, the Blackout\'s lighting art, the shared ATTACK BLOCKED effects, the private-talk capsule, the Hospital\'s medical films (the critical state, the drone\'s rescue and the flatline), the Captain\'s films (RELEASE, EJECT and the command plates) and the successor\'s four-berth ward, for the owner\'s motion specification of 13 October 2026, the owner\'s capsule request of 14 October 2026 and the owner\'s four-bed decision of 18 October 2026. The reviewed manifest, the board-motion proposal and every pinned drawing source are unchanged; this art is proposed for a later export revision and is adopted only through Integration.',
+    note: 'The Hospital as a ward with one berth per seat (7, 8 or 9), the board\'s fixed slot table, the Blackout\'s lighting art, the shared ATTACK BLOCKED effects, the private-talk capsule, the Hospital\'s medical films (the critical state, the drone\'s rescue and the flatline), the Captain\'s films (RELEASE, EJECT and the command plates), the successor\'s four-berth ward and the Clone\'s private card, for the owner\'s motion specification of 13 October 2026, the owner\'s capsule request of 14 October 2026 and the owner\'s four-bed decision of 18 October 2026. The reviewed manifest, the board-motion proposal and every pinned drawing source are unchanged; this art is proposed for a later export revision and is adopted only through Integration.',
     rights: {
       origin: 'The approved Hospital\'s groups copied element for element from the repository\'s original vector source design/source/board/board-hospital.svg, recolored by the reviewed export recipe, around new vector drawing generated for this repository by design/board-v2/scenes/hospital-ward.mjs. No third-party artwork, font, photograph, traced image or generated raster image.',
       author: 'Visual and Motion Designer workstream: a Claude Code session working for the game owner.',
@@ -153,6 +160,7 @@ export async function planAssets(root = repoRoot) {
     medical,
     captain,
     four,
+    clone,
     films: { file: FILMS_FILE, version: FILMS_VERSION, sha256: sha(filmsJson), bytes: Buffer.byteLength(filmsJson) },
   };
   files.set(`${OUT}/manifest.json`, `${JSON.stringify(manifest, null, 2)}\n`);
@@ -458,6 +466,64 @@ async function planCaptain(root, files) {
     airlock: AIRLOCK, exterior: EXTERIOR,
     placement: { console: 'fx/captain.mjs consoleBox()', pulse: 'fx/captain.mjs conduitPoints()', plaque: 'fx/captain.mjs plaqueBox()' },
     reuses: ['design/exports/public-board/fx-ink-trail.paper.fdbb7f4fce.svg', 'design/exports/public-board/fx-landing-puff.paper.8d5f3998bd.svg'],
+    files: entries,
+  };
+}
+
+/**
+ * The Clone's private art (storyboard S3): the tray's mark, a scan band and the card's stage at the
+ * card's size on a 390 px phone, and each character's dotted outline and halftone duplicate in the
+ * crew's clothes: samples of fx/clone.mjs's functions, which draw the card from the Alien's character
+ * in the clothes of its place. Adds the files to `files`; returns the manifest's clone section.
+ */
+function planClone(files) {
+  const header = (name, purpose) => `<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  mothership:dev-only · board-v2 Clone proposal ${CLONE_FX_VERSION} · ${name} · generated, do not edit by hand
+  ${purpose}
+  Built by design/tools/board-v2-assets.mjs from design/board-v2/fx/clone.mjs. Owner-private: drawn only on its owner's own phone, in its sheet, never on the board; every phone's bundle ships it whatever its seat, and nothing in it names a role or a side. Not in the reviewed manifest design-0.2.0.
+-->
+`;
+  const entries = [];
+  const add = (file, content, entry) => {
+    files.set(file, content);
+    entries.push({ ...entry, file, bytes: Buffer.byteLength(content), sha256: sha(content), audience: entry.audience ?? 'owner-private: its owner\'s phone, in its sheet' });
+  };
+  add(`${OUT}/clone/mark.svg`, header('the tray\'s mark', 'The Actions tray\'s mark for the Clone, beside its English label: a character\'s bust and its dashed double. One ink, a 32 x 32 cell, a 2.6 stroke, as the kit\'s other marks (design/abilities/source/actions.svg).') + markSvg(),
+    { id: 'clone.mark', kind: 'mark', viewBox: '0 0 32 32', audience: 'its owner\'s Actions tray; every phone loads the kit' });
+  // The card on a 390 px phone (the sheet's body 364 px wide): the scan band and the stage at its sizes.
+  const card = cloneCardLayout({ width: 364 });
+  const span = (FIGURE_SPAN.feet - FIGURE_SPAN.top) * card.real.unit;
+  const band = { width: Math.round(card.real.size), height: Math.round(span * 0.3) };
+  add(`${OUT}/clone/scan.svg`, header('scan band', `The scan lines, one pixel every three, brightest at the leading edge: drawn over a figure by the films (${band.width} x ${band.height} here, the card's on a 390 px phone; the films draw scanSvg() at the figure's size).`) + scanSvg({ ...band, prefix: 'scan' }),
+    { id: 'clone.scan', kind: 'scan', viewBox: `0 0 ${band.width} ${band.height}` });
+  const { portrait } = card;
+  const stage = { width: portrait.width, height: portrait.height, real: card.real.feet[0] - portrait.left, clone: card.clone.feet[0] - portrait.left, floor: card.real.feet[1] - portrait.top };
+  add(`${OUT}/clone/stage.svg`, header('stage', `The card's portrait window: a dark stage, a faint grid, the floor and the two projector pads, the duplicate's lit (stageSvg(), ${portrait.width} x ${portrait.height} here).`) + stageSvg({ ...stage, lit: 1, prefix: 'stage' }),
+    { id: 'clone.stage', kind: 'stage', viewBox: `0 0 ${portrait.width} ${portrait.height}` });
+  for (const [id, c] of Object.entries(CREW)) {
+    const figure = dressedFigureSvg(c, skeletonOf('stand'), { outfit: 'crew', prefix: `cl-${id}` });
+    add(`${OUT}/clone/outline-${id}.svg`, header(`outline, ${c.sign}`, `${c.sign}'s dotted outline (outlineSvg() of the approved figure, standing, in the crew's clothes): the real character once hidden, on its own card.`) + outlineSvg(figure, { prefix: `ol-${id}` }),
+      { id: `clone.outline-${id}`, kind: 'outline', character: id, viewBox: FRAME.box.join(' ') });
+    add(`${OUT}/clone/halftone-${id}.svg`, header(`halftone, ${c.sign}`, `${c.sign}'s duplicate as it forms, fully screened (halftoneSvg() of the approved figure, density 1): the same drawing's silhouette in the deep green's dots, with a pale rim.`) + halftoneSvg(figure, { density: 1, prefix: `ht-${id}` }),
+      { id: `clone.halftone-${id}`, kind: 'halftone', character: id, viewBox: FRAME.box.join(' ') });
+  }
+  return {
+    version: CLONE_FX_VERSION,
+    status: 'proposal',
+    audience: 'owner-private: its owner\'s own phone alone, in its sheet\'s private area, from its own view (self.cloneStatus, full-game-1.10.0, #153: null for every other seat). Never on the board, on any phone; the display, other players and the host draw nothing of it. A block by the Clone is S4\'s, exactly as Protection\'s',
+    films: { version: CLONE_FILMS_VERSION, ids: [CLONE_FILM.id], file: FILMS_FILE, activate: CLONE_FILM.activate.end, expire: CLONE_FILM.expire.end, reduced: CLONE_FILM.reduced },
+    colors: CLONE,
+    colorDistances: { method: 'CIE76 in L*a*b*, rounded, to the nearest of color.factionPrivateOrRevealed in tokens-0.4.0', atLeast: CLONE_MIN_DISTANCE, toNearestFactionAccent: cloneColorDistances() },
+    card: CLONE_CARD, figureSpan: FIGURE_SPAN, passGap: PASS_GAP,
+    placement: { card: 'fx/clone.mjs cloneCardLayout(), the sheet\'s private claim (js/turns.mjs turnsLayout()); its body down to cloneBodyHeight(), never under the raised Pass' },
+    contract: { from: 'full-game-1.10.0 (#153, a9dd543)', field: 'self.cloneStatus: null for every seat but its owner\'s; { used, activatedRound, expiresAfterRound, active } for its owner\'s (packages/contracts/src/clone.ts)' },
+    words: {
+      source: 'Frontend\'s hosted board at the full-game-1.10.0 baseline 6ca4b51d5acd1454daec68c5108c8f12ee2286bf: packages/presentation/src/model/connected-player.ts, line 361',
+      sourceSha256: 'be6dab5b5343536ddd7fb321dccf8ab980999e964f67b544d0f8156aa813b76a',
+      active: 'Clone active through Round {expiresAfterRound}.', ended: 'Clone inactive; its once-only use is spent.', unused: 'Clone unused.',
+      stamps: 'CLONE ACTIVE and CLONE ENDED: the page\'s text, hidden from assistive technology (the status line says it)',
+    },
     files: entries,
   };
 }

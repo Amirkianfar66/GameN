@@ -1,10 +1,10 @@
 {
   "devOnly": "mothership:dev-only",
-  "manifestVersion": "board-v2-0.7.0",
+  "manifestVersion": "board-v2-0.8.0",
   "status": "proposal",
   "baseBoard": "board-motion-0.3.0",
   "baseManifest": "design-0.2.0",
-  "note": "The Hospital as a ward with one berth per seat (7, 8 or 9), the board's fixed slot table, the Blackout's lighting art, the shared ATTACK BLOCKED effects, the private-talk capsule, the Hospital's medical films (the critical state, the drone's rescue and the flatline), the Captain's films (RELEASE, EJECT and the command plates) and the successor's four-berth ward, for the owner's motion specification of 13 October 2026, the owner's capsule request of 14 October 2026 and the owner's four-bed decision of 18 October 2026. The reviewed manifest, the board-motion proposal and every pinned drawing source are unchanged; this art is proposed for a later export revision and is adopted only through Integration.",
+  "note": "The Hospital as a ward with one berth per seat (7, 8 or 9), the board's fixed slot table, the Blackout's lighting art, the shared ATTACK BLOCKED effects, the private-talk capsule, the Hospital's medical films (the critical state, the drone's rescue and the flatline), the Captain's films (RELEASE, EJECT and the command plates), the successor's four-berth ward and the Clone's private card, for the owner's motion specification of 13 October 2026, the owner's capsule request of 14 October 2026 and the owner's four-bed decision of 18 October 2026. The reviewed manifest, the board-motion proposal and every pinned drawing source are unchanged; this art is proposed for a later export revision and is adopted only through Integration.",
   "rights": {
     "origin": "The approved Hospital's groups copied element for element from the repository's original vector source design/source/board/board-hospital.svg, recolored by the reviewed export recipe, around new vector drawing generated for this repository by design/board-v2/scenes/hospital-ward.mjs. No third-party artwork, font, photograph, traced image or generated raster image.",
     "author": "Visual and Motion Designer workstream: a Claude Code session working for the game owner.",
@@ -3062,10 +3062,315 @@
       }
     ]
   },
+  "clone": {
+    "version": "board-v2-clone-0.1.0",
+    "status": "proposal",
+    "audience": "owner-private: its owner's own phone alone, in its sheet's private area, from its own view (self.cloneStatus, full-game-1.10.0, #153: null for every other seat). Never on the board, on any phone; the display, other players and the host draw nothing of it. A block by the Clone is S4's, exactly as Protection's",
+    "films": {
+      "version": "board-v2-clone-films-0.1.0",
+      "ids": [
+        "clone"
+      ],
+      "file": "design/board-v2/contract/films.json",
+      "activate": 1800,
+      "expire": 900,
+      "reduced": {
+        "holdMs": 400,
+        "fadeMs": 80
+      }
+    },
+    "colors": {
+      "scan": "#8EF0C8",
+      "pale": "#BFF5DE",
+      "deep": "#2F9E7E",
+      "outline": "#B5B8B2",
+      "stage": "#12261F",
+      "rim": "#1E4A3F",
+      "card": "#0B1814",
+      "ended": "#9EA49F"
+    },
+    "colorDistances": {
+      "method": "CIE76 in L*a*b*, rounded, to the nearest of color.factionPrivateOrRevealed in tokens-0.4.0",
+      "atLeast": 35,
+      "toNearestFactionAccent": {
+        "scan": {
+          "nearest": "blue",
+          "distance": 71
+        },
+        "pale": {
+          "nearest": "blue",
+          "distance": 61
+        },
+        "deep": {
+          "nearest": "blue",
+          "distance": 69
+        },
+        "outline": {
+          "nearest": "red",
+          "distance": 49
+        },
+        "stage": {
+          "nearest": "blue",
+          "distance": 76
+        },
+        "rim": {
+          "nearest": "blue",
+          "distance": 67
+        },
+        "card": {
+          "nearest": "blue",
+          "distance": 79
+        },
+        "ended": {
+          "nearest": "blue",
+          "distance": 48
+        }
+      }
+    },
+    "card": {
+      "height": 100,
+      "pad": 6,
+      "ratio": 1.3,
+      "figure": 0.86,
+      "real": 0.32,
+      "clone": 0.7,
+      "floor": 0.95,
+      "gap": 10
+    },
+    "figureSpan": {
+      "top": 12,
+      "feet": 233
+    },
+    "passGap": 6,
+    "placement": {
+      "card": "fx/clone.mjs cloneCardLayout(), the sheet's private claim (js/turns.mjs turnsLayout()); its body down to cloneBodyHeight(), never under the raised Pass"
+    },
+    "contract": {
+      "from": "full-game-1.10.0 (#153, a9dd543)",
+      "field": "self.cloneStatus: null for every seat but its owner's; { used, activatedRound, expiresAfterRound, active } for its owner's (packages/contracts/src/clone.ts)"
+    },
+    "words": {
+      "source": "Frontend's hosted board at the full-game-1.10.0 baseline 6ca4b51d5acd1454daec68c5108c8f12ee2286bf: packages/presentation/src/model/connected-player.ts, line 361",
+      "sourceSha256": "be6dab5b5343536ddd7fb321dccf8ab980999e964f67b544d0f8156aa813b76a",
+      "active": "Clone active through Round {expiresAfterRound}.",
+      "ended": "Clone inactive; its once-only use is spent.",
+      "unused": "Clone unused.",
+      "stamps": "CLONE ACTIVE and CLONE ENDED: the page's text, hidden from assistive technology (the status line says it)"
+    },
+    "files": [
+      {
+        "id": "clone.mark",
+        "kind": "mark",
+        "viewBox": "0 0 32 32",
+        "audience": "its owner's Actions tray; every phone loads the kit",
+        "file": "design/board-v2/assets/clone/mark.svg",
+        "bytes": 1110,
+        "sha256": "08bec0ad1ef089a9b22cb42460953e6931572d25275a3068f764204f5830793f"
+      },
+      {
+        "id": "clone.scan",
+        "kind": "scan",
+        "viewBox": "0 0 103 23",
+        "file": "design/board-v2/assets/clone/scan.svg",
+        "bytes": 1607,
+        "sha256": "fe2585695051e696906172a99f2496cd6d864cb16875db121d8f998ad4eba860",
+        "audience": "owner-private: its owner's phone, in its sheet"
+      },
+      {
+        "id": "clone.stage",
+        "kind": "stage",
+        "viewBox": "0 0 114.4 88",
+        "file": "design/board-v2/assets/clone/stage.svg",
+        "bytes": 1781,
+        "sha256": "94e5828fa80ad510c9d7cfd917984a0ca8e17a192fd177cf5cbb3842db45999e",
+        "audience": "owner-private: its owner's phone, in its sheet"
+      },
+      {
+        "id": "clone.outline-c1",
+        "kind": "outline",
+        "character": "c1",
+        "viewBox": "-90 -40 300 300",
+        "file": "design/board-v2/assets/clone/outline-c1.svg",
+        "bytes": 24461,
+        "sha256": "54fcc39d7469cf012f7610e56e19a8dc7b9514592864321314250b9178fb34c9",
+        "audience": "owner-private: its owner's phone, in its sheet"
+      },
+      {
+        "id": "clone.halftone-c1",
+        "kind": "halftone",
+        "character": "c1",
+        "viewBox": "-90 -40 300 300",
+        "file": "design/board-v2/assets/clone/halftone-c1.svg",
+        "bytes": 47862,
+        "sha256": "56d449b476fb70c80571e1d28c72c307d7bc7e8547d608954845de22c2c7ca95",
+        "audience": "owner-private: its owner's phone, in its sheet"
+      },
+      {
+        "id": "clone.outline-c2",
+        "kind": "outline",
+        "character": "c2",
+        "viewBox": "-90 -40 300 300",
+        "file": "design/board-v2/assets/clone/outline-c2.svg",
+        "bytes": 23428,
+        "sha256": "82239d13d70238ae5b37407497fa592232f187f52c6504db40b2b3b546db8fce",
+        "audience": "owner-private: its owner's phone, in its sheet"
+      },
+      {
+        "id": "clone.halftone-c2",
+        "kind": "halftone",
+        "character": "c2",
+        "viewBox": "-90 -40 300 300",
+        "file": "design/board-v2/assets/clone/halftone-c2.svg",
+        "bytes": 45796,
+        "sha256": "7b44de68f8099f5397f4dc7db5741b97643bdc0d7df70f72740343d2b90c736c",
+        "audience": "owner-private: its owner's phone, in its sheet"
+      },
+      {
+        "id": "clone.outline-c3",
+        "kind": "outline",
+        "character": "c3",
+        "viewBox": "-90 -40 300 300",
+        "file": "design/board-v2/assets/clone/outline-c3.svg",
+        "bytes": 23154,
+        "sha256": "641923bea19bab4406a3136b1876e4d79ec3cc7acab626519d2095618fb54a7d",
+        "audience": "owner-private: its owner's phone, in its sheet"
+      },
+      {
+        "id": "clone.halftone-c3",
+        "kind": "halftone",
+        "character": "c3",
+        "viewBox": "-90 -40 300 300",
+        "file": "design/board-v2/assets/clone/halftone-c3.svg",
+        "bytes": 45250,
+        "sha256": "1f80abdc5262871015d6091329777ef9a251e3e24d2224b5f06d8e342cccbe32",
+        "audience": "owner-private: its owner's phone, in its sheet"
+      },
+      {
+        "id": "clone.outline-c4",
+        "kind": "outline",
+        "character": "c4",
+        "viewBox": "-90 -40 300 300",
+        "file": "design/board-v2/assets/clone/outline-c4.svg",
+        "bytes": 22253,
+        "sha256": "703dd63671072c701a263950e6c5a78fcbd02ff93569f8b76eb1bac48ef3dd79",
+        "audience": "owner-private: its owner's phone, in its sheet"
+      },
+      {
+        "id": "clone.halftone-c4",
+        "kind": "halftone",
+        "character": "c4",
+        "viewBox": "-90 -40 300 300",
+        "file": "design/board-v2/assets/clone/halftone-c4.svg",
+        "bytes": 43442,
+        "sha256": "870b6514c615e0ce0f8ee97178a8f4f2209d99109c9ec902a6b22bb00ef72cfa",
+        "audience": "owner-private: its owner's phone, in its sheet"
+      },
+      {
+        "id": "clone.outline-c5",
+        "kind": "outline",
+        "character": "c5",
+        "viewBox": "-90 -40 300 300",
+        "file": "design/board-v2/assets/clone/outline-c5.svg",
+        "bytes": 21712,
+        "sha256": "4878ef2cb12fb9a922d281155188bb83da5cb185fa1a79852c8bdc440a3e5676",
+        "audience": "owner-private: its owner's phone, in its sheet"
+      },
+      {
+        "id": "clone.halftone-c5",
+        "kind": "halftone",
+        "character": "c5",
+        "viewBox": "-90 -40 300 300",
+        "file": "design/board-v2/assets/clone/halftone-c5.svg",
+        "bytes": 42356,
+        "sha256": "ffcc0d8a0c5a1b801856fe0989ada0cad2e9cefa98c3ecfc188ffa4ef10d095f",
+        "audience": "owner-private: its owner's phone, in its sheet"
+      },
+      {
+        "id": "clone.outline-c6",
+        "kind": "outline",
+        "character": "c6",
+        "viewBox": "-90 -40 300 300",
+        "file": "design/board-v2/assets/clone/outline-c6.svg",
+        "bytes": 23554,
+        "sha256": "b2a75fcc2033da30e64733b0df6d7fb6bcf385a4b2ef71ad57e3975ff28b9b60",
+        "audience": "owner-private: its owner's phone, in its sheet"
+      },
+      {
+        "id": "clone.halftone-c6",
+        "kind": "halftone",
+        "character": "c6",
+        "viewBox": "-90 -40 300 300",
+        "file": "design/board-v2/assets/clone/halftone-c6.svg",
+        "bytes": 46048,
+        "sha256": "ddca6225c9cb57439df0ad217bbe40c01ba820d82ee363bcff388c76250ea1e6",
+        "audience": "owner-private: its owner's phone, in its sheet"
+      },
+      {
+        "id": "clone.outline-c7",
+        "kind": "outline",
+        "character": "c7",
+        "viewBox": "-90 -40 300 300",
+        "file": "design/board-v2/assets/clone/outline-c7.svg",
+        "bytes": 22869,
+        "sha256": "dcd2f4e32e6b26721de3a9725aca546431d3485116676e04231538fb6280a2ce",
+        "audience": "owner-private: its owner's phone, in its sheet"
+      },
+      {
+        "id": "clone.halftone-c7",
+        "kind": "halftone",
+        "character": "c7",
+        "viewBox": "-90 -40 300 300",
+        "file": "design/board-v2/assets/clone/halftone-c7.svg",
+        "bytes": 44676,
+        "sha256": "1cea176ffd4e58343974fb47ade271bb48f6cc9595af41efa7a213c8ccaf3c3b",
+        "audience": "owner-private: its owner's phone, in its sheet"
+      },
+      {
+        "id": "clone.outline-c8",
+        "kind": "outline",
+        "character": "c8",
+        "viewBox": "-90 -40 300 300",
+        "file": "design/board-v2/assets/clone/outline-c8.svg",
+        "bytes": 23268,
+        "sha256": "9adb6da5d702fd95bda3858296677fe84d65c3731a7d9af6349d75bfdf1b4dae",
+        "audience": "owner-private: its owner's phone, in its sheet"
+      },
+      {
+        "id": "clone.halftone-c8",
+        "kind": "halftone",
+        "character": "c8",
+        "viewBox": "-90 -40 300 300",
+        "file": "design/board-v2/assets/clone/halftone-c8.svg",
+        "bytes": 45480,
+        "sha256": "1cfb3a081f52f55665a55917c4d71f10cb0e4c88976c24f46fbcfebca5bb03e0",
+        "audience": "owner-private: its owner's phone, in its sheet"
+      },
+      {
+        "id": "clone.outline-c9",
+        "kind": "outline",
+        "character": "c9",
+        "viewBox": "-90 -40 300 300",
+        "file": "design/board-v2/assets/clone/outline-c9.svg",
+        "bytes": 24644,
+        "sha256": "7da28398ec36fabb15d5b744ac8f36964e8004049b14b57614710e6e71ff63ea",
+        "audience": "owner-private: its owner's phone, in its sheet"
+      },
+      {
+        "id": "clone.halftone-c9",
+        "kind": "halftone",
+        "character": "c9",
+        "viewBox": "-90 -40 300 300",
+        "file": "design/board-v2/assets/clone/halftone-c9.svg",
+        "bytes": 48222,
+        "sha256": "a1eb01b2acfe983cf6423ff55d3b5586de1b46159b5383993dff769f3ef7388e",
+        "audience": "owner-private: its owner's phone, in its sheet"
+      }
+    ]
+  },
   "films": {
     "file": "design/board-v2/contract/films.json",
     "version": "board-v2-films-0.2.0",
-    "sha256": "b570c7700a425857664a1b7839473f22eb980a7b0d2e942851902fb409159283",
-    "bytes": 41296
+    "sha256": "5cae7117094797a4896b4553e050b5e056f1319a58bcd092e97935c18aa16420",
+    "bytes": 45129
   }
 }

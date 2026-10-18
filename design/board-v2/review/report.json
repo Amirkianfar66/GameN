@@ -1,6 +1,6 @@
 {
   "devOnly": "mothership:dev-only",
-  "inputsSha256": "1da609e974f2505a7c867b6ce0a7d61939f3269dd8c45b3f0506f67c038107ae",
+  "inputsSha256": "6df0235aacc8312e61bbbacd2c5a620ad04c5c9bd5d42d5e035a6741e70e9cc7",
   "shots": [
     {
       "file": "board-320x568-ward.png",
@@ -3267,6 +3267,316 @@
       "shell": "tall",
       "fallback": null,
       "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "clone-390x844-activate-0200.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=clone&capsule=1&case=activate&t=200&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "clone-390x844-activate-0650.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=clone&capsule=1&case=activate&t=650&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "clone-390x844-activate-1100.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=clone&capsule=1&case=activate&t=1100&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "clone-390x844-activate-1550.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=clone&capsule=1&case=activate&t=1550&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "clone-390x844-activate-1720.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=clone&capsule=1&case=activate&t=1720&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "clone-390x844-activate-1900.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=clone&capsule=1&case=activate&t=1900&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "clone-390x844-expire-0150.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=clone&capsule=1&case=expire&t=150&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "clone-390x844-expire-0450.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=clone&capsule=1&case=expire&t=450&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "clone-390x844-expire-0750.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=clone&capsule=1&case=expire&t=750&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "clone-390x844-expire-0950.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=clone&capsule=1&case=expire&t=950&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "clone-390x844-reduced-activate-0200.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=clone&capsule=1&case=activate&t=200&motion=reduced&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "clone-390x844-reduced-activate-0440.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=clone&capsule=1&case=activate&t=440&motion=reduced&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "clone-390x844-reduced-activate-0600.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=clone&capsule=1&case=activate&t=600&motion=reduced&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "clone-390x844-reduced-expire-0200.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=clone&capsule=1&case=expire&t=200&motion=reduced&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "clone-390x844-reduced-expire-0440.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=clone&capsule=1&case=expire&t=440&motion=reduced&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "clone-390x844-reduced-expire-0600.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=clone&capsule=1&case=expire&t=600&motion=reduced&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "clone-320x568-activate-1100.png",
+      "viewport": "320x568",
+      "query": "roster=9&film=clone&capsule=1&case=activate&t=1100&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "clone-320x568-activate-1900.png",
+      "viewport": "320x568",
+      "query": "roster=9&film=clone&capsule=1&case=activate&t=1900&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "clone-320x568-expire-0450.png",
+      "viewport": "320x568",
+      "query": "roster=9&film=clone&capsule=1&case=expire&t=450&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "clone-320x568-jailed.png",
+      "viewport": "320x568",
+      "query": "roster=9&film=clone&capsule=1&case=jailed&state=active&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "clone-390x844-jailed.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=clone&capsule=1&case=jailed&state=active&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "clone-390x844-r5.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=clone&capsule=1&case=r5&state=active&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "clone-390x844-activate-1900-r7.png",
+      "viewport": "390x844",
+      "query": "roster=7&film=clone&capsule=1&case=activate&t=1900&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "clone-390x844-activate-1900-r8.png",
+      "viewport": "390x844",
+      "query": "roster=8&film=clone&capsule=1&case=activate&t=1900&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "clone-390x844-four-activate-1900.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=clone&capsule=1&beds=4&case=activate&t=1900&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "clone-360x740-text2-active.png",
+      "viewport": "360x740",
+      "query": "roster=9&film=clone&capsule=1&case=activate&state=active&text=2&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "clone-375x667-text2-ended.png",
+      "viewport": "375x667",
+      "query": "roster=9&film=clone&capsule=1&case=expire&state=ended&text=2&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "clone-390x844-text2-activate-1100.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=clone&capsule=1&case=activate&t=1100&text=2&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "clone-390x844-player-1100.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=clone&capsule=1&case=activate&t=1100&viewer=player&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "clone-390x844-display-1100.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=clone&capsule=1&case=activate&t=1100&viewer=display&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "clone-sheet.png",
+      "viewport": "1240x760",
+      "query": "sheet=clone",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
       "boardProblems": []
     }
   ],
@@ -7296,6 +7606,42 @@
     },
     {
       "compare": "command-room, room-b, jail during the rescue on four berths (2600 ms) and before it, 390x844",
+      "same": true
+    },
+    {
+      "compare": "the Clone's card: the Alien's own page without its sheet and another player's page, during the activation (1100 ms), 390x844",
+      "same": true
+    },
+    {
+      "compare": "the Clone's card: the Alien's own page without its sheet and another player's page, during the activation (1100 ms), 320x568",
+      "same": true
+    },
+    {
+      "compare": "the Clone's card: the Alien's own page without its sheet and another player's page, during the expiry (450 ms), 390x844",
+      "same": true
+    },
+    {
+      "compare": "the Clone's card: the Alien's own page without its sheet and another player's page, in the Jail, the card at rest, 390x844",
+      "same": true
+    },
+    {
+      "compare": "the Clone's card: the Alien's own page without its sheet and another player's page, on the four-berth board, during the activation (1100 ms), 390x844",
+      "same": true
+    },
+    {
+      "compare": "the Clone's card: another player's page and the display's, during the activation (1100 ms), 390x844",
+      "same": true
+    },
+    {
+      "compare": "the Clone's card: the Alien's own page without its sheet during the activation (1100 ms) and after it (1900 ms), 390x844",
+      "same": true
+    },
+    {
+      "compare": "the Clone's card: the requests of the Alien's own page and of another player's, during the activation (1100 ms), 390x844",
+      "same": true
+    },
+    {
+      "compare": "the Clone's card: the requests of the Alien's own page and of another player's, during the expiry (450 ms), 390x844",
       "same": true
     }
   ],
