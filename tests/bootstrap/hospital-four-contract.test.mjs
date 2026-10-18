@@ -1,3 +1,5 @@
+import { createHash } from 'node:crypto';
+import { readFileSync } from 'node:fs';
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import {
@@ -222,4 +224,15 @@ test('physical placement and player-only impact events apply the four-bed bound 
       assert.equal(FullEventSchema.safeParse({ ...event, fact: { ...event.fact, slotId } }).success, false, `${type}: invalid physical impact ${slotId}`);
     }
   }
+});
+
+// The immutable executable tuple must identify the exact recorded owner rule bytes.
+test('successor ruleset hash is the exact owner overlay, with preserved original ordering reply', () => {
+  const bytes=readFileSync(new URL('../../rules/overlays/hospital-four-owner-decision-2026-10-19.json',import.meta.url));
+  const rule=JSON.parse(bytes.toString());
+  assert.equal(createHash('sha256').update(bytes).digest('hex'),PINS.rulesetHash);
+  assert.equal(rule.engine_version,PINS.engineVersion);
+  assert.equal(rule.ruleset_version,PINS.rulesetVersion);
+  assert.equal(rule.ordering_owner_reply.answer,'Free healed Hospital places first, then use existing seat order');
+  assert.deepEqual(rule.ordering_owner_reply.question_item_id,['request_user_input_async','call_aa4dac80a0a8494882e1e5d35336cb8f',0]);
 });
