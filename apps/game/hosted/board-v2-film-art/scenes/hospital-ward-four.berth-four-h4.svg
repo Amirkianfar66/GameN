@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 768" width="1024" height="768">
+  <defs>
+    <pattern id="halftone-ink-s-hospital" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <circle cx="4.5" cy="4.5" r="1.5" fill="#151923"/>
+    </pattern>
+    <pattern id="halftone-ink-m-hospital" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <circle cx="4.5" cy="4.5" r="2.5" fill="#151923"/>
+    </pattern>
+    <pattern id="halftone-ink-l-hospital" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <circle cx="4.5" cy="4.5" r="3.5" fill="#151923"/>
+    </pattern>
+    <pattern id="halftone-paper-s-hospital" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <circle cx="4.5" cy="4.5" r="1.5" fill="#F4EBDD"/>
+    </pattern>
+    <pattern id="halftone-paper-m-hospital" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <circle cx="4.5" cy="4.5" r="2.6" fill="#F4EBDD"/>
+    </pattern>
+    <clipPath id="clip-hospital-floor">
+      <polygon points="120,372 904,372 1004,748 20,748"/>
+    </clipPath>
+    <clipPath id="clip-hospital-glass">
+      <path d="M756 122 H858 Q872 122 872 136 V286 Q872 300 858 300 H756 Q742 300 742 286 V136 Q742 122 756 122 Z"/>
+    </clipPath>
+  <pattern id="bm-ht-ink-s" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><circle cx="4.5" cy="4.5" r="1.5" fill="#151923"/></pattern><pattern id="bm-ht-ink-m" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><circle cx="4.5" cy="4.5" r="2.5" fill="#151923"/></pattern><pattern id="bm-ht-ink-l" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><circle cx="4.5" cy="4.5" r="3.5" fill="#151923"/></pattern><pattern id="bm-ht-paper-s" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><circle cx="4.5" cy="4.5" r="1.5" fill="#F4EBDD"/></pattern><pattern id="bm-ht-paper-m" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><circle cx="4.5" cy="4.5" r="2.6" fill="#F4EBDD"/></pattern></defs>
+  <g id="hospital-scene-berth-four-h4"><polygon points="627.8,458 740.2,458 760.2,556 607.8,556" fill="#57BBA8" stroke="#151923" stroke-width="3" stroke-linejoin="round"/><polygon points="699.1,466 740.2,466 760.2,556 705.6,556" fill="url(#bm-ht-ink-s)"/><rect x="625.7" y="453.7" width="116.6" height="11.9" rx="3" fill="#F4EBDD" stroke="#151923" stroke-width="2.5"/><path d="M619.2 468.8 L603.52 549.52 M748.8 468.8 L764.48 549.52" fill="none" stroke="#151923" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M619.2 468.8 L603.52 549.52 M748.8 468.8 L764.48 549.52" fill="none" stroke="#A6DFD0" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><rect x="601.4" y="551.7" width="165.3" height="21.6" rx="4" fill="#1F8A80" stroke="#151923" stroke-width="4"/><path d="M610 562.48 H758" fill="none" stroke="#A6DFD0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g>
+</svg>
