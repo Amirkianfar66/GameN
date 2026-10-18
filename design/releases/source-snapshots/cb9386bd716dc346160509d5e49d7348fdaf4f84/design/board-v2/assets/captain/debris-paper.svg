@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  mothership:dev-only · board-v2 Captain proposal board-v2-captain-0.1.0 · debris, paper · generated, do not edit by hand
+  A loose thing the air takes to the hatch.
+  Built by design/tools/board-v2-assets.mjs from design/board-v2/fx/captain.mjs. Public: the same on every phone and the display (the plates: the Captain's own controls); it reads no role, side, faction or cause. Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><g data-layer="fx-debris-paper"><path d="M5 3 H16 L20 7 V21 H5 Z" fill="#F4EBDD" stroke="#151923" stroke-width="2" stroke-linejoin="round"/><path d="M8 10 H17 M8 13.5 H17 M8 17 H14" stroke="#8696AE" stroke-width="1.5"/></g></svg>

@@ -1,0 +1,279 @@
+{
+  "schema": "mothership.reviewed-board-v2-art/1",
+  "status": "reviewed source candidates; runtime activation pending",
+  "scope": "Exact Claude Hospital ward and Private Capsule drawings. One uniform bundle for all audiences and 7/8/9 rosters. No runtime controller, layout, rule or release-profile activation.",
+  "reviews": [
+    "https://github.com/Amirkianfar66/GameN/pull/141#issuecomment-6167856709",
+    "https://github.com/Amirkianfar66/GameN/pull/144#issuecomment-6168298233"
+  ],
+  "derivation": "Preserve the original source bytes. Encode the SVG document beginning at its first <svg in a CSS data URL; remove only the pre-document XML declaration and source comment. Do not alter drawing elements, paths, text, colors or geometry.",
+  "assets": [
+    {
+      "id": "ward-7-back",
+      "cssVariable": "--board-v2-art-ward-7-back",
+      "source": "design/board-v2/assets/scenes/hospital-ward-7.back.svg",
+      "sourceCommit": "15e61f0bbd043930a578900862be9d5156b3b602",
+      "sha256": "3f9e999efcbebba17e7e3a46b88d092e95e205119d6d890444330f8c73635ba0",
+      "viewBox": "0 0 1024 768",
+      "audience": "public",
+      "layer": "back",
+      "sceneDepth": null,
+      "paintZIndex": 0,
+      "rosters": [
+        7
+      ]
+    },
+    {
+      "id": "ward-8-back",
+      "cssVariable": "--board-v2-art-ward-8-back",
+      "source": "design/board-v2/assets/scenes/hospital-ward-8.back.svg",
+      "sourceCommit": "15e61f0bbd043930a578900862be9d5156b3b602",
+      "sha256": "15e5e55131239536eb299bca6bc5f567d0bbf3a55f39e0b9b7f94648d429aff9",
+      "viewBox": "0 0 1024 768",
+      "audience": "public",
+      "layer": "back",
+      "sceneDepth": null,
+      "paintZIndex": 0,
+      "rosters": [
+        8
+      ]
+    },
+    {
+      "id": "ward-9-back",
+      "cssVariable": "--board-v2-art-ward-9-back",
+      "source": "design/board-v2/assets/scenes/hospital-ward-9.back.svg",
+      "sourceCommit": "15e61f0bbd043930a578900862be9d5156b3b602",
+      "sha256": "f002edcfce36d781a625fc9022d8f0d3d6b1359f8e443ff67f6b493c2702412c",
+      "viewBox": "0 0 1024 768",
+      "audience": "public",
+      "layer": "back",
+      "sceneDepth": null,
+      "paintZIndex": 0,
+      "rosters": [
+        9
+      ]
+    },
+    {
+      "id": "ward-berth-h1",
+      "cssVariable": "--board-v2-art-ward-berth-h1",
+      "source": "design/board-v2/assets/scenes/hospital-ward.berth-h1.svg",
+      "sourceCommit": "15e61f0bbd043930a578900862be9d5156b3b602",
+      "sha256": "23c9988d68f05d9702d0e8fc945f56073015e223f72471efcfd829c8673431d8",
+      "viewBox": "0 0 1024 768",
+      "audience": "public",
+      "layer": "berth-h1",
+      "sceneDepth": 690,
+      "paintZIndex": 1381,
+      "rosters": [
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "id": "ward-berth-h2",
+      "cssVariable": "--board-v2-art-ward-berth-h2",
+      "source": "design/board-v2/assets/scenes/hospital-ward.berth-h2.svg",
+      "sourceCommit": "15e61f0bbd043930a578900862be9d5156b3b602",
+      "sha256": "341fe66aa6608e91637a88006f2e15fd106abcc96c7db01ebe1b2a729113116c",
+      "viewBox": "0 0 1024 768",
+      "audience": "public",
+      "layer": "berth-h2",
+      "sceneDepth": 690,
+      "paintZIndex": 1381,
+      "rosters": [
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "id": "ward-berth-h3",
+      "cssVariable": "--board-v2-art-ward-berth-h3",
+      "source": "design/board-v2/assets/scenes/hospital-ward.berth-h3.svg",
+      "sourceCommit": "15e61f0bbd043930a578900862be9d5156b3b602",
+      "sha256": "bd2e530a98d7e18da00606a9b9ae8269a3369ea5bbfad365309b3428c147373b",
+      "viewBox": "0 0 1024 768",
+      "audience": "public",
+      "layer": "berth-h3",
+      "sceneDepth": 690,
+      "paintZIndex": 1381,
+      "rosters": [
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "id": "ward-berth-h4",
+      "cssVariable": "--board-v2-art-ward-berth-h4",
+      "source": "design/board-v2/assets/scenes/hospital-ward.berth-h4.svg",
+      "sourceCommit": "15e61f0bbd043930a578900862be9d5156b3b602",
+      "sha256": "9a3519b8eb884ad6abfe54272b6a1db69f4057a9b6304c73c1940bd690eb76e6",
+      "viewBox": "0 0 1024 768",
+      "audience": "public",
+      "layer": "berth-h4",
+      "sceneDepth": 495,
+      "paintZIndex": 991,
+      "rosters": [
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "id": "ward-berth-h5",
+      "cssVariable": "--board-v2-art-ward-berth-h5",
+      "source": "design/board-v2/assets/scenes/hospital-ward.berth-h5.svg",
+      "sourceCommit": "15e61f0bbd043930a578900862be9d5156b3b602",
+      "sha256": "305bfcc0c80207d865ee91b6672d2556e1b8e3813ace980709f1d99d769787e4",
+      "viewBox": "0 0 1024 768",
+      "audience": "public",
+      "layer": "berth-h5",
+      "sceneDepth": 495,
+      "paintZIndex": 991,
+      "rosters": [
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "id": "ward-berth-h6",
+      "cssVariable": "--board-v2-art-ward-berth-h6",
+      "source": "design/board-v2/assets/scenes/hospital-ward.berth-h6.svg",
+      "sourceCommit": "15e61f0bbd043930a578900862be9d5156b3b602",
+      "sha256": "5afe0564a747cf3f554e9e9a4e16ed5a80e9e318c2c939474f3a9d0a330bb062",
+      "viewBox": "0 0 1024 768",
+      "audience": "public",
+      "layer": "berth-h6",
+      "sceneDepth": 495,
+      "paintZIndex": 991,
+      "rosters": [
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "id": "ward-berth-h7",
+      "cssVariable": "--board-v2-art-ward-berth-h7",
+      "source": "design/board-v2/assets/scenes/hospital-ward.berth-h7.svg",
+      "sourceCommit": "15e61f0bbd043930a578900862be9d5156b3b602",
+      "sha256": "e65c112c430603629637659110746e9fdf9794db0fa999aae7b000c3401e436b",
+      "viewBox": "0 0 1024 768",
+      "audience": "public",
+      "layer": "berth-h7",
+      "sceneDepth": 300,
+      "paintZIndex": 601,
+      "rosters": [
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "id": "ward-berth-h8",
+      "cssVariable": "--board-v2-art-ward-berth-h8",
+      "source": "design/board-v2/assets/scenes/hospital-ward.berth-h8.svg",
+      "sourceCommit": "15e61f0bbd043930a578900862be9d5156b3b602",
+      "sha256": "54499879b2f5784655457355233ac5c3b50ffe5d316522012c7dc2d06e5696dc",
+      "viewBox": "0 0 1024 768",
+      "audience": "public",
+      "layer": "berth-h8",
+      "sceneDepth": 300,
+      "paintZIndex": 601,
+      "rosters": [
+        8,
+        9
+      ]
+    },
+    {
+      "id": "ward-berth-h9",
+      "cssVariable": "--board-v2-art-ward-berth-h9",
+      "source": "design/board-v2/assets/scenes/hospital-ward.berth-h9.svg",
+      "sourceCommit": "15e61f0bbd043930a578900862be9d5156b3b602",
+      "sha256": "de09d58d584d75af34240099059cb043f94096c62c5df8074173b0cd2120ea38",
+      "viewBox": "0 0 1024 768",
+      "audience": "public",
+      "layer": "berth-h9",
+      "sceneDepth": 300,
+      "paintZIndex": 601,
+      "rosters": [
+        9
+      ]
+    },
+    {
+      "id": "capsule-back",
+      "cssVariable": "--board-v2-art-capsule-back",
+      "source": "design/board-v2/assets/capsule/back.svg",
+      "sourceCommit": "4f3d25bb356e0652188dfb880c3a9248ea7d55ef",
+      "sha256": "1bcfd91e11e73d5c6a6205abf0c12b9b111ee4887c872975fca1dc8b41e87cc5",
+      "viewBox": "0 0 512 768",
+      "audience": "public"
+    },
+    {
+      "id": "capsule-door-0",
+      "cssVariable": "--board-v2-art-capsule-door-0",
+      "source": "design/board-v2/assets/capsule/door-0.svg",
+      "sourceCommit": "4f3d25bb356e0652188dfb880c3a9248ea7d55ef",
+      "sha256": "63026f9971904a750fed9b6caa04e061f74d0b39b42e40165dea8f812314491e",
+      "viewBox": "0 0 512 768",
+      "audience": "public"
+    },
+    {
+      "id": "capsule-door-1",
+      "cssVariable": "--board-v2-art-capsule-door-1",
+      "source": "design/board-v2/assets/capsule/door-1.svg",
+      "sourceCommit": "4f3d25bb356e0652188dfb880c3a9248ea7d55ef",
+      "sha256": "ddb0d2d2855c352366db5ca4a9e2470440fa134f613cf92cd8e0a1a47aedc24f",
+      "viewBox": "0 0 512 768",
+      "audience": "public"
+    },
+    {
+      "id": "capsule-door-2",
+      "cssVariable": "--board-v2-art-capsule-door-2",
+      "source": "design/board-v2/assets/capsule/door-2.svg",
+      "sourceCommit": "4f3d25bb356e0652188dfb880c3a9248ea7d55ef",
+      "sha256": "9b7d9fdd9f6f02fcfc190a03fcd3d19b6a2d2123a78ce4187c27c5294dc784c9",
+      "viewBox": "0 0 512 768",
+      "audience": "public"
+    },
+    {
+      "id": "capsule-door-3",
+      "cssVariable": "--board-v2-art-capsule-door-3",
+      "source": "design/board-v2/assets/capsule/door-3.svg",
+      "sourceCommit": "4f3d25bb356e0652188dfb880c3a9248ea7d55ef",
+      "sha256": "55cc7717d8f733ce38e6ac5c7c14ac19e8b0296ce44ba0d95ad98415fb8b31e7",
+      "viewBox": "0 0 512 768",
+      "audience": "public"
+    },
+    {
+      "id": "capsule-busy",
+      "cssVariable": "--board-v2-art-capsule-busy",
+      "source": "design/board-v2/assets/capsule/busy.svg",
+      "sourceCommit": "4f3d25bb356e0652188dfb880c3a9248ea7d55ef",
+      "sha256": "d5e45edd0af0115e0e87b64f0da8985d04d1166ee27ebbf8df2b687f6871dca9",
+      "viewBox": "0 0 512 768",
+      "audience": "public"
+    },
+    {
+      "id": "capsule-badge",
+      "cssVariable": "--board-v2-art-capsule-badge",
+      "source": "design/board-v2/assets/capsule/badge.svg",
+      "sourceCommit": "4f3d25bb356e0652188dfb880c3a9248ea7d55ef",
+      "sha256": "f624378a91c11f67f7ffc7c4fd15e65eccc5287f57f0b50a75b5332988761dc7",
+      "viewBox": "0 0 48 48",
+      "audience": "public"
+    },
+    {
+      "id": "capsule-dark",
+      "cssVariable": "--board-v2-art-capsule-dark",
+      "source": "design/board-v2/assets/capsule/dark.svg",
+      "sourceCommit": "4f3d25bb356e0652188dfb880c3a9248ea7d55ef",
+      "sha256": "bae4c518d7732b2ccbf8179351ed3d7d815d0204dd4a1666b190148cee237185",
+      "viewBox": "0 0 512 768",
+      "audience": "public"
+    }
+  ]
+}
