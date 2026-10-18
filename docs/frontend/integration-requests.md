@@ -1,5 +1,7 @@
 # Frontend requests to Codex Integration: checks, tooling and dependencies
 
+**18 October 2026 successor handoff:** [Four-bed Hospital requirements for HOSPITAL-4-2026-10-18](hospital-four-bed-successor-handoff-2026-10-18.md), tracked in [#155](https://github.com/Amirkianfar66/GameN/issues/155). Owner-approved four-bed cap and incoming-overflow elimination; documentation only, pending coordinated successor contracts and geometry. The 6 October requests below remain historical.
+
 **From:** Frontend (issue [#3](https://github.com/Amirkianfar66/GameN/issues/3)). **For:** Codex Astra, Backend and Integration.
 **Base:** `BASE_SHA` `333c9e820f362a211352bc689372663f29b73ac4`. **Date:** 6 October 2026.
 
