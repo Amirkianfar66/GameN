@@ -23,13 +23,14 @@ All release references below are pinned to `6ca4b51d5acd1454daec68c5108c8f12ee22
 | Source | Verified inherited behavior | Successor dependency |
 | --- | --- | --- |
 | [Medical placement contract][placement] | `H1` through `H9` are syntactically valid; Hospital maximum is `view.playerCount`. Supported Captain tuples already allow an Eliminated seat with null location/slot and null medical episode. | Version-aware four-slot validation and authoritative overflow placement; preserve old tuple validation. |
-| [Blackout contract][blackout] | `blackoutSlotIds` uses the starting roster for Hospital; frozen layout revision is `board-v2-0.1.1`. | Reviewed successor layout revision and frozen logical slot list. Do not globally shrink the historical helper or schema. |
+| [Blackout contract][blackout] and [private target reader][private-target-reader] | `blackoutSlotIds` uses the starting roster for Hospital; the private view requires its exact slot array, and the frozen layout revision is `board-v2-0.1.1`. | Coordinate the successor reader, layout revision and frozen logical slot list. Four-bed art alone cannot make the new private view valid; preserve historical helper/schema behavior. |
 | [Clinical and placement outcomes][outcomes] | `MEDICAL_OUTCOME` has INJURY/HEALED/DEATH; `BOARD_PLACEMENT_CHANGED` permits null location and slot together. Clinical anchors are separately typed (see below). | Exact successor outcome/placement chronology, audience and any authorized overflow explanation. Existing medical facts do not name an overflow cause. |
 | [Public board model][public-board] | Copies validated stored placement; labels geometry `board-v2-0.1.1` and retains starting `playerCount`. | Reviewed tuple/layout adapter that separates roster size from physical ward capacity. |
 | [Drawing modules][drawing] and [host][host] | Ward, lit/dark art, scene fitting, press rectangles and turns layout are selected using starting roster 7/8/9. | New reviewed four-bed preset and derivatives; retain historical art selection. |
 | [Persistent board/capsule scene][scene] | Omits explicit Eliminated/null/null seats; targets and capsule actors resolve from on-board seat models. | Consume authoritative removal during any scene phase, including private talk and return. |
 | [Action offers and Code pool][actions], [connected action flow][action-flow] | Targets follow server offers; Code uses the original `view.seats` roster. Request identity and recovery are separate from drawing a seat. | Keep original seat IDs and command recovery when a board actor disappears. |
 | [Outcome feed][outcome-feed] | Validates tuple, audience, event identity, revision, expiry and clinical anchors; initial/cache/reconnect snapshots establish a baseline. | Extend only through the coordinated successor contract; preserve deduplication and no replay on background/resume/reconnect. |
+| [Ready request][ready-request], [version fields][ready-versions] and [server equality check][ready-check] | Ready acknowledges the exact prepared gameplay/art versions; no separate layout field is acknowledged. | Bind four-bed layout unambiguously to reviewed tuple/art mapping, or review an explicit extension, before accepting Ready. |
 
 ### Latest published Designer source inspected and preserved
 
@@ -38,6 +39,10 @@ All release references below are pinned to `6ca4b51d5acd1454daec68c5108c8f12ee22
 The delta from the previous drawing head `7786b9166422f1ffb59921fc224339044f4b0353` to `95d70f0c885f6b7d619c4ebff935093dfe891ea6` contains documentation, inventories/hash lists and the preserved owner-specification packet. `git diff --quiet 7786b9166422f1ffb59921fc224339044f4b0353 95d70f0c885f6b7d619c4ebff935093dfe891ea6 -- design/board-v2` returned exit **0**: the Board V2 drawing bytes are unchanged. This inspection is not adoption, a merge or an asset change.
 
 The index is dated 14 October and describes an earlier staging engine 1.5/source `37f573a`. That sentence is historical Designer context; it does not supersede the inherited 1.10 baseline above. Its original specification's roster-sized Hospital is likewise preserved evidence superseded by #155 for the future successor.
+
+### Backend planning review, 18 October 2026
+
+Backend [PR #157][backend-pr] is a documentation proposal at exact head `a33cae88ff47cd1111f0baea37eae09f8ad714b2`; its [successor plan][backend-plan] preserves the direct #96 owner answer, “Free healed Hospital places first, then use existing seat order,” and contrasts it with later immediate logical admission. [Frontend's source review][frontend-review] and [Integration's review][integration-review] support the planning record. **H4-ORDER-01 admission reconciliation, successor version allocation and the clinical/event contract remain unapproved.** Frontend consumes the reviewed server result and does not decide the last-bed survivor. The supplied owner answer must be preserved without asking for it again.
 
 ## Required successor coordination
 
@@ -49,7 +54,7 @@ Settle deterministic server processing for simultaneous admissions, an already-I
 
 The overflow victim must not be offered for later Rescue. Legal target and action availability remain server-authorized. Preserve the full original roster and seat IDs for Code and other identity/history references; do not derive Code choices from visible actors or four beds. Review any genuinely changed eligibility separately instead of silently shrinking existing pools.
 
-For Blackout, coordinate the exact successor layout revision and server-offered physical `slotIds` with Designer geometry. Render the four Hospital positions allowed by that contract, including empty/self/body positions where offered. Submit those exact logical IDs, never a DOM index or inferred occupied target. Preserve dark-state privacy: numbered positions must not disclose hidden names, identities, health or occupancy through markers, labels, effects or asset loading. Preserve established room-block disclosure boundaries.
+For Blackout, coordinate the exact successor layout revision and server-offered physical `slotIds` with Designer geometry. The [current private view refinement][private-target-reader] compares `slotIds` to the roster-sized `blackoutSlotIds(t.room, v.playerCount)` result; the successor needs an explicit version-aware reader alongside the new layout. Frozen `snapshotId + room + slotId` bindings preserve the original target if a patient later leaves or a bed is reused; never redirect an earlier strike to the replacement occupant. Render the four Hospital positions allowed by that contract, including empty/self/body positions where offered. Submit those exact logical IDs, never a DOM index or inferred occupied target. Preserve dark-state privacy: numbered positions must not disclose hidden names, identities, health or occupancy through markers, labels, effects or asset loading. Preserve established room-block disclosure boundaries.
 
 ### Designer: four beds and separate clinical presentation anchors
 
@@ -59,6 +64,10 @@ Deliver a focused four-berth successor drawing with stable bed IDs, back/front l
 
 A resolution batch can require presenting injury, healing or death subjects beyond the four final bed occupants. An overflow victim has no Hospital slot. Backend and Designer must agree on versioned anchor allocation and presentation for those subjects, including same-batch injury/healing/death and an offboard victim. Coordinate monitor/critical loops, drone/revival, flatline/shutdown and removal against those authorized facts. Frontend must not invent a fifth bed, recover an event's bed from the final Healthy state, or fabricate a destination for an offboard subject. Any non-bed clinical vignette must read as presentation, not admission or an extra physical place.
 
+**H4-CLINICAL-01 must specify which facts overflow emits.** Every inherited `MEDICAL_OUTCOME`, including DEATH, requires a clinical anchor. The [service allocator][clinical-allocation] processes all such records, so an additional non-bed removal occurrence does not by itself exclude a separately emitted medical DEATH from allocation. Choose the authorized non-bed fact plus snapshot/placement facts, or explicitly review an additional clinical representation; preserve required historical anchors. The [checkpoint outcome classifier][outcome-publication] currently recognizes four outcome types and supplies their exact version/expiry/occurrence metadata. Coordinate its successor case with the strict event union and typed host dispatch; do not let a new fact fall through as an ordinary unversioned event. The illustrative Backend event name remains unallocated.
+
+Re-prove the anchor bound after H4-ORDER-01. The relevant allocator set is the union of reserved starting Hospital occupants and clinical subjects. A **constructed, unexecuted healed-first case** starts with P2/P3/P4/P7, heals P7 and admits P1 into the freed bed: four beds suffice, but keeping all four starting reservations plus P1 requires five allocations. If the other three patients also have due-death facts, five subjects have clinical facts in the same batch. This is a conditional acceptance requirement, not a native reachability claim. Do not silently reuse an anchor or interpret the fifth presentation allocation as a physical bed.
+
 Only show an overflow-specific explanation if the successor's audience-approved contract supplies that cause. Until then, generic authorized elimination/removal feedback must not invent a public reason or reveal faction/private defenses. Normal and reduced-motion treatments must preserve the same facts and controls.
 
 ### Frontend: persistent scenes, recovery and access
@@ -67,7 +76,7 @@ When the authoritative successor view removes the incoming player, remove the wo
 
 Board removal does not revoke authentication, forget the player, erase history, abandon an accepted command or replace an uncertain command ID. Preserve pending/accepted receipt recovery across hidden/stale views, reload and reconnect, even if private target marks are concealed. Fresh authoritative views and audience events drive settled board state and public effects; receipts, acknowledgments, private choices and bed counts do not adjudicate death.
 
-Keep the existing outcome-feed baseline, expiry, audience, tuple, revision and deduplication protections. Reconnect, late join and foregrounding must not replay a death/drone/removal film or recreate a removed actor. Preserve usable Code, claim and recovery controls, keyboard focus, reduced motion and layout fallback while a seat leaves.
+Persistent removal must be restored from the authoritative snapshot even when its removal event was missed, expired or suppressed as an initial/reconnect baseline. Keep the existing outcome-feed baseline, expiry, audience, tuple, revision and deduplication protections. Reconnect, late join and foregrounding must not replay a death/drone/removal film or recreate a removed actor. Preserve usable Code, claim and recovery controls, keyboard focus, reduced motion and layout fallback while a seat leaves.
 
 ## Acceptance required before later adoption — not run
 
@@ -83,7 +92,7 @@ These are successor acceptance requirements, **not test results**. Cover startin
 | Identity and legal actions | Original roster/Code identity remains, offered IDs stay exact, and the overflow victim cannot be Rescued. |
 | Capsule transitions | Removal during departure, talk and return leaves no world/capsule ghost, target or cached return destination. |
 | Frozen Blackout | Exactly the successor's four Hospital markers/IDs, including offered empty/self/body positions; no hidden occupancy or identity leak. |
-| Clinical batch | Injury/heal/death subjects and an offboard victim use approved clinical anchors independently of four physical beds. |
+| Clinical batch | Resolve the overflow-versus-medical-DEATH fact choice; validate the conditional healed-departure/replacement five-allocation case against the reviewed order. Stable clinical anchors remain independent of four physical beds. |
 | Recovery and lifecycle | Stale/hidden/reconnect/late join/reload/reduced motion preserve request IDs and receipts, conceal private marks and replay no old event. |
 | Small-screen access | At 320 × 568 and other supported shell boundaries, center/corner hit tests, keyboard focus, safe areas and 200% text preserve at least 44 px targets and Code/claim/recovery access. |
 | Historical compatibility | Existing 1.10 and earlier supported matches retain their original tuple, roster-sized ward, stored bodies/placement, offers and replay behavior; no migration. |
@@ -92,7 +101,7 @@ Implementation gate: Backend/Integration publishes the successor tuple, typed pl
 
 ## Evidence for this documentation change
 
-Read #155 and the local exact owner record; verified the release and Designer PR heads; inspected the pinned sources above; confirmed unchanged Designer drawing bytes between `7786b91` and `95d70f0`. Validation passed: `git diff --cached --check`; all 15 pinned source references resolved to exact Git objects with valid line anchors where supplied; the local navigation link resolved. The diff contains exactly two files under `docs/frontend/`. Runtime, browser, emulator and physical-device successor acceptance tests are **not run**: there is no successor implementation in this change. Existing 1.10 evidence is historical evidence, not a passing four-bed test.
+Read #155 and the local exact owner record; verified the release and Designer PR heads; inspected the pinned sources above; confirmed unchanged Designer drawing bytes between `7786b91` and `95d70f0`. Validation passed: `git diff --cached --check`; all 22 pinned source references resolved to exact Git objects with valid line anchors where supplied; the local navigation link resolved. The diff contains exactly two files under `docs/frontend/`. Runtime, browser, emulator and physical-device successor acceptance tests are **not run**: there is no successor implementation in this change. Existing 1.10 evidence is historical evidence, not a passing four-bed test.
 
 [decision]: https://github.com/Amirkianfar66/GameN/issues/155
 [release]: https://github.com/Amirkianfar66/GameN/pull/154
@@ -112,3 +121,13 @@ Read #155 and the local exact owner record; verified the release and Designer PR
 [designer-handoff]: https://github.com/Amirkianfar66/GameN/blob/95d70f0c885f6b7d619c4ebff935093dfe891ea6/docs/design/board-v2-frontend-handoff.md
 [designer-ward]: https://github.com/Amirkianfar66/GameN/blob/95d70f0c885f6b7d619c4ebff935093dfe891ea6/design/board-v2/scenes/hospital-ward.mjs
 [designer-provenance]: https://github.com/Amirkianfar66/GameN/blob/95d70f0c885f6b7d619c4ebff935093dfe891ea6/docs/design/evidence/owner-motion-spec-2026-10-13/PROVENANCE.md
+[private-target-reader]: https://github.com/Amirkianfar66/GameN/blob/6ca4b51d5acd1454daec68c5108c8f12ee2286bf/packages/contracts/src/full-game.ts#L167-L176
+[clinical-allocation]: https://github.com/Amirkianfar66/GameN/blob/6ca4b51d5acd1454daec68c5108c8f12ee2286bf/services/game-api/src/full-game.ts#L23-L46
+[outcome-publication]: https://github.com/Amirkianfar66/GameN/blob/6ca4b51d5acd1454daec68c5108c8f12ee2286bf/services/game-api/src/full-game.ts#L377-L389
+[ready-request]: https://github.com/Amirkianfar66/GameN/blob/6ca4b51d5acd1454daec68c5108c8f12ee2286bf/packages/contracts/src/staged-start.ts#L55-L60
+[ready-versions]: https://github.com/Amirkianfar66/GameN/blob/6ca4b51d5acd1454daec68c5108c8f12ee2286bf/packages/contracts/src/full-game.ts#L52-L54
+[ready-check]: https://github.com/Amirkianfar66/GameN/blob/6ca4b51d5acd1454daec68c5108c8f12ee2286bf/services/game-api/src/full-game.ts#L714-L719
+[backend-pr]: https://github.com/Amirkianfar66/GameN/pull/157
+[backend-plan]: https://github.com/Amirkianfar66/GameN/blob/a33cae88ff47cd1111f0baea37eae09f8ad714b2/docs/backend/hospital-four-successor-plan.md
+[frontend-review]: https://github.com/Amirkianfar66/GameN/pull/157#pullrequestreview-5563583943
+[integration-review]: https://github.com/Amirkianfar66/GameN/pull/157#issuecomment-6251438246
