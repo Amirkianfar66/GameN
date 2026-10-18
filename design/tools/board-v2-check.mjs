@@ -66,6 +66,9 @@ const { DOCK, DRONE, DRONE_MIN_FIT, DRONE_SCENE, INSET, INSET_MIN_WIDTH, PULSE_B
 const { LABEL_MARGIN } = await load('design/board-v2/fx/label-box.mjs');
 const { medicalOutcome, medicalSeats } = await load('design/board-v2/js/medical-fixtures.mjs');
 const { outcomeWords } = await load('design/board-v2/js/medical-view.mjs');
+const { AIRLOCK, CAPTAIN, CARD, CONSOLE, JAIL_DOOR, JAIL_DOOR_ELEMENTS, captainColorDistances, conduitAt, conduitPoints, conduitSegment, consoleBox, jailDoorSvg, offBoardCards } = await load('design/board-v2/fx/captain.mjs');
+const { CAPTAIN_BUTTONS, EJECT_FILM, RELEASE_FILM, captainButtonStates, captainContracts, captainWords, ejectEnd, ejectFrame, releaseEnd, releaseFrame } = await load('design/board-v2/films/captain.mjs');
+const { CAPTAIN_OUTCOMES, captainOutcome } = await load('design/board-v2/js/captain-fixtures.mjs');
 
 // ---------- Development material, fenced ----------
 {
@@ -116,7 +119,7 @@ const { outcomeWords } = await load('design/board-v2/js/medical-view.mjs');
   for (const [path, content] of planned) if ((await text(path).catch(() => null)) !== content) problems.push(`${path}: not what design/tools/board-v2-assets.mjs makes: run it`);
   for (const path of await filesUnder('design/board-v2/assets')) if (!planned.has(path)) problems.push(`${path}: not made by design/tools/board-v2-assets.mjs`);
   const manifest = planned.has('design/board-v2/assets/manifest.json') ? JSON.parse(planned.get('design/board-v2/assets/manifest.json')) : null;
-  const sprites = manifest ? [...manifest.lighting.files, ...manifest.fx.files, ...(manifest.capsule?.files ?? []), ...(manifest.medical?.files ?? [])] : [];
+  const sprites = manifest ? [...manifest.lighting.files, ...manifest.fx.files, ...(manifest.capsule?.files ?? []), ...(manifest.medical?.files ?? []), ...(manifest.captain?.files ?? [])] : [];
   for (const [path, content] of planned) {
     if (!path.endsWith('.svg')) continue;
     if (/<text\b|<image\b|<script\b|<foreignObject\b|href=["']https?:/i.test(content)) problems.push(`${path}: outside the drawing vocabulary`);
@@ -125,7 +128,7 @@ const { outcomeWords } = await load('design/board-v2/js/medical-view.mjs');
     const box = sprite ? sprite.viewBox : '0 0 1024 768';
     if (!content.includes(`viewBox="${box}"`)) problems.push(`${path}: not in its ${box} box`);
   }
-  check('the ward, the lighting, the effects, the capsule and the medical art are built from the approved rooms or their own modules, current, and inside the drawing vocabulary', problems);
+  check('the ward, the lighting, the effects, the capsule, the medical and the Captain\'s art are built from the approved rooms or their own modules, current, and inside the drawing vocabulary', problems);
 }
 
 // ---------- The Blackout's lighting window ----------
@@ -639,9 +642,185 @@ const { outcomeWords } = await load('design/board-v2/js/medical-view.mjs');
   if (outcomeWords(2, 'HEALED') !== 'Player 2: Healed.' || outcomeWords(2, 'DEATH') !== 'Player 2: Eliminated.' || outcomeWords(4, 'INJURY') !== 'Player 4: Injured.') problems.push('the words are not the hosted board\'s');
   for (const [name, { nearest, distance }] of Object.entries(medicalColorDistances())) if (distance < MIN_ACCENT_DISTANCE) problems.push(`the medical ${name} is ${distance} from the ${nearest} accent`);
   const films = await json('design/board-v2/contract/films.json').catch(() => null);
-  if (!films || JSON.stringify(films.films?.slice(3)) !== JSON.stringify(medicalContracts())) problems.push('contract/films.json does not hold the medical films\' contracts: run design/tools/board-v2-assets.mjs');
+  if (!films || JSON.stringify(films.films?.slice(3, 6)) !== JSON.stringify(medicalContracts())) problems.push('contract/films.json does not hold the medical films\' contracts: run design/tools/board-v2-assets.mjs');
   for (const word of ROLE_WORDS) if (JSON.stringify(medicalContracts()).includes(word)) problems.push(`the medical contracts name ${word}`);
   check(`the Hospital's medical films: the ward's own furniture and dock, the rescue tag from the server's values, beats within the storyboards with nothing drawn outside them and one set of words, no input but the moment, the berth and the setting, the drone from the dock to the chest, every tag, inset (${insets} placed, ${bands} beside the caption, ${none} none) and drone (${fits} drawn smaller) clear of the caption and every held press area at every phone, no film over another seat's berth, and the examples' anchors Backend's`, problems);
+}
+
+// ---------- The Captain's films (S6, S7, S8) ----------
+{
+  const problems = [];
+  // The door, the lamp and the keypad are the Jail's own: every element in the scene the board draws, and at rest the
+  // overlay draws them exactly as the room does, in its order.
+  const scene = await text('design/board-motion/assets/scenes/jail.back.svg').catch(() => '');
+  const E = JAIL_DOOR_ELEMENTS;
+  for (const [name, value] of Object.entries(E)) for (const element of [value].flat()) if (!scene.includes(element)) problems.push(`the door's ${name} is not the Jail's: ${element.slice(0, 60)}`);
+  const tight = markup => markup.replace(/>\s+</g, '><').trim();
+  const from = scene.indexOf(E.surface);
+  const to = scene.indexOf(E.rivets, from) + E.rivets.length;
+  const door = tight(scene.slice(from, to)).replaceAll('clip-jail-door', 'jd-door').replaceAll('halftone-ink-s-jail', 'jd-ht');
+  const rest = jailDoorSvg({});
+  if (from < 0 || !rest.includes(door)) problems.push('at rest the door overlay does not draw the Jail\'s door as the room does');
+  if (!rest.includes(E.lamp.replace(' id="jail-lamp"', '')) || !rest.includes(E.screen)) problems.push('at rest the overlay\'s lamp or keypad is not the room\'s');
+  if (/url\(#(?!jd-)/.test(rest) || /id="(?!jd-)/.test(rest)) problems.push('the overlay uses an id that is not its own');
+  // Where the console inset, the pulse and the hatch go, at every phone, with the capsule and without, for every roster.
+  const meets = (a, b) => a.left < b.left + b.width && b.left < a.left + a.width && a.top < b.top + b.height && b.top < a.top + a.height;
+  let placed = 0, none = 0, ways = 0;
+  for (const [width, height] of VIEWPORTS) {
+    for (const capsule of [true, false]) {
+      for (const roster of ROSTERS) {
+        const board = fitBoardV2({ width, height }, roster, { capsule });
+        const where = `${width}x${height}${capsule ? ' with the capsule' : ''}, ${roster} players`;
+        const border = board.shell.border;
+        const commandPanel = board.panels['command-room'];
+        const c1 = slotRects('command-room', roster, commandPanel)[0];
+        const command = board.boxes['command-room'];
+        const right = capsule ? board.boxes[CAPSULE.id].left + board.boxes[CAPSULE.id].width - border : command.left + command.width - border;
+        const band = { left: command.left + border, top: command.top + border, width: right - command.left - border, height: commandPanel.height };
+        const captain = { left: band.left + c1.left, top: band.top + c1.top, width: c1.side, height: c1.side };
+        const tag = { left: band.left + c1.press[0] - 30, top: band.top + Math.min(commandPanel.height - 16, c1.top + c1.side - 14), width: 60, height: 17 };
+        const inset = consoleBox({ band, cap: commandPanel.cap, captain, tag });
+        if (!inset) none += 1;
+        else {
+          placed += 1;
+          if (inset.top < band.top + commandPanel.cap - 0.01 || inset.left < band.left - 0.01 || inset.left + inset.width > band.left + band.width + 0.01 || inset.top + inset.height > band.top + band.height + 0.01) problems.push(`${where}: the console inset leaves the band below its captions`);
+          if (meets(inset, captain) || meets(inset, tag)) problems.push(`${where}: the console inset meets the Captain's place or name tag`);
+          if (inset.scale > 1 || inset.width < CONSOLE.minWidth || Math.abs(inset.height / inset.width - CONSOLE.h / CONSOLE.w) > 0.002) problems.push(`${where}: the console inset is ${inset.width} x ${inset.height}`);
+        }
+        // The pulse's way: in the board's gutters, but for its start under the inset and its drop into the Jail's caption
+        // band to the lamp; over no press area of any room, ever.
+        const jail = frameScene(sceneOf('jail', roster), board.panels.jail);
+        const start = inset ? [inset.left + inset.width / 2, inset.top + inset.height] : [band.left + c1.press[0], band.top + c1.press[1]];
+        const way = conduitPoints({ boxes: board.boxes, border, jail, start });
+        const presses = BOARD_ROOMS.flatMap(room => slotRects(room, roster, board.panels[room]).map(rect => ({ id: rect.id, left: board.boxes[room].left + border + rect.left, top: board.boxes[room].top + border + rect.top, width: rect.side, height: rect.side })));
+        const panels = Object.entries(board.boxes).map(([room, box]) => ({ room, left: box.left, top: box.top, width: box.width, height: box.height }));
+        const { total } = conduitAt(way, 1);
+        for (let d = 0; d <= total; d += 1) {
+          const [x, y] = conduitAt(way, d / total).head;
+          const dot = { left: x - 1.5, top: y - 1.5, width: 3, height: 3 };
+          for (const press of presses) if (meets(dot, press)) { problems.push(`${where}: the pulse's way crosses ${press.id}'s press area at ${x.toFixed(1)},${y.toFixed(1)}`); break; }
+          const segment = way.findIndex((p, i) => i > 0 && conduitAt(way, d / total).drawn.length - 1 === i);
+          const inside = panels.find(panel => x > panel.left + 0.5 && x < panel.left + panel.width - 0.5 && y > panel.top + 0.5 && y < panel.top + panel.height - 0.5);
+          const jailBand = board.boxes.jail.top + border + board.panels.jail.cap;
+          const allowed = segment === 1 || (inside?.room === 'jail' && segment === way.length - 1 && y <= jailBand);
+          if (inside && !allowed) { problems.push(`${where}: the pulse's way runs over ${inside.room} at ${x.toFixed(1)},${y.toFixed(1)}`); break; }
+        }
+        ways += 1;
+        if (roster !== 9) continue;
+        // The hatch: its rim whole in every phone's Jail panel, below its caption's band, clear of the pillar.
+        const [cx, cy] = AIRLOCK.c;
+        const rim = AIRLOCK.r + 6 + 2.5;
+        const panel = board.panels.jail;
+        if (jail.tx + (cx - rim) * jail.k < -0.01 || jail.tx + (cx + rim) * jail.k > panel.width + 0.01) problems.push(`${where}: the hatch's rim leaves the Jail's panel`);
+        if (jail.ty + (cy - rim) * jail.k < panel.cap) problems.push(`${where}: the hatch's rim reaches the Jail's caption band`);
+        if (cx + AIRLOCK.r + 6 > 332) problems.push('the hatch overlaps the Jail\'s pillar');
+      }
+    }
+  }
+  // The characters off the board as targets: the cards of one to five (all an EJECT can take) in the sheet's body at every
+  // phone the controls' layout fits, in normal and 200% text: each 44 px at least, inside the body, apart.
+  let decks = 0;
+  for (const [width, height] of VIEWPORTS) {
+    for (const enlarged of [false, true]) {
+      for (const roster of ROSTERS) {
+        const layout = turnsLayout({ width, height }, roster, { bars: enlarged ? ENLARGED.bars : null, actions: enlarged ? ENLARGED.actions : undefined });
+        if (!layout.fits) continue;
+        const body = layout.sheet.body;
+        for (let count = 1; count <= 5; count += 1) {
+          const cards = offBoardCards(body, count);
+          const where = `${width}x${height}${enlarged ? ', 200% text' : ''}, ${roster} players, ${count} off the board`;
+          if (!cards) { problems.push(`${where}: the cards do not fit the sheet`); continue; }
+          decks += 1;
+          cards.forEach((card, i) => {
+            if (card.width < CARD.min - 0.01 || card.height < CARD.min - 0.01) problems.push(`${where}: a card ${card.width} x ${card.height}`);
+            if (card.left < body.left - 0.01 || card.top < body.top - 0.01 || card.left + card.width > body.left + body.width + 0.01 || card.top + card.height > body.top + body.height + 0.01) problems.push(`${where}: a card leaves the sheet's body`);
+            for (const other of cards.slice(i + 1)) if (meets(card, other)) problems.push(`${where}: two cards overlap`);
+          });
+        }
+      }
+    }
+  }
+  // The films: the storyboards' lengths; nothing drawn outside them; the words once; the reduced variants still; the
+  // emergency light under 2 Hz and low; a full Jail's last prisoner through the door before it shuts and landed
+  // before the film ends; a full Jail's last living one gone before the exterior.
+  if (RELEASE_FILM.end !== 4200 || EJECT_FILM.end !== 7200) problems.push('the films are not the storyboards\' 4.2 and 7.2 s');
+  const W = RELEASE_FILM.walk;
+  const through = W.start + 4 * W.stagger + W.up + W.toDoor + W.through;
+  if (through > RELEASE_FILM.close[0]) problems.push(`the fifth prisoner is through the door at ${through} ms, after it starts to shut`);
+  if (through + W.across + W.land > RELEASE_FILM.end) problems.push('the fifth prisoner lands after the film ends');
+  const X = EJECT_FILM.eject;
+  if (X.start + 4 * X.stagger + X.lean + X.pull + X.last > EJECT_FILM.exterior.in[0]) problems.push('the fifth prisoner is not gone before the exterior');
+  if (1000 / EJECT_FILM.emergency.periodMs >= 2 || EJECT_FILM.emergency.high > 0.35) problems.push('the emergency light pulses at 2 Hz or more, or too bright');
+  if (EJECT_FILM.push.scale > 1.06) problems.push('the push is more than 6%');
+  const subjects = captainOutcome('eject-full', 9).subjects;
+  for (const [name, frameOf, end, count] of [['release', (t, o) => releaseFrame(t, { ...o, count: 5 }), releaseEnd, 5], ['eject', (t, o) => ejectFrame(t, { ...o, subjects: [...subjects, { body: true }] }), ejectEnd, 6]]) {
+    for (const reduced of [false, true]) {
+      let said = false;
+      for (let t = -200; t <= end(reduced) + 400; t += 10) {
+        const frame = frameOf(t, { reduced });
+        const where = `${name}${reduced ? ', reduced' : ''}, ${t} ms`;
+        if (frame.people.length !== count) problems.push(`${where}: ${frame.people.length} subjects`);
+        if (t < 0 || t >= end(reduced)) {
+          if (frame.inset.opacity || frame.pulse || frame.door.open || frame.door.wheel || frame.door.lamp !== 'normal' || frame.announce || (frame.emergency ?? 0) || (frame.airlock?.reveal ?? 0) || (frame.label?.opacity ?? 0) || (frame.exterior?.opacity ?? 0)) problems.push(`${where}: drawn outside the film`);
+          continue;
+        }
+        if (frame.announce) said = true; else if (said) problems.push(`${where}: the words withdrawn`);
+        if (frame.door.open < 0 || frame.door.open > 1 || frame.inset.opacity < 0 || frame.inset.opacity > 1) problems.push(`${where}: out of range`);
+        if (name === 'eject' && (frame.emergency > EJECT_FILM.emergency.high + 0.001 || frame.push < 1 || frame.push > EJECT_FILM.push.scale)) problems.push(`${where}: the light or the push out of range`);
+        if (reduced) {
+          if (frame.people.some(person => !['jail', 'settled', 'gone'].includes(person.state))) problems.push(`${where}: someone moves in the reduced variant`);
+          if (frame.pulse || frame.inset.ring || frame.inset.click || frame.inset.glove || (frame.push ?? 1) !== 1 || (frame.suction?.opacity ?? 0) || (frame.debris?.opacity ?? 0) || ![0, 1].includes(frame.door.open) || ![0, 1].includes(frame.airlock?.open ?? 0) || ![0, 0.2].includes(frame.emergency ?? 0)) problems.push(`${where}: motion in the reduced variant`);
+        }
+      }
+      if (!said) problems.push(`${name}${reduced ? ', reduced' : ''}: the words never said`);
+    }
+  }
+  // The review page's synthetic outcomes: the listed seats as Backend lists them; the released in Rooms A and B, apart;
+  // the ejected off the board; a Hospital detainee and, for RELEASE, a body in the Jail untouched.
+  for (const name of Object.keys(CAPTAIN_OUTCOMES)) {
+    for (const roster of ROSTERS) {
+      const outcome = captainOutcome(name, roster);
+      const where = `${name}, ${roster} players`;
+      const jailed = outcome.before.filter(seat => seat.room === 'jail' && (outcome.kind === 'EJECT' || seat.health !== 'Eliminated')).map(seat => seat.seat);
+      if (JSON.stringify(outcome.seatIds) !== JSON.stringify(jailed.sort((a, b) => a - b))) problems.push(`${where}: seatIds ${outcome.seatIds}, not the Jail's ${jailed}`);
+      const slots = outcome.after.filter(seat => seat.slot).map(seat => seat.slot);
+      if (new Set(slots).size !== slots.length) problems.push(`${where}: two seats share a slot afterwards`);
+      for (const seat of outcome.after) {
+        const was = outcome.before.find(entry => entry.seat === seat.seat);
+        if (!outcome.seatIds.includes(seat.seat)) { if (JSON.stringify(seat) !== JSON.stringify(was)) problems.push(`${where}: seat ${seat.seat}, not listed, moved`); continue; }
+        if (outcome.kind === 'RELEASE' && (!['room-a', 'room-b'].includes(seat.room) || seat.jailed || seat.health !== 'Healthy')) problems.push(`${where}: seat ${seat.seat} released to ${seat.room}`);
+        if (outcome.kind === 'EJECT' && (seat.room !== null || seat.slot !== null || seat.health !== 'Eliminated')) problems.push(`${where}: seat ${seat.seat} not off the board`);
+      }
+    }
+  }
+  if (captainOutcome('release', 9).after.find(seat => seat.seat === 9).slot !== 'J5' || captainOutcome('eject', 9).after.find(seat => seat.seat === 8).slot !== 'H2') problems.push('a body or a Hospital detainee is moved');
+  // The words are the client's; S8's states come from the Captain's own view alone; the colors far from every faction accent.
+  if (captainWords('RELEASE', [3, 4]) !== 'Player 3, Player 4: released from detention.' || captainWords('EJECT', [3, 4, 9]) !== 'Player 3, Player 4, Player 9: ejected.') problems.push('the words are not the hosted board\'s');
+  const view = (uses, offered = []) => ({ self: { seatId: 'seat-7', captainCommandUses: uses }, legalTargets: Object.fromEntries(offered.map(name => [name, ['seat-7']])) });
+  const states = [
+    [view(null, ['CAPTAIN_RELEASE']), null, 'null'],
+    [view({ releaseUsed: false, ejectUsed: false }, ['CAPTAIN_RELEASE', 'CAPTAIN_EJECT']), null, 'available/available'],
+    [view({ releaseUsed: true, ejectUsed: false }, ['CAPTAIN_EJECT']), null, 'used/available'],
+    [view({ releaseUsed: false, ejectUsed: false }, []), null, 'unavailable/unavailable'],
+    [view({ releaseUsed: false, ejectUsed: true }, ['CAPTAIN_RELEASE']), 'release', 'sending/used'],
+  ];
+  for (const [input, pending, want] of states) { const got = captainButtonStates(input, pending); if ((got ? `${got.release}/${got.eject}` : 'null') !== want) problems.push(`S8: ${JSON.stringify(input)} is ${JSON.stringify(got)}, not ${want}`); }
+  if (CAPTAIN_BUTTONS.glow.maxLuminanceChange > 0.15 || CAPTAIN_BUTTONS.press.px !== 3) problems.push('S8\'s glow or press is not the storyboard\'s');
+  for (const [name, { nearest, distance }] of Object.entries(captainColorDistances())) if (distance < MIN_ACCENT_DISTANCE) problems.push(`the Captain's ${name} is ${distance} from the ${nearest} accent`);
+  // The memorial cut-outs: every color the ink or a memorial grey, so that no side, role or outfit shows.
+  const ramp = [CAPTAIN.memorialDark, CAPTAIN.memorialLight].map(hex => [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16)));
+  for (const path of (await filesUnder('design/board-v2/assets/captain')).filter(file => file.includes('/memorial-'))) {
+    for (const hex of new Set((await text(path)).match(/#[0-9A-Fa-f]{6}\b/g) ?? [])) {
+      if (hex.toUpperCase() === '#151923') continue;
+      const rgb = [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16));
+      const v = (rgb[0] - ramp[0][0]) / (ramp[1][0] - ramp[0][0]);
+      if (v < -0.01 || v > 1.01 || rgb.some((c, i) => Math.abs(c - (ramp[0][i] + (ramp[1][i] - ramp[0][i]) * v)) > 1.5)) { problems.push(`${path}: ${hex} is not a memorial grey`); break; }
+    }
+  }
+  const films = await json('design/board-v2/contract/films.json').catch(() => null);
+  if (!films || JSON.stringify(films.films?.slice(6)) !== JSON.stringify(captainContracts())) problems.push('contract/films.json does not hold the Captain films\' contracts: run design/tools/board-v2-assets.mjs');
+  for (const word of ROLE_WORDS) if (JSON.stringify(captainContracts()).includes(word)) problems.push(`the Captain contracts name ${word}`);
+  check(`the Captain's films: the characters off the board a 44 px card each in the sheet (${decks} layouts); the Jail's own door, lamp and keypad; the console inset (${placed} placed, ${none} none) below the captions and off the Captain's place, the pulse's way (${ways} ways) in the gutters and over no press area, the hatch whole below the caption at every phone; the storyboards' lengths, nothing drawn outside them, one set of words, still reduced variants, a full Jail through the door and out in time, the light under 2 Hz; Backend's listed seats, detainees and bodies untouched; S8 from the Captain's own view; memorial greys; no faction color`, problems);
 }
 
 // ---------- The slots ----------
@@ -806,9 +985,12 @@ const { outcomeWords } = await load('design/board-v2/js/medical-view.mjs');
     if ((report.probes ?? []).filter(probe => probe.turns).length !== 2 * 3 * 4) problems.push('the controls\' pointer probes did not all run');
     // The medical films at every beat, in both motion modes, at both phones, with every placement rule pictured.
     for (const name of ['390x844-critical-r3', '390x844-critical-r5', '390x844-critical-entry-0150', '390x844-reduced-critical-r3', '320x568-critical-r3', '320x568-critical-ward', '430x932-critical-ward', '390x844-rescue-0400', '390x844-rescue-1300', '390x844-rescue-2600', '390x844-rescue-3550', '390x844-rescue-4500', '390x844-rescue-5700', '390x844-reduced-rescue-0900', '320x568-rescue-2600', '390x844-rescue-detained-4500', '390x844-vignette-2600', '390x844-vignette-2600-r7', '390x844-taken-2600', '390x844-ward-2600', '320x568-upper-2600', '390x844-flatline-0800', '390x844-flatline-2000', '390x844-flatline-2700', '390x844-flatline-4300', '390x844-reduced-flatline-0900', '320x568-flatline-2000']) if (!files.includes(`medical-${name}.png`)) problems.push(`medical-${name}.png: not captured`);
-    if ((report.disclosure ?? []).filter(entry => /^(the Hospital's (critical|rescue|flatline) on the display|the page after the [a-z-]+ film|every room but the Hospital|the top bar's box on the plain board and in each medical film)/.test(entry.compare)).length !== 2 * 20) problems.push('the medical films\' page comparisons did not all run');
+    if ((report.disclosure ?? []).filter(entry => /^(the Hospital's (critical|rescue|flatline) on the display|the page after the (rescue|rescue-detained|vignette|death) film|every room but the Hospital|the top bar's box on the plain board and in each medical film)/.test(entry.compare)).length !== 2 * 20) problems.push('the medical films\' page comparisons did not all run');
+    // The Captain's films at every beat, in both motion modes, at both phones, with and without the capsule, a full Jail.
+    for (const name of ['390x844-release-0250', '390x844-release-0650', '390x844-release-1050', '390x844-release-1500', '390x844-release-1950', '390x844-release-2500', '390x844-release-3000', '390x844-release-3350', '390x844-release-3700', '390x844-release-4100', '390x844-release-4300', '390x844-reduced-release-0300', '390x844-reduced-release-0700', '390x844-reduced-release-1250', '390x844-reduced-release-1800', '320x568-release-0650', '320x568-release-3000', '390x844-nocapsule-release-0650', '390x844-release-full-3300', '320x568-release-full-3500', '390x844-release-3000-r7', '390x844-eject-0300', '390x844-eject-0650', '390x844-eject-1200', '390x844-eject-1900', '390x844-eject-2600', '390x844-eject-3000', '390x844-eject-3500', '390x844-eject-3900', '390x844-eject-4900', '390x844-eject-6000', '390x844-eject-6500', '390x844-eject-7300', '390x844-reduced-eject-0300', '390x844-reduced-eject-0800', '390x844-reduced-eject-1400', '390x844-reduced-eject-2000', '320x568-eject-0650', '320x568-eject-full-3600', '320x568-eject-full-4900', '390x844-nocapsule-eject-0650', '390x844-eject-full-3600', '390x844-eject-3500-r8', '390x844-offboard-choosing', '320x568-offboard-choosing', '320x568-offboard-full-choosing', '390x844-offboard-choosing-text2', 'sheet']) if (!files.includes(`captain-${name}.png`)) problems.push(`captain-${name}.png: not captured`);
+    if ((report.disclosure ?? []).filter(entry => /^(the Captain's (release|eject) film on the display|the page after the (release|release-full|eject|eject-full) film|(hospital|room-a, room-b, hospital) during the (release|eject) film|the top bar's box on the plain board and in each Captain film)/.test(entry.compare)).length !== 2 * 16) problems.push('the Captain films\' page comparisons did not all run');
   }
-  check('the captures are current, every measured board passed, every pointer probe and press landed, every compared page is the same, and the capsule, the real controls and the medical films are pictured in every state', problems);
+  check('the captures are current, every measured board passed, every pointer probe and press landed, every compared page is the same, and the capsule, the real controls, the medical films and the Captain\'s films are pictured in every state', problems);
 }
 
 for (const name of passed) console.log(`ok    ${name}`);

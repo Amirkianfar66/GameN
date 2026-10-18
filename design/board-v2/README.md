@@ -12,6 +12,7 @@
 - The private-talk capsule (storyboard S2): a permanent two-person capsule beside the Command Room, half its width, where the Hack's public pair walk in, sit for the minute and walk back, as an option of the layout: [docs/design/private-capsule.md](../../docs/design/private-capsule.md).
 - The real controls' places, by the owner's decision of 14 October 2026: they take turns with the board (the choosing row in the navigation's box during a character choice, the sheet over the Hospital and the Jail otherwise), and a board that does not fit says so: the same page, section 12.
 - The Hospital's medical films (storyboards S9, S5 and S10): a patient's critical state on the berth (monitor, lamp, the rescue round and the detention tag), the medical drone's rescue, and the flatline and life-support shutdown, from the server's public facts and outcomes alone: [docs/design/hospital-films.md](../../docs/design/hospital-films.md). The owner's request of 18 October 2026 for a 4-bed ward waits on Balance and Backend ([#155](https://github.com/Amirkianfar66/GameN/issues/155)); nothing is redrawn until it is settled.
+- The Captain's films (storyboards S6, S7 and S8): RELEASE (the console, the green pulse down the board's gutters, the Jail's door opening, the prisoners walking out to their new places) and EJECT (the protected red button, the emergency light, the airlock, the prisoners taken out as silhouettes and the bodies as grey cut-outs, the exterior, the memorial plaque), and the Captain's command plates in every state, from the public outcome and snapshots alone: [docs/design/captain-films.md](../../docs/design/captain-films.md).
 
 **The handoff:** [docs/design/board-v2-slots.md](../../docs/design/board-v2-slots.md).
 
@@ -41,12 +42,17 @@
 | `films/medical.mjs` | The medical films: the critical state, the rescue and the flatline, their beats and what each draws at any moment from public inputs alone; the rescue tag from the server's values; where a film may play (`filmBerth()`) |
 | `js/medical-fixtures.mjs` | Synthetic medical facts and outcomes for review (test-only), with Backend's two rules copied for the review page alone |
 | `js/medical-view.mjs` | The medical films on the review page (`&film=critical\|rescue\|flatline`). A controller: not to be ported |
+| `fx/captain.mjs` | The Captain's art: the command plates in every state (S8), the safety cover, the glove and the press accents, the console inset; the Jail's door, lamp and keypad drawn again from the room's own elements; the airlock, the suction, the debris, the emergency light, the exterior; the memorial plaque and the grey cut-outs; and where the inset and the pulse go (`consoleBox()`, `conduitPoints()`). Editable source and pure geometry |
+| `films/captain.mjs` | The Captain's films: RELEASE and EJECT, their beats and what each draws at any moment from public inputs alone; S8's states from the Captain's own view (`captainButtonStates()`) |
+| `figures/captain.mjs` | The Captain at the console, and a prisoner's start, brace and tumble, as skeletons in the shared figure frame |
+| `js/captain-fixtures.mjs` | Synthetic Captain outcomes for review (test-only); the released prisoners' places written by hand |
+| `js/captain-view.mjs` | The Captain's films on the review page (`&film=release\|eject`) and the art sheet (`?sheet=captain`). A controller: not to be ported |
 | `js/fixtures.mjs` | Synthetic boards for review (test-only) |
 | `js/page.js`, `index.html`, `css/page.css` | The review page: a phone-sized board, or one room's whole scene |
 | `contact.html` | The contact sheet of the captures |
-| `assets/` | Generated: the ward's back layer for each roster, each berth's front layer, the lighting art (`assets/lighting/`), the effects art (`assets/fx/`), the capsule's art (`assets/capsule/`), the medical art (`assets/medical/`), the manifest |
+| `assets/` | Generated: the ward's back layer for each roster, each berth's front layer, the lighting art (`assets/lighting/`), the effects art (`assets/fx/`), the capsule's art (`assets/capsule/`), the medical art (`assets/medical/`), the Captain's art (`assets/captain/`), the manifest |
 | `contract/slots.json` | Generated: the slot table for each roster, as data |
-| `contract/films.json` | Generated: the Blackout's film, ATTACK BLOCKED, the capsule and the three medical films, as data |
+| `contract/films.json` | Generated: the Blackout's film, ATTACK BLOCKED, the capsule, the three medical films and the Captain's two films and plates, as data |
 | `review/` | Generated: the captures, `index.json` and `report.json` |
 
 ## Run
@@ -79,3 +85,5 @@ node design/tools/serve.mjs               # then open /board-v2/index.html
 | `?sheet=capsule` | The capsule's art on one sheet: its layers, seats and paths, and every pose by status |
 | `&film=critical` | The critical state on the mixed board's patients, with `&fixture=ward` (every seat Injured), `&round=3\|5`, `&entry=<seat>`, `&t=` and `&motion=reduced`, listed in `js/medical-view.mjs` |
 | `&film=rescue\|flatline` | One synthetic outcome's film over the snapshot published with it, with `&outcome=` (`js/medical-fixtures.mjs`), `&t=`, `&play=1` and `&motion=reduced` |
+| `&film=release\|eject` | One synthetic Captain outcome's film over the snapshot published with it, with `&outcome=` (`js/captain-fixtures.mjs`), `&t=`, `&play=1`, `&motion=reduced` and `&capsule=1` |
+| `?sheet=captain` | The Captain's art and S8's plates on one sheet, for the art review (no board) |

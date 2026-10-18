@@ -64,7 +64,19 @@
 // has them; that the room's light dips on its art alone; the client's words in the live region; and
 // a pointer on every slot meanwhile. It compares the display's page with a player's, the page after
 // each film with the page before it, every other room during a film with the same room before it,
-// and the top bar's box with the plain board's. These are statements about desktop Chromium laying
+// and the top bar's box with the plain board's. With the Captain's films (&film=release and eject;
+// storyboards S6 and S7) it measures that the console inset is where consoleBox() puts it, over no
+// caption and off the Captain's place, its plate and cover as the frame has them; that the pulse's
+// way passes under no caption and its head is where the frame puts it; that the Jail's door is the
+// room's own at its scene frame, as the frame has it; that every subject is drawn once, where and
+// as its state says (in the Jail, crossing the board, landing in the room's clothes, a silhouette,
+// a grey cut-out), the released marked away at their new places until they land and everyone else
+// where the snapshot has them; the emergency light, the airlock (its rim whole in the panel and
+// below the caption), the suction, EJECTED and the exterior as the frame says; nothing of a film
+// before or after it, and the memorial plaque the board's own; the client's words; and a pointer on
+// every slot meanwhile. It compares the display's page with a player's, the page after each film
+// with the page before it, the rooms a film never touches with the same rooms before it, and the
+// top bar's box with the plain board's. These are statements about desktop Chromium laying
 // out a review page from synthetic fixtures and stand-ins sized from Frontend's measurements, not
 // measurements of a phone or of Frontend's controls, and nothing about a match.
 
@@ -96,7 +108,10 @@ const { DRONE, DRONE_SCENE, PULSE_BOX, PULSE_FLASH_RADIUS, berthKit, droneFit, i
 const { medicalOutcome, medicalSeats } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/js/medical-fixtures.mjs')).href);
 const { outcomeWords } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/js/medical-view.mjs')).href);
 const { frameScene } = await import(pathToFileURL(resolve(repoRoot, 'design/board-motion/scenes/frame.mjs')).href);
-/** Words of a side or a role: never on a capsule or medical page, which is public. */
+const { AIRLOCK, CONSOLE, JAIL_DOOR, conduitAt, conduitPoints, consoleBox, plaqueBox } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/fx/captain.mjs')).href);
+const { captainWords, ejectEnd, ejectFrame, releaseEnd, releaseFrame } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/films/captain.mjs')).href);
+const { captainOutcome } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/js/captain-fixtures.mjs')).href);
+/** Words of a side or a role: never on a capsule, medical or Captain page, which is public. */
 const PRIVATE_WORDS = /\b(?:Blue|Red|Officer|Insider|Cracker|Disabler|Supplier|Undercover|Hacker|Alien|faction)\b/;
 
 /** The phones the board is drawn on: the four the board-motion prototype is measured at. */
@@ -321,6 +336,71 @@ function plan() {
   medical('flatline-2000', at320, '&film=flatline&t=2000', 'S10 on the smallest phone: the flatline (2 000 ms)');
   medical('flatline-2000-panel', at390, '&film=flatline&t=2000', 'S10: the flatline, the Hospital panel alone (3x)', { panel: true });
   medical('flatline-2700-panel', at390, '&film=flatline&t=2700', 'S10: the shutdown, the Hospital panel alone (3x)', { panel: true });
+  // The Captain's films (storyboards S6 and S7, js/captain-view.mjs) on the Captain board: Lyra (3) and Atlas (4) prisoners
+  // at J1 and J2, Echo's body at J5, Mira (8) Injured and detained at H2, Juno (7) the Captain at C1; with the capsule
+  // beside the Command Room. Each outcome's film over the snapshot published with it, t from its presentation start.
+  // Every slot pressed with a real pointer meanwhile.
+  const captain = (name, viewport, query, about, { roster = 9, capsule = true, measure = true } = {}) => shots.push({ file: `captain-${vp(viewport)}-${name}.png`, group: 'captain', viewport, query: `roster=${roster}${capsule ? '&capsule=1' : ''}${query}&hit=1`, about, captain: true, measure });
+  const ms = t => String(t).padStart(4, '0');
+  for (const [t, about] of [
+    [250, 'the console inset opens on the RELEASE plate; Juno lifts a hand over the console in the chart table'],
+    [650, 'the press: the button down, a green ring; Juno\'s shoulders dip'],
+    [1050, 'the green pulse down the board\'s spine, in the gutters'],
+    [1500, 'the keypad and the lamp green, the lock\'s wheel turned'],
+    [1950, 'the door sliding open onto the corridor'],
+    [2500, 'Lyra and Atlas up and walking to the door; their new places (A2, B1) marked away'],
+    [3000, 'through the door; Lyra crossing the board in the prison suit'],
+    [3350, 'Atlas crossing; Lyra landing at A2 in the crew suit, the puff'],
+    [3700, 'Atlas landing at B1; the door shutting'],
+    [4100, 'everyone settled; the plate used; Juno back at the table'],
+    [4300, 'done: the board is the snapshot'],
+  ]) captain(`release-${ms(t)}`, at390, `&film=release&t=${t}`, `S6, Lyra and Atlas released: ${about} (${t} ms)`);
+  for (const [t, about] of [[40, 'the console fading in'], [300, 'the console, RELEASE pressed'], [700, 'the door open'], [1250, 'Lyra and Atlas at their new places'], [1800, 'the door shut'], [2300, 'done']]) {
+    captain(`reduced-release-${ms(t)}`, at390, `&film=release&t=${t}&motion=reduced`, `S6, reduced motion: ${about} (${t} ms)`);
+  }
+  captain('release-0650', at320, '&film=release&t=650', 'S6 on the smallest phone: the console inset at half size, right of Juno, below the captions (650 ms)');
+  captain('release-3000', at320, '&film=release&t=3000', 'S6 on the smallest phone: through the door and across (3 000 ms)');
+  for (const viewport of [[360, 740], [430, 932]]) captain('release-0650', viewport, '&film=release&t=650', 'S6: the console inset (650 ms)');
+  captain('nocapsule-release-0650', at390, '&film=release&t=650', 'S6 on a board without the capsule: the inset right of Juno in the Command Room (650 ms)', { capsule: false });
+  captain('nocapsule-release-3000', at390, '&film=release&t=3000', 'S6 without the capsule: across the board (3 000 ms)', { capsule: false });
+  for (const [t, about] of [[2700, 'five prisoners up, 80 ms apart in slot order'], [3300, 'through the door one after another, the first crossing'], [3700, 'landing in Room A and Room B, the door shutting']]) {
+    captain(`release-full-${ms(t)}`, at390, `&film=release&outcome=release-full&t=${t}`, `S6, a full Jail released (synthetic places): ${about} (${t} ms)`);
+  }
+  captain('release-full-3500', at320, '&film=release&outcome=release-full&t=3500', 'S6, a full Jail released, on the smallest phone (3 500 ms)');
+  captain('release-3000-r7', at390, '&film=release&t=3000', 'S6, seven players (no detainee, no body) (3 000 ms)', { roster: 7 });
+  for (const [t, about] of [
+    [300, 'a short push on Juno; the EJECT plate, its cover lifting'],
+    [650, 'the press under the open cover: a hard click, a red burst'],
+    [1200, 'the emergency light in the Command Room and the Jail; the red pulse down the spine'],
+    [1900, 'lockdown: the door locked, the keypad striped; the hatch revealed in the wall; Lyra and Atlas brace'],
+    [2600, 'the clamps released'],
+    [3000, 'the iris opening onto space; the suction building'],
+    [3500, 'Lyra pulled out as a silhouette, Atlas leaning; Echo\'s body rising as a grey cut-out; EJECTED'],
+    [3900, 'Atlas into the hatch; papers and a cup'],
+    [4900, 'the exterior: the hull, the open hatch, Lyra and Atlas drifting away, small'],
+    [6000, 'the iris shutting'],
+    [6500, 'the final panel: EJECT used under its shut cover; the memorial plaque'],
+    [7000, 'the light settling, the hatch gone'],
+    [7300, 'done: the Jail empty, the plaque beside its caption'],
+  ]) captain(`eject-${ms(t)}`, at390, `&film=eject&t=${t}`, `S7, Lyra and Atlas ejected and Echo's body cleared: ${about} (${t} ms)`);
+  for (const [t, about] of [[40, 'the console fading in'], [300, 'the console, EJECT pressed, its cover open'], [800, 'the hatch open and EJECTED'], [1400, 'the empty Jail'], [2000, 'the memorial plaque'], [2600, 'done']]) {
+    captain(`reduced-eject-${ms(t)}`, at390, `&film=eject&t=${t}&motion=reduced`, `S7, reduced motion: ${about} (${t} ms)`);
+  }
+  captain('eject-0650', at320, '&film=eject&t=650', 'S7 on the smallest phone: the press (650 ms)');
+  captain('eject-full-3600', at320, '&film=eject&outcome=eject-full&t=3600', 'S7, a full Jail ejected, on the smallest phone (3 600 ms)');
+  captain('eject-full-4900', at320, '&film=eject&outcome=eject-full&t=4900', 'S7, a full Jail: the exterior, five drifting (4 900 ms)');
+  captain('nocapsule-eject-0650', at390, '&film=eject&t=650', 'S7 on a board without the capsule (650 ms)', { capsule: false });
+  for (const t of [3600, 4000]) captain(`eject-full-${ms(t)}`, at390, `&film=eject&outcome=eject-full&t=${t}`, `S7, a full Jail ejected, 100 ms apart in slot order (${t} ms)`);
+  captain('eject-3500-r8', at390, '&film=eject&t=3500', 'S7, eight players: no body in the Jail (3 500 ms)', { roster: 8 });
+  // After the EJECT, a Code choice that offers the characters off the board: their cards in the sheet the choosing row's
+  // tab opens over the Hospital and the Jail (synthetic offer: every seat, as a Code may name any).
+  const offboard = '&film=eject&t=7300&ui=choosing&offboard=1&offered=1,2,3,4,5,6,7,8,9&chosen=4';
+  // The sheet covers the Hospital's and the Jail's targets by design while it shows (turns.mjs): no board pointer probe here.
+  captain('offboard-choosing', at390, offboard, 'After the EJECT, a Code choice offering every seat: Lyra, Atlas and Echo off the board, a card each in the sheet the tab opened, ringed; Atlas chosen', { measure: false });
+  captain('offboard-choosing', at320, offboard, 'The same on the smallest phone: three cards in one row', { measure: false });
+  captain('offboard-full-choosing', at320, '&film=eject&outcome=eject-full&t=7300&ui=choosing&offboard=1&offered=1,2,3,4,5,6,7,8,9&chosen=2,6', 'A full Jail ejected: five cards in one row at 320 px, two chosen', { measure: false });
+  captain('offboard-choosing-text2', at390, `${offboard}&text=2`, '200% text: the top bar 124 px; the cards in the sheet as before', { measure: false });
+  shots.push({ file: 'captain-sheet.png', group: 'captain', viewport: [1240, 1260], query: 'sheet=captain', scale: 1, sheetHeight: 630, about: 'The Captain\'s art for review: S8\'s plates in every state at a phone\'s size and the cover\'s frames; the console inset at its moments; the Jail\'s door, the airlock, the suction and the debris over the Jail; the exterior; the plaque and the history\'s grey cut-outs; the poses' });
   return shots;
 }
 
@@ -1004,6 +1084,291 @@ function problemsOfMedical(shot, m) {
   return problems;
 }
 
+/** Reads a Captain film's page back: the stage, the console inset and its parts, the pulse, the Jail's door and airlock, the suction, the emergency light, the exterior, the label, the plaque, every figure, the captions, the top bar and the live region. */
+const MEASURE_CAPTAIN = `(() => {
+  const box = node => { const b = node.getBoundingClientRect(); return { left: b.left, top: b.top, width: b.width, height: b.height, right: b.right, bottom: b.bottom }; };
+  const layout = node => ({ left: node.offsetLeft, top: node.offsetTop, width: node.offsetWidth, height: node.offsetHeight });
+  const app = document.getElementById('v2-app');
+  const room = id => document.querySelector('.v2-room[data-room="' + id + '"]');
+  const panel = id => { const node = room(id); if (!node) return null; const b = node.getBoundingClientRect(); return { left: b.left + node.clientLeft, top: b.top + node.clientTop, width: node.clientWidth, height: node.clientHeight }; };
+  const opacity = node => Number(getComputedStyle(node).opacity);
+  const one = selector => { const node = app.querySelector(selector); return node ? { ...box(node), layout: layout(node), opacity: opacity(node), data: { ...node.dataset }, files: [...node.querySelectorAll('img')].map(img => (img.getAttribute('src') ?? '').split('/').pop()), text: node.textContent } : null; };
+  const all = selector => [...app.querySelectorAll(selector)].map(node => ({ ...box(node), layout: layout(node), opacity: opacity(node), data: { ...node.dataset }, room: node.closest('.v2-room')?.dataset.room ?? null, file: (node.getAttribute('src') ?? '').split('/').pop(), text: node.textContent, style: node.getAttribute('style') ?? '' }));
+  const captions = Object.fromEntries([...app.querySelectorAll('.v2-room .v2-cap')].map(node => [node.closest('.v2-room').dataset.room, { ...box(node), layout: layout(node) }]));
+  const conduit = app.querySelector('.v2-cpt__conduit polyline');
+  const labels = [...app.querySelectorAll('[aria-label]')].map(node => node.getAttribute('aria-label')).join(' ');
+  const commandArt = room('command-room')?.querySelector('.v2-art');
+  return {
+    film: document.documentElement.dataset.film ?? null, stage: document.documentElement.dataset.stage ?? null,
+    scrolls: document.documentElement.scrollHeight > innerHeight + 1 || document.documentElement.scrollWidth > innerWidth + 1,
+    board: box(document.querySelector('.v2-board')),
+    panels: Object.fromEntries(['command-room', 'room-a', 'room-b', 'hospital', 'jail'].map(id => [id, panel(id)])),
+    captions, tags: [...app.querySelectorAll('.v2-tag[data-seat]')].map(node => ({ ...box(node), seat: Number(node.dataset.seat), room: node.closest('.v2-room')?.dataset.room ?? null })),
+    hits: [...app.querySelectorAll('.v2-slot-hit')].map(node => ({ ...box(node), slot: node.dataset.slot })),
+    console: one('.v2-cpt__console'), word: one('.v2-cpt__word'), stamp: one('.v2-cpt__stamp'),
+    conduit: conduit ? conduit.getAttribute('points') : null, head: one('.v2-cpt__head'),
+    door: one('.v2-cpt__door'), airlock: one('.v2-cpt__airlock'), suction: all('.v2-cpt__suction'), debris: all('.v2-cpt__debris'),
+    emergency: all('.v2-cpt__emergency'), exterior: one('.v2-cpt__exterior'), label: one('.v2-cpt__label'), plaque: one('.v2-plaque'),
+    trail: all('.v2-cpt__trail'), puff: all('.v2-cpt__puff'),
+    offboard: (() => {
+      const sheet = app.querySelector('.v2-offboard');
+      if (!sheet) return null;
+      // A real pointer at each card's centre and at its four corners 3 px inside: how many land on it.
+      const hits = node => { const b = node.getBoundingClientRect(); return [[b.left + b.width / 2, b.top + b.height / 2], [b.left + 3, b.top + 3], [b.right - 3, b.top + 3], [b.left + 3, b.bottom - 3], [b.right - 3, b.bottom - 3]].filter(([x, y]) => { const at = document.elementFromPoint(x, y); return at === node || node.contains(at); }).length; };
+      return { sheet: box(sheet), tab: one('.v2-offboard__tab'), cards: [...sheet.querySelectorAll('.v2-offboard__card')].map(node => ({ ...box(node), seat: Number(node.dataset.seat), offered: node.dataset.offered === 'true', ring: Boolean(node.querySelector('.v2-ring')), chosen: Boolean(node.querySelector('.v2-ring--chosen')), name: node.querySelector('.v2-offboard__name')?.textContent ?? '', hits: hits(node) })) };
+    })(),
+    figures: [...app.querySelectorAll('.v2-fig[data-seat]')].map(node => ({ seat: Number(node.dataset.seat), room: node.closest('.v2-room')?.dataset.room ?? null, id: node.querySelector('[id]')?.id ?? '', film: node.dataset.film ?? null, outfit: node.dataset.outfit ?? null, away: node.classList.contains('v2-fig--away'), silhouette: node.classList.contains('v2-fig--silhouette'), memorial: node.classList.contains('v2-fig--memorial'), hidden: getComputedStyle(node).visibility === 'hidden', opacity: node.style.opacity, flyer: node.classList.contains('v2-cpt__flyer'), exterior: Boolean(node.closest('.v2-cpt__exterior')) })),
+    filmNodes: app.querySelectorAll('[data-film]').length,
+    push: commandArt ? commandArt.style.transform : null,
+    live: document.querySelector('[data-live=public]')?.textContent ?? null,
+    phase: document.querySelector('.v2-top__phase')?.textContent ?? null,
+    text: app.textContent + ' ' + labels,
+  };
+})()`;
+
+/** What a Captain film's page should show, from its query alone: the outcome, the board, the frame, and where the console inset and the pulse go. */
+function captainExpected(shot) {
+  const query = new URLSearchParams(shot.query);
+  const roster = Number(query.get('roster') ?? 9);
+  const film = query.get('film');
+  const kind = film === 'release' ? 'RELEASE' : 'EJECT';
+  const reduced = query.get('motion') === 'reduced';
+  const t = Number(query.get('t') ?? (film === 'release' ? 2600 : 3700));
+  const outcome = captainOutcome(query.get('outcome') ?? film, roster);
+  const [width, height] = shot.viewport;
+  const board = fitBoardV2({ width, height }, roster, { capsule: query.get('capsule') === '1' });
+  const end = kind === 'RELEASE' ? releaseEnd(reduced) : ejectEnd(reduced);
+  const frame = kind === 'RELEASE' ? releaseFrame(t, { reduced, count: outcome.subjects.length }) : ejectFrame(t, { reduced, subjects: outcome.subjects });
+  const border = board.shell.border;
+  const commandPanel = board.panels['command-room'];
+  const c1 = slotRects('command-room', roster, commandPanel)[0];
+  const command = board.boxes['command-room'];
+  const bandRight = board.capsule ? board.boxes[CAPSULE.id].left + board.boxes[CAPSULE.id].width - border : command.left + command.width - border;
+  const band = { left: command.left + border, top: command.top + border, width: bandRight - command.left - border, height: commandPanel.height };
+  const captainBox = { left: band.left + c1.left, top: band.top + c1.top, width: c1.side, height: c1.side };
+  const tag = { left: band.left + c1.press[0] - 30, top: band.top + Math.min(commandPanel.height - 16, c1.top + c1.side - 14), width: 60, height: 17 };
+  const place = consoleBox({ band, cap: commandPanel.cap, captain: captainBox, tag });
+  const jailFrame = frameScene(sceneOf('jail', roster), board.panels.jail);
+  const start = place ? [place.left + place.width / 2, place.top + place.height] : [band.left + c1.press[0], band.top + c1.press[1]];
+  const conduit = conduitPoints({ boxes: board.boxes, border, jail: jailFrame, start });
+  return { roster, film, kind, reduced, t, outcome, board, end, frame, band, captainBox, tag, place, jailFrame, conduit, during: t >= 0 && t < end };
+}
+
+function problemsOfCaptain(shot, m) {
+  if (!m) return ['nothing measured'];
+  const problems = [];
+  const { roster, kind, reduced, t, outcome, board, end, frame, band, captainBox, tag, place, jailFrame, conduit, during } = captainExpected(shot);
+  const near = (a, b, tolerance = 0.6) => Math.abs(a - b) <= tolerance;
+  const sameBox = (a, b, tolerance = 0.6) => ['left', 'top', 'width', 'height'].every(key => near(a[key], b[key], tolerance));
+  const toBox = b => ({ left: b.left, top: b.top, right: b.left + b.width, bottom: b.top + b.height });
+  const jail = m.panels.jail;
+  const inJail = ([x, y, w, h]) => ({ left: jail.left + jailFrame.tx + x * jailFrame.k, top: jail.top + jailFrame.ty + y * jailFrame.k, width: w * jailFrame.k, height: h * jailFrame.k });
+  if (m.scrolls) problems.push('the page scrolls');
+  if (m.film !== shot.query.match(/film=(\w+)/)[1]) problems.push(`the page plays ${m.film}`);
+  if (m.stage !== frame.stage) problems.push(`the page is at ${m.stage}; the film says ${frame.stage}`);
+  const query = new URLSearchParams(shot.query);
+  const choosing = query.get('ui') === 'choosing';
+  const phase = choosing ? `Code: choose ${query.get('choose') ?? 4}` : 'Round 3: turns';
+  if (m.phase !== phase) problems.push(`the top bar says "${m.phase}"`);
+  const words = m.text.match(PRIVATE_WORDS);
+  if (words) problems.push(`"${words[0]}" is on the page`);
+  // The characters off the board as targets: a card each, in the sheet's body, 44 px at least, apart, a pointer landing
+  // on each; ringed when offered, marked when chosen; the tab saying how many.
+  if (query.get('offboard') === '1') {
+    const off = outcome.after.filter(seat => seat.room === null).sort((a, b) => a.seat - b.seat);
+    const options = { insets: insetsOf(query.get('safe')), bars: query.get('text') === '2' ? ENLARGED.bars : null, actions: query.get('text') === '2' ? ENLARGED.actions : undefined };
+    const { sheet } = turnsLayout({ width: shot.viewport[0], height: shot.viewport[1] }, roster, options);
+    const offered = (query.get('offered') ?? '').split(',').filter(Boolean).map(Number);
+    const chosen = (query.get('chosen') ?? '').split(',').filter(Boolean).map(Number);
+    const o = m.offboard;
+    if (!o) problems.push('no cards for the characters off the board');
+    else {
+      if (!sameBox(o.sheet, sheet)) problems.push('the cards\' sheet is not turns.mjs\'s');
+      if (!o.tab || o.tab.text !== String(off.length)) problems.push(`the tab says ${o.tab?.text}; ${off.length} are off the board`);
+      if (JSON.stringify(o.cards.map(card => card.seat)) !== JSON.stringify(off.map(seat => seat.seat))) problems.push(`cards for ${o.cards.map(card => card.seat)}; off the board: ${off.map(seat => seat.seat)}`);
+      o.cards.forEach((card, i) => {
+        if (card.width < 43.5 || card.height < 43.5) problems.push(`seat ${card.seat}'s card is ${card.width.toFixed(1)} x ${card.height.toFixed(1)}`);
+        if (card.left < sheet.body.left - 0.5 || card.top < sheet.body.top - 0.5 || card.right > sheet.body.left + sheet.body.width + 0.5 || card.bottom > sheet.body.top + sheet.body.height + 0.5) problems.push(`seat ${card.seat}'s card leaves the sheet's body`);
+        for (const other of o.cards.slice(i + 1)) if (overlap(card, other)) problems.push(`seats ${card.seat} and ${other.seat}: cards overlap`);
+        if (card.hits !== 5) problems.push(`a pointer misses seat ${card.seat}'s card`);
+        if (card.offered !== offered.includes(card.seat) || card.ring !== card.offered || card.chosen !== chosen.includes(card.seat)) problems.push(`seat ${card.seat}'s card is ${card.offered ? 'offered' : 'not offered'}${card.chosen ? ', chosen' : ''}; the offer says otherwise`);
+        if (!card.name.startsWith(String(card.seat))) problems.push(`seat ${card.seat}'s card is named ${card.name}`);
+      });
+    }
+  } else if (m.offboard) problems.push('cards for the characters off the board outside a choice');
+  const sentence = during && frame.announce ? captainWords(kind, outcome.seatIds) : '';
+  if (m.live === null) problems.push('no public live region');
+  else if (m.live !== sentence) problems.push(`the live region says "${m.live}"; it should say "${sentence}"`);
+
+  // The snapshot published with the outcome: everyone on the board where it has them, in their health; the released
+  // marked away at their new places until they land, hidden while they settle; the ejected drawn nowhere by it.
+  const subjects = new Map(outcome.subjects.map((subject, i) => [subject.seat, { ...subject, person: frame.people[i] }]));
+  for (const seat of outcome.after) {
+    const drawn = m.figures.filter(figure => !figure.film && figure.seat === seat.seat);
+    if (seat.room === null) { if (drawn.length) problems.push(`seat ${seat.seat}, off the board, is drawn by the board`); continue; }
+    if (!drawn.length) problems.push(`seat ${seat.seat} is not drawn`);
+    const subject = subjects.get(seat.seat);
+    const state = subject?.person.state;
+    for (const figure of drawn) {
+      const [, slot, health] = FIGURE_ID.exec(figure.id) ?? [];
+      if (figure.room !== seat.room || slot !== seat.slot || health !== seat.health[0]) problems.push(`seat ${seat.seat} drawn as ${figure.id} in ${figure.room}; the snapshot has ${seat.slot}, ${seat.health}`);
+      const captainHidden = during && seat.room === 'command-room' && seat.captain;
+      const away = during && subject && state !== 'land' && state !== 'settled';
+      const hidden = captainHidden || (during && subject && state === 'land');
+      if (figure.away !== Boolean(away) || figure.hidden !== Boolean(hidden)) problems.push(`seat ${seat.seat} is ${figure.hidden ? 'hidden' : figure.away ? 'marked away' : 'drawn as it is'}; it should be ${hidden ? 'hidden' : away ? 'marked away' : 'drawn as it is'}`);
+    }
+  }
+
+  // Outside the film: nothing of it on the page; the plaque, if anyone is off the board, the board's own.
+  const off = outcome.after.filter(seat => seat.room === null).length;
+  if (!during) {
+    if (m.filmNodes) problems.push(`${m.filmNodes} nodes of the film on the page ${t >= end ? 'after its end' : 'before it'}`);
+    if (m.push) problems.push(`the Command Room's art is transformed (${m.push}) outside the film`);
+    if (Boolean(m.plaque) !== off > 0) problems.push(`the plaque is ${m.plaque ? 'drawn' : 'missing'} with ${off} seats off the board`);
+  }
+  if (m.plaque) {
+    if (m.plaque.text !== String(off)) problems.push(`the plaque says ${m.plaque.text}; ${off} seats are off the board`);
+    // Placed by the caption's layout box (as the page lays it out, before its slant), kept clear of its slanted edge.
+    const caption = m.captions.jail;
+    const at = plaqueBox({ caption: caption.layout, size: [m.plaque.layout.width, m.plaque.layout.height], panel: board.panels.jail });
+    if (!near(m.plaque.layout.left, at.left, 1) || !near(m.plaque.layout.top, at.top, 1)) problems.push('the plaque is not where plaqueBox() puts it');
+    if (overlap(m.plaque, caption)) problems.push('the plaque is over the Jail\'s caption');
+  }
+  if (!during) return problems;
+
+  // The console inset: where consoleBox() puts it, over no caption and not over the Captain's place or name tag.
+  if (Boolean(m.console) !== Boolean(place && frame.inset.opacity > 0)) problems.push(`the console inset is ${m.console ? 'drawn' : 'missing'}; consoleBox() ${place ? 'has room' : 'finds none'}, the frame's at ${frame.inset.opacity}`);
+  if (m.console) {
+    const offset = { left: m.console.layout.left + m.board.left, top: m.console.layout.top + m.board.top, width: m.console.layout.width, height: m.console.layout.height };
+    if (!sameBox(offset, place)) problems.push(`the inset is at ${JSON.stringify(offset)}; consoleBox() ${JSON.stringify(place)}`);
+    if (!near(m.console.opacity, frame.inset.opacity, 0.011)) problems.push(`the inset at ${m.console.opacity}; the frame ${frame.inset.opacity}`);
+    const which = kind === 'RELEASE' ? 'release' : 'eject';
+    if (m.console.data.plate !== frame.inset.plate || !m.console.files.includes(`plate-${which}-${frame.inset.plate}.svg`)) problems.push(`the plate is ${m.console.data.plate}; the frame ${frame.inset.plate}`);
+    if ((m.console.data.cover ?? null) !== (frame.inset.cover ?? null)) problems.push(`the cover is ${m.console.data.cover}; the frame ${frame.inset.cover}`);
+    if (Boolean(m.stamp) !== frame.inset.stamp > 0) problems.push('the USED stamp is not as the frame says');
+    for (const [name, caption] of Object.entries(m.captions)) if (caption && overlap(toBox(offset), caption)) problems.push(`the inset is over ${name}'s caption`);
+    if (overlap(toBox(offset), toBox(captainBox)) || overlap(toBox(offset), toBox(tag))) problems.push('the inset is over the Captain\'s place or name tag');
+    if (offset.left < band.left - 0.5 || offset.top < band.top - 0.5 || offset.left + offset.width > band.left + band.width + 0.5 || offset.top + offset.height > band.top + band.height + 0.5) problems.push('the inset leaves the top band');
+    for (const hit of m.hits) if (overlap(toBox(offset), hit)) problems.push(`the inset is over ${hit.slot}'s press area`);
+  }
+  // The pulse's way: under no caption, as the page lays the captions out (its drop into the Jail passes right of its caption).
+  const { total } = conduitAt(conduit, 1);
+  for (let d = 0; d <= total; d += 1) {
+    const [x, y] = conduitAt(conduit, d / total).head;
+    const caption = Object.entries(m.captions).find(([, b]) => x > b.left - 1.5 && x < b.right + 1.5 && y > b.top - 1.5 && y < b.bottom + 1.5);
+    if (caption) { problems.push(`the pulse's way crosses ${caption[0]}'s caption at ${x.toFixed(1)},${y.toFixed(1)}`); break; }
+  }
+  // The pulse: its head on its way down the gutters, where the frame puts it.
+  if (Boolean(m.head) !== Boolean(frame.pulse && frame.pulse.opacity > 0)) problems.push(`the pulse is ${m.head ? 'drawn' : 'missing'}; the frame ${frame.pulse ? frame.pulse.opacity : 'none'}`);
+  if (m.head && frame.pulse) {
+    const [x, y] = conduitAt(conduit, frame.pulse.v).head;
+    if (Math.hypot(m.head.left + m.head.width / 2 - x, m.head.top + m.head.height / 2 - y) > 1) problems.push(`the pulse's head at ${Math.round(m.head.left + 12)},${Math.round(m.head.top + 12)}; the way puts it at ${Math.round(x)},${Math.round(y)}`);
+    for (const hit of m.hits) if (overlap(m.head, hit)) problems.push(`the pulse's head is over ${hit.slot}'s press area`);
+  }
+  // The Jail's door: over the room's own, at its scene frame, as the frame has it.
+  if (!m.door) problems.push('no door over the Jail');
+  else {
+    if (!sameBox(m.door, inJail(JAIL_DOOR.box))) problems.push('the door is not where the Jail draws its own');
+    const want = { open: String(frame.door.open), wheel: String(frame.door.wheel), lamp: frame.door.lamp, keypad: frame.door.keypad };
+    const got = { open: m.door.data.open, wheel: m.door.data.wheel, lamp: m.door.data.lamp, keypad: m.door.data.keypad };
+    if (JSON.stringify(got) !== JSON.stringify(want)) problems.push(`the door is ${JSON.stringify(got)}; the frame ${JSON.stringify(want)}`);
+  }
+  // C1: the Captain drawn by the film, in the Command Room, while it plays; the art pushed as the frame says.
+  const captainSeat = outcome.after.find(seat => seat.room === 'command-room' && seat.captain);
+  const c1 = m.figures.filter(figure => figure.film && figure.room === 'command-room');
+  if (captainSeat && (c1.length < 1 || c1.some(figure => figure.seat !== captainSeat.seat))) problems.push(`the film draws ${c1.length} Captains`);
+  const push = kind === 'EJECT' && frame.push !== 1 ? `scale(${frame.push})` : '';
+  if ((m.push ?? '') !== push) problems.push(`the Command Room's art is "${m.push}"; the frame "${push}"`);
+
+  // The subjects, each as its state says, where it says.
+  const filmed = seat => m.figures.filter(figure => figure.film && figure.seat === seat && !figure.exterior);
+  for (const [seat, subject] of subjects) {
+    const { person } = subject;
+    const drawn = filmed(seat);
+    const want = person.state === 'settled' || person.state === 'gone' ? [] : person.state === 'across' ? ['board'] : person.state === 'land' ? [subject.to.room] : ['jail'];
+    const rooms = drawn.map(figure => (figure.flyer ? 'board' : figure.room));
+    if (JSON.stringify(rooms) !== JSON.stringify(want)) problems.push(`seat ${seat} (${person.state}) drawn in ${rooms.join(',') || 'nothing'}; the frame ${want.join(',') || 'nothing'}`);
+    for (const figure of drawn) {
+      const outfit = person.state === 'land' ? 'crew' : 'prison';
+      if (figure.outfit !== outfit) problems.push(`seat ${seat} (${person.state}) in the ${figure.outfit} clothes; the board dresses it in ${outfit}`);
+      if (figure.silhouette !== (person.state === 'pulled')) problems.push(`seat ${seat} (${person.state}) is ${figure.silhouette ? '' : 'not '}a silhouette`);
+      if (figure.memorial !== (person.state === 'dissolve')) problems.push(`seat ${seat} (${person.state}) is ${figure.memorial ? '' : 'not '}a grey cut-out`);
+    }
+  }
+  if (m.figures.some(figure => figure.film && !subjects.has(figure.seat) && !(captainSeat && figure.seat === captainSeat.seat))) problems.push('the film draws someone it is not about');
+  if (kind === 'RELEASE') {
+    for (const key of ['airlock', 'exterior', 'label']) if (m[key]) problems.push(`a ${key} in a RELEASE`);
+    if (m.suction.length || m.emergency.length || m.debris.length) problems.push('suction, debris or the emergency light in a RELEASE');
+    const crossing = frame.people.filter(person => person.state === 'across').length;
+    if (m.trail.length !== crossing) problems.push(`${m.trail.length} trails for ${crossing} crossing`);
+    const landing = frame.people.filter(person => person.state === 'land').length;
+    if (m.puff.length !== landing) problems.push(`${m.puff.length} landing puffs for ${landing} landing`);
+    return problems;
+  }
+  // EJECT: the emergency light over the Command Room's and the Jail's art; the airlock, the suction, the debris, the
+  // label and the exterior as the frame says.
+  const emergencyRooms = m.emergency.map(node => node.room).sort().join();
+  if (emergencyRooms !== (frame.emergency > 0 ? 'command-room,jail' : '')) problems.push(`the emergency light over ${emergencyRooms || 'nothing'}; the frame ${frame.emergency}`);
+  for (const node of m.emergency) if (!near(node.opacity, frame.emergency * (reduced ? frame.opacity : 1), 0.011)) problems.push(`the emergency light at ${node.opacity}; the frame ${frame.emergency}`);
+  if (Boolean(m.airlock) !== frame.airlock.reveal > 0) problems.push(`the airlock is ${m.airlock ? 'drawn' : 'missing'}; the frame ${frame.airlock.reveal}`);
+  if (m.airlock) {
+    if (!sameBox(m.airlock, inJail(AIRLOCK.box))) problems.push('the airlock is not where AIRLOCK puts it');
+    if (m.airlock.data.open !== String(frame.airlock.open) || m.airlock.data.clamps !== String(frame.airlock.clamps)) problems.push(`the airlock is ${m.airlock.data.open}/${m.airlock.data.clamps}; the frame ${frame.airlock.open}/${frame.airlock.clamps}`);
+    // Its rim whole in the Jail's panel and below its caption.
+    const [cx, cy] = AIRLOCK.c;
+    const rim = { left: jail.left + jailFrame.tx + (cx - AIRLOCK.r - 6) * jailFrame.k, top: jail.top + jailFrame.ty + (cy - AIRLOCK.r - 6) * jailFrame.k, right: jail.left + jailFrame.tx + (cx + AIRLOCK.r + 6) * jailFrame.k };
+    if (rim.left < jail.left - 0.5 || rim.right > jail.left + jail.width + 0.5) problems.push('the airlock\'s rim leaves the Jail\'s panel');
+    if (rim.top < m.captions.jail.bottom) problems.push('the airlock\'s rim is in the caption\'s band');
+  }
+  if (m.suction.length !== (frame.suction.opacity > 0 ? 1 : 0) || (m.suction[0] && m.suction[0].file !== `suction-${frame.suction.frame}.svg`)) problems.push(`the suction is ${m.suction.map(node => node.file).join() || 'missing'}; the frame ${frame.suction.opacity > 0 ? frame.suction.frame : 'none'}`);
+  if (frame.debris.opacity <= 0 && m.debris.length) problems.push('debris outside its beat');
+  if (Boolean(m.label) !== frame.label.opacity > 0) problems.push(`EJECTED is ${m.label ? 'drawn' : 'missing'}; the frame ${frame.label.opacity}`);
+  if (m.label) {
+    if (m.label.text !== 'Ejected') problems.push(`the label says ${m.label.text}`);
+    if (m.label.left < jail.left - 0.5 || m.label.right > jail.left + jail.width + 0.5 || m.label.bottom > jail.top + jail.height + 0.5) problems.push('EJECTED leaves the Jail\'s panel');
+    if (overlap(m.label, m.captions.jail)) problems.push('EJECTED is over the Jail\'s caption');
+  }
+  if (Boolean(m.exterior) !== frame.exterior.opacity > 0) problems.push(`the exterior is ${m.exterior ? 'drawn' : 'missing'}; the frame ${frame.exterior.opacity}`);
+  if (m.exterior) {
+    if (!sameBox(m.exterior, jail)) problems.push('the exterior does not cover the Jail\'s panel');
+    const drifting = m.figures.filter(figure => figure.exterior);
+    const living = outcome.subjects.filter(subject => !subject.body).length;
+    if (drifting.length !== living || drifting.some(figure => !figure.silhouette)) problems.push(`${drifting.length} silhouettes drifting; ${living} living ejected`);
+  }
+  if (Boolean(m.plaque) !== (off > 0 && frame.plaque > 0)) problems.push(`the plaque is ${m.plaque ? 'drawn' : 'missing'} during the film; the frame ${frame.plaque}`);
+  return problems;
+}
+
+/** The Captain's films' page comparisons, with pageAt(viewport, query) loading a page's markup. */
+async function captainComparisons(pageAt) {
+  const out = [];
+  const rooms = (page, keep) => JSON.stringify(Object.entries(JSON.parse(page.rooms)).filter(([room]) => keep.includes(room)));
+  const boxOf = page => JSON.stringify(JSON.parse(page.bar)[0]?.slice(0, 5) ?? null);
+  for (const viewport of [[390, 844], [320, 568]]) {
+    const base = 'roster=9&capsule=1';
+    for (const query of ['film=release&t=2600', 'film=eject&t=3500']) {
+      const [player, display] = await Promise.all([pageAt(viewport, `${base}&${query}`), pageAt(viewport, `${base}&${query}&viewer=display`)]);
+      out.push({ compare: `the Captain's ${query.split('&')[0].slice(5)} film on the display and on a player's screen, ${vp(viewport)}, ${query}`, same: player.html === display.html });
+    }
+    for (const [film, outcome, after, before] of [['release', 'release', 4300, -1], ['release', 'release-full', 4300, -1], ['eject', 'eject', 7300, -1], ['eject', 'eject-full', 7300, -1]]) {
+      for (const reducedMotion of ['', '&motion=reduced']) {
+        const a = reducedMotion ? (film === 'release' ? releaseEnd(true) : ejectEnd(true)) + 50 : after;
+        const [done, ahead] = await Promise.all([a, before].map(t => pageAt(viewport, `${base}&film=${film}&outcome=${outcome}&t=${t}${reducedMotion}`)));
+        out.push({ compare: `the page after the ${outcome} film (${a} ms) and before it (${before} ms), ${vp(viewport)}${reducedMotion ? ', reduced motion' : ''}`, same: done.html === ahead.html });
+      }
+    }
+    // The rooms a film never touches: during a RELEASE the Hospital (its detainee stays); during an EJECT the Hospital
+    // and Rooms A and B.
+    for (const [film, t, keep] of [['release', 1500, ['hospital']], ['release', 3000, ['hospital']], ['eject', 1200, ['room-a', 'room-b', 'hospital']], ['eject', 3500, ['room-a', 'room-b', 'hospital']], ['eject', 4900, ['room-a', 'room-b', 'hospital']]]) {
+      const [during, ahead] = await Promise.all([t, -1].map(time => pageAt(viewport, `${base}&film=${film}&t=${time}`)));
+      out.push({ compare: `${keep.join(', ')} during the ${film} film (${t} ms) and before it, ${vp(viewport)}`, same: rooms(during, keep) === rooms(ahead, keep) });
+    }
+    const bars = await Promise.all([`${base}&fixture=mixed`, `${base}&film=release&t=2600`, `${base}&film=eject&t=3500`].map(query => pageAt(viewport, query)));
+    out.push({ compare: `the top bar's box on the plain board and in each Captain film, ${vp(viewport)}`, same: bars.every(page => boxOf(page) === boxOf(bars[0])) && boxOf(bars[0]) !== 'null' });
+  }
+  return out;
+}
+
 /** What a pointer measurement says is wrong: a slot's press area under something else, or smaller than 44 px. */
 function pointerProblems(measured) {
   const problems = [];
@@ -1416,8 +1781,9 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
       const capsuleMeasured = shot.capsule ? await page.evaluate(MEASURE_CAPSULE) : null;
       const turnsMeasured = shot.turns ? await page.evaluate(MEASURE_TURNS) : null;
       const medicalMeasured = shot.medical ? await page.evaluate(MEASURE_MEDICAL) : null;
+      const captainMeasured = shot.captain ? await page.evaluate(MEASURE_CAPTAIN) : null;
       await page.screenshot(resolve(repoRoot, OUT, shot.file), { selector: shot.selector ?? null, viewport: !shot.selector });
-      const problems = [...(measured ? problemsOf(shot, measured) : []), ...(filmed ? problemsOfFilm(shot, filmed) : []), ...(blockedMeasured ? problemsOfBlocked(shot, blockedMeasured) : []), ...(capsuleMeasured ? problemsOfCapsule(shot, capsuleMeasured) : []), ...(turnsMeasured ? problemsOfTurns(shot, turnsMeasured) : []), ...(shot.medical ? problemsOfMedical(shot, medicalMeasured) : []), ...page.problems()];
+      const problems = [...(measured ? problemsOf(shot, measured) : []), ...(filmed ? problemsOfFilm(shot, filmed) : []), ...(blockedMeasured ? problemsOfBlocked(shot, blockedMeasured) : []), ...(capsuleMeasured ? problemsOfCapsule(shot, capsuleMeasured) : []), ...(turnsMeasured ? problemsOfTurns(shot, turnsMeasured) : []), ...(shot.medical ? problemsOfMedical(shot, medicalMeasured) : []), ...(shot.captain ? problemsOfCaptain(shot, captainMeasured) : []), ...page.problems()];
       const fit = shot.measure ? fitBoardV2({ width, height }, Number(new URLSearchParams(shot.query).get('roster') ?? 9), { insets: insetsOf(new URLSearchParams(shot.query).get('safe')), capsule: Boolean(shot.capsule) }) : null;
       report.push({ file: shot.file, viewport: `${width}x${height}`, query: shot.query, problems, shell: fit?.shell.tier ?? null, fallback: fit?.fallback ?? null, fits: fit?.fits ?? null, boardProblems: fit?.problems ?? [] });
       console.log(`${problems.length ? 'PROBLEM' : 'ok     '} ${shot.file}${problems.length ? `: ${problems.join('; ')}` : ''}`);
@@ -1594,6 +1960,10 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
     // plays, no room touched but the Hospital and the room where the subject is marked away; the critical state no
     // room but the Hospital; and the top bar's box the plain board's.
     disclosure.push(...await medicalComparisons(pageAt));
+    // The Captain's films: public, the display's page a player's; once a film is over, the page is the page before it
+    // began (the plaque the board's own both times); while it plays, no room touched but the Command Room, the Jail and
+    // the released' new rooms; and the top bar's box the plain board's.
+    disclosure.push(...await captainComparisons(pageAt));
     for (const entry of disclosure) console.log(`${entry.same ? 'same   ' : 'DIFFERS'} ${entry.compare}`);
     // The label for every slot of every room: every slot taken, each blocked at once (the art review's
     // screen, which no player receives), measured but not pictured.
@@ -1619,7 +1989,7 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
     const index = { devOnly: 'mothership:dev-only', inputsSha256, note: 'Desktop Chromium laying out design/board-v2/index.html from synthetic fixtures. Not a phone measurement and nothing about a match.', captures: shots.map(({ file, group, query, about, sheetHeight }) => ({ file, group, query, about, sheetHeight })) };
     await writeFile(resolve(repoRoot, OUT, 'index.json'), `${JSON.stringify(index, null, 2)}\n`);
     await writeFile(resolve(repoRoot, OUT, 'report.json'), `${JSON.stringify({ devOnly: 'mothership:dev-only', inputsSha256, shots: report, probes, interactions, disclosure, labels }, null, 2)}\n`);
-    for (const [file, query] of [['contact.png', ''], ['contact-blackout.png', '?group=blackout'], ['contact-blocked.png', '?group=blocked'], ['contact-capsule.png', '?group=capsule'], ['contact-turns.png', '?group=turns'], ['contact-medical.png', '?group=medical']]) {
+    for (const [file, query] of [['contact.png', ''], ['contact-blackout.png', '?group=blackout'], ['contact-blocked.png', '?group=blocked'], ['contact-capsule.png', '?group=capsule'], ['contact-turns.png', '?group=turns'], ['contact-medical.png', '?group=medical'], ['contact-captain.png', '?group=captain']]) {
       const page = await openPage(browser, { width: 1600, height: 900, scale: 1 });
       await page.goto(`${server.origin}/board-v2/contact.html${query}`, 'document.readyState === "complete" && window.__designReady === true');
       await page.fitHeight();
@@ -1636,6 +2006,6 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
   const probing = probes.filter(entry => entry.problems.length);
   const pressing = interactions.filter(entry => entry.problems.length);
   const misplaced = labels.filter(entry => entry.problems.length);
-  console.log(`Board-v2 captures: ${report.length} pictures and six contact sheets, ${failing.length} with problems; ${probes.length} pointer probes, ${probing.length} with problems; ${interactions.length} press tests, ${pressing.length} with problems; ${disclosure.length} page comparisons, ${differing.length} differing; ${labels.length} label placements, ${misplaced.length} with problems`);
+  console.log(`Board-v2 captures: ${report.length} pictures and seven contact sheets, ${failing.length} with problems; ${probes.length} pointer probes, ${probing.length} with problems; ${interactions.length} press tests, ${pressing.length} with problems; ${disclosure.length} page comparisons, ${differing.length} differing; ${labels.length} label placements, ${misplaced.length} with problems`);
   if (failing.length || probing.length || pressing.length || differing.length || misplaced.length) process.exitCode = 1;
 }

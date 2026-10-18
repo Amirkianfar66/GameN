@@ -22,6 +22,12 @@
 //   detention tags, the scan line, the hologram and the revival pulse's two frames; and the
 //   critical state's, the rescue's and the flatline's timelines (design/board-v2/films/medical.mjs)
 //   in contract/films.json;
+// - the Captain's art (design/board-v2/fx/captain.mjs): S8's command plates in every state, the safety
+//   cover's frames, the glove, the press accents and the console inset's frame; the command pulse's
+//   heads; the Jail's door, lamp and keypad at each moment of a film; the airlock's moments, the
+//   suction, the debris, the emergency light and the exterior; the memorial plaque and the history's
+//   grey cut-outs; and the RELEASE, EJECT and button timelines (design/board-v2/films/captain.mjs) in
+//   contract/films.json;
 // - the manifest, with every file's size and hash.
 //
 //   node design/tools/board-v2-assets.mjs           writes design/board-v2/assets/, contract/slots.json and contract/films.json
@@ -41,6 +47,12 @@ import { BLACKOUT, FILMS_VERSION, blackoutContract } from '../board-v2/films/bla
 import { BLOCKED, blockedContract } from '../board-v2/films/blocked.mjs';
 import { CAPSULE_FILM, capsuleContract } from '../board-v2/films/capsule.mjs';
 import { MEDICAL_FILMS_VERSION, medicalContracts } from '../board-v2/films/medical.mjs';
+import { CAPTAIN_FILMS_VERSION, CAPTAIN_BUTTONS, EJECT_FILM, RELEASE_FILM, captainContracts } from '../board-v2/films/captain.mjs';
+import { AIRLOCK, CAPTAIN, CAPTAIN_VERSION, COMMANDS, CONSOLE, COVER, EXTERIOR, GLOVE, JAIL_DOOR, PLATE, PLATE_STATES, airlockSvg, captainColorDistances, clickSvg, consoleSvg, coverSvg, debrisSvg, emergencySvg, exteriorSvg, gloveSvg, jailDoorSvg, memorialSvg, plaqueSvg, plateSvg, pulseHeadSvg, ringSvg, suctionSvg } from '../board-v2/fx/captain.mjs';
+import { FRAME } from '../board-motion/figures/body.mjs';
+import { CREW } from '../board-motion/figures/crew.mjs';
+import { skeletonOf } from '../board-motion/figures/gestures.mjs';
+import { dressedFigureSvg } from '../board-motion/figures/wardrobe.mjs';
 import { DOCK, DRONE, DRONE_SCENE, INSET, LAMP_STATES, MEDICAL, MEDICAL_VERSION, PULSE_BOX, PULSE_FLASH_RADIUS, RESCUE_TONES, TRACE_KINDS, berthKit, berthScreenSvg, detentionTagSvg, droneSvg, hologramSvg, lampSvg, medicalColorDistances, pulseSvg, rescueCrossSvg, scanLineSvg, vitalsInsetSvg } from '../board-v2/fx/medical.mjs';
 import { BADGE_SIZE, BESIDE, CAPSULE_ACCENTS, CAPSULE_RECOLOR, CAPSULE_SEATS, CAPSULE_SIZE, CAPSULE_VERSION, CAPSULE_VIEW, DOOR, DOOR_FRAMES, DOORWAY, PATHS, capsuleBadgeSvg, capsuleLayers } from '../board-v2/scenes/capsule.mjs';
 import { BLOCKED_VERSION, PARTICLE_FRAMES, SHIELD, SHIELD_BOX, SHIELD_FLASH_RADIUS, SHIELD_RADIUS, SHIELD_SIZE, FACTION_ACCENTS, MIN_ACCENT_DISTANCE, blockParticlesSvg, blockRingSvg, shieldColorDistances, shieldSvg } from '../board-v2/fx/blocked.mjs';
@@ -53,8 +65,8 @@ const repoRoot = resolve(fileURLToPath(new URL('../../', import.meta.url)));
 const OUT = 'design/board-v2/assets';
 const SLOTS_FILE = 'design/board-v2/contract/slots.json';
 const FILMS_FILE = 'design/board-v2/contract/films.json';
-/** The board-v2 art set's version: 0.1.0 the slots and the ward, 0.2.0 with the Blackout's lighting, 0.3.0 with ATTACK BLOCKED, 0.4.0 with the private-talk capsule, 0.5.0 with the Hospital's medical films. */
-export const ASSETS_VERSION = 'board-v2-0.5.0';
+/** The board-v2 art set's version: 0.1.0 the slots and the ward, 0.2.0 with the Blackout's lighting, 0.3.0 with ATTACK BLOCKED, 0.4.0 with the private-talk capsule, 0.5.0 with the Hospital's medical films, 0.6.0 with the Captain's films. */
+export const ASSETS_VERSION = 'board-v2-0.6.0';
 const kebab = id => id.replace(/[A-Z]/g, letter => `-${letter.toLowerCase()}`);
 const kebabAll = ids => ids.map(kebab);
 const sha = content => createHash('sha256').update(content).digest('hex');
@@ -108,7 +120,8 @@ export async function planAssets(root = repoRoot) {
   const fx = planBlocked(files);
   const capsule = planCapsule(files);
   const medical = planMedical(files);
-  const films = { devOnly: 'mothership:dev-only', version: FILMS_VERSION, status: 'proposal', note: 'The board-v2 films as data, from design/board-v2/films/. Durations are targets for drawing; the server\'s deadlines are the only clock. Not a rule and not an adopted contract.', films: [blackoutContract(), blockedContract(), capsuleContract(), ...medicalContracts()] };
+  const captain = await planCaptain(root, files);
+  const films = { devOnly: 'mothership:dev-only', version: FILMS_VERSION, status: 'proposal', note: 'The board-v2 films as data, from design/board-v2/films/. Durations are targets for drawing; the server\'s deadlines are the only clock. Not a rule and not an adopted contract.', films: [blackoutContract(), blockedContract(), capsuleContract(), ...medicalContracts(), ...captainContracts()] };
   const filmsJson = `${JSON.stringify(films, null, 2)}\n`;
   files.set(FILMS_FILE, filmsJson);
   const recipes = JSON.parse(await readFile(resolve(root, 'design/source/export-recipes.json'), 'utf8'));
@@ -118,7 +131,7 @@ export async function planAssets(root = repoRoot) {
     status: 'proposal',
     baseBoard: 'board-motion-0.3.0',
     baseManifest: 'design-0.2.0',
-    note: 'The Hospital as a ward with one berth per seat (7, 8 or 9), the board\'s fixed slot table, the Blackout\'s lighting art, the shared ATTACK BLOCKED effects, the private-talk capsule and the Hospital\'s medical films (the critical state, the drone\'s rescue and the flatline), for the owner\'s motion specification of 13 October 2026 and the owner\'s capsule request of 14 October 2026. The reviewed manifest, the board-motion proposal and every pinned drawing source are unchanged; this art is proposed for a later export revision and is adopted only through Integration.',
+    note: 'The Hospital as a ward with one berth per seat (7, 8 or 9), the board\'s fixed slot table, the Blackout\'s lighting art, the shared ATTACK BLOCKED effects, the private-talk capsule, the Hospital\'s medical films (the critical state, the drone\'s rescue and the flatline) and the Captain\'s films (RELEASE, EJECT and the command plates), for the owner\'s motion specification of 13 October 2026 and the owner\'s capsule request of 14 October 2026. The reviewed manifest, the board-motion proposal and every pinned drawing source are unchanged; this art is proposed for a later export revision and is adopted only through Integration.',
     rights: {
       origin: 'The approved Hospital\'s groups copied element for element from the repository\'s original vector source design/source/board/board-hospital.svg, recolored by the reviewed export recipe, around new vector drawing generated for this repository by design/board-v2/scenes/hospital-ward.mjs. No third-party artwork, font, photograph, traced image or generated raster image.',
       author: 'Visual and Motion Designer workstream: a Claude Code session working for the game owner.',
@@ -132,6 +145,7 @@ export async function planAssets(root = repoRoot) {
     fx,
     capsule,
     medical,
+    captain,
     films: { file: FILMS_FILE, version: FILMS_VERSION, sha256: sha(filmsJson), bytes: Buffer.byteLength(filmsJson) },
   };
   files.set(`${OUT}/manifest.json`, `${JSON.stringify(manifest, null, 2)}\n`);
@@ -346,6 +360,86 @@ function planMedical(files) {
     drone: { box: [DRONE.w, DRONE.h], lens: DRONE.lens, sceneWidth: DRONE_SCENE.width, reach: DRONE_SCENE.reach },
     inset: { box: [INSET.w, INSET.h], screen: INSET.screen, placement: 'fx/label-box.mjs labelBox() with the inset\'s size: above the berth\'s press area, else below its name tag; never over the room\'s caption' },
     berths: Object.fromEntries(['H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'H7', 'H8', 'H9'].map(id => [id, berthKit(id)])),
+    files: entries,
+  };
+}
+
+/**
+ * The Captain's art: S8's plates and the cover, the glove and the accents, the console inset's frame,
+ * the pulse's heads, the Jail's door at each moment, the airlock's moments, the suction, the debris,
+ * the emergency light, the exterior, the plaque and the history's cut-outs. Adds the files to `files`;
+ * returns the manifest's captain section.
+ */
+async function planCaptain(root, files) {
+  const header = (name, purpose) => `<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  mothership:dev-only · board-v2 Captain proposal ${CAPTAIN_VERSION} · ${name} · generated, do not edit by hand
+  ${purpose}
+  Built by design/tools/board-v2-assets.mjs from design/board-v2/fx/captain.mjs. Public: the same on every phone and the display (the plates: the Captain's own controls); it reads no role, side, faction or cause. Not in the reviewed manifest design-0.2.0.
+-->
+`;
+  const entries = [];
+  const add = (file, content, entry) => {
+    files.set(file, content);
+    entries.push({ ...entry, file, bytes: Buffer.byteLength(content), sha256: sha(content), audience: entry.audience ?? 'public' });
+  };
+  const plateWhat = { available: 'Available: lit, a solid rim.', unavailable: 'Unavailable: dull, a dashed rim (no reason is drawn; the server gives none in 1.8).', pressed: 'Activated (sending): the button 3 units down under an inner shadow, its rim brightest.', used: 'Used: no rim, the button dark; the page writes USED across it.' };
+  for (const kind of COMMANDS) {
+    for (const state of PLATE_STATES) {
+      add(`${OUT}/captain/plate-${kind}-${state}.svg`, header(`${kind} plate, ${state}`, `${kind === 'release' ? 'RELEASE (green, an open padlock)' : 'EJECT (red, the eject sign, under its clear cover)'}: ${plateWhat[state]} The command's word is the page's text on the label strip (${PLATE.label.x}, ${PLATE.label.y}, ${PLATE.label.w} x ${PLATE.label.h}).`) + plateSvg(kind, state),
+        { id: `captain.plate-${kind}-${state}`, kind: 'plate', command: kind, state, viewBox: `0 0 ${PLATE.w} ${PLATE.h}`, audience: 'the current Captain (S8) and public (the console inset)' });
+    }
+  }
+  for (const frame of COVER.frames) {
+    add(`${OUT}/captain/cover-${frame}.svg`, header(`cover, ${frame}`, `EJECT's clear safety cover, ${frame}, drawn with its (${-COVER.at[0]}, ${-COVER.at[1]}) on the plate's (0, 0).`) + coverSvg(frame),
+      { id: `captain.cover-${frame}`, kind: 'cover', frame, viewBox: `0 0 ${COVER.w} ${COVER.h}`, at: COVER.at });
+  }
+  add(`${OUT}/captain/glove.svg`, header('glove', `The Captain's gloved hand, its index finger out, its tip at (${GLOVE.tip.join(', ')}). The same glove whoever is Captain.`) + gloveSvg(), { id: 'captain.glove', kind: 'glove', viewBox: `0 0 ${GLOVE.w} ${GLOVE.h}`, anchor: GLOVE.tip });
+  add(`${OUT}/captain/click.svg`, header('click', 'EJECT\'s press: a hard click as a red comic burst round the button, no lettering.') + clickSvg(), { id: 'captain.click', kind: 'accent', viewBox: '0 0 80 80', anchor: [40, 40] });
+  add(`${OUT}/captain/ring.svg`, header('ring', 'RELEASE\'s press: a green ring round the button, which the film grows and fades.') + ringSvg(), { id: 'captain.ring', kind: 'accent', viewBox: '0 0 80 80', anchor: [40, 40] });
+  add(`${OUT}/captain/console.svg`, header('console inset', `The console inset's frame: the plate goes at (${CONSOLE.plate.join(', ')}). consoleBox() places it on the board.`) + consoleSvg(), { id: 'captain.console', kind: 'console', viewBox: `0 0 ${CONSOLE.w} ${CONSOLE.h}` });
+  for (const kind of COMMANDS) {
+    add(`${OUT}/captain/pulse-head-${kind}.svg`, header(`pulse head, ${kind}`, `The command pulse's head, ${kind === 'release' ? 'green' : 'red'}, centred on its point of conduitPoints()'s way; its dotted tail is drawn by the page.`) + pulseHeadSvg(kind), { id: `captain.pulse-head-${kind}`, kind: 'pulse-head', command: kind, viewBox: '0 0 24 24', anchor: [12, 12] });
+  }
+  const doors = [
+    ['rest', {}, 'At rest: exactly the room\'s own door, lamp and keypad.'],
+    ['unlocked', { wheel: 90, lamp: 'green', keypad: 'green' }, 'RELEASE: the keypad and the lamp green, the lock\'s wheel turned.'],
+    ['half', { open: 0.5, wheel: 90, lamp: 'green', keypad: 'green' }, 'RELEASE: the leaves half open, the corridor behind.'],
+    ['open', { open: 1, wheel: 90, lamp: 'green', keypad: 'green' }, 'RELEASE: open.'],
+    ['lockdown', { wheel: -90, lamp: 'red', keypad: 'amber' }, 'EJECT: locked down, the lamp red, the keypad striped red and amber.'],
+  ];
+  for (const [name, door, what] of doors) {
+    add(`${OUT}/captain/jail-door-${name}.svg`, header(`Jail door, ${name}`, `${what} Over the Jail's art at its scene frame, box ${JAIL_DOOR.box.join(' ')}; the film draws jailDoorSvg() at every moment.`) + jailDoorSvg({ ...door, prefix: `jd-${name}` }),
+      { id: `captain.jail-door-${name}`, kind: 'jail-door', state: door, viewBox: JAIL_DOOR.box.join(' ') });
+  }
+  const hatches = [['revealed', { glow: 1 }, 'Revealed in the wall, its rim glowing red.'], ['released', { clamps: 1, glow: 1 }, 'Its clamps released.'], ['half', { clamps: 1, open: 0.5, glow: 1 }, 'Its iris half open.'], ['open', { clamps: 1, open: 1, glow: 1 }, 'Open onto space.']];
+  for (const [name, hatch, what] of hatches) {
+    add(`${OUT}/captain/airlock-${name}.svg`, header(`airlock, ${name}`, `${what} In the Jail's back wall left of the blast door (centre ${AIRLOCK.c.join(', ')}, box ${AIRLOCK.box.join(' ')}), drawn only while an EJECT plays.`) + airlockSvg({ ...hatch, prefix: `al-${name}` }),
+      { id: `captain.airlock-${name}`, kind: 'airlock', state: hatch, viewBox: AIRLOCK.box.join(' ') });
+  }
+  for (const frame of [1, 2, 3]) {
+    add(`${OUT}/captain/suction-${frame}.svg`, header(`suction, frame ${frame}`, 'Paper streaks over the Jail, converging on the hatch: the air rushing out. Over the Jail\'s art at its scene frame.') + suctionSvg(frame), { id: `captain.suction-${frame}`, kind: 'suction', frame, viewBox: '0 0 1024 768' });
+  }
+  for (const kind of ['paper', 'cup']) add(`${OUT}/captain/debris-${kind}.svg`, header(`debris, ${kind}`, 'A loose thing the air takes to the hatch.') + debrisSvg(kind), { id: `captain.debris-${kind}`, kind: 'debris', item: kind, viewBox: '0 0 24 24' });
+  add(`${OUT}/captain/emergency.svg`, header('emergency light', `A red wash over a room's art and people, pulsed by the film under 2 Hz between ${EJECT_FILM.emergency.low} and ${EJECT_FILM.emergency.high} opacity, multiplied; never over a caption, a tag or a press area.`) + emergencySvg(), { id: 'captain.emergency', kind: 'emergency', viewBox: '0 0 100 100' });
+  add(`${OUT}/captain/exterior.svg`, header('exterior', `The hull from outside, the hatch open (at ${EXTERIOR.hatch.join(', ')}), its inside lit red; covers the Jail's panel. The film draws the ejected drifting away from the hatch, small, as silhouettes.`) + exteriorSvg(), { id: 'captain.exterior', kind: 'exterior', viewBox: `0 0 ${EXTERIOR.w} ${EXTERIOR.h}`, hatch: EXTERIOR.hatch });
+  add(`${OUT}/captain/plaque.svg`, header('memorial plaque', 'The plaque\'s mark beside the Jail\'s caption; the count of seats off the board is the page\'s text.') + plaqueSvg(), { id: 'captain.plaque', kind: 'plaque', viewBox: '0 0 18 18' });
+  for (const [id, c] of Object.entries(CREW)) {
+    const art = memorialSvg(dressedFigureSvg(c, skeletonOf('stand'), { outfit: 'crew', prefix: `mem-${id}` }));
+    add(`${OUT}/captain/memorial-${id}.svg`, header(`memorial, ${c.sign}`, `${c.sign} as a grey paper cut-out (memorialSvg() of the approved figure, standing): the history's mark for a character taken off the board, the same whatever its side.`) + art, { id: `captain.memorial-${id}`, kind: 'memorial', character: id, viewBox: FRAME.box.join(' ') });
+  }
+  // The door's elements are the Jail scene's own: every one of them in the scene the board draws.
+  const scene = await readFile(resolve(root, 'design/board-motion/assets/scenes/jail.back.svg'), 'utf8');
+  return {
+    version: CAPTAIN_VERSION,
+    films: { version: CAPTAIN_FILMS_VERSION, ids: captainContracts().map(film => film.id), file: FILMS_FILE, release: RELEASE_FILM.end, eject: EJECT_FILM.end, buttons: CAPTAIN_BUTTONS },
+    colors: CAPTAIN,
+    colorDistances: { method: 'CIE76 in L*a*b*, rounded, to the nearest of color.factionPrivateOrRevealed in tokens-0.4.0', atLeast: 30, toNearestFactionAccent: captainColorDistances() },
+    plate: PLATE, cover: COVER, glove: GLOVE, console: CONSOLE,
+    door: { box: JAIL_DOOR.box, doorway: JAIL_DOOR.doorway, leaf: JAIL_DOOR.leaf, lamp: JAIL_DOOR.lamp, screen: JAIL_DOOR.screen, liftedFrom: 'design/board-motion/assets/scenes/jail.back.svg', sceneSha256: sha(scene) },
+    airlock: AIRLOCK, exterior: EXTERIOR,
+    placement: { console: 'fx/captain.mjs consoleBox()', pulse: 'fx/captain.mjs conduitPoints()', plaque: 'fx/captain.mjs plaqueBox()' },
+    reuses: ['design/exports/public-board/fx-ink-trail.paper.fdbb7f4fce.svg', 'design/exports/public-board/fx-landing-puff.paper.8d5f3998bd.svg'],
     files: entries,
   };
 }

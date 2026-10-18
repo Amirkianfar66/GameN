@@ -485,6 +485,207 @@
         "switchAt": 800
       },
       "never": "No local countdown, timer or animation kills a patient or shortens a rescue opportunity: the server's deadline does, and its DEATH outcome comes first; a death's cause is never shown"
+    },
+    {
+      "id": "captain-release",
+      "storyboard": "S6",
+      "status": "proposal",
+      "audience": "public: every phone and the display, from the CAPTAIN_OUTCOME kind RELEASE event; live only",
+      "clock": "Milliseconds from the outcome's presentation start; 4200 ms (reduced 2240 ms), inside the Captain's turn, whose timer keeps running. Nonblocking and cancelable: the board, the turn timer and the navigation stay usable; the film stops at once and the board shows the latest snapshot when a newer snapshot moves a subject or places anyone in the Jail, when the Blackout's window (S1) owns the board, or when the page is hidden. Never replayed: not on a reconnect, nor for an expired or duplicate event.",
+      "inputs": [
+        "t (from the outcome's presentation start)",
+        "reduced (the device setting)",
+        "seatIds: every living prisoner physically in the Jail",
+        "the snapshot before: each subject's Jail slot",
+        "the snapshot published with it: each subject's Room A or Room B slot, and the Captain at C1"
+      ],
+      "notInputs": [
+        "an actor field (the outcome names none; the Captain at C1 is the public office holder)",
+        "a role, a side, a faction or a cause",
+        "a receipt, a private command or another player's captainCommandUses",
+        "a local countdown or the client's own observation of time"
+      ],
+      "where": {
+        "console": "consoleBox() (fx/captain.mjs): in the top band right of C1's press area and name tag, below the band's caption line, whole inside the band (over the capsule's panel where the board has one: an ordinary turn has nobody seated there), never over a caption or a target; else no inset",
+        "pulse": "conduitPoints() (fx/captain.mjs): from the inset's foot down the board's gutters and spine to the Jail's door lamp; it crosses no caption and no press area",
+        "door": "jailDoorSvg() over the Jail's art at its scene frame (JAIL_DOOR.box): at rest exactly the room's door, lamp and keypad"
+      },
+      "words": "None of the film's own: the client's announcement of the authoritative outcome (today the hosted board's \"Player 3, Player 4: released from detention.\", #154); announce marks the beat the picture shows it (the door opening). Said once either way",
+      "beats": [
+        {
+          "id": "console",
+          "from": 0,
+          "to": 500,
+          "what": "The console inset opens on the RELEASE plate; C1 lifts the near hand over the console in the chart table"
+        },
+        {
+          "id": "press",
+          "from": 500,
+          "to": 800,
+          "what": "The press: the button 3 px down (Activated), a green ring round it; C1's shoulders dip about 2 px"
+        },
+        {
+          "id": "pulse",
+          "from": 800,
+          "to": 1300,
+          "what": "A green dotted pulse runs from the inset down the board's gutters and spine to the Jail's door lamp"
+        },
+        {
+          "id": "locks",
+          "from": 1300,
+          "to": 1700,
+          "what": "The keypad and the lamp go green; the lock's wheel turns in three steps"
+        },
+        {
+          "id": "door",
+          "from": 1700,
+          "to": 2200,
+          "what": "The blast door's two leaves slide into the wall: the ship's corridor behind"
+        },
+        {
+          "id": "walk",
+          "from": 2200,
+          "to": 3300,
+          "what": "The prisoners, 80 ms apart in slot order: each gets up, walks to the door and through it, crosses the board (the reviewed public move, in the prison suit) and lands at the place the snapshot gives it, in the room's clothes, the change hidden in the landing's puff. Their new places show the away marker until they land"
+        },
+        {
+          "id": "close",
+          "from": 3300,
+          "to": 4200,
+          "what": "The door shuts; the signals and the wheel go back; C1 goes back to the table; the plate shows USED (the page's stamp) and the inset closes"
+        }
+      ],
+      "reduced": {
+        "what": "Four still panels, each faded in over 80 ms: the console with RELEASE pressed; the door open; the prisoners at their new places; the door shut. No travel, ring, turn or pulse",
+        "fadeMs": 80,
+        "holdMs": 520,
+        "stages": [
+          "console",
+          "open",
+          "arrived",
+          "closed"
+        ]
+      },
+      "never": "A Hospital detainee is never touched (it stays in its berth, its detention tag kept), and a body in the Jail stays where it is; no vote, no block. A rejected, pending or unknown command plays nothing"
+    },
+    {
+      "id": "captain-eject",
+      "storyboard": "S7",
+      "status": "proposal",
+      "audience": "public: every phone and the display, from the CAPTAIN_OUTCOME kind EJECT event; live only",
+      "clock": "Milliseconds from the outcome's presentation start; 7200 ms (reduced 2560 ms). Nonblocking and cancelable: the board, the turn timer and the navigation stay usable; the film stops at once and the board shows the latest snapshot when a newer snapshot moves a subject or places anyone in the Jail, when the Blackout's window (S1) owns the board, or when the page is hidden. Never replayed: not on a reconnect, nor for an expired or duplicate event.",
+      "inputs": [
+        "t (from the outcome's presentation start)",
+        "reduced (the device setting)",
+        "seatIds: every physical Jail occupant, bodies included",
+        "the snapshot before: each subject's Jail slot, and whether it was a body",
+        "the snapshot published with it: the subjects off the board (location null), the Captain at C1"
+      ],
+      "notInputs": [
+        "an actor field (the outcome names none; the Captain at C1 is the public office holder)",
+        "a role, a side, a faction or a cause",
+        "a receipt, a private command or another player's captainCommandUses",
+        "a local countdown or the client's own observation of time"
+      ],
+      "where": {
+        "console": "consoleBox() (fx/captain.mjs): in the top band right of C1's press area and name tag, below the band's caption line, whole inside the band (over the capsule's panel where the board has one: an ordinary turn has nobody seated there), never over a caption or a target; else no inset",
+        "pulse": "conduitPoints() (fx/captain.mjs): from the inset's foot down the board's gutters and spine to the Jail's door lamp; it crosses no caption and no press area",
+        "door": "jailDoorSvg() over the Jail's art at its scene frame (JAIL_DOOR.box): at rest exactly the room's door, lamp and keypad",
+        "hatch": "AIRLOCK (fx/captain.mjs): in the Jail's back wall left of the blast door, inside every phone's Jail panel and below its caption band; drawn only while the film plays"
+      },
+      "words": "None of the film's own: the client's announcement (today \"Player 3, Player 4, Player 9: ejected.\", #154, which lists the bodies too); announce marks the ejection beat. EJECTED, while the hatch is open, is the page's caption, as ATTACK BLOCKED's is",
+      "beats": [
+        {
+          "id": "command",
+          "from": 0,
+          "to": 900,
+          "what": "A short push (at most 6%, the Command Room's art only) on C1; the inset on the EJECT plate under its clear cover; the cover lifts in three frames, the press, a hard click drawn as a red comic burst"
+        },
+        {
+          "id": "alert",
+          "from": 900,
+          "to": 1500,
+          "what": "The emergency light pulses over the Command Room's and the Jail's art (1.6 Hz, opacity 0.16 to 0.34); a red pulse runs down the gutters"
+        },
+        {
+          "id": "lockdown",
+          "from": 1500,
+          "to": 2400,
+          "what": "The door locks (the wheel turns back), the keypad stripes red and amber; the airlock hatch appears in the wall, its rim glowing; the prisoners start and get up to brace"
+        },
+        {
+          "id": "airlock",
+          "from": 2400,
+          "to": 3300,
+          "what": "The clamps release in three steps; the iris opens onto space; the suction builds toward the hatch"
+        },
+        {
+          "id": "ejection",
+          "from": 3300,
+          "to": 4400,
+          "what": "The living, 100 ms apart in slot order, are pulled to the hatch as tumbling silhouettes with a paper rim and gone into it, with papers and a cup; the bodies rise and fade as grey cut-outs; EJECTED. Nothing graphic"
+        },
+        {
+          "id": "exterior",
+          "from": 4400,
+          "to": 5800,
+          "what": "The Jail's panel shows the hull from outside, the hatch open, the characters drifting away, small, as silhouettes"
+        },
+        {
+          "id": "closure",
+          "from": 5800,
+          "to": 7200,
+          "what": "The iris shuts, the clamps engage, the hatch is gone; the light settles; the Jail is empty. The inset shows EJECT used under its shut cover (the page's stamp); the memorial plaque, with the count of characters off the board, appears beside the Jail's caption"
+        }
+      ],
+      "reduced": {
+        "what": "Four still panels, each faded in over 80 ms: the console with EJECT pressed, its cover open; the Jail with the hatch open and EJECTED; the empty Jail; the memorial plaque. No suction, travel, push, shake, pulse or flash; the emergency light a still, low tint",
+        "fadeMs": 80,
+        "holdMs": 600,
+        "stages": [
+          "console",
+          "open",
+          "empty",
+          "memorial"
+        ]
+      },
+      "settled": "The Jail empty; the characters off the board are drawn nowhere on it; the plaque beside the Jail's caption counts them (the page's text). Frontend lists them as grey memorial silhouettes with their seat and name (memorialSvg()); a faction is shown only where the authoritative state reveals it, never by the film",
+      "never": "A Hospital detainee is never touched; no module detaches; nothing graphic; no block. A rejected, pending or unknown command plays nothing"
+    },
+    {
+      "id": "captain-buttons",
+      "storyboard": "S8",
+      "status": "proposal",
+      "audience": "the current Captain's own controls: self.captainCommandUses is non-null only for the current Captain",
+      "inputs": [
+        "self.captainCommandUses { releaseUsed, ejectUsed }",
+        "legalTargets.CAPTAIN_RELEASE / CAPTAIN_EJECT (the Captain's own seat while offered)",
+        "the client's own command in flight",
+        "reduced (the device setting)"
+      ],
+      "states": [
+        {
+          "id": "available",
+          "what": "Lit, its rim solid; a glow cycle of 2400 ms, at most 15% luminance change (still under reduced motion)",
+          "withoutColor": "a solid outline and the label"
+        },
+        {
+          "id": "unavailable",
+          "what": "Dull and unlit; the server gives no reason in 1.8, so the client's line is neutral (Frontend's words)",
+          "withoutColor": "a dashed outline"
+        },
+        {
+          "id": "sending",
+          "what": "Activated: the button 3 px down under an inner shadow (120 ms), then Frontend's \"Sending Release…\" / \"Sending Eject…\". EJECT's cover is lifted first (closed, lifting, open); RELEASE confirms with Frontend's strip",
+          "withoutColor": "the pressed shape and the words"
+        },
+        {
+          "id": "used",
+          "what": "No rim, the button dark, the page's USED stamp across the plate; a new Captain sees it used too",
+          "withoutColor": "the stamp"
+        }
+      ],
+      "never": "A rejected, pending or unknown command never plays S6 or S7, and an invalid or empty command never shows used"
     }
   ]
 }

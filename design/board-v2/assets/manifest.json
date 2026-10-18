@@ -1,10 +1,10 @@
 {
   "devOnly": "mothership:dev-only",
-  "manifestVersion": "board-v2-0.5.0",
+  "manifestVersion": "board-v2-0.6.0",
   "status": "proposal",
   "baseBoard": "board-motion-0.3.0",
   "baseManifest": "design-0.2.0",
-  "note": "The Hospital as a ward with one berth per seat (7, 8 or 9), the board's fixed slot table, the Blackout's lighting art, the shared ATTACK BLOCKED effects, the private-talk capsule and the Hospital's medical films (the critical state, the drone's rescue and the flatline), for the owner's motion specification of 13 October 2026 and the owner's capsule request of 14 October 2026. The reviewed manifest, the board-motion proposal and every pinned drawing source are unchanged; this art is proposed for a later export revision and is adopted only through Integration.",
+  "note": "The Hospital as a ward with one berth per seat (7, 8 or 9), the board's fixed slot table, the Blackout's lighting art, the shared ATTACK BLOCKED effects, the private-talk capsule, the Hospital's medical films (the critical state, the drone's rescue and the flatline) and the Captain's films (RELEASE, EJECT and the command plates), for the owner's motion specification of 13 October 2026 and the owner's capsule request of 14 October 2026. The reviewed manifest, the board-motion proposal and every pinned drawing source are unchanged; this art is proposed for a later export revision and is adopted only through Integration.",
   "rights": {
     "origin": "The approved Hospital's groups copied element for element from the repository's original vector source design/source/board/board-hospital.svg, recolored by the reviewed export recipe, around new vector drawing generated for this repository by design/board-v2/scenes/hospital-ward.mjs. No third-party artwork, font, photograph, traced image or generated raster image.",
     "author": "Visual and Motion Designer workstream: a Claude Code session working for the game owner.",
@@ -1900,10 +1900,779 @@
       }
     ]
   },
+  "captain": {
+    "version": "board-v2-captain-0.1.0",
+    "films": {
+      "version": "board-v2-captain-films-0.1.0",
+      "ids": [
+        "captain-release",
+        "captain-eject",
+        "captain-buttons"
+      ],
+      "file": "design/board-v2/contract/films.json",
+      "release": 4200,
+      "eject": 7200,
+      "buttons": {
+        "id": "captain-buttons",
+        "storyboard": "S8",
+        "glow": {
+          "periodMs": 2400,
+          "maxLuminanceChange": 0.15,
+          "reduced": "static"
+        },
+        "press": {
+          "ms": 120,
+          "px": 3
+        },
+        "cover": {
+          "frames": [
+            "closed",
+            "lifting",
+            "open"
+          ],
+          "frameMs": 120
+        }
+      }
+    },
+    "colors": {
+      "green": "#36C46E",
+      "greenLight": "#A6F0C2",
+      "greenDeep": "#1F8A4C",
+      "greenDull": "#4E6B5C",
+      "red": "#D3271F",
+      "redGlow": "#FF5A3C",
+      "redDeep": "#A3170F",
+      "redDull": "#6E4744",
+      "amber": "#F2A33A",
+      "yellow": "#F7C52B",
+      "cyan": "#5FE0E8",
+      "navy": "#1B2747",
+      "steel": "#3A4A6B",
+      "slate": "#2A3346",
+      "dark": "#0F1730",
+      "used": "#5B6577",
+      "space": "#06080F",
+      "hull": "#4A5568",
+      "hullLight": "#8A97AB",
+      "cover": "#CFE6F5",
+      "glove": "#E3D6C2",
+      "memorial": "#9AA3B2",
+      "memorialLight": "#D5DAE2",
+      "memorialDark": "#5B6577"
+    },
+    "colorDistances": {
+      "method": "CIE76 in L*a*b*, rounded, to the nearest of color.factionPrivateOrRevealed in tokens-0.4.0",
+      "atLeast": 30,
+      "toNearestFactionAccent": {
+        "green": {
+          "nearest": "blue",
+          "distance": 98
+        },
+        "greenLight": {
+          "nearest": "blue",
+          "distance": 72
+        },
+        "greenDeep": {
+          "nearest": "blue",
+          "distance": 87
+        },
+        "greenDull": {
+          "nearest": "blue",
+          "distance": 60
+        },
+        "red": {
+          "nearest": "red",
+          "distance": 43
+        },
+        "redGlow": {
+          "nearest": "red",
+          "distance": 37
+        },
+        "redDeep": {
+          "nearest": "red",
+          "distance": 44
+        },
+        "redDull": {
+          "nearest": "red",
+          "distance": 47
+        },
+        "amber": {
+          "nearest": "red",
+          "distance": 49
+        },
+        "yellow": {
+          "nearest": "red",
+          "distance": 70
+        },
+        "cyan": {
+          "nearest": "blue",
+          "distance": 49
+        },
+        "navy": {
+          "nearest": "blue",
+          "distance": 59
+        },
+        "steel": {
+          "nearest": "blue",
+          "distance": 46
+        },
+        "slate": {
+          "nearest": "blue",
+          "distance": 59
+        },
+        "dark": {
+          "nearest": "blue",
+          "distance": 68
+        },
+        "used": {
+          "nearest": "blue",
+          "distance": 44
+        },
+        "space": {
+          "nearest": "blue",
+          "distance": 80
+        },
+        "hull": {
+          "nearest": "blue",
+          "distance": 48
+        },
+        "hullLight": {
+          "nearest": "blue",
+          "distance": 35
+        },
+        "cover": {
+          "nearest": "blue",
+          "distance": 42
+        },
+        "glove": {
+          "nearest": "red",
+          "distance": 46
+        },
+        "memorial": {
+          "nearest": "blue",
+          "distance": 37
+        },
+        "memorialLight": {
+          "nearest": "blue",
+          "distance": 44
+        },
+        "memorialDark": {
+          "nearest": "blue",
+          "distance": 44
+        }
+      }
+    },
+    "plate": {
+      "w": 200,
+      "h": 64,
+      "button": [
+        34,
+        32
+      ],
+      "r": 20,
+      "press": 3,
+      "label": {
+        "x": 66,
+        "y": 14,
+        "w": 122,
+        "h": 36
+      }
+    },
+    "cover": {
+      "w": 72,
+      "h": 100,
+      "at": [
+        -2,
+        -34
+      ],
+      "frames": [
+        "closed",
+        "lifting",
+        "open"
+      ]
+    },
+    "glove": {
+      "w": 56,
+      "h": 72,
+      "tip": [
+        17,
+        4
+      ]
+    },
+    "console": {
+      "w": 224,
+      "h": 96,
+      "plate": [
+        12,
+        26
+      ],
+      "minWidth": 96
+    },
+    "door": {
+      "box": [
+        340,
+        60,
+        480,
+        330
+      ],
+      "doorway": "M398 372 V136 L422 112 H602 L626 136 V372 Z",
+      "leaf": 114,
+      "lamp": [
+        512,
+        91
+      ],
+      "screen": {
+        "x": 754,
+        "y": 196,
+        "w": 42,
+        "h": 22
+      },
+      "liftedFrom": "design/board-motion/assets/scenes/jail.back.svg",
+      "sceneSha256": "0bf39be0c62dfe6ac520d34ffd5464c40d8ccce1ed7bae515628768c13c0d84e"
+    },
+    "airlock": {
+      "c": [
+        276,
+        226
+      ],
+      "r": 50,
+      "opening": 39,
+      "box": [
+        200,
+        150,
+        152,
+        152
+      ],
+      "clamps": [
+        45,
+        135,
+        225,
+        315
+      ]
+    },
+    "exterior": {
+      "w": 400,
+      "h": 400,
+      "hatch": [
+        150,
+        240
+      ],
+      "r": 46
+    },
+    "placement": {
+      "console": "fx/captain.mjs consoleBox()",
+      "pulse": "fx/captain.mjs conduitPoints()",
+      "plaque": "fx/captain.mjs plaqueBox()"
+    },
+    "reuses": [
+      "design/exports/public-board/fx-ink-trail.paper.fdbb7f4fce.svg",
+      "design/exports/public-board/fx-landing-puff.paper.8d5f3998bd.svg"
+    ],
+    "files": [
+      {
+        "id": "captain.plate-release-available",
+        "kind": "plate",
+        "command": "release",
+        "state": "available",
+        "viewBox": "0 0 200 64",
+        "audience": "the current Captain (S8) and public (the console inset)",
+        "file": "design/board-v2/assets/captain/plate-release-available.svg",
+        "bytes": 2096,
+        "sha256": "f9087520420a3e22be48c1950083fc3d6b0b892d240a45b765f75b44c7af2f46"
+      },
+      {
+        "id": "captain.plate-release-unavailable",
+        "kind": "plate",
+        "command": "release",
+        "state": "unavailable",
+        "viewBox": "0 0 200 64",
+        "audience": "the current Captain (S8) and public (the console inset)",
+        "file": "design/board-v2/assets/captain/plate-release-unavailable.svg",
+        "bytes": 2048,
+        "sha256": "ead12632bdf13c8fa889d6c0dd4a069b2a221bead976ebbc7aa47fa8bdf9eefb"
+      },
+      {
+        "id": "captain.plate-release-pressed",
+        "kind": "plate",
+        "command": "release",
+        "state": "pressed",
+        "viewBox": "0 0 200 64",
+        "audience": "the current Captain (S8) and public (the console inset)",
+        "file": "design/board-v2/assets/captain/plate-release-pressed.svg",
+        "bytes": 2173,
+        "sha256": "8e5c91f9e9da70ebd38505c66d3644a3c7cd87c2866d562c45d9d3edde20956d"
+      },
+      {
+        "id": "captain.plate-release-used",
+        "kind": "plate",
+        "command": "release",
+        "state": "used",
+        "viewBox": "0 0 200 64",
+        "audience": "the current Captain (S8) and public (the console inset)",
+        "file": "design/board-v2/assets/captain/plate-release-used.svg",
+        "bytes": 1880,
+        "sha256": "835049a1a04b0710e04aa32bc697d2b809e5d93202d7c10649994ceaafcca6b3"
+      },
+      {
+        "id": "captain.plate-eject-available",
+        "kind": "plate",
+        "command": "eject",
+        "state": "available",
+        "viewBox": "0 0 200 64",
+        "audience": "the current Captain (S8) and public (the console inset)",
+        "file": "design/board-v2/assets/captain/plate-eject-available.svg",
+        "bytes": 1856,
+        "sha256": "8196aedbbc7fb166dd41cb54fe78b951e33cd7aae5d27b3ef4961a6ee20c3759"
+      },
+      {
+        "id": "captain.plate-eject-unavailable",
+        "kind": "plate",
+        "command": "eject",
+        "state": "unavailable",
+        "viewBox": "0 0 200 64",
+        "audience": "the current Captain (S8) and public (the console inset)",
+        "file": "design/board-v2/assets/captain/plate-eject-unavailable.svg",
+        "bytes": 1808,
+        "sha256": "a7c5961da9c166cce0cadeb119a78999bcebfb4ca1ead40caad35930b4d2c6f8"
+      },
+      {
+        "id": "captain.plate-eject-pressed",
+        "kind": "plate",
+        "command": "eject",
+        "state": "pressed",
+        "viewBox": "0 0 200 64",
+        "audience": "the current Captain (S8) and public (the console inset)",
+        "file": "design/board-v2/assets/captain/plate-eject-pressed.svg",
+        "bytes": 1933,
+        "sha256": "f4d244f10ea6a8d5a061a61bd9a9f097a25bab1a28212ead48bbac43d890c7df"
+      },
+      {
+        "id": "captain.plate-eject-used",
+        "kind": "plate",
+        "command": "eject",
+        "state": "used",
+        "viewBox": "0 0 200 64",
+        "audience": "the current Captain (S8) and public (the console inset)",
+        "file": "design/board-v2/assets/captain/plate-eject-used.svg",
+        "bytes": 1640,
+        "sha256": "5f5a498a83b275545fb929933c388a00cb9cf86756598a8b9b6b499ad59ae14e"
+      },
+      {
+        "id": "captain.cover-closed",
+        "kind": "cover",
+        "frame": "closed",
+        "viewBox": "0 0 72 100",
+        "at": [
+          -2,
+          -34
+        ],
+        "file": "design/board-v2/assets/captain/cover-closed.svg",
+        "bytes": 1897,
+        "sha256": "496cf7f171b48bd42096e13ad6afb94b716bc7f417060750e89e1f70cc1bf82c",
+        "audience": "public"
+      },
+      {
+        "id": "captain.cover-lifting",
+        "kind": "cover",
+        "frame": "lifting",
+        "viewBox": "0 0 72 100",
+        "at": [
+          -2,
+          -34
+        ],
+        "file": "design/board-v2/assets/captain/cover-lifting.svg",
+        "bytes": 1834,
+        "sha256": "ad1ed59063fcb1eddaf16238f0773cec3c06fe219da7be2dad7bc6b79af01cab",
+        "audience": "public"
+      },
+      {
+        "id": "captain.cover-open",
+        "kind": "cover",
+        "frame": "open",
+        "viewBox": "0 0 72 100",
+        "at": [
+          -2,
+          -34
+        ],
+        "file": "design/board-v2/assets/captain/cover-open.svg",
+        "bytes": 1823,
+        "sha256": "a5ef29dbb56f8c0eac5c7f95188c4a4487925e7fff5108b8e8443f997c8af868",
+        "audience": "public"
+      },
+      {
+        "id": "captain.glove",
+        "kind": "glove",
+        "viewBox": "0 0 56 72",
+        "anchor": [
+          17,
+          4
+        ],
+        "file": "design/board-v2/assets/captain/glove.svg",
+        "bytes": 1526,
+        "sha256": "ae7a4d7977d7913b8a342b9d460eeadea32c3696008cb3d647ecd7784f9b1291",
+        "audience": "public"
+      },
+      {
+        "id": "captain.click",
+        "kind": "accent",
+        "viewBox": "0 0 80 80",
+        "anchor": [
+          40,
+          40
+        ],
+        "file": "design/board-v2/assets/captain/click.svg",
+        "bytes": 1247,
+        "sha256": "1f5723a73cca04c592aeec56a7a83d550c2b83e1d73968e49011474ce8e9547c",
+        "audience": "public"
+      },
+      {
+        "id": "captain.ring",
+        "kind": "accent",
+        "viewBox": "0 0 80 80",
+        "anchor": [
+          40,
+          40
+        ],
+        "file": "design/board-v2/assets/captain/ring.svg",
+        "bytes": 790,
+        "sha256": "45ac4565de5c002abc49fa0592aac89adea10b16859f86f34dd39733b4a84747",
+        "audience": "public"
+      },
+      {
+        "id": "captain.console",
+        "kind": "console",
+        "viewBox": "0 0 224 96",
+        "file": "design/board-v2/assets/captain/console.svg",
+        "bytes": 1558,
+        "sha256": "207e9310edf4eae2a5c0420a6f44b4fdf9a96454f51a6cca736b074c272e7fa7",
+        "audience": "public"
+      },
+      {
+        "id": "captain.pulse-head-release",
+        "kind": "pulse-head",
+        "command": "release",
+        "viewBox": "0 0 24 24",
+        "anchor": [
+          12,
+          12
+        ],
+        "file": "design/board-v2/assets/captain/pulse-head-release.svg",
+        "bytes": 1055,
+        "sha256": "d9de874a305627d27f988f27d6620239c3ba9da2642a4a4bc2c6ae0a3ea9771f",
+        "audience": "public"
+      },
+      {
+        "id": "captain.pulse-head-eject",
+        "kind": "pulse-head",
+        "command": "eject",
+        "viewBox": "0 0 24 24",
+        "anchor": [
+          12,
+          12
+        ],
+        "file": "design/board-v2/assets/captain/pulse-head-eject.svg",
+        "bytes": 1045,
+        "sha256": "36e8d98361a7660b84f90ce9aed36680a8bd4c6e7aa23170051391775b6961f3",
+        "audience": "public"
+      },
+      {
+        "id": "captain.jail-door-rest",
+        "kind": "jail-door",
+        "state": {},
+        "viewBox": "340 60 480 330",
+        "file": "design/board-v2/assets/captain/jail-door-rest.svg",
+        "bytes": 3137,
+        "sha256": "ac490370d6fc0f7db530932acf45c4f6d229cec02b8b2ef9e540e1f59f3fb7ee",
+        "audience": "public"
+      },
+      {
+        "id": "captain.jail-door-unlocked",
+        "kind": "jail-door",
+        "state": {
+          "wheel": 90,
+          "lamp": "green",
+          "keypad": "green"
+        },
+        "viewBox": "340 60 480 330",
+        "file": "design/board-v2/assets/captain/jail-door-unlocked.svg",
+        "bytes": 3630,
+        "sha256": "c34b514e3681eb07196f949c5df3e1047c47b08da5ff1b97959ceb553220c3b4",
+        "audience": "public"
+      },
+      {
+        "id": "captain.jail-door-half",
+        "kind": "jail-door",
+        "state": {
+          "open": 0.5,
+          "wheel": 90,
+          "lamp": "green",
+          "keypad": "green"
+        },
+        "viewBox": "340 60 480 330",
+        "file": "design/board-v2/assets/captain/jail-door-half.svg",
+        "bytes": 6030,
+        "sha256": "fda755aba0c3253cea84eef8c75abc5ba9745cc0577917f88df5f4b4a7ebf7b9",
+        "audience": "public"
+      },
+      {
+        "id": "captain.jail-door-open",
+        "kind": "jail-door",
+        "state": {
+          "open": 1,
+          "wheel": 90,
+          "lamp": "green",
+          "keypad": "green"
+        },
+        "viewBox": "340 60 480 330",
+        "file": "design/board-v2/assets/captain/jail-door-open.svg",
+        "bytes": 5995,
+        "sha256": "7da5ac6e87166a2fd90ba125e4526cd17fb699f0ddf6245b5dec2b71e3ff8c89",
+        "audience": "public"
+      },
+      {
+        "id": "captain.jail-door-lockdown",
+        "kind": "jail-door",
+        "state": {
+          "wheel": -90,
+          "lamp": "red",
+          "keypad": "amber"
+        },
+        "viewBox": "340 60 480 330",
+        "file": "design/board-v2/assets/captain/jail-door-lockdown.svg",
+        "bytes": 3858,
+        "sha256": "04642d6647ea9568172e4e508f8652421f9bbc34585616bdbbaec2cf2cd698eb",
+        "audience": "public"
+      },
+      {
+        "id": "captain.airlock-revealed",
+        "kind": "airlock",
+        "state": {
+          "glow": 1
+        },
+        "viewBox": "200 150 152 152",
+        "file": "design/board-v2/assets/captain/airlock-revealed.svg",
+        "bytes": 6232,
+        "sha256": "967bf35ae3f450a9f9b37d68f18979233687871b96a525d8c6bbe2dcdb02e867",
+        "audience": "public"
+      },
+      {
+        "id": "captain.airlock-released",
+        "kind": "airlock",
+        "state": {
+          "clamps": 1,
+          "glow": 1
+        },
+        "viewBox": "200 150 152 152",
+        "file": "design/board-v2/assets/captain/airlock-released.svg",
+        "bytes": 6210,
+        "sha256": "32bdc04d011affd1bebe34b42afbe367a2c993b54ef867b62083611a19b744b0",
+        "audience": "public"
+      },
+      {
+        "id": "captain.airlock-half",
+        "kind": "airlock",
+        "state": {
+          "clamps": 1,
+          "open": 0.5,
+          "glow": 1
+        },
+        "viewBox": "200 150 152 152",
+        "file": "design/board-v2/assets/captain/airlock-half.svg",
+        "bytes": 6153,
+        "sha256": "3d726334869aae15828b99d7076af97f9420659a5877fcaa7ba674c000ed6186",
+        "audience": "public"
+      },
+      {
+        "id": "captain.airlock-open",
+        "kind": "airlock",
+        "state": {
+          "clamps": 1,
+          "open": 1,
+          "glow": 1
+        },
+        "viewBox": "200 150 152 152",
+        "file": "design/board-v2/assets/captain/airlock-open.svg",
+        "bytes": 5208,
+        "sha256": "4379d130f04d9afb55dbc8763c5cedcf5e912faf4e18d386013a5d8a8514c758",
+        "audience": "public"
+      },
+      {
+        "id": "captain.suction-1",
+        "kind": "suction",
+        "frame": 1,
+        "viewBox": "0 0 1024 768",
+        "file": "design/board-v2/assets/captain/suction-1.svg",
+        "bytes": 1505,
+        "sha256": "57083bbe09004013707a12935300cd077d6c105ff0c271f0e6f403fd3cbe4880",
+        "audience": "public"
+      },
+      {
+        "id": "captain.suction-2",
+        "kind": "suction",
+        "frame": 2,
+        "viewBox": "0 0 1024 768",
+        "file": "design/board-v2/assets/captain/suction-2.svg",
+        "bytes": 1511,
+        "sha256": "44de510cf32e7cf8f82182357921042ff108a2db4ce33472da4f127619a59d92",
+        "audience": "public"
+      },
+      {
+        "id": "captain.suction-3",
+        "kind": "suction",
+        "frame": 3,
+        "viewBox": "0 0 1024 768",
+        "file": "design/board-v2/assets/captain/suction-3.svg",
+        "bytes": 1513,
+        "sha256": "7d7840c6e634e2653ca1177dd4e31dbedd3dbe8fca9f693e0bb3b52527925a53",
+        "audience": "public"
+      },
+      {
+        "id": "captain.debris-paper",
+        "kind": "debris",
+        "item": "paper",
+        "viewBox": "0 0 24 24",
+        "file": "design/board-v2/assets/captain/debris-paper.svg",
+        "bytes": 785,
+        "sha256": "7bd14c21e7f48efe3f162750a7184eaebcc369c6b10c32f4c0e78fb58292774b",
+        "audience": "public"
+      },
+      {
+        "id": "captain.debris-cup",
+        "kind": "debris",
+        "item": "cup",
+        "viewBox": "0 0 24 24",
+        "file": "design/board-v2/assets/captain/debris-cup.svg",
+        "bytes": 919,
+        "sha256": "12f76db7fff6ce512003825456f5b4657b5217c11087aff9f35dddde9e30fc04",
+        "audience": "public"
+      },
+      {
+        "id": "captain.emergency",
+        "kind": "emergency",
+        "viewBox": "0 0 100 100",
+        "file": "design/board-v2/assets/captain/emergency.svg",
+        "bytes": 1045,
+        "sha256": "14ab7006a7f5a2ba7e0248823ab269024900393ac8c7f8c283ba6f084142577b",
+        "audience": "public"
+      },
+      {
+        "id": "captain.exterior",
+        "kind": "exterior",
+        "viewBox": "0 0 400 400",
+        "hatch": [
+          150,
+          240
+        ],
+        "file": "design/board-v2/assets/captain/exterior.svg",
+        "bytes": 5388,
+        "sha256": "f5f3175f3b367dd0d5de23e0151bd9579563f70ee3eb2e6e79cf8e5f5fc13998",
+        "audience": "public"
+      },
+      {
+        "id": "captain.plaque",
+        "kind": "plaque",
+        "viewBox": "0 0 18 18",
+        "file": "design/board-v2/assets/captain/plaque.svg",
+        "bytes": 848,
+        "sha256": "da8a432879bb02d146e126600e72c231fa8838e0dc04051aa79563fd58c0ac56",
+        "audience": "public"
+      },
+      {
+        "id": "captain.memorial-c1",
+        "kind": "memorial",
+        "character": "c1",
+        "viewBox": "-90 -40 300 300",
+        "file": "design/board-v2/assets/captain/memorial-c1.svg",
+        "bytes": 23787,
+        "sha256": "5e2a4458108ea3e724be8a7c91b7c06bb9630e3028e3cffefac1b13320728a05",
+        "audience": "public"
+      },
+      {
+        "id": "captain.memorial-c2",
+        "kind": "memorial",
+        "character": "c2",
+        "viewBox": "-90 -40 300 300",
+        "file": "design/board-v2/assets/captain/memorial-c2.svg",
+        "bytes": 22755,
+        "sha256": "925170a9ada05332a75be2f596775e9f91072aa6326af4c1fe8294b6304e594a",
+        "audience": "public"
+      },
+      {
+        "id": "captain.memorial-c3",
+        "kind": "memorial",
+        "character": "c3",
+        "viewBox": "-90 -40 300 300",
+        "file": "design/board-v2/assets/captain/memorial-c3.svg",
+        "bytes": 22481,
+        "sha256": "cd608df3a5d3fd8ce073f9a0b5ef809efb128d6cd81af26e85025278089fac39",
+        "audience": "public"
+      },
+      {
+        "id": "captain.memorial-c4",
+        "kind": "memorial",
+        "character": "c4",
+        "viewBox": "-90 -40 300 300",
+        "file": "design/board-v2/assets/captain/memorial-c4.svg",
+        "bytes": 21578,
+        "sha256": "d52e8d8c2ab303300388edee053002af461187783342e6e601dc6cdb801ef583",
+        "audience": "public"
+      },
+      {
+        "id": "captain.memorial-c5",
+        "kind": "memorial",
+        "character": "c5",
+        "viewBox": "-90 -40 300 300",
+        "file": "design/board-v2/assets/captain/memorial-c5.svg",
+        "bytes": 21035,
+        "sha256": "b11212d2daa368ceeb656a87c58ecfed7024afc8bcbca501c6b6fe69aa372e82",
+        "audience": "public"
+      },
+      {
+        "id": "captain.memorial-c6",
+        "kind": "memorial",
+        "character": "c6",
+        "viewBox": "-90 -40 300 300",
+        "file": "design/board-v2/assets/captain/memorial-c6.svg",
+        "bytes": 22880,
+        "sha256": "fa5687936e4967875e4a2b9df92066fa46c75f36c7f769d5c5872482888b3cc0",
+        "audience": "public"
+      },
+      {
+        "id": "captain.memorial-c7",
+        "kind": "memorial",
+        "character": "c7",
+        "viewBox": "-90 -40 300 300",
+        "file": "design/board-v2/assets/captain/memorial-c7.svg",
+        "bytes": 22194,
+        "sha256": "e0054046dd6516c967b8e77f9eedbbe7311ff895cbd682f97c525c389c163b6c",
+        "audience": "public"
+      },
+      {
+        "id": "captain.memorial-c8",
+        "kind": "memorial",
+        "character": "c8",
+        "viewBox": "-90 -40 300 300",
+        "file": "design/board-v2/assets/captain/memorial-c8.svg",
+        "bytes": 22596,
+        "sha256": "f964384ba67f1235b46bc59aaf7e14adecb7709dfba6fe685c4301ac335c52ff",
+        "audience": "public"
+      },
+      {
+        "id": "captain.memorial-c9",
+        "kind": "memorial",
+        "character": "c9",
+        "viewBox": "-90 -40 300 300",
+        "file": "design/board-v2/assets/captain/memorial-c9.svg",
+        "bytes": 23967,
+        "sha256": "ee19d428602242278ffe645c8d1a9c5b08d318cc5156bfc1ef6b7e61d437689c",
+        "audience": "public"
+      }
+    ]
+  },
   "films": {
     "file": "design/board-v2/contract/films.json",
     "version": "board-v2-films-0.2.0",
-    "sha256": "ee4c75e8f31e1626daeda4b6f45ee2e007725741f210f3939c0a50735c64674a",
-    "bytes": 26019
+    "sha256": "66bdc11c40737c650b34a60621ee6fdfef5fe8f33f716ec1536af8683f8ae20e",
+    "bytes": 37692
   }
 }
