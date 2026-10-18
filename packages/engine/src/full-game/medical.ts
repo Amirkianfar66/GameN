@@ -47,8 +47,9 @@ export function beginMedicalResolution(state:FullGameState):MedicalResolutionBat
   return { state, outcomeOffset:state.outcomes.length, candidates:new Map() };
 }
 
-/** Called after protection. Logical admission happens in this very damage step.
- * Slot sealing waits for the atomic checkpoint so departing patients free beds first.
+/** Called after protection. Historical tuples admit logically in this damage step.
+ * Exact 1.11 stages the candidate at its origin for healed-first numeric admission;
+ * only the final atomic checkpoint may be persisted or projected.
  */
 export function recordMedicalDamage(state: FullGameState, seat: GameSeat, batch?: MedicalResolutionBatch): void {
   if (seat.health === 'Eliminated') return;
