@@ -3370,7 +3370,7 @@
   "films": {
     "file": "design/board-v2/contract/films.json",
     "version": "board-v2-films-0.2.0",
-    "sha256": "5cae7117094797a4896b4553e050b5e056f1319a58bcd092e97935c18aa16420",
-    "bytes": 45129
+    "sha256": "97f542eebed655d323c271f4074068a686a36508a2a81a607cc51f6d93959b7f",
+    "bytes": 45262
   }
 }

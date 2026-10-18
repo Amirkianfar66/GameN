@@ -1096,11 +1096,13 @@ const CLONE_COMPARISONS = 9;
   if (settledEnded.real.opacity !== 1 || settledEnded.outline.opacity !== 0 || settledEnded.clone.opacity !== 0 || settledEnded.stamps.ended.opacity !== 1 || settledEnded.stamps.active.opacity !== 0) problems.push('the ended card is not the character alone and CLONE ENDED');
   if (JSON.stringify({ ...cloneFrame('expire', -1), done: true }) !== JSON.stringify({ ...settledActive, done: true })) problems.push('the expiry does not start from the active card');
   // The triggers and the card, from the own view alone: an activation only on a live change from unused to active, an
-  // expiry only on a live change from active to ended; never on a baseline, a reconnect or for an Eliminated Alien.
+  // expiry only on a live change from active to ended; never on a baseline, a reconnect, for an Eliminated Alien or
+  // for the view that ends the match (1.10 ends an active Clone when the match finishes or is aborted).
   const { unused, active, ended, r5 } = CLONE_STATUSES;
   const cases = [
     [{ before: unused, after: active, live: true }, 'activate'], [{ before: unused, after: r5, live: true }, 'activate'], [{ before: active, after: ended, live: true }, 'expire'],
     [{ before: unused, after: active, live: false }, null], [{ before: active, after: ended, live: false }, null], [{ before: active, after: ended, live: true, eliminated: true }, null],
+    [{ before: active, after: ended, live: true, matchEnded: true }, null], [{ before: unused, after: active, live: true, matchEnded: true }, null],
     [{ before: active, after: active, live: true }, null], [{ before: ended, after: ended, live: true }, null], [{ before: null, after: active, live: true }, null], [{ before: unused, after: unused, live: true }, null],
   ];
   for (const [input, want] of cases) if (cloneFilmFor(input) !== want) problems.push(`cloneFilmFor(${JSON.stringify(input)}) is ${cloneFilmFor(input)}, not ${want}`);
@@ -1152,7 +1154,7 @@ const CLONE_COMPARISONS = 9;
   for (const selector of ['.v2-room', '.v2-art', '.v2-fig', '.v2-board', '.v2-tag', 'v2-slot-hit']) if (view.includes(selector)) problems.push(`clone-view.mjs reaches ${selector}: the Clone is never on the board`);
   const films = await json('design/board-v2/contract/films.json').catch(() => null);
   if (!films || JSON.stringify(films.films?.[10]) !== JSON.stringify(cloneContract()) || films.films.length !== 11) problems.push('contract/films.json does not hold the Clone\'s contract: run design/tools/board-v2-assets.mjs');
-  check(`the Clone (S3): its activation 1.8 s and expiry 0.9 s, their only inputs the moment, the film and the setting, the reduced variants one 80 ms cross-fade; its films started only by a live change of the own view, never for an Eliminated Alien; the hosted board's words; the review's statuses 1.10's shape; its card in the sheet clear of the raised Pass at every phone (${cards} layouts); its palette apart from the faction accents; its art naming no role; and its controller never on the board`, problems);
+  check(`the Clone (S3): its activation 1.8 s and expiry 0.9 s, their only inputs the moment, the film and the setting, the reduced variants one 80 ms cross-fade; its films started only by a live change of the own view, never for an Eliminated Alien or at the match's end; the hosted board's words; the review's statuses 1.10's shape; its card in the sheet clear of the raised Pass at every phone (${cards} layouts); its palette apart from the faction accents; its art naming no role; and its controller never on the board`, problems);
 }
 
 // ---------- The slots ----------

@@ -757,7 +757,7 @@
       "clock": "Milliseconds from the film's start: the activation 1800 ms (reduced 480 ms), the expiry 900 ms (reduced 480 ms). Nonblocking: the sheet's controls and the board stay usable. The film stops at once, the card showing its state, when the private area closes or conceals, the page is hidden, or a newer view changes the Clone",
       "inputs": [
         "t (from the film's start)",
-        "the film: activate or expire (cloneFilmFor(): a live change of the own view's cloneStatus)",
+        "the film: activate or expire (cloneFilmFor(): a live change of the own view's cloneStatus, the match not over)",
         "reduced (the device setting)",
         "the own seat's character and the clothes of its current place, for the portrait",
         "the own view's cloneStatus, for the card's state and the client's status line"
@@ -824,7 +824,7 @@
         "holdMs": 400,
         "fadeMs": 80
       },
-      "never": "Never on the board or for anyone but its owner. Never replayed: not on a reconnect, a baseline or a resumed page. No card and no film once its owner is Eliminated. A rejected, pending or unknown command plays nothing"
+      "never": "Never on the board or for anyone but its owner. Never replayed: not on a reconnect, a baseline or a resumed page. No card and no film once its owner is Eliminated. No film for the view that finishes or aborts the match, which ends an active Clone: the result takes the screen. A rejected, pending or unknown command plays nothing"
     }
   ]
 }

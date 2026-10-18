@@ -170,12 +170,13 @@ export function cloneCard({ status, eliminated = false }) {
  * Which film a change of the own view starts (null: none, the card simply shows its state): the
  * activation when a live view first says the Clone is active where the one before said it was unused;
  * the expiry when a live view says it ended where the one before said it was active, the Alien not
- * Eliminated. live is false for a baseline, a reconnect or a resumed page: those never replay a film.
- * The client plays it the first time the card is in the foreground (the private area open, the page
- * visible); never twice.
+ * Eliminated and the match not over. live is false for a baseline, a reconnect or a resumed page: those
+ * never replay a film. matchEnded is true for the view that finishes or aborts the match (1.10 then ends
+ * an active Clone, and the match's result takes the screen): no film. The client plays it the first
+ * time the card is in the foreground (the private area open, the page visible); never twice.
  */
-export function cloneFilmFor({ before, after, live, eliminated = false }) {
-  if (!live || before == null || after == null || eliminated) return null;
+export function cloneFilmFor({ before, after, live, eliminated = false, matchEnded = false }) {
+  if (!live || before == null || after == null || eliminated || matchEnded) return null;
   if (!before.used && after.used && after.active) return 'activate';
   if (before.active && !after.active && after.used) return 'expire';
   return null;
@@ -188,7 +189,7 @@ export function cloneContract() {
     id: CLONE_FILM.id, storyboard: CLONE_FILM.storyboard, status: 'proposal',
     audience: 'owner-private: its owner\'s own phone alone, in its sheet\'s private area, from its own view (self.cloneStatus, full-game-1.10.0: null for every other seat). Never on the board, on any phone; never on the display, another player\'s phone or the host. A block by the Clone is S4\'s, exactly as Protection\'s',
     clock: `Milliseconds from the film's start: the activation ${A.end} ms (reduced ${cloneEnd('activate', true)} ms), the expiry ${E.end} ms (reduced ${cloneEnd('expire', true)} ms). Nonblocking: the sheet's controls and the board stay usable. The film stops at once, the card showing its state, when the private area closes or conceals, the page is hidden, or a newer view changes the Clone`,
-    inputs: ['t (from the film\'s start)', 'the film: activate or expire (cloneFilmFor(): a live change of the own view\'s cloneStatus)', 'reduced (the device setting)', 'the own seat\'s character and the clothes of its current place, for the portrait', 'the own view\'s cloneStatus, for the card\'s state and the client\'s status line'],
+    inputs: ['t (from the film\'s start)', 'the film: activate or expire (cloneFilmFor(): a live change of the own view\'s cloneStatus, the match not over)', 'reduced (the device setting)', 'the own seat\'s character and the clothes of its current place, for the portrait', 'the own view\'s cloneStatus, for the card\'s state and the client\'s status line'],
     notInputs: ['an actor, a target, an attacker or a block', 'a role word, a side, a faction or a cause on the card', 'another seat\'s view', 'a local countdown or the client\'s own observation of time', 'the activation round as a timer: expiresAfterRound is shown in the client\'s words only'],
     where: 'The sheet\'s body, as its private claim (js/turns.mjs turnsLayout(); fx/clone.mjs cloneCardLayout()): the portrait window at the card\'s start, the words after it; never under the raised Pass',
     words: 'None of the film\'s own. CLONE ACTIVE and CLONE ENDED are the page\'s stamps; the status line is the client\'s (today the hosted board\'s "Clone active through Round 3." and "Clone inactive; its once-only use is spent.")',
@@ -206,6 +207,6 @@ export function cloneContract() {
       ],
     },
     reduced: { what: 'The card before, held, then the card after, cross-faded over 80 ms. No scan, halftone, travel or pop', holdMs: R.holdMs, fadeMs: R.fadeMs },
-    never: 'Never on the board or for anyone but its owner. Never replayed: not on a reconnect, a baseline or a resumed page. No card and no film once its owner is Eliminated. A rejected, pending or unknown command plays nothing',
+    never: 'Never on the board or for anyone but its owner. Never replayed: not on a reconnect, a baseline or a resumed page. No card and no film once its owner is Eliminated. No film for the view that finishes or aborts the match, which ends an active Clone: the result takes the screen. A rejected, pending or unknown command plays nothing',
   };
 }

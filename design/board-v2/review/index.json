@@ -1,6 +1,6 @@
 {
   "devOnly": "mothership:dev-only",
-  "inputsSha256": "6df0235aacc8312e61bbbacd2c5a620ad04c5c9bd5d42d5e035a6741e70e9cc7",
+  "inputsSha256": "4ab33822bc5205919747de575728e420ba538a30c5000f190e4981e5cc6bc96a",
   "note": "Desktop Chromium laying out design/board-v2/index.html from synthetic fixtures. Not a phone measurement and nothing about a match.",
   "captures": [
     {

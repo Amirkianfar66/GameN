@@ -51,6 +51,8 @@ Nothing here is a rule, a server contract or an adopted asset:
 | The Alien Eliminated | None: elimination ends the Clone with no art; the client's words alone |
 
 - **The tray's mark** (`assets/clone/mark.svg`): a character's bust and its dashed double, one ink in a 32 x 32 cell, in the idiom of the kit's other marks (`design/abilities/source/actions.svg`), beside the action's English label ("Clone"). It names no role; every phone's kit has it.
+- **Anchors** (`cloneCardLayout()`, CSS pixels): the card spans the sheet's body (`turnsLayout().sheet.body`), whose height is `cloneBodyHeight()`: from the body's top down to 6 px above the raised Pass, and never more than the sheet holds. The portrait window is 88 px tall at 1.3 to 1, 6 px in from the card's start and centred in its height. Each figure stands on a feet anchor at 95% of the window's height, the character's at 32% of its width and the duplicate's at 70%. The figure's frame (the board's own `FRAME`) is placed from those feet, scaled so that the figure spans 86% of the window's height. The words' column starts 10 px after the window and keeps 6 px from the card's end.
+- **Layers,** back to front, in the portrait window: the stage (`stageSvg()`: the dark stage, its grid and the two pads), the character, its dotted outline (`outlineSvg()`), the halftone duplicate (`halftoneSvg()`), the duplicate in the ordinary drawing, and the scan band (`scanSvg()`) on top. The stamps and the status line are in the words' column, beside the window. All of it stays inside the sheet; nothing is drawn over the board.
 
 ## 3. The activation (1.8 s)
 
@@ -78,19 +80,20 @@ Reduced motion: the active card, held 400 ms, then the ended card, cross-faded o
 `films/clone.mjs` `cloneFilmFor()`, from the own view alone:
 
 1. **The activation** plays when a live view first says the Clone is active where the view before said it was unused: the accepted `ACTIVATE_CLONE`. It plays the first time the card is in the foreground, once.
-2. **The expiry** plays when a live view says the Clone is no longer active where the view before said it was, the Alien not Eliminated (the expiry after the last covered round's resolution). It plays the next time the card is in the foreground, once.
+2. **The expiry** plays when a live view says the Clone is no longer active where the view before said it was, the Alien not Eliminated and the match not over (the expiry after the last covered round's resolution). It plays the next time the card is in the foreground, once.
 3. **Never on a reconnect, a baseline or a resumed page:** the card shows its state at rest. A missed film is not owed.
 4. **It stops at once,** the card showing its state, when the private area closes or conceals, the page is hidden, or a newer view changes the Clone.
 5. **Elimination** ends the Clone with no card and no film (Q-C02: elimination ends it; the client's words alone).
-6. **The Jail** changes nothing: an active Clone stays active after imprisonment until its original expiry (Q-C02f), and the card keeps its state, its portrait in the prison suit.
-7. **A block** is S4's, the same as Protection's, for the room's occupants (#130). The card does not react to it and counts nothing.
+6. **The match's end** ends an active Clone too: 1.10 clears `active` when the match finishes or is aborted, its use kept (`stopCloneEffects()`). The view that ends the match plays no film (`matchEnded`): the match's result takes the screen.
+7. **The Jail** changes nothing: an active Clone stays active after imprisonment until its original expiry (Q-C02f), and the card keeps its state, its portrait in the prison suit.
+8. **A block** is S4's, the same as Protection's, for the room's occupants (#130). The card does not react to it and counts nothing.
 
 ## 6. The inputs
 
 | Input | From |
 | --- | --- |
 | Which card | The own view's `self.cloneStatus` (and the own seat's health) |
-| Which film | A live change of the own view's `cloneStatus` (`cloneFilmFor()`) |
+| Which film | A live change of the own view's `cloneStatus`, and whether that view ends the match: its phase `FINISHED` or `ABORTED` (`cloneFilmFor()`) |
 | `t` | Milliseconds from the film's start in the foreground |
 | The portrait | The own seat's character and the clothes of its current place |
 | The words | The client's status line for `cloneStatus` |
@@ -103,7 +106,7 @@ Not an input: an actor, a target, an attacker, a block, another seat's view, a r
 Frontend has reviewed none of this. Please review it before anything is ported.
 
 1. Draw the card as the sheet's private claim on the Alien's own phone alone, only while the private area is revealed in the foreground; remove it as the private area's rules remove private content.
-2. Take its state from `cloneCard()` and its film from `cloneFilmFor()`, both from the own view. Play a film once, the first time the card is in the foreground after the live change; never on a reconnect, a baseline or a resumed page.
+2. Take its state from `cloneCard()` and its film from `cloneFilmFor()`, both from the own view, with `matchEnded` for the view that finishes or aborts the match. Play a film once, the first time the card is in the foreground after the live change; never on a reconnect, a baseline or a resumed page.
 3. Ship the art in every phone's bundle; never fetch it on the Alien's phone alone.
 4. Keep the board untouched: no marker, outline or shimmer on the Alien's figure, on any phone.
 5. Show the status line in the client's own words; the stamps are decorative and hidden from assistive technology.
@@ -125,10 +128,11 @@ Frontend has reviewed none of this. Please review it before anything is ported.
 
 ## 8. For Backend
 
-No new field. The card needs `self.cloneStatus` alone, as 1.10 shapes it.
+No new field. The card needs `self.cloneStatus` alone, as 1.10 shapes it, with the own seat's health and the view's phase. The films rely on three things 1.10 does at `a9dd543` (`packages/engine/src/full-game/clone.ts`); please confirm that they are the contract, not an accident of the draft:
 
-1. Please confirm that the view published after the last covered round's resolution says `active: false` with `used: true`, so that the expiry film can play then.
-2. Please confirm that an elimination publishes `active: false` and the seat Eliminated in the same view, so that no expiry film plays for it.
+1. The view published after the last covered round's resolution says `active: false` with `used: true` (`finishCloneCheckpoint()`, before the next phase), so that the expiry film can play then.
+2. An elimination publishes `active: false` and the seat Eliminated in the same view (`clearEliminatedCloneEffects()`), so that no expiry film plays for it.
+3. The match's end clears `active` in the view whose phase is `FINISHED` or `ABORTED` (`stopCloneEffects()`), and in no earlier one, so that `matchEnded` keeps the expiry film from playing for it.
 
 ## 9. For Integration
 
@@ -143,17 +147,17 @@ These were run on this branch in this container. Desktop Chromium laid out a rev
 
 | Check | Result |
 | --- | --- |
-| `node design/tools/board-v2-check.mjs` | **15 / 15.** #160's fourteen and the Clone's own. Its films are checked every 10 ms in both motion modes: the activation lasts 1.8 s and the expiry 0.9 s (0.48 s each reduced); the activation draws no card before its start; nothing but the moment, the film and the setting changes a frame (an attacker, a role, a side, a target or a block changes none); the character only fades out and the duplicate only in during the activation, and the reverse during the expiry; the reduced variants have no scan, halftone or pop and change only within their 80 ms cross-fade; each film ends exactly on the card at rest. The triggers: an activation only on a live change from unused to active, an expiry only on a live change from active to ended, none on a baseline or for an Eliminated Alien; the card none, active or ended as the own view says. The words are the hosted board's, and the review's statuses have 1.10's shape. The card fits the sheet at every phone and roster the controls' layout fits, at normal and 200% text (42 layouts): its body clear of the raised Pass and tall enough for the card, the portrait whole, the duplicate beside the character, the words' column 150 px or wider. The palette is 35 or more from every faction accent, the card's styles use the palette alone, the shipped art names no role, and the controller never reaches a room, a figure or the board's surface. It also checks that the captures are current |
+| `node design/tools/board-v2-check.mjs` | **15 / 15.** #160's fourteen and the Clone's own. Its films are checked every 10 ms in both motion modes: the activation lasts 1.8 s and the expiry 0.9 s (0.48 s each reduced); the activation draws no card before its start; nothing but the moment, the film and the setting changes a frame (an attacker, a role, a side, a target or a block changes none); the character only fades out and the duplicate only in during the activation, and the reverse during the expiry; the reduced variants have no scan, halftone or pop and change only within their 80 ms cross-fade; each film ends exactly on the card at rest. The triggers: an activation only on a live change from unused to active, an expiry only on a live change from active to ended, none on a baseline, for an Eliminated Alien or for the view that ends the match; the card none, active or ended as the own view says. The words are the hosted board's, and the review's statuses have 1.10's shape. The card fits the sheet at every phone and roster the controls' layout fits, at normal and 200% text (42 layouts): its body clear of the raised Pass and tall enough for the card, the portrait whole, the duplicate beside the character, the words' column 150 px or wider. The palette is 35 or more from every faction accent, the card's styles use the palette alone, the shipped art names no role, and the controller never reaches a room, a figure or the board's surface. It also checks that the captures are current |
 | `node design/tools/board-v2-capture.mjs` | **357 pictures and nine contact sheets, 0 with problems**, 31 of them the Clone's. Every Clone picture on the Alien's own phone is measured against its frame and its layout: the page at the film's stage; the card shown or not as the frame has it; its status line the client's words; the sheet's body where `turnsLayout()` and `cloneBodyHeight()` put it, clear of the raised Pass, the card whole in it and never scrolled; the portrait and the four figures where `cloneCardLayout()` puts them (to 0.6 px); each figure's opacity and the halftone's density as the frame has them; the scan band over its figure, its leading edge where the frame puts it (to 1 px); each stamp as the frame has it, whole in the card and clear of the portrait; a real pointer landing on every target outside the sheet. On another player's phone and the display: no card and no sheet, a pointer landing on every target, and no side or role word on any page |
 | The same run: **400 whole-page comparisons, 0 differing** | #160's 391, and 9 for the Clone. The Alien's own page without its sheet and another player's page, character for character: during the activation at 390 × 844 and 320 × 568, during the expiry, in the Jail and on the four-berth board: 5. Another player's page and the display's: 1. The Alien's page without its sheet during the activation and after it: 1. The request logs of the Alien's page and another player's, during the activation and during the expiry: 2 |
 | The same run: **230 pointer probes, 23 press tests (129 presses), 12 label placements** | 0 problems |
-| Pictures byte for byte the same | Every review picture and contact sheet made before the Clone (326 pictures, eight sheets) re-rendered byte for byte the same; only `index.json` and `report.json` changed, with the new pictures |
+| Pictures byte for byte the same | Every review picture and contact sheet made before the Clone (326 pictures, eight sheets) re-rendered byte for byte the same; only `index.json` and `report.json` changed, with the new pictures. After the trigger's fix for the match's end (`matchEnded`, this PR's second commit), the whole capture was run again: all 357 pictures and nine sheets byte for byte the same as at `99c3ce3`; only the two records changed, with the inputs hash |
 | `node design/tools/board-v2-assets.mjs --check` | 148 files current |
 | `npm test --workspace @mothership/design-tokens` | **316 / 316**, 11 of them in `clone.test.mjs` |
 | `npm run verify` | Passed through `test:balance`'s static gate: toolchain, workspace and sources checks, both typechecks, bootstrap 55 / 55, engine 253 / 253, backend 187 / 187, tooling 130 / 130, frontend 194 / 194 and 448 / 448, design 316 / 316, balance static 103 / 103. `test:scenarios` refuses an uncommitted tree, so it is run on this PR's commit; its result is recorded with the deliverables index's version 6. `test:capacity` was not run here. Neither gate touches this PR's files; the PR's CI runs both |
-| A mutation of the films' clock (this session, not committed) | Measuring each Clone picture against the frame 150 ms later than its query made 13 of the 23 pictures taken mid-film fail: on the stage, the figures' and the halftone's opacity and density, the scan band's place and the stamps |
+| Two mutations (this session, not committed) | The films' clock: measuring each Clone picture against the frame 150 ms later than its query made 13 of the 23 pictures taken mid-film fail: on the stage, the figures' and the halftone's opacity and density, the scan band's place and the stamps. The trigger: without its match's-end guard, the static check failed on the Clone's triggers and `clone.test.mjs` failed 1 of its 11 tests |
 
-The captures' inputs hash is `6df0235aacc8312e61bbbacd2c5a620ad04c5c9bd5d42d5e035a6741e70e9cc7`.
+The captures' inputs hash is `4ab33822bc5205919747de575728e420ba538a30c5000f190e4981e5cc6bc96a`.
 
 **Not run:**
 
@@ -183,7 +187,7 @@ To check every file proposed for import, and the generated contracts, run `sha25
 
 ```
 c565f4301350c049534c8902b5780767522b1b3a7d8b330383462f4331460b7a  design/board-v2/fx/clone.mjs
-b66b69895a40865d03479a02b5a074872187ff2fcddda87785839c466524a641  design/board-v2/films/clone.mjs
+34836d024ad992cde20e84dcaea3584b9c0c247ef7c5c5a2435c8df698187da0  design/board-v2/films/clone.mjs
 08bec0ad1ef089a9b22cb42460953e6931572d25275a3068f764204f5830793f  design/board-v2/assets/clone/mark.svg
 fe2585695051e696906172a99f2496cd6d864cb16875db121d8f998ad4eba860  design/board-v2/assets/clone/scan.svg
 94e5828fa80ad510c9d7cfd917984a0ca8e17a192fd177cf5cbb3842db45999e  design/board-v2/assets/clone/stage.svg
@@ -205,8 +209,8 @@ dcd2f4e32e6b26721de3a9725aca546431d3485116676e04231538fb6280a2ce  design/board-v
 1cfb3a081f52f55665a55917c4d71f10cb0e4c88976c24f46fbcfebca5bb03e0  design/board-v2/assets/clone/halftone-c8.svg
 7da28398ec36fabb15d5b744ac8f36964e8004049b14b57614710e6e71ff63ea  design/board-v2/assets/clone/outline-c9.svg
 a1eb01b2acfe983cf6423ff55d3b5586de1b46159b5383993dff769f3ef7388e  design/board-v2/assets/clone/halftone-c9.svg
-5cae7117094797a4896b4553e050b5e056f1319a58bcd092e97935c18aa16420  design/board-v2/contract/films.json
-3a9eeda40a92852b926309ef442bf676f125fa85691fedce0d5b33ea47371ffb  design/board-v2/assets/manifest.json
+97f542eebed655d323c271f4074068a686a36508a2a81a607cc51f6d93959b7f  design/board-v2/contract/films.json
+57e84c596e660e788cd732b5d50ae4db2339f1bca523bf2c053ef64e6d2675db  design/board-v2/assets/manifest.json
 ```
 
 **Review only, not to port:**
@@ -219,21 +223,21 @@ ea40454bb3e199dde122c1b4a487d38226adec67e14fac1ae6d79c1a99483cfe  design/board-v
 1069aaffdeeec6dff5fbd1f71a939f7a936731a5ff96da0c5046324801e1a34f  design/board-v2/contact.html
 805e8fba6f4740d1545adbfe89cc4a1363d1f0add7f60e0d3d23165e119ac981  design/tools/board-v2-assets.mjs
 1bfc4c1f811572933de1ad0004089ef4d6d9368b81065d590996d4f5ece70d17  design/tools/board-v2-capture.mjs
-6083b94e20c5584608800fb41f08d099d1491c4bbf909ba5f2fcc6752fdd0812  design/tools/board-v2-check.mjs
-806eb16648ca37dabbc073b59213ef96a757feb3d2d09722752111fd167be831  packages/design-tokens/test/clone.test.mjs
+388d4ff4607e7f989bad3d795f1aa7698b6d1df613d555f4f17823e47a2b0279  design/tools/board-v2-check.mjs
+871c8bb4b17f2f6daa2403e7526fa060909425333a94fb7defc15405179d785d  packages/design-tokens/test/clone.test.mjs
 28cfdf0f6df564872faa44945cab5062c58759eefe3c7f90c1a96ac24cb2ecb6  design/board-v2/review/contact-clone.png
-a44b1e7d1b5112d47e098e034de7a0a436d09daa62855d497012b9a252e5f5bc  design/board-v2/review/index.json
-c2fe1e9e416227674406e469ce944d12519093bd39121af4bfec324a29cd8da4  design/board-v2/review/report.json
+a30d50a10f95bf56bc13a16ae80d9258b8edcf520f422eaee213fba7862e308f  design/board-v2/review/index.json
+25cc898eaa6fef144bb8146f497d4f36d4219244a7da640aaf62f733798441fd  design/board-v2/review/report.json
 ```
 
-The complete list of every path this PR changes, its pictures included, with each SHA-256 at the PR's first head, is in the [deliverables index](deliverables.md), version 6.
+The complete list of every path this PR changes, its pictures included, with each SHA-256 at the head that delivered it, is in the [deliverables index](deliverables.md), version 6.
 
 ## 12. Unresolved
 
 | Question | Owner | Meanwhile |
 | --- | --- | --- |
 | The status line's words | Frontend | The hosted board's, quoted |
-| The expiry's and the elimination's views (section 8) | Backend | `cloneFilmFor()` reads them as 1.10's schema allows |
+| The views of the expiry, an elimination and the match's end (section 8) | Backend | `cloneFilmFor()` reads them as 1.10 at `a9dd543` publishes them |
 | The tray's mark in the Actions kit | Integration, Frontend | `assets/clone/mark.svg`, beside the card |
 | An idle shimmer while active | Owner, with the idle loops (step 7) | None: the card is still |
 | A private sound | Owner | None: silent |

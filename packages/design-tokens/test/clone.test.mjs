@@ -81,12 +81,13 @@ test('nothing but the moment, the film and the setting is an input', () => {
   assert.throws(() => cloneEnd('protect'));
 });
 
-test('a film starts only on a live change of the own view; never on a reconnect, a baseline or for an Eliminated Alien', () => {
+test('a film starts only on a live change of the own view; never on a reconnect, a baseline, for an Eliminated Alien or at the match\'s end', () => {
   assert.equal(cloneFilmFor({ before: unused, after: active, live: true }), 'activate');
   assert.equal(cloneFilmFor({ before: unused, after: r5, live: true }), 'activate');
   assert.equal(cloneFilmFor({ before: active, after: ended, live: true }), 'expire');
   assert.equal(cloneFilmFor({ before: unused, after: active, live: false }), null);
   assert.equal(cloneFilmFor({ before: active, after: ended, live: true, eliminated: true }), null);
+  assert.equal(cloneFilmFor({ before: active, after: ended, live: true, matchEnded: true }), null);
   assert.equal(cloneFilmFor({ before: active, after: active, live: true }), null);
   assert.equal(cloneFilmFor({ before: null, after: active, live: true }), null);
   assert.equal(cloneCard({ status: active }), 'active');
