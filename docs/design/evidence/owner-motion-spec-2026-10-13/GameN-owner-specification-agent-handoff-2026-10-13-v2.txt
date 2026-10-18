@@ -1,0 +1,755 @@
+GameN / Mothership — existing agent specification handoff
+13 October 2026
+Repository: Amirkianfar66/GameN only.
+Source basis: abb6839524b6dc3e5225e600f2f067c3fa3f9501
+Specification branch: codex/owner-motion-spec-2026-10-13
+Local source: /Users/amirkianfar/.codex/worktrees/v1-owner-specification/GameN/docs/specifications/owner-motion-2026-10-13/
+The specification files are uncommitted in that worktree; the base commit alone does not contain them. Their exact bytes and SHA-256 hashes are included below. Relative source links in the documents refer to that repository at the stated source basis.
+
+Owner direction: all remaining specification recommendations are approved as a group; routine decision-by-decision questions should stop. Individual approvals and Integration defaults remain distinguished in the decision register. The owner subsequently asked the coordinator to share this package with the existing agents. This permits this read-only coordination/review handoff; it does not authorize implementation, asset generation, executable-rule changes, commits, pushes, merges, deployments or cloud configuration. The package's earlier no-dispatch sentence describes the consolidation pass, not a prohibition on this newly requested handoff.
+
+Continue your existing role/session and preserve all current branches, source assets and uncommitted work. Read the complete six documents below, not only this cover. Read CODEX_START_HERE.md, AGENTS.md, project context, rendering direction, your role brief and applicable rule sources in your existing repository. Do not reset or switch a shared checkout. This review must not silently adopt historical assumptions that conflict with the newer decisions. Return findings in your own session; the coordinator collects them. No outgoing messages or GitHub comments are needed.
+
+BACKEND — existing Codex chat, Prepare V1 backend integration
+Review the full command/state/audience/resolution specification. Identify exact schema/version changes, historical compatibility requirements, timer and receipt work, integration dependencies and concrete implementation slices. Pay particular attention to frozen Blackout positions, admission/consumption, Clone precedence/expiry, medical detention, Captain global uses, death after Rescue and terminal showdown. Preserve unfinished vote-result/declared-Hack work; do not resume implementation through this handoff.
+
+FRONTEND — existing Codex chat, Continue GameN frontend
+Review fixed room/slot coordinates and dark selection; public/private/room event consumers; mobile targets and navigation; movement cutoff; server phase deadlines; current-state recovery and reduced motion. Map reuse versus changes in the current frontend and Claude Designer handoff. Propose the smallest event/anchor contract required from Backend and Designer. Preserve pending PR #126 and existing source-fence/Backend dependencies; adopt no new art or runtime pins in this review.
+
+VISUAL AND MOTION DESIGNER — existing Claude Code session
+You remain the Visual and Motion Design owner. Review the selected scenes against your existing character/room/figure sources and approved comic direction. Return a storyboard/asset production plan (text only), a reuse inventory, normalized room/slot anchor proposal, event/audience/timing requirements and full/reduced-motion treatments. Cover identical Blue/Red Blackout; public Private Chamber entry/exit; private Clone creation; identical room-only defensive block; Hospital Drone/critical/flatline; Captain RELEASE/EJECT/buttons; prisoner/patient clothing; compact phone board/top/bottom bars. Preserve character identity and your existing artwork. Do not recreate the board, port production files, generate new assets, change rules or weaken source fences. Coordinate requirements with the Frontend section above; the coordinator relays reviews.
+
+GAME DESIGN AND BALANCE — existing Claude Code workstream
+Independently review the rules and resolution order for 7-, 8- and 9-player matches, optional original powers off. Return a scenario/acceptance matrix and balance-risk assessment covering same-position double attacks, Clone+Protection, missed/canceled/late Blackout, medical detention and capacity, independent Captain powers, following-round rescue/death, R5 exceptions and showdown. Identify actual contradictions with cited G/Q sections and propose a minimal remedy that preserves settled owner choices. Do not change canon or present unrun simulations/human playtesting as evidence. Do not reopen each routine rule decision.
+
+RESPONSE EXPECTED FROM EACH ROLE
+1. Confirm the six source hashes read, current worktree/branch/HEAD and preserved local changes.
+2. Give severity-ranked concrete findings with document section/Q-ID evidence, or explicitly state no blocking contradiction found.
+3. Give a scoped implementation/production plan and exact cross-role inputs needed; resolve routine technical details by professional judgment.
+4. Distinguish checks actually performed from future acceptance tests. Finish with ready for implementation planning or concrete blockers. No code, artwork or deployment is authorized by this handoff.
+
+REVISION 2 — The original five documents are unchanged. The added motion-storyboards.md restores the complete detailed creative brief: scene beats, props, character gestures, colors, camera direction and timing, plus earlier Insider/vote/Hack/phone requests. Read this appendix as well as the rules. It adds no implementation authorization.
+
+SOURCE DOCUMENTS FOLLOW VERBATIM
+
+
+
+========================================================================
+DOCUMENT: docs/specifications/owner-motion-2026-10-13/README.md
+SHA-256: d434066f630f8c023b88d556f37b2ac80cbc0fda19acb9ba3471ba147ed0dd13
+========================================================================
+# Consolidated owner-approved motion and gameplay specification
+
+Repository: `Amirkianfar66/GameN`. Recorded: 13 October 2026.
+
+**Status: specification decisions consolidated; implementation and deployment not authorized.**
+
+The owner's latest instruction, "approve all recommendations", ends the individual-question workflow for this specification. Previously proposed recommendations are approved as a group. Remaining technical and rule details have been completed as integration defaults under that direction, preserving individually confirmed mechanics. The [decision register](decision-register.md) distinguishes these sources of authority; it does not claim the owner separately answered each new default.
+
+The earlier explicit restriction on code changes, deployments and automatic executable-rule changes still applies. Only this Markdown specification and its integration pointer have changed. No agent is dispatched and no runtime, artwork, cloud resource or historical match is modified.
+
+## Read the completed specification
+
+1. [Game design](game-design.md): the complete mechanics and phone experience.
+2. [Rules contracts and resolution matrix](rules-contracts.md): command authority, exact ordering, audiences, deadlines and future acceptance cases.
+3. [Motion requirements](motion-requirements.md): each scene, stable targets, timing, privacy and reduced motion.
+4. [Decision register and handoff](decision-register.md): individual approvals, blanket-approved recommendations and integration defaults.
+
+No gameplay question in this package is waiting for another owner response. Engineering review, actual implementation verification and balance testing remain work to perform, not missing owner decisions.
+
+## Consequential defaults completed under the blanket approval
+
+- New final-round injuries do not cause immediate Hospital death or an extra round. R4 patients still receive R5 as their full rescue opportunity. Registered Rescue resolves before due death and final victory checks.
+- A detained patient stays in Hospital with detention intact. Healing returns them to Jail. Captain RELEASE/EJECT affect living prisoners physically in Jail, preserving their stated location scope; neither remotely acts on Hospital patients.
+- Clone uses the role Main Action, lasts through the following normal round, and survives imprisonment without a reset. A Round 5 activation covers only remaining normal R5 resolution; every Clone expires before showdown. Special showdown shots bypass it, while existing Protection can block one applicable shot.
+- A shared fifteen-second all-room Blackout runs every normal round, even without requests. Public timing and affected-room lighting do not disclose who requested it. Damage still uses private accepted requests and the frozen position map.
+- Defensive outcomes are delivered only to the affected room's event-time observers. The shared display and outsiders receive ordinary public state, without block banners/counts/sounds.
+- Showdown keeps players in their actual rooms, including Hospital. Its special shots alone ignore room separation, ordinary injury/Jail shooting restrictions and Command Room immunity. Preserve full-batch resolution and existing victory/draw rules.
+- Captain commands reject an empty eligible Jail without spending a use. Accepted effects are immediate; faction disclosure and victory follow the normal end-round checkpoint so already-registered actions still resolve.
+- Chamber entry fits within the existing five-second claim stage. The full sixty-second conversation is physical and private in person; no voice service is introduced. Exit restores the latest authoritative positions.
+
+## Scope and source precedence
+
+Preserve position-memory Blackout, public Hack participation/private content, visible but cause-ambiguous defenses, Phantom Clone, direct Captain commands, full-roster Hospital and the one-round rescue rule with its stated terminal exception. Earlier conflicting presentation advice and V1 assumptions are superseded for the next version only.
+
+The source basis is commit `abb6839524b6dc3e5225e600f2f067c3fa3f9501`, engine `full-game-1.3.0`, ruleset `in-person-v1-capacity-resolution-2026-10-12`, on `codex/owner-motion-spec-2026-10-13`. This is not a claim about current deployment. Historical executable rules, Canvas bytes and existing match/deal/receipt/replay/asset pins remain unchanged.
+
+Supporting sources are the [historical decisions](../../../rules/sources/v2.1-decisions.json), [V1 owner overlay](../../../rules/overlays/in-person-v1-owner-decisions-2026-10-06.json), [consolidated ordering](../../../rules/overlays/consolidated-decisions-2026-09-26.json), [movement](../../../rules/overlays/movement-decision.json), [showdown](../../../rules/overlays/final-showdown-decision.json), and [latest capacity/return decisions](../../../rules/overlays/room-capacity-resolution-owner-decision-2026-10-12.json). They apply where this later specification does not explicitly supersede them.
+
+Earlier inspected handoffs remain source references, not adoption claims: Backend vote-result `bd4d77ccc1c46d90c5beafb770252fdae6f086ae` (PR #125); declared-Hack local snapshot `ba1842ff991dfb53207cbef110940016cc8d533d`; Claude Designer phone kit `ca78625bf9f97629cf7cfd8c40a2f97d7cc078ca` (PR #127); Frontend `bc92e581063cd2c4123a740755579fdfd1522b95` (PR #126).
+
+## Verification boundary
+
+Verified on 13 October 2026 at the recorded base: `npm run check:toolchain`, `npm run check:workspace`, `npm run check:sources` and `git diff --check` all passed using Node `22.21.1` and npm `10.9.4`. A separate documentation audit passed for all six changed Markdown files, 36 local links, all 36 unique Q-IDs and nine G-sections. SHA-256 comparison confirmed all 134 files under `rules/` and `reference/design-canvas/` unchanged; only the existing integration register's introductory pointer changed outside this folder.
+
+Runtime, emulator, device, animation and human balance tests were not run for these documentation-only changes; acceptance of the new mechanics is not claimed. Future implementation must allocate new immutable versions, obtain affected-role technical review and run the acceptance matrix before release. This local specification is not committed, pushed, merged or deployed by this consolidation.
+
+
+========================================================================
+DOCUMENT: docs/specifications/owner-motion-2026-10-13/game-design.md
+SHA-256: 002c5d9bcf5d1bcf2896533c34c5da277b3c0cdbc1dd555cad87816b08b026a2
+========================================================================
+# Game design specification
+
+Status: consolidated under the owner's blanket approval of the remaining recommendations. This is the next specification, not implemented behavior. Authority, source precedence and the implementation boundary are in the [overview](README.md); individual decisions and integration defaults are distinguished in the [decision register](decision-register.md). The [rules contracts](rules-contracts.md) define the resolution schedule.
+
+## G-01 — Blackout Strike
+
+Blue and Red Disabler each retain one Blackout Strike per match. They use identical public artwork, sound and timing. During their own eligible turn, a Disabler privately registers the role Main Action. The request selects no character and has no public activation cue.
+
+After the Jail vote and its full five-second result, every normal round has one shared fifteen-second Blackout window: five seconds lit, then ten seconds dark. The common lighting sequence runs across all rooms even without an eligible request. Its occurrence, room selection and duration therefore do not announce who requested an attack. Private selection controls are available only to eligible requesting Disablers.
+
+- Cancel a pending request if the Jail vote jails its Disabler, without consuming the once-per-match ability. A requester otherwise unable to enter targeting because they are no longer Healthy/free is likewise canceled before admission. This exception concerns untargeted Blackout requests, not other already-targeted attacks.
+- Bind each admitted request to the Disabler's current authoritative room at window opening, after Jail placement. Capture and freeze that room's logical occupancy before the lit preview. No additional movement opportunity is granted.
+- Positions are fixed and numbered: five each in A, B and Jail; one in Command; the starting roster count, seven/eight/nine, in Hospital. Empty positions remain selectable. Existing occupants retain their slots; new entrants take a free slot without shifting others.
+- In darkness the Disabler selects a remembered position, never a player name or character picker. The first valid selection is final. Responsive layouts represent the same logical positions.
+- Empty, own-character or already-Eliminated snapshot positions produce a miss, consume the use and cause no damage. Own positions remain visually neutral and selectable. No replacement, nearest-target correction or self-damage.
+- No accepted selection by the dark deadline is a miss and spends the use, including on disconnect. An accepted choice with a lost acknowledgement remains accepted. Invalid input does not lock a choice, but the deadline still applies.
+- Both Disablers select independently in the same window. One shared room uses one frozen map. Register both attempts before either resolves; retain two attacks when they select the same occupant.
+- The full fifteen seconds always runs. Registered attacks then resolve in the round's stored turn order, role Main Action before ordinary Shot. Each unblocked attack deals one damage. An already-Eliminated target at resolution receives no further effect or replacement, and spent resources remain spent.
+
+Command Room target immunity and existing action restrictions remain applicable. Source-free effects and batched outcome delivery must not reveal the requesting actor, faction or private request order. Public facts can still support ordinary social deduction.
+
+## G-02 — Private Chamber
+
+The two participants, entry, conversation scene and exit are public. Declared-side claims and conversation content are private to the participants. Hack remains available under its existing role-independent eligibility, uses and round limits.
+
+The Chamber is cinematic scenery, not another playable room. It changes no authoritative location, occupancy, target eligibility, movement allowance or immunity.
+
+Keep up to fifteen seconds for declaration, then a full five-second private claim display, then a full sixty-second conversation. A missing declaration shows the existing private no-declaration result. Fit entrance and door closure into the five-second claim stage without obscuring its content. Entrance cannot consume conversation time or wait for client animation acknowledgements. Exit is a nonblocking animation at conversation end; characters return visually to their latest authoritative positions.
+
+V1 uses an in-person private conversation: the pair steps aside or speaks out of others' hearing. The app provides the private claim display and timer, not voice transport, recording or proof that nobody overheard. Gestures are decorative, independent of speech or microphone activity. Bots retain existing automatic declaration/practice behavior; no voice intelligence is implied.
+
+## G-03 — Alien Phantom Clone
+
+- Activate once per match, privately during the Alien's own ordinary turn, only while Healthy and not Jailed. Activation is immediate on server acceptance and uses that turn's role Main Action. Ordinary Shot and Hack remain independent opportunities under their existing rules.
+- Private art shows the clone forming and the real Alien fading. Public appearance, wardrobe, idle movement and identity remain ordinary. There is one player, one occupant and one position.
+- Activation in Round R lasts through the end of Round R+1, including its full attack resolution. Turn reshuffling, late activation, movement, imprisonment, reconnect or retries do not restart or extend it.
+- Last-round exception: unused Clone may activate during Round 5, covering the remaining normal-round effects only. All Clone effects expire at the end of normal Round 5 resolution, before showdown. Earlier match completion also ends the effect; there is no Round 6.
+- During normal rounds it blocks ordinary shots and Blackout, including multiple attacks. The first block does not destroy it.
+- When Clone and Undercover Protection are both active, Clone blocks eligible normal-round attacks first without consuming Protection. Independently valid Protection remains available after Clone expires under its existing activation, duration and grant rules.
+- Later imprisonment leaves the effect active until its original expiry. Later injury does not itself cancel it or grant healing; elimination ends it. Clone cannot prevent Hospital deterioration, Jail voting, Hack, Scan, Rescue or Captain commands.
+- Special showdown shots bypass Clone. Existing Protection still blocks and is consumed by its first applicable valid showdown shot. This preserves the separately approved showdown defense rule.
+
+## G-04 — Room-visible defensive outcomes
+
+For a successful block, every seat occupying the affected target's room at the authoritative event checkpoint is an authorized observer. The affected player is included. Retained Eliminated occupants do not gain additional room access, but retain the same room observation boundary. Later entrants receive no historical events.
+
+Clone and Protection use the identical generic impact, color, sound, particles, timing, reaction and `ATTACK BLOCKED` message. Reveal the affected character, never the defensive cause, grantor, hidden role or private resource counters. Repeated observable blocks may legitimately support deduction.
+
+Outside-room phones, a host without a participating seat and the shared display receive no room-level block event, badge, count or sound. Their board still shows ordinary public health/location facts. Room-specific audio is silent by default for in-person play; private listening must not turn the shared speaker into a disclosure channel. Physical observation of another person's phone cannot be prevented by server filtering.
+
+## G-05 — Medical Drone + Emergency Revival
+
+Every Injured player is in Hospital, including an injured prisoner. Hospital capacity and slot count equal the starting match size. There is no injured overflow into A/B/Jail/Command.
+
+Rescue changes Injured to Healthy; it never revives an Eliminated player. Preserve the selected Hospital alert, drone arrival, patient scan, revival pulse, stabilization and departure. The drone originates from Hospital equipment, never from the Cracker's character or location.
+
+Incarceration is separate from health and location. An injured prisoner remains detained in Hospital; a Jail vote against an Injured player records detention without moving them out. Healing a detained patient returns them to Jail; healing a free patient returns them to their remembered A/B room, falling back to the other room if necessary. Medical detention does not create additional Hospital actions or movement.
+
+Captain buttons operate on prisoners physically in Jail. A detained Hospital patient is therefore unaffected by RELEASE/EJECT while in Hospital and returns to Jail if healed. This preserves the buttons' explicit Jail scope and Hospital-only injury.
+
+## G-06 — Captain RELEASE and EJECT
+
+Only the current Captain may activate these commands during their own ordinary turn while in Command Room. Accepted commands execute immediately. Each has an independent, match-wide once-per-match allowance, surviving Captain replacement. These office commands do not consume the hidden role's Main Action, Shot, Hack or movement.
+
+RELEASE frees all living detained occupants physically in Jail and immediately returns them to A/B. There is no vote or selected-prisoner limit. EJECT eliminates all living prisoners physically in Jail, then clears every Jail occupant position, including retained eliminated bodies, into the off-board elimination record. The final Jail scene is empty. Neither command can be blocked by any defense.
+
+Both require at least one living prisoner physically in Jail. Empty or otherwise invalid commands spend no use. If both buttons are pressed, each is revalidated against the committed result of the preceding command; no stale target set is reused. A new Captain cannot recover a spent allowance.
+
+Public location/elimination changes are immediate. Factions are revealed at the normal end-round reveal checkpoint; exact roles and Code remain match-end information. Victory is evaluated after the full normal end-round resolution, preserving already-registered actions rather than ending on an intermediate EJECT victim.
+
+Available, temporarily unavailable and Used states must remain distinct. Preserve the green release console and protected red EJECT button, source-to-Jail command signal, door/airlock scenes and non-graphic ejection.
+
+## G-07 — One full Hospital round
+
+A Healthy-to-Injured transition creates one injury episode and transfers the player directly to Hospital in the same authoritative step. If injury occurs during Round 2 resolution, Round 3 is the complete rescue opportunity. Valid registered Rescue resolves before automatic death at the end of Round 3.
+
+A second unblocked damage eliminates an Injured player immediately; a later Rescue cannot undo that elimination. Healing clears the episode. A later fresh injury creates a new episode and deadline; no-op Rescue, reconnect, imprisonment or animation cannot reset an existing deadline.
+
+Final-round exception: the match follows its existing five-round ending. A patient admitted after Round 4 must be rescued during Round 5 or dies at its end. A new Round 5/showdown injury receives no accelerated Hospital death and does not force an extra round or a new healing window. Existing registered Rescue still resolves normally. The match may end before that new patient's full rescue opportunity occurs; further damage or an applicable elimination effect can still eliminate them.
+
+Hospital states remain Injured/critical, Rescued/drone recovery, and Eliminated/flatline plus life-support shutdown. Preserve the chosen character's identity, patient clothing and authoritative medical status.
+
+If no winner exists after normal Round 5 resolution, preserve the special showdown. All non-eliminated players, including Injured and Jailed, get the existing special shot. They remain in their actual rooms; a shared cinematic layer replaces physical transfer to Final Zone. Showdown shots may target any other surviving participant regardless of room or Command Room immunity. This exception is limited to showdown. Register all targets before resolving in Round 5 turn order, including shots whose registered shooter is eliminated earlier in that sequence; then check victory, otherwise draw.
+
+## G-08 — Global interaction requirements
+
+Preserve the approved phone-first comic board, room-tag movement, direct board-character targeting, central Pass control and compact navigation. Timers belong in the top bar. Keep the board readable and interactive during nonblocking animation, with reduced-motion variants and safe flashing.
+
+Backend authorizes outcomes and audiences. Client animation never changes health, resources, expiry or victory. Reconnect restores current state and remaining server time without replaying historical cinematics. Assets, character sources and the Canvas snapshot are preserved; this document creates no replacement art.
+
+## G-09 — Movement during player turns
+
+Each eligible player has one voluntary move per round. It can be used during another player's turn or after their own turn, while the round's turn sequence is still open. This includes intervening Hack subphases before the final ordinary turn has ended. Accepted movement applies immediately.
+
+The final ordinary turn ending closes voluntary movement, including during any subsequent final-player Hack. Voting/Blackout never reopen it. Existing room, capacity, health and detention restrictions remain; there is no voluntary Hospital/Jail exit or extra move.
+
+Automatic Jail placement, Hospital admission, healing returns, Captain-loss returns and command transfers remain allowed after turns. They consume no voluntary move. Use authoritative numbered slots and preserve existing occupants' positions.
+
+## Preserved sources and superseded behavior
+
+Keep the historical executable versions and all original source bytes. For the next version only, this specification replaces direct-seat Disabler targeting, secret-only defensive outcomes, hidden Hack participant association, absent Clone/EJECT mechanics, the release ballot, persistent injury, Hospital overflow and the old physical Final Zone transfer. It preserves existing faction composition, ordinary shot resources, Captain/Jail voting, Code rules and victory formulas except for the explicitly documented new consequences and terminal exceptions above.
+
+
+========================================================================
+DOCUMENT: docs/specifications/owner-motion-2026-10-13/rules-contracts.md
+SHA-256: 6090fc0081b26b9426113db72c86d2651026a015a63e72e211aa270d13340f6b
+========================================================================
+# Rules contracts and authoritative resolution
+
+This is the completed conceptual contract for the [game design](game-design.md). It allocates no executable schema, protocol, ruleset, engine or asset version. The [decision register](decision-register.md) records authority for the remaining recommendations and integration defaults.
+
+## Command and state authority
+
+Validate authenticated identity, seat, match/version pins, phase, authoritative eligibility and resources. Clients submit intent, never an effect, audience or clock result. Accepted commands have stable IDs and recoverable receipts. Recover an existing receipt before treating a retry as a new command; conflicting reuse of an ID cannot overwrite its meaning. Unknown outcomes reconcile with the same ID.
+
+New invalid commands do not mutate state or spend resources. Accepted actions consume/reserve resources at the specified checkpoint; an accepted no-effect outcome does not refund them unless explicitly stated. One transaction/journal order serializes immediate commands. End-round competing effects use stored round turn order, not network arrival.
+
+Preserve exact historical creation, deal, replay, receipt and asset pins. Future consumers must adopt a new immutable behavior tuple together; running matches are never silently upgraded. Optional original powers remain disabled in V1.
+
+| Domain | Required authoritative concepts |
+| --- | --- |
+| Positions | Room/slot identity, layout revision, occupancy, starting roster count and frozen Blackout snapshot |
+| Movement | One round use and an explicit final-ordinary-turn cutoff, independent of the mover's own turn |
+| Blackout | Secret registered request, admission/cancellation, bound room, shared deadlines, final selected slot, frozen occupant and terminal outcome |
+| Clone | Lifetime use, Main Action use, activation round, active state and expiry after `min(activation round + 1, 5)` normal resolution |
+| Protection | Existing pending/active state and once-per-recipient grant receipt; no activation/duration changes |
+| Hospital | Health, injury episode, admission round, due death round and current medical slot |
+| Detention | Separate jailed status; Hospital location does not clear it |
+| Captain | Current office holder, own-turn/Command eligibility and two independent match-wide used flags |
+| Hack | Public pair and stage, participant-only claim, authoritative declaration/result/conversation deadlines |
+| Events | Opaque audience-scoped identity, authorized subject/room/checkpoint, bounded lifetime and sanitized outcome |
+
+## Authoritative normal-round schedule
+
+| Step | Processing and boundary |
+| --- | --- |
+| 1 | Apply next-normal-round Protection activation and existing round-start Captain election/turn-order rules. Reset ordinary round quotas; do not reset match-wide uses. |
+| 2 | Run ordinary turns and intervening Hack stages. Apply accepted moves, Scan, Clone and Captain commands at their defined immediate checkpoints. Record queued attacks/role effects and Rescue. Each own turn retains independent Main Action, Shot and Hack opportunities; Captain office commands are separate. |
+| 3 | At the final ordinary turn's end, close voluntary movement. Complete any already-requested final Hack without reopening movement. |
+| 4 | Resolve the Jail vote under existing voter/threshold/tie rules. Apply detention/location changes and immediate Captain loss, then show the full five-second public tally/result. |
+| 5 | Cancel untargeted Blackout requests whose actors are no longer Healthy/free, without consuming their lifetime use. Open the common Blackout window in every normal round, including when no request survives. Bind eligible requesters to their current rooms and freeze occupancy. Five seconds lit, ten dark; no early close. |
+| 6 | Register all final Blackout attempts before resolving any. In recorded turn order, resolve each actor's queued Main Action, then ordinary Shot. Blackout occupies its role Main Action position. Already-immediate Scan/Clone/commands are not applied twice. Rescue and Round 3 Supplier distribution stay deferred to steps 7 and 8 respectively. |
+| 7 | Resolve registered Rescue in stored turn order. An Injured target becomes Healthy; an Eliminated target cannot be revived. An accepted no-heal Rescue still spends its existing use. |
+| 8 | Preserve Round 3 Supplier distribution immediately after Rescue under its existing recipient rules. Then apply due Hospital deaths only to episodes still Injured after Rescue. |
+| 9 | Finalize forced placement, in player-number order where competing returns matter: admit all Injured to Hospital, return healed detained patients to Jail, then place free ordinary returners. Do not route an injured former Captain through A/B. |
+| 10 | Publish permitted faction reveals after the complete resolution; exact role/Code disclosure remains match-end only. Expire Clone effects whose scheduled normal round just completed, then evaluate existing victory conditions after the complete stage. Expiry does not change health or faction power. Flag a needed next-round Captain election only if play continues. |
+| 11 | After normal Round 5, end with the winner or run the existing conditional showdown. Do not create Round 6 or postpone a valid terminal result for a Hospital/Clone deadline. |
+
+The logical working state moves a newly Injured player directly into Hospital in the same damage transition. Step 9 atomically reconciles final positions after all effects; no intermediate projection exposes an Injured player in another room. Health/position changes and authorized event records commit consistently. Rendering can represent the medical transition without becoming state authority.
+
+Queued targeted actions keep the registration-time target and applicable location/Command checks, even if actor/target later moves or the actor becomes Injured, Jailed or Eliminated. Recheck target health and defenses at resolution. The untargeted Blackout admission exception is explicit and separate. Captain EJECT executes immediately but does not discard already-registered actions or trigger victory before the normal full resolution checkpoint.
+
+## Blackout validation and resolution
+
+The shared phase and all-room lighting schedule are fixed independently of private requests. Public payloads carry no requester, faction, request count, source path or actor-correlated completion time. Spectators cannot submit a valid target command for another seat.
+
+Preserve slots for existing occupants. Allocate the lowest free logical slot for an entrant; departures leave holes until a later entrant uses one. Counts are five in A/B/Jail, one in Command and the starting roster count in Hospital, including empty slots. Finalized state has at most one occupant per slot and one slot per seat. Existing eliminated bodies retain their slot/capacity except for EJECT's explicit off-board cleanup.
+
+At window opening, snapshot slot occupancy and each occupant's health. Freeze through the full five-second preview and ten-second dark stage. Client coordinates map to logical slot IDs under a versioned layout; the submitted command identifies the slot and snapshot, not a name, pixel coordinate or replacement seat. Resizing preserves the selected logical position.
+
+Selection is accepted only during the half-open dark interval `[dark start, window end)`. Wrong phase/snapshot/room, unknown slot or malformed input is rejected without locking selection or immediate resource use. The first valid position locks the attempt. A second new selection cannot replace it; exact retries recover the original receipt. If invalid requests leave no accepted choice at the deadline, the ordinary timeout miss still consumes the admitted use.
+
+| Case | Outcome |
+| --- | --- |
+| Pending requester jailed/ineligible before admission | Cancel that request, preserve lifetime use, no later resurrection or public cancellation cue |
+| Empty, own or already-Eliminated snapshot occupant | Accepted final miss, no damage, consume use, no replacement |
+| Admitted request without accepted selection at deadline | Miss, consume use once; no random target; timely accepted-but-unacknowledged choice takes precedence |
+| Both Disablers choose the same living snapshot occupant | Keep both attack records and resolve each independently in stored turn order |
+| Target alive in snapshot, eliminated by an earlier effect | Later attack has no further effect or replacement; its use remains spent |
+| Normal eligible attack, active Clone | Block; keep Clone active and preserve Protection |
+| Normal eligible attack, no Clone, active Protection | Block the first applicable attack and consume that Protection |
+| No applicable defense | Healthy becomes Injured/Hospital; Injured becomes Eliminated |
+
+For two valid attacks on a Healthy target: no defense yields injury then elimination before Rescue; Protection alone blocks one and the next injures; Clone blocks both without consuming Protection. An own-position miss is evaluated per requester and never deletes the other Disabler's attack on that occupant.
+
+Position history cannot be made unknowable to a player who memorizes, records or inspects it. Do not claim stronger anti-cheat guarantees than the intended memory interaction.
+
+## Clone and Protection
+
+Clone uses one role Main Action and its one lifetime use on acceptance, Healthy/free and on the Alien's own ordinary turn. It activates immediately. Preserve independent ordinary Shot/Hack eligibility. Injury or detention later does not cancel it; elimination or match completion ends it. No event, move, heal, reconnect or duplicate command restarts its original expiry.
+
+Rounds 1–4 expire after the following normal round's complete resolution. Round 5 activation is the explicit terminal exception: protect during its remaining normal effects, expire at normal Round 5 completion and provide no showdown protection. All five-round matches use this boundary; it is not a client timeout.
+
+Clone blocks only normal ordinary shots and Blackout, including multiple attacks. It cannot block voting, Hack, Scan, Rescue, Hospital death or Captain powers. Special showdown shots bypass Clone and consume applicable Protection normally. Protection's grant limits, next-normal-round activation and independent duration rules remain unchanged; a pending grant is never activated early to manufacture a showdown defense.
+
+## Hospital, detention and forced placement
+
+A new injury episode records admission during normal round R and automatic death at the end of R+1 after Rescue. Damage does not create duplicate episodes; successful healing clears the episode, and a later new injury creates a fresh one. An existing injury cannot be prolonged by failed/no-op Rescue or by detention.
+
+A second unblocked damage eliminates before Rescue. Automatic death and EJECT bypass both defenses. Medical recovery and flatline events never identify the Cracker. R4 admissions are due after R5 Rescue; new R5/showdown injuries are not automatically killed merely because the game ends. There is no new rescue window after showdown and no guaranteed extra round once the match terminates.
+
+Detained Injured players remain in Hospital and retain detention. A Jail vote against an Injured player changes detention without a room transfer. They cannot start role actions or move merely because Hospital replaced Jail as their physical location. Healing a detained patient returns them to Jail; Captain commands affect them only once physically there. No remote release or medical-patient ejection is introduced.
+
+Healthy/free healed players and released prisoners return to their last actually occupied A/B room if space permits, otherwise the other room. Process competing returners by ascending player number and remember the room actually reached. These forced transfers spend no voluntary move. Hospital holds the complete roster, so no injured overflow exists. Existing bodies count toward their physical room capacity.
+
+With at most nine unique seats and ten combined A/B places, a legal off-room returner always has an ordinary-room place. With at most one new detention per each of five normal rounds, physical Jail occupants plus detained patients awaiting return cannot exhaust more than five Jail places. An impossible overcapacity state is an invariant failure, not permission to place an Injured player outside Hospital or leave a successfully released player detained.
+
+## Captain commands
+
+Validate current Captain identity, their own ordinary turn, Command Room occupancy, unused relevant allowance and at least one living detained occupant physically in Jail. Empty/invalid attempts change neither state nor allowance. Each accepted command atomically captures and affects the complete current eligible set.
+
+RELEASE clears detention for that set and immediately places them in A/B using the return rule. EJECT eliminates that set, removes every physical Jail occupant from room/slot occupancy and retains an off-board elimination record, including historical corpses. Medical detainees in Hospital are outside both target sets. No defense changes either result.
+
+Each allowance is independent and shared across all Captains in the match. Commands are separate from role-action resources. Revalidate after a preceding command or move; an EJECT following RELEASE normally finds no eligible target and spends no use. Duplicate delivery recovers the original receipt; competing new commands observe committed state and cannot spend a shared use twice. Losing the title or leaving Command before a new command is accepted makes it invalid, without undoing an earlier accepted result.
+
+Publish neutral status/location consequences immediately. Keep faction reveal at the normal end-round checkpoint and victory after all registered effects; exact roles and Code remain private until match end.
+
+## Audiences and delivery
+
+| Information | Authorized recipients and exclusions |
+| --- | --- |
+| Public board health/location/Captain facts and aggregate vote result | Existing public audience, without appended hidden causes |
+| Fixed all-room Blackout phase/lighting | Everyone and shared display every normal round, independent of requests; private selection/receipt only to requester |
+| Successful defensive block and subject | Seats occupying the affected target's room at its logical resolution checkpoint; no cause, grantor, hidden role or resource counter |
+| Clone activation/use/expiry | Alien's private view only; no role-specific public asset fetch or sound |
+| Protection grant/activation/consumption | Existing authorized Undercover-private information; its observable generic block does not reveal grantor |
+| Hack participant pair and cinematic stage | Everyone and shared display |
+| Hack claim, declared side and conversation information | The two participants only; not host/display/unrelated seats |
+| Medical recovery/death and Captain command outcomes | Public authorized state/outcome; no Cracker source cue or early faction/role disclosure |
+
+Room recipient membership is frozen for the particular event, from authoritative physical location immediately before applying that effect. It includes the subject and any retained eliminated seat still occupying that room; it is not based on which panel a viewer opens. A later entrant gains no historical room events. A host with a player seat has only that seat's player permissions plus ordinary host controls, never every private view.
+
+Buffer outcome publication through the complete resolution checkpoint. Public/room animation order and timestamps must not encode the hidden actor's resolution index or request arrival. Use audience-scoped opaque event identities and a presentation order independent of hidden actors. Deliver only sanitized payloads to authorized recipients, not globally distributed facts hidden by CSS. No global block badge, count or sound goes to the shared display.
+
+Reconnect supplies current authorized state, remaining deadlines and private accepted receipts; it does not replay historical cinematics. Event delivery is bounded and deduplicated. Existing public state history, if retained, cannot be expanded into hidden room-event history. Room-effect audio defaults to silent; physical eavesdropping or shoulder-surfing remains outside technical confidentiality guarantees.
+
+## Hack timing and final showdown
+
+Hack declaration lasts at most fifteen seconds, result lasts a full five, conversation a full sixty. Entry fits inside the result stage and does not obscure the private claim. Server deadlines advance independently of animation completion. Exit at conversation end is nonblocking and returns art to latest authoritative positions; it creates no movement action or extra timer phase. Disconnect follows existing non-pausing V1 recovery. In-person speech is delivered physically, with no new voice/chat/recording service.
+
+After normal R5 Rescue, due Hospital deaths, reveals, Clone expiry and victory evaluation, run showdown only if no winner exists. Keep authoritative locations and detention, including Injured in Hospital. A cinematic shared showdown is not a sixth gameplay room. Every non-eliminated participant gets the existing separate special shot; only these shots ignore room separation, ordinary injury/Jail shooting restrictions and Command Room immunity.
+
+All targets are registered before any special shot resolves; keep the existing sixty-second server window, missing-shot behavior and Round 5 turn-order resolution. A validly registered shot survives later shooter elimination. Apply current defenses except Clone, then one damage; maintain Hospital-only injury. Resolve the whole batch before reveals/final victory, otherwise draw. There are no new role actions, Rescue window or Hospital aging tick after that exchange.
+
+## Required implementation evidence
+
+These are acceptance requirements for later code, not executed game tests:
+
+- 7/8/9-player coverage of fixed slots, roster-sized Hospital, voluntary movement until the last ordinary turn, and no overflow or duplicate occupant.
+- Blackout no-request/canceled/single/dual requests share the same public window and lighting; five lit plus ten dark, fixed snapshot, no early close or reconnect preview reset.
+- Empty/self/dead/timeout misses consume once; invalid inputs do not lock; accepted-but-unacknowledged choices survive retry. Two legitimate attacks are retained separately.
+- Turn-order resolution, actor death after registration, changed target location, repeated damage, each defense combination and no resurrection by a later Rescue.
+- Clone action cost, Healthy/free initial eligibility, later imprisonment, original R+1 expiry, R5 exception, terminal cleanup and showdown bypass. Protection preservation for normal blocks and consumption for showdown blocks.
+- Hospital R2/R3 rescue/death, repeated injury episodes, R4/R5 due deaths, fresh R5/showdown injury, detention without a medical transfer, and healthy prisoner return to Jail.
+- RELEASE/EJECT complete physical-Jail target sets, medical-detainee exclusion, independent global allowances, empty-Jail rejection, title/location races, immediate placement and deferred full-stage victory.
+- Room audiences including a moved/injured recipient, outsiders/host/display exclusion, sanitized batched ordering, no late-entry historical access and no cinematic replay on reconnect.
+- Public Hack pair with private claims, exact declaration/result/conversation timing, entry not reducing speech time, late movement respected and physical V1 conversation limits.
+- A complete five-round game and conditional showdown preserve actual Hospital locations, legal special-shot targets, full-batch victory checks and a possible draw.
+- Independent actor authorization, receipt replay, transaction conflicts, deadline duplication and immutable-version compatibility checks. Real phone/reduced-motion/device and human balance evidence remain separate gates.
+
+
+========================================================================
+DOCUMENT: docs/specifications/owner-motion-2026-10-13/motion-requirements.md
+SHA-256: 976eeee03c51a704e42fdfd8cb2d8384aaa82567b2e5190eb3a0af87cd381bba
+========================================================================
+# Motion graphics and phone interaction requirements
+
+Use the [consolidated game design](game-design.md) and [authoritative contracts](rules-contracts.md). Preserve the existing Claude character/room sources and approved 2D/2.5D Comic Noir, Retro Sci-Fi, thick outlines, halftone and graphic-novel framing. This is a specification, not asset creation or production adoption.
+
+## Scene requirements
+
+| Scene | Required presentation | Disclosure and timing |
+| --- | --- | --- |
+| Blackout Strike | Five-second lit room memory preview; ten-second darkness with stable numbered positions; source-free shot/impact and light restoration | One common sequence across every room each normal round, even without requests. Identical Blue/Red effects. No actor-linked cancellation, muzzle direction, room-request highlight or early ending. |
+| Private Chamber | Public pair highlight, entrance, sliding door, subtle two-chair conversation and exit | Entry fits within the five-second claim stage; content private, full sixty seconds speech. Chamber is a visual copy, not a new room. |
+| Phantom Clone | Private scan, identical duplicate, real-character fade and restoration | Alien-private creation/expiry; normal public appearance. Match the authoritative R+1 expiry and R5 terminal exception. Imprisonment never triggers destruction or reactivation. |
+| Shared defense | Impact, energy flash, block and recovery with generic ATTACK BLOCKED | Exact shared Clone/Protection timing, color, particles, sound and reaction. Only authorized room viewers receive the event; shared display gets no block badge/count/sound. |
+| Medical Drone recovery | Hospital alert, drone arrival, scan, revival pulse, stabilization, patient recovery and drone exit | Hospital origin, no Cracker source cue. Depict Injured-to-Healthy only; never revive Eliminated. |
+| Hospital critical state | Patient clothing, medical bed, unstable monitor, subtle breathing and rescue-round indicator | All Injured are in Hospital. Medical detention uses a neutral restraint/status marker without substituting a healthy prisoner outfit. |
+| Hospital death | Slowing monitor, flatline, quiet alarm, equipment shutdown and final stillness | Only after server-authorized elimination. No frontend countdown can cause death or truncate a new final-round injury's lifetime. |
+| Captain RELEASE | Green console press, signal, Jail unlock and prisoners leaving | Immediate physical-Jail release. Medical detainees stay in Hospital; no remote unlock is implied. |
+| Captain EJECT | Protected red button, warning, Jail locks, airlock, non-graphic ejection, exterior silhouettes and closure | Immediate authorized elimination. Jail finishes empty; all removed occupants use off-board memorial state. No defensive block. |
+| Command buttons | Available, temporarily unavailable, accepted activation and Used | Two independent match-wide uses, persistent across Captain replacement. No usable button outside own turn/Command Room or without living prisoners in Jail. |
+| Showdown | Shared cinematic emphasis over the existing board, direct participant targeting and authorized results | Authoritative rooms stay unchanged, especially Hospital. Clone never blocks special shots; Protection may use its common generic effect for authorized room viewers. |
+
+## Stable phone board
+
+Keep the approved compact phone flow: character-selection matrix, role card reveal, top-bar timer/state, board, direct room-tag movement, on-board character targeting, central Pass and bottom navigation. Avoid explanatory paragraphs and scrolling on the main game screen. Actions remain on the board rather than opening replacement player lists.
+
+Logical slots are fixed: A/B/Jail five, Command one, Hospital seven/eight/nine by starting roster. Empty slots remain present. Existing occupants keep their slot; arrivals use free slots without shifting everybody. Designer supplies normalized anchors and Frontend maps them to the same server slot IDs across viewports. Idle and reaction motion stays inside stable interactive regions.
+
+Blackout targeting shows neutral position numbers in darkness, including the attacker's own selectable slot. No labels, accessibility shortcut, warning or highlight identify the remembered occupant. Timeouts/empty/self/dead choices never animate invented injury or a replacement target. Two hits follow authorized outcomes; do not merge them into one invented damage event.
+
+Movement is available until the final ordinary turn ends, including intervening Hack stages beforehand. Show accepted moves immediately. Automatic Jail/Hospital/command transfers remain possible afterward. The end of a voluntary movement window must not suppress authoritative forced placement.
+
+Chosen character identity remains recognizable in every state. Healthy Jail occupants wear the prisoner design; Hospital patients wear the patient design, with a detention marker when applicable. Clone is one ordinary-looking occupant, including during transfers. No public costume, idle cadence, fetch, sound or camera focus exposes its hidden role.
+
+## Timing, privacy and accessibility
+
+All scene stages follow server state. Never change health, resources, deadlines, turn or victory from an animation callback. Use opening/accent/settled frames for authorized transitions; interrupted playback lands on the latest state. A completed server result cannot wait for every client's animation acknowledgement.
+
+Blackout runs the full five-plus-ten seconds, including no-request rounds. Reconnect during darkness preserves darkness and remaining time rather than replaying the preview. Resolution effects are batched and presented independently of hidden actor order. A shared screen uses neutral lighting and public state only; phone room effects cannot be inferred from a global sound or badge.
+
+Hack entry runs inside its claim stage without obscuring the five-second private result. Conversation gets all sixty seconds. Exit is nonblocking when that timer ends and uses current authoritative positions, including valid moves made meanwhile. Physical conversation privacy is an in-person procedure; avoid microphone indicators, voice-reactive gestures or any implication that the app provides remote audio.
+
+The earlier 5–6-second Rescue and 6–8-second EJECT values are storyboard targets, not extra engine phases. Keep room labels, targets, timer and navigation usable while cinematics play. Do not hide controls behind a full-screen film or take decision time away through blocking transitions.
+
+Reduced motion uses static states and short fades instead of shake, camera travel or spatial flips. Control flashes and evaluate the final sequences for accessibility; avoid rapid red/full-room flashes. Sound and color are not the only information channels. Room-specific audio defaults to silent in shared physical play.
+
+Remove private content on blur, hidden page, stale phase or lost authorization. Keep the public Hack pair public. Reconnect displays current permitted state without replaying old room events, conversations, attacks or deaths. Private receipts can recover accepted commands without creating historical cinematics.
+
+## Handoff
+
+Claude Designer owns storyboards, editable artwork and motion assets; Codex Frontend owns production interaction/layout/director behavior; Backend owns authoritative events; Integration owns reviewed contract versions, source hashes and pins. Preserve the distinction between PR #127 source fixes, PR #116 setup art and actual production adoption.
+
+Each scene handoff includes editable source/hash, anchors, event inputs, audience, timing/easing, semantic feedback, full/reduced-motion variants, interruption behavior and phone previews. Affected roles review the completed specification together during the separately authorized implementation phase. No new asset work, agent dispatch or deployment is performed by this document.
+
+
+========================================================================
+DOCUMENT: docs/specifications/owner-motion-2026-10-13/decision-register.md
+SHA-256: ecbe6dd4fef8cb0a8534811a605615aaf01a1f312af7e9c2fa498c9815121fa4
+========================================================================
+# Decision register and review handoff
+
+Status: all specification questions in this package are resolved. The owner instructed "approve all recommendations" and asked to end the question-by-question process. Existing recommendations are accepted together; remaining details below are explicitly identified as Integration defaults completed under that direction. This does not claim the owner individually answered those defaults.
+
+The original owner instructions and individual follow-ups remain authoritative. No code changes, asset production, executable-rule edits, agent dispatch, cloud changes or deployment are authorized by this specification approval alone. Read the [complete game design](game-design.md), [rules contracts](rules-contracts.md) and [motion requirements](motion-requirements.md).
+
+## Individually confirmed answers
+
+| ID | Confirmed owner answer |
+| --- | --- |
+| Q-B01 | Shared end-of-round Blackout targeting window. Do not substitute private turn-time targeting or direct character selection |
+| Q-B02a | Owner confirmed on 13 October 2026: Blackout targeting follows the Jail vote and its five-second result, before registered attacks and Rescue resolve. Blackout outcomes therefore cannot affect that same round's already-completed Jail vote |
+| Q-B02b | Owner confirmed on 13 October 2026: if the Jail vote jails a Disabler before Blackout position selection, cancel that round's pending Blackout without consuming the ability. Other already-targeted registered attacks retain their separate resolution rule |
+| Q-B02c | Owner confirmed on 13 October 2026: bind each still-eligible Disabler's pending Blackout to their authoritative current room when the shared Blackout window opens. An earlier request room does not bind the attack; ordinary movement limits are unchanged |
+| Q-B02d | The owner's fixed-position approval together with Q-B02a/Q-B02c confirms the window-opening occupancy snapshot: after the Jail vote/result, capture the logical positions before the lit preview and preserve them through the full preview and dark targeting. Voluntary movement and Captain commands are closed; injury-related transfers follow later resolution |
+| Q-B03a | Owner confirmed: five seconds with lights on followed by ten seconds in darkness, with fixed positions and the full fifteen-second window. Early selection does not shorten either stage or the shared window |
+| Q-B03b | Owner confirmed: if an eligible Disabler enters Blackout and no position selection is accepted before the dark-targeting deadline, count it as a miss, cause no damage and consume the once-per-match ability. Do not choose a random target. This includes a disconnect with no accepted selection while the shared window continues. Q-B02b still preserves the ability when the Jail vote cancels the request before the window |
+| Q-B03c | Owner confirmed: both eligible Disablers select privately and independently in one shared fifteen-second window, with five seconds lit and ten seconds dark. Each targets their own bound room; if they share a room, use the same frozen positions and one blackout sequence. Register both selections before either attack resolves and retain both attacks if they select the same occupied position. Damage order and defenses are completed in the consolidated rules contracts |
+| Q-B03d | Owner confirmed: selecting the position occupied by the Disabler's own character counts as a miss, consumes the ability and causes no self-damage. No replacement selection or retry; the own position remains selectable and visually neutral in darkness without a special warning. Apply this independently to each requester when both choose the same position |
+| Q-B03e | Owner confirmed: selecting a position occupied by a player already Eliminated when the Blackout snapshot is captured is a miss, consumes the ability and causes no further damage, with no replacement target. Corpse placement and later resolution ordering are completed under Q-B03/Q-P02 |
+| Q-B03f | Owner approved fixed numbered target positions matching room capacity: five each in Room A, Room B and Jail; one in Command Room; and seven, eight or nine in Hospital according to the starting player count. Counts remain fixed for the match, including selectable empty positions. This defines the position layout and grants no additional ability or movement eligibility |
+| Q-C01 | Owner confirmed: during normal rounds, active Phantom Clone blocks ordinary shots and Blackout Strike, including multiple attacks while active; duration follows the later Q-C02c clarification. Jail votes, Hack, Scan, Rescue and automatic Hospital death remain unaffected; Captain RELEASE/EJECT remain unblockable. Q-C01b subsequently confirms that special showdown shots bypass Clone |
+| Q-C01b | Owner approved: final-showdown special shots bypass Phantom Clone. Existing Undercover Protection still blocks its first applicable valid showdown shot and is consumed as usual. Clone-first priority therefore does not apply to these special shots. Q-H03 subsequently completes the Round 5 activation/expiry exception |
+| Q-C02a | Owner confirmed: when Phantom Clone and Undercover Protection are both active, Clone blocks eligible ordinary shots and Blackout first without consuming Protection, including repeated attacks while active; duration follows the later Q-C02c clarification. After Clone expires, any Protection still valid under its own rules remains available. Protection activation, duration and grant limits are unchanged; the shared room-visible effect identifies neither defense cause nor grantor |
+| Q-C02b | Owner accepted activation during the Alien's own ordinary turn, with immediate private effect on server acceptance. No new activation during another player's turn, voting or Blackout. Q-C02e confirms Healthy/not-Jailed activation eligibility; Q-C02 completes action cost |
+| Q-C02c | Owner clarified: the activation stays on the Alien for one complete round, revising the earlier activation-round-only duration. Q-C02d subsequently confirms the precise boundary at the end of the following numbered round, including its attack resolution |
+| Q-C02d | Owner confirmed: keep Clone active from activation until the end of the following numbered normal round, including that round's attack resolution. Example: activate in Round 2, cover the remainder of Round 2 and all of Round 3, and expire after Round 3 resolution. This covers both rounds' attack resolutions regardless of shuffled turn order or late activation. Q-H03 completes Round 5 activation/terminal scheduling; Q-C01b confirms special showdown shots bypass Clone. No Round 6 or prolongation of a finished match is authorized |
+| Q-C02e | Owner confirmed: Clone can be activated only while the Alien is Healthy and not Jailed, evaluated when activation is accepted. Injured, Jailed and Eliminated players cannot newly activate it. This is an initial activation restriction; Q-C02f separately confirms persistence after later imprisonment. Q-C02 completes later health changes and the Main Action cost |
+| Q-C02f | Owner confirmed: an already-active Clone stays active after imprisonment until its original expiry, without cancellation, suspension, restart or extension. The Alien still enters Jail and follows its restrictions; eligible ordinary shots and Blackout remain blockable. Captain RELEASE/EJECT remain unblockable, and imprisonment does not refresh the once-per-match use. Initial Healthy/not-Jailed activation eligibility is unchanged |
+| Q-H01 | Hospital capacity equals the full match player count; replace the old five-person Hospital cap |
+| Q-M01 | Owner clarification: each eligible player has one voluntary movement per round, usable during the player-turn stage until the final player's turn ends, including during another player's turn or after their own turn. Accepted movement applies during that stage. The cutoff is the final turn ending, not voting beginning; no extra movement or changed destination eligibility is granted |
+| Q-M02 | Owner confirmed: automatic Jail and Hospital transfers may happen after player turns. Only voluntary movement closes when the final player's turn ends. Apply Jail placement with the post-turn vote before Blackout, and Hospital transfers with injury resolution afterward; do not delay those consequences until the next turn stage |
+| Q-P01a | Owner confirmed: RELEASE and EJECT are available only during the current Captain's own turn while they are in Command Room, with immediate execution. Neither command is available during other players' turns, voting or Blackout. Their independent once-per-match allowances are unchanged |
+
+## Recommendations closed under blanket approval
+
+| ID | Authority | Final specification resolution |
+| --- | --- | --- |
+| Q-B03 | Integration default under blanket approval | First valid dark-stage selection is final; malformed/stale/wrong-room inputs do not lock it. No accepted choice by the deadline is a consuming miss. All admitted attempts use frozen occupants; later-eliminated targets take no more damage. Resolve Main Action then Shot in stored turn order, with Clone then Protection then damage. Fixed public timing runs even without requests. |
+| Q-C02 | Integration default under blanket approval | Clone spends the role Main Action and lifetime use on acceptance, independently of Shot/Hack. Later injury does not itself cancel it; elimination and match completion end it. No heal, transfer, retry or reconnect resets it. Optional powers remain disabled. |
+| Q-D01 | Prior recommendation accepted by blanket approval | Room-event recipients are frozen at the authoritative effect checkpoint, including the subject and seats physically in that room. Later entrants get no historical events; reconnect shows current state, not old cinematics. |
+| Q-D02 | Prior audience recommendation accepted; lighting detail completed by Integration | Shared display/outside-room clients get ordinary public state, never room block events, badges/counts or sounds. Every normal round has the same all-room 5+10-second lighting window regardless of requests. Sanitize/batch events to avoid actor-order signals; room sound defaults to silent. |
+| Q-H02 | Integration default preserving explicit location rules | Injured prisoners remain detained in Hospital. A Jail vote changes detention without moving a patient. Healing returns a detained patient to Jail. Captain buttons affect prisoners physically in Jail, not medical detainees still in Hospital. |
+| Q-H03 | Integration default under blanket approval | Allow R5 Clone activation as a terminal exception, through normal R5 resolution only; no Clone in showdown. Keep showdown participants in actual rooms/Hospital; special shots alone bypass location, ordinary injury/Jail shooting restrictions and Command immunity. Preserve sixty-second registration, Round 5 shot order, all registered shots and existing victory/draw checks. |
+| Q-H03a | Prior recommendation accepted by blanket approval | Finish the existing five-round game. R4 admissions must be rescued in R5 or die at its end. New R5/showdown injuries receive no accelerated Hospital death and no additional rescue round/window. Resolve existing Rescue before due death and final victory; other damage can still eliminate. |
+| Q-H04 | Integration default following existing damage rules | Transfer directly to Hospital on injury. One episode expires after the complete following round; heal clears it, a new injury creates a new one. Second unblocked damage eliminates before Rescue; Rescue never revives Eliminated. Apply due death after valid Rescue. |
+| Q-HK01 | Prior recommendation accepted; timing completed by Integration | Put entrance/door closure inside the five-second claim stage without hiding the claim. Preserve the full sixty-second conversation and server deadlines; exit is nonblocking, not an extra timed phase. |
+| Q-HK02 | Prior recommendation accepted by blanket approval | Cinematic return uses latest authoritative location/slot. Preserve the former position only when it is still current; no additional movement restriction. |
+| Q-HK03 | Integration default preserving in-person V1 scope | Participants converse physically out of others' hearing. The app supplies the private result/timer and public pair animation, without voice/chat/recording infrastructure or confidentiality guarantees against physical eavesdropping. |
+| Q-P01 | Integration default under blanket approval | Commands are independent office actions in the already-confirmed own-turn/Command window. Empty/invalid Jail costs nothing; accepted commands atomically spend their own global allowance. Revalidate races and subsequent commands against committed Captain/location/target state; receipt retries never spend twice. |
+| Q-P02 | Integration default preserving Jail scope and registered effects | Release all living physical-Jail prisoners immediately to remembered A/B or fallback in player-number order. EJECT eliminates them and clears all Jail slots into off-board history. Medical detainees are excluded. Public status is immediate; faction reveals and victory wait for the normal full end-round checkpoint. |
+
+## Delivery responsibilities
+
+| Role/current runner | Next work after separate implementation authorization |
+| --- | --- |
+| Coordinating Codex reviewer / Integration | Maintain the agreed specification, allocate new immutable contract/ruleset/engine/art pins, coordinate adoption and review actual evidence. |
+| Backend, Codex "Prepare V1 backend integration" | Implement authoritative commands, slots, resolution, deadlines, receipt recovery and sanitized audience projections; preserve historical behavior tuples. |
+| Frontend, Codex "Continue GameN frontend" | Implement the board interactions, phase/receipt consumers, private/room effects and mobile/reduced-motion behavior against reviewed contracts. |
+| Visual/Motion Designer, existing Claude Code session | Create the scene assets/storyboards in established sources and coordinate their event/anchor contract with Frontend. |
+| Game Design/Balance, existing workstream | Independently audit 7/8/9-player scenarios, repeated attacks, Captain effects, medical detention, terminal exceptions and information disclosure. Report actual simulated/human evidence separately. |
+
+There is no further owner-decision queue for this package. Runtime schema details and art timing within the stated constraints are engineering work, not reasons to reopen each accepted rule. Any genuinely new change to the agreed mechanics must be reported as a new proposal; balance testing does not silently rewrite canon.
+
+## Implementation and verification gates
+
+1. Preserve the approved mechanics and audit this complete matrix across affected roles. A review may identify a contradiction or implementation defect without reopening settled preferences.
+2. Begin code/assets only under separate implementation authorization. Use scoped work items and immutable versions; do not modify existing matches or source snapshots.
+3. Run the required contract, engine, adapter, consumer, emulator and deterministic replay checks, then real-phone/motion and balance validation appropriate to each deliverable.
+4. A release requires actual integrated evidence and deployment authorization. This documentation pass neither dispatches agents nor claims those tests passed.
+
+Documentation checks verify unique G/Q references, local links, whitespace, preserved rule/Canvas hashes and the documentation-only change set. The coordinator reports actual results in the final response. No gameplay implementation or human balance result is asserted by closing the decision register.
+
+
+========================================================================
+DOCUMENT: docs/specifications/owner-motion-2026-10-13/motion-storyboards.md
+SHA-256: 1642ed84153e83443367bfd29bfdda3328786030199f7dd6804a14025f590d56
+========================================================================
+# Detailed motion concepts and storyboard brief
+
+This appendix restores the scene-level detail from the owner's twelve-part Motion Graphics and Animation Design Decisions and the earlier approved phone/Insider requests. The first handoff summarized those concepts; this appendix is the detailed creative reference for the existing Claude Designer and Codex Frontend.
+
+Read it with [game design](game-design.md), [authoritative contracts](rules-contracts.md), [motion requirements](motion-requirements.md) and the [decision register](decision-register.md). The later owner decisions control mechanics and disclosure: Clone lasts through the following normal round with the R5 exception; Blackout uses the common post-Jail 5+10-second window; defensive impacts are room-visible; Captain commands are direct; all Injured are in Hospital. Original wording suggesting shorter Clone duration or physical Chamber relocation is superseded. This appendix changes no rule, version or source asset. Review and production planning are authorized; implementation and asset generation remain on hold.
+
+## 1. Blue Disabler / Red Disabler — Blackout Strike
+
+**Intent:** a tense memory challenge in the spaceship's darkened rooms. Preserve position targeting; do not substitute selection of a named character.
+
+Storyboard beats:
+
+1. Lights begin flickering and the electrical system shows a brief malfunction.
+2. Electrical sparks and power-failure cues lead into the dark room overlay.
+3. The room becomes fully dark. Fixed target positions remain available as neutral numbered positions without occupant names, portraits or identifying highlights.
+4. The requesting Disabler selects the remembered position during the dark interval.
+5. An authorized shot is represented by a source-free gunshot flash or spark and comic impact lines. Do not show a muzzle, beam origin, gaze, camera focus or directional trail that identifies the attacker.
+6. Lighting returns and the authoritative result becomes readable.
+
+Fit the cinematic accents around the full five-second lit preview and ten-second dark selection; they must not reduce either interval. Both Disablers share the same window and frozen map where applicable. Blue and Red use the same colors, flashes, timing, sounds and public feedback. Every room uses the common lighting schedule even when no eligible request exists; never imply that a lighting transition alone proves a shot occurred. Only authorized outcomes may show damage or a block. Misses, including self/dead/empty/timeout positions, never invent injury or a replacement victim.
+
+Electrical flicker and flashes need safe, reduced-motion alternatives. Keep slot coordinates and hit areas fixed even when decorative layers shake. Keep private selection feedback private and avoid public timing tied to one requester's action. See G-01 and Q-B01–Q-B03f for the full rules.
+
+## 2. Private Hack — Private Chamber
+
+**Intent:** a secretive, cinematic conversation whose two participants are intentionally public while its contents remain private.
+
+Storyboard beats:
+
+1. Subtly highlight both participating characters.
+2. Show a private communication icon without suggesting that an app microphone or recording is active.
+3. Their cinematic figures move toward the Private Chamber.
+4. The automatic sliding door opens; both enter.
+5. The door closes behind them.
+6. Subtle conversation loops accompany the complete sixty-second private discussion.
+7. At the end, the door opens and both return visually to their latest authoritative board positions.
+
+Chamber environment: a small futuristic room with two chairs facing each other, a small central table, a single overhead light, dark metallic walls, an automatic sliding door and minimal futuristic interface details. Use dark navy, purple, yellow and subtle red accents. Frame the transition with dynamic comic-book panels, thick black borders and dramatic lighting.
+
+Character loops: small head movements, hand gestures, leaning forward/backward, listening poses, blinking and slight posture changes. These loops are decorative and independent of speech, microphone activity, hidden decisions and who is actually speaking. Avoid gestures that communicate the private claim to observers.
+
+All players may see the entrance/exit and the public pair. Only the participants receive the declared-side result and conversation information. Preserve up to fifteen seconds for declaration, five seconds for its private result, then a full sixty seconds for conversation. Entrance fits inside the result stage without obscuring the claim; it consumes no conversation time. Exit is nonblocking. The Chamber adds no room, occupant, capacity cost, targeting change or movement restriction. V1 conversation happens physically in person, not through a new audio service. See G-02 and Q-HK01–Q-HK03.
+
+## 3. Alien — Phantom Clone
+
+**Intent:** a visually perfect stand-in conceals the Alien's defense until an observable interaction occurs.
+
+Private activation beats:
+
+1. Holographic scanning lines surround the character.
+2. A duplicate silhouette forms.
+3. The duplicate resolves into the same chosen character.
+4. The real character gradually becomes invisible.
+5. The ordinary-looking clone occupies the existing position.
+
+Public appearance must preserve the chosen character design, colors, clothing, position, idle animations and movement behavior. It must not create a second player, slot or room occupant. Do not expose the duplicate formation, invisibility, expiry, special costume, asset loading or role-specific sound to public viewers. At expiry, private art may reverse the transformation while the public figure stays visually ordinary.
+
+The later duration decision controls: once per match, immediate private activation on the Alien's eligible own turn, active through the end of the following normal round including attack resolution; Round 5 has its documented terminal exception. Multiple eligible normal attacks may be blocked without destroying the clone. Imprisonment does not restart or remove it. The clone does not block every possible action, Captain commands, automatic death or special showdown shots. Use exactly the shared defense treatment below for authorized public impacts. See G-03 and Q-C01–Q-C02f.
+
+## 4. Undercover Protection and Clone — shared defensive impact
+
+**Intent:** observers see that an attack was blocked while the cause and Protection grantor remain ambiguous.
+
+Shared beats:
+
+1. Impact: the incoming attack reaches the affected character.
+2. Shield flash: a brief energy flash surrounds that character.
+3. Block: an energy wave absorbs or deflects the attack.
+4. Recovery: the character returns to its authoritative pose/state without receiving damage from that blocked action. A block is not healing.
+
+Clone and Protection must have identical color, timing, particles, sound, energy wave, character response and feedback. The neutral message is ATTACK BLOCKED. The target is visible; the defense cause, secret role, grantor and resource counters are not. Repeated observable blocks remain legitimate deduction information.
+
+Private activation may differ: Clone uses duplication/invisibility; Undercover's authorized private view may show Protection activation around the chosen character. A private visual does not grant the recipient knowledge that their projection does not authorize.
+
+Deliver the shared impact only to the server-authorized observers in the affected room. Outsiders and the shared display receive no block banner, count or sound. Room audio defaults to silent for in-person use; an optional private sound must remain identical for the two defenses. See G-04 and Q-D01–Q-D02.
+
+## 5. Cracker — Medical Drone + Emergency Revival
+
+**Intent:** urgent but hopeful medical recovery, originating from Hospital infrastructure so the Cracker is never identified.
+
+Phase 1 — Hospital alert:
+
+- Hospital warning lights activate and medical monitors begin blinking.
+- The Injured character is already on a medical bed, preserving their identity and patient clothing.
+- The heartbeat monitor shows an unstable condition.
+
+Phase 2 — Drone arrival:
+
+- A drone descends from the ceiling or a docking station and approaches the patient.
+- Small robotic arms or scanners unfold as it positions above the bed.
+
+Phase 3 — Medical scan:
+
+- Scanning lines travel across the patient.
+- A subtle medical hologram and minimal diagnostic elements depict evaluation.
+
+Phase 4 — Emergency revival:
+
+- Energy charges; the drone delivers an electrical revival pulse.
+- A brief controlled healing flash passes through the patient.
+- The character reacts physically to the pulse without graphic violence.
+
+Phase 5 — Recovery:
+
+- The heartbeat becomes stable and warning indicators return to normal.
+- The patient recovers, lifting their head or sitting up.
+- Show the authoritative Injured-to-Healthy transition and the correct subsequent room/wardrobe state.
+
+Phase 6 — Drone departure:
+
+- Mechanical arms retract and the drone returns to its dock.
+- Hospital lighting settles to normal.
+
+Drone design: compact mechanical body, two or three small robotic arms, central glowing lens, cyan/yellow lights, thick comic outlines and subtle hovering movement. Palette: navy, cyan, electric blue, yellow and white. Mood: urgent, hopeful, dramatic futuristic medical technology.
+
+The 5–6-second recommendation is a storyboard duration, not a server delay or a new gameplay phase. Keep the board usable and settle correctly if interrupted. Recovery occurs only for an authorized Rescue of an Injured player in Hospital. Never revive an Eliminated player, point the drone's origin toward the Cracker or create an outside-Hospital treatment variant. See G-05 and G-07.
+
+## 6. Captain — Prison RELEASE
+
+**Intent:** visible command authority and relief.
+
+Storyboard beats:
+
+1. Show the Captain interacting with the Command Room console.
+2. The Captain presses the green RELEASE button.
+3. The control panel illuminates.
+4. A digital command signal travels toward Jail.
+5. Jail security indicators respond.
+6. The lock disengages and the mechanical sliding door opens.
+7. The released prisoners walk out toward their authoritative destinations.
+8. The door returns to its normal state.
+
+Use green as the principal signal with optional cyan console accents, a mechanical button press, digital pulse, unlocking response and clear prisoner movement. The command is direct and has no ballot. Depict only the authorized physical-Jail target set; medical detainees remain in Hospital. The Captain must be on their own turn in Command, and the independent RELEASE allowance is match-wide. No defensive effect can cancel the command. See G-06 and Q-P01–Q-P02.
+
+## 7. Captain — Prison EJECT, selected Option A
+
+**Intent:** dangerous, dramatic command authority without graphic gore. Eject the prisoners themselves; do not detach the whole prison module.
+
+Phase 1 — Command trigger:
+
+- Focus briefly on the Captain at the Command Room console.
+- Reveal a large protected red EJECT button with a transparent safety cover.
+- The Captain lifts the cover and presses the button.
+- Give a strong mechanical click and a controlled red/comic impact accent.
+
+Phase 2 — System alert:
+
+- Red emergency lights and warning signals appear.
+- A command pulse travels from Command Room to Jail.
+
+Phase 3 — Jail lockdown:
+
+- Interior safety doors lock and security indicators enter emergency mode.
+- Red warning cues, pressure indicators and prisoner reactions establish the threat.
+
+Phase 4 — Airlock opening:
+
+- External locks disengage and the heavy outer door opens.
+- Space becomes visible; airflow and suction lines build toward the airlock.
+
+Phase 5 — Prisoner ejection:
+
+- Characters are pulled toward the opening and thrown into space.
+- Comic motion lines, limited particles/debris and optional motion blur emphasize force.
+- Readable silhouettes remain against the dark exterior; no graphic injury.
+
+Phase 6 — Exterior shot:
+
+- A short exterior spaceship panel shows the prisoners drifting away.
+- The open airlock is visible and the scene becomes quieter.
+
+Phase 7 — Closure:
+
+- The airlock closes, emergency lighting settles and Jail is empty.
+- A short final panel may return to the Captain's console.
+
+Button label: EJECT or PRISON EJECT. Palette: red, navy, black and amber. Preserve retro sci-fi mechanical locks, pressure effects, graphic-novel panel cuts and restrained dramatic lighting. The 6–8-second recommendation is a storyboard target; it must not block required controls or consume decision time through a full-screen movie. Provide static/reduced-motion alternatives for suction, shake, camera travel and flash.
+
+The authoritative command immediately eliminates its eligible living physical-Jail prisoners and clears Jail occupancy, including retained bodies, into off-board history. Do not visually eject Hospital detainees or invent a block. Treat retained-body cleanup with the same non-graphic silhouette/memorial direction. Exact role/faction disclosure follows the rules, not the cinematic. See G-06 and Q-P02.
+
+## 8. Captain command buttons — state design
+
+RELEASE and EJECT have independent once-per-match allowances shared across all Captains. Changing Captain never restores a used command.
+
+- Available: illuminated, subtly glowing, visibly interactive.
+- Activated: deliberate button depression, stronger authorized feedback and the appropriate command signal.
+- Used: inactive, no idle glow, label USED and no reactivation feedback.
+- Temporarily unavailable: distinguish unmet turn/location/target conditions from a permanently used allowance. This fourth interaction state supplements the owner's three animation states; it adds no game rule.
+
+A rejected or unknown command must not play a successful command cinematic. Frontend uses the receipt/current authoritative outcome and keeps uncertainty recoverable. RELEASE uses green; EJECT uses its protected red control. State is consistent across screens and office changes.
+
+## 9. Hospital — Injured / critical condition
+
+**Intent:** make the full rescue opportunity legible and emotionally present without substituting a client countdown for a rule.
+
+Entry/critical-state beats:
+
+1. Show the authorized transfer into Hospital.
+2. Place the recognizable character on a medical bed in patient clothing.
+3. Activate the medical monitor and unstable heartbeat waveform.
+4. Show controlled red/amber warning indicators.
+5. Present the remaining rescue opportunity in round terms from server state.
+6. Loop subtle breathing, weak body movement and a restrained pulse/critical-condition indication.
+
+Environmental cues may include a weak heartbeat, irregular waveform, slight lighting variation and desaturated medical displays. Do not use constant aggressive flashing or movement that obscures targets. Injured medical detainees stay in Hospital with a neutral detention indicator, not a healthy prisoner outfit or an illegal Jail placement.
+
+A Round 2 injury receives Round 3 as its full rescue opportunity. Rescue resolves before due automatic death. The following-round deadline and final-round exception in G-07 remain authoritative. A second attack, Rescue, end of match or other authorized outcome may interrupt the critical loop; settle to the latest state without replaying the entry film.
+
+## 10. Hospital — Medical Flatline + Life Support Shutdown
+
+**Intent:** tragic, dramatic and quiet medical elimination, with no graphic violence.
+
+Phase 1 — Critical condition:
+
+- Heartbeat slows, the medical waveform becomes increasingly irregular and warning indicators intensify safely.
+- The patient becomes progressively still.
+
+Phase 2 — Flatline:
+
+- The monitor reaches a flat line.
+- A short medical alarm may accompany the authorized result.
+- Room lighting briefly dims without hiding the board.
+
+Phase 3 — Life-support shutdown:
+
+- Medical equipment powers down.
+- Bed lighting fades, warning indicators become inactive and the patient is motionless.
+
+Phase 4 — Final state:
+
+- Mark the character as Eliminated with the correct authoritative representation.
+- Equipment stays inactive and Hospital returns to a quiet state.
+
+Palette: dark blue, red, amber and desaturated cyan. Use restrained monitor transitions, fading light and environmental darkening. Play the sequence only after an authorized elimination; the animation cannot kill a patient, shorten their rescue opportunity or turn a new R5 injury into immediate death. Do not reveal the hidden attacker or defense cause through the death scene.
+
+## 11. Global visual, motion and interaction language
+
+Art direction: 2D / 2.5D Comic Noir, retro-futuristic science fiction, thick black outlines, halftone textures/shading, dramatic lighting, limited controlled colors and dynamic graphic-novel framing. Preserve the existing Claude body/character/room source artwork and approved board, rather than replacing it with unrelated art.
+
+Characters should feel alive: restrained body motion, head rotation, hand gestures, reaction poses, blinking, environmental interaction and subtle idle loops. Their chosen identity must survive patient/prisoner wardrobe changes. Idle variation must not expose roles, factions, microphones or hidden decisions. Public Clone appearance must use the ordinary character behavior.
+
+Camera language: short cinematic movements, brief zoom emphasis, dynamic panel transitions, comic cuts, impact frames and controlled screen shake. Keep room labels, timers, target hit areas and navigation stable. Decorative movement stays inside or around stable logical anchors. Preserve five slots in A/B/Jail, one in Command and seven/eight/nine in Hospital according to the roster. No responsive reordering may undermine the memory interaction.
+
+Public, private and room-visible effects are distinct server-authorized audiences. Blue/Red Blackout effects are identical; Clone/Protection impacts are identical; drone origin hides the Cracker; Chamber participants are public while content stays private. Sound, private assets and timing must obey those same boundaries. Never animate success from registration alone or expose hidden causes in DOM labels, particle colors, asset fetches or event ordering.
+
+Reconnection displays current state and remaining server time rather than replaying historical events. Interruption, hidden page and lost authorization remove private content and settle graphics correctly. Animations cannot independently pause turns, change rules or consume a player's allotted time through blocking presentation. Reduced motion uses readable static states/short fades instead of travel, shake, spatial flips or rapid flashes. Preserve semantic feedback and usable enlarged-text reflow; sound/color are not the sole information channel.
+
+## 12. Earlier requested scenes and phone experience to preserve
+
+### Insider — private classified investigation board
+
+The owner requested a comic classified-investigation board for the Insider's privileged information about Undercover, Alien and Cracker. The selected card treatment is **the players' chosen character portraits plus role labels**, rather than anonymous role art alone. Use only identities actually authorized by the Insider's private projection. The board and its transitions remain private; do not put role labels or associations into the shared board, host/display view, shared assets or public motion. Create the detailed layout/treatment within the existing comic language during separately authorized design production. This preserves the requested concept without adding a new disclosure right or gameplay ability.
+
+### Completed vote result
+
+After each completed vote, use a synchronized five-second graphical result panel with comic motion, reminiscent of the game's outcome screen but clearly showing that vote's result. Use the server's result and aggregate outcome, not individual ballots or an invented match winner. Fit the result on the phone and keep it visible even when Menu was open or is reopened; retain access to its controls. Do not restart/extend the server window or let the animation eat the next phase's time. Preserve the existing distinction between skipped votes and completed outcomes, including ties/runoffs where applicable.
+
+### Hack declared-side result
+
+The initiator receives the target's declared side, preserving permitted bluffing. Use the existing participant-private contract rather than an actual-faction reveal. Preserve the approved sequence: up to fifteen seconds to declare, five seconds to read the result, then the complete sixty-second physical conversation. A missing declaration shows No side declared; bots follow the established automatic declaration policy. Integrate this result with the Chamber entrance without obscuring the card or exporting its content to observers.
+
+### Phone screens, board and navigation
+
+Preserve the five requested environments: Host, Join/Lobby, Character Selection, private Role Reveal and Main Game, with necessary result/recovery states fitting their parent flow. Character selection is a clean nine-character matrix; role reveal centers the role card with no unnecessary prose. Maintain the approved thirty-second selection/autoselection and thirty-second minimum role-reading/all-humans-Ready setup rules. Starting A/B location is server-randomized, not chosen in the lobby.
+
+Keep the main board compact on normal phone viewports, with timers/data in the top bar and simple modern bottom navigation: Board, Actions, central Pass, Card and Menu. Move by tapping room-name tags. Choose/apply actions directly on eligible board characters rather than opening a replacement target list or navigating away. Blackout is the deliberate exception that targets remembered positions. Hospital outfits and Jail outfits reflect the authoritative medical/detention state. Improve board/menu polish using the owner's visual references and existing artwork while preserving this layout and interaction direction.
+
+The owner also asked for coherent actionable effects for all movements and actions. For other actions without an individually selected cinematic in this document, the Designer should propose a consistent visual treatment during production planning; a missing bespoke storyboard does not authorize a new mechanic, hidden-information disclosure or pause. Coordinate exact event inputs, portraits, normalized anchors and layering with Frontend before production adoption.
+
+## Deliverable and completeness checklist
+
+The handoff includes all named original concepts and their scene beats: Blackout, Chamber, Phantom Clone, shared defensive impact, Drone Rescue, RELEASE, EJECT, command states, critical Hospital, flatline death, global motion language, plus the earlier Insider, vote-result, Hack-result and phone-board requests.
+
+For each scene, the existing Claude Designer's production plan should identify reusable/editable source, character/prop variants, a storyboard, timing/easing, normalized anchors, authorized event inputs/audience, interruption/reconnect behavior, full/reduced-motion treatment, audio policy and a phone preview plan. Codex Frontend reviews interfaces and implements only after authorization; Backend controls the events. No scene assets or gameplay code are created by this appendix.
