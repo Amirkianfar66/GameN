@@ -26,7 +26,7 @@ Constructed regression expectations, separately for 7/8/9:
 | Four established bodies; new P1 hit and Rescue targets P1 | P1 becomes Healthy during the registered Rescue stage, so it does not fail admission; no overflow. |
 | Four established bodies; P1 hit twice and then targeted by Rescue | P1 already Eliminated, cannot heal, fails admission and is offboard; no fifth body/bed. |
 
-These are labeled constructed guards until executed. Engine/service tests provide executable histories and separately labeled native traces; Backend tests are not independent Balance acceptance.
+These remain constructed controls after passing. Engine/service tests provide separately labeled native traces and legal seeded service histories; Backend tests are not independent Balance acceptance. Actual commands, results and limits are recorded in [the verification report](hospital-four-verification.md).
 
 ## Consumer boundary
 
@@ -36,6 +36,6 @@ Overflow publishes `{type:'HOSPITAL_OVERFLOW_REMOVED',phaseId,round,seatId}` as 
 
 Physical Hospital positions and frozen Blackout targets are H1–H4. `blackoutSlotIds(room,count,versions?)` preserves its old two-argument behavior; readers supply exact versions. New-only layout validation rejects old/new mismatches and H5–H9 physical placements while preserving historical inventories.
 
-Clinical presentation keeps **HV1–HV7/8/9 and slotCount 7/8/9**, independent of four physical beds. Starting beds (including bodies) reserve their existing HV positions; new clinical subjects receive distinct anchors as before. Every medical wire fact still requires its anchor. On the four-bed renderer, valid HV5+ means words only, with no H5 geometry; strict wire validation precedes drawing. A valid HV1–HV4 occupied by another stable seat/body likewise suppresses imagery only. Normalize wire seatId to the helper's identity explicitly. Never drop a clinical fact, relax DEATH validation, silently reuse anchors or invent an admission film.
+Clinical presentation keeps **HV1–HV7/8/9 and slotCount 7/8/9**, independent of four physical beds. Starting beds (including bodies) reserve their existing HV positions; new clinical subjects receive distinct anchors as before. Every medical wire fact still requires its anchor. The reviewed consumer requirement is words-only output for valid HV5+ on the four-bed renderer, with no H5 geometry; strict wire validation precedes drawing. A valid HV1–HV4 occupied by another stable seat/body likewise requires imagery suppression only. These rendering paths await separate Frontend/Designer acceptance; Backend tests cover wire data and anchor allocation. Normalize wire seatId to the helper's identity explicitly. Never drop a clinical fact, relax DEATH validation, silently reuse anchors or invent an admission film.
 
 Affected-role review is requested on this exact implementation candidate. Frontend owns rendering/wording and Designer fallback adaptation; independent Claude Balance owns expected-outcome audit. Final Integration owns review, art/profile activation and any later deployment.
