@@ -1,0 +1,339 @@
+{
+  "sourceCommit": "cb9386bd716dc346160509d5e49d7348fdaf4f84",
+  "roots": [
+    "design/board-v2/fx/medical.mjs",
+    "design/board-v2/films/medical.mjs",
+    "design/board-v2/fx/captain.mjs",
+    "design/board-v2/films/captain.mjs",
+    "design/board-v2/figures/captain.mjs",
+    "design/board-v2/scenes/hospital-ward-four.mjs",
+    "design/board-v2/scenes/slots-four.mjs",
+    "design/board-v2/js/fit-four.mjs",
+    "design/board-v2/js/turns-four.mjs",
+    "design/board-v2/fx/medical-four.mjs",
+    "design/board-v2/fx/overflow.mjs",
+    "design/board-v2/films/overflow.mjs",
+    "design/board-v2/fx/clone.mjs",
+    "design/board-v2/films/clone.mjs"
+  ],
+  "modules": [
+    {
+      "path": "design/board-motion/figures/body.mjs",
+      "sha256": "9d081fc4926d07dd1d56e90bd5452ed05052a806f2d33212a1b76c8e107fc958",
+      "imports": [
+        "design/board-motion/figures/rig.mjs",
+        "design/board-motion/figures/crew.mjs",
+        "design/board-motion/figures/parts.mjs"
+      ],
+      "directCandidate": false,
+      "unchangedFromDesigner144": "95d70f0c885f6b7d619c4ebff935093dfe891ea6"
+    },
+    {
+      "path": "design/board-motion/figures/crew.mjs",
+      "sha256": "bb65a81f52013fc71966ae813d2d7929e871ed9b837c2f2c1cab9093135cb171",
+      "imports": [
+        "design/board-motion/figures/rig.mjs",
+        "design/board-motion/figures/rig.mjs"
+      ],
+      "directCandidate": false,
+      "unchangedFromDesigner144": "95d70f0c885f6b7d619c4ebff935093dfe891ea6"
+    },
+    {
+      "path": "design/board-motion/figures/gestures.mjs",
+      "sha256": "626e0b74fba44d055f0ea79777f4be475fd3998b9bff184ce8ff92b6770fe7c4",
+      "imports": [],
+      "directCandidate": false,
+      "unchangedFromDesigner144": "95d70f0c885f6b7d619c4ebff935093dfe891ea6"
+    },
+    {
+      "path": "design/board-motion/figures/motion.mjs",
+      "sha256": "b50a12ff2e967eca07778433d2359fef907397de90e04fff355367d0eae5343c",
+      "imports": [
+        "design/board-motion/figures/gestures.mjs"
+      ],
+      "directCandidate": false,
+      "unchangedFromDesigner144": "95d70f0c885f6b7d619c4ebff935093dfe891ea6"
+    },
+    {
+      "path": "design/board-motion/figures/parts.mjs",
+      "sha256": "7c3d34f0b35856ad9287f32d525a612cc40b37feb3e6d26344b9b7de794c2a7e",
+      "imports": [
+        "design/board-motion/figures/rig.mjs",
+        "design/board-motion/figures/crew.mjs"
+      ],
+      "directCandidate": false,
+      "unchangedFromDesigner144": "95d70f0c885f6b7d619c4ebff935093dfe891ea6"
+    },
+    {
+      "path": "design/board-motion/figures/rig.mjs",
+      "sha256": "b7fd681bb392f0104785fda3c838a2ca2d749c04278e05c8bbec5bb6379da45c",
+      "imports": [],
+      "directCandidate": false,
+      "unchangedFromDesigner144": "95d70f0c885f6b7d619c4ebff935093dfe891ea6"
+    },
+    {
+      "path": "design/board-motion/scenes/command-room.mjs",
+      "sha256": "f7be9a9001153b4a2803910a9eacdd4ef2de677da0f7dd600f36701497a357de",
+      "imports": [
+        "design/board-motion/scenes/kit.mjs"
+      ],
+      "directCandidate": false,
+      "unchangedFromDesigner144": "95d70f0c885f6b7d619c4ebff935093dfe891ea6"
+    },
+    {
+      "path": "design/board-motion/scenes/frame.mjs",
+      "sha256": "aa2a9531f8badd28bbe6e03e956b5cb93411ef876c48c509929833fcdd5648c0",
+      "imports": [
+        "design/board-motion/figures/body.mjs",
+        "design/board-motion/figures/gestures.mjs"
+      ],
+      "directCandidate": false,
+      "unchangedFromDesigner144": "95d70f0c885f6b7d619c4ebff935093dfe891ea6"
+    },
+    {
+      "path": "design/board-motion/scenes/hospital.mjs",
+      "sha256": "55e56114ccc150ca8048f2851d9168b7bdbe6f7c79575e5273ae8d8cbc972fa9",
+      "imports": [
+        "design/board-motion/scenes/kit.mjs"
+      ],
+      "directCandidate": false,
+      "unchangedFromDesigner144": "95d70f0c885f6b7d619c4ebff935093dfe891ea6"
+    },
+    {
+      "path": "design/board-motion/scenes/index.mjs",
+      "sha256": "5e042aa605336b16e9bf139169cb277497ba4f0be1077f7c1bfbbba54efdb109",
+      "imports": [
+        "design/board-motion/scenes/command-room.mjs",
+        "design/board-motion/scenes/hospital.mjs",
+        "design/board-motion/scenes/jail.mjs",
+        "design/board-motion/scenes/room-a.mjs",
+        "design/board-motion/scenes/room-b.mjs"
+      ],
+      "directCandidate": false,
+      "unchangedFromDesigner144": "95d70f0c885f6b7d619c4ebff935093dfe891ea6"
+    },
+    {
+      "path": "design/board-motion/scenes/jail.mjs",
+      "sha256": "c2eed83374299fb205683244d50873b3a0029308c45c4505cd1dc998b401eef4",
+      "imports": [
+        "design/board-motion/scenes/kit.mjs"
+      ],
+      "directCandidate": false,
+      "unchangedFromDesigner144": "95d70f0c885f6b7d619c4ebff935093dfe891ea6"
+    },
+    {
+      "path": "design/board-motion/scenes/kit.mjs",
+      "sha256": "9e9489bfddaa37ccac06b049934e097b068cae54539a455c151a66935055c14b",
+      "imports": [],
+      "directCandidate": false,
+      "unchangedFromDesigner144": "95d70f0c885f6b7d619c4ebff935093dfe891ea6"
+    },
+    {
+      "path": "design/board-motion/scenes/room-a.mjs",
+      "sha256": "d3729374ce23a60d14bd4d24ab3abc93a63cedc906e200d6a5b44f24b43c75bd",
+      "imports": [
+        "design/board-motion/scenes/kit.mjs"
+      ],
+      "directCandidate": false,
+      "unchangedFromDesigner144": "95d70f0c885f6b7d619c4ebff935093dfe891ea6"
+    },
+    {
+      "path": "design/board-motion/scenes/room-b.mjs",
+      "sha256": "74eaec045c0915ab983daac8967005f91137760b6646366c6738f08c9674a084",
+      "imports": [
+        "design/board-motion/scenes/kit.mjs"
+      ],
+      "directCandidate": false,
+      "unchangedFromDesigner144": "95d70f0c885f6b7d619c4ebff935093dfe891ea6"
+    },
+    {
+      "path": "design/board-v2/figures/captain.mjs",
+      "sha256": "64435ec8d0893f5c34865d165f4d80294667c878df99d6ac41e607b76267824a",
+      "imports": [
+        "design/board-motion/figures/gestures.mjs",
+        "design/board-motion/figures/motion.mjs"
+      ],
+      "directCandidate": true
+    },
+    {
+      "path": "design/board-v2/films/captain.mjs",
+      "sha256": "70f871155418e27c2e592cc410d690c642e7986a4179d569e79610611691e1c9",
+      "imports": [
+        "design/board-v2/fx/captain.mjs"
+      ],
+      "directCandidate": true
+    },
+    {
+      "path": "design/board-v2/films/clone.mjs",
+      "sha256": "34836d024ad992cde20e84dcaea3584b9c0c247ef7c5c5a2435c8df698187da0",
+      "imports": [],
+      "directCandidate": true
+    },
+    {
+      "path": "design/board-v2/films/medical.mjs",
+      "sha256": "fef1b67902b18c3ba7a5ab81207538dfaa34ba8bc4bc7e4e81b89fd2b32c3baa",
+      "imports": [
+        "design/board-v2/fx/medical.mjs"
+      ],
+      "directCandidate": true
+    },
+    {
+      "path": "design/board-v2/films/overflow.mjs",
+      "sha256": "074df18a98baeb57fbead94f3be22d544530dc1950518b1e2be0264cc3f67428",
+      "imports": [],
+      "directCandidate": true
+    },
+    {
+      "path": "design/board-v2/fx/blocked.mjs",
+      "sha256": "6408b5229172f157086236ec4463e73c9e0ab3aa6755d968ff2552707fd3ef0a",
+      "imports": [
+        "design/board-motion/scenes/kit.mjs"
+      ],
+      "directCandidate": false,
+      "unchangedFromDesigner144": "95d70f0c885f6b7d619c4ebff935093dfe891ea6"
+    },
+    {
+      "path": "design/board-v2/fx/captain.mjs",
+      "sha256": "ad2853bf1e913cb4da5dafe2ddb728a477b686e02d5115d8d2a812ca5c871d88",
+      "imports": [
+        "design/board-motion/scenes/kit.mjs",
+        "design/board-v2/fx/blocked.mjs",
+        "design/board-v2/fx/label-box.mjs"
+      ],
+      "directCandidate": true
+    },
+    {
+      "path": "design/board-v2/fx/clone.mjs",
+      "sha256": "c565f4301350c049534c8902b5780767522b1b3a7d8b330383462f4331460b7a",
+      "imports": [
+        "design/board-motion/figures/body.mjs",
+        "design/board-motion/scenes/kit.mjs",
+        "design/board-v2/fx/blocked.mjs"
+      ],
+      "directCandidate": true
+    },
+    {
+      "path": "design/board-v2/fx/label-box.mjs",
+      "sha256": "86acb6f2de5fea096c34b5c336dcc327cfcc17cfda4e6cd3e0ab5a814e63d45c",
+      "imports": [],
+      "directCandidate": false,
+      "unchangedFromDesigner144": "95d70f0c885f6b7d619c4ebff935093dfe891ea6"
+    },
+    {
+      "path": "design/board-v2/fx/medical-four.mjs",
+      "sha256": "c289a932a955a28ef9a1be4635bfb1632badc77b42c06e9c062fc42970fd166b",
+      "imports": [
+        "design/board-v2/fx/medical.mjs",
+        "design/board-v2/films/medical.mjs",
+        "design/board-v2/scenes/hospital-ward-four.mjs"
+      ],
+      "directCandidate": true
+    },
+    {
+      "path": "design/board-v2/fx/medical.mjs",
+      "sha256": "3f596f1537d0b58d820359993bfbd01ff58194b1e8b7c08435aebbaa306e7af8",
+      "imports": [
+        "design/board-motion/scenes/kit.mjs",
+        "design/board-v2/scenes/hospital-ward.mjs",
+        "design/board-v2/fx/blocked.mjs",
+        "design/board-v2/fx/label-box.mjs"
+      ],
+      "directCandidate": true
+    },
+    {
+      "path": "design/board-v2/fx/overflow.mjs",
+      "sha256": "916d17bb81dcadb18a71f2e4ac044853c7067522ba02c91df9a22c3f4a413a8f",
+      "imports": [
+        "design/board-v2/fx/label-box.mjs"
+      ],
+      "directCandidate": true
+    },
+    {
+      "path": "design/board-v2/js/fit-four.mjs",
+      "sha256": "9091cee28f6265675ea33f2d59e3598773ba714a8240997140b5c35a44c1c1ca",
+      "imports": [
+        "design/board-motion/scenes/frame.mjs",
+        "design/board-v2/scenes/slots-four.mjs",
+        "design/board-v2/js/fit.mjs",
+        "design/board-v2/js/fit.mjs"
+      ],
+      "directCandidate": true
+    },
+    {
+      "path": "design/board-v2/js/fit.mjs",
+      "sha256": "fdd9976755605266f7514a9beb5cbee8a11daf75773299849a8059cd844fc688",
+      "imports": [
+        "design/board-motion/scenes/frame.mjs",
+        "design/board-v2/scenes/slots.mjs"
+      ],
+      "directCandidate": false,
+      "unchangedFromDesigner144": "95d70f0c885f6b7d619c4ebff935093dfe891ea6"
+    },
+    {
+      "path": "design/board-v2/js/turns-four.mjs",
+      "sha256": "a1099fee5c44ddbc147d6f8b58ec38ba3d7e1e022e31bfc02a0b62dff1ef1e6e",
+      "imports": [
+        "design/board-v2/js/fit-four.mjs",
+        "design/board-v2/scenes/slots-four.mjs",
+        "design/board-v2/scenes/capsule.mjs"
+      ],
+      "directCandidate": true
+    },
+    {
+      "path": "design/board-v2/scenes/capsule.mjs",
+      "sha256": "51150af446d8553d687ebc621451fb49b962d8cf4435ef843e0f7b79c8fdc3b6",
+      "imports": [
+        "design/board-motion/scenes/kit.mjs"
+      ],
+      "directCandidate": false,
+      "unchangedFromDesigner144": "95d70f0c885f6b7d619c4ebff935093dfe891ea6"
+    },
+    {
+      "path": "design/board-v2/scenes/hospital-ward-four.mjs",
+      "sha256": "005311acdcefc0b33e42212621feae2a88a1b24ede432e2ab1d5fb60574f8157",
+      "imports": [
+        "design/board-motion/figures/body.mjs",
+        "design/board-motion/figures/gestures.mjs",
+        "design/board-motion/scenes/frame.mjs",
+        "design/board-motion/scenes/kit.mjs"
+      ],
+      "directCandidate": true
+    },
+    {
+      "path": "design/board-v2/scenes/hospital-ward.mjs",
+      "sha256": "d6af092a86322a81cc941bc41aade276063b5ba209a18a402a1c5195096dc2be",
+      "imports": [
+        "design/board-motion/figures/body.mjs",
+        "design/board-motion/figures/gestures.mjs",
+        "design/board-motion/scenes/frame.mjs",
+        "design/board-motion/scenes/kit.mjs"
+      ],
+      "directCandidate": false,
+      "unchangedFromDesigner144": "95d70f0c885f6b7d619c4ebff935093dfe891ea6"
+    },
+    {
+      "path": "design/board-v2/scenes/slots-four.mjs",
+      "sha256": "268d53c7a807df9f465b9c632ec6f962f94551cdeabcfa06475af21fff1df085",
+      "imports": [
+        "design/board-motion/figures/gestures.mjs",
+        "design/board-motion/scenes/frame.mjs",
+        "design/board-motion/scenes/index.mjs",
+        "design/board-v2/scenes/hospital-ward-four.mjs",
+        "design/board-v2/scenes/slots.mjs"
+      ],
+      "directCandidate": true
+    },
+    {
+      "path": "design/board-v2/scenes/slots.mjs",
+      "sha256": "cf329360c86b512d83a9ab4a2df5a7147ba30d7e716c82a7ffa27c5308dadbc1",
+      "imports": [
+        "design/board-motion/figures/gestures.mjs",
+        "design/board-motion/scenes/frame.mjs",
+        "design/board-motion/scenes/index.mjs",
+        "design/board-v2/scenes/hospital-ward.mjs"
+      ],
+      "directCandidate": false,
+      "unchangedFromDesigner144": "95d70f0c885f6b7d619c4ebff935093dfe891ea6"
+    }
+  ]
+}

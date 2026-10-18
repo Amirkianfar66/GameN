@@ -1,5 +1,7 @@
 # Frontend requests to Codex Integration: checks, tooling and dependencies
 
+**19 October 2026 consumer review:** [Designer #158–#161 source inventory, adoption gates and unrun lifecycle acceptance](designer-stack-consumer-review-2026-10-19.md). Records the next permitted RELEASE wording correction and the four-bed valid-anchor/no-film conflict; no runtime/art/contract adoption.
+
 **18 October 2026 successor handoff:** [Four-bed Hospital requirements for HOSPITAL-4-2026-10-18](hospital-four-bed-successor-handoff-2026-10-18.md), tracked in [#155](https://github.com/Amirkianfar66/GameN/issues/155). Owner-approved four-bed cap and incoming-overflow elimination; documentation only, pending coordinated successor contracts and geometry. The 6 October requests below remain historical.
 
 **From:** Frontend (issue [#3](https://github.com/Amirkianfar66/GameN/issues/3)). **For:** Codex Astra, Backend and Integration.
