@@ -142,7 +142,7 @@ function undoLabel(view: FullPlayerView, picked: readonly string[]): string {
 function confirmPrompt(choice: ActionChoice, view: FullPlayerView): string {
   const who = (seatId: SeatId): string => whoIs(seatId, view.self.seatId);
   switch (choice.kind) {
-    case 'captain-release': return 'Release everyone detained in Jail or Hospital?';
+    case 'captain-release': return 'Release all living prisoners currently in Jail?';
     case 'captain-eject': return 'Eject everyone currently in Jail?';
     case 'blackout-request': return 'Request a Blackout in place of your main action?';
     case 'activate-clone': return 'Activate your once-only Clone?';
