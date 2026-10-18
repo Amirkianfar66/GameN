@@ -1,10 +1,10 @@
 {
   "devOnly": "mothership:dev-only",
-  "manifestVersion": "board-v2-0.6.0",
+  "manifestVersion": "board-v2-0.7.0",
   "status": "proposal",
   "baseBoard": "board-motion-0.3.0",
   "baseManifest": "design-0.2.0",
-  "note": "The Hospital as a ward with one berth per seat (7, 8 or 9), the board's fixed slot table, the Blackout's lighting art, the shared ATTACK BLOCKED effects, the private-talk capsule, the Hospital's medical films (the critical state, the drone's rescue and the flatline) and the Captain's films (RELEASE, EJECT and the command plates), for the owner's motion specification of 13 October 2026 and the owner's capsule request of 14 October 2026. The reviewed manifest, the board-motion proposal and every pinned drawing source are unchanged; this art is proposed for a later export revision and is adopted only through Integration.",
+  "note": "The Hospital as a ward with one berth per seat (7, 8 or 9), the board's fixed slot table, the Blackout's lighting art, the shared ATTACK BLOCKED effects, the private-talk capsule, the Hospital's medical films (the critical state, the drone's rescue and the flatline), the Captain's films (RELEASE, EJECT and the command plates) and the successor's four-berth ward, for the owner's motion specification of 13 October 2026, the owner's capsule request of 14 October 2026 and the owner's four-bed decision of 18 October 2026. The reviewed manifest, the board-motion proposal and every pinned drawing source are unchanged; this art is proposed for a later export revision and is adopted only through Integration.",
   "rights": {
     "origin": "The approved Hospital's groups copied element for element from the repository's original vector source design/source/board/board-hospital.svg, recolored by the reviewed export recipe, around new vector drawing generated for this repository by design/board-v2/scenes/hospital-ward.mjs. No third-party artwork, font, photograph, traced image or generated raster image.",
     "author": "Visual and Motion Designer workstream: a Claude Code session working for the game owner.",
@@ -561,6 +561,31 @@
         "file": "design/board-v2/assets/lighting/hospital-ward-9.dark.svg",
         "bytes": 32032,
         "sha256": "11400d87f23638f9dc6f17be5ce2d18205b2caf2ac2633cda437d682775efdd0",
+        "audience": "public"
+      },
+      {
+        "id": "lighting.hospital-ward-four.dark",
+        "room": "hospital",
+        "rosters": [
+          7,
+          8,
+          9
+        ],
+        "beds": 4,
+        "kind": "dark-room",
+        "from": [
+          "design/board-v2/assets/scenes/hospital-ward-four.back.svg",
+          "design/board-v2/assets/scenes/hospital-ward-four.berth-four-h3.svg",
+          "design/board-v2/assets/scenes/hospital-ward-four.berth-four-h4.svg",
+          "design/board-v2/assets/scenes/hospital-ward-four.berth-four-h1-head.svg",
+          "design/board-v2/assets/scenes/hospital-ward-four.berth-four-h2-head.svg",
+          "design/board-v2/assets/scenes/hospital-ward-four.berth-four-h1.svg",
+          "design/board-v2/assets/scenes/hospital-ward-four.berth-four-h2.svg"
+        ],
+        "viewBox": "0 0 1024 768",
+        "file": "design/board-v2/assets/lighting/hospital-ward-four.dark.svg",
+        "bytes": 21761,
+        "sha256": "1965030a05caeaff8f778317bcc687789aa40728a164dd5a8340a07e4132f542",
         "audience": "public"
       },
       {
@@ -2669,10 +2694,378 @@
       }
     ]
   },
+  "four": {
+    "version": "board-v2-four-0.1.0",
+    "status": "proposal: the successor's four-bed Hospital (issue #155), beside the roster-sized ward, which is unchanged",
+    "beds": 4,
+    "rosters": [
+      7,
+      8,
+      9
+    ],
+    "berths": [
+      {
+        "id": "H1",
+        "row": "front",
+        "column": 0,
+        "gesture": "bedLying",
+        "scale": 1.42,
+        "mirror": false,
+        "about": "Front row, left: lying, an arm across the forehead"
+      },
+      {
+        "id": "H2",
+        "row": "front",
+        "column": 1,
+        "gesture": "bedSitting",
+        "scale": 1.42,
+        "mirror": true,
+        "about": "Front row, right: sitting up against the pillow"
+      },
+      {
+        "id": "H3",
+        "row": "back",
+        "column": 0,
+        "gesture": "bedSitting",
+        "scale": 1.2,
+        "mirror": false,
+        "about": "Back row, left: sitting up against the pillow"
+      },
+      {
+        "id": "H4",
+        "row": "back",
+        "column": 1,
+        "gesture": "bedLying",
+        "scale": 1.2,
+        "mirror": true,
+        "about": "Back row, right: lying, an arm across the forehead"
+      }
+    ],
+    "berthKits": {
+      "version": "board-v2-medical-four-0.1.1",
+      "module": "design/board-v2/fx/medical-four.mjs fourBerthKit()",
+      "kits": [
+        {
+          "id": "H1",
+          "row": "front",
+          "column": 0,
+          "c": 340,
+          "k": 1.3,
+          "monitor": {
+            "x": 371.6,
+            "y": 541.2,
+            "w": 52,
+            "h": 31.2
+          },
+          "lamp": {
+            "cx": 307.1,
+            "cy": 553.55,
+            "r": 6.5
+          },
+          "plate": {
+            "x": 256.4,
+            "y": 543.8,
+            "w": 36.4,
+            "h": 19.5
+          },
+          "bedLight": {
+            "cx": 340,
+            "cy": 588,
+            "rx": 59.8,
+            "ry": 28.6
+          },
+          "bed": {
+            "x": 267.2,
+            "y": 588,
+            "w": 145.6,
+            "h": 180
+          },
+          "chest": [
+            340,
+            628
+          ],
+          "scale": 1.42,
+          "hover": [
+            340,
+            555.58
+          ]
+        },
+        {
+          "id": "H2",
+          "row": "front",
+          "column": 1,
+          "c": 684,
+          "k": 1.3,
+          "monitor": {
+            "x": 715.6,
+            "y": 541.2,
+            "w": 52,
+            "h": 31.2
+          },
+          "lamp": {
+            "cx": 651.1,
+            "cy": 553.55,
+            "r": 6.5
+          },
+          "plate": {
+            "x": 600.4,
+            "y": 543.8,
+            "w": 36.4,
+            "h": 19.5
+          },
+          "bedLight": {
+            "cx": 684,
+            "cy": 588,
+            "rx": 59.8,
+            "ry": 28.6
+          },
+          "bed": {
+            "x": 611.2,
+            "y": 588,
+            "w": 145.6,
+            "h": 180
+          },
+          "chest": [
+            684,
+            628
+          ],
+          "scale": 1.42,
+          "hover": [
+            684,
+            555.58
+          ]
+        },
+        {
+          "id": "H3",
+          "row": "back",
+          "column": 0,
+          "c": 340,
+          "k": 1.08,
+          "monitor": {
+            "x": 365.16,
+            "y": 332.32,
+            "w": 43.2,
+            "h": 25.92
+          },
+          "lamp": {
+            "cx": 313.76,
+            "cy": 342.58,
+            "r": 5.4
+          },
+          "plate": {
+            "x": 271.64,
+            "y": 334.48,
+            "w": 30.24,
+            "h": 16.2
+          },
+          "bedLight": {
+            "cx": 340,
+            "cy": 371.2,
+            "rx": 49.68,
+            "ry": 23.76
+          },
+          "bed": {
+            "x": 279.52,
+            "y": 390,
+            "w": 120.96,
+            "h": 166
+          },
+          "chest": [
+            340,
+            430
+          ],
+          "scale": 1.2,
+          "hover": [
+            340,
+            368.8
+          ]
+        },
+        {
+          "id": "H4",
+          "row": "back",
+          "column": 1,
+          "c": 684,
+          "k": 1.08,
+          "monitor": {
+            "x": 709.16,
+            "y": 332.32,
+            "w": 43.2,
+            "h": 25.92
+          },
+          "lamp": {
+            "cx": 657.76,
+            "cy": 342.58,
+            "r": 5.4
+          },
+          "plate": {
+            "x": 615.64,
+            "y": 334.48,
+            "w": 30.24,
+            "h": 16.2
+          },
+          "bedLight": {
+            "cx": 684,
+            "cy": 371.2,
+            "rx": 49.68,
+            "ry": 23.76
+          },
+          "bed": {
+            "x": 623.52,
+            "y": 390,
+            "w": 120.96,
+            "h": 166
+          },
+          "chest": [
+            684,
+            430
+          ],
+          "scale": 1.2,
+          "hover": [
+            684,
+            368.8
+          ]
+        }
+      ]
+    },
+    "slotTable": {
+      "file": "design/board-v2/contract/slots-four.json",
+      "version": "board-v2-four-0.1.0",
+      "sha256": "4f74c8112c5e6434e6e81e224d30140a46ecb67289f7e29b37119a3d464c4cfd",
+      "bytes": 35565
+    },
+    "layout": {
+      "slots": "design/board-v2/scenes/slots-four.mjs",
+      "fit": "design/board-v2/js/fit-four.mjs (fit.mjs's fitBoardV2 itself: the current board panel for panel; its four slot functions fit.mjs's code over the successor's table)",
+      "turns": "design/board-v2/js/turns-four.mjs (turns.mjs with its two imports alone changed)"
+    },
+    "files": [
+      {
+        "id": "scene.hospital-ward-four.back",
+        "room": "hospital",
+        "rosters": [
+          7,
+          8,
+          9
+        ],
+        "layer": "back",
+        "depth": null,
+        "source": "design/source/board/board-hospital.svg",
+        "sourceSha256": "5a9923f6ad1459acb7e96a454d686cf9a7fb6211639d5c4dd40e288300966657",
+        "recolor": "design/source/export-recipes.json#board-hospital",
+        "lifted": [
+          "hospital-space",
+          "hospital-backwall",
+          "hospital-shell",
+          "hospital-edges"
+        ],
+        "file": "design/board-v2/assets/scenes/hospital-ward-four.back.svg",
+        "viewBox": "0 0 1024 768",
+        "bytes": 15461,
+        "sha256": "d6e47a6b16f44dc125066a65a51cb12ddd0d7af0a932c7057cab44dfd71b3f73",
+        "audience": "public"
+      },
+      {
+        "id": "scene.hospital-ward-four.berth-four-h1-head",
+        "room": "hospital",
+        "rosters": [
+          7,
+          8,
+          9
+        ],
+        "layer": "berth-four-h1-head",
+        "depth": 600,
+        "file": "design/board-v2/assets/scenes/hospital-ward-four.berth-four-h1-head.svg",
+        "viewBox": "0 0 1024 768",
+        "bytes": 4426,
+        "sha256": "ec7386ac6dc41968fe45c91635041d58af892c321e2dff38d5aedacb67e0aad8",
+        "audience": "public"
+      },
+      {
+        "id": "scene.hospital-ward-four.berth-four-h1",
+        "room": "hospital",
+        "rosters": [
+          7,
+          8,
+          9
+        ],
+        "layer": "berth-four-h1",
+        "depth": 770,
+        "file": "design/board-v2/assets/scenes/hospital-ward-four.berth-four-h1.svg",
+        "viewBox": "0 0 1024 768",
+        "bytes": 3681,
+        "sha256": "80527027da742c9c54ed7c592a8990bfb859dd5f9ccf3f372b6809b43b2c0595",
+        "audience": "public"
+      },
+      {
+        "id": "scene.hospital-ward-four.berth-four-h2-head",
+        "room": "hospital",
+        "rosters": [
+          7,
+          8,
+          9
+        ],
+        "layer": "berth-four-h2-head",
+        "depth": 600,
+        "file": "design/board-v2/assets/scenes/hospital-ward-four.berth-four-h2-head.svg",
+        "viewBox": "0 0 1024 768",
+        "bytes": 4413,
+        "sha256": "1b35cf49bde0f877eafa3a7104e3ecac47506f96e9665ca64bae057324e96b24",
+        "audience": "public"
+      },
+      {
+        "id": "scene.hospital-ward-four.berth-four-h2",
+        "room": "hospital",
+        "rosters": [
+          7,
+          8,
+          9
+        ],
+        "layer": "berth-four-h2",
+        "depth": 770,
+        "file": "design/board-v2/assets/scenes/hospital-ward-four.berth-four-h2.svg",
+        "viewBox": "0 0 1024 768",
+        "bytes": 3681,
+        "sha256": "71fc859413829f9e815715dbc2fd383b0226fa3c913a9775a915d203f3e8c082",
+        "audience": "public"
+      },
+      {
+        "id": "scene.hospital-ward-four.berth-four-h3",
+        "room": "hospital",
+        "rosters": [
+          7,
+          8,
+          9
+        ],
+        "layer": "berth-four-h3",
+        "depth": 560,
+        "file": "design/board-v2/assets/scenes/hospital-ward-four.berth-four-h3.svg",
+        "viewBox": "0 0 1024 768",
+        "bytes": 3939,
+        "sha256": "09a9029eefd0986eb864292104938953a1f75342919326a294c8c05e0b2ffcf3",
+        "audience": "public"
+      },
+      {
+        "id": "scene.hospital-ward-four.berth-four-h4",
+        "room": "hospital",
+        "rosters": [
+          7,
+          8,
+          9
+        ],
+        "layer": "berth-four-h4",
+        "depth": 560,
+        "file": "design/board-v2/assets/scenes/hospital-ward-four.berth-four-h4.svg",
+        "viewBox": "0 0 1024 768",
+        "bytes": 3939,
+        "sha256": "c1750f7c8c2ed967063b37e9814466a30746bb6aecf8c7fd807c9028d49f02a1",
+        "audience": "public"
+      }
+    ]
+  },
   "films": {
     "file": "design/board-v2/contract/films.json",
     "version": "board-v2-films-0.2.0",
-    "sha256": "66bdc11c40737c650b34a60621ee6fdfef5fe8f33f716ec1536af8683f8ae20e",
-    "bytes": 37692
+    "sha256": "b570c7700a425857664a1b7839473f22eb980a7b0d2e942851902fb409159283",
+    "bytes": 41296
   }
 }

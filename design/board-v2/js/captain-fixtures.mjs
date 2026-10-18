@@ -19,7 +19,7 @@
 //   release-full   on 'crowded': RELEASE [2..6]: to A2, A3, B1, B3 and A4
 //   eject-full     on 'crowded': EJECT [2..6]
 
-import { slotsOf } from '../scenes/slots.mjs';
+import { slotsOf } from './layout.mjs';
 
 export const CAPTAIN_BOARDS = Object.freeze(['captain', 'crowded']);
 

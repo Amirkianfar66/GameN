@@ -31,9 +31,7 @@ import { INJURED, skeletonOf } from '../../board-motion/figures/gestures.mjs';
 import { dressedFigureSvg, outfitFor } from '../../board-motion/figures/wardrobe.mjs';
 import { frameScene } from '../../board-motion/scenes/frame.mjs';
 import { SCENES } from '../../board-motion/scenes/index.mjs';
-import { wardScene } from '../scenes/hospital-ward.mjs';
-import { BOARD_ROOMS, LOCATION_OF, sceneOf, slotsOf } from '../scenes/slots.mjs';
-import { CAPSULE, SHELL, fitBoardV2, insetsOf, slotRects } from './fit.mjs';
+import { BOARD_ROOMS, CAPSULE, FOUR, LOCATION_OF, SHELL, barsShell, fitBoardV2, insetsOf, sceneOf, slotRects, slotsOf, wardPictures } from './layout.mjs';
 import { fixtureSeats } from './fixtures.mjs';
 import { mountBlackout } from './blackout-view.mjs';
 import { mountBlockedPage } from './blocked-view.mjs';
@@ -42,13 +40,15 @@ import { captainOutcome } from './captain-fixtures.mjs';
 import { captainOutcomeName, drawCaptainSheet, isCaptainFilm, mountCaptain, mountOffBoard } from './captain-view.mjs';
 import { medicalOutcome } from './medical-fixtures.mjs';
 import { isMedicalFilm, mountMedical, outcomeName } from './medical-view.mjs';
-import { barsShell } from './turns.mjs';
+import { overflowOutcome } from './overflow-fixtures.mjs';
+import { isOverflowFilm, mountOverflow } from './overflow-view.mjs';
 import { mountTurns, turnsOptions } from './turns-view.mjs';
 
 const params = new URLSearchParams(location.search);
 const roster = Number(params.get('roster') ?? 9);
 const medical = isMedicalFilm(params.get('film'));
 const captain = isCaptainFilm(params.get('film'));
+const overflow = isOverflowFilm(params.get('film'));
 const fixture = params.get('fixture') ?? (medical ? 'mixed' : 'ward');
 const show = name => params.get(name) === '1';
 const ui = params.get('ui');
@@ -71,9 +71,9 @@ function el(tag, attrs = {}, ...kids) {
 /** The scene's pictures for a room: its back and each layer drawn in front of its places, with depths. */
 function scenePictures(room) {
   if (room === 'hospital') {
-    const scene = wardScene(roster);
-    return [{ src: `../board-v2/assets/scenes/hospital-ward-${roster}.back.svg`, z: 0 },
-      ...Object.entries(scene.layers).map(([id, layer]) => ({ src: `../board-v2/assets/scenes/hospital-ward.${id}.svg`, z: Math.round(layer.depth) * 2 + 1 }))];
+    const ward = wardPictures(roster);
+    return [{ src: `../board-v2/assets/scenes/${ward.back}`, z: 0 },
+      ...Object.entries(ward.scene.layers).map(([id, layer]) => ({ src: `../board-v2/assets/scenes/${ward.layer(id)}`, z: Math.round(layer.depth) * 2 + 1 }))];
   }
   const scene = SCENES[room];
   return [{ src: `../board-motion/assets/scenes/${room}.back.svg`, z: 0 },
@@ -157,13 +157,15 @@ function draw() {
   // A medical film plays over the snapshot published with its outcome: the subject already where the server put it.
   const seats = medical && params.get('film') !== 'critical' ? medicalOutcome(outcomeName(params), roster).after
     // A Captain film likewise: the released already at their new places, the ejected off the board.
-    : captain ? captainOutcome(captainOutcomeName(params), roster).after : fixtureSeats(fixture, roster);
+    : captain ? captainOutcome(captainOutcomeName(params), roster).after
+      // The overflow beat likewise: the victim already off the board (&beds=4).
+      : overflow ? overflowOutcome(roster).after : fixtureSeats(fixture, roster);
   const fallback = board.fallback ? ` · ${board.fallback}` : '';
   app.replaceChildren(
     // The bars fill the safe-area insets with their background; their contents stay inside.
     el('header', { class: 'v2-top', style: { height: `${insets.top + shell.top}px`, paddingTop: `${insets.top}px`, paddingLeft: `${insets.left + 10}px`, paddingRight: `${insets.right + 10}px` } },
       el('span', { class: 'v2-top__label' }, 'Board v2 · proposal'),
-      el('span', { class: 'v2-top__meta' }, params.get('film') ? `Synthetic · ${viewport.width}×${viewport.height} · ${shell.tier}${fallback}` : `Synthetic: ${fixture} · ${roster} players · ${viewport.width}×${viewport.height} · ${shell.tier} shell${fallback}`)),
+      el('span', { class: 'v2-top__meta' }, params.get('film') ? `Synthetic${FOUR ? ' · four beds' : ''} · ${viewport.width}×${viewport.height} · ${shell.tier}${fallback}` : `Synthetic: ${fixture} · ${roster} players${FOUR ? ', four beds' : ''} · ${viewport.width}×${viewport.height} · ${shell.tier} shell${fallback}`)),
     el('div', { class: 'v2-board', style: { left: `${board.boardLeft}px`, width: `${board.boardWidth}px`, top: `${board.boardTop}px`, height: `${board.boardHeight}px` } }),
     el('nav', { class: 'v2-nav', style: { height: `${shell.nav + insets.bottom}px`, paddingBottom: `${insets.bottom}px`, paddingLeft: `${insets.left + 10}px`, paddingRight: `${insets.right + 10}px` }, 'aria-hidden': 'true' }, ...['Board', 'Actions', '', 'Card', 'Menu'].map(name => el('span', {}, name))),
     // The phone kit's raised Pass, as a stand-in: its size and its rise over the board, for the check that it covers no slot.
@@ -197,6 +199,7 @@ function draw() {
   if (params.get('film') === 'capsule' && board.fits) mountCapsule({ app, board, roster, seats, params, drawFigure, drawTag });
   if (medical && board.fits) mountMedical({ app, board, roster, seats, params, drawFigure, drawTag });
   if (captain && board.fits) mountCaptain({ app, board, roster, seats, params });
+  if (overflow && board.fits) mountOverflow({ app, board, roster, params });
   // The real controls, over a board only: never over the too-short message.
   if (ui && board.fits) mountTurns({ app, board, roster, seats, params });
   // The characters off the board as targets, in the sheet the choosing row's tab opens (after an EJECT).

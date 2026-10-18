@@ -51,8 +51,7 @@ import { frameScene } from '../../board-motion/scenes/frame.mjs';
 import { BLACKOUT, blackoutFrame, lightsBackAt } from '../films/blackout.mjs';
 import { blockedEnd, blockedStartInBlackout } from '../films/blocked.mjs';
 import { SPARK_BOX, SPARK_ORIGIN } from '../scenes/lighting.mjs';
-import { BOARD_ROOMS, LOCATION_OF, sceneOf, slotsOf } from '../scenes/slots.mjs';
-import { slotRects } from './fit.mjs';
+import { BOARD_ROOMS, LOCATION_OF, sceneOf, slotRects, slotsOf, wardPictures } from './layout.mjs';
 import { BLACKOUT_OUTCOMES } from './fixtures.mjs';
 import { mountBlocked, roomLive } from './blocked-view.mjs';
 
@@ -134,7 +133,7 @@ export function mountBlackout({ app, board, roster, seats, params, drawFigure, d
     const { k, tx, ty } = frameScene(scene, panel);
     const art = section.querySelector('.v2-art');
     const picture = { left: `${tx}px`, top: `${ty}px`, width: `${1024 * k}px`, height: `${768 * k}px` };
-    const dark = el('img', { class: 'v2-dark', alt: '', src: room === 'hospital' ? `${LIGHTING}/hospital-ward-${roster}.dark.svg` : `${LIGHTING}/${room}.dark.svg`, style: { ...picture, zIndex: '3000' } });
+    const dark = el('img', { class: 'v2-dark', alt: '', src: room === 'hospital' ? `${LIGHTING}/${wardPictures(roster).dark}` : `${LIGHTING}/${room}.dark.svg`, style: { ...picture, zIndex: '3000' } });
     art.append(dark);
     const rects = slotRects(room, roster, panel);
     // The position markers: every fixed slot, empty or not; named by their number alone.

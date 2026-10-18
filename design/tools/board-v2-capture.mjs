@@ -107,10 +107,31 @@ const { berthState, criticalFrame, filmBerth, flatlineEnd, flatlineFrame, rescue
 const { DRONE, DRONE_SCENE, PULSE_BOX, PULSE_FLASH_RADIUS, berthKit, droneFit, insetBox, tagBox } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/fx/medical.mjs')).href);
 const { medicalOutcome, medicalSeats } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/js/medical-fixtures.mjs')).href);
 const { outcomeWords } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/js/medical-view.mjs')).href);
-const { frameScene } = await import(pathToFileURL(resolve(repoRoot, 'design/board-motion/scenes/frame.mjs')).href);
+const { frameScene, pressPoint } = await import(pathToFileURL(resolve(repoRoot, 'design/board-motion/scenes/frame.mjs')).href);
+const { FRAME } = await import(pathToFileURL(resolve(repoRoot, 'design/board-motion/figures/body.mjs')).href);
+const { skeletonOf } = await import(pathToFileURL(resolve(repoRoot, 'design/board-motion/figures/gestures.mjs')).href);
 const { AIRLOCK, CONSOLE, JAIL_DOOR, conduitAt, conduitPoints, consoleBox, plaqueBox } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/fx/captain.mjs')).href);
 const { captainWords, ejectEnd, ejectFrame, releaseEnd, releaseFrame } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/films/captain.mjs')).href);
 const { captainOutcome } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/js/captain-fixtures.mjs')).href);
+const fitFour = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/js/fit-four.mjs')).href);
+const slotsFour = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/scenes/slots-four.mjs')).href);
+const turnsFour = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/js/turns-four.mjs')).href);
+const { fourBerthKit, fourFilmBerth, fourRescueFrame } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/fx/medical-four.mjs')).href);
+const { fullStampBox, overflowWay, spinePlaqueBox } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/fx/overflow.mjs')).href);
+const { overflowEnd, overflowFrame } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/films/overflow.mjs')).href);
+const { overflowOutcome, overflowWords } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/js/overflow-fixtures.mjs')).href);
+/**
+ * The layout a shot's page draws (js/layout.mjs's rule): the current board's, or with &beds=4 the successor's four-berth
+ * one, whose bands and panels are the current board's and whose Hospital is the four-berth ward. Every measurement of a
+ * shot takes its expectations from it.
+ */
+const isFour = shot => new URLSearchParams(shot.query ?? '').get('beds') === '4';
+const CURRENT_LAYOUT = Object.freeze({ fitBoardV2, slotRects, boardRects, sceneOf, boardTargets, turnsLayout, berthKit, filmBerth, rescueFrame });
+const FOUR_LAYOUT = Object.freeze({
+  fitBoardV2: fitFour.fitBoardV2, slotRects: fitFour.slotRects, boardRects: fitFour.boardRects, sceneOf: slotsFour.sceneOf, boardTargets: turnsFour.boardTargets, turnsLayout: turnsFour.turnsLayout,
+  berthKit: fourBerthKit, filmBerth: (anchor, roster, seats, subject) => fourFilmBerth(anchor, seats, subject), rescueFrame: fourRescueFrame,
+});
+const layoutOf = shot => (isFour(shot) ? FOUR_LAYOUT : CURRENT_LAYOUT);
 /** Words of a side or a role: never on a capsule, medical or Captain page, which is public. */
 const PRIVATE_WORDS = /\b(?:Blue|Red|Officer|Insider|Cracker|Disabler|Supplier|Undercover|Hacker|Alien|faction)\b/;
 
@@ -401,6 +422,59 @@ function plan() {
   captain('offboard-full-choosing', at320, '&film=eject&outcome=eject-full&t=7300&ui=choosing&offboard=1&offered=1,2,3,4,5,6,7,8,9&chosen=2,6', 'A full Jail ejected: five cards in one row at 320 px, two chosen', { measure: false });
   captain('offboard-choosing-text2', at390, `${offboard}&text=2`, '200% text: the top bar 124 px; the cards in the sheet as before', { measure: false });
   shots.push({ file: 'captain-sheet.png', group: 'captain', viewport: [1240, 1260], query: 'sheet=captain', scale: 1, sheetHeight: 630, about: 'The Captain\'s art for review: S8\'s plates in every state at a phone\'s size and the cover\'s frames; the console inset at its moments; the Jail\'s door, the airlock, the suction and the debris over the Jail; the exterior; the plaque and the history\'s grey cut-outs; the poses' });
+  // The successor's four-berth Hospital (the owner's four-bed decision of 18 October 2026, #155; &beds=4): the current board
+  // panel for panel, its Hospital the four-berth ward. The same measurements, with fit-four.mjs's expectations.
+  const four = (name, viewport, query, about, flags = {}) => shots.push({ file: `four-${vp(viewport)}-${name}.png`, group: 'four', viewport, query: `roster=${flags.roster ?? 9}&beds=4${query}`, about, ...flags });
+  for (const viewport of VIEWPORTS) {
+    four('ward', viewport, '&fixture=ward&hit=1', `Four beds: four patients, the ward full; the current board's rooms and press areas everywhere else, at ${vp(viewport)}`, { measure: true });
+    four('mixed', viewport, '&fixture=mixed&hit=1', `Four beds on a third-round board: Rigel at H1, Mira detained at H2, a body at H4, at ${vp(viewport)}`, { measure: true });
+  }
+  four('mixed-capsule', at390, '&fixture=mixed&capsule=1&hit=1', 'Four beds with the capsule beside the Command Room', { measure: true });
+  for (const viewport of [at390, at320]) four('slots', viewport, '&fixture=empty&markers=1&press=1&ids=1', 'Every slot: the Hospital\'s four, H1 to H4, their press areas and position numbers, nobody there', { measure: true });
+  four('stress', at390, '&fixture=stress&markers=1&press=1', 'Every slot taken (layout only): four patients in the ward', { measure: true });
+  for (const roster of [7, 8]) four(`ward-r${roster}`, at390, '&fixture=ward&hit=1', `Four beds for ${roster} players: the same four berths`, { measure: true, roster });
+  for (const viewport of [at390, at320]) four('hospital', viewport, '&fixture=ward', 'The four-berth ward alone (3x): larger berths in two rows of two, none under the caption', { selector: '.v2-room[data-room=hospital]', scale: 3 });
+  shots.push({ file: 'four-scene-hospital.png', group: 'four', viewport: [1024, 768], query: 'scene=hospital&roster=9&beds=4&fixture=ward', scale: 1, sheetHeight: 300, about: 'The whole four-berth ward scene: the approved back wall whole (its monitor, medicine cabinet and window), the back row at its foot, the front row cut by the panel' });
+  // The Blackout's dark on the four-berth board: the ward's dark art, and a Disabler bound to the Hospital choosing among its four positions.
+  four('blackout-8000-dark', at390, '&fixture=mixed&film=blackout&t=8000', 'The Blackout\'s dark on the four-berth board: the ward\'s own dark art, its four positions\' markers', { film: { t: 8000 } });
+  four('blackout-8000-disabler-hospital', at390, '&fixture=mixed&film=blackout&t=8000&viewer=disabler&bound=hospital&step=choose', 'A Disabler bound to the Hospital: its four positions live in the dark, H1 to H4', { film: { t: 8000 } });
+  four('blackout-16300-settled', at390, '&fixture=mixed&film=blackout&t=16300', 'Lights back after a hit at B2: Orion admitted at H3, the free bed', { film: { t: 16300 } });
+  // #158's medical films on the four berths, the films unchanged (fx/medical-four.mjs).
+  const fourMedical = (name, viewport, query, about, flags = {}) => four(name, viewport, `${query}&hit=1`, about, { medical: true, measure: true, ...flags });
+  fourMedical('critical-r3', at390, '&film=critical&round=3', 'S9 on four berths: Rigel (H1) in his due round, Mira (H2) detained, the body at H4');
+  fourMedical('critical-r3', at320, '&film=critical&round=3', 'S9 on four berths, the smallest phone: every tag whole in the panel');
+  for (const [t, about] of [[1300, 'the drone coming down from the ceiling dock'], [2600, 'the scan over Rigel at H1'], [3550, 'the revival pulse'], [4500, 'Rigel sitting up, Healthy']]) fourMedical(`rescue-${ms(t)}`, at390, `&film=rescue&t=${t}`, `S5 on four berths: ${about} (${t} ms)`);
+  fourMedical('rescue-2600', at320, '&film=rescue&t=2600', 'S5 on four berths, the smallest phone (2 600 ms)');
+  fourMedical('reduced-rescue-0900', at390, '&film=rescue&t=900&motion=reduced', 'S5 on four berths, reduced motion: switched once (900 ms)');
+  fourMedical('rescue-detained-2600', at390, '&film=rescue&outcome=rescue-detained&t=2600', 'S5 on four berths: Mira, detained, at H2 (2 600 ms)');
+  fourMedical('vignette-2600', at390, '&film=rescue&outcome=vignette&t=2600', 'S5 on four berths, injured and healed in one batch: the anchor HV3 names bed H3, the free one (synthetic anchor, the Designer\'s proposal on #155) (2 600 ms)');
+  fourMedical('taken-2600', at390, '&film=rescue&outcome=rescue-taken&t=2600', 'Rigel healed while Lyra takes H1 in the same batch: no film over Lyra, the words alone (2 600 ms)');
+  // fourFilmBerth()'s no-film paths, with constructed anchors (synthetic): an anchor beyond the four beds, and one on a
+  // bed a body holds. Nothing of a film is drawn, nobody is hidden or marked away, and the words are said at once.
+  fourMedical('fifth-2600', at390, '&film=rescue&outcome=rescue-fifth&t=2600', 'Rigel healed with the anchor HV5, a fifth subject\'s (constructed): it names none of the four beds, so no film plays; the words alone (2 600 ms)');
+  fourMedical('fifth-reduced-0600', at390, '&film=rescue&outcome=rescue-fifth&t=600&motion=reduced', 'The same in reduced motion: no film, the words alone (600 ms)');
+  fourMedical('body-2600', at390, '&film=rescue&outcome=rescue-body&t=2600', 'Rigel healed with the anchor HV4 (constructed), the bed where a body lies: no film over the body, the words alone (2 600 ms)');
+  fourMedical('body-reduced-0600', at390, '&film=rescue&outcome=rescue-body&t=600&motion=reduced', 'The same in reduced motion: no film over the body (600 ms)');
+  fourMedical('death-fifth-2000', at390, '&film=flatline&outcome=death-fifth&t=2000', 'Rigel dies with the anchor HV5 (constructed): no flatline film, the words alone; the body stays at H1 (2 000 ms)');
+  for (const [t, about] of [[2000, 'the flatline, the light dipped to 0.72'], [2700, 'the shutdown']]) fourMedical(`flatline-${ms(t)}`, at390, `&film=flatline&t=${t}`, `S10 on four berths: ${about} (${t} ms)`);
+  fourMedical('rescue-2600-panel', at390, '&film=rescue&t=2600', 'S5 on four berths: the scan, the Hospital panel alone (3x)', { selector: '.v2-room[data-room=hospital]', scale: 3 });
+  // The controls take turns on the four-berth board: the same choosing row and sheet, the Hospital's four targets.
+  const fourTurns = (name, viewport, query, about) => four(name, viewport, `&fixture=mixed&film=capsule${query}&hit=1`, about, { turns: true });
+  fourTurns('turns-choosing', at390, '&stage=talk&t=30000&ui=choosing&chosen=5,8', 'A character choice on the four-berth board: every target ringed, the Hospital\'s at its four berths');
+  fourTurns('turns-choosing', at320, '&stage=talk&t=30000&ui=choosing&chosen=5&viewer=participant&tab=1', 'The same on the smallest phone');
+  fourTurns('turns-result-2400', at390, '&stage=result&t=2400&viewer=participant&ui=sheet&claim=result', 'The private result whole in the sheet over the Hospital and the Jail: the same sheet as the current board\'s');
+  fourTurns('turns-talk-code-confirm', at320, '&stage=talk&t=30000&viewer=participant&ui=sheet&claim=conversation&command=code-confirm', 'A Code confirmation on the smallest phone: the same sheet');
+  // The Captain's films on the four-berth board: the plaque in the spine between the Hospital and the Jail.
+  const fourCaptain = (name, viewport, query, about, flags = {}) => four(name, viewport, `&capsule=1${query}&hit=1`, about, { captain: true, measure: true, ...flags });
+  fourCaptain('release-3000', at390, '&film=release&t=3000', 'S6 on the four-berth board: Mira stays in her berth (3 000 ms)');
+  fourCaptain('eject-3500', at390, '&film=eject&t=3500', 'S7 on the four-berth board (3 500 ms)');
+  fourCaptain('eject-7300', at390, '&film=eject&t=7300', 'S7 done: the plaque in the spine between the Hospital and the Jail, counting the three off the board');
+  fourCaptain('offboard-choosing', at390, '&film=eject&t=7300&ui=choosing&offboard=1&offered=1,2,3,4,5,6,7,8,9&chosen=4', 'After the EJECT, the off-board cards in the same sheet', { measure: false });
+  // The overflow victim's beat (films/overflow.mjs): the four beds full, Orion at B2 struck and off the board (synthetic, labelled).
+  const overflow = (name, viewport, t, about, extra = '') => four(`overflow-${name}`, viewport, `&film=overflow&t=${t}${extra}&hit=1`, about, { overflow: true, measure: true });
+  for (const [t, about] of [[150, 'the Hospital\'s FULL stamp appearing; Orion at B2'], [700, 'Orion turning into the grey cut-out at his place'], [1600, 'the cut-out leaving the board on its arc to the spine; the client\'s words'], [2350, 'the plaque taking it: its count 1'], [2900, 'done: Orion nowhere on the board, the plaque in the spine']]) overflow(ms(t), at390, t, `The overflow beat: ${about} (${t} ms)`);
+  for (const t of [1600, 2900]) overflow(ms(t), at320, t, `The overflow beat on the smallest phone (${t} ms)`);
+  for (const [t, about] of [[40, 'the cut-out at its place with FULL, fading in'], [900, 'the place empty, the plaque counting it'], [1600, 'done']]) overflow(`reduced-${ms(t)}`, at390, t, `The overflow beat, reduced motion: ${about} (${t} ms)`, '&motion=reduced');
   return shots;
 }
 
@@ -719,6 +793,7 @@ function problemsOfCapsule(shot, measured) {
 }
 
 function problemsOfFilm(shot, measured) {
+  const { fitBoardV2, boardRects } = layoutOf(shot);
   const problems = [];
   const query = new URLSearchParams(shot.query);
   const [width, height] = shot.viewport;
@@ -839,6 +914,7 @@ const MEASURE_MEDICAL = `(() => {
 
 /** What a medical page should show, from its query alone: the snapshot's seats with their medical facts, the outcome, its berth, whether its film plays, and the film's frame. */
 function medicalExpected(shot) {
+  const { filmBerth, rescueFrame } = layoutOf(shot);
   const query = new URLSearchParams(shot.query);
   const roster = Number(query.get('roster') ?? 9);
   const film = query.get('film');
@@ -849,7 +925,8 @@ function medicalExpected(shot) {
   const seats = medicalSeats(outcome ? outcome.after : fixtureSeats(query.get('fixture') ?? 'mixed', roster), { round });
   const placed = outcome ? filmBerth(outcome.anchor, roster, outcome.after.map(seat => ({ seat: seat.seat, slotId: seat.room === 'hospital' ? seat.slot : null })), outcome.subject.seat) : null;
   const end = film === 'rescue' ? rescueEnd(reduced) : film === 'flatline' ? flatlineEnd(reduced) : 0;
-  const frame = film === 'rescue' ? rescueFrame(t, placed.berth, { reduced }) : film === 'flatline' ? flatlineFrame(t, { reduced }) : null;
+  // A rescue's frame needs its berth; where no film plays (a held bed, or an anchor that names none) there is none.
+  const frame = film === 'rescue' ? (placed.plays ? rescueFrame(t, placed.berth, { reduced }) : null) : film === 'flatline' ? flatlineFrame(t, { reduced }) : null;
   const during = Boolean(outcome) && t >= 0 && t < end;
   return { roster, film, reduced, round, t, outcome, seats, berth: placed?.berth ?? null, plays: placed?.plays ?? false, frame, entry: query.has('entry') ? Number(query.get('entry')) : null, during, live: during && placed.plays };
 }
@@ -857,6 +934,7 @@ function medicalExpected(shot) {
 const FIGURE_ID = /^s\d+([A-Z]\d+)([HIE])/;
 
 function problemsOfMedical(shot, m) {
+  const { fitBoardV2, slotRects, sceneOf, berthKit, rescueFrame } = layoutOf(shot);
   if (!m) return ['no Hospital on the page'];
   const problems = [];
   const { roster, film, reduced, round, t, outcome, seats, berth, plays, entry, during, live } = medicalExpected(shot);
@@ -1128,6 +1206,7 @@ const MEASURE_CAPTAIN = `(() => {
 
 /** What a Captain film's page should show, from its query alone: the outcome, the board, the frame, and where the console inset and the pulse go. */
 function captainExpected(shot) {
+  const { fitBoardV2, slotRects, sceneOf } = layoutOf(shot);
   const query = new URLSearchParams(shot.query);
   const roster = Number(query.get('roster') ?? 9);
   const film = query.get('film');
@@ -1155,6 +1234,7 @@ function captainExpected(shot) {
 }
 
 function problemsOfCaptain(shot, m) {
+  const { turnsLayout } = layoutOf(shot);
   if (!m) return ['nothing measured'];
   const problems = [];
   const { roster, kind, reduced, t, outcome, board, end, frame, band, captainBox, tag, place, jailFrame, conduit, during } = captainExpected(shot);
@@ -1230,8 +1310,14 @@ function problemsOfCaptain(shot, m) {
     if (m.plaque.text !== String(off)) problems.push(`the plaque says ${m.plaque.text}; ${off} seats are off the board`);
     // Placed by the caption's layout box (as the page lays it out, before its slant), kept clear of its slanted edge.
     const caption = m.captions.jail;
-    const at = plaqueBox({ caption: caption.layout, size: [m.plaque.layout.width, m.plaque.layout.height], panel: board.panels.jail });
-    if (!near(m.plaque.layout.left, at.left, 1) || !near(m.plaque.layout.top, at.top, 1)) problems.push('the plaque is not where plaqueBox() puts it');
+    if (isFour(shot)) {
+      // On the successor's board the plaque is in the spine between the Hospital and the Jail (fx/overflow.mjs).
+      const at = spinePlaqueBox({ hospital: board.boxes.hospital, jail: board.boxes.jail, border: board.shell.border, cap: board.panels.hospital.cap, size: [m.plaque.layout.width, m.plaque.layout.height] });
+      if (!at || !near(m.plaque.layout.left, at.left - board.boardLeft, 1) || !near(m.plaque.layout.top, at.top - board.boardTop, 1)) problems.push('the plaque is not where spinePlaqueBox() puts it');
+    } else {
+      const at = plaqueBox({ caption: caption.layout, size: [m.plaque.layout.width, m.plaque.layout.height], panel: board.panels.jail });
+      if (!near(m.plaque.layout.left, at.left, 1) || !near(m.plaque.layout.top, at.top, 1)) problems.push('the plaque is not where plaqueBox() puts it');
+    }
     if (overlap(m.plaque, caption)) problems.push('the plaque is over the Jail\'s caption');
   }
   if (!during) return problems;
@@ -1340,6 +1426,153 @@ function problemsOfCaptain(shot, m) {
 }
 
 /** The Captain's films' page comparisons, with pageAt(viewport, query) loading a page's markup. */
+/** Reads the overflow beat's page back (&film=overflow&beds=4): its stage, the FULL stamp, the victim's figures, the flyer, the plaque and the live region. */
+const MEASURE_OVERFLOW = `(() => {
+  const app = document.getElementById('v2-app');
+  const box = node => { const b = node.getBoundingClientRect(); return { left: b.left, top: b.top, width: b.width, height: b.height }; };
+  const layout = node => ({ left: node.offsetLeft, top: node.offsetTop, width: node.offsetWidth, height: node.offsetHeight });
+  const opacity = node => Number(getComputedStyle(node).opacity);
+  const one = selector => { const node = app.querySelector(selector); return node ? { ...box(node), layout: layout(node), opacity: opacity(node), text: node.textContent, data: { ...node.dataset } } : null; };
+  return {
+    stage: document.documentElement.dataset.stage ?? null,
+    live: app.querySelector('[data-live]')?.textContent ?? '',
+    stamp: one('.v2-ovf__stamp'),
+    flyer: one('.v2-ovf__flyer'),
+    plaque: one('.v2-plaque'),
+    plaques: app.querySelectorAll('.v2-plaque').length,
+    victim: [...app.querySelectorAll('.v2-room .v2-fig[data-seat="5"]')].map(node => ({ room: node.closest('.v2-room').dataset.room, memorial: node.classList.contains('v2-fig--memorial'), opacity: opacity(node), film: node.dataset.film ?? null, layout: layout(node) })),
+    caption: one('.v2-room[data-room=hospital] .v2-cap'),
+    filmNodes: app.querySelectorAll('[data-film=overflow]').length,
+    words: document.body.innerText,
+  };
+})()`;
+
+/** What is wrong with an overflow beat's page: each part where and as overflowFrame() and fx/overflow.mjs put it, and nothing outside the beat. */
+function problemsOfOverflow(shot, m) {
+  const problems = [];
+  const query = new URLSearchParams(shot.query);
+  const roster = Number(query.get('roster') ?? 9);
+  const reduced = query.get('motion') === 'reduced';
+  const t = Number(query.get('t'));
+  const [width, height] = shot.viewport;
+  const frame = overflowFrame(t, { reduced });
+  const end = overflowEnd(reduced);
+  const during = t >= 0 && t < end;
+  const board = FOUR_LAYOUT.fitBoardV2({ width, height }, roster);
+  const near = (a, b, tol = 1) => Math.abs(a - b) <= tol;
+  const { subject } = overflowOutcome(roster);
+  if (m.stage !== frame.stage) problems.push(`the page is at ${m.stage}; the frame at ${frame.stage}`);
+  const words = during && frame.announce ? overflowWords(subject.seat) : '';
+  if (m.live !== words) problems.push(`the live region says ${JSON.stringify(m.live)}, not ${JSON.stringify(words)}`);
+  if (PRIVATE_WORDS.test(m.words)) problems.push(`a side or role word on the page: ${PRIVATE_WORDS.exec(m.words)[0]}`);
+  if (!during && m.filmNodes) problems.push(`${m.filmNodes} nodes of the beat on the page ${t >= end ? 'after its end' : 'before it'}`);
+  // The FULL stamp: beside the Hospital's caption, in its band, as the frame has it.
+  const presses = FOUR_LAYOUT.slotRects('hospital', roster, board.panels.hospital).map(rect => ({ left: rect.left, top: rect.top, width: rect.side, height: rect.side }));
+  const meets = (a, b) => a.left < b.left + b.width - 0.01 && b.left < a.left + a.width - 0.01 && a.top < b.top + b.height - 0.01 && b.top < a.top + a.height - 0.01;
+  const stampAt = m.caption && m.stamp ? fullStampBox({ caption: m.caption.layout, size: [m.stamp.layout.width, m.stamp.layout.height], panel: board.panels.hospital, keepClear: presses }) : null;
+  const stampOn = during && frame.full.opacity > 0;
+  if (m.stamp && !stampOn) problems.push(`the FULL stamp is drawn; the frame's at ${frame.full.opacity}`);
+  if (!m.stamp && stampOn && m.caption && fullStampBox({ caption: m.caption.layout, size: [40, 18], panel: board.panels.hospital, keepClear: presses })) problems.push('the FULL stamp is missing where there is room for it');
+  if (m.stamp && m.caption) {
+    const at = stampAt;
+    if (!at || !near(m.stamp.layout.left, at.left) || !near(m.stamp.layout.top, at.top)) problems.push('the FULL stamp is not where fullStampBox() puts it');
+    for (const box of [m.caption.layout, ...presses]) if (meets(m.stamp.layout, box)) problems.push(`the FULL stamp meets ${JSON.stringify(box)}`);
+    if (!near(m.stamp.opacity, frame.full.opacity, 0.02)) problems.push(`the FULL stamp at ${m.stamp.opacity}; the frame's ${frame.full.opacity}`);
+    if (m.stamp.text.trim().toLowerCase() !== 'full') problems.push(`the stamp says ${m.stamp.text}`);
+  }
+  // The victim: at its place only while the frame draws it there, its own figure and its grey cut-out as the frame has them.
+  const own = m.victim.filter(figure => !figure.memorial), grey = m.victim.filter(figure => figure.memorial);
+  if (m.victim.some(figure => figure.room !== subject.room)) problems.push(`the victim drawn in ${m.victim.map(figure => figure.room).join(', ')}, not only at ${subject.room}`);
+  if ((own.length > 0) !== (during && frame.figure.opacity > 0)) problems.push(`the victim's own figure ${own.length ? 'drawn' : 'missing'}; the frame's at ${frame.figure.opacity}`);
+  if ((grey.length > 0) !== (during && frame.figure.grey > 0)) problems.push(`the victim's grey cut-out ${grey.length ? 'drawn' : 'missing'}; the frame's at ${frame.figure.grey}`);
+  for (const [figures, want] of [[own, frame.figure.opacity], [grey, frame.figure.grey]]) for (const figure of figures) if (!near(figure.opacity, want, 0.02)) problems.push(`a victim figure at ${figure.opacity}, the frame's ${want}`);
+  // The plaque: in the spine between the Hospital and the Jail, counting the published snapshot's seats off the board.
+  const count = !during || frame.plaque.counted ? 1 : 0;
+  if (m.plaques !== (count > 0 ? 1 : 0)) problems.push(`${m.plaques} plaques; ${count} off the board`);
+  let center = null;
+  if (m.plaque) {
+    if (m.plaque.text !== String(count)) problems.push(`the plaque says ${m.plaque.text}, not ${count}`);
+    const at = spinePlaqueBox({ hospital: board.boxes.hospital, jail: board.boxes.jail, border: board.shell.border, cap: board.panels.hospital.cap, size: [m.plaque.layout.width, m.plaque.layout.height] });
+    if (!at || !near(m.plaque.layout.left, at.left - board.boardLeft) || !near(m.plaque.layout.top, at.top - board.boardTop)) problems.push('the plaque is not where spinePlaqueBox() puts it');
+    if (at) center = [at.left + at.width / 2, at.top + at.height / 2];
+  }
+  // The flyer: on overflowWay() from the victim's press point to the plaque's centre (where the plaque is, or will be once
+  // it counts the victim: in the spine's middle, in the caption band), at the frame's share of the way.
+  if (Boolean(m.flyer) !== Boolean(during && frame.flyer)) problems.push(`the flyer is ${m.flyer ? 'drawn' : 'missing'}; the frame ${frame.flyer ? 'has one' : 'has none'}`);
+  if (m.flyer && frame.flyer) {
+    const to = (m.flyer.data.to ?? '').split(',').map(Number);
+    const spineMiddle = board.boxes.hospital.left + board.boxes.hospital.width + (board.boxes.jail.left - board.boxes.hospital.left - board.boxes.hospital.width) / 2;
+    const bandTop = board.boxes.hospital.top + board.shell.border;
+    if (to.length !== 2 || !near(to[0], spineMiddle, 0.6) || to[1] < bandTop - 0.5 || to[1] > bandTop + board.panels.hospital.cap + 4) problems.push(`the flyer heads for ${to.join(',')}, not the plaque's place in the spine`);
+    if (center && (!near(to[0], center[0], 0.6) || !near(to[1], center[1], 0.6))) problems.push('the flyer heads elsewhere than the plaque');
+    center = to;
+  }
+  if (m.flyer && frame.flyer && center) {
+    const room = subject.room;
+    const slot = slotsFour.slotsOf(room, roster).find(entry => entry.id === subject.slot);
+    const scene = frameScene(slotsFour.sceneOf(room, roster), board.panels[room]);
+    const press = [board.boxes[room].left + board.shell.border + scene.tx + slot.pressAt[0] * scene.k, board.boxes[room].top + board.shell.border + scene.ty + slot.pressAt[1] * scene.k];
+    const [BX, BY] = FRAME.box, [AX] = FRAME.anchor;
+    const unit = slot.scale * scene.k;
+    const [pxF, pyF] = pressPoint(skeletonOf(slot.gesture));
+    const pressIn = [slot.mirror ? (2 * (AX - BX) - (pxF - BX)) * unit : (pxF - BX) * unit, (pyF - BY) * unit];
+    const [x, y] = overflowWay(press, center, frame.flyer.v);
+    if (!near(m.flyer.layout.left, x - board.boardLeft - pressIn[0], 1.5) || !near(m.flyer.layout.top, y - board.boardTop - pressIn[1], 1.5)) problems.push(`the flyer is at ${m.flyer.layout.left.toFixed(1)},${m.flyer.layout.top.toFixed(1)}; overflowWay() puts it at ${(x - board.boardLeft - pressIn[0]).toFixed(1)},${(y - board.boardTop - pressIn[1]).toFixed(1)}`);
+    if (!near(m.flyer.opacity, frame.flyer.opacity, 0.02)) problems.push(`the flyer at ${m.flyer.opacity}; the frame's ${frame.flyer.opacity}`);
+  }
+  return problems;
+}
+
+/**
+ * The successor's four-berth board: outside the Hospital, the current board's rooms exactly; the overflow beat public, nothing
+ * left of it once over, and no room touched but the victim's and the Hospital; #158's rescue public on four berths, touching
+ * no room but the Hospital and the room its subject is marked away in.
+ */
+async function fourComparisons(pageAt) {
+  const out = [];
+  const rooms = (page, keep) => JSON.stringify(Object.entries(JSON.parse(page.rooms)).filter(([room]) => keep.includes(room)));
+  const notHospital = ['command-room', 'room-a', 'room-b', 'jail'];
+  for (const viewport of [[390, 844], [320, 568]]) {
+    for (const extra of ['', '&capsule=1']) {
+      const [current, four] = await Promise.all(['', '&beds=4'].map(beds => pageAt(viewport, `roster=9&fixture=mixed${extra}${beds}`)));
+      out.push({ compare: `every room but the Hospital on the four-berth board and on the current one, ${vp(viewport)}${extra ? ', with the capsule' : ''}`, same: rooms(current, notHospital) === rooms(four, notHospital) });
+    }
+    for (const reducedMotion of ['', '&motion=reduced']) {
+      const after = reducedMotion ? overflowEnd(true) + 50 : 2900;
+      const [done, ahead] = await Promise.all([after, -1].map(t => pageAt(viewport, `roster=9&beds=4&film=overflow&t=${t}${reducedMotion}`)));
+      out.push({ compare: `the page after the overflow beat (${after} ms) and before it, ${vp(viewport)}${reducedMotion ? ', reduced motion' : ''}`, same: done.html === ahead.html });
+    }
+  }
+  const at390 = [390, 844];
+  for (const t of [700, 1600]) {
+    const [player, display] = await Promise.all(['', '&viewer=display'].map(viewer => pageAt(at390, `roster=9&beds=4&film=overflow&t=${t}${viewer}`)));
+    out.push({ compare: `the overflow beat on the display and on a player's screen, 390x844, ${t} ms`, same: player.html === display.html });
+  }
+  for (const t of [700, 1600, 2350]) {
+    const [during, ahead] = await Promise.all([t, -1].map(time => pageAt(at390, `roster=9&beds=4&film=overflow&t=${time}`)));
+    const keep = ['command-room', 'room-a', 'jail'];
+    out.push({ compare: `${keep.join(', ')} during the overflow beat (${t} ms) and before it, 390x844`, same: rooms(during, keep) === rooms(ahead, keep) });
+  }
+  const [player, display] = await Promise.all(['', '&viewer=display'].map(viewer => pageAt(at390, `roster=9&beds=4&film=rescue&t=2600${viewer}`)));
+  out.push({ compare: 'the rescue on four berths on the display and on a player\'s screen, 390x844, 2600 ms', same: player.html === display.html });
+  const [during, ahead] = await Promise.all([2600, -1].map(time => pageAt(at390, `roster=9&beds=4&film=rescue&t=${time}`)));
+  out.push({ compare: 'command-room, room-b, jail during the rescue on four berths (2600 ms) and before it, 390x844', same: rooms(during, ['command-room', 'room-b', 'jail']) === rooms(ahead, ['command-room', 'room-b', 'jail']) });
+  // fourFilmBerth()'s no-film paths (constructed anchors): every room but the Hospital as before the outcome (nobody
+  // marked away), and the Hospital's interactive targets the same, none added (its monitors' traces move with time,
+  // so the Hospital itself is the measurement's: no node of a film, the words at once in the live region).
+  const targets = page => JSON.stringify(JSON.parse(page.rooms).hospital.match(/<button\b[^>]*>/g) ?? []);
+  for (const [outcome, film, t] of [['rescue-fifth', 'rescue', 2600], ['rescue-body', 'rescue', 2600], ['death-fifth', 'flatline', 2000]]) {
+    for (const reducedMotion of ['', '&motion=reduced']) {
+      const time = reducedMotion ? 600 : t;
+      const [during, ahead] = await Promise.all([time, -1].map(at => pageAt(at390, `roster=9&beds=4&film=${film}&outcome=${outcome}&t=${at}${reducedMotion}&hit=1`)));
+      const when = `the ${outcome} outcome, which plays no film (${time} ms), and before it, 390x844${reducedMotion ? ', reduced motion' : ''}`;
+      out.push({ compare: `every room but the Hospital on the four-berth board during ${when}`, same: rooms(during, notHospital) === rooms(ahead, notHospital) });
+      out.push({ compare: `the Hospital's targets on the four-berth board during ${when}`, same: targets(during) === targets(ahead) && targets(during) !== '[]' });
+    }
+  }
+  return out;
+}
+
 async function captainComparisons(pageAt) {
   const out = [];
   const rooms = (page, keep) => JSON.stringify(Object.entries(JSON.parse(page.rooms)).filter(([room]) => keep.includes(room)));
@@ -1424,11 +1657,13 @@ function seatedPair(query) {
 
 /** The real controls' places as turns.mjs lays them out for a page's viewport, roster, insets and text size. */
 function turnsOf(viewport, query) {
+  const { turnsLayout } = query.get('beds') === '4' ? FOUR_LAYOUT : CURRENT_LAYOUT;
   const enlarged = query.get('text') === '2';
   return turnsLayout({ width: viewport[0], height: viewport[1] }, Number(query.get('roster') ?? 9), { insets: insetsOf(query.get('safe')), bars: enlarged ? ENLARGED.bars : null, actions: enlarged ? ENLARGED.actions : undefined });
 }
 
 function problemsOfTurns(shot, m) {
+  const { boardTargets } = layoutOf(shot);
   const problems = [];
   const query = new URLSearchParams(shot.query);
   const roster = Number(query.get('roster') ?? 9);
@@ -1527,6 +1762,7 @@ function problemsOfTurns(shot, m) {
 }
 
 function problemsOf(shot, measured) {
+  const { fitBoardV2, boardRects } = layoutOf(shot);
   const problems = [];
   const [width, height] = shot.viewport;
   const query = new URLSearchParams(shot.query);
@@ -1782,9 +2018,10 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
       const turnsMeasured = shot.turns ? await page.evaluate(MEASURE_TURNS) : null;
       const medicalMeasured = shot.medical ? await page.evaluate(MEASURE_MEDICAL) : null;
       const captainMeasured = shot.captain ? await page.evaluate(MEASURE_CAPTAIN) : null;
+      const overflowMeasured = shot.overflow ? await page.evaluate(MEASURE_OVERFLOW) : null;
       await page.screenshot(resolve(repoRoot, OUT, shot.file), { selector: shot.selector ?? null, viewport: !shot.selector });
-      const problems = [...(measured ? problemsOf(shot, measured) : []), ...(filmed ? problemsOfFilm(shot, filmed) : []), ...(blockedMeasured ? problemsOfBlocked(shot, blockedMeasured) : []), ...(capsuleMeasured ? problemsOfCapsule(shot, capsuleMeasured) : []), ...(turnsMeasured ? problemsOfTurns(shot, turnsMeasured) : []), ...(shot.medical ? problemsOfMedical(shot, medicalMeasured) : []), ...(shot.captain ? problemsOfCaptain(shot, captainMeasured) : []), ...page.problems()];
-      const fit = shot.measure ? fitBoardV2({ width, height }, Number(new URLSearchParams(shot.query).get('roster') ?? 9), { insets: insetsOf(new URLSearchParams(shot.query).get('safe')), capsule: Boolean(shot.capsule) }) : null;
+      const problems = [...(measured ? problemsOf(shot, measured) : []), ...(filmed ? problemsOfFilm(shot, filmed) : []), ...(blockedMeasured ? problemsOfBlocked(shot, blockedMeasured) : []), ...(capsuleMeasured ? problemsOfCapsule(shot, capsuleMeasured) : []), ...(turnsMeasured ? problemsOfTurns(shot, turnsMeasured) : []), ...(shot.medical ? problemsOfMedical(shot, medicalMeasured) : []), ...(shot.captain ? problemsOfCaptain(shot, captainMeasured) : []), ...(shot.overflow ? problemsOfOverflow(shot, overflowMeasured) : []), ...page.problems()];
+      const fit = shot.measure ? layoutOf(shot).fitBoardV2({ width, height }, Number(new URLSearchParams(shot.query).get('roster') ?? 9), { insets: insetsOf(new URLSearchParams(shot.query).get('safe')), capsule: Boolean(shot.capsule) }) : null;
       report.push({ file: shot.file, viewport: `${width}x${height}`, query: shot.query, problems, shell: fit?.shell.tier ?? null, fallback: fit?.fallback ?? null, fits: fit?.fits ?? null, boardProblems: fit?.problems ?? [] });
       console.log(`${problems.length ? 'PROBLEM' : 'ok     '} ${shot.file}${problems.length ? `: ${problems.join('; ')}` : ''}`);
       await page.close();
@@ -1964,6 +2201,9 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
     // began (the plaque the board's own both times); while it plays, no room touched but the Command Room, the Jail and
     // the released' new rooms; and the top bar's box the plain board's.
     disclosure.push(...await captainComparisons(pageAt));
+    // The successor's four-berth board: the current board outside the Hospital; the overflow beat public, leaving nothing, and
+    // touching no room but the victim's and the Hospital; #158's rescue on four berths public and touching no other room.
+    disclosure.push(...await fourComparisons(pageAt));
     for (const entry of disclosure) console.log(`${entry.same ? 'same   ' : 'DIFFERS'} ${entry.compare}`);
     // The label for every slot of every room: every slot taken, each blocked at once (the art review's
     // screen, which no player receives), measured but not pictured.
@@ -1989,7 +2229,7 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
     const index = { devOnly: 'mothership:dev-only', inputsSha256, note: 'Desktop Chromium laying out design/board-v2/index.html from synthetic fixtures. Not a phone measurement and nothing about a match.', captures: shots.map(({ file, group, query, about, sheetHeight }) => ({ file, group, query, about, sheetHeight })) };
     await writeFile(resolve(repoRoot, OUT, 'index.json'), `${JSON.stringify(index, null, 2)}\n`);
     await writeFile(resolve(repoRoot, OUT, 'report.json'), `${JSON.stringify({ devOnly: 'mothership:dev-only', inputsSha256, shots: report, probes, interactions, disclosure, labels }, null, 2)}\n`);
-    for (const [file, query] of [['contact.png', ''], ['contact-blackout.png', '?group=blackout'], ['contact-blocked.png', '?group=blocked'], ['contact-capsule.png', '?group=capsule'], ['contact-turns.png', '?group=turns'], ['contact-medical.png', '?group=medical'], ['contact-captain.png', '?group=captain']]) {
+    for (const [file, query] of [['contact.png', ''], ['contact-blackout.png', '?group=blackout'], ['contact-blocked.png', '?group=blocked'], ['contact-capsule.png', '?group=capsule'], ['contact-turns.png', '?group=turns'], ['contact-medical.png', '?group=medical'], ['contact-captain.png', '?group=captain'], ['contact-four.png', '?group=four']]) {
       const page = await openPage(browser, { width: 1600, height: 900, scale: 1 });
       await page.goto(`${server.origin}/board-v2/contact.html${query}`, 'document.readyState === "complete" && window.__designReady === true');
       await page.fitHeight();
@@ -2006,6 +2246,6 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
   const probing = probes.filter(entry => entry.problems.length);
   const pressing = interactions.filter(entry => entry.problems.length);
   const misplaced = labels.filter(entry => entry.problems.length);
-  console.log(`Board-v2 captures: ${report.length} pictures and seven contact sheets, ${failing.length} with problems; ${probes.length} pointer probes, ${probing.length} with problems; ${interactions.length} press tests, ${pressing.length} with problems; ${disclosure.length} page comparisons, ${differing.length} differing; ${labels.length} label placements, ${misplaced.length} with problems`);
+  console.log(`Board-v2 captures: ${report.length} pictures and eight contact sheets, ${failing.length} with problems; ${probes.length} pointer probes, ${probing.length} with problems; ${interactions.length} press tests, ${pressing.length} with problems; ${disclosure.length} page comparisons, ${differing.length} differing; ${labels.length} label placements, ${misplaced.length} with problems`);
   if (failing.length || probing.length || pressing.length || differing.length || misplaced.length) process.exitCode = 1;
 }

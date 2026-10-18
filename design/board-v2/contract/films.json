@@ -686,6 +686,68 @@
         }
       ],
       "never": "A rejected, pending or unknown command never plays S6 or S7, and an invalid or empty command never shows used"
+    },
+    {
+      "id": "hospital-overflow",
+      "storyboard": "HOSPITAL-4 (proposal)",
+      "status": "proposal: on the occurrence of Backend's preferred event choice A (H4-CLINICAL-01, draft #157), still unallocated",
+      "audience": "public: every phone and the display, from the non-bed overflow occurrence; live only",
+      "clock": "Milliseconds from the occurrence's presentation start; 2800 ms (reduced 1560 ms). Nonblocking and cancelable: the board, the timers and the navigation stay usable; it stops at once, the board showing the latest snapshot, when a newer snapshot moves anyone, when the Blackout's window owns the board, or when the page is hidden. Never replayed: not on a reconnect, nor for an expired, duplicate or baseline-suppressed occurrence.",
+      "inputs": [
+        "t (from the occurrence's presentation start)",
+        "reduced (the device setting)",
+        "seatId: the occurrence's",
+        "the snapshot before: the victim's room and slot (when the client held it)",
+        "the snapshot published with it: the victim Eliminated, location null, slotId null"
+      ],
+      "notInputs": [
+        "an attacker, a role, a side, a faction or any cause beyond the occurrence",
+        "a bed, a berth or a clinical anchor (the victim never had one)",
+        "a local countdown or the client's own observation of time"
+      ],
+      "where": {
+        "stamp": "fullStampBox() (fx/overflow.mjs): right of the Hospital's caption, in its band",
+        "way": "overflowWay() (fx/overflow.mjs): from the victim's press point to the plaque's centre, on an arc",
+        "plaque": "spinePlaqueBox() (fx/overflow.mjs): in the spine between the Hospital and the Jail, at their caption band"
+      },
+      "words": "None of the beat's own: the client's announcement of the occurrence (Frontend's words, not yet written); announce marks the beat. FULL is the page's stamp, as USED is",
+      "beats": [
+        {
+          "id": "full",
+          "from": 0,
+          "to": 300,
+          "what": "The Hospital's FULL stamp appears beside its caption: the four beds are taken"
+        },
+        {
+          "id": "grey",
+          "from": 300,
+          "to": 1100,
+          "what": "At the victim's place (the snapshot before), its figure becomes the grey cut-out of the off-board record (fx/captain.mjs memorialSvg()), the same whatever its side"
+        },
+        {
+          "id": "lift",
+          "from": 1100,
+          "to": 2200,
+          "what": "The cut-out leaves the board on a short arc to the plaque, shrinking to 0.32 of its size; its place is empty"
+        },
+        {
+          "id": "counted",
+          "from": 2200,
+          "to": 2800,
+          "what": "The plaque takes it: a small pop, its count the published snapshot's; the FULL stamp fades"
+        }
+      ],
+      "reduced": {
+        "what": "Two still panels, each faded in over 80 ms: the grey cut-out at its place with FULL; then the place empty and the plaque counting it. No travel, pop or fade beyond the panels",
+        "fadeMs": 80,
+        "holdMs": 700,
+        "stages": [
+          "grey",
+          "counted"
+        ]
+      },
+      "settled": "The victim is drawn nowhere on the board; the plaque in the spine counts every character off the board, whatever took them off; Frontend lists them as grey cut-outs with seat and name, and a Code may still name them (#159's cards)",
+      "never": "No bed, berth, monitor, drone, flatline or admission is drawn for the victim, and no fifth bed; no existing patient or body moves; nothing graphic. No occurrence, no beat"
     }
   ]
 }

@@ -25,11 +25,13 @@ import { FRAME } from '../../board-motion/figures/body.mjs';
 import { skeletonOf } from '../../board-motion/figures/gestures.mjs';
 import { frameScene, pressPoint } from '../../board-motion/scenes/frame.mjs';
 import { LABEL_MARGIN } from '../fx/label-box.mjs';
-import { DRONE, DRONE_SCENE, berthKit, droneFit, insetBox, tagBox, vitalsInsetSvg } from '../fx/medical.mjs';
-import { berthState, criticalFrame, filmBerth, flatlineEnd, flatlineFrame, rescueEnd, rescueFrame } from '../films/medical.mjs';
-import { sceneOf, slotsOf } from '../scenes/slots.mjs';
-import { slotRects } from './fit.mjs';
+import { DRONE, DRONE_SCENE, droneFit, insetBox, tagBox, vitalsInsetSvg } from '../fx/medical.mjs';
+import { berthState, criticalFrame, flatlineEnd, flatlineFrame, rescueEnd } from '../films/medical.mjs';
+import { MEDICAL_BERTHS, sceneOf, slotRects, slotsOf } from './layout.mjs';
 import { medicalOutcome, medicalSeats } from './medical-fixtures.mjs';
+
+/** The berths' geometry and the films that depend on it: the roster-sized ward's, or with &beds=4 the four-berth ward's (./layout.mjs). */
+const { berthKit, filmBerth, rescueFrame } = MEDICAL_BERTHS;
 
 const ART = '../board-v2/assets/medical';
 const [AX, AY] = FRAME.anchor;

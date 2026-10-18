@@ -32,8 +32,7 @@ import { frameScene } from '../../board-motion/scenes/frame.mjs';
 import { CAPSULE_FILM, capsuleEnd, capsuleFrame, capsulePerson, homePerson } from '../films/capsule.mjs';
 import { POSE_NAMES, sittingPose, statusOf, walkingPose } from '../figures/capsule.mjs';
 import { BADGE_SIZE, CAPSULE_SEATS, CAPSULE_SIZE, CAPSULE_VIEW, DOOR, DOOR_FRAMES, DOORWAY, PATHS, TAG_STRIP, capsuleTargets, frameCapsule } from '../scenes/capsule.mjs';
-import { LOCATION_OF, sceneOf, slotsOf } from '../scenes/slots.mjs';
-import { SHELL, CAPSULE, slotRects } from './fit.mjs';
+import { CAPSULE, LOCATION_OF, SHELL, sceneOf, slotRects, slotsOf } from './layout.mjs';
 
 const ART = '../board-v2/assets/capsule';
 const [BX, BY, BOX] = FRAME.box;

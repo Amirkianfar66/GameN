@@ -22,12 +22,12 @@
   <script type="module">
     const params = new URLSearchParams(location.search);
     const group = params.get('group');
-    const titles = { blackout: 'Board v2 proposal: the Blackout\'s lighting window (storyboard S1)', blocked: 'Board v2 proposal: ATTACK BLOCKED, the same for every defense (storyboard S4)', capsule: 'Board v2 proposal: the private-talk capsule (storyboard S2), synthetic participants', turns: 'Board v2 proposal: the real controls take turns with the board (the owner\'s decision of 14 October 2026); stand-ins sized from Frontend\'s measurements', medical: 'Board v2 proposal: the Hospital\'s medical films (storyboards S9, S5 and S10), synthetic outcomes', captain: 'Board v2 proposal: the Captain\'s films (storyboards S6, S7 and S8), synthetic outcomes' };
+    const titles = { blackout: 'Board v2 proposal: the Blackout\'s lighting window (storyboard S1)', blocked: 'Board v2 proposal: ATTACK BLOCKED, the same for every defense (storyboard S4)', capsule: 'Board v2 proposal: the private-talk capsule (storyboard S2), synthetic participants', turns: 'Board v2 proposal: the real controls take turns with the board (the owner\'s decision of 14 October 2026); stand-ins sized from Frontend\'s measurements', medical: 'Board v2 proposal: the Hospital\'s medical films (storyboards S9, S5 and S10), synthetic outcomes', captain: 'Board v2 proposal: the Captain\'s films (storyboards S6, S7 and S8), synthetic outcomes', four: 'Board v2 proposal: the successor\'s four-berth Hospital (the owner\'s decision of 18 October 2026), the medical films on it and the overflow beat, synthetic' };
     if (titles[group]) document.getElementById('title').textContent = titles[group];
     const index = await (await fetch('review/index.json')).json();
     const grid = document.getElementById('grid');
-    // Unfiltered, every capture but the capsule's, the controls', the medical films' and the Captain's, which have their own sheets (?group=capsule, ?group=turns, ?group=medical, ?group=captain).
-    for (const shot of index.captures.filter(entry => (group ? entry.group === group : !['capsule', 'turns', 'medical', 'captain'].includes(entry.group)))) {
+    // Unfiltered, every capture but the capsule's, the controls', the medical films', the Captain's and the four-berth board's, which have their own sheets (?group=capsule, ?group=turns, ?group=medical, ?group=captain, ?group=four).
+    for (const shot of index.captures.filter(entry => (group ? entry.group === group : !['capsule', 'turns', 'medical', 'captain', 'four'].includes(entry.group)))) {
       const figure = document.createElement('figure');
       const img = document.createElement('img');
       img.src = `review/${shot.file}`;

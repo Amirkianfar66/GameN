@@ -1,6 +1,6 @@
 {
   "devOnly": "mothership:dev-only",
-  "inputsSha256": "09d8cf39c89bc8b2b044c2294f5a0a19895dec63c8bfa6098803ba28d98268b2",
+  "inputsSha256": "7c084bc3f26645b98ee772e282f76eb6d8106d2571d4dc288e3f255ca0c8e960",
   "shots": [
     {
       "file": "board-320x568-ward.png",
@@ -2747,6 +2747,576 @@
       "shell": null,
       "fallback": null,
       "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "four-320x568-ward.png",
+      "viewport": "320x568",
+      "query": "roster=9&beds=4&fixture=ward&hit=1",
+      "problems": [],
+      "shell": "compact",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "four-320x568-mixed.png",
+      "viewport": "320x568",
+      "query": "roster=9&beds=4&fixture=mixed&hit=1",
+      "problems": [],
+      "shell": "compact",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "four-360x740-ward.png",
+      "viewport": "360x740",
+      "query": "roster=9&beds=4&fixture=ward&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "four-360x740-mixed.png",
+      "viewport": "360x740",
+      "query": "roster=9&beds=4&fixture=mixed&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "four-390x844-ward.png",
+      "viewport": "390x844",
+      "query": "roster=9&beds=4&fixture=ward&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "four-390x844-mixed.png",
+      "viewport": "390x844",
+      "query": "roster=9&beds=4&fixture=mixed&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "four-430x932-ward.png",
+      "viewport": "430x932",
+      "query": "roster=9&beds=4&fixture=ward&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "four-430x932-mixed.png",
+      "viewport": "430x932",
+      "query": "roster=9&beds=4&fixture=mixed&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "four-390x844-mixed-capsule.png",
+      "viewport": "390x844",
+      "query": "roster=9&beds=4&fixture=mixed&capsule=1&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "four-390x844-slots.png",
+      "viewport": "390x844",
+      "query": "roster=9&beds=4&fixture=empty&markers=1&press=1&ids=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "four-320x568-slots.png",
+      "viewport": "320x568",
+      "query": "roster=9&beds=4&fixture=empty&markers=1&press=1&ids=1",
+      "problems": [],
+      "shell": "compact",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "four-390x844-stress.png",
+      "viewport": "390x844",
+      "query": "roster=9&beds=4&fixture=stress&markers=1&press=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "four-390x844-ward-r7.png",
+      "viewport": "390x844",
+      "query": "roster=7&beds=4&fixture=ward&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "four-390x844-ward-r8.png",
+      "viewport": "390x844",
+      "query": "roster=8&beds=4&fixture=ward&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "four-390x844-hospital.png",
+      "viewport": "390x844",
+      "query": "roster=9&beds=4&fixture=ward",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "four-320x568-hospital.png",
+      "viewport": "320x568",
+      "query": "roster=9&beds=4&fixture=ward",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "four-scene-hospital.png",
+      "viewport": "1024x768",
+      "query": "scene=hospital&roster=9&beds=4&fixture=ward",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "four-390x844-blackout-8000-dark.png",
+      "viewport": "390x844",
+      "query": "roster=9&beds=4&fixture=mixed&film=blackout&t=8000",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "four-390x844-blackout-8000-disabler-hospital.png",
+      "viewport": "390x844",
+      "query": "roster=9&beds=4&fixture=mixed&film=blackout&t=8000&viewer=disabler&bound=hospital&step=choose",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "four-390x844-blackout-16300-settled.png",
+      "viewport": "390x844",
+      "query": "roster=9&beds=4&fixture=mixed&film=blackout&t=16300",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "four-390x844-critical-r3.png",
+      "viewport": "390x844",
+      "query": "roster=9&beds=4&film=critical&round=3&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "four-320x568-critical-r3.png",
+      "viewport": "320x568",
+      "query": "roster=9&beds=4&film=critical&round=3&hit=1",
+      "problems": [],
+      "shell": "compact",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "four-390x844-rescue-1300.png",
+      "viewport": "390x844",
+      "query": "roster=9&beds=4&film=rescue&t=1300&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "four-390x844-rescue-2600.png",
+      "viewport": "390x844",
+      "query": "roster=9&beds=4&film=rescue&t=2600&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "four-390x844-rescue-3550.png",
+      "viewport": "390x844",
+      "query": "roster=9&beds=4&film=rescue&t=3550&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "four-390x844-rescue-4500.png",
+      "viewport": "390x844",
+      "query": "roster=9&beds=4&film=rescue&t=4500&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "four-320x568-rescue-2600.png",
+      "viewport": "320x568",
+      "query": "roster=9&beds=4&film=rescue&t=2600&hit=1",
+      "problems": [],
+      "shell": "compact",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "four-390x844-reduced-rescue-0900.png",
+      "viewport": "390x844",
+      "query": "roster=9&beds=4&film=rescue&t=900&motion=reduced&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "four-390x844-rescue-detained-2600.png",
+      "viewport": "390x844",
+      "query": "roster=9&beds=4&film=rescue&outcome=rescue-detained&t=2600&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "four-390x844-vignette-2600.png",
+      "viewport": "390x844",
+      "query": "roster=9&beds=4&film=rescue&outcome=vignette&t=2600&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "four-390x844-taken-2600.png",
+      "viewport": "390x844",
+      "query": "roster=9&beds=4&film=rescue&outcome=rescue-taken&t=2600&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "four-390x844-fifth-2600.png",
+      "viewport": "390x844",
+      "query": "roster=9&beds=4&film=rescue&outcome=rescue-fifth&t=2600&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "four-390x844-fifth-reduced-0600.png",
+      "viewport": "390x844",
+      "query": "roster=9&beds=4&film=rescue&outcome=rescue-fifth&t=600&motion=reduced&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "four-390x844-body-2600.png",
+      "viewport": "390x844",
+      "query": "roster=9&beds=4&film=rescue&outcome=rescue-body&t=2600&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "four-390x844-body-reduced-0600.png",
+      "viewport": "390x844",
+      "query": "roster=9&beds=4&film=rescue&outcome=rescue-body&t=600&motion=reduced&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "four-390x844-death-fifth-2000.png",
+      "viewport": "390x844",
+      "query": "roster=9&beds=4&film=flatline&outcome=death-fifth&t=2000&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "four-390x844-flatline-2000.png",
+      "viewport": "390x844",
+      "query": "roster=9&beds=4&film=flatline&t=2000&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "four-390x844-flatline-2700.png",
+      "viewport": "390x844",
+      "query": "roster=9&beds=4&film=flatline&t=2700&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "four-390x844-rescue-2600-panel.png",
+      "viewport": "390x844",
+      "query": "roster=9&beds=4&film=rescue&t=2600&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "four-390x844-turns-choosing.png",
+      "viewport": "390x844",
+      "query": "roster=9&beds=4&fixture=mixed&film=capsule&stage=talk&t=30000&ui=choosing&chosen=5,8&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "four-320x568-turns-choosing.png",
+      "viewport": "320x568",
+      "query": "roster=9&beds=4&fixture=mixed&film=capsule&stage=talk&t=30000&ui=choosing&chosen=5&viewer=participant&tab=1&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "four-390x844-turns-result-2400.png",
+      "viewport": "390x844",
+      "query": "roster=9&beds=4&fixture=mixed&film=capsule&stage=result&t=2400&viewer=participant&ui=sheet&claim=result&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "four-320x568-turns-talk-code-confirm.png",
+      "viewport": "320x568",
+      "query": "roster=9&beds=4&fixture=mixed&film=capsule&stage=talk&t=30000&viewer=participant&ui=sheet&claim=conversation&command=code-confirm&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "four-390x844-release-3000.png",
+      "viewport": "390x844",
+      "query": "roster=9&beds=4&capsule=1&film=release&t=3000&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "four-390x844-eject-3500.png",
+      "viewport": "390x844",
+      "query": "roster=9&beds=4&capsule=1&film=eject&t=3500&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "four-390x844-eject-7300.png",
+      "viewport": "390x844",
+      "query": "roster=9&beds=4&capsule=1&film=eject&t=7300&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "four-390x844-offboard-choosing.png",
+      "viewport": "390x844",
+      "query": "roster=9&beds=4&capsule=1&film=eject&t=7300&ui=choosing&offboard=1&offered=1,2,3,4,5,6,7,8,9&chosen=4&hit=1",
+      "problems": [],
+      "shell": null,
+      "fallback": null,
+      "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "four-390x844-overflow-0150.png",
+      "viewport": "390x844",
+      "query": "roster=9&beds=4&film=overflow&t=150&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "four-390x844-overflow-0700.png",
+      "viewport": "390x844",
+      "query": "roster=9&beds=4&film=overflow&t=700&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "four-390x844-overflow-1600.png",
+      "viewport": "390x844",
+      "query": "roster=9&beds=4&film=overflow&t=1600&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "four-390x844-overflow-2350.png",
+      "viewport": "390x844",
+      "query": "roster=9&beds=4&film=overflow&t=2350&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "four-390x844-overflow-2900.png",
+      "viewport": "390x844",
+      "query": "roster=9&beds=4&film=overflow&t=2900&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "four-320x568-overflow-1600.png",
+      "viewport": "320x568",
+      "query": "roster=9&beds=4&film=overflow&t=1600&hit=1",
+      "problems": [],
+      "shell": "compact",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "four-320x568-overflow-2900.png",
+      "viewport": "320x568",
+      "query": "roster=9&beds=4&film=overflow&t=2900&hit=1",
+      "problems": [],
+      "shell": "compact",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "four-390x844-overflow-reduced-0040.png",
+      "viewport": "390x844",
+      "query": "roster=9&beds=4&film=overflow&t=40&motion=reduced&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "four-390x844-overflow-reduced-0900.png",
+      "viewport": "390x844",
+      "query": "roster=9&beds=4&film=overflow&t=900&motion=reduced&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "four-390x844-overflow-reduced-1600.png",
+      "viewport": "390x844",
+      "query": "roster=9&beds=4&film=overflow&t=1600&motion=reduced&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
       "boardProblems": []
     }
   ],
@@ -6716,6 +7286,114 @@
     },
     {
       "compare": "the top bar's box on the plain board and in each Captain film, 320x568",
+      "same": true
+    },
+    {
+      "compare": "every room but the Hospital on the four-berth board and on the current one, 390x844",
+      "same": true
+    },
+    {
+      "compare": "every room but the Hospital on the four-berth board and on the current one, 390x844, with the capsule",
+      "same": true
+    },
+    {
+      "compare": "the page after the overflow beat (2900 ms) and before it, 390x844",
+      "same": true
+    },
+    {
+      "compare": "the page after the overflow beat (1610 ms) and before it, 390x844, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "every room but the Hospital on the four-berth board and on the current one, 320x568",
+      "same": true
+    },
+    {
+      "compare": "every room but the Hospital on the four-berth board and on the current one, 320x568, with the capsule",
+      "same": true
+    },
+    {
+      "compare": "the page after the overflow beat (2900 ms) and before it, 320x568",
+      "same": true
+    },
+    {
+      "compare": "the page after the overflow beat (1610 ms) and before it, 320x568, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the overflow beat on the display and on a player's screen, 390x844, 700 ms",
+      "same": true
+    },
+    {
+      "compare": "the overflow beat on the display and on a player's screen, 390x844, 1600 ms",
+      "same": true
+    },
+    {
+      "compare": "command-room, room-a, jail during the overflow beat (700 ms) and before it, 390x844",
+      "same": true
+    },
+    {
+      "compare": "command-room, room-a, jail during the overflow beat (1600 ms) and before it, 390x844",
+      "same": true
+    },
+    {
+      "compare": "command-room, room-a, jail during the overflow beat (2350 ms) and before it, 390x844",
+      "same": true
+    },
+    {
+      "compare": "the rescue on four berths on the display and on a player's screen, 390x844, 2600 ms",
+      "same": true
+    },
+    {
+      "compare": "command-room, room-b, jail during the rescue on four berths (2600 ms) and before it, 390x844",
+      "same": true
+    },
+    {
+      "compare": "every room but the Hospital on the four-berth board during the rescue-fifth outcome, which plays no film (2600 ms), and before it, 390x844",
+      "same": true
+    },
+    {
+      "compare": "the Hospital's targets on the four-berth board during the rescue-fifth outcome, which plays no film (2600 ms), and before it, 390x844",
+      "same": true
+    },
+    {
+      "compare": "every room but the Hospital on the four-berth board during the rescue-fifth outcome, which plays no film (600 ms), and before it, 390x844, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the Hospital's targets on the four-berth board during the rescue-fifth outcome, which plays no film (600 ms), and before it, 390x844, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "every room but the Hospital on the four-berth board during the rescue-body outcome, which plays no film (2600 ms), and before it, 390x844",
+      "same": true
+    },
+    {
+      "compare": "the Hospital's targets on the four-berth board during the rescue-body outcome, which plays no film (2600 ms), and before it, 390x844",
+      "same": true
+    },
+    {
+      "compare": "every room but the Hospital on the four-berth board during the rescue-body outcome, which plays no film (600 ms), and before it, 390x844, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the Hospital's targets on the four-berth board during the rescue-body outcome, which plays no film (600 ms), and before it, 390x844, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "every room but the Hospital on the four-berth board during the death-fifth outcome, which plays no film (2000 ms), and before it, 390x844",
+      "same": true
+    },
+    {
+      "compare": "the Hospital's targets on the four-berth board during the death-fifth outcome, which plays no film (2000 ms), and before it, 390x844",
+      "same": true
+    },
+    {
+      "compare": "every room but the Hospital on the four-berth board during the death-fifth outcome, which plays no film (600 ms), and before it, 390x844, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the Hospital's targets on the four-berth board during the death-fifth outcome, which plays no film (600 ms), and before it, 390x844, reduced motion",
       "same": true
     }
   ],

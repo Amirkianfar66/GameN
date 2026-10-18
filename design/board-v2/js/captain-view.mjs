@@ -29,10 +29,9 @@ import { BODY_MIDDLE, DOOR_STEP, RELEASE_FILM, captainWords, ejectEnd, ejectFram
 import { CAPSULE_FILM } from '../films/capsule.mjs';
 import { CAPTAIN_POSES, ejectPose } from '../figures/captain.mjs';
 import { walkingPose } from '../figures/capsule.mjs';
-import { LOCATION_OF, sceneOf, slotsOf } from '../scenes/slots.mjs';
-import { CAPSULE, slotRects } from './fit.mjs';
+import { CAPSULE, FOUR, LOCATION_OF, sceneOf, slotRects, slotsOf, turnsLayout } from './layout.mjs';
+import { drawSpinePlaque } from './overflow-view.mjs';
 import { captainOutcome } from './captain-fixtures.mjs';
-import { turnsLayout } from './turns.mjs';
 import { turnsOptions } from './turns-view.mjs';
 
 const ART = '../board-v2/assets/captain';
@@ -375,7 +374,11 @@ export function mountCaptain({ app, board, roster, seats, params }) {
     const off = seats.filter(seat => seat.room === null).length;
     // Outside the film (before it starts or after it ends) the plaque is the board's state, from the snapshot alone.
     const plaqueOpacity = !isLive ? 1 : (frame.plaque ?? 0) * (reduced && frame.stage === 'memorial' ? frame.fade : 1);
-    if (off > 0 && plaqueOpacity > 0) {
+    if (off > 0 && plaqueOpacity > 0 && FOUR) {
+      // On the successor board (&beds=4) the plaque is in the spine between the Hospital and the Jail (fx/overflow.mjs).
+      const plaque = drawSpinePlaque(app, board, off, isLive ? { 'data-film': 'captain' } : { 'data-state': 'plaque' });
+      if (plaque) { added.push(plaque); plaque.style.opacity = String(plaqueOpacity); }
+    } else if (off > 0 && plaqueOpacity > 0) {
       // While the film plays it is the film's; after it, the board's state (drawn from the snapshot alone).
       const plaque = add(jail, el('span', { class: 'v2-plaque', role: 'img', 'aria-label': `${off} off the board`, ...(isLive ? { 'data-film': 'captain' } : { 'data-state': 'plaque' }) }, el('img', { src: `${ART}/plaque.svg`, alt: '' }), el('b', { 'aria-hidden': 'true' }, String(off))));
       const at = plaqueBox({ caption: { left: jailCaption.offsetLeft, top: jailCaption.offsetTop, width: jailCaption.offsetWidth, height: jailCaption.offsetHeight }, size: [plaque.offsetWidth, plaque.offsetHeight], panel: jailPanel });

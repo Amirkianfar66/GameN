@@ -188,6 +188,12 @@ html[data-text="2"] .v2-top__label { font-size: 24px; line-height: 30px; }
 /* The memorial plaque beside the Jail's caption: its mark and the count (the page's text). */
 .v2-plaque { position: absolute; z-index: 5000; display: inline-flex; align-items: center; gap: 2px; height: 18px; padding: 0 5px 0 1px; border-radius: 9px; background: var(--v2-ink); border: 1.5px solid #9AA3B2; color: #D5DAE2; font: 800 11px/14px "Arial Narrow", "Helvetica Neue", Arial, sans-serif; pointer-events: none; }
 .v2-plaque img { width: 14px; height: 14px; display: block; }
+/* The successor board's plaque, in the spine between the Hospital and the Jail (fx/overflow.mjs): its mark over its count. */
+.v2-plaque--spine { flex-direction: column; width: 18px; height: auto; padding: 2px 0; gap: 0; box-sizing: border-box; justify-content: center; }
+.v2-plaque--spine b { font-size: 10px; line-height: 11px; }
+/* The overflow beat (films/overflow.mjs): the Hospital's FULL stamp, the page's text, and the cut-out leaving the board. */
+.v2-ovf__stamp { position: absolute; z-index: 3630; padding: 1px 6px; background: var(--v2-ink); color: #F7C88A; border: 2px solid #F2A33A; font: 800 11px/14px "Arial Narrow", "Helvetica Neue", Arial, sans-serif; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; transform-origin: 50% 50%; pointer-events: none; }
+.v2-ovf__flyer { position: absolute; z-index: 3700; pointer-events: none; }
 /* The characters off the board as targets (js/captain-view.mjs mountOffBoard()): the choosing row's tab opens the sheet
    over the Hospital and the Jail with a card each, the whole card the target; rings as the board's. */
 .v2-offboard__tab { display: inline-flex; align-items: center; justify-content: center; gap: 2px; width: auto; min-width: 44px; padding: 0 6px; }

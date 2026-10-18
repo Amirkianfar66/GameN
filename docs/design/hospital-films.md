@@ -104,7 +104,7 @@ All placement is pure geometry in `fx/medical.mjs`, from a berth, the Hospital's
 
 **Layers in the Hospital's panel**, bottom to top. In the room's art (dimmed with it in S10): the scene's back layer; the bed light (z 2); a berth's screen and lamp (z 3); the patients by depth, each berth's front layer over its own patient. Over the art: the name tags (3500), the medical tags (3555), the inset (3640), the scan line (3645), the hologram (3646), the drone (3660), the pulse (3665). Above them all: the slots' targets (4200) and the caption (5000). Clip everything to the panel.
 
-**On a phone the upper berths' bezels are under the caption's band.** H7's and H8's monitor and lamp sit under the "HOSPITAL" caption at every phone, so their critical state shows by the tag (below the band), the figure and, in a film, the inset. The owner's 4-bed request (#155) would remove the upper row.
+**On a phone the upper berths' bezels are under the caption's band.** H7's and H8's monitor and lamp sit under the "HOSPITAL" caption at every phone, so their critical state shows by the tag (below the band), the figure and, in a film, the inset. The successor's four-berth ward has no upper row, and no berth under its caption ([hospital-four.md](hospital-four.md)).
 
 ## 4. Audiences
 
@@ -147,7 +147,7 @@ Frontend has reviewed none of this. Please review the placement rules and the be
 **No new field is needed.** Two questions:
 
 1. **The anchor held by a same-batch admission** (section 2). Please confirm that a clinical anchor's berth can be another seat's slot in the published snapshot, as #146's text implies. The films then draw nothing there, and the outcome's words stand alone.
-2. **The four-bed successor** ([#155](https://github.com/Amirkianfar66/GameN/issues/155)): Backend's plan is draft #157. The Designer's review of its overflow event and anchor bounds is on [#155](https://github.com/Amirkianfar66/GameN/issues/155#issuecomment-6252817010).
+2. **The four-bed successor** ([#155](https://github.com/Amirkianfar66/GameN/issues/155)): Backend's plan is draft #157. The Designer's review of its overflow event and anchor bounds is on [#155](https://github.com/Amirkianfar66/GameN/issues/155#issuecomment-6252817010), and these films on the four berths are in [hospital-four.md](hospital-four.md).
 
 ## 7. For Integration
 

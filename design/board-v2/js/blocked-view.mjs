@@ -26,8 +26,7 @@ import { CREW } from '../../board-motion/figures/crew.mjs';
 import { STAR_SIZE, blockedEnd, blockedFrame } from '../films/blocked.mjs';
 import { SHIELD_SIZE } from '../fx/blocked.mjs';
 import { LABEL_MARGIN, labelBox } from '../fx/label-box.mjs';
-import { slotsOf } from '../scenes/slots.mjs';
-import { slotRects } from './fit.mjs';
+import { slotRects, slotsOf } from './layout.mjs';
 
 const FX = '../board-v2/assets/fx';
 const LIGHTING = '../board-v2/assets/lighting';

@@ -28,7 +28,7 @@
 //                          chosen before the board is laid out (ENLARGED); the board's own drawing
 //                          and lettering are unchanged
 
-import { SHEET, boardTargets, sheetPlan, turnsLayout } from './turns.mjs';
+import { SHEET, boardTargets, sheetPlan, turnsLayout } from './layout.mjs';
 
 /**
  * Frontend's measurements of the released controls (docs/frontend/capsule-ui-layout-constraints.md
