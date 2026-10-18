@@ -173,7 +173,8 @@ if (params.get('motion') === 'reduced') screen.dispatch({ type: 'settings/reduce
 window.__simulation = {
   model: () => screen.getFrame().model,
   own(fields,stage=null){if(stage){hackStage=stage;hackStarted=Date.now();}Object.assign(privateOverrides,fields);revision+=1;publish(display?'public-view':'player-view');},
-  batch(changes,facts=[]){
+  batch(changes,facts=[],stage=null){
+   if(stage){hackStage=stage;hackStarted=Date.now();}
    for(const[id,fields]of Object.entries(changes))publicOverrides.set(id,{...(publicOverrides.get(id)??{}),...fields});
    revision+=1;publish(display?'public-view':'player-view');
    facts.forEach((fact,i)=>{const view=viewFor(),now=Date.now(),eventId=crypto.randomUUID(),event=FullOutcomeEventSchema.parse({protocolVersion:2,matchId:MATCH,eventId,outcomeId:eventId,viewRevision:revision,versions:(({assetManifestVersion,...pins})=>pins)(view.versions),publishedAt:now,expiresAt:now+30000,audience:view.audience,fact:{phaseId:view.phase.id,round:view.round,...fact}});events.push({id:`${revision}-${events.length}`,data:event});});

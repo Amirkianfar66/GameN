@@ -8,11 +8,11 @@ import {walkingPose} from './board-v2-drawing/capsule-figures.mjs';
 import {blend,TIMELINES,sample as sampleMotion} from './scene-drawing/motion.mjs';
 import {pressPoint} from './scene-drawing/frame.mjs';
 import {berthState,criticalFrame} from './board-v2-drawing/medical-film.mjs';
-import {fourBerthKit} from './board-v2-drawing/medical-four.mjs';
+import {fourBerthKit,fourRescueFrame} from './board-v2-drawing/medical-four.mjs';
 import {berthScreenSvg,lampSvg,vitalsInsetSvg,tagBox,insetBox,droneFit,DRONE,DRONE_SCENE,droneSvg,scanLineSvg,hologramSvg,pulseSvg} from './board-v2-drawing/medical-fx.mjs';
 import {captainPose,ejectPose} from './board-v2-drawing/captain-figures.mjs';
 import {walkToDoor,pullToHatch,captainButtonStates,plateFor,DOOR_STEP,RELEASE_FILM} from './board-v2-drawing/captain-film.mjs';
-import {consoleBox,consoleSvg,plateSvg,jailDoorSvg,airlockSvg,conduitPoints,conduitAt,EXTERIOR,exteriorSvg,plaqueBox,memorialSvg} from './board-v2-drawing/captain-fx.mjs';
+import {consoleBox,consoleSvg,plateSvg,jailDoorSvg,airlockSvg,conduitPoints,conduitAt,EXTERIOR,exteriorSvg,plaqueBox,memorialSvg,JAIL_DOOR,COVER,GLOVE,PLATE,gloveSvg,coverSvg,ringSvg,clickSvg,AIRLOCK} from './board-v2-drawing/captain-fx.mjs';
 import {spinePlaqueBox,fullStampBox,overflowWay} from './board-v2-drawing/overflow-fx.mjs';
 import {cloneCardLayout,outlineSvg,halftoneSvg,scanSvg,stageSvg} from './board-v2-drawing/clone-fx.mjs';
 import {cloneWords} from './board-v2-drawing/clone-film.mjs';
@@ -67,43 +67,55 @@ export function createBoardV2Films(root,holder){
   const pose=state.pose==='healthy'?'bedSitting':state.pose==='still'?slot.down:`${slot.gesture}${INJURED}`;
   const [pressX,pressY]=pressPoint(skeletonOf(pose));
   const at=[slot.mirror?slot.pressAt[0]-(AX-pressX)*slot.scale:slot.pressAt[0]-(pressX-AX)*slot.scale,slot.pressAt[1]-(pressY-AY)*slot.scale];
-  hide(who.seatId);figure(holder._boardV2Paint.rooms.get('hospital'),key,who,{...slot,at},room.frame,skeletonOf(pose),{outfit:'gown',z:2*Math.round(slot.depth),offset:state.offset??[0,0]});
+  hide(who.seatId);figure(holder._boardV2Paint.rooms.get('hospital'),key,who,{...slot,at},room.frame,skeletonOf(pose),{outfit:'gown',z:2*Math.round(slot.depth),offset:state.offset??[0,0],opacity:state.opacity??1});
  }
  function clinical(entry,room,seats){
-  const {frame:f,berth,subjectId,event}=entry,who=seats.find(s=>s.seatId===subjectId),kit=fourBerthKit(berth),parent=holder._boardV2Paint.rooms.get('hospital');
+  const {berth,subjectId,event}=entry,who=seats.find(s=>s.seatId===subjectId),kit=fourBerthKit(berth),parent=holder._boardV2Paint.rooms.get('hospital');
   const rect=room.presses.find(r=>r.id===berth),held=room.figures.filter(w=>w.seatId!==subjectId).map(w=>({left:w.press.left,top:w.press.top,width:w.press.side,height:w.press.side}));
-  const key=event.eventId;
-  if(entry.clinical==='INJURY')return;
+  const key=event.eventId,fit=droneFit({kit,frame:room.frame,keepClear:[caption(room),...held]}),droneWidth=DRONE_SCENE.width*kit.scale*room.frame.k*fit;
+  const f=entry.clinical==='HEALED'?fourRescueFrame(entry.t,berth,{reduced:entry.reduced,fit}):entry.frame;
+  if(entry.clinical==='INJURY'){const state=berthState(who);monitor(room,key,kit,f.monitor.kind,state.lamp,f.lamp.on?f.lamp.opacity:0);patient(room,`${key}-patient`,who,berth,{pose:'injured',offset:[0,f.breath??0],opacity:f.figure.opacity});return;}
   patient(room,`${key}-patient`,who,berth,f.patient);
-  bedLight(room,key,kit,1-(f.bedLight??1));
+  bedLight(room,key,kit,(f.bedLight??0));
   monitor(room,key,kit,f.inset.kind,f.lamp.state,f.lamp.opacity);
   const inset=insetBox({rect,panel:room.panel,width:Math.max(60,Math.min(84,room.panel.width*.42)),caption:caption(room),keepClear:held});
   if(inset)make(parent,`${key}-vitals`,inset,{svg:vitalsInsetSvg(f.inset.kind,{sweep:f.inset.sweep,dot:f.inset.dot??0}),opacity:f.inset.opacity,scale:f.inset.scale});
   if(f.drone?.at&&f.drone.opacity){
-   const fit=droneFit({kit,frame:room.frame,keepClear:[caption(room),...held]}),w=DRONE_SCENE.width*kit.scale*room.frame.k*fit,h=w*DRONE.h/DRONE.w;
+   const w=droneWidth,h=w*DRONE.h/DRONE.w;
    const [x,y]=f.drone.at,point=[room.frame.tx+x*room.frame.k,room.frame.ty+y*room.frame.k];
    make(parent,`${key}-drone`,{left:point[0]-w*DRONE.lens[0]/DRONE.w,top:point[1]-h*DRONE.lens[1]/DRONE.h,width:w,height:h},{svg:droneSvg(f.drone.frame),opacity:f.drone.opacity});
   }
-  const bed=unitBox(room.frame,kit.bed.x,kit.bed.y,kit.bed.w,kit.bed.h);
-  if(f.scan?.opacity)make(parent,`${key}-scan`,{left:bed.left,top:bed.top+f.scan.y*bed.height,width:bed.width,height:3},{svg:scanLineSvg(),opacity:f.scan.opacity});
-  if(f.hologram?.opacity)make(parent,`${key}-holo`,bed,{svg:hologramSvg(),opacity:f.hologram.opacity});
-  if(f.pulse?.opacity)make(parent,`${key}-pulse`,{left:room.frame.tx+kit.chest[0]*room.frame.k-20,top:room.frame.ty+kit.chest[1]*room.frame.k-20,width:40,height:40},{svg:pulseSvg(f.pulse.frame),opacity:f.pulse.opacity,scale:f.pulse.scale});
+  const chest=[room.frame.tx+kit.chest[0]*room.frame.k,room.frame.ty+kit.chest[1]*room.frame.k];
+  if(f.scan?.opacity){const width=kit.bed.w*room.frame.k*1.15,height=width*16/140,y=room.frame.ty+(kit.bed.y+kit.bed.h*.7*f.scan.y)*room.frame.k;make(parent,`${key}-scan`,{left:chest[0]-width/2,top:y-height/2,width,height},{svg:scanLineSvg(),opacity:f.scan.opacity});}
+  if(f.hologram?.opacity){const side=droneWidth*.55;make(parent,`${key}-holo`,{left:chest[0]-side/2,top:chest[1]-side*.75,width:side,height:side},{svg:hologramSvg(),opacity:f.hologram.opacity});}
+  if(f.pulse?.opacity){const side=droneWidth*.9;make(parent,`${key}-pulse`,{left:chest[0]-side/2,top:chest[1]-side/2,width:side,height:side},{svg:pulseSvg(f.pulse.frame),opacity:f.pulse.opacity,scale:f.pulse.scale});}
+
  }
  function captain(entry,rooms,seats,layout){
   const f=entry.frame,jail=rooms.find(r=>r.room==='jail'),command=rooms.find(r=>r.room==='command-room');if(!jail||!command)return;
   const prefix=entry.event.eventId,parent=holder._boardV2Paint.rooms.get('jail'),cap=seats.find(s=>s.seatId===entry.captain?.seatId),capFigure=command.figures.find(s=>s.seatId===cap?.seatId);
   if(capFigure&&f.captain){hide(cap.seatId);figure(holder._boardV2Paint.rooms.get('command-room'),`${prefix}-captain`,cap,capFigure.slot,command.frame,captainPose(f.captain.from,f.captain.to,f.captain.v),{z:2*Math.round(capFigure.depth),outfit:'crew'});}
-  make(parent,`${prefix}-door`,unitBox(jail.frame,0,0,1024,768),{svg:jailDoorSvg({...f.door,prefix:`${prefix}-door`}),z:1});
+  make(parent,`${prefix}-door`,unitBox(jail.frame,...JAIL_DOOR.box),{svg:jailDoorSvg({...f.door,prefix:`${prefix}-door`}),z:1});
   const commandBox=layout.board.boxes['command-room'];
   const inset=capFigure?consoleBox({band:{left:0,top:0,width:command.panel.width,height:command.panel.height},cap:command.panel.cap,captain:{left:capFigure.press.left,top:capFigure.press.top,width:capFigure.press.side,height:capFigure.press.side},tag:nameBand(capFigure),keepClear:[]}):null;
-  if(inset&&f.inset.opacity){make(holder._boardV2Paint.rooms.get('command-room'),`${prefix}-console`,inset,{svg:consoleSvg(),opacity:f.inset.opacity,scale:f.inset.scale});
-   make(holder._boardV2Paint.rooms.get('command-room'),`${prefix}-plate`,{left:inset.left+12*inset.scale,top:inset.top+26*inset.scale,width:200*inset.scale,height:64*inset.scale},{art:`captain-${entry.command.toLowerCase()}-${f.inset.plate??'pressed'}`,opacity:f.inset.opacity});}
+  if(inset&&f.inset.opacity){
+   const container=make(holder._boardV2Paint.rooms.get('command-room'),`${prefix}-console-frame`,inset,{opacity:f.inset.opacity,scale:f.inset.scale});
+   const s=inset.scale,layer=(name,x,y,w,h,options)=>make(container,`${prefix}-inset-${name}`,{left:x*s,top:y*s,width:w*s,height:h*s},options);
+   layer('console',0,0,224,96,{svg:consoleSvg(),z:1});layer('plate',12,26,200,64,{svg:plateSvg(entry.command.toLowerCase(),f.inset.plate),z:2});
+   const label=layer('word',12+PLATE.label.x,26+PLATE.label.y,PLATE.label.w,PLATE.label.h,{text:entry.command,z:3});label.style.fontSize=px(18*s);label.style.lineHeight=px(PLATE.label.h*s);label.style.textAlign='center';label.style.fontWeight='900';label.style.color='#F4EBDD';
+   if(f.inset.cover)layer('cover',12+COVER.at[0],26+COVER.at[1],COVER.w,COVER.h,{svg:coverSvg(f.inset.cover),z:4});
+   const button=[12+PLATE.button[0],26+PLATE.button[1]];
+   if(f.inset.ring)layer('ring',button[0]-40,button[1]-40,80,80,{svg:ringSvg(),opacity:f.inset.ring.opacity,scale:f.inset.ring.scale,z:5});
+   if(f.inset.click)layer('click',button[0]-40,button[1]-40,80,80,{svg:clickSvg(),opacity:f.inset.click.opacity,scale:f.inset.click.scale,z:5});
+   if(f.inset.glove){const g=f.inset.glove;layer('glove',button[0]+g.lift*14-GLOVE.tip[0],button[1]+g.lift*30-GLOVE.tip[1],GLOVE.w,GLOVE.h,{svg:gloveSvg(),opacity:g.opacity,z:6});}
+  }
   if(f.pulse&&capFigure){const b=layout.board.shell.border,start=[commandBox.left+b+(inset?inset.left+inset.width/2:capFigure.name.left),commandBox.top+b+(inset?inset.top+inset.height:capFigure.press.top)];
    const points=conduitPoints({boxes:layout.board.boxes,border:b,jail:{...jail.frame,tx:layout.board.boxes.jail.left+b+jail.frame.tx,ty:layout.board.boxes.jail.top+b+jail.frame.ty},start}),at=conduitAt(points,f.pulse.v).head;
-   make(holder,`${prefix}-pulse`,{left:at[0]-8,top:at[1]-8,width:16,height:16},{art:`captain-pulse-${entry.command.toLowerCase()}`,opacity:f.pulse.opacity,z:3100});}
-  if(f.airlock?.reveal)make(parent,`${prefix}-airlock`,unitBox(jail.frame,0,0,1024,768),{svg:airlockSvg({...f.airlock,prefix:`${prefix}-hatch`}),opacity:f.airlock.reveal,z:1800});
+   make(holder,`${prefix}-pulse`,{left:at[0]-8,top:at[1]-8,width:16,height:16},{art:`captain-pulse-head-${entry.command.toLowerCase()}`,opacity:f.pulse.opacity,z:3100});}
+  if(f.airlock?.reveal)make(parent,`${prefix}-airlock`,unitBox(jail.frame,...AIRLOCK.box),{svg:airlockSvg({...f.airlock,prefix:`${prefix}-hatch`}),opacity:f.airlock.reveal,z:1800});
   if(f.emergency)make(parent,`${prefix}-emergency`,unitBox(jail.frame,0,0,1024,768),{art:'captain-emergency',opacity:f.emergency,z:1700});
   if(f.suction?.opacity)make(parent,`${prefix}-suction`,unitBox(jail.frame,0,0,1024,768),{art:`captain-suction-${f.suction.frame}`,opacity:f.suction.opacity,z:1801});
+  if(f.debris?.opacity)for(const [kind,from,spin]of[['paper',[740,548],260],['cup',[612,596],-200]]){const v=f.debris.v,u=v*v,side=34*(1-.6*u),x=from[0]+(AIRLOCK.c[0]-from[0])*u,y=from[1]+(AIRLOCK.c[1]-from[1])*u-Math.sin(Math.PI*u)*60;const n=make(parent,`${prefix}-debris-${kind}`,unitBox(jail.frame,x-side/2,y-side/2,side,side),{art:`captain-debris-${kind}`,opacity:f.debris.opacity,z:1495});n.style.rotate=`${Math.round(spin*u)}deg`;}
   for(let i=0;i<entry.subjects.length;i++){
    const subject=entry.subjects[i],person=f.people[i],who=seats.find(s=>s.seatId===subject.seatId),slot=jail.slots.find(s=>s.id===subject.before?.slotId);
    // No held-before snapshot means no invented Jail origin. The committed snapshot remains visible.
@@ -149,9 +161,11 @@ export function createBoardV2Films(root,holder){
   let card=root.querySelector('.bv2-clone-card');
   const panel=root.dataset.phoneView==='actions'?root.querySelector('.ms-private[data-open="true"] .ms-private__panel'):null;
   const who=seats.find(s=>s.seatId===own?.seatId);
-  if(!own||!panel||!CREW[who?.characterId]){card?.remove();return;}
+  if(!own||!panel||!CREW[who?.characterId]){card?.remove();root.dataset.boardClone='false';for(const line of root.querySelectorAll('[data-clone-duplicate]')){line.hidden=false;delete line.dataset.cloneDuplicate;}return;}
+  root.dataset.boardClone='true';for(const line of root.querySelectorAll('.bv2-private-status'))if(line.textContent===cloneWords(own.status)){line.hidden=true;line.dataset.cloneDuplicate='true';}
   if(!card){card=document.createElement('div');card.className='bv2-clone-card';card.dataset.private='true';const drawing=document.createElement('div');drawing.className='bv2-clone-drawing';drawing.setAttribute('aria-hidden','true');const words=document.createElement('p');card.append(drawing,words);panel.prepend(card);}
-  const width=Math.max(180,panel.clientWidth-12),l=cloneCardLayout({width,height:110}),drawing=card.firstElementChild;card.style.minHeight='110px';
+  card.dataset.cloneState=own.state;card.dataset.cloneFilm=own.film??'rest';
+  const width=Math.max(180,panel.clientWidth-12),l=cloneCardLayout({width,height:100}),drawing=card.firstElementChild;card.style.minHeight='100px';
   const full=dressedFigureSvg(CREW[who.characterId],skeletonOf('stand'),{outfit:outfitFor(who.location),prefix:'own-clone-card'}),f=own.frame;
   box(drawing,{left:0,top:0,width:l.portrait.left+l.portrait.width+6,height:l.height});
   const state=f??{real:{opacity:own.state==='active'?0:1},outline:{opacity:own.state==='active'?1:0},clone:{opacity:own.state==='active'?1:0},halftone:{opacity:0,density:1},pad:own.state==='active'?1:0,scan:null};
@@ -169,7 +183,7 @@ export function createBoardV2Films(root,holder){
   if(!captain){root.querySelector('.bv2-captain-states')?.remove();return;}
   const states=captainButtonStates({self:{seatId:'own',captainCommandUses:captain.uses},legalTargets:{CAPTAIN_RELEASE:captain.releaseAvailable?['own']:[],CAPTAIN_EJECT:captain.ejectAvailable?['own']:[]}},card?.body.step==='busy'?(card.kind==='captain-release'?'release':card.kind==='captain-eject'?'eject':null):null);
   for(const kind of ['release','eject'])for(const button of root.querySelectorAll(`button[data-kind="captain-${kind}"]`)){
-   button.dataset.captainPlate=states[kind];button.style.setProperty('--captain-plate',`var(--board-v2-film-captain-${kind}-${plateFor(states[kind])})`);
+   button.dataset.captainPlate=states[kind];button.style.setProperty('--captain-plate',`var(--board-v2-film-captain-plate-${kind}-${plateFor(states[kind])})`);
    button.title=`${kind==='release'?'RELEASE':'EJECT'}: ${states[kind]}`;
   }
   let strip=root.querySelector('.bv2-captain-states');
@@ -177,7 +191,7 @@ export function createBoardV2Films(root,holder){
   const panel=card?.body.step==='idle'?root.querySelector('.ms-private[data-open="true"] .ms-private__panel'):null;
   if(!panel||!closed.length){strip?.remove();return;}
   if(!strip){strip=document.createElement('div');strip.className='bv2-captain-states';strip.dataset.private='true';strip.setAttribute('aria-hidden','true');panel.prepend(strip);}
-  strip.replaceChildren();for(const kind of closed){const plate=document.createElement('div');plate.dataset.captainPlate=states[kind];plate.textContent=`${kind.toUpperCase()} · ${states[kind]}`;plate.style.setProperty('--captain-plate',`var(--board-v2-film-captain-${kind}-${plateFor(states[kind])})`);strip.append(plate);}
+  strip.replaceChildren();for(const kind of closed){const plate=document.createElement('div');plate.dataset.captainPlate=states[kind];plate.textContent=`${kind.toUpperCase()} · ${states[kind]}`;plate.style.setProperty('--captain-plate',`var(--board-v2-film-captain-plate-${kind}-${plateFor(states[kind])})`);strip.append(plate);}
  }
  return {beforePaint,paint({sample,frame,board,seats,geometry,layout,enabled,dark=false,privateOpen=false,captain:captainState=null,card=null,time=0}){
   used=new Set();
@@ -187,8 +201,8 @@ export function createBoardV2Films(root,holder){
    for(const who of seats.filter(s=>s.location==='Hospital')){
     const state=berthState(who),kit=fourBerthKit(who.slotId);bedLight(hospital,`rest-${who.seatId}`,kit,state.bedLight==='off'?1:0);monitor(hospital,`rest-${who.seatId}`,kit,state.monitor,state.lamp);
     const rect=hospital.presses.find(r=>r.id===who.slotId);
-    if(state.tag||state.detention){const text=[state.tag?(state.tag.text?`RESCUE ${state.tag.text}`:'NO RESCUE'):null,state.detention?'DETAINED':null].filter(Boolean).join(' · '),place=tagBox({plate:rect.badge,size:[Math.min(68,hospital.panel.width/2),16],panel:hospital.panel,keepClear:hospital.figures.map(nameBand)});
-     make(holder._boardV2Paint.rooms.get('hospital'),`tag-${who.seatId}`,{...place,width:Math.min(68,hospital.panel.width/2),height:16},{text});}
+    if(state.tag||state.detention){const text=[state.tag?(state.tag.text?`RESCUE ${state.tag.text}`:'NO RESCUE'):null,state.detention?'DETAINED':null].filter(Boolean).join('\n'),height=state.detention?28:16,place=tagBox({plate:rect.badge,size:[Math.min(68,hospital.panel.width/2),height],panel:hospital.panel,keepClear:hospital.figures.map(nameBand)});
+     make(holder._boardV2Paint.rooms.get('hospital'),`tag-${who.seatId}`,{...place,width:Math.min(68,hospital.panel.width/2),height},{text,opacity:sample.items.find(e=>e.kind==='medical'&&e.subjectId===who.seatId&&e.clinical==='INJURY')?.frame.tag.opacity??1});}
     if(who.health==='Injured'&&!sample.items.some(e=>e.kind==='medical'&&e.subjectId===who.seatId)){
      const breath=criticalFrame(time,{reduced:sample.reduced});patient(hospital,`critical-${who.seatId}`,who,who.slotId,{pose:'injured',offset:[0,breath.breath??0]});
     }
@@ -201,5 +215,5 @@ export function createBoardV2Films(root,holder){
   }
   privateCard(enabled&&privateOpen?sample.own:null,seats);if(enabled&&privateOpen)commandPlates(captainState,card);
   for(const[key,node]of nodes)if(!used.has(key)){node.remove();nodes.delete(key);}
- },clear(){beforePaint();for(const node of nodes.values())node.remove();nodes.clear();root.querySelector('.bv2-clone-card')?.remove();root.querySelector('.bv2-captain-states')?.remove();},dispose(){this.clear();}};
+ },clear(){beforePaint();root.dataset.boardClone='false';for(const line of root.querySelectorAll('[data-clone-duplicate]')){line.hidden=false;delete line.dataset.cloneDuplicate;}for(const node of nodes.values())node.remove();nodes.clear();root.querySelector('.bv2-clone-card')?.remove();root.querySelector('.bv2-captain-states')?.remove();},dispose(){this.clear();}};
 }

@@ -60,7 +60,7 @@ body:has(#app .ms-shell--player[data-screen=match]) { height:100dvh; overflow:hi
 .phone-nav__icon--more { background:radial-gradient(circle,currentColor 0 2px,transparent 3px) center/7px 100% repeat-x; }
 #app .ms-shell--player .ms-private[data-open=true] { position:static; inset:auto; grid-column:1; grid-row:2; height:100%; min-height:0; max-height:none; max-block-size:none; width:100%; display:block; margin:0; padding:.5rem .25rem; border:0; border-radius:0; box-shadow:none; overflow:auto; animation:none; }
 #app .ms-shell--player .ms-private__panel { min-height:0; margin:0; padding:0; }
-#app .ms-shell--player[data-phone-view=actions] .ms-private__panel > :not(.ms-actions):not(.ms-notice):not(.ms-acknowledgments-region):not(.hack-feedback) { display:none; }
+#app .ms-shell--player[data-phone-view=actions] .ms-private__panel > :not(.ms-actions):not(.ms-notice):not(.ms-acknowledgments-region):not(.hack-feedback):not(.bv2-clone-card):not(.bv2-captain-states) { display:none; }
 #app .ms-shell--player[data-phone-view=role] .ms-private__panel > :is(.ms-actions,.ms-private__subheading,.ms-notice,.ms-acknowledgments-region) { display:none; }
 #app .ms-shell--player[data-phone-view=role] .ms-role-card--full { display:grid; grid-template-columns:minmax(0,1fr); width:min(100%,18rem); margin:1rem auto; padding:0; border-radius:14px; }
 #app .ms-shell--player[data-phone-view=role] .ms-role-card__art { width:100%; inline-size:100%; height:min(40dvh,18rem); aspect-ratio:auto; border:0; }
