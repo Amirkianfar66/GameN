@@ -99,3 +99,10 @@ test('wire validation rejects malformed clinical and foreign overflow facts befo
  assert.equal(FullOutcomePublicEventSchema.safeParse({...medical,fact:{...medical.fact,presentationAnchor:undefined}}).success,false);
  assert.equal(FullOutcomePlayerEventSchema.safeParse({...event,audience:{kind:'player',seatId:'seat-1'},unexpected:true}).success,false);
 });
+
+test('an occurrence arriving after its matching snapshot retains the actual held-before Jail/body state',()=>{
+ const s=setup();s.board.seats[1]=seat(2,{location:'Jail',slotId:'J1',jailed:true,health:'Eliminated'});s.update();
+ s.board.viewRevision=2;s.board.seats[1]=seat(2,{location:null,slotId:null,health:'Eliminated'});s.update();s.update();
+ const event=s.event({type:'CAPTAIN_OUTCOME',kind:'EJECT',seatIds:['seat-2']});
+ const entry=s.update({events:[event]}).items[0];assert.equal(entry.subjects[0].before.slotId,'J1');assert.equal(entry.subjects[0].body,true);
+});

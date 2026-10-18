@@ -1,4 +1,4 @@
-import { CLONE_VERSION_PINS, sameFullGameplayPins } from '@mothership/contracts';
+import { HOSPITAL_FOUR_VERSION_PINS, CLONE_VERSION_PINS, sameFullGameplayPins } from '@mothership/contracts';
 import { createRoleConfirmation } from './role-confirmation.js';
 import { currentArtState, readyCompatibility } from './ready-compatibility.mjs';
 
@@ -112,7 +112,8 @@ export function createPlayerSetup({ matchId, seatId, feed, identities, api, life
     const identity = doc?.seats.find(seat => seat.seatId === seatId);
     const prepared = feed.own();
     const artwork = artState().bundles?.includes('setup-art') === true && (setup?.stage === 'choosing'
-      || prepared !== null && sameFullGameplayPins(prepared.versions, CLONE_VERSION_PINS) && prepared.versions.assetManifestVersion === 'design-0.4.0');
+      || prepared !== null && sameFullGameplayPins(prepared.versions, CLONE_VERSION_PINS) && prepared.versions.assetManifestVersion === 'design-0.4.0'
+      || prepared !== null && sameFullGameplayPins(prepared.versions, HOSPITAL_FOUR_VERSION_PINS) && prepared.versions.assetManifestVersion === 'design-0.5.0');
     node.setAttribute('data-setup-art', String(artwork));
     clock?.setActive(['choosing', 'awaiting-ready'].includes(setup?.stage));
     const reading = clock?.read() ?? { status: 'unsynced' };

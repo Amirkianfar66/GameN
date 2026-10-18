@@ -1,9 +1,10 @@
-import { CLONE_VERSION_PINS, DECLARED_HACK_VERSION_PINS, FullVersionsSchema, sameFullGameplayPins, supportsVoteResults, VOTE_RESULT_VERSION_PINS } from '@mothership/contracts';
+import { HOSPITAL_FOUR_VERSION_PINS, CLONE_VERSION_PINS, DECLARED_HACK_VERSION_PINS, FullVersionsSchema, sameFullGameplayPins, supportsVoteResults, VOTE_RESULT_VERSION_PINS } from '@mothership/contracts';
 import { bundlesFor } from './art.mjs';
 
 // Root's reviewed release agreements are exact pairs. A supported gameplay tuple cannot
 // borrow another tuple's art acknowledgment, and a server response cannot expand this list.
 const CLIENT_RELEASES = [
+  { gameplay: HOSPITAL_FOUR_VERSION_PINS, art: 'design-0.5.0', supplements: ['board-v2-art', 'setup-art', 'board-v2-motion-art', 'board-v2-films-art'] },
   { gameplay: VOTE_RESULT_VERSION_PINS, art: 'design-0.2.0' },
   { gameplay: DECLARED_HACK_VERSION_PINS, art: 'design-0.3.0' },
   { gameplay: CLONE_VERSION_PINS, art: 'design-0.4.0', supplements: ['board-v2-art', 'setup-art', 'board-v2-motion-art'] },
