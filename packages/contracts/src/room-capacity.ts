@@ -1,5 +1,5 @@
 import type { FullPublicView } from './full-game.js';
-import { VOTE_RESULT_VERSION_PINS, DECLARED_HACK_VERSION_PINS, PUBLIC_HACK_VERSION_PINS, supportsBoardMedical } from './full-game-versions.js';
+import { VOTE_RESULT_VERSION_PINS, DECLARED_HACK_VERSION_PINS, PUBLIC_HACK_VERSION_PINS, supportsBoardMedical, supportsHospitalFour } from './full-game-versions.js';
 
 type GameplayVersions = Pick<FullPublicView['versions'], 'protocolVersion' | 'engineVersion' | 'rulesetVersion' | 'rulesetHash'>;
 type Location = FullPublicView['seats'][number]['location'];
@@ -21,6 +21,7 @@ const CAPPED_TUPLES: readonly GameplayVersions[] = [
 export function fullRoomCapacityForVersions(versions: GameplayVersions, location: Location, playerCount?: 7 | 8 | 9): number | null {
   if (supportsBoardMedical(versions)) {
     if (location === 'Command Room') return 1;
+    if (location === 'Hospital' && supportsHospitalFour(versions)) return 4;
     if (location === 'Hospital') return playerCount !== undefined && [7,8,9].includes(playerCount) ? playerCount : null;
     return location!==null && ['Room A','Room B','Jail'].includes(location) ? 5 : null;
   }

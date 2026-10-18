@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { supportsBoardMedical, supportsCaptainCommands } from './full-game-versions.js';
+import { supportsBoardMedical, supportsCaptainCommands, supportsHospitalFour } from './full-game-versions.js';
 import type { FullGameplayPins } from './full-game-versions.js';
 
 export const BoardSlotIdSchema = z.string().regex(/^(?:[ABJ][1-5]|C1|H[1-9])$/);
@@ -35,7 +35,7 @@ export function validBoardMedicalView(view: MedicalView): boolean {
       if(!supportsCaptainCommands(view.versions) || seat.slotId!==null || seat.health!=='Eliminated' || seat.jailed || seat.captain || seat.medical!==null) return false;
       continue;
     }
-    const prefix = prefixes[seat.location], maximum = prefix === 'H' ? view.playerCount : prefix === 'C' ? 1 : 5;
+    const prefix = prefixes[seat.location], maximum = prefix === 'H' ? (supportsHospitalFour(view.versions) ? 4 : view.playerCount) : prefix === 'C' ? 1 : 5;
     if (seat.slotId===null || prefix === undefined || !BoardSlotIdSchema.safeParse(seat.slotId).success
       || seat.slotId[0] !== prefix || Number(seat.slotId.slice(1)) > maximum || occupied.has(seat.slotId)) return false;
     occupied.add(seat.slotId);
