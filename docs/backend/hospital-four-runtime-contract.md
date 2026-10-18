@@ -2,7 +2,7 @@
 
 Implementation candidate for #155; executable base `6ca4b51d5acd1454daec68c5108c8f12ee2286bf`, isolated branch `codex/backend-hospital-four-runtime`. Owner implementation dispatch: https://github.com/Amirkianfar66/GameN/issues/155#issuecomment-6256068599. This branch does not activate a release profile or deploy.
 
-The exact original #96 question, answer and question item are retained in `rules/overlays/hospital-four-owner-decision-2026-10-19.json`. The supplied answer is **“Free healed Hospital places first, then use existing seat order”**. This candidate implements it as healed-first/numeric admission, rather than inheriting actor-order admission from the unlimited ward.
+The [exact 18 October owner evidence](evidence/hospital-four-owner-decision-2026-10-18.json) is preserved byte-for-byte (SHA-256 `e8200252806d5e468805b6e00cc9ea85eb37651d72522293b533ee31f3d27c5d`). Its implementation status is historical. The exact original #96 question, answer and question item are retained in `rules/overlays/hospital-four-owner-decision-2026-10-19.json`. The supplied answer is **“Free healed Hospital places first, then use existing seat order”**. This candidate implements it as healed-first/numeric admission, rather than inheriting actor-order admission from the unlimited ward.
 
 ## Exact candidate allocation
 

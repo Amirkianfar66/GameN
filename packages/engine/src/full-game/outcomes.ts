@@ -1,6 +1,6 @@
 import { FullOutcomeFactSchema, SeatIdSchema } from '@mothership/contracts';
 import type { FullOutcomeFact, SeatId } from '@mothership/contracts';
-import { captainCommandsEnabled, blackoutEnabled } from './model.js';
+import { captainCommandsEnabled, blackoutEnabled, hospitalFourEnabled } from './model.js';
 import type { FullGameState } from './model.js';
 
 // Server-only frozen recipients. Never transmit or recompute this list at delivery.
@@ -19,7 +19,10 @@ export function assertOutcomes(state:FullGameState):void {
   if(!Array.isArray(state.outcomes) || state.outcomes.length>512) throw new Error('Invalid outcome history');
   for(const event of state.outcomes) {
     if(Object.keys(event).sort().join(',')!=='fact,recipientSeatIds' || !FullOutcomeFactSchema.safeParse(event.fact).success
-      || event.fact.round>state.round || (event.fact.type==='ATTACK_BLOCKED'
+      || event.fact.round>state.round || (hospitalFourEnabled(state.versions)
+        && (event.fact.type==='ATTACK_BLOCKED' || event.fact.type==='BOARD_PLACEMENT_CHANGED')
+        && event.fact.location==='Hospital' && Number(event.fact.slotId?.slice(1))>4)
+      || (event.fact.type==='HOSPITAL_OVERFLOW_REMOVED' && !hospitalFourEnabled(state.versions)) || (event.fact.type==='ATTACK_BLOCKED'
         ? !blackoutEnabled(state.versions) || event.recipientSeatIds===null || event.recipientSeatIds.length===0
           || new Set(event.recipientSeatIds).size!==event.recipientSeatIds.length || !event.recipientSeatIds.includes(event.fact.seatId)
           || event.recipientSeatIds.some(id=>!SeatIdSchema.safeParse(id).success || !state.seats.some(s=>s.seatId===id))

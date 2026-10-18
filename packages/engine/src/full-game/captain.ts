@@ -1,6 +1,8 @@
+import { appendOutcome } from './outcomes.js';
+import { assertHospitalOverflowState } from './hospital-four.js';
 import { IdentifierSchema, SeatIdSchema } from '@mothership/contracts';
 import type { SeatId } from '@mothership/contracts';
-import { captainCommandsEnabled, blackoutEnabled } from './model.js';
+import { captainCommandsEnabled, blackoutEnabled, hospitalFourEnabled } from './model.js';
 import type { FullGameState } from './model.js';
 import type { GameSeat } from './roster.js';
 import { assertMedicalState, placeMedicalSeats } from './medical.js';
@@ -22,6 +24,7 @@ function survivalShape(value: unknown): boolean {
 
 /** Validate persisted private evidence. Journal replay separately proves its provenance. */
 export function assertCaptainState(state: FullGameState): void {
+  assertHospitalOverflowState(state);
   if (!captainCommandsEnabled(state.versions)) {
     if (fields.some(field => Object.hasOwn(state, field)) || state.seats.some(seat => seat.location === null || seat.slotId === null)) {
       throw new Error('Captain companion fields require the exact Captain tuple');
@@ -36,7 +39,7 @@ export function assertCaptainState(state: FullGameState): void {
   }
   for (const seat of state.seats) {
     if (seat.location === null || seat.slotId === null) {
-      if (!uses.ejectUsed || seat.location !== null || seat.slotId !== null || seat.health !== 'Eliminated' || seat.jailed || seat.captain
+      if ((!uses.ejectUsed && !(hospitalFourEnabled(state.versions) && seat.hospitalOverflow !== null)) || seat.location !== null || seat.slotId !== null || seat.health !== 'Eliminated' || seat.jailed || seat.captain
         || seat.medicalEpisode !== null || !Number.isSafeInteger(seat.medicalEpisodeCount) || seat.medicalEpisodeCount! < 0) {
         throw new Error('Invalid retained off-board seat');
       }
@@ -100,6 +103,7 @@ export function executeCaptainCommand(state: FullGameState, actor: GameSeat, typ
     placeMedicalSeats(state);
   } else {
     const before = survival(state);
+    const removedSeatIds=state.seats.filter(value=>value.location==='Jail').map(value=>value.seatId);
     state.captainPowersUsed!.ejectUsed = true;
     for (const seat of state.seats.filter(value => value.location === 'Jail')) {
       seat.health = 'Eliminated'; seat.location = null; seat.slotId = null;
@@ -107,6 +111,7 @@ export function executeCaptainCommand(state: FullGameState, actor: GameSeat, typ
     }
     state.pendingCaptainReveal = { round: state.round, seatIds: prisoners.map(seat => seat.seatId).sort((a, b) => numeric(a) - numeric(b)) };
     state.pendingEjectStage = { round: state.round, actorSeatId: actor.seatId, commandId, before, after: survival(state) };
+    if(hospitalFourEnabled(state.versions))appendOutcome(state,{type:'CAPTAIN_OUTCOME',phaseId:state.phase.id,round:state.round,kind:'EJECT',seatIds:removedSeatIds});
   }
   assertMedicalState(state);
   assertCaptainState(state);

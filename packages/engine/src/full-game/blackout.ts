@@ -3,7 +3,7 @@ import type { SeatId } from '@mothership/contracts';
 import { blackoutEnabled } from './model.js';
 import type { FullGameState } from './model.js';
 import type { GameSeat } from './roster.js';
-import { slotIdsFor, assertBoardSlots } from './slots.js';
+import { boardSlotIdsFor, assertBoardSlots } from './slots.js';
 
 export type BlackoutRoom = Exclude<NonNullable<GameSeat['location']>, 'Final Zone'>;
 export interface FullBlackoutState {
@@ -77,7 +77,7 @@ export function assertBlackoutState(state: FullGameState): void {
   for (const occupant of window.occupants) {
     if (!exact(occupant, ['seatId', 'location', 'slotId', 'health']) || !SeatIdSchema.safeParse(occupant.seatId).success
       || !rooms.includes(occupant.location) || !['Healthy', 'Injured', 'Eliminated'].includes(occupant.health)
-      || !slotIdsFor(occupant.location, state.playerCount).includes(occupant.slotId)
+      || !boardSlotIdsFor(state, occupant.location).includes(occupant.slotId)
       || frozenSeats.has(occupant.seatId) || frozenSlots.has(occupant.slotId)) throw new Error('Invalid frozen Blackout occupant');
     const current = physical.find(seat => seat.seatId === occupant.seatId);
     if (!current || current.location !== occupant.location || current.slotId !== occupant.slotId || current.health !== occupant.health) {
@@ -94,7 +94,7 @@ export function assertBlackoutState(state: FullGameState): void {
     const actor = state.seats.find(seat => seat.seatId === attempt.actorSeatId)!;
     const selected = attempt.selectedSlotId !== null;
     if (!ready(actor) || !disabler(actor) || actor.location !== attempt.room || actor.disablerSpent !== selected
-      || (selected ? typeof attempt.selectedSlotId !== 'string' || !slotIdsFor(attempt.room, state.playerCount).includes(attempt.selectedSlotId)
+      || (selected ? typeof attempt.selectedSlotId !== 'string' || !boardSlotIdsFor(state, attempt.room).includes(attempt.selectedSlotId)
         || !IdentifierSchema.safeParse(attempt.selectedCommandId).success : attempt.selectedCommandId !== null)) {
       throw new Error('Invalid final Blackout attempt');
     }
@@ -141,7 +141,7 @@ export function selectBlackoutSlot(state: FullGameState, actor: GameSeat, comman
   const window = state.blackout!, attempt = window.attempts.find(value => value.actorSeatId === actor.seatId);
   if (!attempt || attempt.selectedSlotId !== null || now < window.darkStartsAt || now >= window.endsAt
     || command['snapshotId'] !== window.snapshotId || command['room'] !== attempt.room
-    || typeof command['slotId'] !== 'string' || !slotIdsFor(attempt.room, state.playerCount).includes(command['slotId'])) return false;
+    || typeof command['slotId'] !== 'string' || !boardSlotIdsFor(state, attempt.room).includes(command['slotId'])) return false;
   attempt.selectedSlotId = command['slotId']; attempt.selectedCommandId = commandId; actor.disablerSpent = true;
   assertBlackoutState(state); return true;
 }
@@ -166,6 +166,6 @@ export function projectBlackoutTargeting(state: FullGameState, actor: GameSeat) 
   assertBlackoutState(state);
   if (!blackoutEnabled(state.versions) || state.phase.kind !== 'BLACKOUT' || !state.seats.includes(actor)) return null;
   const window = state.blackout!, attempt = window.attempts.find(value => value.actorSeatId === actor.seatId);
-  return attempt ? { snapshotId: window.snapshotId, room: attempt.room, slotIds: slotIdsFor(attempt.room, state.playerCount),
+  return attempt ? { snapshotId: window.snapshotId, room: attempt.room, slotIds: boardSlotIdsFor(state, attempt.room),
     darkStartsAt: window.darkStartsAt, endsAt: window.endsAt, selectedSlotId: attempt.selectedSlotId } : null;
 }

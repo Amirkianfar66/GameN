@@ -213,3 +213,5 @@ export type { FullGameSetup, FullGameState, FullGameContext } from './full-game/
 export { projectOwnAcknowledgments } from './full-game/own-acknowledgments.js';
 
 export { assertInitialRoomCapacity } from './full-game/capacity.js';
+
+export { slotIdsFor, boardSlotIdsFor } from './full-game/slots.js';

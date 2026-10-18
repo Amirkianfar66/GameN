@@ -1,3 +1,5 @@
+import { initializeHospitalOverflowState } from './hospital-four.js';
+import type { MedicalResolutionBatch } from './medical.js';
 import { initializeCloneState, assertCloneState, cloneActivationAllowed, activateClone, cloneBlocksAttack, finishCloneCheckpoint, stopCloneEffects, clearEliminatedCloneEffects } from './clone.js';
 import { FullCommandRequestSchema, FullPublicViewSchema, FullPlayerViewSchema, FullAssetManifestVersionSchema, FullVersionsSchema, FullHackFeedbackSchema, IdentifierSchema } from '@mothership/contracts';
 import type { FullCommand, FullCommandRequest, FullReceipt, FullPlayerView, SeatId } from '@mothership/contracts';
@@ -5,7 +7,7 @@ import { buildRoster } from './roster.js';
 import type { GameSeat } from './roster.js';
 import { tallyJailVote, tallyElection, tallyReleaseVote } from './votes.js';
 import { evaluateVictory } from './victory.js';
-import { FULL_ENGINE_VERSION, FULL_RULESET_VERSION, FULL_RULESET_HASH, isSupportedFullGameVersions, passTurnEnabled, roomCapacityEnabled, resolutionPlacementEnabled, voteResultEnabled, declaredHackEnabled, publicHackEnabled, boardMedicalEnabled, captainCommandsEnabled, blackoutEnabled, cloneEnabled } from './model.js';
+import { FULL_ENGINE_VERSION, FULL_RULESET_VERSION, FULL_RULESET_HASH, isSupportedFullGameVersions, passTurnEnabled, roomCapacityEnabled, resolutionPlacementEnabled, voteResultEnabled, declaredHackEnabled, publicHackEnabled, boardMedicalEnabled, captainCommandsEnabled, blackoutEnabled, cloneEnabled, hospitalFourEnabled } from './model.js';
 import type { FullGameState, FullGameSetup, FullGameContext } from './model.js';
 import { roomHasSpace, assertInitialRoomCapacity, ordinaryReturnDestination } from './capacity.js';
 import { placeResolvedSeats } from './placement.js';
@@ -13,7 +15,7 @@ import { captainCommandAllowed, executeCaptainCommand, assertCaptainState, close
 import { blackoutRequestAllowed, openBlackout, selectBlackoutSlot, finishBlackout, assertBlackoutState, projectBlackoutTargeting } from './blackout.js';
 import { appendOutcome, assertOutcomes, roomBlockOutcome } from './outcomes.js';
 import { moveBoardSeat } from './slots.js';
-import { initializeMedicalState, assertMedicalState, recordMedicalDamage, healMedicalSeat, applyDueMedicalDeaths, placeImmediateMedicalSeat, placeMedicalSeats, projectMedicalStatus } from './medical.js';
+import { initializeMedicalState, assertMedicalState, beginMedicalResolution, recordMedicalDamage, healMedicalSeat, applyDueMedicalDeaths, placeImmediateMedicalSeat, placeMedicalSeats, projectMedicalStatus } from './medical.js';
 
 const clone = <T>(value:T):T => JSON.parse(JSON.stringify(value)) as T;
 const alive = (seat: GameSeat) => seat.health !== 'Eliminated';
@@ -119,20 +121,21 @@ function placement(state: FullGameState, seat: GameSeat) {
     seat.location=ordinaryReturnDestination(state,seat);
   }
 }
-function attack(state: FullGameState, target: GameSeat, showdown=false) {
+function attack(state: FullGameState, target: GameSeat, showdown=false, medicalBatch?:MedicalResolutionBatch) {
   if (!alive(target)) return;
   if(cloneBlocksAttack(state,target,showdown)) { roomBlockOutcome(state,target); return; }
   // Registration has already locked target location and Command legality (V1-06).
   if (target.protection && !target.protection.consumed && target.protection.activeFromRound <= state.round) {
     target.protection.consumed=true; roomBlockOutcome(state,target); return;
   }
-  if (boardMedicalEnabled(state.versions)) { recordMedicalDamage(state,target); clearEliminatedCloneEffects(state); return; }
+  if (boardMedicalEnabled(state.versions)) { recordMedicalDamage(state,target,medicalBatch); clearEliminatedCloneEffects(state); return; }
   target.health=target.health === 'Healthy' ? 'Injured' : 'Eliminated';
   if (target.captain) loseCaptain(state,target);
 }
 function factionSurvives(state: FullGameState, faction: 'Blue'|'Red') { return state.seats.some(s=>s.faction===faction && alive(s)); }
 function resolveRound(state: FullGameState, context: FullGameContext, showdown=false,blackoutTargets:Record<string,SeatId|null>={}) {
   const blueBefore=factionSurvives(state,'Blue'), redBefore=factionSurvives(state,'Red');
+  const medicalBatch=beginMedicalResolution(state);
   // Complete stages are evaluated without intermediate victory. Actor status never cancels.
   for (const actorId of state.turnOrder) {
     const queued=state.queued.filter(q=>q.actorSeatId===actorId);
@@ -140,13 +143,13 @@ function resolveRound(state: FullGameState, context: FullGameContext, showdown=f
     const shots=queued.filter(q=>q.command.type===(showdown?'SHOWDOWN_SHOT':'REGISTER_SHOT'));
     for (const q of [...main,...shots]) {
       if(q.command.type==='REQUEST_BLACKOUT') {
-        const id=blackoutTargets[actorId];if(id)attack(state,find(state,id)!);continue;
+        const id=blackoutTargets[actorId];if(id)attack(state,find(state,id)!,false,medicalBatch);continue;
       }
       if (!('targetSeatId' in q.command) || q.command.targetSeatId === null) continue;
       const target=find(state,q.command.targetSeatId)!;
       if (q.command.type==='PROTECT') {
         if (alive(target)) target.protection={activeFromRound:state.round+1,consumed:false,grantedBy:q.actorSeatId};
-      } else attack(state,target,showdown);
+      } else attack(state,target,showdown,medicalBatch);
     }
   }
   if (!showdown) {
@@ -169,7 +172,7 @@ function resolveRound(state: FullGameState, context: FullGameContext, showdown=f
           successfulRecipientSeatIds:[...successfulRecipientSeatIds].sort() });
       }
     }
-    if (boardMedicalEnabled(state.versions)) { applyDueMedicalDeaths(state); placeMedicalSeats(state); }
+    if (boardMedicalEnabled(state.versions)) { applyDueMedicalDeaths(state); placeMedicalSeats(state,medicalBatch); }
     else if (resolutionPlacementEnabled(state.versions)) placeResolvedSeats(state);
     else {
       // Preserve the exact 1.2 healed-first pass, including its audited return bug.
@@ -180,7 +183,7 @@ function resolveRound(state: FullGameState, context: FullGameContext, showdown=f
       for (const s of state.seats) placement(state,s);
     }
   }
-  if (showdown && boardMedicalEnabled(state.versions)) placeMedicalSeats(state);
+  if (showdown && boardMedicalEnabled(state.versions)) placeMedicalSeats(state,medicalBatch);
   clearEliminatedCloneEffects(state);
   if(!showdown)finishCloneCheckpoint(state);
   const ejectStage=captainCommandsEnabled(state.versions) && !showdown ? closeCaptainCheckpoint(state) : false;
@@ -204,7 +207,8 @@ export function createFullGame({matchId,setup,now,phaseId,deadlineToken,assetMan
   const context={now,nextPhaseId:phaseId,nextDeadlineToken:deadlineToken}; validateContext(context);
   if (!IdentifierSchema.safeParse(matchId).success || !FullAssetManifestVersionSchema.safeParse(assetManifestVersion).success) throw new Error('Invalid match pin');
   const recordedVersions = FullVersionsSchema.parse(versions ?? {protocolVersion:2,rulesetVersion:FULL_RULESET_VERSION,rulesetHash:FULL_RULESET_HASH,engineVersion:FULL_ENGINE_VERSION,assetManifestVersion});
-  if (!isSupportedFullGameVersions(recordedVersions) || recordedVersions.assetManifestVersion !== assetManifestVersion) throw new Error('Unsupported full-game version pins');
+  if (!isSupportedFullGameVersions(recordedVersions) || recordedVersions.assetManifestVersion !== assetManifestVersion
+    || (hospitalFourEnabled(recordedVersions) && assetManifestVersion !== 'design-0.5.0')) throw new Error('Unsupported full-game version pins');
   const {seats,code}=buildRoster(setup), seatIds=seats.map(s=>s.seatId);
   assertInitialRoomCapacity(setup, recordedVersions);
   if (setup.roundOrders.length!==5 || setup.roundOrders.some(order=>order.length!==seats.length || new Set(order).size!==seats.length || order.some(id=>!seatIds.includes(id)))) throw new Error('Five recorded complete round permutations required');
@@ -217,6 +221,7 @@ export function createFullGame({matchId,setup,now,phaseId,deadlineToken,assetMan
     ...(voteResultEnabled(recordedVersions)?{voteResult:null,voteResultContinuation:null}:{}),
     ...(declaredHackEnabled(recordedVersions)?{hackFeedback:null}:{}),
     viewRevisions:{public:0,players:Object.fromEntries(seatIds.map(id=>[id,0]))}};
+  initializeHospitalOverflowState(state);
   if (boardMedicalEnabled(state.versions)) initializeMedicalState(state);
   initializeCloneState(state);
   beginRound(state,context); assertMedicalState(state); assertCaptainState(state); assertOutcomes(state); assertBlackoutState(state); assertCloneState(state); return state;
@@ -282,7 +287,7 @@ export function executeFullGame(before:FullGameState,actorSeatId:SeatId,request:
       if(!captainCommandAllowed(state,actor,command.type)) return reject('NOT_ALLOWED');
       const affected=state.seats.filter(s=>s.location==='Jail' && (command.type==='CAPTAIN_EJECT' || alive(s))).map(s=>s.seatId);
       executeCaptainCommand(state,actor,command.type,request.commandId);
-      appendOutcome(state,{type:'CAPTAIN_OUTCOME',phaseId:state.phase.id,round:state.round,kind:command.type==='CAPTAIN_RELEASE'?'RELEASE':'EJECT',seatIds:affected});
+      if(!(hospitalFourEnabled(state.versions) && command.type==='CAPTAIN_EJECT'))appendOutcome(state,{type:'CAPTAIN_OUTCOME',phaseId:state.phase.id,round:state.round,kind:command.type==='CAPTAIN_RELEASE'?'RELEASE':'EJECT',seatIds:affected});
       break;
     }
     case 'PASS_TURN':
@@ -425,7 +430,7 @@ export function projectFullGame(state:FullGameState) {
       ...(boardMedicalEnabled(state.versions)?{slotId:s.slotId!,medical:projectMedicalStatus(state,s)}:{})})),
     ballot:{eligibleVoters:state.eligibleVoters,eligibleTargets:state.eligibleTargets,releaseTargetSeatId:state.phase.kind==='RELEASE_VOTE'?state.releaseTargetSeatId:null},lastTally:state.lastTally,result:state.result,
     ...(voteResultEnabled(state.versions)?{voteResult:state.voteResult??null}:{}),
-    ...(blackoutEnabled(state.versions)?{blackout:state.blackout?{snapshotId:state.blackout.snapshotId,layoutRevision:'board-v2-0.1.1',darkStartsAt:state.blackout.darkStartsAt}:null}:{}),
+    ...(blackoutEnabled(state.versions)?{blackout:state.blackout?{snapshotId:state.blackout.snapshotId,layoutRevision:hospitalFourEnabled(state.versions)?'board-v2-four-0.1.0':'board-v2-0.1.1',darkStartsAt:state.blackout.darkStartsAt}:null}:{}),
     ...(publicHackEnabled(state.versions)?{hackSession:state.activeHack && state.hackFeedback
       ? {hackId:state.hackFeedback.hackId,actorSeatId:state.activeHack.actorSeatId,targetSeatId:state.activeHack.targetSeatId}:null}:{}),
     endReveal:terminal?{roles:state.seats.map(s=>({seatId:s.seatId,role:s.role})),code:state.code}:null};
