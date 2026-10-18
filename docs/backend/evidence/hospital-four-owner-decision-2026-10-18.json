@@ -1,0 +1,43 @@
+{
+  "decisionId": "HOSPITAL-4-2026-10-18",
+  "recordedOn": "2026-10-18",
+  "timezone": "Europe/Rome",
+  "status": "owner-approved-not-implemented",
+  "trackingIssue": "https://github.com/Amirkianfar66/GameN/issues/155",
+  "sourceThreadId": "01a0de94-e774-7a53-80fd-5897c518c9bf",
+  "ownerStatement": "an update to game is maximum space for Hospital is 4 , if a person dead ind the capacity of Hospital is 4 , that person dead permanently and remove from game completely. update all agents regard that",
+  "clarification": {
+    "question": "Hospital will have four beds. When all four are occupied and another player becomes Injured, should that incoming player be permanently eliminated and removed from the board?",
+    "ownerAnswer": "Yes—eliminate the incoming player"
+  },
+  "approvedRules": [
+    "Hospital has a maximum of four beds in every supported player-count configuration.",
+    "When all four beds are occupied and another player becomes Injured and would enter Hospital, permanently eliminate that incoming player and remove them from the board.",
+    "The incoming overflow player does not take a fifth bed and is not eligible for later Rescue."
+  ],
+  "supersedesForFutureImplementation": "The previous owner direction that Hospital capacity equals the starting match roster and therefore has no injury overflow.",
+  "deliveryBoundary": {
+    "requestedWork": "Record the decision and update Backend, Frontend, Claude Designer, Claude Balance and the Creative Design Studio.",
+    "gameplayImplemented": false,
+    "deployed": false,
+    "historicalBaseline": "6ca4b51d5acd1454daec68c5108c8f12ee2286bf",
+    "historicalEngine": "full-game-1.10.0",
+    "historicalRuleset": "in-person-v1-clone-2026-10-14",
+    "historicalArt": "design-0.4.0"
+  },
+  "delivery": {
+    "backendCodex": {"threadId": "01a11169-fbe6-7ad0-943c-27571afc7d70", "status": "message-sent"},
+    "frontendCodex": {"threadId": "01a1215b-47cb-7041-9356-9afe7b7af1c1", "status": "message-sent"},
+    "creativeStudioCodex": {"threadId": "01a14f15-9d9a-7811-b0e2-477b23bd9f1b", "status": "message-sent"},
+    "claudeDesigner": {"status": "posted-to-current-pr-not-session-acknowledged", "url": "https://github.com/Amirkianfar66/GameN/pull/144#issuecomment-6251208288"},
+    "claudeBalance": {"status": "posted-to-current-pr-not-session-acknowledged", "url": "https://github.com/Amirkianfar66/GameN/pull/133#issuecomment-6251208904"}
+  },
+  "coordinationNotes": [
+    "Backend and Integration must prepare the successor rules and contract changes; do not change historical tuples or existing matches in place.",
+    "Permanent gameplay removal is not deletion of audit journals, receipts, player identities or replay history.",
+    "The clarification concerns the incoming overflow player. It does not establish a separate blanket rule for removing every existing body or changing unrelated death/reveal behavior.",
+    "Backend and Balance should assess existing body occupancy, simultaneous admissions, Rescue and death ordering, clinical animation anchors, registered actions and win checks using current authoritative rules, and identify any genuine additional rule conflict.",
+    "Frontend and Designer need a four-bed successor layout and server-authorized overflow removal feedback; no frontend inference of elimination.",
+    "The Creative Design Studio should show the new decision as approved but not implemented and preserve current deployed facts separately."
+  ]
+}
