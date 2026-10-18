@@ -150,3 +150,16 @@ body:has(#app [data-board-layout="board-v2"]) { height:100dvh; overflow:hidden; 
 
 .bv2-captain-states { display:grid; gap:6px; margin-bottom:8px; }
 .bv2-captain-states > div { box-sizing:border-box; display:flex; align-items:center; min-height:64px; font-size:12px; }
+
+/* The existing Actions child allowlist must include these authorized own-private claims. */
+#app .ms-shell--player[data-board-layout="board-v2"][data-phone-view="actions"] .ms-private__panel > .bv2-clone-card { display:block; box-sizing:border-box; width:100%; grid-column:1/-1; }
+#app .ms-shell--player[data-board-layout="board-v2"][data-phone-view="actions"] .ms-private__panel > .bv2-captain-states { display:grid; width:100%; grid-column:1/-1; }
+#app .ms-shell[data-board-layout="board-v2"] .ms-private[data-open="true"]:not(.phone-action-dock) .ms-private__panel:has(> :is(.bv2-clone-card,.bv2-captain-states)) { display:block; width:100%; box-sizing:border-box; }
+#app .ms-shell[data-board-clone="true"] .phone-empty-actions,
+#app .ms-shell[data-board-clone="true"] [data-clone-duplicate] { display:none; }
+
+#app .ms-shell[data-board-clone="true"] .ms-actions:has(.phone-empty-actions) { display:none; }
+
+#app .ms-shell--player[data-board-layout="board-v2"][data-phone-view="actions"] button[data-captain-plate] { background-image:var(--captain-plate); background-color:var(--bv2-navy); min-height:64px; padding-left:34%; }
+
+.bv2-film[data-film-part^="tag-"] { white-space:pre-line; }

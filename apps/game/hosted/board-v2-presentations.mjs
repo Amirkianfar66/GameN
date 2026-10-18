@@ -105,7 +105,7 @@ export function createBoardV2Presentations({now=()=>performance.now()}={}){
     }
     privateBefore=clone(privateCurrent);
    }
-   previous=board?{viewRevision:board.viewRevision,seats:clone(seats)}:null;previousLive=live;
+   previous=board?{viewRevision:board.viewRevision,seats:clone(seats)}:null;previousLive=fresh&&!['FINISHED','ABORTED'].includes(board?.clock?.kind);
    return this.sample();
   },
   sample(){

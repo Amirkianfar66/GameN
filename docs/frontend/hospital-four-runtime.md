@@ -1,42 +1,54 @@
 # Hospital-four playable Frontend candidate
 
-Issue155; runtime work follows the reviewed plan PR162. This is executable consumer work. Integration owns final adoption, profile/default selection, merge and deployment.
+This implements issue #155 and the reviewed PR #162 plan. Integration owns final adoption, profile/default selection, merge and deployment.
 
-The runtime activates its complete films only for protocol2, engine`full-game-1.11.0`, ruleset`in-person-v1-hospital-four-2026-10-19`, hash`7d9d3519df8813feb1213f1ad4439cae90895af6850c223264c28907824aeb9c`, art`design-0.5.0`, with the uniform film supplement loaded. Earlier matches retain their original slot geometry and Ready agreement. The owned hosted build explicitly validates the candidate; shared release/profile defaults remain Integration work.
+The complete films require the exact Hospital-four gameplay tuple and `design-0.5.0`, with the common artwork loaded. Historical matches retain their original geometry and Ready agreement. The owned hosted build explicitly validates the new candidate; shared release/profile defaults remain unchanged.
 
 ## Dependencies and source preservation
 
-The executable ancestor is6ca4b51d5acd1454daec68c5108c8f12ee2286bf. The review-plan commit98ec3a299332ed4935683821f61602d660a300e0 is documentation, not an executable baseline. Shared contract6023d43e21b46d11fd08be963bfa1daa8f09a175, Backend runtime d16f7a17a646c5b5fc788dbdeae3103bfcf6eee8, art registration e7650bd850202d3a65ccd0144bfcf4b9b5f451e6 and reviewed source correction530e6d0714a19a86326ea2509512ab027876d9e0 are consumed unchanged. Backend follow-up93cf668/afac717 adds tests/clarification without a functional delta.
+The executable ancestor is `6ca4b51d5acd1454daec68c5108c8f12ee2286bf`. Plan commit `98ec3a299332ed4935683821f61602d660a300e0` is a review document, not an executable baseline.
 
-Fourteen pure drawing ports and100SVG derivatives are inventoried in[the provenance](designer-films-runtime-provenance.json). Original Designer sources, rig, clothing, capsule, room layouts and historical manifests are preserved. The corrected medical-four source is Designer#160 at1fbdb541ec4b8389dcf2220125b4666278a12b0e; its source/runtime hashes are90ae67a8cd9c5d92454417cc1a7ba5dd16172e7081ae4c5427caa013e9627ee0 and9e212739636b1cff522c79f36eee64e14add6dad29aa2054cac7e4452532a1e7. Clone's#161 family remains pinned tocb9386bd716dc346160509d5e49d7348fdaf4f84.
+The focused review base combines Integration art/fixture head `bcbb76080a89eea1c1bb8d3cc62cd62041c1562e` and Backend final head `1d16da3b5b642f590810d1106714fde230a45c48` as dependency commit `c6814df98242a72bf702362d253aab0a8ca6048a`. Backend functionality is the unchanged `d16f7a1` implementation; subsequent Backend commits add tests, clarification and verification documentation. Shared contract `6023d43e21b46d11fd08be963bfa1daa8f09a175` defines the exact gameplay/art/layout agreement.
 
-The whole100-asset film stylesheet is emitted and loaded on every audience before private data is read. Its identity remains9e6abdef0f0be32d8283dffbef9bff18898c62d4f330c8f72f9216717f1e8bbb. Actual Vite output is1,462,181raw bytes; its reported gzip size is115.32kB. These are build sizes, not device/network performance measurements.
+| Field | Candidate |
+| --- | --- |
+| Protocol | 2 |
+| Engine | `full-game-1.11.0` |
+| Ruleset | `in-person-v1-hospital-four-2026-10-19` |
+| Ruleset SHA256 | `7d9d3519df8813feb1213f1ad4439cae90895af6850c223264c28907824aeb9c` |
+| Layout | `board-v2-four-0.1.0` |
+| Art | `design-0.5.0` |
 
-Separate#116 setup/role-card components already existed. This change extends their exact-pair gate and preserves the neutral back, explicit reveal/hide, public taken stamps, own confirmation, Ready seal, both30-second windows and reduced-motion/blur cleanup.
+Fourteen pure ports and 100 SVG derivatives are recorded in [the source inventory](designer-films-runtime-provenance.json). Designer #158–#161, the original character rig, clothing, capsule and room artwork are preserved. The corrected medical-four source is Designer #160 at `1fbdb541ec4b8389dcf2220125b4666278a12b0e`; source/runtime SHA256 values are `90ae67a8cd9c5d92454417cc1a7ba5dd16172e7081ae4c5427caa013e9627ee0` and `9e212739636b1cff522c79f36eee64e14add6dad29aa2054cac7e4452532a1e7`. Clone's #161 family remains pinned to `cb9386bd716dc346160509d5e49d7348fdaf4f84`.
+
+The whole film supplement is emitted and loaded on every audience before private data is consulted. Its SHA256 remains `9e6abdef0f0be32d8283dffbef9bff18898c62d4f330c8f72f9216717f1e8bbb`: 1,462,181 raw bytes, with 115.32 kB gzip reported by Vite. These are build sizes, not device/network benchmarks. Historical manifest bytes and their strict preservation checks remain independent.
+
+Separate #116 setup/role-card components already existed. This change extends their exact-pair gate and preserves the neutral back, explicit reveal/hide, public taken stamps, own confirmation, Ready seal, both 30-second windows and reduced-motion/blur cleanup.
 
 ## Consumer behavior
 
-The new board has exactly H1–H4 for7/8/9 starting players. Clinical anchors remain bounded by the starting roster. Strict wire validation precedes the optional adapter: valid HV5+ retains authorized words, malformed/out-of-roster anchors are rejected, and a berth held by another stable seat/body suppresses incompatible imagery. Canonical seatId values are normalized to the pure helper's seat namespace.
+The new board has H1–H4 for every 7/8/9-player roster. Clinical anchors remain bounded by the starting roster. Strict wire validation precedes optional drawing: valid HV5+ retains its words, malformed/out-of-roster anchors remain invalid, and a berth held by another stable seat or body suppresses incompatible imagery. Wire `seatId` values are normalized to the helper's `seat` namespace.
 
-The native painter uses the existing rig and pure medical, Captain, overflow and Clone helpers. It never allocates a slot, sends a command or selects an asset URL by role. Current critical status comes from actual Hospital slots. Medical outcomes use their authorized anchor; overflow has no clinical anchor/medical film. The committed snapshot removes offboard world/capsule actors immediately. The memorial count comes from all authoritative null-placement seats, irrespective of cause or received event counts.
+The native painter uses the reviewed rig and pure medical, Captain, overflow and Clone helpers. It does not allocate placement, send commands or select asset URLs by role. Critical state uses actual Hospital slots. Medical films use authorized anchors; overflow has no clinical anchor or medical film. The committed snapshot removes offboard world/capsule actors immediately. The memorial counts all authoritative null-placement seats, independently of received event counts or removal cause.
 
-The director retains held-before snapshots by view revision so delayed occurrences do not invent an origin. Initial/reconnect/obsolete/expired occurrences cannot replay a film. New placement, another berth holder, stale timing, hidden/blurred pages, terminal state and motion-setting changes cancel disposable drawings. Facts/words stay independent of no-film and no-inset fallbacks. SHOWDOWN remains live for normal Clone expiry; FINISHED/ABORTED cleanup suppresses private films.
+Held-before snapshots are retained by revision, so delayed occurrences cannot invent origins. Initial/reconnect/obsolete/expired events cannot replay. New placement, another berth holder, stale timing, blur/hidden pages, terminal state, unfit geometry and motion-setting changes settle disposable drawings. Fresh outcomes after Blackout remain eligible; resuming a hidden page establishes a baseline. Words remain independent of no-film/no-inset fallbacks.
 
-Clone metadata belongs only to the revealed own Actions sheet. Concealment removes its SVG/text subtree, and reopening shows the current state at rest. Public models receive no Clone status. Captain plates derive used flags and current offers from the own view; accepted receipts do not infer current availability. RELEASE confirmation says “Release all living prisoners currently in Jail?” EJECT's held-before subject list includes retained bodies. A cleared living Jail can close the second command's offer; two rapid attempts do not promise two successes.
+Clone draws only inside the revealed own Actions sheet. Its actual visibility and clearance above the raised Pass are measured at both phone sizes. Concealment removes the SVG/text subtree; reopening or reloading shows current activity at rest. Public models receive no Clone status. SHOWDOWN can carry normal expiry; FINISHED/ABORTED cleanup suppresses the private film.
 
-Code retains the same action-choice IDs and seat values. On the new tuple, placed targets stay on the board while authorized offboard choices use a separate private tab with stable native buttons. The board is inert while that sheet is open. Blackout retains its numeric chooser and neutral frozen-slot presentation. Existing Pass, room-tag movement, recovery controls and the half-width capsule/full60-second conversation are retained.
+Captain plates use current own offers and office allowance flags. The source's console, cropped door/hatch geometry, walking, silhouettes, retained-body treatment and exterior are connected to committed outcomes. RELEASE confirmation says “Release all living prisoners currently in Jail?” EJECT includes retained Jail bodies. Clearing living Jail occupants can close the other command's offer; two attempts do not promise two successes. Receipt recovery retains the original command ID and its existing guard. Unchanged command controls survive surrounding redraws.
 
-## Verification status
+Code keeps canonical choice IDs and seat values. On the new tuple, placed targets stay on the board and authorized offboard choices use a separate private tab with stable native buttons. The board is inert while that sheet is open. Blackout retains its numeric/frozen-slot presentation. Pass, room-tag movement, recovery controls and the half-width capsule/full 60-second conversation remain intact.
 
-- npm ci completed with the pinned Node22.21.1/npm10.9.4.
-- Build, both typechecks and actual hosted Vite build passed.
-- Full verification passed151bootstrap,965engine,253backend,195tooling and733Frontend tests before the last drawing-source/renderer refinements. It then failed37design-fence seed cases because they read mutable UI metadata against historical host/scene/CSS hashes; this was sent to Integration for a focused shared preservation fix. No complete verify success is claimed yet.
-- All18Backend Hospital-four native Auth/Firestore cases passed locally,202.963seconds. They include native admission/preparation for7/8/9 and legal synthetic SETUP histories for medical/overflow/Rules/receipt controls. Trusted local workers deliver deadlines; this does not prove production Tasks.
-- Three new Frontend native consumer cases passed for fresh mixed human/practice-bot7/8/9 setup, both30-second windows, exact Ready, native bot execution and strict audience reads.
-- Candidate setup browser flow passed10DOM records at320x568 and390x844.
-- Synthetic candidate browser flow passed26DOM records:7/8/9 at both sizes, board/no-page-scroll, actual>=44px target hits, simultaneous healing/overflow, offboard Code original identity/selection, unique IDs, own Clone and privacy/stale/reduced-motion boundaries. It uses strict synthetic wire views/outcomes, separate from native-service acceptance.
-- Corrected source/consumer focused checks passed28tests. The final native Captain/Clone browser journey and final combined reruns are recorded separately when complete.
+## Verification
 
-Reproduction: run the repository build/Frontend checks; serve apps/game/dev/board/vite.config.mjs on loopback5297; run apps/game/dev/capture-hospital-four.mjs and HOSPITAL_FOUR=1 node apps/game/dev/capture-setup-art.mjs. Native cases require explicit demo Auth/Firestore emulator variables. Native browser adapter/capture files are development-only, excluded from the hosted build. Local evidence is under/private/tmp/gamen-hospital-four-browser, /private/tmp/gamen-setup-four-evidence and/private/tmp/gamen-four-native; no real match payloads are committed.
+`npm ci` used the pinned Node 22.21.1/npm 10.9.4. Workspace build, both typechecks, hosted Vite build, source/port checks and Frontend regression checks have passed. The final combined verification result is recorded in the evidence summary after the focused dependency rebase.
 
-Physical phones, Safari/WebKit, human screen-reader acceptance, production Firebase Web SDK/Functions/Tasks, Hosting deployment, live multiplayer and independent Balance approval remain unmeasured/unapproved. Chromium screenshots and practice bots are not evidence of human game balance.
+Local native acceptance passed all 18 Backend Hospital-four Auth/Firestore cases, including native admission/preparation for 7/8/9 and legal synthetic SETUP histories for medical/overflow/Rules/receipt controls. The run took 202.963 seconds. Three additional Frontend cases passed fresh mixed human/practice-bot setup for all roster sizes, both 30-second windows, exact Ready and native bot execution.
+
+Candidate setup browser acceptance passed 10 records at 320×568 and 390×844. The final audience and native browser measurements are recorded separately in [the evidence summary](evidence/hospital-four-consumer-checks.json). Native browser histories use real local Auth, Firestore Rules, service decisions and receipt lookup after a legal synthetic initial SETUP. Synthetic browser scenarios use strict authored wire views/outcomes and do not prove legal native histories or multiplayer correctness.
+
+An earlier full verify reached 37 failures in historical drawing-fence seed tests after passing the other unit groups. Integration's exact `bcbb760` repair preserves the original metadata/build inputs in committed snapshots; it does not repin the old policy or weaken current import/port validation. The final tree must pass the combined rerun before adoption.
+
+Reproduction uses the repository build/verify scripts and the development-only files below. Serve `apps/game/dev/board/vite.config.mjs` on loopback 5297, then run `capture-hospital-four.mjs` and `HOSPITAL_FOUR=1 node capture-setup-art.mjs`. Native browser acceptance additionally uses `four-native-service.mjs` and `capture-four-native.mjs` with explicit demo Auth/Firestore emulator variables. These modules are excluded from the hosted build. Real match payloads, tokens and credentials are not committed.
+
+Physical phones, Safari/WebKit, human screen-reader acceptance, production Firebase Web SDK/Functions/Tasks, Hosting deployment, live multiplayer and independent Balance approval remain unmeasured/unapproved. Chromium screenshots and practice bots do not establish human game balance.

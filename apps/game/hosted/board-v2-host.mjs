@@ -242,13 +242,13 @@ export function createBoardV2Host(root,{now=()=>performance.now(),publicIdentiti
   if(holder.parentNode!==original)original.replaceChildren(holder);
   holder.style.width=px(window.innerWidth);holder.style.height=px(window.innerHeight);
   root.dataset.boardFits=String(layout.fits);
-  if(!layout.fits){holder.replaceChildren();holder._boardV2Paint=null;
+  if(!layout.fits){presentations.settle();films.clear();holder.replaceChildren();holder._boardV2Paint=null;
    const message=document.createElement('p');message.className='bv2-too-short';message.id='ms-comic-board-heading';message.tabIndex=-1;
    message.textContent='This screen is too short to show the board. Use a taller view or reduce the text size. Navigation remains available.';holder.append(message);frame=null;controls();return true;}
   const seats=allSeats();
   const layoutFrame={panels:layout.board.panels,pressAreas:Object.fromEntries(BOARD_ROOMS.map(r=>[r,geometry.slotRects(r,next.match.boardLayout.playerCount,layout.board.panels[r])]))};
   frame=boardV2SceneFrame(next.match.boardLayout.playerCount,seats,{...layoutFrame,geometry});
-  if(frame.problems.length){holder.replaceChildren();const warning=document.createElement('p');warning.className='bv2-too-short';warning.textContent='The board could not be read. Reconnect to continue.';holder.append(warning);return true;}
+  if(frame.problems.length){presentations.settle();films.clear();holder.replaceChildren();const warning=document.createElement('p');warning.className='bv2-too-short';warning.textContent='The board could not be read. Reconnect to continue.';holder.append(warning);return true;}
   const publicKey=JSON.stringify([next.match.capsule?.phaseId,next.match.boardLayout.clock.phaseId]);
   if(publicKey!==worldKey){tab=false;claimExpanded=false;worldKey=publicKey;}
   if(!next.match.privateArea?.open)claimExpanded=false;

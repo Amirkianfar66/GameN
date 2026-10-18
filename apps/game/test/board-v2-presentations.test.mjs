@@ -106,3 +106,12 @@ test('an occurrence arriving after its matching snapshot retains the actual held
  const event=s.event({type:'CAPTAIN_OUTCOME',kind:'EJECT',seatIds:['seat-2']});
  const entry=s.update({events:[event]}).items[0];assert.equal(entry.subjects[0].before.slotId,'J1');assert.equal(entry.subjects[0].body,true);
 });
+
+test('fresh post-Blackout outcomes retain their committed origin while hidden-page resumption stays a baseline',()=>{
+ for(const visible of[true,false]){
+  const s=setup();s.board.clock.kind='BLACKOUT';s.update({blackout:true,visible});
+  s.board.viewRevision=2;s.board.clock.kind='ORDINARY_TURN';s.board.seats[1]=seat(2,{location:'Hospital',slotId:'H1',health:'Injured'});
+  const event=s.event({type:'MEDICAL_OUTCOME',kind:'INJURY',health:'Injured',seatId:'seat-2',presentationAnchor:anchor(7)});
+  const sample=s.update({blackout:false,visible:true,events:[event]});assert.equal(sample.items.length,visible?1:0);
+ }
+});
