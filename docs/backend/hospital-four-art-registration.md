@@ -16,6 +16,8 @@ The new art inventory identifies drawing source, drawing modules and assets. Gen
 
 `readRuntimeArtRelease` still validates current files strictly. It never falls back to snapshots after a content mismatch. Consequently the old default cannot certify a changed UI: a final activation must explicitly select the new reviewed candidate. Frontend should use the historical API for independent preservation checks and the current API for the selected build. Neither historical manifest has been repinned or rewritten.
 
+The historical prototype-fence tests also seed the original three native metadata files and original art validator from the preserved bytes, rather than comparing mutable successor UI with historical approvals. The extra validator snapshot is recorded in `historical-snapshots.json`; its hash still comes from the unchanged drawing policy. `verifyHistoricalBoardV2RuntimePorts` verifies only the exact 13 original drawing ports. The current `verifyBoardV2RuntimePorts` continues to require all 27 ports and the candidate supplement, with no fallback. Historical validation rejects the larger current inventory, and the existing import-injection, copied-module, source-drift and metadata-drift refusals remain enforced. This fixture repair does not approve the final Frontend renderer or rewrite the historical fence.
+
 ## Outstanding adoption gates
 
 The registered base drawing source is Designer combined head `cb9386bd716dc346160509d5e49d7348fdaf4f84`, with the focused `medical-four` correction from #160 at `1fbdb541ec4b8389dcf2220125b4666278a12b0e`. Do not replace the complete stack with #160: #161's separate Clone family remains preserved from its original source.
@@ -29,6 +31,8 @@ Frontend emission, uniform preloading, exact Ready agreement, authorized lifecyc
 Node `22.21.1`: 68 focused tests passed across the runtime release validator, original and supplemental drawing-port reconstruction, common film bundle, existing Board V2 art/motion and setup art. Workspace and source-integrity checks passed. The 27 Board V2 drawing modules reconstruct exactly from their recorded original source plus declared comment/import adaptations. Historical manifest and original port-catalog bytes are unchanged from the preserved baseline.
 
 After the #160 correction, all 70 focused runtime/art tests passed, including explicit roster-sized no-film and retained-body regressions; workspace and source checks passed again. Independently against the exact Designer source archive: 13 four-bed tests, all 14 Board V2 checks, 127 current generated files and all 40 hashes in the updated handoff passed. The new fifth-anchor, body-held and death/no-film committed pictures were inspected. No fresh Chromium capture or real-device run was performed by this source review.
+
+After the historical fixture repair, 68 focused checks passed across the 35 existing prototype-fence cases, current drawing-port reconstruction and runtime-art validation, including two checks that keep current and historical validation separate. The source-integrity check and authored diff whitespace check passed. Full combined `npm run verify` remains the consumer/release gate; it was not rerun by this fixture repair.
 
 The isolated tree reused local TypeScript `5.9.3` read-only for the workspace check; `npm ci`, full `npm run verify`, engine/service/emulator checks and connected/browser/device tests were not run for this art-registration change. These focused results do not satisfy the outstanding playable-release gates above.
 

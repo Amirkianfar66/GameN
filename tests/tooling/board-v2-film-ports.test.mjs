@@ -4,7 +4,7 @@ import { cpSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } f
 import { dirname, join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { fileURLToPath } from 'node:url';
-import { verifyBoardV2RuntimePorts } from '../../scripts/board-v2-runtime-ports.mjs';
+import { verifyBoardV2RuntimePorts, verifyHistoricalBoardV2RuntimePorts } from '../../scripts/board-v2-runtime-ports.mjs';
 import { fourClinicalBerth, fourFilmBerth } from '../../apps/game/hosted/board-v2-drawing/medical-four.mjs';
 
 const root = fileURLToPath(new URL('../../', import.meta.url));
@@ -23,6 +23,14 @@ function candidate(t) {
 
 test('all 27 Board V2 ports reconstruct from their original source with only recorded adaptations', () => {
   assert.equal(verifyBoardV2RuntimePorts(root), 27);
+});
+test('historical validation cannot certify the larger current drawing inventory', () => {
+  assert.throws(() => verifyHistoricalBoardV2RuntimePorts(root), /Unreviewed or missing/);
+});
+test('current validation cannot fall back when the candidate supplement is absent', t => {
+  const destination = candidate(t);
+  rmSync(join(destination, catalogs.at(-1)));
+  assert.throws(() => verifyBoardV2RuntimePorts(destination), /ENOENT/);
 });
 test('the new supplement does not permit additional drawing modules', t => {
   const destination = candidate(t);

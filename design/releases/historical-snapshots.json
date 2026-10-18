@@ -13,5 +13,8 @@
       "sourceCount": 96,
       "runtimeCount": 55
     }
+  },
+  "additionalFenceFixtureInputs": {
+    "scripts/runtime-art-release.mjs": "f72a8877607ac0edc73c652f098e0722e7a97f3f4535086803097026fc2ba74c"
   }
 }

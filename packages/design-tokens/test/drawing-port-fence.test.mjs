@@ -6,7 +6,7 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { after, test } from 'node:test';
 import { contentSha256, productionDrawingProblems, prototypeReferences, REVIEWED_DRAWING_PORTS as pins } from '../../../design/tools/lib/drawing-port-fence.mjs';
-import { verifyBoardV2RuntimePorts } from '../../../scripts/board-v2-runtime-ports.mjs';
+import { verifyHistoricalBoardV2RuntimePorts } from '../../../scripts/board-v2-runtime-ports.mjs';
 
 const repo = fileURLToPath(new URL('../../../', import.meta.url));
 const roots = [];
@@ -17,8 +17,11 @@ async function seed() {
   for (const path of Object.keys(pins.sourceHashes)) {
     await mkdir(dirname(resolve(root, path)), { recursive: true }); await cp(resolve(repo, path), resolve(root, path));
   }
-  for (const path of Object.keys(pins.buildFiles['apps/game/hosted/comic-assets.mjs'].assetHashes)) {
-    await mkdir(dirname(resolve(root, path)), { recursive: true }); await cp(resolve(repo, path), resolve(root, path));
+  for (const [path, expected] of Object.entries(pins.buildFiles['apps/game/hosted/comic-assets.mjs'].assetHashes)) {
+    const fixture = path === 'scripts/runtime-art-release.mjs' ? 'design/releases/historical-blobs/' + expected : path;
+    const content = await readFile(resolve(repo, fixture));
+    assert.equal(contentSha256(content), expected);
+    await write(root, path, content);
   }
   for (const pin of Object.values(pins.styles)) {
     assert.equal(contentSha256(await readFile(resolve(repo, pin.source))), pin.sourceSha256);
@@ -78,7 +81,9 @@ ${geometry}`;
     await write(root,entry.runtime,value);
   }
   for(const [path,pin] of Object.entries(pins.metadataFiles)) {
-    const content=await readFile(resolve(repo,path));
+    // Exercise this historical policy against its reviewed bytes, not mutable
+    // successor UI. Current runtime validation remains a separate strict gate.
+    const content=await readFile(resolve(repo,'design/releases/historical-blobs',pin.sha256));
     assert.equal(contentSha256(content),pin.sha256);
     await write(root,path,content);
   }
@@ -207,25 +212,25 @@ test('removed provisional drawing paths cannot re-enter as unreviewed files', as
   await refuses(root, /compact-layout\.mjs: unreviewed file/);
 });
 
-test('all eight Board V2 ports reproduce from the reviewed original sources', async () => {
-  assert.equal(verifyBoardV2RuntimePorts(await seed()),13);
+test('all 13 historical Board V2 ports reproduce from the reviewed original sources', async () => {
+  assert.equal(verifyHistoricalBoardV2RuntimePorts(await seed()),13);
 });
 test('Board V2 refuses an extra controller and a missing reviewed derivative', async () => {
   const root=await seed();
   await write(root,'apps/game/hosted/board-v2-drawing/controller.mjs','export const harmlessLooking = true;');
   await refuses(root,/board-v2-drawing\/controller\.mjs: unreviewed file/);
-  assert.throws(()=>verifyBoardV2RuntimePorts(root),/Unreviewed or missing/);
+  assert.throws(()=>verifyHistoricalBoardV2RuntimePorts(root),/Unreviewed or missing/);
   await rm(resolve(root,'apps/game/hosted/board-v2-drawing/controller.mjs'));
   await rm(resolve(root,'apps/game/hosted/board-v2-drawing/fit.mjs'));
-  assert.throws(()=>verifyBoardV2RuntimePorts(root),/Unreviewed or missing/);
+  assert.throws(()=>verifyHistoricalBoardV2RuntimePorts(root),/Unreviewed or missing/);
 });
 test('a Board V2 port cannot self-approve changed source or a changed catalog', async () => {
   const root=await seed();
   await append(root,'design/board-v2/scenes/capsule.mjs','// unreviewed original');
   await refuses(root,/capsule\.mjs: frozen drawing source hash differs/);
-  assert.throws(()=>verifyBoardV2RuntimePorts(root),/original source drift/);
+  assert.throws(()=>verifyHistoricalBoardV2RuntimePorts(root),/original source drift/);
   await append(root,'design/releases/board-v2-runtime-ports.json',' ');
-  assert.throws(()=>verifyBoardV2RuntimePorts(root),/reviewed port catalog drift/);
+  assert.throws(()=>verifyHistoricalBoardV2RuntimePorts(root),/reviewed port catalog drift/);
 });
 test('reviewed explanatory literals do not permit copied films or injected prototype imports', async () => {
   const root=await seed(),film='apps/game/hosted/board-v2-drawing/capsule-film.mjs';
@@ -234,7 +239,7 @@ test('reviewed explanatory literals do not permit copied films or injected proto
   await append(root,film,"import '../../../design/phone-kit/js/hack.js';");
   await refuses(root,/capsule-film\.mjs: reviewed drawing port content hash differs/);
   await refuses(root,/capsule-film\.mjs: production code refers to the phone-kit prototype/);
-  assert.throws(()=>verifyBoardV2RuntimePorts(root),/derivative drift/);
+  assert.throws(()=>verifyHistoricalBoardV2RuntimePorts(root),/derivative drift/);
 });
 test('native Board V2 metadata literals cannot become imports or travel to other files', async () => {
   const root=await seed(),native='apps/game/hosted/board-v2-host.mjs';
