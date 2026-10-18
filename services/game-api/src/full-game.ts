@@ -381,7 +381,7 @@ export function createV1Service({ db, clock = Date.now, newId = randomUUID, shuf
       const batchId=hash([eventId,audience.key,'clinical-batch']);
       facts.push(...visible.map(o=>o.fact.type==='MEDICAL_OUTCOME'?{...o.fact,presentationAnchor:{kind:'CLINICAL_VIGNETTE',batchId,anchorId:clinicalAnchors[o.fact.seatId],slotCount:after.playerCount}}:o.fact));
       facts.forEach((fact, ordinal) => {
-        const outcome=['CAPTAIN_OUTCOME','MEDICAL_OUTCOME','BOARD_PLACEMENT_CHANGED','ATTACK_BLOCKED'].includes(fact['type'] as string);
+        const outcome=['CAPTAIN_OUTCOME','MEDICAL_OUTCOME','BOARD_PLACEMENT_CHANGED','ATTACK_BLOCKED','HOSPITAL_OVERFLOW_REMOVED'].includes(fact['type'] as string);
         const occurrenceId=outcome?hash([eventId,audience.key,ordinal]):`${eventId}-${ordinal}`;
         const event = FullEventSchema.parse({ protocolVersion: 2, matchId: after.matchId, eventId: occurrenceId,
           viewRevision: view.viewRevision, audience: view.audience, fact,

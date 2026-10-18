@@ -13,6 +13,7 @@ export interface GameSeat {
   // New Board/medical tuple only; historical saves omit these properties.
   slotId?: string | null;
   cloneStatus?: { used:boolean; activatedRound:number|null; expiresAfterRound:number|null; active:boolean } | null;
+  hospitalOverflow?: { phaseId:string; round:number } | null;
   medicalEpisodeCount?: number;
   medicalEpisode?: { number: number; admittedRound: number; deathDueAfterRound: number | null } | null;
   health: PublicView['seats'][number]['health'];
