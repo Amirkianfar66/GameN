@@ -1,0 +1,303 @@
+{
+  "schemaVersion": 1,
+  "reviewDate": "2026-10-19",
+  "status": "documentation review only; no runtime adoption",
+  "runtimeBaseline": "6ca4b51d5acd1454daec68c5108c8f12ee2286bf",
+  "documentationBase": "bacd9298d4fb34d8161aca218eb7968fb669f461",
+  "inventoryVerification": {
+    "declaredEntriesVerified": 392,
+    "completePublishedChangedPaths": 401,
+    "finalOnlyDocumentationTailOccurrences": 9,
+    "sourceHashDifferencesAtPublishedHeads": 7,
+    "allDifferencesAreDocumentation": true
+  },
+  "pullRequests": [
+    {
+      "pr": 158,
+      "head": "7cf140aff60374a99b3ac83e2c67b7cf6916348e",
+      "base": "95d70f0c885f6b7d619c4ebff935093dfe891ea6",
+      "inventoryPath": "docs/design/deliverables/pr158-hospital-films-s9-s5-s10.sha256",
+      "inventorySha256": "0f1405a93dba720e672c0c4c55abebf9b62623fbd2fb5ef2f65e7466e0d6a5e4",
+      "declaredInventorySource": "e589e7a7a32a491fb417de582acc82dc94c9cf31",
+      "declaredInventoryEntries": 103,
+      "verifiedInventoryEntries": 103,
+      "entriesDifferingAtPublishedHead": [
+        {
+          "path": "docs/design/hospital-films.md",
+          "declaredSha256": "e9b022d6fc10a5089bd84ec4e9a1839ab81d6b5b5d35bbe246a3ce3f27a4b9cd",
+          "publishedHeadSha256": "9498ac1fb5d761d9d099b67b890bffcd98d1fd183cbc2cc50dc1d33e5327df91"
+        }
+      ],
+      "publishedChangedFiles": 105,
+      "publishedDocumentationTails": [
+        {
+          "path": "docs/design/deliverables.md",
+          "sha256": "4231d198f24c4f93767ef7a5c7eab90963e35b529d7093fff4b21c5d547e4945"
+        },
+        {
+          "path": "docs/design/deliverables/pr158-hospital-films-s9-s5-s10.sha256",
+          "sha256": "0f1405a93dba720e672c0c4c55abebf9b62623fbd2fb5ef2f65e7466e0d6a5e4"
+        }
+      ],
+      "fullPublishedHashList": "pr158-full-published-head.sha256",
+      "handoff": {
+        "path": "docs/design/hospital-films.md",
+        "sha256": "9498ac1fb5d761d9d099b67b890bffcd98d1fd183cbc2cc50dc1d33e5327df91",
+        "linesRead": 264
+      }
+    },
+    {
+      "pr": 159,
+      "head": "7f3344ede87e8291c34601e649ca4ec91432b4db",
+      "base": "7cf140aff60374a99b3ac83e2c67b7cf6916348e",
+      "inventoryPath": "docs/design/deliverables/pr159-captain-films-s6-s7-s8.sha256",
+      "inventorySha256": "d54506c5facf3c676628ebe0f0a6bc7638b21a523a7fe6dc9a771b856691987b",
+      "declaredInventorySource": "17ff5ef07a0211f5d582ee1dab94ded14f4fd024",
+      "declaredInventoryEntries": 122,
+      "verifiedInventoryEntries": 122,
+      "entriesDifferingAtPublishedHead": [
+        {
+          "path": "design/board-v2/README.md",
+          "declaredSha256": "16fb5e62b9bda7d66a765cff46786a566637cd02a2a4ebf65505efff61128105",
+          "publishedHeadSha256": "91fc0fde09055264ef5e85b32bcb920ba18a9711f2ad90bb2bb24b9d65713b24"
+        },
+        {
+          "path": "docs/design/captain-films.md",
+          "declaredSha256": "b044a500d936c604aec5b4487c5da62b0036d74d2d13beb60c60238ff58acb47",
+          "publishedHeadSha256": "a790e3544369ebb742abc42530b0d5a8b51a85668ceee22d1260a520ee79c9e4"
+        }
+      ],
+      "publishedChangedFiles": 125,
+      "publishedDocumentationTails": [
+        {
+          "path": "docs/design/deliverables.md",
+          "sha256": "ed5d819dcd5b4bb3378cf8338b78abfa844152651b1b96891700056cb7b4f067"
+        },
+        {
+          "path": "docs/design/deliverables/pr159-captain-films-s6-s7-s8.sha256",
+          "sha256": "d54506c5facf3c676628ebe0f0a6bc7638b21a523a7fe6dc9a771b856691987b"
+        },
+        {
+          "path": "docs/design/hospital-films.md",
+          "sha256": "d9007c07d22355468507d0241573b22795e4309aa033e175be5612ce7ee54f16"
+        }
+      ],
+      "fullPublishedHashList": "pr159-full-published-head.sha256",
+      "handoff": {
+        "path": "docs/design/captain-films.md",
+        "sha256": "a790e3544369ebb742abc42530b0d5a8b51a85668ceee22d1260a520ee79c9e4",
+        "linesRead": 284
+      }
+    },
+    {
+      "pr": 160,
+      "head": "a668c101c4716aa3f21ff52abaf5dc8925ef3c68",
+      "base": "7f3344ede87e8291c34601e649ca4ec91432b4db",
+      "inventoryPath": "docs/design/deliverables/pr160-hospital-four.sha256",
+      "inventorySha256": "52a862ad3d15b7b6f8d92d86fe1b8d73c6b3ac7f2aaf5a0858129e4fca5d4e10",
+      "declaredInventorySource": "8f615f0565b0fc8de68b39cb4b8e26f9c6af8413",
+      "declaredInventoryEntries": 96,
+      "verifiedInventoryEntries": 96,
+      "entriesDifferingAtPublishedHead": [
+        {
+          "path": "docs/design/README.md",
+          "declaredSha256": "7fb5735aa9a67ea5b9324495ed0fb17f5c58d8026f670d55b1d76c892e2b1bc7",
+          "publishedHeadSha256": "fc389bc28fa10f50d4505184c0aacbd8c5ed09f37bdf438ad15a57f8c61d4531"
+        },
+        {
+          "path": "docs/design/hospital-four.md",
+          "declaredSha256": "ca867915a9c74a8d06b43646f0f8e4492cee63f7aa8a697c581f10479478a9db",
+          "publishedHeadSha256": "844fb227b59988c9fb6d1ce91fbfde0c80518617fd8763d70ad7b140e085ac8e"
+        }
+      ],
+      "publishedChangedFiles": 98,
+      "publishedDocumentationTails": [
+        {
+          "path": "docs/design/deliverables.md",
+          "sha256": "508caddedfdc8ca819f57d8b0277e88280ee5d1a596beefe7eecce89694c6c57"
+        },
+        {
+          "path": "docs/design/deliverables/pr160-hospital-four.sha256",
+          "sha256": "52a862ad3d15b7b6f8d92d86fe1b8d73c6b3ac7f2aaf5a0858129e4fca5d4e10"
+        }
+      ],
+      "fullPublishedHashList": "pr160-full-published-head.sha256",
+      "handoff": {
+        "path": "docs/design/hospital-four.md",
+        "sha256": "844fb227b59988c9fb6d1ce91fbfde0c80518617fd8763d70ad7b140e085ac8e",
+        "linesRead": 235
+      }
+    },
+    {
+      "pr": 161,
+      "head": "cb9386bd716dc346160509d5e49d7348fdaf4f84",
+      "base": "a668c101c4716aa3f21ff52abaf5dc8925ef3c68",
+      "inventoryPath": "docs/design/deliverables/pr161-clone-s3.sha256",
+      "inventorySha256": "5af25ddad8c9841b000981d40265b4aba29dfc4d1acabed9878e9705009e4fd9",
+      "declaredInventorySource": "243a4f78d7f3c207de6180de8a6e827514524a63",
+      "declaredInventoryEntries": 71,
+      "verifiedInventoryEntries": 71,
+      "entriesDifferingAtPublishedHead": [
+        {
+          "path": "docs/design/README.md",
+          "declaredSha256": "b3a42f0cbf78615adfec0f2b87cabca2914e7a1f9113302fe62e44318199bcf2",
+          "publishedHeadSha256": "494cc44d388d6886e6242b35dde4fa40dc1641d73c58a13458b37ed8374fc926"
+        },
+        {
+          "path": "docs/design/clone-s3.md",
+          "declaredSha256": "aa481b72170b8f0fa8201679de288fe97f6d9fa2be45722d072869a6b1be6c58",
+          "publishedHeadSha256": "b79bdb0fd53ba19e5ef11b650f315997977f60750fcb2a584258afc08d4f0664"
+        }
+      ],
+      "publishedChangedFiles": 73,
+      "publishedDocumentationTails": [
+        {
+          "path": "docs/design/deliverables.md",
+          "sha256": "23f10429c8309cb5f8d7377c0190658d550c0aa3b6507ec799b4a86826b2712b"
+        },
+        {
+          "path": "docs/design/deliverables/pr161-clone-s3.sha256",
+          "sha256": "5af25ddad8c9841b000981d40265b4aba29dfc4d1acabed9878e9705009e4fd9"
+        }
+      ],
+      "fullPublishedHashList": "pr161-full-published-head.sha256",
+      "handoff": {
+        "path": "docs/design/clone-s3.md",
+        "sha256": "b79bdb0fd53ba19e5ef11b650f315997977f60750fcb2a584258afc08d4f0664",
+        "linesRead": 244
+      }
+    }
+  ],
+  "candidateSourceCommit": "cb9386bd716dc346160509d5e49d7348fdaf4f84",
+  "candidateDirectModules": 14,
+  "candidateTransitiveModules": 34,
+  "unchangedExistingDependencies": 20,
+  "candidateNewSvgFiles": 100,
+  "candidateHashList": "candidate-drawing-and-art.sha256",
+  "sourceGeneratedOutputs": {
+    "svgFiles": 144,
+    "jsonDescriptors": 4,
+    "total": 148,
+    "freshnessExecution": "Not rerun here; Integration reports 148 current generated outputs in issue155 comment6255701337. Counts and descriptor hashes independently inspected."
+  },
+  "sourceDescriptors": [
+    {
+      "path": "design/board-v2/assets/manifest.json",
+      "sha256": "57e84c596e660e788cd732b5d50ae4db2339f1bca523bf2c053ef64e6d2675db"
+    },
+    {
+      "path": "design/board-v2/contract/slots.json",
+      "sha256": "ab687508df829b33e13e5b98243615794e14e0ff3b57e793ce6e6f335f1f4785"
+    },
+    {
+      "path": "design/board-v2/contract/slots-four.json",
+      "sha256": "4f74c8112c5e6434e6e81e224d30140a46ecb67289f7e29b37119a3d464c4cfd"
+    },
+    {
+      "path": "design/board-v2/contract/films.json",
+      "sha256": "97f542eebed655d323c271f4074068a686a36508a2a81a607cc51f6d93959b7f"
+    }
+  ],
+  "separateSetupProposal": {
+    "pr": 116,
+    "source": "27be8749b51775fee3a0d81b62a3cdabedafe1be",
+    "base": "8f1f356f2208ff49bcaef3f501f9778da19ccab0",
+    "verifiedEntries": 84,
+    "inventoryPath": "docs/design/deliverables/pr116-setup-art.sha256",
+    "inventoryReadAt": "cb9386bd716dc346160509d5e49d7348fdaf4f84",
+    "inventorySha256": "33379d8a93654cf27f9c23be0d2826bd6f5dfea83301b4691c5eda25d8b769d6",
+    "notInNewDesignStack": true,
+    "adopted": false
+  },
+  "geometryProbe": {
+    "node": "v22.21.1",
+    "sourceCommit": "cb9386bd716dc346160509d5e49d7348fdaf4f84",
+    "module": "design/board-v2/fx/medical-four.mjs",
+    "moduleSha256": "c289a932a955a28ef9a1be4635bfb1632badc77b42c06e9c062fc42970fd166b",
+    "scope": "Isolated source helper execution; not a successor-wire validity, browser, emulator or match test. HV5/slotCount9 is an inherited anchor shape; successor anchor contract is unallocated.",
+    "cases": [
+      {
+        "case": "HV1 unoccupied",
+        "actual": {
+          "berth": "H1",
+          "plays": true,
+          "holder": null
+        }
+      },
+      {
+        "case": "HV1 held by another seat",
+        "actual": {
+          "berth": "H1",
+          "plays": false,
+          "holder": "seat-2"
+        }
+      },
+      {
+        "case": "HV5 fourClinicalBerth",
+        "throws": "HV5 names no bed of a four-berth ward"
+      },
+      {
+        "case": "HV5 fourFilmBerth",
+        "throws": "HV5 names no bed of a four-berth ward"
+      },
+      {
+        "case": "Malformed anchor",
+        "throws": "No clinical anchor BAD"
+      }
+    ]
+  },
+  "notRun": [
+    "runtime adoption",
+    "new Chromium capture",
+    "multiplayer",
+    "native-service lifecycle acceptance",
+    "emulator acceptance",
+    "physical phones",
+    "screen reader",
+    "independent Balance acceptance"
+  ],
+  "identityAdapterProbe": {
+    "node": "v22.21.1",
+    "sourceCommit": "cb9386bd716dc346160509d5e49d7348fdaf4f84",
+    "scope": "Pure helper caller-shape probe; not runtime integration.",
+    "cases": [
+      {
+        "case": "roster helper/raw wire body holder",
+        "actual": {
+          "berth": "H1",
+          "plays": true,
+          "holder": null
+        }
+      },
+      {
+        "case": "roster helper/normalized holder",
+        "actual": {
+          "berth": "H1",
+          "plays": false,
+          "holder": "seat-2"
+        }
+      },
+      {
+        "case": "four helper/raw wire body holder",
+        "actual": {
+          "berth": "H1",
+          "plays": true,
+          "holder": null
+        }
+      },
+      {
+        "case": "four helper/normalized holder",
+        "actual": {
+          "berth": "H1",
+          "plays": false,
+          "holder": "seat-2"
+        }
+      }
+    ]
+  },
+  "backendReconciliation": {
+    "commit": "8e423a7d19b2df64e351b738ab37dae1e1ead854",
+    "path": "docs/backend/designer-contract-reconciliation-2026-10-19.md",
+    "sha256": "5abab751b0385509b248329c72a8d5e9a95bd1228b274aa7cb76b33ea5e055e9"
+  }
+}
