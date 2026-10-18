@@ -302,6 +302,189 @@
         "home": "the participant's own room, its figure layer: the away marker at its slot; the step out is clipped to the room's panel",
         "tags": "every name tag stays: at the slot, and under each seated participant in the capsule"
       }
+    },
+    {
+      "id": "hospital-critical",
+      "storyboard": "S9",
+      "status": "proposal",
+      "audience": "public: every phone and the display, from the public snapshot",
+      "clock": "Loops on any clock, encoding nothing. The entry is milliseconds from the INJURY outcome, live only; it plays at the seat's own berth (its slotId).",
+      "inputs": [
+        "the seat: location Hospital, health Injured, jailed, slotId",
+        "medical: { admittedRound, rescueDueAfterRound, rescueOpportunity } (full-game-1.7.0)",
+        "reduced (the device setting)"
+      ],
+      "notInputs": [
+        "an attacker, a healer or whoever registered a Rescue",
+        "a role, a side or a hidden cause",
+        "a receipt or a private command",
+        "a local countdown or the client's own observation of time"
+      ],
+      "shows": "The berth's monitor (unstable trace), its lamp (red while the due round is in progress, else amber, a slow pulse), the rescue tag on its plate (\"R3\" from rescueDueAfterRound; a struck cross for NO_ADDITIONAL_ROUND; none when CLOSED) and, for a detained patient, the neutral detention tag beside it. The patient keeps the gown and the injured pose; a faint breath on the figure's art only. The round is the server's; nothing counts down",
+      "tags": "tagBox() (fx/medical.mjs): on the berth's plate, whole in the panel, never in the caption's band (the upper berths' tags go just below it) and never over a name tag (just below the one it would meet)",
+      "entry": {
+        "boot": [
+          0,
+          240
+        ],
+        "tagPop": [
+          240,
+          360
+        ],
+        "what": "The authorized transfer: the patient arrives in the berth (fades in) as the monitor boots, then the lamp comes on and the tag pops in, at the seat's own berth"
+      },
+      "loops": {
+        "sweepMs": 2400,
+        "lampMs": 2000,
+        "breathMs": 4000,
+        "breathPx": 0.6
+      },
+      "reduced": "Static: the trace, the lamp and the tag, faded in over 80 ms on admission; no breath, no pulse",
+      "body": "An Eliminated patient's monitor and lamp are off and its bed light down; nothing is added for an empty berth"
+    },
+    {
+      "id": "medical-rescue",
+      "storyboard": "S5",
+      "status": "proposal",
+      "audience": "public: every phone and the display, from the MEDICAL_OUTCOME kind HEALED event (alone, or after INJURY in the same batch); live only, never on a reconnect or for an expired event",
+      "clock": "Milliseconds from the outcome's presentation start; 5600 ms (reduced 1760 ms). Nonblocking and cancelable: the board, the timer and the navigation stay usable; the film stops at once and draws nothing more when a newer snapshot moves its subject or another seat into its berth, or when the Blackout's window (S1) owns the board, which then shows the latest snapshot.",
+      "inputs": [
+        "t (from the outcome's presentation start)",
+        "reduced (the device setting)",
+        "the berth: the outcome's presentationAnchor (HVn names berth Hn) and the snapshot's slots (filmBerth())",
+        "the subject's public character, clothes and detention, from the snapshot"
+      ],
+      "notInputs": [
+        "an attacker, a healer or whoever registered a Rescue",
+        "a role, a side or a hidden cause",
+        "a receipt or a private command",
+        "a local countdown or the client's own observation of time"
+      ],
+      "where": {
+        "berth": "filmBerth(): the berth the anchor names, unless another seat holds that slot in the published snapshot (a patient admitted in the same batch can take the berth the subject left); then no film is drawn and the outcome's announcement stands alone, as Backend's CLINICAL_VIGNETTE rule asks",
+        "subject": "At its own berth the snapshot's figure is hidden while the film draws it there; anywhere else the snapshot's figure is marked away (grey) and its name tag is carried to the berth for the film, so it is never drawn in two places",
+        "inset": "insetBox() (fx/medical.mjs): above the berth's press area, else below its name tag, else in the band beside the caption; never over the caption, the berth's own press area or a press area another seat holds; else no inset, and the berth's monitor shows the trace alone",
+        "drone": "droneFit() (fx/medical.mjs): drawn smaller, to half its size at least, where the caption or another seat's press area is above the berth, so that it covers neither; its probes stay on the chest",
+        "several": "Several clinical outcomes in one batch play at once, each at its own berth; each inset keeps clear of the insets placed before it (keepClear), in the batch's event order"
+      },
+      "words": "None of the film's own: the client's announcement of the authoritative outcome (today the hosted board's \"Player 2: Healed.\" or \"Player 2: Eliminated.\", #154). announce marks the beat at which the picture shows the change, for a client that times its words to the film as it does ATTACK BLOCKED's; said once either way",
+      "beats": [
+        {
+          "id": "alert",
+          "from": 0,
+          "to": 800,
+          "what": "The berth's lamp blinks amber twice; the vitals inset opens on the unstable trace"
+        },
+        {
+          "id": "arrive",
+          "from": 800,
+          "to": 1800,
+          "what": "The drone leaves the Hospital's ceiling dock and comes down over the bed, arms tucked, hovering"
+        },
+        {
+          "id": "unfold",
+          "from": 1800,
+          "to": 2200,
+          "what": "Its three arms unfold over the bed"
+        },
+        {
+          "id": "scan",
+          "from": 2200,
+          "to": 3100,
+          "what": "A scan line goes down the patient and back under a faint diagnostic hologram"
+        },
+        {
+          "id": "charge",
+          "from": 3100,
+          "to": 3500,
+          "what": "The probes and the lens charge"
+        },
+        {
+          "id": "pulse",
+          "from": 3500,
+          "to": 3700,
+          "what": "One controlled revival pulse at the chest; the patient reacts (2.5 px, its art only)"
+        },
+        {
+          "id": "recover",
+          "from": 3700,
+          "to": 4700,
+          "what": "The trace steadies, the lamp calms, the patient sits up: Injured to Healthy, in the gown, the detention tag kept"
+        },
+        {
+          "id": "depart",
+          "from": 4700,
+          "to": 5600,
+          "what": "Arms tucked, the drone goes back up to its dock; the inset closes. The board then shows the snapshot: the patient in their room, or in the Jail if detained"
+        }
+      ],
+      "reduced": {
+        "what": "No travel, flash or jolt: the drone still over the bed and the inset fade in over 80 ms; at 800 ms the trace steadies, the lamp calms and the patient sits up; out over 80 ms",
+        "fadeMs": 80,
+        "holdMs": 1600,
+        "switchAt": 800
+      },
+      "origin": "The Hospital's ceiling dock, whoever registered the Rescue: it never comes from anyone's room or points to anyone",
+      "never": "An Eliminated patient is never revived: the film plays only for a HEALED outcome of an Injured patient"
+    },
+    {
+      "id": "medical-flatline",
+      "storyboard": "S10",
+      "status": "proposal",
+      "audience": "public: every phone and the display, from the MEDICAL_OUTCOME kind DEATH event; live only",
+      "clock": "Milliseconds from the outcome's presentation start; 4200 ms (reduced 1760 ms). It plays after the authorized outcome and never causes it. Nonblocking and cancelable: the board, the timer and the navigation stay usable; the film stops at once and draws nothing more when a newer snapshot moves its subject or another seat into its berth, or when the Blackout's window (S1) owns the board, which then shows the latest snapshot.",
+      "inputs": [
+        "t (from the outcome's presentation start)",
+        "reduced (the device setting)",
+        "the berth: the outcome's presentationAnchor (HVn names berth Hn) and the snapshot's slots (filmBerth())",
+        "the subject's public character, clothes and detention, from the snapshot"
+      ],
+      "notInputs": [
+        "an attacker, a healer or whoever registered a Rescue",
+        "a role, a side or a hidden cause",
+        "a receipt or a private command",
+        "a local countdown or the client's own observation of time"
+      ],
+      "where": {
+        "berth": "filmBerth(): the berth the anchor names, unless another seat holds that slot in the published snapshot (a patient admitted in the same batch can take the berth the subject left); then no film is drawn and the outcome's announcement stands alone, as Backend's CLINICAL_VIGNETTE rule asks",
+        "subject": "At its own berth the snapshot's figure is hidden while the film draws it there; anywhere else the snapshot's figure is marked away (grey) and its name tag is carried to the berth for the film, so it is never drawn in two places",
+        "inset": "insetBox() (fx/medical.mjs): above the berth's press area, else below its name tag, else in the band beside the caption; never over the caption, the berth's own press area or a press area another seat holds; else no inset, and the berth's monitor shows the trace alone",
+        "several": "Several clinical outcomes in one batch play at once, each at its own berth; each inset keeps clear of the insets placed before it (keepClear), in the batch's event order"
+      },
+      "words": "None of the film's own: the client's announcement of the authoritative outcome (today the hosted board's \"Player 2: Healed.\" or \"Player 2: Eliminated.\", #154). announce marks the beat at which the picture shows the change, for a client that times its words to the film as it does ATTACK BLOCKED's; said once either way",
+      "beats": [
+        {
+          "id": "fail",
+          "from": 0,
+          "to": 1600,
+          "what": "The inset opens: the heartbeat slows and thins; the lamp pulses red once a second; the patient's breath fades until it lies still"
+        },
+        {
+          "id": "flat",
+          "from": 1600,
+          "to": 2400,
+          "what": "The trace goes flat; the lamp holds red; the Hospital's light dips to 0.72 of its brightness, never dark"
+        },
+        {
+          "id": "shutdown",
+          "from": 2400,
+          "to": 3400,
+          "what": "The equipment powers down: the trace collapses to a dot, the lamp and the bed light go out; the patient lies still (Eliminated)"
+        },
+        {
+          "id": "settle",
+          "from": 3400,
+          "to": 4200,
+          "what": "The room's light returns; the inset closes. The body stays where the snapshot has it, its equipment off"
+        }
+      ],
+      "reduced": {
+        "what": "No dip or pulse: the inset with the flat trace and the patient still fade in over 80 ms; at 800 ms the screen and the lamp go off; out over 80 ms",
+        "fadeMs": 80,
+        "holdMs": 1600,
+        "switchAt": 800
+      },
+      "never": "No local countdown, timer or animation kills a patient or shortens a rescue opportunity: the server's deadline does, and its DEATH outcome comes first; a death's cause is never shown"
     }
   ]
 }

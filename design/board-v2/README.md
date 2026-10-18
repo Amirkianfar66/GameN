@@ -11,6 +11,7 @@
 - ATTACK BLOCKED (storyboard S4), the same for every defense and for the target's room's occupants only: [docs/design/attack-blocked.md](../../docs/design/attack-blocked.md).
 - The private-talk capsule (storyboard S2): a permanent two-person capsule beside the Command Room, half its width, where the Hack's public pair walk in, sit for the minute and walk back, as an option of the layout: [docs/design/private-capsule.md](../../docs/design/private-capsule.md).
 - The real controls' places, by the owner's decision of 14 October 2026: they take turns with the board (the choosing row in the navigation's box during a character choice, the sheet over the Hospital and the Jail otherwise), and a board that does not fit says so: the same page, section 12.
+- The Hospital's medical films (storyboards S9, S5 and S10): a patient's critical state on the berth (monitor, lamp, the rescue round and the detention tag), the medical drone's rescue, and the flatline and life-support shutdown, from the server's public facts and outcomes alone: [docs/design/hospital-films.md](../../docs/design/hospital-films.md). The owner's request of 18 October 2026 for a 4-bed ward waits on Balance and Backend ([#155](https://github.com/Amirkianfar66/GameN/issues/155)); nothing is redrawn until it is settled.
 
 **The handoff:** [docs/design/board-v2-slots.md](../../docs/design/board-v2-slots.md).
 
@@ -36,12 +37,16 @@
 | `js/capsule-view.mjs` | The capsule on the review page (`?capsule=1`, `&film=capsule`) and its art sheet (`?sheet=capsule`). A controller: not to be ported |
 | `js/turns.mjs` | The real controls' places: the choosing row, the sheet and its pinned actions, the bars at the match's text size, the sheet's plan. Pure functions |
 | `js/turns-view.mjs` | The controls on the review page (`&ui=`, `&text=2`): stand-ins sized from Frontend's measurements. A controller: not to be ported |
+| `fx/medical.mjs` | The Hospital's medical art: the drone, the vitals inset and a berth's screen for each trace, the lamp's states, the rescue and detention tags, the scan line, the hologram and the revival pulse; where a berth's furniture is (`berthKit()`); and where the tags, the inset and the drone go in the panel (`tagBox()`, `insetBox()`, `droneFit()`). Editable source and pure geometry |
+| `films/medical.mjs` | The medical films: the critical state, the rescue and the flatline, their beats and what each draws at any moment from public inputs alone; the rescue tag from the server's values; where a film may play (`filmBerth()`) |
+| `js/medical-fixtures.mjs` | Synthetic medical facts and outcomes for review (test-only), with Backend's two rules copied for the review page alone |
+| `js/medical-view.mjs` | The medical films on the review page (`&film=critical\|rescue\|flatline`). A controller: not to be ported |
 | `js/fixtures.mjs` | Synthetic boards for review (test-only) |
 | `js/page.js`, `index.html`, `css/page.css` | The review page: a phone-sized board, or one room's whole scene |
 | `contact.html` | The contact sheet of the captures |
-| `assets/` | Generated: the ward's back layer for each roster, each berth's front layer, the lighting art (`assets/lighting/`), the effects art (`assets/fx/`), the capsule's art (`assets/capsule/`), the manifest |
+| `assets/` | Generated: the ward's back layer for each roster, each berth's front layer, the lighting art (`assets/lighting/`), the effects art (`assets/fx/`), the capsule's art (`assets/capsule/`), the medical art (`assets/medical/`), the manifest |
 | `contract/slots.json` | Generated: the slot table for each roster, as data |
-| `contract/films.json` | Generated: the Blackout's film, ATTACK BLOCKED and the capsule, as data |
+| `contract/films.json` | Generated: the Blackout's film, ATTACK BLOCKED, the capsule and the three medical films, as data |
 | `review/` | Generated: the captures, `index.json` and `report.json` |
 
 ## Run
@@ -72,3 +77,5 @@ node design/tools/serve.mjs               # then open /board-v2/index.html
 | `&ui=choosing\|sheet` | The real controls' places beside the board with the capsule: a character choice open, or the sheet, with the options listed in `js/turns-view.mjs` |
 | `&text=2` | 200% text: the bars measured at that size, the board laid out below them |
 | `?sheet=capsule` | The capsule's art on one sheet: its layers, seats and paths, and every pose by status |
+| `&film=critical` | The critical state on the mixed board's patients, with `&fixture=ward` (every seat Injured), `&round=3\|5`, `&entry=<seat>`, `&t=` and `&motion=reduced`, listed in `js/medical-view.mjs` |
+| `&film=rescue\|flatline` | One synthetic outcome's film over the snapshot published with it, with `&outcome=` (`js/medical-fixtures.mjs`), `&t=`, `&play=1` and `&motion=reduced` |

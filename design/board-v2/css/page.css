@@ -142,3 +142,21 @@ html[data-text="2"] .v2-unfit { font-size: 30px; }
 html[data-text="2"] .v2-unfit b { font-size: 34px; }
 html[data-text="2"] .v2-top__timer { min-width: 96px; font-size: 32px; line-height: 38px; }
 html[data-text="2"] .v2-top__label { font-size: 24px; line-height: 30px; }
+
+/* The Hospital's medical state and films (js/medical-view.mjs; docs/design/hospital-films.md). A berth's monitor, lamp and
+   bed light are part of the room's art, under its patients and dimmed with it; the inset, the drone and its light are over the board. */
+.v2-med { position: absolute; max-width: none; pointer-events: none; user-select: none; }
+.v2-art > .v2-med__bedlight { z-index: 2; border-radius: 50%; background: radial-gradient(closest-side, rgba(8, 12, 20, 0.88), rgba(8, 12, 20, 0)); }
+.v2-art > .v2-med__screen, .v2-art > .v2-med__lamp { z-index: 3; }
+.v2-med__inset { z-index: 3640; transform-origin: 50% 100%; filter: drop-shadow(0 2px 0 rgba(10, 21, 48, 0.65)); }
+.v2-med__inset svg { display: block; width: 100%; height: 100%; }
+.v2-med__scan { z-index: 3645; }
+.v2-med__hologram { z-index: 3646; }
+.v2-med__drone { z-index: 3660; }
+.v2-med__pulse { z-index: 3665; }
+.v2-medtag { position: absolute; z-index: 3555; display: flex; align-items: center; gap: 2px; transform-origin: 50% 50%; pointer-events: none; }
+.v2-medtag__detention { width: 13px; height: 13px; display: block; }
+.v2-medtag__rescue { display: inline-flex; align-items: center; gap: 1px; height: 13px; padding: 0 3px 0 1px; border-radius: 7px; background: var(--v2-ink); border: 1.5px solid #5FE0E8; color: #E8FBFF; font: 800 9px/11px "Arial Narrow", "Helvetica Neue", Arial, sans-serif; letter-spacing: 0.02em; white-space: nowrap; }
+.v2-medtag__rescue img { width: 11px; height: 11px; display: block; }
+.v2-medtag__rescue--current { border-color: #F2A33A; color: #F7C88A; }
+.v2-medtag__rescue--none { border-color: #8D97A8; padding-right: 1px; }

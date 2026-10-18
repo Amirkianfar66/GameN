@@ -1,10 +1,10 @@
 {
   "devOnly": "mothership:dev-only",
-  "manifestVersion": "board-v2-0.4.0",
+  "manifestVersion": "board-v2-0.5.0",
   "status": "proposal",
   "baseBoard": "board-motion-0.3.0",
   "baseManifest": "design-0.2.0",
-  "note": "The Hospital as a ward with one berth per seat (7, 8 or 9), the board's fixed slot table, the Blackout's lighting art, the shared ATTACK BLOCKED effects and the private-talk capsule, for the owner's motion specification of 13 October 2026 and the owner's capsule request of 14 October 2026. The reviewed manifest, the board-motion proposal and every pinned drawing source are unchanged; this art is proposed for a later export revision and is adopted only through Integration.",
+  "note": "The Hospital as a ward with one berth per seat (7, 8 or 9), the board's fixed slot table, the Blackout's lighting art, the shared ATTACK BLOCKED effects, the private-talk capsule and the Hospital's medical films (the critical state, the drone's rescue and the flatline), for the owner's motion specification of 13 October 2026 and the owner's capsule request of 14 October 2026. The reviewed manifest, the board-motion proposal and every pinned drawing source are unchanged; this art is proposed for a later export revision and is adopted only through Integration.",
   "rights": {
     "origin": "The approved Hospital's groups copied element for element from the repository's original vector source design/source/board/board-hospital.svg, recolored by the reviewed export recipe, around new vector drawing generated for this repository by design/board-v2/scenes/hospital-ward.mjs. No third-party artwork, font, photograph, traced image or generated raster image.",
     "author": "Visual and Motion Designer workstream: a Claude Code session working for the game owner.",
@@ -1068,10 +1068,842 @@
       }
     ]
   },
+  "medical": {
+    "version": "board-v2-medical-0.1.0",
+    "films": {
+      "version": "board-v2-medical-films-0.1.0",
+      "ids": [
+        "hospital-critical",
+        "medical-rescue",
+        "medical-flatline"
+      ],
+      "file": "design/board-v2/contract/films.json"
+    },
+    "colors": {
+      "navy": "#1B2747",
+      "steel": "#3A4A6B",
+      "cyan": "#5FE0E8",
+      "lens": "#BFF7FA",
+      "glow": "#E8FBFF",
+      "yellow": "#F7C52B",
+      "amber": "#F2A33A",
+      "warn": "#C7372B",
+      "stable": "#6FE3B0",
+      "screen": "#0D1A22",
+      "grid": "#2E5A5E"
+    },
+    "colorDistances": {
+      "method": "CIE76 in L*a*b*, rounded, to the nearest of color.factionPrivateOrRevealed in tokens-0.4.0",
+      "atLeast": 30,
+      "toNearestFactionAccent": {
+        "navy": {
+          "nearest": "blue",
+          "distance": 59
+        },
+        "steel": {
+          "nearest": "blue",
+          "distance": 46
+        },
+        "cyan": {
+          "nearest": "blue",
+          "distance": 49
+        },
+        "lens": {
+          "nearest": "blue",
+          "distance": 49
+        },
+        "glow": {
+          "nearest": "blue",
+          "distance": 50
+        },
+        "yellow": {
+          "nearest": "red",
+          "distance": 70
+        },
+        "amber": {
+          "nearest": "red",
+          "distance": 49
+        },
+        "warn": {
+          "nearest": "red",
+          "distance": 35
+        },
+        "stable": {
+          "nearest": "blue",
+          "distance": 78
+        },
+        "screen": {
+          "nearest": "blue",
+          "distance": 73
+        },
+        "grid": {
+          "nearest": "blue",
+          "distance": 55
+        }
+      }
+    },
+    "dock": [
+      512,
+      45
+    ],
+    "drone": {
+      "box": [
+        160,
+        132
+      ],
+      "lens": [
+        80,
+        56
+      ],
+      "sceneWidth": 120,
+      "reach": 51
+    },
+    "inset": {
+      "box": [
+        168,
+        72
+      ],
+      "screen": {
+        "x": 10,
+        "y": 9,
+        "w": 148,
+        "h": 54
+      },
+      "placement": "fx/label-box.mjs labelBox() with the inset's size: above the berth's press area, else below its name tag; never over the room's caption"
+    },
+    "berths": {
+      "H1": {
+        "id": "H1",
+        "row": "front",
+        "column": 0,
+        "c": 290,
+        "k": 1,
+        "monitor": {
+          "x": 314,
+          "y": 560,
+          "w": 40,
+          "h": 24
+        },
+        "lamp": {
+          "cx": 265,
+          "cy": 569.5,
+          "r": 5
+        },
+        "plate": {
+          "x": 226,
+          "y": 562,
+          "w": 28,
+          "h": 15
+        },
+        "bedLight": {
+          "cx": 290,
+          "cy": 596,
+          "rx": 46,
+          "ry": 22
+        },
+        "bed": {
+          "x": 234,
+          "y": 596,
+          "w": 112,
+          "h": 150
+        },
+        "chest": [
+          290,
+          615
+        ],
+        "scale": 1.1,
+        "hover": [
+          290,
+          558.9
+        ]
+      },
+      "H2": {
+        "id": "H2",
+        "row": "front",
+        "column": 1,
+        "c": 480,
+        "k": 1,
+        "monitor": {
+          "x": 504,
+          "y": 560,
+          "w": 40,
+          "h": 24
+        },
+        "lamp": {
+          "cx": 455,
+          "cy": 569.5,
+          "r": 5
+        },
+        "plate": {
+          "x": 416,
+          "y": 562,
+          "w": 28,
+          "h": 15
+        },
+        "bedLight": {
+          "cx": 480,
+          "cy": 596,
+          "rx": 46,
+          "ry": 22
+        },
+        "bed": {
+          "x": 424,
+          "y": 596,
+          "w": 112,
+          "h": 150
+        },
+        "chest": [
+          480,
+          615
+        ],
+        "scale": 1.1,
+        "hover": [
+          480,
+          558.9
+        ]
+      },
+      "H3": {
+        "id": "H3",
+        "row": "front",
+        "column": 2,
+        "c": 670,
+        "k": 1,
+        "monitor": {
+          "x": 694,
+          "y": 560,
+          "w": 40,
+          "h": 24
+        },
+        "lamp": {
+          "cx": 645,
+          "cy": 569.5,
+          "r": 5
+        },
+        "plate": {
+          "x": 606,
+          "y": 562,
+          "w": 28,
+          "h": 15
+        },
+        "bedLight": {
+          "cx": 670,
+          "cy": 596,
+          "rx": 46,
+          "ry": 22
+        },
+        "bed": {
+          "x": 614,
+          "y": 596,
+          "w": 112,
+          "h": 150
+        },
+        "chest": [
+          670,
+          615
+        ],
+        "scale": 1.1,
+        "hover": [
+          670,
+          558.9
+        ]
+      },
+      "H4": {
+        "id": "H4",
+        "row": "middle",
+        "column": 0,
+        "c": 290,
+        "k": 0.9,
+        "monitor": {
+          "x": 310.8,
+          "y": 355.6,
+          "w": 36,
+          "h": 21.6
+        },
+        "lamp": {
+          "cx": 268.3,
+          "cy": 364.15,
+          "r": 4.5
+        },
+        "plate": {
+          "x": 233.2,
+          "y": 357.4,
+          "w": 25.2,
+          "h": 13.5
+        },
+        "bedLight": {
+          "cx": 290,
+          "cy": 388,
+          "rx": 41.4,
+          "ry": 19.8
+        },
+        "bed": {
+          "x": 239.6,
+          "y": 404,
+          "w": 100.8,
+          "h": 132
+        },
+        "chest": [
+          290,
+          430
+        ],
+        "scale": 1,
+        "hover": [
+          290,
+          379
+        ]
+      },
+      "H5": {
+        "id": "H5",
+        "row": "middle",
+        "column": 1,
+        "c": 480,
+        "k": 0.9,
+        "monitor": {
+          "x": 500.8,
+          "y": 355.6,
+          "w": 36,
+          "h": 21.6
+        },
+        "lamp": {
+          "cx": 458.3,
+          "cy": 364.15,
+          "r": 4.5
+        },
+        "plate": {
+          "x": 423.2,
+          "y": 357.4,
+          "w": 25.2,
+          "h": 13.5
+        },
+        "bedLight": {
+          "cx": 480,
+          "cy": 388,
+          "rx": 41.4,
+          "ry": 19.8
+        },
+        "bed": {
+          "x": 429.6,
+          "y": 404,
+          "w": 100.8,
+          "h": 132
+        },
+        "chest": [
+          480,
+          430
+        ],
+        "scale": 1,
+        "hover": [
+          480,
+          379
+        ]
+      },
+      "H6": {
+        "id": "H6",
+        "row": "middle",
+        "column": 2,
+        "c": 670,
+        "k": 0.9,
+        "monitor": {
+          "x": 690.8,
+          "y": 355.6,
+          "w": 36,
+          "h": 21.6
+        },
+        "lamp": {
+          "cx": 648.3,
+          "cy": 364.15,
+          "r": 4.5
+        },
+        "plate": {
+          "x": 613.2,
+          "y": 357.4,
+          "w": 25.2,
+          "h": 13.5
+        },
+        "bedLight": {
+          "cx": 670,
+          "cy": 388,
+          "rx": 41.4,
+          "ry": 19.8
+        },
+        "bed": {
+          "x": 619.6,
+          "y": 404,
+          "w": 100.8,
+          "h": 132
+        },
+        "chest": [
+          670,
+          430
+        ],
+        "scale": 1,
+        "hover": [
+          670,
+          379
+        ]
+      },
+      "H7": {
+        "id": "H7",
+        "row": "upper",
+        "column": 0,
+        "c": 290,
+        "k": 0.9,
+        "monitor": {
+          "x": 316.8,
+          "y": 137.6,
+          "w": 36,
+          "h": 21.6
+        },
+        "lamp": {
+          "cx": 262.3,
+          "cy": 146.15,
+          "r": 4.5
+        },
+        "plate": {
+          "x": 227.2,
+          "y": 139.4,
+          "w": 25.2,
+          "h": 13.5
+        },
+        "bedLight": {
+          "cx": 290,
+          "cy": 216,
+          "rx": 52,
+          "ry": 30
+        },
+        "bed": {
+          "x": 238,
+          "y": 228,
+          "w": 104,
+          "h": 76
+        },
+        "chest": [
+          290,
+          245
+        ],
+        "scale": 0.9,
+        "hover": [
+          290,
+          199.1
+        ]
+      },
+      "H8": {
+        "id": "H8",
+        "row": "upper",
+        "column": 1,
+        "c": 480,
+        "k": 0.9,
+        "monitor": {
+          "x": 506.8,
+          "y": 137.6,
+          "w": 36,
+          "h": 21.6
+        },
+        "lamp": {
+          "cx": 452.3,
+          "cy": 146.15,
+          "r": 4.5
+        },
+        "plate": {
+          "x": 417.2,
+          "y": 139.4,
+          "w": 25.2,
+          "h": 13.5
+        },
+        "bedLight": {
+          "cx": 480,
+          "cy": 216,
+          "rx": 52,
+          "ry": 30
+        },
+        "bed": {
+          "x": 428,
+          "y": 228,
+          "w": 104,
+          "h": 76
+        },
+        "chest": [
+          480,
+          245
+        ],
+        "scale": 0.9,
+        "hover": [
+          480,
+          199.1
+        ]
+      },
+      "H9": {
+        "id": "H9",
+        "row": "upper",
+        "column": 2,
+        "c": 670,
+        "k": 0.9,
+        "monitor": {
+          "x": 696.8,
+          "y": 137.6,
+          "w": 36,
+          "h": 21.6
+        },
+        "lamp": {
+          "cx": 642.3,
+          "cy": 146.15,
+          "r": 4.5
+        },
+        "plate": {
+          "x": 607.2,
+          "y": 139.4,
+          "w": 25.2,
+          "h": 13.5
+        },
+        "bedLight": {
+          "cx": 670,
+          "cy": 216,
+          "rx": 52,
+          "ry": 30
+        },
+        "bed": {
+          "x": 618,
+          "y": 228,
+          "w": 104,
+          "h": 76
+        },
+        "chest": [
+          670,
+          245
+        ],
+        "scale": 0.9,
+        "hover": [
+          670,
+          199.1
+        ]
+      }
+    },
+    "files": [
+      {
+        "id": "medical.drone-folded",
+        "kind": "drone",
+        "frame": "folded",
+        "viewBox": "0 0 160 132",
+        "anchor": [
+          80,
+          56
+        ],
+        "file": "design/board-v2/assets/medical/drone-folded.svg",
+        "bytes": 4100,
+        "sha256": "a1608d09be1e9a582b371dc82b8636c5e76985125b85129e1efbac5d58aab9c1",
+        "audience": "public"
+      },
+      {
+        "id": "medical.drone-open",
+        "kind": "drone",
+        "frame": "open",
+        "viewBox": "0 0 160 132",
+        "anchor": [
+          80,
+          56
+        ],
+        "file": "design/board-v2/assets/medical/drone-open.svg",
+        "bytes": 4096,
+        "sha256": "b0ff575137d29c06999ec1fd079012c1f9f4633973ebe071bd3c3fca0bc1d011",
+        "audience": "public"
+      },
+      {
+        "id": "medical.drone-charge",
+        "kind": "drone",
+        "frame": "charge",
+        "viewBox": "0 0 160 132",
+        "anchor": [
+          80,
+          56
+        ],
+        "file": "design/board-v2/assets/medical/drone-charge.svg",
+        "bytes": 4191,
+        "sha256": "c0de2a9f07b2202636330e4a07b373d6f9fbcaad5748796627a2f86a3a21711f",
+        "audience": "public"
+      },
+      {
+        "id": "medical.drone-pulse",
+        "kind": "drone",
+        "frame": "pulse",
+        "viewBox": "0 0 160 132",
+        "anchor": [
+          80,
+          56
+        ],
+        "file": "design/board-v2/assets/medical/drone-pulse.svg",
+        "bytes": 4197,
+        "sha256": "055a0f9b873438ad34ec1941eaf39b732323cb96583ddd289527f46fcf915515",
+        "audience": "public"
+      },
+      {
+        "id": "medical.vitals-off",
+        "kind": "vitals-inset",
+        "trace": "off",
+        "viewBox": "0 0 168 72",
+        "file": "design/board-v2/assets/medical/vitals-off.svg",
+        "bytes": 1517,
+        "sha256": "d12d42a12e1c2444db411af7e820e0f63dc341fa67e2e5662f10d38637e61245",
+        "audience": "public"
+      },
+      {
+        "id": "medical.berth-screen-off",
+        "kind": "berth-screen",
+        "trace": "off",
+        "viewBox": "0 0 40 24",
+        "file": "design/board-v2/assets/medical/berth-screen-off.svg",
+        "bytes": 764,
+        "sha256": "c691d833ebf670eb2e714db51d665638e7a6676386dbcb070b5a4fa49539ed09",
+        "audience": "public"
+      },
+      {
+        "id": "medical.vitals-boot",
+        "kind": "vitals-inset",
+        "trace": "boot",
+        "viewBox": "0 0 168 72",
+        "file": "design/board-v2/assets/medical/vitals-boot.svg",
+        "bytes": 1779,
+        "sha256": "5cc33b7d8a4e94c7549dce2c2ebaedb7e77d43f69da12e425947f85880bbb271",
+        "audience": "public"
+      },
+      {
+        "id": "medical.berth-screen-boot",
+        "kind": "berth-screen",
+        "trace": "boot",
+        "viewBox": "0 0 40 24",
+        "file": "design/board-v2/assets/medical/berth-screen-boot.svg",
+        "bytes": 963,
+        "sha256": "56525f1cda746ae261afa00bef1e4c0107a860a8e7da3ddf1ce397b346db334a",
+        "audience": "public"
+      },
+      {
+        "id": "medical.vitals-unstable",
+        "kind": "vitals-inset",
+        "trace": "unstable",
+        "viewBox": "0 0 168 72",
+        "file": "design/board-v2/assets/medical/vitals-unstable.svg",
+        "bytes": 2838,
+        "sha256": "8039ffe2c493e3da4bfb947c6d3f5a0260724e117f0ab30b252e3aa74834c7d3",
+        "audience": "public"
+      },
+      {
+        "id": "medical.berth-screen-unstable",
+        "kind": "berth-screen",
+        "trace": "unstable",
+        "viewBox": "0 0 40 24",
+        "file": "design/board-v2/assets/medical/berth-screen-unstable.svg",
+        "bytes": 1484,
+        "sha256": "7382595d0799da36716e4a9a9d984bda80d1f68814c9a34529b9c570c62515b4",
+        "audience": "public"
+      },
+      {
+        "id": "medical.vitals-stable",
+        "kind": "vitals-inset",
+        "trace": "stable",
+        "viewBox": "0 0 168 72",
+        "file": "design/board-v2/assets/medical/vitals-stable.svg",
+        "bytes": 2753,
+        "sha256": "1cc361aee73562f18c7288962e93946854692aedaddb96caf52a0647633597cd",
+        "audience": "public"
+      },
+      {
+        "id": "medical.berth-screen-stable",
+        "kind": "berth-screen",
+        "trace": "stable",
+        "viewBox": "0 0 40 24",
+        "file": "design/board-v2/assets/medical/berth-screen-stable.svg",
+        "bytes": 1426,
+        "sha256": "8e59f460fd1b23d09f828047a7eecce8fda6be8258c4196b0385803e04719816",
+        "audience": "public"
+      },
+      {
+        "id": "medical.vitals-slowing",
+        "kind": "vitals-inset",
+        "trace": "slowing",
+        "viewBox": "0 0 168 72",
+        "file": "design/board-v2/assets/medical/vitals-slowing.svg",
+        "bytes": 2510,
+        "sha256": "97b14bae567d4cede93fb5462e1b80bbf2b6f7b579140cff6692fee9745ed9d0",
+        "audience": "public"
+      },
+      {
+        "id": "medical.berth-screen-slowing",
+        "kind": "berth-screen",
+        "trace": "slowing",
+        "viewBox": "0 0 40 24",
+        "file": "design/board-v2/assets/medical/berth-screen-slowing.svg",
+        "bytes": 1321,
+        "sha256": "fa883b6196b02739ca9d70f3a64546642b04e1b0aac20b002d3010e2b8433cf8",
+        "audience": "public"
+      },
+      {
+        "id": "medical.vitals-flat",
+        "kind": "vitals-inset",
+        "trace": "flat",
+        "viewBox": "0 0 168 72",
+        "file": "design/board-v2/assets/medical/vitals-flat.svg",
+        "bytes": 1769,
+        "sha256": "bc1c76c07cf962f331f1b70afe9ed275441329ae7a711642b3014a8c3392a42d",
+        "audience": "public"
+      },
+      {
+        "id": "medical.berth-screen-flat",
+        "kind": "berth-screen",
+        "trace": "flat",
+        "viewBox": "0 0 40 24",
+        "file": "design/board-v2/assets/medical/berth-screen-flat.svg",
+        "bytes": 953,
+        "sha256": "26a34e88c0348d04cc75b8fcbaf6f1a4f27078a9641c47f4f3c6fece71dd8e28",
+        "audience": "public"
+      },
+      {
+        "id": "medical.lamp-off",
+        "kind": "lamp",
+        "state": "off",
+        "viewBox": "0 0 40 40",
+        "anchor": [
+          20,
+          20
+        ],
+        "file": "design/board-v2/assets/medical/lamp-off.svg",
+        "bytes": 964,
+        "sha256": "a5925bf779d667214d9d657d1e4cb87875483e2b1aca67387b2842c3317e0eb2",
+        "audience": "public"
+      },
+      {
+        "id": "medical.lamp-amber",
+        "kind": "lamp",
+        "state": "amber",
+        "viewBox": "0 0 40 40",
+        "anchor": [
+          20,
+          20
+        ],
+        "file": "design/board-v2/assets/medical/lamp-amber.svg",
+        "bytes": 1011,
+        "sha256": "c4ba294eeba46f3ac51aee7eded943bdf2e5522685d3f1984146decd5f3aeb28",
+        "audience": "public"
+      },
+      {
+        "id": "medical.lamp-red",
+        "kind": "lamp",
+        "state": "red",
+        "viewBox": "0 0 40 40",
+        "anchor": [
+          20,
+          20
+        ],
+        "file": "design/board-v2/assets/medical/lamp-red.svg",
+        "bytes": 1027,
+        "sha256": "cbc435f82ae3b7bb2976e6e319ea15474d9a93426363bdeb325458e63973234a",
+        "audience": "public"
+      },
+      {
+        "id": "medical.lamp-calm",
+        "kind": "lamp",
+        "state": "calm",
+        "viewBox": "0 0 40 40",
+        "anchor": [
+          20,
+          20
+        ],
+        "file": "design/board-v2/assets/medical/lamp-calm.svg",
+        "bytes": 1002,
+        "sha256": "799ba1d3246c11ea161cc1e72dd1510f48ca12a67d3459670950c7b054ae251f",
+        "audience": "public"
+      },
+      {
+        "id": "medical.rescue-next",
+        "kind": "rescue-tag",
+        "tone": "next",
+        "viewBox": "0 0 16 16",
+        "file": "design/board-v2/assets/medical/rescue-next.svg",
+        "bytes": 901,
+        "sha256": "13f4162f4690de1f65ed7b96afd86388929bb74b46463f4eb7b500b7af50ad2d",
+        "audience": "public"
+      },
+      {
+        "id": "medical.rescue-current",
+        "kind": "rescue-tag",
+        "tone": "current",
+        "viewBox": "0 0 16 16",
+        "file": "design/board-v2/assets/medical/rescue-current.svg",
+        "bytes": 898,
+        "sha256": "a1a2695f98a0dc413276272cce3d9a4b6e6e1f441024521571d8469f898e5b99",
+        "audience": "public"
+      },
+      {
+        "id": "medical.rescue-none",
+        "kind": "rescue-tag",
+        "tone": "none",
+        "viewBox": "0 0 16 16",
+        "file": "design/board-v2/assets/medical/rescue-none.svg",
+        "bytes": 1040,
+        "sha256": "8fbc89e3afb813d9c16e68bcc561c9e5cba6729983bd3918eb57d6036e82232e",
+        "audience": "public"
+      },
+      {
+        "id": "medical.detention",
+        "kind": "detention-tag",
+        "viewBox": "0 0 16 16",
+        "file": "design/board-v2/assets/medical/detention.svg",
+        "bytes": 944,
+        "sha256": "b3987690ec6e6cacad943810853c9a238b790fb559f46c86b5a3b565d15acef2",
+        "audience": "public"
+      },
+      {
+        "id": "medical.scan-line",
+        "kind": "scan-line",
+        "viewBox": "0 0 140 16",
+        "file": "design/board-v2/assets/medical/scan-line.svg",
+        "bytes": 1071,
+        "sha256": "c448cc2d4af3448e62d28bda57d12dd27cdb3f5429c0a2eecacaf40f1fd14d8c",
+        "audience": "public"
+      },
+      {
+        "id": "medical.hologram",
+        "kind": "hologram",
+        "viewBox": "0 0 64 64",
+        "file": "design/board-v2/assets/medical/hologram.svg",
+        "bytes": 1186,
+        "sha256": "ec05fde0a3d2f708543b3199c967a77451fd27af4e0ece7dad219a325254efff",
+        "audience": "public"
+      },
+      {
+        "id": "medical.pulse-1",
+        "kind": "pulse",
+        "frame": 1,
+        "viewBox": "0 0 120 120",
+        "anchor": [
+          60,
+          60
+        ],
+        "flashRadius": 14,
+        "file": "design/board-v2/assets/medical/pulse-1.svg",
+        "bytes": 1521,
+        "sha256": "078db793a8767ab0b03c4d6df121685b65ed40c19ee54cdc13451f3b00c84f2d",
+        "audience": "public"
+      },
+      {
+        "id": "medical.pulse-2",
+        "kind": "pulse",
+        "frame": 2,
+        "viewBox": "0 0 120 120",
+        "anchor": [
+          60,
+          60
+        ],
+        "flashRadius": null,
+        "file": "design/board-v2/assets/medical/pulse-2.svg",
+        "bytes": 1549,
+        "sha256": "8398717c35bed0995f2d4f95e47d8b519bce200b62b71cb4f860ab3d0acaab3e",
+        "audience": "public"
+      }
+    ]
+  },
   "films": {
     "file": "design/board-v2/contract/films.json",
     "version": "board-v2-films-0.2.0",
-    "sha256": "28294bfe94b15eb217caf931c4341dc8ffb01a0434e1b653f8d0ff070f03dfef",
-    "bytes": 14799
+    "sha256": "ee4c75e8f31e1626daeda4b6f45ee2e007725741f210f3939c0a50735c64674a",
+    "bytes": 26019
   }
 }

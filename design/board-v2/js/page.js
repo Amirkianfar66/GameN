@@ -17,6 +17,7 @@
 //   &film=blocked        ATTACK BLOCKED on its target, for the room's occupants (js/blocked-view.mjs has its options)
 //   &capsule=1           the private-talk capsule beside the Command Room (fit.mjs { capsule: true }), empty
 //   &film=capsule        the Hack's public pair going to the capsule and back (js/capsule-view.mjs has its options)
+//   &film=critical|rescue|flatline   the Hospital's medical state and films (js/medical-view.mjs has its options)
 //   &ui=choosing|sheet   where the real controls go, by the owner's "controls take turns" (js/turns.mjs), with the
 //                        capsule; stand-ins sized from Frontend's measurements (js/turns-view.mjs has its options)
 //   &text=2              enlarged text: the bars measured at 200% before the board is laid out (js/turns-view.mjs)
@@ -35,12 +36,15 @@ import { fixtureSeats } from './fixtures.mjs';
 import { mountBlackout } from './blackout-view.mjs';
 import { mountBlockedPage } from './blocked-view.mjs';
 import { drawCapsulePanel, drawCapsuleSheet, fitCapsuleCaption, mountCapsule } from './capsule-view.mjs';
+import { medicalOutcome } from './medical-fixtures.mjs';
+import { isMedicalFilm, mountMedical, outcomeName } from './medical-view.mjs';
 import { barsShell } from './turns.mjs';
 import { mountTurns, turnsOptions } from './turns-view.mjs';
 
 const params = new URLSearchParams(location.search);
 const roster = Number(params.get('roster') ?? 9);
-const fixture = params.get('fixture') ?? 'ward';
+const medical = isMedicalFilm(params.get('film'));
+const fixture = params.get('fixture') ?? (medical ? 'mixed' : 'ward');
 const show = name => params.get(name) === '1';
 const ui = params.get('ui');
 const capsule = show('capsule') || params.get('film') === 'capsule' || Boolean(ui);
@@ -145,7 +149,8 @@ function draw() {
   if (enlarged) document.documentElement.dataset.text = '2';
   const board = fitBoardV2(viewport, roster, { insets, capsule, shell: barsShell(bars) });
   const { shell, pass } = board;
-  const seats = fixtureSeats(fixture, roster);
+  // A medical film plays over the snapshot published with its outcome: the subject already where the server put it.
+  const seats = medical && params.get('film') !== 'critical' ? medicalOutcome(outcomeName(params), roster).after : fixtureSeats(fixture, roster);
   const fallback = board.fallback ? ` · ${board.fallback}` : '';
   app.replaceChildren(
     // The bars fill the safe-area insets with their background; their contents stay inside.
@@ -183,6 +188,7 @@ function draw() {
   if (params.get('film') === 'blackout' && board.fits) mountBlackout({ app, board, roster, seats, params, drawFigure, drawTag });
   if (params.get('film') === 'blocked' && board.fits) mountBlockedPage({ app, board, roster, seats, params });
   if (params.get('film') === 'capsule' && board.fits) mountCapsule({ app, board, roster, seats, params, drawFigure, drawTag });
+  if (medical && board.fits) mountMedical({ app, board, roster, seats, params, drawFigure, drawTag });
   // The real controls, over a board only: never over the too-short message.
   if (ui && board.fits) mountTurns({ app, board, roster, seats, params });
   const pictures = [...document.images];

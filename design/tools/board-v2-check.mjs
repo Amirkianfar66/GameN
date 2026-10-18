@@ -61,6 +61,11 @@ const { LOOP, POSE_NAMES, capsuleLoop, sittingPose, walkingPose } = await load('
 const { cie76 } = await load('design/board-v2/fx/blocked.mjs');
 const { SHEET, SHEET_ROOMS, barsShell, boardTargets, sheetPlan, turnsLayout } = await load('design/board-v2/js/turns.mjs');
 const { ENLARGED, MEASURED, WORDS_CHROME } = await load('design/board-v2/js/turns-view.mjs');
+const { CRITICAL, FLATLINE, RESCUE, clinicalBerth, criticalFrame, dronePosition, filmBerth, flatlineEnd, flatlineFrame, medicalContracts, rescueEnd, rescueFrame, rescueTag } = await load('design/board-v2/films/medical.mjs');
+const { DOCK, DRONE, DRONE_MIN_FIT, DRONE_SCENE, INSET, INSET_MIN_WIDTH, PULSE_BOX, PULSE_FLASH_RADIUS, berthKit, droneFit, hoverAt, insetBox, medicalColorDistances, tagBox } = await load('design/board-v2/fx/medical.mjs');
+const { LABEL_MARGIN } = await load('design/board-v2/fx/label-box.mjs');
+const { medicalOutcome, medicalSeats } = await load('design/board-v2/js/medical-fixtures.mjs');
+const { outcomeWords } = await load('design/board-v2/js/medical-view.mjs');
 
 // ---------- Development material, fenced ----------
 {
@@ -111,7 +116,7 @@ const { ENLARGED, MEASURED, WORDS_CHROME } = await load('design/board-v2/js/turn
   for (const [path, content] of planned) if ((await text(path).catch(() => null)) !== content) problems.push(`${path}: not what design/tools/board-v2-assets.mjs makes: run it`);
   for (const path of await filesUnder('design/board-v2/assets')) if (!planned.has(path)) problems.push(`${path}: not made by design/tools/board-v2-assets.mjs`);
   const manifest = planned.has('design/board-v2/assets/manifest.json') ? JSON.parse(planned.get('design/board-v2/assets/manifest.json')) : null;
-  const sprites = manifest ? [...manifest.lighting.files, ...manifest.fx.files, ...(manifest.capsule?.files ?? [])] : [];
+  const sprites = manifest ? [...manifest.lighting.files, ...manifest.fx.files, ...(manifest.capsule?.files ?? []), ...(manifest.medical?.files ?? [])] : [];
   for (const [path, content] of planned) {
     if (!path.endsWith('.svg')) continue;
     if (/<text\b|<image\b|<script\b|<foreignObject\b|href=["']https?:/i.test(content)) problems.push(`${path}: outside the drawing vocabulary`);
@@ -120,7 +125,7 @@ const { ENLARGED, MEASURED, WORDS_CHROME } = await load('design/board-v2/js/turn
     const box = sprite ? sprite.viewBox : '0 0 1024 768';
     if (!content.includes(`viewBox="${box}"`)) problems.push(`${path}: not in its ${box} box`);
   }
-  check('the ward, the lighting, the effects and the capsule art are built from the approved rooms or their own modules, current, and inside the drawing vocabulary', problems);
+  check('the ward, the lighting, the effects, the capsule and the medical art are built from the approved rooms or their own modules, current, and inside the drawing vocabulary', problems);
 }
 
 // ---------- The Blackout's lighting window ----------
@@ -497,6 +502,148 @@ const { ENLARGED, MEASURED, WORDS_CHROME } = await load('design/board-v2/js/turn
   check(`the real controls take turns: the choosing row the navigation's box and over no target, the sheet over the Hospital and the Jail and nothing else, its actions either side of the Pass, the board fitBoardV2's with the capsule below the match's top bar (${layouts} layouts in normal and 200% text, ${enlargedFits} fitting at 200%; the sheet holds ${minCapacity} px at least); the owner's too-short cases`, problems);
 }
 
+// ---------- The Hospital's medical films (S9, S5, S10) ----------
+{
+  const problems = [];
+  // A berth's furniture is the ward's own: its monitor, lamp and plate where the ward draws them (to the ward's
+  // 0.1-unit rounding), its plate the slot's badge anchor, and the drone's dock the ward's.
+  const near = (a, b) => Math.abs(a - b) <= 0.051;
+  const numbers = (tag, attrs) => [...tag.matchAll(new RegExp(`<${attrs[0]}\\b[^>]*>`, 'g'))].map(([element]) => attrs.slice(1).map(name => Number(new RegExp(`\\b${name}="([-\\d.]+)"`).exec(element)?.[1])));
+  for (const roster of ROSTERS) {
+    const svg = await text(`design/board-v2/assets/scenes/hospital-ward-${roster}.back.svg`).catch(() => '');
+    const rects = numbers(svg, ['rect', 'x', 'y', 'width', 'height']);
+    const circles = numbers(svg, ['circle', 'cx', 'cy', 'r']);
+    for (const berth of wardBerths(roster)) {
+      const { monitor: m, plate: p, lamp: l } = berthKit(berth.id);
+      if (!rects.some(([x, y, w, h]) => near(x, m.x) && near(y, m.y) && near(w, m.w) && near(h, m.h))) problems.push(`${roster} players, ${berth.id}: its monitor is not the ward's`);
+      if (!rects.some(([x, y, w, h]) => near(x, p.x) && near(y, p.y) && near(w, p.w) && near(h, p.h))) problems.push(`${roster} players, ${berth.id}: its plate is not the ward's`);
+      if (!circles.some(([cx, cy, r]) => near(cx, l.cx) && near(cy, l.cy) && near(r, l.r))) problems.push(`${roster} players, ${berth.id}: its lamp is not the ward's`);
+    }
+  }
+  for (const berth of WARD_BERTHS) {
+    const kit = berthKit(berth.id);
+    const { plate: p } = kit;
+    const slot = slotsOf('hospital', 9).find(entry => entry.id === berth.id);
+    if (Math.abs(slot.badgeAt[0] - (p.x + p.w / 2)) > 0.1 || Math.abs(slot.badgeAt[1] - (p.y + p.h / 2)) > 0.1) problems.push(`${berth.id}: its badge anchor is not its plate`);
+    if (kit.chest[0] !== slot.pressAt[0] || kit.chest[1] !== slot.pressAt[1]) problems.push(`${berth.id}: the chest is not the berth's press point`);
+  }
+  for (const roster of ROSTERS) if (!numbers(await text(`design/board-v2/assets/scenes/hospital-ward-${roster}.back.svg`).catch(() => ''), ['ellipse', 'cx', 'cy']).some(([cx, cy]) => cx === DOCK[0] && cy === DOCK[1])) problems.push(`${roster} players: the drone's dock is not the ward's`);
+  // The critical state: its values from the server's alone; the round to come or in progress, a struck cross with no round left, nothing when closed.
+  const tags = [[{ rescueOpportunity: 'NEXT_NORMAL_ROUND', rescueDueAfterRound: 3 }, 'next R3'], [{ rescueOpportunity: 'CURRENT_NORMAL_ROUND', rescueDueAfterRound: 4 }, 'current R4'], [{ rescueOpportunity: 'NO_ADDITIONAL_ROUND', rescueDueAfterRound: null }, 'none '], [{ rescueOpportunity: 'CLOSED', rescueDueAfterRound: null }, 'null'], [null, 'null']];
+  for (const [medical, want] of tags) { const tag = rescueTag(medical); if ((tag ? `${tag.tone} ${tag.text}` : 'null') !== want) problems.push(`${JSON.stringify(medical)}: the tag is ${JSON.stringify(tag)}`); }
+  for (const bad of [{ rescueOpportunity: 'NO_ADDITIONAL_ROUND', rescueDueAfterRound: 5 }, { rescueOpportunity: 'NEXT_NORMAL_ROUND', rescueDueAfterRound: null }, { rescueOpportunity: 'SOON', rescueDueAfterRound: 3 }]) { try { rescueTag(bad); problems.push(`${JSON.stringify(bad)} makes a tag`); } catch { /* refused */ } }
+  for (const t of [0, 700, 1999, 4000]) if (JSON.stringify(criticalFrame(t, { reduced: true })) !== JSON.stringify(criticalFrame(0, { reduced: true }))) problems.push(`the reduced critical state moves at ${t} ms`);
+  // On admission the patient arrives in the berth as the monitor boots, before the lamp and the tag.
+  if (criticalFrame(0, { entryT: 0 }).figure.opacity !== 0 || criticalFrame(120, { entryT: 120 }).figure.opacity !== 0.5 || criticalFrame(240, { entryT: 240 }).figure.opacity !== 1 || criticalFrame(120, { entryT: 120 }).lamp.on) problems.push('the admission does not bring the patient in as the monitor boots');
+  // The films: the storyboards' lengths, nothing drawn outside them, their words once, no input but t, the berth, the fit and the setting.
+  if (rescueEnd(false) < 5000 || rescueEnd(false) > 6000) problems.push(`the rescue lasts ${rescueEnd(false)} ms, not 5 to 6 s`);
+  for (const [name, frameOf, end] of [['rescue', (t, o) => rescueFrame(t, 'H1', o), rescueEnd], ['flatline', (t, o) => flatlineFrame(t, o), flatlineEnd]]) {
+    for (const reduced of [false, true]) {
+      let said = false;
+      for (let t = -200; t <= end(reduced) + 400; t += 10) {
+        const frame = frameOf(t, { reduced });
+        const where = `${name}${reduced ? ', reduced' : ''}, ${t} ms`;
+        for (const extra of [{ cause: 'shot' }, { healer: 3, attacker: 5, role: 'x', side: 'y' }]) if (JSON.stringify(frameOf(t, { reduced, ...extra })) !== JSON.stringify(frame)) problems.push(`${where}: ${Object.keys(extra).join(', ')} changes the film`);
+        if (frame.done !== t >= end(reduced)) problems.push(`${where}: done is ${frame.done}`);
+        const drawn = frame.inset.opacity > 0 || frame.drone?.at || frame.scan?.opacity > 0 || frame.hologram?.opacity > 0 || frame.pulse?.frame > 0 || (frame.room ?? 1) < 1;
+        if ((t < 0 || t >= end(reduced)) && drawn) problems.push(`${where}: something drawn outside the film`);
+        if (said && !frame.announce && t < end(reduced)) problems.push(`${where}: the words withdrawn`);
+        said = said || frame.announce;
+        if (reduced && (frame.patient.offset[0] || frame.patient.offset[1] || frame.pulse?.frame || (frame.room ?? 1) < 1 || (frame.drone?.at && JSON.stringify(frame.drone.at) !== JSON.stringify(berthKit('H1').hover)))) problems.push(`${where}: motion in the reduced variant`);
+        if (name === 'flatline' && t >= FLATLINE.fail[1] && (frame.patient.offset[0] || frame.patient.offset[1])) problems.push(`${where}: the patient still breathing after the heart failed`);
+        if (Math.hypot(...frame.patient.offset) > Math.max(2.5, CRITICAL.breathPx) + 0.001) problems.push(`${where}: the patient moved more than 2.5 px`);
+        if ((frame.room ?? 1) < FLATLINE.dim.level - 0.001) problems.push(`${where}: the room darker than ${FLATLINE.dim.level}`);
+      }
+      if (!said) problems.push(`${name}${reduced ? ', reduced' : ''}: no words`);
+    }
+  }
+  // The drone: from the ward's dock and back to it, whatever berth; at its hover point over the berth, its probes on the chest.
+  for (const berth of WARD_BERTHS) {
+    const start = dronePosition(RESCUE.arrive[0], berth.id), back = dronePosition(RESCUE.depart[1] - 1, berth.id);
+    if (!start || Math.hypot(start[0] - DOCK[0], start[1] - DOCK[1]) > 0.01 || !back || Math.hypot(back[0] - DOCK[0], back[1] - DOCK[1]) > 3) problems.push(`${berth.id}: the drone does not come from the dock and go back to it`);
+    for (const fit of [1, 0.75, DRONE_MIN_FIT]) {
+      const at = dronePosition(RESCUE.scan[0], berth.id, fit), hover = hoverAt(berthKit(berth.id), fit);
+      if (!at || Math.abs(at[0] - hover[0]) > 0.01 || Math.abs(at[1] - hover[1]) > DRONE_SCENE.bob + 0.01) problems.push(`${berth.id}, fit ${fit}: the drone is not over the berth while it scans`);
+      if (Math.abs(berthKit(berth.id).chest[1] - hover[1] - DRONE_SCENE.reach * berth.scale * fit) > 0.01) problems.push(`${berth.id}, fit ${fit}: its probes are not on the chest`);
+    }
+  }
+  // Where things go, at every phone and roster, the ward full or empty: every tag whole in the panel, below the caption's
+  // band and off the name tags; every inset, where there is one, off the caption, the berth and every held press area;
+  // the drone, at its fit, below the caption and every held press area; the pulse's core a small part of the panel.
+  const CAPTION = { left: 3, top: 3, width: 100, height: 26 };
+  const meets = (a, b) => a.left < b.left + b.width - 0.01 && b.left < a.left + a.width - 0.01 && a.top < b.top + b.height - 0.01 && b.top < a.top + a.height - 0.01;
+  let insets = 0, bands = 0, none = 0, fits = 0;
+  for (const [width, height] of VIEWPORTS) {
+    for (const roster of ROSTERS) {
+      const panel = fitBoardV2({ width, height }, roster).panels.hospital;
+      const frame = frameScene(sceneOf('hospital', roster), panel);
+      const rects = slotRects('hospital', roster, panel);
+      const press = r => ({ left: r.left, top: r.top, width: r.side, height: r.side });
+      const names = r => ({ left: r.press[0] - 30, top: Math.min(panel.height - 16, r.top + r.side - 14), width: 60, height: 17 });
+      for (const rect of rects) {
+        const where = `${width}x${height}, ${roster} players, ${rect.id}`;
+        for (const size of [[34, 13], [52, 13]]) {
+          const box = tagBox({ plate: rect.badge, size, panel, keepClear: rects.filter(other => other !== rect).map(names) });
+          const tag = { left: box.left, top: box.top, width: size[0], height: size[1] };
+          if (tag.left < LABEL_MARGIN - 0.01 || tag.left + tag.width > panel.width - LABEL_MARGIN + 0.01 || tag.top + tag.height > panel.height - LABEL_MARGIN + 0.01) problems.push(`${where}: a tag leaves the panel`);
+          if (tag.top < panel.cap - 0.01) problems.push(`${where}: a tag in the caption's band`);
+          for (const other of rects.filter(entry => entry !== rect)) if (meets(tag, names(other))) problems.push(`${where}: a tag over ${other.id}'s name tag`);
+        }
+        for (const full of [true, false]) {
+          const held = full ? rects.filter(other => other !== rect).map(press) : [];
+          const inset = insetBox({ rect, panel, width: Math.max(60, Math.min(84, Math.round(panel.width * 0.42))), caption: CAPTION, keepClear: held });
+          if (!inset) none += 1;
+          else {
+            insets += 1;
+            if (inset.place === 'band') bands += 1;
+            if (inset.left < LABEL_MARGIN - 0.01 || inset.top < LABEL_MARGIN - 0.01 || inset.left + inset.width > panel.width - LABEL_MARGIN + 0.01 || inset.top + inset.height > panel.height - LABEL_MARGIN + 0.01) problems.push(`${where}: the inset leaves the panel`);
+            if (inset.width < INSET_MIN_WIDTH - 0.01 || Math.abs(inset.height / inset.width - INSET.h / INSET.w) > 0.001) problems.push(`${where}: an inset ${inset.width.toFixed(1)} x ${inset.height.toFixed(1)}`);
+            for (const box of [CAPTION, press(rect), ...held]) if (meets(inset, box)) problems.push(`${where}${full ? ', the ward full' : ''}: the inset meets ${JSON.stringify(box)}`);
+          }
+          const kit = berthKit(rect.id);
+          const fit = droneFit({ kit, frame, keepClear: [{ left: CAPTION.left - LABEL_MARGIN, top: CAPTION.top - LABEL_MARGIN, width: CAPTION.width + 2 * LABEL_MARGIN, height: CAPTION.height + 2 * LABEL_MARGIN }, ...held] });
+          if (fit < 1) fits += 1;
+          const w = DRONE_SCENE.width * kit.scale * frame.k * fit;
+          const [lx, ly] = hoverAt(kit, fit);
+          const drone = { left: frame.tx + lx * frame.k - w / 2, top: frame.ty + (ly - DRONE_SCENE.bob) * frame.k - (DRONE.lens[1] / DRONE.w) * w, width: w, height: (w * DRONE.h) / DRONE.w };
+          if (fit > DRONE_MIN_FIT) for (const box of [CAPTION, ...held]) if (box.top + box.height <= frame.ty + kit.chest[1] * frame.k && meets(drone, box)) problems.push(`${where}${full ? ', the ward full' : ''}: the drone meets ${JSON.stringify(box)} at fit ${fit}`);
+          if (drone.top < -0.01 && fit > DRONE_MIN_FIT) problems.push(`${where}: the drone leaves the panel's top`);
+          // The pulse: its white-hot core at its largest, a quarter of the panel at most.
+          const core = (PULSE_FLASH_RADIUS / PULSE_BOX) * w * 0.9 * 1.2;
+          if (Math.PI * core * core > BLACKOUT.flashLimit.panelShare * panel.width * panel.height) problems.push(`${where}: the pulse's core over a quarter of the panel`);
+        }
+      }
+    }
+  }
+  // Where the film plays: the anchor's berth, unless another seat holds it in the snapshot; an anchor names a berth of the match's roster only.
+  if (clinicalBerth({ anchorId: 'HV3', slotCount: 9 }, 9) !== 'H3') problems.push('HV3 is not berth H3');
+  for (const [anchor, roster] of [[{ anchorId: 'HV9', slotCount: 8 }, 8], [{ anchorId: 'HV2', slotCount: 9 }, 8], [{ anchorId: 'H2', slotCount: 9 }, 9]]) { try { clinicalBerth(anchor, roster); problems.push(`${JSON.stringify(anchor)} plays in a ${roster}-berth ward`); } catch { /* refused */ } }
+  const placed = filmBerth({ anchorId: 'HV1', slotCount: 9 }, 9, [{ seat: 2, slotId: null }, { seat: 3, slotId: 'H1' }], 2);
+  if (placed.plays || placed.holder !== 3) problems.push('a film plays over a berth another seat holds');
+  if (!filmBerth({ anchorId: 'HV1', slotCount: 9 }, 9, [{ seat: 2, slotId: 'H1' }], 2).plays) problems.push('a film does not play at its subject\'s own berth');
+  // The review page's synthetic outcomes: each anchor as Backend's rule gives it, each after-state possible.
+  const anchors = { rescue: 'HV1', 'rescue-detained': 'HV2', vignette: 'HV3', death: 'HV1', 'rescue-taken': 'HV1', 'rescue-ward': 'HV1', 'rescue-upper': 'HV8' };
+  for (const [name, anchorId] of Object.entries(anchors)) {
+    const outcome = medicalOutcome(name, 9);
+    if (outcome.anchor.anchorId !== anchorId) problems.push(`${name}: anchor ${outcome.anchor.anchorId}, not ${anchorId}`);
+    const slots = outcome.after.map(seat => seat.slot);
+    if (new Set(slots).size !== slots.length) problems.push(`${name}: two seats share a slot afterwards`);
+    const subject = outcome.after.find(seat => seat.seat === outcome.subject.seat);
+    if (outcome.kinds.at(-1) === 'HEALED' && (subject.health !== 'Healthy' || subject.room === 'hospital')) problems.push(`${name}: a healed subject left Injured or in the Hospital`);
+    if (outcome.kinds.at(-1) === 'DEATH' && (subject.health !== 'Eliminated' || subject.room !== 'hospital')) problems.push(`${name}: a dead subject not in the Hospital`);
+    if (outcome.subject.health === 'Eliminated') problems.push(`${name}: an Eliminated patient revived`);
+    for (const seat of medicalSeats(outcome.after)) if ((seat.health === 'Injured') !== (seat.medical !== null) || (seat.health === 'Injured' && seat.location !== 'Hospital')) problems.push(`${name}: seat ${seat.seat}'s medical facts do not follow its health`);
+  }
+  if (medicalOutcome('vignette', 7).anchor.anchorId !== 'HV2') problems.push('the seven-player vignette is not at HV2');
+  // The words are the client's; the colors far from every faction accent; the contract the module's, naming no role.
+  if (outcomeWords(2, 'HEALED') !== 'Player 2: Healed.' || outcomeWords(2, 'DEATH') !== 'Player 2: Eliminated.' || outcomeWords(4, 'INJURY') !== 'Player 4: Injured.') problems.push('the words are not the hosted board\'s');
+  for (const [name, { nearest, distance }] of Object.entries(medicalColorDistances())) if (distance < MIN_ACCENT_DISTANCE) problems.push(`the medical ${name} is ${distance} from the ${nearest} accent`);
+  const films = await json('design/board-v2/contract/films.json').catch(() => null);
+  if (!films || JSON.stringify(films.films?.slice(3)) !== JSON.stringify(medicalContracts())) problems.push('contract/films.json does not hold the medical films\' contracts: run design/tools/board-v2-assets.mjs');
+  for (const word of ROLE_WORDS) if (JSON.stringify(medicalContracts()).includes(word)) problems.push(`the medical contracts name ${word}`);
+  check(`the Hospital's medical films: the ward's own furniture and dock, the rescue tag from the server's values, beats within the storyboards with nothing drawn outside them and one set of words, no input but the moment, the berth and the setting, the drone from the dock to the chest, every tag, inset (${insets} placed, ${bands} beside the caption, ${none} none) and drone (${fits} drawn smaller) clear of the caption and every held press area at every phone, no film over another seat's berth, and the examples' anchors Backend's`, problems);
+}
+
 // ---------- The slots ----------
 {
   const problems = [];
@@ -657,8 +804,11 @@ const { ENLARGED, MEASURED, WORDS_CHROME } = await load('design/board-v2/js/turn
     // The real controls in every turn, at both phones, in normal and 200% text, and the owner's too-short cases.
     for (const name of ['390x844-choosing', '320x568-choosing', '390x844-choosing-safe', '390x844-result-0400', '390x844-result-2400', '390x844-result-3600', '320x568-result-2400', '390x844-talk-receipt', '320x568-talk-receipt', '390x844-talk-code-confirm', '320x568-talk-code-confirm', '390x844-declare-offer', '390x844-declare-side-choice', '390x844-declare-side-confirm', '390x844-rescue-confirm', '390x844-text2-choosing', '390x844-text2-result-2400', '390x844-text2-code-confirm', '375x667-text2-side-choice', '320x568-text2-too-short', '320x568-safe-too-short']) if (!files.includes(`turns-${name}.png`)) problems.push(`turns-${name}.png: not captured`);
     if ((report.probes ?? []).filter(probe => probe.turns).length !== 2 * 3 * 4) problems.push('the controls\' pointer probes did not all run');
+    // The medical films at every beat, in both motion modes, at both phones, with every placement rule pictured.
+    for (const name of ['390x844-critical-r3', '390x844-critical-r5', '390x844-critical-entry-0150', '390x844-reduced-critical-r3', '320x568-critical-r3', '320x568-critical-ward', '430x932-critical-ward', '390x844-rescue-0400', '390x844-rescue-1300', '390x844-rescue-2600', '390x844-rescue-3550', '390x844-rescue-4500', '390x844-rescue-5700', '390x844-reduced-rescue-0900', '320x568-rescue-2600', '390x844-rescue-detained-4500', '390x844-vignette-2600', '390x844-vignette-2600-r7', '390x844-taken-2600', '390x844-ward-2600', '320x568-upper-2600', '390x844-flatline-0800', '390x844-flatline-2000', '390x844-flatline-2700', '390x844-flatline-4300', '390x844-reduced-flatline-0900', '320x568-flatline-2000']) if (!files.includes(`medical-${name}.png`)) problems.push(`medical-${name}.png: not captured`);
+    if ((report.disclosure ?? []).filter(entry => /^(the Hospital's (critical|rescue|flatline) on the display|the page after the [a-z-]+ film|every room but the Hospital|the top bar's box on the plain board and in each medical film)/.test(entry.compare)).length !== 2 * 20) problems.push('the medical films\' page comparisons did not all run');
   }
-  check('the captures are current, every measured board passed, every pointer probe and press landed, every compared page is the same, and the capsule and the real controls are pictured in every state', problems);
+  check('the captures are current, every measured board passed, every pointer probe and press landed, every compared page is the same, and the capsule, the real controls and the medical films are pictured in every state', problems);
 }
 
 for (const name of passed) console.log(`ok    ${name}`);

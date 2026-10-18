@@ -1,6 +1,6 @@
 # Designer deliverables
 
-**Version 2, 14 October 2026.** One index of what the Visual and Motion Designer has delivered for the owner's motion specification of 13 October 2026 and for the setup art, and of what is still to be delivered. Integration asked for it in its [renewed review of #144](https://github.com/Amirkianfar66/GameN/pull/144#issuecomment-6170610912) and again, complete and versioned, in its [completion request](https://github.com/Amirkianfar66/GameN/pull/144#issuecomment-6171018083). The versions are listed at the end.
+**Version 3, 18 October 2026.** One index of what the Visual and Motion Designer has delivered for the owner's motion specification of 13 October 2026 and for the setup art, and of what is still to be delivered. Integration asked for it in its [renewed review of #144](https://github.com/Amirkianfar66/GameN/pull/144#issuecomment-6170610912) and again, complete and versioned, in its [completion request](https://github.com/Amirkianfar66/GameN/pull/144#issuecomment-6171018083). The versions are listed at the end.
 
 - **Delivered** means a reviewable proposal: a pushed branch and its draft PR, with its doc, review pictures, checks and exact hashes.
 - **Adoption is not the Designer's.** Integration approves files by name and hash, pins them and pairs art with rules. Frontend builds the renderer that draws them. Nothing here claims either.
@@ -17,13 +17,14 @@ The storyboard numbers S1 to S15 and the production plan come from the Designer'
 | **S1**, the Blackout's lighting window | Step 2 | [#129](https://github.com/Amirkianfar66/GameN/pull/129) | [blackout-window.md](blackout-window.md) | Proposal. Its lighting-window phase has no Backend work yet: it is in Integration's combined inventory (#139) |
 | **S4**, ATTACK BLOCKED: one film for both defenses | Step 3, its shared half | [#130](https://github.com/Amirkianfar66/GameN/pull/130) | [attack-blocked.md](attack-blocked.md), [board-v2-frontend-handoff.md](board-v2-frontend-handoff.md) | Proposal. Its room-visible block fact is in the same inventory |
 | **S2**, the private-talk capsule: the review's Private Chamber, made the permanent capsule the owner asked for, with the real controls taking turns with the board | Step 6, asked for on 14 October | [#144](https://github.com/Amirkianfar66/GameN/pull/144) | [private-capsule.md](private-capsule.md) | Integration accepted the eight capsule SVGs and three pure modules as visual source candidates; the art at `4f3d25b` is in #147. `turns.mjs` is proposed for import. The film reads Backend's draft [#140](https://github.com/Amirkianfar66/GameN/pull/140) |
+| **S9, S5, S10**, the Hospital's medical films: the critical state on the berth, the medical drone's rescue, the flatline and life-support shutdown | Step 4, "Hospital loops, drone and flatline" | [#158](https://github.com/Amirkianfar66/GameN/pull/158) | [hospital-films.md](hospital-films.md) | Proposal, on #128's ward. It reads Backend's drafts 1.7 (#143) and 1.8 (#146). The owner's request of 18 October for a 4-bed ward waits on Balance and Backend ([#155](https://github.com/Amirkianfar66/GameN/issues/155)) |
 | **The setup art**: the character-selection stamps, the role card's common back, its reveal and READY (ability art slice 8, `abilities-0.8.0`) | Before the plan; S13 preserves it | [#116](https://github.com/Amirkianfar66/GameN/pull/116) | Section 20 of `docs/design/abilities-handoff.md` on that branch | **A separate delivered proposal**, stacked on ability-art slices 1 to 7. It is not in #144's tree |
 
 **Before the specification:** the visual contract (#45), the comic board and its adoption (#57, #59), the phone-first journey (#78), the board as the game (#88) and ability art slices 1 to 7 (#102, #105, #107 to #111). See [README.md](README.md).
 
 ### Exact heads and complete path lists
 
-Each list in [deliverables/](deliverables/) names every path the PR changes against its base, with its SHA-256 at the PR's head. To check one, run `sha256sum -c` on it in a checkout of that head. No PR deletes or renames a file. All six lists were checked this way on 14 October 2026, each in its own worktree.
+Each list in [deliverables/](deliverables/) names every path the PR changes against its base, with its SHA-256 at the PR's head. To check one, run `sha256sum -c` on it in a checkout of that head. No PR deletes or renames a file. The first six lists were checked this way on 14 October 2026, each in its own worktree, and #158's on 18 October 2026.
 
 | PR | Branch | Head | Base | Paths | List |
 | --- | --- | --- | --- | --- | --- |
@@ -32,19 +33,19 @@ Each list in [deliverables/](deliverables/) names every path the PR changes agai
 | #129 | `claude/designer-blackout-window` | `e1d4e748036577e1a9fa76aa56c7e17401167e73` | `a864f1f2d0547361e3197639dc1adf2ed4e9bd19` (#128) | 100 (62, 38) | [pr129-blackout-s1.sha256](deliverables/pr129-blackout-s1.sha256) |
 | #130 | `claude/designer-attack-blocked` | `15e61f0bbd043930a578900862be9d5156b3b602` | `e1d4e748036577e1a9fa76aa56c7e17401167e73` (#129) | 59 (41, 18) | [pr130-attack-blocked-s4.sha256](deliverables/pr130-attack-blocked-s4.sha256) |
 | #144 | `claude/designer-private-capsule` | `7786b9166422f1ffb59921fc224339044f4b0353` | `15e61f0bbd043930a578900862be9d5156b3b602` (#130) | 96 (83, 13) | [pr144-private-capsule-s2.sha256](deliverables/pr144-private-capsule-s2.sha256) |
+| #158 | `claude/designer-hospital-films` | `e589e7a7a32a491fb417de582acc82dc94c9cf31` | `95d70f0c885f6b7d619c4ebff935093dfe891ea6` (#144) | 103 (91, 12) | [pr158-hospital-films-s9-s5-s10.sha256](deliverables/pr158-hospital-films-s9-s5-s10.sha256) |
 | #116 | `claude/designer-ability-art-8` | `27be8749b51775fee3a0d81b62a3cdabedafe1be` | `8f1f356f2208ff49bcaef3f501f9778da19ccab0` (#111) | 84 (45, 39) | [pr116-setup-art.sha256](deliverables/pr116-setup-art.sha256) |
 
-#144's list is at `7786b91`, the head that delivered the capsule and the controls. The commit after it adds only documentation: this index's version 2, the lists, the specification packet and its provenance, and a row in [README.md](README.md). Its own changed paths are in its commit.
+#144's list is at `7786b91`, the head that delivered the capsule and the controls. The commit after it (`95d70f0`) adds only documentation: this index's version 2, the lists, the specification packet and its provenance, and a row in [README.md](README.md). #158's list is at `e589e7a`, the head that delivered the Hospital films. The commits after it add only documentation: this index's version 3, #158's list and, in the Hospital doc, the balance gates re-run on that head.
 
 ## Still to be delivered
 
-Integration's completion request of 14 October asks the Designer to finish S3, S5, S9 and S10, S6 and S7 (with S8's button states). The Designer delivers them in the approved plan's order, one reviewable PR each:
+Integration's completion request of 14 October asks the Designer to finish S3, S5, S9 and S10, S6 and S7 (with S8's button states). The Designer delivers them in the approved plan's order, one reviewable PR each. S9, S5 and S10 are delivered (above); these remain:
 
 | Storyboard | Step | What it draws | Server inputs it needs | Status |
 | --- | --- | --- | --- | --- |
-| **S9, S5, S10**: the Hospital's Injured and critical state, the Cracker's medical drone and emergency revival, the flatline and life-support shutdown | 4, "Hospital loops, drone and flatline" | In board v2's ward: the unstable monitor, the drone's arrival, scan, revival pulse and departure, the patient's recovery; the slowing waveform, the flatline, the shutdown and the still patient | Stored slots and the Hospital's injury episodes, with a rescue opportunity that survives a reconnect, and the authorized outcome for a patient healed in the same batch: Backend's [#142](https://github.com/Amirkianfar66/GameN/issues/142) and draft #143 | In production, next |
-| **S6, S7, S8**: the Captain's direct RELEASE, EJECT (Option A), the button states and the history | 5, "Captain console, RELEASE, EJECT and history" | The Command Room's console, the Jail's doors and airlock, the off-board record of the ejected, the Captain's controls | Public command facts and allowances, off-board placement: Backend's [#145](https://github.com/Amirkianfar66/GameN/issues/145) and draft [#146](https://github.com/Amirkianfar66/GameN/pull/146) | Not started |
-| **S3**: the Alien's Phantom Clone, its private activation and expiry | 3, its private half | Only on the Alien's own phone: scan lines, the duplicate silhouette, the real character's disappearance and return. Public pictures stay identical. A block uses S4 exactly | The Alien's own Clone state; no Backend work yet | Not started |
+| **S6, S7, S8**: the Captain's direct RELEASE, EJECT (Option A), the button states and the history | 5, "Captain console, RELEASE, EJECT and history" | The Command Room's console, the Jail's doors and airlock, the off-board record of the ejected, the Captain's controls | Public command facts and allowances, off-board placement: Backend's [#145](https://github.com/Amirkianfar66/GameN/issues/145) and draft [#146](https://github.com/Amirkianfar66/GameN/pull/146) | In production, next |
+| **S3**: the Alien's Phantom Clone, its private activation and expiry | 3, its private half | Only on the Alien's own phone: scan lines, the duplicate silhouette, the real character's disappearance and return. Public pictures stay identical. A block uses S4 exactly | The Alien's own Clone state: Backend's [#149](https://github.com/Amirkianfar66/GameN/issues/149) and draft [#153](https://github.com/Amirkianfar66/GameN/pull/153) | Not started |
 | **Idle loops and the token revision** | 7 | Constrained idle loops; a `tokens-0.5.0` proposal | Integration pins the token revision | Not in the completion request |
 | **S14**: the showdown overlay and the remaining actions' polish | 8 | One overlay, everyone staying in their rooms | The showdown kept in actual rooms (#142) | Not in the completion request |
 
@@ -56,9 +57,9 @@ Integration's completion request of 14 October asks the Designer to finish S3, S
 
 ## Files from the Designer's Claude session
 
-Checked on 14 October 2026 in this session's container:
+Checked on 18 October 2026 in this session's container:
 
-- The primary checkout and its fourteen Designer worktrees are clean. Every branch equals its pushed head.
+- The primary checkout and its fifteen Designer worktrees are clean. Every branch equals its pushed head (#158's once this version is pushed).
 - No artwork, source or evidence exists only in the session.
 
 **Made in the session, outside the repository:**
@@ -69,7 +70,7 @@ Checked on 14 October 2026 in this session's container:
 | `GameN-designer-corrections-2026-10-14.txt` and `GameN-designer-stack-hashes-2026-10-14.json` | `26ca8f531f67c636553d85bcf0e723968330999d6ec2baa721f1bdc9ae80f3c0` and `5966ad5995e5b2195c4480abf6e50c5ddb025259fba9e52c81bac62e1339c7f2` | The corrections and file hashes for Integration's review of #128 and #129 of 13 October, passed on by the owner | The bodies of #128 and #129, [motion-spec-crosswalk.md](motion-spec-crosswalk.md) and [board-v2-frontend-handoff.md](board-v2-frontend-handoff.md) |
 | `GameN-designer-P3-correction-2026-10-14.txt` and `GameN-designer-P3-hashes-2026-10-14.json` | `e638e178f6bc40360fec4ab19e1e51ec300b8bdd10f30940c55f2cd5a2860f9a` and `a5912771c80c9da8ee0567bc66276224dd5f3f9318e22552a9b4129442d1066f` | The P3 correction for #130 and its file hashes, on a private claude.ai page for the owner to pass on | The body of #130 and [board-v2-frontend-handoff.md](board-v2-frontend-handoff.md), whose `sha256sum -c` block covers the files |
 | Review pages and picture copies sent to the owner | — | Copies of committed review pictures | The branches' `review/` folders |
-| Working files | — | Capture logs, debugging captures, probe scripts, a clean scratch trial merge | Not deliverables. The committed tools reproduce every recorded result |
+| Working files | — | Capture logs, debugging captures, probe scripts, a clean scratch trial merge; for #158, a medical-only capture runner, the mutation run of its measurement, geometry probes and a patch script | Not deliverables. The committed tools reproduce every recorded result |
 
 **Received in the session, as files the owner uploaded:**
 
@@ -86,4 +87,5 @@ Also received, as messages: the coordinator's creative brief and the owner's not
 | Version | Commit | What changed |
 | --- | --- | --- |
 | 1 | `7786b91` | The first index: delivered, still to be delivered, and the session's files |
-| 2 | The commit after `7786b91` on #144 | Exact heads and bases, complete path lists with SHA-256, the specification packet preserved, the uploaded inputs listed, and the completion request's scope |
+| 2 | `95d70f0` on #144 | Exact heads and bases, complete path lists with SHA-256, the specification packet preserved, the uploaded inputs listed, and the completion request's scope |
+| 3 | `7a2af10` and the commit after it on #158 | The Hospital films (S9, S5, S10) delivered in #158 with their complete path list; the Captain films in production next; S3's Backend dependency (#149, #153); the owner's 4-bed request (#155) |

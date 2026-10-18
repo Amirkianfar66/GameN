@@ -1,6 +1,6 @@
 {
   "devOnly": "mothership:dev-only",
-  "inputsSha256": "bb547e286d95b6a660d0dfc1efeb310e8905e7e77b48155a0396cb918f164a11",
+  "inputsSha256": "852ad7976f6879ee35220e51001141bd2003a243924ab9983487b5c43db870fb",
   "shots": [
     {
       "file": "board-320x568-ward.png",
@@ -1597,6 +1597,566 @@
       "shell": null,
       "fallback": null,
       "fits": null,
+      "boardProblems": []
+    },
+    {
+      "file": "medical-390x844-critical-r3.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=critical&round=3&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "medical-390x844-critical-r3-panel.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=critical&round=3&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "medical-390x844-critical-r5.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=critical&round=5&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "medical-390x844-critical-r5-panel.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=critical&round=5&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "medical-390x844-critical-entry-0150.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=critical&round=3&entry=2&t=150&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "medical-390x844-critical-entry-0300.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=critical&round=3&entry=2&t=300&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "medical-390x844-critical-r3-r7.png",
+      "viewport": "390x844",
+      "query": "roster=7&film=critical&round=3&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "medical-390x844-critical-r3-r8.png",
+      "viewport": "390x844",
+      "query": "roster=8&film=critical&round=3&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "medical-390x844-reduced-critical-r3.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=critical&round=3&motion=reduced&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "medical-320x568-critical-r3.png",
+      "viewport": "320x568",
+      "query": "roster=9&film=critical&round=3&hit=1",
+      "problems": [],
+      "shell": "compact",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "medical-320x568-critical-ward.png",
+      "viewport": "320x568",
+      "query": "roster=9&film=critical&fixture=ward&round=3&hit=1",
+      "problems": [],
+      "shell": "compact",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "medical-360x740-critical-ward.png",
+      "viewport": "360x740",
+      "query": "roster=9&film=critical&fixture=ward&round=3&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "medical-390x844-critical-ward.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=critical&fixture=ward&round=3&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "medical-430x932-critical-ward.png",
+      "viewport": "430x932",
+      "query": "roster=9&film=critical&fixture=ward&round=3&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "medical-390x844-critical-ward-r7.png",
+      "viewport": "390x844",
+      "query": "roster=7&film=critical&fixture=ward&round=3&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "medical-390x844-critical-ward-r8.png",
+      "viewport": "390x844",
+      "query": "roster=8&film=critical&fixture=ward&round=3&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "medical-390x844-rescue-0400.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=rescue&t=400&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "medical-390x844-rescue-1300.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=rescue&t=1300&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "medical-390x844-rescue-2000.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=rescue&t=2000&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "medical-390x844-rescue-2600.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=rescue&t=2600&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "medical-390x844-rescue-3300.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=rescue&t=3300&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "medical-390x844-rescue-3550.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=rescue&t=3550&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "medical-390x844-rescue-4000.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=rescue&t=4000&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "medical-390x844-rescue-4500.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=rescue&t=4500&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "medical-390x844-rescue-5200.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=rescue&t=5200&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "medical-390x844-rescue-5700.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=rescue&t=5700&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "medical-390x844-reduced-rescue-0040.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=rescue&t=40&motion=reduced&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "medical-390x844-reduced-rescue-0900.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=rescue&t=900&motion=reduced&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "medical-390x844-reduced-rescue-1720.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=rescue&t=1720&motion=reduced&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "medical-390x844-reduced-rescue-1800.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=rescue&t=1800&motion=reduced&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "medical-320x568-rescue-2600.png",
+      "viewport": "320x568",
+      "query": "roster=9&film=rescue&t=2600&hit=1",
+      "problems": [],
+      "shell": "compact",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "medical-320x568-rescue-4500.png",
+      "viewport": "320x568",
+      "query": "roster=9&film=rescue&t=4500&hit=1",
+      "problems": [],
+      "shell": "compact",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "medical-390x844-rescue-detained-2600.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=rescue&outcome=rescue-detained&t=2600&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "medical-390x844-rescue-detained-4500.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=rescue&outcome=rescue-detained&t=4500&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "medical-390x844-rescue-detained-5700.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=rescue&outcome=rescue-detained&t=5700&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "medical-390x844-vignette-2600.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=rescue&outcome=vignette&t=2600&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "medical-390x844-vignette-5700.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=rescue&outcome=vignette&t=5700&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "medical-390x844-vignette-2600-r7.png",
+      "viewport": "390x844",
+      "query": "roster=7&film=rescue&outcome=vignette&t=2600&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "medical-390x844-taken-2600.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=rescue&outcome=rescue-taken&t=2600&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "medical-390x844-ward-2600.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=rescue&outcome=rescue-ward&t=2600&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "medical-390x844-upper-2600.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=rescue&outcome=rescue-upper&t=2600&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "medical-320x568-ward-2600.png",
+      "viewport": "320x568",
+      "query": "roster=9&film=rescue&outcome=rescue-ward&t=2600&hit=1",
+      "problems": [],
+      "shell": "compact",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "medical-320x568-upper-2600.png",
+      "viewport": "320x568",
+      "query": "roster=9&film=rescue&outcome=rescue-upper&t=2600&hit=1",
+      "problems": [],
+      "shell": "compact",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "medical-390x844-rescue-2600-panel.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=rescue&t=2600&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "medical-390x844-rescue-3550-panel.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=rescue&t=3550&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "medical-390x844-rescue-4500-panel.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=rescue&t=4500&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "medical-390x844-flatline-0800.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=flatline&t=800&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "medical-390x844-flatline-2000.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=flatline&t=2000&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "medical-390x844-flatline-2700.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=flatline&t=2700&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "medical-390x844-flatline-3600.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=flatline&t=3600&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "medical-390x844-flatline-4300.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=flatline&t=4300&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "medical-390x844-reduced-flatline-0040.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=flatline&t=40&motion=reduced&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "medical-390x844-reduced-flatline-0900.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=flatline&t=900&motion=reduced&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "medical-320x568-flatline-2000.png",
+      "viewport": "320x568",
+      "query": "roster=9&film=flatline&t=2000&hit=1",
+      "problems": [],
+      "shell": "compact",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "medical-390x844-flatline-2000-panel.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=flatline&t=2000&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
+      "boardProblems": []
+    },
+    {
+      "file": "medical-390x844-flatline-2700-panel.png",
+      "viewport": "390x844",
+      "query": "roster=9&film=flatline&t=2700&hit=1",
+      "problems": [],
+      "shell": "tall",
+      "fallback": null,
+      "fits": true,
       "boardProblems": []
     }
   ],
@@ -5278,6 +5838,166 @@
     },
     {
       "compare": "the board and the top bar's box with the controls and without, 320x568, stage=declare&t=4000&viewer=participant&ui=sheet&claim=declare&command=side-choice",
+      "same": true
+    },
+    {
+      "compare": "the Hospital's critical on the display and on a player's screen, 390x844, film=critical&round=3",
+      "same": true
+    },
+    {
+      "compare": "the Hospital's rescue on the display and on a player's screen, 390x844, film=rescue&t=2600",
+      "same": true
+    },
+    {
+      "compare": "the Hospital's flatline on the display and on a player's screen, 390x844, film=flatline&t=2000",
+      "same": true
+    },
+    {
+      "compare": "the page after the rescue film (5700 ms) and before it (-2300 ms), 390x844",
+      "same": true
+    },
+    {
+      "compare": "the page after the rescue film (1800 ms) and before it (-1 ms), 390x844, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the page after the rescue-detained film (5700 ms) and before it (-2300 ms), 390x844",
+      "same": true
+    },
+    {
+      "compare": "the page after the rescue-detained film (1800 ms) and before it (-1 ms), 390x844, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the page after the vignette film (5700 ms) and before it (-2300 ms), 390x844",
+      "same": true
+    },
+    {
+      "compare": "the page after the vignette film (1800 ms) and before it (-1 ms), 390x844, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the page after the death film (4300 ms) and before it (-3700 ms), 390x844",
+      "same": true
+    },
+    {
+      "compare": "the page after the death film (1800 ms) and before it (-1 ms), 390x844, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "every room but the Hospital and the subject's (room-a) during the rescue film (2600 ms) and before it, 390x844",
+      "same": true
+    },
+    {
+      "compare": "every room but the Hospital and the subject's (room-a) during the rescue film (3550 ms) and before it, 390x844",
+      "same": true
+    },
+    {
+      "compare": "every room but the Hospital and the subject's (jail) during the rescue-detained film (2600 ms) and before it, 390x844",
+      "same": true
+    },
+    {
+      "compare": "every room but the Hospital and the subject's (room-b) during the vignette film (2600 ms) and before it, 390x844",
+      "same": true
+    },
+    {
+      "compare": "every room but the Hospital during the death film (2000 ms) and before it, 390x844",
+      "same": true
+    },
+    {
+      "compare": "every room but the Hospital during the death film (2700 ms) and before it, 390x844",
+      "same": true
+    },
+    {
+      "compare": "every room but the Hospital in the critical state (round 3) and on the plain board, 390x844",
+      "same": true
+    },
+    {
+      "compare": "every room but the Hospital in the critical state (round 5) and on the plain board, 390x844",
+      "same": true
+    },
+    {
+      "compare": "the top bar's box on the plain board and in each medical film, 390x844",
+      "same": true
+    },
+    {
+      "compare": "the Hospital's critical on the display and on a player's screen, 320x568, film=critical&round=3",
+      "same": true
+    },
+    {
+      "compare": "the Hospital's rescue on the display and on a player's screen, 320x568, film=rescue&t=2600",
+      "same": true
+    },
+    {
+      "compare": "the Hospital's flatline on the display and on a player's screen, 320x568, film=flatline&t=2000",
+      "same": true
+    },
+    {
+      "compare": "the page after the rescue film (5700 ms) and before it (-2300 ms), 320x568",
+      "same": true
+    },
+    {
+      "compare": "the page after the rescue film (1800 ms) and before it (-1 ms), 320x568, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the page after the rescue-detained film (5700 ms) and before it (-2300 ms), 320x568",
+      "same": true
+    },
+    {
+      "compare": "the page after the rescue-detained film (1800 ms) and before it (-1 ms), 320x568, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the page after the vignette film (5700 ms) and before it (-2300 ms), 320x568",
+      "same": true
+    },
+    {
+      "compare": "the page after the vignette film (1800 ms) and before it (-1 ms), 320x568, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "the page after the death film (4300 ms) and before it (-3700 ms), 320x568",
+      "same": true
+    },
+    {
+      "compare": "the page after the death film (1800 ms) and before it (-1 ms), 320x568, reduced motion",
+      "same": true
+    },
+    {
+      "compare": "every room but the Hospital and the subject's (room-a) during the rescue film (2600 ms) and before it, 320x568",
+      "same": true
+    },
+    {
+      "compare": "every room but the Hospital and the subject's (room-a) during the rescue film (3550 ms) and before it, 320x568",
+      "same": true
+    },
+    {
+      "compare": "every room but the Hospital and the subject's (jail) during the rescue-detained film (2600 ms) and before it, 320x568",
+      "same": true
+    },
+    {
+      "compare": "every room but the Hospital and the subject's (room-b) during the vignette film (2600 ms) and before it, 320x568",
+      "same": true
+    },
+    {
+      "compare": "every room but the Hospital during the death film (2000 ms) and before it, 320x568",
+      "same": true
+    },
+    {
+      "compare": "every room but the Hospital during the death film (2700 ms) and before it, 320x568",
+      "same": true
+    },
+    {
+      "compare": "every room but the Hospital in the critical state (round 3) and on the plain board, 320x568",
+      "same": true
+    },
+    {
+      "compare": "every room but the Hospital in the critical state (round 5) and on the plain board, 320x568",
+      "same": true
+    },
+    {
+      "compare": "the top bar's box on the plain board and in each medical film, 320x568",
       "same": true
     }
   ],

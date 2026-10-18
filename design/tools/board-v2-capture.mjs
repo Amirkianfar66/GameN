@@ -52,7 +52,19 @@
 // other room or target, keeps its pinned actions 44 px, clear of the Pass and pressable, scrolls
 // inside by exactly what turns.mjs plans, and shows the private claim whole in the result stage;
 // and where no board fits, the too-short page. It compares each page's board with the same page
-// without the controls, which must be the same. These are statements about desktop Chromium laying
+// without the controls, which must be the same. With the Hospital's medical films (&film=critical,
+// rescue and flatline; storyboards S9, S5 and S10) it measures that every patient's berth shows what
+// its public facts say (the monitor, the lamp, the bed light, the rescue tag from the server's values
+// and the detention tag) where the ward draws them, each tag where tagBox() puts it, whole in the
+// panel, out of the caption's band and off every name tag; that a film's parts are on the page
+// exactly while its frame draws them, where the frame puts them (the drone's lens to the pixel, at
+// the size droneFit() allows, the inset where insetBox() puts it), never over the caption or a
+// press area another seat holds, and nothing after its end; that no film is drawn where another seat
+// holds its berth; that its subject is drawn once, by the film, and everyone else where the snapshot
+// has them; that the room's light dips on its art alone; the client's words in the live region; and
+// a pointer on every slot meanwhile. It compares the display's page with a player's, the page after
+// each film with the page before it, every other room during a film with the same room before it,
+// and the top bar's box with the plain board's. These are statements about desktop Chromium laying
 // out a review page from synthetic fixtures and stand-ins sized from Frontend's measurements, not
 // measurements of a phone or of Frontend's controls, and nothing about a match.
 
@@ -69,7 +81,7 @@ const { CAPSULE, SHELL, fitBoardV2, boardRects, insetsOf, slotRects } = await im
 const { BLACKOUT, blackoutFrame, lightsBackAt } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/films/blackout.mjs')).href);
 const { BLACKOUT_OUTCOMES, fixtureSeats, settledSeats } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/js/fixtures.mjs')).href);
 const { addressSelection, lineText } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/js/blackout-view.mjs')).href);
-const { BOARD_ROOMS } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/scenes/slots.mjs')).href);
+const { BOARD_ROOMS, sceneOf } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/scenes/slots.mjs')).href);
 const { blockedFrame, blockedStartInBlackout } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/films/blocked.mjs')).href);
 const { LABEL_MARGIN } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/fx/label-box.mjs')).href);
 const { blockedTargets } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/js/blocked-view.mjs')).href);
@@ -79,7 +91,12 @@ const { CAPSULE_FILM, capsuleFrame } = await import(pathToFileURL(resolve(repoRo
 const { CAPSULE_SEATS } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/scenes/capsule.mjs')).href);
 const { SHEET_ROOMS, boardTargets, turnsLayout } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/js/turns.mjs')).href);
 const { ENLARGED } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/js/turns-view.mjs')).href);
-/** Words of a side or a role: never on a capsule page, which is public. */
+const { berthState, criticalFrame, filmBerth, flatlineEnd, flatlineFrame, rescueEnd, rescueFrame } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/films/medical.mjs')).href);
+const { DRONE, DRONE_SCENE, PULSE_BOX, PULSE_FLASH_RADIUS, berthKit, droneFit, insetBox, tagBox } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/fx/medical.mjs')).href);
+const { medicalOutcome, medicalSeats } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/js/medical-fixtures.mjs')).href);
+const { outcomeWords } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/js/medical-view.mjs')).href);
+const { frameScene } = await import(pathToFileURL(resolve(repoRoot, 'design/board-motion/scenes/frame.mjs')).href);
+/** Words of a side or a role: never on a capsule or medical page, which is public. */
 const PRIVATE_WORDS = /\b(?:Blue|Red|Officer|Insider|Cracker|Disabler|Supplier|Undercover|Hacker|Alien|faction)\b/;
 
 /** The phones the board is drawn on: the four the board-motion prototype is measured at. */
@@ -245,6 +262,65 @@ function plan() {
   turns('text2-side-choice', [375, 667], '&stage=declare&t=4000&viewer=participant&ui=sheet&claim=declare&command=side-choice&text=2', '200% text at 375 x 667: the narrower board (fallback narrow); the side choice scrolls inside the sheet');
   turns('text2-too-short', at320, `${talk}&ui=sheet&claim=conversation&text=2`, '200% text at 320 x 568: no board fits below the 124 px top bar, so the explicit too-short page with the navigation, as the owner decided');
   turns('safe-too-short', at320, `${talk}&ui=choosing&safe=20,0,16,0`, '320 x 568 with 20/16 px safe areas: 36 px short at any text size, so the too-short page, as the owner decided');
+  // The Hospital's medical films (storyboards S9, S5 and S10, js/medical-view.mjs) on the mixed board: Rigel (2) Injured
+  // at H1 since round 2, Mira (8) Injured and detained at H2 since round 3, a body at H4; each outcome's film over the
+  // snapshot published with it, t from the outcome's presentation start. Every slot pressed with a real pointer meanwhile.
+  const medical = (name, viewport, query, about, { roster = 9, panel = false } = {}) => shots.push({ file: `medical-${vp(viewport)}-${name}.png`, group: 'medical', viewport, query: `roster=${roster}${query}&hit=1`, about, medical: true, measure: true, ...(panel ? { selector: '.v2-room[data-room=hospital]', scale: 3 } : {}) });
+  medical('critical-r3', at390, '&film=critical&round=3', 'S9 in round 3: Rigel (H1), admitted in round 2, in his due round: the red lamp and an amber R3; Mira (H2, detained), admitted in round 3: the amber lamp, a cyan R4 and the detention tag; the body at H4, its equipment off and its bed light down');
+  medical('critical-r3-panel', at390, '&film=critical&round=3', 'S9: the Hospital panel alone (3x): the berths\' unstable traces, the lamps, the rescue tags and the detention tag', { panel: true });
+  medical('critical-r5', at390, '&film=critical&round=5', 'S9 in round 5: every patient a new round-5 injury, with no Rescue round left: a struck grey cross, no round and no deadline');
+  medical('critical-r5-panel', at390, '&film=critical&round=5', 'S9 in round 5: the Hospital panel alone (3x)', { panel: true });
+  medical('critical-entry-0150', at390, '&film=critical&round=3&entry=2&t=150', 'S9, an admission: Rigel\'s monitor booting, one bright line; no lamp or tag yet (150 ms after the INJURY outcome)');
+  medical('critical-entry-0300', at390, '&film=critical&round=3&entry=2&t=300', 'S9, an admission: the lamp on, the tag popping in (300 ms)');
+  medical('critical-r3-r7', at390, '&film=critical&round=3', 'S9, seven players: Rigel alone in the ward', { roster: 7 });
+  medical('critical-r3-r8', at390, '&film=critical&round=3', 'S9, eight players: Rigel and Mira', { roster: 8 });
+  medical('reduced-critical-r3', at390, '&film=critical&round=3&motion=reduced', 'S9, reduced motion: the same states, still: no sweep, no lamp pulse, no breath');
+  medical('critical-r3', at320, '&film=critical&round=3', 'S9 on the smallest phone: every tag whole in the Hospital\'s panel');
+  for (const viewport of VIEWPORTS) medical('critical-ward', viewport, '&film=critical&fixture=ward&round=3', `S9 with every seat Injured: a tag at every berth; the upper berths' plates are in the caption's band, so their tags go just below the caption, at ${viewport[0]} x ${viewport[1]}`);
+  for (const roster of [7, 8]) medical(`critical-ward-r${roster}`, at390, '&film=critical&fixture=ward&round=3', `S9, ${roster} patients: a tag at every berth`, { roster });
+  for (const [t, about] of [
+    [400, 'the alert: the lamp\'s second amber blink; the vitals inset open on the unstable trace'],
+    [1300, 'the drone coming down from the Hospital\'s ceiling dock, arms tucked; Rigel marked away at A2, where the snapshot has him, his name tag carried to the berth'],
+    [2000, 'over the bed, its arms unfolding'],
+    [2600, 'the scan line going down Rigel under the faint hologram'],
+    [3300, 'the probes and the lens charging'],
+    [3550, 'the revival pulse at the chest; Rigel\'s art jolting 2.5 px'],
+    [4000, 'the trace steadying, the lamp calm; the client\'s words, "Player 2: Healed.", in the live region'],
+    [4500, 'Rigel sitting up, Healthy, in the gown'],
+    [5200, 'the drone going back up to its dock; the inset closing'],
+    [5700, 'done: the snapshot, Rigel Healthy at A2; nothing the film added is left'],
+  ]) medical(`rescue-${String(t).padStart(4, '0')}`, at390, `&film=rescue&t=${t}`, `S5, Rigel (H1) healed: ${about} (${t} ms)`);
+  for (const [t, about] of [[40, 'the drone still over the bed and the inset fading in over 80 ms'], [900, 'switched once at 800 ms: the trace steady, the lamp calm, Rigel sitting up'], [1720, 'fading out'], [1800, 'done at 1 760 ms']]) {
+    medical(`reduced-rescue-${String(t).padStart(4, '0')}`, at390, `&film=rescue&t=${t}&motion=reduced`, `S5, reduced motion: ${about} (${t} ms)`);
+  }
+  medical('rescue-2600', at320, '&film=rescue&t=2600', 'S5 on the smallest phone: the scan (2 600 ms)');
+  medical('rescue-4500', at320, '&film=rescue&t=4500', 'S5 on the smallest phone: Rigel recovered (4 500 ms)');
+  for (const [t, about] of [[2600, 'the scan over Mira at H2, the detention tag kept on the berth'], [4500, 'Mira sitting up, Healthy, in the gown, still detained'], [5700, 'done: Mira in the Jail at J1, as the snapshot has her']]) {
+    medical(`rescue-detained-${String(t).padStart(4, '0')}`, at390, `&film=rescue&outcome=rescue-detained&t=${t}`, `S5, a detained patient healed: ${about} (${t} ms)`);
+  }
+  medical('vignette-2600', at390, '&film=rescue&outcome=vignette&t=2600', 'S5, injured and healed in one batch: Orion is in the Hospital in no snapshot; the film plays at the anchor the event names, the lowest free one, HV3 (berth H3); Orion marked away at B2 (2 600 ms)');
+  medical('vignette-5700', at390, '&film=rescue&outcome=vignette&t=5700', 'Done: Orion at B2, Healthy, as the snapshot has him (5 700 ms)');
+  medical('vignette-2600-r7', at390, '&film=rescue&outcome=vignette&t=2600', 'Seven players: the lowest free anchor is HV2, berth H2 (2 600 ms)', { roster: 7 });
+  medical('taken-2600', at390, '&film=rescue&outcome=rescue-taken&t=2600', 'Rigel healed while Lyra, injured in the same batch, takes H1, the berth he left and his anchor\'s: no film over Lyra; the client\'s words alone (2 600 ms)');
+  for (const viewport of [at390, at320]) {
+    medical('ward-2600', viewport, '&film=rescue&outcome=rescue-ward&t=2600', 'Every other berth holds a living patient: the inset in the band beside the caption, over no press area (2 600 ms)');
+    medical('upper-2600', viewport, '&film=rescue&outcome=rescue-upper&t=2600', 'A film at an upper berth (H8), the ward full: the drone below the caption\'s band, the inset beside the caption (2 600 ms)');
+  }
+  medical('rescue-2600-panel', at390, '&film=rescue&t=2600', 'S5: the scan, the Hospital panel alone (3x)', { panel: true });
+  medical('rescue-3550-panel', at390, '&film=rescue&t=3550', 'S5: the pulse, the Hospital panel alone (3x)', { panel: true });
+  medical('rescue-4500-panel', at390, '&film=rescue&t=4500', 'S5: recovered, the Hospital panel alone (3x)', { panel: true });
+  for (const [t, about] of [
+    [800, 'the inset open, the heartbeat slowing and thinning; the lamp\'s slow red pulse'],
+    [2000, 'the flatline; the Hospital\'s light dipped to 0.72, never dark; the client\'s words, "Player 2: Eliminated.", in the live region'],
+    [2700, 'the shutdown: the trace collapsing to a dot, the lamp and the bed light going out; Rigel still'],
+    [3600, 'the light back; the inset closing'],
+    [4300, 'done: the body at H1, its equipment off; nothing the film added is left'],
+  ]) medical(`flatline-${String(t).padStart(4, '0')}`, at390, `&film=flatline&t=${t}`, `S10, Rigel (H1) dies: ${about} (${t} ms)`);
+  medical('reduced-flatline-0040', at390, '&film=flatline&t=40&motion=reduced', 'S10, reduced motion: the flat trace and Rigel still, fading in over 80 ms (40 ms)');
+  medical('reduced-flatline-0900', at390, '&film=flatline&t=900&motion=reduced', 'S10, reduced motion: switched once at 800 ms, the screen and the lamp off; no dip, no pulse (900 ms)');
+  medical('flatline-2000', at320, '&film=flatline&t=2000', 'S10 on the smallest phone: the flatline (2 000 ms)');
+  medical('flatline-2000-panel', at390, '&film=flatline&t=2000', 'S10: the flatline, the Hospital panel alone (3x)', { panel: true });
+  medical('flatline-2700-panel', at390, '&film=flatline&t=2700', 'S10: the shutdown, the Hospital panel alone (3x)', { panel: true });
   return shots;
 }
 
@@ -642,6 +718,292 @@ function problemsOfFilm(shot, measured) {
   return problems;
 }
 
+/** Reads the Hospital's medical state back: the stage, every berth's monitor, lamp, bed light and tags, the film's inset, drone, light and name tag, every figure, the art's filter, the top bar and the live region. */
+const MEASURE_MEDICAL = `(() => {
+  const box = node => { const b = node.getBoundingClientRect(); return { left: b.left, top: b.top, width: b.width, height: b.height, right: b.right, bottom: b.bottom }; };
+  // A node's layout box in its panel (offsets, before any transform).
+  const layout = node => ({ left: node.offsetLeft, top: node.offsetTop, width: node.offsetWidth, height: node.offsetHeight });
+  const room = document.querySelector('.v2-room[data-room="hospital"]');
+  if (!room) return null;
+  const outer = room.getBoundingClientRect();
+  const art = room.querySelector('.v2-art');
+  const shown = node => getComputedStyle(node).visibility !== 'hidden';
+  const part = node => ({ ...box(node), layout: layout(node), file: (node.getAttribute('src') ?? '').split('/').pop(), opacity: Number(getComputedStyle(node).opacity), lamp: node.dataset.lamp ?? null, berth: node.dataset.berth ?? null, film: node.dataset.film ?? null, place: node.dataset.place ?? null, art: node.parentElement === art });
+  const parts = name => [...room.querySelectorAll('.v2-med__' + name)].filter(shown).map(part);
+  const caption = room.querySelector('.v2-cap');
+  const app = document.getElementById('v2-app');
+  const labels = [...app.querySelectorAll('[aria-label]')].map(node => node.getAttribute('aria-label')).join(' ');
+  return {
+    film: document.documentElement.dataset.film ?? null, stage: document.documentElement.dataset.stage ?? null,
+    scrolls: document.documentElement.scrollHeight > innerHeight + 1 || document.documentElement.scrollWidth > innerWidth + 1,
+    panel: { left: outer.left + room.clientLeft, top: outer.top + room.clientTop, width: room.clientWidth, height: room.clientHeight },
+    caption: caption ? { ...box(caption), layout: layout(caption) } : null,
+    screen: parts('screen'), lamp: parts('lamp'), bedlight: parts('bedlight'), inset: parts('inset'), drone: parts('drone'), scan: parts('scan'), hologram: parts('hologram'), pulse: parts('pulse'),
+    tags: [...room.querySelectorAll('.v2-medtag')].filter(shown).map(node => ({
+      ...box(node), layout: layout(node), berth: node.dataset.berth ?? null, film: node.dataset.film ?? null, opacity: Number(getComputedStyle(node).opacity),
+      tones: [...node.querySelectorAll('.v2-medtag__rescue')].map(rescue => [...rescue.classList].find(name => name.startsWith('v2-medtag__rescue--')).slice('v2-medtag__rescue--'.length)),
+      text: [...node.querySelectorAll('.v2-medtag__rescue b')].map(round => round.textContent),
+      detention: node.querySelectorAll('.v2-medtag__detention').length,
+      words: [...node.querySelectorAll('.v2-sr')].map(words => words.textContent),
+    })),
+    nameTags: [...room.querySelectorAll('.v2-tag[data-seat]')].filter(shown).map(node => ({ ...box(node), seat: Number(node.dataset.seat), film: node.dataset.film ?? null })),
+    // Who is drawn where, as the figure's own ids say it (s<seat><slot><health initial>), in the gown or not, and how a film marks it.
+    figures: [...app.querySelectorAll('.v2-fig[data-seat]')].map(node => ({ seat: Number(node.dataset.seat), room: node.closest('.v2-room')?.dataset.room ?? null, id: node.querySelector('[id]')?.id ?? '', gown: node.innerHTML.includes('-print)'), film: node.dataset.film ?? null, away: node.classList.contains('v2-fig--away'), hidden: getComputedStyle(node).visibility === 'hidden', translate: node.style.translate, opacity: node.style.opacity })),
+    filmNodes: app.querySelectorAll('[data-film]').length,
+    filter: art.style.filter,
+    live: document.querySelector('[data-live=public]')?.textContent ?? null,
+    phase: document.querySelector('.v2-top__phase')?.textContent ?? null,
+    text: app.textContent + ' ' + labels,
+  };
+})()`;
+
+/** What a medical page should show, from its query alone: the snapshot's seats with their medical facts, the outcome, its berth, whether its film plays, and the film's frame. */
+function medicalExpected(shot) {
+  const query = new URLSearchParams(shot.query);
+  const roster = Number(query.get('roster') ?? 9);
+  const film = query.get('film');
+  const reduced = query.get('motion') === 'reduced';
+  const round = Number(query.get('round') ?? 3);
+  const t = Number(query.get('t') ?? (film === 'critical' ? 1200 : film === 'flatline' ? 2000 : 2600));
+  const outcome = film === 'critical' ? null : medicalOutcome(query.get('outcome') ?? (film === 'flatline' ? 'death' : 'rescue'), roster);
+  const seats = medicalSeats(outcome ? outcome.after : fixtureSeats(query.get('fixture') ?? 'mixed', roster), { round });
+  const placed = outcome ? filmBerth(outcome.anchor, roster, outcome.after.map(seat => ({ seat: seat.seat, slotId: seat.room === 'hospital' ? seat.slot : null })), outcome.subject.seat) : null;
+  const end = film === 'rescue' ? rescueEnd(reduced) : film === 'flatline' ? flatlineEnd(reduced) : 0;
+  const frame = film === 'rescue' ? rescueFrame(t, placed.berth, { reduced }) : film === 'flatline' ? flatlineFrame(t, { reduced }) : null;
+  const during = Boolean(outcome) && t >= 0 && t < end;
+  return { roster, film, reduced, round, t, outcome, seats, berth: placed?.berth ?? null, plays: placed?.plays ?? false, frame, entry: query.has('entry') ? Number(query.get('entry')) : null, during, live: during && placed.plays };
+}
+
+const FIGURE_ID = /^s\d+([A-Z]\d+)([HIE])/;
+
+function problemsOfMedical(shot, m) {
+  if (!m) return ['no Hospital on the page'];
+  const problems = [];
+  const { roster, film, reduced, round, t, outcome, seats, berth, plays, entry, during, live } = medicalExpected(shot);
+  let { frame } = medicalExpected(shot);
+  const [width, height] = shot.viewport;
+  const panel = fitBoardV2({ width, height }, roster).panels.hospital;
+  const scene = frameScene(sceneOf('hospital', roster), panel);
+  // A point of the ward's scene on the page, and how far a drawn box's centre is from one.
+  const at = ([x, y]) => [m.panel.left + scene.tx + x * scene.k, m.panel.top + scene.ty + y * scene.k];
+  const off = (node, [x, y]) => Math.hypot(node.left + node.width / 2 - x, node.top + node.height / 2 - y);
+  const inside = (node, margin = 0) => node.left >= m.panel.left + margin - 0.5 && node.top >= m.panel.top + margin - 0.5 && node.right <= m.panel.left + m.panel.width - margin + 0.5 && node.bottom <= m.panel.top + m.panel.height - margin + 0.5;
+  const onCaption = node => Boolean(m.caption) && overlap(node, m.caption);
+  const same = (a, b) => ['left', 'top', 'width', 'height'].every(key => Math.abs(a[key] - b[key]) <= 0.6);
+  const rects = new Map(slotRects('hospital', roster, panel).map(rect => [rect.id, rect]));
+  const caption = m.caption?.layout ?? null;
+  // Where the review page's name tag for every other slot can be (medical-view.mjs nameTagBand()), which a berth's tags keep clear of.
+  const nameBands = id => [...rects.values()].filter(r => r.id !== id).map(r => ({ left: r.press[0] - 30, top: Math.min(panel.height - 16, r.top + r.side - 14), width: 60, height: 17 }));
+  // A slot's press area on the page.
+  const pressBox = id => { const r = rects.get(id); return { left: m.panel.left + r.left, top: m.panel.top + r.top, right: m.panel.left + r.left + r.side, bottom: m.panel.top + r.top + r.side }; };
+  if (m.scrolls) problems.push('the page scrolls');
+  if (Math.abs(m.panel.width - panel.width) > 0.6 || Math.abs(m.panel.height - panel.height) > 0.6) problems.push('the Hospital is not fit.mjs\'s panel');
+  if (m.film !== film) problems.push(`the page plays ${m.film}; the query ${film}`);
+  const stage = film === 'critical' ? 'critical' : plays ? frame.stage : 'none';
+  if (m.stage !== stage) problems.push(`the page is at ${m.stage}; the film says ${stage}`);
+  if (m.phase !== (film === 'critical' ? `Round ${round}` : `Round ${round}: results`)) problems.push(`the top bar says "${m.phase}"`);
+  const words = m.text.match(PRIVATE_WORDS);
+  if (words) problems.push(`"${words[0]}" is on the page`);
+
+  // Everyone where the snapshot published with the outcome has them, in their health: a film moves nobody.
+  for (const seat of seats) {
+    const drawn = m.figures.filter(figure => !figure.film && figure.seat === seat.seat);
+    if (!drawn.length) problems.push(`seat ${seat.seat} is not drawn`);
+    for (const figure of drawn) {
+      const [, slot, health] = FIGURE_ID.exec(figure.id) ?? [];
+      if (figure.room !== seat.room || slot !== seat.slot || health !== seat.health[0]) problems.push(`seat ${seat.seat} drawn as ${figure.id} in ${figure.room}; the snapshot has ${seat.slot}, ${seat.health}`);
+    }
+  }
+
+  // Every Hospital occupant's berth, from the snapshot's public facts alone; nothing at a berth nobody holds. The
+  // film's own berth is the film's while it plays.
+  const patients = seats.filter(seat => seat.location === 'Hospital');
+  const held = new Set(patients.map(seat => seat.slotId));
+  for (const kind of ['screen', 'lamp', 'bedlight']) {
+    for (const node of m[kind].filter(entry => !entry.film)) {
+      if (!held.has(node.berth)) problems.push(`a ${kind} at ${node.berth}, which nobody holds`);
+      if (!node.art) problems.push(`${node.berth}'s ${kind} is not in the room's art`);
+    }
+  }
+  for (const tag of m.tags.filter(entry => !entry.film)) if (!held.has(tag.berth)) problems.push(`a tag at ${tag.berth}, which nobody holds`);
+  for (const seat of patients) {
+    const id = seat.slotId;
+    const state = berthState(seat);
+    const kit = berthKit(id);
+    const own = kind => m[kind].filter(node => !node.film && node.berth === id);
+    const tags = m.tags.filter(tag => !tag.film && tag.berth === id);
+    if (live && id === berth) {
+      if (own('screen').length + own('lamp').length + own('bedlight').length + tags.length) problems.push(`${id}: its state drawn under the film`);
+      continue;
+    }
+    const critical = state.monitor === 'unstable' ? criticalFrame(t, { reduced, entryT: entry === seat.seat ? t : null }) : null;
+    // The monitor: an Injured patient's unstable trace (booting on admission), on the ward's own monitor.
+    const screens = own('screen');
+    if (screens.length !== (critical ? 1 : 0)) problems.push(`${id}: ${screens.length} monitors lit`);
+    for (const screen of screens) {
+      const want = `berth-screen-${critical.monitor.kind === 'boot' ? 'boot' : 'unstable'}.svg`;
+      if (screen.file !== want) problems.push(`${id}: the monitor shows ${screen.file}, not ${want}`);
+      if (off(screen, at([kit.monitor.x + kit.monitor.w / 2, kit.monitor.y + kit.monitor.h / 2])) > 0.6 || Math.abs(screen.width - kit.monitor.w * scene.k) > 0.6) problems.push(`${id}: the monitor is not the ward's`);
+    }
+    // The lamp: red while the due round is in progress, else amber, pulsing slowly; off for a body.
+    const lamps = own('lamp');
+    if (lamps.length !== 1) problems.push(`${id}: ${lamps.length} lamps`);
+    for (const lamp of lamps) {
+      if (lamp.lamp !== state.lamp || lamp.file !== `lamp-${state.lamp}.svg`) problems.push(`${id}: the lamp is ${lamp.lamp} (${lamp.file}); the facts say ${state.lamp}`);
+      if (off(lamp, at([kit.lamp.cx, kit.lamp.cy])) > 0.6) problems.push(`${id}: the lamp is not the ward's`);
+      const opacity = critical ? (critical.lamp.on ? critical.lamp.opacity : 0) : 1;
+      if (Math.abs(lamp.opacity - opacity) > 0.01) problems.push(`${id}: the lamp at ${lamp.opacity}; the frame says ${opacity}`);
+    }
+    // The patient's figure: arriving in the berth on admission, as the frame says; its breath on its art alone.
+    for (const figure of m.figures.filter(entry => !entry.film && entry.seat === seat.seat)) {
+      const opacity = critical ? critical.figure.opacity : 1;
+      if ((figure.opacity === '' ? 1 : Number(figure.opacity)) !== opacity) problems.push(`${id}: the patient at opacity ${figure.opacity || 1}; the frame says ${opacity}`);
+      const breath = critical?.breath ? `0px ${critical.breath}px` : '';
+      if (!figure.hidden && figure.translate !== breath && !(live && id === berth)) problems.push(`${id}: the patient moved by "${figure.translate}"; the frame says "${breath}"`);
+    }
+    // The bed light: down for a body alone.
+    const bedlights = own('bedlight');
+    if (bedlights.length !== (state.bedLight === 'off' ? 1 : 0)) problems.push(`${id}: ${bedlights.length} bed lights down`);
+    for (const light of bedlights) if (off(light, at([kit.bedLight.cx, kit.bedLight.cy])) > 0.6) problems.push(`${id}: the bed light is not the berth's`);
+    // The tags: the rescue tag from the server's values, then the detention tag; where tagBox() puts them (on the
+    // berth's plate, or below the caption), whole in the panel and off the caption.
+    const want = { tones: state.tag ? [state.tag.tone] : [], text: state.tag?.text ? [state.tag.text] : [], detention: state.detention ? 1 : 0, words: [...(state.tag ? [`${state.tag.label}.`] : []), ...(state.detention ? ['Detained.'] : [])] };
+    if (tags.length !== (state.tag || state.detention ? 1 : 0)) problems.push(`${id}: ${tags.length} tags`);
+    for (const tag of tags) {
+      const got = { tones: tag.tones, text: tag.text, detention: tag.detention, words: tag.words };
+      if (JSON.stringify(got) !== JSON.stringify(want)) problems.push(`${id}: the tag is ${JSON.stringify(got)}; the facts say ${JSON.stringify(want)}`);
+      if (!inside(tag, 2)) problems.push(`${id}: the tag leaves the panel`);
+      if (onCaption(tag)) problems.push(`${id}: the tag is over the caption`);
+      const place = tagBox({ plate: rects.get(id).badge, size: [tag.layout.width, tag.layout.height], panel, keepClear: nameBands(id) });
+      if (Math.abs(tag.layout.left - place.left) > 0.6 || Math.abs(tag.layout.top - place.top) > 0.6) problems.push(`${id}: the tag is at ${tag.layout.left.toFixed(1)},${tag.layout.top.toFixed(1)}; tagBox() puts it at ${place.left.toFixed(1)},${place.top.toFixed(1)}`);
+      const opacity = critical ? critical.tag.opacity : 1;
+      if (Math.abs(tag.opacity - opacity) > 0.01) problems.push(`${id}: the tag at ${tag.opacity}; the frame says ${opacity}`);
+      // Never over a name tag.
+      for (const name of m.nameTags) if (overlap(tag, name)) problems.push(`${id}: the tag is over seat ${name.seat}'s name tag by ${(Math.min(tag.bottom, name.bottom) - Math.max(tag.top, name.top)).toFixed(1)} px`);
+    }
+  }
+
+  // The words: the client's for the outcome (outcomeWords()), at the film's announce beat, or at once where no film plays.
+  const sentence = during && (plays ? frame.announce : true) ? outcomeWords(outcome.subject.seat, film === 'rescue' ? 'HEALED' : 'DEATH') : '';
+  if (m.live === null) problems.push('no public live region');
+  else if (m.live !== sentence) problems.push(`the live region says "${m.live}"; it should say "${sentence}"`);
+
+  // The film: on the page exactly while it plays, each part where the frame puts it; nothing it added after its end,
+  // and nothing at all where another seat holds the berth.
+  if (!live) {
+    if (m.filmNodes) problems.push(`${m.filmNodes} nodes of the film on the page ${frame?.done ? 'after its end' : plays ? 'outside it' : 'where it cannot play'}`);
+    if (m.filter) problems.push(`the Hospital's art is filtered (${m.filter}) outside the film`);
+    for (const figure of m.figures) if (figure.away || figure.hidden) problems.push(`seat ${figure.seat} is ${figure.away ? 'marked away' : 'hidden'} outside the film`);
+    return problems;
+  }
+  const kit = berthKit(berth);
+  const subject = outcome.subject.seat;
+  const after = outcome.after.find(seat => seat.seat === subject);
+  const ownBerth = after.room === 'hospital' && after.slot === berth;
+  const parts = kind => m[kind].filter(node => node.film).map(node => ({ kind, ...node }));
+  // The berth's own monitor, lamp and bed light, as the frame has them, in the room's art.
+  const screenKind = frame.inset.kind === 'off' ? null : frame.inset.kind;
+  const screens = parts('screen');
+  if (screens.length !== (screenKind ? 1 : 0) || (screenKind && screens[0].file !== `berth-screen-${screenKind}.svg`)) problems.push(`the film's monitor shows ${screens.map(node => node.file).join() || 'nothing'}; the frame ${screenKind ?? 'nothing'}`);
+  for (const screen of screens) if (off(screen, at([kit.monitor.x + kit.monitor.w / 2, kit.monitor.y + kit.monitor.h / 2])) > 0.6) problems.push('the film\'s monitor is not the berth\'s');
+  const lampState = frame.lamp.state === 'dark' ? 'off' : frame.lamp.state;
+  const lamps = parts('lamp');
+  if (lamps.length !== 1 || lamps[0].file !== `lamp-${lampState}.svg`) problems.push(`the film's lamp is ${lamps.map(node => node.file).join() || 'missing'}; the frame ${lampState}`);
+  for (const lamp of lamps) {
+    if (off(lamp, at([kit.lamp.cx, kit.lamp.cy])) > 0.6) problems.push('the film\'s lamp is not the berth\'s');
+    const opacity = lampState === 'off' ? 1 : frame.lamp.opacity;
+    if (Math.abs(lamp.opacity - opacity) > 0.01) problems.push(`the film's lamp at ${lamp.opacity}; the frame ${opacity}`);
+  }
+  const lights = parts('bedlight');
+  if (lights.length !== ((frame.bedLight ?? 0) > 0 ? 1 : 0)) problems.push(`${lights.length} bed lights down; the frame ${frame.bedLight ?? 0}`);
+  for (const light of lights) if (Math.abs(light.opacity - frame.bedLight) > 0.01 || off(light, at([kit.bedLight.cx, kit.bedLight.cy])) > 0.6) problems.push(`the film's bed light at ${light.opacity}; the frame ${frame.bedLight}`);
+  for (const node of [...screens, ...lamps, ...lights]) if (!node.art) problems.push(`the film's ${node.kind} is not in the room's art`);
+  // The vitals inset: where insetBox() puts it, never over the caption or over a press area another seat holds.
+  const living = outcome.after.filter(seat => seat.room === 'hospital' && seat.slot !== berth).map(seat => rects.get(seat.slot));
+  const livingBoxes = living.map(r => ({ left: r.left, top: r.top, width: r.side, height: r.side }));
+  const place = insetBox({ rect: rects.get(berth), panel, width: Math.max(60, Math.min(84, Math.round(panel.width * 0.42))), caption, keepClear: livingBoxes });
+  // The drone's size over the berth: the share droneFit() allows under the caption and the other seats' press areas.
+  const fit = droneFit({ kit, frame: scene, keepClear: [...(caption ? [{ left: caption.left - LABEL_MARGIN, top: caption.top - LABEL_MARGIN, width: caption.width + 2 * LABEL_MARGIN, height: caption.height + 2 * LABEL_MARGIN }] : []), ...livingBoxes] });
+  if (film === 'rescue') frame = rescueFrame(t, berth, { reduced, fit });
+  const insets = parts('inset');
+  if (insets.length !== (place && frame.inset.opacity > 0 ? 1 : 0)) problems.push(`${insets.length} insets; insetBox() ${place ? place.place : 'finds no room'}, the frame's at ${frame.inset.opacity}`);
+  for (const inset of insets) {
+    if (!place || !same(inset.layout, place) || inset.place !== place.place) problems.push(`the inset is at ${JSON.stringify(inset.layout)} (${inset.place}); insetBox() ${JSON.stringify(place)}`);
+    if (Math.abs(inset.opacity - frame.inset.opacity) > 0.01) problems.push(`the inset at ${inset.opacity}; the frame ${frame.inset.opacity}`);
+    if (!inside(inset, LABEL_MARGIN)) problems.push('the inset leaves the panel');
+    if (onCaption(inset)) problems.push('the inset is over the caption');
+    for (const id of [berth, ...living.map(r => r.id)]) if (overlap(inset, pressBox(id))) problems.push(`the inset is over ${id}'s press area`);
+  }
+  if (film === 'rescue') {
+    // The drone: its lens where the frame puts it, from the Hospital's dock to the berth and back, drawn at the
+    // berth's scale; whole in the panel and off the caption while it treats the patient.
+    const drones = parts('drone');
+    if (drones.length !== (frame.drone.at ? 1 : 0)) problems.push(`${drones.length} drones; the frame ${frame.drone.at ? 'one' : 'none'}`);
+    for (const drone of frame.drone.at ? drones : []) {
+      if (drone.file !== `drone-${frame.drone.frame}.svg`) problems.push(`the drone is ${drone.file}; the frame ${frame.drone.frame}`);
+      const lens = [drone.left + (DRONE.lens[0] / DRONE.w) * drone.width, drone.top + (DRONE.lens[1] / DRONE.h) * drone.height];
+      const want = at(frame.drone.at);
+      if (Math.hypot(lens[0] - want[0], lens[1] - want[1]) > 1) problems.push(`the drone's lens at ${lens.map(Math.round).join(',')}; the frame ${want.map(Math.round).join(',')}`);
+      if (Math.abs(drone.width - DRONE_SCENE.width * kit.scale * scene.k * fit) > 0.6) problems.push(`the drone is ${drone.width.toFixed(1)} px wide, not the berth's scale at fit ${fit}`);
+      if (Math.abs(drone.opacity - frame.drone.opacity) > 0.01) problems.push(`the drone at ${drone.opacity}; the frame ${frame.drone.opacity}`);
+      if (!['alert', 'arrive', 'depart'].includes(frame.stage) && (!inside(drone) || onCaption(drone))) problems.push('the drone leaves the panel or covers the caption while it treats the patient');
+      // Over the berth, it covers no press area another seat holds.
+      if (!['alert', 'arrive', 'depart'].includes(frame.stage)) for (const r of living) if (overlap(drone, pressBox(r.id))) problems.push(`the drone is over ${r.id}'s press area`);
+    }
+    const scans = parts('scan');
+    if (scans.length !== (frame.scan.opacity > 0 ? 1 : 0)) problems.push(`${scans.length} scan lines; the frame's at ${frame.scan.opacity}`);
+    for (const scan of scans) if (off(scan, at([kit.c, kit.bed.y + kit.bed.h * 0.7 * frame.scan.y])) > 0.6) problems.push('the scan line is not where the frame puts it');
+    const holograms = parts('hologram');
+    if (holograms.length !== (frame.hologram.opacity > 0 ? 1 : 0)) problems.push(`${holograms.length} holograms; the frame's at ${frame.hologram.opacity}`);
+    for (const hologram of holograms) if (Math.abs(hologram.opacity - frame.hologram.opacity) > 0.01) problems.push(`the hologram at ${hologram.opacity}; the frame ${frame.hologram.opacity}`);
+    // The pulse: at the chest; its white-hot core (frame 1) a small part of the panel, never a room-wide flash.
+    const pulses = parts('pulse');
+    if (pulses.length !== (frame.pulse.frame ? 1 : 0)) problems.push(`${pulses.length} pulses; the frame ${frame.pulse.frame}`);
+    for (const pulse of pulses) {
+      if (pulse.file !== `pulse-${frame.pulse.frame}.svg`) problems.push(`the pulse is ${pulse.file}; the frame ${frame.pulse.frame}`);
+      if (off(pulse, at(kit.chest)) > 0.6) problems.push('the pulse is not at the chest');
+      const core = (PULSE_FLASH_RADIUS / PULSE_BOX) * pulse.width;
+      if (frame.pulse.frame === 1 && Math.PI * core * core > BLACKOUT.flashLimit.panelShare * m.panel.width * m.panel.height) problems.push('the pulse\'s core flashes over a quarter of the panel');
+    }
+    if (m.filter) problems.push(`the Hospital's art is filtered (${m.filter}) in a rescue`);
+  } else {
+    if (['drone', 'scan', 'hologram', 'pulse'].some(kind => parts(kind).length)) problems.push('the drone in a flatline');
+    // The room's light dips on its art alone, never to darkness.
+    const want = frame.room < 1 ? `brightness(${frame.room})` : '';
+    if (m.filter !== want) problems.push(`the Hospital's art filter is "${m.filter}"; the frame ${want || 'none'}`);
+  }
+  // The subject: drawn by the film at the berth, in the frame's pose and the gown; where the snapshot has it, hidden at
+  // its own berth or marked away elsewhere, so never in two places; nobody else touched.
+  const health = { injured: 'I', healthy: 'H', still: 'E' }[frame.patient.pose];
+  const [dx, dy] = frame.patient.offset;
+  const moved = dx || dy ? `${dx}px ${dy}px` : '';
+  const filmed = m.figures.filter(figure => figure.film);
+  if (!filmed.length) problems.push('the film draws nobody');
+  for (const figure of filmed) {
+    const [, slot, initial] = FIGURE_ID.exec(figure.id) ?? [];
+    if (figure.seat !== subject || figure.room !== 'hospital' || slot !== berth || initial !== health) problems.push(`the film draws ${figure.id} in ${figure.room}; the frame has seat ${subject} at ${berth}, ${frame.patient.pose}`);
+    if (!figure.gown) problems.push('the film\'s patient is not in the gown');
+    if (figure.translate !== moved) problems.push(`the film's patient moved by "${figure.translate}"; the frame "${moved}"`);
+  }
+  for (const figure of m.figures.filter(entry => !entry.film)) {
+    if (figure.seat !== subject) { if (figure.away || figure.hidden) problems.push(`seat ${figure.seat}, not the film's, is ${figure.away ? 'marked away' : 'hidden'}`); continue; }
+    if (ownBerth ? !figure.hidden : figure.hidden || !figure.away) problems.push(`seat ${subject} where the snapshot has it is ${figure.hidden ? 'hidden' : figure.away ? 'marked away' : 'drawn as it is'}; it should be ${ownBerth ? 'hidden at its own berth' : 'marked away'}`);
+  }
+  // Its name: the board's own tag at its berth, or, drawn away from its snapshot place, the film's tag at the berth.
+  const filmTags = m.nameTags.filter(tag => tag.film);
+  if (filmTags.length !== (ownBerth ? 0 : 1) || filmTags.some(tag => tag.seat !== subject)) problems.push(`the film carries ${filmTags.length} name tags; the subject is ${ownBerth ? 'at its own berth' : 'drawn away from its place'}`);
+  for (const tag of filmTags) if (Math.abs(tag.left + tag.width / 2 - (m.panel.left + rects.get(berth).press[0])) > 1) problems.push('the film\'s name tag is not at its berth');
+  // A detained subject keeps the detention tag on the berth's plate for the whole film.
+  const kept = m.tags.filter(tag => tag.film);
+  if (kept.length !== (after.jailed ? 1 : 0) || kept.some(tag => tag.detention !== 1 || tag.tones.length || tag.words.join() !== 'Detained.')) problems.push(`the film keeps ${kept.length} tags; the subject is ${after.jailed ? '' : 'not '}detained`);
+  for (const tag of kept) {
+    for (const name of m.nameTags) if (overlap(tag, name)) problems.push(`the detention tag is over seat ${name.seat}'s name tag`);
+    const place = tagBox({ plate: rects.get(berth).badge, size: [tag.layout.width, tag.layout.height], panel, keepClear: nameBands(berth) });
+    if (!inside(tag, 2) || Math.abs(tag.layout.left - place.left) > 0.6 || Math.abs(tag.layout.top - place.top) > 0.6) problems.push('the detention tag is not where tagBox() puts it');
+  }
+  return problems;
+}
+
 /** What a pointer measurement says is wrong: a slot's press area under something else, or smaller than 44 px. */
 function pointerProblems(measured) {
   const problems = [];
@@ -1000,6 +1362,37 @@ async function pressTests(browser, server) {
   return tests;
 }
 
+/** The medical films' page comparisons (see the main run), with pageAt(viewport, query) loading a page's markup. */
+async function medicalComparisons(pageAt) {
+  const out = [];
+  const others = (page, ...skip) => JSON.stringify(Object.entries(JSON.parse(page.rooms)).filter(([room]) => room !== 'hospital' && !skip.includes(room)));
+  const boxOf = page => JSON.stringify(JSON.parse(page.bar)[0]?.slice(0, 5) ?? null);
+  for (const viewport of [[390, 844], [320, 568]]) {
+    for (const query of ['film=critical&round=3', 'film=rescue&t=2600', 'film=flatline&t=2000']) {
+      const [player, display] = await Promise.all([pageAt(viewport, `roster=9&${query}`), pageAt(viewport, `roster=9&${query}&viewer=display`)]);
+      out.push({ compare: `the Hospital's ${query.split('&')[0].slice(5)} on the display and on a player's screen, ${vp(viewport)}, ${query}`, same: player.html === display.html });
+    }
+    for (const [outcome, film, after, before] of [['rescue', 'rescue', 5700, -2300], ['rescue-detained', 'rescue', 5700, -2300], ['vignette', 'rescue', 5700, -2300], ['death', 'flatline', 4300, -3700]]) {
+      for (const reducedMotion of ['', '&motion=reduced']) {
+        const [a, b] = reducedMotion ? [1800, -1] : [after, before];
+        const [done, ahead] = await Promise.all([a, b].map(t => pageAt(viewport, `roster=9&film=${film}&outcome=${outcome}&t=${t}${reducedMotion}`)));
+        out.push({ compare: `the page after the ${outcome} film (${a} ms) and before it (${b} ms), ${vp(viewport)}${reducedMotion ? ', reduced motion' : ''}`, same: done.html === ahead.html });
+      }
+    }
+    for (const [outcome, film, t, away] of [['rescue', 'rescue', 2600, 'room-a'], ['rescue', 'rescue', 3550, 'room-a'], ['rescue-detained', 'rescue', 2600, 'jail'], ['vignette', 'rescue', 2600, 'room-b'], ['death', 'flatline', 2000, null], ['death', 'flatline', 2700, null]]) {
+      const [during, ahead] = await Promise.all([t, t - 8000].map(time => pageAt(viewport, `roster=9&film=${film}&outcome=${outcome}&t=${time}`)));
+      out.push({ compare: `every room but the Hospital${away ? ` and the subject's (${away})` : ''} during the ${outcome} film (${t} ms) and before it, ${vp(viewport)}`, same: others(during, away) === others(ahead, away) });
+    }
+    for (const round of [3, 5]) {
+      const [critical, plain] = await Promise.all([pageAt(viewport, `roster=9&fixture=mixed&film=critical&round=${round}`), pageAt(viewport, 'roster=9&fixture=mixed')]);
+      out.push({ compare: `every room but the Hospital in the critical state (round ${round}) and on the plain board, ${vp(viewport)}`, same: others(critical) === others(plain) });
+    }
+    const bars = await Promise.all(['roster=9&fixture=mixed', 'roster=9&film=critical', 'roster=9&film=rescue&t=2600', 'roster=9&film=flatline&t=2000'].map(query => pageAt(viewport, query)));
+    out.push({ compare: `the top bar's box on the plain board and in each medical film, ${vp(viewport)}`, same: bars.every(page => boxOf(page) === boxOf(bars[0])) && boxOf(bars[0]) !== 'null' });
+  }
+  return out;
+}
+
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const shots = plan();
   await rm(resolve(repoRoot, OUT), { recursive: true, force: true });
@@ -1022,8 +1415,9 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
       const blockedMeasured = shot.blocked ? await page.evaluate(MEASURE_BLOCKED) : null;
       const capsuleMeasured = shot.capsule ? await page.evaluate(MEASURE_CAPSULE) : null;
       const turnsMeasured = shot.turns ? await page.evaluate(MEASURE_TURNS) : null;
+      const medicalMeasured = shot.medical ? await page.evaluate(MEASURE_MEDICAL) : null;
       await page.screenshot(resolve(repoRoot, OUT, shot.file), { selector: shot.selector ?? null, viewport: !shot.selector });
-      const problems = [...(measured ? problemsOf(shot, measured) : []), ...(filmed ? problemsOfFilm(shot, filmed) : []), ...(blockedMeasured ? problemsOfBlocked(shot, blockedMeasured) : []), ...(capsuleMeasured ? problemsOfCapsule(shot, capsuleMeasured) : []), ...(turnsMeasured ? problemsOfTurns(shot, turnsMeasured) : []), ...page.problems()];
+      const problems = [...(measured ? problemsOf(shot, measured) : []), ...(filmed ? problemsOfFilm(shot, filmed) : []), ...(blockedMeasured ? problemsOfBlocked(shot, blockedMeasured) : []), ...(capsuleMeasured ? problemsOfCapsule(shot, capsuleMeasured) : []), ...(turnsMeasured ? problemsOfTurns(shot, turnsMeasured) : []), ...(shot.medical ? problemsOfMedical(shot, medicalMeasured) : []), ...page.problems()];
       const fit = shot.measure ? fitBoardV2({ width, height }, Number(new URLSearchParams(shot.query).get('roster') ?? 9), { insets: insetsOf(new URLSearchParams(shot.query).get('safe')), capsule: Boolean(shot.capsule) }) : null;
       report.push({ file: shot.file, viewport: `${width}x${height}`, query: shot.query, problems, shell: fit?.shell.tier ?? null, fallback: fit?.fallback ?? null, fits: fit?.fits ?? null, boardProblems: fit?.problems ?? [] });
       console.log(`${problems.length ? 'PROBLEM' : 'ok     '} ${shot.file}${problems.length ? `: ${problems.join('; ')}` : ''}`);
@@ -1092,8 +1486,9 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
       const html = await page.evaluate(`document.getElementById('v2-app').innerHTML`);
       const surface = await page.evaluate(`document.querySelector('.v2-board')?.innerHTML ?? null`);
       const bar = await page.evaluate(`JSON.stringify(['.v2-top', '.v2-top__row', '.v2-top__line', '.v2-top__phase', '.v2-top__timer'].map(selector => { const node = document.querySelector(selector); if (!node || node.hidden) return null; const b = node.getBoundingClientRect(); const c = getComputedStyle(node); return [selector, b.left, b.top, b.width, b.height, c.backgroundColor, c.color, c.fontSize, c.fontWeight, c.lineHeight, c.borderColor, c.opacity]; }))`);
+      const rooms = await page.evaluate(`JSON.stringify(Object.fromEntries([...document.querySelectorAll('.v2-room[data-room]')].map(node => [node.dataset.room, node.innerHTML])))`);
       await page.close();
-      return { html, bar, surface };
+      return { html, bar, surface, rooms };
     };
     const base = 'roster=9&fixture=mixed&film=blackout';
     for (const viewport of [[390, 844], [320, 568]]) {
@@ -1194,6 +1589,11 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
         disclosure.push({ compare: `the board and the top bar's box with the controls and without, ${vp(viewport)}, ${query.replace(`${capsuleBase}&`, '')}`, same: withControls.surface !== null && withControls.surface === without.surface && box(withControls.bar) === box(without.bar) });
       }
     }
+    // The Hospital's medical films: public, the display's page a player's; once a film is over, the page is the page
+    // before it began, nothing left (full motion at the same phase of the decorative loops, 8 000 ms apart); while it
+    // plays, no room touched but the Hospital and the room where the subject is marked away; the critical state no
+    // room but the Hospital; and the top bar's box the plain board's.
+    disclosure.push(...await medicalComparisons(pageAt));
     for (const entry of disclosure) console.log(`${entry.same ? 'same   ' : 'DIFFERS'} ${entry.compare}`);
     // The label for every slot of every room: every slot taken, each blocked at once (the art review's
     // screen, which no player receives), measured but not pictured.
@@ -1219,7 +1619,7 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
     const index = { devOnly: 'mothership:dev-only', inputsSha256, note: 'Desktop Chromium laying out design/board-v2/index.html from synthetic fixtures. Not a phone measurement and nothing about a match.', captures: shots.map(({ file, group, query, about, sheetHeight }) => ({ file, group, query, about, sheetHeight })) };
     await writeFile(resolve(repoRoot, OUT, 'index.json'), `${JSON.stringify(index, null, 2)}\n`);
     await writeFile(resolve(repoRoot, OUT, 'report.json'), `${JSON.stringify({ devOnly: 'mothership:dev-only', inputsSha256, shots: report, probes, interactions, disclosure, labels }, null, 2)}\n`);
-    for (const [file, query] of [['contact.png', ''], ['contact-blackout.png', '?group=blackout'], ['contact-blocked.png', '?group=blocked'], ['contact-capsule.png', '?group=capsule'], ['contact-turns.png', '?group=turns']]) {
+    for (const [file, query] of [['contact.png', ''], ['contact-blackout.png', '?group=blackout'], ['contact-blocked.png', '?group=blocked'], ['contact-capsule.png', '?group=capsule'], ['contact-turns.png', '?group=turns'], ['contact-medical.png', '?group=medical']]) {
       const page = await openPage(browser, { width: 1600, height: 900, scale: 1 });
       await page.goto(`${server.origin}/board-v2/contact.html${query}`, 'document.readyState === "complete" && window.__designReady === true');
       await page.fitHeight();
@@ -1236,6 +1636,6 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
   const probing = probes.filter(entry => entry.problems.length);
   const pressing = interactions.filter(entry => entry.problems.length);
   const misplaced = labels.filter(entry => entry.problems.length);
-  console.log(`Board-v2 captures: ${report.length} pictures and five contact sheets, ${failing.length} with problems; ${probes.length} pointer probes, ${probing.length} with problems; ${interactions.length} press tests, ${pressing.length} with problems; ${disclosure.length} page comparisons, ${differing.length} differing; ${labels.length} label placements, ${misplaced.length} with problems`);
+  console.log(`Board-v2 captures: ${report.length} pictures and six contact sheets, ${failing.length} with problems; ${probes.length} pointer probes, ${probing.length} with problems; ${interactions.length} press tests, ${pressing.length} with problems; ${disclosure.length} page comparisons, ${differing.length} differing; ${labels.length} label placements, ${misplaced.length} with problems`);
   if (failing.length || probing.length || pressing.length || differing.length || misplaced.length) process.exitCode = 1;
 }
