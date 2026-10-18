@@ -10,7 +10,7 @@ const root = new URL('../', import.meta.url);
 const read = path => readFileSync(new URL(path, root));
 const json = path => JSON.parse(read(path));
 const hash = path => createHash('sha256').update(read(path)).digest('hex');
-console.log(`Board V2 exact runtime ports: ${verifyBoardV2RuntimePorts(fileURLToPath(root))} approved source/derivative pairs`);
+console.log(`Board V2 exact runtime ports: ${verifyBoardV2RuntimePorts(fileURLToPath(root))} pinned source/derivative pairs; runtime adoption is reviewed separately`);
 console.log(`Reviewed common setup/motion art: ${prepareSetupArt(fileURLToPath(root)).assetCount + prepareBoardV2MotionArt(fileURLToPath(root)).assetCount} exact SVGs`);
 const lock = json('docs/bootstrap-source-lock.json');
 for (const entry of lock.files) assert.equal(hash(entry.path), entry.sha256, `Changed source: ${entry.path}`);

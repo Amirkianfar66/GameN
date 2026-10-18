@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  mothership:dev-only · board-v2 Captain proposal board-v2-captain-0.1.0 · pulse head, release · generated, do not edit by hand
+  The command pulse's head, green, centred on its point of conduitPoints()'s way; its dotted tail is drawn by the page.
+  Built by design/tools/board-v2-assets.mjs from design/board-v2/fx/captain.mjs. Public: the same on every phone and the display (the plates: the Captain's own controls); it reads no role, side, faction or cause. Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><defs><radialGradient id="head-release" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#FFFFFF"/><stop offset="0.35" stop-color="#A6F0C2"/><stop offset="1" stop-color="#36C46E" stop-opacity="0"/></radialGradient></defs><g data-layer="fx-pulse-head-release"><circle cx="12" cy="12" r="11.5" fill="url(#head-release)"/><circle cx="12" cy="12" r="3.5" fill="#FFFFFF" stroke="#151923" stroke-width="1"/></g></svg>
