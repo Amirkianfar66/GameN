@@ -45,7 +45,7 @@ const INSETS = [null, '20,0,0,0', '44,0,34,0', '47,0,34,0', '59,0,34,0'];
 const slotsModule = await load('design/board-v2/scenes/slots.mjs');
 const { slotsOf, slotProblems, sceneOf, BOARD_ROOMS, ROSTERS } = slotsModule;
 const { WARD_BERTHS, wardBerths, wardScene } = await load('design/board-v2/scenes/hospital-ward.mjs');
-const { MIN_BOARD_WIDTH, SHELL, fitBoardV2, insetsOf, passClearance, shellFor, slotRects, slotsFit } = await load('design/board-v2/js/fit.mjs');
+const { CAPSULE, MIN_BOARD_WIDTH, SHELL, fitBoardV2, insetsOf, passClearance, shellFor, slotRects, slotsFit } = await load('design/board-v2/js/fit.mjs');
 const { FIXTURES: FIXTURE_NAMES, fixtureSeats } = await load('design/board-v2/js/fixtures.mjs');
 const { SCENES } = await load('design/board-motion/scenes/index.mjs');
 const { frameScene } = await load('design/board-motion/scenes/frame.mjs');
@@ -55,6 +55,12 @@ const { BLOCKED, STAR_SIZE, blockedContract, blockedEnd, blockedFrame, blockedSt
 const { FACTION_ACCENTS, MIN_ACCENT_DISTANCE, SHIELD_BOX, SHIELD_FLASH_RADIUS, SHIELD_SIZE, shieldColorDistances } = await load('design/board-v2/fx/blocked.mjs');
 const { BLACKOUT_OUTCOMES } = await load('design/board-v2/js/fixtures.mjs');
 const { blockedTargets } = await load('design/board-v2/js/blocked-view.mjs');
+const { CAPSULE_FILM, CAPSULE_STAGES, capsuleContract, capsuleEnd, capsuleFrame, seatedPose } = await load('design/board-v2/films/capsule.mjs');
+const { BESIDE, CAPSULE_ACCENTS, CAPSULE_KEEP, CAPSULE_SEATS, CAPSULE_SIZE, CAPSULE_VIEW, CAPTION_CLEAR, DECK, DOOR, DOOR_FRAMES, DOORWAY, PATHS, TABLE, TAG_STRIP, capsuleTargets, frameCapsule } = await load('design/board-v2/scenes/capsule.mjs');
+const { LOOP, POSE_NAMES, capsuleLoop, sittingPose, walkingPose } = await load('design/board-v2/figures/capsule.mjs');
+const { cie76 } = await load('design/board-v2/fx/blocked.mjs');
+const { SHEET, SHEET_ROOMS, barsShell, boardTargets, sheetPlan, turnsLayout } = await load('design/board-v2/js/turns.mjs');
+const { ENLARGED, MEASURED, WORDS_CHROME } = await load('design/board-v2/js/turns-view.mjs');
 
 // ---------- Development material, fenced ----------
 {
@@ -105,7 +111,7 @@ const { blockedTargets } = await load('design/board-v2/js/blocked-view.mjs');
   for (const [path, content] of planned) if ((await text(path).catch(() => null)) !== content) problems.push(`${path}: not what design/tools/board-v2-assets.mjs makes: run it`);
   for (const path of await filesUnder('design/board-v2/assets')) if (!planned.has(path)) problems.push(`${path}: not made by design/tools/board-v2-assets.mjs`);
   const manifest = planned.has('design/board-v2/assets/manifest.json') ? JSON.parse(planned.get('design/board-v2/assets/manifest.json')) : null;
-  const sprites = manifest ? [...manifest.lighting.files, ...manifest.fx.files] : [];
+  const sprites = manifest ? [...manifest.lighting.files, ...manifest.fx.files, ...(manifest.capsule?.files ?? [])] : [];
   for (const [path, content] of planned) {
     if (!path.endsWith('.svg')) continue;
     if (/<text\b|<image\b|<script\b|<foreignObject\b|href=["']https?:/i.test(content)) problems.push(`${path}: outside the drawing vocabulary`);
@@ -114,7 +120,7 @@ const { blockedTargets } = await load('design/board-v2/js/blocked-view.mjs');
     const box = sprite ? sprite.viewBox : '0 0 1024 768';
     if (!content.includes(`viewBox="${box}"`)) problems.push(`${path}: not in its ${box} box`);
   }
-  check('the ward, the lighting and the effects art are built from the approved rooms or their own modules, current, and inside the drawing vocabulary', problems);
+  check('the ward, the lighting, the effects and the capsule art are built from the approved rooms or their own modules, current, and inside the drawing vocabulary', problems);
 }
 
 // ---------- The Blackout's lighting window ----------
@@ -253,6 +259,242 @@ const { blockedTargets } = await load('design/board-v2/js/blocked-view.mjs');
   if (blockedContract().audience.film.indexOf('room-visible') !== 0) problems.push('the film is not room-visible');
   if (STAR_SIZE !== 1.6) problems.push(`the incoming star is ${STAR_SIZE} press sides, not the Blackout impact's 1.6`);
   check('ATTACK BLOCKED: the storyboard\'s beats, the same film for every defense, a miss to everyone outside the room, its colors apart from the faction accents, its flash under a quarter of a panel, and the already-Injured example a patient in the Hospital', problems);
+}
+
+// ---------- The private-talk capsule (S2) ----------
+{
+  const problems = [];
+  const F = CAPSULE_FILM;
+  const ids = CAPSULE_SEATS.map(seat => seat.id);
+  // The layout: on a phone, every room where it is without the capsule and the Command Room in its
+  // place, the capsule on its right, as tall, exactly 2:1, its right edge the band's; C1 and each
+  // seated participant's own target a whole 44 px press area, clear of the Pass; at every phone
+  // width, inset and height.
+  let layouts = 0;
+  for (const width of WIDTHS) {
+    for (const safe of INSETS) {
+      for (let height = 540; height <= 960; height += 3) {
+        for (const roster of ROSTERS) {
+          layouts += 1;
+          const where = `${width}x${height}${safe ? ` (insets ${safe})` : ''}, ${roster} players`;
+          const insets = insetsOf(safe);
+          const plain = fitBoardV2({ width, height }, roster, { insets });
+          const board = fitBoardV2({ width, height }, roster, { insets, capsule: true });
+          const same = ['fits', 'fallback', 'boardTop', 'boardLeft', 'boardWidth', 'bands', 'navTop', 'pass'].every(key => JSON.stringify(plain[key]) === JSON.stringify(board[key])) && plain.shell.tier === board.shell.tier;
+          if (!same) { problems.push(`${where}: the capsule changes the board's shell, fallback or bands`); continue; }
+          for (const room of BOARD_ROOMS.filter(name => name !== 'command-room')) if (JSON.stringify(plain.boxes[room]) !== JSON.stringify(board.boxes[room])) problems.push(`${where}: ${room} moves with the capsule`);
+          if (!board.fits) continue;
+          const command = board.boxes['command-room'], capsule = board.boxes[CAPSULE.id];
+          if (['left', 'top', 'height'].some(key => command[key] !== plain.boxes['command-room'][key])) problems.push(`${where}: the Command Room moves with the capsule`);
+          if (Math.abs(capsule.left - (command.left + command.width + board.shell.gap)) > 0.01 || capsule.top !== command.top || capsule.height !== command.height) problems.push(`${where}: the capsule is not beside the Command Room, as tall`);
+          if (Math.abs(capsule.left + capsule.width - (plain.boxes['command-room'].left + plain.boxes['command-room'].width)) > 0.01) problems.push(`${where}: the capsule does not end where the band ends`);
+          if (Math.abs(board.panels['command-room'].width - 2 * board.panels[CAPSULE.id].width) > 1e-6) problems.push(`${where}: ${board.panels['command-room'].width} and ${board.panels[CAPSULE.id].width} px are not exactly 2:1`);
+          // Each seated participant's own target: 44 px, whole inside the panel, below the caption, apart from the other's and clear of the Pass.
+          const panel = board.panels[CAPSULE.id];
+          const targets = capsuleTargets(panel);
+          for (const target of targets) {
+            if (target.side < 44 || target.left < -0.01 || target.left + target.side > panel.width + 0.01 || target.top < CAPTION_CLEAR - 0.01 || target.top + target.side > panel.height + 0.01) problems.push(`${where}: ${target.id}'s target is not a whole 44 px square below the caption`);
+            const left = capsule.left + board.shell.border + target.left, top = capsule.top + board.shell.border + target.top;
+            const dx = Math.max(left - board.pass.cx, 0, board.pass.cx - (left + target.side)), dy = Math.max(top - board.pass.cy, 0, board.pass.cy - (top + target.side));
+            if (Math.hypot(dx, dy) <= board.pass.r) problems.push(`${where}: ${target.id}'s target is under the Pass`);
+          }
+          if (targets[0].left + targets[0].side > targets[1].left + 0.01) problems.push(`${where}: the two targets in the capsule overlap`);
+          if (!slotsFit('command-room', roster, board.panels['command-room'])) problems.push(`${where}: C1 does not fit the Command Room's panel`);
+          for (const rect of slotRects('command-room', roster, board.panels['command-room'])) if (rect.side < 44) problems.push(`${where}: C1 is ${rect.side} px`);
+          for (const slot of passClearance({ width, height }, roster, { insets, capsule: true })) if (slot.clearance <= 0) problems.push(`${where}, ${slot.id}: under the Pass`);
+        }
+      }
+    }
+  }
+  // The cabin in its panel: it covers the panel, and the seated pair's heads are whole and above their
+  // name tags' strip at every phone size; at the phones measured the status light over the doorway is
+  // whole too and the view's sides within 2 px (a short panel crops the floor first).
+  const cutOf = (box, { k, tx, ty }, panel, foot = 0) => ({ left: -(box.left * k + tx), right: box.right * k + tx - panel.width, top: -(box.top * k + ty), bottom: box.bottom * k + ty - (panel.height - foot) });
+  const head = sittingPose('sit', {}).head;
+  const heads = { left: CAPSULE_SEATS[0].at[0] + (62 - head[0]) * CAPSULE_SEATS[0].scale - 30, right: CAPSULE_SEATS[1].at[0] + (head[0] - 62) * CAPSULE_SEATS[1].scale + 30, top: CAPSULE_KEEP.bottom - 62, bottom: CAPSULE_KEEP.bottom };
+  const light = { left: DOOR.x0, right: DOOR.x1, top: CAPSULE_KEEP.top, bottom: DOOR.top };
+  let framings = 0;
+  for (const width of WIDTHS) {
+    for (const safe of INSETS) {
+      for (let height = 480; height <= 1000; height += 4) {
+        for (const roster of ROSTERS) {
+          const board = fitBoardV2({ width, height }, roster, { insets: insetsOf(safe), capsule: true });
+          if (!board.fits) continue;
+          framings += 1;
+          const panel = board.panels[CAPSULE.id];
+          const frame = frameCapsule(panel);
+          if (frame.k * CAPSULE_SIZE[0] < panel.width - 0.01 || frame.k * CAPSULE_SIZE[1] < panel.height - 0.01) problems.push(`${width}x${height}: the cabin does not cover its panel`);
+          const where = `${width}x${height}${safe ? ` (insets ${safe})` : ''}, ${roster} players`;
+          if (Math.max(...Object.values(cutOf(heads, frame, panel, TAG_STRIP))) > 0.01) problems.push(`${where}: the seated pair's heads are cut or under their name tags`);
+        }
+      }
+    }
+  }
+  for (const [width, height] of VIEWPORTS) {
+    for (const roster of ROSTERS) {
+      const panel = fitBoardV2({ width, height }, roster, { capsule: true }).panels[CAPSULE.id];
+      const frame = frameCapsule(panel);
+      const cut = cutOf(CAPSULE_VIEW, frame, panel);
+      if (Math.max(cut.left, cut.right) > 2 || Math.max(...Object.values(cutOf(light, frame, panel))) > 0.01) problems.push(`${width}x${height}, ${roster} players: the cabin's view is cut by ${Object.entries(cut).map(([side, px]) => `${side} ${px.toFixed(1)}`).join(', ')} px, or its light`);
+    }
+  }
+  if (BOARD_ROOMS.includes(CAPSULE.id) || (await text('design/board-v2/contract/slots.json')).includes('"capsule"')) problems.push('the capsule is a room or has slots');
+  // The clock: the server's stages; the entrance over inside the result stage with a second to spare; the minute the server's.
+  if (JSON.stringify(F.server) !== JSON.stringify({ declareMaxMs: 15000, resultMs: 5000, talkMs: 60000 })) problems.push(`the server's stages are ${JSON.stringify(F.server)}`);
+  for (const reduced of [false, true]) if (capsuleEnd('result', { reduced }) > F.server.resultMs - 1000) problems.push(`the entrance ends at ${capsuleEnd('result', { reduced })} ms, less than a second before the conversation`);
+  if (F.exit.endAt !== Math.max(...ids.map(id => F.exit.leave[id][1])) + F.exit.stepIn + F.exit.settle) problems.push('the exit\'s end is not its last return');
+  const transitional = ['entering', 'sitting', 'standing', 'leaving', 'stepping', 'returning', 'settling'];
+  const statesOf = frame => Object.values(frame.people).flatMap(person => [person.home.state, person.capsule.state]);
+  for (const reduced of [false, true]) {
+    const mode = reduced ? 'reduced, ' : '';
+    for (const [stage, end] of [['declare', 15000], ['result', 5000], ['talk', 60000], ['exit', 4000]]) {
+      for (let t = 0; t <= end; t += stage === 'talk' ? 250 : 10) {
+        const where = `${mode}${stage} ${t} ms`;
+        const frame = capsuleFrame(stage, t, { reduced });
+        // Its only inputs: the stage, t, the named seats and the setting; a side, a claim, who asked or who speaks changes nothing.
+        if (JSON.stringify(capsuleFrame(stage, t, { reduced, side: 'blue', claim: 'red', asked: 'P2', speaking: 'P1', role: 'Hacker', microphone: true })) !== JSON.stringify(frame)) problems.push(`${where}: something besides the public inputs changes the film`);
+        // Reduced motion's one cross-fade (fadeMs): the only moment anyone is at both places.
+        const swap = { result: F.reduced.entrance.swapAt, exit: F.reduced.exit.swapAt }[stage];
+        const fading = reduced && swap !== undefined && t >= swap && t < swap + F.reduced.fadeMs;
+        for (const id of ids) {
+          const person = frame.people[id];
+          if (!person) { problems.push(`${where}: ${id} is not drawn`); continue; }
+          if (fading) continue;
+          // Never in two places: never at its place and in the capsule at once; its place shows its away marker while it is away.
+          if (person.home.figure > 0 && person.capsule.opacity > 0) problems.push(`${where}: ${id} is drawn at its place and in the capsule`);
+          if (person.home.state !== 'present' && person.home.figure < 1 && person.home.ghost <= 0 && person.capsule.opacity <= 0 && !['standing', 'stepping'].includes(person.home.state)) problems.push(`${where}: ${id} is nowhere`);
+          if (person.capsule.opacity > 0 && person.home.ghost < 1) problems.push(`${where}: ${id} is in the capsule without its away marker`);
+        }
+        // The door is open whenever someone walks through it; the light is lit only with both seated inside.
+        if (Object.values(frame.people).some(person => ['entering', 'leaving'].includes(person.capsule.state) && person.capsule.opacity > 0) && frame.door !== DOOR_FRAMES - 1) problems.push(`${where}: someone walks through a shut door`);
+        if (frame.busy && !Object.values(frame.people).every(person => person.capsule.state === 'seated')) problems.push(`${where}: the light is lit with someone not seated`);
+        if (stage === 'talk' && (!frame.busy || frame.door !== 0 || Object.values(frame.people).some(person => person.capsule.state !== 'seated'))) problems.push(`${where}: not both seated behind a shut door, the light lit`);
+        if (stage === 'result' && t >= capsuleEnd('result', { reduced }) && (!frame.busy || frame.door !== 0)) problems.push(`${where}: not settled after the entrance`);
+        if (stage === 'exit' && t >= capsuleEnd('exit', { reduced }) && (frame.door !== 0 || frame.busy || Object.values(frame.people).some(person => person.home.state !== 'present' || person.capsule.state !== 'empty'))) problems.push(`${where}: not everyone back at their places after the exit`);
+        if (stage === 'exit' && frame.busy) problems.push(`${where}: the light is lit during the exit`);
+        // Reduced motion: no walking, no steps, no turning; the seated pose still.
+        if (reduced && statesOf(frame).some(state => transitional.includes(state))) problems.push(`${where}: motion in the reduced variant`);
+        // Nobody named: the capsule as when idle; every named seat settled (a reconnect): the stage's settled state, nothing played.
+        const nobody = capsuleFrame(stage, t, { reduced, known: {} });
+        if (nobody.door !== 0 || nobody.busy || nobody.highlight || Object.keys(nobody.people).length) problems.push(`${where}: something drawn with nobody named`);
+        const one = capsuleFrame(stage, t, { reduced, known: { P1: 'live' } });
+        if (Object.keys(one.people).join() !== 'P1') problems.push(`${where}: someone invented while one is named`);
+        const reconnect = capsuleFrame(stage, t, { reduced, known: { P1: 'settled', P2: 'settled' } });
+        if (statesOf(reconnect).some(state => transitional.includes(state)) || (stage !== 'declare' && reconnect.door !== 0)) problems.push(`${where}: a reconnect replays part of the film`);
+      }
+    }
+    for (let t = 0; t <= F.server.talkMs; t += 500) if (reduced && JSON.stringify(seatedPose('P1', t, {}, { exchangeId: 'x', reduced })) !== JSON.stringify(sittingPose('sit', {}))) { problems.push(`reduced, talk ${t} ms: a variation in the reduced variant`); break; }
+    if (reduced && (F.reduced.fadeMs > 80)) problems.push(`reduced motion fades over ${F.reduced.fadeMs} ms`);
+  }
+  // The paths: from the doorway to the stop beside the chair, on the deck, the feet never within 10 units of the table's span at its depth.
+  const onDeck = ([x, y]) => DECK.every((a, i) => { const b = DECK[(i + 1) % DECK.length]; return (b[0] - a[0]) * (y - a[1]) - (b[1] - a[1]) * (x - a[0]) >= -0.01; });
+  for (const id of ids) {
+    const path = PATHS[id];
+    if (JSON.stringify(path[0]) !== JSON.stringify(DOORWAY.at) || JSON.stringify(path.at(-1)) !== JSON.stringify(BESIDE[id])) problems.push(`${id}: its path does not run from the doorway to its chair`);
+    for (let i = 1; i < path.length; i += 1) {
+      for (let u = 0; u <= 1; u += 0.01) {
+        const x = path[i - 1][0] + (path[i][0] - path[i - 1][0]) * u, y = path[i - 1][1] + (path[i][1] - path[i - 1][1]) * u;
+        if (Math.abs(x - TABLE.cx) < TABLE.rx + 10 && y > TABLE.top - TABLE.ry && y < TABLE.foot + 10) { problems.push(`${id}: its path crosses the table at ${x.toFixed(0)},${y.toFixed(0)}`); break; }
+        if (!onDeck([x, y])) { problems.push(`${id}: its path leaves the deck at ${x.toFixed(0)},${y.toFixed(0)}`); break; }
+      }
+    }
+  }
+  // The poses: what the board already shows, kept; the variations a public schedule.
+  for (const status of [{}, { injured: true }, { jailed: true }, { injured: true, jailed: true }]) {
+    const poses = [...POSE_NAMES.map(name => [name, sittingPose(name, status)]), ...[0, 0.25, 0.5, 0.75].map(phase => [`walk ${phase}`, walkingPose(phase, status)])];
+    for (const [name, sk] of poses) {
+      const where = `${JSON.stringify(status)} ${name}`;
+      if (status.injured && !sk.bandage) problems.push(`${where}: the bandage is gone`);
+      if (!status.injured && sk.bandage) problems.push(`${where}: a bandage on someone not Injured`);
+      if (status.jailed && Math.hypot(sk.wF[0] - sk.wN[0], sk.wF[1] - sk.wN[1]) > 8) problems.push(`${where}: a prisoner's hands apart`);
+    }
+  }
+  for (const id of ids) {
+    const { keys, blinks } = capsuleLoop('x-check', id);
+    if (JSON.stringify(capsuleLoop('x-check', id)) !== JSON.stringify({ keys, blinks })) problems.push(`${id}: the schedule is not the same on every screen`);
+    if (keys[0].pose !== 'sit' || keys[0].at !== 0 || keys.some(key => !POSE_NAMES.includes(key.pose))) problems.push(`${id}: the schedule starts elsewhere or names a pose that is not drawn`);
+    keys.slice(2).forEach((key, i) => { const hold = key.at - keys[i + 1].at; if (hold < LOOP.hold[0] || hold > LOOP.hold[1]) problems.push(`${id}: a pose held ${hold} ms`); });
+  }
+  if (JSON.stringify(capsuleLoop('x-check', 'P1')) === JSON.stringify(capsuleLoop('x-check', 'P2'))) problems.push('the two participants move together');
+  // The colors an exchange adds (the status light, the badge, the outline) far from every faction accent, and tokens'.
+  const tokens = await json('packages/design-tokens/src/tokens-0.4.0.json');
+  const eventColors = { busy: CAPSULE_ACCENTS.busy, busyGlow: CAPSULE_ACCENTS.busyGlow, badge: CAPSULE_ACCENTS.lamp, outline: '#F7C52B' };
+  for (const [name, hex] of Object.entries(eventColors)) for (const [faction, accent] of Object.entries(FACTION_ACCENTS)) if (cie76(hex, accent) < MIN_ACCENT_DISTANCE) problems.push(`the capsule's ${name} ${hex} is ${Math.round(cie76(hex, accent))} from the ${faction} accent`);
+  if (CAPSULE_ACCENTS.lamp !== tokens.color.caption || CAPSULE_ACCENTS.busy !== tokens.color.caption || CAPSULE_ACCENTS.glow !== tokens.color.room.commandRoom.pale || CAPSULE_ACCENTS.busyGlow !== tokens.color.room.commandRoom.pale) problems.push('the capsule\'s accents are not tokens-0.4.0\'s');
+  if (!(await text('design/board-v2/css/page.css')).includes('rgba(247, 197, 43, var(--pair, 1))')) problems.push('the pair\'s outline is not caption yellow');
+  // The contract: the module's, public, and no role in it.
+  const films = await json('design/board-v2/contract/films.json').catch(() => null);
+  const contract = capsuleContract();
+  if (!films || JSON.stringify(films.films?.[2]) !== JSON.stringify(contract)) problems.push('contract/films.json does not hold the capsule\'s contract: run design/tools/board-v2-assets.mjs');
+  if (!contract.audience.film.startsWith('public') || !contract.audience.claim.startsWith('participant-private')) problems.push('the capsule\'s audiences are not public film and private claim');
+  for (const word of ROLE_WORDS) if (JSON.stringify(contract).includes(word)) problems.push(`the capsule's contract names ${word}`);
+  for (const input of ['the declared side', 'who is speaking', 'an animation\'s completion']) if (!contract.notInputs.some(entry => entry.includes(input))) problems.push(`the contract does not rule out ${input}`);
+  if (CAPSULE_STAGES.join() !== 'idle,declare,result,talk,exit') problems.push(`the stages are ${CAPSULE_STAGES.join(', ')}`);
+  check(`the private-talk capsule: beside the Command Room at exactly 2:1, every other room where it is without it, each seated participant a whole 44 px target apart from the other's (${layouts} phone layouts), the seated pair's heads always in view (${framings} framings); the entrance inside the result stage with a second to spare, the minute the server's, the exit blocking nothing; only public inputs; never in two places; a reconnect and the reduced variant play nothing; the paths clear of the table; patients and prisoners as the board draws them; no faction color`, problems);
+}
+
+// ---------- The real controls take turns (the owner's decision of 14 October 2026) ----------
+{
+  const problems = [];
+  const meet = (a, b) => a.left < b.left + b.width - 0.01 && b.left < a.left + a.width - 0.01 && a.top < b.top + b.height - 0.01 && b.top < a.top + a.height - 0.01;
+  const square = target => ({ left: target.left, top: target.top, width: target.side, height: target.side });
+  // At every phone layout, in normal and 200% text: the choosing row is the navigation's box and covers no target;
+  // the sheet covers the Hospital and the Jail and nothing else, its actions either side of the Pass; the board is
+  // fitBoardV2's with the capsule (below the match's top bar), every target 44 px; where it does not fit, nothing.
+  let layouts = 0, enlargedFits = 0, minCapacity = Infinity;
+  for (const width of WIDTHS) {
+    for (const safe of [...INSETS, '20,0,16,0']) {
+      for (let height = 540; height <= 960; height += 3) {
+        for (const roster of ROSTERS) {
+          for (const enlarged of [false, true]) {
+            layouts += 1;
+            const where = `${width}x${height}${safe ? ` +${safe}` : ''} ${roster}p${enlarged ? ' 200%' : ''}`;
+            const options = { insets: insetsOf(safe), bars: enlarged ? ENLARGED.bars : null, actions: enlarged ? ENLARGED.actions : SHEET.actions };
+            const layout = turnsLayout({ width, height }, roster, options);
+            const plain = fitBoardV2({ width, height }, roster, { insets: insetsOf(safe), capsule: true, shell: barsShell(options.bars) });
+            if (JSON.stringify(layout.board) !== JSON.stringify(plain)) problems.push(`${where}: the board is not fitBoardV2's`);
+            if (!enlarged && JSON.stringify(layout.board) !== JSON.stringify(fitBoardV2({ width, height }, roster, { insets: insetsOf(safe), capsule: true }))) problems.push(`${where}: without bars, not the capsule's board`);
+            if (!layout.fits) { if (layout.choosing || layout.sheet) problems.push(`${where}: controls where no board fits`); continue; }
+            if (enlarged) enlargedFits += 1;
+            const { board, choosing, sheet } = layout;
+            if (board.boardTop < (enlarged ? ENLARGED.bars.top : 0)) problems.push(`${where}: the board under the top bar`);
+            if (choosing.left !== 0 || choosing.top !== board.navTop || choosing.width !== width || choosing.height !== height - board.navTop || choosing.row.height !== board.shell.nav || choosing.row.height < 44) problems.push(`${where}: the choosing row is not the navigation's box`);
+            const targets = boardTargets(board, roster);
+            for (const target of targets) {
+              if (target.side < 44) problems.push(`${where}: ${target.room} ${target.id} is ${target.side} px`);
+              if (target.top + target.side > choosing.top + 0.01) problems.push(`${where}: ${target.room} ${target.id} under the choosing row`);
+              if (meet(sheet, square(target)) && !SHEET_ROOMS.includes(target.room)) problems.push(`${where}: the sheet covers ${target.room} ${target.id}`);
+            }
+            for (const [room, box] of Object.entries(board.boxes)) if (!SHEET_ROOMS.includes(room) && meet(sheet, box)) problems.push(`${where}: the sheet covers ${room}`);
+            if (Math.abs(sheet.top + sheet.height - board.navTop) > 1e-9 || sheet.top !== Math.min(...SHEET_ROOMS.map(room => board.boxes[room].top))) problems.push(`${where}: the sheet is not the Hospital's and the Jail's band down to the navigation`);
+            const { actions } = sheet;
+            if (actions.start.width < 88 || actions.end.width < 88) problems.push(`${where}: an actions part under 88 px (${actions.start.width}, ${actions.end.width})`);
+            if (actions.start.left + actions.start.width > board.pass.cx - board.pass.r - SHEET.passMargin + 1e-9 || actions.end.left < board.pass.cx + board.pass.r + SHEET.passMargin - 1e-9) problems.push(`${where}: the actions under the Pass`);
+            if (Math.abs(sheet.capacity - (sheet.body.height + SHEET.gap + actions.height)) > 1e-9) problems.push(`${where}: the sheet's capacity`);
+            if (!enlarged) minCapacity = Math.min(minCapacity, sheet.capacity);
+          }
+        }
+      }
+    }
+  }
+  if (minCapacity < 160) problems.push(`the sheet holds ${minCapacity} px somewhere in normal text: under 160`);
+  // The owner's too-short cases: 320 x 568 with 20/16 px safe areas at any text size; at 200% text the smallest phones.
+  for (const enlarged of [false, true]) if (turnsLayout({ width: 320, height: 568 }, 9, { insets: insetsOf('20,0,16,0'), bars: enlarged ? ENLARGED.bars : null }).fits) problems.push('320 x 568 with 20/16 px safe areas: a board');
+  for (const [width, height] of [[320, 568], [360, 640]]) if (turnsLayout({ width, height }, 9, { bars: ENLARGED.bars }).board.fallback !== 'too-short') problems.push(`${width}x${height} at 200% text: not too short`);
+  for (const [width, height] of [[375, 667], [390, 664], [390, 844]]) if (!turnsLayout({ width, height }, 9, { bars: ENLARGED.bars }).fits) problems.push(`${width}x${height} at 200% text: no board`);
+  // The plan: the claim alone is never folded, and the private result fits whole at every phone in normal text.
+  for (const [width, height] of VIEWPORTS) {
+    const { sheet } = turnsLayout({ width, height }, 9);
+    const column = width < 360 ? 320 : 390;
+    if (sheetPlan(sheet, { claim: MEASURED.claims.result[column][0] }).scroll > 0) problems.push(`${width}x${height}: the private result does not fit the sheet whole`);
+    for (const kind of Object.keys(MEASURED.claims)) if (sheetPlan(sheet, { claim: MEASURED.claims[kind][column][1], receipt: 64 }).claim !== 'full') problems.push(`${width}x${height}: a claim alone folded`);
+    for (const [name, command] of Object.entries(MEASURED.commands)) {
+      const words = command.words[column][0];
+      const plan = sheetPlan(sheet, { claim: MEASURED.claims.declare[column][0], command: (words ? words + WORDS_CHROME + SHEET.gap : 0) + SHEET.actions });
+      if (plan.claim === 'none') problems.push(`${width}x${height} ${name}: the claim dropped`);
+    }
+  }
+  check(`the real controls take turns: the choosing row the navigation's box and over no target, the sheet over the Hospital and the Jail and nothing else, its actions either side of the Pass, the board fitBoardV2's with the capsule below the match's top bar (${layouts} layouts in normal and 200% text, ${enlargedFits} fitting at 200%; the sheet holds ${minCapacity} px at least); the owner's too-short cases`, problems);
 }
 
 // ---------- The slots ----------
@@ -405,8 +647,18 @@ const { blockedTargets } = await load('design/board-v2/js/blocked-view.mjs');
     if (index.inputsSha256 !== await boardV2InputsSha256(repoRoot)) problems.push('the pages changed since the last capture: run design/tools/board-v2-capture.mjs');
     for (const shot of index.captures) if (!(await filesUnder('design/board-v2/review')).includes(`design/board-v2/review/${shot.file}`)) problems.push(`${shot.file}: listed but missing`);
     for (const shot of report.shots) if (shot.problems.length) problems.push(`${shot.file}: ${shot.problems.join('; ')}`);
+    for (const probe of report.probes ?? []) if (probe.problems.length) problems.push(`probe ${probe.viewport}, ${probe.roster} players: ${probe.problems.join('; ')}`);
+    for (const entry of report.interactions ?? []) if (entry.problems.length) problems.push(`${entry.test}: ${entry.problems.join('; ')}`);
+    for (const entry of report.disclosure ?? []) if (!entry.same) problems.push(`differs: ${entry.compare}`);
+    for (const entry of report.labels ?? []) if (entry.problems.length) problems.push(`labels ${entry.viewport}, ${entry.roster} players: ${entry.problems.join('; ')}`);
+    // The capsule's every stage, mode, status, loading state, viewer and roster is pictured.
+    const files = index.captures.map(shot => shot.file);
+    for (const name of ['390x844-idle', '320x568-idle', '390x844-declare-4000', '390x844-result-2400', '390x844-result-3600', '390x844-talk-0000', '390x844-talk-30000', '390x844-exit-0800', '390x844-reduced-result-0760', '390x844-reduced-exit-0040', '390x844-talk-20000-patient-prisoner', '390x844-talk-20000-captain-detainee', '390x844-loading-0', '390x844-loading-1', '390x844-late', '390x844-reconnect-result-2400', '390x844-reconnect-exit-0800', '390x844-moved-exit-1250', '390x844-participant-result-2400', '320x568-talk-30000', '390x844-talk-30000-r7', '390x844-talk-30000-r8', 'sheet']) if (!files.includes(`capsule-${name}.png`)) problems.push(`capsule-${name}.png: not captured`);
+    // The real controls in every turn, at both phones, in normal and 200% text, and the owner's too-short cases.
+    for (const name of ['390x844-choosing', '320x568-choosing', '390x844-choosing-safe', '390x844-result-0400', '390x844-result-2400', '390x844-result-3600', '320x568-result-2400', '390x844-talk-receipt', '320x568-talk-receipt', '390x844-talk-code-confirm', '320x568-talk-code-confirm', '390x844-declare-offer', '390x844-declare-side-choice', '390x844-declare-side-confirm', '390x844-rescue-confirm', '390x844-text2-choosing', '390x844-text2-result-2400', '390x844-text2-code-confirm', '375x667-text2-side-choice', '320x568-text2-too-short', '320x568-safe-too-short']) if (!files.includes(`turns-${name}.png`)) problems.push(`turns-${name}.png: not captured`);
+    if ((report.probes ?? []).filter(probe => probe.turns).length !== 2 * 3 * 4) problems.push('the controls\' pointer probes did not all run');
   }
-  check('the captures are current and every measured board passed', problems);
+  check('the captures are current, every measured board passed, every pointer probe and press landed, every compared page is the same, and the capsule and the real controls are pictured in every state', problems);
 }
 
 for (const name of passed) console.log(`ok    ${name}`);
