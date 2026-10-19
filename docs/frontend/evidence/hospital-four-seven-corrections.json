@@ -1,0 +1,7376 @@
+{
+  "schemaVersion": 1,
+  "runtimeUiCheckpoint": "f35a8ff04dcef066e72125bd3efb3e19b59cc858",
+  "reviewRequest": "https://github.com/Amirkianfar66/GameN/pull/166#issuecomment-6257463578",
+  "status": "passed",
+  "scope": "Production controller and DOM in Chromium over strict synthetic1.11 audience views; controlled browser clock for drawing stages only. No native service, physical device, Safari/WebKit or human screen-reader claim.",
+  "sourceSha256": {
+    "apps/game/hosted/board-v2-films.mjs": "bd92882fdf3a30903882f097274f61290a4af9952a62d5336b3e258d0507f683",
+    "apps/game/hosted/board-v2-presentations.mjs": "b2f8510e1df6f8cb89d58d2ea7c5220745d145284c1ebab27b817789c9815ee8",
+    "apps/game/hosted/board-v2-host.mjs": "e10e27c3b73acce62806e567a7b1c6e81704ef8046e6cb919bf40ceececee8c9",
+    "apps/game/hosted/board-v2.css": "23946b09943a7bd194de8b55f14ace99fc99c4698c4d9bff8e46bae3df3b9f13",
+    "apps/game/hosted/browser-host.js": "506dec96dab72071f36c2d4ec6464f064ce165810453dfab0694d2424056dd12",
+    "apps/game/src/connected/screens.ts": "66376c60fa211ade6b04055c6381abbaf0a02cc5246d0b6b7ea1044a4d09ead7",
+    "apps/game/dev/capture-four-corrections.mjs": "5c6674ab110e8ff0152e01ac62cfadaaa5a059e5f01395d66faac2d5d7719141"
+  },
+  "recordCount": 64,
+  "runtimeExceptions": 0,
+  "automatedAccessibility": "All four own Clone profiles queried Chromium AX and found no exposed CLONE ACTIVE/CLONE ENDED decorative stamp. The status paragraph remains accessible. No human screen-reader acceptance is claimed.",
+  "controls": "Both Captain controls at each phone width were scrolled into view and passed centre/four-corner hit tests with at least44px dimensions. The choosing row begins with the original-ID offboard tab.",
+  "records": [
+    {
+      "name": "320-player-normal-overflow-grey",
+      "scroll": {
+        "width": 320,
+        "height": 568
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 345,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 369
+        },
+        {
+          "text": "Jail",
+          "left": 173.31350708007812,
+          "top": 345,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 229.10836791992188,
+          "bottom": 369
+        }
+      ],
+      "notes": {
+        "text": "Player 1: Hospital full; permanently eliminated and removed from the board.\nPlayer 2: Healed.",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 1,
+        "height": 1,
+        "right": 1,
+        "bottom": 1
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "A3"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": null,
+      "pass": {
+        "left": 134,
+        "top": 514,
+        "width": 52,
+        "height": 52,
+        "right": 186,
+        "bottom": 566
+      },
+      "privateOpen": false,
+      "parts": [
+        {
+          "part": "786f6170-c7ed-41da-9427-96bcb5986177-origin-body",
+          "room": "room-a",
+          "left": 80.3125,
+          "top": 170.953125,
+          "width": 105.75,
+          "height": 105.75,
+          "right": 186.0625,
+          "bottom": 276.703125,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 0.47,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "786f6170-c7ed-41da-9427-96bcb5986177-grey-body",
+          "room": "room-a",
+          "left": 80.3125,
+          "top": 170.953125,
+          "width": 105.75,
+          "height": 105.75,
+          "right": 186.0625,
+          "bottom": 276.703125,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 0.53,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "786f6170-c7ed-41da-9427-96bcb5986177-full",
+          "room": "hospital",
+          "left": 9,
+          "top": 376,
+          "width": 84,
+          "height": 24,
+          "right": 93,
+          "bottom": 400,
+          "text": "HOSPITAL FULL",
+          "hasSvg": false,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "93c95655-8489-4f3b-9880-ee24fec9851b-patient-body",
+          "room": "hospital",
+          "left": -9.765625,
+          "top": 410.609375,
+          "width": 101.8125,
+          "height": 101.8125,
+          "right": 92.046875,
+          "bottom": 512.421875,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "offboard-plaque",
+          "room": "jail",
+          "left": 235.109375,
+          "top": 348,
+          "width": 60,
+          "height": 18,
+          "right": 295.109375,
+          "bottom": 366,
+          "text": "1",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        }
+      ]
+    },
+    {
+      "name": "320-player-normal-overflow-lift",
+      "scroll": {
+        "width": 320,
+        "height": 568
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 345,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 369
+        },
+        {
+          "text": "Jail",
+          "left": 173.31350708007812,
+          "top": 345,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 229.10836791992188,
+          "bottom": 369
+        }
+      ],
+      "notes": {
+        "text": "Player 1: Hospital full; permanently eliminated and removed from the board.\nPlayer 2: Healed.",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 1,
+        "height": 1,
+        "right": 1,
+        "bottom": 1
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "A3"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": null,
+      "pass": {
+        "left": 134,
+        "top": 514,
+        "width": 52,
+        "height": 52,
+        "right": 186,
+        "bottom": 566
+      },
+      "privateOpen": false,
+      "parts": [
+        {
+          "part": "786f6170-c7ed-41da-9427-96bcb5986177-full",
+          "room": "hospital",
+          "left": 9,
+          "top": 376,
+          "width": 84,
+          "height": 24,
+          "right": 93,
+          "bottom": 400,
+          "text": "HOSPITAL FULL",
+          "hasSvg": false,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "93c95655-8489-4f3b-9880-ee24fec9851b-patient-body",
+          "room": "hospital",
+          "left": -9.765625,
+          "top": 410.609375,
+          "width": 101.8125,
+          "height": 101.8125,
+          "right": 92.046875,
+          "bottom": 512.421875,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "offboard-plaque",
+          "room": "jail",
+          "left": 235.109375,
+          "top": 348,
+          "width": 60,
+          "height": 18,
+          "right": 295.109375,
+          "bottom": 366,
+          "text": "1",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "786f6170-c7ed-41da-9427-96bcb5986177-paper-body",
+          "room": null,
+          "left": 59.484375,
+          "top": 196.6875,
+          "width": 37.796875,
+          "height": 37.796875,
+          "right": 97.28125,
+          "bottom": 234.484375,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 0.87,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        }
+      ]
+    },
+    {
+      "name": "320-player-normal-overflow-plaque-pop",
+      "scroll": {
+        "width": 320,
+        "height": 568
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 345,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 369
+        },
+        {
+          "text": "Jail",
+          "left": 173.31350708007812,
+          "top": 345,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 229.10836791992188,
+          "bottom": 369
+        }
+      ],
+      "notes": {
+        "text": "Player 1: Hospital full; permanently eliminated and removed from the board.\nPlayer 2: Healed.",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 1,
+        "height": 1,
+        "right": 1,
+        "bottom": 1
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "A3"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": null,
+      "pass": {
+        "left": 134,
+        "top": 514,
+        "width": 52,
+        "height": 52,
+        "right": 186,
+        "bottom": 566
+      },
+      "privateOpen": false,
+      "parts": [
+        {
+          "part": "786f6170-c7ed-41da-9427-96bcb5986177-full",
+          "room": "hospital",
+          "left": 9,
+          "top": 376,
+          "width": 84,
+          "height": 24,
+          "right": 93,
+          "bottom": 400,
+          "text": "HOSPITAL FULL",
+          "hasSvg": false,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "93c95655-8489-4f3b-9880-ee24fec9851b-patient-body",
+          "room": "hospital",
+          "left": -9.765625,
+          "top": 410.609375,
+          "width": 101.8125,
+          "height": 101.8125,
+          "right": 92.046875,
+          "bottom": 512.421875,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "offboard-plaque",
+          "room": "jail",
+          "left": 229.109375,
+          "top": 346.20001220703125,
+          "width": 72,
+          "height": 21.5999755859375,
+          "right": 301.109375,
+          "bottom": 367.79998779296875,
+          "text": "1",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1.2, 0, 0, 1.2, 0, 0)"
+        }
+      ]
+    },
+    {
+      "name": "320-player-normal-admission-fifth",
+      "scroll": {
+        "width": 320,
+        "height": 568
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 345,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 369
+        },
+        {
+          "text": "Jail",
+          "left": 173.31350708007812,
+          "top": 345,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 229.10836791992188,
+          "bottom": 369
+        }
+      ],
+      "notes": {
+        "text": "Player 1: Injured.",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 1,
+        "height": 1,
+        "right": 1,
+        "bottom": 1
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "H1"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-1",
+          "slot": "H2"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": null,
+      "pass": {
+        "left": 134,
+        "top": 514,
+        "width": 52,
+        "height": 52,
+        "right": 186,
+        "bottom": 566
+      },
+      "privateOpen": false,
+      "parts": [
+        {
+          "part": "cf60bde3-656a-49f7-be45-da8e8049eb7e-patient-body",
+          "room": "hospital",
+          "left": 67.96687316894531,
+          "top": 416.171875,
+          "width": 101.8125,
+          "height": 101.8125,
+          "right": 169.7793731689453,
+          "bottom": 517.984375,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 0.54,
+          "filter": "none",
+          "transform": "matrix(-1, 0, 0, 1, 0, 0)"
+        }
+      ]
+    },
+    {
+      "name": "320-player-normal-admission-held",
+      "scroll": {
+        "width": 320,
+        "height": 568
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 345,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 369
+        },
+        {
+          "text": "Jail",
+          "left": 173.31350708007812,
+          "top": 345,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 229.10836791992188,
+          "bottom": 369
+        }
+      ],
+      "notes": {
+        "text": "Player 1: Injured.",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 1,
+        "height": 1,
+        "right": 1,
+        "bottom": 1
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "H1"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-1",
+          "slot": "H2"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": null,
+      "pass": {
+        "left": 134,
+        "top": 514,
+        "width": 52,
+        "height": 52,
+        "right": 186,
+        "bottom": 566
+      },
+      "privateOpen": false,
+      "parts": [
+        {
+          "part": "abeb71d8-1410-4c73-8d47-6e13591536ca-patient-body",
+          "room": "hospital",
+          "left": 67.96687316894531,
+          "top": 416.171875,
+          "width": 101.8125,
+          "height": 101.8125,
+          "right": 169.7793731689453,
+          "bottom": 517.984375,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 0.54,
+          "filter": "none",
+          "transform": "matrix(-1, 0, 0, 1, 0, 0)"
+        }
+      ]
+    },
+    {
+      "name": "320-player-normal-admission-body-held",
+      "scroll": {
+        "width": 320,
+        "height": 568
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 345,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 369
+        },
+        {
+          "text": "Jail",
+          "left": 173.31350708007812,
+          "top": 345,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 229.10836791992188,
+          "bottom": 369
+        }
+      ],
+      "notes": {
+        "text": "Player 1: Injured.",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 1,
+        "height": 1,
+        "right": 1,
+        "bottom": 1
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "H1"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-1",
+          "slot": "H2"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": null,
+      "pass": {
+        "left": 134,
+        "top": 514,
+        "width": 52,
+        "height": 52,
+        "right": 186,
+        "bottom": 566
+      },
+      "privateOpen": false,
+      "parts": [
+        {
+          "part": "0a69dd03-ad57-4e92-9c55-3da1f7868669-patient-body",
+          "room": "hospital",
+          "left": 67.96687316894531,
+          "top": 416.171875,
+          "width": 101.8125,
+          "height": 101.8125,
+          "right": 169.7793731689453,
+          "bottom": 517.984375,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 0.52,
+          "filter": "none",
+          "transform": "matrix(-1, 0, 0, 1, 0, 0)"
+        }
+      ]
+    },
+    {
+      "name": "320-player-reduced-overflow-grey",
+      "scroll": {
+        "width": 320,
+        "height": 568
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 345,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 369
+        },
+        {
+          "text": "Jail",
+          "left": 173.31350708007812,
+          "top": 345,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 229.10836791992188,
+          "bottom": 369
+        }
+      ],
+      "notes": {
+        "text": "Player 1: Hospital full; permanently eliminated and removed from the board.\nPlayer 2: Healed.",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 1,
+        "height": 1,
+        "right": 1,
+        "bottom": 1
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "A3"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": null,
+      "pass": {
+        "left": 134,
+        "top": 514,
+        "width": 52,
+        "height": 52,
+        "right": 186,
+        "bottom": 566
+      },
+      "privateOpen": false,
+      "parts": [
+        {
+          "part": "d2a3b48c-ee10-49cd-b77c-d78ff502f511-grey-body",
+          "room": "room-a",
+          "left": 80.3125,
+          "top": 170.953125,
+          "width": 105.75,
+          "height": 105.75,
+          "right": 186.0625,
+          "bottom": 276.703125,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "d2a3b48c-ee10-49cd-b77c-d78ff502f511-full",
+          "room": "hospital",
+          "left": 9,
+          "top": 376,
+          "width": 84,
+          "height": 24,
+          "right": 93,
+          "bottom": 400,
+          "text": "HOSPITAL FULL",
+          "hasSvg": false,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "58a9e59a-69cc-4654-bc98-bd56150d7bac-patient-body",
+          "room": "hospital",
+          "left": -9.765625,
+          "top": 410.609375,
+          "width": 101.8125,
+          "height": 101.8125,
+          "right": 92.046875,
+          "bottom": 512.421875,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "offboard-plaque",
+          "room": "jail",
+          "left": 235.109375,
+          "top": 348,
+          "width": 60,
+          "height": 18,
+          "right": 295.109375,
+          "bottom": 366,
+          "text": "1",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        }
+      ]
+    },
+    {
+      "name": "320-player-reduced-overflow-counted",
+      "scroll": {
+        "width": 320,
+        "height": 568
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 345,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 369
+        },
+        {
+          "text": "Jail",
+          "left": 173.31350708007812,
+          "top": 345,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 229.10836791992188,
+          "bottom": 369
+        }
+      ],
+      "notes": {
+        "text": "Player 1: Hospital full; permanently eliminated and removed from the board.\nPlayer 2: Healed.",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 1,
+        "height": 1,
+        "right": 1,
+        "bottom": 1
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "A3"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": null,
+      "pass": {
+        "left": 134,
+        "top": 514,
+        "width": 52,
+        "height": 52,
+        "right": 186,
+        "bottom": 566
+      },
+      "privateOpen": false,
+      "parts": [
+        {
+          "part": "d2a3b48c-ee10-49cd-b77c-d78ff502f511-full",
+          "room": "hospital",
+          "left": 9,
+          "top": 376,
+          "width": 84,
+          "height": 24,
+          "right": 93,
+          "bottom": 400,
+          "text": "HOSPITAL FULL",
+          "hasSvg": false,
+          "opacity": 0,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "58a9e59a-69cc-4654-bc98-bd56150d7bac-patient-body",
+          "room": "hospital",
+          "left": -14.78125,
+          "top": 416.171875,
+          "width": 101.8125,
+          "height": 101.8125,
+          "right": 87.03125,
+          "bottom": 517.984375,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "offboard-plaque",
+          "room": "jail",
+          "left": 235.109375,
+          "top": 348,
+          "width": 60,
+          "height": 18,
+          "right": 295.109375,
+          "bottom": 366,
+          "text": "1",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        }
+      ]
+    },
+    {
+      "name": "320-player-reduced-admission-fifth",
+      "scroll": {
+        "width": 320,
+        "height": 568
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 345,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 369
+        },
+        {
+          "text": "Jail",
+          "left": 173.31350708007812,
+          "top": 345,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 229.10836791992188,
+          "bottom": 369
+        }
+      ],
+      "notes": {
+        "text": "Player 1: Injured.",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 1,
+        "height": 1,
+        "right": 1,
+        "bottom": 1
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "H1"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-1",
+          "slot": "H2"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": null,
+      "pass": {
+        "left": 134,
+        "top": 514,
+        "width": 52,
+        "height": 52,
+        "right": 186,
+        "bottom": 566
+      },
+      "privateOpen": false,
+      "parts": [
+        {
+          "part": "88f5b0bd-526b-4ae8-bc31-9b4cbbd09fdd-patient-body",
+          "room": "hospital",
+          "left": 67.96687316894531,
+          "top": 416.171875,
+          "width": 101.8125,
+          "height": 101.8125,
+          "right": 169.7793731689453,
+          "bottom": 517.984375,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(-1, 0, 0, 1, 0, 0)"
+        }
+      ]
+    },
+    {
+      "name": "320-player-reduced-admission-held",
+      "scroll": {
+        "width": 320,
+        "height": 568
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 345,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 369
+        },
+        {
+          "text": "Jail",
+          "left": 173.31350708007812,
+          "top": 345,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 229.10836791992188,
+          "bottom": 369
+        }
+      ],
+      "notes": {
+        "text": "Player 1: Injured.",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 1,
+        "height": 1,
+        "right": 1,
+        "bottom": 1
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "H1"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-1",
+          "slot": "H2"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": null,
+      "pass": {
+        "left": 134,
+        "top": 514,
+        "width": 52,
+        "height": 52,
+        "right": 186,
+        "bottom": 566
+      },
+      "privateOpen": false,
+      "parts": [
+        {
+          "part": "78896f6c-eafb-49ab-8709-610f322d6ceb-patient-body",
+          "room": "hospital",
+          "left": 67.96687316894531,
+          "top": 416.171875,
+          "width": 101.8125,
+          "height": 101.8125,
+          "right": 169.7793731689453,
+          "bottom": 517.984375,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(-1, 0, 0, 1, 0, 0)"
+        }
+      ]
+    },
+    {
+      "name": "320-player-reduced-admission-body-held",
+      "scroll": {
+        "width": 320,
+        "height": 568
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 345,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 369
+        },
+        {
+          "text": "Jail",
+          "left": 173.31350708007812,
+          "top": 345,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 229.10836791992188,
+          "bottom": 369
+        }
+      ],
+      "notes": {
+        "text": "Player 1: Injured.",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 1,
+        "height": 1,
+        "right": 1,
+        "bottom": 1
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "H1"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-1",
+          "slot": "H2"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": null,
+      "pass": {
+        "left": 134,
+        "top": 514,
+        "width": 52,
+        "height": 52,
+        "right": 186,
+        "bottom": 566
+      },
+      "privateOpen": false,
+      "parts": [
+        {
+          "part": "286e27b9-d053-400c-ad46-49e06be2b0fc-patient-body",
+          "room": "hospital",
+          "left": 67.96687316894531,
+          "top": 416.171875,
+          "width": 101.8125,
+          "height": 101.8125,
+          "right": 169.7793731689453,
+          "bottom": 517.984375,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(-1, 0, 0, 1, 0, 0)"
+        }
+      ]
+    },
+    {
+      "name": "320-display-normal-overflow-grey",
+      "scroll": {
+        "width": 320,
+        "height": 1072
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 345,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 369
+        },
+        {
+          "text": "Jail",
+          "left": 173.31350708007812,
+          "top": 345,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 229.10836791992188,
+          "bottom": 369
+        }
+      ],
+      "notes": {
+        "text": "Player 1: Hospital full; permanently eliminated and removed from the board.\nPlayer 2: Healed.",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 1,
+        "height": 1,
+        "right": 1,
+        "bottom": 1
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "A3"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": null,
+      "pass": null,
+      "privateOpen": false,
+      "parts": [
+        {
+          "part": "b07f88ea-f8ce-46c2-bd1a-55214ea39b8e-origin-body",
+          "room": "room-a",
+          "left": 80.3125,
+          "top": 170.953125,
+          "width": 105.75,
+          "height": 105.75,
+          "right": 186.0625,
+          "bottom": 276.703125,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 0.43,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "b07f88ea-f8ce-46c2-bd1a-55214ea39b8e-grey-body",
+          "room": "room-a",
+          "left": 80.3125,
+          "top": 170.953125,
+          "width": 105.75,
+          "height": 105.75,
+          "right": 186.0625,
+          "bottom": 276.703125,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 0.57,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "b07f88ea-f8ce-46c2-bd1a-55214ea39b8e-full",
+          "room": "hospital",
+          "left": 9,
+          "top": 376,
+          "width": 84,
+          "height": 24,
+          "right": 93,
+          "bottom": 400,
+          "text": "HOSPITAL FULL",
+          "hasSvg": false,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "512d7773-7c58-4c7f-ac17-d50e13ee4032-patient-body",
+          "room": "hospital",
+          "left": -9.765625,
+          "top": 410.609375,
+          "width": 101.8125,
+          "height": 101.8125,
+          "right": 92.046875,
+          "bottom": 512.421875,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "offboard-plaque",
+          "room": "jail",
+          "left": 235.109375,
+          "top": 348,
+          "width": 60,
+          "height": 18,
+          "right": 295.109375,
+          "bottom": 366,
+          "text": "1",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        }
+      ]
+    },
+    {
+      "name": "320-display-normal-overflow-lift",
+      "scroll": {
+        "width": 320,
+        "height": 1072
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 345,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 369
+        },
+        {
+          "text": "Jail",
+          "left": 173.31350708007812,
+          "top": 345,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 229.10836791992188,
+          "bottom": 369
+        }
+      ],
+      "notes": {
+        "text": "Player 1: Hospital full; permanently eliminated and removed from the board.\nPlayer 2: Healed.",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 1,
+        "height": 1,
+        "right": 1,
+        "bottom": 1
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "A3"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": null,
+      "pass": null,
+      "privateOpen": false,
+      "parts": [
+        {
+          "part": "b07f88ea-f8ce-46c2-bd1a-55214ea39b8e-full",
+          "room": "hospital",
+          "left": 9,
+          "top": 376,
+          "width": 84,
+          "height": 24,
+          "right": 93,
+          "bottom": 400,
+          "text": "HOSPITAL FULL",
+          "hasSvg": false,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "512d7773-7c58-4c7f-ac17-d50e13ee4032-patient-body",
+          "room": "hospital",
+          "left": -9.765625,
+          "top": 410.609375,
+          "width": 101.8125,
+          "height": 101.8125,
+          "right": 92.046875,
+          "bottom": 512.421875,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "offboard-plaque",
+          "room": "jail",
+          "left": 235.109375,
+          "top": 348,
+          "width": 60,
+          "height": 18,
+          "right": 295.109375,
+          "bottom": 366,
+          "text": "1",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "b07f88ea-f8ce-46c2-bd1a-55214ea39b8e-paper-body",
+          "room": null,
+          "left": 56.15625,
+          "top": 201.078125,
+          "width": 36.71875,
+          "height": 36.71875,
+          "right": 92.875,
+          "bottom": 237.796875,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 0.86,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        }
+      ]
+    },
+    {
+      "name": "320-display-normal-overflow-plaque-pop",
+      "scroll": {
+        "width": 320,
+        "height": 1072
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 345,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 369
+        },
+        {
+          "text": "Jail",
+          "left": 173.31350708007812,
+          "top": 345,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 229.10836791992188,
+          "bottom": 369
+        }
+      ],
+      "notes": {
+        "text": "Player 1: Hospital full; permanently eliminated and removed from the board.\nPlayer 2: Healed.",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 1,
+        "height": 1,
+        "right": 1,
+        "bottom": 1
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "A3"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": null,
+      "pass": null,
+      "privateOpen": false,
+      "parts": [
+        {
+          "part": "b07f88ea-f8ce-46c2-bd1a-55214ea39b8e-full",
+          "room": "hospital",
+          "left": 9,
+          "top": 376,
+          "width": 84,
+          "height": 24,
+          "right": 93,
+          "bottom": 400,
+          "text": "HOSPITAL FULL",
+          "hasSvg": false,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "512d7773-7c58-4c7f-ac17-d50e13ee4032-patient-body",
+          "room": "hospital",
+          "left": -9.765625,
+          "top": 410.609375,
+          "width": 101.8125,
+          "height": 101.8125,
+          "right": 92.046875,
+          "bottom": 512.421875,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "offboard-plaque",
+          "room": "jail",
+          "left": 229.4093780517578,
+          "top": 346.2900085449219,
+          "width": 71.40000915527344,
+          "height": 21.41998291015625,
+          "right": 300.80938720703125,
+          "bottom": 367.7099914550781,
+          "text": "1",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1.19, 0, 0, 1.19, 0, 0)"
+        }
+      ]
+    },
+    {
+      "name": "320-display-normal-admission-fifth",
+      "scroll": {
+        "width": 320,
+        "height": 1045
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 345,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 369
+        },
+        {
+          "text": "Jail",
+          "left": 173.31350708007812,
+          "top": 345,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 229.10836791992188,
+          "bottom": 369
+        }
+      ],
+      "notes": {
+        "text": "Player 1: Injured.",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 1,
+        "height": 1,
+        "right": 1,
+        "bottom": 1
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "H1"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-1",
+          "slot": "H2"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": null,
+      "pass": null,
+      "privateOpen": false,
+      "parts": [
+        {
+          "part": "ad6c2556-3336-4ca5-9f11-374e564ece19-patient-body",
+          "room": "hospital",
+          "left": 67.96687316894531,
+          "top": 416.171875,
+          "width": 101.8125,
+          "height": 101.8125,
+          "right": 169.7793731689453,
+          "bottom": 517.984375,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 0.55,
+          "filter": "none",
+          "transform": "matrix(-1, 0, 0, 1, 0, 0)"
+        }
+      ]
+    },
+    {
+      "name": "320-display-normal-admission-held",
+      "scroll": {
+        "width": 320,
+        "height": 1045
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 345,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 369
+        },
+        {
+          "text": "Jail",
+          "left": 173.31350708007812,
+          "top": 345,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 229.10836791992188,
+          "bottom": 369
+        }
+      ],
+      "notes": {
+        "text": "Player 1: Injured.",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 1,
+        "height": 1,
+        "right": 1,
+        "bottom": 1
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "H1"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-1",
+          "slot": "H2"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": null,
+      "pass": null,
+      "privateOpen": false,
+      "parts": [
+        {
+          "part": "08035d88-0e5d-477a-b16b-2d79cfd8e00d-patient-body",
+          "room": "hospital",
+          "left": 67.96687316894531,
+          "top": 416.171875,
+          "width": 101.8125,
+          "height": 101.8125,
+          "right": 169.7793731689453,
+          "bottom": 517.984375,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 0.47,
+          "filter": "none",
+          "transform": "matrix(-1, 0, 0, 1, 0, 0)"
+        }
+      ]
+    },
+    {
+      "name": "320-display-normal-admission-body-held",
+      "scroll": {
+        "width": 320,
+        "height": 1072
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 345,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 369
+        },
+        {
+          "text": "Jail",
+          "left": 173.31350708007812,
+          "top": 345,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 229.10836791992188,
+          "bottom": 369
+        }
+      ],
+      "notes": {
+        "text": "Player 1: Injured.",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 1,
+        "height": 1,
+        "right": 1,
+        "bottom": 1
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "H1"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-1",
+          "slot": "H2"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": null,
+      "pass": null,
+      "privateOpen": false,
+      "parts": [
+        {
+          "part": "d2a8e460-b1a4-4a0d-8bf7-0dcacacdc22e-patient-body",
+          "room": "hospital",
+          "left": 67.96687316894531,
+          "top": 416.171875,
+          "width": 101.8125,
+          "height": 101.8125,
+          "right": 169.7793731689453,
+          "bottom": 517.984375,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 0.47,
+          "filter": "none",
+          "transform": "matrix(-1, 0, 0, 1, 0, 0)"
+        }
+      ]
+    },
+    {
+      "name": "320-display-reduced-overflow-grey",
+      "scroll": {
+        "width": 320,
+        "height": 1072
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 345,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 369
+        },
+        {
+          "text": "Jail",
+          "left": 173.31350708007812,
+          "top": 345,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 229.10836791992188,
+          "bottom": 369
+        }
+      ],
+      "notes": {
+        "text": "Player 1: Hospital full; permanently eliminated and removed from the board.\nPlayer 2: Healed.",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 1,
+        "height": 1,
+        "right": 1,
+        "bottom": 1
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "A3"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": null,
+      "pass": null,
+      "privateOpen": false,
+      "parts": [
+        {
+          "part": "7e361958-4417-4d4c-9c32-69188272538d-grey-body",
+          "room": "room-a",
+          "left": 80.3125,
+          "top": 170.953125,
+          "width": 105.75,
+          "height": 105.75,
+          "right": 186.0625,
+          "bottom": 276.703125,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "7e361958-4417-4d4c-9c32-69188272538d-full",
+          "room": "hospital",
+          "left": 9,
+          "top": 376,
+          "width": 84,
+          "height": 24,
+          "right": 93,
+          "bottom": 400,
+          "text": "HOSPITAL FULL",
+          "hasSvg": false,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "75e1fec9-d804-4beb-8a05-d5cee22e3f92-patient-body",
+          "room": "hospital",
+          "left": -9.765625,
+          "top": 410.609375,
+          "width": 101.8125,
+          "height": 101.8125,
+          "right": 92.046875,
+          "bottom": 512.421875,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "offboard-plaque",
+          "room": "jail",
+          "left": 235.109375,
+          "top": 348,
+          "width": 60,
+          "height": 18,
+          "right": 295.109375,
+          "bottom": 366,
+          "text": "1",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        }
+      ]
+    },
+    {
+      "name": "320-display-reduced-overflow-counted",
+      "scroll": {
+        "width": 320,
+        "height": 1072
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 345,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 369
+        },
+        {
+          "text": "Jail",
+          "left": 173.31350708007812,
+          "top": 345,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 229.10836791992188,
+          "bottom": 369
+        }
+      ],
+      "notes": {
+        "text": "Player 1: Hospital full; permanently eliminated and removed from the board.\nPlayer 2: Healed.",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 1,
+        "height": 1,
+        "right": 1,
+        "bottom": 1
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "A3"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": null,
+      "pass": null,
+      "privateOpen": false,
+      "parts": [
+        {
+          "part": "7e361958-4417-4d4c-9c32-69188272538d-full",
+          "room": "hospital",
+          "left": 9,
+          "top": 376,
+          "width": 84,
+          "height": 24,
+          "right": 93,
+          "bottom": 400,
+          "text": "HOSPITAL FULL",
+          "hasSvg": false,
+          "opacity": 0,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "75e1fec9-d804-4beb-8a05-d5cee22e3f92-patient-body",
+          "room": "hospital",
+          "left": -14.78125,
+          "top": 416.171875,
+          "width": 101.8125,
+          "height": 101.8125,
+          "right": 87.03125,
+          "bottom": 517.984375,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "offboard-plaque",
+          "room": "jail",
+          "left": 235.109375,
+          "top": 348,
+          "width": 60,
+          "height": 18,
+          "right": 295.109375,
+          "bottom": 366,
+          "text": "1",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        }
+      ]
+    },
+    {
+      "name": "320-display-reduced-admission-fifth",
+      "scroll": {
+        "width": 320,
+        "height": 1045
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 345,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 369
+        },
+        {
+          "text": "Jail",
+          "left": 173.31350708007812,
+          "top": 345,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 229.10836791992188,
+          "bottom": 369
+        }
+      ],
+      "notes": {
+        "text": "Player 1: Injured.",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 1,
+        "height": 1,
+        "right": 1,
+        "bottom": 1
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "H1"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-1",
+          "slot": "H2"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": null,
+      "pass": null,
+      "privateOpen": false,
+      "parts": [
+        {
+          "part": "67522659-7c98-4eba-86a8-43977f1b3ce9-patient-body",
+          "room": "hospital",
+          "left": 67.96687316894531,
+          "top": 416.171875,
+          "width": 101.8125,
+          "height": 101.8125,
+          "right": 169.7793731689453,
+          "bottom": 517.984375,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(-1, 0, 0, 1, 0, 0)"
+        }
+      ]
+    },
+    {
+      "name": "320-display-reduced-admission-held",
+      "scroll": {
+        "width": 320,
+        "height": 1045
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 345,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 369
+        },
+        {
+          "text": "Jail",
+          "left": 173.31350708007812,
+          "top": 345,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 229.10836791992188,
+          "bottom": 369
+        }
+      ],
+      "notes": {
+        "text": "Player 1: Injured.",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 1,
+        "height": 1,
+        "right": 1,
+        "bottom": 1
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "H1"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-1",
+          "slot": "H2"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": null,
+      "pass": null,
+      "privateOpen": false,
+      "parts": [
+        {
+          "part": "0ff83390-ae45-483b-9e89-bf1a64be9343-patient-body",
+          "room": "hospital",
+          "left": 67.96687316894531,
+          "top": 416.171875,
+          "width": 101.8125,
+          "height": 101.8125,
+          "right": 169.7793731689453,
+          "bottom": 517.984375,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(-1, 0, 0, 1, 0, 0)"
+        }
+      ]
+    },
+    {
+      "name": "320-display-reduced-admission-body-held",
+      "scroll": {
+        "width": 320,
+        "height": 1072
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 345,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 369
+        },
+        {
+          "text": "Jail",
+          "left": 173.31350708007812,
+          "top": 345,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 229.10836791992188,
+          "bottom": 369
+        }
+      ],
+      "notes": {
+        "text": "Player 1: Injured.",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 1,
+        "height": 1,
+        "right": 1,
+        "bottom": 1
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "H1"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-1",
+          "slot": "H2"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": null,
+      "pass": null,
+      "privateOpen": false,
+      "parts": [
+        {
+          "part": "2b3078a5-7cb7-4205-8886-a5e4c6bb9ec1-patient-body",
+          "room": "hospital",
+          "left": 67.96687316894531,
+          "top": 416.171875,
+          "width": 101.8125,
+          "height": 101.8125,
+          "right": 169.7793731689453,
+          "bottom": 517.984375,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(-1, 0, 0, 1, 0, 0)"
+        }
+      ]
+    },
+    {
+      "name": "390-player-normal-overflow-grey",
+      "scroll": {
+        "width": 390,
+        "height": 844
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 590,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 614
+        },
+        {
+          "text": "Jail",
+          "left": 208.31350708007812,
+          "top": 590,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 264.1083679199219,
+          "bottom": 614
+        }
+      ],
+      "notes": {
+        "text": "Player 1: Hospital full; permanently eliminated and removed from the board.\nPlayer 2: Healed.",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 1,
+        "height": 1,
+        "right": 1,
+        "bottom": 1
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "A3"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": null,
+      "pass": {
+        "left": 163,
+        "top": 765,
+        "width": 64,
+        "height": 64,
+        "right": 227,
+        "bottom": 829
+      },
+      "privateOpen": false,
+      "parts": [
+        {
+          "part": "26275dc2-1b80-4859-a4d6-3c8ab5f079f8-origin-body",
+          "room": "room-a",
+          "left": 98.515625,
+          "top": 317.25,
+          "width": 132,
+          "height": 132,
+          "right": 230.515625,
+          "bottom": 449.25,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 0.43,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "26275dc2-1b80-4859-a4d6-3c8ab5f079f8-grey-body",
+          "room": "room-a",
+          "left": 98.515625,
+          "top": 317.25,
+          "width": 132,
+          "height": 132,
+          "right": 230.515625,
+          "bottom": 449.25,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 0.57,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "26275dc2-1b80-4859-a4d6-3c8ab5f079f8-full",
+          "room": "hospital",
+          "left": 9,
+          "top": 621,
+          "width": 84,
+          "height": 24,
+          "right": 93,
+          "bottom": 645,
+          "text": "HOSPITAL FULL",
+          "hasSvg": false,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "dcf402c1-e11b-42c3-9bac-3f60e4e62164-patient-body",
+          "room": "hospital",
+          "left": -4.78125,
+          "top": 652.5,
+          "width": 116.421875,
+          "height": 116.421875,
+          "right": 111.640625,
+          "bottom": 768.921875,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "dcf402c1-e11b-42c3-9bac-3f60e4e62164-vitals",
+          "room": "hospital",
+          "left": 115.65625,
+          "top": 589,
+          "width": 65.328125,
+          "height": 28,
+          "right": 180.984375,
+          "bottom": 617,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "offboard-plaque",
+          "room": "jail",
+          "left": 270.109375,
+          "top": 593,
+          "width": 60,
+          "height": 18,
+          "right": 330.109375,
+          "bottom": 611,
+          "text": "1",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        }
+      ]
+    },
+    {
+      "name": "390-player-normal-overflow-lift",
+      "scroll": {
+        "width": 390,
+        "height": 844
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 590,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 614
+        },
+        {
+          "text": "Jail",
+          "left": 208.31350708007812,
+          "top": 590,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 264.1083679199219,
+          "bottom": 614
+        }
+      ],
+      "notes": {
+        "text": "Player 1: Hospital full; permanently eliminated and removed from the board.\nPlayer 2: Healed.",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 1,
+        "height": 1,
+        "right": 1,
+        "bottom": 1
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "A3"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": null,
+      "pass": {
+        "left": 163,
+        "top": 765,
+        "width": 64,
+        "height": 64,
+        "right": 227,
+        "bottom": 829
+      },
+      "privateOpen": false,
+      "parts": [
+        {
+          "part": "26275dc2-1b80-4859-a4d6-3c8ab5f079f8-full",
+          "room": "hospital",
+          "left": 9,
+          "top": 621,
+          "width": 84,
+          "height": 24,
+          "right": 93,
+          "bottom": 645,
+          "text": "HOSPITAL FULL",
+          "hasSvg": false,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "dcf402c1-e11b-42c3-9bac-3f60e4e62164-patient-body",
+          "room": "hospital",
+          "left": -4.78125,
+          "top": 652.5,
+          "width": 116.421875,
+          "height": 116.421875,
+          "right": 111.640625,
+          "bottom": 768.921875,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "dcf402c1-e11b-42c3-9bac-3f60e4e62164-vitals",
+          "room": "hospital",
+          "left": 115.65625,
+          "top": 589,
+          "width": 65.328125,
+          "height": 28,
+          "right": 180.984375,
+          "bottom": 617,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "offboard-plaque",
+          "room": "jail",
+          "left": 270.109375,
+          "top": 593,
+          "width": 60,
+          "height": 18,
+          "right": 330.109375,
+          "bottom": 611,
+          "text": "1",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "26275dc2-1b80-4859-a4d6-3c8ab5f079f8-paper-body",
+          "room": null,
+          "left": 72.9375,
+          "top": 397.640625,
+          "width": 37.25,
+          "height": 37.25,
+          "right": 110.1875,
+          "bottom": 434.890625,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 0.86,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        }
+      ]
+    },
+    {
+      "name": "390-player-normal-overflow-plaque-pop",
+      "scroll": {
+        "width": 390,
+        "height": 844
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 590,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 614
+        },
+        {
+          "text": "Jail",
+          "left": 208.31350708007812,
+          "top": 590,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 264.1083679199219,
+          "bottom": 614
+        }
+      ],
+      "notes": {
+        "text": "Player 1: Hospital full; permanently eliminated and removed from the board.\nPlayer 2: Healed.",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 1,
+        "height": 1,
+        "right": 1,
+        "bottom": 1
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "A3"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": null,
+      "pass": {
+        "left": 163,
+        "top": 765,
+        "width": 64,
+        "height": 64,
+        "right": 227,
+        "bottom": 829
+      },
+      "privateOpen": false,
+      "parts": [
+        {
+          "part": "26275dc2-1b80-4859-a4d6-3c8ab5f079f8-full",
+          "room": "hospital",
+          "left": 9,
+          "top": 621,
+          "width": 84,
+          "height": 24,
+          "right": 93,
+          "bottom": 645,
+          "text": "HOSPITAL FULL",
+          "hasSvg": false,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "dcf402c1-e11b-42c3-9bac-3f60e4e62164-patient-body",
+          "room": "hospital",
+          "left": -4.78125,
+          "top": 652.5,
+          "width": 116.421875,
+          "height": 116.421875,
+          "right": 111.640625,
+          "bottom": 768.921875,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "dcf402c1-e11b-42c3-9bac-3f60e4e62164-vitals",
+          "room": "hospital",
+          "left": 115.65625,
+          "top": 589,
+          "width": 65.328125,
+          "height": 28,
+          "right": 180.984375,
+          "bottom": 617,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "offboard-plaque",
+          "room": "jail",
+          "left": 264.40936279296875,
+          "top": 591.2899780273438,
+          "width": 71.4000244140625,
+          "height": 21.4200439453125,
+          "right": 335.80938720703125,
+          "bottom": 612.7100219726562,
+          "text": "1",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1.19, 0, 0, 1.19, 0, 0)"
+        }
+      ]
+    },
+    {
+      "name": "390-player-normal-admission-fifth",
+      "scroll": {
+        "width": 390,
+        "height": 844
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 590,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 614
+        },
+        {
+          "text": "Jail",
+          "left": 208.31350708007812,
+          "top": 590,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 264.1083679199219,
+          "bottom": 614
+        }
+      ],
+      "notes": {
+        "text": "Player 1: Injured.",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 1,
+        "height": 1,
+        "right": 1,
+        "bottom": 1
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "H1"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-1",
+          "slot": "H2"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": null,
+      "pass": {
+        "left": 163,
+        "top": 765,
+        "width": 64,
+        "height": 64,
+        "right": 227,
+        "bottom": 829
+      },
+      "privateOpen": false,
+      "parts": [
+        {
+          "part": "cb7cd760-11f4-4160-afe4-8fddf6c8e162-patient-body",
+          "room": "hospital",
+          "left": 84.09916687011719,
+          "top": 658.859375,
+          "width": 116.421875,
+          "height": 116.421875,
+          "right": 200.5210418701172,
+          "bottom": 775.28125,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 0.55,
+          "filter": "none",
+          "transform": "matrix(-1, 0, 0, 1, 0, 0)"
+        }
+      ]
+    },
+    {
+      "name": "390-player-normal-admission-held",
+      "scroll": {
+        "width": 390,
+        "height": 844
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 590,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 614
+        },
+        {
+          "text": "Jail",
+          "left": 208.31350708007812,
+          "top": 590,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 264.1083679199219,
+          "bottom": 614
+        }
+      ],
+      "notes": {
+        "text": "Player 1: Injured.",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 1,
+        "height": 1,
+        "right": 1,
+        "bottom": 1
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "H1"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-1",
+          "slot": "H2"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": null,
+      "pass": {
+        "left": 163,
+        "top": 765,
+        "width": 64,
+        "height": 64,
+        "right": 227,
+        "bottom": 829
+      },
+      "privateOpen": false,
+      "parts": [
+        {
+          "part": "4efc3b3e-483e-4d3f-95bf-c3d991e92ea4-patient-body",
+          "room": "hospital",
+          "left": 84.09916687011719,
+          "top": 658.859375,
+          "width": 116.421875,
+          "height": 116.421875,
+          "right": 200.5210418701172,
+          "bottom": 775.28125,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 0.55,
+          "filter": "none",
+          "transform": "matrix(-1, 0, 0, 1, 0, 0)"
+        }
+      ]
+    },
+    {
+      "name": "390-player-normal-admission-body-held",
+      "scroll": {
+        "width": 390,
+        "height": 844
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 590,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 614
+        },
+        {
+          "text": "Jail",
+          "left": 208.31350708007812,
+          "top": 590,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 264.1083679199219,
+          "bottom": 614
+        }
+      ],
+      "notes": {
+        "text": "Player 1: Injured.",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 1,
+        "height": 1,
+        "right": 1,
+        "bottom": 1
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "H1"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-1",
+          "slot": "H2"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": null,
+      "pass": {
+        "left": 163,
+        "top": 765,
+        "width": 64,
+        "height": 64,
+        "right": 227,
+        "bottom": 829
+      },
+      "privateOpen": false,
+      "parts": [
+        {
+          "part": "4d0f208d-4e95-4b0b-980a-2540d2a5408e-patient-body",
+          "room": "hospital",
+          "left": 84.09916687011719,
+          "top": 658.859375,
+          "width": 116.421875,
+          "height": 116.421875,
+          "right": 200.5210418701172,
+          "bottom": 775.28125,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 0.52,
+          "filter": "none",
+          "transform": "matrix(-1, 0, 0, 1, 0, 0)"
+        }
+      ]
+    },
+    {
+      "name": "390-player-reduced-overflow-grey",
+      "scroll": {
+        "width": 390,
+        "height": 844
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 590,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 614
+        },
+        {
+          "text": "Jail",
+          "left": 208.31350708007812,
+          "top": 590,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 264.1083679199219,
+          "bottom": 614
+        }
+      ],
+      "notes": {
+        "text": "Player 1: Hospital full; permanently eliminated and removed from the board.\nPlayer 2: Healed.",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 1,
+        "height": 1,
+        "right": 1,
+        "bottom": 1
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "A3"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": null,
+      "pass": {
+        "left": 163,
+        "top": 765,
+        "width": 64,
+        "height": 64,
+        "right": 227,
+        "bottom": 829
+      },
+      "privateOpen": false,
+      "parts": [
+        {
+          "part": "7b8095f5-a294-4726-8a09-9b10bdc6c384-grey-body",
+          "room": "room-a",
+          "left": 98.515625,
+          "top": 317.25,
+          "width": 132,
+          "height": 132,
+          "right": 230.515625,
+          "bottom": 449.25,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "7b8095f5-a294-4726-8a09-9b10bdc6c384-full",
+          "room": "hospital",
+          "left": 9,
+          "top": 621,
+          "width": 84,
+          "height": 24,
+          "right": 93,
+          "bottom": 645,
+          "text": "HOSPITAL FULL",
+          "hasSvg": false,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "8bcda229-c0cb-4452-a99a-0f3c160d7e64-patient-body",
+          "room": "hospital",
+          "left": -4.78125,
+          "top": 652.5,
+          "width": 116.421875,
+          "height": 116.421875,
+          "right": 111.640625,
+          "bottom": 768.921875,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "8bcda229-c0cb-4452-a99a-0f3c160d7e64-vitals",
+          "room": "hospital",
+          "left": 115.65625,
+          "top": 589,
+          "width": 65.328125,
+          "height": 28,
+          "right": 180.984375,
+          "bottom": 617,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "offboard-plaque",
+          "room": "jail",
+          "left": 270.109375,
+          "top": 593,
+          "width": 60,
+          "height": 18,
+          "right": 330.109375,
+          "bottom": 611,
+          "text": "1",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        }
+      ]
+    },
+    {
+      "name": "390-player-reduced-overflow-counted",
+      "scroll": {
+        "width": 390,
+        "height": 844
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 590,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 614
+        },
+        {
+          "text": "Jail",
+          "left": 208.31350708007812,
+          "top": 590,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 264.1083679199219,
+          "bottom": 614
+        }
+      ],
+      "notes": {
+        "text": "Player 1: Hospital full; permanently eliminated and removed from the board.\nPlayer 2: Healed.",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 1,
+        "height": 1,
+        "right": 1,
+        "bottom": 1
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "A3"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": null,
+      "pass": {
+        "left": 163,
+        "top": 765,
+        "width": 64,
+        "height": 64,
+        "right": 227,
+        "bottom": 829
+      },
+      "privateOpen": false,
+      "parts": [
+        {
+          "part": "7b8095f5-a294-4726-8a09-9b10bdc6c384-full",
+          "room": "hospital",
+          "left": 9,
+          "top": 621,
+          "width": 84,
+          "height": 24,
+          "right": 93,
+          "bottom": 645,
+          "text": "HOSPITAL FULL",
+          "hasSvg": false,
+          "opacity": 0,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "8bcda229-c0cb-4452-a99a-0f3c160d7e64-patient-body",
+          "room": "hospital",
+          "left": -10.515625,
+          "top": 658.859375,
+          "width": 116.421875,
+          "height": 116.421875,
+          "right": 105.90625,
+          "bottom": 775.28125,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "8bcda229-c0cb-4452-a99a-0f3c160d7e64-vitals",
+          "room": "hospital",
+          "left": 115.65625,
+          "top": 589,
+          "width": 65.328125,
+          "height": 28,
+          "right": 180.984375,
+          "bottom": 617,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "offboard-plaque",
+          "room": "jail",
+          "left": 270.109375,
+          "top": 593,
+          "width": 60,
+          "height": 18,
+          "right": 330.109375,
+          "bottom": 611,
+          "text": "1",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        }
+      ]
+    },
+    {
+      "name": "390-player-reduced-admission-fifth",
+      "scroll": {
+        "width": 390,
+        "height": 844
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 590,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 614
+        },
+        {
+          "text": "Jail",
+          "left": 208.31350708007812,
+          "top": 590,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 264.1083679199219,
+          "bottom": 614
+        }
+      ],
+      "notes": {
+        "text": "Player 1: Injured.",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 1,
+        "height": 1,
+        "right": 1,
+        "bottom": 1
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "H1"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-1",
+          "slot": "H2"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": null,
+      "pass": {
+        "left": 163,
+        "top": 765,
+        "width": 64,
+        "height": 64,
+        "right": 227,
+        "bottom": 829
+      },
+      "privateOpen": false,
+      "parts": [
+        {
+          "part": "2b9a22d8-1b55-4f25-9950-16cdcc862987-patient-body",
+          "room": "hospital",
+          "left": 84.09916687011719,
+          "top": 658.859375,
+          "width": 116.421875,
+          "height": 116.421875,
+          "right": 200.5210418701172,
+          "bottom": 775.28125,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(-1, 0, 0, 1, 0, 0)"
+        }
+      ]
+    },
+    {
+      "name": "390-player-reduced-admission-held",
+      "scroll": {
+        "width": 390,
+        "height": 844
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 590,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 614
+        },
+        {
+          "text": "Jail",
+          "left": 208.31350708007812,
+          "top": 590,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 264.1083679199219,
+          "bottom": 614
+        }
+      ],
+      "notes": {
+        "text": "Player 1: Injured.",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 1,
+        "height": 1,
+        "right": 1,
+        "bottom": 1
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "H1"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-1",
+          "slot": "H2"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": null,
+      "pass": {
+        "left": 163,
+        "top": 765,
+        "width": 64,
+        "height": 64,
+        "right": 227,
+        "bottom": 829
+      },
+      "privateOpen": false,
+      "parts": [
+        {
+          "part": "8289b41c-28b8-4953-946a-fa25d832e3ee-patient-body",
+          "room": "hospital",
+          "left": 84.09916687011719,
+          "top": 658.859375,
+          "width": 116.421875,
+          "height": 116.421875,
+          "right": 200.5210418701172,
+          "bottom": 775.28125,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(-1, 0, 0, 1, 0, 0)"
+        }
+      ]
+    },
+    {
+      "name": "390-player-reduced-admission-body-held",
+      "scroll": {
+        "width": 390,
+        "height": 844
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 590,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 614
+        },
+        {
+          "text": "Jail",
+          "left": 208.31350708007812,
+          "top": 590,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 264.1083679199219,
+          "bottom": 614
+        }
+      ],
+      "notes": {
+        "text": "Player 1: Injured.",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 1,
+        "height": 1,
+        "right": 1,
+        "bottom": 1
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "H1"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-1",
+          "slot": "H2"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": null,
+      "pass": {
+        "left": 163,
+        "top": 765,
+        "width": 64,
+        "height": 64,
+        "right": 227,
+        "bottom": 829
+      },
+      "privateOpen": false,
+      "parts": [
+        {
+          "part": "777c1490-2da4-4061-a5c9-ee9b9b53d904-patient-body",
+          "room": "hospital",
+          "left": 84.09916687011719,
+          "top": 658.859375,
+          "width": 116.421875,
+          "height": 116.421875,
+          "right": 200.5210418701172,
+          "bottom": 775.28125,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(-1, 0, 0, 1, 0, 0)"
+        }
+      ]
+    },
+    {
+      "name": "390-display-normal-overflow-grey",
+      "scroll": {
+        "width": 390,
+        "height": 923
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 590,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 614
+        },
+        {
+          "text": "Jail",
+          "left": 208.31350708007812,
+          "top": 590,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 264.1083679199219,
+          "bottom": 614
+        }
+      ],
+      "notes": {
+        "text": "Player 1: Hospital full; permanently eliminated and removed from the board.\nPlayer 2: Healed.",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 1,
+        "height": 1,
+        "right": 1,
+        "bottom": 1
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "A3"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": null,
+      "pass": null,
+      "privateOpen": false,
+      "parts": [
+        {
+          "part": "1047232e-e5c4-4a92-9f35-3861afe357ec-origin-body",
+          "room": "room-a",
+          "left": 98.515625,
+          "top": 317.25,
+          "width": 132,
+          "height": 132,
+          "right": 230.515625,
+          "bottom": 449.25,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 0.43,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "1047232e-e5c4-4a92-9f35-3861afe357ec-grey-body",
+          "room": "room-a",
+          "left": 98.515625,
+          "top": 317.25,
+          "width": 132,
+          "height": 132,
+          "right": 230.515625,
+          "bottom": 449.25,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 0.57,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "1047232e-e5c4-4a92-9f35-3861afe357ec-full",
+          "room": "hospital",
+          "left": 9,
+          "top": 621,
+          "width": 84,
+          "height": 24,
+          "right": 93,
+          "bottom": 645,
+          "text": "HOSPITAL FULL",
+          "hasSvg": false,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "5f23fe0c-3032-4c71-8383-6175c7bf06f1-patient-body",
+          "room": "hospital",
+          "left": -4.78125,
+          "top": 652.5,
+          "width": 116.421875,
+          "height": 116.421875,
+          "right": 111.640625,
+          "bottom": 768.921875,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "5f23fe0c-3032-4c71-8383-6175c7bf06f1-vitals",
+          "room": "hospital",
+          "left": 115.65625,
+          "top": 589,
+          "width": 65.328125,
+          "height": 28,
+          "right": 180.984375,
+          "bottom": 617,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "offboard-plaque",
+          "room": "jail",
+          "left": 270.109375,
+          "top": 593,
+          "width": 60,
+          "height": 18,
+          "right": 330.109375,
+          "bottom": 611,
+          "text": "1",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        }
+      ]
+    },
+    {
+      "name": "390-display-normal-overflow-lift",
+      "scroll": {
+        "width": 390,
+        "height": 923
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 590,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 614
+        },
+        {
+          "text": "Jail",
+          "left": 208.31350708007812,
+          "top": 590,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 264.1083679199219,
+          "bottom": 614
+        }
+      ],
+      "notes": {
+        "text": "Player 1: Hospital full; permanently eliminated and removed from the board.\nPlayer 2: Healed.",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 1,
+        "height": 1,
+        "right": 1,
+        "bottom": 1
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "A3"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": null,
+      "pass": null,
+      "privateOpen": false,
+      "parts": [
+        {
+          "part": "1047232e-e5c4-4a92-9f35-3861afe357ec-full",
+          "room": "hospital",
+          "left": 9,
+          "top": 621,
+          "width": 84,
+          "height": 24,
+          "right": 93,
+          "bottom": 645,
+          "text": "HOSPITAL FULL",
+          "hasSvg": false,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "5f23fe0c-3032-4c71-8383-6175c7bf06f1-patient-body",
+          "room": "hospital",
+          "left": -4.78125,
+          "top": 652.5,
+          "width": 116.421875,
+          "height": 116.421875,
+          "right": 111.640625,
+          "bottom": 768.921875,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "5f23fe0c-3032-4c71-8383-6175c7bf06f1-vitals",
+          "room": "hospital",
+          "left": 115.65625,
+          "top": 589,
+          "width": 65.328125,
+          "height": 28,
+          "right": 180.984375,
+          "bottom": 617,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "offboard-plaque",
+          "room": "jail",
+          "left": 270.109375,
+          "top": 593,
+          "width": 60,
+          "height": 18,
+          "right": 330.109375,
+          "bottom": 611,
+          "text": "1",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "1047232e-e5c4-4a92-9f35-3861afe357ec-paper-body",
+          "room": null,
+          "left": 72.9375,
+          "top": 397.640625,
+          "width": 37.25,
+          "height": 37.25,
+          "right": 110.1875,
+          "bottom": 434.890625,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 0.86,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        }
+      ]
+    },
+    {
+      "name": "390-display-normal-overflow-plaque-pop",
+      "scroll": {
+        "width": 390,
+        "height": 923
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 590,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 614
+        },
+        {
+          "text": "Jail",
+          "left": 208.31350708007812,
+          "top": 590,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 264.1083679199219,
+          "bottom": 614
+        }
+      ],
+      "notes": {
+        "text": "Player 1: Hospital full; permanently eliminated and removed from the board.\nPlayer 2: Healed.",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 1,
+        "height": 1,
+        "right": 1,
+        "bottom": 1
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "A3"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": null,
+      "pass": null,
+      "privateOpen": false,
+      "parts": [
+        {
+          "part": "1047232e-e5c4-4a92-9f35-3861afe357ec-full",
+          "room": "hospital",
+          "left": 9,
+          "top": 621,
+          "width": 84,
+          "height": 24,
+          "right": 93,
+          "bottom": 645,
+          "text": "HOSPITAL FULL",
+          "hasSvg": false,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "5f23fe0c-3032-4c71-8383-6175c7bf06f1-patient-body",
+          "room": "hospital",
+          "left": -4.78125,
+          "top": 652.5,
+          "width": 116.421875,
+          "height": 116.421875,
+          "right": 111.640625,
+          "bottom": 768.921875,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "5f23fe0c-3032-4c71-8383-6175c7bf06f1-vitals",
+          "room": "hospital",
+          "left": 115.65625,
+          "top": 589,
+          "width": 65.328125,
+          "height": 28,
+          "right": 180.984375,
+          "bottom": 617,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "offboard-plaque",
+          "room": "jail",
+          "left": 264.40936279296875,
+          "top": 591.2899780273438,
+          "width": 71.4000244140625,
+          "height": 21.4200439453125,
+          "right": 335.80938720703125,
+          "bottom": 612.7100219726562,
+          "text": "1",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1.19, 0, 0, 1.19, 0, 0)"
+        }
+      ]
+    },
+    {
+      "name": "390-display-normal-admission-fifth",
+      "scroll": {
+        "width": 390,
+        "height": 923
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 590,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 614
+        },
+        {
+          "text": "Jail",
+          "left": 208.31350708007812,
+          "top": 590,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 264.1083679199219,
+          "bottom": 614
+        }
+      ],
+      "notes": {
+        "text": "Player 1: Injured.",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 1,
+        "height": 1,
+        "right": 1,
+        "bottom": 1
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "H1"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-1",
+          "slot": "H2"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": null,
+      "pass": null,
+      "privateOpen": false,
+      "parts": [
+        {
+          "part": "0a00a9b3-260f-4b60-98be-efe0de8006b4-patient-body",
+          "room": "hospital",
+          "left": 84.09916687011719,
+          "top": 658.859375,
+          "width": 116.421875,
+          "height": 116.421875,
+          "right": 200.5210418701172,
+          "bottom": 775.28125,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 0.52,
+          "filter": "none",
+          "transform": "matrix(-1, 0, 0, 1, 0, 0)"
+        }
+      ]
+    },
+    {
+      "name": "390-display-normal-admission-held",
+      "scroll": {
+        "width": 390,
+        "height": 923
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 590,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 614
+        },
+        {
+          "text": "Jail",
+          "left": 208.31350708007812,
+          "top": 590,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 264.1083679199219,
+          "bottom": 614
+        }
+      ],
+      "notes": {
+        "text": "Player 1: Injured.",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 1,
+        "height": 1,
+        "right": 1,
+        "bottom": 1
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "H1"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-1",
+          "slot": "H2"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": null,
+      "pass": null,
+      "privateOpen": false,
+      "parts": [
+        {
+          "part": "f45671f2-5142-4c6d-8458-2454300a35cd-patient-body",
+          "room": "hospital",
+          "left": 84.09916687011719,
+          "top": 658.859375,
+          "width": 116.421875,
+          "height": 116.421875,
+          "right": 200.5210418701172,
+          "bottom": 775.28125,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 0.5,
+          "filter": "none",
+          "transform": "matrix(-1, 0, 0, 1, 0, 0)"
+        }
+      ]
+    },
+    {
+      "name": "390-display-normal-admission-body-held",
+      "scroll": {
+        "width": 390,
+        "height": 923
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 590,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 614
+        },
+        {
+          "text": "Jail",
+          "left": 208.31350708007812,
+          "top": 590,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 264.1083679199219,
+          "bottom": 614
+        }
+      ],
+      "notes": {
+        "text": "Player 1: Injured.",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 1,
+        "height": 1,
+        "right": 1,
+        "bottom": 1
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "H1"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-1",
+          "slot": "H2"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": null,
+      "pass": null,
+      "privateOpen": false,
+      "parts": [
+        {
+          "part": "755bd693-c02e-4416-84f3-be36bb607899-patient-body",
+          "room": "hospital",
+          "left": 84.09916687011719,
+          "top": 658.859375,
+          "width": 116.421875,
+          "height": 116.421875,
+          "right": 200.5210418701172,
+          "bottom": 775.28125,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 0.53,
+          "filter": "none",
+          "transform": "matrix(-1, 0, 0, 1, 0, 0)"
+        }
+      ]
+    },
+    {
+      "name": "390-display-normal-guard-healed",
+      "scroll": {
+        "width": 390,
+        "height": 923
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 590,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 614
+        },
+        {
+          "text": "Jail",
+          "left": 208.31350708007812,
+          "top": 590,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 264.1083679199219,
+          "bottom": 614
+        }
+      ],
+      "notes": {
+        "text": "Player 2: Healed.",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 1,
+        "height": 1,
+        "right": 1,
+        "bottom": 1
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-1",
+          "slot": "A4"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "A3"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": null,
+      "pass": null,
+      "privateOpen": false,
+      "parts": []
+    },
+    {
+      "name": "390-display-normal-guard-death",
+      "scroll": {
+        "width": 390,
+        "height": 923
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 590,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 614
+        },
+        {
+          "text": "Jail",
+          "left": 208.31350708007812,
+          "top": 590,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 264.1083679199219,
+          "bottom": 614
+        }
+      ],
+      "notes": {
+        "text": "Player 2: Eliminated.",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 1,
+        "height": 1,
+        "right": 1,
+        "bottom": 1
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-1",
+          "slot": "A4"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "H1"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": null,
+      "pass": null,
+      "privateOpen": false,
+      "parts": []
+    },
+    {
+      "name": "390-display-normal-guard-held-body",
+      "scroll": {
+        "width": 390,
+        "height": 923
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 590,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 614
+        },
+        {
+          "text": "Jail",
+          "left": 208.31350708007812,
+          "top": 590,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 264.1083679199219,
+          "bottom": 614
+        }
+      ],
+      "notes": {
+        "text": "Player 2: Healed.",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 1,
+        "height": 1,
+        "right": 1,
+        "bottom": 1
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "A3"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-1",
+          "slot": "H1"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": null,
+      "pass": null,
+      "privateOpen": false,
+      "parts": []
+    },
+    {
+      "name": "390-display-normal-guard-no-origin",
+      "scroll": {
+        "width": 390,
+        "height": 923
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 590,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 614
+        },
+        {
+          "text": "Jail",
+          "left": 208.31350708007812,
+          "top": 590,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 264.1083679199219,
+          "bottom": 614
+        }
+      ],
+      "notes": {
+        "text": "Player 1: Hospital full; permanently eliminated and removed from the board.",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 1,
+        "height": 1,
+        "right": 1,
+        "bottom": 1
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "H1"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": null,
+      "pass": null,
+      "privateOpen": false,
+      "parts": [
+        {
+          "part": "59b52e19-9e04-4700-ac29-7baa88cb4ae1-full",
+          "room": "hospital",
+          "left": 9,
+          "top": 621,
+          "width": 84,
+          "height": 24,
+          "right": 93,
+          "bottom": 645,
+          "text": "HOSPITAL FULL",
+          "hasSvg": false,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "offboard-plaque",
+          "room": "jail",
+          "left": 270.109375,
+          "top": 593,
+          "width": 60,
+          "height": 18,
+          "right": 330.109375,
+          "bottom": 611,
+          "text": "1",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        }
+      ]
+    },
+    {
+      "name": "390-display-reduced-overflow-grey",
+      "scroll": {
+        "width": 390,
+        "height": 923
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 590,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 614
+        },
+        {
+          "text": "Jail",
+          "left": 208.31350708007812,
+          "top": 590,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 264.1083679199219,
+          "bottom": 614
+        }
+      ],
+      "notes": {
+        "text": "Player 1: Hospital full; permanently eliminated and removed from the board.\nPlayer 2: Healed.",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 1,
+        "height": 1,
+        "right": 1,
+        "bottom": 1
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "A3"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": null,
+      "pass": null,
+      "privateOpen": false,
+      "parts": [
+        {
+          "part": "5b1f46e6-2dcd-40bb-9927-0cbf98453583-grey-body",
+          "room": "room-a",
+          "left": 98.515625,
+          "top": 317.25,
+          "width": 132,
+          "height": 132,
+          "right": 230.515625,
+          "bottom": 449.25,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "5b1f46e6-2dcd-40bb-9927-0cbf98453583-full",
+          "room": "hospital",
+          "left": 9,
+          "top": 621,
+          "width": 84,
+          "height": 24,
+          "right": 93,
+          "bottom": 645,
+          "text": "HOSPITAL FULL",
+          "hasSvg": false,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "24f0e7e8-11e3-4b87-8966-7490f14ff30f-patient-body",
+          "room": "hospital",
+          "left": -4.78125,
+          "top": 652.5,
+          "width": 116.421875,
+          "height": 116.421875,
+          "right": 111.640625,
+          "bottom": 768.921875,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "24f0e7e8-11e3-4b87-8966-7490f14ff30f-vitals",
+          "room": "hospital",
+          "left": 115.65625,
+          "top": 589,
+          "width": 65.328125,
+          "height": 28,
+          "right": 180.984375,
+          "bottom": 617,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "offboard-plaque",
+          "room": "jail",
+          "left": 270.109375,
+          "top": 593,
+          "width": 60,
+          "height": 18,
+          "right": 330.109375,
+          "bottom": 611,
+          "text": "1",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        }
+      ]
+    },
+    {
+      "name": "390-display-reduced-overflow-counted",
+      "scroll": {
+        "width": 390,
+        "height": 923
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 590,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 614
+        },
+        {
+          "text": "Jail",
+          "left": 208.31350708007812,
+          "top": 590,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 264.1083679199219,
+          "bottom": 614
+        }
+      ],
+      "notes": {
+        "text": "Player 1: Hospital full; permanently eliminated and removed from the board.\nPlayer 2: Healed.",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 1,
+        "height": 1,
+        "right": 1,
+        "bottom": 1
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "A3"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": null,
+      "pass": null,
+      "privateOpen": false,
+      "parts": [
+        {
+          "part": "5b1f46e6-2dcd-40bb-9927-0cbf98453583-full",
+          "room": "hospital",
+          "left": 9,
+          "top": 621,
+          "width": 84,
+          "height": 24,
+          "right": 93,
+          "bottom": 645,
+          "text": "HOSPITAL FULL",
+          "hasSvg": false,
+          "opacity": 0,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "24f0e7e8-11e3-4b87-8966-7490f14ff30f-patient-body",
+          "room": "hospital",
+          "left": -10.515625,
+          "top": 658.859375,
+          "width": 116.421875,
+          "height": 116.421875,
+          "right": 105.90625,
+          "bottom": 775.28125,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "24f0e7e8-11e3-4b87-8966-7490f14ff30f-vitals",
+          "room": "hospital",
+          "left": 115.65625,
+          "top": 589,
+          "width": 65.328125,
+          "height": 28,
+          "right": 180.984375,
+          "bottom": 617,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "offboard-plaque",
+          "room": "jail",
+          "left": 270.109375,
+          "top": 593,
+          "width": 60,
+          "height": 18,
+          "right": 330.109375,
+          "bottom": 611,
+          "text": "1",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        }
+      ]
+    },
+    {
+      "name": "390-display-reduced-admission-fifth",
+      "scroll": {
+        "width": 390,
+        "height": 923
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 590,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 614
+        },
+        {
+          "text": "Jail",
+          "left": 208.31350708007812,
+          "top": 590,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 264.1083679199219,
+          "bottom": 614
+        }
+      ],
+      "notes": {
+        "text": "Player 1: Injured.",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 1,
+        "height": 1,
+        "right": 1,
+        "bottom": 1
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "H1"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-1",
+          "slot": "H2"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": null,
+      "pass": null,
+      "privateOpen": false,
+      "parts": [
+        {
+          "part": "838ce082-2b15-4a5f-959c-32b53c00ed32-patient-body",
+          "room": "hospital",
+          "left": 84.09916687011719,
+          "top": 658.859375,
+          "width": 116.421875,
+          "height": 116.421875,
+          "right": 200.5210418701172,
+          "bottom": 775.28125,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(-1, 0, 0, 1, 0, 0)"
+        }
+      ]
+    },
+    {
+      "name": "390-display-reduced-admission-held",
+      "scroll": {
+        "width": 390,
+        "height": 923
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 590,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 614
+        },
+        {
+          "text": "Jail",
+          "left": 208.31350708007812,
+          "top": 590,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 264.1083679199219,
+          "bottom": 614
+        }
+      ],
+      "notes": {
+        "text": "Player 1: Injured.",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 1,
+        "height": 1,
+        "right": 1,
+        "bottom": 1
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "H1"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-1",
+          "slot": "H2"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": null,
+      "pass": null,
+      "privateOpen": false,
+      "parts": [
+        {
+          "part": "bad21e58-ce69-44bf-bcf6-781ebc6e6503-patient-body",
+          "room": "hospital",
+          "left": 84.09916687011719,
+          "top": 658.859375,
+          "width": 116.421875,
+          "height": 116.421875,
+          "right": 200.5210418701172,
+          "bottom": 775.28125,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(-1, 0, 0, 1, 0, 0)"
+        }
+      ]
+    },
+    {
+      "name": "390-display-reduced-admission-body-held",
+      "scroll": {
+        "width": 390,
+        "height": 923
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 590,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 614
+        },
+        {
+          "text": "Jail",
+          "left": 208.31350708007812,
+          "top": 590,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 264.1083679199219,
+          "bottom": 614
+        }
+      ],
+      "notes": {
+        "text": "Player 1: Injured.",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 1,
+        "height": 1,
+        "right": 1,
+        "bottom": 1
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "H1"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-1",
+          "slot": "H2"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": null,
+      "pass": null,
+      "privateOpen": false,
+      "parts": [
+        {
+          "part": "55856e58-b47a-4b1a-a4ab-a62b37abcf84-patient-body",
+          "room": "hospital",
+          "left": 84.09916687011719,
+          "top": 658.859375,
+          "width": 116.421875,
+          "height": 116.421875,
+          "right": 200.5210418701172,
+          "bottom": 775.28125,
+          "text": "",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(-1, 0, 0, 1, 0, 0)"
+        }
+      ]
+    },
+    {
+      "name": "390-display-reduced-guard-healed",
+      "scroll": {
+        "width": 390,
+        "height": 923
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 590,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 614
+        },
+        {
+          "text": "Jail",
+          "left": 208.31350708007812,
+          "top": 590,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 264.1083679199219,
+          "bottom": 614
+        }
+      ],
+      "notes": {
+        "text": "Player 2: Healed.",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 1,
+        "height": 1,
+        "right": 1,
+        "bottom": 1
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-1",
+          "slot": "A4"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "A3"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": null,
+      "pass": null,
+      "privateOpen": false,
+      "parts": []
+    },
+    {
+      "name": "390-display-reduced-guard-death",
+      "scroll": {
+        "width": 390,
+        "height": 923
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 590,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 614
+        },
+        {
+          "text": "Jail",
+          "left": 208.31350708007812,
+          "top": 590,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 264.1083679199219,
+          "bottom": 614
+        }
+      ],
+      "notes": {
+        "text": "Player 2: Eliminated.",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 1,
+        "height": 1,
+        "right": 1,
+        "bottom": 1
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-1",
+          "slot": "A4"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "H1"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": null,
+      "pass": null,
+      "privateOpen": false,
+      "parts": []
+    },
+    {
+      "name": "390-display-reduced-guard-held-body",
+      "scroll": {
+        "width": 390,
+        "height": 923
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 590,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 614
+        },
+        {
+          "text": "Jail",
+          "left": 208.31350708007812,
+          "top": 590,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 264.1083679199219,
+          "bottom": 614
+        }
+      ],
+      "notes": {
+        "text": "Player 2: Healed.",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 1,
+        "height": 1,
+        "right": 1,
+        "bottom": 1
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "A3"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-1",
+          "slot": "H1"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": null,
+      "pass": null,
+      "privateOpen": false,
+      "parts": []
+    },
+    {
+      "name": "390-display-reduced-guard-no-origin",
+      "scroll": {
+        "width": 390,
+        "height": 923
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 590,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 614
+        },
+        {
+          "text": "Jail",
+          "left": 208.31350708007812,
+          "top": 590,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 264.1083679199219,
+          "bottom": 614
+        }
+      ],
+      "notes": {
+        "text": "Player 1: Hospital full; permanently eliminated and removed from the board.",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 1,
+        "height": 1,
+        "right": 1,
+        "bottom": 1
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "H1"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": null,
+      "pass": null,
+      "privateOpen": false,
+      "parts": [
+        {
+          "part": "e70a37cf-749e-48ed-96c6-45831e8f06fe-full",
+          "room": "hospital",
+          "left": 9,
+          "top": 621,
+          "width": 84,
+          "height": 24,
+          "right": 93,
+          "bottom": 645,
+          "text": "HOSPITAL FULL",
+          "hasSvg": false,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        },
+        {
+          "part": "offboard-plaque",
+          "room": "jail",
+          "left": 270.109375,
+          "top": 593,
+          "width": 60,
+          "height": 18,
+          "right": 330.109375,
+          "bottom": 611,
+          "text": "1",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        }
+      ]
+    },
+    {
+      "name": "320-captain-plates",
+      "scroll": {
+        "width": 320,
+        "height": 568
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 345,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 369
+        },
+        {
+          "text": "Jail",
+          "left": 173.31350708007812,
+          "top": 345,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 229.10836791992188,
+          "bottom": 369
+        }
+      ],
+      "notes": {
+        "text": "",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 0,
+        "height": 0,
+        "right": 0,
+        "bottom": 0
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-1",
+          "slot": "A4"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "H1"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": null,
+      "pass": {
+        "left": 134,
+        "top": 514,
+        "width": 52,
+        "height": 52,
+        "right": 186,
+        "bottom": 566
+      },
+      "privateOpen": true,
+      "parts": []
+    },
+    {
+      "name": "320-offboard-row-start",
+      "scroll": {
+        "width": 320,
+        "height": 568
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 345,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 369
+        },
+        {
+          "text": "Jail",
+          "left": 173.31350708007812,
+          "top": 345,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 229.10836791992188,
+          "bottom": 369
+        }
+      ],
+      "notes": {
+        "text": "Player 1: Hospital full; permanently eliminated and removed from the board.",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 1,
+        "height": 1,
+        "right": 1,
+        "bottom": 1
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "H1"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": null,
+      "pass": {
+        "left": 134,
+        "top": 514,
+        "width": 52,
+        "height": 52,
+        "right": 186,
+        "bottom": 566
+      },
+      "privateOpen": true,
+      "parts": [
+        {
+          "part": "offboard-plaque",
+          "room": "jail",
+          "left": 235.109375,
+          "top": 348,
+          "width": 60,
+          "height": 18,
+          "right": 295.109375,
+          "bottom": 366,
+          "text": "1",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        }
+      ]
+    },
+    {
+      "name": "320-clone-normal-active-stamp",
+      "scroll": {
+        "width": 320,
+        "height": 568
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 345,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 369
+        },
+        {
+          "text": "Jail",
+          "left": 173.31350708007812,
+          "top": 345,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 229.10836791992188,
+          "bottom": 369
+        }
+      ],
+      "notes": {
+        "text": "",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 0,
+        "height": 0,
+        "right": 0,
+        "bottom": 0
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-1",
+          "slot": "A4"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "H1"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": {
+        "film": "activate",
+        "state": "active",
+        "text": "Clone active through Round 5.",
+        "left": 17,
+        "top": 390,
+        "width": 286,
+        "height": 100,
+        "right": 303,
+        "bottom": 490,
+        "stamps": [
+          {
+            "kind": "active",
+            "text": "CLONE ACTIVE",
+            "hidden": "true",
+            "opacity": 0.625,
+            "transform": "matrix(1.017, 0, 0, 1.017, 0, 0)",
+            "left": 148.390625,
+            "top": 398.8299865722656,
+            "width": 88.22474670410156,
+            "height": 20.34002685546875,
+            "right": 236.61537170410156,
+            "bottom": 419.1700134277344
+          },
+          {
+            "kind": "ended",
+            "text": "CLONE ENDED",
+            "hidden": "true",
+            "opacity": 0,
+            "transform": "matrix(1, 0, 0, 1, 0, 0)",
+            "left": 148.390625,
+            "top": 399,
+            "width": 83.359375,
+            "height": 20,
+            "right": 231.75,
+            "bottom": 419
+          }
+        ]
+      },
+      "pass": {
+        "left": 134,
+        "top": 514,
+        "width": 52,
+        "height": 52,
+        "right": 186,
+        "bottom": 566
+      },
+      "privateOpen": true,
+      "parts": []
+    },
+    {
+      "name": "320-clone-normal-ended-stamp",
+      "scroll": {
+        "width": 320,
+        "height": 568
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 345,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 369
+        },
+        {
+          "text": "Jail",
+          "left": 173.31350708007812,
+          "top": 345,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 229.10836791992188,
+          "bottom": 369
+        }
+      ],
+      "notes": {
+        "text": "",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 0,
+        "height": 0,
+        "right": 0,
+        "bottom": 0
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-1",
+          "slot": "A4"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "H1"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": {
+        "film": "expire",
+        "state": "ended",
+        "text": "Clone inactive; its once-only use is spent.",
+        "left": 17,
+        "top": 390,
+        "width": 286,
+        "height": 112.5625,
+        "right": 303,
+        "bottom": 502.5625,
+        "stamps": [
+          {
+            "kind": "active",
+            "text": "CLONE ACTIVE",
+            "hidden": "true",
+            "opacity": 0,
+            "transform": "matrix(1, 0, 0, 1, 0, 0)",
+            "left": 148.390625,
+            "top": 399,
+            "width": 86.75,
+            "height": 20,
+            "right": 235.140625,
+            "bottom": 419
+          },
+          {
+            "kind": "ended",
+            "text": "CLONE ENDED",
+            "hidden": "true",
+            "opacity": 0.625,
+            "transform": "matrix(1.017, 0, 0, 1.017, 0, 0)",
+            "left": 148.390625,
+            "top": 398.8299865722656,
+            "width": 84.7764892578125,
+            "height": 20.34002685546875,
+            "right": 233.1671142578125,
+            "bottom": 419.1700134277344
+          }
+        ]
+      },
+      "pass": {
+        "left": 134,
+        "top": 514,
+        "width": 52,
+        "height": 52,
+        "right": 186,
+        "bottom": 566
+      },
+      "privateOpen": true,
+      "parts": []
+    },
+    {
+      "name": "320-clone-reduced-active-stamp",
+      "scroll": {
+        "width": 320,
+        "height": 568
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 345,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 369
+        },
+        {
+          "text": "Jail",
+          "left": 173.31350708007812,
+          "top": 345,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 229.10836791992188,
+          "bottom": 369
+        }
+      ],
+      "notes": {
+        "text": "",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 0,
+        "height": 0,
+        "right": 0,
+        "bottom": 0
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-1",
+          "slot": "A4"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "H1"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": {
+        "film": "rest",
+        "state": "active",
+        "text": "Clone active through Round 5.",
+        "left": 17,
+        "top": 390,
+        "width": 286,
+        "height": 100,
+        "right": 303,
+        "bottom": 490,
+        "stamps": [
+          {
+            "kind": "active",
+            "text": "CLONE ACTIVE",
+            "hidden": "true",
+            "opacity": 1,
+            "transform": "matrix(1, 0, 0, 1, 0, 0)",
+            "left": 148.390625,
+            "top": 399,
+            "width": 86.75,
+            "height": 20,
+            "right": 235.140625,
+            "bottom": 419
+          },
+          {
+            "kind": "ended",
+            "text": "CLONE ENDED",
+            "hidden": "true",
+            "opacity": 0,
+            "transform": "matrix(1, 0, 0, 1, 0, 0)",
+            "left": 148.390625,
+            "top": 399,
+            "width": 83.359375,
+            "height": 20,
+            "right": 231.75,
+            "bottom": 419
+          }
+        ]
+      },
+      "pass": {
+        "left": 134,
+        "top": 514,
+        "width": 52,
+        "height": 52,
+        "right": 186,
+        "bottom": 566
+      },
+      "privateOpen": true,
+      "parts": []
+    },
+    {
+      "name": "320-clone-reduced-ended-stamp",
+      "scroll": {
+        "width": 320,
+        "height": 568
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 345,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 369
+        },
+        {
+          "text": "Jail",
+          "left": 173.31350708007812,
+          "top": 345,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 229.10836791992188,
+          "bottom": 369
+        }
+      ],
+      "notes": {
+        "text": "",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 0,
+        "height": 0,
+        "right": 0,
+        "bottom": 0
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-1",
+          "slot": "A4"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "H1"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": {
+        "film": "rest",
+        "state": "ended",
+        "text": "Clone inactive; its once-only use is spent.",
+        "left": 17,
+        "top": 390,
+        "width": 286,
+        "height": 112.5625,
+        "right": 303,
+        "bottom": 502.5625,
+        "stamps": [
+          {
+            "kind": "active",
+            "text": "CLONE ACTIVE",
+            "hidden": "true",
+            "opacity": 0,
+            "transform": "matrix(1, 0, 0, 1, 0, 0)",
+            "left": 148.390625,
+            "top": 399,
+            "width": 86.75,
+            "height": 20,
+            "right": 235.140625,
+            "bottom": 419
+          },
+          {
+            "kind": "ended",
+            "text": "CLONE ENDED",
+            "hidden": "true",
+            "opacity": 1,
+            "transform": "matrix(1, 0, 0, 1, 0, 0)",
+            "left": 148.390625,
+            "top": 399,
+            "width": 83.359375,
+            "height": 20,
+            "right": 231.75,
+            "bottom": 419
+          }
+        ]
+      },
+      "pass": {
+        "left": 134,
+        "top": 514,
+        "width": 52,
+        "height": 52,
+        "right": 186,
+        "bottom": 566
+      },
+      "privateOpen": true,
+      "parts": []
+    },
+    {
+      "name": "390-captain-plates",
+      "scroll": {
+        "width": 390,
+        "height": 844
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 590,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 614
+        },
+        {
+          "text": "Jail",
+          "left": 208.31350708007812,
+          "top": 590,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 264.1083679199219,
+          "bottom": 614
+        }
+      ],
+      "notes": {
+        "text": "",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 0,
+        "height": 0,
+        "right": 0,
+        "bottom": 0
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-1",
+          "slot": "A4"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "H1"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": null,
+      "pass": {
+        "left": 163,
+        "top": 765,
+        "width": 64,
+        "height": 64,
+        "right": 227,
+        "bottom": 829
+      },
+      "privateOpen": true,
+      "parts": []
+    },
+    {
+      "name": "390-offboard-row-start",
+      "scroll": {
+        "width": 390,
+        "height": 844
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 590,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 614
+        },
+        {
+          "text": "Jail",
+          "left": 208.31350708007812,
+          "top": 590,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 264.1083679199219,
+          "bottom": 614
+        }
+      ],
+      "notes": {
+        "text": "Player 1: Hospital full; permanently eliminated and removed from the board.",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 1,
+        "height": 1,
+        "right": 1,
+        "bottom": 1
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "H1"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": null,
+      "pass": {
+        "left": 163,
+        "top": 765,
+        "width": 64,
+        "height": 64,
+        "right": 227,
+        "bottom": 829
+      },
+      "privateOpen": true,
+      "parts": [
+        {
+          "part": "offboard-plaque",
+          "room": "jail",
+          "left": 270.109375,
+          "top": 593,
+          "width": 60,
+          "height": 18,
+          "right": 330.109375,
+          "bottom": 611,
+          "text": "1",
+          "hasSvg": true,
+          "opacity": 1,
+          "filter": "none",
+          "transform": "matrix(1, 0, 0, 1, 0, 0)"
+        }
+      ]
+    },
+    {
+      "name": "390-clone-normal-active-stamp",
+      "scroll": {
+        "width": 390,
+        "height": 844
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 590,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 614
+        },
+        {
+          "text": "Jail",
+          "left": 208.31350708007812,
+          "top": 590,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 264.1083679199219,
+          "bottom": 614
+        }
+      ],
+      "notes": {
+        "text": "",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 0,
+        "height": 0,
+        "right": 0,
+        "bottom": 0
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-1",
+          "slot": "A4"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "H1"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": {
+        "film": "activate",
+        "state": "active",
+        "text": "Clone active through Round 5.",
+        "left": 17,
+        "top": 635,
+        "width": 356,
+        "height": 100,
+        "right": 373,
+        "bottom": 735,
+        "stamps": [
+          {
+            "kind": "active",
+            "text": "CLONE ACTIVE",
+            "hidden": "true",
+            "opacity": 0.625,
+            "transform": "matrix(1.017, 0, 0, 1.017, 0, 0)",
+            "left": 148.390625,
+            "top": 643.8300170898438,
+            "width": 88.22474670410156,
+            "height": 20.3399658203125,
+            "right": 236.61537170410156,
+            "bottom": 664.1699829101562
+          },
+          {
+            "kind": "ended",
+            "text": "CLONE ENDED",
+            "hidden": "true",
+            "opacity": 0,
+            "transform": "matrix(1, 0, 0, 1, 0, 0)",
+            "left": 148.390625,
+            "top": 644,
+            "width": 83.359375,
+            "height": 20,
+            "right": 231.75,
+            "bottom": 664
+          }
+        ]
+      },
+      "pass": {
+        "left": 163,
+        "top": 765,
+        "width": 64,
+        "height": 64,
+        "right": 227,
+        "bottom": 829
+      },
+      "privateOpen": true,
+      "parts": []
+    },
+    {
+      "name": "390-clone-normal-ended-stamp",
+      "scroll": {
+        "width": 390,
+        "height": 844
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 590,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 614
+        },
+        {
+          "text": "Jail",
+          "left": 208.31350708007812,
+          "top": 590,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 264.1083679199219,
+          "bottom": 614
+        }
+      ],
+      "notes": {
+        "text": "",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 0,
+        "height": 0,
+        "right": 0,
+        "bottom": 0
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-1",
+          "slot": "A4"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "H1"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": {
+        "film": "expire",
+        "state": "ended",
+        "text": "Clone inactive; its once-only use is spent.",
+        "left": 17,
+        "top": 635,
+        "width": 356,
+        "height": 100,
+        "right": 373,
+        "bottom": 735,
+        "stamps": [
+          {
+            "kind": "active",
+            "text": "CLONE ACTIVE",
+            "hidden": "true",
+            "opacity": 0,
+            "transform": "matrix(1, 0, 0, 1, 0, 0)",
+            "left": 148.390625,
+            "top": 644,
+            "width": 86.75,
+            "height": 20,
+            "right": 235.140625,
+            "bottom": 664
+          },
+          {
+            "kind": "ended",
+            "text": "CLONE ENDED",
+            "hidden": "true",
+            "opacity": 0.625,
+            "transform": "matrix(1.017, 0, 0, 1.017, 0, 0)",
+            "left": 148.390625,
+            "top": 643.8300170898438,
+            "width": 84.7764892578125,
+            "height": 20.3399658203125,
+            "right": 233.1671142578125,
+            "bottom": 664.1699829101562
+          }
+        ]
+      },
+      "pass": {
+        "left": 163,
+        "top": 765,
+        "width": 64,
+        "height": 64,
+        "right": 227,
+        "bottom": 829
+      },
+      "privateOpen": true,
+      "parts": []
+    },
+    {
+      "name": "390-clone-reduced-active-stamp",
+      "scroll": {
+        "width": 390,
+        "height": 844
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 590,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 614
+        },
+        {
+          "text": "Jail",
+          "left": 208.31350708007812,
+          "top": 590,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 264.1083679199219,
+          "bottom": 614
+        }
+      ],
+      "notes": {
+        "text": "",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 0,
+        "height": 0,
+        "right": 0,
+        "bottom": 0
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-1",
+          "slot": "A4"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "H1"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": {
+        "film": "rest",
+        "state": "active",
+        "text": "Clone active through Round 5.",
+        "left": 17,
+        "top": 635,
+        "width": 356,
+        "height": 100,
+        "right": 373,
+        "bottom": 735,
+        "stamps": [
+          {
+            "kind": "active",
+            "text": "CLONE ACTIVE",
+            "hidden": "true",
+            "opacity": 1,
+            "transform": "matrix(1, 0, 0, 1, 0, 0)",
+            "left": 148.390625,
+            "top": 644,
+            "width": 86.75,
+            "height": 20,
+            "right": 235.140625,
+            "bottom": 664
+          },
+          {
+            "kind": "ended",
+            "text": "CLONE ENDED",
+            "hidden": "true",
+            "opacity": 0,
+            "transform": "matrix(1, 0, 0, 1, 0, 0)",
+            "left": 148.390625,
+            "top": 644,
+            "width": 83.359375,
+            "height": 20,
+            "right": 231.75,
+            "bottom": 664
+          }
+        ]
+      },
+      "pass": {
+        "left": 163,
+        "top": 765,
+        "width": 64,
+        "height": 64,
+        "right": 227,
+        "bottom": 829
+      },
+      "privateOpen": true,
+      "parts": []
+    },
+    {
+      "name": "390-clone-reduced-ended-stamp",
+      "scroll": {
+        "width": 390,
+        "height": 844
+      },
+      "captions": [
+        {
+          "text": "Hospital",
+          "left": 8.313509941101074,
+          "top": 590,
+          "width": 94.12298583984375,
+          "height": 24,
+          "right": 102.43649578094482,
+          "bottom": 614
+        },
+        {
+          "text": "Jail",
+          "left": 208.31350708007812,
+          "top": 590,
+          "width": 55.79486083984375,
+          "height": 24,
+          "right": 264.1083679199219,
+          "bottom": 614
+        }
+      ],
+      "notes": {
+        "text": "",
+        "live": "polite",
+        "clip": "inset(50%)",
+        "left": 0,
+        "top": 0,
+        "width": 0,
+        "height": 0,
+        "right": 0,
+        "bottom": 0
+      },
+      "actors": [
+        {
+          "seat": "seat-7",
+          "slot": "C1"
+        },
+        {
+          "seat": "seat-1",
+          "slot": "A4"
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A1"
+        },
+        {
+          "seat": "seat-6",
+          "slot": "A2"
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B2"
+        },
+        {
+          "seat": "seat-2",
+          "slot": "H1"
+        },
+        {
+          "seat": "seat-8",
+          "slot": "H3"
+        },
+        {
+          "seat": "seat-9",
+          "slot": "H4"
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J1"
+        }
+      ],
+      "clone": {
+        "film": "rest",
+        "state": "ended",
+        "text": "Clone inactive; its once-only use is spent.",
+        "left": 17,
+        "top": 635,
+        "width": 356,
+        "height": 100,
+        "right": 373,
+        "bottom": 735,
+        "stamps": [
+          {
+            "kind": "active",
+            "text": "CLONE ACTIVE",
+            "hidden": "true",
+            "opacity": 0,
+            "transform": "matrix(1, 0, 0, 1, 0, 0)",
+            "left": 148.390625,
+            "top": 644,
+            "width": 86.75,
+            "height": 20,
+            "right": 235.140625,
+            "bottom": 664
+          },
+          {
+            "kind": "ended",
+            "text": "CLONE ENDED",
+            "hidden": "true",
+            "opacity": 1,
+            "transform": "matrix(1, 0, 0, 1, 0, 0)",
+            "left": 148.390625,
+            "top": 644,
+            "width": 83.359375,
+            "height": 20,
+            "right": 231.75,
+            "bottom": 664
+          }
+        ]
+      },
+      "pass": {
+        "left": 163,
+        "top": 765,
+        "width": 64,
+        "height": 64,
+        "right": 227,
+        "bottom": 829
+      },
+      "privateOpen": true,
+      "parts": []
+    }
+  ]
+}

@@ -7,6 +7,7 @@ import { ART_BUNDLES } from '../../hosted/art.mjs';
 import { trialStylesheet } from '../../hosted/comic-assets.mjs';
 import { prepareSetupArt } from '../../../../scripts/setup-art-candidate.mjs';
 import { prepareBoardV2MotionArt } from '../../../../scripts/board-v2-motion-art.mjs';
+import { prepareBoardV2FilmsArt } from '../../hosted/build/board-v2-films-art.mjs';
 import { prepareBoardV2Art } from '../../../../scripts/board-v2-art-candidate.mjs';
 const root = fileURLToPath(new URL('../../../../', import.meta.url));
 const manifest = JSON.parse(readFileSync(resolve(root, 'design/exports/asset-manifest.json'), 'utf8'));
@@ -15,7 +16,7 @@ export default {
   server: { host: '127.0.0.1', port: 5178, strictPort: true, hmr: false, ws: false, fs: { allow: [root] } },
   plugins: [{ name: 'isolated-comic-art', configureServer(server) {
     server.middlewares.use((req, res, next) => {
-      for(const prepare of [prepareBoardV2Art,prepareSetupArt,prepareBoardV2MotionArt]){const art=prepare(root);if(req.url===art.url){res.setHeader('content-type','text/css');res.end(art.stylesheet);return;}}
+      for(const prepare of [prepareBoardV2Art,prepareSetupArt,prepareBoardV2MotionArt,prepareBoardV2FilmsArt]){const art=prepare(root);if(req.url===art.url){res.setHeader('content-type','text/css');res.end(art.stylesheet);return;}}
       const trial = ['abilities', 'scene-art'].find(name => ART_BUNDLES[name] === req.url);
       if (trial) {
         const source = trialStylesheet(root, trial);

@@ -1,4 +1,4 @@
-import { supportsCaptainCommands, supportsClone, supportsDeclaredHack } from '@mothership/contracts';
+import { supportsCaptainCommands, supportsHospitalFour, supportsClone, supportsDeclaredHack } from '@mothership/contracts';
 import { buildHackFeedback } from './hack-feedback.js';
 import type { FullPlayerView, SeatId } from '@mothership/contracts';
 import { en } from '../copy/en.js';
@@ -97,7 +97,7 @@ function choices(view: FullPlayerView, kind: ActionKind, picked: readonly string
     // Seats in seat order; a guess is one of the factions, named as it is.
     const options = [...(nextOptions(view, kind, picked) ?? [])];
     return options.sort((a, b) => (isSeatId(a) && isSeatId(b) ? seatNumber(a) - seatNumber(b) : 0))
-      .map(value => isSeatId(value) && kind === 'code' && (view.phase.kind === 'BLACKOUT' || view.seats.some(seat => seat.location === null)) ? answerChoice(value, seatName(view, value)) : (isSeatId(value) ? seatChoice(view, value, seats) : answerChoice(value, value)));
+      .map(value => isSeatId(value) && kind === 'code' && (view.phase.kind === 'BLACKOUT' || !supportsHospitalFour(view.versions) && view.seats.some(seat => seat.location === null)) ? answerChoice(value, seatName(view, value)) : (isSeatId(value) ? seatChoice(view, value, seats) : answerChoice(value, value)));
   }
   const offered = [...(offeredChoices(view, kind) ?? [])] as Exclude<ActionChoice, { kind: 'scan' | 'supply' | 'code' }>[];
   // Seats in seat order, with the answer that names nobody after them. Places and answers stay as the view gives them.
@@ -398,6 +398,15 @@ function buildPrivateArea(input: ConnectedPlayerInput, view: FullPlayerView, sea
       // The server's own statement of this seat's ballot in the vote that is open.
       ballot: ownBallotLine(view),
       knowledge: buildKnowledge(view),
+      clone: !over && supportsClone(view.versions) && view.self.cloneStatus ? {
+        status: { ...view.self.cloneStatus }, seatId: view.self.seatId,
+        eliminated: view.seats.find(seat => seat.seatId === view.self.seatId)?.health === 'Eliminated', matchEnded: over,
+      } : null,
+      captain: !over && supportsCaptainCommands(view.versions) && view.self.captainCommandUses ? {
+        uses: { ...view.self.captainCommandUses },
+        releaseAvailable: view.legalTargets['CAPTAIN_RELEASE']?.includes(view.self.seatId) ?? false,
+        ejectAvailable: view.legalTargets['CAPTAIN_EJECT']?.includes(view.self.seatId) ?? false,
+      } : null,
       actions: { heading: en.actions.heading, notice, card: buildCard(input, view, seats) },
     } : null,
   };

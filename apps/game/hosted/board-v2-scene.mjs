@@ -13,7 +13,7 @@ import {frameCapsule,capsuleTargets,CAPSULE_SIZE} from './board-v2-drawing/capsu
 const [bx,by,box]=FRAME.box,[ax,ay]=FRAME.anchor;
 
 /** Inputs are an internal public scene model, not an independently widened wire view. */
-export function boardV2SceneFrame(roster,seats,{panels,pressAreas}) {
+export function boardV2SceneFrame(roster,seats,{panels,pressAreas,geometry={sceneOf,slotsOf}}) {
  const problems=[],usedSlots=new Set(),usedSeats=new Set(),rooms=[];
  if(![7,8,9].includes(roster))return {rooms:[],problems:['unsupported starting roster']};
  for(const seat of seats){
@@ -21,13 +21,13 @@ export function boardV2SceneFrame(roster,seats,{panels,pressAreas}) {
   usedSeats.add(seat.seatId);
   if(seat.location===null&&seat.slotId===null&&seat.health==='Eliminated')continue;
   const room=BOARD_ROOMS.find(room=>LOCATION_OF[room]===seat.location);
-  if(!room||!slotsOf(room,roster).some(slot=>slot.id===seat.slotId))problems.push(`${seat.seatId}: missing or incompatible stored slot`);
+  if(!room||!geometry.slotsOf(room,roster).some(slot=>slot.id===seat.slotId))problems.push(`${seat.seatId}: missing or incompatible stored slot`);
   if(usedSlots.has(seat.slotId))problems.push('duplicate stored slot');usedSlots.add(seat.slotId);
  }
  if(problems.length)return {rooms:[],problems};
  for(const room of BOARD_ROOMS){
   const panel=panels[room];if(!panel||panel.width<=0||panel.height<=0){problems.push(`${room}: missing laid-out panel`);continue;}
-  const scene=sceneOf(room,roster),frame=frameScene(scene,panel),slots=slotsOf(room,roster);
+  const scene=geometry.sceneOf(room,roster),frame=frameScene(scene,panel),slots=geometry.slotsOf(room,roster);
   // The revised approved layout supplies its exact slot rectangles. Do not substitute
   // the historical fixed-44 helper or copy an unadopted fit implementation here.
   const presses=new Map((pressAreas[room]??[]).map(rect=>[rect.id,rect]));
@@ -89,10 +89,13 @@ export function paintBoardV2(root,frame,boxes,{artForRoom,choices=[],marks=null,
   if(picked<0){mark?.remove();}else{if(!mark){mark=create('span','bv2-pick');mark.setAttribute('aria-hidden','true');actor.append(mark);}mark.textContent=marks?.numbered?String(picked+1):'✓';mark.style.left=px(rect.left);mark.style.top=px(rect.top);}
   actor.dataset.offered=String(Boolean(choice));actor.dataset.picked=String(picked>=0);
  };
- const nameplate=(actor,id,name,position,width)=>{
+ const nameplate=(actor,id,name,position,panel,width=Math.min(76,panel.width))=>{
   let label=actor.querySelector('.bv2-nameplate');if(!label){label=create('span','bv2-nameplate');const n=create('b','bv2-nameplate__number'),text=create('span','bv2-nameplate__name');label.append(n,text);actor.append(label);}
   label.children[0].textContent=id.slice(5);label.children[1].textContent=name;label.title=name;
   label.style.left=px(position.left);label.style.top=px(position.top);label.style.setProperty('--bv2-name-width',px(width));
+  // Transform percentages use the label's own laid-out size, so short names stay
+  // centred while edge labels fit without reading layout on every animation frame.
+  for(const [key,value]of Object.entries({x:position.left,y:position.top,'panel-width':panel.width,'panel-height':panel.height}))label.style.setProperty(`--bv2-name-${key}`,px(value));
  };
  const figure=(actor,who,person,scene,opacity=1,ghost=false)=>{
   const unit=person.scale*scene.k;
@@ -132,7 +135,7 @@ export function paintBoardV2(root,frame,boxes,{artForRoom,choices=[],marks=null,
    const posed=home?homePerson(who.slot,home,rest,status):{at:who.slot.at,scale:who.slot.scale,mirror:who.slot.mirror,sk:rest};
    const ghost=home?.ghost>0&&home.figure===0;
    figure(actor,who,posed,who.sceneFrame,ghost?0.35:(home?.figure??1),ghost);
-   nameplate(actor,who.seatId,who.displayName??CREW[who.characterId]?.sign??`Player ${who.seatId.slice(5)}`,who.name,Math.min(76,room.panel.width));
+   nameplate(actor,who.seatId,who.displayName??CREW[who.characterId]?.sign??`Player ${who.seatId.slice(5)}`,who.name,room.panel);
    let badge=actor.querySelector('.bv2-away');if(home?.ghost>0){if(!badge){badge=create('span','bv2-away');badge.setAttribute('aria-hidden','true');actor.append(badge);}badge.style.left=px(who.press.left+who.press.side-20);badge.style.top=px(who.press.top-10);badge.style.setProperty('--bv2-layer-art','var(--board-v2-art-capsule-badge)');}else badge?.remove();
    const choice=choices.find(c=>c.value===who.seatId),picked=marks?.picked.indexOf(who.seatId)??-1;
    setTarget(actor,choice?.id,who.press,choice,picked,' at their actual position');
@@ -155,7 +158,7 @@ export function paintBoardV2(root,frame,boxes,{artForRoom,choices=[],marks=null,
    actor.dataset.seat=seatId;actor.dataset.character=who.characterId;actor.dataset.state=state.state;
    const posed=capsulePerson(id,state,statusOf({health:who.health,jailed:who.jailed,room:who.location==='Jail'?'jail':''}),{exchangeId:capsule.session.hackId,talkMs:capsule.stage==='talk'?capsule.t:0,reduced:capsule.reduced});
    if(posed)figure(actor,{...who,depth:100+Math.round(posed.at[1])},posed,scene,state.opacity);
-   nameplate(actor,seatId,who.displayName??CREW[who.characterId]?.sign??`Player ${seatId.slice(5)}`,{left:panel.width*(i?0.75:0.25),top:panel.height-15},panel.width/2-2);
+   nameplate(actor,seatId,who.displayName??CREW[who.characterId]?.sign??`Player ${seatId.slice(5)}`,{left:panel.width*(i?0.75:0.25),top:panel.height-15},panel,panel.width/2-2);
    const choice=['seated','sitting'].includes(state.state)?choices.find(c=>c.value===seatId):null;
    setTarget(actor,choice?`${choice.id}-capsule`:null,targets[i],choice,marks?.picked.indexOf(seatId)??-1,', seated in private talk');
   }

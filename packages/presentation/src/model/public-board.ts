@@ -1,4 +1,4 @@
-import { supportsBlackout, supportsBoardMedical, supportsCaptainCommands } from '@mothership/contracts';
+import { supportsBlackout, supportsBoardMedical, supportsCaptainCommands, supportsHospitalFour, HOSPITAL_FOUR_LAYOUT_REVISION } from '@mothership/contracts';
 import type { FullMedicalStatus } from '@mothership/contracts';
 import { isCurrent } from './common.js';
 import type { AudienceFacts, PublicBoardModel, PublicSeat, ShellEnvironment } from './types.js';
@@ -19,8 +19,8 @@ export function publicBoardProps(view: AudienceFacts, environment: ShellEnvironm
   const nowMs = environment.serverNowMs ?? (duration !== null && environment.deadline.kind === 'running'
     ? phase.endsAt! - Math.max(0, Math.min(duration, environment.deadline.remainingMs))
     : phase.endsAt !== null && environment.deadline.kind === 'expired' ? phase.endsAt : null);
-  return { boardLayout: { id: 'board-v2-0.1.1', playerCount: view.playerCount,
-    seats: view.seats.map(seat => ({ seatId: seat.seatId, location: seat.location, health: seat.health, jailed: seat.jailed, ...boardSeatProps(view, seat) })),
+  return { boardLayout: { id: supportsHospitalFour(view.versions) ? HOSPITAL_FOUR_LAYOUT_REVISION : 'board-v2-0.1.1', playerCount: view.playerCount, matchId: view.matchId, viewRevision: view.viewRevision,
+    seats: view.seats.map(seat => ({ seatId: seat.seatId, location: seat.location, health: seat.health, jailed: seat.jailed, captain: seat.captain, ...boardSeatProps(view, seat) })),
     ...(supportsBlackout(view.versions) && 'blackout' in view ? { blackout: view.blackout ?? null } : {}),
     clock: { phaseId: phase.id, kind: phase.kind, startedAt: phase.startedAt, endsAt: phase.endsAt,
       nowMs, current: isCurrent(environment) && nowMs !== null } } };

@@ -18,7 +18,9 @@
 .bv2-caption--move { min-height:38px; display:flex; align-items:center; }
 .bv2-room-move { position:absolute; z-index:5001; top:0; left:0; min-width:44px; min-height:44px; padding:0; border:0; background:transparent; color:inherit; }
 .bv2-room-move .bv2-caption { position:relative; top:auto; left:auto; margin:3px; }
-.bv2-nameplate { position:absolute; z-index:3500; display:inline-flex; align-items:baseline; transform:translate(-50%,0); max-width:var(--bv2-name-width,100%); padding:0 4px; background:var(--bv2-paper); color:var(--bv2-ink); border:1.5px solid var(--bv2-ink); font-size:.625rem; font-weight:700; white-space:nowrap; line-height:1.4; }
+.bv2-nameplate { position:absolute; z-index:3500; display:inline-flex; align-items:baseline; box-sizing:border-box;
+ transform:translate(clamp(calc(0px - var(--bv2-name-x)),-50%,calc(var(--bv2-name-panel-width) - var(--bv2-name-x) - 100%)),clamp(calc(0px - var(--bv2-name-y)),0px,calc(var(--bv2-name-panel-height) - var(--bv2-name-y) - 100%)));
+ max-width:var(--bv2-name-width,100%); padding:0 4px; background:var(--bv2-paper); color:var(--bv2-ink); border:1.5px solid var(--bv2-ink); font-size:.625rem; font-weight:700; white-space:nowrap; line-height:1.4; }
 .bv2-nameplate__number { display:inline-block; flex:none; min-width:12px; margin-right:3px; padding:0 2px; background:var(--bv2-ink); color:var(--bv2-paper); text-align:center; }
 .bv2-nameplate__name { min-width:0; overflow:hidden; text-overflow:ellipsis; }
 .bv2-seat-target { position:absolute; z-index:4200; min-width:44px; min-height:44px; padding:0; border:0; background:transparent; }
@@ -116,7 +118,7 @@ body:has(#app [data-board-layout="board-v2"]) { height:100dvh; overflow:hidden; 
 .bv2-night-layer[data-night-layer="spark"] { z-index:3020; }
 .bv2-blackout-controls { position:absolute; inset:0; z-index:4500; pointer-events:none; }
 .bv2-slot-target { position:absolute; pointer-events:auto; min-width:44px; min-height:44px; border:2px solid var(--bv2-gold); color:var(--bv2-paper); background:var(--bv2-navy); font-size:12px; border-radius:0; padding:0; }
-.bv2-outcomes { position:fixed; z-index:6100; pointer-events:none; padding:6px; background:var(--bv2-navy); color:var(--bv2-paper); font-size:12px; white-space:pre-line; max-height:100px; overflow:auto; }
+.bv2-outcomes { position:fixed; pointer-events:none; padding:0; border:0; overflow:hidden; clip:rect(0,0,0,0); clip-path:inset(50%); white-space:pre-line; }
 .bv2-outcomes[hidden] { display:none; }
 .bv2-block-fx { position:absolute; inset:0; z-index:3100; pointer-events:none; }
 .bv2-block-fx span { position:absolute; background-position:center; background-size:contain; background-repeat:no-repeat; }
@@ -128,3 +130,46 @@ body:has(#app [data-board-layout="board-v2"]) { height:100dvh; overflow:hidden; 
 #app .ms-shell[data-board-layout="board-v2"] #ms-hack-with { display:none; }
 #app .ms-shell[data-board-layout="board-v2"] .hack-feedback[data-folded="true"] { padding:0; border:0; }
 #app .ms-shell[data-board-layout="board-v2"] .hack-feedback[data-folded="false"] .bv2-claim-show { position:sticky; bottom:0; height:44px; }
+/* Reviewed film layers are decorative. Existing native seat buttons retain their hit areas. */
+.bv2-film { position:absolute; display:block; pointer-events:none; background-size:100% 100%; background-repeat:no-repeat; transform-origin:center; }
+.bv2-film svg { width:100%; height:100%; display:block; }
+.bv2-film[data-film-part^="tag-"],.bv2-film[data-film-part$="-full"] { box-sizing:border-box; background:var(--bv2-navy); border:1px solid var(--bv2-gold); color:var(--bv2-paper); text-align:center; font-size:10px; line-height:12px; padding:2px; }
+.bv2-clone-card { position:relative; flex:none; color:#BFF5DE; background:#0B1814; border:1px solid #2F9E7E; margin:4px 0 8px; overflow:hidden; }
+.bv2-clone-drawing { position:absolute; overflow:hidden; }
+.bv2-clone-card p { position:relative; margin:12px 6px; padding:4px; font-size:.875rem; line-height:1.3; }
+.bv2-offboard-sheet { position:fixed; z-index:6400; box-sizing:border-box; color:var(--bv2-paper); background:var(--bv2-navy); border:2px solid var(--bv2-gold); padding:6px; overflow:auto; }
+.bv2-offboard-sheet[hidden] { display:none; }
+.bv2-offboard-sheet h2 { margin:0; height:32px; font-size:1rem; }
+.bv2-offboard-cards { position:relative; min-height:80px; }
+.bv2-offboard-cards button { position:absolute; min-width:44px; min-height:66px; padding:0; margin:0; border:2px solid var(--bv2-gold); background:var(--bv2-navy-mid); color:var(--bv2-paper); overflow:hidden; }
+.bv2-offboard-cards button > span:first-child { display:block; width:100%; height:calc(100% - 22px); filter:grayscale(1); }
+.bv2-offboard-cards svg { display:block; width:100%; height:100%; }
+.bv2-offboard-cards button > span:last-child { display:block; height:22px; line-height:22px; font-size:10px; white-space:nowrap; text-overflow:ellipsis; overflow:hidden; }
+.bv2-offboard-cards[data-scroll="true"] { display:grid; grid-template-columns:repeat(4,minmax(44px,1fr)); gap:6px; }
+.bv2-offboard-cards[data-scroll="true"] button { position:relative; height:78px; }
+#app .ms-shell[data-board-offboard="true"] .bv2-seat-target { pointer-events:none; }
+
+.bv2-captain-states { display:grid; gap:6px; margin-bottom:8px; }
+.bv2-captain-states > div { box-sizing:border-box; display:flex; align-items:center; min-height:64px; font-size:12px; }
+
+/* The existing Actions child allowlist must include these authorized own-private claims. */
+#app .ms-shell--player[data-board-layout="board-v2"][data-phone-view="actions"] .ms-private__panel > .bv2-clone-card { display:block; box-sizing:border-box; width:100%; grid-column:1/-1; }
+#app .ms-shell--player[data-board-layout="board-v2"][data-phone-view="actions"] .ms-private__panel > .bv2-captain-states { display:grid; width:100%; grid-column:1/-1; }
+#app .ms-shell[data-board-layout="board-v2"] .ms-private[data-open="true"]:not(.phone-action-dock) .ms-private__panel:has(> :is(.bv2-clone-card,.bv2-captain-states)) { display:block; width:100%; box-sizing:border-box; }
+#app .ms-shell[data-board-clone="true"] .phone-empty-actions,
+#app .ms-shell[data-board-clone="true"] [data-clone-duplicate] { display:none; }
+
+#app .ms-shell[data-board-clone="true"] .ms-actions:has(.phone-empty-actions) { display:none; }
+
+
+.bv2-film[data-film-part^="tag-"] { white-space:pre-line; }
+
+/* The native word stays within the approved 200x64 plate's label field. */
+#app .ms-shell[data-board-layout="board-v2"] .ms-offers > li:is([data-kind="captain-release"],[data-kind="captain-eject"]) { grid-column:1/-1; }
+#app .ms-shell--player[data-board-layout="board-v2"][data-phone-view="actions"] [data-captain-plate] { position:relative; display:block; box-sizing:border-box; width:100%; max-width:200px; margin-inline:auto; height:auto; aspect-ratio:200/64; min-height:44px; padding:0; border:0; background-color:var(--bv2-navy); color:var(--bv2-paper); background-image:var(--captain-plate); background-size:contain; background-position:center; background-repeat:no-repeat; box-shadow:none; }
+#app .ms-shell[data-board-layout="board-v2"] .bv2-captain-word { position:absolute; left:33%; top:21.875%; width:61%; height:56.25%; display:flex; align-items:center; justify-content:center; white-space:nowrap; font-size:12px; font-weight:900; }
+.bv2-clone-stamp { position:absolute; top:8px; border:1px solid currentColor; padding:2px 3px; font-size:10px; line-height:14px; font-weight:900; white-space:nowrap; pointer-events:none; transform-origin:left center; }
+.bv2-clone-card p { margin-top:36px; }
+
+.bv2-memorial { display:flex; align-items:center; justify-content:center; gap:3px; box-sizing:border-box; color:#D5DAE2; background:var(--bv2-navy); border:1px solid #5B6577; font-size:11px; line-height:14px; }
+.bv2-memorial > span { width:16px; height:16px; flex:none; }

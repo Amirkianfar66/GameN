@@ -9,7 +9,7 @@ function page() {
     head: { append: link => links.push(link) } };
   return { document, links, events };
 }
-test('all eight player bundles start uniformly and Ready loading does not settle before the supplements', async () => {
+test('all nine common bundles start uniformly and Ready loading does not settle before the supplements', async () => {
   const { document, links } = page(); const pending = loadArt('player', document);
   assert.deepEqual(links.map(link => link.href).sort(), [...Object.values(ART_BUNDLES), ...Object.values(COMMON_ART_BUNDLES)].sort());
   for (const link of links.filter(link => Object.values(ART_BUNDLES).includes(link.href))) link.listeners.load();
@@ -17,7 +17,7 @@ test('all eight player bundles start uniformly and Ready loading does not settle
   for (const link of links.filter(link => Object.values(COMMON_ART_BUNDLES).includes(link.href))) link.listeners.load();
   await pending;
   assert.equal(document.documentElement.dataset.artSettled, 'true');
-  assert.equal(document.documentElement.dataset.art.split(' ').length, 8);
+  assert.equal(document.documentElement.dataset.art.split(' ').length, 9);
 });
 test('a failed supplement is not acknowledged; its later arrival can recover without erasing loaded bundles', async () => {
   const { document, links } = page(); const pending = loadArt('player', document);
@@ -27,5 +27,11 @@ test('a failed supplement is not acknowledged; its later arrival can recover wit
   assert.equal(document.documentElement.dataset.artSettled, 'true');
   assert.ok(!document.documentElement.dataset.art.split(' ').includes('setup-art'));
   failed.listeners.load();
-  assert.equal(new Set(document.documentElement.dataset.art.split(' ')).size, 8);
+  assert.equal(new Set(document.documentElement.dataset.art.split(' ')).size, 9);
+});
+
+for (const device of ['player','display','host']) test(`${device} loads the exact same complete common catalog before private data`,async()=>{
+ const {document,links}=page();const pending=loadArt(device,document);
+ assert.deepEqual(links.map(l=>l.href).sort(),[...Object.values(ART_BUNDLES),...Object.values(COMMON_ART_BUNDLES)].sort());
+ links.forEach(l=>l.listeners.load());await pending;
 });

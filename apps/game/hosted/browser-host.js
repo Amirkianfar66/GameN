@@ -76,7 +76,7 @@ function speak(container, region, text, isPrivate) {
  * @param {(model: any) => import('@mothership/presentation').MarkupElement} options.render
  * @returns {() => void} Unmount: removes every listener and disposes the screen.
  */
-export function mountScreen({ container, screen, render, subscribeExtra = () => () => {}, onDispose = () => {} }) {
+export function mountScreen({ container, screen, render, subscribeExtra = () => () => {}, publicIdentities = () => [], onDispose = () => {} }) {
   const root = document.createElement('div');
   const polite = liveRegion('polite');
   const assertive = liveRegion('assertive');
@@ -88,7 +88,7 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
   container.replaceChildren(root, polite, assertive, fx);
 
   const comicMotion = createComicMotion(root, { fx });
-  const boardV2 = createBoardV2Host(root);
+  const boardV2 = createBoardV2Host(root, { publicIdentities, ownCloneDrawing:()=>screen.readOwnCloneDrawing?.()??null });
   const stripCues = createStripCues(root);
   const insiderFile = createInsiderFile(root);
   const abilityCues = createAbilityCues(root);
@@ -152,10 +152,17 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
       }
     }
     const plan = planRedraw(drawn, split);
+    // An unchanged controls region can survive a changed status/body around it. Keeping
+    // the actual node avoids losing a touch between pointer-down and click during a
+    // fresh snapshot. Changed/disabled controls and concealed private regions still redraw.
+    const stableControls = drawn?.regions.get('action-controls') === split.regions.get('action-controls')
+      ? root.querySelector('[data-region="action-controls"]') : null;
     if (plan.frame !== null) root.innerHTML = plan.frame;
     for (const step of plan.steps) {
       const selector = step.into === 'slot' ? `[data-region-slot="${CSS.escape(step.id)}"]` : `[data-region="${CSS.escape(step.id)}"]`;
-      root.querySelector(selector).outerHTML = step.html;
+      const destination = root.querySelector(selector);
+      if (step.id === 'action-controls' && stableControls && step.into === 'slot') destination.replaceWith(stableControls);
+      else destination.outerHTML = step.html;
     }
     drawn = split;
     const sheet = root.querySelector('.ms-private[data-open="true"]');
