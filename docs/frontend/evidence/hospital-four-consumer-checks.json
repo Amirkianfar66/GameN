@@ -683,5 +683,16 @@
     "hospital-four-labels-long-320.png": "UIceb8bdd; maximum valid long public names",
     "hospital-four-labels-capsule-320.png": "UIceb8bdd; both capsule aliases with maximum valid long public names"
   },
-  "sharedCurrentAdoptionPolicySha256": "09683155f5c9a1fc68cb5a189e2ddc9c4631b6836e257b9057dd0d20b0a8b1c1"
+  "sharedCurrentAdoptionPolicySha256": "09683155f5c9a1fc68cb5a189e2ddc9c4631b6836e257b9057dd0d20b0a8b1c1",
+  "designerSevenCorrections": {
+    "runtimeUiCheckpoint": "f35a8ff04dcef066e72125bd3efb3e19b59cc858",
+    "evidence": "hospital-four-seven-corrections.json",
+    "recordCount": 64,
+    "runtimeExceptions": 0,
+    "finalApprovalAndCombinedVerification": "pending"
+  },
+  "ownerWorkflow": {
+    "reference": "https://github.com/Amirkianfar66/GameN/issues/155#issuecomment-6258573661",
+    "balance": "Record approved rule and verify implementation. No separate Balance design approval is a test-release gate."
+  }
 }
