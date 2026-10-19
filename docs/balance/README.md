@@ -9,6 +9,8 @@ Work for issue [#5](https://github.com/Amirkianfar66/GameN/issues/5): the rules 
 
 **The room capacity of five (issue #96).** The owner decided on 11 October that at most five players are in Room A, Room B, Hospital and Jail. [capacity-audit.md](capacity-audit.md) is the independent audit of the rule and of Backend's implementation in PR #98, for seven, eight and nine players separately: 122 fixtures of their own beside the Version 1 catalogue, seven invariants, one defect found in the implementation, and the six decisions the owner took on 11 October on what the audit had found open, which the implementation does not follow yet. The rulebook and the catalogue are unchanged and describe the rulesets before the rule; the catalogue cannot run under the new one until it is re-seated.
 
+**The four-bed Hospital (issue #155).** The owner decided on 18 October that Hospital has four beds with every number of players, and that a player who is hurt when all four are taken is Eliminated and removed from the board for good. On 19 October the owner asked Balance to save the decision and verify its implementation, in place of a separate acceptance. [hospital-four.md](hospital-four.md) is that record: the rule by reference to its overlay, the exact pins, the state of Backend's PR #163, and checks of the implementation with seven, eight and nine players, each with its sources and its result.
+
 ## Start here
 
 | If you want | Read |
@@ -18,6 +20,7 @@ Work for issue [#5](https://github.com/Amirkianfar66/GameN/issues/5): the rules 
 | What has actually been run, and against what | The current evidence, against the engine with the fix for G17: [evidence/2026-10-07-supplier-fix.md](evidence/2026-10-07-supplier-fix.md). Records: the defect before the fix, [evidence/2026-10-07-supplier-disclosure.md](evidence/2026-10-07-supplier-disclosure.md); the catalogue as it was earlier, [evidence/2026-10-06-baseline.md](evidence/2026-10-06-baseline.md) and [evidence/2026-10-07-report-gate.md](evidence/2026-10-07-report-gate.md) |
 | What Balance asks of Codex Integration | [integration-requests.md](integration-requests.md), [contract-review.md](contract-review.md) |
 | What the room capacity of five does, and what was run against its implementation | [capacity-audit.md](capacity-audit.md), [evidence/2026-10-11-capacity.md](evidence/2026-10-11-capacity.md) |
+| The four-bed Hospital: the owner's rule, its pins, and what was run against its implementation | [hospital-four.md](hospital-four.md) |
 | To run a playtest | [playtest/protocol.md](playtest/protocol.md) |
 | What the owner is asked to decide | The nine open rule edges, with a proposal for each: [rules-audit-v1.md](rules-audit-v1.md#triage-of-7-october-a-proposal-for-each-edge) |
 
@@ -29,6 +32,7 @@ Work for issue [#5](https://github.com/Amirkianfar66/GameN/issues/5): the rules 
 | [rules-audit-v1.md](rules-audit-v1.md) | Pins and provenance, how precedence was applied, the decision register D01 to D40, and consequences derived from the rules |
 | [invariants.md](invariants.md) | Statements that must hold in every match, with the rule behind each |
 | [capacity-audit.md](capacity-audit.md) | The audit of the room-capacity rule of issue #96: the rows of the rule, where it can bind, the nine areas for each number of players, findings in three kinds, and what is left for the owner |
+| [hospital-four.md](hospital-four.md) | The record of the four-bed Hospital of issue #155: the owner's decision by reference to its overlay, the pins, the implementation status, and the verification of the implementation for each number of players. Its tables are generated from the record and the committed report |
 | [scenario-traceability.md](scenario-traceability.md) | Generated. Maps the earlier 35 specifications to the Version 1 scenarios, and lists the blocked cases, the scenarios that touch each reading, and the rules without a scenario |
 | [contract-review.md](contract-review.md) | Independent review of the shared contracts, the Officer and Protection fixture and Backend's draft engine |
 | [integration-requests.md](integration-requests.md) | The exact shared changes requested |
@@ -47,6 +51,7 @@ Code and fixtures:
 | `tests/scenarios/v1/exceptions.json` | The reviewed list of the fixtures that are blocked or manual, each with its decision and its reason |
 | `tests/scenarios/*.test.mjs` | Static checks of sources, rulebook, scenarios, tooling and the report gate |
 | `tests/scenarios/adapters/full-game-v1.mjs` | The binding to Backend's engine API |
+| `tests/scenarios/hospital-four/` | The four-bed Hospital: the record of the decision and its pins, the checks for seven, eight and nine players, the thin driver they play through, and the tables of the document |
 | `tools/balance/src/` | Runner, invariants, report gate, rulebook parser, statistics and record validator |
 
 ## Commands
@@ -64,6 +69,7 @@ Run from the repository root with Node 22.21.1 and npm 10.9.4, after `npm ci`.
 | `npm run facts --workspace @mothership/balance` | Prints the arithmetic quoted in the audit |
 | `npm run materialize --workspace @mothership/balance` | Rewrites the scenario files from the catalogue |
 | `npm run traceability --workspace @mothership/balance` | Rewrites the traceability table |
+| `npm run hospital-four --workspace @mothership/balance -- --require-engine --out <file>` | Plays the checks of the four-bed Hospital with seven, eight and nine players against the built engine of this checkout, or of `--engine-root <checkout>`, and writes a report that names the commit, whether its tree was clean and whether its engine, contracts and service are the source Backend tested |
 
 At the bootstrap baseline the engine package has no rules in it, so `npm run scenarios` executes nothing and reports every ready scenario as **not run**. That is the correct result at this commit and is not a pass. On this branch these commands are not part of `npm run verify`. Integration's draft PR #47 adds them to it on the landing candidate, with a guard of its own; see request BAL-REQ-1.
 

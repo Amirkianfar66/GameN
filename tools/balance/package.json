@@ -23,7 +23,8 @@
     "controls": "tsc --build && node scripts/controls.mjs",
     "gate": "tsc --build && node scripts/gate.mjs",
     "engine-gate": "tsc --build && node scripts/engine-gate.mjs",
-    "capacity-compat": "tsc --build && node scripts/capacity-compat.mjs"
+    "capacity-compat": "tsc --build && node scripts/capacity-compat.mjs",
+    "hospital-four": "node scripts/hospital-four.mjs"
   },
   "dependencies": {
     "@mothership/contracts": "0.1.0",

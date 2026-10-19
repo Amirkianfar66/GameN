@@ -1,0 +1,67 @@
+{
+  "schema": "mothership.balance.hospital-four-record/1",
+  "recordedOn": "2026-10-19",
+  "decision": {
+    "id": "HOSPITAL-4-2026-10-18",
+    "status": "approved by the owner",
+    "approvedOn": "2026-10-18",
+    "summary": "Hospital has exactly four physical beds, H1 to H4, with 7, 8 and 9 players. A player who becomes Injured when no bed is free is permanently Eliminated and removed from the board, and cannot later be Rescued. Healed patients free their beds first; new patients are then admitted by player number. The rules themselves are the canonical overlay below; this record does not restate them.",
+    "ownerAnswers": [
+      "Yes—eliminate the incoming player",
+      "Free healed Hospital places first, then use existing seat order"
+    ],
+    "direction": [
+      "https://github.com/Amirkianfar66/GameN/issues/155",
+      "https://github.com/Amirkianfar66/GameN/issues/155#issuecomment-6258573661",
+      "https://github.com/Amirkianfar66/GameN/pull/133#issuecomment-6258574092"
+    ],
+    "process": "On 19 October the owner replaced the separate Balance acceptance of this rule by recording it and verifying that the implementation follows it. No further design approval or balance review is required, and none is claimed."
+  },
+  "canonical": {
+    "overlay": {
+      "path": "rules/overlays/hospital-four-owner-decision-2026-10-19.json",
+      "sha256": "7d9d3519df8813feb1213f1ad4439cae90895af6850c223264c28907824aeb9c",
+      "decisions": ["H4-CAPACITY", "H4-CHECKPOINT", "H4-OVERFLOW", "H4-PROVENANCE", "H4-CLINICAL", "H4-PAIRING"]
+    },
+    "ownerEvidence": {
+      "path": "docs/backend/evidence/hospital-four-owner-decision-2026-10-18.json",
+      "sha256": "e8200252806d5e468805b6e00cc9ea85eb37651d72522293b533ee31f3d27c5d"
+    },
+    "runtimeContract": {
+      "path": "docs/backend/hospital-four-runtime-contract.md",
+      "sha256": "a6fe4db68117b2e9c048584519ac3afc83458d0211cc38f3467fb544bf2494db"
+    },
+    "backendVerification": {
+      "path": "docs/backend/hospital-four-verification.md",
+      "sha256": "0fe42c8260839132954db541420e6a0d64ea65e07739f0e9b842ba25b6cee605"
+    },
+    "keptRules": {
+      "path": "rules/overlays/board-medical-owner-decision-2026-10-14.json",
+      "decisions": ["BOARD-MEDICAL-01", "BOARD-MEDICAL-03", "BOARD-MEDICAL-04", "BOARD-MEDICAL-05"]
+    }
+  },
+  "pins": {
+    "protocolVersion": 2,
+    "engineVersion": "full-game-1.11.0",
+    "rulesetVersion": "in-person-v1-hospital-four-2026-10-19",
+    "rulesetHash": "7d9d3519df8813feb1213f1ad4439cae90895af6850c223264c28907824aeb9c",
+    "layout": "board-v2-four-0.1.0",
+    "art": "design-0.5.0",
+    "parentRuleset": "in-person-v1-clone-2026-10-14"
+  },
+  "implementation": {
+    "status": "Implemented in Backend's PR #163. Not merged, not activated as a profile or default, not deployed.",
+    "pullRequest": 163,
+    "branch": "codex/backend-hospital-four-runtime",
+    "finalHead": "1d16da3b5b642f590810d1106714fde230a45c48",
+    "testedSource": "afac7173f25a82138d231e7b1906896f9919562c",
+    "base": "6ca4b51d5acd1454daec68c5108c8f12ee2286bf",
+    "sourceTrees": ["packages/engine", "packages/contracts", "services/game-api"]
+  },
+  "supersedes": "For this tuple only, the Hospital as large as the roster of the owner specification of 13 October and of rulesets 1.7 to 1.10. Every earlier tuple, match and record is unchanged.",
+  "historical": {
+    "pullRequest": 133,
+    "head": "a1f76995f23be70404bb8e85ab47905429deb221",
+    "note": "The 143, 151 and 152 cases of the specification of 13 October stay specified, not run, and unchanged. Those that expect a Hospital of the roster are not relabelled as four-bed results."
+  }
+}
