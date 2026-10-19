@@ -13,7 +13,7 @@ const output = resolve(process.argv[2] ?? '/private/tmp/gamen-role-card');
 await mkdir(output, { recursive: true });
 const base = process.env.MOTHERSHIP_BOARD_URL ?? 'http://127.0.0.1:5178/';
 const roles = ['Insider', 'Cracker', 'Officer', 'Blue Disabler', 'Supplier', 'Undercover', 'Hacker', 'Red Disabler', 'Alien'];
-const sizes = [[320, 568], [390, 700], [390, 844], [1280, 800]];
+const sizes = [[390, 700], [320, 568], [390, 844], [1280, 800]];
 const records = [];
 const handle = await launchBrowser(), browser = await connect(handle.endpoint);
 const read = `(() => {

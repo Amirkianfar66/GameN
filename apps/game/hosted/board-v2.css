@@ -130,7 +130,7 @@ body:has(#app [data-board-layout="board-v2"]) { height:100dvh; overflow:hidden; 
 /* Board V2 bounds the private sheet, not its contents. Auto grid rows shrink an
    overflow-hidden role card to its border when the sheet is shorter than its contents.
    Keep each row at its natural height and scroll only the private body. */
-#app .ms-shell--player[data-board-layout="board-v2"][data-phone-view="role"] .ms-private__panel {
+#app .ms-shell--player[data-board-layout="board-v2"][data-phone-view="role"] .ms-private[data-open="true"]:not(.phone-action-dock) .ms-private__panel {
   width: 100%;
   box-sizing: border-box;
   overflow-x: hidden;

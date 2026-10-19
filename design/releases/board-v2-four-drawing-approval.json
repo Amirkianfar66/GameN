@@ -107,7 +107,7 @@
       ]
     },
     "apps/game/hosted/board-v2.css": {
-      "sha256": "fcbbde42a4131e4ef33a10007300eefa5cefd6327507c35737e971dd9bd2bcc4",
+      "sha256": "0566d024c1a4b396f38e6a4af38140137be713ea1828b95c785777138f8a0171",
       "permittedLiterals": [
         "board-v2"
       ]
@@ -412,7 +412,7 @@
     "apps/game/hosted/board-v2-drawing/clone-film.mjs": "bbc7fc6cb283cabe1a37fe7979dd7c0bdb8a9a2462b801c17df496809dc90ed9",
     "apps/game/hosted/board-v2-host.mjs": "e10e27c3b73acce62806e567a7b1c6e81704ef8046e6cb919bf40ceececee8c9",
     "apps/game/hosted/board-v2-scene.mjs": "acf897d9f8fcaf9c63e1bc6591e2d9c2f6bc77db077b639f9e1ad50aab1f9bf7",
-    "apps/game/hosted/board-v2.css": "fcbbde42a4131e4ef33a10007300eefa5cefd6327507c35737e971dd9bd2bcc4",
+    "apps/game/hosted/board-v2.css": "0566d024c1a4b396f38e6a4af38140137be713ea1828b95c785777138f8a0171",
     "apps/game/hosted/board-v2-film-art/catalog.json": "16e7846488f3f9ca0be359bed1b8a34164d31dcde6f839d6e8b301e868a62636",
     "apps/game/hosted/comic-assets.mjs": "485c86151104486a29077534674aef08a9dc764b9e2b720959e80b151e2e426c"
   },
