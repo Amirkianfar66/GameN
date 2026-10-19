@@ -115,3 +115,41 @@ test('fresh post-Blackout outcomes retain their committed origin while hidden-pa
   const sample=s.update({blackout:false,visible:true,events:[event]});assert.equal(sample.items.length,visible?1:0);
  }
 });
+
+for(const count of[7,8,9])test(`${count}: admission uses its current H2 despite a fifth anchor or another living/body holder at H1`,()=>{
+ for(const [anchorId,health]of[['HV5','Injured'],['HV1','Injured'],['HV1','Eliminated']]){
+  const s=setup(count);s.board.seats[0]=seat(1,{location:'Hospital',slotId:'H1',health});s.update();s.board.viewRevision=2;
+  s.board.seats[1]=seat(2,{location:'Hospital',slotId:'H2',health:'Injured'});
+  const event=s.event({type:'MEDICAL_OUTCOME',kind:'INJURY',health:'Injured',seatId:'seat-2',presentationAnchor:anchor(count,anchorId)});
+  const entry=s.update({events:[event]}).items[0];assert.equal(entry.berth,'H2');assert.equal(entry.clinical,'INJURY');assert.ok(entry.frame.figure.opacity<1);
+  assert.throws(()=>s.update({events:[{...event,eventId:'invalid-admission',presentationAnchor:{...anchor(count),anchorId:'HV9',slotCount:7}}]}),/Invalid clinical presentation anchor/);
+ }
+});
+
+test('normal and reduced Clone changes observed with the sheet closed start once at first card foreground',()=>{
+ for(const reducedMotion of[false,true])for(const film of['activate','expire']){
+  const s=setup(),unused={status:{used:false,activatedRound:null,expiresAfterRound:null,active:false},seatId:'seat-1',eliminated:false,matchEnded:false};
+  const active={...unused,status:{used:true,activatedRound:1,expiresAfterRound:2,active:true}},ended={...active,status:{...active.status,active:false}};
+  s.update({privateOpen:false,ownClone:film==='activate'?unused:active,reducedMotion});
+  const after=film==='activate'?active:ended;
+  assert.equal(s.update({privateOpen:false,ownClone:after,reducedMotion}).own,null);
+  s.advance(10000);assert.equal(s.update({privateOpen:true,ownClone:after,reducedMotion}).own.film,film);
+  assert.equal(s.director.sample().own.t,0,'wait time is not film time');
+  assert.equal(s.update({privateOpen:false,ownClone:after,reducedMotion}).own,null);
+  assert.equal(s.update({privateOpen:true,ownClone:after,reducedMotion}).own.film,null,'no replay after a started card is concealed');
+ }
+});
+
+test('queued own Clone changes are discarded at authorization, page, motion and terminal boundaries',()=>{
+ const unused={status:{used:false,activatedRound:null,expiresAfterRound:null,active:false},seatId:'seat-1',eliminated:false,matchEnded:false},active={...unused,status:{used:true,activatedRound:1,expiresAfterRound:2,active:true}};
+ for(const boundary of['hidden','blur','stale','unsupported','motion','terminal','other-seat','new-match']){
+  const s=setup();s.update({ownClone:unused});s.update({ownClone:active});
+  const extra=boundary==='hidden'?{visible:false}:boundary==='blur'?{focused:false}:boundary==='unsupported'?{enabled:false}:boundary==='motion'?{reducedMotion:true}:boundary==='other-seat'?{ownClone:{...active,seatId:'seat-2'}}:{};
+  if(boundary==='stale')s.board.clock.current=false;
+  if(boundary==='terminal')s.board.clock.kind='FINISHED';
+  if(boundary==='new-match')s.board.matchId='replacement-match';
+  s.update({ownClone:active,...extra});s.board.clock.current=true;s.board.clock.kind='ORDINARY_TURN';
+  const sample=s.update({ownClone:active,privateOpen:true,reducedMotion:boundary==='motion'});
+  assert.equal(sample.own.film,null,boundary);
+ }
+});

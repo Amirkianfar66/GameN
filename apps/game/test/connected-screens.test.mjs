@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { FullCommandRequestSchema } from '@mothership/contracts';
+import { FullCommandRequestSchema, HOSPITAL_FOUR_VERSION_PINS } from '@mothership/contracts';
 import { createConnectedPlayerScreen, createConnectedTableScreen, DEFAULT_ACTION_FLOW_TIMING, DEFAULT_CATCH_UP_TIMING } from '@mothership/game';
 import { renderConnectedPlayerShell, SHELL_IDS, toHtml } from '@mothership/presentation';
 import { createFakeHost, flush } from './support/fakes.mjs';
@@ -906,4 +906,39 @@ test('the neutral Pass intent works with the private card closed and leaves priv
   assert.equal(s.frame().model.match.passTurn.card,null);
   assert.equal(s.frame().model.match.privateArea.content,null);
   s.screen.dispose();
+});
+
+
+function cloneDrawingView(status, revision=5, change=()=>{}) {
+ return playerView('seat-1', view=>{
+  view.versions={...HOSPITAL_FOUR_VERSION_PINS,assetManifestVersion:'design-0.5.0'};view.viewRevision=revision;
+  view.blackout=null;view.hackSession=null;view.hackFeedback=null;view.voteResult=null;
+  view.seats.forEach((s,i)=>{s.slotId=`${s.location==='Room A'?'A':'B'}${Math.floor(i/2)+1}`;s.medical=null;});
+  view.self.role='Alien';view.self.cloneStatus=status;view.self.captainCommandUses=null;view.self.blackoutTargeting=null;
+  view.knowledge.code=['seat-1','seat-2','seat-3','seat-4'];change(view);
+ });
+}
+const CLONE_UNUSED={used:false,activatedRound:null,expiresAfterRound:null,active:false};
+const CLONE_ACTIVE={used:true,activatedRound:1,expiresAfterRound:2,active:true};
+test('the player-only Clone drawing reader compares current own facts while the private model and markup stay closed',async()=>{
+ const s=setup();s.screen.start();assert.equal(s.screen.readOwnCloneDrawing(),null);
+ await s.fake.deliver(OWN,cloneDrawingView(CLONE_UNUSED));assert.deepEqual(s.screen.readOwnCloneDrawing().status,CLONE_UNUSED);
+ await s.fake.deliver(OWN,cloneDrawingView(CLONE_ACTIVE,6));
+ assert.deepEqual(s.screen.readOwnCloneDrawing().status,CLONE_ACTIVE);assert.equal(s.frame().model.match.privateArea.content,null);
+ assert.doesNotMatch(s.html(),/CLONE ACTIVE|Clone active|Clone unused|Alien/);
+ const copy=s.screen.readOwnCloneDrawing();copy.status.active=false;assert.equal(s.screen.readOwnCloneDrawing().status.active,true);
+ s.screen.setPageVisible(false);assert.equal(s.screen.readOwnCloneDrawing(),null);
+ s.screen.setPageVisible(true);await flush();assert.equal(s.frame().model.match.privateArea.content,null);
+ s.screen.dispose();assert.equal(s.screen.readOwnCloneDrawing(),null);
+ const table=setup('table');assert.equal(table.screen.readOwnCloneDrawing,undefined);table.screen.dispose();
+});
+test('stale, reconnect, foreign-seat and revised-identity views cannot retain own Clone drawing authority',async()=>{
+ for(const boundary of['stale','reconnect','foreign-seat','identity']){
+  const s=setup();s.screen.start();await s.fake.deliver(OWN,cloneDrawingView(CLONE_ACTIVE));assert.ok(s.screen.readOwnCloneDrawing());
+  if(boundary==='stale')await s.fake.deliver(OWN,cloneDrawingView(CLONE_ACTIVE),false);
+  if(boundary==='reconnect'){s.screen.dispatch({type:'session/reconnect'});await flush();}
+  if(boundary==='foreign-seat'){const wrong=cloneDrawingView(CLONE_ACTIVE,6);wrong.self.seatId='seat-2';wrong.audience.seatId='seat-2';await s.fake.deliver(OWN,wrong);}
+  if(boundary==='identity')await s.fake.deliver(OWN,cloneDrawingView(null,6,v=>{v.self.role='Cracker';v.knowledge.code=[];}));
+  assert.equal(s.screen.readOwnCloneDrawing(),null,boundary);assert.equal(s.frame().model.match?.privateArea.content??null,null);s.screen.dispose();
+ }
 });

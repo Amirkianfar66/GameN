@@ -37,11 +37,11 @@ export function outcomeWords(event){
 }
 
 export function createBoardV2Presentations({now=()=>performance.now()}={}){
- let matchKey=null,previous=null,current=null,previousLive=false,reduced=false,receivedAt=0,privateBefore=null,privateMoving=null,privateCurrent=null;
+ let matchKey=null,previous=null,current=null,previousLive=false,reduced=false,receivedAt=0,privateBefore=null,privateMoving=null,privatePending=null,privateCurrent=null;
  const seen=new Set(),active=new Map(),heldBefore=new Map();
  const elapsed=entry=>Math.max(0,now()-entry.startedAt+entry.age);
  const serverNow=()=>current?.clock?.nowMs==null?null:current.clock.nowMs+Math.max(0,now()-receivedAt);
- function cancel(){active.clear();privateMoving=null;privateBefore=null;previousLive=false;}
+ function cancel(){active.clear();privateMoving=null;privatePending=null;privateBefore=null;privateCurrent=null;previousLive=false;}
  function add(event,before,seats){
   const f=event.fact,subject='seatId'in f?seats.find(s=>s.seatId===f.seatId):null;
   const origin=id=>clone(before?.find(s=>s.seatId===id));
@@ -50,9 +50,16 @@ export function createBoardV2Presentations({now=()=>performance.now()}={}){
    if(!clinicalTypes.has(f.kind)||!subject)return;
    for(const[id,old]of active)if(old.kind==='medical'&&old.subjectId===f.seatId)active.delete(id);
    const anchor=event.presentationAnchor??f.presentationAnchor;
-   const selection=clinicalDrawingChoice(anchor,current.playerCount,seats,f.seatId,{four:current.four});
-   if(!selection.plays)return;
-   if(f.kind==='INJURY'&&(subject.health!=='Injured'||subject.location!=='Hospital'))return;
+   // Admission follows the current physical bed. Its separately validated clinical
+   // anchor may be HV5+ or refer to a bed retained by a different subject.
+   let selection=null;
+   if(f.kind==='INJURY'){
+    if(!validClinicalAnchorForPlayerCount(anchor,current.playerCount))throw Error('Invalid clinical presentation anchor');
+    if(subject.health!=='Injured'||subject.location!=='Hospital')return;
+   }else{
+    selection=clinicalDrawingChoice(anchor,current.playerCount,seats,f.seatId,{four:current.four});
+    if(!selection.plays)return;
+   }
    if(f.kind==='HEALED'&&subject.health!=='Healthy'||f.kind==='DEATH'&&subject.health!=='Eliminated')return;
    const berth=f.kind==='INJURY'?subject.slotId:selection.berth;
    if(!berth||current.four&&!/^H[1-4]$/.test(berth))return;
@@ -74,7 +81,8 @@ export function createBoardV2Presentations({now=()=>performance.now()}={}){
    const fresh=Boolean(enabled&&supportsCompleteDrawings(versions)&&board?.clock?.current&&visible&&focused);
    const live=fresh&&!blackout&&!['FINISHED','ABORTED'].includes(board?.clock?.kind);
    const nextReduced=Boolean(reducedMotion);
-   if(nextReduced!==reduced){active.clear();privateMoving=null;}reduced=nextReduced;
+   const motionChanged=nextReduced!==reduced;
+   if(motionChanged){active.clear();privateMoving=null;privatePending=null;}reduced=nextReduced;
    const seats=board?.seats??[];
    if(board&&previous?.viewRevision!==board.viewRevision){heldBefore.set(board.viewRevision,clone(previous?.seats));while(heldBefore.size>4)heldBefore.delete(heldBefore.keys().next().value);}
    const before=heldBefore.get(board?.viewRevision)??null;
@@ -94,16 +102,21 @@ export function createBoardV2Presentations({now=()=>performance.now()}={}){
     if(!live||!previousLive||event.viewRevision!==board.viewRevision||event.expiresAt<=(board.clock.nowMs??Infinity))continue;
     add(event,before,seats);
    }
-   privateCurrent=live&&privateOpen&&ownClone&&!ownClone.eliminated&&!ownClone.matchEnded?clone(ownClone):null;
-   if(!privateCurrent){privateBefore=null;privateMoving=null;}
+   const trustedOwn=live&&ownClone&&!ownClone.eliminated&&!ownClone.matchEnded?clone(ownClone):null;
+   privateCurrent=privateOpen?trustedOwn:null;
+   if(!trustedOwn){privateBefore=null;privateMoving=null;privatePending=null;}
    else{
-    const same=privateBefore&&JSON.stringify(privateBefore.status)===JSON.stringify(privateCurrent.status);
+    const same=privateBefore?.seatId===trustedOwn.seatId&&JSON.stringify(privateBefore.status)===JSON.stringify(trustedOwn.status);
     if(!same){
-     privateMoving=null;
-     const film=cloneFilmFor({before:privateBefore?.status,after:privateCurrent.status,live:previousLive,eliminated:ownClone.eliminated,matchEnded:ownClone.matchEnded});
-     if(film)privateMoving={film,startedAt:now()};
+     privateMoving=null;privatePending=null;
+     const film=cloneFilmFor({before:privateBefore?.seatId===trustedOwn.seatId?privateBefore.status:null,after:trustedOwn.status,live:previousLive&&!motionChanged,eliminated:trustedOwn.eliminated,matchEnded:trustedOwn.matchEnded});
+     if(film)privatePending={film};
     }
-    privateBefore=clone(privateCurrent);
+    // Closing a playing card cancels that film. A live change first observed
+    // with the card closed instead waits for its first foreground, without a clock.
+    if(!privateOpen)privateMoving=null;
+    else if(privatePending){privateMoving={film:privatePending.film,startedAt:now()};privatePending=null;}
+    privateBefore=clone(trustedOwn);
    }
    previous=board?{viewRevision:board.viewRevision,seats:clone(seats)}:null;previousLive=fresh&&!['FINISHED','ABORTED'].includes(board?.clock?.kind);
    return this.sample();
