@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "devOnly": "mothership:dev-only",
   "version": "hospital-four-drawing-approval-1",
-  "reviewedFrontendCommit": "ceb8bdd22198cdaebdf75a1aad4e49c992fd161f",
+  "reviewedFrontendCommit": "f35a8ff04dcef066e72125bd3efb3e19b59cc858",
   "historicalPolicySha256": "07ea49f893a17227da7560ecb9e555ad291c4724aeefe92b438d882f6b5b9102",
   "scope": "Exact candidate source consumption and metadata/build references only. No gameplay, profile, deployment or visual-acceptance approval. Original policy unchanged.",
   "ports": {
@@ -95,7 +95,7 @@
   },
   "metadataFiles": {
     "apps/game/hosted/board-v2-host.mjs": {
-      "sha256": "74c0279583a3f80bd3222cdd7cbbe624d274e16c6728549c4d9325913a56521d",
+      "sha256": "e10e27c3b73acce62806e567a7b1c6e81704ef8046e6cb919bf40ceececee8c9",
       "permittedLiterals": [
         "board-v2"
       ]
@@ -107,7 +107,7 @@
       ]
     },
     "apps/game/hosted/board-v2.css": {
-      "sha256": "f776bc946fb159f24d58e99ba186de93421f75025f53c6ed9514ae74713c13ba",
+      "sha256": "23946b09943a7bd194de8b55f14ace99fc99c4698c4d9bff8e46bae3df3b9f13",
       "permittedLiterals": [
         "board-v2"
       ]
@@ -227,7 +227,7 @@
         "design/abilities/assets/manifest.json": "fa39d6d2d5e9f0149c1aa5df7f9edd06180e61bbd79140d2cb15c6a74e269316",
         "design/abilities/assets/abilities.art.css": "606cab7facc8ad8542e2b7d0ac1ad17ceaae68328aa9fc8f123c4872e7a35b1b",
         "design/releases/design-0.3.0.json": "588e79930746266a3c33ab5aedc1f40a8c464ff92c8e181dec93653d619eaecf",
-        "scripts/runtime-art-release.mjs": "4b79b843a2935ac8b76b4790c0af56fe2225df8c5de991f65bc9d36402f888fb",
+        "scripts/runtime-art-release.mjs": "2a37a71d725ae51e331d0361b8368925facb6083f5183b434c50d4eb09e14488",
         "design/releases/board-v2-art-candidate.json": "0412d616c0b6ab37d9f6f80fb34115aad4db6275b042697af1b58634289f577c",
         "scripts/board-v2-art-candidate.mjs": "3a4237520a1dcc10188e375ae3f33c5fb42304fbd28fe227585fe518e2871e8a",
         "design/releases/board-v2-runtime-ports.json": "b44c9ef74fff41b5409949b628b360b1f12e736cc88d8321d58ed3c2226f78ac",
@@ -410,9 +410,9 @@
     "apps/game/hosted/board-v2-drawing/overflow-film.mjs": "e918058723d1846375d92b21fcd681d29c930a98d7365985a63f82bc86f0d81a",
     "apps/game/hosted/board-v2-drawing/clone-fx.mjs": "6b4e7c9ad1655cf5141dbb05064cb671e769261138996a3fc5fb1391d06409c8",
     "apps/game/hosted/board-v2-drawing/clone-film.mjs": "bbc7fc6cb283cabe1a37fe7979dd7c0bdb8a9a2462b801c17df496809dc90ed9",
-    "apps/game/hosted/board-v2-host.mjs": "74c0279583a3f80bd3222cdd7cbbe624d274e16c6728549c4d9325913a56521d",
+    "apps/game/hosted/board-v2-host.mjs": "e10e27c3b73acce62806e567a7b1c6e81704ef8046e6cb919bf40ceececee8c9",
     "apps/game/hosted/board-v2-scene.mjs": "acf897d9f8fcaf9c63e1bc6591e2d9c2f6bc77db077b639f9e1ad50aab1f9bf7",
-    "apps/game/hosted/board-v2.css": "f776bc946fb159f24d58e99ba186de93421f75025f53c6ed9514ae74713c13ba",
+    "apps/game/hosted/board-v2.css": "23946b09943a7bd194de8b55f14ace99fc99c4698c4d9bff8e46bae3df3b9f13",
     "apps/game/hosted/board-v2-film-art/catalog.json": "16e7846488f3f9ca0be359bed1b8a34164d31dcde6f839d6e8b301e868a62636",
     "apps/game/hosted/comic-assets.mjs": "485c86151104486a29077534674aef08a9dc764b9e2b720959e80b151e2e426c"
   },

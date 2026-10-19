@@ -34,7 +34,25 @@
     "Record exact deployed source/artifact digests and actual hosted smoke results."
   ],
   "rollback": "Revert the creation selector first. Retain workers and artwork capable of serving already-created 1.11 matches; never redeal an existing game under older versions.",
-  "status": "Release selector prepared; final corrected consumer, combined checks, publishing account sign-in and deployment are pending.",
+  "status": "Corrected consumer assembled and exact native approval refreshed. Final combined CI, publishing-account sign-in and deployment are pending.",
   "deploymentPerformed": false,
-  "limits": "Local unit/build checks and CI do not establish production Cloud Tasks/IAM behavior, physical-device or screen-reader acceptance, or human social-deduction balance."
+  "combinedAffectedChecks": {
+    "focusedControllerLifecycleArtApprovalPassed": 91,
+    "designPassed": 252,
+    "source": "Assembled frozen Frontend source plus release enablement and reviewed exact-file approval",
+    "fullFinalCi": "pending"
+  },
+  "limits": "Local unit/build checks and CI do not establish production Cloud Tasks/IAM behavior, physical-device or screen-reader acceptance, or human social-deduction balance.",
+  "frontendCorrectionSource": "f35a8ff04dcef066e72125bd3efb3e19b59cc858",
+  "frontendEvidenceHead": "e3789a5981e6a94b8c10e1dd24f89dd74339d885",
+  "drawingApprovalSha256": "b24183b3aca00a87bdd1a3ae44533d6ba2965e01ebc7e39622db79f70551a760",
+  "releasePreparationChecks": {
+    "source": "124e9a5f7813d5ca45d04b1432ff1a46e37caab3",
+    "profileAndArtTestsPassed": 37,
+    "typechecks": "passed",
+    "hostedBuild": "passed",
+    "standaloneBackendInstall": "passed",
+    "nativeFunctionsSmokePassed": 2,
+    "nativeFunctionsScope": "Local demo-mothership only: actual setup/Ready, exact pins, original-command receipts, bounded private Hack and automatic bot progression. No deployed timer/IAM claim."
+  }
 }

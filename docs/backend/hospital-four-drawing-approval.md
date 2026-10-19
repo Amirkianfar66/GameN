@@ -2,7 +2,7 @@
 
 This focused integration change follows issue #155 and the current-policy failures
 reported by Frontend after its historical fixture repair. Its reviewed Frontend base is
-`ceb8bdd22198cdaebdf75a1aad4e49c992fd161f`, on
+`f35a8ff04dcef066e72125bd3efb3e19b59cc858`, on
 `codex/frontend-hospital-four-playable-review`. The separate shared dependency base
 is `c6814df98242a72bf702362d253aab0a8ca6048a`.
 
@@ -11,7 +11,7 @@ is `c6814df98242a72bf702362d253aab0a8ca6048a`.
 The original `design/tools/lib/reviewed-drawing-ports.json` remains byte-identical.
 The new `design/releases/board-v2-four-drawing-approval.json` is independently
 hash-pinned by the checker at
-`09683155f5c9a1fc68cb5a189e2ddc9c4631b6836e257b9057dd0d20b0a8b1c1`.
+`b24183b3aca00a87bdd1a3ae44533d6ba2965e01ebc7e39622db79f70551a760`.
 It binds the exact original policy, 14 previously source-reconstructed new ports,
 their frozen source snapshots, three current native metadata files, one
 build-time source catalog, and the current common-art build adapter and its inputs.
@@ -62,7 +62,7 @@ passed 12/12 and the actual board-motion check passed 13/13. The full 252/209
 suites above were not repeated for this one-line CSS and button-label refinement;
 Frontend's final combined verification remains required.
 
-The current approval binds the nameplate correction at Frontend `ceb8bdd`. Its
+The preceding approval bound the nameplate correction at Frontend `ceb8bdd`. Its
 only production changes are scene label bounds and CSS sizing/translation. The
 host, source artwork, logical character positions, command identities and target
 allocation are unchanged. Integration verified the committed scene and CSS bytes
@@ -90,3 +90,17 @@ label correction. Integration did not rerun the full combined suite or emulator
 tests for this narrow approval refresh. Affected final Design/build checks, CI,
 Designer visual acceptance, independent Balance acceptance and release checks
 remain separate.
+
+## Release integration refresh
+
+The current supplement binds Frontend correction source `f35a8ff04dcef066e72125bd3efb3e19b59cc858`, delivered with evidence at `e3789a5981e6a94b8c10e1dd24f89dd74339d885`. Integration compared the six production source digests with the frozen report, reviewed the changed lifecycle/controller code and inspected the overflow, reduced-motion, Captain and private Clone pictures. The exact host/CSS metadata exceptions are refreshed; the scene, source artwork and pure drawing ports are unchanged.
+
+The common-art build input now pins the release-selector module from `124e9a5f7813d5ca45d04b1432ff1a46e37caab3`, which selects the already-reviewed design-0.5.0 artifact for release metadata. Its strict current and historical validators are unchanged. No new path exemption, prototype import or art mutation is permitted.
+
+The Frontend report contains 64 rendered records and zero runtime exceptions, with its actual and unrun scope recorded in `docs/frontend/hospital-four-seven-corrections.md`. Integration's separate release preparation passed 37 profile/art tests, both typechecks, the hosted build, standalone Backend package verification and two native local 1.11 Functions smoke cases (setup/Ready/receipt/Hack and automatic bots). Final combined verification and the hosted release remain pending. Under the owner's 19 October direction in issue #155 comment6258573661, Balance saves the approved four-bed decision and verifies its implementation; a separate Balance design sign-off is no longer required. Earlier pending-review descriptions above are historical.
+
+After assembly and the exact approval refresh, Integration passed 91 focused
+controller/lifecycle/art/approval checks and all 252 Design checks. This includes
+the changed own-only Clone authority and admission behavior, current candidate
+fence checks and preserved historical policy controls. The full final CI run
+provides the separate complete-suite gate; no deployed behavior is claimed here.
