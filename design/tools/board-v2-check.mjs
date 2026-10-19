@@ -77,6 +77,13 @@ const { fourBerthKit, fourClinicalBerth, fourDronePosition, fourFilmBerth, fourR
 const { fullStampBox, overflowWay, spinePlaqueBox } = await load('design/board-v2/fx/overflow.mjs');
 const { OVERFLOW_FILM, overflowContract, overflowEnd, overflowFrame } = await load('design/board-v2/films/overflow.mjs');
 const { OVERFLOW_OCCURRENCE, overflowOutcome } = await load('design/board-v2/js/overflow-fixtures.mjs');
+const { CLONE, CLONE_CARD, CLONE_MIN_DISTANCE, FIGURE_SPAN, PASS_GAP, cloneBodyHeight, cloneCardLayout, cloneColorDistances, halftoneSvg, markSvg, outlineSvg } = await load('design/board-v2/fx/clone.mjs');
+const { CLONE_FILM, CLONE_FILMS, cloneCard, cloneContract, cloneEnd, cloneFilmFor, cloneFrame, cloneWords } = await load('design/board-v2/films/clone.mjs');
+const { CLONE_CASES, CLONE_SEAT, CLONE_STATUSES, cloneCase } = await load('design/board-v2/js/clone-fixtures.mjs');
+const { FRAME } = await load('design/board-motion/figures/body.mjs');
+/** The Clone's captures (clone-<name>.png) and its page comparisons: the plan of design/tools/board-v2-capture.mjs. */
+const CLONE_SHOTS = ['390x844-activate-0200', '390x844-activate-0650', '390x844-activate-1100', '390x844-activate-1550', '390x844-activate-1720', '390x844-activate-1900', '390x844-expire-0150', '390x844-expire-0450', '390x844-expire-0750', '390x844-expire-0950', '390x844-reduced-activate-0200', '390x844-reduced-activate-0440', '390x844-reduced-activate-0600', '390x844-reduced-expire-0200', '390x844-reduced-expire-0440', '390x844-reduced-expire-0600', '320x568-activate-1100', '320x568-activate-1900', '320x568-expire-0450', '320x568-jailed', '390x844-jailed', '390x844-r5', '390x844-activate-1900-r7', '390x844-activate-1900-r8', '390x844-four-activate-1900', '360x740-text2-active', '375x667-text2-ended', '390x844-text2-activate-1100', '390x844-player-1100', '390x844-display-1100', 'sheet'];
+const CLONE_COMPARISONS = 9;
 
 // ---------- Development material, fenced ----------
 {
@@ -127,7 +134,7 @@ const { OVERFLOW_OCCURRENCE, overflowOutcome } = await load('design/board-v2/js/
   for (const [path, content] of planned) if ((await text(path).catch(() => null)) !== content) problems.push(`${path}: not what design/tools/board-v2-assets.mjs makes: run it`);
   for (const path of await filesUnder('design/board-v2/assets')) if (!planned.has(path)) problems.push(`${path}: not made by design/tools/board-v2-assets.mjs`);
   const manifest = planned.has('design/board-v2/assets/manifest.json') ? JSON.parse(planned.get('design/board-v2/assets/manifest.json')) : null;
-  const sprites = manifest ? [...manifest.lighting.files, ...manifest.fx.files, ...(manifest.capsule?.files ?? []), ...(manifest.medical?.files ?? []), ...(manifest.captain?.files ?? [])] : [];
+  const sprites = manifest ? [...manifest.lighting.files, ...manifest.fx.files, ...(manifest.capsule?.files ?? []), ...(manifest.medical?.files ?? []), ...(manifest.captain?.files ?? []), ...(manifest.clone?.files ?? [])] : [];
   for (const [path, content] of planned) {
     if (!path.endsWith('.svg')) continue;
     if (/<text\b|<image\b|<script\b|<foreignObject\b|href=["']https?:/i.test(content)) problems.push(`${path}: outside the drawing vocabulary`);
@@ -136,7 +143,7 @@ const { OVERFLOW_OCCURRENCE, overflowOutcome } = await load('design/board-v2/js/
     const box = sprite ? sprite.viewBox : '0 0 1024 768';
     if (!content.includes(`viewBox="${box}"`)) problems.push(`${path}: not in its ${box} box`);
   }
-  check('the ward, the lighting, the effects, the capsule, the medical and the Captain\'s art are built from the approved rooms or their own modules, current, and inside the drawing vocabulary', problems);
+  check('the ward, the lighting, the effects, the capsule, the medical, the Captain\'s and the Clone\'s art are built from the approved rooms or their own modules, current, and inside the drawing vocabulary', problems);
 }
 
 // ---------- The Blackout's lighting window ----------
@@ -1066,8 +1073,104 @@ const { OVERFLOW_OCCURRENCE, overflowOutcome } = await load('design/board-v2/js/
   const contract = JSON.stringify(overflowContract());
   for (const word of ROLE_WORDS) if (contract.includes(word)) problems.push(`the overflow contract names ${word}`);
   const films = await json('design/board-v2/contract/films.json').catch(() => null);
-  if (!films || JSON.stringify(films.films?.slice(9)) !== JSON.stringify([overflowContract()])) problems.push('contract/films.json does not hold the overflow beat\'s contract: run design/tools/board-v2-assets.mjs');
+  if (!films || JSON.stringify(films.films?.[9]) !== JSON.stringify(overflowContract())) problems.push('contract/films.json does not hold the overflow beat\'s contract: run design/tools/board-v2-assets.mjs');
   check(`the successor's four-berth Hospital: fit-four.mjs the current layout with the successor's slots and turns-four.mjs turns.mjs but its imports; four berths H1 to H4 for every roster, every other room the current table's; the berths' furniture, dock and plates the ward's own; #158's rescue frame for frame on them; the current board panel for panel, the four berths whole in every Hospital panel it draws (${boards} boards); #158's tags, insets (${insetsPlaced} placed) and drone clear at every phone; the controls' sheet (${sheets} layouts) holding up to eight off-board cards (${decks} decks); the overflow beat's length, words and still reduced panels, its plaque in the spine (${plaques} boards) and its example the server's shape`, problems);
+}
+
+// ---------- The Clone, privately (storyboard S3) ----------
+{
+  const problems = [];
+  // The films: their lengths; every 10 ms, in both motion modes, nothing but the moment, the film and the setting as input;
+  // an activation's card only from its start; the real character fading out and the duplicate in, and the reverse on expiry;
+  // the reduced variants a held card and one 80 ms cross-fade, with no scan, no halftone and no pop.
+  if (cloneEnd('activate') !== 1800 || cloneEnd('expire') !== 900 || cloneEnd('activate', true) !== 480 || cloneEnd('expire', true) !== 480) problems.push(`the films last ${cloneEnd('activate')} and ${cloneEnd('expire')} ms (reduced ${cloneEnd('activate', true)} and ${cloneEnd('expire', true)})`);
+  for (const kind of CLONE_FILMS) for (const reduced of [false, true]) {
+    const end = cloneEnd(kind, reduced);
+    let last = null;
+    for (let t = -200; t <= end + 400; t += 10) {
+      const f = cloneFrame(kind, t, { reduced });
+      const where = `the ${kind}${reduced ? ', reduced' : ''}, ${t} ms`;
+      for (const extra of [{ attacker: 5 }, { role: 'x', side: 'y' }, { target: 2, block: true }]) if (JSON.stringify(cloneFrame(kind, t, { reduced, ...extra })) !== JSON.stringify(f)) problems.push(`${where}: ${Object.keys(extra).join(', ')} changes the film`);
+      if (f.done !== t >= end) problems.push(`${where}: done is ${f.done}`);
+      if (kind === 'activate' && t < 0 && (f.card || f.clone.opacity || f.halftone.opacity || f.scan)) problems.push(`${where}: drawn before its start`);
+      if (kind === 'activate' && t >= 0 && !f.card) problems.push(`${where}: no card during the film`);
+      for (const value of [f.real.opacity, f.outline.opacity, f.clone.opacity, f.halftone.opacity, f.halftone.density, f.pad, f.stamps.active.opacity, f.stamps.ended.opacity]) if (!(value >= 0 && value <= 1)) problems.push(`${where}: a value ${value} outside 0 to 1`);
+      if (t >= end && JSON.stringify({ ...f, done: true }) !== JSON.stringify({ ...cloneFrame(kind, Infinity, { reduced }), done: true })) problems.push(`${where}: still moving after its end`);
+      if (reduced && (f.scan || f.halftone.opacity > 0 || f.stamps.active.scale !== 1 || f.stamps.ended.scale !== 1)) problems.push(`${where}: motion in the reduced variant`);
+      if (reduced && last && t > 0 && (t < CLONE_FILM.reduced.holdMs || t > CLONE_FILM.reduced.holdMs + CLONE_FILM.reduced.fadeMs) && JSON.stringify({ ...f, stage: '', done: false }) !== JSON.stringify({ ...last, stage: '', done: false })) problems.push(`${where}: the reduced card changes outside its cross-fade`);
+      if (last && t > 0 && t <= end) {
+        const up = kind === 'activate';
+        if (up ? f.real.opacity > last.real.opacity + 1e-9 || f.outline.opacity < last.outline.opacity - 1e-9 || f.clone.opacity < last.clone.opacity - 1e-9
+          : f.real.opacity < last.real.opacity - 1e-9 || f.outline.opacity > last.outline.opacity + 1e-9 || f.clone.opacity > last.clone.opacity + 1e-9) problems.push(`${where}: the ${up ? 'character returns or the duplicate goes' : 'duplicate returns or the character goes'}`);
+      }
+      if (f.scan && (f.scan.y < 0 || f.scan.y > 1 || !['real', 'clone'].includes(f.scan.over))) problems.push(`${where}: the scan band is off its figure`);
+      last = f;
+    }
+  }
+  const settledActive = cloneFrame('activate', Infinity), settledEnded = cloneFrame('expire', Infinity);
+  if (settledActive.real.opacity !== 0 || settledActive.outline.opacity !== 1 || settledActive.clone.opacity !== 1 || settledActive.stamps.active.opacity !== 1 || settledActive.stamps.ended.opacity !== 0) problems.push('the active card is not the dotted outline, the duplicate and CLONE ACTIVE');
+  if (settledEnded.real.opacity !== 1 || settledEnded.outline.opacity !== 0 || settledEnded.clone.opacity !== 0 || settledEnded.stamps.ended.opacity !== 1 || settledEnded.stamps.active.opacity !== 0) problems.push('the ended card is not the character alone and CLONE ENDED');
+  if (JSON.stringify({ ...cloneFrame('expire', -1), done: true }) !== JSON.stringify({ ...settledActive, done: true })) problems.push('the expiry does not start from the active card');
+  // The triggers and the card, from the own view alone: an activation only on a live change from unused to active, an
+  // expiry only on a live change from active to ended; never on a baseline, a reconnect, for an Eliminated Alien or
+  // for the view that ends the match (1.10 ends an active Clone when the match finishes or is aborted).
+  const { unused, active, ended, r5 } = CLONE_STATUSES;
+  const cases = [
+    [{ before: unused, after: active, live: true }, 'activate'], [{ before: unused, after: r5, live: true }, 'activate'], [{ before: active, after: ended, live: true }, 'expire'],
+    [{ before: unused, after: active, live: false }, null], [{ before: active, after: ended, live: false }, null], [{ before: active, after: ended, live: true, eliminated: true }, null],
+    [{ before: active, after: ended, live: true, matchEnded: true }, null], [{ before: unused, after: active, live: true, matchEnded: true }, null],
+    [{ before: active, after: active, live: true }, null], [{ before: ended, after: ended, live: true }, null], [{ before: null, after: active, live: true }, null], [{ before: unused, after: unused, live: true }, null],
+  ];
+  for (const [input, want] of cases) if (cloneFilmFor(input) !== want) problems.push(`cloneFilmFor(${JSON.stringify(input)}) is ${cloneFilmFor(input)}, not ${want}`);
+  if (cloneCard({ status: active }) !== 'active' || cloneCard({ status: ended }) !== 'ended' || cloneCard({ status: unused }) !== null || cloneCard({ status: null }) !== null || cloneCard({ status: active, eliminated: true }) !== null) problems.push('the card is not active, ended or none as the own view says');
+  // The words are the hosted board's private status line, quoted (Frontend at the 1.10 baseline 6ca4b51).
+  if (cloneWords(active) !== 'Clone active through Round 3.' || cloneWords(r5) !== 'Clone active through Round 5.' || cloneWords(ended) !== 'Clone inactive; its once-only use is spent.' || cloneWords(unused) !== 'Clone unused.' || cloneWords(null) !== null) problems.push('the words are not the hosted board\'s');
+  // The review's statuses have 1.10's shape: once-only, the fixed expiry the round after activation, Round 5 its own.
+  for (const [name, status] of Object.entries(CLONE_STATUSES)) {
+    const ok = status.used ? status.activatedRound !== null && status.expiresAfterRound === Math.min(status.activatedRound + 1, 5) : status.activatedRound === null && status.expiresAfterRound === null && !status.active;
+    if (!ok || (status.active && !status.used) || JSON.stringify(Object.keys(status).sort()) !== JSON.stringify(['activatedRound', 'active', 'expiresAfterRound', 'used'])) problems.push(`the ${name} status is not 1.10's shape`);
+  }
+  for (const roster of ROSTERS) for (const name of Object.keys(CLONE_CASES)) {
+    const c = cloneCase(name, roster);
+    if (c.own.seat !== CLONE_SEAT || c.own.health !== 'Healthy') problems.push(`the ${name} case, ${roster} players: the Alien is not a Healthy seat ${CLONE_SEAT}`);
+    if ((name === 'jailed') !== (c.own.room === 'jail' && c.own.jailed)) problems.push(`the ${name} case, ${roster} players: the Alien is ${c.own.jailed ? '' : 'not '}in the Jail`);
+    if (new Set(c.seats.map(seat => `${seat.room}:${seat.slot}`)).size !== c.seats.length) problems.push(`the ${name} case, ${roster} players: two seats at one place`);
+  }
+  // The card fits the sheet at every phone and roster the controls' layout fits, normal and 200% text: the body clear of the
+  // raised Pass and tall enough for the card at normal text; the portrait whole in the card, the words' column wide enough.
+  let cards = 0;
+  for (const [width, height] of VIEWPORTS) for (const enlarged of [false, true]) for (const roster of ROSTERS) {
+    const layout = turnsLayout({ width, height }, roster, { insets: insetsOf(null), bars: enlarged ? ENLARGED.bars : null, actions: enlarged ? ENLARGED.actions : SHEET.actions });
+    if (!layout.fits) continue;
+    cards += 1;
+    const where = `${width}x${height}${enlarged ? ', 200% text' : ''}, ${roster} players`;
+    const body = cloneBodyHeight(layout.sheet, layout.board.pass);
+    if (layout.sheet.body.top + body > layout.board.pass.cy - layout.board.pass.r - PASS_GAP + 0.01) problems.push(`${where}: the card's body reaches the raised Pass`);
+    if (body < CLONE_CARD.height) problems.push(`${where}: the card's body is ${body} px, under the card's ${CLONE_CARD.height}`);
+    const card = cloneCardLayout({ width: layout.sheet.body.width });
+    const p = card.portrait;
+    if (p.left < 0 || p.top < 0 || p.left + p.width > card.width || p.top + p.height > card.height) problems.push(`${where}: the portrait leaves the card`);
+    for (const place of [card.real, card.clone]) {
+      const head = place.top + (FIGURE_SPAN.top - FRAME.box[1]) * place.unit;
+      if (head < p.top - 0.01 || place.feet[1] > p.top + p.height + 0.01) problems.push(`${where}: a figure leaves the portrait`);
+    }
+    if (card.real.feet[0] + 20 > card.clone.feet[0]) problems.push(`${where}: the duplicate is not beside the character`);
+    if (card.words.width < 150) problems.push(`${where}: the words' column is ${card.words.width} px`);
+  }
+  // Its colors far from every faction accent; the card's CSS uses the palette alone; the shipped art names no role.
+  for (const [name, { nearest, distance }] of Object.entries(cloneColorDistances())) if (distance < CLONE_MIN_DISTANCE) problems.push(`the Clone's ${name} is ${distance} from the ${nearest} accent`);
+  const css = await text('design/board-v2/css/page.css');
+  const rules = css.split('\n').filter(line => /^\.v2-clone/.test(line)).join('\n');
+  for (const hex of rules.match(/#[0-9A-Fa-f]{6}\b/g) ?? []) if (!Object.values(CLONE).includes(hex.toUpperCase())) problems.push(`the card's styles use ${hex}, not the Clone's palette`);
+  for (const path of await filesUnder('design/board-v2/assets/clone')) for (const word of ROLE_WORDS) if ((await text(path)).includes(word)) problems.push(`${path} names ${word}`);
+  const art = [markSvg(), halftoneSvg('<svg viewBox="0 0 1 1"></svg>'), outlineSvg('<svg viewBox="0 0 1 1"></svg>')].join('');
+  for (const word of ROLE_WORDS) if (art.includes(word)) problems.push(`the Clone's art names ${word}`);
+  // The controller draws in the sheet alone: it neither reads nor writes a room, a figure or the board's surface.
+  const view = await text('design/board-v2/js/clone-view.mjs');
+  for (const selector of ['.v2-room', '.v2-art', '.v2-fig', '.v2-board', '.v2-tag', 'v2-slot-hit']) if (view.includes(selector)) problems.push(`clone-view.mjs reaches ${selector}: the Clone is never on the board`);
+  const films = await json('design/board-v2/contract/films.json').catch(() => null);
+  if (!films || JSON.stringify(films.films?.[10]) !== JSON.stringify(cloneContract()) || films.films.length !== 11) problems.push('contract/films.json does not hold the Clone\'s contract: run design/tools/board-v2-assets.mjs');
+  check(`the Clone (S3): its activation 1.8 s and expiry 0.9 s, their only inputs the moment, the film and the setting, the reduced variants one 80 ms cross-fade; its films started only by a live change of the own view, never for an Eliminated Alien or at the match's end; the hosted board's words; the review's statuses 1.10's shape; its card in the sheet clear of the raised Pass at every phone (${cards} layouts); its palette apart from the faction accents; its art naming no role; and its controller never on the board`, problems);
 }
 
 // ---------- The slots ----------
@@ -1239,9 +1342,12 @@ const { OVERFLOW_OCCURRENCE, overflowOutcome } = await load('design/board-v2/js/
     // The successor's four-berth board: its boards at every phone, the Blackout's dark, #158's films on it, the controls, the
     // Captain's plaque in the spine and the overflow beat at every beat in both motion modes.
     for (const name of ['320x568-ward', '360x740-ward', '390x844-ward', '430x932-ward', '320x568-mixed', '390x844-mixed', '390x844-mixed-capsule', '390x844-slots', '320x568-slots', '390x844-stress', '390x844-ward-r7', '390x844-ward-r8', '390x844-hospital', '320x568-hospital', 'scene-hospital', '390x844-blackout-8000-dark', '390x844-blackout-8000-disabler-hospital', '390x844-blackout-16300-settled', '390x844-critical-r3', '320x568-critical-r3', '390x844-rescue-2600', '390x844-rescue-3550', '320x568-rescue-2600', '390x844-reduced-rescue-0900', '390x844-vignette-2600', '390x844-taken-2600', '390x844-fifth-2600', '390x844-fifth-reduced-0600', '390x844-body-2600', '390x844-body-reduced-0600', '390x844-death-fifth-2000', '390x844-flatline-2000', '390x844-turns-choosing', '320x568-turns-choosing', '390x844-turns-result-2400', '390x844-eject-7300', '390x844-offboard-choosing', '390x844-overflow-0150', '390x844-overflow-0700', '390x844-overflow-1600', '390x844-overflow-2350', '390x844-overflow-2900', '320x568-overflow-1600', '390x844-overflow-reduced-0040', '390x844-overflow-reduced-0900']) if (!files.includes(`four-${name}.png`)) problems.push(`four-${name}.png: not captured`);
-    if ((report.disclosure ?? []).filter(entry => /four-berth board|the overflow beat|during the overflow beat|on four berths/.test(entry.compare)).length !== 27) problems.push('the four-berth board\'s page comparisons did not all run');
+    if ((report.disclosure ?? []).filter(entry => !/^the Clone's/.test(entry.compare) && /four-berth board|the overflow beat|during the overflow beat|on four berths/.test(entry.compare)).length !== 27) problems.push('the four-berth board\'s page comparisons did not all run');
+    // The Clone's card at every beat of both films, in both motion modes, at the phones and text sizes, in its cases, and on nobody else's screen.
+    for (const name of CLONE_SHOTS) if (!files.includes(`clone-${name}.png`)) problems.push(`clone-${name}.png: not captured`);
+    if ((report.disclosure ?? []).filter(entry => /^the Clone's|Clone's card/.test(entry.compare)).length !== CLONE_COMPARISONS) problems.push('the Clone\'s page comparisons did not all run');
   }
-  check('the captures are current, every measured board passed, every pointer probe and press landed, every compared page is the same, and the capsule, the real controls, the medical films, the Captain\'s films and the four-berth board are pictured in every state', problems);
+  check('the captures are current, every measured board passed, every pointer probe and press landed, every compared page is the same, and the capsule, the real controls, the medical films, the Captain\'s films, the four-berth board and the Clone\'s card are pictured in every state', problems);
 }
 
 for (const name of passed) console.log(`ok    ${name}`);

@@ -120,6 +120,10 @@ const { fourBerthKit, fourFilmBerth, fourRescueFrame } = await import(pathToFile
 const { fullStampBox, overflowWay, spinePlaqueBox } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/fx/overflow.mjs')).href);
 const { overflowEnd, overflowFrame } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/films/overflow.mjs')).href);
 const { overflowOutcome, overflowWords } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/js/overflow-fixtures.mjs')).href);
+const { FIGURE_SPAN, PASS_GAP, cloneBodyHeight, cloneCardLayout } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/fx/clone.mjs')).href);
+const { cloneFilmFor, cloneFrame, cloneWords } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/films/clone.mjs')).href);
+const { cloneCase } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/js/clone-fixtures.mjs')).href);
+const { SHEET } = await import(pathToFileURL(resolve(repoRoot, 'design/board-v2/js/turns.mjs')).href);
 /**
  * The layout a shot's page draws (js/layout.mjs's rule): the current board's, or with &beds=4 the successor's four-berth
  * one, whose bands and panels are the current board's and whose Hospital is the four-berth ward. Every measurement of a
@@ -475,6 +479,24 @@ function plan() {
   for (const [t, about] of [[150, 'the Hospital\'s FULL stamp appearing; Orion at B2'], [700, 'Orion turning into the grey cut-out at his place'], [1600, 'the cut-out leaving the board on its arc to the spine; the client\'s words'], [2350, 'the plaque taking it: its count 1'], [2900, 'done: Orion nowhere on the board, the plaque in the spine']]) overflow(ms(t), at390, t, `The overflow beat: ${about} (${t} ms)`);
   for (const t of [1600, 2900]) overflow(ms(t), at320, t, `The overflow beat on the smallest phone (${t} ms)`);
   for (const [t, about] of [[40, 'the cut-out at its place with FULL, fading in'], [900, 'the place empty, the plaque counting it'], [1600, 'done']]) overflow(`reduced-${ms(t)}`, at390, t, `The overflow beat, reduced motion: ${about} (${t} ms)`, '&motion=reduced');
+  // The Clone, privately (storyboard S3): the card in the Alien's own sheet at every beat of its two films, in both motion
+  // modes, at the phones and the enlarged text, at rest after a Jail vote and in Round 5; nothing on anyone else's screen.
+  const clone = (name, viewport, query, about, flags = {}) => shots.push({ file: `clone-${vp(viewport)}-${name}.png`, group: 'clone', viewport, query: `roster=${flags.roster ?? 9}&film=clone&capsule=1${query}&hit=1`, about, clone: true, ...flags });
+  for (const [t, about] of [[200, 'the scan lines sweeping up Lyra'], [650, 'a halftone duplicate forming beside her'], [1100, 'the duplicate resolving into the same drawing'], [1550, 'the real Lyra fading to a dotted outline as the lines sweep back down'], [1720, 'CLONE ACTIVE stamped'], [1900, 'at rest: the dotted outline, the duplicate, CLONE ACTIVE and the status line']]) clone(`activate-${ms(t)}`, at390, `&case=activate&t=${t}`, `S3, the activation, on the Alien's own phone alone (synthetic: seat 3, Lyra): ${about} (${t} ms). The board is everyone's, unchanged`);
+  for (const [t, about] of [[150, 'the scan lines sweeping down the duplicate; CLONE ACTIVE fading'], [450, 'the duplicate breaking up into its halftone'], [750, 'the outline filling back into Lyra; CLONE ENDED'], [950, 'at rest: Lyra alone, CLONE ENDED and the status line']]) clone(`expire-${ms(t)}`, at390, `&case=expire&t=${t}`, `S3, the expiry: ${about} (${t} ms)`);
+  for (const kind of ['activate', 'expire']) for (const [t, about] of [[200, 'the card before, held'], [440, 'the 80 ms cross-fade'], [600, 'the card after']]) clone(`reduced-${kind}-${ms(t)}`, at390, `&case=${kind}&t=${t}&motion=reduced`, `S3, the ${kind === 'activate' ? 'activation' : 'expiry'} with reduced motion: ${about} (${t} ms)`);
+  clone('activate-1100', at320, '&case=activate&t=1100', 'The activation on the smallest phone (1 100 ms)');
+  clone('activate-1900', at320, '&case=activate&t=1900', 'The active card on the smallest phone');
+  clone('expire-0450', at320, '&case=expire&t=450', 'The expiry on the smallest phone (450 ms)');
+  for (const viewport of [at320, at390]) clone('jailed', viewport, '&case=jailed&state=active', 'After a Jail vote: the Clone still active through Round 3, its card at rest, Lyra in the prison suit');
+  clone('r5', at390, '&case=r5&state=active', 'Activated in Round 5: active through Round 5, its card at rest');
+  for (const roster of [7, 8]) clone(`activate-1900-r${roster}`, at390, '&case=activate&t=1900', `The active card for ${roster} players`, { roster });
+  clone('four-activate-1900', at390, '&beds=4&case=activate&t=1900', 'On the successor\'s four-berth board: the same card in the same sheet');
+  clone('text2-active', [360, 740], '&case=activate&state=active&text=2', '200% text: the card taller, whole in the sheet and clear of the raised Pass');
+  clone('text2-ended', [375, 667], '&case=expire&state=ended&text=2', '200% text, the ended card: the status line on three lines');
+  clone('text2-activate-1100', at390, '&case=activate&t=1100&text=2', '200% text during the activation (1 100 ms)');
+  for (const viewer of ['player', 'display']) clone(`${viewer}-1100`, at390, `&case=activate&t=1100&viewer=${viewer}`, `The same moment on ${viewer === 'player' ? 'another player\'s phone' : 'the display'}: the board alone, nothing of the Clone`);
+  shots.push({ file: 'clone-sheet.png', group: 'clone', viewport: [1240, 760], query: 'sheet=clone', scale: 1, sheetHeight: 380, about: 'The Clone\'s art for review: each character, its halftone duplicate forming and formed, and its dotted outline; the clothes of its place; the scan band, the stage and the tray\'s mark' });
   return shots;
 }
 
@@ -1523,6 +1545,122 @@ function problemsOfOverflow(shot, m) {
   return problems;
 }
 
+/** Reads the Clone's card back (&film=clone): its parts, their opacity and place, the stamps, the sheet's body, the Pass and a pointer at every target. */
+const MEASURE_CLONE = `(() => {
+  const box = node => { if (!node) return null; const b = node.getBoundingClientRect(); return { left: b.left, top: b.top, width: b.width, height: b.height }; };
+  const hits = node => { const b = node.getBoundingClientRect(); return [[b.left + b.width / 2, b.top + b.height / 2], [b.left + 3, b.top + 3], [b.right - 3, b.top + 3], [b.left + 3, b.bottom - 3], [b.right - 3, b.bottom - 3]].filter(([x, y]) => { const hit = document.elementFromPoint(x, y); return hit && (hit === node || node.contains(hit)); }).length; };
+  const card = document.querySelector('.v2-clone');
+  const body = card ? card.closest('.v2-sheet-ui__body') : null;
+  const part = name => { const node = card && card.querySelector('[data-part="' + name + '"]'); if (!node) return null; const style = getComputedStyle(node); return { ...box(node), opacity: Number(style.opacity), display: style.display, density: node.dataset.density ?? null, over: node.dataset.over ?? null, edge: node.dataset.edge ? Number(node.dataset.edge) : null, drawn: node.innerHTML.length }; };
+  return {
+    stage: document.documentElement.dataset.stage ?? null,
+    scrolls: document.documentElement.scrollHeight > innerHeight + 1 || document.documentElement.scrollWidth > innerWidth + 1,
+    turns: document.querySelectorAll('.v2-turns').length,
+    card: card ? { ...box(card), hidden: card.hidden, border: card.clientLeft, borderTop: card.clientTop, line: card.querySelector('.v2-clone__line')?.textContent ?? null, label: card.getAttribute('aria-label'),
+      portrait: box(card.querySelector('.v2-clone__portrait')),
+      parts: Object.fromEntries(['real', 'outline', 'halftone', 'clone', 'scan'].map(name => [name, part(name)])),
+      stamps: Object.fromEntries([...card.querySelectorAll('[data-stamp]')].map(node => [node.dataset.stamp, { ...box(node), opacity: Number(getComputedStyle(node).opacity), text: node.textContent }])) } : null,
+    body: body ? { ...box(body), scroll: body.scrollHeight - body.clientHeight } : null,
+    pass: box(document.querySelector('.v2-pass')),
+    targets: [...document.querySelectorAll('.v2-slot-hit')].map(node => ({ room: node.closest('[data-room]')?.dataset.room ?? null, slot: node.dataset.slot, hits: hits(node) })),
+    words: document.body.innerText,
+  };
+})()`;
+
+/** The Clone's card measured against its frame and its layout; on anyone else's screen, nothing of it. */
+function problemsOfClone(shot, m) {
+  const problems = [];
+  const query = new URLSearchParams(shot.query);
+  const viewer = query.get('viewer') ?? 'own';
+  const roster = Number(query.get('roster') ?? 9);
+  const reduced = query.get('motion') === 'reduced';
+  const state = query.get('state');
+  const c = cloneCase(query.get('case') ?? 'activate', roster);
+  const near = (a, b, tol = 0.6) => Math.abs(a - b) <= tol;
+  const inside = (a, b, tol = 0.6) => a.left >= b.left - tol && a.top >= b.top - tol && a.left + a.width <= b.left + b.width + tol && a.top + a.height <= b.top + b.height + tol;
+  if (m.scrolls) problems.push('the page scrolls');
+  if (PRIVATE_WORDS.test(m.words)) problems.push(`a side or role word on the page: ${PRIVATE_WORDS.exec(m.words)[0]}`);
+  // Every target live: a real pointer lands on each, but on the Hospital's and the Jail's under the Alien's sheet (the controls take turns).
+  for (const target of m.targets) if (!(viewer === 'own' && SHEET_ROOMS.includes(target.room)) && target.hits !== 5) problems.push(`${target.room} ${target.slot}: a pointer lands on it ${target.hits} times in 5`);
+  if (viewer !== 'own') {
+    if (m.card || m.turns) problems.push(`the ${viewer}'s screen draws ${m.card ? 'the Clone\'s card' : 'a sheet'}`);
+    return problems;
+  }
+  const film = state ? null : cloneFilmFor({ before: c.before, after: c.after, live: true });
+  const f = film ? cloneFrame(film, Number(query.get('t')), { reduced }) : cloneFrame(state === 'active' ? 'activate' : 'expire', Infinity, { reduced });
+  if (!m.card) return [...problems, 'no card on the Alien\'s own screen'];
+  if (m.card.hidden !== !f.card) problems.push(`the card is ${m.card.hidden ? 'hidden' : 'shown'}; the frame ${f.card ? 'draws' : 'does not draw'} it`);
+  if (m.stage !== f.stage) problems.push(`the page is at ${m.stage}; the frame at ${f.stage}`);
+  if (m.card.line !== cloneWords(c.after)) problems.push(`the status line says ${JSON.stringify(m.card.line)}, not the client's ${JSON.stringify(cloneWords(c.after))}`);
+  if (m.card.label !== 'Your Clone') problems.push(`the card is labelled ${m.card.label}`);
+  // The sheet's body where turnsLayout() and cloneBodyHeight() put it; the card whole in it, never scrolled, clear of the Pass.
+  const enlarged = query.get('text') === '2';
+  const layout = layoutOf(shot).turnsLayout({ width: shot.viewport[0], height: shot.viewport[1] }, roster, { insets: insetsOf(null), bars: enlarged ? ENLARGED.bars : null, actions: enlarged ? ENLARGED.actions : SHEET.actions });
+  const { sheet } = layout;
+  const bodyHeight = cloneBodyHeight(sheet, layout.board.pass);
+  if (!m.body || !near(m.body.left, sheet.body.left) || !near(m.body.top, sheet.body.top) || !near(m.body.width, sheet.body.width) || !near(m.body.height, bodyHeight)) problems.push('the sheet\'s body is not where turnsLayout() and cloneBodyHeight() put it');
+  if (m.body && m.body.scroll > 0.5) problems.push(`the card is ${m.body.scroll.toFixed(1)} px taller than its body: it scrolls`);
+  if (m.body && m.pass && m.body.top + m.body.height > m.pass.top - PASS_GAP + 0.6) problems.push('the sheet\'s body reaches the raised Pass');
+  if (m.body && !inside(m.card, m.body)) problems.push('the card leaves the sheet\'s body');
+  // Its parts where cloneCardLayout() puts them for the card's height, in the card's padding box.
+  const card = cloneCardLayout({ width: sheet.body.width, height: m.card.height });
+  const ox = m.card.left + m.card.border, oy = m.card.top + m.card.borderTop;
+  const at = (rect, want, name) => { if (!rect || !near(rect.left - ox, want.left) || !near(rect.top - oy, want.top) || !near(rect.width, want.width) || !near(rect.height, want.height)) problems.push(`the ${name} is not where cloneCardLayout() puts it`); };
+  at(m.card.portrait, card.portrait, 'portrait');
+  const boxOf = place => ({ left: place.left, top: place.top, width: place.size, height: place.size });
+  for (const [name, place] of [['real', card.real], ['outline', card.real], ['halftone', card.clone], ['clone', card.clone]]) at(m.card.parts[name], boxOf(place), name === 'real' ? 'character' : name);
+  // Each part as the frame has it.
+  for (const name of ['real', 'outline', 'clone', 'halftone']) if (!near(m.card.parts[name]?.opacity ?? -1, f[name].opacity, 0.02)) problems.push(`the ${name} at ${m.card.parts[name]?.opacity}; the frame's ${f[name].opacity}`);
+  if (f.halftone.opacity > 0 && (Number(m.card.parts.halftone.density) !== f.halftone.density || !m.card.parts.halftone.drawn)) problems.push(`the halftone at density ${m.card.parts.halftone.density}; the frame's ${f.halftone.density}`);
+  // The scan band over its figure, its leading edge where the frame puts it (to 1 px).
+  const scan = m.card.parts.scan;
+  if (Boolean(f.scan) !== (scan.display !== 'none')) problems.push(`the scan band is ${scan.display !== 'none' ? 'drawn' : 'missing'}; the frame ${f.scan ? 'has one' : 'has none'}`);
+  if (f.scan && scan.display !== 'none') {
+    const place = f.scan.over === 'real' ? card.real : card.clone;
+    const head = place.top + (FIGURE_SPAN.top - FRAME.box[1]) * place.unit - card.portrait.top, feet = place.feet[1] - card.portrait.top;
+    const edge = feet - f.scan.y * (feet - head);
+    if (scan.over !== f.scan.over || !near(scan.edge, edge, 1)) problems.push(`the scan band is over the ${scan.over} at ${scan.edge}; the frame's over the ${f.scan.over} at ${edge.toFixed(2)}`);
+    if (!near(scan.opacity, f.scan.opacity, 0.02)) problems.push(`the scan band at ${scan.opacity}; the frame's ${f.scan.opacity}`);
+  }
+  // The stamps: as the frame has them, the page's text, whole in the card and clear of the portrait.
+  for (const key of ['active', 'ended']) {
+    const stamp = m.card.stamps[key];
+    if (!stamp) { problems.push(`no ${key} stamp`); continue; }
+    if (!near(stamp.opacity, f.stamps[key].opacity, 0.02)) problems.push(`CLONE ${key.toUpperCase()} at ${stamp.opacity}; the frame's ${f.stamps[key].opacity}`);
+    if (stamp.text !== (key === 'active' ? 'Clone active' : 'Clone ended')) problems.push(`the ${key} stamp says ${stamp.text}`);
+    if (stamp.opacity > 0 && !inside(stamp, m.card)) problems.push(`CLONE ${key.toUpperCase()} leaves the card`);
+    if (stamp.opacity > 0 && stamp.left < m.card.portrait.left + m.card.portrait.width + 2) problems.push(`CLONE ${key.toUpperCase()} meets the portrait`);
+  }
+  return problems;
+}
+
+/**
+ * The Clone (S3): nothing of it outside the Alien's own sheet. The Alien's page without its sheet is another player's
+ * page, at both phones, in both films, in the Jail and on the four-berth board; another player's page is the display's;
+ * the Alien's board does not change through the film; and the Alien's page asks for nothing another player's does not.
+ * open(viewport, query) gives a page's { html, requests }.
+ */
+async function cloneComparisons(open) {
+  const out = [];
+  const MARK = '<div class="v2-turns" data-ui="sheet" data-film="clone">';
+  const without = page => (page.html.includes(MARK) ? page.html.slice(0, page.html.indexOf(MARK)) : null);
+  const base = 'roster=9&film=clone&capsule=1';
+  for (const [viewport, query, what] of [[[390, 844], '&case=activate&t=1100', 'during the activation (1100 ms)'], [[320, 568], '&case=activate&t=1100', 'during the activation (1100 ms)'], [[390, 844], '&case=expire&t=450', 'during the expiry (450 ms)'], [[390, 844], '&case=jailed&state=active', 'in the Jail, the card at rest'], [[390, 844], '&beds=4&case=activate&t=1100', 'on the four-berth board, during the activation (1100 ms)']]) {
+    const [own, player] = await Promise.all(['own', 'player'].map(viewer => open(viewport, `${base}${query}&viewer=${viewer}`)));
+    out.push({ compare: `the Clone's card: the Alien's own page without its sheet and another player's page, ${what}, ${vp(viewport)}`, same: without(own) !== null && without(own) === player.html });
+  }
+  const at390 = [390, 844];
+  const [player, display] = await Promise.all(['player', 'display'].map(viewer => open(at390, `${base}&case=activate&t=1100&viewer=${viewer}`)));
+  out.push({ compare: 'the Clone\'s card: another player\'s page and the display\'s, during the activation (1100 ms), 390x844', same: player.html === display.html });
+  const [during, after] = await Promise.all([1100, 1900].map(t => open(at390, `${base}&case=activate&t=${t}`)));
+  out.push({ compare: 'the Clone\'s card: the Alien\'s own page without its sheet during the activation (1100 ms) and after it (1900 ms), 390x844', same: without(during) !== null && without(during) === without(after) });
+  for (const [query, what] of [['&case=activate&t=1100', 'the activation (1100 ms)'], ['&case=expire&t=450', 'the expiry (450 ms)']]) {
+    const [own, other] = await Promise.all(['own', 'player'].map(viewer => open(at390, `${base}${query}&viewer=${viewer}`)));
+    out.push({ compare: `the Clone's card: the requests of the Alien's own page and of another player's, during ${what}, 390x844`, same: own.requests.length > 0 && JSON.stringify(own.requests) === JSON.stringify(other.requests) });
+  }
+  return out;
+}
+
 /**
  * The successor's four-berth board: outside the Hospital, the current board's rooms exactly; the overflow beat public, nothing
  * left of it once over, and no room touched but the victim's and the Hospital; #158's rescue public on four berths, touching
@@ -2019,8 +2157,9 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
       const medicalMeasured = shot.medical ? await page.evaluate(MEASURE_MEDICAL) : null;
       const captainMeasured = shot.captain ? await page.evaluate(MEASURE_CAPTAIN) : null;
       const overflowMeasured = shot.overflow ? await page.evaluate(MEASURE_OVERFLOW) : null;
+      const cloneMeasured = shot.clone ? await page.evaluate(MEASURE_CLONE) : null;
       await page.screenshot(resolve(repoRoot, OUT, shot.file), { selector: shot.selector ?? null, viewport: !shot.selector });
-      const problems = [...(measured ? problemsOf(shot, measured) : []), ...(filmed ? problemsOfFilm(shot, filmed) : []), ...(blockedMeasured ? problemsOfBlocked(shot, blockedMeasured) : []), ...(capsuleMeasured ? problemsOfCapsule(shot, capsuleMeasured) : []), ...(turnsMeasured ? problemsOfTurns(shot, turnsMeasured) : []), ...(shot.medical ? problemsOfMedical(shot, medicalMeasured) : []), ...(shot.captain ? problemsOfCaptain(shot, captainMeasured) : []), ...(shot.overflow ? problemsOfOverflow(shot, overflowMeasured) : []), ...page.problems()];
+      const problems = [...(measured ? problemsOf(shot, measured) : []), ...(filmed ? problemsOfFilm(shot, filmed) : []), ...(blockedMeasured ? problemsOfBlocked(shot, blockedMeasured) : []), ...(capsuleMeasured ? problemsOfCapsule(shot, capsuleMeasured) : []), ...(turnsMeasured ? problemsOfTurns(shot, turnsMeasured) : []), ...(shot.medical ? problemsOfMedical(shot, medicalMeasured) : []), ...(shot.captain ? problemsOfCaptain(shot, captainMeasured) : []), ...(shot.overflow ? problemsOfOverflow(shot, overflowMeasured) : []), ...(shot.clone ? problemsOfClone(shot, cloneMeasured) : []), ...page.problems()];
       const fit = shot.measure ? layoutOf(shot).fitBoardV2({ width, height }, Number(new URLSearchParams(shot.query).get('roster') ?? 9), { insets: insetsOf(new URLSearchParams(shot.query).get('safe')), capsule: Boolean(shot.capsule) }) : null;
       report.push({ file: shot.file, viewport: `${width}x${height}`, query: shot.query, problems, shell: fit?.shell.tier ?? null, fallback: fit?.fallback ?? null, fits: fit?.fits ?? null, boardProblems: fit?.problems ?? [] });
       console.log(`${problems.length ? 'PROBLEM' : 'ok     '} ${shot.file}${problems.length ? `: ${problems.join('; ')}` : ''}`);
@@ -2204,6 +2343,16 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
     // The successor's four-berth board: the current board outside the Hospital; the overflow beat public, leaving nothing, and
     // touching no room but the victim's and the Hospital; #158's rescue on four berths public and touching no other room.
     disclosure.push(...await fourComparisons(pageAt));
+    // The Clone: nothing of it outside the Alien's own sheet, not even a request.
+    const openForClone = async (viewport, query) => {
+      const page = await openPage(browser, { width: viewport[0], height: viewport[1], scale: 1 });
+      await page.goto(`${server.origin}/board-v2/index.html?${query}`, 'document.readyState === "complete" && window.__designReady === true');
+      const html = await page.evaluate(`document.getElementById('v2-app').innerHTML`);
+      const requests = page.requests().map(url => url.replace(server.origin, '').replace(/\?.*$/, '')).sort();
+      await page.close();
+      return { html, requests };
+    };
+    disclosure.push(...await cloneComparisons(openForClone));
     for (const entry of disclosure) console.log(`${entry.same ? 'same   ' : 'DIFFERS'} ${entry.compare}`);
     // The label for every slot of every room: every slot taken, each blocked at once (the art review's
     // screen, which no player receives), measured but not pictured.
@@ -2229,7 +2378,7 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
     const index = { devOnly: 'mothership:dev-only', inputsSha256, note: 'Desktop Chromium laying out design/board-v2/index.html from synthetic fixtures. Not a phone measurement and nothing about a match.', captures: shots.map(({ file, group, query, about, sheetHeight }) => ({ file, group, query, about, sheetHeight })) };
     await writeFile(resolve(repoRoot, OUT, 'index.json'), `${JSON.stringify(index, null, 2)}\n`);
     await writeFile(resolve(repoRoot, OUT, 'report.json'), `${JSON.stringify({ devOnly: 'mothership:dev-only', inputsSha256, shots: report, probes, interactions, disclosure, labels }, null, 2)}\n`);
-    for (const [file, query] of [['contact.png', ''], ['contact-blackout.png', '?group=blackout'], ['contact-blocked.png', '?group=blocked'], ['contact-capsule.png', '?group=capsule'], ['contact-turns.png', '?group=turns'], ['contact-medical.png', '?group=medical'], ['contact-captain.png', '?group=captain'], ['contact-four.png', '?group=four']]) {
+    for (const [file, query] of [['contact.png', ''], ['contact-blackout.png', '?group=blackout'], ['contact-blocked.png', '?group=blocked'], ['contact-capsule.png', '?group=capsule'], ['contact-turns.png', '?group=turns'], ['contact-medical.png', '?group=medical'], ['contact-captain.png', '?group=captain'], ['contact-four.png', '?group=four'], ['contact-clone.png', '?group=clone']]) {
       const page = await openPage(browser, { width: 1600, height: 900, scale: 1 });
       await page.goto(`${server.origin}/board-v2/contact.html${query}`, 'document.readyState === "complete" && window.__designReady === true');
       await page.fitHeight();
@@ -2246,6 +2395,6 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
   const probing = probes.filter(entry => entry.problems.length);
   const pressing = interactions.filter(entry => entry.problems.length);
   const misplaced = labels.filter(entry => entry.problems.length);
-  console.log(`Board-v2 captures: ${report.length} pictures and eight contact sheets, ${failing.length} with problems; ${probes.length} pointer probes, ${probing.length} with problems; ${interactions.length} press tests, ${pressing.length} with problems; ${disclosure.length} page comparisons, ${differing.length} differing; ${labels.length} label placements, ${misplaced.length} with problems`);
+  console.log(`Board-v2 captures: ${report.length} pictures and nine contact sheets, ${failing.length} with problems; ${probes.length} pointer probes, ${probing.length} with problems; ${interactions.length} press tests, ${pressing.length} with problems; ${disclosure.length} page comparisons, ${differing.length} differing; ${labels.length} label placements, ${misplaced.length} with problems`);
   if (failing.length || probing.length || pressing.length || differing.length || misplaced.length) process.exitCode = 1;
 }

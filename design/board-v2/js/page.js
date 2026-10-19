@@ -19,11 +19,13 @@
 //   &film=capsule        the Hack's public pair going to the capsule and back (js/capsule-view.mjs has its options)
 //   &film=critical|rescue|flatline   the Hospital's medical state and films (js/medical-view.mjs has its options)
 //   &film=release|eject  the Captain's RELEASE and EJECT films (js/captain-view.mjs has its options)
+//   &film=clone          the Clone's private card in the Alien's own sheet, never on the board (js/clone-view.mjs has its options)
 //   &ui=choosing|sheet   where the real controls go, by the owner's "controls take turns" (js/turns.mjs), with the
 //                        capsule; stand-ins sized from Frontend's measurements (js/turns-view.mjs has its options)
 //   &text=2              enlarged text: the bars measured at 200% before the board is laid out (js/turns-view.mjs)
 //   ?sheet=capsule       the capsule's art on one sheet, for the art review (no board)
 //   ?sheet=captain       the Captain's art and S8's plates on one sheet, for the art review (no board)
+//   ?sheet=clone         the Clone's art on one sheet, for the art review (no board)
 
 import { FRAME } from '../../board-motion/figures/body.mjs';
 import { CREW } from '../../board-motion/figures/crew.mjs';
@@ -38,6 +40,8 @@ import { mountBlockedPage } from './blocked-view.mjs';
 import { drawCapsulePanel, drawCapsuleSheet, fitCapsuleCaption, mountCapsule } from './capsule-view.mjs';
 import { captainOutcome } from './captain-fixtures.mjs';
 import { captainOutcomeName, drawCaptainSheet, isCaptainFilm, mountCaptain, mountOffBoard } from './captain-view.mjs';
+import { cloneCase } from './clone-fixtures.mjs';
+import { cloneCaseName, drawCloneSheet, isCloneFilm, mountClone } from './clone-view.mjs';
 import { medicalOutcome } from './medical-fixtures.mjs';
 import { isMedicalFilm, mountMedical, outcomeName } from './medical-view.mjs';
 import { overflowOutcome } from './overflow-fixtures.mjs';
@@ -49,10 +53,12 @@ const roster = Number(params.get('roster') ?? 9);
 const medical = isMedicalFilm(params.get('film'));
 const captain = isCaptainFilm(params.get('film'));
 const overflow = isOverflowFilm(params.get('film'));
+const clone = isCloneFilm(params.get('film'));
 const fixture = params.get('fixture') ?? (medical ? 'mixed' : 'ward');
 const show = name => params.get(name) === '1';
 const ui = params.get('ui');
-const capsule = show('capsule') || params.get('film') === 'capsule' || Boolean(ui);
+// The Clone's card is in the sheet, which is laid out with the capsule (js/turns.mjs).
+const capsule = show('capsule') || params.get('film') === 'capsule' || Boolean(ui) || clone;
 const app = document.getElementById('v2-app');
 const [BX, BY, BOX] = FRAME.box;
 const [AX, AY] = FRAME.anchor;
@@ -159,7 +165,9 @@ function draw() {
     // A Captain film likewise: the released already at their new places, the ejected off the board.
     : captain ? captainOutcome(captainOutcomeName(params), roster).after
       // The overflow beat likewise: the victim already off the board (&beds=4).
-      : overflow ? overflowOutcome(roster).after : fixtureSeats(fixture, roster);
+      : overflow ? overflowOutcome(roster).after
+        // The Clone's cases: the mixed board, the Alien where the case puts it.
+        : clone ? cloneCase(cloneCaseName(params), roster).seats : fixtureSeats(fixture, roster);
   const fallback = board.fallback ? ` · ${board.fallback}` : '';
   app.replaceChildren(
     // The bars fill the safe-area insets with their background; their contents stay inside.
@@ -200,6 +208,7 @@ function draw() {
   if (medical && board.fits) mountMedical({ app, board, roster, seats, params, drawFigure, drawTag });
   if (captain && board.fits) mountCaptain({ app, board, roster, seats, params });
   if (overflow && board.fits) mountOverflow({ app, board, roster, params });
+  if (clone && board.fits) mountClone({ app, board, roster, params });
   // The real controls, over a board only: never over the too-short message.
   if (ui && board.fits) mountTurns({ app, board, roster, seats, params });
   // The characters off the board as targets, in the sheet the choosing row's tab opens (after an EJECT).
@@ -210,9 +219,9 @@ function draw() {
 
 window.__designReady = false;
 for (const room of BOARD_ROOMS) if (!sceneOf(room, roster)) throw new Error(`No scene for ${room}`);
-if (params.get('sheet') === 'capsule' || params.get('sheet') === 'captain') {
+if (['capsule', 'captain', 'clone'].includes(params.get('sheet'))) {
   document.documentElement.dataset.sheet = params.get('sheet');
-  if (params.get('sheet') === 'capsule') drawCapsuleSheet(app); else drawCaptainSheet(app);
+  if (params.get('sheet') === 'capsule') drawCapsuleSheet(app); else if (params.get('sheet') === 'captain') drawCaptainSheet(app); else drawCloneSheet(app);
   const pictures = [...document.images];
   Promise.all(pictures.map(img => (img.complete ? null : new Promise(done => { img.onload = done; img.onerror = done; })))).then(() => { window.__designReady = true; });
 } else if (params.get('scene')) drawScene(params.get('scene')); else draw();

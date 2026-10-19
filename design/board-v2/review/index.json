@@ -1,6 +1,6 @@
 {
   "devOnly": "mothership:dev-only",
-  "inputsSha256": "7c084bc3f26645b98ee772e282f76eb6d8106d2571d4dc288e3f255ca0c8e960",
+  "inputsSha256": "0c8b6661ecc7e1624c9a73f92b223c0cc50b6198bd19dde61fae47cb801e3787",
   "note": "Desktop Chromium laying out design/board-v2/index.html from synthetic fixtures. Not a phone measurement and nothing about a match.",
   "captures": [
     {
@@ -1995,6 +1995,193 @@
       "group": "four",
       "query": "roster=9&beds=4&film=overflow&t=1600&motion=reduced&hit=1",
       "about": "The overflow beat, reduced motion: done (1600 ms)"
+    },
+    {
+      "file": "clone-390x844-activate-0200.png",
+      "group": "clone",
+      "query": "roster=9&film=clone&capsule=1&case=activate&t=200&hit=1",
+      "about": "S3, the activation, on the Alien's own phone alone (synthetic: seat 3, Lyra): the scan lines sweeping up Lyra (200 ms). The board is everyone's, unchanged"
+    },
+    {
+      "file": "clone-390x844-activate-0650.png",
+      "group": "clone",
+      "query": "roster=9&film=clone&capsule=1&case=activate&t=650&hit=1",
+      "about": "S3, the activation, on the Alien's own phone alone (synthetic: seat 3, Lyra): a halftone duplicate forming beside her (650 ms). The board is everyone's, unchanged"
+    },
+    {
+      "file": "clone-390x844-activate-1100.png",
+      "group": "clone",
+      "query": "roster=9&film=clone&capsule=1&case=activate&t=1100&hit=1",
+      "about": "S3, the activation, on the Alien's own phone alone (synthetic: seat 3, Lyra): the duplicate resolving into the same drawing (1100 ms). The board is everyone's, unchanged"
+    },
+    {
+      "file": "clone-390x844-activate-1550.png",
+      "group": "clone",
+      "query": "roster=9&film=clone&capsule=1&case=activate&t=1550&hit=1",
+      "about": "S3, the activation, on the Alien's own phone alone (synthetic: seat 3, Lyra): the real Lyra fading to a dotted outline as the lines sweep back down (1550 ms). The board is everyone's, unchanged"
+    },
+    {
+      "file": "clone-390x844-activate-1720.png",
+      "group": "clone",
+      "query": "roster=9&film=clone&capsule=1&case=activate&t=1720&hit=1",
+      "about": "S3, the activation, on the Alien's own phone alone (synthetic: seat 3, Lyra): CLONE ACTIVE stamped (1720 ms). The board is everyone's, unchanged"
+    },
+    {
+      "file": "clone-390x844-activate-1900.png",
+      "group": "clone",
+      "query": "roster=9&film=clone&capsule=1&case=activate&t=1900&hit=1",
+      "about": "S3, the activation, on the Alien's own phone alone (synthetic: seat 3, Lyra): at rest: the dotted outline, the duplicate, CLONE ACTIVE and the status line (1900 ms). The board is everyone's, unchanged"
+    },
+    {
+      "file": "clone-390x844-expire-0150.png",
+      "group": "clone",
+      "query": "roster=9&film=clone&capsule=1&case=expire&t=150&hit=1",
+      "about": "S3, the expiry: the scan lines sweeping down the duplicate; CLONE ACTIVE fading (150 ms)"
+    },
+    {
+      "file": "clone-390x844-expire-0450.png",
+      "group": "clone",
+      "query": "roster=9&film=clone&capsule=1&case=expire&t=450&hit=1",
+      "about": "S3, the expiry: the duplicate breaking up into its halftone (450 ms)"
+    },
+    {
+      "file": "clone-390x844-expire-0750.png",
+      "group": "clone",
+      "query": "roster=9&film=clone&capsule=1&case=expire&t=750&hit=1",
+      "about": "S3, the expiry: the outline filling back into Lyra; CLONE ENDED (750 ms)"
+    },
+    {
+      "file": "clone-390x844-expire-0950.png",
+      "group": "clone",
+      "query": "roster=9&film=clone&capsule=1&case=expire&t=950&hit=1",
+      "about": "S3, the expiry: at rest: Lyra alone, CLONE ENDED and the status line (950 ms)"
+    },
+    {
+      "file": "clone-390x844-reduced-activate-0200.png",
+      "group": "clone",
+      "query": "roster=9&film=clone&capsule=1&case=activate&t=200&motion=reduced&hit=1",
+      "about": "S3, the activation with reduced motion: the card before, held (200 ms)"
+    },
+    {
+      "file": "clone-390x844-reduced-activate-0440.png",
+      "group": "clone",
+      "query": "roster=9&film=clone&capsule=1&case=activate&t=440&motion=reduced&hit=1",
+      "about": "S3, the activation with reduced motion: the 80 ms cross-fade (440 ms)"
+    },
+    {
+      "file": "clone-390x844-reduced-activate-0600.png",
+      "group": "clone",
+      "query": "roster=9&film=clone&capsule=1&case=activate&t=600&motion=reduced&hit=1",
+      "about": "S3, the activation with reduced motion: the card after (600 ms)"
+    },
+    {
+      "file": "clone-390x844-reduced-expire-0200.png",
+      "group": "clone",
+      "query": "roster=9&film=clone&capsule=1&case=expire&t=200&motion=reduced&hit=1",
+      "about": "S3, the expiry with reduced motion: the card before, held (200 ms)"
+    },
+    {
+      "file": "clone-390x844-reduced-expire-0440.png",
+      "group": "clone",
+      "query": "roster=9&film=clone&capsule=1&case=expire&t=440&motion=reduced&hit=1",
+      "about": "S3, the expiry with reduced motion: the 80 ms cross-fade (440 ms)"
+    },
+    {
+      "file": "clone-390x844-reduced-expire-0600.png",
+      "group": "clone",
+      "query": "roster=9&film=clone&capsule=1&case=expire&t=600&motion=reduced&hit=1",
+      "about": "S3, the expiry with reduced motion: the card after (600 ms)"
+    },
+    {
+      "file": "clone-320x568-activate-1100.png",
+      "group": "clone",
+      "query": "roster=9&film=clone&capsule=1&case=activate&t=1100&hit=1",
+      "about": "The activation on the smallest phone (1 100 ms)"
+    },
+    {
+      "file": "clone-320x568-activate-1900.png",
+      "group": "clone",
+      "query": "roster=9&film=clone&capsule=1&case=activate&t=1900&hit=1",
+      "about": "The active card on the smallest phone"
+    },
+    {
+      "file": "clone-320x568-expire-0450.png",
+      "group": "clone",
+      "query": "roster=9&film=clone&capsule=1&case=expire&t=450&hit=1",
+      "about": "The expiry on the smallest phone (450 ms)"
+    },
+    {
+      "file": "clone-320x568-jailed.png",
+      "group": "clone",
+      "query": "roster=9&film=clone&capsule=1&case=jailed&state=active&hit=1",
+      "about": "After a Jail vote: the Clone still active through Round 3, its card at rest, Lyra in the prison suit"
+    },
+    {
+      "file": "clone-390x844-jailed.png",
+      "group": "clone",
+      "query": "roster=9&film=clone&capsule=1&case=jailed&state=active&hit=1",
+      "about": "After a Jail vote: the Clone still active through Round 3, its card at rest, Lyra in the prison suit"
+    },
+    {
+      "file": "clone-390x844-r5.png",
+      "group": "clone",
+      "query": "roster=9&film=clone&capsule=1&case=r5&state=active&hit=1",
+      "about": "Activated in Round 5: active through Round 5, its card at rest"
+    },
+    {
+      "file": "clone-390x844-activate-1900-r7.png",
+      "group": "clone",
+      "query": "roster=7&film=clone&capsule=1&case=activate&t=1900&hit=1",
+      "about": "The active card for 7 players"
+    },
+    {
+      "file": "clone-390x844-activate-1900-r8.png",
+      "group": "clone",
+      "query": "roster=8&film=clone&capsule=1&case=activate&t=1900&hit=1",
+      "about": "The active card for 8 players"
+    },
+    {
+      "file": "clone-390x844-four-activate-1900.png",
+      "group": "clone",
+      "query": "roster=9&film=clone&capsule=1&beds=4&case=activate&t=1900&hit=1",
+      "about": "On the successor's four-berth board: the same card in the same sheet"
+    },
+    {
+      "file": "clone-360x740-text2-active.png",
+      "group": "clone",
+      "query": "roster=9&film=clone&capsule=1&case=activate&state=active&text=2&hit=1",
+      "about": "200% text: the card taller, whole in the sheet and clear of the raised Pass"
+    },
+    {
+      "file": "clone-375x667-text2-ended.png",
+      "group": "clone",
+      "query": "roster=9&film=clone&capsule=1&case=expire&state=ended&text=2&hit=1",
+      "about": "200% text, the ended card: the status line on three lines"
+    },
+    {
+      "file": "clone-390x844-text2-activate-1100.png",
+      "group": "clone",
+      "query": "roster=9&film=clone&capsule=1&case=activate&t=1100&text=2&hit=1",
+      "about": "200% text during the activation (1 100 ms)"
+    },
+    {
+      "file": "clone-390x844-player-1100.png",
+      "group": "clone",
+      "query": "roster=9&film=clone&capsule=1&case=activate&t=1100&viewer=player&hit=1",
+      "about": "The same moment on another player's phone: the board alone, nothing of the Clone"
+    },
+    {
+      "file": "clone-390x844-display-1100.png",
+      "group": "clone",
+      "query": "roster=9&film=clone&capsule=1&case=activate&t=1100&viewer=display&hit=1",
+      "about": "The same moment on the display: the board alone, nothing of the Clone"
+    },
+    {
+      "file": "clone-sheet.png",
+      "group": "clone",
+      "query": "sheet=clone",
+      "about": "The Clone's art for review: each character, its halftone duplicate forming and formed, and its dotted outline; the clothes of its place; the scan band, the stage and the tray's mark",
+      "sheetHeight": 380
     }
   ]
 }

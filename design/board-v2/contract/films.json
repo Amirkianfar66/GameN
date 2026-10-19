@@ -748,6 +748,83 @@
       },
       "settled": "The victim is drawn nowhere on the board; the plaque in the spine counts every character off the board, whatever took them off; Frontend lists them as grey cut-outs with seat and name, and a Code may still name them (#159's cards)",
       "never": "No bed, berth, monitor, drone, flatline or admission is drawn for the victim, and no fifth bed; no existing patient or body moves; nothing graphic. No occurrence, no beat"
+    },
+    {
+      "id": "clone",
+      "storyboard": "S3",
+      "status": "proposal",
+      "audience": "owner-private: its owner's own phone alone, in its sheet's private area, from its own view (self.cloneStatus, full-game-1.10.0: null for every other seat). Never on the board, on any phone; never on the display, another player's phone or the host. A block by the Clone is S4's, exactly as Protection's",
+      "clock": "Milliseconds from the film's start: the activation 1800 ms (reduced 480 ms), the expiry 900 ms (reduced 480 ms). Nonblocking: the sheet's controls and the board stay usable. The film stops at once, the card showing its state, when the private area closes or conceals, the page is hidden, or a newer view changes the Clone",
+      "inputs": [
+        "t (from the film's start)",
+        "the film: activate or expire (cloneFilmFor(): a live change of the own view's cloneStatus, the match not over)",
+        "reduced (the device setting)",
+        "the own seat's character and the clothes of its current place, for the portrait",
+        "the own view's cloneStatus, for the card's state and the client's status line"
+      ],
+      "notInputs": [
+        "an actor, a target, an attacker or a block",
+        "a role word, a side, a faction or a cause on the card",
+        "another seat's view",
+        "a local countdown or the client's own observation of time",
+        "the activation round as a timer: expiresAfterRound is shown in the client's words only"
+      ],
+      "where": "The sheet's body, as its private claim (js/turns.mjs turnsLayout(); fx/clone.mjs cloneCardLayout()): the portrait window at the card's start, the words after it; never under the raised Pass",
+      "words": "None of the film's own. CLONE ACTIVE and CLONE ENDED are the page's stamps; the status line is the client's (today the hosted board's \"Clone active through Round 3.\" and \"Clone inactive; its once-only use is spent.\")",
+      "beats": {
+        "activate": [
+          {
+            "id": "scan",
+            "from": 0,
+            "to": 400,
+            "what": "Holographic scan lines sweep up the character, feet to head"
+          },
+          {
+            "id": "duplicate",
+            "from": 400,
+            "to": 900,
+            "what": "A halftone duplicate silhouette forms beside it, on a second projector pad"
+          },
+          {
+            "id": "resolve",
+            "from": 900,
+            "to": 1300,
+            "what": "The duplicate resolves into the same character, the same drawing in the same clothes"
+          },
+          {
+            "id": "vanish",
+            "from": 1300,
+            "to": 1800,
+            "what": "The real character fades to a dotted outline as the lines sweep back down it; CLONE ACTIVE is stamped"
+          }
+        ],
+        "expire": [
+          {
+            "id": "scan",
+            "from": 0,
+            "to": 300,
+            "what": "The scan lines sweep down the duplicate; CLONE ACTIVE fades"
+          },
+          {
+            "id": "dissolve",
+            "from": 300,
+            "to": 600,
+            "what": "The duplicate breaks up into its halftone and is gone; its pad goes dark"
+          },
+          {
+            "id": "restore",
+            "from": 600,
+            "to": 900,
+            "what": "The dotted outline fills back into the character; CLONE ENDED is stamped"
+          }
+        ]
+      },
+      "reduced": {
+        "what": "The card before, held, then the card after, cross-faded over 80 ms. No scan, halftone, travel or pop",
+        "holdMs": 400,
+        "fadeMs": 80
+      },
+      "never": "Never on the board or for anyone but its owner. Never replayed: not on a reconnect, a baseline or a resumed page. No card and no film once its owner is Eliminated. No film for the view that finishes or aborts the match, which ends an active Clone: the result takes the screen. A rejected, pending or unknown command plays nothing"
     }
   ]
 }
