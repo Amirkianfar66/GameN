@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "runtimeUiCheckpoint": "530532dd9588fcaff6c6f89ec7db1832c94825a6",
-  "sharedDependencyBase": "c6814df98242a72bf702362d253aab0a8ca6048a",
+  "sharedDependencyBase": "b08d17516ba4efd1e5b65fadc729eb560af831e9",
   "sharedCurrentAdoptionPr": 165,
   "sharedCurrentAdoptionHead": "c3b5cc6234eeed48086498aa381d06b57fe87a1e",
   "sourceSha256": {
@@ -610,8 +610,39 @@
     "scope": "Explicit local demo Auth/Firestore. Backend histories combine native staged setup with legal synthetic initial SETUP histories; trusted local workers, not production Tasks."
   },
   "combinedVerify": {
-    "status": "pending-final-overlay-run",
-    "previousUiOnlyResult": "152 bootstrap,1001 engine,253 backend,199 tooling and734 frontend passed;4 current-adoption Design cases require the separate reviewed PR165 policy."
+    "status": "passed",
+    "command": "npm run verify",
+    "exitCode": 0,
+    "verifiedCommit": "eb3f8ceb75905886051f166e721da0e6b307bfcd",
+    "verifiedTree": "9d9c770d0406d076b168ec32c2d729c5409feae8",
+    "scope": "Complete clean combined candidate before the label-only ceb8bdd follow-up. Unchanged engine/capacity work was not rerun for that presentation-only delta.",
+    "unitCases": {
+      "bootstrap": 152,
+      "engine": 1001,
+      "backend": 253,
+      "tooling": 209,
+      "presentation": 208,
+      "game": 526,
+      "design": 252
+    },
+    "balanceStaticPassed": 103,
+    "scenarios": {
+      "passed": 516,
+      "reviewedBlocked": 33,
+      "explicitManual": 6
+    },
+    "controls": {
+      "baselines": 508,
+      "executedAndDetected": 4490,
+      "misses": 0
+    },
+    "balancePlayouts": 30,
+    "capacity": {
+      "passedScenarios": 107,
+      "explicitManual": 15,
+      "completedPlayouts": 600,
+      "invariantHintReplayFailures": 0
+    }
   },
   "unmeasured": [
     "Physical phones",
@@ -620,5 +651,26 @@
     "Production Functions/Tasks/Web SDK journey",
     "Hosting deployment",
     "Independent human game balance"
-  ]
+  ],
+  "sourceSha256Scope": "Original81 browser records at530532d; the later label-only delta and its exact final source hashes are separately recorded in hospital-four-nameplate-checks.json.",
+  "finalRuntimeUiCheckpoint": "ceb8bdd22198cdaebdf75a1aad4e49c992fd161f",
+  "originalSharedDependencyFoundation": "c6814df98242a72bf702362d253aab0a8ca6048a",
+  "labelFollowupEvidence": "hospital-four-nameplate-checks.json",
+  "labelFollowupChecks": {
+    "status": "frontend-and-browser-passed-awaiting-final-policy-checks",
+    "command": "npm run test:frontend",
+    "passed": 734,
+    "focusedCasesPassed": 30,
+    "browserRecords": 30,
+    "fixedSlotMeasurements": 120,
+    "runtimeExceptions": 0,
+    "typechecks": "passed",
+    "hostedBuild": "passed",
+    "buildWarning": "Existing large-chunk warning; no build failure"
+  },
+  "screenshotScope": {
+    "originalSixPngs": "UI530532d before the label-only follow-up",
+    "hospital-four-labels-long-320.png": "UIceb8bdd; maximum valid long public names",
+    "hospital-four-labels-capsule-320.png": "UIceb8bdd; both capsule aliases with maximum valid long public names"
+  }
 }
