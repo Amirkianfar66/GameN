@@ -47,6 +47,8 @@ const id = params.get('scenario') ?? 'spread';
 const isDeclaredHack = id.startsWith('declared-hack-');
 const isBoardV2 = id==='board-v2';
 const definition = isBoardV2 ? {...SCENARIOS.spread,title:'Synthetic Board V2 native-field fixture',self:6,role:'Hacker'} : isDeclaredHack ? { ...SCENARIOS.spread, title: 'Synthetic declared-Hack consumer fixture', self: id.endsWith('initiator') ? 1 : 3, role: id.endsWith('initiator') ? 'Cracker' : 'Undercover' } : SCENARIOS[id];
+// Explicit synthetic long-name identity input for native label/target measurements.
+if (isBoardV2 && params.get('names') === 'long') definition.names = Array.from({length:9},()=> 'MMMMMMMMMMMM');
 const display = params.get('as') === 'display';
 const latency = Number(params.get('latency') ?? 450);
 const self = isBoardV2 ? params.get('seat')??'seat-6' : `seat-${definition?.self ?? 3}`;
