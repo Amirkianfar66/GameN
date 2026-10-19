@@ -29,9 +29,10 @@ test('the explicit candidate binds nine common bundles to the exact four-bed suc
   assert.equal(Object.keys(manifest.bundles).length, 9);
   assert.match(manifest.manifestSha256, /^[a-f0-9]{64}$/);
 });
-test('adding a candidate does not activate the default art identity', () => {
-  assert.equal(RUNTIME_ART_VERSION, 'design-0.4.0');
-  assert.equal(RUNTIME_ART_MANIFEST, 'design/releases/design-0.4.0.json');
+test('the release metadata selects the exact reviewed four-bed artwork and gameplay pair', () => {
+  assert.equal(RUNTIME_ART_VERSION, 'design-0.5.0');
+  assert.equal(RUNTIME_ART_MANIFEST, 'design/releases/design-0.5.0.json');
+  assert.deepEqual(readRuntimeArtRelease(root), readRuntimeArtRelease(root, HOSPITAL_FOUR_ART_VERSION));
 });
 test('the historical declared-Hack source and runtime artwork remain independently verifiable', () => {
   const historical = readHistoricalRuntimeArtRelease(root, 'design-0.3.0');

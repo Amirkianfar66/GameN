@@ -1,17 +1,17 @@
 import assert from 'node:assert/strict';
 import { createHash, randomUUID } from 'node:crypto';
 import {
-  CLONE_VERSION_PINS, DECLARED_HACK_VERSION_PINS, sameFullGameplayPins,
+  CLONE_VERSION_PINS, DECLARED_HACK_VERSION_PINS, HOSPITAL_FOUR_VERSION_PINS, sameFullGameplayPins,
   FullCommandResponseSchema, FullLookupResponseSchema, FullPublicViewSchema, FullPlayerViewSchema,
 } from '@mothership/contracts';
 import { firestoreRequest } from '../test/helpers.mjs';
 
 // Real Functions smoke only. Admin is used for local journal/outbox READS.
 // No clock injection, engine write, Pass, advance, task dispatch or worker call
-// supplies any transition. The caller explicitly selects the reviewed 1.5 or 1.10 gameplay/art mode.
+// supplies any transition. The caller explicitly selects the reviewed gameplay/art mode.
 export async function exerciseAutomaticDeclaredHack({ base, players, display, invoke, readView, expectedPins = DECLARED_HACK_VERSION_PINS }) {
-  assert.ok([DECLARED_HACK_VERSION_PINS,CLONE_VERSION_PINS].some(pins=>sameFullGameplayPins(pins,expectedPins)));
-  const publicCapsule=sameFullGameplayPins(expectedPins,CLONE_VERSION_PINS);
+  assert.ok([DECLARED_HACK_VERSION_PINS,CLONE_VERSION_PINS,HOSPITAL_FOUR_VERSION_PINS].some(pins=>sameFullGameplayPins(pins,expectedPins)));
+  const publicCapsule=[CLONE_VERSION_PINS,HOSPITAL_FOUR_VERSION_PINS].some(pins=>sameFullGameplayPins(expectedPins,pins));
   const matchId = base.id, publicPath = `${base.path}/views/public`;
   const expires = performance.now() + 210_000;
   const pause = () => new Promise(resolve => setTimeout(resolve, 200));

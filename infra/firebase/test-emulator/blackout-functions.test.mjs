@@ -1,5 +1,5 @@
 // Real local Auth/Firestore/Functions acceptance, not deployed Tasks/IAM evidence.
-// Native HTTP creates/admissions/configures the exact selected 1.3/1.5/1.10 lobby. Its real
+// Native HTTP creates/admissions/configures the exact selected 1.3/1.5/1.10/1.11 lobby. Its real
 // Auth identities and UID-free practice bindings are reused in a SEPARATE fresh
 // 1.9 fixture. One legal synthetic SETUP + complete pure-engine journal prefix
 // ends at a fresh 5-second Jail VOTE_RESULT before the first fixture engine write.
@@ -12,7 +12,7 @@ import { test } from 'node:test';
 import { initializeApp, deleteApp } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 import { BLACKOUT_FULL_GAME_VERSION_PINS as PINS, FULL_GAME_VERSION_PINS as BASELINE,
-  DECLARED_HACK_FULL_GAME_VERSION_PINS as DECLARED, CLONE_FULL_GAME_VERSION_PINS as CLONE, createFullGame, executeFullGame,
+  DECLARED_HACK_FULL_GAME_VERSION_PINS as DECLARED, CLONE_FULL_GAME_VERSION_PINS as CLONE, HOSPITAL_FOUR_FULL_GAME_VERSION_PINS as HOSPITAL_FOUR, createFullGame, executeFullGame,
   advanceFullGame, abortFullGame, projectFullGame, projectOwnAcknowledgments } from '@mothership/engine';
 import { FullOperationResponseSchema, FullSetPracticeBotsResponseSchema, FullPracticeBotsDocumentSchema,
   FullPublicViewSchema, FullPlayerViewSchema, FullLobbyViewSchema, FullCommandResponseSchema,
@@ -25,7 +25,7 @@ const canonical = value => Array.isArray(value) ? value.map(canonical) : value !
   ? Object.fromEntries(Object.entries(value).sort(([a], [b]) => a.localeCompare(b)).map(([key, item]) => [key, canonical(item)])) : value;
 const digest = value => hash(canonical(value));
 const pause = () => new Promise(resolve => setTimeout(resolve, 150));
-const nativeProfiles = { 'historical': BASELINE, 'declared-hack-1.5': DECLARED, 'board-v2-1.10': CLONE };
+const nativeProfiles = { 'historical': BASELINE, 'declared-hack-1.5': DECLARED, 'board-v2-1.10': CLONE, 'hospital-four-1.11': HOSPITAL_FOUR };
 const selectedNativeProfile = process.env.MOTHERSHIP_NEW_MATCH_PROFILE ?? 'historical';
 assert.ok(Object.hasOwn(nativeProfiles, selectedNativeProfile), 'Explicit native creation profile required');
 const operations = new Set(['v1CreateMatch', 'v1RequestAdmission', 'v1ApproveAdmission',

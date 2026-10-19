@@ -1,9 +1,9 @@
-import { FullAssetManifestVersionSchema, DECLARED_HACK_VERSION_PINS, CLONE_VERSION_PINS } from '@mothership/contracts';
+import { FullAssetManifestVersionSchema, DECLARED_HACK_VERSION_PINS, CLONE_VERSION_PINS, HOSPITAL_FOUR_VERSION_PINS } from '@mothership/contracts';
 export interface RuntimeConfiguration {
   projectId: string;
   emulator: boolean;
   assetManifestVersion: string;
-  creationVersions?: typeof DECLARED_HACK_VERSION_PINS | typeof CLONE_VERSION_PINS;
+  creationVersions?: typeof DECLARED_HACK_VERSION_PINS | typeof CLONE_VERSION_PINS | typeof HOSPITAL_FOUR_VERSION_PINS;
   historicalAssetManifestVersion?: string;
   allowedOrigins: readonly string[];
   functionsEmulator?: string;
@@ -24,6 +24,7 @@ const emulatorNames = new Set([
 const releaseProfiles = {
   'declared-hack-1.5': { art: 'design-0.3.0', pins: DECLARED_HACK_VERSION_PINS },
   'board-v2-1.10': { art: 'design-0.4.0', pins: CLONE_VERSION_PINS },
+  'hospital-four-1.11': { art: 'design-0.5.0', pins: HOSPITAL_FOUR_VERSION_PINS },
 } as const;
 function localPort(value: string | undefined, port: number): boolean {
   return value !== undefined && Number(value.match(loopback)?.[1]) === port;

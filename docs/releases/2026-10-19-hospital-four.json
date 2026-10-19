@@ -1,0 +1,40 @@
+{
+  "kind": "staging-release-preparation",
+  "date": "2026-10-19",
+  "projectId": "gamen-mothership-staging",
+  "publishingAccount": "amir.kianfar.social@gmail.com",
+  "ownerAuthorization": "Complete the existing Backend/Frontend update and deploy after required checks pass. The four-bed rule is approved; Balance records and verifies it without another design sign-off.",
+  "ownerWorkflowRecord": "https://github.com/Amirkianfar66/GameN/issues/155#issuecomment-6258573661",
+  "scope": "Four-bed Hospital and approved medical, Captain, overflow and private Clone presentations, including the seven existing Designer consumer corrections. New features and further polish are deferred to a later release.",
+  "releaseProfile": "hospital-four-1.11",
+  "versions": {
+    "protocolVersion": 2,
+    "engineVersion": "full-game-1.11.0",
+    "rulesetVersion": "in-person-v1-hospital-four-2026-10-19",
+    "rulesetHash": "7d9d3519df8813feb1213f1ad4439cae90895af6850c223264c28907824aeb9c",
+    "assetManifestVersion": "design-0.5.0"
+  },
+  "layoutVersion": "board-v2-four-0.1.0",
+  "artManifestSha256": "57125b4ffafbd047a3d99b5c794dcb590e343b964e01c8a806a28e7007242526",
+  "historicalAssetManifestVersion": "v1-preview-469bf64fe98cac5a",
+  "previousRelease": {
+    "sourceCommit": "6ca4b51d5acd1454daec68c5108c8f12ee2286bf",
+    "profile": "board-v2-1.10",
+    "engineVersion": "full-game-1.10.0",
+    "assetManifestVersion": "design-0.4.0"
+  },
+  "historicalBehavior": "Existing lobbies, prepared deals and running matches retain their stored versions, identities, commands, receipts and journals. The unconfigured historical engine default remains unchanged. Historical artwork routes are retained.",
+  "deploymentSequence": [
+    "Build and fingerprint the clean final combined source after the consumer corrections and native-file approval refresh.",
+    "Require final combined verification and native creation/Ready/timer/recovery checks for both preserved 1.10 and selected 1.11 profiles.",
+    "Read current staging configuration, actual runtime/task identities and existing private timer permissions.",
+    "Publish the compatible Hosting build first.",
+    "Deploy the explicit 23 non-creation V1 Functions and read back build identities, release variables, dispatchers, repair schedulers and timer permissions.",
+    "Deploy v1CreateMatch last, then verify fresh setup, Ready and unattended authoritative phase progression with the final versions.",
+    "Record exact deployed source/artifact digests and actual hosted smoke results."
+  ],
+  "rollback": "Revert the creation selector first. Retain workers and artwork capable of serving already-created 1.11 matches; never redeal an existing game under older versions.",
+  "status": "Release selector prepared; final corrected consumer, combined checks, publishing account sign-in and deployment are pending.",
+  "deploymentPerformed": false,
+  "limits": "Local unit/build checks and CI do not establish production Cloud Tasks/IAM behavior, physical-device or screen-reader acceptance, or human social-deduction balance."
+}

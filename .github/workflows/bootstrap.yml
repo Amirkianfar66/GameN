@@ -86,8 +86,16 @@ jobs:
           MOTHERSHIP_LEGACY_ASSET_MANIFEST_VERSION: v1-preview-469bf64fe98cac5a
 
   backend-board-v2-emulator:
-    # Exercise the final 1.10 creation selector, exact 0.4 Ready and automatic public capsule.
+    # Preserve 1.10 and verify the new 1.11 creation/Ready pair and automatic public capsule.
     # A separate runner prevents historical fixtures from sharing task state.
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - profile: board-v2-1.10
+            art: design-0.4.0
+          - profile: hospital-four-1.11
+            art: design-0.5.0
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
@@ -108,8 +116,8 @@ jobs:
       - run: npm run build && node scripts/test-emulator.mjs functions
         env:
           FIREBASE_CLI_DISABLE_UPDATE_CHECK: 'true'
-          MOTHERSHIP_NEW_MATCH_PROFILE: board-v2-1.10
-          MOTHERSHIP_ASSET_MANIFEST_VERSION: design-0.4.0
+          MOTHERSHIP_NEW_MATCH_PROFILE: ${{ matrix.profile }}
+          MOTHERSHIP_ASSET_MANIFEST_VERSION: ${{ matrix.art }}
           MOTHERSHIP_LEGACY_ASSET_MANIFEST_VERSION: v1-preview-469bf64fe98cac5a
 
   frontend-emulator:
@@ -135,6 +143,14 @@ jobs:
           FIREBASE_CLI_DISABLE_UPDATE_CHECK: 'true'
 
   frontend-board-v2-emulator:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - profile: board-v2-1.10
+            art: design-0.4.0
+          - profile: hospital-four-1.11
+            art: design-0.5.0
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
@@ -159,8 +175,8 @@ jobs:
         env:
           FIREBASE_CLI_DISABLE_UPDATE_CHECK: 'true'
           MOTHERSHIP_FUNCTIONS_EMULATOR_HOST: 127.0.0.1:5101
-          MOTHERSHIP_NEW_MATCH_PROFILE: board-v2-1.10
-          MOTHERSHIP_ASSET_MANIFEST_VERSION: design-0.4.0
+          MOTHERSHIP_NEW_MATCH_PROFILE: ${{ matrix.profile }}
+          MOTHERSHIP_ASSET_MANIFEST_VERSION: ${{ matrix.art }}
           MOTHERSHIP_LEGACY_ASSET_MANIFEST_VERSION: v1-preview-469bf64fe98cac5a
 
   # Preserve the existing required check name and fail if any suite fails, cancels or skips.

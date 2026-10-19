@@ -2,9 +2,9 @@ import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { resolve, sep } from 'node:path';
 
-export const RUNTIME_ART_VERSION = 'design-0.4.0';
-export const RUNTIME_ART_MANIFEST = 'design/releases/design-0.4.0.json';
-// Explicit candidate only. Activation remains a separate integration/release change.
+export const RUNTIME_ART_VERSION = 'design-0.5.0';
+export const RUNTIME_ART_MANIFEST = 'design/releases/design-0.5.0.json';
+// The release selects this reviewed art set; historical manifests remain immutable.
 export const HOSPITAL_FOUR_ART_VERSION = 'design-0.5.0';
 export const HOSPITAL_FOUR_ART_MANIFEST = 'design/releases/design-0.5.0.json';
 export const HISTORICAL_ART_BLOBS = 'design/releases/historical-blobs';

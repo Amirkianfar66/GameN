@@ -1,7 +1,7 @@
 // Brings a real match up on the local emulators through the client core, for tests that
 // need one already running. Test-only.
 import assert from 'node:assert/strict';
-import { FullSetupDocumentSchema, FullSetupPlayerViewSchema, SeatSessionSchema, sameFullGameplayPins, supportsVoteResults, VOTE_RESULT_VERSION_PINS, DECLARED_HACK_VERSION_PINS, CLONE_VERSION_PINS } from '@mothership/contracts';
+import { FullSetupDocumentSchema, FullSetupPlayerViewSchema, SeatSessionSchema, sameFullGameplayPins, supportsVoteResults, VOTE_RESULT_VERSION_PINS, DECLARED_HACK_VERSION_PINS, CLONE_VERSION_PINS, HOSPITAL_FOUR_VERSION_PINS } from '@mothership/contracts';
 import { createConnectedApi, createConnectedPlayerStore, createConnectedPublicStore, readAdmission } from '@mothership/game';
 import { createRestEmulatorTransport, realPorts, until } from './rest-transport.mjs';
 
@@ -12,11 +12,12 @@ export const requestId = () => ports.ids.next();
  * It makes no browser-loading or production-art claim and cannot echo an unknown version. */
 export function readyTestAcknowledgment(versions) {
   if (!supportsVoteResults(versions)) return {};
-  assert.ok([VOTE_RESULT_VERSION_PINS, DECLARED_HACK_VERSION_PINS, CLONE_VERSION_PINS].some(pins => sameFullGameplayPins(versions,pins)),'Harness must explicitly adopt the new gameplay tuple');
+  assert.ok([VOTE_RESULT_VERSION_PINS, DECLARED_HACK_VERSION_PINS, CLONE_VERSION_PINS, HOSPITAL_FOUR_VERSION_PINS].some(pins => sameFullGameplayPins(versions,pins)),'Harness must explicitly adopt the new gameplay tuple');
   const knownPair = versions.assetManifestVersion === '0.0.0-no-assets'
     || sameFullGameplayPins(versions,VOTE_RESULT_VERSION_PINS) && versions.assetManifestVersion === 'design-0.2.0'
     || sameFullGameplayPins(versions,DECLARED_HACK_VERSION_PINS) && versions.assetManifestVersion === 'design-0.3.0'
-    || sameFullGameplayPins(versions,CLONE_VERSION_PINS) && versions.assetManifestVersion === 'design-0.4.0';
+    || sameFullGameplayPins(versions,CLONE_VERSION_PINS) && versions.assetManifestVersion === 'design-0.4.0'
+    || sameFullGameplayPins(versions,HOSPITAL_FOUR_VERSION_PINS) && versions.assetManifestVersion === 'design-0.5.0';
   assert.ok(knownPair,'Known emulator gameplay and artifact pair required');
   return {acceptedVersions:{...versions}};
 }
