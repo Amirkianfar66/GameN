@@ -10,7 +10,7 @@ import ts from 'typescript';
 export const REVIEWED_DRAWING_PORTS = JSON.parse(readFileSync(new URL('./reviewed-drawing-ports.json', import.meta.url), 'utf8'));
 export const contentSha256 = value => createHash('sha256').update(value).digest('hex');
 export const CANDIDATE_DRAWING_POLICY = 'design/releases/board-v2-four-drawing-approval.json';
-const CANDIDATE_DRAWING_POLICY_SHA256 = 'b24183b3aca00a87bdd1a3ae44533d6ba2965e01ebc7e39622db79f70551a760';
+const CANDIDATE_DRAWING_POLICY_SHA256 = 'cd70ed03ae15bc83e55ab738dbdc1abe25340b99ecc8043ad91c591fc0e299d8';
 
 // Absence means a historical-only checkout. A present supplement must match the
 // independently reviewed bytes; neither malformed data nor changed hashes fall back.

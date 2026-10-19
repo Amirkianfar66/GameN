@@ -127,6 +127,18 @@ body:has(#app [data-board-layout="board-v2"]) { height:100dvh; overflow:hidden; 
 #app .ms-shell[data-board-layout="board-v2"] .ms-private[data-open="true"]:not(.phone-action-dock) { display:flex!important; flex-direction:column; gap:0; margin-left:0!important; }
 #app .ms-shell[data-board-layout="board-v2"] .ms-private[data-open="true"]:not(.phone-action-dock) .phone-panel-head { flex:none; min-height:44px; height:44px; }
 #app .ms-shell[data-board-layout="board-v2"] .ms-private[data-open="true"]:not(.phone-action-dock) .ms-private__panel { flex:1; min-height:0; overflow:auto; animation:none!important; transform:none!important; }
+/* Board V2 bounds the private sheet, not its contents. Auto grid rows shrink an
+   overflow-hidden role card to its border when the sheet is shorter than its contents.
+   Keep each row at its natural height and scroll only the private body. */
+#app .ms-shell--player[data-board-layout="board-v2"][data-phone-view="role"] .ms-private__panel {
+  width: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  align-content: start;
+  grid-template-columns: minmax(0, 1fr);
+  grid-auto-rows: max-content;
+}
+
 #app .ms-shell[data-board-layout="board-v2"] #ms-hack-with { display:none; }
 #app .ms-shell[data-board-layout="board-v2"] .hack-feedback[data-folded="true"] { padding:0; border:0; }
 #app .ms-shell[data-board-layout="board-v2"] .hack-feedback[data-folded="false"] .bv2-claim-show { position:sticky; bottom:0; height:44px; }

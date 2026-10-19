@@ -11,7 +11,7 @@ is `c6814df98242a72bf702362d253aab0a8ca6048a`.
 The original `design/tools/lib/reviewed-drawing-ports.json` remains byte-identical.
 The new `design/releases/board-v2-four-drawing-approval.json` is independently
 hash-pinned by the checker at
-`b24183b3aca00a87bdd1a3ae44533d6ba2965e01ebc7e39622db79f70551a760`.
+`cd70ed03ae15bc83e55ab738dbdc1abe25340b99ecc8043ad91c591fc0e299d8`.
 It binds the exact original policy, 14 previously source-reconstructed new ports,
 their frozen source snapshots, three current native metadata files, one
 build-time source catalog, and the current common-art build adapter and its inputs.
@@ -104,3 +104,7 @@ controller/lifecycle/art/approval checks and all 252 Design checks. This include
 the changed own-only Clone authority and admission behavior, current candidate
 fence checks and preserved historical policy controls. The full final CI run
 provides the separate complete-suite gate; no deployed behavior is claimed here.
+
+## Card panel sizing correction — 19 October 2026
+
+Integration reviewed the scoped Card-panel CSS change against published base `ac95c65614e0d10c50d6ed46b9845cafac962ddf`. Intrinsic grid rows preserve the role picture and labels inside the bounded scrolling body. The body fills its sheet width and clips decorative horizontal overflow. Only the existing `apps/game/hosted/board-v2.css` metadata/source digest changes to `fcbbde42a4131e4ef33a10007300eefa5cefd6327507c35737e971dd9bd2bcc4`. All drawing ports, artwork, other file approvals, gameplay pins and historical approval bytes are unchanged. This refresh adds no path or literal exemption.
