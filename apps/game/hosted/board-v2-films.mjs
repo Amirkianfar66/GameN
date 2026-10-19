@@ -12,10 +12,10 @@ import {fourBerthKit,fourRescueFrame} from './board-v2-drawing/medical-four.mjs'
 import {berthScreenSvg,lampSvg,vitalsInsetSvg,tagBox,insetBox,droneFit,DRONE,DRONE_SCENE,droneSvg,scanLineSvg,hologramSvg,pulseSvg} from './board-v2-drawing/medical-fx.mjs';
 import {captainPose,ejectPose} from './board-v2-drawing/captain-figures.mjs';
 import {walkToDoor,pullToHatch,captainButtonStates,plateFor,DOOR_STEP,RELEASE_FILM} from './board-v2-drawing/captain-film.mjs';
-import {consoleBox,consoleSvg,plateSvg,jailDoorSvg,airlockSvg,conduitPoints,conduitAt,EXTERIOR,exteriorSvg,plaqueBox,memorialSvg,JAIL_DOOR,COVER,GLOVE,PLATE,gloveSvg,coverSvg,ringSvg,clickSvg,AIRLOCK} from './board-v2-drawing/captain-fx.mjs';
+import {consoleBox,consoleSvg,plateSvg,jailDoorSvg,airlockSvg,conduitPoints,conduitAt,EXTERIOR,exteriorSvg,plaqueBox,plaqueSvg,memorialSvg,JAIL_DOOR,COVER,GLOVE,PLATE,gloveSvg,coverSvg,ringSvg,clickSvg,AIRLOCK} from './board-v2-drawing/captain-fx.mjs';
 import {spinePlaqueBox,fullStampBox,overflowWay} from './board-v2-drawing/overflow-fx.mjs';
-import {cloneCardLayout,outlineSvg,halftoneSvg,scanSvg,stageSvg} from './board-v2-drawing/clone-fx.mjs';
-import {cloneWords} from './board-v2-drawing/clone-film.mjs';
+import {CLONE,cloneCardLayout,outlineSvg,halftoneSvg,scanSvg,stageSvg} from './board-v2-drawing/clone-fx.mjs';
+import {cloneWords,cloneFrame,cloneEnd} from './board-v2-drawing/clone-film.mjs';
 const [BX,BY,SIZE]=FRAME.box,[AX,AY]=FRAME.anchor;
 const px=n=>`${n}px`;
 const box=(node,r)=>{for(const key of ['left','top','width','height'])node.style[key]=px(r[key]);};
@@ -43,14 +43,14 @@ export function createBoardV2Films(root,holder){
   for(const node of place?.querySelectorAll('.bv2-figure,.bv2-away')??[]){if(!restored.has(node))restored.set(node,node.style.visibility);node.style.visibility='hidden';}
  }};
  function beforePaint(){for(const [node,value]of restored)node.style.visibility=value;restored.clear();}
- function figure(parent,key,who,slot,f,sk,{opacity=1,silhouette=false,body=false,outfit=outfitFor(who.location),z=1000,offset=[0,0]}={}){
+ function figure(parent,key,who,slot,f,sk,{opacity=1,silhouette=false,body=false,memorial=false,outfit=outfitFor(who.location),z=1000,offset=[0,0]}={}){
   if(!CREW[who.characterId])return;
   const unit=slot.scale*f.k;
   for(const layer of ['body','front']){
-   const svg=dressedFigureSvg(CREW[who.characterId],sk,{outfit,prefix:`film-${key}-${layer}`,layer});
+   const rig=dressedFigureSvg(CREW[who.characterId],sk,{outfit,prefix:`film-${key}-${layer}`,layer}),svg=memorial?memorialSvg(rig):rig;
    const node=make(parent,`${key}-${layer}`,{left:f.tx+slot.at[0]*f.k-(AX-BX)*unit+offset[0],top:f.ty+slot.at[1]*f.k-(AY-BY)*unit+offset[1],width:SIZE*unit,height:SIZE*unit},{svg,opacity,z:layer==='front'?1500+z/2:z});
    node.style.transform=`scaleX(${slot.mirror?-1:1})`;node.style.transformOrigin=`${(AX-BX)/SIZE*100}% 50%`;
-   node.style.filter=silhouette?'brightness(0)':body?'grayscale(1)':'';
+   node.style.filter=silhouette?'brightness(0)':body&&!memorial?'grayscale(1)':'';
   }
  }
  function monitor(room,key,kit,kind,lamp,opacity=1){
@@ -153,9 +153,15 @@ export function createBoardV2Films(root,holder){
   if(stamp)make(p,`${entry.event.eventId}-full`,{...stamp,width:84,height:24},{text:'HOSPITAL FULL',opacity:f.full.opacity,scale:f.full.scale??1});
   const originRoom=rooms.find(r=>r.room===({'Room A':'room-a','Room B':'room-b','Command Room':'command-room','Jail':'jail','Hospital':'hospital'}[entry.origin?.location]));
   const slot=originRoom?.slots.find(s=>s.id===entry.origin?.slotId),who=seats.find(s=>s.seatId===entry.subjectId);
-  // A paper copy may lift from a held-before origin; it is never an interactive world/capsule actor.
+  // Both stages use only the held-before placement and public identity. These
+  // decorative copies never restore an interactive world/capsule actor.
+  if(slot&&who){
+   const held={...who,...entry.origin},pose=skeletonOf(held.health==='Eliminated'?slot.down:held.health==='Injured'?`${slot.gesture}${INJURED}`:slot.gesture),parent=holder._boardV2Paint.rooms.get(originRoom.room);
+   if(f.figure.opacity)figure(parent,`${entry.event.eventId}-origin`,held,slot,originRoom.frame,pose,{opacity:f.figure.opacity,z:2*Math.round(slot.depth)});
+   if(f.figure.grey)figure(parent,`${entry.event.eventId}-grey`,held,slot,originRoom.frame,pose,{opacity:f.figure.grey,body:true,memorial:true,z:2*Math.round(slot.depth)+1});
+  }
   if(slot&&who&&f.flyer?.opacity&&!entry.reduced){const b=layout.board.boxes[originRoom.room],at=[b.left+layout.board.shell.border+originRoom.frame.tx+slot.pressAt[0]*originRoom.frame.k,b.top+layout.board.shell.border+originRoom.frame.ty+slot.pressAt[1]*originRoom.frame.k],target=[layout.board.boxes.hospital.left,layout.board.boxes.jail.top];
-   const point=overflowWay(at,target,f.flyer.v);figure(holder,`${entry.event.eventId}-paper`,who,{at:point,scale:.18*f.flyer.scale,mirror:false},{k:1,tx:0,ty:0},skeletonOf(slot.down),{opacity:f.flyer.opacity,body:true,outfit:outfitFor(entry.origin.location),z:3100});}
+   const point=overflowWay(at,target,f.flyer.v);figure(holder,`${entry.event.eventId}-paper`,who,{at:point,scale:.18*f.flyer.scale,mirror:false},{k:1,tx:0,ty:0},skeletonOf(slot.down),{opacity:f.flyer.opacity,body:true,memorial:true,outfit:outfitFor(entry.origin.location),z:3100});}
  }
  function privateCard(own,seats){
   let card=root.querySelector('.bv2-clone-card');
@@ -168,7 +174,7 @@ export function createBoardV2Films(root,holder){
   const width=Math.max(180,panel.clientWidth-12),l=cloneCardLayout({width,height:100}),drawing=card.firstElementChild;card.style.minHeight='100px';
   const full=dressedFigureSvg(CREW[who.characterId],skeletonOf('stand'),{outfit:outfitFor(who.location),prefix:'own-clone-card'}),f=own.frame;
   box(drawing,{left:0,top:0,width:l.portrait.left+l.portrait.width+6,height:l.height});
-  const state=f??{real:{opacity:own.state==='active'?0:1},outline:{opacity:own.state==='active'?1:0},clone:{opacity:own.state==='active'?1:0},halftone:{opacity:0,density:1},pad:own.state==='active'?1:0,scan:null};
+  const kind=own.state==='active'?'activate':'expire',state=f??cloneFrame(kind,cloneEnd(kind,own.reduced),{reduced:own.reduced});
   // This subtree is removed on concealment. All SVG comes from pure reviewed rig functions.
   drawing.innerHTML='';
   const part=(key,r,svg,opacity)=>{if(!opacity)return;const n=document.createElement('span');n.className='bv2-film';n.dataset.clonePart=key;box(n,r);n.innerHTML=namespaceSvg(svg,`private-clone-${key}`);n.style.opacity=String(opacity);drawing.append(n);};
@@ -177,6 +183,11 @@ export function createBoardV2Films(root,holder){
   part('real',rect(l.real),full,state.real.opacity);part('outline',rect(l.real),outlineSvg(full,{prefix:'own-outline'}),state.outline.opacity);
   part('duplicate',rect(l.clone),full,state.clone.opacity);part('halftone',rect(l.clone),halftoneSvg(full,{density:state.halftone.density,prefix:'own-halftone'}),state.halftone.opacity);
   if(state.scan)part('scan',{left:l.portrait.left,top:l.portrait.top+state.scan.y*l.portrait.height,width:l.portrait.width,height:10},scanSvg({width:l.portrait.width,height:10,prefix:'own-scan'}),state.scan.opacity??1);
+  for(const kind of ['active','ended']){
+   let stamp=card.querySelector(`[data-clone-stamp="${kind}"]`);
+   if(!stamp){stamp=document.createElement('span');stamp.className='bv2-clone-stamp';stamp.dataset.cloneStamp=kind;stamp.setAttribute('aria-hidden','true');stamp.textContent=kind==='active'?'CLONE ACTIVE':'CLONE ENDED';card.insertBefore(stamp,card.lastElementChild);}
+   stamp.style.left=px(l.words.left);stamp.style.opacity=String(state.stamps[kind].opacity);stamp.style.transform=`scale(${state.stamps[kind].scale})`;stamp.style.color=kind==='active'?CLONE.scan:CLONE.ended;
+  }
   card.lastElementChild.textContent=cloneWords(own.status);card.lastElementChild.style.marginLeft=px(l.words.left);
  }
  function commandPlates(captain,card){
@@ -184,7 +195,7 @@ export function createBoardV2Films(root,holder){
   const states=captainButtonStates({self:{seatId:'own',captainCommandUses:captain.uses},legalTargets:{CAPTAIN_RELEASE:captain.releaseAvailable?['own']:[],CAPTAIN_EJECT:captain.ejectAvailable?['own']:[]}},card?.body.step==='busy'?(card.kind==='captain-release'?'release':card.kind==='captain-eject'?'eject':null):null);
   for(const kind of ['release','eject'])for(const button of root.querySelectorAll(`button[data-kind="captain-${kind}"]`)){
    button.dataset.captainPlate=states[kind];button.style.setProperty('--captain-plate',`var(--board-v2-film-captain-plate-${kind}-${plateFor(states[kind])})`);
-   const label=kind.toUpperCase();if(button.textContent!==label)button.textContent=label;button.setAttribute('aria-label',`Captain ${kind==='release'?'Release':'Eject'}`);
+   const label=kind.toUpperCase();let word=button.querySelector('.bv2-captain-word');if(!word){word=document.createElement('span');word.className='bv2-captain-word';button.replaceChildren(word);}word.textContent=label;button.setAttribute('aria-label',`Captain ${kind==='release'?'Release':'Eject'}`);
    button.title=`${label}: ${states[kind]}`;
   }
   let strip=root.querySelector('.bv2-captain-states');
@@ -192,7 +203,7 @@ export function createBoardV2Films(root,holder){
   const panel=card?.body.step==='idle'?root.querySelector('.ms-private[data-open="true"] .ms-private__panel'):null;
   if(!panel||!closed.length){strip?.remove();return;}
   if(!strip){strip=document.createElement('div');strip.className='bv2-captain-states';strip.dataset.private='true';strip.setAttribute('aria-hidden','true');panel.prepend(strip);}
-  strip.replaceChildren();for(const kind of closed){const plate=document.createElement('div');plate.dataset.captainPlate=states[kind];plate.textContent=`${kind.toUpperCase()} · ${states[kind]}`;plate.style.setProperty('--captain-plate',`var(--board-v2-film-captain-plate-${kind}-${plateFor(states[kind])})`);strip.append(plate);}
+  strip.replaceChildren();for(const kind of closed){const plate=document.createElement('div');plate.dataset.captainPlate=states[kind];const word=document.createElement('span');word.className='bv2-captain-word';word.textContent=`${kind.toUpperCase()} · ${states[kind]}`;plate.append(word);plate.style.setProperty('--captain-plate',`var(--board-v2-film-captain-plate-${kind}-${plateFor(states[kind])})`);strip.append(plate);}
  }
  return {beforePaint,paint({sample,frame,board,seats,geometry,layout,enabled,dark=false,privateOpen=false,captain:captainState=null,card=null,time=0}){
   used=new Set();
@@ -210,9 +221,14 @@ export function createBoardV2Films(root,holder){
    }
    for(const entry of sample.items){if(entry.kind==='medical')clinical(entry,hospital,seats);else if(entry.kind==='captain')captain(entry,rooms,seats,layout);else overflow(entry,rooms,seats,layout);}
    const off=seats.filter(s=>s.health==='Eliminated'&&s.location===null&&s.slotId===null);
+   const plaqueScale=Math.max(1,...sample.items.filter(e=>e.kind==='overflow').map(e=>e.frame.plaque.scale));
    if(off.length){const place=spinePlaqueBox({hospital:layout.board.boxes.hospital,jail:layout.board.boxes.jail,border:layout.board.shell.border,cap:layout.board.panels.jail.cap,size:[76,22]});
-    if(place)make(holder,'offboard-plaque',place,{svg:memorialSvg(`${off.length} OFF BOARD`),z:2300});
-    else{const jail=rooms.find(r=>r.room==='jail'),fallback=plaqueBox({caption:caption(jail),size:[60,18],panel:jail.panel});make(holder._boardV2Paint.rooms.get('jail'),'offboard-plaque',{...fallback,width:60,height:18},{svg:memorialSvg(`${off.length} OFF BOARD`),z:2300});}}
+    const jail=rooms.find(r=>r.room==='jail'),fallback=place?null:plaqueBox({caption:caption(jail),size:[60,18],panel:jail.panel});
+    const plaque=make(place?holder:holder._boardV2Paint.rooms.get('jail'),'offboard-plaque',place??{...fallback,width:60,height:18},{z:4900,scale:plaqueScale});
+    plaque.classList.add('bv2-memorial');
+    if(!plaque.firstElementChild){const icon=document.createElement('span'),count=document.createElement('b');icon.innerHTML=plaqueSvg();plaque.append(icon,count);}
+    plaque.lastElementChild.textContent=String(off.length);plaque.title=`${off.length} off board`;
+   }
   }
   privateCard(enabled&&privateOpen?sample.own:null,seats);if(enabled&&privateOpen)commandPlates(captainState,card);
   for(const[key,node]of nodes)if(!used.has(key)){node.remove();nodes.delete(key);}
