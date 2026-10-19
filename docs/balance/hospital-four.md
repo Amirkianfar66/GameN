@@ -100,11 +100,36 @@ The sources the claims name:
 ### Result
 
 <!-- generated:verdict -->
-Nothing has been run for this record yet.
+Run on 2026-10-19 from a clean clone at `943fa9b01e03f0e96165311853945fb172b2d93b`, against the engine, contracts and service of that commit, which are byte for byte those of the tested source `afac7173f25a82138d231e7b1906896f9919562c`. 24 line runs (7 with 7 players, 8 with 8 players, 9 with 9 players), 201 claims: all passed. No line failed or stopped with an error. The report is [docs/balance/evidence/2026-10-19-hospital-four.json](../../docs/balance/evidence/2026-10-19-hospital-four.json).
 <!-- /generated:verdict -->
 
 <!-- generated:results -->
-No report is committed: nothing has been run for this record yet.
+| Players | Line | Kind | Claims passed | Result |
+| --- | --- | --- | --- | --- |
+| 7 | P0 | Contract | 6 of 6 | passed |
+| 7 | N5 | Native | 10 of 10 | passed |
+| 7 | N6 | Native | 8 of 8 | passed |
+| 7 | C1 | Constructed | 10 of 10 | passed |
+| 7 | C2 | Constructed | 6 of 6 | passed |
+| 7 | C3 | Constructed | 6 of 6 | passed |
+| 7 | C4 | Constructed | 7 of 7 | passed |
+| 8 | P0 | Contract | 6 of 6 | passed |
+| 8 | N1 | Native | 18 of 18 | passed |
+| 8 | N2 | Native | 9 of 9 | passed |
+| 8 | N3 | Native | 7 of 7 | passed |
+| 8 | C1 | Constructed | 10 of 10 | passed |
+| 8 | C2 | Constructed | 6 of 6 | passed |
+| 8 | C3 | Constructed | 6 of 6 | passed |
+| 8 | C4 | Constructed | 7 of 7 | passed |
+| 9 | P0 | Contract | 6 of 6 | passed |
+| 9 | N1 | Native | 18 of 18 | passed |
+| 9 | N2 | Native | 9 of 9 | passed |
+| 9 | N3 | Native | 7 of 7 | passed |
+| 9 | N4 | Native | 10 of 10 | passed |
+| 9 | C1 | Constructed | 10 of 10 | passed |
+| 9 | C2 | Constructed | 6 of 6 | passed |
+| 9 | C3 | Constructed | 6 of 6 | passed |
+| 9 | C4 | Constructed | 7 of 7 | passed |
 <!-- /generated:results -->
 
 ### Every claim
@@ -112,47 +137,177 @@ No report is committed: nothing has been run for this record yet.
 <!-- generated:claims -->
 #### P0: The tuple has four physical beds, the reserved art and roster-sized clinical anchors
 
-Contract; seven, eight and nine players. No result is committed.
+Contract; seven, eight and nine players. Constructed state: one body placed in H1 to obtain a view of the tuple.
+
+| Claim | Sources | 7 | 8 | 9 |
+| --- | --- | --- | --- | --- |
+| The engine gives the tuple four Hospital positions | H4-CAPACITY | passed | passed | passed |
+| The Clone tuple keeps a Hospital of the roster | H4-PAIRING | passed | passed | passed |
+| The contracts give a Blackout map of the tuple four Hospital positions, and the old reader keeps its count | CONTRACT-BOUNDARY | passed | passed | passed |
+| A match of the tuple is refused with any art but design-0.5.0 | H4-PAIRING | passed | passed | passed |
+| The public view of the tuple is valid with a body in H1 and refused with it in H5 | H4-CAPACITY, CONTRACT-BOUNDARY | passed | passed | passed |
+| A clinical anchor is valid from HV1 up to the number of players, HV5 included, and not beyond it | H4-CLINICAL | passed | passed | passed |
 
 #### N1: Round 4: three arrivals for two free beds; the highest number is refused although it was hit first; no later Rescue; the Code keeps the refused player
 
-Native; 8 and 9 players only. No result is committed.
+Native; 8 and 9 players only.
+
+| Claim | Sources | 7 | 8 | 9 |
+| --- | --- | --- | --- | --- |
+| The Insider and the Alien die at the end of Round 2 and keep H1 and H2 | BOARD-MEDICAL-01, BOARD-MEDICAL-03 |  | passed | passed |
+| Players 3 and 4 take H3 and H4 in order of number: the fourth admission succeeds | H4-CHECKPOINT, BOARD-MEDICAL-01 |  | passed | passed |
+| Player 8, hit first, finds no bed and is Eliminated off the board | H4-OVERFLOW, CONTRACT-BOUNDARY |  | passed | passed |
+| The two bodies keep H1 and H2 | H4-CHECKPOINT |  | passed | passed |
+| One public removal outcome names player 8, the round and the resolving phase | H4-OVERFLOW, CONTRACT-BOUNDARY |  | passed | passed |
+| The removal fact is valid under the contracts | CONTRACT-BOUNDARY |  | passed | passed |
+| The batch has clinical facts for players 3 and 4 and none for player 8 | H4-OVERFLOW, CONTRACT-BOUNDARY |  | passed | passed |
+| Players 3 and 4 get anchors HV3 and HV4 after the bodies' HV1 and HV2; player 8 gets none | H4-CLINICAL, CONTRACT-BOUNDARY |  | passed | passed |
+| The Cracker is not offered player 8 as a Rescue target | H4-OVERFLOW |  | passed | passed |
+| A Rescue of player 8 is refused | H4-OVERFLOW |  | passed | passed |
+| Player 8 is still off the board after Round 5 | H4-OVERFLOW |  | passed | passed |
+| Player 3, Rescued, returns to Room A at its lowest free position | BOARD-MEDICAL-04, BOARD-MEDICAL-01 |  | passed | passed |
+| Player 8 is still listed with its faction, its role is revealed at the end, and the Code still holds it | H4-OVERFLOW |  | passed | passed |
+| The Code naming player 8 is correct, and Red wins on it at the end of Round 5 | R-WIN-06, H4-OVERFLOW |  | passed | passed |
+| Every outcome recorded before Round 5 is still recorded after it | H4-OVERFLOW |  | passed | passed |
+| After every command and deadline Hospital holds at most four players, all in H1 to H4 | H4-CAPACITY |  | passed | passed |
+| After every command and deadline the public view lists every seat of the match | H4-OVERFLOW |  | passed | passed |
+| Replaying every recorded command and deadline gives the same receipts, states, views and outcomes; every step is deterministic, and a deadline given twice advances once | H4-CHECKPOINT |  | passed | passed |
 
 #### N2: Round 5: the ward is full; a Rescued patient leaves first, and the new patient takes the freed bed
 
-Native; 8 and 9 players only. No result is committed.
+Native; 8 and 9 players only.
+
+| Claim | Sources | 7 | 8 | 9 |
+| --- | --- | --- | --- | --- |
+| After Round 4 the ward is full: two bodies and two patients | H4-CAPACITY, BOARD-MEDICAL-01 |  | passed | passed |
+| Player 8 takes H3, the bed player 3 left; player 6 dies in H4 | H4-CHECKPOINT, BOARD-MEDICAL-03, BOARD-MEDICAL-04 |  | passed | passed |
+| Player 3 returns to Room A at its lowest free position | BOARD-MEDICAL-04, BOARD-MEDICAL-01 |  | passed | passed |
+| A patient of Round 5 has no Rescue deadline | BOARD-MEDICAL-05 |  | passed | passed |
+| Nobody is removed from the board | H4-CHECKPOINT |  | passed | passed |
+| The batch has an injury for player 8, a recovery for player 3 and a death for player 6 | BOARD-MEDICAL-03 |  | passed | passed |
+| After every command and deadline Hospital holds at most four players, all in H1 to H4 | H4-CAPACITY |  | passed | passed |
+| After every command and deadline the public view lists every seat of the match | H4-OVERFLOW |  | passed | passed |
+| Replaying every recorded command and deadline gives the same receipts, states, views and outcomes; every step is deterministic, and a deadline given twice advances once | H4-CHECKPOINT |  | passed | passed |
 
 #### N3: Round 5: the ward is full; a new patient Rescued in the same stage needs no bed and gets an anchor beyond the fourth
 
-Native; 8 and 9 players only. No result is committed.
+Native; 8 and 9 players only.
+
+| Claim | Sources | 7 | 8 | 9 |
+| --- | --- | --- | --- | --- |
+| Player 4 is Healthy and returns to Room A at its lowest free position, without taking a bed | H4-CHECKPOINT, CONTRACT-CHECKPOINT, BOARD-MEDICAL-01 |  | passed | passed |
+| The ward holds four bodies: the two of Round 2 and the two patients of Round 4, dead at the end of Round 5 | BOARD-MEDICAL-03, H4-CHECKPOINT |  | passed | passed |
+| Nobody is removed from the board | H4-CHECKPOINT, CONTRACT-ROWS |  | passed | passed |
+| Player 4, a fifth clinical subject, gets HV5 while the occupants keep HV1 to HV4; all are valid | H4-CLINICAL, CONTRACT-BOUNDARY |  | passed | passed |
+| After every command and deadline Hospital holds at most four players, all in H1 to H4 | H4-CAPACITY |  | passed | passed |
+| After every command and deadline the public view lists every seat of the match | H4-OVERFLOW |  | passed | passed |
+| Replaying every recorded command and deadline gives the same receipts, states, views and outcomes; every step is deterministic, and a deadline given twice advances once | H4-CHECKPOINT |  | passed | passed |
 
 #### N4: Round 4: one bed left; a body of two hits with the lower number takes it, the Rescue on it heals nothing, and the higher number is refused
 
-Native; 9 players only. No result is committed.
+Native; 9 players only.
+
+| Claim | Sources | 7 | 8 | 9 |
+| --- | --- | --- | --- | --- |
+| Before Round 4 three bodies hold H1 to H3 | BOARD-MEDICAL-01, BOARD-MEDICAL-03 |  |  | passed |
+| Player 4, Eliminated by the second hit, takes the last bed as a body | H4-CHECKPOINT, CONTRACT-CHECKPOINT |  |  | passed |
+| Player 6, hit first, finds no bed and is Eliminated off the board | H4-OVERFLOW, CONTRACT-BOUNDARY |  |  | passed |
+| One public removal outcome names player 6 | H4-OVERFLOW |  |  | passed |
+| The Rescue is spent and heals nothing; the batch has player 4's injury and death and nothing of player 6 | CONTRACT-CHECKPOINT, BOARD-MEDICAL-03, H4-OVERFLOW |  |  | passed |
+| The three bodies keep H1 to H3 | H4-CHECKPOINT |  |  | passed |
+| Player 4 gets HV4 after the bodies' HV1 to HV3; player 6 gets none | H4-CLINICAL |  |  | passed |
+| After every command and deadline Hospital holds at most four players, all in H1 to H4 | H4-CAPACITY |  |  | passed |
+| After every command and deadline the public view lists every seat of the match | H4-OVERFLOW |  |  | passed |
+| Replaying every recorded command and deadline gives the same receipts, states, views and outcomes; every step is deterministic, and a deadline given twice advances once | H4-CHECKPOINT |  |  | passed |
 
 #### N5: Round 4 fills the fourth bed; in the showdown a ward of four bodies refuses both arrivals, who keep their identity and Code
 
-Native; 7 players only. No result is committed.
+Native; 7 players only.
+
+| Claim | Sources | 7 | 8 | 9 |
+| --- | --- | --- | --- | --- |
+| Three patients join the Alien's body in order of number; the fourth admission succeeds | H4-CHECKPOINT, BOARD-MEDICAL-01 | passed |  |  |
+| Round 5 ends without a winner; the three patients die in their beds and the showdown opens | BOARD-MEDICAL-03, BOARD-MEDICAL-05 | passed |  |  |
+| Players 3 and 6 find no bed and are Eliminated off the board | H4-OVERFLOW, CONTRACT-BOUNDARY | passed |  |  |
+| Two public removal outcomes, in order of number, and no clinical fact for either | H4-OVERFLOW, CONTRACT-BOUNDARY | passed |  |  |
+| The four bodies keep H1 to H4 | H4-CHECKPOINT | passed |  |  |
+| Both are still listed, their roles are revealed at the end, and the Code still holds player 3 | H4-OVERFLOW | passed |  |  |
+| With every Blue player Eliminated and Undercover Healthy, Red wins | R-WIN-05 | passed |  |  |
+| After every command and deadline Hospital holds at most four players, all in H1 to H4 | H4-CAPACITY | passed |  |  |
+| After every command and deadline the public view lists every seat of the match | H4-OVERFLOW | passed |  |  |
+| Replaying every recorded command and deadline gives the same receipts, states, views and outcomes; every step is deterministic, and a deadline given twice advances once | H4-CHECKPOINT | passed |  |  |
 
 #### N6: Showdown: one bed left for two arrivals; the lower number takes it although it was hit second
 
-Native; 7 players only. No result is committed.
+Native; 7 players only.
+
+| Claim | Sources | 7 | 8 | 9 |
+| --- | --- | --- | --- | --- |
+| The showdown opens with three bodies in H1 to H3 | BOARD-MEDICAL-03, BOARD-MEDICAL-05 | passed |  |  |
+| Player 3 takes H4 | H4-CHECKPOINT, BOARD-MEDICAL-01 | passed |  |  |
+| Player 6, hit first, finds no bed and is Eliminated off the board | H4-OVERFLOW, CONTRACT-BOUNDARY | passed |  |  |
+| One public removal outcome names player 6; the only clinical fact of the stage is player 3's injury | H4-OVERFLOW, CONTRACT-BOUNDARY | passed |  |  |
+| The three bodies keep H1 to H3 | H4-CHECKPOINT | passed |  |  |
+| After every command and deadline Hospital holds at most four players, all in H1 to H4 | H4-CAPACITY | passed |  |  |
+| After every command and deadline the public view lists every seat of the match | H4-OVERFLOW | passed |  |  |
+| Replaying every recorded command and deadline gives the same receipts, states, views and outcomes; every step is deterministic, and a deadline given twice advances once | H4-CHECKPOINT | passed |  |  |
 
 #### C1: Contract row 1: three occupants; player 6 is hit before player 1; player 1 takes the fourth bed, player 6 leaves the board, and no later Rescue reaches it
 
-Constructed; seven, eight and nine players. No result is committed.
+Constructed; seven, eight and nine players. Constructed state: at the first turn of Round 4, the bodies of the Blue Disabler, the Supplier and the Alien placed in H1 to H3.
+
+| Claim | Sources | 7 | 8 | 9 |
+| --- | --- | --- | --- | --- |
+| Player 1 takes H4 | CONTRACT-ROWS, H4-CHECKPOINT | passed | passed | passed |
+| Player 6 is Eliminated off the board | CONTRACT-ROWS, H4-OVERFLOW, CONTRACT-BOUNDARY | passed | passed | passed |
+| One public removal outcome names player 6, and the batch has no clinical fact for it | H4-OVERFLOW, CONTRACT-BOUNDARY | passed | passed | passed |
+| The three bodies keep H1 to H3 | H4-CHECKPOINT | passed | passed | passed |
+| In Round 5 the Cracker is not offered player 6 as a Rescue target | H4-OVERFLOW | passed | passed | passed |
+| A Rescue of player 6 is refused | H4-OVERFLOW | passed | passed | passed |
+| Player 6 is still listed with its faction and still reads the Scan it made in Round 1 | H4-OVERFLOW | passed | passed | passed |
+| After every command and deadline Hospital holds at most four players, all in H1 to H4 | H4-CAPACITY | passed | passed | passed |
+| After every command and deadline the public view lists every seat of the match | H4-OVERFLOW | passed | passed | passed |
+| Replaying every recorded command and deadline gives the same receipts, states, views and outcomes; every step is deterministic, and a deadline given twice advances once | H4-CHECKPOINT | passed | passed | passed |
 
 #### C2: Contract row 2: four occupants, one of them a patient; player 1 is hit and the patient, player 7, is Rescued; player 7 leaves and player 1 takes its bed
 
-Constructed; seven, eight and nine players. No result is committed.
+Constructed; seven, eight and nine players. Constructed state: at the first turn of Round 4, three bodies placed in H1 to H3 and the Alien, a patient of Round 3, in H4.
+
+| Claim | Sources | 7 | 8 | 9 |
+| --- | --- | --- | --- | --- |
+| Player 7 returns to Room B and player 1 takes H4 | CONTRACT-ROWS, H4-CHECKPOINT, BOARD-MEDICAL-04 | passed | passed | passed |
+| The three bodies keep H1 to H3 | H4-CHECKPOINT | passed | passed | passed |
+| Nobody is removed from the board | CONTRACT-ROWS | passed | passed | passed |
+| After every command and deadline Hospital holds at most four players, all in H1 to H4 | H4-CAPACITY | passed | passed | passed |
+| After every command and deadline the public view lists every seat of the match | H4-OVERFLOW | passed | passed | passed |
+| Replaying every recorded command and deadline gives the same receipts, states, views and outcomes; every step is deterministic, and a deadline given twice advances once | H4-CHECKPOINT | passed | passed | passed |
 
 #### C3: Contract row 3: four bodies; player 1 is hit and Rescued in the same stage, needs no bed, and gets a clinical anchor beyond the fourth
 
-Constructed; seven, eight and nine players. No result is committed.
+Constructed; seven, eight and nine players. Constructed state: at the first turn of Round 4, four bodies placed in H1 to H4.
+
+| Claim | Sources | 7 | 8 | 9 |
+| --- | --- | --- | --- | --- |
+| Player 1 is Healthy in Room A, at its own position | CONTRACT-ROWS, H4-CHECKPOINT, BOARD-MEDICAL-01 | passed | passed | passed |
+| The four bodies keep H1 to H4 and nobody is removed | H4-CHECKPOINT, CONTRACT-ROWS | passed | passed | passed |
+| Player 1 gets HV5, after HV1 to HV4 of the four occupants, and it is valid | H4-CLINICAL, CONTRACT-BOUNDARY | passed | passed | passed |
+| After every command and deadline Hospital holds at most four players, all in H1 to H4 | H4-CAPACITY | passed | passed | passed |
+| After every command and deadline the public view lists every seat of the match | H4-OVERFLOW | passed | passed | passed |
+| Replaying every recorded command and deadline gives the same receipts, states, views and outcomes; every step is deterministic, and a deadline given twice advances once | H4-CHECKPOINT | passed | passed | passed |
 
 #### C4: Contract row 4: four bodies; player 1 is hit twice and then Rescued; player 1 is Eliminated, cannot heal, and leaves the board
 
-Constructed; seven, eight and nine players. No result is committed.
+Constructed; seven, eight and nine players. Constructed state: at the first turn of Round 4, four bodies placed in H1 to H4.
+
+| Claim | Sources | 7 | 8 | 9 |
+| --- | --- | --- | --- | --- |
+| Player 1 is Eliminated off the board: no fifth body, no fifth bed | CONTRACT-ROWS, H4-OVERFLOW, CONTRACT-BOUNDARY | passed | passed | passed |
+| One public removal outcome names player 1, and the batch has no clinical fact for it | H4-OVERFLOW, CONTRACT-BOUNDARY | passed | passed | passed |
+| The four bodies keep H1 to H4 | H4-CHECKPOINT | passed | passed | passed |
+| The Rescue is spent and heals nothing; no anchor is assigned | CONTRACT-ROWS, H4-CLINICAL | passed | passed | passed |
+| After every command and deadline Hospital holds at most four players, all in H1 to H4 | H4-CAPACITY | passed | passed | passed |
+| After every command and deadline the public view lists every seat of the match | H4-OVERFLOW | passed | passed | passed |
+| Replaying every recorded command and deadline gives the same receipts, states, views and outcomes; every step is deterministic, and a deadline given twice advances once | H4-CHECKPOINT | passed | passed | passed |
 <!-- /generated:claims -->
 
 ## 4. Commands

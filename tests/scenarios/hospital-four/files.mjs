@@ -10,7 +10,7 @@ export const REPORT_SCHEMA = 'mothership.balance.hospital-four/1';
 export const REPORT_PATH = 'docs/balance/evidence/2026-10-19-hospital-four.json';
 // True from the commit that carries the report. Before it, the document says that nothing was
 // run, and a test refuses a report that is lying about.
-export const EVIDENCE_COMMITTED = false;
+export const EVIDENCE_COMMITTED = true;
 
 export const loadRecord = () => JSON.parse(readFileSync(RECORD_URL, 'utf8'));
 export const loadReport = () => (existsSync(repositoryUrl(REPORT_PATH)) ? JSON.parse(readFileSync(repositoryUrl(REPORT_PATH), 'utf8')) : null);
