@@ -1,0 +1,624 @@
+{
+  "schemaVersion": 1,
+  "runtimeUiCheckpoint": "530532dd9588fcaff6c6f89ec7db1832c94825a6",
+  "sharedDependencyBase": "c6814df98242a72bf702362d253aab0a8ca6048a",
+  "sharedCurrentAdoptionPr": 165,
+  "sharedCurrentAdoptionHead": "c3b5cc6234eeed48086498aa381d06b57fe87a1e",
+  "sourceSha256": {
+    "apps/game/hosted/board-v2-host.mjs": "74c0279583a3f80bd3222cdd7cbbe624d274e16c6728549c4d9325913a56521d",
+    "apps/game/hosted/board-v2-films.mjs": "790b1c114f45a7ae8f47bb98863afced828b738766e3334259fa2495b264129b",
+    "apps/game/hosted/board-v2-presentations.mjs": "2d49a7262046042994e38e711b89e6380bb9d3c1dfaa2477acd0ea3e4e55286f",
+    "apps/game/hosted/board-v2-scene.mjs": "8aefcd742e07deff0a1d6c6d6b795f7462cd93b7265af292be1ab76fb31683de",
+    "apps/game/hosted/board-v2.css": "e2e7c440608c5d68eb8c1d367de0caf44447d69234ad08d9a41fcde06ec7357e",
+    "apps/game/hosted/compact-phone.css": "427b90ae016ee094c6419e5ad214fb6940ca08d77be031b200f97f5fc49ee1a2",
+    "apps/game/hosted/art.mjs": "86b3bf01c205f1eaafdcc94a5cfdbccd3bba17190bd274c0d99b092e544abcb1",
+    "apps/game/hosted/comic-assets.mjs": "485c86151104486a29077534674aef08a9dc764b9e2b720959e80b151e2e426c",
+    "apps/game/hosted/browser-host.js": "e25fdc1de9e70b0059120ce7e3ba33386ff00f4031212b76e9d0fed6326d7622",
+    "apps/game/hosted/ready-compatibility.mjs": "9f2824ee73b4397cc95c1cdb14d10b3bb0c802b94edb745bdcb048c9b14e5816",
+    "apps/game/hosted/setup-controls.js": "adb36bc6c8d0bbd0b3791f30e3d00e70da8db09446ba2667b6d58879475afbce",
+    "packages/presentation/src/model/public-board.ts": "c9e1d32078a1399c6bc24037052c9fb3416f336244974ed417358895d4b86b68",
+    "packages/presentation/src/model/connected-player.ts": "7f86e5f9378d21e77b6facda818264d898984fedf6f6ac7695aa4f6c2be4dc09",
+    "packages/presentation/src/model/types.ts": "3c9e127dce5bafc269f63d362b7ff29f4b13a358f24cc1584123c60ff11d22a9"
+  },
+  "browserSuites": [
+    {
+      "name": "synthetic-audience",
+      "status": "passed",
+      "scope": "Chromium production controller and host over strict synthetic 1.11 views and outcomes. No native service, physical phone or screen-reader claim.",
+      "recordCount": 36,
+      "runtimeExceptions": 0,
+      "records": [
+        {
+          "name": "r7-320-critical",
+          "scroll": {
+            "width": 320,
+            "height": 568
+          }
+        },
+        {
+          "name": "r7-320-targets",
+          "scroll": {
+            "width": 320,
+            "height": 568
+          }
+        },
+        {
+          "name": "r7-320-overlap",
+          "scroll": {
+            "width": 320,
+            "height": 568
+          }
+        },
+        {
+          "name": "r7-320-offboard",
+          "scroll": {
+            "width": 320,
+            "height": 568
+          }
+        },
+        {
+          "name": "r7-390-critical",
+          "scroll": {
+            "width": 390,
+            "height": 844
+          }
+        },
+        {
+          "name": "r7-390-targets",
+          "scroll": {
+            "width": 390,
+            "height": 844
+          }
+        },
+        {
+          "name": "r7-390-overlap",
+          "scroll": {
+            "width": 390,
+            "height": 844
+          }
+        },
+        {
+          "name": "r7-390-offboard",
+          "scroll": {
+            "width": 390,
+            "height": 844
+          }
+        },
+        {
+          "name": "r8-320-critical",
+          "scroll": {
+            "width": 320,
+            "height": 568
+          }
+        },
+        {
+          "name": "r8-320-targets",
+          "scroll": {
+            "width": 320,
+            "height": 568
+          }
+        },
+        {
+          "name": "r8-320-overlap",
+          "scroll": {
+            "width": 320,
+            "height": 568
+          }
+        },
+        {
+          "name": "r8-320-offboard",
+          "scroll": {
+            "width": 320,
+            "height": 568
+          }
+        },
+        {
+          "name": "r8-390-critical",
+          "scroll": {
+            "width": 390,
+            "height": 844
+          }
+        },
+        {
+          "name": "r8-390-targets",
+          "scroll": {
+            "width": 390,
+            "height": 844
+          }
+        },
+        {
+          "name": "r8-390-overlap",
+          "scroll": {
+            "width": 390,
+            "height": 844
+          }
+        },
+        {
+          "name": "r8-390-offboard",
+          "scroll": {
+            "width": 390,
+            "height": 844
+          }
+        },
+        {
+          "name": "r9-320-critical",
+          "scroll": {
+            "width": 320,
+            "height": 568
+          }
+        },
+        {
+          "name": "r9-320-targets",
+          "scroll": {
+            "width": 320,
+            "height": 568
+          }
+        },
+        {
+          "name": "r9-320-overlap",
+          "scroll": {
+            "width": 320,
+            "height": 568
+          }
+        },
+        {
+          "name": "r9-320-offboard",
+          "scroll": {
+            "width": 320,
+            "height": 568
+          }
+        },
+        {
+          "name": "r9-390-critical",
+          "scroll": {
+            "width": 390,
+            "height": 844
+          }
+        },
+        {
+          "name": "r9-390-targets",
+          "scroll": {
+            "width": 390,
+            "height": 844
+          }
+        },
+        {
+          "name": "r9-390-overlap",
+          "scroll": {
+            "width": 390,
+            "height": 844
+          }
+        },
+        {
+          "name": "r9-390-offboard",
+          "scroll": {
+            "width": 390,
+            "height": 844
+          }
+        },
+        {
+          "name": "private-clone-320-active",
+          "scroll": {
+            "width": 320,
+            "height": 568
+          },
+          "cloneGeometry": {
+            "display": "block",
+            "width": 286,
+            "height": 100,
+            "top": 390,
+            "bottom": 490,
+            "drawing": 126.390625,
+            "passTop": 514
+          }
+        },
+        {
+          "name": "private-clone-320-expiry-reduced",
+          "scroll": {
+            "width": 320,
+            "height": 568
+          }
+        },
+        {
+          "name": "private-clone-390-active",
+          "scroll": {
+            "width": 390,
+            "height": 844
+          },
+          "cloneGeometry": {
+            "display": "block",
+            "width": 356,
+            "height": 100,
+            "top": 635,
+            "bottom": 735,
+            "drawing": 126.390625,
+            "passTop": 765
+          }
+        },
+        {
+          "name": "private-clone-390-expiry-reduced",
+          "scroll": {
+            "width": 390,
+            "height": 844
+          }
+        },
+        {
+          "name": "public-flatline-normal",
+          "scroll": {
+            "width": 390,
+            "height": 923
+          }
+        },
+        {
+          "name": "public-fifth-anchor-words-only",
+          "scroll": {
+            "width": 390,
+            "height": 923
+          }
+        },
+        {
+          "name": "public-retained-body-held-anchor",
+          "scroll": {
+            "width": 390,
+            "height": 923
+          }
+        },
+        {
+          "name": "public-post-blackout-medical",
+          "scroll": {
+            "width": 390,
+            "height": 923
+          }
+        },
+        {
+          "name": "public-release-wide-console",
+          "scroll": {
+            "width": 1100,
+            "height": 860
+          }
+        },
+        {
+          "name": "public-eject-wide-retained-body",
+          "scroll": {
+            "width": 1100,
+            "height": 860
+          }
+        },
+        {
+          "name": "public-eject-wide-hatch",
+          "scroll": {
+            "width": 1100,
+            "height": 860
+          }
+        },
+        {
+          "name": "text200-fit-fallback-320",
+          "scroll": {
+            "width": 320,
+            "height": 568
+          }
+        }
+      ]
+    },
+    {
+      "name": "native-captain-clone",
+      "status": "passed",
+      "scope": "Production screen/host with real local Auth, Firestore Rules and service decisions after legal synthetic setup. No production Functions, automatic Tasks, random-native-setup or physical-device claim.",
+      "recordCount": 29,
+      "runtimeExceptions": 0,
+      "records": [
+        {
+          "name": "r7-release-offer"
+        },
+        {
+          "name": "r7-release-confirm"
+        },
+        {
+          "name": "r7-release-registered"
+        },
+        {
+          "name": "r7-release-dismissed"
+        },
+        {
+          "name": "r7-release-public-film"
+        },
+        {
+          "name": "r7-eject-offer"
+        },
+        {
+          "name": "r7-eject-registered"
+        },
+        {
+          "name": "r7-eject-dismissed"
+        },
+        {
+          "name": "r7-eject-public-film"
+        },
+        {
+          "name": "r8-release-offer"
+        },
+        {
+          "name": "r8-release-confirm"
+        },
+        {
+          "name": "r8-release-registered"
+        },
+        {
+          "name": "r8-release-dismissed"
+        },
+        {
+          "name": "r8-release-public-film"
+        },
+        {
+          "name": "r8-eject-offer"
+        },
+        {
+          "name": "r8-eject-registered"
+        },
+        {
+          "name": "r8-eject-dismissed"
+        },
+        {
+          "name": "r8-eject-public-film"
+        },
+        {
+          "name": "r9-release-offer"
+        },
+        {
+          "name": "r9-release-confirm"
+        },
+        {
+          "name": "r9-release-registered"
+        },
+        {
+          "name": "r9-release-dismissed"
+        },
+        {
+          "name": "r9-release-public-film"
+        },
+        {
+          "name": "r9-eject-offer"
+        },
+        {
+          "name": "r9-eject-registered"
+        },
+        {
+          "name": "r9-eject-dismissed"
+        },
+        {
+          "name": "r9-eject-public-film"
+        },
+        {
+          "name": "native-clone-accepted",
+          "cloneGeometry": {
+            "display": "block",
+            "width": 360,
+            "height": 100,
+            "bottom": 699,
+            "passTop": 765
+          }
+        },
+        {
+          "name": "native-clone-reloaded-at-rest"
+        }
+      ]
+    },
+    {
+      "name": "native-full60-talk",
+      "status": "passed",
+      "scope": "Production client with real local Auth/Rules/service commands and an elapsed local deadline worker after legal synthetic SETUP; not production Functions/Tasks or physical-device evidence.",
+      "recordCount": 6,
+      "runtimeExceptions": 0,
+      "records": [
+        {
+          "name": "native-entrance-during-result",
+          "capsule": [
+            {
+              "seat": "seat-6",
+              "state": "entering"
+            },
+            {
+              "seat": "seat-7",
+              "state": "entering"
+            }
+          ],
+          "clock": {
+            "phaseId": "137f12e6-a6e4-45fe-ab7c-18dd4fce3f84",
+            "kind": "HACK_RESULT",
+            "startedAt": 1800002366050,
+            "endsAt": 1800002371050,
+            "nowMs": 1800002368138.5,
+            "current": true
+          },
+          "widths": [
+            248.65625,
+            126.328125
+          ]
+        },
+        {
+          "name": "native-full60-start",
+          "capsule": [
+            {
+              "seat": "seat-6",
+              "state": "seated"
+            },
+            {
+              "seat": "seat-7",
+              "state": "seated"
+            }
+          ],
+          "clock": {
+            "phaseId": "72619056-dc4d-4d3e-8f88-99be01714e8b",
+            "kind": "HACK",
+            "startedAt": 1800002371072,
+            "endsAt": 1800002431072,
+            "nowMs": 1800002371203.1,
+            "current": true
+          },
+          "widths": [
+            248.65625,
+            126.328125
+          ]
+        },
+        {
+          "name": "native-talk-current-return-slot",
+          "capsule": [
+            {
+              "seat": "seat-6",
+              "state": "seated"
+            },
+            {
+              "seat": "seat-7",
+              "state": "seated"
+            }
+          ],
+          "clock": {
+            "phaseId": "72619056-dc4d-4d3e-8f88-99be01714e8b",
+            "kind": "HACK",
+            "startedAt": 1800002371072,
+            "endsAt": 1800002431072,
+            "nowMs": 1800002372452.8,
+            "current": true
+          },
+          "widths": [
+            248.65625,
+            126.328125
+          ]
+        },
+        {
+          "name": "native-code-during-talk",
+          "capsule": [
+            {
+              "seat": "seat-6",
+              "state": "seated"
+            },
+            {
+              "seat": "seat-7",
+              "state": "seated"
+            }
+          ],
+          "clock": {
+            "phaseId": "72619056-dc4d-4d3e-8f88-99be01714e8b",
+            "kind": "HACK",
+            "startedAt": 1800002371072,
+            "endsAt": 1800002431072,
+            "nowMs": 1800002377387.8,
+            "current": true
+          },
+          "widths": [
+            202,
+            103
+          ]
+        },
+        {
+          "name": "native-still-seated-near60",
+          "capsule": [
+            {
+              "seat": "seat-6",
+              "state": "seated"
+            },
+            {
+              "seat": "seat-7",
+              "state": "seated"
+            }
+          ],
+          "clock": {
+            "phaseId": "72619056-dc4d-4d3e-8f88-99be01714e8b",
+            "kind": "HACK",
+            "startedAt": 1800002371072,
+            "endsAt": 1800002431072,
+            "nowMs": 1800002430072.7002,
+            "current": true
+          },
+          "widths": [
+            202,
+            103
+          ]
+        },
+        {
+          "name": "native-return-after-full60",
+          "capsule": [],
+          "clock": {
+            "phaseId": "799668de-61ec-4146-8b1e-9b03fb80d93d",
+            "kind": "ORDINARY_TURN",
+            "startedAt": 1800002431074,
+            "endsAt": 1800002491074,
+            "nowMs": 1800002432393.2002,
+            "current": true
+          },
+          "widths": [
+            202,
+            103
+          ]
+        }
+      ]
+    },
+    {
+      "name": "setup-components",
+      "status": "passed",
+      "scope": "Actual native setup components/CSS/animation/inputs in Chromium over strict synthetic setup documents; not native role randomness, real Ready service or physical devices.",
+      "recordCount": 10,
+      "runtimeExceptions": 0,
+      "records": [
+        {
+          "name": "setup-320-choosing",
+          "scroll": 584
+        },
+        {
+          "name": "setup-320-confirmed",
+          "scroll": 584
+        },
+        {
+          "name": "setup-320-back",
+          "scroll": 584
+        },
+        {
+          "name": "setup-320-reduced-reveal",
+          "scroll": 584
+        },
+        {
+          "name": "setup-320-ready-seal",
+          "scroll": 600
+        },
+        {
+          "name": "setup-390-choosing",
+          "scroll": 860
+        },
+        {
+          "name": "setup-390-confirmed",
+          "scroll": 860
+        },
+        {
+          "name": "setup-390-back",
+          "scroll": 860
+        },
+        {
+          "name": "setup-390-reduced-reveal",
+          "scroll": 860
+        },
+        {
+          "name": "setup-390-ready-seal",
+          "scroll": 860
+        }
+      ]
+    }
+  ],
+  "localNativeServiceCases": {
+    "hospitalFourBackendCases": 18,
+    "freshMixedHumanBotConsumerCases": 3,
+    "status": "passed",
+    "scope": "Explicit local demo Auth/Firestore. Backend histories combine native staged setup with legal synthetic initial SETUP histories; trusted local workers, not production Tasks."
+  },
+  "combinedVerify": {
+    "status": "pending-final-overlay-run",
+    "previousUiOnlyResult": "152 bootstrap,1001 engine,253 backend,199 tooling and734 frontend passed;4 current-adoption Design cases require the separate reviewed PR165 policy."
+  },
+  "unmeasured": [
+    "Physical phones",
+    "Safari/WebKit",
+    "Human screen reader acceptance",
+    "Production Functions/Tasks/Web SDK journey",
+    "Hosting deployment",
+    "Independent human game balance"
+  ]
+}

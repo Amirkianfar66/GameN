@@ -18,7 +18,9 @@
 .bv2-caption--move { min-height:38px; display:flex; align-items:center; }
 .bv2-room-move { position:absolute; z-index:5001; top:0; left:0; min-width:44px; min-height:44px; padding:0; border:0; background:transparent; color:inherit; }
 .bv2-room-move .bv2-caption { position:relative; top:auto; left:auto; margin:3px; }
-.bv2-nameplate { position:absolute; z-index:3500; display:inline-flex; align-items:baseline; transform:translate(-50%,0); max-width:var(--bv2-name-width,100%); padding:0 4px; background:var(--bv2-paper); color:var(--bv2-ink); border:1.5px solid var(--bv2-ink); font-size:.625rem; font-weight:700; white-space:nowrap; line-height:1.4; }
+.bv2-nameplate { position:absolute; z-index:3500; display:inline-flex; align-items:baseline; box-sizing:border-box;
+ transform:translate(clamp(calc(0px - var(--bv2-name-x)),-50%,calc(var(--bv2-name-panel-width) - var(--bv2-name-x) - 100%)),clamp(calc(0px - var(--bv2-name-y)),0px,calc(var(--bv2-name-panel-height) - var(--bv2-name-y) - 100%)));
+ max-width:var(--bv2-name-width,100%); padding:0 4px; background:var(--bv2-paper); color:var(--bv2-ink); border:1.5px solid var(--bv2-ink); font-size:.625rem; font-weight:700; white-space:nowrap; line-height:1.4; }
 .bv2-nameplate__number { display:inline-block; flex:none; min-width:12px; margin-right:3px; padding:0 2px; background:var(--bv2-ink); color:var(--bv2-paper); text-align:center; }
 .bv2-nameplate__name { min-width:0; overflow:hidden; text-overflow:ellipsis; }
 .bv2-seat-target { position:absolute; z-index:4200; min-width:44px; min-height:44px; padding:0; border:0; background:transparent; }
