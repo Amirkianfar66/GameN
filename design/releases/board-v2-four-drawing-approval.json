@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "devOnly": "mothership:dev-only",
   "version": "hospital-four-drawing-approval-1",
-  "reviewedFrontendCommit": "530532dd9588fcaff6c6f89ec7db1832c94825a6",
+  "reviewedFrontendCommit": "ceb8bdd22198cdaebdf75a1aad4e49c992fd161f",
   "historicalPolicySha256": "07ea49f893a17227da7560ecb9e555ad291c4724aeefe92b438d882f6b5b9102",
   "scope": "Exact candidate source consumption and metadata/build references only. No gameplay, profile, deployment or visual-acceptance approval. Original policy unchanged.",
   "ports": {
@@ -101,13 +101,13 @@
       ]
     },
     "apps/game/hosted/board-v2-scene.mjs": {
-      "sha256": "8aefcd742e07deff0a1d6c6d6b795f7462cd93b7265af292be1ab76fb31683de",
+      "sha256": "acf897d9f8fcaf9c63e1bc6591e2d9c2f6bc77db077b639f9e1ad50aab1f9bf7",
       "permittedLiterals": [
         "board-v2"
       ]
     },
     "apps/game/hosted/board-v2.css": {
-      "sha256": "e2e7c440608c5d68eb8c1d367de0caf44447d69234ad08d9a41fcde06ec7357e",
+      "sha256": "f776bc946fb159f24d58e99ba186de93421f75025f53c6ed9514ae74713c13ba",
       "permittedLiterals": [
         "board-v2"
       ]
@@ -411,8 +411,8 @@
     "apps/game/hosted/board-v2-drawing/clone-fx.mjs": "6b4e7c9ad1655cf5141dbb05064cb671e769261138996a3fc5fb1391d06409c8",
     "apps/game/hosted/board-v2-drawing/clone-film.mjs": "bbc7fc6cb283cabe1a37fe7979dd7c0bdb8a9a2462b801c17df496809dc90ed9",
     "apps/game/hosted/board-v2-host.mjs": "74c0279583a3f80bd3222cdd7cbbe624d274e16c6728549c4d9325913a56521d",
-    "apps/game/hosted/board-v2-scene.mjs": "8aefcd742e07deff0a1d6c6d6b795f7462cd93b7265af292be1ab76fb31683de",
-    "apps/game/hosted/board-v2.css": "e2e7c440608c5d68eb8c1d367de0caf44447d69234ad08d9a41fcde06ec7357e",
+    "apps/game/hosted/board-v2-scene.mjs": "acf897d9f8fcaf9c63e1bc6591e2d9c2f6bc77db077b639f9e1ad50aab1f9bf7",
+    "apps/game/hosted/board-v2.css": "f776bc946fb159f24d58e99ba186de93421f75025f53c6ed9514ae74713c13ba",
     "apps/game/hosted/board-v2-film-art/catalog.json": "16e7846488f3f9ca0be359bed1b8a34164d31dcde6f839d6e8b301e868a62636",
     "apps/game/hosted/comic-assets.mjs": "485c86151104486a29077534674aef08a9dc764b9e2b720959e80b151e2e426c"
   },
