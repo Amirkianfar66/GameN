@@ -160,6 +160,6 @@ body:has(#app [data-board-layout="board-v2"]) { height:100dvh; overflow:hidden; 
 
 #app .ms-shell[data-board-clone="true"] .ms-actions:has(.phone-empty-actions) { display:none; }
 
-#app .ms-shell--player[data-board-layout="board-v2"][data-phone-view="actions"] button[data-captain-plate] { background-image:var(--captain-plate); background-color:var(--bv2-navy); min-height:64px; padding-left:34%; }
+#app .ms-shell--player[data-board-layout="board-v2"][data-phone-view="actions"] button[data-captain-plate] { color:var(--bv2-paper); background-image:var(--captain-plate); background-color:var(--bv2-navy); min-height:64px; padding-left:34%; }
 
 .bv2-film[data-film-part^="tag-"] { white-space:pre-line; }

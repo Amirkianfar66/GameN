@@ -13,7 +13,7 @@ try{
   try{
    await p.goto(`http://127.0.0.1:5297/four-native.html?seat=seat-1&roster=${count}&kind=${kind}`,'document.querySelector("[data-renderer=board-v2]")',60000);await p.foreground();await p.tap('#ms-phone-actions');
    await p.waitFor(`document.querySelector('#ms-action-open-captain-${kind}')`,'native Captain offer',15000);await record(p,`r${count}-${kind}-offer`);
-   const offer=await p.evaluate(`(()=>{const n=document.querySelector('#ms-action-open-captain-${kind}'),r=n.getBoundingClientRect();return {width:r.width,height:r.height,image:getComputedStyle(n).backgroundImage.startsWith('url(')}})()`);assert.ok(offer.width>=44&&offer.height>=44&&offer.image,'The native plate must have its loaded source image');
+   const offer=await p.evaluate(`(()=>{const n=document.querySelector('#ms-action-open-captain-${kind}'),r=n.getBoundingClientRect();return {width:r.width,height:r.height,image:getComputedStyle(n).backgroundImage.startsWith('url('),color:getComputedStyle(n).color}})()`);assert.ok(offer.width>=44&&offer.height>=44&&offer.image,'The native plate must have its loaded source image');assert.ok(offer.color.match(/\d+/g).slice(0,3).every(c=>Number(c)>180),'Source plate captions must use readable paper-colored text');
    await p.tap(`#ms-action-open-captain-${kind}`);await p.waitFor('window.__native.model().match.privateArea.content.actions.card.body.step==="confirming"','native command confirmation');
    if(kind==='release')assert.ok((await record(p,`r${count}-${kind}-confirm`)).text.includes('Release all living prisoners currently in Jail?'));
    await sleep(450);await p.tap('#ms-action-confirm');

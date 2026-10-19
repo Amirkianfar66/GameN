@@ -184,7 +184,8 @@ export function createBoardV2Films(root,holder){
   const states=captainButtonStates({self:{seatId:'own',captainCommandUses:captain.uses},legalTargets:{CAPTAIN_RELEASE:captain.releaseAvailable?['own']:[],CAPTAIN_EJECT:captain.ejectAvailable?['own']:[]}},card?.body.step==='busy'?(card.kind==='captain-release'?'release':card.kind==='captain-eject'?'eject':null):null);
   for(const kind of ['release','eject'])for(const button of root.querySelectorAll(`button[data-kind="captain-${kind}"]`)){
    button.dataset.captainPlate=states[kind];button.style.setProperty('--captain-plate',`var(--board-v2-film-captain-plate-${kind}-${plateFor(states[kind])})`);
-   button.title=`${kind==='release'?'RELEASE':'EJECT'}: ${states[kind]}`;
+   const label=kind.toUpperCase();if(button.textContent!==label)button.textContent=label;button.setAttribute('aria-label',`Captain ${kind==='release'?'Release':'Eject'}`);
+   button.title=`${label}: ${states[kind]}`;
   }
   let strip=root.querySelector('.bv2-captain-states');
   const closed=['release','eject'].filter(kind=>!root.querySelector(`button[data-kind="captain-${kind}"]`));
