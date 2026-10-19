@@ -11627,5 +11627,7 @@
   ],
   "labelAndNumberMeasurements": 336,
   "targetMeasurements": 216,
-  "maximumObservedRoundingOverflowPx": 0.0152435302734375
+  "maximumObservedRoundingOverflowPx": 0.0152435302734375,
+  "sharedApprovalSourceCommit": "cf1d2b1ff91eaa4e9837ca2caf66d59a31682c40",
+  "sharedApprovalPolicySha256": "09683155f5c9a1fc68cb5a189e2ddc9c4631b6836e257b9057dd0d20b0a8b1c1"
 }

@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "runtimeUiCheckpoint": "530532dd9588fcaff6c6f89ec7db1832c94825a6",
-  "sharedDependencyBase": "b08d17516ba4efd1e5b65fadc729eb560af831e9",
+  "sharedDependencyBase": "e7067d12d0e07de86c84d57e96e05c679347298b",
   "sharedCurrentAdoptionPr": 165,
-  "sharedCurrentAdoptionHead": "c3b5cc6234eeed48086498aa381d06b57fe87a1e",
+  "sharedCurrentAdoptionHead": "cf1d2b1ff91eaa4e9837ca2caf66d59a31682c40",
   "sourceSha256": {
     "apps/game/hosted/board-v2-host.mjs": "74c0279583a3f80bd3222cdd7cbbe624d274e16c6728549c4d9325913a56521d",
     "apps/game/hosted/board-v2-films.mjs": "790b1c114f45a7ae8f47bb98863afced828b738766e3334259fa2495b264129b",
@@ -657,7 +657,7 @@
   "originalSharedDependencyFoundation": "c6814df98242a72bf702362d253aab0a8ca6048a",
   "labelFollowupEvidence": "hospital-four-nameplate-checks.json",
   "labelFollowupChecks": {
-    "status": "frontend-and-browser-passed-awaiting-final-policy-checks",
+    "status": "passed",
     "command": "npm run test:frontend",
     "passed": 734,
     "focusedCasesPassed": 30,
@@ -666,11 +666,22 @@
     "runtimeExceptions": 0,
     "typechecks": "passed",
     "hostedBuild": "passed",
-    "buildWarning": "Existing large-chunk warning; no build failure"
+    "buildWarning": "Existing large-chunk warning; no build failure",
+    "scope": "Label-only delta after full eb3 verification; UI source checkpoint ceb8bdd. Final policy/source/tooling/Design/build checks ran on the clean combined a07b111 candidate.",
+    "verifiedCombinedCommit": "a07b111ca3829ce53835b31713563d974d15c351",
+    "verifiedCombinedTree": "63f7affeec92b0fac1c2b78495d058fa69ce7f94",
+    "toolingPassed": 209,
+    "designPassed": 252,
+    "toolchain": "passed",
+    "workspaceBoundary": "passed",
+    "sourceAndPortChecks": "passed",
+    "sharedApprovalSourceCommit": "cf1d2b1ff91eaa4e9837ca2caf66d59a31682c40",
+    "sharedApprovalPolicySha256": "09683155f5c9a1fc68cb5a189e2ddc9c4631b6836e257b9057dd0d20b0a8b1c1"
   },
   "screenshotScope": {
     "originalSixPngs": "UI530532d before the label-only follow-up",
     "hospital-four-labels-long-320.png": "UIceb8bdd; maximum valid long public names",
     "hospital-four-labels-capsule-320.png": "UIceb8bdd; both capsule aliases with maximum valid long public names"
-  }
+  },
+  "sharedCurrentAdoptionPolicySha256": "09683155f5c9a1fc68cb5a189e2ddc9c4631b6836e257b9057dd0d20b0a8b1c1"
 }
