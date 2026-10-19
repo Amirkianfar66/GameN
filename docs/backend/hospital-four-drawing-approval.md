@@ -2,7 +2,7 @@
 
 This focused integration change follows issue #155 and the current-policy failures
 reported by Frontend after its historical fixture repair. Its exact base is
-`2346c12f982dab5b2b984b49fff9866a992f62cb`, on
+`530532dd9588fcaff6c6f89ec7db1832c94825a6`, on
 `codex/frontend-hospital-four-playable-review`. The separate shared dependency base
 is `c6814df98242a72bf702362d253aab0a8ca6048a`.
 
@@ -11,7 +11,7 @@ is `c6814df98242a72bf702362d253aab0a8ca6048a`.
 The original `design/tools/lib/reviewed-drawing-ports.json` remains byte-identical.
 The new `design/releases/board-v2-four-drawing-approval.json` is independently
 hash-pinned by the checker at
-`58108c0b6c1789a2a750f2df617afc71f53aab995ee4f98059dafb295315e536`.
+`7bd6ac72049a5ce33799a6fd439358be1c8e0e8d160dc340c0870883a8d5608b`.
 It binds the exact original policy, 14 previously source-reconstructed new ports,
 their frozen source snapshots, three current native metadata files, one
 build-time source catalog, and the current common-art build adapter and its inputs.
@@ -38,7 +38,8 @@ original bytes, while the current tree exercises the separate candidate policy.
 
 ## Actual checks
 
-Pinned Node 22.21.1/npm 10.9.4: clean `npm ci` and workspace build passed.
+Against the initial Frontend `2346c12` plus this approval, pinned Node
+22.21.1/npm 10.9.4 clean `npm ci` and workspace build passed.
 `npm run test:design` passed all 252 cases, including the four previously failing
 current-tree cases and all 35 historical drawing-fence cases.
 `npm run test:tooling` passed all 209 cases, including ten new candidate-policy
@@ -51,3 +52,12 @@ does not change the game's rules, runtime UI, release profile, default tuple or
 deployment. No new browser, emulator, physical-device or live-cloud acceptance
 was performed for this focused fix. Full combined verification, affected-role
 review, independent Balance acceptance and final release checks remain separate.
+
+The final approval binds Frontend `530532d`, whose only runtime delta above the
+originally tested `2346c12` is readable Captain button labels and paper-colored
+text. The host, scene, build adapter, catalog and all 27 drawing ports are unchanged.
+The source correction was reviewed directly. After rebinding the CSS digest,
+all 45 candidate/historical fence controls passed, the actual ability-art check
+passed 12/12 and the actual board-motion check passed 13/13. The full 252/209
+suites above were not repeated for this one-line CSS and button-label refinement;
+Frontend's final combined verification remains required.
