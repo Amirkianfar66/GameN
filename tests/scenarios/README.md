@@ -18,6 +18,9 @@ Deterministic scenarios for the in-person Version 1 base game, Original Powers o
 | `support/stub.mjs` | A scripted stand-in for an engine, used only to test the runner and the invariants |
 | `support/leaks.mjs` | The deliberate leaks: a wrapper that makes a binding tell somebody one thing it may not, so that the paired cases can be seen to notice |
 | `support/gate-reports.mjs` | Reports written from the catalogue for the tests of the report gate. Not results |
+| `hospital-four/record.json` | The record of the four-bed Hospital decision of issue #155: its overlay and the files it rests on, with their hashes, the exact pins and the implementation status |
+| `hospital-four/checks.mjs`, `hospital-four/driver.mjs` | The checks of that rule for seven, eight and nine players, and the thin driver they play through. Every expected value names its source |
+| `hospital-four/files.mjs`, `hospital-four/tables.mjs`, `hospital-four/static.mjs` | Where the record, the document and the report are; the tables of `docs/balance/hospital-four.md`; and the static checks, which `scenarios.test.mjs` registers |
 | `*.test.mjs` | Static checks, run on `node:test`, in six files. `capacity.test.mjs` checks the capacity suite, its rows, its invariants and the audit's tables. `tooling.test.mjs` tests the runner, the invariants and the report gate, which it gives one wrong thing at a time. `commands.test.mjs` starts the real commands against stand-in engines and checks their exit status. The integration gate names these five files; add tests to them, not beside them |
 
 ## What a scenario is
@@ -111,6 +114,12 @@ npm run walk --workspace @mothership/balance -- --engine-root /path/to/built/che
 ```
 
 The second line runs the capacity fixtures under the ruleset that has the rule, and holds every case to the capacity invariants as well. The third starts playouts from rooms the rule allows, tries full rooms often and checks the same invariants at every step.
+
+The four-bed Hospital has checks of its own, which the scenario runner cannot play. After `npm run build`:
+
+```sh
+npm run hospital-four --workspace @mothership/balance -- --require-engine --out report.json
+```
 
 Where a decision depends on the result, the exit status of that command is not enough. Run the engine gate, which also runs the controls and the playouts and then holds the three reports to the catalogue, the exception list and each other:
 

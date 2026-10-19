@@ -1,0 +1,5262 @@
+{
+  "schema": "mothership.balance.hospital-four/1",
+  "generatedAt": "2026-10-19T03:29:32.054Z",
+  "pins": {
+    "commit": "943fa9b01e03f0e96165311853945fb172b2d93b",
+    "treeClean": true,
+    "testedSource": "afac7173f25a82138d231e7b1906896f9919562c",
+    "sourceTrees": {
+      "packages/engine": {
+        "here": "c5588314776e1f0605043e0d4e9c3ef6d4b20157",
+        "tested": "c5588314776e1f0605043e0d4e9c3ef6d4b20157",
+        "same": true
+      },
+      "packages/contracts": {
+        "here": "813c81a61977c0e098893319a5a75d3b57d906b3",
+        "tested": "813c81a61977c0e098893319a5a75d3b57d906b3",
+        "same": true
+      },
+      "services/game-api": {
+        "here": "0dffbd1e52fdb32a4dea366061b141881e683fce",
+        "tested": "0dffbd1e52fdb32a4dea366061b141881e683fce",
+        "same": true
+      }
+    },
+    "node": "v22.21.1",
+    "tuple": {
+      "protocolVersion": 2,
+      "engineVersion": "full-game-1.11.0",
+      "rulesetVersion": "in-person-v1-hospital-four-2026-10-19",
+      "rulesetHash": "7d9d3519df8813feb1213f1ad4439cae90895af6850c223264c28907824aeb9c"
+    },
+    "overlaySha256": "7d9d3519df8813feb1213f1ad4439cae90895af6850c223264c28907824aeb9c",
+    "checkSources": {
+      "tests/scenarios/hospital-four/checks.mjs": "13a678edba888823e94d635e56351b1d67196384c1f5f1d8dea6f851f09e63db",
+      "tests/scenarios/hospital-four/driver.mjs": "79e9a32c54767df2ed40c1f9b5a428c2a62be00c0aad5ec6b6fbb1efd1bb7d82"
+    },
+    "recordSha256": "f5770e32dde343324af6db182fac0141d26dfa888222851e4fb49eeaea858cfe"
+  },
+  "totals": {
+    "lines": 24,
+    "passed": 24,
+    "failed": 0,
+    "errors": 0,
+    "claims": 201,
+    "claimsPassed": 201
+  },
+  "modes": {
+    "7": {
+      "lines": [
+        {
+          "line": "P0",
+          "mode": 7,
+          "kind": "contract",
+          "status": "passed",
+          "claims": [
+            {
+              "id": "engine-beds",
+              "text": "The engine gives the tuple four Hospital positions",
+              "sources": [
+                "H4-CAPACITY"
+              ],
+              "expected": [
+                "H1",
+                "H2",
+                "H3",
+                "H4"
+              ],
+              "actual": [
+                "H1",
+                "H2",
+                "H3",
+                "H4"
+              ],
+              "passed": true
+            },
+            {
+              "id": "engine-history",
+              "text": "The Clone tuple keeps a Hospital of the roster",
+              "sources": [
+                "H4-PAIRING"
+              ],
+              "expected": [
+                "H1",
+                "H2",
+                "H3",
+                "H4",
+                "H5",
+                "H6",
+                "H7"
+              ],
+              "actual": [
+                "H1",
+                "H2",
+                "H3",
+                "H4",
+                "H5",
+                "H6",
+                "H7"
+              ],
+              "passed": true
+            },
+            {
+              "id": "contract-beds",
+              "text": "The contracts give a Blackout map of the tuple four Hospital positions, and the old reader keeps its count",
+              "sources": [
+                "CONTRACT-BOUNDARY"
+              ],
+              "expected": {
+                "successor": [
+                  "H1",
+                  "H2",
+                  "H3",
+                  "H4"
+                ],
+                "twoArguments": [
+                  "H1",
+                  "H2",
+                  "H3",
+                  "H4",
+                  "H5",
+                  "H6",
+                  "H7"
+                ]
+              },
+              "actual": {
+                "successor": [
+                  "H1",
+                  "H2",
+                  "H3",
+                  "H4"
+                ],
+                "twoArguments": [
+                  "H1",
+                  "H2",
+                  "H3",
+                  "H4",
+                  "H5",
+                  "H6",
+                  "H7"
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "art",
+              "text": "A match of the tuple is refused with any art but design-0.5.0",
+              "sources": [
+                "H4-PAIRING"
+              ],
+              "expected": "refused",
+              "actual": "refused",
+              "passed": true
+            },
+            {
+              "id": "view-h5",
+              "text": "The public view of the tuple is valid with a body in H1 and refused with it in H5",
+              "sources": [
+                "H4-CAPACITY",
+                "CONTRACT-BOUNDARY"
+              ],
+              "expected": {
+                "H1": true,
+                "H5": false
+              },
+              "actual": {
+                "H1": true,
+                "H5": false
+              },
+              "passed": true
+            },
+            {
+              "id": "anchor-range",
+              "text": "A clinical anchor is valid from HV1 up to the number of players, HV5 included, and not beyond it",
+              "sources": [
+                "H4-CLINICAL"
+              ],
+              "expected": {
+                "HV5": true,
+                "HV7": true,
+                "beyond": false
+              },
+              "actual": {
+                "HV5": true,
+                "HV7": true,
+                "beyond": false
+              },
+              "passed": true
+            }
+          ],
+          "constructed": [
+            "one body placed in H1 to obtain a view of the tuple"
+          ]
+        },
+        {
+          "line": "N5",
+          "mode": 7,
+          "kind": "native",
+          "status": "passed",
+          "claims": [
+            {
+              "id": "fourth",
+              "text": "Three patients join the Alien's body in order of number; the fourth admission succeeds",
+              "sources": [
+                "H4-CHECKPOINT",
+                "BOARD-MEDICAL-01"
+              ],
+              "expected": {
+                "seat-7": [
+                  "Eliminated",
+                  "Hospital",
+                  "H1"
+                ],
+                "seat-1": [
+                  "Injured",
+                  "Hospital",
+                  "H2"
+                ],
+                "seat-2": [
+                  "Injured",
+                  "Hospital",
+                  "H3"
+                ],
+                "seat-4": [
+                  "Injured",
+                  "Hospital",
+                  "H4"
+                ]
+              },
+              "actual": {
+                "seat-7": [
+                  "Eliminated",
+                  "Hospital",
+                  "H1"
+                ],
+                "seat-1": [
+                  "Injured",
+                  "Hospital",
+                  "H2"
+                ],
+                "seat-2": [
+                  "Injured",
+                  "Hospital",
+                  "H3"
+                ],
+                "seat-4": [
+                  "Injured",
+                  "Hospital",
+                  "H4"
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "showdown",
+              "text": "Round 5 ends without a winner; the three patients die in their beds and the showdown opens",
+              "sources": [
+                "BOARD-MEDICAL-03",
+                "BOARD-MEDICAL-05"
+              ],
+              "expected": {
+                "phase": "SHOWDOWN",
+                "seat-1": [
+                  "Eliminated",
+                  "Hospital",
+                  "H2"
+                ],
+                "seat-2": [
+                  "Eliminated",
+                  "Hospital",
+                  "H3"
+                ],
+                "seat-4": [
+                  "Eliminated",
+                  "Hospital",
+                  "H4"
+                ]
+              },
+              "actual": {
+                "phase": "SHOWDOWN",
+                "seat-1": [
+                  "Eliminated",
+                  "Hospital",
+                  "H2"
+                ],
+                "seat-2": [
+                  "Eliminated",
+                  "Hospital",
+                  "H3"
+                ],
+                "seat-4": [
+                  "Eliminated",
+                  "Hospital",
+                  "H4"
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "refused",
+              "text": "Players 3 and 6 find no bed and are Eliminated off the board",
+              "sources": [
+                "H4-OVERFLOW",
+                "CONTRACT-BOUNDARY"
+              ],
+              "expected": {
+                "seat-3": {
+                  "health": "Eliminated",
+                  "location": null,
+                  "slotId": null,
+                  "medical": null,
+                  "jailed": false,
+                  "captain": false
+                },
+                "seat-6": {
+                  "health": "Eliminated",
+                  "location": null,
+                  "slotId": null,
+                  "medical": null,
+                  "jailed": false,
+                  "captain": false
+                }
+              },
+              "actual": {
+                "seat-3": {
+                  "health": "Eliminated",
+                  "location": null,
+                  "slotId": null,
+                  "medical": null,
+                  "jailed": false,
+                  "captain": false
+                },
+                "seat-6": {
+                  "health": "Eliminated",
+                  "location": null,
+                  "slotId": null,
+                  "medical": null,
+                  "jailed": false,
+                  "captain": false
+                }
+              },
+              "passed": true
+            },
+            {
+              "id": "removal-outcome",
+              "text": "Two public removal outcomes, in order of number, and no clinical fact for either",
+              "sources": [
+                "H4-OVERFLOW",
+                "CONTRACT-BOUNDARY"
+              ],
+              "expected": {
+                "removals": [
+                  {
+                    "phaseId": "phase-62",
+                    "round": 5,
+                    "type": "HOSPITAL_OVERFLOW_REMOVED",
+                    "seatId": "seat-3",
+                    "public": true
+                  },
+                  {
+                    "phaseId": "phase-62",
+                    "round": 5,
+                    "type": "HOSPITAL_OVERFLOW_REMOVED",
+                    "seatId": "seat-6",
+                    "public": true
+                  }
+                ],
+                "facts": []
+              },
+              "actual": {
+                "removals": [
+                  {
+                    "phaseId": "phase-62",
+                    "round": 5,
+                    "type": "HOSPITAL_OVERFLOW_REMOVED",
+                    "seatId": "seat-3",
+                    "public": true
+                  },
+                  {
+                    "phaseId": "phase-62",
+                    "round": 5,
+                    "type": "HOSPITAL_OVERFLOW_REMOVED",
+                    "seatId": "seat-6",
+                    "public": true
+                  }
+                ],
+                "facts": []
+              },
+              "passed": true
+            },
+            {
+              "id": "bodies-kept",
+              "text": "The four bodies keep H1 to H4",
+              "sources": [
+                "H4-CHECKPOINT"
+              ],
+              "expected": {
+                "seat-7": [
+                  "Eliminated",
+                  "Hospital",
+                  "H1"
+                ],
+                "seat-1": [
+                  "Eliminated",
+                  "Hospital",
+                  "H2"
+                ],
+                "seat-2": [
+                  "Eliminated",
+                  "Hospital",
+                  "H3"
+                ],
+                "seat-4": [
+                  "Eliminated",
+                  "Hospital",
+                  "H4"
+                ]
+              },
+              "actual": {
+                "seat-7": [
+                  "Eliminated",
+                  "Hospital",
+                  "H1"
+                ],
+                "seat-1": [
+                  "Eliminated",
+                  "Hospital",
+                  "H2"
+                ],
+                "seat-2": [
+                  "Eliminated",
+                  "Hospital",
+                  "H3"
+                ],
+                "seat-4": [
+                  "Eliminated",
+                  "Hospital",
+                  "H4"
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "identity",
+              "text": "Both are still listed, their roles are revealed at the end, and the Code still holds player 3",
+              "sources": [
+                "H4-OVERFLOW"
+              ],
+              "expected": {
+                "listed": 7,
+                "roles": [
+                  "Blue Disabler",
+                  "Hacker"
+                ],
+                "code": [
+                  "seat-1",
+                  "seat-2",
+                  "seat-3",
+                  "seat-7"
+                ]
+              },
+              "actual": {
+                "listed": 7,
+                "roles": [
+                  "Blue Disabler",
+                  "Hacker"
+                ],
+                "code": [
+                  "seat-1",
+                  "seat-2",
+                  "seat-3",
+                  "seat-7"
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "winner",
+              "text": "With every Blue player Eliminated and Undercover Healthy, Red wins",
+              "sources": [
+                "R-WIN-05"
+              ],
+              "expected": "Red",
+              "actual": "Red",
+              "passed": true
+            },
+            {
+              "id": "beds-every-step",
+              "text": "After every command and deadline Hospital holds at most four players, all in H1 to H4",
+              "sources": [
+                "H4-CAPACITY"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "steps": 65
+            },
+            {
+              "id": "listed-every-step",
+              "text": "After every command and deadline the public view lists every seat of the match",
+              "sources": [
+                "H4-OVERFLOW"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "steps": 65
+            },
+            {
+              "id": "replay",
+              "text": "Replaying every recorded command and deadline gives the same receipts, states, views and outcomes; every step is deterministic, and a deadline given twice advances once",
+              "sources": [
+                "H4-CHECKPOINT"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "replays": [
+                {
+                  "origin": "native",
+                  "steps": 65,
+                  "differences": [],
+                  "views": true,
+                  "outcomes": true,
+                  "deterministic": true,
+                  "repeatedDeadlines": true
+                }
+              ]
+            }
+          ],
+          "constructed": []
+        },
+        {
+          "line": "N6",
+          "mode": 7,
+          "kind": "native",
+          "status": "passed",
+          "claims": [
+            {
+              "id": "showdown",
+              "text": "The showdown opens with three bodies in H1 to H3",
+              "sources": [
+                "BOARD-MEDICAL-03",
+                "BOARD-MEDICAL-05"
+              ],
+              "expected": {
+                "phase": "SHOWDOWN",
+                "seat-7": [
+                  "Eliminated",
+                  "Hospital",
+                  "H1"
+                ],
+                "seat-1": [
+                  "Eliminated",
+                  "Hospital",
+                  "H2"
+                ],
+                "seat-2": [
+                  "Eliminated",
+                  "Hospital",
+                  "H3"
+                ]
+              },
+              "actual": {
+                "phase": "SHOWDOWN",
+                "seat-7": [
+                  "Eliminated",
+                  "Hospital",
+                  "H1"
+                ],
+                "seat-1": [
+                  "Eliminated",
+                  "Hospital",
+                  "H2"
+                ],
+                "seat-2": [
+                  "Eliminated",
+                  "Hospital",
+                  "H3"
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "admitted",
+              "text": "Player 3 takes H4",
+              "sources": [
+                "H4-CHECKPOINT",
+                "BOARD-MEDICAL-01"
+              ],
+              "expected": {
+                "seat-3": [
+                  "Injured",
+                  "Hospital",
+                  "H4"
+                ]
+              },
+              "actual": {
+                "seat-3": [
+                  "Injured",
+                  "Hospital",
+                  "H4"
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "refused",
+              "text": "Player 6, hit first, finds no bed and is Eliminated off the board",
+              "sources": [
+                "H4-OVERFLOW",
+                "CONTRACT-BOUNDARY"
+              ],
+              "expected": {
+                "health": "Eliminated",
+                "location": null,
+                "slotId": null,
+                "medical": null,
+                "jailed": false,
+                "captain": false
+              },
+              "actual": {
+                "health": "Eliminated",
+                "location": null,
+                "slotId": null,
+                "medical": null,
+                "jailed": false,
+                "captain": false
+              },
+              "passed": true
+            },
+            {
+              "id": "removal-outcome",
+              "text": "One public removal outcome names player 6; the only clinical fact of the stage is player 3's injury",
+              "sources": [
+                "H4-OVERFLOW",
+                "CONTRACT-BOUNDARY"
+              ],
+              "expected": {
+                "removals": [
+                  {
+                    "phaseId": "phase-60",
+                    "round": 5,
+                    "type": "HOSPITAL_OVERFLOW_REMOVED",
+                    "seatId": "seat-6",
+                    "public": true
+                  }
+                ],
+                "facts": [
+                  "seat-3 INJURY"
+                ]
+              },
+              "actual": {
+                "removals": [
+                  {
+                    "phaseId": "phase-60",
+                    "round": 5,
+                    "type": "HOSPITAL_OVERFLOW_REMOVED",
+                    "seatId": "seat-6",
+                    "public": true
+                  }
+                ],
+                "facts": [
+                  "seat-3 INJURY"
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "bodies-kept",
+              "text": "The three bodies keep H1 to H3",
+              "sources": [
+                "H4-CHECKPOINT"
+              ],
+              "expected": {
+                "seat-7": [
+                  "Eliminated",
+                  "Hospital",
+                  "H1"
+                ],
+                "seat-1": [
+                  "Eliminated",
+                  "Hospital",
+                  "H2"
+                ],
+                "seat-2": [
+                  "Eliminated",
+                  "Hospital",
+                  "H3"
+                ]
+              },
+              "actual": {
+                "seat-7": [
+                  "Eliminated",
+                  "Hospital",
+                  "H1"
+                ],
+                "seat-1": [
+                  "Eliminated",
+                  "Hospital",
+                  "H2"
+                ],
+                "seat-2": [
+                  "Eliminated",
+                  "Hospital",
+                  "H3"
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "beds-every-step",
+              "text": "After every command and deadline Hospital holds at most four players, all in H1 to H4",
+              "sources": [
+                "H4-CAPACITY"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "steps": 63
+            },
+            {
+              "id": "listed-every-step",
+              "text": "After every command and deadline the public view lists every seat of the match",
+              "sources": [
+                "H4-OVERFLOW"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "steps": 63
+            },
+            {
+              "id": "replay",
+              "text": "Replaying every recorded command and deadline gives the same receipts, states, views and outcomes; every step is deterministic, and a deadline given twice advances once",
+              "sources": [
+                "H4-CHECKPOINT"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "replays": [
+                {
+                  "origin": "native",
+                  "steps": 63,
+                  "differences": [],
+                  "views": true,
+                  "outcomes": true,
+                  "deterministic": true,
+                  "repeatedDeadlines": true
+                }
+              ]
+            }
+          ],
+          "constructed": []
+        },
+        {
+          "line": "C1",
+          "mode": 7,
+          "kind": "constructed",
+          "status": "passed",
+          "claims": [
+            {
+              "id": "admitted",
+              "text": "Player 1 takes H4",
+              "sources": [
+                "CONTRACT-ROWS",
+                "H4-CHECKPOINT"
+              ],
+              "expected": {
+                "seat-1": [
+                  "Injured",
+                  "Hospital",
+                  "H4"
+                ]
+              },
+              "actual": {
+                "seat-1": [
+                  "Injured",
+                  "Hospital",
+                  "H4"
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "refused",
+              "text": "Player 6 is Eliminated off the board",
+              "sources": [
+                "CONTRACT-ROWS",
+                "H4-OVERFLOW",
+                "CONTRACT-BOUNDARY"
+              ],
+              "expected": {
+                "health": "Eliminated",
+                "location": null,
+                "slotId": null,
+                "medical": null,
+                "jailed": false,
+                "captain": false
+              },
+              "actual": {
+                "health": "Eliminated",
+                "location": null,
+                "slotId": null,
+                "medical": null,
+                "jailed": false,
+                "captain": false
+              },
+              "passed": true
+            },
+            {
+              "id": "removal-outcome",
+              "text": "One public removal outcome names player 6, and the batch has no clinical fact for it",
+              "sources": [
+                "H4-OVERFLOW",
+                "CONTRACT-BOUNDARY"
+              ],
+              "expected": {
+                "removals": [
+                  {
+                    "phaseId": "phase-8",
+                    "round": 4,
+                    "type": "HOSPITAL_OVERFLOW_REMOVED",
+                    "seatId": "seat-6",
+                    "public": true
+                  }
+                ],
+                "facts": [
+                  "seat-1 INJURY"
+                ]
+              },
+              "actual": {
+                "removals": [
+                  {
+                    "phaseId": "phase-8",
+                    "round": 4,
+                    "type": "HOSPITAL_OVERFLOW_REMOVED",
+                    "seatId": "seat-6",
+                    "public": true
+                  }
+                ],
+                "facts": [
+                  "seat-1 INJURY"
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "bodies-kept",
+              "text": "The three bodies keep H1 to H3",
+              "sources": [
+                "H4-CHECKPOINT"
+              ],
+              "expected": {
+                "seat-3": [
+                  "Eliminated",
+                  "Hospital",
+                  "H1"
+                ],
+                "seat-4": [
+                  "Eliminated",
+                  "Hospital",
+                  "H2"
+                ],
+                "seat-7": [
+                  "Eliminated",
+                  "Hospital",
+                  "H3"
+                ]
+              },
+              "actual": {
+                "seat-3": [
+                  "Eliminated",
+                  "Hospital",
+                  "H1"
+                ],
+                "seat-4": [
+                  "Eliminated",
+                  "Hospital",
+                  "H2"
+                ],
+                "seat-7": [
+                  "Eliminated",
+                  "Hospital",
+                  "H3"
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "no-rescue-offered",
+              "text": "In Round 5 the Cracker is not offered player 6 as a Rescue target",
+              "sources": [
+                "H4-OVERFLOW"
+              ],
+              "expected": false,
+              "actual": false,
+              "passed": true
+            },
+            {
+              "id": "no-rescue",
+              "text": "A Rescue of player 6 is refused",
+              "sources": [
+                "H4-OVERFLOW"
+              ],
+              "expected": {
+                "status": "rejected",
+                "code": "NOT_ALLOWED"
+              },
+              "actual": {
+                "status": "rejected",
+                "code": "NOT_ALLOWED"
+              },
+              "passed": true
+            },
+            {
+              "id": "identity",
+              "text": "Player 6 is still listed with its faction and still reads the Scan it made in Round 1",
+              "sources": [
+                "H4-OVERFLOW"
+              ],
+              "expected": {
+                "listed": 7,
+                "off": {
+                  "health": "Eliminated",
+                  "location": null,
+                  "slotId": null,
+                  "medical": null,
+                  "jailed": false,
+                  "captain": false
+                },
+                "faction": "Red",
+                "scans": [
+                  {
+                    "round": 1,
+                    "targetSeatId": "seat-5",
+                    "guess": "Red",
+                    "matched": true
+                  }
+                ]
+              },
+              "actual": {
+                "listed": 7,
+                "off": {
+                  "health": "Eliminated",
+                  "location": null,
+                  "slotId": null,
+                  "medical": null,
+                  "jailed": false,
+                  "captain": false
+                },
+                "faction": "Red",
+                "scans": [
+                  {
+                    "round": 1,
+                    "targetSeatId": "seat-5",
+                    "guess": "Red",
+                    "matched": true
+                  }
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "beds-every-step",
+              "text": "After every command and deadline Hospital holds at most four players, all in H1 to H4",
+              "sources": [
+                "H4-CAPACITY"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "steps": 18
+            },
+            {
+              "id": "listed-every-step",
+              "text": "After every command and deadline the public view lists every seat of the match",
+              "sources": [
+                "H4-OVERFLOW"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "steps": 18
+            },
+            {
+              "id": "replay",
+              "text": "Replaying every recorded command and deadline gives the same receipts, states, views and outcomes; every step is deterministic, and a deadline given twice advances once",
+              "sources": [
+                "H4-CHECKPOINT"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "replays": [
+                {
+                  "origin": "native",
+                  "steps": 38,
+                  "differences": [],
+                  "views": true,
+                  "outcomes": true,
+                  "deterministic": true,
+                  "repeatedDeadlines": true
+                },
+                {
+                  "origin": "constructed",
+                  "steps": 18,
+                  "differences": [],
+                  "views": true,
+                  "outcomes": true,
+                  "deterministic": true,
+                  "repeatedDeadlines": true
+                }
+              ]
+            }
+          ],
+          "constructed": [
+            "at the first turn of Round 4, the bodies of the Blue Disabler, the Supplier and the Alien placed in H1 to H3"
+          ]
+        },
+        {
+          "line": "C2",
+          "mode": 7,
+          "kind": "constructed",
+          "status": "passed",
+          "claims": [
+            {
+              "id": "freed",
+              "text": "Player 7 returns to Room B and player 1 takes H4",
+              "sources": [
+                "CONTRACT-ROWS",
+                "H4-CHECKPOINT",
+                "BOARD-MEDICAL-04"
+              ],
+              "expected": {
+                "seat-7": [
+                  "Healthy",
+                  "Room B",
+                  "B1"
+                ],
+                "seat-1": [
+                  "Injured",
+                  "Hospital",
+                  "H4"
+                ]
+              },
+              "actual": {
+                "seat-7": [
+                  "Healthy",
+                  "Room B",
+                  "B1"
+                ],
+                "seat-1": [
+                  "Injured",
+                  "Hospital",
+                  "H4"
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "bodies-kept",
+              "text": "The three bodies keep H1 to H3",
+              "sources": [
+                "H4-CHECKPOINT"
+              ],
+              "expected": {
+                "seat-3": [
+                  "Eliminated",
+                  "Hospital",
+                  "H1"
+                ],
+                "seat-4": [
+                  "Eliminated",
+                  "Hospital",
+                  "H2"
+                ],
+                "seat-6": [
+                  "Eliminated",
+                  "Hospital",
+                  "H3"
+                ]
+              },
+              "actual": {
+                "seat-3": [
+                  "Eliminated",
+                  "Hospital",
+                  "H1"
+                ],
+                "seat-4": [
+                  "Eliminated",
+                  "Hospital",
+                  "H2"
+                ],
+                "seat-6": [
+                  "Eliminated",
+                  "Hospital",
+                  "H3"
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "no-removal",
+              "text": "Nobody is removed from the board",
+              "sources": [
+                "CONTRACT-ROWS"
+              ],
+              "expected": [],
+              "actual": [],
+              "passed": true
+            },
+            {
+              "id": "beds-every-step",
+              "text": "After every command and deadline Hospital holds at most four players, all in H1 to H4",
+              "sources": [
+                "H4-CAPACITY"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "steps": 10
+            },
+            {
+              "id": "listed-every-step",
+              "text": "After every command and deadline the public view lists every seat of the match",
+              "sources": [
+                "H4-OVERFLOW"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "steps": 10
+            },
+            {
+              "id": "replay",
+              "text": "Replaying every recorded command and deadline gives the same receipts, states, views and outcomes; every step is deterministic, and a deadline given twice advances once",
+              "sources": [
+                "H4-CHECKPOINT"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "replays": [
+                {
+                  "origin": "native",
+                  "steps": 36,
+                  "differences": [],
+                  "views": true,
+                  "outcomes": true,
+                  "deterministic": true,
+                  "repeatedDeadlines": true
+                },
+                {
+                  "origin": "constructed",
+                  "steps": 10,
+                  "differences": [],
+                  "views": true,
+                  "outcomes": true,
+                  "deterministic": true,
+                  "repeatedDeadlines": true
+                }
+              ]
+            }
+          ],
+          "constructed": [
+            "at the first turn of Round 4, three bodies placed in H1 to H3 and the Alien, a patient of Round 3, in H4"
+          ]
+        },
+        {
+          "line": "C3",
+          "mode": 7,
+          "kind": "constructed",
+          "status": "passed",
+          "claims": [
+            {
+              "id": "healed",
+              "text": "Player 1 is Healthy in Room A, at its own position",
+              "sources": [
+                "CONTRACT-ROWS",
+                "H4-CHECKPOINT",
+                "BOARD-MEDICAL-01"
+              ],
+              "expected": {
+                "seat-1": [
+                  "Healthy",
+                  "Room A",
+                  "A1"
+                ]
+              },
+              "actual": {
+                "seat-1": [
+                  "Healthy",
+                  "Room A",
+                  "A1"
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "ward",
+              "text": "The four bodies keep H1 to H4 and nobody is removed",
+              "sources": [
+                "H4-CHECKPOINT",
+                "CONTRACT-ROWS"
+              ],
+              "expected": {
+                "places": {
+                  "seat-3": [
+                    "Eliminated",
+                    "Hospital",
+                    "H1"
+                  ],
+                  "seat-4": [
+                    "Eliminated",
+                    "Hospital",
+                    "H2"
+                  ],
+                  "seat-6": [
+                    "Eliminated",
+                    "Hospital",
+                    "H3"
+                  ],
+                  "seat-7": [
+                    "Eliminated",
+                    "Hospital",
+                    "H4"
+                  ]
+                },
+                "removals": []
+              },
+              "actual": {
+                "places": {
+                  "seat-3": [
+                    "Eliminated",
+                    "Hospital",
+                    "H1"
+                  ],
+                  "seat-4": [
+                    "Eliminated",
+                    "Hospital",
+                    "H2"
+                  ],
+                  "seat-6": [
+                    "Eliminated",
+                    "Hospital",
+                    "H3"
+                  ],
+                  "seat-7": [
+                    "Eliminated",
+                    "Hospital",
+                    "H4"
+                  ]
+                },
+                "removals": []
+              },
+              "passed": true
+            },
+            {
+              "id": "anchors",
+              "text": "Player 1 gets HV5, after HV1 to HV4 of the four occupants, and it is valid",
+              "sources": [
+                "H4-CLINICAL",
+                "CONTRACT-BOUNDARY"
+              ],
+              "expected": {
+                "facts": [
+                  "seat-1 HEALED",
+                  "seat-1 INJURY"
+                ],
+                "anchors": {
+                  "assigned": {
+                    "seat-1": "HV5"
+                  },
+                  "valid": true
+                }
+              },
+              "actual": {
+                "facts": [
+                  "seat-1 HEALED",
+                  "seat-1 INJURY"
+                ],
+                "anchors": {
+                  "assigned": {
+                    "seat-1": "HV5"
+                  },
+                  "valid": true
+                }
+              },
+              "passed": true
+            },
+            {
+              "id": "beds-every-step",
+              "text": "After every command and deadline Hospital holds at most four players, all in H1 to H4",
+              "sources": [
+                "H4-CAPACITY"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "steps": 9
+            },
+            {
+              "id": "listed-every-step",
+              "text": "After every command and deadline the public view lists every seat of the match",
+              "sources": [
+                "H4-OVERFLOW"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "steps": 9
+            },
+            {
+              "id": "replay",
+              "text": "Replaying every recorded command and deadline gives the same receipts, states, views and outcomes; every step is deterministic, and a deadline given twice advances once",
+              "sources": [
+                "H4-CHECKPOINT"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "replays": [
+                {
+                  "origin": "native",
+                  "steps": 36,
+                  "differences": [],
+                  "views": true,
+                  "outcomes": true,
+                  "deterministic": true,
+                  "repeatedDeadlines": true
+                },
+                {
+                  "origin": "constructed",
+                  "steps": 9,
+                  "differences": [],
+                  "views": true,
+                  "outcomes": true,
+                  "deterministic": true,
+                  "repeatedDeadlines": true
+                }
+              ]
+            }
+          ],
+          "constructed": [
+            "at the first turn of Round 4, four bodies placed in H1 to H4"
+          ]
+        },
+        {
+          "line": "C4",
+          "mode": 7,
+          "kind": "constructed",
+          "status": "passed",
+          "claims": [
+            {
+              "id": "refused",
+              "text": "Player 1 is Eliminated off the board: no fifth body, no fifth bed",
+              "sources": [
+                "CONTRACT-ROWS",
+                "H4-OVERFLOW",
+                "CONTRACT-BOUNDARY"
+              ],
+              "expected": {
+                "health": "Eliminated",
+                "location": null,
+                "slotId": null,
+                "medical": null,
+                "jailed": false,
+                "captain": false
+              },
+              "actual": {
+                "health": "Eliminated",
+                "location": null,
+                "slotId": null,
+                "medical": null,
+                "jailed": false,
+                "captain": false
+              },
+              "passed": true
+            },
+            {
+              "id": "removal-outcome",
+              "text": "One public removal outcome names player 1, and the batch has no clinical fact for it",
+              "sources": [
+                "H4-OVERFLOW",
+                "CONTRACT-BOUNDARY"
+              ],
+              "expected": {
+                "removals": [
+                  {
+                    "phaseId": "phase-9",
+                    "round": 4,
+                    "type": "HOSPITAL_OVERFLOW_REMOVED",
+                    "seatId": "seat-1",
+                    "public": true
+                  }
+                ],
+                "facts": []
+              },
+              "actual": {
+                "removals": [
+                  {
+                    "phaseId": "phase-9",
+                    "round": 4,
+                    "type": "HOSPITAL_OVERFLOW_REMOVED",
+                    "seatId": "seat-1",
+                    "public": true
+                  }
+                ],
+                "facts": []
+              },
+              "passed": true
+            },
+            {
+              "id": "bodies-kept",
+              "text": "The four bodies keep H1 to H4",
+              "sources": [
+                "H4-CHECKPOINT"
+              ],
+              "expected": {
+                "seat-3": [
+                  "Eliminated",
+                  "Hospital",
+                  "H1"
+                ],
+                "seat-4": [
+                  "Eliminated",
+                  "Hospital",
+                  "H2"
+                ],
+                "seat-6": [
+                  "Eliminated",
+                  "Hospital",
+                  "H3"
+                ],
+                "seat-7": [
+                  "Eliminated",
+                  "Hospital",
+                  "H4"
+                ]
+              },
+              "actual": {
+                "seat-3": [
+                  "Eliminated",
+                  "Hospital",
+                  "H1"
+                ],
+                "seat-4": [
+                  "Eliminated",
+                  "Hospital",
+                  "H2"
+                ],
+                "seat-6": [
+                  "Eliminated",
+                  "Hospital",
+                  "H3"
+                ],
+                "seat-7": [
+                  "Eliminated",
+                  "Hospital",
+                  "H4"
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "no-heal",
+              "text": "The Rescue is spent and heals nothing; no anchor is assigned",
+              "sources": [
+                "CONTRACT-ROWS",
+                "H4-CLINICAL"
+              ],
+              "expected": {
+                "rescuesRemaining": 1,
+                "anchors": {
+                  "assigned": {},
+                  "valid": true
+                }
+              },
+              "actual": {
+                "rescuesRemaining": 1,
+                "anchors": {
+                  "assigned": {},
+                  "valid": true
+                }
+              },
+              "passed": true
+            },
+            {
+              "id": "beds-every-step",
+              "text": "After every command and deadline Hospital holds at most four players, all in H1 to H4",
+              "sources": [
+                "H4-CAPACITY"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "steps": 10
+            },
+            {
+              "id": "listed-every-step",
+              "text": "After every command and deadline the public view lists every seat of the match",
+              "sources": [
+                "H4-OVERFLOW"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "steps": 10
+            },
+            {
+              "id": "replay",
+              "text": "Replaying every recorded command and deadline gives the same receipts, states, views and outcomes; every step is deterministic, and a deadline given twice advances once",
+              "sources": [
+                "H4-CHECKPOINT"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "replays": [
+                {
+                  "origin": "native",
+                  "steps": 37,
+                  "differences": [],
+                  "views": true,
+                  "outcomes": true,
+                  "deterministic": true,
+                  "repeatedDeadlines": true
+                },
+                {
+                  "origin": "constructed",
+                  "steps": 10,
+                  "differences": [],
+                  "views": true,
+                  "outcomes": true,
+                  "deterministic": true,
+                  "repeatedDeadlines": true
+                }
+              ]
+            }
+          ],
+          "constructed": [
+            "at the first turn of Round 4, four bodies placed in H1 to H4"
+          ]
+        }
+      ],
+      "totals": {
+        "lines": 7,
+        "passed": 7,
+        "failed": 0,
+        "errors": 0,
+        "claims": 53,
+        "claimsPassed": 53
+      }
+    },
+    "8": {
+      "lines": [
+        {
+          "line": "P0",
+          "mode": 8,
+          "kind": "contract",
+          "status": "passed",
+          "claims": [
+            {
+              "id": "engine-beds",
+              "text": "The engine gives the tuple four Hospital positions",
+              "sources": [
+                "H4-CAPACITY"
+              ],
+              "expected": [
+                "H1",
+                "H2",
+                "H3",
+                "H4"
+              ],
+              "actual": [
+                "H1",
+                "H2",
+                "H3",
+                "H4"
+              ],
+              "passed": true
+            },
+            {
+              "id": "engine-history",
+              "text": "The Clone tuple keeps a Hospital of the roster",
+              "sources": [
+                "H4-PAIRING"
+              ],
+              "expected": [
+                "H1",
+                "H2",
+                "H3",
+                "H4",
+                "H5",
+                "H6",
+                "H7",
+                "H8"
+              ],
+              "actual": [
+                "H1",
+                "H2",
+                "H3",
+                "H4",
+                "H5",
+                "H6",
+                "H7",
+                "H8"
+              ],
+              "passed": true
+            },
+            {
+              "id": "contract-beds",
+              "text": "The contracts give a Blackout map of the tuple four Hospital positions, and the old reader keeps its count",
+              "sources": [
+                "CONTRACT-BOUNDARY"
+              ],
+              "expected": {
+                "successor": [
+                  "H1",
+                  "H2",
+                  "H3",
+                  "H4"
+                ],
+                "twoArguments": [
+                  "H1",
+                  "H2",
+                  "H3",
+                  "H4",
+                  "H5",
+                  "H6",
+                  "H7",
+                  "H8"
+                ]
+              },
+              "actual": {
+                "successor": [
+                  "H1",
+                  "H2",
+                  "H3",
+                  "H4"
+                ],
+                "twoArguments": [
+                  "H1",
+                  "H2",
+                  "H3",
+                  "H4",
+                  "H5",
+                  "H6",
+                  "H7",
+                  "H8"
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "art",
+              "text": "A match of the tuple is refused with any art but design-0.5.0",
+              "sources": [
+                "H4-PAIRING"
+              ],
+              "expected": "refused",
+              "actual": "refused",
+              "passed": true
+            },
+            {
+              "id": "view-h5",
+              "text": "The public view of the tuple is valid with a body in H1 and refused with it in H5",
+              "sources": [
+                "H4-CAPACITY",
+                "CONTRACT-BOUNDARY"
+              ],
+              "expected": {
+                "H1": true,
+                "H5": false
+              },
+              "actual": {
+                "H1": true,
+                "H5": false
+              },
+              "passed": true
+            },
+            {
+              "id": "anchor-range",
+              "text": "A clinical anchor is valid from HV1 up to the number of players, HV5 included, and not beyond it",
+              "sources": [
+                "H4-CLINICAL"
+              ],
+              "expected": {
+                "HV5": true,
+                "HV8": true,
+                "beyond": false
+              },
+              "actual": {
+                "HV5": true,
+                "HV8": true,
+                "beyond": false
+              },
+              "passed": true
+            }
+          ],
+          "constructed": [
+            "one body placed in H1 to obtain a view of the tuple"
+          ]
+        },
+        {
+          "line": "N1",
+          "mode": 8,
+          "kind": "native",
+          "status": "passed",
+          "claims": [
+            {
+              "id": "bodies-r2",
+              "text": "The Insider and the Alien die at the end of Round 2 and keep H1 and H2",
+              "sources": [
+                "BOARD-MEDICAL-01",
+                "BOARD-MEDICAL-03"
+              ],
+              "expected": {
+                "seat-1": [
+                  "Eliminated",
+                  "Hospital",
+                  "H1"
+                ],
+                "seat-7": [
+                  "Eliminated",
+                  "Hospital",
+                  "H2"
+                ]
+              },
+              "actual": {
+                "seat-1": [
+                  "Eliminated",
+                  "Hospital",
+                  "H1"
+                ],
+                "seat-7": [
+                  "Eliminated",
+                  "Hospital",
+                  "H2"
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "admitted",
+              "text": "Players 3 and 4 take H3 and H4 in order of number: the fourth admission succeeds",
+              "sources": [
+                "H4-CHECKPOINT",
+                "BOARD-MEDICAL-01"
+              ],
+              "expected": {
+                "seat-3": [
+                  "Injured",
+                  "Hospital",
+                  "H3"
+                ],
+                "seat-4": [
+                  "Injured",
+                  "Hospital",
+                  "H4"
+                ]
+              },
+              "actual": {
+                "seat-3": [
+                  "Injured",
+                  "Hospital",
+                  "H3"
+                ],
+                "seat-4": [
+                  "Injured",
+                  "Hospital",
+                  "H4"
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "refused",
+              "text": "Player 8, hit first, finds no bed and is Eliminated off the board",
+              "sources": [
+                "H4-OVERFLOW",
+                "CONTRACT-BOUNDARY"
+              ],
+              "expected": {
+                "health": "Eliminated",
+                "location": null,
+                "slotId": null,
+                "medical": null,
+                "jailed": false,
+                "captain": false
+              },
+              "actual": {
+                "health": "Eliminated",
+                "location": null,
+                "slotId": null,
+                "medical": null,
+                "jailed": false,
+                "captain": false
+              },
+              "passed": true
+            },
+            {
+              "id": "bodies-kept",
+              "text": "The two bodies keep H1 and H2",
+              "sources": [
+                "H4-CHECKPOINT"
+              ],
+              "expected": {
+                "seat-1": [
+                  "Eliminated",
+                  "Hospital",
+                  "H1"
+                ],
+                "seat-7": [
+                  "Eliminated",
+                  "Hospital",
+                  "H2"
+                ]
+              },
+              "actual": {
+                "seat-1": [
+                  "Eliminated",
+                  "Hospital",
+                  "H1"
+                ],
+                "seat-7": [
+                  "Eliminated",
+                  "Hospital",
+                  "H2"
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "removal-outcome",
+              "text": "One public removal outcome names player 8, the round and the resolving phase",
+              "sources": [
+                "H4-OVERFLOW",
+                "CONTRACT-BOUNDARY"
+              ],
+              "expected": [
+                {
+                  "phaseId": "phase-54",
+                  "round": 4,
+                  "type": "HOSPITAL_OVERFLOW_REMOVED",
+                  "seatId": "seat-8",
+                  "public": true
+                }
+              ],
+              "actual": [
+                {
+                  "phaseId": "phase-54",
+                  "round": 4,
+                  "type": "HOSPITAL_OVERFLOW_REMOVED",
+                  "seatId": "seat-8",
+                  "public": true
+                }
+              ],
+              "passed": true
+            },
+            {
+              "id": "removal-shape",
+              "text": "The removal fact is valid under the contracts",
+              "sources": [
+                "CONTRACT-BOUNDARY"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true
+            },
+            {
+              "id": "no-medical",
+              "text": "The batch has clinical facts for players 3 and 4 and none for player 8",
+              "sources": [
+                "H4-OVERFLOW",
+                "CONTRACT-BOUNDARY"
+              ],
+              "expected": [
+                "seat-3 INJURY",
+                "seat-4 INJURY"
+              ],
+              "actual": [
+                "seat-3 INJURY",
+                "seat-4 INJURY"
+              ],
+              "passed": true
+            },
+            {
+              "id": "anchors",
+              "text": "Players 3 and 4 get anchors HV3 and HV4 after the bodies' HV1 and HV2; player 8 gets none",
+              "sources": [
+                "H4-CLINICAL",
+                "CONTRACT-BOUNDARY"
+              ],
+              "expected": {
+                "assigned": {
+                  "seat-3": "HV3",
+                  "seat-4": "HV4"
+                },
+                "valid": true
+              },
+              "actual": {
+                "assigned": {
+                  "seat-3": "HV3",
+                  "seat-4": "HV4"
+                },
+                "valid": true
+              },
+              "passed": true
+            },
+            {
+              "id": "no-rescue-offered",
+              "text": "The Cracker is not offered player 8 as a Rescue target",
+              "sources": [
+                "H4-OVERFLOW"
+              ],
+              "expected": false,
+              "actual": false,
+              "passed": true
+            },
+            {
+              "id": "no-rescue",
+              "text": "A Rescue of player 8 is refused",
+              "sources": [
+                "H4-OVERFLOW"
+              ],
+              "expected": {
+                "status": "rejected",
+                "code": "NOT_ALLOWED"
+              },
+              "actual": {
+                "status": "rejected",
+                "code": "NOT_ALLOWED"
+              },
+              "passed": true
+            },
+            {
+              "id": "still-off",
+              "text": "Player 8 is still off the board after Round 5",
+              "sources": [
+                "H4-OVERFLOW"
+              ],
+              "expected": {
+                "health": "Eliminated",
+                "location": null,
+                "slotId": null,
+                "medical": null,
+                "jailed": false,
+                "captain": false
+              },
+              "actual": {
+                "health": "Eliminated",
+                "location": null,
+                "slotId": null,
+                "medical": null,
+                "jailed": false,
+                "captain": false
+              },
+              "passed": true
+            },
+            {
+              "id": "healed-return",
+              "text": "Player 3, Rescued, returns to Room A at its lowest free position",
+              "sources": [
+                "BOARD-MEDICAL-04",
+                "BOARD-MEDICAL-01"
+              ],
+              "expected": {
+                "seat-3": [
+                  "Healthy",
+                  "Room A",
+                  "A1"
+                ]
+              },
+              "actual": {
+                "seat-3": [
+                  "Healthy",
+                  "Room A",
+                  "A1"
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "identity",
+              "text": "Player 8 is still listed with its faction, its role is revealed at the end, and the Code still holds it",
+              "sources": [
+                "H4-OVERFLOW"
+              ],
+              "expected": {
+                "listed": 8,
+                "faction": "Red",
+                "role": "Red Disabler",
+                "code": [
+                  "seat-1",
+                  "seat-2",
+                  "seat-7",
+                  "seat-8"
+                ]
+              },
+              "actual": {
+                "listed": 8,
+                "faction": "Red",
+                "role": "Red Disabler",
+                "code": [
+                  "seat-1",
+                  "seat-2",
+                  "seat-7",
+                  "seat-8"
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "code-wins",
+              "text": "The Code naming player 8 is correct, and Red wins on it at the end of Round 5",
+              "sources": [
+                "R-WIN-06",
+                "H4-OVERFLOW"
+              ],
+              "expected": {
+                "correct": true,
+                "winner": "Red"
+              },
+              "actual": {
+                "correct": true,
+                "winner": "Red"
+              },
+              "passed": true
+            },
+            {
+              "id": "history",
+              "text": "Every outcome recorded before Round 5 is still recorded after it",
+              "sources": [
+                "H4-OVERFLOW"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true
+            },
+            {
+              "id": "beds-every-step",
+              "text": "After every command and deadline Hospital holds at most four players, all in H1 to H4",
+              "sources": [
+                "H4-CAPACITY"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "steps": 68
+            },
+            {
+              "id": "listed-every-step",
+              "text": "After every command and deadline the public view lists every seat of the match",
+              "sources": [
+                "H4-OVERFLOW"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "steps": 68
+            },
+            {
+              "id": "replay",
+              "text": "Replaying every recorded command and deadline gives the same receipts, states, views and outcomes; every step is deterministic, and a deadline given twice advances once",
+              "sources": [
+                "H4-CHECKPOINT"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "replays": [
+                {
+                  "origin": "native",
+                  "steps": 68,
+                  "differences": [],
+                  "views": true,
+                  "outcomes": true,
+                  "deterministic": true,
+                  "repeatedDeadlines": true
+                }
+              ]
+            }
+          ],
+          "constructed": []
+        },
+        {
+          "line": "N2",
+          "mode": 8,
+          "kind": "native",
+          "status": "passed",
+          "claims": [
+            {
+              "id": "full",
+              "text": "After Round 4 the ward is full: two bodies and two patients",
+              "sources": [
+                "H4-CAPACITY",
+                "BOARD-MEDICAL-01"
+              ],
+              "expected": {
+                "seat-1": [
+                  "Eliminated",
+                  "Hospital",
+                  "H1"
+                ],
+                "seat-7": [
+                  "Eliminated",
+                  "Hospital",
+                  "H2"
+                ],
+                "seat-3": [
+                  "Injured",
+                  "Hospital",
+                  "H3"
+                ],
+                "seat-6": [
+                  "Injured",
+                  "Hospital",
+                  "H4"
+                ]
+              },
+              "actual": {
+                "seat-1": [
+                  "Eliminated",
+                  "Hospital",
+                  "H1"
+                ],
+                "seat-7": [
+                  "Eliminated",
+                  "Hospital",
+                  "H2"
+                ],
+                "seat-3": [
+                  "Injured",
+                  "Hospital",
+                  "H3"
+                ],
+                "seat-6": [
+                  "Injured",
+                  "Hospital",
+                  "H4"
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "admitted",
+              "text": "Player 8 takes H3, the bed player 3 left; player 6 dies in H4",
+              "sources": [
+                "H4-CHECKPOINT",
+                "BOARD-MEDICAL-03",
+                "BOARD-MEDICAL-04"
+              ],
+              "expected": {
+                "seat-8": [
+                  "Injured",
+                  "Hospital",
+                  "H3"
+                ],
+                "seat-6": [
+                  "Eliminated",
+                  "Hospital",
+                  "H4"
+                ],
+                "seat-1": [
+                  "Eliminated",
+                  "Hospital",
+                  "H1"
+                ],
+                "seat-7": [
+                  "Eliminated",
+                  "Hospital",
+                  "H2"
+                ]
+              },
+              "actual": {
+                "seat-8": [
+                  "Injured",
+                  "Hospital",
+                  "H3"
+                ],
+                "seat-6": [
+                  "Eliminated",
+                  "Hospital",
+                  "H4"
+                ],
+                "seat-1": [
+                  "Eliminated",
+                  "Hospital",
+                  "H1"
+                ],
+                "seat-7": [
+                  "Eliminated",
+                  "Hospital",
+                  "H2"
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "healed-return",
+              "text": "Player 3 returns to Room A at its lowest free position",
+              "sources": [
+                "BOARD-MEDICAL-04",
+                "BOARD-MEDICAL-01"
+              ],
+              "expected": {
+                "seat-3": [
+                  "Healthy",
+                  "Room A",
+                  "A1"
+                ]
+              },
+              "actual": {
+                "seat-3": [
+                  "Healthy",
+                  "Room A",
+                  "A1"
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "no-deadline",
+              "text": "A patient of Round 5 has no Rescue deadline",
+              "sources": [
+                "BOARD-MEDICAL-05"
+              ],
+              "expected": {
+                "admittedRound": 5,
+                "rescueDueAfterRound": null
+              },
+              "actual": {
+                "admittedRound": 5,
+                "rescueDueAfterRound": null
+              },
+              "passed": true
+            },
+            {
+              "id": "no-removal",
+              "text": "Nobody is removed from the board",
+              "sources": [
+                "H4-CHECKPOINT"
+              ],
+              "expected": [],
+              "actual": [],
+              "passed": true
+            },
+            {
+              "id": "batch",
+              "text": "The batch has an injury for player 8, a recovery for player 3 and a death for player 6",
+              "sources": [
+                "BOARD-MEDICAL-03"
+              ],
+              "expected": [
+                "seat-3 HEALED",
+                "seat-6 DEATH",
+                "seat-8 INJURY"
+              ],
+              "actual": [
+                "seat-3 HEALED",
+                "seat-6 DEATH",
+                "seat-8 INJURY"
+              ],
+              "passed": true
+            },
+            {
+              "id": "beds-every-step",
+              "text": "After every command and deadline Hospital holds at most four players, all in H1 to H4",
+              "sources": [
+                "H4-CAPACITY"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "steps": 66
+            },
+            {
+              "id": "listed-every-step",
+              "text": "After every command and deadline the public view lists every seat of the match",
+              "sources": [
+                "H4-OVERFLOW"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "steps": 66
+            },
+            {
+              "id": "replay",
+              "text": "Replaying every recorded command and deadline gives the same receipts, states, views and outcomes; every step is deterministic, and a deadline given twice advances once",
+              "sources": [
+                "H4-CHECKPOINT"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "replays": [
+                {
+                  "origin": "native",
+                  "steps": 66,
+                  "differences": [],
+                  "views": true,
+                  "outcomes": true,
+                  "deterministic": true,
+                  "repeatedDeadlines": true
+                }
+              ]
+            }
+          ],
+          "constructed": []
+        },
+        {
+          "line": "N3",
+          "mode": 8,
+          "kind": "native",
+          "status": "passed",
+          "claims": [
+            {
+              "id": "healed",
+              "text": "Player 4 is Healthy and returns to Room A at its lowest free position, without taking a bed",
+              "sources": [
+                "H4-CHECKPOINT",
+                "CONTRACT-CHECKPOINT",
+                "BOARD-MEDICAL-01"
+              ],
+              "expected": {
+                "seat-4": [
+                  "Healthy",
+                  "Room A",
+                  "A3"
+                ]
+              },
+              "actual": {
+                "seat-4": [
+                  "Healthy",
+                  "Room A",
+                  "A3"
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "ward",
+              "text": "The ward holds four bodies: the two of Round 2 and the two patients of Round 4, dead at the end of Round 5",
+              "sources": [
+                "BOARD-MEDICAL-03",
+                "H4-CHECKPOINT"
+              ],
+              "expected": {
+                "seat-1": [
+                  "Eliminated",
+                  "Hospital",
+                  "H1"
+                ],
+                "seat-7": [
+                  "Eliminated",
+                  "Hospital",
+                  "H2"
+                ],
+                "seat-3": [
+                  "Eliminated",
+                  "Hospital",
+                  "H3"
+                ],
+                "seat-6": [
+                  "Eliminated",
+                  "Hospital",
+                  "H4"
+                ]
+              },
+              "actual": {
+                "seat-1": [
+                  "Eliminated",
+                  "Hospital",
+                  "H1"
+                ],
+                "seat-7": [
+                  "Eliminated",
+                  "Hospital",
+                  "H2"
+                ],
+                "seat-3": [
+                  "Eliminated",
+                  "Hospital",
+                  "H3"
+                ],
+                "seat-6": [
+                  "Eliminated",
+                  "Hospital",
+                  "H4"
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "no-removal",
+              "text": "Nobody is removed from the board",
+              "sources": [
+                "H4-CHECKPOINT",
+                "CONTRACT-ROWS"
+              ],
+              "expected": [],
+              "actual": [],
+              "passed": true
+            },
+            {
+              "id": "anchors",
+              "text": "Player 4, a fifth clinical subject, gets HV5 while the occupants keep HV1 to HV4; all are valid",
+              "sources": [
+                "H4-CLINICAL",
+                "CONTRACT-BOUNDARY"
+              ],
+              "expected": {
+                "assigned": {
+                  "seat-3": "HV3",
+                  "seat-4": "HV5",
+                  "seat-6": "HV4"
+                },
+                "valid": true
+              },
+              "actual": {
+                "assigned": {
+                  "seat-3": "HV3",
+                  "seat-4": "HV5",
+                  "seat-6": "HV4"
+                },
+                "valid": true
+              },
+              "passed": true
+            },
+            {
+              "id": "beds-every-step",
+              "text": "After every command and deadline Hospital holds at most four players, all in H1 to H4",
+              "sources": [
+                "H4-CAPACITY"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "steps": 67
+            },
+            {
+              "id": "listed-every-step",
+              "text": "After every command and deadline the public view lists every seat of the match",
+              "sources": [
+                "H4-OVERFLOW"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "steps": 67
+            },
+            {
+              "id": "replay",
+              "text": "Replaying every recorded command and deadline gives the same receipts, states, views and outcomes; every step is deterministic, and a deadline given twice advances once",
+              "sources": [
+                "H4-CHECKPOINT"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "replays": [
+                {
+                  "origin": "native",
+                  "steps": 67,
+                  "differences": [],
+                  "views": true,
+                  "outcomes": true,
+                  "deterministic": true,
+                  "repeatedDeadlines": true
+                }
+              ]
+            }
+          ],
+          "constructed": []
+        },
+        {
+          "line": "C1",
+          "mode": 8,
+          "kind": "constructed",
+          "status": "passed",
+          "claims": [
+            {
+              "id": "admitted",
+              "text": "Player 1 takes H4",
+              "sources": [
+                "CONTRACT-ROWS",
+                "H4-CHECKPOINT"
+              ],
+              "expected": {
+                "seat-1": [
+                  "Injured",
+                  "Hospital",
+                  "H4"
+                ]
+              },
+              "actual": {
+                "seat-1": [
+                  "Injured",
+                  "Hospital",
+                  "H4"
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "refused",
+              "text": "Player 6 is Eliminated off the board",
+              "sources": [
+                "CONTRACT-ROWS",
+                "H4-OVERFLOW",
+                "CONTRACT-BOUNDARY"
+              ],
+              "expected": {
+                "health": "Eliminated",
+                "location": null,
+                "slotId": null,
+                "medical": null,
+                "jailed": false,
+                "captain": false
+              },
+              "actual": {
+                "health": "Eliminated",
+                "location": null,
+                "slotId": null,
+                "medical": null,
+                "jailed": false,
+                "captain": false
+              },
+              "passed": true
+            },
+            {
+              "id": "removal-outcome",
+              "text": "One public removal outcome names player 6, and the batch has no clinical fact for it",
+              "sources": [
+                "H4-OVERFLOW",
+                "CONTRACT-BOUNDARY"
+              ],
+              "expected": {
+                "removals": [
+                  {
+                    "phaseId": "phase-9",
+                    "round": 4,
+                    "type": "HOSPITAL_OVERFLOW_REMOVED",
+                    "seatId": "seat-6",
+                    "public": true
+                  }
+                ],
+                "facts": [
+                  "seat-1 INJURY"
+                ]
+              },
+              "actual": {
+                "removals": [
+                  {
+                    "phaseId": "phase-9",
+                    "round": 4,
+                    "type": "HOSPITAL_OVERFLOW_REMOVED",
+                    "seatId": "seat-6",
+                    "public": true
+                  }
+                ],
+                "facts": [
+                  "seat-1 INJURY"
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "bodies-kept",
+              "text": "The three bodies keep H1 to H3",
+              "sources": [
+                "H4-CHECKPOINT"
+              ],
+              "expected": {
+                "seat-3": [
+                  "Eliminated",
+                  "Hospital",
+                  "H1"
+                ],
+                "seat-4": [
+                  "Eliminated",
+                  "Hospital",
+                  "H2"
+                ],
+                "seat-7": [
+                  "Eliminated",
+                  "Hospital",
+                  "H3"
+                ]
+              },
+              "actual": {
+                "seat-3": [
+                  "Eliminated",
+                  "Hospital",
+                  "H1"
+                ],
+                "seat-4": [
+                  "Eliminated",
+                  "Hospital",
+                  "H2"
+                ],
+                "seat-7": [
+                  "Eliminated",
+                  "Hospital",
+                  "H3"
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "no-rescue-offered",
+              "text": "In Round 5 the Cracker is not offered player 6 as a Rescue target",
+              "sources": [
+                "H4-OVERFLOW"
+              ],
+              "expected": false,
+              "actual": false,
+              "passed": true
+            },
+            {
+              "id": "no-rescue",
+              "text": "A Rescue of player 6 is refused",
+              "sources": [
+                "H4-OVERFLOW"
+              ],
+              "expected": {
+                "status": "rejected",
+                "code": "NOT_ALLOWED"
+              },
+              "actual": {
+                "status": "rejected",
+                "code": "NOT_ALLOWED"
+              },
+              "passed": true
+            },
+            {
+              "id": "identity",
+              "text": "Player 6 is still listed with its faction and still reads the Scan it made in Round 1",
+              "sources": [
+                "H4-OVERFLOW"
+              ],
+              "expected": {
+                "listed": 8,
+                "off": {
+                  "health": "Eliminated",
+                  "location": null,
+                  "slotId": null,
+                  "medical": null,
+                  "jailed": false,
+                  "captain": false
+                },
+                "faction": "Red",
+                "scans": [
+                  {
+                    "round": 1,
+                    "targetSeatId": "seat-5",
+                    "guess": "Red",
+                    "matched": true
+                  }
+                ]
+              },
+              "actual": {
+                "listed": 8,
+                "off": {
+                  "health": "Eliminated",
+                  "location": null,
+                  "slotId": null,
+                  "medical": null,
+                  "jailed": false,
+                  "captain": false
+                },
+                "faction": "Red",
+                "scans": [
+                  {
+                    "round": 1,
+                    "targetSeatId": "seat-5",
+                    "guess": "Red",
+                    "matched": true
+                  }
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "beds-every-step",
+              "text": "After every command and deadline Hospital holds at most four players, all in H1 to H4",
+              "sources": [
+                "H4-CAPACITY"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "steps": 20
+            },
+            {
+              "id": "listed-every-step",
+              "text": "After every command and deadline the public view lists every seat of the match",
+              "sources": [
+                "H4-OVERFLOW"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "steps": 20
+            },
+            {
+              "id": "replay",
+              "text": "Replaying every recorded command and deadline gives the same receipts, states, views and outcomes; every step is deterministic, and a deadline given twice advances once",
+              "sources": [
+                "H4-CHECKPOINT"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "replays": [
+                {
+                  "origin": "native",
+                  "steps": 41,
+                  "differences": [],
+                  "views": true,
+                  "outcomes": true,
+                  "deterministic": true,
+                  "repeatedDeadlines": true
+                },
+                {
+                  "origin": "constructed",
+                  "steps": 20,
+                  "differences": [],
+                  "views": true,
+                  "outcomes": true,
+                  "deterministic": true,
+                  "repeatedDeadlines": true
+                }
+              ]
+            }
+          ],
+          "constructed": [
+            "at the first turn of Round 4, the bodies of the Blue Disabler, the Supplier and the Alien placed in H1 to H3"
+          ]
+        },
+        {
+          "line": "C2",
+          "mode": 8,
+          "kind": "constructed",
+          "status": "passed",
+          "claims": [
+            {
+              "id": "freed",
+              "text": "Player 7 returns to Room B and player 1 takes H4",
+              "sources": [
+                "CONTRACT-ROWS",
+                "H4-CHECKPOINT",
+                "BOARD-MEDICAL-04"
+              ],
+              "expected": {
+                "seat-7": [
+                  "Healthy",
+                  "Room B",
+                  "B1"
+                ],
+                "seat-1": [
+                  "Injured",
+                  "Hospital",
+                  "H4"
+                ]
+              },
+              "actual": {
+                "seat-7": [
+                  "Healthy",
+                  "Room B",
+                  "B1"
+                ],
+                "seat-1": [
+                  "Injured",
+                  "Hospital",
+                  "H4"
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "bodies-kept",
+              "text": "The three bodies keep H1 to H3",
+              "sources": [
+                "H4-CHECKPOINT"
+              ],
+              "expected": {
+                "seat-3": [
+                  "Eliminated",
+                  "Hospital",
+                  "H1"
+                ],
+                "seat-4": [
+                  "Eliminated",
+                  "Hospital",
+                  "H2"
+                ],
+                "seat-6": [
+                  "Eliminated",
+                  "Hospital",
+                  "H3"
+                ]
+              },
+              "actual": {
+                "seat-3": [
+                  "Eliminated",
+                  "Hospital",
+                  "H1"
+                ],
+                "seat-4": [
+                  "Eliminated",
+                  "Hospital",
+                  "H2"
+                ],
+                "seat-6": [
+                  "Eliminated",
+                  "Hospital",
+                  "H3"
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "no-removal",
+              "text": "Nobody is removed from the board",
+              "sources": [
+                "CONTRACT-ROWS"
+              ],
+              "expected": [],
+              "actual": [],
+              "passed": true
+            },
+            {
+              "id": "beds-every-step",
+              "text": "After every command and deadline Hospital holds at most four players, all in H1 to H4",
+              "sources": [
+                "H4-CAPACITY"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "steps": 11
+            },
+            {
+              "id": "listed-every-step",
+              "text": "After every command and deadline the public view lists every seat of the match",
+              "sources": [
+                "H4-OVERFLOW"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "steps": 11
+            },
+            {
+              "id": "replay",
+              "text": "Replaying every recorded command and deadline gives the same receipts, states, views and outcomes; every step is deterministic, and a deadline given twice advances once",
+              "sources": [
+                "H4-CHECKPOINT"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "replays": [
+                {
+                  "origin": "native",
+                  "steps": 39,
+                  "differences": [],
+                  "views": true,
+                  "outcomes": true,
+                  "deterministic": true,
+                  "repeatedDeadlines": true
+                },
+                {
+                  "origin": "constructed",
+                  "steps": 11,
+                  "differences": [],
+                  "views": true,
+                  "outcomes": true,
+                  "deterministic": true,
+                  "repeatedDeadlines": true
+                }
+              ]
+            }
+          ],
+          "constructed": [
+            "at the first turn of Round 4, three bodies placed in H1 to H3 and the Alien, a patient of Round 3, in H4"
+          ]
+        },
+        {
+          "line": "C3",
+          "mode": 8,
+          "kind": "constructed",
+          "status": "passed",
+          "claims": [
+            {
+              "id": "healed",
+              "text": "Player 1 is Healthy in Room A, at its own position",
+              "sources": [
+                "CONTRACT-ROWS",
+                "H4-CHECKPOINT",
+                "BOARD-MEDICAL-01"
+              ],
+              "expected": {
+                "seat-1": [
+                  "Healthy",
+                  "Room A",
+                  "A1"
+                ]
+              },
+              "actual": {
+                "seat-1": [
+                  "Healthy",
+                  "Room A",
+                  "A1"
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "ward",
+              "text": "The four bodies keep H1 to H4 and nobody is removed",
+              "sources": [
+                "H4-CHECKPOINT",
+                "CONTRACT-ROWS"
+              ],
+              "expected": {
+                "places": {
+                  "seat-3": [
+                    "Eliminated",
+                    "Hospital",
+                    "H1"
+                  ],
+                  "seat-4": [
+                    "Eliminated",
+                    "Hospital",
+                    "H2"
+                  ],
+                  "seat-6": [
+                    "Eliminated",
+                    "Hospital",
+                    "H3"
+                  ],
+                  "seat-7": [
+                    "Eliminated",
+                    "Hospital",
+                    "H4"
+                  ]
+                },
+                "removals": []
+              },
+              "actual": {
+                "places": {
+                  "seat-3": [
+                    "Eliminated",
+                    "Hospital",
+                    "H1"
+                  ],
+                  "seat-4": [
+                    "Eliminated",
+                    "Hospital",
+                    "H2"
+                  ],
+                  "seat-6": [
+                    "Eliminated",
+                    "Hospital",
+                    "H3"
+                  ],
+                  "seat-7": [
+                    "Eliminated",
+                    "Hospital",
+                    "H4"
+                  ]
+                },
+                "removals": []
+              },
+              "passed": true
+            },
+            {
+              "id": "anchors",
+              "text": "Player 1 gets HV5, after HV1 to HV4 of the four occupants, and it is valid",
+              "sources": [
+                "H4-CLINICAL",
+                "CONTRACT-BOUNDARY"
+              ],
+              "expected": {
+                "facts": [
+                  "seat-1 HEALED",
+                  "seat-1 INJURY"
+                ],
+                "anchors": {
+                  "assigned": {
+                    "seat-1": "HV5"
+                  },
+                  "valid": true
+                }
+              },
+              "actual": {
+                "facts": [
+                  "seat-1 HEALED",
+                  "seat-1 INJURY"
+                ],
+                "anchors": {
+                  "assigned": {
+                    "seat-1": "HV5"
+                  },
+                  "valid": true
+                }
+              },
+              "passed": true
+            },
+            {
+              "id": "beds-every-step",
+              "text": "After every command and deadline Hospital holds at most four players, all in H1 to H4",
+              "sources": [
+                "H4-CAPACITY"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "steps": 10
+            },
+            {
+              "id": "listed-every-step",
+              "text": "After every command and deadline the public view lists every seat of the match",
+              "sources": [
+                "H4-OVERFLOW"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "steps": 10
+            },
+            {
+              "id": "replay",
+              "text": "Replaying every recorded command and deadline gives the same receipts, states, views and outcomes; every step is deterministic, and a deadline given twice advances once",
+              "sources": [
+                "H4-CHECKPOINT"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "replays": [
+                {
+                  "origin": "native",
+                  "steps": 39,
+                  "differences": [],
+                  "views": true,
+                  "outcomes": true,
+                  "deterministic": true,
+                  "repeatedDeadlines": true
+                },
+                {
+                  "origin": "constructed",
+                  "steps": 10,
+                  "differences": [],
+                  "views": true,
+                  "outcomes": true,
+                  "deterministic": true,
+                  "repeatedDeadlines": true
+                }
+              ]
+            }
+          ],
+          "constructed": [
+            "at the first turn of Round 4, four bodies placed in H1 to H4"
+          ]
+        },
+        {
+          "line": "C4",
+          "mode": 8,
+          "kind": "constructed",
+          "status": "passed",
+          "claims": [
+            {
+              "id": "refused",
+              "text": "Player 1 is Eliminated off the board: no fifth body, no fifth bed",
+              "sources": [
+                "CONTRACT-ROWS",
+                "H4-OVERFLOW",
+                "CONTRACT-BOUNDARY"
+              ],
+              "expected": {
+                "health": "Eliminated",
+                "location": null,
+                "slotId": null,
+                "medical": null,
+                "jailed": false,
+                "captain": false
+              },
+              "actual": {
+                "health": "Eliminated",
+                "location": null,
+                "slotId": null,
+                "medical": null,
+                "jailed": false,
+                "captain": false
+              },
+              "passed": true
+            },
+            {
+              "id": "removal-outcome",
+              "text": "One public removal outcome names player 1, and the batch has no clinical fact for it",
+              "sources": [
+                "H4-OVERFLOW",
+                "CONTRACT-BOUNDARY"
+              ],
+              "expected": {
+                "removals": [
+                  {
+                    "phaseId": "phase-10",
+                    "round": 4,
+                    "type": "HOSPITAL_OVERFLOW_REMOVED",
+                    "seatId": "seat-1",
+                    "public": true
+                  }
+                ],
+                "facts": []
+              },
+              "actual": {
+                "removals": [
+                  {
+                    "phaseId": "phase-10",
+                    "round": 4,
+                    "type": "HOSPITAL_OVERFLOW_REMOVED",
+                    "seatId": "seat-1",
+                    "public": true
+                  }
+                ],
+                "facts": []
+              },
+              "passed": true
+            },
+            {
+              "id": "bodies-kept",
+              "text": "The four bodies keep H1 to H4",
+              "sources": [
+                "H4-CHECKPOINT"
+              ],
+              "expected": {
+                "seat-3": [
+                  "Eliminated",
+                  "Hospital",
+                  "H1"
+                ],
+                "seat-4": [
+                  "Eliminated",
+                  "Hospital",
+                  "H2"
+                ],
+                "seat-6": [
+                  "Eliminated",
+                  "Hospital",
+                  "H3"
+                ],
+                "seat-7": [
+                  "Eliminated",
+                  "Hospital",
+                  "H4"
+                ]
+              },
+              "actual": {
+                "seat-3": [
+                  "Eliminated",
+                  "Hospital",
+                  "H1"
+                ],
+                "seat-4": [
+                  "Eliminated",
+                  "Hospital",
+                  "H2"
+                ],
+                "seat-6": [
+                  "Eliminated",
+                  "Hospital",
+                  "H3"
+                ],
+                "seat-7": [
+                  "Eliminated",
+                  "Hospital",
+                  "H4"
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "no-heal",
+              "text": "The Rescue is spent and heals nothing; no anchor is assigned",
+              "sources": [
+                "CONTRACT-ROWS",
+                "H4-CLINICAL"
+              ],
+              "expected": {
+                "rescuesRemaining": 1,
+                "anchors": {
+                  "assigned": {},
+                  "valid": true
+                }
+              },
+              "actual": {
+                "rescuesRemaining": 1,
+                "anchors": {
+                  "assigned": {},
+                  "valid": true
+                }
+              },
+              "passed": true
+            },
+            {
+              "id": "beds-every-step",
+              "text": "After every command and deadline Hospital holds at most four players, all in H1 to H4",
+              "sources": [
+                "H4-CAPACITY"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "steps": 11
+            },
+            {
+              "id": "listed-every-step",
+              "text": "After every command and deadline the public view lists every seat of the match",
+              "sources": [
+                "H4-OVERFLOW"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "steps": 11
+            },
+            {
+              "id": "replay",
+              "text": "Replaying every recorded command and deadline gives the same receipts, states, views and outcomes; every step is deterministic, and a deadline given twice advances once",
+              "sources": [
+                "H4-CHECKPOINT"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "replays": [
+                {
+                  "origin": "native",
+                  "steps": 40,
+                  "differences": [],
+                  "views": true,
+                  "outcomes": true,
+                  "deterministic": true,
+                  "repeatedDeadlines": true
+                },
+                {
+                  "origin": "constructed",
+                  "steps": 11,
+                  "differences": [],
+                  "views": true,
+                  "outcomes": true,
+                  "deterministic": true,
+                  "repeatedDeadlines": true
+                }
+              ]
+            }
+          ],
+          "constructed": [
+            "at the first turn of Round 4, four bodies placed in H1 to H4"
+          ]
+        }
+      ],
+      "totals": {
+        "lines": 8,
+        "passed": 8,
+        "failed": 0,
+        "errors": 0,
+        "claims": 69,
+        "claimsPassed": 69
+      }
+    },
+    "9": {
+      "lines": [
+        {
+          "line": "P0",
+          "mode": 9,
+          "kind": "contract",
+          "status": "passed",
+          "claims": [
+            {
+              "id": "engine-beds",
+              "text": "The engine gives the tuple four Hospital positions",
+              "sources": [
+                "H4-CAPACITY"
+              ],
+              "expected": [
+                "H1",
+                "H2",
+                "H3",
+                "H4"
+              ],
+              "actual": [
+                "H1",
+                "H2",
+                "H3",
+                "H4"
+              ],
+              "passed": true
+            },
+            {
+              "id": "engine-history",
+              "text": "The Clone tuple keeps a Hospital of the roster",
+              "sources": [
+                "H4-PAIRING"
+              ],
+              "expected": [
+                "H1",
+                "H2",
+                "H3",
+                "H4",
+                "H5",
+                "H6",
+                "H7",
+                "H8",
+                "H9"
+              ],
+              "actual": [
+                "H1",
+                "H2",
+                "H3",
+                "H4",
+                "H5",
+                "H6",
+                "H7",
+                "H8",
+                "H9"
+              ],
+              "passed": true
+            },
+            {
+              "id": "contract-beds",
+              "text": "The contracts give a Blackout map of the tuple four Hospital positions, and the old reader keeps its count",
+              "sources": [
+                "CONTRACT-BOUNDARY"
+              ],
+              "expected": {
+                "successor": [
+                  "H1",
+                  "H2",
+                  "H3",
+                  "H4"
+                ],
+                "twoArguments": [
+                  "H1",
+                  "H2",
+                  "H3",
+                  "H4",
+                  "H5",
+                  "H6",
+                  "H7",
+                  "H8",
+                  "H9"
+                ]
+              },
+              "actual": {
+                "successor": [
+                  "H1",
+                  "H2",
+                  "H3",
+                  "H4"
+                ],
+                "twoArguments": [
+                  "H1",
+                  "H2",
+                  "H3",
+                  "H4",
+                  "H5",
+                  "H6",
+                  "H7",
+                  "H8",
+                  "H9"
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "art",
+              "text": "A match of the tuple is refused with any art but design-0.5.0",
+              "sources": [
+                "H4-PAIRING"
+              ],
+              "expected": "refused",
+              "actual": "refused",
+              "passed": true
+            },
+            {
+              "id": "view-h5",
+              "text": "The public view of the tuple is valid with a body in H1 and refused with it in H5",
+              "sources": [
+                "H4-CAPACITY",
+                "CONTRACT-BOUNDARY"
+              ],
+              "expected": {
+                "H1": true,
+                "H5": false
+              },
+              "actual": {
+                "H1": true,
+                "H5": false
+              },
+              "passed": true
+            },
+            {
+              "id": "anchor-range",
+              "text": "A clinical anchor is valid from HV1 up to the number of players, HV5 included, and not beyond it",
+              "sources": [
+                "H4-CLINICAL"
+              ],
+              "expected": {
+                "HV5": true,
+                "HV9": true,
+                "beyond": false
+              },
+              "actual": {
+                "HV5": true,
+                "HV9": true,
+                "beyond": false
+              },
+              "passed": true
+            }
+          ],
+          "constructed": [
+            "one body placed in H1 to obtain a view of the tuple"
+          ]
+        },
+        {
+          "line": "N1",
+          "mode": 9,
+          "kind": "native",
+          "status": "passed",
+          "claims": [
+            {
+              "id": "bodies-r2",
+              "text": "The Insider and the Alien die at the end of Round 2 and keep H1 and H2",
+              "sources": [
+                "BOARD-MEDICAL-01",
+                "BOARD-MEDICAL-03"
+              ],
+              "expected": {
+                "seat-1": [
+                  "Eliminated",
+                  "Hospital",
+                  "H1"
+                ],
+                "seat-7": [
+                  "Eliminated",
+                  "Hospital",
+                  "H2"
+                ]
+              },
+              "actual": {
+                "seat-1": [
+                  "Eliminated",
+                  "Hospital",
+                  "H1"
+                ],
+                "seat-7": [
+                  "Eliminated",
+                  "Hospital",
+                  "H2"
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "admitted",
+              "text": "Players 3 and 4 take H3 and H4 in order of number: the fourth admission succeeds",
+              "sources": [
+                "H4-CHECKPOINT",
+                "BOARD-MEDICAL-01"
+              ],
+              "expected": {
+                "seat-3": [
+                  "Injured",
+                  "Hospital",
+                  "H3"
+                ],
+                "seat-4": [
+                  "Injured",
+                  "Hospital",
+                  "H4"
+                ]
+              },
+              "actual": {
+                "seat-3": [
+                  "Injured",
+                  "Hospital",
+                  "H3"
+                ],
+                "seat-4": [
+                  "Injured",
+                  "Hospital",
+                  "H4"
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "refused",
+              "text": "Player 8, hit first, finds no bed and is Eliminated off the board",
+              "sources": [
+                "H4-OVERFLOW",
+                "CONTRACT-BOUNDARY"
+              ],
+              "expected": {
+                "health": "Eliminated",
+                "location": null,
+                "slotId": null,
+                "medical": null,
+                "jailed": false,
+                "captain": false
+              },
+              "actual": {
+                "health": "Eliminated",
+                "location": null,
+                "slotId": null,
+                "medical": null,
+                "jailed": false,
+                "captain": false
+              },
+              "passed": true
+            },
+            {
+              "id": "bodies-kept",
+              "text": "The two bodies keep H1 and H2",
+              "sources": [
+                "H4-CHECKPOINT"
+              ],
+              "expected": {
+                "seat-1": [
+                  "Eliminated",
+                  "Hospital",
+                  "H1"
+                ],
+                "seat-7": [
+                  "Eliminated",
+                  "Hospital",
+                  "H2"
+                ]
+              },
+              "actual": {
+                "seat-1": [
+                  "Eliminated",
+                  "Hospital",
+                  "H1"
+                ],
+                "seat-7": [
+                  "Eliminated",
+                  "Hospital",
+                  "H2"
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "removal-outcome",
+              "text": "One public removal outcome names player 8, the round and the resolving phase",
+              "sources": [
+                "H4-OVERFLOW",
+                "CONTRACT-BOUNDARY"
+              ],
+              "expected": [
+                {
+                  "phaseId": "phase-58",
+                  "round": 4,
+                  "type": "HOSPITAL_OVERFLOW_REMOVED",
+                  "seatId": "seat-8",
+                  "public": true
+                }
+              ],
+              "actual": [
+                {
+                  "phaseId": "phase-58",
+                  "round": 4,
+                  "type": "HOSPITAL_OVERFLOW_REMOVED",
+                  "seatId": "seat-8",
+                  "public": true
+                }
+              ],
+              "passed": true
+            },
+            {
+              "id": "removal-shape",
+              "text": "The removal fact is valid under the contracts",
+              "sources": [
+                "CONTRACT-BOUNDARY"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true
+            },
+            {
+              "id": "no-medical",
+              "text": "The batch has clinical facts for players 3 and 4 and none for player 8",
+              "sources": [
+                "H4-OVERFLOW",
+                "CONTRACT-BOUNDARY"
+              ],
+              "expected": [
+                "seat-3 INJURY",
+                "seat-4 INJURY"
+              ],
+              "actual": [
+                "seat-3 INJURY",
+                "seat-4 INJURY"
+              ],
+              "passed": true
+            },
+            {
+              "id": "anchors",
+              "text": "Players 3 and 4 get anchors HV3 and HV4 after the bodies' HV1 and HV2; player 8 gets none",
+              "sources": [
+                "H4-CLINICAL",
+                "CONTRACT-BOUNDARY"
+              ],
+              "expected": {
+                "assigned": {
+                  "seat-3": "HV3",
+                  "seat-4": "HV4"
+                },
+                "valid": true
+              },
+              "actual": {
+                "assigned": {
+                  "seat-3": "HV3",
+                  "seat-4": "HV4"
+                },
+                "valid": true
+              },
+              "passed": true
+            },
+            {
+              "id": "no-rescue-offered",
+              "text": "The Cracker is not offered player 8 as a Rescue target",
+              "sources": [
+                "H4-OVERFLOW"
+              ],
+              "expected": false,
+              "actual": false,
+              "passed": true
+            },
+            {
+              "id": "no-rescue",
+              "text": "A Rescue of player 8 is refused",
+              "sources": [
+                "H4-OVERFLOW"
+              ],
+              "expected": {
+                "status": "rejected",
+                "code": "NOT_ALLOWED"
+              },
+              "actual": {
+                "status": "rejected",
+                "code": "NOT_ALLOWED"
+              },
+              "passed": true
+            },
+            {
+              "id": "still-off",
+              "text": "Player 8 is still off the board after Round 5",
+              "sources": [
+                "H4-OVERFLOW"
+              ],
+              "expected": {
+                "health": "Eliminated",
+                "location": null,
+                "slotId": null,
+                "medical": null,
+                "jailed": false,
+                "captain": false
+              },
+              "actual": {
+                "health": "Eliminated",
+                "location": null,
+                "slotId": null,
+                "medical": null,
+                "jailed": false,
+                "captain": false
+              },
+              "passed": true
+            },
+            {
+              "id": "healed-return",
+              "text": "Player 3, Rescued, returns to Room A at its lowest free position",
+              "sources": [
+                "BOARD-MEDICAL-04",
+                "BOARD-MEDICAL-01"
+              ],
+              "expected": {
+                "seat-3": [
+                  "Healthy",
+                  "Room A",
+                  "A1"
+                ]
+              },
+              "actual": {
+                "seat-3": [
+                  "Healthy",
+                  "Room A",
+                  "A1"
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "identity",
+              "text": "Player 8 is still listed with its faction, its role is revealed at the end, and the Code still holds it",
+              "sources": [
+                "H4-OVERFLOW"
+              ],
+              "expected": {
+                "listed": 9,
+                "faction": "Red",
+                "role": "Red Disabler",
+                "code": [
+                  "seat-1",
+                  "seat-2",
+                  "seat-7",
+                  "seat-8"
+                ]
+              },
+              "actual": {
+                "listed": 9,
+                "faction": "Red",
+                "role": "Red Disabler",
+                "code": [
+                  "seat-1",
+                  "seat-2",
+                  "seat-7",
+                  "seat-8"
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "code-wins",
+              "text": "The Code naming player 8 is correct, and Red wins on it at the end of Round 5",
+              "sources": [
+                "R-WIN-06",
+                "H4-OVERFLOW"
+              ],
+              "expected": {
+                "correct": true,
+                "winner": "Red"
+              },
+              "actual": {
+                "correct": true,
+                "winner": "Red"
+              },
+              "passed": true
+            },
+            {
+              "id": "history",
+              "text": "Every outcome recorded before Round 5 is still recorded after it",
+              "sources": [
+                "H4-OVERFLOW"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true
+            },
+            {
+              "id": "beds-every-step",
+              "text": "After every command and deadline Hospital holds at most four players, all in H1 to H4",
+              "sources": [
+                "H4-CAPACITY"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "steps": 73
+            },
+            {
+              "id": "listed-every-step",
+              "text": "After every command and deadline the public view lists every seat of the match",
+              "sources": [
+                "H4-OVERFLOW"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "steps": 73
+            },
+            {
+              "id": "replay",
+              "text": "Replaying every recorded command and deadline gives the same receipts, states, views and outcomes; every step is deterministic, and a deadline given twice advances once",
+              "sources": [
+                "H4-CHECKPOINT"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "replays": [
+                {
+                  "origin": "native",
+                  "steps": 73,
+                  "differences": [],
+                  "views": true,
+                  "outcomes": true,
+                  "deterministic": true,
+                  "repeatedDeadlines": true
+                }
+              ]
+            }
+          ],
+          "constructed": []
+        },
+        {
+          "line": "N2",
+          "mode": 9,
+          "kind": "native",
+          "status": "passed",
+          "claims": [
+            {
+              "id": "full",
+              "text": "After Round 4 the ward is full: two bodies and two patients",
+              "sources": [
+                "H4-CAPACITY",
+                "BOARD-MEDICAL-01"
+              ],
+              "expected": {
+                "seat-1": [
+                  "Eliminated",
+                  "Hospital",
+                  "H1"
+                ],
+                "seat-7": [
+                  "Eliminated",
+                  "Hospital",
+                  "H2"
+                ],
+                "seat-3": [
+                  "Injured",
+                  "Hospital",
+                  "H3"
+                ],
+                "seat-6": [
+                  "Injured",
+                  "Hospital",
+                  "H4"
+                ]
+              },
+              "actual": {
+                "seat-1": [
+                  "Eliminated",
+                  "Hospital",
+                  "H1"
+                ],
+                "seat-7": [
+                  "Eliminated",
+                  "Hospital",
+                  "H2"
+                ],
+                "seat-3": [
+                  "Injured",
+                  "Hospital",
+                  "H3"
+                ],
+                "seat-6": [
+                  "Injured",
+                  "Hospital",
+                  "H4"
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "admitted",
+              "text": "Player 8 takes H3, the bed player 3 left; player 6 dies in H4",
+              "sources": [
+                "H4-CHECKPOINT",
+                "BOARD-MEDICAL-03",
+                "BOARD-MEDICAL-04"
+              ],
+              "expected": {
+                "seat-8": [
+                  "Injured",
+                  "Hospital",
+                  "H3"
+                ],
+                "seat-6": [
+                  "Eliminated",
+                  "Hospital",
+                  "H4"
+                ],
+                "seat-1": [
+                  "Eliminated",
+                  "Hospital",
+                  "H1"
+                ],
+                "seat-7": [
+                  "Eliminated",
+                  "Hospital",
+                  "H2"
+                ]
+              },
+              "actual": {
+                "seat-8": [
+                  "Injured",
+                  "Hospital",
+                  "H3"
+                ],
+                "seat-6": [
+                  "Eliminated",
+                  "Hospital",
+                  "H4"
+                ],
+                "seat-1": [
+                  "Eliminated",
+                  "Hospital",
+                  "H1"
+                ],
+                "seat-7": [
+                  "Eliminated",
+                  "Hospital",
+                  "H2"
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "healed-return",
+              "text": "Player 3 returns to Room A at its lowest free position",
+              "sources": [
+                "BOARD-MEDICAL-04",
+                "BOARD-MEDICAL-01"
+              ],
+              "expected": {
+                "seat-3": [
+                  "Healthy",
+                  "Room A",
+                  "A1"
+                ]
+              },
+              "actual": {
+                "seat-3": [
+                  "Healthy",
+                  "Room A",
+                  "A1"
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "no-deadline",
+              "text": "A patient of Round 5 has no Rescue deadline",
+              "sources": [
+                "BOARD-MEDICAL-05"
+              ],
+              "expected": {
+                "admittedRound": 5,
+                "rescueDueAfterRound": null
+              },
+              "actual": {
+                "admittedRound": 5,
+                "rescueDueAfterRound": null
+              },
+              "passed": true
+            },
+            {
+              "id": "no-removal",
+              "text": "Nobody is removed from the board",
+              "sources": [
+                "H4-CHECKPOINT"
+              ],
+              "expected": [],
+              "actual": [],
+              "passed": true
+            },
+            {
+              "id": "batch",
+              "text": "The batch has an injury for player 8, a recovery for player 3 and a death for player 6",
+              "sources": [
+                "BOARD-MEDICAL-03"
+              ],
+              "expected": [
+                "seat-3 HEALED",
+                "seat-6 DEATH",
+                "seat-8 INJURY"
+              ],
+              "actual": [
+                "seat-3 HEALED",
+                "seat-6 DEATH",
+                "seat-8 INJURY"
+              ],
+              "passed": true
+            },
+            {
+              "id": "beds-every-step",
+              "text": "After every command and deadline Hospital holds at most four players, all in H1 to H4",
+              "sources": [
+                "H4-CAPACITY"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "steps": 71
+            },
+            {
+              "id": "listed-every-step",
+              "text": "After every command and deadline the public view lists every seat of the match",
+              "sources": [
+                "H4-OVERFLOW"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "steps": 71
+            },
+            {
+              "id": "replay",
+              "text": "Replaying every recorded command and deadline gives the same receipts, states, views and outcomes; every step is deterministic, and a deadline given twice advances once",
+              "sources": [
+                "H4-CHECKPOINT"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "replays": [
+                {
+                  "origin": "native",
+                  "steps": 71,
+                  "differences": [],
+                  "views": true,
+                  "outcomes": true,
+                  "deterministic": true,
+                  "repeatedDeadlines": true
+                }
+              ]
+            }
+          ],
+          "constructed": []
+        },
+        {
+          "line": "N3",
+          "mode": 9,
+          "kind": "native",
+          "status": "passed",
+          "claims": [
+            {
+              "id": "healed",
+              "text": "Player 4 is Healthy and returns to Room A at its lowest free position, without taking a bed",
+              "sources": [
+                "H4-CHECKPOINT",
+                "CONTRACT-CHECKPOINT",
+                "BOARD-MEDICAL-01"
+              ],
+              "expected": {
+                "seat-4": [
+                  "Healthy",
+                  "Room A",
+                  "A3"
+                ]
+              },
+              "actual": {
+                "seat-4": [
+                  "Healthy",
+                  "Room A",
+                  "A3"
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "ward",
+              "text": "The ward holds four bodies: the two of Round 2 and the two patients of Round 4, dead at the end of Round 5",
+              "sources": [
+                "BOARD-MEDICAL-03",
+                "H4-CHECKPOINT"
+              ],
+              "expected": {
+                "seat-1": [
+                  "Eliminated",
+                  "Hospital",
+                  "H1"
+                ],
+                "seat-7": [
+                  "Eliminated",
+                  "Hospital",
+                  "H2"
+                ],
+                "seat-3": [
+                  "Eliminated",
+                  "Hospital",
+                  "H3"
+                ],
+                "seat-6": [
+                  "Eliminated",
+                  "Hospital",
+                  "H4"
+                ]
+              },
+              "actual": {
+                "seat-1": [
+                  "Eliminated",
+                  "Hospital",
+                  "H1"
+                ],
+                "seat-7": [
+                  "Eliminated",
+                  "Hospital",
+                  "H2"
+                ],
+                "seat-3": [
+                  "Eliminated",
+                  "Hospital",
+                  "H3"
+                ],
+                "seat-6": [
+                  "Eliminated",
+                  "Hospital",
+                  "H4"
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "no-removal",
+              "text": "Nobody is removed from the board",
+              "sources": [
+                "H4-CHECKPOINT",
+                "CONTRACT-ROWS"
+              ],
+              "expected": [],
+              "actual": [],
+              "passed": true
+            },
+            {
+              "id": "anchors",
+              "text": "Player 4, a fifth clinical subject, gets HV5 while the occupants keep HV1 to HV4; all are valid",
+              "sources": [
+                "H4-CLINICAL",
+                "CONTRACT-BOUNDARY"
+              ],
+              "expected": {
+                "assigned": {
+                  "seat-3": "HV3",
+                  "seat-4": "HV5",
+                  "seat-6": "HV4"
+                },
+                "valid": true
+              },
+              "actual": {
+                "assigned": {
+                  "seat-3": "HV3",
+                  "seat-4": "HV5",
+                  "seat-6": "HV4"
+                },
+                "valid": true
+              },
+              "passed": true
+            },
+            {
+              "id": "beds-every-step",
+              "text": "After every command and deadline Hospital holds at most four players, all in H1 to H4",
+              "sources": [
+                "H4-CAPACITY"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "steps": 72
+            },
+            {
+              "id": "listed-every-step",
+              "text": "After every command and deadline the public view lists every seat of the match",
+              "sources": [
+                "H4-OVERFLOW"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "steps": 72
+            },
+            {
+              "id": "replay",
+              "text": "Replaying every recorded command and deadline gives the same receipts, states, views and outcomes; every step is deterministic, and a deadline given twice advances once",
+              "sources": [
+                "H4-CHECKPOINT"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "replays": [
+                {
+                  "origin": "native",
+                  "steps": 72,
+                  "differences": [],
+                  "views": true,
+                  "outcomes": true,
+                  "deterministic": true,
+                  "repeatedDeadlines": true
+                }
+              ]
+            }
+          ],
+          "constructed": []
+        },
+        {
+          "line": "N4",
+          "mode": 9,
+          "kind": "native",
+          "status": "passed",
+          "claims": [
+            {
+              "id": "three",
+              "text": "Before Round 4 three bodies hold H1 to H3",
+              "sources": [
+                "BOARD-MEDICAL-01",
+                "BOARD-MEDICAL-03"
+              ],
+              "expected": {
+                "seat-1": [
+                  "Eliminated",
+                  "Hospital",
+                  "H1"
+                ],
+                "seat-7": [
+                  "Eliminated",
+                  "Hospital",
+                  "H2"
+                ],
+                "seat-8": [
+                  "Eliminated",
+                  "Hospital",
+                  "H3"
+                ]
+              },
+              "actual": {
+                "seat-1": [
+                  "Eliminated",
+                  "Hospital",
+                  "H1"
+                ],
+                "seat-7": [
+                  "Eliminated",
+                  "Hospital",
+                  "H2"
+                ],
+                "seat-8": [
+                  "Eliminated",
+                  "Hospital",
+                  "H3"
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "body-admitted",
+              "text": "Player 4, Eliminated by the second hit, takes the last bed as a body",
+              "sources": [
+                "H4-CHECKPOINT",
+                "CONTRACT-CHECKPOINT"
+              ],
+              "expected": {
+                "seat-4": [
+                  "Eliminated",
+                  "Hospital",
+                  "H4"
+                ]
+              },
+              "actual": {
+                "seat-4": [
+                  "Eliminated",
+                  "Hospital",
+                  "H4"
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "refused",
+              "text": "Player 6, hit first, finds no bed and is Eliminated off the board",
+              "sources": [
+                "H4-OVERFLOW",
+                "CONTRACT-BOUNDARY"
+              ],
+              "expected": {
+                "health": "Eliminated",
+                "location": null,
+                "slotId": null,
+                "medical": null,
+                "jailed": false,
+                "captain": false
+              },
+              "actual": {
+                "health": "Eliminated",
+                "location": null,
+                "slotId": null,
+                "medical": null,
+                "jailed": false,
+                "captain": false
+              },
+              "passed": true
+            },
+            {
+              "id": "removal-outcome",
+              "text": "One public removal outcome names player 6",
+              "sources": [
+                "H4-OVERFLOW"
+              ],
+              "expected": [
+                {
+                  "phaseId": "phase-59",
+                  "round": 4,
+                  "type": "HOSPITAL_OVERFLOW_REMOVED",
+                  "seatId": "seat-6",
+                  "public": true
+                }
+              ],
+              "actual": [
+                {
+                  "phaseId": "phase-59",
+                  "round": 4,
+                  "type": "HOSPITAL_OVERFLOW_REMOVED",
+                  "seatId": "seat-6",
+                  "public": true
+                }
+              ],
+              "passed": true
+            },
+            {
+              "id": "no-heal",
+              "text": "The Rescue is spent and heals nothing; the batch has player 4's injury and death and nothing of player 6",
+              "sources": [
+                "CONTRACT-CHECKPOINT",
+                "BOARD-MEDICAL-03",
+                "H4-OVERFLOW"
+              ],
+              "expected": {
+                "rescuesRemaining": 1,
+                "facts": [
+                  "seat-4 DEATH",
+                  "seat-4 INJURY"
+                ]
+              },
+              "actual": {
+                "rescuesRemaining": 1,
+                "facts": [
+                  "seat-4 DEATH",
+                  "seat-4 INJURY"
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "bodies-kept",
+              "text": "The three bodies keep H1 to H3",
+              "sources": [
+                "H4-CHECKPOINT"
+              ],
+              "expected": {
+                "seat-1": [
+                  "Eliminated",
+                  "Hospital",
+                  "H1"
+                ],
+                "seat-7": [
+                  "Eliminated",
+                  "Hospital",
+                  "H2"
+                ],
+                "seat-8": [
+                  "Eliminated",
+                  "Hospital",
+                  "H3"
+                ]
+              },
+              "actual": {
+                "seat-1": [
+                  "Eliminated",
+                  "Hospital",
+                  "H1"
+                ],
+                "seat-7": [
+                  "Eliminated",
+                  "Hospital",
+                  "H2"
+                ],
+                "seat-8": [
+                  "Eliminated",
+                  "Hospital",
+                  "H3"
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "anchors",
+              "text": "Player 4 gets HV4 after the bodies' HV1 to HV3; player 6 gets none",
+              "sources": [
+                "H4-CLINICAL"
+              ],
+              "expected": {
+                "assigned": {
+                  "seat-4": "HV4"
+                },
+                "valid": true
+              },
+              "actual": {
+                "assigned": {
+                  "seat-4": "HV4"
+                },
+                "valid": true
+              },
+              "passed": true
+            },
+            {
+              "id": "beds-every-step",
+              "text": "After every command and deadline Hospital holds at most four players, all in H1 to H4",
+              "sources": [
+                "H4-CAPACITY"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "steps": 60
+            },
+            {
+              "id": "listed-every-step",
+              "text": "After every command and deadline the public view lists every seat of the match",
+              "sources": [
+                "H4-OVERFLOW"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "steps": 60
+            },
+            {
+              "id": "replay",
+              "text": "Replaying every recorded command and deadline gives the same receipts, states, views and outcomes; every step is deterministic, and a deadline given twice advances once",
+              "sources": [
+                "H4-CHECKPOINT"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "replays": [
+                {
+                  "origin": "native",
+                  "steps": 60,
+                  "differences": [],
+                  "views": true,
+                  "outcomes": true,
+                  "deterministic": true,
+                  "repeatedDeadlines": true
+                }
+              ]
+            }
+          ],
+          "constructed": []
+        },
+        {
+          "line": "C1",
+          "mode": 9,
+          "kind": "constructed",
+          "status": "passed",
+          "claims": [
+            {
+              "id": "admitted",
+              "text": "Player 1 takes H4",
+              "sources": [
+                "CONTRACT-ROWS",
+                "H4-CHECKPOINT"
+              ],
+              "expected": {
+                "seat-1": [
+                  "Injured",
+                  "Hospital",
+                  "H4"
+                ]
+              },
+              "actual": {
+                "seat-1": [
+                  "Injured",
+                  "Hospital",
+                  "H4"
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "refused",
+              "text": "Player 6 is Eliminated off the board",
+              "sources": [
+                "CONTRACT-ROWS",
+                "H4-OVERFLOW",
+                "CONTRACT-BOUNDARY"
+              ],
+              "expected": {
+                "health": "Eliminated",
+                "location": null,
+                "slotId": null,
+                "medical": null,
+                "jailed": false,
+                "captain": false
+              },
+              "actual": {
+                "health": "Eliminated",
+                "location": null,
+                "slotId": null,
+                "medical": null,
+                "jailed": false,
+                "captain": false
+              },
+              "passed": true
+            },
+            {
+              "id": "removal-outcome",
+              "text": "One public removal outcome names player 6, and the batch has no clinical fact for it",
+              "sources": [
+                "H4-OVERFLOW",
+                "CONTRACT-BOUNDARY"
+              ],
+              "expected": {
+                "removals": [
+                  {
+                    "phaseId": "phase-10",
+                    "round": 4,
+                    "type": "HOSPITAL_OVERFLOW_REMOVED",
+                    "seatId": "seat-6",
+                    "public": true
+                  }
+                ],
+                "facts": [
+                  "seat-1 INJURY"
+                ]
+              },
+              "actual": {
+                "removals": [
+                  {
+                    "phaseId": "phase-10",
+                    "round": 4,
+                    "type": "HOSPITAL_OVERFLOW_REMOVED",
+                    "seatId": "seat-6",
+                    "public": true
+                  }
+                ],
+                "facts": [
+                  "seat-1 INJURY"
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "bodies-kept",
+              "text": "The three bodies keep H1 to H3",
+              "sources": [
+                "H4-CHECKPOINT"
+              ],
+              "expected": {
+                "seat-3": [
+                  "Eliminated",
+                  "Hospital",
+                  "H1"
+                ],
+                "seat-4": [
+                  "Eliminated",
+                  "Hospital",
+                  "H2"
+                ],
+                "seat-7": [
+                  "Eliminated",
+                  "Hospital",
+                  "H3"
+                ]
+              },
+              "actual": {
+                "seat-3": [
+                  "Eliminated",
+                  "Hospital",
+                  "H1"
+                ],
+                "seat-4": [
+                  "Eliminated",
+                  "Hospital",
+                  "H2"
+                ],
+                "seat-7": [
+                  "Eliminated",
+                  "Hospital",
+                  "H3"
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "no-rescue-offered",
+              "text": "In Round 5 the Cracker is not offered player 6 as a Rescue target",
+              "sources": [
+                "H4-OVERFLOW"
+              ],
+              "expected": false,
+              "actual": false,
+              "passed": true
+            },
+            {
+              "id": "no-rescue",
+              "text": "A Rescue of player 6 is refused",
+              "sources": [
+                "H4-OVERFLOW"
+              ],
+              "expected": {
+                "status": "rejected",
+                "code": "NOT_ALLOWED"
+              },
+              "actual": {
+                "status": "rejected",
+                "code": "NOT_ALLOWED"
+              },
+              "passed": true
+            },
+            {
+              "id": "identity",
+              "text": "Player 6 is still listed with its faction and still reads the Scan it made in Round 1",
+              "sources": [
+                "H4-OVERFLOW"
+              ],
+              "expected": {
+                "listed": 9,
+                "off": {
+                  "health": "Eliminated",
+                  "location": null,
+                  "slotId": null,
+                  "medical": null,
+                  "jailed": false,
+                  "captain": false
+                },
+                "faction": "Red",
+                "scans": [
+                  {
+                    "round": 1,
+                    "targetSeatId": "seat-5",
+                    "guess": "Red",
+                    "matched": true
+                  }
+                ]
+              },
+              "actual": {
+                "listed": 9,
+                "off": {
+                  "health": "Eliminated",
+                  "location": null,
+                  "slotId": null,
+                  "medical": null,
+                  "jailed": false,
+                  "captain": false
+                },
+                "faction": "Red",
+                "scans": [
+                  {
+                    "round": 1,
+                    "targetSeatId": "seat-5",
+                    "guess": "Red",
+                    "matched": true
+                  }
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "beds-every-step",
+              "text": "After every command and deadline Hospital holds at most four players, all in H1 to H4",
+              "sources": [
+                "H4-CAPACITY"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "steps": 22
+            },
+            {
+              "id": "listed-every-step",
+              "text": "After every command and deadline the public view lists every seat of the match",
+              "sources": [
+                "H4-OVERFLOW"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "steps": 22
+            },
+            {
+              "id": "replay",
+              "text": "Replaying every recorded command and deadline gives the same receipts, states, views and outcomes; every step is deterministic, and a deadline given twice advances once",
+              "sources": [
+                "H4-CHECKPOINT"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "replays": [
+                {
+                  "origin": "native",
+                  "steps": 44,
+                  "differences": [],
+                  "views": true,
+                  "outcomes": true,
+                  "deterministic": true,
+                  "repeatedDeadlines": true
+                },
+                {
+                  "origin": "constructed",
+                  "steps": 22,
+                  "differences": [],
+                  "views": true,
+                  "outcomes": true,
+                  "deterministic": true,
+                  "repeatedDeadlines": true
+                }
+              ]
+            }
+          ],
+          "constructed": [
+            "at the first turn of Round 4, the bodies of the Blue Disabler, the Supplier and the Alien placed in H1 to H3"
+          ]
+        },
+        {
+          "line": "C2",
+          "mode": 9,
+          "kind": "constructed",
+          "status": "passed",
+          "claims": [
+            {
+              "id": "freed",
+              "text": "Player 7 returns to Room B and player 1 takes H4",
+              "sources": [
+                "CONTRACT-ROWS",
+                "H4-CHECKPOINT",
+                "BOARD-MEDICAL-04"
+              ],
+              "expected": {
+                "seat-7": [
+                  "Healthy",
+                  "Room B",
+                  "B1"
+                ],
+                "seat-1": [
+                  "Injured",
+                  "Hospital",
+                  "H4"
+                ]
+              },
+              "actual": {
+                "seat-7": [
+                  "Healthy",
+                  "Room B",
+                  "B1"
+                ],
+                "seat-1": [
+                  "Injured",
+                  "Hospital",
+                  "H4"
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "bodies-kept",
+              "text": "The three bodies keep H1 to H3",
+              "sources": [
+                "H4-CHECKPOINT"
+              ],
+              "expected": {
+                "seat-3": [
+                  "Eliminated",
+                  "Hospital",
+                  "H1"
+                ],
+                "seat-4": [
+                  "Eliminated",
+                  "Hospital",
+                  "H2"
+                ],
+                "seat-6": [
+                  "Eliminated",
+                  "Hospital",
+                  "H3"
+                ]
+              },
+              "actual": {
+                "seat-3": [
+                  "Eliminated",
+                  "Hospital",
+                  "H1"
+                ],
+                "seat-4": [
+                  "Eliminated",
+                  "Hospital",
+                  "H2"
+                ],
+                "seat-6": [
+                  "Eliminated",
+                  "Hospital",
+                  "H3"
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "no-removal",
+              "text": "Nobody is removed from the board",
+              "sources": [
+                "CONTRACT-ROWS"
+              ],
+              "expected": [],
+              "actual": [],
+              "passed": true
+            },
+            {
+              "id": "beds-every-step",
+              "text": "After every command and deadline Hospital holds at most four players, all in H1 to H4",
+              "sources": [
+                "H4-CAPACITY"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "steps": 12
+            },
+            {
+              "id": "listed-every-step",
+              "text": "After every command and deadline the public view lists every seat of the match",
+              "sources": [
+                "H4-OVERFLOW"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "steps": 12
+            },
+            {
+              "id": "replay",
+              "text": "Replaying every recorded command and deadline gives the same receipts, states, views and outcomes; every step is deterministic, and a deadline given twice advances once",
+              "sources": [
+                "H4-CHECKPOINT"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "replays": [
+                {
+                  "origin": "native",
+                  "steps": 42,
+                  "differences": [],
+                  "views": true,
+                  "outcomes": true,
+                  "deterministic": true,
+                  "repeatedDeadlines": true
+                },
+                {
+                  "origin": "constructed",
+                  "steps": 12,
+                  "differences": [],
+                  "views": true,
+                  "outcomes": true,
+                  "deterministic": true,
+                  "repeatedDeadlines": true
+                }
+              ]
+            }
+          ],
+          "constructed": [
+            "at the first turn of Round 4, three bodies placed in H1 to H3 and the Alien, a patient of Round 3, in H4"
+          ]
+        },
+        {
+          "line": "C3",
+          "mode": 9,
+          "kind": "constructed",
+          "status": "passed",
+          "claims": [
+            {
+              "id": "healed",
+              "text": "Player 1 is Healthy in Room A, at its own position",
+              "sources": [
+                "CONTRACT-ROWS",
+                "H4-CHECKPOINT",
+                "BOARD-MEDICAL-01"
+              ],
+              "expected": {
+                "seat-1": [
+                  "Healthy",
+                  "Room A",
+                  "A1"
+                ]
+              },
+              "actual": {
+                "seat-1": [
+                  "Healthy",
+                  "Room A",
+                  "A1"
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "ward",
+              "text": "The four bodies keep H1 to H4 and nobody is removed",
+              "sources": [
+                "H4-CHECKPOINT",
+                "CONTRACT-ROWS"
+              ],
+              "expected": {
+                "places": {
+                  "seat-3": [
+                    "Eliminated",
+                    "Hospital",
+                    "H1"
+                  ],
+                  "seat-4": [
+                    "Eliminated",
+                    "Hospital",
+                    "H2"
+                  ],
+                  "seat-6": [
+                    "Eliminated",
+                    "Hospital",
+                    "H3"
+                  ],
+                  "seat-7": [
+                    "Eliminated",
+                    "Hospital",
+                    "H4"
+                  ]
+                },
+                "removals": []
+              },
+              "actual": {
+                "places": {
+                  "seat-3": [
+                    "Eliminated",
+                    "Hospital",
+                    "H1"
+                  ],
+                  "seat-4": [
+                    "Eliminated",
+                    "Hospital",
+                    "H2"
+                  ],
+                  "seat-6": [
+                    "Eliminated",
+                    "Hospital",
+                    "H3"
+                  ],
+                  "seat-7": [
+                    "Eliminated",
+                    "Hospital",
+                    "H4"
+                  ]
+                },
+                "removals": []
+              },
+              "passed": true
+            },
+            {
+              "id": "anchors",
+              "text": "Player 1 gets HV5, after HV1 to HV4 of the four occupants, and it is valid",
+              "sources": [
+                "H4-CLINICAL",
+                "CONTRACT-BOUNDARY"
+              ],
+              "expected": {
+                "facts": [
+                  "seat-1 HEALED",
+                  "seat-1 INJURY"
+                ],
+                "anchors": {
+                  "assigned": {
+                    "seat-1": "HV5"
+                  },
+                  "valid": true
+                }
+              },
+              "actual": {
+                "facts": [
+                  "seat-1 HEALED",
+                  "seat-1 INJURY"
+                ],
+                "anchors": {
+                  "assigned": {
+                    "seat-1": "HV5"
+                  },
+                  "valid": true
+                }
+              },
+              "passed": true
+            },
+            {
+              "id": "beds-every-step",
+              "text": "After every command and deadline Hospital holds at most four players, all in H1 to H4",
+              "sources": [
+                "H4-CAPACITY"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "steps": 11
+            },
+            {
+              "id": "listed-every-step",
+              "text": "After every command and deadline the public view lists every seat of the match",
+              "sources": [
+                "H4-OVERFLOW"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "steps": 11
+            },
+            {
+              "id": "replay",
+              "text": "Replaying every recorded command and deadline gives the same receipts, states, views and outcomes; every step is deterministic, and a deadline given twice advances once",
+              "sources": [
+                "H4-CHECKPOINT"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "replays": [
+                {
+                  "origin": "native",
+                  "steps": 42,
+                  "differences": [],
+                  "views": true,
+                  "outcomes": true,
+                  "deterministic": true,
+                  "repeatedDeadlines": true
+                },
+                {
+                  "origin": "constructed",
+                  "steps": 11,
+                  "differences": [],
+                  "views": true,
+                  "outcomes": true,
+                  "deterministic": true,
+                  "repeatedDeadlines": true
+                }
+              ]
+            }
+          ],
+          "constructed": [
+            "at the first turn of Round 4, four bodies placed in H1 to H4"
+          ]
+        },
+        {
+          "line": "C4",
+          "mode": 9,
+          "kind": "constructed",
+          "status": "passed",
+          "claims": [
+            {
+              "id": "refused",
+              "text": "Player 1 is Eliminated off the board: no fifth body, no fifth bed",
+              "sources": [
+                "CONTRACT-ROWS",
+                "H4-OVERFLOW",
+                "CONTRACT-BOUNDARY"
+              ],
+              "expected": {
+                "health": "Eliminated",
+                "location": null,
+                "slotId": null,
+                "medical": null,
+                "jailed": false,
+                "captain": false
+              },
+              "actual": {
+                "health": "Eliminated",
+                "location": null,
+                "slotId": null,
+                "medical": null,
+                "jailed": false,
+                "captain": false
+              },
+              "passed": true
+            },
+            {
+              "id": "removal-outcome",
+              "text": "One public removal outcome names player 1, and the batch has no clinical fact for it",
+              "sources": [
+                "H4-OVERFLOW",
+                "CONTRACT-BOUNDARY"
+              ],
+              "expected": {
+                "removals": [
+                  {
+                    "phaseId": "phase-11",
+                    "round": 4,
+                    "type": "HOSPITAL_OVERFLOW_REMOVED",
+                    "seatId": "seat-1",
+                    "public": true
+                  }
+                ],
+                "facts": []
+              },
+              "actual": {
+                "removals": [
+                  {
+                    "phaseId": "phase-11",
+                    "round": 4,
+                    "type": "HOSPITAL_OVERFLOW_REMOVED",
+                    "seatId": "seat-1",
+                    "public": true
+                  }
+                ],
+                "facts": []
+              },
+              "passed": true
+            },
+            {
+              "id": "bodies-kept",
+              "text": "The four bodies keep H1 to H4",
+              "sources": [
+                "H4-CHECKPOINT"
+              ],
+              "expected": {
+                "seat-3": [
+                  "Eliminated",
+                  "Hospital",
+                  "H1"
+                ],
+                "seat-4": [
+                  "Eliminated",
+                  "Hospital",
+                  "H2"
+                ],
+                "seat-6": [
+                  "Eliminated",
+                  "Hospital",
+                  "H3"
+                ],
+                "seat-7": [
+                  "Eliminated",
+                  "Hospital",
+                  "H4"
+                ]
+              },
+              "actual": {
+                "seat-3": [
+                  "Eliminated",
+                  "Hospital",
+                  "H1"
+                ],
+                "seat-4": [
+                  "Eliminated",
+                  "Hospital",
+                  "H2"
+                ],
+                "seat-6": [
+                  "Eliminated",
+                  "Hospital",
+                  "H3"
+                ],
+                "seat-7": [
+                  "Eliminated",
+                  "Hospital",
+                  "H4"
+                ]
+              },
+              "passed": true
+            },
+            {
+              "id": "no-heal",
+              "text": "The Rescue is spent and heals nothing; no anchor is assigned",
+              "sources": [
+                "CONTRACT-ROWS",
+                "H4-CLINICAL"
+              ],
+              "expected": {
+                "rescuesRemaining": 1,
+                "anchors": {
+                  "assigned": {},
+                  "valid": true
+                }
+              },
+              "actual": {
+                "rescuesRemaining": 1,
+                "anchors": {
+                  "assigned": {},
+                  "valid": true
+                }
+              },
+              "passed": true
+            },
+            {
+              "id": "beds-every-step",
+              "text": "After every command and deadline Hospital holds at most four players, all in H1 to H4",
+              "sources": [
+                "H4-CAPACITY"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "steps": 12
+            },
+            {
+              "id": "listed-every-step",
+              "text": "After every command and deadline the public view lists every seat of the match",
+              "sources": [
+                "H4-OVERFLOW"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "steps": 12
+            },
+            {
+              "id": "replay",
+              "text": "Replaying every recorded command and deadline gives the same receipts, states, views and outcomes; every step is deterministic, and a deadline given twice advances once",
+              "sources": [
+                "H4-CHECKPOINT"
+              ],
+              "expected": true,
+              "actual": true,
+              "passed": true,
+              "replays": [
+                {
+                  "origin": "native",
+                  "steps": 43,
+                  "differences": [],
+                  "views": true,
+                  "outcomes": true,
+                  "deterministic": true,
+                  "repeatedDeadlines": true
+                },
+                {
+                  "origin": "constructed",
+                  "steps": 12,
+                  "differences": [],
+                  "views": true,
+                  "outcomes": true,
+                  "deterministic": true,
+                  "repeatedDeadlines": true
+                }
+              ]
+            }
+          ],
+          "constructed": [
+            "at the first turn of Round 4, four bodies placed in H1 to H4"
+          ]
+        }
+      ],
+      "totals": {
+        "lines": 9,
+        "passed": 9,
+        "failed": 0,
+        "errors": 0,
+        "claims": 79,
+        "claimsPassed": 79
+      }
+    }
+  }
+}
