@@ -1,16 +1,16 @@
 // mothership:dev-only
 //
 // Checks the ability-art proposal (design/abilities/): its art, its inventory, the Insider's file,
-// and that its review pictures and generated page are current. Node built-ins only; no browser
+// and that its review pictures and generated page are current. Local tools only; no browser
 // (design/tools/abilities-capture.mjs measures the rendered file and writes the report read here).
 //
 //   node design/tools/abilities-check.mjs
 
 import { readFile, readdir, stat } from 'node:fs/promises';
-import { createHash } from 'node:crypto';
 import { relative, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { planAbilityAssets } from './abilities-assets.mjs';
+import { readDrawingPolicy, reviewedAbilityProse, abilityPrototypeReferences } from './lib/drawing-port-fence.mjs';
 import { abilitiesInputsSha256 } from './lib/abilities-inputs.mjs';
 
 const repoRoot = resolve(fileURLToPath(new URL('../../', import.meta.url)));
@@ -316,18 +316,14 @@ const functionBody = (source, name) => {
   const drawCard = app.slice(app.indexOf('function drawCard()'), app.indexOf('function drawMenu()'));
   if (!/if \(!cardVisible\(\)\) \{[\s\S]*?closedFolder\(/.test(drawCard)) problems.push('a hidden card does not show the closed folder');
   if (/insiderFile|fileFor/.test(drawCard.slice(drawCard.indexOf('if (!cardVisible())'), drawCard.indexOf('// Built only while open')))) problems.push('the hidden card builds the private file');
+  const drawingPolicy = readDrawingPolicy(repoRoot);
   for (const dir of ['apps/game/src', 'apps/game/hosted', 'packages/presentation/src']) {
     for (const path of await filesUnder(dir)) {
       const content = await text(path);
-      if (!content.includes('design/abilities')) continue;
-      // The reviewed pure lighting port preserves a historical palette comment.
-      // Permit only those exact bytes at that exact path, never a directory or
-      // an import added to the port. The shared drawing fence verifies its source.
-      const lightingPath = 'apps/game/hosted/board-v2-drawing/lighting.mjs';
-      const policy = JSON.parse(await text('design/tools/lib/reviewed-drawing-ports.json'));
-      const exactLightingComment = path === lightingPath
-        && createHash('sha256').update(content).digest('hex') === policy.ports[lightingPath]?.sha256;
-      if (!exactLightingComment) problems.push(`${path}: production code refers to the ability-art prototype`);
+      if (!content.includes('design/abilities') && !abilityPrototypeReferences(path, content).length) continue;
+      // Only named, exact pure ports may retain prose. Actual references, changed
+      // bytes and copies at another path still fail, including escaped imports.
+      if (!reviewedAbilityProse(drawingPolicy, path, content)) problems.push(`${path}: production code refers to the ability-art prototype`);
     }
   }
   for (const path of await filesUnder(ROOT)) {
