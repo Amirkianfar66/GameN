@@ -13,7 +13,8 @@
     }
   },
   "scripts": {
-    "build": "tsc --build"
+    "build": "tsc --build",
+    "test": "tsc --build && node --test \"test/**/*.test.mjs\""
   },
   "dependencies": {
     "@mothership/contracts": "0.1.0"

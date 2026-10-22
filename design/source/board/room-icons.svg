@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · editable source · room caption icons
+  Original vector artwork made for this repository. Rights and provenance: design/exports/asset-manifest.json.
+  The game owner approved captions with an icon on 7 October 2026 (docs/design/owner-decisions.md).
+
+  One small mark per location, drawn beside the room's name in its caption. The name is live
+  text and is always there: an icon is never the only way a room is told.
+
+    icon-room-a        a cargo crate
+    icon-room-b        a flask
+    icon-command-room  a ringed planet
+    icon-hospital      a medical plus
+    icon-jail          a padlock
+
+  None is a door, an arrow or a route, and none says anything about who is in the room or
+  what may be done there.
+
+  Each icon group carries its own paint and no transform, in a 24 x 24 cell. Drawn in ink and
+  exported in ink and as a tintable symbol.
+
+  Palette: ink #151923
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 188 44" width="188" height="44">
+  <g id="sheet-room-icons" transform="translate(10 10)">
+    <g transform="translate(0 0)">
+      <g id="icon-room-a">
+        <rect x="3.5" y="4.5" width="17" height="15.5" fill="none" stroke="#151923" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M4 5 20 19.5M20 5 4 19.5" fill="none" stroke="#151923" stroke-width="2.4"/>
+      </g>
+    </g>
+    <g transform="translate(36 0)">
+      <g id="icon-room-b">
+        <path d="M8.5 3h7M10 3v6.2L4.6 18.8A1.6 1.6 0 0 0 6 21.2h12a1.6 1.6 0 0 0 1.4-2.4L14 9.2V3" fill="none" stroke="#151923" stroke-width="2.8" stroke-linejoin="round" stroke-linecap="round"/>
+        <path d="M7.6 15h8.8l2.4 4.6H5.2z" fill="#151923"/>
+      </g>
+    </g>
+    <g transform="translate(72 0)">
+      <g id="icon-command-room">
+        <circle cx="12" cy="12" r="6.4" fill="#151923"/>
+        <ellipse cx="12" cy="12" rx="11" ry="3.4" fill="none" stroke="#151923" stroke-width="2.4" transform="rotate(-20 12 12)"/>
+      </g>
+    </g>
+    <g transform="translate(108 0)">
+      <g id="icon-hospital">
+        <path d="M9 3h6v6h6v6h-6v6H9v-6H3V9h6z" fill="#151923"/>
+      </g>
+    </g>
+    <g transform="translate(144 0)">
+      <g id="icon-jail">
+        <rect x="4.5" y="10.5" width="15" height="11" rx="2" fill="#151923"/>
+        <path d="M8 10.5V7.4a4 4 0 0 1 8 0v3.1" fill="none" stroke="#151923" stroke-width="3"/>
+      </g>
+    </g>
+  </g>
+</svg>

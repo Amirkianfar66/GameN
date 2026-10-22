@@ -1,0 +1,533 @@
+{
+  "$comment": "The component and state contract between Designer and Frontend. For every state: `when` is the fact it may be drawn from, in the audience views of wire protocol 1 at the base commit, or `local` for the device's own input; `shape` is how it differs from its neighbors without color; `words` is the live English text that says it. The hooks and the conditions for the Shot card are the ones Frontend's model produces; where a state is exported but drawn by no reference rule, its `note` says so. Nothing here is a rule: a state that would need a fact the views do not carry says so and points at an open decision. Two facts are PROPOSED and in no contract yet: a seat's display name and the character its player chose (docs/design/integration-requests.md, DSN-REQ-6); every state drawn from one says so, and every component that uses one also says what is drawn without it. docs/design/component-states.md is generated from this file.",
+  "contractVersion": "0.2.0",
+  "tokenVersion": "0.4.0",
+  "assetManifestVersion": "design-0.2.0",
+  "protocolVersion": 1,
+  "baseCommit": "333c9e820f362a211352bc689372663f29b73ac4",
+  "ruleSourceManifestSha256": "34e7c08cda13dcc329f7a1d5f7656ab59db1fc834460b5ad9d3590619b5479cc",
+  "frontendReference": {
+    "branch": "agent/frontend-motion-gallery",
+    "commit": "fccadf73966de7096167808d2058a341656e6a83",
+    "note": "The hooks named here are the classes, ids and data attributes Frontend's packages/presentation produces at that commit, as read by the Designer; the review pages rebuild that markup by hand and do not run Frontend's code. The branch is unmerged; if a hook changes there, this file follows it."
+  },
+  "surfaces": {
+    "table": "The shared display. Public facts only.",
+    "phone-public": "A phone with its private sheet closed. The same on every phone whatever its role.",
+    "phone-private": "Inside one seat's open private sheet."
+  },
+  "requiredStates": {
+    "idle": ["action-card:available", "action-card:available-waiting", "seat-token:character", "seat-token:numbered", "button:idle", "private-dock:closed"],
+    "selection": ["action-card:targeting", "button:pressed"],
+    "targeting": ["action-card:targeting", "action-card:confirming", "target-row:offered"],
+    "pending": ["action-card:submitting", "action-card:checking", "action-card:unknown"],
+    "registered": ["action-card:registered", "action-card:registered-idle", "resource-pip:registered"],
+    "unavailable": ["action-card:unavailable", "action-card:not-registered", "button:not-active-yet"],
+    "spent": ["action-card:was-registered"],
+    "reconnect": ["shell:stale", "banner-connection:stale", "phase-timer:stale", "action-card:available-paused"]
+  },
+  "requiredStateNotes": {
+    "selection": "A ring around a chosen token is exported (token-emphasis:selected) and drawn by no reference rule yet: Frontend's confirmation step names the seat in words and shows no token.",
+    "targeting": "A ring for “may be chosen” is exported (token-emphasis:targetable) and drawn by no reference rule: protocol 1 has no server target list, and a ring would claim one (DSN-D03).",
+    "spent": "Protocol 1 has no field that says a shot is spent (DSN-D02). The nearest authorized state is this device's own report that its registration is no longer pending, which lasts until the player presses Done or reloads; after that the card is whatever self.shotAvailable says. The struck-out pip is exported and drawn by no state."
+  },
+  "components": [
+    {
+      "id": "shell",
+      "title": "Shell",
+      "surfaces": ["table", "phone-public", "phone-private"],
+      "audience": "public",
+      "hook": ".ms-shell[data-surface][data-screen][data-connection][data-motion]",
+      "assets": ["pattern-hatch"],
+      "states": [
+        { "state": "live", "when": "The client's own connection status is live.", "shape": "No frame.", "words": "None needed." },
+        { "state": "stale", "when": "The client's own connection status is stale: the view shown is the last known one.", "shape": "A hatched frame inside the edge of the main area; the countdown in a dashed outline.", "words": "The connection banner, and the actions notice inside an open sheet.", "note": "Nothing is greyed out: the last known state stays readable at full contrast." },
+        { "state": "connecting", "when": "No view has arrived yet.", "shape": "The connecting panel in place of the match.", "words": "“Connecting to the match…”", "note": "Frontend's screen; not restyled beyond tokens in this slice." },
+        { "state": "blocked", "when": "The client reports an incompatible protocol or a failed integrity check.", "shape": "The recovery panel in place of the match.", "words": "Frontend's recovery copy.", "note": "Frontend's screen; not restyled beyond tokens in this slice." }
+      ]
+    },
+    {
+      "id": "art-bundles",
+      "title": "Art bundles",
+      "surfaces": ["table", "phone-public", "phone-private"],
+      "audience": "public",
+      "hook": "PROPOSED [data-art~=\"<bundle>\"] on an ancestor of .ms-shell, set by the client",
+      "assets": [],
+      "states": [
+        { "state": "waiting", "when": "A bundle's stylesheet has not loaded yet, or failed to load.", "shape": "The complete skin without pictures: disc tokens with live numerals, chips with their words, plain inked panels.", "words": "Unchanged: every word is live text and none waits for a picture." },
+        { "state": "arrived", "when": "The bundle's one stylesheet has loaded. The client then adds the bundle's name to data-art, and not before.", "shape": "The art rules of that bundle apply on top of the same skin.", "words": "Unchanged." }
+      ],
+      "note": "A bundle is one stylesheet holding every picture in it as a custom property, so drawing something later never causes a request later. Every phone loads the same three bundles before its first match view; the table loads the public one. Forced colors keeps the skin without pictures.",
+      "mustNot": ["Fetch a picture because of something a view says: which files a device asks for must tell an observer nothing.", "Set data-art before the stylesheet has loaded.", "Differ between seats."]
+    },
+    {
+      "id": "shell-header",
+      "title": "Header",
+      "surfaces": ["table", "phone-public", "phone-private"],
+      "audience": "public",
+      "hook": ".ms-header > .ms-wordmark, .ms-surface",
+      "assets": ["pattern-halftone"],
+      "states": [
+        { "state": "static", "when": "Always.", "shape": "A paper strip with an ink rule; halftone in the far corner only.", "words": "“Mothership” and the surface name." }
+      ]
+    },
+    {
+      "id": "banner-data-source",
+      "title": "Data-source banner",
+      "surfaces": ["table", "phone-public", "phone-private"],
+      "audience": "public",
+      "hook": ".ms-banner--data-source[data-variant]",
+      "assets": [],
+      "states": [
+        { "state": "fixture", "when": "The client's data source mode is fixture.", "shape": "A dashed rule under a dark strip.", "words": "“Fixture data. A synthetic development scenario, not a live match.”" },
+        { "state": "emulator", "when": "The client's data source mode is emulator.", "shape": "The same strip.", "words": "“Local emulator. A development backend, not a live match.”" },
+        { "state": "absent", "when": "A live match.", "shape": "Not drawn.", "words": "None." }
+      ]
+    },
+    {
+      "id": "banner-connection",
+      "title": "Connection banner",
+      "surfaces": ["table", "phone-public", "phone-private"],
+      "audience": "public",
+      "hook": ".ms-banner--connection[data-variant]",
+      "assets": ["icon-connection-stale", "pattern-hatch"],
+      "states": [
+        { "state": "stale", "when": "The client's own connection status is stale.", "shape": "A strip of paper tape with an ink edge, a hatched lower edge and the stale icon.", "words": "“Connection lost. Showing the last known state, which may be out of date. Reconnecting…” and the “Reconnect now” control." },
+        { "state": "unreadable", "when": "The latest update could not be read.", "shape": "The same tape.", "words": "Frontend's unreadable-update copy." }
+      ],
+      "openQuestion": "On a phone the banner scrolls away with the page. Whether it should stay in view is not designed in this slice (docs/design/frontend-handoff.md)."
+    },
+    {
+      "id": "identity-title",
+      "title": "Seat identity",
+      "surfaces": ["phone-public"],
+      "audience": "public",
+      "hook": "#ms-title",
+      "assets": [],
+      "states": [
+        { "state": "seated", "when": "audience.seatId of the player's own view.", "shape": "A heading.", "words": "“You are Player N”." }
+      ],
+      "mustNot": ["Show the role, a team or anything else private here."]
+    },
+    {
+      "id": "phase-strip",
+      "title": "Phase caption",
+      "surfaces": ["table", "phone-public", "phone-private"],
+      "audience": "public",
+      "hook": ".ms-phase > .ms-phase__labels[data-cue-at=\"phase\"]",
+      "assets": ["fx-panel-cap", "fx-speed-lines"],
+      "states": [
+        { "state": "own-turn", "when": "phase.kind is ORDINARY_TURN and activeSeatId is the viewer's own seat.", "shape": "A paper caption box with an ink edge and an offset shadow.", "words": "“Round N” and “Your turn”." },
+        { "state": "other-turn", "when": "phase.kind is ORDINARY_TURN and activeSeatId is another seat, or the surface is the table.", "shape": "The same box.", "words": "“Round N” and “Player N’s turn”." },
+        { "state": "turn-unassigned", "when": "phase.kind is ORDINARY_TURN and activeSeatId is null.", "shape": "The same box.", "words": "“Round N” and “Turn in progress”." },
+        { "state": "resolution", "when": "phase.kind is ROUND_RESOLUTION.", "shape": "The same box; the countdown is absent because the phase has no deadline.", "words": "“Round resolution” and “The round is being resolved.”" }
+      ],
+      "cues": ["cue-phase-change", "cue-round-transition"],
+      "note": "Sticky at the top edge of a phone, and an open private sheet stops below it, so the countdown stays in view. Where the screen is short for the reader's text (under 30em tall) the caption scrolls with the page instead, so that a caption which has wrapped cannot take the screen; an open sheet may then cover it, and the control that hides the sheet stays pinned at the sheet's top.",
+      "mustNot": ["Say or color anything that depends on a role.", "Show a phase the protocol does not carry."]
+    },
+    {
+      "id": "phase-timer",
+      "title": "Countdown",
+      "surfaces": ["table", "phone-public", "phone-private"],
+      "audience": "public",
+      "hook": ".ms-timer[data-state][data-final] > .ms-timer__value",
+      "assets": [],
+      "states": [
+        { "state": "running", "when": "A trusted estimate of phase.endsAt from server time.", "shape": "Paper digits in a solid ink box; tabular figures.", "words": "The digits, and “N seconds remaining” for assistive technology." },
+        { "state": "final-seconds", "when": "The estimate is in its last seconds.", "shape": "An extra outline around the box. No flash and no color change.", "words": "“N seconds left.” is spoken." },
+        { "state": "expired", "when": "The local estimate reached zero. Only the server advances the phase.", "shape": "Ink digits on paper in a dashed outline.", "words": "“0:00” and “Waiting for phase update”." },
+        { "state": "syncing", "when": "The device has no trusted server time yet.", "shape": "The same dashed outline.", "words": "“–:––” and “Syncing time with the server”." },
+        { "state": "stale", "when": "The client's own connection status is stale.", "shape": "The last estimate in the dashed outline.", "words": "The connection banner says the state may be out of date." },
+        { "state": "none", "when": "phase.endsAt is null.", "shape": "No box.", "words": "“This phase has no timer”." }
+      ],
+      "mustNot": ["Be a cue anchor: no cue touches the countdown.", "Flash."]
+    },
+    {
+      "id": "location-art",
+      "title": "Room vignette strip",
+      "surfaces": ["phone-public"],
+      "audience": "public",
+      "hook": "PROPOSED span.ms-location__art[data-location] inside .ms-location",
+      "assets": ["board-room-a", "board-room-b", "board-command-room", "board-hospital", "board-jail"],
+      "states": [
+        { "state": "present", "when": "The viewer's own seats[].location is one of the five rooms and the public bundle has loaded.", "shape": "The room's upper half as a 16:7 strip in the room's own colors, with an ink edge and a paper keyline. Each room has its own silhouette: a round viewport, a flask, a long window, a monitor, a striped door.", "words": "None: it is decoration, hidden from assistive technology. The room name is the caption." },
+        { "state": "missing", "when": "The location is the Final Zone, which has no vignette, or the public bundle has not loaded.", "shape": "Not drawn. The panel is the caption and the list, as today.", "words": "The room name caption." }
+      ],
+      "mustNot": ["Carry text.", "Be the only way the location is told.", "Let the room's color stand for a team, a role, a player or a state."],
+      "note": "Where a seat is, is a public fact, so the element is the same on every phone. All five pictures are in the public bundle, already loaded: nothing is fetched when a seat moves."
+    },
+    {
+      "id": "location-caption",
+      "title": "Room name caption",
+      "surfaces": ["table", "phone-public"],
+      "audience": "public",
+      "hook": ".ms-location__name, and .ms-zone__name on the table",
+      "assets": ["icon-location"],
+      "states": [
+        { "state": "named", "when": "A seats[].location value.", "shape": "A caption box in the page's yellow with an ink edge, cut on a slant and turned a little, over the art's quiet top-left corner when art is present. The room's icon stands before its name once the public bundle has loaded.", "words": "The location's name as live text." }
+      ],
+      "note": "The yellow and the slant are how every caption looks. Neither is a state, and neither says that a room may be chosen. The yellow is close to the amber of interaction (16 apart in CIE76): where a room is ever offered for a move, that has to be said by something else.",
+      "mustNot": ["Rename a room: the names are the rules' own (Room A, Room B, Command Room, Hospital, Jail).", "Use the icon as the only way a room is told."]
+    },
+    {
+      "id": "seat-token",
+      "title": "Playing piece",
+      "surfaces": ["table", "phone-public", "phone-private"],
+      "audience": "public",
+      "hook": ".ms-token inside [data-seat] or [data-target-seat]; PROPOSED data-character=\"c1\" to \"c9\" on that element",
+      "assets": ["piece-crew", "token-neutral", "token-numeral"],
+      "states": [
+        { "state": "character", "when": "PROPOSED FACT (DSN-REQ-6): the seat has a character, chosen by its player before roles were dealt.", "shape": "The character: a cardboard standee in a plastic stand on the board, and the same card without its stand in a row. All nine wear the same crew suit; they differ by face, hair and the color of the card's field.", "words": "The tag beside or under it: the seat number and the player's name." },
+        { "state": "numbered", "when": "A seat in seats[] that has no character: every seat, until the identity record exists.", "shape": "A ringed disc with a paper face and an ink numeral; a stand on the board. One numeral picture laid over one body.", "words": "“Player N” beside it. The numeral repeats the name and is hidden from assistive technology." },
+        { "state": "injured", "when": "seats[].health is Injured.", "shape": "A numbered token has a cracked rim and a patch across the ring. A character is not given a wound: on the board the injured badge rides on the piece, lower right.", "words": "The health marker reads “Injured”." },
+        { "state": "eliminated", "when": "seats[].health is Eliminated.", "shape": "A numbered token is flat and hollow: a dashed ring, a duller face, no shadow. A character loses its color, and on the board the eliminated badge rides on the piece.", "words": "The health marker reads “Eliminated”." }
+      ],
+      "cues": ["cue-public-move"],
+      "fallback": "A plain disc with the live numeral; a doubled ring for Injured, a dashed ring on duller paper for Eliminated. This is what is drawn until the public bundle has loaded, with or without a character.",
+      "note": "In a target row the piece is the seat's character, or the idle badge, whatever the seat's health: the row's words carry the public status. A character is public and the same on every screen.",
+      "mustNot": ["Differ by role, faction, weapon, Code, Protection or any private fact.", "Let a role, a team or a deal choose or change a character.", "Carry a device, a tool, a rank or a weapon: a role's device is drawn only inside the private sheet.", "Carry a ring, a dim or any other emphasis on the table or outside the private sheet.", "Be the only way a health state is told."]
+    },
+    {
+      "id": "seat-tag",
+      "title": "Seat tag: number and name",
+      "surfaces": ["table", "phone-public", "phone-private"],
+      "audience": "public",
+      "hook": ".ms-seat__name, .ms-target__name and the roster's th[scope=row]; PROPOSED children .ms-seat__number and .ms-seat__player",
+      "assets": [],
+      "states": [
+        { "state": "named", "when": "PROPOSED FACT (DSN-REQ-6): the seat has a display name.", "shape": "The seat number in a chip, then the name. Under a piece on the board it is a small paper tag with the number in ink. Where four or more stand in one room every second tag hangs a line lower.", "words": "The number and the name; read aloud as “Player N, name”." },
+        { "state": "shortened", "when": "On a board panel only: the name is wider than its tag.", "shape": "The name ends in an ellipsis. The number is never shortened.", "words": "The roster beside the board carries the same name whole.", "surfaces": ["table"] },
+        { "state": "unnamed", "when": "A seat with no display name: every seat, until the identity record exists.", "shape": "Plain words in a row; on a board panel they are in the roster, and hidden from sight only on the panel.", "words": "“Player N”, as today." }
+      ],
+      "note": "A name is text its player typed. It is set as text, never as markup, is at most 12 characters, and is always with the seat number: the number is what the rules and the server mean by a seat. Beside a token that has no art the number is already on the disc, so the tag keeps its own for assistive technology only.",
+      "mustNot": ["Show a name without its seat number.", "Style, color or check a name by what it says: a name that reads like a role is still only a name.", "Shorten a name anywhere but on a board panel that has a roster beside it."]
+    },
+    {
+      "id": "token-emphasis",
+      "title": "Private token emphasis",
+      "surfaces": ["phone-private"],
+      "audience": "private",
+      "hook": "None yet. Would be drawn on .ms-token inside button.ms-target, inside .ms-private__panel only",
+      "assets": ["token-emphasis"],
+      "states": [
+        { "state": "targetable", "when": "PRIVATE. The seat is in the server's own target list where the protocol supplies one. Protocol 1 supplies none (DSN-D03).", "shape": "A dashed two-tone ring around the token.", "words": "The target row's name and public status.", "note": "Exported, and drawn by no reference rule yet." },
+        { "state": "selected", "when": "PRIVATE and local: the player chose this seat and nothing has been sent.", "shape": "A solid ring with ink edges around the token.", "words": "The confirmation prompt names the seat.", "note": "Exported, and drawn by no reference rule yet." },
+        { "state": "unavailable", "when": "PRIVATE. The seat is not in the server's target list.", "shape": "A darker ring and a duller face.", "words": "A reason only if the view supplies one; otherwise the seat is not offered.", "note": "Exported, and drawn by no reference rule yet." }
+      ],
+      "note": "Three finished pictures with no rule that draws them. Protocol 1 gives the client no target list of the server's own, and Frontend's confirmation step shows no token, so nothing here is connected (DSN-D03).",
+      "mustNot": ["Appear on the table display or outside the open private sheet.", "Mark a seat as allowed or not allowed from anything but the server's own target list."]
+    },
+    {
+      "id": "seat-row",
+      "title": "Seat row",
+      "surfaces": ["phone-public", "table"],
+      "audience": "public",
+      "hook": "li.ms-seat[data-seat][data-self][data-active][data-cue-at=\"seat-N/place\"]; PROPOSED data-character",
+      "assets": ["piece-crew", "token-neutral"],
+      "states": [
+        { "state": "listed", "when": "A seat in seats[] with the location the list is for.", "shape": "The piece, the tag, then its markers.", "words": "The seat's number and name, or “Player N”, and each marker's word." }
+      ],
+      "cues": ["cue-public-move"]
+    },
+    {
+      "id": "marker-health",
+      "title": "Health marker",
+      "surfaces": ["table", "phone-public", "phone-private"],
+      "audience": "public",
+      "hook": ".ms-marker--health[data-variant][data-cue-at=\"seat-N/health\"]",
+      "assets": ["marker-health"],
+      "states": [
+        { "state": "healthy", "when": "seats[].health is Healthy.", "shape": "An outline chip with a solid heart. The quiet one.", "words": "“Healthy”." },
+        { "state": "injured", "when": "seats[].health is Injured.", "shape": "A paper chip with a split heart.", "words": "“Injured”." },
+        { "state": "eliminated", "when": "seats[].health is Eliminated.", "shape": "A duller paper chip with a dashed edge and a crossed, hollow heart.", "words": "“Eliminated”." }
+      ],
+      "cues": ["cue-status-change"],
+      "mustNot": ["Be red, or amber.", "Imply a cause.", "Stand in for Jail or Captain: each is its own marker."]
+    },
+    {
+      "id": "marker-jail",
+      "title": "Jail marker",
+      "surfaces": ["table", "phone-public", "phone-private"],
+      "audience": "public",
+      "hook": ".ms-marker--jail",
+      "assets": ["marker-jail"],
+      "states": [
+        { "state": "jailed", "when": "seats[].jailed is true.", "shape": "A paper chip with a barred window.", "words": "“Jailed”." },
+        { "state": "absent", "when": "seats[].jailed is false.", "shape": "Not drawn.", "words": "None." }
+      ],
+      "mustNot": ["Replace the health marker: Jail is not a health state."]
+    },
+    {
+      "id": "marker-captain",
+      "title": "Captain marker",
+      "surfaces": ["table", "phone-public", "phone-private"],
+      "audience": "public",
+      "hook": ".ms-marker--captain",
+      "assets": ["marker-captain"],
+      "states": [
+        { "state": "captain", "when": "seats[].captain is true.", "shape": "A paper chip with a doubled outline and a five-point rank star.", "words": "“Captain”." },
+        { "state": "absent", "when": "seats[].captain is false.", "shape": "Not drawn.", "words": "None." }
+      ],
+      "mustNot": ["Say or imply immunity: that needs authorized current location data and an approved way to show it.", "Be a shield, or anything else that reads as protection.", "Disappear because the Captain left Command Room."]
+    },
+    {
+      "id": "marker-turn",
+      "title": "Active-turn marker",
+      "surfaces": ["table", "phone-public"],
+      "audience": "public",
+      "hook": ".ms-marker--turn",
+      "assets": ["marker-turn"],
+      "states": [
+        { "state": "active", "when": "activeSeatId equals the seat.", "shape": "An amber chip with a speech balloon; a balloon floating above the standee on the board.", "words": "“Active turn”." },
+        { "state": "absent", "when": "activeSeatId is another seat or null.", "shape": "Not drawn.", "words": "None." }
+      ],
+      "note": "The one public use of amber, and it always carries its words. It is not drawn inside the private sheet: a target row lists health, Jail and Captain only."
+    },
+    {
+      "id": "marker-self",
+      "title": "Own-seat marker",
+      "surfaces": ["phone-public", "phone-private"],
+      "audience": "public",
+      "hook": ".ms-marker--self",
+      "assets": ["marker-self"],
+      "states": [
+        { "state": "self", "when": "The seat equals audience.seatId of the player's own view.", "shape": "A dotted outline chip with a location pin.", "words": "“You”." }
+      ],
+      "mustNot": ["Appear on the table display."]
+    },
+    {
+      "id": "roster-zones",
+      "title": "All players by location",
+      "surfaces": ["phone-public"],
+      "audience": "public",
+      "hook": ".ms-roster .ms-zones > li.ms-zone[data-zone][data-current]",
+      "assets": [],
+      "states": [
+        { "state": "occupied", "when": "One or more seats have this location.", "shape": "A bordered group with the seat rows, and a bar in the room's own color down its leading edge.", "words": "The location name and each seat." },
+        { "state": "empty", "when": "No seat has this location.", "shape": "The same group.", "words": "“No players here.”" },
+        { "state": "current", "when": "The viewer's own seat has this location.", "shape": "A heavier paper keyline. Not a color.", "words": "The “You” marker on the viewer's own row." }
+      ],
+      "note": "The complete tap and read path for the board on a phone, at any text size. The Final Zone is listed only when a seat is in it. The approved comic page on a phone, with rooms that can be pressed, is not drawn here yet: it needs the movement markup of protocol 2 and a reading path that survives large text.",
+      "mustNot": ["Draw a route, an arrow or an adjacency.", "Let the bar's color be the only way a room is told: its name is beside it."]
+    },
+    {
+      "id": "board-page",
+      "title": "Board page",
+      "surfaces": ["table"],
+      "audience": "public",
+      "hook": ".ms-shell--table .ms-board > .ms-zones",
+      "assets": [],
+      "states": [
+        { "state": "page", "when": "Always on the table display.", "shape": "A paper page with one inked panel per location and paper gutters between them. The two rooms share the top row; the Command Room, the Hospital and the Jail the bottom row.", "words": "Each panel's caption." }
+      ],
+      "mustNot": ["Draw a door, corridor, arrow or line between panels.", "Let a room's color stand for a team, a role, a player or a state: three of the approved families share a hue with the three team accents (open decision DSN-D13)."]
+    },
+    {
+      "id": "board-panel",
+      "title": "Room panel with vignette",
+      "surfaces": ["table"],
+      "audience": "public",
+      "hook": ".ms-shell--table .ms-zone[data-zone] for room-a, room-b, command-room, hospital and jail",
+      "assets": ["board-room-a", "board-room-b", "board-command-room", "board-hospital", "board-jail", "piece-crew", "token-neutral", "marker-health", "marker-jail", "marker-captain", "marker-turn"],
+      "states": [
+        { "state": "occupied", "when": "One or more seats have this location.", "shape": "The room's vignette in its own color family, with the pieces standing in one row along its lower edge and a tag under each. Marker badges ride on the piece: turn above, Captain top right, health lower right, Jail lower left.", "words": "The caption and each tag; each seat's status is in the roster and, hidden from sight only, in the panel." },
+        { "state": "crowded", "when": "Four or more seats have this location, up to all nine.", "shape": "The pieces are smaller, so that all stand side by side, and every second tag hangs a line lower. No piece is under the smallest size a face can be told at.", "words": "As occupied. A long name may be shortened in its tag; the roster carries it whole." },
+        { "state": "empty", "when": "No seat has this location.", "shape": "The vignette alone.", "words": "The caption and “No players here.” in a caption box of its own, at body size." }
+      ],
+      "cues": ["cue-public-move"],
+      "note": "The row is a suggested reflow in the manifest (pieceRow). No slot is drawn and none is a capacity. The panel clips nothing, so a piece carried in from another room is drawn over the gutter on its way.",
+      "mustNot": ["Show a targeting highlight, an aim line or a camera move.", "React to a registration.", "Show a role's device, or anything else of a role, on a piece."]
+    },
+    {
+      "id": "board-panel-fallback",
+      "title": "Location panel without a vignette",
+      "surfaces": ["table"],
+      "audience": "public",
+      "hook": ".ms-shell--table .ms-zone (the Final Zone, and every zone before the art has arrived)",
+      "assets": ["pattern-halftone", "token-neutral"],
+      "states": [
+        { "state": "occupied", "when": "One or more seats have this location and no vignette is drawn for it.", "shape": "A plain inked panel on the room's own ground color (steel for the Final Zone); disc tokens with their names and chips. No halftone lies behind them.", "words": "The caption, each seat's name and each marker's word." },
+        { "state": "empty", "when": "No seat has this location.", "shape": "The same panel, with halftone gathered in its far corner.", "words": "The caption and “No players here.”" }
+      ],
+      "note": "Every location is drawn this way until the public bundle has loaded. The panel grows with what it holds; nothing is clipped to keep a shape."
+    },
+    {
+      "id": "roster-table",
+      "title": "Roster",
+      "surfaces": ["table"],
+      "audience": "public",
+      "hook": ".ms-roster .ms-table tr[data-seat][data-active] with td[data-cue-at]; PROPOSED .ms-seat__number and .ms-seat__player in the row header",
+      "assets": [],
+      "states": [
+        { "state": "row", "when": "A seat in seats[].", "shape": "A row. With a name, its header is the same two parts as a tag on the board: the number in a chip, then the name, whole.", "words": "Player, location, health and status, each in words." },
+        { "state": "active-row", "when": "activeSeatId equals the seat.", "shape": "An amber bar at the start of the row.", "words": "“Active turn” in the status cell." }
+      ],
+      "cues": ["cue-public-move", "cue-status-change"],
+      "note": "Beside the board from 1280 CSS px; under it below that. A long word wraps inside its cell: the table never scrolls sideways and no status word is out of sight. It is where a name shortened on the board is read whole."
+    },
+    {
+      "id": "private-dock",
+      "title": "Private dock and sheet",
+      "surfaces": ["phone-public", "phone-private"],
+      "audience": "public",
+      "hook": "section.ms-private[data-open] > #ms-private-toggle; PROPOSED class ms-private--docked",
+      "assets": ["icon-private"],
+      "states": [
+        { "state": "closed", "when": "Local: the default, and whenever the player closes it.", "shape": "A bar at the bottom edge with a closed-eye control.", "words": "“Private” and “Show private information”. The reminder is shown where there is room and is always the control's description. On the narrowest phones and at large text the bar is its control and nothing else." },
+        { "state": "open", "when": "Local: the player opened it on this device and the page is in the foreground.", "shape": "The sheet rises from the bar and stops below the phase caption where the screen is tall enough for the reader's text, and takes the whole screen where it is not. The control shows an open eye and stays pinned at the top of the sheet however far the cards are scrolled.", "words": "“Hide private information”." },
+        { "state": "concealed", "when": "The page went to the background.", "shape": "Closed. Nothing private is in the document.", "words": "As closed.", "note": "Best-effort screen privacy, not screenshot protection." }
+      ],
+      "mustNot": ["Show a count, a badge, a dot or a highlight: whether a seat has something to do is private.", "Look different by role, turn or availability.", "Play a sound or vibrate."]
+    },
+    {
+      "id": "role-card",
+      "title": "Role card",
+      "surfaces": ["phone-private"],
+      "audience": "private",
+      "hook": ".ms-role-card; PROPOSED children span.__art, __text, __name, __team, details.__more, __summary; PROPOSED custom properties --ms-role-person, --ms-role-device and --ms-team-accent set on the card by the client",
+      "assets": ["device-officer", "device-insider", "device-cracker", "device-blue-disabler", "device-supplier", "device-undercover", "device-hacker", "device-red-disabler", "device-alien", "piece-crew"],
+      "states": [
+        { "state": "compact", "when": "PRIVATE. self.role of the player's own view, inside the open sheet.", "shape": "A paper card: a thumbnail of the player's own character with the role's device added, held in the character's glove; the role name and the team.", "words": "The role name, the team in words, and “About this role”." },
+        { "state": "expanded", "when": "Local: the player opened “About this role”.", "shape": "The same picture large, and the summary under it.", "words": "The proposed lines for that role (design/contract/copy.en.proposed.json), for all nine roles." },
+        { "state": "device-alone", "when": "PRIVATE. The seat has no character yet, or the public bundle has not loaded.", "shape": "The device on the card's dotted ground, without a character.", "words": "As compact." },
+        { "state": "name-only", "when": "PRIVATE. self.role before the role bundle has loaded, or where the proposed structure is not used.", "shape": "A paper card holding the role name, as Frontend draws it today. No picture.", "words": "The role name." }
+      ],
+      "cues": ["cue-role-card-turn"],
+      "note": "The role name is never larger than the heading size, so it cannot be read across a table. The picture is compact by default, so that a device in its team's color is not large on screen every time the sheet is opened, and the actions stay in reach. The team is a fact of the role taken from the rule source; no view field carries it. Its color swatch is decoration beside its word and exists only inside the sheet. The character on the card is the player's own public piece: nothing about it is private, and it is drawn here only as the wearer of the device.",
+      "mustNot": ["Fetch the dealt role's device: every phone loads the whole role bundle as one stylesheet, whatever its role.", "Key a selector on the role: the client sets the pictures and the swatch as custom properties on the card, inside the sheet.", "Appear, or leave any trace, outside the open sheet: no piece, cue, location or shared display shows a device.", "Show another player's device, ever.", "Mention identifying another player for a shot: that step is archived."]
+    },
+    {
+      "id": "action-card",
+      "title": "Action card (Shot)",
+      "surfaces": ["phone-private"],
+      "audience": "private",
+      "hook": "li.ms-card[data-action=\"shot\"] > .ms-card__state[data-status][data-step][data-selected]",
+      "assets": ["icon-action-shot", "pattern-hatch", "pip-resource"],
+      "states": [
+        { "state": "available", "designState": "idle", "when": "PRIVATE. data-status available, with a control: self.shotAvailable is true, the view is current and unexpired, and it is this seat's own ordinary turn.", "shape": "A paper card on an offset shadow; the status word in a solid ink box; one primary control.", "words": "“Available” and the “Choose a target” control." },
+        { "state": "available-waiting", "designState": "idle", "when": "PRIVATE. data-status available, with no control: self.shotAvailable is true, the view is current, and it is not this seat's ordinary turn.", "shape": "The same card and the same solid status box. No control.", "words": "“Available” and “You can register a shot during your own turn.”" },
+        { "state": "available-paused", "designState": "reconnect", "when": "PRIVATE. data-status available, with no control and no reason: self.shotAvailable is true and the view is stale or its phase clock has run out.", "shape": "The same card with nothing under its status word; the notice above the cards in a dashed box.", "words": "“Available”, and above the cards “Actions are paused until the connection is restored.”" },
+        { "state": "targeting", "designState": "selection, targeting", "when": "Local: the player picked the card up. Nothing has been sent.", "shape": "The card lifted off its shadow with the focus-colored outline; target rows listed.", "words": "“Choosing a target”, the prompt and each target row." },
+        { "state": "confirming", "designState": "targeting", "when": "Local: a target is chosen. Nothing has been sent.", "shape": "Still lifted; one primary control.", "words": "“Not sent yet”, “Register a shot at Player N?” and the consequence line." },
+        { "state": "submitting", "designState": "pending", "when": "The command is on its way.", "shape": "Still lifted; a hatched band across the top that does not move.", "words": "“Submitting” and “Sending your shot to the server…”" },
+        { "state": "checking", "designState": "pending", "when": "No usable answer yet; the client is asking for the receipt.", "shape": "The same band.", "words": "“Checking” and what is being checked." },
+        { "state": "unknown", "designState": "pending", "when": "Automatic checking gave up. Nothing is assumed either way.", "shape": "Still lifted; the status word in a double outline.", "words": "“Result unknown”, “Do not assume either way.” and “Check again”." },
+        { "state": "registered", "designState": "registered", "when": "data-status registered, data-step result: an accepted receipt for this device's own command, until the player presses Done.", "shape": "The card back on its shadow; the status word is a stamp, turned 4 degrees in a doubled outline; the pip is dotted.", "words": "“Registered”, “Shot at Player N registered.” and “This is not a result.” Where this device no longer knows the target: “Your shot is registered.”" },
+        { "state": "registered-idle", "designState": "registered", "when": "data-status registered, data-step idle: the seat's own view lists a command in ownPendingCommandIds, or this device registered one the view has not caught up with.", "shape": "The same stamp on the card at rest; no control.", "words": "“Registered” and “Your shot at Player N is registered. It is resolved at the end of the round.” Where this device does not know the target: “A shot is registered. It is resolved at the end of the round.”" },
+        { "state": "was-registered", "designState": "spent", "when": "This device saw its own registration, the view has since stopped listing it as pending, and the player has not yet pressed Done.", "shape": "Flat: duller paper, dashed edge, no shadow; a dashed stamp. No pip.", "words": "“Was registered” and “It is no longer waiting to be resolved. This is not a result.”", "note": "The nearest protocol 1 comes to spent. It lasts until Done or a reload; after that the card is whatever self.shotAvailable says. Nothing here says the shot was used: the view does not say why the command stopped being listed (DSN-D02)." },
+        { "state": "unavailable", "designState": "unavailable", "when": "data-status unavailable: self.shotAvailable is false and nothing is registered.", "shape": "Flat: duller paper, dashed edge, no shadow; a dashed status box. Nothing under it.", "words": "“Not available”. No reason is given: the view supplies none." },
+        { "state": "not-registered", "designState": "unavailable", "when": "A rejection receipt, or a safe error for this device's own command.", "shape": "A dashed status box on a normal card.", "words": "“Not registered” and the sentence for its code." }
+      ],
+      "cues": ["cue-selection", "cue-registration"],
+      "note": "Every seat that is shown the card gets the same card. Only the server's availability and this device's own progress differ. The ten statuses are Frontend's; the three idle pictures of “available” differ only in what stands under the status word.",
+      "mustNot": ["Show damage, a hit, a block or a result: registration is not an outcome.", "Explain a rejection or an unavailable state with a fact the view did not supply.", "Use a faction color: the card is not a Blue card.", "Start a second command while one is unresolved.", "Say a shot is used or spent: no field says so (DSN-D02)."]
+    },
+    {
+      "id": "action-status",
+      "title": "Status word",
+      "surfaces": ["phone-private"],
+      "audience": "private",
+      "hook": ".ms-card__status[data-cue-at=\"registration\"]",
+      "assets": ["pattern-halftone"],
+      "states": [
+        { "state": "word", "when": "The card's own status.", "shape": "One outline per status: solid, plain, double, dashed, or the turned stamp.", "words": "The status name." }
+      ],
+      "cues": ["cue-registration"]
+    },
+    {
+      "id": "action-step",
+      "title": "Step line",
+      "surfaces": ["phone-private"],
+      "audience": "private",
+      "hook": "#ms-shot-step",
+      "assets": [],
+      "states": [
+        { "state": "line", "when": "The card's own step.", "shape": "A bold line. Keyboard focus rests here, never on a control that would send a command.", "words": "The prompt, the progress sentence or the result sentence." }
+      ]
+    },
+    {
+      "id": "resource-pip",
+      "title": "Resource pip",
+      "surfaces": ["phone-private"],
+      "audience": "private",
+      "hook": "PROPOSED .ms-card__pips > .ms-pip[data-pip] inside .ms-card__title",
+      "assets": ["pip-resource"],
+      "states": [
+        { "state": "available", "when": "PRIVATE. self.shotAvailable is true, the seat's view lists no pending command of its own, and no command of this card is unaccounted for on this device.", "shape": "A solid cell.", "words": "“1 shot available” as its accessible name." },
+        { "state": "registered", "when": "PRIVATE. The seat's own view lists its pending command (ownPendingCommandIds), or this device holds its accepted receipt.", "shape": "A dotted cell.", "words": "“1 shot registered”." },
+        { "state": "none", "when": "The view says neither, or a command of this card is unaccounted for (submitting, checking, unknown).", "shape": "Not drawn.", "words": "None." },
+        { "state": "spent", "when": "NOT DRAWN in protocol 1. No field says a shot is spent (DSN-D02).", "shape": "A dashed, empty cell struck through.", "words": "“Shot used”.", "note": "Exported for the day a field exists. No status of the card draws it." }
+      ],
+      "note": "Drawn from the seat's own view and nothing else. It repeats what the card's status word says. A count needs a field (DSN-D02). Without the player bundle it is not drawn at all.",
+      "mustNot": ["Use a faction color.", "Appear outside the open sheet."]
+    },
+    {
+      "id": "target-row",
+      "title": "Target row",
+      "surfaces": ["phone-private"],
+      "audience": "private",
+      "hook": "button.ms-target[data-target-seat]; PROPOSED data-character",
+      "assets": ["piece-crew", "token-neutral"],
+      "states": [
+        { "state": "offered", "when": "PRIVATE. The seat is offered as a target. In protocol 1 that is a provisional hint (same location), not the server's list (DSN-D03).", "shape": "A full-width row: the piece, the tag, and the seat's public status in words.", "words": "The seat's number and name, or “Player N”, and its public status." },
+        { "state": "none", "when": "No seat is offered.", "shape": "No rows.", "words": "“No other players are in your location.”" }
+      ],
+      "note": "The complete tap path. Dragging is never required. The piece is the seat's character or the idle badge whatever the seat's health; the public status is in the row's words.",
+      "mustNot": ["Describe a target by anything but its public status.", "Show why a seat is not offered unless the view supplies the reason."]
+    },
+    {
+      "id": "card-controls",
+      "title": "Controls",
+      "surfaces": ["phone-private"],
+      "audience": "private",
+      "hook": ".ms-card__controls > .ms-button",
+      "assets": [],
+      "states": [
+        { "state": "row", "when": "The card's own step.", "shape": "One primary control first; controls wrap, never shrink.", "words": "Each control's own label." }
+      ]
+    },
+    {
+      "id": "button",
+      "title": "Button",
+      "surfaces": ["table", "phone-public", "phone-private"],
+      "audience": "public",
+      "hook": ".ms-button, .ms-button--primary, [aria-disabled=\"true\"]",
+      "assets": [],
+      "states": [
+        { "state": "idle", "when": "Local.", "shape": "Paper with an ink edge on an offset shadow, at least 44 CSS px in both directions.", "words": "Its label." },
+        { "state": "primary", "when": "Local: the one main control of a step.", "shape": "The same with a heavier ink edge, in amber. The edge, not the color, is what sets it apart.", "words": "Its label." },
+        { "state": "pressed", "when": "Local: while pressed.", "shape": "Down onto its shadow.", "words": "Unchanged." },
+        { "state": "not-active-yet", "when": "Local: a control that only just appeared is inert for a moment, or the action is paused.", "shape": "Flat: duller paper, dashed edge, no shadow. Still drawn, named and reachable.", "words": "Unchanged, with aria-disabled." },
+        { "state": "focus", "when": "Local: keyboard focus.", "shape": "The focus ring, above everything: the focus color on dark ground; on paper, an ink ring with the focus color around it.", "words": "Unchanged." }
+      ]
+    },
+    {
+      "id": "settings",
+      "title": "Display settings",
+      "surfaces": ["table", "phone-public"],
+      "audience": "public",
+      "hook": ".ms-settings",
+      "assets": [],
+      "states": [
+        { "state": "reduce-motion", "when": "The device preference, then the player's own choice.", "shape": "A labeled checkbox.", "words": "“Reduce motion” and where the value comes from." }
+      ],
+      "note": "Reduced motion, reduced effects and mute are three separate settings. Only the first is in the shells today."
+    },
+    {
+      "id": "character-choice",
+      "title": "Choosing a character",
+      "surfaces": ["phone-public"],
+      "audience": "public",
+      "hook": "None yet. PROPOSED: the lobby step that sets a seat's name and character, before the starting-room choice and before roles are dealt (DSN-REQ-6, DSN-D15)",
+      "assets": ["piece-crew"],
+      "states": [
+        { "state": "offered", "when": "PROPOSED FACT: the character is held by no seat of this match.", "shape": "The character's card on a paper tile with its call sign.", "words": "The call sign, as the accessible name of the choice.", "note": "Specified here and drawn by no reference rule: no lobby markup exists to style. It is drawn and playable in the approved exploration." },
+        { "state": "taken", "when": "PROPOSED FACT: another seat of this match holds the character.", "shape": "Still drawn and still named, without its color, on a dashed tile, with the seat number and name of whoever holds it. Not offered.", "words": "The call sign and who holds it.", "note": "Drawn by no reference rule yet." },
+        { "state": "mine", "when": "Local, then the PROPOSED FACT once the server accepts it: this seat's own choice.", "shape": "A heavier ink edge and an offset shadow.", "words": "The call sign and the player's own name.", "note": "Drawn by no reference rule yet." }
+      ],
+      "note": "Nine characters; at most nine players in Version 1. A character is chosen before any role exists and is never offered, withheld or changed because of one.",
+      "mustNot": ["Come after the deal, or be shaped by it in any way.", "Offer a character another seat holds.", "Accept a name as markup: it is text, at most 12 characters."]
+    }
+  ]
+}

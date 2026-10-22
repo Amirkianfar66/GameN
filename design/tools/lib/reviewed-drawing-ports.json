@@ -1,0 +1,287 @@
+{
+  "devOnly": "mothership:dev-only",
+  "sourceCommit": "49f0db4d34d2a2a418f669a13bed660fc665b1b6",
+  "version": "drawing-port-adoption-6",
+  "sourceHashes": {
+    "design/board-motion/figures/body.mjs": "9d081fc4926d07dd1d56e90bd5452ed05052a806f2d33212a1b76c8e107fc958",
+    "design/board-motion/figures/crew.mjs": "bb65a81f52013fc71966ae813d2d7929e871ed9b837c2f2c1cab9093135cb171",
+    "design/board-motion/figures/parts.mjs": "7c3d34f0b35856ad9287f32d525a612cc40b37feb3e6d26344b9b7de794c2a7e",
+    "design/board-motion/figures/rig.mjs": "b7fd681bb392f0104785fda3c838a2ca2d749c04278e05c8bbec5bb6379da45c",
+    "design/board-motion/figures/gestures.mjs": "626e0b74fba44d055f0ea79777f4be475fd3998b9bff184ce8ff92b6770fe7c4",
+    "design/board-motion/figures/motion.mjs": "b50a12ff2e967eca07778433d2359fef907397de90e04fff355367d0eae5343c",
+    "design/board-motion/scenes/frame.mjs": "aa2a9531f8badd28bbe6e03e956b5cb93411ef876c48c509929833fcdd5648c0",
+    "design/board-motion/js/layout.js": "6f137ec3aaa7cafa31f547f2246b6125a0ceb5b54cbd681a96b519631781ed3f",
+    "design/board-motion/scenes/index.mjs": "5e042aa605336b16e9bf139169cb277497ba4f0be1077f7c1bfbbba54efdb109",
+    "design/board-motion/scenes/kit.mjs": "9e9489bfddaa37ccac06b049934e097b068cae54539a455c151a66935055c14b",
+    "design/board-motion/scenes/command-room.mjs": "f7be9a9001153b4a2803910a9eacdd4ef2de677da0f7dd600f36701497a357de",
+    "design/board-motion/scenes/room-a.mjs": "d3729374ce23a60d14bd4d24ab3abc93a63cedc906e200d6a5b44f24b43c75bd",
+    "design/board-motion/scenes/room-b.mjs": "74eaec045c0915ab983daac8967005f91137760b6646366c6738f08c9674a084",
+    "design/board-motion/scenes/hospital.mjs": "55e56114ccc150ca8048f2851d9168b7bdbe6f7c79575e5273ae8d8cbc972fa9",
+    "design/board-motion/scenes/jail.mjs": "c2eed83374299fb205683244d50873b3a0029308c45c4505cd1dc998b401eef4",
+    "design/board-motion/js/board.js": "56a1cfcd9c838ab65c4c381a334acee083d5698f5d1099fba69102dfd3adbeb6",
+    "design/board-motion/figures/wardrobe.mjs": "1c30862d77ce7fa94275934467c5b596e68dbe0d41f3d102bd0c040bc5feca6f",
+    "design/phone-kit/source/art.mjs": "c86770765e06f487b5fa0f3b2be57c824d114a796a5930f96ff35c7358f95761",
+    "design/board-v2/scenes/slots.mjs": "cf329360c86b512d83a9ab4a2df5a7147ba30d7e716c82a7ffa27c5308dadbc1",
+    "design/board-v2/scenes/hospital-ward.mjs": "d6af092a86322a81cc941bc41aade276063b5ba209a18a402a1c5195096dc2be",
+    "design/board-v2/scenes/capsule.mjs": "51150af446d8553d687ebc621451fb49b962d8cf4435ef843e0f7b79c8fdc3b6",
+    "design/board-v2/figures/capsule.mjs": "a90ae47382d5ec2bc152c1e915bc5a34c258821228bd769b9b76c7472975adc2",
+    "design/board-v2/films/capsule.mjs": "889b2dc4b30dfeede373f8cbc38ec860d0f829502aef899b3c9c17debeef798b",
+    "design/board-v2/js/fit.mjs": "fdd9976755605266f7514a9beb5cbee8a11daf75773299849a8059cd844fc688",
+    "design/board-v2/js/turns.mjs": "12cb3d6d3386ae7a0021f10a0a1c173747039134857b62b6dde89851d6ab5ab0",
+    "design/board-v2/scenes/lighting.mjs": "ed8ce0def1b0c0b965a6b59a52c91c60a0184c5ad86f042eda63108cc70968ad",
+    "design/board-v2/films/blackout.mjs": "361c57acf83e12952fe964cd9567816623e658b36eb1413c68047da51520ef88",
+    "design/board-v2/fx/blocked.mjs": "6408b5229172f157086236ec4463e73c9e0ab3aa6755d968ff2552707fd3ef0a",
+    "design/board-v2/fx/label-box.mjs": "86acb6f2de5fea096c34b5c336dcc327cfcc17cfda4e6cd3e0ab5a814e63d45c",
+    "design/board-v2/films/blocked.mjs": "984cf4a53e1dfbc3984d4caabe9fa6631621824ab624e8de8502d7c13ff21b24"
+  },
+  "ports": {
+    "apps/game/hosted/scene-drawing/body.mjs": {
+      "source": "design/board-motion/figures/body.mjs",
+      "sha256": "82762010294c652f13a592a3f6de9117400bc18df414557492bec47b7d84b513"
+    },
+    "apps/game/hosted/scene-drawing/crew.mjs": {
+      "source": "design/board-motion/figures/crew.mjs",
+      "sha256": "d2147b981140504d47d2fecfbcf0d2efd5860cfe4929d2e3238173289ac8a093"
+    },
+    "apps/game/hosted/scene-drawing/parts.mjs": {
+      "source": "design/board-motion/figures/parts.mjs",
+      "sha256": "7f14f7a93d5d7b5d9f99f07e6e53c2d0edc562b9e080005c926cf7435b91f742"
+    },
+    "apps/game/hosted/scene-drawing/rig.mjs": {
+      "source": "design/board-motion/figures/rig.mjs",
+      "sha256": "e73d4815b8d5afb457fad712c97136bb69384176c8e7e6335f89d101f63dad5d"
+    },
+    "apps/game/hosted/scene-drawing/gestures.mjs": {
+      "source": "design/board-motion/figures/gestures.mjs",
+      "sha256": "fb0c74ec0feee65f29e5ebbb14c949f2fb51afcb2bcef45e33807f0f7e06a823"
+    },
+    "apps/game/hosted/scene-drawing/motion.mjs": {
+      "source": "design/board-motion/figures/motion.mjs",
+      "sha256": "8140af8d28cef802259d571993c5813718dda1ce064ff5075b541f4fee547a63"
+    },
+    "apps/game/hosted/scene-drawing/frame.mjs": {
+      "source": "design/board-motion/scenes/frame.mjs",
+      "sha256": "da22de905a2e0615723bd63745614d6f5d393271aeed34166fab177df4b2f9ba"
+    },
+    "apps/game/hosted/scene-drawing/layout.mjs": {
+      "source": "design/board-motion/js/layout.js",
+      "sha256": "c9469fb2c3c790d44c8a09fccee86b893e717bd670a666ba5eb53340da32b3db"
+    },
+    "apps/game/hosted/scene-drawing/scenes.mjs": {
+      "source": "selected SCENES geometry",
+      "sha256": "97e4f509bb4b2608f176d0638aab8c9233fcb84c5ff6412e310f75eadb2accfa"
+    },
+    "apps/game/hosted/scene-drawing/geometry.mjs": {
+      "source": "selected board geometry functions",
+      "sha256": "5d6a73cc5e20daad520e69a70747fdb74ced22873d36be175ddb596afe77b861"
+    },
+    "apps/game/hosted/scene-drawing/wardrobe.mjs": {
+      "source": "design/board-motion/figures/wardrobe.mjs",
+      "sha256": "312c4cda048585f9270b3de095e2dcf44dc0dadd4c73392b1206da303ae8ddc3"
+    },
+    "apps/game/hosted/scene-drawing/phone-kit-art.mjs": {
+      "source": "design/phone-kit/source/art.mjs",
+      "sha256": "713b860ffaaa91ba6610457d39b6c818bad9aad28fb4967f830d21c0dcf61e86"
+    },
+    "apps/game/hosted/board-v2-drawing/slots.mjs": {
+      "source": "design/board-v2/scenes/slots.mjs",
+      "sourceCommit": "15e61f0bbd043930a578900862be9d5156b3b602",
+      "sha256": "2881bd68bbe9869811813dba6013fac5c1dcea4c8626ae2b2d7e1f0e9a09946b"
+    },
+    "apps/game/hosted/board-v2-drawing/hospital-ward.mjs": {
+      "source": "design/board-v2/scenes/hospital-ward.mjs",
+      "sourceCommit": "15e61f0bbd043930a578900862be9d5156b3b602",
+      "sha256": "ce1ca9ddb4ec5f00f30514b61a43f93d7b3ee233fdd2a35cb98db74dd7940c55"
+    },
+    "apps/game/hosted/board-v2-drawing/scene-kit.mjs": {
+      "source": "design/board-motion/scenes/kit.mjs",
+      "sourceCommit": "15e61f0bbd043930a578900862be9d5156b3b602",
+      "sha256": "055640dad54bbc1b8b0be409e9a694acf8c02ead44feaaa2c0b07a10a1322e46"
+    },
+    "apps/game/hosted/board-v2-drawing/capsule-scene.mjs": {
+      "source": "design/board-v2/scenes/capsule.mjs",
+      "sourceCommit": "f15782aa39d7e84cff305ef5eaa60d8768e2b71c",
+      "sha256": "92b6d78c6ce75b3ac39c5499ac7638521b158697b211b41f2880b7d84889e365"
+    },
+    "apps/game/hosted/board-v2-drawing/capsule-figures.mjs": {
+      "source": "design/board-v2/figures/capsule.mjs",
+      "sourceCommit": "f15782aa39d7e84cff305ef5eaa60d8768e2b71c",
+      "sha256": "193c6dbd76180e0b00502432f2e204c096f4c458970e043b6a12dd89fc725408"
+    },
+    "apps/game/hosted/board-v2-drawing/capsule-film.mjs": {
+      "source": "design/board-v2/films/capsule.mjs",
+      "sourceCommit": "f15782aa39d7e84cff305ef5eaa60d8768e2b71c",
+      "sha256": "8d4fc256c8a41696b3f52208c018095c986e53fbc15b2425d8a85dd72d92922c",
+      "permittedLiterals": [
+        "participant-private, not part of this film: the declared side and its card stay in the two participants' own panel (design/phone-kit/js/hack.js), which the film never covers and never reads"
+      ]
+    },
+    "apps/game/hosted/board-v2-drawing/fit.mjs": {
+      "source": "design/board-v2/js/fit.mjs",
+      "sourceCommit": "f15782aa39d7e84cff305ef5eaa60d8768e2b71c",
+      "sha256": "19a53979aec6ec85b6c0a2fc943a352caa31617c90f86f035939e5d73aae120d"
+    },
+    "apps/game/hosted/board-v2-drawing/turns.mjs": {
+      "source": "design/board-v2/js/turns.mjs",
+      "sourceCommit": "f15782aa39d7e84cff305ef5eaa60d8768e2b71c",
+      "sha256": "717d24e1175120b42742c7a10cba71235ac20dfcc3d8bc2285bdd473ad78cfe4"
+    },
+    "apps/game/hosted/board-v2-drawing/lighting.mjs": {
+      "source": "design/board-v2/scenes/lighting.mjs",
+      "sourceCommit": "7786b9166422f1ffb59921fc224339044f4b0353",
+      "sha256": "35134c4966b508f2a7b09931844f0f09eb07c4da8900c7fc9f35571ee5231e83"
+    },
+    "apps/game/hosted/board-v2-drawing/blackout-film.mjs": {
+      "source": "design/board-v2/films/blackout.mjs",
+      "sourceCommit": "7786b9166422f1ffb59921fc224339044f4b0353",
+      "sha256": "e93bdc54e4511e247193fbe892d13305c7f77fb2f095b048df9fbde630a10c9b"
+    },
+    "apps/game/hosted/board-v2-drawing/blocked-fx.mjs": {
+      "source": "design/board-v2/fx/blocked.mjs",
+      "sourceCommit": "7786b9166422f1ffb59921fc224339044f4b0353",
+      "sha256": "938821be87f00fb24376df2c5d9713dbf4f579c5f13ad2f01d096a5182837f95"
+    },
+    "apps/game/hosted/board-v2-drawing/label-box.mjs": {
+      "source": "design/board-v2/fx/label-box.mjs",
+      "sourceCommit": "7786b9166422f1ffb59921fc224339044f4b0353",
+      "sha256": "b341c8880c499709857597129d9faaa1c5e5a1a66e39afe5bce40a4d2f591cf0"
+    },
+    "apps/game/hosted/board-v2-drawing/blocked-film.mjs": {
+      "source": "design/board-v2/films/blocked.mjs",
+      "sourceCommit": "7786b9166422f1ffb59921fc224339044f4b0353",
+      "sha256": "44ba4ced119e91f6f20078286da880db0b4e3429a8d896f7c72574831ecacbdc"
+    }
+  },
+  "styles": {
+    "apps/game/hosted/ability-drawing.css": {
+      "sha256": "639cf452ddfd0edd37f859aab2ffb64a91812204f673db32c16e8161a01a5d10",
+      "source": "design/abilities/css/abilities.css",
+      "sourceSha256": "cfcc1e29239840a22210df26a8c09439101f658f1e11f5fd7ab89f21b2e6b808",
+      "sourceCommit": "d87163358ea85878fd3e9e4ffb347c4e71d6de5d"
+    },
+    "apps/game/hosted/claude-phone-kit.css": {
+      "sha256": "347eb4fbfce476c4e406b0fdb6084f4213c7fbf6ac8ba0b0f69947af7512b9fc",
+      "source": "design/phone-kit/css/phone-kit.css",
+      "sourceSha256": "fd56e406b635929f438ec853fb673bc540720d661d9c625bb033dbfa464f0c6e",
+      "sourceCommit": "5c9a1510d35d4b9762f9bc2a27dae3f5d53bd5d7"
+    }
+  },
+  "buildFiles": {
+    "apps/game/hosted/comic-assets.mjs": {
+      "sha256": "1947b2f13dd39277d816a16e3da8d59860dd2e69ad83398ff658d80bf3f46431",
+      "assetHashes": {
+        "design/board-motion/assets/manifest.json": "1983f9ad21e0a71b43bf865a2b1aeff11b7ad2f96ffc57dce4b5dcc788148c7a",
+        "design/board-motion/assets/board-motion.scenes.css": "bf80c2fd41dad78f2b65b5e643b9e2c3fe05407d2d281b82cf45d6d6c4cf5e20",
+        "design/abilities/assets/manifest.json": "fa39d6d2d5e9f0149c1aa5df7f9edd06180e61bbd79140d2cb15c6a74e269316",
+        "design/abilities/assets/abilities.art.css": "606cab7facc8ad8542e2b7d0ac1ad17ceaae68328aa9fc8f123c4872e7a35b1b",
+        "design/releases/design-0.3.0.json": "588e79930746266a3c33ab5aedc1f40a8c464ff92c8e181dec93653d619eaecf",
+        "scripts/runtime-art-release.mjs": "f72a8877607ac0edc73c652f098e0722e7a97f3f4535086803097026fc2ba74c",
+        "design/releases/board-v2-art-candidate.json": "0412d616c0b6ab37d9f6f80fb34115aad4db6275b042697af1b58634289f577c",
+        "scripts/board-v2-art-candidate.mjs": "3a4237520a1dcc10188e375ae3f33c5fb42304fbd28fe227585fe518e2871e8a",
+        "design/releases/board-v2-runtime-ports.json": "b44c9ef74fff41b5409949b628b360b1f12e736cc88d8321d58ed3c2226f78ac",
+        "design/board-v2/assets/scenes/hospital-ward-7.back.svg": "3f9e999efcbebba17e7e3a46b88d092e95e205119d6d890444330f8c73635ba0",
+        "design/board-v2/assets/scenes/hospital-ward-8.back.svg": "15e5e55131239536eb299bca6bc5f567d0bbf3a55f39e0b9b7f94648d429aff9",
+        "design/board-v2/assets/scenes/hospital-ward-9.back.svg": "f002edcfce36d781a625fc9022d8f0d3d6b1359f8e443ff67f6b493c2702412c",
+        "design/board-v2/assets/scenes/hospital-ward.berth-h1.svg": "23c9988d68f05d9702d0e8fc945f56073015e223f72471efcfd829c8673431d8",
+        "design/board-v2/assets/scenes/hospital-ward.berth-h2.svg": "341fe66aa6608e91637a88006f2e15fd106abcc96c7db01ebe1b2a729113116c",
+        "design/board-v2/assets/scenes/hospital-ward.berth-h3.svg": "bd2e530a98d7e18da00606a9b9ae8269a3369ea5bbfad365309b3428c147373b",
+        "design/board-v2/assets/scenes/hospital-ward.berth-h4.svg": "9a3519b8eb884ad6abfe54272b6a1db69f4057a9b6304c73c1940bd690eb76e6",
+        "design/board-v2/assets/scenes/hospital-ward.berth-h5.svg": "305bfcc0c80207d865ee91b6672d2556e1b8e3813ace980709f1d99d769787e4",
+        "design/board-v2/assets/scenes/hospital-ward.berth-h6.svg": "5afe0564a747cf3f554e9e9a4e16ed5a80e9e318c2c939474f3a9d0a330bb062",
+        "design/board-v2/assets/scenes/hospital-ward.berth-h7.svg": "e65c112c430603629637659110746e9fdf9794db0fa999aae7b000c3401e436b",
+        "design/board-v2/assets/scenes/hospital-ward.berth-h8.svg": "54499879b2f5784655457355233ac5c3b50ffe5d316522012c7dc2d06e5696dc",
+        "design/board-v2/assets/scenes/hospital-ward.berth-h9.svg": "de09d58d584d75af34240099059cb043f94096c62c5df8074173b0cd2120ea38",
+        "design/board-v2/assets/capsule/back.svg": "1bcfd91e11e73d5c6a6205abf0c12b9b111ee4887c872975fca1dc8b41e87cc5",
+        "design/board-v2/assets/capsule/door-0.svg": "63026f9971904a750fed9b6caa04e061f74d0b39b42e40165dea8f812314491e",
+        "design/board-v2/assets/capsule/door-1.svg": "ddb0d2d2855c352366db5ca4a9e2470440fa134f613cf92cd8e0a1a47aedc24f",
+        "design/board-v2/assets/capsule/door-2.svg": "9b7d9fdd9f6f02fcfc190a03fcd3d19b6a2d2123a78ce4187c27c5294dc784c9",
+        "design/board-v2/assets/capsule/door-3.svg": "55cc7717d8f733ce38e6ac5c7c14ac19e8b0296ce44ba0d95ad98415fb8b31e7",
+        "design/board-v2/assets/capsule/busy.svg": "d5e45edd0af0115e0e87b64f0da8985d04d1166ee27ebbf8df2b687f6871dca9",
+        "design/board-v2/assets/capsule/badge.svg": "f624378a91c11f67f7ffc7c4fd15e65eccc5287f57f0b50a75b5332988761dc7",
+        "design/board-v2/assets/capsule/dark.svg": "bae4c518d7732b2ccbf8179351ed3d7d815d0204dd4a1666b190148cee237185",
+        "scripts/setup-art-candidate.mjs": "ef1b9e8fc451a6ff4658db1351530a78b7140179be17eed0137758742e72fde2",
+        "scripts/board-v2-motion-art.mjs": "60dac0df0510b9fbc1110d8c1553f9df3c4385cf1b1bb18a869b48f74441b8b8",
+        "design/releases/setup-art-candidate.json": "e611fd0f50bd4f032ecae39eecb63e982681ddb8f9365397708784dc72ef92ab",
+        "design/releases/board-v2-motion-art.json": "dc38bedc9ffba87ac6226213911bed1b093290146a26389a6e90ee40796f793c",
+        "design/releases/board-v2-motion-ports.json": "d667358a96438942943999bd643e7a16c717373f9393ff9ec8c5a43e87a0d87f",
+        "design/board-v2/assets/lighting/command-room.dark.svg": "bdea7e82684acf648d0bb07e5b1e1b448ad1a3f2ad898d32d372f05fd37ef062",
+        "design/board-v2/assets/lighting/fx-bolt.svg": "a7c8c39268fa60ff0b17a365320a2debe2b3d148851d5e2fae2722aa395256b2",
+        "design/board-v2/assets/lighting/fx-impact-1.svg": "89cd1c3e8a369dc469482fcc932b921cbd30c1064c7c4caf3a61b8554bdaa6d7",
+        "design/board-v2/assets/lighting/fx-impact-2.svg": "270f1524b75e8e0766e6cc77fbd279788cccb25c0f8520d9be06845506144cdc",
+        "design/board-v2/assets/lighting/fx-impact-3.svg": "13ae42ec493b63447589ea0408e1168597dbd44cb127aea17264025fe6228f6d",
+        "design/board-v2/assets/lighting/fx-spark-1.svg": "2a9c2ed545716e798b382b0e214b1234958f1a6771203225ddd156cf01cff7cd",
+        "design/board-v2/assets/lighting/fx-spark-2.svg": "e8abe0f10b6c78cbfb1bc65853192a2c9a7280ff34d292610e0b29fc2b0aa90a",
+        "design/board-v2/assets/lighting/fx-spark-3.svg": "3a3fdc53881a1b295cbac96e026e06eff9e5c4d6d3e98e97ca588936ede83fb8",
+        "design/board-v2/assets/lighting/hospital-ward-7.dark.svg": "b0a97110562e43dab092255659dbffd5e53eaa3135935075ca046abd7fe33116",
+        "design/board-v2/assets/lighting/hospital-ward-8.dark.svg": "8b9c0993b717b5efde745929842d2e26e2a1e8acdcd1182656260e22aa06c536",
+        "design/board-v2/assets/lighting/hospital-ward-9.dark.svg": "11400d87f23638f9dc6f17be5ce2d18205b2caf2ac2633cda437d682775efdd0",
+        "design/board-v2/assets/lighting/jail.dark.svg": "c0978c8e1cd1678c19a412ea295af7fd8ac2f8bff56839af0bb286ee0cfae638",
+        "design/board-v2/assets/lighting/marker-chosen.svg": "750be4f6199f6d477bd80051ca5e829211be3f8750c3e1cfa56a90f9943137c2",
+        "design/board-v2/assets/lighting/marker-dark.svg": "7f9038db74409b6893da8eb9d61190cf6a956f6d398d4cf1fe760c2baf7f131e",
+        "design/board-v2/assets/lighting/marker-preview.svg": "be484a8351be652a96c0403754bd44288347a1c723ff19581b8671f4c8d11364",
+        "design/board-v2/assets/lighting/room-a.dark.svg": "8988d6b617a4295ad14a25b562987774d4a64722a41a47cb7960c5ef8c54efc3",
+        "design/board-v2/assets/lighting/room-b.dark.svg": "b8676a47b4604e87c6db02b97a9805221b19591b9babd268ccb2f8fd3fbf1b2b",
+        "design/board-v2/assets/fx/fx-block-particles-1.svg": "495367131022102d948829e8510add0a934fbe9402de5afefdd2f9ed23c0fb72",
+        "design/board-v2/assets/fx/fx-block-particles-2.svg": "7b98b6d31a858b83427b1bc811315accff82bac96b032fc82f7d9c6a765eb180",
+        "design/board-v2/assets/fx/fx-block-particles-3.svg": "e7d06d2afd9e6f974ee0b90620c070c185e2d2cd73dcdc312513c23876c08ad7",
+        "design/board-v2/assets/fx/fx-block-ring.svg": "9cd561a8bc28ba5f5ca8441d70a15de2a9bdcb1cf7ba619872555bca45facc4f",
+        "design/board-v2/assets/fx/fx-shield-1.svg": "5a2953714b267417aacc38703502f14f8e063b065e3caa0570d90b7943ce6835",
+        "design/board-v2/assets/fx/fx-shield-2.svg": "87036cc95529618901f1c0d524b8794eb9938d4b2f7b12a688a28dc8c9a864c9",
+        "design/board-v2/assets/fx/fx-shield-3.svg": "feb871f35592db45d452fae1ae367ae7ba8ecd3ae38eb653db49ec0d9c47367d",
+        "design/setup-art/source/setup.svg": "a8a8891200443b692ad236e75cd504c5d6f8045f804d359447b25c18cd2e59f1",
+        "design/setup-art/assets/setup-back.svg": "201eab9994fdb57c8a728a57d30f349b50bcd473cb4dd9f8bcb609e072b21fec",
+        "design/setup-art/source/abilities.css": "c35301a25322cf853af4f4820bdba0733ec0d632be88e45a9c3acda14086adb7"
+      },
+      "permittedLiterals": [
+        "board-motion/assets/manifest.json",
+        "design/board-motion/assets/manifest.json",
+        "design/board-motion/assets/board-motion.scenes.css"
+      ]
+    }
+  },
+  "scope": "Owner-authorized release integration: retain the historical pure drawing ports and ability stylesheet, replace provisional phone-feedback ports with exact reviewed Claude phone-kit derivatives. No prototype imports or directory exemption. Add eight exact Board V2 drawing/layout derivatives, the uniform common-art build supplement and reviewed native metadata literals. No prototype controller, fixture or directory exemption; no release/profile activation. Add five exact S1/S4 pure derivatives and uniform setup/motion supplements. Final native consumer acceptance is separately recorded.",
+  "styleSourceCommit": "d87163358ea85878fd3e9e4ffb347c4e71d6de5d",
+  "phoneKitAdoption": {
+    "sourceCommit": "5c9a1510d35d4b9762f9bc2a27dae3f5d53bd5d7",
+    "sourceManifest": "design/phone-kit/assets/manifest.json",
+    "scope": "Exactly two pure Claude drawing derivatives; only their leading dev-only comment is removed. The production stylesheet adaptation has a separate reviewed runtime hash and frozen Claude source hash. No prototype controller, fixture, timing or layout module is adopted."
+  },
+  "metadataFiles": {
+    "apps/game/hosted/board-v2-host.mjs": {
+      "sha256": "99803f374b0710aa8297bf7865d149fa71b22dbbf6cad6e333c2ef0c18a19149",
+      "permittedLiterals": [
+        "board-v2"
+      ]
+    },
+    "apps/game/hosted/board-v2-scene.mjs": {
+      "sha256": "7d3ab0d3a8a6be7801ba1cdca680517cba982242f871a42e648f0a8e899262af",
+      "permittedLiterals": [
+        "board-v2"
+      ]
+    },
+    "apps/game/hosted/board-v2.css": {
+      "sha256": "9762aa1f33f65a8577ccc9a648dc7b2ad1ad15ccf7a6ac9c15ed485820f8be55",
+      "permittedLiterals": [
+        "board-v2"
+      ]
+    }
+  },
+  "boardV2Adoption": {
+    "sourceCommits": [
+      "15e61f0bbd043930a578900862be9d5156b3b602",
+      "f15782aa39d7e84cff305ef5eaa60d8768e2b71c"
+    ],
+    "runtimeCatalog": "design/releases/board-v2-runtime-ports.json",
+    "runtimeCatalogSha256": "b44c9ef74fff41b5409949b628b360b1f12e736cc88d8321d58ed3c2226f78ac",
+    "scope": "Pure derivatives and exact native metadata only. No final gameplay/art pairing, default profile activation or Designer film acceptance."
+  },
+  "boardV2MotionAdoption": {
+    "sourceCommit": "7786b9166422f1ffb59921fc224339044f4b0353",
+    "runtimeCatalog": "design/releases/board-v2-motion-ports.json",
+    "runtimeCatalogSha256": "d667358a96438942943999bd643e7a16c717373f9393ff9ec8c5a43e87a0d87f"
+  },
+  "nativeConsumerReview": {
+    "sourceCommit": "e561f297e4f06286da76541efbfee25e79605dcd",
+    "scope": "Native fixed-slot, Blackout, room-event, capsule, setup and recovery consumers reviewed by Integration and Backend. Only existing metadata literal exceptions renewed; pure drawing hashes and historical source bytes unchanged. Browser acceptance and exact release CI remain separate gates."
+  }
+}

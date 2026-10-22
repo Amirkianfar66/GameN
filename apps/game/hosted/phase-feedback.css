@@ -1,0 +1,36 @@
+/* Functional result region using the already adopted shell palette. Final graphic/motion
+   styling awaits the verified Claude-owned handoff. No timer or animation advances play. */
+.ms-shell [data-region="vote-result"]:empty { display: none; }
+.ms-shell .feedback-window[hidden] { display: none; }
+.ms-shell .feedback-window {
+  position: relative; z-index: 3; min-width: 0; min-height: 0; overflow: auto;
+  padding: 12px; color: var(--ms-color-text); background: var(--ms-color-panel);
+  border: 2px solid var(--ms-color-steel-mid); border-radius: 10px;
+}
+#app .ms-shell--player .feedback-window { grid-column: 1; grid-row: 2; margin: 6px; }
+#app .ms-shell--player .phone-menu > .feedback-window { margin: 0 0 12px; }
+#app .ms-shell--player .phone-menu:has(.feedback-window) .phone-panel-head { z-index: 4; }
+#app .ms-shell--player .phone-menu:has(.feedback-window) { display: grid; grid-template-rows: auto auto minmax(0,1fr); height: 100%; max-height: 100%; overflow: hidden; }
+#app .ms-shell--player .phone-menu:has(.feedback-window) .phone-menu-content { min-height: 0; overflow: auto; overscroll-behavior: contain; }
+.phone-menu-content > * { margin-bottom: 1rem; }
+.feedback-window--compact { overflow: visible; }
+.feedback-window--compact h2 { margin: 2px 0; font-size: 1rem; }
+.feedback-window--compact p { margin: 3px 0; font-size: .8125rem; }
+#app .ms-shell--player .ms-main:has(.feedback-window--vote) > .ms-board { display: none; }
+.feedback-window h2 { margin: 4px 0 8px; font-size: 1.25rem; line-height: 1.2; }
+.feedback-window p { margin: 6px 0; font-size: .875rem; line-height: 1.3; }
+.feedback-window .feedback-window__origin { font-size: .75rem; }
+.feedback-window__selected { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.feedback-window__selected > strong { overflow-wrap: anywhere; unicode-bidi: isolate; }
+.feedback-window__counts { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 4px 12px; margin: 8px 0; padding: 0; list-style: none; }
+.feedback-window__counts li { display: flex; align-items: center; justify-content: space-between; gap: 6px; padding: 4px; min-width: 0; font-size: .875rem; }
+.feedback-window__counts li > span { min-width: 0; overflow-wrap: anywhere; unicode-bidi: isolate; }
+.feedback-window__counts li > strong { flex: none; }
+.ms-shell--table .feedback-window { grid-column: 1/-1; max-width: 42rem; }
+.ms-shell--table .ms-main:has(.feedback-window--vote) > :is([data-region="board"],[data-region="roster"],[data-region="vote"]) { display: none; }
+@media (max-width: 18em) { .feedback-window__counts { grid-template-columns: minmax(0,1fr); } }
+
+.hack-feedback { min-width: 0; padding: 8px; border: 2px solid var(--ms-color-steel-mid); border-radius: 8px; }
+.hack-feedback h3 { margin: 0 0 6px; }
+.hack-feedback__claim { margin: 4px 0; font-weight: 700; overflow-wrap: anywhere; }
+.hack-feedback__note { margin: 4px 0; font-size: .8125rem; overflow-wrap: anywhere; }

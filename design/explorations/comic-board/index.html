@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en" data-motion="full">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<!-- mothership:dev-only
+
+  EXPLORATION, not the game. A look and a feel being tried with the game owner: the board as
+  a page of a comic book, where a player picks a room and moves to it, and a move is a short
+  piece of motion. Nothing here is an asset, a contract or a shell, nothing here is loaded
+  by one, and the data is a synthetic fixture.
+
+    ?surface=table     the shared display: no hand, nothing to pick
+    ?set=picture|apart which color families the rooms are printed in
+    ?motion=reduced    the reduced-motion alternative
+    ?viewer=1|5        whose phone this is; Player 5 is the Captain in the fixture
+-->
+<title>Mothership design — comic board exploration (synthetic, development only)</title>
+<link rel="stylesheet" href="../../prototypes/css/tokens.css">
+<link rel="stylesheet" href="board.css">
+</head>
+<body>
+<div class="cb" id="app" data-mode="idle" data-surface="player">
+  <div class="cb-top">
+    <p class="cb-fixture">Exploration. A synthetic fixture: not a match, and not the game's own screens.</p>
+    <details class="cb-dev" id="dev">
+      <summary>Controls</summary>
+      <div class="cb-dev__grid" id="dev-controls"></div>
+    </details>
+  </div>
+  <p class="cb-banner" id="banner" hidden></p>
+  <header class="cb-phase" id="phase"></header>
+  <main class="cb-page" id="page" aria-label="The ship, room by room">
+    <div class="cb-tokens" id="tokens" aria-hidden="true"></div>
+    <svg class="cb-trails" id="trails" aria-hidden="true"></svg>
+  </main>
+  <section class="cb-hand" id="hand" aria-label="Your move"></section>
+  <p class="cb-live" id="live" role="status"></p>
+</div>
+<script type="module" src="board.js"></script>
+</body>
+</html>

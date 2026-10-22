@@ -1,0 +1,1044 @@
+{
+  "note": "Fixture evidence from a headless desktop browser driven by real key and touch input. Not a device measurement and not backend integration: the server is a scripted double.",
+  "captures": {
+    "01-player-2-shot-not-available": {
+      "visibilityState": "visible",
+      "connection": "live",
+      "phase": "Player 1’s turn",
+      "privatePanelExpanded": "true",
+      "focus": "ms-private-toggle",
+      "focusIsAControl": true,
+      "focusRingShown": true,
+      "spoken": [
+        "Connected. Round 2. Player 1’s turn."
+      ],
+      "horizontalOverflow": false,
+      "card": {
+        "status": "unavailable",
+        "step": "idle",
+        "selected": "false",
+        "statusLabel": "Not available",
+        "lines": [],
+        "controls": [],
+        "notice": null
+      }
+    },
+    "02a-player-1-panel-closed": {
+      "visibilityState": "visible",
+      "connection": "live",
+      "phase": "Your turn",
+      "privatePanelExpanded": "false",
+      "focus": "BODY",
+      "focusIsAControl": false,
+      "focusRingShown": false,
+      "spoken": [
+        "Connected. Round 2. Your turn."
+      ],
+      "horizontalOverflow": false,
+      "card": null,
+      "privateLeftovers": {
+        "words": [],
+        "privateSpokenLines": 0
+      }
+    },
+    "02-player-1-shot-available": {
+      "visibilityState": "visible",
+      "connection": "live",
+      "phase": "Your turn",
+      "privatePanelExpanded": "true",
+      "focus": "ms-private-toggle",
+      "focusIsAControl": true,
+      "focusRingShown": true,
+      "spoken": [
+        "Connected. Round 2. Your turn."
+      ],
+      "horizontalOverflow": false,
+      "card": {
+        "status": "available",
+        "step": "idle",
+        "selected": "false",
+        "statusLabel": "Available",
+        "lines": [],
+        "controls": [
+          "ms-shot-open: Choose a target"
+        ],
+        "notice": null
+      },
+      "controlSizes": [
+        {
+          "control": "ms-shot-open",
+          "width": 160,
+          "height": 44,
+          "withinViewport": true
+        }
+      ]
+    },
+    "03-choosing-a-target": {
+      "visibilityState": "visible",
+      "connection": "live",
+      "phase": "Your turn",
+      "privatePanelExpanded": "true",
+      "focus": "ms-shot-step",
+      "focusIsAControl": false,
+      "focusRingShown": true,
+      "spoken": [
+        "Connected. Round 2. Your turn."
+      ],
+      "horizontalOverflow": false,
+      "card": {
+        "status": "targeting",
+        "step": "targeting",
+        "selected": "true",
+        "statusLabel": "Choosing a target",
+        "lines": [
+          "Choose a target",
+          "Players in your location are listed. The server decides whether a shot is allowed."
+        ],
+        "controls": [
+          "ms-shot-target-seat-2: 2Player 2, Healthy",
+          "ms-shot-target-seat-3: 3Player 3, Healthy",
+          "ms-shot-target-seat-4: 4Player 4, Healthy",
+          "ms-shot-target-seat-6: 6Player 6, Healthy",
+          "ms-shot-back: Cancel"
+        ],
+        "notice": null
+      },
+      "controlSizes": [
+        {
+          "control": "ms-shot-target-seat-2",
+          "width": 286,
+          "height": 52,
+          "withinViewport": true
+        },
+        {
+          "control": "ms-shot-target-seat-3",
+          "width": 286,
+          "height": 52,
+          "withinViewport": true
+        },
+        {
+          "control": "ms-shot-target-seat-4",
+          "width": 286,
+          "height": 52,
+          "withinViewport": true
+        },
+        {
+          "control": "ms-shot-target-seat-6",
+          "width": 286,
+          "height": 52,
+          "withinViewport": true
+        },
+        {
+          "control": "ms-shot-back",
+          "width": 89,
+          "height": 44,
+          "withinViewport": true
+        }
+      ],
+      "nodesKept": {
+        "panel": true,
+        "roleCard": true,
+        "cardTitle": true
+      }
+    },
+    "04-confirming-after-a-second-enter": {
+      "visibilityState": "visible",
+      "connection": "live",
+      "phase": "Your turn",
+      "privatePanelExpanded": "true",
+      "focus": "ms-shot-step",
+      "focusIsAControl": false,
+      "focusRingShown": true,
+      "spoken": [
+        "Connected. Round 2. Your turn."
+      ],
+      "horizontalOverflow": false,
+      "card": {
+        "status": "confirming",
+        "step": "confirming",
+        "selected": "true",
+        "statusLabel": "Not sent yet",
+        "lines": [
+          "Register a shot at Player 2?",
+          "You cannot change or withdraw it here once it is registered."
+        ],
+        "controls": [
+          "ms-shot-confirm: Register shot (not active yet)",
+          "ms-shot-back: Choose someone else"
+        ],
+        "notice": null
+      },
+      "controlSizes": [
+        {
+          "control": "ms-shot-confirm",
+          "width": 141,
+          "height": 44,
+          "withinViewport": true
+        },
+        {
+          "control": "ms-shot-back",
+          "width": 207,
+          "height": 44,
+          "withinViewport": true
+        }
+      ],
+      "commandRequestsSoFar": {
+        "submit": 0,
+        "lookup": 0
+      },
+      "nodesKept": {
+        "panel": true,
+        "roleCard": true,
+        "cardTitle": true
+      }
+    },
+    "05-double-tap-on-a-target": {
+      "visibilityState": "visible",
+      "connection": "live",
+      "phase": "Your turn",
+      "privatePanelExpanded": "true",
+      "focus": "ms-main",
+      "focusIsAControl": false,
+      "focusRingShown": false,
+      "spoken": [
+        "Connected. Round 2. Your turn."
+      ],
+      "horizontalOverflow": false,
+      "card": {
+        "status": "confirming",
+        "step": "confirming",
+        "selected": "true",
+        "statusLabel": "Not sent yet",
+        "lines": [
+          "Register a shot at Player 3?",
+          "You cannot change or withdraw it here once it is registered."
+        ],
+        "controls": [
+          "ms-shot-confirm: Register shot",
+          "ms-shot-back: Choose someone else"
+        ],
+        "notice": null
+      },
+      "tappedTwiceAt": {
+        "x": 195,
+        "y": 494
+      },
+      "elementUnderTheSecondTap": "ms-card",
+      "commandRequestsSoFar": {
+        "submit": 0,
+        "lookup": 0
+      }
+    },
+    "05b-confirm-tapped-the-moment-it-appeared": {
+      "visibilityState": "visible",
+      "connection": "live",
+      "phase": "Your turn",
+      "privatePanelExpanded": "true",
+      "focus": "ms-shot-confirm",
+      "focusIsAControl": true,
+      "focusRingShown": false,
+      "spoken": [
+        "Connected. Round 2. Your turn."
+      ],
+      "horizontalOverflow": false,
+      "card": {
+        "status": "confirming",
+        "step": "confirming",
+        "selected": "true",
+        "statusLabel": "Not sent yet",
+        "lines": [
+          "Register a shot at Player 2?",
+          "You cannot change or withdraw it here once it is registered."
+        ],
+        "controls": [
+          "ms-shot-confirm: Register shot (not active yet)",
+          "ms-shot-back: Choose someone else"
+        ],
+        "notice": null
+      },
+      "secondTapWithinMs": 61,
+      "commandRequestsSoFar": {
+        "submit": 0,
+        "lookup": 0
+      }
+    },
+    "06-submitting": {
+      "visibilityState": "visible",
+      "connection": "live",
+      "phase": "Your turn",
+      "privatePanelExpanded": "true",
+      "focus": "ms-shot-title",
+      "focusIsAControl": false,
+      "focusRingShown": false,
+      "spoken": [
+        "Connected. Round 2. Your turn.",
+        "[private] Sending your shot to the server…"
+      ],
+      "horizontalOverflow": false,
+      "card": {
+        "status": "submitting",
+        "step": "busy",
+        "selected": "true",
+        "statusLabel": "Submitting",
+        "lines": [
+          "Sending your shot to the server…"
+        ],
+        "controls": [],
+        "notice": null
+      },
+      "nodesKept": {
+        "panel": true,
+        "roleCard": true,
+        "cardTitle": true
+      },
+      "submittingSeenWithinMs": 29,
+      "receiptsStoredWhileSubmitting": 0
+    },
+    "07-registered": {
+      "visibilityState": "visible",
+      "connection": "live",
+      "phase": "Your turn",
+      "privatePanelExpanded": "true",
+      "focus": "ms-shot-title",
+      "focusIsAControl": false,
+      "focusRingShown": false,
+      "spoken": [
+        "Connected. Round 2. Your turn.",
+        "[private] Shot at Player 2 registered."
+      ],
+      "horizontalOverflow": false,
+      "card": {
+        "status": "registered",
+        "step": "result",
+        "selected": "false",
+        "statusLabel": "Registered",
+        "lines": [
+          "Shot at Player 2 registered.",
+          "This is not a result. Registered shots are resolved at the end of the round."
+        ],
+        "controls": [
+          "ms-shot-dismiss: Done"
+        ],
+        "notice": null
+      },
+      "commandRequests": {
+        "submit": 1,
+        "lookup": 0
+      },
+      "nodesKept": {
+        "panel": true,
+        "roleCard": true,
+        "cardTitle": true
+      },
+      "controlSizes": [
+        {
+          "control": "ms-shot-dismiss",
+          "width": 76,
+          "height": 44,
+          "withinViewport": true
+        }
+      ]
+    },
+    "08-backgrounded-with-the-result-showing": {
+      "visibilityState": "hidden",
+      "connection": "live",
+      "phase": "Your turn",
+      "privatePanelExpanded": "false",
+      "focus": "ms-private-toggle",
+      "focusIsAControl": true,
+      "focusRingShown": false,
+      "spoken": [
+        "Connected. Round 2. Your turn."
+      ],
+      "horizontalOverflow": false,
+      "card": null,
+      "privateLeftovers": {
+        "words": [],
+        "privateSpokenLines": 0
+      }
+    },
+    "08b-back-in-the-foreground": {
+      "visibilityState": "visible",
+      "connection": "live",
+      "phase": "Your turn",
+      "privatePanelExpanded": "false",
+      "focus": "ms-private-toggle",
+      "focusIsAControl": true,
+      "focusRingShown": false,
+      "spoken": [
+        "Connected. Round 2. Your turn."
+      ],
+      "horizontalOverflow": false,
+      "card": null,
+      "privateLeftovers": {
+        "words": [],
+        "privateSpokenLines": 0
+      }
+    },
+    "08c-panel-reopened": {
+      "visibilityState": "visible",
+      "connection": "live",
+      "phase": "Your turn",
+      "privatePanelExpanded": "true",
+      "focus": "ms-private-toggle",
+      "focusIsAControl": true,
+      "focusRingShown": true,
+      "spoken": [
+        "Connected. Round 2. Your turn."
+      ],
+      "horizontalOverflow": false,
+      "card": {
+        "status": "registered",
+        "step": "result",
+        "selected": "false",
+        "statusLabel": "Registered",
+        "lines": [
+          "Shot at Player 2 registered.",
+          "This is not a result. Registered shots are resolved at the end of the round."
+        ],
+        "controls": [
+          "ms-shot-dismiss: Done"
+        ],
+        "notice": null
+      }
+    },
+    "09-registered-reminder": {
+      "visibilityState": "visible",
+      "connection": "live",
+      "phase": "Your turn",
+      "privatePanelExpanded": "true",
+      "focus": "ms-shot-step",
+      "focusIsAControl": false,
+      "focusRingShown": true,
+      "spoken": [
+        "Connected. Round 2. Your turn."
+      ],
+      "horizontalOverflow": false,
+      "card": {
+        "status": "registered",
+        "step": "idle",
+        "selected": "false",
+        "statusLabel": "Registered",
+        "lines": [
+          "Your shot at Player 2 is registered. It is resolved at the end of the round."
+        ],
+        "controls": [],
+        "notice": null
+      }
+    },
+    "11-checking": {
+      "visibilityState": "visible",
+      "connection": "live",
+      "phase": "Your turn",
+      "privatePanelExpanded": "true",
+      "focus": "ms-shot-title",
+      "focusIsAControl": false,
+      "focusRingShown": true,
+      "spoken": [
+        "Connected. Round 2. Your turn.",
+        "[private] Checking whether your shot was registered…"
+      ],
+      "horizontalOverflow": false,
+      "card": {
+        "status": "checking",
+        "step": "busy",
+        "selected": "true",
+        "statusLabel": "Checking",
+        "lines": [
+          "Checking whether your shot was registered…"
+        ],
+        "controls": [],
+        "notice": null
+      }
+    },
+    "12-result-unknown": {
+      "visibilityState": "visible",
+      "connection": "live",
+      "phase": "Your turn",
+      "privatePanelExpanded": "true",
+      "focus": "ms-shot-title",
+      "focusIsAControl": false,
+      "focusRingShown": true,
+      "spoken": [
+        "Connected. Round 2. Your turn.",
+        "[private] [assertive] Result unknown. The app could not confirm whether your shot was registered."
+      ],
+      "horizontalOverflow": false,
+      "card": {
+        "status": "unknown",
+        "step": "result",
+        "selected": "true",
+        "statusLabel": "Result unknown",
+        "lines": [
+          "Result unknown. The app could not confirm whether your shot was registered.",
+          "Do not assume either way. You can check again at any time."
+        ],
+        "controls": [
+          "ms-shot-check: Check again (not active yet)"
+        ],
+        "notice": null
+      },
+      "commandRequestsWhileSilent": {
+        "submit": 1,
+        "lookup": 3
+      },
+      "controlSizes": [
+        {
+          "control": "ms-shot-check",
+          "width": 132,
+          "height": 44,
+          "withinViewport": true
+        }
+      ]
+    },
+    "12b-settled-after-check-again": {
+      "visibilityState": "visible",
+      "connection": "live",
+      "phase": "Your turn",
+      "privatePanelExpanded": "true",
+      "focus": "ms-shot-title",
+      "focusIsAControl": false,
+      "focusRingShown": true,
+      "spoken": [
+        "Connected. Round 2. Your turn.",
+        "[private] Shot at Player 4 registered."
+      ],
+      "horizontalOverflow": false,
+      "card": {
+        "status": "registered",
+        "step": "result",
+        "selected": "false",
+        "statusLabel": "Registered",
+        "lines": [
+          "Shot at Player 4 registered.",
+          "This is not a result. Registered shots are resolved at the end of the round."
+        ],
+        "controls": [
+          "ms-shot-dismiss: Done (not active yet)"
+        ],
+        "notice": null
+      },
+      "commandRequests": {
+        "submit": 1,
+        "lookup": 1
+      },
+      "receiptsStored": 1
+    },
+    "13-not-registered": {
+      "visibilityState": "visible",
+      "connection": "live",
+      "phase": "Your turn",
+      "privatePanelExpanded": "true",
+      "focus": "ms-shot-title",
+      "focusIsAControl": false,
+      "focusRingShown": true,
+      "spoken": [
+        "Connected. Round 2. Your turn.",
+        "[private] [assertive] Not registered. The server did not allow this shot."
+      ],
+      "horizontalOverflow": false,
+      "card": {
+        "status": "not-registered",
+        "step": "result",
+        "selected": "false",
+        "statusLabel": "Not registered",
+        "lines": [
+          "Not registered. The server did not allow this shot.",
+          "You can choose again if it is still your turn."
+        ],
+        "controls": [
+          "ms-shot-dismiss: OK (not active yet)"
+        ],
+        "notice": null
+      }
+    },
+    "13b-acknowledged": {
+      "visibilityState": "visible",
+      "connection": "live",
+      "phase": "Your turn",
+      "privatePanelExpanded": "true",
+      "focus": "ms-shot-open",
+      "focusIsAControl": true,
+      "focusRingShown": true,
+      "spoken": [
+        "Connected. Round 2. Your turn.",
+        "[private] [assertive] Not registered. The server did not allow this shot."
+      ],
+      "horizontalOverflow": false,
+      "card": {
+        "status": "available",
+        "step": "idle",
+        "selected": "false",
+        "statusLabel": "Available",
+        "lines": [],
+        "controls": [
+          "ms-shot-open: Choose a target"
+        ],
+        "notice": null
+      }
+    },
+    "14-turn-ended-while-confirming": {
+      "visibilityState": "visible",
+      "connection": "live",
+      "phase": "Player 2’s turn",
+      "privatePanelExpanded": "true",
+      "focus": "ms-shot-step",
+      "focusIsAControl": false,
+      "focusRingShown": true,
+      "spoken": [
+        "Connected. Round 2. Your turn.",
+        "Round 2. Player 2’s turn.",
+        "[private] Your choice was not sent."
+      ],
+      "horizontalOverflow": false,
+      "card": {
+        "status": "available",
+        "step": "idle",
+        "selected": "false",
+        "statusLabel": "Available",
+        "lines": [
+          "You can register a shot during your own turn."
+        ],
+        "controls": [],
+        "notice": null
+      },
+      "commandRequests": {
+        "submit": 0,
+        "lookup": 0
+      }
+    },
+    "15-connection-lost-while-confirming": {
+      "visibilityState": "visible",
+      "connection": "stale",
+      "phase": "Your turn",
+      "privatePanelExpanded": "true",
+      "focus": "ms-shot-title",
+      "focusIsAControl": false,
+      "focusRingShown": true,
+      "spoken": [
+        "Connected. Round 2. Your turn.",
+        "Connection lost. Showing the last known state.",
+        "[private] Your choice was not sent."
+      ],
+      "horizontalOverflow": false,
+      "card": {
+        "status": "available",
+        "step": "idle",
+        "selected": "false",
+        "statusLabel": "Available",
+        "lines": [],
+        "controls": [],
+        "notice": "Actions are paused until the connection is restored."
+      },
+      "commandRequests": {
+        "submit": 0,
+        "lookup": 0
+      }
+    },
+    "15b-reconnected": {
+      "visibilityState": "visible",
+      "connection": "live",
+      "phase": "Your turn",
+      "privatePanelExpanded": "true",
+      "focus": "ms-shot-title",
+      "focusIsAControl": false,
+      "focusRingShown": true,
+      "spoken": [
+        "Connected. Round 2. Your turn.",
+        "Connection lost. Showing the last known state.",
+        "[private] Your choice was not sent.",
+        "Reconnected. Round 2. Your turn."
+      ],
+      "horizontalOverflow": false,
+      "card": {
+        "status": "available",
+        "step": "idle",
+        "selected": "false",
+        "statusLabel": "Available",
+        "lines": [],
+        "controls": [
+          "ms-shot-open: Choose a target"
+        ],
+        "notice": null
+      }
+    },
+    "16-double-tap-on-register-accepted": {
+      "visibilityState": "visible",
+      "connection": "live",
+      "phase": "Your turn",
+      "privatePanelExpanded": "true",
+      "focus": "ms-shot-dismiss",
+      "focusIsAControl": true,
+      "focusRingShown": false,
+      "spoken": [
+        "Connected. Round 2. Your turn.",
+        "[private] Shot at Player 2 registered."
+      ],
+      "horizontalOverflow": false,
+      "card": {
+        "status": "registered",
+        "step": "result",
+        "selected": "false",
+        "statusLabel": "Registered",
+        "lines": [
+          "Shot at Player 2 registered.",
+          "This is not a result. Registered shots are resolved at the end of the round."
+        ],
+        "controls": [
+          "ms-shot-dismiss: Done"
+        ],
+        "notice": null
+      },
+      "tappedTwiceAt": {
+        "x": 122,
+        "y": 494
+      },
+      "elementUnderTheSecondTap": "ms-shot-dismiss",
+      "commandRequests": {
+        "submit": 1,
+        "lookup": 0
+      },
+      "receiptsStored": 1
+    },
+    "17-double-tap-on-register-rejected": {
+      "visibilityState": "visible",
+      "connection": "live",
+      "phase": "Your turn",
+      "privatePanelExpanded": "true",
+      "focus": "ms-main",
+      "focusIsAControl": false,
+      "focusRingShown": false,
+      "spoken": [
+        "Connected. Round 2. Your turn.",
+        "[private] [assertive] Not registered. The server did not allow this shot."
+      ],
+      "horizontalOverflow": false,
+      "card": {
+        "status": "not-registered",
+        "step": "result",
+        "selected": "false",
+        "statusLabel": "Not registered",
+        "lines": [
+          "Not registered. The server did not allow this shot.",
+          "You can choose again if it is still your turn."
+        ],
+        "controls": [
+          "ms-shot-dismiss: OK"
+        ],
+        "notice": null
+      },
+      "tappedTwiceAt": {
+        "x": 122,
+        "y": 494
+      },
+      "elementUnderTheSecondTap": null,
+      "commandRequests": {
+        "submit": 1,
+        "lookup": 0
+      },
+      "receiptsStored": 1
+    },
+    "18-reloaded-while-the-request-was-on-its-way": {
+      "visibilityState": "visible",
+      "connection": "live",
+      "phase": "Your turn",
+      "privatePanelExpanded": "false",
+      "focus": "BODY",
+      "focusIsAControl": false,
+      "focusRingShown": false,
+      "spoken": [
+        "Connected. Round 2. Your turn."
+      ],
+      "horizontalOverflow": false,
+      "card": null,
+      "privateLeftovers": {
+        "words": [],
+        "privateSpokenLines": 0
+      }
+    },
+    "18b-reloaded-panel-open": {
+      "visibilityState": "visible",
+      "connection": "live",
+      "phase": "Your turn",
+      "privatePanelExpanded": "true",
+      "focus": "ms-private-toggle",
+      "focusIsAControl": true,
+      "focusRingShown": true,
+      "spoken": [
+        "Connected. Round 2. Your turn.",
+        "[private] This page was reloaded before the server answered. Checking whether your shot was registered…"
+      ],
+      "horizontalOverflow": false,
+      "card": {
+        "status": "checking",
+        "step": "busy",
+        "selected": "true",
+        "statusLabel": "Checking",
+        "lines": [
+          "This page was reloaded before the server answered. Checking whether your shot was registered…"
+        ],
+        "controls": [],
+        "notice": null
+      },
+      "receiptsStoredSoFar": 0
+    },
+    "19-reloaded-registered": {
+      "visibilityState": "visible",
+      "connection": "live",
+      "phase": "Your turn",
+      "privatePanelExpanded": "true",
+      "focus": "ms-private-toggle",
+      "focusIsAControl": true,
+      "focusRingShown": true,
+      "spoken": [
+        "Connected. Round 2. Your turn.",
+        "[private] Your shot is registered."
+      ],
+      "horizontalOverflow": false,
+      "card": {
+        "status": "registered",
+        "step": "result",
+        "selected": "false",
+        "statusLabel": "Registered",
+        "lines": [
+          "Your shot is registered.",
+          "This page was reloaded, so it no longer knows the target. This is not a result. Registered shots are resolved at the end of the round."
+        ],
+        "controls": [
+          "ms-shot-dismiss: Done"
+        ],
+        "notice": null
+      },
+      "commandRequests": {
+        "submit": 1,
+        "lookup": 2
+      },
+      "receiptsStored": 1
+    },
+    "20-narrow-200-percent-choosing": {
+      "visibilityState": "visible",
+      "connection": "live",
+      "phase": "Your turn",
+      "privatePanelExpanded": "true",
+      "focus": "ms-shot-step",
+      "focusIsAControl": false,
+      "focusRingShown": false,
+      "spoken": [
+        "Connected. Round 2. Your turn."
+      ],
+      "horizontalOverflow": false,
+      "card": {
+        "status": "targeting",
+        "step": "targeting",
+        "selected": "true",
+        "statusLabel": "Choosing a target",
+        "lines": [
+          "Choose a target",
+          "Players in your location are listed. The server decides whether a shot is allowed."
+        ],
+        "controls": [
+          "ms-shot-target-seat-2: 2Player 2, Healthy",
+          "ms-shot-target-seat-3: 3Player 3, Healthy",
+          "ms-shot-target-seat-4: 4Player 4, Healthy",
+          "ms-shot-target-seat-6: 6Player 6, Healthy",
+          "ms-shot-back: Cancel"
+        ],
+        "notice": null
+      },
+      "controlSizes": [
+        {
+          "control": "ms-shot-target-seat-2",
+          "width": 233,
+          "height": 212,
+          "withinViewport": true
+        },
+        {
+          "control": "ms-shot-target-seat-3",
+          "width": 233,
+          "height": 212,
+          "withinViewport": true
+        },
+        {
+          "control": "ms-shot-target-seat-4",
+          "width": 233,
+          "height": 212,
+          "withinViewport": true
+        },
+        {
+          "control": "ms-shot-target-seat-6",
+          "width": 233,
+          "height": 212,
+          "withinViewport": true
+        },
+        {
+          "control": "ms-shot-back",
+          "width": 136,
+          "height": 88,
+          "withinViewport": true
+        }
+      ],
+      "rootFontSize": "32px"
+    },
+    "21-narrow-200-percent-confirming": {
+      "visibilityState": "visible",
+      "connection": "live",
+      "phase": "Your turn",
+      "privatePanelExpanded": "true",
+      "focus": "ms-shot-step",
+      "focusIsAControl": false,
+      "focusRingShown": false,
+      "spoken": [
+        "Connected. Round 2. Your turn."
+      ],
+      "horizontalOverflow": false,
+      "card": {
+        "status": "confirming",
+        "step": "confirming",
+        "selected": "true",
+        "statusLabel": "Not sent yet",
+        "lines": [
+          "Register a shot at Player 6?",
+          "You cannot change or withdraw it here once it is registered."
+        ],
+        "controls": [
+          "ms-shot-confirm: Register shot",
+          "ms-shot-back: Choose someone else"
+        ],
+        "notice": null
+      },
+      "controlSizes": [
+        {
+          "control": "ms-shot-confirm",
+          "width": 233,
+          "height": 132,
+          "withinViewport": true
+        },
+        {
+          "control": "ms-shot-back",
+          "width": 233,
+          "height": 180,
+          "withinViewport": true
+        }
+      ]
+    },
+    "22-narrow-200-percent-registered": {
+      "visibilityState": "visible",
+      "connection": "live",
+      "phase": "Your turn",
+      "privatePanelExpanded": "true",
+      "focus": "ms-shot-title",
+      "focusIsAControl": false,
+      "focusRingShown": false,
+      "spoken": [
+        "Connected. Round 2. Your turn.",
+        "[private] Shot at Player 6 registered."
+      ],
+      "horizontalOverflow": false,
+      "card": {
+        "status": "registered",
+        "step": "result",
+        "selected": "false",
+        "statusLabel": "Registered",
+        "lines": [
+          "Shot at Player 6 registered.",
+          "This is not a result. Registered shots are resolved at the end of the round."
+        ],
+        "controls": [
+          "ms-shot-dismiss: Done (not active yet)"
+        ],
+        "notice": null
+      },
+      "controlSizes": [
+        {
+          "control": "ms-shot-dismiss",
+          "width": 110,
+          "height": 88,
+          "withinViewport": true
+        }
+      ]
+    },
+    "22b-same-seat-other-device": {
+      "visibilityState": "visible",
+      "connection": "live",
+      "phase": "Your turn",
+      "privatePanelExpanded": "true",
+      "focus": "ms-private-toggle",
+      "focusIsAControl": true,
+      "focusRingShown": true,
+      "spoken": [
+        "Connected. Round 2. Your turn."
+      ],
+      "horizontalOverflow": false,
+      "card": {
+        "status": "registered",
+        "step": "idle",
+        "selected": "false",
+        "statusLabel": "Registered",
+        "lines": [
+          "A shot is registered. It is resolved at the end of the round."
+        ],
+        "controls": [],
+        "notice": null
+      }
+    }
+  },
+  "browser": {
+    "product": "Chrome/154.0.8037.98",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+    "headless": true
+  },
+  "hiddenRegistration": {
+    "tableDocumentUnchanged": true,
+    "targetPhoneDocumentUnchanged": true,
+    "revisions": {
+      "public": 10,
+      "seat-1": 21,
+      "seat-2": 30
+    },
+    "tableControls": [
+      "settings/reduce-motion"
+    ]
+  },
+  "keptAcrossAReload": {
+    "whileUnresolved": {
+      "mothership:unresolved-command": [
+        "commandId",
+        "matchId",
+        "phaseId",
+        "seatId"
+      ]
+    },
+    "mentionsTargetRoleOrCommandKind": false,
+    "afterTheOutcomeIsKnown": {}
+  },
+  "storage": {
+    "localStorageKeys": [],
+    "sessionStorageKeys": [],
+    "cookie": "",
+    "indexedDatabases": [],
+    "cacheNames": []
+  },
+  "browserLog": {
+    "uncaughtExceptions": 0,
+    "consoleErrors": 0,
+    "securityPolicyViolations": [],
+    "failedRequestsTheFixtureArranged": 4,
+    "otherEntries": []
+  },
+  "requests": {
+    "apiAndStyles": [
+      "GET /api/fixture/stream?audience=public",
+      "GET /api/fixture/stream?audience=seat-1",
+      "GET /api/fixture/stream?audience=seat-2",
+      "GET /api/fixture/time",
+      "GET /favicon.ico",
+      "GET /styles/shell.css",
+      "GET /styles/tokens.css",
+      "POST /api/fixture/lookup-receipt?audience=seat-1",
+      "POST /api/fixture/submit-command?audience=seat-1"
+    ],
+    "fixtureModuleRequested": false,
+    "operatorEndpointsCalledByPages": [],
+    "advanceIfExpiredCalls": 0
+  }
+}

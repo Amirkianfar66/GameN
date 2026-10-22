@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Mothership design — asset viewer (development only)</title>
+<style>
+  html, body { margin: 0; min-height: 100%; }
+  body { display: grid; place-items: center; padding: 24px; box-sizing: border-box; font: 14px/1.4 system-ui, sans-serif; }
+  body[data-bg="canvas"] { background: #10141C; color: #F4EBDD; }
+  body[data-bg="panel"] { background: #202837; color: #F4EBDD; }
+  body[data-bg="paper"] { background: #F4EBDD; color: #151923; }
+  body[data-bg="check"] { background: repeating-conic-gradient(#d9d9d9 0% 25%, #f4f4f4 0% 50%) 50% / 24px 24px; color: #151923; }
+  img { display: block; max-width: 100%; height: auto; }
+</style>
+</head>
+<body data-bg="canvas">
+<img id="asset" alt="">
+<script>
+  // ?src=/source/x.svg  &bg=canvas|panel|paper|check  &w=<css px>
+  const query = new URLSearchParams(location.search);
+  document.body.dataset.bg = query.get('bg') ?? 'canvas';
+  const image = document.getElementById('asset');
+  window.__designReady = false;
+  image.addEventListener('load', () => { window.__designReady = true; });
+  image.addEventListener('error', () => { window.__designReady = true; document.body.append(' Could not load ' + query.get('src')); });
+  if (query.get('w')) image.style.width = query.get('w') + 'px';
+  image.src = query.get('src') ?? '';
+</script>
+</body>
+</html>

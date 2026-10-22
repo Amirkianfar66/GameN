@@ -1,0 +1,53 @@
+# Frontend contract review for issues #119–#122
+
+Issue: #122. Branch: `codex/frontend-phone-feedback`. Input baseline: `abb6839524b6dc3e5225e600f2f067c3fa3f9501`. Input tuple: protocol 2, `full-game-1.3.0`, `in-person-v1-capacity-resolution-2026-10-12`, hash `aef288266055bfc6f9905b97ba3262400044af84c689dbcc4a979e544bdf2b1e`. New match version allocation and historical compatibility belong to Backend/Integration.
+
+The owner approved the bounded Hack flow on 12 October 2026: up to 15 seconds to declare, five seconds to show the declaration privately, then the full 60-second conversation. Missing input shows “No side declared”; bots declare their own side. The claim is the target's declaration. Undercover/Alien bluffing remains permitted. Backend records the decision in a new immutable overlay; this review is not a rule source.
+
+## Minimal server contract
+
+Vote results need an authoritative phase with a durable result ID, originating vote phase ID/kind/round, explicit aggregate outcome, selected/tied public seats where appropriate, and server `startedAt`/`endsAt`. Election/runoff, release, Jail, all-abstain and no-selection results must be distinguishable without deriving the outcome from counts. A skipped vote publishes no result. The last round's result precedes terminal role/Code disclosure. Results have no gameplay command offers; host abort remains available. Next gameplay starts with its full clock.
+
+Hack needs audience-scoped declaration capability and private state identifying the interaction, viewer's participation, target's own submission receipt, and the initiator's declared-side/no-declaration result. Public/host/display/third-party projections remain neutral. All target phones use the same choices; Backend enforces truth obligations privately. The projection binds the result to the current interaction/phase and supplies authoritative deadlines. It must not carry actual faction, role, or a verified-truth flag.
+
+## Consumer behavior
+
+Use server phase/result identity; never compare `lastTally` structure to identify a new result. Countdown uses the existing trusted clock. Reconnect renders the remaining window in a settled state; no client timeout advances the game or restarts a result. Deadline expiry waits for the next authoritative view. Announcements identify equal successive tallies by result identity and do not replay obsolete results after reconnect.
+
+Hack choice, partner, receipt and declaration are rendered only in the authorized private layer with current, unexpired facts. Blur, stale/unreadable state and audience changes conceal them. Concealment must leave unresolved command IDs and receipt recovery intact. Claim wording stays distinct from Hacker Scan. Private assets load uniformly.
+
+Wardrobe selection uses public location only. Authoritative `jailed`, health, elimination and Captain markers remain independent. A released Injured occupant waiting in Jail wears the Jail variant without gaining a Jailed marker. The drawing port consumes reviewed Designer source pins and manifest changes; prototype controllers remain excluded.
+
+## Dependencies
+
+Connected result/declaration code depends on the exact reviewed Backend contract head. Drawing/token integration depends on the exact Designer export/source head and Integration's reviewed port guard. Independent short-phone layout measurements and development fixtures can proceed before those handoffs. No shared contract, canonical rule, root dependency, Designer source, deployment or IAM changes are owned by this Frontend patch.
+
+## Early proposal review
+
+The proposal in `/private/tmp/gamen-playtest-feedback-contract-proposal.md` uses protocol 2, separate 1.4 vote / 1.5 Hack tuples, `VOTE_RESULT`, `HACK_DECLARE`, `HACK_RESULT`, `HACK`, public `voteResult`, and participant-only `hackFeedback`. Its sequence, current-only feedback, aggregate outcomes, continuation barrier and historical compatibility match the requested consumer behavior. Source adoption still requires the exact schema head.
+
+Concrete schema details requested: `legalTargets.DECLARE_HACK_SIDE` containing only the authorized target's own seat; uniform Blue/Red/Alien controls; explicit participant perspective or a stable invariant that `activeSeatId` is the initiator throughout the exchange; strict current-phase/exact-tuple binding of feedback. The result heading uses the originating `voteResult.round`, not an upcoming round. A release result shows supplied yes/eligible counts without fabricating No/abstention totals. No other blocking contract gap was found in this early proposal.
+
+Integration clarified that the existing before-voting movement permission continues during the Hack prelude. The consumer keeps room-tag Move wherever the authoritative view offers it, without changing the fixed Hack partner. Code stays blocked in the prelude; `VOTE_RESULT` blocks all gameplay. Movement must not be disabled merely by a `HACK_DECLARE`/`HACK_RESULT` phase name.
+
+## Visual adoption status
+
+The early Codex-produced source at `44c25268a04debaa00d6a7ec3f02d254775704c8` and exact Root guard commits are preserved as provisional dependencies. The owner subsequently confirmed Motion/Graphic Design ownership in their Claude Code session. Further visual adoption is paused pending Integration's verified Claude-owned head. The preserved frame/wardrobe/compact wrapper is not claimed as the owner's current design or visually accepted. Its first whole-phone pass still had four short-phone confirmation overflow cases; subsequent wrapper edits are saved but final fit is not claimed. Backend consumer and compatibility logic can proceed independently.
+
+## Vote and Ready consumer checkpoint
+
+Adopted Backend vote schema/engine `6cd41484e5c3c0bf22251699c4ba1a47121cf2f6` and Ready shape `c5be7d6cde1e04240794e95d87cb0ac44aac66a0`. The public consumer uses the exported `FullVoteResult` type, exact result/phase ID and timestamps, origin round and explicit outcome. Result windows require a current view and trusted running deadline. A result closes private content/live lines without clearing receipt recovery; a following phase cannot reopen it automatically. Equal successive tallies use their distinct IDs. Clock resynchronization/reconnect cannot replay an already-heard result, and an expired result is not announced.
+
+New-tuple Ready accepts only explicitly supported gameplay pins and the reviewed `design-0.2.0` art version after complete uniform bundle loading. Unsupported pins signal reload. Historical Ready bodies remain unchanged. Unknown-outcome retries use the original lifecycle request, including its original accepted versions. This is compatibility acknowledgment, not downloaded-byte proof or authorization.
+
+Actual owned validation: presentation 197/197; game 457/457; five focused result-controller regressions; 18 fixture browser lifecycle records. Backend-connected/1.5/Hack and final root verification remain pending. Read-only Frontend review of Hack schema at `ba1842ff991dfb53207cbef110940016cc8d533d` confirms the required `phaseId` binding, initiator invariant and self-only legal offer. Integration's exact adoption checkpoint is still required.
+
+Root verification after consuming Backend's historical fixture fix `3a408f7f9d3e24fb17aff7c1fa97df5bec5c40b2` reaches the Designer suite. The board-motion prototype check resolves the five new phone sources against its old frozen `49f0db4d` reference and reports drift; Integration owns the exact source-reader/fence correction. The original Code warning was restored after its quoted-copy check caught a difference. No gate was loosened. Frontend emulator setup helpers now acknowledge only exact supported test gameplay and known emulator artifact pins; actual connected execution remains pending the complete dependency handoff.
+
+## Integration review follow-up
+
+At PR #126 head `50c822291619442af6cd03fe34f9275fd7407dff`, Integration independently passed all 654 presentation/game checks and reproduced the active result being hidden by an already-open Menu. The consumer now closes that Menu once on a new server result ID. Menu remains available during the same window, with the unchanged current result placed at its top; the renderer never marks it hidden merely because Menu is selected. Unit and real browser input coverage includes Menu open before arrival and reopened during the result. This changes presentation only; no phase/time authority changes.
+
+Claude's actual #127 source is `ca78625bf9f97629cf7cfd8c40a2f97d7cc078ca`. Its handoff explicitly supersedes #124's inputs and rejects the detached compact target rows. The two proposed exact runtime derivatives are recorded in `claude-phone-kit-adoption-proposal.json`; no new visual pin is silently activated here. The existing crew/body/rig/gesture sources remain unchanged. The reported Hack prototype blur and obsolete-phase binding faults are production-consumer requirements, and none of its controllers will be imported. Ready art-version allocation and the shared drawing fence remain Integration-owned. The missing Ready acknowledgment in `infra/firebase/test-emulator/full-http.test.mjs` remains Backend-owned.
+
+Actual follow-up verification: all 655 presentation/game tests pass (198 + 457), the expanded browser run passes 22 lifecycle records, and hosted packaging/production exclusion pass. The active result summary remains pinned while Menu's controls scroll; its server ID/timestamps and result duration do not change. Root verification still needs the Integration-owned source fence and Backend HTTP-helper changes before a complete combined acceptance claim.

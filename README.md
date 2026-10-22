@@ -51,3 +51,9 @@ The Canvas/facilitator source exists. The Firebase production game, renderer ben
 Rule overlays can contain archives and unresolved choices. Read their status and precedence; do not merge JSON indiscriminately or use prototype defaults as canon. The later rendering direction is a Three.js/R3F evaluation, not a completed switch or benchmark.
 
 This repository contains a source/context import on `main`. Agent work items are tracked in GitHub Issues; implementation branches start after the reviewed bootstrap baseline. No production Firebase deployment, runtime comic-motion implementation or permanent background agent is provided by this import.
+
+## In-person Version 1 backend
+
+The game owner approved V1-01–V1-21 on 6 October 2026. Read the [current V1 decision register](docs/backend/v1-decision-register.md) and [approved rule sheet](docs/backend/v1-rule-decisions-proposal.md) before relying on historical unresolved choices. The new immutable ruleset is `in-person-v1-2026-10-06`; optional powers are off. Full-game wire protocol 2 is additive to the protocol-1 Officer fixture.
+
+The full-game implementation and delivery evidence are in [the backend handoff](docs/backend/v1-implementation.md). Pull requests remain subject to integration and affected-role review; no cloud deployment or real-device acceptance is implied by local checks.

@@ -1,0 +1,2290 @@
+/* Mothership · comic skin for the player and table shells · PRODUCTION ADOPTION FROM DESIGNER PR #59
+   Design tokens 0.4.0 (proposal) · asset manifest design-0.2.0
+
+   This is the Designer's reference for how the shells look. Its production copy is reviewed in issue #60. Frontend
+   owns the runtime stylesheet and may take rules from here as they are.
+
+   It is written against the markup Frontend already produces (packages/presentation at
+   fccadf7, agent/frontend-motion-gallery): the same classes, the same data attributes, the
+   same ids. Where the design needs something that markup does not have yet, the selector
+   is marked PROPOSED and listed in docs/design/frontend-handoff.md.
+
+   TWO PARTS, AND THE ORDER MATTERS.
+
+   Part one is the whole skin with no picture in it. Every token shows its live numeral,
+   every marker its word, every panel its names. It is complete by itself: it is what a
+   device shows until its art has arrived, and for good if the art never does.
+
+   Part two is the art. Every rule in it is behind [data-art~="<bundle>"], an attribute the
+   client puts on an ancestor of the shell only after that bundle's one stylesheet has
+   loaded. So a rule that hides a live numeral behind a picture cannot run without the
+   picture, and nothing is fetched because of what a view says: the pictures are custom
+   properties inside the bundle stylesheet, not files asked for later.
+
+   Rules that never change with a role:
+     - everything outside .ms-private__panel is the same on every phone;
+     - art that is private is addressed only from inside .ms-private__panel;
+     - a color never stands alone: every state also has its own outline and its own words;
+     - amber is interaction focus and the public active turn, and nothing else;
+     - halftone and hatch never sit behind text smaller than the heading size.
+
+   The comic board the game owner approved on 7 October 2026 (docs/design/owner-decisions.md):
+     - each location is printed in its own color family, and its caption is the page's
+       yellow, cut on a slant. A room's color goes with its name: it is never a team, a
+       role, a player or a state;
+     - a playing piece is the character its player chose (PROPOSED data-character), with a
+       tag that carries the seat number and the player's name. A seat without one keeps
+       its numbered token. A character never depends on a role;
+     - a role is a device added to the player's own character, drawn only inside the sheet.
+
+   Needs css/tokens.css first. Every color comes from a token. */
+
+/* =====================================================================================
+   PART ONE · THE SKIN WITHOUT ART
+   ===================================================================================== */
+
+/* ---------- Base ---------- */
+
+.ms-shell,
+.ms-shell *,
+.ms-shell *::before,
+.ms-shell *::after {
+  box-sizing: border-box;
+}
+
+.ms-shell {
+  /* The offset shadow of a paper object. Ink on paper surfaces, steel on dark ones. */
+  --ms-shadow-color: var(--ms-color-steel-mid);
+  /* Halftone and hatch drawn from tokens alone. Part two swaps in the drawn tiles. */
+  --ms-halftone-ink: radial-gradient(circle, var(--ms-color-ink) 0 1.1px, transparent 1.6px) 0 0 / 6px 6px, radial-gradient(circle, var(--ms-color-ink) 0 1.1px, transparent 1.6px) 3px 3px / 6px 6px;
+  --ms-halftone-paper: radial-gradient(circle, var(--ms-color-paper) 0 1.1px, transparent 1.6px) 0 0 / 6px 6px, radial-gradient(circle, var(--ms-color-paper) 0 1.1px, transparent 1.6px) 3px 3px / 6px 6px;
+  --ms-hatch-ink: repeating-linear-gradient(135deg, var(--ms-color-ink) 0 2px, transparent 2px 8px);
+  --ms-hatch-paper: repeating-linear-gradient(135deg, var(--ms-color-paper) 0 2px, transparent 2px 8px);
+  min-block-size: 100%;
+  background: var(--ms-color-canvas);
+  color: var(--ms-color-text);
+  font-family: var(--ms-font-body);
+  font-size: var(--ms-text-body);
+  line-height: var(--ms-leading-body);
+  -webkit-text-size-adjust: 100%;
+}
+
+.ms-shell [hidden] {
+  display: none !important;
+}
+
+/* The reset carries no weight of its own, so a part's own padding always wins over it. */
+:where(.ms-shell) :where(h1, h2, h3, h4, p, ul, ol, dl, dd) {
+  margin: 0;
+  padding: 0;
+}
+
+:where(.ms-shell) :where(ul, ol) {
+  list-style: none;
+}
+
+.ms-visually-hidden {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Off screen until a keyboard reaches it. */
+.ms-skip {
+  position: absolute;
+  inset-block-start: var(--ms-space-2);
+  inset-inline-start: var(--ms-space-2);
+  z-index: var(--ms-layer-focus);
+  display: inline-flex;
+  align-items: center;
+  min-block-size: var(--ms-target-min);
+  padding: var(--ms-space-2) var(--ms-space-3);
+  background: var(--ms-color-paper);
+  color: var(--ms-color-ink);
+  border: var(--ms-stroke-control) solid var(--ms-color-ink);
+  font-weight: 700;
+  translate: 0 -300%;
+}
+
+.ms-skip:focus {
+  translate: 0 0;
+}
+
+/* Focus is one ring, above everything. On dark ground it is the focus color. */
+.ms-shell :focus-visible {
+  outline: var(--ms-stroke-focus) solid var(--ms-color-focus);
+  outline-offset: 3px;
+  position: relative;
+  z-index: var(--ms-layer-focus);
+}
+
+/* The focus color does not reach 3:1 on paper, so on a paper surface the ring is ink with
+   the focus color around it. */
+.ms-shell .ms-skip:focus-visible,
+.ms-shell .ms-button:focus-visible,
+.ms-shell .ms-card :focus-visible,
+.ms-shell .ms-role-card :focus-visible,
+.ms-shell .ms-phase :focus-visible,
+.ms-shell .ms-header :focus-visible,
+.ms-shell .ms-banner--connection :focus-visible {
+  outline-color: var(--ms-color-ink);
+  box-shadow: 0 0 0 calc(var(--ms-stroke-focus) + 3px) var(--ms-color-focus);
+}
+
+.ms-shell .ms-skip:focus-visible {
+  position: absolute;
+}
+
+/* Comic lettering: headings, status words, the timer. Never body copy. */
+.ms-wordmark,
+.ms-surface,
+.ms-title,
+.ms-phase__round,
+.ms-phase__label,
+.ms-panel__heading,
+.ms-settings__heading,
+.ms-zone__name,
+.ms-location__name,
+.ms-location__others,
+.ms-private__subheading,
+.ms-card__title,
+.ms-card__status,
+.ms-blocked__heading,
+.ms-connecting__heading {
+  font-family: var(--ms-font-lettering);
+  font-weight: var(--ms-weight-lettering);
+  letter-spacing: var(--ms-tracking-lettering);
+  line-height: var(--ms-leading-heading);
+  text-transform: uppercase;
+}
+
+/* ---------- Header and banners ---------- */
+
+.ms-header {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0 var(--ms-space-3);
+  padding: var(--ms-space-2) var(--ms-space-4);
+  background: var(--ms-color-paper);
+  color: var(--ms-color-ink);
+  border-block-end: var(--ms-stroke-panel) solid var(--ms-color-ink);
+  overflow: hidden;
+}
+
+/* Halftone gathers in the far corner, away from the words. */
+.ms-header::after {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  inset-inline-end: 0;
+  inline-size: 40%;
+  background: var(--ms-halftone-ink);
+  -webkit-mask-image: linear-gradient(to right, transparent, var(--ms-color-ink));
+  mask-image: linear-gradient(to right, transparent, var(--ms-color-ink));
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+/* The wordmark is not an instruction: it may give way so that it never runs off a narrow screen. */
+.ms-wordmark {
+  font-size: min(var(--ms-text-heading), 9vw);
+}
+
+.ms-surface {
+  position: relative;
+  z-index: 1;
+  padding: 2px var(--ms-space-2);
+  background: var(--ms-color-paper);
+  font-size: var(--ms-text-label);
+}
+
+.ms-banners:empty {
+  display: none;
+}
+
+.ms-banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ms-space-2) var(--ms-space-3);
+  padding: var(--ms-space-2) var(--ms-space-4);
+  border-block-end: var(--ms-stroke-control) dashed var(--ms-color-text-secondary);
+  background: var(--ms-color-panel);
+  font-size: var(--ms-text-label);
+}
+
+.ms-banner__text {
+  flex: 1 1 14rem;
+  min-inline-size: 0;
+  overflow-wrap: anywhere;
+}
+
+/* Connection lost: a strip of paper tape with a hatched edge. The words say what it means. */
+.ms-banner--connection {
+  position: relative;
+  z-index: var(--ms-layer-banner);
+  background: var(--ms-color-paper);
+  color: var(--ms-color-ink);
+  border-block: var(--ms-stroke-panel) solid var(--ms-color-ink);
+  font-size: var(--ms-text-body);
+  font-weight: 600;
+}
+
+.ms-banner--connection::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: calc(var(--ms-space-2) * -1 - var(--ms-stroke-panel));
+  block-size: var(--ms-space-2);
+  background: var(--ms-hatch-paper);
+  pointer-events: none;
+}
+
+/* ---------- Main ---------- */
+
+/* One column that is never wider than the screen: what does not fit wraps inside it. */
+.ms-main {
+  --ms-main-pad: var(--ms-space-3);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--ms-space-3);
+  padding: var(--ms-space-3) var(--ms-main-pad) var(--ms-space-5);
+}
+
+.ms-main:focus {
+  outline: none;
+}
+
+/* Headings are labels. At very large text they give way to the screen's width rather than
+   run off it; body copy and instructions never do. */
+.ms-title,
+.ms-phase__label,
+.ms-panel__heading,
+.ms-settings__heading {
+  font-size: min(var(--ms-text-heading), 11vw);
+  overflow-wrap: anywhere;
+}
+
+.ms-title__prefix {
+  display: block;
+  color: var(--ms-color-text-secondary);
+  font-size: var(--ms-text-label);
+}
+
+/* ---------- Phase strip: a caption box ---------- */
+
+.ms-phase {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: var(--ms-layer-panel-chrome);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ms-space-2) var(--ms-space-4);
+  min-block-size: 4rem;
+  padding: var(--ms-space-2) var(--ms-space-3);
+  background: var(--ms-color-paper);
+  color: var(--ms-color-ink);
+  border: var(--ms-stroke-panel) solid var(--ms-color-ink);
+  box-shadow: var(--ms-shadow-offset) var(--ms-shadow-offset) 0 var(--ms-shadow-color);
+}
+
+.ms-phase__labels {
+  flex: 1 1 9rem;
+  min-inline-size: 0;
+}
+
+.ms-phase__round {
+  font-size: var(--ms-text-label);
+}
+
+.ms-phase__detail,
+.ms-timer__note {
+  font-size: var(--ms-text-label);
+}
+
+.ms-timer__value {
+  display: inline-block;
+  min-inline-size: 4.5ch;
+  padding: 0 var(--ms-space-2);
+  background: var(--ms-color-ink);
+  color: var(--ms-color-paper);
+  border-radius: var(--ms-radius-control);
+  font-family: var(--ms-font-lettering);
+  font-size: var(--ms-text-display);
+  font-weight: var(--ms-weight-lettering);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+  text-align: center;
+}
+
+/* The last seconds are marked by an outline, not by a flash or a color change. */
+.ms-timer[data-final="true"] .ms-timer__value {
+  outline: var(--ms-stroke-control) solid var(--ms-color-ink);
+  outline-offset: 2px;
+}
+
+.ms-timer[data-state="expired"] .ms-timer__value,
+.ms-timer[data-state="syncing"] .ms-timer__value {
+  background: var(--ms-color-paper);
+  color: var(--ms-color-ink);
+  outline: var(--ms-stroke-control) dashed var(--ms-color-ink);
+  outline-offset: -3px;
+}
+
+/* ---------- Panels ---------- */
+
+.ms-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--ms-space-3);
+  padding: var(--ms-space-4);
+  background: var(--ms-color-panel);
+  border: var(--ms-stroke-control) solid var(--ms-color-steel-mid);
+  border-radius: var(--ms-radius-panel);
+}
+
+.ms-hint,
+.ms-zone__empty,
+.ms-location__status-label {
+  color: var(--ms-color-text-secondary);
+  font-size: var(--ms-text-label);
+}
+
+/* A notice takes the color of the words in it, so its edge shows on any ground. */
+.ms-notice {
+  padding: var(--ms-space-2) var(--ms-space-3);
+  border: var(--ms-stroke-control) dashed currentColor;
+  border-radius: var(--ms-radius-control);
+  font-weight: 600;
+}
+
+/* ---------- Location summary ---------- */
+
+.ms-location {
+  position: relative;
+}
+
+/* PROPOSED: <span class="ms-location__art" data-location="<zone id>" aria-hidden="true">.
+   Nothing is drawn for it until the art has arrived. */
+.ms-location__art {
+  display: none;
+}
+
+/* A color family for each room (design tokens color.room). Two tones are read here: the
+   ground of a panel whose picture has not arrived, and the bar beside a room's name in a
+   list. The color goes with the name beside it and never says anything by itself. */
+.ms-zone[data-zone="room-a"],
+.ms-location:has(> .ms-location__art[data-location="room-a"]) {
+  --ms-zone-ground: var(--ms-color-location-room-a-shadow);
+  --ms-zone-edge: var(--ms-color-location-room-a-mid);
+}
+
+.ms-zone[data-zone="room-b"],
+.ms-location:has(> .ms-location__art[data-location="room-b"]) {
+  --ms-zone-ground: var(--ms-color-location-room-b-shadow);
+  --ms-zone-edge: var(--ms-color-location-room-b-mid);
+}
+
+.ms-zone[data-zone="command-room"],
+.ms-location:has(> .ms-location__art[data-location="command-room"]) {
+  --ms-zone-ground: var(--ms-color-location-command-room-shadow);
+  --ms-zone-edge: var(--ms-color-location-command-room-mid);
+}
+
+.ms-zone[data-zone="hospital"],
+.ms-location:has(> .ms-location__art[data-location="hospital"]) {
+  --ms-zone-ground: var(--ms-color-location-hospital-shadow);
+  --ms-zone-edge: var(--ms-color-location-hospital-mid);
+}
+
+.ms-zone[data-zone="jail"],
+.ms-location:has(> .ms-location__art[data-location="jail"]) {
+  --ms-zone-ground: var(--ms-color-location-jail-shadow);
+  --ms-zone-edge: var(--ms-color-location-jail-mid);
+}
+
+/* The room name is a caption box: the yellow of the comic page, cut on a slant. It is
+   live text and it is how every caption looks: neither the color nor the slant is a state.
+   The slant turns about the box's far top corner, so a caption that has grown tall with the
+   reader's text leans into the panel's own margin and never past the edge of the screen. */
+.ms-location__name {
+  justify-self: start;
+  padding: 2px var(--ms-space-2);
+  background: var(--ms-color-caption);
+  color: var(--ms-color-ink);
+  border: var(--ms-stroke-ink-fine) solid var(--ms-color-ink);
+  font-size: var(--ms-text-heading);
+  transform: skewX(var(--ms-caption-skew)) rotate(var(--ms-caption-tilt));
+  transform-origin: 100% 0;
+}
+
+.ms-location__status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ms-space-1) var(--ms-space-2);
+}
+
+.ms-location__others,
+.ms-zone__name,
+.ms-private__subheading {
+  font-size: var(--ms-text-body);
+}
+
+/* ---------- Seats, tokens and markers ---------- */
+
+.ms-seats {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--ms-space-2);
+}
+
+.ms-seat {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ms-space-1) var(--ms-space-2);
+  min-block-size: var(--ms-token-phone);
+}
+
+/* The token without art: a disc with its live numeral. The same for every seat and role. */
+.ms-token {
+  --ms-token-size: var(--ms-token-phone);
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  inline-size: var(--ms-token-size);
+  block-size: var(--ms-token-size);
+  background: var(--ms-color-token);
+  color: var(--ms-color-ink);
+  border: var(--ms-stroke-illustration) solid var(--ms-color-ink);
+  border-radius: 50%;
+  box-shadow: 2px 2px 0 var(--ms-color-ink);
+  font-family: var(--ms-font-lettering);
+  font-size: calc(var(--ms-token-size) * 0.5);
+  font-weight: var(--ms-weight-lettering);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+/* Public health changes the token's own outline as well as its labeled marker. */
+.ms-seat:has(.ms-marker--health[data-variant="injured"]) > .ms-token {
+  border-style: double;
+  border-width: 6px;
+}
+
+.ms-seat:has(.ms-marker--health[data-variant="eliminated"]) > .ms-token {
+  background: var(--ms-color-paper-deep);
+  border-style: dashed;
+  box-shadow: none;
+}
+
+.ms-seat__name,
+.ms-target__name {
+  font-weight: 700;
+}
+
+/* PROPOSED: where a seat has a name, its name element holds .ms-seat__number and
+   .ms-seat__player, in a row, a target row and the table's roster. The number is a chip. */
+.ms-seat__number {
+  display: inline-block;
+  min-inline-size: 1.5em;
+  margin-inline-end: 0.4em;
+  padding: 0 0.3em;
+  background: var(--ms-color-paper);
+  color: var(--ms-color-ink);
+  border-radius: 3px;
+  font-family: var(--ms-font-lettering);
+  font-weight: var(--ms-weight-lettering);
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+
+.ms-seat__player {
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+/* Beside a token without art the number is already on the disc, so the tag keeps its own
+   for assistive technology only. Part two shows it, where the token becomes a face. */
+.ms-token + .ms-seat__name > .ms-seat__number,
+.ms-token + .ms-target__name > .ms-seat__number {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  min-inline-size: 0;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.ms-markers {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: var(--ms-space-1);
+  max-inline-size: 100%;
+}
+
+/* A marker is a chip: an outline and always its word. */
+.ms-marker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+  min-block-size: var(--ms-marker-min-phone);
+  padding: 0 0.6em;
+  background: var(--ms-color-paper);
+  color: var(--ms-color-ink);
+  border: var(--ms-stroke-control) solid var(--ms-color-ink);
+  border-radius: 999px;
+  outline: 1px solid var(--ms-color-paper);
+  font-size: var(--ms-text-label);
+  font-weight: 700;
+  line-height: 1.2;
+  /* A chip is never wider than the row it is in. Where even one word is wider than that
+     row, at the very largest text, the word breaks rather than run out of its panel. */
+  max-inline-size: 100%;
+  overflow-wrap: break-word;
+}
+
+/* Healthy is the quiet one: nine of them must not shout. Outline only. */
+.ms-marker--health[data-variant="healthy"] {
+  background: transparent;
+  color: var(--ms-color-text);
+  border-color: var(--ms-color-text);
+  outline: none;
+}
+
+/* Eliminated: a duller paper and a dashed outline. Never red. */
+.ms-marker--health[data-variant="eliminated"] {
+  background: var(--ms-color-paper-deep);
+  border-style: dashed;
+}
+
+/* Captain: a doubled outline. */
+.ms-marker--captain {
+  outline: var(--ms-stroke-control) solid var(--ms-color-ink);
+  outline-offset: 1px;
+  box-shadow: 0 0 0 4px var(--ms-color-paper);
+  margin-inline: 4px;
+}
+
+/* Active turn: the one public use of amber, and it always carries its words. */
+.ms-marker--turn {
+  background: var(--ms-color-accent);
+}
+
+.ms-marker--self {
+  background: transparent;
+  color: var(--ms-color-text);
+  border-color: var(--ms-color-text);
+  border-style: dotted;
+  outline: none;
+}
+
+/* ---------- Zones (the DOM equivalent of the board) ---------- */
+
+.ms-zones {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--ms-space-3);
+}
+
+.ms-zone {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--ms-space-2);
+  padding: var(--ms-space-3);
+  border: var(--ms-stroke-control) solid var(--ms-color-steel-mid);
+  border-radius: var(--ms-radius-control);
+}
+
+/* Where the viewer is: a heavier paper keyline, not a color. */
+.ms-zone[data-current="true"] {
+  border: var(--ms-stroke-illustration) solid var(--ms-color-text);
+}
+
+/* In the list of all players each room carries a bar in its own color beside its name. */
+.ms-roster .ms-zone {
+  padding-inline-start: calc(var(--ms-space-3) + 6px);
+  box-shadow: inset 6px 0 0 var(--ms-zone-edge, transparent);
+}
+
+/* ---------- The private sheet ---------- */
+
+/* The handle looks the same on every phone at every moment. It never shows a count, a
+   badge or a highlight: whether a seat has something to do is private. */
+.ms-private {
+  position: relative;
+  z-index: var(--ms-layer-private-sheet);
+}
+
+.ms-private > .ms-button {
+  justify-self: start;
+}
+
+.ms-private__panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--ms-space-3);
+  min-inline-size: 0;
+  --ms-shadow-color: var(--ms-color-ink);
+}
+
+/* Today .ms-role-card is a paragraph holding the role name, and that is styled here.
+   PROPOSED structure inside it: span.ms-role-card__art, .ms-role-card__text holding
+   .ms-role-card__name and .ms-role-card__team, and a closed details.ms-role-card__more
+   holding the summary. One card is expanded at a time, and the actions below stay in reach.
+   The name is never larger than the heading size: it must not be readable across a table. */
+.ms-role-card {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ms-space-2) var(--ms-space-3);
+  padding: var(--ms-space-3);
+  background: var(--ms-color-paper);
+  color: var(--ms-color-ink);
+  border: var(--ms-stroke-illustration) solid var(--ms-color-ink);
+  border-radius: var(--ms-radius-card);
+  box-shadow: var(--ms-shadow-offset) var(--ms-shadow-offset) 0 var(--ms-color-ink);
+  font-family: var(--ms-font-lettering);
+  font-size: var(--ms-text-role-name);
+  font-weight: var(--ms-weight-lettering);
+  line-height: var(--ms-leading-heading);
+  text-transform: uppercase;
+}
+
+/* No picture until the role bundle has arrived. */
+.ms-role-card__art {
+  display: none;
+}
+
+/* Name and team. Beside the picture when there is room, under it when there is not. */
+.ms-role-card__text {
+  flex: 1 1 7rem;
+  display: grid;
+  gap: var(--ms-space-1);
+  min-inline-size: min-content;
+}
+
+.ms-role-card__more {
+  flex: 1 1 100%;
+  font-family: var(--ms-font-body);
+  font-size: var(--ms-text-label);
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: var(--ms-leading-body);
+  text-transform: none;
+}
+
+.ms-role-card__more > summary {
+  min-block-size: var(--ms-target-min);
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* The longest role name is one word of ten letters. On the narrowest phone at large text
+   it is set a little smaller rather than run out of its card, and breaks only as a last resort. */
+.ms-role-card__name {
+  font-size: min(var(--ms-text-role-name), 10vw);
+  overflow-wrap: anywhere;
+}
+
+.ms-role-card__summary + .ms-role-card__summary {
+  margin-block-start: var(--ms-space-2);
+}
+
+.ms-role-card__team,
+.ms-role-card__summary {
+  font-family: var(--ms-font-body);
+  font-size: var(--ms-text-label);
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: var(--ms-leading-body);
+  text-transform: none;
+}
+
+/* The team is a word. It is a fact of the role, taken from the rule source: no view field
+   carries it. The swatch beside the word is decoration and only ever inside this sheet: the
+   client sets --ms-team-accent on the card to one of the --ms-color-faction-* tokens. */
+.ms-role-card__team {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  font-weight: 700;
+}
+
+.ms-role-card__team::before {
+  content: "";
+  inline-size: 0.9em;
+  block-size: 0.9em;
+  background: var(--ms-team-accent, transparent);
+  border: var(--ms-stroke-control) solid var(--ms-color-ink);
+}
+
+.ms-actions,
+.ms-card__state,
+.ms-targets,
+.ms-cards {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--ms-space-2);
+}
+
+/* ---------- Action card ---------- */
+
+.ms-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--ms-space-2);
+  padding: var(--ms-space-3);
+  background: var(--ms-color-paper);
+  color: var(--ms-color-ink);
+  border: var(--ms-stroke-illustration) solid var(--ms-color-ink);
+  border-radius: var(--ms-radius-card);
+  box-shadow: var(--ms-shadow-offset) var(--ms-shadow-offset) 0 var(--ms-color-ink);
+  transition: translate var(--ms-motion-selection) var(--ms-ease-snap), box-shadow var(--ms-motion-selection) var(--ms-ease-snap);
+}
+
+/* PROPOSED: span.ms-card__pips after the title text. Hidden until its art has arrived. */
+.ms-card__title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ms-space-1) var(--ms-space-2);
+  font-size: var(--ms-text-heading);
+}
+
+.ms-card__pips {
+  display: none;
+}
+
+/* The status word. Every status has its own word, and most have an outline of their own:
+   solid ink, plain, double, dashed, the stamp and the dashed stamp. Targeting and confirming
+   share the plain one, as do submitting and checking; the card around them says the rest. */
+.ms-card__status {
+  justify-self: start;
+  padding: 1px var(--ms-space-2);
+  border: var(--ms-stroke-control) solid var(--ms-color-ink);
+  border-radius: 4px;
+  font-size: var(--ms-text-label);
+}
+
+.ms-card__state[data-status="available"] .ms-card__status {
+  background: var(--ms-color-ink);
+  color: var(--ms-color-paper);
+}
+
+.ms-card__state[data-status="unavailable"] .ms-card__status,
+.ms-card__state[data-status="not-registered"] .ms-card__status {
+  border-style: dashed;
+}
+
+.ms-card__state[data-status="unknown"] .ms-card__status {
+  border-style: double;
+  border-width: 5px;
+}
+
+/* Registered: the status word is a stamp. It says "registered" and nothing about a result. */
+.ms-card__state[data-status="registered"] .ms-card__status,
+.ms-card__state[data-status="was-registered"] .ms-card__status {
+  padding: 2px var(--ms-space-3);
+  border-width: var(--ms-stroke-illustration);
+  outline: var(--ms-stroke-control) solid var(--ms-color-ink);
+  outline-offset: 2px;
+  margin: 4px 6px;
+  rotate: var(--ms-stamp-rotation);
+  font-size: var(--ms-text-body);
+}
+
+.ms-card__state[data-status="was-registered"] .ms-card__status {
+  border-style: dashed;
+  outline-style: dashed;
+}
+
+/* Picked up: lifted off its shadow, with the focus-colored outline. */
+.ms-card:has(> .ms-card__state[data-selected="true"]) {
+  translate: calc(var(--ms-lift) * -1) calc(var(--ms-lift) * -1);
+  box-shadow: var(--ms-shadow-offset-lifted) var(--ms-shadow-offset-lifted) 0 var(--ms-color-ink);
+  outline: var(--ms-stroke-selection) solid var(--ms-color-accent);
+  outline-offset: 2px;
+}
+
+/* Not available, or no longer waiting: flat on the table. Duller paper, dashed edge, no shadow. */
+.ms-card:has(> .ms-card__state[data-status="unavailable"]),
+.ms-card:has(> .ms-card__state[data-status="was-registered"]) {
+  background: var(--ms-color-paper-deep);
+  border-style: dashed;
+  box-shadow: none;
+}
+
+/* In flight: a hatched band across the top. It does not move. */
+.ms-card:has(> .ms-card__state[data-step="busy"])::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  inset-block-start: 0;
+  block-size: var(--ms-space-2);
+  border-start-start-radius: 6px;
+  border-start-end-radius: 6px;
+  background: var(--ms-hatch-ink);
+  pointer-events: none;
+}
+
+.ms-card:has(> .ms-card__state[data-step="busy"]) {
+  padding-block-start: calc(var(--ms-space-3) + var(--ms-space-2));
+}
+
+.ms-card__prompt,
+.ms-card__result {
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.ms-card__busy {
+  font-weight: 600;
+}
+
+.ms-card__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ms-space-3);
+  margin-block-start: var(--ms-space-1);
+}
+
+/* A target is a row: the token, the name, the public status in words. */
+.ms-private .ms-target {
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  inline-size: 100%;
+  gap: var(--ms-space-1) var(--ms-space-2);
+  padding: var(--ms-space-1) var(--ms-space-3) var(--ms-space-1) var(--ms-space-1);
+  background: var(--ms-color-paper-shade);
+  text-align: start;
+}
+
+.ms-target__detail {
+  margin-inline-start: auto;
+  font-size: var(--ms-text-label);
+  font-weight: 400;
+}
+
+/* ---------- Buttons ---------- */
+
+.ms-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-block-size: var(--ms-target-min);
+  min-inline-size: var(--ms-target-min);
+  padding: var(--ms-space-2) var(--ms-space-4);
+  background: var(--ms-color-paper);
+  color: var(--ms-color-ink);
+  border: var(--ms-stroke-control) solid var(--ms-color-ink);
+  border-radius: var(--ms-radius-control);
+  box-shadow: var(--ms-shadow-offset) var(--ms-shadow-offset) 0 var(--ms-shadow-color);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition: translate var(--ms-motion-selection) var(--ms-ease-snap), box-shadow var(--ms-motion-selection) var(--ms-ease-snap);
+}
+
+/* The one main control of a step: a heavier edge as well as amber. */
+.ms-button--primary {
+  background: var(--ms-color-accent);
+  border-width: var(--ms-stroke-ink-bold);
+}
+
+/* Pressed: the button goes down onto its shadow. */
+.ms-button:active {
+  translate: 2px 2px;
+  box-shadow: 2px 2px 0 var(--ms-shadow-color);
+}
+
+/* Drawn and reachable, but not active yet: flat, dashed, duller paper. */
+.ms-button[aria-disabled="true"] {
+  background: var(--ms-color-paper-deep);
+  border-style: dashed;
+  box-shadow: none;
+  cursor: default;
+}
+
+.ms-button[aria-disabled="true"]:active {
+  translate: none;
+}
+
+/* ---------- Footer ---------- */
+
+.ms-footer {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--ms-space-3);
+  padding: var(--ms-space-4);
+  border-block-start: var(--ms-stroke-control) solid var(--ms-color-steel-mid);
+}
+
+.ms-field__label {
+  display: flex;
+  align-items: center;
+  gap: var(--ms-space-3);
+  min-block-size: var(--ms-target-min);
+  font-weight: 700;
+}
+
+.ms-checkbox {
+  inline-size: 1.5rem;
+  block-size: 1.5rem;
+  accent-color: var(--ms-color-accent);
+}
+
+.ms-details__summary {
+  min-block-size: var(--ms-target-min);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.ms-details__list {
+  display: grid;
+  grid-template-columns: minmax(0, max-content) minmax(0, 1fr);
+  gap: var(--ms-space-1) var(--ms-space-3);
+  font-size: var(--ms-text-label);
+  overflow-wrap: anywhere;
+}
+
+/* ---------- Table display ---------- */
+
+.ms-shell--table .ms-main {
+  padding: var(--ms-space-4) var(--ms-space-5) var(--ms-space-6);
+  gap: var(--ms-space-4);
+}
+
+.ms-shell--table .ms-title {
+  color: var(--ms-color-text-secondary);
+  font-size: var(--ms-text-label);
+}
+
+.ms-shell--table .ms-phase {
+  position: static;
+  min-block-size: 5.5rem;
+  padding: var(--ms-space-3) var(--ms-space-5);
+}
+
+.ms-shell--table .ms-phase__round {
+  font-size: var(--ms-text-heading);
+}
+
+.ms-shell--table .ms-phase__label {
+  font-size: min(var(--ms-text-table-heading), 11vw);
+}
+
+.ms-shell--table .ms-timer__value {
+  font-size: var(--ms-text-table-timer);
+}
+
+/* The board is a comic page: paper, with one inked panel per location and paper gutters. */
+.ms-shell--table .ms-board ,
+
+
+/* The board is a comic page: paper, with one inked panel per location and paper gutters. */
+.ms-shell--player .ms-board {
+  --ms-shadow-color: var(--ms-color-ink);
+  container-type: inline-size;
+  padding: var(--ms-gutter);
+  gap: var(--ms-gutter);
+  background: var(--ms-color-paper);
+  color: var(--ms-color-ink);
+  border: var(--ms-stroke-panel) solid var(--ms-color-ink);
+  border-radius: 0;
+  box-shadow: var(--ms-shadow-offset) var(--ms-shadow-offset) 0 var(--ms-color-steel-mid);
+}
+
+.ms-shell--table .ms-board > .ms-panel__heading ,
+
+
+.ms-shell--player .ms-board > .ms-panel__heading {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+/* Narrow, or at very large text: one panel per row. */
+.ms-shell--table .ms-zones ,
+
+
+/* Narrow, or at very large text: one panel per row. */
+.ms-shell--player .ms-board .ms-zones {
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--ms-gutter);
+}
+
+/* A location before its art has arrived, or one that has none: a plain inked panel on the
+   room's own ground color (steel where a location has no family). It grows with what it
+   holds: a status word is never cut off to keep a shape. */
+.ms-shell--table .ms-zone ,
+
+
+/* A location before its art has arrived, or one that has none: a plain inked panel on the
+   room's own ground color (steel where a location has no family). It grows with what it
+   holds: a status word is never cut off to keep a shape. */
+.ms-shell--player .ms-board .ms-zone {
+  --ms-token-size: clamp(2.5rem, 7.2cqw, 5rem);
+  position: relative;
+  align-content: start;
+  min-block-size: 9rem;
+  padding: var(--ms-space-3);
+  background: var(--ms-zone-ground, var(--ms-color-steel-shadow));
+  color: var(--ms-color-text);
+  border: var(--ms-stroke-panel) solid var(--ms-color-ink);
+  border-radius: 0;
+}
+
+/* Halftone gathers in the far corner of an empty panel. A panel with seats in it has none,
+   so it never lies behind a name. */
+.ms-shell--table .ms-zone:not(:has(.ms-seats))::after ,
+
+
+/* Halftone gathers in the far corner of an empty panel. A panel with seats in it has none,
+   so it never lies behind a name. */
+.ms-shell--player .ms-board .ms-zone:not(:has(.ms-seats))::after {
+  content: "";
+  position: absolute;
+  inset-block-end: 0;
+  inset-inline-end: 0;
+  inline-size: 45%;
+  block-size: 55%;
+  background: var(--ms-halftone-paper);
+  -webkit-mask-image: linear-gradient(to bottom right, transparent 50%, var(--ms-color-ink));
+  mask-image: linear-gradient(to bottom right, transparent 50%, var(--ms-color-ink));
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.ms-shell--table .ms-zone__name ,
+
+
+.ms-shell--player .ms-board .ms-zone__name {
+  position: relative;
+  z-index: 1;
+  justify-self: start;
+  padding: 2px var(--ms-space-2);
+  background: var(--ms-color-caption);
+  color: var(--ms-color-ink);
+  border: var(--ms-stroke-ink-fine) solid var(--ms-color-ink);
+  box-shadow: 3px 3px 0 var(--ms-color-ink);
+  font-size: clamp(1rem, 2.4cqw, 1.5rem);
+  transform: skewX(var(--ms-caption-skew)) rotate(var(--ms-caption-tilt));
+  transform-origin: 100% 0;
+}
+
+.ms-shell--table .ms-zone__empty ,
+
+
+.ms-shell--player .ms-board .ms-zone__empty {
+  position: relative;
+  z-index: 1;
+  color: var(--ms-color-text);
+}
+
+/* Seats share a row while their words fit side by side, and take a row each when they do
+   not: a status word is never squeezed or broken to keep a column. */
+.ms-shell--table .ms-zone .ms-seats ,
+
+
+/* Seats share a row while their words fit side by side, and take a row each when they do
+   not: a status word is never squeezed or broken to keep a column. */
+.ms-shell--player .ms-board .ms-zone .ms-seats {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--ms-space-2);
+}
+
+.ms-shell--table .ms-zone .ms-seat ,
+
+
+.ms-shell--player .ms-board .ms-zone .ms-seat {
+  position: relative;
+  flex: 1 1 calc(var(--ms-token-size) * 1.6);
+  flex-direction: column;
+  flex-wrap: nowrap;
+  gap: 2px;
+  max-inline-size: 100%;
+}
+
+.ms-shell--table .ms-zone .ms-markers ,
+
+
+.ms-shell--player .ms-board .ms-zone .ms-markers {
+  justify-content: center;
+}
+
+.ms-shell--table .ms-zone .ms-seat__name ,
+
+
+.ms-shell--player .ms-board .ms-zone .ms-seat__name {
+  font-size: var(--ms-text-label);
+}
+
+/* From 600 px: the comic page. The two rooms share the top row, the rest the bottom row. */
+@media (min-width: 37.5em) {
+  .ms-shell--table .ms-zones ,
+
+  .ms-shell--player .ms-board .ms-zones {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .ms-shell--table .ms-zone ,
+
+
+  .ms-shell--player .ms-board .ms-zone {
+    grid-column: span 2;
+  }
+
+  .ms-shell--table .ms-zone[data-zone="room-a"],
+  .ms-shell--table .ms-zone[data-zone="room-b"] ,
+
+
+  .ms-shell--player .ms-board .ms-zone[data-zone="room-a"],
+  .ms-shell--player .ms-board .ms-zone[data-zone="room-b"] {
+    grid-column: span 3;
+  }
+}
+
+/* Roster: the words for everything the board draws. Its cells wrap, so the table never
+   runs past its panel and no status word is ever out of sight. */
+.ms-table {
+  inline-size: 100%;
+  border-collapse: collapse;
+  font-size: 1.125rem;
+}
+
+.ms-table th,
+.ms-table td {
+  padding: var(--ms-space-2);
+  border-block-end: 1px solid var(--ms-color-steel-mid);
+  overflow-wrap: break-word;
+  text-align: start;
+  vertical-align: middle;
+}
+
+.ms-table th[scope="row"] {
+  white-space: nowrap;
+}
+
+/* A row header that carries a name: the number and the name stay on one line. The name is
+   a player's own text and may be twelve letters long, so it is given a box of its own that
+   may break inside itself rather than push the table out of its panel. The box never gets
+   narrower than about eight letters, so a short name is never broken to save room; and it
+   is never wider than what the number leaves of the cell, so it cannot run into the next
+   column (a box in a line is sized by its cell and does not see what stands before it). */
+.ms-table th[scope="row"] > .ms-seat__number,
+.ms-table th[scope="row"] > .ms-seat__player {
+  vertical-align: middle;
+}
+
+.ms-table th[scope="row"] > .ms-seat__player {
+  display: inline-block;
+  min-inline-size: 4.4em;
+  max-inline-size: calc(100% - 2em);
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+/* Where even whole words no longer fit side by side (a narrow display, or very large
+   text), a word may break inside its cell. Nothing is clipped and nothing scrolls. */
+@media (max-width: 34em) {
+  .ms-table th,
+  .ms-table td {
+    overflow-wrap: anywhere;
+  }
+
+  .ms-table th[scope="row"] {
+    white-space: normal;
+  }
+
+  .ms-table th[scope="row"] > .ms-seat__player {
+    min-inline-size: 0;
+  }
+}
+
+.ms-table thead th {
+  color: var(--ms-color-text-secondary);
+  font-family: var(--ms-font-lettering);
+  font-size: var(--ms-text-label);
+  letter-spacing: var(--ms-tracking-lettering);
+  text-transform: uppercase;
+}
+
+/* The active seat's row: an amber bar and the words "Active turn" in its status cell. */
+.ms-table tr[data-active="true"] th[scope="row"] {
+  box-shadow: inset 6px 0 0 var(--ms-color-accent);
+  padding-inline-start: var(--ms-space-3);
+}
+
+/* ---------- Layout ---------- */
+
+/* Breakpoints are the token values divided by 16 and written in em, so a layout answers
+   to the reader's text size as well as to the screen: 600 px is 37.5em, 1280 px is 80em.
+
+   Phone, 320 to 599: one column. PROPOSED order and dock: the private sheet is the last
+   section and stays at the bottom edge, so it is one tap away from anywhere. */
+.ms-shell--player .ms-private.ms-private--docked {
+  position: sticky;
+  inset-block-end: 0;
+  margin-inline: calc(var(--ms-main-pad) * -1);
+  margin-block-end: calc(var(--ms-space-5) * -1);
+  padding: var(--ms-space-3) var(--ms-main-pad) max(var(--ms-space-3), env(safe-area-inset-bottom));
+  border-radius: 0;
+  border-inline: 0;
+  border-block-end: 0;
+  border-block-start: var(--ms-stroke-panel) solid var(--ms-color-ink);
+  box-shadow: 0 -4px 0 var(--ms-color-steel-mid);
+  /* The open sheet stops below the phase strip, whose height the client measures. */
+  max-block-size: calc(100dvh - var(--ms-phase-block-size, 5.5rem));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ms-space-2) var(--ms-space-3);
+  min-block-size: var(--ms-dock-min);
+}
+
+.ms-shell--player .ms-private--docked > .ms-panel__heading {
+  flex: 1 1 auto;
+}
+
+/* The control keeps its place whether the sheet is open or closed. It drops under the
+   heading when the two no longer fit side by side. */
+.ms-shell--player .ms-private--docked > .ms-button {
+  flex: 1 1 9rem;
+  min-inline-size: 0;
+  max-inline-size: 15rem;
+  overflow-wrap: anywhere;
+  text-align: start;
+}
+
+.ms-shell--player .ms-private--docked > .ms-hint {
+  flex: 1 1 100%;
+  order: 3;
+}
+
+.ms-shell--player .ms-private--docked > .ms-private__panel {
+  flex: 1 1 100%;
+  order: 4;
+}
+
+/* Open, the control that hides the sheet stays at its top edge however far the cards are
+   scrolled: hiding is always one tap away. */
+.ms-shell--player .ms-private--docked[data-open="true"] > .ms-button {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 1;
+}
+
+/* Open, the reminder has done its work and the room goes to the cards. */
+.ms-shell--player .ms-private--docked[data-open="true"] > .ms-hint {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+/* On the narrowest phones and at large text the dock is its control and nothing else. The
+   heading and the reminder stay in the document, as the section's name and the control's
+   description; the room goes to the page. */
+@media (max-width: 22em) {
+  .ms-shell--player .ms-private--docked > .ms-panel__heading,
+  .ms-shell--player .ms-private--docked > .ms-hint {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+
+  .ms-shell--player .ms-private.ms-private--docked {
+    padding-block: var(--ms-space-2);
+    min-block-size: 0;
+  }
+
+  .ms-shell--player .ms-private--docked > .ms-button {
+    max-inline-size: none;
+  }
+
+  /* Panels inside panels give their margins back to the words. */
+  .ms-shell--player .ms-main {
+    --ms-main-pad: var(--ms-space-2);
+  }
+
+  .ms-shell--player .ms-location,
+  .ms-shell--player .ms-roster,
+  .ms-shell--player .ms-zone {
+    padding: var(--ms-space-2);
+  }
+}
+
+/* Where the screen is short for the reader's text, the phase caption scrolls with the page
+   instead of holding the top edge: a caption that has wrapped to several lines would
+   otherwise take the screen. The open sheet may then use the whole height. */
+@media (max-height: 30em) {
+  .ms-shell--player .ms-phase {
+    position: static;
+  }
+
+  .ms-shell--player .ms-private.ms-private--docked {
+    max-block-size: 100dvh;
+  }
+}
+
+@media (min-width: 37.5em) {
+  .ms-shell--player[data-screen="match"] .ms-main {
+    grid-template-columns: minmax(0, 1.15fr) minmax(18rem, 1fr);
+    align-items: start;
+    gap: var(--ms-space-4);
+    padding: var(--ms-space-4);
+  }
+
+  .ms-shell--player[data-screen="match"] .ms-title,
+  .ms-shell--player[data-screen="match"] .ms-phase {
+    grid-column: 1 / -1;
+  }
+
+  /* A wider screen shows the same facts side by side. It grants no extra information. */
+  .ms-shell--player[data-screen="match"] .ms-location,
+  .ms-shell--player[data-screen="match"] .ms-roster {
+    grid-column: 1;
+  }
+
+  .ms-shell--player[data-screen="match"] .ms-private,
+  .ms-shell--player[data-screen="match"] .ms-private.ms-private--docked {
+    grid-column: 2;
+    grid-row: 3 / span 2;
+    position: sticky;
+    inset-block-start: calc(var(--ms-phase-block-size, 5.5rem) + var(--ms-space-2));
+    inset-block-end: auto;
+    margin: 0;
+    padding: var(--ms-space-4);
+    border: var(--ms-stroke-control) solid var(--ms-color-steel-mid);
+    border-radius: var(--ms-radius-panel);
+    box-shadow: none;
+    max-block-size: calc(100dvh - var(--ms-phase-block-size, 5.5rem) - var(--ms-space-5));
+  }
+}
+
+/* The roster goes beside the board only where its four columns fit beside a board still
+   worth looking at: from 1280 px. At the 0.2.0 value of 960 px it does not. */
+@media (min-width: 80em) {
+  .ms-shell--table[data-screen="match"] .ms-main {
+    grid-template-columns: minmax(0, 1.75fr) minmax(var(--ms-roster-min), 1fr);
+    align-items: start;
+  }
+
+  .ms-shell--table[data-screen="match"] .ms-title,
+  .ms-shell--table[data-screen="match"] .ms-phase {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ---------- Connection lost ---------- */
+
+/* The last known state stays readable. A hatched frame and the banner's words mark it stale;
+   nothing is greyed out below the contrast targets. */
+.ms-shell[data-connection="stale"] .ms-main {
+  position: relative;
+  outline: var(--ms-space-2) solid transparent;
+  outline-offset: calc(var(--ms-space-2) * -1);
+}
+
+.ms-shell[data-connection="stale"] .ms-main::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: var(--ms-layer-cue-overlay);
+  border: var(--ms-space-2) solid transparent;
+  background: var(--ms-hatch-paper) border-box;
+  -webkit-mask: linear-gradient(var(--ms-color-ink) 0 0) padding-box exclude, linear-gradient(var(--ms-color-ink) 0 0);
+  mask: linear-gradient(var(--ms-color-ink) 0 0) padding-box exclude, linear-gradient(var(--ms-color-ink) 0 0);
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.ms-shell[data-connection="stale"] .ms-timer__value {
+  background: var(--ms-color-paper);
+  color: var(--ms-color-ink);
+  outline: var(--ms-stroke-control) dashed var(--ms-color-ink);
+  outline-offset: -3px;
+}
+
+/* ---------- Settings that change the picture ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .ms-shell:not([data-motion="full"]) *,
+  .ms-shell:not([data-motion="full"]) *::before,
+  .ms-shell:not([data-motion="full"]) *::after {
+    transition-duration: 0s !important;
+  }
+
+  .ms-shell:not([data-motion="full"]) .ms-card:has(> .ms-card__state[data-selected="true"]),
+  .ms-shell:not([data-motion="full"]) .ms-button:active {
+    translate: none;
+  }
+}
+
+.ms-shell[data-motion="reduced"] *,
+.ms-shell[data-motion="reduced"] *::before,
+.ms-shell[data-motion="reduced"] *::after {
+  transition-duration: 0s !important;
+}
+
+.ms-shell[data-motion="reduced"] .ms-card:has(> .ms-card__state[data-selected="true"]),
+.ms-shell[data-motion="reduced"] .ms-button:active {
+  translate: none;
+}
+
+/* Forced colors: every outline above is a real border or outline, so shapes survive, and
+   part two below does not apply at all. The skin without art is the forced-colors skin. */
+@media (forced-colors: active) {
+  .ms-token {
+    forced-color-adjust: none;
+    background: Canvas;
+    color: CanvasText;
+    border-color: CanvasText;
+    box-shadow: none;
+  }
+
+  .ms-card:has(> .ms-card__state[data-selected="true"]) {
+    outline-color: Highlight;
+  }
+}
+
+/* =====================================================================================
+   PART TWO · THE ART
+   Every rule is behind [data-art~="<bundle>"] on an ancestor of the shell. The client sets
+   it when that bundle's stylesheet has loaded, and not before.
+   ===================================================================================== */
+
+@media (forced-colors: none) {
+  /* ---------- public-board: the drawn tiles replace the token-only ones ---------- */
+
+  [data-art~="public-board"] .ms-shell {
+    --ms-halftone-ink: var(--ms-asset-pattern-halftone-fine-ink) 0 0 / 9px 9px;
+    --ms-halftone-paper: var(--ms-asset-pattern-halftone-fine-paper) 0 0 / 9px 9px;
+    --ms-hatch-ink: var(--ms-asset-pattern-hatch-ink) 0 0 / 12px 12px;
+    --ms-hatch-paper: var(--ms-asset-pattern-hatch-paper) 0 0 / 12px 12px;
+  }
+
+  /* ---------- public-board: tokens ---------- */
+
+  /* The art's box is 80 units for a 64 unit body. The numeral is its own picture, laid
+     over whichever body the seat's public health calls for. */
+  [data-art~="public-board"] .ms-shell [data-seat] > .ms-token,
+  [data-art~="public-board"] .ms-shell [data-target-seat] > .ms-token {
+    --ms-token-body: var(--ms-asset-token-neutral-badge-blank);
+    inline-size: calc(var(--ms-token-size) * 1.25);
+    block-size: calc(var(--ms-token-size) * 1.25);
+    background:
+      var(--ms-token-numeral, none) 46.1% 48% / 36% 43.2% no-repeat,
+      var(--ms-token-body) 0 0 / 100% 100% no-repeat;
+    color: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  [data-art~="public-board"] .ms-shell [data-seat="seat-1"] > .ms-token,
+  [data-art~="public-board"] .ms-shell [data-target-seat="seat-1"] > .ms-token { --ms-token-numeral: var(--ms-asset-token-numeral-n1); }
+  [data-art~="public-board"] .ms-shell [data-seat="seat-2"] > .ms-token,
+  [data-art~="public-board"] .ms-shell [data-target-seat="seat-2"] > .ms-token { --ms-token-numeral: var(--ms-asset-token-numeral-n2); }
+  [data-art~="public-board"] .ms-shell [data-seat="seat-3"] > .ms-token,
+  [data-art~="public-board"] .ms-shell [data-target-seat="seat-3"] > .ms-token { --ms-token-numeral: var(--ms-asset-token-numeral-n3); }
+  [data-art~="public-board"] .ms-shell [data-seat="seat-4"] > .ms-token,
+  [data-art~="public-board"] .ms-shell [data-target-seat="seat-4"] > .ms-token { --ms-token-numeral: var(--ms-asset-token-numeral-n4); }
+  [data-art~="public-board"] .ms-shell [data-seat="seat-5"] > .ms-token,
+  [data-art~="public-board"] .ms-shell [data-target-seat="seat-5"] > .ms-token { --ms-token-numeral: var(--ms-asset-token-numeral-n5); }
+  [data-art~="public-board"] .ms-shell [data-seat="seat-6"] > .ms-token,
+  [data-art~="public-board"] .ms-shell [data-target-seat="seat-6"] > .ms-token { --ms-token-numeral: var(--ms-asset-token-numeral-n6); }
+  [data-art~="public-board"] .ms-shell [data-seat="seat-7"] > .ms-token,
+  [data-art~="public-board"] .ms-shell [data-target-seat="seat-7"] > .ms-token { --ms-token-numeral: var(--ms-asset-token-numeral-n7); }
+  [data-art~="public-board"] .ms-shell [data-seat="seat-8"] > .ms-token,
+  [data-art~="public-board"] .ms-shell [data-target-seat="seat-8"] > .ms-token { --ms-token-numeral: var(--ms-asset-token-numeral-n8); }
+  [data-art~="public-board"] .ms-shell [data-seat="seat-9"] > .ms-token,
+  [data-art~="public-board"] .ms-shell [data-target-seat="seat-9"] > .ms-token { --ms-token-numeral: var(--ms-asset-token-numeral-n9); }
+
+  [data-art~="public-board"] .ms-shell .ms-seat:has(.ms-marker--health[data-variant="injured"]) > .ms-token {
+    --ms-token-body: var(--ms-asset-token-neutral-badge-injured-blank);
+  }
+
+  [data-art~="public-board"] .ms-shell .ms-seat:has(.ms-marker--health[data-variant="eliminated"]) > .ms-token {
+    --ms-token-body: var(--ms-asset-token-neutral-badge-eliminated-blank);
+  }
+
+  /* ---------- public-board: characters ---------- */
+
+  /* PROPOSED data-character="c1" to "c9" on a seat row or a target row: the character that
+     seat's player chose before roles were dealt. A public fact, the same on every screen,
+     and never a function of a role. Each of the nine sets two pictures: the piece without
+     its stand, for a row, and the standee, for the board. A seat without the attribute
+     keeps its numbered token. */
+  [data-art~="public-board"] .ms-shell [data-character="c1"] {
+    --ms-piece-card: var(--ms-asset-piece-crew-card-c1);
+    --ms-piece-standee: var(--ms-asset-piece-crew-standee-c1);
+  }
+
+  [data-art~="public-board"] .ms-shell [data-character="c2"] {
+    --ms-piece-card: var(--ms-asset-piece-crew-card-c2);
+    --ms-piece-standee: var(--ms-asset-piece-crew-standee-c2);
+  }
+
+  [data-art~="public-board"] .ms-shell [data-character="c3"] {
+    --ms-piece-card: var(--ms-asset-piece-crew-card-c3);
+    --ms-piece-standee: var(--ms-asset-piece-crew-standee-c3);
+  }
+
+  [data-art~="public-board"] .ms-shell [data-character="c4"] {
+    --ms-piece-card: var(--ms-asset-piece-crew-card-c4);
+    --ms-piece-standee: var(--ms-asset-piece-crew-standee-c4);
+  }
+
+  [data-art~="public-board"] .ms-shell [data-character="c5"] {
+    --ms-piece-card: var(--ms-asset-piece-crew-card-c5);
+    --ms-piece-standee: var(--ms-asset-piece-crew-standee-c5);
+  }
+
+  [data-art~="public-board"] .ms-shell [data-character="c6"] {
+    --ms-piece-card: var(--ms-asset-piece-crew-card-c6);
+    --ms-piece-standee: var(--ms-asset-piece-crew-standee-c6);
+  }
+
+  [data-art~="public-board"] .ms-shell [data-character="c7"] {
+    --ms-piece-card: var(--ms-asset-piece-crew-card-c7);
+    --ms-piece-standee: var(--ms-asset-piece-crew-standee-c7);
+  }
+
+  [data-art~="public-board"] .ms-shell [data-character="c8"] {
+    --ms-piece-card: var(--ms-asset-piece-crew-card-c8);
+    --ms-piece-standee: var(--ms-asset-piece-crew-standee-c8);
+  }
+
+  [data-art~="public-board"] .ms-shell [data-character="c9"] {
+    --ms-piece-card: var(--ms-asset-piece-crew-card-c9);
+    --ms-piece-standee: var(--ms-asset-piece-crew-standee-c9);
+  }
+
+  /* In a row the token is the character's card, one picture, and the seat number moves
+     into the tag beside it. */
+  [data-art~="public-board"] .ms-shell [data-character] > .ms-token {
+    inline-size: calc(var(--ms-token-size) * 1.1);
+    block-size: auto;
+    aspect-ratio: 84 / 96;
+    background: var(--ms-piece-card, none) 50% 50% / contain no-repeat;
+  }
+
+  [data-art~="public-board"] .ms-shell [data-character] > .ms-token + .ms-seat__name > .ms-seat__number,
+  [data-art~="public-board"] .ms-shell [data-character] > .ms-token + .ms-target__name > .ms-seat__number {
+    position: static;
+    inline-size: auto;
+    block-size: auto;
+    min-inline-size: 1.5em;
+    margin: 0 0.4em 0 0;
+    padding: 0 0.3em;
+    overflow: visible;
+    clip-path: none;
+  }
+
+  /* An eliminated seat's character loses its color. Its marker still says the word, and
+     an injured seat is told by its marker alone: a face is not given a wound. */
+  [data-art~="public-board"] .ms-shell .ms-seat[data-character]:has(.ms-marker--health[data-variant="eliminated"]) > .ms-token {
+    filter: grayscale(1);
+  }
+
+  /* ---------- public-board: marker icons ---------- */
+
+  [data-art~="public-board"] .ms-shell .ms-marker {
+    --ms-marker-icon: none;
+    padding-inline-start: 0.35em;
+  }
+
+  [data-art~="public-board"] .ms-shell .ms-marker::before {
+    content: "";
+    flex: none;
+    inline-size: var(--ms-marker-icon-phone);
+    block-size: var(--ms-marker-icon-phone);
+    background: var(--ms-marker-icon) center / contain no-repeat;
+  }
+
+  [data-art~="public-board"] .ms-shell .ms-marker--health[data-variant="healthy"]::before {
+    background: currentColor;
+    -webkit-mask: var(--ms-asset-marker-health-healthy-glyph) center / contain no-repeat;
+    mask: var(--ms-asset-marker-health-healthy-glyph) center / contain no-repeat;
+  }
+
+  [data-art~="public-board"] .ms-shell .ms-marker--health[data-variant="injured"] {
+    --ms-marker-icon: var(--ms-asset-marker-health-injured-glyph);
+  }
+
+  [data-art~="public-board"] .ms-shell .ms-marker--health[data-variant="eliminated"] {
+    --ms-marker-icon: var(--ms-asset-marker-health-eliminated-glyph);
+  }
+
+  [data-art~="public-board"] .ms-shell .ms-marker--jail {
+    --ms-marker-icon: var(--ms-asset-marker-jail-glyph);
+  }
+
+  [data-art~="public-board"] .ms-shell .ms-marker--captain {
+    --ms-marker-icon: var(--ms-asset-marker-captain-glyph);
+  }
+
+  [data-art~="public-board"] .ms-shell .ms-marker--turn::before {
+    background: currentColor;
+    -webkit-mask: var(--ms-asset-marker-turn-glyph) center / contain no-repeat;
+    mask: var(--ms-asset-marker-turn-glyph) center / contain no-repeat;
+  }
+
+  [data-art~="public-board"] .ms-shell .ms-marker--self::before {
+    background: currentColor;
+    -webkit-mask: var(--ms-asset-marker-self-glyph) center / contain no-repeat;
+    mask: var(--ms-asset-marker-self-glyph) center / contain no-repeat;
+  }
+
+  /* ---------- public-board: connection banner ---------- */
+
+  /* The icon is decoration and keeps its size when the reader's text grows. */
+  [data-art~="public-board"] .ms-shell .ms-banner--connection {
+    padding-inline-start: calc(var(--ms-space-3) + 36px);
+  }
+
+  [data-art~="public-board"] .ms-shell .ms-banner--connection::before {
+    content: "";
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-start: var(--ms-space-2);
+    inline-size: 28px;
+    block-size: 28px;
+    translate: 0 -50%;
+    background: var(--ms-asset-icon-connection-stale-ink) center / contain no-repeat;
+  }
+
+  /* ---------- public-board: a picture and an icon for each room ---------- */
+
+  /* Set on the room's panel and on a phone's own-location panel, and read below. The
+     pictures are in the public bundle, already loaded whole: nothing is fetched when a
+     seat changes room. The Final Zone has neither yet. */
+  [data-art~="public-board"] .ms-shell .ms-zone[data-zone="room-a"],
+  [data-art~="public-board"] .ms-shell .ms-location:has(> .ms-location__art[data-location="room-a"]) {
+    --ms-zone-art: var(--ms-asset-board-room-a-full);
+    --ms-zone-icon: var(--ms-asset-icon-location-room-a);
+  }
+
+  [data-art~="public-board"] .ms-shell .ms-zone[data-zone="room-b"],
+  [data-art~="public-board"] .ms-shell .ms-location:has(> .ms-location__art[data-location="room-b"]) {
+    --ms-zone-art: var(--ms-asset-board-room-b-full);
+    --ms-zone-icon: var(--ms-asset-icon-location-room-b);
+  }
+
+  [data-art~="public-board"] .ms-shell .ms-zone[data-zone="command-room"],
+  [data-art~="public-board"] .ms-shell .ms-location:has(> .ms-location__art[data-location="command-room"]) {
+    --ms-zone-art: var(--ms-asset-board-command-room-full);
+    --ms-zone-icon: var(--ms-asset-icon-location-command-room);
+  }
+
+  [data-art~="public-board"] .ms-shell .ms-zone[data-zone="hospital"],
+  [data-art~="public-board"] .ms-shell .ms-location:has(> .ms-location__art[data-location="hospital"]) {
+    --ms-zone-art: var(--ms-asset-board-hospital-full);
+    --ms-zone-icon: var(--ms-asset-icon-location-hospital);
+  }
+
+  [data-art~="public-board"] .ms-shell .ms-zone[data-zone="jail"],
+  [data-art~="public-board"] .ms-shell .ms-location:has(> .ms-location__art[data-location="jail"]) {
+    --ms-zone-art: var(--ms-asset-board-jail-full);
+    --ms-zone-icon: var(--ms-asset-icon-location-jail);
+  }
+
+  /* The icon sits before the room's name in its caption. Decoration: the name is the caption. */
+  [data-art~="public-board"] .ms-shell .ms-location:has(> .ms-location__art:not([data-location="final-zone"])) > .ms-location__name::before,
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) > .ms-zone__name::before ,
+
+
+  /* The icon sits before the room's name in its caption. Decoration: the name is the caption. */
+  [data-art~="public-board"] .ms-shell .ms-location:has(> .ms-location__art:not([data-location="final-zone"])) > .ms-location__name::before,
+  [data-art~="public-board"] .ms-shell--player .ms-board .ms-zone:not([data-zone="final-zone"]) > .ms-zone__name::before {
+    content: "";
+    display: inline-block;
+    inline-size: 1.05em;
+    block-size: 1.05em;
+    margin-inline-end: 0.35em;
+    vertical-align: -0.16em;
+    background: var(--ms-zone-icon, none) center / contain no-repeat;
+  }
+
+  /* ---------- public-board: the room strip on a phone ---------- */
+
+  /* The room's upper half as a strip, in the room's own colors: its silhouette names the
+     room at a glance. Where a seat is, is a public fact. Decoration only: the caption says
+     the name. */
+  [data-art~="public-board"] .ms-shell .ms-location__art:not([data-location="final-zone"]) {
+    display: block;
+    grid-row: 2;
+    grid-column: 1;
+    inline-size: 100%;
+    aspect-ratio: 16 / 7;
+    background: var(--ms-zone-art, none) 50% 12% / cover no-repeat, var(--ms-zone-ground, var(--ms-color-steel-shadow));
+    border: var(--ms-stroke-panel) solid var(--ms-color-ink);
+    outline: var(--ms-stroke-control) solid var(--ms-color-paper);
+  }
+
+  /* With the strip present the caption sits over its quiet top-left corner. */
+  [data-art~="public-board"] .ms-shell .ms-location:has(> .ms-location__art:not([data-location="final-zone"])) > .ms-location__name {
+    grid-row: 2;
+    grid-column: 1;
+    position: relative;
+    z-index: 1;
+    align-self: start;
+    margin: var(--ms-space-2);
+    box-shadow: 3px 3px 0 var(--ms-color-ink);
+  }
+
+  /* ---------- public-board: the five rooms on the table display ---------- */
+
+  /* Every room has its vignette, printed in its own color family, on the ground color the
+     panel had before the picture arrived. Pieces stand in it in one row; nothing marks a
+     slot and no row is a capacity. Nothing is clipped: a piece that is carried in from
+     another room is drawn over the gutter on its way. */
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) ,
+
+
+  /* ---------- public-board: the five rooms on the table display ---------- */
+
+  /* Every room has its vignette, printed in its own color family, on the ground color the
+     panel had before the picture arrived. Pieces stand in it in one row; nothing marks a
+     slot and no row is a capacity. Nothing is clipped: a piece that is carried in from
+     another room is drawn over the gutter on its way. */
+  [data-art~="public-board"] .ms-shell--player .ms-board .ms-zone:not([data-zone="final-zone"]) {
+    container-type: inline-size;
+    aspect-ratio: 4 / 3;
+    padding: 0;
+    background: var(--ms-zone-art, none) 50% 50% / 100% 100% no-repeat, var(--ms-zone-ground, var(--ms-color-steel-shadow));
+    border: 0;
+  }
+
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"])::after ,
+
+
+  [data-art~="public-board"] .ms-shell--player .ms-board .ms-zone:not([data-zone="final-zone"])::after {
+    content: none;
+  }
+
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-zone__name ,
+
+
+  [data-art~="public-board"] .ms-shell--player .ms-board .ms-zone:not([data-zone="final-zone"]) .ms-zone__name {
+    position: absolute;
+    inset-block-start: 4.2%;
+    inset-inline-start: 3.3%;
+    z-index: 2;
+  }
+
+  /* An empty room says so in a caption box of its own, at body size: never small text
+     straight onto the picture. */
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-zone__empty ,
+
+
+  /* An empty room says so in a caption box of its own, at body size: never small text
+     straight onto the picture. */
+  [data-art~="public-board"] .ms-shell--player .ms-board .ms-zone:not([data-zone="final-zone"]) .ms-zone__empty {
+    position: absolute;
+    inset-block-end: 24%;
+    inset-inline-start: 50%;
+    translate: -50% 0;
+    padding: 2px var(--ms-space-2);
+    background: var(--ms-color-paper);
+    color: var(--ms-color-ink);
+    border: var(--ms-stroke-ink-fine) solid var(--ms-color-ink);
+    font-size: var(--ms-text-body);
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  /* One row along the lower edge, centered. A piece is as wide as the room allows for the
+     number standing in it: at most a fifth of the room, never under the smallest size a
+     face can be told at, and all of them fit side by side. 1cqw is a hundredth of the
+     room's width. Under the row there is room for the tags: one line, or two where four or
+     more stand together and every second tag hangs a line lower. */
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-seats ,
+
+
+  /* One row along the lower edge, centered. A piece is as wide as the room allows for the
+     number standing in it: at most a fifth of the room, never under the smallest size a
+     face can be told at, and all of them fit side by side. 1cqw is a hundredth of the
+     room's width. Under the row there is room for the tags: one line, or two where four or
+     more stand together and every second tag hangs a line lower. */
+  [data-art~="public-board"] .ms-shell--player .ms-board .ms-zone:not([data-zone="final-zone"]) .ms-seats {
+    --ms-seats: 1;
+    --ms-tag-rows: 1;
+    --ms-piece: max(var(--ms-piece-min), min(calc((100cqw - 10px) / max(var(--ms-seats), 3) / 1.25), 25.5cqw, max(20cqw, 4.5rem), var(--ms-piece-max)));
+    --ms-step: min(calc(var(--ms-piece) * 1.9), calc((100cqw - 10px) / var(--ms-seats)));
+    --ms-tag-text: clamp(var(--ms-tag-text-min), calc(var(--ms-piece) * 0.3), var(--ms-tag-text-max));
+    position: absolute;
+    inset-inline: 0;
+    inset-block-end: calc(var(--ms-tag-text) * 1.5 * var(--ms-tag-rows) + 3%);
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 0;
+  }
+
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-seats:has(> :nth-child(2):last-child) ,
+
+
+  [data-art~="public-board"] .ms-shell--player .ms-board .ms-zone:not([data-zone="final-zone"]) .ms-seats:has(> :nth-child(2):last-child) {
+    --ms-seats: 2;
+  }
+
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-seats:has(> :nth-child(3):last-child) ,
+
+
+  [data-art~="public-board"] .ms-shell--player .ms-board .ms-zone:not([data-zone="final-zone"]) .ms-seats:has(> :nth-child(3):last-child) {
+    --ms-seats: 3;
+  }
+
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-seats:has(> :nth-child(4):last-child) ,
+
+
+  [data-art~="public-board"] .ms-shell--player .ms-board .ms-zone:not([data-zone="final-zone"]) .ms-seats:has(> :nth-child(4):last-child) {
+    --ms-seats: 4;
+    --ms-tag-rows: 2;
+  }
+
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-seats:has(> :nth-child(5):last-child) ,
+
+
+  [data-art~="public-board"] .ms-shell--player .ms-board .ms-zone:not([data-zone="final-zone"]) .ms-seats:has(> :nth-child(5):last-child) {
+    --ms-seats: 5;
+    --ms-tag-rows: 2;
+  }
+
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-seats:has(> :nth-child(6):last-child) ,
+
+
+  [data-art~="public-board"] .ms-shell--player .ms-board .ms-zone:not([data-zone="final-zone"]) .ms-seats:has(> :nth-child(6):last-child) {
+    --ms-seats: 6;
+    --ms-tag-rows: 2;
+  }
+
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-seats:has(> :nth-child(7):last-child) ,
+
+
+  [data-art~="public-board"] .ms-shell--player .ms-board .ms-zone:not([data-zone="final-zone"]) .ms-seats:has(> :nth-child(7):last-child) {
+    --ms-seats: 7;
+    --ms-tag-rows: 2;
+  }
+
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-seats:has(> :nth-child(8):last-child) ,
+
+
+  [data-art~="public-board"] .ms-shell--player .ms-board .ms-zone:not([data-zone="final-zone"]) .ms-seats:has(> :nth-child(8):last-child) {
+    --ms-seats: 8;
+    --ms-tag-rows: 2;
+  }
+
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-seats:has(> :nth-child(9):last-child) ,
+
+
+  [data-art~="public-board"] .ms-shell--player .ms-board .ms-zone:not([data-zone="final-zone"]) .ms-seats:has(> :nth-child(9):last-child) {
+    --ms-seats: 9;
+    --ms-tag-rows: 2;
+  }
+
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-seat ,
+
+
+  [data-art~="public-board"] .ms-shell--player .ms-board .ms-zone:not([data-zone="final-zone"]) .ms-seat {
+    flex: 0 0 var(--ms-step);
+    display: grid;
+    justify-items: center;
+    min-block-size: 0;
+    max-inline-size: none;
+  }
+
+  /* A seat with no character yet: the numbered standee, the same numeral over the body
+     the seat's public health calls for. */
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) [data-seat] > .ms-token ,
+
+
+  /* A seat with no character yet: the numbered standee, the same numeral over the body
+     the seat's public health calls for. */
+  [data-art~="public-board"] .ms-shell--player .ms-board .ms-zone:not([data-zone="final-zone"]) [data-seat] > .ms-token {
+    --ms-token-body: var(--ms-asset-token-neutral-standee-blank);
+    inline-size: var(--ms-piece);
+    block-size: auto;
+    aspect-ratio: 96 / 120;
+    background:
+      var(--ms-token-numeral, none) 50% 32.5% / 30% 28.8% no-repeat,
+      var(--ms-token-body) 0 0 / 100% 100% no-repeat;
+    font-size: 0;
+  }
+
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-seat:has(.ms-marker--health[data-variant="injured"]) > .ms-token ,
+
+
+  [data-art~="public-board"] .ms-shell--player .ms-board .ms-zone:not([data-zone="final-zone"]) .ms-seat:has(.ms-marker--health[data-variant="injured"]) > .ms-token {
+    --ms-token-body: var(--ms-asset-token-neutral-standee-injured-blank);
+  }
+
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-seat:has(.ms-marker--health[data-variant="eliminated"]) > .ms-token ,
+
+
+  [data-art~="public-board"] .ms-shell--player .ms-board .ms-zone:not([data-zone="final-zone"]) .ms-seat:has(.ms-marker--health[data-variant="eliminated"]) > .ms-token {
+    --ms-token-body: var(--ms-asset-token-neutral-standee-eliminated-blank);
+  }
+
+  /* A seat with a character: its standee, one picture. */
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) [data-seat][data-character] > .ms-token ,
+
+
+  /* A seat with a character: its standee, one picture. */
+  [data-art~="public-board"] .ms-shell--player .ms-board .ms-zone:not([data-zone="final-zone"]) [data-seat][data-character] > .ms-token {
+    background: var(--ms-piece-standee, none) 0 0 / 100% 100% no-repeat;
+  }
+
+  /* Without a name the words move to the roster beside the board. They stay in the
+     document: hidden from sight only, never from assistive technology. */
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-seat:not([data-character]) .ms-seat__name,
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-marker--health[data-variant="healthy"] ,
+
+
+  /* Without a name the words move to the roster beside the board. They stay in the
+     document: hidden from sight only, never from assistive technology. */
+  [data-art~="public-board"] .ms-shell--player .ms-board .ms-zone:not([data-zone="final-zone"]) .ms-seat:not([data-character]) .ms-seat__name,
+  [data-art~="public-board"] .ms-shell--player .ms-board .ms-zone:not([data-zone="final-zone"]) .ms-marker--health[data-variant="healthy"] {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    min-inline-size: 0;
+    min-block-size: 0;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  /* With one, the tag hangs under the piece: the seat number in an ink chip, then the name.
+     A name too long for its tag is shortened here with an ellipsis; the number never is,
+     and the roster beside the board carries the name whole. */
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-seat[data-character] .ms-seat__name ,
+
+
+  /* With one, the tag hangs under the piece: the seat number in an ink chip, then the name.
+     A name too long for its tag is shortened here with an ellipsis; the number never is,
+     and the roster beside the board carries the name whole. */
+  [data-art~="public-board"] .ms-shell--player .ms-board .ms-zone:not([data-zone="final-zone"]) .ms-seat[data-character] .ms-seat__name {
+    position: absolute;
+    inset-block-start: 100%;
+    inset-inline-start: 50%;
+    translate: -50% 0;
+    display: inline-flex;
+    max-inline-size: calc(var(--ms-step) * var(--ms-tag-rows) - 4px);
+    background: var(--ms-color-paper);
+    color: var(--ms-color-ink);
+    border: 1.5px solid var(--ms-color-ink);
+    border-radius: 3px;
+    box-shadow: 1.5px 1.5px 0 var(--ms-color-ink);
+    font-family: var(--ms-font-lettering);
+    font-size: var(--ms-tag-text);
+    font-weight: var(--ms-weight-lettering);
+    letter-spacing: 0.02em;
+    line-height: 1.3;
+    white-space: nowrap;
+  }
+
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-seat[data-character] .ms-seat__number ,
+
+
+  [data-art~="public-board"] .ms-shell--player .ms-board .ms-zone:not([data-zone="final-zone"]) .ms-seat[data-character] .ms-seat__number {
+    flex: none;
+    min-inline-size: 0;
+    margin: 0;
+    padding: 0 0.3em;
+    background: var(--ms-color-ink);
+    color: var(--ms-color-paper);
+    border-radius: 0;
+  }
+
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-seat[data-character] .ms-seat__player ,
+
+
+  [data-art~="public-board"] .ms-shell--player .ms-board .ms-zone:not([data-zone="final-zone"]) .ms-seat[data-character] .ms-seat__player {
+    min-inline-size: 0;
+    padding: 0 0.35em;
+    overflow: hidden;
+    overflow-wrap: normal;
+    text-overflow: ellipsis;
+    font-weight: inherit;
+  }
+
+  /* Four or more: every second tag hangs a line lower, so a tag may be as wide as two
+     columns. The first and the last tag are held inside the room: they start and end with
+     their own column, and are no wider than one and a half. */
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-seats:has(> :nth-child(4)) > .ms-seat:first-child .ms-seat__name ,
+
+
+  /* Four or more: every second tag hangs a line lower, so a tag may be as wide as two
+     columns. The first and the last tag are held inside the room: they start and end with
+     their own column, and are no wider than one and a half. */
+  [data-art~="public-board"] .ms-shell--player .ms-board .ms-zone:not([data-zone="final-zone"]) .ms-seats:has(> :nth-child(4)) > .ms-seat:first-child .ms-seat__name {
+    inset-inline-start: 0;
+    max-inline-size: calc(var(--ms-step) * 1.5 - 4px);
+    translate: 0 0;
+  }
+
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-seats:has(> :nth-child(4)) > .ms-seat:last-child .ms-seat__name ,
+
+
+  [data-art~="public-board"] .ms-shell--player .ms-board .ms-zone:not([data-zone="final-zone"]) .ms-seats:has(> :nth-child(4)) > .ms-seat:last-child .ms-seat__name {
+    inset-inline: auto 0;
+    max-inline-size: calc(var(--ms-step) * 1.5 - 4px);
+    translate: 0 0;
+  }
+
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-seats:has(> :nth-child(4)) > .ms-seat:nth-child(even) .ms-seat__name ,
+
+
+  [data-art~="public-board"] .ms-shell--player .ms-board .ms-zone:not([data-zone="final-zone"]) .ms-seats:has(> :nth-child(4)) > .ms-seat:nth-child(even) .ms-seat__name {
+    translate: -50% calc(100% + 2px);
+  }
+
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-seats:has(> :nth-child(4)) > .ms-seat:nth-child(even):last-child .ms-seat__name ,
+
+
+  [data-art~="public-board"] .ms-shell--player .ms-board .ms-zone:not([data-zone="final-zone"]) .ms-seats:has(> :nth-child(4)) > .ms-seat:nth-child(even):last-child .ms-seat__name {
+    translate: 0 calc(100% + 2px);
+  }
+
+  /* Markers ride on the piece as badges, placed on the piece and not on its column. Their
+     words are in the roster and in the document. */
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-markers ,
+
+
+  /* Markers ride on the piece as badges, placed on the piece and not on its column. Their
+     words are in the roster and in the document. */
+  [data-art~="public-board"] .ms-shell--player .ms-board .ms-zone:not([data-zone="final-zone"]) .ms-markers {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 50%;
+    inline-size: var(--ms-piece);
+    block-size: calc(var(--ms-piece) * 1.25);
+    max-inline-size: none;
+    translate: -50% 0;
+    display: block;
+    pointer-events: none;
+  }
+
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-marker:not(.ms-marker--health[data-variant="healthy"]) ,
+
+
+  [data-art~="public-board"] .ms-shell--player .ms-board .ms-zone:not([data-zone="final-zone"]) .ms-marker:not(.ms-marker--health[data-variant="healthy"]) {
+    position: absolute;
+    inline-size: 34%;
+    min-block-size: 0;
+    aspect-ratio: 1;
+    padding: 0;
+    background: none;
+    border: 0;
+    outline: none;
+    box-shadow: none;
+    margin: 0;
+    font-size: 0;
+  }
+
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-marker:not(.ms-marker--health[data-variant="healthy"])::before ,
+
+
+  [data-art~="public-board"] .ms-shell--player .ms-board .ms-zone:not([data-zone="final-zone"]) .ms-marker:not(.ms-marker--health[data-variant="healthy"])::before {
+    inline-size: 100%;
+    block-size: 100%;
+    background: var(--ms-marker-badge, none) center / contain no-repeat;
+    -webkit-mask: none;
+    mask: none;
+  }
+
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-marker--health[data-variant="injured"] ,
+
+
+  [data-art~="public-board"] .ms-shell--player .ms-board .ms-zone:not([data-zone="final-zone"]) .ms-marker--health[data-variant="injured"] {
+    --ms-marker-badge: var(--ms-asset-marker-health-injured-badge);
+    inset-block-end: 26%;
+    inset-inline-end: -2%;
+  }
+
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-marker--health[data-variant="eliminated"] ,
+
+
+  [data-art~="public-board"] .ms-shell--player .ms-board .ms-zone:not([data-zone="final-zone"]) .ms-marker--health[data-variant="eliminated"] {
+    --ms-marker-badge: var(--ms-asset-marker-health-eliminated-badge);
+    inset-block-end: 26%;
+    inset-inline-end: -2%;
+  }
+
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-marker--jail ,
+
+
+  [data-art~="public-board"] .ms-shell--player .ms-board .ms-zone:not([data-zone="final-zone"]) .ms-marker--jail {
+    --ms-marker-badge: var(--ms-asset-marker-jail-badge);
+    inset-block-end: 26%;
+    inset-inline-start: -2%;
+  }
+
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-marker--captain ,
+
+
+  [data-art~="public-board"] .ms-shell--player .ms-board .ms-zone:not([data-zone="final-zone"]) .ms-marker--captain {
+    --ms-marker-badge: var(--ms-asset-marker-captain-badge);
+    inset-block-start: 0;
+    inset-inline-end: -2%;
+  }
+
+  [data-art~="public-board"] .ms-shell--table .ms-zone:not([data-zone="final-zone"]) .ms-marker--turn ,
+
+
+  [data-art~="public-board"] .ms-shell--player .ms-board .ms-zone:not([data-zone="final-zone"]) .ms-marker--turn {
+    --ms-marker-badge: var(--ms-asset-marker-turn-float);
+    inset-block-start: -26%;
+    inset-inline-start: 33%;
+    inline-size: 40%;
+  }
+
+  /* ---------- player-ui: the dock's control ---------- */
+
+  /* The same icon on every phone: closed, or open. It says nothing about the seat. */
+  [data-art~="player-ui"] .ms-shell .ms-private > .ms-button {
+    padding-inline-start: calc(var(--ms-space-2) + 1.75rem);
+    background-image: var(--ms-asset-icon-private-closed-ink);
+    background-repeat: no-repeat;
+    background-position: var(--ms-space-2) 50%;
+    background-size: 1.5rem;
+  }
+
+  [data-art~="player-ui"] .ms-shell .ms-private[data-open="true"] > .ms-button {
+    background-image: var(--ms-asset-icon-private-open-ink);
+  }
+
+  /* ---------- player-ui: inside the private sheet ---------- */
+
+  /* Private art is addressed only from inside .ms-private__panel, which holds nothing while
+     the sheet is closed. */
+  [data-art~="player-ui"] .ms-shell .ms-private__panel .ms-card[data-action="shot"] > .ms-card__title::before {
+    content: "";
+    flex: none;
+    inline-size: 1.5rem;
+    block-size: 1.5rem;
+    background: var(--ms-asset-icon-action-shot-ink) center / contain no-repeat;
+  }
+
+  [data-art~="player-ui"] .ms-shell .ms-private__panel .ms-card__pips {
+    display: inline-flex;
+    gap: var(--ms-space-1);
+    margin-inline-start: auto;
+  }
+
+  [data-art~="player-ui"] .ms-shell .ms-private__panel .ms-pip {
+    display: block;
+    inline-size: 2.25rem;
+    block-size: 1.25rem;
+    background: center / contain no-repeat;
+  }
+
+  [data-art~="player-ui"] .ms-shell .ms-private__panel .ms-pip[data-pip="available"] {
+    background-image: var(--ms-asset-pip-resource-available);
+  }
+
+  [data-art~="player-ui"] .ms-shell .ms-private__panel .ms-pip[data-pip="registered"] {
+    background-image: var(--ms-asset-pip-resource-registered);
+  }
+
+  [data-art~="player-ui"] .ms-shell .ms-private__panel .ms-pip[data-pip="spent"] {
+    background-image: var(--ms-asset-pip-resource-spent);
+  }
+
+  /* ---------- roles: inside the private sheet ---------- */
+
+  /* The picture is the player's own character with the role's device added. The client sets
+     --ms-role-person (public: the seat's own character) and --ms-role-device (private: from
+     the role bundle every phone has already loaded whole) on the card, inside the sheet. No
+     selector here names a role, and nothing outside the sheet reads either property.
+     Compact, it is a thumbnail beside the role's name, so that the actions stay in reach
+     and a large device is not on screen every time the sheet is opened. It is decoration
+     and keeps its size when the reader's text grows. */
+  [data-art~="roles"] .ms-shell .ms-private__panel .ms-role-card__art {
+    position: relative;
+    flex: 0 0 5.5rem;
+    display: block;
+    inline-size: 5.5rem;
+    aspect-ratio: 50 / 53;
+    overflow: hidden;
+    background:
+      radial-gradient(circle at 2px 2px, var(--ms-color-paper-deep) 1.3px, transparent 1.6px) 0 0 / 7px 7px,
+      var(--ms-color-paper-shade);
+    border: var(--ms-stroke-control) solid var(--ms-color-ink);
+    border-radius: 6px;
+  }
+
+  /* The character, as on the board without its stand. */
+  [data-art~="roles"] .ms-shell .ms-private__panel .ms-role-card__art::before {
+    content: "";
+    position: absolute;
+    inset-block-start: 6%;
+    inset-inline-start: 11.3%;
+    inline-size: 66.5%;
+    aspect-ratio: 84 / 96;
+    rotate: -2.5deg;
+    background: var(--ms-role-person, none) center / contain no-repeat;
+  }
+
+  /* The device, added: held in the crew suit's own glove, so one drawing serves all nine. */
+  [data-art~="roles"] .ms-shell .ms-private__panel .ms-role-card__art::after {
+    content: "";
+    position: absolute;
+    inset-block-end: -10%;
+    inset-inline-end: -9%;
+    inline-size: 74%;
+    aspect-ratio: 120 / 140;
+    transform-origin: 80% 90%;
+    background: var(--ms-role-device, none) center / contain no-repeat;
+  }
+
+  /* Opened, the picture is shown large, with the summary under it. */
+  [data-art~="roles"] .ms-shell .ms-private__panel .ms-role-card__more > .ms-role-card__art {
+    flex: none;
+    inline-size: min(100%, 15rem);
+    margin-block: var(--ms-space-2);
+    border-width: var(--ms-stroke-illustration);
+    border-radius: 8px;
+  }
+
+  /* On the narrowest phones and at large text the thumbnail gives its room to the words. */
+  @media (max-width: 22em) {
+    [data-art~="roles"] .ms-shell .ms-private__panel .ms-role-card > .ms-role-card__art {
+      display: none;
+    }
+  }
+}

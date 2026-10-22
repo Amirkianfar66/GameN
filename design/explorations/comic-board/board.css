@@ -1,0 +1,985 @@
+/* mothership:dev-only
+ *
+ * The comic-board exploration's own stylesheet. It is NOT a reference stylesheet: Frontend
+ * takes rules from prototypes/css/comic.css and cues.css, not from here. Two things in it
+ * are outside what those allow, on purpose, because they are what is being tried:
+ *
+ *   - motion that repeats while nothing happens (stars, lamps, a tag that asks to be pressed);
+ *   - a caption yellow, and rooms printed in color families that are not tokens (rooms.js).
+ *
+ * Everything else takes its colors, type and timing from the design tokens.
+ */
+
+.cb {
+  --cb-label: #F7C52B;
+  --cb-gap: 9px;
+  --cb-lift: 0px;
+  --cb-hand-rest: 8.25rem;
+  /* The whole board is on one screen: the page takes the height the card at rest leaves. */
+  box-sizing: border-box;
+  block-size: 100dvh;
+  min-block-size: 31rem;
+  padding-block-end: var(--cb-hand-rest);
+  display: flex;
+  flex-direction: column;
+  background: var(--ms-color-canvas);
+  color: var(--ms-color-text);
+  font-family: var(--ms-font-body);
+  font-size: 1rem;
+  line-height: 1.4;
+  overflow-x: clip;
+}
+
+html, body { margin: 0; background: var(--ms-color-canvas); }
+.cb *, .cb *::before, .cb *::after { box-sizing: border-box; }
+.cb :where(p, h1, h2) { margin: 0; }
+
+.cb :focus-visible {
+  outline: 3px solid var(--ms-color-focus);
+  outline-offset: 3px;
+}
+
+.cb[data-surface="table"] { --cb-hand-rest: 0rem; }
+
+.cb-top {
+  position: relative;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 10px;
+  border-block-end: 2px dashed var(--ms-color-steel-mid);
+}
+.cb-fixture {
+  flex: 1 1 auto;
+  color: var(--ms-color-text-secondary);
+  font-size: 0.75rem;
+  line-height: 1.25;
+}
+
+.cb-banner {
+  margin: 8px 10px 0;
+  padding: 8px 12px;
+  background: var(--ms-color-paper);
+  color: var(--ms-color-ink);
+  border: 3px solid var(--ms-color-ink);
+  font-weight: 700;
+  font-size: 0.875rem;
+}
+
+/* ---------- the phase caption ---------- */
+
+.cb-phase {
+  margin: 8px 10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 6px 12px;
+  background: var(--ms-color-paper);
+  color: var(--ms-color-ink);
+  border: 3px solid var(--ms-color-ink);
+  box-shadow: 4px 4px 0 var(--ms-color-steel-shadow);
+  font-family: var(--ms-font-lettering);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.cb-phase__round { font-size: 0.8125rem; }
+.cb-phase__what { font-size: 1.25rem; line-height: 1.1; }
+.cb-phase__timer {
+  padding: 2px 10px;
+  background: var(--ms-color-ink);
+  color: var(--ms-color-paper);
+  border-radius: 6px;
+  font-size: 1.5rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- the page ---------- */
+
+.cb-page {
+  position: relative;
+  flex: 1 1 0;
+  min-block-size: 0;
+  margin: 10px;
+  padding: 14px 10px 10px;
+  display: grid;
+  gap: var(--cb-gap);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-rows: minmax(0, 0.74fr) minmax(0, 1.2fr) minmax(0, 1.2fr) minmax(0, 0.86fr);
+  grid-template-areas:
+    "command command"
+    "room-a room-a"
+    "room-b room-b"
+    "hospital jail";
+  background: var(--ms-color-paper);
+  border: 4px solid var(--ms-color-ink);
+  border-radius: 10px;
+  box-shadow: 6px 7px 0 var(--ms-color-steel-shadow), inset 0 0 0 2px var(--ms-color-paper-shade), inset 0 0 34px var(--ms-color-paper-deep);
+}
+
+/* Halftone gathers in two corners of the sheet, never behind a caption. */
+.cb-page::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 6px;
+  background: radial-gradient(circle at 2px 2px, var(--ms-color-ink) 1.1px, transparent 1.4px) 0 0 / 6px 6px;
+  opacity: 0.2;
+  -webkit-mask-image: radial-gradient(120% 70% at 100% 0, #000 0, transparent 36%), radial-gradient(110% 60% at 0 100%, #000 0, transparent 34%);
+  mask-image: radial-gradient(120% 70% at 100% 0, #000 0, transparent 36%), radial-gradient(110% 60% at 0 100%, #000 0, transparent 34%);
+  pointer-events: none;
+}
+
+.cb[data-stale] .cb-page {
+  outline: 4px dashed var(--ms-color-ink);
+  outline-offset: -10px;
+}
+
+/* ---------- a panel: one room ---------- */
+
+.cb-panel {
+  position: relative;
+  z-index: 1;
+  appearance: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: start;
+  min-inline-size: 0;
+  min-block-size: 0;
+  container-type: inline-size;
+  cursor: default;
+  -webkit-tap-highlight-color: transparent;
+  transform: translateY(var(--cb-lift));
+  transition: transform var(--ms-motion-card) var(--ms-ease-settle), filter var(--ms-motion-card) linear;
+}
+.cb-panel[data-room="command"] { grid-area: command; }
+.cb-panel[data-room="room-a"] { grid-area: room-a; }
+.cb-panel[data-room="room-b"] { grid-area: room-b; }
+.cb-panel[data-room="hospital"] { grid-area: hospital; }
+.cb-panel[data-room="jail"] { grid-area: jail; }
+
+/* The offset shadow a lifted panel leaves on the page. */
+.cb-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--ms-color-ink);
+  opacity: 0.85;
+  transform: translate(3px, calc(4px - var(--cb-lift)));
+  transition: transform var(--ms-motion-card) var(--ms-ease-settle);
+}
+
+/* The inked edge is cut a little out of square, and each panel differently: --k1 to --k4. */
+.cb-panel__ink {
+  position: absolute;
+  inset: -2px;
+  background: var(--ms-color-ink);
+  clip-path: polygon(var(--k1, 0px) var(--k2, 0px), calc(100% - var(--k3, 0px)) 0, 100% calc(100% - var(--k4, 0px)), var(--k2, 0px) 100%);
+}
+.cb-panel__frame {
+  position: absolute;
+  inset: 3px;
+  overflow: hidden;
+  background: var(--ms-color-canvas);
+  clip-path: polygon(var(--k3, 0px) var(--k1, 0px), 100% var(--k4, 0px), calc(100% - var(--k2, 0px)) 100%, 0 calc(100% - var(--k1, 0px)));
+}
+.cb-art, .cb-art svg {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+}
+
+/* Waiting: hatch over the room that was asked for. It does not move. */
+.cb-panel__wait {
+  position: absolute;
+  inset: auto 0 0 0;
+  block-size: 26%;
+  background: repeating-linear-gradient(135deg, var(--ms-color-ink) 0 3px, transparent 3px 9px), var(--ms-color-paper);
+  border-block-start: 3px solid var(--ms-color-ink);
+  opacity: 0;
+}
+.cb[data-mode="submitting"] .cb-panel[data-selected] .cb-panel__wait { opacity: 0.92; }
+
+/* ---------- captions and tags: live text ---------- */
+
+.cb-caption {
+  position: absolute;
+  z-index: 2;
+  inset-block-start: -8px;
+  inset-inline-start: -6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  max-inline-size: calc(100% + 4px);
+  padding: 0.14em 0.6em 0.14em 0.4em;
+  background: var(--cb-label);
+  color: var(--ms-color-ink);
+  border: 3px solid var(--ms-color-ink);
+  box-shadow: 3px 3px 0 var(--ms-color-ink);
+  transform: skewX(-9deg) rotate(-1.4deg);
+  transform-origin: 0 100%;
+  font-family: var(--ms-font-lettering);
+  font-size: clamp(0.8125rem, 5.4cqi, 1.75rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: background-color var(--ms-motion-card) linear;
+}
+.cb-caption svg {
+  flex: none;
+  inline-size: 1.05em;
+  block-size: 1.05em;
+}
+
+.cb-tag {
+  position: absolute;
+  z-index: 3;
+  inset-block-start: 1.7rem;
+  inset-inline-end: -5px;
+  display: none;
+  align-items: center;
+  gap: 0.3em;
+  padding: 0.12em 0.5em;
+  background: var(--ms-color-paper);
+  color: var(--ms-color-ink);
+  border: 2.5px solid var(--ms-color-ink);
+  box-shadow: 2px 3px 0 var(--ms-color-ink);
+  transform: rotate(3deg);
+  font-family: var(--ms-font-lettering);
+  font-size: clamp(0.75rem, 3.7cqi, 1.25rem);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.cb-tag svg { inline-size: 0.95em; block-size: 0.95em; flex: none; }
+@container (min-width: 15rem) {
+  .cb-tag { inset-block-start: -7px; }
+}
+.cb[data-surface="player"] .cb-panel[data-here] .cb-tag--here { display: inline-flex; }
+/* The tag is stamped on when the token lands, not before. */
+.cb[data-surface="player"] .cb-panel[data-arriving] .cb-tag--here { display: none; }
+
+/* Choosing: the rooms the server offers ask to be pressed; the others step back. */
+.cb-tag--go {
+  background: var(--ms-color-ink);
+  color: var(--ms-color-paper);
+  border-color: var(--ms-color-paper);
+  box-shadow: 0 0 0 2.5px var(--ms-color-ink), 3px 4px 0 2.5px var(--ms-color-ink);
+}
+.cb-panel[data-offer="offered"] .cb-tag--go { display: inline-flex; animation: cb-bounce 900ms var(--ms-ease-settle) infinite alternate; }
+.cb-panel[data-offer="offered"] .cb-tag--here { display: none; }
+.cb-panel[data-offer="offered"] {
+  --cb-lift: -3px;
+  cursor: pointer;
+}
+.cb-panel[data-offer="offered"]::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border: 3px dashed var(--ms-color-ink);
+  border-radius: 4px;
+  pointer-events: none;
+}
+.cb-panel[data-offer="offered"]:not([data-selected]) { animation: cb-breathe 1100ms ease-in-out infinite alternate; }
+.cb-panel[data-offer="not-offered"] {
+  filter: grayscale(0.85) brightness(0.62);
+}
+.cb-panel[data-offer="not-offered"] .cb-caption { background: var(--ms-color-paper-deep); }
+.cb-panel[data-offer="not-offered"][data-here] { filter: grayscale(0.4) brightness(0.86); }
+
+.cb-panel[data-selected] {
+  --cb-lift: -8px;
+  z-index: 3;
+}
+.cb-panel[data-selected]::after { border-style: solid; border-width: 4px; }
+.cb-panel[data-selected] .cb-tag--go { animation: none; background: var(--cb-label); color: var(--ms-color-ink); border-color: var(--ms-color-ink); box-shadow: 3px 4px 0 var(--ms-color-ink); }
+
+/* ---------- tokens stand on the page, above every panel ---------- */
+
+.cb-tokens {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+}
+.cb-trails {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  inline-size: 100%;
+  block-size: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.cb-token {
+  position: absolute;
+  inset: 0 auto auto 0;
+  inline-size: var(--tw, 32px);
+  block-size: calc(var(--tw, 32px) * 1.25);
+  transform: translate(var(--x, 0px), var(--y, 0px));
+  transition: transform var(--ms-motion-card) var(--ms-ease-settle);
+  will-change: transform;
+}
+.cb-token[data-flying] { z-index: 4; transition: none; }
+.cb-tokens[data-settling] .cb-token { transition: none; }
+.cb-token__lift {
+  position: absolute;
+  inset: 0;
+  transition: transform var(--ms-motion-card) var(--ms-ease-settle), filter var(--ms-motion-card) linear;
+}
+.cb-token[data-lift="offered"] .cb-token__lift { transform: translateY(-3px); }
+.cb-token[data-lift="selected"] .cb-token__lift { transform: translateY(-8px); }
+.cb-token[data-lift="dim"] .cb-token__lift { filter: grayscale(0.85) brightness(0.62); }
+.cb-token[data-lift="here"] .cb-token__lift { filter: grayscale(0.4) brightness(0.86); }
+
+.cb-token__body {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 87%;
+  /* The character the player chose: set on the element by the page. */
+  background: center / 100% 100% no-repeat;
+}
+@media (forced-colors: none) {
+  [data-art~="public-board"] .cb-token__mark[data-mark="captain"] { background-image: var(--ms-asset-marker-captain-badge); }
+  [data-art~="public-board"] .cb-token__mark[data-mark="jail"] { background-image: var(--ms-asset-marker-jail-badge); }
+  [data-art~="public-board"] .cb-token__mark[data-mark="injured"] { background-image: var(--ms-asset-marker-health-injured-badge); }
+  /* The paper puff with an inked edge, so that it reads on any room. */
+  [data-art~="public-board"] .cb-puff {
+    background-image: var(--ms-asset-fx-landing-puff-paper);
+    filter: drop-shadow(1.5px 0 0 var(--ms-color-ink)) drop-shadow(-1.5px 0 0 var(--ms-color-ink)) drop-shadow(0 1.5px 0 var(--ms-color-ink)) drop-shadow(0 -1.5px 0 var(--ms-color-ink));
+  }
+}
+
+/* Under a piece: the seat number the rules use, and the player's name. Live text. */
+.cb-token__name {
+  position: absolute;
+  inset-block-start: 95%;
+  inset-inline-start: 50%;
+  translate: -50% 0;
+  display: inline-flex;
+  max-inline-size: var(--tag, 4rem);
+  background: var(--ms-color-paper);
+  color: var(--ms-color-ink);
+  border: 1.5px solid var(--ms-color-ink);
+  border-radius: 3px;
+  box-shadow: 1.5px 1.5px 0 var(--ms-color-ink);
+  font: 800 clamp(0.625rem, calc(var(--tw, 32px) * 0.3), 1.375rem) / 1.3 var(--ms-font-lettering);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.cb-token__name > b {
+  flex: none;
+  padding: 0 0.3em;
+  background: var(--ms-color-ink);
+  color: var(--ms-color-paper);
+  font-weight: 800;
+}
+.cb-token__name > span {
+  padding: 0 0.35em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* Where pieces stand close together every second tag hangs a line lower. */
+.cb-token[data-drop] .cb-token__name { translate: -50% calc(100% + 2px); }
+.cb-token[data-mine] .cb-token__name { background: var(--cb-label); }
+
+.cb-token__mark {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-end: -12%;
+  inline-size: 44%;
+  aspect-ratio: 1;
+  background: center / contain no-repeat;
+}
+.cb-token__you {
+  position: absolute;
+  inset-block-end: 100%;
+  inset-inline-start: 50%;
+  translate: -50% 2px;
+  padding: 0 0.4em;
+  background: var(--ms-color-paper);
+  color: var(--ms-color-ink);
+  border: 2px solid var(--ms-color-ink);
+  border-radius: 3px;
+  font: 800 0.625rem / 1.5 var(--ms-font-lettering);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  animation: cb-bob 1200ms ease-in-out infinite alternate;
+}
+.cb-token__you::after {
+  content: "";
+  position: absolute;
+  inset-block-start: 100%;
+  inset-inline-start: 50%;
+  translate: -50% 0;
+  border: 4px solid transparent;
+  border-block-start-color: var(--ms-color-ink);
+}
+
+.cb-shadow {
+  position: absolute;
+  inset: 0 auto auto 0;
+  inline-size: calc(var(--tw, 32px) * 0.84);
+  block-size: calc(var(--tw, 32px) * 0.26);
+  background: var(--ms-color-ink);
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* What a move leaves behind for an instant. */
+.cb-puff {
+  position: absolute;
+  inline-size: calc(var(--tw, 32px) * 1.9);
+  aspect-ratio: 120 / 36;
+  background: center / contain no-repeat;
+  opacity: 0;
+  pointer-events: none;
+}
+.cb-burst {
+  position: absolute;
+  inline-size: calc(var(--tw, 32px) * 3.2);
+  aspect-ratio: 1;
+  opacity: 0;
+  pointer-events: none;
+}
+.cb-burst svg { display: block; inline-size: 100%; block-size: 100%; }
+
+/* ---------- the hand: one card ---------- */
+
+/* At rest the card sits under the page. Picked up, it grows upward over the bottom row,
+   which holds the two rooms nobody moves to by choice. */
+.cb-hand {
+  position: fixed;
+  inset: auto 0 0 0;
+  z-index: 8;
+  padding: 10px 10px calc(10px + env(safe-area-inset-bottom));
+  background: linear-gradient(transparent, var(--ms-color-canvas) 26%);
+  pointer-events: none;
+}
+.cb-hand > * { pointer-events: auto; }
+.cb[data-surface="table"] .cb-hand { display: none; }
+
+.cb-card {
+  position: relative;
+  display: grid;
+  gap: 8px;
+  padding: 10px 12px 12px;
+  background: var(--ms-color-paper);
+  color: var(--ms-color-ink);
+  border: 3px solid var(--ms-color-ink);
+  border-radius: 10px;
+  box-shadow: 4px 5px 0 var(--ms-color-steel-shadow);
+  transform: rotate(-0.7deg);
+  transition: transform var(--ms-motion-card) var(--ms-ease-settle), box-shadow var(--ms-motion-card) var(--ms-ease-settle);
+}
+.cb[data-mode="choosing"] .cb-card,
+.cb[data-mode="confirming"] .cb-card,
+.cb[data-mode="submitting"] .cb-card {
+  transform: translateY(-5px) rotate(0.3deg);
+  box-shadow: 6px 10px 0 var(--ms-color-steel-shadow);
+}
+.cb-card__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.cb-card__icon { inline-size: 1.6rem; block-size: 1.6rem; flex: none; }
+.cb-card__title {
+  font-family: var(--ms-font-lettering);
+  font-size: 1.375rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+.cb-card__status {
+  margin-inline-start: auto;
+  padding: 0.1em 0.6em;
+  background: var(--ms-color-ink);
+  color: var(--ms-color-paper);
+  font-family: var(--ms-font-lettering);
+  font-size: 0.8125rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.cb-card__status[data-kind="plain"] { background: none; color: var(--ms-color-ink); outline: 2px solid var(--ms-color-ink); }
+.cb-card__status[data-kind="dashed"] { background: none; color: var(--ms-color-ink); outline: 2px dashed var(--ms-color-ink); }
+.cb-card__status[data-kind="stamp"] { background: none; color: var(--ms-color-ink); outline: 2px solid var(--ms-color-ink); outline-offset: 2px; box-shadow: 0 0 0 2px var(--ms-color-ink); transform: rotate(-4deg); animation: cb-stamp var(--ms-motion-stamp) var(--ms-ease-impact) both; }
+.cb-card__prompt { font-size: 1.0625rem; font-weight: 700; line-height: 1.3; }
+.cb-card__text { font-size: 0.875rem; }
+.cb-card__wait {
+  block-size: 10px;
+  background: repeating-linear-gradient(135deg, var(--ms-color-ink) 0 3px, transparent 3px 9px);
+}
+.cb-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.cb-button {
+  appearance: none;
+  min-block-size: 44px;
+  padding: 0 16px;
+  background: var(--ms-color-paper);
+  color: var(--ms-color-ink);
+  border: 3px solid var(--ms-color-ink);
+  border-radius: 8px;
+  box-shadow: 3px 3px 0 var(--ms-color-ink);
+  font: 700 1rem / 1.2 var(--ms-font-body);
+  cursor: pointer;
+  transition: transform var(--ms-motion-selection) var(--ms-ease-snap), box-shadow var(--ms-motion-selection) var(--ms-ease-snap);
+}
+.cb-button--primary { background: var(--ms-color-accent); border-width: 4px; }
+.cb-button:active { transform: translate(3px, 3px); box-shadow: 0 0 0 var(--ms-color-ink); }
+
+.cb-live {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ---------- the role card: private ---------- */
+
+.cb-hand__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: end;
+}
+.cb-hand__row > :only-child { grid-column: 1 / -1; }
+.cb-hand__note {
+  margin-block-start: 6px;
+  color: var(--ms-color-text-secondary);
+  font-size: 0.75rem;
+  line-height: 1.3;
+}
+
+/* Face down in the hand. It is the same card whatever is on its face. */
+.cb-rolecard {
+  position: relative;
+  appearance: none;
+  inline-size: 4.5rem;
+  block-size: 6.1rem;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 4px;
+  padding: 0;
+  background: repeating-linear-gradient(135deg, var(--ms-color-steel-shadow) 0 2px, transparent 2px 8px), var(--ms-color-ink);
+  color: var(--ms-color-paper);
+  border: 3px solid var(--ms-color-ink);
+  border-radius: 9px;
+  box-shadow: 4px 5px 0 var(--ms-color-steel-shadow);
+  rotate: 4deg;
+  font-family: var(--ms-font-lettering);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: translate var(--ms-motion-card) var(--ms-ease-settle), rotate var(--ms-motion-card) var(--ms-ease-settle);
+}
+.cb-rolecard::before {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  border: 2px solid var(--ms-color-paper);
+  border-radius: 5px;
+  opacity: 0.85;
+}
+.cb-rolecard svg { inline-size: 1.8rem; block-size: 1.8rem; }
+.cb-rolecard:active { translate: 0 -5px; rotate: 1deg; }
+
+.cb-private {
+  position: fixed;
+  inset: 0;
+  z-index: 25;
+  display: grid;
+  align-items: end;
+}
+.cb-private::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: var(--ms-color-canvas);
+  opacity: 0.8;
+}
+.cb-private__sheet {
+  position: relative;
+  max-block-size: 100dvh;
+  overflow: auto;
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  padding: 12px 12px calc(16px + env(safe-area-inset-bottom));
+  background: var(--ms-color-panel);
+  color: var(--ms-color-text);
+  border-block-start: 4px solid var(--ms-color-steel-mid);
+  perspective: 900px;
+}
+.cb-private__head {
+  inline-size: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 12px;
+}
+.cb-private__title {
+  font-family: var(--ms-font-lettering);
+  font-size: 1.375rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.cb-private__head .cb-button { display: inline-flex; align-items: center; gap: 8px; box-shadow: 3px 3px 0 var(--ms-color-steel-shadow); }
+.cb-private__head .cb-button svg { inline-size: 1.4rem; block-size: 1.4rem; flex: none; }
+.cb-private__text, .cb-private__note { inline-size: min(100%, 22rem); font-size: 0.875rem; }
+.cb-private__note { color: var(--ms-color-text-secondary); }
+
+.cb-role {
+  position: relative;
+  inline-size: min(100%, 17.5rem);
+  transform-style: preserve-3d;
+}
+.cb-role__face {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border: 4px solid var(--ms-color-ink);
+  border-radius: 12px;
+  box-shadow: 5px 6px 0 var(--ms-color-canvas);
+  overflow: hidden;
+}
+.cb-role__face--back {
+  position: absolute;
+  inset: 0;
+  transform: rotateY(180deg);
+  display: grid;
+  place-items: center;
+  background: repeating-linear-gradient(135deg, var(--ms-color-steel-shadow) 0 3px, transparent 3px 11px), var(--ms-color-ink);
+  color: var(--ms-color-paper);
+}
+.cb-role__face--back svg { inline-size: 4rem; block-size: 4rem; }
+.cb-role__face--front {
+  display: grid;
+  background: var(--ms-color-paper);
+  color: var(--ms-color-ink);
+}
+.cb-role__art {
+  position: relative;
+  aspect-ratio: 5 / 5.3;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 2px 2px, var(--ms-color-paper-deep) 1.3px, transparent 1.6px) 0 0 / 7px 7px,
+    var(--ms-color-paper-shade);
+  border-block-end: 4px solid var(--ms-color-ink);
+}
+/* The player's own character, as on the board, without its stand. */
+.cb-role__person {
+  position: absolute;
+  inset-inline-start: 5%;
+  inset-block-start: 6%;
+  inline-size: 76%;
+  rotate: -2.5deg;
+}
+.cb-role__person svg, .cb-role__device svg {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+  overflow: visible;
+}
+.cb-role__person [id$="-stand"], .cb-role__person [id$="-clamp"] { display: none; }
+/* The device, added. */
+.cb-role__device {
+  position: absolute;
+  inset-inline-end: -9%;
+  inset-block-end: -10%;
+  inline-size: 74%;
+  transform-origin: 80% 90%;
+}
+.cb-role__plate {
+  display: grid;
+  gap: 2px;
+  padding: 8px 12px 10px;
+}
+/* Never larger than a heading: it must not be readable across a table. */
+.cb-role__name {
+  font-family: var(--ms-font-lettering);
+  font-size: 1.375rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+.cb-role__team {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  font-size: 0.9375rem;
+  font-weight: 700;
+}
+.cb-role__team::before {
+  content: "";
+  inline-size: 0.9em;
+  block-size: 0.9em;
+  background: var(--cb-team, transparent);
+  border: 2px solid var(--ms-color-ink);
+}
+
+/* While the card is up: the character breathes and blinks, the device is held and its lights pulse. */
+.cb-role__person svg { animation: cb-breath 3200ms ease-in-out infinite alternate; }
+.cb-role__person [id$="-eyes"] { transform-box: fill-box; transform-origin: 50% 50%; animation: cb-eyes 4600ms linear infinite; }
+.cb-role__device { animation: cb-hold 2600ms ease-in-out infinite alternate; }
+.cb-role__device [id$="-glow"], .cb-role__device [id$="-lit"] { animation: cb-pulse 1700ms ease-in-out infinite alternate; }
+.cb-role__device [id$="-nodes"] > :nth-child(odd) { animation: cb-blink 2300ms steps(1, end) infinite; }
+.cb-role__device [id$="-nodes"] > :nth-child(even) { animation: cb-blink 2900ms steps(1, end) 700ms infinite; }
+@keyframes cb-breath { from { translate: 0 0; } to { translate: 0 1.6px; } }
+@keyframes cb-eyes { 0%, 93% { transform: scaleY(1); } 95.5% { transform: scaleY(0.1); } 98%, 100% { transform: scaleY(1); } }
+@keyframes cb-hold { from { rotate: -1.6deg; } to { rotate: 1.6deg; } }
+
+/* ---------- choosing a character ---------- */
+
+.cb-choose {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: grid;
+  place-items: center;
+  padding: 26px 12px 12px;
+  overflow: auto;
+}
+.cb-choose::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: var(--ms-color-canvas);
+  opacity: 0.84;
+}
+.cb-choose__sheet:focus { outline: none; }
+.cb-choose__sheet {
+  position: relative;
+  inline-size: min(100%, 27rem);
+  display: grid;
+  gap: 10px;
+  padding: 26px 12px 14px;
+  background: var(--ms-color-paper);
+  color: var(--ms-color-ink);
+  border: 4px solid var(--ms-color-ink);
+  border-radius: 10px;
+  box-shadow: 6px 7px 0 var(--ms-color-steel-shadow), inset 0 0 0 2px var(--ms-color-paper-shade), inset 0 0 30px var(--ms-color-paper-deep);
+}
+.cb-choose__title {
+  position: absolute;
+  inset-block-start: -18px;
+  inset-inline-start: -6px;
+  padding: 0.12em 0.7em;
+  background: var(--cb-label);
+  border: 3px solid var(--ms-color-ink);
+  box-shadow: 3px 3px 0 var(--ms-color-ink);
+  transform: skewX(-9deg) rotate(-1.4deg);
+  font-family: var(--ms-font-lettering);
+  font-size: 1.375rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  line-height: 1.2;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.cb-choose__note { font-size: 0.875rem; }
+.cb-choose__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px 8px;
+}
+.cb-choose__tile {
+  position: relative;
+  appearance: none;
+  min-inline-size: 0;
+  display: grid;
+  justify-items: center;
+  gap: 1px;
+  padding: 6px 4px 3px;
+  background: var(--ms-color-paper-shade);
+  color: var(--ms-color-ink);
+  border: 3px solid var(--ms-color-ink);
+  border-radius: 8px;
+  box-shadow: 3px 3px 0 var(--ms-color-ink);
+  font-family: var(--ms-font-lettering);
+  font-size: 0.9375rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform var(--ms-motion-card) var(--ms-ease-settle), box-shadow var(--ms-motion-card) var(--ms-ease-settle), background-color var(--ms-motion-card) linear;
+}
+.cb-choose__tile img {
+  display: block;
+  inline-size: min(100%, 5.25rem);
+  block-size: auto;
+}
+.cb-choose__tile[data-state="mine"] {
+  background: var(--cb-label);
+  transform: translateY(-5px);
+  box-shadow: 5px 8px 0 var(--ms-color-ink);
+}
+/* Taken: still drawn, still named, not offered. */
+.cb-choose__tile[data-state="taken"] {
+  cursor: default;
+  box-shadow: none;
+  background: var(--ms-color-paper-deep);
+}
+.cb-choose__tile[data-state="taken"] img, .cb-choose__tile[data-state="taken"] .cb-choose__sign { filter: grayscale(0.9); opacity: 0.55; }
+.cb-choose__who {
+  position: absolute;
+  inset-block-start: -8px;
+  inset-inline-end: -5px;
+  padding: 0 0.45em;
+  background: var(--ms-color-paper);
+  border: 2px solid var(--ms-color-ink);
+  box-shadow: 2px 2px 0 var(--ms-color-ink);
+  transform: rotate(3deg);
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+.cb-choose__who:empty { display: none; }
+.cb-choose__tile[data-state="mine"] .cb-choose__who { background: var(--ms-color-ink); color: var(--ms-color-paper); }
+.cb-choose__name {
+  display: grid;
+  gap: 4px;
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+.cb-choose__name input {
+  min-block-size: 44px;
+  padding: 0 12px;
+  background: var(--ms-color-paper);
+  color: var(--ms-color-ink);
+  border: 3px solid var(--ms-color-ink);
+  border-radius: 8px;
+  font: 700 1.0625rem / 1.2 var(--ms-font-body);
+}
+.cb-button:disabled {
+  background: var(--ms-color-paper-deep);
+  border-style: dashed;
+  box-shadow: none;
+  cursor: default;
+}
+
+/* ---------- exploration controls: not part of the design ---------- */
+
+.cb-dev {
+  position: relative;
+  flex: none;
+  color: var(--ms-color-text-secondary);
+  font-size: 0.8125rem;
+}
+.cb-dev summary {
+  min-block-size: 28px;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  border: 2px dashed var(--ms-color-steel-mid);
+  border-radius: 999px;
+  list-style: none;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.cb-dev summary::-webkit-details-marker { display: none; }
+.cb-dev__grid {
+  position: absolute;
+  inset-block-start: calc(100% + 8px);
+  inset-inline-end: 0;
+  inline-size: min(20rem, 92vw);
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  background: var(--ms-color-panel);
+  border: 2px solid var(--ms-color-steel-mid);
+  border-radius: 8px;
+  box-shadow: 0 10px 0 var(--ms-color-canvas);
+}
+.cb-dev__grid label { display: flex; align-items: center; gap: 8px; min-block-size: 32px; }
+.cb-dev__grid button, .cb-dev__grid select {
+  min-block-size: 36px;
+  padding: 0 10px;
+  background: var(--ms-color-panel);
+  color: var(--ms-color-text);
+  border: 2px solid var(--ms-color-steel-mid);
+  border-radius: 6px;
+  font: inherit;
+}
+.cb-dev__note { font-size: 0.75rem; }
+
+/* ---------- the shared display, and wider screens ---------- */
+
+@media (min-width: 56em) {
+  .cb { --cb-gap: 14px; }
+  .cb-page {
+    margin: 14px auto;
+    inline-size: min(100% - 28px, 175vh);
+    padding: 20px 16px 16px;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-template-rows: minmax(0, 1.3fr) minmax(0, 1fr);
+    grid-template-areas:
+      "room-a room-a room-a room-b room-b room-b"
+      "command command hospital hospital jail jail";
+  }
+  .cb-phase, .cb-banner { inline-size: min(100% - 28px, 175vh); margin-inline: auto; }
+  .cb-hand { padding-inline: 14px; }
+  .cb-card { max-inline-size: 34rem; margin-inline: auto; }
+}
+
+/* ---------- motion that repeats while nothing happens ---------- */
+
+.cb-art [id$="-stars"], .cb-art [id$="room-a-space"] > g:first-of-type {
+  animation: cb-drift 22s ease-in-out infinite alternate;
+}
+.cb-art [id$="-lamps"] > :nth-child(odd) { animation: cb-blink 2600ms steps(1, end) infinite; }
+.cb-art [id$="-lamps"] > :nth-child(even) { animation: cb-blink 3400ms steps(1, end) 900ms infinite; }
+.cb-art [id$="jail-lamp"] { animation: cb-pulse 3200ms ease-in-out infinite alternate; }
+.cb-art [id$="hospital-trace"] { stroke-dasharray: 150; animation: cb-trace 2800ms linear infinite; }
+.cb-art [id$="room-b-liquid"] { animation: cb-slosh 3000ms ease-in-out infinite alternate; transform-box: fill-box; transform-origin: 50% 100%; }
+
+@keyframes cb-drift { from { transform: translate(0, 0); } to { transform: translate(-9px, 3px); } }
+@keyframes cb-blink { 0%, 62% { opacity: 1; } 63%, 100% { opacity: 0.35; } }
+@keyframes cb-pulse { from { opacity: 0.55; } to { opacity: 1; } }
+@keyframes cb-trace { from { stroke-dashoffset: 150; } 60%, 100% { stroke-dashoffset: 0; } }
+@keyframes cb-slosh { from { transform: scaleY(0.82); } to { transform: scaleY(1); } }
+@keyframes cb-breathe { from { scale: 1; } to { scale: 1.014; } }
+@keyframes cb-bounce { from { translate: 0 0; } to { translate: 0 -4px; } }
+@keyframes cb-bob { from { translate: -50% 2px; } to { translate: -50% -2px; } }
+@keyframes cb-stamp { from { opacity: 0; transform: rotate(-9deg) scale(1.7); } to { opacity: 1; transform: rotate(-4deg) scale(1); } }
+
+/* Reduced motion: nothing repeats, nothing travels, and every change is direct. The one
+   thing left is a short fade of a piece that has moved, which the page plays itself. */
+[data-motion="reduced"] .cb *,
+[data-motion="reduced"] .cb *::before,
+[data-motion="reduced"] .cb *::after {
+  animation: none !important;
+  transition: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cb *, .cb *::before, .cb *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

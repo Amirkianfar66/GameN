@@ -1,0 +1,210 @@
+{
+  "run": {
+    "startedAt": "2026-10-06T17:02:23.087Z",
+    "origin": "http://127.0.0.1:5173",
+    "scenario": "movement",
+    "players": 7,
+    "browser": "Chrome/154.0.8037.98",
+    "previewServer": "started by this script"
+  },
+  "steps": [
+    {
+      "step": "1. The host creates a seven-player lobby",
+      "statements": [
+        "One v1CreateMatch from the host page; the answer named a match and a twelve-character room code.",
+        "The host console then read the lobby from its own session document and the lobby document: 0 of 7 seated, status \"lobby\"."
+      ]
+    },
+    {
+      "step": "2. Players authenticate and request admission",
+      "statements": [
+        "9 browser contexts signed in anonymously to the Auth emulator and hold 9 different identities.",
+        "7 of them asked to join with the room code (4 starting in Room A, 3 in Room B) and are waiting; none shows anything of a match."
+      ]
+    },
+    {
+      "step": "3. The host approves seats and starts the match",
+      "statements": [
+        "The host console listed 7 requests; each was seated with the keyboard alone (Tab, Enter), 7 v1ApproveAdmission calls, and each player page learned its seat from its own admission document.",
+        "The display was admitted by the identifier it shows, and showed no match before the start.",
+        "One v1StartMatch; the host console then read status \"running\"."
+      ]
+    },
+    {
+      "step": "4. Each player receives only their authorized private view",
+      "statements": [
+        "Seven phones show seven different seats and, with the private panel open, the seven roles of the seven-player roster, each exactly once. With the panel closed nothing private was in the page or its model.",
+        "Each phone asked Firestore for three things in all: its own admission request, the lobby, and the private view stored under its own identity. No phone asked for another view.",
+        "Every phone says it is on the local emulator.",
+        "What each phone keeps in the browser: its sign-in for this tab, which match the tab is in, and the Firebase SDK’s own heartbeat record. No role, location, target or view."
+      ]
+    },
+    {
+      "step": "5. The shared display receives only public information",
+      "statements": [
+        "The display listens to two documents: the lobby and the public view. It shows seven seats with their public location and health, the phase and the countdown.",
+        "No role name is anywhere in its page or model, it has no private panel, and it has no control that could send a command."
+      ]
+    },
+    {
+      "step": "6. A player performs a legal movement",
+      "statements": [
+        "By touch: Player 1 chose \"Room B\" from the destinations the server offered, confirmed, and the page sent one v1Command (MOVE). Choosing sent nothing.",
+        "By keyboard alone: Player 2 moved to \"Room A\" with Tab and Enter. Focus went to the card’s own prompt at each step and rested on the card’s title while the request was out; it was never put on a control that could send.",
+        "After each move the shared display and the mover’s own screen show the new location, from the server’s views; the mover is offered no second move this round.",
+        "No shot is offered to anyone: a seven-player match has no ordinary shot before round 4 (adoption assessment, G5). Registering a shot is NOT RUN in this journey."
+      ]
+    },
+    {
+      "step": "8a/8b. Unresolved commands are reconciled, without a second effect",
+      "statements": [
+        "Answer lost (dropped in the browser after the server had decided): Player 3’s page sent one v1Command, heard nothing, asked v1Receipt, found the accepted receipt and showed the move. It sent no second command.",
+        "Request lost (dropped before it left the browser): Player 4’s page heard nothing, asked v1Receipt, was told \"unknown\", sent the identical request again under the same identifier, and it was accepted once.",
+        "Both moves are in the authoritative public view, each once."
+      ]
+    },
+    {
+      "step": "8c. Reload with a command unresolved",
+      "statements": [
+        "Player 7 confirmed a move; its answer and every lookup were dropped in the browser, so the command stayed unresolved. The tab then held exactly four identifiers for it (match, seat, phase, command) and nothing about the move.",
+        "While it was unresolved the card offered no way to start another action.",
+        "The page was reloaded. The same identity came back from the tab’s session, so the same seat; nothing private was shown until the panel was opened.",
+        "The reloaded page sent no command at all. It asked for the receipt, and while its lookups were still being dropped it said the result was unknown and that it could not send the action again.",
+        "With lookups let through, \"Check again\" found the receipt: accepted. The page says the action was accepted and that it no longer knows what it was. The move is in the authoritative views. The four identifiers are gone from the tab."
+      ]
+    },
+    {
+      "step": "7. Real receipts and authoritative phase changes",
+      "statements": [
+        "Every receipt above is the backend’s own: accepted and REGISTERED, carrying the identifier of the command the page sent, and found again by lookup where the answer was lost.",
+        "The shared display showed 2 phases: \"Round 1, Player 3’s turn\", \"Round 1, Player 7’s turn\". The first ended 62.2 s after the host pressed Start, never earlier than the server’s 60-second window.",
+        "Deadline catch-up the pages asked for (v1Advance): display at 61.1 s, \"advanced\". Nobody asked before the 60 seconds were up, and the server advanced the phase once.",
+        "Player 5 had chosen \"Room A\" and not confirmed when the phase changed. The choice was dropped, nothing was sent, the player was told \"Your choice was not sent.\", and the player had not moved."
+      ]
+    },
+    {
+      "step": "8d. Reconnect, and a retry delay",
+      "statements": [
+        "Player 6’s phone was taken offline in the browser. It said the connection was lost and that what it showed might be out of date, paused its actions, and offered nothing to start.",
+        "INJECTED, not from the backend: Player 5’s first command was answered \"RATE_LIMITED, retry after 3000 ms\" by this script. The page sent nothing more for that command for 3658 ms, then sent the identical request, which the backend accepted.",
+        "Back online, the phone was current again by itself, showed the move made while it was away, offered its own move again, and that move was accepted."
+      ]
+    },
+    {
+      "step": "9. At the end",
+      "statements": [
+        "Seven players, seven accepted moves, seven command identifiers; every seat is where its one move put it in the authoritative public view.",
+        "No tab holds anything of the match but its sign-in and which match it is in. The display and the host console never sent a command."
+      ]
+    }
+  ],
+  "match": {
+    "note": "A throwaway match on the local emulator with anonymous emulator identities. Nothing here is a real match or a real person.",
+    "playerCount": 7,
+    "seats": [
+      {
+        "seat": 1,
+        "device": "player-1",
+        "startedIn": "Room A",
+        "movedTo": "Room B"
+      },
+      {
+        "seat": 2,
+        "device": "player-2",
+        "startedIn": "Room B",
+        "movedTo": "Room A"
+      },
+      {
+        "seat": 3,
+        "device": "player-3",
+        "startedIn": "Room A",
+        "movedTo": "Room B"
+      },
+      {
+        "seat": 4,
+        "device": "player-4",
+        "startedIn": "Room B",
+        "movedTo": "Room A"
+      },
+      {
+        "seat": 7,
+        "device": "player-5",
+        "startedIn": "Room A",
+        "movedTo": "Room B"
+      },
+      {
+        "seat": 5,
+        "device": "player-6",
+        "startedIn": "Room B",
+        "movedTo": "Room A"
+      },
+      {
+        "seat": 6,
+        "device": "player-7",
+        "startedIn": "Room A",
+        "movedTo": "Room B"
+      }
+    ],
+    "phasesShownByTheDisplay": [
+      {
+        "label": "Round 1, Player 3’s turn",
+        "secondsAfterStartPressed": 1
+      },
+      {
+        "label": "Round 1, Player 7’s turn",
+        "secondsAfterStartPressed": 62.2
+      }
+    ],
+    "operations": {
+      "host": {
+        "v1CreateMatch": 1,
+        "v1ApproveAdmission": 7,
+        "v1AdmitDisplay": 1,
+        "v1StartMatch": 1
+      },
+      "display": {
+        "v1ServerTime": 2,
+        "v1Advance": 1
+      },
+      "player-1": {
+        "v1RequestAdmission": 1,
+        "v1ServerTime": 2,
+        "v1Command": 1
+      },
+      "player-2": {
+        "v1RequestAdmission": 1,
+        "v1ServerTime": 2,
+        "v1Command": 1
+      },
+      "player-3": {
+        "v1RequestAdmission": 1,
+        "v1ServerTime": 2,
+        "v1Command": 1,
+        "v1Receipt": 1
+      },
+      "player-4": {
+        "v1RequestAdmission": 1,
+        "v1ServerTime": 2,
+        "v1Command": 2,
+        "v1Receipt": 1
+      },
+      "player-5": {
+        "v1RequestAdmission": 1,
+        "v1ServerTime": 3,
+        "v1Command": 1,
+        "v1Receipt": 4
+      },
+      "player-6": {
+        "v1RequestAdmission": 1,
+        "v1ServerTime": 2,
+        "v1Command": 2,
+        "v1Receipt": 1
+      },
+      "player-7": {
+        "v1RequestAdmission": 1,
+        "v1ServerTime": 3,
+        "v1Command": 1
+      }
+    }
+  }
+}

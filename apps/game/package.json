@@ -13,11 +13,30 @@
     }
   },
   "scripts": {
-    "build": "tsc --build"
+    "build": "tsc --build",
+    "test": "tsc --build && node --test \"test/**/*.test.mjs\"",
+    "check:exclusion": "tsc --build && node scripts/check-production-exclusion.mjs",
+    "dev:fixture": "tsc --build && node dev/serve.mjs",
+    "dev:capture": "tsc --build && node dev/capture-evidence.mjs",
+    "dev:capture:shot": "tsc --build && node dev/capture-shot-flow.mjs",
+    "dev:connected": "npm run build --prefix ../.. && vite --config dev/connected/vite.config.mjs",
+    "dev:connected:journey": "npm run build --prefix ../.. && MOTHERSHIP_FUNCTIONS_EMULATOR_HOST=127.0.0.1:5101 firebase emulators:exec --config ../../infra/firebase/firebase.json --project demo-mothership --only auth,firestore,functions \"node dev/connected/journey.mjs\"",
+    "dev:emulators": "npm run build --prefix ../.. && MOTHERSHIP_FUNCTIONS_EMULATOR_HOST=127.0.0.1:5101 firebase emulators:start --config ../../infra/firebase/firebase.json --project demo-mothership --only auth,firestore,functions",
+    "test:emulator": "npm run build --prefix ../.. && MOTHERSHIP_NEW_MATCH_PROFILE=declared-hack-1.5 MOTHERSHIP_ASSET_MANIFEST_VERSION=design-0.3.0 MOTHERSHIP_LEGACY_ASSET_MANIFEST_VERSION=v1-preview-469bf64fe98cac5a MOTHERSHIP_FUNCTIONS_EMULATOR_HOST=127.0.0.1:5101 firebase emulators:exec --config ../../infra/firebase/firebase.json --project demo-mothership --only auth,firestore,functions \"node --test --test-concurrency=1 test-emulator/*.test.mjs\""
   },
   "dependencies": {
     "@mothership/contracts": "0.1.0",
+    "@mothership/design-tokens": "0.1.0",
     "@mothership/presentation": "0.1.0",
-    "@mothership/design-tokens": "0.1.0"
+    "@noble/hashes": "2.4.0",
+    "firebase": "12.18.0",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "6.1.2",
+    "vite": "8.3.3"
   }
 }

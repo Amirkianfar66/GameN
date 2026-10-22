@@ -1,0 +1,116 @@
+{
+  "decision_id": "in-person-v1-owner-decisions-2026-10-06",
+  "status": "confirmed",
+  "decided_on": "2026-10-06",
+  "authority": "Game owner explicitly answered: Use the proposed V1 decisions",
+  "base_commit": "ad976db57a1e2c5cf29142fc097bc462913e718b",
+  "source_manifest_sha256": "34e7c08cda13dcc329f7a1d5f7656ab59db1fc834460b5ad9d3590619b5479cc",
+  "optional_powers": false,
+  "decisions": [
+    {
+      "id": "V1-01",
+      "decision": "Before roles are dealt, each player chooses Room A or Room B. Roles are randomized independently; room choice has no role restriction.",
+      "source_gap": "Initial room assignment is provisional (D01)."
+    },
+    {
+      "id": "V1-02",
+      "decision": "A healed player returns to their last A/B room at end-round finalization. A released Healthy player returns there; a released Injured player goes to Hospital. These forced placements consume no voluntary movement. Health and Jail remain separate.",
+      "source_gap": "Exit destination and movement consumption are open (RULE-004)."
+    },
+    {
+      "id": "V1-03",
+      "decision": "Captain can enter Command from either A or B, using the normal one movement per round. Election places the winner in Command without consuming that movement. Losing Captain while Healthy returns them to their last A/B room; Jail/injury take their normal destinations.",
+      "source_gap": "Captain adjacency/routing is provisional (RULE-005)."
+    },
+    {
+      "id": "V1-04",
+      "decision": "If no eligible Captain candidate exists, continue without Captain and retry eligibility at the next round boundary. A required runoff repeats among tied candidates. An all-abstain ballot elects nobody and defers to the next round rather than randomly assigning Captain.",
+      "source_gap": "The no-candidate/all-abstain fallback has no approved rule. The positive-vote tie/runoff remains as written."
+    },
+    {
+      "id": "V1-05",
+      "decision": "Cracker may Rescue a player in Hospital from A/B as an **explicit same-location exception**, without moving or revealing the Cracker role. Otherwise Rescue uses the same-location rule; injured self-Rescue remains allowed.",
+      "source_gap": "This is a proposed rule exception, not a reading of canon. Visible Cracker-only Hospital access can identify the secret role. Owner can instead choose explicit Hospital entry with visible role inference and define its entry/exit movement."
+    },
+    {
+      "id": "V1-06",
+      "decision": "Validate same-location and Command immunity at registration. Later actor injury/Jail/elimination never cancels a registered action. At resolution, do not recheck actor/target location; do recheck target health and defenses. A target already Eliminated receives no further effect.",
+      "source_gap": "Registration-to-resolution location checks are open (RULE-001). This locks a legally registered target without redirecting."
+    },
+    {
+      "id": "V1-07",
+      "decision": "Inside the normal action/attack stage, resolve in that round's recorded turn order; for one actor, Main Action before Shot. Network arrival never decides competing-effect order. Then Rescue, Round 3 Supplier, elimination/reveals, victory, Captain flag remain in confirmed order.",
+      "source_gap": "Intra-stage order is open (RULE-002)."
+    },
+    {
+      "id": "V1-08",
+      "decision": "Record the Hacker's one Round 5 Code attempt anytime before normal Round 5 resolution closes; evaluate Code victory with the other victories after normal Round 5 effects. Do not end the match immediately on submission.",
+      "source_gap": "Submission is confirmed; terminal checkpoint is open (RULE-007)."
+    },
+    {
+      "id": "V1-09",
+      "decision": "Captain election/runoff, Jail vote, release vote and showdown target registration each use 60-second server windows. Accept final inputs until the deadline; close at deadline even if everyone responded earlier. Missing ballots abstain; missing special target means no shot. No fabricated votes/targets.",
+      "source_gap": "These durations and missing-input rules are not confirmed (RULE-008). Ordinary/Hack durations are already confirmed."
+    },
+    {
+      "id": "V1-10",
+      "decision": "All non-eliminated players vote, including Injured/Jailed. Election candidates are Healthy/free. Jail targets are non-eliminated/free. Self-voting is allowed. One final ballot per player per phase; ballot choices stay private until an aggregate tally is published at closure.",
+      "source_gap": "Candidate/voter eligibility is partly confirmed; target set, self-votes, ballot replacement and exact ballot disclosure need a decision."
+    },
+    {
+      "id": "V1-11",
+      "decision": "At voting start, the Captain may use the single match-wide release request for **one selected jailed player**. Release vote precedes the normal Jail vote; a failed request still consumes the opportunity. Give the Captain a 60-second release-choice window; declining/missing choice proceeds to normal Jail vote without consuming the opportunity.",
+      "source_gap": "One use/threshold/order are confirmed; selected-prisoner versus release-all and choice window are not."
+    },
+    {
+      "id": "V1-12",
+      "decision": "No automatic pause or forfeit on disconnect. Ordinary/Hack/vote/showdown windows continue on server time; reconnect restores the same identity/seat. Host may explicitly abort an unusable session, producing a recorded Aborted result without a winner. No arbitrary host phase override.",
+      "source_gap": "Disconnect/pause/abort is an unconfirmed operating policy (RULE-009)."
+    },
+    {
+      "id": "V1-13",
+      "decision": "Ordinary shots, Disabler attacks and Hack target another player. Scan, Protection and Rescue retain their explicit self-target exceptions. Limit each own ordinary turn to one role Main Action, one ordinary Shot and one independent Hack request, subject to resources.",
+      "source_gap": "Generic quotas and self-targeting are not fully explicit in sources."
+    },
+    {
+      "id": "V1-14",
+      "decision": "Hacker Scan consumes that round's Scan at acceptance and immediately returns its authorized private result: failed guess gives no Code information; correct guess gives only membership. It gives no location-independent access to Command targets.",
+      "source_gap": "Scan content/one use are confirmed; immediate versus scheduled feedback needs a concrete checkpoint."
+    },
+    {
+      "id": "V1-15",
+      "decision": "Reserve Rescue and Disabler uses when their actions are accepted. A valid queued Rescue with no heal at resolution still consumes its use. Undercover can grant to a recipient only once per match; reserve that lifetime receipt at registration so it cannot race. A canceled/non-live target gets no effect and no refund.",
+      "source_gap": "Resource consumption for no-effect/canceled actions must be explicit; protection lifetime limit itself is confirmed."
+    },
+    {
+      "id": "V1-16",
+      "decision": "Supplier selects two distinct same-location, non-eliminated recipients, without a role-dependent rejection. Officer may receive an unusable extra weapon, but never gets a second ordinary shot. Supplier's successful grants are disclosed only to each recipient and Supplier; no public weapon marker.",
+      "source_gap": "Supplier\u2192Officer eligibility/representation and recipient disclosure are open (BAL-005, RULE-003)."
+    },
+    {
+      "id": "V1-17",
+      "decision": "Protection grant/activation/consumption is known only to Undercover, and never shown to the recipient or public. The attacker sees registration and later completion only, without a block/cause explanation. Public health/location changes are neutral facts.",
+      "source_gap": "Protection/result audiences need owner approval (RULE-003). This proposal favors secret defense."
+    },
+    {
+      "id": "V1-18",
+      "decision": "Faction reveal happens at the next public phase after the attack stage, before the next voting/turn/showdown phase; exact roles and Code are disclosed only at match end. A terminal result counts as that public phase.",
+      "source_gap": "Broad faction timing and role secrecy are confirmed; the full phase-specific reveal checkpoint and Code end disclosure need precision."
+    },
+    {
+      "id": "V1-19",
+      "decision": "Alien's simultaneous-elimination condition means both actual factions go from having a surviving member to having none during the same complete resolution stage/checkpoint. Recheck victories only after the full registered stage, including all showdown shots; do not stop on an intermediate shot.",
+      "source_gap": "The word simultaneously is not defined for ordered damage."
+    },
+    {
+      "id": "V1-20",
+      "decision": "Showdown special shots consume once at registration, resolve in Round 5 order even if their shooters later die, and do nothing if their fixed target is already Eliminated. No target redirect and no refund.",
+      "source_gap": "The main showdown rule is confirmed; missing/non-live target handling must be explicit."
+    },
+    {
+      "id": "V1-21",
+      "decision": "Use real Firebase connectivity for V1. Persistent offline gameplay is disabled. Seat recovery may move a seat to a new authenticated identity through a one-time code explicitly authorized by the owner/host; the old identity loses access atomically. Recovery never re-deals roles or resets resources.",
+      "source_gap": "In-person does not imply offline. Recovery operating policy and who may issue a transfer need owner confirmation; technical identity controls are implementation work."
+    }
+  ]
+}

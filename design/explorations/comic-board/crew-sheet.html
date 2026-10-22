@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<!-- mothership:dev-only -->
+<title>Mothership design — comic board exploration, the nine crew characters (development only)</title>
+<style>
+  html, body { margin: 0; background: #10141C; color: #F4EBDD; font: 14px/1.4 system-ui, sans-serif; }
+  main { padding: 20px; display: grid; gap: 18px; max-width: 1180px; }
+  h1 { font-size: 18px; margin: 0; }
+  p { margin: 0; color: #B9C4D3; max-width: 60em; }
+  .big { display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); gap: 10px; }
+  .big figure { margin: 0; padding: 10px 6px 6px; background: #F4EBDD; color: #151923; text-align: center; font-weight: 700; }
+  .big img { display: block; width: 100%; height: auto; }
+  .strip { display: flex; align-items: flex-end; gap: 6px; padding: 10px 12px 6px; }
+  .strip img { display: block; }
+</style>
+</head>
+<body>
+<main id="page"></main>
+<script type="module">
+  import { CREW, FAMILIES } from './rooms.js';
+  window.__designReady = false;
+  const page = document.getElementById('page');
+  const add = (tag, text, parent = page) => { const node = document.createElement(tag); if (text) node.textContent = text; parent.append(node); return node; };
+  add('h1', 'Nine crew characters to choose from');
+  add('p', 'Public playing pieces: cardboard standees. A player picks one before roles are dealt. They say whose piece it is and nothing about a role or a team. The call signs are proposed and are only for telling the nine apart while choosing.');
+  const big = add('div'); big.className = 'big';
+  const loads = [];
+  for (const each of CREW) {
+    const figure = add('figure', null, big);
+    const image = add('img', null, figure); image.alt = ''; image.src = each.art; loads.push(image.decode().catch(() => {}));
+    add('span', `${each.id} · ${each.sign}`, figure);
+  }
+  add('h1', 'At the sizes they stand on a phone and on a shared display, on every room color');
+  for (const [set, families] of Object.entries(FAMILIES)) {
+    if (set === 'steel') continue;
+    for (const [room, family] of Object.entries(families)) {
+      const strip = add('div'); strip.className = 'strip'; strip.style.background = `linear-gradient(${family[3]}, ${family[2]})`;
+      for (const size of [34, 34, 34, 34, 34, 34, 34, 34, 34]) { const each = CREW[strip.children.length % 9]; const image = add('img', null, strip); image.alt = ''; image.src = each.art; image.width = size; }
+      for (const each of CREW.slice(0, 4)) { const image = add('img', null, strip); image.alt = ''; image.src = each.art; image.width = 84; }
+      const label = add('span', `${room} · ${set}`, strip); label.style.cssText = 'margin-left:auto;color:#151923;font-weight:700';
+    }
+  }
+  await Promise.all(loads);
+  window.__designReady = true;
+</script>
+</body>
+</html>

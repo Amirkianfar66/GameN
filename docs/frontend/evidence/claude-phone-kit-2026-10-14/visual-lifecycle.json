@@ -1,0 +1,4387 @@
+{
+  "scope": "Local Chromium over schema-checked fixtures; no Backend/device/deployment acceptance",
+  "facts": [
+    {
+      "name": "result-captain",
+      "size": [
+        320,
+        568
+      ],
+      "enlarged": false,
+      "viewport": [
+        320,
+        568
+      ],
+      "pageScrolls": false,
+      "pageOverflowsSideways": false,
+      "boardScrollsInside": false,
+      "rowUnit": "74px",
+      "phase": "Vote result",
+      "strip": null,
+      "stripStep": null,
+      "stamp": null,
+      "tray": false,
+      "targets": [],
+      "overlaps": [],
+      "smallControls": [],
+      "statusClipped": false,
+      "bannerIconOverText": null,
+      "navLabelsOut": [],
+      "navigation": [
+        {
+          "id": "ms-phone-board",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 0,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        },
+        {
+          "id": "ms-phone-actions",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 64,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        },
+        {
+          "id": "ms-phone-pass",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": true,
+          "box": {
+            "x": 131,
+            "y": 497,
+            "w": 58,
+            "h": 58
+          }
+        },
+        {
+          "id": "ms-private-toggle",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 192,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        },
+        {
+          "id": "ms-phone-more",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 256,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        }
+      ],
+      "flyersOver": [],
+      "marks": {
+        "eligible": [],
+        "selected": [],
+        "picked": [],
+        "pending": [],
+        "other": []
+      },
+      "ghost": null,
+      "pass": "unavailable",
+      "focus": "connected-body",
+      "fxNodes": 0,
+      "moving": [],
+      "privateHooks": [],
+      "roleWords": [],
+      "commands": 0,
+      "resultId": "phase-result-1",
+      "outcome": "CAPTAIN_ELECTED",
+      "resultText": "Round 2 · Captain election\n\nCaptain chosen\nWWWWWWWWWWWW\n\nPlayer 1 is Captain.\n\nWWWWWWWWWWWW\n5\nBartholomew!\n3\n\n9 eligible voters\n\n1 abstentions or missing ballots",
+      "claim": null,
+      "publicFigures": 9,
+      "privateAnimations": 0,
+      "publicAnimations": 0,
+      "resultBounds": {
+        "top": 213.140625,
+        "bottom": 504,
+        "statusBottom": 45.390625,
+        "navTop": 512,
+        "scrollHeight": 285,
+        "clientHeight": 285,
+        "pointerEvents": "auto",
+        "overflow": "auto"
+      }
+    },
+    {
+      "name": "result-runoff",
+      "size": [
+        320,
+        568
+      ],
+      "enlarged": false,
+      "viewport": [
+        320,
+        568
+      ],
+      "pageScrolls": false,
+      "pageOverflowsSideways": false,
+      "boardScrollsInside": false,
+      "rowUnit": "74px",
+      "phase": "Vote result",
+      "strip": null,
+      "stripStep": null,
+      "stamp": null,
+      "tray": false,
+      "targets": [],
+      "overlaps": [],
+      "smallControls": [],
+      "statusClipped": false,
+      "bannerIconOverText": null,
+      "navLabelsOut": [],
+      "navigation": [
+        {
+          "id": "ms-phone-board",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 0,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        },
+        {
+          "id": "ms-phone-actions",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 64,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        },
+        {
+          "id": "ms-phone-pass",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": true,
+          "box": {
+            "x": 131,
+            "y": 497,
+            "w": 58,
+            "h": 58
+          }
+        },
+        {
+          "id": "ms-private-toggle",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 192,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        },
+        {
+          "id": "ms-phone-more",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 256,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        }
+      ],
+      "flyersOver": [],
+      "marks": {
+        "eligible": [],
+        "selected": [],
+        "picked": [],
+        "pending": [],
+        "other": []
+      },
+      "ghost": null,
+      "pass": "unavailable",
+      "focus": "connected-body",
+      "fxNodes": 0,
+      "moving": [],
+      "privateHooks": [],
+      "roleWords": [],
+      "commands": 0,
+      "resultId": "phase-result-1",
+      "outcome": "RUNOFF_REQUIRED",
+      "resultText": "Round 2 · Captain election\n\nRunoff required\n\nThe vote is tied. A new runoff follows.\n\nTied: WWWWWWWWWWWW, Bartholomew!\n\nWWWWWWWWWWWW\n4\nBartholomew!\n4\n\n9 eligible voters\n\n1 abstentions or missing ballots",
+      "claim": null,
+      "publicFigures": 9,
+      "privateAnimations": 0,
+      "publicAnimations": 0,
+      "resultBounds": {
+        "top": 218.046875,
+        "bottom": 504,
+        "statusBottom": 45.390625,
+        "navTop": 512,
+        "scrollHeight": 280,
+        "clientHeight": 280,
+        "pointerEvents": "auto",
+        "overflow": "auto"
+      }
+    },
+    {
+      "name": "result-abstain",
+      "size": [
+        320,
+        568
+      ],
+      "enlarged": false,
+      "viewport": [
+        320,
+        568
+      ],
+      "pageScrolls": false,
+      "pageOverflowsSideways": false,
+      "boardScrollsInside": false,
+      "rowUnit": "74px",
+      "phase": "Vote result",
+      "strip": null,
+      "stripStep": null,
+      "stamp": null,
+      "tray": false,
+      "targets": [],
+      "overlaps": [],
+      "smallControls": [],
+      "statusClipped": false,
+      "bannerIconOverText": null,
+      "navLabelsOut": [],
+      "navigation": [
+        {
+          "id": "ms-phone-board",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 0,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        },
+        {
+          "id": "ms-phone-actions",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 64,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        },
+        {
+          "id": "ms-phone-pass",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": true,
+          "box": {
+            "x": 131,
+            "y": 497,
+            "w": 58,
+            "h": 58
+          }
+        },
+        {
+          "id": "ms-private-toggle",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 192,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        },
+        {
+          "id": "ms-phone-more",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 256,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        }
+      ],
+      "flyersOver": [],
+      "marks": {
+        "eligible": [],
+        "selected": [],
+        "picked": [],
+        "pending": [],
+        "other": []
+      },
+      "ghost": null,
+      "pass": "unavailable",
+      "focus": "connected-body",
+      "fxNodes": 0,
+      "moving": [],
+      "privateHooks": [],
+      "roleWords": [],
+      "commands": 0,
+      "resultId": "phase-result-1",
+      "outcome": "NO_CAPTAIN_ELECTED",
+      "resultText": "Round 2 · Captain election\n\nNo Captain chosen\n\nThe vote selected no Captain.\n\n9 eligible voters\n\n9 abstentions or missing ballots",
+      "claim": null,
+      "publicFigures": 9,
+      "privateAnimations": 0,
+      "publicAnimations": 0,
+      "resultBounds": {
+        "top": 236.640625,
+        "bottom": 504,
+        "statusBottom": 45.390625,
+        "navTop": 512,
+        "scrollHeight": 261,
+        "clientHeight": 261,
+        "pointerEvents": "auto",
+        "overflow": "auto"
+      }
+    },
+    {
+      "name": "result-jailed",
+      "size": [
+        320,
+        568
+      ],
+      "enlarged": false,
+      "viewport": [
+        320,
+        568
+      ],
+      "pageScrolls": false,
+      "pageOverflowsSideways": false,
+      "boardScrollsInside": false,
+      "rowUnit": "74px",
+      "phase": "Vote result",
+      "strip": null,
+      "stripStep": null,
+      "stamp": null,
+      "tray": false,
+      "targets": [],
+      "overlaps": [],
+      "smallControls": [],
+      "statusClipped": false,
+      "bannerIconOverText": null,
+      "navLabelsOut": [],
+      "navigation": [
+        {
+          "id": "ms-phone-board",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 0,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        },
+        {
+          "id": "ms-phone-actions",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 64,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        },
+        {
+          "id": "ms-phone-pass",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": true,
+          "box": {
+            "x": 131,
+            "y": 497,
+            "w": 58,
+            "h": 58
+          }
+        },
+        {
+          "id": "ms-private-toggle",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 192,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        },
+        {
+          "id": "ms-phone-more",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 256,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        }
+      ],
+      "flyersOver": [],
+      "marks": {
+        "eligible": [],
+        "selected": [],
+        "picked": [],
+        "pending": [],
+        "other": []
+      },
+      "ghost": null,
+      "pass": "unavailable",
+      "focus": "connected-body",
+      "fxNodes": 0,
+      "moving": [],
+      "privateHooks": [],
+      "roleWords": [],
+      "commands": 0,
+      "resultId": "phase-result-1",
+      "outcome": "PLAYER_JAILED",
+      "resultText": "Round 2 · Jail vote\n\nJail vote result\nIvo\n\nPlayer 9 goes to Jail.\n\nAda\n3\nIvo\n5\n\n9 eligible voters\n\n1 abstentions or missing ballots",
+      "claim": null,
+      "publicFigures": 9,
+      "privateAnimations": 0,
+      "publicAnimations": 0,
+      "resultBounds": {
+        "top": 213.140625,
+        "bottom": 504,
+        "statusBottom": 45.390625,
+        "navTop": 512,
+        "scrollHeight": 285,
+        "clientHeight": 285,
+        "pointerEvents": "auto",
+        "overflow": "auto"
+      }
+    },
+    {
+      "name": "result-jail-tie",
+      "size": [
+        320,
+        568
+      ],
+      "enlarged": false,
+      "viewport": [
+        320,
+        568
+      ],
+      "pageScrolls": false,
+      "pageOverflowsSideways": false,
+      "boardScrollsInside": false,
+      "rowUnit": "74px",
+      "phase": "Vote result",
+      "strip": null,
+      "stripStep": null,
+      "stamp": null,
+      "tray": false,
+      "targets": [],
+      "overlaps": [],
+      "smallControls": [],
+      "statusClipped": false,
+      "bannerIconOverText": null,
+      "navLabelsOut": [],
+      "navigation": [
+        {
+          "id": "ms-phone-board",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 0,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        },
+        {
+          "id": "ms-phone-actions",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 64,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        },
+        {
+          "id": "ms-phone-pass",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": true,
+          "box": {
+            "x": 131,
+            "y": 497,
+            "w": 58,
+            "h": 58
+          }
+        },
+        {
+          "id": "ms-private-toggle",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 192,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        },
+        {
+          "id": "ms-phone-more",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 256,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        }
+      ],
+      "flyersOver": [],
+      "marks": {
+        "eligible": [],
+        "selected": [],
+        "picked": [],
+        "pending": [],
+        "other": []
+      },
+      "ghost": null,
+      "pass": "unavailable",
+      "focus": "connected-body",
+      "fxNodes": 0,
+      "moving": [],
+      "privateHooks": [],
+      "roleWords": [],
+      "commands": 0,
+      "resultId": "phase-result-1",
+      "outcome": "NO_JAIL_SELECTION",
+      "resultText": "Round 2 · Jail vote\n\nNo one selected for Jail\n\nThe vote is tied. No one goes to Jail.\n\nTied: Ada, Cleo\n\nAda\n4\nCleo\n4\n\n9 eligible voters\n\n1 abstentions or missing ballots",
+      "claim": null,
+      "publicFigures": 9,
+      "privateAnimations": 0,
+      "publicAnimations": 0,
+      "resultBounds": {
+        "top": 218.046875,
+        "bottom": 504,
+        "statusBottom": 45.390625,
+        "navTop": 512,
+        "scrollHeight": 280,
+        "clientHeight": 280,
+        "pointerEvents": "auto",
+        "overflow": "auto"
+      }
+    },
+    {
+      "name": "result-released",
+      "size": [
+        320,
+        568
+      ],
+      "enlarged": false,
+      "viewport": [
+        320,
+        568
+      ],
+      "pageScrolls": false,
+      "pageOverflowsSideways": false,
+      "boardScrollsInside": false,
+      "rowUnit": "74px",
+      "phase": "Vote result",
+      "strip": null,
+      "stripStep": null,
+      "stamp": null,
+      "tray": false,
+      "targets": [],
+      "overlaps": [],
+      "smallControls": [],
+      "statusClipped": false,
+      "bannerIconOverText": null,
+      "navLabelsOut": [],
+      "navigation": [
+        {
+          "id": "ms-phone-board",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 0,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        },
+        {
+          "id": "ms-phone-actions",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 64,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        },
+        {
+          "id": "ms-phone-pass",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": true,
+          "box": {
+            "x": 131,
+            "y": 497,
+            "w": 58,
+            "h": 58
+          }
+        },
+        {
+          "id": "ms-private-toggle",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 192,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        },
+        {
+          "id": "ms-phone-more",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 256,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        }
+      ],
+      "flyersOver": [],
+      "marks": {
+        "eligible": [],
+        "selected": [],
+        "picked": [],
+        "pending": [],
+        "other": []
+      },
+      "ghost": null,
+      "pass": "unavailable",
+      "focus": "connected-body",
+      "fxNodes": 0,
+      "moving": [],
+      "privateHooks": [],
+      "roleWords": [],
+      "commands": 0,
+      "resultId": "phase-result-1",
+      "outcome": "PLAYER_RELEASED",
+      "resultText": "Round 2 · Release vote\n\nRelease approved\nIvo\n\nPlayer 9 is released.\n\n5 Yes · 9 eligible voters",
+      "claim": null,
+      "publicFigures": 9,
+      "privateAnimations": 0,
+      "publicAnimations": 0,
+      "resultBounds": {
+        "top": 231.734375,
+        "bottom": 504,
+        "statusBottom": 45.390625,
+        "navTop": 512,
+        "scrollHeight": 266,
+        "clientHeight": 266,
+        "pointerEvents": "auto",
+        "overflow": "auto"
+      }
+    },
+    {
+      "name": "result-release-denied",
+      "size": [
+        320,
+        568
+      ],
+      "enlarged": false,
+      "viewport": [
+        320,
+        568
+      ],
+      "pageScrolls": false,
+      "pageOverflowsSideways": false,
+      "boardScrollsInside": false,
+      "rowUnit": "74px",
+      "phase": "Vote result",
+      "strip": null,
+      "stripStep": null,
+      "stamp": null,
+      "tray": false,
+      "targets": [],
+      "overlaps": [],
+      "smallControls": [],
+      "statusClipped": false,
+      "bannerIconOverText": null,
+      "navLabelsOut": [],
+      "navigation": [
+        {
+          "id": "ms-phone-board",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 0,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        },
+        {
+          "id": "ms-phone-actions",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 64,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        },
+        {
+          "id": "ms-phone-pass",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": true,
+          "box": {
+            "x": 131,
+            "y": 497,
+            "w": 58,
+            "h": 58
+          }
+        },
+        {
+          "id": "ms-private-toggle",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 192,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        },
+        {
+          "id": "ms-phone-more",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 256,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        }
+      ],
+      "flyersOver": [],
+      "marks": {
+        "eligible": [],
+        "selected": [],
+        "picked": [],
+        "pending": [],
+        "other": []
+      },
+      "ghost": null,
+      "pass": "unavailable",
+      "focus": "connected-body",
+      "fxNodes": 0,
+      "moving": [],
+      "privateHooks": [],
+      "roleWords": [],
+      "commands": 0,
+      "resultId": "phase-result-1",
+      "outcome": "RELEASE_DENIED",
+      "resultText": "Round 2 · Release vote\n\nRelease denied\nIvo\n\nPlayer 9 is not released.\n\n4 Yes · 9 eligible voters",
+      "claim": null,
+      "publicFigures": 9,
+      "privateAnimations": 0,
+      "publicAnimations": 0,
+      "resultBounds": {
+        "top": 231.734375,
+        "bottom": 504,
+        "statusBottom": 45.390625,
+        "navTop": 512,
+        "scrollHeight": 266,
+        "clientHeight": 266,
+        "pointerEvents": "auto",
+        "overflow": "auto"
+      }
+    },
+    {
+      "name": "hack-declaration-offer",
+      "size": [
+        320,
+        568
+      ],
+      "enlarged": false,
+      "viewport": [
+        320,
+        568
+      ],
+      "pageScrolls": false,
+      "pageOverflowsSideways": false,
+      "boardScrollsInside": false,
+      "rowUnit": "40px",
+      "phase": "Hack declaration",
+      "strip": "Declare a side",
+      "stripStep": "idle",
+      "stamp": null,
+      "tray": false,
+      "targets": [],
+      "overlaps": [],
+      "smallControls": [],
+      "statusClipped": false,
+      "bannerIconOverText": null,
+      "navLabelsOut": [],
+      "navigation": [
+        {
+          "id": "ms-phone-board",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 0,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        },
+        {
+          "id": "ms-phone-actions",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 64,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        },
+        {
+          "id": "ms-phone-pass",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": true,
+          "box": {
+            "x": 131,
+            "y": 497,
+            "w": 58,
+            "h": 58
+          }
+        },
+        {
+          "id": "ms-private-toggle",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 192,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        },
+        {
+          "id": "ms-phone-more",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 256,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        }
+      ],
+      "flyersOver": [],
+      "marks": {
+        "eligible": [],
+        "selected": [],
+        "picked": [],
+        "pending": [],
+        "other": []
+      },
+      "ghost": null,
+      "pass": "unavailable",
+      "focus": "ms-private-heading",
+      "fxNodes": 0,
+      "moving": [],
+      "privateHooks": [
+        "phone-strip"
+      ],
+      "roleWords": [
+        "Alien"
+      ],
+      "commands": 0,
+      "resultId": null,
+      "outcome": null,
+      "resultText": null,
+      "claim": "Private declaration\n\nChoose Blue, Red or Alien.\n\nOnly the two participants receive this declaration.",
+      "publicFigures": 9,
+      "privateAnimations": 0,
+      "publicAnimations": 0
+    },
+    {
+      "name": "hack-three-choices",
+      "size": [
+        320,
+        568
+      ],
+      "enlarged": false,
+      "viewport": [
+        320,
+        568
+      ],
+      "pageScrolls": false,
+      "pageOverflowsSideways": false,
+      "boardScrollsInside": false,
+      "rowUnit": "30px",
+      "phase": "Hack declaration",
+      "strip": "DECLARE A SIDE CHOOSING DECLARE A SIDE : Which side do you declare? These are the choices the server offers you now. Blue Red Alien Cancel",
+      "stripStep": "choosing",
+      "stamp": null,
+      "tray": false,
+      "targets": [],
+      "overlaps": [],
+      "smallControls": [],
+      "statusClipped": false,
+      "bannerIconOverText": null,
+      "navLabelsOut": [],
+      "navigation": [
+        {
+          "id": "ms-phone-board",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 0,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        },
+        {
+          "id": "ms-phone-actions",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 64,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        },
+        {
+          "id": "ms-phone-pass",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": true,
+          "box": {
+            "x": 131,
+            "y": 497,
+            "w": 58,
+            "h": 58
+          }
+        },
+        {
+          "id": "ms-private-toggle",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 192,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        },
+        {
+          "id": "ms-phone-more",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 256,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        }
+      ],
+      "flyersOver": [],
+      "marks": {
+        "eligible": [],
+        "selected": [],
+        "picked": [],
+        "pending": [],
+        "other": []
+      },
+      "ghost": null,
+      "pass": "unavailable",
+      "focus": "ms-action-step",
+      "fxNodes": 0,
+      "moving": [],
+      "privateHooks": [
+        "phone-strip"
+      ],
+      "roleWords": [
+        "Alien"
+      ],
+      "commands": 0,
+      "resultId": null,
+      "outcome": null,
+      "resultText": null,
+      "claim": "Private declaration\n\nChoose Blue, Red or Alien.\n\nOnly the two participants receive this declaration.",
+      "publicFigures": 9,
+      "privateAnimations": 0,
+      "publicAnimations": 0
+    },
+    {
+      "name": "hack-mid-entry-blur",
+      "size": [
+        320,
+        568
+      ],
+      "enlarged": false,
+      "viewport": [
+        320,
+        568
+      ],
+      "pageScrolls": false,
+      "pageOverflowsSideways": false,
+      "boardScrollsInside": false,
+      "rowUnit": "74px",
+      "phase": "Hack claim",
+      "strip": null,
+      "stripStep": null,
+      "stamp": null,
+      "tray": false,
+      "targets": [],
+      "overlaps": [],
+      "smallControls": [],
+      "statusClipped": false,
+      "bannerIconOverText": null,
+      "navLabelsOut": [],
+      "navigation": [
+        {
+          "id": "ms-phone-board",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 0,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        },
+        {
+          "id": "ms-phone-actions",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 64,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        },
+        {
+          "id": "ms-phone-pass",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": true,
+          "box": {
+            "x": 131,
+            "y": 497,
+            "w": 58,
+            "h": 58
+          }
+        },
+        {
+          "id": "ms-private-toggle",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 192,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        },
+        {
+          "id": "ms-phone-more",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 256,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        }
+      ],
+      "flyersOver": [],
+      "marks": {
+        "eligible": [],
+        "selected": [],
+        "picked": [],
+        "pending": [],
+        "other": []
+      },
+      "ghost": null,
+      "pass": "unavailable",
+      "focus": "ms-phone-actions",
+      "fxNodes": 0,
+      "moving": [],
+      "privateHooks": [],
+      "roleWords": [],
+      "commands": 0,
+      "resultId": null,
+      "outcome": null,
+      "resultText": null,
+      "claim": null,
+      "publicFigures": 9,
+      "privateAnimations": 0,
+      "publicAnimations": 0
+    },
+    {
+      "name": "hack-result-reopened",
+      "size": [
+        320,
+        568
+      ],
+      "enlarged": false,
+      "viewport": [
+        320,
+        568
+      ],
+      "pageScrolls": false,
+      "pageOverflowsSideways": false,
+      "boardScrollsInside": false,
+      "rowUnit": "59.5px",
+      "phase": "Hack claim",
+      "strip": null,
+      "stripStep": null,
+      "stamp": null,
+      "tray": false,
+      "targets": [],
+      "overlaps": [],
+      "smallControls": [],
+      "statusClipped": false,
+      "bannerIconOverText": null,
+      "navLabelsOut": [],
+      "navigation": [
+        {
+          "id": "ms-phone-board",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 0,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        },
+        {
+          "id": "ms-phone-actions",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 64,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        },
+        {
+          "id": "ms-phone-pass",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": true,
+          "box": {
+            "x": 131,
+            "y": 497,
+            "w": 58,
+            "h": 58
+          }
+        },
+        {
+          "id": "ms-private-toggle",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 192,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        },
+        {
+          "id": "ms-phone-more",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 256,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        }
+      ],
+      "flyersOver": [],
+      "marks": {
+        "eligible": [],
+        "selected": [],
+        "picked": [],
+        "pending": [],
+        "other": []
+      },
+      "ghost": null,
+      "pass": "unavailable",
+      "focus": "ms-phone-actions",
+      "fxNodes": 0,
+      "moving": [],
+      "privateHooks": [],
+      "roleWords": [],
+      "commands": 0,
+      "resultId": null,
+      "outcome": null,
+      "resultText": null,
+      "claim": "Private Hack claim\n\nPlayer 3 claims BLUE.\n\nDeclarations may be bluffs.",
+      "publicFigures": 9,
+      "privateAnimations": 0,
+      "publicAnimations": 0
+    },
+    {
+      "name": "hack-conversation",
+      "size": [
+        320,
+        568
+      ],
+      "enlarged": false,
+      "viewport": [
+        320,
+        568
+      ],
+      "pageScrolls": false,
+      "pageOverflowsSideways": false,
+      "boardScrollsInside": false,
+      "rowUnit": "59.5px",
+      "phase": "Hack",
+      "strip": null,
+      "stripStep": null,
+      "stamp": null,
+      "tray": false,
+      "targets": [],
+      "overlaps": [],
+      "smallControls": [],
+      "statusClipped": false,
+      "bannerIconOverText": null,
+      "navLabelsOut": [],
+      "navigation": [
+        {
+          "id": "ms-phone-board",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 0,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        },
+        {
+          "id": "ms-phone-actions",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 64,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        },
+        {
+          "id": "ms-phone-pass",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": true,
+          "box": {
+            "x": 131,
+            "y": 497,
+            "w": 58,
+            "h": 58
+          }
+        },
+        {
+          "id": "ms-private-toggle",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 192,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        },
+        {
+          "id": "ms-phone-more",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 256,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        }
+      ],
+      "flyersOver": [],
+      "marks": {
+        "eligible": [],
+        "selected": [],
+        "picked": [],
+        "pending": [],
+        "other": []
+      },
+      "ghost": null,
+      "pass": "unavailable",
+      "focus": "ms-phone-actions",
+      "fxNodes": 0,
+      "moving": [],
+      "privateHooks": [],
+      "roleWords": [],
+      "commands": 0,
+      "resultId": null,
+      "outcome": null,
+      "resultText": null,
+      "claim": "Private conversation\n\nPlayer 3 claims BLUE.\n\nDeclarations may be bluffs.",
+      "publicFigures": 9,
+      "privateAnimations": 0,
+      "publicAnimations": 0
+    },
+    {
+      "name": "hack-reduced-mid-entry",
+      "size": [
+        320,
+        568
+      ],
+      "enlarged": false,
+      "viewport": [
+        320,
+        568
+      ],
+      "pageScrolls": false,
+      "pageOverflowsSideways": false,
+      "boardScrollsInside": false,
+      "rowUnit": "59.5px",
+      "phase": "Hack claim",
+      "strip": null,
+      "stripStep": null,
+      "stamp": null,
+      "tray": false,
+      "targets": [],
+      "overlaps": [],
+      "smallControls": [],
+      "statusClipped": false,
+      "bannerIconOverText": null,
+      "navLabelsOut": [],
+      "navigation": [
+        {
+          "id": "ms-phone-board",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 0,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        },
+        {
+          "id": "ms-phone-actions",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 64,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        },
+        {
+          "id": "ms-phone-pass",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": true,
+          "box": {
+            "x": 131,
+            "y": 497,
+            "w": 58,
+            "h": 58
+          }
+        },
+        {
+          "id": "ms-private-toggle",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 192,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        },
+        {
+          "id": "ms-phone-more",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 256,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        }
+      ],
+      "flyersOver": [],
+      "marks": {
+        "eligible": [],
+        "selected": [],
+        "picked": [],
+        "pending": [],
+        "other": []
+      },
+      "ghost": null,
+      "pass": "unavailable",
+      "focus": "ms-phone-actions",
+      "fxNodes": 0,
+      "moving": [],
+      "privateHooks": [],
+      "roleWords": [],
+      "commands": 0,
+      "resultId": null,
+      "outcome": null,
+      "resultText": null,
+      "claim": "Private Hack claim\n\nPlayer 3 claims RED.\n\nDeclarations may be bluffs.",
+      "publicFigures": 9,
+      "privateAnimations": 0,
+      "publicAnimations": 0
+    },
+    {
+      "name": "vote-reduced-mid-entry",
+      "size": [
+        320,
+        568
+      ],
+      "enlarged": false,
+      "viewport": [
+        320,
+        568
+      ],
+      "pageScrolls": false,
+      "pageOverflowsSideways": false,
+      "boardScrollsInside": false,
+      "rowUnit": "74px",
+      "phase": "Vote result",
+      "strip": null,
+      "stripStep": null,
+      "stamp": null,
+      "tray": false,
+      "targets": [],
+      "overlaps": [],
+      "smallControls": [],
+      "statusClipped": false,
+      "bannerIconOverText": null,
+      "navLabelsOut": [],
+      "navigation": [
+        {
+          "id": "ms-phone-board",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 0,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        },
+        {
+          "id": "ms-phone-actions",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 64,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        },
+        {
+          "id": "ms-phone-pass",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": true,
+          "box": {
+            "x": 131,
+            "y": 497,
+            "w": 58,
+            "h": 58
+          }
+        },
+        {
+          "id": "ms-private-toggle",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 192,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        },
+        {
+          "id": "ms-phone-more",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 256,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        }
+      ],
+      "flyersOver": [],
+      "marks": {
+        "eligible": [],
+        "selected": [],
+        "picked": [],
+        "pending": [],
+        "other": []
+      },
+      "ghost": null,
+      "pass": "unavailable",
+      "focus": "connected-body",
+      "fxNodes": 0,
+      "moving": [],
+      "privateHooks": [],
+      "roleWords": [],
+      "commands": 0,
+      "resultId": "phase-result-1",
+      "outcome": "RUNOFF_REQUIRED",
+      "resultText": "Round 2 · Captain election\n\nRunoff required\n\nThe vote is tied. A new runoff follows.\n\nTied: WWWWWWWWWWWW, Bartholomew!\n\nWWWWWWWWWWWW\n4\nBartholomew!\n4\n\n9 eligible voters\n\n1 abstentions or missing ballots",
+      "claim": null,
+      "publicFigures": 9,
+      "privateAnimations": 0,
+      "publicAnimations": 0,
+      "resultBounds": {
+        "top": 218.046875,
+        "bottom": 504,
+        "statusBottom": 45.390625,
+        "navTop": 512,
+        "scrollHeight": 280,
+        "clientHeight": 280,
+        "pointerEvents": "auto",
+        "overflow": "auto"
+      }
+    },
+    {
+      "name": "vote-enlarged",
+      "size": [
+        320,
+        568
+      ],
+      "enlarged": true,
+      "viewport": [
+        320,
+        568
+      ],
+      "pageScrolls": false,
+      "pageOverflowsSideways": false,
+      "boardScrollsInside": true,
+      "rowUnit": "74px",
+      "phase": "Vote result",
+      "strip": null,
+      "stripStep": null,
+      "stamp": null,
+      "tray": false,
+      "targets": [],
+      "overlaps": [],
+      "smallControls": [],
+      "statusClipped": false,
+      "bannerIconOverText": null,
+      "navLabelsOut": [],
+      "navigation": [
+        {
+          "id": "ms-phone-board",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 0,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        },
+        {
+          "id": "ms-phone-actions",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 64,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        },
+        {
+          "id": "ms-phone-pass",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": true,
+          "box": {
+            "x": 131,
+            "y": 497,
+            "w": 58,
+            "h": 58
+          }
+        },
+        {
+          "id": "ms-private-toggle",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 192,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        },
+        {
+          "id": "ms-phone-more",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 256,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        }
+      ],
+      "flyersOver": [],
+      "marks": {
+        "eligible": [],
+        "selected": [],
+        "picked": [],
+        "pending": [],
+        "other": []
+      },
+      "ghost": null,
+      "pass": "unavailable",
+      "focus": "connected-body",
+      "fxNodes": 0,
+      "moving": [],
+      "privateHooks": [],
+      "roleWords": [],
+      "commands": 0,
+      "resultId": "phase-result-1",
+      "outcome": "RUNOFF_REQUIRED",
+      "resultText": "Round 2 · Captain election\n\nRunoff required\n\nThe vote is tied. A new runoff follows.\n\nTied: WWWWWWWWWWWW, Bartholomew!\n\nWWWWWWWWWWWW\n4\nBartholomew!\n4\n\n9 eligible voters\n\n1 abstentions or missing ballots",
+      "claim": null,
+      "publicFigures": 9,
+      "privateAnimations": 0,
+      "publicAnimations": 0,
+      "resultBounds": {
+        "top": 91.796875,
+        "bottom": 504,
+        "statusBottom": 83.796875,
+        "navTop": 512,
+        "scrollHeight": 540,
+        "clientHeight": 406,
+        "pointerEvents": "auto",
+        "overflow": "auto"
+      },
+      "resultTextReach": {
+        "scrollTop": 134,
+        "lastTextTop": 428.5,
+        "lastTextBottom": 490.875,
+        "top": 91.796875,
+        "bottom": 504
+      }
+    },
+    {
+      "name": "vote-enlarged-menu",
+      "size": [
+        320,
+        568
+      ],
+      "enlarged": true,
+      "viewport": [
+        320,
+        568
+      ],
+      "pageScrolls": false,
+      "pageOverflowsSideways": false,
+      "boardScrollsInside": false,
+      "rowUnit": "74px",
+      "phase": "Vote result",
+      "strip": null,
+      "stripStep": null,
+      "stamp": null,
+      "tray": false,
+      "targets": [],
+      "overlaps": [],
+      "smallControls": [],
+      "statusClipped": false,
+      "bannerIconOverText": null,
+      "navLabelsOut": [],
+      "navigation": [
+        {
+          "id": "ms-phone-board",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 0,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        },
+        {
+          "id": "ms-phone-actions",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 64,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        },
+        {
+          "id": "ms-phone-pass",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": true,
+          "box": {
+            "x": 131,
+            "y": 497,
+            "w": 58,
+            "h": 58
+          }
+        },
+        {
+          "id": "ms-private-toggle",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 192,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        },
+        {
+          "id": "ms-phone-more",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 256,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        }
+      ],
+      "flyersOver": [],
+      "marks": {
+        "eligible": [],
+        "selected": [],
+        "picked": [],
+        "pending": [],
+        "other": []
+      },
+      "ghost": null,
+      "pass": "unavailable",
+      "focus": "phone-menu-heading",
+      "fxNodes": 0,
+      "moving": [],
+      "privateHooks": [],
+      "roleWords": [],
+      "commands": 0,
+      "resultId": "phase-result-1",
+      "outcome": "RUNOFF_REQUIRED",
+      "resultText": "Round 2 · Captain election\n\nRunoff required\n\nThe vote is tied. A new runoff follows.\n\n9 eligible voters\n\n1 abstentions or missing ballots",
+      "claim": null,
+      "publicFigures": 9,
+      "privateAnimations": 0,
+      "publicAnimations": 0,
+      "resultBounds": {
+        "top": 184.796875,
+        "bottom": 480.15625,
+        "statusBottom": 83.796875,
+        "navTop": 512,
+        "scrollHeight": 375,
+        "clientHeight": 289,
+        "pointerEvents": "auto",
+        "overflow": "auto"
+      },
+      "resultTextReach": {
+        "scrollTop": 86,
+        "lastTextTop": 406.125,
+        "lastTextBottom": 468.5,
+        "top": 184.796875,
+        "bottom": 480.15625
+      }
+    },
+    {
+      "name": "result-captain",
+      "size": [
+        390,
+        844
+      ],
+      "enlarged": false,
+      "viewport": [
+        390,
+        844
+      ],
+      "pageScrolls": false,
+      "pageOverflowsSideways": false,
+      "boardScrollsInside": false,
+      "rowUnit": "74px",
+      "phase": "Vote result",
+      "strip": null,
+      "stripStep": null,
+      "stamp": null,
+      "tray": false,
+      "targets": [],
+      "overlaps": [],
+      "smallControls": [],
+      "statusClipped": false,
+      "bannerIconOverText": null,
+      "navLabelsOut": [],
+      "navigation": [
+        {
+          "id": "ms-phone-board",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 0,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        },
+        {
+          "id": "ms-phone-actions",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 78,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        },
+        {
+          "id": "ms-phone-pass",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": true,
+          "box": {
+            "x": 163,
+            "y": 761,
+            "w": 64,
+            "h": 64
+          }
+        },
+        {
+          "id": "ms-private-toggle",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 234,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        },
+        {
+          "id": "ms-phone-more",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 312,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        }
+      ],
+      "flyersOver": [],
+      "marks": {
+        "eligible": [],
+        "selected": [],
+        "picked": [],
+        "pending": [],
+        "other": []
+      },
+      "ghost": null,
+      "pass": "unavailable",
+      "focus": "connected-body",
+      "fxNodes": 0,
+      "moving": [],
+      "privateHooks": [],
+      "roleWords": [],
+      "commands": 0,
+      "resultId": "phase-result-1",
+      "outcome": "CAPTAIN_ELECTED",
+      "resultText": "Round 2 · Captain election\n\nCaptain chosen\nWWWWWWWWWWWW\n\nPlayer 1 is Captain.\n\nWWWWWWWWWWWW\n5\nBartholomew!\n3\n\n9 eligible voters\n\n1 abstentions or missing ballots",
+      "claim": null,
+      "publicFigures": 9,
+      "privateAnimations": 0,
+      "publicAnimations": 0,
+      "resultBounds": {
+        "top": 443.140625,
+        "bottom": 772,
+        "statusBottom": 52.59375,
+        "navTop": 780,
+        "scrollHeight": 323,
+        "clientHeight": 323,
+        "pointerEvents": "auto",
+        "overflow": "auto"
+      }
+    },
+    {
+      "name": "result-runoff",
+      "size": [
+        390,
+        844
+      ],
+      "enlarged": false,
+      "viewport": [
+        390,
+        844
+      ],
+      "pageScrolls": false,
+      "pageOverflowsSideways": false,
+      "boardScrollsInside": false,
+      "rowUnit": "74px",
+      "phase": "Vote result",
+      "strip": null,
+      "stripStep": null,
+      "stamp": null,
+      "tray": false,
+      "targets": [],
+      "overlaps": [],
+      "smallControls": [],
+      "statusClipped": false,
+      "bannerIconOverText": null,
+      "navLabelsOut": [],
+      "navigation": [
+        {
+          "id": "ms-phone-board",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 0,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        },
+        {
+          "id": "ms-phone-actions",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 78,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        },
+        {
+          "id": "ms-phone-pass",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": true,
+          "box": {
+            "x": 163,
+            "y": 761,
+            "w": 64,
+            "h": 64
+          }
+        },
+        {
+          "id": "ms-private-toggle",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 234,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        },
+        {
+          "id": "ms-phone-more",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 312,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        }
+      ],
+      "flyersOver": [],
+      "marks": {
+        "eligible": [],
+        "selected": [],
+        "picked": [],
+        "pending": [],
+        "other": []
+      },
+      "ghost": null,
+      "pass": "unavailable",
+      "focus": "connected-body",
+      "fxNodes": 0,
+      "moving": [],
+      "privateHooks": [],
+      "roleWords": [],
+      "commands": 0,
+      "resultId": "phase-result-1",
+      "outcome": "RUNOFF_REQUIRED",
+      "resultText": "Round 2 · Captain election\n\nRunoff required\n\nThe vote is tied. A new runoff follows.\n\nTied: WWWWWWWWWWWW, Bartholomew!\n\nWWWWWWWWWWWW\n4\nBartholomew!\n4\n\n9 eligible voters\n\n1 abstentions or missing ballots",
+      "claim": null,
+      "publicFigures": 9,
+      "privateAnimations": 0,
+      "publicAnimations": 0,
+      "resultBounds": {
+        "top": 448.046875,
+        "bottom": 772,
+        "statusBottom": 52.59375,
+        "navTop": 780,
+        "scrollHeight": 318,
+        "clientHeight": 318,
+        "pointerEvents": "auto",
+        "overflow": "auto"
+      }
+    },
+    {
+      "name": "result-abstain",
+      "size": [
+        390,
+        844
+      ],
+      "enlarged": false,
+      "viewport": [
+        390,
+        844
+      ],
+      "pageScrolls": false,
+      "pageOverflowsSideways": false,
+      "boardScrollsInside": false,
+      "rowUnit": "74px",
+      "phase": "Vote result",
+      "strip": null,
+      "stripStep": null,
+      "stamp": null,
+      "tray": false,
+      "targets": [],
+      "overlaps": [],
+      "smallControls": [],
+      "statusClipped": false,
+      "bannerIconOverText": null,
+      "navLabelsOut": [],
+      "navigation": [
+        {
+          "id": "ms-phone-board",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 0,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        },
+        {
+          "id": "ms-phone-actions",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 78,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        },
+        {
+          "id": "ms-phone-pass",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": true,
+          "box": {
+            "x": 163,
+            "y": 761,
+            "w": 64,
+            "h": 64
+          }
+        },
+        {
+          "id": "ms-private-toggle",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 234,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        },
+        {
+          "id": "ms-phone-more",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 312,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        }
+      ],
+      "flyersOver": [],
+      "marks": {
+        "eligible": [],
+        "selected": [],
+        "picked": [],
+        "pending": [],
+        "other": []
+      },
+      "ghost": null,
+      "pass": "unavailable",
+      "focus": "connected-body",
+      "fxNodes": 0,
+      "moving": [],
+      "privateHooks": [],
+      "roleWords": [],
+      "commands": 0,
+      "resultId": "phase-result-1",
+      "outcome": "NO_CAPTAIN_ELECTED",
+      "resultText": "Round 2 · Captain election\n\nNo Captain chosen\n\nThe vote selected no Captain.\n\n9 eligible voters\n\n9 abstentions or missing ballots",
+      "claim": null,
+      "publicFigures": 9,
+      "privateAnimations": 0,
+      "publicAnimations": 0,
+      "resultBounds": {
+        "top": 466.640625,
+        "bottom": 772,
+        "statusBottom": 52.59375,
+        "navTop": 780,
+        "scrollHeight": 299,
+        "clientHeight": 299,
+        "pointerEvents": "auto",
+        "overflow": "auto"
+      }
+    },
+    {
+      "name": "result-jailed",
+      "size": [
+        390,
+        844
+      ],
+      "enlarged": false,
+      "viewport": [
+        390,
+        844
+      ],
+      "pageScrolls": false,
+      "pageOverflowsSideways": false,
+      "boardScrollsInside": false,
+      "rowUnit": "74px",
+      "phase": "Vote result",
+      "strip": null,
+      "stripStep": null,
+      "stamp": null,
+      "tray": false,
+      "targets": [],
+      "overlaps": [],
+      "smallControls": [],
+      "statusClipped": false,
+      "bannerIconOverText": null,
+      "navLabelsOut": [],
+      "navigation": [
+        {
+          "id": "ms-phone-board",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 0,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        },
+        {
+          "id": "ms-phone-actions",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 78,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        },
+        {
+          "id": "ms-phone-pass",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": true,
+          "box": {
+            "x": 163,
+            "y": 761,
+            "w": 64,
+            "h": 64
+          }
+        },
+        {
+          "id": "ms-private-toggle",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 234,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        },
+        {
+          "id": "ms-phone-more",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 312,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        }
+      ],
+      "flyersOver": [],
+      "marks": {
+        "eligible": [],
+        "selected": [],
+        "picked": [],
+        "pending": [],
+        "other": []
+      },
+      "ghost": null,
+      "pass": "unavailable",
+      "focus": "connected-body",
+      "fxNodes": 0,
+      "moving": [],
+      "privateHooks": [],
+      "roleWords": [],
+      "commands": 0,
+      "resultId": "phase-result-1",
+      "outcome": "PLAYER_JAILED",
+      "resultText": "Round 2 · Jail vote\n\nJail vote result\nIvo\n\nPlayer 9 goes to Jail.\n\nAda\n3\nIvo\n5\n\n9 eligible voters\n\n1 abstentions or missing ballots",
+      "claim": null,
+      "publicFigures": 9,
+      "privateAnimations": 0,
+      "publicAnimations": 0,
+      "resultBounds": {
+        "top": 443.140625,
+        "bottom": 772,
+        "statusBottom": 52.59375,
+        "navTop": 780,
+        "scrollHeight": 323,
+        "clientHeight": 323,
+        "pointerEvents": "auto",
+        "overflow": "auto"
+      }
+    },
+    {
+      "name": "result-jail-tie",
+      "size": [
+        390,
+        844
+      ],
+      "enlarged": false,
+      "viewport": [
+        390,
+        844
+      ],
+      "pageScrolls": false,
+      "pageOverflowsSideways": false,
+      "boardScrollsInside": false,
+      "rowUnit": "74px",
+      "phase": "Vote result",
+      "strip": null,
+      "stripStep": null,
+      "stamp": null,
+      "tray": false,
+      "targets": [],
+      "overlaps": [],
+      "smallControls": [],
+      "statusClipped": false,
+      "bannerIconOverText": null,
+      "navLabelsOut": [],
+      "navigation": [
+        {
+          "id": "ms-phone-board",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 0,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        },
+        {
+          "id": "ms-phone-actions",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 78,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        },
+        {
+          "id": "ms-phone-pass",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": true,
+          "box": {
+            "x": 163,
+            "y": 761,
+            "w": 64,
+            "h": 64
+          }
+        },
+        {
+          "id": "ms-private-toggle",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 234,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        },
+        {
+          "id": "ms-phone-more",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 312,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        }
+      ],
+      "flyersOver": [],
+      "marks": {
+        "eligible": [],
+        "selected": [],
+        "picked": [],
+        "pending": [],
+        "other": []
+      },
+      "ghost": null,
+      "pass": "unavailable",
+      "focus": "connected-body",
+      "fxNodes": 0,
+      "moving": [],
+      "privateHooks": [],
+      "roleWords": [],
+      "commands": 0,
+      "resultId": "phase-result-1",
+      "outcome": "NO_JAIL_SELECTION",
+      "resultText": "Round 2 · Jail vote\n\nNo one selected for Jail\n\nThe vote is tied. No one goes to Jail.\n\nTied: Ada, Cleo\n\nAda\n4\nCleo\n4\n\n9 eligible voters\n\n1 abstentions or missing ballots",
+      "claim": null,
+      "publicFigures": 9,
+      "privateAnimations": 0,
+      "publicAnimations": 0,
+      "resultBounds": {
+        "top": 448.046875,
+        "bottom": 772,
+        "statusBottom": 52.59375,
+        "navTop": 780,
+        "scrollHeight": 318,
+        "clientHeight": 318,
+        "pointerEvents": "auto",
+        "overflow": "auto"
+      }
+    },
+    {
+      "name": "result-released",
+      "size": [
+        390,
+        844
+      ],
+      "enlarged": false,
+      "viewport": [
+        390,
+        844
+      ],
+      "pageScrolls": false,
+      "pageOverflowsSideways": false,
+      "boardScrollsInside": false,
+      "rowUnit": "74px",
+      "phase": "Vote result",
+      "strip": null,
+      "stripStep": null,
+      "stamp": null,
+      "tray": false,
+      "targets": [],
+      "overlaps": [],
+      "smallControls": [],
+      "statusClipped": false,
+      "bannerIconOverText": null,
+      "navLabelsOut": [],
+      "navigation": [
+        {
+          "id": "ms-phone-board",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 0,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        },
+        {
+          "id": "ms-phone-actions",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 78,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        },
+        {
+          "id": "ms-phone-pass",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": true,
+          "box": {
+            "x": 163,
+            "y": 761,
+            "w": 64,
+            "h": 64
+          }
+        },
+        {
+          "id": "ms-private-toggle",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 234,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        },
+        {
+          "id": "ms-phone-more",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 312,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        }
+      ],
+      "flyersOver": [],
+      "marks": {
+        "eligible": [],
+        "selected": [],
+        "picked": [],
+        "pending": [],
+        "other": []
+      },
+      "ghost": null,
+      "pass": "unavailable",
+      "focus": "connected-body",
+      "fxNodes": 0,
+      "moving": [],
+      "privateHooks": [],
+      "roleWords": [],
+      "commands": 0,
+      "resultId": "phase-result-1",
+      "outcome": "PLAYER_RELEASED",
+      "resultText": "Round 2 · Release vote\n\nRelease approved\nIvo\n\nPlayer 9 is released.\n\n5 Yes · 9 eligible voters",
+      "claim": null,
+      "publicFigures": 9,
+      "privateAnimations": 0,
+      "publicAnimations": 0,
+      "resultBounds": {
+        "top": 461.734375,
+        "bottom": 772,
+        "statusBottom": 52.59375,
+        "navTop": 780,
+        "scrollHeight": 304,
+        "clientHeight": 304,
+        "pointerEvents": "auto",
+        "overflow": "auto"
+      }
+    },
+    {
+      "name": "result-release-denied",
+      "size": [
+        390,
+        844
+      ],
+      "enlarged": false,
+      "viewport": [
+        390,
+        844
+      ],
+      "pageScrolls": false,
+      "pageOverflowsSideways": false,
+      "boardScrollsInside": false,
+      "rowUnit": "74px",
+      "phase": "Vote result",
+      "strip": null,
+      "stripStep": null,
+      "stamp": null,
+      "tray": false,
+      "targets": [],
+      "overlaps": [],
+      "smallControls": [],
+      "statusClipped": false,
+      "bannerIconOverText": null,
+      "navLabelsOut": [],
+      "navigation": [
+        {
+          "id": "ms-phone-board",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 0,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        },
+        {
+          "id": "ms-phone-actions",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 78,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        },
+        {
+          "id": "ms-phone-pass",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": true,
+          "box": {
+            "x": 163,
+            "y": 761,
+            "w": 64,
+            "h": 64
+          }
+        },
+        {
+          "id": "ms-private-toggle",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 234,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        },
+        {
+          "id": "ms-phone-more",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 312,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        }
+      ],
+      "flyersOver": [],
+      "marks": {
+        "eligible": [],
+        "selected": [],
+        "picked": [],
+        "pending": [],
+        "other": []
+      },
+      "ghost": null,
+      "pass": "unavailable",
+      "focus": "connected-body",
+      "fxNodes": 0,
+      "moving": [],
+      "privateHooks": [],
+      "roleWords": [],
+      "commands": 0,
+      "resultId": "phase-result-1",
+      "outcome": "RELEASE_DENIED",
+      "resultText": "Round 2 · Release vote\n\nRelease denied\nIvo\n\nPlayer 9 is not released.\n\n4 Yes · 9 eligible voters",
+      "claim": null,
+      "publicFigures": 9,
+      "privateAnimations": 0,
+      "publicAnimations": 0,
+      "resultBounds": {
+        "top": 461.734375,
+        "bottom": 772,
+        "statusBottom": 52.59375,
+        "navTop": 780,
+        "scrollHeight": 304,
+        "clientHeight": 304,
+        "pointerEvents": "auto",
+        "overflow": "auto"
+      }
+    },
+    {
+      "name": "hack-declaration-offer",
+      "size": [
+        390,
+        844
+      ],
+      "enlarged": false,
+      "viewport": [
+        390,
+        844
+      ],
+      "pageScrolls": false,
+      "pageOverflowsSideways": false,
+      "boardScrollsInside": false,
+      "rowUnit": "74px",
+      "phase": "Hack declaration",
+      "strip": "Declare a side",
+      "stripStep": "idle",
+      "stamp": null,
+      "tray": false,
+      "targets": [],
+      "overlaps": [],
+      "smallControls": [],
+      "statusClipped": false,
+      "bannerIconOverText": null,
+      "navLabelsOut": [],
+      "navigation": [
+        {
+          "id": "ms-phone-board",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 0,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        },
+        {
+          "id": "ms-phone-actions",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 78,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        },
+        {
+          "id": "ms-phone-pass",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": true,
+          "box": {
+            "x": 163,
+            "y": 761,
+            "w": 64,
+            "h": 64
+          }
+        },
+        {
+          "id": "ms-private-toggle",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 234,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        },
+        {
+          "id": "ms-phone-more",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 312,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        }
+      ],
+      "flyersOver": [],
+      "marks": {
+        "eligible": [],
+        "selected": [],
+        "picked": [],
+        "pending": [],
+        "other": []
+      },
+      "ghost": null,
+      "pass": "unavailable",
+      "focus": "ms-private-heading",
+      "fxNodes": 0,
+      "moving": [],
+      "privateHooks": [
+        "phone-strip"
+      ],
+      "roleWords": [
+        "Alien"
+      ],
+      "commands": 0,
+      "resultId": null,
+      "outcome": null,
+      "resultText": null,
+      "claim": "Private declaration\n\nChoose Blue, Red or Alien.\n\nOnly the two participants receive this declaration.",
+      "publicFigures": 9,
+      "privateAnimations": 0,
+      "publicAnimations": 0
+    },
+    {
+      "name": "hack-three-choices",
+      "size": [
+        390,
+        844
+      ],
+      "enlarged": false,
+      "viewport": [
+        390,
+        844
+      ],
+      "pageScrolls": false,
+      "pageOverflowsSideways": false,
+      "boardScrollsInside": false,
+      "rowUnit": "74px",
+      "phase": "Hack declaration",
+      "strip": "DECLARE A SIDE CHOOSING DECLARE A SIDE : Which side do you declare? These are the choices the server offers you now. Blue Red Alien Cancel",
+      "stripStep": "choosing",
+      "stamp": null,
+      "tray": false,
+      "targets": [],
+      "overlaps": [],
+      "smallControls": [],
+      "statusClipped": false,
+      "bannerIconOverText": null,
+      "navLabelsOut": [],
+      "navigation": [
+        {
+          "id": "ms-phone-board",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 0,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        },
+        {
+          "id": "ms-phone-actions",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 78,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        },
+        {
+          "id": "ms-phone-pass",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": true,
+          "box": {
+            "x": 163,
+            "y": 761,
+            "w": 64,
+            "h": 64
+          }
+        },
+        {
+          "id": "ms-private-toggle",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 234,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        },
+        {
+          "id": "ms-phone-more",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 312,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        }
+      ],
+      "flyersOver": [],
+      "marks": {
+        "eligible": [],
+        "selected": [],
+        "picked": [],
+        "pending": [],
+        "other": []
+      },
+      "ghost": null,
+      "pass": "unavailable",
+      "focus": "ms-action-step",
+      "fxNodes": 0,
+      "moving": [],
+      "privateHooks": [
+        "phone-strip"
+      ],
+      "roleWords": [
+        "Alien"
+      ],
+      "commands": 0,
+      "resultId": null,
+      "outcome": null,
+      "resultText": null,
+      "claim": "Private declaration\n\nChoose Blue, Red or Alien.\n\nOnly the two participants receive this declaration.",
+      "publicFigures": 9,
+      "privateAnimations": 0,
+      "publicAnimations": 0
+    },
+    {
+      "name": "hack-mid-entry-blur",
+      "size": [
+        390,
+        844
+      ],
+      "enlarged": false,
+      "viewport": [
+        390,
+        844
+      ],
+      "pageScrolls": false,
+      "pageOverflowsSideways": false,
+      "boardScrollsInside": false,
+      "rowUnit": "74px",
+      "phase": "Hack claim",
+      "strip": null,
+      "stripStep": null,
+      "stamp": null,
+      "tray": false,
+      "targets": [],
+      "overlaps": [],
+      "smallControls": [],
+      "statusClipped": false,
+      "bannerIconOverText": null,
+      "navLabelsOut": [],
+      "navigation": [
+        {
+          "id": "ms-phone-board",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 0,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        },
+        {
+          "id": "ms-phone-actions",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 78,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        },
+        {
+          "id": "ms-phone-pass",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": true,
+          "box": {
+            "x": 163,
+            "y": 761,
+            "w": 64,
+            "h": 64
+          }
+        },
+        {
+          "id": "ms-private-toggle",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 234,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        },
+        {
+          "id": "ms-phone-more",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 312,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        }
+      ],
+      "flyersOver": [],
+      "marks": {
+        "eligible": [],
+        "selected": [],
+        "picked": [],
+        "pending": [],
+        "other": []
+      },
+      "ghost": null,
+      "pass": "unavailable",
+      "focus": "ms-phone-actions",
+      "fxNodes": 0,
+      "moving": [],
+      "privateHooks": [],
+      "roleWords": [],
+      "commands": 0,
+      "resultId": null,
+      "outcome": null,
+      "resultText": null,
+      "claim": null,
+      "publicFigures": 9,
+      "privateAnimations": 0,
+      "publicAnimations": 0
+    },
+    {
+      "name": "hack-result-reopened",
+      "size": [
+        390,
+        844
+      ],
+      "enlarged": false,
+      "viewport": [
+        390,
+        844
+      ],
+      "pageScrolls": false,
+      "pageOverflowsSideways": false,
+      "boardScrollsInside": false,
+      "rowUnit": "74px",
+      "phase": "Hack claim",
+      "strip": null,
+      "stripStep": null,
+      "stamp": null,
+      "tray": false,
+      "targets": [],
+      "overlaps": [],
+      "smallControls": [],
+      "statusClipped": false,
+      "bannerIconOverText": null,
+      "navLabelsOut": [],
+      "navigation": [
+        {
+          "id": "ms-phone-board",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 0,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        },
+        {
+          "id": "ms-phone-actions",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 78,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        },
+        {
+          "id": "ms-phone-pass",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": true,
+          "box": {
+            "x": 163,
+            "y": 761,
+            "w": 64,
+            "h": 64
+          }
+        },
+        {
+          "id": "ms-private-toggle",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 234,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        },
+        {
+          "id": "ms-phone-more",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 312,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        }
+      ],
+      "flyersOver": [],
+      "marks": {
+        "eligible": [],
+        "selected": [],
+        "picked": [],
+        "pending": [],
+        "other": []
+      },
+      "ghost": null,
+      "pass": "unavailable",
+      "focus": "ms-phone-actions",
+      "fxNodes": 0,
+      "moving": [],
+      "privateHooks": [],
+      "roleWords": [],
+      "commands": 0,
+      "resultId": null,
+      "outcome": null,
+      "resultText": null,
+      "claim": "Private Hack claim\n\nPlayer 3 claims BLUE.\n\nDeclarations may be bluffs.",
+      "publicFigures": 9,
+      "privateAnimations": 0,
+      "publicAnimations": 0
+    },
+    {
+      "name": "hack-conversation",
+      "size": [
+        390,
+        844
+      ],
+      "enlarged": false,
+      "viewport": [
+        390,
+        844
+      ],
+      "pageScrolls": false,
+      "pageOverflowsSideways": false,
+      "boardScrollsInside": false,
+      "rowUnit": "74px",
+      "phase": "Hack",
+      "strip": null,
+      "stripStep": null,
+      "stamp": null,
+      "tray": false,
+      "targets": [],
+      "overlaps": [],
+      "smallControls": [],
+      "statusClipped": false,
+      "bannerIconOverText": null,
+      "navLabelsOut": [],
+      "navigation": [
+        {
+          "id": "ms-phone-board",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 0,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        },
+        {
+          "id": "ms-phone-actions",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 78,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        },
+        {
+          "id": "ms-phone-pass",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": true,
+          "box": {
+            "x": 163,
+            "y": 761,
+            "w": 64,
+            "h": 64
+          }
+        },
+        {
+          "id": "ms-private-toggle",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 234,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        },
+        {
+          "id": "ms-phone-more",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 312,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        }
+      ],
+      "flyersOver": [],
+      "marks": {
+        "eligible": [],
+        "selected": [],
+        "picked": [],
+        "pending": [],
+        "other": []
+      },
+      "ghost": null,
+      "pass": "unavailable",
+      "focus": "ms-phone-actions",
+      "fxNodes": 0,
+      "moving": [],
+      "privateHooks": [],
+      "roleWords": [],
+      "commands": 0,
+      "resultId": null,
+      "outcome": null,
+      "resultText": null,
+      "claim": "Private conversation\n\nPlayer 3 claims BLUE.\n\nDeclarations may be bluffs.",
+      "publicFigures": 9,
+      "privateAnimations": 0,
+      "publicAnimations": 0
+    },
+    {
+      "name": "hack-reduced-mid-entry",
+      "size": [
+        390,
+        844
+      ],
+      "enlarged": false,
+      "viewport": [
+        390,
+        844
+      ],
+      "pageScrolls": false,
+      "pageOverflowsSideways": false,
+      "boardScrollsInside": false,
+      "rowUnit": "74px",
+      "phase": "Hack claim",
+      "strip": null,
+      "stripStep": null,
+      "stamp": null,
+      "tray": false,
+      "targets": [],
+      "overlaps": [],
+      "smallControls": [],
+      "statusClipped": false,
+      "bannerIconOverText": null,
+      "navLabelsOut": [],
+      "navigation": [
+        {
+          "id": "ms-phone-board",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 0,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        },
+        {
+          "id": "ms-phone-actions",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 78,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        },
+        {
+          "id": "ms-phone-pass",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": true,
+          "box": {
+            "x": 163,
+            "y": 761,
+            "w": 64,
+            "h": 64
+          }
+        },
+        {
+          "id": "ms-private-toggle",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 234,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        },
+        {
+          "id": "ms-phone-more",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 312,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        }
+      ],
+      "flyersOver": [],
+      "marks": {
+        "eligible": [],
+        "selected": [],
+        "picked": [],
+        "pending": [],
+        "other": []
+      },
+      "ghost": null,
+      "pass": "unavailable",
+      "focus": "ms-phone-actions",
+      "fxNodes": 0,
+      "moving": [],
+      "privateHooks": [],
+      "roleWords": [],
+      "commands": 0,
+      "resultId": null,
+      "outcome": null,
+      "resultText": null,
+      "claim": "Private Hack claim\n\nPlayer 3 claims RED.\n\nDeclarations may be bluffs.",
+      "publicFigures": 9,
+      "privateAnimations": 0,
+      "publicAnimations": 0
+    },
+    {
+      "name": "vote-reduced-mid-entry",
+      "size": [
+        390,
+        844
+      ],
+      "enlarged": false,
+      "viewport": [
+        390,
+        844
+      ],
+      "pageScrolls": false,
+      "pageOverflowsSideways": false,
+      "boardScrollsInside": false,
+      "rowUnit": "74px",
+      "phase": "Vote result",
+      "strip": null,
+      "stripStep": null,
+      "stamp": null,
+      "tray": false,
+      "targets": [],
+      "overlaps": [],
+      "smallControls": [],
+      "statusClipped": false,
+      "bannerIconOverText": null,
+      "navLabelsOut": [],
+      "navigation": [
+        {
+          "id": "ms-phone-board",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 0,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        },
+        {
+          "id": "ms-phone-actions",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 78,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        },
+        {
+          "id": "ms-phone-pass",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": true,
+          "box": {
+            "x": 163,
+            "y": 761,
+            "w": 64,
+            "h": 64
+          }
+        },
+        {
+          "id": "ms-private-toggle",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 234,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        },
+        {
+          "id": "ms-phone-more",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 312,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        }
+      ],
+      "flyersOver": [],
+      "marks": {
+        "eligible": [],
+        "selected": [],
+        "picked": [],
+        "pending": [],
+        "other": []
+      },
+      "ghost": null,
+      "pass": "unavailable",
+      "focus": "connected-body",
+      "fxNodes": 0,
+      "moving": [],
+      "privateHooks": [],
+      "roleWords": [],
+      "commands": 0,
+      "resultId": "phase-result-1",
+      "outcome": "RUNOFF_REQUIRED",
+      "resultText": "Round 2 · Captain election\n\nRunoff required\n\nThe vote is tied. A new runoff follows.\n\nTied: WWWWWWWWWWWW, Bartholomew!\n\nWWWWWWWWWWWW\n4\nBartholomew!\n4\n\n9 eligible voters\n\n1 abstentions or missing ballots",
+      "claim": null,
+      "publicFigures": 9,
+      "privateAnimations": 0,
+      "publicAnimations": 0,
+      "resultBounds": {
+        "top": 448.046875,
+        "bottom": 772,
+        "statusBottom": 52.59375,
+        "navTop": 780,
+        "scrollHeight": 318,
+        "clientHeight": 318,
+        "pointerEvents": "auto",
+        "overflow": "auto"
+      }
+    },
+    {
+      "name": "vote-enlarged",
+      "size": [
+        390,
+        844
+      ],
+      "enlarged": true,
+      "viewport": [
+        390,
+        844
+      ],
+      "pageScrolls": false,
+      "pageOverflowsSideways": false,
+      "boardScrollsInside": true,
+      "rowUnit": "74px",
+      "phase": "Vote result",
+      "strip": null,
+      "stripStep": null,
+      "stamp": null,
+      "tray": false,
+      "targets": [],
+      "overlaps": [],
+      "smallControls": [],
+      "statusClipped": false,
+      "bannerIconOverText": null,
+      "navLabelsOut": [],
+      "navigation": [
+        {
+          "id": "ms-phone-board",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 0,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        },
+        {
+          "id": "ms-phone-actions",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 78,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        },
+        {
+          "id": "ms-phone-pass",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": true,
+          "box": {
+            "x": 163,
+            "y": 761,
+            "w": 64,
+            "h": 64
+          }
+        },
+        {
+          "id": "ms-private-toggle",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 234,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        },
+        {
+          "id": "ms-phone-more",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 312,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        }
+      ],
+      "flyersOver": [],
+      "marks": {
+        "eligible": [],
+        "selected": [],
+        "picked": [],
+        "pending": [],
+        "other": []
+      },
+      "ghost": null,
+      "pass": "unavailable",
+      "focus": "connected-body",
+      "fxNodes": 0,
+      "moving": [],
+      "privateHooks": [],
+      "roleWords": [],
+      "commands": 0,
+      "resultId": "phase-result-1",
+      "outcome": "RUNOFF_REQUIRED",
+      "resultText": "Round 2 · Captain election\n\nRunoff required\n\nThe vote is tied. A new runoff follows.\n\nTied: WWWWWWWWWWWW, Bartholomew!\n\nWWWWWWWWWWWW\n4\nBartholomew!\n4\n\n9 eligible voters\n\n1 abstentions or missing ballots",
+      "claim": null,
+      "publicFigures": 9,
+      "privateAnimations": 0,
+      "publicAnimations": 0,
+      "resultBounds": {
+        "top": 281.484375,
+        "bottom": 772,
+        "statusBottom": 92.1875,
+        "navTop": 780,
+        "scrollHeight": 485,
+        "clientHeight": 485,
+        "pointerEvents": "auto",
+        "overflow": "auto"
+      }
+    },
+    {
+      "name": "vote-enlarged-menu",
+      "size": [
+        390,
+        844
+      ],
+      "enlarged": true,
+      "viewport": [
+        390,
+        844
+      ],
+      "pageScrolls": false,
+      "pageOverflowsSideways": false,
+      "boardScrollsInside": false,
+      "rowUnit": "74px",
+      "phase": "Vote result",
+      "strip": null,
+      "stripStep": null,
+      "stamp": null,
+      "tray": false,
+      "targets": [],
+      "overlaps": [],
+      "smallControls": [],
+      "statusClipped": false,
+      "bannerIconOverText": null,
+      "navLabelsOut": [],
+      "navigation": [
+        {
+          "id": "ms-phone-board",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 0,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        },
+        {
+          "id": "ms-phone-actions",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 78,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        },
+        {
+          "id": "ms-phone-pass",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": true,
+          "box": {
+            "x": 163,
+            "y": 761,
+            "w": 64,
+            "h": 64
+          }
+        },
+        {
+          "id": "ms-private-toggle",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 234,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        },
+        {
+          "id": "ms-phone-more",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 312,
+            "y": 781,
+            "w": 78,
+            "h": 63
+          }
+        }
+      ],
+      "flyersOver": [],
+      "marks": {
+        "eligible": [],
+        "selected": [],
+        "picked": [],
+        "pending": [],
+        "other": []
+      },
+      "ghost": null,
+      "pass": "unavailable",
+      "focus": "phone-menu-heading",
+      "fxNodes": 0,
+      "moving": [],
+      "privateHooks": [],
+      "roleWords": [],
+      "commands": 0,
+      "resultId": "phase-result-1",
+      "outcome": "RUNOFF_REQUIRED",
+      "resultText": "Round 2 · Captain election\n\nRunoff required\n\nThe vote is tied. A new runoff follows.\n\n9 eligible voters\n\n1 abstentions or missing ballots",
+      "claim": null,
+      "publicFigures": 9,
+      "privateAnimations": 0,
+      "publicAnimations": 0,
+      "resultBounds": {
+        "top": 193.1875,
+        "bottom": 469.515625,
+        "statusBottom": 92.1875,
+        "navTop": 780,
+        "scrollHeight": 270,
+        "clientHeight": 270,
+        "pointerEvents": "auto",
+        "overflow": "auto"
+      }
+    },
+    {
+      "name": "hack-claim-with-uncertain-receipt",
+      "size": [
+        320,
+        568
+      ],
+      "enlarged": false,
+      "viewport": [
+        320,
+        568
+      ],
+      "pageScrolls": false,
+      "pageOverflowsSideways": false,
+      "boardScrollsInside": false,
+      "rowUnit": "48.5px",
+      "phase": "Hack claim",
+      "strip": "DECLARE A SIDE CHECKING DECLARE A SIDE : Checking what the server did with your action…",
+      "stripStep": "busy",
+      "stamp": "Checking",
+      "tray": false,
+      "targets": [],
+      "overlaps": [],
+      "smallControls": [],
+      "statusClipped": false,
+      "bannerIconOverText": null,
+      "navLabelsOut": [],
+      "navigation": [
+        {
+          "id": "ms-phone-board",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 0,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        },
+        {
+          "id": "ms-phone-actions",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 64,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        },
+        {
+          "id": "ms-phone-pass",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": true,
+          "box": {
+            "x": 131,
+            "y": 497,
+            "w": 58,
+            "h": 58
+          }
+        },
+        {
+          "id": "ms-private-toggle",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 192,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        },
+        {
+          "id": "ms-phone-more",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 256,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        }
+      ],
+      "flyersOver": [],
+      "marks": {
+        "eligible": [],
+        "selected": [],
+        "picked": [],
+        "pending": [],
+        "other": []
+      },
+      "ghost": null,
+      "pass": "unavailable",
+      "focus": "ms-action-title",
+      "fxNodes": 0,
+      "moving": [],
+      "privateHooks": [
+        "phone-strip"
+      ],
+      "roleWords": [],
+      "commands": 1,
+      "resultId": null,
+      "outcome": null,
+      "resultText": null,
+      "claim": "Private Hack claim\n\nPlayer 3 claims BLUE.\n\nDeclarations may be bluffs.",
+      "publicFigures": 9,
+      "privateAnimations": 0,
+      "publicAnimations": 0
+    },
+    {
+      "name": "hack-same-receipt-recovered",
+      "size": [
+        320,
+        568
+      ],
+      "enlarged": false,
+      "viewport": [
+        320,
+        568
+      ],
+      "pageScrolls": false,
+      "pageOverflowsSideways": false,
+      "boardScrollsInside": false,
+      "rowUnit": "40.25px",
+      "phase": "Hack claim",
+      "strip": "DECLARE A SIDE ACCEPTED DECLARE A SIDE : Declaration of Blue accepted. The private Hack claim follows the current server phase. Done",
+      "stripStep": "result",
+      "stamp": "Accepted",
+      "tray": false,
+      "targets": [],
+      "overlaps": [],
+      "smallControls": [],
+      "statusClipped": false,
+      "bannerIconOverText": null,
+      "navLabelsOut": [],
+      "navigation": [
+        {
+          "id": "ms-phone-board",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 0,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        },
+        {
+          "id": "ms-phone-actions",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 64,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        },
+        {
+          "id": "ms-phone-pass",
+          "visible": true,
+          "onScreen": true,
+          "disabled": true,
+          "hit": true,
+          "raisedHit": true,
+          "box": {
+            "x": 131,
+            "y": 497,
+            "w": 58,
+            "h": 58
+          }
+        },
+        {
+          "id": "ms-private-toggle",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 192,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        },
+        {
+          "id": "ms-phone-more",
+          "visible": true,
+          "onScreen": true,
+          "disabled": false,
+          "hit": true,
+          "raisedHit": null,
+          "box": {
+            "x": 256,
+            "y": 513,
+            "w": 64,
+            "h": 55
+          }
+        }
+      ],
+      "flyersOver": [],
+      "marks": {
+        "eligible": [],
+        "selected": [],
+        "picked": [],
+        "pending": [],
+        "other": []
+      },
+      "ghost": null,
+      "pass": "unavailable",
+      "focus": "ms-private-heading",
+      "fxNodes": 0,
+      "moving": [],
+      "privateHooks": [
+        "phone-strip"
+      ],
+      "roleWords": [],
+      "commands": 1,
+      "resultId": null,
+      "outcome": null,
+      "resultText": null,
+      "claim": "Private Hack claim\n\nPlayer 3 claims BLUE.\n\nDeclarations may be bluffs.",
+      "publicFigures": 9,
+      "privateAnimations": 0,
+      "publicAnimations": 0
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+ "schema": "mothership.balance.controls/1",
+ "engine": {
+  "adapter": "full-game-v1",
+  "engineVersion": "full-game-1.0.0",
+  "rulesetVersion": "in-person-v1-2026-10-06",
+  "rulesetHash": "6ca355ebf3553e24a16eae847f5b550b1d3da8bd0a2daf80f69ec94dd2809a90",
+  "protocolVersion": 2
+ },
+ "engineCommit": "8d4a2e5dc47eb827dbcbfd8382755db2fa3b0bde",
+ "node": "v22.21.1",
+ "modes": {
+  "7": {
+   "scenarios": 138,
+   "controls": 1316,
+   "detected": 1316,
+   "undetected": 0,
+   "baselineNotPassing": 0
+  },
+  "8": {
+   "scenarios": 140,
+   "controls": 1296,
+   "detected": 1296,
+   "undetected": 0,
+   "baselineNotPassing": 0
+  },
+  "9": {
+   "scenarios": 145,
+   "controls": 1518,
+   "detected": 1518,
+   "undetected": 0,
+   "baselineNotPassing": 0
+  }
+ },
+ "undetected": [],
+ "baselineFailures": [],
+ "verdict": "passed"
+}

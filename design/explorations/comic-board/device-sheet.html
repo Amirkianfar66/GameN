@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<!-- mothership:dev-only -->
+<title>Mothership design — comic board exploration, the nine role devices (development only)</title>
+<style>
+  html, body { margin: 0; background: #10141C; color: #F4EBDD; font: 14px/1.4 system-ui, sans-serif; }
+  main { padding: 20px; display: grid; gap: 18px; max-width: 1180px; }
+  h1 { font-size: 18px; margin: 0; }
+  p { margin: 0; color: #B9C4D3; max-width: 62em; }
+  .row { display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); gap: 10px; }
+  figure { margin: 0; padding: 8px 4px 6px; background: #F4EBDD; color: #151923; text-align: center; font-weight: 700; font-size: 12px; }
+  figure img { display: block; width: 100%; height: auto; }
+  .on { position: relative; background: #E3D6C2; aspect-ratio: 5 / 6; overflow: hidden; }
+  .on .person { position: absolute; left: 4%; top: 3%; width: 86%; }
+  .on .device { position: absolute; right: -6%; bottom: -9%; width: 70%; }
+</style>
+</head>
+<body>
+<main id="page"></main>
+<script type="module">
+  import { CREW, ROLES } from './rooms.js';
+  window.__designReady = false;
+  const page = document.getElementById('page');
+  const add = (tag, text, parent = page) => { const node = document.createElement(tag); if (text) node.textContent = text; parent.append(node); return node; };
+  const loads = [];
+  const picture = (src, parent, className) => { const image = add('img', null, parent); image.alt = ''; image.src = src; if (className) image.className = className; loads.push(image.decode().catch(() => {})); return image; };
+  add('h1', 'Nine role devices');
+  add('p', 'PRIVATE. A role is a device added to the player’s own character, on that player’s own screen and nowhere else. The hand and sleeve are the crew suit, so one drawing serves every character. The accent is the team color.');
+  const row = add('div'); row.className = 'row';
+  for (const each of ROLES) { const figure = add('figure', null, row); picture(each.art, figure); add('span', `${each.role} · ${each.team}`, figure); }
+  add('h1', 'On a character: one device on each of the nine');
+  const second = add('div'); second.className = 'row';
+  ROLES.forEach((each, index) => { const figure = add('figure', null, second); const on = add('div', null, figure); on.className = 'on'; picture(CREW[index].art, on, 'person'); picture(each.art, on, 'device'); add('span', `${CREW[index].sign} as ${each.role}`, figure); });
+  await Promise.all(loads);
+  window.__designReady = true;
+</script>
+</body>
+</html>

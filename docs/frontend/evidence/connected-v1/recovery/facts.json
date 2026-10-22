@@ -1,0 +1,70 @@
+{
+  "run": {
+    "startedAt": "2026-10-06T23:16:16.597Z",
+    "origin": "http://127.0.0.1:5173",
+    "scenario": "recovery",
+    "players": 7,
+    "browser": "Chrome/155.0.8059.39",
+    "previewServer": "already running",
+    "pageLoads": {
+      "host": 2,
+      "display": 1,
+      "player-1": 1,
+      "player-2": 1,
+      "player-3": 1,
+      "player-4": 1,
+      "player-5": 1,
+      "player-6": 1,
+      "player-7": 2,
+      "replacement": 2,
+      "latecomer": 1
+    }
+  },
+  "steps": [
+    {
+      "step": "1. The host creates a seven-player lobby",
+      "statements": [
+        "One v1CreateMatch from the host page; the answer named a match and a twelve-character room code.",
+        "The host console then read the lobby from its own session document and the lobby document: 0 of 7 seated, status \"lobby\"."
+      ]
+    },
+    {
+      "step": "2. Players authenticate and request admission",
+      "statements": [
+        "9 browser contexts signed in anonymously to the Auth emulator and hold 9 different identities.",
+        "7 of them asked to join with the room code (4 starting in Room A, 3 in Room B) and are waiting; none shows anything of a match."
+      ]
+    },
+    {
+      "step": "3. The host approves seats and starts the match",
+      "statements": [
+        "The host console listed 7 requests; each was seated with the keyboard alone (Tab, Enter), 7 v1ApproveAdmission calls, and each player page learned its seat from its own admission document.",
+        "The display was admitted by the identifier it shows, and showed no match before the start.",
+        "One v1StartMatch; the host console then read status \"running\"."
+      ]
+    },
+    {
+      "step": "R. A seat is moved to another device with a one-time code (seven players)",
+      "statements": [
+        "With the keyboard, the host asked for a code for Player 7. The answer was dropped in the browser (arranged). The console said no answer had come, kept the request, would not let the seat be changed, and kept the request's identifiers, and nothing else, for a reload.",
+        "The console was reloaded. It still had the request and sent the very same one again. The service answered that a code had been issued and did not give it out a second time; the console said so, and showed no code.",
+        "Only then was a new request made: one v1IssueSeatRecovery with a new identifier, answered with a 43-character code that the server said is good for 10.0 minutes. The console showed it, labeled with its seat; it was not in the page's storage or address. Nothing changed for the seat's device.",
+        "A device that had never been in the match entered the match identifier and the code. Its request was dropped before it reached the server, twice (arranged): the second was the very same request. The code left the field as the request was made and was in no storage; the tab noted only which match it had asked for a seat in. The server refused it the lobby, the page said the server had not given it a seat, and the seat stayed with its device.",
+        "That page was reloaded: the request and the code were gone, the note was not, and it said the same. Starting over brought the form back.",
+        "The code was entered again and the request reached the server, but its answer was dropped (arranged). Without anything more being pressed, the page found that the server now let it read the match, and opened it as Player 7. With its private panel opened it showed the role and everything else the old device had been told. It keeps its sign-in, the match and the seat's number, and not the code.",
+        "The device that had held the seat was refused its view by the server. It let go of everything at once and said so: \"No access to this match\", with no role, nothing it had been told and no part of the match left in its page or its model. A reload did not bring the match back to it.",
+        "Nothing public changed: the display’s board was identical, and the six other phones stayed current with their own roles.",
+        "A third device that tried the same code was refused by the server (FORBIDDEN) and shown nothing. The code was not left in its field, and its tab kept nothing of the match.",
+        "The new device then moved the seat to Room B: one MOVE, accepted, and the display showed it. The old device sent nothing at any point.",
+        "NOT RUN: a code that has expired (ten minutes); a request refused after an earlier try of it went unanswered; giving a request up; moving the host’s own identity, which the service has no operation for."
+      ]
+    }
+  ],
+  "match": {
+    "note": "A throwaway match on the local emulator with anonymous emulator identities. Nothing here is a real match or a real person. The recovery code is not recorded.",
+    "playerCount": 7,
+    "seatMoved": 7,
+    "codeValidForMs": 600000,
+    "newDeviceMovedTo": "Room B"
+  }
+}

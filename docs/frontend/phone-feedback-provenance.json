@@ -1,0 +1,32 @@
+{
+  "status": "Archived provisional #124 consumer provenance, preserved at PR #132 head 3dbc3699c7589d1031f5e2ca6b163e5cf150a246; its runtime ports are retired in this continuation",
+  "supersededBy": "claude-phone-kit-provenance.json",
+  "sourceCommit": "44c25268a04debaa00d6a7ec3f02d254775704c8",
+  "sourceManifest": "design/phone-feedback/assets/manifest.json",
+  "sourceManifestSha256": "03cdd6b0f02477b2f094c7e502249f5780c7dfc9685ba2cc1c16df5e8c66d77e",
+  "ports": {
+    "apps/game/hosted/scene-drawing/wardrobe.mjs": {
+      "source": "design/phone-feedback/source/wardrobe.mjs",
+      "sourceSha256": "9eb24fce2a7559a45e6442de54d720d33a246560758d44bc3e454bb19419fd35",
+      "adaptedPath": "design/phone-feedback/ports/wardrobe.mjs",
+      "sha256": "1150f67bea3df821fe513777b3de353fb0d54b82fb90b4a4e6160cf1fe8b95fd"
+    },
+    "apps/game/hosted/scene-drawing/compact-layout.mjs": {
+      "source": "design/phone-feedback/source/compact-layout.mjs",
+      "sourceSha256": "9ce56537b5f0e0d85ee8da7a65c507fb93108b904334e15b08731be5d21dc87f",
+      "adaptedPath": "design/phone-feedback/ports/compact-layout.mjs",
+      "sha256": "cc4f06755db5651334dc658745ccf2f4e18c3e9d57ab92ed5a9259af8cc383a3"
+    },
+    "apps/game/hosted/scene-drawing/icons.mjs": {
+      "source": "design/phone-feedback/source/icons.mjs",
+      "sourceSha256": "4cfb567bad09e58d675b76d3226e4c37f9baf23904fe9092badea2f0b8dbdefc",
+      "adaptedPath": "design/phone-feedback/ports/icons.mjs",
+      "sha256": "9b4913f9b5d78d58a543e7d4d163e5870f840361b7d13143752b532f710a4380"
+    }
+  },
+  "tokens": {
+    "source": "design/phone-feedback/contract/tokens.json",
+    "sourceSha256": "c8afa32df4b29df64f7e037a408c33702f5b7877867ca5ffa24626b767d5c38d",
+    "path": "apps/game/hosted/phone-feedback-tokens.json"
+  }
+}

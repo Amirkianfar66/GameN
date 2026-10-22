@@ -1,0 +1,141 @@
+{
+ "schema": "mothership.balance.walk/1",
+ "pins": {
+  "repository": "Amirkianfar66/GameN",
+  "baseCommit": "333c9e820f362a211352bc689372663f29b73ac4",
+  "branch": "agent/game-balance-ci-gate",
+  "workingTreeCommit": "fc42c4c8482334875c571c883badd29aeeca0654",
+  "sourceManifestSha256": "34e7c08cda13dcc329f7a1d5f7656ab59db1fc834460b5ad9d3590619b5479cc",
+  "ruleSourceHashes": {
+   "rules/overlays/consolidated-decisions-2026-09-26.json": "57dda3cc4b6f421254d2e54f9743d5dccd5d1fd2e006972d7eebc63a3c9729d5",
+   "rules/overlays/direct-shot-decision.json": "58aa22d4bc3bc2493dc0c223c8b4e283a406b5a170d491136263dd3c794f73be",
+   "rules/overlays/final-showdown-decision.json": "f30e50eea88a1ec60e43a568c4ca2afc8190d7790a72bcd18cc690eca7606de1",
+   "rules/overlays/location-board-layout-v1.json": "a417d0b304480d9bbdc4fde2bdc406fcb4f8f236af21c9e972e97a801bb46691",
+   "rules/overlays/movement-decision.json": "7e41d15e45d167f53dfa4dddb1a9cdf79b10ce9094c3afe54b01b8eaa5d1ea8d",
+   "rules/overlays/player-modes-officer.json": "8afa1aa34e350453e1804b59d631f0982f8cb5b1f0d1dac51e7e9ed442331b19",
+   "rules/sources/v2.1-decisions.json": "5cb9fe866697c3e3af33cd97672b56d1abcca3d8ea1164ded5cd4eee998aa564"
+  },
+  "v1OverlaySha256": "6ca355ebf3553e24a16eae847f5b550b1d3da8bd0a2daf80f69ec94dd2809a90",
+  "v1ManifestSha256": "451fc57ec28355e022d7b2c0d588ae4d92bad876dd841bdf599467ff920eedf2",
+  "scenarioFileHashes": {
+   "mode-7.scenarios.json": "228e5c994b4ee5ebe132f01ac5227edec736f0e8e6227b6128f912901ca24504",
+   "mode-8.scenarios.json": "2333cd0b562e578b732ecefad82b0a9925d9a058450426811a695f90f3cb509d",
+   "mode-9.scenarios.json": "26d1af6c9d294841c8356399082efa391c8d62fad09c5af8d6d4dfbcccfca61b",
+   "unsupported.scenarios.json": "62f2b492db28384a1c17cece2d05d44b7b2caef34bc0eefc910ef9562a8d89a8"
+  },
+  "rulebookSha256": "0b58e8b677b95dbc092b65f0e60b6b79802b60931849c5555da3a3dbdbffb190",
+  "engine": {
+   "adapter": "full-game-v1",
+   "engineVersion": "full-game-1.0.0",
+   "rulesetVersion": "in-person-v1-2026-10-06",
+   "rulesetHash": "6ca355ebf3553e24a16eae847f5b550b1d3da8bd0a2daf80f69ec94dd2809a90",
+   "protocolVersion": 2
+  },
+  "engineCommit": "71dfd0277c6ccc4a5dd78b9702face98a46310b8",
+  "engineCommitBasis": "head of the engine checkout",
+  "engineTreeClean": true,
+  "engineBuildSha256": "6f235aff92dd4c0775e388e5436301e32a22441336b15e28b3514b60b3470826",
+  "engineOrigin": "built checkout outside this worktree (--engine-root)",
+  "runner": "@mothership/balance seeded playouts",
+  "node": "v22.21.1",
+  "generatedAt": "2026-10-06T23:28:23.290Z"
+ },
+ "engine": {
+  "adapter": "full-game-v1",
+  "engineVersion": "full-game-1.0.0",
+  "rulesetVersion": "in-person-v1-2026-10-06",
+  "rulesetHash": "6ca355ebf3553e24a16eae847f5b550b1d3da8bd0a2daf80f69ec94dd2809a90",
+  "protocolVersion": 2
+ },
+ "engineCommit": "71dfd0277c6ccc4a5dd78b9702face98a46310b8",
+ "policy": {
+  "activity": 0.6,
+  "noise": 0.25,
+  "coordination": 0.5,
+  "maxPhases": 400,
+  "description": "uniform random choice among offered commands, plus arbitrary commands"
+ },
+ "seedsPerMode": 200,
+ "seedLabels": "walk-1 .. walk-200",
+ "node": "v22.21.1",
+ "modes": {
+  "7": {
+   "playouts": 200,
+   "completed": 200,
+   "phases": 10108,
+   "commandsAccepted": 16974,
+   "commandsRejected": 17490,
+   "invariantViolations": 0,
+   "hintMismatches": 0,
+   "replayMismatches": 0,
+   "mostEliminatedBeforeShowdown": 1,
+   "mostJailedAtOnce": 5,
+   "windowMinutes": {
+    "min": 47,
+    "max": 56
+   },
+   "examples": [],
+   "terminalReached": {
+    "Blue": true,
+    "Red": true,
+    "Alien": false,
+    "Draw": true,
+    "alienCoWin": true,
+    "unfinished": 0
+   },
+   "showdownReached": true
+  },
+  "8": {
+   "playouts": 200,
+   "completed": 200,
+   "phases": 11230,
+   "commandsAccepted": 18899,
+   "commandsRejected": 21970,
+   "invariantViolations": 0,
+   "hintMismatches": 0,
+   "replayMismatches": 0,
+   "mostEliminatedBeforeShowdown": 1,
+   "mostJailedAtOnce": 5,
+   "windowMinutes": {
+    "min": 48,
+    "max": 62
+   },
+   "examples": [],
+   "terminalReached": {
+    "Blue": true,
+    "Red": true,
+    "Alien": false,
+    "Draw": true,
+    "alienCoWin": true,
+    "unfinished": 0
+   },
+   "showdownReached": true
+  },
+  "9": {
+   "playouts": 200,
+   "completed": 200,
+   "phases": 12314,
+   "commandsAccepted": 20752,
+   "commandsRejected": 27599,
+   "invariantViolations": 0,
+   "hintMismatches": 0,
+   "replayMismatches": 0,
+   "mostEliminatedBeforeShowdown": 2,
+   "mostJailedAtOnce": 5,
+   "windowMinutes": {
+    "min": 55,
+    "max": 66
+   },
+   "examples": [],
+   "terminalReached": {
+    "Blue": true,
+    "Red": true,
+    "Alien": false,
+    "Draw": true,
+    "alienCoWin": true,
+    "unfinished": 0
+   },
+   "showdownReached": true
+  }
+ }
+}

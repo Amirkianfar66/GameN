@@ -1,0 +1,14 @@
+{
+  "//": "mothership:dev-only — isolated local comic acceptance, not a cloud deployment configuration",
+  "firestore": {
+    "rules": "infra/firebase/firestore.rules",
+    "indexes": "infra/firebase/firestore.indexes.json"
+  },
+  "emulators": {
+    "auth": { "host": "127.0.0.1", "port": 9399 },
+    "firestore": { "host": "127.0.0.1", "port": 8380, "websocketPort": 9154 },
+    "hub": { "host": "127.0.0.1", "port": 4504 },
+    "logging": { "host": "127.0.0.1", "port": 4604 },
+    "ui": { "enabled": false }
+  }
+}

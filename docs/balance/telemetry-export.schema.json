@@ -1,0 +1,319 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "mothership.balance.match-record/1",
+  "title": "Mothership restricted post-match research record",
+  "description": "One record per match. Created only after the match has ended. Classified restricted-research as a whole. See docs/balance/telemetry-spec.md. Spoken Hack content and direct identifiers are never collected.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "classification", "recordStatus", "provenance", "session", "participants", "rulesDeviations", "outcome", "pace",
+    "agency", "combat", "officer", "information", "endgame", "experience", "ruleProblems", "exclusion", "facilitatorNotes"
+  ],
+  "properties": {
+    "schema": { "const": "mothership.balance.match-record/1" },
+    "classification": { "const": "restricted-research" },
+    "recordStatus": { "enum": ["template", "incomplete", "complete"] },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["matchId", "playedOn", "mode", "optionalPowers", "cohort", "rulesetVersion", "rulesetHash", "sourceManifestSha256", "engineVersion", "engineCommit", "protocolVersion", "clientBuild", "groupId", "sessionId", "matchIndexInSession", "facilitatorId"],
+      "properties": {
+        "matchId": { "type": ["string", "null"], "description": "Opaque match identifier from the service." },
+        "playedOn": { "type": ["string", "null"], "format": "date" },
+        "mode": { "enum": [7, 8, 9, null], "description": "Null only in a blank template. Records of different modes are never pooled." },
+        "optionalPowers": { "const": false, "description": "The base comparison keeps Original Powers off. A powers-on match belongs to a different cohort and schema version." },
+        "cohort": { "type": ["string", "null"], "description": "direct-shot-v1 for this ruleset. Sessions under the archived identification rule are a different cohort." },
+        "rulesetVersion": { "type": ["string", "null"] },
+        "rulesetHash": { "type": ["string", "null"], "pattern": "^[a-f0-9]{64}$" },
+        "sourceManifestSha256": { "type": ["string", "null"], "pattern": "^[a-f0-9]{64}$" },
+        "engineVersion": { "type": ["string", "null"] },
+        "engineCommit": { "type": ["string", "null"] },
+        "protocolVersion": { "type": ["integer", "null"] },
+        "clientBuild": { "type": ["string", "null"] },
+        "groupId": { "type": ["string", "null"], "description": "Pseudonymous table or group. Used to cluster uncertainty." },
+        "sessionId": { "type": ["string", "null"] },
+        "matchIndexInSession": { "type": ["integer", "null"], "minimum": 1 },
+        "facilitatorId": { "type": ["string", "null"], "description": "Pseudonymous facilitator." }
+      }
+    },
+    "session": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["venue", "seating", "publicBoard", "devices", "connectivity", "noise", "language", "teaching", "facilitatorPlayed", "observers", "modeOrderInSession", "notes"],
+      "properties": {
+        "venue": { "enum": ["home", "workplace", "public-venue", "lab", "other", null] },
+        "seating": { "type": ["string", "null"], "description": "For example one table, everyone in view of each other." },
+        "publicBoard": { "enum": ["physical-board", "shared-display", "both", "none", null] },
+        "devices": { "type": ["string", "null"], "description": "Phone and display models and browsers actually used." },
+        "connectivity": { "enum": ["stable", "interrupted", "unusable", null] },
+        "noise": { "enum": ["quiet", "moderate", "loud", null] },
+        "language": { "type": ["string", "null"] },
+        "teaching": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["method", "minutes", "rulebookVersion"],
+          "properties": {
+            "method": { "enum": ["read-aloud", "facilitator-explained", "self-read", "returning-group", null] },
+            "minutes": { "type": ["number", "null"], "minimum": 0 },
+            "rulebookVersion": { "type": ["string", "null"] }
+          }
+        },
+        "facilitatorPlayed": { "type": ["boolean", "null"] },
+        "observers": { "type": ["integer", "null"], "minimum": 0 },
+        "modeOrderInSession": { "type": ["array", "null"], "items": { "enum": [7, 8, 9] }, "description": "Order in which modes were played by this group, for counterbalancing." },
+        "notes": { "type": ["string", "null"] }
+      }
+    },
+    "participants": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["participantId", "seat", "role", "faction", "initialRoom", "priorMatches", "priorMatchesThisRuleset", "socialDeductionExperience", "consentRecorded", "leftEarly"],
+        "properties": {
+          "participantId": { "type": "string", "pattern": "^P-[A-Z0-9]{4,12}$", "description": "Pseudonym. The key that links it to a person is kept separately by the data owner, or not kept at all." },
+          "seat": { "type": "string", "pattern": "^seat-[1-9]$" },
+          "role": { "enum": ["Insider", "Cracker", "Blue Disabler", "Supplier", "Officer", "Undercover", "Hacker", "Red Disabler", "Alien"] },
+          "faction": { "enum": ["Blue", "Red", "Alien"] },
+          "initialRoom": { "enum": ["Room A", "Room B", null] },
+          "priorMatches": { "type": "integer", "minimum": 0 },
+          "priorMatchesThisRuleset": { "type": ["integer", "null"], "minimum": 0 },
+          "socialDeductionExperience": { "enum": ["none", "some", "frequent", null] },
+          "consentRecorded": { "const": true, "description": "Consent is recorded before any data about the participant is kept. A record that holds a participant without it is invalid, whatever its status." },
+          "leftEarly": { "type": ["boolean", "null"] }
+        }
+      }
+    },
+    "rulesDeviations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["round", "ruleId", "description", "severity"],
+        "properties": {
+          "round": { "type": ["integer", "null"], "minimum": 1, "maximum": 5 },
+          "ruleId": { "type": ["string", "null"], "description": "Rulebook identifier such as R-VOTE-03, when one applies." },
+          "description": { "type": "string" },
+          "severity": { "enum": ["cosmetic", "affected-play", "affected-outcome"] }
+        }
+      }
+    },
+    "outcome": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["terminal", "result", "alienCoWin", "victoryCause", "round", "checkpoint", "healthyPowerAtEnd"],
+      "properties": {
+        "terminal": { "enum": ["Finished", "Aborted", "Abandoned", null] },
+        "result": { "enum": ["Blue", "Red", "Alien", "Draw", null], "description": "Mutually exclusive. Alien means Alien alone." },
+        "alienCoWin": { "type": ["boolean", "null"], "description": "Separate flag. True only with a Blue result." },
+        "victoryCause": { "enum": ["blue-elimination", "blue-power", "red-elimination", "red-code", "alien-solo", "draw", null] },
+        "round": { "type": ["integer", "null"], "minimum": 1, "maximum": 5 },
+        "checkpoint": { "enum": ["normal-resolution", "showdown", null] },
+        "healthyPowerAtEnd": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["blue", "red"],
+          "properties": { "blue": { "type": ["integer", "null"], "minimum": 0 }, "red": { "type": ["integer", "null"], "minimum": 0 } }
+        }
+      }
+    },
+    "pace": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["wallClockMinutes", "windowMinutes", "phaseCounts", "adjudicationMinutes", "pauses", "reconnects", "seatRecoveries", "abandonments"],
+      "properties": {
+        "wallClockMinutes": { "type": ["number", "null"], "minimum": 0, "description": "First turn opened to result shown, measured by the facilitator." },
+        "windowMinutes": { "type": ["number", "null"], "minimum": 0, "description": "Sum of server windows, from the export." },
+        "phaseCounts": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["ordinaryTurns", "hackConversations", "captainElections", "releaseChoices", "releaseVotes", "jailVotes", "showdowns"],
+          "properties": {
+            "ordinaryTurns": { "type": ["integer", "null"], "minimum": 0 },
+            "hackConversations": { "type": ["integer", "null"], "minimum": 0 },
+            "captainElections": { "type": ["integer", "null"], "minimum": 0, "description": "Runoffs included." },
+            "releaseChoices": { "type": ["integer", "null"], "minimum": 0 },
+            "releaseVotes": { "type": ["integer", "null"], "minimum": 0 },
+            "jailVotes": { "type": ["integer", "null"], "minimum": 0 },
+            "showdowns": { "type": ["integer", "null"], "minimum": 0, "maximum": 1 }
+          }
+        },
+        "adjudicationMinutes": { "type": ["number", "null"], "minimum": 0, "description": "Time the table spent settling a rule question." },
+        "pauses": { "type": ["integer", "null"], "minimum": 0, "description": "Times the table stopped although the clock kept running." },
+        "reconnects": { "type": ["integer", "null"], "minimum": 0 },
+        "seatRecoveries": { "type": ["integer", "null"], "minimum": 0 },
+        "abandonments": { "type": ["integer", "null"], "minimum": 0 }
+      }
+    },
+    "agency": {
+      "type": "array",
+      "description": "One entry per participant. Counts come from the export; nothing here is a judgement.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["participantId", "turnsTaken", "turnsHealthyAndFree", "turnsInjured", "turnsJailed", "roundsEliminated", "opportunities", "resourcesUnused", "votesCast", "votesMissed", "moves", "hackDeniedByRoundLimit"],
+        "properties": {
+          "participantId": { "type": "string" },
+          "turnsTaken": { "type": ["integer", "null"], "minimum": 0 },
+          "turnsHealthyAndFree": { "type": ["integer", "null"], "minimum": 0 },
+          "turnsInjured": { "type": ["integer", "null"], "minimum": 0 },
+          "turnsJailed": { "type": ["integer", "null"], "minimum": 0 },
+          "roundsEliminated": { "type": ["integer", "null"], "minimum": 0 },
+          "opportunities": {
+            "type": "object",
+            "description": "Keyed by action: mainAction, shot, hack, move, vote, codeAttempt, specialShot.",
+            "additionalProperties": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["available", "attempted", "accepted"],
+              "properties": {
+                "available": { "type": ["integer", "null"], "minimum": 0, "description": "Turns or windows in which at least one legal use existed." },
+                "attempted": { "type": ["integer", "null"], "minimum": 0 },
+                "accepted": { "type": ["integer", "null"], "minimum": 0 }
+              }
+            }
+          },
+          "resourcesUnused": { "type": ["array", "null"], "items": { "type": "string" }, "description": "For example weapon, rescue, disabler, hack, codeAttempt." },
+          "votesCast": { "type": ["integer", "null"], "minimum": 0 },
+          "votesMissed": { "type": ["integer", "null"], "minimum": 0 },
+          "moves": { "type": ["integer", "null"], "minimum": 0 },
+          "hackDeniedByRoundLimit": { "type": ["integer", "null"], "minimum": 0, "description": "Own turns on which a Hack was wanted or possible but two conversations had already been granted." }
+        }
+      }
+    },
+    "combat": {
+      "type": "array",
+      "description": "One entry per registered attack. Restricted truth.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["attackType", "registeredRound", "resolvedRound", "resolvedAt", "actorSeat", "actorFaction", "targetSeat", "targetFaction", "defense", "damage", "targetHealthAfter", "actorStatusAtResolution"],
+        "properties": {
+          "attackType": { "enum": ["ordinary-shot", "officer-shot", "disabler", "special-shot"] },
+          "registeredRound": { "type": "integer", "minimum": 1, "maximum": 5 },
+          "resolvedRound": { "type": "integer", "minimum": 1, "maximum": 5 },
+          "resolvedAt": { "enum": ["normal-resolution", "showdown"] },
+          "actorSeat": { "type": "string" },
+          "actorFaction": { "enum": ["Blue", "Red", "Alien"] },
+          "targetSeat": { "type": "string" },
+          "targetFaction": { "enum": ["Blue", "Red", "Alien"] },
+          "defense": { "enum": ["none", "protection", "target-already-eliminated"] },
+          "damage": { "enum": [0, 1] },
+          "targetHealthAfter": { "enum": ["Healthy", "Injured", "Eliminated"] },
+          "actorStatusAtResolution": { "enum": ["healthy-free", "injured", "jailed", "eliminated"] }
+        }
+      }
+    },
+    "officer": {
+      "description": "Nine-player matches only; null otherwise.",
+      "oneOf": [
+        { "type": "null" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["shotFired", "shotRound", "targetFaction", "blocked", "targetHealthAfter", "receivedSupplierWeapon", "officerHealthAtEnd"],
+          "properties": {
+            "shotFired": { "type": ["boolean", "null"] },
+            "shotRound": { "type": ["integer", "null"], "minimum": 1, "maximum": 5 },
+            "targetFaction": { "enum": ["Blue", "Red", "Alien", null] },
+            "blocked": { "type": ["boolean", "null"] },
+            "targetHealthAfter": { "enum": ["Healthy", "Injured", "Eliminated", null] },
+            "receivedSupplierWeapon": { "type": ["boolean", "null"] },
+            "officerHealthAtEnd": { "enum": ["Healthy", "Injured", "Eliminated", null] }
+          }
+        }
+      ]
+    },
+    "information": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["scanAttempts", "scanFailures", "scanTargetsDistinct", "codeSubmitted", "codeCorrect", "codeSubmittedPhase", "hackConversations", "hackRequestsRefusedByRoundLimit", "protectionsGranted", "protectionsConsumed", "supplierDistributed", "supplierRecipientFactions", "hackContentRecorded"],
+      "properties": {
+        "scanAttempts": { "type": ["integer", "null"], "minimum": 0 },
+        "scanFailures": { "type": ["integer", "null"], "minimum": 0 },
+        "scanTargetsDistinct": { "type": ["integer", "null"], "minimum": 0 },
+        "codeSubmitted": { "type": ["boolean", "null"] },
+        "codeCorrect": { "type": ["boolean", "null"] },
+        "codeSubmittedPhase": { "enum": ["ordinary-turn", "hack", "captain-election", "release", "jail-vote", null] },
+        "hackConversations": { "type": ["integer", "null"], "minimum": 0 },
+        "hackRequestsRefusedByRoundLimit": { "type": ["integer", "null"], "minimum": 0 },
+        "protectionsGranted": { "type": ["integer", "null"], "minimum": 0 },
+        "protectionsConsumed": { "type": ["integer", "null"], "minimum": 0 },
+        "supplierDistributed": { "type": ["boolean", "null"] },
+        "supplierRecipientFactions": { "type": ["array", "null"], "items": { "enum": ["Blue", "Red", "Alien"] } },
+        "hackContentRecorded": { "const": false, "description": "Spoken Hack content is never recorded by default." }
+      }
+    },
+    "endgame": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["showdownTriggered", "participants", "shotsRegistered", "shotsWithEffect", "eliminatedInShowdown", "eliminatedBeforeShowdown", "jailedAtRoundFiveCheck", "healthyPowerBeforeShowdown", "healthyPowerAfterShowdown"],
+      "properties": {
+        "showdownTriggered": { "type": ["boolean", "null"] },
+        "participants": { "type": ["integer", "null"], "minimum": 0 },
+        "shotsRegistered": { "type": ["integer", "null"], "minimum": 0 },
+        "shotsWithEffect": { "type": ["integer", "null"], "minimum": 0 },
+        "eliminatedInShowdown": { "type": ["integer", "null"], "minimum": 0 },
+        "eliminatedBeforeShowdown": { "type": ["integer", "null"], "minimum": 0 },
+        "jailedAtRoundFiveCheck": { "type": ["integer", "null"], "minimum": 0 },
+        "healthyPowerBeforeShowdown": { "type": ["object", "null"], "additionalProperties": false, "properties": { "blue": { "type": "integer" }, "red": { "type": "integer" } } },
+        "healthyPowerAfterShowdown": { "type": ["object", "null"], "additionalProperties": false, "properties": { "blue": { "type": "integer" }, "red": { "type": "integer" } } }
+      }
+    },
+    "experience": {
+      "type": "array",
+      "description": "One entry per participant who answered the questionnaire. Scores are 1 (not at all) to 5 (completely).",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["participantId", "clarity", "agency", "fairness", "enjoyment", "understoodOwnRole", "knewWhatToDoOnTurn", "hadEnoughTime", "confusingMoments", "strongestStrategySeen", "wouldPlayAgain"],
+        "properties": {
+          "participantId": { "type": "string" },
+          "clarity": { "type": ["integer", "null"], "minimum": 1, "maximum": 5 },
+          "agency": { "type": ["integer", "null"], "minimum": 1, "maximum": 5 },
+          "fairness": { "type": ["integer", "null"], "minimum": 1, "maximum": 5 },
+          "enjoyment": { "type": ["integer", "null"], "minimum": 1, "maximum": 5 },
+          "understoodOwnRole": { "type": ["integer", "null"], "minimum": 1, "maximum": 5 },
+          "knewWhatToDoOnTurn": { "type": ["integer", "null"], "minimum": 1, "maximum": 5 },
+          "hadEnoughTime": { "enum": ["too-little", "about-right", "too-much", null] },
+          "confusingMoments": { "type": ["string", "null"] },
+          "strongestStrategySeen": { "type": ["string", "null"] },
+          "wouldPlayAgain": { "type": ["boolean", "null"] }
+        }
+      }
+    },
+    "ruleProblems": {
+      "type": "array",
+      "description": "Observed during the match by the facilitator. One entry per problem.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["round", "phase", "category", "ruleId", "decisionId", "description", "tableResolution", "affectedOutcome"],
+        "properties": {
+          "round": { "type": ["integer", "null"], "minimum": 1, "maximum": 5 },
+          "phase": { "type": ["string", "null"] },
+          "category": { "enum": ["rule-misunderstood", "rule-missing", "rule-contradiction", "app-and-table-disagreed", "clock-confusion", "information-leak", "board-and-app-out-of-sync", "stalemate", "other"] },
+          "ruleId": { "type": ["string", "null"], "description": "Rulebook identifier, when the problem concerns a stated rule." },
+          "decisionId": { "type": ["string", "null"], "description": "Decision identifier D10 to D38, when the problem concerns an open rule edge or a reading." },
+          "description": { "type": "string" },
+          "tableResolution": { "type": ["string", "null"], "description": "What the table did about it." },
+          "affectedOutcome": { "type": ["boolean", "null"] }
+        }
+      }
+    },
+    "exclusion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["excluded", "reasons", "note"],
+      "properties": {
+        "excluded": { "type": "boolean", "description": "Excluded from outcome rates. The record is kept and counted as excluded." },
+        "reasons": {
+          "type": "array",
+          "items": { "enum": ["aborted-by-host", "abandoned-by-players", "rules-deviation-affected-outcome", "app-defect-affected-outcome", "wrong-player-count", "optional-powers-enabled", "facilitator-coached-play", "incomplete-record", "different-ruleset", "consent-withdrawn", "practice-or-teaching-match"] }
+        },
+        "note": { "type": ["string", "null"] }
+      }
+    },
+    "facilitatorNotes": { "type": ["string", "null"] }
+  }
+}

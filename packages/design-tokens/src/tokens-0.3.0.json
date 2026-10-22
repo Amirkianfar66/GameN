@@ -1,0 +1,236 @@
+{
+  "version": "0.3.0",
+  "status": "proposal_for_evaluation",
+  "supersedes": "0.2.0",
+  "compatibility": "Additive. Every 0.2.0 key keeps its name, shape and value; 0.3.0 only adds keys.",
+  "color": {
+    "canvas": "#10141C",
+    "panel": "#202837",
+    "paper": "#F4EBDD",
+    "ink": "#151923",
+    "textPrimary": "#F4EBDD",
+    "textSecondary": "#B9C4D3",
+    "publicToken": "#C6CDD4",
+    "interactiveAccent": "#F1B84B",
+    "focusRing": "#FFD36D",
+    "factionPrivateOrRevealed": {
+      "blue": "#70AFFF",
+      "red": "#FF8C8C",
+      "alien": "#C4A4FF"
+    },
+    "paperShade": "#E3D6C2",
+    "paperDeep": "#CBBBA2",
+    "steel": {
+      "deep": "#222B3A",
+      "shadow": "#34415A",
+      "mid": "#55657E",
+      "light": "#8696AE",
+      "pale": "#B9C4D3"
+    }
+  },
+  "type": {
+    "bodyFamily": "system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif",
+    "headingFamily": "Arial Narrow, Helvetica Neue, Arial, sans-serif",
+    "bodyPx": 16,
+    "labelPx": 14,
+    "headingPx": 24,
+    "displayPx": 36,
+    "bodyLineHeight": 1.5,
+    "headingLineHeight": 1.15,
+    "letteringFamily": "Arial Narrow, Helvetica Neue, Arial, sans-serif",
+    "letteringWeight": 800,
+    "letteringTrackingEm": 0.06,
+    "timerNumeric": "tabular-nums",
+    "privateRoleNameMaxPx": 24,
+    "tableTimerPx": 56,
+    "tableHeadingPx": 32
+  },
+  "spacingPx": [
+    4,
+    8,
+    12,
+    16,
+    24,
+    32,
+    48
+  ],
+  "radiusPx": {
+    "control": 8,
+    "panel": 12,
+    "card": 10,
+    "chip": 999
+  },
+  "strokePx": {
+    "control": 2,
+    "focus": 3,
+    "illustration": 3,
+    "inkFine": 2,
+    "inkBold": 4,
+    "panelBorder": 4,
+    "selection": 3
+  },
+  "interaction": {
+    "minimumTargetCssPx": 44,
+    "cardArtAspectRatio": "5:7",
+    "breakpointsCssPx": {
+      "expandedPlayerLayout": 600,
+      "wideTableLayout": 960,
+      "tableRosterBesideBoard": 1280
+    },
+    "dragRequired": false,
+    "breakpointUnit": "em: each value divided by 16, so a layout answers to the reader's text size"
+  },
+  "motionMs": {
+    "selection": 120,
+    "cardTransition": 220,
+    "publicMove": 450,
+    "comicBeatMaximum": 900,
+    "reducedMotionFade": 80,
+    "registrationStamp": 120,
+    "publicImpact": 320,
+    "roundTransition": 700
+  },
+  "motionEasing": {
+    "standard": "cubic-bezier(0.2, 0, 0, 1)",
+    "impact": "cubic-bezier(0.55, 0, 1, 0.45)",
+    "settle": "cubic-bezier(0.16, 0.84, 0.3, 1)",
+    "snap": "cubic-bezier(0.2, 1.3, 0.4, 1)",
+    "sweep": "cubic-bezier(0.65, 0, 0.35, 1)",
+    "linear": "linear"
+  },
+  "motionBeatsMs": {
+    "selection": {
+      "opening": 0,
+      "accent": 70,
+      "settle": 50
+    },
+    "cardTransition": {
+      "opening": 60,
+      "accent": 100,
+      "settle": 60
+    },
+    "registrationStamp": {
+      "opening": 30,
+      "accent": 50,
+      "settle": 40
+    },
+    "publicMove": {
+      "opening": 110,
+      "accent": 220,
+      "settle": 120
+    },
+    "roundTransition": {
+      "opening": 180,
+      "accent": 220,
+      "settle": 300
+    },
+    "comicBeatMaximum": {
+      "opening": 240,
+      "accent": 260,
+      "settle": 400
+    }
+  },
+  "comic": {
+    "inkShadowOffsetPx": 4,
+    "inkShadowOffsetLiftedPx": 7,
+    "selectionLiftPx": 3,
+    "panelGutterPx": 12,
+    "stampRotationDeg": -4,
+    "halftone": {
+      "pitchPx": 6,
+      "angleDeg": 45,
+      "dotRadiusPx": {
+        "fine": 1,
+        "medium": 1.7,
+        "heavy": 2.4
+      },
+      "neverBehindTextSmallerThanPx": 24
+    },
+    "hatch": {
+      "pitchPx": 8,
+      "strokePx": 2,
+      "angleDeg": 45
+    }
+  },
+  "component": {
+    "tokenDiameterPx": {
+      "compact": 28,
+      "phone": 36,
+      "table": 64
+    },
+    "markerIconPx": {
+      "phone": 18,
+      "table": 24
+    },
+    "markerMinHeightPx": {
+      "phone": 28,
+      "table": 36
+    },
+    "cardMinWidthPx": 240,
+    "cardMaxWidthPx": 420,
+    "privateDockMinHeightPx": 64,
+    "phaseStripMinHeightPx": 64,
+    "tableRosterMinWidthPx": 432,
+    "resourcePipPx": {
+      "width": 36,
+      "height": 20
+    }
+  },
+  "layer": {
+    "board": 0,
+    "token": 10,
+    "marker": 20,
+    "cueOverlay": 30,
+    "panelChrome": 40,
+    "controls": 50,
+    "privateSheet": 60,
+    "banner": 70,
+    "focus": 80
+  },
+  "usageConstraints": [
+    "Faction accents require authorized private knowledge or an explicit reveal.",
+    "Public tokens remain neutral and identical across roles.",
+    "Use ink on paper/amber; primary or secondary text on dark panels.",
+    "Confirm contrast in final compositing; these tokens alone do not certify accessibility.",
+    "Motion durations never determine server phase deadlines or outcomes.",
+    "Amber is interaction focus and the public active turn. It never stands for a faction, danger, an attack or a result.",
+    "Public status is told apart by outline and label. Injured and Eliminated are never red.",
+    "The steel and paper tones are one public palette shared by every location. A location is never tinted to tell it apart.",
+    "Halftone and hatch never sit behind text smaller than the heading size.",
+    "Everything private to a seat, including whether it has an action, stays inside the private sheet. The public layer of every phone looks the same.",
+    "Role artwork loads as one uniform bundle on every phone, whatever the role."
+  ],
+  "motionPolicy": {
+    "specification": "docs/design/motion-direction.md",
+    "durationStatus": "proposed_targets_not_measured",
+    "levels": [
+      "interaction",
+      "game_event",
+      "phase_or_finale"
+    ],
+    "reducedMotion": "direct state update or short fade; no spatial travel, shake, zoom or moving trails",
+    "publicSecretActionCue": false,
+    "blocksActiveControls": false,
+    "mutatesGameplayState": false,
+    "storyboards": "docs/design/motion-storyboards.md",
+    "beatStatus": "proposed_split_of_existing_totals_not_measured",
+    "overlaysInterceptInput": false,
+    "queuesPlayback": false,
+    "loops": false
+  },
+  "privacyPolicy": {
+    "privateSheetOpenByDefault": false,
+    "publicLayerShowsActionAvailability": false,
+    "publicLayerVariesByRole": false,
+    "factionAccentOnPublicAssets": false,
+    "roleArtBundleUniformAcrossSeats": true,
+    "targetingHighlightsOnPublicSurfaces": false
+  },
+  "audioPolicy": {
+    "status": "specified_no_assets_delivered",
+    "requiresUserGesture": true,
+    "secretActionSoundOnPhone": false,
+    "secretActionVibrationOnPhone": false,
+    "publicCuesFollowPublicFactsOnly": true
+  }
+}

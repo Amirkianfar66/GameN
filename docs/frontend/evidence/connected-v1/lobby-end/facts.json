@@ -1,0 +1,52 @@
+{
+  "run": {
+    "startedAt": "2026-10-06T23:16:02.797Z",
+    "origin": "http://127.0.0.1:5173",
+    "scenario": "lobby-end",
+    "players": 7,
+    "browser": "Chrome/155.0.8059.39",
+    "previewServer": "already running",
+    "pageLoads": {
+      "host": 1,
+      "display": 2,
+      "player-1": 1,
+      "player-2": 2,
+      "player-3": 1,
+      "player-4": 1,
+      "player-5": 1,
+      "player-6": 1,
+      "player-7": 1
+    }
+  },
+  "steps": [
+    {
+      "step": "1. The host creates a seven-player lobby",
+      "statements": [
+        "One v1CreateMatch from the host page; the answer named a match and a twelve-character room code.",
+        "The host console then read the lobby from its own session document and the lobby document: 0 of 7 seated, status \"lobby\"."
+      ]
+    },
+    {
+      "step": "2. Players authenticate and request admission",
+      "statements": [
+        "9 browser contexts signed in anonymously to the Auth emulator and hold 9 different identities.",
+        "7 of them asked to join with the room code (4 starting in Room A, 3 in Room B) and are waiting; none shows anything of a match."
+      ]
+    },
+    {
+      "step": "L. The host ends a match that is still a lobby (seven players seated, a display admitted)",
+      "statements": [
+        "The host console offers to end a lobby with the same two presses as a running match. One v1AbortMatch; the console then read \"aborted\" and offered neither to start the match nor to end it again.",
+        "The display and all seven phones then said: \"The host ended this match before it started. There is nothing of it to show.\" None of them opened a match screen, went on waiting, or said it had lost access.",
+        "No role was ever dealt, so there was nothing private to show or to keep: nothing of a match was in any page or its storage.",
+        "A reloaded phone and a reloaded display said the same."
+      ]
+    }
+  ],
+  "match": {
+    "note": "A throwaway lobby on the local emulator with anonymous emulator identities. Nothing here is a real match or a real person.",
+    "playerCount": 7,
+    "endedByHost": true,
+    "everStarted": false
+  }
+}

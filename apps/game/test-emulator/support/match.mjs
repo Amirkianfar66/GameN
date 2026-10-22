@@ -1,0 +1,121 @@
+// Brings a real match up on the local emulators through the client core, for tests that
+// need one already running. Test-only.
+import assert from 'node:assert/strict';
+import { FullSetupDocumentSchema, FullSetupPlayerViewSchema, SeatSessionSchema, sameFullGameplayPins, supportsVoteResults, VOTE_RESULT_VERSION_PINS, DECLARED_HACK_VERSION_PINS, CLONE_VERSION_PINS, HOSPITAL_FOUR_VERSION_PINS } from '@mothership/contracts';
+import { createConnectedApi, createConnectedPlayerStore, createConnectedPublicStore, readAdmission } from '@mothership/game';
+import { createRestEmulatorTransport, realPorts, until } from './rest-transport.mjs';
+
+export const ports = realPorts();
+export const requestId = () => ports.ids.next();
+
+/** This SDK-only emulator harness supports an explicit tuple and known test art pins.
+ * It makes no browser-loading or production-art claim and cannot echo an unknown version. */
+export function readyTestAcknowledgment(versions) {
+  if (!supportsVoteResults(versions)) return {};
+  assert.ok([VOTE_RESULT_VERSION_PINS, DECLARED_HACK_VERSION_PINS, CLONE_VERSION_PINS, HOSPITAL_FOUR_VERSION_PINS].some(pins => sameFullGameplayPins(versions,pins)),'Harness must explicitly adopt the new gameplay tuple');
+  const knownPair = versions.assetManifestVersion === '0.0.0-no-assets'
+    || sameFullGameplayPins(versions,VOTE_RESULT_VERSION_PINS) && versions.assetManifestVersion === 'design-0.2.0'
+    || sameFullGameplayPins(versions,DECLARED_HACK_VERSION_PINS) && versions.assetManifestVersion === 'design-0.3.0'
+    || sameFullGameplayPins(versions,CLONE_VERSION_PINS) && versions.assetManifestVersion === 'design-0.4.0'
+    || sameFullGameplayPins(versions,HOSPITAL_FOUR_VERSION_PINS) && versions.assetManifestVersion === 'design-0.5.0';
+  assert.ok(knownPair,'Known emulator gameplay and artifact pair required');
+  return {acceptedVersions:{...versions}};
+}
+
+/** One signed-in participant: its own identity, transport and API client. */
+export async function participant() {
+  const rest = createRestEmulatorTransport();
+  const uid = await rest.transport.signIn();
+  return { ...rest, uid, api: createConnectedApi(rest.transport, ports) };
+}
+
+/** The next view a document listener delivers that the store accepts and for which `check` holds. */
+export function nextView(who, target, store, check = () => true, label = 'a view', timeoutMs = 8_000) {
+  return until(
+    deliver => who.transport.listenDocument(target, { onSnapshot: snapshot => deliver(store.accept(snapshot.value)), onError: () => deliver({ kind: 'error' }) }),
+    outcome => (outcome.kind === 'accepted' || outcome.kind === 'unchanged') && check(outcome.view),
+    label, timeoutMs,
+  ).then(outcome => outcome.view);
+}
+
+
+/** Start through the same staged protocol as the hosted player, with real Rules reads. */
+export async function finishSetup(host, players, matchId) {
+  const begin = { schemaVersion: 1, protocolVersion: 2, matchId, requestId: requestId() };
+  assert.equal((await host.api.beginSetup(begin)).kind, 'done');
+  assert.equal((await host.api.beginSetup(begin)).kind, 'done', 'A repeated Begin must not redeal');
+  const read = async (who, kind, schema, check = () => true, timeoutMs = 8_000) => until(deliver => who.transport.listenDocument({ kind, matchId }, {
+    onSnapshot: snapshot => deliver(schema.safeParse(snapshot.value)), onError: () => deliver({ success: false }),
+  }), result => result.success && check(result.data), kind, timeoutMs).then(result => result.data);
+  for (const [index, player] of players.entries()) {
+    const binding = await read(player, 'seat-session', SeatSessionSchema);
+    player.setupBinding = binding.bindingRevision;
+    const result = await player.api.confirmSetupChoice({ schemaVersion: 1, protocolVersion: 2, matchId, requestId: requestId(),
+      bindingRevision: binding.bindingRevision, displayName: `Player ${index + 1}`, characterId: `c${index + 1}` });
+    assert.equal(result.kind, 'done', JSON.stringify(result));
+  }
+  const progress = await read(host, 'setup', FullSetupDocumentSchema, value => value.stage === 'awaiting-ready', 45_000);
+  assert.equal(progress.choosingEndsAt - progress.choosingStartedAt, 30_000);
+  assert.equal(progress.readingEndsAt - progress.readingStartedAt, 30_000);
+  assert.ok(progress.readingStartedAt >= progress.choosingEndsAt);
+  assert.equal(progress.stage, 'awaiting-ready');
+  assert.equal(progress.seats.every(seat => !seat.ready), true);
+  assert.notEqual(await host.rawStatus(`matches/${matchId}/views/public`), 200, 'No gameplay view exists while people confirm roles');
+  for (const [index, player] of players.entries()) {
+    const own = await read(player, 'setup-player-view', FullSetupPlayerViewSchema);
+    assert.equal(own.bindingRevision, player.setupBinding);
+    assert.equal(own.dealId, progress.dealId);
+    assert.equal(await host.rawStatus(`matches/${matchId}/setupPlayerViews/${player.uid}`), 403, 'Host cannot read private role preview');
+    const body = { schemaVersion: 1, protocolVersion: 2, matchId, requestId: requestId(), dealId: own.dealId, bindingRevision: own.bindingRevision,
+      ...readyTestAcknowledgment(own.versions) };
+    const result = await player.api.readyForMatch(body);
+    assert.equal(result.kind, 'done', JSON.stringify(result));
+    // Early Ready may be acknowledged during reading, but only the server deadline
+    // can release the minimum reading window. The last Ready can also arrive later.
+    assert.ok(['awaiting-ready', 'running'].includes(result.result.stage));
+    if (index < players.length - 1) assert.equal(result.result.stage, 'awaiting-ready');
+    assert.equal((await player.api.readyForMatch(body)).kind, 'done', 'Repeating Ready preserves the original transition');
+    if (index < players.length - 1) assert.notEqual(await host.rawStatus(`matches/${matchId}/views/public`), 200, 'One missing Ready still gates gameplay');
+  }
+  const launched = await read(host, 'setup', FullSetupDocumentSchema, value => value.stage === 'running', 45_000);
+  assert.equal(launched.dealId, progress.dealId);
+}
+
+/**
+ * A started match: a host, a display and `playerCount` seated players, each with the view
+ * it is entitled to. Everything goes through the documented operations.
+ */
+export async function startedMatch(t, playerCount = 7) {
+  const host = await participant();
+  const display = await participant();
+  const players = await Promise.all(Array.from({ length: playerCount }, () => participant()));
+  t.after(() => [host, display, ...players].forEach(who => who.close()));
+
+  const created = await host.api.createMatch({ protocolVersion: 2, requestId: requestId(), playerCount });
+  assert.equal(created.kind, 'done', JSON.stringify(created));
+  const { matchId, roomCode } = created.result;
+  const requested = await Promise.all(players.map(player => player.api.requestAdmission({
+    protocolVersion: 2, requestId: requestId(), roomCode,
+  })));
+  const admissions = await until(
+    deliver => host.transport.listenCollection({ kind: 'admissions', matchId }, { onSnapshot: snapshot => deliver(snapshot.value), onError: () => deliver([]) }),
+    items => items.length === playerCount, 'every admission request',
+  );
+  const byUid = new Map(admissions.map(item => [readAdmission(item.data).value.uid, item.id]));
+  for (const [index, player] of players.entries()) {
+    player.seatId = `seat-${index + 1}`;
+    assert.equal(requested[index].kind, 'done');
+    const approved = await host.api.approveAdmission({ protocolVersion: 2, matchId, requestId: requestId(), admissionId: byUid.get(player.uid), seatId: player.seatId });
+    assert.equal(approved.kind, 'done', JSON.stringify(approved));
+  }
+  assert.equal((await host.api.admitDisplay({ protocolVersion: 2, matchId, requestId: requestId(), displayUid: display.uid })).kind, 'done');
+  await finishSetup(host, players, matchId);
+
+  display.store = createConnectedPublicStore({ matchId });
+  const publicView = await nextView(display, { kind: 'public-view', matchId }, display.store, () => true, 'the public view');
+  for (const player of players) {
+    player.store = createConnectedPlayerStore({ matchId, seatId: player.seatId });
+    player.view = await nextView(player, { kind: 'player-view', matchId }, player.store, () => true, 'a private view');
+  }
+  return { host, display, players, matchId, publicView };
+}

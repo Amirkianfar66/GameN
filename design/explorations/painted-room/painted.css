@@ -1,0 +1,13 @@
+/* mothership:dev-only · the painted room test (an exploration): page layout only. */
+:root { color-scheme: dark; }
+body { margin: 0; background: #0d0f15; color: #e9e3d8; font: 14px/1.4 system-ui, sans-serif; }
+#page { padding: 16px; display: grid; gap: 14px; justify-items: start; }
+.pr-head h1 { margin: 0 0 4px; font-size: 18px; }
+.pr-head p { margin: 0; max-width: 1040px; color: #b9b2a6; font-size: 13px; }
+.pr-row { display: flex; flex-wrap: wrap; gap: 14px; align-items: flex-start; }
+.pr-card { margin: 0; display: grid; gap: 6px; }
+.pr-card figcaption { font-weight: 700; font-size: 13px; letter-spacing: 0.04em; text-transform: uppercase; color: #f2cc4b; }
+.pr-card figcaption span { color: #b9b2a6; font-weight: 400; text-transform: none; letter-spacing: 0; }
+.pr-frame { justify-self: start; position: relative; overflow: hidden; border: 3px solid #151923; border-radius: 3px; background: #10141c; }
+.pr-frame > svg { display: block; }
+.pr-flag { position: absolute; right: 6px; top: 6px; padding: 1px 6px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: #151923; background: #f4ebdd; border-radius: 3px; }

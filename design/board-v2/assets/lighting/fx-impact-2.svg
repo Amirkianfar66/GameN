@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  mothership:dev-only · board-v2 lighting proposal board-v2-lighting-0.1.0 · impact, frame 2 · generated, do not edit by hand
+  The comic star. Centred on a hit position's press point (160 x 160); symmetric, so it points at no one. The same for every cause.
+  Built by design/tools/board-v2-assets.mjs from design/board-v2/scenes/lighting.mjs. Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160"><g data-layer="fx-impact-2"><polygon points="80,8 90.35,41.36 116,17.65 108.28,51.72 142.35,44 118.64,69.65 152,80 118.64,90.35 142.35,116 108.28,108.28 116,142.35 90.35,118.64 80,152 69.65,118.64 44,142.35 51.72,108.28 17.65,116 41.36,90.35 8,80 41.36,69.65 17.65,44 51.72,51.72 44,17.65 69.65,41.36" fill="#F4EBDD" stroke="#151923" stroke-width="4" stroke-linejoin="round"/><polygon points="92.42,33.64 93,57.48 113.94,46.06 102.52,67 126.36,67.58 106,80 126.36,92.42 102.52,93 113.94,113.94 93,102.52 92.42,126.36 80,106 67.58,126.36 67,102.52 46.06,113.94 57.48,93 33.64,92.42 54,80 33.64,67.58 57.48,67 46.06,46.06 67,57.48 67.58,33.64 80,54" fill="#F7C52B" stroke="#151923" stroke-width="2.6" stroke-linejoin="round"/><circle cx="80" cy="80" r="13" fill="#FFF8E4" stroke="#151923" stroke-width="2.4"/></g></svg>

@@ -1,0 +1,398 @@
+{
+  "00-entry": {
+    "viewport": [
+      390,
+      844
+    ],
+    "documentHeight": 844,
+    "horizontalOverflow": false,
+    "focus": "BODY",
+    "roleNamesInDocument": [],
+    "controlsUnder44": [
+      {
+        "id": "connected-as-player",
+        "text": "Player: ask to join with a room code",
+        "width": 275,
+        "height": 20
+      },
+      {
+        "id": "connected-as-display",
+        "text": "Shared display: public information only",
+        "width": 305,
+        "height": 20
+      }
+    ],
+    "statusLine": null
+  },
+  "01-host-create": {
+    "viewport": [
+      390,
+      844
+    ],
+    "documentHeight": 844,
+    "horizontalOverflow": false,
+    "focus": "BODY",
+    "roleNamesInDocument": [],
+    "controlsUnder44": [],
+    "statusLine": null
+  },
+  "04-join-form": {
+    "viewport": [
+      390,
+      844
+    ],
+    "documentHeight": 987,
+    "horizontalOverflow": false,
+    "focus": "BODY",
+    "roleNamesInDocument": [],
+    "controlsUnder44": [],
+    "statusLine": null
+  },
+  "05-join-waiting-admission": {
+    "viewport": [
+      390,
+      844
+    ],
+    "documentHeight": 844,
+    "horizontalOverflow": false,
+    "focus": "BODY",
+    "roleNamesInDocument": [],
+    "controlsUnder44": [],
+    "statusLine": "Asking to join: done."
+  },
+  "02-host-request-pending": {
+    "viewport": [
+      390,
+      844
+    ],
+    "documentHeight": 1961,
+    "horizontalOverflow": false,
+    "focus": "BODY",
+    "roleNamesInDocument": [],
+    "controlsUnder44": [
+      {
+        "id": null,
+        "text": "Open a Player tab",
+        "width": 137,
+        "height": 24
+      }
+    ],
+    "statusLine": "Updating practice bots: done."
+  },
+  "03-host-ready-to-start": {
+    "viewport": [
+      390,
+      844
+    ],
+    "documentHeight": 2168,
+    "horizontalOverflow": false,
+    "focus": "BODY",
+    "roleNamesInDocument": [],
+    "controlsUnder44": [
+      {
+        "id": null,
+        "text": "Open a Player tab",
+        "width": 137,
+        "height": 24
+      }
+    ],
+    "statusLine": "Seating the player: done."
+  },
+  "06-seated-waiting-setup": {
+    "viewport": [
+      390,
+      844
+    ],
+    "documentHeight": 844,
+    "horizontalOverflow": false,
+    "focus": "BODY",
+    "roleNamesInDocument": [],
+    "controlsUnder44": [],
+    "statusLine": "Asking to join: done."
+  },
+  "07-host-choosing": {
+    "viewport": [
+      390,
+      844
+    ],
+    "documentHeight": 2340,
+    "horizontalOverflow": false,
+    "focus": "BODY",
+    "roleNamesInDocument": [],
+    "controlsUnder44": [
+      {
+        "id": null,
+        "text": "Open a Player tab",
+        "width": 137,
+        "height": 24
+      }
+    ],
+    "statusLine": "Starting character selection: done."
+  },
+  "08-select-open": {
+    "viewport": [
+      390,
+      844
+    ],
+    "documentHeight": 1726,
+    "horizontalOverflow": false,
+    "focus": "BODY",
+    "roleNamesInDocument": [],
+    "controlsUnder44": [],
+    "statusLine": "Asking to join: done."
+  },
+  "09-select-picked-320": {
+    "viewport": [
+      320,
+      844
+    ],
+    "documentHeight": 1806,
+    "horizontalOverflow": false,
+    "focus": "crew-name",
+    "roleNamesInDocument": [],
+    "controlsUnder44": [],
+    "statusLine": "Asking to join: done."
+  },
+  "10-select-confirmed": {
+    "viewport": [
+      390,
+      844
+    ],
+    "documentHeight": 1658,
+    "horizontalOverflow": false,
+    "focus": "BODY",
+    "roleNamesInDocument": [],
+    "controlsUnder44": [],
+    "statusLine": "Confirming your character: done."
+  },
+  "11-select-ended": {
+    "viewport": [
+      390,
+      844
+    ],
+    "documentHeight": 1682,
+    "horizontalOverflow": false,
+    "focus": "BODY",
+    "roleNamesInDocument": [],
+    "controlsUnder44": [],
+    "statusLine": "Confirming your character: done."
+  },
+  "12-role-concealed": {
+    "viewport": [
+      390,
+      844
+    ],
+    "documentHeight": 1270,
+    "horizontalOverflow": false,
+    "focus": "BODY",
+    "roleNamesInDocument": [],
+    "controlsUnder44": [],
+    "statusLine": "Confirming your character: done."
+  },
+  "13-role-revealed": {
+    "viewport": [
+      390,
+      844
+    ],
+    "documentHeight": 1826,
+    "horizontalOverflow": false,
+    "focus": "setup-role-toggle",
+    "roleNamesInDocument": [
+      "Officer",
+      "Supplier"
+    ],
+    "controlsUnder44": [],
+    "statusLine": "Confirming your character: done."
+  },
+  "14-role-revealed-320": {
+    "viewport": [
+      320,
+      844
+    ],
+    "documentHeight": 1899,
+    "horizontalOverflow": false,
+    "focus": "setup-role-toggle",
+    "roleNamesInDocument": [
+      "Officer",
+      "Supplier"
+    ],
+    "controlsUnder44": [],
+    "statusLine": "Confirming your character: done."
+  },
+  "15-ready-waiting": {
+    "viewport": [
+      390,
+      844
+    ],
+    "documentHeight": 1083,
+    "horizontalOverflow": false,
+    "focus": "BODY",
+    "roleNamesInDocument": [],
+    "controlsUnder44": [],
+    "statusLine": "Confirming your readiness: done."
+  },
+  "16-game-first-turn": {
+    "viewport": [
+      390,
+      844
+    ],
+    "documentHeight": 1454,
+    "horizontalOverflow": false,
+    "focus": "BODY",
+    "roleNamesInDocument": [],
+    "controlsUnder44": [
+      {
+        "id": "ms-reduce-motion",
+        "text": "",
+        "width": 24,
+        "height": 24
+      }
+    ],
+    "statusLine": "Confirming your readiness: done."
+  },
+  "17-host-running-end-confirm": {
+    "viewport": [
+      390,
+      844
+    ],
+    "documentHeight": 2176,
+    "horizontalOverflow": false,
+    "focus": "connected-end-cancel",
+    "roleNamesInDocument": [],
+    "controlsUnder44": [
+      {
+        "id": null,
+        "text": "Open a Player tab",
+        "width": 137,
+        "height": 24
+      }
+    ],
+    "statusLine": "Starting character selection: done."
+  },
+  "18-game-host-ended": {
+    "viewport": [
+      390,
+      844
+    ],
+    "documentHeight": 1625,
+    "horizontalOverflow": false,
+    "focus": "BODY",
+    "roleNamesInDocument": [],
+    "controlsUnder44": [
+      {
+        "id": "ms-reduce-motion",
+        "text": "",
+        "width": 24,
+        "height": 24
+      }
+    ],
+    "statusLine": "Confirming your readiness: done."
+  },
+  "19-display-entry": {
+    "viewport": [
+      390,
+      844
+    ],
+    "documentHeight": 844,
+    "horizontalOverflow": false,
+    "focus": "BODY",
+    "roleNamesInDocument": [],
+    "controlsUnder44": [],
+    "statusLine": null
+  },
+  "20-display-waiting": {
+    "viewport": [
+      390,
+      844
+    ],
+    "documentHeight": 844,
+    "horizontalOverflow": false,
+    "focus": "BODY",
+    "roleNamesInDocument": [],
+    "controlsUnder44": [],
+    "statusLine": null
+  },
+  "21-select-name-too-long-320": {
+    "viewport": [
+      320,
+      844
+    ],
+    "documentHeight": 1891,
+    "horizontalOverflow": false,
+    "focus": "crew-name",
+    "roleNamesInDocument": [],
+    "controlsUnder44": [],
+    "statusLine": "Asking to join: done."
+  },
+  "22-auto-assigned-no-notice": {
+    "viewport": [
+      390,
+      844
+    ],
+    "documentHeight": 1334,
+    "horizontalOverflow": false,
+    "focus": "BODY",
+    "roleNamesInDocument": [],
+    "controlsUnder44": [],
+    "statusLine": "Asking to join: done."
+  },
+  "23-game-nine-seats-320": {
+    "viewport": [
+      320,
+      844
+    ],
+    "documentHeight": 1690,
+    "horizontalOverflow": false,
+    "focus": "BODY",
+    "roleNamesInDocument": [],
+    "controlsUnder44": [
+      {
+        "id": "ms-reduce-motion",
+        "text": "",
+        "width": 24,
+        "height": 24
+      }
+    ],
+    "statusLine": "Confirming your readiness: done."
+  },
+  "24-game-private-open": {
+    "viewport": [
+      390,
+      844
+    ],
+    "documentHeight": 2259,
+    "horizontalOverflow": false,
+    "focus": "ms-private-toggle",
+    "roleNamesInDocument": [
+      "Cracker"
+    ],
+    "controlsUnder44": [
+      {
+        "id": "ms-reduce-motion",
+        "text": "",
+        "width": 24,
+        "height": 24
+      }
+    ],
+    "statusLine": "Confirming your readiness: done."
+  },
+  "25-display-board-1280": {
+    "viewport": [
+      1280,
+      800
+    ],
+    "documentHeight": 1166,
+    "horizontalOverflow": false,
+    "focus": "BODY",
+    "roleNamesInDocument": [],
+    "controlsUnder44": [
+      {
+        "id": "ms-reduce-motion",
+        "text": "",
+        "width": 24,
+        "height": 24
+      }
+    ],
+    "statusLine": null
+  }
+}

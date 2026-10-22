@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · editable source · SYNTHETIC DISCLOSURE STUDIES
+  Original vector artwork made for this repository. Rights and provenance: design/studies/study-manifest.json.
+
+  Two treatments from docs/design/motion-direction.md that no approved fact stands behind:
+
+    study-resolved-shot      an ink burst for a "public resolved shot"
+    study-blocked-outcome    an ink mark for a "disclosed blocked outcome"
+
+  The contracts carry no shot, shooter, attack type, block or Protection fact for any
+  audience (RULE-003 / D09). These exist so the treatment can be judged on paper.
+
+  THEY ARE NOT ASSETS. This file is kept apart from every other source on purpose:
+    - design/tools/build-exports.mjs refuses any recipe that reads from source/studies/;
+    - they are exported to design/studies/, never to design/exports/, with a manifest of
+      their own and a dev-only mark on every file;
+    - no bundle, sprite, reference stylesheet or shell page may refer to them.
+  Moving one into a real asset means moving the drawing out of this file, in a reviewed
+  change, after the game owner has approved the fact it would stand for.
+
+  Neither is drawn on a seat: a study points at no player.
+
+  Palette (design tokens 0.3.0): ink #151923 · paper #F4EBDD
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 240" width="460" height="240">
+  <defs>
+    <pattern id="halftone-ink-study-s" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <circle cx="4.5" cy="4.5" r="1.6" fill="#151923"/>
+    </pattern>
+    <pattern id="halftone-ink-study-l" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <circle cx="4.5" cy="4.5" r="3.3" fill="#151923"/>
+    </pattern>
+    <clipPath id="clip-study-blocked">
+      <path d="M90 10 L164 36 V94 C164 142 134 172 90 190 C46 172 16 142 16 94 V36 Z"/>
+    </clipPath>
+  </defs>
+
+  <g id="sheet-studies" transform="translate(10 10)">
+    <!-- 220 x 220, center 110,110. Lettering, if any, is live text over the paper burst. -->
+    <g transform="translate(0 0)">
+      <g id="study-resolved-shot">
+        <polygon points="110.0,6.0 123.4,51.5 151.7,23.5 149.9,60.0 194.4,42.7 162.3,84.8 199.7,89.5 176.0,110.0 211.4,133.1 164.1,136.0 186.6,171.1 148.7,158.5 156.9,207.3 122.9,166.5 110.0,204.0 95.8,172.4 65.7,201.9 72.6,156.9 34.9,169.9 50.5,138.6 4.7,134.0 52.0,110.0 20.3,89.5 54.1,83.1 28.7,45.2 72.6,63.1 67.5,21.7 95.8,47.6"
+                 fill="#151923" stroke="#151923" stroke-width="6" stroke-linejoin="miter"/>
+        <polygon points="110.0,33.0 119.9,66.7 140.8,46.0 139.5,73.0 172.5,60.2 148.7,91.4 176.4,94.9 158.8,110.0 185.0,127.1 150.0,129.3 166.7,155.2 138.6,145.9 144.7,182.0 119.6,151.8 110.0,179.6 99.5,156.2 77.3,178.0 82.3,144.7 54.5,154.3 66.0,131.2 32.1,127.8 67.1,110.0 43.6,94.9 68.7,90.1 49.8,62.0 82.3,75.3 78.5,44.7 99.5,63.8"
+                 fill="#F4EBDD"/>
+      </g>
+    </g>
+    <!-- 180 x 206. -->
+    <g transform="translate(250 6)">
+      <g id="study-blocked-outcome">
+        <path d="M98 20 L172 46 V104 C172 152 142 182 98 200 C54 182 24 152 24 104 V46 Z" fill="#151923"/>
+        <path d="M90 10 L164 36 V94 C164 142 134 172 90 190 C46 172 16 142 16 94 V36 Z" fill="#F4EBDD"/>
+        <g clip-path="url(#clip-study-blocked)">
+          <path d="M90 60 L180 20 V200 H60 Z" fill="url(#halftone-ink-study-s)"/>
+          <path d="M120 90 L180 60 V200 H96 Z" fill="url(#halftone-ink-study-l)"/>
+        </g>
+        <path d="M90 10 L164 36 V94 C164 142 134 172 90 190 C46 172 16 142 16 94 V36 Z" fill="none" stroke="#151923" stroke-width="8" stroke-linejoin="round"/>
+        <path d="M34 48 L90 28 L146 48" fill="none" stroke="#151923" stroke-width="3" stroke-linejoin="round" opacity="0.6"/>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,84 @@
+{
+  "run": {
+    "startedAt": "2026-10-06T22:43:59.436Z",
+    "origin": "http://127.0.0.1:5173",
+    "scenario": "knowledge",
+    "players": 7,
+    "browser": "Chrome/155.0.8059.39",
+    "previewServer": "already running",
+    "pageLoads": {
+      "host": 1,
+      "display": 1,
+      "player-1": 1,
+      "player-2": 1,
+      "player-3": 1,
+      "player-4": 1,
+      "player-5": 1,
+      "player-6": 1,
+      "player-7": 1
+    }
+  },
+  "steps": [
+    {
+      "step": "1. The host creates a seven-player lobby",
+      "statements": [
+        "One v1CreateMatch from the host page; the answer named a match and a twelve-character room code.",
+        "The host console then read the lobby from its own session document and the lobby document: 0 of 7 seated, status \"lobby\"."
+      ]
+    },
+    {
+      "step": "2. Players authenticate and request admission",
+      "statements": [
+        "9 browser contexts signed in anonymously to the Auth emulator and hold 9 different identities.",
+        "7 of them asked to join with the room code (4 starting in Room A, 3 in Room B) and are waiting; none shows anything of a match."
+      ]
+    },
+    {
+      "step": "3. The host approves seats and starts the match",
+      "statements": [
+        "The host console listed 7 requests; each was seated with the keyboard alone (Tab, Enter), 7 v1ApproveAdmission calls, and each player page learned its seat from its own admission document.",
+        "The display was admitted by the identifier it shows, and showed no match before the start.",
+        "One v1StartMatch; the host console then read status \"running\"."
+      ]
+    },
+    {
+      "step": "K1. What each seat is told in private, checked against the other six phones",
+      "statements": [
+        "With its private panel open each phone lists what the server’s view tells that seat; closed, none of it is in the document.",
+        "The Insider's phone names three seats as holding Undercover, Alien and Cracker. The three phones that show those roles are exactly those seats.",
+        "The Hacker's phone names the Undercover's seat, and the phone in that seat shows Undercover.",
+        "The Alien's phone lists a Code of four different seats, its own among them and the Undercover's not.",
+        "The Undercover is told it holds one weapon, the Cracker that it has two Rescues, and every other seat that it holds no weapon and nothing else. No phone is told what belongs to another role, the display shows none of it, and none of it is in any page’s storage."
+      ]
+    },
+    {
+      "step": "K2. A Scan on the Hacker’s own turn, and its result",
+      "statements": [
+        "The journey followed 7 turn(s) to the Hacker's. On every one of them no other phone listed a Scan, a Supply or a Code attempt.",
+        "On its own turn the Hacker's phone offered a Scan with 3 seat(s) from the server, its own among them. It asked for the seat, then for a guess among Blue, Red and Alien, and sent nothing until the choice was confirmed.",
+        "One confirmation made one SCAN naming seat 4 and guessing Blue, that player's real faction as its own phone's role shows. Receipt accepted.",
+        "The server's next view carried the result and the phone listed it: the guess was right, and that player is in the Code, which agrees with the Code the Alien's phone lists.",
+        "The server offered no second Scan in the round. No other phone was told anything, the display’s board did not change, nothing of a Scan was spoken anywhere but privately on the Hacker’s phone, and nothing of it was in the page’s storage.",
+        "NOT RUN: a wrong guess, a Supply (round 3 only) and a Code attempt (round 5 only) against the backend. They are unit-tested."
+      ]
+    }
+  ],
+  "match": {
+    "note": "A throwaway match on the local emulator with anonymous emulator identities. Nothing here is a real match or a real person.",
+    "playerCount": 7,
+    "turnsFollowed": 7,
+    "scan": {
+      "bySeat": 2,
+      "ofSeat": 4,
+      "ofOwnSeat": false,
+      "guess": "Blue",
+      "seatsListed": 3,
+      "commandCalls": [
+        {
+          "tookMs": 943,
+          "answer": "accepted"
+        }
+      ]
+    }
+  }
+}

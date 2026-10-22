@@ -1,0 +1,2357 @@
+{
+  "inputsSha256": "54c94bd8c54e473825d55ac3962ac4b53d6588886c44f7dfa8f6b46a9ec24e47",
+  "browser": "Chrome/141.0.7390.37",
+  "scale": 1.5,
+  "shots": [
+    {
+      "name": "insider-w390-rest",
+      "title": "The file at rest, 390 x 844",
+      "group": "The Insider's file",
+      "slice": 1,
+      "file": "design/abilities/review/insider-w390-rest.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "insider-w390-inspect",
+      "title": "Inspecting Player 5, 390 x 844",
+      "group": "The Insider's file",
+      "slice": 1,
+      "file": "design/abilities/review/insider-w390-inspect.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "insider-w390-long-names",
+      "title": "Twelve-character names, 390 x 844",
+      "group": "The Insider's file",
+      "slice": 1,
+      "file": "design/abilities/review/insider-w390-long-names.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "insider-w390-long-inspect",
+      "title": "A long name inspected, 390 x 844",
+      "group": "The Insider's file",
+      "slice": 1,
+      "file": "design/abilities/review/insider-w390-long-inspect.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "insider-w390-text200",
+      "title": "Twice the default text size, 390 x 844",
+      "group": "Text size, motion, art",
+      "slice": 1,
+      "file": "design/abilities/review/insider-w390-text200.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "insider-w390-text200-inspect",
+      "title": "Twice the text size, inspecting, 390 x 844",
+      "group": "Text size, motion, art",
+      "slice": 1,
+      "file": "design/abilities/review/insider-w390-text200-inspect.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "insider-w320-rest",
+      "title": "The file at rest, 320 x 568",
+      "group": "The Insider's file",
+      "slice": 1,
+      "file": "design/abilities/review/insider-w320-rest.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "insider-w320-inspect",
+      "title": "Inspecting Player 5, 320 x 568",
+      "group": "The Insider's file",
+      "slice": 1,
+      "file": "design/abilities/review/insider-w320-inspect.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "insider-w320-long-names",
+      "title": "Twelve-character names, 320 x 568",
+      "group": "The Insider's file",
+      "slice": 1,
+      "file": "design/abilities/review/insider-w320-long-names.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "insider-w320-long-inspect",
+      "title": "A long name inspected, 320 x 568",
+      "group": "The Insider's file",
+      "slice": 1,
+      "file": "design/abilities/review/insider-w320-long-inspect.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "insider-w320-text200",
+      "title": "Twice the default text size, 320 x 568",
+      "group": "Text size, motion, art",
+      "slice": 1,
+      "file": "design/abilities/review/insider-w320-text200.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "insider-w320-text200-inspect",
+      "title": "Twice the text size, inspecting, 320 x 568",
+      "group": "Text size, motion, art",
+      "slice": 1,
+      "file": "design/abilities/review/insider-w320-text200-inspect.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "insider-w390-show-on-board",
+      "title": "Show on board: Player 5 ringed on the own board",
+      "group": "The Insider's file",
+      "slice": 1,
+      "file": "design/abilities/review/insider-w390-show-on-board.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "insider-w390-reduced",
+      "title": "Reduced motion: at rest, nothing flies",
+      "group": "Text size, motion, art",
+      "slice": 1,
+      "file": "design/abilities/review/insider-w390-reduced.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "insider-w390-no-art",
+      "title": "Without the ability art or the crew cards",
+      "group": "Text size, motion, art",
+      "slice": 1,
+      "file": "design/abilities/review/insider-w390-no-art.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "hidden-w390-stale",
+      "title": "Card pressed while the view is out of date: the closed folder",
+      "group": "Hidden",
+      "slice": 1,
+      "file": "design/abilities/review/hidden-w390-stale.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "hidden-w320-stale",
+      "title": "The closed folder, 320 x 568",
+      "group": "Hidden",
+      "slice": 1,
+      "file": "design/abilities/review/hidden-w320-stale.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "hidden-w390-background",
+      "title": "Back from the background: the board, the card closed",
+      "group": "Hidden",
+      "slice": 1,
+      "file": "design/abilities/review/hidden-w390-background.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "hidden-w390-reopened",
+      "title": "Card pressed again: the file at rest, not assembled again",
+      "group": "Hidden",
+      "slice": 1,
+      "file": "design/abilities/review/hidden-w390-reopened.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "assembly-0000ms",
+      "title": "0 ms",
+      "group": "Assembly, frame by frame",
+      "slice": 1,
+      "file": "design/abilities/review/assembly-0000ms.png",
+      "phone": "w390",
+      "size": "567x956",
+      "problems": []
+    },
+    {
+      "name": "assembly-0120ms",
+      "title": "120 ms",
+      "group": "Assembly, frame by frame",
+      "slice": 1,
+      "file": "design/abilities/review/assembly-0120ms.png",
+      "phone": "w390",
+      "size": "567x956",
+      "problems": []
+    },
+    {
+      "name": "assembly-0260ms",
+      "title": "260 ms",
+      "group": "Assembly, frame by frame",
+      "slice": 1,
+      "file": "design/abilities/review/assembly-0260ms.png",
+      "phone": "w390",
+      "size": "567x956",
+      "problems": []
+    },
+    {
+      "name": "assembly-0420ms",
+      "title": "420 ms",
+      "group": "Assembly, frame by frame",
+      "slice": 1,
+      "file": "design/abilities/review/assembly-0420ms.png",
+      "phone": "w390",
+      "size": "567x956",
+      "problems": []
+    },
+    {
+      "name": "assembly-0600ms",
+      "title": "600 ms",
+      "group": "Assembly, frame by frame",
+      "slice": 1,
+      "file": "design/abilities/review/assembly-0600ms.png",
+      "phone": "w390",
+      "size": "567x956",
+      "problems": []
+    },
+    {
+      "name": "assembly-0780ms",
+      "title": "780 ms",
+      "group": "Assembly, frame by frame",
+      "slice": 1,
+      "file": "design/abilities/review/assembly-0780ms.png",
+      "phone": "w390",
+      "size": "567x956",
+      "problems": []
+    },
+    {
+      "name": "assembly-1020ms",
+      "title": "1020 ms",
+      "group": "Assembly, frame by frame",
+      "slice": 1,
+      "file": "design/abilities/review/assembly-1020ms.png",
+      "phone": "w390",
+      "size": "567x956",
+      "problems": []
+    },
+    {
+      "name": "hacker-w390-rest",
+      "title": "The Hacker's file: the known Undercover, two Scans, 390 x 844",
+      "group": "The Hacker's file",
+      "slice": 2,
+      "file": "design/abilities/review/hacker-w390-rest.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "hacker-w390-inspect",
+      "title": "Inspecting the known Undercover, 390 x 844",
+      "group": "The Hacker's file",
+      "slice": 2,
+      "file": "design/abilities/review/hacker-w390-inspect.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "hacker-w390-long-names",
+      "title": "Twelve-character names, 390 x 844",
+      "group": "The Hacker's file",
+      "slice": 2,
+      "file": "design/abilities/review/hacker-w390-long-names.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "hacker-w390-text200",
+      "title": "The Hacker's file at twice the text size, 390 x 844",
+      "group": "Slice 2: text size, motion, art",
+      "slice": 2,
+      "file": "design/abilities/review/hacker-w390-text200.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "alien-w390-rest",
+      "title": "The Alien's file: the Code, four in no order, 390 x 844",
+      "group": "The Alien's file",
+      "slice": 2,
+      "file": "design/abilities/review/alien-w390-rest.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "alien-w390-inspect",
+      "title": "Inspecting one of the four, 390 x 844",
+      "group": "The Alien's file",
+      "slice": 2,
+      "file": "design/abilities/review/alien-w390-inspect.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "alien-w390-long-names",
+      "title": "Twelve-character names, 390 x 844",
+      "group": "The Alien's file",
+      "slice": 2,
+      "file": "design/abilities/review/alien-w390-long-names.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "alien-w390-text200",
+      "title": "The Alien's file at twice the text size, 390 x 844",
+      "group": "Slice 2: text size, motion, art",
+      "slice": 2,
+      "file": "design/abilities/review/alien-w390-text200.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "code-w390-two",
+      "title": "Code attempt: two picked, the card in seat order, 390 x 844",
+      "group": "The Code and the Scan in the strip",
+      "slice": 2,
+      "file": "design/abilities/review/code-w390-two.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "code-w390-four",
+      "title": "Code attempt: four picked, confirm, 390 x 844",
+      "group": "The Code and the Scan in the strip",
+      "slice": 2,
+      "file": "design/abilities/review/code-w390-four.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "scan-w390-guess",
+      "title": "Scan: the target, guess a faction, 390 x 844",
+      "group": "The Code and the Scan in the strip",
+      "slice": 2,
+      "file": "design/abilities/review/scan-w390-guess.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "hacker-w320-rest",
+      "title": "The Hacker's file: the known Undercover, two Scans, 320 x 568",
+      "group": "The Hacker's file",
+      "slice": 2,
+      "file": "design/abilities/review/hacker-w320-rest.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "hacker-w320-inspect",
+      "title": "Inspecting the known Undercover, 320 x 568",
+      "group": "The Hacker's file",
+      "slice": 2,
+      "file": "design/abilities/review/hacker-w320-inspect.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "hacker-w320-long-names",
+      "title": "Twelve-character names, 320 x 568",
+      "group": "The Hacker's file",
+      "slice": 2,
+      "file": "design/abilities/review/hacker-w320-long-names.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "hacker-w320-text200",
+      "title": "The Hacker's file at twice the text size, 320 x 568",
+      "group": "Slice 2: text size, motion, art",
+      "slice": 2,
+      "file": "design/abilities/review/hacker-w320-text200.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "alien-w320-rest",
+      "title": "The Alien's file: the Code, four in no order, 320 x 568",
+      "group": "The Alien's file",
+      "slice": 2,
+      "file": "design/abilities/review/alien-w320-rest.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "alien-w320-inspect",
+      "title": "Inspecting one of the four, 320 x 568",
+      "group": "The Alien's file",
+      "slice": 2,
+      "file": "design/abilities/review/alien-w320-inspect.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "alien-w320-long-names",
+      "title": "Twelve-character names, 320 x 568",
+      "group": "The Alien's file",
+      "slice": 2,
+      "file": "design/abilities/review/alien-w320-long-names.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "alien-w320-text200",
+      "title": "The Alien's file at twice the text size, 320 x 568",
+      "group": "Slice 2: text size, motion, art",
+      "slice": 2,
+      "file": "design/abilities/review/alien-w320-text200.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "code-w320-two",
+      "title": "Code attempt: two picked, the card in seat order, 320 x 568",
+      "group": "The Code and the Scan in the strip",
+      "slice": 2,
+      "file": "design/abilities/review/code-w320-two.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "code-w320-four",
+      "title": "Code attempt: four picked, confirm, 320 x 568",
+      "group": "The Code and the Scan in the strip",
+      "slice": 2,
+      "file": "design/abilities/review/code-w320-four.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "scan-w320-guess",
+      "title": "Scan: the target, guess a faction, 320 x 568",
+      "group": "The Code and the Scan in the strip",
+      "slice": 2,
+      "file": "design/abilities/review/scan-w320-guess.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "hacker-w390-start",
+      "title": "The Hacker's file before any Scan",
+      "group": "The Hacker's file",
+      "slice": 2,
+      "file": "design/abilities/review/hacker-w390-start.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "hacker-w390-one-result",
+      "title": "One Scan result: right, not in the Code",
+      "group": "The Hacker's file",
+      "slice": 2,
+      "file": "design/abilities/review/hacker-w390-one-result.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "code-w390-registered",
+      "title": "Code attempt registered: the card punched, not a result",
+      "group": "The Code and the Scan in the strip",
+      "slice": 2,
+      "file": "design/abilities/review/code-w390-registered.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "scan-w390-sending",
+      "title": "Scan on its way: the scanner sweeps its target",
+      "group": "The Code and the Scan in the strip",
+      "slice": 2,
+      "file": "design/abilities/review/scan-w390-sending.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "scan-w390-sending-reduced",
+      "title": "Reduced motion: no sweep, the target ringed",
+      "group": "Slice 2: text size, motion, art",
+      "slice": 2,
+      "file": "design/abilities/review/scan-w390-sending-reduced.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "hacker-w390-no-art",
+      "title": "The Hacker's file without the ability art or the crew cards",
+      "group": "Slice 2: text size, motion, art",
+      "slice": 2,
+      "file": "design/abilities/review/hacker-w390-no-art.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "alien-w390-no-art",
+      "title": "The Alien's file without the ability art or the crew cards",
+      "group": "Slice 2: text size, motion, art",
+      "slice": 2,
+      "file": "design/abilities/review/alien-w390-no-art.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "code-w390-no-art",
+      "title": "The Code card without the ability art or the crew cards",
+      "group": "Slice 2: text size, motion, art",
+      "slice": 2,
+      "file": "design/abilities/review/code-w390-no-art.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "hacker-assembly-0000ms",
+      "title": "Hacker's file, 0 ms",
+      "group": "Slice 2: assembly, frame by frame",
+      "slice": 2,
+      "file": "design/abilities/review/hacker-assembly-0000ms.png",
+      "phone": "w390",
+      "size": "567x951",
+      "problems": []
+    },
+    {
+      "name": "hacker-assembly-0260ms",
+      "title": "Hacker's file, 260 ms",
+      "group": "Slice 2: assembly, frame by frame",
+      "slice": 2,
+      "file": "design/abilities/review/hacker-assembly-0260ms.png",
+      "phone": "w390",
+      "size": "567x951",
+      "problems": []
+    },
+    {
+      "name": "hacker-assembly-0520ms",
+      "title": "Hacker's file, 520 ms",
+      "group": "Slice 2: assembly, frame by frame",
+      "slice": 2,
+      "file": "design/abilities/review/hacker-assembly-0520ms.png",
+      "phone": "w390",
+      "size": "567x951",
+      "problems": []
+    },
+    {
+      "name": "hacker-assembly-0780ms",
+      "title": "Hacker's file, 780 ms",
+      "group": "Slice 2: assembly, frame by frame",
+      "slice": 2,
+      "file": "design/abilities/review/hacker-assembly-0780ms.png",
+      "phone": "w390",
+      "size": "567x951",
+      "problems": []
+    },
+    {
+      "name": "hacker-assembly-1100ms",
+      "title": "Hacker's file, 1100 ms",
+      "group": "Slice 2: assembly, frame by frame",
+      "slice": 2,
+      "file": "design/abilities/review/hacker-assembly-1100ms.png",
+      "phone": "w390",
+      "size": "567x951",
+      "problems": []
+    },
+    {
+      "name": "alien-assembly-0000ms",
+      "title": "Alien's file, 0 ms",
+      "group": "Slice 2: assembly, frame by frame",
+      "slice": 2,
+      "file": "design/abilities/review/alien-assembly-0000ms.png",
+      "phone": "w390",
+      "size": "567x987",
+      "problems": []
+    },
+    {
+      "name": "alien-assembly-0260ms",
+      "title": "Alien's file, 260 ms",
+      "group": "Slice 2: assembly, frame by frame",
+      "slice": 2,
+      "file": "design/abilities/review/alien-assembly-0260ms.png",
+      "phone": "w390",
+      "size": "567x987",
+      "problems": []
+    },
+    {
+      "name": "alien-assembly-0520ms",
+      "title": "Alien's file, 520 ms",
+      "group": "Slice 2: assembly, frame by frame",
+      "slice": 2,
+      "file": "design/abilities/review/alien-assembly-0520ms.png",
+      "phone": "w390",
+      "size": "567x987",
+      "problems": []
+    },
+    {
+      "name": "alien-assembly-0820ms",
+      "title": "Alien's file, 820 ms",
+      "group": "Slice 2: assembly, frame by frame",
+      "slice": 2,
+      "file": "design/abilities/review/alien-assembly-0820ms.png",
+      "phone": "w390",
+      "size": "567x987",
+      "problems": []
+    },
+    {
+      "name": "alien-assembly-1100ms",
+      "title": "Alien's file, 1100 ms",
+      "group": "Slice 2: assembly, frame by frame",
+      "slice": 2,
+      "file": "design/abilities/review/alien-assembly-1100ms.png",
+      "phone": "w390",
+      "size": "567x987",
+      "problems": []
+    },
+    {
+      "name": "rescue-w390-choose",
+      "title": "Rescue: a player in the Hospital, two vials left, 390 x 844",
+      "group": "The Rescue",
+      "slice": 3,
+      "file": "design/abilities/review/rescue-w390-choose.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "rescue-w390-confirm",
+      "title": "Rescue: the target in the medical cross, 390 x 844",
+      "group": "The Rescue",
+      "slice": 3,
+      "file": "design/abilities/review/rescue-w390-confirm.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "rescue-w390-registered",
+      "title": "Rescue registered: one vial spent, not a recovery, 390 x 844",
+      "group": "The Rescue",
+      "slice": 3,
+      "file": "design/abilities/review/rescue-w390-registered.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "rescue-w390-kit",
+      "title": "The Cracker's card: one Rescue left, 390 x 844",
+      "group": "The Rescue",
+      "slice": 3,
+      "file": "design/abilities/review/rescue-w390-kit.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "disable-w390-confirm",
+      "title": "Disable: the target in the sparks, the one charge, 390 x 844",
+      "group": "The Disable",
+      "slice": 3,
+      "file": "design/abilities/review/disable-w390-confirm.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "disable-w390-registered",
+      "title": "Disable registered: the charge spent, not a result, 390 x 844",
+      "group": "The Disable",
+      "slice": 3,
+      "file": "design/abilities/review/disable-w390-registered.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "supply-w390-second",
+      "title": "Supply: one tag filled, choose the second, 390 x 844",
+      "group": "The Supply",
+      "slice": 3,
+      "file": "design/abilities/review/supply-w390-second.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "supply-w390-registered",
+      "title": "Supply registered: the tags tied, not a delivery, 390 x 844",
+      "group": "The Supply",
+      "slice": 3,
+      "file": "design/abilities/review/supply-w390-registered.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "supply-w390-ack",
+      "title": "The Supplier's slip: delivered to both, 390 x 844",
+      "group": "The Supply",
+      "slice": 3,
+      "file": "design/abilities/review/supply-w390-ack.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "supply-w390-received",
+      "title": "A recipient's slip: no Supplier named, 390 x 844",
+      "group": "The Supply",
+      "slice": 3,
+      "file": "design/abilities/review/supply-w390-received.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "rescue-w320-choose",
+      "title": "Rescue: a player in the Hospital, two vials left, 320 x 568",
+      "group": "The Rescue",
+      "slice": 3,
+      "file": "design/abilities/review/rescue-w320-choose.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "rescue-w320-confirm",
+      "title": "Rescue: the target in the medical cross, 320 x 568",
+      "group": "The Rescue",
+      "slice": 3,
+      "file": "design/abilities/review/rescue-w320-confirm.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "rescue-w320-registered",
+      "title": "Rescue registered: one vial spent, not a recovery, 320 x 568",
+      "group": "The Rescue",
+      "slice": 3,
+      "file": "design/abilities/review/rescue-w320-registered.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "rescue-w320-kit",
+      "title": "The Cracker's card: one Rescue left, 320 x 568",
+      "group": "The Rescue",
+      "slice": 3,
+      "file": "design/abilities/review/rescue-w320-kit.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "disable-w320-confirm",
+      "title": "Disable: the target in the sparks, the one charge, 320 x 568",
+      "group": "The Disable",
+      "slice": 3,
+      "file": "design/abilities/review/disable-w320-confirm.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "disable-w320-registered",
+      "title": "Disable registered: the charge spent, not a result, 320 x 568",
+      "group": "The Disable",
+      "slice": 3,
+      "file": "design/abilities/review/disable-w320-registered.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "supply-w320-second",
+      "title": "Supply: one tag filled, choose the second, 320 x 568",
+      "group": "The Supply",
+      "slice": 3,
+      "file": "design/abilities/review/supply-w320-second.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "supply-w320-registered",
+      "title": "Supply registered: the tags tied, not a delivery, 320 x 568",
+      "group": "The Supply",
+      "slice": 3,
+      "file": "design/abilities/review/supply-w320-registered.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "supply-w320-ack",
+      "title": "The Supplier's slip: delivered to both, 320 x 568",
+      "group": "The Supply",
+      "slice": 3,
+      "file": "design/abilities/review/supply-w320-ack.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "supply-w320-received",
+      "title": "A recipient's slip: no Supplier named, 320 x 568",
+      "group": "The Supply",
+      "slice": 3,
+      "file": "design/abilities/review/supply-w320-received.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "rescue-w390-self",
+      "title": "Rescue: yourself, injured, one vial left",
+      "group": "The Rescue",
+      "slice": 3,
+      "file": "design/abilities/review/rescue-w390-self.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "disable-w390-red-confirm",
+      "title": "The Red Disabler's strip: the same as the Blue's",
+      "group": "The Disable",
+      "slice": 3,
+      "file": "design/abilities/review/disable-w390-red-confirm.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "disable-w390-red-registered",
+      "title": "The Red Disabler's receipt: the same as the Blue's",
+      "group": "The Disable",
+      "slice": 3,
+      "file": "design/abilities/review/disable-w390-red-registered.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "supply-w390-ack-one",
+      "title": "Delivered to one of the two",
+      "group": "The Supply",
+      "slice": 3,
+      "file": "design/abilities/review/supply-w390-ack-one.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "supply-w390-ack-none",
+      "title": "No one received a weapon",
+      "group": "The Supply",
+      "slice": 3,
+      "file": "design/abilities/review/supply-w390-ack-none.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "supply-w390-self",
+      "title": "Supplied yourself and Player 8: two slips",
+      "group": "The Supply",
+      "slice": 3,
+      "file": "design/abilities/review/supply-w390-self.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "supply-w390-history",
+      "title": "The Supplier's history unavailable",
+      "group": "The Supply",
+      "slice": 3,
+      "file": "design/abilities/review/supply-w390-history.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "rescue-w390-text200-confirm",
+      "title": "Rescue at twice the text size",
+      "group": "Slice 3: text size, motion, art",
+      "slice": 3,
+      "file": "design/abilities/review/rescue-w390-text200-confirm.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "supply-w320-text200-registered",
+      "title": "Supply registered at twice the text size, 320 x 568",
+      "group": "Slice 3: text size, motion, art",
+      "slice": 3,
+      "file": "design/abilities/review/supply-w320-text200-registered.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "supply-w390-text200-self",
+      "title": "Two slips at twice the text size",
+      "group": "Slice 3: text size, motion, art",
+      "slice": 3,
+      "file": "design/abilities/review/supply-w390-text200-self.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "rescue-w320-text200-kit",
+      "title": "The Cracker's card at twice the text size, 320 x 568",
+      "group": "Slice 3: text size, motion, art",
+      "slice": 3,
+      "file": "design/abilities/review/rescue-w320-text200-kit.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "rescue-w390-registered-reduced",
+      "title": "Reduced motion: the receipt at rest",
+      "group": "Slice 3: text size, motion, art",
+      "slice": 3,
+      "file": "design/abilities/review/rescue-w390-registered-reduced.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "rescue-w390-no-art",
+      "title": "Without the ability art or the crew cards: rescue.confirm",
+      "group": "Slice 3: text size, motion, art",
+      "slice": 3,
+      "file": "design/abilities/review/rescue-w390-no-art.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "disable-w390-no-art",
+      "title": "Without the ability art or the crew cards: disable.confirm",
+      "group": "Slice 3: text size, motion, art",
+      "slice": 3,
+      "file": "design/abilities/review/disable-w390-no-art.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "supply-w390-no-art",
+      "title": "Without the ability art or the crew cards: supply.second",
+      "group": "Slice 3: text size, motion, art",
+      "slice": 3,
+      "file": "design/abilities/review/supply-w390-no-art.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "slip-w390-no-art",
+      "title": "Without the ability art or the crew cards: supply.ack",
+      "group": "Slice 3: text size, motion, art",
+      "slice": 3,
+      "file": "design/abilities/review/slip-w390-no-art.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "beat-drain-0000ms",
+      "title": "Drain, 0 ms",
+      "group": "Slice 3: the beats, frame by frame",
+      "slice": 3,
+      "file": "design/abilities/review/beat-drain-0000ms.png",
+      "phone": "w390",
+      "size": "567x151",
+      "problems": []
+    },
+    {
+      "name": "beat-drain-0120ms",
+      "title": "Drain, 120 ms",
+      "group": "Slice 3: the beats, frame by frame",
+      "slice": 3,
+      "file": "design/abilities/review/beat-drain-0120ms.png",
+      "phone": "w390",
+      "size": "567x151",
+      "problems": []
+    },
+    {
+      "name": "beat-drain-0240ms",
+      "title": "Drain, 240 ms",
+      "group": "Slice 3: the beats, frame by frame",
+      "slice": 3,
+      "file": "design/abilities/review/beat-drain-0240ms.png",
+      "phone": "w390",
+      "size": "567x151",
+      "problems": []
+    },
+    {
+      "name": "beat-discharge-0000ms",
+      "title": "Discharge, 0 ms",
+      "group": "Slice 3: the beats, frame by frame",
+      "slice": 3,
+      "file": "design/abilities/review/beat-discharge-0000ms.png",
+      "phone": "w390",
+      "size": "567x151",
+      "problems": []
+    },
+    {
+      "name": "beat-discharge-0100ms",
+      "title": "Discharge, 100 ms",
+      "group": "Slice 3: the beats, frame by frame",
+      "slice": 3,
+      "file": "design/abilities/review/beat-discharge-0100ms.png",
+      "phone": "w390",
+      "size": "567x151",
+      "problems": []
+    },
+    {
+      "name": "beat-discharge-0200ms",
+      "title": "Discharge, 200 ms",
+      "group": "Slice 3: the beats, frame by frame",
+      "slice": 3,
+      "file": "design/abilities/review/beat-discharge-0200ms.png",
+      "phone": "w390",
+      "size": "567x151",
+      "problems": []
+    },
+    {
+      "name": "beat-tie-0000ms",
+      "title": "Tie, 0 ms",
+      "group": "Slice 3: the beats, frame by frame",
+      "slice": 3,
+      "file": "design/abilities/review/beat-tie-0000ms.png",
+      "phone": "w390",
+      "size": "567x148",
+      "problems": []
+    },
+    {
+      "name": "beat-tie-0100ms",
+      "title": "Tie, 100 ms",
+      "group": "Slice 3: the beats, frame by frame",
+      "slice": 3,
+      "file": "design/abilities/review/beat-tie-0100ms.png",
+      "phone": "w390",
+      "size": "567x148",
+      "problems": []
+    },
+    {
+      "name": "beat-tie-0200ms",
+      "title": "Tie, 200 ms",
+      "group": "Slice 3: the beats, frame by frame",
+      "slice": 3,
+      "file": "design/abilities/review/beat-tie-0200ms.png",
+      "phone": "w390",
+      "size": "567x148",
+      "problems": []
+    },
+    {
+      "name": "beat-slip-0000ms",
+      "title": "A slip drops in, 0 ms",
+      "group": "Slice 3: the beats, frame by frame",
+      "slice": 3,
+      "file": "design/abilities/review/beat-slip-0000ms.png",
+      "phone": "w390",
+      "size": "525x189",
+      "problems": []
+    },
+    {
+      "name": "beat-slip-0130ms",
+      "title": "A slip drops in, 130 ms",
+      "group": "Slice 3: the beats, frame by frame",
+      "slice": 3,
+      "file": "design/abilities/review/beat-slip-0130ms.png",
+      "phone": "w390",
+      "size": "525x189",
+      "problems": []
+    },
+    {
+      "name": "beat-slip-0260ms",
+      "title": "A slip drops in, 260 ms",
+      "group": "Slice 3: the beats, frame by frame",
+      "slice": 3,
+      "file": "design/abilities/review/beat-slip-0260ms.png",
+      "phone": "w390",
+      "size": "525x189",
+      "problems": []
+    },
+    {
+      "name": "shot-w390-confirm",
+      "title": "Shot: the target in the reticle, one round, 390 x 844",
+      "group": "The shot",
+      "slice": 4,
+      "file": "design/abilities/review/shot-w390-confirm.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "shot-w390-registered",
+      "title": "Shot registered: the round spent, not a result, 390 x 844",
+      "group": "The shot",
+      "slice": 4,
+      "file": "design/abilities/review/shot-w390-registered.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "protect-w390-confirm",
+      "title": "Protection: the target on the shield, 390 x 844",
+      "group": "Protection",
+      "slice": 4,
+      "file": "design/abilities/review/protect-w390-confirm.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "protect-w390-registered",
+      "title": "Protection registered: not a grant, 390 x 844",
+      "group": "Protection",
+      "slice": 4,
+      "file": "design/abilities/review/protect-w390-registered.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "guard-w390-card",
+      "title": "The Undercover's card: a Protection, one weapon, 390 x 844",
+      "group": "Protection",
+      "slice": 4,
+      "file": "design/abilities/review/guard-w390-card.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "alien-w390-weapon",
+      "title": "The Alien's card with a supplied weapon, 390 x 844",
+      "group": "The shot",
+      "slice": 4,
+      "file": "design/abilities/review/alien-w390-weapon.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "shot-w320-confirm",
+      "title": "Shot: the target in the reticle, one round, 320 x 568",
+      "group": "The shot",
+      "slice": 4,
+      "file": "design/abilities/review/shot-w320-confirm.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "shot-w320-registered",
+      "title": "Shot registered: the round spent, not a result, 320 x 568",
+      "group": "The shot",
+      "slice": 4,
+      "file": "design/abilities/review/shot-w320-registered.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "protect-w320-confirm",
+      "title": "Protection: the target on the shield, 320 x 568",
+      "group": "Protection",
+      "slice": 4,
+      "file": "design/abilities/review/protect-w320-confirm.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "protect-w320-registered",
+      "title": "Protection registered: not a grant, 320 x 568",
+      "group": "Protection",
+      "slice": 4,
+      "file": "design/abilities/review/protect-w320-registered.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "guard-w320-card",
+      "title": "The Undercover's card: a Protection, one weapon, 320 x 568",
+      "group": "Protection",
+      "slice": 4,
+      "file": "design/abilities/review/guard-w320-card.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "alien-w320-weapon",
+      "title": "The Alien's card with a supplied weapon, 320 x 568",
+      "group": "The shot",
+      "slice": 4,
+      "file": "design/abilities/review/alien-w320-weapon.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "shot-w390-officer",
+      "title": "The Officer's shot in Round 1",
+      "group": "The shot",
+      "slice": 4,
+      "file": "design/abilities/review/shot-w390-officer.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "shot-w390-undercover-confirm",
+      "title": "The Undercover's shot: the same strip",
+      "group": "The shot",
+      "slice": 4,
+      "file": "design/abilities/review/shot-w390-undercover-confirm.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "shot-w390-alien-confirm",
+      "title": "An Alien's supplied weapon: the same strip",
+      "group": "The shot",
+      "slice": 4,
+      "file": "design/abilities/review/shot-w390-alien-confirm.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "weapons-w390-officer-spent",
+      "title": "The Officer's card after the one shot",
+      "group": "The shot",
+      "slice": 4,
+      "file": "design/abilities/review/weapons-w390-officer-spent.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "weapons-w390-officer-supplied",
+      "title": "The Officer after the one shot, a weapon supplied: counted; that it cannot be used is not in the view (DSN-REQ-15)",
+      "group": "The shot",
+      "slice": 4,
+      "file": "design/abilities/review/weapons-w390-officer-supplied.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "guard-w390-used",
+      "title": "A Protection used up: the shield split, the player drawn whole",
+      "group": "Protection",
+      "slice": 4,
+      "file": "design/abilities/review/guard-w390-used.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "guard-w390-self",
+      "title": "Protection for yourself, and one used up",
+      "group": "Protection",
+      "slice": 4,
+      "file": "design/abilities/review/guard-w390-self.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "guard-w390-text200-self",
+      "title": "The Undercover's notes at twice the text size",
+      "group": "Slice 4: text size, motion, art",
+      "slice": 4,
+      "file": "design/abilities/review/guard-w390-text200-self.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "shot-w320-text200-confirm",
+      "title": "A shot at twice the text size, 320 x 568",
+      "group": "Slice 4: text size, motion, art",
+      "slice": 4,
+      "file": "design/abilities/review/shot-w320-text200-confirm.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "shot-w390-registered-reduced",
+      "title": "Reduced motion: the receipt at rest",
+      "group": "Slice 4: text size, motion, art",
+      "slice": 4,
+      "file": "design/abilities/review/shot-w390-registered-reduced.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "shot-w390-no-art",
+      "title": "Without the ability art or the crew cards: shot.confirm",
+      "group": "Slice 4: text size, motion, art",
+      "slice": 4,
+      "file": "design/abilities/review/shot-w390-no-art.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "protect-w390-no-art",
+      "title": "Without the ability art or the crew cards: protect.confirm",
+      "group": "Slice 4: text size, motion, art",
+      "slice": 4,
+      "file": "design/abilities/review/protect-w390-no-art.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "guard-w390-no-art",
+      "title": "Without the ability art or the crew cards: guard.self",
+      "group": "Slice 4: text size, motion, art",
+      "slice": 4,
+      "file": "design/abilities/review/guard-w390-no-art.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "beat-spend-0000ms",
+      "title": "Spend, 0 ms",
+      "group": "Slice 4: the beats, frame by frame",
+      "slice": 4,
+      "file": "design/abilities/review/beat-spend-0000ms.png",
+      "phone": "w390",
+      "size": "567x151",
+      "problems": []
+    },
+    {
+      "name": "beat-spend-0110ms",
+      "title": "Spend, 110 ms",
+      "group": "Slice 4: the beats, frame by frame",
+      "slice": 4,
+      "file": "design/abilities/review/beat-spend-0110ms.png",
+      "phone": "w390",
+      "size": "567x151",
+      "problems": []
+    },
+    {
+      "name": "beat-spend-0220ms",
+      "title": "Spend, 220 ms",
+      "group": "Slice 4: the beats, frame by frame",
+      "slice": 4,
+      "file": "design/abilities/review/beat-spend-0220ms.png",
+      "phone": "w390",
+      "size": "567x151",
+      "problems": []
+    },
+    {
+      "name": "beat-crack-0000ms",
+      "title": "Crack, 0 ms",
+      "group": "Slice 4: the beats, frame by frame",
+      "slice": 4,
+      "file": "design/abilities/review/beat-crack-0000ms.png",
+      "phone": "w390",
+      "size": "525x102",
+      "problems": []
+    },
+    {
+      "name": "beat-crack-0130ms",
+      "title": "Crack, 130 ms",
+      "group": "Slice 4: the beats, frame by frame",
+      "slice": 4,
+      "file": "design/abilities/review/beat-crack-0130ms.png",
+      "phone": "w390",
+      "size": "525x102",
+      "problems": []
+    },
+    {
+      "name": "beat-crack-0260ms",
+      "title": "Crack, 260 ms",
+      "group": "Slice 4: the beats, frame by frame",
+      "slice": 4,
+      "file": "design/abilities/review/beat-crack-0260ms.png",
+      "phone": "w390",
+      "size": "525x102",
+      "problems": []
+    },
+    {
+      "name": "vote-w390-confirm",
+      "title": "Captain election: the ballot for Player 5, 390 x 844",
+      "group": "The ballots",
+      "slice": 5,
+      "file": "design/abilities/review/vote-w390-confirm.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "vote-w390-recorded",
+      "title": "Ballot recorded: posted, not a result, 390 x 844",
+      "group": "The ballots",
+      "slice": 5,
+      "file": "design/abilities/review/vote-w390-recorded.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "release-w390-vote-yes",
+      "title": "Release vote: Yes on Player 9's slip, 390 x 844",
+      "group": "The ballots",
+      "slice": 5,
+      "file": "design/abilities/review/release-w390-vote-yes.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "release-w390-confirm",
+      "title": "The Captain's release request: Player 9 in the key ring, 390 x 844",
+      "group": "The ballots",
+      "slice": 5,
+      "file": "design/abilities/review/release-w390-confirm.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "hack-w390-confirm",
+      "title": "A Hack's request: the comms ring, 390 x 844",
+      "group": "The Hack",
+      "slice": 5,
+      "file": "design/abilities/review/hack-w390-confirm.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "hack-w390-link",
+      "title": "The Hack's note on the asking partner's phone, 390 x 844",
+      "group": "The Hack",
+      "slice": 5,
+      "file": "design/abilities/review/hack-w390-link.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "pass-w390-confirm",
+      "title": "Pass: the speaking turn's microphone, 390 x 844",
+      "group": "Pass",
+      "slice": 5,
+      "file": "design/abilities/review/pass-w390-confirm.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "pass-w390-passed",
+      "title": "Pass accepted: the microphone handed on, 390 x 844",
+      "group": "Pass",
+      "slice": 5,
+      "file": "design/abilities/review/pass-w390-passed.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "vote-w320-confirm",
+      "title": "Captain election: the ballot for Player 5, 320 x 568",
+      "group": "The ballots",
+      "slice": 5,
+      "file": "design/abilities/review/vote-w320-confirm.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "vote-w320-recorded",
+      "title": "Ballot recorded: posted, not a result, 320 x 568",
+      "group": "The ballots",
+      "slice": 5,
+      "file": "design/abilities/review/vote-w320-recorded.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "release-w320-vote-yes",
+      "title": "Release vote: Yes on Player 9's slip, 320 x 568",
+      "group": "The ballots",
+      "slice": 5,
+      "file": "design/abilities/review/release-w320-vote-yes.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "release-w320-confirm",
+      "title": "The Captain's release request: Player 9 in the key ring, 320 x 568",
+      "group": "The ballots",
+      "slice": 5,
+      "file": "design/abilities/review/release-w320-confirm.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "hack-w320-confirm",
+      "title": "A Hack's request: the comms ring, 320 x 568",
+      "group": "The Hack",
+      "slice": 5,
+      "file": "design/abilities/review/hack-w320-confirm.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "hack-w320-link",
+      "title": "The Hack's note on the asking partner's phone, 320 x 568",
+      "group": "The Hack",
+      "slice": 5,
+      "file": "design/abilities/review/hack-w320-link.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "pass-w320-confirm",
+      "title": "Pass: the speaking turn's microphone, 320 x 568",
+      "group": "Pass",
+      "slice": 5,
+      "file": "design/abilities/review/pass-w320-confirm.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "pass-w320-passed",
+      "title": "Pass accepted: the microphone handed on, 320 x 568",
+      "group": "Pass",
+      "slice": 5,
+      "file": "design/abilities/review/pass-w320-passed.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "vote-w390-abstain",
+      "title": "An abstention: a blank slip",
+      "group": "The ballots",
+      "slice": 5,
+      "file": "design/abilities/review/vote-w390-abstain.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "vote-w390-abstained",
+      "title": "Abstention recorded: the blank slip posted",
+      "group": "The ballots",
+      "slice": 5,
+      "file": "design/abilities/review/vote-w390-abstained.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "vote-w390-runoff",
+      "title": "The runoff among the tied: the box waits for a pick",
+      "group": "The ballots",
+      "slice": 5,
+      "file": "design/abilities/review/vote-w390-runoff.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "release-w390-vote-no",
+      "title": "Release vote: No, crossed",
+      "group": "The ballots",
+      "slice": 5,
+      "file": "design/abilities/review/release-w390-vote-no.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "release-w390-voted",
+      "title": "Release ballot recorded: posted, not a result",
+      "group": "The ballots",
+      "slice": 5,
+      "file": "design/abilities/review/release-w390-voted.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "release-w390-requested",
+      "title": "Release request accepted: not the vote",
+      "group": "The ballots",
+      "slice": 5,
+      "file": "design/abilities/review/release-w390-requested.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "hack-w390-requested",
+      "title": "A Hack's request accepted: not the Hack itself",
+      "group": "The Hack",
+      "slice": 5,
+      "file": "design/abilities/review/hack-w390-requested.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "hack-w390-partner",
+      "title": "The Hack's note on the asked partner's phone: the same",
+      "group": "The Hack",
+      "slice": 5,
+      "file": "design/abilities/review/hack-w390-partner.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "vote-w320-text200-confirm",
+      "title": "A ballot at twice the text size, 320 x 568",
+      "group": "Slice 5: text size, motion, art",
+      "slice": 5,
+      "file": "design/abilities/review/vote-w320-text200-confirm.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "hack-w390-text200-link",
+      "title": "The Hack's note at twice the text size",
+      "group": "Slice 5: text size, motion, art",
+      "slice": 5,
+      "file": "design/abilities/review/hack-w390-text200-link.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "vote-w390-recorded-reduced",
+      "title": "Reduced motion: the ballot posted at rest",
+      "group": "Slice 5: text size, motion, art",
+      "slice": 5,
+      "file": "design/abilities/review/vote-w390-recorded-reduced.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "pass-w390-passed-reduced",
+      "title": "Reduced motion: the microphone handed on at rest",
+      "group": "Slice 5: text size, motion, art",
+      "slice": 5,
+      "file": "design/abilities/review/pass-w390-passed-reduced.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "vote-w390-no-art",
+      "title": "Without the ability art or the crew cards: vote.confirm",
+      "group": "Slice 5: text size, motion, art",
+      "slice": 5,
+      "file": "design/abilities/review/vote-w390-no-art.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "release-w390-no-art",
+      "title": "Without the ability art or the crew cards: release.confirm",
+      "group": "Slice 5: text size, motion, art",
+      "slice": 5,
+      "file": "design/abilities/review/release-w390-no-art.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "hack-w390-no-art",
+      "title": "Without the ability art or the crew cards: hack.confirm",
+      "group": "Slice 5: text size, motion, art",
+      "slice": 5,
+      "file": "design/abilities/review/hack-w390-no-art.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "hack-link-w390-no-art",
+      "title": "Without the ability art or the crew cards: hack.phase",
+      "group": "Slice 5: text size, motion, art",
+      "slice": 5,
+      "file": "design/abilities/review/hack-link-w390-no-art.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "pass-w390-no-art",
+      "title": "Without the ability art or the crew cards: pass.confirm",
+      "group": "Slice 5: text size, motion, art",
+      "slice": 5,
+      "file": "design/abilities/review/pass-w390-no-art.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "beat-post-0000ms",
+      "title": "Post, 0 ms",
+      "group": "Slice 5: the beats, frame by frame",
+      "slice": 5,
+      "file": "design/abilities/review/beat-post-0000ms.png",
+      "phone": "w390",
+      "size": "567x163",
+      "problems": []
+    },
+    {
+      "name": "beat-post-0120ms",
+      "title": "Post, 120 ms",
+      "group": "Slice 5: the beats, frame by frame",
+      "slice": 5,
+      "file": "design/abilities/review/beat-post-0120ms.png",
+      "phone": "w390",
+      "size": "567x163",
+      "problems": []
+    },
+    {
+      "name": "beat-post-0240ms",
+      "title": "Post, 240 ms",
+      "group": "Slice 5: the beats, frame by frame",
+      "slice": 5,
+      "file": "design/abilities/review/beat-post-0240ms.png",
+      "phone": "w390",
+      "size": "567x163",
+      "problems": []
+    },
+    {
+      "name": "beat-hand-on-0000ms",
+      "title": "Hand on, 0 ms",
+      "group": "Slice 5: the beats, frame by frame",
+      "slice": 5,
+      "file": "design/abilities/review/beat-hand-on-0000ms.png",
+      "phone": "w390",
+      "size": "567x99",
+      "problems": []
+    },
+    {
+      "name": "beat-hand-on-0120ms",
+      "title": "Hand on, 120 ms",
+      "group": "Slice 5: the beats, frame by frame",
+      "slice": 5,
+      "file": "design/abilities/review/beat-hand-on-0120ms.png",
+      "phone": "w390",
+      "size": "567x99",
+      "problems": []
+    },
+    {
+      "name": "beat-hand-on-0240ms",
+      "title": "Hand on, 240 ms",
+      "group": "Slice 5: the beats, frame by frame",
+      "slice": 5,
+      "file": "design/abilities/review/beat-hand-on-0240ms.png",
+      "phone": "w390",
+      "size": "567x99",
+      "problems": []
+    },
+    {
+      "name": "beat-connect-0000ms",
+      "title": "Connect, 0 ms",
+      "group": "Slice 5: the beats, frame by frame",
+      "slice": 5,
+      "file": "design/abilities/review/beat-connect-0000ms.png",
+      "phone": "w390",
+      "size": "525x77",
+      "problems": []
+    },
+    {
+      "name": "beat-connect-0160ms",
+      "title": "Connect, 160 ms",
+      "group": "Slice 5: the beats, frame by frame",
+      "slice": 5,
+      "file": "design/abilities/review/beat-connect-0160ms.png",
+      "phone": "w390",
+      "size": "525x77",
+      "problems": []
+    },
+    {
+      "name": "beat-connect-0320ms",
+      "title": "Connect, 320 ms",
+      "group": "Slice 5: the beats, frame by frame",
+      "slice": 5,
+      "file": "design/abilities/review/beat-connect-0320ms.png",
+      "phone": "w390",
+      "size": "525x77",
+      "problems": []
+    },
+    {
+      "name": "showdown-w390-choose",
+      "title": "Showdown: the special shot, full, before a target, 390 x 844",
+      "group": "The showdown",
+      "slice": 6,
+      "file": "design/abilities/review/showdown-w390-choose.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "showdown-w390-confirm",
+      "title": "Showdown: the target in the reticle, 390 x 844",
+      "group": "The showdown",
+      "slice": 6,
+      "file": "design/abilities/review/showdown-w390-confirm.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "showdown-w390-registered",
+      "title": "Showdown shot registered: spent, not a result, 390 x 844",
+      "group": "The showdown",
+      "slice": 6,
+      "file": "design/abilities/review/showdown-w390-registered.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "end-w390-blue",
+      "title": "The end: Blue wins, the roles and the Code, 390 x 844",
+      "group": "The match's end",
+      "slice": 6,
+      "file": "design/abilities/review/end-w390-blue.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "end-w390-aborted",
+      "title": "The host ended the match: no winner, nothing revealed, 390 x 844",
+      "group": "The match's end",
+      "slice": 6,
+      "file": "design/abilities/review/end-w390-aborted.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "showdown-w320-choose",
+      "title": "Showdown: the special shot, full, before a target, 320 x 568",
+      "group": "The showdown",
+      "slice": 6,
+      "file": "design/abilities/review/showdown-w320-choose.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "showdown-w320-confirm",
+      "title": "Showdown: the target in the reticle, 320 x 568",
+      "group": "The showdown",
+      "slice": 6,
+      "file": "design/abilities/review/showdown-w320-confirm.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "showdown-w320-registered",
+      "title": "Showdown shot registered: spent, not a result, 320 x 568",
+      "group": "The showdown",
+      "slice": 6,
+      "file": "design/abilities/review/showdown-w320-registered.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "end-w320-blue",
+      "title": "The end: Blue wins, the roles and the Code, 320 x 568",
+      "group": "The match's end",
+      "slice": 6,
+      "file": "design/abilities/review/end-w320-blue.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "end-w320-aborted",
+      "title": "The host ended the match: no winner, nothing revealed, 320 x 568",
+      "group": "The match's end",
+      "slice": 6,
+      "file": "design/abilities/review/end-w320-aborted.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "end-w390-alien-co",
+      "title": "Blue wins, and the Alien with Blue",
+      "group": "The match's end",
+      "slice": 6,
+      "file": "design/abilities/review/end-w390-alien-co.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "end-w390-red",
+      "title": "Red wins",
+      "group": "The match's end",
+      "slice": 6,
+      "file": "design/abilities/review/end-w390-red.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "end-w390-alien",
+      "title": "The Alien wins",
+      "group": "The match's end",
+      "slice": 6,
+      "file": "design/abilities/review/end-w390-alien.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "end-w390-draw",
+      "title": "A draw after the showdown",
+      "group": "The match's end",
+      "slice": 6,
+      "file": "design/abilities/review/end-w390-draw.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "showdown-w320-text200-confirm",
+      "title": "The showdown at twice the text size, 320 x 568",
+      "group": "Slice 6: text size, motion, art",
+      "slice": 6,
+      "file": "design/abilities/review/showdown-w320-text200-confirm.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "end-w390-text200-blue",
+      "title": "The end at twice the text size: one column",
+      "group": "Slice 6: text size, motion, art",
+      "slice": 6,
+      "file": "design/abilities/review/end-w390-text200-blue.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "showdown-w390-registered-reduced",
+      "title": "Reduced motion: the special shot spent at rest",
+      "group": "Slice 6: text size, motion, art",
+      "slice": 6,
+      "file": "design/abilities/review/showdown-w390-registered-reduced.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "end-w390-reduced",
+      "title": "Reduced motion: the match ends, the sheet faded in",
+      "group": "Slice 6: text size, motion, art",
+      "slice": 6,
+      "file": "design/abilities/review/end-w390-reduced.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "showdown-w390-no-art",
+      "title": "Without the ability art or the crew cards: showdown.confirm",
+      "group": "Slice 6: text size, motion, art",
+      "slice": 6,
+      "file": "design/abilities/review/showdown-w390-no-art.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "end-w390-no-art",
+      "title": "Without the ability art or the crew cards: end.blue",
+      "group": "Slice 6: text size, motion, art",
+      "slice": 6,
+      "file": "design/abilities/review/end-w390-no-art.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "beat-special-0000ms",
+      "title": "The special shot spent, 0 ms",
+      "group": "Slice 6: the beats, frame by frame",
+      "slice": 6,
+      "file": "design/abilities/review/beat-special-0000ms.png",
+      "phone": "w390",
+      "size": "567x163",
+      "problems": []
+    },
+    {
+      "name": "beat-special-0110ms",
+      "title": "The special shot spent, 110 ms",
+      "group": "Slice 6: the beats, frame by frame",
+      "slice": 6,
+      "file": "design/abilities/review/beat-special-0110ms.png",
+      "phone": "w390",
+      "size": "567x163",
+      "problems": []
+    },
+    {
+      "name": "beat-special-0220ms",
+      "title": "The special shot spent, 220 ms",
+      "group": "Slice 6: the beats, frame by frame",
+      "slice": 6,
+      "file": "design/abilities/review/beat-special-0220ms.png",
+      "phone": "w390",
+      "size": "567x163",
+      "problems": []
+    },
+    {
+      "name": "end-reveal-0120ms",
+      "title": "The end revealed, 120 ms",
+      "group": "Slice 6: the beats, frame by frame",
+      "slice": 6,
+      "file": "design/abilities/review/end-reveal-0120ms.png",
+      "phone": "w390",
+      "size": "567x597",
+      "problems": []
+    },
+    {
+      "name": "end-reveal-0380ms",
+      "title": "The end revealed, 380 ms",
+      "group": "Slice 6: the beats, frame by frame",
+      "slice": 6,
+      "file": "design/abilities/review/end-reveal-0380ms.png",
+      "phone": "w390",
+      "size": "567x597",
+      "problems": []
+    },
+    {
+      "name": "end-reveal-0600ms",
+      "title": "The end revealed, 600 ms",
+      "group": "Slice 6: the beats, frame by frame",
+      "slice": 6,
+      "file": "design/abilities/review/end-reveal-0600ms.png",
+      "phone": "w390",
+      "size": "567x597",
+      "problems": []
+    },
+    {
+      "name": "end-reveal-0900ms",
+      "title": "The end revealed, 900 ms",
+      "group": "Slice 6: the beats, frame by frame",
+      "slice": 6,
+      "file": "design/abilities/review/end-reveal-0900ms.png",
+      "phone": "w390",
+      "size": "567x597",
+      "problems": []
+    },
+    {
+      "name": "tray-w390-hacker",
+      "title": "The tray, the Hacker: a shot, a Scan, a Hack, a Code attempt",
+      "group": "The marks in the tray",
+      "slice": 7,
+      "file": "design/abilities/review/tray-w390-hacker.png",
+      "phone": "w390",
+      "size": "567x252",
+      "problems": []
+    },
+    {
+      "name": "tray-w390-undercover",
+      "title": "The tray, the Undercover: a shot, Protection, a Hack",
+      "group": "The marks in the tray",
+      "slice": 7,
+      "file": "design/abilities/review/tray-w390-undercover.png",
+      "phone": "w390",
+      "size": "567x252",
+      "problems": []
+    },
+    {
+      "name": "tray-w390-cracker",
+      "title": "The tray, the Cracker: a Rescue, a Hack",
+      "group": "The marks in the tray",
+      "slice": 7,
+      "file": "design/abilities/review/tray-w390-cracker.png",
+      "phone": "w390",
+      "size": "567x165",
+      "problems": []
+    },
+    {
+      "name": "tray-w390-disabler",
+      "title": "The tray, a Disabler: the Disable, a Hack",
+      "group": "The marks in the tray",
+      "slice": 7,
+      "file": "design/abilities/review/tray-w390-disabler.png",
+      "phone": "w390",
+      "size": "567x165",
+      "problems": []
+    },
+    {
+      "name": "tray-w390-supplier",
+      "title": "The tray, the Supplier: Supply, a Hack",
+      "group": "The marks in the tray",
+      "slice": 7,
+      "file": "design/abilities/review/tray-w390-supplier.png",
+      "phone": "w390",
+      "size": "567x165",
+      "problems": []
+    },
+    {
+      "name": "tray-w390-showdown",
+      "title": "The tray, the showdown shot",
+      "group": "The marks in the tray",
+      "slice": 7,
+      "file": "design/abilities/review/tray-w390-showdown.png",
+      "phone": "w390",
+      "size": "567x165",
+      "problems": []
+    },
+    {
+      "name": "tray-w390-ballot",
+      "title": "The tray, a ballot",
+      "group": "The marks in the tray",
+      "slice": 7,
+      "file": "design/abilities/review/tray-w390-ballot.png",
+      "phone": "w390",
+      "size": "567x165",
+      "problems": []
+    },
+    {
+      "name": "tray-w390-release",
+      "title": "The tray, the Captain's release request",
+      "group": "The marks in the tray",
+      "slice": 7,
+      "file": "design/abilities/review/tray-w390-release.png",
+      "phone": "w390",
+      "size": "567x165",
+      "problems": []
+    },
+    {
+      "name": "tray-w320-undercover",
+      "title": "The tray at 320 x 568",
+      "group": "The marks in the tray",
+      "slice": 7,
+      "file": "design/abilities/review/tray-w320-undercover.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "tray-w390-text200-hacker",
+      "title": "The tray at twice the text size",
+      "group": "The marks in the tray",
+      "slice": 7,
+      "file": "design/abilities/review/tray-w390-text200-hacker.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "tray-w390-no-art",
+      "title": "Without the art: the glyphs, and the words beside them",
+      "group": "The marks in the tray",
+      "slice": 7,
+      "file": "design/abilities/review/tray-w390-no-art.png",
+      "phone": "w390",
+      "size": "567x252",
+      "problems": []
+    },
+    {
+      "name": "stale-w390-board",
+      "title": "Connection lost: the banner, Reconnect now, 390 x 844",
+      "group": "Out of date",
+      "slice": 7,
+      "file": "design/abilities/review/stale-w390-board.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "stale-w390-card",
+      "title": "Out of date, the card kept (DSN-REQ-16): marked, at rest, below the banner, 390 x 844",
+      "group": "Out of date",
+      "slice": 7,
+      "file": "design/abilities/review/stale-w390-card.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "stale-w320-board",
+      "title": "Connection lost: the banner, Reconnect now, 320 x 568",
+      "group": "Out of date",
+      "slice": 7,
+      "file": "design/abilities/review/stale-w320-board.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "stale-w320-card",
+      "title": "Out of date, the card kept (DSN-REQ-16): marked, at rest, below the banner, 320 x 568",
+      "group": "Out of date",
+      "slice": 7,
+      "file": "design/abilities/review/stale-w320-card.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "stale-w320-menu",
+      "title": "Out of date: the menu opens below the banner, 320 x 568",
+      "group": "Out of date",
+      "slice": 7,
+      "file": "design/abilities/review/stale-w320-menu.png",
+      "phone": "w320",
+      "size": "480x852",
+      "problems": []
+    },
+    {
+      "name": "stale-w390-card-notes",
+      "title": "Out of date, the card kept: the Undercover's notes, marked",
+      "group": "Out of date",
+      "slice": 7,
+      "file": "design/abilities/review/stale-w390-card-notes.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "stale-w390-unreadable",
+      "title": "An update could not be read",
+      "group": "Out of date",
+      "slice": 7,
+      "file": "design/abilities/review/stale-w390-unreadable.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "stale-w390-folder",
+      "title": "Out of date, PR #88's rule: the closed folder, the same for every role",
+      "group": "Out of date",
+      "slice": 7,
+      "file": "design/abilities/review/stale-w390-folder.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "stale-w390-text200-card",
+      "title": "The card kept at twice the text size",
+      "group": "Out of date",
+      "slice": 7,
+      "file": "design/abilities/review/stale-w390-text200-card.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    },
+    {
+      "name": "stale-w390-no-art",
+      "title": "Out of date without the art: a plain disc for the icon",
+      "group": "Out of date",
+      "slice": 7,
+      "file": "design/abilities/review/stale-w390-no-art.png",
+      "phone": "w390",
+      "size": "585x1266",
+      "problems": []
+    }
+  ]
+}

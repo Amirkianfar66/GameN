@@ -1,0 +1,55 @@
+{
+  "decision_id": "public-hack-owner-decision-2026-10-14",
+  "status": "confirmed",
+  "decided_on": "2026-10-14",
+  "authority": "Owner approved public Private Chamber participants and final-turn movement in the FINAL 2026-10-13 packet, then authorized scoped capsule implementation in issue #139. Shared-schema and combined release adoption remain subject to affected-role review.",
+  "issue": "https://github.com/Amirkianfar66/GameN/issues/139",
+  "base_commit": "37f573afca9023e8e4a92375375cea96638d120f",
+  "owner_specification": {
+    "packet_sha256": "b5b4ba2dea6063e20f559894183d0c675a3f754b2789db2e38c5b33e1590b743",
+    "sections": [
+      "G-02",
+      "G-09",
+      "Q-HK01",
+      "Q-HK02",
+      "Q-HK03",
+      "Q-M01"
+    ]
+  },
+  "parent_ruleset": {
+    "version": "in-person-v1-declared-hack-2026-10-12",
+    "hash": "1d8a5e509372ea816af8d6782bf1d73720532ed672ee2f77e2938805976d8d6c"
+  },
+  "protocol_version": 2,
+  "engine_version": "full-game-1.6.0",
+  "ruleset_version": "in-person-v1-public-hack-2026-10-14",
+  "optional_powers": false,
+  "decisions": [
+    {
+      "id": "HACK-PUBLIC-01",
+      "decision": "The active Hack actor and fixed target are public during declaration, result and conversation. A pending request remains private until the ordinary turn closes. Declared-side claims, claim status and conversation content remain participant-private."
+    },
+    {
+      "id": "HACK-PUBLIC-02",
+      "decision": "Keep declaration up to 15000ms, full private result 5000ms and full conversation 60000ms, at committed authoritative transitions. Capsule walk-in fits inside result; exit is nonblocking, returning art to latest authoritative placement. No animation acknowledgment or extra timed phase."
+    },
+    {
+      "id": "HACK-PUBLIC-03",
+      "decision": "Capsule is cinematic scenery only, with no new gameplay location, occupant, target, capacity, movement charge or immunity. Public art is independent of private claims, role, truthfulness or microphone activity. In-person V1 adds no voice/chat/recording service."
+    },
+    {
+      "id": "HACK-PUBLIC-04",
+      "decision": "Recover current pair, stage and remaining server deadline without replaying historical art or restarting a clock. End or superseding stages clear the live session and participant feedback; retain historical private server receipts/journal semantics."
+    },
+    {
+      "id": "HACK-PUBLIC-05",
+      "decision": "Under FINAL G-09 voluntary movement remains open during every current ordinary turn, including the final one, until its deadline or accepted Pass. During intervening Hack stages it stays open only if a later non-Eliminated seat still has an ordinary turn. Injured/Jailed later seats count. Captain election/voting does not open this window. Keep existing health, detention, origin, quota, destination/capacity and time checks. Round 5 Code eligibility stays independent."
+    },
+    {
+      "id": "HACK-PUBLIC-06",
+      "decision": "Preserve existing role-independent Hack eligibility, limits, declaration bluff permissions, missing declaration behavior and authorized-view practice bots. Public pair disclosure never verifies a claim or changes Scan."
+    }
+  ],
+  "contract_proposal": "New-tuple-only required nullable hackSession {hackId,actorSeatId,targetSeatId} on public/player snapshots. Existing phase supplies exact current stage and timing. Existing hackFeedback remains participant-only and bound to session, current phase and round. No shared slot field in this slice.",
+  "version_policy": "Provisional implementation for review, not combined release adoption. No creation default, runtime profile or art pairing is enabled. Only a separately reviewed future new-match release may select this tuple. Exact historical 1.0.1 through 1.5 projections, creation/deal pins, receipts and journals remain supported without migration. Stable slots/full Hospital and other FINAL mechanics are separate prerequisites, not claimed implemented here."
+}

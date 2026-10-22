@@ -1,0 +1,24 @@
+[   0.4 s] Browser: Chrome/155.0.8059.39. Preview server: already running.
+[   2.0 s] ESTABLISHED 1. The host creates a seven-player lobby
+[   2.0 s]   - One v1CreateMatch from the host page; the answer named a match and a twelve-character room code.
+[   2.0 s]   - The host console then read the lobby from its own session document and the lobby document: 0 of 7 seated, status "lobby".
+[   3.4 s] ESTABLISHED 2. Players authenticate and request admission
+[   3.4 s]   - 9 browser contexts signed in anonymously to the Auth emulator and hold 9 different identities.
+[   3.4 s]   - 7 of them asked to join with the room code (4 starting in Room A, 3 in Room B) and are waiting; none shows anything of a match.
+[   4.6 s] ESTABLISHED 3. The host approves seats and starts the match
+[   4.6 s]   - The host console listed 7 requests; each was seated with the keyboard alone (Tab, Enter), 7 v1ApproveAdmission calls, and each player page learned its seat from its own admission document.
+[   4.6 s]   - The display was admitted by the identifier it shows, and showed no match before the start.
+[   4.6 s]   - One v1StartMatch; the host console then read status "running".
+[  14.3 s] ESTABLISHED R. A seat is moved to another device with a one-time code (seven players)
+[  14.3 s]   - With the keyboard, the host asked for a code for Player 7. The answer was dropped in the browser (arranged). The console said no answer had come, kept the request, would not let the seat be changed, and kept the request's identifiers, and nothing else, for a reload.
+[  14.3 s]   - The console was reloaded. It still had the request and sent the very same one again. The service answered that a code had been issued and did not give it out a second time; the console said so, and showed no code.
+[  14.3 s]   - Only then was a new request made: one v1IssueSeatRecovery with a new identifier, answered with a 43-character code that the server said is good for 10.0 minutes. The console showed it, labeled with its seat; it was not in the page's storage or address. Nothing changed for the seat's device.
+[  14.3 s]   - A device that had never been in the match entered the match identifier and the code. Its request was dropped before it reached the server, twice (arranged): the second was the very same request. The code left the field as the request was made and was in no storage; the tab noted only which match it had asked for a seat in. The server refused it the lobby, the page said the server had not given it a seat, and the seat stayed with its device.
+[  14.3 s]   - That page was reloaded: the request and the code were gone, the note was not, and it said the same. Starting over brought the form back.
+[  14.3 s]   - The code was entered again and the request reached the server, but its answer was dropped (arranged). Without anything more being pressed, the page found that the server now let it read the match, and opened it as Player 7. With its private panel opened it showed the role and everything else the old device had been told. It keeps its sign-in, the match and the seat's number, and not the code.
+[  14.3 s]   - The device that had held the seat was refused its view by the server. It let go of everything at once and said so: "No access to this match", with no role, nothing it had been told and no part of the match left in its page or its model. A reload did not bring the match back to it.
+[  14.3 s]   - Nothing public changed: the display’s board was identical, and the six other phones stayed current with their own roles.
+[  14.3 s]   - A third device that tried the same code was refused by the server (FORBIDDEN) and shown nothing. The code was not left in its field, and its tab kept nothing of the match.
+[  14.3 s]   - The new device then moved the seat to Room B: one MOVE, accepted, and the display showed it. The old device sent nothing at any point.
+[  14.3 s]   - NOT RUN: a code that has expired (ten minutes); a request refused after an earlier try of it went unanswered; giving a request up; moving the host’s own identity, which the service has no operation for.
+[  14.3 s] No page was loaded by anything but this script: each tab counted as many loads as the script made, and each refused the development server’s hot-reload connection.

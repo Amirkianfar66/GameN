@@ -1,0 +1,19 @@
+{
+  "schema": "mothership.balance.scenario-exceptions/1",
+  "purpose": "The reviewed list of fixtures that are not executed as ready cases. The report gate fails when the fixtures that are not ready differ from this list in any case, status, decision or kind. A fixture leaves the list only when the owner decides its rule edge or its evidence is supplied; adding one is a change to review, not a way to make a run pass.",
+  "exceptions": [
+    { "code": "FLOW-07", "modes": [7, 8, 9], "status": "blocked", "decisionIds": ["D17"], "probe": false, "why": "Whether a player may end a turn or a Hack conversation early is an open rule edge. No command for it exists in any source, so there is nothing to run." },
+    { "code": "FLOW-08", "modes": [7, 8, 9], "status": "blocked", "decisionIds": ["D20"], "probe": false, "why": "Whether a round's turn order is announced in advance or one turn at a time is an open rule edge." },
+    { "code": "FLOW-09", "modes": [7, 8, 9], "status": "blocked", "decisionIds": ["D19"], "probe": false, "why": "What an Eliminated player may say or show is an open conduct rule for the table. Software has no part in it." },
+    { "code": "FLOW-10", "modes": [7, 8, 9], "status": "blocked", "decisionIds": ["D17"], "probe": true, "why": "Whether the release-choice window closes as soon as the Captain has chosen is an open rule edge. The run records what the engine does and asserts nothing." },
+    { "code": "MOVE-05", "modes": [7, 8, 9], "status": "blocked", "decisionIds": ["D16"], "probe": true, "why": "Whether a player may move while a Captain election is being voted is an open rule edge. The run records what the engine does and asserts nothing." },
+    { "code": "SUP-08", "modes": [7, 8, 9], "status": "blocked", "decisionIds": ["D11"], "probe": true, "why": "Whether Supplier may name themself as a recipient is an open rule edge. The run records what the engine does and asserts nothing." },
+    { "code": "SUP-09", "modes": [7, 8, 9], "status": "blocked", "decisionIds": ["D12", "D11"], "probe": true, "why": "What Supplier may do with fewer than two eligible recipients is an open rule edge, and it meets the self-recipient question. The run records what the engine does and asserts nothing." },
+    { "code": "HACK-06", "modes": [7, 8, 9], "status": "blocked", "decisionIds": ["D18"], "probe": false, "why": "The format of a Hack conversation is an open conduct rule for the table. Software has no part in it." },
+    { "code": "SHOW-15", "modes": [7, 8, 9], "status": "blocked", "decisionIds": ["D34"], "probe": true, "why": "Whether a showdown participant may aim a special shot at themself is an open rule edge. The run records what the engine does and asserts nothing." },
+    { "code": "OPS-03", "modes": [7, 8, 9], "status": "blocked", "decisionIds": ["D35"], "probe": true, "why": "Whether a match the host aborts reveals roles and the Code is an open rule edge. The run records what the engine does and asserts nothing." },
+    { "code": "POW-01", "modes": [7, 8, 9], "status": "blocked", "decisionIds": ["D10"], "probe": false, "why": "Original Powers are outside Version 1 and stay off. Their behaviour is deferred to a separate versioned suite before any powers-on mode." },
+    { "code": "HACK-07", "modes": [7, 8, 9], "status": "manual", "decisionIds": [], "probe": false, "why": "That players are shown the truth rule and the embargo is evidence from the player instructions in the app and from observation in a playtest, not from an engine run." },
+    { "code": "OPS-02", "modes": [7, 8, 9], "status": "manual", "decisionIds": [], "probe": false, "why": "Disconnect, reconnect, retry and seat recovery are service behaviour. Backend owns those tests; replay determinism is checked here for every executed scenario." }
+  ]
+}

@@ -1,0 +1,126 @@
+/* Owner-authorized trial, source 49f0db4d. The original scene layers and full-body rig
+   share one coordinate system; body, prop, front hands, and readable labels have separate
+   depths. Draw only after the complete public scene bundle arrived. */
+[data-art~="scene-art"] #app .ms-shell .ms-board[data-scenes="true"] .ms-zone {
+  isolation: isolate;
+  position: relative;
+  overflow: hidden;
+  background-image: none;
+}
+[data-art~="scene-art"] #app .ms-shell .ms-board[data-scenes="true"] .ms-zone::after { content: none; }
+[data-art~="scene-art"] #app .ms-shell .ms-board[data-scenes="true"] :is(.phone-room-stage, .ms-zone__empty) { display: none; }
+[data-art~="scene-art"] #app .ms-shell .ms-board[data-scenes="true"] :is(.scene-back, .scene-prop) {
+  position: absolute;
+  pointer-events: none;
+  left: var(--scene-tx);
+  top: var(--scene-ty);
+  width: calc(1024px * var(--scene-k));
+  height: calc(768px * var(--scene-k));
+  background: var(--scene-art) 0 0 / 100% 100% no-repeat;
+  z-index: 0;
+}
+[data-art~="scene-art"] #app .ms-shell .ms-board[data-scenes="true"] .scene-prop { z-index: var(--scene-depth); }
+[data-art~="scene-art"] #app .ms-shell .ms-board[data-scenes="true"] .ms-zone__name { position: relative; z-index: 3000; }
+#app .ms-shell--player .ms-board[data-board="own"][data-scenes="true"] .ms-zone__name { position: absolute; }
+[data-art~="scene-art"] #app .ms-shell .ms-board[data-scenes="true"] .scene-full { font-size: .65em; white-space: nowrap; }
+[data-art~="scene-art"] #app .ms-shell .ms-board[data-scenes="true"] .ms-zone :is(.ms-seats, .ms-seat) { display: contents; }
+[data-art~="scene-art"] #app .ms-shell .ms-board[data-scenes="true"] .ms-zone .ms-seat > :is(.ms-token, .scene-front) {
+  position: absolute;
+  inset: auto;
+  left: var(--body-x);
+  top: var(--body-y);
+  width: var(--body-size);
+  height: var(--body-size);
+  inline-size: var(--body-size);
+  block-size: var(--body-size);
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  aspect-ratio: auto;
+  margin: 0;
+  background: none;
+  box-shadow: none;
+  font-size: 0;
+  rotate: none;
+  translate: none;
+  filter: none;
+  transform: none;
+  pointer-events: none;
+  z-index: var(--scene-depth);
+}
+[data-art~="scene-art"] #app .ms-shell--player .ms-board[data-board="own"][data-scenes="true"] .ms-zone .ms-seat[data-character] > .ms-token { background: none; }
+[data-art~="scene-art"] #app .ms-shell .ms-board[data-scenes="true"] .ms-zone .ms-seat > .ms-token:not([data-figure]) {
+  left: var(--press-x); top: var(--press-y);
+  width: var(--press-size); height: var(--press-size); inline-size: var(--press-size); block-size: var(--press-size);
+  display: grid; place-items: center; font-size: 1rem; border: 2px solid var(--ms-color-ink); border-radius: 50%; background: var(--ms-color-paper);
+}
+[data-art~="scene-art"] #app .ms-shell .ms-board[data-scenes="true"] .ms-zone .ms-seat > .scene-front { z-index: var(--scene-front-depth); }
+[data-art~="scene-art"] #app .ms-shell .ms-board[data-scenes="true"] .ms-seat[data-mirror="true"] > :is(.ms-token, .scene-front) { transform: scaleX(-1); }
+[data-art~="scene-art"] #app .ms-shell .ms-board[data-scenes="true"] :is(.ms-token, .scene-front) svg { display: block; width: 100%; height: 100%; overflow: visible; }
+[data-art~="scene-art"] #app .ms-shell .ms-board[data-scenes="true"] .ms-seat[data-moving] > :is(.ms-token, .scene-front) { visibility: hidden; }
+[data-art~="scene-art"] #app .ms-shell .ms-board[data-scenes="true"] .ms-zone .ms-seat .ms-seat__name {
+  position: absolute;
+  inset: auto;
+  left: calc(var(--press-x) + var(--press-size) / 2);
+  top: calc(var(--press-y) + var(--press-size) - 12px);
+  translate: -50% 0;
+  max-width: 76px;
+  max-inline-size: 76px;
+  height: auto;
+  z-index: 2800;
+}
+[data-art~="scene-art"] #app .ms-shell .ms-board[data-scenes="true"] .ms-zone .ms-markers {
+  position: absolute;
+  inset: auto;
+  left: var(--press-x);
+  top: var(--press-y);
+  width: var(--press-size);
+  height: var(--press-size);
+  z-index: 2800;
+}
+#app .ms-shell--player .ms-board[data-board="own"][data-scenes="true"] .ms-seat[data-board-target]::before {
+  inset: auto;
+  left: var(--press-x);
+  top: var(--press-y);
+  width: var(--press-size);
+  height: var(--press-size);
+  border-radius: 50%;
+  z-index: 2850;
+}
+#app .ms-shell--player .ms-board[data-board="own"][data-scenes="true"] .phone-character-target {
+  inset: auto;
+  left: var(--press-x);
+  top: var(--press-y);
+  width: var(--press-size);
+  height: var(--press-size);
+  min-width: 44px;
+  min-height: 44px;
+  translate: none;
+  transform: none;
+  z-index: 2900;
+}
+#app .ms-shell--player .ms-board[data-board="own"][data-scenes="true"] .phone-pick-order {
+  inset: auto;
+  left: calc(var(--press-x) + var(--press-size) - 15px);
+  top: calc(var(--press-y) - 3px);
+  z-index: 2900;
+}
+#app .ms-shell--player .ms-board[data-board="own"][data-scenes="true"] .ms-seat[data-board-target="other"] > :is(.ms-token, .scene-front) { opacity: .42; filter: grayscale(.6); }
+.phone-fx__flyer[data-scene] { background: none; }
+.phone-fx__flyer[data-scene] svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.phone-fx__flyer[data-scene] :is(.travel-body,.travel-front) { position: absolute; inset: 0; }
+[data-art~="scene-art"] .ms-board[data-compact="true"] .scene-leader {
+  position: absolute; left: var(--leader-x); top: var(--leader-y); width: var(--leader-length);
+  height: 1px; background: var(--ms-color-ink); opacity: .55; rotate: var(--leader-angle);
+  transform-origin: 0 50%; z-index: 2700; pointer-events: none;
+}
+.ms-board[data-compact="true"] .ms-zone[data-zone="command-room"] .ms-zone__name { width: max-content; }
+[data-art~="scene-art"] #app .ms-shell--player .ms-board[data-board="own"][data-scenes="true"] .phone-move-ghost { display: contents; }
+[data-art~="scene-art"] #app .ms-shell--player .ms-board[data-board="own"][data-scenes="true"] .phone-move-ghost__art {
+  position: absolute; inset: auto; left: var(--body-x); top: var(--body-y); width: var(--body-size); height: var(--body-size);
+  background: none; z-index: 2700; opacity: .5; pointer-events: none;
+}
+[data-art~="scene-art"] #app .ms-shell--player .ms-board[data-board="own"][data-scenes="true"] .phone-move-ghost[data-mirror="true"] .phone-move-ghost__art { transform: scaleX(-1); }
+[data-art~="scene-art"] #app .ms-shell--player .ms-board[data-board="own"][data-scenes="true"] .phone-move-ghost__art svg { width: 100%; height: 100%; display: block; }
+[data-art~="scene-art"] #app .ms-shell--player .ms-board[data-board="own"][data-scenes="true"] .phone-move-ghost__tag { position: absolute; left: var(--press-x); top: calc(var(--press-y) + var(--press-size) - 12px); z-index: 2800; }

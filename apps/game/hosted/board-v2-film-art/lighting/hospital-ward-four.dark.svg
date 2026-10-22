@@ -1,0 +1,118 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 768" width="1024" height="768">
+  <defs>
+    <pattern id="halftone-ink-s-hospital" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <circle cx="4.5" cy="4.5" r="1.5" fill="#0D121C"/>
+    </pattern>
+    <pattern id="halftone-ink-m-hospital" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <circle cx="4.5" cy="4.5" r="2.5" fill="#0D121C"/>
+    </pattern>
+    <pattern id="halftone-ink-l-hospital" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <circle cx="4.5" cy="4.5" r="3.5" fill="#0D121C"/>
+    </pattern>
+    <pattern id="halftone-paper-s-hospital" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <circle cx="4.5" cy="4.5" r="1.5" fill="#1E2534"/>
+    </pattern>
+    <pattern id="halftone-paper-m-hospital" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <circle cx="4.5" cy="4.5" r="2.6" fill="#1E2534"/>
+    </pattern>
+    <clipPath id="clip-hospital-floor">
+      <polygon points="120,372 904,372 1004,748 20,748"/>
+    </clipPath>
+    <clipPath id="clip-hospital-glass">
+      <path d="M756 122 H858 Q872 122 872 136 V286 Q872 300 858 300 H756 Q742 300 742 286 V136 Q742 122 756 122 Z"/>
+    </clipPath>
+  <pattern id="bm-ht-ink-s" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><circle cx="4.5" cy="4.5" r="1.5" fill="#0D121C"/></pattern><pattern id="bm-ht-ink-m" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><circle cx="4.5" cy="4.5" r="2.5" fill="#0D121C"/></pattern><pattern id="bm-ht-ink-l" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><circle cx="4.5" cy="4.5" r="3.5" fill="#0D121C"/></pattern><pattern id="bm-ht-paper-s" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><circle cx="4.5" cy="4.5" r="1.5" fill="#1E2534"/></pattern><pattern id="bm-ht-paper-m" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><circle cx="4.5" cy="4.5" r="2.6" fill="#1E2534"/></pattern></defs>
+  <g id="hospital-space" clip-path="url(#clip-hospital-glass)">
+    <rect x="736" y="116" width="142" height="190" fill="#0E121A"/>
+    <g id="hospital-stars">
+      <g fill="#6D6C6B">
+        <circle cx="760" cy="142" r="1.8"/><circle cx="790" cy="170" r="1.3"/><circle cx="832" cy="138" r="2.0"/><circle cx="852" cy="182" r="1.3"/><circle cx="776" cy="206" r="1.2"/><circle cx="818" cy="196" r="1.5"/>
+        <path d="M843 160 L846 150 L849 160 L858 163 L849 166 L846 176 L843 166 L834 163 Z"/>
+      </g>
+    </g>
+    <circle cx="760" cy="372" r="130" fill="#5C5852" stroke="#10141D" stroke-width="5"/>
+    <path d="M742 246 C790 240 838 262 872 300 H742 Z" fill="#6D6C6B"/>
+    <path d="M742 262 C790 256 832 274 860 300 H742 Z" fill="#5C5852"/>
+    <path d="M800 262 C836 272 858 286 872 304 H800 Z" fill="url(#halftone-ink-m-hospital)"/>
+    <path d="M748 220 L800 126 L822 126 L748 262 Z" fill="#6D6C6B" opacity="0.14"/>
+  </g>
+  <g id="hospital-backwall">
+    <path fill-rule="evenodd" fill="#101D28" d="M120 70 H904 V372 H120 Z M756 122 H858 Q872 122 872 136 V286 Q872 300 858 300 H756 Q742 300 742 286 V136 Q742 122 756 122 Z"/>
+    <path fill-rule="evenodd" fill="#14212D" d="M322 104 H702 V336 H322 Z"/>
+    <rect x="120" y="70" width="784" height="34" fill="#0E1822"/>
+    <rect x="120" y="336" width="784" height="36" fill="#0E1822"/>
+    <path d="M120 104 H904 M120 336 H904" fill="none" stroke="#4B5A77" stroke-width="3.5"/>
+    <g fill="#192432">
+      <circle cx="170" cy="354" r="3"/><circle cx="250" cy="354" r="3"/><circle cx="380" cy="354" r="3"/><circle cx="470" cy="354" r="3"/><circle cx="554" cy="354" r="3"/><circle cx="644" cy="354" r="3"/><circle cx="770" cy="354" r="3"/><circle cx="860" cy="354" r="3"/>
+    </g>
+    <path d="M134 104 H230 L176 336 H134 Z" fill="url(#halftone-ink-m-hospital)"/>
+    <path d="M230 104 H276 L212 336 H176 Z" fill="url(#halftone-ink-s-hospital)"/>
+    <path d="M724 104 H890 V122 H724 Z" fill="url(#halftone-ink-s-hospital)"/>
+    <rect x="300" y="70" width="22" height="302" fill="#192432" stroke="#4B5A77" stroke-width="4"/>
+    <path d="M316 74 V368" fill="none" stroke="#4B5A77" stroke-width="4"/>
+    <g fill="#0D121C"><circle cx="309" cy="92" r="2.6"/><circle cx="309" cy="140" r="2.6"/><circle cx="309" cy="188" r="2.6"/><circle cx="309" cy="236" r="2.6"/><circle cx="309" cy="284" r="2.6"/><circle cx="309" cy="352" r="2.6"/></g>
+    <rect x="702" y="70" width="22" height="302" fill="#192432" stroke="#4B5A77" stroke-width="4"/>
+    <path d="M718 74 V368" fill="none" stroke="#4B5A77" stroke-width="4"/>
+    <g fill="#0D121C"><circle cx="711" cy="92" r="2.6"/><circle cx="711" cy="140" r="2.6"/><circle cx="711" cy="188" r="2.6"/><circle cx="711" cy="236" r="2.6"/><circle cx="711" cy="284" r="2.6"/><circle cx="711" cy="352" r="2.6"/></g>
+    <rect x="120" y="70" width="14" height="302" fill="#0E1822" stroke="#4B5A77" stroke-width="4"/>
+    <rect x="890" y="70" width="14" height="302" fill="#14212D" stroke="#4B5A77" stroke-width="4"/>
+    <path d="M322 104 H420 L322 236 Z" fill="#192432"/>
+    <path d="M640 336 L702 250 V336 Z" fill="url(#halftone-ink-s-hospital)"/>
+    <path d="M756 122 H858 Q872 122 872 136 V286 Q872 300 858 300 H756 Q742 300 742 286 V136 Q742 122 756 122 Z" fill="none" stroke="#4B5A77" stroke-width="18"/>
+    <path d="M733 136 Q733 112 756 112 H858 Q881 112 881 136 V286 Q881 310 858 310 H756 Q733 310 733 286 Z" fill="none" stroke="#4B5A77" stroke-width="5"/>
+    <path d="M756 122 H858 Q872 122 872 136 V286 Q872 300 858 300 H756 Q742 300 742 286 V136 Q742 122 756 122 Z" fill="none" stroke="#4B5A77" stroke-width="5"/>
+    <path d="M432 300 H596 L606 312 H442 Z" fill="#0D121C" opacity="0.9"/>
+    <rect x="432" y="122" width="164" height="178" rx="8" fill="#1D2330" stroke="#4B5A77" stroke-width="5"/>
+    <path d="M514 122 V300" fill="none" stroke="#4B5A77" stroke-width="3.5"/>
+    <path d="M560 122 H588 Q596 122 596 130 V292 Q596 300 588 300 H572 Z" fill="url(#halftone-ink-s-hospital)"/>
+    <rect x="500" y="204" width="6" height="26" rx="2" fill="#0D121C"/><rect x="522" y="204" width="6" height="26" rx="2" fill="#0D121C"/>
+    <circle cx="514" cy="166" r="34" fill="#0D151F" stroke="#4B5A77" stroke-width="5"/>
+    <path d="M504 144 H524 V156 H536 V176 H524 V188 H504 V176 H492 V156 H504 Z" fill="#1E2534"/>
+    <path d="M446 262 H500 M528 262 H582 M446 276 H500 M528 276 H582" fill="none" stroke="#4B5A77" stroke-width="2.5" stroke-linecap="round" opacity="0.6"/>
+    <path d="M226 250 V282" fill="none" stroke="#4B5A77" stroke-width="8"/>
+    <rect x="160" y="130" width="130" height="122" rx="8" fill="#0E1822" stroke="#4B5A77" stroke-width="5"/>
+    <rect x="172" y="142" width="106" height="72" rx="5" fill="#0D121B" stroke="#4B5A77" stroke-width="3"/>
+    <path id="hospital-trace" d="M180 182 H206 L214 160 L224 200 L234 172 L242 182 H270" fill="none" stroke="#4B5A77" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <g id="hospital-lamps"><rect x="174" y="226" width="22" height="14" rx="2" fill="#1E2534" stroke="#4B5A77" stroke-width="2.5"/><rect x="204" y="226" width="22" height="14" rx="2" fill="#192432" stroke="#4B5A77" stroke-width="2.5"/></g>
+    <circle cx="262" cy="233" r="8" fill="#192432" stroke="#4B5A77" stroke-width="2.5"/>
+  </g>
+  <g id="hospital-shell">
+    <polygon points="20,20 1004,20 904,70 120,70" fill="#0D121C"/>
+    <path d="M286 31 H476 L466 58 H308 Z" fill="#1E2534" stroke="#4B5A77" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M548 31 H738 L716 58 H558 Z" fill="#1E2534" stroke="#4B5A77" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M320 44 H452 M572 44 H704" fill="none" stroke="#4B5A77" stroke-width="3" stroke-linecap="round"/>
+    <polygon points="20,20 120,70 120,372 20,748" fill="#0D151F"/>
+    <path d="M20 260.2 L120 169.7 M20 456.8 L120 251.2" fill="none" stroke="#4B5A77" stroke-width="3"/>
+    <polygon points="20,340.3 120,202.9 120,221 20,384" fill="#0E1822" stroke="#4B5A77" stroke-width="2.5" stroke-linejoin="round"/>
+    <polygon points="20,560 120,294 120,372 20,748" fill="url(#halftone-ink-m-hospital)" opacity="0.7"/>
+    <polygon points="1004,20 904,70 904,372 1004,748" fill="#0E1822"/>
+    <path d="M1004 260.2 L904 169.7 M1004 456.8 L904 251.2" fill="none" stroke="#4B5A77" stroke-width="3"/>
+    <polygon points="1004,20 904,70 904,150 1004,216" fill="#101D28"/>
+    <polygon points="1004,216 904,150 904,186 1004,300" fill="url(#halftone-paper-s-hospital)" opacity="0.5"/>
+    <path d="M1004 216 L904 150" fill="none" stroke="#4B5A77" stroke-width="2.5"/>
+  </g>
+  <g id="hospital-scene-floor"><polygon points="120,372 904,372 1004,748 20,748" fill="#14212D"/><g clip-path="url(#clip-hospital-floor)"><polygon points="113,398 911,398 904,372 120,372" fill="#101D28"/><polygon points="120,372 196,372 132,748 20,748" fill="#101D28"/><polygon points="196,372 250,372 210,748 132,748" fill="url(#bm-ht-ink-m)"/><polygon points="250,372 296,372 272,748 210,748" fill="url(#bm-ht-ink-s)"/><polygon points="110,398 914,398 918,416 106,416" fill="url(#bm-ht-ink-s)"/><path fill-rule="evenodd" fill="url(#bm-ht-paper-s)" d="M204.20000000000005 556 A307.79999999999995 41.76 0 1 0 819.8 556 A307.79999999999995 41.76 0 1 0 204.20000000000005 556 Z M242 556 A270 36 0 1 0 782 556 A270 36 0 1 0 242 556 Z"/><ellipse cx="512" cy="556" rx="270" ry="36" fill="#192432"/><path d="M250.7 372 L184 748 M381.3 372 L348 748 M512 372 V748 M642.7 372 L676 748 M773.3 372 L840 748" fill="none" stroke="#4B5A77" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.24"/><path d="M104.6 430 H919.4 M82.8 512 H941.2 M54.6 618 H969.4" fill="none" stroke="#4B5A77" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.24"/><g fill="#0D121C" opacity="0.4"><circle cx="262" cy="440" r="2.6"/><circle cx="370" cy="440" r="2.6"/><circle cx="524" cy="440" r="2.6"/><circle cx="654" cy="440" r="2.6"/><circle cx="762" cy="440" r="2.6"/><circle cx="240" cy="630" r="2.6"/><circle cx="362" cy="630" r="2.6"/><circle cx="526" cy="630" r="2.6"/><circle cx="662" cy="630" r="2.6"/><circle cx="784" cy="630" r="2.6"/></g><polygon points="20,748 1004,748 990,700 34,700" fill="url(#bm-ht-ink-s)" opacity="0.7"/><path d="M200 560 l22 -3 M760 520 l24 2 M380 552 l18 -2" fill="none" stroke="#4B5A77" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/></g></g>
+  <g id="hospital-edges" fill="none" stroke="#4B5A77" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M120 70 H904 V372 H120 Z" stroke-width="6"/>
+    <path d="M20 20 L120 70 M1004 20 L904 70 M20 748 L120 372 M1004 748 L904 372" stroke-width="6"/>
+  </g>
+  <g id="hospital-scene-props"><polygon points="300,58 470,58 500,620 200,620" fill="#1E2534" opacity="0.06"/><polygon points="560,58 730,58 824,620 524,620" fill="#1E2534" opacity="0.06"/><ellipse cx="512" cy="45" rx="30" ry="10" fill="#0D151F" stroke="#4B5A77" stroke-width="3"/><ellipse cx="512" cy="45" rx="18" ry="5.5" fill="#0E1822" stroke="#4B5A77" stroke-width="2"/><path d="M482 45 H494 M530 45 H542 M512 35 V39.5 M512 50.5 V55" fill="none" stroke="#4B5A77" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="540" cy="37" r="3" fill="#192432" stroke="#4B5A77" stroke-width="1.5"/><ellipse cx="512" cy="478" rx="20" ry="5.5" fill="#0D121C" opacity="0.7"/><path d="M512 330 V476 M499 476 H525" fill="none" stroke="#4B5A77" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/><path d="M512 334 V474" fill="none" stroke="#4B5A77" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M497 336 H527" fill="none" stroke="#4B5A77" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><rect x="514" y="342" width="20" height="32" rx="5" fill="#1E2534" stroke="#4B5A77" stroke-width="3"/><rect x="263" y="328" width="154" height="94" rx="8" fill="#101D28" stroke="#4B5A77" stroke-width="4"/><rect x="272.7" y="364.7" width="134.6" height="50.8" rx="4" fill="#0E1822" stroke="#4B5A77" stroke-width="2.5"/><rect x="271.6" y="334.5" width="30.2" height="16.2" rx="3" fill="#192432" stroke="#4B5A77" stroke-width="2.5"/><circle cx="313.8" cy="342.6" r="5.4" fill="#14212D" stroke="#4B5A77" stroke-width="2.5"/><rect x="365.2" y="332.3" width="43.2" height="25.9" rx="3" fill="#0D151F" stroke="#4B5A77" stroke-width="3"/><path d="M371.64000000000004 350.68 H401.88" fill="none" stroke="#4B5A77" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="401.9" cy="338.8" r="1.9" fill="#101D28"/><path d="M340 328 V317.2" fill="none" stroke="#4B5A77" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><ellipse cx="340" cy="371.2" rx="49.7" ry="23.8" fill="#1E2534" opacity="0.1"/><rect x="320.6" y="310.7" width="38.9" height="8.6" rx="3" fill="#1E2534" stroke="#4B5A77" stroke-width="2"/><rect x="303.3" y="390" width="73.4" height="34.6" rx="10" fill="#1E2534" stroke="#4B5A77" stroke-width="2.5"/><polygon points="286,418.1 394,418.1 400.5,459.1 279.5,459.1" fill="#192432" stroke="#4B5A77" stroke-width="2.5" stroke-linejoin="round"/><rect x="607" y="328" width="154" height="94" rx="8" fill="#101D28" stroke="#4B5A77" stroke-width="4"/><rect x="616.7" y="364.7" width="134.6" height="50.8" rx="4" fill="#0E1822" stroke="#4B5A77" stroke-width="2.5"/><rect x="615.6" y="334.5" width="30.2" height="16.2" rx="3" fill="#192432" stroke="#4B5A77" stroke-width="2.5"/><circle cx="657.8" cy="342.6" r="5.4" fill="#14212D" stroke="#4B5A77" stroke-width="2.5"/><rect x="709.2" y="332.3" width="43.2" height="25.9" rx="3" fill="#0D151F" stroke="#4B5A77" stroke-width="3"/><path d="M715.64 350.68 H745.88" fill="none" stroke="#4B5A77" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="745.9" cy="338.8" r="1.9" fill="#101D28"/><path d="M684 328 V317.2" fill="none" stroke="#4B5A77" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><ellipse cx="684" cy="371.2" rx="49.7" ry="23.8" fill="#1E2534" opacity="0.1"/><rect x="664.6" y="310.7" width="38.9" height="8.6" rx="3" fill="#1E2534" stroke="#4B5A77" stroke-width="2"/><rect x="647.3" y="390" width="73.4" height="34.6" rx="10" fill="#1E2534" stroke="#4B5A77" stroke-width="2.5"/><polygon points="630,418.1 738,418.1 744.5,459.1 623.5,459.1" fill="#192432" stroke="#4B5A77" stroke-width="2.5" stroke-linejoin="round"/></g>
+  <g data-from="hospital-ward-four.berth-four-h3.svg">
+  <g id="hospital-scene-berth-four-h3"><polygon points="283.8,458 396.2,458 416.2,556 263.8,556" fill="#14212D" stroke="#4B5A77" stroke-width="3" stroke-linejoin="round"/><polygon points="355.1,466 396.2,466 416.2,556 361.6,556" fill="url(#bm-ht-ink-s)"/><rect x="281.7" y="453.7" width="116.6" height="11.9" rx="3" fill="#1E2534" stroke="#4B5A77" stroke-width="2.5"/><path d="M275.2 468.8 L259.52 549.52 M404.8 468.8 L420.48 549.52" fill="none" stroke="#4B5A77" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M275.2 468.8 L259.52 549.52 M404.8 468.8 L420.48 549.52" fill="none" stroke="#4B5A77" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><rect x="257.4" y="551.7" width="165.3" height="21.6" rx="4" fill="#101D28" stroke="#4B5A77" stroke-width="4"/><path d="M266 562.48 H414" fill="none" stroke="#4B5A77" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g>
+</g>
+  <g data-from="hospital-ward-four.berth-four-h4.svg">
+  <g id="hospital-scene-berth-four-h4"><polygon points="627.8,458 740.2,458 760.2,556 607.8,556" fill="#14212D" stroke="#4B5A77" stroke-width="3" stroke-linejoin="round"/><polygon points="699.1,466 740.2,466 760.2,556 705.6,556" fill="url(#bm-ht-ink-s)"/><rect x="625.7" y="453.7" width="116.6" height="11.9" rx="3" fill="#1E2534" stroke="#4B5A77" stroke-width="2.5"/><path d="M619.2 468.8 L603.52 549.52 M748.8 468.8 L764.48 549.52" fill="none" stroke="#4B5A77" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M619.2 468.8 L603.52 549.52 M748.8 468.8 L764.48 549.52" fill="none" stroke="#4B5A77" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><rect x="601.4" y="551.7" width="165.3" height="21.6" rx="4" fill="#101D28" stroke="#4B5A77" stroke-width="4"/><path d="M610 562.48 H758" fill="none" stroke="#4B5A77" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g>
+</g>
+  <g data-from="hospital-ward-four.berth-four-h1-head.svg">
+  <g id="hospital-scene-berth-four-h1-head"><rect x="246" y="536" width="188" height="110" rx="8" fill="#101D28" stroke="#4B5A77" stroke-width="4"/><rect x="257.7" y="580.2" width="164.6" height="58" rx="4" fill="#0E1822" stroke="#4B5A77" stroke-width="2.5"/><rect x="256.4" y="543.8" width="36.4" height="19.5" rx="3" fill="#192432" stroke="#4B5A77" stroke-width="2.5"/><circle cx="307.1" cy="553.5" r="6.5" fill="#14212D" stroke="#4B5A77" stroke-width="2.5"/><rect x="371.6" y="541.2" width="52" height="31.2" rx="3" fill="#0D151F" stroke="#4B5A77" stroke-width="3"/><path d="M379.40000000000003 563.3000000000001 H415.8" fill="none" stroke="#4B5A77" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="415.8" cy="549" r="2.3" fill="#101D28"/><path d="M340 536 V523" fill="none" stroke="#4B5A77" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><ellipse cx="340" cy="588" rx="59.8" ry="28.6" fill="#1E2534" opacity="0.1"/><rect x="316.6" y="515.2" width="46.8" height="10.4" rx="3" fill="#1E2534" stroke="#4B5A77" stroke-width="2"/><rect x="295.8" y="588" width="88.4" height="41.6" rx="10" fill="#1E2534" stroke="#4B5A77" stroke-width="2.5"/><polygon points="275,621.8 405,621.8 412.8,671.2 267.2,671.2" fill="#192432" stroke="#4B5A77" stroke-width="2.5" stroke-linejoin="round"/></g>
+</g>
+  <g data-from="hospital-ward-four.berth-four-h2-head.svg">
+  <g id="hospital-scene-berth-four-h2-head"><rect x="590" y="536" width="188" height="110" rx="8" fill="#101D28" stroke="#4B5A77" stroke-width="4"/><rect x="601.7" y="580.2" width="164.6" height="58" rx="4" fill="#0E1822" stroke="#4B5A77" stroke-width="2.5"/><rect x="600.4" y="543.8" width="36.4" height="19.5" rx="3" fill="#192432" stroke="#4B5A77" stroke-width="2.5"/><circle cx="651.1" cy="553.5" r="6.5" fill="#14212D" stroke="#4B5A77" stroke-width="2.5"/><rect x="715.6" y="541.2" width="52" height="31.2" rx="3" fill="#0D151F" stroke="#4B5A77" stroke-width="3"/><path d="M723.4 563.3000000000001 H759.8" fill="none" stroke="#4B5A77" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="759.8" cy="549" r="2.3" fill="#101D28"/><path d="M684 536 V523" fill="none" stroke="#4B5A77" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><ellipse cx="684" cy="588" rx="59.8" ry="28.6" fill="#1E2534" opacity="0.1"/><rect x="660.6" y="515.2" width="46.8" height="10.4" rx="3" fill="#1E2534" stroke="#4B5A77" stroke-width="2"/><rect x="639.8" y="588" width="88.4" height="41.6" rx="10" fill="#1E2534" stroke="#4B5A77" stroke-width="2.5"/><polygon points="619,621.8 749,621.8 756.8,671.2 611.2,671.2" fill="#192432" stroke="#4B5A77" stroke-width="2.5" stroke-linejoin="round"/></g>
+</g>
+  <g data-from="hospital-ward-four.berth-four-h1.svg">
+  <g id="hospital-scene-berth-four-h1"><polygon points="272.4,650 407.6,650 446.6,768 233.4,768" fill="#14212D" stroke="#4B5A77" stroke-width="3" stroke-linejoin="round"/><polygon points="358.2,658 407.6,658 446.6,768 366,768" fill="url(#bm-ht-ink-s)"/><rect x="269.8" y="644.8" width="140.4" height="14.3" rx="3" fill="#1E2534" stroke="#4B5A77" stroke-width="2.5"/><path d="M262 663 L228.2 760.2 M418 663 L451.8 760.2" fill="none" stroke="#4B5A77" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M262 663 L228.2 760.2 M418 663 L451.8 760.2" fill="none" stroke="#4B5A77" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></g>
+</g>
+  <g data-from="hospital-ward-four.berth-four-h2.svg">
+  <g id="hospital-scene-berth-four-h2"><polygon points="616.4,650 751.6,650 790.6,768 577.4,768" fill="#14212D" stroke="#4B5A77" stroke-width="3" stroke-linejoin="round"/><polygon points="702.2,658 751.6,658 790.6,768 710,768" fill="url(#bm-ht-ink-s)"/><rect x="613.8" y="644.8" width="140.4" height="14.3" rx="3" fill="#1E2534" stroke="#4B5A77" stroke-width="2.5"/><path d="M606 663 L572.2 760.2 M762 663 L795.8 760.2" fill="none" stroke="#4B5A77" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M606 663 L572.2 760.2 M762 663 L795.8 760.2" fill="none" stroke="#4B5A77" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></g>
+</g>
+</svg>

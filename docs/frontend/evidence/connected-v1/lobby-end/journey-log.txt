@@ -1,0 +1,13 @@
+[   0.4 s] Browser: Chrome/155.0.8059.39. Preview server: already running.
+[   1.9 s] ESTABLISHED 1. The host creates a seven-player lobby
+[   1.9 s]   - One v1CreateMatch from the host page; the answer named a match and a twelve-character room code.
+[   1.9 s]   - The host console then read the lobby from its own session document and the lobby document: 0 of 7 seated, status "lobby".
+[   3.5 s] ESTABLISHED 2. Players authenticate and request admission
+[   3.5 s]   - 9 browser contexts signed in anonymously to the Auth emulator and hold 9 different identities.
+[   3.5 s]   - 7 of them asked to join with the room code (4 starting in Room A, 3 in Room B) and are waiting; none shows anything of a match.
+[   9.3 s] ESTABLISHED L. The host ends a match that is still a lobby (seven players seated, a display admitted)
+[   9.3 s]   - The host console offers to end a lobby with the same two presses as a running match. One v1AbortMatch; the console then read "aborted" and offered neither to start the match nor to end it again.
+[   9.3 s]   - The display and all seven phones then said: "The host ended this match before it started. There is nothing of it to show." None of them opened a match screen, went on waiting, or said it had lost access.
+[   9.3 s]   - No role was ever dealt, so there was nothing private to show or to keep: nothing of a match was in any page or its storage.
+[   9.3 s]   - A reloaded phone and a reloaded display said the same.
+[   9.3 s] No page was loaded by anything but this script: each tab counted as many loads as the script made, and each refused the development server’s hot-reload connection.

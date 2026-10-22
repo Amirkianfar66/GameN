@@ -1,0 +1,11 @@
+{
+  "baseline": "8e213d7dae2b44b58d227ae4e0f014e8a85b50da",
+  "node": "22.21.1",
+  "npm": "10.9.4",
+  "browser": "Google Chrome 155.0.8059.39",
+  "modifiedSources": {
+    "apps/game/hosted/comic-motion.mjs": "fbb2a9bd8b662af631011d1cfbb8a096ecf05afde842000aa99e5489333b0110",
+    "apps/game/dev/board/main.js": "5decc3ed49a2dc5e041b236aae414eaf66bf2486f14638a4458e820466002198",
+    "apps/game/dev/capture-board-recovery.mjs": "9f75132b3000e077433ad4c0a0426e764ae4b5c74dc16b0113138ef05c6f8c1e"
+  }
+}

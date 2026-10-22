@@ -1,0 +1,261 @@
+{
+  "run": {
+    "startedAt": "2026-10-06T20:36:44.278Z",
+    "origin": "http://127.0.0.1:5173",
+    "scenario": "votes",
+    "players": 7,
+    "browser": "Chrome/155.0.8059.39",
+    "previewServer": "already running",
+    "pageLoads": {
+      "host": 1,
+      "display": 1,
+      "player-1": 1,
+      "player-2": 1,
+      "player-3": 1,
+      "player-4": 2,
+      "player-5": 1,
+      "player-6": 1,
+      "player-7": 1
+    }
+  },
+  "steps": [
+    {
+      "step": "1. The host creates a seven-player lobby",
+      "statements": [
+        "One v1CreateMatch from the host page; the answer named a match and a twelve-character room code.",
+        "The host console then read the lobby from its own session document and the lobby document: 0 of 7 seated, status \"lobby\"."
+      ]
+    },
+    {
+      "step": "2. Players authenticate and request admission",
+      "statements": [
+        "9 browser contexts signed in anonymously to the Auth emulator and hold 9 different identities.",
+        "7 of them asked to join with the room code (4 starting in Room A, 3 in Room B) and are waiting; none shows anything of a match."
+      ]
+    },
+    {
+      "step": "3. The host approves seats and starts the match",
+      "statements": [
+        "The host console listed 7 requests; each was seated with the keyboard alone (Tab, Enter), 7 v1ApproveAdmission calls, and each player page learned its seat from its own admission document.",
+        "The display was admitted by the identifier it shows, and showed no match before the start.",
+        "One v1StartMatch; the host console then read status \"running\"."
+      ]
+    },
+    {
+      "step": "V1. A first round with nobody acting (seven players)",
+      "statements": [
+        "The display followed 7 phases to the Jail vote: \"Player 4’s turn\", \"Player 5’s turn\", \"Player 7’s turn\", \"Player 1’s turn\", \"Player 3’s turn\", \"Player 2’s turn\", \"Player 6’s turn\".",
+        "Nobody did anything, and no phase ended early: the display showed each turn after the first for between 60.4 and 60.7 seconds. (The server closes a phase at its 60-second deadline, when a client asks it to look.)",
+        "No Captain exists in a first round, so the server opened no release choice: the Jail vote followed the last turn."
+      ]
+    },
+    {
+      "step": "V2. A Jail vote: seven voters, real ballots, and nothing of a ballot shown to anyone else",
+      "statements": [
+        "The display and every phone said the same thing about the open vote, from the public ballot: \"Can be voted into Jail: Player 1, Player 2, Player 3, Player 4, Player 5, Player 6, Player 7. 7 players may vote.\"",
+        "Every phone was offered a vote and nothing else. Each listed the seats the server listed (its own among them) and \"Abstain\".",
+        "player-1 voted with Tab and Enter alone; player-2, player-3 and player-4 by touch, for the same seat. player-5 abstained (VOTE with no seat). player-6 voted for its own seat, which the server lists. player-7 cast no ballot.",
+        "ARRANGED: the answer to player-3's ballot was dropped in the browser. The phone asked the server, which had the ballot: one VOTE, accepted once.",
+        "Each ballot: one confirmation, one VOTE, receipt accepted. The card then said the ballot was recorded and that this is not a result.",
+        "Afterwards each phone showed its own ballot from the server’s view, inside its open private panel, and was offered no second one. A reloaded phone showed it again after reopening the panel, and nothing of a ballot was in any page’s storage.",
+        "Until the deadline the display’s voting panel was unchanged and nothing of any ballot was on it or spoken by it; no phone heard of a ballot but its own; the player who had not voted could still vote."
+      ]
+    },
+    {
+      "step": "V3. The count is published when the vote closes, to everyone alike",
+      "statements": [
+        "The Jail vote ended at its deadline. The server's public view then carried the count: Player 5 4, Player 6 1, the other seats 0; 7 could vote; 2 abstained or did not vote; \"Sent to Jail: Player 5.\"",
+        "The display and all seven phones showed that count in the same words, the display spoke it once, and its board showed Player 5 in Jail, marked \"Jailed\".",
+        "Nothing shown or spoken says who voted for whom."
+      ]
+    },
+    {
+      "step": "V4. A Captain election that ties is run again among the tied candidates",
+      "statements": [
+        "The server opened a Captain election for round 2 with six candidates (every seat but the jailed Player 5) and seven voters. The jailed player was offered the vote and was not on the list.",
+        "Three ballots for Player 1 (one of them that player's own), three for Player 7, one abstention. Count: 3 and 3, \"Nobody was elected.\"",
+        "The server then opened a second Captain election with only Player 1, Player 7 as candidates; every phone listed exactly those two and \"Abstain\".",
+        "Four ballots for Player 1, one for Player 7, one abstention, one player silent. Count: 4 and 1, \"Elected Captain: Player 1.\" The board showed Player 1 in the Command Room, marked \"Captain\".",
+        "Both counts were spoken once by the display.",
+        "MEASURED, on this machine's emulators: the seven ballots of the first election were confirmed at the same moment. The server answered them in 2.0 to 3.4 s, and the phones showed the acceptance 2.1 to 3.5 s after the confirmation. A phone waits 8 s for an answer before it asks the server what became of its command."
+      ]
+    },
+    {
+      "step": "V5. The Captain’s release choice",
+      "statements": [
+        "After the seven turns of round 2 the server opened a release choice. The display and every phone said: \"Player 1 may ask for a vote on releasing one jailed player. Jailed: Player 5.\"",
+        "Only the Captain's phone was offered a choice: the jailed Player 5, or \"No release request\". Before confirming, it said what asking uses up.",
+        "One confirmation, one RELEASE_CHOICE naming seat 5, receipt accepted. Nothing public changed until the phase ended."
+      ]
+    },
+    {
+      "step": "V6. The vote on the release",
+      "statements": [
+        "The server opened a release vote on Player 5; the display and the phones said so from the public ballot. All seven were offered \"Yes, release\", \"No, do not release\" and \"Abstain\"; the jailed player was asked \"Release yourself from Jail?\".",
+        "Five voted yes (the jailed player among them), one no, one abstained: seven RELEASE_VOTE commands, each accepted once. Each phone then showed its own ballot from the server’s view.",
+        "Count, published when the vote closed: \"Yes: 5 of 7. Player 5 was released.\" The board showed Player 5 in Room A, no longer marked \"Jailed\", and the server opened the round's Jail vote with all seven seats."
+      ]
+    },
+    {
+      "step": "V7. A vote in which nobody votes",
+      "statements": [
+        "In the second Jail vote all seven were offered a ballot and none cast one. The server closed the vote at its deadline and published: every seat 0, \"Abstained or did not vote: 7. Nobody was sent to Jail.\" Round 3 began.",
+        "Over the whole journey each phone sent exactly the ballots it confirmed (5, 4, 4, 4, 4, 4, 2) and the display sent none.",
+        "No ballot had to be started a second time.",
+        "No command had to be sent a second time.",
+        "NOT RUN: any turn action, a vote with a phone offline, an injured or eliminated voter, a second release request, and anything after the start of round 3."
+      ]
+    }
+  ],
+  "match": {
+    "note": "A throwaway match on the local emulator with anonymous emulator identities. Nothing here is a real match or a real person.",
+    "playerCount": 7,
+    "phasesFollowed": [
+      {
+        "label": "Round 1, Player 4’s turn",
+        "secondsAfterThePreviousOne": null
+      },
+      {
+        "label": "Round 1, Player 5’s turn",
+        "secondsAfterThePreviousOne": 59.4
+      },
+      {
+        "label": "Round 1, Player 7’s turn",
+        "secondsAfterThePreviousOne": 60.7
+      },
+      {
+        "label": "Round 1, Player 1’s turn",
+        "secondsAfterThePreviousOne": 60.4
+      },
+      {
+        "label": "Round 1, Player 3’s turn",
+        "secondsAfterThePreviousOne": 60.6
+      },
+      {
+        "label": "Round 1, Player 2’s turn",
+        "secondsAfterThePreviousOne": 60.5
+      },
+      {
+        "label": "Round 1, Player 6’s turn",
+        "secondsAfterThePreviousOne": 60.6
+      },
+      {
+        "label": "Round 1, Jail vote",
+        "secondsAfterThePreviousOne": 60.6
+      },
+      {
+        "label": "Round 2, Captain election",
+        "secondsAfterThePreviousOne": 60.5
+      },
+      {
+        "label": "Round 2, Player 1’s turn",
+        "secondsAfterThePreviousOne": 121.1
+      },
+      {
+        "label": "Round 2, Player 7’s turn",
+        "secondsAfterThePreviousOne": 60.5
+      },
+      {
+        "label": "Round 2, Player 4’s turn",
+        "secondsAfterThePreviousOne": 60.6
+      },
+      {
+        "label": "Round 2, Player 6’s turn",
+        "secondsAfterThePreviousOne": 60.6
+      },
+      {
+        "label": "Round 2, Player 2’s turn",
+        "secondsAfterThePreviousOne": 60.5
+      },
+      {
+        "label": "Round 2, Player 5’s turn",
+        "secondsAfterThePreviousOne": 60.5
+      },
+      {
+        "label": "Round 2, Player 3’s turn",
+        "secondsAfterThePreviousOne": 60.5
+      },
+      {
+        "label": "Round 2, Release choice",
+        "secondsAfterThePreviousOne": 60.5
+      },
+      {
+        "label": "Round 2, Release vote",
+        "secondsAfterThePreviousOne": 60.5
+      },
+      {
+        "label": "Round 2, Jail vote",
+        "secondsAfterThePreviousOne": 60.6
+      },
+      {
+        "label": "Round 3, Player 4’s turn",
+        "secondsAfterThePreviousOne": 60.5
+      }
+    ],
+    "jailVote": {
+      "votedForSeat": 5,
+      "selfVoteBySeat": 6,
+      "counts": {
+        "Player 1": 0,
+        "Player 2": 0,
+        "Player 3": 0,
+        "Player 4": 0,
+        "Player 5": 4,
+        "Player 6": 1,
+        "Player 7": 0
+      }
+    },
+    "election": {
+      "firstCount": {
+        "Player 1": 3,
+        "Player 2": 0,
+        "Player 3": 0,
+        "Player 4": 0,
+        "Player 6": 0,
+        "Player 7": 3
+      },
+      "secondCount": {
+        "Player 1": 4,
+        "Player 7": 1
+      },
+      "captainSeat": 1
+    },
+    "release": {
+      "requestedForSeat": 5,
+      "yes": 5,
+      "voters": 7,
+      "released": true
+    },
+    "ballotsSentBySeat": {
+      "Player 1": 5,
+      "Player 2": 4,
+      "Player 3": 4,
+      "Player 7": 4,
+      "Player 4": 4,
+      "Player 6": 4,
+      "Player 5": 2
+    },
+    "ballotsStartedAgain": [],
+    "commandsSentAgainAsTheIdenticalRequest": [],
+    "sevenSimultaneousBallots": {
+      "answersTookMs": [
+        2022,
+        2730,
+        2794,
+        2865,
+        2920,
+        3132,
+        3387
+      ],
+      "shownAfterMs": [
+        2076,
+        2793,
+        2900,
+        2996,
+        2996,
+        3199,
+        3502
+      ]
+    }
+  }
+}

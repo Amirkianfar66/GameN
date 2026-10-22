@@ -1,0 +1,57 @@
+{
+  "run": {
+    "startedAt": "2026-10-06T17:03:56.041Z",
+    "origin": "http://127.0.0.1:5173",
+    "scenario": "shot",
+    "players": 9,
+    "browser": "Chrome/154.0.8037.98",
+    "previewServer": "started by this script"
+  },
+  "steps": [
+    {
+      "step": "1. The host creates a nine-player lobby",
+      "statements": [
+        "One v1CreateMatch from the host page; the answer named a match and a twelve-character room code.",
+        "The host console then read the lobby from its own session document and the lobby document: 0 of 9 seated, status \"lobby\"."
+      ]
+    },
+    {
+      "step": "2. Players authenticate and request admission",
+      "statements": [
+        "11 browser contexts signed in anonymously to the Auth emulator and hold 11 different identities.",
+        "9 of them asked to join with the room code (5 starting in Room A, 4 in Room B) and are waiting; none shows anything of a match."
+      ]
+    },
+    {
+      "step": "3. The host approves seats and starts the match",
+      "statements": [
+        "The host console listed 9 requests; each was seated with the keyboard alone (Tab, Enter), 9 v1ApproveAdmission calls, and each player page learned its seat from its own admission document.",
+        "The display was admitted by the identifier it shows, and showed no match before the start.",
+        "One v1StartMatch; the host console then read status \"running\"."
+      ]
+    },
+    {
+      "step": "6b. On its own turn the Officer registers a shot (nine players)",
+      "statements": [
+        "A nine-player match on the real backend. The Officer was Player 1; nobody else was offered a shot, and the Officer was not offered one outside its own turn. The display had shown 6 phases when that turn came.",
+        "On its own turn the phone offered a shot, listed the server’s legal targets (4, all of them publicly in the Officer’s own location), and after one confirmation sent one v1Command (REGISTER_SHOT). The backend’s receipt: accepted, REGISTERED.",
+        "The phone says the shot is registered, that this is not a result, and that registered shots are resolved at the end of the round.",
+        "Registration is not damage: the shared display’s board was identical before and after, the target is as healthy as before, and no other phone was told anything.",
+        "Put away, the card says one action is registered and waiting, from the server’s own view, and the server offers the Officer no second shot. After a reload it says the same and does not know the target. Nothing about the shot is kept in any tab.",
+        "The resolution of that shot at the end of the round is NOT RUN: this slice ends at registration."
+      ]
+    }
+  ],
+  "match": {
+    "note": "A throwaway match on the local emulator with anonymous emulator identities. Nothing here is a real match or a real person.",
+    "playerCount": 9,
+    "phasesShownByTheDisplayBeforeTheShot": [
+      "Round 1, Player 7’s turn",
+      "Round 1, Player 2’s turn",
+      "Round 1, Player 8’s turn",
+      "Round 1, Player 9’s turn",
+      "Round 1, Player 6’s turn",
+      "Round 1, Player 1’s turn"
+    ]
+  }
+}

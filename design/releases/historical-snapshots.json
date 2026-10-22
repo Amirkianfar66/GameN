@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "6ca4b51d5acd1454daec68c5108c8f12ee2286bf",
+  "purpose": "Build-time historical verification only; never a substitute for current runtime validation.",
+  "releases": {
+    "design-0.3.0": {
+      "manifestSha256": "588e79930746266a3c33ab5aedc1f40a8c464ff92c8e181dec93653d619eaecf",
+      "sourceCount": 30,
+      "runtimeCount": 14
+    },
+    "design-0.4.0": {
+      "manifestSha256": "64975b15cd9815472dc35276e19bdc9ffbdd13040a89f72ab9c15b3cf1cce33e",
+      "sourceCount": 96,
+      "runtimeCount": 55
+    }
+  },
+  "additionalFenceFixtureInputs": {
+    "scripts/runtime-art-release.mjs": "f72a8877607ac0edc73c652f098e0722e7a97f3f4535086803097026fc2ba74c"
+  }
+}

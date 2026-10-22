@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · ability art proposal · dossier-round-spent 0.1.0 · generated, do not edit by hand
+  A round spent. The weapon a registered shot used: drawn when the view's count falls, never ahead of it.
+  Built by design/tools/abilities-assets.mjs from design/abilities/source/guard.svg (layer dossier-round-spent). Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 30" width="14" height="30"><g id="dossier-round-spent"><path d="M7 2 Q12 2 12 10 V27 H2 V10 Q2 2 7 2 Z" fill="#E3D6C2" stroke="#151923" stroke-width="1.8" stroke-dasharray="3 2" stroke-linejoin="round"/><path d="M1.5 25 H12.5 V28.5 H1.5 Z" fill="#C6CDD4" stroke="#151923" stroke-width="1.4" stroke-dasharray="3 2" stroke-linejoin="round"/></g></svg>

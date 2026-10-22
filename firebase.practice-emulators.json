@@ -1,0 +1,29 @@
+{
+  "//": "mothership:dev-only \u2014 isolated bot UI acceptance, never a cloud deployment configuration",
+  "firestore": {
+    "rules": "infra/firebase/firestore.rules",
+    "indexes": "infra/firebase/firestore.indexes.json"
+  },
+  "emulators": {
+    "auth": {
+      "host": "127.0.0.1",
+      "port": 9599
+    },
+    "firestore": {
+      "host": "127.0.0.1",
+      "port": 8590,
+      "websocketPort": 9166
+    },
+    "hub": {
+      "host": "127.0.0.1",
+      "port": 4516
+    },
+    "logging": {
+      "host": "127.0.0.1",
+      "port": 4616
+    },
+    "ui": {
+      "enabled": false
+    }
+  }
+}

@@ -1,0 +1,234 @@
+/* Chrome for the Designer's review pages: the sheet a board is pinned to. Not part of the
+   design. Annotation ink is magenta so it is never taken for part of the game. */
+
+:root {
+  --review-ink: #FF5FD2;
+  --review-bg: #2B2B31;
+  --review-text: #F2F2F2;
+  --review-muted: #B8B8C4;
+}
+
+html,
+body.review {
+  margin: 0;
+}
+
+body.review {
+  background: var(--review-bg);
+  color: var(--review-text);
+  font: 15px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+/* As wide as what it holds, so a render is cropped to the board and nothing else. */
+.review-page {
+  display: inline-block;
+  box-sizing: border-box;
+  padding: 28px 32px 36px;
+}
+
+.review-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 20px;
+  max-inline-size: 70rem;
+  margin-block-end: 6px;
+}
+
+.review-head h1 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.review-meta,
+.review-note {
+  margin: 0;
+  color: var(--review-muted);
+  font-size: 13px;
+}
+
+.review-note {
+  max-inline-size: 62rem;
+  margin-block-end: 20px;
+  color: var(--review-text);
+  font-size: 15px;
+}
+
+.review-synthetic {
+  display: inline-block;
+  padding: 1px 8px;
+  border: 1.5px dashed var(--review-ink);
+  color: var(--review-ink);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.review-row {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 36px;
+}
+
+.review-frame {
+  flex: none;
+  margin: 0;
+}
+
+.review-frame iframe {
+  display: block;
+  border: 0;
+  background: #10141C;
+  box-shadow: 0 0 0 1px #6B6B78, 0 14px 40px rgb(0 0 0 / 45%);
+}
+
+.review-frame figcaption {
+  margin-block-start: 10px;
+  color: var(--review-muted);
+  font-size: 13px;
+}
+
+.review-callout-box {
+  position: absolute;
+  border: 1.5px solid var(--review-ink);
+  pointer-events: none;
+}
+
+.review-callout {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  inline-size: 24px;
+  block-size: 24px;
+  margin: -12px 0 0 -12px;
+  background: var(--review-ink);
+  color: #1B0A17;
+  border-radius: 50%;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.review-legend {
+  flex: 0 1 30rem;
+  min-inline-size: 22rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 10px;
+}
+
+.review-legend li {
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  gap: 2px 12px;
+}
+
+.review-legend .review-callout {
+  position: static;
+  margin: 0;
+}
+
+.review-legend strong {
+  font-size: 15px;
+}
+
+.review-legend code {
+  color: var(--review-ink);
+  font: 600 12px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.review-legend p {
+  grid-column: 2;
+  margin: 0;
+  color: var(--review-muted);
+  font-size: 13px;
+}
+
+/* Sheets of specimens: states, storyboard frames, assets. */
+.review-grid {
+  display: grid;
+  gap: 28px 24px;
+}
+
+.review-cell {
+  margin: 0;
+  min-inline-size: 0;
+}
+
+.review-cell > .review-stage {
+  inline-size: fit-content;
+  max-inline-size: 100%;
+  box-sizing: border-box;
+}
+
+.review-cell > figcaption,
+.review-caption {
+  max-inline-size: 27rem;
+  margin-block-start: 10px;
+  font-size: 13px;
+  color: var(--review-muted);
+}
+
+.review-cell > figcaption strong,
+.review-caption strong {
+  display: block;
+  color: var(--review-text);
+  font-size: 14px;
+}
+
+.review-stage {
+  position: relative;
+  padding: 18px;
+  background: #10141C;
+  box-shadow: 0 0 0 1px #6B6B78;
+}
+
+.review-stage--paper {
+  background: #F4EBDD;
+}
+
+.review-stage--panel {
+  background: #202837;
+}
+
+.review-section {
+  margin: 34px 0 14px;
+  padding-block-end: 6px;
+  border-block-end: 1px solid #55555F;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.review-section:first-of-type {
+  margin-block-start: 8px;
+}
+
+.review-section small {
+  margin-inline-start: 10px;
+  color: var(--review-muted);
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.review-tag {
+  display: inline-block;
+  margin-inline-end: 6px;
+  padding: 0 6px;
+  border: 1px solid currentColor;
+  border-radius: 3px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.review-tag--private { color: #9FD0FF; }
+.review-tag--public { color: #C9E7B5; }
+.review-tag--local { color: #E8D9A0; }
+.review-tag--synthetic { color: var(--review-ink); border-style: dashed; }

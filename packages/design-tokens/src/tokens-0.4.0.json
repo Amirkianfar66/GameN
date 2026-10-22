@@ -1,0 +1,409 @@
+{
+  "version": "0.4.0",
+  "status": "proposal_for_evaluation",
+  "supersedes": "0.3.0",
+  "compatibility": "Additive over the pinned 0.2.0: every 0.2.0 key keeps its name, shape and value. Over 0.3.0 it adds keys and changes only the entries listed in revisedFrom030, each with its reason.",
+  "revisedFrom030": [
+    {
+      "path": "usageConstraints[7]",
+      "was": "The steel and paper tones are one public palette shared by every location. A location is never tinted to tell it apart.",
+      "because": "The game owner approved rooms printed in color on 7 October 2026 (docs/design/owner-decisions.md). 0.3.0 was an unmerged proposal; no 0.2.0 value is touched."
+    }
+  ],
+  "color": {
+    "canvas": "#10141C",
+    "panel": "#202837",
+    "paper": "#F4EBDD",
+    "ink": "#151923",
+    "textPrimary": "#F4EBDD",
+    "textSecondary": "#B9C4D3",
+    "publicToken": "#C6CDD4",
+    "interactiveAccent": "#F1B84B",
+    "focusRing": "#FFD36D",
+    "factionPrivateOrRevealed": {
+      "blue": "#70AFFF",
+      "red": "#FF8C8C",
+      "alien": "#C4A4FF"
+    },
+    "paperShade": "#E3D6C2",
+    "paperDeep": "#CBBBA2",
+    "steel": {
+      "deep": "#222B3A",
+      "shadow": "#34415A",
+      "mid": "#55657E",
+      "light": "#8696AE",
+      "pale": "#B9C4D3"
+    },
+    "caption": "#F7C52B",
+    "room": {
+      "roomA": {
+        "deep": "#14243F",
+        "shadow": "#1D3D6B",
+        "mid": "#2D609E",
+        "light": "#5C92CC",
+        "pale": "#A9CAEB"
+      },
+      "roomB": {
+        "deep": "#2A1446",
+        "shadow": "#4B2079",
+        "mid": "#7A3CAD",
+        "light": "#AE6CD3",
+        "pale": "#DCB6EE"
+      },
+      "commandRoom": {
+        "deep": "#40300A",
+        "shadow": "#7A5A0C",
+        "mid": "#C4950F",
+        "light": "#EFC62F",
+        "pale": "#F9E48C"
+      },
+      "hospital": {
+        "deep": "#0E3A3A",
+        "shadow": "#155B58",
+        "mid": "#1F8A80",
+        "light": "#57BBA8",
+        "pale": "#A6DFD0"
+      },
+      "jail": {
+        "deep": "#45100F",
+        "shadow": "#7E1B19",
+        "mid": "#BE2D26",
+        "light": "#E85C44",
+        "pale": "#F6A78F"
+      }
+    },
+    "crew": {
+      "c1": {
+        "field": "#EE8B3A",
+        "accent": "#B45A16",
+        "skin": "#7A4B2E"
+      },
+      "c2": {
+        "field": "#F3CB3F",
+        "accent": "#B98F12",
+        "skin": "#F2CDB0"
+      },
+      "c3": {
+        "field": "#AFCF4E",
+        "accent": "#6F8E22",
+        "skin": "#B97A52"
+      },
+      "c4": {
+        "field": "#45A866",
+        "accent": "#256F40",
+        "skin": "#C99468"
+      },
+      "c5": {
+        "field": "#33ADA2",
+        "accent": "#177168",
+        "skin": "#F4D9C6"
+      },
+      "c6": {
+        "field": "#EE7FAE",
+        "accent": "#B5447A",
+        "skin": "#EBC49F"
+      },
+      "c7": {
+        "field": "#9A6A47",
+        "accent": "#5E3B22",
+        "skin": "#D9A679"
+      },
+      "c8": {
+        "field": "#E3D6C2",
+        "accent": "#8E7B5E",
+        "skin": "#C98E63"
+      },
+      "c9": {
+        "field": "#39404E",
+        "accent": "#1C212B",
+        "skin": "#5E3A24"
+      }
+    },
+    "crewHair": {
+      "ginger": "#C4622D",
+      "brown": "#6B4A32",
+      "dark": "#3B2A22"
+    }
+  },
+  "type": {
+    "bodyFamily": "system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif",
+    "headingFamily": "Arial Narrow, Helvetica Neue, Arial, sans-serif",
+    "bodyPx": 16,
+    "labelPx": 14,
+    "headingPx": 24,
+    "displayPx": 36,
+    "bodyLineHeight": 1.5,
+    "headingLineHeight": 1.15,
+    "letteringFamily": "Arial Narrow, Helvetica Neue, Arial, sans-serif",
+    "letteringWeight": 800,
+    "letteringTrackingEm": 0.06,
+    "timerNumeric": "tabular-nums",
+    "privateRoleNameMaxPx": 24,
+    "tableTimerPx": 56,
+    "tableHeadingPx": 32
+  },
+  "spacingPx": [
+    4,
+    8,
+    12,
+    16,
+    24,
+    32,
+    48
+  ],
+  "radiusPx": {
+    "control": 8,
+    "panel": 12,
+    "card": 10,
+    "chip": 999
+  },
+  "strokePx": {
+    "control": 2,
+    "focus": 3,
+    "illustration": 3,
+    "inkFine": 2,
+    "inkBold": 4,
+    "panelBorder": 4,
+    "selection": 3
+  },
+  "interaction": {
+    "minimumTargetCssPx": 44,
+    "cardArtAspectRatio": "5:7",
+    "breakpointsCssPx": {
+      "expandedPlayerLayout": 600,
+      "wideTableLayout": 960,
+      "tableRosterBesideBoard": 1280
+    },
+    "dragRequired": false,
+    "breakpointUnit": "em: each value divided by 16, so a layout answers to the reader's text size"
+  },
+  "motionMs": {
+    "selection": 120,
+    "cardTransition": 220,
+    "publicMove": 450,
+    "comicBeatMaximum": 900,
+    "reducedMotionFade": 80,
+    "registrationStamp": 120,
+    "publicImpact": 320,
+    "roundTransition": 700,
+    "pieceMove": 900,
+    "roleCardTurn": 900,
+    "roleDeal": 420,
+    "roomPick": 200
+  },
+  "motionEasing": {
+    "standard": "cubic-bezier(0.2, 0, 0, 1)",
+    "impact": "cubic-bezier(0.55, 0, 1, 0.45)",
+    "settle": "cubic-bezier(0.16, 0.84, 0.3, 1)",
+    "snap": "cubic-bezier(0.2, 1.3, 0.4, 1)",
+    "sweep": "cubic-bezier(0.65, 0, 0.35, 1)",
+    "linear": "linear"
+  },
+  "motionBeatsMs": {
+    "selection": {
+      "opening": 0,
+      "accent": 70,
+      "settle": 50
+    },
+    "cardTransition": {
+      "opening": 60,
+      "accent": 100,
+      "settle": 60
+    },
+    "registrationStamp": {
+      "opening": 30,
+      "accent": 50,
+      "settle": 40
+    },
+    "publicMove": {
+      "opening": 110,
+      "accent": 220,
+      "settle": 120
+    },
+    "roundTransition": {
+      "opening": 180,
+      "accent": 220,
+      "settle": 300
+    },
+    "comicBeatMaximum": {
+      "opening": 240,
+      "accent": 260,
+      "settle": 400
+    },
+    "pieceMove": {
+      "opening": 120,
+      "accent": 450,
+      "settle": 330
+    },
+    "roleCardTurn": {
+      "opening": 220,
+      "accent": 520,
+      "settle": 160
+    },
+    "roleDeal": {
+      "opening": 0,
+      "accent": 300,
+      "settle": 120
+    },
+    "roomPick": {
+      "opening": 0,
+      "accent": 80,
+      "settle": 120
+    }
+  },
+  "comic": {
+    "inkShadowOffsetPx": 4,
+    "inkShadowOffsetLiftedPx": 7,
+    "selectionLiftPx": 3,
+    "panelGutterPx": 12,
+    "stampRotationDeg": -4,
+    "halftone": {
+      "pitchPx": 6,
+      "angleDeg": 45,
+      "dotRadiusPx": {
+        "fine": 1,
+        "medium": 1.7,
+        "heavy": 2.4
+      },
+      "neverBehindTextSmallerThanPx": 24
+    },
+    "hatch": {
+      "pitchPx": 8,
+      "strokePx": 2,
+      "angleDeg": 45
+    },
+    "captionSkewDeg": -9,
+    "captionTiltDeg": -1.4
+  },
+  "component": {
+    "tokenDiameterPx": {
+      "compact": 28,
+      "phone": 36,
+      "table": 64
+    },
+    "markerIconPx": {
+      "phone": 18,
+      "table": 24
+    },
+    "markerMinHeightPx": {
+      "phone": 28,
+      "table": 36
+    },
+    "cardMinWidthPx": 240,
+    "cardMaxWidthPx": 420,
+    "privateDockMinHeightPx": 64,
+    "phaseStripMinHeightPx": 64,
+    "tableRosterMinWidthPx": 432,
+    "resourcePipPx": {
+      "width": 36,
+      "height": 20
+    },
+    "piece": {
+      "aspect": "96:120",
+      "floorContact": [
+        48,
+        104
+      ],
+      "minWidthPx": 20,
+      "tableMaxWidthPx": 110
+    },
+    "seatTag": {
+      "minFontPx": 10,
+      "maxFontPx": 22,
+      "nameMaxLength": 12
+    },
+    "roleCardBackPx": {
+      "width": 72,
+      "height": 98
+    }
+  },
+  "layer": {
+    "board": 0,
+    "token": 10,
+    "marker": 20,
+    "cueOverlay": 30,
+    "panelChrome": 40,
+    "controls": 50,
+    "privateSheet": 60,
+    "banner": 70,
+    "focus": 80
+  },
+  "usageConstraints": [
+    "Faction accents require authorized private knowledge or an explicit reveal.",
+    "Public tokens remain neutral and identical across roles.",
+    "Use ink on paper/amber; primary or secondary text on dark panels.",
+    "Confirm contrast in final compositing; these tokens alone do not certify accessibility.",
+    "Motion durations never determine server phase deadlines or outcomes.",
+    "Amber is interaction focus and the public active turn. It never stands for a faction, danger, an attack or a result.",
+    "Public status is told apart by outline and label. Injured and Eliminated are never red.",
+    "Each location is printed in its own color family, over the ink and paper every location shares. A family belongs to a room: it never stands for a team, a role, a player or a state.",
+    "Halftone and hatch never sit behind text smaller than the heading size.",
+    "Everything private to a seat, including whether it has an action, stays inside the private sheet. The public layer of every phone looks the same.",
+    "Role artwork loads as one uniform bundle on every phone, whatever the role.",
+    "A playing piece is a character its player chose before roles were dealt. It never depends on a role, and no role, team or private choice may change it.",
+    "A role's device is drawn only inside that seat's own private sheet. No piece, cue, location or shared display shows one.",
+    "A player's name is text the player typed: untrusted, bounded in length, and always beside the seat number."
+  ],
+  "motionPolicy": {
+    "specification": "docs/design/motion-direction.md",
+    "durationStatus": "proposed_targets_not_measured",
+    "levels": [
+      "interaction",
+      "game_event",
+      "phase_or_finale"
+    ],
+    "reducedMotion": "direct state update or short fade; no spatial travel, shake, zoom or moving trails",
+    "publicSecretActionCue": false,
+    "blocksActiveControls": false,
+    "mutatesGameplayState": false,
+    "storyboards": "docs/design/motion-storyboards.md",
+    "beatStatus": "proposed_split_of_existing_totals_not_measured",
+    "overlaysInterceptInput": false,
+    "queuesPlayback": false,
+    "loops": false,
+    "comicBoardBeats": "pieceMove, roleCardTurn, roleDeal and roomPick are the times the owner-approved comic board plays. pieceMove and roleCardTurn have a cue contract (design/contract/motion-cues.json); roleDeal and roomPick have none yet, because nothing in today's markup carries a hand or a room that can be picked. None is measured on a device.",
+    "ambient": "undecided (DSN-D16): the reference stylesheets hold no motion that repeats, and motionPolicy.loops stays false as in the pinned 0.2.0 file"
+  },
+  "privacyPolicy": {
+    "privateSheetOpenByDefault": false,
+    "publicLayerShowsActionAvailability": false,
+    "publicLayerVariesByRole": false,
+    "factionAccentOnPublicAssets": false,
+    "roleArtBundleUniformAcrossSeats": true,
+    "targetingHighlightsOnPublicSurfaces": false,
+    "characterIndependentOfRole": true,
+    "roleDeviceOnlyInsidePrivateSheet": true,
+    "roomColorStandsForTeam": false,
+    "displayNameIsUntrustedText": true
+  },
+  "audioPolicy": {
+    "status": "specified_no_assets_delivered",
+    "requiresUserGesture": true,
+    "secretActionSoundOnPhone": false,
+    "secretActionVibrationOnPhone": false,
+    "publicCuesFollowPublicFactsOnly": true
+  },
+  "measuredColorDistances": {
+    "method": "CIE76 distance in L*a*b*, rounded to a whole number, from each new public color to the nearest of the colors named. packages/design-tokens/test/tokens.test.mjs computes them from the values in this file and fails if one differs. They are numbers, not a judgment of what people confuse: nobody has been asked.",
+    "toNearestTeamAccent": {
+      "roomA": 16,
+      "roomB": 20,
+      "commandRoom": 54,
+      "hospital": 55,
+      "jail": 18,
+      "nearestCharacterField": {
+        "id": "c6",
+        "distance": 26
+      }
+    },
+    "toInteractionAmber": {
+      "caption": 16,
+      "commandRoom": 15,
+      "nearestCharacterField": {
+        "id": "c2",
+        "distance": 14
+      }
+    },
+    "reading": "Room A, Room B and the Jail share a hue with the Blue, Alien and Red accents, and the Command Room, the captions and the yellow character with the amber of interaction and of the active turn. That is the look the game owner approved; whether it misleads at a table is open (DSN-D13, DSN-D08)."
+  }
+}

@@ -1,0 +1,757 @@
+[
+  {
+    "name": "320x568-card",
+    "size": [
+      320,
+      568
+    ],
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": true,
+    "sheetScrolls": true,
+    "toggle": {
+      "x": 20,
+      "y": 191,
+      "w": 292,
+      "h": 48,
+      "expanded": "false",
+      "big": true
+    },
+    "boardOpen": false,
+    "players": [],
+    "rolesShown": null,
+    "headingShown": null,
+    "roles": [],
+    "rolesStacked": null,
+    "rolesBelowPlayers": null,
+    "focus": "ms-private-heading",
+    "sentence": false,
+    "hooks": true,
+    "roleWordsOutsideCard": [],
+    "problems": []
+  },
+  {
+    "name": "320x568-board",
+    "size": [
+      320,
+      568
+    ],
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": true,
+    "sheetScrolls": true,
+    "toggle": {
+      "x": 20,
+      "y": 164,
+      "w": 292,
+      "h": 48,
+      "expanded": "true",
+      "big": true
+    },
+    "boardOpen": true,
+    "players": [
+      {
+        "text": "Player 1 , Ada",
+        "character": "c4",
+        "shown": true,
+        "x": 30,
+        "y": 257,
+        "w": 86,
+        "h": 106
+      },
+      {
+        "text": "Player 2 , Ben",
+        "character": "c7",
+        "shown": true,
+        "x": 123,
+        "y": 257,
+        "w": 86,
+        "h": 106
+      },
+      {
+        "text": "Player 4 , Dev",
+        "character": "c9",
+        "shown": true,
+        "x": 216,
+        "y": 257,
+        "w": 86,
+        "h": 106
+      }
+    ],
+    "rolesShown": true,
+    "headingShown": true,
+    "roles": [
+      "Undercover",
+      "Alien",
+      "Cracker"
+    ],
+    "rolesStacked": true,
+    "rolesBelowPlayers": true,
+    "focus": "phone-investigation-heading",
+    "sentence": false,
+    "hooks": true,
+    "roleWordsOutsideCard": [],
+    "problems": []
+  },
+  {
+    "name": "320x568-escape",
+    "size": [
+      320,
+      568
+    ],
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": true,
+    "sheetScrolls": true,
+    "toggle": {
+      "x": 20,
+      "y": 191,
+      "w": 292,
+      "h": 48,
+      "expanded": "false",
+      "big": true
+    },
+    "boardOpen": false,
+    "players": [],
+    "rolesShown": null,
+    "headingShown": null,
+    "roles": [],
+    "rolesStacked": null,
+    "rolesBelowPlayers": null,
+    "focus": "phone-investigation-toggle",
+    "sentence": false,
+    "hooks": true,
+    "roleWordsOutsideCard": [],
+    "problems": []
+  },
+  {
+    "name": "320x568-blurred",
+    "size": [
+      320,
+      568
+    ],
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": false,
+    "sheetScrolls": null,
+    "toggle": null,
+    "boardOpen": false,
+    "players": [],
+    "rolesShown": null,
+    "headingShown": null,
+    "roles": [],
+    "rolesStacked": null,
+    "rolesBelowPlayers": null,
+    "focus": "ms-private-toggle",
+    "sentence": false,
+    "hooks": false,
+    "roleWordsOutsideCard": [],
+    "problems": []
+  },
+  {
+    "name": "320x568-reopened-card",
+    "size": [
+      320,
+      568
+    ],
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": true,
+    "sheetScrolls": true,
+    "toggle": {
+      "x": 20,
+      "y": 191,
+      "w": 292,
+      "h": 48,
+      "expanded": "false",
+      "big": true
+    },
+    "boardOpen": false,
+    "players": [],
+    "rolesShown": null,
+    "headingShown": null,
+    "roles": [],
+    "rolesStacked": null,
+    "rolesBelowPlayers": null,
+    "focus": "ms-private-heading",
+    "sentence": false,
+    "hooks": true,
+    "roleWordsOutsideCard": [],
+    "problems": []
+  },
+  {
+    "name": "320x568-stale",
+    "size": [
+      320,
+      568
+    ],
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": true,
+    "sheetScrolls": true,
+    "toggle": null,
+    "boardOpen": false,
+    "players": [],
+    "rolesShown": null,
+    "headingShown": null,
+    "roles": [],
+    "rolesStacked": null,
+    "rolesBelowPlayers": null,
+    "focus": "ms-private-toggle",
+    "sentence": false,
+    "hooks": false,
+    "roleWordsOutsideCard": [],
+    "problems": []
+  },
+  {
+    "name": "390x844-card",
+    "size": [
+      390,
+      844
+    ],
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": true,
+    "sheetScrolls": true,
+    "toggle": {
+      "x": 20,
+      "y": 246,
+      "w": 362,
+      "h": 48,
+      "expanded": "false",
+      "big": true
+    },
+    "boardOpen": false,
+    "players": [],
+    "rolesShown": null,
+    "headingShown": null,
+    "roles": [],
+    "rolesStacked": null,
+    "rolesBelowPlayers": null,
+    "focus": "ms-private-heading",
+    "sentence": false,
+    "hooks": true,
+    "roleWordsOutsideCard": [],
+    "problems": []
+  },
+  {
+    "name": "390x844-board",
+    "size": [
+      390,
+      844
+    ],
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": true,
+    "sheetScrolls": false,
+    "toggle": {
+      "x": 20,
+      "y": 268,
+      "w": 362,
+      "h": 48,
+      "expanded": "true",
+      "big": true
+    },
+    "boardOpen": true,
+    "players": [
+      {
+        "text": "Player 1 , Ada",
+        "character": "c4",
+        "shown": true,
+        "x": 31,
+        "y": 369,
+        "w": 109,
+        "h": 124
+      },
+      {
+        "text": "Player 2 , Ben",
+        "character": "c7",
+        "shown": true,
+        "x": 146,
+        "y": 369,
+        "w": 109,
+        "h": 124
+      },
+      {
+        "text": "Player 4 , Dev",
+        "character": "c9",
+        "shown": true,
+        "x": 262,
+        "y": 369,
+        "w": 109,
+        "h": 124
+      }
+    ],
+    "rolesShown": true,
+    "headingShown": true,
+    "roles": [
+      "Undercover",
+      "Alien",
+      "Cracker"
+    ],
+    "rolesStacked": true,
+    "rolesBelowPlayers": true,
+    "focus": "phone-investigation-heading",
+    "sentence": false,
+    "hooks": true,
+    "roleWordsOutsideCard": [],
+    "problems": []
+  },
+  {
+    "name": "390x844-escape",
+    "size": [
+      390,
+      844
+    ],
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": true,
+    "sheetScrolls": true,
+    "toggle": {
+      "x": 20,
+      "y": 246,
+      "w": 362,
+      "h": 48,
+      "expanded": "false",
+      "big": true
+    },
+    "boardOpen": false,
+    "players": [],
+    "rolesShown": null,
+    "headingShown": null,
+    "roles": [],
+    "rolesStacked": null,
+    "rolesBelowPlayers": null,
+    "focus": "phone-investigation-toggle",
+    "sentence": false,
+    "hooks": true,
+    "roleWordsOutsideCard": [],
+    "problems": []
+  },
+  {
+    "name": "390x844-blurred",
+    "size": [
+      390,
+      844
+    ],
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": false,
+    "sheetScrolls": null,
+    "toggle": null,
+    "boardOpen": false,
+    "players": [],
+    "rolesShown": null,
+    "headingShown": null,
+    "roles": [],
+    "rolesStacked": null,
+    "rolesBelowPlayers": null,
+    "focus": "ms-private-toggle",
+    "sentence": false,
+    "hooks": false,
+    "roleWordsOutsideCard": [],
+    "problems": []
+  },
+  {
+    "name": "390x844-reopened-card",
+    "size": [
+      390,
+      844
+    ],
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": true,
+    "sheetScrolls": true,
+    "toggle": {
+      "x": 20,
+      "y": 246,
+      "w": 362,
+      "h": 48,
+      "expanded": "false",
+      "big": true
+    },
+    "boardOpen": false,
+    "players": [],
+    "rolesShown": null,
+    "headingShown": null,
+    "roles": [],
+    "rolesStacked": null,
+    "rolesBelowPlayers": null,
+    "focus": "ms-private-heading",
+    "sentence": false,
+    "hooks": true,
+    "roleWordsOutsideCard": [],
+    "problems": []
+  },
+  {
+    "name": "390x844-stale",
+    "size": [
+      390,
+      844
+    ],
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": true,
+    "sheetScrolls": false,
+    "toggle": null,
+    "boardOpen": false,
+    "players": [],
+    "rolesShown": null,
+    "headingShown": null,
+    "roles": [],
+    "rolesStacked": null,
+    "rolesBelowPlayers": null,
+    "focus": "ms-private-toggle",
+    "sentence": false,
+    "hooks": false,
+    "roleWordsOutsideCard": [],
+    "problems": []
+  },
+  {
+    "name": "320x568-text-card",
+    "size": [
+      320,
+      568
+    ],
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": true,
+    "sheetScrolls": true,
+    "toggle": {
+      "x": 33,
+      "y": 247,
+      "w": 267,
+      "h": 132,
+      "expanded": "false",
+      "big": true
+    },
+    "boardOpen": false,
+    "players": [],
+    "rolesShown": null,
+    "headingShown": null,
+    "roles": [],
+    "rolesStacked": null,
+    "rolesBelowPlayers": null,
+    "focus": "ms-private-heading",
+    "sentence": false,
+    "hooks": true,
+    "roleWordsOutsideCard": [],
+    "problems": []
+  },
+  {
+    "name": "320x568-text-board",
+    "size": [
+      320,
+      568
+    ],
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": true,
+    "sheetScrolls": true,
+    "toggle": {
+      "x": 33,
+      "y": 49,
+      "w": 267,
+      "h": 180,
+      "expanded": "true",
+      "big": true
+    },
+    "boardOpen": true,
+    "players": [
+      {
+        "text": "Player 1 , Ada",
+        "character": "c4",
+        "shown": false,
+        "x": 50,
+        "y": 364,
+        "w": 69,
+        "h": 173
+      },
+      {
+        "text": "Player 2 , Ben",
+        "character": "c7",
+        "shown": false,
+        "x": 132,
+        "y": 364,
+        "w": 69,
+        "h": 173
+      },
+      {
+        "text": "Player 4 , Dev",
+        "character": "c9",
+        "shown": false,
+        "x": 213,
+        "y": 364,
+        "w": 69,
+        "h": 173
+      }
+    ],
+    "rolesShown": false,
+    "headingShown": true,
+    "roles": [
+      "Undercover",
+      "Alien",
+      "Cracker"
+    ],
+    "rolesStacked": true,
+    "rolesBelowPlayers": true,
+    "focus": "phone-investigation-heading",
+    "sentence": false,
+    "hooks": true,
+    "roleWordsOutsideCard": [],
+    "problems": []
+  },
+  {
+    "name": "390x844-text-card",
+    "size": [
+      390,
+      844
+    ],
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": true,
+    "sheetScrolls": true,
+    "toggle": {
+      "x": 33,
+      "y": 287,
+      "w": 337,
+      "h": 132,
+      "expanded": "false",
+      "big": true
+    },
+    "boardOpen": false,
+    "players": [],
+    "rolesShown": null,
+    "headingShown": null,
+    "roles": [],
+    "rolesStacked": null,
+    "rolesBelowPlayers": null,
+    "focus": "ms-private-heading",
+    "sentence": false,
+    "hooks": true,
+    "roleWordsOutsideCard": [],
+    "problems": []
+  },
+  {
+    "name": "390x844-text-board",
+    "size": [
+      390,
+      844
+    ],
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": true,
+    "sheetScrolls": true,
+    "toggle": {
+      "x": 33,
+      "y": 84,
+      "w": 337,
+      "h": 180,
+      "expanded": "true",
+      "big": true
+    },
+    "boardOpen": true,
+    "players": [
+      {
+        "text": "Player 1 , Ada",
+        "character": "c4",
+        "shown": true,
+        "x": 52,
+        "y": 414,
+        "w": 91,
+        "h": 198
+      },
+      {
+        "text": "Player 2 , Ben",
+        "character": "c7",
+        "shown": true,
+        "x": 155,
+        "y": 414,
+        "w": 91,
+        "h": 198
+      },
+      {
+        "text": "Player 4 , Dev",
+        "character": "c9",
+        "shown": true,
+        "x": 259,
+        "y": 414,
+        "w": 91,
+        "h": 198
+      }
+    ],
+    "rolesShown": false,
+    "headingShown": true,
+    "roles": [
+      "Undercover",
+      "Alien",
+      "Cracker"
+    ],
+    "rolesStacked": true,
+    "rolesBelowPlayers": true,
+    "focus": "phone-investigation-heading",
+    "sentence": false,
+    "hooks": true,
+    "roleWordsOutsideCard": [],
+    "problems": []
+  },
+  {
+    "name": "320x568-long-names-board",
+    "size": [
+      320,
+      568
+    ],
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": true,
+    "sheetScrolls": true,
+    "toggle": {
+      "x": 20,
+      "y": 164,
+      "w": 292,
+      "h": 48,
+      "expanded": "true",
+      "big": true
+    },
+    "boardOpen": true,
+    "players": [
+      {
+        "text": "Player 1 , WWWWWWWWWWWW",
+        "character": "c4",
+        "shown": true,
+        "x": 30,
+        "y": 257,
+        "w": 86,
+        "h": 106
+      },
+      {
+        "text": "Player 2 , Maximiliana",
+        "character": "c7",
+        "shown": true,
+        "x": 123,
+        "y": 257,
+        "w": 86,
+        "h": 106
+      },
+      {
+        "text": "Player 4 , Konstantinos",
+        "character": "c9",
+        "shown": true,
+        "x": 216,
+        "y": 257,
+        "w": 86,
+        "h": 106
+      }
+    ],
+    "rolesShown": true,
+    "headingShown": true,
+    "roles": [
+      "Undercover",
+      "Alien",
+      "Cracker"
+    ],
+    "rolesStacked": true,
+    "rolesBelowPlayers": true,
+    "focus": "phone-investigation-heading",
+    "sentence": false,
+    "hooks": true,
+    "roleWordsOutsideCard": [],
+    "problems": []
+  },
+  {
+    "name": "display",
+    "size": [
+      1280,
+      720
+    ],
+    "viewport": [
+      1280,
+      720
+    ],
+    "pageScrolls": true,
+    "pageOverflowsSideways": false,
+    "sheetOpen": false,
+    "sheetScrolls": null,
+    "toggle": null,
+    "boardOpen": false,
+    "players": [],
+    "rolesShown": null,
+    "headingShown": null,
+    "roles": [],
+    "rolesStacked": null,
+    "rolesBelowPlayers": null,
+    "focus": null,
+    "sentence": false,
+    "hooks": false,
+    "roleWordsOutsideCard": [],
+    "problems": []
+  }
+]
