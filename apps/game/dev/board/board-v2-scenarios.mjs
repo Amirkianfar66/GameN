@@ -21,7 +21,7 @@ export function boardV2View({stage='ORDINARY_TURN',startedAt=Date.now(),count=9,
  if(publicOnly)return FullPublicViewSchema.parse(view);
  Object.assign(view,{self:{seatId,role,movementDestinations:stage==='HACK_RESULT'||stage==='HACK_DECLARE'||stage==='BLACKOUT'?[]:['Room B'],releaseVoteAvailable:false,ordinaryWeapons:1,
   shotAvailable:!hack&&stage!=='BLACKOUT',rescuesRemaining:0,disablerAvailable:false,hackAvailable:!hack,scanAvailable:!hack,codeAttemptAvailable:role==='Hacker'&&!['HACK_DECLARE','HACK_RESULT'].includes(stage)},
-  knowledge:{insiderCandidates:[],undercoverSeatId:role==='Hacker'?'seat-5':null,code:role==='Alien'?['seat-1','seat-2','seat-3',seatId]:[],scanResults:[],protections:[]},
+  knowledge:{insiderCandidates:role==='Insider'?['seat-1','seat-3','seat-5']:[],undercoverSeatId:role==='Hacker'?'seat-5':null,code:role==='Alien'?['seat-1','seat-2','seat-3',seatId]:[],scanResults:[],protections:[]},
   legalTargets:stage==='HACK_DECLARE'?{DECLARE_HACK_SIDE:['seat-6']}:hack?{}:{REGISTER_SHOT:['seat-1','seat-3'],PASS_TURN:['seat-6'],REQUEST_HACK:['seat-1','seat-3'],SCAN:['seat-1','seat-3']},
   ownPendingCommandIds:[],ownBallot:null,hasVoted:false,hackPartnerSeatId:hack?'seat-1':null,
   hackFeedback:hack?{hackId,phaseId:view.phase.id,round:5,status:stage==='HACK_DECLARE'?'AWAITING_DECLARATION':'DECLARED',declaredSide:stage==='HACK_DECLARE'?null:side}:null});
