@@ -2,6 +2,8 @@
 
 Status: **bootstrap reviewed and merged in [PR #7](https://github.com/Amirkianfar66/GameN/pull/7) on 27 September 2026; shared baseline recorded below**. This completes [issue #1](https://github.com/Amirkianfar66/GameN/issues/1). Contracts remain a bootstrap draft subject to the adoption gates below. Backend #2 and the three Claude workstreams #3–#5 have not started.
 
+**Later owner delivery decision, 6 October 2026:** [PRODUCT-001](version-roadmap.md) prioritizes a complete in-person V1 before full remote online V2. This bootstrap and the four first-slice tasks are early V1 milestones. They do not establish a complete playable V1. The recorded `BASE_SHA`, source hashes, contracts and rule decisions below retain their existing meaning.
+
 | Provenance | Actual value |
 | --- | --- |
 | Repository | `https://github.com/Amirkianfar66/GameN.git` |

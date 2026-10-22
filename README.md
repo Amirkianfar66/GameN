@@ -4,6 +4,8 @@
 
 Start with [CODEX_START_HERE.md](CODEX_START_HERE.md). [Bootstrap issue #1](https://github.com/Amirkianfar66/GameN/issues/1) is complete: [PR #7](https://github.com/Amirkianfar66/GameN/pull/7) was reviewed and merged, and the shared `BASE_SHA` is **`333c9e820f362a211352bc689372663f29b73ac4`**. Use that commit when launching Backend in Codex Astra and Frontend, Visual/Motion Designer and Game Design/Balance in three Claude Code sessions. These four workstreams have not started. See [the agreed roster](docs/agent-roster.md).
 
+**Release goal:** V1 is a complete game for people playing together in person, supported by private phones and a physical or shared digital board. V2 adds full remote online play. See the [owner-confirmed roadmap](docs/version-roadmap.md); the first Officer/Protection integration slice is an intermediate V1 milestone.
+
 ## Bootstrap workspace
 
 The eight-package TypeScript workspace, draft runtime schemas and synthetic Officer/Protection fixtures are merged. Affected-role contract adoption review remains open. Use Node `22.21.1` and npm `10.9.4`:

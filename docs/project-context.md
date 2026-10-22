@@ -2,6 +2,12 @@
 
 Mothership is a premium comic-book card/board social-deduction game. The user prefers Firebase, wants English game/Canvas content, and has requested four coordinated workstreams: Backend, Frontend, Designer and Game Balance, collaborating through GitHub.
 
+## Current release priority
+
+On 6 October 2026 the game owner confirmed **V1: a complete game for people playing together in person; V2: full remote online play afterward**. [PRODUCT-001 and the delivery roadmap](version-roadmap.md) record this priority. Private phones and a physical or shared digital board remain the working V1 interface. In-person play does not establish offline support or change the Firebase direction.
+
+The Officer/Protection first slice is an intermediate V1 checkpoint. V1 completion requires the complete base-game match flow and actual in-person acceptance evidence; issues #2–#5 do not implement the entire game by themselves. Existing rule and disclosure decisions still need resolution for shipped behavior.
+
 ## Current artifacts
 
 - Existing Design Canvas: https://mothership-design-canvas.amirkianfar.chatgpt.site
@@ -20,7 +26,7 @@ On 26 September 2026, the user requested expressive motion graphics with a comic
 
 ## Current product and rules
 
-- Hybrid tabletop: face-to-face conversation, a public board and private player phones. Remote voice is a separate possible feature.
+- V1 hybrid tabletop: face-to-face conversation, a public board and private player phones. Full remote play and its remote communication experience are V2 work.
 - 7 players: 4 Blue, 2 Red, 1 Alien. 8: 4 Blue, 3 Red, 1 Alien. 9: 5 Blue, 3 Red, 1 Alien. Six-player mode removed. None is balance-validated.
 - Officer belongs to the nine-player mode only: one ordinary shot total from Round 1; no extra ordinary shot from Supplier.
 - All ordinary shooting uses direct target selection. Third-player faction identification is archived.
@@ -57,6 +63,8 @@ Spoken Hack truthfulness cannot be automatically verified for arbitrary question
 ## First integrated milestone
 
 A production-path vertical slice: two real player phones and a table display, a seeded non-production Officer/Protection fixture, an authoritative accepted command and resolution, timers, retry/reconnect, and one finished visual direction. The fixture is not a new two-player game mode.
+
+This milestone validates the first integration path. Follow it with complete-base-game and in-person release-readiness milestones from [version-roadmap.md](version-roadmap.md); do not report the fixture as complete V1.
 
 Required early collaboration: Backend proposes minimal command/view types; Frontend builds against approved fixtures; Designer supplies card/board states and tokens; Game Balance supplies scenarios and explicitly unresolved cases. The coordinator integrates shared contracts and release checks.
 
