@@ -88,7 +88,7 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
   container.replaceChildren(root, polite, assertive, fx);
 
   const comicMotion = createComicMotion(root, { fx });
-  const boardV2 = createBoardV2Host(root, { publicIdentities });
+  const boardV2 = createBoardV2Host(root, { publicIdentities, ownCloneDrawing:()=>screen.readOwnCloneDrawing?.()??null });
   const stripCues = createStripCues(root);
   const insiderFile = createInsiderFile(root);
   const abilityCues = createAbilityCues(root);

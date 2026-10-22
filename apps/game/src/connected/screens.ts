@@ -1,8 +1,9 @@
+import { supportsClone } from '@mothership/contracts';
 import type { FullPlayerView, FullPublicView, SeatId } from '@mothership/contracts';
 import {
   actionStepFocusId, buildConnectedPlayerShellModel, buildHackFeedback, buildTableShellModel, createConnectedPlayerAnnouncer, createTableAnnouncer, isCurrent,
 } from '@mothership/presentation';
-import type { ConnectedPlayerInput, ConnectedPlayerShellModel, ShellIntent, TableShellInput, TableShellModel } from '@mothership/presentation';
+import type { ConnectedPlayerInput, ConnectedPlayerShellModel, ConnectedPrivateAreaModel, ShellIntent, TableShellInput, TableShellModel } from '@mothership/presentation';
 import type { ClientPorts, PlayerPorts } from '../ports.js';
 import { createScreen } from '../screens/screen.js';
 import type { ScreenController, ScreenHost } from '../screens/screen.js';
@@ -86,15 +87,22 @@ function applyActionIntent(flow: ActionFlow, intent: ShellIntent): boolean | nul
   }
 }
 
+type OwnCloneDrawing = NonNullable<NonNullable<ConnectedPrivateAreaModel['content']>['clone']>;
+export interface ConnectedPlayerScreenController extends ScreenController<ConnectedPlayerShellModel> {
+  /** Own-only transient drawing input. Never part of a closed model, public view or DOM. */
+  readOwnCloneDrawing(): OwnCloneDrawing | null;
+}
+
 /** One player's phone: everything except drawing and input wiring. */
-export function createConnectedPlayerScreen(options: ConnectedPlayerScreenOptions): ScreenController<ConnectedPlayerShellModel> {
+export function createConnectedPlayerScreen(options: ConnectedPlayerScreenOptions): ConnectedPlayerScreenController {
   const api = createConnectedApi(options.transport, options.ports, options.timing?.apiTimeoutMs ?? DEFAULT_SESSION_TIMING.apiTimeoutMs);
   const session = createConnectedPlayerSession({ ...options, api });
   const outcomes = createOutcomeFeed(options.transport, options.matchId, options.seatId);
   const flow = createActionFlow({ api, ports: options.ports, matchId: options.matchId, seatId: options.seatId, timing: options.actionTiming });
   // A phone asks later than a display would, and each seat at its own moment.
   const catchUp = createDeadlineCatchUp({ api, ports: options.ports, matchId: options.matchId, order: Number(options.seatId.slice(5)), timing: options.catchUpTiming });
-  return createScreen<FullPlayerView, ConnectedPlayerInput, ConnectedPlayerShellModel>({
+  let ownCloneDrawing: OwnCloneDrawing | null = null;
+  const controller = createScreen<FullPlayerView, ConnectedPlayerInput, ConnectedPlayerShellModel>({
     session,
     ports: options.ports,
     host: options.host,
@@ -107,6 +115,10 @@ export function createConnectedPlayerScreen(options: ConnectedPlayerScreenOption
     buildInput(environment, view, local) {
       const reading = session.readClock();
       outcomes.observe(view, reading.status === 'synced' ? reading.serverNowMs : null, isCurrent(environment), local.pageVisible);
+      ownCloneDrawing = isCurrent(environment) && local.pageVisible && view?.audience.seatId === options.seatId
+        && supportsClone(view.versions) && view.self.cloneStatus && !['FINISHED','ABORTED'].includes(view.phase.kind)
+        ? { status: { ...view.self.cloneStatus }, seatId: view.self.seatId,
+          eliminated: view.seats.find(seat => seat.seatId === view.self.seatId)?.health === 'Eliminated', matchEnded: false } : null;
       // The server refused this device the match: the seat is no longer its own. Whatever it
       // was doing with a command is dropped, and nothing more is asked about it.
       if (environment.problem === 'no-access') flow.release();
@@ -154,10 +166,12 @@ export function createConnectedPlayerScreen(options: ConnectedPlayerScreenOption
     },
     watch: onChange => { const stops = [flow.subscribe(onChange), outcomes.subscribe(onChange)]; return () => stops.forEach(stop => stop()); },
     dispose() {
+      ownCloneDrawing = null;
       flow.dispose();
       outcomes.dispose();
       catchUp.dispose();
       api.cancelPending();
     },
   });
+  return { ...controller, readOwnCloneDrawing: () => ownCloneDrawing ? { ...ownCloneDrawing, status: { ...ownCloneDrawing.status } } : null };
 }

@@ -25,7 +25,7 @@ const safeInsets=document=>{
  const s=getComputedStyle(probe),out={top:parseFloat(s.paddingTop)||0,right:parseFloat(s.paddingRight)||0,bottom:parseFloat(s.paddingBottom)||0,left:parseFloat(s.paddingLeft)||0};probe.remove();return out;
 };
 
-export function createBoardV2Host(root,{now=()=>performance.now(),publicIdentities=()=>[]}={}) {
+export function createBoardV2Host(root,{now=()=>performance.now(),publicIdentities=()=>[],ownCloneDrawing=()=>null}={}) {
  const document=root.ownerDocument,holder=document.createElement('div');holder.className='bv2-mount';
  const capsule=createBoardV2Capsule({now}),blackout=createBoardV2Blackout({now}),identities=new Map();
  const blocks=new Map(),announced=new Set(),presentations=createBoardV2Presentations({now}),films=createBoardV2Films(root,holder);
@@ -125,7 +125,8 @@ export function createBoardV2Host(root,{now=()=>performance.now(),publicIdentiti
    const actor=holder._boardV2Paint.actors.get(f.seatId);for(const body of actor?.querySelectorAll('.bv2-figure')??[])body.style.translate=`${film.brace[0]}px ${film.brace[1]}px`;
   }
   const key=texts.join('\n');if(notes.textContent!==key)notes.textContent=key;notes.hidden=!texts.length;
-  box(notes,{left:layout.sheet.left+8,top:layout.sheet.top+8,width:layout.sheet.width-16});
+  // Keep the live words available without covering captions or optional drawings.
+  box(notes,{left:0,top:0,width:1,height:1});
  }
  function controls(){
   const {board,choosing}=layout;
@@ -201,7 +202,7 @@ export function createBoardV2Host(root,{now=()=>performance.now(),publicIdentiti
   const row=native?.querySelector('.bv2-command-controls');
   let toggle=root.querySelector('[data-board-offboard]'),sheet=root.querySelector('.bv2-offboard-sheet');
   if(!choices.length||!row){offboardTab=false;toggle?.remove();sheet?.remove();root.dataset.boardOffboard='false';return;}
-  if(!toggle){toggle=document.createElement('button');toggle.type='button';toggle.dataset.boardOffboard='toggle';toggle.id='bv2-offboard-toggle';row.append(toggle);}
+  if(!toggle){toggle=document.createElement('button');toggle.type='button';toggle.dataset.boardOffboard='toggle';toggle.id='bv2-offboard-toggle';row.prepend(toggle);}
   toggle.textContent=`Off board (${choices.length})`;toggle.setAttribute('aria-expanded',String(offboardTab));
   root.dataset.boardOffboard=String(offboardTab);
   if(!sheet){sheet=document.createElement('section');sheet.className='bv2-offboard-sheet';sheet.setAttribute('aria-label','Off board Code targets');holder.append(sheet);}
@@ -254,7 +255,9 @@ export function createBoardV2Host(root,{now=()=>performance.now(),publicIdentiti
   if(!next.match.privateArea?.open)claimExpanded=false;
   capsule.update(next.match.capsule,next.match.boardLayout.clock,{visible:document.visibilityState==='visible',reducedMotion:next.motion==='reduced'||media.matches});
   blackout.update(next.match.boardLayout.clock,next.match.boardLayout.blackout,{visible:document.visibilityState==='visible',reducedMotion:next.motion==='reduced'||media.matches});
-  presentations.update({board:next.match.boardLayout,versions:next.match.versions,events:next.match.outcomes??[],visible:document.visibilityState==='visible',focused,privateOpen:next.match.privateArea?.open===true&&root.dataset.phoneView==='actions',ownClone:next.match.privateArea?.content?.clone,blackout:next.match.boardLayout.clock.kind==='BLACKOUT',enabled:completeArt(),reducedMotion:next.motion==='reduced'||media.matches});
+  const own=next.surface==='player'?(ownCloneDrawing()??next.match.privateArea?.content?.clone):null;
+  const ownClone=own?.seatId===next.match.identity?.seatId?own:null;
+  presentations.update({board:next.match.boardLayout,versions:next.match.versions,events:next.match.outcomes??[],visible:document.visibilityState==='visible',focused,privateOpen:next.match.privateArea?.open===true&&root.dataset.phoneView==='actions',ownClone,blackout:next.match.boardLayout.clock.kind==='BLACKOUT',enabled:completeArt(),reducedMotion:next.motion==='reduced'||media.matches});
   controls();paint();return true;
  }
  const reduced=()=>{stop();capsule.settle();blackout.settle();presentations.settle();films.clear();settleBlocks();if(model)after(model);};
