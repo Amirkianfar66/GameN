@@ -9,6 +9,24 @@ import ts from 'typescript';
 
 export const REVIEWED_DRAWING_PORTS = JSON.parse(readFileSync(new URL('./reviewed-drawing-ports.json', import.meta.url), 'utf8'));
 export const contentSha256 = value => createHash('sha256').update(value).digest('hex');
+export const CANDIDATE_DRAWING_POLICY = 'design/releases/board-v2-four-drawing-approval.json';
+const CANDIDATE_DRAWING_POLICY_SHA256 = 'b24183b3aca00a87bdd1a3ae44533d6ba2965e01ebc7e39622db79f70551a760';
+
+// Absence means a historical-only checkout. A present supplement must match the
+// independently reviewed bytes; neither malformed data nor changed hashes fall back.
+export function readDrawingPolicy(root) {
+  let bytes;
+  try { bytes = readFileSync(resolve(root, CANDIDATE_DRAWING_POLICY)); }
+  catch (error) { if (error.code === 'ENOENT') return REVIEWED_DRAWING_PORTS; throw error; }
+  if (contentSha256(bytes) !== CANDIDATE_DRAWING_POLICY_SHA256) throw Error('Candidate drawing approval content hash differs');
+  const supplement = JSON.parse(bytes);
+  if (contentSha256(readFileSync(resolve(root, 'design/tools/lib/reviewed-drawing-ports.json'))) !== supplement.historicalPolicySha256) {
+    throw Error('Historical drawing approval content hash differs');
+  }
+  const policy = { ...REVIEWED_DRAWING_PORTS, requiredFiles: supplement.requiredFiles, abilityProseFiles: supplement.abilityProseFiles };
+  for (const key of ['ports', 'metadataFiles', 'buildFiles', 'sourceHashes']) policy[key] = { ...policy[key], ...supplement[key] };
+  return policy;
+}
 const DRAWING_DIRECTORIES = ['apps/game/hosted/scene-drawing/', 'apps/game/hosted/board-v2-drawing/'];
 const DIRECTORIES = ['apps/game/src', 'apps/game/hosted', 'packages/presentation/src'];
 
@@ -37,27 +55,44 @@ function staticString(node) {
 }
 
 /** Includes imports, URLs, fetches and stored path references; never executes a module. */
-export function prototypeReferences(path, content) {
+function staticReferences(path, content, location, nonJsPattern) {
   const references = new Set();
   const source = ts.createSourceFile(path, content, ts.ScriptTarget.Latest, true, path.endsWith('.tsx') ? ts.ScriptKind.TSX : ts.ScriptKind.JS);
   const visit = node => {
     const value = staticString(node);
-    if (value !== null && prototypeLocation(value)) references.add(value);
+    if (value !== null && location(value)) references.add(value);
     ts.forEachChild(node, visit);
   };
   visit(source);
   // Non-JavaScript resources still cannot name the prototype. JS comments in an
   // exact port are historical prose, not imports; unknown prose remains refused below.
   if (!/\.[cm]?[jt]sx?$/.test(path)) {
-    for (const match of content.matchAll(/(?:design[\\/])?(?:board-motion|phone-feedback|phone-kit|board-v2)[\\/][\w./%\\-]*/gi)) references.add(match[0]);
+    for (const match of content.matchAll(nonJsPattern)) references.add(match[0]);
   }
   return [...references];
 }
 
+export function prototypeReferences(path, content) {
+  return staticReferences(path, content, prototypeLocation, /(?:design[\\/])?(?:board-motion|phone-feedback|phone-kit|board-v2)[\\/][\w./%\\-]*/gi);
+}
+export function abilityPrototypeReferences(path, content) {
+  return staticReferences(path, content, value => /(?:^|\/)design\/abilities(?:\/|$)/.test(normalize(value)), /design[\\/]abilities[\\/][\w./%\\-]*/gi);
+}
+export function reviewedAbilityProse(policy, path, content) {
+  const named = path === 'apps/game/hosted/board-v2-drawing/lighting.mjs' || policy.abilityProseFiles?.includes(path);
+  return Boolean(named && policy.ports[path]?.sha256 === contentSha256(content) && abilityPrototypeReferences(path, content).length === 0);
+}
+
 export async function productionDrawingProblems(root) {
+  root = resolve(root);
   const problems = [], files = [];
-  const policy = REVIEWED_DRAWING_PORTS;
+  let policy;
+  try { policy = readDrawingPolicy(root); } catch (error) { return [error.message]; }
   const read = path => readFile(resolve(root, path));
+  for (const [path, expected] of Object.entries(policy.requiredFiles ?? {})) {
+    const bytes = await read(path).catch(() => null);
+    if (bytes === null || contentSha256(bytes) !== expected) problems.push(`${path}: required candidate drawing input differs`);
+  }
   for (const directory of DIRECTORIES) {
     const entries = await readdir(resolve(root, directory), { withFileTypes: true, recursive: true }).catch(() => []);
     for (const entry of entries) if (entry.isFile()) files.push(`${entry.parentPath ?? entry.path}/${entry.name}`.replace(`${root}/`, ''));
@@ -101,6 +136,8 @@ export async function productionDrawingProblems(root) {
       const family = forbidden.map(value => normalize(value).match(/(?:^|\/)(phone-feedback|phone-kit|board-v2|board-motion)(?:\/|$)/)?.[1]).find(Boolean) ?? 'board-motion';
       problems.push(`${path}: production code refers to the ${family} prototype`);
     }
+    if ((content.includes('design/abilities') || abilityPrototypeReferences(path, content).length)
+      && !reviewedAbilityProse(policy, path, content)) problems.push(`${path}: production code refers to the ability-art prototype`);
   }
   if (usesDrawingPorts) {
     for (const [source, expected] of Object.entries(policy.sourceHashes)) {

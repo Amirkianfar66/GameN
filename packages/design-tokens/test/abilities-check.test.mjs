@@ -1,7 +1,7 @@
 // mothership:dev-only
 import assert from 'node:assert/strict';
 import { execFile } from 'node:child_process';
-import { cpSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
+import { cpSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync, symlinkSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { after, test } from 'node:test';
@@ -20,8 +20,10 @@ after(() => { for (const path of scratchRoots) rmSync(path, { recursive: true, f
 function scratchCopy() {
   const root = mkdtempSync(join(tmpdir(), 'mothership-abilities-check-'));
   scratchRoots.push(root);
+  // The shared exact-file fence uses the pinned parser; scratch copies install nothing.
+  symlinkSync(join(repoRoot, 'node_modules'), join(root, 'node_modules'), 'dir');
   // The board-motion page the art is captured on also draws the phone kit and the room clothes (issue #121): their files are inputs too.
-  for (const path of ['design/tools', 'design/board-motion/js', 'design/board-motion/css', 'design/board-motion/index.html', 'design/board-motion/figures/wardrobe.mjs',
+  for (const path of ['design/tools', 'design/releases/board-v2-four-drawing-approval.json', 'design/board-motion/js', 'design/board-motion/css', 'design/board-motion/index.html', 'design/board-motion/figures/wardrobe.mjs',
     'design/phone-kit/css', 'design/phone-kit/js', 'design/phone-kit/source', 'docs/design/abilities-inventory.md',
     'packages/contracts/src', 'packages/presentation/src', 'apps/game/src', 'apps/game/hosted']) {
     mkdirSync(dirname(join(root, path)), { recursive: true });
