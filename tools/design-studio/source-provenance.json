@@ -1,0 +1,13 @@
+{
+  "importedStudioCommit": "9f5ac4f45589935fb2ed1027f0d54ebcd7017138",
+  "integrationBase": "db65bb87f05983ff6861d27689ba1b7bab55d051",
+  "decisionDate": "2026-10-25",
+  "privateSeedSha256": {
+    "initial.json": "431550a331bcf5b22cf27fdf9de00c934d31601720a67492954e99390ba689ed",
+    "seed.json": "d51c50efbc712ffc23f6f773f1dbc91efece98e8fa736aba4b656bece9aab460",
+    "references.json": "da0c7eda6d7577cfbf614d645b81789d9a4203d9ba3d8a56fead036634070d9d",
+    "owner-decisions.json": "a2a70d385fbb3e356d898631a8a9e7cfcd0445a4c3cc12de838d8a37d97a377d"
+  },
+  "sitesDatabaseExportRecovered": false,
+  "historicalReferenceModified": false
+}

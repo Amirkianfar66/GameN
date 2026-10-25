@@ -4,7 +4,8 @@ Mothership is a premium comic-book card/board social-deduction game. The user pr
 
 ## Current artifacts
 
-- Existing Design Canvas: https://mothership-design-canvas.amirkianfar.chatgpt.site
+- Owner design reference: **GameN Design Studio**, linked from the webapp's **Development** section at `/development/design-studio/`. Its private, editable decisions guide subsequent gameplay integration. See [Studio provenance and access](../tools/design-studio/README.md).
+- Historical Design Canvas: https://mothership-design-canvas.amirkianfar.chatgpt.site
 - Existing `/playtest` is a facilitator prototype, not the server-authoritative production runtime.
 - `docs/architecture/production-v1.0.md` is the detailed previous architecture design.
 - `docs/architecture/rendering-direction.md` records the later Three.js discussion and its evaluation status.
@@ -12,7 +13,7 @@ Mothership is a premium comic-book card/board social-deduction game. The user pr
 - The existing Canvas/facilitator source is copied under `reference/design-canvas/`; export provenance and live-data limitations are in `reference/README.md`.
 - `CODEX_START_HERE.md` carries the project into Codex with bootstrap and four role prompts.
 
-The production game is a separate runtime from the Design Canvas. Canvas publishing eventually exports validated immutable rulesets. Nothing in this handoff migrates or republishes the existing Site.
+The production game is a separate runtime from the design authoring tools. The original handoff did not migrate a Site. The owner-authorized 25 October 2026 update moves the actual GameN Design Studio to GameN hosting; source snapshots and the latest owner decisions are available, but the previous Sites database and its remote revision history were not recovered. Studio saves do not modify an active match or activate a new ruleset.
 
 ## Motion direction
 

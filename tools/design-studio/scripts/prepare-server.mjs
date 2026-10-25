@@ -1,0 +1,10 @@
+import { cp, mkdir, readFile } from 'node:fs/promises';
+import { resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { parseBoard } from '../model.mjs';
+const root = fileURLToPath(new URL('../', import.meta.url));
+for (const file of ['seed.json', 'initial.json']) parseBoard(JSON.parse(await readFile(resolve(root, 'private-data', file), 'utf8')));
+await mkdir(resolve(root, 'server/private-data'), { recursive: true });
+for (const file of ['seed.json', 'initial.json', 'references.json']) await cp(resolve(root, 'private-data', file), resolve(root, 'server/private-data', file));
+await cp(resolve(root, 'model.mjs'), resolve(root, 'server/model.mjs'));
+console.log('Prepared private Studio data for the isolated server artifact. No deployment performed.');

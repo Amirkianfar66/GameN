@@ -32,6 +32,10 @@ export default {
     },
   }],
   build: {
+    rollupOptions: { input: {
+      game: fileURLToPath(new URL('./index.html', import.meta.url)),
+      development: fileURLToPath(new URL('./development/index.html', import.meta.url)),
+    } },
     target: 'es2022',
     // Runtime art is loaded as unprocessed CSS; preserve individual transform resets.
     cssMinify: false,
