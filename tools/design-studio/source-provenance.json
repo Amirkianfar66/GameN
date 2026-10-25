@@ -3,10 +3,10 @@
   "integrationBase": "db65bb87f05983ff6861d27689ba1b7bab55d051",
   "decisionDate": "2026-10-25",
   "privateSeedSha256": {
-    "initial.json": "4f419495a97261de5d34d832995d927d072c634dd6c67d2adf9c068647344a67",
-    "seed.json": "1e0cae96daf1702f10bed505ccdbb1f47f1265cfbc417656560e4d02fe3fec9d",
+    "initial.json": "814f6b9bc299a7dea415841c2b42aa73eb50e21c9ddbec508d2fd06997856438",
+    "seed.json": "97a9a99614798dad6f64d4f256b98b90ebe0a0235d04b2efc142030bd479df68",
     "references.json": "da0c7eda6d7577cfbf614d645b81789d9a4203d9ba3d8a56fead036634070d9d",
-    "owner-decisions.json": "b071ff07a5d5a6a78d65e015152dc568bdbcd7799a9c910b2ea285c1bc141ba9"
+    "owner-decisions.json": "32a84cde7cab968a807c1c4f981861e088d534087dd961771357444e92675a92"
   },
   "sitesDatabaseExportRecovered": false,
   "historicalReferenceModified": false,
@@ -22,6 +22,10 @@
     {
       "id": "owner-hospital-panel-shared-rescue-2026-10-25",
       "source": "rules/overlays/hospital-panel-owner-decision-2026-10-25.json"
+    },
+    {
+      "id": "owner-hospital-blackhole-healing-state-2026-10-25",
+      "source": "rules/overlays/hospital-panel-blackhole-owner-decision-2026-10-25.json"
     }
   ]
 }
