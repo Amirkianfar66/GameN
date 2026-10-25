@@ -4,17 +4,17 @@ import { actionKeyOf, actionDefinitions, ensureSharedActions, isPublicAction, se
 const information = {
   "soldier-blue": [
     "No special starting information.",
-    "No starting identities or Code information. Knows own Blue role and once-per-match Vote Disruption resource.",
-    "Use room positions, public observations and claims to decide when to disrupt the opposite room's voters.",
+    "No starting identities or Code information. Knows own Blue role and once-per-match Navigation Disruption resource.",
+    "Use room positions, public observations and claims to decide when to suppress the opposite room's navigation weight; all ballots remain available.",
   ],
   insider: [
-    "Three identities, without the role mapping.",
-    "Privately starts with the unordered identities of Undercover, Alien and Cracker. The assignment of those roles is unknown.",
+    "Three identities plus self give the complete Code.",
+    "Privately starts with the unordered identities of Undercover, Alien and Cracker, without their role mapping. Adding own number gives the complete four-member Code.",
     "Use the ambiguous trio to compare claims and negotiate trust. Revealing the trio can expose the source of the clue.",
   ],
   cracker: [
     "Read public danger; keep your Rescue decisions private.",
-    "No extra starting identities or Code knowledge. Knows own Rescue resources and accepted registrations; public injury and location establish the visible problem.",
+    "No extra starting identities. Knows own number belongs to the fixed Code and knows own Rescue resources and accepted registrations; public injury and location establish the visible problem.",
     "Rescue promises, triage and observed recoveries create social evidence. They do not automatically prove anyone’s faction.",
   ],
   "blue-disabler": [
@@ -29,23 +29,23 @@ const information = {
   ],
   undercover: [
     "A hidden shield ledger and a permitted false claim.",
-    "Knows own Red role and that own identity is excluded from Code. Does not automatically learn Hacker’s identity. Protection grant, activation and consumption are Undercover-only.",
+    "Knows own Red role and that own identity is included in the fixed Code. Does not automatically learn Hacker’s identity. Protection grant, activation and consumption are Undercover-only.",
     "May declare a false side in Hack. Keep bluffing separate from verified information; the protected recipient does not gain the private shield ledger.",
   ],
   hacker: [
     "Know Undercover; turn a faction guess into Code evidence.",
-    "Starts knowing Undercover’s identity and exclusion from Code. A correct Scan faction guess reveals only Code membership. A wrong guess spends that round’s Scan without Code information.",
-    "Combine Scan evidence with claims and negotiation, especially with Alien. A Hack declaration is a claim, not an app-verified faction.",
+    "Starts knowing Undercover identity and inclusion in Code. Correct Scan returns only membership. Wrong Scan gives no Code information and disables the next round Scan. Correct final Code permanently replaces Scan with one-use Hack Spaceship.",
+    "Combine Scan evidence with claims and negotiation; Insider can derive the complete Code. Standard Hack declarations are claims, not verified factions. Hack Spaceship is a separate unlocked ability.",
   ],
   "red-disabler": [
     "A second hidden attack, without automatic teammate knowledge.",
-    "No extra starting identities or Code knowledge; no automatic knowledge of the other Disabler. Frozen neutral slots and generic room block feedback reveal no hidden role or defensive cause.",
+    "Starts knowing Undercover identity, hence one fixed Code member; no automatic knowledge of the other Disabler. Frozen neutral slots and generic room block feedback reveal no hidden role or defensive cause.",
     "Coordinate through social deduction and claims. The second attack in eight- and nine-player games can complicate attribution.",
   ],
   alien: [
-    "The full four-identity Code is your bargaining resource.",
-    "Privately knows the complete unordered Code from setup. May declare a false side in Hack. Own Clone state is private; activation and expiry have no public role cue.",
-    "Decide what to trade, conceal or bluff while pursuing Alien’s survival conditions. Knowing Code does not force a particular alliance.",
+    "No full Code at setup. Seek Blackhole and survive to either planet.",
+    "Does not receive the complete Code at setup. Knows only own Code membership from the fixed role composition. May declare a false side in Hack. Own Clone state is private; activation and expiry have no public role cue.",
+    "Pursue Captain or Officer to perform Blackhole, then survive arrival at either planet. Claims and ordinary observations support negotiation; no full-Code packet is provided.",
   ],
   officer: [
     "An early accusation must be built from social evidence.",
@@ -249,7 +249,7 @@ export function ensureRoleAspects(input, { arrange = false } = {}) {
             fact(
               "shared-information",
               "Shared information channels",
-              "Table conversation, public health/location, permitted faction reveals and legal Hack participation. Hack content remains private for the rest of its round; Round 5 content stays private through match end.",
+              "Table conversation, public health/location, permitted faction reveals and legal Hack participation. Standard Hack content remains private for the rest of its round. There is no fixed last round.",
             ),
           );
         } else {

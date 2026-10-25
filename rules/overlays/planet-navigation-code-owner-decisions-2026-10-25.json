@@ -1,0 +1,187 @@
+{
+  "decision_id": "planet-navigation-code-2026-10-25",
+  "status": "owner-confirmed-design",
+  "decided_on": "2026-10-25",
+  "recorded_from": {
+    "conversation_id": "01a14f15-9d9a-7811-b0e2-477b23bd9f1b",
+    "language_note": "English record of explicit owner decisions, corrections and accepted proposals. The final owner request authorizes recording all decisions in the GameN design reference."
+  },
+  "base_commit": "5f866f1a77f96a2918c29b2cf07466466e35caa2",
+  "historical_runtime": {
+    "integration_base": "db65bb87f05983ff6861d27689ba1b7bab55d051",
+    "engine": "full-game-1.11.0",
+    "ruleset": "in-person-v1-hospital-four-2026-10-19",
+    "protocol": 2,
+    "implementation": "Unchanged; the decisions below require a future gameplay successor."
+  },
+  "supersedes": [
+    "rules/sources/v2.1-decisions.json: five-round ending, victory, code composition, Alien full-Code starting knowledge and the old Hacker Code result",
+    "rules/overlays/consolidated-decisions-2026-09-26.json: fixed Round 5 Code timing",
+    "rules/overlays/in-person-v1-owner-decisions-2026-10-06.json: V1-08 direct Code-victory evaluation at Round 5 for this successor design",
+    "rules/overlays/final-showdown-decision.json: current-design ending and special showdown ammunition",
+    "rules/overlays/soldier-blue-vote-disruption-owner-decision-2026-10-25.json: ballot restriction and affected-voter thresholds only; fixed-target timing and ordinary Role Action eligibility remain",
+    "Earlier Studio Alien Blue-only co-victory, solo-elimination victory, and full-Code starting information",
+    "Conversation proposals for a five-space linear route, backtracking on a Y arm, a random tie-break, and automatic hacking immediately upon discovering Code"
+  ],
+  "confirmed_rules": [
+    {
+      "id": "NAV-01",
+      "topic": "Victory and duration",
+      "rule": "The match continues until the spaceship reaches Blue Planet or Red Planet. Arrival at Blue Planet wins for Blue; arrival at Red Planet wins for Red. Remove the fixed five-round limit, Round 5 power comparison, direct Code victory, elimination-only victory paths and the conditional Final Showdown / final shutdown ending from this design."
+    },
+    {
+      "id": "NAV-02",
+      "topic": "Automatic navigation weight",
+      "rule": "Calculate navigation after action results and the Jail vote, using locations at that moment. Only eligible players in Room A or Room B contribute, automatically toward their actual hidden Blue or Red team. Other spaces do not contribute. Alien is on neither side and contributes no navigation weight. This is not a freely chosen ballot."
+    },
+    {
+      "id": "NAV-03",
+      "topic": "Captain multiplier",
+      "rule": "Apply the Captain 2x multiplier automatically according to the Captain secret team, within the navigation calculation. Captain does not choose the direction of this contribution. The A/B-only participation rule has no approved Command exception."
+    },
+    {
+      "id": "NAV-04",
+      "topic": "Private route and confirmations",
+      "rule": "Only Captain and Officer see the computed final direction. Show no totals, pre-multiplier result, separate Captain contribution or before/after comparison to either. Captain confirms first, then Officer confirms the same direction. Confirmation is acknowledgement/execution and grants no veto or editing right."
+    },
+    {
+      "id": "NAV-05",
+      "topic": "Tie",
+      "rule": "If navigation weights tie, Officer privately sees the tie and chooses Blue or Red, without numbers. That chosen direction then goes through Captain confirmation followed by Officer confirmation."
+    },
+    {
+      "id": "NAV-06",
+      "topic": "One move",
+      "rule": "The spaceship makes exactly one movement each round. Weight margin changes direction only; it never grants extra movement."
+    },
+    {
+      "id": "NAV-07",
+      "topic": "Y route",
+      "rule": "Round 1 moves forward from Start to the common Junction. Each arm has three spaces after Junction: B1, B2, Blue Planet, and R1, R2, Red Planet. From Junction, three successive movements toward the same side reach that planet. Earliest arrival is at the end of Round 4."
+    },
+    {
+      "id": "NAV-08",
+      "topic": "Same-level branch switch",
+      "rule": "When direction changes, move directly to the same depth on the other arm: B1 to R1, R1 to B1, B2 to R2, or R2 to B2. This consumes the one movement for that round and preserves progress. Repeating the current side advances one space. Do not backtrack toward Junction and do not reset depth."
+    },
+    {
+      "id": "NAV-09",
+      "topic": "Accepted switching consequence",
+      "rule": "Starting at Junction, Blue, Blue, Red, Red ends at Red Planet: Junction to B1 to B2 to R2 to Red Planet. Three consecutive movements are sufficient from Junction but are not required for every winning sequence."
+    },
+    {
+      "id": "NAV-10",
+      "topic": "Alien co-victory",
+      "rule": "Alien wins alongside either destination team only if Alien personally performed Blackhole during the match and is still alive at planet arrival. Alive without Blackhole is insufficient. No Healthy-only requirement is added. Blackhole itself does not end the match; the former Blue-only co-win and solo-elimination win are superseded."
+    },
+    {
+      "id": "SB-NAV-01",
+      "topic": "Soldier Blue scope correction",
+      "rule": "Soldier Blue remains the Blue ninth secret role, with no starting weapon. Once per match, use its Role Action in A/B to suppress navigation weight for the players who occupy the opposite room at activation. Fix those identities then; later movement does not remove the restriction, and later arrivals are not added. It lasts through that round navigation and expires at round end."
+    },
+    {
+      "id": "SB-NAV-02",
+      "topic": "Ballots unaffected",
+      "rule": "The Soldier Blue effect applies only to navigation weight. It does not prevent Captain, Jail, release or any other ballot, and does not alter their voter eligibility or thresholds. The previous Vote Disruption ballot restriction is superseded; ordinary Supplier weapon access remains."
+    },
+    {
+      "id": "CODE-01",
+      "topic": "Fixed Code membership",
+      "rule": "Code is the unordered set of the four original player numbers assigned Undercover, Alien, Insider and Cracker. Each number is distinct and order does not matter. Replace the earlier Alien-plus-three selection and Undercover exclusion. Membership follows original identities, including an identity later Eliminated or offboard."
+    },
+    {
+      "id": "CODE-02",
+      "topic": "Starting information",
+      "rule": "Alien no longer receives the complete Code at setup. Insider keeps the unordered three identities of Undercover, Alien and Cracker, without their person-to-role mapping. Hacker and Red Disabler start knowing Undercover identity. These starting-knowledge statements do not reveal the other player roles or grant app-verified truth to spoken claims."
+    },
+    {
+      "id": "CODE-03",
+      "topic": "Scan",
+      "rule": "During the discovery stage, Hacker uses Scan to select an eligible player and guess their faction. A correct faction guess privately returns only whether that original identity is in Code. A wrong faction guess returns no Code information, spends that round Scan, and disables Scan for the entire next round. Scan becomes available again in the following round, subject to ordinary eligibility. Previously acquired information is retained."
+    },
+    {
+      "id": "CODE-04",
+      "topic": "One final Code submission",
+      "rule": "Hacker has one attempt in the entire match to submit the complete four-number Code. The agreed Round 2 onward, pre-navigation window replaces the fixed Round 5 deadline. Wrong Code spends this final-submission opportunity and does not unlock Hack Spaceship. The one submission is distinct from Scan uses and from the later one-use spaceship hack."
+    },
+    {
+      "id": "CODE-05",
+      "topic": "Discovery and activation are separate",
+      "rule": "A correct Code submission completes discovery. Replace the Scan button permanently with Hack Spaceship; Hacker no longer has Scan. Unlocking or changing the button does not activate the hack and does not move the spaceship. No requirement to discover every member through Scan alone is introduced."
+    },
+    {
+      "id": "CODE-06",
+      "topic": "Hack Spaceship",
+      "rule": "After unlocking, Hacker chooses a later activation time in an eligible round before navigation, from Round 2 onward. Hack Spaceship can be used only once in the entire match. It forces that round navigation direction to Red regardless of automatic weights. It replaces the normal direction, never adds a movement, and uses the same Y-route switch/advance rule. After use the button remains disabled."
+    },
+    {
+      "id": "CODE-07",
+      "topic": "Arrival through a hack",
+      "rule": "At B2, Hack Spaceship moves to R2. At R2, it reaches Red Planet and Red wins through arrival. A correct Code without activation does not change direction and does not award victory."
+    },
+    {
+      "id": "CODE-08",
+      "topic": "Separate meanings of Hack",
+      "rule": "Hack Spaceship is the Hacker unlocked navigation ability. It is distinct from Standard Hack, the shared private-conversation action. Existing private talk remains available under its own rules, including during Blackhole."
+    }
+  ],
+  "direct_consequences": [
+    {
+      "id": "CODE-INFERENCE-01",
+      "status": "derived-from-confirmed-rules",
+      "rule": "Insider can combine the three received identities with their own number to know the complete Code from setup, while still not knowing the trio person-to-role mapping."
+    },
+    {
+      "id": "CODE-INFERENCE-02",
+      "status": "derived-from-confirmed-rules",
+      "rule": "Alien, Undercover and Cracker each know their own number belongs to Code from the fixed role composition. Hacker and Red Disabler know one other confirmed member, Undercover. No complete Code packet is given to Alien."
+    },
+    {
+      "id": "NAV-INFERENCE-01",
+      "status": "derived-from-confirmed-rules",
+      "rule": "Alternating directions at the same depth can prolong the match. No maximum duration, anti-stall movement, automatic draw or sudden death has been approved."
+    }
+  ],
+  "preserved_decisions": [
+    "The four events remain Spaceship Commander, Promises, Blackhole Parallel Events and Windows; their previously approved details remain except for the Alien starting-information and victory corrections above.",
+    "Blackhole remains a once-per-match Alien Role Action requiring Captain or Officer, secretly activated before turns; after the last turn the cinematic and whole-reality Sync precede voting. Hospital/Jail do not create branches; private chats continue.",
+    "Officer is a public appointment fixed until the Captain term ends. Its public pre-turn movement block and the separation of Role Actions from Public Actions remain.",
+    "Hospital panel: one lifetime global attempt per patient, Cracker number as code, two shared healing uses, per-reality healing inventory and global attempt spending remain as recorded in the Hospital overlays.",
+    "No old role source or deployed match tuple is rewritten. All new texts and records are in English."
+  ],
+  "open_integration_details": [
+    {
+      "id": "NAV-OPEN-01",
+      "question": "Define confirmation deadlines and behavior when Captain or Officer is absent, incapacitated or does not confirm. Confirmation cannot become a veto. Round 1 has the fixed common step; do not invent an office requirement before the existing first election."
+    },
+    {
+      "id": "NAV-OPEN-02",
+      "question": "Specify exact health/eliminated-body eligibility, captain eligibility and the 2x multiplier under suppression. No weight outside A/B, extra Captain ballot or special Command exception is approved."
+    },
+    {
+      "id": "NAV-OPEN-03",
+      "question": "Integrate pre-vote Blackhole Sync with action resolution, Jail voting and the post-results navigation checkpoint. Do not silently reorder individual attacks, Rescue, medical deadlines or Supplier stages."
+    },
+    {
+      "id": "NAV-OPEN-04",
+      "question": "Reconcile older round-bound ability windows with an uncapped match: Supplier Round 3, ordinary shooting Rounds 4-5, Clone min(activation+1,5), and any Round 5 conversation/medical special case. No extension or new limit is approved here."
+    },
+    {
+      "id": "CODE-OPEN-01",
+      "question": "Hack Spaceship action cost, precise turn/health/location eligibility and same-round activation after a successful Scan are not settled. The proposed Role Main Action cost was not approved; button replacement alone does not settle it. Do not automatically transfer the old Submit Code injury/Jail exception to the new activation."
+    },
+    {
+      "id": "CODE-OPEN-02",
+      "question": "Define Scan/button behavior after the one final Code submission fails. The failed submission cannot be retried and never unlocks Hack Spaceship; continued Scan availability was not decided."
+    },
+    {
+      "id": "CODE-OPEN-03",
+      "question": "Map Scan cooldown, final Code attempt, unlock and Hack Spaceship use to Blackhole realities without inventing exceptions or resetting confirmed lifetime limits. The precise feedback/state timing remains an implementation decision requiring design review."
+    },
+    {
+      "id": "NAV-OPEN-05",
+      "question": "Define the affected-player notification audience for Soldier Blue and the public presentation of ship progress. Computed directions and weights retain the approved privacy boundary; do not expose hidden role actors."
+    }
+  ],
+  "implementation_boundary": "Record and publish the owner design reference only. No gameplay engine, contracts, runtime profile, game Functions, IAM, Firestore rules, immutable historical ruleset or active match changes. Automated game tests are not requested for this internal design analysis."
+}
