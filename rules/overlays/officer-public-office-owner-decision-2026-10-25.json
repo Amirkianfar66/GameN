@@ -1,0 +1,31 @@
+{
+  "decision_id": "officer-public-office-2026-10-25",
+  "status": "owner-confirmed-design",
+  "owner_instruction": "Remove the former nine-player Blue Officer role from the game. Officer remains only the public office appointed by Captain.",
+  "supersedes": [
+    "rules/overlays/player-modes-officer.json#/officer",
+    "rules/overlays/player-modes-officer.json#/modes/9/blue_roles: Officer",
+    "rules/overlays/direct-shot-decision.json: Officer early-shot exception",
+    "rules/overlays/in-person-v1-owner-decisions-2026-10-06.json: Officer extra-weapon exception"
+  ],
+  "decisions": [
+    {
+      "id": "OFFICE-ONLY",
+      "rule": "Officer is not a secret role, a Blue faction assignment or a ninth setup card. It is a public office held alongside the player's secret role and appointed by Captain."
+    },
+    {
+      "id": "NO-INHERITED-SHOT",
+      "rule": "The public Officer office grants no starting weapon, early shot or lifetime shooting exception. All weapon eligibility follows the holder's secret role and the ordinary rules."
+    },
+    {
+      "id": "STARTING-WEAPON",
+      "rule": "Undercover alone starts with one ordinary weapon. Other roles require a Supplier grant to obtain an ordinary weapon. Ordinary shooting remains restricted to Rounds 4 and 5."
+    },
+    {
+      "id": "NO-LEGACY-OPTION",
+      "rule": "Do not offer the removed Blue Officer as an alternate, optional role or unresolved design choice. Historical source files and historical match versions remain evidence only."
+    }
+  ],
+  "setup_follow_up": "Seven- and eight-player role compositions are unchanged. No replacement ninth secret role, duplicate role or new nine-player composition is approved by this decision.",
+  "implementation_boundary": "Update the design reference and its current summaries. Existing immutable engine/ruleset tuples and match histories are not silently rewritten. A gameplay successor must implement the public office and reconcile supported setup counts."
+}
