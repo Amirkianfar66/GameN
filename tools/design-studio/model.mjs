@@ -85,6 +85,12 @@ const source = z
 export const BoardSchema = z
   .object({
     schemaVersion: z.literal(1),
+    ownerUpdates: z.array(z.object({
+      id,
+      nodeIds: z.array(id).max(1500),
+      retiredNodeIds: z.array(id).max(1500),
+    }).strict()).max(100).optional(),
+    appliedOwnerUpdates: z.array(id).max(100).optional(),
     roleLayoutVersion: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)]).optional(),
     captainPrivilegeVersion: z.literal(1).optional(),
     sharedActionsVersion: z.literal(1).optional(),
@@ -287,5 +293,29 @@ export function applyRefresh(board, incoming) {
   for (const e of incoming.edges)
     if (!result.edges.some((x) => x.id === e.id)) result.edges.push(copy(e));
   result.baseline = copy(incoming.baseline);
+  return parseBoard(result);
+}
+
+
+// Adopt explicit owner corrections from the authenticated source bundle once.
+// Existing immutable revisions stay untouched. The normal save creates a new
+// revision; local text, notes, proposals and positions use the three-way merge.
+export function applyOwnerUpdates(board, incoming) {
+  if (!incoming) return board;
+  const applied = new Set(board.appliedOwnerUpdates || []);
+  const updates = (incoming.ownerUpdates || []).filter(update => !applied.has(update.id));
+  if (!updates.length) return board;
+  const ids = new Set(updates.flatMap(update => update.nodeIds));
+  const retired = new Set(updates.flatMap(update => update.retiredNodeIds));
+  const result = applyRefresh(board, {
+    ...incoming,
+    nodes: incoming.nodes.filter(node => ids.has(node.id)),
+    edges: [],
+  });
+  for (const node of result.nodes) if (retired.has(node.id)) node.archived = true;
+  for (const edge of result.edges) {
+    if (retired.has(edge.source) || retired.has(edge.target)) edge.archived = true;
+  }
+  result.appliedOwnerUpdates = [...applied, ...updates.map(update => update.id)];
   return parseBoard(result);
 }

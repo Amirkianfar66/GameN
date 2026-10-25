@@ -1,6 +1,6 @@
 import { copy } from "./model.mjs";
 
-const roleIds = ["insider", "cracker", "blue-disabler", "supplier", "undercover", "hacker", "red-disabler", "alien", "officer"];
+const roleIds = ["insider", "cracker", "blue-disabler", "supplier", "undercover", "hacker", "red-disabler", "alien"];
 const fieldValue = (node, id) => node?.content.fields.find((f) => f.id === id)?.value;
 export const actionKeyOf = (node) => fieldValue(node, "studio-action-key") || null;
 const publicActionKeys = new Set(["ordinary-shot", "movement", "vote", "hack", "showdown"]);
@@ -76,15 +76,15 @@ export const actionDefinitions = [
   },
   {
     key: "ordinary-shot", title: "Ordinary Shot", roles: roleIds,
-    summary: "Shoot a legal same-location target with a usable weapon. Officer can shoot earlier.",
-    rules: "Choose another living same-location target directly. Healthy/free shooter, Command immunity and defenses apply. One damage; no faction-identification requirement. Officer and Undercover start armed. Supplier may arm any role. Officer has one ordinary shot total, even after an additional grant.",
-    condition: (id) => id === "officer" ? "R1–5 · one shot total" : id === "undercover" ? "R4–5 · starts armed" : "R4–5 · Supplier weapon required",
-    sources: ["direct-shot-decision.json", "player-modes-officer.json", "in-person-v1-owner-decisions-2026-10-06.json", "roster.ts"],
+    summary: "Shoot a legal same-location target with a usable weapon in Rounds 4–5.",
+    rules: "Choose another living same-location target directly. Healthy/free shooter, Command immunity and defenses apply. One damage; no faction-identification requirement. Only Undercover starts armed. Supplier may arm any secret role. Public offices grant no weapon or early-shot exception.",
+    condition: (id) => id === "undercover" ? "R4–5 · starts armed" : "R4–5 · Supplier weapon required",
+    sources: ["direct-shot-decision.json", "in-person-v1-owner-decisions-2026-10-06.json", "officer-public-office-owner-decision-2026-10-25.json"],
   },
   {
     key: "supply", title: "Supply Weapons", roles: ["supplier"],
     summary: "In Round 3, give two players one ordinary weapon each for Rounds 4–5.",
-    rules: "One Main Action. Select two distinct same-location living recipients, possibly self, without a role-dependent rejection. Grants resolve at the Supply stage. Supplier and each individual recipient privately know that grant. An extra weapon never gives Officer a second ordinary shot.",
+    rules: "One Main Action. Select two distinct same-location living recipients, possibly self, without a role-dependent rejection. Grants resolve at the Supply stage. Supplier and each individual recipient privately know that grant.",
     sources: ["v2.1-decisions.json", "in-person-v1-owner-decisions-2026-10-06.json"],
   },
   {

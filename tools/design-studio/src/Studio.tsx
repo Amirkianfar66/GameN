@@ -36,6 +36,7 @@ import {
   effectiveStatus,
   refreshPlan,
   applyRefresh,
+  applyOwnerUpdates,
   tabs,
   tabNames,
   relations,
@@ -299,9 +300,11 @@ export default function Studio({ hosted = false }: { hosted?: boolean }) {
     [newTab, setNewTab] = useState("roles"),
     [zoom, setZoom] = useState(100);
   const flow = useReactFlow();
+  const sourceBundle = useRef<Board | null>(null);
   const update = (value: Board) => {
-    ref.current = value;
-    setBoard(value);
+    const current = applyOwnerUpdates(value, sourceBundle.current);
+    ref.current = current;
+    setBoard(current);
   };
   const commit = (mutate: (next: Board) => void, before?: Board) => {
     const old = before || ref.current;
@@ -372,6 +375,7 @@ export default function Studio({ hosted = false }: { hosted?: boolean }) {
         api("/api/seed"),
         listBoards(),
       ]);
+      sourceBundle.current = parseBoard(bundle);
       setSeed(bundle);
       const last = localStorage.getItem(storageKey("last-board"));
       const id = list.boards.some((x: any) => x.id === last) ? last : bundle.id;
@@ -1659,14 +1663,14 @@ export default function Studio({ hosted = false }: { hosted?: boolean }) {
               </div>
               <div className="studio-note">
                 <span>03 / ASYMMETRY</span>
-                <h3>What changes at seven, eight and nine?</h3>
+                <h3>What changes when someone holds office?</h3>
                 <p>
-                  Red Disabler and Officer change the game, not just the
-                  headcount. Compare choices and pacing separately before adding
-                  optional powers.
+                  Captain appoints Officer. Both are public offices layered over
+                  secret roles. Compare the public responsibilities with each
+                  player’s private abilities.
                 </p>
-                <button onClick={() => focusNode("officer")}>
-                  Explore Officer ↗
+                <button onClick={() => { setView("events"); focusNode("event_spaceship_commander"); }}>
+                  Explore Spaceship Commander ↗
                 </button>
               </div>
               <p className="muted">
