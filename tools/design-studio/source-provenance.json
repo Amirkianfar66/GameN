@@ -3,10 +3,10 @@
   "integrationBase": "db65bb87f05983ff6861d27689ba1b7bab55d051",
   "decisionDate": "2026-10-25",
   "privateSeedSha256": {
-    "initial.json": "ca37506b0fb4fe73a0362af89b6a0e134b145d2d77ac51c26fe9b229d3f85217",
-    "seed.json": "f66adeecec824f20b9030b91c38adb8e78afce4cde8a53134f2d1bf1a4f583b8",
+    "initial.json": "fb46486a43610a953632b8bd7a61c74a1e43115849a8a798df5810694e956724",
+    "seed.json": "a2993582af45d49ad8c97a68590413ae01142380364b39dd07467c2d96bdf822",
     "references.json": "da0c7eda6d7577cfbf614d645b81789d9a4203d9ba3d8a56fead036634070d9d",
-    "owner-decisions.json": "266a2e70db1249f0f9358b65cdd9324514e3126dc1b79015adb9cc895c30948b"
+    "owner-decisions.json": "aac6dd2243f4342adab9553eb6b909d7e3da9b16204b4f092fec757af4be6993"
   },
   "sitesDatabaseExportRecovered": false,
   "historicalReferenceModified": false,
@@ -30,6 +30,10 @@
     {
       "id": "owner-hospital-panel-attempt-persists-2026-10-25",
       "source": "rules/overlays/hospital-panel-attempt-owner-decision-2026-10-25.json"
+    },
+    {
+      "id": "owner-soldier-blue-replace-shot-with-vote-disruption-2026-10-25",
+      "source": "rules/overlays/soldier-blue-vote-disruption-owner-decision-2026-10-25.json"
     }
   ]
 }
