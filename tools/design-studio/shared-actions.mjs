@@ -3,7 +3,7 @@ import { copy } from "./model.mjs";
 const roleIds = ["insider", "cracker", "blue-disabler", "supplier", "undercover", "hacker", "red-disabler", "alien", "soldier-blue"];
 const fieldValue = (node, id) => node?.content.fields.find((f) => f.id === id)?.value;
 export const actionKeyOf = (node) => fieldValue(node, "studio-action-key") || null;
-const publicActionKeys = new Set(["ordinary-shot", "movement", "vote", "hack", "showdown"]);
+const publicActionKeys = new Set(["ordinary-shot", "movement", "vote", "hack", "showdown", "hospital-panel"]);
 export const isPublicAction = (node) => publicActionKeys.has(actionKeyOf(node));
 export const isCaptainAction = (node) => ["captain-release", "captain-eject"].includes(actionKeyOf(node));
 export const isCaptainPrivilege = (node) => fieldValue(node, "studio-privilege") === "captain";
@@ -16,7 +16,7 @@ export const actionTypes = {
   table: { label: "Table action", color: "#5c6672" },
 };
 const actionTypeKeys = {
-  rescue: "protection", protection: "protection", clone: "protection", "captain-release": "protection",
+  rescue: "protection", "hospital-panel": "protection", protection: "protection", clone: "protection", "captain-release": "protection",
   blackout: "blackout",
   "ordinary-shot": "attack", showdown: "attack", "captain-eject": "attack",
   supply: "supply",

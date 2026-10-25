@@ -124,7 +124,7 @@ function arrangeActionGroups(board) {
   place(captainActions, 800, privilegeRows);
   row += privilegeRows;
   // Everyday choices, then combat. Captain duties belong to the privilege above.
-  const publicOrder = ["movement", "vote", "hack", "ordinary-shot", "showdown"];
+  const publicOrder = ["movement", "vote", "hack", "ordinary-shot", "showdown", "hospital-panel"];
   const publicActions = board.nodes.filter((n) => !n.archived && isPublicAction(n)).sort((a, b) => publicOrder.indexOf(actionKeyOf(a)) - publicOrder.indexOf(actionKeyOf(b)));
   const publicStart = row * 260 + 100;
   publicActions.forEach((node, index) => { node.position = { x: (index % 3) * 400, y: publicStart + Math.floor(index / 3) * 260 }; });
