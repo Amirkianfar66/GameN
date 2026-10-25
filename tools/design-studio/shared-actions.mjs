@@ -87,7 +87,7 @@ export const actionDefinitions = [
     key: "ordinary-shot", title: "Ordinary Shot", roles: roleIds,
     summary: "Shoot a legal same-location target with a usable weapon; the legacy R4–5 window needs successor review.",
     rules: "Choose another living same-location target directly. Healthy/free shooter, Command immunity and defenses apply. One damage; no faction-identification requirement. Undercover alone starts armed. Supplier may arm any secret role, including Soldier Blue, under the ordinary weapon rules. Soldier Blue has no special shooting allowance. Public offices grant no weapon or early-shot exception.",
-    condition: (id) => id === "undercover" ? "R4–5 · starts armed" : "R4–5 · Supplier weapon required",
+    condition: (id) => id === "undercover" ? "Starts armed · timing review" : "Supplier weapon required · timing review",
     sources: ["direct-shot-decision.json", "in-person-v1-owner-decisions-2026-10-06.json", "officer-public-office-owner-decision-2026-10-25.json", "soldier-blue-vote-disruption-owner-decision-2026-10-25.json"],
   },
   {

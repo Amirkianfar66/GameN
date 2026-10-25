@@ -3,10 +3,10 @@
   "integrationBase": "db65bb87f05983ff6861d27689ba1b7bab55d051",
   "decisionDate": "2026-10-25",
   "privateSeedSha256": {
-    "initial.json": "fb46486a43610a953632b8bd7a61c74a1e43115849a8a798df5810694e956724",
-    "seed.json": "a2993582af45d49ad8c97a68590413ae01142380364b39dd07467c2d96bdf822",
+    "initial.json": "2b73619451c0e5ca082ba1adcd58b6886539884cc868e1d28b2304616e499c1a",
+    "seed.json": "cf1b724c60847d4547ba9b8d28b8da81afdaf99e2c386849d8999681182d5c46",
     "references.json": "da0c7eda6d7577cfbf614d645b81789d9a4203d9ba3d8a56fead036634070d9d",
-    "owner-decisions.json": "aac6dd2243f4342adab9553eb6b909d7e3da9b16204b4f092fec757af4be6993"
+    "owner-decisions.json": "3019af3f68436215104157a70a0506b0d36c51ee7d4d99f96df6724efebf1442"
   },
   "sitesDatabaseExportRecovered": false,
   "historicalReferenceModified": false,
@@ -34,6 +34,10 @@
     {
       "id": "owner-soldier-blue-replace-shot-with-vote-disruption-2026-10-25",
       "source": "rules/overlays/soldier-blue-vote-disruption-owner-decision-2026-10-25.json"
+    },
+    {
+      "id": "owner-planet-navigation-code-and-information-2026-10-25",
+      "source": "rules/overlays/planet-navigation-code-owner-decisions-2026-10-25.json"
     }
   ]
 }

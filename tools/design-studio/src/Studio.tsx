@@ -147,7 +147,7 @@ function DesignCard({
           </>}
         </div>
       )}
-      <p>{insiderInformation ? "Knows the three people. Which person holds which role is hidden." : c.summary}</p>
+      <p>{c.summary}</p>
       <footer>
         <span>
           {s.approval === "confirmed"
