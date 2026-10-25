@@ -4,8 +4,8 @@ import { actionKeyOf, actionDefinitions, ensureSharedActions, isPublicAction, se
 const information = {
   "soldier-blue": [
     "No special starting information.",
-    "No starting identities or Code information. Knows own Blue role and one ordinary-shot resource.",
-    "Use public observations and claims to decide when and whom to target in Rounds 4–5.",
+    "No starting identities or Code information. Knows own Blue role and once-per-match Vote Disruption resource.",
+    "Use room positions, public observations and claims to decide when to disrupt the opposite room's voters.",
   ],
   insider: [
     "Three identities, without the role mapping.",

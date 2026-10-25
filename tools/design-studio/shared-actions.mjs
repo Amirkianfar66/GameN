@@ -11,13 +11,14 @@ export const actionTypes = {
   protection: { label: "Protection & rescue", color: "#2f744c" },
   blackout: { label: "Blackout", color: "#202329" },
   attack: { label: "Attack", color: "#a83636" },
+  disruption: { label: "Vote disruption", color: "#aa6128" },
   supply: { label: "Supply", color: "#795035" },
   information: { label: "Information", color: "#306997" },
   table: { label: "Table action", color: "#5c6672" },
 };
 const actionTypeKeys = {
   rescue: "protection", "hospital-panel": "protection", protection: "protection", clone: "protection", "captain-release": "protection",
-  blackout: "blackout",
+  blackout: "blackout", "vote-disruption": "disruption",
   "ordinary-shot": "attack", showdown: "attack", "captain-eject": "attack",
   supply: "supply",
   scan: "information", "submit-code": "information", hack: "information",
@@ -62,6 +63,14 @@ export function separatePublicActions(input) {
 // indicate access subject to the card's limits, not unconditional permission.
 export const actionDefinitions = [
   {
+    key: "vote-disruption", title: "Vote Disruption", roles: ["soldier-blue"],
+    summary: "Once per match, stop the opposite room's current players from voting for the rest of this round.",
+    rules: "One Role Main Action on an eligible own turn in A or B. From A target B; from B target A. Fix the players present when used, regardless of faction. They cannot vote until this round ends, even after moving; later arrivals are not added. No starting weapon or one-shot role ability remains. Notification audience and timing still need a design decision.",
+    condition: () => "Once per match · opposite A/B room · fixed players",
+    implementation: "not-implemented",
+    sources: ["soldier-blue-vote-disruption-owner-decision-2026-10-25.json"],
+  },
+  {
     key: "blackout", title: "Blackout", roles: ["blue-disabler", "red-disabler"],
     summary: "One hidden attack mechanic, shared by both Disablers.",
     rules: "Request on a Healthy/free own turn. Admission freezes the actor's room slots. Privately select one slot during the 10-second dark interval; the lifetime use is spent on a valid lock or admitted timeout. Empty, self and body slots are consuming misses. Both legitimate same-slot attacks are retained.",
@@ -77,9 +86,9 @@ export const actionDefinitions = [
   {
     key: "ordinary-shot", title: "Ordinary Shot", roles: roleIds,
     summary: "Shoot a legal same-location target with a usable weapon in Rounds 4–5.",
-    rules: "Choose another living same-location target directly. Healthy/free shooter, Command immunity and defenses apply. One damage; no faction-identification requirement. Undercover and Soldier Blue start armed. Soldier Blue has one ordinary shot per match. Supplier may arm any secret role; an additional weapon does not increase Soldier Blue’s shot allowance. Public offices grant no weapon or early-shot exception.",
-    condition: (id) => id === "soldier-blue" ? "R4–5 · starts armed · one shot per match" : id === "undercover" ? "R4–5 · starts armed" : "R4–5 · Supplier weapon required",
-    sources: ["direct-shot-decision.json", "in-person-v1-owner-decisions-2026-10-06.json", "officer-public-office-owner-decision-2026-10-25.json", "soldier-blue-owner-decision-2026-10-25.json"],
+    rules: "Choose another living same-location target directly. Healthy/free shooter, Command immunity and defenses apply. One damage; no faction-identification requirement. Undercover alone starts armed. Supplier may arm any secret role, including Soldier Blue, under the ordinary weapon rules. Soldier Blue has no special shooting allowance. Public offices grant no weapon or early-shot exception.",
+    condition: (id) => id === "undercover" ? "R4–5 · starts armed" : "R4–5 · Supplier weapon required",
+    sources: ["direct-shot-decision.json", "in-person-v1-owner-decisions-2026-10-06.json", "officer-public-office-owner-decision-2026-10-25.json", "soldier-blue-vote-disruption-owner-decision-2026-10-25.json"],
   },
   {
     key: "supply", title: "Supply Weapons", roles: ["supplier"],
@@ -121,9 +130,9 @@ export const actionDefinitions = [
   {
     key: "vote", title: "Vote", roles: roleIds,
     summary: "Participate in the applicable Captain, Jail or release ballot.",
-    rules: "All non-Eliminated players may vote, including Injured/Jailed. Candidate and target eligibility depend on the ballot. Self-voting is allowed; missing ballots abstain. Individual choices remain private and aggregate results are published at closure.",
-    condition: () => "While non-Eliminated",
-    sources: ["in-person-v1-owner-decisions-2026-10-06.json", "vote-result-owner-decision-2026-10-12.json"],
+    rules: "Non-Eliminated players may vote, including Injured/Jailed, unless affected by Vote Disruption for this round. The fixed affected players are excluded from that ballot's eligible-voter count; movement does not remove the block. Candidate and target eligibility depend on the ballot. Self-voting is allowed; missing ballots abstain. Individual choices remain private and aggregate results are published at closure.",
+    condition: () => "While non-Eliminated and not vote-blocked",
+    sources: ["in-person-v1-owner-decisions-2026-10-06.json", "vote-result-owner-decision-2026-10-12.json", "soldier-blue-vote-disruption-owner-decision-2026-10-25.json"],
   },
   {
     key: "hack", title: "Standard Hack", roles: roleIds,
@@ -220,7 +229,7 @@ export function ensureSharedActions(input) {
       fields: [marker("studio-aspect", "action"), marker("studio-action-key", definition.key), marker("studio-action-origins", JSON.stringify(originalIds)),
         { id: "rules", label: "Action, timing & limits", value: definition.rules, kind: "fact", sources: refs },
         { id: "eligibility", label: "Connected roles & conditions", value: parents.map((r) => `${r.content.title}: ${definition.condition?.(r.id) || "Role ability; action rules apply"}`).join("\n"), kind: "fact", sources: refs }],
-      status: { era: "current", approval: "confirmed", implementation: "presentation-only", evidence: "source-reviewed" }, sources: refs,
+      status: { era: "current", approval: "confirmed", implementation: definition.implementation || "presentation-only", evidence: "source-reviewed" }, sources: refs,
     };
     board.nodes.push({ id, tab: "roles", position: { x: 800, y: actionDefinitions.indexOf(definition) * 260 }, content, source: copy(content), notes: "", proposal: "", archived: parents.every((r) => r.archived) });
     for (const role of parents) board.edges.push({
