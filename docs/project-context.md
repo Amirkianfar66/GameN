@@ -22,8 +22,8 @@ On 26 September 2026, the user requested expressive motion graphics with a comic
 ## Current product and rules
 
 - Hybrid tabletop: face-to-face conversation, a public board and private player phones. Remote voice is a separate possible feature.
-- 7 players: 4 Blue, 2 Red, 1 Alien. 8: 4 Blue, 3 Red, 1 Alien. Six-player mode removed. A new nine-player composition has not been approved. None is balance-validated.
-- Owner decision of 25 October 2026: the former Blue Officer secret role is removed. Officer exists only as the public office appointed by Captain, layered over a secret role, and grants no weapon or early shot. Only Undercover starts with an ordinary weapon. See [the confirmed decision](../rules/overlays/officer-public-office-owner-decision-2026-10-25.json). Historical deployed ruleset tuples remain implementation evidence, not the current design definition.
+- 7 players: 4 Blue, 2 Red, 1 Alien. 8: 4 Blue, 3 Red, 1 Alien. 9: 5 Blue, 3 Red, 1 Alien, with Soldier Blue as the ninth secret role. Six-player mode removed. None is balance-validated.
+- Owner decision of 25 October 2026: the former Blue Officer secret role is removed. Officer exists only as the public office appointed by Captain, layered over a secret role, and grants no weapon or early shot. Undercover starts with an ordinary weapon; in the nine-player setup, Soldier Blue also starts with one ordinary weapon and has one ordinary shot per match, usable in Round 4 or 5 under the same shooting rules. See [the Soldier Blue decision](../rules/overlays/soldier-blue-owner-decision-2026-10-25.json). See [the confirmed decision](../rules/overlays/officer-public-office-owner-decision-2026-10-25.json). Historical deployed ruleset tuples remain implementation evidence, not the current design definition.
 - All ordinary shooting uses direct target selection. Third-player faction identification is archived.
 - Ordinary turn is 60 seconds. Hack is requested within it and adds a separate 60-second conversation after it.
 - Voluntary movement occurs once per round before voting, from Room A/B/Command only. Hospital/Jail do not have free voluntary exit.

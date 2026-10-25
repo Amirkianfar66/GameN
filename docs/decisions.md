@@ -19,7 +19,9 @@ This register separates implementation choices from game-rule approval. The game
 | RULE-008 | Vote/showdown response deadlines and missing input | Unresolved | Game owner |
 | RULE-009 | Disconnect, pause and abort policy | Proposed operating policy not confirmed | Game owner |
 | RULE-010 | Original Power distribution across 7/8/9 modes and special-shot interactions | Requires audit; initial comparative baseline uses powers off | Game owner with Game Balance |
-| RULE-011 | Officer is a public office only | Confirmed 25 October 2026: remove the old Blue Officer secret role and its starting/early shot; do not offer it as an alternative. [Owner decision](../rules/overlays/officer-public-office-owner-decision-2026-10-25.json) | Integration implements a successor ruleset; any new nine-player composition remains unapproved |
+| RULE-011 | Officer is a public office only | Confirmed 25 October 2026: remove the old Blue Officer secret role and its starting/early shot; do not offer it as an alternative. [Owner decision](../rules/overlays/officer-public-office-owner-decision-2026-10-25.json) | Integration implements a successor ruleset; the ninth secret role is resolved by RULE-012 |
+
+| RULE-012 | Ninth secret role: Soldier Blue | Confirmed 25 October 2026: Blue faction, one starting weapon and one ordinary shot per match under Undercover's ordinary-shot rules; nine-player composition is 5 Blue / 3 Red / 1 Alien. [Owner decision](../rules/overlays/soldier-blue-owner-decision-2026-10-25.json) | Integration implements the gameplay successor; Officer stays a separate public office |
 
 Confirmed ordinary turns and Standard Hack conversations each last 60 seconds. Neither this register nor a UI countdown invents durations for the unresolved phases.
 
