@@ -2,6 +2,11 @@ import { copy } from "./model.mjs";
 import { actionKeyOf, actionDefinitions, ensureSharedActions, isPublicAction, separatePublicActions, isCaptainAction, isCaptainPrivilege, ensureCaptainPrivilege } from "./shared-actions.mjs";
 
 const information = {
+  "soldier-blue": [
+    "No special starting information.",
+    "No starting identities or Code information. Knows own Blue role and one ordinary-shot resource.",
+    "Use public observations and claims to decide when and whom to target in Rounds 4–5.",
+  ],
   insider: [
     "Three identities, without the role mapping.",
     "Privately starts with the unordered identities of Undercover, Alien and Cracker. The assignment of those roles is unknown.",
@@ -54,7 +59,7 @@ export const aspectOf = (node) =>
 export const parentRoleOf = (node) =>
   node?.content.fields.find((f) => f.id === "studio-parent-role")?.value ||
   null;
-const readingOrder = ["cracker", "undercover", "alien", "supplier", "blue-disabler", "red-disabler", "hacker", "officer", "insider"];
+const readingOrder = ["cracker", "undercover", "soldier-blue", "alien", "supplier", "blue-disabler", "red-disabler", "hacker", "officer", "insider"];
 const roleOrder = (node) => {
   const index = readingOrder.indexOf(node.id);
   return index < 0 ? readingOrder.length : index;

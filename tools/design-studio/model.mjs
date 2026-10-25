@@ -310,7 +310,7 @@ export function applyOwnerUpdates(board, incoming) {
   const result = applyRefresh(board, {
     ...incoming,
     nodes: incoming.nodes.filter(node => ids.has(node.id)),
-    edges: [],
+    edges: incoming.edges.filter(edge => ids.has(edge.source) || ids.has(edge.target)),
   });
   for (const node of result.nodes) if (retired.has(node.id)) node.archived = true;
   for (const edge of result.edges) {

@@ -1,6 +1,6 @@
 import { copy } from "./model.mjs";
 
-const roleIds = ["insider", "cracker", "blue-disabler", "supplier", "undercover", "hacker", "red-disabler", "alien"];
+const roleIds = ["insider", "cracker", "blue-disabler", "supplier", "undercover", "hacker", "red-disabler", "alien", "soldier-blue"];
 const fieldValue = (node, id) => node?.content.fields.find((f) => f.id === id)?.value;
 export const actionKeyOf = (node) => fieldValue(node, "studio-action-key") || null;
 const publicActionKeys = new Set(["ordinary-shot", "movement", "vote", "hack", "showdown"]);
@@ -77,9 +77,9 @@ export const actionDefinitions = [
   {
     key: "ordinary-shot", title: "Ordinary Shot", roles: roleIds,
     summary: "Shoot a legal same-location target with a usable weapon in Rounds 4–5.",
-    rules: "Choose another living same-location target directly. Healthy/free shooter, Command immunity and defenses apply. One damage; no faction-identification requirement. Only Undercover starts armed. Supplier may arm any secret role. Public offices grant no weapon or early-shot exception.",
-    condition: (id) => id === "undercover" ? "R4–5 · starts armed" : "R4–5 · Supplier weapon required",
-    sources: ["direct-shot-decision.json", "in-person-v1-owner-decisions-2026-10-06.json", "officer-public-office-owner-decision-2026-10-25.json"],
+    rules: "Choose another living same-location target directly. Healthy/free shooter, Command immunity and defenses apply. One damage; no faction-identification requirement. Undercover and Soldier Blue start armed. Soldier Blue has one ordinary shot per match. Supplier may arm any secret role; an additional weapon does not increase Soldier Blue’s shot allowance. Public offices grant no weapon or early-shot exception.",
+    condition: (id) => id === "soldier-blue" ? "R4–5 · starts armed · one shot per match" : id === "undercover" ? "R4–5 · starts armed" : "R4–5 · Supplier weapon required",
+    sources: ["direct-shot-decision.json", "in-person-v1-owner-decisions-2026-10-06.json", "officer-public-office-owner-decision-2026-10-25.json", "soldier-blue-owner-decision-2026-10-25.json"],
   },
   {
     key: "supply", title: "Supply Weapons", roles: ["supplier"],

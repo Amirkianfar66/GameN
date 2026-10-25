@@ -3,10 +3,10 @@
   "integrationBase": "db65bb87f05983ff6861d27689ba1b7bab55d051",
   "decisionDate": "2026-10-25",
   "privateSeedSha256": {
-    "initial.json": "b4f2ab98138cdf1736210253c7bcb16d0b6c592c432bf99b05ce8196fa6e574f",
-    "seed.json": "15ed53a12225a5cb1d58537b33b2397feee35695ea0b4aae48c162fca1f8fb67",
+    "initial.json": "5c3ed756f3f9f04d21b4078c4ab15a6338c54682164115f527d109b699f30019",
+    "seed.json": "fab425fb9f1e72f04b2acb6a566673b071005b88cdf801769f98e9e60dd3f95c",
     "references.json": "da0c7eda6d7577cfbf614d645b81789d9a4203d9ba3d8a56fead036634070d9d",
-    "owner-decisions.json": "d250a89ed7ff627e8612284ce6c50360ab52472eee0985f400b87f20a77076e8"
+    "owner-decisions.json": "4ca19c0066457501a0f608ae0a8d894a9802334e08aa524b59a634ff26e70cc3"
   },
   "sitesDatabaseExportRecovered": false,
   "historicalReferenceModified": false,
@@ -14,6 +14,10 @@
     {
       "id": "owner-officer-public-office-2026-10-25",
       "source": "rules/overlays/officer-public-office-owner-decision-2026-10-25.json"
+    },
+    {
+      "id": "owner-soldier-blue-nine-player-2026-10-25",
+      "source": "rules/overlays/soldier-blue-owner-decision-2026-10-25.json"
     }
   ]
 }
