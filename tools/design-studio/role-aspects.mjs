@@ -9,7 +9,7 @@ const information = {
   ],
   insider: [
     "Three identities plus self give the complete Code.",
-    "Privately starts with the unordered identities of Undercover, Alien and Cracker, without their role mapping. Adding own number gives the complete four-member Code.",
+    "Privately starts with the unordered identities of Undercover, Alien and Doctor, without their role mapping. Adding own number gives the complete four-member Code.",
     "Use the ambiguous trio to compare claims and negotiate trust. Revealing the trio can expose the source of the clue.",
   ],
   cracker: [

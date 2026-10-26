@@ -80,13 +80,13 @@ export const actionDefinitions = [
   {
     key: "rescue", title: "Rescue", roles: ["cracker"],
     summary: "Heal an Injured player at the Rescue stage. Two uses per match.",
-    rules: "Target self or a same-location living player; from A/B, Hospital targets are allowed remotely. Injured, unjailed Cracker may Rescue self only. Jail prevents Rescue. Cannot revive an Eliminated player; accepted no-effect Rescue still spends a use.",
+    rules: "Target self or a same-location living player; from A/B, Hospital targets are allowed remotely. Injured, unjailed Doctor may Rescue self only. Jail prevents Rescue. Cannot revive an Eliminated player; accepted no-effect Rescue still spends a use.",
     sources: ["v2.1-decisions.json", "in-person-v1-owner-decisions-2026-10-06.json"],
   },
   {
     key: "ordinary-shot", title: "Ordinary Shot", roles: roleIds,
     summary: "Shoot a legal same-location target with a usable weapon; the legacy R4–5 window needs successor review.",
-    rules: "Choose another living same-location target directly. Healthy/free shooter, Command immunity and defenses apply. One damage; no faction-identification requirement. Undercover alone starts armed. Supplier may arm any secret role, including Soldier Blue, under the ordinary weapon rules. Soldier Blue has no special shooting allowance. Public offices grant no weapon or early-shot exception.",
+    rules: "Choose another living same-location target directly. Healthy/free shooter, Command immunity and defenses apply. One damage; no faction-identification requirement. Undercover alone starts armed. Supplier may arm any secret role, including Engineer, under the ordinary weapon rules. Engineer has no special shooting allowance. Public offices grant no weapon or early-shot exception.",
     condition: (id) => id === "undercover" ? "Starts armed · timing review" : "Supplier weapon required · timing review",
     sources: ["direct-shot-decision.json", "in-person-v1-owner-decisions-2026-10-06.json", "officer-public-office-owner-decision-2026-10-25.json", "soldier-blue-vote-disruption-owner-decision-2026-10-25.json"],
   },
@@ -112,7 +112,7 @@ export const actionDefinitions = [
   {
     key: "submit-code", title: "Submit Code", roles: ["hacker"],
     summary: "One final attempt to unlock Hack Spaceship; submission does not move the ship.",
-    rules: "From Round 2 onward before navigation, submit the unordered original player numbers of Undercover, Alien, Insider and Cracker. One final submission in the entire match. Wrong Code consumes the opportunity and does not unlock the hack. Correct Code permanently replaces Scan with Hack Spaceship, without activating it. Existing identity membership survives elimination. New activation cost and eligibility are separate open details.",
+    rules: "From Round 2 onward before navigation, submit the unordered original player numbers of Undercover, Alien, Insider and Doctor. One final submission in the entire match. Wrong Code consumes the opportunity and does not unlock the hack. Correct Code permanently replaces Scan with Hack Spaceship, without activating it. Existing identity membership survives elimination. New activation cost and eligibility are separate open details.",
     implementation: "not-implemented",
     sources: ["planet-navigation-code-owner-decisions-2026-10-25.json"],
   },
@@ -140,7 +140,7 @@ export const actionDefinitions = [
   {
     key: "vote", title: "Vote", roles: roleIds,
     summary: "Participate in the applicable Captain, Jail or release ballot.",
-    rules: "Non-Eliminated players may vote, including Injured/Jailed. Soldier Blue affects navigation weight only and does not block these ballots or change voter counts. Candidate and target eligibility depend on the ballot. Self-voting is allowed; missing ballots abstain. Individual choices remain private and aggregate results are published at closure.",
+    rules: "Non-Eliminated players may vote, including Injured/Jailed. Engineer affects navigation weight only and does not block these ballots or change voter counts. Candidate and target eligibility depend on the ballot. Self-voting is allowed; missing ballots abstain. Individual choices remain private and aggregate results are published at closure.",
     condition: () => "While non-Eliminated · ballot eligibility applies",
     sources: ["in-person-v1-owner-decisions-2026-10-06.json", "vote-result-owner-decision-2026-10-12.json", "planet-navigation-code-owner-decisions-2026-10-25.json"],
   },

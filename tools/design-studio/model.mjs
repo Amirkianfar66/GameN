@@ -89,6 +89,10 @@ export const BoardSchema = z
       id,
       nodeIds: z.array(id).max(1500),
       retiredNodeIds: z.array(id).max(1500),
+      roleRenames: z.array(z.object({
+        from: z.string().min(1).max(160),
+        to: z.string().min(1).max(160),
+      }).strict()).max(20).optional(),
     }).strict()).max(100).optional(),
     appliedOwnerUpdates: z.array(id).max(100).optional(),
     roleLayoutVersion: z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4), z.literal(5)]).optional(),
@@ -315,6 +319,26 @@ export function applyOwnerUpdates(board, incoming) {
   for (const node of result.nodes) if (retired.has(node.id)) node.archived = true;
   for (const edge of result.edges) {
     if (retired.has(edge.source) || retired.has(edge.target)) edge.archived = true;
+  }
+  // A confirmed terminology correction also applies to current customized text
+  // and existing edge captions. Stable IDs, source evidence, owner node notes,
+  // proposals and archived cards remain untouched; saving creates a new revision.
+  for (const rename of updates.flatMap(update => update.roleRenames || [])) {
+    const pattern = new RegExp(`\\b${rename.from.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`, "gi");
+    const renamed = value => value.replace(pattern, match =>
+      match === match.toUpperCase() ? rename.to.toUpperCase() : rename.to);
+    for (const node of result.nodes.filter(node => !node.archived)) {
+      node.content.title = renamed(node.content.title);
+      node.content.summary = renamed(node.content.summary);
+      for (const field of node.content.fields.filter(field => !field.id.startsWith("studio-"))) {
+        field.label = renamed(field.label);
+        field.value = renamed(field.value);
+      }
+    }
+    for (const edge of result.edges.filter(edge => !edge.archived)) {
+      edge.label = renamed(edge.label);
+      edge.notes = renamed(edge.notes);
+    }
   }
   result.appliedOwnerUpdates = [...applied, ...updates.map(update => update.id)];
   return parseBoard(result);

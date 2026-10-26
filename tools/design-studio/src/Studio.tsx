@@ -137,7 +137,7 @@ function DesignCard({
         <div className="aspect-caption">
           {insiderInformation ? <>
             Insider · Private at setup<br />
-            <strong>Undercover · Alien · Cracker</strong>
+            <strong>Undercover · Alien · Doctor</strong>
           </> : <>
           {appearance && <><strong>{appearance.label}</strong><br /></>}
           {isPublicAction(n) ? "Available to any role · eligibility applies" : actionKeyOf(n) ? (data.roleNames.length > 2 ? "Connected roles · select to trace" : data.roleNames.join(" · ")) : aspectOf(n) === "information"

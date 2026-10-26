@@ -1,12 +1,12 @@
 {
   "importedStudioCommit": "9f5ac4f45589935fb2ed1027f0d54ebcd7017138",
   "integrationBase": "db65bb87f05983ff6861d27689ba1b7bab55d051",
-  "decisionDate": "2026-10-25",
+  "decisionDate": "2026-10-26",
   "privateSeedSha256": {
-    "initial.json": "2b73619451c0e5ca082ba1adcd58b6886539884cc868e1d28b2304616e499c1a",
-    "seed.json": "cf1b724c60847d4547ba9b8d28b8da81afdaf99e2c386849d8999681182d5c46",
-    "references.json": "8e088874727f9f00b877d1ca5f2dce236525c3a08bcac6ac86b4056fd7e4595c",
-    "owner-decisions.json": "3019af3f68436215104157a70a0506b0d36c51ee7d4d99f96df6724efebf1442"
+    "initial.json": "1a6b9113773f8d3182e3db15b81039403bdc30b5d09e176de96661a9e1ecadef",
+    "seed.json": "50b407c86d10a639ee8f5e24e7dde25011f5e56b64f3cda58d51ffe0260554f1",
+    "references.json": "362ec342820dce58c8b2940a370f6529da1f77bcd6dde0295a47893a327e301a",
+    "owner-decisions.json": "b0c30b02efe78141025ddb6bb0fd3b131b8247c8e13c481caebff948d7e74ed8"
   },
   "sitesDatabaseExportRecovered": false,
   "historicalReferenceModified": false,
@@ -38,6 +38,10 @@
     {
       "id": "owner-planet-navigation-code-and-information-2026-10-25",
       "source": "rules/overlays/planet-navigation-code-owner-decisions-2026-10-25.json"
+    },
+    {
+      "id": "owner-role-names-engineer-doctor-2026-10-26",
+      "source": "rules/overlays/role-names-owner-decision-2026-10-26.json"
     }
   ]
 }
