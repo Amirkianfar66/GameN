@@ -4,7 +4,8 @@ Mothership is a premium comic-book card/board social-deduction game. The user pr
 
 ## Current artifacts
 
-- Existing Design Canvas: https://mothership-design-canvas.amirkianfar.chatgpt.site
+- Owner design reference: **GameN Design Studio**, linked from the webapp's **Development** section at `/development/design-studio/`. Its private, editable decisions guide subsequent gameplay integration. See [Studio provenance and access](../tools/design-studio/README.md).
+- Historical Design Canvas: https://mothership-design-canvas.amirkianfar.chatgpt.site
 - Existing `/playtest` is a facilitator prototype, not the server-authoritative production runtime.
 - `docs/architecture/production-v1.0.md` is the detailed previous architecture design.
 - `docs/architecture/rendering-direction.md` records the later Three.js discussion and its evaluation status.
@@ -12,7 +13,7 @@ Mothership is a premium comic-book card/board social-deduction game. The user pr
 - The existing Canvas/facilitator source is copied under `reference/design-canvas/`; export provenance and live-data limitations are in `reference/README.md`.
 - `CODEX_START_HERE.md` carries the project into Codex with bootstrap and four role prompts.
 
-The production game is a separate runtime from the Design Canvas. Canvas publishing eventually exports validated immutable rulesets. Nothing in this handoff migrates or republishes the existing Site.
+The production game is a separate runtime from the design authoring tools. The original handoff did not migrate a Site. The owner-authorized 25 October 2026 update moves the actual GameN Design Studio to GameN hosting; source snapshots and the latest owner decisions are available, but the previous Sites database and its remote revision history were not recovered. Studio saves do not modify an active match or activate a new ruleset.
 
 ## Motion direction
 
@@ -20,18 +21,22 @@ On 26 September 2026, the user requested expressive motion graphics with a comic
 
 ## Current product and rules
 
+- Role names confirmed on 26 October 2026: **Engineer** replaces Soldier Blue; **Doctor** replaces Cracker. This changes terminology only. Historical source names and stable identities are preserved. See the [role-name decision](../rules/overlays/role-names-owner-decision-2026-10-26.json).
 - Hybrid tabletop: face-to-face conversation, a public board and private player phones. Remote voice is a separate possible feature.
-- 7 players: 4 Blue, 2 Red, 1 Alien. 8: 4 Blue, 3 Red, 1 Alien. 9: 5 Blue, 3 Red, 1 Alien. Six-player mode removed. None is balance-validated.
-- Officer belongs to the nine-player mode only: one ordinary shot total from Round 1; no extra ordinary shot from Supplier.
+- 7 players: 4 Blue, 2 Red, 1 Alien. 8: 4 Blue, 3 Red, 1 Alien. 9: 5 Blue, 3 Red, 1 Alien, with Engineer as the ninth secret role. Six-player mode removed. None is balance-validated.
+- Owner decision of 25 October 2026: the former Blue Officer secret role is removed. Officer exists only as the public office appointed by Captain, layered over a secret role, and grants no weapon or early shot. Undercover alone starts with an ordinary weapon. Engineer now has the once-per-match Navigation Disruption Role Action: fix the opposite A/B room's occupants at activation; only their navigation weight is suppressed through that round, even after movement. Captain, Jail and all other ballots remain unaffected. This replaces its starting weapon and one-shot role ability; shared Supplier weapons remain available under ordinary rules. See [the latest navigation and Code decision](../rules/overlays/planet-navigation-code-owner-decisions-2026-10-25.json). See [the confirmed decision](../rules/overlays/officer-public-office-owner-decision-2026-10-25.json). Historical deployed ruleset tuples remain implementation evidence, not the current design definition.
 - All ordinary shooting uses direct target selection. Third-player faction identification is archived.
 - Ordinary turn is 60 seconds. Hack is requested within it and adds a separate 60-second conversation after it.
 - Voluntary movement occurs once per round before voting, from Room A/B/Command only. Hospital/Jail do not have free voluntary exit.
 - Only Captain enters Command. Leaving does not itself remove the title. Immunity requires being inside.
-- End-round order: Jail vote, registered attacks/actions and defenses, Rescue, Round 3 Supplier distribution, elimination/permitted reveals, victory, next-Captain flag.
+- Current navigation is after action results and Jail voting, using A/B occupancy then. Captain and Officer privately confirm the final direction without numbers; Officer chooses ties. Pre-vote Blackhole Sync remains confirmed. Exact integration with the historical detailed resolution stages is still open.
+- Owner design of 25 October 2026: every living Hospital patient has one lifetime panel code attempt. The code is Doctor's player number. Wrong code spends only that attempt; correct code immediately reserves one of the two heals shared with Doctor and queues self-Rescue for the same round's Rescue stage. This shared Public Onboard Action adds no extra healing pool. [Hospital panel decision](../rules/overlays/hospital-panel-owner-decision-2026-10-25.json). [Confirmed Blackhole clarification](../rules/overlays/hospital-panel-blackhole-owner-decision-2026-10-25.json): each reality carries its own remaining shared healing pool, and Sync keeps only the selected healing state and costs. Branching does not refill it. [Confirmed attempt rule](../rules/overlays/hospital-panel-attempt-owner-decision-2026-10-25.json): a correct or incorrect attempt remains spent globally, even when its reality is discarded at Sync. Gameplay implementation remains pending.
 - A validly registered action survives later injury/Jail/elimination of its actor.
 - Undercover may grant Protection to self; a player can receive it only once per match. Activation is at the next normal round.
-- Hacker has one Code attempt anytime during Round 5.
-- Conditional final showdown follows normal Round 5 if no winner. All non-eliminated participants, including Injured/Jailed, receive a separate special shot. Targets are registered before resolution; shots resolve in Round 5 turn order even if the shooter is eliminated in between. Recheck victory, else draw.
+- Planet arrival replaces the five-round cap, old elimination/power/Code victory and Final Showdown. The Y route has a common Round 1 step and three spaces per arm; changing direction switches to the same depth on the other arm. Captain's automatic 2x weight is included; Alien has no directional weight. Alien co-wins with either destination team if alive and Blackhole was performed.
+- Code consists of Undercover, Alien, Insider and Doctor player numbers, unordered. Alien no longer receives the full Code. Insider's unordered trio plus self gives the full set; Hacker and Red Disabler know Undercover.
+- Hacker: wrong Scan spends the current Scan and blocks the whole next round. One final Code attempt from Round 2 onward before navigation; success permanently replaces Scan with Hack Spaceship, without activating it. The player chooses when to use the once-per-match Red-direction override. It adds no movement. New activation cost/eligibility is not yet approved.
+- The [complete owner record](design/owner-decisions-2026-10-25.md) and [latest overlay](../rules/overlays/planet-navigation-code-owner-decisions-2026-10-25.json) take precedence. These are design-reference changes; existing runtime tuples remain historical implementation evidence.
 - Original Powers are optional. Base-game validity does not depend on them.
 
 Read the bundled source files for full role eligibility, information, defenses and victory rules. Do not reinterpret this summary as a complete executable rulebook.
@@ -50,7 +55,7 @@ Read the bundled source files for full role eligibility, information, defenses a
 
 ## Decisions that remain open
 
-Hospital/release destination and move consumption; Captain routing and the deferred no-candidate case; Cracker Hospital access; target location checks at resolution; order within shared normal-round resolution stages; exact Code victory checkpoint; timing/abstention for votes and showdown; disconnect/pause policy; exact recipients of private effect disclosures.
+Hospital/release destination and move consumption; Captain/Officer confirmation deadlines and unavailable-office handling; Captain multiplier under suppression; Doctor Hospital access; target location checks at resolution; detailed Blackhole/action/vote/navigation stage integration; new Hack Spaceship cost and eligibility; legacy round-bound ability windows; voting missing-input rules; disconnect/pause policy; private effect and navigation-disruption disclosure. See RULE-014/RULE-015 and the latest overlay for exact open items.
 
 Spoken Hack truthfulness cannot be automatically verified for arbitrary questions. The app can control eligibility and timing, while the social disclosure rule remains a player responsibility.
 

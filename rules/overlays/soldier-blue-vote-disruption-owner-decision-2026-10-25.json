@@ -1,0 +1,46 @@
+{
+  "decision_id": "soldier-blue-vote-disruption-2026-10-25",
+  "status": "owner-confirmed-design",
+  "decided_on": "2026-10-25",
+  "owner_instruction": "Replace the ninth role Soldier Blue's ability: once in the match, disrupt the players in the other room so they cannot vote during that round.",
+  "supersedes": [
+    "rules/overlays/soldier-blue-owner-decision-2026-10-25.json: starting ordinary weapon, one ordinary-shot ability, its Round 4/5 timing and special Supplier shot cap"
+  ],
+  "confirmed_rules": [
+    {
+      "id": "SB-VOTE-01",
+      "rule": "Soldier Blue remains the ninth secret role, on the Blue team and present only in nine-player games. Its role ability is now Vote Disruption, usable once in the entire match for one round."
+    },
+    {
+      "id": "SB-VOTE-02",
+      "rule": "The ability affects the other A/B room: from Room A it targets Room B; from Room B it targets Room A. It affects the players in that room, regardless of faction, rather than one individually selected player."
+    },
+    {
+      "id": "SB-VOTE-03",
+      "rule": "Fix the affected player identities when the ability is used. Those players cannot vote for the remainder of that round, even if they subsequently move. Later entrants are not added to the fixed target set."
+    },
+    {
+      "id": "SB-VOTE-04",
+      "rule": "The restriction expires at the end of the activation round. It prevents voting, not speech, movement, other otherwise-eligible actions, or being a candidate or target. It deals no damage."
+    },
+    {
+      "id": "SB-VOTE-05",
+      "rule": "This replaces the previous starting-weapon/one-shot role ability. Soldier Blue has no starting ordinary weapon or special ordinary-shot allowance. Ordinary Supplier-granted weapons and the separate final-showdown shot follow the same shared rules as other roles."
+    }
+  ],
+  "target_confirmation": {
+    "question": "Determine the affected players when the power is used, so those same people stay unable to vote until round end even if they move, or determine them when voting starts?",
+    "answer": "The players present when the power is used.",
+    "language_note": "English translation of the owner instruction and explicit target-timing confirmation."
+  },
+  "existing_rule_application": [
+    "Vote Disruption is a Role Main Action, using the ordinary Healthy/free own-turn eligibility. Using it consumes that turn's Role Main Action and its once-per-match use. It does not consume the separate Public Action or movement allowance.",
+    "The other-room requirement is defined from A or B. This decision grants no use from Command, Hospital or Jail, no additional movement and no access while ordinary role actions are disabled.",
+    "The ability must take effect before the affected ballots, so do not defer its voting restriction to the ordinary post-vote attack stage. It does not alter previously completed ballots or a later round's election.",
+    "Existing ballot thresholds use the eligible voters for that ballot. A player blocked from voting is not counted as an eligible voter; they are not represented as an abstaining eligible voter.",
+    "No new Blackhole exception is introduced. The registered disruption, fixed targets and action cost follow the actor-reality and selected-reality rules. The broader pre-vote Sync integration remains a separate pending gameplay task."
+  ],
+  "unchanged": "The nine-player composition stays 5 Blue / 3 Red / 1 Alien. Soldier Blue has no special starting information. Captain and Officer remain public offices. Undercover alone starts with an ordinary weapon.",
+  "remaining_design_detail": "Decide the audience and timing of blocked-voter notifications before gameplay implementation. The design card does not authorize publicly identifying Soldier Blue as the actor.",
+  "implementation_boundary": "Design Studio reference only. No engine implementation, deployed ruleset change or rewrite of historical match versions is included."
+}

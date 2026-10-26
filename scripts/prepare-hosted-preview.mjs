@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto';
-import { readFile, writeFile, readdir } from 'node:fs/promises';
+import { readFile, writeFile, readdir, cp } from 'node:fs/promises';
 import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
@@ -19,6 +19,10 @@ const output = join(root, 'dist/hosted-preview');
 await writeFile(join(output, 'preview-config.json'), JSON.stringify(config, null, 2) + '\n');
 const exclusion = checkProductionExclusion(workspaceOptions(root, [output]));
 if (exclusion.problems.length) throw new Error(exclusion.problems.join('\n'));
+// Studio has its own pinned dependencies and build. It never enters the game bundle.
+const studio = join(root, 'tools/design-studio');
+execFileSync(process.execPath, [join(studio, 'node_modules/vite/bin/vite.js'), 'build'], { cwd: studio, stdio: 'inherit' });
+await cp(join(studio, 'dist/client'), join(output, 'development/design-studio'), { recursive: true });
 const files = [];
 async function scan(directory) {
   for (const item of await readdir(directory, { withFileTypes: true })) {
@@ -41,6 +45,10 @@ const release = { kind: 'hosted-playtest-preview', sourceCommit, sourceDirty, pr
 await writeFile(join(output, 'preview-release.json'), JSON.stringify(release, null, 2) + '\n');
 const csp = createHostedPreviewCsp(config.projectId);
 const hosting = { hosting: { site: config.projectId, public: 'hosted-preview',
+  rewrites: [
+    { source: '/development/design-studio/api/**', function: { functionId: 'designStudioApi', region: 'us-central1' } },
+    { source: '/development/design-studio{,/**}', destination: '/development/design-studio/index.html' },
+  ],
   ignore: ['firebase.json', '**/.*', '**/node_modules/**'],
   headers: [{ source: '**', headers: [
     { key: 'Cache-Control', value: 'no-store' }, { key: 'Content-Security-Policy', value: csp },

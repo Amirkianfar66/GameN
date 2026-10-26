@@ -1,0 +1,47 @@
+{
+  "decision_id": "soldier-blue-nine-player-2026-10-25",
+  "status": "owner-confirmed-design",
+  "owner_instruction": "Use Soldier Blue as the ninth secret role: a Blue team player with one shot in the game, like Undercover.",
+  "supersedes": [
+    "rules/overlays/officer-public-office-owner-decision-2026-10-25.json: STARTING-WEAPON and the unresolved nine-player setup follow-up",
+    "rules/overlays/player-modes-officer.json: ninth secret-role slot"
+  ],
+  "role": {
+    "id": "soldier-blue",
+    "name": "Soldier Blue",
+    "faction": "Blue",
+    "player_counts": [
+      9
+    ],
+    "starting_ordinary_weapons": 1,
+    "ordinary_shots_per_match": 1,
+    "ordinary_shot_rounds": [
+      4,
+      5
+    ],
+    "shot_rules": "Use the same ordinary-shot timing, own-turn, same-location targeting, damage, shooter eligibility and defensive interactions as Undercover. The shot deals one damage. No early-round shooting privilege.",
+    "starting_information": "No special starting identities or Code information.",
+    "other_abilities": "No Undercover Protection or permission to lie in Hack is copied. Officer remains a separate public office appointed by Captain.",
+    "supplier_interaction": "Existing role-independent Supplier targeting remains. An additional weapon does not increase Soldier Blue's one ordinary shot per match.",
+    "showdown": "The existing final-showdown special shot is separate from this ordinary-shot allowance."
+  },
+  "nine_player_setup": {
+    "Blue": [
+      "Insider",
+      "Cracker",
+      "Blue Disabler",
+      "Supplier",
+      "Soldier Blue"
+    ],
+    "Red": [
+      "Undercover",
+      "Hacker",
+      "Red Disabler"
+    ],
+    "Alien": [
+      "Alien"
+    ]
+  },
+  "unchanged": "Seven- and eight-player setups and the public Captain/Officer design are unchanged. Do not restore the former Blue Officer secret role.",
+  "implementation_boundary": "Confirmed design for GameN Design Studio. A reviewed gameplay successor is still needed; existing engine tuples and active match histories are not rewritten."
+}

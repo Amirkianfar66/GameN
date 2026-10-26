@@ -1,0 +1,41 @@
+{
+  "decision_id": "hospital-panel-blackhole-healing-state-2026-10-25",
+  "status": "owner-confirmed-design",
+  "decided_on": "2026-10-25",
+  "authority": "The game owner confirmed that healing inventory follows the selected reality together with its actions. The previous assumption of one simultaneous healing inventory across all realities was not owner-approved.",
+  "supersedes": [
+    "rules/overlays/hospital-panel-owner-decision-2026-10-25.json: Blackhole integration follow-up, only the healing-pool and healing-effect selection question"
+  ],
+  "confirmed_rules": [
+    {
+      "id": "BH-PANEL-01",
+      "rule": "Each Blackhole reality has its own state for the healing pool shared by Cracker Rescue and the Hospital panel. The pool is shared by those two access paths within a reality, not simultaneously across all realities."
+    },
+    {
+      "id": "BH-PANEL-02",
+      "rule": "A new reality inherits the existing healing inventory and reservations at the branch point under the existing Blackhole copy rule. Branching does not refill the pool or grant two new healing injections. Within each reality, the original match-wide supply remains two and accepted reservations cannot exceed that reality's remaining inventory."
+    },
+    {
+      "id": "BH-PANEL-03",
+      "rule": "Use the existing actor-reality rule for a Rescue or Hospital-panel request. At Sync, retain only the selected reality's healing registrations/effects and corresponding reserved/spent inventory together. Discard the other realities' healing effects and healing-injection costs; do not combine or add their pools."
+    },
+    {
+      "id": "BH-PANEL-04",
+      "rule": "Hospital still does not create a new reality; only the existing A/B crossing does. This does not exempt healing inventory from the selected-reality action/cost rule."
+    },
+    {
+      "id": "BH-PANEL-05",
+      "rule": "A correct panel code still reserves one available injection immediately in the relevant reality. Retaining that request at Sync does not create an immediate heal: it follows the agreed Rescue stage at the end of the same round, with the existing eligibility and no-revival rules."
+    }
+  ],
+  "owner_confirmation": {
+    "explanation": "With one injection remaining, a patient may reserve it through the panel in Original while Cracker reserves it for another patient in Beta. Only one reality is selected, so only that reality's healing request and injection cost survive.",
+    "question": "Healing inventory is therefore determined together with the actions of the selected reality. Is that what you mean?",
+    "answer": "Correct."
+  },
+  "not_decided_by_this_confirmation": [
+    "The patient's lifetime panel-attempt flag is distinct from the healing-injection inventory. Whether Sync restores an attempt made in a discarded reality remains to be specified; do not silently decide it from this healing-pool confirmation.",
+    "The broader pre-vote Blackhole Sync and normal end-round resolution integration remains separate. This clarification does not move the agreed Rescue stage."
+  ],
+  "implementation_boundary": "Design reference only. Existing historical records, engine behavior, active matches and deployed gameplay tuples remain unchanged."
+}
