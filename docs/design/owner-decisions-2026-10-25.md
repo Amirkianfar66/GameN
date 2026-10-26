@@ -2,6 +2,8 @@
 
 Status: owner-confirmed design reference; gameplay integration pending. Recorded from the GameN design conversation `01a14f15-9d9a-7811-b0e2-477b23bd9f1b`, including the final correction removing Alien's full-Code starting information. This record does not claim a gameplay release or balance validation.
 
+Terminology updated on 26 October 2026: **Engineer** is the former Soldier Blue and **Doctor** is the former Cracker. Their abilities and identities are unchanged. Current wording below uses the [confirmed new names](../../rules/overlays/role-names-owner-decision-2026-10-26.json); the dated source overlays retain the original wording.
+
 The machine-readable [navigation and Code overlay](../../rules/overlays/planet-navigation-code-owner-decisions-2026-10-25.json) is the latest rule authority for the changes below. Earlier overlays and source snapshots are retained as evidence. The Design Studio at `/development/design-studio/` remains the editable owner reference.
 
 ## Spaceship navigation and victory
@@ -28,13 +30,13 @@ flowchart BT
 
 Vertical links advance on the current side; horizontal links switch sides and each consumes that round's one movement.
 
-## Soldier Blue
+## Engineer
 
 The ninth secret role stays Blue and has no starting weapon. Its once-per-match Role Action fixes the players currently in the opposite A/B room. Those identities lose navigation weight through that round, even if they move; later arrivals are not included. Captain, Jail and all other ballots are unaffected. The earlier Vote Disruption wording is superseded. Ordinary Supplier weapon access remains.
 
 ## Code and Hacker progression
 
-Code is the unordered set of the original player numbers of **Undercover, Alien, Insider and Cracker**. These are player numbers, not four role-name strings. Membership does not change when a member is eliminated or moved offboard.
+Code is the unordered set of the original player numbers of **Undercover, Alien, Insider and Doctor**. These are player numbers, not four role-name strings. Membership does not change when a member is eliminated or moved offboard.
 
 | Stage | Confirmed behavior |
 | --- | --- |
@@ -49,11 +51,11 @@ The final submission limit and later activation limit are separate. Discovery ma
 
 | Role | Starting information / direct consequence |
 | --- | --- |
-| Insider | Receives the three identities of Undercover, Alien and Cracker without their role mapping. Adding their own number gives the complete Code. |
+| Insider | Receives the three identities of Undercover, Alien and Doctor without their role mapping. Adding their own number gives the complete Code. |
 | Alien | No longer receives Code. Knows only their own Code membership from the fixed public composition. |
 | Hacker | Knows Undercover's identity and therefore one confirmed Code member. |
 | Red Disabler | Knows Undercover's identity and therefore one confirmed Code member. |
-| Undercover and Cracker | Each can infer their own membership from the fixed Code composition; no extra identity packet is added. |
+| Undercover and Doctor | Each can infer their own membership from the fixed Code composition; no extra identity packet is added. |
 | Other roles | No extra secret starting information is introduced. |
 
 ## Four event records retained
@@ -67,7 +69,7 @@ The full records remain in Design Studio's **Development Ideas** tab. This list 
 
 ## Hospital panel retained
 
-A living Hospital patient may make one lifetime attempt using Cracker's player number. Wrong input spends only the attempt. Correct accepted input reserves one of the two heals shared with Cracker and queues self-Rescue for that round's Rescue stage; it does not instantly heal or revive. During Blackhole the healing pool is per reality and only the chosen pool/effects survive, without refills; the patient's attempt remains spent globally. See the [panel](../../rules/overlays/hospital-panel-owner-decision-2026-10-25.json), [healing inventory](../../rules/overlays/hospital-panel-blackhole-owner-decision-2026-10-25.json) and [attempt](../../rules/overlays/hospital-panel-attempt-owner-decision-2026-10-25.json) decisions.
+A living Hospital patient may make one lifetime attempt using Doctor's player number. Wrong input spends only the attempt. Correct accepted input reserves one of the two heals shared with Doctor and queues self-Rescue for that round's Rescue stage; it does not instantly heal or revive. During Blackhole the healing pool is per reality and only the chosen pool/effects survive, without refills; the patient's attempt remains spent globally. See the [panel](../../rules/overlays/hospital-panel-owner-decision-2026-10-25.json), [healing inventory](../../rules/overlays/hospital-panel-blackhole-owner-decision-2026-10-25.json) and [attempt](../../rules/overlays/hospital-panel-attempt-owner-decision-2026-10-25.json) decisions.
 
 ## Open details, not approved defaults
 
