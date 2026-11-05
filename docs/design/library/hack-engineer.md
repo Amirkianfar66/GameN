@@ -110,6 +110,10 @@ the dossier's (`design/abilities/js/intel.js chip()`), from the public-board bun
 - **Text** stays in the DOM (`copy.mjs`); every picture is `aria-hidden`; the viewfinder and the
   print carry an accessible name listing the players in words.
 - **Pointer:** pictures take no pointer events; only the strip's buttons do.
+- **Large text:** every word follows the reader's text size. At 200% the file's tab wraps (the
+  dossier's own large-text rule, `abilities.css` `max-width: 18em`), the words wrap, and nothing is
+  clipped or wider than the phone. Keep the root at the reader's size: a root fixed in px leaves the
+  dossier's rem sizes (its buttons, chips and file titles at large text) at the page's size.
 
 ## Motion (`motion.mjs`)
 
@@ -164,8 +168,11 @@ Both are in the motion bible's request table. Until answered, the states fall ba
   dark shutter, reduced as fades only).
 - `node design/tools/library-assets.mjs --check`: generated files current.
 - `node design/tools/library-capture.mjs`: review captures (`review/`), every state at 390 and 320 px
-  sheets, 200% text, motion strips full and reduced; measured: no sideways overflow on the page or a
-  sheet, game buttons at least 44 px, no page error (`review/report.json`).
+  sheets, both groups at 200% text, motion strips full and reduced. 200% text is the page's `&text=2`
+  in a browser started at a 32 px default text size, with a viewport of the phone's width, so rem
+  sizes and the dossier's own large-text rule answer as they would on a phone. Measured: no sideways
+  overflow on the page or in a sheet, every sheet exactly its phone width, game buttons at least
+  44 px, no page error, and at 200% no visible sheet text under 24 px (`review/report.json`).
 
 Not tested: real phones, screen readers, the runtime itself (no Frontend integration yet), the
 contract's adopted revision.
