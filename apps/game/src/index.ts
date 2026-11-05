@@ -59,3 +59,8 @@ export type { ShellTokenSource } from './styles/tokens-css.js';
 export { createComicFeeds } from './connected/comic-feeds.js';
 
 export { createSetupFeed } from './connected/setup-feed.js';
+
+// Separate, opt-in protocol-3 consumer. Never relabel a historical full-game view.
+export * from './planet/transport.js';
+export * from './planet/controller.js';
+export * from './planet/session.js';

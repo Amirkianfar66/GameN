@@ -34,6 +34,7 @@ export default {
   build: {
     rollupOptions: { input: {
       game: fileURLToPath(new URL('./index.html', import.meta.url)),
+      planet: fileURLToPath(new URL('./planet/index.html', import.meta.url)),
       development: fileURLToPath(new URL('./development/index.html', import.meta.url)),
     } },
     target: 'es2022',
