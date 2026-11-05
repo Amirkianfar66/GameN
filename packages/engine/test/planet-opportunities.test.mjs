@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import {test} from 'node:test';
 import {advancePlanetDeadline,assertPlanetGameState,projectPlanetPublic,projectPlanetPlayer} from '../dist/index.js';
-import {planetWorldDriver,prepareBlackholeRound,moveAcross,toSync,currentWorld,worldSeat} from './planet-world-helper.mjs';
-for(const n of[7,8,9])test(`${n}: native accepted meeting Promise remains Pending in speculative Original and settles only selected Beta at voting start`,()=>{
+import {planetWorldDriver,prepareBlackholeRound,moveAcross,currentWorld,worldSeat} from './planet-world-helper.mjs';
+for(const n of[7,8,9])test(`${n}: native accepted meeting Promise waits through Sync presentation and settles only selected Beta at voting start`,()=>{
  const d=prepareBlackholeRound(planetWorldDriver(n));d.command('seat-1',{type:'REQUEST_HACK',targetSeatId:'seat-2'});d.deadline();d.command('seat-2',{type:'DECLARE_HACK_SIDE',declaredSide:'Blue'});d.deadline();assert.equal(d.state.phase.kind,'HACK');
  d.command('seat-1',{type:'OFFER_PROMISE',recipientSeatId:'seat-2',kind:'MEET_A',targetSeatId:null});const promiseId=d.history.at(-1).request.commandId;
  d.command('seat-2',{type:'ACCEPT_PROMISE',promiseId});assert.equal(d.state.global.promises[0].offerStatus,'accepted');
@@ -11,9 +11,9 @@ for(const n of[7,8,9])test(`${n}: native accepted meeting Promise remains Pendin
  d.command('seat-1',{type:'ACCEPT_PROMISE',promiseId:jailPromiseId});
  const original=d.state.currentWorldId,branch=moveAcross(d,'seat-2');assert.equal(worldSeat(d.state.worlds[original],'seat-2').location,'Room A');assert.equal(worldSeat(d.state.worlds[branch],'seat-2').location,'Room B');
  assert.equal(projectPlanetPlayer(d.state,'seat-1').promises[0].status,'Pending');assert.equal(projectPlanetPlayer(d.state,'seat-3').promises.length,0);assert.equal(projectPlanetPublic(d.state).board.seats.find(s=>s.seatId==='seat-2').location,'Room A');
- toSync(d);assert.equal(d.state.currentWorldId,branch);assert.equal(d.state.global.promises[0].status,'Not fulfilled');assert.equal(d.state.global.promiseGiven.includes('seat-1'),true);assert.equal(d.state.global.promiseReceived.includes('seat-2'),true);
+ d.until(s=>s.phase.kind==='BLACKHOLE_PRESENTATION');assert.equal(d.state.currentWorldId,branch);assert.equal(d.state.phase.endsAt-d.state.phase.startedAt,6000);assert.deepEqual(d.state.global.promises.map(p=>p.status),['Pending','Pending']);d.deadline();assert.equal(d.state.phase.kind,'JAIL_VOTE');assert.equal(d.state.global.promises[0].status,'Not fulfilled');assert.equal(d.state.global.promiseGiven.includes('seat-1'),true);assert.equal(d.state.global.promiseReceived.includes('seat-2'),true);
  const voteStart=d.state.phase.startedAt,voteEnd=d.state.phase.endsAt;
- assert.equal(voteEnd-voteStart,60000,'Approved Sync opens the complete vote without a presentation phase');
+ assert.equal(voteEnd-voteStart,60000,'Presentation completion opens a separate complete vote');
  assert.equal(d.state.global.promises[1].status,'Pending','The meeting checkpoint cannot finalize a Jail card');
  d.command('seat-2',{type:'VOTE',targetSeatId:'seat-4'},{now:voteStart});
  assert.equal(d.state.global.promises[1].status,'Pending','Registering a ballot is not its opportunity closure');

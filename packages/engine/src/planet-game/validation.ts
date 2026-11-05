@@ -1,7 +1,7 @@
 import { IdentifierSchema, PlanetVersionsSchema, PlanetRoundSchema, PlanetPhaseSchema, PlanetPromiseSchema, PlanetWindowDrawingSchema, PlanetEventSchema, PlanetResultSchema, PlanetTallySchema, PlanetCommandSchema, PlanetBoardViewSchema, validClinicalAnchorForPlayerCount } from '@mothership/contracts';
 import type { SeatId } from '@mothership/contracts';
 import type { PlanetGameContext, PlanetGameState } from './model.js';
-import { planetFaction, seatIds, planetWorld, freeHealthy } from './model.js';
+import { planetFaction, seatIds, planetWorld, freeHealthy, planetHasSyncPresentation } from './model.js';
 import { planetSlotIds, planetJailOccupancy } from './physical.js';
 export function assertPlanetContext(context:PlanetGameContext):void {
   if(!Number.isSafeInteger(context.now)||context.now<0||context.now>Number.MAX_SAFE_INTEGER-60000||!IdentifierSchema.safeParse(context.nextPhaseId).success
@@ -34,6 +34,12 @@ export function assertPlanetGameState(value:unknown):asserts value is PlanetGame
   fail(Object.keys(s.realityOf).length===ids.length&&ids.every(id=>Object.hasOwn(s.worlds,s.realityOf[id]!)),'assigned worlds');
   fail(typeof s.blackholeActive==='boolean'&&typeof s.blackoutPreviewComplete==='boolean','window flags');
   fail(s.blackholeActive||worlds.length===1,'collapsed worlds');
+  if(s.phase.kind==='BLACKHOLE_PRESENTATION') {
+    fail(planetHasSyncPresentation(s.versions)&&!s.blackholeActive&&s.global.blackholeSpent&&s.global.blackholeRound===s.round
+      &&!s.panelOpen&&s.ballot===null&&s.activeSeatId===null&&s.afterVote===null&&!s.navigation.started
+      &&s.finalized.round===s.round&&planetWorld(s).events.some(r=>r.event.kind==='BLACKHOLE_SYNCED'&&r.event.round===s.round),'authorized post-Sync presentation');
+    fail(s.global.promises.every(p=>!p.accepted||p.round!==s.round||!['MEET_A','MEET_B'].includes(p.kind)||p.status==='Pending'),'meeting opportunity still closed');
+  }
   for(const [worldId,w]of worlds){IdentifierSchema.parse(worldId);fail(w.seats.length===ids.length&&isIds(w.seats.map(x=>x.seatId)),'world complete roster');
     fail(Number.isInteger(w.injectionsRemaining)&&w.injectionsRemaining>=0&&w.injectionsRemaining<=2,'healing pool');const slots:string[]=[];
     for(const seat of w.seats){fail(['Healthy','Injured','Eliminated'].includes(seat.health),'health');

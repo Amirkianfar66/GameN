@@ -58,3 +58,6 @@ export function storePlanetEvent(state:PlanetGameState,world:PlanetWorld,kind:Pl
   const worldId=Object.entries(state.worlds).find(([,w])=>w===world)?.[0]??'world';
   world.events.push({event:{id:`${worldId}-${state.phase.id.slice(0,72)}-${world.events.length}`,round:state.round,phaseId:state.phase.id,viewRevision:0,publishedAt:state.evaluatedAt,expiresAt:state.evaluatedAt+30000,audience:recipients===null?{kind:'public'}:{kind:'player',seatId:recipients[0]!},kind,seatIds:[...ids],actorSeatId,location,slotId,clinicalAnchor},recipients:recipients===null?null:[...recipients]});
 }
+
+// Immutable P27 behavior gate; never enable a timing change merely by changing defaults.
+export const planetHasSyncPresentation = (versions:PlanetVersions):boolean => versions.engineVersion==='planet-game-1.0.1';

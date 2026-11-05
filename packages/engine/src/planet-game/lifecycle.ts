@@ -1,6 +1,6 @@
 import { PLANET_GAME_PINS, PLANET_PHASE_DURATIONS, PlanetVersionsSchema, PlanetCommandRequestSchema, PlanetReceiptSchema, IdentifierSchema } from '@mothership/contracts';
 import type { PlanetCommandRequest, PlanetReceipt, PlanetPhaseKind, SeatId } from '@mothership/contracts';
-import { copyPlanet, seatIds, planetWorld, planetSeat, freeHealthy, alive, planetSeatView, storePlanetEvent } from './model.js';
+import { copyPlanet, seatIds, planetWorld, planetSeat, freeHealthy, alive, planetSeatView, storePlanetEvent, planetHasSyncPresentation } from './model.js';
 import type { PlanetGameSetup, PlanetGameContext, PlanetGameState, PlanetWorld } from './model.js';
 import { assertPlanetContext, assertPlanetGameState } from './validation.js';
 import { planetCommand } from './commands.js';
@@ -87,17 +87,23 @@ function resolveRound(state:PlanetGameState,ctx:PlanetGameContext):void {
   }
   confirmation(state,ctx);
 }
+function openJailVote(state:PlanetGameState,ctx:PlanetGameContext):void {
+  // This is the actual meeting opportunity, after any authoritative presentation.
+  publishBoard(state,state.round);finalizePlanetPromises(state,'MEETING');
+  const world=planetWorld(state);phase(state,'JAIL_VOTE',ctx);
+  state.ballot={kind:'JAIL_VOTE',eligibleVoters:world.seats.filter(alive).map(s=>s.seatId),eligibleTargets:world.seats.filter(s=>alive(s)&&!s.jailed).map(s=>s.seatId),votes:{},runoff:false,electionId:state.phase.id};
+}
 function syncAndVote(state:PlanetGameState,ctx:PlanetGameContext):void {
-  state.panelOpen=false;state.hack=null;
+  state.panelOpen=false;state.hack=null;state.ballot=null;
   if(state.blackholeActive){
     const worlds=Object.keys(state.worlds),chosen=worlds[draw(ctx,worlds.length)]!;
     state.currentWorldId=chosen;state.worlds={[chosen]:state.worlds[chosen]!};for(const id of seatIds(state))state.realityOf[id]=chosen;
     state.blackholeActive=false;storePlanetEvent(state,planetWorld(state),'BLACKHOLE_SYNCED',[]);
+    // Selected physical state is finalized, but attacks and Promise opportunities wait.
+    publishBoard(state,state.round);
+    if(planetHasSyncPresentation(state.versions)){phase(state,'BLACKHOLE_PRESENTATION',ctx);return;}
   }
-  // Movement/Captain changes in the selected world are now authoritative. No speculative attacks ran.
-  publishBoard(state,state.round);finalizePlanetPromises(state,'MEETING');
-  const world=planetWorld(state);phase(state,'JAIL_VOTE',ctx);
-  state.ballot={kind:'JAIL_VOTE',eligibleVoters:world.seats.filter(alive).map(s=>s.seatId),eligibleTargets:world.seats.filter(s=>alive(s)&&!s.jailed).map(s=>s.seatId),votes:{},runoff:false,electionId:state.phase.id};
+  openJailVote(state,ctx);
 }
 function nextTurn(state:PlanetGameState,ctx:PlanetGameContext):void {
   while(state.turnIndex<state.turnOrder.length&&!alive(planetSeat(planetWorld(state,state.turnOrder[state.turnIndex]!),state.turnOrder[state.turnIndex]!)))state.turnIndex++;
@@ -184,6 +190,7 @@ export function advancePlanetDeadline(before:PlanetGameState,ctx:PlanetGameConte
     case 'HACK_DECLARE':state.hack!.status='NO_DECLARATION';phase(state,'HACK_RESULT',ctx);state.activeSeatId=state.hack!.actorSeatId;break;
     case 'HACK_RESULT':phase(state,'HACK',ctx);state.activeSeatId=state.hack!.actorSeatId;break;
     case 'HACK':state.hack=null;state.turnIndex++;nextTurn(state,ctx);break;
+    case 'BLACKHOLE_PRESENTATION':openJailVote(state,ctx);break;
     case 'CAPTAIN_ELECTION':case 'JAIL_VOTE':voteClosed(state,ctx);break;
     case 'VOTE_RESULT':afterVote(state,ctx);break;
     case 'OFFICER_APPOINTMENT':{
