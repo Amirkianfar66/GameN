@@ -1,0 +1,2278 @@
+{
+  "scope": "Synthetic P27 protocol-3 snapshots through the production consumer, desktop Chromium phone emulation; no Firebase, engine, hosted or physical-device acceptance.",
+  "generatedAt": "2026-11-05T19:22:49.675Z",
+  "browser": {
+    "protocolVersion": "1.3",
+    "product": "Chrome/156.0.8078.80",
+    "revision": "@fb096c0011f9d50f0a264a9376420cdea9c421e3",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+    "jsVersion": "15.6.75.27"
+  },
+  "cases": [
+    {
+      "name": "320-568-normal-six-seconds-then-delayed-full-vote",
+      "passed": true,
+      "fresh": {
+        "phase": {
+          "id": "synthetic-sync-1",
+          "kind": "BLACKHOLE_PRESENTATION",
+          "startedAt": 1793906570011,
+          "endsAt": 1793906576011,
+          "nowMs": 1793906570016.75,
+          "remainingMs": 5994.25,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": {
+          "phaseId": "synthetic-sync-1",
+          "startedAt": 1793906570011,
+          "endsAt": 1793906576011,
+          "durationMs": 6000,
+          "elapsedMs": 7.150146484375,
+          "remainingMs": 5992.849853515625,
+          "progress": 0.0011916910807291668,
+          "status": "presenting"
+        },
+        "syncCue": true,
+        "headerText": "SYNTHETIC · R6 · BLACKHOLE SYNC6sCaptain — · Officer —Turn: — · Ship synchronized",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": "Pending",
+        "commands": 0,
+        "art": "player-ui public-board roles scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "afterOptionalFilmDuration": {
+        "phase": {
+          "id": "synthetic-sync-1",
+          "kind": "BLACKHOLE_PRESENTATION",
+          "startedAt": 1793906570011,
+          "endsAt": 1793906576011,
+          "nowMs": 1793906571794.75,
+          "remainingMs": 4216.25,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": {
+          "phaseId": "synthetic-sync-1",
+          "startedAt": 1793906570011,
+          "endsAt": 1793906576011,
+          "durationMs": 6000,
+          "elapsedMs": 1783.75,
+          "remainingMs": 4216.25,
+          "progress": 0.2972916666666667,
+          "status": "presenting"
+        },
+        "syncCue": true,
+        "headerText": "SYNTHETIC · R6 · BLACKHOLE SYNC5sCaptain — · Officer —Turn: — · Ship synchronized",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": "Pending",
+        "commands": 0,
+        "art": "player-ui public-board roles scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "expired": {
+        "phase": {
+          "id": "synthetic-sync-1",
+          "kind": "BLACKHOLE_PRESENTATION",
+          "startedAt": 1793906570011,
+          "endsAt": 1793906576011,
+          "nowMs": 1793906576195.05,
+          "remainingMs": 0,
+          "trusted": true,
+          "expired": true
+        },
+        "stage": {
+          "phaseId": "synthetic-sync-1",
+          "startedAt": 1793906570011,
+          "endsAt": 1793906576011,
+          "durationMs": 6000,
+          "elapsedMs": 6000,
+          "remainingMs": 0,
+          "progress": 1,
+          "status": "awaiting-view"
+        },
+        "syncCue": true,
+        "headerText": "SYNTHETIC · R6 · BLACKHOLE SYNC0sCaptain — · Officer —Turn: — · Waiting for server",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "player-ui public-board roles scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "vote": {
+        "phase": {
+          "id": "synthetic-vote-2",
+          "kind": "JAIL_VOTE",
+          "startedAt": 1793906576262,
+          "endsAt": 1793906636262,
+          "nowMs": 1793906576265.4502,
+          "remainingMs": 59996.5498046875,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": null,
+        "syncCue": false,
+        "headerText": "SYNTHETIC · R6 · JAIL VOTE60sCaptain — · Officer —Turn: —",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": "Fulfilled",
+        "commands": 0,
+        "art": "player-ui public-board roles scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "ballot": {
+        "phase": {
+          "id": "synthetic-vote-2",
+          "kind": "JAIL_VOTE",
+          "startedAt": 1793906576262,
+          "endsAt": 1793906636262,
+          "nowMs": 1793906576370.55,
+          "remainingMs": 59891.449951171875,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": null,
+        "syncCue": false,
+        "headerText": "SYNTHETIC · R6 · JAIL VOTE60sCaptain — · Officer —Choose an offered character on the board.Choose an offered character on the board.",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 9,
+        "canMove": false,
+        "canPass": false,
+        "action": {
+          "type": "VOTE",
+          "label": "Vote",
+          "step": "targets",
+          "selected": [],
+          "choices": [
+            {
+              "value": "seat-1",
+              "label": "Player 1"
+            },
+            {
+              "value": "seat-2",
+              "label": "Player 2"
+            },
+            {
+              "value": "seat-3",
+              "label": "Player 3"
+            },
+            {
+              "value": "seat-4",
+              "label": "Player 4"
+            },
+            {
+              "value": "seat-5",
+              "label": "Player 5"
+            },
+            {
+              "value": "seat-6",
+              "label": "Player 6"
+            },
+            {
+              "value": "seat-7",
+              "label": "Player 7"
+            },
+            {
+              "value": "seat-8",
+              "label": "Player 8"
+            },
+            {
+              "value": "seat-9",
+              "label": "Player 9"
+            },
+            {
+              "value": "abstain",
+              "label": "Abstain"
+            }
+          ],
+          "prompt": "Choose an offered character on the board.",
+          "confirmation": null,
+          "canConfirm": false
+        },
+        "offers": [
+          {
+            "type": "VOTE",
+            "targetSeatIds": [
+              "seat-1",
+              "seat-2",
+              "seat-3",
+              "seat-4",
+              "seat-5",
+              "seat-6",
+              "seat-7",
+              "seat-8",
+              "seat-9"
+            ],
+            "slotIds": [],
+            "windowIds": [],
+            "promiseTargetSeatIds": []
+          }
+        ],
+        "promise": null,
+        "commands": 0,
+        "art": "player-ui public-board roles scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "screenshots": [
+        "320-568-normal-presentation-promise-pending.png",
+        "320-568-normal-expired-waiting-for-server.png",
+        "320-568-normal-new-full-vote-targets.png"
+      ]
+    },
+    {
+      "name": "320-568-normal-late-duplicate-foreground-seeks",
+      "passed": true,
+      "late": {
+        "phase": {
+          "id": "synthetic-sync-1",
+          "kind": "BLACKHOLE_PRESENTATION",
+          "startedAt": 1793906573099,
+          "endsAt": 1793906579099,
+          "nowMs": 1793906576601.45,
+          "remainingMs": 2497.550048828125,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": {
+          "phaseId": "synthetic-sync-1",
+          "startedAt": 1793906573099,
+          "endsAt": 1793906579099,
+          "durationMs": 6000,
+          "elapsedMs": 3502.5498046875,
+          "remainingMs": 2497.4501953125,
+          "progress": 0.58375830078125,
+          "status": "presenting"
+        },
+        "syncCue": true,
+        "headerText": "SYNTHETIC · R6 · BLACKHOLE SYNC3sCaptain — · Officer —Turn: — · Ship synchronized",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "player-ui public-board roles abilities scene-art setup-art board-v2-art board-v2-motion-art board-v2-films-art",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "resumed": {
+        "phase": {
+          "id": "synthetic-sync-1",
+          "kind": "BLACKHOLE_PRESENTATION",
+          "startedAt": 1793906573099,
+          "endsAt": 1793906579099,
+          "nowMs": 1793906576780.2,
+          "remainingMs": 2318.800048828125,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": {
+          "phaseId": "synthetic-sync-1",
+          "startedAt": 1793906573099,
+          "endsAt": 1793906579099,
+          "durationMs": 6000,
+          "elapsedMs": 3681.300048828125,
+          "remainingMs": 2318.699951171875,
+          "progress": 0.6135500081380209,
+          "status": "presenting"
+        },
+        "syncCue": true,
+        "headerText": "SYNTHETIC · R6 · BLACKHOLE SYNC3sCaptain — · Officer —Turn: — · Ship synchronized",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "player-ui public-board roles abilities scene-art setup-art board-v2-art board-v2-motion-art board-v2-films-art",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "screenshots": [
+        "320-568-normal-late-foreground-seek.png"
+      ]
+    },
+    {
+      "name": "320-568-normal-return-after-stage-no-replay",
+      "passed": true,
+      "current": {
+        "phase": {
+          "id": "synthetic-vote-2",
+          "kind": "JAIL_VOTE",
+          "startedAt": 1793906579282,
+          "endsAt": 1793906639282,
+          "nowMs": 1793906579473.0999,
+          "remainingMs": 59808.900146484375,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": null,
+        "syncCue": false,
+        "headerText": "SYNTHETIC · R6 · JAIL VOTE60sCaptain — · Officer —Turn: —",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "player-ui public-board roles abilities scene-art setup-art board-v2-art board-v2-motion-art board-v2-films-art",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "screenshots": [
+        "320-568-normal-vote-foreground-no-replay.png"
+      ]
+    },
+    {
+      "name": "320-568-normal-missing-art-progress-and-restore",
+      "passed": true,
+      "noArt": {
+        "phase": {
+          "id": "synthetic-sync-1",
+          "kind": "BLACKHOLE_PRESENTATION",
+          "startedAt": 1793906574425,
+          "endsAt": 1793906580425,
+          "nowMs": 1793906579627.3499,
+          "remainingMs": 797.650146484375,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": {
+          "phaseId": "synthetic-sync-1",
+          "startedAt": 1793906574425,
+          "endsAt": 1793906580425,
+          "durationMs": 6000,
+          "elapsedMs": 5202.349853515625,
+          "remainingMs": 797.650146484375,
+          "progress": 0.8670583089192708,
+          "status": "presenting"
+        },
+        "syncCue": true,
+        "headerText": "SYNTHETIC · R6 · BLACKHOLE SYNC1sCaptain — · Officer —Turn: — · Ship synchronized",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "missingVote": {
+        "phase": {
+          "id": "synthetic-vote-2",
+          "kind": "JAIL_VOTE",
+          "startedAt": 1793906580608,
+          "endsAt": 1793906640608,
+          "nowMs": 1793906580612.3499,
+          "remainingMs": 59995.650146484375,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": null,
+        "syncCue": false,
+        "headerText": "SYNTHETIC · R6 · JAIL VOTE60sCaptain — · Officer —Turn: —",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "restored": {
+        "phase": {
+          "id": "synthetic-vote-2",
+          "kind": "JAIL_VOTE",
+          "startedAt": 1793906580608,
+          "endsAt": 1793906640608,
+          "nowMs": 1793906580628.5498,
+          "remainingMs": 59979.4501953125,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": null,
+        "syncCue": false,
+        "headerText": "SYNTHETIC · R6 · JAIL VOTE60sCaptain — · Officer —Turn: —",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "player-ui public-board roles scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "screenshots": [
+        "320-568-normal-missing-art-presentation.png",
+        "320-568-normal-art-restored-vote-no-replay.png"
+      ]
+    },
+    {
+      "name": "320-568-normal-ordinary-round-skips-presentation",
+      "passed": true,
+      "current": {
+        "phase": {
+          "id": "synthetic-vote-1",
+          "kind": "JAIL_VOTE",
+          "startedAt": 1793906580786,
+          "endsAt": 1793906640786,
+          "nowMs": 1793906580788.05,
+          "remainingMs": 59997.949951171875,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": null,
+        "syncCue": false,
+        "headerText": "SYNTHETIC · R6 · JAIL VOTE60sCaptain — · Officer —Turn: —",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "player-ui roles scene-art public-board abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "screenshots": [
+        "320-568-normal-ordinary-full-vote.png"
+      ]
+    },
+    {
+      "name": "320-568-normal-shared-display-header",
+      "passed": true,
+      "current": {
+        "phase": {
+          "id": "synthetic-sync-1",
+          "kind": "BLACKHOLE_PRESENTATION",
+          "startedAt": 1793906577454,
+          "endsAt": 1793906583454,
+          "nowMs": 1793906580956.75,
+          "remainingMs": 2497.25,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": {
+          "phaseId": "synthetic-sync-1",
+          "startedAt": 1793906577454,
+          "endsAt": 1793906583454,
+          "durationMs": 6000,
+          "elapsedMs": 3502.849853515625,
+          "remainingMs": 2497.150146484375,
+          "progress": 0.5838083089192708,
+          "status": "presenting"
+        },
+        "syncCue": true,
+        "headerText": "SYNTHETIC · R6 · BLACKHOLE SYNC3sCaptain — · Officer —Last finalized board · Round 6 · Turn: — · Ship synchronized",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "player-ui roles board-v2-art public-board abilities scene-art setup-art board-v2-motion-art board-v2-films-art",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "screenshots": [
+        "320-568-normal-shared-display-presentation.png"
+      ]
+    },
+    {
+      "name": "320-568-reduced-six-seconds-then-delayed-full-vote",
+      "passed": true,
+      "fresh": {
+        "phase": {
+          "id": "synthetic-sync-1",
+          "kind": "BLACKHOLE_PRESENTATION",
+          "startedAt": 1793906581237,
+          "endsAt": 1793906587237,
+          "nowMs": 1793906581240.75,
+          "remainingMs": 5996.25,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": {
+          "phaseId": "synthetic-sync-1",
+          "startedAt": 1793906581237,
+          "endsAt": 1793906587237,
+          "durationMs": 6000,
+          "elapsedMs": 5.449951171875,
+          "remainingMs": 5994.550048828125,
+          "progress": 0.0009083251953125,
+          "status": "presenting"
+        },
+        "syncCue": true,
+        "headerText": "SYNTHETIC · R6 · BLACKHOLE SYNC6sCaptain — · Officer —Turn: — · Ship synchronized",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": "Pending",
+        "commands": 0,
+        "art": "public-board player-ui roles scene-art board-v2-art abilities setup-art board-v2-motion-art board-v2-films-art",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "afterOptionalFilmDuration": {
+        "phase": {
+          "id": "synthetic-sync-1",
+          "kind": "BLACKHOLE_PRESENTATION",
+          "startedAt": 1793906581237,
+          "endsAt": 1793906587237,
+          "nowMs": 1793906582978.55,
+          "remainingMs": 4258.449951171875,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": {
+          "phaseId": "synthetic-sync-1",
+          "startedAt": 1793906581237,
+          "endsAt": 1793906587237,
+          "durationMs": 6000,
+          "elapsedMs": 1741.75,
+          "remainingMs": 4258.25,
+          "progress": 0.29029166666666667,
+          "status": "presenting"
+        },
+        "syncCue": true,
+        "headerText": "SYNTHETIC · R6 · BLACKHOLE SYNC5sCaptain — · Officer —Turn: — · Ship synchronized",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": "Pending",
+        "commands": 0,
+        "art": "public-board player-ui roles scene-art board-v2-art abilities setup-art board-v2-motion-art board-v2-films-art",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "expired": {
+        "phase": {
+          "id": "synthetic-sync-1",
+          "kind": "BLACKHOLE_PRESENTATION",
+          "startedAt": 1793906581237,
+          "endsAt": 1793906587237,
+          "nowMs": 1793906587419.75,
+          "remainingMs": 0,
+          "trusted": true,
+          "expired": true
+        },
+        "stage": {
+          "phaseId": "synthetic-sync-1",
+          "startedAt": 1793906581237,
+          "endsAt": 1793906587237,
+          "durationMs": 6000,
+          "elapsedMs": 6000,
+          "remainingMs": 0,
+          "progress": 1,
+          "status": "awaiting-view"
+        },
+        "syncCue": true,
+        "headerText": "SYNTHETIC · R6 · BLACKHOLE SYNC0sCaptain — · Officer —Turn: — · Waiting for server",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "public-board player-ui roles scene-art board-v2-art abilities setup-art board-v2-motion-art board-v2-films-art",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "vote": {
+        "phase": {
+          "id": "synthetic-vote-2",
+          "kind": "JAIL_VOTE",
+          "startedAt": 1793906587479,
+          "endsAt": 1793906647479,
+          "nowMs": 1793906587481.75,
+          "remainingMs": 59997.25,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": null,
+        "syncCue": false,
+        "headerText": "SYNTHETIC · R6 · JAIL VOTE60sCaptain — · Officer —Turn: —",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": "Fulfilled",
+        "commands": 0,
+        "art": "public-board player-ui roles scene-art board-v2-art abilities setup-art board-v2-motion-art board-v2-films-art",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "ballot": {
+        "phase": {
+          "id": "synthetic-vote-2",
+          "kind": "JAIL_VOTE",
+          "startedAt": 1793906587479,
+          "endsAt": 1793906647479,
+          "nowMs": 1793906587587.95,
+          "remainingMs": 59891.050048828125,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": null,
+        "syncCue": false,
+        "headerText": "SYNTHETIC · R6 · JAIL VOTE60sCaptain — · Officer —Choose an offered character on the board.Choose an offered character on the board.",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 9,
+        "canMove": false,
+        "canPass": false,
+        "action": {
+          "type": "VOTE",
+          "label": "Vote",
+          "step": "targets",
+          "selected": [],
+          "choices": [
+            {
+              "value": "seat-1",
+              "label": "Player 1"
+            },
+            {
+              "value": "seat-2",
+              "label": "Player 2"
+            },
+            {
+              "value": "seat-3",
+              "label": "Player 3"
+            },
+            {
+              "value": "seat-4",
+              "label": "Player 4"
+            },
+            {
+              "value": "seat-5",
+              "label": "Player 5"
+            },
+            {
+              "value": "seat-6",
+              "label": "Player 6"
+            },
+            {
+              "value": "seat-7",
+              "label": "Player 7"
+            },
+            {
+              "value": "seat-8",
+              "label": "Player 8"
+            },
+            {
+              "value": "seat-9",
+              "label": "Player 9"
+            },
+            {
+              "value": "abstain",
+              "label": "Abstain"
+            }
+          ],
+          "prompt": "Choose an offered character on the board.",
+          "confirmation": null,
+          "canConfirm": false
+        },
+        "offers": [
+          {
+            "type": "VOTE",
+            "targetSeatIds": [
+              "seat-1",
+              "seat-2",
+              "seat-3",
+              "seat-4",
+              "seat-5",
+              "seat-6",
+              "seat-7",
+              "seat-8",
+              "seat-9"
+            ],
+            "slotIds": [],
+            "windowIds": [],
+            "promiseTargetSeatIds": []
+          }
+        ],
+        "promise": null,
+        "commands": 0,
+        "art": "public-board player-ui roles scene-art board-v2-art abilities setup-art board-v2-motion-art board-v2-films-art",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "screenshots": [
+        "320-568-reduced-presentation-promise-pending.png",
+        "320-568-reduced-expired-waiting-for-server.png",
+        "320-568-reduced-new-full-vote-targets.png"
+      ]
+    },
+    {
+      "name": "320-568-reduced-late-duplicate-foreground-seeks",
+      "passed": true,
+      "late": {
+        "phase": {
+          "id": "synthetic-sync-1",
+          "kind": "BLACKHOLE_PRESENTATION",
+          "startedAt": 1793906584334,
+          "endsAt": 1793906590334,
+          "nowMs": 1793906587836.7998,
+          "remainingMs": 2497.2001953125,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": {
+          "phaseId": "synthetic-sync-1",
+          "startedAt": 1793906584334,
+          "endsAt": 1793906590334,
+          "durationMs": 6000,
+          "elapsedMs": 3502.7998046875,
+          "remainingMs": 2497.2001953125,
+          "progress": 0.5837999674479166,
+          "status": "presenting"
+        },
+        "syncCue": true,
+        "headerText": "SYNTHETIC · R6 · BLACKHOLE SYNC3sCaptain — · Officer —Turn: — · Ship synchronized",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "player-ui public-board roles scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "resumed": {
+        "phase": {
+          "id": "synthetic-sync-1",
+          "kind": "BLACKHOLE_PRESENTATION",
+          "startedAt": 1793906584334,
+          "endsAt": 1793906590334,
+          "nowMs": 1793906588026.7002,
+          "remainingMs": 2307.2998046875,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": {
+          "phaseId": "synthetic-sync-1",
+          "startedAt": 1793906584334,
+          "endsAt": 1793906590334,
+          "durationMs": 6000,
+          "elapsedMs": 3692.800048828125,
+          "remainingMs": 2307.199951171875,
+          "progress": 0.6154666748046875,
+          "status": "presenting"
+        },
+        "syncCue": true,
+        "headerText": "SYNTHETIC · R6 · BLACKHOLE SYNC3sCaptain — · Officer —Turn: — · Ship synchronized",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "player-ui public-board roles scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "screenshots": [
+        "320-568-reduced-late-foreground-seek.png"
+      ]
+    },
+    {
+      "name": "320-568-reduced-return-after-stage-no-replay",
+      "passed": true,
+      "current": {
+        "phase": {
+          "id": "synthetic-vote-2",
+          "kind": "JAIL_VOTE",
+          "startedAt": 1793906590516,
+          "endsAt": 1793906650516,
+          "nowMs": 1793906590697.2,
+          "remainingMs": 59818.800048828125,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": null,
+        "syncCue": false,
+        "headerText": "SYNTHETIC · R6 · JAIL VOTE60sCaptain — · Officer —Turn: —",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "player-ui public-board roles scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "screenshots": [
+        "320-568-reduced-vote-foreground-no-replay.png"
+      ]
+    },
+    {
+      "name": "320-568-reduced-missing-art-progress-and-restore",
+      "passed": true,
+      "noArt": {
+        "phase": {
+          "id": "synthetic-sync-1",
+          "kind": "BLACKHOLE_PRESENTATION",
+          "startedAt": 1793906585663,
+          "endsAt": 1793906591663,
+          "nowMs": 1793906590865.25,
+          "remainingMs": 797.75,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": {
+          "phaseId": "synthetic-sync-1",
+          "startedAt": 1793906585663,
+          "endsAt": 1793906591663,
+          "durationMs": 6000,
+          "elapsedMs": 5202.449951171875,
+          "remainingMs": 797.550048828125,
+          "progress": 0.8670749918619791,
+          "status": "presenting"
+        },
+        "syncCue": true,
+        "headerText": "SYNTHETIC · R6 · BLACKHOLE SYNC1sCaptain — · Officer —Turn: — · Ship synchronized",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "missingVote": {
+        "phase": {
+          "id": "synthetic-vote-2",
+          "kind": "JAIL_VOTE",
+          "startedAt": 1793906591845,
+          "endsAt": 1793906651845,
+          "nowMs": 1793906591846.65,
+          "remainingMs": 59998.35009765625,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": null,
+        "syncCue": false,
+        "headerText": "SYNTHETIC · R6 · JAIL VOTE60sCaptain — · Officer —Turn: —",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "restored": {
+        "phase": {
+          "id": "synthetic-vote-2",
+          "kind": "JAIL_VOTE",
+          "startedAt": 1793906591845,
+          "endsAt": 1793906651845,
+          "nowMs": 1793906591861.25,
+          "remainingMs": 59983.75,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": null,
+        "syncCue": false,
+        "headerText": "SYNTHETIC · R6 · JAIL VOTE60sCaptain — · Officer —Turn: —",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "player-ui roles scene-art public-board abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "screenshots": [
+        "320-568-reduced-missing-art-presentation.png",
+        "320-568-reduced-art-restored-vote-no-replay.png"
+      ]
+    },
+    {
+      "name": "320-568-reduced-ordinary-round-skips-presentation",
+      "passed": true,
+      "current": {
+        "phase": {
+          "id": "synthetic-vote-1",
+          "kind": "JAIL_VOTE",
+          "startedAt": 1793906592027,
+          "endsAt": 1793906652027,
+          "nowMs": 1793906592028.95,
+          "remainingMs": 59998.050048828125,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": null,
+        "syncCue": false,
+        "headerText": "SYNTHETIC · R6 · JAIL VOTE61sCaptain — · Officer —Turn: —",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "player-ui roles public-board scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "screenshots": [
+        "320-568-reduced-ordinary-full-vote.png"
+      ]
+    },
+    {
+      "name": "320-568-reduced-shared-display-header",
+      "passed": true,
+      "current": {
+        "phase": {
+          "id": "synthetic-sync-1",
+          "kind": "BLACKHOLE_PRESENTATION",
+          "startedAt": 1793906588697,
+          "endsAt": 1793906594697,
+          "nowMs": 1793906592199.05,
+          "remainingMs": 2497.949951171875,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": {
+          "phaseId": "synthetic-sync-1",
+          "startedAt": 1793906588697,
+          "endsAt": 1793906594697,
+          "durationMs": 6000,
+          "elapsedMs": 3502.25,
+          "remainingMs": 2497.75,
+          "progress": 0.5837083333333334,
+          "status": "presenting"
+        },
+        "syncCue": true,
+        "headerText": "SYNTHETIC · R6 · BLACKHOLE SYNC3sCaptain — · Officer —Last finalized board · Round 6 · Turn: — · Ship synchronized",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "player-ui roles abilities scene-art board-v2-art public-board setup-art board-v2-motion-art board-v2-films-art",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "screenshots": [
+        "320-568-reduced-shared-display-presentation.png"
+      ]
+    },
+    {
+      "name": "390-844-normal-six-seconds-then-delayed-full-vote",
+      "passed": true,
+      "fresh": {
+        "phase": {
+          "id": "synthetic-sync-1",
+          "kind": "BLACKHOLE_PRESENTATION",
+          "startedAt": 1793906592509,
+          "endsAt": 1793906598509,
+          "nowMs": 1793906592516.3,
+          "remainingMs": 5992.699951171875,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": {
+          "phaseId": "synthetic-sync-1",
+          "startedAt": 1793906592509,
+          "endsAt": 1793906598509,
+          "durationMs": 6000,
+          "elapsedMs": 7.5,
+          "remainingMs": 5992.5,
+          "progress": 0.00125,
+          "status": "presenting"
+        },
+        "syncCue": true,
+        "headerText": "SYNTHETIC · R6 · BLACKHOLE SYNC6sCaptain — · Officer —Turn: — · Ship synchronized",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": "Pending",
+        "commands": 0,
+        "art": "player-ui public-board roles abilities scene-art board-v2-art setup-art board-v2-motion-art board-v2-films-art",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "afterOptionalFilmDuration": {
+        "phase": {
+          "id": "synthetic-sync-1",
+          "kind": "BLACKHOLE_PRESENTATION",
+          "startedAt": 1793906592509,
+          "endsAt": 1793906598509,
+          "nowMs": 1793906594318.5,
+          "remainingMs": 4190.5,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": {
+          "phaseId": "synthetic-sync-1",
+          "startedAt": 1793906592509,
+          "endsAt": 1793906598509,
+          "durationMs": 6000,
+          "elapsedMs": 1809.900146484375,
+          "remainingMs": 4190.099853515625,
+          "progress": 0.3016500244140625,
+          "status": "presenting"
+        },
+        "syncCue": true,
+        "headerText": "SYNTHETIC · R6 · BLACKHOLE SYNC5sCaptain — · Officer —Turn: — · Ship synchronized",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": "Pending",
+        "commands": 0,
+        "art": "player-ui public-board roles abilities scene-art board-v2-art setup-art board-v2-motion-art board-v2-films-art",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "expired": {
+        "phase": {
+          "id": "synthetic-sync-1",
+          "kind": "BLACKHOLE_PRESENTATION",
+          "startedAt": 1793906592509,
+          "endsAt": 1793906598509,
+          "nowMs": 1793906598691.5,
+          "remainingMs": 0,
+          "trusted": true,
+          "expired": true
+        },
+        "stage": {
+          "phaseId": "synthetic-sync-1",
+          "startedAt": 1793906592509,
+          "endsAt": 1793906598509,
+          "durationMs": 6000,
+          "elapsedMs": 6000,
+          "remainingMs": 0,
+          "progress": 1,
+          "status": "awaiting-view"
+        },
+        "syncCue": true,
+        "headerText": "SYNTHETIC · R6 · BLACKHOLE SYNC0sCaptain — · Officer —Turn: — · Waiting for server",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "player-ui public-board roles abilities scene-art board-v2-art setup-art board-v2-motion-art board-v2-films-art",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "vote": {
+        "phase": {
+          "id": "synthetic-vote-2",
+          "kind": "JAIL_VOTE",
+          "startedAt": 1793906598755,
+          "endsAt": 1793906658755,
+          "nowMs": 1793906598760.2,
+          "remainingMs": 59994.800048828125,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": null,
+        "syncCue": false,
+        "headerText": "SYNTHETIC · R6 · JAIL VOTE60sCaptain — · Officer —Turn: —",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": "Fulfilled",
+        "commands": 0,
+        "art": "player-ui public-board roles abilities scene-art board-v2-art setup-art board-v2-motion-art board-v2-films-art",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "ballot": {
+        "phase": {
+          "id": "synthetic-vote-2",
+          "kind": "JAIL_VOTE",
+          "startedAt": 1793906598755,
+          "endsAt": 1793906658755,
+          "nowMs": 1793906598852.5,
+          "remainingMs": 59902.5,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": null,
+        "syncCue": false,
+        "headerText": "SYNTHETIC · R6 · JAIL VOTE60sCaptain — · Officer —Choose an offered character on the board.Choose an offered character on the board.",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 9,
+        "canMove": false,
+        "canPass": false,
+        "action": {
+          "type": "VOTE",
+          "label": "Vote",
+          "step": "targets",
+          "selected": [],
+          "choices": [
+            {
+              "value": "seat-1",
+              "label": "Player 1"
+            },
+            {
+              "value": "seat-2",
+              "label": "Player 2"
+            },
+            {
+              "value": "seat-3",
+              "label": "Player 3"
+            },
+            {
+              "value": "seat-4",
+              "label": "Player 4"
+            },
+            {
+              "value": "seat-5",
+              "label": "Player 5"
+            },
+            {
+              "value": "seat-6",
+              "label": "Player 6"
+            },
+            {
+              "value": "seat-7",
+              "label": "Player 7"
+            },
+            {
+              "value": "seat-8",
+              "label": "Player 8"
+            },
+            {
+              "value": "seat-9",
+              "label": "Player 9"
+            },
+            {
+              "value": "abstain",
+              "label": "Abstain"
+            }
+          ],
+          "prompt": "Choose an offered character on the board.",
+          "confirmation": null,
+          "canConfirm": false
+        },
+        "offers": [
+          {
+            "type": "VOTE",
+            "targetSeatIds": [
+              "seat-1",
+              "seat-2",
+              "seat-3",
+              "seat-4",
+              "seat-5",
+              "seat-6",
+              "seat-7",
+              "seat-8",
+              "seat-9"
+            ],
+            "slotIds": [],
+            "windowIds": [],
+            "promiseTargetSeatIds": []
+          }
+        ],
+        "promise": null,
+        "commands": 0,
+        "art": "player-ui public-board roles abilities scene-art board-v2-art setup-art board-v2-motion-art board-v2-films-art",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "screenshots": [
+        "390-844-normal-presentation-promise-pending.png",
+        "390-844-normal-expired-waiting-for-server.png",
+        "390-844-normal-new-full-vote-targets.png"
+      ]
+    },
+    {
+      "name": "390-844-normal-late-duplicate-foreground-seeks",
+      "passed": true,
+      "late": {
+        "phase": {
+          "id": "synthetic-sync-1",
+          "kind": "BLACKHOLE_PRESENTATION",
+          "startedAt": 1793906595597,
+          "endsAt": 1793906601597,
+          "nowMs": 1793906599100.15,
+          "remainingMs": 2496.85009765625,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": {
+          "phaseId": "synthetic-sync-1",
+          "startedAt": 1793906595597,
+          "endsAt": 1793906601597,
+          "durationMs": 6000,
+          "elapsedMs": 3503.25,
+          "remainingMs": 2496.75,
+          "progress": 0.583875,
+          "status": "presenting"
+        },
+        "syncCue": true,
+        "headerText": "SYNTHETIC · R6 · BLACKHOLE SYNC3sCaptain — · Officer —Turn: — · Ship synchronized",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "resumed": {
+        "phase": {
+          "id": "synthetic-sync-1",
+          "kind": "BLACKHOLE_PRESENTATION",
+          "startedAt": 1793906595597,
+          "endsAt": 1793906601597,
+          "nowMs": 1793906599278.8,
+          "remainingMs": 2318.199951171875,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": {
+          "phaseId": "synthetic-sync-1",
+          "startedAt": 1793906595597,
+          "endsAt": 1793906601597,
+          "durationMs": 6000,
+          "elapsedMs": 3681.800048828125,
+          "remainingMs": 2318.199951171875,
+          "progress": 0.6136333414713542,
+          "status": "presenting"
+        },
+        "syncCue": true,
+        "headerText": "SYNTHETIC · R6 · BLACKHOLE SYNC3sCaptain — · Officer —Turn: — · Ship synchronized",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "screenshots": [
+        "390-844-normal-late-foreground-seek.png"
+      ]
+    },
+    {
+      "name": "390-844-normal-return-after-stage-no-replay",
+      "passed": true,
+      "current": {
+        "phase": {
+          "id": "synthetic-vote-2",
+          "kind": "JAIL_VOTE",
+          "startedAt": 1793906601780,
+          "endsAt": 1793906661780,
+          "nowMs": 1793906601972.8,
+          "remainingMs": 59807.199951171875,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": null,
+        "syncCue": false,
+        "headerText": "SYNTHETIC · R6 · JAIL VOTE60sCaptain — · Officer —Turn: —",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "screenshots": [
+        "390-844-normal-vote-foreground-no-replay.png"
+      ]
+    },
+    {
+      "name": "390-844-normal-missing-art-progress-and-restore",
+      "passed": true,
+      "noArt": {
+        "phase": {
+          "id": "synthetic-sync-1",
+          "kind": "BLACKHOLE_PRESENTATION",
+          "startedAt": 1793906596930,
+          "endsAt": 1793906602930,
+          "nowMs": 1793906602131.2002,
+          "remainingMs": 798.7998046875,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": {
+          "phaseId": "synthetic-sync-1",
+          "startedAt": 1793906596930,
+          "endsAt": 1793906602930,
+          "durationMs": 6000,
+          "elapsedMs": 5201.300048828125,
+          "remainingMs": 798.699951171875,
+          "progress": 0.8668833414713542,
+          "status": "presenting"
+        },
+        "syncCue": true,
+        "headerText": "SYNTHETIC · R6 · BLACKHOLE SYNC1sCaptain — · Officer —Turn: — · Ship synchronized",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "missingVote": {
+        "phase": {
+          "id": "synthetic-vote-2",
+          "kind": "JAIL_VOTE",
+          "startedAt": 1793906603112,
+          "endsAt": 1793906663112,
+          "nowMs": 1793906603116.3,
+          "remainingMs": 59995.699951171875,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": null,
+        "syncCue": false,
+        "headerText": "SYNTHETIC · R6 · JAIL VOTE60sCaptain — · Officer —Turn: —",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "restored": {
+        "phase": {
+          "id": "synthetic-vote-2",
+          "kind": "JAIL_VOTE",
+          "startedAt": 1793906603112,
+          "endsAt": 1793906663112,
+          "nowMs": 1793906603141.5,
+          "remainingMs": 59970.5,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": null,
+        "syncCue": false,
+        "headerText": "SYNTHETIC · R6 · JAIL VOTE60sCaptain — · Officer —Turn: —",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "player-ui public-board roles abilities scene-art board-v2-art setup-art board-v2-motion-art board-v2-films-art",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "screenshots": [
+        "390-844-normal-missing-art-presentation.png",
+        "390-844-normal-art-restored-vote-no-replay.png"
+      ]
+    },
+    {
+      "name": "390-844-normal-ordinary-round-skips-presentation",
+      "passed": true,
+      "current": {
+        "phase": {
+          "id": "synthetic-vote-1",
+          "kind": "JAIL_VOTE",
+          "startedAt": 1793906603293,
+          "endsAt": 1793906663293,
+          "nowMs": 1793906603295,
+          "remainingMs": 59998,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": null,
+        "syncCue": false,
+        "headerText": "SYNTHETIC · R6 · JAIL VOTE60sCaptain — · Officer —Turn: —",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "player-ui roles scene-art abilities public-board board-v2-art setup-art board-v2-motion-art board-v2-films-art",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "screenshots": [
+        "390-844-normal-ordinary-full-vote.png"
+      ]
+    },
+    {
+      "name": "390-844-normal-shared-display-header",
+      "passed": true,
+      "current": {
+        "phase": {
+          "id": "synthetic-sync-1",
+          "kind": "BLACKHOLE_PRESENTATION",
+          "startedAt": 1793906599963,
+          "endsAt": 1793906605963,
+          "nowMs": 1793906603465.25,
+          "remainingMs": 2497.75,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": {
+          "phaseId": "synthetic-sync-1",
+          "startedAt": 1793906599963,
+          "endsAt": 1793906605963,
+          "durationMs": 6000,
+          "elapsedMs": 3502.25,
+          "remainingMs": 2497.75,
+          "progress": 0.5837083333333334,
+          "status": "presenting"
+        },
+        "syncCue": true,
+        "headerText": "SYNTHETIC · R6 · BLACKHOLE SYNC3sCaptain — · Officer —Last finalized board · Round 6 · Turn: — · Ship synchronized",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "player-ui roles abilities public-board scene-art board-v2-art setup-art board-v2-motion-art board-v2-films-art",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "screenshots": [
+        "390-844-normal-shared-display-presentation.png"
+      ]
+    },
+    {
+      "name": "390-844-reduced-six-seconds-then-delayed-full-vote",
+      "passed": true,
+      "fresh": {
+        "phase": {
+          "id": "synthetic-sync-1",
+          "kind": "BLACKHOLE_PRESENTATION",
+          "startedAt": 1793906603732,
+          "endsAt": 1793906609732,
+          "nowMs": 1793906603735.75,
+          "remainingMs": 5996.25,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": {
+          "phaseId": "synthetic-sync-1",
+          "startedAt": 1793906603732,
+          "endsAt": 1793906609732,
+          "durationMs": 6000,
+          "elapsedMs": 5.349853515625,
+          "remainingMs": 5994.650146484375,
+          "progress": 0.0008916422526041666,
+          "status": "presenting"
+        },
+        "syncCue": true,
+        "headerText": "SYNTHETIC · R6 · BLACKHOLE SYNC6sCaptain — · Officer —Turn: — · Ship synchronized",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": "Pending",
+        "commands": 0,
+        "art": "player-ui roles scene-art public-board abilities setup-art board-v2-art board-v2-motion-art board-v2-films-art",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "afterOptionalFilmDuration": {
+        "phase": {
+          "id": "synthetic-sync-1",
+          "kind": "BLACKHOLE_PRESENTATION",
+          "startedAt": 1793906603732,
+          "endsAt": 1793906609732,
+          "nowMs": 1793906605507.45,
+          "remainingMs": 4224.550048828125,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": {
+          "phaseId": "synthetic-sync-1",
+          "startedAt": 1793906603732,
+          "endsAt": 1793906609732,
+          "durationMs": 6000,
+          "elapsedMs": 1775.64990234375,
+          "remainingMs": 4224.35009765625,
+          "progress": 0.295941650390625,
+          "status": "presenting"
+        },
+        "syncCue": true,
+        "headerText": "SYNTHETIC · R6 · BLACKHOLE SYNC5sCaptain — · Officer —Turn: — · Ship synchronized",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": "Pending",
+        "commands": 0,
+        "art": "player-ui roles scene-art public-board abilities setup-art board-v2-art board-v2-motion-art board-v2-films-art",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "expired": {
+        "phase": {
+          "id": "synthetic-sync-1",
+          "kind": "BLACKHOLE_PRESENTATION",
+          "startedAt": 1793906603732,
+          "endsAt": 1793906609732,
+          "nowMs": 1793906609915.8499,
+          "remainingMs": 0,
+          "trusted": true,
+          "expired": true
+        },
+        "stage": {
+          "phaseId": "synthetic-sync-1",
+          "startedAt": 1793906603732,
+          "endsAt": 1793906609732,
+          "durationMs": 6000,
+          "elapsedMs": 6000,
+          "remainingMs": 0,
+          "progress": 1,
+          "status": "awaiting-view"
+        },
+        "syncCue": true,
+        "headerText": "SYNTHETIC · R6 · BLACKHOLE SYNC0sCaptain — · Officer —Turn: — · Waiting for server",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "player-ui roles scene-art public-board abilities setup-art board-v2-art board-v2-motion-art board-v2-films-art",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "vote": {
+        "phase": {
+          "id": "synthetic-vote-2",
+          "kind": "JAIL_VOTE",
+          "startedAt": 1793906609992,
+          "endsAt": 1793906669992,
+          "nowMs": 1793906609995.45,
+          "remainingMs": 59996.550048828125,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": null,
+        "syncCue": false,
+        "headerText": "SYNTHETIC · R6 · JAIL VOTE60sCaptain — · Officer —Turn: —",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": "Fulfilled",
+        "commands": 0,
+        "art": "player-ui roles scene-art public-board abilities setup-art board-v2-art board-v2-motion-art board-v2-films-art",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "ballot": {
+        "phase": {
+          "id": "synthetic-vote-2",
+          "kind": "JAIL_VOTE",
+          "startedAt": 1793906609992,
+          "endsAt": 1793906669992,
+          "nowMs": 1793906610091.55,
+          "remainingMs": 59900.449951171875,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": null,
+        "syncCue": false,
+        "headerText": "SYNTHETIC · R6 · JAIL VOTE60sCaptain — · Officer —Choose an offered character on the board.Choose an offered character on the board.",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 9,
+        "canMove": false,
+        "canPass": false,
+        "action": {
+          "type": "VOTE",
+          "label": "Vote",
+          "step": "targets",
+          "selected": [],
+          "choices": [
+            {
+              "value": "seat-1",
+              "label": "Player 1"
+            },
+            {
+              "value": "seat-2",
+              "label": "Player 2"
+            },
+            {
+              "value": "seat-3",
+              "label": "Player 3"
+            },
+            {
+              "value": "seat-4",
+              "label": "Player 4"
+            },
+            {
+              "value": "seat-5",
+              "label": "Player 5"
+            },
+            {
+              "value": "seat-6",
+              "label": "Player 6"
+            },
+            {
+              "value": "seat-7",
+              "label": "Player 7"
+            },
+            {
+              "value": "seat-8",
+              "label": "Player 8"
+            },
+            {
+              "value": "seat-9",
+              "label": "Player 9"
+            },
+            {
+              "value": "abstain",
+              "label": "Abstain"
+            }
+          ],
+          "prompt": "Choose an offered character on the board.",
+          "confirmation": null,
+          "canConfirm": false
+        },
+        "offers": [
+          {
+            "type": "VOTE",
+            "targetSeatIds": [
+              "seat-1",
+              "seat-2",
+              "seat-3",
+              "seat-4",
+              "seat-5",
+              "seat-6",
+              "seat-7",
+              "seat-8",
+              "seat-9"
+            ],
+            "slotIds": [],
+            "windowIds": [],
+            "promiseTargetSeatIds": []
+          }
+        ],
+        "promise": null,
+        "commands": 0,
+        "art": "player-ui roles scene-art public-board abilities setup-art board-v2-art board-v2-motion-art board-v2-films-art",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "screenshots": [
+        "390-844-reduced-presentation-promise-pending.png",
+        "390-844-reduced-expired-waiting-for-server.png",
+        "390-844-reduced-new-full-vote-targets.png"
+      ]
+    },
+    {
+      "name": "390-844-reduced-late-duplicate-foreground-seeks",
+      "passed": true,
+      "late": {
+        "phase": {
+          "id": "synthetic-sync-1",
+          "kind": "BLACKHOLE_PRESENTATION",
+          "startedAt": 1793906606838,
+          "endsAt": 1793906612838,
+          "nowMs": 1793906610340,
+          "remainingMs": 2498,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": {
+          "phaseId": "synthetic-sync-1",
+          "startedAt": 1793906606838,
+          "endsAt": 1793906612838,
+          "durationMs": 6000,
+          "elapsedMs": 3502.10009765625,
+          "remainingMs": 2497.89990234375,
+          "progress": 0.583683349609375,
+          "status": "presenting"
+        },
+        "syncCue": true,
+        "headerText": "SYNTHETIC · R6 · BLACKHOLE SYNC3sCaptain — · Officer —Turn: — · Ship synchronized",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "player-ui public-board roles scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "resumed": {
+        "phase": {
+          "id": "synthetic-sync-1",
+          "kind": "BLACKHOLE_PRESENTATION",
+          "startedAt": 1793906606838,
+          "endsAt": 1793906612838,
+          "nowMs": 1793906610530.5,
+          "remainingMs": 2307.5,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": {
+          "phaseId": "synthetic-sync-1",
+          "startedAt": 1793906606838,
+          "endsAt": 1793906612838,
+          "durationMs": 6000,
+          "elapsedMs": 3692.5,
+          "remainingMs": 2307.5,
+          "progress": 0.6154166666666666,
+          "status": "presenting"
+        },
+        "syncCue": true,
+        "headerText": "SYNTHETIC · R6 · BLACKHOLE SYNC3sCaptain — · Officer —Turn: — · Ship synchronized",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "player-ui public-board roles scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "screenshots": [
+        "390-844-reduced-late-foreground-seek.png"
+      ]
+    },
+    {
+      "name": "390-844-reduced-return-after-stage-no-replay",
+      "passed": true,
+      "current": {
+        "phase": {
+          "id": "synthetic-vote-2",
+          "kind": "JAIL_VOTE",
+          "startedAt": 1793906613021,
+          "endsAt": 1793906673021,
+          "nowMs": 1793906613217.25,
+          "remainingMs": 59803.75,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": null,
+        "syncCue": false,
+        "headerText": "SYNTHETIC · R6 · JAIL VOTE60sCaptain — · Officer —Turn: —",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "player-ui public-board roles scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "screenshots": [
+        "390-844-reduced-vote-foreground-no-replay.png"
+      ]
+    },
+    {
+      "name": "390-844-reduced-missing-art-progress-and-restore",
+      "passed": true,
+      "noArt": {
+        "phase": {
+          "id": "synthetic-sync-1",
+          "kind": "BLACKHOLE_PRESENTATION",
+          "startedAt": 1793906608190,
+          "endsAt": 1793906614190,
+          "nowMs": 1793906613392.7002,
+          "remainingMs": 797.2998046875,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": {
+          "phaseId": "synthetic-sync-1",
+          "startedAt": 1793906608190,
+          "endsAt": 1793906614190,
+          "durationMs": 6000,
+          "elapsedMs": 5202.7001953125,
+          "remainingMs": 797.2998046875,
+          "progress": 0.86711669921875,
+          "status": "presenting"
+        },
+        "syncCue": true,
+        "headerText": "SYNTHETIC · R6 · BLACKHOLE SYNC1sCaptain — · Officer —Turn: — · Ship synchronized",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "missingVote": {
+        "phase": {
+          "id": "synthetic-vote-2",
+          "kind": "JAIL_VOTE",
+          "startedAt": 1793906614372,
+          "endsAt": 1793906674372,
+          "nowMs": 1793906614377.6,
+          "remainingMs": 59994.39990234375,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": null,
+        "syncCue": false,
+        "headerText": "SYNTHETIC · R6 · JAIL VOTE60sCaptain — · Officer —Turn: —",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "restored": {
+        "phase": {
+          "id": "synthetic-vote-2",
+          "kind": "JAIL_VOTE",
+          "startedAt": 1793906614372,
+          "endsAt": 1793906674372,
+          "nowMs": 1793906614403.2002,
+          "remainingMs": 59968.7998046875,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": null,
+        "syncCue": false,
+        "headerText": "SYNTHETIC · R6 · JAIL VOTE60sCaptain — · Officer —Turn: —",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "player-ui roles public-board scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "screenshots": [
+        "390-844-reduced-missing-art-presentation.png",
+        "390-844-reduced-art-restored-vote-no-replay.png"
+      ]
+    },
+    {
+      "name": "390-844-reduced-ordinary-round-skips-presentation",
+      "passed": true,
+      "current": {
+        "phase": {
+          "id": "synthetic-vote-1",
+          "kind": "JAIL_VOTE",
+          "startedAt": 1793906614596,
+          "endsAt": 1793906674596,
+          "nowMs": 1793906614610.4001,
+          "remainingMs": 59985.599853515625,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": null,
+        "syncCue": false,
+        "headerText": "SYNTHETIC · R6 · JAIL VOTE60sCaptain — · Officer —Turn: —",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "player-ui roles scene-art public-board abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "screenshots": [
+        "390-844-reduced-ordinary-full-vote.png"
+      ]
+    },
+    {
+      "name": "390-844-reduced-shared-display-header",
+      "passed": true,
+      "current": {
+        "phase": {
+          "id": "synthetic-sync-1",
+          "kind": "BLACKHOLE_PRESENTATION",
+          "startedAt": 1793906611350,
+          "endsAt": 1793906617350,
+          "nowMs": 1793906614853,
+          "remainingMs": 2497,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": {
+          "phaseId": "synthetic-sync-1",
+          "startedAt": 1793906611350,
+          "endsAt": 1793906617350,
+          "durationMs": 6000,
+          "elapsedMs": 3503.10009765625,
+          "remainingMs": 2496.89990234375,
+          "progress": 0.5838500162760417,
+          "status": "presenting"
+        },
+        "syncCue": true,
+        "headerText": "SYNTHETIC · R6 · BLACKHOLE SYNC3sCaptain — · Officer —Last finalized board · Round 6 · Turn: — · Ship synchronized",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "abilities public-board board-v2-art player-ui roles scene-art setup-art board-v2-motion-art board-v2-films-art",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "screenshots": [
+        "390-844-reduced-shared-display-presentation.png"
+      ]
+    }
+  ],
+  "runtimeErrors": []
+}

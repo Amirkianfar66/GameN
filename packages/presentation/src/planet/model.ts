@@ -16,7 +16,7 @@ export interface PlanetScreenModel {
   readonly connection: 'connecting'|'live'|'stale'|'error'; readonly message: string | null;
   readonly matchId: string; readonly playerCount:7|8|9|null; readonly round: number | null; readonly revision: number | null;
   readonly board: PlanetBoardView | null; readonly boardLabel: string | null;
-  readonly phase: { readonly id: string; readonly kind: string; readonly remainingMs: number | null; readonly trusted: boolean; readonly expired: boolean } | null;
+  readonly phase: { readonly id: string; readonly kind: string; readonly startedAt:number; readonly endsAt:number|null; readonly nowMs:number|null; readonly remainingMs: number | null; readonly trusted: boolean; readonly expired: boolean } | null;
   readonly offices: PlanetPublicView['offices'] | null; readonly talk: PlanetPublicView['hackSession'];
   readonly navigation: PlanetPublicView['navigation'] | null; readonly result: PlanetPublicView['result'];
   readonly endReveal: PlanetPublicView['endReveal']; readonly lastTally: PlanetPublicView['lastTally'];

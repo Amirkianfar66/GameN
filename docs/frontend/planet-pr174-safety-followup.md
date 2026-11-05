@@ -1,5 +1,7 @@
 # Planet motion review follow-up
 
+Historical record of `4e68b73776905b6d6041ef771be4f503d06becc8`. Its immediate Sync-to-vote timing and pending-approval statements below are superseded by the owner-approved [P27 consumer follow-up](planet-p27-stage.md). The linked browser facts have been refreshed for P27 and now verify the full vote after presentation. The capsule and Rescue safeguards remain current.
+
 This Frontend correction follows `64a94536d0b0db9ff18c9c12c849c7ee273ebb3e` and Integration's supplied review of Designer PR #174 at `db49cea2cbafa0c11743555ff9111d93a0827e91`. It uses the already reviewed runtime drawing ports. No PR #174 artwork, video, fullscreen treatment or timing proposal is adopted by this change.
 
 ## Corrected live behavior

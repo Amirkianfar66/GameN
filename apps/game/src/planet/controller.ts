@@ -62,7 +62,9 @@ export function createPlanetController(transport:PlanetTransport,ports:PlayerPor
  const player=():PlanetPlayerView|null=>view&&planetIsPlayer(view)?view:null;
  const isDark=()=>{const time=reading();return view?.phase.kind==='BLACKOUT'&&(time.status!=='synced'||view.blackout===null||time.serverNowMs+time.uncertaintyMs>=view.blackout.previewEndsAt);};
  const canAct=()=>usable()&&player()!==null&&unsettled===null&&accepted===null&&!storageBlocked;
- const offer=(type:PlanetCommandType):PlanetOffer|null=>player()?.offers.find(o=>o.type===type)??null;
+ const ballotOpen=()=>view?.phase.kind==='JAIL_VOTE'||view?.phase.kind==='CAPTAIN_ELECTION';
+ const phaseAllows=(type:PlanetCommandType)=>!(type==='VOTE'&&!ballotOpen())&&!(view?.phase.kind==='BLACKHOLE_PRESENTATION'&&['MOVE','PANEL_CODE','PASS_TURN'].includes(type));
+ const offer=(type:PlanetCommandType):PlanetOffer|null=>phaseAllows(type)?player()?.offers.find(o=>o.type===type)??null:null;
  const emit=()=>{if(disposed)return;const model=getModel();for(const listener of listeners)listener(model);};
  const clearPrivate=()=>{draft=null;panel='board';interactionOpen=false;};
  const invalidate=(text:string,error=false)=>{fresh=false;failed=error;message=text;clearPrivate();frozen=null;emit();};
@@ -85,13 +87,13 @@ export function createPlanetController(transport:PlanetTransport,ports:PlayerPor
     privateArea.resources={ordinaryWeapons:p.self.ordinaryWeapons,roleActionSpent:p.self.roleActionSpent,movementSpent:p.self.movementSpent};
    }
    if(panel==='actions'){
-    privateArea.offers=p.offers;privateArea.hackFeedback=p.hackFeedback;privateArea.captainCommands=p.abilities.captainCommands;privateArea.ownBallot=p.ownBallot;
+    privateArea.offers=p.offers.filter(o=>phaseAllows(o.type));privateArea.hackFeedback=p.hackFeedback;privateArea.captainCommands=p.abilities.captainCommands;privateArea.ownBallot=p.ownBallot;
     if(p.phase.kind==='BLACKOUT')privateArea.blackoutTargeting=p.blackoutTargeting;
    }
    if(panel==='promises'){privateArea.promises=p.promises;privateArea.promiseQuota=p.promiseQuota;privateArea.offers=p.offers.filter(o=>['OFFER_PROMISE','ACCEPT_PROMISE','DECLINE_PROMISE'].includes(o.type));}
    if(panel==='windows')privateArea.windows=ownPlanetWindows(p,{dark:isDark()});
    if(panel==='navigation')privateArea.navigation=p.privateNavigation;
-   if(panel==='hospital'){privateArea.panelAttemptSpent=p.abilities.panelAttemptSpent;privateArea.offers=p.offers.filter(o=>o.type==='PANEL_CODE');}
+   if(panel==='hospital'){privateArea.panelAttemptSpent=p.abilities.panelAttemptSpent;privateArea.offers=p.offers.filter(o=>o.type==='PANEL_CODE'&&phaseAllows(o.type));}
   }
   let action:PlanetActionModel|null=null;
   if(valid&&interactionOpen&&draft){action={type:draft.type,label:PLANET_ACTION_LABELS[draft.type],step:draft.step,selected:[...draft.selected],choices:[...draft.choices],prompt:draft.prompt,confirmation:draft.command?confirmationFor(draft.command):null,canConfirm:canAct()&&draft.step==='confirm'&&draft.command!==null};}
@@ -103,7 +105,7 @@ export function createPlanetController(transport:PlanetTransport,ports:PlayerPor
    matchId:expected.matchId,playerCount:current?.playerCount??null,round:current?.round??null,revision:current?.viewRevision??null,
    board:currentBoard&&frozen&&current?.blackout?.windowId===frozen.id?frozen.board:currentBoard,
    boardLabel:current&&expected.surface==='display'?`Last finalized board · Round ${current.board.finalizedRound}`:null,
-   phase:current?{id:current.phase.id,kind:current.phase.kind,remainingMs:time.status==='synced'&&current.phase.endsAt!==null?Math.max(0,current.phase.endsAt-time.serverNowMs):null,trusted:time.status==='synced',expired:!valid}:null,
+   phase:current?{id:current.phase.id,kind:current.phase.kind,startedAt:current.phase.startedAt,endsAt:current.phase.endsAt,nowMs:time.status==='synced'?time.serverNowMs:null,remainingMs:time.status==='synced'&&current.phase.endsAt!==null?Math.max(0,current.phase.endsAt-time.serverNowMs):null,trusted:time.status==='synced',expired:!valid}:null,
    offices:current?.offices??null,activeSeatId:current?.activeSeatId??null,talk:current?.hackSession??null,navigation:current?.navigation??null,result:current?.result??null,endReveal:current?.endReveal??null,lastTally:current?.lastTally??null,
    identities:current?transport.identities?.().filter(i=>current.board.seats.some(s=>s.seatId===i.seatId))??[]:[],
    panel:p?panel:'board',concealed:!visible,ownSeatId:binding?.seatId??null,
@@ -143,6 +145,7 @@ export function createPlanetController(transport:PlanetTransport,ports:PlayerPor
    }
    if(next.viewRevision<view.viewRevision)return invalidate('Waiting for the latest authorized view.');
    if(next.viewRevision===view.viewRevision&&JSON.stringify(next)!==JSON.stringify(view))return invalidate('Conflicting view revision. Reconnect this seat.',true);
+   if(view.phase.kind==='BLACKHOLE_PRESENTATION'&&next.phase.id===view.phase.id&&(next.phase.kind!==view.phase.kind||next.phase.startedAt!==view.phase.startedAt||next.phase.endsAt!==view.phase.endsAt))return invalidate('The Sync interval changed unexpectedly.',true);
    if(next.versions.assetManifestVersion!==view.versions.assetManifestVersion||next.round<view.round)return invalidate('The match version changed unexpectedly.',true);
    if(planetIsPlayer(next)&&planetIsPlayer(view)&&(next.self.role!==view.self.role||next.self.faction!==view.self.faction))return invalidate('Your seat identity changed unexpectedly.',true);
   }

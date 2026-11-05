@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-05T18:08:46.739Z",
+  "generatedAt": "2026-11-05T19:24:26.079Z",
   "browser": {
     "protocolVersion": "1.3",
     "product": "Chrome/156.0.8078.80",
@@ -7296,7 +7296,7 @@
           "out": false
         }
       ],
-      "text": "The ship\nCOMMAND ROOM\n7\nCrew 7\nCaptain\nROOM A\n1\nCrew 1\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n6\nCrew 6\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\nJAIL\nPRIVATE TALK\nSYNTHETIC · R6 · JAIL VOTE\n60s\nCaptain Player 7 · Officer —\nTurn: — · BLACKHOLE synced\n\nBoard\nCard\nActions\nMore\nPASS\n\nBLACKHOLE — ship synchronized.\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Command Room, C1, Captain.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
+      "text": "The ship\nCOMMAND ROOM\n7\nCrew 7\nCaptain\nROOM A\n1\nCrew 1\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n6\nCrew 6\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\nJAIL\nPRIVATE TALK\nSYNTHETIC · R6 · BLACKHOLE SYNC\n6s\nCaptain Player 7 · Officer —\nTurn: — · Ship synchronized\n\nBoard\nCard\nActions\nMore\nPASS\n\nBLACKHOLE — ship synchronized.\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Command Room, C1, Captain.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
       "screenshot": "flow-authorized-blackhole-hook.png"
     },
     {
@@ -7706,7 +7706,7 @@
       "command": {
         "protocolVersion": 3,
         "matchId": "planet-local",
-        "commandId": "df978875-1c6f-4a8c-a9ca-880abef92757",
+        "commandId": "53e85b85-694f-450b-9b31-62970595af33",
         "phaseId": "planet-phase-turn",
         "command": {
           "type": "MOVE",
@@ -7737,7 +7737,7 @@
       "passed": true
     },
     {
-      "name": "secret Blackhole use has no early cue; only the authorized Sync occurrence starts the fallback hook",
+      "name": "secret Blackhole use has no early cue; the authoritative six-second presentation supplies the header fallback",
       "passed": true
     },
     {
@@ -7755,7 +7755,7 @@
     {
       "name": "capsule conversation starts with the original full server 60-second window; entrance adds no local delay",
       "passed": true,
-      "remainingMs": 59943.10009765625
+      "remainingMs": 59937.449951171875
     },
     {
       "name": "authorized room block mounts the approved source-free shield; public view omits it and motion change removes it",

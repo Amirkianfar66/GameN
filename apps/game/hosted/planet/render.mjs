@@ -1,4 +1,4 @@
-import {PLANET_ACTION_LABELS,PLANET_PROMISE_LABELS,planetPromiseTerms} from '@mothership/presentation';
+import {PLANET_ACTION_LABELS,PLANET_PROMISE_LABELS,planetPromiseTerms,planetBlackholePresentation} from '@mothership/presentation';
 import {PlanetDrawingSchema} from '@mothership/contracts';
 import {turnsLayout} from '../board-v2-drawing/turns-four.mjs';
 import {slotRects} from '../board-v2-drawing/fit-four.mjs';
@@ -174,8 +174,8 @@ export function mountPlanetRenderer(root,controller){
    }
   }
   if(!frame||!layout?.fits)rescue.clear();
-  const synced=!model.concealed&&!model.dark&&sample.special.some(effect=>effect.kind==='blackhole');
-  root.dataset.syncCue=String(synced);checkpoint.textContent=checkpointText+(synced?' · BLACKHOLE synced':'');
+  const stage=planetBlackholePresentation(model),synced=stage!==null||!model.concealed&&!model.dark&&sample.special.some(effect=>effect.kind==='blackhole');
+  root.dataset.syncCue=String(synced);checkpoint.textContent=checkpointText+(stage?(stage.status==='presenting'?' · Ship synchronized':' · Waiting for server'):synced?' · BLACKHOLE synced':'');
   for(const effect of sample.special)if(effect.kind==='blocked')paintBlock(effect);
   if(sample.animate||capsule.sample().animate||blackout.sample()?.animate)raf=win.requestAnimationFrame(paint);
  }
@@ -213,7 +213,7 @@ export function mountPlanetRenderer(root,controller){
  function render(next){
   if(disposed)return;model=next;
   root.dataset.planetPanel=model.panel;root.dataset.connection=model.connection;root.dataset.surface=model.surface;root.dataset.mode=model.mode;root.dataset.motion=reduced()?'reduced':'normal';root.dataset.blackout=model.dark?'dark':'none';
-  phase.textContent=`${model.mode==='synthetic'?'SYNTHETIC · ':''}${model.round===null?'Connecting':`R${model.round} · ${model.phase?.kind.replaceAll('_',' ')??''}${model.activeSeatId?` · P${model.activeSeatId.slice(5)}`:''}`}`;
+  phase.textContent=`${model.mode==='synthetic'?'SYNTHETIC · ':''}${model.round===null?'Connecting':`R${model.round} · ${(model.phase?.kind==='BLACKHOLE_PRESENTATION'?'BLACKHOLE SYNC':model.phase?.kind.replaceAll('_',' '))??''}${model.activeSeatId?` · P${model.activeSeatId.slice(5)}`:''}`}`;
   timer.textContent=model.phase?.remainingMs==null?'—':`${Math.ceil(model.phase.remainingMs/1000)}s`;timer.setAttribute('aria-label','Phase time remaining');
   offices.textContent=`Captain ${number(model.offices?.captainSeatId)} · Officer ${number(model.offices?.officerSeatId)}${model.offices?.blockedSeatId?` · Move blocked: ${number(model.offices.blockedSeatId)}`:''}`;
   checkpoint.textContent=(model.boardLabel?`${model.boardLabel} · `:'')+(model.talk?`Private talk: ${number(model.talk.actorSeatId)} + ${number(model.talk.targetSeatId)}`:`Turn: ${number(model.activeSeatId)}`);

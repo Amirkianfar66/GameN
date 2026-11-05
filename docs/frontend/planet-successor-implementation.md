@@ -1,12 +1,12 @@
 # Planet successor Frontend consumer
 
-Latest motion corrections and review constraints: [PR 174 safety follow-up](planet-pr174-safety-followup.md).
+Latest timing and verification: [P27 presentation consumer](planet-p27-stage.md). The [PR 174 safety follow-up](planet-pr174-safety-followup.md) records the earlier capsule and Rescue corrections.
 
 Implemented on `codex/frontend-planet-successor` in `/private/tmp/gamen-planet-frontend` from shared base `29e6ea82a31085df12ddee62758a55646eecbd3a`. This is the separate protocol-3 player, host and shared-display consumer. Integration supplies the authoritative `planetApi` service and owns shared release adoption, backend verification and activation.
 
-The six approved specification files and the 26 owner decisions are the gameplay authority. Integration's refined session/event contract commit `79418e72dba99ba99afe047ecb97467fb5e73b62` was adopted as local `8275e61517abdb2846ea559ac1913ce3e10e8ff7`. The Designer production brief `376f43756f6337a1ea270926bac3aa0326cebd7a` was adopted as local `8f44dba1350321d187f7da2666d09bc9585a72ce`. Those commits are dependencies, not Frontend-authored contract or design changes.
+The six approved specification files and owner decisions P01–P27 are the gameplay authority. Integration's refined session/event contract commit `79418e72dba99ba99afe047ecb97467fb5e73b62` was adopted as local `8275e61517abdb2846ea559ac1913ce3e10e8ff7`. The Designer production brief `376f43756f6337a1ea270926bac3aa0326cebd7a` was adopted as local `8f44dba1350321d187f7da2666d09bc9585a72ce`. Integration's P27 contract commit `aa90fbd42283813116a41922337406139ff9905a` was adopted as `5aca09986089aafe31069fe00791414631fc5dc5`. Those commits are dependencies, not Frontend-authored contract or design changes.
 
-The consumer pins protocol `3`, engine `planet-game-1.0.0`, ruleset `in-person-planet-2026-11-05`, ruleset hash `32cde63d777ed93744637f911c134247272dc862524bd5aa9d0c3cd405dbe8ea`, and the existing reviewed artwork `design-0.5.0`. Unsupported tuples, audiences, identities, revisions, occupied slots, changed shown drawings and malformed receipts fail closed. Historical protocol-2 entry points, rules, artwork and source snapshots remain separate and pass their existing tests.
+The consumer pins protocol `3`, engine `planet-game-1.0.1`, ruleset `in-person-planet-sync-six-2026-11-05`, ruleset hash `4f26343641fcff00480bb3c0ba852703418f772bb677117a272828ad229c8b1c`, and the existing reviewed artwork `design-0.5.0`. Unsupported tuples, audiences, identities, revisions, occupied slots, changed shown drawings and malformed receipts fail closed. The preceding unshipped 1.0.0 tuple is not migrated or relabeled. Historical protocol-2 entry points, rules, artwork and source snapshots remain separate and pass their existing tests.
 
 ## Entry and service boundary
 
@@ -35,11 +35,11 @@ The renderer feeds genuine Planet presentation DTOs into the existing pure scene
 
 Medical admission/rest, the ceiling-drone Rescue, flatline, Captain RELEASE/EJECT, overflow/offboard treatment, private Clone, Blackout, room-scoped blocked-attack effects and the public talk capsule use the reviewed drawing ports. Successful Rescue uses a machinery-only vignette while the healthy current token and nameplate stay at their authoritative A/B or Jail slot; no participant is copied or hidden by that vignette. The new occurrence director requires the correct audience, phase/revision, publication time, fixed expiry and clinical anchor. Initial/reconnected/hidden states consume no historical movie. Reduced-motion changes cancel owned effects and restore figures before unchanged-state processing. Continuous visible phase expiry can still receive a newly resolved occurrence; a disconnected baseline cannot replay history. Block effects after Blackout wait for the approved lights-return interval and have no defense-cause input.
 
-The Sync event has a nonblocking cue inside the existing status header, leaving the full live ballot visible and usable. A current Sync/outcome or terminal state takes precedence over the board-only capsule exit. The proposed separate post-Sync stage remains pending owner approval and is not implemented. Claude's reviewed Blackhole ship passage/video pilot and any Engineer-specific held device are pending. Engineer uses the selected neutral crew portrait, and Doctor uses the existing rescue-device illustration with corrected current text. No new cinematic footage, sound or Designer source artwork is claimed. The larger cinematic library remains with Claude under the adopted production brief.
+The owner-approved six-second `BLACKHOLE_PRESENTATION` has a cue inside the existing status header. Voting remains closed until a separate authoritative `JAIL_VOTE` starts its full 60-second interval. Late entry and reconnect seek or snap within the supplied interval; expiry waits for the server. A current Sync/outcome or terminal state takes precedence over the board-only capsule exit. Claude's reviewed Blackhole ship passage/video pilot and any Engineer-specific held device are pending. Engineer uses the selected neutral crew portrait, and Doctor uses the existing rescue-device illustration with corrected current text. No PR #174 footage, sound or Designer source artwork is adopted. The larger cinematic library remains with Claude under the adopted production brief.
 
 ## Verification and evidence
 
-The final run uses Node `22.21.1` and npm `10.9.4`. All 810 Frontend tests passed (208 presentation and 602 game, including 69 Planet tests), with zero skipped/cancelled tests. All 15 successor contract tests passed. Build, both typecheck programs, workspace/source checks, unchanged-art comparison, production build and production-bundle exclusion passed. The phone run passed 100 synthetic cases and 12 interaction/motion flows, saving 46 selected screenshots with zero runtime errors or page overflow. Reproduce from the repository root:
+The final run uses Node `22.21.1` and npm `10.9.4`. All 820 Frontend tests passed (211 presentation and 609 game, including 76 Planet tests), with zero skipped/cancelled tests. All 16 successor and 26 legacy contract/fixture tests passed. Build, both typecheck programs, workspace/source checks, unchanged-art comparison, production build and production-bundle exclusion passed. The phone run passed 100 synthetic cases and 12 interaction/motion flows, saving 46 selected screenshots with zero runtime errors or page overflow. The P27 follow-up adds 24 browser flows and 36 screenshots; the refreshed motion safety run retains 16 checks and 16 screenshots. Reproduce from the repository root:
 
 ```sh
 npm ci
@@ -47,12 +47,15 @@ npm run build
 npm run typecheck
 node scripts/test-frontend.mjs
 node --test tests/bootstrap/planet-contract.test.mjs
+npm run test:contracts
 npm run check:workspace
 npm run check:sources
 ./node_modules/.bin/vite build --config apps/game/hosted/vite.config.mjs
 node apps/game/scripts/check-production-exclusion.mjs --bundle "$PWD/dist/hosted-preview"
 ./node_modules/.bin/vite build --config apps/game/dev/planet/vite.config.mjs
 node apps/game/dev/planet/capture.mjs docs/frontend/evidence/planet-successor
+node apps/game/dev/planet/capture-stage.mjs
+node apps/game/dev/planet/capture-review-safety.mjs
 ```
 
 The Frontend suite includes every command form, privacy/identity/revision guards, unknown/exact retry, reload receipt lookup, setup timing, window permissions/darkness, immutable drawings, authoritative Promise states, medical anchors, terminal cancellation and source-free room-block motion. The historical suites remain included. The production scan verifies that the synthetic harness, test modules and development markers are absent from the shipped bundle. The build reports a large-chunk advisory; no phone performance budget is claimed from it.

@@ -34,9 +34,10 @@ export function createPlanetMotion({now=()=>performance.now()}={}){
   if(next?.matchId!==model?.matchId){seen.clear();previous=null;cloneBefore=null;clear();}
   const addressed=!!next&&PlanetVersionsSchema.safeParse(next.versions).success&&next.versions.assetManifestVersion==='design-0.5.0'&&next.connection==='live'&&!next.concealed&&visible&&focused;
   const current=addressed&&next.presentation!==null&&next.phase?.trusted&&!next.phase.expired&&!next.dark&&!['FINISHED','ABORTED'].includes(next.phase.kind);
+  const stage=next?.phase?.kind==='BLACKHOLE_PRESENTATION';
   const leavingBlackout=model?.phase?.kind==='BLACKOUT'&&next?.phase?.kind!=='BLACKOUT';
   const motionChanged=reduced!==reducedMotion;if(motionChanged)clear();reduced=reducedMotion;
-  if(!current){active.clear();cloneMoving=null;}
+  if(!current||stage){active.clear();cloneMoving=null;}
   const seats=next?.board?.seats??[];
   if(current&&liveBefore){
    for(const [id,entry]of active){
@@ -46,7 +47,7 @@ export function createPlanetMotion({now=()=>performance.now()}={}){
   for(const event of next?.presentation?.events??[]){
    if(seen.has(event.id))continue;seen.add(event.id);
    const parsed=PlanetEventSchema.safeParse(event);
-   if(!parsed.success||!current||!liveBefore||motionChanged||event.phaseId!==next.phase.id||event.viewRevision!==next.revision||event.round!==next.round||event.publishedAt>next.presentation.nowMs||event.expiresAt<=next.presentation.nowMs)continue;
+   if(!parsed.success||!current||stage||!liveBefore||motionChanged||event.phaseId!==next.phase.id||event.viewRevision!==next.revision||event.round!==next.round||event.publishedAt>next.presentation.nowMs||event.expiresAt<=next.presentation.nowMs)continue;
    if(event.audience.kind==='player'&&(next.surface!=='player'||event.audience.seatId!==next.ownSeatId))continue;
    const subject=seats.find(s=>s.seatId===event.seatIds[0]),origin=previous?.find(s=>s.seatId===event.seatIds[0]);
    const base={event:{eventId:event.id},occurrence:clone(event),expected:JSON.stringify(seats.map(s=>[s.seatId,placement(s)])),age:next.presentation.nowMs-event.publishedAt,startedAt:now()+(leavingBlackout&&event.kind==='ATTACK_BLOCKED'?(reduced?80:520):0)};
@@ -75,7 +76,7 @@ export function createPlanetMotion({now=()=>performance.now()}={}){
   const open=next?.panel==='card';
   // Card closure, concealment and motion changes cancel without deferring a historical film.
   if(!open||!current||motionChanged)cloneMoving=null;
-  if(own&&open&&privateWasOpen&&liveBefore&&!motionChanged){
+  if(own&&open&&privateWasOpen&&liveBefore&&!motionChanged&&!stage){
    const kind=cloneFilmFor({before:cloneBefore,after:own,live:true});if(kind)cloneMoving={kind,start:now()};
   }
   cloneBefore=clone(own);privateWasOpen=open;previous=clone(seats);liveBefore=addressed&&!['FINISHED','ABORTED'].includes(next?.phase?.kind);model=next;received=now();
@@ -108,6 +109,7 @@ export function createPlanetMotion({now=()=>performance.now()}={}){
 
 /** A newly published outcome or terminal state settles optional capsule return motion. */
 export function planetOutcomeTakesPrecedence(model){
+ if(model?.phase?.kind==='BLACKHOLE_PRESENTATION')return true;
  if(model?.result||['FINISHED','ABORTED'].includes(model?.phase?.kind))return true;
  if(!model?.presentation||model.connection!=='live'||model.concealed||model.phase?.expired)return false;
  return model.presentation.events.some(event=>event.phaseId===model.phase.id&&event.viewRevision===model.revision&&event.round===model.round&&event.publishedAt<=model.presentation.nowMs&&event.expiresAt>model.presentation.nowMs);
