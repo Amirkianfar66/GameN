@@ -18,6 +18,7 @@ Approved implementation request: 5 November 2026. Source worktree: isolated inte
 - Alien alive plus personally used Blackhole co-wins on either planet; no-survivor check only after selected final resolution.
 - Original hack followed by Beta fork then Beta selection retains the spent activation. Selecting a pre-activation state restores availability; prior consumed resources never refill on branch.
 - Whole-world selection retains pending actions and costs, not mixed successes; actor-world targeting and foreign-target feedback isolation.
+- Actual Blackhole Sync opens one fixed 6000ms presentation, with no early ballot acceptance; non-Blackhole rounds skip it. The deadline opens a fresh full 60000ms vote, including delayed dispatch. Meet A/B settles at vote start. Reconnect, reduced motion, missing assets, stale/duplicate tasks and animation completion cannot resample Sync or restart/shorten either interval.
 - Two shared healing injections, immediate reservations, global patient attempt, no empty-pool code oracle, attacks before Rescue and no revival.
 - Current-round meeting Promise evaluated after Sync; actual Jail ballot fulfills even when admission fails; previous Promise results unchanged; acceptance quotas and election runoff/absent opportunity handled.
 - Window endpoint and station permission, free draw/show, same-room movement cost, append-only author ordering and round expiry; no global exposure from global persistence.

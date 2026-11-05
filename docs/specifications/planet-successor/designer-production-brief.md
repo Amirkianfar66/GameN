@@ -28,7 +28,7 @@ Read these six files together from that commit or the later Integration handoff:
 - `docs/specifications/planet-successor/motion-requirements.md`
 - `docs/specifications/planet-successor/implementation.md`
 
-Integration is refining the candidate contracts with Frontend. Pin the exact adopted commit before production wiring. The candidate is protocol 3, engine `planet-game-1.0.0`, ruleset `in-person-planet-2026-11-05`; it is separate from existing protocol 2 matches. Studio publication is not runtime activation. Do not change `reference/design-canvas/` or historical manifests.
+Integration is refining the candidate contracts with Frontend. Pin the exact adopted commit before production wiring. The current candidate is protocol 3, engine `planet-game-1.0.1`, ruleset `in-person-planet-sync-six-2026-11-05`; it is separate from existing protocol 2 matches. P27 now approves a fixed six-second post-Sync Blackhole presentation before the full Jail vote; use the server phase interval, not a local delay. This timing approval does not adopt PR #174 assets. Studio publication is not runtime activation. Do not change `reference/design-canvas/` or historical manifests.
 
 ## 2. Art direction and quality
 

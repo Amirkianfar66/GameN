@@ -31,6 +31,12 @@ Player: authorized board for their own world without reality labels, own role/fa
 
 Reveal only resolved outcomes. Command acceptance means registration, not damage/heal/block. On reconnect use current views/deadlines without replaying completed cinematics or resetting availability.
 
+## Post-Sync presentation timing
+
+After an actual Blackhole Sync, publish `BLACKHOLE_PRESENTATION` for exactly 6000 milliseconds, using the normal authoritative phase ID and timestamps. The selected board is already current and the Sync outcome remains anonymous; publish no chosen-world identifier or branch count. No Jail ballots are offered or accepted in this phase. Ordinary non-Blackhole rounds go directly to voting.
+
+On its deadline, open a separate `JAIL_VOTE` with 60000 milliseconds from its actual authoritative start and settle meeting Promises at that voting opportunity. Persist the presentation phase and deadline intent atomically with the Sync state. Duplicate, stale and delayed tasks must not resample Sync, repeat effects, reopen submissions or reduce the vote's duration. Reconnection consumes the existing phase interval; it never creates a new six-second wait.
+
 ## API and persistence
 
 Commands use match ID, unique command ID, phase ID and exact protocol; UID is taken only from authentication. Deduplicate the same actor/command and reject ID reuse with different input. Journal, authoritative state, audience views and deadline outbox update atomically. Stale/early/retried tasks cannot advance the wrong phase or double-spend. Sampling is an explicit trusted recorded input, never client randomness or recomputation on replay.

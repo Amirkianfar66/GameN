@@ -1,10 +1,10 @@
 # Final owner decisions — 5 November 2026
 
-These decisions were approved in integration conversation `01a0de94-e774-7a53-80fd-5897c518c9bf`. The owner supplied the corrections below and explicitly approved every remaining recommendation. All 26 items are confirmed. Recommendations from the earlier review are superseded wherever this record differs.
+These decisions were approved in integration conversation `01a0de94-e774-7a53-80fd-5897c518c9bf`. The owner supplied the corrections below and explicitly approved every remaining recommendation. All 26 original items are confirmed. P27 records the later explicit approval of the Blackhole presentation stage. Recommendations from the earlier review are superseded wherever this record differs.
 
 ## Resolution order (separately approved)
 
-Finish the ordinary-turn/private-conversation stage and close Hospital-panel submissions. If Blackhole is active, select one entire reality uniformly, including Original, and Sync its current state and pending actions. Then conduct Jail voting, the existing five-second result checkpoint and shared 15-second Blackout window. Resolve retained normal actions/attacks and defenses in recorded turn order, Rescue, Round 3 Supply, medical deadlines/placement and permitted reveals. Evaluate the no-survivors exception only on this finalized state. Then calculate navigation, apply a retained Hack Spaceship override, handle a genuine tie if still needed, obtain non-veto confirmations, move once and evaluate arrival. Round 1 has the fixed Junction move before its first Captain election. Never resolve speculative attacks, heal, determine current-round Promises, or end the game before Sync.
+Finish the ordinary-turn/private-conversation stage and close Hospital-panel submissions. If Blackhole is active, select one entire reality uniformly, including Original, and Sync its current state and pending actions. After an actual Blackhole Sync, enter the fixed six-second presentation stage in P27; rounds without Blackhole skip this stage. Then conduct the full 60-second Jail vote, the existing five-second result checkpoint and shared 15-second Blackout window. Resolve retained normal actions/attacks and defenses in recorded turn order, Rescue, Round 3 Supply, medical deadlines/placement and permitted reveals. Evaluate the no-survivors exception only on this finalized state. Then calculate navigation, apply a retained Hack Spaceship override, handle a genuine tie if still needed, obtain non-veto confirmations, move once and evaluate arrival. Round 1 has the fixed Junction move before its first Captain election. Never resolve speculative attacks, heal, determine current-round Promises, or end the game before Sync.
 
 | ID | Confirmed decision |
 | --- | --- |
@@ -34,6 +34,16 @@ Finish the ordinary-turn/private-conversation stage and close Hospital-panel sub
 | P24 | Same-round Promises finalize at the close of their opportunity within that round. Only future-election Promises may await a future election until match end. An absent required opportunity gives Condition not met; an opportunity that occurs but is prevented by a power/forced move gives Not fulfilled. Failure is not proof of lying. |
 | P25 | Participants may voluntarily repeat private-conversation information in the same round as unverified spoken/drawn claims. This removes the old disclosure embargo, not conversation eligibility or app audience restrictions. The app never automatically broadcasts private claims, content or Promises. |
 | P26 | Entering A/B and selecting an empty destination position together consume one voluntary movement. Repositioning inside the same room also consumes that round's movement. Only A↔B crossing creates a Blackhole branch; repositioning does not. Viewing, drawing and Show are free. Movement blocking does not stop an existing drawing-position occupant from drawing. |
+
+## P27 — Blackhole presentation before Jail voting
+
+Confirmed by the owner on 5 November 2026 in the same integration conversation, answering the PR #174 R1 timing question: use a fixed six-second independent presentation after Sync, then the full 60-second Jail vote. This supersedes the immediate Sync-to-vote transition and the proposal to cover the vote's opening seconds with the film.
+
+- Enter the stage only after an authorized Blackhole Sync. A round without Blackhole adds no presentation delay.
+- The server publishes `BLACKHOLE_PRESENTATION` with `startedAt` and `endsAt = startedAt + 6000`. The already-selected reality is authoritative; do not select again, resolve pending attacks/Rescue early, reopen movement or Hospital-panel registration, or reveal branch metadata.
+- Jail ballots are not open during this stage. At its authoritative deadline transition, start `JAIL_VOTE` with its own full 60000 milliseconds. A delayed task must not shorten the vote. Evaluate Meet A/B Promises at that actual vote start, not at presentation start. Other Promise opportunities retain P24.
+- Animation completion, reduced motion, missing assets, reconnect, browser visibility and duplicate/stale delivery cannot shorten, restart or extend the server phase. A late client seeks or snaps within the existing interval; a client returning after it sees the current phase without replay.
+- This changes the successor candidate only. Use a new exact engine/ruleset/source-hash tuple for new matches; do not migrate or reinterpret an existing pinned match. Asset selection and PR #174 adoption still require their own review.
 
 ## Required counterexamples
 

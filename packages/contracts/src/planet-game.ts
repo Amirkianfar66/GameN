@@ -5,9 +5,9 @@ import { ClinicalPresentationAnchorSchema } from './captain-outcomes.js';
 /** Separate successor wire contract. Never reinterpret a saved protocol-2 match. */
 export const PLANET_GAME_PINS = Object.freeze({
   protocolVersion: 3 as const,
-  engineVersion: 'planet-game-1.0.0',
-  rulesetVersion: 'in-person-planet-2026-11-05',
-  rulesetHash: '32cde63d777ed93744637f911c134247272dc862524bd5aa9d0c3cd405dbe8ea',
+  engineVersion: 'planet-game-1.0.1',
+  rulesetVersion: 'in-person-planet-sync-six-2026-11-05',
+  rulesetHash: '4f26343641fcff00480bb3c0ba852703418f772bb677117a272828ad229c8b1c',
 });
 export const PlanetVersionsSchema = z.strictObject({
   protocolVersion: z.literal(3), engineVersion: z.literal(PLANET_GAME_PINS.engineVersion),
@@ -93,13 +93,13 @@ export const PlanetReceiptSchema = z.discriminatedUnion('status',[
 ]);
 export type PlanetReceipt = z.infer<typeof PlanetReceiptSchema>;
 export const PlanetPhaseKindSchema = z.enum([
-  'OFFICER_APPOINTMENT','PRE_TURN','ORDINARY_TURN','HACK_DECLARE','HACK_RESULT','HACK','JAIL_VOTE','CAPTAIN_ELECTION',
+  'OFFICER_APPOINTMENT','PRE_TURN','ORDINARY_TURN','HACK_DECLARE','HACK_RESULT','HACK','BLACKHOLE_PRESENTATION','JAIL_VOTE','CAPTAIN_ELECTION',
   'VOTE_RESULT','BLACKOUT','NAV_TIE','NAV_CAPTAIN_CONFIRM','NAV_OFFICER_CONFIRM','FINISHED','ABORTED',
 ]);
 export type PlanetPhaseKind = z.infer<typeof PlanetPhaseKindSchema>;
 export const PLANET_PHASE_DURATIONS: Readonly<Record<PlanetPhaseKind,number|null>> = Object.freeze({
   OFFICER_APPOINTMENT:30_000, PRE_TURN:15_000, ORDINARY_TURN:60_000,
-  HACK_DECLARE:15_000, HACK_RESULT:5_000, HACK:60_000, JAIL_VOTE:60_000, CAPTAIN_ELECTION:60_000,
+  HACK_DECLARE:15_000, HACK_RESULT:5_000, HACK:60_000, BLACKHOLE_PRESENTATION:6_000, JAIL_VOTE:60_000, CAPTAIN_ELECTION:60_000,
   VOTE_RESULT:5_000, BLACKOUT:15_000, NAV_TIE:15_000, NAV_CAPTAIN_CONFIRM:15_000, NAV_OFFICER_CONFIRM:15_000,
   FINISHED:null, ABORTED:null,
 });

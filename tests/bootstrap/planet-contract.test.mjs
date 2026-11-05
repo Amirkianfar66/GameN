@@ -32,9 +32,14 @@ const occurrence=()=>({id:'event-1',round:7,phaseId:'neutral-phase-7',viewRevisi
   audience:{kind:'public'},kind:'RESCUED',seatIds:['seat-2'],actorSeatId:null,location:'Hospital',slotId:'H1',clinicalAnchor:null});
 
 test('successor authority pins every recorded source and leaves historical runtime tuple separate',()=>{
-  const path=new URL('../../rules/planet-successor-authority-2026-11-05.json',import.meta.url);
+  const path=new URL('../../rules/planet-successor-sync-authority-2026-11-05.json',import.meta.url);
   const bytes=readFileSync(path), authority=JSON.parse(bytes);
   assert.equal(createHash('sha256').update(bytes).digest('hex'),PLANET_GAME_PINS.rulesetHash);
+  assert.equal(authority.engine_version,PLANET_GAME_PINS.engineVersion);
+  assert.equal(authority.ruleset_version,PLANET_GAME_PINS.rulesetVersion);
+  const predecessor=authority.supersedes_unshipped_candidate;
+  assert.equal(createHash('sha256').update(readFileSync(new URL('../../'+predecessor.path,import.meta.url))).digest('hex'),predecessor.sha256);
+  assert.equal(PlanetVersionsSchema.safeParse({...publicView().versions,engineVersion:'planet-game-1.0.0',rulesetVersion:'in-person-planet-2026-11-05',rulesetHash:predecessor.sha256}).success,false);
   for(const source of authority.sources) assert.equal(
     createHash('sha256').update(readFileSync(new URL('../../'+source.path,import.meta.url))).digest('hex'),source.sha256,source.path);
   assert.equal(PlanetVersionsSchema.safeParse({...publicView().versions,protocolVersion:2}).success,false);
@@ -99,6 +104,19 @@ test('server phase contracts bind new decision deadlines and reject early arbitr
   assert.equal(PlanetPhaseSchema.safeParse({id:'phase',kind:'NAV_TIE',startedAt:1000,endsAt:16000}).success,true);
   assert.equal(PlanetPhaseSchema.safeParse({id:'phase',kind:'PRE_TURN',startedAt:1000,endsAt:2000}).success,false);
   assert.equal(PlanetPhaseSchema.safeParse({id:'phase',kind:'FINISHED',startedAt:1000,endsAt:16000}).success,false);
+});
+test('Blackhole presentation has six authoritative seconds and cannot borrow from the full vote',()=>{
+  const start=1000;
+  for(const duration of [0,2400,5200,5999,6001]) assert.equal(
+    PlanetPhaseSchema.safeParse({id:'presentation',kind:'BLACKHOLE_PRESENTATION',startedAt:start,endsAt:start+duration}).success,false);
+  const phase={id:'presentation',kind:'BLACKHOLE_PRESENTATION',startedAt:start,endsAt:start+6000};
+  assert.equal(PlanetPhaseSchema.safeParse(phase).success,true);
+  assert.equal(PlanetPhaseSchema.safeParse({...phase,endsAt:null}).success,false);
+  const vote={id:'vote',kind:'JAIL_VOTE',startedAt:phase.endsAt,endsAt:phase.endsAt+60000};
+  assert.equal(PlanetPhaseSchema.safeParse(vote).success,true);
+  assert.equal(PlanetPhaseSchema.safeParse({...vote,endsAt:vote.endsAt-6000}).success,false);
+  const view={...publicView(),phase,activeSeatId:null};
+  assert.equal(PlanetPublicViewSchema.safeParse(view).success,true);
 });
 test('window drawing transport is bounded inert geometry, not executable or remotely fetched markup',()=>{
   assert.equal(PlanetDrawingSchema.safeParse({strokes:[{color:'#ffffff',width:3,points:[[0,0],[1,1]]}]}).success,true);
