@@ -656,6 +656,151 @@
           "bytes": 22986
         }
       ]
+    },
+    {
+      "pilot": "eject",
+      "sheet": "full",
+      "lengthMs": 7600,
+      "cues": [
+        {
+          "at": 0,
+          "cue": "ink-cut",
+          "gain": 0.4
+        },
+        {
+          "at": 600,
+          "cue": "switch-click"
+        },
+        {
+          "at": 900,
+          "cue": "alert-blip",
+          "gain": 0.35
+        },
+        {
+          "at": 1525,
+          "cue": "alert-blip",
+          "gain": 0.35
+        },
+        {
+          "at": 2150,
+          "cue": "alert-blip",
+          "gain": 0.35
+        },
+        {
+          "at": 2775,
+          "cue": "alert-blip",
+          "gain": 0.35
+        },
+        {
+          "at": 3400,
+          "cue": "alert-blip",
+          "gain": 0.35
+        },
+        {
+          "at": 4025,
+          "cue": "alert-blip",
+          "gain": 0.35
+        },
+        {
+          "at": 1600,
+          "cue": "door-seal",
+          "gain": 0.45
+        },
+        {
+          "at": 1700,
+          "cue": "door-seal",
+          "gain": 0.45
+        },
+        {
+          "at": 2400,
+          "cue": "door-seal",
+          "gain": 0.35
+        },
+        {
+          "at": 2500,
+          "cue": "door-seal",
+          "gain": 0.35
+        },
+        {
+          "at": 2600,
+          "cue": "door-seal",
+          "gain": 0.35
+        },
+        {
+          "at": 2700,
+          "cue": "hatch-open"
+        },
+        {
+          "at": 2900,
+          "cue": "air-rush",
+          "until": 4500
+        },
+        {
+          "at": 5800,
+          "cue": "hatch-close"
+        },
+        {
+          "at": 6300,
+          "cue": "door-seal",
+          "gain": 0.4
+        }
+      ],
+      "files": [
+        {
+          "file": "design/cinematic/exports/eject/audio/eject-full.cues.wav",
+          "sha256": "650869a0d00dc1cde9f3a5753cdde3f6e63968c0564464fb1ee32a55e6512b3f",
+          "bytes": 729644
+        },
+        {
+          "file": "design/cinematic/exports/eject/audio/eject-full.cues.m4a",
+          "sha256": "2936ca1d6d35726fbbb3e3afd09fb5098d86a883d0b69c68794b193ee4a1defd",
+          "bytes": 64983
+        },
+        {
+          "file": "design/cinematic/exports/eject/audio/eject-full.cues.opus",
+          "sha256": "f893ceb06fe241031393aa6a455a19f59741cec8f41702db244083836f4421d6",
+          "bytes": 62497
+        }
+      ]
+    },
+    {
+      "pilot": "eject",
+      "sheet": "reduced",
+      "lengthMs": 2960,
+      "cues": [
+        {
+          "at": 0,
+          "cue": "switch-click",
+          "gain": 0.6
+        },
+        {
+          "at": 680,
+          "cue": "hatch-open",
+          "gain": 0.5
+        },
+        {
+          "at": 1280,
+          "cue": "hatch-close",
+          "gain": 0.5
+        }
+      ],
+      "files": [
+        {
+          "file": "design/cinematic/exports/eject/audio/eject-reduced.cues.wav",
+          "sha256": "d1d51c93777ebbb88ab931d18591894fbd4c3beb618f237fb56d8846b5360679",
+          "bytes": 284204
+        },
+        {
+          "file": "design/cinematic/exports/eject/audio/eject-reduced.cues.m4a",
+          "sha256": "b450d6f7a0c266f19ceb8e85c55c3126be78825dea4f2f701c7b22ea17a0ac28",
+          "bytes": 16908
+        },
+        {
+          "file": "design/cinematic/exports/eject/audio/eject-reduced.cues.opus",
+          "sha256": "4b5584a55639e6f48f0ae6a2b30d6f56ec841362cb92a8f0bee9871e4de93081",
+          "bytes": 18767
+        }
+      ]
     }
   ]
 }

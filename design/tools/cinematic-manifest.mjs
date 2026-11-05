@@ -68,12 +68,12 @@ const SOURCES = [
   'design/cinematic/stage.html', 'design/cinematic/stage.mjs', 'design/cinematic/gallery.html', 'design/cinematic/gallery.mjs',
   'design/cinematic/lib/ease.mjs', 'design/cinematic/lib/comic.mjs', 'design/cinematic/lib/lettering.mjs', 'design/cinematic/lib/scene.mjs', 'design/cinematic/lib/audio.mjs', 'design/cinematic/lib/stage-kit.mjs',
   'design/cinematic/pilots/index.mjs',
-  ...['hospital-rescue/film.mjs', 'hospital-rescue/art.mjs', 'hospital-rescue/compose.mjs', 'hospital-rescue/stage.mjs', 'blackhole/film.mjs', 'blackhole/art.mjs', 'blackhole/compose.mjs', 'blackhole/stage.mjs', 'private-talk/film.mjs', 'private-talk/compose.mjs', 'private-talk/stage.mjs'].map(p => `design/cinematic/pilots/${p}`),
+  ...['hospital-rescue/film.mjs', 'hospital-rescue/art.mjs', 'hospital-rescue/compose.mjs', 'hospital-rescue/stage.mjs', 'blackhole/film.mjs', 'blackhole/art.mjs', 'blackhole/compose.mjs', 'blackhole/stage.mjs', 'private-talk/film.mjs', 'private-talk/compose.mjs', 'private-talk/stage.mjs', 'eject/film.mjs', 'eject/compose.mjs', 'eject/stage.mjs'].map(p => `design/cinematic/pilots/${p}`),
   'design/cinematic/catalogue/catalogue.mjs',
   'design/tools/cinematic-inventory.mjs', 'design/tools/cinematic-contact.mjs', 'design/tools/cinematic-render.mjs', 'design/tools/cinematic-exports.mjs', 'design/tools/cinematic-audio.mjs', 'design/tools/cinematic-manifest.mjs', 'design/tools/cinematic-docs.mjs', 'design/tools/cinematic-serve.mjs',
 ];
 
-const AUDIENCE = { 'hospital-rescue': 'public (RESCUED)', blackhole: 'public (BLACKHOLE_SYNCED)', 'private-talk': 'public pair and transitions (hackSession); no pair-private content' };
+const AUDIENCE = { 'hospital-rescue': 'public (RESCUED)', blackhole: 'public (BLACKHOLE_SYNCED)', 'private-talk': 'public pair and transitions (hackSession); no pair-private content', eject: 'public (the Captain\'s EJECT outcome: its kind and seatIds)' };
 
 const manifest = {
   version: 'cinematic-exports-0.1.0',

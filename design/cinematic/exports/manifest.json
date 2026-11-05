@@ -11,8 +11,8 @@
   "sources": [
     {
       "path": "design/cinematic/README.md",
-      "sha256": "1274d439adbdf6cfab5098bb9cab5f4ab5bd722d85bdbe96f38a3b08a06e2272",
-      "bytes": 3677
+      "sha256": "86e638c246308165da6bb6eb72c01767fa3967a214b686be84115e6f9782eb22",
+      "bytes": 4194
     },
     {
       "path": "design/cinematic/stage.html",
@@ -31,8 +31,8 @@
     },
     {
       "path": "design/cinematic/gallery.mjs",
-      "sha256": "1a49638514c828259578a10385cdb00a585548abd164bb6c02ba586a1faf249a",
-      "bytes": 11546
+      "sha256": "3e514158b4c297449a887c0f7da47e3f9937498c7387108a4408b1bc131399e9",
+      "bytes": 11842
     },
     {
       "path": "design/cinematic/lib/ease.mjs",
@@ -56,8 +56,8 @@
     },
     {
       "path": "design/cinematic/lib/audio.mjs",
-      "sha256": "fe51cfd5a316adc4ee921b91e3047375117388ba40e21aeb9b46d98c2c0c988c",
-      "bytes": 8109
+      "sha256": "26f9487176e33eaf45735d035d04194477dca01feeb47e146dd790c91c7683a4",
+      "bytes": 8680
     },
     {
       "path": "design/cinematic/lib/stage-kit.mjs",
@@ -66,8 +66,8 @@
     },
     {
       "path": "design/cinematic/pilots/index.mjs",
-      "sha256": "f37eeb88e202188357ec09f062cdf1f4aab9b9734ff8870dd1ce2c4ca572c360",
-      "bytes": 701
+      "sha256": "d00a67100436070299ee28078d38322819d0987224fd9547c9051434f425c823",
+      "bytes": 863
     },
     {
       "path": "design/cinematic/pilots/hospital-rescue/film.mjs",
@@ -125,9 +125,24 @@
       "bytes": 5352
     },
     {
+      "path": "design/cinematic/pilots/eject/film.mjs",
+      "sha256": "e52310a0193387c8096173450d701702dfdf7844ae58442ef91c77c6eb09776e",
+      "bytes": 8483
+    },
+    {
+      "path": "design/cinematic/pilots/eject/compose.mjs",
+      "sha256": "3cb03dedd1111971a95b0940cdcd8d8e2c690251526a8ff522ad6624ab7f400b",
+      "bytes": 18532
+    },
+    {
+      "path": "design/cinematic/pilots/eject/stage.mjs",
+      "sha256": "e54d58de634860313294548a540ab3fb5bae2ffe33d30aab52cfcc19a04b8ed1",
+      "bytes": 5191
+    },
+    {
       "path": "design/cinematic/catalogue/catalogue.mjs",
-      "sha256": "3cd37d9000e9b492d0e964f884ab76f3be3998a98795100b3a4f3af6277d4b46",
-      "bytes": 30676
+      "sha256": "35d1841bc0350b056dbbb841febfa5f3f4d9fab3f5b50bd3a011147c1e5ffd94",
+      "bytes": 39226
     },
     {
       "path": "design/tools/cinematic-inventory.mjs",
@@ -146,23 +161,23 @@
     },
     {
       "path": "design/tools/cinematic-exports.mjs",
-      "sha256": "ab016cd26faf2d0afc411692a7d1a1e97017bc641508d1853945d766c9910daf",
-      "bytes": 10918
+      "sha256": "590209ea6822e1f88933abd1b7d3068b4140ee758cbb9e50fefba09f5618098a",
+      "bytes": 11445
     },
     {
       "path": "design/tools/cinematic-audio.mjs",
-      "sha256": "7b35f50752a13ff29ddfdd173358c9e6c5990965e21885ef0866edd7bb1664fc",
-      "bytes": 4449
+      "sha256": "155287ffe1a45a9ecf2f48dfc5162f9e62a4a9e573a7724672c73b45f16846d6",
+      "bytes": 4658
     },
     {
       "path": "design/tools/cinematic-manifest.mjs",
-      "sha256": "e1ce7b6be085a1a34b1b6aade49c8d7fdaf8c9f5b132c72a1b5d3371951829db",
-      "bytes": 11403
+      "sha256": "881c78920c51613a8da85e96ec817f325b2d71f4005659014a95c348946c0873",
+      "bytes": 11531
     },
     {
       "path": "design/tools/cinematic-docs.mjs",
-      "sha256": "451e8b040259ec648bbe75fa7a22faf0c135588936cab9d1515c1a14b034bc1d",
-      "bytes": 10697
+      "sha256": "a116c8120653ab19b7bd8dc131701e8d7ddd63bfb4560b8806456b50d01fa2f9",
+      "bytes": 10851
     },
     {
       "path": "design/tools/cinematic-serve.mjs",
@@ -175,8 +190,8 @@
       "path": "design/cinematic/exports/audio.json",
       "pilot": null,
       "class": "record",
-      "sha256": "1b6a932b00a902f5eea82f8b59271e0f993bffca504d647490ecea586c964d0e",
-      "bytes": 17782
+      "sha256": "dd71b331de33cc8f6d444431c5d07fbcb35e8824d9b0c9856e8ee58137a9d3d5",
+      "bytes": 21184
     },
     {
       "path": "design/cinematic/exports/blackhole/audio/blackhole-full.cues.m4a",
@@ -1057,6 +1072,378 @@
       "codec": "webp",
       "animated": false,
       "audience": "public (BLACKHOLE_SYNCED)"
+    },
+    {
+      "path": "design/cinematic/exports/eject/audio/eject-full.cues.m4a",
+      "pilot": "eject",
+      "class": "audio",
+      "sha256": "2936ca1d6d35726fbbb3e3afd09fb5098d86a883d0b69c68794b193ee4a1defd",
+      "bytes": 64983,
+      "durationMs": 7600,
+      "audio": {
+        "codec": "aac",
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "audience": "public (the Captain's EJECT outcome: its kind and seatIds)"
+    },
+    {
+      "path": "design/cinematic/exports/eject/audio/eject-full.cues.opus",
+      "pilot": "eject",
+      "class": "audio",
+      "sha256": "f893ceb06fe241031393aa6a455a19f59741cec8f41702db244083836f4421d6",
+      "bytes": 62497,
+      "durationMs": 7607,
+      "audio": {
+        "codec": "opus",
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "audience": "public (the Captain's EJECT outcome: its kind and seatIds)"
+    },
+    {
+      "path": "design/cinematic/exports/eject/audio/eject-full.cues.wav",
+      "pilot": "eject",
+      "class": "audio",
+      "sha256": "650869a0d00dc1cde9f3a5753cdde3f6e63968c0564464fb1ee32a55e6512b3f",
+      "bytes": 729644,
+      "durationMs": 7600,
+      "audio": {
+        "codec": "pcm_s16le",
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "audience": "public (the Captain's EJECT outcome: its kind and seatIds)"
+    },
+    {
+      "path": "design/cinematic/exports/eject/audio/eject-reduced.cues.m4a",
+      "pilot": "eject",
+      "class": "audio",
+      "sha256": "b450d6f7a0c266f19ceb8e85c55c3126be78825dea4f2f701c7b22ea17a0ac28",
+      "bytes": 16908,
+      "durationMs": 2960,
+      "audio": {
+        "codec": "aac",
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "audience": "public (the Captain's EJECT outcome: its kind and seatIds)"
+    },
+    {
+      "path": "design/cinematic/exports/eject/audio/eject-reduced.cues.opus",
+      "pilot": "eject",
+      "class": "audio",
+      "sha256": "4b5584a55639e6f48f0ae6a2b30d6f56ec841362cb92a8f0bee9871e4de93081",
+      "bytes": 18767,
+      "durationMs": 2967,
+      "audio": {
+        "codec": "opus",
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "audience": "public (the Captain's EJECT outcome: its kind and seatIds)"
+    },
+    {
+      "path": "design/cinematic/exports/eject/audio/eject-reduced.cues.wav",
+      "pilot": "eject",
+      "class": "audio",
+      "sha256": "d1d51c93777ebbb88ab931d18591894fbd4c3beb618f237fb56d8846b5360679",
+      "bytes": 284204,
+      "durationMs": 2960,
+      "audio": {
+        "codec": "pcm_s16le",
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "audience": "public (the Captain's EJECT outcome: its kind and seatIds)"
+    },
+    {
+      "path": "design/cinematic/exports/eject/review/display-full.mp4",
+      "pilot": "eject",
+      "class": "review",
+      "sha256": "7168edba3fad0bc1a3a0f951bad5d604dff60bd575f8bc82e3c50796132f7509",
+      "bytes": 1626739,
+      "width": 1280,
+      "height": 720,
+      "codec": "h264",
+      "pixelFormat": "yuv420p",
+      "alpha": false,
+      "fps": 30,
+      "durationMs": 7233,
+      "audio": {
+        "codec": "aac",
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "kind": "video",
+      "surface": "display",
+      "variant": "full",
+      "stage": "design/cinematic/stage.html?pilot=eject&surface=display&variant=full&beds=4",
+      "browser": "Chromium 141.0.7390.37",
+      "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+      "deviceScale": 0.6667,
+      "frames": 217,
+      "timelineMs": [
+        0,
+        7200
+      ],
+      "audioMix": "design/cinematic/exports/eject/audio/eject-full.cues.wav",
+      "audience": "public (the Captain's EJECT outcome: its kind and seatIds)"
+    },
+    {
+      "path": "design/cinematic/exports/eject/review/display-full.poster.webp",
+      "pilot": "eject",
+      "class": "review",
+      "sha256": "0e570eb2efbed19d53037eb5093262baa6d3306de9dc1b71159f8bd4263a082c",
+      "bytes": 58704,
+      "width": 1280,
+      "height": 720,
+      "codec": "webp",
+      "animated": false,
+      "kind": "poster",
+      "surface": "display",
+      "variant": "full",
+      "stage": "design/cinematic/stage.html?pilot=eject&surface=display&variant=full&beds=4",
+      "browser": "Chromium 141.0.7390.37",
+      "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+      "deviceScale": 0.6667,
+      "posterT": 3700,
+      "audience": "public (the Captain's EJECT outcome: its kind and seatIds)"
+    },
+    {
+      "path": "design/cinematic/exports/eject/review/display-full.preview.webp",
+      "pilot": "eject",
+      "class": "review",
+      "sha256": "2dd8309a892f957ded3bb1dabee8cd29a5207bd2217f839635684e1f90ecb697",
+      "bytes": 883698,
+      "width": 480,
+      "height": 270,
+      "codec": "webp",
+      "frames": 87,
+      "durationMs": 7249,
+      "animated": true,
+      "kind": "preview",
+      "surface": "display",
+      "variant": "full",
+      "stage": "design/cinematic/stage.html?pilot=eject&surface=display&variant=full&beds=4",
+      "browser": "Chromium 141.0.7390.37",
+      "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+      "deviceScale": 0.6667,
+      "audience": "public (the Captain's EJECT outcome: its kind and seatIds)"
+    },
+    {
+      "path": "design/cinematic/exports/eject/review/display-full.render.json",
+      "pilot": "eject",
+      "class": "review",
+      "sha256": "48dc8eccdc8881eb2f04ced9f16f65363db68c5b25c052111ebb9ba814f60715",
+      "bytes": 1417,
+      "audience": "public (the Captain's EJECT outcome: its kind and seatIds)"
+    },
+    {
+      "path": "design/cinematic/exports/eject/review/display-reduced.mp4",
+      "pilot": "eject",
+      "class": "review",
+      "sha256": "d412151d737aac70ef2646458645f9c1d872ea2a15f6c994862f6688bac62827",
+      "bytes": 213197,
+      "width": 1280,
+      "height": 720,
+      "codec": "h264",
+      "pixelFormat": "yuv420p",
+      "alpha": false,
+      "fps": 30,
+      "durationMs": 2600,
+      "audio": {
+        "codec": "aac",
+        "sampleRate": 48000,
+        "channels": 1
+      },
+      "kind": "video",
+      "surface": "display",
+      "variant": "reduced",
+      "stage": "design/cinematic/stage.html?pilot=eject&surface=display&variant=reduced&beds=4",
+      "browser": "Chromium 141.0.7390.37",
+      "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+      "deviceScale": 0.6667,
+      "frames": 78,
+      "timelineMs": [
+        0,
+        2560
+      ],
+      "audioMix": "design/cinematic/exports/eject/audio/eject-reduced.cues.wav",
+      "audience": "public (the Captain's EJECT outcome: its kind and seatIds)"
+    },
+    {
+      "path": "design/cinematic/exports/eject/review/display-reduced.poster.webp",
+      "pilot": "eject",
+      "class": "review",
+      "sha256": "e78a59d398f952fc4438ead30e9ca1c03b86b32c451315f25cdc23dd5b570424",
+      "bytes": 58382,
+      "width": 1280,
+      "height": 720,
+      "codec": "webp",
+      "animated": false,
+      "kind": "poster",
+      "surface": "display",
+      "variant": "reduced",
+      "stage": "design/cinematic/stage.html?pilot=eject&surface=display&variant=reduced&beds=4",
+      "browser": "Chromium 141.0.7390.37",
+      "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+      "deviceScale": 0.6667,
+      "posterT": 900,
+      "audience": "public (the Captain's EJECT outcome: its kind and seatIds)"
+    },
+    {
+      "path": "design/cinematic/exports/eject/review/display-reduced.preview.webp",
+      "pilot": "eject",
+      "class": "review",
+      "sha256": "31767ff57a704af0d49206358f27922cc0c315143b892bbd296ded94d59a12da",
+      "bytes": 45096,
+      "width": 480,
+      "height": 270,
+      "codec": "webp",
+      "frames": 8,
+      "durationMs": 2583,
+      "animated": true,
+      "kind": "preview",
+      "surface": "display",
+      "variant": "reduced",
+      "stage": "design/cinematic/stage.html?pilot=eject&surface=display&variant=reduced&beds=4",
+      "browser": "Chromium 141.0.7390.37",
+      "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+      "deviceScale": 0.6667,
+      "audience": "public (the Captain's EJECT outcome: its kind and seatIds)"
+    },
+    {
+      "path": "design/cinematic/exports/eject/review/display-reduced.render.json",
+      "pilot": "eject",
+      "class": "review",
+      "sha256": "a9b991ae2fcd831a5700143854d7d49ec28aeaa0ab03ea10a46650a4adc79fad",
+      "bytes": 1431,
+      "audience": "public (the Captain's EJECT outcome: its kind and seatIds)"
+    },
+    {
+      "path": "design/cinematic/exports/eject/runtime/exterior-insert.mp4",
+      "pilot": "eject",
+      "class": "runtime",
+      "sha256": "8ea644529b362f9e4a9ece89114095d68018e308e61a359162241804ffbc3a53",
+      "bytes": 1051102,
+      "width": 1920,
+      "height": 1080,
+      "codec": "h264",
+      "pixelFormat": "yuv420p",
+      "alpha": false,
+      "fps": 30,
+      "durationMs": 2433,
+      "kind": "video",
+      "surface": "insert",
+      "variant": "full",
+      "stage": "design/cinematic/stage.html?pilot=eject&surface=insert&variant=full&beds=4",
+      "browser": "Chromium 141.0.7390.37",
+      "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+      "deviceScale": 1,
+      "frames": 73,
+      "timelineMs": [
+        0,
+        2400
+      ],
+      "audience": "public (the Captain's EJECT outcome: its kind and seatIds)"
+    },
+    {
+      "path": "design/cinematic/exports/eject/runtime/exterior-insert.poster.png",
+      "pilot": "eject",
+      "class": "runtime",
+      "sha256": "3bb81d79918fac63fa31c28ca540c059cbaa98fe04e5ec06a3aed460b2941294",
+      "bytes": 1521559,
+      "width": 1920,
+      "height": 1080,
+      "codec": "png",
+      "pixelFormat": "rgb24",
+      "alpha": false,
+      "kind": "poster",
+      "surface": "insert",
+      "variant": "full",
+      "stage": "design/cinematic/stage.html?pilot=eject&surface=insert&variant=full&beds=4",
+      "browser": "Chromium 141.0.7390.37",
+      "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+      "deviceScale": 1,
+      "posterT": 1200,
+      "audience": "public (the Captain's EJECT outcome: its kind and seatIds)"
+    },
+    {
+      "path": "design/cinematic/exports/eject/runtime/exterior-insert.poster.webp",
+      "pilot": "eject",
+      "class": "runtime",
+      "sha256": "37e657000651d198ef93433cdcefd35cf8359569cf3645c4c2c3c0f82fb9ed86",
+      "bytes": 54288,
+      "width": 1920,
+      "height": 1080,
+      "codec": "webp",
+      "animated": false,
+      "kind": "poster",
+      "surface": "insert",
+      "variant": "full",
+      "stage": "design/cinematic/stage.html?pilot=eject&surface=insert&variant=full&beds=4",
+      "browser": "Chromium 141.0.7390.37",
+      "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+      "deviceScale": 1,
+      "posterT": 1200,
+      "audience": "public (the Captain's EJECT outcome: its kind and seatIds)"
+    },
+    {
+      "path": "design/cinematic/exports/eject/runtime/exterior-insert.preview.webp",
+      "pilot": "eject",
+      "class": "runtime",
+      "sha256": "98b3fc346686f1f1d1b1ee9672d841ea6f75d41163e350dff5990e74f69a82c7",
+      "bytes": 183460,
+      "width": 480,
+      "height": 270,
+      "codec": "webp",
+      "frames": 29,
+      "durationMs": 2416,
+      "animated": true,
+      "kind": "preview",
+      "surface": "insert",
+      "variant": "full",
+      "stage": "design/cinematic/stage.html?pilot=eject&surface=insert&variant=full&beds=4",
+      "browser": "Chromium 141.0.7390.37",
+      "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+      "deviceScale": 1,
+      "audience": "public (the Captain's EJECT outcome: its kind and seatIds)"
+    },
+    {
+      "path": "design/cinematic/exports/eject/runtime/exterior-insert.render.json",
+      "pilot": "eject",
+      "class": "runtime",
+      "sha256": "3aee78824c4b2cacccbb293de7d1483a7c16fed3865e60205a86e4a5fe9ea84f",
+      "bytes": 1858,
+      "audience": "public (the Captain's EJECT outcome: its kind and seatIds)"
+    },
+    {
+      "path": "design/cinematic/exports/eject/runtime/exterior-insert.webm",
+      "pilot": "eject",
+      "class": "runtime",
+      "sha256": "061c1e0c2b40255de0ab317396d3658a7a05921dad1b1ecc8859415dd373955e",
+      "bytes": 319605,
+      "width": 1920,
+      "height": 1080,
+      "codec": "vp9",
+      "pixelFormat": "yuv420p",
+      "alpha": false,
+      "fps": 30,
+      "durationMs": 2433,
+      "kind": "video",
+      "surface": "insert",
+      "variant": "full",
+      "stage": "design/cinematic/stage.html?pilot=eject&surface=insert&variant=full&beds=4",
+      "browser": "Chromium 141.0.7390.37",
+      "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+      "deviceScale": 1,
+      "frames": 73,
+      "timelineMs": [
+        0,
+        2400
+      ],
+      "audience": "public (the Captain's EJECT outcome: its kind and seatIds)"
     },
     {
       "path": "design/cinematic/exports/hospital-rescue/audio/hospital-rescue-full.cues.m4a",
@@ -3926,8 +4313,8 @@
     }
   ],
   "totals": {
-    "sources": 32,
-    "exports": 211,
-    "bytes": 40877054
+    "sources": 35,
+    "exports": 231,
+    "bytes": 48077995
   }
 }
