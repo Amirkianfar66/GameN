@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · library art proposal · hp-vial-spent library-hospital-panel-0.1.0 · generated, do not edit by hand
+  A spent vial in the cradle: the reserved injection was given (treated or without effect).
+  Built by design/tools/library-assets.mjs from design/library/hospital-panel/art.mjs. Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 150" width="320" height="150"><g id="hp-vial-spent"><rect x="209" y="32" width="16" height="86" rx="7" fill="#BFF7FA" fill-opacity="0.12" stroke="#151923" stroke-width="2.2"/><rect x="211" y="105.96" width="12" height="10.32" rx="5" fill="#0D1A22"/><rect x="212" y="25" width="10" height="9" rx="2" fill="#3A4A6B" stroke="#151923" stroke-width="2"/><path d="M217 118 V127" stroke="#151923" stroke-width="2.4" stroke-linecap="round"/><path d="M212 66.4 L222 79.30000000000001" stroke="#8D97A8" stroke-width="1.6" stroke-linecap="round" opacity="0.7"/></g></svg>

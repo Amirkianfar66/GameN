@@ -1,0 +1,130 @@
+{
+  "version": "library-hospital-panel-0.1.0",
+  "generatedBy": "design/tools/library-assets.mjs",
+  "source": "design/library/hospital-panel/art.mjs",
+  "audience": "patient-private: a living Hospital patient's own open private sheet (any role); loaded whole on every player phone whatever the role or place",
+  "assets": [
+    {
+      "name": "hp-console",
+      "file": "design/library/hospital-panel/assets/hp-console.svg",
+      "size": "320x150",
+      "role": "patient-private: the console",
+      "about": "The patient's bedside console; no count, number or word.",
+      "sha256": "2d7c64f660a30512eb72aa9aa01159145341c7427d09434d4db6f2dc091d8770",
+      "bytes": 3384
+    },
+    {
+      "name": "hp-vial-reserved",
+      "file": "design/library/hospital-panel/assets/hp-vial-reserved.svg",
+      "size": "320x150",
+      "role": "patient-private: overlay (R12 reserved)",
+      "about": "A reserved injection seated in the cradle.",
+      "sha256": "e234c3bdf7321e5bcee4fb73503a143585a0e71726aa73529111705c7074be9a",
+      "bytes": 1091
+    },
+    {
+      "name": "hp-vial-spent",
+      "file": "design/library/hospital-panel/assets/hp-vial-spent.svg",
+      "size": "320x150",
+      "role": "patient-private: overlay (R12 treated or no effect)",
+      "about": "The spent vial after the Rescue stage.",
+      "sha256": "7a9df85d028ff5b98174a61fc12566a356bca837e951a164b51169e83d6fb00f",
+      "bytes": 1005
+    },
+    {
+      "name": "hp-strike",
+      "file": "design/library/hospital-panel/assets/hp-strike.svg",
+      "size": "320x150",
+      "role": "patient-private: overlay (R12 wrong)",
+      "about": "The wrong-number strike across the screen.",
+      "sha256": "17c1495a3ebc264ac627659bed9b1b2a84bb3bf68abff4cf3a3505d0532ae355",
+      "bytes": 669
+    },
+    {
+      "name": "hp-scan",
+      "file": "design/library/hospital-panel/assets/hp-scan.svg",
+      "size": "320x150",
+      "role": "patient-private: overlay (motion)",
+      "about": "The scan bar that crosses the screen when the accepted receipt arrives.",
+      "sha256": "ab6dd5f1a6af326848d5a3c87eaf970b06ccd7824d802b234ced2a7de1b1713c",
+      "bytes": 636
+    },
+    {
+      "name": "hp-key-plain",
+      "file": "design/library/hospital-panel/assets/hp-key-plain.svg",
+      "size": "56x58",
+      "role": "patient-private: key cap",
+      "about": "A key cap; every number the same.",
+      "sha256": "57dedc1d816775cd95417f551b3124e7189856a69ada03950b065f8c73025bba",
+      "bytes": 722
+    },
+    {
+      "name": "hp-key-picked",
+      "file": "design/library/hospital-panel/assets/hp-key-picked.svg",
+      "size": "56x58",
+      "role": "patient-private: key cap, picked",
+      "about": "The key cap of the number picked on this phone.",
+      "sha256": "c06592e1806442c228dbbf6e74f5a4cd0d880aa7430d788d2c1ec98b5188fa66",
+      "bytes": 849
+    },
+    {
+      "name": "hp-icon-panel",
+      "file": "design/library/hospital-panel/assets/hp-icon-panel.svg",
+      "size": "48x48",
+      "role": "patient-private: tray mark",
+      "about": "The tray mark for the Hospital panel.",
+      "sha256": "df0c22f84b6bd534ffbff965ff8ad2850a431e446a6934c3b9e4f89b8f0834cb",
+      "bytes": 1281
+    },
+    {
+      "name": "hp-lamp-ready",
+      "file": "design/library/hospital-panel/assets/hp-lamp-ready.svg",
+      "size": "320x150",
+      "role": "patient-private: lamp ready",
+      "about": "The status lamp, ready (cyan): a number may be picked and sent now.",
+      "sha256": "3d5664b133b8fbf4de5c5dc7516bd48e9330bca5eeadccc1542b1862e83fded8",
+      "bytes": 727
+    },
+    {
+      "name": "hp-lamp-busy",
+      "file": "design/library/hospital-panel/assets/hp-lamp-busy.svg",
+      "size": "320x150",
+      "role": "patient-private: lamp busy",
+      "about": "The status lamp, busy (amber): a number is on its way, or registered with its result not known on this phone.",
+      "sha256": "4aa96aeb65c311a17efb67eb3264cfe7cfc27e020d4c5a928ae8e94f34864744",
+      "bytes": 724
+    },
+    {
+      "name": "hp-lamp-ok",
+      "file": "design/library/hospital-panel/assets/hp-lamp-ok.svg",
+      "size": "320x150",
+      "role": "patient-private: lamp ok",
+      "about": "The status lamp, ok (green): R12 says an injection is reserved for this patient, or was given at the Rescue stage.",
+      "sha256": "2b8e16b14813b39365870ae50f94ac80a02417704b7854680c00943d6980ac51",
+      "bytes": 718
+    },
+    {
+      "name": "hp-lamp-warn",
+      "file": "design/library/hospital-panel/assets/hp-lamp-warn.svg",
+      "size": "320x150",
+      "role": "patient-private: lamp warn",
+      "about": "The status lamp, warn (red): R12 says the number was not the Doctor's.",
+      "sha256": "11eb1a079d1a131e278e194f9de9b9cad940045f7107489ef2ccdc244e3ba268",
+      "bytes": 724
+    },
+    {
+      "name": "hp-lamp-off",
+      "file": "design/library/hospital-panel/assets/hp-lamp-off.svg",
+      "size": "320x150",
+      "role": "patient-private: lamp off",
+      "about": "The status lamp, off: the panel takes no number now.",
+      "sha256": "f85a72bfc22ca1c56651178edf4830af97399d03a73a5078dd4ba7f02fde9e12",
+      "bytes": 592
+    }
+  ],
+  "stylesheet": {
+    "file": "design/library/hospital-panel/assets/hospital-panel.art.css",
+    "sha256": "fb5b43380259d397e0c702eb211f6be21483ebc5eee16553b024df5ac37dee27",
+    "bytes": 10056
+  }
+}

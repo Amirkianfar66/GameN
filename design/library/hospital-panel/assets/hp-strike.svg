@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · library art proposal · hp-strike library-hospital-panel-0.1.0 · generated, do not edit by hand
+  A wrong number: a failing-red strike across the screen (R12), over the console, transparent.
+  Built by design/tools/library-assets.mjs from design/library/hospital-panel/art.mjs. Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 150" width="320" height="150"><g id="hp-strike"><path d="M36 82 L160 36" stroke="#151923" stroke-width="11" stroke-linecap="round"/><path d="M36 82 L160 36" stroke="#C7372B" stroke-width="6" stroke-linecap="round"/></g></svg>
