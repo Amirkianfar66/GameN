@@ -11,3 +11,8 @@ a contract or runtime code; Integration adopts named files and hashes.
 | Group | Scenes | Status | Handoff |
 | --- | --- | --- | --- |
 | 1 · `hack-engineer/` | Hacker final Code and unlock, Hack Spaceship, Engineer capture | proposal | [docs/design/library/hack-engineer.md](../../docs/design/library/hack-engineer.md) |
+| 2 · `navigation/` | The offices' route panel, the public transit, the arrival at either planet | proposal | [docs/design/library/navigation.md](../../docs/design/library/navigation.md) |
+
+From group 2 on, the review pages share their frame: `review.mjs` (parameters, state cards, motion players, controls, art
+loader) and `review.css`. Group 1's page keeps its own copy. `design/tools/library-assets.mjs` and
+`design/tools/library-capture.mjs` take `--group <name>`, every group by default.

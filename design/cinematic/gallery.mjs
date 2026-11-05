@@ -11,7 +11,8 @@ const $ = id => document.getElementById(id);
 const PILOTS = {
   'hospital-rescue': { label: 'Pilot 1 · Hospital drone and recovery', scene: 'doctor-rescue', surfaces: ['display', 'phone', 'insert'], variants: ['full', 'short', 'reduced'], status: [['pilot', 'Cinematic pass: pilot (proposal)'], ['approved', 'S5 under it: approved (#158, #160)'], ['not', 'Live-action insert: NOT PRODUCED (study only)']] },
   blackhole: { label: 'Pilot 2 · Blackhole reveal and passage', scene: 'blackhole-sync', surfaces: ['display', 'phone', 'insert'], variants: ['full', 'short', 'reduced'], status: [['pilot', 'Display cut, phone band, inserts: pilot (proposal)'], ['proposal', 'Presentation window: contract request R1'], ['not', 'Live-action insert: NOT PRODUCED (study only)']] },
-  'private-talk': { label: 'Pilot 3 · Private Talk capsule', scene: 'private-talk', surfaces: ['display', 'phone'], variants: ['full', 'reduced'], status: [['pilot', 'Display comic page: pilot (proposal)'], ['approved', 'Phones: S2 unchanged (approved, #144)'], ['proposal', 'Exit page on the display: request R2']] },
+  'private-talk': { label: 'Pilot 3 · Private Talk capsule', scene: 'private-talk', surfaces: ['display', 'phone'], variants: ['full', 'reduced'], cases: ['entrance', 'talk', 'exit'], status: [['pilot', 'Display comic page: pilot (proposal)'], ['approved', 'Phones: S2 unchanged (approved, #144)'], ['proposal', 'Exit page on the display: request R2']] },
+  navigation: { label: 'Library 2 · Navigation: transit and arrival', scene: 'navigation', surfaces: ['display', 'phone', 'insert'], variants: ['full', 'reduced'], cases: ['transit', 'arrival-blue', 'arrival-red'], status: [['pilot', 'Transit and arrivals: library group 2 (proposal)'], ['proposal', 'The office panel is private: its own review page (design/library/navigation/)']] },
 };
 const state = { pilot: 'hospital-rescue', surface: 'display', variant: 'full', case: 'entrance', size: '390x844', t: 0, end: 1000, playing: false, reducedSwitch: false, delivered: new Set(), publishedAt: null };
 let cine = null, frame = null, raf = 0;
@@ -29,7 +30,7 @@ function stageUrl() {
   const [w, h] = state.size.split('x').map(Number);
   const q = new URLSearchParams({ pilot: state.pilot, surface: state.surface, variant: state.variant, beds: '4', t: String(Math.round(state.t)) });
   if (state.surface === 'phone') { q.set('w', String(w)); q.set('h', String(h)); }
-  if (state.pilot === 'private-talk') q.set('case', state.case);
+  if (PILOTS[state.pilot].cases) q.set('case', state.case);
   return `./stage.html?${q}`;
 }
 
@@ -167,8 +168,12 @@ for (const id of ['pilot', 'surface', 'variant', 'case', 'size']) {
       if (!pilot.variants.includes(state.variant)) state.variant = pilot.variants[0];
       options($('surface'), pilot.surfaces, state.surface);
       options($('variant'), pilot.variants, state.variant);
+      if (pilot.cases) {
+        if (!pilot.cases.includes(state.case)) state.case = pilot.cases[0];
+        options($('case'), pilot.cases, state.case);
+      }
     }
-    $('case').disabled = state.pilot !== 'private-talk';
+    $('case').disabled = !PILOTS[state.pilot].cases;
     $('size').disabled = state.surface !== 'phone';
     state.t = 0;
     await mount();

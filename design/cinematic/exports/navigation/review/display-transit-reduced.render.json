@@ -1,0 +1,45 @@
+{
+  "tool": "design/tools/cinematic-render.mjs",
+  "pilot": "navigation",
+  "version": "library-navigation-films-0.1.0",
+  "surface": "display",
+  "variant": "reduced",
+  "stage": "design/cinematic/stage.html?pilot=navigation&surface=display&variant=reduced&beds=4&case=transit",
+  "size": [
+    1920,
+    1080
+  ],
+  "deviceScale": 0.6667,
+  "fixture": {
+    "board": "board-v2 mixed (synthetic)"
+  },
+  "browser": "Chromium 141.0.7390.37",
+  "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+  "outputs": [
+    {
+      "kind": "video",
+      "file": "design/cinematic/exports/navigation/review/display-transit-reduced.mp4",
+      "sha256": "3fe83c5ae92d5aea7d35313f8639ee88a585c9fc460221e67bf77266c3ce6b91",
+      "bytes": 161148,
+      "fps": 30,
+      "frames": 37,
+      "durationMs": 1200,
+      "from": 0,
+      "to": 1200,
+      "audio": null
+    },
+    {
+      "kind": "preview",
+      "file": "design/cinematic/exports/navigation/review/display-transit-reduced.preview.webp",
+      "sha256": "6ab52b521661584e961a5e97514edc8dba2f175cd620668297e2f735470a3676",
+      "bytes": 39562
+    },
+    {
+      "kind": "poster",
+      "file": "design/cinematic/exports/navigation/review/display-transit-reduced.poster.webp",
+      "sha256": "00e780c8bc547c0152b0ae4baca48e7604f74c1aa7428b1b2a191d9889c6f144",
+      "bytes": 74738,
+      "t": 600
+    }
+  ]
+}

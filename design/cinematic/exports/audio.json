@@ -479,6 +479,183 @@
           "bytes": 8488
         }
       ]
+    },
+    {
+      "pilot": "navigation",
+      "sheet": "transit",
+      "lengthMs": 2800,
+      "cues": [
+        {
+          "at": 0,
+          "cue": "drone-hum",
+          "until": 2400,
+          "gain": 0.7
+        },
+        {
+          "at": 650,
+          "cue": "pass-whoosh",
+          "gain": 0.6
+        }
+      ],
+      "files": [
+        {
+          "file": "design/cinematic/exports/navigation/audio/navigation-transit.cues.wav",
+          "sha256": "fdddbd388ecb6cd01549d44053835888701811f931accb041bb397921d7914ef",
+          "bytes": 268844
+        },
+        {
+          "file": "design/cinematic/exports/navigation/audio/navigation-transit.cues.m4a",
+          "sha256": "6bfe956c1e96eba3a5fcc4de1f9534cea361b50979c7432a52774b8409742812",
+          "bytes": 40328
+        },
+        {
+          "file": "design/cinematic/exports/navigation/audio/navigation-transit.cues.opus",
+          "sha256": "a5ceff7e1dc26ddd18fec32c2474677a9d601fa2230a18894763d9c4fc92ce76",
+          "bytes": 28478
+        }
+      ]
+    },
+    {
+      "pilot": "navigation",
+      "sheet": "transit-short",
+      "lengthMs": 2200,
+      "cues": [
+        {
+          "at": 0,
+          "cue": "drone-hum",
+          "until": 1800,
+          "gain": 0.7
+        },
+        {
+          "at": 450,
+          "cue": "pass-whoosh",
+          "gain": 0.6
+        }
+      ],
+      "files": [
+        {
+          "file": "design/cinematic/exports/navigation/audio/navigation-transit-short.cues.wav",
+          "sha256": "4d97476afe82108ec90f813fbbff0160fc0cd070af4fa42e7c93e61884c2b26f",
+          "bytes": 211244
+        },
+        {
+          "file": "design/cinematic/exports/navigation/audio/navigation-transit-short.cues.m4a",
+          "sha256": "1b6e01dec22c60d86c55d568c380622ebfe8750d3a5bf1edb04709718dca649b",
+          "bytes": 30668
+        },
+        {
+          "file": "design/cinematic/exports/navigation/audio/navigation-transit-short.cues.opus",
+          "sha256": "28e9f754a9ef75bdcb21e9d3c75f9a158b791f13c52722c8b0c2516bb869f466",
+          "bytes": 20970
+        }
+      ]
+    },
+    {
+      "pilot": "navigation",
+      "sheet": "arrival",
+      "lengthMs": 4600,
+      "cues": [
+        {
+          "at": 0,
+          "cue": "void-rumble",
+          "until": 4200,
+          "gain": 0.5
+        },
+        {
+          "at": 500,
+          "cue": "pass-whoosh",
+          "gain": 0.45
+        },
+        {
+          "at": 2500,
+          "cue": "reveal-sting"
+        }
+      ],
+      "files": [
+        {
+          "file": "design/cinematic/exports/navigation/audio/navigation-arrival.cues.wav",
+          "sha256": "f3be90351ae7d3ae5406d68f3ca65162d2209e02ad5213dd75847c3962d45aff",
+          "bytes": 441644
+        },
+        {
+          "file": "design/cinematic/exports/navigation/audio/navigation-arrival.cues.m4a",
+          "sha256": "5e7396f751ca9089be5920f76d08b4980df5455e96b742993390adf7788b3983",
+          "bytes": 68096
+        },
+        {
+          "file": "design/cinematic/exports/navigation/audio/navigation-arrival.cues.opus",
+          "sha256": "ae9c49d831a0e17a82a913d87d2f21524e58cea3d6888e6590e90954fb42d561",
+          "bytes": 46943
+        }
+      ]
+    },
+    {
+      "pilot": "navigation",
+      "sheet": "arrival-short",
+      "lengthMs": 3800,
+      "cues": [
+        {
+          "at": 0,
+          "cue": "void-rumble",
+          "until": 3400,
+          "gain": 0.5
+        },
+        {
+          "at": 400,
+          "cue": "pass-whoosh",
+          "gain": 0.45
+        },
+        {
+          "at": 2000,
+          "cue": "reveal-sting"
+        }
+      ],
+      "files": [
+        {
+          "file": "design/cinematic/exports/navigation/audio/navigation-arrival-short.cues.wav",
+          "sha256": "3568aac8244dee11c6c50c6c0236ad031a1d93907ce8ee75d6878205dddfa902",
+          "bytes": 364844
+        },
+        {
+          "file": "design/cinematic/exports/navigation/audio/navigation-arrival-short.cues.m4a",
+          "sha256": "31fc0284b45b36720a512267a52457ce18ec65311a496638e70561db419e02ab",
+          "bytes": 56550
+        },
+        {
+          "file": "design/cinematic/exports/navigation/audio/navigation-arrival-short.cues.opus",
+          "sha256": "137bc030108354621e2683735ff37ef99fcd2860942f51ed6b46d98c306d371e",
+          "bytes": 43510
+        }
+      ]
+    },
+    {
+      "pilot": "navigation",
+      "sheet": "reduced",
+      "lengthMs": 1600,
+      "cues": [
+        {
+          "at": 0,
+          "cue": "reveal-sting",
+          "gain": 0.5
+        }
+      ],
+      "files": [
+        {
+          "file": "design/cinematic/exports/navigation/audio/navigation-reduced.cues.wav",
+          "sha256": "e718b890d156251b98a7296e2c0dea69212272576611ca224e7a88012617ec39",
+          "bytes": 153644
+        },
+        {
+          "file": "design/cinematic/exports/navigation/audio/navigation-reduced.cues.m4a",
+          "sha256": "1807e34267ff9623da7b56bb2c212e286ac5926f56364bcf6cf7ce817aa4bdc5",
+          "bytes": 24548
+        },
+        {
+          "file": "design/cinematic/exports/navigation/audio/navigation-reduced.cues.opus",
+          "sha256": "c8d89995d3f5ab8fc7edc0fa1a0c0b91a9ddd4bff74ce2b731eece72bcde2495",
+          "bytes": 22986
+        }
+      ]
     }
   ]
 }

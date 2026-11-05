@@ -1,0 +1,62 @@
+{
+  "tool": "design/tools/cinematic-render.mjs",
+  "pilot": "navigation",
+  "version": "library-navigation-films-0.1.0",
+  "surface": "insert",
+  "variant": "full",
+  "stage": "design/cinematic/stage.html?pilot=navigation&surface=insert&variant=full&beds=4&case=transit",
+  "size": [
+    1920,
+    1080
+  ],
+  "deviceScale": 1,
+  "fixture": null,
+  "browser": "Chromium 141.0.7390.37",
+  "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+  "outputs": [
+    {
+      "kind": "video",
+      "file": "design/cinematic/exports/navigation/runtime/transit-insert.mp4",
+      "sha256": "6e338df52f1b4f4feac3d56ed53b2114057516a038c4aa8d7f336c65162a34f8",
+      "bytes": 510059,
+      "fps": 30,
+      "frames": 73,
+      "durationMs": 2400,
+      "from": 0,
+      "to": 2400,
+      "audio": null
+    },
+    {
+      "kind": "video",
+      "file": "design/cinematic/exports/navigation/runtime/transit-insert.webm",
+      "sha256": "7c16b41faad13b7d6655bb2a0389eacec67114ac70f57a8f0b7648c3fde222f8",
+      "bytes": 405992,
+      "fps": 30,
+      "frames": 73,
+      "durationMs": 2400,
+      "from": 0,
+      "to": 2400,
+      "audio": null
+    },
+    {
+      "kind": "preview",
+      "file": "design/cinematic/exports/navigation/runtime/transit-insert.preview.webp",
+      "sha256": "3e7748adb4fa6f7db8854c44bac9ae8b679aa9275333c59ddcaab1ac4c7b015d",
+      "bytes": 64238
+    },
+    {
+      "kind": "poster",
+      "file": "design/cinematic/exports/navigation/runtime/transit-insert.poster.png",
+      "sha256": "1ce1a9cb18ef9cb3fc1225dbcef800af57db17ca98dbdcfb12d31fe09558d16b",
+      "bytes": 895981,
+      "t": 1200
+    },
+    {
+      "kind": "poster",
+      "file": "design/cinematic/exports/navigation/runtime/transit-insert.poster.webp",
+      "sha256": "cd2ee84274ed955176005b4ed0bb44c353e26cf3f5585b5ff1ce515c8903daa2",
+      "bytes": 21348,
+      "t": 1200
+    }
+  ]
+}

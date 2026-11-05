@@ -1,0 +1,45 @@
+{
+  "tool": "design/tools/cinematic-render.mjs",
+  "pilot": "navigation",
+  "version": "library-navigation-films-0.1.0",
+  "surface": "display",
+  "variant": "full",
+  "stage": "design/cinematic/stage.html?pilot=navigation&surface=display&variant=full&beds=4&case=transit",
+  "size": [
+    1920,
+    1080
+  ],
+  "deviceScale": 0.6667,
+  "fixture": {
+    "board": "board-v2 mixed (synthetic)"
+  },
+  "browser": "Chromium 141.0.7390.37",
+  "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+  "outputs": [
+    {
+      "kind": "video",
+      "file": "design/cinematic/exports/navigation/review/display-transit-full.mp4",
+      "sha256": "278e734de0fb221bdda27a12a4df0fa700d164da12e994fa66968f2ef2861367",
+      "bytes": 301437,
+      "fps": 30,
+      "frames": 73,
+      "durationMs": 2400,
+      "from": 0,
+      "to": 2400,
+      "audio": "design/cinematic/exports/navigation/audio/navigation-transit.cues.wav"
+    },
+    {
+      "kind": "preview",
+      "file": "design/cinematic/exports/navigation/review/display-transit-full.preview.webp",
+      "sha256": "d480839c6c92c567a17bb75fcc13c43b5c84038ecf707779be37565c139594de",
+      "bytes": 64070
+    },
+    {
+      "kind": "poster",
+      "file": "design/cinematic/exports/navigation/review/display-transit-full.poster.webp",
+      "sha256": "de0b2718a04b4f4fb544c86f24fb7469c79e0b00771b0f59ca35e3832bcd0a03",
+      "bytes": 75594,
+      "t": 1200
+    }
+  ]
+}

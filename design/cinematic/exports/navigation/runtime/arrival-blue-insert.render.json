@@ -1,0 +1,62 @@
+{
+  "tool": "design/tools/cinematic-render.mjs",
+  "pilot": "navigation",
+  "version": "library-navigation-films-0.1.0",
+  "surface": "insert",
+  "variant": "full",
+  "stage": "design/cinematic/stage.html?pilot=navigation&surface=insert&variant=full&beds=4&case=arrival-blue",
+  "size": [
+    1920,
+    1080
+  ],
+  "deviceScale": 1,
+  "fixture": null,
+  "browser": "Chromium 141.0.7390.37",
+  "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+  "outputs": [
+    {
+      "kind": "video",
+      "file": "design/cinematic/exports/navigation/runtime/arrival-blue-insert.mp4",
+      "sha256": "5a905ac79545c818550e8718b0d5d2de9db705840387d87f1d00d9157a9fb643",
+      "bytes": 1089173,
+      "fps": 30,
+      "frames": 127,
+      "durationMs": 4200,
+      "from": 0,
+      "to": 4200,
+      "audio": null
+    },
+    {
+      "kind": "video",
+      "file": "design/cinematic/exports/navigation/runtime/arrival-blue-insert.webm",
+      "sha256": "8680dab017371e55d3483e2d96f442c3ac262007d638b53b90a90c54a3883dd6",
+      "bytes": 556662,
+      "fps": 30,
+      "frames": 127,
+      "durationMs": 4200,
+      "from": 0,
+      "to": 4200,
+      "audio": null
+    },
+    {
+      "kind": "preview",
+      "file": "design/cinematic/exports/navigation/runtime/arrival-blue-insert.preview.webp",
+      "sha256": "1b082d6150483d08e7356576b81b2b6d8386f82a9999cf05af303d1f3625abcb",
+      "bytes": 172310
+    },
+    {
+      "kind": "poster",
+      "file": "design/cinematic/exports/navigation/runtime/arrival-blue-insert.poster.png",
+      "sha256": "33b0b127fc23434e9d7de5ba2222393d31734b715104e133f1af6f28276ca073",
+      "bytes": 1234609,
+      "t": 4100
+    },
+    {
+      "kind": "poster",
+      "file": "design/cinematic/exports/navigation/runtime/arrival-blue-insert.poster.webp",
+      "sha256": "4ca9e33913cb798ecc8f58345d85f04830c8ac1afb1d5c5ab26114237a2aaf88",
+      "bytes": 27990,
+      "t": 4100
+    }
+  ]
+}

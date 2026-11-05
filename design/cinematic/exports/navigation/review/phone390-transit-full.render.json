@@ -1,0 +1,45 @@
+{
+  "tool": "design/tools/cinematic-render.mjs",
+  "pilot": "navigation",
+  "version": "library-navigation-films-0.1.0",
+  "surface": "phone",
+  "variant": "full",
+  "stage": "design/cinematic/stage.html?pilot=navigation&surface=phone&variant=full&beds=4&w=390&h=844&case=transit",
+  "size": [
+    390,
+    844
+  ],
+  "deviceScale": 1.5,
+  "fixture": {
+    "board": "board-v2 mixed (synthetic)"
+  },
+  "browser": "Chromium 141.0.7390.37",
+  "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+  "outputs": [
+    {
+      "kind": "video",
+      "file": "design/cinematic/exports/navigation/review/phone390-transit-full.mp4",
+      "sha256": "fdce5e6599b455956c6007b2a4cbec2088f27685cbb83983c937661f01d1ee33",
+      "bytes": 229980,
+      "fps": 30,
+      "frames": 55,
+      "durationMs": 1800,
+      "from": 0,
+      "to": 1800,
+      "audio": "design/cinematic/exports/navigation/audio/navigation-transit-short.cues.wav"
+    },
+    {
+      "kind": "preview",
+      "file": "design/cinematic/exports/navigation/review/phone390-transit-full.preview.webp",
+      "sha256": "92023ace17ea9798504c95621104f3f51fa12cd3a6027a97af74de44136a6b65",
+      "bytes": 56576
+    },
+    {
+      "kind": "poster",
+      "file": "design/cinematic/exports/navigation/review/phone390-transit-full.poster.webp",
+      "sha256": "7eb674ca3e6693d3e04df23d1618068b97e87e23e032709c79da02f4799270ae",
+      "bytes": 88940,
+      "t": 900
+    }
+  ]
+}

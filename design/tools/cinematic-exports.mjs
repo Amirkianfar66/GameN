@@ -1,6 +1,7 @@
 // mothership:dev-only
 //
-// Every export of the three cinematic pilots, rendered from their stages with the local Chromium
+// Every export of the three cinematic pilots and the library groups' public films, rendered from
+// their stages with the local Chromium
 // and ffmpeg (design/tools/cinematic-render.mjs), two at a time:
 //   node design/tools/cinematic-exports.mjs [--only <name-prefix>]
 // Writes design/cinematic/exports/<pilot>/{review,runtime,stills}/. Run cinematic-audio.mjs first
@@ -54,6 +55,18 @@ export const JOBS = [
   { pilot: 'private-talk', name: 'review/display-exit-reduced', surface: 'display', variant: 'reduced', params: ['case=exit'], ...display, ...review, poster: '500' },
   { pilot: 'private-talk', name: 'review/phone390-s2-entrance', ...phone(390, 844), variant: 'full', params: ['case=entrance'], ...review, audio: audio('private-talk', 'entrance'), poster: '3000' },
   { pilot: 'private-talk', name: 'review/phone390-s2-exit', ...phone(390, 844), variant: 'full', params: ['case=exit'], ...review, audio: audio('private-talk', 'exit'), poster: '1000' },
+  // Library group 2 (design/library/navigation/): the neutral transit, the same for every movement, and both arrivals.
+  { pilot: 'navigation', name: 'review/display-transit-full', surface: 'display', variant: 'full', params: ['case=transit'], ...display, ...review, audio: audio('navigation', 'transit'), poster: '1200' },
+  { pilot: 'navigation', name: 'review/display-transit-reduced', surface: 'display', variant: 'reduced', params: ['case=transit'], ...display, ...review, poster: '600' },
+  { pilot: 'navigation', name: 'review/phone390-transit-full', ...phone(390, 844), variant: 'full', params: ['case=transit'], ...review, audio: audio('navigation', 'transit-short'), poster: '900' },
+  { pilot: 'navigation', name: 'review/display-arrival-blue-full', surface: 'display', variant: 'full', params: ['case=arrival-blue'], ...display, ...review, audio: audio('navigation', 'arrival'), poster: '4100' },
+  { pilot: 'navigation', name: 'review/display-arrival-red-full', surface: 'display', variant: 'full', params: ['case=arrival-red'], ...display, ...review, audio: audio('navigation', 'arrival'), poster: '4100' },
+  { pilot: 'navigation', name: 'review/display-arrival-red-reduced', surface: 'display', variant: 'reduced', params: ['case=arrival-red'], ...display, ...review, audio: audio('navigation', 'reduced'), poster: '1100' },
+  { pilot: 'navigation', name: 'review/phone390-arrival-blue-full', ...phone(390, 844), variant: 'full', params: ['case=arrival-blue'], ...review, audio: audio('navigation', 'arrival-short'), poster: '3300' },
+  { pilot: 'navigation', name: 'review/phone390-arrival-red-full', ...phone(390, 844), variant: 'full', params: ['case=arrival-red'], ...review, audio: audio('navigation', 'arrival-short'), poster: '3300' },
+  { pilot: 'navigation', name: 'runtime/transit-insert', surface: 'insert', variant: 'full', params: ['case=transit'], ...runtime, poster: '1200' },
+  { pilot: 'navigation', name: 'runtime/arrival-blue-insert', surface: 'insert', variant: 'full', params: ['case=arrival-blue'], ...runtime, poster: '4100' },
+  { pilot: 'navigation', name: 'runtime/arrival-red-insert', surface: 'insert', variant: 'full', params: ['case=arrival-red'], ...runtime, poster: '4100' },
 ];
 
 /** Storyboard frames for the live-action studies: full-size display frames, kept as WebP. */
