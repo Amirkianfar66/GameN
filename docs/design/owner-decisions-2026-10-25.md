@@ -71,12 +71,12 @@ The full records remain in Design Studio's **Development Ideas** tab. This list 
 
 A living Hospital patient may make one lifetime attempt using Doctor's player number. Wrong input spends only the attempt. Correct accepted input reserves one of the two heals shared with Doctor and queues self-Rescue for that round's Rescue stage; it does not instantly heal or revive. During Blackhole the healing pool is per reality and only the chosen pool/effects survive, without refills; the patient's attempt remains spent globally. See the [panel](../../rules/overlays/hospital-panel-owner-decision-2026-10-25.json), [healing inventory](../../rules/overlays/hospital-panel-blackhole-owner-decision-2026-10-25.json) and [attempt](../../rules/overlays/hospital-panel-attempt-owner-decision-2026-10-25.json) decisions.
 
-## Open details, not approved defaults
+## Resolution update — 5 November 2026
 
-- Confirmation deadlines and unavailable/vacant office handling; Captain multiplier interaction with suppression; public ship-progress and disruption notifications.
-- Exact integration of pre-vote Blackhole Sync, action resolution and post-results navigation.
-- Legacy Supplier, shooting, Clone, medical and conversation rules tied to specific rounds. No new windows are inferred from removing the match cap.
-- Hack Spaceship action cost, precise eligibility and whether it can activate in the same round as the last Scan. The proposed Role Main Action cost was never approved. Button replacement does not settle that cost.
-- Scan availability after a failed final Code submission; exact Blackhole handling of Code attempt, unlock, cooldown and activation state.
+The owner has now approved the [final 26-decision packet](../specifications/planet-successor/owner-decisions.md), including corrections for inherited resources, Promise checkpoints, finalized shared-board presentation, no-survivor timing, full-Jail voting and drawing-position movement. These details are no longer open proposals.
+
+The confirmed order selects and Syncs a complete reality before Jail voting, then resolves its retained actions afterward, with attacks before Rescue and navigation after completed results. See the packet for exact deadlines, office fallbacks, navigation eligibility, uncapped-round windows, Hacker costs/eligibility and global-versus-reality state. Do not reopen or infer replacements for these confirmed decisions.
+
+The [successor specification](../specifications/planet-successor/README.md) is the implementation handoff. Its approval does not migrate an existing match or change a deployed tuple.
 
 Historical runtime remains protocol 2 / `full-game-1.11.0` / `in-person-v1-hospital-four-2026-10-19`. No gameplay tests or engine changes are part of recording these decisions.

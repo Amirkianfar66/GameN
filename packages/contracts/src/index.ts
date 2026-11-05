@@ -14,3 +14,4 @@ export * from './captain-outcomes.js';
 export * from './blackout.js';
 
 export * from './clone.js';
+export * from './planet-game.js';

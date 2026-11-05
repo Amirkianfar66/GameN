@@ -1,0 +1,17 @@
+# Planet successor visual and motion handoff
+
+Preserve the reviewed 2D/2.5D Comic Noir board, character identity, room art, fixed slots and private capsule. This specification approves behavior/disclosure, not replacement art hashes. Do not omit Claude Designer work or silently recreate its assets.
+
+- Every normal-round shared screen shows the last finalized public board, labeled with its checkpoint, alongside live time/turn/talk pair. Player phones display their authorized current board. Preserve safe public animation without promoting speculative health, position or role effects to settled global facts.
+- Blackhole: no early badge, branch name/count, role color, special submission delay or voice indicator. After ordinary turns and final private talk, show the approved luminous BLACKHOLE/ship cinematic only for the authorized event and then current synced state. Animation cannot select the world, roll back real conversation or pause an unapproved amount of gameplay time. Reduced-motion uses a clear static transition; reconnect shows current state.
+- Navigation: offices privately receive final direction and acknowledgement/tie controls. Never show totals, Captain's separate weight, raw direction before Hack override, or a public colored route. Public feedback says movement completed; reveal destination/winners only on arrival.
+- Engineer: private registration feedback only. No target glow, suppression badge or sound for other players.
+- Role names: Doctor and Engineer; Officer appears as a public office badge separate from private role/faction. Character clothes and token accents remain role-neutral. Existing role artwork containing obsolete names needs a reviewed presentation correction, not a new secret Officer role.
+- Hospital: four physical beds, existing overflow/offboard treatment, patient clothes, Doctor drone rescue and medical deadline states. Panel feedback is patient-private; empty inventory must not confirm Doctor identity. Registered treatment is not a successful heal.
+- Promises: six fixed cards with exact recipient/target/deadline and explicit Accept. Pair-private lifetime quota and Pending/Fulfilled/Not fulfilled/Condition not met. Never finalize a current-round result from a speculative scene or label failure as a verified lie.
+- Windows: exactly three links. Opening view/drawing/Show are free. Current station ownership controls Show; show author and chronological order; no erase or replacement. Window view does not grant private role information, room-only defensive events or an alternate view through Blackout darkness.
+- Movement: tap room label and empty slot; entering plus slot choice is one move. Same-room reposition consumes that allowance, with a clear preview. Officer block leaves an already-seated artist's drawing available. Freeze all authorized target coordinates during Blackout.
+- Preserve phone no-scroll default board, contextual overlays, direct character targets and central Pass. Keep accessible focus, text alternatives, reduced motion, stable navigation, safe flashes and 44px targets. Do not turn privacy/error feedback into a second player-picker panel.
+
+Designer delivery should identify exact source modules/assets, hashes, mounting rules and audience cues. Frontend must cite the adopted sources. Browser/fixture evidence does not substitute for real phone or screen-reader validation.
+
