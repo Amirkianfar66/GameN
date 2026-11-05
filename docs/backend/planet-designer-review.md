@@ -1,5 +1,7 @@
 # Planet engine follow-up to Designer review
 
+Historical review at the source below. Its pending R1 status is superseded by the owner-approved P27 [server presentation stage](planet-sync-presentation.md); the original evidence and other review dispositions remain recorded here.
+
 Follow-up starting SHA: `34bf02f812e003afbadd80d42daddbba5a835120`; branch `codex/backend-planet-engine`. Integration's 5 November 2026 handoff identifies design-only PR #174 at `db49cea2cbafa0c11743555ff9111d93a0827e91`, stacked on #161. That handoff reports its CI/hash review; Backend did not independently rerun the design checks or adopt those assets.
 
 Rule authority remains the [final owner decisions](../specifications/planet-successor/owner-decisions.md), especially resolution order and P04/P06/P23/P24, plus the [motion requirements](../specifications/planet-successor/motion-requirements.md). The design catalogue cannot change phase timing, placement or Promise outcomes. No runtime/shared-contract/rule/asset/default change is introduced by this follow-up.
