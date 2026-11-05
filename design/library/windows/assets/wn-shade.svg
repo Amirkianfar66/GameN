@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · library art proposal · wn-shade library-windows-0.1.0 · generated, do not edit by hand
+  The Blackout's shade over a window's pane: night slats; no drawing shows through it until the lights return.
+  Built by design/tools/library-assets.mjs from design/library/windows/art.mjs. Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 120" width="320" height="120" preserveAspectRatio="none"><g id="wn-shade"><rect x="0" y="0" width="320" height="120" fill="#0D1422"/><path d="M0 15 H320" stroke="#24314F" stroke-width="2.4"/><path d="M0 30 H320" stroke="#24314F" stroke-width="2.4"/><path d="M0 45 H320" stroke="#24314F" stroke-width="2.4"/><path d="M0 60 H320" stroke="#24314F" stroke-width="2.4"/><path d="M0 75 H320" stroke="#24314F" stroke-width="2.4"/><path d="M0 90 H320" stroke="#24314F" stroke-width="2.4"/><path d="M0 105 H320" stroke="#24314F" stroke-width="2.4"/><path d="M0 120 H320" stroke="#24314F" stroke-width="2.4"/><path d="M0 118 H320" stroke="#151923" stroke-width="4"/></g></svg>

@@ -1,7 +1,7 @@
 // mothership:dev-only
 //
 // Writes the library groups' art from their sources:
-//   node design/tools/library-assets.mjs [--group hack-engineer|navigation|hospital-panel|promises] [--check]
+//   node design/tools/library-assets.mjs [--group hack-engineer|navigation|hospital-panel|promises|windows] [--check]
 // For each group (all of them unless --group names one), in design/library/<group>/assets/:
 //   <name>.svg       each picture, standalone, transparent
 //   <group css>      every picture as a custom property, as the dossier's abilities.art.css does: a
@@ -17,6 +17,7 @@ import { LIBRARY_ART_VERSION, libraryAssets } from '../library/hack-engineer/art
 import { NAV_ART_VERSION, navigationAssets } from '../library/navigation/art.mjs';
 import { PANEL_ART_VERSION, panelAssets } from '../library/hospital-panel/art.mjs';
 import { PROMISE_ART_VERSION, promiseAssets } from '../library/promises/art.mjs';
+import { WINDOW_ART_VERSION, windowAssets } from '../library/windows/art.mjs';
 
 const repoRoot = resolve(fileURLToPath(new URL('../../', import.meta.url)));
 const sha256 = text => createHash('sha256').update(text).digest('hex');
@@ -46,6 +47,12 @@ export const GROUPS = Object.freeze({
     audience: 'pair-private: the giver\'s and the recipient\'s own open private sheets (the composer, the inbox, the ledger); loaded whole on every player phone',
     note: '   PAIR-PRIVATE art: drawn only inside the giver\'s or the recipient\'s own open private sheet. Every player phone, once, with the\n'
       + '   ability art, before the first match view, whatever the seat\'s role or Promises: which art arrives says nothing about who has one.\n',
+  }),
+  windows: Object.freeze({
+    version: WINDOW_ART_VERSION, assets: windowAssets, source: 'design/library/windows/art.mjs', css: 'windows.art.css', prop: '--wn-asset-', hook: 'windows',
+    audience: 'the window audience (players at either end of a window), the station-private pad, and the public board\'s station markers; loaded whole on every player phone',
+    note: '   The lintels, shade and tray mark are drawn only for players at either end of a window; the pad only at a drawing station; the\n'
+      + '   station marker on the public board. Every player phone, once, with the ability art, before the first match view.\n',
   }),
 });
 
