@@ -16,3 +16,39 @@ test('constructed no-office tie and lazy round shuffle consume independent recor
  assertPlanetGameState(s);const ctx={now:s.phase.endsAt,nextPhaseId:'independent-samples',nextDeadlineToken:'independent-token',phaseId:s.phase.id,deadlineToken:s.deadlineToken,random:[.25,...Array(32).fill(.999999)]},before=structuredClone(ctx);
  const result=advancePlanetDeadline(s,ctx);assert.equal(result.advanced,true);assert.deepEqual(ctx,before);assert.equal(result.state.round,3);assert.deepEqual(result.state.turnOrder,d.ids,'Tie consumes sample0; subsequent Fisher-Yates starts at sample1');assert.equal(result.state.navigation.position,'B1');
 });
+
+for (const count of [7, 8, 9]) test(`${count}: native EJECT prevents an accepted Jail Promise without turning ineligibility into abstention`, () => {
+  const d = planetWorldDriver(count);
+  d.until(s => s.round === 1 && s.phase.kind === 'JAIL_VOTE');
+  for (const id of d.state.ballot.eligibleVoters) d.command(id, {type:'VOTE',targetSeatId:'seat-1'});
+  d.until(s => s.round === 2 && s.phase.kind === 'CAPTAIN_ELECTION');
+  for (const id of d.state.ballot.eligibleVoters) d.command(id, {type:'VOTE',targetSeatId:'seat-6'});
+  d.deadline(); d.deadline();
+  d.command('seat-6', {type:'APPOINT_OFFICER',targetSeatId:'seat-7'});
+  d.until(s => s.round === 2 && s.phase.kind === 'JAIL_VOTE');
+  for (const id of d.state.ballot.eligibleVoters) d.command(id, {type:'VOTE',targetSeatId:'seat-2'});
+  d.until(s => s.round === 3 && s.phase.kind === 'ORDINARY_TURN' && s.activeSeatId === 'seat-1');
+  assert.equal(worldSeat(currentWorld(d),'seat-1').location,'Jail');
+  assert.equal(worldSeat(currentWorld(d),'seat-2').location,'Jail');
+  d.command('seat-1', {type:'REQUEST_HACK',targetSeatId:'seat-2'});
+  d.deadline(); d.command('seat-2', {type:'DECLARE_HACK_SIDE',declaredSide:'Blue'}); d.deadline();
+  for (const [giver,recipient,kind,targetSeatId] of [
+    ['seat-1','seat-2','NO_JAIL_VOTE',null], ['seat-2','seat-1','JAIL_VOTE','seat-7']
+  ]) {
+    d.command(giver, {type:'OFFER_PROMISE',recipientSeatId:recipient,kind,targetSeatId});
+    const promiseId=d.history.at(-1).request.commandId;
+    d.command(recipient, {type:'ACCEPT_PROMISE',promiseId});
+  }
+  d.until(s => s.phase.kind === 'ORDINARY_TURN' && s.activeSeatId === 'seat-6');
+  d.command('seat-6', {type:'CAPTAIN_EJECT'});
+  d.until(s => s.phase.kind === 'JAIL_VOTE');
+  assert.equal(d.state.ballot.eligibleVoters.includes('seat-1'),false);
+  assert.equal(d.state.ballot.eligibleVoters.includes('seat-2'),false);
+  assert.equal(d.state.global.promises.every(p => p.status === 'Pending'),true);
+  d.deadline();
+  assert.deepEqual(d.state.global.promises.map(p=>p.status),['Not fulfilled','Not fulfilled']);
+  assert.equal(projectPlanetPlayer(d.state,'seat-3').promises.length,0);
+  assert.deepEqual([...d.state.global.promiseGiven].sort(),['seat-1','seat-2']);
+  assert.deepEqual([...d.state.global.promiseReceived].sort(),['seat-1','seat-2']);
+  d.replay();
+});

@@ -84,6 +84,29 @@ for(const count of [7,8,9]) {
     const abstained=fixture(count),no=accepted(abstained,'NO_JAIL_VOTE');finalizePlanetPromises(abstained,'JAIL',{votes:{'seat-1':null}});assert.equal(no.status,'Fulfilled');
     const broken=fixture(count),bad=accepted(broken,'NO_JAIL_VOTE');finalizePlanetPromises(broken,'JAIL',{votes:{'seat-1':'seat-2'}});assert.equal(bad.status,'Not fulfilled');
   });
+  test(`${count}: an occurring Jail ballot cannot fulfill either Jail Promise for an eliminated or otherwise ineligible giver`,()=>{
+    for(const kind of ['JAIL_VOTE','NO_JAIL_VOTE'])for(const withBallot of [false,true]) {
+      const s=fixture(count),p=accepted(s,kind,{target:kind==='JAIL_VOTE'?'seat-7':null});
+      // Construct a selected-world EJECT result; the discarded actor world still has a living giver.
+      s.worlds.Selected=copy(s.worlds.Original);s.currentWorldId='Selected';
+      Object.assign(seat(s,'seat-1','Selected'),{health:'Eliminated',location:null,slotId:null,jailed:false});
+      if(withBallot)s.ballot={kind:'JAIL_VOTE',eligibleVoters:Object.keys(s.roles).filter(id=>id!=='seat-1'),eligibleTargets:['seat-7'],votes:{},runoff:false,electionId:'jail-ballot'};
+      finalizePlanetPromises(s,'JAIL',withBallot?{}:{votes:{}});
+      assert.equal(p.status,'Not fulfilled');assert.equal(p.offerStatus,'accepted');PlanetPromiseSchema.parse(p);
+      assert.deepEqual(s.global.promiseGiven,['seat-1']);assert.deepEqual(s.global.promiseReceived,['seat-2']);
+      finalizePlanetPromises(s,'JAIL',{votes:{'seat-1':'seat-7'}});finalizePlanetPromises(s,'ROUND_END');
+      assert.equal(p.status,'Not fulfilled','The final result cannot be repaired by a later callback');
+    }
+    const excluded=fixture(count),blocked=accepted(excluded,'NO_JAIL_VOTE');
+    excluded.ballot={kind:'JAIL_VOTE',eligibleVoters:['seat-2'],eligibleTargets:['seat-2'],votes:{},runoff:false,electionId:'jail-ballot'};
+    finalizePlanetPromises(excluded,'JAIL');assert.equal(blocked.status,'Not fulfilled','Actual ballot eligibility overrides living-state fallback');
+    for(const withBallot of [false,true])for(const votes of [{},{'seat-1':null}]) {
+      const s=fixture(count),p=accepted(s,'NO_JAIL_VOTE');
+      if(withBallot)s.ballot={kind:'JAIL_VOTE',eligibleVoters:Object.keys(s.roles),eligibleTargets:['seat-2'],votes,runoff:false,electionId:'jail-ballot'};
+      finalizePlanetPromises(s,'JAIL',withBallot?{}:{votes});
+      assert.equal(p.status,'Fulfilled','An eligible omitted or explicit-null ballot remains abstention');
+    }
+  });
   test(`${count}: absent same-round opportunities are Condition not met, future election cards wait and all prior results remain immutable`,()=>{
     const s=fixture(count),p=accepted(s,'NO_JAIL_VOTE');finalizePlanetPromises(s,'JAIL');assert.equal(p.status,'Pending','Missing ballots cannot fabricate success');finalizePlanetPromises(s,'ROUND_END');assert.equal(p.status,'Condition not met');
     const future=fixture(count),f=accepted(future,'CAPTAIN_SUPPORT');finalizePlanetPromises(future,'ROUND_END');assert.equal(f.status,'Pending');future.round++;finalizePlanetPromises(future,'MATCH_END');assert.equal(f.status,'Condition not met');

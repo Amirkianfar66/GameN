@@ -127,9 +127,10 @@ export function finalizePlanetPromises(state:PlanetGameState,opportunity:PlanetP
   if(opportunity==='JAIL') {
     const recorded=recordedVotes(state,'JAIL_VOTE',details);
     if(!recorded)return;
+    const eligible=recorded.ballot?.eligibleVoters??planetWorld(state).seats.filter(alive).map(seat=>seat.seatId);
     for(const p of pending.filter(p=>p.round===state.round && ['JAIL_VOTE','NO_JAIL_VOTE'].includes(p.kind))) {
       const voted=recorded.votes[p.giverSeatId];
-      p.status=(p.kind==='JAIL_VOTE'?voted===p.targetSeatId:voted!==p.recipientSeatId)?'Fulfilled':'Not fulfilled';
+      p.status=eligible.includes(p.giverSeatId) && (p.kind==='JAIL_VOTE'?voted===p.targetSeatId:voted!==p.recipientSeatId)?'Fulfilled':'Not fulfilled';
     }
     return;
   }
