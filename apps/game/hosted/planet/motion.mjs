@@ -2,7 +2,7 @@
 import {PlanetVersionsSchema,PlanetEventSchema,validClinicalAnchorForPlayerCount} from '@mothership/contracts';
 import {blockedEnd,blockedFrame} from '../board-v2-drawing/blocked-film.mjs';
 import {criticalFrame,rescueEnd,flatlineFrame,flatlineEnd} from '../board-v2-drawing/medical-film.mjs';
-import {fourRescueFrame} from '../board-v2-drawing/medical-four.mjs';
+import {fourRescueFrame,fourFilmBerth} from '../board-v2-drawing/medical-four.mjs';
 import {releaseFrame,releaseEnd,ejectFrame,ejectEnd} from '../board-v2-drawing/captain-film.mjs';
 import {overflowFrame,overflowEnd} from '../board-v2-drawing/overflow-film.mjs';
 import {cloneCard,cloneFrame,cloneEnd,cloneFilmFor} from '../board-v2-drawing/clone-film.mjs';
@@ -54,10 +54,12 @@ export function createPlanetMotion({now=()=>performance.now()}={}){
    if(['INJURED','RESCUED','ELIMINATED'].includes(event.kind)&&event.seatIds.length===1&&subject){
     const anchor=event.clinicalAnchor;
     if(!anchor||!validClinicalAnchorForPlayerCount(anchor,seats.length))continue;
-    const berth=event.kind==='INJURED'?subject.slotId:`H${anchor.anchorId.slice(2)}`;
+    const selection=event.kind==='INJURED'?null:fourFilmBerth(anchor,seats.map(s=>({seat:s.seatId,slotId:s.slotId})),subject.seatId);
+    if(selection&&!selection.plays)continue;
+    const berth=event.kind==='INJURED'?subject.slotId:selection.berth;
     if(!/^H[1-4]$/.test(berth??'')||seats.some(s=>s.slotId===berth&&s.seatId!==subject.seatId))continue;
     if(event.kind==='INJURED'&&(subject.health!=='Injured'||subject.location!=='Hospital'))continue;
-    if(event.kind==='RESCUED'&&subject.health!=='Healthy'||event.kind==='ELIMINATED'&&subject.health!=='Eliminated')continue;
+    if(event.kind==='RESCUED'&&(subject.health!=='Healthy'||!['Room A','Room B','Jail'].includes(subject.location))||event.kind==='ELIMINATED'&&subject.health!=='Eliminated')continue;
     entry={...base,kind:'medical',clinical:{INJURED:'INJURY',RESCUED:'HEALED',ELIMINATED:'DEATH'}[event.kind],subjectId:subject.seatId,subject:clone(subject),origin:clone(origin),berth};
    }else if(['CAPTAIN_RELEASE','CAPTAIN_EJECT'].includes(event.kind)){
     const subjects=event.seatIds.map(id=>({seatId:id,before:clone(previous?.find(s=>s.seatId===id)),after:clone(seats.find(s=>s.seatId===id)),body:previous?.find(s=>s.seatId===id)?.health==='Eliminated'}));
@@ -102,4 +104,11 @@ export function createPlanetMotion({now=()=>performance.now()}={}){
   return {items,special,own,reduced,animate:active.size>0||cloneMoving!==null};
  }
  return {update,sample,cancel(){clear();cloneBefore=null;privateWasOpen=false;},dispose(){clear();seen.clear();model=null;previous=null;cloneBefore=null;}};
+}
+
+/** A newly published outcome or terminal state settles optional capsule return motion. */
+export function planetOutcomeTakesPrecedence(model){
+ if(model?.result||['FINISHED','ABORTED'].includes(model?.phase?.kind))return true;
+ if(!model?.presentation||model.connection!=='live'||model.concealed||model.phase?.expired)return false;
+ return model.presentation.events.some(event=>event.phaseId===model.phase.id&&event.viewRevision===model.revision&&event.round===model.round&&event.publishedAt<=model.presentation.nowMs&&event.expiresAt>model.presentation.nowMs);
 }

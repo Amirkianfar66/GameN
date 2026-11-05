@@ -8,7 +8,8 @@ import {createBoardV2Films} from '../board-v2-films.mjs';
 import {labelBox} from '../board-v2-drawing/label-box.mjs';
 import {createBoardV2Blackout} from '../board-v2-blackout.mjs';
 import {createBoardV2Capsule} from '../board-v2-capsule.mjs';
-import {createPlanetMotion,planetOutcomeWords} from './motion.mjs';
+import {createPlanetRescuePainter} from './rescue.mjs';
+import {createPlanetMotion,planetOutcomeWords,planetOutcomeTakesPrecedence} from './motion.mjs';
 
 const windowNames={A_B:'Room A ↔ Room B',A_HOSPITAL:'Room A ↔ Hospital',B_JAIL:'Room B ↔ Jail'};
 const number=id=>id?`Player ${id.slice(5)}`:'—';
@@ -35,9 +36,9 @@ export function mountPlanetRenderer(root,controller){
  const words=el('p',null,'ms-visually-hidden');words.setAttribute('aria-live','polite');
  const rosterText=el('ul',null,'ms-visually-hidden');rosterText.setAttribute('aria-label','Authorized board facts');
  const resultPanel=el('section',null,'planet-result');resultPanel.setAttribute('aria-label','Authoritative result');
- const special=el('div',null,'planet-special');special.setAttribute('aria-hidden','true');
- root.replaceChildren(holder,targets,header,nav,pass,sheet,status,words,special,resultPanel,rosterText);
- const media=win.matchMedia('(prefers-reduced-motion: reduce)'),motion=createPlanetMotion(),capsule=createBoardV2Capsule(),blackout=createBoardV2Blackout(),films=createBoardV2Films(root,holder);
+ root.replaceChildren(holder,targets,header,nav,pass,sheet,status,words,resultPanel,rosterText);
+ const media=win.matchMedia('(prefers-reduced-motion: reduce)'),motion=createPlanetMotion(),capsule=createBoardV2Capsule(),blackout=createBoardV2Blackout(),films=createBoardV2Films(root,holder),rescue=createPlanetRescuePainter(holder);
+ let checkpointText='';
  let model=null,layout=null,frame=null,raf=null,disposed=false,more=false,uiKey=null,lastPanel='board';
  const drawings=new Map();
  const reduced=()=>media.matches;
@@ -164,15 +165,18 @@ export function mountPlanetRenderer(root,controller){
    for(const heading of holder.querySelectorAll('button[data-move-room]'))heading.disabled=!model.moveRooms.includes(heading.dataset.moveRoom);
    const seats=(model.board?.seats??[]).map(seat=>({...seat,...model.identities.find(i=>i.seatId===seat.seatId)}));
    root.dataset.phoneView=model.panel==='card'?'actions':model.panel;
-   films.paint({sample,frame,board:{playerCount:model.playerCount},seats,geometry:{sceneOf,slotsOf,slotRects},layout,enabled:completeArt()&&model.connection==='live'&&!model.concealed&&!model.phase?.expired,dark:model.dark||blackout.sample()?.dark===true,privateOpen:model.panel==='card',time:performance.now()});
+   films.paint({sample:{...sample,items:sample.items.filter(entry=>entry.kind!=='medical'||entry.clinical!=='HEALED')},frame,board:{playerCount:model.playerCount},seats,geometry:{sceneOf,slotsOf,slotRects},layout,enabled:completeArt()&&model.connection==='live'&&!model.concealed&&!model.phase?.expired,dark:model.dark||blackout.sample()?.dark===true,privateOpen:model.panel==='card',time:performance.now()});
+   rescue.paint({entries:sample.items,frame,seats,enabled:completeArt()&&model.connection==='live'&&!model.concealed&&!model.phase?.expired,dark:model.dark||blackout.sample()?.dark===true});
    for(const actor of holder.querySelectorAll('.bv2-actor')){
     const seat=model.board?.seats.find(s=>s.seatId===actor.dataset.seat);let badge=actor.querySelector('.planet-office-badge');
     const label=[model.offices?.captainSeatId===actor.dataset.seat?'Captain':null,model.offices?.officerSeatId===actor.dataset.seat?'Officer':null].filter(Boolean).join(' · ');
     if(label){if(!badge){badge=el('b',null,'planet-office-badge');actor.append(badge);}badge.textContent=label;const figure=frame.rooms.flatMap(r=>r.figures).find(f=>f.seatId===actor.dataset.seat);if(figure){badge.style.left=`${figure.press.left}px`;badge.style.top=`${figure.press.top-11}px`;badge.style.right='auto';}}else badge?.remove();
    }
   }
-  special.replaceChildren();for(const effect of sample.special){if(effect.kind==='blackhole'){special.append(el('strong','BLACKHOLE'),el('p','Ship synchronized'));special.dataset.reduced=String(reduced());}else if(effect.kind==='blocked')paintBlock(effect);}
-  special.hidden=!special.childNodes.length||model.concealed||model.dark;
+  if(!frame||!layout?.fits)rescue.clear();
+  const synced=!model.concealed&&!model.dark&&sample.special.some(effect=>effect.kind==='blackhole');
+  root.dataset.syncCue=String(synced);checkpoint.textContent=checkpointText+(synced?' · BLACKHOLE synced':'');
+  for(const effect of sample.special)if(effect.kind==='blocked')paintBlock(effect);
   if(sample.animate||capsule.sample().animate||blackout.sample()?.animate)raf=win.requestAnimationFrame(paint);
  }
  function clearBlocks(){for(const node of holder.querySelectorAll('.bv2-block-fx'))node.remove();for(const figure of holder.querySelectorAll('.bv2-figure'))figure.style.translate='0px 0px';}
@@ -214,6 +218,7 @@ export function mountPlanetRenderer(root,controller){
   offices.textContent=`Captain ${number(model.offices?.captainSeatId)} · Officer ${number(model.offices?.officerSeatId)}${model.offices?.blockedSeatId?` · Move blocked: ${number(model.offices.blockedSeatId)}`:''}`;
   checkpoint.textContent=(model.boardLabel?`${model.boardLabel} · `:'')+(model.talk?`Private talk: ${number(model.talk.actorSeatId)} + ${number(model.talk.targetSeatId)}`:`Turn: ${number(model.activeSeatId)}`);
   if(model.action?.prompt)checkpoint.textContent=model.action.prompt;
+  checkpointText=checkpoint.textContent;
   instruction.textContent=model.action?.prompt??(model.dark?'Blackout':model.result?`${model.result.winner??'No team'} · ${model.result.reason.replaceAll('_',' ')}${model.result.alienCoWinner?' · Alien co-victory':''}`:'');
   rosterText.replaceChildren();for(const seat of model.board?.seats??[]){const identity=model.identities.find(i=>i.seatId===seat.seatId);rosterText.append(el('li',`${number(seat.seatId)}${identity?.displayName?`, ${identity.displayName}`:''}: ${seat.health}, ${seat.location??'off board'}${seat.slotId?`, ${seat.slotId}`:''}${seat.jailed?', detained':''}${model.offices?.captainSeatId===seat.seatId?', Captain':''}${model.offices?.officerSeatId===seat.seatId?', Officer':''}${seat.health==='Injured'&&seat.medical&&seat.medical.rescueOpportunity!=='CLOSED'&&seat.rescueDueAfterRound!==null?`, Rescue possible through Round ${seat.rescueDueAfterRound}`:''}.`));}
   resultPanel.replaceChildren();resultPanel.hidden=true;
@@ -237,11 +242,13 @@ export function mountPlanetRenderer(root,controller){
   }else {frame=null;holder.replaceChildren();if(model.playerCount&&!model.concealed)status.textContent='This screen is too short for the fixed board. Rotate or increase its height.';}
   const key=JSON.stringify([model.panel,more,model.action,model.privateArea,model.recovery,model.concealed,model.phase?.expired,model.round,model.result]);
   if(key!==uiKey){uiKey=key;renderUI();renderTargets();}
+  nav.hidden=model.surface==='display'||model.concealed||targets.querySelector('.planet-choice-row')!==null;
   if(layout?.sheet){sheetBody.style.maxHeight=`${Math.max(44,model.panel==='card'?layout.board.navTop-layout.board.shell.top-76:layout.sheet.body.height-10)}px`;}
   const clock=model.presentation?{current:model.connection==='live'&&!model.phase.expired,kind:model.phase.kind,phaseId:model.phase.id,nowMs:model.presentation.nowMs,startedAt:model.presentation.startedAt,endsAt:model.presentation.endsAt}:null;
   const talk=model.talk&&clock?{hackId:model.talk.id,actorSeatId:model.talk.actorSeatId,targetSeatId:model.talk.targetSeatId,stage:model.phase.kind,phaseId:model.phase.id,current:clock.current,startedAt:clock.startedAt,endsAt:clock.endsAt,elapsedMs:clock.nowMs-clock.startedAt}:null;
   blackout.update(clock,model.presentation?.blackout?{...model.presentation.blackout,snapshotId:model.presentation.blackout.windowId}:null,{visible:!model.concealed&&document.visibilityState==='visible',reducedMotion:reduced()});
   capsule.update(talk,clock,{visible:!model.concealed&&document.visibilityState==='visible',reducedMotion:reduced()});
+  if(planetOutcomeTakesPrecedence(model))capsule.settle();
   motion.update(model,{reducedMotion:reduced(),visible:completeArt()&&document.visibilityState==='visible',focused:document.hasFocus()});
   const text=(model.presentation?.events??[]).filter(e=>e.expiresAt>model.presentation.nowMs).map(planetOutcomeWords).join(' ');if(words.textContent!==text)words.textContent=text;
   if(raf!==null)win.cancelAnimationFrame(raf);paint();
@@ -260,10 +267,10 @@ export function mountPlanetRenderer(root,controller){
   if(action==='retry')void controller.retry();
  };
  const onKey=e=>{if(e.key==='Escape'){more=false;controller.dismiss();document.getElementById('planet-nav-board')?.focus();}};
- const onVisibility=()=>{controller.setVisible(document.visibilityState==='visible');if(document.visibilityState!=='visible'){motion.cancel();capsule.settle();blackout.settle();films.clear();clearBlocks();drawings.clear();if(raf!==null)win.cancelAnimationFrame(raf);raf=null;}};
- const onMotion=()=>{motion.cancel();capsule.settle();blackout.settle();films.clear();clearBlocks();if(raf!==null)win.cancelAnimationFrame(raf);raf=null;if(model)render(model);};
+ const onVisibility=()=>{controller.setVisible(document.visibilityState==='visible');if(document.visibilityState!=='visible'){motion.cancel();capsule.settle();blackout.settle();films.clear();rescue.clear();clearBlocks();drawings.clear();if(raf!==null)win.cancelAnimationFrame(raf);raf=null;}};
+ const onMotion=()=>{motion.cancel();capsule.settle();blackout.settle();films.clear();rescue.clear();clearBlocks();if(raf!==null)win.cancelAnimationFrame(raf);raf=null;if(model)render(model);};
  const onResize=()=>{safeInsets=readInsets();uiKey=null;if(model)render(model);};
  root.addEventListener('click',onClick);root.addEventListener('keydown',onKey);document.addEventListener('visibilitychange',onVisibility);media.addEventListener('change',onMotion);win.addEventListener('resize',onResize);
  const stop=controller.subscribe(render);
- return {dispose(){disposed=true;stop();root.removeEventListener('click',onClick);root.removeEventListener('keydown',onKey);document.removeEventListener('visibilitychange',onVisibility);media.removeEventListener('change',onMotion);win.removeEventListener('resize',onResize);if(raf!==null)win.cancelAnimationFrame(raf);motion.dispose();capsule.dispose();blackout.dispose();films.dispose();drawings.clear();root.replaceChildren();}};
+ return {dispose(){disposed=true;stop();root.removeEventListener('click',onClick);root.removeEventListener('keydown',onKey);document.removeEventListener('visibilitychange',onVisibility);media.removeEventListener('change',onMotion);win.removeEventListener('resize',onResize);if(raf!==null)win.cancelAnimationFrame(raf);motion.dispose();capsule.dispose();blackout.dispose();films.dispose();rescue.dispose();drawings.clear();root.replaceChildren();}};
 }

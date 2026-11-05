@@ -12,10 +12,10 @@
   },
   "checks": {
     "frontend": {
-      "passed": 806,
+      "passed": 810,
       "presentation": 208,
-      "game": 598,
-      "newPlanetTests": 65,
+      "game": 602,
+      "newPlanetTests": 69,
       "failed": 0,
       "skipped": 0,
       "cancelled": 0
@@ -36,7 +36,7 @@
   },
   "phoneEvidence": {
     "scope": "Explicit synthetic protocol-3 sessions; headless desktop Chrome phone emulation, not Firebase, hosted, physical-device, screen-reader or multiplayer acceptance.",
-    "generatedAt": "2026-11-05T16:35:07.184Z",
+    "generatedAt": "2026-11-05T18:08:46.739Z",
     "browser": {
       "protocolVersion": "1.3",
       "product": "Chrome/156.0.8078.80",
@@ -82,7 +82,7 @@
   ],
   "deployment": "not performed",
   "sourceFilesSha256": {
-    "apps/game/dev/planet/capture.mjs": "d991132973f3a65eb8f69a838e272a64c5d706cea176d4740a2eaba54ce3e48e",
+    "apps/game/dev/planet/capture.mjs": "7309635e49118e49291f42de25e0553daf79d4fb1785e701b54835f177032566",
     "apps/game/dev/planet/index.html": "38bd9a4b9927e0c0294a070d701109260a5b29619fe7e76ee6f993450e50b395",
     "apps/game/dev/planet/main.mjs": "e929aaaaeede2f7afcd15d87989eddc32a8c704abc2a7bd5de369ed3436bcb8d",
     "apps/game/dev/planet/scenarios.mjs": "05fbfddca410cb40231d63ab90b19cbdaae2ae37ebfbb5aad2974958bb9f20ad",
@@ -90,9 +90,9 @@
     "apps/game/hosted/planet/app.mjs": "2af8b4dbc6e1904a4bcc7d13ef62ab983c752fdb75c935f632fea8f47ced2b4a",
     "apps/game/hosted/planet/index.html": "1f0ee23be7b4eb94609b576244f6b305d4cbec931a25ea77256d197ab812ea6c",
     "apps/game/hosted/planet/main.mjs": "ad94aacf51ccefa60621d902f2d2690db0560c837c5662399a4ae753afabe9f8",
-    "apps/game/hosted/planet/motion.mjs": "5959bae3903cd384536220943d8751777909a92de819342e830cadf373c93fe6",
-    "apps/game/hosted/planet/planet.css": "8a62c7fa43729b21ea6cfab1ad90be924d7c95beef0ca312a1ee9874ec3fbf8b",
-    "apps/game/hosted/planet/render.mjs": "ee44684711daed002d955bd9d22bad4336a31df7c733028ba04e7adecc802fb8",
+    "apps/game/hosted/planet/motion.mjs": "aa790dcd21c89d8678c0127d84d80007f1772d9f2dc83555de66fba9a344fb10",
+    "apps/game/hosted/planet/planet.css": "24b8300199574e5fb24185dc89869710a9c6861962337806e4e65dacdb791d01",
+    "apps/game/hosted/planet/render.mjs": "292defde247fafef321b6b07b68c8f817e2c28a0cbb24f026f901f02e2d3453f",
     "apps/game/hosted/vite.config.mjs": "5578e0c111196ea487dc6844ae17b9598984bb1b2166fd6ea02acc7a1664e504",
     "apps/game/src/browser/planet-request.ts": "261772d9e281066573ea2d7910dfc80ab46f2d278ac801069776eb0cc46f2f77",
     "apps/game/src/browser/planet-transport.ts": "0634124b5765de9e9df1645fd5e6e487a07ad315f7cf33b679b9853af7664c1a",
@@ -103,11 +103,27 @@
     "apps/game/src/planet/transport.ts": "0889664a185cec11a97787255d9d0208cd897b55e638357c178809f817c6932c",
     "apps/game/test/planet-commands.test.mjs": "c5e0b659a46003d820312ecfbe38526386fd386d1915fdc3a9c7f499297cf139",
     "apps/game/test/planet-controller.test.mjs": "db825852bb13e27312b14bd0f62f5730ff03160bc11a7e9003bc5b427f916445",
-    "apps/game/test/planet-motion.test.mjs": "6ebe5dee653cf269456c6f307dd4811fd60914e94dcd7287f4e9e8e01c679e67",
+    "apps/game/test/planet-motion.test.mjs": "57317ed5c23653e944ec877d252ddc597f32b3324b2017ae5144f0fe7726faf4",
     "apps/game/test/planet-request.test.mjs": "2681315bad8e3a8bc71407c009f6822f05684c4d81b8ead862944d81e429a194",
     "apps/game/test/planet-session.test.mjs": "de464bdb9ac65e621a41119fe508f46f06990f03b13a21b530b502ebb850e58f",
     "apps/game/test/planet-support.mjs": "3283339c80aa20c7b912b00ac5662064a033a16af0f44d177927dfaf13e023bd",
     "packages/presentation/src/index.ts": "05d584035b74bedccaed8990be77716c5382ba08afa88c5f38a118d779200c7a",
-    "packages/presentation/src/planet/model.ts": "7fd1ff314d6e49bff3c0e350fe57ec61c34db940eb13a780d13ff98455036f3e"
+    "packages/presentation/src/planet/model.ts": "7fd1ff314d6e49bff3c0e350fe57ec61c34db940eb13a780d13ff98455036f3e",
+    "apps/game/hosted/planet/rescue.mjs": "a4faf3f1d15ddbbc4ca7ffdd9bdca59eefa935d0d36a1de990c3cdbb6acfe75c",
+    "apps/game/dev/planet/capture-review-safety.mjs": "a7f0c69ae67a3dab89af830c8fb48d8a7c0072ff5883da1b757f589c36a84528"
+  },
+  "motionReviewFollowup": {
+    "baseFrontend": "64a94536d0b0db9ff18c9c12c849c7ee273ebb3e",
+    "designerReviewReference": "db49cea2cbafa0c11743555ff9111d93a0827e91",
+    "designerArtifactAdoption": "not performed",
+    "postSyncTimingStage": "pending owner approval; not implemented",
+    "facts": "evidence/planet-pr174-safety/facts.json",
+    "generatedAt": "2026-11-05T18:06:08.108Z",
+    "cases": 16,
+    "passed": 16,
+    "screenshots": 16,
+    "runtimeErrors": [],
+    "currentRescueTokenAndNameplate": "unchanged throughout the machinery vignette",
+    "sharedSourcesUnchanged": true
   }
 }

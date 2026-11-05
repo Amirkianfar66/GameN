@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import {test} from 'node:test';
-import {createPlanetMotion} from '../hosted/planet/motion.mjs';
+import {createPlanetMotion,planetOutcomeTakesPrecedence} from '../hosted/planet/motion.mjs';
+import {createBoardV2Capsule} from '../hosted/board-v2-capsule.mjs';
 import {planetView,rig} from './planet-support.mjs';
 const anchor=n=>({kind:'CLINICAL_VIGNETTE',batchId:'clinical-batch',anchorId:`HV${n}`,slotCount:9});
 const event=(v,kind,seatIds=['seat-3'],extra={})=>({id:'planet-event-1',round:v.round,phaseId:v.phase.id,viewRevision:v.viewRevision,publishedAt:1000,expiresAt:31000,audience:{kind:'public'},kind,seatIds,actorSeatId:null,location:null,slotId:null,clinicalAnchor:null,...extra});
@@ -49,4 +50,20 @@ test('a continuous visible phase deadline permits a new resolved occurrence; a r
 });
 test('authorized room-block occurrences use one cause-free drawing and reset on motion change',async()=>{
  const v=planetView();const r=rig(v);await r.controller.start();const d=createPlanetMotion();d.update(r.read(),opts);const next=structuredClone(v);next.viewRevision=2;next.events=[event(next,'ATTACK_BLOCKED',['seat-7'],{audience:{kind:'player',seatId:'seat-6'},location:'Room B',slotId:'B2'})];r.push(next);const sample=d.update(r.read(),opts);assert.equal(sample.special[0].kind,'blocked');assert.ok(sample.special[0].blockFrame);assert.equal(sample.special[0].occurrence.actorSeatId,null);assert.equal(d.update(r.read(),{...opts,reducedMotion:true}).special.length,0);r.controller.dispose();
+});
+
+test('detained Rescue uses the supplied Jail slot while the clinical anchor remains a separate vignette',async()=>{
+ const r=rig(patient());await r.controller.start();const d=createPlanetMotion();d.update(r.read(),opts);const next=healed(patient());Object.assign(next.board.seats[2],{location:'Jail',slotId:'J3',jailed:true});r.push(next);const entry=d.update(r.read(),opts).items[0];assert.equal(entry.subject.location,'Jail');assert.equal(entry.subject.slotId,'J3');assert.equal(entry.berth,'H1');r.controller.dispose();
+});
+test('a reused clinical berth suppresses the optional Rescue drawing without changing the current healthy seat',async()=>{
+ const r=rig(patient());await r.controller.start();const d=createPlanetMotion();d.update(r.read(),opts);const next=healed(patient());Object.assign(next.board.seats[3],{health:'Injured',location:'Hospital',slotId:'H1',rescueDueAfterRound:7,medical:{admittedRound:6,rescueDueAfterRound:7,rescueOpportunity:'NEXT_NORMAL_ROUND'}});r.push(next);assert.equal(d.update(r.read(),opts).items.length,0);assert.equal(r.read().board.seats[2].slotId,'A3');r.controller.dispose();
+});
+test('current Sync and outcome checkpoints settle capsule exit; old occurrences do not cancel a new talk',async()=>{
+ const r=rig();await r.controller.start();assert.equal(planetOutcomeTakesPrecedence(r.read()),false);const next=planetView();next.viewRevision=2;next.events=[event(next,'BLACKHOLE_SYNCED',[])];r.push(next);assert.equal(planetOutcomeTakesPrecedence(r.read()),true);
+ const old=structuredClone(r.read());old.presentation.events[0].phaseId='previous-phase';assert.equal(planetOutcomeTakesPrecedence(old),false);old.presentation.events[0].phaseId=old.phase.id;old.presentation.events[0].viewRevision=1;assert.equal(planetOutcomeTakesPrecedence(old),false);old.result={reason:'NO_SURVIVORS',winner:null,alienCoWinner:false};assert.equal(planetOutcomeTakesPrecedence(old),true);r.controller.dispose();
+});
+
+test('ordinary capsule return remains the reviewed board-only exit, and Sync can settle it immediately',()=>{
+ const capsule=createBoardV2Capsule({now:()=>0});const session={hackId:'talk',actorSeatId:'seat-1',targetSeatId:'seat-6',stage:'HACK',phaseId:'talk-phase',current:true,startedAt:40000,endsAt:100000,elapsedMs:59999};
+ capsule.update(session,{current:true,kind:'HACK',phaseId:'talk-phase',nowMs:99999,startedAt:40000,endsAt:100000});capsule.update(null,{current:true,kind:'JAIL_VOTE',phaseId:'vote-phase',nowMs:100001,startedAt:100000,endsAt:160000});assert.equal(capsule.sample().stage,'exit');assert.equal(capsule.sample().animate,true);capsule.settle();assert.equal(capsule.sample().stage,'idle');assert.equal(capsule.sample().animate,false);capsule.dispose();
 });
