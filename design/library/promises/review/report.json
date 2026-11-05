@@ -1,0 +1,1332 @@
+{
+  "tool": "design/tools/library-capture.mjs",
+  "browser": "Chromium 141.0.7390.37",
+  "page": "design/library/promises/index.html",
+  "captures": [
+    {
+      "file": "design/library/promises/review/w390-composer-closed-outside-private-talk.png",
+      "sha256": "269a6c0b8e55cab1db7d12e3d3e7686719b2d7cb6d655101019a620a46d19c53",
+      "bytes": 27511,
+      "state": "composer: closed (outside private talk)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w390-composer-choose-the-six-cards.png",
+      "sha256": "4d753d01837a26ccb53f3ac5f05f9ef4607efda6884e30722fcff02cf3b7193a",
+      "bytes": 76476,
+      "state": "composer: choose (the six cards)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w390-composer-choose-two-players-to-choose-from.png",
+      "sha256": "67a7698ec062f6b6a1bd7b685292b434e22ac807a800980420fb8a79dd4d8c05",
+      "bytes": 72148,
+      "state": "composer: choose (two players to choose from)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w390-composer-target-jail-vote-picked.png",
+      "sha256": "da16949dc61a0d1dfbc274ec07c5664512f47bd97dfe7d6e3df731813ca95e12",
+      "bytes": 32958,
+      "state": "composer: target (Jail Vote picked)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w390-composer-review-captain-support.png",
+      "sha256": "09777905c1cc35f7ee5d66e832989e3c0a7e1f4e238c2c84fc4d70237f398e84",
+      "bytes": 65522,
+      "state": "composer: review (Captain Support)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w390-composer-review-officer-selection.png",
+      "sha256": "b6c6bb55a5c587329a2f5839c12b05868612da3370ed85e3294f87234f6acbca",
+      "bytes": 63451,
+      "state": "composer: review (Officer Selection)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w390-composer-review-jail-vote.png",
+      "sha256": "7c6f69977836894cc96d901eefb7d0a8ae1998afd9129ee951eedd93fd8096b2",
+      "bytes": 60221,
+      "state": "composer: review (Jail Vote)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w390-composer-review-no-jail-vote.png",
+      "sha256": "e18ccc245febdedfa1d969bf7483c672d543e441dc4e8b1ed15efa8b51cbe45e",
+      "bytes": 59986,
+      "state": "composer: review (No Jail Vote)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w390-composer-review-meet-in-a.png",
+      "sha256": "61a046fa3e93c162970c21f0023a38ce9452609df667311c80418a79c17137d4",
+      "bytes": 58325,
+      "state": "composer: review (Meet in A)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w390-composer-review-meet-in-b.png",
+      "sha256": "043843aaba588d8da98ad75b1615ea681f5b29d662359bf00b1f32be56044045",
+      "bytes": 58141,
+      "state": "composer: review (Meet in B)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w390-composer-sending.png",
+      "sha256": "9c867608fa8ad18922216fde0c0931e5584e61455685d04c3089b00c7a96f908",
+      "bytes": 25776,
+      "state": "composer: sending",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w390-composer-waiting.png",
+      "sha256": "8875caa8ea54ab0a6851504b096f4d4905c52d1d2b2ab4df5cf44588b8a7821a",
+      "bytes": 52952,
+      "state": "composer: waiting",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w390-composer-refused-not-allowed.png",
+      "sha256": "9fc633b163d9f0b863b3262eafce1428cfa8797595b8878909951d43f847fe9f",
+      "bytes": 21348,
+      "state": "composer: refused (NOT_ALLOWED)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w390-composer-choose-cleo-declined-nothing-used.png",
+      "sha256": "9401a38cc15e65a1ce0b1189d4d800263e4e0f1e627281da2b84a5b69950517f",
+      "bytes": 83545,
+      "state": "composer: choose (Cleo declined: nothing used)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w390-composer-closed-not-answered-nothing-used.png",
+      "sha256": "fe2cf345b04bccd62100899d462cc52da296f53e5181e2ebaac593eaa0e72fb4",
+      "bytes": 34940,
+      "state": "composer: closed (not answered: nothing used)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w390-composer-given-the-one-given-promise-is-made.png",
+      "sha256": "2fd4d5b24a88ca86bf852edd702cae1204e895fe6f171f64056e42bedacf11ec",
+      "bytes": 22556,
+      "state": "composer: given (the one given Promise is made)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w390-inbox-incoming-jail-vote.png",
+      "sha256": "1aa552639901418937975bc069fa19388498bfb5d0d5a057c754e5326cb5f1bb",
+      "bytes": 58591,
+      "state": "inbox: incoming (Jail Vote)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w390-inbox-incoming-captain-support.png",
+      "sha256": "a2865a351a821a8ccea23d94f4566d4ea8f6dd6ec3e22da99343ce6a5a5176b8",
+      "bytes": 60510,
+      "state": "inbox: incoming (Captain Support)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w390-inbox-incoming-meet-in-b.png",
+      "sha256": "77cc70679e3cbb489bee180e577240f30158556ee0338262ae5ef003b73a2047",
+      "bytes": 56020,
+      "state": "inbox: incoming (Meet in B)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w390-inbox-decline-only-the-one-received-promise-is-made.png",
+      "sha256": "1bdc8ae1961d2f33169725b4c03d1927650de3cbeebccd5c8f2ec32abcf86d5c",
+      "bytes": 59341,
+      "state": "inbox: decline-only (the one received Promise is made)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w390-inbox-answering-accepting.png",
+      "sha256": "0970fa3119a2a8a065644be1b5ba5635a1b56733a2c9db53c91dd27a9050edc2",
+      "bytes": 56054,
+      "state": "inbox: answering (accepting)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w390-inbox-locked-the-talk-has-closed.png",
+      "sha256": "a4f9a392861e963f1a3c515f6af0107269bc935933eb822e81228c7c2174ee1f",
+      "bytes": 46792,
+      "state": "inbox: locked (the talk has closed)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w390-inbox-none-declined-here-nothing-used.png",
+      "sha256": "a90a0ca9e250a75a669374306b5b95276e509fd4bbd4b54b9c62f313e9422a18",
+      "bytes": 19945,
+      "state": "inbox: none (declined here: nothing used)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w390-inbox-none-nothing-offered.png",
+      "sha256": "f5deb154904ce41fe3d3d8135923873fa2872e69571232de7df2837e070b2c71",
+      "bytes": 11905,
+      "state": "inbox: none (nothing offered)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w390-ledger-nothing-made-yet.png",
+      "sha256": "78c5022628f4e6786533cc482302c8fb72c6d5cd28ca84b8ac9fb26fb66d9918",
+      "bytes": 22866,
+      "state": "ledger (nothing made yet)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w390-ledger-given-meet-in-a-pending.png",
+      "sha256": "aeb5d94fb50862e039c5144fabd0d84cb3883ff721f0b2276cf5c7ae1371c602",
+      "bytes": 59839,
+      "state": "ledger (given: Meet in A, Pending)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w390-ledger-given-jail-vote-fulfilled-received-captain-support-pending.png",
+      "sha256": "6c52e02c949525d349aca97226aadd8346501800b0f55a845e70211a6a780d80",
+      "bytes": 110656,
+      "state": "ledger (given: Jail Vote, Fulfilled; received: Captain Support, Pending)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w390-ledger-the-same-pair-from-cleo-s-phone.png",
+      "sha256": "cd4d4de56278f5366e2e827473a76f80851a3c05e8a53b61a8cd4be9c083527a",
+      "bytes": 111336,
+      "state": "ledger (the same pair from Cleo's phone)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w390-ledger-given-meet-in-b-not-fulfilled-received-officer-selection-condition-not-met.png",
+      "sha256": "0c4f3fe3851ed9ae423c9638b584b6353f4d00807c627df8e2d01d4478798bf4",
+      "bytes": 107994,
+      "state": "ledger (given: Meet in B, Not fulfilled; received: Officer Selection, Condition not met)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w390-ledger-given-captain-support-condition-not-met-received-no-jail-vote-fulfilled.png",
+      "sha256": "d2f512082e97fa62afe4adbbd7a1253c2a86dbdfbddc300dc1fe3ab27dc56d1d",
+      "bytes": 109408,
+      "state": "ledger (given: Captain Support, Condition not met; received: No Jail Vote, Fulfilled)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w390-ledger-declined-and-not-answered-offers-are-not-records.png",
+      "sha256": "4442002fe52ec4c04981f824b9ed64dfd7555cdcd8784d49f8303d784528b7b7",
+      "bytes": 28556,
+      "state": "ledger (declined and not-answered offers are not records)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w390-tray-promises.png",
+      "sha256": "b8e61f852f79ac4f6003baa99d0225a4afddc1f45419dee10a754bdc5fc05e60",
+      "bytes": 13597,
+      "state": "tray: Promises",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w390-words-waiting-on-r13.png",
+      "sha256": "3ccf0b7ad1588bb75be1e1ea46059d5bc3f9359362463047daeb833a5942ce9a",
+      "bytes": 37716,
+      "state": "words waiting on R13",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/contact-w390.png",
+      "sha256": "e0b131e78547984264e32304d5f2525577f6d89b7b34f8cbb608b77947cebde0",
+      "bytes": 1934520,
+      "kind": "contact",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w320-composer-closed-outside-private-talk.png",
+      "sha256": "f79d5a98423511f56545b066821dd93ea27a61ce6376c4a3bfa26529e136818c",
+      "bytes": 27357,
+      "state": "composer: closed (outside private talk)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w320-composer-choose-the-six-cards.png",
+      "sha256": "8b4fbeee95e882179911addc48d4ed79b021ff3783320a5874abdc4786ec5ff7",
+      "bytes": 74162,
+      "state": "composer: choose (the six cards)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w320-composer-choose-two-players-to-choose-from.png",
+      "sha256": "04553a1fa448ce9658cc211867ef6e9ccbe3de5c1e10a067dbbbc95fec354719",
+      "bytes": 70700,
+      "state": "composer: choose (two players to choose from)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w320-composer-target-jail-vote-picked.png",
+      "sha256": "6bbb356d8e6c01c12cca6cb003bf09282358346506c7d8e7ef4a38687e8ca30f",
+      "bytes": 32703,
+      "state": "composer: target (Jail Vote picked)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w320-composer-review-captain-support.png",
+      "sha256": "5929245f960da1e538b502ac02ade78ab18e9bed7b27683f8b5a92287a40a783",
+      "bytes": 66273,
+      "state": "composer: review (Captain Support)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w320-composer-review-officer-selection.png",
+      "sha256": "28d36342c87c9c73f390609f0ff70fd726b9fd25df6a060ff1e728b9828774da",
+      "bytes": 62493,
+      "state": "composer: review (Officer Selection)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w320-composer-review-jail-vote.png",
+      "sha256": "078a81a9087edc100d66f140a64e52ac7449c6fcd319d0afee17d7b499b06371",
+      "bytes": 58116,
+      "state": "composer: review (Jail Vote)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w320-composer-review-no-jail-vote.png",
+      "sha256": "cee360c559bde16640d82767e8813945e0bebab4907b0323ad5bddff4424061d",
+      "bytes": 58421,
+      "state": "composer: review (No Jail Vote)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w320-composer-review-meet-in-a.png",
+      "sha256": "23cfbfaaaeac042709a2f953bcf22c3ab560deb4a84e31a9afee3342cd617e25",
+      "bytes": 56458,
+      "state": "composer: review (Meet in A)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w320-composer-review-meet-in-b.png",
+      "sha256": "70349aa4de1fd7eea2d15d96ebb1b6f1ab63cfce78be4d510a7a87176a533fcb",
+      "bytes": 56226,
+      "state": "composer: review (Meet in B)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w320-composer-sending.png",
+      "sha256": "aa7a047ed91fe45df52a69e3d2254185a8e33b114ad2fa5ba98ec2d7c8b7b5db",
+      "bytes": 25181,
+      "state": "composer: sending",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w320-composer-waiting.png",
+      "sha256": "6c77ca01a2fa46d148a8ccd0fc019694900acaf03bf1a479ad5a79551224c9c7",
+      "bytes": 50948,
+      "state": "composer: waiting",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w320-composer-refused-not-allowed.png",
+      "sha256": "8fae7fd9041fb563f1b0f135d4fcec584e9cce2c63cc93fa3d79eb27e65c106f",
+      "bytes": 21024,
+      "state": "composer: refused (NOT_ALLOWED)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w320-composer-choose-cleo-declined-nothing-used.png",
+      "sha256": "c590fb4714f0e3a1dc6d8aba7a7b033c13d77ad266c4394321d18e70c3380ec7",
+      "bytes": 81851,
+      "state": "composer: choose (Cleo declined: nothing used)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w320-composer-closed-not-answered-nothing-used.png",
+      "sha256": "2fc71bdb32a4e5ea214c29f73d07c4c07c32d4bdc22cc9ec9b51f1390783f878",
+      "bytes": 35037,
+      "state": "composer: closed (not answered: nothing used)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w320-composer-given-the-one-given-promise-is-made.png",
+      "sha256": "2600ce0fe36b4c31e192bdf2bc354c7e476453ccef2b79f03b02ee72317d482e",
+      "bytes": 22646,
+      "state": "composer: given (the one given Promise is made)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w320-inbox-incoming-jail-vote.png",
+      "sha256": "289a26306bb17ee66183f6a68113ae58ee031e3da4fdc5668e3279b43d19a2dd",
+      "bytes": 57927,
+      "state": "inbox: incoming (Jail Vote)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w320-inbox-incoming-captain-support.png",
+      "sha256": "5604a5c79e5b0d91651a03faf9c976738e830e2af3926e659702a68c5f425ed8",
+      "bytes": 62601,
+      "state": "inbox: incoming (Captain Support)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w320-inbox-incoming-meet-in-b.png",
+      "sha256": "ab9f48a8d969c5f7779286fa4ffc2c60dcdef19c3e2e5809faea11ec826efe24",
+      "bytes": 55733,
+      "state": "inbox: incoming (Meet in B)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w320-inbox-decline-only-the-one-received-promise-is-made.png",
+      "sha256": "9dc0a21e683314c60a0755dfe454ffd5d5ab5342adb70cf3cd2cbd5fa76f7f13",
+      "bytes": 58291,
+      "state": "inbox: decline-only (the one received Promise is made)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w320-inbox-answering-accepting.png",
+      "sha256": "e16f6baf0fb96f924d9e15b680df0b0df6b2c1153ce27470529631f6a82ebab0",
+      "bytes": 56137,
+      "state": "inbox: answering (accepting)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w320-inbox-locked-the-talk-has-closed.png",
+      "sha256": "7c556a6d73adb5717cac1b67c1b412489b0e479e0b23898539a34767b461f385",
+      "bytes": 45494,
+      "state": "inbox: locked (the talk has closed)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w320-inbox-none-declined-here-nothing-used.png",
+      "sha256": "b255e72670f19e27ed167d36bd4bbfd51b5c9f131126463cc4bb6011a473edb0",
+      "bytes": 19942,
+      "state": "inbox: none (declined here: nothing used)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w320-inbox-none-nothing-offered.png",
+      "sha256": "5c93116db83a7f50f2513a3aaa9ef015bce12f990a0fa43bffb5fbda31b93406",
+      "bytes": 12055,
+      "state": "inbox: none (nothing offered)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w320-ledger-nothing-made-yet.png",
+      "sha256": "7d9170c3af45920436827590cc4db81f0d27e28700571e54d1c4940c649ff21b",
+      "bytes": 22016,
+      "state": "ledger (nothing made yet)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w320-ledger-given-meet-in-a-pending.png",
+      "sha256": "1b87e9d2a5c8183203886c5f2e897e51816847db0d1d452df1386e7de952f9f2",
+      "bytes": 57618,
+      "state": "ledger (given: Meet in A, Pending)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w320-ledger-given-jail-vote-fulfilled-received-captain-support-pending.png",
+      "sha256": "ca62832f0451684c3f922898726376ea1589990da690a2ddd2e2139ea1720041",
+      "bytes": 108930,
+      "state": "ledger (given: Jail Vote, Fulfilled; received: Captain Support, Pending)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w320-ledger-the-same-pair-from-cleo-s-phone.png",
+      "sha256": "4ba5d26fceab3843c810d7d8a42ac5038693d24d57f6ab076e4a954bb03c4715",
+      "bytes": 110198,
+      "state": "ledger (the same pair from Cleo's phone)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w320-ledger-given-meet-in-b-not-fulfilled-received-officer-selection-condition-not-met.png",
+      "sha256": "183750e662260b5a7b31dd1d047248cf91c59f71d616ebaf427024579bd14a3d",
+      "bytes": 107325,
+      "state": "ledger (given: Meet in B, Not fulfilled; received: Officer Selection, Condition not met)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w320-ledger-given-captain-support-condition-not-met-received-no-jail-vote-fulfilled.png",
+      "sha256": "b1a24725b5a146b03ed52bcfbe610bd8e0a83ac1667bd6fafd570130392c3bfe",
+      "bytes": 108915,
+      "state": "ledger (given: Captain Support, Condition not met; received: No Jail Vote, Fulfilled)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w320-ledger-declined-and-not-answered-offers-are-not-records.png",
+      "sha256": "04f365af3b7808def255de0cbdc7c25e3447614cb33e22f2e26d6ac262f1469e",
+      "bytes": 27564,
+      "state": "ledger (declined and not-answered offers are not records)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w320-tray-promises.png",
+      "sha256": "9d769ae2492e99c4bcbf76e615814ea73620598f7b52f1014e2a222d5acea2e5",
+      "bytes": 13525,
+      "state": "tray: Promises",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w320-words-waiting-on-r13.png",
+      "sha256": "0c078f0887c6b6796e8d1875f1d467ee527290342dbc8533e1757054bf5c02d0",
+      "bytes": 40038,
+      "state": "words waiting on R13",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/contact-w320.png",
+      "sha256": "e396b158b52e0c6f2e2725daf864e2a8e35da8c71a93b7a87393e587aa365098",
+      "bytes": 1931977,
+      "kind": "contact",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/promises/review/w390-text200-composer-closed-outside-private-talk.png",
+      "sha256": "560cc972a061917f1d5c94f1755bba2959c77ccc88ef5835ca566bb208912ef8",
+      "bytes": 53017,
+      "state": "composer: closed (outside private talk)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/promises/review/w390-text200-composer-choose-the-six-cards.png",
+      "sha256": "3f366e0f025798d9d88a909b0c808dbc857d5327d6fd1d9e8cbcb9c54f108a16",
+      "bytes": 160043,
+      "state": "composer: choose (the six cards)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/promises/review/w390-text200-composer-choose-two-players-to-choose-from.png",
+      "sha256": "64a4f6bbc0ea54ed50a476d051d7f64c0405aebe9bbd9e6632acd07e7f396fa2",
+      "bytes": 146879,
+      "state": "composer: choose (two players to choose from)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/promises/review/w390-text200-composer-target-jail-vote-picked.png",
+      "sha256": "9c7742fe8a8643f7fa64da812f7b199cbc133fcbc4b6338083d5dddd21d6a73b",
+      "bytes": 46236,
+      "state": "composer: target (Jail Vote picked)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/promises/review/w390-text200-composer-review-captain-support.png",
+      "sha256": "d0a24cec6a83a21a50db4346993b6c7981248f9688c24b1462eaf480146ce065",
+      "bytes": 126900,
+      "state": "composer: review (Captain Support)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/promises/review/w390-text200-composer-review-officer-selection.png",
+      "sha256": "51dedb30a7f8ac360c3f033e604a8fdb09249cadc1b1a473927f353797cf09e8",
+      "bytes": 118393,
+      "state": "composer: review (Officer Selection)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/promises/review/w390-text200-composer-review-jail-vote.png",
+      "sha256": "a5dc688385676ad1b37d5ce8e245ff20e479b013f307a7eeb4fc398fb195c16d",
+      "bytes": 110946,
+      "state": "composer: review (Jail Vote)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/promises/review/w390-text200-composer-review-no-jail-vote.png",
+      "sha256": "6ded586a2b263be6f9da9ac47b3910e275c8fd8a201523e3c46ef82262768dae",
+      "bytes": 109178,
+      "state": "composer: review (No Jail Vote)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/promises/review/w390-text200-composer-review-meet-in-a.png",
+      "sha256": "312418a86f1b9f0d55d9ab9169dd935735260f3ce23db0e64df3592eca6b0b27",
+      "bytes": 106626,
+      "state": "composer: review (Meet in A)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/promises/review/w390-text200-composer-review-meet-in-b.png",
+      "sha256": "0ff5192252e27d19371f4ac79573809403bd487c58b81432241a52de3d22ce7a",
+      "bytes": 105487,
+      "state": "composer: review (Meet in B)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/promises/review/w390-text200-composer-sending.png",
+      "sha256": "7205fb23e180aafa8c1186eccc31dbf6efe7faedf0323e2a5092be3d152a168d",
+      "bytes": 34221,
+      "state": "composer: sending",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/promises/review/w390-text200-composer-waiting.png",
+      "sha256": "58bc653168ae8ab0403bc40c09bfe69a84b70f911ce63754e4afcf628616adaf",
+      "bytes": 89418,
+      "state": "composer: waiting",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/promises/review/w390-text200-composer-refused-not-allowed.png",
+      "sha256": "c5c28986ba2c1ab9cb0e76900c9dc3402077df8e61e81afc789b20a87609cc08",
+      "bytes": 31831,
+      "state": "composer: refused (NOT_ALLOWED)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/promises/review/w390-text200-composer-choose-cleo-declined-nothing-used.png",
+      "sha256": "a60df815d7598fb4486118f5a4246bc9fc3ac74aa00f5ddf789f67a515201373",
+      "bytes": 174428,
+      "state": "composer: choose (Cleo declined: nothing used)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/promises/review/w390-text200-composer-closed-not-answered-nothing-used.png",
+      "sha256": "1c10c320ac987821923474ffab393100f225651383d0de982a912ec110ccb145",
+      "bytes": 71389,
+      "state": "composer: closed (not answered: nothing used)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/promises/review/w390-text200-composer-given-the-one-given-promise-is-made.png",
+      "sha256": "e0df061804265f888359519963587ece4b614927767e4ea98d1e25fc383255c6",
+      "bytes": 31216,
+      "state": "composer: given (the one given Promise is made)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/promises/review/contact-w390-text200-composer.png",
+      "sha256": "16aae6c3cf755970474d9ae8178be01dc38eb4bf1148cd4862c1efca60f55f3e",
+      "bytes": 1572712,
+      "kind": "contact",
+      "width": 390,
+      "text": "200%",
+      "section": "composer"
+    },
+    {
+      "file": "design/library/promises/review/w390-text200-inbox-incoming-jail-vote.png",
+      "sha256": "1103dc0d20684994f1d6bd2d7ee4e94863edc2fff50825593c8cae5d864c7f78",
+      "bytes": 105482,
+      "state": "inbox: incoming (Jail Vote)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/promises/review/w390-text200-inbox-incoming-captain-support.png",
+      "sha256": "09b6dac88bcf5cdeedf63cc4e8a0c985a9557ab991504d344a612ca7fb54f658",
+      "bytes": 115878,
+      "state": "inbox: incoming (Captain Support)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/promises/review/w390-text200-inbox-incoming-meet-in-b.png",
+      "sha256": "8f5fa43f6212c10f1ea021fef3d9b1490c100b2a8a1ef10ae8894d1fe37ff1a3",
+      "bytes": 99633,
+      "state": "inbox: incoming (Meet in B)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/promises/review/w390-text200-inbox-decline-only-the-one-received-promise-is-made.png",
+      "sha256": "c0d9cd85f5020aee1400bade696105aca70a74df390ea333ffa4e349bb9ddf2b",
+      "bytes": 105728,
+      "state": "inbox: decline-only (the one received Promise is made)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/promises/review/w390-text200-inbox-answering-accepting.png",
+      "sha256": "f41e05e6b0e592cc61f0a2695539a2c7709275fd764ef5105ad5d8feb8dc69fa",
+      "bytes": 92614,
+      "state": "inbox: answering (accepting)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/promises/review/w390-text200-inbox-locked-the-talk-has-closed.png",
+      "sha256": "32de82f46a283504b017dc2490e4435245a0fbe2fc1432fc39349b5cca936523",
+      "bytes": 77727,
+      "state": "inbox: locked (the talk has closed)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/promises/review/w390-text200-inbox-none-declined-here-nothing-used.png",
+      "sha256": "19365f3966da7589fc5de69aed1b5e99be814970bb3d5fd28bb8fe00d9f1a9c9",
+      "bytes": 30122,
+      "state": "inbox: none (declined here: nothing used)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/promises/review/w390-text200-inbox-none-nothing-offered.png",
+      "sha256": "eaf412ef179e1ade5029f156ce2f079ae3583482c070160f57fad6aaaaf9c770",
+      "bytes": 18079,
+      "state": "inbox: none (nothing offered)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/promises/review/contact-w390-text200-inbox.png",
+      "sha256": "79a7273706b494d72d9ec54ae9502fc6b0c2630ee9e32a9d09c7bd23a7e559ef",
+      "bytes": 698246,
+      "kind": "contact",
+      "width": 390,
+      "text": "200%",
+      "section": "inbox"
+    },
+    {
+      "file": "design/library/promises/review/w390-text200-ledger-nothing-made-yet.png",
+      "sha256": "5b22fbb4cbb744a0ccf16b03465c3a0cc8caa8227dea82d489b0338cf97ff14b",
+      "bytes": 34509,
+      "state": "ledger (nothing made yet)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/promises/review/w390-text200-ledger-given-meet-in-a-pending.png",
+      "sha256": "75b05bf98eb42b4b0e82cfa0c9dd307ed05a1f2a46cbb09d71730223a954ed8e",
+      "bytes": 106123,
+      "state": "ledger (given: Meet in A, Pending)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/promises/review/w390-text200-ledger-given-jail-vote-fulfilled-received-captain-support-pending.png",
+      "sha256": "bfce412550576d13b3854a8c5d643ba0145613c085099bc84550f818563fbf24",
+      "bytes": 215724,
+      "state": "ledger (given: Jail Vote, Fulfilled; received: Captain Support, Pending)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/promises/review/w390-text200-ledger-the-same-pair-from-cleo-s-phone.png",
+      "sha256": "6abc5996c698a8cd31cc5346f85b6ad4cb3b5b7a7068050855ad12b2dbaf44c6",
+      "bytes": 217740,
+      "state": "ledger (the same pair from Cleo's phone)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/promises/review/w390-text200-ledger-given-meet-in-b-not-fulfilled-received-officer-selection-condition-not-met.png",
+      "sha256": "764c4c7a27231ea4010c66b97ca5ba15e3087f326c44aad773b78bd4194081f2",
+      "bytes": 205813,
+      "state": "ledger (given: Meet in B, Not fulfilled; received: Officer Selection, Condition not met)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/promises/review/w390-text200-ledger-given-captain-support-condition-not-met-received-no-jail-vote-fulfilled.png",
+      "sha256": "d11ab453d2151aeeecf1e245bdb21637ea55ee0219268564e46423b250b5e15d",
+      "bytes": 211084,
+      "state": "ledger (given: Captain Support, Condition not met; received: No Jail Vote, Fulfilled)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/promises/review/w390-text200-ledger-declined-and-not-answered-offers-are-not-records.png",
+      "sha256": "b95e6f2e44495f6dd8ae4617283b2725c0d36e977805a3f4e852e99bfde37de9",
+      "bytes": 40371,
+      "state": "ledger (declined and not-answered offers are not records)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/promises/review/contact-w390-text200-ledger.png",
+      "sha256": "91dd3a440c885f097346ef277d4a8c351a4ee71c69606ae1cb5504af99ff7369",
+      "bytes": 1085864,
+      "kind": "contact",
+      "width": 390,
+      "text": "200%",
+      "section": "ledger"
+    },
+    {
+      "file": "design/library/promises/review/w390-text200-tray-promises.png",
+      "sha256": "1bee2c42bf15dc1b56e5aa9d281230ef8bcfaeda2f0b422804da51369f9f4ceb",
+      "bytes": 20813,
+      "state": "tray: Promises",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/promises/review/w390-text200-words-waiting-on-r13.png",
+      "sha256": "347c482f83454379da5c98bc3c5e3c80a4734750c7258b77e518a5629e64606c",
+      "bytes": 99583,
+      "state": "words waiting on R13",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/promises/review/contact-w390-text200-others.png",
+      "sha256": "f9be0a3846f6eb8ead9add67c11211816955eac220e4e421782a72f84a5e825b",
+      "bytes": 172097,
+      "kind": "contact",
+      "width": 390,
+      "text": "200%",
+      "section": "others"
+    },
+    {
+      "file": "design/library/promises/review/motion-offer-0000.png",
+      "sha256": "7024b7e624961f9e32add3097cc96e08a041d8abe156a4e1f0ccd7c2a9d663ef",
+      "bytes": 36034,
+      "motion": "offer",
+      "reduced": false,
+      "t": 0
+    },
+    {
+      "file": "design/library/promises/review/motion-offer-0144.png",
+      "sha256": "2b3566558074d938405aab2f17ac09e7856231065430a136778abdf52b2075f7",
+      "bytes": 28466,
+      "motion": "offer",
+      "reduced": false,
+      "t": 144
+    },
+    {
+      "file": "design/library/promises/review/motion-offer-0288.png",
+      "sha256": "0ab43a52996a5cbc481ac5901e781ec50eb927c1396ccd50d857f821dc8c93e5",
+      "bytes": 17558,
+      "motion": "offer",
+      "reduced": false,
+      "t": 288
+    },
+    {
+      "file": "design/library/promises/review/motion-offer-0432.png",
+      "sha256": "2ad7cf832098833ab527b5d05d0afd4cc48630274261f3c04ca6367546486e13",
+      "bytes": 13879,
+      "motion": "offer",
+      "reduced": false,
+      "t": 432
+    },
+    {
+      "file": "design/library/promises/review/motion-offer-0576.png",
+      "sha256": "16011a4ce67c2dac6d8d8b1d24bc15765b6ef6d062ab0c119fa40d4097a17e80",
+      "bytes": 13278,
+      "motion": "offer",
+      "reduced": false,
+      "t": 576
+    },
+    {
+      "file": "design/library/promises/review/motion-offer-0720.png",
+      "sha256": "53612bc6e50acd497c039e6e22de056bceaca80cc026078767556431b13d7102",
+      "bytes": 17474,
+      "motion": "offer",
+      "reduced": false,
+      "t": 720
+    },
+    {
+      "file": "design/library/promises/review/motion-arrive-0000.png",
+      "sha256": "d9e95c3ddf8998009311bb5b4d3c0cae83f844614dd1372be64c116107a690ef",
+      "bytes": 10154,
+      "motion": "arrive",
+      "reduced": false,
+      "t": 0
+    },
+    {
+      "file": "design/library/promises/review/motion-arrive-0152.png",
+      "sha256": "b1102f6351a43f3bfd5c8c6f781a28aeb968ac9c5755961863258835ccd7d4b2",
+      "bytes": 13062,
+      "motion": "arrive",
+      "reduced": false,
+      "t": 152
+    },
+    {
+      "file": "design/library/promises/review/motion-arrive-0304.png",
+      "sha256": "4322a4c92e475b868998ea47a4dcedc78c07dc9512324907df7e61c02af80f9e",
+      "bytes": 13172,
+      "motion": "arrive",
+      "reduced": false,
+      "t": 304
+    },
+    {
+      "file": "design/library/promises/review/motion-arrive-0456.png",
+      "sha256": "0b11eb841d5d7b18173d340ea0c98c4ee6e2b9b313eaea8fe4c36de58ede7601",
+      "bytes": 39341,
+      "motion": "arrive",
+      "reduced": false,
+      "t": 456
+    },
+    {
+      "file": "design/library/promises/review/motion-arrive-0608.png",
+      "sha256": "178423949415ce202271e267ed4731fd3e5d780b01ed11aab4556843fce523ae",
+      "bytes": 39872,
+      "motion": "arrive",
+      "reduced": false,
+      "t": 608
+    },
+    {
+      "file": "design/library/promises/review/motion-arrive-0760.png",
+      "sha256": "3a1686ac54a3cbc00a7bf7cde2bb030a4b58b77f396d3b97f2a377eed951bba9",
+      "bytes": 37810,
+      "motion": "arrive",
+      "reduced": false,
+      "t": 760
+    },
+    {
+      "file": "design/library/promises/review/motion-accept-0000.png",
+      "sha256": "dc8afffd5b83300f3313d70fa94eeb87b59ea93853c879b9b8ff240f3c6d1261",
+      "bytes": 36729,
+      "motion": "accept",
+      "reduced": false,
+      "t": 0
+    },
+    {
+      "file": "design/library/promises/review/motion-accept-0112.png",
+      "sha256": "31f7ce888fc06502cf92377480ff8bae0c949fa84dae76516367b01046f065d8",
+      "bytes": 46463,
+      "motion": "accept",
+      "reduced": false,
+      "t": 112
+    },
+    {
+      "file": "design/library/promises/review/motion-accept-0224.png",
+      "sha256": "c13eea711db11dcf65a88460eab7401295e8be7cf91a1a86daba9c54282a0d0a",
+      "bytes": 46402,
+      "motion": "accept",
+      "reduced": false,
+      "t": 224
+    },
+    {
+      "file": "design/library/promises/review/motion-accept-0336.png",
+      "sha256": "d9cd6ad79304913eab438d79d12c95c77e2dd364e0dd97c97256da788c92a728",
+      "bytes": 48187,
+      "motion": "accept",
+      "reduced": false,
+      "t": 336
+    },
+    {
+      "file": "design/library/promises/review/motion-accept-0448.png",
+      "sha256": "2e1056c4d5750e1563165917cb99648eea40e33401d5d7365150cd04f2725b3e",
+      "bytes": 48132,
+      "motion": "accept",
+      "reduced": false,
+      "t": 448
+    },
+    {
+      "file": "design/library/promises/review/motion-accept-0560.png",
+      "sha256": "e5bf92b171db80b7cda027ac6b07d26af3a793998ae19f584e2ce024140418de",
+      "bytes": 46428,
+      "motion": "accept",
+      "reduced": false,
+      "t": 560
+    },
+    {
+      "file": "design/library/promises/review/motion-decline-0000.png",
+      "sha256": "590c8b5b5dd261ad210b2ef22c8d96d9dc8fc6d9d51483a9e5894b44c6b9a788",
+      "bytes": 40958,
+      "motion": "decline",
+      "reduced": false,
+      "t": 0
+    },
+    {
+      "file": "design/library/promises/review/motion-decline-0120.png",
+      "sha256": "d88e564745a103877a6453e6b3393c670dca0a85eb5cd860345b9cf92755a172",
+      "bytes": 53131,
+      "motion": "decline",
+      "reduced": false,
+      "t": 120
+    },
+    {
+      "file": "design/library/promises/review/motion-decline-0240.png",
+      "sha256": "d5ca4aaf53304c85ab1272cec288000a8e7198d6c6ccda02d41215b6f80c7f6a",
+      "bytes": 54789,
+      "motion": "decline",
+      "reduced": false,
+      "t": 240
+    },
+    {
+      "file": "design/library/promises/review/motion-decline-0360.png",
+      "sha256": "8abe41bfba08f82f4d37900e516947a9075cefb44e4c69db8ed740c73b94a828",
+      "bytes": 58274,
+      "motion": "decline",
+      "reduced": false,
+      "t": 360
+    },
+    {
+      "file": "design/library/promises/review/motion-decline-0480.png",
+      "sha256": "c988d026e7ed51fd8497f3e150f18994e12acdf95a55eb421faa731dd1312866",
+      "bytes": 57422,
+      "motion": "decline",
+      "reduced": false,
+      "t": 480
+    },
+    {
+      "file": "design/library/promises/review/motion-decline-0600.png",
+      "sha256": "50aa6bff5bbe895f92d9a201b9e91f5a83a3d3f95eab01cd24c85b3daba35666",
+      "bytes": 57437,
+      "motion": "decline",
+      "reduced": false,
+      "t": 600
+    },
+    {
+      "file": "design/library/promises/review/motion-result-0000.png",
+      "sha256": "91473ce3b73f7d07cc981b14edcd5dec17dbc185ca91fbc758eaf59fc125bdb7",
+      "bytes": 41601,
+      "motion": "result",
+      "reduced": false,
+      "t": 0
+    },
+    {
+      "file": "design/library/promises/review/motion-result-0144.png",
+      "sha256": "b325800b7c8263897cb480752aec519d4eaf1aa424064bd43811370cbecc9d7d",
+      "bytes": 40397,
+      "motion": "result",
+      "reduced": false,
+      "t": 144
+    },
+    {
+      "file": "design/library/promises/review/motion-result-0288.png",
+      "sha256": "039474be2731e18f3389e916fa9fce66315c9f5353d06de31e14a71b48783138",
+      "bytes": 47024,
+      "motion": "result",
+      "reduced": false,
+      "t": 288
+    },
+    {
+      "file": "design/library/promises/review/motion-result-0432.png",
+      "sha256": "3afd026c579a09ae1bfcc12d7b6b129441d5e6aca8090c35264e110868d2b5f8",
+      "bytes": 51575,
+      "motion": "result",
+      "reduced": false,
+      "t": 432
+    },
+    {
+      "file": "design/library/promises/review/motion-result-0576.png",
+      "sha256": "5ba10946298448ed8daf9026e32791aab7a01681cfca42236b8122e808b13f46",
+      "bytes": 51684,
+      "motion": "result",
+      "reduced": false,
+      "t": 576
+    },
+    {
+      "file": "design/library/promises/review/motion-result-0720.png",
+      "sha256": "3b2457bec7ec5519fe90e5216c932cb5f9fdf78559368d6f29020d8a31224e58",
+      "bytes": 51713,
+      "motion": "result",
+      "reduced": false,
+      "t": 720
+    },
+    {
+      "file": "design/library/promises/review/motion-offer-reduced-0000.png",
+      "sha256": "7024b7e624961f9e32add3097cc96e08a041d8abe156a4e1f0ccd7c2a9d663ef",
+      "bytes": 36034,
+      "motion": "offer",
+      "reduced": true,
+      "t": 0
+    },
+    {
+      "file": "design/library/promises/review/motion-offer-reduced-0032.png",
+      "sha256": "7b7196b4cb3ebda04c8ee9bb437f4be0c23f5828b39e4eaccbe8d653db1f8343",
+      "bytes": 38627,
+      "motion": "offer",
+      "reduced": true,
+      "t": 32
+    },
+    {
+      "file": "design/library/promises/review/motion-offer-reduced-0064.png",
+      "sha256": "d6d4e21bf558faddc3219ad058e36656ece474ef98843fef9e76e79d03b40b62",
+      "bytes": 37283,
+      "motion": "offer",
+      "reduced": true,
+      "t": 64
+    },
+    {
+      "file": "design/library/promises/review/motion-offer-reduced-0096.png",
+      "sha256": "3e9bb37b188508ef3cc1d2d860f676e86c1e0b7417048adbb0203be307a8e32e",
+      "bytes": 34984,
+      "motion": "offer",
+      "reduced": true,
+      "t": 96
+    },
+    {
+      "file": "design/library/promises/review/motion-offer-reduced-0128.png",
+      "sha256": "40fa420e689acf19715400921e6d431d17c27b1e0db5bfaa4b9cd9856246ff22",
+      "bytes": 31751,
+      "motion": "offer",
+      "reduced": true,
+      "t": 128
+    },
+    {
+      "file": "design/library/promises/review/motion-offer-reduced-0160.png",
+      "sha256": "e59ea7f4d742d9d4247eca93281f145f8f653e2f7932b1c19bf159db4989d286",
+      "bytes": 17488,
+      "motion": "offer",
+      "reduced": true,
+      "t": 160
+    },
+    {
+      "file": "design/library/promises/review/motion-arrive-reduced-0000.png",
+      "sha256": "0a94f3d912aa64aaf1c98dd834b3abe391ca7951e582e6466dc1083efdc3a41b",
+      "bytes": 12752,
+      "motion": "arrive",
+      "reduced": true,
+      "t": 0
+    },
+    {
+      "file": "design/library/promises/review/motion-arrive-reduced-0032.png",
+      "sha256": "be65081bf3a4cd26c241fa636922629690bcf8799a3e2d983a87482ce67d7f81",
+      "bytes": 32601,
+      "motion": "arrive",
+      "reduced": true,
+      "t": 32
+    },
+    {
+      "file": "design/library/promises/review/motion-arrive-reduced-0064.png",
+      "sha256": "18c86365aed6a514a3deca97b2518576dbe97dcb877778c8ee0f7bac29ef75f7",
+      "bytes": 36063,
+      "motion": "arrive",
+      "reduced": true,
+      "t": 64
+    },
+    {
+      "file": "design/library/promises/review/motion-arrive-reduced-0096.png",
+      "sha256": "79f4be3af2e2c45224ef43fafd9958057ff8f6bb46a5cdbec371e64ffde5abbf",
+      "bytes": 38599,
+      "motion": "arrive",
+      "reduced": true,
+      "t": 96
+    },
+    {
+      "file": "design/library/promises/review/motion-arrive-reduced-0128.png",
+      "sha256": "b42c9705cadb8e83e00f89dcb053114f1ef7533c5fbb7f660f36acecdf8fd427",
+      "bytes": 39955,
+      "motion": "arrive",
+      "reduced": true,
+      "t": 128
+    },
+    {
+      "file": "design/library/promises/review/motion-arrive-reduced-0160.png",
+      "sha256": "b5e0aa52739ab9dc9b9af6d2d0c723cb5d7477773b9d213c42490294ec097d62",
+      "bytes": 37780,
+      "motion": "arrive",
+      "reduced": true,
+      "t": 160
+    },
+    {
+      "file": "design/library/promises/review/motion-accept-reduced-0000.png",
+      "sha256": "dc8afffd5b83300f3313d70fa94eeb87b59ea93853c879b9b8ff240f3c6d1261",
+      "bytes": 36729,
+      "motion": "accept",
+      "reduced": true,
+      "t": 0
+    },
+    {
+      "file": "design/library/promises/review/motion-accept-reduced-0032.png",
+      "sha256": "1a1865443ae21235f6e0e56cc8a5075b55d72ed04a2c46954b7c193f227ffa0d",
+      "bytes": 44163,
+      "motion": "accept",
+      "reduced": true,
+      "t": 32
+    },
+    {
+      "file": "design/library/promises/review/motion-accept-reduced-0064.png",
+      "sha256": "6e74ef2ee6742b54234abf1b11e233eb3293326b1ba306cdfbb2ed942b524129",
+      "bytes": 45146,
+      "motion": "accept",
+      "reduced": true,
+      "t": 64
+    },
+    {
+      "file": "design/library/promises/review/motion-accept-reduced-0096.png",
+      "sha256": "5b11a3b02b1d29e5ca13621d1de56a16a55b8b2aa8410e2a06d722d0d539eccb",
+      "bytes": 45883,
+      "motion": "accept",
+      "reduced": true,
+      "t": 96
+    },
+    {
+      "file": "design/library/promises/review/motion-accept-reduced-0128.png",
+      "sha256": "1aa5e3c7e0369394c6012de0ad315358ed4019406aabe449bfc8d501f5d5c9ff",
+      "bytes": 46393,
+      "motion": "accept",
+      "reduced": true,
+      "t": 128
+    },
+    {
+      "file": "design/library/promises/review/motion-accept-reduced-0160.png",
+      "sha256": "7323b0983e06a70ef9623d4cb20227770ea946604554efc4d5a80e0b2ab85198",
+      "bytes": 46314,
+      "motion": "accept",
+      "reduced": true,
+      "t": 160
+    },
+    {
+      "file": "design/library/promises/review/motion-decline-reduced-0000.png",
+      "sha256": "590c8b5b5dd261ad210b2ef22c8d96d9dc8fc6d9d51483a9e5894b44c6b9a788",
+      "bytes": 40958,
+      "motion": "decline",
+      "reduced": true,
+      "t": 0
+    },
+    {
+      "file": "design/library/promises/review/motion-decline-reduced-0032.png",
+      "sha256": "507bfeb3e63df4ed445bc6447f6105f7e995df8f42e5a51461295e8ce0264d6f",
+      "bytes": 44763,
+      "motion": "decline",
+      "reduced": true,
+      "t": 32
+    },
+    {
+      "file": "design/library/promises/review/motion-decline-reduced-0064.png",
+      "sha256": "489e3220d7f19af515dd4d2b9a6becea0ea4fb3a2aa76ae11fccb384311e8613",
+      "bytes": 45073,
+      "motion": "decline",
+      "reduced": true,
+      "t": 64
+    },
+    {
+      "file": "design/library/promises/review/motion-decline-reduced-0096.png",
+      "sha256": "fb12c3f2ba9630a652aad682edff13263ec41b6bebea92d48de83490a2817462",
+      "bytes": 44871,
+      "motion": "decline",
+      "reduced": true,
+      "t": 96
+    },
+    {
+      "file": "design/library/promises/review/motion-decline-reduced-0128.png",
+      "sha256": "19317a800ddf3a5934b0860abbb950a02c00418c0823cb4bf24c6277277d07a9",
+      "bytes": 44463,
+      "motion": "decline",
+      "reduced": true,
+      "t": 128
+    },
+    {
+      "file": "design/library/promises/review/motion-decline-reduced-0160.png",
+      "sha256": "96ff18c5cfba46e2d509955683a70a6db4fe69e28596252efc1bc36ef1ee017f",
+      "bytes": 43592,
+      "motion": "decline",
+      "reduced": true,
+      "t": 160
+    },
+    {
+      "file": "design/library/promises/review/motion-result-reduced-0000.png",
+      "sha256": "91473ce3b73f7d07cc981b14edcd5dec17dbc185ca91fbc758eaf59fc125bdb7",
+      "bytes": 41601,
+      "motion": "result",
+      "reduced": true,
+      "t": 0
+    },
+    {
+      "file": "design/library/promises/review/motion-result-reduced-0032.png",
+      "sha256": "77f6af699d037f225c95a11bf0ea1355a3d6246fd37214711599be39b5a15a95",
+      "bytes": 51144,
+      "motion": "result",
+      "reduced": true,
+      "t": 32
+    },
+    {
+      "file": "design/library/promises/review/motion-result-reduced-0064.png",
+      "sha256": "f90ee61783b12b864087d97cfd46609ac9c07a39b741cd73fb5ff1793b290054",
+      "bytes": 51646,
+      "motion": "result",
+      "reduced": true,
+      "t": 64
+    },
+    {
+      "file": "design/library/promises/review/motion-result-reduced-0096.png",
+      "sha256": "2a6b01f6af9c96cad7371d7db4058dcc5603aaf9433c0ec209063e5c04e01a8d",
+      "bytes": 52029,
+      "motion": "result",
+      "reduced": true,
+      "t": 96
+    },
+    {
+      "file": "design/library/promises/review/motion-result-reduced-0128.png",
+      "sha256": "4b17c5df2e58731a5223dbb589b7b425fdc0ba03496605deaa6bb18c60076ef3",
+      "bytes": 52190,
+      "motion": "result",
+      "reduced": true,
+      "t": 128
+    },
+    {
+      "file": "design/library/promises/review/motion-result-reduced-0160.png",
+      "sha256": "d6385fd39079e505ebdfcf0ac4a2b2fee0086d2877e532d54e092ddf4e02776e",
+      "bytes": 51726,
+      "motion": "result",
+      "reduced": true,
+      "t": 160
+    }
+  ],
+  "problems": []
+}

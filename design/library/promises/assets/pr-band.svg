@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · library art proposal · pr-band library-promises-0.1.0 · generated, do not edit by hand
+  A card's header band (navy, halftone, a yellow rule); stretched to the band's box (it grows with the reader's text), the icon and title over it.
+  Built by design/tools/library-assets.mjs from design/library/promises/art.mjs. Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 56" width="320" height="56" preserveAspectRatio="none"><defs><pattern id="pr-band-dots" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><circle cx="2.5" cy="2.5" r="1.1" fill="#3A4A6B"/></pattern></defs><g id="pr-band"><rect x="0" y="0" width="320" height="56" fill="#1B2747"/><rect x="196" y="0" width="124" height="56" fill="url(#pr-band-dots)"/><path d="M0 50 H320 V56 H0 Z" fill="#F7C52B"/><path d="M0 49 H320" stroke="#151923" stroke-width="2"/></g></svg>

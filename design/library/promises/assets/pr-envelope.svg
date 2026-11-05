@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · library art proposal · pr-envelope library-promises-0.1.0 · generated, do not edit by hand
+  The offer in transit: a sealed envelope (sending, waiting for an answer, arriving).
+  Built by design/tools/library-assets.mjs from design/library/promises/art.mjs. Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64"><g id="pr-envelope"><path d="M8 18 H56 V50 H8 Z" transform="translate(2.5 3)" fill="#151923" opacity="0.4"/><path d="M8 18 H56 V50 H8 Z" fill="#F4EBDD" stroke="#151923" stroke-width="3" stroke-linejoin="round"/><path d="M8 50 L27 33 M56 50 L37 33" stroke="#8D97A8" stroke-width="2"/><path d="M8 18 L32 37 L56 18" fill="#E6D8C0" stroke="#151923" stroke-width="3" stroke-linejoin="round"/><circle cx="32" cy="36" r="5.5" fill="#F7C52B" stroke="#151923" stroke-width="2"/></g></svg>

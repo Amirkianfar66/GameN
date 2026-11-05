@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · library art proposal · pr-seal-condition-not-met library-promises-0.1.0 · generated, do not edit by hand
+  Condition not met: a dashed, empty ring (the opportunity did not happen). Pair-private; the words beside it carry the meaning too.
+  Built by design/tools/library-assets.mjs from design/library/promises/art.mjs. Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64"><g id="pr-seal-condition-not-met"><circle cx="32" cy="32" r="25" fill="#F4EBDD"/><circle cx="32" cy="32" r="25" fill="none" stroke="#151923" stroke-width="3" stroke-dasharray="6 5"/><circle cx="22" cy="32" r="3" fill="#8D97A8"/><circle cx="32" cy="32" r="3" fill="#8D97A8"/><circle cx="42" cy="32" r="3" fill="#8D97A8"/></g></svg>

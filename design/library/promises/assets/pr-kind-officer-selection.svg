@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · library art proposal · pr-kind-officer-selection library-promises-0.1.0 · generated, do not edit by hand
+  Officer Selection: the public office's shield with two chevrons (never a secret role's mark). Pair-private; drawn on the card's band and the chooser tile.
+  Built by design/tools/library-assets.mjs from design/library/promises/art.mjs. Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64"><g id="pr-kind-officer-selection"><path d="M32 7 L53 14 V31 C53 45 43 53 32 58 C21 53 11 45 11 31 V14 Z" transform="translate(2.5 3)" fill="#151923" opacity="0.4"/><path d="M32 7 L53 14 V31 C53 45 43 53 32 58 C21 53 11 45 11 31 V14 Z" fill="#3A4A6B" stroke="#151923" stroke-width="3" stroke-linejoin="round"/><path d="M20 28 L32 36 L44 28 M20 39 L32 47 L44 39" stroke="#F7C52B" stroke-width="4.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M32 13 L47 18 V24" stroke="#8D97A8" stroke-width="1.8" fill="none" opacity="0.8"/></g></svg>
