@@ -176,9 +176,7 @@ What the catalogue (docs/design/cinematic/motion-bible.md) still needs, by scene
 | Doctor Rescue | PILOT 1 (cinematic pass over the approved S5) | live-action insert: study only (NOT PRODUCED) |
 | Hospital panel and death | existing S9 / S10 + gap | patient-private code console: pending reservation, wrong / exhausted / no-effect feedback (the empty inventory checks no code) |
 | Supplier and weapons | existing (slice 3) + gap | Round 3 Supply timing presentation |
-| Hacker investigation | existing (slice 2) + gap | final Code submission, unlock and Hack Spaceship states |
-| Hack Spaceship | gap (proposal) | all states (to draw next) |
-| Engineer | gap (proposal) | all states (to draw next) |
+| Hack Spaceship | library group 1 (proposal) | no public or office cue for the hack beyond the direction itself: none is authorized |
 | Private Talk capsule | PILOT 3 (display page over the approved S2; phones keep S2) | live-action study not needed (comic-only by design) |
 | Blackhole and Sync | PILOT 2 | live-action insert: study only (NOT PRODUCED) |
 | Navigation | gap (proposal) | Y-route instrument panel; planet arrival compositions |

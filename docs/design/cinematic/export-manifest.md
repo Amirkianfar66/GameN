@@ -203,7 +203,7 @@ Full-size display frames at the beats the live-action studies name.
 | `design/cinematic/pilots/private-talk/film.mjs` | `c847b2d3b6fc7fdcf2603934fa2d3df79fbf7fa484c18d591f623b37fb002d75` | 6433 |
 | `design/cinematic/pilots/private-talk/compose.mjs` | `8eafadb199eb9b620eb3a70668481322702c905f32ff80424ca3928a39dc6882` | 11117 |
 | `design/cinematic/pilots/private-talk/stage.mjs` | `23b78a1ef4541813458eb73581d98ffd66d3fd7a094c335b40bddbdabf2ee5cd` | 5352 |
-| `design/cinematic/catalogue/catalogue.mjs` | `cf6cbfde900e567e3d3955e08750465b59eeb60ebfce238ddc92af05c7ccba97` | 26339 |
+| `design/cinematic/catalogue/catalogue.mjs` | `b2b74dfc797ab0699051e59af4ed4a6ed72ca338ab1e7a18e0f4861ba8066a0e` | 28496 |
 | `design/tools/cinematic-inventory.mjs` | `46becd977965fb27576d1f96aece5c0886497b2eec8a4d77edf3a69c7452a6d8` | 17291 |
 | `design/tools/cinematic-contact.mjs` | `db081043223bb6486d480ab78d209c392cdd0f0e41a15012921ff546a9fc9fa1` | 6805 |
 | `design/tools/cinematic-render.mjs` | `3a64ec88e4f4d642ef794b03d1cd6bc48f1ba39b4ddd7c57a2886cef631ab78f` | 9145 |

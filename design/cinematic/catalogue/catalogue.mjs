@@ -9,7 +9,7 @@
 // a trigger, the entry says so and names the request (REQUESTS), and the scene stays a labeled
 // design fixture until the contract supports it. Nothing here is a game rule.
 
-export const CATALOGUE_VERSION = 'cinematic-catalogue-0.1.0';
+export const CATALOGUE_VERSION = 'cinematic-catalogue-0.2.0';
 export const CONTRACT = Object.freeze({ protocol: 3, engine: 'planet-game-1.0.0', ruleset: 'in-person-planet-2026-11-05', file: 'packages/contracts/src/planet-game.ts', commit: '79418e72dba99ba99afe047ecb97467fb5e73b62', status: 'candidate; not adopted into runtime' });
 
 /** The lifecycle every presentation follows (the motion bible's rules, for every scene below). */
@@ -35,6 +35,8 @@ export const REQUESTS = Object.freeze([
   { id: 'R5', scene: 'navigation', ask: 'Neutral shared transit: navigation.lastMovedRound and arrivedAt are public; a neutral "the ship moved" presentation needs nothing else. The office-private route view (privateNavigation) needs the previous position to animate a step; confirm it may be derived from the previous view.' },
   { id: 'R6', scene: 'promises', ask: 'Promise result transitions (Pending to Fulfilled / Not fulfilled / Condition not met) need the evaluation moment: confirm promises[].status changes arrive with a viewRevision at the evaluation (voting start after Sync).' },
   { id: 'R7', scene: 'windows', ask: 'A shown drawing\'s arrival: windows[].drawings[] has order and round but no publishedAt; a stamp-in needs the moment it was shown, or the client stamps on first sight only (no replay on reconnect).' },
+  { id: 'R8', scene: 'engineer', ask: 'P14 gives the Engineer a private confirmation of the fixed identities, but the player view has only abilities.engineerSpent. Add the Engineer\'s own record, e.g. abilities.engineerCapture { round, seatIds } (Engineer only), so the confirmation shows the identities the server fixed at registration, never the client\'s preview (someone may move between the two). Until then the file says only that the capture was used.' },
+  { id: 'R9', scene: 'hack-spaceship', ask: 'abilities.shipHackSpent cannot tell a hack registered this round (still to apply at this round\'s navigation) from one used in an earlier round. Add abilities.shipHackRound (Hacker only) so the file can say "applies at this round\'s navigation" or "used in Round N". Until then a spent hack is drawn as used, its round unnamed.' },
 ]);
 
 const S = (id, scene, fields) => Object.freeze({ id, scene, ...fields });
@@ -162,22 +164,23 @@ export const CATALOGUE = Object.freeze([
     assets: ['design/abilities (cork board)'], gaps: [],
   }),
   S('hacker', 'Hacker investigation', {
-    status: 'existing (slice 2) + gap', audience: 'own-private (Hacker)', trigger: 'knowledge.scanResults; abilities.codeAttempted, shipHackUnlocked, scanBlockedThroughRound', fields: ['knowledge.scanResults[]', 'abilities.codeAttempted', 'abilities.shipHackUnlocked', 'abilities.scanBlockedThroughRound'],
-    beats: { start: 'scanner', loop: 'result', exit: 'cooldown / unlock' }, durations: { full: 'scan 1200 ms', reduced: 'swap' },
-    final: 'membership shown; unknown distinct from false', cancel: 'phase end', precedence: 'own phone', audio: 'none public', reduced: 'swap', rosters: 'n/a', concurrency: 'none',
-    assets: ['design/abilities (Hacker file)'], gaps: ['final Code submission, unlock and Hack Spaceship states'],
+    status: 'existing (slice 2) + library group 1 (final Code)', audience: 'own-private (Hacker)', trigger: 'knowledge.scanResults; abilities.codeAttempted, shipHackUnlocked, scanBlockedThroughRound; offers SCAN, SUBMIT_CODE', fields: ['knowledge.scanResults[]', 'abilities.codeAttempted', 'abilities.shipHackUnlocked', 'abilities.scanBlockedThroughRound', 'offers[]'],
+    beats: { start: 'scanner; final Code card (from Round 2)', loop: 'result', exit: 'cooldown; Code punched: UNLOCKED or WRONG CODE' }, durations: { full: 'scan 1200 ms; final Code unlock 1000 ms, wrong 600 ms', reduced: 'two 80 ms fades' },
+    final: 'membership shown; unknown distinct from false; the one final Code spent either way', cancel: 'phase end', precedence: 'own phone', audio: 'none public', reduced: 'swap', rosters: 'n/a', concurrency: 'none',
+    assets: ['design/abilities (Hacker file)', 'design/library/hack-engineer/ (final Code states, punch, unlock)'], gaps: [],
   }),
   S('hack-spaceship', 'Hack Spaceship', {
-    status: 'gap (proposal)', audience: 'own-private; office-private direction', trigger: 'abilities.shipHackUnlocked, shipHackSpent; privateNavigation (offices)', fields: ['abilities.shipHackUnlocked', 'abilities.shipHackSpent'],
-    beats: { start: 'console breach', loop: 'armed / eligible', exit: 'retained-used' }, durations: { full: '1500 ms', reduced: 'swap' },
-    final: 'used state', cancel: 'phase end', precedence: 'own phone', audio: 'none public', reduced: 'swap', rosters: 'n/a', concurrency: 'none',
-    assets: [], gaps: ['all states (to draw next)'],
+    status: 'library group 1 (proposal)', audience: 'own-private (Hacker); the office direction view shows only the final direction', trigger: 'abilities.shipHackUnlocked, shipHackSpent; offers ACTIVATE_SHIP_HACK; command ACTIVATE_SHIP_HACK (no payload)', fields: ['abilities.shipHackUnlocked', 'abilities.shipHackSpent', 'offers[]', 'self.roleActionSpent', 'board.seats[] (own)'],
+    beats: { start: 'sealed cartridge until a correct final Code; armed once unlocked', loop: 'eligible on an offered turn', exit: 'the cartridge seats in the port: RETAINED; later USED' }, durations: { full: 'insert 900 ms on the accepted receipt', reduced: 'two 80 ms fades' },
+    final: 'used (scorched cartridge) for the rest of the match in the selected world', cancel: 'phase end; a refused command changes nothing', precedence: 'own phone',
+    audio: 'none (private)', reduced: 'swap', rosters: 'n/a', concurrency: 'one activation a match',
+    assets: ['design/library/hack-engineer/ (cartridge sealed/armed/used, port, sparks, tray mark)'], gaps: ['no public or office cue for the hack beyond the direction itself: none is authorized'], request: 'R9',
   }),
   S('engineer', 'Engineer', {
-    status: 'gap (proposal)', audience: 'own-private', trigger: 'abilities.engineerSpent; offers[] (opposite room)', fields: ['abilities.engineerSpent', 'offers[]'],
-    beats: { start: 'opposite-room snapshot', loop: 'selection', exit: 'registered / spent' }, durations: { full: '900 ms', reduced: 'swap' },
-    final: 'spent', cancel: 'phase end', precedence: 'own phone', audio: 'none (no confirmation sound)', reduced: 'swap', rosters: '9 players only', concurrency: 'none',
-    assets: [], gaps: ['all states (to draw next)'],
+    status: 'library group 1 (proposal)', audience: 'own-private (Engineer); targets, offices and the display receive nothing (P14)', trigger: 'abilities.engineerSpent; offers ENGINEER_SUPPRESS; command ENGINEER_SUPPRESS (no payload: the server captures the opposite room)', fields: ['abilities.engineerSpent', 'offers[]', 'board.seats[] (the opposite room, the preview)', 'abilities.engineerCapture (proposed, R8)'],
+    beats: { start: 'viewfinder over the opposite room as it is now', loop: 'none', exit: 'brackets close, a dark shutter blink, the print develops: CAPTURED' }, durations: { full: 'capture 1200 ms on the accepted receipt', reduced: 'two 80 ms fades' },
+    final: 'the print in the Engineer file, the clamp closed', cancel: 'phase end; a refused command changes nothing', precedence: 'own phone', audio: 'none (no confirmation sound)', reduced: 'swap', rosters: '9 players only', concurrency: 'once a match',
+    assets: ['design/library/hack-engineer/ (viewfinder, print, clamp ready/used, tray mark)'], gaps: [], request: 'R8',
   }),
   S('private-talk', 'Private Talk capsule', {
     status: 'PILOT 3 (display page over the approved S2; phones keep S2)', audience: 'public pair and transitions; pair-private declaration',
