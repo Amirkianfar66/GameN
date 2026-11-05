@@ -1,0 +1,156 @@
+{
+ "generatedBy": "design/tools/cinematic-contact.mjs",
+ "main": "db65bb87f05983ff6861d27689ba1b7bab55d051",
+ "rows": [
+  {
+   "family": "Board, rooms and crew",
+   "after": {
+    "path": "design/board-v2/review/board-390x844-ward.png",
+    "head": "#161 stack",
+    "commit": "98ccb984ee6213147eca16fe2748148eb4ddfd0d",
+    "sha256": "6f0c401d46e3a73a2edfe8f2656aaed7842e60246042cc003af2d2db28587eb6"
+   },
+   "before": {
+    "path": "docs/frontend/evidence/board-play/simulation/390x844-board.png",
+    "commit": "db65bb87f05983ff6861d27689ba1b7bab55d051",
+    "sha256": "1c6236387a3e0a1a720677902feb8427cb64bc6e1b4193d03296acaf3b84aa6a",
+    "identicalToAfter": false
+   }
+  },
+  {
+   "family": "Hospital: four berths and drone rescue",
+   "after": {
+    "path": "design/board-v2/review/four-390x844-rescue-2600.png",
+    "head": "#160",
+    "commit": "98ccb984ee6213147eca16fe2748148eb4ddfd0d",
+    "sha256": "e67823fc61e0ffe40f33337feab4a41923b4127e3a5dbf03dc96d69c23c5dd8c"
+   },
+   "before": {
+    "path": "design/board-motion/review/states/board.crowded-hospital.png",
+    "commit": "db65bb87f05983ff6861d27689ba1b7bab55d051",
+    "sha256": "c1709a236ebb5b4e1150bd5285fdb62af281efde9702a43c6e9d7c6d84bb0624",
+    "identicalToAfter": false
+   }
+  },
+  {
+   "family": "Hospital: critical and flatline",
+   "after": {
+    "path": "design/board-v2/review/medical-390x844-flatline-2000.png",
+    "head": "#158",
+    "commit": "98ccb984ee6213147eca16fe2748148eb4ddfd0d",
+    "sha256": "dec00fe32096b85369729ea41bacc1d13d588a3e53c3bc3adae075fdd1b0ca33"
+   },
+   "before": null
+  },
+  {
+   "family": "Overflow and off-board plaque",
+   "after": {
+    "path": "design/board-v2/review/four-390x844-overflow-0700.png",
+    "head": "#160",
+    "commit": "98ccb984ee6213147eca16fe2748148eb4ddfd0d",
+    "sha256": "7a664ad3cc664153e0eda80237ad3f346ae7e9ba228de977711608abbd080dc7"
+   },
+   "before": null
+  },
+  {
+   "family": "Captain RELEASE and EJECT",
+   "after": {
+    "path": "design/board-v2/review/captain-390x844-eject-3500.png",
+    "head": "#159",
+    "commit": "98ccb984ee6213147eca16fe2748148eb4ddfd0d",
+    "sha256": "18849b942695687f42fbb71908ff6f6ff567ed8db3167af6a4fc4478f80be1bc"
+   },
+   "before": {
+    "path": "design/board-motion/review/states/release.vote-yes.png",
+    "commit": "db65bb87f05983ff6861d27689ba1b7bab55d051",
+    "sha256": "3c251cdacc31c713159b280899b0d58e36ecd38aba9ec9b4acf934503d6e3cfd",
+    "identicalToAfter": false
+   }
+  },
+  {
+   "family": "Private Talk capsule",
+   "after": {
+    "path": "design/board-v2/review/capsule-390x844-result-2400.png",
+    "head": "#144",
+    "commit": "98ccb984ee6213147eca16fe2748148eb4ddfd0d",
+    "sha256": "de2e36e1bd837881a1221ddc7d9af31e2867724f98e76bd8dab2288034ea6fef"
+   },
+   "before": {
+    "path": "docs/frontend/evidence/board-play/emulator/emulator-06-hack-choose.png",
+    "commit": "db65bb87f05983ff6861d27689ba1b7bab55d051",
+    "sha256": "ddad3cc921d2ab835415d1c1fe3d88d5afc6f103f2032c979aa8081f54174977",
+    "identicalToAfter": false
+   }
+  },
+  {
+   "family": "Blackout",
+   "after": {
+    "path": "design/board-v2/review/blackout-390x844-8000-dark.png",
+    "head": "#129",
+    "commit": "98ccb984ee6213147eca16fe2748148eb4ddfd0d",
+    "sha256": "df225b6f447b7c4f07f2509b418f6252d9d6af2df4a2b25dc92ea73e00d360ac"
+   },
+   "before": null
+  },
+  {
+   "family": "ATTACK BLOCKED",
+   "after": {
+    "path": "design/board-v2/review/blocked-390x844-0280-bubble.png",
+    "head": "#130",
+    "commit": "98ccb984ee6213147eca16fe2748148eb4ddfd0d",
+    "sha256": "f7deb036cbe9cecc30a0999f6fce9fc9decc7d3c4e944ff4051f55fc7e743271"
+   },
+   "before": null
+  },
+  {
+   "family": "Phantom Clone",
+   "after": {
+    "path": "design/board-v2/review/clone-390x844-activate-1900.png",
+    "head": "#161",
+    "commit": "98ccb984ee6213147eca16fe2748148eb4ddfd0d",
+    "sha256": "24270aa709605c55eeffe516095037058d347a9745368c6024bd6a358d3c0154"
+   },
+   "before": null
+  },
+  {
+   "family": "Ability dossier",
+   "after": {
+    "path": "design/abilities/review/contact-rescue-disable-supply.png",
+    "head": "#116 chain",
+    "commit": "27be8749b51775fee3a0d81b62a3cdabedafe1be",
+    "sha256": "6c90e6dea1791d7d9bf641d5108f4676de0d47457f52e82a73f0b976771d1f2b"
+   },
+   "before": {
+    "path": "design/abilities/review/contact-rescue-disable-supply.png",
+    "commit": "db65bb87f05983ff6861d27689ba1b7bab55d051",
+    "sha256": "934beefa248d4b008572e0f1177c19ff4cb325e0bdebade85b56b43d815d8993",
+    "identicalToAfter": false
+   }
+  },
+  {
+   "family": "Setup: character choice and role card",
+   "after": {
+    "path": "design/abilities/review/contact-setup.png",
+    "head": "#116",
+    "commit": "27be8749b51775fee3a0d81b62a3cdabedafe1be",
+    "sha256": "577f1322f79be66c44f3715e49f03988a14e9841cb4509ea07003cd6f60bb159"
+   },
+   "before": null
+  },
+  {
+   "family": "Phone kit and clothing",
+   "after": {
+    "path": "design/phone-kit/review/contact-clothes.png",
+    "head": "#127",
+    "commit": "98ccb984ee6213147eca16fe2748148eb4ddfd0d",
+    "sha256": "8528b670b4493e56dcfdd8c43dc07e273497264c5f9044013ad33d042630dbbb"
+   },
+   "before": {
+    "path": "design/phone-kit/review/contact-clothes.png",
+    "commit": "db65bb87f05983ff6861d27689ba1b7bab55d051",
+    "sha256": "8528b670b4493e56dcfdd8c43dc07e273497264c5f9044013ad33d042630dbbb",
+    "identicalToAfter": true
+   }
+  }
+ ]
+}
