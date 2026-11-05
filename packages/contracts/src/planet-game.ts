@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { IdentifierSchema, SeatIdSchema, TimestampSchema, RevisionSchema } from './protocol.js';
+import { ClinicalPresentationAnchorSchema } from './captain-outcomes.js';
 
 /** Separate successor wire contract. Never reinterpret a saved protocol-2 match. */
 export const PLANET_GAME_PINS = Object.freeze({
@@ -112,6 +113,8 @@ export const PlanetSeatViewSchema = z.strictObject({
   seatId:SeatIdSchema,health:PlanetHealthSchema,location:PlanetLocationSchema.nullable(),slotId:PlanetSlotIdSchema.nullable(),
   jailed:z.boolean(),captain:z.boolean(),officer:z.boolean(),revealedFaction:PlanetFactionSchema.nullable(),
   rescueDueAfterRound:PlanetRoundSchema.nullable(),
+  medical:z.strictObject({admittedRound:PlanetRoundSchema,rescueDueAfterRound:PlanetRoundSchema,
+    rescueOpportunity:z.enum(['NEXT_NORMAL_ROUND','CURRENT_NORMAL_ROUND','CLOSED'])}).nullable(),
 });
 export type PlanetSeatView = z.infer<typeof PlanetSeatViewSchema>;
 const boardSeats = z.array(PlanetSeatViewSchema).min(7).max(9).superRefine((seats,ctx)=>{
@@ -133,7 +136,9 @@ export const PlanetPromiseSchema = z.strictObject({
   id:IdentifierSchema,giverSeatId:SeatIdSchema,recipientSeatId:SeatIdSchema,kind:PlanetPromiseKindSchema,
   targetSeatId:SeatIdSchema.nullable(),round:PlanetRoundSchema,electionId:IdentifierSchema.nullable(),
   accepted:z.boolean(),status:PlanetPromiseStatusSchema,
-}).refine(p=>p.giverSeatId!==p.recipientSeatId && (p.kind==='JAIL_VOTE')===(p.targetSeatId!==null),'Exact Promise terms required');
+  offerStatus:z.enum(['offered','accepted','declined','expired']),
+}).refine(p=>p.giverSeatId!==p.recipientSeatId && (p.kind==='JAIL_VOTE')===(p.targetSeatId!==null)
+  && p.accepted===(p.offerStatus==='accepted'),'Exact Promise terms required');
 export type PlanetPromise = z.infer<typeof PlanetPromiseSchema>;
 export const PlanetWindowDrawingSchema = z.strictObject({
   id:IdentifierSchema,windowId:PlanetWindowIdSchema,authorSeatId:SeatIdSchema,round:PlanetRoundSchema,
@@ -141,13 +146,18 @@ export const PlanetWindowDrawingSchema = z.strictObject({
 });
 export type PlanetWindowDrawing = z.infer<typeof PlanetWindowDrawingSchema>;
 export const PlanetEventSchema = z.strictObject({
-  id:IdentifierSchema,round:PlanetRoundSchema,
-  kind:z.enum(['BLACKHOLE_SYNCED','CAPTAIN_RELEASE','CAPTAIN_EJECT','RESCUED','ELIMINATED','ATTACK_BLOCKED','BLACKOUT_HIT','MOVEMENT_COMPLETED']),
+  id:IdentifierSchema,round:PlanetRoundSchema,phaseId:IdentifierSchema,viewRevision:RevisionSchema,
+  publishedAt:TimestampSchema,expiresAt:TimestampSchema,
+  audience:z.union([z.strictObject({kind:z.literal('public')}),z.strictObject({kind:z.literal('player'),seatId:SeatIdSchema})]),
+  kind:z.enum(['BLACKHOLE_SYNCED','CAPTAIN_RELEASE','CAPTAIN_EJECT','INJURED','RESCUED','ELIMINATED','ATTACK_BLOCKED','BLACKOUT_HIT','MOVEMENT_COMPLETED','HOSPITAL_OVERFLOW_REMOVED','PLACEMENT_CHANGED']),
   seatIds:ids,actorSeatId:SeatIdSchema.nullable(),location:PlanetLocationSchema.nullable(),
-}).refine(e=>e.actorSeatId===null || ['CAPTAIN_RELEASE','CAPTAIN_EJECT'].includes(e.kind),'Hidden role actors are never event fields');
+  slotId:PlanetSlotIdSchema.nullable(),clinicalAnchor:ClinicalPresentationAnchorSchema.nullable(),
+}).refine(e=>(e.actorSeatId===null || ['CAPTAIN_RELEASE','CAPTAIN_EJECT'].includes(e.kind))
+  && e.expiresAt-e.publishedAt===30_000
+  && (e.kind!=='ATTACK_BLOCKED'||e.audience.kind==='player'),'Audience-safe occurrence with fixed expiry');
 export type PlanetEvent = z.infer<typeof PlanetEventSchema>;
 export const PlanetTallySchema = z.strictObject({
-  kind:z.enum(['CAPTAIN_ELECTION','JAIL_VOTE']),counts:z.partialRecord(SeatIdSchema,z.number().int().nonnegative()),
+  kind:z.enum(['CAPTAIN_ELECTION','JAIL_VOTE']),phaseId:IdentifierSchema,counts:z.partialRecord(SeatIdSchema,z.number().int().nonnegative()),
   eligibleVoterCount:z.number().int().min(0).max(9),selectedSeatId:SeatIdSchema.nullable(),tiedSeatIds:ids,
   outcome:z.enum(['CAPTAIN_ELECTED','RUNOFF_REQUIRED','NO_CAPTAIN_ELECTED','PLAYER_JAILED','JAIL_FULL','NO_JAIL_SELECTION']),
 });
@@ -170,13 +180,14 @@ const commonView = {
 };
 export const PlanetPublicViewSchema = z.strictObject(commonView).superRefine((v,ctx)=>{
   if(v.board.kind!=='FINALIZED' || v.board.seats.length!==v.playerCount) ctx.addIssue({code:'custom',message:'Finalized public board required'});
-  if(v.events.some(e=>e.kind==='ATTACK_BLOCKED')) ctx.addIssue({code:'custom',message:'Defensive impact is room-scoped'});
+  if(v.events.some(e=>e.kind==='ATTACK_BLOCKED'||e.audience.kind!=='public')) ctx.addIssue({code:'custom',message:'Public event audience required'});
   if(v.phase.kind==='FINISHED' ? v.result===null || v.endReveal===null : v.endReveal!==null)
     ctx.addIssue({code:'custom',message:'Final reveal requires finished match'});
 });
 export type PlanetPublicView = z.infer<typeof PlanetPublicViewSchema>;
 export const PlanetOfferSchema = z.strictObject({
   type:PlanetCommandTypeSchema,targetSeatIds:ids,slotIds:z.array(PlanetSlotIdSchema),windowIds:z.array(PlanetWindowIdSchema),
+  promiseTargetSeatIds:ids.default([]),
 });
 export type PlanetOffer = z.infer<typeof PlanetOfferSchema>;
 export const PlanetPlayerViewSchema = z.strictObject({
@@ -189,6 +200,7 @@ export const PlanetPlayerViewSchema = z.strictObject({
     clone:z.strictObject({used:z.boolean(),active:z.boolean(),expiresAfterRound:PlanetRoundSchema.nullable()}).nullable(),
     injectionsRemaining:z.number().int().min(0).max(2).nullable(),panelAttemptSpent:z.boolean(),
     protectionGrants:z.array(z.strictObject({targetSeatId:SeatIdSchema,activeFromRound:PlanetRoundSchema,consumed:z.boolean()})),
+    captainCommands:z.strictObject({releaseUsed:z.boolean(),ejectUsed:z.boolean()}).nullable(),
   }),
   knowledge:z.strictObject({
     insiderSeatIds:ids,knownUndercoverSeatId:SeatIdSchema.nullable(),
@@ -200,6 +212,7 @@ export const PlanetPlayerViewSchema = z.strictObject({
   blackoutTargeting:z.strictObject({windowId:IdentifierSchema,boundRoom:z.enum(['Room A','Room B','Command Room']),selectable:z.boolean(),selectedSlotId:PlanetSlotIdSchema.nullable(),slotIds:z.array(PlanetSlotIdSchema)}).nullable(),
   promises:z.array(PlanetPromiseSchema),
   promiseQuota:z.strictObject({given:z.boolean(),received:z.boolean()}),
+  ownBallot:z.strictObject({phaseId:IdentifierSchema,targetSeatId:SeatIdSchema.nullable()}).nullable(),
   windows:z.array(z.strictObject({windowId:PlanetWindowIdSchema,canDraw:z.boolean(),drawings:z.array(PlanetWindowDrawingSchema)})),
 }).superRefine((v,ctx)=>{
   if(v.board.kind!=='PLAYER_CURRENT' || v.board.seats.length!==v.playerCount) ctx.addIssue({code:'custom',message:'Player current board required'});
@@ -214,5 +227,13 @@ export const PlanetPlayerViewSchema = z.strictObject({
   if(v.self.role!=='Undercover' && v.abilities.protectionGrants.length) ctx.addIssue({code:'custom',message:'Protection donor only'});
   if(v.self.role!=='Alien' && (v.abilities.clone!==null || v.abilities.blackholeSpent)) ctx.addIssue({code:'custom',message:'Alien ability audience'});
   if(v.self.role!=='Doctor' && v.abilities.injectionsRemaining!==null) ctx.addIssue({code:'custom',message:'Doctor inventory audience'});
+  if(v.abilities.captainCommands!==null && v.offices.captainSeatId!==v.self.seatId) ctx.addIssue({code:'custom',message:'Captain controls audience'});
+  if(v.events.some(e=>e.audience.kind==='player' && e.audience.seatId!==v.self.seatId)) ctx.addIssue({code:'custom',message:'Event participant audience'});
+  const own=v.board.seats.find(s=>s.seatId===v.self.seatId);
+  const endpoints:Record<PlanetWindowId,readonly PlanetLocation[]>={A_B:['Room A','Room B'],A_HOSPITAL:['Room A','Hospital'],B_JAIL:['Room B','Jail']};
+  const stations:Record<PlanetWindowId,readonly string[]>={A_B:['A1','B1'],A_HOSPITAL:['A2'],B_JAIL:['B2']};
+  if(v.windows.some(w=>!own?.location || !endpoints[w.windowId].includes(own.location)
+    || (w.canDraw && (!own.slotId || !stations[w.windowId].includes(own.slotId)))
+    || w.drawings.some(d=>d.windowId!==w.windowId || d.round!==v.round))) ctx.addIssue({code:'custom',message:'Window endpoint, station and round audience'});
 });
 export type PlanetPlayerView = z.infer<typeof PlanetPlayerViewSchema>;

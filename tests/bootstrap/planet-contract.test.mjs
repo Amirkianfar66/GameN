@@ -5,7 +5,7 @@ import {createHash} from 'node:crypto';
 import {
   PLANET_GAME_PINS, PlanetVersionsSchema, PlanetCommandRequestSchema, PlanetRoleSchema,
   PlanetRoundSchema, PlanetPublicViewSchema, PlanetPlayerViewSchema, PlanetDrawingSchema,
-  PlanetPhaseSchema, FullCommandRequestSchema,
+  PlanetPhaseSchema, PlanetEventSchema, PlanetPromiseSchema, PlanetServiceRequestSchema, FullCommandRequestSchema,
 } from '../../packages/contracts/dist/index.js';
 
 const publicView = () => ({
@@ -14,7 +14,7 @@ const publicView = () => ({
   offices:{captainSeatId:null,officerSeatId:null,blockedSeatId:null},
   board:{kind:'FINALIZED',finalizedRound:6,seats:Array.from({length:7},(_,i)=>({
     seatId:`seat-${i+1}`,health:'Healthy',location:i<3?'Room A':'Room B',slotId:i<3?`A${i+1}`:`B${i-2}`,
-    jailed:false,captain:false,officer:false,revealedFaction:null,rescueDueAfterRound:null,
+    jailed:false,captain:false,officer:false,revealedFaction:null,rescueDueAfterRound:null,medical:null,
   }))},
   hackSession:null,blackout:null,ballot:{eligibleVoters:[],eligibleTargets:[]},lastTally:null,
   navigation:{lastMovedRound:6,arrivedAt:null},events:[],result:null,endReveal:null,
@@ -23,11 +23,13 @@ const playerView = () => ({
   ...publicView(),board:{...publicView().board,kind:'PLAYER_CURRENT'},
   self:{seatId:'seat-1',role:'Insider',faction:'Blue',ordinaryWeapons:0,movementSpent:false,roleActionSpent:false,shotSpent:false,standardHackSpent:false},
   abilities:{codeAttempted:false,shipHackUnlocked:false,shipHackSpent:false,scanBlockedThroughRound:null,blackholeSpent:false,
-    blackoutSpent:false,engineerSpent:false,clone:null,injectionsRemaining:null,panelAttemptSpent:false,protectionGrants:[]},
+    blackoutSpent:false,engineerSpent:false,clone:null,injectionsRemaining:null,panelAttemptSpent:false,protectionGrants:[],captainCommands:null},
   knowledge:{insiderSeatIds:['seat-2','seat-5','seat-7'],knownUndercoverSeatId:null,scanResults:[]},
-  offers:[],privateNavigation:null,hackFeedback:null,blackoutTargeting:null,promises:[],promiseQuota:{given:false,received:false},windows:[],
+  offers:[],privateNavigation:null,hackFeedback:null,blackoutTargeting:null,promises:[],promiseQuota:{given:false,received:false},ownBallot:null,windows:[],
 });
 const request=command=>({protocolVersion:3,matchId:'synthetic-planet',phaseId:'neutral-phase-7',commandId:'synthetic-command',command});
+const occurrence=()=>({id:'event-1',round:7,phaseId:'neutral-phase-7',viewRevision:1,publishedAt:1000,expiresAt:31000,
+  audience:{kind:'public'},kind:'RESCUED',seatIds:['seat-2'],actorSeatId:null,location:'Hospital',slotId:'H1',clinicalAnchor:null});
 
 test('successor authority pins every recorded source and leaves historical runtime tuple separate',()=>{
   const path=new URL('../../rules/planet-successor-authority-2026-11-05.json',import.meta.url);
@@ -64,13 +66,15 @@ test('public contract rejects private direction, reality metadata, role-bearing 
     assert.equal(PlanetPublicViewSchema.safeParse({...publicView(),...patch}).success,false);
   const v=publicView();v.board.seats[0].role='Insider';
   assert.equal(PlanetPublicViewSchema.safeParse(v).success,false);
-  assert.equal(PlanetPublicViewSchema.safeParse({...publicView(),events:[{id:'event-1',round:7,kind:'ATTACK_BLOCKED',seatIds:['seat-2'],actorSeatId:null,location:'Room A'}]}).success,false);
+  const blocked={...occurrence(),kind:'ATTACK_BLOCKED',location:'Room A',slotId:'A2',audience:{kind:'player',seatId:'seat-1'}};
+  assert.equal(PlanetEventSchema.safeParse(blocked).success,true);
+  assert.equal(PlanetPublicViewSchema.safeParse({...publicView(),events:[blocked]}).success,false);
   assert.equal(PlanetPublicViewSchema.safeParse({...publicView(),board:playerView().board}).success,false);
 });
 test('player contract enforces office-private navigation and pair-private Promise records',()=>{
   assert.equal(PlanetPlayerViewSchema.safeParse(playerView()).success,true);
   assert.equal(PlanetPlayerViewSchema.safeParse({...playerView(),privateNavigation:{position:'B2',direction:'Blue',tieChoice:false,confirmation:null}}).success,false);
-  const promise={id:'promise-1',giverSeatId:'seat-2',recipientSeatId:'seat-3',kind:'MEET_A',targetSeatId:null,round:7,electionId:null,accepted:true,status:'Pending'};
+  const promise={id:'promise-1',giverSeatId:'seat-2',recipientSeatId:'seat-3',kind:'MEET_A',targetSeatId:null,round:7,electionId:null,accepted:true,status:'Pending',offerStatus:'accepted'};
   assert.equal(PlanetPlayerViewSchema.safeParse({...playerView(),promises:[promise]}).success,false);
   assert.equal(PlanetPlayerViewSchema.safeParse({...playerView(),promises:[{...promise,recipientSeatId:'seat-1'}]}).success,true);
 });
@@ -100,4 +104,42 @@ test('window drawing transport is bounded inert geometry, not executable or remo
   assert.equal(PlanetDrawingSchema.safeParse({strokes:[{color:'#ffffff',width:3,points:[[0,0],[1,1]]}]}).success,true);
   for(const value of [{url:'https://example.invalid/picture.svg'},{svg:'<svg onload="alert(1)"/>'},
     {strokes:[{color:'#ffffff',width:3,points:[[2,0]]}]}]) assert.equal(PlanetDrawingSchema.safeParse(value).success,false);
+});
+test('event recovery carries fixed expiry and audience without identifying a hidden source',()=>{
+  assert.equal(PlanetPublicViewSchema.safeParse({...publicView(),events:[occurrence()]}).success,true);
+  assert.equal(PlanetEventSchema.safeParse({...occurrence(),actorSeatId:'seat-3'}).success,false);
+  assert.equal(PlanetEventSchema.safeParse({...occurrence(),expiresAt:31001}).success,false);
+  const blocked={...occurrence(),kind:'ATTACK_BLOCKED',location:'Room A',slotId:'A2',audience:{kind:'player',seatId:'seat-1'}};
+  assert.equal(PlanetPlayerViewSchema.safeParse({...playerView(),events:[blocked]}).success,true);
+  assert.equal(PlanetPlayerViewSchema.safeParse({...playerView(),events:[{...blocked,audience:{kind:'player',seatId:'seat-2'}}]}).success,false);
+  assert.equal(PlanetEventSchema.safeParse({...blocked,audience:{kind:'public'}}).success,false);
+});
+test('window records obey endpoint, drawing station and round boundaries',()=>{
+  const view=playerView();
+  const shown={id:'drawing-1',windowId:'A_B',authorSeatId:'seat-3',round:7,order:0,drawing:{strokes:[{color:'#ffffff',width:3,points:[[0,0]]}]}};
+  const window={windowId:'A_B',canDraw:true,drawings:[shown]};
+  assert.equal(PlanetPlayerViewSchema.safeParse({...view,windows:[window]}).success,true);
+  assert.equal(PlanetPlayerViewSchema.safeParse({...view,windows:[{...window,windowId:'B_JAIL',drawings:[]}]}).success,false);
+  assert.equal(PlanetPlayerViewSchema.safeParse({...view,windows:[{...window,windowId:'A_HOSPITAL',drawings:[]}]}).success,false);
+  assert.equal(PlanetPlayerViewSchema.safeParse({...view,windows:[{windowId:'A_HOSPITAL',canDraw:false,drawings:[]}]}).success,true);
+  assert.equal(PlanetPlayerViewSchema.safeParse({...view,windows:[{...window,drawings:[{...shown,round:6}]}]}).success,false);
+});
+test('Promise offer state cannot pretend that an unaccepted draft consumed an accepted slot',()=>{
+  const promise={id:'promise-1',giverSeatId:'seat-1',recipientSeatId:'seat-2',kind:'MEET_A',targetSeatId:null,round:7,electionId:null,accepted:false,status:'Pending',offerStatus:'offered'};
+  assert.equal(PlanetPromiseSchema.safeParse(promise).success,true);
+  assert.equal(PlanetPromiseSchema.safeParse({...promise,offerStatus:'accepted'}).success,false);
+  assert.equal(PlanetPromiseSchema.safeParse({...promise,kind:'JAIL_VOTE',targetSeatId:null}).success,false);
+  assert.equal(PlanetPromiseSchema.safeParse({...promise,kind:'JAIL_VOTE',targetSeatId:'seat-3'}).success,true);
+});
+test('Captain spent controls are office-private and own ballot survives a snapshot round trip',()=>{
+  const view=playerView();
+  assert.equal(PlanetPlayerViewSchema.safeParse({...view,abilities:{...view.abilities,captainCommands:{releaseUsed:true,ejectUsed:false}}}).success,false);
+  const captain={...view,offices:{...view.offices,captainSeatId:'seat-1'},abilities:{...view.abilities,captainCommands:{releaseUsed:true,ejectUsed:false}},ownBallot:{phaseId:'ballot-7',targetSeatId:null}};
+  assert.deepEqual(PlanetPlayerViewSchema.parse(captain).ownBallot,captain.ownBallot);
+});
+test('setup transport allows only supported rosters and neutral character choices',()=>{
+  assert.equal(PlanetServiceRequestSchema.safeParse({operation:'create',requestId:'setup-1',playerCount:7}).success,true);
+  assert.equal(PlanetServiceRequestSchema.safeParse({operation:'create',requestId:'setup-1',playerCount:6}).success,false);
+  assert.equal(PlanetServiceRequestSchema.safeParse({operation:'chooseCharacter',requestId:'setup-2',matchId:'synthetic-planet',characterId:'c9'}).success,true);
+  assert.equal(PlanetServiceRequestSchema.safeParse({operation:'chooseCharacter',requestId:'setup-2',matchId:'synthetic-planet',characterId:'c9',role:'Alien'}).success,false);
 });
