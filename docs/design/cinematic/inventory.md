@@ -170,7 +170,6 @@ What the catalogue (docs/design/cinematic/motion-bible.md) still needs, by scene
 | Role reveal and private card | existing (slice 8) | Doctor, Engineer card art under current names (obsolete Cracker / Soldier Blue names to correct, see inventory) |
 | Core board and movement | existing (board-motion walk, board-v2 slots) | origin slot for walks after reconnect (request R4) |
 | Turn and contextual action | existing (phone kit, turns) | successor action names (Engineer, Hack Spaceship) in the action overlay |
-| Captain and Officer | existing (votes) + gap | Officer appointment panel; Officer badge distinct from secret roles; movement-block marker and its round expiry |
 | Captain EJECT | existing S7 (approved art, #159) | a cinematic display cut (proposal, after the pilots review) |
 | Ordinary shot and injury | existing (slice 4, Blackout impact) + gap | a successor admission walk (proposal) |
 | Doctor Rescue | PILOT 1 (cinematic pass over the approved S5) | live-action insert: study only (NOT PRODUCED) |

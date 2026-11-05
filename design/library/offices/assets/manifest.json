@@ -1,0 +1,76 @@
+{
+  "version": "library-offices-0.1.0",
+  "generatedBy": "design/tools/library-assets.mjs",
+  "source": "design/library/offices/art.mjs",
+  "audience": "public (the Officer and block badges, the board's block tape) and office-private tray marks; loaded whole on every player phone",
+  "assets": [
+    {
+      "name": "of-glyph-officer",
+      "file": "design/library/offices/assets/of-glyph-officer.svg",
+      "size": "32x32",
+      "role": "public: the Officer's glyph",
+      "about": "The Officer's glyph, two chevrons, for name tags and lists; the Captain's glyph is the reviewed star.",
+      "sha256": "d784a0d7ef69ab57db623ff928d0b8697f894af9f768dcaed262e80e571970a4",
+      "bytes": 1089
+    },
+    {
+      "name": "of-badge-officer",
+      "file": "design/library/offices/assets/of-badge-officer.svg",
+      "size": "36x36",
+      "role": "public: the Officer's badge",
+      "about": "The Officer's badge on the board, in the reviewed Captain badge's family.",
+      "sha256": "09dd0dced21d97c70bdb1da9a1adb70406bd07c925afb39c403ad0a187e6ef19",
+      "bytes": 1334
+    },
+    {
+      "name": "of-glyph-blocked",
+      "file": "design/library/offices/assets/of-glyph-blocked.svg",
+      "size": "32x32",
+      "role": "public: the block's glyph",
+      "about": "The movement block's glyph, an arrow stopped by a wall, for name tags and lists this round.",
+      "sha256": "616386c01878186231254dab51c4087445a35e4bab8930860fd2f2be896f11e1",
+      "bytes": 755
+    },
+    {
+      "name": "of-badge-blocked",
+      "file": "design/library/offices/assets/of-badge-blocked.svg",
+      "size": "36x36",
+      "role": "public: the block's badge",
+      "about": "The movement block's badge, with a dashed rim because it ends with the round.",
+      "sha256": "3dae1ca91bd6d58477674eff78ae66b19dcca5fd386918a0ec433633b0a3663c",
+      "bytes": 1088
+    },
+    {
+      "name": "of-tape-blocked",
+      "file": "design/library/offices/assets/of-tape-blocked.svg",
+      "size": "96x24",
+      "role": "public: the board's block marker",
+      "about": "Hazard tape across the blocked figure's feet, at the slot's feet anchor, for this round only.",
+      "sha256": "368c8814fbb5500cde27fc66ca66db56e306121002f533af09737eea9198b723",
+      "bytes": 1165
+    },
+    {
+      "name": "of-icon-appoint",
+      "file": "design/library/offices/assets/of-icon-appoint.svg",
+      "size": "48x48",
+      "role": "Captain-private: tray mark",
+      "about": "The tray mark for the Captain's Officer appointment, during its 30 seconds.",
+      "sha256": "d0fda7e2eb73da7bc92d71979c6b78a942adb97eb71b611548f7eb8f1ad01b56",
+      "bytes": 1499
+    },
+    {
+      "name": "of-icon-block",
+      "file": "design/library/offices/assets/of-icon-block.svg",
+      "size": "48x48",
+      "role": "Officer-private: tray mark",
+      "about": "The tray mark for the Officer's movement block, during the 15-second pre-turn window.",
+      "sha256": "825665dde5bf59a8bb3650e68a05e62b84e6a4425694933823e3a71de56c84e7",
+      "bytes": 1763
+    }
+  ],
+  "stylesheet": {
+    "file": "design/library/offices/assets/offices.art.css",
+    "sha256": "db5d3cdadca9bad1880d3a6faca8983eb9d0994d6e8fc7c932e6a21d3f38a3e8",
+    "bytes": 7551
+  }
+}

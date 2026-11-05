@@ -1,7 +1,7 @@
 // mothership:dev-only
 //
 // Writes the library groups' art from their sources:
-//   node design/tools/library-assets.mjs [--group hack-engineer|navigation|hospital-panel|promises|windows] [--check]
+//   node design/tools/library-assets.mjs [--group hack-engineer|navigation|hospital-panel|promises|windows|offices] [--check]
 // For each group (all of them unless --group names one), in design/library/<group>/assets/:
 //   <name>.svg       each picture, standalone, transparent
 //   <group css>      every picture as a custom property, as the dossier's abilities.art.css does: a
@@ -18,6 +18,7 @@ import { NAV_ART_VERSION, navigationAssets } from '../library/navigation/art.mjs
 import { PANEL_ART_VERSION, panelAssets } from '../library/hospital-panel/art.mjs';
 import { PROMISE_ART_VERSION, promiseAssets } from '../library/promises/art.mjs';
 import { WINDOW_ART_VERSION, windowAssets } from '../library/windows/art.mjs';
+import { OFFICE_ART_VERSION, officeAssets } from '../library/offices/art.mjs';
 
 const repoRoot = resolve(fileURLToPath(new URL('../../', import.meta.url)));
 const sha256 = text => createHash('sha256').update(text).digest('hex');
@@ -53,6 +54,12 @@ export const GROUPS = Object.freeze({
     audience: 'the window audience (players at either end of a window), the station-private pad, and the public board\'s station markers; loaded whole on every player phone',
     note: '   The lintels, shade and tray mark are drawn only for players at either end of a window; the pad only at a drawing station; the\n'
       + '   station marker on the public board. Every player phone, once, with the ability art, before the first match view.\n',
+  }),
+  offices: Object.freeze({
+    version: OFFICE_ART_VERSION, assets: officeAssets, source: 'design/library/offices/art.mjs', css: 'offices.art.css', prop: '--of-asset-', hook: 'offices',
+    audience: 'public (the Officer and block badges, the board\'s block tape) and office-private tray marks; loaded whole on every player phone',
+    note: '   The badges and the block tape are PUBLIC (the board and name tags); the two tray marks only on the Captain\'s or the Officer\'s own\n'
+      + '   phone during their windows. Every player phone, once, with the ability art, before the first match view.\n',
   }),
 });
 
