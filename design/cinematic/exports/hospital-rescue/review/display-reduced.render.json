@@ -1,0 +1,46 @@
+{
+  "tool": "design/tools/cinematic-render.mjs",
+  "pilot": "hospital-rescue",
+  "version": "cinematic-hospital-rescue-0.1.0",
+  "surface": "display",
+  "variant": "reduced",
+  "stage": "design/cinematic/stage.html?pilot=hospital-rescue&surface=display&variant=reduced&beds=4",
+  "size": [
+    1920,
+    1080
+  ],
+  "deviceScale": 0.6667,
+  "fixture": {
+    "subject": 2,
+    "berth": "H1"
+  },
+  "browser": "Chromium 141.0.7390.37",
+  "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+  "outputs": [
+    {
+      "kind": "video",
+      "file": "design/cinematic/exports/hospital-rescue/review/display-reduced.mp4",
+      "sha256": "d665d2515e44917c9615c30cbfb8899becadda9bf5ebf04d950f644f49b7acba",
+      "bytes": 157271,
+      "fps": 30,
+      "frames": 54,
+      "durationMs": 1760,
+      "from": 0,
+      "to": 1760,
+      "audio": "design/cinematic/exports/hospital-rescue/audio/hospital-rescue-reduced.cues.wav"
+    },
+    {
+      "kind": "preview",
+      "file": "design/cinematic/exports/hospital-rescue/review/display-reduced.preview.webp",
+      "sha256": "ac89512663e935bbd63b17f8abd89f9df39ce3577b41c28a2c1ef178181ff07c",
+      "bytes": 37320
+    },
+    {
+      "kind": "poster",
+      "file": "design/cinematic/exports/hospital-rescue/review/display-reduced.poster.webp",
+      "sha256": "58eb1ea35f71e30921604744a72cbc65a2226d6e905ded7b6d5da88c04e2c331",
+      "bytes": 76712,
+      "t": 1200
+    }
+  ]
+}

@@ -1,0 +1,170 @@
+{
+  "tool": "design/tools/cinematic-perf.mjs",
+  "browser": "Chromium 141.0.7390.37",
+  "machine": "4 x Intel(R) Xeon(R) Processor @ 2.10GHz (cloud VM, headless, software rendering)",
+  "caveat": "Desktop headless Chromium on a cloud VM with software rendering. Not a phone, not a GPU budget, not battery or thermal evidence. scriptLayout: a seek with its frame waits short-circuited plus a forced layout (frame function, markup, DOM update, style, layout; no paint). seekWithPaint: a seek with its two real animation frames (includes paint and raster), against idleFramePairMs for an idle pair. The review stage rebuilds every film layer per seek; a runtime keeps static layers mounted and updates only what moves.",
+  "results": [
+    {
+      "pilot": "hospital-rescue",
+      "surface": "display",
+      "variant": "full",
+      "case": null,
+      "viewport": [
+        1920,
+        1080
+      ],
+      "frames": 169,
+      "scriptLayoutMedianMs": 8.2,
+      "scriptLayoutP95Ms": 14.7,
+      "seekWithPaintMedianMs": 97.1,
+      "seekWithPaintP95Ms": 172.7,
+      "idleFramePairMs": 33.3,
+      "maxFilmNodes": 854,
+      "maxFilmMarkupBytes": 120253
+    },
+    {
+      "pilot": "hospital-rescue",
+      "surface": "phone",
+      "variant": "full",
+      "case": null,
+      "viewport": [
+        390,
+        844
+      ],
+      "frames": 169,
+      "scriptLayoutMedianMs": 4.3,
+      "scriptLayoutP95Ms": 8.1,
+      "seekWithPaintMedianMs": 33.3,
+      "seekWithPaintP95Ms": 33.5,
+      "idleFramePairMs": 33.3,
+      "maxFilmNodes": 2293,
+      "maxFilmMarkupBytes": 334571
+    },
+    {
+      "pilot": "hospital-rescue",
+      "surface": "phone",
+      "variant": "full",
+      "case": null,
+      "viewport": [
+        320,
+        568
+      ],
+      "frames": 169,
+      "scriptLayoutMedianMs": 4.1,
+      "scriptLayoutP95Ms": 5.3,
+      "seekWithPaintMedianMs": 33.3,
+      "seekWithPaintP95Ms": 33.6,
+      "idleFramePairMs": 33.4,
+      "maxFilmNodes": 2293,
+      "maxFilmMarkupBytes": 334540
+    },
+    {
+      "pilot": "hospital-rescue",
+      "surface": "insert",
+      "variant": "full",
+      "case": null,
+      "viewport": [
+        1920,
+        1080
+      ],
+      "frames": 43,
+      "scriptLayoutMedianMs": 1.1,
+      "scriptLayoutP95Ms": 1.9,
+      "seekWithPaintMedianMs": 63.6,
+      "seekWithPaintP95Ms": 99.9,
+      "idleFramePairMs": 33.3,
+      "maxFilmNodes": 105,
+      "maxFilmMarkupBytes": 8570
+    },
+    {
+      "pilot": "blackhole",
+      "surface": "display",
+      "variant": "full",
+      "case": null,
+      "viewport": [
+        1920,
+        1080
+      ],
+      "frames": 157,
+      "scriptLayoutMedianMs": 7,
+      "scriptLayoutP95Ms": 10.5,
+      "seekWithPaintMedianMs": 67.9,
+      "seekWithPaintP95Ms": 118,
+      "idleFramePairMs": 33.3,
+      "maxFilmNodes": 1093,
+      "maxFilmMarkupBytes": 105414
+    },
+    {
+      "pilot": "blackhole",
+      "surface": "phone",
+      "variant": "full",
+      "case": null,
+      "viewport": [
+        390,
+        844
+      ],
+      "frames": 73,
+      "scriptLayoutMedianMs": 2.8,
+      "scriptLayoutP95Ms": 3.9,
+      "seekWithPaintMedianMs": 33.3,
+      "seekWithPaintP95Ms": 33.6,
+      "idleFramePairMs": 33.3,
+      "maxFilmNodes": 515,
+      "maxFilmMarkupBytes": 53199
+    },
+    {
+      "pilot": "blackhole",
+      "surface": "insert",
+      "variant": "full",
+      "case": null,
+      "viewport": [
+        1920,
+        1080
+      ],
+      "frames": 108,
+      "scriptLayoutMedianMs": 7.1,
+      "scriptLayoutP95Ms": 13.4,
+      "seekWithPaintMedianMs": 65.6,
+      "seekWithPaintP95Ms": 88.1,
+      "idleFramePairMs": 33.4,
+      "maxFilmNodes": 1090,
+      "maxFilmMarkupBytes": 103997
+    },
+    {
+      "pilot": "private-talk",
+      "surface": "display",
+      "variant": "full",
+      "case": "entrance",
+      "viewport": [
+        1920,
+        1080
+      ],
+      "frames": 148,
+      "scriptLayoutMedianMs": 10,
+      "scriptLayoutP95Ms": 17.1,
+      "seekWithPaintMedianMs": 99.8,
+      "seekWithPaintP95Ms": 121.9,
+      "idleFramePairMs": 33.4,
+      "maxFilmNodes": 2537,
+      "maxFilmMarkupBytes": 384561
+    },
+    {
+      "pilot": "private-talk",
+      "surface": "display",
+      "variant": "full",
+      "case": "exit",
+      "viewport": [
+        1920,
+        1080
+      ],
+      "frames": 84,
+      "scriptLayoutMedianMs": 9.9,
+      "scriptLayoutP95Ms": 13,
+      "seekWithPaintMedianMs": 83.9,
+      "seekWithPaintP95Ms": 116.9,
+      "idleFramePairMs": 33.3,
+      "maxFilmNodes": 2825,
+      "maxFilmMarkupBytes": 430615
+    }
+  ]
+}

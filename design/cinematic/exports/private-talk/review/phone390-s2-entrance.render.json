@@ -1,0 +1,50 @@
+{
+  "tool": "design/tools/cinematic-render.mjs",
+  "pilot": "private-talk",
+  "version": "cinematic-private-talk-0.1.0",
+  "surface": "phone",
+  "variant": "full",
+  "stage": "design/cinematic/stage.html?pilot=private-talk&surface=phone&variant=full&beds=4&w=390&h=844&case=entrance",
+  "size": [
+    390,
+    844
+  ],
+  "deviceScale": 1.5,
+  "fixture": {
+    "pair": [
+      1,
+      5
+    ],
+    "case": "entrance",
+    "s2": "approved, unchanged"
+  },
+  "browser": "Chromium 141.0.7390.37",
+  "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+  "outputs": [
+    {
+      "kind": "video",
+      "file": "design/cinematic/exports/private-talk/review/phone390-s2-entrance.mp4",
+      "sha256": "7a4eda7f486d93cd7f0689cf0abe4bc48cdd7936bc93bdec80aead084d1bb987",
+      "bytes": 274395,
+      "fps": 30,
+      "frames": 118,
+      "durationMs": 3900,
+      "from": 0,
+      "to": 3900,
+      "audio": "design/cinematic/exports/private-talk/audio/private-talk-entrance.cues.wav"
+    },
+    {
+      "kind": "preview",
+      "file": "design/cinematic/exports/private-talk/review/phone390-s2-entrance.preview.webp",
+      "sha256": "02a9ceef3ab6678739ce7cfc3b0bc4ff55ccbea9931daa1b292437b2db962cda",
+      "bytes": 63136
+    },
+    {
+      "kind": "poster",
+      "file": "design/cinematic/exports/private-talk/review/phone390-s2-entrance.poster.webp",
+      "sha256": "7242291165261cf00d5ba8061dc03aaa0bb28d2a2ae7afc367197d3109baa941",
+      "bytes": 109828,
+      "t": 3000
+    }
+  ]
+}

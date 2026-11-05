@@ -1,0 +1,49 @@
+{
+  "tool": "design/tools/cinematic-render.mjs",
+  "pilot": "private-talk",
+  "version": "cinematic-private-talk-0.1.0",
+  "surface": "display",
+  "variant": "full",
+  "stage": "design/cinematic/stage.html?pilot=private-talk&surface=display&variant=full&beds=4&case=talk",
+  "size": [
+    1920,
+    1080
+  ],
+  "deviceScale": 0.6667,
+  "fixture": {
+    "pair": [
+      1,
+      5
+    ],
+    "case": "talk"
+  },
+  "browser": "Chromium 141.0.7390.37",
+  "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+  "outputs": [
+    {
+      "kind": "video",
+      "file": "design/cinematic/exports/private-talk/review/display-talk-excerpt.mp4",
+      "sha256": "82ac162fc34ef2ee4916572f1c504dbe058fbfeea2d2039f5b3951c6355c93d1",
+      "bytes": 216503,
+      "fps": 30,
+      "frames": 181,
+      "durationMs": 6000,
+      "from": 0,
+      "to": 6000,
+      "audio": null
+    },
+    {
+      "kind": "preview",
+      "file": "design/cinematic/exports/private-talk/review/display-talk-excerpt.preview.webp",
+      "sha256": "269aa8d5a96431afedd569599b7c5166b5c4f1d95fefd4980af4c1db279a3493",
+      "bytes": 29520
+    },
+    {
+      "kind": "poster",
+      "file": "design/cinematic/exports/private-talk/review/display-talk-excerpt.poster.webp",
+      "sha256": "c470596226d27da089996418b4d39d1c8c49d777cd94010bd1f66f7667ac7091",
+      "bytes": 70910,
+      "t": 3000
+    }
+  ]
+}

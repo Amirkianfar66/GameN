@@ -1,0 +1,48 @@
+{
+  "tool": "design/tools/cinematic-render.mjs",
+  "pilot": "hospital-rescue",
+  "version": "cinematic-hospital-rescue-0.1.0",
+  "surface": "phone",
+  "variant": "full",
+  "stage": "design/cinematic/stage.html?pilot=hospital-rescue&surface=phone&variant=full&beds=4&w=320&h=568",
+  "size": [
+    320,
+    568
+  ],
+  "deviceScale": 1.5,
+  "fixture": {
+    "subject": 2,
+    "berth": "H1",
+    "fit": 1,
+    "inset": "above"
+  },
+  "browser": "Chromium 141.0.7390.37",
+  "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+  "outputs": [
+    {
+      "kind": "video",
+      "file": "design/cinematic/exports/hospital-rescue/review/phone320-full.mp4",
+      "sha256": "3437d9e245e40076d41433fea807f5454cfc37cd9ab87d3f8daaa5c75f2db6e4",
+      "bytes": 275064,
+      "fps": 30,
+      "frames": 169,
+      "durationMs": 5600,
+      "from": 0,
+      "to": 5600,
+      "audio": "design/cinematic/exports/hospital-rescue/audio/hospital-rescue-full.cues.wav"
+    },
+    {
+      "kind": "preview",
+      "file": "design/cinematic/exports/hospital-rescue/review/phone320-full.preview.webp",
+      "sha256": "54647c7de5058a585ffa74c44e762129b5d473cec8a653229abccadeba5a1a5c",
+      "bytes": 89276
+    },
+    {
+      "kind": "poster",
+      "file": "design/cinematic/exports/hospital-rescue/review/phone320-full.poster.webp",
+      "sha256": "9f675f96eb91f5182b1afe34557b5816d8b6a7af2b5fa20ea3a8a35d19fb2898",
+      "bytes": 72606,
+      "t": 3700
+    }
+  ]
+}

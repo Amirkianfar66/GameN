@@ -1,0 +1,45 @@
+{
+  "tool": "design/tools/cinematic-render.mjs",
+  "pilot": "blackhole",
+  "version": "cinematic-blackhole-0.1.0",
+  "surface": "display",
+  "variant": "full",
+  "stage": "design/cinematic/stage.html?pilot=blackhole&surface=display&variant=full&beds=4",
+  "size": [
+    1920,
+    1080
+  ],
+  "deviceScale": 0.6667,
+  "fixture": {
+    "board": "board-v2 mixed (synthetic)"
+  },
+  "browser": "Chromium 141.0.7390.37",
+  "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+  "outputs": [
+    {
+      "kind": "video",
+      "file": "design/cinematic/exports/blackhole/review/display-full.mp4",
+      "sha256": "0054d8d5c2e3f15a4a0f072ac56cf5f8d4baf3621e90923dab90cb8e8541636f",
+      "bytes": 931084,
+      "fps": 30,
+      "frames": 157,
+      "durationMs": 5200,
+      "from": 0,
+      "to": 5200,
+      "audio": "design/cinematic/exports/blackhole/audio/blackhole-full.cues.wav"
+    },
+    {
+      "kind": "preview",
+      "file": "design/cinematic/exports/blackhole/review/display-full.preview.webp",
+      "sha256": "2ca9e905a3e59f5b038a6a21e26021ccd7f81f0884ada33a17e32975f722b0f4",
+      "bytes": 308516
+    },
+    {
+      "kind": "poster",
+      "file": "design/cinematic/exports/blackhole/review/display-full.poster.webp",
+      "sha256": "563bc361e6734c2c25e2a6161edd84dc72f1203eebe88ced8460e0e992637114",
+      "bytes": 23290,
+      "t": 2200
+    }
+  ]
+}

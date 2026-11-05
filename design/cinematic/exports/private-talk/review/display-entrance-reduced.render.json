@@ -1,0 +1,49 @@
+{
+  "tool": "design/tools/cinematic-render.mjs",
+  "pilot": "private-talk",
+  "version": "cinematic-private-talk-0.1.0",
+  "surface": "display",
+  "variant": "reduced",
+  "stage": "design/cinematic/stage.html?pilot=private-talk&surface=display&variant=reduced&beds=4&case=entrance",
+  "size": [
+    1920,
+    1080
+  ],
+  "deviceScale": 0.6667,
+  "fixture": {
+    "pair": [
+      1,
+      5
+    ],
+    "case": "entrance"
+  },
+  "browser": "Chromium 141.0.7390.37",
+  "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+  "outputs": [
+    {
+      "kind": "video",
+      "file": "design/cinematic/exports/private-talk/review/display-entrance-reduced.mp4",
+      "sha256": "39e049643be6eaf67fd685c9912340dc8724e20c94c17c9e063097010e54cfbf",
+      "bytes": 426013,
+      "fps": 30,
+      "frames": 61,
+      "durationMs": 2000,
+      "from": 0,
+      "to": 2000,
+      "audio": "design/cinematic/exports/private-talk/audio/private-talk-reduced.cues.wav"
+    },
+    {
+      "kind": "preview",
+      "file": "design/cinematic/exports/private-talk/review/display-entrance-reduced.preview.webp",
+      "sha256": "8f50e7e7795e72757b6f55f277caa63d4699033732d4e9e8a9ad2a0927dad777",
+      "bytes": 75836
+    },
+    {
+      "kind": "poster",
+      "file": "design/cinematic/exports/private-talk/review/display-entrance-reduced.poster.webp",
+      "sha256": "6484fe08949c2bfe67f084429a4c9664ca783c6e46a1a36fee471e304ae59613",
+      "bytes": 86880,
+      "t": 1000
+    }
+  ]
+}

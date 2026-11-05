@@ -1,0 +1,45 @@
+{
+  "tool": "design/tools/cinematic-render.mjs",
+  "pilot": "blackhole",
+  "version": "cinematic-blackhole-0.1.0",
+  "surface": "phone",
+  "variant": "reduced",
+  "stage": "design/cinematic/stage.html?pilot=blackhole&surface=phone&variant=reduced&beds=4&w=390&h=844",
+  "size": [
+    390,
+    844
+  ],
+  "deviceScale": 1.5,
+  "fixture": {
+    "board": "board-v2 mixed (synthetic)"
+  },
+  "browser": "Chromium 141.0.7390.37",
+  "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+  "outputs": [
+    {
+      "kind": "video",
+      "file": "design/cinematic/exports/blackhole/review/phone390-reduced.mp4",
+      "sha256": "7e72283a62e71dc0222d384df0504548fdf72ab97b98aae9bbe7a58552dc6fb6",
+      "bytes": 184409,
+      "fps": 30,
+      "frames": 44,
+      "durationMs": 1440,
+      "from": 0,
+      "to": 1440,
+      "audio": "design/cinematic/exports/blackhole/audio/blackhole-reduced.cues.wav"
+    },
+    {
+      "kind": "preview",
+      "file": "design/cinematic/exports/blackhole/review/phone390-reduced.preview.webp",
+      "sha256": "5deb176abb68d34da98385bcca4435d8731d3331912798e461093656e2286bf3",
+      "bytes": 35388
+    },
+    {
+      "kind": "poster",
+      "file": "design/cinematic/exports/blackhole/review/phone390-reduced.poster.webp",
+      "sha256": "60f690df6f801ab91dc4c97143aaee8a7f04700e626d8f56bb4b7196ad5ecd42",
+      "bytes": 93632,
+      "t": 600
+    }
+  ]
+}
