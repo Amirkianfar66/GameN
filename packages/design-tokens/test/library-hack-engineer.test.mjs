@@ -5,6 +5,7 @@
 // the state map from a player view, the art's palette, the generated assets and the motion. None of
 // them is a rule or a server answer; the server's offers stay the only authority on what may be done.
 import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
 import { test } from 'node:test';
 import { FACTION_ACCENTS, MIN_ACCENT_DISTANCE, cie76 } from '../../../design/board-v2/fx/blocked.mjs';
@@ -138,4 +139,16 @@ test('the motion: once, bounded, a dark shutter (never a light flash), and reduc
   }
   assert.equal(FRAMES.capture(MOTION.capture.end).develop, 0);
   assert.equal(FRAMES.insert(MOTION.insert.end).seated, true);
+});
+
+test('the review report lists each capture once, and every hash is the file\'s', async () => {
+  const report = JSON.parse(await readFile(new URL('../../../design/library/hack-engineer/review/report.json', import.meta.url), 'utf8'));
+  assert.deepEqual(report.problems, []);
+  const files = report.captures.map(entry => entry.file);
+  assert.equal(new Set(files).size, files.length, 'a capture is listed twice (one page load overwrote another\'s file)');
+  for (const entry of report.captures) {
+    const bytes = await readFile(new URL(`../../../${entry.file}`, import.meta.url));
+    assert.equal(createHash('sha256').update(bytes).digest('hex'), entry.sha256, entry.file);
+    assert.equal(bytes.length, entry.bytes, entry.file);
+  }
 });

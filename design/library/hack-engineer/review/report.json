@@ -628,12 +628,13 @@
       "text": "200%"
     },
     {
-      "file": "design/library/hack-engineer/review/contact-w390-text200.png",
+      "file": "design/library/hack-engineer/review/contact-w390-text200-hacker.png",
       "sha256": "e782374450c6b121c869a50d3b85273450fc54dd875c957cb1d0e1efcd426013",
       "bytes": 1100769,
       "kind": "contact",
       "width": 390,
-      "text": "200%"
+      "text": "200%",
+      "section": "hacker"
     },
     {
       "file": "design/library/hack-engineer/review/w390-text200-capture-available-two-in-room-b.png",
@@ -708,12 +709,13 @@
       "text": "200%"
     },
     {
-      "file": "design/library/hack-engineer/review/contact-w390-text200.png",
+      "file": "design/library/hack-engineer/review/contact-w390-text200-engineer.png",
       "sha256": "b27f10d4efc77b7b4c341c599e43d21af8c62b06784b7c3ca02d33ca63e495a3",
       "bytes": 757880,
       "kind": "contact",
       "width": 390,
-      "text": "200%"
+      "text": "200%",
+      "section": "engineer"
     },
     {
       "file": "design/library/hack-engineer/review/motion-unlock-0000.png",

@@ -63,9 +63,10 @@ async function main() {
         await page.screenshot(file, { selector: `.lib-card[data-state=${JSON.stringify(state)}]`, margin: 4 });
         await record(file, { state, width: w, text: text === '2' ? '200%' : '100%' });
       }
-      const sheet = join(out, `contact-${tag}.png`);
+      // One contact sheet per page load: the 200% loads are one section each, so each is named by its section.
+      const sheet = join(out, `contact-${tag}${only ? `-${only}` : ''}.png`);
       await page.screenshot(sheet);
-      await record(sheet, { kind: 'contact', width: w, text: text === '2' ? '200%' : '100%' });
+      await record(sheet, { kind: 'contact', width: w, text: text === '2' ? '200%' : '100%', ...(only ? { section: only } : {}) });
       await page.close();
     }
     // Motion strips: six frames of each motion, full and reduced.

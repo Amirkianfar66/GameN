@@ -162,10 +162,11 @@ Both are in the motion bible's request table. Until answered, the states fall ba
 
 ## Checks
 
-- `node --test packages/design-tokens/test/library-hack-engineer.test.mjs`: 8 tests (every state
+- `node --test packages/design-tokens/test/library-hack-engineer.test.mjs`: 9 tests (every state
   branch, offers as the authority, the server's identities over the preview, seat lists that never
   split a label, palette distance from the faction accents, generated-asset drift, motion bounds, a
-  dark shutter, reduced as fades only).
+  dark shutter, reduced as fades only, and the review report: each capture listed once, every hash
+  the file's).
 - `node design/tools/library-assets.mjs --check`: generated files current.
 - `node design/tools/library-capture.mjs`: review captures (`review/`), every state at 390 and 320 px
   sheets, both groups at 200% text, motion strips full and reduced. 200% text is the page's `&text=2`
