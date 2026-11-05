@@ -179,8 +179,7 @@ What the catalogue (docs/design/cinematic/motion-bible.md) still needs, by scene
 | Hack Spaceship | library group 1 (proposal) | no public or office cue for the hack beyond the direction itself: none is authorized |
 | Private Talk capsule | PILOT 3 (display page over the approved S2; phones keep S2) | live-action study not needed (comic-only by design) |
 | Blackhole and Sync | PILOT 2 | live-action insert: study only (NOT PRODUCED) |
-| Navigation | gap (proposal) | Y-route instrument panel; planet arrival compositions |
 | Promises | gap (proposal) | six cards and four result states |
 | Windows and drawing | gap (proposal) | three framed views, four stations |
-| Arrival, no survivors and recovery | existing (slice 6, superseded parts) + gap | planet arrival compositions; no-survivors state; reconnect / stale / asset-failure states |
+| Arrival, no survivors and recovery | existing (slice 6, superseded parts) + gap | no-survivors state; reconnect / stale / asset-failure states; the end reveal over the arrival |
 

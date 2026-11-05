@@ -191,7 +191,8 @@ test('the catalogue covers every scene of the brief\'s coverage table, each full
   assert.deepEqual(CATALOGUE.map(s => s.scene), scenes);
   for (const s of CATALOGUE) {
     for (const key of ['trigger', 'audience', 'fields', 'beats', 'durations', 'final', 'cancel', 'precedence', 'audio', 'reduced', 'rosters', 'concurrency', 'assets', 'gaps']) assert.ok(s[key] !== undefined && s[key] !== '', `${s.id} ${key}`);
-    if (s.request) assert.ok(REQUESTS.some(r => r.id === s.request), s.id);
+    // A scene names one request or several; each must be in the request table.
+    if (s.request) for (const id of [s.request].flat()) assert.ok(REQUESTS.some(r => r.id === id), `${s.id} ${id}`);
   }
 });
 

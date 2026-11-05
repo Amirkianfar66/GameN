@@ -56,7 +56,7 @@ for (const s of CATALOGUE) {
   lines.push(`- **Concurrent events:** ${s.concurrency}`);
   lines.push(`- **Existing art:** ${s.assets.length ? s.assets.map(a => `\`${a}\``).join(', ') : 'none yet'}`);
   lines.push(`- **Missing:** ${s.gaps.length ? s.gaps.join('; ') : 'nothing for this scene'}`);
-  if (s.request) lines.push(`- **Contract request:** ${s.request}`);
+  if (s.request) lines.push(`- **Contract request${[s.request].flat().length > 1 ? 's' : ''}:** ${[s.request].flat().join(', ')}`);
   lines.push('');
 }
 await writeFile(md, `${lines.join('\n')}\n`);

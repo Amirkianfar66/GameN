@@ -9,7 +9,7 @@
 // a trigger, the entry says so and names the request (REQUESTS), and the scene stays a labeled
 // design fixture until the contract supports it. Nothing here is a game rule.
 
-export const CATALOGUE_VERSION = 'cinematic-catalogue-0.2.0';
+export const CATALOGUE_VERSION = 'cinematic-catalogue-0.3.0';
 export const CONTRACT = Object.freeze({ protocol: 3, engine: 'planet-game-1.0.0', ruleset: 'in-person-planet-2026-11-05', file: 'packages/contracts/src/planet-game.ts', commit: '79418e72dba99ba99afe047ecb97467fb5e73b62', status: 'candidate; not adopted into runtime' });
 
 /** The lifecycle every presentation follows (the motion bible's rules, for every scene below). */
@@ -37,6 +37,8 @@ export const REQUESTS = Object.freeze([
   { id: 'R7', scene: 'windows', ask: 'A shown drawing\'s arrival: windows[].drawings[] has order and round but no publishedAt; a stamp-in needs the moment it was shown, or the client stamps on first sight only (no replay on reconnect).' },
   { id: 'R8', scene: 'engineer', ask: 'P14 gives the Engineer a private confirmation of the fixed identities, but the player view has only abilities.engineerSpent. Add the Engineer\'s own record, e.g. abilities.engineerCapture { round, seatIds } (Engineer only), so the confirmation shows the identities the server fixed at registration, never the client\'s preview (someone may move between the two). Until then the file says only that the capture was used.' },
   { id: 'R9', scene: 'hack-spaceship', ask: 'abilities.shipHackSpent cannot tell a hack registered this round (still to apply at this round\'s navigation) from one used in an earlier round. Add abilities.shipHackRound (Hacker only) so the file can say "applies at this round\'s navigation" or "used in Round N". Until then a spent hack is drawn as used, its round unnamed.' },
+  { id: 'R10', scene: 'navigation', ask: 'The owner\'s rule is that the Officer privately sees an undecided course (the navigation overlay, confirmed rule 4), but phase.kind NAV_TIE is in every view, the public view and the Captain\'s included, and its 15 s stage runs only on a tie. The public strip and the Captain\'s panel draw the tie stage exactly as the acknowledgement stages ("the course is being set"); the phase kind and its timing still tell anyone. Ask: a neutral phase kind for the tie stage outside the Officer\'s view, or the owner\'s acceptance that a tie is public by its timing.' },
+  { id: 'R11', scene: 'navigation', ask: 'privateNavigation.tieChoice and .confirmation have no settled meaning (a tie to choose now, or one chosen; the acknowledgement awaited, or one given). The office panel reads the stage from phase.kind, the controls from offers, and "acknowledged" only from the client\'s own accepted receipt, so an office that reconnects after acknowledging sees "your acknowledgement is closed". Ask: define them, for example confirmation as the acknowledgements already given, so a reconnect can say "you acknowledged".' },
 ]);
 
 const S = (id, scene, fields) => Object.freeze({ id, scene, ...fields });
@@ -201,10 +203,10 @@ export const CATALOGUE = Object.freeze([
     assets: ['design/cinematic/pilots/blackhole/'], gaps: ['live-action insert: study only (NOT PRODUCED)'], request: 'R1',
   }),
   S('navigation', 'Navigation', {
-    status: 'gap (proposal)', audience: 'office-private route; public neutral transit', trigger: 'privateNavigation (offices); navigation.lastMovedRound, arrivedAt (public); phases NAV_TIE, NAV_CAPTAIN_CONFIRM, NAV_OFFICER_CONFIRM', fields: ['privateNavigation', 'navigation.lastMovedRound', 'navigation.arrivedAt'],
-    beats: { start: 'Y-route panel (offices)', loop: 'direction / tie / acknowledgement', exit: 'neutral shared transit' }, durations: { full: 'transit 2000 ms', reduced: 'swap' },
-    final: 'position', cancel: 'phase end', precedence: 'stage-bound', audio: 'engine hum (public, neutral)', reduced: 'swap', rosters: 'n/a', concurrency: 'none',
-    assets: ['design/cinematic/pilots/blackhole/art.mjs shipSvg() (the ship in profile, reusable for transit)'], gaps: ['Y-route instrument panel', 'planet arrival compositions'], request: 'R5',
+    status: 'library group 2 (proposal)', audience: 'office-private route panel (Captain and Officer); public neutral transit; the destination public only on arrival', trigger: 'privateNavigation (offices); phases NAV_TIE, NAV_CAPTAIN_CONFIRM, NAV_OFFICER_CONFIRM; offers CHOOSE_NAV_DIRECTION, CONFIRM_NAVIGATION; MOVEMENT_COMPLETED (public event); navigation.lastMovedRound, arrivedAt', fields: ['privateNavigation.position', 'privateNavigation.direction', 'offers[]', 'phase.kind', 'navigation.lastMovedRound', 'navigation.arrivedAt', 'events[] MOVEMENT_COMPLETED'],
+    beats: { start: 'the Y-route panel: the ship at its place; at navigation the final direction and the step it makes', loop: 'the Officer\'s choice on an undecided course; each office\'s acknowledgement (no veto)', exit: 'the token steps along the arm, across a rung or into a planet; the public transit band, the same every movement' }, durations: { full: 'transit 2400 ms display, 1800 ms phone; panel step 900 ms; stamps 420 to 520 ms', reduced: 'stills with 160 ms fades' },
+    final: 'the panel at the new place; the public chip "Round N: the ship moved"', cancel: 'phase end; a refused command changes nothing; a late join draws the result at rest', precedence: 'stage-bound (public band over the board\'s middle, never a control)', audio: 'engine hum and pass (public, the same every movement); none on the offices\' phones', reduced: 'stills', rosters: 'n/a', concurrency: 'one movement a round',
+    assets: ['design/library/navigation/ (route panel, 10 course overlays, ship token, tray mark, movement chip; films: transit and both arrivals; exports in design/cinematic/exports/navigation/)', 'design/cinematic/pilots/blackhole/art.mjs shipSvg() (the ship in profile)'], gaps: [], request: ['R5', 'R10', 'R11'],
   }),
   S('promises', 'Promises', {
     status: 'gap (proposal)', audience: 'pair-private', trigger: 'promises[], promiseQuota', fields: ['promises[]', 'promiseQuota'],
@@ -222,6 +224,6 @@ export const CATALOGUE = Object.freeze([
     status: 'existing (slice 6, superseded parts) + gap', audience: 'public (endReveal on FINISHED)', trigger: 'phase FINISHED / ABORTED; result {winner, reason, alienCoWinner}; endReveal', fields: ['result', 'endReveal'],
     beats: { start: 'arrival', loop: 'reveal', exit: 'held' }, durations: { full: '6000 ms', reduced: 'stills' },
     final: 'end screen', cancel: 'none', precedence: 'top', audio: 'arrival sting (public)', reduced: 'stills', rosters: 'n/a', concurrency: 'none',
-    assets: ['design/abilities (match end; Showdown / Final Zone art is obsolete)'], gaps: ['planet arrival compositions', 'no-survivors state', 'reconnect / stale / asset-failure states'],
+    assets: ['design/abilities (match end; Showdown / Final Zone art is obsolete)', 'design/library/navigation/films.mjs (the arrival at either planet, library group 2)'], gaps: ['no-survivors state', 'reconnect / stale / asset-failure states', 'the end reveal over the arrival'],
   }),
 ]);
