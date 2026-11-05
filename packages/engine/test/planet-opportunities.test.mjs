@@ -6,9 +6,22 @@ for(const n of[7,8,9])test(`${n}: native accepted meeting Promise remains Pendin
  const d=prepareBlackholeRound(planetWorldDriver(n));d.command('seat-1',{type:'REQUEST_HACK',targetSeatId:'seat-2'});d.deadline();d.command('seat-2',{type:'DECLARE_HACK_SIDE',declaredSide:'Blue'});d.deadline();assert.equal(d.state.phase.kind,'HACK');
  d.command('seat-1',{type:'OFFER_PROMISE',recipientSeatId:'seat-2',kind:'MEET_A',targetSeatId:null});const promiseId=d.history.at(-1).request.commandId;
  d.command('seat-2',{type:'ACCEPT_PROMISE',promiseId});assert.equal(d.state.global.promises[0].offerStatus,'accepted');
+ d.command('seat-2',{type:'OFFER_PROMISE',recipientSeatId:'seat-1',kind:'JAIL_VOTE',targetSeatId:'seat-4'});
+ const jailPromiseId=d.history.at(-1).request.commandId;
+ d.command('seat-1',{type:'ACCEPT_PROMISE',promiseId:jailPromiseId});
  const original=d.state.currentWorldId,branch=moveAcross(d,'seat-2');assert.equal(worldSeat(d.state.worlds[original],'seat-2').location,'Room A');assert.equal(worldSeat(d.state.worlds[branch],'seat-2').location,'Room B');
  assert.equal(projectPlanetPlayer(d.state,'seat-1').promises[0].status,'Pending');assert.equal(projectPlanetPlayer(d.state,'seat-3').promises.length,0);assert.equal(projectPlanetPublic(d.state).board.seats.find(s=>s.seatId==='seat-2').location,'Room A');
- toSync(d);assert.equal(d.state.currentWorldId,branch);assert.equal(d.state.global.promises[0].status,'Not fulfilled');assert.equal(d.state.global.promiseGiven.includes('seat-1'),true);assert.equal(d.state.global.promiseReceived.includes('seat-2'),true);d.replay();
+ toSync(d);assert.equal(d.state.currentWorldId,branch);assert.equal(d.state.global.promises[0].status,'Not fulfilled');assert.equal(d.state.global.promiseGiven.includes('seat-1'),true);assert.equal(d.state.global.promiseReceived.includes('seat-2'),true);
+ const voteStart=d.state.phase.startedAt,voteEnd=d.state.phase.endsAt;
+ assert.equal(voteEnd-voteStart,60000,'Approved Sync opens the complete vote without a presentation phase');
+ assert.equal(d.state.global.promises[1].status,'Pending','The meeting checkpoint cannot finalize a Jail card');
+ d.command('seat-2',{type:'VOTE',targetSeatId:'seat-4'},{now:voteStart});
+ assert.equal(d.state.global.promises[1].status,'Pending','Registering a ballot is not its opportunity closure');
+ d.command('seat-1',{type:'VOTE',targetSeatId:null},{now:voteEnd-1});
+ d.command('seat-3',{type:'VOTE',targetSeatId:'seat-4'},{now:voteEnd,accepted:false});
+ d.deadline();assert.equal(d.state.phase.kind,'VOTE_RESULT');
+ assert.equal(d.state.global.promises[0].status,'Not fulfilled');assert.equal(d.state.global.promises[1].status,'Fulfilled');
+ assert.equal(projectPlanetPlayer(d.state,'seat-3').promises.length,0);d.replay();
 });
 test('constructed no-office tie and lazy round shuffle consume independent recorded samples once without mutating context',()=>{
  const d=planetWorldDriver(7);d.until(s=>s.round===2&&s.phase.kind==='BLACKOUT');const s=structuredClone(d.state),w=s.worlds[s.currentWorldId];

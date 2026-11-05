@@ -177,6 +177,22 @@ for(const n of [7,8,9]){
     queue(state,[['seat-3',{type:'REGISTER_SHOT',targetSeatId:'seat-1'}],['seat-2',{type:'RESCUE',targetSeatId:'seat-1'}],['seat-7',{type:'PANEL_CODE',doctorSeatId:'seat-2'}]]);resolve(state,w);
     assert.equal(get(w,'seat-1').slotId,'J1');assert.equal(get(w,'seat-7').slotId,'J2');assert.equal(get(w,'seat-5').slotId,'J3');assert.equal(get(w,'seat-5').health,'Eliminated');assert.equal(planetJailOccupancy(w),3);assert.equal(w.injectionsRemaining,0);assert.ok(['seat-1','seat-7'].every(id=>get(w,id).health==='Healthy'&&get(w,id).jailed&&get(w,id).medical===null));invariant(state);
   });
+  for(const preferred of ['Room A','Room B'])for(const full of [false,true])test(`${n}: constructed free rescued Hospital patient returns from ${preferred} ${full?'full to the other room':'with space to its remembered room'} using actual placement`,()=>{
+    const state=own(fixture(n),'seat-2'),w=world(state),other=preferred==='Room A'?'Room B':'Room A';
+    assign(w,'seat-1','Hospital','H4','Injured',false,5);get(w,'seat-1').lastRoom=preferred;
+    const others=w.seats.filter(s=>s.seatId!=='seat-1'),preferredCount=full?5:4;
+    others.slice(0,preferredCount).forEach((s,i)=>assign(w,s.seatId,preferred,`${preferred==='Room A'?'A':'B'}${i+(full?1:2)}`));
+    others.slice(preferredCount).forEach((s,i)=>assign(w,s.seatId,other,`${other==='Room A'?'A':'B'}${i+1}`));
+    const expectedRoom=full?other:preferred,expectedSlot=`${expectedRoom==='Room A'?'A':'B'}${full?others.length-preferredCount+1:1}`;
+    const unchanged=others.map(s=>[s.seatId,s.location,s.slotId]);
+    accept(state,'seat-2',{type:'RESCUE',targetSeatId:'seat-1'});assert.equal(world(state).injectionsRemaining,1);resolve(state,w);
+    const patient=get(w,'seat-1');assert.equal(patient.health,'Healthy');assert.equal(patient.jailed,false);assert.equal(patient.location,expectedRoom);assert.equal(patient.slotId,expectedSlot);assert.equal(patient.lastRoom,expectedRoom);assert.equal(patient.medical,null);assert.equal(patient.rescueDueAfterRound,null);
+    const rescue=w.events.filter(o=>o.event.kind==='RESCUED'&&o.event.seatIds.includes('seat-1')).map(o=>o.event);assert.equal(rescue.length,1);assert.equal(rescue[0].location,patient.location);assert.equal(rescue[0].slotId,patient.slotId);assert.equal(rescue[0].clinicalAnchor.kind,'CLINICAL_VIGNETTE');assert.equal(rescue[0].clinicalAnchor.slotCount,n);
+    // A historical clinical anchor is independent of the final A/B slot. Only the
+    // authoritative placement below determines where the returned patient stands.
+    const placement=w.events.filter(o=>o.event.kind==='PLACEMENT_CHANGED'&&o.event.seatIds.includes('seat-1')).map(o=>o.event);assert.equal(placement.length,1);assert.equal(placement[0].location,patient.location);assert.equal(placement[0].slotId,patient.slotId);assert.equal(placement[0].clinicalAnchor,null);
+    assert.deepEqual(others.map(s=>[s.seatId,s.location,s.slotId]),unchanged);invariant(state);
+  });
   if(n===9)test('9: constructed Engineer captures fixed opposite-room identities, spends its world lifetime use and emits no target notification',()=>{
     const state=own(fixture(n),'seat-9'),w=world(state);accept(state,'seat-9',{type:'ENGINEER_SUPPRESS'});assert.deepEqual(w.suppressedSeatIds,['seat-1','seat-2','seat-3','seat-4','seat-5']);assert.equal(get(w,'seat-9').engineerSpent,true);assert.equal(w.events.length,0);
     assign(w,'seat-1','Room B','B5');assign(w,'seat-6','Room A','A1');assert.ok(w.suppressedSeatIds.includes('seat-1'));assert.equal(w.suppressedSeatIds.includes('seat-6'),false);state.round++;get(w,'seat-9').roleActionSpent=false;reject(state,'seat-9',{type:'ENGINEER_SUPPRESS'});
