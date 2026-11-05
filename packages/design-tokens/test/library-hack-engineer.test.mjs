@@ -9,7 +9,7 @@ import { readFile } from 'node:fs/promises';
 import { test } from 'node:test';
 import { FACTION_ACCENTS, MIN_ACCENT_DISTANCE, cie76 } from '../../../design/board-v2/fx/blocked.mjs';
 import { LIBRARY_ART_VERSION, P, libraryAssets } from '../../../design/library/hack-engineer/art.mjs';
-import { LIBRARY_COPY } from '../../../design/library/hack-engineer/copy.mjs';
+import { LIBRARY_COPY, listSeats } from '../../../design/library/hack-engineer/copy.mjs';
 import { FRAMES, MOTION, motionEnd } from '../../../design/library/hack-engineer/motion.mjs';
 import { STATES, engineerState, finalCodeState, roleActionBlockers, shipHackState } from '../../../design/library/hack-engineer/states.mjs';
 import { build } from '../../../design/tools/library-assets.mjs';
@@ -85,6 +85,17 @@ test('every state each map returns is listed, and the blockers are the listed on
   const blockers = roleActionBlockers(H({ active: 5, roleActionSpent: true, location: 'Command Room' }));
   for (const b of blockers) assert.ok(STATES.blockers.includes(b));
   for (const b of STATES.blockers) assert.equal(typeof LIBRARY_COPY.blockers[b], 'string');
+});
+
+test('a seat list in words never splits a label: "Player 5, Eli and Player 6, Fay", never "Player 5, Eli, Player 6 and Fay"', () => {
+  const [ada, ben, cy, eli, fay] = [[1, 'Ada'], [2, 'Ben'], [3, 'Cy'], [5, 'Eli'], [6, 'Fay']].map(([n, name]) => ({ n, name }));
+  assert.equal(listSeats([]), '');
+  assert.equal(listSeats([eli]), 'Player 5, Eli');
+  assert.equal(listSeats([eli, fay]), 'Player 5, Eli and Player 6, Fay');
+  assert.equal(listSeats([ada, ben, cy]), 'Player 1, Ada; Player 2, Ben and Player 3, Cy');
+  assert.match(LIBRARY_COPY.captureAsk('Room B', [eli, fay]), /: Player 5, Eli and Player 6, Fay\. /);
+  assert.equal(LIBRARY_COPY.captured([eli, fay], 3), 'Captured: Player 5, Eli and Player 6, Fay. Their navigation input is zero through Round 3.');
+  assert.equal(LIBRARY_COPY.captureUsed([eli, fay], 3), 'Captured in Round 3: Player 5, Eli and Player 6, Fay.');
 });
 
 test('the group\'s art keeps off every faction accent and uses the dossier\'s palette only', () => {

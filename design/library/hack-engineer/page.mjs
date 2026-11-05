@@ -10,7 +10,7 @@
 import { loadBundles } from '../../prototypes/js/bundles.js';
 import { el, fileShell } from '../../abilities/js/dossier.js';
 import { chip, codeCard } from '../../abilities/js/intel.js';
-import { LIBRARY_COPY as C } from './copy.mjs';
+import { LIBRARY_COPY as C, listSeats } from './copy.mjs';
 import { FRAMES, MOTION, motionEnd } from './motion.mjs';
 import { engineerState, finalCodeState, shipHackState } from './states.mjs';
 
@@ -112,7 +112,7 @@ export function shipStripView(s) {
 
 function roomView(room, seatIds, { shutter = false } = {}) {
   const seats = seatIds.map(seatOf);
-  return el('div', { class: 'lib-view', role: 'img', 'aria-label': seats.length ? `${room} now: ${seats.map(x => `Player ${x.n}, ${x.name}`).join(', ')}` : `${room} now: empty` },
+  return el('div', { class: 'lib-view', role: 'img', 'aria-label': seats.length ? `${room} now: ${listSeats(seats)}` : `${room} now: empty` },
     el('div', { class: 'lib-view__picture' },
       el('img', { class: 'lib-view__room', src: ROOM_ART[room], alt: '' }),
       el('span', { class: 'lib-view__frame', 'aria-hidden': 'true' }),
@@ -121,7 +121,7 @@ function roomView(room, seatIds, { shutter = false } = {}) {
 }
 function print(room, seatIds) {
   const seats = (seatIds ?? []).map(seatOf);
-  return el('div', { class: 'lib-print', role: 'img', 'aria-label': seats.length ? `Captured: ${seats.map(x => `Player ${x.n}, ${x.name}`).join(', ')}` : 'Captured no one' },
+  return el('div', { class: 'lib-print', role: 'img', 'aria-label': seats.length ? `Captured: ${listSeats(seats)}` : 'Captured no one' },
     el('span', { class: 'lib-pinned', 'aria-hidden': 'true' }),
     el('div', { class: 'lib-print__window' }, el('img', { class: 'lib-print__room', src: ROOM_ART[room], alt: '' }), seats.length ? el('div', { class: 'lib-chips' }, seats.map(x => chip(x))) : null, el('span', { class: 'lib-print__develop' })),
     el('span', { class: 'lib-print__paper', 'aria-hidden': 'true' }));

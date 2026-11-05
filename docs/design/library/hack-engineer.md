@@ -135,6 +135,13 @@ ship now? At this round's navigation the route goes to Red. It uses your Role Ac
 once in the match." / "Capture everyone in Room B now: Player 5, Eli and Player 6, Fay. Their
 navigation input is set to zero through this round. Votes are not affected." Full set in `copy.mjs`.
 
+Seat lists (`listSeats`) name each player as the dossier does ("Player 5, Eli"), so labels are never
+joined by a bare comma: "Player 5, Eli and Player 6, Fay"; three or more take semicolons ("Player 1,
+Ada; Player 2, Ben and Player 3, Cy"). The page's accessible names use the same list. The dossier's
+own `seatList` (`design/abilities/js/dossier.js`, the Insider file's screen-reader summary) replaces
+the last comma with "and", which splits the last label ("Player 1, Ada, Player 2 and Ben"); that is
+a separate fix to the reviewed kit, not made here.
+
 ## Privacy-safe preload
 
 `library.art.css` (20.6 KB) loads whole on every player phone, with the ability art, before the first
@@ -151,9 +158,10 @@ Both are in the motion bible's request table. Until answered, the states fall ba
 
 ## Checks
 
-- `node --test packages/design-tokens/test/library-hack-engineer.test.mjs`: 7 tests (every state
-  branch, offers as the authority, the server's identities over the preview, palette distance from the
-  faction accents, generated-asset drift, motion bounds, a dark shutter, reduced as fades only).
+- `node --test packages/design-tokens/test/library-hack-engineer.test.mjs`: 8 tests (every state
+  branch, offers as the authority, the server's identities over the preview, seat lists that never
+  split a label, palette distance from the faction accents, generated-asset drift, motion bounds, a
+  dark shutter, reduced as fades only).
 - `node design/tools/library-assets.mjs --check`: generated files current.
 - `node design/tools/library-capture.mjs`: review captures (`review/`), every state at 390 and 320 px
   sheets, 200% text, motion strips full and reduced; measured: no sideways overflow on the page or a

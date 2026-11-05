@@ -7,7 +7,16 @@
 // place a meaning appears. Seat lists are in seat order, as the dossier writes them.
 
 const who = seat => `Player ${seat.n}, ${seat.name}`;
-const list = seats => seats.map(who).join(', ').replace(/, ([^,]*)$/, ' and $1');
+/**
+ * A seat list in words. Each label holds a comma ("Player 5, Eli"), so labels are never joined by a
+ * bare comma: "Player 5, Eli and Player 6, Fay"; "Player 1, Ada; Player 2, Ben and Player 3, Cy".
+ * (Replacing the last comma with "and" would split the last label: "Player 5, Eli, Player 6 and Fay".)
+ */
+export const listSeats = seats => {
+  const names = seats.map(who);
+  return names.length > 1 ? `${names.slice(0, -1).join('; ')} and ${names.at(-1)}` : (names[0] ?? '');
+};
+const list = listSeats;
 
 export const LIBRARY_COPY = Object.freeze({
   // Tapes (label tapes, as the dossier sets them).
