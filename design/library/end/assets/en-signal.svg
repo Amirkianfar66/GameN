@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · library art proposal · en-signal library-end-0.1.0 · generated, do not edit by hand
+  The reconnecting mark: an antenna with its arcs.
+  Built by design/tools/library-assets.mjs from design/library/end/art.mjs. Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32"><g id="en-signal"><path d="M16 28 V14" stroke="#151923" stroke-width="3" stroke-linecap="round"/><circle cx="16" cy="12" r="3.2" fill="#F2A33A" stroke="#151923" stroke-width="1.8"/><path d="M9.5 6.5 A9 9 0 0 0 9.5 17.5 M22.5 6.5 A9 9 0 0 1 22.5 17.5 M5 3 A14 14 0 0 0 5 21 M27 3 A14 14 0 0 1 27 21" stroke="#151923" stroke-width="2.4" fill="none" stroke-linecap="round"/></g></svg>

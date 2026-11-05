@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · library art proposal · en-banner-red library-end-0.1.0 · generated, do not edit by hand
+  The Red team's winning banner: the Red accent, a notched ribbon; the words are page text.
+  Built by design/tools/library-assets.mjs from design/library/end/art.mjs. Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 72" width="320" height="72" preserveAspectRatio="none"><g id="en-banner-red"><path d="M8 10 H312 L300 36 L312 62 H8 L20 36 Z" transform="translate(3 4)" fill="#151923" opacity="0.4"/><path d="M8 10 H312 L300 36 L312 62 H8 L20 36 Z" fill="#FF8C8C" stroke="#151923" stroke-width="3" stroke-linejoin="round"/><path d="M28 18 H292 M28 54 H292" stroke="#8E2A1A" stroke-width="2.4" opacity="0.7"/></g></svg>
