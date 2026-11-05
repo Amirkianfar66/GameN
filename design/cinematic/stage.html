@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- mothership:dev-only. The cinematic library's stage: one pilot, one surface, seekable. Review only, never a client. -->
+<title>Cinematic stage</title>
+<style>
+  html, body { margin: 0; background: #05070B; overflow: hidden; }
+  #stage { position: absolute; left: 0; top: 0; }
+  #stage > div > svg { display: block; }
+  .stage-error { color: #F4EBDD; font: 14px/1.4 system-ui, sans-serif; padding: 16px; white-space: pre-wrap; }
+</style>
+</head>
+<body>
+<div id="stage" role="img" aria-label="Cinematic review stage"></div>
+<script type="module" src="./stage.mjs"></script>
+</body>
+</html>
