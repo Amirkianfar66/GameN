@@ -1,0 +1,169 @@
+{
+  "version": "library-hack-engineer-0.1.0",
+  "generatedBy": "design/tools/library-assets.mjs",
+  "source": "design/library/hack-engineer/art.mjs",
+  "audience": "private: the seat's own open private sheet; loaded whole on every player phone whatever the role",
+  "assets": [
+    {
+      "name": "lib-ship-cartridge",
+      "file": "design/library/hack-engineer/assets/lib-ship-cartridge.svg",
+      "size": [
+        128,
+        76
+      ],
+      "role": "hacker",
+      "about": "The ship hack's cartridge, unlocked and not used: its LED lit. In the Hacker's file once a correct final Code unlocks it.",
+      "sha256": "ff73904c25aca15233b3d9b3b914deed0caa3cd1c4fb12520f8775debb95fa7d",
+      "bytes": 2335
+    },
+    {
+      "name": "lib-ship-cartridge-sealed",
+      "file": "design/library/hack-engineer/assets/lib-ship-cartridge-sealed.svg",
+      "size": [
+        136,
+        96
+      ],
+      "role": "hacker",
+      "about": "The ship hack's cartridge, locked: sealed in an evidence bag until a correct final Code. Not an action.",
+      "sha256": "4725e1844d8c7f8ffa96f4cd3fbf73b60b853bf977913869e809f838f9f309f5",
+      "bytes": 3184
+    },
+    {
+      "name": "lib-ship-cartridge-used",
+      "file": "design/library/hack-engineer/assets/lib-ship-cartridge-used.svg",
+      "size": [
+        128,
+        76
+      ],
+      "role": "hacker",
+      "about": "The ship hack's cartridge after its one activation: scorched, LED dark. Kept in the Hacker's file.",
+      "sha256": "0de6ec9383836e610d59784f82ff6a51fc7b37810c3b0de999f1cc37aff120f8",
+      "bytes": 2498
+    },
+    {
+      "name": "lib-ship-jack",
+      "file": "design/library/hack-engineer/assets/lib-ship-jack.svg",
+      "size": [
+        176,
+        108
+      ],
+      "role": "hacker",
+      "about": "The ship's navigation port, its slot empty: where the ship hack's cartridge goes. A neutral Y for the route; no side, no direction.",
+      "sha256": "82f7cf70990d6b84f0fa27784ed3b9901ddf2075892b7af224ba9c262f2770bb",
+      "bytes": 2240
+    },
+    {
+      "name": "lib-ship-jack-seated",
+      "file": "design/library/hack-engineer/assets/lib-ship-jack-seated.svg",
+      "size": [
+        176,
+        108
+      ],
+      "role": "hacker",
+      "about": "The ship's navigation port with the cartridge seated and its lamps lit: the ship hack registered for this round's navigation.",
+      "sha256": "8a193ce144eba6828f120f43ecceb5017df8c3710a808aedf6c01f216ea58d0b",
+      "bytes": 2764
+    },
+    {
+      "name": "lib-breach-spark",
+      "file": "design/library/hack-engineer/assets/lib-breach-spark.svg",
+      "size": [
+        64,
+        64
+      ],
+      "role": "hacker",
+      "about": "Sparks at the port as the cartridge seats (the breach). Private: on the Hacker's own phone only.",
+      "sha256": "76a861e155640a316aba1e7c65deeaf3973655e976aab44fd1b46a589776f7fb",
+      "bytes": 1793
+    },
+    {
+      "name": "lib-icon-ship-hack",
+      "file": "design/library/hack-engineer/assets/lib-icon-ship-hack.svg",
+      "size": [
+        48,
+        48
+      ],
+      "role": "hacker",
+      "about": "The tray's mark for the ship hack: a cartridge into a port. Drawn only where the seat's own view offers the action.",
+      "sha256": "d649a9cd9da4d3e82cb4791ed6797ea5a8c424dc4b37087355706ac3774d1dea",
+      "bytes": 975
+    },
+    {
+      "name": "lib-code-punch",
+      "file": "design/library/hack-engineer/assets/lib-code-punch.svg",
+      "size": [
+        40,
+        40
+      ],
+      "role": "hacker",
+      "about": "The punch a registered final Code leaves on the dossier's Code card: it says the one attempt is spent, never whether it was right.",
+      "sha256": "d938bfc0bba31d78d896e93e86587edb5391a37788c1f61b5c9a1544f4e2140e",
+      "bytes": 810
+    },
+    {
+      "name": "lib-viewfinder",
+      "file": "design/library/hack-engineer/assets/lib-viewfinder.svg",
+      "size": [
+        240,
+        160
+      ],
+      "role": "engineer",
+      "about": "The Engineer's viewfinder over the opposite room as it is now: brackets and a centre mark, never a target on one person.",
+      "sha256": "87708e32fe14914a75982016b0526323cf9aed8aa9b34f3d7bfc3991c0a5b3fc",
+      "bytes": 1837
+    },
+    {
+      "name": "lib-capture-print",
+      "file": "design/library/hack-engineer/assets/lib-capture-print.svg",
+      "size": [
+        140,
+        168
+      ],
+      "role": "engineer",
+      "about": "The Engineer's capture, developed: the print of the opposite room at the moment the server registered it. Its window shows the picture under it.",
+      "sha256": "b3ffe9c45812b9be2758403d6642c5c634611616dbce0477e15d6ee9ad02b663",
+      "bytes": 1206
+    },
+    {
+      "name": "lib-clamp",
+      "file": "design/library/hack-engineer/assets/lib-clamp.svg",
+      "size": [
+        64,
+        64
+      ],
+      "role": "engineer",
+      "about": "The Engineer's signal clamp, not yet used: its wave whole and its LED lit. In the Engineer's file.",
+      "sha256": "7463949cccbbdd105e82e710ec5d2fc8453acfd819b3527c49849f08aed932d9",
+      "bytes": 1200
+    },
+    {
+      "name": "lib-clamp-used",
+      "file": "design/library/hack-engineer/assets/lib-clamp-used.svg",
+      "size": [
+        64,
+        64
+      ],
+      "role": "engineer",
+      "about": "The Engineer's signal clamp after its one capture: closed, its wave cut and its LED dark.",
+      "sha256": "49d03dcdcf7448cde7bca335f288ddf322554a446e17f2e7c4c9eb83427ea306",
+      "bytes": 1373
+    },
+    {
+      "name": "lib-icon-capture",
+      "file": "design/library/hack-engineer/assets/lib-icon-capture.svg",
+      "size": [
+        48,
+        48
+      ],
+      "role": "engineer",
+      "about": "The tray's mark for the Engineer's capture: a viewfinder over a cut wave. Drawn only where the seat's own view offers the action.",
+      "sha256": "e5329b9799b0d4d7feb403e5b1de9b0b33e9dd0510410fb76ac18fc922d58ff5",
+      "bytes": 1034
+    }
+  ],
+  "stylesheet": {
+    "file": "design/library/hack-engineer/assets/library.art.css",
+    "sha256": "b42b84198a4d23e3ce65f46a72f16fa3e6e5df2809c976b82024f4ac2d31aa47",
+    "bytes": 20632
+  }
+}
