@@ -129,7 +129,7 @@ const inv = [
   '',
   '## Names to correct',
   '',
-  `${inventory.summary.withObsoleteNames} files still carry a superseded name: Cracker (now Doctor), Soldier Blue (now Engineer), Showdown and Final Zone (removed mechanics). They are historical art and review captures; current text uses the new names (design baseline 26947b1). Corrections ride the next asset group that touches each file, never a silent substitution.`,
+  `${inventory.summary.withObsoleteNames} files still carry a superseded name: Cracker (now Doctor), Soldier Blue (now Engineer), Showdown and Final Zone (removed mechanics). They are historical art and review captures; current text uses the new names (design baseline 26947b1). Corrections ride the next asset group that touches each file, never a silent substitution. Library group 8 maps every current name to the art that draws it (\`design/library/successor/names.mjs\`): the files keep their historical ids and bytes.`,
   '',
   '## Before / after contact sheet',
   '',

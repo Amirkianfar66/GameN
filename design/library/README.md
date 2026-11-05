@@ -17,6 +17,7 @@ a contract or runtime code; Integration adopts named files and hashes.
 | 5 · `windows/` | The three windows, the four drawing stations, the drawing pad and Show, the feed, the Blackout's shade | proposal | [docs/design/library/windows.md](../../docs/design/library/windows.md) |
 | 6 · `offices/` | The Captain's Officer appointment, the Officer badge, the movement block, its marker and expiry | proposal | [docs/design/library/offices.md](../../docs/design/library/offices.md) |
 | 7 · `end/` | The end reveal over the arrival, no survivors, the abort, reconnect, stale and failed-asset states | proposal | [docs/design/library/end.md](../../docs/design/library/end.md) |
+| 8 · `successor/` | The successor sweep: current role names and devices (the Engineer's new device), the action overlay's successor entries, the compact lobby at 320 × 568, the Round 3 Supply receipt, the Hospital admission walk | proposal | [docs/design/library/successor.md](../../docs/design/library/successor.md) |
 
 From group 2 on, the review pages share their frame: `review.mjs` (parameters, state cards, motion players, controls, art
 loader) and `review.css`. Group 1's page keeps its own copy. `design/tools/library-assets.mjs` and

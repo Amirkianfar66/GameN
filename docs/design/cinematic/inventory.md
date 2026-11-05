@@ -139,7 +139,7 @@ Ten files on `main` are newer than the Designer's last version: Integration (Cod
 
 ## Names to correct
 
-92 files still carry a superseded name: Cracker (now Doctor), Soldier Blue (now Engineer), Showdown and Final Zone (removed mechanics). They are historical art and review captures; current text uses the new names (design baseline 26947b1). Corrections ride the next asset group that touches each file, never a silent substitution.
+92 files still carry a superseded name: Cracker (now Doctor), Soldier Blue (now Engineer), Showdown and Final Zone (removed mechanics). They are historical art and review captures; current text uses the new names (design baseline 26947b1). Corrections ride the next asset group that touches each file, never a silent substitution. Library group 8 maps every current name to the art that draws it (`design/library/successor/names.mjs`): the files keep their historical ids and bytes.
 
 ## Before / after contact sheet
 
@@ -166,14 +166,9 @@ What the catalogue (docs/design/cinematic/motion-bible.md) still needs, by scene
 
 | Scene | Status | Missing |
 | --- | --- | --- |
-| Lobby and identity | existing (slice 8) + gap | compact host/join states at 320 x 568 against the successor session states |
-| Role reveal and private card | existing (slice 8) | Doctor, Engineer card art under current names (obsolete Cracker / Soldier Blue names to correct, see inventory) |
 | Core board and movement | existing (board-motion walk, board-v2 slots) | origin slot for walks after reconnect (request R4) |
-| Turn and contextual action | existing (phone kit, turns) | successor action names (Engineer, Hack Spaceship) in the action overlay |
 | Captain EJECT | existing S7 (approved art, #159) | a cinematic display cut (proposal, after the pilots review) |
-| Ordinary shot and injury | existing (slice 4, Blackout impact) + gap | a successor admission walk (proposal) |
 | Doctor Rescue | PILOT 1 (cinematic pass over the approved S5) | live-action insert: study only (NOT PRODUCED) |
-| Supplier and weapons | existing (slice 3) + gap | Round 3 Supply timing presentation |
 | Hack Spaceship | library group 1 (proposal) | no public or office cue for the hack beyond the direction itself: none is authorized |
 | Private Talk capsule | PILOT 3 (display page over the approved S2; phones keep S2) | live-action study not needed (comic-only by design) |
 | Blackhole and Sync | PILOT 2 | live-action insert: study only (NOT PRODUCED) |

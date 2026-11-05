@@ -1,7 +1,7 @@
 // mothership:dev-only
 //
 // Writes the library groups' art from their sources:
-//   node design/tools/library-assets.mjs [--group hack-engineer|navigation|hospital-panel|promises|windows|offices|end] [--check]
+//   node design/tools/library-assets.mjs [--group hack-engineer|navigation|hospital-panel|promises|windows|offices|end|successor] [--check]
 // For each group (all of them unless --group names one), in design/library/<group>/assets/:
 //   <name>.svg       each picture, standalone, transparent
 //   <group css>      every picture as a custom property, as the dossier's abilities.art.css does: a
@@ -20,6 +20,7 @@ import { PROMISE_ART_VERSION, promiseAssets } from '../library/promises/art.mjs'
 import { WINDOW_ART_VERSION, windowAssets } from '../library/windows/art.mjs';
 import { OFFICE_ART_VERSION, officeAssets } from '../library/offices/art.mjs';
 import { END_ART_VERSION, endAssets } from '../library/end/art.mjs';
+import { SUCCESSOR_ART_VERSION, successorAssets } from '../library/successor/art.mjs';
 
 const repoRoot = resolve(fileURLToPath(new URL('../../', import.meta.url)));
 const sha256 = text => createHash('sha256').update(text).digest('hex');
@@ -67,6 +68,12 @@ export const GROUPS = Object.freeze({
     audience: 'public at the end (the side emblems and banners, the Code plate, the flatline) and each screen\'s own recovery marks; loaded whole on every phone and display',
     note: '   The side emblems and banners are the only library pictures in the faction accents: drawn only in FINISHED, when the view\n'
       + '   reveals the sides. Every phone and display, once, with the ability art, before the first match view.\n',
+  }),
+  successor: Object.freeze({
+    version: SUCCESSOR_ART_VERSION, assets: successorAssets, source: 'design/library/successor/art.mjs', css: 'successor.art.css', prop: '--sw-asset-', hook: 'successor',
+    audience: 'private (the Engineer\'s held device, the Supply\'s crate) and the lobby\'s code plate; loaded whole on every phone',
+    note: '   The Engineer\'s device and the Supply\'s crate are PRIVATE (the Engineer\'s own card; each recipient\'s own phone). Every phone, once,\n'
+      + '   with the ability art, before the first match view, whatever the seat\'s role: which art arrives says nothing about who holds it.\n',
   }),
 });
 

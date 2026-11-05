@@ -9,7 +9,7 @@
 // a trigger, the entry says so and names the request (REQUESTS), and the scene stays a labeled
 // design fixture until the contract supports it. Nothing here is a game rule.
 
-export const CATALOGUE_VERSION = 'cinematic-catalogue-0.8.0';
+export const CATALOGUE_VERSION = 'cinematic-catalogue-0.9.0';
 export const CONTRACT = Object.freeze({ protocol: 3, engine: 'planet-game-1.0.0', ruleset: 'in-person-planet-2026-11-05', file: 'packages/contracts/src/planet-game.ts', commit: '79418e72dba99ba99afe047ecb97467fb5e73b62', status: 'candidate; not adopted into runtime' });
 
 /** The lifecycle every presentation follows (the motion bible's rules, for every scene below). */
@@ -41,29 +41,30 @@ export const REQUESTS = Object.freeze([
   { id: 'R11', scene: 'navigation', ask: 'privateNavigation.tieChoice and .confirmation have no settled meaning (a tie to choose now, or one chosen; the acknowledgement awaited, or one given). The office panel reads the stage from phase.kind, the controls from offers, and "acknowledged" only from the client\'s own accepted receipt, so an office that reconnects after acknowledging sees "your acknowledgement is closed". Ask: define them, for example confirmation as the acknowledgements already given, so a reconnect can say "you acknowledged".' },
   { id: 'R12', scene: 'hospital-panel-death', ask: 'The patient\'s console cannot show its own result. An accepted PANEL_CODE is only REGISTERED, and abilities.panelAttemptSpent turns true for a right and a wrong number alike, so the view never says whether a shared injection was reserved, whether the Rescue stage treated the patient or spent it without effect, or whether the Blackhole\'s Sync did not keep the request; and no rejection code says that no injection was available (P21: the request is refused before the number is checked, and nothing is spent). The brief asks for pending-reservation, wrong, exhausted and no-effect feedback. Ask: the patient\'s own record, e.g. abilities.panelRequest { round, result: RESERVED | WRONG, status: QUEUED | TREATED | NO_EFFECT | DISCARDED } (that patient only, never the Doctor\'s count), and a rejection code NO_INJECTION that is the same whatever number was sent, so an empty inventory never confirms the Doctor\'s number. If the owner prefers the patient not to learn the result before the Rescue stage, the server sends no result and the console keeps "registered"; it never guesses. Until then the console says only "Your number is registered. Your one attempt is used." and a refusal says "Nothing was used".' },
   { id: 'R13', scene: 'promises', ask: 'A Promise card must state its exact terms (brief; motion requirements), but three terms and one field have no stated sense. (a) NO_JAIL_VOTE has no target (the contract allows one only on JAIL_VOTE): does it rule out voting to jail the recipient, or any Jail ballot at all? The cards read it as "not against the recipient". (b) MEET_A and MEET_B are evaluated at voting start after Sync: whose place decides, the giver\'s alone or both players\'? The cards read it as the giver\'s. (c) electionId is an opaque identifier: add the election\'s round (e.g. electionRound) so a card can say "Round 5\'s Captain election", not only "the next Captain election". (d) promiseQuota.given and .received: does true mean the lifetime slot is used, or still open? Until defined, the ledger reads the slots from the accepted records and never reads promiseQuota.' },
+  { id: 'R14', scene: 'lobby-identity', ask: 'The lobby\'s join states need three answers from planet-service.ts. (a) What can a requester read while its admission is pending: a session snapshot with selfSeatId null, a refusal until approved, or nothing? The lobby draws "the host has your request" from requestAdmission\'s ok answer alone, and treats a snapshot with selfSeatId null as the same state. (b) No operation declines an admission: does a request the host never approves stay pending until setup begins, and what does the requester then receive? Until answered, the requester waits with the room code shown and no countdown. (c) A display has no seat, so an admitted display and a pending one both read selfSeatId null: add the requester\'s own standing (e.g. self: { kind, admitted }) or confirm that the client\'s remembered kind decides.' },
 ]);
 
 const S = (id, scene, fields) => Object.freeze({ id, scene, ...fields });
 
 export const CATALOGUE = Object.freeze([
   S('lobby-identity', 'Lobby and identity', {
-    status: 'existing (slice 8) + gap', audience: 'session members (public lobby)',
-    trigger: 'planet-service.ts session view: status lobby | choosing | reading; members[].characterId; chooseCharacter command result',
+    status: 'existing (slice 8) + library group 8 (compact lobby, proposal)', audience: 'session members (public lobby); the host\'s requests and bots on the host\'s phone',
+    trigger: 'planet-service.ts session snapshot: status lobby | choosing | reading; roomCode, playerCount, isHost, selfSeatId, members[], pendingAdmissions[]; requestAdmission / approveAdmission / setBots / beginSetup answers; chooseCharacter command result',
     fields: ['status', 'members[].characterId', 'members[].ready', 'own seat'],
     beats: { start: 'matrix appears with the 30 s choosing window', loop: 'taken states update as members choose', exit: 'automatic assignment transition into the role reading stage' },
     durations: { full: 'choosing 30 s (server)', reduced: 'same states, cross-fades 120 ms' },
     final: 'every member with a character; randomized initial A/B placement (no room picker)', cancel: 'a taken character is shown taken at once; a rejected choose returns to selectable', precedence: 'session only',
     audio: 'select click (own phone only)', reduced: 'no slide or pop; state swaps', rosters: '7, 8, 9: the matrix always shows all nine crew; taken greyed', concurrency: 'two members choosing at once: last server state wins',
-    assets: ['design/abilities (slice 8: character selection, role card)'], gaps: ['compact host/join states at 320 x 568 against the successor session states'],
+    assets: ['design/abilities (slice 8: character selection, role card)', 'design/library/successor/ (the lobby at 320 x 568: start, requesting, waiting, host, joined, display, refused, setup; the room-code plate; state map, words, the seat motion)'], gaps: [], request: 'R14',
   }),
   S('role-reveal', 'Role reveal and private card', {
-    status: 'existing (slice 8)', audience: 'own phone only',
+    status: 'existing (slice 8) + library group 8 (current names, the Engineer\'s device)', audience: 'own phone only',
     trigger: 'session status reading + player view self.role / self.faction', fields: ['self.role', 'self.faction', 'session reading deadline'],
     beats: { start: 'card face-down, flip on Ready-to-read', loop: 'held: 30 s minimum reading', exit: 'Ready closes; concealment on window blur' },
     durations: { full: 'flip 600 ms; reading 30 s minimum (server)', reduced: 'no flip: face shown with an 80 ms fade' },
     final: 'card closed, retrievable from Card', cancel: 'window blur conceals the card immediately', precedence: 'own phone only',
     audio: 'none public; optional own-phone flip sound muted by default', reduced: 'face fade', rosters: '7: no Red Disabler / Engineer cards; 8: + Red Disabler; 9: + Engineer', concurrency: 'none',
-    assets: ['design/abilities (role cards; Doctor and Engineer names)'], gaps: ['Doctor, Engineer card art under current names (obsolete Cracker / Soldier Blue names to correct, see inventory)'],
+    assets: ['design/abilities (role cards; Doctor and Engineer names)', 'design/exports/roles (the reviewed held devices; device-cracker draws the Doctor under its historical id)', 'design/library/successor/ (the Engineer\'s held device; names.mjs maps every current role to its device and keeps the removed Officer\'s device undrawn)'], gaps: [],
   }),
   S('core-movement', 'Core board and movement', {
     status: 'existing (board-motion walk, board-v2 slots)', audience: 'public (shared board: finalized placement; phones: own current world)',
@@ -81,7 +82,7 @@ export const CATALOGUE = Object.freeze([
     durations: { full: 'pulse 600 ms; stamp 900 ms', reduced: 'no pulse; stamp fades' },
     final: 'spent state', cancel: 'phase end closes the overlay', precedence: 'own phone controls stay above every film',
     audio: 'own-phone taps only', reduced: 'no pulse', rosters: 'n/a', concurrency: 'one active seat',
-    assets: ['design/phone-kit', 'design/board-v2/js/turns-four.mjs'], gaps: ['successor action names (Engineer, Hack Spaceship) in the action overlay'],
+    assets: ['design/phone-kit', 'design/board-v2/js/turns-four.mjs', 'design/library/successor/names.mjs (the overlay\'s successor entries: each command, its current label and its mark from library groups 1 to 6 or the ability kit)'], gaps: [],
   }),
   S('offices', 'Captain and Officer', {
     status: 'existing (votes) + library group 6 (proposal)', audience: 'public (offices, tally, badges, the block marker); the appointment Captain-private; the block panel Officer-private',
@@ -111,13 +112,13 @@ export const CATALOGUE = Object.freeze([
     assets: ['design/board-v2/fx/captain.mjs', 'design/board-v2/films/captain.mjs'], gaps: ['a cinematic display cut (proposal, after the pilots review)'],
   }),
   S('shot-injury', 'Ordinary shot and injury', {
-    status: 'existing (slice 4, Blackout impact) + gap', audience: 'public outcome; no shooter',
+    status: 'existing (slice 4, Blackout impact) + library group 8 (admission walk, proposal)', audience: 'public outcome; no shooter',
     trigger: 'events INJURED / ELIMINATED (seatIds, location, slotId, clinicalAnchor) after resolution', fields: ['events[].seatIds', 'events[].clinicalAnchor', 'board.seats[].health'],
-    beats: { start: 'cause-neutral hit reaction at the victim', loop: 'none', exit: 'injured transition, Hospital admission walk or offboard' },
+    beats: { start: 'cause-neutral hit reaction at the victim', loop: 'none', exit: 'injured transition; the Hospital admission walk (leave with an injured gait, cross between the panels, walk to the berth, lie down: 2400 ms) from a known room slot, else a snap; or offboard' },
     durations: { full: '900-1400 ms', reduced: 'swap to injured state' },
     final: 'Injured at a berth / Eliminated', cancel: 'newer placement snaps', precedence: 'below Captain, above movement',
     audio: 'neutral impact (public)', reduced: 'swap', rosters: 'four beds in every roster; overflow / offboard by anchor', concurrency: 'several victims: same frame, each at its slot',
-    assets: ['design/board-v2/fx/lighting.mjs (impact)', 'design/board-v2/films/overflow.mjs'], gaps: ['a successor admission walk (proposal)'],
+    assets: ['design/board-v2/fx/lighting.mjs (impact)', 'design/board-v2/films/overflow.mjs', 'design/library/successor/ (the admission walk\'s plan and beats; a snap without R4\'s origin)'], gaps: [], request: 'R4',
   }),
   S('blackout', 'Blackout Strike', {
     status: 'existing (#129, approved)', audience: 'public lighting; selected position private (blackoutTargeting)',
@@ -156,10 +157,10 @@ export const CATALOGUE = Object.freeze([
     assets: ['design/board-v2/films/medical.mjs (S9, S10)', 'design/library/hospital-panel/ (console, lamps, vial, strike, scan, key caps, tray mark; state map, words, motion)'], gaps: [], request: 'R12',
   }),
   S('supplier', 'Supplier and weapons', {
-    status: 'existing (slice 3) + gap', audience: 'own-private', trigger: 'player view self.ordinaryWeapons; command results', fields: ['self.ordinaryWeapons', 'offers[] (two-target)'],
-    beats: { start: 'private two-target selection', loop: 'none', exit: 'inventory receipt' }, durations: { full: '900 ms receipt', reduced: 'swap' },
+    status: 'existing (slice 3) + library group 8 (the Round 3 Supply receipt)', audience: 'own-private', trigger: 'player view self.ordinaryWeapons grown at Round 3\'s Supply stage (after Rescue), against the previous view; the Supplier\'s own SUPPLY receipt', fields: ['self.ordinaryWeapons', 'offers[] (two-target)'],
+    beats: { start: 'private two-target selection; the Supplier\'s phone says when the delivery happens', loop: 'none', exit: 'each recipient\'s own receipt: the crate drops in and its seal tag lights' }, durations: { full: '520 ms receipt', reduced: '160 ms fade' },
     final: 'inventory count', cancel: 'phase end', precedence: 'own phone', audio: 'none public', reduced: 'swap', rosters: 'n/a', concurrency: 'none',
-    assets: ['design/abilities (Supplier)'], gaps: ['Round 3 Supply timing presentation'],
+    assets: ['design/abilities (Supplier)', 'design/library/successor/ (the crate; the receipt\'s state and words)'], gaps: [],
   }),
   S('insider', 'Insider investigation', {
     status: 'existing (slice 1, approved)', audience: 'own-private (Insider)', trigger: 'knowledge.insiderSeatIds', fields: ['knowledge.insiderSeatIds'],
