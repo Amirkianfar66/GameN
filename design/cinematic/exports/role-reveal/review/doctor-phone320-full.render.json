@@ -1,0 +1,53 @@
+{
+  "tool": "design/tools/cinematic-render.mjs",
+  "pilot": "role-reveal",
+  "version": "cinematic-role-reveal-0.6.0",
+  "surface": "phone",
+  "variant": "full",
+  "stage": "design/cinematic/stage.html?pilot=role-reveal&surface=phone&variant=full&beds=4&w=320&h=568&role=Doctor&seat=6&character=c4",
+  "size": [
+    320,
+    568
+  ],
+  "deviceScale": 2,
+  "fixture": {
+    "role": "Doctor",
+    "seat": 6,
+    "character": "c4",
+    "synthetic": true
+  },
+  "browser": "Chromium 141.0.7390.37",
+  "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+  "outputs": [
+    {
+      "kind": "video",
+      "file": "design/cinematic/exports/role-reveal/review/doctor-phone320-full.mp4",
+      "sha256": "0f2d28997537a15a46799c0ac9ffb6369fda94b02ad0a709d395b7ca5a9ba65c",
+      "bytes": 1575425,
+      "fps": 30,
+      "frames": 301,
+      "durationMs": 10000,
+      "from": 0,
+      "to": 10000,
+      "audio": null
+    },
+    {
+      "kind": "preview",
+      "file": "design/cinematic/exports/role-reveal/review/doctor-phone320-full.preview.webp",
+      "sha256": "a1e337f6d654a45935d06c63790ef5580dd2ee464e7ef8173dcce653afc9ecb4",
+      "bytes": 367150
+    },
+    {
+      "kind": "poster",
+      "file": "design/cinematic/exports/role-reveal/review/doctor-phone320-full.poster.webp",
+      "sha256": "7fb89c1ecfe9816e065c845fc4124bf0a61ff900492e0c8eb179657c4fa3934e",
+      "bytes": 24330,
+      "t": 2400
+    }
+  ],
+  "settling": {
+    "rule": "a frame is kept once two captures a redraw apart agree; pictures decode before their tiles draw",
+    "resettled": 0,
+    "unsettled": []
+  }
+}

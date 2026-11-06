@@ -87,6 +87,18 @@ export const JOBS = [
   { pilot: 'eject', name: 'review/exterior-insert', surface: 'insert', variant: 'full', ...runtime, poster: '1200' },
 ];
 
+// The role reveal films (the owner, 6 November 2026): the Doctor's pilot on a phone, full and reduced,
+// opening in the briefing room with a stand-in player's character (c4). Review only: a film draws a
+// dealt role and the player's own character, so no render of one is ever a runtime asset (a client
+// draws it live from the frame functions). Silent: no cue mix. Rendered at twice the phone's CSS
+// pixels and a lower CRF than other review renders: the owner reviews line and lettering quality on
+// these (the animated comic's ink, hatching and narration).
+JOBS.push(
+  { pilot: 'role-reveal', name: 'review/doctor-phone390-full', variant: 'full', ...phone(390, 844), params: ['role=Doctor', 'seat=6', 'character=c4'], ...review, scale: '2', crf: '18', poster: '7400' },
+  { pilot: 'role-reveal', name: 'review/doctor-phone390-reduced', variant: 'reduced', ...phone(390, 844), params: ['role=Doctor', 'seat=6', 'character=c4'], ...review, scale: '2', crf: '18', poster: '5000' },
+  { pilot: 'role-reveal', name: 'review/doctor-phone320-full', variant: 'full', ...phone(320, 568), params: ['role=Doctor', 'seat=6', 'character=c4'], ...review, scale: '2', crf: '18', poster: '2400' },
+);
+
 /** Storyboard frames for the live-action studies: full-size frames of the cinematic forms (the cut, the stage, the page), kept as WebP. */
 export const STILLS = [
   { pilot: 'hospital-rescue', surface: 'cut', variant: 'full', ts: [300, 950, 1300, 2600, 3300, 3600, 4500, 5300, 5900] },

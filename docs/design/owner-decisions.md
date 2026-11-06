@@ -6,6 +6,169 @@ What the game owner decided about look, feel and presentation while working with
 
 The owner's messages are quoted as written.
 
+## 6 November 2026: fewer words
+
+**The owner found the film's text too much, like a tutorial, and asked for less of it.**
+
+The owner wrote:
+
+> Lets reduce texts in animation it is like tutorial
+
+| # | What it says | What it decides |
+| --- | --- | --- |
+| 1 | "reduce texts in animation" | Only the two memory panels keep a narration box, of a few words each (for the Doctor, "Colony Nine. The fever years." and "Two doses left."). The panel aboard and the title carry no line |
+| 2 | "it is like tutorial" | The film names no role and spells out no rule in words. The pictures show what the role does, and the rules stay on the role card |
+
+### What the Designer did with it
+
+- **The narration.** Every role's narration is cut to two short lines (`design/cinematic/pilots/role-reveal/copy.mjs`), and the storyboards match.
+- **The lettering.** Each box is lettered as a comic's caption, a sentence to a line ("COLONY NINE." over "THE FEVER YEARS."), and fitted to its words on every phone, so no line wraps by accident.
+- **Tests.** A test holds every line to a few words, naming no role, and holds the panel aboard and the title wordless.
+- **Unchanged.** The role is still announced in page text for screen readers at the title. The sound words (DRIP, BEEP) stay, as comic sound effects.
+
+## 6 November 2026: an animated comic's finish
+
+**The owner liked the back story and asked for better quality, like an animated comic book.**
+
+The owner wrote:
+
+> I like it just can we make it better quality like animated comicbook
+
+| # | What it says | What it decides |
+| --- | --- | --- |
+| 1 | "I like it" | The back story, its narration and the ten-second clock stay |
+| 2 | "better quality like animated comicbook" | The film is finished as a motion comic: a memory flash out of the gadget's glint, a guided camera panel by panel with a pull-back to the page, comic capitals for the narration, bold ink outlines, cross-hatched panel edges, paper grain, breathing and swaying figures, and review renders at twice the phone's pixels |
+
+### What the Designer did with it
+
+- **Shared by every role:** the flash, the camera and the panels' focus, the inking and the print. They are all timed by the shared clock, so they tell a neighbour nothing.
+- **Reduced motion** keeps its three stills, with none of the movement.
+- **Tests and renders.** A test covers the flash, the camera, the focus and the print. The three review renders are re-made at 2× and CRF 18.
+
+### What it does not settle
+
+- **Phones.** The renders are desktop Chromium. The filters' cost on a low-end phone is Frontend's to measure.
+- **The other eight films** stay storyboards until the owner reviews this pilot.
+
+## 6 November 2026: a back story for every role
+
+**The owner liked the relit pilot much better and asked for a story, then said what kind: a small back story, as a comic book gives each of its characters one, not necessarily the game's own story aboard the spaceship.**
+
+The owner wrote:
+
+> I like it much better but can we have a little bit storyline feeling
+
+> sory to intrupt you but story can be little back story maybe it is not really the story of the game in spaceship imagine it like a comic =book each character has a back story
+
+| # | What it says | What it decides |
+| --- | --- | --- |
+| 1 | "a little bit storyline feeling" | The three panels read as one story, told by a narration box on each panel |
+| 2 | "story can be little back story maybe it is not really the story of the game in spaceship" | The first two panels look back at who the role-holder was before the voyage. They are memory, drawn in sepia, and are fiction around the role. The third comes aboard, now, to what the role does |
+| 3 | "imagine it like a comic book each character has a back story" | Every role gets its own back story (`role-reveal.md`, section 3). It is told to "you", so it fits whichever crew character the player is, and that character is the protagonist wherever a figure is in colour |
+
+### What the Designer did with it
+
+- **The Doctor's back story.** "Colony Nine, the fever years": the player's own character at the foot of a cot in a field ward. "When the medicine ran out, you kept two doses": a medicine case with every slot empty but two. "Aboard, your number is the Hospital panel's code": the Mothership's Hospital, the keypad lighting the player's number. Under the title: "Two doses for the whole voyage. Who you tell your number is up to you."
+- **The other eight.** Their back stories and narration are written as proposals (`design/cinematic/pilots/role-reveal/copy.mjs`; storyboards in `role-reveal.md`).
+- **Ten seconds.** Every film is now ten seconds, the top of the owner's five to ten, to give the narration time to be read. It is still the same for every role.
+- **Unchanged.** The words stay page text, every colour of the sepia panels is checked as the filter draws it, and reduced motion keeps three stills.
+
+### What it does not settle
+
+- **"Character".** Designer reads it as each role (the Doctor, the Insider…), because the film is the role's. A back story for each of the nine crew characters (Vega, Rigel…) would be another piece of work, and the owner can ask for it.
+- **The words** are proposals; the game's copy is Frontend's. The places and names in the back stories (Colony Nine, Vesta Station, Ceres…) are fiction, not rules.
+- **The other eight films** stay storyboards until the owner reviews this pilot.
+
+## 6 November 2026: the pilot's card, light and finish
+
+**The owner reviewed the nine-second Doctor pilot and asked for three changes: the card on the desk must match the real role card, the patient and the medical equipment must be brighter, and the whole film should look like a high-end animated noir comic.**
+
+The owner wrote:
+
+> Rotation Doctor on the card is not good and not match with the card. Also Artistically, I would also brighten the patient and medical equipment slightly: the silhouettes blend into the dark backgrounds, especially once three panels share the screen. Make it more like Animation comic book Noir AAA style
+
+| # | What it says | What it decides |
+| --- | --- | --- |
+| 1 | "Rotation Doctor on the card is not good and not match with the card" | The card on the desk is now the player's own role card, drawn as the phone draws it: their portrait, the role's held device, and the name and team line set flat in its plate. It stands straight in a holder. The only turn on it is the portrait's own −2.5°, as on the phone's card, and a test holds that |
+| 2 | "brighten the patient and medical equipment slightly: the silhouettes blend into the dark backgrounds, especially once three panels share the screen" | The patient is a navy silhouette with a paper rim light and a pool of light on the wall behind. The berth, monitor, keypad and injector use the lit token steels with bevel highlights. Screens glow and cast their light, things stand on contact shadows, and the panels' walls are lifted |
+| 3 | "Make it more like Animation comic book Noir AAA style" | The film is shot as an animated comic. Each panel has three depth layers under a slow push, and the opener has two (2.5D). Light falls in volumetric beams with dust turning in it, panels land with impact lines, and a sheen crosses the title plate. The character leans in to take the gadget and looks at it as it rises |
+
+### What the Designer did with it
+
+- **The card** (`design/cinematic/pilots/role-reveal/briefing.mjs`) uses the phone card's own pieces and proportions: the crew portraits (`piece-crew.card-c1` to `c9`) and the held devices. Every phone now ships all nine portraits as well.
+- **The light** is in the Doctor's panels (`doctor.mjs`) and the shared art (`art.mjs`). The palette test still holds every colour drawn at least 30 from the faction accents. The card's small team swatch is the one exception, as on the phone's card.
+- **Reduced motion** keeps its three stills, with no dust, impact lines or sheen.
+- **The renders.** The three review renders are re-made.
+
+### What it does not settle
+
+- **"AAA"** is a direction, not a measured bar. The renders are desktop Chromium frames, not a phone.
+- **The other eight films** stay storyboards until the owner reviews this pilot.
+
+## 6 November 2026: the role film opens as the player takes the role
+
+**The owner reviewed the Doctor's seven-second pilot and asked for a first part that shows the player becoming the Doctor: before boarding the spaceship, the character takes the Hospital gadget from a table where the Doctor card lies, and then sees the three panels.**
+
+The owner wrote:
+
+> ویدیو دکتر ۷ ثانیه ایت خیلی خوبه برای توضیح نقش اما بنظرم یک تیکه اول می خوایم که نشون بده یارو دکتر شده شاید مانند اینکه character قبل سوار شدن به spaceship , gadget hospital  رو‌بر‌ میداره  از روی یک میز که روی میز کارت Doctor هست بعد اش این ۳ پنل رو‌ببینه که ساختی
+
+("Your seven-second Doctor video is very good for explaining the role, but I think we want a first part that shows the guy has become the Doctor: maybe like the character, before boarding the spaceship, picks up the Hospital gadget from a table with the Doctor card on it, and after that sees these three panels you made.")
+
+| # | What it says | What it decides |
+| --- | --- | --- |
+| 1 | "very good for explaining the role" | The three panels, the title and the two captions stay as they were |
+| 2 | "a first part that shows the guy has become the Doctor" | Every film opens on the moment the role is taken. The opener and its timing are the same for every role, so every film grows by the same amount |
+| 3 | "before boarding the spaceship", "picks up the Hospital gadget from a table with the Doctor card on it" | The briefing room at the dock, the night before the voyage. The Mothership waits beyond the viewport and the role card lies face up under a desk lamp. The player's own character takes the role's gadget from the desk and raises it into the light. The Doctor's gadget is the injector its role card draws, which holds the Hospital's two doses |
+| 4 | "after that sees these three panels" | The panels follow at 3 s. Every film is now 9 s long, the same for every role and inside the owner's five to ten seconds |
+
+### What the Designer did with it
+
+- **One opener for all nine roles** (`design/cinematic/pilots/role-reveal/briefing.mjs`). Only the card's name and picture and the gadget belong to the role. A test holds the room, the light, the character and the camera identical for every role.
+- **The player's own character.** The figure is the player's lobby character and the only one drawn in colour. The review renders use c4 as a stand-in.
+- **No team colour on the gadget.** The role card draws each device in its team's colour. The gadget in the opener is drawn large, so instead it catches the room's starlight, the same for every role. A team's colour stays small: on the card on the desk and on the title plate's emblem.
+- **Timing and handoff.** The three review renders are re-made at 9 s. The timing and the Frontend notes are in [docs/design/cinematic/role-reveal.md](cinematic/role-reveal.md).
+
+### What it does not settle
+
+- **"Hospital gadget".** Designer reads this as the Doctor's own device, the injector on its role card. The Hospital panel's keypad stays in panel 3.
+- **The other eight films** stay storyboards until the owner reviews this pilot. Each will open the same way, with its own gadget (`role-reveal.md`, section 2).
+- **Phones.** The pilot has been rendered in desktop Chromium only.
+
+## 6 November 2026: a film for every role
+
+**A request, then an approval and a creative brief: after seeing their role, each player sees a short film for that role, of five to ten seconds. The Designer proposed a fixed seven seconds for every role, shared privacy rules and one pilot (the Doctor) first; the owner agreed and set the direction.**
+
+The owner wrote:
+
+> می خوام بازیکن ها بعد از دیدن نقش شون یک animation کوتاه ببین پس کلا به ازای هر role یک animation 5 to 10 ثانیه ای . نظرت برای هر Role چیه
+
+("I want players to see a short animation after seeing their role, so one animation of 5 to 10 seconds for each role. What is your idea for each role?")
+
+After the Designer's proposal (the same length, sound and palette for every role, own phone only, a pilot first):
+
+> یا کل طرح و ایده ات موافقم فقط دوست دارم ازتباط انیمشن هر نقش با نقش و کارایی اش و فضای space و sci fi بازی و روح نوآر کمیک بوک هماهگ باشه و به داستان بتزی و محتوا بخوره
+
+("I agree with your whole plan and idea. I only want each role's animation to match the role and what it does, the game's space and sci-fi setting and the noir comic-book spirit, and to fit the game's story and content.")
+
+| # | What it says | What it decides |
+| --- | --- | --- |
+| 1 | "one animation of 5 to 10 seconds for each role" | A film per role after the role card, inside the role-reading stage. The Designer's plan makes every film exactly 7 s with the same beats, so no length or rhythm tells a neighbour anything |
+| 2 | "I agree with your whole plan and idea" | The shared rules: own phone only, silent, one palette and brightness, every film shipped to every phone, a tap skips, never replayed on a reconnect, a reduced-motion form; the Doctor's pilot before the other eight |
+| 3 | each film matches "the role and what it does", "space and sci-fi", "the noir comic-book spirit" and "the game's story and content" | Every film is a page of the ship's crew file in a space-noir comic: the role's own device in the light of a viewport's slats, three panels of what the role does in the ship's own rooms, the role's name stamped on the file |
+
+### What the Designer did with it
+
+The storyboards for all nine roles and the Doctor's pilot are on the branch `claude/designer-role-reveal`, stacked on #184 ([docs/design/cinematic/role-reveal.md](cinematic/role-reveal.md); `design/cinematic/pilots/role-reveal/`).
+
+After reviewing the pilot, the owner asked for an opener (the entry above). Every film has been nine seconds since then.
+
+### What it does not settle
+
+- **The other eight films** are storyboards until the owner reviews the Doctor's pilot on a phone.
+- **The words** are proposals; the game's copy is Frontend's.
+- **Phones.** The pilot has been rendered in desktop Chromium only.
+
 ## 6 November 2026: the Blackhole's stage, the route window and seven corrections
 
 **Two timing decisions, P27 and P28, and seven focused corrections, given to the Designer with the latest reviewed Designer head (`ff7b689`, PR [Amirkianfar66/GameN#183](https://github.com/Amirkianfar66/GameN/pull/183)). The owner marked the timing decisions as not to be reopened.**
