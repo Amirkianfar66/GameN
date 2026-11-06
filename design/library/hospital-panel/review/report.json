@@ -1,0 +1,882 @@
+{
+  "tool": "design/tools/library-capture.mjs",
+  "browser": "Chromium 141.0.7390.37",
+  "page": "design/library/hospital-panel/index.html",
+  "captures": [
+    {
+      "file": "design/library/hospital-panel/review/w390-patient-available-nine-players.png",
+      "sha256": "9f744f2505d0be7fb13e58589b7b201cf8b3af73190104b019ea392d5bff7357",
+      "bytes": 67569,
+      "state": "patient: available (nine players)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/w390-patient-available-seven-players.png",
+      "sha256": "fdb1e4b8c4b583d939b5eb19d63b3f87df20e5c140dc3ad1edc73afa641b7cb7",
+      "bytes": 67219,
+      "state": "patient: available (seven players)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/w390-patient-available-rescue-due-this-round.png",
+      "sha256": "af5f9a0096a262fbd1aa06d6b026ebb017eafa282a2f4c8971769d53b69b3a83",
+      "bytes": 68675,
+      "state": "patient: available (rescue due this round)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/w390-patient-available-the-doctor-as-a-patient-no-count.png",
+      "sha256": "3f73c52253637f14a49b9b4502d0427cb1babf62fd4ccd3d03e4b3849539a07c",
+      "bytes": 69319,
+      "state": "patient: available (the Doctor as a patient: no count)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/w390-patient-choosing.png",
+      "sha256": "ed0580f989fa00d241fa174b0fad4f888de664167c2c1ed2e814b6ba6c5fbb80",
+      "bytes": 64896,
+      "state": "patient: choosing",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/w390-patient-sending.png",
+      "sha256": "2132a937b59df6970f7155aa40310cedd241d2fd7e85fd3275e13a55752f95fe",
+      "bytes": 57418,
+      "state": "patient: sending",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/w390-patient-registered-r12-not-in-the-view.png",
+      "sha256": "f653152e6480da6349be766094e2ece55f454a46f6d43efd351b10458ec95773",
+      "bytes": 63139,
+      "state": "patient: registered (R12 not in the view)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/w390-patient-reserved-r12.png",
+      "sha256": "64c3dd8b0f10c3bc5a0693c6c235efc0908c8c24aa03c0e2c28302e3d236aa2b",
+      "bytes": 69534,
+      "state": "patient: reserved (R12)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/w390-patient-wrong-r12.png",
+      "sha256": "f48edaa256630b64eaa47aa85eccce8ce44eee6827db7d00a6dd75c2d8dfd41d",
+      "bytes": 63733,
+      "state": "patient: wrong (R12)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/w390-patient-exhausted-r12-no-injection-left.png",
+      "sha256": "0db3f6be7dffc4bf8967aab71c99f7939c2e042123961d10fb61f2c65d39d67f",
+      "bytes": 56581,
+      "state": "patient: exhausted (R12: no injection left)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/w390-patient-refused-not-allowed-the-reason-unknown.png",
+      "sha256": "7b724296aff04843d6ffad10e8d7eee91fb614b9a59fbd94adffa14d80ba171c",
+      "bytes": 54155,
+      "state": "patient: refused (NOT_ALLOWED: the reason unknown)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/w390-patient-closed-outside-the-turns.png",
+      "sha256": "efd835e2b5dd2d404026101deb7296301f0e9c22d4cc3b4899c75f5d43e460cf",
+      "bytes": 50777,
+      "state": "patient: closed (outside the turns)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/w390-patient-used-an-earlier-round-r12-not-in-the-view.png",
+      "sha256": "02b742e74ef1f4a6453d54c41a590f44489914f8f4c1180ac00d5964875555e1",
+      "bytes": 54410,
+      "state": "patient: used (an earlier round, R12 not in the view)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/w390-patient-treated-r12-r3-rules-this-out-a-healed-seat-leaves-the-hospital.png",
+      "sha256": "1aba5727b35422c3684287c9b1b1b546bcdb9ca22782db9adf0d92143d167cc3",
+      "bytes": 51666,
+      "state": "patient: treated (R12; R3 rules this out: a healed seat leaves the Hospital)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/w390-patient-no-effect-r12-r3-rules-this-out-a-healed-seat-leaves-the-hospital.png",
+      "sha256": "5f77fb9465032c25bf051a4f095220b805b638e5b62296c054610e8a6f28744d",
+      "bytes": 54354,
+      "state": "patient: no-effect (R12; R3 rules this out: a healed seat leaves the Hospital)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/w390-patient-discarded-r12.png",
+      "sha256": "d3f615e2c519f13c2e3e8a548cd2ad77c03e87d2e81ba2e706ef48307e31453e",
+      "bytes": 60549,
+      "state": "patient: discarded (R12)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/w390-patient-used-no-rescue-round-left.png",
+      "sha256": "0b7a4505aed8a5fc47fcf7f1903b6fe5a76f9b894e4d095baa10e847c7b56c90",
+      "bytes": 51946,
+      "state": "patient: used (no rescue round left)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/w390-not-a-patient-none.png",
+      "sha256": "4e1bb1e7ca924f3e2e37d3ec9245f4c138228e244c7d818cca853abd16e2757b",
+      "bytes": 15511,
+      "state": "not a patient: none",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/w390-tray-hospital-panel-a-patient.png",
+      "sha256": "4bb2ceb002c7530447d15a01141ff53bfa574dc4c966f00f16196ef2a2166210",
+      "bytes": 16697,
+      "state": "tray: Hospital panel (a patient)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/contact-w390.png",
+      "sha256": "6002968c0a09c3f8ca9f47bc90427572d6938068b271486887783942531861d2",
+      "bytes": 1112187,
+      "kind": "contact",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/w320-patient-available-nine-players.png",
+      "sha256": "966214ea30b8acda1a9accc94a216e153d4d9f44f8a35c6389927874c5e0203b",
+      "bytes": 65416,
+      "state": "patient: available (nine players)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/w320-patient-available-seven-players.png",
+      "sha256": "b766b4a23e98d470f1a4f3bce33460dcb6cef6e6f061516c3faee1d7ef2becdc",
+      "bytes": 64288,
+      "state": "patient: available (seven players)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/w320-patient-available-rescue-due-this-round.png",
+      "sha256": "5ad06c4f1f7614ab7bc097431e117dcd9d3f71fe2adde437ca2514b2aec260a2",
+      "bytes": 67271,
+      "state": "patient: available (rescue due this round)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/w320-patient-available-the-doctor-as-a-patient-no-count.png",
+      "sha256": "a2bc18f3e9996a2a8bb4e9bec731ba385bd2a60c405c835a573c85fdd9b0215a",
+      "bytes": 66728,
+      "state": "patient: available (the Doctor as a patient: no count)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/w320-patient-choosing.png",
+      "sha256": "a90b64565343571f7ee084ee3458777376b132ff276e7c922a6342a8a8792440",
+      "bytes": 61032,
+      "state": "patient: choosing",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/w320-patient-sending.png",
+      "sha256": "1476e9de9e0f02c69570bcee08bd42373c843487a06d5ecd82a1a76aeec34d36",
+      "bytes": 52768,
+      "state": "patient: sending",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/w320-patient-registered-r12-not-in-the-view.png",
+      "sha256": "6721e38d5bf61fb682c8c849bfc9a7750d74e05ebdb94331280b3652f0a5bddd",
+      "bytes": 57921,
+      "state": "patient: registered (R12 not in the view)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/w320-patient-reserved-r12.png",
+      "sha256": "22ac618edecdcccb4f0efa79870adf601e88d9acca5a8235d3d4374afd0de5ec",
+      "bytes": 64505,
+      "state": "patient: reserved (R12)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/w320-patient-wrong-r12.png",
+      "sha256": "9dd62226cb9e96f32b686aae93182d3ab605c43968f709d6267699336a0fb698",
+      "bytes": 58346,
+      "state": "patient: wrong (R12)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/w320-patient-exhausted-r12-no-injection-left.png",
+      "sha256": "1b809cf97f0320ef91c9b874c46f3218953355d9bc0b7401d50bba825cf6dc21",
+      "bytes": 51793,
+      "state": "patient: exhausted (R12: no injection left)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/w320-patient-refused-not-allowed-the-reason-unknown.png",
+      "sha256": "5a366f6e66bbdd028195fcb5d0b031382647cba16ba04dd386a53fe61e0af297",
+      "bytes": 49941,
+      "state": "patient: refused (NOT_ALLOWED: the reason unknown)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/w320-patient-closed-outside-the-turns.png",
+      "sha256": "8bbbea49a118f6d88b5216fdf604fad8bd92b437660cfee400a7478537d842d3",
+      "bytes": 46857,
+      "state": "patient: closed (outside the turns)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/w320-patient-used-an-earlier-round-r12-not-in-the-view.png",
+      "sha256": "fc922aa8178b9b21dde4e743738311fa2aa09e5f4a72fad3f2446f48014ef2eb",
+      "bytes": 50996,
+      "state": "patient: used (an earlier round, R12 not in the view)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/w320-patient-treated-r12-r3-rules-this-out-a-healed-seat-leaves-the-hospital.png",
+      "sha256": "a361b51ac41d611041a9acc391a06aeb31471cd3ca7b325eca11dd844cd963e5",
+      "bytes": 48326,
+      "state": "patient: treated (R12; R3 rules this out: a healed seat leaves the Hospital)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/w320-patient-no-effect-r12-r3-rules-this-out-a-healed-seat-leaves-the-hospital.png",
+      "sha256": "782b20cc488e0bbe9a4a7436b471eb90ec259f6eb3cefbd9f2d0760c015e290d",
+      "bytes": 50561,
+      "state": "patient: no-effect (R12; R3 rules this out: a healed seat leaves the Hospital)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/w320-patient-discarded-r12.png",
+      "sha256": "554753fda00c37f3c3451e21baf7d44e3d1890392ef17d323ce5ee8ab02d0d17",
+      "bytes": 56569,
+      "state": "patient: discarded (R12)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/w320-patient-used-no-rescue-round-left.png",
+      "sha256": "e861eafde0c9ad65342da8e83d8c27474a74bf801b95328e75b93b6673cd1abc",
+      "bytes": 47735,
+      "state": "patient: used (no rescue round left)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/w320-not-a-patient-none.png",
+      "sha256": "7ee43b27698a7d09c30eefe4d103a72bcb25d23b8876b022ef2c2c35cc53b654",
+      "bytes": 15386,
+      "state": "not a patient: none",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/w320-tray-hospital-panel-a-patient.png",
+      "sha256": "6f4cef522a02539eb3df8198581447e66ef48973937eb0e433efb31c8a9a0b6b",
+      "bytes": 16278,
+      "state": "tray: Hospital panel (a patient)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/contact-w320.png",
+      "sha256": "65992ade0f0f04c97522428a181f362d83ff72c95424f8c5fcfe97ab2da68dd6",
+      "bytes": 1058028,
+      "kind": "contact",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/w390-text200-patient-available-nine-players.png",
+      "sha256": "b927e38c53e3a34e6fce51a961db5723c623bd76004a0f232b744d51f8b435f9",
+      "bytes": 110022,
+      "state": "patient: available (nine players)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/w390-text200-patient-available-seven-players.png",
+      "sha256": "edff2bfb31e3a8e9af57c4aad713ca888b73de01278015ccb02d0e317ccb8e0b",
+      "bytes": 108275,
+      "state": "patient: available (seven players)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/w390-text200-patient-available-rescue-due-this-round.png",
+      "sha256": "a23b2af1155b1370c278c141f4a0600572b96eec400c8f99adeb692628ffb96c",
+      "bytes": 113288,
+      "state": "patient: available (rescue due this round)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/w390-text200-patient-available-the-doctor-as-a-patient-no-count.png",
+      "sha256": "068d0f868ae0a5b70c32ee160215f5cc1cba0e4862f8f65e8a8f55292fc8a437",
+      "bytes": 110873,
+      "state": "patient: available (the Doctor as a patient: no count)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/w390-text200-patient-choosing.png",
+      "sha256": "ee545ea05af9c7023c9b56ba9426588b18299d6d7169b7783f0595c25778ad24",
+      "bytes": 88868,
+      "state": "patient: choosing",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/w390-text200-patient-sending.png",
+      "sha256": "cef9682bf64b44cdf1cc883e11abf279b67d19bdeceaa508cdce420d97e7ed81",
+      "bytes": 76173,
+      "state": "patient: sending",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/w390-text200-patient-registered-r12-not-in-the-view.png",
+      "sha256": "144c30ef4107855f02dfd88428fa1e1efdc38de53a574e134e96667b49ba0f89",
+      "bytes": 91707,
+      "state": "patient: registered (R12 not in the view)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/w390-text200-patient-reserved-r12.png",
+      "sha256": "3fec5692f6b538eb3b157d45ffec748ea948ef2f3260b4f405a03eb11d1c9a07",
+      "bytes": 110327,
+      "state": "patient: reserved (R12)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/w390-text200-patient-wrong-r12.png",
+      "sha256": "88ab82937a7b3f96ca500a3f464395a35df3002ebf0917f037b0eb37b318d6ca",
+      "bytes": 89419,
+      "state": "patient: wrong (R12)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/w390-text200-patient-exhausted-r12-no-injection-left.png",
+      "sha256": "ee8208c402d5078b85b984a315d29954e944590ece71b4d1dad4ee84acee7a5b",
+      "bytes": 80913,
+      "state": "patient: exhausted (R12: no injection left)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/w390-text200-patient-refused-not-allowed-the-reason-unknown.png",
+      "sha256": "c056b134a444bf205e8c0342779e2f2b5e1e29acf3969e018ea7d4985eaa6193",
+      "bytes": 73942,
+      "state": "patient: refused (NOT_ALLOWED: the reason unknown)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/w390-text200-patient-closed-outside-the-turns.png",
+      "sha256": "76038615ce43e1184ac4ec199cbac4b24fce2eb549eea891fd0e37337d07c35d",
+      "bytes": 74198,
+      "state": "patient: closed (outside the turns)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/w390-text200-patient-used-an-earlier-round-r12-not-in-the-view.png",
+      "sha256": "7e544de136e31bea92b39793be6d00696177c4d3660f7e87fd4e9c8704622274",
+      "bytes": 74197,
+      "state": "patient: used (an earlier round, R12 not in the view)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/w390-text200-patient-treated-r12-r3-rules-this-out-a-healed-seat-leaves-the-hospital.png",
+      "sha256": "f3f949d1edc2dc79e80d623da4d273d603fd68e172b6065e50390f00376b8dfb",
+      "bytes": 65698,
+      "state": "patient: treated (R12; R3 rules this out: a healed seat leaves the Hospital)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/w390-text200-patient-no-effect-r12-r3-rules-this-out-a-healed-seat-leaves-the-hospital.png",
+      "sha256": "1f00459baeafcaece8b6f2946d46131f22ba0ffb720e926397b83ec437f39522",
+      "bytes": 73762,
+      "state": "patient: no-effect (R12; R3 rules this out: a healed seat leaves the Hospital)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/w390-text200-patient-discarded-r12.png",
+      "sha256": "36623dc4cf4ee4531075ede2a41bc8232ef680198f91afc481e8428895897afe",
+      "bytes": 86377,
+      "state": "patient: discarded (R12)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/w390-text200-patient-used-no-rescue-round-left.png",
+      "sha256": "87c95706753241cfb7d1fd3864e1feab4d0a1e464447d878750c29ad57db09bf",
+      "bytes": 68175,
+      "state": "patient: used (no rescue round left)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/contact-w390-text200-patient.png",
+      "sha256": "43d7942c42ebf87bb5652429daf8f4b984453b55bdf16325e5d8fe065971f3f1",
+      "bytes": 1555937,
+      "kind": "contact",
+      "width": 390,
+      "text": "200%",
+      "section": "patient"
+    },
+    {
+      "file": "design/library/hospital-panel/review/w390-text200-not-a-patient-none.png",
+      "sha256": "2f784f516e1d0a8617f7e94169b3ca3401a80cda95dfea3a4352945166c0cba2",
+      "bytes": 24768,
+      "state": "not a patient: none",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/w390-text200-tray-hospital-panel-a-patient.png",
+      "sha256": "f9ab6cdb59b62b236ad1a8f70ca2b7a2d8abc2f7c6d2dcf2809ce7c15487c83d",
+      "bytes": 22702,
+      "state": "tray: Hospital panel (a patient)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/hospital-panel/review/contact-w390-text200-others.png",
+      "sha256": "c5bedcae67f4e50a846dee6873d961af87ef645ca97222d36c536b2592ae1b80",
+      "bytes": 100141,
+      "kind": "contact",
+      "width": 390,
+      "text": "200%",
+      "section": "others"
+    },
+    {
+      "file": "design/library/hospital-panel/review/motion-press-0000.png",
+      "sha256": "0a5ea97196e9c7c07d3fdb5376b8e829c818649457cb5ae7c5d5126ded69514d",
+      "bytes": 34427,
+      "motion": "press",
+      "reduced": false,
+      "t": 0
+    },
+    {
+      "file": "design/library/hospital-panel/review/motion-press-0036.png",
+      "sha256": "1dbb9327e7e5d51b094e352429b9470640b1014e1810c1ccd70c13bec7b0e77c",
+      "bytes": 34601,
+      "motion": "press",
+      "reduced": false,
+      "t": 36
+    },
+    {
+      "file": "design/library/hospital-panel/review/motion-press-0072.png",
+      "sha256": "ea4abc8d39d7f5675caf9e786e7c6cbefb050d30b12c25bd20cc344c81d52295",
+      "bytes": 35923,
+      "motion": "press",
+      "reduced": false,
+      "t": 72
+    },
+    {
+      "file": "design/library/hospital-panel/review/motion-press-0108.png",
+      "sha256": "e901f04fbd1b1dd6d14390fc1d67e35e3f758fe08de085e0c18e98c8e5d48be0",
+      "bytes": 36091,
+      "motion": "press",
+      "reduced": false,
+      "t": 108
+    },
+    {
+      "file": "design/library/hospital-panel/review/motion-press-0144.png",
+      "sha256": "8b11b0ad4e8f2d2a256fd115050d77f65824211c12ac7f7dd1f956b12e647281",
+      "bytes": 36030,
+      "motion": "press",
+      "reduced": false,
+      "t": 144
+    },
+    {
+      "file": "design/library/hospital-panel/review/motion-press-0180.png",
+      "sha256": "8e413057d357aadd7a918222714d82008f47e93344bb3a9fa3a056fe544abfa3",
+      "bytes": 36277,
+      "motion": "press",
+      "reduced": false,
+      "t": 180
+    },
+    {
+      "file": "design/library/hospital-panel/review/motion-register-0000.png",
+      "sha256": "50d6366fd21f2395ba77b0e39ec007f0c7e93b321dd4514a772c69e00920df6f",
+      "bytes": 27659,
+      "motion": "register",
+      "reduced": false,
+      "t": 0
+    },
+    {
+      "file": "design/library/hospital-panel/review/motion-register-0120.png",
+      "sha256": "84940d762b2e5df2490400513059c2e78c144e3fe2a9ecabee64ef9119f43672",
+      "bytes": 28489,
+      "motion": "register",
+      "reduced": false,
+      "t": 120
+    },
+    {
+      "file": "design/library/hospital-panel/review/motion-register-0240.png",
+      "sha256": "08e4f7e697e0f09293893e1db95300b99e4e7cccf7c56502b55adba4687378aa",
+      "bytes": 28103,
+      "motion": "register",
+      "reduced": false,
+      "t": 240
+    },
+    {
+      "file": "design/library/hospital-panel/review/motion-register-0360.png",
+      "sha256": "719a0f73e150e6cd0ad14a632179b9e5a3c4ec7ed3c9b3e12cc24edbe5a19396",
+      "bytes": 28451,
+      "motion": "register",
+      "reduced": false,
+      "t": 360
+    },
+    {
+      "file": "design/library/hospital-panel/review/motion-register-0480.png",
+      "sha256": "0eddb18853393afd42896a1a430a7010deee8dd3dc9d32021542820472bdeb2b",
+      "bytes": 32055,
+      "motion": "register",
+      "reduced": false,
+      "t": 480
+    },
+    {
+      "file": "design/library/hospital-panel/review/motion-register-0600.png",
+      "sha256": "e77e0ff64d9bf922acf1521b78ea1773528df83c2c1b7109434bcdd2b12ec2d4",
+      "bytes": 31754,
+      "motion": "register",
+      "reduced": false,
+      "t": 600
+    },
+    {
+      "file": "design/library/hospital-panel/review/motion-reserve-0000.png",
+      "sha256": "6ea1bb012325ef2dca63b16b43b12a1b57b34ceb6a24bb6f9f055e637a3c4726",
+      "bytes": 26121,
+      "motion": "reserve",
+      "reduced": false,
+      "t": 0
+    },
+    {
+      "file": "design/library/hospital-panel/review/motion-reserve-0164.png",
+      "sha256": "0509c56d975916fb7d82c40d213c961f48c223711016462eef9befd2e972db77",
+      "bytes": 27534,
+      "motion": "reserve",
+      "reduced": false,
+      "t": 164
+    },
+    {
+      "file": "design/library/hospital-panel/review/motion-reserve-0328.png",
+      "sha256": "77e1af7d592aec00be9d1ea5aae52e35fe04f77dace267c088aacfb25453c500",
+      "bytes": 27416,
+      "motion": "reserve",
+      "reduced": false,
+      "t": 328
+    },
+    {
+      "file": "design/library/hospital-panel/review/motion-reserve-0492.png",
+      "sha256": "235d758d25dbb58e9d4964f2b9bdd4f69ea79c2676682d948e8e3ec46f76a0c2",
+      "bytes": 27458,
+      "motion": "reserve",
+      "reduced": false,
+      "t": 492
+    },
+    {
+      "file": "design/library/hospital-panel/review/motion-reserve-0656.png",
+      "sha256": "da149723c3cdf2b038ef0d8427ae5c63beab8136c7b65191641de0c619207fce",
+      "bytes": 32325,
+      "motion": "reserve",
+      "reduced": false,
+      "t": 656
+    },
+    {
+      "file": "design/library/hospital-panel/review/motion-reserve-0820.png",
+      "sha256": "71b3116acae1cc97b16b9b0c3fe4d0042f0746af272fb35ee5c1725e1432e819",
+      "bytes": 32254,
+      "motion": "reserve",
+      "reduced": false,
+      "t": 820
+    },
+    {
+      "file": "design/library/hospital-panel/review/motion-wrong-0000.png",
+      "sha256": "40ee003cf12d60460e02bafae25b789491022b0066bddc581712a67e32fb9175",
+      "bytes": 26720,
+      "motion": "wrong",
+      "reduced": false,
+      "t": 0
+    },
+    {
+      "file": "design/library/hospital-panel/review/motion-wrong-0112.png",
+      "sha256": "2249274bbbd9c905f189b0af3b403558e3e4cf73dab7c5206e1d418372b0caa5",
+      "bytes": 28540,
+      "motion": "wrong",
+      "reduced": false,
+      "t": 112
+    },
+    {
+      "file": "design/library/hospital-panel/review/motion-wrong-0224.png",
+      "sha256": "df7d71da18b4566df77b70fc83ca5507a9fbde79e14cd77403577eea94695c85",
+      "bytes": 28749,
+      "motion": "wrong",
+      "reduced": false,
+      "t": 224
+    },
+    {
+      "file": "design/library/hospital-panel/review/motion-wrong-0336.png",
+      "sha256": "bc9c5efaf6aa414e2624a72a1242209b0d4907ed10fa3195d3a5f110bf50c042",
+      "bytes": 35692,
+      "motion": "wrong",
+      "reduced": false,
+      "t": 336
+    },
+    {
+      "file": "design/library/hospital-panel/review/motion-wrong-0448.png",
+      "sha256": "e597001ea55a390e95dbab2cad074908b624af5bf9145296e5abacf8a722aee7",
+      "bytes": 35277,
+      "motion": "wrong",
+      "reduced": false,
+      "t": 448
+    },
+    {
+      "file": "design/library/hospital-panel/review/motion-wrong-0560.png",
+      "sha256": "adef6247bdc5ee105dc0a26d68e3d21da92b8e006fcda87f58684c1442c5d008",
+      "bytes": 35576,
+      "motion": "wrong",
+      "reduced": false,
+      "t": 560
+    },
+    {
+      "file": "design/library/hospital-panel/review/motion-press-reduced-0000.png",
+      "sha256": "410ebebfd50208082ba1e109d65a5d9c5260900790aab22bd01193385f5d410c",
+      "bytes": 34487,
+      "motion": "press",
+      "reduced": true,
+      "t": 0
+    },
+    {
+      "file": "design/library/hospital-panel/review/motion-press-reduced-0032.png",
+      "sha256": "35fac95dbe3a9491663ded8365d3cfa5d0b669aa25e4e32abcf9fc38cf031b92",
+      "bytes": 35794,
+      "motion": "press",
+      "reduced": true,
+      "t": 32
+    },
+    {
+      "file": "design/library/hospital-panel/review/motion-press-reduced-0064.png",
+      "sha256": "5c1909070eddb7c06d7126b13e961e64acd93ade89c3aa0db5965378b94eeb3f",
+      "bytes": 35939,
+      "motion": "press",
+      "reduced": true,
+      "t": 64
+    },
+    {
+      "file": "design/library/hospital-panel/review/motion-press-reduced-0096.png",
+      "sha256": "9137793f6580aceae996ea1ea68bb3a4e7706089e76a7d33fe0c3fabe36527fa",
+      "bytes": 36128,
+      "motion": "press",
+      "reduced": true,
+      "t": 96
+    },
+    {
+      "file": "design/library/hospital-panel/review/motion-press-reduced-0128.png",
+      "sha256": "8128e480135db680ec9e77aa3f4512208ff2f5804e934c41d41c6c85ba2e2423",
+      "bytes": 36268,
+      "motion": "press",
+      "reduced": true,
+      "t": 128
+    },
+    {
+      "file": "design/library/hospital-panel/review/motion-press-reduced-0160.png",
+      "sha256": "0b6e194ba87c3e14eb63968c0587ab54d3eadc47fa8bdae7e93c2563fa497679",
+      "bytes": 36263,
+      "motion": "press",
+      "reduced": true,
+      "t": 160
+    },
+    {
+      "file": "design/library/hospital-panel/review/motion-register-reduced-0000.png",
+      "sha256": "50d6366fd21f2395ba77b0e39ec007f0c7e93b321dd4514a772c69e00920df6f",
+      "bytes": 27659,
+      "motion": "register",
+      "reduced": true,
+      "t": 0
+    },
+    {
+      "file": "design/library/hospital-panel/review/motion-register-reduced-0032.png",
+      "sha256": "47f20185eef0ba0ab81f5cbce3903239885b2d4058ebd88bd4c1c1da291e90a4",
+      "bytes": 31577,
+      "motion": "register",
+      "reduced": true,
+      "t": 32
+    },
+    {
+      "file": "design/library/hospital-panel/review/motion-register-reduced-0064.png",
+      "sha256": "d6c5b20438ea2ece5c62660c3c25658a1b90fdcd870204d6d237e7821a4269c9",
+      "bytes": 32174,
+      "motion": "register",
+      "reduced": true,
+      "t": 64
+    },
+    {
+      "file": "design/library/hospital-panel/review/motion-register-reduced-0096.png",
+      "sha256": "c5fe50670174cba4c6da22930071b77482a00d3587d11b8854bb73d3e00eee47",
+      "bytes": 32522,
+      "motion": "register",
+      "reduced": true,
+      "t": 96
+    },
+    {
+      "file": "design/library/hospital-panel/review/motion-register-reduced-0128.png",
+      "sha256": "493a552c9a5ce204c08c5b5f2a7ca545cfd5290b1486ee2e1e4442a08b82d57e",
+      "bytes": 32711,
+      "motion": "register",
+      "reduced": true,
+      "t": 128
+    },
+    {
+      "file": "design/library/hospital-panel/review/motion-register-reduced-0160.png",
+      "sha256": "54c905f75ba427ecfaa194b2073db4b8e41c49d5f9dd4bab6da4371f302c736c",
+      "bytes": 31637,
+      "motion": "register",
+      "reduced": true,
+      "t": 160
+    },
+    {
+      "file": "design/library/hospital-panel/review/motion-reserve-reduced-0000.png",
+      "sha256": "6ea1bb012325ef2dca63b16b43b12a1b57b34ceb6a24bb6f9f055e637a3c4726",
+      "bytes": 26121,
+      "motion": "reserve",
+      "reduced": true,
+      "t": 0
+    },
+    {
+      "file": "design/library/hospital-panel/review/motion-reserve-reduced-0032.png",
+      "sha256": "eb0167bc89b07e28caa9253dde0c4ff26fe81b2b7841d69f8e3bc432f9bdc62d",
+      "bytes": 30546,
+      "motion": "reserve",
+      "reduced": true,
+      "t": 32
+    },
+    {
+      "file": "design/library/hospital-panel/review/motion-reserve-reduced-0064.png",
+      "sha256": "5d5fd1beb363b74c1c2a310f3325a9d2b7eb2cc40a4f639e59e83a31a99db34e",
+      "bytes": 31273,
+      "motion": "reserve",
+      "reduced": true,
+      "t": 64
+    },
+    {
+      "file": "design/library/hospital-panel/review/motion-reserve-reduced-0096.png",
+      "sha256": "d5263fa3e43d8afebce1b2f3a2346ddb994fee520159dab9713574da8cbc83c5",
+      "bytes": 31680,
+      "motion": "reserve",
+      "reduced": true,
+      "t": 96
+    },
+    {
+      "file": "design/library/hospital-panel/review/motion-reserve-reduced-0128.png",
+      "sha256": "38feb784d4277c10a6e90b5fed1c8cd0060b84c536e9fa7780bac2e845c4b713",
+      "bytes": 32086,
+      "motion": "reserve",
+      "reduced": true,
+      "t": 128
+    },
+    {
+      "file": "design/library/hospital-panel/review/motion-reserve-reduced-0160.png",
+      "sha256": "3a4d3fc9bdf35128a5b3b6729635aa659fc40e40245af066dd03a123f53f6f63",
+      "bytes": 32145,
+      "motion": "reserve",
+      "reduced": true,
+      "t": 160
+    },
+    {
+      "file": "design/library/hospital-panel/review/motion-wrong-reduced-0000.png",
+      "sha256": "40ee003cf12d60460e02bafae25b789491022b0066bddc581712a67e32fb9175",
+      "bytes": 26720,
+      "motion": "wrong",
+      "reduced": true,
+      "t": 0
+    },
+    {
+      "file": "design/library/hospital-panel/review/motion-wrong-reduced-0032.png",
+      "sha256": "c88048e0b1f88264f4df04a302a872a2c5bbf677730d616e4ace1baf3e4a3f9f",
+      "bytes": 33354,
+      "motion": "wrong",
+      "reduced": true,
+      "t": 32
+    },
+    {
+      "file": "design/library/hospital-panel/review/motion-wrong-reduced-0064.png",
+      "sha256": "8a1428af81ce2ff142858476fd97e60cfe815f6c4e3f63c9b9e8526c4e8848d8",
+      "bytes": 34492,
+      "motion": "wrong",
+      "reduced": true,
+      "t": 64
+    },
+    {
+      "file": "design/library/hospital-panel/review/motion-wrong-reduced-0096.png",
+      "sha256": "05ac65bfb3769dd8e3b61eb21f68b561b72df3a6c641b5808af35a2b2d4b8ad2",
+      "bytes": 35083,
+      "motion": "wrong",
+      "reduced": true,
+      "t": 96
+    },
+    {
+      "file": "design/library/hospital-panel/review/motion-wrong-reduced-0128.png",
+      "sha256": "a62dddb20c2b97ff47431294d62c7d1a3624aa75f15d408d52ef86313e46987d",
+      "bytes": 35672,
+      "motion": "wrong",
+      "reduced": true,
+      "t": 128
+    },
+    {
+      "file": "design/library/hospital-panel/review/motion-wrong-reduced-0160.png",
+      "sha256": "f0653fb4ee355e06f90101c4f3f4dfdff9549db4c0d394d157502b3329c9be2c",
+      "bytes": 35459,
+      "motion": "wrong",
+      "reduced": true,
+      "t": 160
+    }
+  ],
+  "problems": []
+}

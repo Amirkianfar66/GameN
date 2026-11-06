@@ -1,7 +1,7 @@
 // mothership:dev-only
 //
 // Writes the library groups' art from their sources:
-//   node design/tools/library-assets.mjs [--group hack-engineer|navigation] [--check]
+//   node design/tools/library-assets.mjs [--group hack-engineer|navigation|hospital-panel] [--check]
 // For each group (all of them unless --group names one), in design/library/<group>/assets/:
 //   <name>.svg       each picture, standalone, transparent
 //   <group css>      every picture as a custom property, as the dossier's abilities.art.css does: a
@@ -15,6 +15,7 @@ import { join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { LIBRARY_ART_VERSION, libraryAssets } from '../library/hack-engineer/art.mjs';
 import { NAV_ART_VERSION, navigationAssets } from '../library/navigation/art.mjs';
+import { PANEL_ART_VERSION, panelAssets } from '../library/hospital-panel/art.mjs';
 
 const repoRoot = resolve(fileURLToPath(new URL('../../', import.meta.url)));
 const sha256 = text => createHash('sha256').update(text).digest('hex');
@@ -32,6 +33,12 @@ export const GROUPS = Object.freeze({
     audience: 'office-private (the route instrument, its ship token, courses and tray mark: an office holder\'s own open private sheet) and public (the movement chip); loaded whole on every player phone whatever the role or office',
     note: '   The office panel\'s art is PRIVATE: drawn only inside the Captain\'s or the Officer\'s own open private sheet. The movement\n'
       + '   chip is public. Every player phone, once, with the ability art, before the first match view, whatever the seat\'s role or office.\n',
+  }),
+  'hospital-panel': Object.freeze({
+    version: PANEL_ART_VERSION, assets: panelAssets, source: 'design/library/hospital-panel/art.mjs', css: 'hospital-panel.art.css', prop: '--hp-asset-', hook: 'hospital-panel',
+    audience: 'patient-private: a living Hospital patient\'s own open private sheet (any role); loaded whole on every player phone whatever the role or place',
+    note: '   PRIVATE art: drawn only inside a Hospital patient\'s own open private sheet. Every player phone, once, with the ability art,\n'
+      + '   before the first match view, whatever the seat\'s role, place or health: which art arrives says nothing about who is a patient.\n',
   }),
 });
 

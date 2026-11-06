@@ -1,0 +1,34 @@
+/* mothership:dev-only · library group 3 review page: a Hospital patient's own code console, each state drawn from a
+   synthetic view through states.mjs; the frame is ../review.css. */
+
+/* The console: the body, the lamp, the cradle's vial, the strike and the scan over it, the digits at the screen's box.
+   Every picture is drawn only behind [data-art~="hospital-panel"]; without it, a plain navy plate of the same size. */
+.hp-console { position: relative; width: 100%; max-width: 360px; aspect-ratio: 320 / 150; justify-self: center; }
+.hp-layer { position: absolute; inset: 0; pointer-events: none; }
+.hp-base { background: #1B2747; border: 3px solid var(--ms-color-ink); border-radius: 14px; }
+[data-art~="hospital-panel"] .hp-base { background: var(--hp-asset-hp-console) center / 100% 100% no-repeat; border: 0; }
+[data-art~="hospital-panel"] .hp-overlay { background: var(--hp-art) center / 100% 100% no-repeat; }
+/* The screen's digits: page text, present only while the number is being chosen or sent. */
+.hp-screen { position: absolute; display: grid; place-items: center; font: 700 calc(30px * var(--lib-text, 1)) / 1 ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: 0.1em; color: #5FE0E8; text-shadow: 0 0 8px rgb(95 224 232 / 0.6); pointer-events: none; overflow: hidden; }
+[data-text="2"] .hp-screen { font-size: 40px; }
+.hp-scan { will-change: transform; }
+
+/* The keypad: player numbers only (never faces or names), every key the same; the picked key lit. These rules outrank
+   the dossier's first-button yellow (.ab-button:first-child), so no key is ever drawn as a suggestion. The digits are
+   art.mjs's KEY_DIGIT on KEY_FACE: paper on the steel cap, ink on the lit one (at least 4.5:1). */
+.hp-keys { display: grid; grid-template-columns: repeat(3, minmax(44px, 1fr)); gap: 8px; max-width: 280px; justify-self: center; width: 100%; }
+.hp-keys .ab-button.hp-key { min-height: 52px; padding: 0; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: calc(20px * var(--lib-text, 1)); font-weight: 800; color: #F4EBDD; background: #3A4A6B; border-radius: 11px; }
+.hp-keys .ab-button.hp-key[aria-pressed="true"] { color: #151923; background: #5FE0E8; }
+[data-art~="hospital-panel"] .hp-keys .ab-button.hp-key { background: var(--hp-asset-hp-key-plain) center / 100% 100% no-repeat; border-color: transparent; }
+[data-art~="hospital-panel"] .hp-keys .ab-button.hp-key[aria-pressed="true"] { background-image: var(--hp-asset-hp-key-picked); }
+
+/* The deadline line: the berth's rescue tag (approved art) and its words. */
+.hp-deadline { display: flex; gap: 8px; align-items: center; margin: 0; font-weight: 700; font-size: calc(13px * var(--lib-text, 1)); line-height: 1.3; }
+.hp-deadline img { width: calc(18px * var(--lib-text, 1)); height: auto; flex: none; }
+.hp-privacy { margin: 0; font-size: calc(12px * var(--lib-text, 1)); line-height: 1.3; color: var(--ms-color-steel-shadow); }
+.hp-none { margin: 0; font-size: calc(13px * var(--lib-text, 1)); color: var(--ms-color-text-secondary); }
+.hp-tray { display: flex; gap: 12px; align-items: center; padding: 12px 14px; background: var(--ms-color-paper); color: var(--ms-color-ink); border: 2px solid var(--ms-color-ink); border-radius: 12px; box-shadow: 3px 4px 0 rgb(21 25 35 / 0.45); }
+.hp-tray strong { display: block; font-size: calc(18px * var(--lib-text, 1)); line-height: 1.1; }
+.hp-tray span { color: var(--ms-color-steel-shadow); font-size: calc(14px * var(--lib-text, 1)); }
+.hp-icon { flex: none; width: 44px; aspect-ratio: 1; border-radius: 10px; background: #1B2747; }
+[data-art~="hospital-panel"] .hp-icon { background: var(--hp-asset-hp-icon-panel) center / contain no-repeat; }

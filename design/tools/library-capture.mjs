@@ -9,7 +9,7 @@
 // at least 44 px tall (the review page's own Play controls are tools, not game controls), no page
 // error, and at 200% text no visible sheet text under 24 px (12 px, the smallest size, doubled is 24).
 // 1x device pixels.
-//   node design/tools/library-capture.mjs [--group hack-engineer|navigation]
+//   node design/tools/library-capture.mjs [--group hack-engineer|navigation|hospital-panel]
 // Writes design/library/<group>/review/*.png and review/report.json. Needs CHROME_PATH.
 
 import { createHash } from 'node:crypto';
@@ -21,6 +21,7 @@ import { startStaticServer } from './lib/static-server.mjs';
 import { MOTION as HE_MOTION } from '../library/hack-engineer/motion.mjs';
 import { motionEnd as navMotionEnd } from '../library/navigation/motion.mjs';
 import { filmEnd as navFilmEnd } from '../library/navigation/films.mjs';
+import { motionEnd as panelMotionEnd } from '../library/hospital-panel/motion.mjs';
 
 const repoRoot = resolve(fileURLToPath(new URL('../../', import.meta.url)));
 const slug = text => text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
@@ -43,6 +44,10 @@ export const PLANS = Object.freeze({
       ['arrival-blue', reduced => navFilmEnd('arrival-blue', 'phone', variant(reduced))],
       ['arrival-red', reduced => navFilmEnd('arrival-red', 'phone', variant(reduced))],
     ],
+  }),
+  'hospital-panel': Object.freeze({
+    text200: ['patient', 'others'],
+    motions: ['press', 'register', 'reserve', 'wrong'].map(kind => [kind, reduced => panelMotionEnd(kind, reduced)]),
   }),
 });
 

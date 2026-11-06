@@ -9,7 +9,7 @@
 // a trigger, the entry says so and names the request (REQUESTS), and the scene stays a labeled
 // design fixture until the contract supports it. Nothing here is a game rule.
 
-export const CATALOGUE_VERSION = 'cinematic-catalogue-0.3.0';
+export const CATALOGUE_VERSION = 'cinematic-catalogue-0.4.0';
 export const CONTRACT = Object.freeze({ protocol: 3, engine: 'planet-game-1.0.0', ruleset: 'in-person-planet-2026-11-05', file: 'packages/contracts/src/planet-game.ts', commit: '79418e72dba99ba99afe047ecb97467fb5e73b62', status: 'candidate; not adopted into runtime' });
 
 /** The lifecycle every presentation follows (the motion bible's rules, for every scene below). */
@@ -40,6 +40,7 @@ export const REQUESTS = Object.freeze([
   { id: 'R9', scene: 'hack-spaceship', ask: 'abilities.shipHackSpent cannot tell a hack registered this round (still to apply at this round\'s navigation) from one used in an earlier round. Add abilities.shipHackRound (Hacker only) so the file can say "applies at this round\'s navigation" or "used in Round N". Until then a spent hack is drawn as used, its round unnamed.' },
   { id: 'R10', scene: 'navigation', ask: 'The owner\'s rule is that the Officer privately sees an undecided course (the navigation overlay, confirmed rule 4), but phase.kind NAV_TIE is in every view, the public view and the Captain\'s included, and its 15 s stage runs only on a tie. The public strip and the Captain\'s panel draw the tie stage exactly as the acknowledgement stages ("the course is being set"); the phase kind and its timing still tell anyone. Ask: a neutral phase kind for the tie stage outside the Officer\'s view, or the owner\'s acceptance that a tie is public by its timing.' },
   { id: 'R11', scene: 'navigation', ask: 'privateNavigation.tieChoice and .confirmation have no settled meaning (a tie to choose now, or one chosen; the acknowledgement awaited, or one given). The office panel reads the stage from phase.kind, the controls from offers, and "acknowledged" only from the client\'s own accepted receipt, so an office that reconnects after acknowledging sees "your acknowledgement is closed". Ask: define them, for example confirmation as the acknowledgements already given, so a reconnect can say "you acknowledged".' },
+  { id: 'R12', scene: 'hospital-panel-death', ask: 'The patient\'s console cannot show its own result. An accepted PANEL_CODE is only REGISTERED, and abilities.panelAttemptSpent turns true for a right and a wrong number alike, so the view never says whether a shared injection was reserved, whether the Rescue stage treated the patient or spent it without effect, or whether the Blackhole\'s Sync did not keep the request; and no rejection code says that no injection was available (P21: the request is refused before the number is checked, and nothing is spent). The brief asks for pending-reservation, wrong, exhausted and no-effect feedback. Ask: the patient\'s own record, e.g. abilities.panelRequest { round, result: RESERVED | WRONG, status: QUEUED | TREATED | NO_EFFECT | DISCARDED } (that patient only, never the Doctor\'s count), and a rejection code NO_INJECTION that is the same whatever number was sent, so an empty inventory never confirms the Doctor\'s number. If the owner prefers the patient not to learn the result before the Rescue stage, the server sends no result and the console keeps "registered"; it never guesses. Until then the console says only "Your number is registered. Your one attempt is used." and a refusal says "Nothing was used".' },
 ]);
 
 const S = (id, scene, fields) => Object.freeze({ id, scene, ...fields });
@@ -146,13 +147,13 @@ export const CATALOGUE = Object.freeze([
     assets: ['design/cinematic/pilots/hospital-rescue/', 'design/board-v2/films/medical.mjs (S5)'], gaps: ['live-action insert: study only (NOT PRODUCED)'], request: 'R3',
   }),
   S('hospital-panel-death', 'Hospital panel and death', {
-    status: 'existing S9 / S10 + gap', audience: 'patient-private panel; public death',
-    trigger: 'player view abilities.panelAttemptSpent, injectionsRemaining (Doctor); events ELIMINATED with clinicalAnchor', fields: ['abilities.panelAttemptSpent', 'board.seats[].medical (deadline)', 'events ELIMINATED'],
-    beats: { start: 'critical loop S9', loop: 'deadline', exit: 'flatline S10 and shutdown' },
-    durations: { full: 'S10 flatline (flatlineEnd())', reduced: 'still states' },
-    final: 'body at the berth or offboard', cancel: 'Rescue resolved first (server order)', precedence: 'death before rescue at one berth',
-    audio: 'monitor flatline tone (public, soft)', reduced: 'stills', rosters: 'four beds', concurrency: 'per berth',
-    assets: ['design/board-v2/films/medical.mjs (S9, S10)'], gaps: ['patient-private code console: pending reservation, wrong / exhausted / no-effect feedback (the empty inventory checks no code)'],
+    status: 'existing S9 / S10 + library group 3 (proposal)', audience: 'patient-private panel (the patient\'s own phone, any role); public death',
+    trigger: 'player view offers PANEL_CODE, abilities.panelAttemptSpent, board.seats[].medical; the PANEL_CODE receipt; R12 abilities.panelRequest and rejection NO_INJECTION (proposed); events ELIMINATED with clinicalAnchor', fields: ['offers[] PANEL_CODE', 'abilities.panelAttemptSpent', 'board.seats[].medical (deadline)', 'R12 abilities.panelRequest', 'events ELIMINATED'],
+    beats: { start: 'critical loop S9; the console\'s keypad while PANEL_CODE is offered', loop: 'deadline; a number picked, confirmed and sent', exit: 'the receipt (registered), R12 results (reserved, wrong) and fates (treated, no effect, not kept); flatline S10 and shutdown' },
+    durations: { full: 'S10 flatline (flatlineEnd()); console: press 180 ms, register 600 ms, reserve 820 ms, wrong 560 ms', reduced: 'still states; console fades of 160 ms' },
+    final: 'body at the berth or offboard; the console at rest in its state', cancel: 'Rescue resolved first (server order); the console: phase end, a refused command changes nothing', precedence: 'death before rescue at one berth; the console is own-phone only',
+    audio: 'monitor flatline tone (public, soft); none for the console (a sound would tell the ward that a number was tried)', reduced: 'stills', rosters: 'four beds; keypad 1 to 7, 8 or 9', concurrency: 'per berth; one panel attempt per player per match',
+    assets: ['design/board-v2/films/medical.mjs (S9, S10)', 'design/library/hospital-panel/ (console, lamps, vial, strike, scan, key caps, tray mark; state map, words, motion)'], gaps: [], request: 'R12',
   }),
   S('supplier', 'Supplier and weapons', {
     status: 'existing (slice 3) + gap', audience: 'own-private', trigger: 'player view self.ordinaryWeapons; command results', fields: ['self.ordinaryWeapons', 'offers[] (two-target)'],

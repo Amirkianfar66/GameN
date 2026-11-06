@@ -174,7 +174,6 @@ What the catalogue (docs/design/cinematic/motion-bible.md) still needs, by scene
 | Captain EJECT | existing S7 (approved art, #159) | a cinematic display cut (proposal, after the pilots review) |
 | Ordinary shot and injury | existing (slice 4, Blackout impact) + gap | a successor admission walk (proposal) |
 | Doctor Rescue | PILOT 1 (cinematic pass over the approved S5): the board treatment on phones and the display; the display cut only where nobody decides | live-action insert: study only (NOT PRODUCED) |
-| Hospital panel and death | existing S9 / S10 + gap | patient-private code console: pending reservation, wrong / exhausted / no-effect feedback (the empty inventory checks no code) |
 | Supplier and weapons | existing (slice 3) + gap | Round 3 Supply timing presentation |
 | Hack Spaceship | library group 1 (proposal) | no public or office cue for the hack beyond the direction itself: none is authorized |
 | Private Talk capsule | PILOT 3 (the display's entrance page over the approved S2, in the result stage; the talk and the exit are S2 on the board everywhere) | live-action study not needed (comic-only by design) |
