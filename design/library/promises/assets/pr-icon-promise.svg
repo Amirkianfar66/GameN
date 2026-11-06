@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · library art proposal · pr-icon-promise library-promises-0.1.0 · generated, do not edit by hand
+  The tray mark for Promises: a small card with its band and a seal.
+  Built by design/tools/library-assets.mjs from design/library/promises/art.mjs. Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48"><g id="pr-icon-promise"><rect x="7" y="9" width="36" height="32" rx="4" fill="#151923" opacity="0.4"/><rect x="5" y="7" width="36" height="32" rx="4" fill="#F4EBDD" stroke="#151923" stroke-width="3"/><path d="M6.5 8.5 H39.5 V17 H6.5 Z" fill="#1B2747"/><path d="M6.5 17 H39.5" stroke="#F7C52B" stroke-width="2"/><path d="M11 24 H31 M11 29 H25" stroke="#8D97A8" stroke-width="2"/><circle cx="35" cy="34" r="8" fill="#F4EBDD" stroke="#151923" stroke-width="2.4"/><circle cx="35" cy="34" r="5" fill="none" stroke="#F2A33A" stroke-width="2.6"/></g></svg>

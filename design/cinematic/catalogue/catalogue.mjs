@@ -9,7 +9,7 @@
 // a trigger, the entry says so and names the request (REQUESTS), and the scene stays a labeled
 // design fixture until the contract supports it. Nothing here is a game rule.
 
-export const CATALOGUE_VERSION = 'cinematic-catalogue-0.4.0';
+export const CATALOGUE_VERSION = 'cinematic-catalogue-0.5.0';
 export const CONTRACT = Object.freeze({ protocol: 3, engine: 'planet-game-1.0.0', ruleset: 'in-person-planet-2026-11-05', file: 'packages/contracts/src/planet-game.ts', commit: '79418e72dba99ba99afe047ecb97467fb5e73b62', status: 'candidate; not adopted into runtime' });
 
 /** The lifecycle every presentation follows (the motion bible's rules, for every scene below). */
@@ -41,6 +41,7 @@ export const REQUESTS = Object.freeze([
   { id: 'R10', scene: 'navigation', ask: 'The owner\'s rule is that the Officer privately sees an undecided course (the navigation overlay, confirmed rule 4), but phase.kind NAV_TIE is in every view, the public view and the Captain\'s included, and its 15 s stage runs only on a tie. The public strip and the Captain\'s panel draw the tie stage exactly as the acknowledgement stages ("the course is being set"); the phase kind and its timing still tell anyone. Ask: a neutral phase kind for the tie stage outside the Officer\'s view, or the owner\'s acceptance that a tie is public by its timing.' },
   { id: 'R11', scene: 'navigation', ask: 'privateNavigation.tieChoice and .confirmation have no settled meaning (a tie to choose now, or one chosen; the acknowledgement awaited, or one given). The office panel reads the stage from phase.kind, the controls from offers, and "acknowledged" only from the client\'s own accepted receipt, so an office that reconnects after acknowledging sees "your acknowledgement is closed". Ask: define them, for example confirmation as the acknowledgements already given, so a reconnect can say "you acknowledged".' },
   { id: 'R12', scene: 'hospital-panel-death', ask: 'The patient\'s console cannot show its own result. An accepted PANEL_CODE is only REGISTERED, and abilities.panelAttemptSpent turns true for a right and a wrong number alike, so the view never says whether a shared injection was reserved, whether the Rescue stage treated the patient or spent it without effect, or whether the Blackhole\'s Sync did not keep the request; and no rejection code says that no injection was available (P21: the request is refused before the number is checked, and nothing is spent). The brief asks for pending-reservation, wrong, exhausted and no-effect feedback. Ask: the patient\'s own record, e.g. abilities.panelRequest { round, result: RESERVED | WRONG, status: QUEUED | TREATED | NO_EFFECT | DISCARDED } (that patient only, never the Doctor\'s count), and a rejection code NO_INJECTION that is the same whatever number was sent, so an empty inventory never confirms the Doctor\'s number. If the owner prefers the patient not to learn the result before the Rescue stage, the server sends no result and the console keeps "registered"; it never guesses. Until then the console says only "Your number is registered. Your one attempt is used." and a refusal says "Nothing was used".' },
+  { id: 'R13', scene: 'promises', ask: 'A Promise card must state its exact terms (brief; motion requirements), but three terms and one field have no stated sense. (a) NO_JAIL_VOTE has no target (the contract allows one only on JAIL_VOTE): does it rule out voting to jail the recipient, or any Jail ballot at all? The cards read it as "not against the recipient". (b) MEET_A and MEET_B are evaluated at voting start after Sync: whose place decides, the giver\'s alone or both players\'? The cards read it as the giver\'s. (c) electionId is an opaque identifier: add the election\'s round (e.g. electionRound) so a card can say "Round 5\'s Captain election", not only "the next Captain election". (d) promiseQuota.given and .received: does true mean the lifetime slot is used, or still open? Until defined, the ledger reads the slots from the accepted records and never reads promiseQuota.' },
 ]);
 
 const S = (id, scene, fields) => Object.freeze({ id, scene, ...fields });
@@ -211,10 +212,13 @@ export const CATALOGUE = Object.freeze([
     assets: ['design/library/navigation/ (route panel, 10 course overlays, ship token, tray mark, movement chip; films: transit and both arrivals; exports in design/cinematic/exports/navigation/)', 'design/cinematic/pilots/blackhole/art.mjs shipSvg() (the ship in profile)'], gaps: [], request: ['R5', 'R10', 'R11'],
   }),
   S('promises', 'Promises', {
-    status: 'gap (proposal)', audience: 'pair-private', trigger: 'promises[], promiseQuota', fields: ['promises[]', 'promiseQuota'],
-    beats: { start: 'offer card', loop: 'accept / decline', exit: 'result stamp' }, durations: { full: '900 ms', reduced: 'swap' },
-    final: 'result state', cancel: 'phase end', precedence: 'own phone', audio: 'none public', reduced: 'swap', rosters: 'n/a', concurrency: 'one given, one received per match',
-    assets: [], gaps: ['six cards and four result states'], request: 'R6',
+    status: 'library group 4 (proposal)', audience: 'pair-private (the giver\'s and the recipient\'s own phones only)',
+    trigger: 'offers OFFER_PROMISE (targetSeatIds, promiseTargetSeatIds), ACCEPT_PROMISE, DECLINE_PROMISE during private talk (phase HACK); promises[] (offerStatus, status) and the command receipts', fields: ['offers[] OFFER_PROMISE / ACCEPT_PROMISE / DECLINE_PROMISE', 'promises[]', 'promiseQuota (not read: R13)'],
+    beats: { start: 'six cards in private talk; the exact terms reviewed before sending', loop: 'the offer in transit; Accept and Decline of equal weight', exit: 'the Pending seal on acceptance; the result\'s seal as that Promise\'s own opportunity closes (R6)' },
+    durations: { full: 'offer 720 ms, arrive 760 ms, accept 560 ms, decline 600 ms, result 720 ms', reduced: 'fades of 160 ms' },
+    final: 'the ledger: one Promise given and one received, each with its status', cancel: 'phase end (an unanswered offer expires); a refused command changes nothing; a reconnect draws everything at rest', precedence: 'own phone (pair-private)',
+    audio: 'none (pair-private: a sound would tell the table that a Promise was offered, made or decided)', reduced: 'fades', rosters: 'n/a', concurrency: 'one accepted Promise given and one received per match; declined and unanswered offers use nothing',
+    assets: ['design/library/promises/ (six kind pictures, four result seals, the envelope, the card band and the tray mark; state maps, words, motion)'], gaps: [], request: ['R6', 'R13'],
   }),
   S('windows', 'Windows and drawing', {
     status: 'gap (proposal)', audience: 'window-scoped', trigger: 'windows[] (canDraw, drawings[])', fields: ['windows[]'],

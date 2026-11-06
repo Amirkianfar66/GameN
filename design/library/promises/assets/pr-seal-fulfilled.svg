@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · library art proposal · pr-seal-fulfilled library-promises-0.1.0 · generated, do not edit by hand
+  Fulfilled: a green seal with a check. Pair-private; the words beside it carry the meaning too.
+  Built by design/tools/library-assets.mjs from design/library/promises/art.mjs. Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64"><g id="pr-seal-fulfilled"><circle cx="32" cy="34" r="25" fill="#151923" opacity="0.35"/><circle cx="32" cy="32" r="25" fill="#6FE3B0" stroke="#151923" stroke-width="3"/><circle cx="32" cy="32" r="19.5" fill="none" stroke="#F4EBDD" stroke-width="1.6" opacity="0.8"/><path d="M21 33 L29 41 L44 23" stroke="#151923" stroke-width="5.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></g></svg>

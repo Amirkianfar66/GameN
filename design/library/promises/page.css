@@ -1,0 +1,71 @@
+/* mothership:dev-only · library group 4 review page: Promises (the giver's composer, the recipient's inbox, the
+   ledger), each state drawn from a synthetic view through states.mjs; the frame is ../review.css. Every picture is
+   drawn only behind [data-art~="promises"]; without it, plain ink-and-paper boxes of the same size. Pictures that sit
+   beside words (icons, seals, the envelope) grow with the reader's text size. */
+
+/* The card: paper, an ink edge, the band with the kind's icon and title, the exact term, its fields, its result. */
+.pr-card { display: grid; background: var(--ms-color-paper); color: var(--ms-color-ink); border: 3px solid var(--ms-color-ink); border-radius: 10px; box-shadow: 3px 4px 0 rgb(21 25 35 / 0.45); overflow: hidden; }
+.pr-band { display: flex; gap: 10px; align-items: center; padding: 6px 12px 10px; min-height: 56px; background: #1B2747; }
+[data-art~="promises"] .pr-band { background: var(--pr-asset-pr-band) center / 100% 100% no-repeat; }
+.pr-kind { position: relative; flex: none; width: calc(44px * var(--lib-text, 1)); aspect-ratio: 1; border-radius: 8px; background: #3A4A6B; }
+[data-art~="promises"] .pr-kind, [data-art~="promises"] .pr-tile__icon { background: var(--pr-art) center / contain no-repeat; border-radius: 0; }
+/* The room letter on a door's plate: page text at the plate's anchor, as large as the plate allows. */
+.pr-plate { position: absolute; display: grid; place-items: center; font: 800 calc(12px * var(--lib-text, 1)) / 1 var(--ms-font-lettering, sans-serif); color: var(--ms-color-ink); }
+.pr-title { margin: 0; font-family: var(--ms-font-lettering); font-weight: var(--ms-weight-lettering); font-size: calc(16px * var(--lib-text, 1)); line-height: 1.15; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ms-color-paper); }
+.pr-term { margin: 10px 12px 6px; font-weight: 800; font-size: calc(15px * var(--lib-text, 1)); line-height: 1.3; }
+.pr-fields { display: grid; grid-template-columns: auto 1fr; gap: 3px 10px; margin: 0 12px 12px; font-size: calc(13px * var(--lib-text, 1)); line-height: 1.3; }
+.pr-fields dt { color: var(--ms-color-steel-shadow); font-weight: 700; }
+.pr-fields dd { margin: 0; }
+/* At large text the fields stack, each value under its name, so no value wraps a word to a line. */
+[data-text="2"] .pr-fields { grid-template-columns: 1fr; gap: 0; }
+[data-text="2"] .pr-fields dd { margin-bottom: 6px; }
+.pr-status { display: flex; gap: 10px; align-items: center; padding: 10px 12px; border-top: 2px dashed rgb(21 25 35 / 0.35); }
+.pr-status p { margin: 0; font-weight: 700; font-size: calc(13px * var(--lib-text, 1)); line-height: 1.3; }
+.pr-seal { flex: none; width: calc(48px * var(--lib-text, 1)); aspect-ratio: 1; border-radius: 50%; background: #8D97A8; }
+[data-art~="promises"] .pr-seal { background: var(--pr-art) center / contain no-repeat; border-radius: 0; }
+.pr-note { margin: 0; font-size: calc(13px * var(--lib-text, 1)); line-height: 1.3; color: var(--ms-color-steel-shadow); }
+.pr-card .pr-note { margin: 0 12px 12px; }
+
+/* The six cards to choose from: the same frame and weight for every kind (no suggestion), one column when narrow. */
+.pr-tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 160px), 1fr)); gap: 8px; }
+.pr-tile { display: flex; gap: 8px; align-items: center; min-height: 64px; padding: 8px 10px; text-align: left; font: inherit; color: var(--ms-color-ink); background: var(--ms-color-paper); border: 2px solid var(--ms-color-ink); border-radius: 10px; box-shadow: 2px 3px 0 rgb(21 25 35 / 0.35); cursor: pointer; }
+.pr-tile__icon { position: relative; flex: none; width: calc(40px * var(--lib-text, 1)); aspect-ratio: 1; border-radius: 8px; background: #3A4A6B; }
+.pr-tile__icon .pr-plate { font-size: calc(11px * var(--lib-text, 1)); }
+.pr-tile__text { display: grid; gap: 2px; min-width: 0; }
+.pr-tile__text strong { font-size: calc(14px * var(--lib-text, 1)); line-height: 1.15; }
+.pr-tile__text span { font-size: calc(12px * var(--lib-text, 1)); line-height: 1.25; color: var(--ms-color-steel-shadow); }
+
+/* The Jail Vote's target: player numbers and names, every button the same (the dossier's first-button yellow is outranked). */
+.pr-targets { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 96px), 1fr)); gap: 8px; }
+.pr-targets .ab-button.pr-target, .pr-even .ab-button { display: inline-flex; justify-content: center; align-items: center; background: var(--ms-color-paper-shade); }
+
+/* The ledger's two slots: a card, or a dashed empty place. */
+.pr-slot { display: grid; gap: 6px; }
+.pr-slot h4 { margin: 0; font-size: calc(14px * var(--lib-text, 1)); line-height: 1.2; }
+.pr-slot--empty { padding: 12px; border: 2px dashed rgb(21 25 35 / 0.4); border-radius: 10px; }
+.pr-slot--empty p { margin: 0; font-size: calc(13px * var(--lib-text, 1)); color: var(--ms-color-steel-shadow); }
+.pr-privacy { margin: 0; font-size: calc(12px * var(--lib-text, 1)); line-height: 1.3; color: var(--ms-color-steel-shadow); }
+
+/* The offer in transit. */
+.pr-envelope { display: block; justify-self: center; width: calc(64px * var(--lib-text, 1)); aspect-ratio: 1; border-radius: 6px; background: #E6D8C0; }
+[data-art~="promises"] .pr-envelope { background: var(--pr-art) center / contain no-repeat; border-radius: 0; }
+
+.pr-none { margin: 0; font-size: calc(13px * var(--lib-text, 1)); color: var(--ms-color-text-secondary); }
+.pr-tray { display: flex; gap: 12px; align-items: center; padding: 12px 14px; background: var(--ms-color-paper); color: var(--ms-color-ink); border: 2px solid var(--ms-color-ink); border-radius: 12px; box-shadow: 3px 4px 0 rgb(21 25 35 / 0.45); }
+.pr-tray strong { display: block; font-size: calc(18px * var(--lib-text, 1)); line-height: 1.1; }
+.pr-tray span { color: var(--ms-color-steel-shadow); font-size: calc(14px * var(--lib-text, 1)); }
+.pr-icon { flex: none; width: 44px; aspect-ratio: 1; border-radius: 10px; background: #1B2747; }
+[data-art~="promises"] .pr-icon { background: var(--pr-asset-pr-icon-promise) center / contain no-repeat; }
+.pr-r13 { margin: 0; padding-left: 18px; font-size: calc(13px * var(--lib-text, 1)); line-height: 1.35; }
+
+/* Motion stages: the card, and the pieces that move over it. */
+.pr-stage { position: relative; }
+.pr-envelope--float { position: absolute; left: 50%; top: 50%; width: 96px; transform: translate(-50%, -50%); }
+/* The status row's seal as a motion anchor: the spreading ring, and the result's seal stacked on the Pending one. In the
+   result motion the Pending seal's own picture turns away (a pseudo-element carries it) while the result's turns in. */
+.pr-seal--anchor { position: relative; }
+.pr-ring, .pr-seal--after { position: absolute; inset: 0; pointer-events: none; }
+.pr-ring { border: 3px solid var(--ms-color-ink); border-radius: 50%; }
+.pr-seal--after { width: auto; opacity: 0; }
+[data-art~="promises"] .pr-seal--anchor:has(.pr-seal--after) { background: none; }
+[data-art~="promises"] .pr-seal--anchor:has(.pr-seal--after)::before { content: ''; position: absolute; inset: 0; background: var(--pr-art) center / contain no-repeat; transform: scaleX(var(--pr-before-turn, 1)); opacity: var(--pr-before-opacity, 1); }

@@ -1,0 +1,130 @@
+{
+  "version": "library-promises-0.1.0",
+  "generatedBy": "design/tools/library-assets.mjs",
+  "source": "design/library/promises/art.mjs",
+  "audience": "pair-private: the giver's and the recipient's own open private sheets (the composer, the inbox, the ledger); loaded whole on every player phone",
+  "assets": [
+    {
+      "name": "pr-band",
+      "file": "design/library/promises/assets/pr-band.svg",
+      "size": "320x56",
+      "role": "pair-private: the card's header band",
+      "about": "A card's header band, stretched to the card's width; the icon and the title go over it.",
+      "sha256": "57056855858bc48c64db1ae25482ca84628ca574c11ecb1ddaab06f69fc8d414",
+      "bytes": 975
+    },
+    {
+      "name": "pr-envelope",
+      "file": "design/library/promises/assets/pr-envelope.svg",
+      "size": "64x64",
+      "role": "pair-private: the offer in transit",
+      "about": "The offer in transit: sending, waiting for an answer, and arriving.",
+      "sha256": "d70449cedea6b28898df91e4751c5b98ee0cc1f2f42246c610f95fe053d4d5bd",
+      "bytes": 930
+    },
+    {
+      "name": "pr-icon-promise",
+      "file": "design/library/promises/assets/pr-icon-promise.svg",
+      "size": "48x48",
+      "role": "pair-private: tray mark",
+      "about": "The tray mark for Promises, beside the ledger's entry.",
+      "sha256": "6b8eda45e400ae4a325be9a5592d8f25e456ea1ed74d74f3cfbb2f329e3f3a73",
+      "bytes": 987
+    },
+    {
+      "name": "pr-kind-captain-support",
+      "file": "design/library/promises/assets/pr-kind-captain-support.svg",
+      "size": "64x64",
+      "role": "pair-private: kind CAPTAIN_SUPPORT",
+      "about": "Captain Support: a ballot slip with a captain's star.",
+      "sha256": "bcb272b142ee6f669ce3c90dd48ff96a7ea13be80a4468c84e7674cfd256eae1",
+      "bytes": 1044
+    },
+    {
+      "name": "pr-kind-officer-selection",
+      "file": "design/library/promises/assets/pr-kind-officer-selection.svg",
+      "size": "64x64",
+      "role": "pair-private: kind OFFICER_SELECTION",
+      "about": "Officer Selection: the public office's shield with two chevrons (never a secret role's mark).",
+      "sha256": "9d587a113353d42aa7d9a8e659a0caaf20dfb5bea1d99a9dafde401bcac1b0a3",
+      "bytes": 1094
+    },
+    {
+      "name": "pr-kind-jail-vote",
+      "file": "design/library/promises/assets/pr-kind-jail-vote.svg",
+      "size": "64x64",
+      "role": "pair-private: kind JAIL_VOTE",
+      "about": "Jail Vote: the barred window with a ballot going in.",
+      "sha256": "202e9c5023612877e9bdc56cbe3aacde1162e0dec9735d2979b8c5f290f13365",
+      "bytes": 1455
+    },
+    {
+      "name": "pr-kind-no-jail-vote",
+      "file": "design/library/promises/assets/pr-kind-no-jail-vote.svg",
+      "size": "64x64",
+      "role": "pair-private: kind NO_JAIL_VOTE",
+      "about": "No Jail Vote: the barred window refused (a ring and bar), the ballot held outside.",
+      "sha256": "b75e6a3d1318995cb5244ebf1206bf02af9cbe31964255a7aa9efaa443532ae4",
+      "bytes": 1606
+    },
+    {
+      "name": "pr-kind-meet-a",
+      "file": "design/library/promises/assets/pr-kind-meet-a.svg",
+      "size": "64x64",
+      "role": "pair-private: kind MEET_A",
+      "about": "Meet in A: an arched door, two heads at its threshold; the room letter is page text on its plate.",
+      "sha256": "5de9dd2e0cfae5c1337fe1a597866566bd037f19a74906431b8b3f528bc1719b",
+      "bytes": 1187
+    },
+    {
+      "name": "pr-kind-meet-b",
+      "file": "design/library/promises/assets/pr-kind-meet-b.svg",
+      "size": "64x64",
+      "role": "pair-private: kind MEET_B",
+      "about": "Meet in B: a square door with a transom, two heads at its threshold; the room letter is page text on its plate.",
+      "sha256": "7d0eecd729311465a35b46b6980ad0e3244f1f37daca38d7c77e4bf9d4fb34c5",
+      "bytes": 1255
+    },
+    {
+      "name": "pr-seal-pending",
+      "file": "design/library/promises/assets/pr-seal-pending.svg",
+      "size": "64x64",
+      "role": "pair-private: result Pending",
+      "about": "Pending: an open amber ring and an hourglass.",
+      "sha256": "f4a8728fc77dbcdf6fea1a2a2ccba56c8f88847f35b135e06280601490d836ee",
+      "bytes": 905
+    },
+    {
+      "name": "pr-seal-fulfilled",
+      "file": "design/library/promises/assets/pr-seal-fulfilled.svg",
+      "size": "64x64",
+      "role": "pair-private: result Fulfilled",
+      "about": "Fulfilled: a green seal with a check.",
+      "sha256": "19f897520d500049f4f2157250b7fc6852a4ee2767447baca79e2083c6076f36",
+      "bytes": 870
+    },
+    {
+      "name": "pr-seal-not-fulfilled",
+      "file": "design/library/promises/assets/pr-seal-not-fulfilled.svg",
+      "size": "64x64",
+      "role": "pair-private: result Not fulfilled",
+      "about": "Not fulfilled: a plain grey seal with a bar (never a cross; it is not proof of a lie).",
+      "sha256": "456ecd3e6e283177e584c395d86e1f3983f651c9d99dfdf0c4e202c6c77f0776",
+      "bytes": 881
+    },
+    {
+      "name": "pr-seal-condition-not-met",
+      "file": "design/library/promises/assets/pr-seal-condition-not-met.svg",
+      "size": "64x64",
+      "role": "pair-private: result Condition not met",
+      "about": "Condition not met: a dashed, empty ring (the opportunity did not happen).",
+      "sha256": "b0d70afd206911349b68e1c04989816f78bdc505f97328e33e5d514031a69bc0",
+      "bytes": 842
+    }
+  ],
+  "stylesheet": {
+    "file": "design/library/promises/assets/promises.art.css",
+    "sha256": "2c10c7d93df13543a088fc047b0428c144fba15b408c45310fdf8d58baa16d55",
+    "bytes": 10716
+  }
+}

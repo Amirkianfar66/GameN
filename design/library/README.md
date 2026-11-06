@@ -13,6 +13,7 @@ a contract or runtime code; Integration adopts named files and hashes.
 | 1 · `hack-engineer/` | Hacker final Code and unlock, Hack Spaceship, Engineer capture | proposal | [docs/design/library/hack-engineer.md](../../docs/design/library/hack-engineer.md) |
 | 2 · `navigation/` | The offices' route panel, the public transit, the arrival at either planet | proposal | [docs/design/library/navigation.md](../../docs/design/library/navigation.md) |
 | 3 · `hospital-panel/` | A Hospital patient's own code console: keypad, registration, R12 results, the deadline line | proposal | [docs/design/library/hospital-panel.md](../../docs/design/library/hospital-panel.md) |
+| 4 · `promises/` | The six Promise cards, the giver's composer, the recipient's inbox, the ledger and the four results | proposal | [docs/design/library/promises.md](../../docs/design/library/promises.md) |
 
 From group 2 on, the review pages share their frame: `review.mjs` (parameters, state cards, motion players, controls, art
 loader) and `review.css`. Group 1's page keeps its own copy. `design/tools/library-assets.mjs` and
