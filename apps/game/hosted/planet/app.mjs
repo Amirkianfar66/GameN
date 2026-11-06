@@ -42,7 +42,7 @@ export async function mountPlanetApp(root,{connection,matchId,allowSynthetic=fal
   const status=el('p',model.message??(model.connection==='connecting'?'Connecting…':''));status.setAttribute('role','status');root.append(status);
   if(model.uncertain){root.append(button('Retry original session request',()=>void session.retry()));return;}
   if(model.pendingAdmission){
-   status.textContent='Request registered.';root.append(el('h2',`Room ${model.pendingAdmission.roomCode}`),el('p',`Requested ${model.pendingAdmission.kind==='display'?'shared display':'player seat'}. Waiting for the server to confirm admission.`));
+   const state=model.pendingAdmission.status,denied=state==='closed'||state==='declined';status.textContent=model.connection==='error'?model.message:state==='closed'?'Request closed.':state==='declined'?'Request declined.':'Request registered.';root.append(el('h2',`Room ${model.pendingAdmission.roomCode}`),el('p',`Requested ${model.pendingAdmission.kind==='display'?'shared display':'player seat'}. ${denied?'This request was not admitted.':'Waiting for the server to confirm admission.'}`));
    const check=button('Check admission',()=>void session.refresh());check.id='planet-check-admission';root.append(check);return;
   }
   if(model.connection!=='live'){root.append(button('Reconnect',()=>void session.refresh()));return;}

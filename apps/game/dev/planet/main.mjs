@@ -7,11 +7,13 @@ const name=new URL(location.href).searchParams.get('scenario')??'board';
 const tuple=new URL(location.href).searchParams.get('tuple')??'current';
 const count=Number(new URL(location.href).searchParams.get('count')??9);
 let value=sessionScenario(name==='join'?'display':name,{now:Date.now(),count,tuple}),lost=false,admissionRead=name==='join'?'forbidden':null;
-const requests=[];let rejectNextPanel=false;
-const connection={mode:'synthetic',currentUid:()=> 'planet-synthetic-uid',signIn:async()=> 'planet-synthetic-uid',async request(request){
+const requests=[];let rejectNextPanel=false,originalAdmission=null,authUid='planet-synthetic-uid';
+const connection={mode:'synthetic',currentUid:()=>authUid,signIn:async()=>authUid,async request(request){
  requests.push(structuredClone(request));
  const answer=result=>({ok:true,serverTimeMs:Date.now(),result});
- if(request.operation==='read')return admissionRead==='forbidden'?{ok:false,serverTimeMs:Date.now(),error:{code:'FORBIDDEN'}}:answer(structuredClone(value));
+ if(request.operation==='read')return admissionRead?{ok:false,serverTimeMs:Date.now(),error:{code:admissionRead==='forbidden'?'FORBIDDEN':'UNAVAILABLE'}}:answer(structuredClone(value));
+ if(request.operation==='requestAdmission'){originalAdmission={requestId:request.requestId,kind:request.kind};return answer({matchId:value.matchId,admissionId:'synthetic-admission'});}
+ if(request.operation==='redeemRecovery'){value=sessionScenario('board',{now:Date.now(),count,tuple});value.admission=null;admissionRead=null;return answer({matchId:request.matchId,seatId:value.selfSeatId});}
  if(request.operation==='receipt')return answer({receipt:null});
  if(request.operation==='issueRecovery')return answer({recoveryCode:'SYNTHETICRECOVERY'+'X'.repeat(111),expiresAt:Date.now()+900000});
  if(request.operation==='command'){
@@ -29,8 +31,15 @@ let phaseSequence=0;
 const applyPlayer=async player=>{value.publicView=publicPlanet(player);if(value.selfSeatId!==null)value.playerView=player;await app.session.refresh();};
 const currentPlayer=()=>value.playerView?structuredClone(value.playerView):{...makePlanetScenario('board',{now:Date.now(),count:value.playerCount}),...structuredClone(value.publicView),board:{...structuredClone(value.publicView.board),kind:'PLAYER_CURRENT'}};
 // Only this excluded harness exposes synthetic authority and inspection controls.
-window.planetHarness={app,requests,candidateReady,rejectPanel(){rejectNextPanel=true;},get value(){return value;},setLost(next){lost=next;},
- async admission(mode){admissionRead=mode==='forbidden'?'forbidden':null;value=sessionScenario(mode==='player'?'board':'display',{now:Date.now(),count,tuple});await app.session.refresh();},
+window.planetHarness={app,requests,candidateReady,setUid(uid){authUid=uid;},rejectPanel(){rejectNextPanel=true;},get value(){return value;},setLost(next){lost=next;},
+ async admission(mode,context=originalAdmission){
+  admissionRead=['forbidden','unavailable'].includes(mode)?mode:null;if(admissionRead){await app.session.refresh();return;}
+  if(!context)throw Error('Synthetic admission needs its original request binding');originalAdmission=context;
+  value=sessionScenario(mode==='player'?'board':'display',{now:Date.now(),count,tuple});
+  value.admission={...context,status:['pending','closed','declined','seatless'].includes(mode)?mode==='seatless'?'pending':mode:'admitted'};
+  if(value.admission.status!=='admitted')Object.assign(value,{isHost:false,selfSeatId:null,members:[],pendingAdmissions:[],setup:null,privateRole:null,publicView:null,playerView:null});
+  await app.session.refresh();
+ },
  presentation:()=>app.game?planetBlackholePresentation(app.game.getModel()):null,
  setVisible(visible){app.game?.setVisible(visible);app.session.setVisible(visible);},
  reloadArt:()=>loadArt('player',document),
