@@ -1,0 +1,53 @@
+{
+  "tool": "design/tools/cinematic-render.mjs",
+  "pilot": "role-reveal",
+  "version": "cinematic-role-reveal-0.7.0",
+  "surface": "phone",
+  "variant": "full",
+  "stage": "design/cinematic/stage.html?pilot=role-reveal&surface=phone&variant=full&beds=4&w=390&h=844&role=Supplier&seat=3&character=c3",
+  "size": [
+    390,
+    844
+  ],
+  "deviceScale": 2,
+  "fixture": {
+    "role": "Supplier",
+    "seat": 3,
+    "character": "c3",
+    "synthetic": true
+  },
+  "browser": "Chromium 141.0.7390.37",
+  "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+  "outputs": [
+    {
+      "kind": "video",
+      "file": "design/cinematic/exports/role-reveal/review/supplier-phone390-full.mp4",
+      "sha256": "e54464c13831893176b9a8edd135987d5b4490ad00357a5a04faa5c1c9ac86f4",
+      "bytes": 2540789,
+      "fps": 30,
+      "frames": 301,
+      "durationMs": 10000,
+      "from": 0,
+      "to": 10000,
+      "audio": null
+    },
+    {
+      "kind": "preview",
+      "file": "design/cinematic/exports/role-reveal/review/supplier-phone390-full.preview.webp",
+      "sha256": "0a87771b04f170f8101d6891a650ba7e6ee3a41ae2db44cdb9e0b3fe94c583b4",
+      "bytes": 410960
+    },
+    {
+      "kind": "poster",
+      "file": "design/cinematic/exports/role-reveal/review/supplier-phone390-full.poster.webp",
+      "sha256": "43bf2e813714ca98033992a646e6b2c17004acdce872500d44366c0e4e3a8ee2",
+      "bytes": 50856,
+      "t": 7400
+    }
+  ],
+  "settling": {
+    "rule": "a frame is kept once two captures a redraw apart agree; pictures decode before their tiles draw",
+    "resettled": 1,
+    "unsettled": []
+  }
+}

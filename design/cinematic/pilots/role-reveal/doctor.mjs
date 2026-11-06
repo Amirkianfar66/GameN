@@ -25,43 +25,14 @@
 
 import { MEDICAL } from '../../../board-v2/fx/medical.mjs';
 import { skeletonOf } from '../../../board-motion/figures/gestures.mjs';
-import { INK, AMBER, lightCone, lightPool, stars, streaks } from '../../lib/comic.mjs';
-import { beat, clamp01, easeInOutCubic, easeOutBack, easeOutCubic, rand } from '../../lib/ease.mjs';
-import { figureItems } from '../../lib/scene.mjs';
-import { NIGHT, lampFlicker, motes, rimLit, sfxSvg } from './art.mjs';
+import { INK, AMBER, lightPool, stars, streaks } from '../../lib/comic.mjs';
+import { beat, easeOutBack, easeOutCubic, rand } from '../../lib/ease.mjs';
+import { NIGHT, lampFlicker, motes, sfxSvg } from './art.mjs';
+import { NOMINAL, breathe, contact, floor, hangingLamp, hero, shot, silhouette as patient } from './stagecraft.mjs';
 
 const f = v => Number((+v).toFixed(2));
-const NOMINAL = Object.freeze([828, 480]);
 /** Lit fills for the ward's furniture (all held clear of the faction accents by the palette test). */
 const WARD = Object.freeze({ mattress: '#2E3B58', blanket: '#3E4F72', pillow: '#DDE4EC', floor: '#0B1019', key: '#34415A' });
-
-/**
- * The panel's content scaled from the nominal 828 x 480 to its height and centred, shot as an
- * animated comic: three layers under a slow push toward `focus`, the far one moving least (2.5D).
- * The push follows the panel's local time, so reduced motion's still holds it at rest.
- */
-function shot(w, h, { far = '', middle = '', near = '' }, { local, focus = [414, 300], push = 0.05 }) {
-  const k = h / NOMINAL[1];
-  const p = easeInOutCubic(clamp01(local / 5200));
-  const layer = (depth, body) => {
-    const s = 1 + push * depth * p;
-    return `<g transform="translate(${f(focus[0])} ${f(focus[1])}) scale(${f(s)}) translate(${f(-focus[0])} ${f(-focus[1])})">${body}</g>`;
-  };
-  return `<g transform="translate(${f(w / 2)} ${f(h / 2)}) scale(${f(k)}) translate(${f(-NOMINAL[0] / 2)} ${f(-NOMINAL[1] / 2)})">${layer(0.4, far)}${layer(1, middle)}${layer(1.5, near)}</g>`;
-}
-
-/**
- * The patient: a crew figure in any pose as a navy silhouette with a paper rim light toward the
- * viewport (any character: the silhouette shows none), optionally rotated about its feet.
- */
-function patient(prefix, { gesture, at, scale, rotate = 0, rim = [-4, -4] }) {
-  const root = prefix.split('-p')[0];
-  const draw = id => {
-    const svg = figureItems({ character: 'c1', sk: skeletonOf(gesture), at, scale, depth: 1, prefix: `${prefix}-${id}` }).map(item => item.svg).join('');
-    return rotate ? `<g transform="rotate(${f(rotate)} ${f(at[0])} ${f(at[1])})">${svg}</g>` : svg;
-  };
-  return rimLit(root, { figure: draw('f'), rimFigure: draw('r'), offset: rim });
-}
 
 /** A viewport on the ward wall: stars behind slatted blinds, its glow spilling on the wall around it. */
 function viewport(prefix, { x, y, w, h, t }) {
@@ -75,17 +46,6 @@ function viewport(prefix, { x, y, w, h, t }) {
     + `<rect x="${f(x)}" y="${f(y)}" width="${f(w)}" height="${f(h)}" rx="22" fill="none" stroke="${NIGHT.steelLit}" stroke-width="10"/>`
     + `<rect x="${f(x)}" y="${f(y)}" width="${f(w)}" height="${f(h)}" rx="22" fill="none" stroke="${INK}" stroke-width="4"/>`;
 }
-
-/** The ward's floor: a lit edge where the wall meets it, halftone in the dark. */
-function floor(prefix) {
-  const root = prefix.split('-p')[0];
-  return `<rect x="0" y="438" width="${NOMINAL[0]}" height="42" fill="${WARD.floor}"/>`
-    + `<rect x="0" y="438" width="${NOMINAL[0]}" height="42" fill="url(#${root}-dots)" opacity="0.3"/>`
-    + `<path d="M0 439H${NOMINAL[0]}" stroke="${NIGHT.steelLit}" stroke-width="2.5" opacity="0.7"/>`;
-}
-
-/** A soft contact shadow on the floor under a thing standing on it. */
-const contact = (cx, w) => `<ellipse cx="${f(cx)}" cy="446" rx="${f(w / 2)}" ry="9" fill="${NIGHT.deep}" opacity="0.65"/>`;
 
 /** A berth in side view: headboard, frame, mattress, pillow, lit edges. Returns { svg, top } (the mattress top). */
 function berth({ x, y, w }) {
@@ -181,20 +141,6 @@ function cot({ x, y, w, depth = 1 }) {
   return { svg, top: y - 10 * depth };
 }
 
-/** A hanging lamp on its cord, its cone of light down to `floor`, swaying `swing` degrees from the ceiling. */
-function hangingLamp(prefix, { x, y, floor, on = 1, swing = 0 }) {
-  return `<g transform="rotate(${f(swing)} ${f(x)} 0)">`
-    + lightCone(prefix, 'hang', { from: [x, y + 22], to: [x, floor], spread: 210, color: '#FFE7A3', opacity: 0.3 * on, near: 34 })
-    + `<path d="M${f(x)} 0V${f(y)}" stroke="${INK}" stroke-width="4"/>`
-    + `<path d="M${f(x - 46)} ${f(y + 26)}L${f(x - 18)} ${f(y)}H${f(x + 18)}L${f(x + 46)} ${f(y + 26)}Z" fill="${NIGHT.steelLit}" stroke="${INK}" stroke-width="5" stroke-linejoin="round"/>`
-    + `<ellipse cx="${f(x)}" cy="${f(y + 27)}" rx="30" ry="7" fill="#FFF3C4" opacity="${f(0.5 + 0.5 * on)}"/>`
-    + lightPool(prefix, 'hang-bulb', { cx: x, cy: y + 30, rx: 90, ry: 50, color: '#FFE7A3', opacity: 0.5 * on })
-    + `</g>`;
-}
-
-/** Breathing, for a figure lying or sitting: a slow swell of its body about `pivot` (full motion only). */
-const breathe = (t, pivot, phase = 0, amount = 0.025) => `translate(${f(pivot[0])} ${f(pivot[1])}) scale(1 ${f(1 + amount * Math.sin(t / 620 + phase))}) translate(${f(-pivot[0])} ${f(-pivot[1])})`;
-
 /**
  * Panel 1 (memory): Colony Nine, the fever years. A field ward at night: cots full of patients under
  * one hanging lamp, dust beating on the porthole, and the player's own character at the foot of the
@@ -202,7 +148,6 @@ const breathe = (t, pivot, phase = 0, amount = 0.025) => `translate(${f(pivot[0]
  */
 export function panelColony(local, { w, h, prefix, character = 'c4', reduced = false }) {
   const t = local;
-  const root = prefix.split('-p')[0];
   let seams = '';
   for (let sx = 0; sx <= NOMINAL[0]; sx += 92) seams += `M${f(sx)} 0V438`;
   // The prefab's wall: ribbed panels, and a porthole on the storm outside.
@@ -231,9 +176,7 @@ export function panelColony(local, { w, h, prefix, character = 'c4', reduced = f
   // Reading the chart, then looking up at the ward: the head's tilt eases between the two.
   const look = reduced ? 0.5 : 0.5 - 0.5 * Math.cos(t / 900);
   const sk = { ...skeletonOf('tablet'), tilt: -6 + 14 * look };
-  const drawn = id => figureItems({ character, sk, at, scale: 1.36, depth: 2, prefix: `${prefix}-${id}`, mirror: true }).map(item => item.svg).join('');
-  const body = `<g filter="url(#${root}-rim)" opacity="0.9" transform="translate(-5 -4)">${drawn('rim')}</g>`
-    + `<g filter="url(#${root}-outline)"><g filter="url(#${root}-noir)">${drawn('dr')}</g></g>`;
+  const body = hero(prefix, { character, sk, at, scale: 1.36, mirror: true });
   const near = reduced ? body : `<g transform="${breathe(t, at, 0.4, 0.008)}">${body}</g>`;
   return shot(w, h, { far, middle, near }, { local: t, focus: [520, 320] });
 }

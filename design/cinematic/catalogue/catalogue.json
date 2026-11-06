@@ -1,5 +1,5 @@
 {
-  "version": "cinematic-catalogue-0.17.0",
+  "version": "cinematic-catalogue-0.18.0",
   "contract": {
     "protocol": 3,
     "engine": "planet-game-1.0.0",
@@ -142,7 +142,7 @@
     {
       "id": "role-reveal",
       "scene": "Role reveal and private card",
-      "status": "existing (slice 8) + library group 8 (current names, the Engineer's device) + the role films (the owner, 6 November 2026, with the briefing-room opener, the noir relighting, the comic back story, the animated-comic finish and fewer words from the owner's reviews of the pilot): the Doctor's pilot, the other eight storyboarded",
+      "status": "existing (slice 8) + library group 8 (current names, the Engineer's device) + the role films (the owner, 6 November 2026, with the briefing-room opener, the noir relighting, the comic back story, the animated-comic finish and fewer words from the owner's reviews of the pilot); the Doctor's pilot approved and every role's film drawn from it",
       "audience": "own phone only",
       "trigger": "session status reading + player view self.role / self.faction",
       "fields": [
@@ -172,11 +172,9 @@
         "design/exports/roles (the reviewed held devices; device-cracker draws the Doctor under its historical id)",
         "design/exports/public-board (piece-crew.card-c1..c9: the role card's portraits, drawn on the role film's card)",
         "design/library/successor/ (the Engineer's held device; names.mjs maps every current role to its device and keeps the removed Officer's device undrawn)",
-        "design/cinematic/pilots/role-reveal/ (the role films: the shared clock and art, the briefing-room opener with the player's own character, their role card and the role's gadget, the Doctor's panels, every role's device and emblem and every crew portrait shipped to every phone; storyboards in docs/design/cinematic/role-reveal.md)"
+        "design/cinematic/pilots/role-reveal/ (the role films: the shared clock and art, the briefing-room opener with the player's own character, their role card and the role's gadget, every role's three panels, one module per film, on shared stagecraft, every role's device and emblem and every crew portrait shipped to every phone; storyboards in docs/design/cinematic/role-reveal.md)"
       ],
-      "gaps": [
-        "The role films of the other eight roles are storyboards until the owner reviews the Doctor's pilot on a phone."
-      ]
+      "gaps": []
     },
     {
       "id": "core-movement",

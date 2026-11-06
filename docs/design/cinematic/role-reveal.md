@@ -1,6 +1,7 @@
 # Role reveal films: one ten-second film per role (proposal)
 
-Designer proposal, 6 November 2026. Branch `claude/designer-role-reveal`, stacked on #184.
+Designer proposal, 6 November 2026. The Doctor's pilot: branch `claude/designer-role-reveal`, stacked
+on #184. The other films: branch `claude/designer-role-films`, stacked on #187.
 
 The owner asked for a short film after each player sees their role, one per role, of five to ten
 seconds:
@@ -60,6 +61,15 @@ The back story is now told mostly in pictures. Only the two memory panels keep a
 of a few words each. The panel aboard and the title carry no line, and the rules stay on the role
 card. Each box is lettered as a comic's caption, a sentence to a line ("COLONY NINE." over "THE
 FEVER YEARS."), and fitted to its words.
+
+The owner then approved the fewer-words pilot:
+
+> Lets use this one
+
+The other films are now drawn from it, each with its own back story (section 3), in the same
+briefing room, clock, palette and look; the two Disablers share one film. Every panel aboard is
+wordless but for a sound word: the stamped words the first storyboards proposed (label tapes, a
+ROUND 3 stamp, CAPTURED, UNLOCKED) are left to the role cards.
 
 This page holds the storyboards for all nine roles and the pilot's specification. Nothing here is
 a rule. A film plays only inside the existing role-reading stage and takes no time from it.
@@ -139,9 +149,11 @@ Mothership and its planets. The two memory panels carry a few words of narration
 the title carry none. The pictures show what the rules give the role (the game design and the
 owner's decisions), and the role card says it. The words are proposals; the game's words are
 Frontend's. The narration is told to "you", so each back story fits whichever crew character the
-player is. That character is the protagonist wherever a figure is shown in colour.
+player is. That character is the protagonist wherever a figure is shown in colour. Every film is
+drawn (`design/cinematic/pilots/role-reveal/`, one module per film), each in the order and at the
+times below.
 
-### Doctor (Blue) · the pilot
+### Doctor (Blue) · the pilot, approved
 
 *The medic who kept the last two doses.*
 
@@ -160,11 +172,12 @@ player is. That character is the protagonist wherever a figure is shown in colou
 
 | Panel | Picture | Narration | Sound word |
 | --- | --- | --- | --- |
-| 1 · memory | **Vesta Station's archive.** Cabinets to the ceiling, one desk lamp, and you behind a wall of reports | "Vesta Station. The archive." | — |
-| 2 · memory | **Three files.** Three folders slide across your desk, each with a faceless photograph clipped to it | "Three files. Three faces." | THUD |
-| 3 · aboard | **The cork board.** Three faceless photos pinned up, a red string between them. Three label tapes, UNDERCOVER, ALIEN and DOCTOR, fall into an envelope stamped ONE EACH | — | STAMP |
+| 1 · memory · 3,000 | **Vesta Station's archive.** Filing cabinets to the ceiling, a desk piled with reports under one lamp, and you behind it, reading a report, then looking up | "Vesta Station. The archive." | — |
+| 2 · memory · 4,500 | **Three files.** Three folders slide across the desk one after another and land, each with a faceless photograph clipped to it | "Three files. Three faces." | THUD |
+| 3 · aboard · 6,000 | **The cork board.** In your cabin you stand at a cork board, a fist at your chin. Three faceless photos are pinned up, and a string runs from pin to pin between them | — | — |
 
-- **Continuity:** the cork board, the tapes and the envelope are the Insider file's own kit (`insider-file`).
+- **What the pictures show:** three players, by their faces; the role card says what they hold (one each, which is which unknown).
+- **Continuity:** the faceless photographs echo the Insider file's kit (`insider-file`).
 
 ### Blue Disabler and Red Disabler (one film)
 
@@ -175,11 +188,11 @@ Only the title's name and emblem and the card on the desk differ.
 
 | Panel | Picture | Narration | Sound word |
 | --- | --- | --- | --- |
-| 1 · memory | **The engine decks of Ceres.** Pipes and sparks. Your gloved hand throws a breaker, and a whole deck goes dark | "The engine decks of Ceres." | CLUNK |
-| 2 · memory | **One charge.** The stun rod laid in its case beside a single charge cell; an envelope of credits slid across the table | "One charge." | — |
-| 3 · aboard | **A dark cabin aboard.** A silhouette in your room. The charge arcs once and the cabin's light dips | — | ZZT |
+| 1 · memory · 3,000 | **The engine decks of Ceres.** Pipes, gauges and caged lamps. You, back to us, pull a breaker's lever down; sparks fly from the box and the deck's lamps go out one by one, leaving its emergency light | "The engine decks of Ceres." | CLUNK |
+| 2 · memory · 4,500 | **One charge.** The stun rod (the role card's forked rod) in its open case beside a single glowing charge cell, and an envelope of credits pushed across the table by a gloved hand | "One charge." | — |
+| 3 · aboard · 6,000 | **A dark cabin.** A silhouette stands in a cabin by its bunk. The rod reaches in from the edge in a gloved fist; its charge arcs once to the silhouette and the cabin's light dips | — | ZZT |
 
-- **Rule:** the Disable is one hidden attack per match, public only as damage at the round's end.
+- **Rule:** the Disable is one hidden attack per match, public only as damage at the round's end. The arc is white and paper light, never a team colour.
 
 ### Supplier (Blue)
 
@@ -187,11 +200,12 @@ Only the title's name and emblem and the card on the desk differ.
 
 | Panel | Picture | Narration | Sound word |
 | --- | --- | --- | --- |
-| 1 · memory | **The Belt markets.** Crates stacked up to a swinging lamp, a stall that sells everything | "The Belt markets." | CLANK |
-| 2 · memory | **Two crates.** A false floor lifts on two sealed crates | "Two crates, off the books." | — |
-| 3 · aboard | **The cargo hold, Round 3.** ROUND 3 stamps on a crate, and two shipping tags flutter down onto two silhouettes | — | STAMP |
+| 1 · memory · 3,000 | **The Belt markets.** A stall under an awning, shelves of goods behind it, crates stacked up to a swinging lamp, and you leaning back on them, arms folded. A crate drops onto the counter | "The Belt markets." | CLANK |
+| 2 · memory · 4,500 | **Two crates.** In the back room you crouch at a false floor that lifts on two sealed crates, lit by a work lamp | "Two crates, off the books." | — |
+| 3 · aboard · 6,000 | **The cargo hold.** Two silhouettes wait among the containers. Two crates come down on the hoist and land, one beside each, a blank tag swinging on each | — | — |
 
-- **Continuity:** the crate and the tags are group 8's and the ability kit's.
+- **What the pictures show:** two deliveries, kept secret; the role card says when (Round 3's Supply stage) and what.
+- **Continuity:** the crates and tags follow group 8's and the ability kit's Supply.
 
 ### Engineer (Blue, nine players)
 
@@ -199,11 +213,11 @@ Only the title's name and emblem and the card on the desk differ.
 
 | Panel | Picture | Narration | Sound word |
 | --- | --- | --- | --- |
-| 1 · memory | **The Titan yards.** Scaffolds and welding sparks around a ship's ribs; you on a gantry with the plans | "The Titan yards." | — |
-| 2 · memory | **Every wire.** Your hand traces a bundle of cables into a bulkhead, and the signal clamp clicks on | "You know every wire." | CLICK |
-| 3 · aboard | **The photograph.** Viewfinder brackets close on the room opposite. The print develops: CAPTURED. The course needle stutters and holds | — | — |
+| 1 · memory · 3,000 | **The Titan yards.** A ship's ribs rise on the slip under Saturn's rings, sparks shower from the welders in the scaffolds, and you stand on the gantry with the plans | "The Titan yards." | — |
+| 2 · memory · 4,500 | **Every wire.** A gloved hand traces a cable bundle into a bulkhead, and the signal clamp clicks on, its light blinking | "You know every wire." | CLICK |
+| 3 · aboard · 6,000 | **The photograph.** Across the corridor, the room opposite through its window, two silhouettes in it. Viewfinder brackets close on it, the shutter blinks dark (ink, never a flash of light), and the print slides out and develops the room | — | — |
 
-- **Continuity:** the viewfinder and the print are library group 1's capture art.
+- **Continuity:** the brackets, the dark shutter and the print are library group 1's capture: the whole room, never one target.
 
 ### Undercover (Red)
 
@@ -211,11 +225,11 @@ Only the title's name and emblem and the card on the desk differ.
 
 | Panel | Picture | Narration | Sound word |
 | --- | --- | --- | --- |
-| 1 · memory | **Red Planet intelligence.** A street lamp in the dust rain. A figure in a long coat walks under it, and a personnel file with no name in it lies open | "Red Planet intelligence." | DRIP |
-| 2 · memory | **Armed.** A pistol slides into a shoulder holster | "No name. One gun." | — |
-| 3 · aboard | **The shields.** Aboard, you press a shield emblem onto another silhouette's shoulder, and it glows once | — | — |
+| 1 · memory · 3,000 | **Red Planet intelligence.** A street at night in the dust rain; you lean on a street lamp's post, arms folded. In front, on a café table, an open personnel file with a faceless photograph and no name, the rain dripping on it | "Red Planet intelligence." | DRIP |
+| 2 · memory · 4,500 | **Armed.** Close on a shoulder: the holster's strap across the chest, and a pistol sliding down into the holster, its grip left out | "No name. One gun." | — |
+| 3 · aboard · 6,000 | **The shield.** In a corridor aboard you stand beside a silhouette; a shield mark settles on its shoulder and a ring of light goes out from it once | — | — |
 
-- **Rule:** the weapon shoots from Round 4. Protection is given once per player in the match.
+- **Rule:** the weapon shoots from Round 4. Protection is given once per player in the match. The shield is paper and amber light, never a team colour.
 
 ### Hacker (Red)
 
@@ -223,11 +237,11 @@ Only the title's name and emblem and the card on the desk differ.
 
 | Panel | Picture | Narration | Sound word |
 | --- | --- | --- | --- |
-| 1 · memory | **The data dens of Phobos.** A den lit by terminals, cables like vines, and locks on a screen opening one by one | "The data dens of Phobos." | — |
-| 2 · memory | **Paid in advance.** A credit chip on the table, sealed with the Red Planet's mark | "Paid in advance." | — |
-| 3 · aboard | **The Code.** A scanner sweeps four silhouettes, one already marked: your Undercover. The punch card's windows click shut, and UNLOCKED stamps across it. The route arrow swings toward the Red Planet | — | KA-CHUNK |
+| 1 · memory · 3,000 | **The data dens of Phobos.** A den lit by its screens, cables hanging like vines, and you on a stool at a laptop; on the big screen four padlocks open one by one | "The data dens of Phobos." | — |
+| 2 · memory · 4,500 | **Paid in advance.** A credit chip slides across the table under a lamp and stops, sealed in wax pressed with a planet and its ring | "Paid in advance." | — |
+| 3 · aboard · 6,000 | **The Code.** Through a glass partition, four silhouettes; one is already marked, the ally the Hacker knows. A scanner sweeps them, and in front the punch card's four windows click shut | — | KA-CHUNK |
 
-- **Continuity:** the punch card and the cartridge are group 1's art.
+- **Continuity:** the punch card is group 1's. The four stand in their places, in no other order.
 
 ### Red Disabler (Red, eight and nine players)
 
@@ -239,16 +253,19 @@ The Disablers' shared film, with the RED DISABLER plate and card.
 
 | Panel | Picture | Narration | Sound word |
 | --- | --- | --- | --- |
-| 1 · memory | **A sailors' story.** Old spacers around a lamp. At the porthole behind them is a shadow that is not theirs | "A story sailors told." | — |
-| 2 · memory | **A crew face.** A figure's shadow on the wall splits in two: the Phantom Clone | "Then, a second shadow." | — |
-| 3 · aboard | **The Blackhole.** The walls give way to space. A blackhole forms and the ship's lights bend toward it | — | WHOOM |
+| 1 · memory · 3,000 | **A sailors' story.** In a ship's mess, old spacers sit round a lantern on a crate, and you sit apart on its other side. On the wall the lantern throws everyone's shadow, and yours is not a human's | "A story sailors told." | — |
+| 2 · memory · 4,500 | **A crew face.** You stand in a lamp's light against a wall; your shadow splits in two, and the second slides away: the Phantom Clone | "Then, a second shadow." | — |
+| 3 · aboard · 6,000 | **The Blackhole.** The cabin's walls part to space; a blackhole forms and the stars bend toward it | — | WHOOM |
 
-- **Continuity:** the blackhole and the starfield are Pilot 2's art.
+- **Continuity:** the blackhole and the lensed stars are Pilot 2's art (`design/cinematic/pilots/blackhole/art.mjs`).
 
 ## 4. The pilot: the Doctor
 
-The pilot builds the shared template and the Doctor's three panels. The other eight follow the
-owner's review of the pilot on a phone.
+The pilot built the shared template and the Doctor's three panels, and the owner approved it. The
+other films are drawn from the same template. Since the approval one thing changed in the Doctor's
+film: its BEEP now pops as the key lights (380 ms into the panel), as designed. A rounding error in
+the sound words' pop had shown it at a third smaller from the panel's landing; every film's sound
+word now waits for its beat.
 
 | ms | What is seen |
 | --- | --- |
@@ -273,7 +290,7 @@ owner's review of the pilot on a phone.
 The stars stop twinkling, the ship's lights and the case's vials hold, and the rain stops. There is no dust, impact or sheen.
 
 **Review:**
-- the stage: `design/cinematic/stage.html?pilot=role-reveal&surface=phone&variant=full|reduced&role=Doctor&seat=6&character=c4&w=390&h=844`, with `&play=1` to loop it (`character` is any of c1 to c9);
+- the stage: `design/cinematic/stage.html?pilot=role-reveal&surface=phone&variant=full|reduced&role=Doctor&seat=6&character=c4&w=390&h=844`, with `&play=1` to loop it (`role` is any current role, `character` any of c1 to c9);
 - the gallery: `node design/tools/cinematic-serve.mjs`, then `/cinematic/gallery.html`, "Role reveal".
 
 ## 5. For Frontend
@@ -288,6 +305,7 @@ The stars stop twinkling, the ship's lights and the case's vials hold, and the r
 - **How it is drawn.** Live, from the frame functions:
   - `revealSvg(t, { role, variant, seat, character, gadget, width: 900, height: pageHeight(w, h), cssPx: w / 900 })` in `design/cinematic/pilots/role-reveal/compose.mjs` returns the SVG and the page text's boxes, fitted for the phone's width (`cssPx`). It throws without `character` or `gadget`, so a missing input never draws a stand-in.
   - `character` is the player's own character id (c1 to c9). The film draws that character in the opener, on the card, and in the back story.
+  - Every role's film is drawn: three panel functions per film, in `doctor.mjs`, `insider.mjs`, `disabler.mjs` (both Disablers), `supplier.mjs`, `engineer.mjs`, `undercover.mjs`, `hacker.mjs` and `alien.mjs`, registered in `roles.mjs` (`ROLE_FILMS[role].panels`). They share their stagecraft (`stagecraft.mjs`: the 2.5D shot, the floor, the lamps, silhouettes and the player's own character, inked) and the art (`art.mjs`); the Alien's Blackhole is Pilot 2's (`../blackhole/art.mjs`).
   - `gadget` is the dealt role's device as SVG text, passed through `deviceOnly()` (`art.mjs`): the role card's held picture without the arm and the fist. Read every role's device on every phone, as the stage does (`stage.mjs`), and pass the dealt role's. The film takes the team accent out itself (`unaccented()`).
   - Set the page text over its boxes (`words`): the two narration boxes of the memory panels (`story`, each with its `tone`). The boxes move with the guided camera and drop in as they fade, so place them every frame. Set each box's `lines` one to a line, unwrapped (`white-space: pre`), in capitals with a little tracking (`text-transform: uppercase; letter-spacing: 0.04em`), at `captionFont(cssPx)` (13 px at least) inside the padding `CAPTION_PAD`. Announce the role line in a live region.
   - The film uses SVG filters: the sepia colour matrix, the ink outline (`feMorphology`) and blurs. Check the frame time on a low-end phone. If a frame runs long, the outline is the first to drop.
@@ -307,32 +325,48 @@ The stars stop twinkling, the ship's lights and the case's vials hold, and the r
 
 | File | SHA-256 | What it is |
 | --- | --- | --- |
-| `design/cinematic/pilots/role-reveal/film.mjs` | `b4d63b505b2d7639da339e7f5722a2a22f5708acda5c4adf895c583a3a6f988a` | the shared clock: 10000 ms, the beats, the opener's moves, the panels' tones (memory, aboard), the narration's times, the memory flash, the guided camera and the panels' focus, the reduced stills (`revealFrame`) |
+| `design/cinematic/pilots/role-reveal/film.mjs` | `b7aa16e4c56519e2694adb28346b5485db8028dded65483fdae74017b78bf4a6` | the shared clock: 10000 ms, the beats, the opener's moves, the panels' tones (memory, aboard), the narration's times, the memory flash, the guided camera and the panels' focus, the reduced stills (`revealFrame`) |
 | `design/cinematic/pilots/role-reveal/briefing.mjs` | `3c83137a0d28383a3f1039ee704f7775796b1d7f7cad36de9284c5f488ada892` | the opener: the briefing room, the player's role card standing on the desk as the phone draws it, the player's own character taking the gadget, in two depth layers (`briefingSvg`, `briefingLayout`, `POSES`, `CARD`) |
-| `design/cinematic/pilots/role-reveal/art.mjs` | `399f9474d89304d352b41151788621e3022eced9e579f2fe05472939169553fc` | the shared art: the slats, the panels and their impact lines, the memory's sepia (`SEPIA`, `sepiaOf()`), the title plate and its sheen, the caption and narration boxes, beams, dust and rim light; `deviceOnly()` and `unaccented()` for the gadget |
-| `design/cinematic/pilots/role-reveal/doctor.mjs` | `a1585bc05cd5eb0115d204c5f6a4a678d61366c711de381bfc5f91636d57cdfd` | the Doctor's back story: the colony ward and the last two doses (memory), the Hospital panel aboard; lit and shot in three depth layers |
-| `design/cinematic/pilots/role-reveal/roles.mjs` | `f537180d1627ed7f39f6fb6bc54bb4f86a1606c3a9721879d4bd2c4855ff70d0` | the nine roles: team, device, emblem, film; the crew portraits; `ROLE_REVEAL_ASSETS` |
+| `design/cinematic/pilots/role-reveal/art.mjs` | `5510bc82a636580a9d4d507ae14fd467aac08eb99849e77d32dc8098d3f98cc7` | the shared art: the slats, the panels and their impact lines, the memory's sepia (`SEPIA`, `sepiaOf()`), the title plate and its sheen, the caption and narration boxes, beams, dust and rim light, the sound words (each waits for its beat); `deviceOnly()` and `unaccented()` for the gadget |
+| `design/cinematic/pilots/role-reveal/stagecraft.mjs` | `8dea03926ef865e21983ea5b416d8f8980882ac9e069e0bf3bff757e36c1855f` | the panels' shared stagecraft: the 2.5D shot, the floor and contact shadows, the hanging and desk lamps, breathing, silhouettes lit from behind, and the player's own character in colour, inked (`shot`, `silhouette`, `hero`) |
+| `design/cinematic/pilots/role-reveal/doctor.mjs` | `2f8a6ba96e99ce7c82afe0c1126291fed6d657fe6901c2929a6a9e120a51a6d9` | the Doctor's back story: the colony ward and the last two doses (memory), the Hospital panel aboard |
+| `design/cinematic/pilots/role-reveal/insider.mjs` | `67a669bd58700f6ee79c02d846bd339050380603fb6fc6756504130b756053a4` | the Insider's: the Vesta archive and three files (memory), the cork board aboard |
+| `design/cinematic/pilots/role-reveal/disabler.mjs` | `03d226955e352ba8bc29730ef547ea907eef7faa94e3eb205152d94928cc83a1` | both Disablers': the engine decks of Ceres and the one charge (memory), the arc in a dark cabin aboard |
+| `design/cinematic/pilots/role-reveal/supplier.mjs` | `993be7d9cc3ebb94bbc466e63312b71d3b4b9e8363663bb9b376be52a218ad3f` | the Supplier's: the Belt market and the false floor (memory), the two deliveries in the hold aboard |
+| `design/cinematic/pilots/role-reveal/engineer.mjs` | `f972528a26004f21bf73cb8d102b642e1c5dac1ec4bfbfbeb576d6ac497efc78` | the Engineer's: the Titan yards and every wire (memory), the photograph of the room opposite aboard |
+| `design/cinematic/pilots/role-reveal/undercover.mjs` | `fc33c50cfb6f2eeeeef61d73add5360f827a3d364047c56dbdf8de22e1cf5fc1` | the Undercover's: the street lamp and the nameless file, the holster (memory), the shield aboard |
+| `design/cinematic/pilots/role-reveal/hacker.mjs` | `c9e03e7bb7a0ce55bbda926edc234d566d930c5d18f9071bed755d1e7b6c0c9d` | the Hacker's: the data den and the sealed chip (memory), the Code aboard |
+| `design/cinematic/pilots/role-reveal/alien.mjs` | `1df17d7ec9c887d169395ebb496b953cc1692f5360072112b48a0dbce435e7a7` | the Alien's: the sailors' story and the second shadow (memory), the Blackhole aboard (Pilot 2's art) |
+| `design/cinematic/pilots/role-reveal/roles.mjs` | `aef6353ecb4dc885c1ce52c3b1ff23f5cb4c37f30f5bbf927240dcd2f7741758` | the nine roles: team, device, emblem and film (every film drawn); the crew portraits; `ROLE_REVEAL_ASSETS` |
 | `design/cinematic/pilots/role-reveal/copy.mjs` | `0157c6d8c2360da47c1098cb4a060340412545574a75ed782aec25c10b813b41` | every role's back story: two narration lines (proposals) |
 | `design/cinematic/pilots/role-reveal/compose.mjs` | `b9bc713d938b822fbf6184b6c1bce7aeddc28a655d941e9d1ba9380a55b48408` | one frame as one SVG at the phone's aspect under the guided camera, with the page text's boxes; the narration's lines and boxes fitted to the phone (`revealSvg`, `pageHeight`, `cameraView`, `captionLines`, `narrationBox`) |
 | `design/cinematic/pilots/role-reveal/stage.mjs` | `f399c2604ec96b24e7b732f8ebe606af47c5ef96d4825a3d5837d366e4c7b518` | the review stage's phone surface |
 
-Review renders (review only: each draws a dealt role, the Doctor, with a stand-in character, c4; a
-client draws the film live):
+Review renders (review only: each draws a dealt role with a stand-in character, the Doctor's with
+c4 and every other film with a character of its own; a client draws the film live). The Red Disabler
+plays the Blue Disabler's film; only its plate and card differ:
 
 | File | Bytes | SHA-256 |
 | --- | ---: | --- |
-| `design/cinematic/exports/role-reveal/review/doctor-phone390-full.mp4` | 2,600,590 | `1bc4f56d508a5b4bf3d7e32d1ea1e62d20e5591b31e399b24228494cad8f55fe` |
+| `design/cinematic/exports/role-reveal/review/doctor-phone390-full.mp4` | 2,587,095 | `10e68e97e94320aca255ccf5c55682eadd94840778fdce43a19e5d33abd3bafa` |
 | `design/cinematic/exports/role-reveal/review/doctor-phone390-reduced.mp4` | 584,794 | `1e81371412fba9bd7930d6745629166692645acc4bb11694ca934797dbea4764` |
-| `design/cinematic/exports/role-reveal/review/doctor-phone320-full.mp4` | 1,575,425 | `0f2d28997537a15a46799c0ac9ffb6369fda94b02ad0a709d395b7ca5a9ba65c` |
+| `design/cinematic/exports/role-reveal/review/doctor-phone320-full.mp4` | 1,576,325 | `54b2b08d7fd1703d9712d028f0a543441e5b3789edb08359d317664a2a7b3f02` |
+| `design/cinematic/exports/role-reveal/review/insider-phone390-full.mp4` | 2,733,337 | `d0d1bf3857719eb6f66655b2a7af4ae713fea5334f0740eb3e156da4ba2f1cef` |
+| `design/cinematic/exports/role-reveal/review/blue-disabler-phone390-full.mp4` | 2,372,867 | `b4249bebd0b205afb7eb8ef3c94f6f7cffd06f7c9822eddc1ee3578b93f8b667` |
+| `design/cinematic/exports/role-reveal/review/supplier-phone390-full.mp4` | 2,540,789 | `e54464c13831893176b9a8edd135987d5b4490ad00357a5a04faa5c1c9ac86f4` |
+| `design/cinematic/exports/role-reveal/review/engineer-phone390-full.mp4` | 2,676,146 | `461d58dc0c0506cdafbfc6569478cd7a468c24a04018d3f563e0b12646c66c10` |
+| `design/cinematic/exports/role-reveal/review/undercover-phone390-full.mp4` | 2,719,477 | `04372de156faab97ceadb138433c60d8e897c6586593c47a68f0467e0d7c4ee2` |
+| `design/cinematic/exports/role-reveal/review/hacker-phone390-full.mp4` | 2,455,224 | `cd4c4d48fe01258fe3113503e48a766d87d34872dac6b4bf0eb0305c513f357c` |
+| `design/cinematic/exports/role-reveal/review/alien-phone390-full.mp4` | 2,469,816 | `fb61e36e6be5e8bd54efec330e83cd0325b6cada148b079c013a9baf7dc5052a` |
 
 **Checks.**
-- **Tests.** `node --test test/*.test.mjs` in `packages/design-tokens`: 443 of 443. Fifteen are the role films' (`cinematic-role-reveal.test.mjs`):
-  - the nine roles' films, devices, emblems and the nine crew portraits;
+- **Tests.** `node --test test/*.test.mjs` in `packages/design-tokens`: 445 of 445. Seventeen are the role films' (`cinematic-role-reveal.test.mjs`):
+  - every current role's film drawn, three panels each, the Disablers' one film shared; the nine devices, the emblems and the nine crew portraits;
   - one 10,000 ms clock for every role, its beats changing only at the shared moments, two panels of memory then one aboard;
-  - reduced motion as three stills, the first with the gadget raised and no glint, and no sheen;
-  - one self-contained SVG with no words, no repeated id and only shipped pictures;
-  - silence;
-  - no colour within the accent distance of a faction accent, the gadget included, for every role's gadget and every character, and every colour of the memory panels as the sepia filter draws it; the card's team swatch is the dealt role's own;
+  - reduced motion as three stills for every film, the first with the gadget raised and no glint, and no sheen;
+  - one self-contained SVG for every role at every sampled moment: no words, no repeated id, only shipped pictures, deterministic;
+  - silence, for every review render;
+  - no colour within the accent distance of a faction accent: every role's frames, every role's gadget, every film's panels for every character (the memory panels as the sepia filter draws them; the panels aboard as drawn, all but the player's own character's colours); the card's team swatch is the dealt role's own;
   - the words: two narration lines of a few words for every role, naming no role, none on the panel aboard, over the opener or under the title, timed with their panels, both on the reduced page still; each broken into at most two short lines, a sentence to a line;
   - the layout at seven phone sizes, the briefing room included, each narration box riding its panel's top edge, fitted to its lines at 13 px with the camera pulled back, and leaving the panel its picture;
   - the Doctor's device and keypad;
@@ -340,15 +374,30 @@ client draws the film live):
   - the card on the desk: the player's own portrait, the role's device, straight with only the portrait's −2.5° turn, and the longest name inside it;
   - one opener scene for every role, with only the card and the gadget differing;
   - the Doctor's back story: two panels in sepia, the player's own character in the colony ward, two doses left in the case;
+  - every role's back story: two panels in sepia then one aboard, the player's own character in the first memory, each panel deterministic, moving and wordless, every film's pictures its own, and the Red Disabler's plate its own;
+  - a sound word waits for its beat: the Doctor's BEEP pops as the key lights;
   - the motion comic: the memory flash, the guided camera with the page text riding it, the panels' focus, none of them in reduced motion, the paper grain the same every frame, and the inked outline;
   - the motion bible's entry.
-- **Renders.** `cinematic-exports.mjs --only role-reveal` gave three renders in Chromium 141.0.7390.37 with ffmpeg 6.1.1, at 2× and CRF 18 (780×1688 for the 390-wide phone), 301 frames each. A frame-by-frame scan found no one- or two-frame dropout. Frames pulled from the encoded videos were checked by eye at both phone sizes, full and reduced. The opener was also rendered once with each of the nine characters, and each card shows that character's own portrait.
-- **Manifests and docs.** `cinematic-manifest.mjs` gave 44 sources and 264 exports, every render record's hash matching its file. The audio sheets match their 48 files. `cinematic-docs.mjs` gave `cinematic-catalogue-0.17.0`.
+- **Renders.** `cinematic-exports.mjs --only role-reveal` gave ten renders in Chromium 141.0.7390.37 with ffmpeg 6.1.1, at 2× and CRF 18 (780×1688 for the 390-wide phone), 301 frames each. A frame-by-frame scan found no one- or two-frame dropout. Frames pulled from the encoded videos were checked by eye; every film's page was also checked at 320×568. Moving the Doctor's stagecraft into `stagecraft.mjs` changed none of its frames: 2,412 frames hashed before and after the move were byte-identical (the BEEP fix came after it).
+- **Brightness.** Each film's mean luma (Y, 0 to 255) in each beat, from its 390 render. The opener is the same scene for every role; the Insider's paper and cork were toned down and the Disablers' deck and cabin up, to keep the page within a few points of the others:
+
+  | Film | Opener 0–3 s | Page 3–7.8 s | Title 7.8–10 s |
+  | --- | ---: | ---: | ---: |
+  | Doctor (approved) | 59.5 | 55.8 | 43.4 |
+  | Insider | 60.2 | 62.9 | 45.8 |
+  | Disablers | 59.5 | 55.5 | 39.5 |
+  | Supplier | 59.7 | 61.3 | 44.0 |
+  | Engineer | 59.8 | 60.4 | 44.1 |
+  | Undercover | 59.7 | 58.2 | 41.4 |
+  | Hacker | 59.7 | 59.3 | 44.4 |
+  | Alien | 59.0 | 60.8 | 45.8 |
+
+- **Manifests and docs.** `cinematic-manifest.mjs` gave 44 sources and 292 exports, every render record's hash matching its file. The audio sheets match their 48 files. `cinematic-docs.mjs` gave `cinematic-catalogue-0.18.0`.
 
 **Limitations:**
 - **No phone has run it.** Every frame and video is desktop Chromium.
-- **Luminance parity is not yet measured across roles.** With one film drawn, the shared opener, page and title keep the brightness common. A measured comparison comes with the second film.
+- **Brightness is measured on desktop renders only.** The page beat spans 55.5 to 62.9 across the films and the title 39.5 to 45.8; a phone's display and its brightness setting move more than that. Equal brightness on a phone is Frontend's to check.
+- **Only the Doctor has reduced-motion and 320 renders.** The other films' reduced stills and the seven phone sizes are the tests'.
 - **The take is a cut.** The hand closes on the gadget in one frame at 1,300 ms; the rig has no finger animation.
 - **Large text is untested.** Captions at 200% text are Frontend's to fit.
 - **Reading time is untested on a phone.** The first box shows for 4.55 s and the second for 3.05 s before the title. Large text and slower readers are Frontend's to try on a phone.
-- **The other eight films are storyboards.** Each will open in the same briefing room with its own gadget, and tell its own back story.

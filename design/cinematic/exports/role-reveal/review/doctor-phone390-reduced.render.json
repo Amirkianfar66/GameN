@@ -1,7 +1,7 @@
 {
   "tool": "design/tools/cinematic-render.mjs",
   "pilot": "role-reveal",
-  "version": "cinematic-role-reveal-0.6.0",
+  "version": "cinematic-role-reveal-0.7.0",
   "surface": "phone",
   "variant": "reduced",
   "stage": "design/cinematic/stage.html?pilot=role-reveal&surface=phone&variant=reduced&beds=4&w=390&h=844&role=Doctor&seat=6&character=c4",

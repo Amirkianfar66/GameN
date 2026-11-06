@@ -1,0 +1,53 @@
+{
+  "tool": "design/tools/cinematic-render.mjs",
+  "pilot": "role-reveal",
+  "version": "cinematic-role-reveal-0.7.0",
+  "surface": "phone",
+  "variant": "full",
+  "stage": "design/cinematic/stage.html?pilot=role-reveal&surface=phone&variant=full&beds=4&w=390&h=844&role=Hacker&seat=3&character=c8",
+  "size": [
+    390,
+    844
+  ],
+  "deviceScale": 2,
+  "fixture": {
+    "role": "Hacker",
+    "seat": 3,
+    "character": "c8",
+    "synthetic": true
+  },
+  "browser": "Chromium 141.0.7390.37",
+  "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+  "outputs": [
+    {
+      "kind": "video",
+      "file": "design/cinematic/exports/role-reveal/review/hacker-phone390-full.mp4",
+      "sha256": "cd4c4d48fe01258fe3113503e48a766d87d34872dac6b4bf0eb0305c513f357c",
+      "bytes": 2455224,
+      "fps": 30,
+      "frames": 301,
+      "durationMs": 10000,
+      "from": 0,
+      "to": 10000,
+      "audio": null
+    },
+    {
+      "kind": "preview",
+      "file": "design/cinematic/exports/role-reveal/review/hacker-phone390-full.preview.webp",
+      "sha256": "d3259a5bbc8305ce44813050c0c1727e80f7d6d670cf96dda78e835717f397f5",
+      "bytes": 371014
+    },
+    {
+      "kind": "poster",
+      "file": "design/cinematic/exports/role-reveal/review/hacker-phone390-full.poster.webp",
+      "sha256": "0d5bbe9854badddee809a4bb983512496c18d4f69a03fba416287d49a2824946",
+      "bytes": 50814,
+      "t": 7400
+    }
+  ],
+  "settling": {
+    "rule": "a frame is kept once two captures a redraw apart agree; pictures decode before their tiles draw",
+    "resettled": 0,
+    "unsettled": []
+  }
+}

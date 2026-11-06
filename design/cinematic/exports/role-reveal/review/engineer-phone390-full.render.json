@@ -1,0 +1,53 @@
+{
+  "tool": "design/tools/cinematic-render.mjs",
+  "pilot": "role-reveal",
+  "version": "cinematic-role-reveal-0.7.0",
+  "surface": "phone",
+  "variant": "full",
+  "stage": "design/cinematic/stage.html?pilot=role-reveal&surface=phone&variant=full&beds=4&w=390&h=844&role=Engineer&seat=3&character=c5",
+  "size": [
+    390,
+    844
+  ],
+  "deviceScale": 2,
+  "fixture": {
+    "role": "Engineer",
+    "seat": 3,
+    "character": "c5",
+    "synthetic": true
+  },
+  "browser": "Chromium 141.0.7390.37",
+  "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+  "outputs": [
+    {
+      "kind": "video",
+      "file": "design/cinematic/exports/role-reveal/review/engineer-phone390-full.mp4",
+      "sha256": "461d58dc0c0506cdafbfc6569478cd7a468c24a04018d3f563e0b12646c66c10",
+      "bytes": 2676146,
+      "fps": 30,
+      "frames": 301,
+      "durationMs": 10000,
+      "from": 0,
+      "to": 10000,
+      "audio": null
+    },
+    {
+      "kind": "preview",
+      "file": "design/cinematic/exports/role-reveal/review/engineer-phone390-full.preview.webp",
+      "sha256": "10e38bd2938bb8504bbbc35b71497a07dfdb44fc07916f5592275e877836e9a2",
+      "bytes": 472348
+    },
+    {
+      "kind": "poster",
+      "file": "design/cinematic/exports/role-reveal/review/engineer-phone390-full.poster.webp",
+      "sha256": "11ccd57e89c135d250c68f43ea8c1db42d1dbb584ebd684cc7b6dc60f04607f2",
+      "bytes": 59340,
+      "t": 7400
+    }
+  ],
+  "settling": {
+    "rule": "a frame is kept once two captures a redraw apart agree; pictures decode before their tiles draw",
+    "resettled": 0,
+    "unsettled": []
+  }
+}

@@ -6,6 +6,25 @@ What the game owner decided about look, feel and presentation while working with
 
 The owner's messages are quoted as written.
 
+## 6 November 2026: the Doctor's film approved; every role's film drawn
+
+**The owner approved the fewer-words Doctor film as the role films' pilot.**
+
+The owner wrote, of the fewer-words version:
+
+> Lets use this one
+
+| # | What it says | What it decides |
+| --- | --- | --- |
+| 1 | "Lets use this one" | The Doctor's film as it stands (ten seconds, the briefing room, two memory panels with a few words each, one wordless panel aboard, the title) is the approved pilot and the template for every role's film |
+
+### What the Designer did with it
+
+- **The other films.** Drawn from the approved pilot, each with its own back story, as the plan agreed (the Doctor first, then the other eight): the Insider, the Disablers (one film for both), the Supplier, the Engineer, the Undercover, the Hacker and the Alien (`design/cinematic/pilots/role-reveal/`). Each keeps the pilot's clock, opener, palette, privacy rules and look.
+- **Fewer words, kept.** Every panel aboard is wordless but for a sound word. The stamped words the first storyboards proposed for it (label tapes, a ROUND 3 stamp, CAPTURED, UNLOCKED) are left to the role cards, after the owner's "it is like tutorial".
+- **One fix to the approved film.** The Doctor's BEEP showed a third smaller from the moment its panel landed, through a rounding error in the sound words' pop; it now pops when the key lights, as designed. Every film's sound word waits for its beat, and a test holds it.
+- **Review.** A review render of every film, and the Doctor's re-rendered; the storyboards in `docs/design/cinematic/role-reveal.md` match the drawn films.
+
 ## 6 November 2026: fewer words
 
 **The owner found the film's text too much, like a tutorial, and asked for less of it.**

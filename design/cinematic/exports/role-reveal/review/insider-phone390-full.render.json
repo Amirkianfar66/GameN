@@ -1,0 +1,53 @@
+{
+  "tool": "design/tools/cinematic-render.mjs",
+  "pilot": "role-reveal",
+  "version": "cinematic-role-reveal-0.7.0",
+  "surface": "phone",
+  "variant": "full",
+  "stage": "design/cinematic/stage.html?pilot=role-reveal&surface=phone&variant=full&beds=4&w=390&h=844&role=Insider&seat=3&character=c2",
+  "size": [
+    390,
+    844
+  ],
+  "deviceScale": 2,
+  "fixture": {
+    "role": "Insider",
+    "seat": 3,
+    "character": "c2",
+    "synthetic": true
+  },
+  "browser": "Chromium 141.0.7390.37",
+  "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+  "outputs": [
+    {
+      "kind": "video",
+      "file": "design/cinematic/exports/role-reveal/review/insider-phone390-full.mp4",
+      "sha256": "d0d1bf3857719eb6f66655b2a7af4ae713fea5334f0740eb3e156da4ba2f1cef",
+      "bytes": 2733337,
+      "fps": 30,
+      "frames": 301,
+      "durationMs": 10000,
+      "from": 0,
+      "to": 10000,
+      "audio": null
+    },
+    {
+      "kind": "preview",
+      "file": "design/cinematic/exports/role-reveal/review/insider-phone390-full.preview.webp",
+      "sha256": "c8b94af33aaf042b93729e45ff0db8512c687555958ae7348b7c80a9b410c7b9",
+      "bytes": 425026
+    },
+    {
+      "kind": "poster",
+      "file": "design/cinematic/exports/role-reveal/review/insider-phone390-full.poster.webp",
+      "sha256": "3355a50c5fdc3f7e6c6bacd0eb45c658752045cfb1f7ac0a9e4852f3aab21a7d",
+      "bytes": 70396,
+      "t": 7400
+    }
+  ],
+  "settling": {
+    "rule": "a frame is kept once two captures a redraw apart agree; pictures decode before their tiles draw",
+    "resettled": 0,
+    "unsettled": []
+  }
+}

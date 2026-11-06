@@ -24,7 +24,7 @@
 
 import { beat, bell, clamp01, easeInOutCubic, easeOutBack, easeOutCubic } from '../../lib/ease.mjs';
 
-export const ROLE_REVEAL_VERSION = 'cinematic-role-reveal-0.6.0';
+export const ROLE_REVEAL_VERSION = 'cinematic-role-reveal-0.7.0';
 export const VARIANTS = Object.freeze(['full', 'reduced']);
 
 /** Every film's length, ms: the same for every role and both variants. */

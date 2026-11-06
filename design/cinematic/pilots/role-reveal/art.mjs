@@ -211,7 +211,9 @@ export function panelSvg(prefix, { i, x, y, w, h, enter, slam = 1, tilt = 0, sid
 
 /** A comic sound word in Ink Block lettering (decorative: a word drawn here is never its only meaning). */
 export function sfxSvg(text, { x, y, size = 56, rotate = -6, pop = 1, opacity = 1, fill = AMBER }) {
-  if (opacity <= 0 || pop <= 0) return '';
+  // A pop eased from 0 can come out a rounding error above it (easeOutBack(0) is 2e-16): the word
+  // waits for its beat rather than showing early at its smallest size.
+  if (opacity <= 0 || pop <= 1e-6) return '';
   return lettering(text, { x, y, size, rotate, scale: lerp(0.6, 1, Math.min(1, pop)), opacity, fill, skew: -10 });
 }
 
