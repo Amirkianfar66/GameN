@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-05T19:24:26.079Z",
+  "generatedAt": "2026-11-06T05:56:57.253Z",
   "browser": {
     "protocolVersion": "1.3",
     "product": "Chrome/156.0.8078.80",
@@ -160,6 +160,13 @@
           "out": false
         },
         {
+          "id": "planet-action-SUBMIT_CODE",
+          "label": "Submit final Code",
+          "width": 278,
+          "height": 44,
+          "out": false
+        },
+        {
           "id": "planet-close",
           "label": "Close",
           "width": 102,
@@ -167,7 +174,7 @@
           "out": false
         }
       ],
-      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n6\nCrew 6\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\nJAIL\nPRIVATE TALK\nSYNTHETIC · R6 · ORDINARY TURN · P6\n59s\nCaptain — · Officer —\nTurn: Player 6\n\nBoard\nCard\nActions\nMore\nPASS\nHACKER\n\nRed team\n\nScan privately; a wrong guess blocks the whole next round. From Round 2 you have one final Code attempt. Correct Code unlocks Hack Spaceship without activating it; eligible activation uses your Role Action.\n\nWeapons 0 · Role Action available · Movement available\n\nUndercover: Player 5.\n\nFinal Code not submitted · Spaceship hack locked.\n\nClose\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
+      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n6\nCrew 6\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\nJAIL\nPRIVATE TALK\nSYNTHETIC · R6 · ORDINARY TURN · P6\n59s\nCaptain — · Officer —\nTurn: Player 6\n\nBoard\nCard\nActions\nMore\nPASS\nHACKER\n\nRed team\n\nSubmit final Code\n\nScan privately; a wrong guess blocks the whole next round. From Round 2 you have one final Code attempt. Correct Code unlocks Hack Spaceship without activating it; eligible activation uses your Role Action.\n\nWeapons 0 · Role Action available · Movement available\n\nUndercover: Player 5.\n\nFinal Code not submitted · Spaceship hack locked.\n\nHack Spaceship locked\nClose\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
       "screenshot": "320-568-normal-hacker.png"
     },
     {
@@ -244,6 +251,13 @@
           "out": false
         },
         {
+          "id": "planet-action-ENGINEER_SUPPRESS",
+          "label": "Suppress navigation",
+          "width": 278,
+          "height": 44,
+          "out": false
+        },
+        {
           "id": "planet-close",
           "label": "Close",
           "width": 102,
@@ -251,7 +265,7 @@
           "out": false
         }
       ],
-      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n6\nCrew 6\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\nJAIL\nPRIVATE TALK\nSYNTHETIC · R6 · ORDINARY TURN · P9\n59s\nCaptain — · Officer —\nTurn: Player 9\n\nBoard\nCard\nActions\nMore\nPASS\nENGINEER\n\nBlue team\n\nOnce per match, your eligible Role Action captures the opposite room’s current player identities. Their navigation weight is suppressed through this round; later movement does not change those identities.\n\nWeapons 0 · Role Action available · Movement available\n\nSuppression unused.\n\nClose\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
+      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n6\nCrew 6\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\nJAIL\nPRIVATE TALK\nSYNTHETIC · R6 · ORDINARY TURN · P9\n59s\nCaptain — · Officer —\nTurn: Player 9\n\nBoard\nCard\nActions\nMore\nPASS\nENGINEER\n\nBlue team\n\nSuppress navigation\n\nOnce per match, your eligible Role Action captures the opposite room’s current player identities. Their navigation weight is suppressed through this round; later movement does not change those identities.\n\nWeapons 0 · Role Action available · Movement available\n\nSuppression unused.\n\nCapture the opposite room\n\nCurrent preview in Room A: Player 1, Player 2, Player 3, Player 4, Player 5. The server fixes identities when registered.\n\nClose\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
       "screenshot": "320-568-normal-engineer.png"
     },
     {
@@ -498,19 +512,19 @@
         {
           "id": "planet-action-PANEL_CODE",
           "label": "Hospital panel",
-          "width": 280,
+          "width": 278,
           "height": 44,
           "out": false
         },
         {
           "id": "planet-close",
           "label": "Close",
-          "width": 103,
+          "width": 102,
           "height": 44,
           "out": false
         }
       ],
-      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\n6\nCrew 6\nRESCUE R7\nDETAINED\nJAIL\nPRIVATE TALK\nSYNTHETIC · R6 · ORDINARY TURN · P1\n59s\nCaptain — · Officer —\nTurn: Player 1\n\nBoard\nCard\nActions\nMore\nPASS\nHospital panel\n\nOne patient attempt with the Doctor’s original player number. A registered request resolves later.\n\nHospital panel\nClose\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Injured, Hospital, H1, detained, Rescue possible through Round 7.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
+      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\n6\nCrew 6\nRESCUE R7\nDETAINED\nJAIL\nPRIVATE TALK\nSYNTHETIC · R6 · ORDINARY TURN · P1\n59s\nCaptain — · Officer —\nTurn: Player 1\n\nBoard\nCard\nActions\nMore\nPASS\nHospital panel\n\nOne patient attempt with the Doctor’s original player number. A registered request resolves later.\n\nOne panel attempt in the match.\n\nHospital panel\nClose\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Injured, Hospital, H1, detained, Rescue possible through Round 7.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
       "screenshot": null
     },
     {
@@ -589,33 +603,33 @@
         {
           "id": "planet-action-OFFER_PROMISE",
           "label": "Offer a Promise",
-          "width": 280,
+          "width": 278,
           "height": 44,
-          "out": true
+          "out": false
         },
         {
           "id": "planet-action-ACCEPT_PROMISE",
           "label": "Accept Promise",
-          "width": 280,
+          "width": 278,
           "height": 44,
-          "out": true
+          "out": false
         },
         {
           "id": "planet-action-DECLINE_PROMISE",
           "label": "Decline Promise",
-          "width": 280,
+          "width": 278,
           "height": 44,
-          "out": true
+          "out": false
         },
         {
           "id": "planet-close",
           "label": "Close",
-          "width": 103,
+          "width": 102,
           "height": 44,
           "out": false
         }
       ],
-      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n6\nCrew 6\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\nJAIL\nPRIVATE TALK\n1\nCrew 1\n6\nCrew 6\nSYNTHETIC · R6 · HACK · P6\n59s\nCaptain — · Officer —\nPrivate talk: Player 6 + Player 1\n\nBoard\nCard\nActions\nMore\nPASS\nPromises\n\nAccepted given: 0 / 1 · Accepted received: 0 / 1\n\nMeet in Room A\n\nPlayer 1 and Player 6 are both in Room A at voting start after Sync in Round 6.\n\noffered\nOffer a Promise\nAccept Promise\nDecline Promise\nClose\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
+      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n6\nCrew 6\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\nJAIL\nPRIVATE TALK\n1\nCrew 1\n6\nCrew 6\nSYNTHETIC · R6 · HACK · P6\n59s\nCaptain — · Officer —\nPrivate talk: Player 6 + Player 1\n\nBoard\nCard\nActions\nMore\nPASS\nPromises\n\nAccepted given: 0 / 1 · Accepted received: 0 / 1\n\nMeet in Room A\n\nPlayer 1 will be in Room A when Round 6's voting begins, after Sync.\n\noffered\nOffer a Promise\nAccept Promise\nDecline Promise\nClose\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
       "screenshot": "320-568-normal-promises.png"
     },
     {
@@ -694,12 +708,12 @@
         {
           "id": "planet-close",
           "label": "Close",
-          "width": 103,
+          "width": 102,
           "height": 44,
           "out": false
         }
       ],
-      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n6\nCrew 6\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\nJAIL\nPRIVATE TALK\n1\nCrew 1\n6\nCrew 6\nSYNTHETIC · R6 · HACK · P6\n59s\nCaptain — · Officer —\nPrivate talk: Player 6 + Player 1\n\nBoard\nCard\nActions\nMore\nPASS\nPromises\n\nAccepted given: 1 / 1 · Accepted received: 1 / 1\n\nMeet in Room B\n\nPlayer 6 and Player 1 are both in Room B at voting start after Sync in Round 6.\n\nPending\nJail Vote\n\nPlayer 3 votes for Player 2 at the next Jail vote of Round 5; admission is not required.\n\nNot fulfilled\nClose\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
+      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n6\nCrew 6\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\nJAIL\nPRIVATE TALK\n1\nCrew 1\n6\nCrew 6\nSYNTHETIC · R6 · HACK · P6\n59s\nCaptain — · Officer —\nPrivate talk: Player 6 + Player 1\n\nBoard\nCard\nActions\nMore\nPASS\nPromises\n\nAccepted given: 1 / 1 · Accepted received: 1 / 1\n\nMeet in Room B\n\nPlayer 6 will be in Room B when Round 6's voting begins, after Sync.\n\nPending\nJail Vote\n\nPlayer 3 votes for Player 2 at the next Jail vote of Round 5; admission is not required.\n\nNot fulfilled\nClose\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
       "screenshot": null
     },
     {
@@ -777,27 +791,34 @@
         },
         {
           "id": "",
+          "label": "Undo local stroke",
+          "width": 278,
+          "height": 44,
+          "out": true
+        },
+        {
+          "id": "",
           "label": "Clear local draft",
-          "width": 280,
+          "width": 278,
           "height": 44,
           "out": true
         },
         {
           "id": "planet-show-A_B",
           "label": "Show",
-          "width": 280,
+          "width": 278,
           "height": 44,
           "out": true
         },
         {
           "id": "planet-close",
           "label": "Close",
-          "width": 103,
+          "width": 102,
           "height": 44,
           "out": false
         }
       ],
-      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n6\nCrew 6\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\nJAIL\nPRIVATE TALK\nSYNTHETIC · R6 · ORDINARY TURN · P6\n59s\nCaptain — · Officer — · Move blocked: Player 6\nTurn: Player 6\n\nBoard\nCard\nActions\nMore\nPASS\nWindows\n\nUnverified claims · Expires after Round 6\n\nRoom A ↔ Room B\n1. Player 1 · Round 6\n2. Player 6 · Round 6\nClear local draft\nShow\nRoom B ↔ Jail\n\nView only from this position.\n\nClose\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
+      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n6\nCrew 6\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\nJAIL\nPRIVATE TALK\nSYNTHETIC · R6 · ORDINARY TURN · P6\n59s\nCaptain — · Officer — · Move blocked: Player 6\nTurn: Player 6\n\nBoard\nCard\nActions\nMore\nPASS\nWindows\n\nUnverified claims · Expires after Round 6\n\nRoom A ↔ Room B\n1. Player 1 · Round 6\n2. Player 6 · Round 6\nInk\nWidth\n2\n4\n8\n12\n24\nUndo local stroke\nClear local draft\nShow\nRoom B ↔ Jail\n\nView only from this position.\n\nClose\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
       "screenshot": "320-568-normal-windows.png"
     },
     {
@@ -953,14 +974,14 @@
         {
           "id": "planet-action-CONFIRM_NAVIGATION",
           "label": "Acknowledge direction",
-          "width": 280,
+          "width": 278,
           "height": 44,
           "out": false
         },
         {
           "id": "planet-close",
           "label": "Close",
-          "width": 103,
+          "width": 102,
           "height": 44,
           "out": false
         }
@@ -1044,14 +1065,14 @@
         {
           "id": "planet-action-CHOOSE_NAV_DIRECTION",
           "label": "Choose tie direction",
-          "width": 280,
+          "width": 278,
           "height": 44,
           "out": false
         },
         {
           "id": "planet-close",
           "label": "Close",
-          "width": 103,
+          "width": 102,
           "height": 44,
           "out": false
         }
@@ -1603,7 +1624,7 @@
         {
           "id": "",
           "label": "Set bots",
-          "width": 270,
+          "width": 278,
           "height": 44,
           "out": false
         },
@@ -1615,7 +1636,7 @@
           "out": false
         }
       ],
-      "text": "SYNTHETIC · Mothership\n\nRoom PLANET\n\nHost lobby\n\nPlayer 1 · Crew 1 · Bot · Ready\nPlayer 2 · Crew 2 · Bot · Ready\nPlayer 3 · Crew 3 · Bot · Ready\nPlayer 4 · Crew 4 · Bot · Ready\nPlayer 5 · Crew 5 · Bot · Ready\nPlayer 6 · Crew 6 · Ready\nPlayer 7 · Crew 7 · Bot · Ready\nPlayer 8 · Crew 8 · Bot · Ready\nPlayer 9 · Crew 9 · Bot · Ready\nBots\n0 bots\n1 bots\n2 bots\n3 bots\n4 bots\n5 bots\n6 bots\n7 bots\n8 bots\nSet bots\nBegin 30-second character selection",
+      "text": "SYNTHETIC · Mothership\n\nRoom PLANET\n\nHost lobby\n\n9 of 9 seats filled\nBots\n0 bots\n1 bots\n2 bots\n3 bots\n4 bots\n5 bots\n6 bots\n7 bots\n8 bots\nSet bots\nBegin 30-second character selection",
       "screenshot": null
     },
     {
@@ -1923,6 +1944,13 @@
           "out": false
         },
         {
+          "id": "planet-action-SUBMIT_CODE",
+          "label": "Submit final Code",
+          "width": 278,
+          "height": 44,
+          "out": false
+        },
+        {
           "id": "planet-close",
           "label": "Close",
           "width": 102,
@@ -1930,7 +1958,7 @@
           "out": false
         }
       ],
-      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n6\nCrew 6\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\nJAIL\nPRIVATE TALK\nSYNTHETIC · R6 · ORDINARY TURN · P6\n59s\nCaptain — · Officer —\nTurn: Player 6\n\nBoard\nCard\nActions\nMore\nPASS\nHACKER\n\nRed team\n\nScan privately; a wrong guess blocks the whole next round. From Round 2 you have one final Code attempt. Correct Code unlocks Hack Spaceship without activating it; eligible activation uses your Role Action.\n\nWeapons 0 · Role Action available · Movement available\n\nUndercover: Player 5.\n\nFinal Code not submitted · Spaceship hack locked.\n\nClose\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
+      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n6\nCrew 6\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\nJAIL\nPRIVATE TALK\nSYNTHETIC · R6 · ORDINARY TURN · P6\n59s\nCaptain — · Officer —\nTurn: Player 6\n\nBoard\nCard\nActions\nMore\nPASS\nHACKER\n\nRed team\n\nSubmit final Code\n\nScan privately; a wrong guess blocks the whole next round. From Round 2 you have one final Code attempt. Correct Code unlocks Hack Spaceship without activating it; eligible activation uses your Role Action.\n\nWeapons 0 · Role Action available · Movement available\n\nUndercover: Player 5.\n\nFinal Code not submitted · Spaceship hack locked.\n\nHack Spaceship locked\nClose\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
       "screenshot": "320-568-reduced-hacker.png"
     },
     {
@@ -2007,6 +2035,13 @@
           "out": false
         },
         {
+          "id": "planet-action-ENGINEER_SUPPRESS",
+          "label": "Suppress navigation",
+          "width": 278,
+          "height": 44,
+          "out": false
+        },
+        {
           "id": "planet-close",
           "label": "Close",
           "width": 102,
@@ -2014,7 +2049,7 @@
           "out": false
         }
       ],
-      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n6\nCrew 6\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\nJAIL\nPRIVATE TALK\nSYNTHETIC · R6 · ORDINARY TURN · P9\n59s\nCaptain — · Officer —\nTurn: Player 9\n\nBoard\nCard\nActions\nMore\nPASS\nENGINEER\n\nBlue team\n\nOnce per match, your eligible Role Action captures the opposite room’s current player identities. Their navigation weight is suppressed through this round; later movement does not change those identities.\n\nWeapons 0 · Role Action available · Movement available\n\nSuppression unused.\n\nClose\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
+      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n6\nCrew 6\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\nJAIL\nPRIVATE TALK\nSYNTHETIC · R6 · ORDINARY TURN · P9\n59s\nCaptain — · Officer —\nTurn: Player 9\n\nBoard\nCard\nActions\nMore\nPASS\nENGINEER\n\nBlue team\n\nSuppress navigation\n\nOnce per match, your eligible Role Action captures the opposite room’s current player identities. Their navigation weight is suppressed through this round; later movement does not change those identities.\n\nWeapons 0 · Role Action available · Movement available\n\nSuppression unused.\n\nCapture the opposite room\n\nCurrent preview in Room A: Player 1, Player 2, Player 3, Player 4, Player 5. The server fixes identities when registered.\n\nClose\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
       "screenshot": null
     },
     {
@@ -2261,19 +2296,19 @@
         {
           "id": "planet-action-PANEL_CODE",
           "label": "Hospital panel",
-          "width": 280,
+          "width": 278,
           "height": 44,
           "out": false
         },
         {
           "id": "planet-close",
           "label": "Close",
-          "width": 103,
+          "width": 102,
           "height": 44,
           "out": false
         }
       ],
-      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\n6\nCrew 6\nRESCUE R7\nDETAINED\nJAIL\nPRIVATE TALK\nSYNTHETIC · R6 · ORDINARY TURN · P1\n59s\nCaptain — · Officer —\nTurn: Player 1\n\nBoard\nCard\nActions\nMore\nPASS\nHospital panel\n\nOne patient attempt with the Doctor’s original player number. A registered request resolves later.\n\nHospital panel\nClose\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Injured, Hospital, H1, detained, Rescue possible through Round 7.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
+      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\n6\nCrew 6\nRESCUE R7\nDETAINED\nJAIL\nPRIVATE TALK\nSYNTHETIC · R6 · ORDINARY TURN · P1\n59s\nCaptain — · Officer —\nTurn: Player 1\n\nBoard\nCard\nActions\nMore\nPASS\nHospital panel\n\nOne patient attempt with the Doctor’s original player number. A registered request resolves later.\n\nOne panel attempt in the match.\n\nHospital panel\nClose\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Injured, Hospital, H1, detained, Rescue possible through Round 7.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
       "screenshot": null
     },
     {
@@ -2352,33 +2387,33 @@
         {
           "id": "planet-action-OFFER_PROMISE",
           "label": "Offer a Promise",
-          "width": 280,
+          "width": 278,
           "height": 44,
-          "out": true
+          "out": false
         },
         {
           "id": "planet-action-ACCEPT_PROMISE",
           "label": "Accept Promise",
-          "width": 280,
+          "width": 278,
           "height": 44,
-          "out": true
+          "out": false
         },
         {
           "id": "planet-action-DECLINE_PROMISE",
           "label": "Decline Promise",
-          "width": 280,
+          "width": 278,
           "height": 44,
-          "out": true
+          "out": false
         },
         {
           "id": "planet-close",
           "label": "Close",
-          "width": 103,
+          "width": 102,
           "height": 44,
           "out": false
         }
       ],
-      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n6\nCrew 6\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\nJAIL\nPRIVATE TALK\n1\nCrew 1\n6\nCrew 6\nSYNTHETIC · R6 · HACK · P6\n59s\nCaptain — · Officer —\nPrivate talk: Player 6 + Player 1\n\nBoard\nCard\nActions\nMore\nPASS\nPromises\n\nAccepted given: 0 / 1 · Accepted received: 0 / 1\n\nMeet in Room A\n\nPlayer 1 and Player 6 are both in Room A at voting start after Sync in Round 6.\n\noffered\nOffer a Promise\nAccept Promise\nDecline Promise\nClose\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
+      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n6\nCrew 6\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\nJAIL\nPRIVATE TALK\n1\nCrew 1\n6\nCrew 6\nSYNTHETIC · R6 · HACK · P6\n59s\nCaptain — · Officer —\nPrivate talk: Player 6 + Player 1\n\nBoard\nCard\nActions\nMore\nPASS\nPromises\n\nAccepted given: 0 / 1 · Accepted received: 0 / 1\n\nMeet in Room A\n\nPlayer 1 will be in Room A when Round 6's voting begins, after Sync.\n\noffered\nOffer a Promise\nAccept Promise\nDecline Promise\nClose\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
       "screenshot": null
     },
     {
@@ -2457,12 +2492,12 @@
         {
           "id": "planet-close",
           "label": "Close",
-          "width": 103,
+          "width": 102,
           "height": 44,
           "out": false
         }
       ],
-      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n6\nCrew 6\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\nJAIL\nPRIVATE TALK\n1\nCrew 1\n6\nCrew 6\nSYNTHETIC · R6 · HACK · P6\n59s\nCaptain — · Officer —\nPrivate talk: Player 6 + Player 1\n\nBoard\nCard\nActions\nMore\nPASS\nPromises\n\nAccepted given: 1 / 1 · Accepted received: 1 / 1\n\nMeet in Room B\n\nPlayer 6 and Player 1 are both in Room B at voting start after Sync in Round 6.\n\nPending\nJail Vote\n\nPlayer 3 votes for Player 2 at the next Jail vote of Round 5; admission is not required.\n\nNot fulfilled\nClose\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
+      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n6\nCrew 6\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\nJAIL\nPRIVATE TALK\n1\nCrew 1\n6\nCrew 6\nSYNTHETIC · R6 · HACK · P6\n59s\nCaptain — · Officer —\nPrivate talk: Player 6 + Player 1\n\nBoard\nCard\nActions\nMore\nPASS\nPromises\n\nAccepted given: 1 / 1 · Accepted received: 1 / 1\n\nMeet in Room B\n\nPlayer 6 will be in Room B when Round 6's voting begins, after Sync.\n\nPending\nJail Vote\n\nPlayer 3 votes for Player 2 at the next Jail vote of Round 5; admission is not required.\n\nNot fulfilled\nClose\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
       "screenshot": null
     },
     {
@@ -2540,27 +2575,34 @@
         },
         {
           "id": "",
+          "label": "Undo local stroke",
+          "width": 278,
+          "height": 44,
+          "out": true
+        },
+        {
+          "id": "",
           "label": "Clear local draft",
-          "width": 280,
+          "width": 278,
           "height": 44,
           "out": true
         },
         {
           "id": "planet-show-A_B",
           "label": "Show",
-          "width": 280,
+          "width": 278,
           "height": 44,
           "out": true
         },
         {
           "id": "planet-close",
           "label": "Close",
-          "width": 103,
+          "width": 102,
           "height": 44,
           "out": false
         }
       ],
-      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n6\nCrew 6\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\nJAIL\nPRIVATE TALK\nSYNTHETIC · R6 · ORDINARY TURN · P6\n59s\nCaptain — · Officer — · Move blocked: Player 6\nTurn: Player 6\n\nBoard\nCard\nActions\nMore\nPASS\nWindows\n\nUnverified claims · Expires after Round 6\n\nRoom A ↔ Room B\n1. Player 1 · Round 6\n2. Player 6 · Round 6\nClear local draft\nShow\nRoom B ↔ Jail\n\nView only from this position.\n\nClose\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
+      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n6\nCrew 6\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\nJAIL\nPRIVATE TALK\nSYNTHETIC · R6 · ORDINARY TURN · P6\n59s\nCaptain — · Officer — · Move blocked: Player 6\nTurn: Player 6\n\nBoard\nCard\nActions\nMore\nPASS\nWindows\n\nUnverified claims · Expires after Round 6\n\nRoom A ↔ Room B\n1. Player 1 · Round 6\n2. Player 6 · Round 6\nInk\nWidth\n2\n4\n8\n12\n24\nUndo local stroke\nClear local draft\nShow\nRoom B ↔ Jail\n\nView only from this position.\n\nClose\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
       "screenshot": "320-568-reduced-windows.png"
     },
     {
@@ -2716,14 +2758,14 @@
         {
           "id": "planet-action-CONFIRM_NAVIGATION",
           "label": "Acknowledge direction",
-          "width": 280,
+          "width": 278,
           "height": 44,
           "out": false
         },
         {
           "id": "planet-close",
           "label": "Close",
-          "width": 103,
+          "width": 102,
           "height": 44,
           "out": false
         }
@@ -2807,14 +2849,14 @@
         {
           "id": "planet-action-CHOOSE_NAV_DIRECTION",
           "label": "Choose tie direction",
-          "width": 280,
+          "width": 278,
           "height": 44,
           "out": false
         },
         {
           "id": "planet-close",
           "label": "Close",
-          "width": 103,
+          "width": 102,
           "height": 44,
           "out": false
         }
@@ -3366,7 +3408,7 @@
         {
           "id": "",
           "label": "Set bots",
-          "width": 270,
+          "width": 278,
           "height": 44,
           "out": false
         },
@@ -3378,7 +3420,7 @@
           "out": false
         }
       ],
-      "text": "SYNTHETIC · Mothership\n\nRoom PLANET\n\nHost lobby\n\nPlayer 1 · Crew 1 · Bot · Ready\nPlayer 2 · Crew 2 · Bot · Ready\nPlayer 3 · Crew 3 · Bot · Ready\nPlayer 4 · Crew 4 · Bot · Ready\nPlayer 5 · Crew 5 · Bot · Ready\nPlayer 6 · Crew 6 · Ready\nPlayer 7 · Crew 7 · Bot · Ready\nPlayer 8 · Crew 8 · Bot · Ready\nPlayer 9 · Crew 9 · Bot · Ready\nBots\n0 bots\n1 bots\n2 bots\n3 bots\n4 bots\n5 bots\n6 bots\n7 bots\n8 bots\nSet bots\nBegin 30-second character selection",
+      "text": "SYNTHETIC · Mothership\n\nRoom PLANET\n\nHost lobby\n\n9 of 9 seats filled\nBots\n0 bots\n1 bots\n2 bots\n3 bots\n4 bots\n5 bots\n6 bots\n7 bots\n8 bots\nSet bots\nBegin 30-second character selection",
       "screenshot": null
     },
     {
@@ -3686,6 +3728,13 @@
           "out": false
         },
         {
+          "id": "planet-action-SUBMIT_CODE",
+          "label": "Submit final Code",
+          "width": 348,
+          "height": 44,
+          "out": false
+        },
+        {
           "id": "planet-close",
           "label": "Close",
           "width": 137,
@@ -3693,7 +3742,7 @@
           "out": false
         }
       ],
-      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n6\nCrew 6\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\nJAIL\nPRIVATE TALK\nSYNTHETIC · R6 · ORDINARY TURN · P6\n59s\nCaptain — · Officer —\nTurn: Player 6\n\nBoard\nCard\nActions\nMore\nPASS\nHACKER\n\nRed team\n\nScan privately; a wrong guess blocks the whole next round. From Round 2 you have one final Code attempt. Correct Code unlocks Hack Spaceship without activating it; eligible activation uses your Role Action.\n\nWeapons 0 · Role Action available · Movement available\n\nUndercover: Player 5.\n\nFinal Code not submitted · Spaceship hack locked.\n\nClose\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
+      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n6\nCrew 6\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\nJAIL\nPRIVATE TALK\nSYNTHETIC · R6 · ORDINARY TURN · P6\n59s\nCaptain — · Officer —\nTurn: Player 6\n\nBoard\nCard\nActions\nMore\nPASS\nHACKER\n\nRed team\n\nSubmit final Code\n\nScan privately; a wrong guess blocks the whole next round. From Round 2 you have one final Code attempt. Correct Code unlocks Hack Spaceship without activating it; eligible activation uses your Role Action.\n\nWeapons 0 · Role Action available · Movement available\n\nUndercover: Player 5.\n\nFinal Code not submitted · Spaceship hack locked.\n\nHack Spaceship locked\nClose\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
       "screenshot": "390-844-normal-hacker.png"
     },
     {
@@ -3770,6 +3819,13 @@
           "out": false
         },
         {
+          "id": "planet-action-ENGINEER_SUPPRESS",
+          "label": "Suppress navigation",
+          "width": 348,
+          "height": 44,
+          "out": false
+        },
+        {
           "id": "planet-close",
           "label": "Close",
           "width": 137,
@@ -3777,7 +3833,7 @@
           "out": false
         }
       ],
-      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n6\nCrew 6\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\nJAIL\nPRIVATE TALK\nSYNTHETIC · R6 · ORDINARY TURN · P9\n59s\nCaptain — · Officer —\nTurn: Player 9\n\nBoard\nCard\nActions\nMore\nPASS\nENGINEER\n\nBlue team\n\nOnce per match, your eligible Role Action captures the opposite room’s current player identities. Their navigation weight is suppressed through this round; later movement does not change those identities.\n\nWeapons 0 · Role Action available · Movement available\n\nSuppression unused.\n\nClose\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
+      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n6\nCrew 6\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\nJAIL\nPRIVATE TALK\nSYNTHETIC · R6 · ORDINARY TURN · P9\n59s\nCaptain — · Officer —\nTurn: Player 9\n\nBoard\nCard\nActions\nMore\nPASS\nENGINEER\n\nBlue team\n\nSuppress navigation\n\nOnce per match, your eligible Role Action captures the opposite room’s current player identities. Their navigation weight is suppressed through this round; later movement does not change those identities.\n\nWeapons 0 · Role Action available · Movement available\n\nSuppression unused.\n\nCapture the opposite room\n\nCurrent preview in Room A: Player 1, Player 2, Player 3, Player 4, Player 5. The server fixes identities when registered.\n\nClose\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
       "screenshot": null
     },
     {
@@ -4024,19 +4080,19 @@
         {
           "id": "planet-action-PANEL_CODE",
           "label": "Hospital panel",
-          "width": 350,
+          "width": 348,
           "height": 44,
           "out": false
         },
         {
           "id": "planet-close",
           "label": "Close",
-          "width": 138,
+          "width": 137,
           "height": 44,
           "out": false
         }
       ],
-      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\n6\nCrew 6\nRESCUE R7\nDETAINED\nJAIL\nPRIVATE TALK\nSYNTHETIC · R6 · ORDINARY TURN · P1\n59s\nCaptain — · Officer —\nTurn: Player 1\n\nBoard\nCard\nActions\nMore\nPASS\nHospital panel\n\nOne patient attempt with the Doctor’s original player number. A registered request resolves later.\n\nHospital panel\nClose\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Injured, Hospital, H1, detained, Rescue possible through Round 7.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
+      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\n6\nCrew 6\nRESCUE R7\nDETAINED\nJAIL\nPRIVATE TALK\nSYNTHETIC · R6 · ORDINARY TURN · P1\n59s\nCaptain — · Officer —\nTurn: Player 1\n\nBoard\nCard\nActions\nMore\nPASS\nHospital panel\n\nOne patient attempt with the Doctor’s original player number. A registered request resolves later.\n\nOne panel attempt in the match.\n\nHospital panel\nClose\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Injured, Hospital, H1, detained, Rescue possible through Round 7.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
       "screenshot": null
     },
     {
@@ -4115,33 +4171,33 @@
         {
           "id": "planet-action-OFFER_PROMISE",
           "label": "Offer a Promise",
-          "width": 350,
+          "width": 348,
           "height": 44,
-          "out": true
+          "out": false
         },
         {
           "id": "planet-action-ACCEPT_PROMISE",
           "label": "Accept Promise",
-          "width": 350,
+          "width": 348,
           "height": 44,
-          "out": true
+          "out": false
         },
         {
           "id": "planet-action-DECLINE_PROMISE",
           "label": "Decline Promise",
-          "width": 350,
+          "width": 348,
           "height": 44,
-          "out": true
+          "out": false
         },
         {
           "id": "planet-close",
           "label": "Close",
-          "width": 138,
+          "width": 137,
           "height": 44,
           "out": false
         }
       ],
-      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n6\nCrew 6\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\nJAIL\nPRIVATE TALK\n1\nCrew 1\n6\nCrew 6\nSYNTHETIC · R6 · HACK · P6\n59s\nCaptain — · Officer —\nPrivate talk: Player 6 + Player 1\n\nBoard\nCard\nActions\nMore\nPASS\nPromises\n\nAccepted given: 0 / 1 · Accepted received: 0 / 1\n\nMeet in Room A\n\nPlayer 1 and Player 6 are both in Room A at voting start after Sync in Round 6.\n\noffered\nOffer a Promise\nAccept Promise\nDecline Promise\nClose\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
+      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n6\nCrew 6\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\nJAIL\nPRIVATE TALK\n1\nCrew 1\n6\nCrew 6\nSYNTHETIC · R6 · HACK · P6\n59s\nCaptain — · Officer —\nPrivate talk: Player 6 + Player 1\n\nBoard\nCard\nActions\nMore\nPASS\nPromises\n\nAccepted given: 0 / 1 · Accepted received: 0 / 1\n\nMeet in Room A\n\nPlayer 1 will be in Room A when Round 6's voting begins, after Sync.\n\noffered\nOffer a Promise\nAccept Promise\nDecline Promise\nClose\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
       "screenshot": null
     },
     {
@@ -4220,12 +4276,12 @@
         {
           "id": "planet-close",
           "label": "Close",
-          "width": 138,
+          "width": 137,
           "height": 44,
           "out": false
         }
       ],
-      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n6\nCrew 6\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\nJAIL\nPRIVATE TALK\n1\nCrew 1\n6\nCrew 6\nSYNTHETIC · R6 · HACK · P6\n59s\nCaptain — · Officer —\nPrivate talk: Player 6 + Player 1\n\nBoard\nCard\nActions\nMore\nPASS\nPromises\n\nAccepted given: 1 / 1 · Accepted received: 1 / 1\n\nMeet in Room B\n\nPlayer 6 and Player 1 are both in Room B at voting start after Sync in Round 6.\n\nPending\nJail Vote\n\nPlayer 3 votes for Player 2 at the next Jail vote of Round 5; admission is not required.\n\nNot fulfilled\nClose\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
+      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n6\nCrew 6\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\nJAIL\nPRIVATE TALK\n1\nCrew 1\n6\nCrew 6\nSYNTHETIC · R6 · HACK · P6\n59s\nCaptain — · Officer —\nPrivate talk: Player 6 + Player 1\n\nBoard\nCard\nActions\nMore\nPASS\nPromises\n\nAccepted given: 1 / 1 · Accepted received: 1 / 1\n\nMeet in Room B\n\nPlayer 6 will be in Room B when Round 6's voting begins, after Sync.\n\nPending\nJail Vote\n\nPlayer 3 votes for Player 2 at the next Jail vote of Round 5; admission is not required.\n\nNot fulfilled\nClose\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
       "screenshot": null
     },
     {
@@ -4303,27 +4359,34 @@
         },
         {
           "id": "",
+          "label": "Undo local stroke",
+          "width": 348,
+          "height": 44,
+          "out": true
+        },
+        {
+          "id": "",
           "label": "Clear local draft",
-          "width": 350,
+          "width": 348,
           "height": 44,
           "out": true
         },
         {
           "id": "planet-show-A_B",
           "label": "Show",
-          "width": 350,
+          "width": 348,
           "height": 44,
           "out": true
         },
         {
           "id": "planet-close",
           "label": "Close",
-          "width": 138,
+          "width": 137,
           "height": 44,
           "out": false
         }
       ],
-      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n6\nCrew 6\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\nJAIL\nPRIVATE TALK\nSYNTHETIC · R6 · ORDINARY TURN · P6\n59s\nCaptain — · Officer — · Move blocked: Player 6\nTurn: Player 6\n\nBoard\nCard\nActions\nMore\nPASS\nWindows\n\nUnverified claims · Expires after Round 6\n\nRoom A ↔ Room B\n1. Player 1 · Round 6\n2. Player 6 · Round 6\nClear local draft\nShow\nRoom B ↔ Jail\n\nView only from this position.\n\nClose\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
+      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n6\nCrew 6\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\nJAIL\nPRIVATE TALK\nSYNTHETIC · R6 · ORDINARY TURN · P6\n59s\nCaptain — · Officer — · Move blocked: Player 6\nTurn: Player 6\n\nBoard\nCard\nActions\nMore\nPASS\nWindows\n\nUnverified claims · Expires after Round 6\n\nRoom A ↔ Room B\n1. Player 1 · Round 6\n2. Player 6 · Round 6\nInk\nWidth\n2\n4\n8\n12\n24\nUndo local stroke\nClear local draft\nShow\nRoom B ↔ Jail\n\nView only from this position.\n\nClose\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
       "screenshot": "390-844-normal-windows.png"
     },
     {
@@ -4479,14 +4542,14 @@
         {
           "id": "planet-action-CONFIRM_NAVIGATION",
           "label": "Acknowledge direction",
-          "width": 350,
+          "width": 348,
           "height": 44,
           "out": false
         },
         {
           "id": "planet-close",
           "label": "Close",
-          "width": 138,
+          "width": 137,
           "height": 44,
           "out": false
         }
@@ -4570,14 +4633,14 @@
         {
           "id": "planet-action-CHOOSE_NAV_DIRECTION",
           "label": "Choose tie direction",
-          "width": 350,
+          "width": 348,
           "height": 44,
           "out": false
         },
         {
           "id": "planet-close",
           "label": "Close",
-          "width": 138,
+          "width": 137,
           "height": 44,
           "out": false
         }
@@ -5129,7 +5192,7 @@
         {
           "id": "",
           "label": "Set bots",
-          "width": 340,
+          "width": 348,
           "height": 44,
           "out": false
         },
@@ -5141,7 +5204,7 @@
           "out": false
         }
       ],
-      "text": "SYNTHETIC · Mothership\n\nRoom PLANET\n\nHost lobby\n\nPlayer 1 · Crew 1 · Bot · Ready\nPlayer 2 · Crew 2 · Bot · Ready\nPlayer 3 · Crew 3 · Bot · Ready\nPlayer 4 · Crew 4 · Bot · Ready\nPlayer 5 · Crew 5 · Bot · Ready\nPlayer 6 · Crew 6 · Ready\nPlayer 7 · Crew 7 · Bot · Ready\nPlayer 8 · Crew 8 · Bot · Ready\nPlayer 9 · Crew 9 · Bot · Ready\nBots\n0 bots\n1 bots\n2 bots\n3 bots\n4 bots\n5 bots\n6 bots\n7 bots\n8 bots\nSet bots\nBegin 30-second character selection",
+      "text": "SYNTHETIC · Mothership\n\nRoom PLANET\n\nHost lobby\n\n9 of 9 seats filled\nBots\n0 bots\n1 bots\n2 bots\n3 bots\n4 bots\n5 bots\n6 bots\n7 bots\n8 bots\nSet bots\nBegin 30-second character selection",
       "screenshot": null
     },
     {
@@ -5449,6 +5512,13 @@
           "out": false
         },
         {
+          "id": "planet-action-SUBMIT_CODE",
+          "label": "Submit final Code",
+          "width": 348,
+          "height": 44,
+          "out": false
+        },
+        {
           "id": "planet-close",
           "label": "Close",
           "width": 137,
@@ -5456,7 +5526,7 @@
           "out": false
         }
       ],
-      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n6\nCrew 6\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\nJAIL\nPRIVATE TALK\nSYNTHETIC · R6 · ORDINARY TURN · P6\n59s\nCaptain — · Officer —\nTurn: Player 6\n\nBoard\nCard\nActions\nMore\nPASS\nHACKER\n\nRed team\n\nScan privately; a wrong guess blocks the whole next round. From Round 2 you have one final Code attempt. Correct Code unlocks Hack Spaceship without activating it; eligible activation uses your Role Action.\n\nWeapons 0 · Role Action available · Movement available\n\nUndercover: Player 5.\n\nFinal Code not submitted · Spaceship hack locked.\n\nClose\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
+      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n6\nCrew 6\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\nJAIL\nPRIVATE TALK\nSYNTHETIC · R6 · ORDINARY TURN · P6\n59s\nCaptain — · Officer —\nTurn: Player 6\n\nBoard\nCard\nActions\nMore\nPASS\nHACKER\n\nRed team\n\nSubmit final Code\n\nScan privately; a wrong guess blocks the whole next round. From Round 2 you have one final Code attempt. Correct Code unlocks Hack Spaceship without activating it; eligible activation uses your Role Action.\n\nWeapons 0 · Role Action available · Movement available\n\nUndercover: Player 5.\n\nFinal Code not submitted · Spaceship hack locked.\n\nHack Spaceship locked\nClose\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
       "screenshot": "390-844-reduced-hacker.png"
     },
     {
@@ -5533,6 +5603,13 @@
           "out": false
         },
         {
+          "id": "planet-action-ENGINEER_SUPPRESS",
+          "label": "Suppress navigation",
+          "width": 348,
+          "height": 44,
+          "out": false
+        },
+        {
           "id": "planet-close",
           "label": "Close",
           "width": 137,
@@ -5540,7 +5617,7 @@
           "out": false
         }
       ],
-      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n6\nCrew 6\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\nJAIL\nPRIVATE TALK\nSYNTHETIC · R6 · ORDINARY TURN · P9\n59s\nCaptain — · Officer —\nTurn: Player 9\n\nBoard\nCard\nActions\nMore\nPASS\nENGINEER\n\nBlue team\n\nOnce per match, your eligible Role Action captures the opposite room’s current player identities. Their navigation weight is suppressed through this round; later movement does not change those identities.\n\nWeapons 0 · Role Action available · Movement available\n\nSuppression unused.\n\nClose\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
+      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n6\nCrew 6\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\nJAIL\nPRIVATE TALK\nSYNTHETIC · R6 · ORDINARY TURN · P9\n59s\nCaptain — · Officer —\nTurn: Player 9\n\nBoard\nCard\nActions\nMore\nPASS\nENGINEER\n\nBlue team\n\nSuppress navigation\n\nOnce per match, your eligible Role Action captures the opposite room’s current player identities. Their navigation weight is suppressed through this round; later movement does not change those identities.\n\nWeapons 0 · Role Action available · Movement available\n\nSuppression unused.\n\nCapture the opposite room\n\nCurrent preview in Room A: Player 1, Player 2, Player 3, Player 4, Player 5. The server fixes identities when registered.\n\nClose\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
       "screenshot": "390-844-reduced-engineer.png"
     },
     {
@@ -5787,19 +5864,19 @@
         {
           "id": "planet-action-PANEL_CODE",
           "label": "Hospital panel",
-          "width": 350,
+          "width": 348,
           "height": 44,
           "out": false
         },
         {
           "id": "planet-close",
           "label": "Close",
-          "width": 138,
+          "width": 137,
           "height": 44,
           "out": false
         }
       ],
-      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\n6\nCrew 6\nRESCUE R7\nDETAINED\nJAIL\nPRIVATE TALK\nSYNTHETIC · R6 · ORDINARY TURN · P1\n59s\nCaptain — · Officer —\nTurn: Player 1\n\nBoard\nCard\nActions\nMore\nPASS\nHospital panel\n\nOne patient attempt with the Doctor’s original player number. A registered request resolves later.\n\nHospital panel\nClose\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Injured, Hospital, H1, detained, Rescue possible through Round 7.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
+      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\n6\nCrew 6\nRESCUE R7\nDETAINED\nJAIL\nPRIVATE TALK\nSYNTHETIC · R6 · ORDINARY TURN · P1\n59s\nCaptain — · Officer —\nTurn: Player 1\n\nBoard\nCard\nActions\nMore\nPASS\nHospital panel\n\nOne patient attempt with the Doctor’s original player number. A registered request resolves later.\n\nOne panel attempt in the match.\n\nHospital panel\nClose\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Injured, Hospital, H1, detained, Rescue possible through Round 7.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
       "screenshot": null
     },
     {
@@ -5878,33 +5955,33 @@
         {
           "id": "planet-action-OFFER_PROMISE",
           "label": "Offer a Promise",
-          "width": 350,
+          "width": 348,
           "height": 44,
-          "out": true
+          "out": false
         },
         {
           "id": "planet-action-ACCEPT_PROMISE",
           "label": "Accept Promise",
-          "width": 350,
+          "width": 348,
           "height": 44,
-          "out": true
+          "out": false
         },
         {
           "id": "planet-action-DECLINE_PROMISE",
           "label": "Decline Promise",
-          "width": 350,
+          "width": 348,
           "height": 44,
-          "out": true
+          "out": false
         },
         {
           "id": "planet-close",
           "label": "Close",
-          "width": 138,
+          "width": 137,
           "height": 44,
           "out": false
         }
       ],
-      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n6\nCrew 6\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\nJAIL\nPRIVATE TALK\n1\nCrew 1\n6\nCrew 6\nSYNTHETIC · R6 · HACK · P6\n59s\nCaptain — · Officer —\nPrivate talk: Player 6 + Player 1\n\nBoard\nCard\nActions\nMore\nPASS\nPromises\n\nAccepted given: 0 / 1 · Accepted received: 0 / 1\n\nMeet in Room A\n\nPlayer 1 and Player 6 are both in Room A at voting start after Sync in Round 6.\n\noffered\nOffer a Promise\nAccept Promise\nDecline Promise\nClose\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
+      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n6\nCrew 6\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\nJAIL\nPRIVATE TALK\n1\nCrew 1\n6\nCrew 6\nSYNTHETIC · R6 · HACK · P6\n59s\nCaptain — · Officer —\nPrivate talk: Player 6 + Player 1\n\nBoard\nCard\nActions\nMore\nPASS\nPromises\n\nAccepted given: 0 / 1 · Accepted received: 0 / 1\n\nMeet in Room A\n\nPlayer 1 will be in Room A when Round 6's voting begins, after Sync.\n\noffered\nOffer a Promise\nAccept Promise\nDecline Promise\nClose\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
       "screenshot": "390-844-reduced-promises.png"
     },
     {
@@ -5983,12 +6060,12 @@
         {
           "id": "planet-close",
           "label": "Close",
-          "width": 138,
+          "width": 137,
           "height": 44,
           "out": false
         }
       ],
-      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n6\nCrew 6\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\nJAIL\nPRIVATE TALK\n1\nCrew 1\n6\nCrew 6\nSYNTHETIC · R6 · HACK · P6\n59s\nCaptain — · Officer —\nPrivate talk: Player 6 + Player 1\n\nBoard\nCard\nActions\nMore\nPASS\nPromises\n\nAccepted given: 1 / 1 · Accepted received: 1 / 1\n\nMeet in Room B\n\nPlayer 6 and Player 1 are both in Room B at voting start after Sync in Round 6.\n\nPending\nJail Vote\n\nPlayer 3 votes for Player 2 at the next Jail vote of Round 5; admission is not required.\n\nNot fulfilled\nClose\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
+      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n6\nCrew 6\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\nJAIL\nPRIVATE TALK\n1\nCrew 1\n6\nCrew 6\nSYNTHETIC · R6 · HACK · P6\n59s\nCaptain — · Officer —\nPrivate talk: Player 6 + Player 1\n\nBoard\nCard\nActions\nMore\nPASS\nPromises\n\nAccepted given: 1 / 1 · Accepted received: 1 / 1\n\nMeet in Room B\n\nPlayer 6 will be in Room B when Round 6's voting begins, after Sync.\n\nPending\nJail Vote\n\nPlayer 3 votes for Player 2 at the next Jail vote of Round 5; admission is not required.\n\nNot fulfilled\nClose\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
       "screenshot": null
     },
     {
@@ -6066,27 +6143,34 @@
         },
         {
           "id": "",
+          "label": "Undo local stroke",
+          "width": 348,
+          "height": 44,
+          "out": true
+        },
+        {
+          "id": "",
           "label": "Clear local draft",
-          "width": 350,
+          "width": 348,
           "height": 44,
           "out": true
         },
         {
           "id": "planet-show-A_B",
           "label": "Show",
-          "width": 350,
+          "width": 348,
           "height": 44,
           "out": true
         },
         {
           "id": "planet-close",
           "label": "Close",
-          "width": 138,
+          "width": 137,
           "height": 44,
           "out": false
         }
       ],
-      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n6\nCrew 6\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\nJAIL\nPRIVATE TALK\nSYNTHETIC · R6 · ORDINARY TURN · P6\n59s\nCaptain — · Officer — · Move blocked: Player 6\nTurn: Player 6\n\nBoard\nCard\nActions\nMore\nPASS\nWindows\n\nUnverified claims · Expires after Round 6\n\nRoom A ↔ Room B\n1. Player 1 · Round 6\n2. Player 6 · Round 6\nClear local draft\nShow\nRoom B ↔ Jail\n\nView only from this position.\n\nClose\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
+      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n6\nCrew 6\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\nJAIL\nPRIVATE TALK\nSYNTHETIC · R6 · ORDINARY TURN · P6\n59s\nCaptain — · Officer — · Move blocked: Player 6\nTurn: Player 6\n\nBoard\nCard\nActions\nMore\nPASS\nWindows\n\nUnverified claims · Expires after Round 6\n\nRoom A ↔ Room B\n1. Player 1 · Round 6\n2. Player 6 · Round 6\nInk\nWidth\n2\n4\n8\n12\n24\nUndo local stroke\nClear local draft\nShow\nRoom B ↔ Jail\n\nView only from this position.\n\nClose\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
       "screenshot": "390-844-reduced-windows.png"
     },
     {
@@ -6242,14 +6326,14 @@
         {
           "id": "planet-action-CONFIRM_NAVIGATION",
           "label": "Acknowledge direction",
-          "width": 350,
+          "width": 348,
           "height": 44,
           "out": false
         },
         {
           "id": "planet-close",
           "label": "Close",
-          "width": 138,
+          "width": 137,
           "height": 44,
           "out": false
         }
@@ -6333,14 +6417,14 @@
         {
           "id": "planet-action-CHOOSE_NAV_DIRECTION",
           "label": "Choose tie direction",
-          "width": 350,
+          "width": 348,
           "height": 44,
           "out": false
         },
         {
           "id": "planet-close",
           "label": "Close",
-          "width": 138,
+          "width": 137,
           "height": 44,
           "out": false
         }
@@ -6892,7 +6976,7 @@
         {
           "id": "",
           "label": "Set bots",
-          "width": 340,
+          "width": 348,
           "height": 44,
           "out": false
         },
@@ -6904,7 +6988,7 @@
           "out": false
         }
       ],
-      "text": "SYNTHETIC · Mothership\n\nRoom PLANET\n\nHost lobby\n\nPlayer 1 · Crew 1 · Bot · Ready\nPlayer 2 · Crew 2 · Bot · Ready\nPlayer 3 · Crew 3 · Bot · Ready\nPlayer 4 · Crew 4 · Bot · Ready\nPlayer 5 · Crew 5 · Bot · Ready\nPlayer 6 · Crew 6 · Ready\nPlayer 7 · Crew 7 · Bot · Ready\nPlayer 8 · Crew 8 · Bot · Ready\nPlayer 9 · Crew 9 · Bot · Ready\nBots\n0 bots\n1 bots\n2 bots\n3 bots\n4 bots\n5 bots\n6 bots\n7 bots\n8 bots\nSet bots\nBegin 30-second character selection",
+      "text": "SYNTHETIC · Mothership\n\nRoom PLANET\n\nHost lobby\n\n9 of 9 seats filled\nBots\n0 bots\n1 bots\n2 bots\n3 bots\n4 bots\n5 bots\n6 bots\n7 bots\n8 bots\nSet bots\nBegin 30-second character selection",
       "screenshot": null
     },
     {
@@ -7541,7 +7625,7 @@
           "out": false
         }
       ],
-      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n6\nCrew 6\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\nJAIL\nPRIVATE TALK\nSYNTHETIC · R6 · HACK RESULT · P6\n5s\nCaptain — · Officer —\nPrivate talk: Player 6 + Player 1\n\nBoard\nCard\nActions\nMore\nPASS\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
+      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n6\nCrew 6\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\nJAIL\nPRIVATE TALK\nSYNTHETIC · R6 · HACK RESULT · P6\n4s\nCaptain — · Officer —\nPrivate talk: Player 6 + Player 1\n\nBoard\nCard\nActions\nMore\nPASS\n\nPlayer 1, Crew 1: Healthy, Room A, A1.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
       "screenshot": "flow-capsule-entry.png"
     },
     {
@@ -7706,7 +7790,7 @@
       "command": {
         "protocolVersion": 3,
         "matchId": "planet-local",
-        "commandId": "53e85b85-694f-450b-9b31-62970595af33",
+        "commandId": "92b68bf3-5d2c-4beb-91c9-66c8348eca15",
         "phaseId": "planet-phase-turn",
         "command": {
           "type": "MOVE",
@@ -7755,7 +7839,7 @@
     {
       "name": "capsule conversation starts with the original full server 60-second window; entrance adds no local delay",
       "passed": true,
-      "remainingMs": 59937.449951171875
+      "remainingMs": 59931.550048828125
     },
     {
       "name": "authorized room block mounts the approved source-free shield; public view omits it and motion change removes it",

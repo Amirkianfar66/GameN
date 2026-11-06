@@ -1,6 +1,6 @@
 import { PlanetCommandSchema, PlanetCommandRequestSchema, PlanetDrawingSchema } from '@mothership/contracts';
 import type { PlanetCommand, PlanetCommandRequest, PlanetDrawing, PlanetOffer, PlanetPlayerView, SeatId } from '@mothership/contracts';
-import { PLANET_ACTION_LABELS, ownPlanetWindows, planetConfirmation, planetIsPlayer, planetRolePresentation,planetPromiseTerms } from '@mothership/presentation';
+import { PLANET_ACTION_LABELS, ownPlanetWindows, planetConfirmation, planetIsPlayer, planetRolePresentation,planetPromiseTerms,planetPlayerNumberChoices,planetSupplyDelivery } from '@mothership/presentation';
 import type { PlanetActionModel, PlanetCommandType, PlanetPanel, PlanetScreenModel, PlanetView } from '@mothership/presentation';
 import type { PlayerPorts } from '../ports.js';
 import { createServerClock } from '../clock/server-clock.js';
@@ -44,6 +44,8 @@ export function createPlanetController(transport:PlanetTransport,ports:PlayerPor
  let accepted:{revision:number;phaseId:string;type:PlanetCommandType}|null=null;
  let unsubscribe:(()=>void)|null=null,timer:unknown=null,generation=0,lastSync=-Infinity, syncing=false;
  let frozen:{id:string;board:PlanetView['board']}|null=null;
+ let supplyDelivery:{round:3;count:1}|null=null;
+ const supplyObservation=(p:PlanetPlayerView)=>({matchId:p.matchId,seatId:p.self.seatId,round:p.round,revision:p.viewRevision,phaseKind:p.phase.kind,finalizedRound:p.board.finalizedRound,lastMovedRound:p.navigation.lastMovedRound,ordinaryWeapons:p.self.ordinaryWeapons});
  let storageBlocked=false;
  const pendingTimers=new Set<unknown>();
  const bounded=<T>(run:()=>Promise<T>):Promise<T|null>=>new Promise(resolve=>{
@@ -67,7 +69,7 @@ export function createPlanetController(transport:PlanetTransport,ports:PlayerPor
  const offer=(type:PlanetCommandType):PlanetOffer|null=>phaseAllows(type)?player()?.offers.find(o=>o.type===type)??null:null;
  const emit=()=>{if(disposed)return;const model=getModel();for(const listener of listeners)listener(model);};
  const clearPrivate=()=>{draft=null;panel='board';interactionOpen=false;};
- const invalidate=(text:string,error=false)=>{fresh=false;failed=error;message=text;clearPrivate();frozen=null;emit();};
+ const invalidate=(text:string,error=false)=>{fresh=false;failed=error;message=text;clearPrivate();frozen=null;supplyDelivery=null;emit();};
  const allowedSlot=(slot:string,o:PlanetOffer)=>o.slotIds.includes(slot as PlanetOffer['slotIds'][number])&&roomFor(slot)!==null&&!view?.board.seats.some(s=>s.slotId===slot);
  function confirmationFor(command:PlanetCommand):string {
   const p=player();let text=planetConfirmation(command);
@@ -85,15 +87,17 @@ export function createPlanetController(transport:PlanetTransport,ports:PlayerPor
    if(panel==='card'){
     privateArea.role=planetRolePresentation(p); privateArea.abilities=p.abilities;privateArea.knowledge={...p.knowledge,insiderSeatIds:[...p.knowledge.insiderSeatIds].sort()};
     privateArea.resources={ordinaryWeapons:p.self.ordinaryWeapons,roleActionSpent:p.self.roleActionSpent,movementSpent:p.self.movementSpent};
+    privateArea.supplyDelivery=supplyDelivery;
+    privateArea.offers=canAct()?p.offers.filter(o=>['SUBMIT_CODE','ACTIVATE_SHIP_HACK','ENGINEER_SUPPRESS'].includes(o.type)&&phaseAllows(o.type)):[];
    }
    if(panel==='actions'){
-    privateArea.offers=p.offers.filter(o=>phaseAllows(o.type));privateArea.hackFeedback=p.hackFeedback;privateArea.captainCommands=p.abilities.captainCommands;privateArea.ownBallot=p.ownBallot;
+    privateArea.offers=canAct()?p.offers.filter(o=>phaseAllows(o.type)):[];privateArea.hackFeedback=p.hackFeedback;privateArea.captainCommands=p.abilities.captainCommands;privateArea.ownBallot=p.ownBallot;
     if(p.phase.kind==='BLACKOUT')privateArea.blackoutTargeting=p.blackoutTargeting;
    }
-   if(panel==='promises'){privateArea.promises=p.promises;privateArea.promiseQuota=p.promiseQuota;privateArea.offers=p.offers.filter(o=>['OFFER_PROMISE','ACCEPT_PROMISE','DECLINE_PROMISE'].includes(o.type));}
-   if(panel==='windows')privateArea.windows=ownPlanetWindows(p,{dark:isDark()});
-   if(panel==='navigation'){privateArea.navigation=p.privateNavigation;privateArea.offers=p.offers.filter(o=>['CHOOSE_NAV_DIRECTION','CONFIRM_NAVIGATION'].includes(o.type)&&phaseAllows(o.type));}
-   if(panel==='hospital'){privateArea.panelAttemptSpent=p.abilities.panelAttemptSpent;privateArea.offers=p.offers.filter(o=>o.type==='PANEL_CODE'&&phaseAllows(o.type));}
+   if(panel==='promises'){privateArea.promises=p.promises;privateArea.promiseQuota=p.promiseQuota;privateArea.offers=canAct()?p.offers.filter(o=>['OFFER_PROMISE','ACCEPT_PROMISE','DECLINE_PROMISE'].includes(o.type)):[];}
+   if(panel==='windows'){privateArea.windows=ownPlanetWindows(p,{dark:isDark()});const shown=canAct()&&!isDark()?p.offers.filter(o=>o.type==='SHOW_WINDOW'):[];if(shown.length)privateArea.offers=shown;}
+   if(panel==='navigation'){privateArea.navigation=p.privateNavigation;privateArea.offers=canAct()?p.offers.filter(o=>['CHOOSE_NAV_DIRECTION','CONFIRM_NAVIGATION'].includes(o.type)&&phaseAllows(o.type)):[];}
+   if(panel==='hospital'){privateArea.panelAttemptSpent=p.abilities.panelAttemptSpent;privateArea.offers=canAct()?p.offers.filter(o=>o.type==='PANEL_CODE'&&phaseAllows(o.type)):[];}
   }
   let action:PlanetActionModel|null=null;
   if(valid&&interactionOpen&&draft){action={type:draft.type,label:PLANET_ACTION_LABELS[draft.type],step:draft.step,selected:[...draft.selected],choices:[...draft.choices],prompt:draft.prompt,confirmation:draft.command?confirmationFor(draft.command):null,canConfirm:canAct()&&draft.step==='confirm'&&draft.command!==null};}
@@ -120,16 +124,26 @@ export function createPlanetController(transport:PlanetTransport,ports:PlayerPor
   const requestedAt=ports.clock.now(), token=generation;
   try{const serverTimeMs=await bounded(()=>transport.serverTime());if(serverTimeMs===null)throw new Error('no server time');if(token!==generation||disposed||!visible)return;
    if(!authValid())return invalidate('Your signed-in identity changed. Reconnect this seat.',true);
-   clock.addSample({requestedAt,receivedAt:ports.clock.now(),serverTimeMs});lastSync=ports.clock.now();emit();
+   clock.addSample({requestedAt,receivedAt:ports.clock.now(),serverTimeMs});lastSync=ports.clock.now();scheduleTick();emit();
   }catch{if(token===generation&&!disposed){clock.invalidate();invalidate('Server time is unavailable. Reconnecting.');}}
   finally{syncing=false;}
+ }
+ function scheduleTick(){
+  if(timer!==null)ports.scheduler.clearTimeout(timer);timer=null;if(disposed||!visible)return;
+  let delay=250;const time=reading();
+  if(time.status==='synced'&&view)for(const boundary of [view.phase.startedAt+time.uncertaintyMs,view.phase.endsAt===null?null:view.phase.endsAt-time.uncertaintyMs,view.blackout?view.blackout.previewEndsAt-time.uncertaintyMs:null]){
+   if(boundary===null)continue;const until=boundary-time.serverNowMs;
+   if(until>0)delay=Math.min(delay,Math.max(1,until));
+  }
+  // Arm before notifying renderers: their work can cross a boundary. This only
+  // redraws the supplied view; it never advances a phase.
+  timer=ports.scheduler.setTimeout(tick,delay);
  }
  function tick(){
   if(disposed||!visible)return;
   if(!authValid()){invalidate('Your signed-in identity changed. Reconnect this seat.',true);unsubscribe?.();unsubscribe=null;return;}
   if(!usable())clearPrivate();else if(draft?.command&&!commandAllowed(draft.command))draft=null;
-  emit();if(ports.clock.now()-lastSync>15_000)void syncTime();
-  timer=ports.scheduler.setTimeout(tick,250);
+  scheduleTick();emit();if(reading().status!=='synced'||ports.clock.now()-lastSync>15_000)void syncTime();
  }
  function receive(snapshot:PlanetSnapshot){
   if(disposed||!visible)return;
@@ -149,13 +163,15 @@ export function createPlanetController(transport:PlanetTransport,ports:PlayerPor
    if(next.versions.assetManifestVersion!==view.versions.assetManifestVersion||next.round<view.round)return invalidate('The match version changed unexpectedly.',true);
    if(planetIsPlayer(next)&&planetIsPlayer(view)&&(next.self.role!==view.self.role||next.self.faction!==view.self.faction))return invalidate('Your seat identity changed unexpectedly.',true);
   }
+  if(fresh&&visible&&authValid()&&clock.read().status==='synced'&&view&&planetIsPlayer(view)&&planetIsPlayer(next))supplyDelivery=planetSupplyDelivery(supplyObservation(view),supplyObservation(next))??supplyDelivery;
+  if(next.round!==3||next.phase.kind==='BLACKHOLE_PRESENTATION')supplyDelivery=null;
   if(!fresh||view?.phase.id!==next.phase.id)clearPrivate();
   if(accepted&&(next.viewRevision>accepted.revision||next.phase.id!==accepted.phaseId))accepted=null;
   if(next.blackout&&frozen?.id!==next.blackout.windowId)frozen={id:next.blackout.windowId,board:next.board};
   if(!next.blackout)frozen=null;
   view=next;fresh=true;connecting=false;failed=false;message=null;
   if(draft?.command&&!commandAllowed(draft.command))draft=null;
-  emit();
+  scheduleTick();emit();
  }
  function listen(){
   unsubscribe?.();const token=generation;
@@ -207,7 +223,7 @@ export function createPlanetController(transport:PlanetTransport,ports:PlayerPor
    draft=null;panel='windows';
   }else{
    draft.step=type==='PANEL_CODE'?'number':'targets';draft.prompt=type==='SUBMIT_CODE'?'Choose four distinct original player numbers.':type==='SUPPLY'?'Choose two distinct offered players.':type==='PANEL_CODE'?'Enter the Doctor’s player number.':type==='OFFER_PROMISE'?'Choose your current private-talk partner.':'Choose an offered character on the board.';
-   draft.choices=o.targetSeatIds.map(value=>({value,label:number(value)}));
+   draft.choices=type==='PANEL_CODE'?[...planetPlayerNumberChoices(o.targetSeatIds)]:o.targetSeatIds.map(value=>({value,label:number(value)}));
    if(type==='VOTE')draft.choices.push({value:'abstain',label:'Abstain'});
   }
   emit();
@@ -248,7 +264,7 @@ export function createPlanetController(transport:PlanetTransport,ports:PlayerPor
    return finish({type:d.type,recipientSeatId:d.selected[0],kind:d.selected[1],targetSeatId:value});
   }
   if(d.type==='ACCEPT_PROMISE'||d.type==='DECLINE_PROMISE')return finish({type:d.type,promiseId:value});
-  if(d.type==='PANEL_CODE')return finish({type:d.type,doctorSeatId:value});
+  if(d.type==='PANEL_CODE'){d.selected=[value];return finish({type:d.type,doctorSeatId:value});}
   if(d.type==='VOTE')return finish({type:d.type,targetSeatId:value==='abstain'?null:value});
   if(targetCommands.has(d.type))return finish({type:d.type,targetSeatId:value});
  }
@@ -317,7 +333,7 @@ export function createPlanetController(transport:PlanetTransport,ports:PlayerPor
   openPanel(next){if(!usable()||!player())return;panel=next;draft=null;interactionOpen=false;emit();},
   dismiss(){draft=null;panel='board';interactionOpen=false;emit();},
   setVisible(next){
-   if(visible===next||disposed)return;visible=next;generation++;clearPrivate();clock.invalidate();fresh=false;frozen=null;
+   if(visible===next||disposed)return;visible=next;generation++;clearPrivate();clock.invalidate();fresh=false;frozen=null;supplyDelivery=null;
    unsubscribe?.();unsubscribe=null;if(timer!==null)ports.scheduler.clearTimeout(timer);timer=null;emit();
    if(next&&binding&&authValid()){void syncTime();listen();tick();}
   },

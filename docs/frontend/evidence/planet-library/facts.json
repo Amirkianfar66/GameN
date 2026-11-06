@@ -1,0 +1,4427 @@
+{
+  "scope": "Native production-consumer UI with explicitly unadopted Designer candidates in the excluded synthetic preview; desktop Chromium phone emulation only.",
+  "designerHead": "ff7b689a17282e63606506bbf151d79c7da858fc",
+  "generatedAt": "2026-11-06T05:55:42.579Z",
+  "browser": {
+    "protocolVersion": "1.3",
+    "product": "Chrome/156.0.8078.80",
+    "revision": "@fb096c0011f9d50f0a264a9376420cdea9c421e3",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+    "jsVersion": "15.6.75.27"
+  },
+  "cases": [
+    {
+      "name": "320-568-normal-g1-engineer-file",
+      "passed": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "height": 44,
+            "width": 132.40625,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-a",
+            "height": 44,
+            "width": 76.546875,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-b",
+            "height": 44,
+            "width": 76.0625,
+            "out": false
+          },
+          {
+            "id": "planet-nav-board",
+            "height": 44,
+            "width": 54,
+            "out": false
+          },
+          {
+            "id": "planet-nav-card",
+            "height": 44,
+            "width": 54,
+            "out": false
+          },
+          {
+            "id": "planet-nav-actions",
+            "height": 44,
+            "width": 54,
+            "out": false
+          },
+          {
+            "id": "planet-nav-more",
+            "height": 44,
+            "width": 54,
+            "out": false
+          },
+          {
+            "id": "planet-pass",
+            "height": 52,
+            "width": 52,
+            "out": false
+          },
+          {
+            "id": "planet-action-ENGINEER_SUPPRESS",
+            "height": 44,
+            "width": 278,
+            "out": false
+          },
+          {
+            "id": "planet-close",
+            "height": 44,
+            "width": 102,
+            "out": false
+          }
+        ],
+        "closeReachable": true
+      },
+      "screenshot": "320-568-normal-g1-engineer-file.png"
+    },
+    {
+      "name": "320-568-normal-g3-hospital-keypad",
+      "passed": true,
+      "keys": [
+        {
+          "label": "1",
+          "value": "seat-1"
+        },
+        {
+          "label": "2",
+          "value": "seat-2"
+        },
+        {
+          "label": "3",
+          "value": "seat-3"
+        },
+        {
+          "label": "4",
+          "value": "seat-4"
+        },
+        {
+          "label": "5",
+          "value": "seat-5"
+        },
+        {
+          "label": "6",
+          "value": "seat-6"
+        },
+        {
+          "label": "7",
+          "value": "seat-7"
+        },
+        {
+          "label": "8",
+          "value": "seat-8"
+        },
+        {
+          "label": "9",
+          "value": "seat-9"
+        }
+      ],
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "height": 44,
+            "width": 132.40625,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-a",
+            "height": 44,
+            "width": 76.546875,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-1",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-2",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-3",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-4",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-5",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-b",
+            "height": 44,
+            "width": 76.0625,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-7",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-8",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-9",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-6",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-nav-board",
+            "height": 44,
+            "width": 54,
+            "out": false
+          },
+          {
+            "id": "planet-nav-card",
+            "height": 44,
+            "width": 54,
+            "out": false
+          },
+          {
+            "id": "planet-nav-actions",
+            "height": 44,
+            "width": 54,
+            "out": false
+          },
+          {
+            "id": "planet-nav-more",
+            "height": 44,
+            "width": 54,
+            "out": false
+          },
+          {
+            "id": "planet-choice-seat-1",
+            "height": 48,
+            "width": 90.65625,
+            "out": false
+          },
+          {
+            "id": "planet-choice-seat-2",
+            "height": 48,
+            "width": 90.671875,
+            "out": false
+          },
+          {
+            "id": "planet-choice-seat-3",
+            "height": 48,
+            "width": 90.65625,
+            "out": false
+          },
+          {
+            "id": "planet-choice-seat-4",
+            "height": 48,
+            "width": 90.65625,
+            "out": false
+          },
+          {
+            "id": "planet-choice-seat-5",
+            "height": 48,
+            "width": 90.671875,
+            "out": false
+          },
+          {
+            "id": "planet-choice-seat-6",
+            "height": 48,
+            "width": 90.65625,
+            "out": false
+          },
+          {
+            "id": "planet-choice-seat-7",
+            "height": 48,
+            "width": 90.65625,
+            "out": false
+          },
+          {
+            "id": "planet-choice-seat-8",
+            "height": 48,
+            "width": 90.671875,
+            "out": false
+          },
+          {
+            "id": "planet-choice-seat-9",
+            "height": 48,
+            "width": 90.65625,
+            "out": false
+          },
+          {
+            "id": "planet-close",
+            "height": 44,
+            "width": 102,
+            "out": false
+          }
+        ],
+        "closeReachable": true
+      },
+      "screenshot": "320-568-normal-g3-hospital-keypad.png"
+    },
+    {
+      "name": "320-568-normal-g4-promise-composer",
+      "passed": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "height": 44,
+            "width": 132.40625,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-a",
+            "height": 44,
+            "width": 76.546875,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-b",
+            "height": 44,
+            "width": 76.0625,
+            "out": false
+          },
+          {
+            "id": "planet-nav-board",
+            "height": 44,
+            "width": 54,
+            "out": false
+          },
+          {
+            "id": "planet-nav-card",
+            "height": 44,
+            "width": 54,
+            "out": false
+          },
+          {
+            "id": "planet-nav-actions",
+            "height": 44,
+            "width": 54,
+            "out": false
+          },
+          {
+            "id": "planet-nav-more",
+            "height": 44,
+            "width": 54,
+            "out": false
+          },
+          {
+            "id": "planet-choice-CAPTAIN_SUPPORT",
+            "height": 46,
+            "width": 139,
+            "out": false
+          },
+          {
+            "id": "planet-choice-OFFICER_SELECTION",
+            "height": 46,
+            "width": 139,
+            "out": false
+          },
+          {
+            "id": "planet-choice-JAIL_VOTE",
+            "height": 44,
+            "width": 139,
+            "out": false
+          },
+          {
+            "id": "planet-choice-NO_JAIL_VOTE",
+            "height": 44,
+            "width": 139,
+            "out": false
+          },
+          {
+            "id": "planet-choice-MEET_A",
+            "height": 46,
+            "width": 139,
+            "out": false
+          },
+          {
+            "id": "planet-choice-MEET_B",
+            "height": 46,
+            "width": 139,
+            "out": false
+          },
+          {
+            "id": "planet-close",
+            "height": 44,
+            "width": 102,
+            "out": false
+          }
+        ],
+        "closeReachable": true
+      },
+      "screenshot": "320-568-normal-g4-promise-composer.png"
+    },
+    {
+      "name": "320-568-normal-g5-lit-window-preview",
+      "passed": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "height": 44,
+            "width": 132.40625,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-a",
+            "height": 44,
+            "width": 76.546875,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-b",
+            "height": 44,
+            "width": 76.0625,
+            "out": false
+          },
+          {
+            "id": "planet-nav-board",
+            "height": 44,
+            "width": 54,
+            "out": false
+          },
+          {
+            "id": "planet-nav-card",
+            "height": 44,
+            "width": 54,
+            "out": false
+          },
+          {
+            "id": "planet-nav-actions",
+            "height": 44,
+            "width": 54,
+            "out": false
+          },
+          {
+            "id": "planet-nav-more",
+            "height": 44,
+            "width": 54,
+            "out": false
+          },
+          {
+            "id": "planet-pass",
+            "height": 52,
+            "width": 52,
+            "out": false
+          },
+          {
+            "id": "",
+            "height": 44,
+            "width": 278,
+            "out": false
+          },
+          {
+            "id": "",
+            "height": 44,
+            "width": 278,
+            "out": false
+          },
+          {
+            "id": "planet-show-A_B",
+            "height": 44,
+            "width": 278,
+            "out": false
+          },
+          {
+            "id": "planet-close",
+            "height": 44,
+            "width": 102,
+            "out": false
+          }
+        ],
+        "closeReachable": true
+      },
+      "screenshot": "320-568-normal-g5-lit-window-preview.png"
+    },
+    {
+      "name": "320-568-normal-g2-private-route",
+      "passed": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "height": 44,
+            "width": 132.40625,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-a",
+            "height": 44,
+            "width": 76.546875,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-b",
+            "height": 44,
+            "width": 76.0625,
+            "out": false
+          },
+          {
+            "id": "planet-nav-board",
+            "height": 44,
+            "width": 54,
+            "out": false
+          },
+          {
+            "id": "planet-nav-card",
+            "height": 44,
+            "width": 54,
+            "out": false
+          },
+          {
+            "id": "planet-nav-actions",
+            "height": 44,
+            "width": 54,
+            "out": false
+          },
+          {
+            "id": "planet-nav-more",
+            "height": 44,
+            "width": 54,
+            "out": false
+          },
+          {
+            "id": "planet-pass",
+            "height": 52,
+            "width": 52,
+            "out": false
+          },
+          {
+            "id": "planet-action-CONFIRM_NAVIGATION",
+            "height": 44,
+            "width": 278,
+            "out": false
+          },
+          {
+            "id": "planet-close",
+            "height": 44,
+            "width": 102,
+            "out": false
+          }
+        ],
+        "closeReachable": true
+      },
+      "screenshot": "320-568-normal-g2-private-route.png"
+    },
+    {
+      "name": "320-568-normal-g6-office-targets",
+      "passed": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "height": 44,
+            "width": 132.40625,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-a",
+            "height": 44,
+            "width": 76.546875,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-1",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-2",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-3",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-4",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-5",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-b",
+            "height": 44,
+            "width": 76.0625,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-7",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-8",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-9",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "",
+            "height": 44,
+            "width": 66.296875,
+            "out": false
+          }
+        ],
+        "closeReachable": null
+      },
+      "screenshot": "320-568-normal-g6-office-targets.png"
+    },
+    {
+      "name": "320-568-normal-g8-compact-join",
+      "passed": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "planet-entry-join",
+            "height": 44,
+            "width": 94.65625,
+            "out": false
+          },
+          {
+            "id": "planet-entry-host",
+            "height": 44,
+            "width": 94.671875,
+            "out": false
+          },
+          {
+            "id": "planet-entry-recover",
+            "height": 44,
+            "width": 94.65625,
+            "out": false
+          },
+          {
+            "id": "planet-join",
+            "height": 44,
+            "width": 278,
+            "out": false
+          }
+        ],
+        "closeReachable": null
+      },
+      "screenshot": "320-568-normal-g8-compact-join.png"
+    },
+    {
+      "name": "320-568-normal-g8-compact-host",
+      "passed": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "planet-entry-join",
+            "height": 44,
+            "width": 94.65625,
+            "out": false
+          },
+          {
+            "id": "planet-entry-host",
+            "height": 44,
+            "width": 94.671875,
+            "out": false
+          },
+          {
+            "id": "planet-entry-recover",
+            "height": 44,
+            "width": 94.65625,
+            "out": false
+          },
+          {
+            "id": "planet-create",
+            "height": 44,
+            "width": 278,
+            "out": false
+          }
+        ],
+        "closeReachable": null
+      },
+      "screenshot": "320-568-normal-g8-compact-host.png"
+    },
+    {
+      "name": "320-568-normal-g8-compact-recovery",
+      "passed": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "planet-entry-join",
+            "height": 44,
+            "width": 94.65625,
+            "out": false
+          },
+          {
+            "id": "planet-entry-host",
+            "height": 44,
+            "width": 94.671875,
+            "out": false
+          },
+          {
+            "id": "planet-entry-recover",
+            "height": 44,
+            "width": 94.65625,
+            "out": false
+          },
+          {
+            "id": "",
+            "height": 44,
+            "width": 278,
+            "out": false
+          }
+        ],
+        "closeReachable": null
+      },
+      "screenshot": "320-568-normal-g8-compact-recovery.png"
+    },
+    {
+      "name": "320-568-normal-g7-authoritative-arrival",
+      "passed": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "height": 44,
+            "width": 132.40625,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-a",
+            "height": 44,
+            "width": 76.546875,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-b",
+            "height": 44,
+            "width": 76.0625,
+            "out": false
+          },
+          {
+            "id": "planet-nav-board",
+            "height": 44,
+            "width": 54,
+            "out": false
+          },
+          {
+            "id": "planet-nav-card",
+            "height": 44,
+            "width": 54,
+            "out": false
+          },
+          {
+            "id": "planet-nav-actions",
+            "height": 44,
+            "width": 54,
+            "out": false
+          },
+          {
+            "id": "planet-nav-more",
+            "height": 44,
+            "width": 54,
+            "out": false
+          },
+          {
+            "id": "planet-pass",
+            "height": 52,
+            "width": 52,
+            "out": false
+          }
+        ],
+        "closeReachable": null
+      },
+      "screenshot": "320-568-normal-g7-authoritative-arrival.png"
+    },
+    {
+      "name": "320-568-normal-p27-behind-crew",
+      "passed": true,
+      "stage": {
+        "phaseId": "synthetic-sync-1",
+        "startedAt": 1793944547556,
+        "endsAt": 1793944553556,
+        "durationMs": 6000,
+        "elapsedMs": 804.14990234375,
+        "remainingMs": 5195.85009765625,
+        "progress": 0.13402498372395832,
+        "status": "presenting"
+      },
+      "syncWeaponIncreaseIsNotSupply": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "height": 44,
+            "width": 132.40625,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-a",
+            "height": 44,
+            "width": 76.546875,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-b",
+            "height": 44,
+            "width": 76.0625,
+            "out": false
+          },
+          {
+            "id": "planet-nav-board",
+            "height": 44,
+            "width": 54,
+            "out": false
+          },
+          {
+            "id": "planet-nav-card",
+            "height": 44,
+            "width": 54,
+            "out": false
+          },
+          {
+            "id": "planet-nav-actions",
+            "height": 44,
+            "width": 54,
+            "out": false
+          },
+          {
+            "id": "planet-nav-more",
+            "height": 44,
+            "width": 54,
+            "out": false
+          },
+          {
+            "id": "planet-pass",
+            "height": 52,
+            "width": 52,
+            "out": false
+          }
+        ],
+        "closeReachable": null
+      },
+      "screenshot": "320-568-normal-p27-behind-crew.png"
+    },
+    {
+      "name": "320-568-normal-rescue-free",
+      "passed": true,
+      "currentActor": {
+        "target": [
+          104,
+          281,
+          44,
+          44
+        ],
+        "name": [
+          91.03128051757812,
+          311,
+          56.953125,
+          14.25
+        ],
+        "slot": "A3",
+        "room": "room-a",
+        "visible": true,
+        "away": false,
+        "patientCopies": 0
+      },
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "height": 44,
+            "width": 132.40625,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-a",
+            "height": 44,
+            "width": 76.546875,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-1",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-2",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-4",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-5",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-3",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-b",
+            "height": 44,
+            "width": 76.0625,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-6",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-7",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-8",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-9",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "",
+            "height": 44,
+            "width": 66.296875,
+            "out": false
+          },
+          {
+            "id": "",
+            "height": 44,
+            "width": 71.71875,
+            "out": false
+          }
+        ],
+        "closeReachable": null
+      },
+      "screenshot": "320-568-normal-rescue-free.png"
+    },
+    {
+      "name": "320-568-normal-rescue-detained",
+      "passed": true,
+      "currentActor": {
+        "target": [
+          269,
+          374.34375,
+          44,
+          44
+        ],
+        "name": [
+          256.03985595703125,
+          404.34375,
+          56.953125,
+          14.25
+        ],
+        "slot": "J3",
+        "room": "jail",
+        "visible": true,
+        "away": false,
+        "patientCopies": 0
+      },
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "height": 44,
+            "width": 132.40625,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-a",
+            "height": 44,
+            "width": 76.546875,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-1",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-2",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-4",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-5",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-b",
+            "height": 44,
+            "width": 76.0625,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-6",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-7",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-8",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-9",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-3",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "",
+            "height": 44,
+            "width": 66.296875,
+            "out": false
+          }
+        ],
+        "closeReachable": null
+      },
+      "screenshot": "320-568-normal-rescue-detained.png"
+    },
+    {
+      "name": "320-568-reduced-g1-engineer-file",
+      "passed": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "height": 44,
+            "width": 132.40625,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-a",
+            "height": 44,
+            "width": 76.546875,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-b",
+            "height": 44,
+            "width": 76.0625,
+            "out": false
+          },
+          {
+            "id": "planet-nav-board",
+            "height": 44,
+            "width": 54,
+            "out": false
+          },
+          {
+            "id": "planet-nav-card",
+            "height": 44,
+            "width": 54,
+            "out": false
+          },
+          {
+            "id": "planet-nav-actions",
+            "height": 44,
+            "width": 54,
+            "out": false
+          },
+          {
+            "id": "planet-nav-more",
+            "height": 44,
+            "width": 54,
+            "out": false
+          },
+          {
+            "id": "planet-pass",
+            "height": 52,
+            "width": 52,
+            "out": false
+          },
+          {
+            "id": "planet-action-ENGINEER_SUPPRESS",
+            "height": 44,
+            "width": 278,
+            "out": false
+          },
+          {
+            "id": "planet-close",
+            "height": 44,
+            "width": 102,
+            "out": false
+          }
+        ],
+        "closeReachable": true
+      },
+      "screenshot": "320-568-reduced-g1-engineer-file.png"
+    },
+    {
+      "name": "320-568-reduced-g3-hospital-keypad",
+      "passed": true,
+      "keys": [
+        {
+          "label": "1",
+          "value": "seat-1"
+        },
+        {
+          "label": "2",
+          "value": "seat-2"
+        },
+        {
+          "label": "3",
+          "value": "seat-3"
+        },
+        {
+          "label": "4",
+          "value": "seat-4"
+        },
+        {
+          "label": "5",
+          "value": "seat-5"
+        },
+        {
+          "label": "6",
+          "value": "seat-6"
+        },
+        {
+          "label": "7",
+          "value": "seat-7"
+        },
+        {
+          "label": "8",
+          "value": "seat-8"
+        },
+        {
+          "label": "9",
+          "value": "seat-9"
+        }
+      ],
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "height": 44,
+            "width": 132.40625,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-a",
+            "height": 44,
+            "width": 76.546875,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-1",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-2",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-3",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-4",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-5",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-b",
+            "height": 44,
+            "width": 76.0625,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-7",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-8",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-9",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-6",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-nav-board",
+            "height": 44,
+            "width": 54,
+            "out": false
+          },
+          {
+            "id": "planet-nav-card",
+            "height": 44,
+            "width": 54,
+            "out": false
+          },
+          {
+            "id": "planet-nav-actions",
+            "height": 44,
+            "width": 54,
+            "out": false
+          },
+          {
+            "id": "planet-nav-more",
+            "height": 44,
+            "width": 54,
+            "out": false
+          },
+          {
+            "id": "planet-choice-seat-1",
+            "height": 48,
+            "width": 90.65625,
+            "out": false
+          },
+          {
+            "id": "planet-choice-seat-2",
+            "height": 48,
+            "width": 90.671875,
+            "out": false
+          },
+          {
+            "id": "planet-choice-seat-3",
+            "height": 48,
+            "width": 90.65625,
+            "out": false
+          },
+          {
+            "id": "planet-choice-seat-4",
+            "height": 48,
+            "width": 90.65625,
+            "out": false
+          },
+          {
+            "id": "planet-choice-seat-5",
+            "height": 48,
+            "width": 90.671875,
+            "out": false
+          },
+          {
+            "id": "planet-choice-seat-6",
+            "height": 48,
+            "width": 90.65625,
+            "out": false
+          },
+          {
+            "id": "planet-choice-seat-7",
+            "height": 48,
+            "width": 90.65625,
+            "out": false
+          },
+          {
+            "id": "planet-choice-seat-8",
+            "height": 48,
+            "width": 90.671875,
+            "out": false
+          },
+          {
+            "id": "planet-choice-seat-9",
+            "height": 48,
+            "width": 90.65625,
+            "out": false
+          },
+          {
+            "id": "planet-close",
+            "height": 44,
+            "width": 102,
+            "out": false
+          }
+        ],
+        "closeReachable": true
+      },
+      "screenshot": "320-568-reduced-g3-hospital-keypad.png"
+    },
+    {
+      "name": "320-568-reduced-g4-promise-composer",
+      "passed": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "height": 44,
+            "width": 132.40625,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-a",
+            "height": 44,
+            "width": 76.546875,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-b",
+            "height": 44,
+            "width": 76.0625,
+            "out": false
+          },
+          {
+            "id": "planet-nav-board",
+            "height": 44,
+            "width": 54,
+            "out": false
+          },
+          {
+            "id": "planet-nav-card",
+            "height": 44,
+            "width": 54,
+            "out": false
+          },
+          {
+            "id": "planet-nav-actions",
+            "height": 44,
+            "width": 54,
+            "out": false
+          },
+          {
+            "id": "planet-nav-more",
+            "height": 44,
+            "width": 54,
+            "out": false
+          },
+          {
+            "id": "planet-choice-CAPTAIN_SUPPORT",
+            "height": 46,
+            "width": 139,
+            "out": false
+          },
+          {
+            "id": "planet-choice-OFFICER_SELECTION",
+            "height": 46,
+            "width": 139,
+            "out": false
+          },
+          {
+            "id": "planet-choice-JAIL_VOTE",
+            "height": 44,
+            "width": 139,
+            "out": false
+          },
+          {
+            "id": "planet-choice-NO_JAIL_VOTE",
+            "height": 44,
+            "width": 139,
+            "out": false
+          },
+          {
+            "id": "planet-choice-MEET_A",
+            "height": 46,
+            "width": 139,
+            "out": false
+          },
+          {
+            "id": "planet-choice-MEET_B",
+            "height": 46,
+            "width": 139,
+            "out": false
+          },
+          {
+            "id": "planet-close",
+            "height": 44,
+            "width": 102,
+            "out": false
+          }
+        ],
+        "closeReachable": true
+      },
+      "screenshot": "320-568-reduced-g4-promise-composer.png"
+    },
+    {
+      "name": "320-568-reduced-g5-lit-window-preview",
+      "passed": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "height": 44,
+            "width": 132.40625,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-a",
+            "height": 44,
+            "width": 76.546875,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-b",
+            "height": 44,
+            "width": 76.0625,
+            "out": false
+          },
+          {
+            "id": "planet-nav-board",
+            "height": 44,
+            "width": 54,
+            "out": false
+          },
+          {
+            "id": "planet-nav-card",
+            "height": 44,
+            "width": 54,
+            "out": false
+          },
+          {
+            "id": "planet-nav-actions",
+            "height": 44,
+            "width": 54,
+            "out": false
+          },
+          {
+            "id": "planet-nav-more",
+            "height": 44,
+            "width": 54,
+            "out": false
+          },
+          {
+            "id": "planet-pass",
+            "height": 52,
+            "width": 52,
+            "out": false
+          },
+          {
+            "id": "",
+            "height": 44,
+            "width": 278,
+            "out": false
+          },
+          {
+            "id": "",
+            "height": 44,
+            "width": 278,
+            "out": false
+          },
+          {
+            "id": "planet-show-A_B",
+            "height": 44,
+            "width": 278,
+            "out": false
+          },
+          {
+            "id": "planet-close",
+            "height": 44,
+            "width": 102,
+            "out": false
+          }
+        ],
+        "closeReachable": true
+      },
+      "screenshot": "320-568-reduced-g5-lit-window-preview.png"
+    },
+    {
+      "name": "320-568-reduced-g2-private-route",
+      "passed": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "height": 44,
+            "width": 132.40625,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-a",
+            "height": 44,
+            "width": 76.546875,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-b",
+            "height": 44,
+            "width": 76.0625,
+            "out": false
+          },
+          {
+            "id": "planet-nav-board",
+            "height": 44,
+            "width": 54,
+            "out": false
+          },
+          {
+            "id": "planet-nav-card",
+            "height": 44,
+            "width": 54,
+            "out": false
+          },
+          {
+            "id": "planet-nav-actions",
+            "height": 44,
+            "width": 54,
+            "out": false
+          },
+          {
+            "id": "planet-nav-more",
+            "height": 44,
+            "width": 54,
+            "out": false
+          },
+          {
+            "id": "planet-pass",
+            "height": 52,
+            "width": 52,
+            "out": false
+          },
+          {
+            "id": "planet-action-CONFIRM_NAVIGATION",
+            "height": 44,
+            "width": 278,
+            "out": false
+          },
+          {
+            "id": "planet-close",
+            "height": 44,
+            "width": 102,
+            "out": false
+          }
+        ],
+        "closeReachable": true
+      },
+      "screenshot": "320-568-reduced-g2-private-route.png"
+    },
+    {
+      "name": "320-568-reduced-g6-office-targets",
+      "passed": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "height": 44,
+            "width": 132.40625,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-a",
+            "height": 44,
+            "width": 76.546875,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-1",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-2",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-3",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-4",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-5",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-b",
+            "height": 44,
+            "width": 76.0625,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-7",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-8",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-9",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "",
+            "height": 44,
+            "width": 66.296875,
+            "out": false
+          }
+        ],
+        "closeReachable": null
+      },
+      "screenshot": "320-568-reduced-g6-office-targets.png"
+    },
+    {
+      "name": "320-568-reduced-g8-compact-join",
+      "passed": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "planet-entry-join",
+            "height": 44,
+            "width": 94.65625,
+            "out": false
+          },
+          {
+            "id": "planet-entry-host",
+            "height": 44,
+            "width": 94.671875,
+            "out": false
+          },
+          {
+            "id": "planet-entry-recover",
+            "height": 44,
+            "width": 94.65625,
+            "out": false
+          },
+          {
+            "id": "planet-join",
+            "height": 44,
+            "width": 278,
+            "out": false
+          }
+        ],
+        "closeReachable": null
+      },
+      "screenshot": "320-568-reduced-g8-compact-join.png"
+    },
+    {
+      "name": "320-568-reduced-g8-compact-host",
+      "passed": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "planet-entry-join",
+            "height": 44,
+            "width": 94.65625,
+            "out": false
+          },
+          {
+            "id": "planet-entry-host",
+            "height": 44,
+            "width": 94.671875,
+            "out": false
+          },
+          {
+            "id": "planet-entry-recover",
+            "height": 44,
+            "width": 94.65625,
+            "out": false
+          },
+          {
+            "id": "planet-create",
+            "height": 44,
+            "width": 278,
+            "out": false
+          }
+        ],
+        "closeReachable": null
+      },
+      "screenshot": "320-568-reduced-g8-compact-host.png"
+    },
+    {
+      "name": "320-568-reduced-g8-compact-recovery",
+      "passed": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "planet-entry-join",
+            "height": 44,
+            "width": 94.65625,
+            "out": false
+          },
+          {
+            "id": "planet-entry-host",
+            "height": 44,
+            "width": 94.671875,
+            "out": false
+          },
+          {
+            "id": "planet-entry-recover",
+            "height": 44,
+            "width": 94.65625,
+            "out": false
+          },
+          {
+            "id": "",
+            "height": 44,
+            "width": 278,
+            "out": false
+          }
+        ],
+        "closeReachable": null
+      },
+      "screenshot": "320-568-reduced-g8-compact-recovery.png"
+    },
+    {
+      "name": "320-568-reduced-g7-authoritative-arrival",
+      "passed": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "height": 44,
+            "width": 132.40625,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-a",
+            "height": 44,
+            "width": 76.546875,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-b",
+            "height": 44,
+            "width": 76.0625,
+            "out": false
+          },
+          {
+            "id": "planet-nav-board",
+            "height": 44,
+            "width": 54,
+            "out": false
+          },
+          {
+            "id": "planet-nav-card",
+            "height": 44,
+            "width": 54,
+            "out": false
+          },
+          {
+            "id": "planet-nav-actions",
+            "height": 44,
+            "width": 54,
+            "out": false
+          },
+          {
+            "id": "planet-nav-more",
+            "height": 44,
+            "width": 54,
+            "out": false
+          },
+          {
+            "id": "planet-pass",
+            "height": 52,
+            "width": 52,
+            "out": false
+          }
+        ],
+        "closeReachable": null
+      },
+      "screenshot": "320-568-reduced-g7-authoritative-arrival.png"
+    },
+    {
+      "name": "320-568-reduced-p27-behind-crew",
+      "passed": true,
+      "stage": {
+        "phaseId": "synthetic-sync-1",
+        "startedAt": 1793944561216,
+        "endsAt": 1793944567216,
+        "durationMs": 6000,
+        "elapsedMs": 809.800048828125,
+        "remainingMs": 5190.199951171875,
+        "progress": 0.1349666748046875,
+        "status": "presenting"
+      },
+      "syncWeaponIncreaseIsNotSupply": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "height": 44,
+            "width": 132.40625,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-a",
+            "height": 44,
+            "width": 76.546875,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-b",
+            "height": 44,
+            "width": 76.0625,
+            "out": false
+          },
+          {
+            "id": "planet-nav-board",
+            "height": 44,
+            "width": 54,
+            "out": false
+          },
+          {
+            "id": "planet-nav-card",
+            "height": 44,
+            "width": 54,
+            "out": false
+          },
+          {
+            "id": "planet-nav-actions",
+            "height": 44,
+            "width": 54,
+            "out": false
+          },
+          {
+            "id": "planet-nav-more",
+            "height": 44,
+            "width": 54,
+            "out": false
+          },
+          {
+            "id": "planet-pass",
+            "height": 52,
+            "width": 52,
+            "out": false
+          }
+        ],
+        "closeReachable": null
+      },
+      "screenshot": "320-568-reduced-p27-behind-crew.png"
+    },
+    {
+      "name": "320-568-reduced-rescue-free",
+      "passed": true,
+      "currentActor": {
+        "target": [
+          104,
+          281,
+          44,
+          44
+        ],
+        "name": [
+          91.03128051757812,
+          311,
+          56.953125,
+          14.25
+        ],
+        "slot": "A3",
+        "room": "room-a",
+        "visible": true,
+        "away": false,
+        "patientCopies": 0
+      },
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "height": 44,
+            "width": 132.40625,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-a",
+            "height": 44,
+            "width": 76.546875,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-1",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-2",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-4",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-5",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-3",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-b",
+            "height": 44,
+            "width": 76.0625,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-6",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-7",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-8",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-9",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "",
+            "height": 44,
+            "width": 66.296875,
+            "out": false
+          },
+          {
+            "id": "",
+            "height": 44,
+            "width": 71.71875,
+            "out": false
+          }
+        ],
+        "closeReachable": null
+      },
+      "screenshot": "320-568-reduced-rescue-free.png"
+    },
+    {
+      "name": "320-568-reduced-rescue-detained",
+      "passed": true,
+      "currentActor": {
+        "target": [
+          269,
+          374.34375,
+          44,
+          44
+        ],
+        "name": [
+          256.03985595703125,
+          404.34375,
+          56.953125,
+          14.25
+        ],
+        "slot": "J3",
+        "room": "jail",
+        "visible": true,
+        "away": false,
+        "patientCopies": 0
+      },
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "height": 44,
+            "width": 132.40625,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-a",
+            "height": 44,
+            "width": 76.546875,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-1",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-2",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-4",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-5",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-b",
+            "height": 44,
+            "width": 76.0625,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-6",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-7",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-8",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-9",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-3",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "",
+            "height": 44,
+            "width": 66.296875,
+            "out": false
+          }
+        ],
+        "closeReachable": null
+      },
+      "screenshot": "320-568-reduced-rescue-detained.png"
+    },
+    {
+      "name": "390-844-normal-g1-engineer-file",
+      "passed": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "height": 44,
+            "width": 132.40625,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-a",
+            "height": 44,
+            "width": 76.546875,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-b",
+            "height": 44,
+            "width": 76.0625,
+            "out": false
+          },
+          {
+            "id": "planet-nav-board",
+            "height": 44,
+            "width": 71.5,
+            "out": false
+          },
+          {
+            "id": "planet-nav-card",
+            "height": 44,
+            "width": 71.5,
+            "out": false
+          },
+          {
+            "id": "planet-nav-actions",
+            "height": 44,
+            "width": 71.5,
+            "out": false
+          },
+          {
+            "id": "planet-nav-more",
+            "height": 44,
+            "width": 71.5,
+            "out": false
+          },
+          {
+            "id": "planet-pass",
+            "height": 64,
+            "width": 64,
+            "out": false
+          },
+          {
+            "id": "planet-action-ENGINEER_SUPPRESS",
+            "height": 44,
+            "width": 348,
+            "out": false
+          },
+          {
+            "id": "planet-close",
+            "height": 44,
+            "width": 137,
+            "out": false
+          }
+        ],
+        "closeReachable": true
+      },
+      "screenshot": "390-844-normal-g1-engineer-file.png"
+    },
+    {
+      "name": "390-844-normal-g3-hospital-keypad",
+      "passed": true,
+      "keys": [
+        {
+          "label": "1",
+          "value": "seat-1"
+        },
+        {
+          "label": "2",
+          "value": "seat-2"
+        },
+        {
+          "label": "3",
+          "value": "seat-3"
+        },
+        {
+          "label": "4",
+          "value": "seat-4"
+        },
+        {
+          "label": "5",
+          "value": "seat-5"
+        },
+        {
+          "label": "6",
+          "value": "seat-6"
+        },
+        {
+          "label": "7",
+          "value": "seat-7"
+        },
+        {
+          "label": "8",
+          "value": "seat-8"
+        },
+        {
+          "label": "9",
+          "value": "seat-9"
+        }
+      ],
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "height": 44,
+            "width": 132.40625,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-a",
+            "height": 44,
+            "width": 76.546875,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-1",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-2",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-3",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-4",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-5",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-b",
+            "height": 44,
+            "width": 76.0625,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-7",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-8",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-9",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-6",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-nav-board",
+            "height": 44,
+            "width": 71.5,
+            "out": false
+          },
+          {
+            "id": "planet-nav-card",
+            "height": 44,
+            "width": 71.5,
+            "out": false
+          },
+          {
+            "id": "planet-nav-actions",
+            "height": 44,
+            "width": 71.5,
+            "out": false
+          },
+          {
+            "id": "planet-nav-more",
+            "height": 44,
+            "width": 71.5,
+            "out": false
+          },
+          {
+            "id": "planet-choice-seat-1",
+            "height": 48,
+            "width": 114,
+            "out": false
+          },
+          {
+            "id": "planet-choice-seat-2",
+            "height": 48,
+            "width": 114,
+            "out": false
+          },
+          {
+            "id": "planet-choice-seat-3",
+            "height": 48,
+            "width": 114,
+            "out": false
+          },
+          {
+            "id": "planet-choice-seat-4",
+            "height": 48,
+            "width": 114,
+            "out": false
+          },
+          {
+            "id": "planet-choice-seat-5",
+            "height": 48,
+            "width": 114,
+            "out": false
+          },
+          {
+            "id": "planet-choice-seat-6",
+            "height": 48,
+            "width": 114,
+            "out": false
+          },
+          {
+            "id": "planet-choice-seat-7",
+            "height": 48,
+            "width": 114,
+            "out": false
+          },
+          {
+            "id": "planet-choice-seat-8",
+            "height": 48,
+            "width": 114,
+            "out": false
+          },
+          {
+            "id": "planet-choice-seat-9",
+            "height": 48,
+            "width": 114,
+            "out": false
+          },
+          {
+            "id": "planet-close",
+            "height": 44,
+            "width": 137,
+            "out": false
+          }
+        ],
+        "closeReachable": true
+      },
+      "screenshot": "390-844-normal-g3-hospital-keypad.png"
+    },
+    {
+      "name": "390-844-normal-g4-promise-composer",
+      "passed": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "height": 44,
+            "width": 132.40625,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-a",
+            "height": 44,
+            "width": 76.546875,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-b",
+            "height": 44,
+            "width": 76.0625,
+            "out": false
+          },
+          {
+            "id": "planet-nav-board",
+            "height": 44,
+            "width": 71.5,
+            "out": false
+          },
+          {
+            "id": "planet-nav-card",
+            "height": 44,
+            "width": 71.5,
+            "out": false
+          },
+          {
+            "id": "planet-nav-actions",
+            "height": 44,
+            "width": 71.5,
+            "out": false
+          },
+          {
+            "id": "planet-nav-more",
+            "height": 44,
+            "width": 71.5,
+            "out": false
+          },
+          {
+            "id": "planet-choice-CAPTAIN_SUPPORT",
+            "height": 44,
+            "width": 174,
+            "out": false
+          },
+          {
+            "id": "planet-choice-OFFICER_SELECTION",
+            "height": 44,
+            "width": 174,
+            "out": false
+          },
+          {
+            "id": "planet-choice-JAIL_VOTE",
+            "height": 44,
+            "width": 174,
+            "out": false
+          },
+          {
+            "id": "planet-choice-NO_JAIL_VOTE",
+            "height": 44,
+            "width": 174,
+            "out": false
+          },
+          {
+            "id": "planet-choice-MEET_A",
+            "height": 44,
+            "width": 174,
+            "out": false
+          },
+          {
+            "id": "planet-choice-MEET_B",
+            "height": 44,
+            "width": 174,
+            "out": false
+          },
+          {
+            "id": "planet-close",
+            "height": 44,
+            "width": 137,
+            "out": false
+          }
+        ],
+        "closeReachable": true
+      },
+      "screenshot": "390-844-normal-g4-promise-composer.png"
+    },
+    {
+      "name": "390-844-normal-g5-lit-window-preview",
+      "passed": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "height": 44,
+            "width": 132.40625,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-a",
+            "height": 44,
+            "width": 76.546875,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-b",
+            "height": 44,
+            "width": 76.0625,
+            "out": false
+          },
+          {
+            "id": "planet-nav-board",
+            "height": 44,
+            "width": 71.5,
+            "out": false
+          },
+          {
+            "id": "planet-nav-card",
+            "height": 44,
+            "width": 71.5,
+            "out": false
+          },
+          {
+            "id": "planet-nav-actions",
+            "height": 44,
+            "width": 71.5,
+            "out": false
+          },
+          {
+            "id": "planet-nav-more",
+            "height": 44,
+            "width": 71.5,
+            "out": false
+          },
+          {
+            "id": "planet-pass",
+            "height": 64,
+            "width": 64,
+            "out": false
+          },
+          {
+            "id": "",
+            "height": 44,
+            "width": 348,
+            "out": false
+          },
+          {
+            "id": "",
+            "height": 44,
+            "width": 348,
+            "out": false
+          },
+          {
+            "id": "planet-show-A_B",
+            "height": 44,
+            "width": 348,
+            "out": false
+          },
+          {
+            "id": "planet-close",
+            "height": 44,
+            "width": 137,
+            "out": false
+          }
+        ],
+        "closeReachable": true
+      },
+      "screenshot": "390-844-normal-g5-lit-window-preview.png"
+    },
+    {
+      "name": "390-844-normal-g2-private-route",
+      "passed": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "height": 44,
+            "width": 132.40625,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-a",
+            "height": 44,
+            "width": 76.546875,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-b",
+            "height": 44,
+            "width": 76.0625,
+            "out": false
+          },
+          {
+            "id": "planet-nav-board",
+            "height": 44,
+            "width": 71.5,
+            "out": false
+          },
+          {
+            "id": "planet-nav-card",
+            "height": 44,
+            "width": 71.5,
+            "out": false
+          },
+          {
+            "id": "planet-nav-actions",
+            "height": 44,
+            "width": 71.5,
+            "out": false
+          },
+          {
+            "id": "planet-nav-more",
+            "height": 44,
+            "width": 71.5,
+            "out": false
+          },
+          {
+            "id": "planet-pass",
+            "height": 64,
+            "width": 64,
+            "out": false
+          },
+          {
+            "id": "planet-action-CONFIRM_NAVIGATION",
+            "height": 44,
+            "width": 348,
+            "out": false
+          },
+          {
+            "id": "planet-close",
+            "height": 44,
+            "width": 137,
+            "out": false
+          }
+        ],
+        "closeReachable": true
+      },
+      "screenshot": "390-844-normal-g2-private-route.png"
+    },
+    {
+      "name": "390-844-normal-g6-office-targets",
+      "passed": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "height": 44,
+            "width": 132.40625,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-a",
+            "height": 44,
+            "width": 76.546875,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-1",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-2",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-3",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-4",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-5",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-b",
+            "height": 44,
+            "width": 76.0625,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-7",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-8",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-9",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "",
+            "height": 44,
+            "width": 66.296875,
+            "out": false
+          }
+        ],
+        "closeReachable": null
+      },
+      "screenshot": "390-844-normal-g6-office-targets.png"
+    },
+    {
+      "name": "390-844-normal-g8-compact-join",
+      "passed": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "planet-entry-join",
+            "height": 44,
+            "width": 118,
+            "out": false
+          },
+          {
+            "id": "planet-entry-host",
+            "height": 44,
+            "width": 118,
+            "out": false
+          },
+          {
+            "id": "planet-entry-recover",
+            "height": 44,
+            "width": 118,
+            "out": false
+          },
+          {
+            "id": "planet-join",
+            "height": 44,
+            "width": 348,
+            "out": false
+          }
+        ],
+        "closeReachable": null
+      },
+      "screenshot": "390-844-normal-g8-compact-join.png"
+    },
+    {
+      "name": "390-844-normal-g8-compact-host",
+      "passed": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "planet-entry-join",
+            "height": 44,
+            "width": 118,
+            "out": false
+          },
+          {
+            "id": "planet-entry-host",
+            "height": 44,
+            "width": 118,
+            "out": false
+          },
+          {
+            "id": "planet-entry-recover",
+            "height": 44,
+            "width": 118,
+            "out": false
+          },
+          {
+            "id": "planet-create",
+            "height": 44,
+            "width": 348,
+            "out": false
+          }
+        ],
+        "closeReachable": null
+      },
+      "screenshot": "390-844-normal-g8-compact-host.png"
+    },
+    {
+      "name": "390-844-normal-g8-compact-recovery",
+      "passed": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "planet-entry-join",
+            "height": 44,
+            "width": 118,
+            "out": false
+          },
+          {
+            "id": "planet-entry-host",
+            "height": 44,
+            "width": 118,
+            "out": false
+          },
+          {
+            "id": "planet-entry-recover",
+            "height": 44,
+            "width": 118,
+            "out": false
+          },
+          {
+            "id": "",
+            "height": 44,
+            "width": 348,
+            "out": false
+          }
+        ],
+        "closeReachable": null
+      },
+      "screenshot": "390-844-normal-g8-compact-recovery.png"
+    },
+    {
+      "name": "390-844-normal-g7-authoritative-arrival",
+      "passed": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "height": 44,
+            "width": 132.40625,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-a",
+            "height": 44,
+            "width": 76.546875,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-b",
+            "height": 44,
+            "width": 76.0625,
+            "out": false
+          },
+          {
+            "id": "planet-nav-board",
+            "height": 44,
+            "width": 71.5,
+            "out": false
+          },
+          {
+            "id": "planet-nav-card",
+            "height": 44,
+            "width": 71.5,
+            "out": false
+          },
+          {
+            "id": "planet-nav-actions",
+            "height": 44,
+            "width": 71.5,
+            "out": false
+          },
+          {
+            "id": "planet-nav-more",
+            "height": 44,
+            "width": 71.5,
+            "out": false
+          },
+          {
+            "id": "planet-pass",
+            "height": 64,
+            "width": 64,
+            "out": false
+          }
+        ],
+        "closeReachable": null
+      },
+      "screenshot": "390-844-normal-g7-authoritative-arrival.png"
+    },
+    {
+      "name": "390-844-normal-p27-behind-crew",
+      "passed": true,
+      "stage": {
+        "phaseId": "synthetic-sync-1",
+        "startedAt": 1793944572549,
+        "endsAt": 1793944578549,
+        "durationMs": 6000,
+        "elapsedMs": 807.75,
+        "remainingMs": 5192.25,
+        "progress": 0.134625,
+        "status": "presenting"
+      },
+      "syncWeaponIncreaseIsNotSupply": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "height": 44,
+            "width": 132.40625,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-a",
+            "height": 44,
+            "width": 76.546875,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-b",
+            "height": 44,
+            "width": 76.0625,
+            "out": false
+          },
+          {
+            "id": "planet-nav-board",
+            "height": 44,
+            "width": 71.5,
+            "out": false
+          },
+          {
+            "id": "planet-nav-card",
+            "height": 44,
+            "width": 71.5,
+            "out": false
+          },
+          {
+            "id": "planet-nav-actions",
+            "height": 44,
+            "width": 71.5,
+            "out": false
+          },
+          {
+            "id": "planet-nav-more",
+            "height": 44,
+            "width": 71.5,
+            "out": false
+          },
+          {
+            "id": "planet-pass",
+            "height": 64,
+            "width": 64,
+            "out": false
+          }
+        ],
+        "closeReachable": null
+      },
+      "screenshot": "390-844-normal-p27-behind-crew.png"
+    },
+    {
+      "name": "390-844-normal-rescue-free",
+      "passed": true,
+      "currentActor": {
+        "target": [
+          139,
+          460.0625,
+          44,
+          44
+        ],
+        "name": [
+          126.03572082519531,
+          490.0625,
+          56.953125,
+          14.25
+        ],
+        "slot": "A3",
+        "room": "room-a",
+        "visible": true,
+        "away": false,
+        "patientCopies": 0
+      },
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "height": 44,
+            "width": 132.40625,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-a",
+            "height": 44,
+            "width": 76.546875,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-1",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-2",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-4",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-5",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-3",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-b",
+            "height": 44,
+            "width": 76.0625,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-6",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-7",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-8",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-9",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "",
+            "height": 44,
+            "width": 66.296875,
+            "out": false
+          },
+          {
+            "id": "",
+            "height": 44,
+            "width": 71.71875,
+            "out": false
+          }
+        ],
+        "closeReachable": null
+      },
+      "screenshot": "390-844-normal-rescue-free.png"
+    },
+    {
+      "name": "390-844-normal-rescue-detained",
+      "passed": true,
+      "currentActor": {
+        "target": [
+          339,
+          623.09375,
+          44,
+          44
+        ],
+        "name": [
+          326.041015625,
+          653.09375,
+          56.953125,
+          14.25
+        ],
+        "slot": "J3",
+        "room": "jail",
+        "visible": true,
+        "away": false,
+        "patientCopies": 0
+      },
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "height": 44,
+            "width": 132.40625,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-a",
+            "height": 44,
+            "width": 76.546875,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-1",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-2",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-4",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-5",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-b",
+            "height": 44,
+            "width": 76.0625,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-6",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-7",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-8",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-9",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-3",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "",
+            "height": 44,
+            "width": 66.296875,
+            "out": false
+          }
+        ],
+        "closeReachable": null
+      },
+      "screenshot": "390-844-normal-rescue-detained.png"
+    },
+    {
+      "name": "390-844-reduced-g1-engineer-file",
+      "passed": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "height": 44,
+            "width": 132.40625,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-a",
+            "height": 44,
+            "width": 76.546875,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-b",
+            "height": 44,
+            "width": 76.0625,
+            "out": false
+          },
+          {
+            "id": "planet-nav-board",
+            "height": 44,
+            "width": 71.5,
+            "out": false
+          },
+          {
+            "id": "planet-nav-card",
+            "height": 44,
+            "width": 71.5,
+            "out": false
+          },
+          {
+            "id": "planet-nav-actions",
+            "height": 44,
+            "width": 71.5,
+            "out": false
+          },
+          {
+            "id": "planet-nav-more",
+            "height": 44,
+            "width": 71.5,
+            "out": false
+          },
+          {
+            "id": "planet-pass",
+            "height": 64,
+            "width": 64,
+            "out": false
+          },
+          {
+            "id": "planet-action-ENGINEER_SUPPRESS",
+            "height": 44,
+            "width": 348,
+            "out": false
+          },
+          {
+            "id": "planet-close",
+            "height": 44,
+            "width": 137,
+            "out": false
+          }
+        ],
+        "closeReachable": true
+      },
+      "screenshot": "390-844-reduced-g1-engineer-file.png"
+    },
+    {
+      "name": "390-844-reduced-g3-hospital-keypad",
+      "passed": true,
+      "keys": [
+        {
+          "label": "1",
+          "value": "seat-1"
+        },
+        {
+          "label": "2",
+          "value": "seat-2"
+        },
+        {
+          "label": "3",
+          "value": "seat-3"
+        },
+        {
+          "label": "4",
+          "value": "seat-4"
+        },
+        {
+          "label": "5",
+          "value": "seat-5"
+        },
+        {
+          "label": "6",
+          "value": "seat-6"
+        },
+        {
+          "label": "7",
+          "value": "seat-7"
+        },
+        {
+          "label": "8",
+          "value": "seat-8"
+        },
+        {
+          "label": "9",
+          "value": "seat-9"
+        }
+      ],
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "height": 44,
+            "width": 132.40625,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-a",
+            "height": 44,
+            "width": 76.546875,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-1",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-2",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-3",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-4",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-5",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-b",
+            "height": 44,
+            "width": 76.0625,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-7",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-8",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-9",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-6",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-nav-board",
+            "height": 44,
+            "width": 71.5,
+            "out": false
+          },
+          {
+            "id": "planet-nav-card",
+            "height": 44,
+            "width": 71.5,
+            "out": false
+          },
+          {
+            "id": "planet-nav-actions",
+            "height": 44,
+            "width": 71.5,
+            "out": false
+          },
+          {
+            "id": "planet-nav-more",
+            "height": 44,
+            "width": 71.5,
+            "out": false
+          },
+          {
+            "id": "planet-choice-seat-1",
+            "height": 48,
+            "width": 114,
+            "out": false
+          },
+          {
+            "id": "planet-choice-seat-2",
+            "height": 48,
+            "width": 114,
+            "out": false
+          },
+          {
+            "id": "planet-choice-seat-3",
+            "height": 48,
+            "width": 114,
+            "out": false
+          },
+          {
+            "id": "planet-choice-seat-4",
+            "height": 48,
+            "width": 114,
+            "out": false
+          },
+          {
+            "id": "planet-choice-seat-5",
+            "height": 48,
+            "width": 114,
+            "out": false
+          },
+          {
+            "id": "planet-choice-seat-6",
+            "height": 48,
+            "width": 114,
+            "out": false
+          },
+          {
+            "id": "planet-choice-seat-7",
+            "height": 48,
+            "width": 114,
+            "out": false
+          },
+          {
+            "id": "planet-choice-seat-8",
+            "height": 48,
+            "width": 114,
+            "out": false
+          },
+          {
+            "id": "planet-choice-seat-9",
+            "height": 48,
+            "width": 114,
+            "out": false
+          },
+          {
+            "id": "planet-close",
+            "height": 44,
+            "width": 137,
+            "out": false
+          }
+        ],
+        "closeReachable": true
+      },
+      "screenshot": "390-844-reduced-g3-hospital-keypad.png"
+    },
+    {
+      "name": "390-844-reduced-g4-promise-composer",
+      "passed": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "height": 44,
+            "width": 132.40625,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-a",
+            "height": 44,
+            "width": 76.546875,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-b",
+            "height": 44,
+            "width": 76.0625,
+            "out": false
+          },
+          {
+            "id": "planet-nav-board",
+            "height": 44,
+            "width": 71.5,
+            "out": false
+          },
+          {
+            "id": "planet-nav-card",
+            "height": 44,
+            "width": 71.5,
+            "out": false
+          },
+          {
+            "id": "planet-nav-actions",
+            "height": 44,
+            "width": 71.5,
+            "out": false
+          },
+          {
+            "id": "planet-nav-more",
+            "height": 44,
+            "width": 71.5,
+            "out": false
+          },
+          {
+            "id": "planet-choice-CAPTAIN_SUPPORT",
+            "height": 44,
+            "width": 174,
+            "out": false
+          },
+          {
+            "id": "planet-choice-OFFICER_SELECTION",
+            "height": 44,
+            "width": 174,
+            "out": false
+          },
+          {
+            "id": "planet-choice-JAIL_VOTE",
+            "height": 44,
+            "width": 174,
+            "out": false
+          },
+          {
+            "id": "planet-choice-NO_JAIL_VOTE",
+            "height": 44,
+            "width": 174,
+            "out": false
+          },
+          {
+            "id": "planet-choice-MEET_A",
+            "height": 44,
+            "width": 174,
+            "out": false
+          },
+          {
+            "id": "planet-choice-MEET_B",
+            "height": 44,
+            "width": 174,
+            "out": false
+          },
+          {
+            "id": "planet-close",
+            "height": 44,
+            "width": 137,
+            "out": false
+          }
+        ],
+        "closeReachable": true
+      },
+      "screenshot": "390-844-reduced-g4-promise-composer.png"
+    },
+    {
+      "name": "390-844-reduced-g5-lit-window-preview",
+      "passed": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "height": 44,
+            "width": 132.40625,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-a",
+            "height": 44,
+            "width": 76.546875,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-b",
+            "height": 44,
+            "width": 76.0625,
+            "out": false
+          },
+          {
+            "id": "planet-nav-board",
+            "height": 44,
+            "width": 71.5,
+            "out": false
+          },
+          {
+            "id": "planet-nav-card",
+            "height": 44,
+            "width": 71.5,
+            "out": false
+          },
+          {
+            "id": "planet-nav-actions",
+            "height": 44,
+            "width": 71.5,
+            "out": false
+          },
+          {
+            "id": "planet-nav-more",
+            "height": 44,
+            "width": 71.5,
+            "out": false
+          },
+          {
+            "id": "planet-pass",
+            "height": 64,
+            "width": 64,
+            "out": false
+          },
+          {
+            "id": "",
+            "height": 44,
+            "width": 348,
+            "out": false
+          },
+          {
+            "id": "",
+            "height": 44,
+            "width": 348,
+            "out": false
+          },
+          {
+            "id": "planet-show-A_B",
+            "height": 44,
+            "width": 348,
+            "out": false
+          },
+          {
+            "id": "planet-close",
+            "height": 44,
+            "width": 137,
+            "out": false
+          }
+        ],
+        "closeReachable": true
+      },
+      "screenshot": "390-844-reduced-g5-lit-window-preview.png"
+    },
+    {
+      "name": "390-844-reduced-g2-private-route",
+      "passed": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "height": 44,
+            "width": 132.40625,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-a",
+            "height": 44,
+            "width": 76.546875,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-b",
+            "height": 44,
+            "width": 76.0625,
+            "out": false
+          },
+          {
+            "id": "planet-nav-board",
+            "height": 44,
+            "width": 71.5,
+            "out": false
+          },
+          {
+            "id": "planet-nav-card",
+            "height": 44,
+            "width": 71.5,
+            "out": false
+          },
+          {
+            "id": "planet-nav-actions",
+            "height": 44,
+            "width": 71.5,
+            "out": false
+          },
+          {
+            "id": "planet-nav-more",
+            "height": 44,
+            "width": 71.5,
+            "out": false
+          },
+          {
+            "id": "planet-pass",
+            "height": 64,
+            "width": 64,
+            "out": false
+          },
+          {
+            "id": "planet-action-CONFIRM_NAVIGATION",
+            "height": 44,
+            "width": 348,
+            "out": false
+          },
+          {
+            "id": "planet-close",
+            "height": 44,
+            "width": 137,
+            "out": false
+          }
+        ],
+        "closeReachable": true
+      },
+      "screenshot": "390-844-reduced-g2-private-route.png"
+    },
+    {
+      "name": "390-844-reduced-g6-office-targets",
+      "passed": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "height": 44,
+            "width": 132.40625,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-a",
+            "height": 44,
+            "width": 76.546875,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-1",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-2",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-3",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-4",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-5",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-b",
+            "height": 44,
+            "width": 76.0625,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-7",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-8",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-9",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "",
+            "height": 44,
+            "width": 66.296875,
+            "out": false
+          }
+        ],
+        "closeReachable": null
+      },
+      "screenshot": "390-844-reduced-g6-office-targets.png"
+    },
+    {
+      "name": "390-844-reduced-g8-compact-join",
+      "passed": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "planet-entry-join",
+            "height": 44,
+            "width": 118,
+            "out": false
+          },
+          {
+            "id": "planet-entry-host",
+            "height": 44,
+            "width": 118,
+            "out": false
+          },
+          {
+            "id": "planet-entry-recover",
+            "height": 44,
+            "width": 118,
+            "out": false
+          },
+          {
+            "id": "planet-join",
+            "height": 44,
+            "width": 348,
+            "out": false
+          }
+        ],
+        "closeReachable": null
+      },
+      "screenshot": "390-844-reduced-g8-compact-join.png"
+    },
+    {
+      "name": "390-844-reduced-g8-compact-host",
+      "passed": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "planet-entry-join",
+            "height": 44,
+            "width": 118,
+            "out": false
+          },
+          {
+            "id": "planet-entry-host",
+            "height": 44,
+            "width": 118,
+            "out": false
+          },
+          {
+            "id": "planet-entry-recover",
+            "height": 44,
+            "width": 118,
+            "out": false
+          },
+          {
+            "id": "planet-create",
+            "height": 44,
+            "width": 348,
+            "out": false
+          }
+        ],
+        "closeReachable": null
+      },
+      "screenshot": "390-844-reduced-g8-compact-host.png"
+    },
+    {
+      "name": "390-844-reduced-g8-compact-recovery",
+      "passed": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "planet-entry-join",
+            "height": 44,
+            "width": 118,
+            "out": false
+          },
+          {
+            "id": "planet-entry-host",
+            "height": 44,
+            "width": 118,
+            "out": false
+          },
+          {
+            "id": "planet-entry-recover",
+            "height": 44,
+            "width": 118,
+            "out": false
+          },
+          {
+            "id": "",
+            "height": 44,
+            "width": 348,
+            "out": false
+          }
+        ],
+        "closeReachable": null
+      },
+      "screenshot": "390-844-reduced-g8-compact-recovery.png"
+    },
+    {
+      "name": "390-844-reduced-g7-authoritative-arrival",
+      "passed": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "height": 44,
+            "width": 132.40625,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-a",
+            "height": 44,
+            "width": 76.546875,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-b",
+            "height": 44,
+            "width": 76.0625,
+            "out": false
+          },
+          {
+            "id": "planet-nav-board",
+            "height": 44,
+            "width": 71.5,
+            "out": false
+          },
+          {
+            "id": "planet-nav-card",
+            "height": 44,
+            "width": 71.5,
+            "out": false
+          },
+          {
+            "id": "planet-nav-actions",
+            "height": 44,
+            "width": 71.5,
+            "out": false
+          },
+          {
+            "id": "planet-nav-more",
+            "height": 44,
+            "width": 71.5,
+            "out": false
+          },
+          {
+            "id": "planet-pass",
+            "height": 64,
+            "width": 64,
+            "out": false
+          }
+        ],
+        "closeReachable": null
+      },
+      "screenshot": "390-844-reduced-g7-authoritative-arrival.png"
+    },
+    {
+      "name": "390-844-reduced-p27-behind-crew",
+      "passed": true,
+      "stage": {
+        "phaseId": "synthetic-sync-1",
+        "startedAt": 1793944586317,
+        "endsAt": 1793944592317,
+        "durationMs": 6000,
+        "elapsedMs": 809.14990234375,
+        "remainingMs": 5190.85009765625,
+        "progress": 0.13485831705729168,
+        "status": "presenting"
+      },
+      "syncWeaponIncreaseIsNotSupply": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "height": 44,
+            "width": 132.40625,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-a",
+            "height": 44,
+            "width": 76.546875,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-b",
+            "height": 44,
+            "width": 76.0625,
+            "out": false
+          },
+          {
+            "id": "planet-nav-board",
+            "height": 44,
+            "width": 71.5,
+            "out": false
+          },
+          {
+            "id": "planet-nav-card",
+            "height": 44,
+            "width": 71.5,
+            "out": false
+          },
+          {
+            "id": "planet-nav-actions",
+            "height": 44,
+            "width": 71.5,
+            "out": false
+          },
+          {
+            "id": "planet-nav-more",
+            "height": 44,
+            "width": 71.5,
+            "out": false
+          },
+          {
+            "id": "planet-pass",
+            "height": 64,
+            "width": 64,
+            "out": false
+          }
+        ],
+        "closeReachable": null
+      },
+      "screenshot": "390-844-reduced-p27-behind-crew.png"
+    },
+    {
+      "name": "390-844-reduced-rescue-free",
+      "passed": true,
+      "currentActor": {
+        "target": [
+          139,
+          460.0625,
+          44,
+          44
+        ],
+        "name": [
+          126.03572082519531,
+          490.0625,
+          56.953125,
+          14.25
+        ],
+        "slot": "A3",
+        "room": "room-a",
+        "visible": true,
+        "away": false,
+        "patientCopies": 0
+      },
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "height": 44,
+            "width": 132.40625,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-a",
+            "height": 44,
+            "width": 76.546875,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-1",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-2",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-4",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-5",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-3",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-b",
+            "height": 44,
+            "width": 76.0625,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-6",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-7",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-8",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-9",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "",
+            "height": 44,
+            "width": 66.296875,
+            "out": false
+          },
+          {
+            "id": "",
+            "height": 44,
+            "width": 71.71875,
+            "out": false
+          }
+        ],
+        "closeReachable": null
+      },
+      "screenshot": "390-844-reduced-rescue-free.png"
+    },
+    {
+      "name": "390-844-reduced-rescue-detained",
+      "passed": true,
+      "currentActor": {
+        "target": [
+          339,
+          623.09375,
+          44,
+          44
+        ],
+        "name": [
+          326.041015625,
+          653.09375,
+          56.953125,
+          14.25
+        ],
+        "slot": "J3",
+        "room": "jail",
+        "visible": true,
+        "away": false,
+        "patientCopies": 0
+      },
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "height": 44,
+            "width": 132.40625,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-a",
+            "height": 44,
+            "width": 76.546875,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-1",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-2",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-4",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-5",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "phone-move-room-b",
+            "height": 44,
+            "width": 76.0625,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-6",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-7",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-8",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-9",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "planet-seat-seat-3",
+            "height": 44,
+            "width": 44,
+            "out": false
+          },
+          {
+            "id": "",
+            "height": 44,
+            "width": 66.296875,
+            "out": false
+          }
+        ],
+        "closeReachable": null
+      },
+      "screenshot": "390-844-reduced-rescue-detained.png"
+    }
+  ],
+  "runtimeErrors": []
+}

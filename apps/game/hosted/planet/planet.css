@@ -66,3 +66,29 @@ html:has(.planet-setup),body:has(.planet-setup){margin:0;height:100%;overflow:hi
 .planet-app[data-sync-cue="true"] .planet-header{box-shadow:inset 0 -2px #F7D886}
 .planet-app[data-sync-cue="true"] .planet-header>small:nth-of-type(2){color:#F7D886}
 .planet-rescue-fx{pointer-events:none}
+.planet-library-icon{display:inline-block;flex:0 0 24px;width:24px;height:24px;vertical-align:middle;background:center/contain no-repeat;margin-inline-end:6px;pointer-events:none}
+.planet-library-fill{position:absolute;inset:0;background:center/100% 100% no-repeat;pointer-events:none;z-index:-1}
+.planet-library-prop{display:block;width:100%;height:86px;background:center/contain no-repeat;pointer-events:none}
+.planet-library-file{border:1px solid #55657E;border-radius:4px;padding:8px;margin-top:8px}
+.planet-route-picture{position:relative;isolation:isolate;aspect-ratio:320/236;max-height:190px;margin:8px auto;width:min(100%,258px)}
+.planet-route-ship{position:absolute;width:20px;height:20px;transform:translate(-50%,-50%);background:center/contain no-repeat;pointer-events:none}
+.planet-route-label{position:absolute;transform:translate(-50%,0);font:700 11px system-ui,sans-serif}
+.planet-panel-console{position:relative;isolation:isolate;aspect-ratio:320/150;max-height:130px;margin:8px auto;width:min(100%,280px)}
+.planet-panel-number{position:absolute;left:16%;top:18%;width:30%;text-align:center;color:#F4EBDD}
+.planet-number-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:8px 0}
+.planet-app .planet-number-key{min-height:48px;font-size:18px;background:#132447 var(--hp-asset-hp-key-plain) center/100% 100% no-repeat}
+.planet-choice-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;margin:8px 0}
+.planet-choice-grid button{display:flex;align-items:center;justify-content:center;overflow-wrap:anywhere}
+.planet-drawing-tools{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin:8px 0}
+.planet-drawing-tools :is(input,select){min-width:44px;min-height:44px;max-width:100%;color:#F4EBDD;background:#132447;border:1px solid #A7771E}
+.planet-end-banner{position:relative;isolation:isolate;padding:10px 6px;text-align:center;min-height:52px}
+.planet-move-block{position:absolute;z-index:3300;width:16px;height:16px;background:var(--of-asset-of-badge-blocked) center/contain no-repeat;pointer-events:none}
+.planet-window-station{position:absolute;z-index:10;background:var(--wn-asset-wn-station) center/contain no-repeat;pointer-events:none}
+[data-art~="offices"] .planet-office-badge[data-officer=true]::before{content:'';display:inline-block;width:12px;height:12px;background:var(--of-asset-of-glyph-officer) center/contain no-repeat;vertical-align:middle;margin-right:2px}
+.planet-entry-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:8px 0}
+.planet-entry-tabs button[aria-pressed=true]{outline:2px solid #F7D886;outline-offset:1px}
+.planet-setup #planet-name-hint{font-size:12px;margin:0}
+.planet-setup [hidden]{display:none!important}
+.planet-room-code{background:var(--sw-asset-sw-code-plate) center/contain no-repeat;min-height:54px;display:grid;place-items:center;font-weight:800;font-size:18px}
+.planet-setup .planet-entry-tabs+form,.planet-setup form{margin:8px 0;padding:8px}
+.planet-cinematic-field{position:absolute;left:0;top:0;z-index:-1999;pointer-events:none}

@@ -3,6 +3,7 @@ import {mountPlanetApp} from '../../hosted/planet/app.mjs';
 import {loadArt} from '../../hosted/art.mjs';
 import {planetBlackholePresentation} from '@mothership/presentation';
 import {sessionScenario,makePlanetScenario,publicPlanet} from './scenarios.mjs';
+import candidateArt from 'virtual:planet-library-candidates';
 const name=new URL(location.href).searchParams.get('scenario')??'board';
 const count=Number(new URL(location.href).searchParams.get('count')??9);
 let value=sessionScenario(name==='join'?'display':name,{now:Date.now(),count}),lost=false,admissionRead=name==='join'?'forbidden':null;
@@ -20,12 +21,16 @@ const connection={mode:'synthetic',currentUid:()=> 'planet-synthetic-uid',signIn
  if(request.operation==='ready'){value.members.find(m=>m.seatId===value.selfSeatId).ready=true;return answer({matchId:value.matchId});}
  return answer({matchId:value.matchId});
 }};
-const app=await mountPlanetApp(document.getElementById('planet-root'),{connection,matchId:name==='join'?undefined:'planet-local',allowSynthetic:true});
+let candidateCinematics=null,candidateReady=Promise.resolve();
+if(new URL(location.href).searchParams.get('art')==='library'){
+ candidateReady=Promise.all(candidateArt.groups.map(group=>new Promise(done=>{const link=document.createElement('link'),timer=setTimeout(done,8000);link.rel='stylesheet';link.href=group.url;link.onload=()=>{clearTimeout(timer);const tokens=new Set((document.documentElement.dataset.art??'').split(' ').filter(Boolean));tokens.add(group.token);document.documentElement.dataset.art=[...tokens].join(' ');document.dispatchEvent(new Event('mothership:art-ready'));done();};link.onerror=()=>{clearTimeout(timer);done();};document.head.append(link);})));candidateCinematics=candidateArt.cinematics;
+}
+const app=await mountPlanetApp(document.getElementById('planet-root'),{connection,matchId:name==='join'?undefined:'planet-local',allowSynthetic:true,candidateCinematics});
 let phaseSequence=0;
 const applyPlayer=async player=>{value.publicView=publicPlanet(player);if(value.selfSeatId!==null)value.playerView=player;await app.session.refresh();};
 const currentPlayer=()=>value.playerView?structuredClone(value.playerView):{...makePlanetScenario('board',{now:Date.now(),count:value.playerCount}),...structuredClone(value.publicView),board:{...structuredClone(value.publicView.board),kind:'PLAYER_CURRENT'}};
 // Only this excluded harness exposes synthetic authority and inspection controls.
-window.planetHarness={app,requests,get value(){return value;},setLost(next){lost=next;},
+window.planetHarness={app,requests,candidateReady,get value(){return value;},setLost(next){lost=next;},
  async admission(mode){admissionRead=mode==='forbidden'?'forbidden':null;value=sessionScenario(mode==='player'?'board':'display',{now:Date.now(),count});await app.session.refresh();},
  presentation:()=>app.game?planetBlackholePresentation(app.game.getModel()):null,
  setVisible(visible){app.game?.setVisible(visible);app.session.setVisible(visible);},

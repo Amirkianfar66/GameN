@@ -1,6 +1,6 @@
 {
   "scope": "Synthetic P27 protocol-3 snapshots through the production consumer, desktop Chromium phone emulation; no Firebase, engine, hosted or physical-device acceptance.",
-  "generatedAt": "2026-11-05T19:22:49.675Z",
+  "generatedAt": "2026-11-06T05:56:11.418Z",
   "browser": {
     "protocolVersion": "1.3",
     "product": "Chrome/156.0.8078.80",
@@ -16,21 +16,21 @@
         "phase": {
           "id": "synthetic-sync-1",
           "kind": "BLACKHOLE_PRESENTATION",
-          "startedAt": 1793906570011,
-          "endsAt": 1793906576011,
-          "nowMs": 1793906570016.75,
-          "remainingMs": 5994.25,
+          "startedAt": 1793944571662,
+          "endsAt": 1793944577662,
+          "nowMs": 1793944571666.15,
+          "remainingMs": 5995.85009765625,
           "trusted": true,
           "expired": false
         },
         "stage": {
           "phaseId": "synthetic-sync-1",
-          "startedAt": 1793906570011,
-          "endsAt": 1793906576011,
+          "startedAt": 1793944571662,
+          "endsAt": 1793944577662,
           "durationMs": 6000,
-          "elapsedMs": 7.150146484375,
-          "remainingMs": 5992.849853515625,
-          "progress": 0.0011916910807291668,
+          "elapsedMs": 5.35009765625,
+          "remainingMs": 5994.64990234375,
+          "progress": 0.0008916829427083334,
           "status": "presenting"
         },
         "syncCue": true,
@@ -45,7 +45,7 @@
         "offers": [],
         "promise": "Pending",
         "commands": 0,
-        "art": "player-ui public-board roles scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art",
+        "art": "player-ui public-board roles scene-art abilities setup-art board-v2-motion-art board-v2-art board-v2-films-art",
         "overflow": [
           false,
           false
@@ -55,21 +55,21 @@
         "phase": {
           "id": "synthetic-sync-1",
           "kind": "BLACKHOLE_PRESENTATION",
-          "startedAt": 1793906570011,
-          "endsAt": 1793906576011,
-          "nowMs": 1793906571794.75,
-          "remainingMs": 4216.25,
+          "startedAt": 1793944571662,
+          "endsAt": 1793944577662,
+          "nowMs": 1793944573414.45,
+          "remainingMs": 4247.550048828125,
           "trusted": true,
           "expired": false
         },
         "stage": {
           "phaseId": "synthetic-sync-1",
-          "startedAt": 1793906570011,
-          "endsAt": 1793906576011,
+          "startedAt": 1793944571662,
+          "endsAt": 1793944577662,
           "durationMs": 6000,
-          "elapsedMs": 1783.75,
-          "remainingMs": 4216.25,
-          "progress": 0.2972916666666667,
+          "elapsedMs": 1752.550048828125,
+          "remainingMs": 4247.449951171875,
+          "progress": 0.2920916748046875,
           "status": "presenting"
         },
         "syncCue": true,
@@ -84,7 +84,7 @@
         "offers": [],
         "promise": "Pending",
         "commands": 0,
-        "art": "player-ui public-board roles scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art",
+        "art": "player-ui public-board roles scene-art abilities setup-art board-v2-motion-art board-v2-art board-v2-films-art",
         "overflow": [
           false,
           false
@@ -94,17 +94,17 @@
         "phase": {
           "id": "synthetic-sync-1",
           "kind": "BLACKHOLE_PRESENTATION",
-          "startedAt": 1793906570011,
-          "endsAt": 1793906576011,
-          "nowMs": 1793906576195.05,
+          "startedAt": 1793944571662,
+          "endsAt": 1793944577662,
+          "nowMs": 1793944577844.95,
           "remainingMs": 0,
           "trusted": true,
           "expired": true
         },
         "stage": {
           "phaseId": "synthetic-sync-1",
-          "startedAt": 1793906570011,
-          "endsAt": 1793906576011,
+          "startedAt": 1793944571662,
+          "endsAt": 1793944577662,
           "durationMs": 6000,
           "elapsedMs": 6000,
           "remainingMs": 0,
@@ -123,7 +123,7 @@
         "offers": [],
         "promise": null,
         "commands": 0,
-        "art": "player-ui public-board roles scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art",
+        "art": "player-ui public-board roles scene-art abilities setup-art board-v2-motion-art board-v2-art board-v2-films-art",
         "overflow": [
           false,
           false
@@ -133,10 +133,10 @@
         "phase": {
           "id": "synthetic-vote-2",
           "kind": "JAIL_VOTE",
-          "startedAt": 1793906576262,
-          "endsAt": 1793906636262,
-          "nowMs": 1793906576265.4502,
-          "remainingMs": 59996.5498046875,
+          "startedAt": 1793944577928,
+          "endsAt": 1793944637928,
+          "nowMs": 1793944577931.25,
+          "remainingMs": 59996.75,
           "trusted": true,
           "expired": false
         },
@@ -153,7 +153,7 @@
         "offers": [],
         "promise": "Fulfilled",
         "commands": 0,
-        "art": "player-ui public-board roles scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art",
+        "art": "player-ui public-board roles scene-art abilities setup-art board-v2-motion-art board-v2-art board-v2-films-art",
         "overflow": [
           false,
           false
@@ -163,10 +163,10 @@
         "phase": {
           "id": "synthetic-vote-2",
           "kind": "JAIL_VOTE",
-          "startedAt": 1793906576262,
-          "endsAt": 1793906636262,
-          "nowMs": 1793906576370.55,
-          "remainingMs": 59891.449951171875,
+          "startedAt": 1793944577928,
+          "endsAt": 1793944637928,
+          "nowMs": 1793944578025.35,
+          "remainingMs": 59902.64990234375,
           "trusted": true,
           "expired": false
         },
@@ -251,7 +251,7 @@
         ],
         "promise": null,
         "commands": 0,
-        "art": "player-ui public-board roles scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art",
+        "art": "player-ui public-board roles scene-art abilities setup-art board-v2-motion-art board-v2-art board-v2-films-art",
         "overflow": [
           false,
           false
@@ -270,21 +270,21 @@
         "phase": {
           "id": "synthetic-sync-1",
           "kind": "BLACKHOLE_PRESENTATION",
-          "startedAt": 1793906573099,
-          "endsAt": 1793906579099,
-          "nowMs": 1793906576601.45,
-          "remainingMs": 2497.550048828125,
+          "startedAt": 1793944574771,
+          "endsAt": 1793944580771,
+          "nowMs": 1793944578273.7,
+          "remainingMs": 2497.300048828125,
           "trusted": true,
           "expired": false
         },
         "stage": {
           "phaseId": "synthetic-sync-1",
-          "startedAt": 1793906573099,
-          "endsAt": 1793906579099,
+          "startedAt": 1793944574771,
+          "endsAt": 1793944580771,
           "durationMs": 6000,
-          "elapsedMs": 3502.5498046875,
-          "remainingMs": 2497.4501953125,
-          "progress": 0.58375830078125,
+          "elapsedMs": 3502.800048828125,
+          "remainingMs": 2497.199951171875,
+          "progress": 0.5838000081380208,
           "status": "presenting"
         },
         "syncCue": true,
@@ -299,7 +299,7 @@
         "offers": [],
         "promise": null,
         "commands": 0,
-        "art": "player-ui public-board roles abilities scene-art setup-art board-v2-art board-v2-motion-art board-v2-films-art",
+        "art": "player-ui public-board roles scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art",
         "overflow": [
           false,
           false
@@ -309,21 +309,21 @@
         "phase": {
           "id": "synthetic-sync-1",
           "kind": "BLACKHOLE_PRESENTATION",
-          "startedAt": 1793906573099,
-          "endsAt": 1793906579099,
-          "nowMs": 1793906576780.2,
-          "remainingMs": 2318.800048828125,
+          "startedAt": 1793944574771,
+          "endsAt": 1793944580771,
+          "nowMs": 1793944578470.9502,
+          "remainingMs": 2300.0498046875,
           "trusted": true,
           "expired": false
         },
         "stage": {
           "phaseId": "synthetic-sync-1",
-          "startedAt": 1793906573099,
-          "endsAt": 1793906579099,
+          "startedAt": 1793944574771,
+          "endsAt": 1793944580771,
           "durationMs": 6000,
-          "elapsedMs": 3681.300048828125,
-          "remainingMs": 2318.699951171875,
-          "progress": 0.6135500081380209,
+          "elapsedMs": 3700.150146484375,
+          "remainingMs": 2299.849853515625,
+          "progress": 0.6166916910807292,
           "status": "presenting"
         },
         "syncCue": true,
@@ -338,7 +338,7 @@
         "offers": [],
         "promise": null,
         "commands": 0,
-        "art": "player-ui public-board roles abilities scene-art setup-art board-v2-art board-v2-motion-art board-v2-films-art",
+        "art": "player-ui public-board roles scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art",
         "overflow": [
           false,
           false
@@ -355,10 +355,10 @@
         "phase": {
           "id": "synthetic-vote-2",
           "kind": "JAIL_VOTE",
-          "startedAt": 1793906579282,
-          "endsAt": 1793906639282,
-          "nowMs": 1793906579473.0999,
-          "remainingMs": 59808.900146484375,
+          "startedAt": 1793944580954,
+          "endsAt": 1793944640954,
+          "nowMs": 1793944581137.95,
+          "remainingMs": 59816.050048828125,
           "trusted": true,
           "expired": false
         },
@@ -375,7 +375,7 @@
         "offers": [],
         "promise": null,
         "commands": 0,
-        "art": "player-ui public-board roles abilities scene-art setup-art board-v2-art board-v2-motion-art board-v2-films-art",
+        "art": "player-ui public-board roles scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art",
         "overflow": [
           false,
           false
@@ -392,21 +392,21 @@
         "phase": {
           "id": "synthetic-sync-1",
           "kind": "BLACKHOLE_PRESENTATION",
-          "startedAt": 1793906574425,
-          "endsAt": 1793906580425,
-          "nowMs": 1793906579627.3499,
-          "remainingMs": 797.650146484375,
+          "startedAt": 1793944576101,
+          "endsAt": 1793944582101,
+          "nowMs": 1793944581303.75,
+          "remainingMs": 797.25,
           "trusted": true,
           "expired": false
         },
         "stage": {
           "phaseId": "synthetic-sync-1",
-          "startedAt": 1793906574425,
-          "endsAt": 1793906580425,
+          "startedAt": 1793944576101,
+          "endsAt": 1793944582101,
           "durationMs": 6000,
-          "elapsedMs": 5202.349853515625,
-          "remainingMs": 797.650146484375,
-          "progress": 0.8670583089192708,
+          "elapsedMs": 5202.849853515625,
+          "remainingMs": 797.150146484375,
+          "progress": 0.8671416422526042,
           "status": "presenting"
         },
         "syncCue": true,
@@ -431,10 +431,10 @@
         "phase": {
           "id": "synthetic-vote-2",
           "kind": "JAIL_VOTE",
-          "startedAt": 1793906580608,
-          "endsAt": 1793906640608,
-          "nowMs": 1793906580612.3499,
-          "remainingMs": 59995.650146484375,
+          "startedAt": 1793944582282,
+          "endsAt": 1793944642282,
+          "nowMs": 1793944582284.8499,
+          "remainingMs": 59997.150146484375,
           "trusted": true,
           "expired": false
         },
@@ -461,10 +461,48 @@
         "phase": {
           "id": "synthetic-vote-2",
           "kind": "JAIL_VOTE",
-          "startedAt": 1793906580608,
-          "endsAt": 1793906640608,
-          "nowMs": 1793906580628.5498,
-          "remainingMs": 59979.4501953125,
+          "startedAt": 1793944582282,
+          "endsAt": 1793944642282,
+          "nowMs": 1793944582305.95,
+          "remainingMs": 59976.050048828125,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": null,
+        "syncCue": false,
+        "headerText": "SYNTHETIC · R6 · JAIL VOTE60sCaptain — · Officer —Turn: —",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "player-ui roles public-board scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "screenshots": [
+        "320-568-normal-missing-art-presentation.png",
+        "320-568-normal-art-restored-vote-no-replay.png"
+      ]
+    },
+    {
+      "name": "320-568-normal-ordinary-round-skips-presentation",
+      "passed": true,
+      "current": {
+        "phase": {
+          "id": "synthetic-vote-1",
+          "kind": "JAIL_VOTE",
+          "startedAt": 1793944582463,
+          "endsAt": 1793944642463,
+          "nowMs": 1793944582465.35,
+          "remainingMs": 59997.64990234375,
           "trusted": true,
           "expired": false
         },
@@ -488,44 +526,6 @@
         ]
       },
       "screenshots": [
-        "320-568-normal-missing-art-presentation.png",
-        "320-568-normal-art-restored-vote-no-replay.png"
-      ]
-    },
-    {
-      "name": "320-568-normal-ordinary-round-skips-presentation",
-      "passed": true,
-      "current": {
-        "phase": {
-          "id": "synthetic-vote-1",
-          "kind": "JAIL_VOTE",
-          "startedAt": 1793906580786,
-          "endsAt": 1793906640786,
-          "nowMs": 1793906580788.05,
-          "remainingMs": 59997.949951171875,
-          "trusted": true,
-          "expired": false
-        },
-        "stage": null,
-        "syncCue": false,
-        "headerText": "SYNTHETIC · R6 · JAIL VOTE60sCaptain — · Officer —Turn: —",
-        "noOverlay": true,
-        "headerClear": true,
-        "capsuleActors": 0,
-        "targets": 0,
-        "canMove": false,
-        "canPass": false,
-        "action": null,
-        "offers": [],
-        "promise": null,
-        "commands": 0,
-        "art": "player-ui roles scene-art public-board abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art",
-        "overflow": [
-          false,
-          false
-        ]
-      },
-      "screenshots": [
         "320-568-normal-ordinary-full-vote.png"
       ]
     },
@@ -536,21 +536,21 @@
         "phase": {
           "id": "synthetic-sync-1",
           "kind": "BLACKHOLE_PRESENTATION",
-          "startedAt": 1793906577454,
-          "endsAt": 1793906583454,
-          "nowMs": 1793906580956.75,
-          "remainingMs": 2497.25,
+          "startedAt": 1793944579126,
+          "endsAt": 1793944585126,
+          "nowMs": 1793944582628.45,
+          "remainingMs": 2497.550048828125,
           "trusted": true,
           "expired": false
         },
         "stage": {
           "phaseId": "synthetic-sync-1",
-          "startedAt": 1793906577454,
-          "endsAt": 1793906583454,
+          "startedAt": 1793944579126,
+          "endsAt": 1793944585126,
           "durationMs": 6000,
-          "elapsedMs": 3502.849853515625,
-          "remainingMs": 2497.150146484375,
-          "progress": 0.5838083089192708,
+          "elapsedMs": 3502.550048828125,
+          "remainingMs": 2497.449951171875,
+          "progress": 0.5837583414713542,
           "status": "presenting"
         },
         "syncCue": true,
@@ -565,7 +565,7 @@
         "offers": [],
         "promise": null,
         "commands": 0,
-        "art": "player-ui roles board-v2-art public-board abilities scene-art setup-art board-v2-motion-art board-v2-films-art",
+        "art": "player-ui roles public-board abilities scene-art board-v2-art setup-art board-v2-motion-art board-v2-films-art",
         "overflow": [
           false,
           false
@@ -582,21 +582,21 @@
         "phase": {
           "id": "synthetic-sync-1",
           "kind": "BLACKHOLE_PRESENTATION",
-          "startedAt": 1793906581237,
-          "endsAt": 1793906587237,
-          "nowMs": 1793906581240.75,
-          "remainingMs": 5996.25,
+          "startedAt": 1793944582882,
+          "endsAt": 1793944588882,
+          "nowMs": 1793944582886.3,
+          "remainingMs": 5995.699951171875,
           "trusted": true,
           "expired": false
         },
         "stage": {
           "phaseId": "synthetic-sync-1",
-          "startedAt": 1793906581237,
-          "endsAt": 1793906587237,
+          "startedAt": 1793944582882,
+          "endsAt": 1793944588882,
           "durationMs": 6000,
-          "elapsedMs": 5.449951171875,
-          "remainingMs": 5994.550048828125,
-          "progress": 0.0009083251953125,
+          "elapsedMs": 5.60009765625,
+          "remainingMs": 5994.39990234375,
+          "progress": 0.000933349609375,
           "status": "presenting"
         },
         "syncCue": true,
@@ -611,7 +611,7 @@
         "offers": [],
         "promise": "Pending",
         "commands": 0,
-        "art": "public-board player-ui roles scene-art board-v2-art abilities setup-art board-v2-motion-art board-v2-films-art",
+        "art": "player-ui roles abilities scene-art public-board board-v2-art setup-art board-v2-motion-art board-v2-films-art",
         "overflow": [
           false,
           false
@@ -621,21 +621,21 @@
         "phase": {
           "id": "synthetic-sync-1",
           "kind": "BLACKHOLE_PRESENTATION",
-          "startedAt": 1793906581237,
-          "endsAt": 1793906587237,
-          "nowMs": 1793906582978.55,
-          "remainingMs": 4258.449951171875,
+          "startedAt": 1793944582882,
+          "endsAt": 1793944588882,
+          "nowMs": 1793944584642.2,
+          "remainingMs": 4239.800048828125,
           "trusted": true,
           "expired": false
         },
         "stage": {
           "phaseId": "synthetic-sync-1",
-          "startedAt": 1793906581237,
-          "endsAt": 1793906587237,
+          "startedAt": 1793944582882,
+          "endsAt": 1793944588882,
           "durationMs": 6000,
-          "elapsedMs": 1741.75,
-          "remainingMs": 4258.25,
-          "progress": 0.29029166666666667,
+          "elapsedMs": 1760.800048828125,
+          "remainingMs": 4239.199951171875,
+          "progress": 0.2934666748046875,
           "status": "presenting"
         },
         "syncCue": true,
@@ -650,7 +650,7 @@
         "offers": [],
         "promise": "Pending",
         "commands": 0,
-        "art": "public-board player-ui roles scene-art board-v2-art abilities setup-art board-v2-motion-art board-v2-films-art",
+        "art": "player-ui roles abilities scene-art public-board board-v2-art setup-art board-v2-motion-art board-v2-films-art",
         "overflow": [
           false,
           false
@@ -660,17 +660,17 @@
         "phase": {
           "id": "synthetic-sync-1",
           "kind": "BLACKHOLE_PRESENTATION",
-          "startedAt": 1793906581237,
-          "endsAt": 1793906587237,
-          "nowMs": 1793906587419.75,
+          "startedAt": 1793944582882,
+          "endsAt": 1793944588882,
+          "nowMs": 1793944589066,
           "remainingMs": 0,
           "trusted": true,
           "expired": true
         },
         "stage": {
           "phaseId": "synthetic-sync-1",
-          "startedAt": 1793906581237,
-          "endsAt": 1793906587237,
+          "startedAt": 1793944582882,
+          "endsAt": 1793944588882,
           "durationMs": 6000,
           "elapsedMs": 6000,
           "remainingMs": 0,
@@ -689,7 +689,7 @@
         "offers": [],
         "promise": null,
         "commands": 0,
-        "art": "public-board player-ui roles scene-art board-v2-art abilities setup-art board-v2-motion-art board-v2-films-art",
+        "art": "player-ui roles abilities scene-art public-board board-v2-art setup-art board-v2-motion-art board-v2-films-art",
         "overflow": [
           false,
           false
@@ -699,10 +699,10 @@
         "phase": {
           "id": "synthetic-vote-2",
           "kind": "JAIL_VOTE",
-          "startedAt": 1793906587479,
-          "endsAt": 1793906647479,
-          "nowMs": 1793906587481.75,
-          "remainingMs": 59997.25,
+          "startedAt": 1793944589138,
+          "endsAt": 1793944649138,
+          "nowMs": 1793944589140.9001,
+          "remainingMs": 59997.099853515625,
           "trusted": true,
           "expired": false
         },
@@ -719,7 +719,7 @@
         "offers": [],
         "promise": "Fulfilled",
         "commands": 0,
-        "art": "public-board player-ui roles scene-art board-v2-art abilities setup-art board-v2-motion-art board-v2-films-art",
+        "art": "player-ui roles abilities scene-art public-board board-v2-art setup-art board-v2-motion-art board-v2-films-art",
         "overflow": [
           false,
           false
@@ -729,10 +729,10 @@
         "phase": {
           "id": "synthetic-vote-2",
           "kind": "JAIL_VOTE",
-          "startedAt": 1793906587479,
-          "endsAt": 1793906647479,
-          "nowMs": 1793906587587.95,
-          "remainingMs": 59891.050048828125,
+          "startedAt": 1793944589138,
+          "endsAt": 1793944649138,
+          "nowMs": 1793944589236,
+          "remainingMs": 59902,
           "trusted": true,
           "expired": false
         },
@@ -817,7 +817,7 @@
         ],
         "promise": null,
         "commands": 0,
-        "art": "public-board player-ui roles scene-art board-v2-art abilities setup-art board-v2-motion-art board-v2-films-art",
+        "art": "player-ui roles abilities scene-art public-board board-v2-art setup-art board-v2-motion-art board-v2-films-art",
         "overflow": [
           false,
           false
@@ -836,21 +836,21 @@
         "phase": {
           "id": "synthetic-sync-1",
           "kind": "BLACKHOLE_PRESENTATION",
-          "startedAt": 1793906584334,
-          "endsAt": 1793906590334,
-          "nowMs": 1793906587836.7998,
-          "remainingMs": 2497.2001953125,
+          "startedAt": 1793944585986,
+          "endsAt": 1793944591986,
+          "nowMs": 1793944589489.2998,
+          "remainingMs": 2496.7001953125,
           "trusted": true,
           "expired": false
         },
         "stage": {
           "phaseId": "synthetic-sync-1",
-          "startedAt": 1793906584334,
-          "endsAt": 1793906590334,
+          "startedAt": 1793944585986,
+          "endsAt": 1793944591986,
           "durationMs": 6000,
-          "elapsedMs": 3502.7998046875,
-          "remainingMs": 2497.2001953125,
-          "progress": 0.5837999674479166,
+          "elapsedMs": 3503.39990234375,
+          "remainingMs": 2496.60009765625,
+          "progress": 0.5838999837239583,
           "status": "presenting"
         },
         "syncCue": true,
@@ -875,21 +875,21 @@
         "phase": {
           "id": "synthetic-sync-1",
           "kind": "BLACKHOLE_PRESENTATION",
-          "startedAt": 1793906584334,
-          "endsAt": 1793906590334,
-          "nowMs": 1793906588026.7002,
-          "remainingMs": 2307.2998046875,
+          "startedAt": 1793944585986,
+          "endsAt": 1793944591986,
+          "nowMs": 1793944589685.0498,
+          "remainingMs": 2300.9501953125,
           "trusted": true,
           "expired": false
         },
         "stage": {
           "phaseId": "synthetic-sync-1",
-          "startedAt": 1793906584334,
-          "endsAt": 1793906590334,
+          "startedAt": 1793944585986,
+          "endsAt": 1793944591986,
           "durationMs": 6000,
-          "elapsedMs": 3692.800048828125,
-          "remainingMs": 2307.199951171875,
-          "progress": 0.6154666748046875,
+          "elapsedMs": 3699.14990234375,
+          "remainingMs": 2300.85009765625,
+          "progress": 0.6165249837239584,
           "status": "presenting"
         },
         "syncCue": true,
@@ -921,10 +921,10 @@
         "phase": {
           "id": "synthetic-vote-2",
           "kind": "JAIL_VOTE",
-          "startedAt": 1793906590516,
-          "endsAt": 1793906650516,
-          "nowMs": 1793906590697.2,
-          "remainingMs": 59818.800048828125,
+          "startedAt": 1793944592168,
+          "endsAt": 1793944652168,
+          "nowMs": 1793944592367.1,
+          "remainingMs": 59800.89990234375,
           "trusted": true,
           "expired": false
         },
@@ -958,21 +958,21 @@
         "phase": {
           "id": "synthetic-sync-1",
           "kind": "BLACKHOLE_PRESENTATION",
-          "startedAt": 1793906585663,
-          "endsAt": 1793906591663,
-          "nowMs": 1793906590865.25,
-          "remainingMs": 797.75,
+          "startedAt": 1793944587330,
+          "endsAt": 1793944593330,
+          "nowMs": 1793944592532.4001,
+          "remainingMs": 797.599853515625,
           "trusted": true,
           "expired": false
         },
         "stage": {
           "phaseId": "synthetic-sync-1",
-          "startedAt": 1793906585663,
-          "endsAt": 1793906591663,
+          "startedAt": 1793944587330,
+          "endsAt": 1793944593330,
           "durationMs": 6000,
-          "elapsedMs": 5202.449951171875,
-          "remainingMs": 797.550048828125,
-          "progress": 0.8670749918619791,
+          "elapsedMs": 5202.5,
+          "remainingMs": 797.5,
+          "progress": 0.8670833333333333,
           "status": "presenting"
         },
         "syncCue": true,
@@ -997,10 +997,10 @@
         "phase": {
           "id": "synthetic-vote-2",
           "kind": "JAIL_VOTE",
-          "startedAt": 1793906591845,
-          "endsAt": 1793906651845,
-          "nowMs": 1793906591846.65,
-          "remainingMs": 59998.35009765625,
+          "startedAt": 1793944593514,
+          "endsAt": 1793944653514,
+          "nowMs": 1793944593520.1,
+          "remainingMs": 59993.89990234375,
           "trusted": true,
           "expired": false
         },
@@ -1027,10 +1027,10 @@
         "phase": {
           "id": "synthetic-vote-2",
           "kind": "JAIL_VOTE",
-          "startedAt": 1793906591845,
-          "endsAt": 1793906651845,
-          "nowMs": 1793906591861.25,
-          "remainingMs": 59983.75,
+          "startedAt": 1793944593514,
+          "endsAt": 1793944653514,
+          "nowMs": 1793944593566.9001,
+          "remainingMs": 59947.099853515625,
           "trusted": true,
           "expired": false
         },
@@ -1047,7 +1047,7 @@
         "offers": [],
         "promise": null,
         "commands": 0,
-        "art": "player-ui roles scene-art public-board abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art",
+        "art": "player-ui public-board roles scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art",
         "overflow": [
           false,
           false
@@ -1065,16 +1065,16 @@
         "phase": {
           "id": "synthetic-vote-1",
           "kind": "JAIL_VOTE",
-          "startedAt": 1793906592027,
-          "endsAt": 1793906652027,
-          "nowMs": 1793906592028.95,
-          "remainingMs": 59998.050048828125,
+          "startedAt": 1793944593722,
+          "endsAt": 1793944653722,
+          "nowMs": 1793944593723.85,
+          "remainingMs": 59998.14990234375,
           "trusted": true,
           "expired": false
         },
         "stage": null,
         "syncCue": false,
-        "headerText": "SYNTHETIC · R6 · JAIL VOTE61sCaptain — · Officer —Turn: —",
+        "headerText": "SYNTHETIC · R6 · JAIL VOTE60sCaptain — · Officer —Turn: —",
         "noOverlay": true,
         "headerClear": true,
         "capsuleActors": 0,
@@ -1102,21 +1102,21 @@
         "phase": {
           "id": "synthetic-sync-1",
           "kind": "BLACKHOLE_PRESENTATION",
-          "startedAt": 1793906588697,
-          "endsAt": 1793906594697,
-          "nowMs": 1793906592199.05,
-          "remainingMs": 2497.949951171875,
+          "startedAt": 1793944590394,
+          "endsAt": 1793944596394,
+          "nowMs": 1793944593896.0999,
+          "remainingMs": 2497.900146484375,
           "trusted": true,
           "expired": false
         },
         "stage": {
           "phaseId": "synthetic-sync-1",
-          "startedAt": 1793906588697,
-          "endsAt": 1793906594697,
+          "startedAt": 1793944590394,
+          "endsAt": 1793944596394,
           "durationMs": 6000,
-          "elapsedMs": 3502.25,
-          "remainingMs": 2497.75,
-          "progress": 0.5837083333333334,
+          "elapsedMs": 3502.199951171875,
+          "remainingMs": 2497.800048828125,
+          "progress": 0.5836999918619792,
           "status": "presenting"
         },
         "syncCue": true,
@@ -1131,7 +1131,7 @@
         "offers": [],
         "promise": null,
         "commands": 0,
-        "art": "player-ui roles abilities scene-art board-v2-art public-board setup-art board-v2-motion-art board-v2-films-art",
+        "art": "player-ui roles public-board abilities scene-art board-v2-art setup-art board-v2-motion-art board-v2-films-art",
         "overflow": [
           false,
           false
@@ -1148,21 +1148,21 @@
         "phase": {
           "id": "synthetic-sync-1",
           "kind": "BLACKHOLE_PRESENTATION",
-          "startedAt": 1793906592509,
-          "endsAt": 1793906598509,
-          "nowMs": 1793906592516.3,
-          "remainingMs": 5992.699951171875,
+          "startedAt": 1793944594135,
+          "endsAt": 1793944600135,
+          "nowMs": 1793944594141.0999,
+          "remainingMs": 5993.900146484375,
           "trusted": true,
           "expired": false
         },
         "stage": {
           "phaseId": "synthetic-sync-1",
-          "startedAt": 1793906592509,
-          "endsAt": 1793906598509,
+          "startedAt": 1793944594135,
+          "endsAt": 1793944600135,
           "durationMs": 6000,
-          "elapsedMs": 7.5,
-          "remainingMs": 5992.5,
-          "progress": 0.00125,
+          "elapsedMs": 7.2998046875,
+          "remainingMs": 5992.7001953125,
+          "progress": 0.0012166341145833333,
           "status": "presenting"
         },
         "syncCue": true,
@@ -1187,21 +1187,21 @@
         "phase": {
           "id": "synthetic-sync-1",
           "kind": "BLACKHOLE_PRESENTATION",
-          "startedAt": 1793906592509,
-          "endsAt": 1793906598509,
-          "nowMs": 1793906594318.5,
-          "remainingMs": 4190.5,
+          "startedAt": 1793944594135,
+          "endsAt": 1793944600135,
+          "nowMs": 1793944595895.0999,
+          "remainingMs": 4239.900146484375,
           "trusted": true,
           "expired": false
         },
         "stage": {
           "phaseId": "synthetic-sync-1",
-          "startedAt": 1793906592509,
-          "endsAt": 1793906598509,
+          "startedAt": 1793944594135,
+          "endsAt": 1793944600135,
           "durationMs": 6000,
-          "elapsedMs": 1809.900146484375,
-          "remainingMs": 4190.099853515625,
-          "progress": 0.3016500244140625,
+          "elapsedMs": 1760.699951171875,
+          "remainingMs": 4239.300048828125,
+          "progress": 0.2934499918619792,
           "status": "presenting"
         },
         "syncCue": true,
@@ -1226,17 +1226,17 @@
         "phase": {
           "id": "synthetic-sync-1",
           "kind": "BLACKHOLE_PRESENTATION",
-          "startedAt": 1793906592509,
-          "endsAt": 1793906598509,
-          "nowMs": 1793906598691.5,
+          "startedAt": 1793944594135,
+          "endsAt": 1793944600135,
+          "nowMs": 1793944600318.2998,
           "remainingMs": 0,
           "trusted": true,
           "expired": true
         },
         "stage": {
           "phaseId": "synthetic-sync-1",
-          "startedAt": 1793906592509,
-          "endsAt": 1793906598509,
+          "startedAt": 1793944594135,
+          "endsAt": 1793944600135,
           "durationMs": 6000,
           "elapsedMs": 6000,
           "remainingMs": 0,
@@ -1265,10 +1265,10 @@
         "phase": {
           "id": "synthetic-vote-2",
           "kind": "JAIL_VOTE",
-          "startedAt": 1793906598755,
-          "endsAt": 1793906658755,
-          "nowMs": 1793906598760.2,
-          "remainingMs": 59994.800048828125,
+          "startedAt": 1793944600401,
+          "endsAt": 1793944660401,
+          "nowMs": 1793944600405.5,
+          "remainingMs": 59995.5,
           "trusted": true,
           "expired": false
         },
@@ -1295,10 +1295,10 @@
         "phase": {
           "id": "synthetic-vote-2",
           "kind": "JAIL_VOTE",
-          "startedAt": 1793906598755,
-          "endsAt": 1793906658755,
-          "nowMs": 1793906598852.5,
-          "remainingMs": 59902.5,
+          "startedAt": 1793944600401,
+          "endsAt": 1793944660401,
+          "nowMs": 1793944600506.5999,
+          "remainingMs": 59894.400146484375,
           "trusted": true,
           "expired": false
         },
@@ -1402,21 +1402,21 @@
         "phase": {
           "id": "synthetic-sync-1",
           "kind": "BLACKHOLE_PRESENTATION",
-          "startedAt": 1793906595597,
-          "endsAt": 1793906601597,
-          "nowMs": 1793906599100.15,
-          "remainingMs": 2496.85009765625,
+          "startedAt": 1793944597250,
+          "endsAt": 1793944603250,
+          "nowMs": 1793944600753.75,
+          "remainingMs": 2496.25,
           "trusted": true,
           "expired": false
         },
         "stage": {
           "phaseId": "synthetic-sync-1",
-          "startedAt": 1793906595597,
-          "endsAt": 1793906601597,
+          "startedAt": 1793944597250,
+          "endsAt": 1793944603250,
           "durationMs": 6000,
-          "elapsedMs": 3503.25,
-          "remainingMs": 2496.75,
-          "progress": 0.583875,
+          "elapsedMs": 3503.849853515625,
+          "remainingMs": 2496.150146484375,
+          "progress": 0.5839749755859375,
           "status": "presenting"
         },
         "syncCue": true,
@@ -1431,7 +1431,7 @@
         "offers": [],
         "promise": null,
         "commands": 0,
-        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art",
+        "art": "player-ui public-board scene-art roles abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art",
         "overflow": [
           false,
           false
@@ -1441,21 +1441,21 @@
         "phase": {
           "id": "synthetic-sync-1",
           "kind": "BLACKHOLE_PRESENTATION",
-          "startedAt": 1793906595597,
-          "endsAt": 1793906601597,
-          "nowMs": 1793906599278.8,
-          "remainingMs": 2318.199951171875,
+          "startedAt": 1793944597250,
+          "endsAt": 1793944603250,
+          "nowMs": 1793944600950.0999,
+          "remainingMs": 2299.900146484375,
           "trusted": true,
           "expired": false
         },
         "stage": {
           "phaseId": "synthetic-sync-1",
-          "startedAt": 1793906595597,
-          "endsAt": 1793906601597,
+          "startedAt": 1793944597250,
+          "endsAt": 1793944603250,
           "durationMs": 6000,
-          "elapsedMs": 3681.800048828125,
-          "remainingMs": 2318.199951171875,
-          "progress": 0.6136333414713542,
+          "elapsedMs": 3700.199951171875,
+          "remainingMs": 2299.800048828125,
+          "progress": 0.6166999918619792,
           "status": "presenting"
         },
         "syncCue": true,
@@ -1470,7 +1470,7 @@
         "offers": [],
         "promise": null,
         "commands": 0,
-        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art",
+        "art": "player-ui public-board scene-art roles abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art",
         "overflow": [
           false,
           false
@@ -1487,10 +1487,10 @@
         "phase": {
           "id": "synthetic-vote-2",
           "kind": "JAIL_VOTE",
-          "startedAt": 1793906601780,
-          "endsAt": 1793906661780,
-          "nowMs": 1793906601972.8,
-          "remainingMs": 59807.199951171875,
+          "startedAt": 1793944603433,
+          "endsAt": 1793944663433,
+          "nowMs": 1793944603638,
+          "remainingMs": 59795,
           "trusted": true,
           "expired": false
         },
@@ -1507,7 +1507,7 @@
         "offers": [],
         "promise": null,
         "commands": 0,
-        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art",
+        "art": "player-ui public-board scene-art roles abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art",
         "overflow": [
           false,
           false
@@ -1524,21 +1524,21 @@
         "phase": {
           "id": "synthetic-sync-1",
           "kind": "BLACKHOLE_PRESENTATION",
-          "startedAt": 1793906596930,
-          "endsAt": 1793906602930,
-          "nowMs": 1793906602131.2002,
-          "remainingMs": 798.7998046875,
+          "startedAt": 1793944598609,
+          "endsAt": 1793944604609,
+          "nowMs": 1793944603812,
+          "remainingMs": 797,
           "trusted": true,
           "expired": false
         },
         "stage": {
           "phaseId": "synthetic-sync-1",
-          "startedAt": 1793906596930,
-          "endsAt": 1793906602930,
+          "startedAt": 1793944598609,
+          "endsAt": 1793944604609,
           "durationMs": 6000,
-          "elapsedMs": 5201.300048828125,
-          "remainingMs": 798.699951171875,
-          "progress": 0.8668833414713542,
+          "elapsedMs": 5203.099853515625,
+          "remainingMs": 796.900146484375,
+          "progress": 0.8671833089192709,
           "status": "presenting"
         },
         "syncCue": true,
@@ -1563,10 +1563,10 @@
         "phase": {
           "id": "synthetic-vote-2",
           "kind": "JAIL_VOTE",
-          "startedAt": 1793906603112,
-          "endsAt": 1793906663112,
-          "nowMs": 1793906603116.3,
-          "remainingMs": 59995.699951171875,
+          "startedAt": 1793944604793,
+          "endsAt": 1793944664793,
+          "nowMs": 1793944604800,
+          "remainingMs": 59993,
           "trusted": true,
           "expired": false
         },
@@ -1593,48 +1593,10 @@
         "phase": {
           "id": "synthetic-vote-2",
           "kind": "JAIL_VOTE",
-          "startedAt": 1793906603112,
-          "endsAt": 1793906663112,
-          "nowMs": 1793906603141.5,
-          "remainingMs": 59970.5,
-          "trusted": true,
-          "expired": false
-        },
-        "stage": null,
-        "syncCue": false,
-        "headerText": "SYNTHETIC · R6 · JAIL VOTE60sCaptain — · Officer —Turn: —",
-        "noOverlay": true,
-        "headerClear": true,
-        "capsuleActors": 0,
-        "targets": 0,
-        "canMove": false,
-        "canPass": false,
-        "action": null,
-        "offers": [],
-        "promise": null,
-        "commands": 0,
-        "art": "player-ui public-board roles abilities scene-art board-v2-art setup-art board-v2-motion-art board-v2-films-art",
-        "overflow": [
-          false,
-          false
-        ]
-      },
-      "screenshots": [
-        "390-844-normal-missing-art-presentation.png",
-        "390-844-normal-art-restored-vote-no-replay.png"
-      ]
-    },
-    {
-      "name": "390-844-normal-ordinary-round-skips-presentation",
-      "passed": true,
-      "current": {
-        "phase": {
-          "id": "synthetic-vote-1",
-          "kind": "JAIL_VOTE",
-          "startedAt": 1793906603293,
-          "endsAt": 1793906663293,
-          "nowMs": 1793906603295,
-          "remainingMs": 59998,
+          "startedAt": 1793944604793,
+          "endsAt": 1793944664793,
+          "nowMs": 1793944604842.7,
+          "remainingMs": 59950.300048828125,
           "trusted": true,
           "expired": false
         },
@@ -1658,6 +1620,44 @@
         ]
       },
       "screenshots": [
+        "390-844-normal-missing-art-presentation.png",
+        "390-844-normal-art-restored-vote-no-replay.png"
+      ]
+    },
+    {
+      "name": "390-844-normal-ordinary-round-skips-presentation",
+      "passed": true,
+      "current": {
+        "phase": {
+          "id": "synthetic-vote-1",
+          "kind": "JAIL_VOTE",
+          "startedAt": 1793944605024,
+          "endsAt": 1793944665024,
+          "nowMs": 1793944605026.1501,
+          "remainingMs": 59997.849853515625,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": null,
+        "syncCue": false,
+        "headerText": "SYNTHETIC · R6 · JAIL VOTE60sCaptain — · Officer —Turn: —",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "roles player-ui public-board scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "screenshots": [
         "390-844-normal-ordinary-full-vote.png"
       ]
     },
@@ -1668,21 +1668,21 @@
         "phase": {
           "id": "synthetic-sync-1",
           "kind": "BLACKHOLE_PRESENTATION",
-          "startedAt": 1793906599963,
-          "endsAt": 1793906605963,
-          "nowMs": 1793906603465.25,
-          "remainingMs": 2497.75,
+          "startedAt": 1793944601706,
+          "endsAt": 1793944607706,
+          "nowMs": 1793944605208.5999,
+          "remainingMs": 2497.400146484375,
           "trusted": true,
           "expired": false
         },
         "stage": {
           "phaseId": "synthetic-sync-1",
-          "startedAt": 1793906599963,
-          "endsAt": 1793906605963,
+          "startedAt": 1793944601706,
+          "endsAt": 1793944607706,
           "durationMs": 6000,
-          "elapsedMs": 3502.25,
-          "remainingMs": 2497.75,
-          "progress": 0.5837083333333334,
+          "elapsedMs": 3502.699951171875,
+          "remainingMs": 2497.300048828125,
+          "progress": 0.5837833251953125,
           "status": "presenting"
         },
         "syncCue": true,
@@ -1697,7 +1697,7 @@
         "offers": [],
         "promise": null,
         "commands": 0,
-        "art": "player-ui roles abilities public-board scene-art board-v2-art setup-art board-v2-motion-art board-v2-films-art",
+        "art": "player-ui roles public-board scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art",
         "overflow": [
           false,
           false
@@ -1714,21 +1714,21 @@
         "phase": {
           "id": "synthetic-sync-1",
           "kind": "BLACKHOLE_PRESENTATION",
-          "startedAt": 1793906603732,
-          "endsAt": 1793906609732,
-          "nowMs": 1793906603735.75,
-          "remainingMs": 5996.25,
+          "startedAt": 1793944605449,
+          "endsAt": 1793944611449,
+          "nowMs": 1793944605454.25,
+          "remainingMs": 5994.75,
           "trusted": true,
           "expired": false
         },
         "stage": {
           "phaseId": "synthetic-sync-1",
-          "startedAt": 1793906603732,
-          "endsAt": 1793906609732,
+          "startedAt": 1793944605449,
+          "endsAt": 1793944611449,
           "durationMs": 6000,
-          "elapsedMs": 5.349853515625,
-          "remainingMs": 5994.650146484375,
-          "progress": 0.0008916422526041666,
+          "elapsedMs": 6.5498046875,
+          "remainingMs": 5993.4501953125,
+          "progress": 0.0010916341145833332,
           "status": "presenting"
         },
         "syncCue": true,
@@ -1743,7 +1743,7 @@
         "offers": [],
         "promise": "Pending",
         "commands": 0,
-        "art": "player-ui roles scene-art public-board abilities setup-art board-v2-art board-v2-motion-art board-v2-films-art",
+        "art": "player-ui public-board roles abilities board-v2-art scene-art setup-art board-v2-motion-art board-v2-films-art",
         "overflow": [
           false,
           false
@@ -1753,21 +1753,21 @@
         "phase": {
           "id": "synthetic-sync-1",
           "kind": "BLACKHOLE_PRESENTATION",
-          "startedAt": 1793906603732,
-          "endsAt": 1793906609732,
-          "nowMs": 1793906605507.45,
-          "remainingMs": 4224.550048828125,
+          "startedAt": 1793944605449,
+          "endsAt": 1793944611449,
+          "nowMs": 1793944607208.8499,
+          "remainingMs": 4240.150146484375,
           "trusted": true,
           "expired": false
         },
         "stage": {
           "phaseId": "synthetic-sync-1",
-          "startedAt": 1793906603732,
-          "endsAt": 1793906609732,
+          "startedAt": 1793944605449,
+          "endsAt": 1793944611449,
           "durationMs": 6000,
-          "elapsedMs": 1775.64990234375,
-          "remainingMs": 4224.35009765625,
-          "progress": 0.295941650390625,
+          "elapsedMs": 1760.449951171875,
+          "remainingMs": 4239.550048828125,
+          "progress": 0.2934083251953125,
           "status": "presenting"
         },
         "syncCue": true,
@@ -1782,7 +1782,7 @@
         "offers": [],
         "promise": "Pending",
         "commands": 0,
-        "art": "player-ui roles scene-art public-board abilities setup-art board-v2-art board-v2-motion-art board-v2-films-art",
+        "art": "player-ui public-board roles abilities board-v2-art scene-art setup-art board-v2-motion-art board-v2-films-art",
         "overflow": [
           false,
           false
@@ -1792,17 +1792,17 @@
         "phase": {
           "id": "synthetic-sync-1",
           "kind": "BLACKHOLE_PRESENTATION",
-          "startedAt": 1793906603732,
-          "endsAt": 1793906609732,
-          "nowMs": 1793906609915.8499,
+          "startedAt": 1793944605449,
+          "endsAt": 1793944611449,
+          "nowMs": 1793944611630.65,
           "remainingMs": 0,
           "trusted": true,
           "expired": true
         },
         "stage": {
           "phaseId": "synthetic-sync-1",
-          "startedAt": 1793906603732,
-          "endsAt": 1793906609732,
+          "startedAt": 1793944605449,
+          "endsAt": 1793944611449,
           "durationMs": 6000,
           "elapsedMs": 6000,
           "remainingMs": 0,
@@ -1821,7 +1821,7 @@
         "offers": [],
         "promise": null,
         "commands": 0,
-        "art": "player-ui roles scene-art public-board abilities setup-art board-v2-art board-v2-motion-art board-v2-films-art",
+        "art": "player-ui public-board roles abilities board-v2-art scene-art setup-art board-v2-motion-art board-v2-films-art",
         "overflow": [
           false,
           false
@@ -1831,10 +1831,10 @@
         "phase": {
           "id": "synthetic-vote-2",
           "kind": "JAIL_VOTE",
-          "startedAt": 1793906609992,
-          "endsAt": 1793906669992,
-          "nowMs": 1793906609995.45,
-          "remainingMs": 59996.550048828125,
+          "startedAt": 1793944611712,
+          "endsAt": 1793944671712,
+          "nowMs": 1793944611715.8499,
+          "remainingMs": 59996.150146484375,
           "trusted": true,
           "expired": false
         },
@@ -1851,7 +1851,7 @@
         "offers": [],
         "promise": "Fulfilled",
         "commands": 0,
-        "art": "player-ui roles scene-art public-board abilities setup-art board-v2-art board-v2-motion-art board-v2-films-art",
+        "art": "player-ui public-board roles abilities board-v2-art scene-art setup-art board-v2-motion-art board-v2-films-art",
         "overflow": [
           false,
           false
@@ -1861,10 +1861,10 @@
         "phase": {
           "id": "synthetic-vote-2",
           "kind": "JAIL_VOTE",
-          "startedAt": 1793906609992,
-          "endsAt": 1793906669992,
-          "nowMs": 1793906610091.55,
-          "remainingMs": 59900.449951171875,
+          "startedAt": 1793944611712,
+          "endsAt": 1793944671712,
+          "nowMs": 1793944611818.95,
+          "remainingMs": 59893.050048828125,
           "trusted": true,
           "expired": false
         },
@@ -1949,7 +1949,7 @@
         ],
         "promise": null,
         "commands": 0,
-        "art": "player-ui roles scene-art public-board abilities setup-art board-v2-art board-v2-motion-art board-v2-films-art",
+        "art": "player-ui public-board roles abilities board-v2-art scene-art setup-art board-v2-motion-art board-v2-films-art",
         "overflow": [
           false,
           false
@@ -1968,21 +1968,21 @@
         "phase": {
           "id": "synthetic-sync-1",
           "kind": "BLACKHOLE_PRESENTATION",
-          "startedAt": 1793906606838,
-          "endsAt": 1793906612838,
-          "nowMs": 1793906610340,
-          "remainingMs": 2498,
+          "startedAt": 1793944608569,
+          "endsAt": 1793944614569,
+          "nowMs": 1793944612072.4,
+          "remainingMs": 2496.60009765625,
           "trusted": true,
           "expired": false
         },
         "stage": {
           "phaseId": "synthetic-sync-1",
-          "startedAt": 1793906606838,
-          "endsAt": 1793906612838,
+          "startedAt": 1793944608569,
+          "endsAt": 1793944614569,
           "durationMs": 6000,
-          "elapsedMs": 3502.10009765625,
-          "remainingMs": 2497.89990234375,
-          "progress": 0.583683349609375,
+          "elapsedMs": 3503.39990234375,
+          "remainingMs": 2496.60009765625,
+          "progress": 0.5838999837239583,
           "status": "presenting"
         },
         "syncCue": true,
@@ -2007,21 +2007,21 @@
         "phase": {
           "id": "synthetic-sync-1",
           "kind": "BLACKHOLE_PRESENTATION",
-          "startedAt": 1793906606838,
-          "endsAt": 1793906612838,
-          "nowMs": 1793906610530.5,
-          "remainingMs": 2307.5,
+          "startedAt": 1793944608569,
+          "endsAt": 1793944614569,
+          "nowMs": 1793944612271.35,
+          "remainingMs": 2297.64990234375,
           "trusted": true,
           "expired": false
         },
         "stage": {
           "phaseId": "synthetic-sync-1",
-          "startedAt": 1793906606838,
-          "endsAt": 1793906612838,
+          "startedAt": 1793944608569,
+          "endsAt": 1793944614569,
           "durationMs": 6000,
-          "elapsedMs": 3692.5,
-          "remainingMs": 2307.5,
-          "progress": 0.6154166666666666,
+          "elapsedMs": 3702.449951171875,
+          "remainingMs": 2297.550048828125,
+          "progress": 0.6170749918619791,
           "status": "presenting"
         },
         "syncCue": true,
@@ -2053,10 +2053,10 @@
         "phase": {
           "id": "synthetic-vote-2",
           "kind": "JAIL_VOTE",
-          "startedAt": 1793906613021,
-          "endsAt": 1793906673021,
-          "nowMs": 1793906613217.25,
-          "remainingMs": 59803.75,
+          "startedAt": 1793944614753,
+          "endsAt": 1793944674753,
+          "nowMs": 1793944614961.75,
+          "remainingMs": 59791.25,
           "trusted": true,
           "expired": false
         },
@@ -2090,21 +2090,21 @@
         "phase": {
           "id": "synthetic-sync-1",
           "kind": "BLACKHOLE_PRESENTATION",
-          "startedAt": 1793906608190,
-          "endsAt": 1793906614190,
-          "nowMs": 1793906613392.7002,
-          "remainingMs": 797.2998046875,
+          "startedAt": 1793944609942,
+          "endsAt": 1793944615942,
+          "nowMs": 1793944615145,
+          "remainingMs": 797,
           "trusted": true,
           "expired": false
         },
         "stage": {
           "phaseId": "synthetic-sync-1",
-          "startedAt": 1793906608190,
-          "endsAt": 1793906614190,
+          "startedAt": 1793944609942,
+          "endsAt": 1793944615942,
           "durationMs": 6000,
-          "elapsedMs": 5202.7001953125,
-          "remainingMs": 797.2998046875,
-          "progress": 0.86711669921875,
+          "elapsedMs": 5203.199951171875,
+          "remainingMs": 796.800048828125,
+          "progress": 0.8671999918619792,
           "status": "presenting"
         },
         "syncCue": true,
@@ -2129,10 +2129,10 @@
         "phase": {
           "id": "synthetic-vote-2",
           "kind": "JAIL_VOTE",
-          "startedAt": 1793906614372,
-          "endsAt": 1793906674372,
-          "nowMs": 1793906614377.6,
-          "remainingMs": 59994.39990234375,
+          "startedAt": 1793944616125,
+          "endsAt": 1793944676125,
+          "nowMs": 1793944616133.0999,
+          "remainingMs": 59991.900146484375,
           "trusted": true,
           "expired": false
         },
@@ -2159,10 +2159,10 @@
         "phase": {
           "id": "synthetic-vote-2",
           "kind": "JAIL_VOTE",
-          "startedAt": 1793906614372,
-          "endsAt": 1793906674372,
-          "nowMs": 1793906614403.2002,
-          "remainingMs": 59968.7998046875,
+          "startedAt": 1793944616125,
+          "endsAt": 1793944676125,
+          "nowMs": 1793944616178,
+          "remainingMs": 59947,
           "trusted": true,
           "expired": false
         },
@@ -2197,10 +2197,10 @@
         "phase": {
           "id": "synthetic-vote-1",
           "kind": "JAIL_VOTE",
-          "startedAt": 1793906614596,
-          "endsAt": 1793906674596,
-          "nowMs": 1793906614610.4001,
-          "remainingMs": 59985.599853515625,
+          "startedAt": 1793944616365,
+          "endsAt": 1793944676365,
+          "nowMs": 1793944616367.65,
+          "remainingMs": 59997.35009765625,
           "trusted": true,
           "expired": false
         },
@@ -2217,7 +2217,7 @@
         "offers": [],
         "promise": null,
         "commands": 0,
-        "art": "player-ui roles scene-art public-board abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art",
+        "art": "player-ui roles public-board scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art",
         "overflow": [
           false,
           false
@@ -2234,21 +2234,21 @@
         "phase": {
           "id": "synthetic-sync-1",
           "kind": "BLACKHOLE_PRESENTATION",
-          "startedAt": 1793906611350,
-          "endsAt": 1793906617350,
-          "nowMs": 1793906614853,
-          "remainingMs": 2497,
+          "startedAt": 1793944613054,
+          "endsAt": 1793944619054,
+          "nowMs": 1793944616556.8,
+          "remainingMs": 2497.199951171875,
           "trusted": true,
           "expired": false
         },
         "stage": {
           "phaseId": "synthetic-sync-1",
-          "startedAt": 1793906611350,
-          "endsAt": 1793906617350,
+          "startedAt": 1793944613054,
+          "endsAt": 1793944619054,
           "durationMs": 6000,
-          "elapsedMs": 3503.10009765625,
-          "remainingMs": 2496.89990234375,
-          "progress": 0.5838500162760417,
+          "elapsedMs": 3503,
+          "remainingMs": 2497,
+          "progress": 0.5838333333333333,
           "status": "presenting"
         },
         "syncCue": true,
@@ -2263,7 +2263,7 @@
         "offers": [],
         "promise": null,
         "commands": 0,
-        "art": "abilities public-board board-v2-art player-ui roles scene-art setup-art board-v2-motion-art board-v2-films-art",
+        "art": "player-ui roles public-board abilities scene-art board-v2-art setup-art board-v2-motion-art board-v2-films-art",
         "overflow": [
           false,
           false

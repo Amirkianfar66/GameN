@@ -53,3 +53,4 @@ export { publicCapsuleProps } from './model/public-capsule.js';
 // Opt-in protocol-3 consumer presentation; historical protocol-2 models stay separate.
 export * from './planet/model.js';
 export * from './planet/stage.js';
+export * from './planet/library.js';

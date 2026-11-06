@@ -26,7 +26,7 @@ export function planetOutcomeWords(event){
   default:return '';
  }
 }
-export function createPlanetMotion({now=()=>performance.now()}={}){
+export function createPlanetMotion({now=()=>performance.now(),transitDurationMs=0}={}){
  let previous=null,liveBefore=false,model=null,received=0,reduced=false,cloneBefore=null,cloneMoving=null,privateWasOpen=false;
  const seen=new Set(),active=new Map();
  const clear=()=>{active.clear();cloneMoving=null;liveBefore=false;};
@@ -69,6 +69,7 @@ export function createPlanetMotion({now=()=>performance.now()}={}){
    }else if(event.kind==='HOSPITAL_OVERFLOW_REMOVED'&&subject?.health==='Eliminated'&&subject.location===null&&subject.slotId===null){
     entry={...base,kind:'overflow',subjectId:subject.seatId,subject:clone(subject),origin:clone(origin)};
    }else if(event.kind==='BLACKHOLE_SYNCED')entry={...base,kind:'blackhole'};
+   else if(event.kind==='MOVEMENT_COMPLETED'&&event.audience.kind==='public'&&transitDurationMs>0)entry={...base,kind:'transit'};
    else if(event.kind==='ATTACK_BLOCKED'&&subject?.location===event.location&&subject?.slotId===event.slotId)entry={...base,kind:'blocked',subjectId:subject.seatId};
    if(entry)active.set(event.id,entry);
   }
@@ -93,7 +94,7 @@ export function createPlanetMotion({now=()=>performance.now()}={}){
     end=entry.command==='RELEASE'?releaseEnd(reduced):ejectEnd(reduced);
     frame=entry.command==='RELEASE'?releaseFrame(t,{reduced,count:entry.subjects.length}):ejectFrame(t,{reduced,subjects:entry.subjects});
    }else if(entry.kind==='overflow'){end=overflowEnd(reduced);frame=overflowFrame(t,{reduced});}
-   else end=entry.kind==='blocked'?blockedEnd(reduced):reduced?1000:1600;
+   else end=entry.kind==='blocked'?blockedEnd(reduced):entry.kind==='transit'?(reduced?160:transitDurationMs):reduced?1000:1600;
    if(t>=end||entry.occurrence.expiresAt<=serverNow||frame?.done){active.delete(id);continue;}
    if(frame)items.push({...entry,t,frame,reduced});else special.push({...entry,t,reduced,...(entry.kind==='blocked'?{blockFrame:blockedFrame(t,{reduced})}:{})});
   }
@@ -102,7 +103,7 @@ export function createPlanetMotion({now=()=>performance.now()}={}){
    const state=cloneCard({status});if(state){let t=cloneMoving?Math.max(0,now()-cloneMoving.start):0;if(cloneMoving&&t>=cloneEnd(cloneMoving.kind,reduced))cloneMoving=null;
     own={seatId:model.ownSeatId,status,state,film:cloneMoving?.kind??null,t,frame:cloneMoving?cloneFrame(cloneMoving.kind,t,{reduced}):null,reduced};}
   }
-  return {items,special,own,reduced,animate:active.size>0||cloneMoving!==null};
+  return {items,special,own,reduced,nowMs:serverNow,animate:active.size>0||cloneMoving!==null};
  }
  return {update,sample,cancel(){clear();cloneBefore=null;privateWasOpen=false;},dispose(){clear();seen.clear();model=null;previous=null;cloneBefore=null;}};
 }

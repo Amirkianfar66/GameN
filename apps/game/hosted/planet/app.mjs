@@ -11,15 +11,17 @@ import '../board-v2.css';
 import './planet.css';
 
 /** Both production and the explicit development harness mount this same consumer. */
-export async function mountPlanetApp(root,{connection,matchId,allowSynthetic=false,ports:injectedPorts=null,stores:injectedStores=null}={}){
+export async function mountPlanetApp(root,{connection,matchId,allowSynthetic=false,ports:injectedPorts=null,stores:injectedStores=null,candidateCinematics=null}={}){
  if(!connection||connection.mode==='synthetic'&&!allowSynthetic)throw new TypeError('An authenticated Planet connection is required');
+ if(candidateCinematics&&(!allowSynthetic||connection.mode!=='synthetic'))throw new TypeError('Unadopted cinematic candidates require the excluded synthetic preview');
  const document=root.ownerDocument,win=document.defaultView;
  const store=key=>({load:()=>win.sessionStorage.getItem(key),save:value=>win.sessionStorage.setItem(key,value),clear:()=>win.sessionStorage.removeItem(key)});
  const ports=injectedPorts??{clock:{now:()=>win.performance.now()},scheduler:{setTimeout:(f,ms)=>win.setTimeout(f,ms),clearTimeout:h=>win.clearTimeout(h)},ids:{next:()=>win.crypto.randomUUID()},unresolved:store('mothership:planet:command')};
  const stores=injectedStores??{resume:store('mothership:planet:resume'),requests:store('mothership:planet:requests')};
  const session=createPlanetSession(connection,ports,stores);
  await loadArt('player',document);
- let game=null,renderer=null,gameRoot=null,key=null,model=null,disposed=false,hostOpen=false,abortConfirm=false,unsubscribe=null,roleOpen=false,lastStatus=null,sessionKey=null;
+ let game=null,renderer=null,gameRoot=null,key=null,model=null,disposed=false,hostOpen=false,abortConfirm=false,unsubscribe=null,roleOpen=false,lastStatus=null,sessionKey=null,entryMode='join';
+ const entryDraft={roomCode:'',displayName:'',kind:'player'};
  const el=(tag,text=null)=>{const n=document.createElement(tag);if(text!==null)n.textContent=text;return n;};
  const button=(label,run)=>{const b=el('button',label);b.type='button';b.addEventListener('click',run);return b;};
  const operate=action=>void session.operate(action);
@@ -27,6 +29,7 @@ export async function mountPlanetApp(root,{connection,matchId,allowSynthetic=fal
   const look=planetRoleLook(value.role,value.faction),card=el('article');card.className='ms-role-card ms-role-card--full';card.dataset.device=look.device??'';card.dataset.team=value.faction.toLowerCase();
   if(own?.characterId){card.dataset.character=own.characterId;card.style.setProperty('--ms-role-person',`var(--ms-asset-piece-crew-card-${own.characterId})`);}
   if(look.device)card.style.setProperty('--ms-role-device',`var(--ms-asset-device-${look.device}-held)`);
+  else if(value.role==='Engineer'&&(document.documentElement.dataset.art??'').split(' ').includes('successor')){card.dataset.device='engineer';card.style.setProperty('--ms-role-device','var(--sw-asset-sw-device-engineer)');}
   const art=el('span');art.className='ms-role-card__art';art.setAttribute('aria-hidden','true');const text=el('div');text.className='ms-role-card__text';text.append(el('h2',look.name),el('p',`${look.faction} team`));card.append(art,text,el('p',look.guide));
   if(value.knowledge.insiderSeatIds.length)card.append(el('p',`Unmapped trio: ${[...value.knowledge.insiderSeatIds].sort().map(id=>`Player ${id.slice(5)}`).join(', ')}.`));
   if(value.knowledge.knownUndercoverSeatId)card.append(el('p',`Undercover: Player ${value.knowledge.knownUndercoverSeatId.slice(5)}.`));return card;
@@ -42,17 +45,20 @@ export async function mountPlanetApp(root,{connection,matchId,allowSynthetic=fal
   }
   if(model.connection!=='live'){root.append(button('Reconnect',()=>void session.refresh()));return;}
   if(!model.matchId){
+   const tabs=el('nav');tabs.className='planet-entry-tabs';tabs.setAttribute('aria-label','Enter a match');
+   for(const [value,label]of [['join','Join'],['host','Host'],['recover','Recover']]){const tab=button(label,()=>{entryMode=value;sessionKey=null;render(model);});tab.id=`planet-entry-${value}`;tab.setAttribute('aria-pressed',String(entryMode===value));tabs.append(tab);}root.append(tabs);
    const create=el('form'),count=el('select');count.id='planet-player-count';for(const n of [7,8,9]){const o=el('option',`${n} players`);o.value=String(n);count.append(o);}
-   const countLabel=el('label','Players');countLabel.htmlFor=count.id;create.append(countLabel,count);const host=el('button','Create Planet game');host.id='planet-create';host.disabled=model.busy;create.append(host);create.addEventListener('submit',e=>{e.preventDefault();operate({operation:'create',playerCount:Number(count.value)});});root.append(create);
+   const countLabel=el('label','Players');countLabel.htmlFor=count.id;create.append(countLabel,count);const host=el('button','Create Planet game');host.id='planet-create';host.disabled=model.busy;create.append(host);create.hidden=entryMode!=='host';create.addEventListener('submit',e=>{e.preventDefault();operate({operation:'create',playerCount:Number(count.value)});});root.append(create);
    const join=el('form'),room=el('input'),name=el('input'),kind=el('select');room.id='planet-room-code';room.autocomplete='off';room.maxLength=6;room.required=true;room.pattern='[A-Za-z0-9]{6}';name.id='planet-display-name';name.maxLength=CREW_NAME_MAX_LENGTH*2;name.required=true;name.autocomplete='nickname';
    for(const [text,input]of [['Room code',room],['Your name',name]]){const label=el('label',text);label.htmlFor=input.id;join.append(label,input);}
    const nameHint=el('p',`Use 1–${CREW_NAME_MAX_LENGTH} characters.`);nameHint.id='planet-name-hint';nameHint.setAttribute('role','status');name.setAttribute('aria-describedby',nameHint.id);join.append(nameHint);
+   room.value=entryDraft.roomCode;name.value=entryDraft.displayName;room.addEventListener('input',()=>{entryDraft.roomCode=room.value;});name.addEventListener('input',()=>{entryDraft.displayName=name.value;});
    const validateName=()=>{const value=name.value.trim(),valid=CrewDisplayNameSchema.safeParse(value).success;name.setCustomValidity(valid?'':`Enter a name of 1–${CREW_NAME_MAX_LENGTH} characters without control characters.`);name.setAttribute('aria-invalid',String(!valid));nameHint.textContent=valid?`${[...value].length} / ${CREW_NAME_MAX_LENGTH} characters`:name.validationMessage;return valid;};
    name.addEventListener('input',validateName);
-   kind.id='planet-join-kind';for(const value of ['player','display']){const o=el('option',value==='player'?'Player phone':'Shared display');o.value=value;kind.append(o);}const kindLabel=el('label','Device');kindLabel.htmlFor=kind.id;join.append(kindLabel,kind);const submit=el('button','Request admission');submit.id='planet-join';submit.disabled=model.busy;join.append(submit);join.addEventListener('submit',e=>{e.preventDefault();if(!validateName()){name.reportValidity();return;}operate({operation:'requestAdmission',roomCode:room.value.trim().toUpperCase(),kind:kind.value,displayName:name.value.trim()});});root.append(join);
-   const recover=el('details');recover.append(el('summary','Recover a player seat'));const form=el('form'),id=el('input'),token=el('input');id.id='planet-recovery-match';id.required=true;token.id='planet-recovery-code';token.type='password';token.required=true;token.autocomplete='off';for(const [text,input]of [['Match ID',id],['Recovery code',token]]){const label=el('label',text);label.htmlFor=input.id;form.append(label,input);}form.append(el('button','Recover seat'));form.addEventListener('submit',e=>{e.preventDefault();const recoveryCode=token.value;token.value='';operate({operation:'redeemRecovery',matchId:id.value.trim(),recoveryCode});});recover.append(form);root.append(recover);return;
+   kind.id='planet-join-kind';for(const value of ['player','display']){const o=el('option',value==='player'?'Player phone':'Shared display');o.value=value;kind.append(o);}kind.value=entryDraft.kind;kind.addEventListener('change',()=>{entryDraft.kind=kind.value;});const kindLabel=el('label','Device');kindLabel.htmlFor=kind.id;join.append(kindLabel,kind);const submit=el('button','Request admission');submit.id='planet-join';submit.disabled=model.busy;join.append(submit);join.hidden=entryMode!=='join';join.addEventListener('submit',e=>{e.preventDefault();if(!validateName()){name.reportValidity();return;}operate({operation:'requestAdmission',roomCode:room.value.trim().toUpperCase(),kind:kind.value,displayName:name.value.trim()});});root.append(join);
+   const recover=el('details');recover.hidden=entryMode!=='recover';recover.open=true;recover.append(el('summary','Recover a player seat'));const form=el('form'),id=el('input'),token=el('input');id.id='planet-recovery-match';id.required=true;token.id='planet-recovery-code';token.type='password';token.required=true;token.autocomplete='off';for(const [text,input]of [['Match ID',id],['Recovery code',token]]){const label=el('label',text);label.htmlFor=input.id;form.append(label,input);}form.append(el('button','Recover seat'));form.addEventListener('submit',e=>{e.preventDefault();const recoveryCode=token.value;token.value='';operate({operation:'redeemRecovery',matchId:id.value.trim(),recoveryCode});});recover.append(form);root.append(recover);return;
   }
-  root.append(el('p',`Room ${model.roomCode??'…'}`));
+  const roomCode=el('p',`Room ${model.roomCode??'…'}`);roomCode.className='planet-room-code';root.append(roomCode);
   const own=model.members.find(m=>m.seatId===model.selfSeatId);
   if(model.status==='choosing'&&own){
    root.append(el('h2','Choose your character'),el('p','A character is assigned automatically when the 30-second selection window closes.'));
@@ -65,7 +71,7 @@ export async function mountPlanetApp(root,{connection,matchId,allowSynthetic=fal
    const ready=button(own.ready?'Ready ✓':'Ready',()=>{roleOpen=false;operate({operation:'ready',matchId:model.matchId});});ready.id='planet-ready';ready.disabled=!model.canReady;root.append(ready);
   }else if(model.status==='aborted')root.append(el('h2','Match aborted · No winner'));
   else root.append(el('p',model.isHost?'Host lobby':'Waiting for admission or the next stage.'));
-  const roster=el('ul');for(const member of model.members)roster.append(el('li',`Player ${member.seatId.slice(5)} · ${member.displayName}${member.controller==='bot'?' · Bot':''}${member.ready?' · Ready':''}`));if(model.status==='reading'){const details=el('details');details.append(el('summary',`${model.members.filter(m=>m.ready).length} of ${model.playerCount} players ready`),roster);root.append(details);}else root.append(roster);
+  const roster=el('ul');for(const member of model.members)roster.append(el('li',`Player ${member.seatId.slice(5)} · ${member.displayName}${member.controller==='bot'?' · Bot':''}${member.ready?' · Ready':''}`));if(['reading','lobby'].includes(model.status)){const details=el('details');details.append(el('summary',model.status==='reading'?`${model.members.filter(m=>m.ready).length} of ${model.playerCount} players ready`:`${model.members.length} of ${model.playerCount} seats filled`),roster);root.append(details);}else root.append(roster);
   if(model.isHost)hostControls(root);
   const timer=el('p');timer.id='planet-setup-timer';root.append(timer);updateTimer();
  }
@@ -88,7 +94,7 @@ export async function mountPlanetApp(root,{connection,matchId,allowSynthetic=fal
   const running=['running','finished'].includes(model.status),surface=model.selfSeatId?'player':'display';
   if(running){
    const nextKey=`${model.matchId}:${surface}:${model.selfSeatId}`;
-   if(key!==nextKey){renderer?.dispose();game?.dispose();root.className='planet-container';root.replaceChildren();gameRoot=el('div');root.append(gameRoot);key=nextKey;game=createPlanetController(session.gameTransport(surface),ports,{matchId:model.matchId,surface});renderer=mountPlanetRenderer(gameRoot,game);void game.start();}
+   if(key!==nextKey){renderer?.dispose();game?.dispose();root.className='planet-container';root.replaceChildren();gameRoot=el('div');root.append(gameRoot);key=nextKey;game=createPlanetController(session.gameTransport(surface),ports,{matchId:model.matchId,surface});renderer=mountPlanetRenderer(gameRoot,game,{candidateCinematics:candidateCinematics??[]});void game.start();}
    root.querySelector('.planet-host-menu')?.remove();if(model.isHost){const menu=el('aside');menu.className='planet-host-menu';const open=button(hostOpen?'Close host controls':'Host controls',()=>{hostOpen=!hostOpen;render(model);});menu.append(open);if(hostOpen){const panel=el('section');panel.className='planet-host-panel';panel.append(el('h2',`Room ${model.roomCode}`));hostControls(panel);menu.append(panel);}root.append(menu);}return;
   }
   // A stale/hidden session does not discard a command's controller or recovery identifiers.
@@ -99,6 +105,8 @@ export async function mountPlanetApp(root,{connection,matchId,allowSynthetic=fal
   if(sessionKey!==nextSessionKey){const focus=document.activeElement?.id;sessionKey=nextSessionKey;lobbyView();if(focus)document.getElementById(focus)?.focus({preventScroll:true});}updateTimer();
  }
  const visibility=()=>{session.setVisible(document.visibilityState==='visible');if(document.visibilityState!=='visible')roleOpen=false;};
- document.addEventListener('visibilitychange',visibility);unsubscribe=session.subscribe(render);await session.start(matchId);
- return {session,get game(){return game;},dispose(){disposed=true;unsubscribe?.();document.removeEventListener('visibilitychange',visibility);renderer?.dispose();game?.dispose();session.dispose();void connection.dispose?.();root.replaceChildren();}};
+ const artReady=()=>{sessionKey=null;if(model)render(session.getModel());};
+ const concealRole=()=>{roleOpen=false;session.revealRole(false);};
+ document.addEventListener('visibilitychange',visibility);document.addEventListener('mothership:art-ready',artReady);win.addEventListener('blur',concealRole);unsubscribe=session.subscribe(render);await session.start(matchId);
+ return {session,get game(){return game;},dispose(){disposed=true;unsubscribe?.();document.removeEventListener('visibilitychange',visibility);document.removeEventListener('mothership:art-ready',artReady);win.removeEventListener('blur',concealRole);renderer?.dispose();game?.dispose();session.dispose();void connection.dispose?.();root.replaceChildren();}};
 }

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "status": "Implemented and synthetic-tested; Integration review pending",
+  "status": "Historical successor baseline and P27 follow-up; current native library verification is recorded separately",
   "baseCommit": "29e6ea82a31085df12ddee62758a55646eecbd3a",
   "branch": "codex/frontend-planet-successor",
   "versions": {
@@ -152,5 +152,7 @@
     "pageOverflowCases": [],
     "runtimeDependencies": "Matching Integration engine/service must persist Sync/deadline intent, enforce no early ballots, open the fresh full-minute vote and settle meeting Promises at its actual start; no client progression",
     "report": "planet-p27-stage.md"
-  }
+  },
+  "supersededBy": "docs/frontend/planet-library-runtime-verification.json",
+  "historicalEvidenceNote": "Original source hashes and counts are retained. Refreshed browser fact files and current source hashes belong to the separate native library verification manifest."
 }
