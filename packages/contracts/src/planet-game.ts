@@ -3,17 +3,26 @@ import { IdentifierSchema, SeatIdSchema, TimestampSchema, RevisionSchema } from 
 import { ClinicalPresentationAnchorSchema } from './captain-outcomes.js';
 
 /** Separate successor wire contract. Never reinterpret a saved protocol-2 match. */
+export const PLANET_ORIGINAL_PINS = Object.freeze({
+  protocolVersion: 3 as const, engineVersion: 'planet-game-1.0.0' as const,
+  rulesetVersion: 'in-person-planet-2026-11-05' as const,
+  rulesetHash: '32cde63d777ed93744637f911c134247272dc862524bd5aa9d0c3cd405dbe8ea' as const,
+});
+export const PLANET_SYNC_PINS = Object.freeze({
+  protocolVersion: 3 as const, engineVersion: 'planet-game-1.0.1' as const,
+  rulesetVersion: 'in-person-planet-sync-six-2026-11-05' as const,
+  rulesetHash: '4f26343641fcff00480bb3c0ba852703418f772bb677117a272828ad229c8b1c' as const,
+});
 export const PLANET_GAME_PINS = Object.freeze({
-  protocolVersion: 3 as const,
-  engineVersion: 'planet-game-1.0.1',
-  rulesetVersion: 'in-person-planet-sync-six-2026-11-05',
-  rulesetHash: '4f26343641fcff00480bb3c0ba852703418f772bb677117a272828ad229c8b1c',
+  protocolVersion: 3 as const, engineVersion: 'planet-game-1.1.0' as const,
+  rulesetVersion: 'in-person-planet-private-feedback-2026-11-06' as const,
+  rulesetHash: '4a1fc0e0dc21255253e31ae46e6042f9bd71e3fdec0f82f8a79b3ce213d01bfa' as const,
 });
-export const PlanetVersionsSchema = z.strictObject({
-  protocolVersion: z.literal(3), engineVersion: z.literal(PLANET_GAME_PINS.engineVersion),
-  rulesetVersion: z.literal(PLANET_GAME_PINS.rulesetVersion), rulesetHash: z.literal(PLANET_GAME_PINS.rulesetHash),
-  assetManifestVersion: z.string().regex(/^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$/),
+const assetVersion = z.string().regex(/^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$/);
+const pinnedVersions = <E extends string,R extends string,H extends string>(pins:{engineVersion:E;rulesetVersion:R;rulesetHash:H}) => z.strictObject({
+  protocolVersion:z.literal(3),engineVersion:z.literal(pins.engineVersion),rulesetVersion:z.literal(pins.rulesetVersion),rulesetHash:z.literal(pins.rulesetHash),assetManifestVersion:assetVersion,
 });
+export const PlanetVersionsSchema = z.union([pinnedVersions(PLANET_GAME_PINS),pinnedVersions(PLANET_SYNC_PINS),pinnedVersions(PLANET_ORIGINAL_PINS)]);
 export type PlanetVersions = z.infer<typeof PlanetVersionsSchema>;
 export const PlanetRoundSchema = z.number().int().min(1).max(Number.MAX_SAFE_INTEGER - 2);
 export const PlanetRoleSchema = z.enum(['Insider','Doctor','Blue Disabler','Supplier','Undercover','Hacker','Alien','Red Disabler','Engineer']);
@@ -89,18 +98,18 @@ export const PlanetCommandRequestSchema = z.strictObject({...context,command:Pla
 export type PlanetCommandRequest = z.infer<typeof PlanetCommandRequestSchema>;
 export const PlanetReceiptSchema = z.discriminatedUnion('status',[
   z.strictObject({...context,status:z.literal('accepted'),code:z.literal('REGISTERED')}),
-  z.strictObject({...context,status:z.literal('rejected'),code:z.enum(['NOT_ALLOWED','PHASE_CLOSED'])}),
+  z.strictObject({...context,status:z.literal('rejected'),code:z.enum(['NOT_ALLOWED','PHASE_CLOSED','NO_INJECTION'])}),
 ]);
 export type PlanetReceipt = z.infer<typeof PlanetReceiptSchema>;
 export const PlanetPhaseKindSchema = z.enum([
   'OFFICER_APPOINTMENT','PRE_TURN','ORDINARY_TURN','HACK_DECLARE','HACK_RESULT','HACK','BLACKHOLE_PRESENTATION','JAIL_VOTE','CAPTAIN_ELECTION',
-  'VOTE_RESULT','BLACKOUT','NAV_TIE','NAV_CAPTAIN_CONFIRM','NAV_OFFICER_CONFIRM','FINISHED','ABORTED',
+  'VOTE_RESULT','BLACKOUT','NAV_SETTING','NAV_TIE','NAV_CAPTAIN_CONFIRM','NAV_OFFICER_CONFIRM','FINISHED','ABORTED',
 ]);
 export type PlanetPhaseKind = z.infer<typeof PlanetPhaseKindSchema>;
 export const PLANET_PHASE_DURATIONS: Readonly<Record<PlanetPhaseKind,number|null>> = Object.freeze({
   OFFICER_APPOINTMENT:30_000, PRE_TURN:15_000, ORDINARY_TURN:60_000,
   HACK_DECLARE:15_000, HACK_RESULT:5_000, HACK:60_000, BLACKHOLE_PRESENTATION:6_000, JAIL_VOTE:60_000, CAPTAIN_ELECTION:60_000,
-  VOTE_RESULT:5_000, BLACKOUT:15_000, NAV_TIE:15_000, NAV_CAPTAIN_CONFIRM:15_000, NAV_OFFICER_CONFIRM:15_000,
+  VOTE_RESULT:5_000, BLACKOUT:15_000, NAV_SETTING:15_000, NAV_TIE:15_000, NAV_CAPTAIN_CONFIRM:15_000, NAV_OFFICER_CONFIRM:15_000,
   FINISHED:null, ABORTED:null,
 });
 export const PlanetPhaseSchema = z.strictObject({
@@ -108,6 +117,18 @@ export const PlanetPhaseSchema = z.strictObject({
 }).refine(p=>PLANET_PHASE_DURATIONS[p.kind]===null ? p.endsAt===null :
   p.endsAt!==null && p.endsAt-p.startedAt===PLANET_PHASE_DURATIONS[p.kind], 'Exact authoritative phase duration required');
 export type PlanetPhase = z.infer<typeof PlanetPhaseSchema>;
+export function planetSupportsPhase(versions:PlanetVersions,kind:PlanetPhaseKind):boolean {
+  if(kind==='NAV_SETTING')return versions.engineVersion==='planet-game-1.1.0';
+  if(kind==='NAV_TIE')return versions.engineVersion!=='planet-game-1.1.0';
+  if(kind==='BLACKHOLE_PRESENTATION')return versions.engineVersion!=='planet-game-1.0.0';
+  return true;
+}
+export const PlanetEngineerCaptureSchema = z.strictObject({round:PlanetRoundSchema,seatIds:ids});
+export type PlanetEngineerCapture = z.infer<typeof PlanetEngineerCaptureSchema>;
+export const PlanetPanelRequestSchema = z.strictObject({commandId:IdentifierSchema,round:PlanetRoundSchema,
+  status:z.enum(['WRONG','QUEUED','TREATED','NO_EFFECT','DISCARDED'])});
+export type PlanetPanelRequest = z.infer<typeof PlanetPanelRequestSchema>;
+
 
 export const PlanetSeatViewSchema = z.strictObject({
   seatId:SeatIdSchema,health:PlanetHealthSchema,location:PlanetLocationSchema.nullable(),slotId:PlanetSlotIdSchema.nullable(),
@@ -179,6 +200,7 @@ const commonView = {
   endReveal:z.strictObject({roles:z.array(z.strictObject({seatId:SeatIdSchema,role:PlanetRoleSchema})).min(7).max(9),code}).nullable(),
 };
 export const PlanetPublicViewSchema = z.strictObject(commonView).superRefine((v,ctx)=>{
+  if(!planetSupportsPhase(v.versions,v.phase.kind)) ctx.addIssue({code:'custom',message:'Phase is unavailable under this exact tuple'});
   if(v.board.kind!=='FINALIZED' || v.board.seats.length!==v.playerCount) ctx.addIssue({code:'custom',message:'Finalized public board required'});
   if(v.events.some(e=>e.kind==='ATTACK_BLOCKED'||e.audience.kind!=='public')) ctx.addIssue({code:'custom',message:'Public event audience required'});
   if(v.phase.kind==='FINISHED' ? v.result===null || v.endReveal===null : v.endReveal!==null)
@@ -201,6 +223,7 @@ export const PlanetPlayerViewSchema = z.strictObject({
     injectionsRemaining:z.number().int().min(0).max(2).nullable(),panelAttemptSpent:z.boolean(),
     protectionGrants:z.array(z.strictObject({targetSeatId:SeatIdSchema,activeFromRound:PlanetRoundSchema,consumed:z.boolean()})),
     captainCommands:z.strictObject({releaseUsed:z.boolean(),ejectUsed:z.boolean()}).nullable(),
+    engineerCapture:PlanetEngineerCaptureSchema.nullable().optional(),panelRequest:PlanetPanelRequestSchema.nullable().optional(),
   }),
   knowledge:z.strictObject({
     insiderSeatIds:ids,knownUndercoverSeatId:SeatIdSchema.nullable(),
@@ -215,7 +238,20 @@ export const PlanetPlayerViewSchema = z.strictObject({
   ownBallot:z.strictObject({phaseId:IdentifierSchema,targetSeatId:SeatIdSchema.nullable()}).nullable(),
   windows:z.array(z.strictObject({windowId:PlanetWindowIdSchema,canDraw:z.boolean(),drawings:z.array(PlanetWindowDrawingSchema)})),
 }).superRefine((v,ctx)=>{
-  if(v.board.kind!=='PLAYER_CURRENT' || v.board.seats.length!==v.playerCount) ctx.addIssue({code:'custom',message:'Player current board required'});
+  if(!planetSupportsPhase(v.versions,v.phase.kind)) ctx.addIssue({code:'custom',message:'Phase is unavailable under this exact tuple'});
+  const latest=v.versions.engineVersion==='planet-game-1.1.0';
+  for(const key of ['engineerCapture','panelRequest'] as const) {
+    if(latest ? !Object.hasOwn(v.abilities,key)||v.abilities[key]===undefined : Object.hasOwn(v.abilities,key))
+      ctx.addIssue({code:'custom',message:'Private feedback fields are exact-version bound'});
+  }
+  const capture=v.abilities.engineerCapture,request=v.abilities.panelRequest;
+  if(capture && (v.self.role!=='Engineer'||capture.round>v.round||capture.seatIds.some(id=>!v.board.seats.some(s=>s.seatId===id)))) ctx.addIssue({code:'custom',message:'Engineer-only original capture'});
+  if(latest && (v.self.role==='Engineer' ? v.abilities.engineerSpent!==(capture!==null) : capture!==null)) ctx.addIssue({code:'custom',message:'Capture must match retained Engineer use'});
+  if(request && request.round>v.round) ctx.addIssue({code:'custom',message:'Patient request round cannot be in the future'});
+  if(latest && v.abilities.panelAttemptSpent!==(request!==null)) ctx.addIssue({code:'custom',message:'Own panel attempt record required'});
+  if(latest && v.phase.kind==='NAV_SETTING' && v.privateNavigation && (v.privateNavigation.direction!==null||v.privateNavigation.confirmation!==null
+    || v.privateNavigation.tieChoice && (v.offices.officerSeatId!==v.self.seatId||!v.offers.some(o=>o.type==='CHOOSE_NAV_DIRECTION')))) ctx.addIssue({code:'custom',message:'Neutral setting exposes only eligible Officer choice'});
+  if(v.board.kind!=='PLAYER_CURRENT'  || v.board.seats.length!==v.playerCount) ctx.addIssue({code:'custom',message:'Player current board required'});
   if(v.promises.some(p=>p.giverSeatId!==v.self.seatId && p.recipientSeatId!==v.self.seatId))
     ctx.addIssue({code:'custom',message:'Promise audience is the participant pair'});
   if(v.privateNavigation && v.offices.captainSeatId!==v.self.seatId && v.offices.officerSeatId!==v.self.seatId)

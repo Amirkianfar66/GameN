@@ -1,0 +1,28 @@
+{
+  "decision_id": "planet-private-feedback-implementation-2026-11-06",
+  "status": "confirmed-rules-implementation-clarifications",
+  "recorded_on": "2026-11-06",
+  "authority": {
+    "conversation": "01a0de94-e774-7a53-80fd-5897c518c9bf",
+    "designer_review_head": "ff7b689a17282e63606506bbf151d79c7da858fc",
+    "delegation": "Owner-authorized next engine slice; Integration delegates single-writer contract preparation for review before adoption."
+  },
+  "confirmed_semantics": [
+    "P28: every navigation from Round 2 has one fixed authoritative 15000ms neutral NAV_SETTING window. Only the eligible Officer sees unresolved genuine-tie controls. Early choice changes no other audience packet/revision/event or deadline. Final direction is withheld from every office until the interval closes. Existing equal-probability fallback, P09 confirmations, Round 1 and P27 are preserved.",
+    "R13: Meet A/B evaluates the giver alone in the final authoritative voting-start location. No Jail Vote means not voting against the recipient. Quota true means lifetime slot used. Election IDs are opaque; do not manufacture a future round.",
+    "P14/R8: Engineer receives their server-fixed identities, including an empty capture. The activation/capture is per-world and inherits or is discarded with the complete selected state; no target/office/public notification.",
+    "P21/P22/R12 and BH-ATTEMPT-04: patient attempt/result knowledge remains global and patient-private. Correct accepted input reserves one shared injection and queues its world-local request. Inherited retained reservations remain queued without duplication; a missing selected reservation yields DISCARDED without restoring the attempt. WRONG never reserved an injection. TREATED is this request causing Injured to Healthy at its Rescue step; retained NO_EFFECT still spends its reservation. No new refund, healing pool or immediate heal.",
+    "An otherwise eligible unused patient receives uniform NO_INJECTION when the actor-world pool is empty, before correctness is checked. No attempt, reservation or correctness fact is produced. Accepted REGISTERED remains registration, not healing."
+  ],
+  "technical_contract": {
+    "engineerCapture": "null or {round,seatIds}, Engineer only",
+    "panelRequest": "null or {commandId,round,status:WRONG|QUEUED|TREATED|NO_EFFECT|DISCARDED}, own patient only",
+    "tieChoice": "currently eligible Officer may choose now; not response history",
+    "confirmation": "current own acknowledgement awaited now; not completion history",
+    "optional_deferred": [
+      "R9 historical hack round",
+      "R11 durable acknowledgement history"
+    ]
+  },
+  "compatibility": "New exact tuple only. Retain both exact historical Planet tuples and protocol-2 behavior; old JSON omits new fields, old navigation and Meet behavior replay without migration. No deployment/profile/asset adoption."
+}

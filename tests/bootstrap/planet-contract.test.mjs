@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {
-  PLANET_GAME_PINS, PlanetVersionsSchema, PlanetCommandRequestSchema, PlanetRoleSchema,
+  PLANET_SYNC_PINS as PLANET_GAME_PINS, PlanetVersionsSchema, PlanetCommandRequestSchema, PlanetRoleSchema,
   PlanetRoundSchema, PlanetPublicViewSchema, PlanetPlayerViewSchema, PlanetDrawingSchema,
   PlanetPhaseSchema, PlanetEventSchema, PlanetPromiseSchema, PlanetServiceRequestSchema, FullCommandRequestSchema,
 } from '../../packages/contracts/dist/index.js';
@@ -39,7 +39,7 @@ test('successor authority pins every recorded source and leaves historical runti
   assert.equal(authority.ruleset_version,PLANET_GAME_PINS.rulesetVersion);
   const predecessor=authority.supersedes_unshipped_candidate;
   assert.equal(createHash('sha256').update(readFileSync(new URL('../../'+predecessor.path,import.meta.url))).digest('hex'),predecessor.sha256);
-  assert.equal(PlanetVersionsSchema.safeParse({...publicView().versions,engineVersion:'planet-game-1.0.0',rulesetVersion:'in-person-planet-2026-11-05',rulesetHash:predecessor.sha256}).success,false);
+  assert.equal(PlanetVersionsSchema.safeParse({...publicView().versions,engineVersion:'planet-game-1.0.0',rulesetVersion:'in-person-planet-2026-11-05',rulesetHash:predecessor.sha256}).success,true);
   for(const source of authority.sources) assert.equal(
     createHash('sha256').update(readFileSync(new URL('../../'+source.path,import.meta.url))).digest('hex'),source.sha256,source.path);
   assert.equal(PlanetVersionsSchema.safeParse({...publicView().versions,protocolVersion:2}).success,false);
