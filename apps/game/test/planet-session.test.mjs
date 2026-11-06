@@ -71,3 +71,9 @@ test('seat recovery reads the server-confirmed match and never persists the reco
  const r=sessionRig('board');await r.session.start();const recoveryCode='private-recovery-code-123';await r.session.operate({operation:'redeemRecovery',matchId:'planet-local',recoveryCode});
  assert.equal(r.session.getModel().matchId,'planet-local');assert.equal(r.session.getModel().selfSeatId,'seat-6');assert.equal(r.session.getModel().uncertain,false);assert.equal(r.stores.requests.load(),null);assert.ok(!r.stores.resume.load().includes(recoveryCode));r.session.dispose();
 });
+test('the draft seat-only recovery reply cannot approve a match or replace the original request',async()=>{
+ const r=sessionRig('board'),original=r.connection.request,redeems=[];r.connection.request=async request=>{if(request.operation!=='redeemRecovery')return original(request);redeems.push(structuredClone(request));return {ok:true,serverTimeMs:r.ports.clock.now(),result:{seatId:'seat-6'}};};
+ await r.session.start();const recoveryCode='private-recovery-code-123';await r.session.operate({operation:'redeemRecovery',matchId:'planet-local',recoveryCode});
+ assert.equal(r.session.getModel().uncertain,true);assert.equal(r.session.getModel().matchId,null);assert.equal(r.session.getModel().selfSeatId,null);assert.match(r.session.getModel().message,/recovery result could not be verified/);assert.equal(r.stores.requests.load(),null);assert.equal(r.stores.resume.load(),null);
+ await r.session.retry();assert.equal(redeems.length,2);assert.deepEqual(redeems[1],redeems[0]);r.session.dispose();
+});

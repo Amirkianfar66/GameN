@@ -1,0 +1,25 @@
+# Planet service draft consumer review
+
+Reviewed against Frontend `b0b46c962a4b957c8f35aec21a4a21eceb583f95`, with no service, shared contract, artwork or runtime changes. The reviewed Integration draft is `services/game-api/src/planet-game.ts`, SHA-256 `dbe11f9c16232a04358096f4949d98f871ad9f2ef2aebad471a09d133aaca7aa` (389 lines). Backend's forthcoming service/R14 implementation is not represented as verified by this review.
+
+| Finding | Concrete mismatch and action | Source |
+| --- | --- | --- |
+| Recovery response blocks the consumer | Draft returns `{seatId}` after redeeming. The consumer requires `result.matchId === request.matchId`, then reads that match to verify the assigned seat. Return `{matchId,seatId}`; do not relax the match check. A repeated seat-only reply leaves the same in-memory request uncertain. | Draft line 202; `apps/game/src/planet/session.ts:173` |
+| Saved pins are rejected after creation-profile changes | `load()` compares each stored session's full versions with the currently configured creation versions. Selecting `design-0.6.0` therefore rejects an existing 1.1.0/0.5.0 session, and historical Planet tuples also fail. Separate creation selection from validated saved-version dispatch. The consumer already preserves the supported historical packets and pins. | Draft lines 73, 82–85 |
+| R14 is still absent and pending reads need redaction | The draft admits a registered but unapproved UID to `snapshot()`, returns its full roster/status/setup, and only nulls the public board. It supplies no requester-bound admission standing. The current consumer hides pending content and cannot approve a known pending seatless display. The forthcoming typed R14 response must provide verified own standing and redact pending/declined/closed reads server-side. No untyped field will be consumed. | Draft lines 102–117; `apps/game/src/planet/session.ts:120` |
+| HTTP endpoint wiring is not present yet | Hosted Frontend sends authenticated/App-Check JSON POSTs to `https://us-central1-<project>.cloudfunctions.net/planetApi`. The inspected `infra/firebase/src/index.ts` exports existing legacy/V1 functions, with no `planetApi`. Backend must supply that exact export/wrapper and its origin/preflight behavior. A Hosting rewrite is not used by this client. | `apps/game/src/browser/planet-request.ts:11`; Integration `infra/firebase/src/index.ts` |
+| Recovery handoff lacks the required match ID in the UI | The fresh-device recovery form asks for Match ID plus code. Host controls currently show only the issued code and Room code. A narrow Frontend follow-up should show the actual match ID alongside the code; substituting the six-character Room code would be incorrect. | `apps/game/hosted/planet/app.mjs:91` and recovery form |
+
+## Setup and compatible paths
+
+`create`, `requestAdmission`, `approveAdmission`, `setBots`, `beginSetup`, `chooseCharacter`, `ready`, `abort`, `issueRecovery`, `advance`, `runBots`, `command` and `receipt` operation names/request nesting agree. Command and receipt responses supply the expected `{receipt}` wrapper and actor-scoped original lookup. The consumer sends ID/App Check tokens in headers; the draft receives its caller UID separately from the request body. Session polling is every two seconds, with game-clock reads additionally every fifteen seconds; there is no inherent conflict with the draft's 120 requests/minute limit at normal idle cadence.
+
+Character selection uses the same 30-second server window and authoritative auto-assignment. The consumer exposes Ready only after the minimum reading interval. The draft accepts Ready earlier and queues it while `startIfReady()` waits for the deadline; this is a server-guard difference to cover at 29,999/30,000ms, not a happy-path failure caused by the current UI. Preserve the confirmed minimum and human-Ready semantics.
+
+The service defaults to `design-0.5.0`. The aligned staging creation profile must explicitly choose the approved `design-0.6.0` pairing; support for old sessions must remain separate. `/preview-config.json` must retain the exact existing configuration fields, matching project, `https://<project>.web.app` origin, Firebase Auth and App Check settings. None of these checks proves that the endpoint, attestation or staged service is deployed.
+
+## Regression and next adoption
+
+Added a consumer regression for the actual draft's seat-only recovery reply: it cannot approve a match/seat, cannot persist the recovery secret, and exact retry retains the original request ID/body. Existing tests cover valid recovery, pending reload, unapproved null-seat snapshots, UID binding, 30-second setup and private/public feeds. All 14 focused session regressions passed, with zero failures/skips; the earlier 850-test artwork evidence remains a separate checkpoint.
+
+Await Backend's exact R14 contract commit before adopting its fields. No guessed admission status, service-file edit, shared-contract edit, new creative work, deployment or activation was performed.
