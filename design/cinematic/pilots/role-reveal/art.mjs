@@ -1,14 +1,15 @@
 // mothership:dev-only
 //
 // The role reveal films' shared art, in the Comic Noir kit (design/cinematic/lib/comic.mjs): a page of
-// the ship's crew file at night. The light falls through a viewport's slats as it would through a
-// detective's blinds, the crew are ink silhouettes, the panels have hard borders and a gutter, and
-// the role's name is stamped in Ink Block lettering. Pure string builders: nothing here reads a game
-// fact; the film passes in what to draw and where. Every role shares these parts, so every film keeps
-// one palette and one brightness (docs/design/cinematic/role-reveal.md, section 1).
+// the ship's crew file at night, drawn as an animated noir comic. The light falls through a viewport's
+// slats as it would through a detective's blinds, in beams with dust turning in them; the crew are
+// navy silhouettes with a paper rim light; the panels have hard borders and a gutter and land with
+// impact lines; and the role's name is stamped in Ink Block lettering. Pure string builders: nothing
+// here reads a game fact; the film passes in what to draw and where. Every role shares these parts,
+// so every film keeps one palette and one brightness (docs/design/cinematic/role-reveal.md, section 1).
 
 import { FACTION_ACCENTS } from '../../../board-v2/fx/blocked.mjs';
-import { INK, PAPER, AMBER, fxDefs, panelFrame, stars, vignette } from '../../lib/comic.mjs';
+import { INK, PAPER, AMBER, fxDefs, panelFrame, speedLines, stars, vignette } from '../../lib/comic.mjs';
 import { clamp01, lerp, rand } from '../../lib/ease.mjs';
 import { lettering } from '../../lib/lettering.mjs';
 
@@ -16,6 +17,9 @@ import { lettering } from '../../lib/lettering.mjs';
 export const NIGHT = Object.freeze({
   deep: '#07090F', wall: '#0E1420', steel: '#3A4A6B', steelDark: '#232E44', slat: '#E9F1FF',
   paper: PAPER, ink: INK, amber: AMBER, caption: '#F3E3A6', rim: '#FFF3C4',
+  // Lit equipment and figures (the owner's review: nothing sinks into the dark): the token steels,
+  // a lifted wall and a navy silhouette that a rim light can separate from it.
+  steelLit: '#55657E', steelPale: '#B9C4D3', steelShadow: '#34415A', wallLit: '#1A2438', figure: '#1B2436',
 });
 
 const f = v => Number((+v).toFixed(2));
@@ -26,7 +30,10 @@ export function revealDefs(prefix) {
     + `<defs><filter id="${prefix}-sil" x="-10%" y="-10%" width="120%" height="120%"><feFlood flood-color="${NIGHT.deep}"/><feComposite in2="SourceAlpha" operator="in"/></filter>`
     + `<filter id="${prefix}-rim" x="-20%" y="-20%" width="140%" height="140%"><feFlood flood-color="${NIGHT.rim}"/><feComposite in2="SourceAlpha" operator="in"/><feGaussianBlur stdDeviation="1.4"/></filter>`
     // Noir light on the player's own character: the colours kept, the light taken down.
-    + `<filter id="${prefix}-noir" x="-10%" y="-10%" width="120%" height="120%"><feComponentTransfer><feFuncR type="linear" slope="0.72"/><feFuncG type="linear" slope="0.72"/><feFuncB type="linear" slope="0.8"/></feComponentTransfer></filter></defs>`;
+    + `<filter id="${prefix}-noir" x="-10%" y="-10%" width="120%" height="120%"><feComponentTransfer><feFuncR type="linear" slope="0.72"/><feFuncG type="linear" slope="0.72"/><feFuncB type="linear" slope="0.8"/></feComponentTransfer></filter>`
+    // A silhouette in night navy rather than black, so its rim light and the wall behind both read.
+    + `<filter id="${prefix}-sil-lit" x="-10%" y="-10%" width="120%" height="120%"><feFlood flood-color="${NIGHT.figure}"/><feComposite in2="SourceAlpha" operator="in"/></filter>`
+    + `<filter id="${prefix}-glow" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="5"/></filter></defs>`;
 }
 
 /**
@@ -90,22 +97,66 @@ export function unaccented(svg) {
 export const GRIP = Object.freeze([71, 86]);
 
 /**
+ * Dust in a beam of light: motes drifting slowly up and across a box, twinkling as they turn (full
+ * motion only: reduced motion draws none). Deterministic in t.
+ */
+export function motes({ x, y, w, h, t, count = 18, seed = 29, color = NIGHT.rim, opacity = 0.6, reduced = false }) {
+  if (reduced || opacity <= 0) return '';
+  let out = '';
+  for (let i = 0; i < count; i += 1) {
+    const speed = 0.006 + rand(seed, i, 's') * 0.012;
+    const my = y + ((((rand(seed, i, 'y') * h - t * speed) % h) + h) % h);
+    const mx = x + rand(seed, i, 'x') * w + Math.sin(t / (900 + rand(seed, i, 'p') * 700) + i) * 10;
+    const r = 1.2 + rand(seed, i, 'r') * 1.6;
+    const tw = 0.35 + 0.65 * (0.5 + 0.5 * Math.sin(t / (380 + rand(seed, i, 'q') * 500) + i * 2.1));
+    out += `<circle cx="${f(mx)}" cy="${f(my)}" r="${f(r)}" fill="${color}" opacity="${f(opacity * tw)}"/>`;
+  }
+  return out;
+}
+
+/**
+ * A volumetric beam: a quadrilateral of light, bright where it enters (`from`, a 0..1 point along
+ * the gradient's axis) and gone where it lands, so it reads as light in air rather than paint.
+ */
+export function beamSvg(prefix, id, { points, from, to, color = NIGHT.slat, opacity = 0.16 }) {
+  const g = `${prefix}-beam-${id}`;
+  return `<defs><linearGradient id="${g}" gradientUnits="userSpaceOnUse" x1="${f(from[0])}" y1="${f(from[1])}" x2="${f(to[0])}" y2="${f(to[1])}"><stop offset="0" stop-color="${color}" stop-opacity="${f(opacity)}"/><stop offset="0.55" stop-color="${color}" stop-opacity="${f(opacity * 0.45)}"/><stop offset="1" stop-color="${color}" stop-opacity="0"/></linearGradient></defs>`
+    + `<polygon points="${points.map(([px, py]) => `${f(px)},${f(py)}`).join(' ')}" fill="url(#${g})" style="mix-blend-mode:screen"/>`;
+}
+
+/**
+ * A figure lit from behind (noir): a pale rim copy offset toward the light, then the figure as a
+ * navy silhouette. `figure` is the figure's markup and `rimFigure` the same figure under other ids
+ * (the rig scopes its ids by prefix, so the caller draws it twice).
+ */
+export function rimLit(prefix, { figure, rimFigure, offset = [-4, -4], rim = 0.95 }) {
+  return `<g filter="url(#${prefix}-rim)" opacity="${f(rim)}" transform="translate(${f(offset[0])} ${f(offset[1])})">${rimFigure}</g>`
+    + `<g filter="url(#${prefix}-sil-lit)">${figure}</g>`;
+}
+
+/**
  * One comic panel at (x, y, w, h), its content drawn in local units (0..w, 0..h) and clipped to it.
  * enter 0..1: the slam (scale from 1.16 and a side slide to rest, with an overshoot already in the
  * value), tilt: the panel's rest angle. A shadow, an ink border with a paper keyline.
  */
-export function panelSvg(prefix, { i, x, y, w, h, enter, slam = 1, tilt = 0, side = 1, content }) {
+export function panelSvg(prefix, { i, x, y, w, h, enter, slam = 1, tilt = 0, side = 1, content, reduced = false }) {
   if (enter <= 0) return '';
   const id = `${prefix}-panel-${i}`;
   const s = lerp(1.16, 1, enter);
   const dx = (1 - Math.min(1, enter)) * 70 * side;
   const cx = x + w / 2, cy = y + h / 2;
   const opacity = clamp01(slam / 0.35);
+  // The slam's impact: pale lines burst from behind the panel's edges and fade as it lands (full only).
+  const impact = !reduced && slam < 1
+    ? speedLines({ cx: w / 2, cy: h / 2, inner: Math.max(w, h) * 0.5, outer: Math.max(w, h) * (0.62 + 0.12 * slam), count: 34, seed: 17 + i, color: NIGHT.slat, width: 4, opacity: 0.55 * (1 - slam) })
+    : '';
   return `<g opacity="${f(opacity)}" transform="translate(${f(cx + dx)} ${f(cy)}) rotate(${f(tilt)}) scale(${f(s)}) translate(${f(-w / 2)} ${f(-h / 2)})">`
-    + `<defs><clipPath id="${id}"><rect x="0" y="0" width="${f(w)}" height="${f(h)}"/></clipPath></defs>`
+    + impact
+    + `<defs><clipPath id="${id}"><rect x="0" y="0" width="${f(w)}" height="${f(h)}"/></clipPath>`
+    + `<linearGradient id="${id}-bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${NIGHT.wallLit}"/><stop offset="1" stop-color="${NIGHT.wall}"/></linearGradient></defs>`
     + `<rect x="10" y="12" width="${f(w)}" height="${f(h)}" fill="${NIGHT.deep}" opacity="0.85"/>`
-    + `<g clip-path="url(#${id})"><rect width="${f(w)}" height="${f(h)}" fill="${NIGHT.wall}"/>${content}`
-    + vignette(`${id}-v`, { width: w, height: h, strength: 0.55 })
+    + `<g clip-path="url(#${id})"><rect width="${f(w)}" height="${f(h)}" fill="url(#${id}-bg)"/>${content}`
+    + vignette(`${id}-v`, { width: w, height: h, strength: 0.42 })
     + `</g>${panelFrame({ x: 0, y: 0, w, h, border: 7, shadow: false })}</g>`;
 }
 
@@ -120,7 +171,7 @@ export function sfxSvg(text, { x, y, size = 56, rotate = -6, pop = 1, opacity = 
  * team's emblem (library group 7's) small in its corner. stamp 0..1 (with its overshoot), settle 0..1.
  * Returns { svg, box } (box: the plate's rectangle, for the page text under it).
  */
-export function titlePlateSvg(prefix, { name, emblemHref, cx, cy, width, stamp, settle }) {
+export function titlePlateSvg(prefix, { name, emblemHref, cx, cy, width, stamp, settle, sweep = 0 }) {
   if (stamp <= 0) return { svg: '', box: null };
   const size = Math.min(118, (width - 120) / (name.length * 0.82));
   const h = size * 1.75 + 70;
@@ -133,8 +184,13 @@ export function titlePlateSvg(prefix, { name, emblemHref, cx, cy, width, stamp, 
     + `<path d="M${f(x + 26)} ${f(y + 30)}H${f(x + width - 26)}M${f(x + 26)} ${f(y + h - 30)}H${f(x + width - 26)}" stroke="${INK}" stroke-width="3" opacity="0.55"/>`;
   const word = lettering(name, { x: 0, y: 6, size, skew: -6, fill: AMBER, highlight: '#FFF3C4', tracking: 1.4 });
   const emblem = emblemHref ? `<g transform="translate(${f(x + width - 78)} ${f(y - 34)}) rotate(8)"><circle cx="34" cy="34" r="38" fill="${NIGHT.paper}" stroke="${INK}" stroke-width="6"/><image href="${emblemHref}" x="6" y="6" width="56" height="56"/></g>` : '';
-  const svg = `<g transform="translate(${f(cx)} ${f(cy)}) rotate(${f(rot)}) scale(${f(s)})" opacity="${f(clamp01(stamp * 3))}">${plate}${word}${emblem}</g>`
-    + (settle > 0 && settle < 1 ? '' : '');
+  // A sheen crosses the plate once it has landed, as light across a laminated file (full only).
+  const sheen = sweep > 0 && sweep < 1
+    ? `<defs><clipPath id="${prefix}-plate-clip"><rect x="${f(x)}" y="${f(y)}" width="${f(width)}" height="${f(h)}"/></clipPath>`
+      + `<linearGradient id="${prefix}-sheen" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FFFFFF" stop-opacity="0"/><stop offset="0.5" stop-color="#FFFFFF" stop-opacity="0.55"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></linearGradient></defs>`
+      + `<g clip-path="url(#${prefix}-plate-clip)"><rect x="${f(lerp(x - 260, x + width + 60, sweep))}" y="${f(y - 40)}" width="200" height="${f(h + 80)}" fill="url(#${prefix}-sheen)" transform="skewX(-24)" style="mix-blend-mode:screen"/></g>`
+    : '';
+  const svg = `<g transform="translate(${f(cx)} ${f(cy)}) rotate(${f(rot)}) scale(${f(s)})" opacity="${f(clamp01(stamp * 3))}">${plate}${word}${sheen}${emblem}</g>`;
   return { svg, box: [cx - width / 2, cy - h / 2, width, h] };
 }
 

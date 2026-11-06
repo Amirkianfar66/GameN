@@ -21,7 +21,7 @@
 
 import { beat, bell, clamp01, easeInOutCubic, easeOutBack, easeOutCubic } from '../../lib/ease.mjs';
 
-export const ROLE_REVEAL_VERSION = 'cinematic-role-reveal-0.2.0';
+export const ROLE_REVEAL_VERSION = 'cinematic-role-reveal-0.3.0';
 export const VARIANTS = Object.freeze(['full', 'reduced']);
 
 /** Every film's length, ms: the same for every role and both variants. */
@@ -96,7 +96,7 @@ export const PANEL_LOCAL_REST = 1300;
  *   opener   { fade, slats, lamp, reach, grip, raise, glint, push }; it stays, dimmed, under the panels
  *   panels   three { visible, enter, slam, local }
  *   dim      0..1, the page darkening around the title
- *   title    { visible, stamp 0..1 (the slam), settle 0..1 }
+ *   title    { visible, stamp 0..1 (the slam), settle 0..1, sweep 0..1 (the sheen, full only) }
  *   captions { purpose, play } 0..1 (opacity of each page-text line)
  *   still    reduced motion only: 'opener' | 'page' | 'title', and fade 0..1 (the cross-fade in)
  */
@@ -121,6 +121,8 @@ export function revealFrame(t, { variant = 'full' } = {}) {
       visible: titleOn,
       stamp: !titleOn ? 0 : rest ? 1 : easeOutBack(beat(time, [BEATS.title[0] + 120, BEATS.title[0] + 420]), 1.6),
       settle: !titleOn ? 0 : rest ? 1 : easeOutCubic(beat(time, [BEATS.title[0] + 420, BEATS.title[1]])),
+      // A sheen crosses the plate once it has landed (full motion only).
+      sweep: !titleOn || rest ? 0 : beat(time, [BEATS.title[0] + 520, BEATS.title[0] + 1120]),
     },
     captions: {
       purpose: reduced ? (time >= BEATS.panel1[0] && time < BEATS.title[0] ? 1 : 0) : fadeIn(time, CAPTION_TIMES.purpose),

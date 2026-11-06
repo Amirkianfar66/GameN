@@ -7,12 +7,13 @@
 // (the captions and the role's name) is set by the stage over the boxes, never drawn into the picture.
 
 import { CREW } from '../../../board-motion/figures/crew.mjs';
+import { FACTION_ACCENTS } from '../../../board-v2/fx/blocked.mjs';
 import { clamp01 } from '../../lib/ease.mjs';
 import { GRIP, NIGHT, captionBoxSvg, panelSvg, revealDefs, slatsSvg, titlePlateSvg } from './art.mjs';
 import { briefingSvg } from './briefing.mjs';
 import { ROLE_REVEAL_COPY, roleLine } from './copy.mjs';
 import { revealFrame } from './film.mjs';
-import { ROLE_FILMS } from './roles.mjs';
+import { PORTRAIT_FILES, ROLE_FILMS } from './roles.mjs';
 
 export const PAGE_WIDTH = 900;
 const f = v => Number((+v).toFixed(2));
@@ -57,15 +58,15 @@ export function revealSvg(t, { role = 'Doctor', variant = 'full', seat = 6, char
   let body = revealDefs(prefix)
     + slatsSvg(prefix, { width, height, v: 1, dim: 1, t: clock })
     // The briefing room, before boarding; it stays, dimmed, under the panels.
-    + `<g opacity="${f(1 - 0.72 * panelsIn)}">${briefingSvg(prefix, { width, height, opener: frame.opener, name: role.toUpperCase(), character, gadget, grip: GRIP, deviceHref: film.device, t: clock })}</g>`;
+    + `<g opacity="${f(1 - 0.72 * panelsIn)}">${briefingSvg(prefix, { width, height, opener: frame.opener, name: role.toUpperCase(), team: film.team, teamColour: FACTION_ACCENTS[film.team.toLowerCase()], character, gadget, grip: GRIP, deviceHref: film.device, portraitHref: PORTRAIT_FILES[character], t: clock, reduced: variant === 'reduced' })}</g>`;
   frame.panels.forEach((p, i) => {
     if (!p.visible) return;
     const box = L.panels[i];
     const content = film.panels[i](p.local, { w: box.w, h: box.h, prefix: `${prefix}-p${i}`, seat, reduced: variant === 'reduced' });
-    body += panelSvg(prefix, { i, ...box, enter: p.enter, slam: p.slam ?? 1, content });
+    body += panelSvg(prefix, { i, ...box, enter: p.enter, slam: p.slam ?? 1, content, reduced: variant === 'reduced' });
   });
   if (frame.dim > 0) body += `<rect width="${width}" height="${f(height)}" fill="${NIGHT.deep}" opacity="${f(0.8 * frame.dim)}"/>`;
-  const plate = titlePlateSvg(prefix, { name: role.toUpperCase(), emblemHref: film.emblem, cx: L.title.cx, cy: L.title.cy, width: L.title.w, stamp: frame.title.stamp, settle: frame.title.settle });
+  const plate = titlePlateSvg(prefix, { name: role.toUpperCase(), emblemHref: film.emblem, cx: L.title.cx, cy: L.title.cy, width: L.title.w, stamp: frame.title.stamp, settle: frame.title.settle, sweep: frame.title.sweep });
   body += plate.svg;
   body += captionBoxSvg({ ...L.captions.purpose, opacity: frame.captions.purpose });
   body += captionBoxSvg({ ...L.captions.play, opacity: frame.captions.play });

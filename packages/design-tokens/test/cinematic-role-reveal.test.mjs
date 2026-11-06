@@ -1,9 +1,9 @@
 // The role reveal films (the owner, 6 November 2026; docs/design/cinematic/role-reveal.md): one
 // nine-second film per role on the player's own phone. Each opens in the briefing room at the dock,
-// where the player's own character takes the role's gadget from the desk where the role card lies,
-// and then turns to a comic page of three panels. These tests hold the privacy rules every film keeps
-// (one length, one rhythm, silence, one palette, only shipped pictures, no words in the picture), the
-// shared opener and the Doctor's pilot.
+// where the player's own character takes the role's gadget from the desk where their role card
+// stands, and then turns to a comic page of three panels. These tests hold the privacy rules every
+// film keeps (one length, one rhythm, silence, one palette, only shipped pictures, no words in the
+// picture), the shared opener, the card that matches the phone's role card, and the Doctor's pilot.
 
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
@@ -13,6 +13,7 @@ import { fileURLToPath } from 'node:url';
 import { CREW } from '../../../design/board-motion/figures/crew.mjs';
 import { FACTION_ACCENTS, MIN_ACCENT_DISTANCE, cie76 } from '../../../design/board-v2/fx/blocked.mjs';
 import { CATALOGUE } from '../../../design/cinematic/catalogue/catalogue.mjs';
+import { measure } from '../../../design/cinematic/lib/lettering.mjs';
 import { figureItems } from '../../../design/cinematic/lib/scene.mjs';
 import { PILOTS } from '../../../design/cinematic/pilots/index.mjs';
 import { GRIP, deviceOnly, unaccented } from '../../../design/cinematic/pilots/role-reveal/art.mjs';
@@ -20,7 +21,7 @@ import { POSES, briefingLayout, briefingSvg, onPage } from '../../../design/cine
 import { PAGE_WIDTH, layout, pageHeight, revealSvg } from '../../../design/cinematic/pilots/role-reveal/compose.mjs';
 import { ROLE_REVEAL_COPY } from '../../../design/cinematic/pilots/role-reveal/copy.mjs';
 import { BEATS, CHANGES, FADE_MS, PANEL_STARTS, REVEAL_END, STILLS, VARIANTS, revealFrame } from '../../../design/cinematic/pilots/role-reveal/film.mjs';
-import { DEVICE_FILES, EMBLEM_FILES, FILM_OF, ROLE_FILMS, ROLE_REVEAL_ASSETS, TEAMS } from '../../../design/cinematic/pilots/role-reveal/roles.mjs';
+import { DEVICE_FILES, EMBLEM_FILES, FILM_OF, PORTRAIT_FILES, ROLE_FILMS, ROLE_REVEAL_ASSETS, TEAMS } from '../../../design/cinematic/pilots/role-reveal/roles.mjs';
 import { CURRENT_ROLES, usesCurrentNames } from '../../../design/library/successor/names.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../../..');
@@ -33,6 +34,9 @@ const gadget = role => deviceOnly(readFileSync(resolve(CINE, DEVICE_FILES[role])
 const doctor = (t, options = {}) => revealSvg(t, { role: 'Doctor', seat: 6, character: 'c4', gadget: gadget('Doctor'), width: PAGE_WIDTH, height: pageHeight(390, 844), ...options });
 const colours = svg => new Set([...svg.matchAll(/#[0-9A-Fa-f]{6}\b/g)].map(m => m[0].toUpperCase()));
 const nearAccents = hex => Object.entries(FACTION_ACCENTS).filter(([, accent]) => cie76(hex, accent) < MIN_ACCENT_DISTANCE).map(([faction]) => faction);
+/** The role card's team swatch (the phone's card: a small square in the team's colour), and the picture without it. */
+const SWATCH = /<rect data-part="team-swatch"[^>]*fill="(#[0-9A-Fa-f]{6})"[^>]*\/>/;
+const unswatched = svg => svg.replace(SWATCH, '');
 /** One of the opener's marked parts (the role card, the gadget), cut out of the picture: balanced <g> tags. */
 function cut(svg, part) {
   const open = svg.indexOf(`<g data-part="${part}"`);
@@ -60,7 +64,9 @@ test('the nine current roles each have a film, a team, a device and an emblem th
   }
   assert.equal(FILM_OF['Blue Disabler'], FILM_OF['Red Disabler'], 'the two Disablers share one film');
   assert.equal(new Set(Object.values(DEVICE_FILES)).size, 9, 'each role draws its own device');
-  assert.equal(ROLE_REVEAL_ASSETS.length, 12, 'nine devices and three emblems, shipped to every phone');
+  assert.equal(ROLE_REVEAL_ASSETS.length, 21, 'nine devices, three emblems and nine crew portraits, shipped to every phone');
+  assert.deepEqual(Object.keys(PORTRAIT_FILES), CHARACTERS, 'a portrait for every crew character');
+  for (const href of Object.values(PORTRAIT_FILES)) assert.ok(existsSync(resolve(CINE, href)), href);
   assert.deepEqual(CURRENT_ROLES.filter(role => ROLE_FILMS[role].status === 'pilot'), ['Doctor']);
   for (const role of CURRENT_ROLES.filter(r => r !== 'Doctor')) assert.throws(() => revealSvg(1000, { role }), /storyboard/, `${role}: no half-drawn film`);
   assert.ok(PILOTS['role-reveal']?.surfaces.phone, 'on the stage, on a phone');
@@ -103,6 +109,8 @@ test('reduced motion: three stills, each faded in over 80 ms at the same moments
   const first = doctor(1000, { variant: 'reduced' }).frame.opener;
   assert.deepEqual([first.grip, first.raise, first.glint, first.push], [true, 1, 0, 0], 'the first still: the gadget raised, no glint, no push');
   assert.ok(!doctor(1000, { variant: 'reduced' }).svg.includes('-pool-glint'), 'no glint in reduced motion');
+  assert.equal(revealFrame(7800, { variant: 'reduced' }).title.sweep, 0, 'no sheen in reduced motion');
+  assert.ok(doctor(7800).svg.includes('-sheen') && !doctor(7800, { variant: 'reduced' }).svg.includes('-sheen'), 'the sheen crosses the plate in full motion only');
 });
 
 test('a frame is one self-contained SVG: no words drawn in, no repeated id, only the pictures every phone ships, deterministic', () => {
@@ -134,7 +142,15 @@ test('silent: no film has a cue sheet or an audio export', () => {
 
 test('one palette: no colour drawn comes within the accent distance of a faction accent, the gadget included', () => {
   const drawn = new Set();
-  for (const variant of VARIANTS) for (const t of SAMPLES) for (const hex of colours(doctor(t, { variant }).svg)) drawn.add(hex);
+  for (const variant of VARIANTS) {
+    for (const t of SAMPLES) {
+      const { svg } = doctor(t, { variant });
+      // The one exception, as on the phone's card: the team swatch on the role card standing on the desk, small.
+      const swatch = SWATCH.exec(svg);
+      if (swatch) assert.equal(swatch[1].toUpperCase(), FACTION_ACCENTS.blue, 'the Doctor\'s card: the Blue team\'s swatch');
+      for (const hex of colours(unswatched(svg))) drawn.add(hex);
+    }
+  }
   assert.ok(drawn.size > 10);
   for (const hex of drawn) assert.deepEqual(nearAccents(hex), [], `${hex} is within ${MIN_ACCENT_DISTANCE} of a faction accent`);
   // The role card lights each device in its team's colour; in the film every gadget catches the room's light instead.
@@ -147,7 +163,7 @@ test('one palette: no colour drawn comes within the accent distance of a faction
   // dealt); every other colour keeps the palette, whoever the character.
   for (const character of CHARACTERS) {
     const own = colours(figureItems({ character, sk: POSES.raise, at: [0, 0], scale: 1, depth: 2, prefix: 'x' }).map(item => item.svg).join(''));
-    for (const hex of colours(doctor(2400, { character }).svg)) if (!own.has(hex)) assert.deepEqual(nearAccents(hex), [], `${character}: ${hex}`);
+    for (const hex of colours(unswatched(doctor(2400, { character }).svg))) if (!own.has(hex)) assert.deepEqual(nearAccents(hex), [], `${character}: ${hex}`);
   }
 });
 
@@ -230,15 +246,40 @@ test('the opener: the player\'s own character takes the role\'s gadget from the 
   }
 });
 
+test('the card on the desk is the player\'s own role card as the phone draws it: straight, their portrait, the role\'s device', () => {
+  for (const character of CHARACTERS) {
+    const { part } = cut(doctor(1000, { character }).svg, 'card');
+    assert.ok(part.includes(PORTRAIT_FILES[character]), `${character}: their own portrait`);
+    for (const other of CHARACTERS.filter(c => c !== character)) assert.ok(!part.includes(PORTRAIT_FILES[other]), `${character}: no ${other} portrait`);
+    assert.ok(part.includes(DEVICE_FILES.Doctor), 'the Doctor\'s held device, as on the card');
+    // The owner's review: nothing on the card is turned. The card stands straight (a translate only), and
+    // the only turn inside it is the portrait's own -2.5°, as the phone's card turns it.
+    assert.match(part, /^<g data-part="card" transform="translate\([-\d.]+ [-\d.]+\)">/);
+    assert.deepEqual([...part.matchAll(/rotate\(([-\d.]+)/g)].map(m => Number(m[1])).filter(a => a !== 0), [-2.5], 'only the portrait turns');
+    assert.ok(!/skewX\((?!0\))/.test(part), 'no slant on the card or its words');
+  }
+  // The name fits the card: the longest role name stays inside the plate.
+  const B = briefingLayout(PAGE_WIDTH, pageHeight(390, 844));
+  const longest = briefingSvg('rr', { width: PAGE_WIDTH, height: pageHeight(390, 844), opener: revealFrame(1000).opener, name: 'BLUE DISABLER', team: 'Blue', teamColour: FACTION_ACCENTS.blue, character: 'c4', gadget: gadget('Blue Disabler'), grip: GRIP, deviceHref: DEVICE_FILES['Blue Disabler'], portraitHref: PORTRAIT_FILES.c4 });
+  const words = [...cut(longest, 'card').part.matchAll(/<g opacity="1" transform="translate\(([-\d.]+) [-\d.]+\) rotate\(0\) skewX\(0\) scale\(([-\d.]+)\)/g)].map(m => [Number(m[1]), Number(m[2])]);
+  assert.equal(words.length, 2, 'the name and the team line, set flat');
+  for (const [[x, k], [word, tracking]] of words.map((w, i) => [w, [['BLUE DISABLER', 1.1], ['BLUE TEAM', 1.3]][i]])) {
+    const half = (measure(word, tracking) * k) / 2;
+    assert.ok(x - half >= 0 && x + half <= B.card.w, `${word} inside the card (${(x - half).toFixed(1)} to ${(x + half).toFixed(1)} of ${B.card.w.toFixed(1)})`);
+  }
+});
+
 test('the opener is one scene for every role: only the card\'s name and picture and the gadget are the role\'s', () => {
   const height = pageHeight(390, 844);
   for (const t of [600, 1800, 2400]) {
     const opener = revealFrame(t).opener;
     const scenes = CURRENT_ROLES.map(role => {
-      const svg = briefingSvg('rr', { width: PAGE_WIDTH, height, opener, name: role.toUpperCase(), character: 'c4', gadget: gadget(role), grip: GRIP, deviceHref: DEVICE_FILES[role], t });
+      const team = TEAMS[role];
+      const svg = briefingSvg('rr', { width: PAGE_WIDTH, height, opener, name: role.toUpperCase(), team, teamColour: FACTION_ACCENTS[team.toLowerCase()], character: 'c4', gadget: gadget(role), grip: GRIP, deviceHref: DEVICE_FILES[role], portraitHref: PORTRAIT_FILES.c4, t });
       const card = cut(svg, 'card');
       const { part, rest } = cut(card.rest, 'gadget');
-      assert.ok(card.part.includes(DEVICE_FILES[role]), `${role}: its card`);
+      assert.ok(card.part.includes(DEVICE_FILES[role]) && card.part.includes(PORTRAIT_FILES.c4), `${role}: its card, with the player's portrait`);
+      assert.equal(SWATCH.exec(card.part)[1].toUpperCase(), FACTION_ACCENTS[team.toLowerCase()], `${role}: its team's swatch`);
       assert.ok(part.includes('-head'), `${role}: its gadget`);
       for (const other of CURRENT_ROLES.filter(r => r !== role)) assert.ok(!svg.includes(DEVICE_FILES[other]), `${role}: no ${other} picture`);
       return rest;

@@ -6,6 +6,32 @@ What the game owner decided about look, feel and presentation while working with
 
 The owner's messages are quoted as written.
 
+## 6 November 2026: the pilot's card, light and finish
+
+**The owner reviewed the nine-second Doctor pilot and asked for three changes: the card on the desk must match the real role card, the patient and the medical equipment must be brighter, and the whole film should look like a high-end animated noir comic.**
+
+The owner wrote:
+
+> Rotation Doctor on the card is not good and not match with the card. Also Artistically, I would also brighten the patient and medical equipment slightly: the silhouettes blend into the dark backgrounds, especially once three panels share the screen. Make it more like Animation comic book Noir AAA style
+
+| # | What it says | What it decides |
+| --- | --- | --- |
+| 1 | "Rotation Doctor on the card is not good and not match with the card" | The card on the desk is now the player's own role card, drawn as the phone draws it: their portrait, the role's held device, and the name and team line set flat in its plate. It stands straight in a holder. The only turn on it is the portrait's own −2.5°, as on the phone's card, and a test holds that |
+| 2 | "brighten the patient and medical equipment slightly: the silhouettes blend into the dark backgrounds, especially once three panels share the screen" | The patient is a navy silhouette with a paper rim light and a pool of light on the wall behind. The berth, monitor, keypad and injector use the lit token steels with bevel highlights. Screens glow and cast their light, things stand on contact shadows, and the panels' walls are lifted |
+| 3 | "Make it more like Animation comic book Noir AAA style" | The film is shot as an animated comic. Each panel has three depth layers under a slow push, and the opener has two (2.5D). Light falls in volumetric beams with dust turning in it, panels land with impact lines, and a sheen crosses the title plate. The character leans in to take the gadget and looks at it as it rises |
+
+### What the Designer did with it
+
+- **The card** (`design/cinematic/pilots/role-reveal/briefing.mjs`) uses the phone card's own pieces and proportions: the crew portraits (`piece-crew.card-c1` to `c9`) and the held devices. Every phone now ships all nine portraits as well.
+- **The light** is in the Doctor's panels (`doctor.mjs`) and the shared art (`art.mjs`). The palette test still holds every colour drawn at least 30 from the faction accents. The card's small team swatch is the one exception, as on the phone's card.
+- **Reduced motion** keeps its three stills, with no dust, impact lines or sheen.
+- **The renders.** The three review renders are re-made.
+
+### What it does not settle
+
+- **"AAA"** is a direction, not a measured bar. The renders are desktop Chromium frames, not a phone.
+- **The other eight films** stay storyboards until the owner reviews this pilot.
+
 ## 6 November 2026: the role film opens as the player takes the role
 
 **The owner reviewed the Doctor's seven-second pilot and asked for a first part that shows the player becoming the Doctor: before boarding the spaceship, the character takes the Hospital gadget from a table where the Doctor card lies, and then sees the three panels.**

@@ -44,12 +44,12 @@ and a neighbour nothing.
 | --- | --- |
 | **Every film lasts exactly 9,000 ms**, full and reduced, and its beats change at the same moments: 3,000, 4,300, 5,600, 7,000 and 8,400 ms. The opener's moves (the reach, the take, the raise) keep the same times in every film | A neighbour who sees a phone's screen change, or times it, learns nothing |
 | **Silent, with no vibration** | The art direction: "Phones produce no role-specific or secret-action sound" |
-| **One palette and one brightness for every role:** ink, paper, steel and amber focus. A team's colour appears only small: in the emblem on the title plate and in the picture on the role card lying on the desk. The gadget the character raises is drawn large, so its team accent is taken out and it catches the room's starlight, the same for every role | A big red or blue flash would be visible across the table. A test holds every colour drawn, the gadget's included, at least 30 (CIE76) from each faction accent. Each beat's brightness is compared across roles once a second film exists |
+| **One palette and one brightness for every role:** ink, paper, steel and amber focus. A team's colour appears only small: in the emblem on the title plate, and on the role card standing on the desk (its device picture and its team swatch, as on the phone's card). The gadget the character raises is drawn large, so its team accent is taken out and it catches the room's starlight, the same for every role | A big red or blue flash would be visible across the table. A test holds every colour drawn, the gadget's included, at least 30 (CIE76) from each faction accent; the card's swatch is the one exception, and the test checks it is the dealt role's own. Each beat's brightness is compared across roles once a second film exists |
 | **Own phone only**, during the role-reading stage (the 30-second minimum read). A tap skips to the card. It never replays on a reconnect or a refresh. The card may offer "Watch again" | The reading stage is private, and a film is never an event anyone else gets |
 | **No other player appears.** The opener draws the player's own character: their lobby character, public, and the same whatever the role. It is the only figure in colour. Every other figure is an ink silhouette with no face, number or name | A film shows what a role does, never who is who (the Insider's and Hacker's knowledge stay in their files) |
-| **Every film ships to every phone:** the frame functions and art are one shared bundle, and nothing is fetched for a dealt role | The art direction: "fetching only a dealt role or hidden action can disclose identity" |
+| **Every film ships to every phone:** the frame functions and art are one shared bundle, with every role's device and emblem and every crew character's portrait, and nothing is fetched for a dealt role | The art direction: "fetching only a dealt role or hidden action can disclose identity" |
 | **Words are page text.** The two caption lines are DOM text. The role's name in Ink Block lettering is decorative and is repeated in page text | Captions translate and scale with the player's text size; a picture is never the only place a meaning appears |
-| **Reduced motion:** three still pictures (the gadget raised in the briefing room, the full page, the title), cross-faded in 80 ms at 0, 3,000 and 7,000 ms. No travel, zoom, push, glint, sparks or particles | The motion direction's reduced form |
+| **Reduced motion:** three still pictures (the gadget raised in the briefing room, the full page, the title), cross-faded in 80 ms at 0, 3,000 and 7,000 ms. No travel, zoom, push, glint, dust, impact lines, sheen, sparks or particles | The motion direction's reduced form |
 
 ## 2. The shared structure: a page from the ship's crew file
 
@@ -60,14 +60,22 @@ room at the dock, where the player takes up the role.
 
 | Beat | ms | Every role |
 | --- | --- | --- |
-| **Opener: the briefing room** | 0–3,000 | Through a tall viewport the Mothership waits at its dock under the stars, the blinds half open, and the slats' light falls across a steel desk. A desk lamp pools on the role card lying face up, and the role's gadget stands beside it. The player's own character reaches for the gadget (500–1,250 ms), takes it (1,300 ms) and raises it into the light (1,400–2,250 ms), where it glints once (2,050–2,650 ms). The camera pushes in 5% over the three seconds. This is the moment the player becomes the role |
+| **Opener: the briefing room** | 0–3,000 | Through a tall viewport the Mothership waits at its dock under the stars, the blinds half open, and the slats' light falls across a steel desk. The player's own role card stands on the desk in a steel holder, drawn as the phone draws it: their portrait, the role's held device, the role's name and the team line, straight and flat. A desk lamp behind it bends over it and pools its warm light on the card, and the role's gadget stands beside it. The player's own character leans in and reaches for the gadget (500–1,250 ms), takes it (1,300 ms) and raises it into the light, looking at it (1,400–2,250 ms), where it glints once (2,050–2,650 ms). The camera pushes in over the three seconds, the wall and viewport 2.5% and the character and desk 6.5%. This is the moment the player becomes the role |
 | **Three panels** | 3,000–7,000 | A comic tier of three panels slams in over the briefing room, which stays dimmed beneath: one at 3,000, one at 4,300 and one at 5,600. Together they tell what the role does on the ship, in the ship's own rooms: the Hospital, the Jail, the cargo hold, the corridors, the Command Room, the space outside. Each panel has a hard border, a gutter, ink silhouettes and one comic sound word in Ink Block lettering |
 | **Title** | 7,000–8,400 | The page darkens around a paper plate. The role's name stamps onto it in Ink Block lettering with a small overshoot. The team's emblem (Blue Planet, Red Planet or the Alien's spiral) sits in its corner, small |
 | **Hold** | 8,400–9,000 | Everything settles. The page then gives way to the role card |
 
 Two caption lines are shown as page text, in the comic's yellow caption boxes: one during the panels
-(the role's purpose) and one under the title (how the role plays). The opener has no words: the role's
-name is on the card in the picture, and the page text announces it at the title.
+(the role's purpose) and one under the title (how the role plays). The opener has no captions: the
+role's name is on the card in the picture, and the page text announces it at the title.
+
+**The look: an animated noir comic** (the owner's review of the pilot: "Animation comic book Noir AAA
+style"). These are shared by every role and timed by the shared clock:
+- **Depth.** Each panel is three layers (far, middle, near) under a slow push over its life, the near layer moving most. The opener is two layers. This is the motion comic's 2.5D camera.
+- **Light.** Light falls in volumetric beams that are bright where they enter and gone where they land, with dust turning in them. Figures are navy silhouettes with a paper rim light and a pool of light on the wall behind. Steel takes bevel highlights. Screens and lamps glow and cast their light. Things stand on contact shadows.
+- **Impact.** A panel lands with pale impact lines bursting from behind its edges, and they fade as it settles.
+- **The title.** After the stamp, a sheen crosses the plate once (7,520–8,120 ms), as light across a laminated file.
+- **Reduced motion** keeps the three stills, with none of the dust, impact lines or sheen.
 
 **The gadget on the desk, by role.** The opener draws each role's own device, the one its role card
 draws, without the hand, and without its team accent:
@@ -212,15 +220,15 @@ owner's review of the pilot on a phone.
 
 | ms | What is seen |
 | --- | --- |
-| 0–450 | The briefing room fades up from the night. Through the tall viewport, the Mothership waits at its dock under the stars, the blinds half open and its port lights breathing. The slats' light comes up across the room and the steel desk (100–1,200 ms), and the desk lamp warms on the DOCTOR card lying face up (200–700 ms). The card shows the injector, and the injector itself stands on the desk beside it |
-| 500–1,250 | The player's own character, in their crew suit and noir light with a paper rim, reaches across the desk to the injector |
+| 0–450 | The briefing room fades up from the night. Through the tall viewport, the Mothership waits at its dock under the stars, the blinds half open and its port lights breathing. The slats' light comes up in beams across the room and the steel desk (100–1,200 ms), with dust turning in it. The desk lamp warms on the player's role card standing in its holder (200–700 ms). As on the phone, the card shows their portrait, the injector in its gloved hand, DOCTOR and the Blue team line, all straight. The injector itself stands on the desk beside it |
+| 500–1,250 | The player's own character, in their crew suit and noir light with a paper rim, leans in over the desk and reaches for the injector |
 | 1,300 | The hand closes on it: the injector is taken |
-| 1,400–2,250 | The character raises the injector into the light, beside their face. Its two vials catch the starlight |
-| 2,050–2,650 | A glint: a white four-point star and a pale pool of light on the vials. Through the three seconds the camera has pushed in 5% |
-| 3,000 | Panel 1 slams in, tilted 1.1°, over the briefing room, which dims beneath. **The Hospital at night:** a viewport with slatted blinds and stars, slat light across a berth, and a patient's silhouette under a blanket. The monitor's amber trace stutters and its lamp blinks at 1.2 Hz (no flash). BEEP pops in. The caption "Two doses for the whole voyage." appears at 3,200 |
+| 1,400–2,250 | The character straightens and raises the injector into the light beside their face, looking at it. Its two vials catch the starlight |
+| 2,050–2,650 | A glint: a white four-point star and a pale pool of light on the vials. Through the three seconds the camera has pushed in, the near layer more than the far |
+| 3,000 | Panel 1 slams in with impact lines, tilted 1.1°, over the briefing room, which dims beneath. **The Hospital at night:** a viewport with slatted blinds and stars, its slat light falling in beams across a berth, and dust in the beams. The patient lies under a blanket: a navy silhouette with a rim light, against a pool of light on the wall. The monitor's amber trace stutters and its lamp blinks at 1.2 Hz (no flash). BEEP pops in. The caption "Two doses for the whole voyage." appears at 3,200 |
 | 4,300 | Panel 2 slams in. **The ceiling opens:** the iris dilates and the medical drone (S5's own) descends, folded, then open, then charging. Its searchlight falls to the berth below. One of the injector's two vials drains, and a line of cyan dashes carries the dose up to the drone. WHIRR |
-| 5,600 | Panel 3 slams in. **The trace steadies:** the patient sits up in bed, ringed by one pulse. The monitor's trace runs green, and the Hospital panel's keypad lights the player's own number on its readout and its key |
-| 7,000 | The page darkens. The paper plate stamps DOCTOR in Ink Block lettering, with the Blue Planet emblem in its corner |
+| 5,600 | Panel 3 slams in. **The trace steadies:** the patient sits up in bed, rim-lit and ringed by one pulse, as a green glow rises on the wall behind. The monitor's trace runs green, and the Hospital panel's keypad lights the player's own number on its readout and its key |
+| 7,000 | The page darkens. The paper plate stamps DOCTOR in Ink Block lettering, with the Blue Planet emblem in its corner. A sheen crosses the plate at 7,520–8,120 |
 | 7,400 | The caption: "Your player number is the Hospital panel's code. Who you tell is up to you." |
 | 8,400–9,000 | Held. The page then gives way to the role card |
 
@@ -229,7 +237,7 @@ owner's review of the pilot on a phone.
 - 3,000 ms: the page, with all three panels at rest;
 - 7,000 ms: the title.
 
-The stars stop twinkling and the ship's lights hold.
+The stars stop twinkling and the ship's lights hold. There is no dust, impact or sheen.
 
 **Review:**
 - the stage: `design/cinematic/stage.html?pilot=role-reveal&surface=phone&variant=full|reduced&role=Doctor&seat=6&character=c4&w=390&h=844`, with `&play=1` to loop it (`character` is any of c1 to c9);
@@ -249,7 +257,7 @@ The stars stop twinkling and the ship's lights hold.
   - `character` is the player's own character id (c1 to c9).
   - `gadget` is the dealt role's device as SVG text, passed through `deviceOnly()` (`art.mjs`): the role card's held picture without the arm and the fist. Read every role's device on every phone, as the stage does (`stage.mjs`), and pass the dealt role's. The film takes the team accent out itself (`unaccented()`).
   - Set the two captions over their boxes and announce the role line in a live region (`words`).
-  - Preload every picture in `ROLE_REVEAL_ASSETS` on every phone, whatever its role. Fetch nothing at the moment of the film.
+  - Preload every picture in `ROLE_REVEAL_ASSETS` on every phone, whatever its role and character: nine devices, three emblems and the nine crew portraits (the card on the desk shows the player's own, `PORTRAIT_FILES`). Fetch nothing at the moment of the film.
   - Draw each picture from the decoded copy, as the stage does (`stage.mjs`), so that nothing re-decodes between frames.
 - **Inputs.** All are already in the player's own view:
   - `self.role` and the reading stage;
@@ -265,40 +273,41 @@ The stars stop twinkling and the ship's lights hold.
 
 | File | SHA-256 | What it is |
 | --- | --- | --- |
-| `design/cinematic/pilots/role-reveal/film.mjs` | `745b1fdce408aabcb6a9bdbcc84c4ea2cc9d420abec01b3c417c74758d84e890` | the shared clock: 9000 ms, the beats, the opener's moves, the reduced stills (`revealFrame`) |
-| `design/cinematic/pilots/role-reveal/briefing.mjs` | `01d728e6fac184432ac89604750d4050bf314c6e5c3dba399901d8457aa192d1` | the opener: the briefing room, the role card on the desk, the player's own character taking the gadget (`briefingSvg`, `briefingLayout`, `POSES`) |
-| `design/cinematic/pilots/role-reveal/art.mjs` | `4969bc5e2b0b0982940fee5c5f4308c3838fead15b2f7c12d0b2aae7414985c9` | the shared art: the slats, the panels, the title plate, the caption boxes; `deviceOnly()` and `unaccented()` for the gadget |
-| `design/cinematic/pilots/role-reveal/doctor.mjs` | `72206546d3c62280ba5c819311349bf90859c1b87637efb86e396cb8c545e198` | the Doctor's three panels |
-| `design/cinematic/pilots/role-reveal/roles.mjs` | `3ff4260abadc22fcc31b71bd69c1e4db16bfee02609d47174f17df80e8e46bc1` | the nine roles: team, device, emblem, film; `ROLE_REVEAL_ASSETS` |
+| `design/cinematic/pilots/role-reveal/film.mjs` | `d496571ea8ee57cfd15f0e9b6c0d677bf1a2d7987f5ca9fa3a7113ba0c2fe78c` | the shared clock: 9000 ms, the beats, the opener's moves, the reduced stills (`revealFrame`) |
+| `design/cinematic/pilots/role-reveal/briefing.mjs` | `03a1232e3041db00e60574abc63f494a920024e21ef28a3f81e2ec3d257b35f6` | the opener: the briefing room, the player's role card standing on the desk as the phone draws it, the player's own character taking the gadget, in two depth layers (`briefingSvg`, `briefingLayout`, `POSES`, `CARD`) |
+| `design/cinematic/pilots/role-reveal/art.mjs` | `bc8f5fcd102eecfee7a46143f274684191ca8c51e2b11bd0c962868bdaa918bf` | the shared art: the slats, the panels and their impact lines, the title plate and its sheen, the caption boxes, beams, dust and rim light; `deviceOnly()` and `unaccented()` for the gadget |
+| `design/cinematic/pilots/role-reveal/doctor.mjs` | `1a7503563a30d141cd7a4374947b1a862f2d31266f3dbd60bd18566304915f49` | the Doctor's three panels, lit and shot in three depth layers |
+| `design/cinematic/pilots/role-reveal/roles.mjs` | `f537180d1627ed7f39f6fb6bc54bb4f86a1606c3a9721879d4bd2c4855ff70d0` | the nine roles: team, device, emblem, film; the crew portraits; `ROLE_REVEAL_ASSETS` |
 | `design/cinematic/pilots/role-reveal/copy.mjs` | `449d2989a6e5225c7bfc4eb52e07cefc37a6c33b8d05af2b82b7bf347892dec2` | the two caption lines of every role (proposals) |
-| `design/cinematic/pilots/role-reveal/compose.mjs` | `ad0d042092438548e5ff5a9d6618e5c22655aa86c095d22eab7f7a182f7e19be` | one frame as one SVG at the phone's aspect, with the page text's boxes (`revealSvg`, `pageHeight`) |
-| `design/cinematic/pilots/role-reveal/stage.mjs` | `d0438367b1a82df52db642f096aaf96c43c7de092b2692b41c483a6f9f699728` | the review stage's phone surface |
+| `design/cinematic/pilots/role-reveal/compose.mjs` | `d745f490c17905e5b1fa1174a15568ef284aebd11b2d2b3fea1d22c60d63e924` | one frame as one SVG at the phone's aspect, with the page text's boxes (`revealSvg`, `pageHeight`) |
+| `design/cinematic/pilots/role-reveal/stage.mjs` | `886811df6303081d89bfa8132a68e4022ce4928de6862dee8238f20b95f150ab` | the review stage's phone surface |
 
 Review renders (review only: each draws a dealt role, the Doctor, with a stand-in character, c4; a
 client draws the film live):
 
 | File | Bytes | SHA-256 |
 | --- | ---: | --- |
-| `design/cinematic/exports/role-reveal/review/doctor-phone390-full.mp4` | 579,395 | `1ae1c0a8b83ef5da07798611c6e3f3f6ef92a025cecb14e27311ba781679d3d2` |
-| `design/cinematic/exports/role-reveal/review/doctor-phone390-reduced.mp4` | 211,600 | `03c87d0cdfebef40eb05a86d6af05ca21892690e2741a857c10315d3a35c0961` |
-| `design/cinematic/exports/role-reveal/review/doctor-phone320-full.mp4` | 370,832 | `4ef6dd9a6c22707deb2bdeaad574cbf1f13434a8f330006d96f2d038388d8d22` |
+| `design/cinematic/exports/role-reveal/review/doctor-phone390-full.mp4` | 690,472 | `42e90ffbcffa9445bbc6ff6abafcfd1da833fb3d7ec26ba19e12c98b36b1db07` |
+| `design/cinematic/exports/role-reveal/review/doctor-phone390-reduced.mp4` | 227,197 | `da5baf009cb97f38edc6e7a3185308c3c843bde52f4aee0094262adce5297eb2` |
+| `design/cinematic/exports/role-reveal/review/doctor-phone320-full.mp4` | 448,966 | `7704f1d31e617212af93cb80271c673bb8f168b87996d8ab544d04f5c4f30298` |
 
 **Checks.**
-- **Tests.** `node --test test/*.test.mjs` in `packages/design-tokens`: 440 of 440. Twelve are the role films' (`cinematic-role-reveal.test.mjs`):
-  - the nine roles' films, devices and emblems;
+- **Tests.** `node --test test/*.test.mjs` in `packages/design-tokens`: 441 of 441. Thirteen are the role films' (`cinematic-role-reveal.test.mjs`):
+  - the nine roles' films, devices, emblems and the nine crew portraits;
   - one 9,000 ms clock for every role, its beats changing only at the shared moments;
-  - reduced motion as three stills, the first with the gadget raised and no glint;
+  - reduced motion as three stills, the first with the gadget raised and no glint, and no sheen;
   - one self-contained SVG with no words, no repeated id and only shipped pictures;
   - silence;
-  - no colour within the accent distance of a faction accent, the gadget included, for every role's gadget and every character;
+  - no colour within the accent distance of a faction accent, the gadget included, for every role's gadget and every character; the card's team swatch is the dealt role's own;
   - the captions, with no words over the opener;
   - the layout at seven phone sizes, the briefing room included;
   - the Doctor's device and keypad;
   - the opener: the character and gadget required, each character drawing itself, the gadget taken at 1,300 ms and raised, the arm and fist stripped from every device;
+  - the card on the desk: the player's own portrait, the role's device, straight with only the portrait's −2.5° turn, and the longest name inside it;
   - one opener scene for every role, with only the card and the gadget differing;
   - the motion bible's entry.
-- **Renders.** `cinematic-exports.mjs --only role-reveal` gave three renders in Chromium 141.0.7390.37 with ffmpeg 6.1.1, 271 frames each. A frame-by-frame scan found no one- or two-frame dropout. Frames pulled from the encoded videos were checked by eye at both phone sizes, full and reduced, and the opener was rendered once with each of the nine characters.
-- **Manifests and docs.** `cinematic-manifest.mjs` gave 44 sources and 264 exports, every render record's hash matching its file. The audio sheets match their 48 files. `cinematic-docs.mjs` gave `cinematic-catalogue-0.13.0`.
+- **Renders.** `cinematic-exports.mjs --only role-reveal` gave three renders in Chromium 141.0.7390.37 with ffmpeg 6.1.1, 271 frames each. A frame-by-frame scan found no one- or two-frame dropout. Frames pulled from the encoded videos were checked by eye at both phone sizes, full and reduced. The opener was also rendered once with each of the nine characters, and each card shows that character's own portrait.
+- **Manifests and docs.** `cinematic-manifest.mjs` gave 44 sources and 264 exports, every render record's hash matching its file. The audio sheets match their 48 files. `cinematic-docs.mjs` gave `cinematic-catalogue-0.14.0`.
 
 **Limitations:**
 - **No phone has run it.** Every frame and video is desktop Chromium.

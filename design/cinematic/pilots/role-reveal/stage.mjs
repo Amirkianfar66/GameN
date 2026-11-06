@@ -5,8 +5,9 @@
 // over the caption boxes. A review page, not a client: the role and the player's number are review
 // parameters (&role=Doctor, &seat=6), never a server fact.
 //
-// Every device and emblem any role draws is preloaded whatever the role (./roles.mjs
-// ROLE_REVEAL_ASSETS): a client ships them all, so nothing fetched tells a dealt role.
+// Every device, emblem and crew portrait any film draws is preloaded whatever the role and the
+// character (./roles.mjs ROLE_REVEAL_ASSETS): a client ships them all, so nothing fetched tells a
+// dealt role.
 
 import { frames, pictureLibrary } from '../../lib/stage-kit.mjs';
 import { deviceOnly } from './art.mjs';
@@ -14,7 +15,8 @@ import { PAGE_WIDTH, pageHeight, revealSvg } from './compose.mjs';
 import { REVEAL_END, ROLE_REVEAL_VERSION, VARIANTS } from './film.mjs';
 import { DEVICE_FILES, ROLE_REVEAL_ASSETS } from './roles.mjs';
 
-const SIZES = { device: [120, 140], emblem: [48, 48] };
+const SIZES = { device: [120, 140], emblem: [48, 48], portrait: [84, 96] };
+const sizeOf = href => (href.includes('emblem') ? SIZES.emblem : href.includes('crew.card') ? SIZES.portrait : SIZES.device);
 
 /** The page text over the composition: the two caption lines and an announcement of the role. */
 function wordsLayer(root, w, h, k) {
@@ -55,7 +57,7 @@ export async function mountPhone(root, { variant = 'full', w = 390, h = 844, rol
   const gadgets = Object.fromEntries(await Promise.all(Object.entries(DEVICE_FILES).map(async ([r, href]) => [r, deviceOnly(await (await fetch(href)).text())])));
   root.style.width = `${w}px`; root.style.height = `${h}px`;
   root.style.position = 'relative'; root.style.overflow = 'hidden'; root.style.background = '#07090F';
-  const library = pictureLibrary(root, ROLE_REVEAL_ASSETS.map(href => ({ href, w: (href.includes('emblem') ? SIZES.emblem : SIZES.device)[0], h: (href.includes('emblem') ? SIZES.emblem : SIZES.device)[1] })));
+  const library = pictureLibrary(root, ROLE_REVEAL_ASSETS.map(href => ({ href, w: sizeOf(href)[0], h: sizeOf(href)[1] })));
   await library.ready;
   const host = document.createElement('div');
   Object.assign(host.style, { position: 'absolute', left: '0', top: '0', width: `${w}px`, height: `${h}px` });
@@ -67,7 +69,7 @@ export async function mountPhone(root, { variant = 'full', w = 390, h = 844, rol
   const swap = markup => markup.replace(/<image href="([^"]+)" x="([^"]+)" y="([^"]+)" width="([^"]+)" height="([^"]+)"[^>]*\/>/g, (whole, href, x, y, iw, ih) => {
     const id = library.ids.get(href);
     if (!id) return whole;
-    const [nw, nh] = href.includes('emblem') ? SIZES.emblem : SIZES.device;
+    const [nw, nh] = sizeOf(href);
     return `<svg x="${x}" y="${y}" width="${iw}" height="${ih}" viewBox="0 0 ${nw} ${nh}" preserveAspectRatio="none" overflow="visible"><use href="#${id}"/></svg>`;
   });
   const seek = async t => {
