@@ -16,6 +16,7 @@
     "Precedence: terminal result > Sync > Captain commands > medical outcome (death before rescue at one berth) > attack, Blackout and blocked > movement and placement > ambient idles. A higher presentation starting in the same region cancels a lower one to its final state; different regions (another room panel) play concurrently.",
     "Hidden tab: pause nothing on the server; on return compute t again from the server clock and seek or snap. Audio never plays in a hidden tab.",
     "Interaction: press areas, name tags, room labels, timers, Pass and navigation never move, scale or hide for a film; a film may darken or shake only the art layer. Pointer events pass through every film layer.",
+    "Gameplay visibility (the owner's review of 6 November 2026): by default every film is a board treatment, on phones and the display alike: drawn in the board's own layers (a room's art, the board's film band), under the press areas, slot hits, room labels, timers, Pass and bars, so it covers nothing a player selects or reads. A presentation that covers the board (a display cut, a comic page) plays only in a phase where nobody decides (HACK_RESULT, VOTE_RESULT, FINISHED, ABORTED; design/cinematic/lib/visibility.mjs) and inside that phase's own time; in any other phase it gives way to its board treatment from its first frame. No film waits for, extends or takes time from a phase; a presentation stage of its own would be a new phase and is never assumed.",
     "Reduced motion: honoured at load and when changed during playback (a change mid-film switches to the reduced variant at the same t). Reduced variants carry the same information with fades of 80-120 ms, no travel, camera, shake, flash, particles or spin.",
     "Audio: public events only, from the cue sheet (never only inside a video); muted by the device setting; private, room-filtered and pair-private presentations play no public audio by default.",
     "Asset failure: a missing picture or video never blocks: the scene's static final state (or its words in the live region) stands alone."
@@ -24,17 +25,17 @@
     {
       "id": "R1",
       "scene": "blackhole-sync",
-      "ask": "A presentation window for BLACKHOLE_SYNCED: the event is published at the Sync checkpoint and the next phase (JAIL_VOTE, 60 s) starts at once. Either a fixed post-Sync stage (e.g. 5 s, like VOTE_RESULT) or confirmation that the display may overlay the vote's first 5.2 s while phones show only the 2.4 s band over the board (never over the ballot controls). Until answered, the pilot assumes the overlay and the server's vote endsAt is unchanged."
+      "ask": "Open, for the stage cut only (awaiting the owner's approval; not assumed). BLACKHOLE_SYNCED is published at the Sync checkpoint and JAIL_VOTE (60 s) starts at once. The default needs no window: it plays behind the crew, in the rooms' art, for 2.4 s inside the vote's first seconds, on every surface, covering nothing, and the vote's endsAt is unchanged. The 5.2 s stage cut covers the board, so it could play only in a presentation stage of its own before the vote (e.g. 5 s, like VOTE_RESULT), which would be a new phase: the owner decides whether one exists."
     },
     {
       "id": "R2",
       "scene": "private-talk",
-      "ask": "The exit: the conversation's end is HACK's endsAt and the next phase starts at once. Confirm the display may show the 2.8 s exit page over the next phase's first seconds, or keep S2's board-only exit on the display too."
+      "ask": "Answered by the owner's review of 6 November 2026: the capsule's exit stays the live game's, on the board. S2's approved exit plays on every surface, the display included; there is no exit page. Nothing more is needed."
     },
     {
       "id": "R3",
       "scene": "doctor-rescue",
-      "ask": "RESCUED carries seatIds, location, slotId and clinicalAnchor: enough. Confirm the published snapshot's placement of a rescued patient (still at the berth, or back in a room, as the 1.8.0 fixtures had it), so the film ends on the right figure; the pilot handles both."
+      "ask": "Answered by the owner's review of 6 November 2026: the Rescue ends on the authoritative game state. A healed patient who is free returns to Room A or B; one still detained returns to the Jail, wherever the published snapshot places them. The film follows that placement: the patient walks out of the ward, the berth is left empty, and their playable figure at its place is never hidden. RESCUED and the snapshot carry all of it; nothing more is needed."
     },
     {
       "id": "R4",
@@ -49,7 +50,7 @@
     {
       "id": "R6",
       "scene": "promises",
-      "ask": "Promise result transitions (Pending to Fulfilled / Not fulfilled / Condition not met) need the evaluation moment: confirm promises[].status changes arrive with a viewRevision at the evaluation (voting start after Sync)."
+      "ask": "Each Promise is evaluated at its own opportunity, not at one shared moment (owner decisions P04, P23 and P24): a meeting Promise when its round's voting begins after Sync (the synced places); a Jail Vote or No Jail Vote when its round's Jail vote closes (the actual ballot, not the outcome or the admission); Captain Support when the specified election closes (every ballot in which the recipient is a candidate, runoffs included); Officer Selection at that election and its Officer appointment. Same-round Promises finalize at the close of their opportunity in that round; only election Promises may stay Pending until their election or the match end. Confirm that each promises[].status change (Pending to Fulfilled / Not fulfilled / Condition not met) arrives with the viewRevision that closes its own opportunity, so its result plays once, then, and never from a speculative state."
     },
     {
       "id": "R7",
@@ -418,9 +419,9 @@
     {
       "id": "doctor-rescue",
       "scene": "Doctor Rescue",
-      "status": "PILOT 1 (cinematic pass over the approved S5)",
+      "status": "PILOT 1 (cinematic pass over the approved S5): the board treatment on phones and the display; the display cut only where nobody decides",
       "audience": "public",
-      "trigger": "event RESCUED (seatIds [patient], location Hospital, slotId Hn, clinicalAnchor HVn), published with the snapshot after Rescue resolution; fourFilmBerth() decides whether a film plays",
+      "trigger": "event RESCUED (seatIds [patient], location Hospital, slotId Hn, clinicalAnchor HVn), published with the snapshot after Rescue resolution, as the navigation stage or the next round opens (decisions open, so the board treatment plays); fourFilmBerth() decides whether a film plays",
       "fields": [
         "events[].seatIds",
         "events[].slotId",
@@ -428,22 +429,22 @@
         "board.seats[]"
       ],
       "beats": {
-        "start": "alert (amber blinks, close-up of the unstable trace)",
+        "start": "alert (amber blinks, the unstable trace)",
         "loop": "iris opens, drone descends, scan, charge",
-        "exit": "revival pulse, stabilized monitor, patient sits up, drone exits, iris closes"
+        "exit": "revival pulse, stabilized monitor, patient sits up, drone exits; the patient stands and walks out of the ward toward the place the snapshot gives, the berth left empty, the playable figure there back in colour"
       },
       "durations": {
-        "full": "5600 ms (display cut and board)",
-        "short": "1600 ms nonblocking",
-        "reduced": "1760 ms: two still states"
+        "full": "6200 ms (board treatment; the display cut the same)",
+        "short": "1600 ms nonblocking (stands and leaves the berth)",
+        "reduced": "1760 ms: three still states (S5's two, then the empty berth)"
       },
-      "final": "the patient Healthy where the snapshot places them",
+      "final": "the patient Healthy where the snapshot places them (free: Room A or B; still detained: the Jail); the berth empty; never left apparently in a bed, the playable figure never hidden",
       "cancel": "a newer snapshot moving the patient; a terminal result",
       "precedence": "medical: a death at the same berth first",
-      "audio": "alert blips, hatch, hum, servo, scan, charge, thump, monitor beeps (public cue sheet)",
-      "reduced": "S5 reduced",
+      "audio": "alert blips, hatch, hum, servo, scan, charge, thump, monitor beeps; the seat settle and steps out (public cue sheet)",
+      "reduced": "S5 reduced, then the empty berth",
       "rosters": "four beds for 7, 8, 9; HV5+ plays no film (words only)",
-      "concurrency": "at most two Rescues a round (two shared injections): both play at their berths; the display drops to the board form (no camera) when more than one plays",
+      "concurrency": "at most two Rescues a round (two shared injections): both play at their berths, in the board treatment",
       "assets": [
         "design/cinematic/pilots/hospital-rescue/",
         "design/board-v2/films/medical.mjs (S5)"
@@ -659,7 +660,7 @@
     {
       "id": "private-talk",
       "scene": "Private Talk capsule",
-      "status": "PILOT 3 (display page over the approved S2; phones keep S2)",
+      "status": "PILOT 3 (the display's entrance page over the approved S2, in the result stage; the talk and the exit are S2 on the board everywhere)",
       "audience": "public pair and transitions; pair-private declaration",
       "trigger": "hackSession {id, actorSeatId, targetSeatId} (public); phases HACK_DECLARE (15 s), HACK_RESULT (5 s), HACK (60 s)",
       "fields": [
@@ -672,11 +673,11 @@
       "beats": {
         "start": "in HACK_RESULT: page assembles, the pair step out, door opens",
         "loop": "HACK: seated variations (speaker-neutral)",
-        "exit": "after HACK: door opens, walk out, step back in at the latest places"
+        "exit": "after HACK: S2's exit on the board, every surface: door opens, walk out, step back in at the latest places"
       },
       "durations": {
-        "full": "entrance 4900 ms inside the 5 s result stage; exit 2800 ms",
-        "reduced": "entrance 2000 ms, exit 1100 ms (S2 swaps)"
+        "full": "entrance 4900 ms inside the 5 s result stage; exit 2530 ms (S2, on the board)",
+        "reduced": "entrance 2000 ms; exit 700 ms (S2 swaps)"
       },
       "final": "the pair at their latest places",
       "cancel": "a late load snaps to the current pose; the talk keeps its server endsAt",
@@ -697,28 +698,28 @@
     {
       "id": "blackhole-sync",
       "scene": "Blackhole and Sync",
-      "status": "PILOT 2",
+      "status": "PILOT 2: behind the crew on every surface; the display's stage cut only with an approved presentation stage (R1)",
       "audience": "public",
-      "trigger": "event BLACKHOLE_SYNCED (public, actorSeatId null), after Sync; the board already the selected world's finalized checkpoint",
+      "trigger": "event BLACKHOLE_SYNCED (public, actorSeatId null), after Sync, as JAIL_VOTE opens; the board already the selected world's finalized checkpoint",
       "fields": [
         "events[] BLACKHOLE_SYNCED",
         "board (FINALIZED)"
       ],
       "beats": {
-        "start": "board pulled into an ink bloom",
-        "loop": "space, the blackhole forms, title",
-        "exit": "ship passage, ink-wipe cut, settled board ripple"
+        "start": "each room's back wall gives way to one shared field of space",
+        "loop": "the blackhole forms at the board's centre; the ship streaks behind the rooms into it",
+        "exit": "the flare; the walls return"
       },
       "durations": {
-        "full": "5200 ms (display)",
-        "short": "2400 ms band (phones)",
-        "reduced": "1640 / 1440 ms still card"
+        "full": "2400 ms behind the crew, every surface, inside the Jail vote's first seconds",
+        "stage": "5200 ms display cut, only in a presentation stage the owner approves (R1)",
+        "reduced": "1440 ms: the still blackhole in the walls"
       },
       "final": "the synced board",
       "cancel": "terminal result",
-      "precedence": "above everything but a terminal result",
-      "audio": "rumble, sting, whoosh, cut (public)",
-      "reduced": "still card",
+      "precedence": "above everything but a terminal result; drawn in the rooms' art, under every figure, tag, label, press area, timer and bar",
+      "audio": "sting, whoosh, rumble (public); the stage cut: rumble, sting, whoosh, thump, cut",
+      "reduced": "the still blackhole in the walls, 120 ms fades",
       "rosters": "n/a",
       "concurrency": "once per match (one lifetime use)",
       "assets": [
