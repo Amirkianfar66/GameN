@@ -108,18 +108,18 @@
       "text": "100%"
     },
     {
-      "file": "design/library/hospital-panel/review/w390-patient-treated-r12-r3-healthy-still-placed-in-the-hospital.png",
-      "sha256": "abab11ad43cb42f9bba767e09e55e8baa320c97a3cddab4578f697b7ed6225b4",
-      "bytes": 51285,
-      "state": "patient: treated (R12; R3: healthy, still placed in the Hospital)",
+      "file": "design/library/hospital-panel/review/w390-patient-treated-r12-r3-rules-this-out-a-healed-seat-leaves-the-hospital.png",
+      "sha256": "1aba5727b35422c3684287c9b1b1b546bcdb9ca22782db9adf0d92143d167cc3",
+      "bytes": 51666,
+      "state": "patient: treated (R12; R3 rules this out: a healed seat leaves the Hospital)",
       "width": 390,
       "text": "100%"
     },
     {
-      "file": "design/library/hospital-panel/review/w390-patient-no-effect-r12-r3-healthy-still-placed-in-the-hospital.png",
-      "sha256": "eacaa94419c5e5a5774ae75865e32aa8579fe9bf564eb41a74da133fcffc5f4c",
-      "bytes": 54007,
-      "state": "patient: no-effect (R12; R3: healthy, still placed in the Hospital)",
+      "file": "design/library/hospital-panel/review/w390-patient-no-effect-r12-r3-rules-this-out-a-healed-seat-leaves-the-hospital.png",
+      "sha256": "5f77fb9465032c25bf051a4f095220b805b638e5b62296c054610e8a6f28744d",
+      "bytes": 54354,
+      "state": "patient: no-effect (R12; R3 rules this out: a healed seat leaves the Hospital)",
       "width": 390,
       "text": "100%"
     },
@@ -157,8 +157,8 @@
     },
     {
       "file": "design/library/hospital-panel/review/contact-w390.png",
-      "sha256": "5356e7b9c942267640fb7bca59fc3757143a28b2b1fee6052147861e628ca34d",
-      "bytes": 1110420,
+      "sha256": "6002968c0a09c3f8ca9f47bc90427572d6938068b271486887783942531861d2",
+      "bytes": 1112187,
       "kind": "contact",
       "width": 390,
       "text": "100%"
@@ -268,18 +268,18 @@
       "text": "100%"
     },
     {
-      "file": "design/library/hospital-panel/review/w320-patient-treated-r12-r3-healthy-still-placed-in-the-hospital.png",
-      "sha256": "09b9a4dcad309df1903f84c6a342e93765fe6a4d8c805635addf9458d0f28d6d",
-      "bytes": 48173,
-      "state": "patient: treated (R12; R3: healthy, still placed in the Hospital)",
+      "file": "design/library/hospital-panel/review/w320-patient-treated-r12-r3-rules-this-out-a-healed-seat-leaves-the-hospital.png",
+      "sha256": "a361b51ac41d611041a9acc391a06aeb31471cd3ca7b325eca11dd844cd963e5",
+      "bytes": 48326,
+      "state": "patient: treated (R12; R3 rules this out: a healed seat leaves the Hospital)",
       "width": 320,
       "text": "100%"
     },
     {
-      "file": "design/library/hospital-panel/review/w320-patient-no-effect-r12-r3-healthy-still-placed-in-the-hospital.png",
-      "sha256": "20af7f28c68c1486aba31f4ddb736ae1102966505cb782ddc30014b2c12215c3",
-      "bytes": 50141,
-      "state": "patient: no-effect (R12; R3: healthy, still placed in the Hospital)",
+      "file": "design/library/hospital-panel/review/w320-patient-no-effect-r12-r3-rules-this-out-a-healed-seat-leaves-the-hospital.png",
+      "sha256": "782b20cc488e0bbe9a4a7436b471eb90ec259f6eb3cefbd9f2d0760c015e290d",
+      "bytes": 50561,
+      "state": "patient: no-effect (R12; R3 rules this out: a healed seat leaves the Hospital)",
       "width": 320,
       "text": "100%"
     },
@@ -317,8 +317,8 @@
     },
     {
       "file": "design/library/hospital-panel/review/contact-w320.png",
-      "sha256": "7ba4b785fcd2980687bb78f90294dbf9c880125fdcdd16c982db10334c1ec01f",
-      "bytes": 1057702,
+      "sha256": "65992ade0f0f04c97522428a181f362d83ff72c95424f8c5fcfe97ab2da68dd6",
+      "bytes": 1058028,
       "kind": "contact",
       "width": 320,
       "text": "100%"
@@ -428,18 +428,18 @@
       "text": "200%"
     },
     {
-      "file": "design/library/hospital-panel/review/w390-text200-patient-treated-r12-r3-healthy-still-placed-in-the-hospital.png",
-      "sha256": "563516fb212018301f6c9df9e11af1b99712c3ef59a507e64a1fb9946c11bf1f",
-      "bytes": 65321,
-      "state": "patient: treated (R12; R3: healthy, still placed in the Hospital)",
+      "file": "design/library/hospital-panel/review/w390-text200-patient-treated-r12-r3-rules-this-out-a-healed-seat-leaves-the-hospital.png",
+      "sha256": "f3f949d1edc2dc79e80d623da4d273d603fd68e172b6065e50390f00376b8dfb",
+      "bytes": 65698,
+      "state": "patient: treated (R12; R3 rules this out: a healed seat leaves the Hospital)",
       "width": 390,
       "text": "200%"
     },
     {
-      "file": "design/library/hospital-panel/review/w390-text200-patient-no-effect-r12-r3-healthy-still-placed-in-the-hospital.png",
-      "sha256": "b6502e0c8bc6c3e6b9c41bb92d636c27e3b128b8223545d0e0538863293e4352",
-      "bytes": 73403,
-      "state": "patient: no-effect (R12; R3: healthy, still placed in the Hospital)",
+      "file": "design/library/hospital-panel/review/w390-text200-patient-no-effect-r12-r3-rules-this-out-a-healed-seat-leaves-the-hospital.png",
+      "sha256": "1f00459baeafcaece8b6f2946d46131f22ba0ffb720e926397b83ec437f39522",
+      "bytes": 73762,
+      "state": "patient: no-effect (R12; R3 rules this out: a healed seat leaves the Hospital)",
       "width": 390,
       "text": "200%"
     },
@@ -461,8 +461,8 @@
     },
     {
       "file": "design/library/hospital-panel/review/contact-w390-text200-patient.png",
-      "sha256": "e4e041c58c48f89b3a2a8ed435f5d5da07ac7f827ebd54d4f8f1477548f7177f",
-      "bytes": 1555226,
+      "sha256": "43d7942c42ebf87bb5652429daf8f4b984453b55bdf16325e5d8fe065971f3f1",
+      "bytes": 1555937,
       "kind": "contact",
       "width": 390,
       "text": "200%",
