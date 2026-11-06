@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · library art proposal · en-broken library-end-0.1.0 · generated, do not edit by hand
+  The failed-picture mark: a picture frame with its corner torn.
+  Built by design/tools/library-assets.mjs from design/library/end/art.mjs. Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32"><g id="en-broken"><path d="M4 6 H22 L28 12 V26 H4 Z" fill="#E6D8C0" stroke="#151923" stroke-width="2.4" stroke-linejoin="round"/><path d="M22 6 V12 H28" fill="#F4EBDD" stroke="#151923" stroke-width="2" stroke-linejoin="round"/><path d="M8 22 L13 15 L17 19 L20 16 L24 22 Z" fill="#8D97A8"/><path d="M6 27 L27 6" stroke="#151923" stroke-width="2" opacity="0.45"/></g></svg>

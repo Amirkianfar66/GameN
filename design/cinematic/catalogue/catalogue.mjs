@@ -9,7 +9,7 @@
 // a trigger, the entry says so and names the request (REQUESTS), and the scene stays a labeled
 // design fixture until the contract supports it. Nothing here is a game rule.
 
-export const CATALOGUE_VERSION = 'cinematic-catalogue-0.7.0';
+export const CATALOGUE_VERSION = 'cinematic-catalogue-0.8.0';
 export const CONTRACT = Object.freeze({ protocol: 3, engine: 'planet-game-1.0.0', ruleset: 'in-person-planet-2026-11-05', file: 'packages/contracts/src/planet-game.ts', commit: '79418e72dba99ba99afe047ecb97467fb5e73b62', status: 'candidate; not adopted into runtime' });
 
 /** The lifecycle every presentation follows (the motion bible's rules, for every scene below). */
@@ -230,9 +230,11 @@ export const CATALOGUE = Object.freeze([
     assets: ['design/library/windows/ (three lintels, the station marker, the pad paper, the Blackout shade, the tray mark; the drawing renderer; state maps, words, motion)'], gaps: [], request: 'R7',
   }),
   S('arrival-end', 'Arrival, no survivors and recovery', {
-    status: 'existing (slice 6, superseded parts) + gap', audience: 'public (endReveal on FINISHED)', trigger: 'phase FINISHED / ABORTED; result {winner, reason, alienCoWinner}; endReveal', fields: ['result', 'endReveal'],
-    beats: { start: 'arrival', loop: 'reveal', exit: 'held' }, durations: { full: '6000 ms', reduced: 'stills' },
-    final: 'end screen', cancel: 'none', precedence: 'top', audio: 'arrival sting (public)', reduced: 'stills', rosters: 'n/a', concurrency: 'none',
-    assets: ['design/abilities (match end; Showdown / Final Zone art is obsolete)', 'design/library/navigation/films.mjs (the arrival at either planet, library group 2)'], gaps: ['no-survivors state', 'reconnect / stale / asset-failure states', 'the end reveal over the arrival'],
+    status: 'library group 7 (proposal) over the arrival films (group 2)', audience: 'public (endReveal on FINISHED); each screen\'s own connection and failure states', trigger: 'phase FINISHED / ABORTED; result {winner, reason, alienCoWinner}; endReveal {roles, code}; the client\'s own transport and clock', fields: ['result', 'endReveal', 'phase.startedAt', 'phase.endsAt'],
+    beats: { start: 'the arrival film (group 2)', loop: 'the reveal: the side\'s banner and emblem, each role turning face up in seat order, the Code stamping into its plate; or the no-survivors flat line; or the abort', exit: 'held: the end screen at rest' },
+    durations: { full: 'arrival 3400 ms phone / 4200 ms display, then the reveal 1940 ms (7 seats) to 2120 ms (9); no survivors 1300 ms', reduced: 'stills: fades of 160 ms' },
+    final: 'the end screen: the ending in words, every role by side, winners marked from the result, the Code', cancel: 'none; a late join seeks, a reconnect after the end draws it at rest (filmDecision)', precedence: 'top',
+    audio: 'the arrival\'s single sting (public), no new cue; the reveal, the abort and recovery are silent', reduced: 'stills', rosters: '7, 8 and 9: the reveal lists every seat', concurrency: 'once per match',
+    assets: ['design/library/navigation/films.mjs (the arrival at either planet, library group 2)', 'design/library/end/ (side emblems and banners, the Code plate, the flatline, the connection and failure marks; state maps, the film lifecycle decision, words, motion)'], gaps: [],
   }),
 ]);

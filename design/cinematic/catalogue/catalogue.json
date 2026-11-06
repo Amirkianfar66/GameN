@@ -1,5 +1,5 @@
 {
-  "version": "cinematic-catalogue-0.7.0",
+  "version": "cinematic-catalogue-0.8.0",
   "contract": {
     "protocol": 3,
     "engine": "planet-game-1.0.0",
@@ -865,38 +865,36 @@
     {
       "id": "arrival-end",
       "scene": "Arrival, no survivors and recovery",
-      "status": "existing (slice 6, superseded parts) + gap",
-      "audience": "public (endReveal on FINISHED)",
-      "trigger": "phase FINISHED / ABORTED; result {winner, reason, alienCoWinner}; endReveal",
+      "status": "library group 7 (proposal) over the arrival films (group 2)",
+      "audience": "public (endReveal on FINISHED); each screen's own connection and failure states",
+      "trigger": "phase FINISHED / ABORTED; result {winner, reason, alienCoWinner}; endReveal {roles, code}; the client's own transport and clock",
       "fields": [
         "result",
-        "endReveal"
+        "endReveal",
+        "phase.startedAt",
+        "phase.endsAt"
       ],
       "beats": {
-        "start": "arrival",
-        "loop": "reveal",
-        "exit": "held"
+        "start": "the arrival film (group 2)",
+        "loop": "the reveal: the side's banner and emblem, each role turning face up in seat order, the Code stamping into its plate; or the no-survivors flat line; or the abort",
+        "exit": "held: the end screen at rest"
       },
       "durations": {
-        "full": "6000 ms",
-        "reduced": "stills"
+        "full": "arrival 3400 ms phone / 4200 ms display, then the reveal 1940 ms (7 seats) to 2120 ms (9); no survivors 1300 ms",
+        "reduced": "stills: fades of 160 ms"
       },
-      "final": "end screen",
-      "cancel": "none",
+      "final": "the end screen: the ending in words, every role by side, winners marked from the result, the Code",
+      "cancel": "none; a late join seeks, a reconnect after the end draws it at rest (filmDecision)",
       "precedence": "top",
-      "audio": "arrival sting (public)",
+      "audio": "the arrival's single sting (public), no new cue; the reveal, the abort and recovery are silent",
       "reduced": "stills",
-      "rosters": "n/a",
-      "concurrency": "none",
+      "rosters": "7, 8 and 9: the reveal lists every seat",
+      "concurrency": "once per match",
       "assets": [
-        "design/abilities (match end; Showdown / Final Zone art is obsolete)",
-        "design/library/navigation/films.mjs (the arrival at either planet, library group 2)"
+        "design/library/navigation/films.mjs (the arrival at either planet, library group 2)",
+        "design/library/end/ (side emblems and banners, the Code plate, the flatline, the connection and failure marks; state maps, the film lifecycle decision, words, motion)"
       ],
-      "gaps": [
-        "no-survivors state",
-        "reconnect / stale / asset-failure states",
-        "the end reveal over the arrival"
-      ]
+      "gaps": []
     }
   ]
 }

@@ -1,0 +1,723 @@
+{
+  "tool": "design/tools/library-capture.mjs",
+  "browser": "Chromium 141.0.7390.37",
+  "page": "design/library/end/index.html",
+  "captures": [
+    {
+      "file": "design/library/end/review/w390-end-arrival-blue-wins-7-players.png",
+      "sha256": "709bdf7ac70d7c31d80e936466f7e661184fa6854b86e2032f784a1f0bcdf6b8",
+      "bytes": 76289,
+      "state": "end: arrival (Blue wins, 7 players)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/end/review/w390-end-arrival-red-wins-and-the-alien-co-wins-9-players.png",
+      "sha256": "b86f912781594eeaa74eb19d796801913a90a5d59b3d6e54fc6c332d3bd8ac62",
+      "bytes": 91485,
+      "state": "end: arrival (Red wins and the Alien co-wins, 9 players)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/end/review/w390-end-arrival-blue-wins-the-alien-does-not-co-win-8-players.png",
+      "sha256": "076bf5626d17242da294d0c1c1c249f3277c95760b011a44ba9018a331c2a42f",
+      "bytes": 82737,
+      "state": "end: arrival (Blue wins, the Alien does not co-win, 8 players)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/end/review/w390-end-no-survivors-8-players.png",
+      "sha256": "17da77aea18270eecdaf893385fc7610df5017db0fb55ef0b7db67e4aa7e7043",
+      "bytes": 74603,
+      "state": "end: no-survivors (8 players)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/end/review/w390-end-aborted-the-host-s-abort.png",
+      "sha256": "f873dbaebcc893fc36a02438b13ff77a8db58f6407dac4a922c7d1adaa01250a",
+      "bytes": 29832,
+      "state": "end: aborted (the host's abort)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/end/review/w390-end-none-a-crew-all-jailed-or-injured-is-not-an-ending.png",
+      "sha256": "69da58de7c70d30484dbcd4ef360f36b4eb3fb672a17c3ce0e42f9706f52a069",
+      "bytes": 13262,
+      "state": "end: none (a crew all jailed or injured is not an ending)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/end/review/w390-connection-reconnecting.png",
+      "sha256": "7bc9fa63c2cf6aaa2dcaa922c8bf2e41cf8edca809688433a699dc783eed3f5f",
+      "bytes": 28671,
+      "state": "connection: reconnecting",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/end/review/w390-connection-restored.png",
+      "sha256": "6df4998c94bb6f1f1d235497c7e87789eba3c3e25a3a045ad163aad0caa2c990",
+      "bytes": 26016,
+      "state": "connection: restored",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/end/review/w390-connection-stale.png",
+      "sha256": "40de152eb5126dd7af84096c8ecd532ecf9cad9a7e877c1f5f68dcfba7b3396a",
+      "bytes": 25139,
+      "state": "connection: stale",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/end/review/w390-asset-a-picture-did-not-load.png",
+      "sha256": "c0cab38c2583c67df5bcd1767e423817827619c672581e889a52900ab8725e43",
+      "bytes": 21277,
+      "state": "asset: a picture did not load",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/end/review/w390-asset-a-film-did-not-load.png",
+      "sha256": "21eb057b76309b20c39934348bce33821542e079619cff018dcf64544bb97073",
+      "bytes": 20227,
+      "state": "asset: a film did not load",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/end/review/w390-late-join-after-the-end-final.png",
+      "sha256": "209bce99326fbc49719864ec83288d9d433913236064e68320cf5bc86c48da41",
+      "bytes": 78865,
+      "state": "late join after the end: final",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/end/review/contact-w390.png",
+      "sha256": "56c3784b5daec8790de22d884995a986a97b03a1ba6a933e9890d7d24893bec9",
+      "bytes": 802169,
+      "kind": "contact",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/end/review/w320-end-arrival-blue-wins-7-players.png",
+      "sha256": "b235aa789eda418abca1acaa76aa6fafc81c6814d50dd3fb3bd703a34df3fd23",
+      "bytes": 74893,
+      "state": "end: arrival (Blue wins, 7 players)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/end/review/w320-end-arrival-red-wins-and-the-alien-co-wins-9-players.png",
+      "sha256": "23d1eda9ee9e377573ca4c66f27195a7c9743044026c4154f34b3b027de6445b",
+      "bytes": 86882,
+      "state": "end: arrival (Red wins and the Alien co-wins, 9 players)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/end/review/w320-end-arrival-blue-wins-the-alien-does-not-co-win-8-players.png",
+      "sha256": "1308119f4277a130a1767a26d34b2b5a43d9fccb276dec79bdf6159b415f45cb",
+      "bytes": 80090,
+      "state": "end: arrival (Blue wins, the Alien does not co-win, 8 players)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/end/review/w320-end-no-survivors-8-players.png",
+      "sha256": "4b29ebdc33812bb1223132ab49f2cc57bee1ccc9a26402f319bf335fa475b30c",
+      "bytes": 69440,
+      "state": "end: no-survivors (8 players)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/end/review/w320-end-aborted-the-host-s-abort.png",
+      "sha256": "a6c610c50f34eb12037aaae4a70f6456bd0e09c0c9c5e0cdb5e709c5343f6f91",
+      "bytes": 28947,
+      "state": "end: aborted (the host's abort)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/end/review/w320-end-none-a-crew-all-jailed-or-injured-is-not-an-ending.png",
+      "sha256": "92e2842afb8e2f3e97dc4ab74cecc3cc9a75d184f27b1c035c6c9eb93840f991",
+      "bytes": 13352,
+      "state": "end: none (a crew all jailed or injured is not an ending)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/end/review/w320-connection-reconnecting.png",
+      "sha256": "714a7165bfdaaaf96f0aec4889b83f52e5030fb859bd1ca3bd55496851ad9b2d",
+      "bytes": 28365,
+      "state": "connection: reconnecting",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/end/review/w320-connection-restored.png",
+      "sha256": "cd67ef112e1b1d59d0e2247d6cb8ae8f2168d5480ae0bdaa790dca54a963bb90",
+      "bytes": 24690,
+      "state": "connection: restored",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/end/review/w320-connection-stale.png",
+      "sha256": "07f62f3ac7c57b4b22657bf9cb6fd718340f82fcd9d6ba69b718b5bdd127a01c",
+      "bytes": 24205,
+      "state": "connection: stale",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/end/review/w320-asset-a-picture-did-not-load.png",
+      "sha256": "15b534fa3b7dc7325f64875e6d1c6c252faeeea55cdcaef2808367b5b3e22037",
+      "bytes": 21059,
+      "state": "asset: a picture did not load",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/end/review/w320-asset-a-film-did-not-load.png",
+      "sha256": "72a982e4644bd7f6b50599d76e780868a6e87d5a5fbe0ac3b6a87e232b487f3f",
+      "bytes": 20330,
+      "state": "asset: a film did not load",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/end/review/w320-late-join-after-the-end-final.png",
+      "sha256": "9a39c18b254b68fac3e4c1743dabe1eedc6186b5c2a6faccab01f7ef13d857a8",
+      "bytes": 77989,
+      "state": "late join after the end: final",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/end/review/contact-w320.png",
+      "sha256": "4739ecccbdeab981d3d099fa24fd973a8c2a5d354df3e19b97013049e2d3a6bc",
+      "bytes": 799691,
+      "kind": "contact",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/end/review/w390-text200-end-arrival-blue-wins-7-players.png",
+      "sha256": "f2d742bd05497c3e93f04111a23096f4dbea454efa45184a0b8f8a0a629c425f",
+      "bytes": 138056,
+      "state": "end: arrival (Blue wins, 7 players)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/end/review/w390-text200-end-arrival-red-wins-and-the-alien-co-wins-9-players.png",
+      "sha256": "a232f2ae169b1808c2287dbc081a680aa90fc7340349002ded630aee3735f5df",
+      "bytes": 170938,
+      "state": "end: arrival (Red wins and the Alien co-wins, 9 players)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/end/review/w390-text200-end-arrival-blue-wins-the-alien-does-not-co-win-8-players.png",
+      "sha256": "509c3b820b59f4e1411e0408d022f2fd2940d5bea5a979b275fae07763987210",
+      "bytes": 147945,
+      "state": "end: arrival (Blue wins, the Alien does not co-win, 8 players)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/end/review/contact-w390-text200-arrival.png",
+      "sha256": "fff8fc058145db79d3134ad71907a4eaf34d3f4e06878436e7cdec2acc0d06ab",
+      "bytes": 502779,
+      "kind": "contact",
+      "width": 390,
+      "text": "200%",
+      "section": "arrival"
+    },
+    {
+      "file": "design/library/end/review/w390-text200-end-no-survivors-8-players.png",
+      "sha256": "ab9058960baeddaa5e4c743891e7210e616511b2939885f97eea493a3d1dcbc7",
+      "bytes": 131863,
+      "state": "end: no-survivors (8 players)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/end/review/w390-text200-end-aborted-the-host-s-abort.png",
+      "sha256": "ef4ef5a98faf94006fc8d5d067cf7ac2bc3a5704cc643963a02889a20ce8bb2b",
+      "bytes": 45848,
+      "state": "end: aborted (the host's abort)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/end/review/w390-text200-end-none-a-crew-all-jailed-or-injured-is-not-an-ending.png",
+      "sha256": "a98aff50ee63c61d6a517b51d1f71c2c442e51759b2466a5243526814b32c103",
+      "bytes": 19206,
+      "state": "end: none (a crew all jailed or injured is not an ending)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/end/review/contact-w390-text200-others.png",
+      "sha256": "00957e007f0e68f03421f0f4cdd11d711cc2ec1662d574db13d402964e73a240",
+      "bytes": 245504,
+      "kind": "contact",
+      "width": 390,
+      "text": "200%",
+      "section": "others"
+    },
+    {
+      "file": "design/library/end/review/w390-text200-connection-reconnecting.png",
+      "sha256": "4d022b16952c18631ff9dcbd8ea31ef593e13e539448196d77a9af8855f8f327",
+      "bytes": 46983,
+      "state": "connection: reconnecting",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/end/review/w390-text200-connection-restored.png",
+      "sha256": "035a6c4898eb8731d8989eb4178c9503b3609c6a9230a67d670b60acbe75cb91",
+      "bytes": 35972,
+      "state": "connection: restored",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/end/review/w390-text200-connection-stale.png",
+      "sha256": "00357f15fa759204adf55011ac80b24dfcb8e49f3ac8fd6bc3c1949dd4759f33",
+      "bytes": 34804,
+      "state": "connection: stale",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/end/review/w390-text200-asset-a-picture-did-not-load.png",
+      "sha256": "93511b111b4441488f4dd320f2a4f2e075f4fe3dadda308db4754e26afbb4de4",
+      "bytes": 34603,
+      "state": "asset: a picture did not load",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/end/review/w390-text200-asset-a-film-did-not-load.png",
+      "sha256": "ce31348978bb407827da8d679d4885bb0c91b79f8b0c490a863832bebd324286",
+      "bytes": 32912,
+      "state": "asset: a film did not load",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/end/review/w390-text200-late-join-after-the-end-final.png",
+      "sha256": "e6886c62113c4890bdeb17b06982236ec0706b8b119f608fe36b89b9b296de7c",
+      "bytes": 148585,
+      "state": "late join after the end: final",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/end/review/contact-w390-text200-recovery.png",
+      "sha256": "b2a00463f311c3d1673aafd29a1e86181045a1f604c892f2b5a5e153e71e9f90",
+      "bytes": 381691,
+      "kind": "contact",
+      "width": 390,
+      "text": "200%",
+      "section": "recovery"
+    },
+    {
+      "file": "design/library/end/review/motion-reveal-0000.png",
+      "sha256": "5ad70b5760bf94f93857fff530911512805b2713d7d8a4dffb45e7b10b0e1eab",
+      "bytes": 43478,
+      "motion": "reveal",
+      "reduced": false,
+      "t": 0
+    },
+    {
+      "file": "design/library/end/review/motion-reveal-0424.png",
+      "sha256": "b17095c0af38d40eb8983cea91f2d81916a8767ff1a49bb055c350255b079378",
+      "bytes": 51628,
+      "motion": "reveal",
+      "reduced": false,
+      "t": 424
+    },
+    {
+      "file": "design/library/end/review/motion-reveal-0848.png",
+      "sha256": "cb8e0c195a520ffc996ef1766efc6246a242a79815879c858a77f2f16fbc9f0a",
+      "bytes": 59048,
+      "motion": "reveal",
+      "reduced": false,
+      "t": 848
+    },
+    {
+      "file": "design/library/end/review/motion-reveal-1272.png",
+      "sha256": "c14c88111d1267424b6c7998630827162a8faa604e21aaf0a6570ca96f7ff8ec",
+      "bytes": 74602,
+      "motion": "reveal",
+      "reduced": false,
+      "t": 1272
+    },
+    {
+      "file": "design/library/end/review/motion-reveal-1696.png",
+      "sha256": "c2e11e1647109af71bce14765ca17fce4a95bdd0532a5f218ca7558ba43f1f14",
+      "bytes": 77911,
+      "motion": "reveal",
+      "reduced": false,
+      "t": 1696
+    },
+    {
+      "file": "design/library/end/review/motion-reveal-2120.png",
+      "sha256": "33c273329566401f962eeab0a850ddb076762a3365a076288f74aef226656d9c",
+      "bytes": 80579,
+      "motion": "reveal",
+      "reduced": false,
+      "t": 2120
+    },
+    {
+      "file": "design/library/end/review/motion-noSurvivors-0000.png",
+      "sha256": "15a57e618ed3b1e16dba6cefa6d1a16a90084f86801bc0cc9fabaca936889dc6",
+      "bytes": 60151,
+      "motion": "noSurvivors",
+      "reduced": false,
+      "t": 0
+    },
+    {
+      "file": "design/library/end/review/motion-noSurvivors-0260.png",
+      "sha256": "1c2fb9f581a064e032e3d4f7e8a254fd65b114c7aa7e7599227ba56f82b04895",
+      "bytes": 59946,
+      "motion": "noSurvivors",
+      "reduced": false,
+      "t": 260
+    },
+    {
+      "file": "design/library/end/review/motion-noSurvivors-0520.png",
+      "sha256": "c9a85fd459c3abcfee4691525783c0cff178e813c2dc358377219bd1bf05ce8c",
+      "bytes": 59636,
+      "motion": "noSurvivors",
+      "reduced": false,
+      "t": 520
+    },
+    {
+      "file": "design/library/end/review/motion-noSurvivors-0780.png",
+      "sha256": "1f870b6d498fe7a9b1ce12368ced4b8043c1b256be3df073e273d1edd37867cf",
+      "bytes": 59991,
+      "motion": "noSurvivors",
+      "reduced": false,
+      "t": 780
+    },
+    {
+      "file": "design/library/end/review/motion-noSurvivors-1040.png",
+      "sha256": "60da43190968172fc06bbb33a6bf7c166e9ac2cf63480d9c75f04737e032d929",
+      "bytes": 64228,
+      "motion": "noSurvivors",
+      "reduced": false,
+      "t": 1040
+    },
+    {
+      "file": "design/library/end/review/motion-noSurvivors-1300.png",
+      "sha256": "243fac320ed57fcc00712a6aed29eb5dc8d7a4c829e8cfef3734c23255557838",
+      "bytes": 64329,
+      "motion": "noSurvivors",
+      "reduced": false,
+      "t": 1300
+    },
+    {
+      "file": "design/library/end/review/motion-strip-in-0000.png",
+      "sha256": "d8a537fee2a08123dbfc44117e6decc5751314bc0aa164ccf2511381aff41864",
+      "bytes": 17251,
+      "motion": "strip-in",
+      "reduced": false,
+      "t": 0
+    },
+    {
+      "file": "design/library/end/review/motion-strip-in-0040.png",
+      "sha256": "d9b83733ab87f3fbd7afdf5d8d4a0a33b1c25ed702d879ca71d115bb40d718a7",
+      "bytes": 21090,
+      "motion": "strip-in",
+      "reduced": false,
+      "t": 40
+    },
+    {
+      "file": "design/library/end/review/motion-strip-in-0080.png",
+      "sha256": "a57273d20806eb6431acf324b12370cdfcfbb2f75ee31dba475a853cb42b7d47",
+      "bytes": 25648,
+      "motion": "strip-in",
+      "reduced": false,
+      "t": 80
+    },
+    {
+      "file": "design/library/end/review/motion-strip-in-0120.png",
+      "sha256": "88acbbc5a92311c3cb5de38d0dffd4522914a4dd40818b55860c4e020c482235",
+      "bytes": 25770,
+      "motion": "strip-in",
+      "reduced": false,
+      "t": 120
+    },
+    {
+      "file": "design/library/end/review/motion-strip-in-0160.png",
+      "sha256": "e5d872a82f7342e00af94f87614987ccee90af98226d891562fa44aa8f890e06",
+      "bytes": 25948,
+      "motion": "strip-in",
+      "reduced": false,
+      "t": 160
+    },
+    {
+      "file": "design/library/end/review/motion-strip-in-0200.png",
+      "sha256": "15e07f7b20c1e54a6c389d51a457d7dabfcf556def944ce4a1bfebc5bf1f864a",
+      "bytes": 26006,
+      "motion": "strip-in",
+      "reduced": false,
+      "t": 200
+    },
+    {
+      "file": "design/library/end/review/motion-strip-out-0000.png",
+      "sha256": "f573375bf2147520912643a54094bf7c3c75d7b5141e341f0d4384f01a2db874",
+      "bytes": 22116,
+      "motion": "strip-out",
+      "reduced": false,
+      "t": 0
+    },
+    {
+      "file": "design/library/end/review/motion-strip-out-0040.png",
+      "sha256": "3519519c41a34d0faffa59150196ea51a56ee69dac6c238d3110fb040e9abbf3",
+      "bytes": 21869,
+      "motion": "strip-out",
+      "reduced": false,
+      "t": 40
+    },
+    {
+      "file": "design/library/end/review/motion-strip-out-0080.png",
+      "sha256": "945686c6590d7c89fffed03d37ac8a05104841eab4fa8ad2122a362725520684",
+      "bytes": 21323,
+      "motion": "strip-out",
+      "reduced": false,
+      "t": 80
+    },
+    {
+      "file": "design/library/end/review/motion-strip-out-0120.png",
+      "sha256": "f34e4adb3ca86b8568acbb25ca1e76c6ca7a3b81b66194ca0727161948ab0e90",
+      "bytes": 20446,
+      "motion": "strip-out",
+      "reduced": false,
+      "t": 120
+    },
+    {
+      "file": "design/library/end/review/motion-strip-out-0160.png",
+      "sha256": "e29a153aae537beb3a7c046503685e233b7d6f1671d5564465ee5f61d6ab4e93",
+      "bytes": 19098,
+      "motion": "strip-out",
+      "reduced": false,
+      "t": 160
+    },
+    {
+      "file": "design/library/end/review/motion-strip-out-0200.png",
+      "sha256": "7aa7e6229227c39c5159b30ce356a94329d4e612c5052a16412638d7b026142b",
+      "bytes": 17533,
+      "motion": "strip-out",
+      "reduced": false,
+      "t": 200
+    },
+    {
+      "file": "design/library/end/review/motion-reveal-reduced-0000.png",
+      "sha256": "5ad70b5760bf94f93857fff530911512805b2713d7d8a4dffb45e7b10b0e1eab",
+      "bytes": 43478,
+      "motion": "reveal",
+      "reduced": true,
+      "t": 0
+    },
+    {
+      "file": "design/library/end/review/motion-reveal-reduced-0032.png",
+      "sha256": "f85c9a1be8f9e59deee10a68d19cdc9158f0749d8a24401a461813b14be5d965",
+      "bytes": 70656,
+      "motion": "reveal",
+      "reduced": true,
+      "t": 32
+    },
+    {
+      "file": "design/library/end/review/motion-reveal-reduced-0064.png",
+      "sha256": "5e8ac016e9d0af1802c5d263bc6db3010e494afb1724fc7e487c72d587ec23f1",
+      "bytes": 74928,
+      "motion": "reveal",
+      "reduced": true,
+      "t": 64
+    },
+    {
+      "file": "design/library/end/review/motion-reveal-reduced-0096.png",
+      "sha256": "d5a0fa072525b10374c4e969bd0ecc28bddb7ee49246d8bf6e0f5e7292a44140",
+      "bytes": 78165,
+      "motion": "reveal",
+      "reduced": true,
+      "t": 96
+    },
+    {
+      "file": "design/library/end/review/motion-reveal-reduced-0128.png",
+      "sha256": "3fa9a7ef41d699a540d2c1a061a2efc55437a2fd327c933981491382713018e7",
+      "bytes": 79655,
+      "motion": "reveal",
+      "reduced": true,
+      "t": 128
+    },
+    {
+      "file": "design/library/end/review/motion-reveal-reduced-0160.png",
+      "sha256": "f138bb34e890dd476c1dbddeaad6c93c14d090a9fce754f36609e1860104f31c",
+      "bytes": 80494,
+      "motion": "reveal",
+      "reduced": true,
+      "t": 160
+    },
+    {
+      "file": "design/library/end/review/motion-noSurvivors-reduced-0000.png",
+      "sha256": "15a57e618ed3b1e16dba6cefa6d1a16a90084f86801bc0cc9fabaca936889dc6",
+      "bytes": 60151,
+      "motion": "noSurvivors",
+      "reduced": true,
+      "t": 0
+    },
+    {
+      "file": "design/library/end/review/motion-noSurvivors-reduced-0032.png",
+      "sha256": "208c2d520f00520c292e4e5d576e333c6e9081be1385e948d329c93b4cf79ed4",
+      "bytes": 64891,
+      "motion": "noSurvivors",
+      "reduced": true,
+      "t": 32
+    },
+    {
+      "file": "design/library/end/review/motion-noSurvivors-reduced-0064.png",
+      "sha256": "773b2071cfda36b5f99bc705913680d6f654c6723a51db65c11f2fbdbbe8bbae",
+      "bytes": 64944,
+      "motion": "noSurvivors",
+      "reduced": true,
+      "t": 64
+    },
+    {
+      "file": "design/library/end/review/motion-noSurvivors-reduced-0096.png",
+      "sha256": "bcfff317d7a48c8c77ef1cb551295619a6410bb6a5e1deb0eb90e443f8cfdb5e",
+      "bytes": 64697,
+      "motion": "noSurvivors",
+      "reduced": true,
+      "t": 96
+    },
+    {
+      "file": "design/library/end/review/motion-noSurvivors-reduced-0128.png",
+      "sha256": "133f8e07c610ce1d425793c03a35ee621197088cf402dc3501e8742cedacdeb1",
+      "bytes": 64713,
+      "motion": "noSurvivors",
+      "reduced": true,
+      "t": 128
+    },
+    {
+      "file": "design/library/end/review/motion-noSurvivors-reduced-0160.png",
+      "sha256": "acb4a5d79a7c125028c17c608d19d53f2a60f41d8148f3062bb288c6d295a4d5",
+      "bytes": 64163,
+      "motion": "noSurvivors",
+      "reduced": true,
+      "t": 160
+    },
+    {
+      "file": "design/library/end/review/motion-strip-in-reduced-0000.png",
+      "sha256": "d8a537fee2a08123dbfc44117e6decc5751314bc0aa164ccf2511381aff41864",
+      "bytes": 17251,
+      "motion": "strip-in",
+      "reduced": true,
+      "t": 0
+    },
+    {
+      "file": "design/library/end/review/motion-strip-in-reduced-0032.png",
+      "sha256": "bf345055fd0243c602dd491540b11531addee308183aa460035c35e203a76c61",
+      "bytes": 24178,
+      "motion": "strip-in",
+      "reduced": true,
+      "t": 32
+    },
+    {
+      "file": "design/library/end/review/motion-strip-in-reduced-0064.png",
+      "sha256": "963fce44502ff695243f9c00550c10eb0528b8d5b1e67f50eb48c53427775301",
+      "bytes": 25057,
+      "motion": "strip-in",
+      "reduced": true,
+      "t": 64
+    },
+    {
+      "file": "design/library/end/review/motion-strip-in-reduced-0096.png",
+      "sha256": "1fc780c4888e14280ddd429ffb4184f0979bdffb18db16dbdb335145c57e4d23",
+      "bytes": 25598,
+      "motion": "strip-in",
+      "reduced": true,
+      "t": 96
+    },
+    {
+      "file": "design/library/end/review/motion-strip-in-reduced-0128.png",
+      "sha256": "1940c3febb311b2a6f36efa5b66968dfa2a08b5ea94412f559fd18505740d20e",
+      "bytes": 25978,
+      "motion": "strip-in",
+      "reduced": true,
+      "t": 128
+    },
+    {
+      "file": "design/library/end/review/motion-strip-in-reduced-0160.png",
+      "sha256": "4d7879d60f67ea955ca7ac3d1636dd767d8aeefe869afae2c7a00ffc8f1f238c",
+      "bytes": 25923,
+      "motion": "strip-in",
+      "reduced": true,
+      "t": 160
+    },
+    {
+      "file": "design/library/end/review/motion-strip-out-reduced-0000.png",
+      "sha256": "f573375bf2147520912643a54094bf7c3c75d7b5141e341f0d4384f01a2db874",
+      "bytes": 22116,
+      "motion": "strip-out",
+      "reduced": true,
+      "t": 0
+    },
+    {
+      "file": "design/library/end/review/motion-strip-out-reduced-0032.png",
+      "sha256": "d7fb042e5da3b9b54d8b3c434e9f4d3dd90cb796f2b307e933643f795992b41f",
+      "bytes": 22272,
+      "motion": "strip-out",
+      "reduced": true,
+      "t": 32
+    },
+    {
+      "file": "design/library/end/review/motion-strip-out-reduced-0064.png",
+      "sha256": "4b6ce7c8a7568e1fe98f3dfe1127f716160a972dbe32a01cd6eeb1e3795bda5f",
+      "bytes": 22031,
+      "motion": "strip-out",
+      "reduced": true,
+      "t": 64
+    },
+    {
+      "file": "design/library/end/review/motion-strip-out-reduced-0096.png",
+      "sha256": "abd4a28f2b019055658803c6772b26844239e6abe26be5d998ab5c1598ccfd64",
+      "bytes": 21794,
+      "motion": "strip-out",
+      "reduced": true,
+      "t": 96
+    },
+    {
+      "file": "design/library/end/review/motion-strip-out-reduced-0128.png",
+      "sha256": "3d44a4dff5e7783f9a8cf7c6f61b8181241e5f7743a9dc1db1bab9aad9a9707d",
+      "bytes": 21297,
+      "motion": "strip-out",
+      "reduced": true,
+      "t": 128
+    },
+    {
+      "file": "design/library/end/review/motion-strip-out-reduced-0160.png",
+      "sha256": "5b4cf22473e2d577b7d71198ee1d513090b1caa5af61555c87ecccefc9f1ba12",
+      "bytes": 17469,
+      "motion": "strip-out",
+      "reduced": true,
+      "t": 160
+    }
+  ],
+  "problems": []
+}

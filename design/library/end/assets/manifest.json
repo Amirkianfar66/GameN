@@ -1,0 +1,103 @@
+{
+  "version": "library-end-0.1.0",
+  "generatedBy": "design/tools/library-assets.mjs",
+  "source": "design/library/end/art.mjs",
+  "audience": "public at the end (the side emblems and banners, the Code plate, the flatline) and each screen's own recovery marks; loaded whole on every phone and display",
+  "assets": [
+    {
+      "name": "en-emblem-blue",
+      "file": "design/library/end/assets/en-emblem-blue.svg",
+      "size": "48x48",
+      "role": "public at the end: the Blue emblem",
+      "about": "The Blue team's emblem in the end reveal, beside its side's roles.",
+      "sha256": "51028cdfbd9d5b34d4aa9d50e2f0a6fb07b2e6830f5675c6366cb5485451d62f",
+      "bytes": 4528
+    },
+    {
+      "name": "en-emblem-red",
+      "file": "design/library/end/assets/en-emblem-red.svg",
+      "size": "48x48",
+      "role": "public at the end: the Red emblem",
+      "about": "The Red team's emblem in the end reveal, beside its side's roles.",
+      "sha256": "1edee64a309d17d681200b35207acbc60e2d87170ea407eb6c8f5a950e073c3b",
+      "bytes": 4190
+    },
+    {
+      "name": "en-emblem-alien",
+      "file": "design/library/end/assets/en-emblem-alien.svg",
+      "size": "48x48",
+      "role": "public at the end: the Alien emblem",
+      "about": "The Alien's emblem in the end reveal, beside its side's roles.",
+      "sha256": "c210fb26e2a4dedd5b186af2d3ca8a8238a3f5617b564b8d8f9aebd65e0047bd",
+      "bytes": 825
+    },
+    {
+      "name": "en-banner-blue",
+      "file": "design/library/end/assets/en-banner-blue.svg",
+      "size": "320x72",
+      "role": "public at the end: the Blue winning banner",
+      "about": "The Blue team's winning banner over the end reveal.",
+      "sha256": "0e1df6a8d09a0332b6c138abb970225044eb94a7168e92124c298267937a8587",
+      "bytes": 828
+    },
+    {
+      "name": "en-banner-red",
+      "file": "design/library/end/assets/en-banner-red.svg",
+      "size": "320x72",
+      "role": "public at the end: the Red winning banner",
+      "about": "The Red team's winning banner over the end reveal.",
+      "sha256": "8a316416efcef2d1df0db5b9f5b756633f8e3f3894cc6a17c0085b73b6b8b625",
+      "bytes": 824
+    },
+    {
+      "name": "en-banner-none",
+      "file": "design/library/end/assets/en-banner-none.svg",
+      "size": "320x72",
+      "role": "public at the end: the no-winner banner",
+      "about": "The ending's banner when there is no winner.",
+      "sha256": "befd04c98a3e44f6d57ef5db4aa78bc25c4d32eaad94195754c6b50e0d1576d6",
+      "bytes": 808
+    },
+    {
+      "name": "en-code",
+      "file": "design/library/end/assets/en-code.svg",
+      "size": "200x56",
+      "role": "public at the end: the Code's plate",
+      "about": "The Code's plate in the end reveal; the four numbers are page text.",
+      "sha256": "ae16d60d5e81396284bbaa44faaea8719de7bbdd2cd95d55c2f2eaa83c9e4f32",
+      "bytes": 1060
+    },
+    {
+      "name": "en-flatline",
+      "file": "design/library/end/assets/en-flatline.svg",
+      "size": "320x64",
+      "role": "public at the end: no survivors",
+      "about": "The no-survivors strip under the banner: a flat line.",
+      "sha256": "7aea395f4af361dcac8b199e19bb6a69094c9bbca404db2e7958d7ae17b28616",
+      "bytes": 831
+    },
+    {
+      "name": "en-signal",
+      "file": "design/library/end/assets/en-signal.svg",
+      "size": "32x32",
+      "role": "own screen: reconnecting",
+      "about": "The reconnecting mark in the connection strip.",
+      "sha256": "908bda2953e4c8d0e6c2fc92f2b4993d47708f2def6e2c4e84d4261a2f421e3a",
+      "bytes": 785
+    },
+    {
+      "name": "en-broken",
+      "file": "design/library/end/assets/en-broken.svg",
+      "size": "32x32",
+      "role": "own screen: a failed picture",
+      "about": "The mark that stands in for a picture or a film that did not load.",
+      "sha256": "b7f68d413e1afe92d821d40308e88c38ed0358c499d219662b7bda44739435c5",
+      "bytes": 789
+    }
+  ],
+  "stylesheet": {
+    "file": "design/library/end/assets/end.art.css",
+    "sha256": "c4480d8733c666c22762052c243aa8cb6ddea8bfbde3834aa5eff5c9dbf308d9",
+    "bytes": 13876
+  }
+}

@@ -1,7 +1,7 @@
 // mothership:dev-only
 //
 // Writes the library groups' art from their sources:
-//   node design/tools/library-assets.mjs [--group hack-engineer|navigation|hospital-panel|promises|windows|offices] [--check]
+//   node design/tools/library-assets.mjs [--group hack-engineer|navigation|hospital-panel|promises|windows|offices|end] [--check]
 // For each group (all of them unless --group names one), in design/library/<group>/assets/:
 //   <name>.svg       each picture, standalone, transparent
 //   <group css>      every picture as a custom property, as the dossier's abilities.art.css does: a
@@ -19,6 +19,7 @@ import { PANEL_ART_VERSION, panelAssets } from '../library/hospital-panel/art.mj
 import { PROMISE_ART_VERSION, promiseAssets } from '../library/promises/art.mjs';
 import { WINDOW_ART_VERSION, windowAssets } from '../library/windows/art.mjs';
 import { OFFICE_ART_VERSION, officeAssets } from '../library/offices/art.mjs';
+import { END_ART_VERSION, endAssets } from '../library/end/art.mjs';
 
 const repoRoot = resolve(fileURLToPath(new URL('../../', import.meta.url)));
 const sha256 = text => createHash('sha256').update(text).digest('hex');
@@ -60,6 +61,12 @@ export const GROUPS = Object.freeze({
     audience: 'public (the Officer and block badges, the board\'s block tape) and office-private tray marks; loaded whole on every player phone',
     note: '   The badges and the block tape are PUBLIC (the board and name tags); the two tray marks only on the Captain\'s or the Officer\'s own\n'
       + '   phone during their windows. Every player phone, once, with the ability art, before the first match view.\n',
+  }),
+  end: Object.freeze({
+    version: END_ART_VERSION, assets: endAssets, source: 'design/library/end/art.mjs', css: 'end.art.css', prop: '--en-asset-', hook: 'end',
+    audience: 'public at the end (the side emblems and banners, the Code plate, the flatline) and each screen\'s own recovery marks; loaded whole on every phone and display',
+    note: '   The side emblems and banners are the only library pictures in the faction accents: drawn only in FINISHED, when the view\n'
+      + '   reveals the sides. Every phone and display, once, with the ability art, before the first match view.\n',
   }),
 });
 
