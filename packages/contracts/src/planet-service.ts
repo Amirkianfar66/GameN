@@ -32,6 +32,8 @@ export const PlanetAdmissionStandingSchema=z.strictObject({
   status:z.enum(['pending','admitted','declined','closed']),
 });
 export type PlanetAdmissionStanding=z.infer<typeof PlanetAdmissionStandingSchema>;
+export const PlanetRecoveryResultSchema=z.strictObject({...match,seatId:SeatIdSchema});
+export type PlanetRecoveryResult=z.infer<typeof PlanetRecoveryResultSchema>;
 export const PlanetSessionSnapshotSchema=z.strictObject({
   matchId:IdentifierSchema,roomCode:z.string().regex(/^[A-Z0-9]{6}$/),versions:PlanetVersionsSchema,
   status:z.enum(['lobby','choosing','reading','running','finished','aborted']),

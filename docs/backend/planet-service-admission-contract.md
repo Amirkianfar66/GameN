@@ -8,4 +8,6 @@ Pending, declined and closed snapshots have empty `members` and `pendingAdmissio
 
 Frontend must match the standing to its retained original request ID, retain UID-bound request context, and clear it after account recovery. A recovered member uses the server-assigned seat. Admission data is transport metadata and cannot change character placement, role allocation, rules or audience event revisions.
 
-Validation: the three focused contract tests in `tests/bootstrap/planet-service-contract.test.mjs` passed, including denied roster/setup/seat leakage, forged UID/status, required standing and display/player separation. Service/Firebase implementation and independent consumer review are separate release gates.
+Recovery success is typed as `{matchId, seatId}` through `PlanetRecoveryResultSchema`; the match is the requested server-confirmed match. A requester retry must retain the original request ID.
+
+Validation: the four focused contract tests in `tests/bootstrap/planet-service-contract.test.mjs` passed, including denied roster/setup/seat leakage, forged UID/status, required standing and display/player separation. Service/Firebase implementation and independent consumer review are separate release gates.

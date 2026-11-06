@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {PLANET_GAME_PINS,PlanetAdmissionStandingSchema,PlanetSessionSnapshotSchema} from '../../packages/contracts/dist/index.js';
+import {PLANET_GAME_PINS,PlanetAdmissionStandingSchema,PlanetSessionSnapshotSchema,PlanetRecoveryResultSchema} from '../../packages/contracts/dist/index.js';
 const pending=()=>({matchId:'match-1',roomCode:'ABC123',versions:{...PLANET_GAME_PINS,assetManifestVersion:'design-0.6.0'},status:'lobby',playerCount:7,isHost:false,selfSeatId:null,
   admission:{requestId:'original-join',kind:'display',status:'pending'},members:[],pendingAdmissions:[],setup:null,privateRole:null,publicView:null,playerView:null});
 test('R14 standing names only the original request and admitted audience; client UIDs are forbidden',()=>{
@@ -20,4 +20,9 @@ test('display standing cannot be attached to a player seat; host has no requeste
   assert.equal(PlanetSessionSnapshotSchema.safeParse({...pending(),admission:{...pending().admission,status:'admitted'},selfSeatId:'seat-1'}).success,false);
   assert.equal(PlanetSessionSnapshotSchema.safeParse({...pending(),admission:null,isHost:true}).success,true);
   const {admission,...missing}=pending();assert.equal(PlanetSessionSnapshotSchema.safeParse(missing).success,false);
+});
+test('recovery confirms the requested match and server-assigned seat',()=>{
+  assert.deepEqual(PlanetRecoveryResultSchema.parse({matchId:'match-1',seatId:'seat-1'}),{matchId:'match-1',seatId:'seat-1'});
+  assert.equal(PlanetRecoveryResultSchema.safeParse({seatId:'seat-1'}).success,false);
+  assert.equal(PlanetRecoveryResultSchema.safeParse({matchId:'match-1',seatId:'seat-1',uid:'client-uid'}).success,false);
 });
