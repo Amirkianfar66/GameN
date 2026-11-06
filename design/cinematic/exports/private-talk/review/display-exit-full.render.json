@@ -15,7 +15,8 @@
       1,
       5
     ],
-    "case": "exit"
+    "case": "exit",
+    "s2": "approved, unchanged"
   },
   "browser": "Chromium 141.0.7390.37",
   "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
@@ -23,27 +24,32 @@
     {
       "kind": "video",
       "file": "design/cinematic/exports/private-talk/review/display-exit-full.mp4",
-      "sha256": "27049603190f832f958fd0222d15a2cf48b2f75aae390d485afa72ae3446b611",
-      "bytes": 872402,
+      "sha256": "f416319a28ce8df6aabfeee6aafdbbc8e1cb1b9fe0cdb9b465e6a54d00aa30e9",
+      "bytes": 275253,
       "fps": 30,
-      "frames": 85,
-      "durationMs": 2800,
+      "frames": 77,
+      "durationMs": 2530,
       "from": 0,
-      "to": 2800,
+      "to": 2530,
       "audio": "design/cinematic/exports/private-talk/audio/private-talk-exit.cues.wav"
     },
     {
       "kind": "preview",
       "file": "design/cinematic/exports/private-talk/review/display-exit-full.preview.webp",
-      "sha256": "591a2f852740136272ffb4b64c9db2860557a4881bc85693ef86a9e744932638",
-      "bytes": 178816
+      "sha256": "8bfb97c7feed678069403e5b12e8ac4369363d8ed3c4cce2016a1ba09d3d7abe",
+      "bytes": 58326
     },
     {
       "kind": "poster",
       "file": "design/cinematic/exports/private-talk/review/display-exit-full.poster.webp",
-      "sha256": "f078a4b98a597d50347d8ed361ccf5575529ed4b0bd5aa0a19c6d91eddceb82c",
-      "bytes": 86644,
+      "sha256": "272b1d73b58c78be7b0cd9d12a7595ff6e5366b394cdf30611cc503b78b581f3",
+      "bytes": 94814,
       "t": 1000
     }
-  ]
+  ],
+  "settling": {
+    "rule": "a frame is kept once two captures a redraw apart agree; pictures decode before their tiles draw",
+    "resettled": 0,
+    "unsettled": []
+  }
 }

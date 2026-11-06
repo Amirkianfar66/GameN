@@ -66,7 +66,7 @@ function probe(file) {
 const SOURCES = [
   'design/cinematic/README.md',
   'design/cinematic/stage.html', 'design/cinematic/stage.mjs', 'design/cinematic/gallery.html', 'design/cinematic/gallery.mjs',
-  'design/cinematic/lib/ease.mjs', 'design/cinematic/lib/comic.mjs', 'design/cinematic/lib/lettering.mjs', 'design/cinematic/lib/scene.mjs', 'design/cinematic/lib/audio.mjs', 'design/cinematic/lib/stage-kit.mjs',
+  'design/cinematic/lib/ease.mjs', 'design/cinematic/lib/comic.mjs', 'design/cinematic/lib/lettering.mjs', 'design/cinematic/lib/scene.mjs', 'design/cinematic/lib/audio.mjs', 'design/cinematic/lib/stage-kit.mjs', 'design/cinematic/lib/visibility.mjs',
   'design/cinematic/pilots/index.mjs',
   ...['hospital-rescue/film.mjs', 'hospital-rescue/art.mjs', 'hospital-rescue/compose.mjs', 'hospital-rescue/stage.mjs', 'blackhole/film.mjs', 'blackhole/art.mjs', 'blackhole/compose.mjs', 'blackhole/stage.mjs', 'private-talk/film.mjs', 'private-talk/compose.mjs', 'private-talk/stage.mjs', 'eject/film.mjs', 'eject/compose.mjs', 'eject/stage.mjs'].map(p => `design/cinematic/pilots/${p}`),
   'design/cinematic/catalogue/catalogue.mjs',
@@ -149,7 +149,7 @@ const lines = [
   ...section('Runtime-eligible (identity-free)', 'No name, character, role, outcome, control or variable text. Each video has a poster (PNG and WebP) and a lightweight animated WebP alternative; none carries audio (a runtime plays the cue sheet under the device sound setting).', e => e.class === 'runtime'),
   ...section('Audio (public cue mixes)', 'Synthesized by `design/cinematic/lib/audio.mjs`; no samples, recordings or licences. WAV is the editable master; AAC (m4a) and Opus encodes for runtime use.', e => e.class === 'audio'),
   ...section('Review renders', 'Synthetic fixtures from the board-v2 review page (Rigel, Mira, Echo; Vega and Orion). Review only: a runtime draws its own match from the frame functions.', e => e.class === 'review'),
-  ...section('Storyboard stills', 'Full-size display frames at the beats the live-action studies name.', e => e.class === 'stills'),
+  ...section('Storyboard stills', 'Full-size frames of the cinematic forms (the Rescue cut, the Blackhole stage cut, the capsule page) at the beats the live-action studies name.', e => e.class === 'stills'),
   '## Editable sources',
   '',
   '| File | SHA-256 | Bytes |',

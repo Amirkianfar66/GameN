@@ -6,13 +6,23 @@
 // units (1024 x 768), so the same frame draws on a phone's Hospital panel and, framed by a camera,
 // on the shared display.
 //
-//   full     5.6 s, S5's beats: alert, the ceiling hatch, the drone's descent under its searchlight,
-//            the scan fan, the charge, the revival pulse (rings, burst, sparks, THUMP), the
-//            stabilized monitor (BEEP), the patient sitting up, the drone's exit and the hatch closing.
+//   full     6.2 s: S5's beats (alert, the ceiling hatch, the drone's descent under its searchlight,
+//            the scan fan, the charge, the revival pulse with rings, burst, sparks and THUMP, the
+//            stabilized monitor's BEEP, the patient sitting up, the drone's exit, the hatch closing),
+//            then the release: the patient stands and walks out of the ward, the berth is left
+//            empty, and the display's last panel shows the patient at the place the snapshot gives.
 //   short    1.6 s, nonblocking: the drone drops in, one pulse, the monitor steadies, the patient
-//            sits up, the drone leaves. For a screen whose next decision should not wait on a film.
-//   reduced  S5's own reduced variant (two still states cross-faded over 80 ms): no travel, flash,
-//            shake, ring, particle or lettering. The same facts: the patient recovered.
+//            sits up, stands and leaves the berth, the drone leaves. For a screen whose next
+//            decision should not wait on a film.
+//   reduced  S5's own reduced variant (two still states cross-faded over 80 ms) and a third: the
+//            berth empty. No travel, flash, shake, ring, particle or lettering.
+//
+// The film ends on the authoritative state (the owner's review of 6 November 2026): a healed patient
+// who is free is in Room A or B, one still detained is in the Jail, wherever the published snapshot
+// places them. The release follows that placement; nothing leaves the patient apparently in a
+// Hospital bed, and the patient's playable figure at its snapshot place stays drawn throughout
+// (greyed as away while the film shows the rescue, back in colour as the walker leaves the ward).
+// Only if the snapshot itself still had the patient at this berth would the film end at the berth.
 //
 // Inputs, all authorized and public (protocol 3 candidate, packages/contracts/src/planet-game.ts at
 // 79418e7): a RESCUED occurrence's seat, its Hospital slot and its clinical anchor; the published
@@ -35,7 +45,9 @@ export const PILOT = Object.freeze({
   id: 'cine-hospital-rescue',
   storyboard: 'P1 (on S5)',
   full: Object.freeze({
-    end: rescueEnd(false),
+    end: 6200,
+    /** S5's own length: S5's frame runs to here, the release after it (and under it from 4800). */
+    s5End: rescueEnd(false),
     gradeAlert: Object.freeze([0, RESCUE.alert[1]]),
     hatchOpen: Object.freeze([620, 880]),
     hatchClose: Object.freeze([5420, 5600]),
@@ -57,6 +69,14 @@ export const PILOT = Object.freeze({
     /** The drone's rise off the patient as they sit up, in scene units at the berth's scale. */
     lift: 46,
     liftUp: Object.freeze([3900, 4400]),
+    /**
+     * The release, once the snapshot places the patient outside the Hospital: stand beside the bed
+     * (the drone already lifted clear), walk out of the ward toward the nearer side, fading at the
+     * panel's edge; the berth is empty from the moment the patient is off it. On the board the
+     * patient's playable figure returns to colour as the walker leaves (arrive); on the display the
+     * closing panel shows the destination with the patient at its place.
+     */
+    release: Object.freeze({ stand: Object.freeze([4800, 5120]), walk: Object.freeze([5120, 5800]), fade: Object.freeze([5620, 5800]), arrive: Object.freeze([5800, 6050]), panel: Object.freeze([5560, 5880]), cycleMs: 620 }),
   }),
   short: Object.freeze({
     end: 1600,
@@ -70,11 +90,14 @@ export const PILOT = Object.freeze({
     recover: Object.freeze([650, 1080]),
     rise: Object.freeze([1120, 1460]),
     fade: Object.freeze([1460, 1600]),
+    /** The release, short: stand beside the bed, then fade out toward the exit; the playable figure returns to colour. */
+    release: Object.freeze({ stand: Object.freeze([1080, 1300]), leave: Object.freeze([1300, 1460]), arrive: Object.freeze([1460, 1600]) }),
   }),
-  reduced: Object.freeze({ end: rescueEnd(true), switchAt: RESCUE.reduced.switchAt }),
+  /** S5's two stills, then a third: the berth empty and the playable figure back in colour (80 ms cross-fade). */
+  reduced: Object.freeze({ end: rescueEnd(true), switchAt: RESCUE.reduced.switchAt, releaseAt: 1300, fade: 80 }),
   /** The display's camera, in scene units (centre) and pixels per scene unit at 1080 rows (zoom). */
   camera: Object.freeze({ shots: 'per berth, cameraShots()', shakePx: 10, shake: Object.freeze([RESCUE.pulse[0], RESCUE.pulse[0] + 300]) }),
-  letterbox: Object.freeze({ inOut: Object.freeze([[0, 420], [5240, 5600]]), share: 0.085 }),
+  letterbox: Object.freeze({ inOut: Object.freeze([[0, 420], [5900, 6200]]), share: 0.085 }),
   ecgPanel: Object.freeze([3560, 4760]),
   /** The close-up's first appearance: the unstable trace while the alert sounds, before the drone. */
   ecgAlert: Object.freeze([90, 1000]),
@@ -88,6 +111,22 @@ export const pilotEnd = (variant = 'full') => PILOT[variant].end;
 export function berthPlaces(berthId, fit = 1) {
   const kit = fourBerthKit(berthId);
   return { kit, hover: hoverAt(kit, fit), chest: kit.chest, scale: kit.scale, bed: kit.bed, monitor: kit.monitor, lamp: kit.lamp, dock: DOCK };
+}
+
+/**
+ * The release's path for a berth, in scene units: the side the patient leaves by (the nearer edge
+ * of the ward: left of H1 and H3, right of H2 and H4), where they stand beside the bed (feet), the
+ * point past the panel's edge they walk to, the drawn scale and the depth they walk at (in front of
+ * the berths' own layers on the same row). mirror: the rig faces left; a walk to the right is mirrored.
+ */
+export function releasePath(berthId) {
+  const kit = fourBerthKit(berthId);
+  const { bed, scale } = kit;
+  const left = bed.x + bed.w / 2 < 512;
+  const feet = Math.min(752, bed.y + bed.h - 30 * scale);
+  const stand = [r2(left ? bed.x - 34 * scale : bed.x + bed.w + 34 * scale), r2(feet)];
+  const exit = [left ? -110 : 1134, r2(feet)];
+  return { side: left ? 'left' : 'right', mirror: !left, stand, exit, scale, depth: r2(Math.max(feet, bed.y + bed.h) + 12) };
 }
 
 /**
@@ -113,6 +152,7 @@ export function dronePerspective(at, hover) {
  */
 export function cameraShots(berthId) {
   const { chest, hover } = berthPlaces(berthId);
+  const path = releasePath(berthId);
   return [
     { name: 'ward', from: 0, to: 600, keys: [{ t: 0, center: [512, 420], zoom: 1.9 }, { t: 600, center: [512, 404], zoom: 2.02, ease: easeInOutCubic }] },
     { name: 'ceiling', from: 600, to: 1150, keys: [{ t: 600, center: [512, 112], zoom: 4.3 }, { t: 1150, center: [512, 150], zoom: 4.6, ease: easeInOutCubic }] },
@@ -124,7 +164,10 @@ export function cameraShots(berthId) {
         { t: 3500, center: [chest[0], chest[1] - 34], zoom: 3.35, ease: easeOutCubic },
         { t: 3800, center: [chest[0] + 60, chest[1] - 40], zoom: 3.2, ease: easeOutCubic },
         { t: 4700, center: [chest[0] + 90, chest[1] - 66], zoom: 2.6, ease: easeInOutCubic },
-        { t: 5600, center: [512, 410], zoom: 1.9, ease: easeInOutCubic },
+        // The release: onto the patient standing, along the walk out, then wide on the empty berth.
+        { t: 5120, center: [path.stand[0], path.stand[1] - 150 * path.scale], zoom: 2.35, ease: easeInOutCubic },
+        { t: 5800, center: [lerp(path.stand[0], path.exit[0], 0.55), path.stand[1] - 140 * path.scale], zoom: 2.1, ease: easeInOutCubic },
+        { t: 6200, center: [512, 410], zoom: 1.9, ease: easeInOutCubic },
       ],
     },
   ];
@@ -143,6 +186,22 @@ export function cameraFrame({ center, zoom }, { width = 1920, height = 1080 } = 
   const k = Math.max(zoom, width / 1024, height / 768);
   const hx = width / 2 / k, hy = height / 2 / k;
   return { k, center: [Math.min(1024 - hx, Math.max(hx, center[0])), Math.min(768 - hy, Math.max(hy, center[1]))] };
+}
+
+// ---------- the berth after the patient has left it ----------
+
+/** A base frame's berth once the patient is off it: no screen, no lamp of its own (the board's empty berth). */
+function emptyBerth(base) {
+  return { ...base, inset: { ...base.inset, kind: 'off', opacity: 0 }, lamp: { state: 'none', opacity: 1 } };
+}
+
+/** S5's shape after its own end: the drone gone, the berth at rest (emptied by the release, if any). */
+function restingBerth(fit) {
+  return {
+    stage: 'release', inset: { opacity: 0, scale: 1, kind: 'stable', sweep: 1 }, lamp: { state: 'calm', opacity: 1 },
+    drone: { at: null, frame: 'folded', opacity: 0, fit }, scan: { y: 0, opacity: 0 }, hologram: { opacity: 0 },
+    pulse: { frame: 0, scale: 1, opacity: 0 }, patient: { pose: 'healthy', jolt: [0, 0], offset: [0, 0] }, announce: true, done: false,
+  };
 }
 
 // ---------- the short, nonblocking variant's own S5-shaped frame ----------
@@ -186,32 +245,57 @@ function shortBase(t, berthId, fit) {
  *   grade      { alert, calm } tint amounts               trail: the lens's exit streak { v, opacity }
  *   camera     (display) { center, zoom, shake [dx, dy] }  letterbox (display) its share of the height
  *   ecg        (display) the close-up panel { opacity, slide, kind: unstable | stable, sweep }
+ *   release    null (the patient stays at the berth) or { phase: bed | stand | walk | gone, stand 0..1,
+ *              walk 0..1, cycle 0..1 (the walk's two-step cycle), opacity, offBed }
+ *   arrive     0..1: the playable figure's return to colour at its snapshot place (the board's settle)
+ *   panel      (display) 0..1: the closing panel with the patient at the snapshot's place
  *   done       nothing left to draw: the board shows the snapshot alone
+ *
+ * leaves: the published snapshot places the patient outside the Hospital (a free patient in Room A
+ * or B, a detained one in the Jail), so the film releases them; false only if the snapshot still
+ * has them at this berth.
  */
-export function rescueCinematicFrame(t, berthId, { variant = 'full', surface = 'board', fit = 1 } = {}) {
+export function rescueCinematicFrame(t, berthId, { variant = 'full', surface = 'board', fit = 1, leaves = true } = {}) {
   if (!VARIANTS.includes(variant)) throw new Error(`No variant ${variant}`);
   const end = pilotEnd(variant);
   const { chest, hover, scale } = berthPlaces(berthId, fit);
   const empty = {
     variant, surface, t, patient: { blend: 0, settle: 0, jolt: [0, 0] }, hatch: 0, searchlight: { opacity: 0 }, scanFan: { opacity: 0 }, charge: 0,
     rings: [], burst: { opacity: 0 }, speed: { opacity: 0 }, sparks: 0, sfx: { opacity: 0 }, beep: 0, grade: { alert: 0, calm: 0 }, trail: { opacity: 0, v: 0 },
-    camera: null, letterbox: 0, ecg: { opacity: 0 }, drone: { scale: 1, clip: false }, alarm: 0, done: false,
+    camera: null, letterbox: 0, ecg: { opacity: 0 }, drone: { scale: 1, clip: false }, alarm: 0, release: null, arrive: 0, panel: 0, done: false,
   };
-  if (t >= end) return { ...empty, base: { done: true }, patient: { blend: 1, settle: 1, jolt: [0, 0] }, done: true };
+  if (t >= end) return { ...empty, base: { done: true }, patient: { blend: 1, settle: 1, jolt: [0, 0] }, release: leaves ? { phase: 'gone', stand: 1, walk: 1, cycle: 0, opacity: 0, offBed: true } : null, arrive: leaves ? 1 : 0, done: true };
   if (t < 0) return { ...empty, base: fourRescueFrame(-1, berthId, { fit }) };
 
   if (variant === 'reduced') {
+    const R = PILOT.reduced;
     const base = fourRescueFrame(t, berthId, { reduced: true, fit });
-    // Two still states: the drone over the patient, then the patient sitting up. No motion between them.
-    return { ...empty, base, patient: { blend: t >= PILOT.reduced.switchAt ? 1 : 0, settle: 0, jolt: [0, 0] } };
+    // Three still states: the drone over the patient, the patient sitting up, the berth empty (when the
+    // snapshot places the patient elsewhere). An 80 ms cross-fade between them; no motion.
+    const out = { ...empty, base, patient: { blend: t >= R.switchAt ? 1 : 0, settle: 0, jolt: [0, 0] } };
+    if (leaves && t >= R.releaseAt) {
+      const v = r2(beat(t, [R.releaseAt, R.releaseAt + R.fade]));
+      out.release = { phase: v < 1 ? 'stand' : 'gone', stand: 0, walk: 0, cycle: 0, opacity: r2(1 - v), offBed: true };
+      out.base = emptyBerth(base);
+      out.arrive = 1;
+    }
+    return out;
   }
 
   if (variant === 'short') {
     const S = PILOT.short;
-    const base = shortBase(t, berthId, fit);
+    const shortB = shortBase(t, berthId, fit);
+    const L = S.release;
+    let release = null;
+    if (leaves && t >= L.stand[0]) {
+      const stand = easeInOutCubic(beat(t, L.stand));
+      const leave = beat(t, L.leave);
+      release = { phase: t < L.stand[1] ? 'stand' : t < L.leave[1] ? 'walk' : 'gone', stand: r2(stand), walk: r2(0.18 * easeInCubic(leave)), cycle: r2((Math.max(0, t - L.stand[1]) / 620) % 1), opacity: r2(1 - easeInCubic(leave)), offBed: t >= L.stand[1] };
+    }
+    const base = release?.offBed ? emptyBerth(shortB) : shortB;
     const rv = beat(t, S.ring);
     return {
-      ...empty, base,
+      ...empty, base, release, arrive: leaves ? r2(beat(t, L.arrive)) : 0,
       drone: dronePerspective(base.drone.at, berthPlaces(berthId, fit).hover),
       alarm: inBeat(t, S.blink) ? 0.4 : t < S.stable ? 0.14 : 0,
       patient: { blend: easeInOutCubic(beat(t, S.recover)), settle: beat(t, [S.recover[1], S.rise[0]]), jolt: base.patient.jolt },
@@ -226,13 +310,30 @@ export function rescueCinematicFrame(t, berthId, { variant = 'full', surface = '
   }
 
   const F = PILOT.full;
-  const s5 = fourRescueFrame(t, berthId, { fit });
+  const R = F.release;
+  // After S5's own end, the ward is at rest: no drone, the berth's devices as the release leaves them.
+  const s5 = t < F.s5End ? fourRescueFrame(t, berthId, { fit }) : restingBerth(fit);
   // The drone rises as the patient sits up, so that it never covers the recovered face; it
   // converges back on S5's path as it climbs to the dock. S5's own positions are unchanged.
   const lift = s5.drone.at ? F.lift * scale * fit * easeInOutCubic(beat(t, F.liftUp)) * (1 - easeInOutCubic(beat(t, [RESCUE.depart[0] + 100, RESCUE.depart[1]]))) : 0;
   const base = lift ? { ...s5, drone: { ...s5.drone, at: [s5.drone.at[0], r2(s5.drone.at[1] - lift)] } } : s5;
   const lens = base.drone.at;
   const frame = { ...empty, base };
+  // The release: stand, walk out, the berth empty once the patient is off it, the playable figure back in colour.
+  if (leaves && t >= R.stand[0]) {
+    const walk = beat(t, R.walk);
+    frame.release = {
+      phase: t < R.stand[1] ? 'stand' : t < R.walk[1] ? 'walk' : 'gone',
+      stand: r2(easeInOutCubic(beat(t, R.stand))),
+      walk: r2(walk),
+      cycle: r2((Math.max(0, t - R.walk[0]) / R.cycleMs) % 1),
+      opacity: r2(1 - easeInCubic(beat(t, R.fade))),
+      offBed: t >= R.stand[1],
+    };
+    if (frame.release.offBed) frame.base = emptyBerth(frame.base);
+    frame.arrive = r2(easeOutCubic(beat(t, R.arrive)));
+    if (surface === 'display') frame.panel = r2(beat(t, R.panel));
+  }
   frame.drone = dronePerspective(lens, hover);
   // The berth lamp's alarm glow: bright on S5's blinks, a low pulse until the rhythm steadies.
   const blinkOn = RESCUE.blinks.some(([a, b]) => t >= a && t < b);
@@ -298,6 +399,8 @@ export const AUDIO = Object.freeze({
     { at: 1800, cue: 'servo-unfold' }, { at: RESCUE.scan[0], cue: 'scan-sweep', until: RESCUE.scan[1] },
     { at: RESCUE.charge[0], cue: 'charge-whine', until: RESCUE.pulse[0] }, { at: RESCUE.pulse[0], cue: 'revival-thump' },
     ...PILOT.full.beeps.map(at => ({ at, cue: 'monitor-beep' })), { at: 5420, cue: 'hatch-close' },
+    // The release: off the bed, then the steps out of the ward (public movement sounds).
+    { at: 4880, cue: 'seat-settle', gain: 0.6 }, ...[5160, 5400, 5640].map(at => ({ at, cue: 'footstep', gain: 0.55 })),
   ]),
   short: Object.freeze([
     { at: 0, cue: 'alert-blip' }, { at: 100, cue: 'drone-whoosh' }, { at: 450, cue: 'revival-thump' }, { at: 800, cue: 'monitor-beep' }, { at: 1120, cue: 'drone-whoosh' },

@@ -132,7 +132,7 @@ export function inboxState(view, { pending = null } = {}) {
  *   arrived   offers to this seat newly awaiting an answer
  *   accepted  Promises newly accepted (either side)
  *   declined  offers newly declined or expired (either side)
- *   results   Promises whose status moved from Pending to a result (R6: at the evaluation, after Sync)
+ *   results   Promises whose status moved from Pending to a result (R6: at the close of each Promise's own opportunity)
  */
 export function changes(previous, view) {
   const empty = { arrived: [], accepted: [], declined: [], results: [] };

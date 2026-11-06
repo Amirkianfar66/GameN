@@ -8,14 +8,17 @@
 import { CATALOGUE } from './catalogue/catalogue.mjs';
 
 const $ = id => document.getElementById(id);
+// display and phone: the board treatments, which cover nothing and may play in any phase. cut and the
+// Blackhole's stage variant cover the board, so they may play only where nobody decides
+// (./lib/visibility.mjs); the gallery shows them for review.
 const PILOTS = {
-  'hospital-rescue': { label: 'Pilot 1 · Hospital drone and recovery', scene: 'doctor-rescue', surfaces: ['display', 'phone', 'insert'], variants: ['full', 'short', 'reduced'], status: [['pilot', 'Cinematic pass: pilot (proposal)'], ['approved', 'S5 under it: approved (#158, #160)'], ['not', 'Live-action insert: NOT PRODUCED (study only)']] },
-  blackhole: { label: 'Pilot 2 · Blackhole reveal and passage', scene: 'blackhole-sync', surfaces: ['display', 'phone', 'insert'], variants: ['full', 'short', 'reduced'], status: [['pilot', 'Display cut, phone band, inserts: pilot (proposal)'], ['proposal', 'Presentation window: contract request R1'], ['not', 'Live-action insert: NOT PRODUCED (study only)']] },
-  'private-talk': { label: 'Pilot 3 · Private Talk capsule', scene: 'private-talk', surfaces: ['display', 'phone'], variants: ['full', 'reduced'], cases: ['entrance', 'talk', 'exit'], status: [['pilot', 'Display comic page: pilot (proposal)'], ['approved', 'Phones: S2 unchanged (approved, #144)'], ['proposal', 'Exit page on the display: request R2']] },
-  eject: { label: 'Cut · Captain EJECT on the display', scene: 'captain-eject', surfaces: ['display', 'insert'], variants: ['full', 'reduced'], status: [['pilot', 'Display cut: proposal (after the pilots)'], ['approved', 'S7 under it: approved (#159)'], ['approved', 'Phones: S7 unchanged']] },
-  navigation: { label: 'Library 2 · Navigation: transit and arrival', scene: 'navigation', surfaces: ['display', 'phone', 'insert'], variants: ['full', 'reduced'], cases: ['transit', 'arrival-blue', 'arrival-red'], status: [['pilot', 'Transit and arrivals: library group 2 (proposal)'], ['proposal', 'The office panel is private: its own review page (design/library/navigation/)']] },
+  'hospital-rescue': { label: 'Pilot 1 · Hospital drone and recovery', scene: 'doctor-rescue', surfaces: ['display', 'cut', 'phone', 'insert'], variants: ['full', 'short', 'reduced'], cases: ['free', 'detained'], status: [['pilot', 'Board treatment on every surface: pilot (proposal)'], ['approved', 'S5 under it: approved (#158, #160)'], ['proposal', 'Display cut: only where nobody decides'], ['not', 'Live-action insert: NOT PRODUCED (study only)']] },
+  blackhole: { label: 'Pilot 2 · Blackhole reveal and passage', scene: 'blackhole-sync', surfaces: ['display', 'phone', 'insert'], variants: ['full', 'stage', 'reduced'], cases: [], status: [['pilot', 'Board treatment in the rooms\' art, every surface: pilot (proposal)'], ['proposal', 'Stage variant (display): only if the owner approves a presentation stage, request R1'], ['not', 'Live-action insert: NOT PRODUCED (study only)']] },
+  'private-talk': { label: 'Pilot 3 · Private Talk capsule', scene: 'private-talk', surfaces: ['display', 'phone'], variants: ['full', 'reduced'], cases: ['entrance', 'talk', 'exit'], status: [['pilot', 'Display comic page, entrance in the result stage: pilot (proposal)'], ['approved', 'Phones, and the exit on every surface: S2 on the board, unchanged (approved, #144)']] },
+  eject: { label: 'Cut · Captain EJECT on the display', scene: 'captain-eject', surfaces: ['display', 'insert'], variants: ['full', 'reduced'], cases: [], status: [['pilot', 'Display cut: proposal (after the pilots)'], ['approved', 'S7 under it: approved (#159)'], ['approved', 'Phones: S7 unchanged']] },
+  navigation: { label: 'Library 2 · Navigation: transit and arrival', scene: 'navigation', surfaces: ['display', 'phone', 'insert'], variants: ['full', 'reduced'], cases: ['transit', 'arrival-blue', 'arrival-red'], status: [['pilot', 'Transit behind the crew on every surface; arrivals in FINISHED: library group 2 (proposal)'], ['proposal', 'The office panel is private: its own review page (design/library/navigation/)']] },
 };
-const state = { pilot: 'hospital-rescue', surface: 'display', variant: 'full', case: 'entrance', size: '390x844', t: 0, end: 1000, playing: false, reducedSwitch: false, delivered: new Set(), publishedAt: null };
+const state = { pilot: 'hospital-rescue', surface: 'display', variant: 'full', case: 'free', size: '390x844', t: 0, end: 1000, playing: false, reducedSwitch: false, delivered: new Set(), publishedAt: null };
 let cine = null, frame = null, raf = 0;
 
 function log(text) {
@@ -31,7 +34,7 @@ function stageUrl() {
   const [w, h] = state.size.split('x').map(Number);
   const q = new URLSearchParams({ pilot: state.pilot, surface: state.surface, variant: state.variant, beds: '4', t: String(Math.round(state.t)) });
   if (state.surface === 'phone') { q.set('w', String(w)); q.set('h', String(h)); }
-  if (PILOTS[state.pilot].cases) q.set('case', state.case);
+  if (PILOTS[state.pilot].cases.includes(state.case)) q.set('case', state.case);
   return `./stage.html?${q}`;
 }
 
@@ -97,7 +100,7 @@ function renderAudience() {
   const entry = CATALOGUE.find(scene => scene.id === pilot.scene);
   const status = pilot.status.map(([kind, text]) => `<span class="badge badge--${kind}">${text}</span>`).join(' ');
   $('audience').innerHTML = `<p>${status}</p><table><tr><th>Audience</th><td>${entry.audience}</td></tr><tr><th>Trigger</th><td>${entry.trigger}</td></tr>`
-    + `<tr><th>Phone vs display</th><td>${state.pilot === 'private-talk' ? 'The same public pair and transitions everywhere; the declared side and claim stay in the two participants\' own panel and never enter this film.' : 'Public: every phone and the display show the same facts; only the framing differs (display cut vs board treatment).'}</td></tr>`
+    + `<tr><th>Phone vs display</th><td>${state.pilot === 'private-talk' ? 'The same public pair and transitions everywhere; the declared side and claim stay in the two participants\' own panel and never enter this film.' : 'Public: every phone and the display show the same facts; only the framing differs. The board treatment covers nothing a player selects or reads; a covering cut plays only where nobody decides.'}</td></tr>`
     + `<tr><th>Durations</th><td>${Object.entries(entry.durations).map(([k, v]) => `${k}: ${v}`).join('<br>')}</td></tr></table>`;
 }
 
@@ -167,14 +170,13 @@ for (const id of ['pilot', 'surface', 'variant', 'case', 'size']) {
       const pilot = PILOTS[state.pilot];
       if (!pilot.surfaces.includes(state.surface)) state.surface = pilot.surfaces[0];
       if (!pilot.variants.includes(state.variant)) state.variant = pilot.variants[0];
+      if (!pilot.cases.includes(state.case)) state.case = pilot.cases[0] ?? '';
       options($('surface'), pilot.surfaces, state.surface);
       options($('variant'), pilot.variants, state.variant);
-      if (pilot.cases) {
-        if (!pilot.cases.includes(state.case)) state.case = pilot.cases[0];
-        options($('case'), pilot.cases, state.case);
-      }
+      options($('case'), pilot.cases, state.case);
     }
-    $('case').disabled = !PILOTS[state.pilot].cases;
+    if (state.pilot === 'blackhole' && state.variant === 'stage' && state.surface !== 'display') { state.variant = 'full'; $('variant').value = 'full'; }
+    $('case').disabled = PILOTS[state.pilot].cases.length === 0;
     $('size').disabled = state.surface !== 'phone';
     state.t = 0;
     await mount();
@@ -204,7 +206,8 @@ options($('pilot'), Object.keys(PILOTS), state.pilot);
 for (const option of $('pilot').options) option.textContent = PILOTS[option.value].label;
 options($('surface'), PILOTS[state.pilot].surfaces, state.surface);
 options($('variant'), PILOTS[state.pilot].variants, state.variant);
-$('case').disabled = true;
+options($('case'), PILOTS[state.pilot].cases, state.case);
+$('case').disabled = PILOTS[state.pilot].cases.length === 0;
 $('size').disabled = true;
 mount();
 exportsPanel();
