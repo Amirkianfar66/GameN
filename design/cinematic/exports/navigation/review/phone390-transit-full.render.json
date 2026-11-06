@@ -19,8 +19,8 @@
     {
       "kind": "video",
       "file": "design/cinematic/exports/navigation/review/phone390-transit-full.mp4",
-      "sha256": "fdce5e6599b455956c6007b2a4cbec2088f27685cbb83983c937661f01d1ee33",
-      "bytes": 229980,
+      "sha256": "dd9053fe8c301d7637a261860f6a413dd2c50601647a83d49887b975c271345b",
+      "bytes": 449538,
       "fps": 30,
       "frames": 55,
       "durationMs": 1800,
@@ -31,15 +31,20 @@
     {
       "kind": "preview",
       "file": "design/cinematic/exports/navigation/review/phone390-transit-full.preview.webp",
-      "sha256": "92023ace17ea9798504c95621104f3f51fa12cd3a6027a97af74de44136a6b65",
-      "bytes": 56576
+      "sha256": "848e34cee7cde9ccf4b0d1312806cea5faae0148b42a7ca08766422dd7ead3f5",
+      "bytes": 165332
     },
     {
       "kind": "poster",
       "file": "design/cinematic/exports/navigation/review/phone390-transit-full.poster.webp",
-      "sha256": "7eb674ca3e6693d3e04df23d1618068b97e87e23e032709c79da02f4799270ae",
-      "bytes": 88940,
+      "sha256": "6ba7a20202ea041163be67762a8a4ff47622ab75bc506d41d7ce01fc78753ea9",
+      "bytes": 60940,
       "t": 900
     }
-  ]
+  ],
+  "settling": {
+    "rule": "a frame is kept once two captures a redraw apart agree; pictures decode before their tiles draw",
+    "resettled": 0,
+    "unsettled": []
+  }
 }

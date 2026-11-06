@@ -31,8 +31,8 @@
     },
     {
       "path": "design/cinematic/gallery.mjs",
-      "sha256": "6f30e79081caf76d81d4acae2767529f112c5c7667acf77f7b36c54f2d78ff46",
-      "bytes": 12325
+      "sha256": "26a1455de6bed2225753c574b26bc795f5c130ffe766a84f1e03a3537b39b4ea",
+      "bytes": 12367
     },
     {
       "path": "design/cinematic/lib/ease.mjs",
@@ -131,8 +131,8 @@
     },
     {
       "path": "design/cinematic/catalogue/catalogue.mjs",
-      "sha256": "61fcfa0b2e8026c4d44fe9f09e68850ccbafc9dbe5665dd551a9583b4fedc985",
-      "bytes": 33556
+      "sha256": "e5a652b81c5bff988af1c29e12e0b53650e40df9c82711e87de6fa8ebd7826af",
+      "bytes": 33606
     },
     {
       "path": "design/tools/cinematic-inventory.mjs",
@@ -2838,8 +2838,8 @@
       "path": "design/cinematic/exports/navigation/review/display-transit-full.mp4",
       "pilot": "navigation",
       "class": "review",
-      "sha256": "278e734de0fb221bdda27a12a4df0fa700d164da12e994fa66968f2ef2861367",
-      "bytes": 301437,
+      "sha256": "2d6fb6fd58ab371dc17bf538f4ec99b9480b92e34052b2e79c700ce7c8535d5c",
+      "bytes": 584858,
       "width": 1280,
       "height": 720,
       "codec": "h264",
@@ -2870,8 +2870,8 @@
       "path": "design/cinematic/exports/navigation/review/display-transit-full.poster.webp",
       "pilot": "navigation",
       "class": "review",
-      "sha256": "de0b2718a04b4f4fb544c86f24fb7469c79e0b00771b0f59ca35e3832bcd0a03",
-      "bytes": 75594,
+      "sha256": "a4442d227b51d177bd2531031d0cb3cce4b9770e54600204b22e27b685383bc0",
+      "bytes": 57682,
       "width": 1280,
       "height": 720,
       "codec": "webp",
@@ -2889,8 +2889,8 @@
       "path": "design/cinematic/exports/navigation/review/display-transit-full.preview.webp",
       "pilot": "navigation",
       "class": "review",
-      "sha256": "d480839c6c92c567a17bb75fcc13c43b5c84038ecf707779be37565c139594de",
-      "bytes": 64070,
+      "sha256": "1f585eb91d93f88f3f124c1b9a94ecb2a8b21d704303da510428678b09663090",
+      "bytes": 189904,
       "width": 480,
       "height": 270,
       "codec": "webp",
@@ -2909,15 +2909,15 @@
       "path": "design/cinematic/exports/navigation/review/display-transit-full.render.json",
       "pilot": "navigation",
       "class": "review",
-      "sha256": "f86d41da9ba86cf852655c202a9a52b239e6480b80e0bb56a5e0f0011a06d859",
-      "bytes": 1450
+      "sha256": "1a4d8feed69c91c3c7bfa593b32c18990d3192c40c5620a9b9f0019ed24d1be4",
+      "bytes": 1623
     },
     {
       "path": "design/cinematic/exports/navigation/review/display-transit-reduced.mp4",
       "pilot": "navigation",
       "class": "review",
-      "sha256": "3fe83c5ae92d5aea7d35313f8639ee88a585c9fc460221e67bf77266c3ce6b91",
-      "bytes": 161148,
+      "sha256": "e709c9c3b62fd80829cbfa65c631639f4bd4cd9da3083901a662b09702000e59",
+      "bytes": 252975,
       "width": 1280,
       "height": 720,
       "codec": "h264",
@@ -2942,8 +2942,8 @@
       "path": "design/cinematic/exports/navigation/review/display-transit-reduced.poster.webp",
       "pilot": "navigation",
       "class": "review",
-      "sha256": "00e780c8bc547c0152b0ae4baca48e7604f74c1aa7428b1b2a191d9889c6f144",
-      "bytes": 74738,
+      "sha256": "900624fb86a47ca9a6e8d60826243dba223f6b53bc24f30538969311549b5489",
+      "bytes": 57074,
       "width": 1280,
       "height": 720,
       "codec": "webp",
@@ -2961,8 +2961,8 @@
       "path": "design/cinematic/exports/navigation/review/display-transit-reduced.preview.webp",
       "pilot": "navigation",
       "class": "review",
-      "sha256": "6ab52b521661584e961a5e97514edc8dba2f175cd620668297e2f735470a3676",
-      "bytes": 39562,
+      "sha256": "3f6c8ae5732bfc5c04fcfd65e272f349364e2013ee96978447b6432790560d36",
+      "bytes": 75332,
       "width": 480,
       "height": 270,
       "codec": "webp",
@@ -2981,8 +2981,8 @@
       "path": "design/cinematic/exports/navigation/review/display-transit-reduced.render.json",
       "pilot": "navigation",
       "class": "review",
-      "sha256": "fb3c539942d6e40d3f01df9c01920eaf0265b34fa5e617b53a493b0270b7d658",
-      "bytes": 1397
+      "sha256": "eda68bfd9fdb604f5c98312e1af8744c80bab901452881842c7a6cae8e1d026f",
+      "bytes": 1569
     },
     {
       "path": "design/cinematic/exports/navigation/review/phone390-arrival-blue-full.mp4",
@@ -3144,8 +3144,8 @@
       "path": "design/cinematic/exports/navigation/review/phone390-transit-full.mp4",
       "pilot": "navigation",
       "class": "review",
-      "sha256": "fdce5e6599b455956c6007b2a4cbec2088f27685cbb83983c937661f01d1ee33",
-      "bytes": 229980,
+      "sha256": "dd9053fe8c301d7637a261860f6a413dd2c50601647a83d49887b975c271345b",
+      "bytes": 449538,
       "width": 586,
       "height": 1266,
       "codec": "h264",
@@ -3176,8 +3176,8 @@
       "path": "design/cinematic/exports/navigation/review/phone390-transit-full.poster.webp",
       "pilot": "navigation",
       "class": "review",
-      "sha256": "7eb674ca3e6693d3e04df23d1618068b97e87e23e032709c79da02f4799270ae",
-      "bytes": 88940,
+      "sha256": "6ba7a20202ea041163be67762a8a4ff47622ab75bc506d41d7ce01fc78753ea9",
+      "bytes": 60940,
       "width": 585,
       "height": 1266,
       "codec": "webp",
@@ -3195,8 +3195,8 @@
       "path": "design/cinematic/exports/navigation/review/phone390-transit-full.preview.webp",
       "pilot": "navigation",
       "class": "review",
-      "sha256": "92023ace17ea9798504c95621104f3f51fa12cd3a6027a97af74de44136a6b65",
-      "bytes": 56576,
+      "sha256": "848e34cee7cde9ccf4b0d1312806cea5faae0148b42a7ca08766422dd7ead3f5",
+      "bytes": 165332,
       "width": 240,
       "height": 520,
       "codec": "webp",
@@ -3215,8 +3215,8 @@
       "path": "design/cinematic/exports/navigation/review/phone390-transit-full.render.json",
       "pilot": "navigation",
       "class": "review",
-      "sha256": "e070dc5260ceb7196ad85a1008fd8e2351708988f3572bfe72fff5ed8569e8c1",
-      "bytes": 1461
+      "sha256": "155f2e84f751af390608dcf6d1b777968aae09cae0b5f09464039511964a09ca",
+      "bytes": 1634
     },
     {
       "path": "design/cinematic/exports/navigation/runtime/arrival-blue-insert.mp4",
@@ -4355,6 +4355,6 @@
   "totals": {
     "sources": 33,
     "exports": 232,
-    "bytes": 46353509
+    "bytes": 47155617
   }
 }

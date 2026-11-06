@@ -436,11 +436,11 @@ Contract: protocol 3, engine `planet-game-1.0.0`, ruleset `in-person-planet-2026
 - **Trigger:** privateNavigation (offices); phases NAV_TIE, NAV_CAPTAIN_CONFIRM, NAV_OFFICER_CONFIRM; offers CHOOSE_NAV_DIRECTION, CONFIRM_NAVIGATION; MOVEMENT_COMPLETED (public event); navigation.lastMovedRound, arrivedAt
 - **Audience:** office-private route panel (Captain and Officer); public neutral transit; the destination public only on arrival
 - **Fields:** `privateNavigation.position`, `privateNavigation.direction`, `offers[]`, `phase.kind`, `navigation.lastMovedRound`, `navigation.arrivedAt`, `events[] MOVEMENT_COMPLETED`
-- **Start / loop / exit:** the Y-route panel: the ship at its place; at navigation the final direction and the step it makes; the Officer's choice on an undecided course; each office's acknowledgement (no veto); the token steps along the arm, across a rung or into a planet; the public transit band, the same every movement
+- **Start / loop / exit:** the Y-route panel: the ship at its place; at navigation the final direction and the step it makes; the Officer's choice on an undecided course; each office's acknowledgement (no veto); the token steps along the arm, across a rung or into a planet; the public transit behind the crew, the same every movement
 - **Durations:** full transit 2400 ms display, 1800 ms phone; panel step 900 ms; stamps 420 to 520 ms; reduced stills with 160 ms fades
 - **Final state:** the panel at the new place; the public chip "Round N: the ship moved"
 - **Cancellation:** phase end; a refused command changes nothing; a late join draws the result at rest
-- **Precedence:** stage-bound (public band over the board's middle, never a control)
+- **Precedence:** stage-bound (public, behind the crew in the rooms' art layers: it covers nothing as the next round opens)
 - **Audio:** engine hum and pass (public, the same every movement); none on the offices' phones
 - **Reduced motion:** stills
 - **7 / 8 / 9 players:** n/a

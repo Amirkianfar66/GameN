@@ -758,7 +758,7 @@
       "beats": {
         "start": "the Y-route panel: the ship at its place; at navigation the final direction and the step it makes",
         "loop": "the Officer's choice on an undecided course; each office's acknowledgement (no veto)",
-        "exit": "the token steps along the arm, across a rung or into a planet; the public transit band, the same every movement"
+        "exit": "the token steps along the arm, across a rung or into a planet; the public transit behind the crew, the same every movement"
       },
       "durations": {
         "full": "transit 2400 ms display, 1800 ms phone; panel step 900 ms; stamps 420 to 520 ms",
@@ -766,7 +766,7 @@
       },
       "final": "the panel at the new place; the public chip \"Round N: the ship moved\"",
       "cancel": "phase end; a refused command changes nothing; a late join draws the result at rest",
-      "precedence": "stage-bound (public band over the board's middle, never a control)",
+      "precedence": "stage-bound (public, behind the crew in the rooms' art layers: it covers nothing as the next round opens)",
       "audio": "engine hum and pass (public, the same every movement); none on the offices' phones",
       "reduced": "stills",
       "rosters": "n/a",

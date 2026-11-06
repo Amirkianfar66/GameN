@@ -8,7 +8,7 @@
 
 import { LABELS, anchorPercent, slug } from './art.mjs';
 import { NAV_COPY as C } from './copy.mjs';
-import { arrivalSvg, filmEnd, transitOverlay } from './films.mjs';
+import { arrivalSvg, filmEnd, transitBoardArt } from './films.mjs';
 import { FRAMES, MOTION, motionEnd } from './motion.mjs';
 import { step } from './route.mjs';
 import { STATES, officePanelState, panelStep, publicNavState } from './states.mjs';
@@ -142,9 +142,11 @@ function otherCards() {
 const ROOMS = ['../../board-motion/assets/scenes/room-a.back.svg', '../../board-motion/assets/scenes/room-b.back.svg'];
 const BAND = [366, 250];
 const ARRIVAL = [366, 480];
+/** The transit behind the crew over the two rooms' back pictures: the rooms' art layer, as the board draws it (no figures here). */
 function bandFilm(t, variant) {
   const [width, height] = BAND;
-  return transitOverlay(t, { width, height, board: { x: 0, y: 0, w: width, h: height } }, { surface: 'phone', variant }).svg;
+  const { art } = transitBoardArt(t, { width, height, board: { x: 0, y: 0, w: width, h: height } }, { surface: 'phone', variant });
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" width="${width}" height="${height}" data-film="navigation-transit" style="pointer-events:none">${art}</svg>`;
 }
 const arrivalFilm = (t, side, variant) => arrivalSvg(t, side, { surface: 'phone', width: ARRIVAL[0], height: ARRIVAL[1], variant }).svg;
 const filmBox = (kind, svg) => {
