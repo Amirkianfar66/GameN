@@ -1,13 +1,13 @@
-import type { PlanetVersions, PlanetRole, PlanetFaction, PlanetPhase, PlanetCommand, PlanetPromise, PlanetWindowDrawing, PlanetEvent, PlanetDirection, PlanetRoutePosition, PlanetResult, PlanetTally, PlanetSeatView, SeatId } from '@mothership/contracts';
+import type { PlanetVersions, PlanetRole, PlanetFaction, PlanetPhase, PlanetCommand, PlanetPromise, PlanetWindowDrawing, PlanetEvent, PlanetDirection, PlanetRoutePosition, PlanetResult, PlanetTally, PlanetSeatView, PlanetEngineerCapture, PlanetPanelRequest, SeatId } from '@mothership/contracts';
 export type { SeatId } from '@mothership/contracts';
 export interface PlanetGameContext { now:number; nextPhaseId:string; nextDeadlineToken:string; random:readonly number[]; phaseId?:string; deadlineToken?:string }
-export interface PlanetGameSetup { matchId:string; playerCount:7|8|9; roleOrder:PlanetRole[]; initialRooms:Record<SeatId,'Room A'|'Room B'>; initialTurnOrder:SeatId[]; assetManifestVersion:string }
+export interface PlanetGameSetup { matchId:string; playerCount:7|8|9; roleOrder:PlanetRole[]; initialRooms:Record<SeatId,'Room A'|'Room B'>; initialTurnOrder:SeatId[]; assetManifestVersion:string; versions?:PlanetVersions }
 export interface PlanetPhysicalSeat {
   seatId:SeatId; health:'Healthy'|'Injured'|'Eliminated'; location:'Room A'|'Room B'|'Command Room'|'Hospital'|'Jail'|null;
   slotId:PlanetSeatView['slotId']; lastRoom:'Room A'|'Room B'; jailed:boolean; revealedFaction:PlanetFaction|null;
   rescueDueAfterRound:number|null; medical:PlanetSeatView['medical']; ordinaryWeapons:number; roleActionSpent:boolean; shotSpent:boolean;
   protection:{donorSeatId:SeatId;activeFromRound:number;consumed:boolean}|null; protectionEver:boolean;
-  clone:{used:boolean;active:boolean;expiresAfterRound:number|null}; blackoutSpent:boolean; engineerSpent:boolean;
+  clone:{used:boolean;active:boolean;expiresAfterRound:number|null}; blackoutSpent:boolean; engineerSpent:boolean; engineerCapture?:PlanetEngineerCapture|null;
 }
 export interface PlanetRegisteredAction { actorSeatId:SeatId; commandId:string; command:PlanetCommand; order:number; boundRoom?:'Room A'|'Room B'|'Command Room'; selectedSlotId?:PlanetSeatView['slotId'] }
 export interface PlanetStoredEvent { event:PlanetEvent; recipients:SeatId[]|null }
@@ -15,6 +15,7 @@ export interface PlanetWorld {
   seats:PlanetPhysicalSeat[]; actions:PlanetRegisteredAction[]; injectionsRemaining:number;
   captainSeatId:SeatId|null; officerSeatId:SeatId|null; releaseUsed:boolean; ejectUsed:boolean;
   shipHackSpent:boolean; shipHackOverride:boolean; suppressedSeatIds:SeatId[]; events:PlanetStoredEvent[];
+  panelReservations?:Record<string,{seatId:SeatId;round:number;status:'QUEUED'|'TREATED'|'NO_EFFECT'}>;
 }
 export interface PlanetHack { id:string; actorSeatId:SeatId; targetSeatId:SeatId; declaredSide:PlanetFaction|null; status:'AWAITING_DECLARATION'|'DECLARED'|'NO_DECLARATION' }
 export interface PlanetGlobal {
@@ -23,6 +24,7 @@ export interface PlanetGlobal {
   blackholeSpent:boolean; blackholeRound:number|null; panelAttempts:SeatId[];
   scanResults:Array<{round:number;targetSeatId:SeatId;guess:PlanetFaction;matched:boolean;inCode:boolean|null}>;
   scanUsedRound:number|null; scanBlockedThroughRound:number|null; codeAttempted:boolean; shipHackUnlocked:boolean;
+  panelRequests?:Partial<Record<SeatId,PlanetPanelRequest>>;
   hackCounts:Record<SeatId,number>; hackSpent:SeatId[];
   promises:PlanetPromise[]; promiseGiven:SeatId[]; promiseReceived:SeatId[]; declinedPromiseIds:string[];
   drawings:PlanetWindowDrawing[]; roundOrders:Record<string,SeatId[]>;
@@ -34,7 +36,7 @@ export interface PlanetGameState {
   turnOrder:SeatId[]; turnIndex:number; activeSeatId:SeatId|null; hack:PlanetHack|null; panelOpen:boolean;
   ballot:{kind:'CAPTAIN_ELECTION'|'JAIL_VOTE';eligibleVoters:SeatId[];eligibleTargets:SeatId[];votes:Partial<Record<SeatId,SeatId|null>>; runoff:boolean; electionId:string}|null;
   lastTally:PlanetTally|null; afterVote:'RESOLVE'|'APPOINT'|'RUNOFF'|'NEXT_ROUND'|null; electionNeeded:boolean;
-  navigation:{position:PlanetRoutePosition;direction:PlanetDirection|null;lastMovedRound:number;arrivedAt:PlanetDirection|null;started:boolean};
+  navigation:{position:PlanetRoutePosition;direction:PlanetDirection|null;lastMovedRound:number;arrivedAt:PlanetDirection|null;started:boolean;settingTie?:boolean;settingDirection?:PlanetDirection|null};
   result:PlanetResult|null; finalized:{round:number;seats:PlanetSeatView[];events:PlanetStoredEvent[]};
   revisions:{public:number;players:Record<SeatId,number>};
   eventPublications:Record<string,Record<string,{viewRevision:number;publishedAt:number}>>;
@@ -60,4 +62,6 @@ export function storePlanetEvent(state:PlanetGameState,world:PlanetWorld,kind:Pl
 }
 
 // Immutable P27 behavior gate; never enable a timing change merely by changing defaults.
-export const planetHasSyncPresentation = (versions:PlanetVersions):boolean => versions.engineVersion==='planet-game-1.0.1';
+export const planetHasSyncPresentation = (versions:PlanetVersions):boolean => versions.engineVersion==='planet-game-1.0.1'||versions.engineVersion==='planet-game-1.1.0';
+
+export const planetHasPrivateFeedback = (versions:PlanetVersions):boolean => versions.engineVersion==='planet-game-1.1.0';

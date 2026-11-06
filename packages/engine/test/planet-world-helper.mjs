@@ -3,10 +3,10 @@ import { createPlanetGame,applyPlanetCommand,advancePlanetDeadline,assertPlanetG
 
 // Legal synthetic initial deal, followed solely by public commands and trusted deadlines.
 // Random vectors, requests and transition contexts are retained for exact replay.
-export function planetWorldDriver(count) {
+export function planetWorldDriver(count,{versions,initialRooms}={}) {
   const roles=['Insider','Doctor','Blue Disabler','Supplier','Undercover','Hacker','Alien',...(count>=8?['Red Disabler']:[]),...(count===9?['Engineer']:[])];
   const ids=roles.map((_,i)=>`seat-${i+1}`),roomA=new Set(['seat-1','seat-2','seat-3','seat-5','seat-6']);
-  const setup={matchId:`planet-worlds-${count}`,playerCount:count,roleOrder:roles,initialRooms:Object.fromEntries(ids.map(id=>[id,roomA.has(id)?'Room A':'Room B'])),initialTurnOrder:ids,assetManifestVersion:'planet-world-test-art'};
+  const setup={matchId:`planet-worlds-${count}`,playerCount:count,roleOrder:roles,initialRooms:initialRooms??Object.fromEntries(ids.map(id=>[id,roomA.has(id)?'Room A':'Room B'])),initialTurnOrder:ids,assetManifestVersion:'planet-world-test-art',...(versions?{versions}:{})};
   let sequence=0;
   const context=(now,sample=0.999999)=>({now,nextPhaseId:`world-phase-${++sequence}`,nextDeadlineToken:`world-token-${sequence}`,random:Array(32).fill(sample)});
   const initialContext=context(1000),initial=createPlanetGame(setup,initialContext),history=[];

@@ -1,5 +1,5 @@
 import type { PlanetCommand, SeatId } from '@mothership/contracts';
-import { copyPlanet, planetWorld, planetSeat, alive, freeHealthy, ownTurn, canRoleAction, planetFaction, seatIds } from './model.js';
+import { copyPlanet, planetWorld, planetSeat, alive, freeHealthy, ownTurn, canRoleAction, planetFaction, seatIds, planetHasPrivateFeedback } from './model.js';
 import type { PlanetGameState } from './model.js';
 import { physicalPlanetCommand, planetLocalTarget, planetSlotIds } from './physical.js';
 import { socialPlanetCommand } from './social.js';
@@ -66,7 +66,12 @@ export function planetBaseCommand(state:PlanetGameState,actorId:SeatId,command:P
       request.selectedSlotId=command.slotId;actor.blackoutSpent=true;return true;
     }
     case 'CHOOSE_NAV_DIRECTION':
-      if(state.phase.kind!=='NAV_TIE'||world.officerSeatId!==actorId||!freeHealthy(actor)||state.navigation.direction!==null)return false;
+      if(world.officerSeatId!==actorId||!freeHealthy(actor))return false;
+      if(planetHasPrivateFeedback(state.versions)) {
+        if(state.phase.kind!=='NAV_SETTING'||state.navigation.settingTie!==true||state.navigation.settingDirection!==null)return false;
+        state.navigation.settingDirection=command.direction;return true;
+      }
+      if(state.phase.kind!=='NAV_TIE'||state.navigation.direction!==null)return false;
       state.navigation.direction=command.direction;return true;
     case 'CONFIRM_NAVIGATION':return freeHealthy(actor)&&((state.phase.kind==='NAV_CAPTAIN_CONFIRM'&&world.captainSeatId===actorId)||(state.phase.kind==='NAV_OFFICER_CONFIRM'&&world.officerSeatId===actorId));
     default:return false;

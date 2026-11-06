@@ -1,6 +1,6 @@
 import { PlanetPublicViewSchema, PlanetPlayerViewSchema, PlanetEventSchema, validClinicalAnchorForPlayerCount } from '@mothership/contracts';
 import type { PlanetEvent, PlanetPlayerView, PlanetPublicView, SeatId } from '@mothership/contracts';
-import { copyPlanet, freeHealthy, planetFaction, planetSeat, planetSeatView, planetWorld } from './model.js';
+import { copyPlanet, freeHealthy, planetFaction, planetSeat, planetSeatView, planetWorld, planetHasPrivateFeedback } from './model.js';
 import type { PlanetGameState, PlanetStoredEvent, PlanetWorld } from './model.js';
 import { planetOffers } from './offers.js';
 import { planetBlackoutRequest, planetSlotIds } from './physical.js';
@@ -125,10 +125,13 @@ export function projectPlanetPlayer(state: PlanetGameState, id: SeatId): PlanetP
   const world = planetWorld(state, id), self = planetSeat(world, id), role = state.roles[id]!;
   const hacker = role === 'Hacker', alien = role === 'Alien';
   const office = world.captainSeatId === id || world.officerSeatId === id;
-  const available = freeHealthy(self);
+  const available = freeHealthy(self), privateFeedback = planetHasPrivateFeedback(state.versions);
   const privateNavigation = office ? {
-    position: state.navigation.position, direction: state.navigation.direction,
-    tieChoice: available && world.officerSeatId === id && state.phase.kind === 'NAV_TIE',
+    position: state.navigation.position,
+    direction: privateFeedback && state.phase.kind === 'NAV_SETTING' ? null : state.navigation.direction,
+    tieChoice: available && world.officerSeatId === id && (privateFeedback
+      ? state.phase.kind === 'NAV_SETTING' && state.navigation.settingTie === true && state.navigation.settingDirection === null
+      : state.phase.kind === 'NAV_TIE'),
     confirmation: available && world.captainSeatId === id && state.phase.kind === 'NAV_CAPTAIN_CONFIRM' ? 'CAPTAIN'
       : available && world.officerSeatId === id && state.phase.kind === 'NAV_OFFICER_CONFIRM' ? 'OFFICER' : null,
   } : null;
@@ -151,6 +154,10 @@ export function projectPlanetPlayer(state: PlanetGameState, id: SeatId): PlanetP
       engineerSpent: role === 'Engineer' && self.engineerSpent, clone: alien ? copyPlanet(self.clone) : null,
       injectionsRemaining: role === 'Doctor' ? world.injectionsRemaining : null,
       panelAttemptSpent: state.global.panelAttempts.includes(id),
+      ...(privateFeedback ? {
+        engineerCapture: role === 'Engineer' ? copyPlanet(self.engineerCapture ?? null) : null,
+        panelRequest: copyPlanet(state.global.panelRequests?.[id] ?? null),
+      } : {}),
       captainCommands: world.captainSeatId === id ? { releaseUsed: world.releaseUsed, ejectUsed: world.ejectUsed } : null,
       protectionGrants: role === 'Undercover' ? orderedIds(state).flatMap(targetSeatId => {
         const p = planetSeat(world, targetSeatId).protection;

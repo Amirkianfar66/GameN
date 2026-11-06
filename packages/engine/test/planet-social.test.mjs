@@ -1,7 +1,7 @@
 // Constructed pure-module controls, not native lifecycle/Sync, service or Balance evidence.
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { PLANET_GAME_PINS, PlanetPromiseSchema, PlanetWindowDrawingSchema } from '@mothership/contracts';
+import { PLANET_SYNC_PINS as PLANET_GAME_PINS, PlanetPromiseSchema, PlanetWindowDrawingSchema } from '@mothership/contracts';
 import { socialPlanetCommand, planetWindows, finalizePlanetPromises } from '../dist/planet-game/social.js';
 
 const copy = value => structuredClone(value);
@@ -11,7 +11,7 @@ function fixture(count=7) {
   const ids=roles.map((_,i)=>`seat-${i+1}`);
   const seats=ids.map((seatId,i)=>({seatId,health:'Healthy',location:i<5?'Room A':'Room B',slotId:i<5?`A${i+1}`:`B${i-4}`,lastRoom:i<5?'Room A':'Room B',jailed:false,revealedFaction:null,rescueDueAfterRound:null,
     ordinaryWeapons:0,roleActionSpent:false,shotSpent:false,protection:null,protectionEver:false,clone:{used:false,active:false,expiresAfterRound:null},blackoutSpent:false,engineerSpent:false}));
-  return {matchId:'social-fixture',versions:{...PLANET_GAME_PINS,assetManifestVersion:'social-test-art'},playerCount:count,round:3,
+  return {matchId:'social-fixture',versions:{...PLANET_SYNC_PINS as PLANET_GAME_PINS,assetManifestVersion:'social-test-art'},playerCount:count,round:3,
     phase:{id:'talk-phase',kind:'HACK',startedAt:1000,endsAt:61000},evaluatedAt:1100,deadlineToken:'talk-deadline',
     roles:Object.fromEntries(ids.map((id,i)=>[id,roles[i]])),code:['seat-1','seat-2','seat-5','seat-7'],
     worlds:{Original:{seats,actions:[],injectionsRemaining:2,captainSeatId:null,officerSeatId:null,releaseUsed:false,ejectUsed:false,shipHackSpent:false,shipHackOverride:false,suppressedSeatIds:[],events:[]}},

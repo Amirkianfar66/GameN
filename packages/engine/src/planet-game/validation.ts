@@ -1,7 +1,7 @@
-import { IdentifierSchema, PlanetVersionsSchema, PlanetRoundSchema, PlanetPhaseSchema, PlanetPromiseSchema, PlanetWindowDrawingSchema, PlanetEventSchema, PlanetResultSchema, PlanetTallySchema, PlanetCommandSchema, PlanetBoardViewSchema, validClinicalAnchorForPlayerCount } from '@mothership/contracts';
+import { IdentifierSchema, PlanetVersionsSchema, PlanetRoundSchema, PlanetPhaseSchema, PlanetPromiseSchema, PlanetWindowDrawingSchema, PlanetEventSchema, PlanetResultSchema, PlanetTallySchema, PlanetCommandSchema, PlanetBoardViewSchema, validClinicalAnchorForPlayerCount, PlanetEngineerCaptureSchema, PlanetPanelRequestSchema, planetSupportsPhase } from '@mothership/contracts';
 import type { SeatId } from '@mothership/contracts';
 import type { PlanetGameContext, PlanetGameState } from './model.js';
-import { planetFaction, seatIds, planetWorld, freeHealthy, planetHasSyncPresentation } from './model.js';
+import { planetFaction, seatIds, planetWorld, freeHealthy, planetHasSyncPresentation, planetHasPrivateFeedback } from './model.js';
 import { planetSlotIds, planetJailOccupancy } from './physical.js';
 export function assertPlanetContext(context:PlanetGameContext):void {
   if(!Number.isSafeInteger(context.now)||context.now<0||context.now>Number.MAX_SAFE_INTEGER-60000||!IdentifierSchema.safeParse(context.nextPhaseId).success
@@ -11,7 +11,7 @@ function fail(ok:unknown,label:string):asserts ok {if(!ok)throw Error(`Invalid p
 const distinct=(xs:readonly string[])=>new Set(xs).size===xs.length;
 export function assertPlanetGameState(value:unknown):asserts value is PlanetGameState {
   fail(value!==null&&typeof value==='object'&&!Array.isArray(value),'object');const s=value as PlanetGameState;
-  PlanetVersionsSchema.parse(s.versions);PlanetRoundSchema.parse(s.round);PlanetPhaseSchema.parse(s.phase);IdentifierSchema.parse(s.matchId);
+  PlanetVersionsSchema.parse(s.versions);fail(planetSupportsPhase(s.versions,s.phase.kind),'versioned phase');PlanetRoundSchema.parse(s.round);PlanetPhaseSchema.parse(s.phase);IdentifierSchema.parse(s.matchId);
   fail([7,8,9].includes(s.playerCount),'player count');fail(Number.isSafeInteger(s.evaluatedAt)&&s.evaluatedAt>=s.phase.startedAt,'trusted time');
   const ids=seatIds(s),expected=Array.from({length:s.playerCount},(_,i)=>`seat-${i+1}`);
   fail(ids.length===s.playerCount&&ids.every(id=>expected.includes(id)),'original identities');
@@ -34,6 +34,14 @@ export function assertPlanetGameState(value:unknown):asserts value is PlanetGame
   fail(Object.keys(s.realityOf).length===ids.length&&ids.every(id=>Object.hasOwn(s.worlds,s.realityOf[id]!)),'assigned worlds');
   fail(typeof s.blackholeActive==='boolean'&&typeof s.blackoutPreviewComplete==='boolean','window flags');
   fail(s.blackholeActive||worlds.length===1,'collapsed worlds');
+  const feedback=planetHasPrivateFeedback(s.versions);
+  if(feedback) {
+    fail(s.global.panelRequests&&typeof s.global.panelRequests==='object'&&!Array.isArray(s.global.panelRequests),'patient knowledge ledger');
+    const attempts=Object.keys(s.global.panelRequests);fail(attempts.every(id=>ids.includes(id as SeatId))&&attempts.sort().join()===[...s.global.panelAttempts].sort().join(),'patient attempt identities');
+    for(const record of Object.values(s.global.panelRequests)){PlanetPanelRequestSchema.parse(record);fail(record!.round<=s.round,'patient attempt round');}
+    fail(typeof s.navigation.settingTie==='boolean'&&(s.navigation.settingDirection===null||['Blue','Red'].includes(s.navigation.settingDirection!)),'private setting state');
+  }else fail(!Object.hasOwn(s.global,'panelRequests')&&!Object.hasOwn(s.navigation,'settingTie')&&!Object.hasOwn(s.navigation,'settingDirection'),'legacy private shape');
+  if(s.phase.kind==='NAV_SETTING')fail(feedback&&s.round>=2&&s.navigation.started&&s.navigation.direction===null&&s.navigation.lastMovedRound<s.round&&!s.panelOpen&&s.ballot===null&&s.activeSeatId===null,'neutral setting opportunity');
   if(s.phase.kind==='BLACKHOLE_PRESENTATION') {
     fail(planetHasSyncPresentation(s.versions)&&!s.blackholeActive&&s.global.blackholeSpent&&s.global.blackholeRound===s.round
       &&!s.panelOpen&&s.ballot===null&&s.activeSeatId===null&&s.afterVote===null&&!s.navigation.started
@@ -41,8 +49,19 @@ export function assertPlanetGameState(value:unknown):asserts value is PlanetGame
     fail(s.global.promises.every(p=>!p.accepted||p.round!==s.round||!['MEET_A','MEET_B'].includes(p.kind)||p.status==='Pending'),'meeting opportunity still closed');
   }
   for(const [worldId,w]of worlds){IdentifierSchema.parse(worldId);fail(w.seats.length===ids.length&&isIds(w.seats.map(x=>x.seatId)),'world complete roster');
+    if(feedback){
+      fail(w.panelReservations&&typeof w.panelReservations==='object'&&!Array.isArray(w.panelReservations),'world reservation ledger');
+      for(const [key,reservation]of Object.entries(w.panelReservations)){
+        const knowledge=s.global.panelRequests![reservation.seatId];
+        fail(ids.includes(reservation.seatId)&&knowledge&&key===`${reservation.seatId}:${knowledge.commandId}`&&reservation.round===knowledge.round&&reservation.round<=s.round&&['QUEUED','TREATED','NO_EFFECT'].includes(reservation.status)&&reservation.status===knowledge.status,'world reservation identity');
+        if(reservation.status==='QUEUED')fail(w.actions.some(a=>a.actorSeatId===reservation.seatId&&a.commandId===knowledge.commandId&&a.command.type==='PANEL_CODE'),'retained queued reservation');
+      }
+    }else fail(!Object.hasOwn(w,'panelReservations'),'legacy world shape');
     fail(Number.isInteger(w.injectionsRemaining)&&w.injectionsRemaining>=0&&w.injectionsRemaining<=2,'healing pool');const slots:string[]=[];
-    for(const seat of w.seats){fail(['Healthy','Injured','Eliminated'].includes(seat.health),'health');
+    for(const seat of w.seats){
+      if(feedback){fail(Object.hasOwn(seat,'engineerCapture'),'capture evidence field');if(seat.engineerCapture){PlanetEngineerCaptureSchema.parse(seat.engineerCapture);fail(s.roles[seat.seatId]==='Engineer'&&seat.engineerCapture.round<=s.round&&isIds(seat.engineerCapture.seatIds),'fixed original capture');}fail(seat.engineerSpent===(seat.engineerCapture!==null),'capture/use consistency');}
+      else fail(!Object.hasOwn(seat,'engineerCapture'),'legacy seat shape');
+      fail(['Healthy','Injured','Eliminated'].includes(seat.health),'health');
       fail(seat.location===null?seat.slotId===null&&seat.health==='Eliminated':seat.slotId!==null&&planetSlotIds(seat.location).includes(seat.slotId),'physical slot');
       if(seat.slotId!==null)slots.push(seat.slotId);
       fail(seat.health!=='Injured'||seat.location==='Hospital','admission finalized');
@@ -63,6 +82,7 @@ export function assertPlanetGameState(value:unknown):asserts value is PlanetGame
       if('targetSeatId'in action.command)fail(action.command.targetSeatId!==null&&ids.includes(action.command.targetSeatId),'retained target');
       if(action.command.type==='SUPPLY')fail(action.command.targetSeatIds.every(id=>ids.includes(id)),'retained Supply targets');
       if(action.command.type==='PANEL_CODE')fail(s.roles[action.command.doctorSeatId]==='Doctor'&&s.global.panelAttempts.includes(action.actorSeatId),'reserved panel');
+      if(feedback&&action.command.type==='PANEL_CODE')fail(w.panelReservations?.[`${action.actorSeatId}:${action.commandId}`]?.status==='QUEUED','queued panel reservation');
       if(action.command.type==='REQUEST_BLACKOUT')fail(action.boundRoom&&['Room A','Room B','Command Room'].includes(action.boundRoom)&&(action.selectedSlotId===null||action.selectedSlotId!==undefined&&planetSlotIds(action.boundRoom).includes(action.selectedSlotId)),'retained Blackout binding');
     }
     for(const e of w.events){PlanetEventSchema.parse(e.event);fail(e.recipients===null||isIds(e.recipients),'frozen audience');

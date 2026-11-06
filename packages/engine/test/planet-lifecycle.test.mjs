@@ -1,9 +1,12 @@
 import assert from 'node:assert/strict';
 import {test} from 'node:test';
-import {createPlanetGame,applyPlanetCommand,advancePlanetDeadline,planetDeadlineAt,projectPlanetPublic,projectPlanetPlayer,assertPlanetGameState,encodePlanetGameState,decodePlanetGameState,abortPlanetGame,PLANET_GAME_PINS} from '../dist/index.js';
+import {createPlanetGame,applyPlanetCommand,advancePlanetDeadline,planetDeadlineAt,projectPlanetPublic,projectPlanetPlayer,assertPlanetGameState,encodePlanetGameState,decodePlanetGameState,abortPlanetGame} from '../dist/index.js';
 import {nextPlanetPosition,planetNavigationWeights} from '../dist/planet-game/navigation.js';
 import {planetSeatView} from '../dist/planet-game/model.js';
-import {planetWorldDriver,currentWorld,worldSeat} from './planet-world-helper.mjs';
+import {planetWorldDriver as currentPlanetDriver,currentWorld,worldSeat} from './planet-world-helper.mjs';
+import {PLANET_SYNC_PINS} from '@mothership/contracts';
+// Historical 1.0.1 lifecycle controls; new fixed-window scenarios live in planet-navigation-window.test.mjs.
+const planetWorldDriver=n=>currentPlanetDriver(n,{versions:{...PLANET_SYNC_PINS,assetManifestVersion:'planet-world-test-art'}});
 const context=(s,now=s.phase.endsAt,sample=.999999)=>({now,nextPhaseId:`extra-${s.round}-${s.phase.id}`.slice(0,120),nextDeadlineToken:`extra-token-${s.round}-${s.phase.id}`.slice(0,120),phaseId:s.phase.id,deadlineToken:s.deadlineToken,random:Array(32).fill(sample)});
 function voteAll(d,target){for(const id of d.state.ballot.eligibleVoters)d.command(id,{type:'VOTE',targetSeatId:target});d.deadline();}
 function appoint(d){d.until(s=>s.round===2&&s.phase.kind==='CAPTAIN_ELECTION');voteAll(d,'seat-7');d.deadline();assert.equal(d.state.phase.kind,'OFFICER_APPOINTMENT');d.command('seat-7',{type:'APPOINT_OFFICER',targetSeatId:'seat-4'});}
@@ -12,7 +15,7 @@ function direct(d,actor,command,ctx){return applyPlanetCommand(d.state,actor,{pr
 
 for(const n of [7,8,9]){
  test(`${n}: native setup preserves fixed original Code and private starting information with strict independent rooms`,()=>{
-  const d=planetWorldDriver(n),s=d.state;assert.deepEqual(s.versions,{...PLANET_GAME_PINS,assetManifestVersion:'planet-world-test-art'});
+  const d=planetWorldDriver(n),s=d.state;assert.deepEqual(s.versions,{...PLANET_SYNC_PINS,assetManifestVersion:'planet-world-test-art'});
   assert.deepEqual(s.code,['seat-1','seat-2','seat-5','seat-7']);
   assert.deepEqual(projectPlanetPlayer(s,'seat-1').knowledge.insiderSeatIds,['seat-2','seat-5','seat-7']);
   assert.equal(projectPlanetPlayer(s,'seat-6').knowledge.knownUndercoverSeatId,'seat-5');assert.deepEqual(projectPlanetPlayer(s,'seat-7').knowledge.insiderSeatIds,[]);

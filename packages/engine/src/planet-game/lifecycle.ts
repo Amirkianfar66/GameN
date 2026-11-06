@@ -1,6 +1,6 @@
 import { PLANET_GAME_PINS, PLANET_PHASE_DURATIONS, PlanetVersionsSchema, PlanetCommandRequestSchema, PlanetReceiptSchema, IdentifierSchema } from '@mothership/contracts';
 import type { PlanetCommandRequest, PlanetReceipt, PlanetPhaseKind, SeatId } from '@mothership/contracts';
-import { copyPlanet, seatIds, planetWorld, planetSeat, freeHealthy, alive, planetSeatView, storePlanetEvent, planetHasSyncPresentation } from './model.js';
+import { copyPlanet, seatIds, planetWorld, planetSeat, freeHealthy, alive, planetSeatView, storePlanetEvent, planetHasSyncPresentation, planetHasPrivateFeedback } from './model.js';
 import type { PlanetGameSetup, PlanetGameContext, PlanetGameState, PlanetWorld } from './model.js';
 import { assertPlanetContext, assertPlanetGameState } from './validation.js';
 import { planetCommand } from './commands.js';
@@ -53,6 +53,7 @@ function beginNextRound(state:PlanetGameState,ctx:PlanetGameContext):void {
   if(state.round>=Number.MAX_SAFE_INTEGER-2)throw Error('Planet round integer exhausted');state.round++;
   state.global.lastBlockedSeatId=state.global.blockedSeatId;state.global.blockedSeatId=null;state.global.movementSpent=[];state.global.hackSpent=[];
   state.blackholeActive=false;state.hack=null;state.panelOpen=true;state.navigation.direction=null;state.navigation.started=false;state.afterVote=null;state.ballot=null;
+  if(planetHasPrivateFeedback(state.versions)){state.navigation.settingTie=false;state.navigation.settingDirection=null;}
   const world=planetWorld(state);world.actions=[];world.events=[];world.suppressedSeatIds=[];world.shipHackOverride=false;
   for(const seat of world.seats){seat.roleActionSpent=false;seat.shotSpent=false;if(seat.medical)seat.medical.rescueOpportunity=seat.medical.rescueDueAfterRound<=state.round?'CURRENT_NORMAL_ROUND':'NEXT_NORMAL_ROUND';}
   state.turnOrder=roundOrder(state,ctx);state.turnIndex=0;state.electionNeeded=world.captainSeatId===null;
@@ -80,7 +81,14 @@ function resolveRound(state:PlanetGameState,ctx:PlanetGameContext):void {
   state.navigation.started=true;
   if(state.round===1){state.navigation.direction=null;moveShip(state,ctx);return;}
   const weights=planetNavigationWeights(state,world);
-  state.navigation.direction=world.shipHackOverride?'Red':weights.Blue===weights.Red?null:weights.Blue>weights.Red?'Blue':'Red';
+  const candidate=world.shipHackOverride?'Red':weights.Blue===weights.Red?null:weights.Blue>weights.Red?'Blue':'Red';
+  if(planetHasPrivateFeedback(state.versions)) {
+    // Every new-version round has the same neutral window; neither its presence nor
+    // an early private Officer choice discloses a tie or a hidden ship-hack override.
+    state.navigation.direction=null;state.navigation.settingTie=candidate===null;state.navigation.settingDirection=candidate;
+    phase(state,'NAV_SETTING',ctx);return;
+  }
+  state.navigation.direction=candidate;
   if(state.navigation.direction===null){
     if(world.officerSeatId!==null&&freeHealthy(planetSeat(world,world.officerSeatId))){phase(state,'NAV_TIE',ctx);return;}
     state.navigation.direction=draw(ctx,2)===0?'Blue':'Red';
@@ -98,7 +106,8 @@ function syncAndVote(state:PlanetGameState,ctx:PlanetGameContext):void {
   if(state.blackholeActive){
     const worlds=Object.keys(state.worlds),chosen=worlds[draw(ctx,worlds.length)]!;
     state.currentWorldId=chosen;state.worlds={[chosen]:state.worlds[chosen]!};for(const id of seatIds(state))state.realityOf[id]=chosen;
-    state.blackholeActive=false;storePlanetEvent(state,planetWorld(state),'BLACKHOLE_SYNCED',[]);
+    state.blackholeActive=false;
+    storePlanetEvent(state,planetWorld(state),'BLACKHOLE_SYNCED',[]);
     // Selected physical state is finalized, but attacks and Promise opportunities wait.
     publishBoard(state,state.round);
     if(planetHasSyncPresentation(state.versions)){phase(state,'BLACKHOLE_PRESENTATION',ctx);return;}
@@ -147,21 +156,24 @@ export function createPlanetGame(setup:PlanetGameSetup,ctx:PlanetGameContext):Pl
   assertPlanetContext(ctx);ctx={...ctx,randomIndex:0} as TransitionContext;IdentifierSchema.parse(setup.matchId);
   if(![7,8,9].includes(setup.playerCount))throw Error('Unsupported planet roster');
   const ids=Array.from({length:setup.playerCount},(_,i)=>`seat-${i+1}` as SeatId),roles=['Insider','Doctor','Blue Disabler','Supplier','Undercover','Hacker','Alien',...(setup.playerCount>=8?['Red Disabler']:[]),...(setup.playerCount===9?['Engineer']:[])];
+  const versions=PlanetVersionsSchema.parse(setup.versions??{...PLANET_GAME_PINS,assetManifestVersion:setup.assetManifestVersion});
+  if(versions.assetManifestVersion!==setup.assetManifestVersion)throw Error('Explicit planet version asset must match setup asset');
+  const privateFeedback=planetHasPrivateFeedback(versions);
   if(setup.roleOrder.length!==ids.length||new Set(setup.roleOrder).size!==ids.length||setup.roleOrder.some(r=>!roles.includes(r))||setup.initialTurnOrder.length!==ids.length||new Set(setup.initialTurnOrder).size!==ids.length||setup.initialTurnOrder.some(id=>!ids.includes(id)))throw Error('Complete original deal and round order required');
   if(Object.keys(setup.initialRooms).length!==ids.length||ids.some(id=>!['Room A','Room B'].includes(setup.initialRooms[id])))throw Error('Complete independent starting rooms required');
   if(['Room A','Room B'].some(room=>ids.filter(id=>setup.initialRooms[id]===room).length>5))throw Error('Starting room capacity exceeded');
   const counts={'Room A':0,'Room B':0},assigned=Object.fromEntries(ids.map((id,i)=>[id,setup.roleOrder[i]!])) as PlanetGameState['roles'];
-  const world:PlanetWorld={seats:ids.map(id=>{const location=setup.initialRooms[id],number=++counts[location];return {seatId:id,health:'Healthy',location,slotId:`${location==='Room A'?'A':'B'}${number}` as 'A1',lastRoom:location,jailed:false,revealedFaction:null,rescueDueAfterRound:null,medical:null,ordinaryWeapons:assigned[id]==='Undercover'?1:0,roleActionSpent:false,shotSpent:false,protection:null,protectionEver:false,clone:{used:false,active:false,expiresAfterRound:null},blackoutSpent:false,engineerSpent:false};}),actions:[],injectionsRemaining:2,captainSeatId:null,officerSeatId:null,releaseUsed:false,ejectUsed:false,shipHackSpent:false,shipHackOverride:false,suppressedSeatIds:[],events:[]};
-  const state:PlanetGameState={matchId:setup.matchId,versions:PlanetVersionsSchema.parse({...PLANET_GAME_PINS,assetManifestVersion:setup.assetManifestVersion}),playerCount:setup.playerCount,round:1,evaluatedAt:ctx.now,
+  const world:PlanetWorld={seats:ids.map(id=>{const location=setup.initialRooms[id],number=++counts[location];return {seatId:id,health:'Healthy',location,slotId:`${location==='Room A'?'A':'B'}${number}` as 'A1',lastRoom:location,jailed:false,revealedFaction:null,rescueDueAfterRound:null,medical:null,ordinaryWeapons:assigned[id]==='Undercover'?1:0,roleActionSpent:false,shotSpent:false,protection:null,protectionEver:false,clone:{used:false,active:false,expiresAfterRound:null},blackoutSpent:false,engineerSpent:false,...(privateFeedback?{engineerCapture:null}:{})};}),actions:[],injectionsRemaining:2,captainSeatId:null,officerSeatId:null,releaseUsed:false,ejectUsed:false,shipHackSpent:false,shipHackOverride:false,suppressedSeatIds:[],events:[],...(privateFeedback?{panelReservations:{}}:{})};
+  const state:PlanetGameState={matchId:setup.matchId,versions,playerCount:setup.playerCount,round:1,evaluatedAt:ctx.now,
     phase:{id:ctx.nextPhaseId,kind:'PRE_TURN',startedAt:ctx.now,endsAt:ctx.now+15000},deadlineToken:ctx.nextDeadlineToken,roles:assigned,code:ids.filter(id=>['Undercover','Alien','Insider','Doctor'].includes(assigned[id]!)),worlds:{'world-0':world},realityOf:Object.fromEntries(ids.map(id=>[id,'world-0'])) as Record<SeatId,string>,currentWorldId:'world-0',blackholeActive:false,blackoutPreviewComplete:false,nextWorldNumber:1,
-    global:{promiseEvaluation:{},movementSpent:[],blockedSeatId:null,lastBlockedSeatId:null,blackholeSpent:false,blackholeRound:null,panelAttempts:[],scanResults:[],scanUsedRound:null,scanBlockedThroughRound:null,codeAttempted:false,shipHackUnlocked:false,hackCounts:Object.fromEntries(ids.map(id=>[id,0])) as Record<SeatId,number>,hackSpent:[],promises:[],promiseGiven:[],promiseReceived:[],declinedPromiseIds:[],drawings:[],roundOrders:{'1':[...setup.initialTurnOrder]}},
+    global:{...(privateFeedback?{panelRequests:{}}:{}),promiseEvaluation:{},movementSpent:[],blockedSeatId:null,lastBlockedSeatId:null,blackholeSpent:false,blackholeRound:null,panelAttempts:[],scanResults:[],scanUsedRound:null,scanBlockedThroughRound:null,codeAttempted:false,shipHackUnlocked:false,hackCounts:Object.fromEntries(ids.map(id=>[id,0])) as Record<SeatId,number>,hackSpent:[],promises:[],promiseGiven:[],promiseReceived:[],declinedPromiseIds:[],drawings:[],roundOrders:{'1':[...setup.initialTurnOrder]}},
     turnOrder:[...setup.initialTurnOrder],turnIndex:0,activeSeatId:null,hack:null,panelOpen:true,ballot:null,lastTally:null,afterVote:null,electionNeeded:false,
-    navigation:{position:'Start',direction:null,lastMovedRound:0,arrivedAt:null,started:false},result:null,finalized:{round:0,seats:[],events:[]},revisions:{public:0,players:Object.fromEntries(ids.map(id=>[id,0])) as Record<SeatId,number>},eventPublications:{}};
+    navigation:{position:'Start',direction:null,lastMovedRound:0,arrivedAt:null,started:false,...(privateFeedback?{settingTie:false,settingDirection:null}:{})},result:null,finalized:{round:0,seats:[],events:[]},revisions:{public:0,players:Object.fromEntries(ids.map(id=>[id,0])) as Record<SeatId,number>},eventPublications:{}};
   publishBoard(state,0);assertPlanetGameState(state);projectPlanetPublic(state);for(const id of ids)projectPlanetPlayer(state,id);return state;
 }
 export function applyPlanetCommand(before:PlanetGameState,actorId:SeatId,raw:PlanetCommandRequest,ctx:PlanetGameContext):{state:PlanetGameState;receipt:PlanetReceipt} {
   assertPlanetGameState(before);assertPlanetContext(ctx);ctx={...ctx,randomIndex:0} as TransitionContext;const request=PlanetCommandRequestSchema.parse(raw);
-  const receipt=(status:'accepted'|'rejected',code:'REGISTERED'|'NOT_ALLOWED'|'PHASE_CLOSED')=>PlanetReceiptSchema.parse({protocolVersion:3,matchId:request.matchId,phaseId:request.phaseId,commandId:request.commandId,status,code});
+  const receipt=(status:'accepted'|'rejected',code:'REGISTERED'|'NOT_ALLOWED'|'PHASE_CLOSED'|'NO_INJECTION')=>PlanetReceiptSchema.parse({protocolVersion:3,matchId:request.matchId,phaseId:request.phaseId,commandId:request.commandId,status,code});
   if(request.matchId!==before.matchId||!before.roles[actorId])return {state:before,receipt:receipt('rejected','NOT_ALLOWED')};
   if(before.result||request.phaseId!==before.phase.id||ctx.now<before.phase.startedAt||ctx.now<before.evaluatedAt||ctx.now>=before.phase.endsAt!)return {state:before,receipt:receipt('rejected','PHASE_CLOSED')};
   const state=copyPlanet(before);state.evaluatedAt=ctx.now;
@@ -170,7 +182,7 @@ export function applyPlanetCommand(before:PlanetGameState,actorId:SeatId,raw:Pla
     case 'PASS_TURN':finishTurn(state,ctx);break;
     case 'DECLARE_HACK_SIDE':phase(state,'HACK_RESULT',ctx);state.activeSeatId=state.hack!.actorSeatId;break;
     case 'APPOINT_OFFICER':appointmentDone(state,ctx);break;
-    case 'CHOOSE_NAV_DIRECTION':confirmation(state,ctx);break;
+    case 'CHOOSE_NAV_DIRECTION':if(!planetHasPrivateFeedback(state.versions))confirmation(state,ctx);break;
     case 'CONFIRM_NAVIGATION':if(before.phase.kind==='NAV_CAPTAIN_CONFIRM')confirmation(state,ctx,true);else moveShip(state,ctx);break;
   }
   return {state:revisions(before,state),receipt:receipt('accepted','REGISTERED')};
@@ -198,6 +210,10 @@ export function advancePlanetDeadline(before:PlanetGameState,ctx:PlanetGameConte
       world.officerSeatId=eligible.length?eligible[draw(ctx,eligible.length)]!.seatId:null;appointmentDone(state,ctx);break;
     }
     case 'BLACKOUT':resolveRound(state,ctx);break;
+    case 'NAV_SETTING':
+      if(!planetHasPrivateFeedback(state.versions))throw Error('Navigation setting requires the private-feedback version');
+      state.navigation.settingDirection=state.navigation.settingDirection??(draw(ctx,2)===0?'Blue':'Red');
+      state.navigation.direction=state.navigation.settingDirection;confirmation(state,ctx);break;
     case 'NAV_TIE':state.navigation.direction=draw(ctx,2)===0?'Blue':'Red';confirmation(state,ctx);break;
     case 'NAV_CAPTAIN_CONFIRM':confirmation(state,ctx,true);break;
     case 'NAV_OFFICER_CONFIRM':moveShip(state,ctx);break;

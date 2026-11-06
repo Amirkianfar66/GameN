@@ -24,7 +24,7 @@ const currentSeat = (state:PlanetGameState,id:SeatId) => {
 };
 function windowsOpen(state:PlanetGameState,now:number):boolean {
   return Number.isSafeInteger(now) && now>=state.phase.startedAt
-    && !['FINISHED','ABORTED','NAV_TIE','NAV_CAPTAIN_CONFIRM','NAV_OFFICER_CONFIRM'].includes(state.phase.kind)
+    && !['FINISHED','ABORTED','NAV_SETTING','NAV_TIE','NAV_CAPTAIN_CONFIRM','NAV_OFFICER_CONFIRM'].includes(state.phase.kind)
     && state.navigation.lastMovedRound<state.round
     && !(state.phase.kind==='BLACKOUT' && now>=state.phase.startedAt+5_000);
 }
