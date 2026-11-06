@@ -1,24 +1,29 @@
 import {planetTerminalArrival} from '@mothership/presentation';
+import {PLANET_LIBRARY_MEDIA} from './library-assets.mjs';
 
-/** Native underlays only. Candidate media is injected solely by the excluded synthetic preview. */
+/** Native underlays only, from the exact Integration-approved common media catalogue. */
 export function createPlanetCinematic(holder,catalogue=[]){
  const document=holder.ownerDocument,win=document.defaultView,assets=new Map(),canvases=new Map();
  const field=document.createElement('canvas'),fieldContext=field.getContext('2d');
- const allowed=new Set(['blackhole','rescue','transit','arrival-blue','arrival-red']);
- const candidateUrl=value=>{const url=new URL(value,win.location.href);if(url.origin!==win.location.origin||!url.pathname.startsWith('/candidate-art/')||url.search||url.hash)throw TypeError('Unreviewed media location');return url.href;};
+ const approved=new Map(PLANET_LIBRARY_MEDIA.map(f=>[f.name,f])),allowedUrls=new Set(PLANET_LIBRARY_MEDIA.flatMap(f=>[f.video,f.poster]));
+ let previous=null,arrivalPhase=null;
+ const mediaUrl=value=>{const url=new URL(value,win.location.href);if(url.origin!==win.location.origin||!allowedUrls.has(url.pathname)||url.search||url.hash)throw TypeError('Unreviewed media location');return url.href;};
  for(const item of catalogue){
-  if(!allowed.has(item.name)||!Number.isFinite(item.durationMs)||item.durationMs<=0)throw TypeError('Unknown cinematic candidate');
+  const expected=approved.get(item.name);if(!expected||item.video!==expected.video||item.poster!==expected.poster||item.durationMs!==expected.durationMs)throw TypeError('Unknown cinematic asset');
   const video=document.createElement('video'),poster=new win.Image(),entry={...item,video,poster,failed:false,blocked:false};
-  video.preload='auto';video.muted=true;video.playsInline=true;video.src=candidateUrl(item.video);poster.src=candidateUrl(item.poster);
-  video.addEventListener('error',()=>{entry.failed=true;});assets.set(item.name,entry);
+  video.preload='auto';video.muted=true;video.playsInline=true;video.src=mediaUrl(item.video);poster.src=mediaUrl(item.poster);
+  video.addEventListener('error',()=>{entry.failed=true;});assets.set(item.name,entry);video.load();
  }
  function clear(){for(const canvas of canvases.values())canvas.remove();canvases.clear();for(const entry of assets.values())entry.video.pause();delete holder.dataset.cinematic;}
  function paint({model,sample,frame,layout,reduced=false}={}){
-  if(!fieldContext||!model||!sample||model.connection!=='live'||model.concealed||model.dark||!model.phase?.trusted||model.phase.expired||!frame||!layout?.fits){clear();return false;}
+  if(model?.phase?.kind==='FINISHED'&&previous&&previous.matchId===model.matchId&&!['FINISHED','ABORTED'].includes(previous.kind))arrivalPhase=model.phase.id;
+  if(!fieldContext||!model||!sample||model.connection!=='live'||model.concealed||model.dark||!model.phase?.trusted||model.phase.expired||!frame||!layout?.fits){if(!model||model.connection!=='live'||model.concealed||model.dark||!model.phase?.trusted||!frame||!layout?.fits){previous=null;arrivalPhase=null;}clear();return false;}
+  if(model.phase.kind!=='FINISHED')arrivalPhase=null;
+  previous={matchId:model.matchId,kind:model.phase.kind};
   const serverNow=Number.isFinite(sample.nowMs)?sample.nowMs:model.phase?.nowMs;
   if(!Number.isFinite(serverNow)){clear();return false;}
   let name=null,t=0;
-  const arrival=planetTerminalArrival(model);
+  const arrival=arrivalPhase===model.phase.id?planetTerminalArrival(model):null;
   if(arrival){name=`arrival-${arrival.toLowerCase()}`;t=serverNow-model.phase.startedAt;}
   else if(model.phase.kind==='BLACKHOLE_PRESENTATION'){name='blackhole';t=serverNow-model.phase.startedAt;}
   else{const movement=sample.special.find(entry=>entry.kind==='transit');if(movement){name='transit';t=movement.t;}}
@@ -47,5 +52,5 @@ export function createPlanetCinematic(holder,catalogue=[]){
   holder.dataset.cinematic=name;
   return !reduced&&canPlay;
  }
- return {paint,clear,dispose(){clear();for(const entry of assets.values()){entry.video.removeAttribute('src');entry.video.load();entry.poster.removeAttribute('src');}assets.clear();}};
+ return {paint,clear(){previous=null;arrivalPhase=null;clear();},dispose(){previous=null;arrivalPhase=null;clear();for(const entry of assets.values()){entry.video.removeAttribute('src');entry.video.load();entry.poster.removeAttribute('src');}assets.clear();}};
 }

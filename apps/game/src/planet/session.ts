@@ -2,7 +2,7 @@ import {CrewDisplayNameSchema,IdentifierSchema,PlanetServiceRequestSchema,Planet
 import type {PlanetServiceRequest,PlanetSessionSnapshot} from '@mothership/contracts';
 import type {PlayerPorts,UnresolvedCommandStore} from '../ports.js';
 import {createServerClock} from '../clock/server-clock.js';
-import {PLANET_SUPPORTED_ASSET_MANIFEST} from './transport.js';
+import {planetSupportsAssets} from '@mothership/presentation';
 import type {PlanetTransport,PlanetSnapshot} from './transport.js';
 
 export interface PlanetServiceConnection {
@@ -18,6 +18,7 @@ export type PlanetSessionAction=SessionAction extends infer R ? R extends {reque
 export interface PlanetSessionModel {
  readonly mode:PlanetServiceConnection['mode'];readonly connection:'connecting'|'live'|'stale'|'error';readonly message:string|null;
  readonly matchId:string|null;readonly roomCode:string|null;readonly status:PlanetSessionSnapshot['status']|null;
+ readonly versions:PlanetSessionSnapshot['versions']|null;
  readonly isHost:boolean;readonly selfSeatId:PlanetSessionSnapshot['selfSeatId'];readonly playerCount:7|8|9|null;
  readonly members:PlanetSessionSnapshot['members'];readonly pendingAdmissions:PlanetSessionSnapshot['pendingAdmissions'];
  readonly remainingMs:number|null;readonly canChoose:boolean;readonly canReady:boolean;readonly busy:boolean;readonly uncertain:boolean;
@@ -68,7 +69,7 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
  function getModel():PlanetSessionModel{
   const s=live()&&join===null?snapshot:null,t=clock.read(),remaining=s?.setup&&t.status==='synced'?s.setup.endsAt-t.serverNowMs:null;
   const own=s?.members.find(m=>m.seatId===s.selfSeatId);
-  return {mode:connection.mode,connection:connectionState,message,matchId,roomCode:s?.roomCode??null,status:s?.status??null,isHost:s?.isHost??false,selfSeatId:s?.selfSeatId??null,playerCount:s?.playerCount??null,
+  return {mode:connection.mode,connection:connectionState,message,matchId,versions:s?.versions??null,roomCode:s?.roomCode??null,status:s?.status??null,isHost:s?.isHost??false,selfSeatId:s?.selfSeatId??null,playerCount:s?.playerCount??null,
    members:s?.members??[],pendingAdmissions:s?.isHost?s.pendingAdmissions:[],remainingMs:remaining===null?null:Math.max(0,remaining),
    canChoose:!!s&&s.status==='choosing'&&!!own&&t.status==='synced'&&remaining!==null&&remaining>t.uncertaintyMs&&!busy&&!uncertain,
    canReady:!!s&&s.status==='reading'&&!!own&&!own.ready&&t.status==='synced'&&remaining!==null&&remaining<=-t.uncertaintyMs&&!busy&&!uncertain,
@@ -98,8 +99,9 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
    conceal(response?.code==='FORBIDDEN'?'This identity can no longer read this session.':'Reconnecting to the authorized session.',response?.code==='FORBIDDEN');return;
   }
   const parsed=PlanetSessionSnapshotSchema.safeParse(response.result);
-  if(!parsed.success||parsed.data.matchId!==matchId||parsed.data.versions.assetManifestVersion!==PLANET_SUPPORTED_ASSET_MANIFEST){conceal('The session response could not be verified.',true);return;}
+  if(!parsed.success||parsed.data.matchId!==matchId||!planetSupportsAssets(parsed.data.versions)){conceal('The session response could not be verified.',true);return;}
   const next=parsed.data;
+  if([next.publicView,next.playerView].some(v=>v&&(v.matchId!==next.matchId||JSON.stringify(v.versions)!==JSON.stringify(next.versions)))){conceal('The session view versions could not be verified.',true);return;}
   const nextRole=next.privateRole??next.playerView?.self;
   if(nextRole){if(knownRole&&(knownRole.role!==nextRole.role||knownRole.faction!==nextRole.faction)){conceal('Your role identity changed unexpectedly.',true);return;}knownRole={role:nextRole.role,faction:nextRole.faction};}
   const characters=next.members.flatMap(m=>m.characterId?[m.characterId]:[]);

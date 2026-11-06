@@ -24,7 +24,7 @@ The proposal moved explicitly from `ff7b689a17282e63606506bbf151d79c7da858fc` to
 
 Designer R16's missing-phase note is stale: the consumer binds `BLACKHOLE_PRESENTATION` directly and never starts that film at `JAIL_VOTE`. Designer's `NAV_TIE` reference maps to `NAV_SETTING` only under 1.1.0. R9 historical hack round and R11 acknowledgement history remain deferred. No historical boolean or availability flag is presented as such a record.
 
-Integration approval `47417a57478a7be2bad9ef5c492b09a1e39132d4` subsequently approved the exact 18 named assets and allocated `design-0.6.0`. Native production-art wiring is a separate Frontend commit after this contract/correction checkpoint. This checkpoint's production build still excludes the candidate bytes and URLs, and accepts the existing `design-0.5.0` pairing.
+Integration approval `47417a57478a7be2bad9ef5c492b09a1e39132d4` subsequently approved the exact 18 named assets and allocated `design-0.6.0`. Native production-art wiring is a separate Frontend commit after this contract/correction checkpoint; see [approved runtime adoption](planet-approved-art-runtime.md). This checkpoint's production build still excludes the candidate bytes and URLs, and accepts the existing `design-0.5.0` pairing.
 
 ## Verification
 

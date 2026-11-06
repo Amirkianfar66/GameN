@@ -1,8 +1,10 @@
 import {createPlanetSession,createPlanetController} from '@mothership/game';
-import {planetRoleLook} from '@mothership/presentation';
+import {planetRoleLook,planetHasLibraryArt} from '@mothership/presentation';
 import {CrewDisplayNameSchema,CREW_NAME_MAX_LENGTH} from '@mothership/contracts';
 import {loadArt} from '../art.mjs';
 import {mountPlanetRenderer} from './render.mjs';
+import {createPlanetLibraryAssets} from './art.mjs';
+import {PLANET_LIBRARY_MEDIA} from './library-assets.mjs';
 import '../comic-tokens.css';
 import '../comic.css';
 import '../comic-layout.css';
@@ -11,14 +13,14 @@ import '../board-v2.css';
 import './planet.css';
 
 /** Both production and the explicit development harness mount this same consumer. */
-export async function mountPlanetApp(root,{connection,matchId,allowSynthetic=false,ports:injectedPorts=null,stores:injectedStores=null,candidateCinematics=null}={}){
+export async function mountPlanetApp(root,{connection,matchId,allowSynthetic=false,ports:injectedPorts=null,stores:injectedStores=null}={}){
  if(!connection||connection.mode==='synthetic'&&!allowSynthetic)throw new TypeError('An authenticated Planet connection is required');
- if(candidateCinematics&&(!allowSynthetic||connection.mode!=='synthetic'))throw new TypeError('Unadopted cinematic candidates require the excluded synthetic preview');
  const document=root.ownerDocument,win=document.defaultView;
  const store=key=>({load:()=>win.sessionStorage.getItem(key),save:value=>win.sessionStorage.setItem(key,value),clear:()=>win.sessionStorage.removeItem(key)});
  const ports=injectedPorts??{clock:{now:()=>win.performance.now()},scheduler:{setTimeout:(f,ms)=>win.setTimeout(f,ms),clearTimeout:h=>win.clearTimeout(h)},ids:{next:()=>win.crypto.randomUUID()},unresolved:store('mothership:planet:command')};
  const stores=injectedStores??{resume:store('mothership:planet:resume'),requests:store('mothership:planet:requests')};
  const session=createPlanetSession(connection,ports,stores);
+ const libraryAssets=createPlanetLibraryAssets(document);
  await loadArt('player',document);
  let game=null,renderer=null,gameRoot=null,key=null,model=null,disposed=false,hostOpen=false,abortConfirm=false,unsubscribe=null,roleOpen=false,lastStatus=null,sessionKey=null,entryMode='join';
  const entryDraft={roomCode:'',displayName:'',kind:'player'};
@@ -90,11 +92,11 @@ export async function mountPlanetApp(root,{connection,matchId,allowSynthetic=fal
  }
  function updateTimer(){const t=document.getElementById('planet-setup-timer');if(t)t.textContent=model.remainingMs===null?'':model.status==='reading'?model.remainingMs>0?`Read for at least ${Math.ceil(model.remainingMs/1000)} more seconds.`:'Ready is available after the minimum reading time.':`${Math.ceil(model.remainingMs/1000)} seconds remaining.`;}
  function render(next){
-  if(disposed)return;model=next;
+  if(disposed)return;model=next;libraryAssets.setVersions(model.versions);
   const running=['running','finished'].includes(model.status),surface=model.selfSeatId?'player':'display';
   if(running){
    const nextKey=`${model.matchId}:${surface}:${model.selfSeatId}`;
-   if(key!==nextKey){renderer?.dispose();game?.dispose();root.className='planet-container';root.replaceChildren();gameRoot=el('div');root.append(gameRoot);key=nextKey;game=createPlanetController(session.gameTransport(surface),ports,{matchId:model.matchId,surface});renderer=mountPlanetRenderer(gameRoot,game,{candidateCinematics:candidateCinematics??[]});void game.start();}
+   if(key!==nextKey){renderer?.dispose();game?.dispose();root.className='planet-container';root.replaceChildren();gameRoot=el('div');root.append(gameRoot);key=nextKey;game=createPlanetController(session.gameTransport(surface),ports,{matchId:model.matchId,surface});renderer=mountPlanetRenderer(gameRoot,game,{cinematics:planetHasLibraryArt(model.versions)?PLANET_LIBRARY_MEDIA:[]});void game.start();}
    root.querySelector('.planet-host-menu')?.remove();if(model.isHost){const menu=el('aside');menu.className='planet-host-menu';const open=button(hostOpen?'Close host controls':'Host controls',()=>{hostOpen=!hostOpen;render(model);});menu.append(open);if(hostOpen){const panel=el('section');panel.className='planet-host-panel';panel.append(el('h2',`Room ${model.roomCode}`));hostControls(panel);menu.append(panel);}root.append(menu);}return;
   }
   // A stale/hidden session does not discard a command's controller or recovery identifiers.
@@ -108,5 +110,5 @@ export async function mountPlanetApp(root,{connection,matchId,allowSynthetic=fal
  const artReady=()=>{sessionKey=null;if(model)render(session.getModel());};
  const concealRole=()=>{roleOpen=false;session.revealRole(false);};
  document.addEventListener('visibilitychange',visibility);document.addEventListener('mothership:art-ready',artReady);win.addEventListener('blur',concealRole);unsubscribe=session.subscribe(render);await session.start(matchId);
- return {session,get game(){return game;},dispose(){disposed=true;unsubscribe?.();document.removeEventListener('visibilitychange',visibility);document.removeEventListener('mothership:art-ready',artReady);win.removeEventListener('blur',concealRole);renderer?.dispose();game?.dispose();session.dispose();void connection.dispose?.();root.replaceChildren();}};
+ return {session,artReady:libraryAssets.ready,get game(){return game;},dispose(){disposed=true;unsubscribe?.();document.removeEventListener('visibilitychange',visibility);document.removeEventListener('mothership:art-ready',artReady);win.removeEventListener('blur',concealRole);renderer?.dispose();game?.dispose();session.dispose();libraryAssets.dispose();void connection.dispose?.();root.replaceChildren();}};
 }

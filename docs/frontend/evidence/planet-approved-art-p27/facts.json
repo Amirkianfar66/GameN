@@ -1,0 +1,2278 @@
+{
+  "scope": "Synthetic P27 protocol-3 snapshots through the production consumer, desktop Chromium phone emulation; no Firebase, engine, hosted or physical-device acceptance.",
+  "generatedAt": "2026-11-06T13:11:15.382Z",
+  "browser": {
+    "protocolVersion": "1.3",
+    "product": "Chrome/156.0.8078.80",
+    "revision": "@fb096c0011f9d50f0a264a9376420cdea9c421e3",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+    "jsVersion": "15.6.75.27"
+  },
+  "cases": [
+    {
+      "name": "320-568-normal-six-seconds-then-delayed-full-vote",
+      "passed": true,
+      "fresh": {
+        "phase": {
+          "id": "synthetic-sync-1",
+          "kind": "BLACKHOLE_PRESENTATION",
+          "startedAt": 1793970675610,
+          "endsAt": 1793970681610,
+          "nowMs": 1793970675624.65,
+          "remainingMs": 5985.35009765625,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": {
+          "phaseId": "synthetic-sync-1",
+          "startedAt": 1793970675610,
+          "endsAt": 1793970681610,
+          "durationMs": 6000,
+          "elapsedMs": 14.949951171875,
+          "remainingMs": 5985.050048828125,
+          "progress": 0.002491658528645833,
+          "status": "presenting"
+        },
+        "syncCue": true,
+        "headerText": "SYNTHETIC · R6 · BLACKHOLE SYNC6sCaptain — · Officer —Turn: — · Ship synchronized",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": "Pending",
+        "commands": 0,
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art library navigation hospital-panel promises windows offices end successor",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "afterOptionalFilmDuration": {
+        "phase": {
+          "id": "synthetic-sync-1",
+          "kind": "BLACKHOLE_PRESENTATION",
+          "startedAt": 1793970675610,
+          "endsAt": 1793970681610,
+          "nowMs": 1793970677410.45,
+          "remainingMs": 4199.550048828125,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": {
+          "phaseId": "synthetic-sync-1",
+          "startedAt": 1793970675610,
+          "endsAt": 1793970681610,
+          "durationMs": 6000,
+          "elapsedMs": 1800.64990234375,
+          "remainingMs": 4199.35009765625,
+          "progress": 0.3001083170572917,
+          "status": "presenting"
+        },
+        "syncCue": true,
+        "headerText": "SYNTHETIC · R6 · BLACKHOLE SYNC5sCaptain — · Officer —Turn: — · Ship synchronized",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": "Pending",
+        "commands": 0,
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art library navigation hospital-panel promises windows offices end successor",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "expired": {
+        "phase": {
+          "id": "synthetic-sync-1",
+          "kind": "BLACKHOLE_PRESENTATION",
+          "startedAt": 1793970675610,
+          "endsAt": 1793970681610,
+          "nowMs": 1793970681794.35,
+          "remainingMs": 0,
+          "trusted": true,
+          "expired": true
+        },
+        "stage": {
+          "phaseId": "synthetic-sync-1",
+          "startedAt": 1793970675610,
+          "endsAt": 1793970681610,
+          "durationMs": 6000,
+          "elapsedMs": 6000,
+          "remainingMs": 0,
+          "progress": 1,
+          "status": "awaiting-view"
+        },
+        "syncCue": true,
+        "headerText": "SYNTHETIC · R6 · BLACKHOLE SYNC0sCaptain — · Officer —Turn: — · Waiting for server",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art library navigation hospital-panel promises windows offices end successor",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "vote": {
+        "phase": {
+          "id": "synthetic-vote-2",
+          "kind": "JAIL_VOTE",
+          "startedAt": 1793970681869,
+          "endsAt": 1793970741869,
+          "nowMs": 1793970681874.05,
+          "remainingMs": 59994.949951171875,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": null,
+        "syncCue": false,
+        "headerText": "SYNTHETIC · R6 · JAIL VOTE60sCaptain — · Officer —Turn: —",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": "Fulfilled",
+        "commands": 0,
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art library navigation hospital-panel promises windows offices end successor",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "ballot": {
+        "phase": {
+          "id": "synthetic-vote-2",
+          "kind": "JAIL_VOTE",
+          "startedAt": 1793970681869,
+          "endsAt": 1793970741869,
+          "nowMs": 1793970681969.95,
+          "remainingMs": 59899.050048828125,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": null,
+        "syncCue": false,
+        "headerText": "SYNTHETIC · R6 · JAIL VOTE60sCaptain — · Officer —Choose an offered character on the board.Choose an offered character on the board.",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 9,
+        "canMove": false,
+        "canPass": false,
+        "action": {
+          "type": "VOTE",
+          "label": "Vote",
+          "step": "targets",
+          "selected": [],
+          "choices": [
+            {
+              "value": "seat-1",
+              "label": "Player 1"
+            },
+            {
+              "value": "seat-2",
+              "label": "Player 2"
+            },
+            {
+              "value": "seat-3",
+              "label": "Player 3"
+            },
+            {
+              "value": "seat-4",
+              "label": "Player 4"
+            },
+            {
+              "value": "seat-5",
+              "label": "Player 5"
+            },
+            {
+              "value": "seat-6",
+              "label": "Player 6"
+            },
+            {
+              "value": "seat-7",
+              "label": "Player 7"
+            },
+            {
+              "value": "seat-8",
+              "label": "Player 8"
+            },
+            {
+              "value": "seat-9",
+              "label": "Player 9"
+            },
+            {
+              "value": "abstain",
+              "label": "Abstain"
+            }
+          ],
+          "prompt": "Choose an offered character on the board.",
+          "confirmation": null,
+          "canConfirm": false
+        },
+        "offers": [
+          {
+            "type": "VOTE",
+            "targetSeatIds": [
+              "seat-1",
+              "seat-2",
+              "seat-3",
+              "seat-4",
+              "seat-5",
+              "seat-6",
+              "seat-7",
+              "seat-8",
+              "seat-9"
+            ],
+            "slotIds": [],
+            "windowIds": [],
+            "promiseTargetSeatIds": []
+          }
+        ],
+        "promise": null,
+        "commands": 0,
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art library navigation hospital-panel promises windows offices end successor",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "screenshots": [
+        "320-568-normal-presentation-promise-pending.png",
+        "320-568-normal-expired-waiting-for-server.png",
+        "320-568-normal-new-full-vote-targets.png"
+      ]
+    },
+    {
+      "name": "320-568-normal-late-duplicate-foreground-seeks",
+      "passed": true,
+      "late": {
+        "phase": {
+          "id": "synthetic-sync-1",
+          "kind": "BLACKHOLE_PRESENTATION",
+          "startedAt": 1793970678719,
+          "endsAt": 1793970684719,
+          "nowMs": 1793970682230,
+          "remainingMs": 2489,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": {
+          "phaseId": "synthetic-sync-1",
+          "startedAt": 1793970678719,
+          "endsAt": 1793970684719,
+          "durationMs": 6000,
+          "elapsedMs": 3511.199951171875,
+          "remainingMs": 2488.800048828125,
+          "progress": 0.5851999918619791,
+          "status": "presenting"
+        },
+        "syncCue": true,
+        "headerText": "SYNTHETIC · R6 · BLACKHOLE SYNC3sCaptain — · Officer —Turn: — · Ship synchronized",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "player-ui public-board roles scene-art abilities setup-art board-v2-art board-v2-motion-art board-v2-films-art library navigation hospital-panel promises windows offices end successor",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "resumed": {
+        "phase": {
+          "id": "synthetic-sync-1",
+          "kind": "BLACKHOLE_PRESENTATION",
+          "startedAt": 1793970678719,
+          "endsAt": 1793970684719,
+          "nowMs": 1793970682422.75,
+          "remainingMs": 2296.25,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": {
+          "phaseId": "synthetic-sync-1",
+          "startedAt": 1793970678719,
+          "endsAt": 1793970684719,
+          "durationMs": 6000,
+          "elapsedMs": 3703.85009765625,
+          "remainingMs": 2296.14990234375,
+          "progress": 0.617308349609375,
+          "status": "presenting"
+        },
+        "syncCue": true,
+        "headerText": "SYNTHETIC · R6 · BLACKHOLE SYNC3sCaptain — · Officer —Turn: — · Ship synchronized",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "player-ui public-board roles scene-art abilities setup-art board-v2-art board-v2-motion-art board-v2-films-art library navigation hospital-panel promises windows offices end successor",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "screenshots": [
+        "320-568-normal-late-foreground-seek.png"
+      ]
+    },
+    {
+      "name": "320-568-normal-return-after-stage-no-replay",
+      "passed": true,
+      "current": {
+        "phase": {
+          "id": "synthetic-vote-2",
+          "kind": "JAIL_VOTE",
+          "startedAt": 1793970684902,
+          "endsAt": 1793970744902,
+          "nowMs": 1793970685112.5999,
+          "remainingMs": 59789.400146484375,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": null,
+        "syncCue": false,
+        "headerText": "SYNTHETIC · R6 · JAIL VOTE60sCaptain — · Officer —Turn: —",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "player-ui public-board roles scene-art abilities setup-art board-v2-art board-v2-motion-art board-v2-films-art library navigation hospital-panel promises windows offices end successor",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "screenshots": [
+        "320-568-normal-vote-foreground-no-replay.png"
+      ]
+    },
+    {
+      "name": "320-568-normal-missing-art-progress-and-restore",
+      "passed": true,
+      "noArt": {
+        "phase": {
+          "id": "synthetic-sync-1",
+          "kind": "BLACKHOLE_PRESENTATION",
+          "startedAt": 1793970680075,
+          "endsAt": 1793970686075,
+          "nowMs": 1793970685278.5,
+          "remainingMs": 796.5,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": {
+          "phaseId": "synthetic-sync-1",
+          "startedAt": 1793970680075,
+          "endsAt": 1793970686075,
+          "durationMs": 6000,
+          "elapsedMs": 5203.5,
+          "remainingMs": 796.5,
+          "progress": 0.86725,
+          "status": "presenting"
+        },
+        "syncCue": true,
+        "headerText": "SYNTHETIC · R6 · BLACKHOLE SYNC1sCaptain — · Officer —Turn: — · Ship synchronized",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "missingVote": {
+        "phase": {
+          "id": "synthetic-vote-2",
+          "kind": "JAIL_VOTE",
+          "startedAt": 1793970686259,
+          "endsAt": 1793970746259,
+          "nowMs": 1793970686267.2998,
+          "remainingMs": 59991.7001953125,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": null,
+        "syncCue": false,
+        "headerText": "SYNTHETIC · R6 · JAIL VOTE60sCaptain — · Officer —Turn: —",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "restored": {
+        "phase": {
+          "id": "synthetic-vote-2",
+          "kind": "JAIL_VOTE",
+          "startedAt": 1793970686259,
+          "endsAt": 1793970746259,
+          "nowMs": 1793970686306,
+          "remainingMs": 59953,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": null,
+        "syncCue": false,
+        "headerText": "SYNTHETIC · R6 · JAIL VOTE60sCaptain — · Officer —Turn: —",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "player-ui roles public-board scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "screenshots": [
+        "320-568-normal-missing-art-presentation.png",
+        "320-568-normal-art-restored-vote-no-replay.png"
+      ]
+    },
+    {
+      "name": "320-568-normal-ordinary-round-skips-presentation",
+      "passed": true,
+      "current": {
+        "phase": {
+          "id": "synthetic-vote-1",
+          "kind": "JAIL_VOTE",
+          "startedAt": 1793970686477,
+          "endsAt": 1793970746477,
+          "nowMs": 1793970686479.4001,
+          "remainingMs": 59997.599853515625,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": null,
+        "syncCue": false,
+        "headerText": "SYNTHETIC · R6 · JAIL VOTE60sCaptain — · Officer —Turn: —",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "player-ui public-board scene-art roles abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art library navigation hospital-panel promises windows offices end successor",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "screenshots": [
+        "320-568-normal-ordinary-full-vote.png"
+      ]
+    },
+    {
+      "name": "320-568-normal-shared-display-header",
+      "passed": true,
+      "current": {
+        "phase": {
+          "id": "synthetic-sync-1",
+          "kind": "BLACKHOLE_PRESENTATION",
+          "startedAt": 1793970683140,
+          "endsAt": 1793970689140,
+          "nowMs": 1793970686652.1,
+          "remainingMs": 2487.89990234375,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": {
+          "phaseId": "synthetic-sync-1",
+          "startedAt": 1793970683140,
+          "endsAt": 1793970689140,
+          "durationMs": 6000,
+          "elapsedMs": 3512.199951171875,
+          "remainingMs": 2487.800048828125,
+          "progress": 0.5853666585286458,
+          "status": "presenting"
+        },
+        "syncCue": true,
+        "headerText": "SYNTHETIC · R6 · BLACKHOLE SYNC3sCaptain — · Officer —Last finalized board · Round 6 · Turn: — · Ship synchronized",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art hospital-panel promises library navigation windows offices end successor",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "screenshots": [
+        "320-568-normal-shared-display-presentation.png"
+      ]
+    },
+    {
+      "name": "320-568-reduced-six-seconds-then-delayed-full-vote",
+      "passed": true,
+      "fresh": {
+        "phase": {
+          "id": "synthetic-sync-1",
+          "kind": "BLACKHOLE_PRESENTATION",
+          "startedAt": 1793970686902,
+          "endsAt": 1793970692902,
+          "nowMs": 1793970686915,
+          "remainingMs": 5987,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": {
+          "phaseId": "synthetic-sync-1",
+          "startedAt": 1793970686902,
+          "endsAt": 1793970692902,
+          "durationMs": 6000,
+          "elapsedMs": 13.300048828125,
+          "remainingMs": 5986.699951171875,
+          "progress": 0.0022166748046875,
+          "status": "presenting"
+        },
+        "syncCue": true,
+        "headerText": "SYNTHETIC · R6 · BLACKHOLE SYNC6sCaptain — · Officer —Turn: — · Ship synchronized",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": "Pending",
+        "commands": 0,
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art library navigation windows offices hospital-panel promises end successor",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "afterOptionalFilmDuration": {
+        "phase": {
+          "id": "synthetic-sync-1",
+          "kind": "BLACKHOLE_PRESENTATION",
+          "startedAt": 1793970686902,
+          "endsAt": 1793970692902,
+          "nowMs": 1793970688678,
+          "remainingMs": 4224,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": {
+          "phaseId": "synthetic-sync-1",
+          "startedAt": 1793970686902,
+          "endsAt": 1793970692902,
+          "durationMs": 6000,
+          "elapsedMs": 1776.199951171875,
+          "remainingMs": 4223.800048828125,
+          "progress": 0.2960333251953125,
+          "status": "presenting"
+        },
+        "syncCue": true,
+        "headerText": "SYNTHETIC · R6 · BLACKHOLE SYNC5sCaptain — · Officer —Turn: — · Ship synchronized",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": "Pending",
+        "commands": 0,
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art library navigation windows offices hospital-panel promises end successor",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "expired": {
+        "phase": {
+          "id": "synthetic-sync-1",
+          "kind": "BLACKHOLE_PRESENTATION",
+          "startedAt": 1793970686902,
+          "endsAt": 1793970692902,
+          "nowMs": 1793970693083.8,
+          "remainingMs": 0,
+          "trusted": true,
+          "expired": true
+        },
+        "stage": {
+          "phaseId": "synthetic-sync-1",
+          "startedAt": 1793970686902,
+          "endsAt": 1793970692902,
+          "durationMs": 6000,
+          "elapsedMs": 6000,
+          "remainingMs": 0,
+          "progress": 1,
+          "status": "awaiting-view"
+        },
+        "syncCue": true,
+        "headerText": "SYNTHETIC · R6 · BLACKHOLE SYNC0sCaptain — · Officer —Turn: — · Waiting for server",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art library navigation windows offices hospital-panel promises end successor",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "vote": {
+        "phase": {
+          "id": "synthetic-vote-2",
+          "kind": "JAIL_VOTE",
+          "startedAt": 1793970693167,
+          "endsAt": 1793970753167,
+          "nowMs": 1793970693171.4,
+          "remainingMs": 59995.60009765625,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": null,
+        "syncCue": false,
+        "headerText": "SYNTHETIC · R6 · JAIL VOTE60sCaptain — · Officer —Turn: —",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": "Fulfilled",
+        "commands": 0,
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art library navigation windows offices hospital-panel promises end successor",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "ballot": {
+        "phase": {
+          "id": "synthetic-vote-2",
+          "kind": "JAIL_VOTE",
+          "startedAt": 1793970693167,
+          "endsAt": 1793970753167,
+          "nowMs": 1793970693268.5,
+          "remainingMs": 59898.5,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": null,
+        "syncCue": false,
+        "headerText": "SYNTHETIC · R6 · JAIL VOTE60sCaptain — · Officer —Choose an offered character on the board.Choose an offered character on the board.",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 9,
+        "canMove": false,
+        "canPass": false,
+        "action": {
+          "type": "VOTE",
+          "label": "Vote",
+          "step": "targets",
+          "selected": [],
+          "choices": [
+            {
+              "value": "seat-1",
+              "label": "Player 1"
+            },
+            {
+              "value": "seat-2",
+              "label": "Player 2"
+            },
+            {
+              "value": "seat-3",
+              "label": "Player 3"
+            },
+            {
+              "value": "seat-4",
+              "label": "Player 4"
+            },
+            {
+              "value": "seat-5",
+              "label": "Player 5"
+            },
+            {
+              "value": "seat-6",
+              "label": "Player 6"
+            },
+            {
+              "value": "seat-7",
+              "label": "Player 7"
+            },
+            {
+              "value": "seat-8",
+              "label": "Player 8"
+            },
+            {
+              "value": "seat-9",
+              "label": "Player 9"
+            },
+            {
+              "value": "abstain",
+              "label": "Abstain"
+            }
+          ],
+          "prompt": "Choose an offered character on the board.",
+          "confirmation": null,
+          "canConfirm": false
+        },
+        "offers": [
+          {
+            "type": "VOTE",
+            "targetSeatIds": [
+              "seat-1",
+              "seat-2",
+              "seat-3",
+              "seat-4",
+              "seat-5",
+              "seat-6",
+              "seat-7",
+              "seat-8",
+              "seat-9"
+            ],
+            "slotIds": [],
+            "windowIds": [],
+            "promiseTargetSeatIds": []
+          }
+        ],
+        "promise": null,
+        "commands": 0,
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art library navigation windows offices hospital-panel promises end successor",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "screenshots": [
+        "320-568-reduced-presentation-promise-pending.png",
+        "320-568-reduced-expired-waiting-for-server.png",
+        "320-568-reduced-new-full-vote-targets.png"
+      ]
+    },
+    {
+      "name": "320-568-reduced-late-duplicate-foreground-seeks",
+      "passed": true,
+      "late": {
+        "phase": {
+          "id": "synthetic-sync-1",
+          "kind": "BLACKHOLE_PRESENTATION",
+          "startedAt": 1793970690004,
+          "endsAt": 1793970696004,
+          "nowMs": 1793970693506.45,
+          "remainingMs": 2497.550048828125,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": {
+          "phaseId": "synthetic-sync-1",
+          "startedAt": 1793970690004,
+          "endsAt": 1793970696004,
+          "durationMs": 6000,
+          "elapsedMs": 3502.449951171875,
+          "remainingMs": 2497.550048828125,
+          "progress": 0.5837416585286458,
+          "status": "presenting"
+        },
+        "syncCue": true,
+        "headerText": "SYNTHETIC · R6 · BLACKHOLE SYNC3sCaptain — · Officer —Turn: — · Ship synchronized",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art hospital-panel navigation promises library windows offices end successor",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "resumed": {
+        "phase": {
+          "id": "synthetic-sync-1",
+          "kind": "BLACKHOLE_PRESENTATION",
+          "startedAt": 1793970690004,
+          "endsAt": 1793970696004,
+          "nowMs": 1793970693704.4,
+          "remainingMs": 2299.60009765625,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": {
+          "phaseId": "synthetic-sync-1",
+          "startedAt": 1793970690004,
+          "endsAt": 1793970696004,
+          "durationMs": 6000,
+          "elapsedMs": 3700.60009765625,
+          "remainingMs": 2299.39990234375,
+          "progress": 0.6167666829427083,
+          "status": "presenting"
+        },
+        "syncCue": true,
+        "headerText": "SYNTHETIC · R6 · BLACKHOLE SYNC3sCaptain — · Officer —Turn: — · Ship synchronized",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art hospital-panel navigation promises library windows offices end successor",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "screenshots": [
+        "320-568-reduced-late-foreground-seek.png"
+      ]
+    },
+    {
+      "name": "320-568-reduced-return-after-stage-no-replay",
+      "passed": true,
+      "current": {
+        "phase": {
+          "id": "synthetic-vote-2",
+          "kind": "JAIL_VOTE",
+          "startedAt": 1793970696186,
+          "endsAt": 1793970756186,
+          "nowMs": 1793970696392.15,
+          "remainingMs": 59793.85009765625,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": null,
+        "syncCue": false,
+        "headerText": "SYNTHETIC · R6 · JAIL VOTE60sCaptain — · Officer —Turn: —",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art hospital-panel navigation promises library windows offices end successor",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "screenshots": [
+        "320-568-reduced-vote-foreground-no-replay.png"
+      ]
+    },
+    {
+      "name": "320-568-reduced-missing-art-progress-and-restore",
+      "passed": true,
+      "noArt": {
+        "phase": {
+          "id": "synthetic-sync-1",
+          "kind": "BLACKHOLE_PRESENTATION",
+          "startedAt": 1793970691352,
+          "endsAt": 1793970697352,
+          "nowMs": 1793970696555.15,
+          "remainingMs": 796.85009765625,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": {
+          "phaseId": "synthetic-sync-1",
+          "startedAt": 1793970691352,
+          "endsAt": 1793970697352,
+          "durationMs": 6000,
+          "elapsedMs": 5203.25,
+          "remainingMs": 796.75,
+          "progress": 0.8672083333333334,
+          "status": "presenting"
+        },
+        "syncCue": true,
+        "headerText": "SYNTHETIC · R6 · BLACKHOLE SYNC1sCaptain — · Officer —Turn: — · Ship synchronized",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "missingVote": {
+        "phase": {
+          "id": "synthetic-vote-2",
+          "kind": "JAIL_VOTE",
+          "startedAt": 1793970697536,
+          "endsAt": 1793970757536,
+          "nowMs": 1793970697542.35,
+          "remainingMs": 59993.64990234375,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": null,
+        "syncCue": false,
+        "headerText": "SYNTHETIC · R6 · JAIL VOTE60sCaptain — · Officer —Turn: —",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "restored": {
+        "phase": {
+          "id": "synthetic-vote-2",
+          "kind": "JAIL_VOTE",
+          "startedAt": 1793970697536,
+          "endsAt": 1793970757536,
+          "nowMs": 1793970697594.55,
+          "remainingMs": 59941.449951171875,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": null,
+        "syncCue": false,
+        "headerText": "SYNTHETIC · R6 · JAIL VOTE60sCaptain — · Officer —Turn: —",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "player-ui roles abilities board-v2-art scene-art public-board setup-art board-v2-motion-art board-v2-films-art",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "screenshots": [
+        "320-568-reduced-missing-art-presentation.png",
+        "320-568-reduced-art-restored-vote-no-replay.png"
+      ]
+    },
+    {
+      "name": "320-568-reduced-ordinary-round-skips-presentation",
+      "passed": true,
+      "current": {
+        "phase": {
+          "id": "synthetic-vote-1",
+          "kind": "JAIL_VOTE",
+          "startedAt": 1793970697758,
+          "endsAt": 1793970757758,
+          "nowMs": 1793970697761.1,
+          "remainingMs": 59996.89990234375,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": null,
+        "syncCue": false,
+        "headerText": "SYNTHETIC · R6 · JAIL VOTE60sCaptain — · Officer —Turn: —",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art library hospital-panel navigation promises windows offices successor end",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "screenshots": [
+        "320-568-reduced-ordinary-full-vote.png"
+      ]
+    },
+    {
+      "name": "320-568-reduced-shared-display-header",
+      "passed": true,
+      "current": {
+        "phase": {
+          "id": "synthetic-sync-1",
+          "kind": "BLACKHOLE_PRESENTATION",
+          "startedAt": 1793970694426,
+          "endsAt": 1793970700426,
+          "nowMs": 1793970697928.9001,
+          "remainingMs": 2497.099853515625,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": {
+          "phaseId": "synthetic-sync-1",
+          "startedAt": 1793970694426,
+          "endsAt": 1793970700426,
+          "durationMs": 6000,
+          "elapsedMs": 3502.900146484375,
+          "remainingMs": 2497.099853515625,
+          "progress": 0.5838166910807292,
+          "status": "presenting"
+        },
+        "syncCue": true,
+        "headerText": "SYNTHETIC · R6 · BLACKHOLE SYNC3sCaptain — · Officer —Last finalized board · Round 6 · Turn: — · Ship synchronized",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art library hospital-panel navigation promises windows offices end successor",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "screenshots": [
+        "320-568-reduced-shared-display-presentation.png"
+      ]
+    },
+    {
+      "name": "390-844-normal-six-seconds-then-delayed-full-vote",
+      "passed": true,
+      "fresh": {
+        "phase": {
+          "id": "synthetic-sync-1",
+          "kind": "BLACKHOLE_PRESENTATION",
+          "startedAt": 1793970698162,
+          "endsAt": 1793970704162,
+          "nowMs": 1793970698172.25,
+          "remainingMs": 5989.75,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": {
+          "phaseId": "synthetic-sync-1",
+          "startedAt": 1793970698162,
+          "endsAt": 1793970704162,
+          "durationMs": 6000,
+          "elapsedMs": 10.550048828125,
+          "remainingMs": 5989.449951171875,
+          "progress": 0.0017583414713541667,
+          "status": "presenting"
+        },
+        "syncCue": true,
+        "headerText": "SYNTHETIC · R6 · BLACKHOLE SYNC6sCaptain — · Officer —Turn: — · Ship synchronized",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": "Pending",
+        "commands": 0,
+        "art": "public-board roles player-ui scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art library navigation hospital-panel promises windows offices end successor",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "afterOptionalFilmDuration": {
+        "phase": {
+          "id": "synthetic-sync-1",
+          "kind": "BLACKHOLE_PRESENTATION",
+          "startedAt": 1793970698162,
+          "endsAt": 1793970704162,
+          "nowMs": 1793970699935.05,
+          "remainingMs": 4226.949951171875,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": {
+          "phaseId": "synthetic-sync-1",
+          "startedAt": 1793970698162,
+          "endsAt": 1793970704162,
+          "durationMs": 6000,
+          "elapsedMs": 1773.25,
+          "remainingMs": 4226.75,
+          "progress": 0.29554166666666665,
+          "status": "presenting"
+        },
+        "syncCue": true,
+        "headerText": "SYNTHETIC · R6 · BLACKHOLE SYNC5sCaptain — · Officer —Turn: — · Ship synchronized",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": "Pending",
+        "commands": 0,
+        "art": "public-board roles player-ui scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art library navigation hospital-panel promises windows offices end successor",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "expired": {
+        "phase": {
+          "id": "synthetic-sync-1",
+          "kind": "BLACKHOLE_PRESENTATION",
+          "startedAt": 1793970698162,
+          "endsAt": 1793970704162,
+          "nowMs": 1793970704344.85,
+          "remainingMs": 0,
+          "trusted": true,
+          "expired": true
+        },
+        "stage": {
+          "phaseId": "synthetic-sync-1",
+          "startedAt": 1793970698162,
+          "endsAt": 1793970704162,
+          "durationMs": 6000,
+          "elapsedMs": 6000,
+          "remainingMs": 0,
+          "progress": 1,
+          "status": "awaiting-view"
+        },
+        "syncCue": true,
+        "headerText": "SYNTHETIC · R6 · BLACKHOLE SYNC0sCaptain — · Officer —Turn: — · Waiting for server",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "public-board roles player-ui scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art library navigation hospital-panel promises windows offices end successor",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "vote": {
+        "phase": {
+          "id": "synthetic-vote-2",
+          "kind": "JAIL_VOTE",
+          "startedAt": 1793970704422,
+          "endsAt": 1793970764422,
+          "nowMs": 1793970704426.75,
+          "remainingMs": 59995.25,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": null,
+        "syncCue": false,
+        "headerText": "SYNTHETIC · R6 · JAIL VOTE60sCaptain — · Officer —Turn: —",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": "Fulfilled",
+        "commands": 0,
+        "art": "public-board roles player-ui scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art library navigation hospital-panel promises windows offices end successor",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "ballot": {
+        "phase": {
+          "id": "synthetic-vote-2",
+          "kind": "JAIL_VOTE",
+          "startedAt": 1793970704422,
+          "endsAt": 1793970764422,
+          "nowMs": 1793970704528.25,
+          "remainingMs": 59893.75,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": null,
+        "syncCue": false,
+        "headerText": "SYNTHETIC · R6 · JAIL VOTE60sCaptain — · Officer —Choose an offered character on the board.Choose an offered character on the board.",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 9,
+        "canMove": false,
+        "canPass": false,
+        "action": {
+          "type": "VOTE",
+          "label": "Vote",
+          "step": "targets",
+          "selected": [],
+          "choices": [
+            {
+              "value": "seat-1",
+              "label": "Player 1"
+            },
+            {
+              "value": "seat-2",
+              "label": "Player 2"
+            },
+            {
+              "value": "seat-3",
+              "label": "Player 3"
+            },
+            {
+              "value": "seat-4",
+              "label": "Player 4"
+            },
+            {
+              "value": "seat-5",
+              "label": "Player 5"
+            },
+            {
+              "value": "seat-6",
+              "label": "Player 6"
+            },
+            {
+              "value": "seat-7",
+              "label": "Player 7"
+            },
+            {
+              "value": "seat-8",
+              "label": "Player 8"
+            },
+            {
+              "value": "seat-9",
+              "label": "Player 9"
+            },
+            {
+              "value": "abstain",
+              "label": "Abstain"
+            }
+          ],
+          "prompt": "Choose an offered character on the board.",
+          "confirmation": null,
+          "canConfirm": false
+        },
+        "offers": [
+          {
+            "type": "VOTE",
+            "targetSeatIds": [
+              "seat-1",
+              "seat-2",
+              "seat-3",
+              "seat-4",
+              "seat-5",
+              "seat-6",
+              "seat-7",
+              "seat-8",
+              "seat-9"
+            ],
+            "slotIds": [],
+            "windowIds": [],
+            "promiseTargetSeatIds": []
+          }
+        ],
+        "promise": null,
+        "commands": 0,
+        "art": "public-board roles player-ui scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art library navigation hospital-panel promises windows offices end successor",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "screenshots": [
+        "390-844-normal-presentation-promise-pending.png",
+        "390-844-normal-expired-waiting-for-server.png",
+        "390-844-normal-new-full-vote-targets.png"
+      ]
+    },
+    {
+      "name": "390-844-normal-late-duplicate-foreground-seeks",
+      "passed": true,
+      "late": {
+        "phase": {
+          "id": "synthetic-sync-1",
+          "kind": "BLACKHOLE_PRESENTATION",
+          "startedAt": 1793970701275,
+          "endsAt": 1793970707275,
+          "nowMs": 1793970704789.1,
+          "remainingMs": 2485.89990234375,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": {
+          "phaseId": "synthetic-sync-1",
+          "startedAt": 1793970701275,
+          "endsAt": 1793970707275,
+          "durationMs": 6000,
+          "elapsedMs": 3514.2001953125,
+          "remainingMs": 2485.7998046875,
+          "progress": 0.5857000325520834,
+          "status": "presenting"
+        },
+        "syncCue": true,
+        "headerText": "SYNTHETIC · R6 · BLACKHOLE SYNC3sCaptain — · Officer —Turn: — · Ship synchronized",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "player-ui roles public-board scene-art abilities setup-art board-v2-art board-v2-motion-art board-v2-films-art navigation library hospital-panel promises windows offices end successor",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "resumed": {
+        "phase": {
+          "id": "synthetic-sync-1",
+          "kind": "BLACKHOLE_PRESENTATION",
+          "startedAt": 1793970701275,
+          "endsAt": 1793970707275,
+          "nowMs": 1793970704970.25,
+          "remainingMs": 2304.75,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": {
+          "phaseId": "synthetic-sync-1",
+          "startedAt": 1793970701275,
+          "endsAt": 1793970707275,
+          "durationMs": 6000,
+          "elapsedMs": 3695.35009765625,
+          "remainingMs": 2304.64990234375,
+          "progress": 0.6158916829427084,
+          "status": "presenting"
+        },
+        "syncCue": true,
+        "headerText": "SYNTHETIC · R6 · BLACKHOLE SYNC3sCaptain — · Officer —Turn: — · Ship synchronized",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "player-ui roles public-board scene-art abilities setup-art board-v2-art board-v2-motion-art board-v2-films-art navigation library hospital-panel promises windows offices end successor",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "screenshots": [
+        "390-844-normal-late-foreground-seek.png"
+      ]
+    },
+    {
+      "name": "390-844-normal-return-after-stage-no-replay",
+      "passed": true,
+      "current": {
+        "phase": {
+          "id": "synthetic-vote-2",
+          "kind": "JAIL_VOTE",
+          "startedAt": 1793970707459,
+          "endsAt": 1793970767459,
+          "nowMs": 1793970707661.2998,
+          "remainingMs": 59797.7001953125,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": null,
+        "syncCue": false,
+        "headerText": "SYNTHETIC · R6 · JAIL VOTE60sCaptain — · Officer —Turn: —",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "player-ui roles public-board scene-art abilities setup-art board-v2-art board-v2-motion-art board-v2-films-art navigation library hospital-panel promises windows offices end successor",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "screenshots": [
+        "390-844-normal-vote-foreground-no-replay.png"
+      ]
+    },
+    {
+      "name": "390-844-normal-missing-art-progress-and-restore",
+      "passed": true,
+      "noArt": {
+        "phase": {
+          "id": "synthetic-sync-1",
+          "kind": "BLACKHOLE_PRESENTATION",
+          "startedAt": 1793970702634,
+          "endsAt": 1793970708634,
+          "nowMs": 1793970707837.1501,
+          "remainingMs": 796.849853515625,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": {
+          "phaseId": "synthetic-sync-1",
+          "startedAt": 1793970702634,
+          "endsAt": 1793970708634,
+          "durationMs": 6000,
+          "elapsedMs": 5203.35009765625,
+          "remainingMs": 796.64990234375,
+          "progress": 0.8672250162760416,
+          "status": "presenting"
+        },
+        "syncCue": true,
+        "headerText": "SYNTHETIC · R6 · BLACKHOLE SYNC1sCaptain — · Officer —Turn: — · Ship synchronized",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "missingVote": {
+        "phase": {
+          "id": "synthetic-vote-2",
+          "kind": "JAIL_VOTE",
+          "startedAt": 1793970708817,
+          "endsAt": 1793970768817,
+          "nowMs": 1793970708821.85,
+          "remainingMs": 59995.14990234375,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": null,
+        "syncCue": false,
+        "headerText": "SYNTHETIC · R6 · JAIL VOTE60sCaptain — · Officer —Turn: —",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "restored": {
+        "phase": {
+          "id": "synthetic-vote-2",
+          "kind": "JAIL_VOTE",
+          "startedAt": 1793970708817,
+          "endsAt": 1793970768817,
+          "nowMs": 1793970708868.05,
+          "remainingMs": 59948.949951171875,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": null,
+        "syncCue": false,
+        "headerText": "SYNTHETIC · R6 · JAIL VOTE60sCaptain — · Officer —Turn: —",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "player-ui roles abilities scene-art public-board board-v2-art setup-art board-v2-motion-art board-v2-films-art",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "screenshots": [
+        "390-844-normal-missing-art-presentation.png",
+        "390-844-normal-art-restored-vote-no-replay.png"
+      ]
+    },
+    {
+      "name": "390-844-normal-ordinary-round-skips-presentation",
+      "passed": true,
+      "current": {
+        "phase": {
+          "id": "synthetic-vote-1",
+          "kind": "JAIL_VOTE",
+          "startedAt": 1793970709049,
+          "endsAt": 1793970769049,
+          "nowMs": 1793970709051.95,
+          "remainingMs": 59997.050048828125,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": null,
+        "syncCue": false,
+        "headerText": "SYNTHETIC · R6 · JAIL VOTE60sCaptain — · Officer —Turn: —",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "player-ui roles abilities public-board scene-art setup-art board-v2-art board-v2-motion-art board-v2-films-art navigation hospital-panel promises library windows offices end successor",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "screenshots": [
+        "390-844-normal-ordinary-full-vote.png"
+      ]
+    },
+    {
+      "name": "390-844-normal-shared-display-header",
+      "passed": true,
+      "current": {
+        "phase": {
+          "id": "synthetic-sync-1",
+          "kind": "BLACKHOLE_PRESENTATION",
+          "startedAt": 1793970705725,
+          "endsAt": 1793970711725,
+          "nowMs": 1793970709238.4001,
+          "remainingMs": 2486.599853515625,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": {
+          "phaseId": "synthetic-sync-1",
+          "startedAt": 1793970705725,
+          "endsAt": 1793970711725,
+          "durationMs": 6000,
+          "elapsedMs": 3513.5,
+          "remainingMs": 2486.5,
+          "progress": 0.5855833333333333,
+          "status": "presenting"
+        },
+        "syncCue": true,
+        "headerText": "SYNTHETIC · R6 · BLACKHOLE SYNC3sCaptain — · Officer —Last finalized board · Round 6 · Turn: — · Ship synchronized",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "player-ui roles public-board scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art library navigation hospital-panel promises windows offices end successor",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "screenshots": [
+        "390-844-normal-shared-display-presentation.png"
+      ]
+    },
+    {
+      "name": "390-844-reduced-six-seconds-then-delayed-full-vote",
+      "passed": true,
+      "fresh": {
+        "phase": {
+          "id": "synthetic-sync-1",
+          "kind": "BLACKHOLE_PRESENTATION",
+          "startedAt": 1793970709487,
+          "endsAt": 1793970715487,
+          "nowMs": 1793970709502.45,
+          "remainingMs": 5984.550048828125,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": {
+          "phaseId": "synthetic-sync-1",
+          "startedAt": 1793970709487,
+          "endsAt": 1793970715487,
+          "durationMs": 6000,
+          "elapsedMs": 15.550048828125,
+          "remainingMs": 5984.449951171875,
+          "progress": 0.0025916748046875,
+          "status": "presenting"
+        },
+        "syncCue": true,
+        "headerText": "SYNTHETIC · R6 · BLACKHOLE SYNC6sCaptain — · Officer —Turn: — · Ship synchronized",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": "Pending",
+        "commands": 0,
+        "art": "player-ui public-board roles scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art library navigation hospital-panel promises windows offices end successor",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "afterOptionalFilmDuration": {
+        "phase": {
+          "id": "synthetic-sync-1",
+          "kind": "BLACKHOLE_PRESENTATION",
+          "startedAt": 1793970709487,
+          "endsAt": 1793970715487,
+          "nowMs": 1793970711261.25,
+          "remainingMs": 4225.75,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": {
+          "phaseId": "synthetic-sync-1",
+          "startedAt": 1793970709487,
+          "endsAt": 1793970715487,
+          "durationMs": 6000,
+          "elapsedMs": 1774.550048828125,
+          "remainingMs": 4225.449951171875,
+          "progress": 0.29575834147135416,
+          "status": "presenting"
+        },
+        "syncCue": true,
+        "headerText": "SYNTHETIC · R6 · BLACKHOLE SYNC5sCaptain — · Officer —Turn: — · Ship synchronized",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": "Pending",
+        "commands": 0,
+        "art": "player-ui public-board roles scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art library navigation hospital-panel promises windows offices end successor",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "expired": {
+        "phase": {
+          "id": "synthetic-sync-1",
+          "kind": "BLACKHOLE_PRESENTATION",
+          "startedAt": 1793970709487,
+          "endsAt": 1793970715487,
+          "nowMs": 1793970715670.3499,
+          "remainingMs": 0,
+          "trusted": true,
+          "expired": true
+        },
+        "stage": {
+          "phaseId": "synthetic-sync-1",
+          "startedAt": 1793970709487,
+          "endsAt": 1793970715487,
+          "durationMs": 6000,
+          "elapsedMs": 6000,
+          "remainingMs": 0,
+          "progress": 1,
+          "status": "awaiting-view"
+        },
+        "syncCue": true,
+        "headerText": "SYNTHETIC · R6 · BLACKHOLE SYNC0sCaptain — · Officer —Turn: — · Waiting for server",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "player-ui public-board roles scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art library navigation hospital-panel promises windows offices end successor",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "vote": {
+        "phase": {
+          "id": "synthetic-vote-2",
+          "kind": "JAIL_VOTE",
+          "startedAt": 1793970715763,
+          "endsAt": 1793970775763,
+          "nowMs": 1793970715768.25,
+          "remainingMs": 59994.75,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": null,
+        "syncCue": false,
+        "headerText": "SYNTHETIC · R6 · JAIL VOTE60sCaptain — · Officer —Turn: —",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": "Fulfilled",
+        "commands": 0,
+        "art": "player-ui public-board roles scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art library navigation hospital-panel promises windows offices end successor",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "ballot": {
+        "phase": {
+          "id": "synthetic-vote-2",
+          "kind": "JAIL_VOTE",
+          "startedAt": 1793970715763,
+          "endsAt": 1793970775763,
+          "nowMs": 1793970715870.05,
+          "remainingMs": 59892.949951171875,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": null,
+        "syncCue": false,
+        "headerText": "SYNTHETIC · R6 · JAIL VOTE60sCaptain — · Officer —Choose an offered character on the board.Choose an offered character on the board.",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 9,
+        "canMove": false,
+        "canPass": false,
+        "action": {
+          "type": "VOTE",
+          "label": "Vote",
+          "step": "targets",
+          "selected": [],
+          "choices": [
+            {
+              "value": "seat-1",
+              "label": "Player 1"
+            },
+            {
+              "value": "seat-2",
+              "label": "Player 2"
+            },
+            {
+              "value": "seat-3",
+              "label": "Player 3"
+            },
+            {
+              "value": "seat-4",
+              "label": "Player 4"
+            },
+            {
+              "value": "seat-5",
+              "label": "Player 5"
+            },
+            {
+              "value": "seat-6",
+              "label": "Player 6"
+            },
+            {
+              "value": "seat-7",
+              "label": "Player 7"
+            },
+            {
+              "value": "seat-8",
+              "label": "Player 8"
+            },
+            {
+              "value": "seat-9",
+              "label": "Player 9"
+            },
+            {
+              "value": "abstain",
+              "label": "Abstain"
+            }
+          ],
+          "prompt": "Choose an offered character on the board.",
+          "confirmation": null,
+          "canConfirm": false
+        },
+        "offers": [
+          {
+            "type": "VOTE",
+            "targetSeatIds": [
+              "seat-1",
+              "seat-2",
+              "seat-3",
+              "seat-4",
+              "seat-5",
+              "seat-6",
+              "seat-7",
+              "seat-8",
+              "seat-9"
+            ],
+            "slotIds": [],
+            "windowIds": [],
+            "promiseTargetSeatIds": []
+          }
+        ],
+        "promise": null,
+        "commands": 0,
+        "art": "player-ui public-board roles scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art library navigation hospital-panel promises windows offices end successor",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "screenshots": [
+        "390-844-reduced-presentation-promise-pending.png",
+        "390-844-reduced-expired-waiting-for-server.png",
+        "390-844-reduced-new-full-vote-targets.png"
+      ]
+    },
+    {
+      "name": "390-844-reduced-late-duplicate-foreground-seeks",
+      "passed": true,
+      "late": {
+        "phase": {
+          "id": "synthetic-sync-1",
+          "kind": "BLACKHOLE_PRESENTATION",
+          "startedAt": 1793970712619,
+          "endsAt": 1793970718619,
+          "nowMs": 1793970716122.15,
+          "remainingMs": 2496.85009765625,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": {
+          "phaseId": "synthetic-sync-1",
+          "startedAt": 1793970712619,
+          "endsAt": 1793970718619,
+          "durationMs": 6000,
+          "elapsedMs": 3503.25,
+          "remainingMs": 2496.75,
+          "progress": 0.583875,
+          "status": "presenting"
+        },
+        "syncCue": true,
+        "headerText": "SYNTHETIC · R6 · BLACKHOLE SYNC3sCaptain — · Officer —Turn: — · Ship synchronized",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art library navigation hospital-panel promises windows offices end successor",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "resumed": {
+        "phase": {
+          "id": "synthetic-sync-1",
+          "kind": "BLACKHOLE_PRESENTATION",
+          "startedAt": 1793970712619,
+          "endsAt": 1793970718619,
+          "nowMs": 1793970716322.1501,
+          "remainingMs": 2296.849853515625,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": {
+          "phaseId": "synthetic-sync-1",
+          "startedAt": 1793970712619,
+          "endsAt": 1793970718619,
+          "durationMs": 6000,
+          "elapsedMs": 3703.35009765625,
+          "remainingMs": 2296.64990234375,
+          "progress": 0.6172250162760416,
+          "status": "presenting"
+        },
+        "syncCue": true,
+        "headerText": "SYNTHETIC · R6 · BLACKHOLE SYNC3sCaptain — · Officer —Turn: — · Ship synchronized",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art library navigation hospital-panel promises windows offices end successor",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "screenshots": [
+        "390-844-reduced-late-foreground-seek.png"
+      ]
+    },
+    {
+      "name": "390-844-reduced-return-after-stage-no-replay",
+      "passed": true,
+      "current": {
+        "phase": {
+          "id": "synthetic-vote-2",
+          "kind": "JAIL_VOTE",
+          "startedAt": 1793970718802,
+          "endsAt": 1793970778802,
+          "nowMs": 1793970719014.05,
+          "remainingMs": 59787.949951171875,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": null,
+        "syncCue": false,
+        "headerText": "SYNTHETIC · R6 · JAIL VOTE60sCaptain — · Officer —Turn: —",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "public-board player-ui roles scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art library navigation hospital-panel promises windows offices end successor",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "screenshots": [
+        "390-844-reduced-vote-foreground-no-replay.png"
+      ]
+    },
+    {
+      "name": "390-844-reduced-missing-art-progress-and-restore",
+      "passed": true,
+      "noArt": {
+        "phase": {
+          "id": "synthetic-sync-1",
+          "kind": "BLACKHOLE_PRESENTATION",
+          "startedAt": 1793970713990,
+          "endsAt": 1793970719990,
+          "nowMs": 1793970719193.1,
+          "remainingMs": 796.89990234375,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": {
+          "phaseId": "synthetic-sync-1",
+          "startedAt": 1793970713990,
+          "endsAt": 1793970719990,
+          "durationMs": 6000,
+          "elapsedMs": 5203.300048828125,
+          "remainingMs": 796.699951171875,
+          "progress": 0.8672166748046874,
+          "status": "presenting"
+        },
+        "syncCue": true,
+        "headerText": "SYNTHETIC · R6 · BLACKHOLE SYNC1sCaptain — · Officer —Turn: — · Ship synchronized",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "missingVote": {
+        "phase": {
+          "id": "synthetic-vote-2",
+          "kind": "JAIL_VOTE",
+          "startedAt": 1793970720172,
+          "endsAt": 1793970780172,
+          "nowMs": 1793970720180.6,
+          "remainingMs": 59991.39990234375,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": null,
+        "syncCue": false,
+        "headerText": "SYNTHETIC · R6 · JAIL VOTE60sCaptain — · Officer —Turn: —",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "restored": {
+        "phase": {
+          "id": "synthetic-vote-2",
+          "kind": "JAIL_VOTE",
+          "startedAt": 1793970720172,
+          "endsAt": 1793970780172,
+          "nowMs": 1793970720225.1,
+          "remainingMs": 59946.89990234375,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": null,
+        "syncCue": false,
+        "headerText": "SYNTHETIC · R6 · JAIL VOTE60sCaptain — · Officer —Turn: —",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "player-ui roles public-board scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "screenshots": [
+        "390-844-reduced-missing-art-presentation.png",
+        "390-844-reduced-art-restored-vote-no-replay.png"
+      ]
+    },
+    {
+      "name": "390-844-reduced-ordinary-round-skips-presentation",
+      "passed": true,
+      "current": {
+        "phase": {
+          "id": "synthetic-vote-1",
+          "kind": "JAIL_VOTE",
+          "startedAt": 1793970720407,
+          "endsAt": 1793970780407,
+          "nowMs": 1793970720409.55,
+          "remainingMs": 59997.449951171875,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": null,
+        "syncCue": false,
+        "headerText": "SYNTHETIC · R6 · JAIL VOTE60sCaptain — · Officer —Turn: —",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "roles player-ui public-board scene-art abilities setup-art board-v2-art board-v2-motion-art board-v2-films-art library hospital-panel promises navigation windows offices end successor",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "screenshots": [
+        "390-844-reduced-ordinary-full-vote.png"
+      ]
+    },
+    {
+      "name": "390-844-reduced-shared-display-header",
+      "passed": true,
+      "current": {
+        "phase": {
+          "id": "synthetic-sync-1",
+          "kind": "BLACKHOLE_PRESENTATION",
+          "startedAt": 1793970717089,
+          "endsAt": 1793970723089,
+          "nowMs": 1793970720591.8499,
+          "remainingMs": 2497.150146484375,
+          "trusted": true,
+          "expired": false
+        },
+        "stage": {
+          "phaseId": "synthetic-sync-1",
+          "startedAt": 1793970717089,
+          "endsAt": 1793970723089,
+          "durationMs": 6000,
+          "elapsedMs": 3502.949951171875,
+          "remainingMs": 2497.050048828125,
+          "progress": 0.5838249918619791,
+          "status": "presenting"
+        },
+        "syncCue": true,
+        "headerText": "SYNTHETIC · R6 · BLACKHOLE SYNC3sCaptain — · Officer —Last finalized board · Round 6 · Turn: — · Ship synchronized",
+        "noOverlay": true,
+        "headerClear": true,
+        "capsuleActors": 0,
+        "targets": 0,
+        "canMove": false,
+        "canPass": false,
+        "action": null,
+        "offers": [],
+        "promise": null,
+        "commands": 0,
+        "art": "player-ui public-board roles scene-art abilities board-v2-art setup-art board-v2-motion-art board-v2-films-art library navigation hospital-panel windows promises offices end successor",
+        "overflow": [
+          false,
+          false
+        ]
+      },
+      "screenshots": [
+        "390-844-reduced-shared-display-presentation.png"
+      ]
+    }
+  ],
+  "runtimeErrors": []
+}

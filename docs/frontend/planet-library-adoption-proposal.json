@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "status": "Proposed for Integration review; candidate preview only; not production adoption",
+  "status": "Historical 18-file source proposal; exact named assets are now approved and locally wired in planet-library-art-adoption.json",
   "designerHead": "0fb17a35c4b2fdd3418c9ffb575dbd4a7d0d9878",
   "consumerBase": "ef98b49408ffba68d2924be63cc536a10091a8a9",
   "approvalFence": "Existing shared artwork approval/source fences remain unchanged. Candidate files are emitted only by the excluded Planet development preview.",
@@ -462,5 +462,6 @@
     "R16": "Designer field-gap note superseded by reviewed literal BLACKHOLE_PRESENTATION; no film fallback at JAIL_VOTE",
     "navigation": "Designer NAV_TIE reference maps to NAV_SETTING only under the new exact tuple",
     "R15": "Disabled until a typed authorized delivery marker exists. No count, stage or Sync inference; inventory at rest only."
-  }
+  },
+  "supersededBy": "docs/frontend/planet-library-art-adoption.json"
 }

@@ -76,19 +76,23 @@ html:has(.planet-setup),body:has(.planet-setup){margin:0;height:100%;overflow:hi
 .planet-panel-console{position:relative;isolation:isolate;aspect-ratio:320/150;max-height:130px;margin:8px auto;width:min(100%,280px)}
 .planet-panel-number{position:absolute;left:16%;top:18%;width:30%;text-align:center;color:#F4EBDD}
 .planet-number-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:8px 0}
-.planet-app .planet-number-key{min-height:48px;font-size:18px;background:#132447 var(--hp-asset-hp-key-plain) center/100% 100% no-repeat}
+.planet-app .planet-number-key{min-height:48px;font-size:18px}
+[data-art~="hospital-panel"] .planet-app .planet-number-key{background:#132447 var(--hp-asset-hp-key-plain) center/100% 100% no-repeat}
 .planet-choice-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;margin:8px 0}
 .planet-choice-grid button{display:flex;align-items:center;justify-content:center;overflow-wrap:anywhere}
 .planet-drawing-tools{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin:8px 0}
 .planet-drawing-tools :is(input,select){min-width:44px;min-height:44px;max-width:100%;color:#F4EBDD;background:#132447;border:1px solid #A7771E}
 .planet-end-banner{position:relative;isolation:isolate;padding:10px 6px;text-align:center;min-height:52px}
-.planet-move-block{position:absolute;z-index:3300;width:16px;height:16px;background:var(--of-asset-of-badge-blocked) center/contain no-repeat;pointer-events:none}
-.planet-window-station{position:absolute;z-index:10;background:var(--wn-asset-wn-station) center/contain no-repeat;pointer-events:none}
+.planet-move-block{display:none;position:absolute;z-index:3300;width:16px;height:16px;background:var(--of-asset-of-badge-blocked) center/contain no-repeat;pointer-events:none}
+.planet-window-station{display:none;position:absolute;z-index:10;background:var(--wn-asset-wn-station) center/contain no-repeat;pointer-events:none}
 [data-art~="offices"] .planet-office-badge[data-officer=true]::before{content:'';display:inline-block;width:12px;height:12px;background:var(--of-asset-of-glyph-officer) center/contain no-repeat;vertical-align:middle;margin-right:2px}
 .planet-entry-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:8px 0}
 .planet-entry-tabs button[aria-pressed=true]{outline:2px solid #F7D886;outline-offset:1px}
 .planet-setup #planet-name-hint{font-size:12px;margin:0}
 .planet-setup [hidden]{display:none!important}
-.planet-room-code{background:var(--sw-asset-sw-code-plate) center/contain no-repeat;min-height:54px;display:grid;place-items:center;font-weight:800;font-size:18px}
+.planet-room-code{min-height:54px;display:grid;place-items:center;font-weight:800;font-size:18px}
 .planet-setup .planet-entry-tabs+form,.planet-setup form{margin:8px 0;padding:8px}
 .planet-cinematic-field{position:absolute;left:0;top:0;z-index:-1999;pointer-events:none}
+
+[data-art~="offices"] .planet-move-block,[data-art~="windows"] .planet-window-station{display:block}
+[data-art~="successor"] .planet-room-code{background:var(--sw-asset-sw-code-plate) center/contain no-repeat}

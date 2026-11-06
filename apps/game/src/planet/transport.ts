@@ -1,6 +1,6 @@
 import { PlanetPlayerViewSchema, PlanetPublicViewSchema, PlanetReceiptSchema, PlanetDrawingSchema } from '@mothership/contracts';
 import type { PlanetCommandRequest, PlanetPlayerView, PlanetPublicView, PlanetReceipt, SeatId } from '@mothership/contracts';
-import {planetIsPlayer} from '@mothership/presentation';
+import {planetIsPlayer,planetSupportsAssets} from '@mothership/presentation';
 import type { PlanetIdentity, PlanetView } from '@mothership/presentation';
 
 export const PLANET_SUPPORTED_ASSET_MANIFEST='design-0.5.0';
@@ -21,7 +21,7 @@ export interface PlanetTransport {
 }
 export function readPlanetView(payload:unknown,matchId:string,seatId:SeatId|null):PlanetView|null {
  const parsed=seatId===null?PlanetPublicViewSchema.safeParse(payload):PlanetPlayerViewSchema.safeParse(payload);
- if(!parsed.success||parsed.data.matchId!==matchId||parsed.data.versions.assetManifestVersion!==PLANET_SUPPORTED_ASSET_MANIFEST)return null;
+ if(!parsed.success||parsed.data.matchId!==matchId||!planetSupportsAssets(parsed.data.versions))return null;
  const view:PlanetView=parsed.data;
  if(seatId!==null&&(!planetIsPlayer(view)||view.self.seatId!==seatId))return null;
  const ids=new Set(view.board.seats.map(s=>s.seatId));

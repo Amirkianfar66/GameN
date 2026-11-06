@@ -40,6 +40,9 @@ test('public game feed receives only the public view and neutral identities',asy
 test('session audience mismatch and changed binding fail closed',async()=>{
  const r=sessionRig('board');await r.session.start('planet-local');r.value.selfSeatId='seat-1';await r.session.refresh();assert.equal(r.session.getModel().connection,'error');assert.equal(r.session.getModel().members.length,0);assert.equal(r.session.getModel().ownRole,null);r.session.dispose();
 });
+test('session and game views cannot activate artwork from different otherwise valid pins',async()=>{
+ const r=sessionRig('board');r.value.publicView.versions.assetManifestVersion='design-0.5.0';await r.session.start('planet-local');assert.equal(r.session.getModel().connection,'error');assert.equal(r.session.getModel().versions,null);assert.equal(r.session.getModel().members.length,0);r.session.dispose();
+});
 test('server answer reader refuses malformed wrappers and does not surface raw diagnostics',()=>{
  assert.equal(readPlanetServiceAnswer({ok:true,serverTimeMs:1000,result:{},debug:'raw'}),null);assert.equal(readPlanetServiceAnswer({ok:false,serverTimeMs:1000,error:{code:'raw secret'}}),null);assert.equal(readPlanetServiceAnswer({ok:true,serverTimeMs:NaN,result:{}}),null);
 });

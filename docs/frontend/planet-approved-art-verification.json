@@ -1,0 +1,235 @@
+{
+  "schemaVersion": 1,
+  "status": "Approved native build/runtime adoption complete locally; Integration central registry/service/release work pending",
+  "generatedAt": "2026-11-06T13:18:44.904969+00:00",
+  "contractFixCommit": "2ba13170ac49b790db637532fdd41a8091e72740",
+  "approvalCommit": {
+    "original": "47417a57478a7be2bad9ef5c492b09a1e39132d4",
+    "local": "ea4474a38d6612919dc82f7ed5eb46020529c3fe",
+    "path": "docs/integration/planet-library-art-approval-2026-11-06.json",
+    "sha256": "9493e29a8ce1b06c6848846b0c8932d65c42abcb24b2b43aaf35ed7239aaf228"
+  },
+  "designer": {
+    "previousHead": "ff7b689a17282e63606506bbf151d79c7da858fc",
+    "currentHead": "0fb17a35c4b2fdd3418c9ffb575dbd4a7d0d9878",
+    "retainedSourceBytesUnchanged": true,
+    "withdrawnEjectExcluded": true
+  },
+  "versions": {
+    "protocolVersion": 3,
+    "engineVersion": "planet-game-1.1.0",
+    "rulesetVersion": "in-person-planet-private-feedback-2026-11-06",
+    "rulesetHash": "4a1fc0e0dc21255253e31ae46e6042f9bd71e3fdec0f82f8a79b3ce213d01bfa",
+    "assetManifestVersion": "design-0.6.0"
+  },
+  "checks": {
+    "frontend": {
+      "passed": 850,
+      "presentation": 216,
+      "game": 634,
+      "failed": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "focusedPlanet": 109,
+    "contractsAtUnchangedSharedCheckpoint": {
+      "planet": 23,
+      "historical": 26,
+      "failed": 0
+    },
+    "build": "passed",
+    "typecheckPure": "passed",
+    "typecheckBrowser": "passed",
+    "workspace": "passed",
+    "sourceIntegrity": "passed",
+    "productionExclusion": "passed: 75 reachable package modules; 252 shipped/source files; 80 labeled development files",
+    "artProvenance": "18 exact approved outputs; 8 stylesheets and 5 media/poster pairs; all nine design-0.5.0 base outputs unchanged",
+    "uniformRoleAndDisplayRequests": "actual initiated requests match the same 18 published URLs across five audiences",
+    "sharedAndDesignerFilesChangedAfterApproval": "none",
+    "gitDiffCheck": "passed"
+  },
+  "artwork": {
+    "adoptionPath": "docs/frontend/planet-library-art-adoption.json",
+    "adoptionSha256": "5d8371f237270de2cff30b68f421d3560763c5937f9b2b3a426ea78e4c1629d7",
+    "sourceBytes": 4255704,
+    "publishedLocalBytes": 4255520,
+    "outputs": 18,
+    "stylesheets": 8,
+    "embeddedSvgAssets": 80,
+    "mediaPosterFamilies": 5,
+    "activeVideoTreatments": [
+      "blackhole",
+      "transit",
+      "arrival-blue",
+      "arrival-red"
+    ],
+    "rescue": "Guarded current machinery-only painter; approved drone packaged/preloaded",
+    "historicalBaseBundlesUnchanged": 9,
+    "reviewOrStillsMediaIncluded": false,
+    "ejectExteriorIncluded": false,
+    "supplyCueEnabled": false,
+    "audioAdopted": false
+  },
+  "browser": {
+    "scope": "Synthetic authority through the native consumer; desktop Chromium phone emulation",
+    "viewports": [
+      [
+        320,
+        568
+      ],
+      [
+        390,
+        844
+      ]
+    ],
+    "motion": [
+      "normal",
+      "reduced"
+    ],
+    "facts": [
+      {
+        "path": "docs/frontend/evidence/planet-approved-art-contract/facts.json",
+        "sha256": "9a70c61a9416248411de6712e08d62506fabc7c0ad17385b043437d5e1474d9b",
+        "generatedAt": "2026-11-06T13:13:23.355Z",
+        "cases": 40,
+        "interactionFlows": 0,
+        "screenshots": 40,
+        "runtimeExceptions": 0
+      },
+      {
+        "path": "docs/frontend/evidence/planet-approved-art-library/facts.json",
+        "sha256": "5d72641bf54fd5864c2bdaddf553c15e507b35c7270c4e6e105e0fdfd5ca5306",
+        "generatedAt": "2026-11-06T13:06:39.540Z",
+        "cases": 52,
+        "interactionFlows": 0,
+        "screenshots": 52,
+        "runtimeExceptions": 0
+      },
+      {
+        "path": "docs/frontend/evidence/planet-approved-art-consumer/facts.json",
+        "sha256": "31007b9b7c15b9a77259beea1c113dcbdaf9cdad09ac9937fa0ecc9f09961b02",
+        "generatedAt": "2026-11-06T13:10:41.905Z",
+        "cases": 16,
+        "interactionFlows": 0,
+        "screenshots": 16,
+        "runtimeExceptions": 0
+      },
+      {
+        "path": "docs/frontend/evidence/planet-approved-art-safety/facts.json",
+        "sha256": "7399d56c7f6c742218a9b6064dd49a7ea1a7c6ce238371bb7153f44441d07dda",
+        "generatedAt": "2026-11-06T13:10:46.195Z",
+        "cases": 16,
+        "interactionFlows": 0,
+        "screenshots": 16,
+        "runtimeExceptions": 0
+      },
+      {
+        "path": "docs/frontend/evidence/planet-approved-art-p27/facts.json",
+        "sha256": "fc4d4b22d2ae15b845c82671bffbb409256ddb9a5cfc807b352929cb365feb8f",
+        "generatedAt": "2026-11-06T13:11:15.382Z",
+        "cases": 24,
+        "interactionFlows": 0,
+        "screenshots": 36,
+        "runtimeExceptions": 0
+      },
+      {
+        "path": "docs/frontend/evidence/planet-approved-art-shell/facts.json",
+        "sha256": "f5e815d7bbb2a0d7d9a1c32f7d22d73d43897b9974216d598fc17eef0481f4a7",
+        "generatedAt": "2026-11-06T13:12:01.333Z",
+        "cases": 100,
+        "interactionFlows": 12,
+        "screenshots": 46,
+        "runtimeExceptions": 0
+      }
+    ]
+  },
+  "sourceFilesSha256": {
+    "apps/game/dev/planet/capture-library.mjs": "7cccbf90a8ae42923aad9af653d51d36d71531dd1a7e5bbff4772885fd05a6d7",
+    "apps/game/dev/planet/capture-private-feedback.mjs": "4170020caf8488e6aee8a46bad588bfecae2b2ecff495d846504cb17428291d0",
+    "apps/game/dev/planet/main.mjs": "fd93703e39ad118ab8f3421d2ffb663a19e36cb021f9837dbd452df4b111bf3f",
+    "apps/game/dev/planet/scenarios.mjs": "5d30113c3295006119ea23f7afac4412182870c6f12833a24d445d5c2a596726",
+    "apps/game/dev/planet/vite.config.mjs": "9e22710a71caade2322b8e91188d8ba8c17dff0594959d2990bf9f20605f5ff2",
+    "apps/game/hosted/build/planet-library-art.mjs": "8bb2f77b50fbded850c088feb25d8c96ebc51d54f6dfeb5dd2792ce68b951741",
+    "apps/game/hosted/planet/app.mjs": "f595188fdbdd9468972bdef68ad6a2b5a00aa37f46a3dc221f8d42fa0bd4dc20",
+    "apps/game/hosted/planet/art.mjs": "9df3f956ba8fc42bfebd56fb6e66fec54f478801c59e87bd7f53cc6ac1d2b84d",
+    "apps/game/hosted/planet/cinematic.mjs": "d218adae2c659bf02c1912df935926b5bc08732fd5486f5f2b447709af452752",
+    "apps/game/hosted/planet/library-assets.mjs": "1f9ae6de20ef60870ec6c55e614b46acf512363908ff1febdc4d4e25b09a2b81",
+    "apps/game/hosted/planet/library.mjs": "a4dd55f3147eed3a55718eb2f4a32a161c0a9bdffab854b7c2ba4a3cd547ac35",
+    "apps/game/hosted/planet/motion.mjs": "9ab7ff4839a7207c7e6b6be45f9addee73b8dd0707bae5d56bc81ceeafae3ba2",
+    "apps/game/hosted/planet/planet.css": "885c33ca55e7363bdb102b22e4a455872e4b9ce401dc60f6c79e6328ca15efab",
+    "apps/game/hosted/planet/render.mjs": "2501a02dc4aa7eac631f16da2e9cb114ff929bb101566e1d25b4c8208d01f084",
+    "apps/game/hosted/vite.config.mjs": "fd36012b9aaafd16ccb80f0dde38389d1899554a370933adaf10241a1665594d",
+    "apps/game/scripts/check-planet-art-adoption.mjs": "33e2e7872e3c49709cfbc8fb60a7212f8c7025460c23e9d40e87f3976f8f4904",
+    "apps/game/src/planet/session.ts": "d47e471670670d9431556ab06c61b740043f7c32add3258f7ad27b354c2f7b46",
+    "apps/game/src/planet/transport.ts": "b1f7651bc1dfa4ef9cf97ac25bb340a9351982f07b754fae83815f234759335b",
+    "apps/game/test/planet-art.test.mjs": "93515d1edbef17dab7e66765689e94fdf95b81e24521a1a8a3707ca4b7946f24",
+    "apps/game/test/planet-session.test.mjs": "45af6ba8a8323119a49f7388a6e9ce90eba2aa2dc1b454f847a0020b27d35138",
+    "packages/presentation/src/planet/library.ts": "4e370ff02c4e9d5405e407f49d3dedaceb9a989252274f90dc9e8bb4e2143b17",
+    "packages/presentation/test/planet-library.test.mjs": "765eafbb549f55f5531fafd73415d6f767fea09b99b86c4e0998372cecdf485a"
+  },
+  "productionFilesSha256": {
+    "dist/hosted-preview/art/abilities.art.f7ff31a86d.css": "f7ff31a86dc6a7315e386648bc5664e29e6390f2018ff14831270532409a2ffd",
+    "dist/hosted-preview/art/board-v2-films.art.9e6abdef0f.css": "9e6abdef0f0be32d8283dffbef9bff18898c62d4f330c8f72f9216717f1e8bbb",
+    "dist/hosted-preview/art/board-v2-motion.art.7793869d6b.css": "7793869d6bef7d4a851ba5d5aa12e686544c3ae3f842409ac70598d864532677",
+    "dist/hosted-preview/art/board-v2.art.5dedbf2450.css": "5dedbf2450adca159480d3ba448501ce6957595f1a018c5ced4d9d17f5031cd2",
+    "dist/hosted-preview/art/planet-library/arrival-blue.5a905ac795.mp4": "5a905ac79545c818550e8718b0d5d2de9db705840387d87f1d00d9157a9fb643",
+    "dist/hosted-preview/art/planet-library/arrival-blue.poster.4ca9e33913.webp": "4ca9e33913cb798ecc8f58345d85f04830c8ac1afb1d5c5ab26114237a2aaf88",
+    "dist/hosted-preview/art/planet-library/arrival-red.11cc978817.mp4": "11cc9788177ac56a7859849718677e9b3ffb8a92f367a2f8f6ef86bdec2a73c7",
+    "dist/hosted-preview/art/planet-library/arrival-red.poster.32f9127d58.webp": "32f9127d58c31f727d17d9cc57c9d160d40dff4c933145e131a9ce5b0a6ad938",
+    "dist/hosted-preview/art/planet-library/blackhole.1f1aa0ee1a.mp4": "1f1aa0ee1a3b227bd09bd62496178a28e9aeee18b617863943ceae3f32047c57",
+    "dist/hosted-preview/art/planet-library/blackhole.poster.dfa7e8141b.webp": "dfa7e8141b3738fc65e33d4ee5de825b97925de487e7906d50394c25959c99e5",
+    "dist/hosted-preview/art/planet-library/end.art.717e2dcc59.css": "717e2dcc59088759615cc7536a341592eb5ef1e2c0ff811feb499eb3ba806613",
+    "dist/hosted-preview/art/planet-library/hack-engineer.art.15e5c98ff2.css": "15e5c98ff253858148986476a2c7035cc924898191e2ddbb1f422bca694e6c0c",
+    "dist/hosted-preview/art/planet-library/hospital-panel.art.e6b5bddef6.css": "e6b5bddef618d97fbc2acbf9166d766ca70ba8199d337f41776a79b642263358",
+    "dist/hosted-preview/art/planet-library/navigation.art.b583b8bc4e.css": "b583b8bc4e749b26d811065beb247ec40d7cbd386f4d134e2c31940dfd5672b3",
+    "dist/hosted-preview/art/planet-library/offices.art.6d780e7fff.css": "6d780e7fffa10f9f6caccd22a92e33c20e413554778876a08bbf6cd1e5e79b01",
+    "dist/hosted-preview/art/planet-library/promises.art.0298ebef8d.css": "0298ebef8d319080e7cb751632908d06784ff75790093227e6300401d2d0867a",
+    "dist/hosted-preview/art/planet-library/rescue.eccab99be1.mp4": "eccab99be11d1696a90d7a81270006819c05ccd218623df6e3f105cc743cc097",
+    "dist/hosted-preview/art/planet-library/rescue.poster.dffbce3adf.webp": "dffbce3adf4f2d0744905fd6c235f32aebb38ace5206992c73614cbcae764826",
+    "dist/hosted-preview/art/planet-library/successor.art.676b8d3fd6.css": "676b8d3fd6100193d8f1bd4c5b13a55e883f48cbfa6fd7666bfbbb83c72248bd",
+    "dist/hosted-preview/art/planet-library/transit.6e338df52f.mp4": "6e338df52f1b4f4feac3d56ed53b2114057516a038c4aa8d7f336c65162a34f8",
+    "dist/hosted-preview/art/planet-library/transit.poster.cd2ee84274.webp": "cd2ee84274ed955176005b4ed0bb44c353e26cf3f5585b5ff1ce515c8903daa2",
+    "dist/hosted-preview/art/planet-library/windows.art.767ae8ccdc.css": "767ae8ccdc9aceef3604a88260b2149a0766a2910836084247d5bfc6ab9d27a0",
+    "dist/hosted-preview/art/player-ui.art.fc4830756c.css": "fc4830756cfe0119d98e2a06c207aa5178bdec96d0ed8d8b98f263c1a47cdc67",
+    "dist/hosted-preview/art/public-board.art.1f47b9f920.css": "1f47b9f920c4b7090891bc23c27223c56762f43508b731ae1c6a0142ace06996",
+    "dist/hosted-preview/art/roles.art.14e56b5e3e.css": "14e56b5e3eaa713c6003dbe1092b40585b1ced17d658bcc7ccfd0587cf43a995",
+    "dist/hosted-preview/art/scenes.art.0ff8b3c930.css": "0ff8b3c9305e99a2ff3562411ea412910b66d9ba52800858c5fa010ee9b07b29",
+    "dist/hosted-preview/art/setup.art.f196649c9c.css": "f196649c9c117d402ac1ee2483870be279f7a347c823c0175b0caa07be9ebe15",
+    "dist/hosted-preview/assets/board-v2-BqiIpY_9.js": "d3583be6d66ef78edd9505600b819389eeb75f7ffa71311f5ddbb97ac774f81e",
+    "dist/hosted-preview/assets/board-v2-pMYnV5uf.css": "4170edebd272a6d1440353c8720232f06b444fc61ef7876b9dedac61560660b8",
+    "dist/hosted-preview/assets/development-DOjPKNpG.css": "19c1460aa387c1f80a953203ecd8574961fffdf964f2a6877f78bda7f01c3f44",
+    "dist/hosted-preview/assets/game-SyPE4rGs.js": "f121daabe6765ed0edbb7a3545501ac661fb28d6ce687956cc96e892fc959e7c",
+    "dist/hosted-preview/assets/main-BjpqA9lb.js": "153702901a81abb367f392ab48b60b702f9c269c4a0935200d3db3bfbb8653c1",
+    "dist/hosted-preview/assets/main-kmz3ZQTr.css": "65929172035084d3145ddaf43b458231c0d99ffed7482162ee0baeac5afb3637",
+    "dist/hosted-preview/assets/modulepreload-polyfill-P2Xu9kJm.js": "418c206484b89b68ef5f067277831e583fc9193a62aadf4de269acaaeb12a85f",
+    "dist/hosted-preview/assets/planet-DTzclGL0.js": "335570c757782e4f9a2b4cd44b77891f94fafe4ff144580c81a462f1528d35bb",
+    "dist/hosted-preview/assets/planet-DwoTbti-.css": "885c33ca55e7363bdb102b22e4a455872e4b9ce401dc60f6c79e6328ca15efab",
+    "dist/hosted-preview/development/index.html": "c3bb91a5733b31236a6df105b7b7073dd54604e4337818adb347f004a1c941b5",
+    "dist/hosted-preview/index.html": "1a0030ff64232795406ea01831c3fa7eb30379a60ea94c77ef3ca561e5959b85",
+    "dist/hosted-preview/planet/index.html": "22faa12c1c65efc8141842992a9a59fb6595bb99acd8cc292ee068a1dd5677d1"
+  },
+  "sharedProposals": {
+    "changesPath": "docs/frontend/planet-art-shared-changes.json",
+    "changesSha256": "390741aa5a88cae6eee9e254e36eaad72149db87a251d6b9c016ddb22b916305",
+    "releasePath": "docs/frontend/planet-design-0.6.0-release-proposal.json",
+    "releaseSha256": "d8dbcc979067954051629f2a37ca66196a530ef61d8b1d366726366bc3b429dc"
+  },
+  "pending": [
+    "Integration central design-0.6.0 release registry entry and shared source-check registration",
+    "Integration R14 requester standing",
+    "Integration service/engine/art combined verification and new-creation profile selection",
+    "R9/R11 history and R15 delivery marker remain unavailable"
+  ],
+  "notRun": [
+    "Real service/Firebase end-to-end",
+    "Authenticated hosted multiplayer",
+    "Safari and physical devices",
+    "Screen readers",
+    "Media/audio performance acceptance",
+    "Human playtests"
+  ],
+  "merge": "not performed",
+  "deployment": "not performed",
+  "publicPublication": "not performed",
+  "liveProfileActivation": "not performed"
+}

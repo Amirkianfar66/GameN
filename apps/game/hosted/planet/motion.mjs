@@ -1,5 +1,6 @@
 // Planet occurrence lifecycle over genuine protocol-3 facts. The frozen ports below only draw.
 import {PlanetVersionsSchema,PlanetEventSchema,validClinicalAnchorForPlayerCount} from '@mothership/contracts';
+import {planetSupportsAssets} from '@mothership/presentation';
 import {blockedEnd,blockedFrame} from '../board-v2-drawing/blocked-film.mjs';
 import {criticalFrame,rescueEnd,flatlineFrame,flatlineEnd} from '../board-v2-drawing/medical-film.mjs';
 import {fourRescueFrame,fourFilmBerth} from '../board-v2-drawing/medical-four.mjs';
@@ -32,7 +33,7 @@ export function createPlanetMotion({now=()=>performance.now(),transitDurationMs=
  const clear=()=>{active.clear();cloneMoving=null;liveBefore=false;};
  function update(next,{reducedMotion=false,visible=true,focused=true}={}){
   if(next?.matchId!==model?.matchId){seen.clear();previous=null;cloneBefore=null;clear();}
-  const addressed=!!next&&PlanetVersionsSchema.safeParse(next.versions).success&&next.versions.assetManifestVersion==='design-0.5.0'&&next.connection==='live'&&!next.concealed&&visible&&focused;
+  const addressed=!!next&&PlanetVersionsSchema.safeParse(next.versions).success&&planetSupportsAssets(next.versions)&&next.connection==='live'&&!next.concealed&&visible&&focused;
   const current=addressed&&next.presentation!==null&&next.phase?.trusted&&!next.phase.expired&&!next.dark&&!['FINISHED','ABORTED'].includes(next.phase.kind);
   const stage=next?.phase?.kind==='BLACKHOLE_PRESENTATION';
   const leavingBlackout=model?.phase?.kind==='BLACKOUT'&&next?.phase?.kind!=='BLACKOUT';

@@ -1,9 +1,10 @@
 // Native Planet composition. Artwork is optional and remains subject to shared adoption review.
 // Names reference ff7b689a's library bundles; no Designer page, fixture or state engine is imported.
 const PREFIX={lib:'lib',nav:'nav',hp:'hp',pr:'pr',wn:'wn',of:'of',en:'en',sw:'sw'};
+const TOKENS={lib:'library',nav:'navigation',hp:'hospital-panel',pr:'promises',wn:'windows',of:'offices',en:'end',sw:'successor'};
 export function createPlanetLibrary(document){
  const node=(tag,text,cls)=>{const n=document.createElement(tag);if(text!=null)n.textContent=text;if(cls)n.className=cls;return n;};
- const available=name=>!!document.defaultView.getComputedStyle(document.documentElement).getPropertyValue(`--${PREFIX[name.split('-')[0]]}-asset-${name}`).trim();
+ const available=name=>(document.documentElement.dataset.art??'').split(' ').includes(TOKENS[name.split('-')[0]])&&!!document.defaultView.getComputedStyle(document.documentElement).getPropertyValue(`--${PREFIX[name.split('-')[0]]}-asset-${name}`).trim();
  function art(name,cls='planet-library-icon'){
   const n=node('span',null,cls),prefix=PREFIX[name.split('-')[0]];
   if(!prefix||!/^[a-z0-9-]+$/.test(name))throw TypeError('Unknown library asset');

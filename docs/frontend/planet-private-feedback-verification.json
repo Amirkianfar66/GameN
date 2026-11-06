@@ -170,5 +170,8 @@
   ],
   "merge": "not performed",
   "deployment": "not performed",
-  "profileActivation": "not performed"
+  "profileActivation": "not performed",
+  "verifiedConsumerCommit": "2ba13170ac49b790db637532fdd41a8091e72740",
+  "historicalEvidenceNote": "Source hashes and counts refer to the fixed contract checkpoint, not the later artwork worktree.",
+  "supersededBy": "docs/frontend/planet-approved-art-verification.json"
 }

@@ -19,7 +19,7 @@ const putBox=(node,r)=>{if(!r)return;for(const k of ['left','top','width','heigh
 const roomFor=slot=>BOARD_ROOMS.find(room=>slotsOf(room,9).some(s=>s.id===slot));
 
 /** Native consumer renderer: public scene DTOs feed approved pure drawings, never legacy wire views. */
-export function mountPlanetRenderer(root,controller,{candidateCinematics=[]}={}){
+export function mountPlanetRenderer(root,controller,{cinematics=[]}={}){
  const document=root.ownerDocument,win=document.defaultView;
  const library=createPlanetLibrary(document);
  const readInsets=()=>{const probe=document.createElement('div');probe.style.cssText='position:fixed;visibility:hidden;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)';document.body.append(probe);const style=win.getComputedStyle(probe),value={top:parseFloat(style.paddingTop)||0,right:parseFloat(style.paddingRight)||0,bottom:parseFloat(style.paddingBottom)||0,left:parseFloat(style.paddingLeft)||0};probe.remove();return value;};
@@ -40,7 +40,7 @@ export function mountPlanetRenderer(root,controller,{candidateCinematics=[]}={})
  const rosterText=el('ul',null,'ms-visually-hidden');rosterText.setAttribute('aria-label','Authorized board facts');
  const resultPanel=el('section',null,'planet-result');resultPanel.setAttribute('aria-label','Authoritative result');
  root.replaceChildren(holder,targets,header,nav,pass,sheet,status,words,resultPanel,rosterText);
- const media=win.matchMedia('(prefers-reduced-motion: reduce)'),motion=createPlanetMotion({transitDurationMs:candidateCinematics.find(c=>c.name==='transit')?.durationMs??0}),capsule=createBoardV2Capsule(),blackout=createBoardV2Blackout(),films=createBoardV2Films(root,holder),rescue=createPlanetRescuePainter(holder),cinematic=createPlanetCinematic(holder,candidateCinematics);
+ const media=win.matchMedia('(prefers-reduced-motion: reduce)'),motion=createPlanetMotion({transitDurationMs:cinematics.find(c=>c.name==='transit')?.durationMs??0}),capsule=createBoardV2Capsule(),blackout=createBoardV2Blackout(),films=createBoardV2Films(root,holder),rescue=createPlanetRescuePainter(holder),cinematic=createPlanetCinematic(holder,cinematics);
  let checkpointText='';
  let model=null,layout=null,frame=null,raf=null,disposed=false,more=false,uiKey=null,lastPanel='board';
  const drawings=new Map();
@@ -192,7 +192,7 @@ export function mountPlanetRenderer(root,controller,{candidateCinematics=[]}={})
    }
   }
   if(!frame||!layout?.fits)rescue.clear();
-  const cinematicAnimating=cinematic.paint({model:{connection:model.connection,concealed:model.concealed||!document.hasFocus(),dark:model.dark,phase:model.phase,navigation:model.navigation,result:model.result},sample:{nowMs:sample.nowMs,special:sample.special.filter(e=>e.kind==='transit'&&e.occurrence?.audience.kind==='public').map(e=>({kind:e.kind,t:e.t}))},frame,layout,reduced:reduced()});
+  const cinematicAnimating=cinematic.paint({model:{matchId:model.matchId,connection:model.connection,concealed:model.concealed||!document.hasFocus(),dark:model.dark,phase:model.phase,navigation:model.navigation,result:model.result},sample:{nowMs:sample.nowMs,special:sample.special.filter(e=>e.kind==='transit'&&e.occurrence?.audience.kind==='public').map(e=>({kind:e.kind,t:e.t}))},frame,layout,reduced:reduced()});
   const stage=planetBlackholePresentation(model),synced=stage!==null||!model.concealed&&!model.dark&&sample.special.some(effect=>effect.kind==='blackhole');
   root.dataset.syncCue=String(synced);checkpoint.textContent=checkpointText+(stage?(stage.status==='presenting'?' · Ship synchronized':' · Waiting for server'):synced?' · BLACKHOLE synced':'');
   for(const effect of sample.special)if(effect.kind==='blocked')paintBlock(effect);

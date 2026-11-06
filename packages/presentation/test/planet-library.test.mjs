@@ -1,6 +1,10 @@
 import assert from 'node:assert/strict';
 import {test} from 'node:test';
-import {planetPlayerNumberChoices,planetPanelRequestText,planetTerminalArrival} from '../dist/index.js';
+import {planetPlayerNumberChoices,planetPanelRequestText,planetTerminalArrival,planetHasLibraryArt,planetSupportsAssets} from '../dist/index.js';
+import {PLANET_GAME_PINS,PLANET_SYNC_PINS} from '@mothership/contracts';
+test('library activation requires the exact reviewed art and gameplay pairing',()=>{
+ const versions={...PLANET_GAME_PINS,assetManifestVersion:'design-0.6.0'};assert.equal(planetHasLibraryArt(versions),true);assert.equal(planetHasLibraryArt(null),false);assert.equal(planetHasLibraryArt({...versions,assetManifestVersion:'design-0.5.0'}),false);assert.equal(planetSupportsAssets({...versions,assetManifestVersion:'design-0.5.0'}),true);assert.equal(planetSupportsAssets({...PLANET_SYNC_PINS,assetManifestVersion:'design-0.6.0'}),false);
+});
 test('number labels sort numerically while preserving offered canonical command identities',()=>{
  assert.deepEqual(planetPlayerNumberChoices(['seat-9','seat-2','seat-6']),[{value:'seat-2',label:'2'},{value:'seat-6',label:'6'},{value:'seat-9',label:'9'}]);
 });

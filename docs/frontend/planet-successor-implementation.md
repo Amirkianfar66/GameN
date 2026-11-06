@@ -1,6 +1,6 @@
 # Planet successor Frontend consumer
 
-Latest contract: [private feedback and neutral navigation](planet-private-feedback-consumer.md). Earlier native preparation: [all eight library groups and cinematic candidates](planet-library-runtime-preparation.md). Independent fixes: [6 November consumer follow-up](planet-consumer-followup-2026-11-06.md). Timing baseline: [P27 presentation consumer](planet-p27-stage.md). The [PR 174 safety follow-up](planet-pr174-safety-followup.md) records the earlier capsule and Rescue corrections.
+Latest artwork: [approved native library runtime](planet-approved-art-runtime.md). Contract checkpoint: [private feedback and neutral navigation](planet-private-feedback-consumer.md). Earlier native preparation: [all eight library groups and cinematic candidates](planet-library-runtime-preparation.md). Independent fixes: [6 November consumer follow-up](planet-consumer-followup-2026-11-06.md). Timing baseline: [P27 presentation consumer](planet-p27-stage.md). The [PR 174 safety follow-up](planet-pr174-safety-followup.md) records the earlier capsule and Rescue corrections.
 
 Implemented on `codex/frontend-planet-successor` in `/private/tmp/gamen-planet-frontend` from shared base `29e6ea82a31085df12ddee62758a55646eecbd3a`. This is the separate protocol-3 player, host and shared-display consumer. Integration supplies the authoritative `planetApi` service and owns shared release adoption, backend verification and activation.
 

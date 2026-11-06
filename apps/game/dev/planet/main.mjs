@@ -3,7 +3,6 @@ import {mountPlanetApp} from '../../hosted/planet/app.mjs';
 import {loadArt} from '../../hosted/art.mjs';
 import {planetBlackholePresentation} from '@mothership/presentation';
 import {sessionScenario,makePlanetScenario,publicPlanet} from './scenarios.mjs';
-import candidateArt from 'virtual:planet-library-candidates';
 const name=new URL(location.href).searchParams.get('scenario')??'board';
 const tuple=new URL(location.href).searchParams.get('tuple')??'current';
 const count=Number(new URL(location.href).searchParams.get('count')??9);
@@ -23,11 +22,8 @@ const connection={mode:'synthetic',currentUid:()=> 'planet-synthetic-uid',signIn
  if(request.operation==='ready'){value.members.find(m=>m.seatId===value.selfSeatId).ready=true;return answer({matchId:value.matchId});}
  return answer({matchId:value.matchId});
 }};
-let candidateCinematics=null,candidateReady=Promise.resolve();
-if(new URL(location.href).searchParams.get('art')==='library'){
- candidateReady=Promise.all(candidateArt.groups.map(group=>new Promise(done=>{const link=document.createElement('link'),timer=setTimeout(done,8000);link.rel='stylesheet';link.href=group.url;link.onload=()=>{clearTimeout(timer);const tokens=new Set((document.documentElement.dataset.art??'').split(' ').filter(Boolean));tokens.add(group.token);document.documentElement.dataset.art=[...tokens].join(' ');document.dispatchEvent(new Event('mothership:art-ready'));done();};link.onerror=()=>{clearTimeout(timer);done();};document.head.append(link);})));candidateCinematics=candidateArt.cinematics;
-}
-const app=await mountPlanetApp(document.getElementById('planet-root'),{connection,matchId:name==='join'?undefined:'planet-local',allowSynthetic:true,candidateCinematics});
+const app=await mountPlanetApp(document.getElementById('planet-root'),{connection,matchId:name==='join'?undefined:'planet-local',allowSynthetic:true});
+const candidateReady=app.artReady;
 let phaseSequence=0;
 const applyPlayer=async player=>{value.publicView=publicPlanet(player);if(value.selfSeatId!==null)value.playerView=player;await app.session.refresh();};
 const currentPlayer=()=>value.playerView?structuredClone(value.playerView):{...makePlanetScenario('board',{now:Date.now(),count:value.playerCount}),...structuredClone(value.publicView),board:{...structuredClone(value.publicView.board),kind:'PLAYER_CURRENT'}};
