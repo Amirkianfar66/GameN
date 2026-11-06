@@ -33,6 +33,7 @@ jobs:
       - run: npm run verify
       - run: npm run check:browser-dependencies
       - run: npm run package:backend -- --verify-install
+      - run: npm run package:backend -- --planet --verify-install
 
   backend-emulator:
     # Keep all data tests plus real timed Functions acceptance on one fresh pair of suites.
