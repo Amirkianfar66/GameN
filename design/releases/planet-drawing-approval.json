@@ -19,7 +19,7 @@
         "design/abilities/assets/manifest.json": "fa39d6d2d5e9f0149c1aa5df7f9edd06180e61bbd79140d2cb15c6a74e269316",
         "design/abilities/assets/abilities.art.css": "606cab7facc8ad8542e2b7d0ac1ad17ceaae68328aa9fc8f123c4872e7a35b1b",
         "design/releases/design-0.3.0.json": "588e79930746266a3c33ab5aedc1f40a8c464ff92c8e181dec93653d619eaecf",
-        "scripts/runtime-art-release.mjs": "8612cf0a17a327af8c1efe2030ee15f36bc99c6f937bafcc9950563d02c7ab81",
+        "scripts/runtime-art-release.mjs": "39d51ce9e7dc9313e923cff7a301c139be10ef32893eae631910ed10682fba4f",
         "design/releases/board-v2-art-candidate.json": "0412d616c0b6ab37d9f6f80fb34115aad4db6275b042697af1b58634289f577c",
         "scripts/board-v2-art-candidate.mjs": "3a4237520a1dcc10188e375ae3f33c5fb42304fbd28fe227585fe518e2871e8a",
         "design/releases/board-v2-runtime-ports.json": "b44c9ef74fff41b5409949b628b360b1f12e736cc88d8321d58ed3c2226f78ac",
