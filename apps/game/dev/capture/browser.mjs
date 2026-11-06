@@ -51,6 +51,10 @@ export async function launchBrowser() {
     async close() {
       child.kill('SIGTERM');
       await sleep(300);
+      // Chromium's detached crash reporter may inherit this pipe after the browser exits.
+      // Releasing our owned handles lets a completed capture terminate independently.
+      child.stderr.destroy();
+      child.unref();
       await rm(profile, { recursive: true, force: true }).catch(() => {});
     },
   };

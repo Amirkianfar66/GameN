@@ -1,0 +1,17 @@
+{
+  "checkedAt": "2026-11-06T14:17:04.441180+00:00",
+  "ports": [
+    4500,
+    4600,
+    5101,
+    5173,
+    8180,
+    9199,
+    9299,
+    9499
+  ],
+  "allStopped": true,
+  "authFirestoreFunctionsEventarcTasks": "stopped",
+  "uiPreview5173": "stopped",
+  "productionResourcesChanged": false
+}

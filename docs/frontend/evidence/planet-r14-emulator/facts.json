@@ -1,0 +1,846 @@
+{
+  "scope": "Real loopback demo-mothership Auth/Firestore/Functions/Tasks and native UI; desktop Chromium phone emulation. No synthetic snapshots or injected clock. App Check is emulator-bypassed; no production or device claim.",
+  "generatedAt": "2026-11-06T14:15:16.815Z",
+  "browser": {
+    "protocolVersion": "1.3",
+    "product": "Chrome/156.0.8078.80",
+    "revision": "@fb096c0011f9d50f0a264a9376420cdea9c421e3",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+    "jsVersion": "15.6.75.27"
+  },
+  "cases": [
+    {
+      "name": "host-created",
+      "passed": true,
+      "playerCount": 7,
+      "assetManifestVersion": "design-0.6.0",
+      "screenshot": "host-created.png"
+    },
+    {
+      "name": "display-pending",
+      "passed": true,
+      "redacted": true,
+      "noGameMounted": true,
+      "screenshot": "display-pending.png"
+    },
+    {
+      "name": "display-admitted",
+      "passed": true,
+      "explicitStanding": true,
+      "noPlayerView": true,
+      "screenshot": "display-admitted.png"
+    },
+    {
+      "name": "human-character-selected",
+      "passed": true,
+      "characterId": "c4",
+      "serverSelectionEndsAt": 1793974549910,
+      "screenshot": "human-character-selected.png"
+    },
+    {
+      "name": "human-reading-concealed",
+      "passed": true,
+      "minimumReadMs": 30000,
+      "serverReadingEndsAt": 1793974581484,
+      "privateRoleOnlyOnHuman": true,
+      "screenshot": "human-reading-concealed.png"
+    },
+    {
+      "name": "human-running",
+      "passed": true,
+      "engineVersion": "planet-game-1.1.0",
+      "humanSeatId": "seat-1",
+      "characterId": "c4",
+      "botsConfigured": 6,
+      "automaticBotReadiness": true,
+      "screenshot": "human-running.png"
+    },
+    {
+      "name": "public-running",
+      "passed": true,
+      "publicOnly": true,
+      "screenshot": "public-running.png"
+    },
+    {
+      "name": "recovered-member-running",
+      "passed": true,
+      "sameSeat": true,
+      "sameCharacter": true,
+      "sameOwnRole": true,
+      "requestContextCleared": true,
+      "screenshot": "recovered-member-running.png"
+    },
+    {
+      "name": "old-identity-revoked",
+      "passed": true,
+      "noRosterOrPrivateView": true,
+      "notConvertedToPending": true,
+      "screenshot": "old-identity-revoked.png"
+    }
+  ],
+  "storageCheckedOnAllFourIdentities": true,
+  "operations": [
+    [
+      {
+        "operation": "create",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "approveAdmission",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "approveAdmission",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "setBots",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "beginSetup",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "issueRecovery",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      }
+    ],
+    [
+      {
+        "operation": "requestAdmission",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "chooseCharacter",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "ready",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 403,
+        "ok": false,
+        "code": "FORBIDDEN"
+      }
+    ],
+    [
+      {
+        "operation": "requestAdmission",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      }
+    ],
+    [
+      {
+        "operation": "redeemRecovery",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      }
+    ]
+  ],
+  "matchId": "9ff204a7-8c00-4c3a-b5fd-f27b720bd871",
+  "tokensPersisted": false,
+  "manualAdvanceOrBotCalls": 0,
+  "runtimeErrors": []
+}
