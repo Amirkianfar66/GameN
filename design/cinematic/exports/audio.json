@@ -7,7 +7,7 @@
     {
       "pilot": "hospital-rescue",
       "sheet": "full",
-      "lengthMs": 6000,
+      "lengthMs": 6600,
       "cues": [
         {
           "at": 0,
@@ -63,23 +63,43 @@
         {
           "at": 5420,
           "cue": "hatch-close"
+        },
+        {
+          "at": 4880,
+          "cue": "seat-settle",
+          "gain": 0.6
+        },
+        {
+          "at": 5160,
+          "cue": "footstep",
+          "gain": 0.55
+        },
+        {
+          "at": 5400,
+          "cue": "footstep",
+          "gain": 0.55
+        },
+        {
+          "at": 5640,
+          "cue": "footstep",
+          "gain": 0.55
         }
       ],
       "files": [
         {
           "file": "design/cinematic/exports/hospital-rescue/audio/hospital-rescue-full.cues.wav",
-          "sha256": "b27d5cb1a1915c763f0f3d6ab13631c8eac7b7618ee8bee80db4a4cd316b5c19",
-          "bytes": 576044
+          "sha256": "c39d87c929fd605674dc27087524dd5fd55f2c19002889eea85cdb06409f5b2f",
+          "bytes": 633644
         },
         {
           "file": "design/cinematic/exports/hospital-rescue/audio/hospital-rescue-full.cues.m4a",
-          "sha256": "2e466b62066fb06ecc22f26252684f811fd7fe6c0ebbde9f7d69ccc415ecd51c",
-          "bytes": 93348
+          "sha256": "8fe4a25614d2a63c49a2dbc5bc444b121e0d094f6edc0b4174784016229c7cf9",
+          "bytes": 95121
         },
         {
           "file": "design/cinematic/exports/hospital-rescue/audio/hospital-rescue-full.cues.opus",
-          "sha256": "ccb0f53ba2bffc6e1a15e27a7f48cb146fa999b55b9d7300b0456575a09b8047",
-          "bytes": 68406
+          "sha256": "3729d3dd560e7945e3931bf1ae6cb39a254512622dad4abd145cf0f96eda22ca",
+          "bytes": 71907
         }
       ]
     },
@@ -162,6 +182,46 @@
     {
       "pilot": "blackhole",
       "sheet": "full",
+      "lengthMs": 2800,
+      "cues": [
+        {
+          "at": 120,
+          "cue": "reveal-sting",
+          "gain": 0.7
+        },
+        {
+          "at": 620,
+          "cue": "pass-whoosh",
+          "gain": 0.6
+        },
+        {
+          "at": 1350,
+          "cue": "void-rumble",
+          "until": 2350,
+          "gain": 0.5
+        }
+      ],
+      "files": [
+        {
+          "file": "design/cinematic/exports/blackhole/audio/blackhole-full.cues.wav",
+          "sha256": "87d8c7b55e2e9a0b18307505eb22b48d1ff8e273b09c40db40457346d19b00ab",
+          "bytes": 268844
+        },
+        {
+          "file": "design/cinematic/exports/blackhole/audio/blackhole-full.cues.m4a",
+          "sha256": "61307c13c540808c203af0ea114dcc8b70eaf2cb2434abd0548d31fdc24aee1d",
+          "bytes": 39883
+        },
+        {
+          "file": "design/cinematic/exports/blackhole/audio/blackhole-full.cues.opus",
+          "sha256": "9e69854609807f7c5cefc55a73dea8df6646f36d8811d56dcce2bed4c85b3f20",
+          "bytes": 28702
+        }
+      ]
+    },
+    {
+      "pilot": "blackhole",
+      "sheet": "stage",
       "lengthMs": 5600,
       "cues": [
         {
@@ -189,65 +249,26 @@
       ],
       "files": [
         {
-          "file": "design/cinematic/exports/blackhole/audio/blackhole-full.cues.wav",
+          "file": "design/cinematic/exports/blackhole/audio/blackhole-stage.cues.wav",
           "sha256": "8473a166903a09eec437e28a1cc5f51e2b361311d71af3e5d05da1c15d414e25",
           "bytes": 537644
         },
         {
-          "file": "design/cinematic/exports/blackhole/audio/blackhole-full.cues.m4a",
+          "file": "design/cinematic/exports/blackhole/audio/blackhole-stage.cues.m4a",
           "sha256": "917feecf924e2c71c21307f9fc5766b958bedb0363941103bdbdd77f4db2859d",
           "bytes": 70882
         },
         {
-          "file": "design/cinematic/exports/blackhole/audio/blackhole-full.cues.opus",
-          "sha256": "643fc6d18bf0fb6fdf8645d89467784e4410de5ce964f480c8ced81e996e9e99",
+          "file": "design/cinematic/exports/blackhole/audio/blackhole-stage.cues.opus",
+          "sha256": "324008845c36d74c98439905de4a050f47757aa5f068d1a91bc0c253bbf3e8f8",
           "bytes": 50370
         }
       ]
     },
     {
       "pilot": "blackhole",
-      "sheet": "short",
-      "lengthMs": 2800,
-      "cues": [
-        {
-          "at": 120,
-          "cue": "reveal-sting",
-          "gain": 0.7
-        },
-        {
-          "at": 700,
-          "cue": "pass-whoosh",
-          "gain": 0.6
-        },
-        {
-          "at": 1500,
-          "cue": "ink-cut",
-          "gain": 0.6
-        }
-      ],
-      "files": [
-        {
-          "file": "design/cinematic/exports/blackhole/audio/blackhole-short.cues.wav",
-          "sha256": "1a319753cf1a555eef6431d493d113ca06e10a78ae27f286c1dbbc7d546ee376",
-          "bytes": 268844
-        },
-        {
-          "file": "design/cinematic/exports/blackhole/audio/blackhole-short.cues.m4a",
-          "sha256": "ed98b17e40f49e21f359adac7d404fe4fb3f0dd2b3b392c7ed7f0e0b88f3f18b",
-          "bytes": 32784
-        },
-        {
-          "file": "design/cinematic/exports/blackhole/audio/blackhole-short.cues.opus",
-          "sha256": "915939bba93f1b7388594a96fa1edbba1975f8f83fc1180e01c1b7e33115f0ee",
-          "bytes": 22537
-        }
-      ]
-    },
-    {
-      "pilot": "blackhole",
       "sheet": "reduced",
-      "lengthMs": 2040,
+      "lengthMs": 1840,
       "cues": [
         {
           "at": 0,
@@ -258,18 +279,18 @@
       "files": [
         {
           "file": "design/cinematic/exports/blackhole/audio/blackhole-reduced.cues.wav",
-          "sha256": "0b96239414e42d193a52af8866ca2f25b4944c9fabd4820ee412971941fbca34",
-          "bytes": 195884
+          "sha256": "238812deb247ac7860fd802e1be1110e766d1b888feb1f07b1e2b1d357737d57",
+          "bytes": 176684
         },
         {
           "file": "design/cinematic/exports/blackhole/audio/blackhole-reduced.cues.m4a",
-          "sha256": "bc0a88a85441365b90db7ebe73d14effecde7469e4c738c847ecbcb1d4d395d6",
-          "bytes": 24988
+          "sha256": "ed8dd4e3d332ad4fa6aec79312be0504d9179d36cda587f2aaa64ff6acfba9f6",
+          "bytes": 24916
         },
         {
           "file": "design/cinematic/exports/blackhole/audio/blackhole-reduced.cues.opus",
-          "sha256": "1f0abf65ce3bb9ebe1dde899554359386649c405240569f91e0aaa363b50d786",
-          "bytes": 24064
+          "sha256": "013872da83ff11c75eda5b129de32e3eb13501cbc2946ca9c1d7c321065c55b3",
+          "bytes": 23997
         }
       ]
     },
@@ -369,7 +390,7 @@
     {
       "pilot": "private-talk",
       "sheet": "exit",
-      "lengthMs": 3200,
+      "lengthMs": 2930,
       "cues": [
         {
           "at": 0,
@@ -436,18 +457,18 @@
       "files": [
         {
           "file": "design/cinematic/exports/private-talk/audio/private-talk-exit.cues.wav",
-          "sha256": "e7b8aff768b7979e75d8e0fd2b266f7710156160795f178e90f7fbe2b948e7de",
-          "bytes": 307244
+          "sha256": "0956e0ad754eb2a04a845e35fac972bd06c42d1fcfa9237d078882e529a679e1",
+          "bytes": 281324
         },
         {
           "file": "design/cinematic/exports/private-talk/audio/private-talk-exit.cues.m4a",
-          "sha256": "6032b6b43aa03440cad7d1d25840d92dad218fded6ebaff7017e28d7aaf388d3",
-          "bytes": 37407
+          "sha256": "94bd2db784e2038413744e46135bec41ebdbd9641863b3092bde2880227e34e2",
+          "bytes": 37319
         },
         {
           "file": "design/cinematic/exports/private-talk/audio/private-talk-exit.cues.opus",
-          "sha256": "8f6999a26aae8b0e915a78b5a8be4f9e403746b338a1912332512599f7813d55",
-          "bytes": 32676
+          "sha256": "d971f6552b9a02790db12e82eb6af38f2448622ce6f9d51d55632ea61fd97ff2",
+          "bytes": 32593
         }
       ]
     },

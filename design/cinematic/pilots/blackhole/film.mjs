@@ -5,13 +5,22 @@
 // authorized Sync checkpoint, once the server has published the selected world's state. It shows
 // that a Blackhole's realities were resolved, never which, how many, who, or what was discarded.
 //
-//   display   5.2 s over the shared board: the board pulled into an ink bloom, space, the blackhole
-//             forming, the luminous BLACKHOLE title, the ship's passage through the shadow, a comic
-//             ink-wipe cut, and the board in its synced checkpoint with a settling ripple.
-//   phone     2.4 s, nonblocking: a title band over the board (never over controls), a small ship
-//             streaking into a small blackhole, the band closing, the board's ripple.
-//   reduced   a still title card (display 1.4 s, phone 1.2 s), cross-faded in and out over 120 ms,
-//             then the board: no zoom, pull, spin, streak, wipe or ripple.
+//   full      the default, phones and the display alike: 2.4 s from the Sync, inside the Jail vote's
+//             first seconds and without extending anything. The Blackhole plays behind the crew:
+//             each room's back wall gives way to one shared field of space, the blackhole forming
+//             at the board's centre, the ship streaking across behind the rooms into it, the flare,
+//             and the walls returning. It is drawn only in the rooms' art layers, under every
+//             figure, name tag, room label, press area, timer and bar, so nothing a player selects
+//             or reads during the vote is covered, moved or dimmed (the owner's review of
+//             6 November 2026; the brief: "keep selectable characters, room labels, slots, cards
+//             and timers as interactive layers"). The event's name is the client's live words;
+//             the lettered title stays with the stage cut and the inserts.
+//   stage     the 5.2 s display cut (the board pulled into an ink bloom, space, the blackhole
+//             forming, the luminous title, the passage, the ink-wipe cut and the settled board).
+//             It covers the board, so it plays only if the owner approves a separate presentation
+//             stage before the vote (request R1); until then it is never the default.
+//   reduced   the walls show the still blackhole for 1.2 s, cross-faded in and out over 120 ms:
+//             no zoom, pull, spin, streak or wipe; the same layers, the same nothing covered.
 //   insert    the space shot alone (identity-free, textless or titled), for a runtime that prefers
 //             a prerendered movie; its poster and a lightweight animated alternative go with it.
 //
@@ -23,7 +32,7 @@
 import { bell, beat, clamp01, easeInCubic, easeInExpo, easeInOutCubic, easeOutBack, easeOutCubic, easeOutExpo, inBeat, lerp, noise, r2, ramp } from '../../lib/ease.mjs';
 
 export const BLACKHOLE_VERSION = 'cinematic-blackhole-0.1.0';
-export const VARIANTS = Object.freeze(['full', 'short', 'reduced']);
+export const VARIANTS = Object.freeze(['full', 'stage', 'reduced']);
 
 export const BEATS = Object.freeze({
   display: Object.freeze({
@@ -42,24 +51,48 @@ export const BEATS = Object.freeze({
     wipe: Object.freeze([3800, 4450]),
     settle: Object.freeze([4400, 5200]),
   }),
-  phone: Object.freeze({
+  /** The default on every surface: behind the crew, 2.4 s from the Sync, in the rooms' art layers only. */
+  board: Object.freeze({
     end: 2400,
-    bandIn: Object.freeze([0, 260]),
-    spin: Object.freeze([0, 1750]),
-    title: Object.freeze([120, 420]),
-    ship: Object.freeze([700, 1350]),
-    flare: Object.freeze([1350, 1600]),
-    bandOut: Object.freeze([1500, 1800]),
-    settle: Object.freeze([1750, 2400]),
+    wallIn: Object.freeze([0, 420]),
+    form: Object.freeze([120, 980]),
+    ship: Object.freeze([620, 1350]),
+    flare: Object.freeze([1350, 1680]),
+    wallOut: Object.freeze([1880, 2400]),
+    /** The walls' space at its fullest: the rooms' own art still faintly there, never black. */
+    peak: 0.88,
   }),
-  reduced: Object.freeze({ display: Object.freeze({ end: 1640, fade: 120, hold: 1400 }), phone: Object.freeze({ end: 1440, fade: 120, hold: 1200 }) }),
+  reduced: Object.freeze({ end: 1440, fade: 120, hold: 1200 }),
   insert: Object.freeze({ end: 3600 }),
 });
 
-/** When a surface's variant is over: the band (phones always, and the display's short variant), the full cut, the still card or the insert. */
-export const filmEnd = (surface, variant) => (variant === 'reduced' ? BEATS.reduced[surface === 'phone' ? 'phone' : 'display'].end
-  : surface === 'insert' ? BEATS.insert.end
-    : surface === 'phone' || variant === 'short' ? BEATS.phone.end : BEATS.display.end);
+/** When a surface's variant is over: behind the crew (the default), the stage cut (display, if approved), the still or the insert. */
+export const filmEnd = (surface, variant) => (surface === 'insert' ? BEATS.insert.end
+  : variant === 'reduced' ? BEATS.reduced.end
+    : variant === 'stage' && surface !== 'phone' ? BEATS.display.end : BEATS.board.end);
+
+/**
+ * Behind the crew at t (the default, and the reduced still): the walls' share of space (0 the room's
+ * own art, BEATS.board.peak at most), the hole { r: its radius as a share of the rooms' shorter
+ * side, spin, glow, flare } and the ship's share of its streak toward the hole (null outside it).
+ * Nothing in it covers anything: the composition draws it in the art layers alone.
+ */
+export function boardFrame(t, { reduced = false } = {}) {
+  const B = BEATS.board;
+  const frame = { t, done: false, space: 0, hole: null, ship: null };
+  if (reduced) {
+    const R = BEATS.reduced;
+    if (t < 0 || t >= R.end) return { ...frame, done: t >= R.end };
+    const v = Math.min(ramp(t, 0, R.fade), 1 - ramp(t, R.fade + R.hold, R.end));
+    return { ...frame, space: r2(B.peak * v), hole: { r: 0.17, spin: 0.6, glow: 1, flare: 0 } };
+  }
+  if (t < 0 || t >= B.end) return { ...frame, done: t >= B.end };
+  frame.space = r2(B.peak * Math.min(easeOutCubic(beat(t, B.wallIn)), 1 - easeInOutCubic(beat(t, B.wallOut))));
+  const form = easeOutExpo(beat(t, B.form));
+  frame.hole = { r: r2(lerp(0.01, 0.17, form) * (inBeat(t, B.flare) ? 1 + 0.08 * bell(beat(t, B.flare)) : 1)), spin: r2(t / 420), glow: r2(clamp01(form * 1.2)), flare: inBeat(t, B.flare) ? r2(beat(t, B.flare)) : 0 };
+  if (inBeat(t, B.ship)) frame.ship = { v: r2(easeInExpo(beat(t, B.ship)) * 0.8 + beat(t, B.ship) * 0.2) };
+  return frame;
+}
 
 /**
  * The display's frame at t:
@@ -112,30 +145,9 @@ export function displayFrame(t, { width = 1920, height = 1080 } = {}) {
   return frame;
 }
 
-/** The phone band's frame at t: band { open 0..1 }, hole { spin, flare }, title { opacity, scale }, ship { v }, settle. */
-export function phoneFrame(t) {
-  const P = BEATS.phone;
-  const frame = { t, done: t >= P.end, band: { open: 0 }, hole: null, title: { opacity: 0 }, ship: null, settle: 0 };
-  if (t < 0 || t >= P.end) return frame;
-  const open = t < P.bandOut[0] ? easeOutCubic(beat(t, P.bandIn)) : 1 - easeInCubic(beat(t, P.bandOut));
-  frame.band = { open: r2(open) };
-  frame.hole = { spin: r2(t / 420), flare: inBeat(t, P.flare) ? r2(beat(t, P.flare)) : 0 };
-  frame.title = { opacity: r2(Math.min(1, beat(t, P.title) * 2.5)), scale: r2(lerp(1.35, 1, easeOutBack(beat(t, P.title), 1.3))) };
-  if (inBeat(t, P.ship)) frame.ship = { v: r2(easeInExpo(beat(t, P.ship)) * 0.8 + beat(t, P.ship) * 0.2) };
-  frame.settle = inBeat(t, P.settle) ? r2(beat(t, P.settle)) : 0;
-  return frame;
-}
-
-/** The reduced variant: the still card's opacity at t (in, hold, out), the same on both surfaces. */
-export function reducedFrame(t, surface) {
-  const R = BEATS.reduced[surface === 'phone' ? 'phone' : 'display'];
-  if (t < 0 || t >= R.end) return { t, done: t >= R.end, card: 0 };
-  return { t, done: false, card: r2(Math.min(ramp(t, 0, R.fade), 1 - ramp(t, R.fade + R.hold, R.end))) };
-}
-
 /** The public cue sheets. Sync is public, so is its sound; nothing in it varies with the selected world. */
 export const AUDIO = Object.freeze({
-  full: Object.freeze([{ at: 0, cue: 'void-rumble', until: 4300 }, { at: 1050, cue: 'reveal-sting' }, { at: 2300, cue: 'pass-whoosh' }, { at: 3250, cue: 'revival-thump', gain: 0.7 }, { at: 3800, cue: 'ink-cut' }]),
-  short: Object.freeze([{ at: 120, cue: 'reveal-sting', gain: 0.7 }, { at: 700, cue: 'pass-whoosh', gain: 0.6 }, { at: 1500, cue: 'ink-cut', gain: 0.6 }]),
+  full: Object.freeze([{ at: 120, cue: 'reveal-sting', gain: 0.7 }, { at: 620, cue: 'pass-whoosh', gain: 0.6 }, { at: 1350, cue: 'void-rumble', until: 2350, gain: 0.5 }]),
+  stage: Object.freeze([{ at: 0, cue: 'void-rumble', until: 4300 }, { at: 1050, cue: 'reveal-sting' }, { at: 2300, cue: 'pass-whoosh' }, { at: 3250, cue: 'revival-thump', gain: 0.7 }, { at: 3800, cue: 'ink-cut' }]),
   reduced: Object.freeze([{ at: 0, cue: 'reveal-sting', gain: 0.6 }]),
 });

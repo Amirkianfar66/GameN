@@ -2,7 +2,8 @@
 
 **NOT PRODUCED.** Pre-production only: no footage exists. Comic counterpart, delivered and working:
 `design/cinematic/exports/hospital-rescue/runtime/drone-insert.mp4` (identity-free comic insert) and
-the display cut `review/display-full.mp4`.
+the display cut `review/cut-full.mp4` (the board treatment, the default on every surface, is
+`review/display-full.mp4`).
 
 ## Treatment
 
@@ -10,8 +11,9 @@ A practical, tactile insert for the Rescue's ceiling beat: the ward's ceiling do
 pneumatic snap, cold cyan light falls through it, and the medical drone drops out of the dark toward
 the lens, rotors humming, arms tucked; the frame ends as it fills the lens. Hands, faces and patients
 are never in shot: the insert is the machine alone, so it is the same for every Rescue and every
-player. Played at 600 to 1150 ms of the 5.6 s display cut (the comic cut-in), or as the separate
-1.4 s insert; the board form on phones never uses it.
+player. Played at 600 to 1150 ms of the 6.2 s display cut (the comic cut-in), or as the separate
+1.4 s insert; the board treatment (phones and the display, the default) never uses it. The cut and
+the insert cover the board, so they may play only where nobody decides (`lib/visibility.mjs`).
 
 ## Shot list (on the comic film's beats)
 
