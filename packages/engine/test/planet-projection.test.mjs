@@ -17,7 +17,7 @@ function fixture(count) {
     protection:null,protectionEver:false,clone:{used:false,active:false,expiresAfterRound:null},blackoutSpent:false,engineerSpent:false}));
   const world = {seats,actions:[],injectionsRemaining:2,captainSeatId:null,officerSeatId:null,releaseUsed:false,ejectUsed:false,
     shipHackSpent:false,shipHackOverride:false,suppressedSeatIds:[],events:[]};
-  return {matchId:`planet-projection-${count}`,versions:{...PLANET_SYNC_PINS as PLANET_GAME_PINS,assetManifestVersion:'planet-projection-fixture'},playerCount:count,
+  return {matchId:`planet-projection-${count}`,versions:{...PLANET_GAME_PINS,assetManifestVersion:'planet-projection-fixture'},playerCount:count,
     round:4,phase:{id:'phase-ordinary',kind:'ORDINARY_TURN',startedAt:START,endsAt:START+60_000},deadlineToken:'deadline-private',evaluatedAt:START,
     roles:Object.fromEntries(ids.map((id,i)=>[id,ROLES[i]])),code:['seat-5','seat-7','seat-1','seat-2'],
     worlds:{Original:world},realityOf:Object.fromEntries(ids.map(id=>[id,'Original'])),currentWorldId:'Original',blackholeActive:false,blackoutPreviewComplete:false,eventPublications:{},nextWorldNumber:1,
