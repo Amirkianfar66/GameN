@@ -18,7 +18,7 @@ const historical = {
 };
 const releases = {
   'design-0.6.0': {
-    manifestSha256: '6d4d87113161fadf5bdd35f7248efde816d5300f45aa0d3787c13a192b82c9eb',
+    manifestSha256: 'eeb4a88c7b71166a1c9782231ccd7fa81931cb50eed112e3d6153a862751bec4',
     approvalSha256: '9493e29a8ce1b06c6848846b0c8932d65c42abcb24b2b43aaf35ed7239aaf228',
     gameplay: {
       protocolVersion: 3,

@@ -395,17 +395,17 @@
     "apps/game/hosted/scene-drawing/scenes.mjs": "97e4f509bb4b2608f176d0638aab8c9233fcb84c5ff6412e310f75eadb2accfa",
     "apps/game/hosted/scene-drawing/wardrobe.mjs": "312c4cda048585f9270b3de095e2dcf44dc0dadd4c73392b1206da303ae8ddc3",
     "apps/game/hosted/setup-art.css": "8ca3cf09ba864e2178e4ed021acc62c92f0e3308fb42faf70c83ce6210837d83",
-    "apps/game/hosted/planet/app.mjs": "977e3259184a1515fb5ccfecb25e75e3d0ff0974575fa1cb82f8c3224b291a6b",
+    "apps/game/hosted/planet/app.mjs": "5ec4dab00a8f959efab6d1e711e8fa0f304b0209e121df7109b6532e3a281261",
     "apps/game/hosted/planet/art.mjs": "9df3f956ba8fc42bfebd56fb6e66fec54f478801c59e87bd7f53cc6ac1d2b84d",
     "apps/game/hosted/planet/cinematic.mjs": "d218adae2c659bf02c1912df935926b5bc08732fd5486f5f2b447709af452752",
     "apps/game/hosted/planet/library-assets.mjs": "1f9ae6de20ef60870ec6c55e614b46acf512363908ff1febdc4d4e25b09a2b81",
     "apps/game/hosted/planet/library.mjs": "a4dd55f3147eed3a55718eb2f4a32a161c0a9bdffab854b7c2ba4a3cd547ac35",
     "apps/game/hosted/planet/motion.mjs": "9ab7ff4839a7207c7e6b6be45f9addee73b8dd0707bae5d56bc81ceeafae3ba2",
-    "apps/game/hosted/planet/planet.css": "d582a3c2d29be8f23892aa1e2fc57b4e606ef6975fd16a98b309c7c57522ebe3",
-    "apps/game/hosted/planet/render.mjs": "2501a02dc4aa7eac631f16da2e9cb114ff929bb101566e1d25b4c8208d01f084",
+    "apps/game/hosted/planet/planet.css": "ac97c4a197723beee2f06be6fd14ff07880f77e54208f5200164614a1c96e465",
+    "apps/game/hosted/planet/render.mjs": "d8f1d3e14278aed096c9a19e8e0c6b30e6d15bccdf38e6d31b4b81f8826f3beb",
     "apps/game/hosted/build/planet-library-art.mjs": "8bb2f77b50fbded850c088feb25d8c96ebc51d54f6dfeb5dd2792ce68b951741",
     "apps/game/src/planet/transport.ts": "b1f7651bc1dfa4ef9cf97ac25bb340a9351982f07b754fae83815f234759335b",
-    "apps/game/src/planet/session.ts": "3d0a5ab968766ec39eecfb03702eb98996e0858fe17842461796eaadfb74edfd",
+    "apps/game/src/planet/session.ts": "8e2cb552b43c81746efccdc6dbf5e85b5effb6d1d42b47ad11f3b720209eeb67",
     "apps/game/src/planet/controller.ts": "4491782063738ea4d8c8fac72204e019dcf935fa27872513bfa40e7c137a4c57",
     "packages/presentation/src/planet/library.ts": "4e370ff02c4e9d5405e407f49d3dedaceb9a989252274f90dc9e8bb4e2143b17",
     "packages/presentation/src/planet/model.ts": "d611b72dec085315aa1935065a43126bb2f2b9de56f69fd7d4d9c6bb3fe527c9"
@@ -562,5 +562,35 @@
       }
     ],
     "note": "This finalizes an unpublished candidate. No live manifest or historical artwork was repinned; the original proposal and immutable 18-file approval are preserved."
-  }
+  },
+  "releaseReviewUpdates": [
+    {
+      "previousCandidateSha256": "6d4d87113161fadf5bdd35f7248efde816d5300f45aa0d3787c13a192b82c9eb",
+      "finalizedBeforeFirstPublication": true,
+      "consumerCommit": "ff9a3015311aa7825f697a45ca9319bd6e8d71ae",
+      "reason": "Preserve exact lifecycle retries after unknown replies and provide terminal-only lobby return after receipt reconciliation. Approved source artwork, gameplay authority and published historical manifests are unchanged.",
+      "changedRuntimeFiles": [
+        {
+          "path": "apps/game/hosted/planet/app.mjs",
+          "previousSha256": "977e3259184a1515fb5ccfecb25e75e3d0ff0974575fa1cb82f8c3224b291a6b",
+          "sha256": "5ec4dab00a8f959efab6d1e711e8fa0f304b0209e121df7109b6532e3a281261"
+        },
+        {
+          "path": "apps/game/hosted/planet/planet.css",
+          "previousSha256": "d582a3c2d29be8f23892aa1e2fc57b4e606ef6975fd16a98b309c7c57522ebe3",
+          "sha256": "ac97c4a197723beee2f06be6fd14ff07880f77e54208f5200164614a1c96e465"
+        },
+        {
+          "path": "apps/game/hosted/planet/render.mjs",
+          "previousSha256": "2501a02dc4aa7eac631f16da2e9cb114ff929bb101566e1d25b4c8208d01f084",
+          "sha256": "d8f1d3e14278aed096c9a19e8e0c6b30e6d15bccdf38e6d31b4b81f8826f3beb"
+        },
+        {
+          "path": "apps/game/src/planet/session.ts",
+          "previousSha256": "3d0a5ab968766ec39eecfb03702eb98996e0858fe17842461796eaadfb74edfd",
+          "sha256": "8e2cb552b43c81746efccdc6dbf5e85b5effb6d1d42b47ad11f3b720209eeb67"
+        }
+      ]
+    }
+  ]
 }

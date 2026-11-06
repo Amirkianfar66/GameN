@@ -11,7 +11,7 @@ export const REVIEWED_DRAWING_PORTS = JSON.parse(readFileSync(new URL('./reviewe
 export const contentSha256 = value => createHash('sha256').update(value).digest('hex');
 export const CANDIDATE_DRAWING_POLICY = 'design/releases/board-v2-four-drawing-approval.json';
 export const PLANET_DRAWING_POLICY = 'design/releases/planet-drawing-approval.json';
-const PLANET_DRAWING_POLICY_SHA256 = 'dbd261ddf01c0fbb1cbe19a2536405a3a7b3280181c082c62442ba6c3effb4e8';
+const PLANET_DRAWING_POLICY_SHA256 = '0fc219ac5f1f8598a715c1a35140ff18f04cc6593785329b9219cb3d2478d497';
 const CANDIDATE_DRAWING_POLICY_SHA256 = '5ef70aa1da1f78b81ca945485b08083aa70856bb9b482df9b3b4e131c23869a0';
 
 // Absence means a historical-only checkout. A present supplement must match the
