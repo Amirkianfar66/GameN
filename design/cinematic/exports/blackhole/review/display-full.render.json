@@ -19,27 +19,32 @@
     {
       "kind": "video",
       "file": "design/cinematic/exports/blackhole/review/display-full.mp4",
-      "sha256": "0054d8d5c2e3f15a4a0f072ac56cf5f8d4baf3621e90923dab90cb8e8541636f",
-      "bytes": 931084,
+      "sha256": "627df48c56c4881799af3b260646363547728c387b5831e61378021729e348e5",
+      "bytes": 506447,
       "fps": 30,
-      "frames": 157,
-      "durationMs": 5200,
+      "frames": 73,
+      "durationMs": 2400,
       "from": 0,
-      "to": 5200,
+      "to": 2400,
       "audio": "design/cinematic/exports/blackhole/audio/blackhole-full.cues.wav"
     },
     {
       "kind": "preview",
       "file": "design/cinematic/exports/blackhole/review/display-full.preview.webp",
-      "sha256": "2ca9e905a3e59f5b038a6a21e26021ccd7f81f0884ada33a17e32975f722b0f4",
-      "bytes": 308516
+      "sha256": "f9b53629ce108cb471a5bd651bf6a330d41399247b38cdb0652da0b3e661c073",
+      "bytes": 180752
     },
     {
       "kind": "poster",
       "file": "design/cinematic/exports/blackhole/review/display-full.poster.webp",
-      "sha256": "563bc361e6734c2c25e2a6161edd84dc72f1203eebe88ced8460e0e992637114",
-      "bytes": 23290,
-      "t": 2200
+      "sha256": "5f2ea9ba8c672eb052ecebfe35581eb937e3c34b694f0c519151bf277d3fb9f8",
+      "bytes": 61022,
+      "t": 1300
     }
-  ]
+  ],
+  "settling": {
+    "rule": "a frame is kept once two captures a redraw apart agree; pictures decode before their tiles draw",
+    "resettled": 4,
+    "unsettled": []
+  }
 }

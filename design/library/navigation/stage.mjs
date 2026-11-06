@@ -2,11 +2,13 @@
 //
 // Library group 2's public films on the cinematic stage (design/cinematic/stage.html?pilot=navigation
 // &case=transit|arrival-blue|arrival-red): for the review gallery and the exports. The transit plays
-// over the board-v2 review page (synthetic, unmodified) standing for the board under the band; the
-// arrival and every insert are full frames with no board. Nothing here reads a game fact.
+// behind the crew of the board-v2 review page (synthetic, unmodified): a copy of the field of space in
+// each room's art layer, under every figure, tag, label, press area and bar. The arrival (in FINISHED,
+// where nobody decides) and every insert are full frames with no board. Nothing here reads a game fact.
 
-import { frames } from '../../cinematic/lib/stage-kit.mjs';
-import { FILM_CASES, NAV_FILMS_VERSION, VARIANTS, arrivalSvg, filmEnd, transitInsert, transitOverlay } from './films.mjs';
+import { scopeIds } from '../../cinematic/lib/scene.mjs';
+import { artHolders, frames } from '../../cinematic/lib/stage-kit.mjs';
+import { FILM_CASES, NAV_FILMS_VERSION, VARIANTS, arrivalSvg, filmEnd, transitBoardArt, transitInsert } from './films.mjs';
 
 const sideOf = name => (name === 'arrival-blue' ? 'Blue' : 'Red');
 const caseOf = name => {
@@ -15,7 +17,7 @@ const caseOf = name => {
   return film;
 };
 
-/** The board-v2 review page in a frame, measured: the board's rooms area for the band. */
+/** The board-v2 review page in a frame, measured: the board's rooms area for the transit's field of space. */
 async function boardFrame(root, { w, h }) {
   const iframe = document.createElement('iframe');
   iframe.title = 'Board v2 review page (synthetic)';
@@ -27,7 +29,7 @@ async function boardFrame(root, { w, h }) {
   for (let i = 0; i < 200 && !doc.querySelector('.v2-board'); i += 1) await new Promise(done => setTimeout(done, 25));
   await Promise.all([...doc.images].map(img => (img.complete ? null : new Promise(done => { img.onload = img.onerror = done; }))));
   const b = doc.querySelector('.v2-board').getBoundingClientRect();
-  return { width: w, height: h, board: { x: b.left, y: b.top, w: b.width, h: b.height } };
+  return { doc, layout: { width: w, height: h, board: { x: b.left, y: b.top, w: b.width, h: b.height } } };
 }
 function host(root, w, h) {
   const node = document.createElement('div');
@@ -41,9 +43,14 @@ async function mount(root, surface, { variant = 'full', case: name, w, h }) {
   root.style.width = `${w}px`; root.style.height = `${h}px`;
   const end = filmEnd(film, surface, variant);
   if (film === 'transit' && surface !== 'insert') {
-    const layout = await boardFrame(root, { w, h });
-    const layer = host(root, w, h);
-    const seek = async t => { layer.innerHTML = transitOverlay(t, layout, { surface, variant }).svg; await frames(); return { t, done: t >= end }; };
+    const { doc, layout } = await boardFrame(root, { w, h });
+    const holders = artHolders(doc, w, h, { film: 'navigation-transit' });
+    const seek = async t => {
+      const { art } = transitBoardArt(t, layout, { surface, variant });
+      holders.forEach((holder, i) => { holder.innerHTML = art ? scopeIds(art, `r${i}`) : ''; });
+      await frames();
+      return { t, done: t >= end };
+    };
     return { seek, end, size: [w, h], selector: '#stage', fixture: { board: 'board-v2 mixed (synthetic)' } };
   }
   const layer = host(root, w, h);

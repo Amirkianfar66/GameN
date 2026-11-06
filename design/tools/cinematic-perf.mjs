@@ -14,9 +14,10 @@ import { connect, launchBrowser, openPage } from './lib/chrome.mjs';
 import { startCinematicServer } from './cinematic-serve.mjs';
 
 const repoRoot = resolve(fileURLToPath(new URL('../../', import.meta.url)));
+// display: the board treatment at display size (the default); cut and stage: the covering forms.
 const CASES = [
-  ['hospital-rescue', 'display', 'full', '', 1920, 1080], ['hospital-rescue', 'phone', 'full', '', 390, 844], ['hospital-rescue', 'phone', 'full', '', 320, 568], ['hospital-rescue', 'insert', 'full', '', 1920, 1080],
-  ['blackhole', 'display', 'full', '', 1920, 1080], ['blackhole', 'phone', 'full', '', 390, 844], ['blackhole', 'insert', 'full', '', 1920, 1080],
+  ['hospital-rescue', 'display', 'full', '', 1920, 1080], ['hospital-rescue', 'cut', 'full', '', 1920, 1080], ['hospital-rescue', 'phone', 'full', '', 390, 844], ['hospital-rescue', 'phone', 'full', '', 320, 568], ['hospital-rescue', 'insert', 'full', '', 1920, 1080],
+  ['blackhole', 'display', 'full', '', 1920, 1080], ['blackhole', 'display', 'stage', '', 1920, 1080], ['blackhole', 'phone', 'full', '', 390, 844], ['blackhole', 'insert', 'full', '', 1920, 1080],
   ['private-talk', 'display', 'full', 'entrance', 1920, 1080], ['private-talk', 'display', 'full', 'exit', 1920, 1080],
 ];
 const server = await startCinematicServer();

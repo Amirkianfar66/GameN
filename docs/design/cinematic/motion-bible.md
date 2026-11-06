@@ -13,20 +13,21 @@ Contract: protocol 3, engine `planet-game-1.0.0`, ruleset `in-person-planet-2026
 5. Precedence: terminal result > Sync > Captain commands > medical outcome (death before rescue at one berth) > attack, Blackout and blocked > movement and placement > ambient idles. A higher presentation starting in the same region cancels a lower one to its final state; different regions (another room panel) play concurrently.
 6. Hidden tab: pause nothing on the server; on return compute t again from the server clock and seek or snap. Audio never plays in a hidden tab.
 7. Interaction: press areas, name tags, room labels, timers, Pass and navigation never move, scale or hide for a film; a film may darken or shake only the art layer. Pointer events pass through every film layer.
-8. Reduced motion: honoured at load and when changed during playback (a change mid-film switches to the reduced variant at the same t). Reduced variants carry the same information with fades of 80-120 ms, no travel, camera, shake, flash, particles or spin.
-9. Audio: public events only, from the cue sheet (never only inside a video); muted by the device setting; private, room-filtered and pair-private presentations play no public audio by default.
-10. Asset failure: a missing picture or video never blocks: the scene's static final state (or its words in the live region) stands alone.
+8. Gameplay visibility (the owner's review of 6 November 2026): by default every film is a board treatment, on phones and the display alike: drawn in the board's own layers (a room's art, the board's film band), under the press areas, slot hits, room labels, timers, Pass and bars, so it covers nothing a player selects or reads. A presentation that covers the board (a display cut, a comic page) plays only in a phase where nobody decides (HACK_RESULT, VOTE_RESULT, FINISHED, ABORTED; design/cinematic/lib/visibility.mjs) and inside that phase's own time; in any other phase it gives way to its board treatment from its first frame. No film waits for, extends or takes time from a phase; a presentation stage of its own would be a new phase and is never assumed.
+9. Reduced motion: honoured at load and when changed during playback (a change mid-film switches to the reduced variant at the same t). Reduced variants carry the same information with fades of 80-120 ms, no travel, camera, shake, flash, particles or spin.
+10. Audio: public events only, from the cue sheet (never only inside a video); muted by the device setting; private, room-filtered and pair-private presentations play no public audio by default.
+11. Asset failure: a missing picture or video never blocks: the scene's static final state (or its words in the live region) stands alone.
 
 ## Contract requests for Integration
 
 | Id | Scene | Request |
 | --- | --- | --- |
-| R1 | blackhole-sync | A presentation window for BLACKHOLE_SYNCED: the event is published at the Sync checkpoint and the next phase (JAIL_VOTE, 60 s) starts at once. Either a fixed post-Sync stage (e.g. 5 s, like VOTE_RESULT) or confirmation that the display may overlay the vote's first 5.2 s while phones show only the 2.4 s band over the board (never over the ballot controls). Until answered, the pilot assumes the overlay and the server's vote endsAt is unchanged. |
-| R2 | private-talk | The exit: the conversation's end is HACK's endsAt and the next phase starts at once. Confirm the display may show the 2.8 s exit page over the next phase's first seconds, or keep S2's board-only exit on the display too. |
-| R3 | doctor-rescue | RESCUED carries seatIds, location, slotId and clinicalAnchor: enough. Confirm the published snapshot's placement of a rescued patient (still at the berth, or back in a room, as the 1.8.0 fixtures had it), so the film ends on the right figure; the pilot handles both. |
+| R1 | blackhole-sync | Open, for the stage cut only (awaiting the owner's approval; not assumed). BLACKHOLE_SYNCED is published at the Sync checkpoint and JAIL_VOTE (60 s) starts at once. The default needs no window: it plays behind the crew, in the rooms' art, for 2.4 s inside the vote's first seconds, on every surface, covering nothing, and the vote's endsAt is unchanged. The 5.2 s stage cut covers the board, so it could play only in a presentation stage of its own before the vote (e.g. 5 s, like VOTE_RESULT), which would be a new phase: the owner decides whether one exists. |
+| R2 | private-talk | Answered by the owner's review of 6 November 2026: the capsule's exit stays the live game's, on the board. S2's approved exit plays on every surface, the display included; there is no exit page. Nothing more is needed. |
+| R3 | doctor-rescue | Answered by the owner's review of 6 November 2026: the Rescue ends on the authoritative game state. A healed patient who is free returns to Room A or B; one still detained returns to the Jail, wherever the published snapshot places them. The film follows that placement: the patient walks out of the ward, the berth is left empty, and their playable figure at its place is never hidden. RESCUED and the snapshot carry all of it; nothing more is needed. |
 | R4 | core-movement | MOVEMENT_COMPLETED and PLACEMENT_CHANGED carry seatIds, location and slotId but not the origin slot: a walk needs the previous finalized placement (the client keeps the last snapshot). Confirm that a reconnecting client without the previous snapshot snaps instead of walking. |
 | R5 | navigation | Neutral shared transit: navigation.lastMovedRound and arrivedAt are public; a neutral "the ship moved" presentation needs nothing else. The office-private route view (privateNavigation) needs the previous position to animate a step; confirm it may be derived from the previous view. |
-| R6 | promises | Promise result transitions (Pending to Fulfilled / Not fulfilled / Condition not met) need the evaluation moment: confirm promises[].status changes arrive with a viewRevision at the evaluation (voting start after Sync). |
+| R6 | promises | Each Promise is evaluated at its own opportunity, not at one shared moment (owner decisions P04, P23 and P24): a meeting Promise when its round's voting begins after Sync (the synced places); a Jail Vote or No Jail Vote when its round's Jail vote closes (the actual ballot, not the outcome or the admission); Captain Support when the specified election closes (every ballot in which the recipient is a candidate, runoffs included); Officer Selection at that election and its Officer appointment. Same-round Promises finalize at the close of their opportunity in that round; only election Promises may stay Pending until their election or the match end. Confirm that each promises[].status change (Pending to Fulfilled / Not fulfilled / Condition not met) arrives with the viewRevision that closes its own opportunity, so its result plays once, then, and never from a speculative state. |
 | R7 | windows | A shown drawing's arrival: windows[].drawings[] has order and round but no publishedAt; a stamp-in needs the moment it was shown, or the client stamps on first sight only (no replay on reconnect). |
 | R8 | engineer | P14 gives the Engineer a private confirmation of the fixed identities, but the player view has only abilities.engineerSpent. Add the Engineer's own record, e.g. abilities.engineerCapture { round, seatIds } (Engineer only), so the confirmation shows the identities the server fixed at registration, never the client's preview (someone may move between the two). Until then the file says only that the capture was used. |
 | R9 | hack-spaceship | abilities.shipHackSpent cannot tell a hack registered this round (still to apply at this round's navigation) from one used in an earlier round. Add abilities.shipHackRound (Hacker only) so the file can say "applies at this round's navigation" or "used in Round N". Until then a spent hack is drawn as used, its round unnamed. |
@@ -48,15 +49,15 @@ Contract: protocol 3, engine `planet-game-1.0.0`, ruleset `in-person-planet-2026
 | Ordinary shot and injury | existing (slice 4, Blackout impact) + gap | public outcome; no shooter | events INJURED / ELIMINATED (seatIds, location, slotId, clinicalAnchor) after resolution | full: 900-1400 ms; reduced: swap to injured state | swap |
 | Blackout Strike | existing (#129, approved) | public lighting; selected position private (blackoutTargeting) | phase BLACKOUT (15 s) + blackout {previewEndsAt, endsAt}; event BLACKOUT_HIT | full: 15 s (server); reduced: no flicker: a dim step | dim step, no flicker |
 | Protection and Phantom Clone | existing S3 + S4 (approved) | private activation; room-filtered ATTACK_BLOCKED (player audience) | event ATTACK_BLOCKED (audience player, room observers); abilities.clone / protectionGrants (own) | full: 2420 ms (blockedEnd()); reduced: 1760 ms still ring and label | still ring |
-| Doctor Rescue | PILOT 1 (cinematic pass over the approved S5) | public | event RESCUED (seatIds [patient], location Hospital, slotId Hn, clinicalAnchor HVn), published with the snapshot after Rescue resolution; fourFilmBerth() decides whether a film plays | full: 5600 ms (display cut and board); short: 1600 ms nonblocking; reduced: 1760 ms: two still states | S5 reduced |
+| Doctor Rescue | PILOT 1 (cinematic pass over the approved S5): the board treatment on phones and the display; the display cut only where nobody decides | public | event RESCUED (seatIds [patient], location Hospital, slotId Hn, clinicalAnchor HVn), published with the snapshot after Rescue resolution, as the navigation stage or the next round opens (decisions open, so the board treatment plays); fourFilmBerth() decides whether a film plays | full: 6200 ms (board treatment; the display cut the same); short: 1600 ms nonblocking (stands and leaves the berth); reduced: 1760 ms: three still states (S5's two, then the empty berth) | S5 reduced, then the empty berth |
 | Hospital panel and death | existing S9 / S10 + library group 3 (proposal) | patient-private panel (the patient's own phone, any role); public death | player view offers PANEL_CODE, abilities.panelAttemptSpent, board.seats[].medical; the PANEL_CODE receipt; R12 abilities.panelRequest and rejection NO_INJECTION (proposed); events ELIMINATED with clinicalAnchor | full: S10 flatline (flatlineEnd()); console: press 180 ms, register 600 ms, reserve 820 ms, wrong 560 ms; reduced: still states; console fades of 160 ms | stills |
 | Supplier and weapons | existing (slice 3) + gap | own-private | player view self.ordinaryWeapons; command results | full: 900 ms receipt; reduced: swap | swap |
 | Insider investigation | existing (slice 1, approved) | own-private (Insider) | knowledge.insiderSeatIds | full: interactive; reduced: no pin wobble | static |
 | Hacker investigation | existing (slice 2) + library group 1 (final Code) | own-private (Hacker) | knowledge.scanResults; abilities.codeAttempted, shipHackUnlocked, scanBlockedThroughRound; offers SCAN, SUBMIT_CODE | full: scan 1200 ms; final Code unlock 1000 ms, wrong 600 ms; reduced: two 80 ms fades | swap |
 | Hack Spaceship | library group 1 (proposal) | own-private (Hacker); the office direction view shows only the final direction | abilities.shipHackUnlocked, shipHackSpent; offers ACTIVATE_SHIP_HACK; command ACTIVATE_SHIP_HACK (no payload) | full: insert 900 ms on the accepted receipt; reduced: two 80 ms fades | swap |
 | Engineer | library group 1 (proposal) | own-private (Engineer); targets, offices and the display receive nothing (P14) | abilities.engineerSpent; offers ENGINEER_SUPPRESS; command ENGINEER_SUPPRESS (no payload: the server captures the opposite room) | full: capture 1200 ms on the accepted receipt; reduced: two 80 ms fades | swap |
-| Private Talk capsule | PILOT 3 (display page over the approved S2; phones keep S2) | public pair and transitions; pair-private declaration | hackSession {id, actorSeatId, targetSeatId} (public); phases HACK_DECLARE (15 s), HACK_RESULT (5 s), HACK (60 s) | full: entrance 4900 ms inside the 5 s result stage; exit 2800 ms; reduced: entrance 2000 ms, exit 1100 ms (S2 swaps) | S2 reduced |
-| Blackhole and Sync | PILOT 2 | public | event BLACKHOLE_SYNCED (public, actorSeatId null), after Sync; the board already the selected world's finalized checkpoint | full: 5200 ms (display); short: 2400 ms band (phones); reduced: 1640 / 1440 ms still card | still card |
+| Private Talk capsule | PILOT 3 (the display's entrance page over the approved S2, in the result stage; the talk and the exit are S2 on the board everywhere) | public pair and transitions; pair-private declaration | hackSession {id, actorSeatId, targetSeatId} (public); phases HACK_DECLARE (15 s), HACK_RESULT (5 s), HACK (60 s) | full: entrance 4900 ms inside the 5 s result stage; exit 2530 ms (S2, on the board); reduced: entrance 2000 ms; exit 700 ms (S2 swaps) | S2 reduced |
+| Blackhole and Sync | PILOT 2: behind the crew on every surface; the display's stage cut only with an approved presentation stage (R1) | public | event BLACKHOLE_SYNCED (public, actorSeatId null), after Sync, as JAIL_VOTE opens; the board already the selected world's finalized checkpoint | full: 2400 ms behind the crew, every surface, inside the Jail vote's first seconds; stage: 5200 ms display cut, only in a presentation stage the owner approves (R1); reduced: 1440 ms: the still blackhole in the walls | the still blackhole in the walls, 120 ms fades |
 | Navigation | library group 2 (proposal) | office-private route panel (Captain and Officer); public neutral transit; the destination public only on arrival | privateNavigation (offices); phases NAV_TIE, NAV_CAPTAIN_CONFIRM, NAV_OFFICER_CONFIRM; offers CHOOSE_NAV_DIRECTION, CONFIRM_NAVIGATION; MOVEMENT_COMPLETED (public event); navigation.lastMovedRound, arrivedAt | full: transit 2400 ms display, 1800 ms phone; panel step 900 ms; stamps 420 to 520 ms; reduced: stills with 160 ms fades | stills |
 | Promises | gap (proposal) | pair-private | promises[], promiseQuota | full: 900 ms; reduced: swap | swap |
 | Windows and drawing | gap (proposal) | window-scoped | windows[] (canDraw, drawings[]) | full: 600 ms stamp; reduced: swap | swap |
@@ -255,20 +256,20 @@ Contract: protocol 3, engine `planet-game-1.0.0`, ruleset `in-person-planet-2026
 
 ### Doctor Rescue
 
-`doctor-rescue` · PILOT 1 (cinematic pass over the approved S5)
+`doctor-rescue` · PILOT 1 (cinematic pass over the approved S5): the board treatment on phones and the display; the display cut only where nobody decides
 
-- **Trigger:** event RESCUED (seatIds [patient], location Hospital, slotId Hn, clinicalAnchor HVn), published with the snapshot after Rescue resolution; fourFilmBerth() decides whether a film plays
+- **Trigger:** event RESCUED (seatIds [patient], location Hospital, slotId Hn, clinicalAnchor HVn), published with the snapshot after Rescue resolution, as the navigation stage or the next round opens (decisions open, so the board treatment plays); fourFilmBerth() decides whether a film plays
 - **Audience:** public
 - **Fields:** `events[].seatIds`, `events[].slotId`, `events[].clinicalAnchor`, `board.seats[]`
-- **Start / loop / exit:** alert (amber blinks, close-up of the unstable trace); iris opens, drone descends, scan, charge; revival pulse, stabilized monitor, patient sits up, drone exits, iris closes
-- **Durations:** full 5600 ms (display cut and board); short 1600 ms nonblocking; reduced 1760 ms: two still states
-- **Final state:** the patient Healthy where the snapshot places them
+- **Start / loop / exit:** alert (amber blinks, the unstable trace); iris opens, drone descends, scan, charge; revival pulse, stabilized monitor, patient sits up, drone exits; the patient stands and walks out of the ward toward the place the snapshot gives, the berth left empty, the playable figure there back in colour
+- **Durations:** full 6200 ms (board treatment; the display cut the same); short 1600 ms nonblocking (stands and leaves the berth); reduced 1760 ms: three still states (S5's two, then the empty berth)
+- **Final state:** the patient Healthy where the snapshot places them (free: Room A or B; still detained: the Jail); the berth empty; never left apparently in a bed, the playable figure never hidden
 - **Cancellation:** a newer snapshot moving the patient; a terminal result
 - **Precedence:** medical: a death at the same berth first
-- **Audio:** alert blips, hatch, hum, servo, scan, charge, thump, monitor beeps (public cue sheet)
-- **Reduced motion:** S5 reduced
+- **Audio:** alert blips, hatch, hum, servo, scan, charge, thump, monitor beeps; the seat settle and steps out (public cue sheet)
+- **Reduced motion:** S5 reduced, then the empty berth
 - **7 / 8 / 9 players:** four beds for 7, 8, 9; HV5+ plays no film (words only)
-- **Concurrent events:** at most two Rescues a round (two shared injections): both play at their berths; the display drops to the board form (no camera) when more than one plays
+- **Concurrent events:** at most two Rescues a round (two shared injections): both play at their berths, in the board treatment
 - **Existing art:** `design/cinematic/pilots/hospital-rescue/`, `design/board-v2/films/medical.mjs (S5)`
 - **Missing:** live-action insert: study only (NOT PRODUCED)
 - **Contract request:** R3
@@ -392,13 +393,13 @@ Contract: protocol 3, engine `planet-game-1.0.0`, ruleset `in-person-planet-2026
 
 ### Private Talk capsule
 
-`private-talk` · PILOT 3 (display page over the approved S2; phones keep S2)
+`private-talk` · PILOT 3 (the display's entrance page over the approved S2, in the result stage; the talk and the exit are S2 on the board everywhere)
 
 - **Trigger:** hackSession {id, actorSeatId, targetSeatId} (public); phases HACK_DECLARE (15 s), HACK_RESULT (5 s), HACK (60 s)
 - **Audience:** public pair and transitions; pair-private declaration
 - **Fields:** `hackSession`, `phase.kind`, `phase.startedAt`, `phase.endsAt`, `board.seats[]`
-- **Start / loop / exit:** in HACK_RESULT: page assembles, the pair step out, door opens; HACK: seated variations (speaker-neutral); after HACK: door opens, walk out, step back in at the latest places
-- **Durations:** full entrance 4900 ms inside the 5 s result stage; exit 2800 ms; reduced entrance 2000 ms, exit 1100 ms (S2 swaps)
+- **Start / loop / exit:** in HACK_RESULT: page assembles, the pair step out, door opens; HACK: seated variations (speaker-neutral); after HACK: S2's exit on the board, every surface: door opens, walk out, step back in at the latest places
+- **Durations:** full entrance 4900 ms inside the 5 s result stage; exit 2530 ms (S2, on the board); reduced entrance 2000 ms; exit 700 ms (S2 swaps)
 - **Final state:** the pair at their latest places
 - **Cancellation:** a late load snaps to the current pose; the talk keeps its server endsAt
 - **Precedence:** stage-bound; Sync after it
@@ -412,18 +413,18 @@ Contract: protocol 3, engine `planet-game-1.0.0`, ruleset `in-person-planet-2026
 
 ### Blackhole and Sync
 
-`blackhole-sync` · PILOT 2
+`blackhole-sync` · PILOT 2: behind the crew on every surface; the display's stage cut only with an approved presentation stage (R1)
 
-- **Trigger:** event BLACKHOLE_SYNCED (public, actorSeatId null), after Sync; the board already the selected world's finalized checkpoint
+- **Trigger:** event BLACKHOLE_SYNCED (public, actorSeatId null), after Sync, as JAIL_VOTE opens; the board already the selected world's finalized checkpoint
 - **Audience:** public
 - **Fields:** `events[] BLACKHOLE_SYNCED`, `board (FINALIZED)`
-- **Start / loop / exit:** board pulled into an ink bloom; space, the blackhole forms, title; ship passage, ink-wipe cut, settled board ripple
-- **Durations:** full 5200 ms (display); short 2400 ms band (phones); reduced 1640 / 1440 ms still card
+- **Start / loop / exit:** each room's back wall gives way to one shared field of space; the blackhole forms at the board's centre; the ship streaks behind the rooms into it; the flare; the walls return
+- **Durations:** full 2400 ms behind the crew, every surface, inside the Jail vote's first seconds; stage 5200 ms display cut, only in a presentation stage the owner approves (R1); reduced 1440 ms: the still blackhole in the walls
 - **Final state:** the synced board
 - **Cancellation:** terminal result
-- **Precedence:** above everything but a terminal result
-- **Audio:** rumble, sting, whoosh, cut (public)
-- **Reduced motion:** still card
+- **Precedence:** above everything but a terminal result; drawn in the rooms' art, under every figure, tag, label, press area, timer and bar
+- **Audio:** sting, whoosh, rumble (public); the stage cut: rumble, sting, whoosh, thump, cut
+- **Reduced motion:** the still blackhole in the walls, 120 ms fades
 - **7 / 8 / 9 players:** n/a
 - **Concurrent events:** once per match (one lifetime use)
 - **Existing art:** `design/cinematic/pilots/blackhole/`
@@ -437,11 +438,11 @@ Contract: protocol 3, engine `planet-game-1.0.0`, ruleset `in-person-planet-2026
 - **Trigger:** privateNavigation (offices); phases NAV_TIE, NAV_CAPTAIN_CONFIRM, NAV_OFFICER_CONFIRM; offers CHOOSE_NAV_DIRECTION, CONFIRM_NAVIGATION; MOVEMENT_COMPLETED (public event); navigation.lastMovedRound, arrivedAt
 - **Audience:** office-private route panel (Captain and Officer); public neutral transit; the destination public only on arrival
 - **Fields:** `privateNavigation.position`, `privateNavigation.direction`, `offers[]`, `phase.kind`, `navigation.lastMovedRound`, `navigation.arrivedAt`, `events[] MOVEMENT_COMPLETED`
-- **Start / loop / exit:** the Y-route panel: the ship at its place; at navigation the final direction and the step it makes; the Officer's choice on an undecided course; each office's acknowledgement (no veto); the token steps along the arm, across a rung or into a planet; the public transit band, the same every movement
+- **Start / loop / exit:** the Y-route panel: the ship at its place; at navigation the final direction and the step it makes; the Officer's choice on an undecided course; each office's acknowledgement (no veto); the token steps along the arm, across a rung or into a planet; the public transit behind the crew, the same every movement
 - **Durations:** full transit 2400 ms display, 1800 ms phone; panel step 900 ms; stamps 420 to 520 ms; reduced stills with 160 ms fades
 - **Final state:** the panel at the new place; the public chip "Round N: the ship moved"
 - **Cancellation:** phase end; a refused command changes nothing; a late join draws the result at rest
-- **Precedence:** stage-bound (public band over the board's middle, never a control)
+- **Precedence:** stage-bound (public, behind the crew in the rooms' art layers: it covers nothing as the next round opens)
 - **Audio:** engine hum and pass (public, the same every movement); none on the offices' phones
 - **Reduced motion:** stills
 - **7 / 8 / 9 players:** n/a

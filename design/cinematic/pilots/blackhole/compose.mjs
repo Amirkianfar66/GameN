@@ -7,8 +7,8 @@
 
 import { fxDefs, grade, letterbox, lightPool, ring, speedLines, vignette } from '../../lib/comic.mjs';
 import { bell, clamp01, easeInCubic, easeOutCubic, lerp, r2, rand } from '../../lib/ease.mjs';
-import { SHIP, VOID, blackholeSvg, inkWipe, lensedStars, settleRipple, shipSvg, titleSvg, titleWidth } from './art.mjs';
-import { displayFrame, phoneFrame, reducedFrame } from './film.mjs';
+import { SHIP, VOID, blackholeSvg, inkWipe, lensedStars, settleRipple, shipSvg, titleSvg } from './art.mjs';
+import { boardFrame, displayFrame } from './film.mjs';
 
 const f = v => Number((+v).toFixed(2));
 
@@ -26,7 +26,7 @@ function shipLayer(prefix, ship, { unit = 1 } = {}) {
   return out + place(0, ship.opacity);
 }
 
-/** The full display cinematic over a board. */
+/** The stage cut over a board (display only; only if the owner approves a presentation stage before the vote: R1). */
 function fullOverlay(t, layout, prefix) {
   const { width, height } = layout;
   const F = displayFrame(t, { width, height });
@@ -68,66 +68,48 @@ function fullOverlay(t, layout, prefix) {
   return { svg, frame: F };
 }
 
-/** The phone's band (and the display's nonblocking short variant): over the board's rooms, never over the bars. */
-function bandOverlay(t, layout, prefix) {
-  const { width, height, board } = layout;
-  const F = phoneFrame(t);
-  if (F.done || t < 0) return { svg: '', frame: F };
-  const bandH = Math.min(board.h * 0.3, board.w * 0.42);
-  const cy = board.y + board.h * 0.42;
-  const h = bandH * F.band.open;
-  const top = cy - h / 2;
-  let inner = '';
-  if (h > 1) {
-    const holeR = bandH * 0.17;
-    const hx = board.x + bandH * 0.62, hy = cy;
-    const size = Math.min(bandH * 0.3, (board.w - bandH * 1.3) / (titleWidth(1) * 1.08));
-    const tx = board.x + bandH * 1.2 + (titleWidth(size) * F.title.scale) / 2;
-    const clip = `<clipPath id="${prefix}-band"><rect x="${board.x}" y="${f(top)}" width="${board.w}" height="${f(h)}"/></clipPath>`;
-    inner = `<defs>${clip}</defs><g clip-path="url(#${prefix}-band)">`
-      + `<rect x="${board.x}" y="${f(top)}" width="${board.w}" height="${f(h)}" fill="${VOID.space}"/>`
-      + `<g transform="translate(${board.x} ${f(cy - bandH / 2)})">${lensedStars({ width: board.w, height: bandH, cx: hx - board.x, cy: bandH / 2, rE: holeR * 1.5, count: 90, seed: 73, t })}</g>`
-      + blackholeSvg(prefix, { cx: hx, cy: hy, r: holeR, spin: F.hole.spin, glow: 1, flare: F.hole.flare, tilt: 0.22 })
-      + (F.hole.flare > 0 ? ring({ cx: hx, cy: hy, r: holeR * (1.3 + 2.2 * F.hole.flare), width: 4, color: VOID.disk[1], opacity: 1 - F.hole.flare, squash: 0.6 }) : '')
-      + (F.ship ? shipLayer(`${prefix}s`, { at: [lerp(board.x + board.w + 40, hx, F.ship.v), lerp(cy - bandH * 0.3, hy, F.ship.v)], scale: lerp(0.12, 0.012, F.ship.v), angle: -12, stretch: 1 + 1.4 * F.ship.v, echoes: Math.round(3 * F.ship.v), opacity: 1, engine: 1, phase: 'in' }, { unit: bandH / 110 }) : '')
-      + titleSvg(prefix, { x: tx, y: cy, size, scale: F.title.scale, opacity: F.title.opacity, split: 0, glow: 0.8 + 0.2 * Math.sin(t / 200) })
-      + `</g>`
-      + `<path d="M${board.x} ${f(top)}H${board.x + board.w}M${board.x} ${f(top + h)}H${board.x + board.w}" stroke="#F2C14E" stroke-width="3"/>`;
-  }
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" width="${width}" height="${height}" data-film="blackhole-band">`
-    + fxDefs(prefix) + inner + (F.settle > 0 ? settleRipple(layout.rooms, F.settle) : '') + `</svg>`;
-  return { svg, frame: F };
+/**
+ * Behind the crew (the default on every surface, and its reduced still): one field of space in the
+ * board's pixels, for the rooms' art layers. layout.board is the rooms' area between the bars. The
+ * stage puts a copy in each room's art layer at z-index 1: over the room's back picture, under its
+ * scene layers, figures, name tags, room label, press areas and the bars, each copy clipped by its
+ * room, so every room is a window onto the same blackhole. Nothing of it is ever drawn over the
+ * board: overlaySvg() returns no overlay for these variants.
+ * Returns { art } (inner markup, ids to be scoped per room) and the frame.
+ */
+export function boardArt(t, layout, { surface = 'display', reduced = false, prefix = 'bb' } = {}) {
+  const F = boardFrame(t, { reduced });
+  if (F.done || F.space <= 0) return { art: '', frame: F };
+  const { board } = layout;
+  const cx = board.x + board.w / 2, cy = board.y + board.h * 0.5;
+  const short = Math.min(board.w, board.h);
+  const r = F.hole.r * short;
+  const ship = F.ship ? {
+    at: [lerp(board.x + board.w + 60, cx, F.ship.v), lerp(board.y + board.h * 0.16, cy, F.ship.v)],
+    scale: lerp(0.18, 0.015, F.ship.v) * (short / 600), angle: -14, stretch: 1 + 1.5 * F.ship.v, echoes: Math.round(4 * F.ship.v), opacity: 1, engine: 0.85, phase: 'in',
+  } : null;
+  const art = `<g opacity="${f(F.space)}">`
+    + `<rect x="${f(board.x)}" y="${f(board.y)}" width="${f(board.w)}" height="${f(board.h)}" fill="${VOID.space}"/>`
+    + `<g transform="translate(${f(board.x)} ${f(board.y)})">${lensedStars({ width: board.w, height: board.h, cx: cx - board.x, cy: cy - board.y, rE: r * 1.6, count: surface === 'phone' ? 150 : 320, seed: 79, t: reduced ? 0 : t })}</g>`
+    + blackholeSvg(prefix, { cx, cy, r, spin: F.hole.spin, glow: F.hole.glow, flare: F.hole.flare, tilt: 0.21 })
+    + (F.hole.flare > 0 ? ring({ cx, cy, r: r * (1.3 + 2.6 * easeOutCubic(F.hole.flare)), width: Math.max(3, short / 140), color: VOID.disk[1], opacity: 1 - F.hole.flare, squash: 0.6 }) : '')
+    + (ship ? shipLayer(`${prefix}s`, ship) : '')
+    // No title here: behind the crew it would be cut by whoever stands in front of it. The client's
+    // live words name the event; the lettered title belongs to the stage cut and the inserts.
+    + '</g>';
+  return { art, frame: F };
 }
 
-/** The reduced card: the title and a still blackhole on a dark card over the rooms, cross-faded. */
-function cardOverlay(t, layout, prefix, surface) {
-  const { width, height, board } = layout;
-  const F = reducedFrame(t, surface);
-  if (F.done || F.card <= 0) return { svg: '', frame: F };
-  const display = surface !== 'phone';
-  const h = display ? height : Math.min(board.h * 0.3, board.w * 0.42);
-  const y = display ? 0 : board.y + board.h * 0.42 - h / 2;
-  const x = display ? 0 : board.x, w = display ? width : board.w;
-  const holeR = display ? 120 : h * 0.17;
-  const hx = display ? width / 2 : x + h * 0.62, hy = display ? height * 0.42 : y + h / 2;
-  const size = display ? 120 : Math.min(h * 0.3, (w - h * 1.3) / (titleWidth(1) * 1.08));
-  const tx = display ? width / 2 : x + h * 1.2 + titleWidth(size) / 2;
-  const ty = display ? height * 0.8 : y + h / 2;
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" width="${width}" height="${height}" data-film="blackhole-card">`
-    + fxDefs(prefix) + `<g opacity="${f(F.card)}"><rect x="${x}" y="${f(y)}" width="${w}" height="${f(h)}" fill="${VOID.space}"/>`
-    + blackholeSvg(prefix, { cx: hx, cy: hy, r: holeR, spin: 0.6, glow: 1, tilt: 0.21 })
-    + titleSvg(prefix, { x: tx, y: ty, size, opacity: 1, glow: 0.85 })
-    + (display ? '' : `<path d="M${x} ${f(y)}H${x + w}M${x} ${f(y + h)}H${x + w}" stroke="#F2C14E" stroke-width="3"/>`)
-    + `</g></svg>`;
-  return { svg, frame: F };
-}
-
-/** The overlay at t for a surface (display | phone) and variant (full | short | reduced). */
+/**
+ * The overlay at t for a surface (display | phone) and variant: the stage cut (display only, if the
+ * owner approves a presentation stage: R1) is one SVG over the board; the default and the reduced
+ * still are nothing over the board and the rooms' art (art) instead.
+ */
 export function overlaySvg(t, layout, { surface = 'display', variant = 'full' } = {}) {
   const prefix = surface === 'phone' ? 'bp' : 'bd';
-  if (variant === 'reduced') return cardOverlay(t, layout, prefix, surface);
-  if (surface === 'phone' || variant === 'short') return bandOverlay(t, layout, prefix);
-  return fullOverlay(t, layout, prefix);
+  if (variant === 'stage' && surface !== 'phone') return { ...fullOverlay(t, layout, prefix), art: '' };
+  const { art, frame } = boardArt(t, layout, { surface, reduced: variant === 'reduced', prefix });
+  return { svg: '', art, frame };
 }
 
 /** The identity-free insert: the space shot alone (no board under it), with or without the title. */

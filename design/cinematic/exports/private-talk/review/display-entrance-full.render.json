@@ -23,8 +23,8 @@
     {
       "kind": "video",
       "file": "design/cinematic/exports/private-talk/review/display-entrance-full.mp4",
-      "sha256": "a6b9c2d055a7ab0041b24ac0a4267bbc7e28005a3d6c08a86247004ce5bc3856",
-      "bytes": 922333,
+      "sha256": "edc8253cebf4421135a2bc37015dfd2017041ee83c7118f6c01ce77b8899ac66",
+      "bytes": 932282,
       "fps": 30,
       "frames": 148,
       "durationMs": 4900,
@@ -35,8 +35,8 @@
     {
       "kind": "preview",
       "file": "design/cinematic/exports/private-talk/review/display-entrance-full.preview.webp",
-      "sha256": "73310da1bffcebc317d306a3ce61e4ad9def4bdd8a50f02af0adb046937647fa",
-      "bytes": 253034
+      "sha256": "9a43151d7ba4ce23c555180215c7980b2298953de4a81f001f9c771afaf31e25",
+      "bytes": 228202
     },
     {
       "kind": "poster",
@@ -45,5 +45,10 @@
       "bytes": 87162,
       "t": 3000
     }
-  ]
+  ],
+  "settling": {
+    "rule": "a frame is kept once two captures a redraw apart agree; pictures decode before their tiles draw",
+    "resettled": 4,
+    "unsettled": []
+  }
 }

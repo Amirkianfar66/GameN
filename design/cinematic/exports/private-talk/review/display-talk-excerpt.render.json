@@ -23,8 +23,8 @@
     {
       "kind": "video",
       "file": "design/cinematic/exports/private-talk/review/display-talk-excerpt.mp4",
-      "sha256": "82ac162fc34ef2ee4916572f1c504dbe058fbfeea2d2039f5b3951c6355c93d1",
-      "bytes": 216503,
+      "sha256": "dc4106d7e22160788589a0a24d9ed6a0b71a928e061bf73856801123d71ae764",
+      "bytes": 210839,
       "fps": 30,
       "frames": 181,
       "durationMs": 6000,
@@ -35,15 +35,20 @@
     {
       "kind": "preview",
       "file": "design/cinematic/exports/private-talk/review/display-talk-excerpt.preview.webp",
-      "sha256": "269aa8d5a96431afedd569599b7c5166b5c4f1d95fefd4980af4c1db279a3493",
-      "bytes": 29520
+      "sha256": "62a2de8adef88898ce7f3adbc0419f0641fd123fbeebab5067a45cb9aa064ce3",
+      "bytes": 29516
     },
     {
       "kind": "poster",
       "file": "design/cinematic/exports/private-talk/review/display-talk-excerpt.poster.webp",
-      "sha256": "c470596226d27da089996418b4d39d1c8c49d777cd94010bd1f66f7667ac7091",
+      "sha256": "2febb7d2991d131a5569de0f190b5fea95e4af771f63f3e08d14ea58bca06dfe",
       "bytes": 70910,
       "t": 3000
     }
-  ]
+  ],
+  "settling": {
+    "rule": "a frame is kept once two captures a redraw apart agree; pictures decode before their tiles draw",
+    "resettled": 32,
+    "unsettled": []
+  }
 }
