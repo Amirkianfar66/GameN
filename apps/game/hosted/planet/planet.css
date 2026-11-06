@@ -93,6 +93,7 @@ html:has(.planet-setup),body:has(.planet-setup){margin:0;height:100%;overflow:hi
 .planet-room-code{min-height:54px;display:grid;place-items:center;font-weight:800;font-size:18px}
 .planet-setup .planet-entry-tabs+form,.planet-setup form{margin:8px 0;padding:8px}
 .planet-cinematic-field{position:absolute;left:0;top:0;z-index:-1999;pointer-events:none}
+.planet-recovery-secret{overflow-wrap:anywhere}
 
 [data-art~="offices"] .planet-move-block,[data-art~="windows"] .planet-window-station{display:block}
 [data-art~="successor"] .planet-room-code{background:var(--sw-asset-sw-code-plate) center/contain no-repeat}

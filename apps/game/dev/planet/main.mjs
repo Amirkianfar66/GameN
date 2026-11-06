@@ -13,6 +13,7 @@ const connection={mode:'synthetic',currentUid:()=> 'planet-synthetic-uid',signIn
  const answer=result=>({ok:true,serverTimeMs:Date.now(),result});
  if(request.operation==='read')return admissionRead==='forbidden'?{ok:false,serverTimeMs:Date.now(),error:{code:'FORBIDDEN'}}:answer(structuredClone(value));
  if(request.operation==='receipt')return answer({receipt:null});
+ if(request.operation==='issueRecovery')return answer({recoveryCode:'SYNTHETICRECOVERY'+'X'.repeat(111),expiresAt:Date.now()+900000});
  if(request.operation==='command'){
   if(lost)return null;
   if(rejectNextPanel&&request.request.command.type==='PANEL_CODE'){rejectNextPanel=false;return answer({receipt:{protocolVersion:3,matchId:value.matchId,phaseId:request.request.phaseId,commandId:request.request.commandId,status:'rejected',code:'NO_INJECTION'}});}

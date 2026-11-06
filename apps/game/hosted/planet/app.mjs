@@ -88,7 +88,7 @@ export async function mountPlanetApp(root,{connection,matchId,allowSynthetic=fal
    const end=button(abortConfirm?'Confirm abort · No winner':'Abort match',()=>{if(!abortConfirm){abortConfirm=true;sessionKey=null;render(model);}else {abortConfirm=false;operate({operation:'abort',matchId:model.matchId});}});parent.append(end);
   }
   if(['running','reading','choosing'].includes(model.status))for(const member of model.members.filter(m=>m.controller==='human'))parent.append(button(`Issue recovery for Player ${member.seatId.slice(5)}`,()=>operate({operation:'issueRecovery',matchId:model.matchId,seatId:member.seatId})));
-  if(model.recoveryCode){const recovery=el('p',`Private recovery code: ${model.recoveryCode}`);recovery.className='planet-recovery-secret';parent.append(recovery);}
+  if(model.recoveryCode){const recovery=el('section');recovery.className='planet-recovery-secret';recovery.setAttribute('aria-label','Private seat recovery');const match=el('p',`Match ID: ${model.matchId}`);match.id='planet-issued-match-id';const code=el('p',`Private recovery code: ${model.recoveryCode}`);code.id='planet-issued-recovery-code';recovery.append(match,code);parent.append(recovery);}
  }
  function updateTimer(){const t=document.getElementById('planet-setup-timer');if(t)t.textContent=model.remainingMs===null?'':model.status==='reading'?model.remainingMs>0?`Read for at least ${Math.ceil(model.remainingMs/1000)} more seconds.`:'Ready is available after the minimum reading time.':`${Math.ceil(model.remainingMs/1000)} seconds remaining.`;}
  function render(next){
