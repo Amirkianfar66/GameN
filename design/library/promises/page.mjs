@@ -188,7 +188,7 @@ function trayCards() {
 // ---------- motion players ----------
 
 function motionPlayer(kind) {
-  const caption = { offer: 'on the giver\'s accepted OFFER_PROMISE receipt', arrive: 'when an offer to this seat first appears', accept: 'when the Promise is first seen accepted (both phones)', decline: 'when first seen declined or not answered (both phones)', result: 'when first seen with a result, at the evaluation after Sync (R6)' }[kind];
+  const caption = { offer: 'on the giver\'s accepted OFFER_PROMISE receipt', arrive: 'when an offer to this seat first appears', accept: 'when the Promise is first seen accepted (both phones)', decline: 'when first seen declined or not answered (both phones)', result: 'when first seen with a result, as its own opportunity closes (R6)' }[kind];
   return {
     caption: `${MOTION[kind].end} ms full · ${MOTION.reduced.end} ms reduced · ${caption}`,
     end: reduced => motionEnd(kind, reduced),

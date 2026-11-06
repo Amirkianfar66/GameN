@@ -17,8 +17,8 @@
     {
       "kind": "video",
       "file": "design/cinematic/exports/hospital-rescue/runtime/drone-insert.mp4",
-      "sha256": "a3069614d1c0e61a4135feaf19c1c95c14716899d5a4fd99da349722b2f50305",
-      "bytes": 409709,
+      "sha256": "eccab99be11d1696a90d7a81270006819c05ccd218623df6e3f105cc743cc097",
+      "bytes": 412513,
       "fps": 30,
       "frames": 43,
       "durationMs": 1400,
@@ -29,8 +29,8 @@
     {
       "kind": "video",
       "file": "design/cinematic/exports/hospital-rescue/runtime/drone-insert.webm",
-      "sha256": "8cba2e71052d159f1eefcb7eaecf4a4c085d00092c74dd25d1401919ad1e758b",
-      "bytes": 191905,
+      "sha256": "077fe9dbb27b2d06684858273bbb34a0bff49d4a6f6754824f5aac5ac87b71a5",
+      "bytes": 185954,
       "fps": 30,
       "frames": 43,
       "durationMs": 1400,
@@ -58,5 +58,10 @@
       "bytes": 26508,
       "t": 900
     }
-  ]
+  ],
+  "settling": {
+    "rule": "a frame is kept once two captures a redraw apart agree; pictures decode before their tiles draw",
+    "resettled": 1,
+    "unsettled": []
+  }
 }

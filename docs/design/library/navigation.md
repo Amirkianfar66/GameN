@@ -27,7 +27,7 @@ This is a proposal: nothing is adopted until Integration review, and the words a
 | Captain acknowledges, then Officer; no veto; a timeout acknowledges (P09; overlay rule 3) | Each office's own stage: the course and "Acknowledge course"; the other office's stage: who is acknowledging |
 | One movement a round: the same side advances, the other side moves to the same depth on the other arm; no backtracking (overlay rules 5 to 8) | The course arrow (`route.mjs`, the rule's mirror) and, after the move, the token's step: along the arm, across a rung, or into the planet |
 | Round 1 moves Start to Junction without offices (P11) | No panel exists before the first election; the public strip shows the movement like any other |
-| Others see the round and that the ship moved; the destination on arrival (P13; motion requirements) | The public chip "Round N: the ship moved" and the transit band, identical every movement; the arrival films reveal the planet |
+| Others see the round and that the ship moved; the destination on arrival (P13; motion requirements) | The public chip "Round N: the ship moved" and the transit behind the crew, identical every movement; the arrival films reveal the planet |
 | Effects follow the selected world (P03) | Every state reads the current view; no history is replayed |
 
 ## State maps (from `states.mjs`)
@@ -62,7 +62,7 @@ When the office's view shows a new position, the panel animates the step only if
 | --- | --- | --- |
 | `idle` | no movement yet | nothing |
 | `navigating` | any of `NAV_TIE`, `NAV_CAPTAIN_CONFIRM`, `NAV_OFFICER_CONFIRM`: the same for all three | "The course is being set." |
-| `transit` | a public `MOVEMENT_COMPLETED` this screen has not played, `now − publishedAt` inside the film | the transit band at `t = now − publishedAt` |
+| `transit` | a public `MOVEMENT_COMPLETED` this screen has not played, `now − publishedAt` inside the film | the transit behind the crew at `t = now − publishedAt` |
 | `moved` | otherwise, after a movement (`navigation.lastMovedRound`) | the chip: "Round N: the ship moved." |
 | `arrived` | `navigation.arrivedAt` | the arrival film at that planet, from the `FINISHED` phase's `startedAt`; then the end reveal (not this group) |
 
@@ -118,7 +118,12 @@ No picture holds a word.
 - **Accessible name:** the panel is `role="img"`, named with the place, the final direction and the step in words.
 - **Tie choice:** the two buttons have the same colour and weight, so neither is suggested; the dossier's first-button yellow is not used. Each carries its arm's shape key.
 - **Large text:** every word follows the reader's text size; at 200% the words wrap and nothing is clipped or wider than the phone.
-- **Public strip:** the chip and the "being set" line sit in the public bar; the transit band plays over the board's middle and never covers the bars, the timer or Pass. Pointer events pass through every film layer.
+- **Public strip:** the chip and the "being set" line sit in the public bar.
+- **The transit plays behind the crew** (the owner's review of 6 November 2026; `design/cinematic/lib/visibility.mjs`). It plays as the next round's decisions open (an appointment or the pre-turn), so it covers nothing a player selects or reads.
+  - Each room's back wall gives way to one shared field of space, and the ship crosses the board's middle behind every figure, name tag, room label, press area, timer and bar.
+  - It is drawn at `z-index: 1` in each room's art layer (`transitBoardArt()`; the stage kit's `artHolders()`), and the walls never go fully dark (85 % at most).
+  - Pointer events pass through every film layer.
+- **The full-frame inserts cover the board.** The arrival plays in `FINISHED`, where nobody decides. The transit insert is never played over a decision: it is for a stage where nobody decides, or a runtime that draws the field from it.
 
 ## Motion (`motion.mjs`, the panel)
 
@@ -134,7 +139,7 @@ Each motion plays once, from the moment its cause arrives (an accepted receipt, 
 
 | Film | Display | Phone | Reduced | Notes |
 | --- | --- | --- | --- | --- |
-| Transit | 2,400 ms band over the board's middle (30% of its height) | 1,800 ms band (26% of the board, 140–230 px) | a still band, 160 ms in and out (1,200 ms) | the same for every movement: left to right, never turning, no side's colour; the band opens from and closes to its centre line |
+| Transit | 2,400 ms behind the crew: the field of space in every room's art layer, the ship's lane 30% of the board's height | 1,800 ms behind the crew, the lane 17% of the board | the still field with the ship at the middle, 160 ms in and out (1,200 ms) | the same for every movement: left to right, never turning, no side's colour; the walls give way to space in 300 ms and return in 420 ms, never fully dark |
 | Arrival, Blue or Red | 4,200 ms full frame | 3,400 ms portrait | the final still, 160 ms in, held | the camera closes on the planet, the ship slows and descends on its landing beam; then the end reveal |
 
 The two arrivals load together or not at all, never the one a client expects: the destination arrives in the view, not in a request. The transit and the arrivals are drawn live from the frame functions, or played from the identity-free inserts.
@@ -147,7 +152,7 @@ Runtime inserts are in `design/cinematic/exports/navigation/runtime/`, each with
 | `arrival-blue-insert` | `5a905ac79545c818…` | `8680dab017371e55…` |
 | `arrival-red-insert` | `11cc9788177ac56a…` | `5bc503820edda4f3…` |
 
-The review renders (with the synthetic board under the band) are in `review/`. All 65 files, with hashes, are in `design/cinematic/exports/manifest.json` and `docs/design/cinematic/export-manifest.md`.
+The review renders (the transit behind the crew of the synthetic board) are in `review/`. All 65 files, with hashes, are in `design/cinematic/exports/manifest.json` and `docs/design/cinematic/export-manifest.md`.
 
 ## Audio (public screens only)
 

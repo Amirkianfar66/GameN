@@ -12,7 +12,7 @@ import { test } from 'node:test';
 import { FACTION_ACCENTS, MIN_ACCENT_DISTANCE, cie76 } from '../../../design/board-v2/fx/blocked.mjs';
 import { ANCHORS, N, NAV_ART_VERSION, anchorPercent, navigationAssets, slug } from '../../../design/library/navigation/art.mjs';
 import { NAV_COPY } from '../../../design/library/navigation/copy.mjs';
-import { AUDIO, FILM, PLANETS, arrivalSvg, filmEnd, transitInsert, transitOverlay } from '../../../design/library/navigation/films.mjs';
+import { AUDIO, FILM, PLANETS, TRANSIT_BOARD, arrivalSvg, filmEnd, transitBoardArt, transitInsert } from '../../../design/library/navigation/films.mjs';
 import { MOTION, chooseFrame, confirmFrame, motionEnd, stepFrame } from '../../../design/library/navigation/motion.mjs';
 import { MOVES, POSITIONS, classify, step } from '../../../design/library/navigation/route.mjs';
 import { NAV_PHASES, STATES, officePanelState, panelStep, publicNavState } from '../../../design/library/navigation/states.mjs';
@@ -182,13 +182,13 @@ test('the panel\'s motion: once, bounded; reduced is fades only, never a move', 
 test('the public films: the transit is one film with no side\'s colour; the arrival is the only place the planets\' hues appear', () => {
   const sideHues = new Set([...Object.values(PLANETS.Blue), ...Object.values(PLANETS.Red), ...Object.values(FACTION_ACCENTS)].filter(Boolean).map(c => c.toUpperCase()));
   const layout = { width: 390, height: 844, board: { x: 0, y: 120, w: 390, h: 600 } };
-  for (const t of [0, 300, 900, 1500, 1800]) for (const variant of ['full', 'reduced']) {
-    const svg = transitOverlay(t, layout, { surface: 'phone', variant }).svg + transitInsert(t, { variant }).svg;
+  for (const t of [0, 300, 900, 1500, 1799]) for (const variant of ['full', 'reduced']) {
+    const svg = transitBoardArt(t, layout, { surface: 'phone', variant }).art + transitInsert(t, { variant }).svg;
     for (const hex of svg.match(/#[0-9A-Fa-f]{6}\b/g) ?? []) assert.ok(!sideHues.has(hex.toUpperCase()), `transit at ${t}: ${hex}`);
     assert.doesNotMatch(svg, /<text\b/);
   }
   // The transit takes no game fact: the same frame for any movement.
-  assert.equal(transitOverlay(700, layout, { surface: 'phone' }).svg, transitOverlay(700, layout, { surface: 'phone', direction: 'Red', position: 'B2' }).svg);
+  assert.equal(transitBoardArt(700, layout, { surface: 'phone' }).art, transitBoardArt(700, layout, { surface: 'phone', direction: 'Red', position: 'B2' }).art);
   const blue = arrivalSvg(4000, 'Blue').svg;
   const red = arrivalSvg(4000, 'Red').svg;
   assert.ok(blue.includes(PLANETS.Blue.mid) && !blue.includes(PLANETS.Red.mid));
@@ -208,4 +208,32 @@ test('the review report lists each capture once, and every hash is the file\'s',
     const bytes = await readFile(new URL(`../../../${entry.file}`, import.meta.url));
     assert.equal(createHash('sha256').update(bytes).digest('hex'), entry.sha256, entry.file);
   }
+});
+
+test('the transit covers nothing: it is drawn behind the crew, for the rooms\' art layers alone, on every surface', () => {
+  const layouts = { phone: { width: 390, height: 844, board: { x: 0, y: 120, w: 390, h: 600 } }, display: { width: 1920, height: 1080, board: { x: 0, y: 60, w: 1920, h: 960 } } };
+  for (const [surface, layout] of Object.entries(layouts)) {
+    for (const variant of ['full', 'reduced']) {
+      const end = filmEnd('transit', surface, variant);
+      let drawn = 0;
+      for (let t = 0; t < end; t += 40) {
+        const { art, frame } = transitBoardArt(t, layout, { surface, variant });
+        // No overlay exists: the art is only for each room's art layer, and the walls never go fully dark.
+        assert.ok(frame.space >= 0 && frame.space <= TRANSIT_BOARD.peak, `${surface} ${variant} ${t}`);
+        assert.ok(TRANSIT_BOARD.peak < 1);
+        assert.doesNotMatch(art, /<text\b|<image\b|<foreignObject\b/);
+        const ids = [...art.matchAll(/\bid="([^"]+)"/g)].map(m => m[1]);
+        assert.equal(new Set(ids).size, ids.length);
+        if (art) drawn += 1;
+        // Left to right, never turning: the ship only moves right.
+        const before = t > 0 ? transitBoardArt(t - 40, layout, { surface, variant }).frame.ship : null;
+        if (variant === 'full' && frame.ship && before) assert.ok(frame.ship.x >= before.x - 1e-9, `${surface} ${t}: the ship only moves right`);
+      }
+      assert.ok(drawn > 0);
+      assert.equal(transitBoardArt(end, layout, { surface, variant }).art, '', `${surface} ${variant}: the board alone at the end`);
+    }
+  }
+  // The same lengths as before: nothing waits for it or takes time from the round that opens.
+  assert.equal(filmEnd('transit', 'display'), 2400);
+  assert.equal(filmEnd('transit', 'phone'), 1800);
 });
