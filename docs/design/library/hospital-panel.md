@@ -71,7 +71,7 @@ Two rules keep the console from saying more than the view:
 - **Results need R12.** No state reads correctness from anything but R12's `abilities.panelRequest`, and "no injection" comes from nothing but R12's `NO_INJECTION`. Without them, the console says registered, used or refused, and never guesses.
 - **The number leaves the screen.** It shows only while it is chosen or being sent, then disappears, so a glance at the phone later shows no number.
 
-**Placement after Rescue (R3).** The `treated` and `no-effect` states reach the console only while the healed seat is still placed in the Hospital, which is the open half of R3. The review page's two cards for them say so. If a rescued patient goes back to a room or the Jail, the console is gone and the board's rescue film (S5) is the outcome.
+**Placement after Rescue (R3, answered).** The owner's review of 6 November 2026 answered R3: a healed patient leaves the Hospital, for Room A or B if free or for the Jail if still detained. So when `treated` or `no-effect` describes a seat that is healthy after the Rescue stage, as on the review page, the view no longer places that seat in the Hospital: the console is gone (`none`) and the board's rescue film (S5, cinematic pilot 1) is the outcome. The two rows stay in the map because R12 names those statuses, and the console draws them only for a seat that a view still places in the Hospital. The review page's two cards for them say so.
 
 ### The deadline line: `deadline(view)`
 
@@ -167,7 +167,7 @@ No word gives an injection count or says who the Doctor is. Registering is never
   - **The gap:** an accepted `PANEL_CODE` is only `REGISTERED`, and `abilities.panelAttemptSpent` turns true for a right and a wrong number alike. So the view never says whether an injection was reserved, treated, spent without effect, or not kept at Sync. No rejection code says that no injection was available.
   - **Ask:** the patient's own `abilities.panelRequest { round, result: RESERVED | WRONG, status: QUEUED | TREATED | NO_EFFECT | DISCARDED }`, never the Doctor's count. Add a rejection code `NO_INJECTION` that is the same whatever number was sent.
   - **If the owner prefers** the patient not to learn the result before the Rescue stage, the server sends no result and the console keeps "registered".
-- **R3** (existing): where a rescued patient is placed decides whether `treated` and `no-effect` are ever drawn on the console (see the state map).
+- **R3** (answered by the owner's review of 6 November 2026): a healed patient leaves the Hospital, so a healthy seat's `treated` or `no-effect` is not drawn on the console after a Rescue, and the board's rescue film is the outcome (see the state map). Nothing more is needed from the contract.
 
 Both are in the motion bible's request table (`cinematic-catalogue-0.4.0`), whose "Hospital panel and death" entry now points here.
 
