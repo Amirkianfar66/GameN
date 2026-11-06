@@ -3,7 +3,7 @@
 // Every export of the three cinematic pilots and the library groups' public films, rendered from
 // their stages with the local Chromium
 // and ffmpeg (design/tools/cinematic-render.mjs), two at a time:
-//   node design/tools/cinematic-exports.mjs [--only <name-prefix>]
+//   node design/tools/cinematic-exports.mjs [--only <pilot/name prefix>]   (a prefix covering <pilot>/stills renders those too)
 // Writes design/cinematic/exports/<pilot>/{review,runtime,stills}/. Run cinematic-audio.mjs first
 // (the review videos carry the public cue mix), and cinematic-manifest.mjs after.
 //
@@ -30,24 +30,35 @@ const display = { scale: '0.6667', 'preview-width': '480' };
 const phone = (w, h) => ({ surface: 'phone', w: String(w), h: String(h), scale: '1.5', 'preview-width': '240' });
 
 export const JOBS = [
-  // Pilot 1: the Hospital's drone and recovery
+  // Pilot 1: the Hospital's drone and recovery. display and phone: the board treatment (RESCUED
+  // arrives as a decision opens, so this is the default everywhere); cut: the covering cut, for a
+  // stage where nobody decides (design/cinematic/lib/visibility.mjs). free: the healed patient
+  // returns to Room A; detained: to the Jail.
   { pilot: 'hospital-rescue', name: 'review/display-full', surface: 'display', variant: 'full', ...display, ...review, audio: audio('hospital-rescue', 'full'), poster: '3800' },
+  { pilot: 'hospital-rescue', name: 'review/display-detained-full', surface: 'display', variant: 'full', params: ['case=detained'], ...display, ...review, audio: audio('hospital-rescue', 'full'), poster: '5500' },
   { pilot: 'hospital-rescue', name: 'review/display-short', surface: 'display', variant: 'short', ...display, ...review, audio: audio('hospital-rescue', 'short'), poster: '900' },
   { pilot: 'hospital-rescue', name: 'review/display-reduced', surface: 'display', variant: 'reduced', ...display, ...review, audio: audio('hospital-rescue', 'reduced'), poster: '1200' },
+  { pilot: 'hospital-rescue', name: 'review/cut-full', surface: 'cut', variant: 'full', ...display, ...review, audio: audio('hospital-rescue', 'full'), poster: '3800' },
+  { pilot: 'hospital-rescue', name: 'review/cut-detained-full', surface: 'cut', variant: 'full', params: ['case=detained'], ...display, ...review, audio: audio('hospital-rescue', 'full'), poster: '6100' },
+  { pilot: 'hospital-rescue', name: 'review/cut-reduced', surface: 'cut', variant: 'reduced', ...display, ...review, audio: audio('hospital-rescue', 'reduced'), poster: '1200' },
   { pilot: 'hospital-rescue', name: 'review/phone390-full', ...phone(390, 844), variant: 'full', ...review, audio: audio('hospital-rescue', 'full'), poster: '3700' },
+  { pilot: 'hospital-rescue', name: 'review/phone390-detained-full', ...phone(390, 844), variant: 'full', params: ['case=detained'], ...review, audio: audio('hospital-rescue', 'full'), poster: '5500' },
   { pilot: 'hospital-rescue', name: 'review/phone390-short', ...phone(390, 844), variant: 'short', ...review, audio: audio('hospital-rescue', 'short'), poster: '900' },
   { pilot: 'hospital-rescue', name: 'review/phone390-reduced', ...phone(390, 844), variant: 'reduced', ...review, audio: audio('hospital-rescue', 'reduced'), poster: '1200' },
   { pilot: 'hospital-rescue', name: 'review/phone320-full', ...phone(320, 568), variant: 'full', ...review, audio: audio('hospital-rescue', 'full'), poster: '3700' },
   { pilot: 'hospital-rescue', name: 'runtime/drone-insert', surface: 'insert', variant: 'full', ...runtime, poster: '900' },
-  // Pilot 2: the Blackhole reveal and the ship's passage
-  { pilot: 'blackhole', name: 'review/display-full', surface: 'display', variant: 'full', ...display, ...review, audio: audio('blackhole', 'full'), poster: '2200' },
-  { pilot: 'blackhole', name: 'review/display-short', surface: 'display', variant: 'short', ...display, ...review, audio: audio('blackhole', 'short'), poster: '1200' },
+  // Pilot 2: the Blackhole and the passage. full and reduced: behind the crew, in the rooms' art
+  // (the default on every surface, 2.4 s, covering nothing); stage: the display cut, only if the
+  // owner approves a presentation stage of its own (request R1).
+  { pilot: 'blackhole', name: 'review/display-full', surface: 'display', variant: 'full', ...display, ...review, audio: audio('blackhole', 'full'), poster: '1300' },
   { pilot: 'blackhole', name: 'review/display-reduced', surface: 'display', variant: 'reduced', ...display, ...review, audio: audio('blackhole', 'reduced'), poster: '700' },
-  { pilot: 'blackhole', name: 'review/phone390-full', ...phone(390, 844), variant: 'full', ...review, audio: audio('blackhole', 'short'), poster: '1200' },
-  { pilot: 'blackhole', name: 'review/phone390-reduced', ...phone(390, 844), variant: 'reduced', ...review, audio: audio('blackhole', 'reduced'), poster: '600' },
+  { pilot: 'blackhole', name: 'review/display-stage', surface: 'display', variant: 'stage', ...display, ...review, audio: audio('blackhole', 'stage'), poster: '2200' },
+  { pilot: 'blackhole', name: 'review/phone390-full', ...phone(390, 844), variant: 'full', ...review, audio: audio('blackhole', 'full'), poster: '1300' },
+  { pilot: 'blackhole', name: 'review/phone390-reduced', ...phone(390, 844), variant: 'reduced', ...review, audio: audio('blackhole', 'reduced'), poster: '700' },
   { pilot: 'blackhole', name: 'runtime/space-insert-titled', surface: 'insert', variant: 'full', ...runtime, poster: '1600' },
   { pilot: 'blackhole', name: 'runtime/space-insert-textless', surface: 'insert', variant: 'full', params: ['case=textless'], ...runtime, poster: '1600' },
-  // Pilot 3: the Private Talk capsule
+  // Pilot 3: the Private Talk capsule. The entrance page plays in the five-second result stage, where
+  // nobody decides; the exit is S2's own on the board, on the display too (display-exit-*).
   { pilot: 'private-talk', name: 'review/display-entrance-full', surface: 'display', variant: 'full', params: ['case=entrance'], ...display, ...review, audio: audio('private-talk', 'entrance'), poster: '3000' },
   { pilot: 'private-talk', name: 'review/display-talk-excerpt', surface: 'display', variant: 'full', params: ['case=talk'], ...display, ...review, poster: '3000' },
   { pilot: 'private-talk', name: 'review/display-exit-full', surface: 'display', variant: 'full', params: ['case=exit'], ...display, ...review, audio: audio('private-talk', 'exit'), poster: '1000' },
@@ -69,10 +80,10 @@ export const JOBS = [
   { pilot: 'navigation', name: 'runtime/arrival-red-insert', surface: 'insert', variant: 'full', params: ['case=arrival-red'], ...runtime, poster: '4100' },
 ];
 
-/** Storyboard frames for the live-action studies: full-size display frames, kept as WebP. */
+/** Storyboard frames for the live-action studies: full-size frames of the cinematic forms (the cut, the stage, the page), kept as WebP. */
 export const STILLS = [
-  { pilot: 'hospital-rescue', surface: 'display', variant: 'full', ts: [300, 950, 1300, 2600, 3300, 3600, 4500, 5300] },
-  { pilot: 'blackhole', surface: 'display', variant: 'full', ts: [500, 1000, 1500, 2700, 3150, 3550, 4100, 4700] },
+  { pilot: 'hospital-rescue', surface: 'cut', variant: 'full', ts: [300, 950, 1300, 2600, 3300, 3600, 4500, 5300, 5900] },
+  { pilot: 'blackhole', surface: 'display', variant: 'stage', ts: [500, 1000, 1500, 2700, 3150, 3550, 4100, 4700] },
   { pilot: 'private-talk', surface: 'display', variant: 'full', params: ['case=entrance'], ts: [150, 1100, 1300, 1800, 2400, 3000, 3700] },
 ];
 
@@ -106,7 +117,7 @@ async function stills(entry) {
 }
 
 const only = process.argv.includes('--only') ? process.argv[process.argv.indexOf('--only') + 1] : null;
-const queue = [...JOBS.filter(job => !only || `${job.pilot}/${job.name}`.startsWith(only)).map(job => () => render(job)), ...(only ? [] : STILLS.map(entry => () => stills(entry)))];
+const queue = [...JOBS.filter(job => !only || `${job.pilot}/${job.name}`.startsWith(only)).map(job => () => render(job)), ...STILLS.filter(entry => !only || `${entry.pilot}/stills`.startsWith(only)).map(entry => () => stills(entry))];
 const failures = [];
 await Promise.all(Array.from({ length: 2 }, async () => {
   while (queue.length) {

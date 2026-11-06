@@ -19,27 +19,32 @@
     {
       "kind": "video",
       "file": "design/cinematic/exports/blackhole/review/phone390-full.mp4",
-      "sha256": "b98429e5fe6fcf26dfb8942e943e36cd19b2f37841fb12ec79eda9d58d58dbfe",
-      "bytes": 282141,
+      "sha256": "e06c50fa68709ebd00abd6e6c5dfb38db927af4d2424ca1d9bba4fd7bb58a594",
+      "bytes": 487467,
       "fps": 30,
       "frames": 73,
       "durationMs": 2400,
       "from": 0,
       "to": 2400,
-      "audio": "design/cinematic/exports/blackhole/audio/blackhole-short.cues.wav"
+      "audio": "design/cinematic/exports/blackhole/audio/blackhole-full.cues.wav"
     },
     {
       "kind": "preview",
       "file": "design/cinematic/exports/blackhole/review/phone390-full.preview.webp",
-      "sha256": "55ad33b355d6b0955933624db2b3aa3985d83c9f719695456a16ffefc8b8fd59",
-      "bytes": 87894
+      "sha256": "9a5c620c98c9aaada3ada43afeb38a4406dfe35ca5356014d547168f0dc8281a",
+      "bytes": 210262
     },
     {
       "kind": "poster",
       "file": "design/cinematic/exports/blackhole/review/phone390-full.poster.webp",
-      "sha256": "b1faf5f34daee29ec9d543233c2384ca835767109c315bcdca4121f70b2337da",
-      "bytes": 95986,
-      "t": 1200
+      "sha256": "05ed03cdd7ac6555ab0f94c3b01391c8413a664cd30afb305cef5836e7e020e5",
+      "bytes": 62210,
+      "t": 1300
     }
-  ]
+  ],
+  "settling": {
+    "rule": "a frame is kept once two captures a redraw apart agree; pictures decode before their tiles draw",
+    "resettled": 0,
+    "unsettled": []
+  }
 }

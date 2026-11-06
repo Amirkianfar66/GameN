@@ -14,7 +14,8 @@
     "subject": 2,
     "berth": "H1",
     "fit": 1,
-    "inset": "above"
+    "inset": "above",
+    "leaves": true
   },
   "browser": "Chromium 141.0.7390.37",
   "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
@@ -22,27 +23,32 @@
     {
       "kind": "video",
       "file": "design/cinematic/exports/hospital-rescue/review/phone320-full.mp4",
-      "sha256": "3437d9e245e40076d41433fea807f5454cfc37cd9ab87d3f8daaa5c75f2db6e4",
-      "bytes": 275064,
+      "sha256": "1ba3a170e05602f2225d4f31ef5874f04d18c98a77a4f94b12d2f28b178451f2",
+      "bytes": 276925,
       "fps": 30,
-      "frames": 169,
-      "durationMs": 5600,
+      "frames": 187,
+      "durationMs": 6200,
       "from": 0,
-      "to": 5600,
+      "to": 6200,
       "audio": "design/cinematic/exports/hospital-rescue/audio/hospital-rescue-full.cues.wav"
     },
     {
       "kind": "preview",
       "file": "design/cinematic/exports/hospital-rescue/review/phone320-full.preview.webp",
-      "sha256": "54647c7de5058a585ffa74c44e762129b5d473cec8a653229abccadeba5a1a5c",
-      "bytes": 89276
+      "sha256": "ed49f2daaded8866aeb8fa730852aa38dd149ea9641480ec01a28008f8567aed",
+      "bytes": 86290
     },
     {
       "kind": "poster",
       "file": "design/cinematic/exports/hospital-rescue/review/phone320-full.poster.webp",
-      "sha256": "9f675f96eb91f5182b1afe34557b5816d8b6a7af2b5fa20ea3a8a35d19fb2898",
-      "bytes": 72606,
+      "sha256": "5ccbba6f42f6c4fe57d734424bb9f12d2c18ac937d7d6670c7d08534d9ea9484",
+      "bytes": 71812,
       "t": 3700
     }
-  ]
+  ],
+  "settling": {
+    "rule": "a frame is kept once two captures a redraw apart agree; pictures decode before their tiles draw",
+    "resettled": 0,
+    "unsettled": []
+  }
 }
