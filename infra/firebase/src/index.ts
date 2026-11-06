@@ -5,11 +5,13 @@ import { getFirestore } from 'firebase-admin/firestore';
 import { onRequest } from 'firebase-functions/v2/https';
 import { onTaskDispatched } from 'firebase-functions/v2/tasks';
 import { onInit } from 'firebase-functions/v2/core';
-import { createGameService, createV1Service } from '@mothership/game-api';
+import { createGameService, createV1Service, createFirestorePlanetStore, createProductionPlanetService } from '@mothership/game-api';
 import { createHttpHandler } from './http.js';
 import { createTrustedDeadlineHandler } from './tasks.js';
 import { assertRuntimeEnvironment } from './runtime.js';
 import { createV1Entrypoints } from './v1.js';
+import { assertPlanetRuntimeEnvironment } from './planet-runtime.js';
+import { createPlanetEntrypoints } from './planet.js';
 
 // Discovery registers metadata only. Validate the real worker environment before
 // any Admin SDK initialization or unsigned emulator-token trust can occur.
@@ -33,6 +35,22 @@ function initializeRuntime() {
 let runtime:ReturnType<typeof initializeRuntime>|undefined;
 const getRuntime=()=>runtime ??= initializeRuntime();
 onInit(()=>{getRuntime();});
+
+// The development Emulator Suite discovers both protocols. Production Planet
+// packaging uses planet-production.js and never imports the fixture/V1 runtime.
+function initializePlanetRuntime() {
+  const configuration=assertPlanetRuntimeEnvironment(process.env);
+  const app=getRuntime().app;
+  return {app,configuration,service:createProductionPlanetService({store:createFirestorePlanetStore(getFirestore(app)),
+    assetManifestVersion:configuration.assetManifestVersion,enabled:configuration.creationEnabled})};
+}
+let planetRuntime:ReturnType<typeof initializePlanetRuntime>|undefined;
+const planet=createPlanetEntrypoints(()=>planetRuntime ??= initializePlanetRuntime());
+export const planetApi=planet.api;
+export const planetDeadlineTask=planet.deadlineTask;
+export const planetDispatchDeadline=planet.dispatchDeadline;
+export const planetRepairDeadlines=planet.repairDeadlines;
+export const planetRunBots=planet.runBots;
 
 const options={region:'us-central1',timeoutSeconds:30,cors:false} as const;
 export const command=onRequest(options,async(req,res)=>createHttpHandler('command',getRuntime().dependencies)(req,res));
