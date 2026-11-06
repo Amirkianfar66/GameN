@@ -290,13 +290,13 @@ Full-size frames of the cinematic forms (the Rescue cut, the Blackhole stage cut
 | `design/cinematic/pilots/private-talk/film.mjs` | `a5d4fe5a5537c5d73d2324a1ac339dabb91b74567743ece87c265438d071766f` | 6743 |
 | `design/cinematic/pilots/private-talk/compose.mjs` | `8eafadb199eb9b620eb3a70668481322702c905f32ff80424ca3928a39dc6882` | 11117 |
 | `design/cinematic/pilots/private-talk/stage.mjs` | `65ded5d58bb32eb2a8cd2b98246ae6181e77510606fa909272b405a451823bfc` | 5753 |
-| `design/cinematic/catalogue/catalogue.mjs` | `113ea10632ccee30283b7be999e3c7791cf5e2c642c90eaec8851808d1d6f3a7` | 39949 |
+| `design/cinematic/catalogue/catalogue.mjs` | `4abc45d6e69bda9ffec448a05c7350d7e992844f856033450683348164cc51a5` | 41973 |
 | `design/tools/cinematic-inventory.mjs` | `46becd977965fb27576d1f96aece5c0886497b2eec8a4d77edf3a69c7452a6d8` | 17291 |
 | `design/tools/cinematic-contact.mjs` | `db081043223bb6486d480ab78d209c392cdd0f0e41a15012921ff546a9fc9fa1` | 6805 |
 | `design/tools/cinematic-render.mjs` | `db7a36c5e6201e565080dddce5f2f46166134502bd0db1d51fbf58a8ec6b0990` | 10594 |
 | `design/tools/cinematic-exports.mjs` | `eb3882e742efe4707927bd8551e1816e0268476694793f360a27f3d06de3d10d` | 12704 |
 | `design/tools/cinematic-audio.mjs` | `c1916f53a838e372c0d5e440a482d3da81f0c290349f12960dd9b0b626fca0b6` | 4712 |
 | `design/tools/cinematic-manifest.mjs` | `7b5c12137acab75e542ce460c1c2ef0275e8e6564ae426e7c846478f3996466c` | 11517 |
-| `design/tools/cinematic-docs.mjs` | `451e8b040259ec648bbe75fa7a22faf0c135588936cab9d1515c1a14b034bc1d` | 10697 |
+| `design/tools/cinematic-docs.mjs` | `a116c8120653ab19b7bd8dc131701e8d7ddd63bfb4560b8806456b50d01fa2f9` | 10851 |
 | `design/tools/cinematic-serve.mjs` | `cfbcca1a97b2da2f86ea6b6a39047817c466da9d63776e602b0ece3afbaa78fc` | 3395 |
 

@@ -1,5 +1,5 @@
 {
-  "version": "cinematic-catalogue-0.8.0",
+  "version": "cinematic-catalogue-0.9.0",
   "contract": {
     "protocol": 3,
     "engine": "planet-game-1.0.0",
@@ -86,15 +86,20 @@
       "id": "R13",
       "scene": "promises",
       "ask": "A Promise card must state its exact terms (brief; motion requirements), but three terms and one field have no stated sense. (a) NO_JAIL_VOTE has no target (the contract allows one only on JAIL_VOTE): does it rule out voting to jail the recipient, or any Jail ballot at all? The cards read it as \"not against the recipient\". (b) MEET_A and MEET_B are evaluated at voting start after Sync: whose place decides, the giver's alone or both players'? The cards read it as the giver's. (c) electionId is an opaque identifier: add the election's round (e.g. electionRound) so a card can say \"Round 5's Captain election\", not only \"the next Captain election\". (d) promiseQuota.given and .received: does true mean the lifetime slot is used, or still open? Until defined, the ledger reads the slots from the accepted records and never reads promiseQuota."
+    },
+    {
+      "id": "R14",
+      "scene": "lobby-identity",
+      "ask": "The lobby's join states need three answers from planet-service.ts. (a) What can a requester read while its admission is pending: a session snapshot with selfSeatId null, a refusal until approved, or nothing? The lobby draws \"the host has your request\" from requestAdmission's ok answer alone, and treats a snapshot with selfSeatId null as the same state. (b) No operation declines an admission: does a request the host never approves stay pending until setup begins, and what does the requester then receive? Until answered, the requester waits with the room code shown and no countdown. (c) A display has no seat, so an admitted display and a pending one both read selfSeatId null: add the requester's own standing (e.g. self: { kind, admitted }) or confirm that the client's remembered kind decides."
     }
   ],
   "scenes": [
     {
       "id": "lobby-identity",
       "scene": "Lobby and identity",
-      "status": "existing (slice 8) + gap",
-      "audience": "session members (public lobby)",
-      "trigger": "planet-service.ts session view: status lobby | choosing | reading; members[].characterId; chooseCharacter command result",
+      "status": "existing (slice 8) + library group 8 (compact lobby, proposal)",
+      "audience": "session members (public lobby); the host's requests and bots on the host's phone",
+      "trigger": "planet-service.ts session snapshot: status lobby | choosing | reading; roomCode, playerCount, isHost, selfSeatId, members[], pendingAdmissions[]; requestAdmission / approveAdmission / setBots / beginSetup answers; chooseCharacter command result",
       "fields": [
         "status",
         "members[].characterId",
@@ -118,16 +123,16 @@
       "rosters": "7, 8, 9: the matrix always shows all nine crew; taken greyed",
       "concurrency": "two members choosing at once: last server state wins",
       "assets": [
-        "design/abilities (slice 8: character selection, role card)"
+        "design/abilities (slice 8: character selection, role card)",
+        "design/library/successor/ (the lobby at 320 x 568: start, requesting, waiting, host, joined, display, refused, setup; the room-code plate; state map, words, the seat motion)"
       ],
-      "gaps": [
-        "compact host/join states at 320 x 568 against the successor session states"
-      ]
+      "gaps": [],
+      "request": "R14"
     },
     {
       "id": "role-reveal",
       "scene": "Role reveal and private card",
-      "status": "existing (slice 8)",
+      "status": "existing (slice 8) + library group 8 (current names, the Engineer's device)",
       "audience": "own phone only",
       "trigger": "session status reading + player view self.role / self.faction",
       "fields": [
@@ -152,11 +157,11 @@
       "rosters": "7: no Red Disabler / Engineer cards; 8: + Red Disabler; 9: + Engineer",
       "concurrency": "none",
       "assets": [
-        "design/abilities (role cards; Doctor and Engineer names)"
+        "design/abilities (role cards; Doctor and Engineer names)",
+        "design/exports/roles (the reviewed held devices; device-cracker draws the Doctor under its historical id)",
+        "design/library/successor/ (the Engineer's held device; names.mjs maps every current role to its device and keeps the removed Officer's device undrawn)"
       ],
-      "gaps": [
-        "Doctor, Engineer card art under current names (obsolete Cracker / Soldier Blue names to correct, see inventory)"
-      ]
+      "gaps": []
     },
     {
       "id": "core-movement",
@@ -225,11 +230,10 @@
       "concurrency": "one active seat",
       "assets": [
         "design/phone-kit",
-        "design/board-v2/js/turns-four.mjs"
+        "design/board-v2/js/turns-four.mjs",
+        "design/library/successor/names.mjs (the overlay's successor entries: each command, its current label and its mark from library groups 1 to 6 or the ability kit)"
       ],
-      "gaps": [
-        "successor action names (Engineer, Hack Spaceship) in the action overlay"
-      ]
+      "gaps": []
     },
     {
       "id": "offices",
@@ -336,7 +340,7 @@
     {
       "id": "shot-injury",
       "scene": "Ordinary shot and injury",
-      "status": "existing (slice 4, Blackout impact) + gap",
+      "status": "existing (slice 4, Blackout impact) + library group 8 (admission walk, proposal)",
       "audience": "public outcome; no shooter",
       "trigger": "events INJURED / ELIMINATED (seatIds, location, slotId, clinicalAnchor) after resolution",
       "fields": [
@@ -347,7 +351,7 @@
       "beats": {
         "start": "cause-neutral hit reaction at the victim",
         "loop": "none",
-        "exit": "injured transition, Hospital admission walk or offboard"
+        "exit": "injured transition; the Hospital admission walk (leave with an injured gait, cross between the panels, walk to the berth, lie down: 2400 ms) from a known room slot, else a snap; or offboard"
       },
       "durations": {
         "full": "900-1400 ms",
@@ -362,11 +366,11 @@
       "concurrency": "several victims: same frame, each at its slot",
       "assets": [
         "design/board-v2/fx/lighting.mjs (impact)",
-        "design/board-v2/films/overflow.mjs"
+        "design/board-v2/films/overflow.mjs",
+        "design/library/successor/ (the admission walk's plan and beats; a snap without R4's origin)"
       ],
-      "gaps": [
-        "a successor admission walk (proposal)"
-      ]
+      "gaps": [],
+      "request": "R4"
     },
     {
       "id": "blackout",
@@ -511,21 +515,21 @@
     {
       "id": "supplier",
       "scene": "Supplier and weapons",
-      "status": "existing (slice 3) + gap",
+      "status": "existing (slice 3) + library group 8 (the Round 3 Supply receipt)",
       "audience": "own-private",
-      "trigger": "player view self.ordinaryWeapons; command results",
+      "trigger": "player view self.ordinaryWeapons grown at Round 3's Supply stage (after Rescue), against the previous view; the Supplier's own SUPPLY receipt",
       "fields": [
         "self.ordinaryWeapons",
         "offers[] (two-target)"
       ],
       "beats": {
-        "start": "private two-target selection",
+        "start": "private two-target selection; the Supplier's phone says when the delivery happens",
         "loop": "none",
-        "exit": "inventory receipt"
+        "exit": "each recipient's own receipt: the crate drops in and its seal tag lights"
       },
       "durations": {
-        "full": "900 ms receipt",
-        "reduced": "swap"
+        "full": "520 ms receipt",
+        "reduced": "160 ms fade"
       },
       "final": "inventory count",
       "cancel": "phase end",
@@ -535,11 +539,10 @@
       "rosters": "n/a",
       "concurrency": "none",
       "assets": [
-        "design/abilities (Supplier)"
+        "design/abilities (Supplier)",
+        "design/library/successor/ (the crate; the receipt's state and words)"
       ],
-      "gaps": [
-        "Round 3 Supply timing presentation"
-      ]
+      "gaps": []
     },
     {
       "id": "insider",

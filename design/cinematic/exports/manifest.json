@@ -131,8 +131,8 @@
     },
     {
       "path": "design/cinematic/catalogue/catalogue.mjs",
-      "sha256": "113ea10632ccee30283b7be999e3c7791cf5e2c642c90eaec8851808d1d6f3a7",
-      "bytes": 39949
+      "sha256": "4abc45d6e69bda9ffec448a05c7350d7e992844f856033450683348164cc51a5",
+      "bytes": 41973
     },
     {
       "path": "design/tools/cinematic-inventory.mjs",
@@ -166,8 +166,8 @@
     },
     {
       "path": "design/tools/cinematic-docs.mjs",
-      "sha256": "451e8b040259ec648bbe75fa7a22faf0c135588936cab9d1515c1a14b034bc1d",
-      "bytes": 10697
+      "sha256": "a116c8120653ab19b7bd8dc131701e8d7ddd63bfb4560b8806456b50d01fa2f9",
+      "bytes": 10851
     },
     {
       "path": "design/tools/cinematic-serve.mjs",
