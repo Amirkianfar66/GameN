@@ -6,8 +6,10 @@
 // t, the role and the page's size in; the SVG, the frame and the page text's boxes out. The page text
 // (the captions and the role's name) is set by the stage over the boxes, never drawn into the picture.
 
+import { CREW } from '../../../board-motion/figures/crew.mjs';
 import { clamp01 } from '../../lib/ease.mjs';
-import { NIGHT, captionBoxSvg, deviceHandSvg, panelSvg, revealDefs, slatsSvg, spotSvg, titlePlateSvg } from './art.mjs';
+import { GRIP, NIGHT, captionBoxSvg, panelSvg, revealDefs, slatsSvg, titlePlateSvg } from './art.mjs';
+import { briefingSvg } from './briefing.mjs';
 import { ROLE_REVEAL_COPY, roleLine } from './copy.mjs';
 import { revealFrame } from './film.mjs';
 import { ROLE_FILMS } from './roles.mjs';
@@ -23,15 +25,9 @@ export function layout(H) {
   const top = 196, bottom = 92, gutter = 28;
   const ph = (H - top - bottom - 2 * gutter) / 3;
   const panels = [0, 1, 2].map(i => ({ x: 36, y: top + i * (ph + gutter), w: 828, h: ph, tilt: [-1.1, 0.7, -0.5][i], side: i % 2 ? 1 : -1 }));
-  // The held-device art (120 x 140) has its device in the upper middle and the arm leaving by the lower
-  // right: the device sits at the page's centre, a little below the middle, the arm off the corner.
-  const handScale = 4.3;
-  const hand = { scale: handScale, x: PAGE_WIDTH / 2 - 62 * handScale, y: H * 0.56 - 52 * handScale };
   const titleCy = H * 0.44;
   return {
     panels,
-    hand,
-    spot: { cx: hand.x + 62 * handScale, cy: hand.y + 52 * handScale, rx: 440, ry: 520 },
     title: { cx: PAGE_WIDTH / 2, cy: titleCy, w: 720 },
     captions: {
       purpose: { x: 60, y: 44, w: 780, h: 124 },
@@ -43,20 +39,25 @@ export function layout(H) {
 /**
  * The frame at t: { svg, frame, words }. words: { purpose, play } each { box, text, opacity } (in page
  * units), role { text, visible }. role: a current role; seat: the player's own number (the Doctor's
- * keypad); width x height: the page in units (900 x pageHeight()).
+ * keypad); character: the player's own crew character (c1..c9), the only figure drawn in colour;
+ * gadget: the role's device alone (art.mjs deviceOnly() of its held picture, which the caller has
+ * read: this module reads no file); width x height: the page in units (900 x pageHeight()).
  */
-export function revealSvg(t, { role = 'Doctor', variant = 'full', seat = 6, width = PAGE_WIDTH, height = 1600, prefix = 'rr' } = {}) {
+export function revealSvg(t, { role = 'Doctor', variant = 'full', seat = 6, character, gadget, width = PAGE_WIDTH, height = 1600, prefix = 'rr' } = {}) {
   const film = ROLE_FILMS[role];
   if (!film) throw new Error(`No role ${role}`);
   if (!film.panels) throw new Error(`The ${role}'s film is a storyboard only so far (docs/design/cinematic/role-reveal.md)`);
+  if (typeof gadget !== 'string' || !gadget.includes('<svg')) throw new Error('revealSvg: the role\'s gadget (its device picture, without the hand) is required');
+  if (!Object.hasOwn(CREW, character ?? '')) throw new Error(`revealSvg: the player's own character (${Object.keys(CREW).join(', ')}) is required`);
   const frame = revealFrame(t, { variant });
   const L = layout(height);
   const panelsIn = frame.panels[0].visible ? clamp01(frame.panels[0].slam ?? 1) : 0;
+  // Reduced motion holds its stills: the stars do not twinkle.
+  const clock = variant === 'reduced' ? 0 : frame.t;
   let body = revealDefs(prefix)
-    // Reduced motion holds its stills: the stars do not twinkle.
-    + slatsSvg(prefix, { width, height, v: frame.opener.slats, dim: panelsIn, t: variant === 'reduced' ? 0 : frame.t })
-    + spotSvg(prefix, { ...L.spot, v: frame.opener.slats * (1 - panelsIn) })
-    + deviceHandSvg(prefix, { href: film.device, x: L.hand.x, y: L.hand.y, scale: L.hand.scale, rise: frame.opener.hand, rim: frame.opener.rim, opacity: 1 - panelsIn });
+    + slatsSvg(prefix, { width, height, v: 1, dim: 1, t: clock })
+    // The briefing room, before boarding; it stays, dimmed, under the panels.
+    + `<g opacity="${f(1 - 0.72 * panelsIn)}">${briefingSvg(prefix, { width, height, opener: frame.opener, name: role.toUpperCase(), character, gadget, grip: GRIP, deviceHref: film.device, t: clock })}</g>`;
   frame.panels.forEach((p, i) => {
     if (!p.visible) return;
     const box = L.panels[i];

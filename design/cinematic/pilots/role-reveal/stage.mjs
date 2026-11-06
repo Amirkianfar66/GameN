@@ -9,9 +9,10 @@
 // ROLE_REVEAL_ASSETS): a client ships them all, so nothing fetched tells a dealt role.
 
 import { frames, pictureLibrary } from '../../lib/stage-kit.mjs';
+import { deviceOnly } from './art.mjs';
 import { PAGE_WIDTH, pageHeight, revealSvg } from './compose.mjs';
 import { REVEAL_END, ROLE_REVEAL_VERSION, VARIANTS } from './film.mjs';
-import { ROLE_REVEAL_ASSETS } from './roles.mjs';
+import { DEVICE_FILES, ROLE_REVEAL_ASSETS } from './roles.mjs';
 
 const SIZES = { device: [120, 140], emblem: [48, 48] };
 
@@ -47,8 +48,11 @@ function wordsLayer(root, w, h, k) {
   };
 }
 
-export async function mountPhone(root, { variant = 'full', w = 390, h = 844, role = 'Doctor', seat = 6, case: caseRole = null } = {}) {
+export async function mountPhone(root, { variant = 'full', w = 390, h = 844, role = 'Doctor', seat = 6, character = 'c4', case: caseRole = null } = {}) {
   const name = caseRole ?? role;
+  // Every role's device, read whatever the role (nothing fetched tells a dealt role); the opener's
+  // gadget is the device alone, the same approved art the role card draws.
+  const gadgets = Object.fromEntries(await Promise.all(Object.entries(DEVICE_FILES).map(async ([r, href]) => [r, deviceOnly(await (await fetch(href)).text())])));
   root.style.width = `${w}px`; root.style.height = `${h}px`;
   root.style.position = 'relative'; root.style.overflow = 'hidden'; root.style.background = '#07090F';
   const library = pictureLibrary(root, ROLE_REVEAL_ASSETS.map(href => ({ href, w: (href.includes('emblem') ? SIZES.emblem : SIZES.device)[0], h: (href.includes('emblem') ? SIZES.emblem : SIZES.device)[1] })));
@@ -67,13 +71,13 @@ export async function mountPhone(root, { variant = 'full', w = 390, h = 844, rol
     return `<svg x="${x}" y="${y}" width="${iw}" height="${ih}" viewBox="0 0 ${nw} ${nh}" preserveAspectRatio="none" overflow="visible"><use href="#${id}"/></svg>`;
   });
   const seek = async t => {
-    const out = revealSvg(t, { role: name, variant, seat, width: PAGE_WIDTH, height });
+    const out = revealSvg(t, { role: name, variant, seat, character, gadget: gadgets[name], width: PAGE_WIDTH, height });
     host.innerHTML = swap(out.svg.replace(/width="900" height="[^"]+"/, `width="${w}" height="${h}"`));
     words.draw(out.words);
     await frames();
     return { t, stage: out.frame.still ?? null, done: t >= REVEAL_END };
   };
-  return { seek, end: REVEAL_END, size: [w, h], selector: '#stage', fixture: { role: name, seat, synthetic: true } };
+  return { seek, end: REVEAL_END, size: [w, h], selector: '#stage', fixture: { role: name, seat, character, synthetic: true } };
 }
 
 export const PILOT_STAGE = Object.freeze({

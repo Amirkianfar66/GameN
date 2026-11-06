@@ -87,13 +87,14 @@ export const JOBS = [
   { pilot: 'eject', name: 'review/exterior-insert', surface: 'insert', variant: 'full', ...runtime, poster: '1200' },
 ];
 
-// The role reveal films (the owner, 6 November 2026): the Doctor's pilot on a phone, full and reduced.
-// Review only: a film draws a dealt role, so no render of one is ever a runtime asset (a client draws
-// it live from the frame functions). Silent: no cue mix.
+// The role reveal films (the owner, 6 November 2026): the Doctor's pilot on a phone, full and reduced,
+// opening in the briefing room with a stand-in player's character (c4). Review only: a film draws a
+// dealt role and the player's own character, so no render of one is ever a runtime asset (a client
+// draws it live from the frame functions). Silent: no cue mix.
 JOBS.push(
-  { pilot: 'role-reveal', name: 'review/doctor-phone390-full', variant: 'full', ...phone(390, 844), params: ['role=Doctor', 'seat=6'], ...review, poster: '4800' },
-  { pilot: 'role-reveal', name: 'review/doctor-phone390-reduced', variant: 'reduced', ...phone(390, 844), params: ['role=Doctor', 'seat=6'], ...review, poster: '3000' },
-  { pilot: 'role-reveal', name: 'review/doctor-phone320-full', variant: 'full', ...phone(320, 568), params: ['role=Doctor', 'seat=6'], ...review, poster: '4800' },
+  { pilot: 'role-reveal', name: 'review/doctor-phone390-full', variant: 'full', ...phone(390, 844), params: ['role=Doctor', 'seat=6', 'character=c4'], ...review, poster: '2400' },
+  { pilot: 'role-reveal', name: 'review/doctor-phone390-reduced', variant: 'reduced', ...phone(390, 844), params: ['role=Doctor', 'seat=6', 'character=c4'], ...review, poster: '5000' },
+  { pilot: 'role-reveal', name: 'review/doctor-phone320-full', variant: 'full', ...phone(320, 568), params: ['role=Doctor', 'seat=6', 'character=c4'], ...review, poster: '6300' },
 );
 
 /** Storyboard frames for the live-action studies: full-size frames of the cinematic forms (the cut, the stage, the page), kept as WebP. */

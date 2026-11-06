@@ -1,16 +1,22 @@
 // The role reveal films (the owner, 6 November 2026; docs/design/cinematic/role-reveal.md): one
-// seven-second film per role on the player's own phone. These tests hold the privacy rules every film
-// keeps (one length, one rhythm, silence, one palette, only shipped pictures, no words in the picture)
-// and the Doctor's pilot.
+// nine-second film per role on the player's own phone. Each opens in the briefing room at the dock,
+// where the player's own character takes the role's gadget from the desk where the role card lies,
+// and then turns to a comic page of three panels. These tests hold the privacy rules every film keeps
+// (one length, one rhythm, silence, one palette, only shipped pictures, no words in the picture), the
+// shared opener and the Doctor's pilot.
 
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { test } from 'node:test';
 import { fileURLToPath } from 'node:url';
+import { CREW } from '../../../design/board-motion/figures/crew.mjs';
 import { FACTION_ACCENTS, MIN_ACCENT_DISTANCE, cie76 } from '../../../design/board-v2/fx/blocked.mjs';
 import { CATALOGUE } from '../../../design/cinematic/catalogue/catalogue.mjs';
+import { figureItems } from '../../../design/cinematic/lib/scene.mjs';
 import { PILOTS } from '../../../design/cinematic/pilots/index.mjs';
+import { GRIP, deviceOnly, unaccented } from '../../../design/cinematic/pilots/role-reveal/art.mjs';
+import { POSES, briefingLayout, briefingSvg, onPage } from '../../../design/cinematic/pilots/role-reveal/briefing.mjs';
 import { PAGE_WIDTH, layout, pageHeight, revealSvg } from '../../../design/cinematic/pilots/role-reveal/compose.mjs';
 import { ROLE_REVEAL_COPY } from '../../../design/cinematic/pilots/role-reveal/copy.mjs';
 import { BEATS, CHANGES, FADE_MS, PANEL_STARTS, REVEAL_END, STILLS, VARIANTS, revealFrame } from '../../../design/cinematic/pilots/role-reveal/film.mjs';
@@ -20,8 +26,27 @@ import { CURRENT_ROLES, usesCurrentNames } from '../../../design/library/success
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../../..');
 const CINE = resolve(ROOT, 'design/cinematic');
 const PHONES = [[320, 568], [360, 640], [360, 780], [375, 667], [390, 844], [414, 896], [430, 932]];
-const SAMPLES = [0, 300, 900, 1400, 1500, 1640, 2000, 2800, 3100, 3600, 4100, 4500, 5000, 5499, 5500, 5700, 6000, 6600, 6999, 7000];
-const doctor = (t, options = {}) => revealSvg(t, { role: 'Doctor', seat: 6, width: PAGE_WIDTH, height: pageHeight(390, 844), ...options });
+const SAMPLES = [0, 200, 600, 1250, 1299, 1300, 1800, 2400, 2999, 3000, 3100, 3500, 4100, 4299, 4300, 4500, 5000, 5599, 5600, 5800, 6400, 6999, 7000, 7300, 8000, 8399, 8400, 8999, 9000];
+const CHARACTERS = Object.keys(CREW);
+/** A role's gadget as a client gets it: the role card's held device, read and stripped of its hand. */
+const gadget = role => deviceOnly(readFileSync(resolve(CINE, DEVICE_FILES[role]), 'utf8'));
+const doctor = (t, options = {}) => revealSvg(t, { role: 'Doctor', seat: 6, character: 'c4', gadget: gadget('Doctor'), width: PAGE_WIDTH, height: pageHeight(390, 844), ...options });
+const colours = svg => new Set([...svg.matchAll(/#[0-9A-Fa-f]{6}\b/g)].map(m => m[0].toUpperCase()));
+const nearAccents = hex => Object.entries(FACTION_ACCENTS).filter(([, accent]) => cie76(hex, accent) < MIN_ACCENT_DISTANCE).map(([faction]) => faction);
+/** One of the opener's marked parts (the role card, the gadget), cut out of the picture: balanced <g> tags. */
+function cut(svg, part) {
+  const open = svg.indexOf(`<g data-part="${part}"`);
+  assert.ok(open >= 0, `the opener draws its ${part}`);
+  const tags = /<g\b[^>]*?(\/?)>|<\/g>/g;
+  tags.lastIndex = open;
+  let depth = 0, m;
+  while ((m = tags.exec(svg))) {
+    if (m[0].startsWith('</g')) depth -= 1;
+    else if (m[1] !== '/') depth += 1;
+    if (depth === 0) return { part: svg.slice(open, tags.lastIndex), rest: svg.slice(0, open) + `<!--${part}-->` + svg.slice(tags.lastIndex) };
+  }
+  throw new Error(`unbalanced ${part}`);
+}
 
 test('the nine current roles each have a film, a team, a device and an emblem that exist, and only the Doctor is drawn so far', () => {
   assert.deepEqual(Object.keys(ROLE_FILMS).sort(), [...CURRENT_ROLES].sort());
@@ -41,14 +66,15 @@ test('the nine current roles each have a film, a team, a device and an emblem th
   assert.ok(PILOTS['role-reveal']?.surfaces.phone, 'on the stage, on a phone');
 });
 
-test('every film keeps one clock: 7000 ms, the same beats and the same moments of change, full and reduced', () => {
-  assert.equal(REVEAL_END, 7000);
+test('every film keeps one clock: 9000 ms, the same beats and the same moments of change, full and reduced', () => {
+  assert.equal(REVEAL_END, 9000);
   const beats = Object.values(BEATS);
   assert.equal(beats[0][0], 0);
   for (let i = 1; i < beats.length; i += 1) assert.equal(beats[i][0], beats[i - 1][1], 'the beats are contiguous');
   assert.equal(beats.at(-1)[1], REVEAL_END);
   assert.deepEqual([...CHANGES], beats.slice(1).map(b => b[0]));
-  assert.deepEqual([...PANEL_STARTS], [1500, 2800, 4100]);
+  assert.deepEqual([...PANEL_STARTS], [3000, 4300, 5600]);
+  assert.deepEqual([...BEATS.opener], [0, 3000], 'the briefing room opens every film');
   // The frame function takes no role: no film can stretch, shorten or re-time a beat.
   for (const variant of VARIANTS) {
     const shape = t => { const fr = revealFrame(t, { variant }); return `${fr.panels.map(p => (p.visible ? 1 : 0)).join('')}${fr.title.visible ? 1 : 0}`; };
@@ -62,7 +88,7 @@ test('every film keeps one clock: 7000 ms, the same beats and the same moments o
 });
 
 test('reduced motion: three stills, each faded in over 80 ms at the same moments, and nothing else moves', () => {
-  assert.deepEqual(STILLS.map(s => s.at), [0, 1500, 5500]);
+  assert.deepEqual(STILLS.map(s => s.at), [0, 3000, 7000]);
   const pictures = new Set();
   for (const [i, { at }] of STILLS.entries()) {
     const until = STILLS[i + 1]?.at ?? REVEAL_END;
@@ -72,8 +98,11 @@ test('reduced motion: three stills, each faded in over 80 ms at the same moments
     pictures.add(rest);
   }
   assert.equal(pictures.size, 3);
-  const page = doctor(3000, { variant: 'reduced' }).frame;
+  const page = doctor(5000, { variant: 'reduced' }).frame;
   assert.ok(page.panels.every(p => p.visible && p.enter === 1), 'the page still holds all three panels at rest');
+  const first = doctor(1000, { variant: 'reduced' }).frame.opener;
+  assert.deepEqual([first.grip, first.raise, first.glint, first.push], [true, 1, 0, 0], 'the first still: the gadget raised, no glint, no push');
+  assert.ok(!doctor(1000, { variant: 'reduced' }).svg.includes('-pool-glint'), 'no glint in reduced motion');
 });
 
 test('a frame is one self-contained SVG: no words drawn in, no repeated id, only the pictures every phone ships, deterministic', () => {
@@ -103,14 +132,22 @@ test('silent: no film has a cue sheet or an audio export', () => {
   }
 });
 
-test('one palette: no colour drawn in the art comes within the accent distance of a faction accent', () => {
-  const colours = new Set();
-  for (const variant of VARIANTS) for (const t of SAMPLES) for (const [hex] of doctor(t, { variant }).svg.matchAll(/#[0-9A-Fa-f]{6}\b/g)) colours.add(hex.toUpperCase());
-  assert.ok(colours.size > 10);
-  for (const hex of colours) {
-    for (const [faction, accent] of Object.entries(FACTION_ACCENTS)) {
-      assert.ok(cie76(hex, accent) >= MIN_ACCENT_DISTANCE, `${hex} is ${cie76(hex, accent).toFixed(1)} from the ${faction} accent`);
-    }
+test('one palette: no colour drawn comes within the accent distance of a faction accent, the gadget included', () => {
+  const drawn = new Set();
+  for (const variant of VARIANTS) for (const t of SAMPLES) for (const hex of colours(doctor(t, { variant }).svg)) drawn.add(hex);
+  assert.ok(drawn.size > 10);
+  for (const hex of drawn) assert.deepEqual(nearAccents(hex), [], `${hex} is within ${MIN_ACCENT_DISTANCE} of a faction accent`);
+  // The role card lights each device in its team's colour; in the film every gadget catches the room's light instead.
+  for (const role of CURRENT_ROLES) {
+    const own = gadget(role);
+    assert.ok([...colours(own)].some(hex => nearAccents(hex).length > 0), `${role}: the card's device carries its team's accent`);
+    for (const hex of colours(unaccented(own))) assert.deepEqual(nearAccents(hex), [], `${role}'s gadget: ${hex}`);
+  }
+  // The player's own character keeps its own colours (public from the lobby, the same whatever the role
+  // dealt); every other colour keeps the palette, whoever the character.
+  for (const character of CHARACTERS) {
+    const own = colours(figureItems({ character, sk: POSES.raise, at: [0, 0], scale: 1, depth: 2, prefix: 'x' }).map(item => item.svg).join(''));
+    for (const hex of colours(doctor(2400, { character }).svg)) if (!own.has(hex)) assert.deepEqual(nearAccents(hex), [], `${character}: ${hex}`);
   }
 });
 
@@ -125,11 +162,15 @@ test('the captions: two lines for every role, current names only, saying what th
   for (const name of ['Undercover', 'Alien', 'Doctor']) assert.ok(ROLE_REVEAL_COPY.Insider.purpose.includes(name));
   assert.match(ROLE_REVEAL_COPY['Red Disabler'].play, /Undercover/);
   assert.ok(!ROLE_REVEAL_COPY['Blue Disabler'].play.includes('Undercover'), 'only the Red Disabler knows the Undercover');
-  const { words } = doctor(6000);
+  const { words } = doctor(8000);
   assert.equal(words.purpose.opacity, 0);
   assert.equal(words.play.text, ROLE_REVEAL_COPY.Doctor.play);
+  assert.equal(words.play.opacity, 1);
   assert.equal(words.role.text, 'Your role: Doctor.');
-  assert.equal(doctor(3000).words.purpose.opacity, 1);
+  assert.ok(words.role.visible);
+  assert.equal(doctor(4000).words.purpose.opacity, 1);
+  const opener = doctor(2400).words;
+  assert.deepEqual([opener.purpose.opacity, opener.play.opacity, opener.role.visible], [0, 0, false], 'the opener has no words: the role is named on the card in the picture and in page text at the title');
 });
 
 test('the page fits every phone: panels, the title plate and the captions inside, panels tall enough to read', () => {
@@ -142,24 +183,75 @@ test('the page fits every phone: panels, the title plate and the captions inside
     }
     for (const c of Object.values(L.captions)) assert.ok(c.y >= 0 && c.y + c.h <= H, `${w}x${h}: a caption inside the page`);
     assert.ok(L.captions.purpose.y + L.captions.purpose.h <= L.panels[0].y, `${w}x${h}: the caption above the panels`);
+    // The briefing room: the viewport, the desk, the card, the character and the gadget, inside the page.
+    const B = briefingLayout(PAGE_WIDTH, H);
+    const inside = ([x, y], what) => assert.ok(x >= 0 && x <= PAGE_WIDTH && y >= 0 && y <= H, `${w}x${h}: ${what} at ${x.toFixed(0)}, ${y.toFixed(0)}`);
+    assert.ok(B.window.x >= 0 && B.window.x + B.window.w <= PAGE_WIDTH && B.window.y >= 0, `${w}x${h}: the viewport`);
+    assert.ok(B.window.y + B.window.h < B.deskTop && B.deskTop < B.deskFront && B.deskFront <= H, `${w}x${h}: the viewport, then the desk`);
+    inside([B.card.x + B.card.w, B.card.y + B.card.h], 'the card');
+    inside(B.rest, 'the gadget on the desk');
+    const head = onPage(B.at, B.scale, POSES.stand.head);
+    inside(head, 'the character\'s head');
+    assert.ok(head[1] > B.window.y && head[1] < B.deskTop, `${w}x${h}: the head between the viewport's top and the desk`);
+    const raised = onPage(B.at, B.scale, POSES.raise.wN);
+    inside([raised[0], raised[1] - GRIP[1] * B.scale * 0.5], 'the raised gadget');
   }
 });
 
 test('the Doctor\'s pilot: its own device in the opener, and the Hospital panel lights the player\'s own number only', () => {
   const opener = doctor(1200).svg;
-  assert.ok(opener.includes(DEVICE_FILES.Doctor), 'the injector (the role card\'s device) in the opener');
+  assert.ok(opener.includes(DEVICE_FILES.Doctor), 'the role card on the desk draws the injector');
+  assert.ok(cut(opener, 'gadget').part.includes('device-cracker-head'), 'the gadget is the injector');
   for (const role of CURRENT_ROLES.filter(r => r !== 'Doctor')) assert.ok(!opener.includes(DEVICE_FILES[role]), `no ${role} device`);
-  const at = seat => doctor(5300, { seat }).svg;
+  const at = seat => doctor(6800, { seat }).svg;
   assert.notEqual(at(6), at(3), 'the readout shows the player\'s own number');
   assert.equal(at(null), at(0), 'without a valid number nothing is lit');
   const lit = svg => (svg.match(/fill="#F2C14E" opacity="1"/g) ?? []).length;
   assert.ok(lit(at(6)) > lit(at(null)), 'a number lights its segments and its key');
 });
 
+test('the opener: the player\'s own character takes the role\'s gadget from the desk where the role card lies', () => {
+  assert.throws(() => revealSvg(1000, { role: 'Doctor', character: 'c4' }), /gadget/, 'the gadget is the caller\'s to read');
+  assert.throws(() => revealSvg(1000, { role: 'Doctor', gadget: gadget('Doctor') }), /character/, 'never a stand-in character');
+  assert.throws(() => doctor(1000, { character: 'c10' }), /character/);
+  const pictures = new Set(CHARACTERS.map(character => doctor(600, { character }).svg));
+  assert.equal(pictures.size, CHARACTERS.length, 'each character draws itself');
+  // The gadget waits on the desk, is taken at 1300 ms and rises with the hand.
+  const place = t => cut(doctor(t).svg, 'gadget').part.match(/^<g data-part="gadget" transform="translate\(([-\d.]+) ([-\d.]+)\)/).slice(1).map(Number);
+  const B = briefingLayout(PAGE_WIDTH, pageHeight(390, 844));
+  for (const t of [0, 600, 1299]) assert.deepEqual(place(t), B.rest.map(v => Number(v.toFixed(2))), `on the desk at ${t} ms`);
+  assert.ok(place(2400)[1] < place(1300)[1] - 100, 'raised into the light');
+  assert.ok(doctor(2350).svg.includes('-pool-glint') && !doctor(1000).svg.includes('-pool-glint'), 'it glints once raised');
+  // The hand only: deviceOnly() takes the arm and the fist off every role's held device.
+  for (const role of CURRENT_ROLES) {
+    const own = gadget(role);
+    assert.ok(!/id="[^"]*-(arm|fist)"/.test(own), `${role}: no arm or fist`);
+    assert.ok(/id="[^"]*-head"/.test(own) && /id="[^"]*-glow"/.test(own), `${role}: the device itself kept`);
+  }
+});
+
+test('the opener is one scene for every role: only the card\'s name and picture and the gadget are the role\'s', () => {
+  const height = pageHeight(390, 844);
+  for (const t of [600, 1800, 2400]) {
+    const opener = revealFrame(t).opener;
+    const scenes = CURRENT_ROLES.map(role => {
+      const svg = briefingSvg('rr', { width: PAGE_WIDTH, height, opener, name: role.toUpperCase(), character: 'c4', gadget: gadget(role), grip: GRIP, deviceHref: DEVICE_FILES[role], t });
+      const card = cut(svg, 'card');
+      const { part, rest } = cut(card.rest, 'gadget');
+      assert.ok(card.part.includes(DEVICE_FILES[role]), `${role}: its card`);
+      assert.ok(part.includes('-head'), `${role}: its gadget`);
+      for (const other of CURRENT_ROLES.filter(r => r !== role)) assert.ok(!svg.includes(DEVICE_FILES[other]), `${role}: no ${other} picture`);
+      return rest;
+    });
+    assert.equal(new Set(scenes).size, 1, `at ${t} ms the room, the light, the character and the camera are the same for every role`);
+  }
+});
+
 test('the motion bible\'s role reveal entry carries the films', () => {
   const scene = CATALOGUE.find(s => s.id === 'role-reveal');
-  assert.match(scene.beats.start, /seven-second film/);
-  assert.match(scene.durations.full, /7000 ms, the same length and beats for every role/);
+  assert.match(scene.beats.start, /nine-second film/);
+  assert.match(scene.beats.start, /briefing room/);
+  assert.match(scene.durations.full, /9000 ms, the same length and beats for every role/);
   assert.match(scene.audio, /silent/);
   assert.ok(scene.assets.some(a => a.startsWith('design/cinematic/pilots/role-reveal/')));
 });

@@ -9,7 +9,7 @@
 // a trigger, the entry says so and names the request (REQUESTS), and the scene stays a labeled
 // design fixture until the contract supports it. Nothing here is a game rule.
 
-export const CATALOGUE_VERSION = 'cinematic-catalogue-0.12.0';
+export const CATALOGUE_VERSION = 'cinematic-catalogue-0.13.0';
 export const CONTRACT = Object.freeze({ protocol: 3, engine: 'planet-game-1.0.0', ruleset: 'in-person-planet-2026-11-05', file: 'packages/contracts/src/planet-game.ts', commit: '79418e72dba99ba99afe047ecb97467fb5e73b62', status: 'candidate; not adopted into runtime' });
 
 /** The lifecycle every presentation follows (the motion bible's rules, for every scene below). */
@@ -61,13 +61,13 @@ export const CATALOGUE = Object.freeze([
     assets: ['design/abilities (slice 8: character selection, role card)', 'design/library/successor/ (the lobby at 320 x 568: start, requesting, waiting, host, joined, display, refused, setup; the room-code plate; state map, words, the seat motion)'], gaps: [], request: 'R14',
   }),
   S('role-reveal', 'Role reveal and private card', {
-    status: 'existing (slice 8) + library group 8 (current names, the Engineer\'s device) + the role films (the owner, 6 November 2026): the Doctor\'s pilot, the other eight storyboarded', audience: 'own phone only',
-    trigger: 'session status reading + player view self.role / self.faction', fields: ['self.role', 'self.faction', 'session reading deadline'],
-    beats: { start: 'card face-down, flip on Ready-to-read; then the role\'s own seven-second film: starlight through a viewport\'s slats and the hand with the role\'s device (0-1.5 s), three comic panels of what the role does on the ship (1.5-5.5 s), the role\'s name stamped on a paper plate (5.5-6.6 s), held to 7 s', loop: 'held: 30 s minimum reading (the film plays inside it; a tap skips to the card)', exit: 'Ready closes; concealment on window blur' },
-    durations: { full: 'flip 600 ms; the role film 7000 ms, the same length and beats for every role; reading 30 s minimum (server)', reduced: 'no flip: face shown with an 80 ms fade; the film as three stills, 80 ms fades at 0, 1.5 and 5.5 s, still 7000 ms' },
+    status: 'existing (slice 8) + library group 8 (current names, the Engineer\'s device) + the role films (the owner, 6 November 2026, with the briefing-room opener from the owner\'s review of the pilot): the Doctor\'s pilot, the other eight storyboarded', audience: 'own phone only',
+    trigger: 'session status reading + player view self.role / self.faction', fields: ['self.role', 'self.faction', 'session reading deadline', 'members[].characterId (own: the film draws the player\'s own character)'],
+    beats: { start: 'card face-down, flip on Ready-to-read; then the role\'s own nine-second film: the briefing room at the dock before boarding, where the player\'s own character takes the role\'s gadget from the desk where the role card lies and raises it into the light (0-3 s), three comic panels of what the role does on the ship (3-7 s), the role\'s name stamped on a paper plate (7-8.4 s), held to 9 s', loop: 'held: 30 s minimum reading (the film plays inside it; a tap skips to the card)', exit: 'Ready closes; concealment on window blur' },
+    durations: { full: 'flip 600 ms; the role film 9000 ms, the same length and beats for every role; reading 30 s minimum (server)', reduced: 'no flip: face shown with an 80 ms fade; the film as three stills, 80 ms fades at 0, 3 and 7 s, still 9000 ms' },
     final: 'card closed, retrievable from Card', cancel: 'window blur conceals the card immediately', precedence: 'own phone only',
     audio: 'none public; the role films are silent and never vibrate (no role-specific sound); optional own-phone flip sound muted by default', reduced: 'face fade; the film\'s three stills', rosters: '7: no Red Disabler / Engineer cards; 8: + Red Disabler; 9: + Engineer', concurrency: 'none',
-    assets: ['design/abilities (role cards; Doctor and Engineer names)', 'design/exports/roles (the reviewed held devices; device-cracker draws the Doctor under its historical id)', 'design/library/successor/ (the Engineer\'s held device; names.mjs maps every current role to its device and keeps the removed Officer\'s device undrawn)', 'design/cinematic/pilots/role-reveal/ (the role films: the shared clock and art, the Doctor\'s panels, every role\'s device and emblem shipped to every phone; storyboards in docs/design/cinematic/role-reveal.md)'], gaps: ['The role films of the other eight roles are storyboards until the owner reviews the Doctor\'s pilot on a phone.'],
+    assets: ['design/abilities (role cards; Doctor and Engineer names)', 'design/exports/roles (the reviewed held devices; device-cracker draws the Doctor under its historical id)', 'design/library/successor/ (the Engineer\'s held device; names.mjs maps every current role to its device and keeps the removed Officer\'s device undrawn)', 'design/cinematic/pilots/role-reveal/ (the role films: the shared clock and art, the briefing-room opener with the player\'s own character and the role\'s gadget, the Doctor\'s panels, every role\'s device and emblem shipped to every phone; storyboards in docs/design/cinematic/role-reveal.md)'], gaps: ['The role films of the other eight roles are storyboards until the owner reviews the Doctor\'s pilot on a phone.'],
   }),
   S('core-movement', 'Core board and movement', {
     status: 'existing (board-motion walk, board-v2 slots)', audience: 'public (shared board: finalized placement; phones: own current world)',

@@ -1,10 +1,10 @@
 {
   "tool": "design/tools/cinematic-render.mjs",
   "pilot": "role-reveal",
-  "version": "cinematic-role-reveal-0.1.0",
+  "version": "cinematic-role-reveal-0.2.0",
   "surface": "phone",
   "variant": "reduced",
-  "stage": "design/cinematic/stage.html?pilot=role-reveal&surface=phone&variant=reduced&beds=4&w=390&h=844&role=Doctor&seat=6",
+  "stage": "design/cinematic/stage.html?pilot=role-reveal&surface=phone&variant=reduced&beds=4&w=390&h=844&role=Doctor&seat=6&character=c4",
   "size": [
     390,
     844
@@ -13,6 +13,7 @@
   "fixture": {
     "role": "Doctor",
     "seat": 6,
+    "character": "c4",
     "synthetic": true
   },
   "browser": "Chromium 141.0.7390.37",
@@ -21,32 +22,32 @@
     {
       "kind": "video",
       "file": "design/cinematic/exports/role-reveal/review/doctor-phone390-reduced.mp4",
-      "sha256": "cfd19ae5a896bd17d36383c30bb20a59ec4141e6afe3d67173bfebb8e22beff7",
-      "bytes": 223602,
+      "sha256": "03c87d0cdfebef40eb05a86d6af05ca21892690e2741a857c10315d3a35c0961",
+      "bytes": 211600,
       "fps": 30,
-      "frames": 211,
-      "durationMs": 7000,
+      "frames": 271,
+      "durationMs": 9000,
       "from": 0,
-      "to": 7000,
+      "to": 9000,
       "audio": null
     },
     {
       "kind": "preview",
       "file": "design/cinematic/exports/role-reveal/review/doctor-phone390-reduced.preview.webp",
-      "sha256": "fbe304fbd980be5618b1f95ab5599a343ad56cc82051d2e1b54e631305c29f84",
-      "bytes": 35134
+      "sha256": "26584e71dbd22f2dd81f8eaa032128b34171a5c76444a2329b198a0a2a2722f3",
+      "bytes": 32594
     },
     {
       "kind": "poster",
       "file": "design/cinematic/exports/role-reveal/review/doctor-phone390-reduced.poster.webp",
-      "sha256": "88a55a31f0ba969b17f1368cce098412eb8e60d22435723d4fb9ac4a3e2690ab",
-      "bytes": 39180,
-      "t": 3000
+      "sha256": "808c3a9aeef776b64bb41cf4d92ced3190646eb29c753a889c13a1f6876d68b6",
+      "bytes": 36366,
+      "t": 5000
     }
   ],
   "settling": {
     "rule": "a frame is kept once two captures a redraw apart agree; pictures decode before their tiles draw",
-    "resettled": 0,
+    "resettled": 5,
     "unsettled": []
   }
 }

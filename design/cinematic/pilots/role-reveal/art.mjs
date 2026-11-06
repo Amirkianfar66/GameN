@@ -7,6 +7,7 @@
 // fact; the film passes in what to draw and where. Every role shares these parts, so every film keeps
 // one palette and one brightness (docs/design/cinematic/role-reveal.md, section 1).
 
+import { FACTION_ACCENTS } from '../../../board-v2/fx/blocked.mjs';
 import { INK, PAPER, AMBER, fxDefs, panelFrame, stars, vignette } from '../../lib/comic.mjs';
 import { clamp01, lerp, rand } from '../../lib/ease.mjs';
 import { lettering } from '../../lib/lettering.mjs';
@@ -23,7 +24,9 @@ const f = v => Number((+v).toFixed(2));
 export function revealDefs(prefix) {
   return fxDefs(prefix)
     + `<defs><filter id="${prefix}-sil" x="-10%" y="-10%" width="120%" height="120%"><feFlood flood-color="${NIGHT.deep}"/><feComposite in2="SourceAlpha" operator="in"/></filter>`
-    + `<filter id="${prefix}-rim" x="-20%" y="-20%" width="140%" height="140%"><feFlood flood-color="${NIGHT.rim}"/><feComposite in2="SourceAlpha" operator="in"/><feGaussianBlur stdDeviation="1.4"/></filter></defs>`;
+    + `<filter id="${prefix}-rim" x="-20%" y="-20%" width="140%" height="140%"><feFlood flood-color="${NIGHT.rim}"/><feComposite in2="SourceAlpha" operator="in"/><feGaussianBlur stdDeviation="1.4"/></filter>`
+    // Noir light on the player's own character: the colours kept, the light taken down.
+    + `<filter id="${prefix}-noir" x="-10%" y="-10%" width="120%" height="120%"><feComponentTransfer><feFuncR type="linear" slope="0.72"/><feFuncG type="linear" slope="0.72"/><feFuncB type="linear" slope="0.8"/></feComponentTransfer></filter></defs>`;
 }
 
 /**
@@ -54,31 +57,37 @@ export function slatsSvg(prefix, { width, height, v, dim = 0, t = 0 }) {
 }
 
 /**
- * The role's own device in its hand (the role card's reviewed held-device art, 120 x 140), rising
- * into the light: `rise` 0..1 from below the page, `rim` 0..1 the paper light along its edge.
+ * The device alone from a held-device picture (design/exports/roles/device-*.held.*.svg, 120 x 140):
+ * the same approved art the role card draws, its arm and fist removed. Pure: SVG text in and out.
  */
-export function deviceHandSvg(prefix, { href, x, y, scale, rise, rim, opacity = 1 }) {
-  const w = 120 * scale, h = 140 * scale;
-  const dy = (1 - rise) * h * 0.85;
-  const at = `translate(${f(x)} ${f(y + dy)})`;
-  const image = `<image href="${href}" x="0" y="0" width="${f(w)}" height="${f(h)}" preserveAspectRatio="none"/>`;
-  // The art's sleeve ends at its box: in the page the arm falls away into shadow below the fist, so
-  // only the hand and the device are lit (noir), and no cut edge shows.
-  const fade = `${prefix}-arm-fade`;
-  return `<defs><linearGradient id="${fade}-g" x1="0" y1="0" x2="0" y2="1"><stop offset="0.5" stop-color="#FFFFFF"/><stop offset="0.8" stop-color="#FFFFFF" stop-opacity="0.25"/><stop offset="0.97" stop-color="#FFFFFF" stop-opacity="0"/></linearGradient>`
-    + `<mask id="${fade}" maskUnits="userSpaceOnUse" x="${f(-w * 0.2)}" y="${f(-h * 0.2)}" width="${f(w * 1.4)}" height="${f(h * 1.4)}"><rect x="${f(-w * 0.2)}" y="${f(-h * 0.2)}" width="${f(w * 1.4)}" height="${f(h * 1.2)}" fill="url(#${fade}-g)"/></mask></defs>`
-    + `<g transform="${at}" opacity="${f(opacity)}"><g mask="url(#${fade})">`
-    + (rim > 0 ? `<g filter="url(#${prefix}-rim)" opacity="${f(0.85 * rim)}" transform="translate(${f(-5 * scale / 4)} ${f(-5 * scale / 4)})">${image}</g>` : '')
-    + image
-    + `<rect width="${f(w)}" height="${f(h)}" fill="url(#${prefix}-dots)" opacity="${f(0.16 * (1 - rim))}"/></g></g>`;
+export function deviceOnly(svg) {
+  let out = svg;
+  for (const part of ['arm', 'fist']) {
+    const open = new RegExp(`<g [^>]*id="[^"]*-${part}"[^>]*>`).exec(out);
+    if (!open) continue;
+    const tags = /<g\b[^>]*?(\/?)>|<\/g>/g;
+    tags.lastIndex = open.index;
+    let depth = 0, m;
+    while ((m = tags.exec(out))) {
+      if (m[0].startsWith('</g')) depth -= 1;
+      else if (m[1] !== '/') depth += 1;
+      if (depth === 0) { out = out.slice(0, open.index) + out.slice(tags.lastIndex); break; }
+    }
+  }
+  return out;
 }
 
-/** A pool of slat light behind the hand: where the light falls in the opener. */
-export function spotSvg(prefix, { cx, cy, rx, ry, v }) {
-  const g = `${prefix}-spot`;
-  return `<defs><radialGradient id="${g}"><stop offset="0" stop-color="${NIGHT.rim}" stop-opacity="${f(0.34 * v)}"/><stop offset="0.6" stop-color="${NIGHT.slat}" stop-opacity="${f(0.1 * v)}"/><stop offset="1" stop-color="${NIGHT.slat}" stop-opacity="0"/></radialGradient></defs>`
-    + `<ellipse cx="${f(cx)}" cy="${f(cy)}" rx="${f(rx)}" ry="${f(ry)}" fill="url(#${g})"/>`;
+/**
+ * A device picture with its team's accent taken out: each faction accent becomes the room's starlight
+ * (NIGHT.slat). The role card lights each device in its team's colour; drawn large in a film, that
+ * colour would show across the table, so every role's gadget catches the same light. Pure.
+ */
+export function unaccented(svg) {
+  return Object.values(FACTION_ACCENTS).reduce((out, accent) => out.replace(new RegExp(accent, 'gi'), NIGHT.slat), svg);
 }
+
+/** Where every held device's fist holds it, in its 120 x 140 picture (the reviewed devices share one grip). */
+export const GRIP = Object.freeze([71, 86]);
 
 /**
  * One comic panel at (x, y, w, h), its content drawn in local units (0..w, 0..h) and clipped to it.

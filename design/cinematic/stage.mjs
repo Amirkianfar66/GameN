@@ -7,7 +7,7 @@
 //   surface=display | phone | insert | ...   (what a pilot offers)
 //   variant=full | short | reduced            (what a pilot offers)
 //   w, h (phone)  t=<ms>  play=1 (loop in real time)  beds=4 (the four-berth board's geometry)
-//   role, seat (the role reveal films: a current role and the player's own number, review parameters)
+//   role, seat, character (the role reveal films: a current role, the player's own number and crew character, review parameters)
 // window.__cine = { ready, end, seek(t) -> Promise<{ t, stage, done }>, size, selector, fixture }.
 
 import { PILOTS } from './pilots/index.mjs';
@@ -25,7 +25,7 @@ async function start() {
   if (!pilot.variants.includes(variant)) throw new Error(`Pilot ${pilot.id} has no variant ${variant}`);
   const options = { variant };
   for (const name of ['w', 'h', 'roster', 'seat']) if (params.has(name)) options[name] = Number(params.get(name));
-  for (const name of ['case', 'audience', 'viewer', 'role']) if (params.has(name)) options[name] = params.get(name);
+  for (const name of ['case', 'audience', 'viewer', 'role', 'character']) if (params.has(name)) options[name] = params.get(name);
   const cine = await mount(root, options);
   document.documentElement.dataset.pilot = pilot.id;
   document.documentElement.dataset.surface = surface;

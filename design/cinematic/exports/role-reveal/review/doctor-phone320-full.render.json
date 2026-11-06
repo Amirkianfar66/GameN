@@ -1,10 +1,10 @@
 {
   "tool": "design/tools/cinematic-render.mjs",
   "pilot": "role-reveal",
-  "version": "cinematic-role-reveal-0.1.0",
+  "version": "cinematic-role-reveal-0.2.0",
   "surface": "phone",
   "variant": "full",
-  "stage": "design/cinematic/stage.html?pilot=role-reveal&surface=phone&variant=full&beds=4&w=320&h=568&role=Doctor&seat=6",
+  "stage": "design/cinematic/stage.html?pilot=role-reveal&surface=phone&variant=full&beds=4&w=320&h=568&role=Doctor&seat=6&character=c4",
   "size": [
     320,
     568
@@ -13,6 +13,7 @@
   "fixture": {
     "role": "Doctor",
     "seat": 6,
+    "character": "c4",
     "synthetic": true
   },
   "browser": "Chromium 141.0.7390.37",
@@ -21,27 +22,27 @@
     {
       "kind": "video",
       "file": "design/cinematic/exports/role-reveal/review/doctor-phone320-full.mp4",
-      "sha256": "5c0963bcb4afdc68d83f03b3375e666607e752da36c02d0c60d908794b485b4a",
-      "bytes": 284939,
+      "sha256": "4ef6dd9a6c22707deb2bdeaad574cbf1f13434a8f330006d96f2d038388d8d22",
+      "bytes": 370832,
       "fps": 30,
-      "frames": 211,
-      "durationMs": 7000,
+      "frames": 271,
+      "durationMs": 9000,
       "from": 0,
-      "to": 7000,
+      "to": 9000,
       "audio": null
     },
     {
       "kind": "preview",
       "file": "design/cinematic/exports/role-reveal/review/doctor-phone320-full.preview.webp",
-      "sha256": "e1aaf24e0724f67b9d9c2a6f24e8aa67c197bbe0adae9872269533593283a3d4",
-      "bytes": 142376
+      "sha256": "e3e3309937c985f22810e57f5f7d6e5bcdb517ff2faa5c3e5e7990a4e8707093",
+      "bytes": 194312
     },
     {
       "kind": "poster",
       "file": "design/cinematic/exports/role-reveal/review/doctor-phone320-full.poster.webp",
-      "sha256": "169ba2fc93e36ce29ef43bef62cf45160adbd594a029ed68ca4a1a5bd182f822",
-      "bytes": 25526,
-      "t": 4800
+      "sha256": "c5402254ac901366616d7d7dba38db07d772b9c759965ebf24c05ae78da4f0a9",
+      "bytes": 24200,
+      "t": 6300
     }
   ],
   "settling": {

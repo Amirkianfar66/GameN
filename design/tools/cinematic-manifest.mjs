@@ -69,7 +69,7 @@ const SOURCES = [
   'design/cinematic/lib/ease.mjs', 'design/cinematic/lib/comic.mjs', 'design/cinematic/lib/lettering.mjs', 'design/cinematic/lib/scene.mjs', 'design/cinematic/lib/audio.mjs', 'design/cinematic/lib/stage-kit.mjs', 'design/cinematic/lib/visibility.mjs',
   'design/cinematic/pilots/index.mjs',
   ...['hospital-rescue/film.mjs', 'hospital-rescue/art.mjs', 'hospital-rescue/compose.mjs', 'hospital-rescue/stage.mjs', 'blackhole/film.mjs', 'blackhole/art.mjs', 'blackhole/compose.mjs', 'blackhole/stage.mjs', 'private-talk/film.mjs', 'private-talk/compose.mjs', 'private-talk/stage.mjs', 'eject/film.mjs', 'eject/compose.mjs', 'eject/stage.mjs'].map(p => `design/cinematic/pilots/${p}`),
-  ...['film.mjs', 'art.mjs', 'doctor.mjs', 'roles.mjs', 'copy.mjs', 'compose.mjs', 'stage.mjs'].map(p => `design/cinematic/pilots/role-reveal/${p}`),
+  ...['film.mjs', 'art.mjs', 'briefing.mjs', 'doctor.mjs', 'roles.mjs', 'copy.mjs', 'compose.mjs', 'stage.mjs'].map(p => `design/cinematic/pilots/role-reveal/${p}`),
   'design/cinematic/catalogue/catalogue.mjs',
   'design/tools/cinematic-inventory.mjs', 'design/tools/cinematic-contact.mjs', 'design/tools/cinematic-render.mjs', 'design/tools/cinematic-exports.mjs', 'design/tools/cinematic-audio.mjs', 'design/tools/cinematic-manifest.mjs', 'design/tools/cinematic-docs.mjs', 'design/tools/cinematic-serve.mjs',
 ];

@@ -6,6 +6,36 @@ What the game owner decided about look, feel and presentation while working with
 
 The owner's messages are quoted as written.
 
+## 6 November 2026: the role film opens as the player takes the role
+
+**The owner reviewed the Doctor's seven-second pilot and asked for a first part that shows the player becoming the Doctor: before boarding the spaceship, the character takes the Hospital gadget from a table where the Doctor card lies, and then sees the three panels.**
+
+The owner wrote:
+
+> ویدیو دکتر ۷ ثانیه ایت خیلی خوبه برای توضیح نقش اما بنظرم یک تیکه اول می خوایم که نشون بده یارو دکتر شده شاید مانند اینکه character قبل سوار شدن به spaceship , gadget hospital  رو‌بر‌ میداره  از روی یک میز که روی میز کارت Doctor هست بعد اش این ۳ پنل رو‌ببینه که ساختی
+
+("Your seven-second Doctor video is very good for explaining the role, but I think we want a first part that shows the guy has become the Doctor: maybe like the character, before boarding the spaceship, picks up the Hospital gadget from a table with the Doctor card on it, and after that sees these three panels you made.")
+
+| # | What it says | What it decides |
+| --- | --- | --- |
+| 1 | "very good for explaining the role" | The three panels, the title and the two captions stay as they were |
+| 2 | "a first part that shows the guy has become the Doctor" | Every film opens on the moment the role is taken. The opener and its timing are the same for every role, so every film grows by the same amount |
+| 3 | "before boarding the spaceship", "picks up the Hospital gadget from a table with the Doctor card on it" | The briefing room at the dock, the night before the voyage. The Mothership waits beyond the viewport and the role card lies face up under a desk lamp. The player's own character takes the role's gadget from the desk and raises it into the light. The Doctor's gadget is the injector its role card draws, which holds the Hospital's two doses |
+| 4 | "after that sees these three panels" | The panels follow at 3 s. Every film is now 9 s long, the same for every role and inside the owner's five to ten seconds |
+
+### What the Designer did with it
+
+- **One opener for all nine roles** (`design/cinematic/pilots/role-reveal/briefing.mjs`). Only the card's name and picture and the gadget belong to the role. A test holds the room, the light, the character and the camera identical for every role.
+- **The player's own character.** The figure is the player's lobby character and the only one drawn in colour. The review renders use c4 as a stand-in.
+- **No team colour on the gadget.** The role card draws each device in its team's colour. The gadget in the opener is drawn large, so instead it catches the room's starlight, the same for every role. A team's colour stays small: on the card on the desk and on the title plate's emblem.
+- **Timing and handoff.** The three review renders are re-made at 9 s. The timing and the Frontend notes are in [docs/design/cinematic/role-reveal.md](cinematic/role-reveal.md).
+
+### What it does not settle
+
+- **"Hospital gadget".** Designer reads this as the Doctor's own device, the injector on its role card. The Hospital panel's keypad stays in panel 3.
+- **The other eight films** stay storyboards until the owner reviews this pilot. Each will open the same way, with its own gadget (`role-reveal.md`, section 2).
+- **Phones.** The pilot has been rendered in desktop Chromium only.
+
 ## 6 November 2026: a film for every role
 
 **A request, then an approval and a creative brief: after seeing their role, each player sees a short film for that role, of five to ten seconds. The Designer proposed a fixed seven seconds for every role, shared privacy rules and one pilot (the Doctor) first; the owner agreed and set the direction.**
@@ -31,6 +61,8 @@ After the Designer's proposal (the same length, sound and palette for every role
 ### What the Designer did with it
 
 The storyboards for all nine roles and the Doctor's pilot are on the branch `claude/designer-role-reveal`, stacked on #184 ([docs/design/cinematic/role-reveal.md](cinematic/role-reveal.md); `design/cinematic/pilots/role-reveal/`).
+
+After reviewing the pilot, the owner asked for an opener (the entry above). Every film has been nine seconds since then.
 
 ### What it does not settle
 
