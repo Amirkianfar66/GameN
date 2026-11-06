@@ -21,7 +21,7 @@ export interface PlanetSessionModel {
  readonly versions:PlanetSessionSnapshot['versions']|null;
  readonly isHost:boolean;readonly selfSeatId:PlanetSessionSnapshot['selfSeatId'];readonly playerCount:7|8|9|null;
  readonly members:PlanetSessionSnapshot['members'];readonly pendingAdmissions:PlanetSessionSnapshot['pendingAdmissions'];
- readonly remainingMs:number|null;readonly canChoose:boolean;readonly canReady:boolean;readonly busy:boolean;readonly uncertain:boolean;
+ readonly remainingMs:number|null;readonly canChoose:boolean;readonly canReady:boolean;readonly canReturnToLobby:boolean;readonly busy:boolean;readonly uncertain:boolean;
  readonly ownRole:PlanetSessionSnapshot['privateRole'];readonly recoveryCode:string|null;
  /** A registered request is context for waiting, never evidence of admission. */
  readonly pendingAdmission:Readonly<{kind:'player'|'display';roomCode:string;status:NonNullable<PlanetSessionSnapshot['admission']>['status']|null}>|null;
@@ -33,6 +33,7 @@ export interface PlanetSessionController {
  operate(action:PlanetSessionAction):Promise<void>;
  retry():Promise<void>;
  refresh():Promise<void>;
+ returnToLobby():boolean;
  revealRole(open:boolean):void;
  setVisible(visible:boolean):void;
  gameTransport(surface:'player'|'display'):PlanetTransport;
@@ -70,6 +71,10 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
  const standingMatches=(s:PlanetSessionSnapshot)=>join===null||s.matchId===join.matchId&&s.roomCode===join.roomCode&&s.admission?.requestId===join.requestId&&s.admission.kind===join.kind;
  const knownAdmitted=()=>!!snapshot&&standingMatches(snapshot)&&(snapshot.admission===null?snapshot.isHost||snapshot.selfSeatId!==null:snapshot.admission.status==='admitted'&&(snapshot.admission.kind==='display'?snapshot.selfSeatId===null:snapshot.selfSeatId!==null));
  const admitted=()=>live()&&knownAdmitted();
+ function canReturnToLobby(){
+  if(!admitted()||!snapshot||!['finished','aborted'].includes(snapshot.status)||busy||uncertain||pending!==null)return false;
+  try{return stores.requests.load()===null&&ports.unresolved.load()===null;}catch{return false;}
+ }
  function getModel():PlanetSessionModel{
   const s=admitted()?snapshot:null,t=clock.read(),remaining=s?.setup&&t.status==='synced'?s.setup.endsAt-t.serverNowMs:null;
   const own=s?.members.find(m=>m.seatId===s.selfSeatId);
@@ -77,7 +82,7 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
    members:s?.members??[],pendingAdmissions:s?.isHost?s.pendingAdmissions:[],remainingMs:remaining===null?null:Math.max(0,remaining),
    canChoose:!!s&&s.status==='choosing'&&!!own&&t.status==='synced'&&remaining!==null&&remaining>t.uncertaintyMs&&!busy&&!uncertain,
    canReady:!!s&&s.status==='reading'&&!!own&&!own.ready&&t.status==='synced'&&remaining!==null&&remaining<=-t.uncertaintyMs&&!busy&&!uncertain,
-   busy,uncertain,ownRole:s?.status==='reading'&&revealed&&!own?.ready?s.privateRole:null,recoveryCode:s?code:null,
+   canReturnToLobby:canReturnToLobby(),busy,uncertain,ownRole:s?.status==='reading'&&revealed&&!own?.ready?s.privateRole:null,recoveryCode:s?code:null,
    pendingAdmission:visible&&auth()&&join&&!knownAdmitted()?{kind:join.kind,roomCode:join.roomCode,status:snapshot&&standingMatches(snapshot)?snapshot.admission?.status??null:null}:null};
  }
  function emit(){if(disposed)return;const model=getModel();for(const listener of listeners)listener(model);}
@@ -167,6 +172,9 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
   if(!pending||busy||!auth()||!visible)return;busy=true;code=null;emit();const item=pending,response=await request(item);if(disposed||pending!==item)return;busy=false;
   if(!response){uncertain=true;message='Session request outcome unknown. Retry the original request.';emit();return;}
   if(!response.ok){
+   // UNAVAILABLE may follow a durable commit. No later preflight rejection can
+   // settle that earlier unknown outcome; only a verified success settles it.
+   if(response.code==='UNAVAILABLE'||uncertain){uncertain=true;message=response.code==='RATE_LIMITED'?'The original request is still unresolved. Please wait, then retry the same request.':'Session request outcome unknown. Retry the original request.';emit();return;}
    uncertain=false;pending=null;try{stores.requests.clear();}catch{/* Public request IDs remain harmless. */}
    message=response.code==='NOT_ALLOWED'?'That operation is not currently allowed.':response.code==='NOT_FOUND'?'The session was not found.':response.code==='RATE_LIMITED'?'Please wait before retrying.':'The session request was refused.';emit();return;
   }
@@ -177,7 +185,9 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
    matchId=parsed.data;join=item.operation==='requestAdmission'?{matchId,kind:item.kind,roomCode:item.roomCode,requestId:item.requestId}:null;saveResume();
   }
   if(item.operation==='issueRecovery'){
-   const value=result?.recoveryCode;if(typeof value==='string'&&value.length>=16&&value.length<=128)code=value;
+   const value=result?.recoveryCode;
+   if(typeof value!=='string'||value.length<16||value.length>128){uncertain=true;message='The issued recovery code could not be verified. Retry the original request.';emit();return;}
+   code=value;
   }
   if(item.operation==='redeemRecovery'){
    const recovery=PlanetRecoveryResultSchema.safeParse(result);
@@ -201,6 +211,12 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
  }
  return {
   start,getModel,operate,refresh,retry:sendPending,
+  returnToLobby(){
+   if(!canReturnToLobby())return false;
+   try{stores.requests.clear();ports.unresolved.clear();stores.resume.clear();}catch{message='The saved session could not be cleared. Try again.';emit();return false;}
+   generation++;snapshot=null;matchId=null;join=null;knownRole=null;recoveredSeat=null;revealed=false;code=null;fresh=false;clock.invalidate();message=null;connectionState='live';
+   for(const feed of feeds)feed.error();emit();return true;
+  },
   subscribe(listener){listeners.add(listener);listener(getModel());return()=>listeners.delete(listener);},
   revealRole(open){revealed=open&&live()&&snapshot?.status==='reading';emit();},
   setVisible(next){

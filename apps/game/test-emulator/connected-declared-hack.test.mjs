@@ -5,6 +5,7 @@ import { createConnectedPlayerScreen, DEFAULT_ACTION_FLOW_TIMING } from '@mother
 import { renderComicPlayerShell, toHtml } from '@mothership/presentation';
 import { nextView, ports, requestId, startedMatch } from './support/match.mjs';
 import { until } from './support/rest-transport.mjs';
+import { abortMatchForCleanup } from './support/cleanup.mjs';
 
 const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
 function frameWhen(screen, check, label) {
@@ -92,5 +93,7 @@ test('connected: a declared Hack claim stays private and a lost reply recovers t
   const uninvolved = await nextView(outsider, { kind: 'player-view', matchId }, outsider.store, view => view.phase.id !== publicView.phase.id, 'uninvolved player phase');
   assert.equal(uninvolved.hackFeedback, null);
   assert.equal(uninvolved.hackPartnerSeatId, null);
-  assert.equal((await host.api.abortMatch({ protocolVersion: 2, matchId, requestId: requestId() })).kind, 'done');
+  const abort={protocolVersion:2,matchId,requestId:requestId()};
+  const ended=await abortMatchForCleanup(host.api,abort);
+  assert.deepEqual([ended.kind,ended.result],['done',true]);
 });

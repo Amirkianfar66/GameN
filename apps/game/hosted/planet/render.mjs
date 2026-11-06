@@ -19,7 +19,7 @@ const putBox=(node,r)=>{if(!r)return;for(const k of ['left','top','width','heigh
 const roomFor=slot=>BOARD_ROOMS.find(room=>slotsOf(room,9).some(s=>s.id===slot));
 
 /** Native consumer renderer: public scene DTOs feed approved pure drawings, never legacy wire views. */
-export function mountPlanetRenderer(root,controller,{cinematics=[]}={}){
+export function mountPlanetRenderer(root,controller,{cinematics=[],terminalAction=null}={}){
  const document=root.ownerDocument,win=document.defaultView;
  const library=createPlanetLibrary(document);
  const readInsets=()=>{const probe=document.createElement('div');probe.style.cssText='position:fixed;visibility:hidden;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)';document.body.append(probe);const style=win.getComputedStyle(probe),value={top:parseFloat(style.paddingTop)||0,right:parseFloat(style.paddingRight)||0,bottom:parseFloat(style.paddingBottom)||0,left:parseFloat(style.paddingLeft)||0};probe.remove();return value;};
@@ -244,6 +244,7 @@ export function mountPlanetRenderer(root,controller,{cinematics=[]}={}){
   resultPanel.replaceChildren();resultPanel.hidden=true;
   if(model.phase?.kind==='VOTE_RESULT'&&model.lastTally){resultPanel.hidden=false;resultPanel.append(el('h2',model.lastTally.kind==='JAIL_VOTE'?'Jail vote result':'Captain election result'),el('p',model.lastTally.outcome.replaceAll('_',' ')));for(const [seatId,count]of Object.entries(model.lastTally.counts))resultPanel.append(el('p',`${number(seatId)}: ${count}`));}
   if(model.result){resultPanel.hidden=false;const side=planetTerminalArrival(model),banner=el('h2',model.result.winner?`${model.result.winner} reached its planet`:'No winner','planet-end-banner');banner.prepend(library.art(`en-banner-${side?side.toLowerCase():'none'}`,'planet-library-fill'));resultPanel.append(banner,el('p',model.result.reason.replaceAll('_',' ')));if(model.result.alienCoWinner)resultPanel.append(el('p','Alien co-victory'));for(const reveal of model.endReveal?.roles??[])resultPanel.append(el('p',`${number(reveal.seatId)} · ${reveal.role}`));if(model.endReveal){const code=el('p',`Original Code: ${model.endReveal.code.map(number).join(', ')}`,'planet-end-code');code.prepend(library.art('en-code'));resultPanel.append(code);}}
+  if(model.result&&terminalAction)resultPanel.append(terminalAction);
   if(model.concealed)resultPanel.hidden=true;
   status.textContent=model.message??'';status.hidden=!model.message;
   pass.disabled=!model.canPass;pass.hidden=model.surface==='display'||!!model.action||model.concealed;

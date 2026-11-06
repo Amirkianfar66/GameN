@@ -7,14 +7,15 @@ const name=new URL(location.href).searchParams.get('scenario')??'board';
 const tuple=new URL(location.href).searchParams.get('tuple')??'current';
 const count=Number(new URL(location.href).searchParams.get('count')??9);
 let value=sessionScenario(name==='join'?'display':name,{now:Date.now(),count,tuple}),lost=false,admissionRead=name==='join'?'forbidden':null;
-const requests=[];let rejectNextPanel=false,originalAdmission=null,authUid='planet-synthetic-uid';
+const requests=[];let rejectNextPanel=false,originalAdmission=null,authUid='planet-synthetic-uid',sessionReplies=null,receipt=null;
 const connection={mode:'synthetic',currentUid:()=>authUid,signIn:async()=>authUid,async request(request){
  requests.push(structuredClone(request));
  const answer=result=>({ok:true,serverTimeMs:Date.now(),result});
+ if(sessionReplies?.operation===request.operation&&sessionReplies.replies.length){const reply=sessionReplies.replies.shift();if(reply==='missing-code')return answer({});if(reply!=='success')return {ok:false,serverTimeMs:Date.now(),error:{code:reply}};}
  if(request.operation==='read')return admissionRead?{ok:false,serverTimeMs:Date.now(),error:{code:admissionRead==='forbidden'?'FORBIDDEN':'UNAVAILABLE'}}:answer(structuredClone(value));
  if(request.operation==='requestAdmission'){originalAdmission={requestId:request.requestId,kind:request.kind};return answer({matchId:value.matchId,admissionId:'synthetic-admission'});}
  if(request.operation==='redeemRecovery'){value=sessionScenario('board',{now:Date.now(),count,tuple});value.admission=null;admissionRead=null;return answer({matchId:request.matchId,seatId:value.selfSeatId});}
- if(request.operation==='receipt')return answer({receipt:null});
+ if(request.operation==='receipt')return answer({receipt});
  if(request.operation==='issueRecovery')return answer({recoveryCode:'SYNTHETICRECOVERY'+'X'.repeat(111),expiresAt:Date.now()+900000});
  if(request.operation==='command'){
   if(lost)return null;
@@ -25,13 +26,13 @@ const connection={mode:'synthetic',currentUid:()=>authUid,signIn:async()=>authUi
  if(request.operation==='ready'){value.members.find(m=>m.seatId===value.selfSeatId).ready=true;return answer({matchId:value.matchId});}
  return answer({matchId:value.matchId});
 }};
-const app=await mountPlanetApp(document.getElementById('planet-root'),{connection,matchId:name==='join'?undefined:'planet-local',allowSynthetic:true});
+const app=await mountPlanetApp(document.getElementById('planet-root'),{connection,matchId:name==='join'||new URL(location.href).searchParams.has('resumeOnly')?undefined:'planet-local',allowSynthetic:true});
 const candidateReady=app.artReady;
 let phaseSequence=0;
 const applyPlayer=async player=>{value.publicView=publicPlanet(player);if(value.selfSeatId!==null)value.playerView=player;await app.session.refresh();};
 const currentPlayer=()=>value.playerView?structuredClone(value.playerView):{...makePlanetScenario('board',{now:Date.now(),count:value.playerCount}),...structuredClone(value.publicView),board:{...structuredClone(value.publicView.board),kind:'PLAYER_CURRENT'}};
 // Only this excluded harness exposes synthetic authority and inspection controls.
-window.planetHarness={app,requests,candidateReady,setUid(uid){authUid=uid;},rejectPanel(){rejectNextPanel=true;},get value(){return value;},setLost(next){lost=next;},
+window.planetHarness={app,requests,candidateReady,setReceipt(next){receipt=next;},setSessionReplies(operation,replies){sessionReplies={operation,replies:[...replies]};},setUid(uid){authUid=uid;},rejectPanel(){rejectNextPanel=true;},get value(){return value;},setLost(next){lost=next;},
  async admission(mode,context=originalAdmission){
   admissionRead=['forbidden','unavailable'].includes(mode)?mode:null;if(admissionRead){await app.session.refresh();return;}
   if(!context)throw Error('Synthetic admission needs its original request binding');originalAdmission=context;

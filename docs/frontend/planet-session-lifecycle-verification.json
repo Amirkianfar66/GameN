@@ -1,0 +1,299 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-11-06T15:09:43.285435+00:00",
+  "baseCommit": "0b9e505726f793ba73cb3733d030e95e1d3e3ea8",
+  "status": "Requested Frontend and capture fixes implemented and verified locally; exact-head emulator suites and native-smoke CI remain Integration-owned",
+  "changes": [
+    "Ambiguous lifecycle outcomes preserve the exact original request, including after later preflight rejections",
+    "Public lifecycle request resume stays UID-bound; recovery secrets remain memory-only",
+    "Malformed issueRecovery success stays unresolved",
+    "Terminal return is allowed only for fresh settled finished/aborted state",
+    "Aborted command receipt reconciliation survives live transition and reload",
+    "Legacy declared-Hack cleanup retries the same frozen abort body with bounded waits and definitive success validation"
+  ],
+  "checks": {
+    "frontend": {
+      "passed": 895,
+      "presentation": 216,
+      "game": 679,
+      "failed": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "focusedRegressions": {
+      "passed": 58,
+      "session": 53,
+      "cleanup": 5,
+      "includedInFrontend": true
+    },
+    "build": "passed",
+    "typecheck": "passed",
+    "productionBuild": "passed",
+    "productionExclusion": {
+      "passed": true,
+      "reachableModules": 75,
+      "shippedOrSourceFiles": 252,
+      "labeledDevelopmentFiles": 88
+    },
+    "artProvenance": {
+      "passed": true,
+      "approvedOutputsUnchanged": 18,
+      "historicalBaseBundlesUnchanged": 9
+    },
+    "legacyEmulatorTestSyntax": "passed",
+    "gitDiffCheck": "passed"
+  },
+  "browser": {
+    "scope": "Explicit synthetic authority through native consumer; desktop Chromium phone emulation",
+    "viewports": [
+      [
+        320,
+        568
+      ],
+      [
+        390,
+        844
+      ]
+    ],
+    "motion": [
+      "normal",
+      "reduced"
+    ],
+    "cases": 128,
+    "flows": 12,
+    "screenshots": 74,
+    "matrices": [
+      {
+        "path": "docs/frontend/evidence/planet-lifecycle-retry/facts.json",
+        "sha256": "d27096f9f9fc4c7f144aebaaf1b92b16d5fb88c8141db8829b50f53534810993",
+        "bytes": 8100,
+        "cases": 16,
+        "flows": 0,
+        "screenshots": 16,
+        "runtimeExceptions": 0
+      },
+      {
+        "path": "docs/frontend/evidence/planet-terminal-return/facts.json",
+        "sha256": "dd63f096828d130c48f317505174fc9bf4d677a1beaa62b54eac6e069ad1f203",
+        "bytes": 6600,
+        "cases": 12,
+        "flows": 0,
+        "screenshots": 12,
+        "runtimeExceptions": 0
+      },
+      {
+        "path": "docs/frontend/evidence/planet-lifecycle-shell/facts.json",
+        "sha256": "c960808e9cdffca65d852d4bbb9d009bb315f5beaa0d41066e3be92b9b8a5fef",
+        "bytes": 248576,
+        "cases": 100,
+        "flows": 12,
+        "screenshots": 46,
+        "runtimeExceptions": 0
+      }
+    ]
+  },
+  "ciCleanup": {
+    "run": "42235183631",
+    "job": "127950826362",
+    "observedIssue": "Final cleanup reported no-response while abort was still executing; function execution completed after 4062.913252 ms. Function start is not the request-send timestamp; the unchanged client timeout is 8000 ms.",
+    "maxIdenticalAttempts": 3,
+    "maxWaitBetweenAttemptsMs": 2000,
+    "successRequired": {
+      "kind": "done",
+      "result": true
+    },
+    "actualEmulatorRerun": "not run locally; Integration exact-head CI required",
+    "legacyRuntimeChanged": false,
+    "gameplayAssertionsChanged": false
+  },
+  "consumerSourceChanges": [
+    {
+      "path": "apps/game/src/planet/session.ts",
+      "previousSha256": "3d0a5ab968766ec39eecfb03702eb98996e0858fe17842461796eaadfb74edfd",
+      "sha256": "8e2cb552b43c81746efccdc6dbf5e85b5effb6d1d42b47ad11f3b720209eeb67"
+    },
+    {
+      "path": "apps/game/hosted/planet/app.mjs",
+      "previousSha256": "977e3259184a1515fb5ccfecb25e75e3d0ff0974575fa1cb82f8c3224b291a6b",
+      "sha256": "5ec4dab00a8f959efab6d1e711e8fa0f304b0209e121df7109b6532e3a281261"
+    },
+    {
+      "path": "apps/game/hosted/planet/planet.css",
+      "previousSha256": "d582a3c2d29be8f23892aa1e2fc57b4e606ef6975fd16a98b309c7c57522ebe3",
+      "sha256": "ac97c4a197723beee2f06be6fd14ff07880f77e54208f5200164614a1c96e465"
+    },
+    {
+      "path": "apps/game/hosted/planet/render.mjs",
+      "previousSha256": "2501a02dc4aa7eac631f16da2e9cb114ff929bb101566e1d25b4c8208d01f084",
+      "sha256": "d8f1d3e14278aed096c9a19e8e0c6b30e6d15bccdf38e6d31b4b81f8826f3beb"
+    }
+  ],
+  "sharedReleaseFilesEdited": false,
+  "sharedContractsOrRulesChanged": false,
+  "artSourceBytesChanged": false,
+  "approval": {
+    "path": "docs/integration/planet-library-art-approval-2026-11-06.json",
+    "sha256": "9493e29a8ce1b06c6848846b0c8932d65c42abcb24b2b43aaf35ed7239aaf228",
+    "bytes": 17088
+  },
+  "originalFrontendProposal": {
+    "path": "docs/frontend/planet-design-0.6.0-release-proposal.json",
+    "sha256": "d8dbcc979067954051629f2a37ca66196a530ef61d8b1d366726366bc3b429dc",
+    "bytes": 63299
+  },
+  "sourceFilesSha256": {
+    "apps/game/src/planet/session.ts": "8e2cb552b43c81746efccdc6dbf5e85b5effb6d1d42b47ad11f3b720209eeb67",
+    "apps/game/hosted/planet/app.mjs": "5ec4dab00a8f959efab6d1e711e8fa0f304b0209e121df7109b6532e3a281261",
+    "apps/game/hosted/planet/planet.css": "ac97c4a197723beee2f06be6fd14ff07880f77e54208f5200164614a1c96e465",
+    "apps/game/hosted/planet/render.mjs": "d8f1d3e14278aed096c9a19e8e0c6b30e6d15bccdf38e6d31b4b81f8826f3beb",
+    "apps/game/dev/planet/main.mjs": "cfcd57b110777d7c3e3ab4fefeed32278b10510b83077702e6cbdcbb6f562bbf",
+    "apps/game/dev/planet/scenarios.mjs": "c87e9d16717359183ad8cf691aa2c0311f95974adee58700ae8edd1c2112656b",
+    "apps/game/dev/planet/capture-session-retry.mjs": "725c14d6add4dc41cc087490fd53d3b3da1dcb805e16f0897c9d8e5855d08894",
+    "apps/game/dev/planet/capture-terminal-return.mjs": "27405df80dfed4859c17db3d57ef845450744431e54206586a2700586c5abdd6",
+    "apps/game/dev/planet/capture.mjs": "263d318ab87a3550037e7dba9e8db26eab6dd50ef059624b054e35ddb90cbd43",
+    "apps/game/dev/capture/browser.mjs": "f8614985e5579fafc0a41215a5f7438d53f310d5940c5fdccdf084da8592341b",
+    "apps/game/test/planet-session.test.mjs": "13155b43e4a8637808c3054541f0a6ab799049649ebe402faa126f4f901a22e4",
+    "apps/game/test/emulator-cleanup.test.mjs": "eeaba1e26a07e2b8f8deafbfbcc4a9be5c4c06346a7d8c72a5b15479011367a4",
+    "apps/game/test-emulator/support/cleanup.mjs": "089f4793d9fc473d55d9f351c384a199de45fd02e2ee1b89714855b80946fe91",
+    "apps/game/test-emulator/connected-declared-hack.test.mjs": "99b42eef2388d19d975ded95c4f39baf335ed1c5a956e01670ae63ebf865d113",
+    "apps/game/dev/planet-emulator/capture.mjs": "2f69b36abbd558adf752cd6439f8d4f88696cc6af04d5d8a3cd55f2a8e66c938"
+  },
+  "productionFilesSha256": {
+    "dist/hosted-preview/art/abilities.art.f7ff31a86d.css": "f7ff31a86dc6a7315e386648bc5664e29e6390f2018ff14831270532409a2ffd",
+    "dist/hosted-preview/art/board-v2-films.art.9e6abdef0f.css": "9e6abdef0f0be32d8283dffbef9bff18898c62d4f330c8f72f9216717f1e8bbb",
+    "dist/hosted-preview/art/board-v2-motion.art.7793869d6b.css": "7793869d6bef7d4a851ba5d5aa12e686544c3ae3f842409ac70598d864532677",
+    "dist/hosted-preview/art/board-v2.art.5dedbf2450.css": "5dedbf2450adca159480d3ba448501ce6957595f1a018c5ced4d9d17f5031cd2",
+    "dist/hosted-preview/art/planet-library/arrival-blue.5a905ac795.mp4": "5a905ac79545c818550e8718b0d5d2de9db705840387d87f1d00d9157a9fb643",
+    "dist/hosted-preview/art/planet-library/arrival-blue.poster.4ca9e33913.webp": "4ca9e33913cb798ecc8f58345d85f04830c8ac1afb1d5c5ab26114237a2aaf88",
+    "dist/hosted-preview/art/planet-library/arrival-red.11cc978817.mp4": "11cc9788177ac56a7859849718677e9b3ffb8a92f367a2f8f6ef86bdec2a73c7",
+    "dist/hosted-preview/art/planet-library/arrival-red.poster.32f9127d58.webp": "32f9127d58c31f727d17d9cc57c9d160d40dff4c933145e131a9ce5b0a6ad938",
+    "dist/hosted-preview/art/planet-library/blackhole.1f1aa0ee1a.mp4": "1f1aa0ee1a3b227bd09bd62496178a28e9aeee18b617863943ceae3f32047c57",
+    "dist/hosted-preview/art/planet-library/blackhole.poster.dfa7e8141b.webp": "dfa7e8141b3738fc65e33d4ee5de825b97925de487e7906d50394c25959c99e5",
+    "dist/hosted-preview/art/planet-library/end.art.717e2dcc59.css": "717e2dcc59088759615cc7536a341592eb5ef1e2c0ff811feb499eb3ba806613",
+    "dist/hosted-preview/art/planet-library/hack-engineer.art.15e5c98ff2.css": "15e5c98ff253858148986476a2c7035cc924898191e2ddbb1f422bca694e6c0c",
+    "dist/hosted-preview/art/planet-library/hospital-panel.art.e6b5bddef6.css": "e6b5bddef618d97fbc2acbf9166d766ca70ba8199d337f41776a79b642263358",
+    "dist/hosted-preview/art/planet-library/navigation.art.b583b8bc4e.css": "b583b8bc4e749b26d811065beb247ec40d7cbd386f4d134e2c31940dfd5672b3",
+    "dist/hosted-preview/art/planet-library/offices.art.6d780e7fff.css": "6d780e7fffa10f9f6caccd22a92e33c20e413554778876a08bbf6cd1e5e79b01",
+    "dist/hosted-preview/art/planet-library/promises.art.0298ebef8d.css": "0298ebef8d319080e7cb751632908d06784ff75790093227e6300401d2d0867a",
+    "dist/hosted-preview/art/planet-library/rescue.eccab99be1.mp4": "eccab99be11d1696a90d7a81270006819c05ccd218623df6e3f105cc743cc097",
+    "dist/hosted-preview/art/planet-library/rescue.poster.dffbce3adf.webp": "dffbce3adf4f2d0744905fd6c235f32aebb38ace5206992c73614cbcae764826",
+    "dist/hosted-preview/art/planet-library/successor.art.676b8d3fd6.css": "676b8d3fd6100193d8f1bd4c5b13a55e883f48cbfa6fd7666bfbbb83c72248bd",
+    "dist/hosted-preview/art/planet-library/transit.6e338df52f.mp4": "6e338df52f1b4f4feac3d56ed53b2114057516a038c4aa8d7f336c65162a34f8",
+    "dist/hosted-preview/art/planet-library/transit.poster.cd2ee84274.webp": "cd2ee84274ed955176005b4ed0bb44c353e26cf3f5585b5ff1ce515c8903daa2",
+    "dist/hosted-preview/art/planet-library/windows.art.767ae8ccdc.css": "767ae8ccdc9aceef3604a88260b2149a0766a2910836084247d5bfc6ab9d27a0",
+    "dist/hosted-preview/art/player-ui.art.fc4830756c.css": "fc4830756cfe0119d98e2a06c207aa5178bdec96d0ed8d8b98f263c1a47cdc67",
+    "dist/hosted-preview/art/public-board.art.1f47b9f920.css": "1f47b9f920c4b7090891bc23c27223c56762f43508b731ae1c6a0142ace06996",
+    "dist/hosted-preview/art/roles.art.14e56b5e3e.css": "14e56b5e3eaa713c6003dbe1092b40585b1ced17d658bcc7ccfd0587cf43a995",
+    "dist/hosted-preview/art/scenes.art.0ff8b3c930.css": "0ff8b3c9305e99a2ff3562411ea412910b66d9ba52800858c5fa010ee9b07b29",
+    "dist/hosted-preview/art/setup.art.f196649c9c.css": "f196649c9c117d402ac1ee2483870be279f7a347c823c0175b0caa07be9ebe15",
+    "dist/hosted-preview/assets/board-v2-3CWG5WAo.js": "092a8fb97e71c30d1da4360267a41dfcbff3b010bd526252c085a814e288e857",
+    "dist/hosted-preview/assets/board-v2-pMYnV5uf.css": "4170edebd272a6d1440353c8720232f06b444fc61ef7876b9dedac61560660b8",
+    "dist/hosted-preview/assets/development-DOjPKNpG.css": "19c1460aa387c1f80a953203ecd8574961fffdf964f2a6877f78bda7f01c3f44",
+    "dist/hosted-preview/assets/game-Dq-tVuqK.js": "9b9fc2eac17c8b09c2add3038babda1944118c60bb891dfe3eb62dfe17243e9c",
+    "dist/hosted-preview/assets/main-DQdZQjSM.js": "ee93c22bcfd1d9822cee8288d26801414b5bb5c3ce4f1ef0b9bd3b8f2d8b88e7",
+    "dist/hosted-preview/assets/main-kmz3ZQTr.css": "65929172035084d3145ddaf43b458231c0d99ffed7482162ee0baeac5afb3637",
+    "dist/hosted-preview/assets/modulepreload-polyfill-P2Xu9kJm.js": "418c206484b89b68ef5f067277831e583fc9193a62aadf4de269acaaeb12a85f",
+    "dist/hosted-preview/assets/planet-D8WHO1et.css": "ac97c4a197723beee2f06be6fd14ff07880f77e54208f5200164614a1c96e465",
+    "dist/hosted-preview/assets/planet-DcbbjeuG.js": "e9f86cc738ced27ef5856e8de25fa8498281bea8631a6863521783947e3a427d",
+    "dist/hosted-preview/development/index.html": "c3bb91a5733b31236a6df105b7b7073dd54604e4337818adb347f004a1c941b5",
+    "dist/hosted-preview/index.html": "84d0fcd717c794688ca6ef9cf9cc0a57019a87bc880e232d54b9e4c601593c3d",
+    "dist/hosted-preview/planet/index.html": "182dba1838b6f4f44b649ac3dc83d23b6385d97f19554039bfbdfbfc44e79052"
+  },
+  "evidenceFilesSha256": {
+    "docs/frontend/evidence/planet-lifecycle-retry/320-568-normal-reading-UNAVAILABLE.png": "5a5db97da8c44a48b6b3e59c8db56ac7a5ebf1115b9471a38265937cb6510956",
+    "docs/frontend/evidence/planet-lifecycle-retry/320-568-normal-reading-missing-code.png": "5a5db97da8c44a48b6b3e59c8db56ac7a5ebf1115b9471a38265937cb6510956",
+    "docs/frontend/evidence/planet-lifecycle-retry/320-568-normal-running-UNAVAILABLE.png": "e41ff4a6ecee419a104ca3beffe64c75ae701fc5c383bd9c48df569434b87e3a",
+    "docs/frontend/evidence/planet-lifecycle-retry/320-568-normal-running-missing-code.png": "e41ff4a6ecee419a104ca3beffe64c75ae701fc5c383bd9c48df569434b87e3a",
+    "docs/frontend/evidence/planet-lifecycle-retry/320-568-reduced-reading-UNAVAILABLE.png": "5a5db97da8c44a48b6b3e59c8db56ac7a5ebf1115b9471a38265937cb6510956",
+    "docs/frontend/evidence/planet-lifecycle-retry/320-568-reduced-reading-missing-code.png": "5a5db97da8c44a48b6b3e59c8db56ac7a5ebf1115b9471a38265937cb6510956",
+    "docs/frontend/evidence/planet-lifecycle-retry/320-568-reduced-running-UNAVAILABLE.png": "e41ff4a6ecee419a104ca3beffe64c75ae701fc5c383bd9c48df569434b87e3a",
+    "docs/frontend/evidence/planet-lifecycle-retry/320-568-reduced-running-missing-code.png": "e41ff4a6ecee419a104ca3beffe64c75ae701fc5c383bd9c48df569434b87e3a",
+    "docs/frontend/evidence/planet-lifecycle-retry/390-844-normal-reading-UNAVAILABLE.png": "519e266e698ea322d5ecd52083942bb6361d70c69b06a9e2f570efa116ad0f99",
+    "docs/frontend/evidence/planet-lifecycle-retry/390-844-normal-reading-missing-code.png": "519e266e698ea322d5ecd52083942bb6361d70c69b06a9e2f570efa116ad0f99",
+    "docs/frontend/evidence/planet-lifecycle-retry/390-844-normal-running-UNAVAILABLE.png": "76259b24c3e6439b3b9f62d8d9f23137f150aa105528eaf34c2b54fb3a1ec097",
+    "docs/frontend/evidence/planet-lifecycle-retry/390-844-normal-running-missing-code.png": "76259b24c3e6439b3b9f62d8d9f23137f150aa105528eaf34c2b54fb3a1ec097",
+    "docs/frontend/evidence/planet-lifecycle-retry/390-844-reduced-reading-UNAVAILABLE.png": "519e266e698ea322d5ecd52083942bb6361d70c69b06a9e2f570efa116ad0f99",
+    "docs/frontend/evidence/planet-lifecycle-retry/390-844-reduced-reading-missing-code.png": "519e266e698ea322d5ecd52083942bb6361d70c69b06a9e2f570efa116ad0f99",
+    "docs/frontend/evidence/planet-lifecycle-retry/390-844-reduced-running-UNAVAILABLE.png": "76259b24c3e6439b3b9f62d8d9f23137f150aa105528eaf34c2b54fb3a1ec097",
+    "docs/frontend/evidence/planet-lifecycle-retry/390-844-reduced-running-missing-code.png": "76259b24c3e6439b3b9f62d8d9f23137f150aa105528eaf34c2b54fb3a1ec097",
+    "docs/frontend/evidence/planet-lifecycle-retry/facts.json": "d27096f9f9fc4c7f144aebaaf1b92b16d5fb88c8141db8829b50f53534810993",
+    "docs/frontend/evidence/planet-terminal-return/320-568-aborted-command-live.png": "04bea9577fec49238c8d5ac53a120e52e973a38e14163fa653ef078d076777c6",
+    "docs/frontend/evidence/planet-terminal-return/320-568-aborted-command-reload.png": "04bea9577fec49238c8d5ac53a120e52e973a38e14163fa653ef078d076777c6",
+    "docs/frontend/evidence/planet-terminal-return/320-568-normal-aborted.png": "59148c8f9cfec926dcb270471888ba0e09cf014ad159463d62842788644a6629",
+    "docs/frontend/evidence/planet-terminal-return/320-568-normal-finished.png": "59148c8f9cfec926dcb270471888ba0e09cf014ad159463d62842788644a6629",
+    "docs/frontend/evidence/planet-terminal-return/320-568-reduced-aborted.png": "59148c8f9cfec926dcb270471888ba0e09cf014ad159463d62842788644a6629",
+    "docs/frontend/evidence/planet-terminal-return/320-568-reduced-finished.png": "59148c8f9cfec926dcb270471888ba0e09cf014ad159463d62842788644a6629",
+    "docs/frontend/evidence/planet-terminal-return/390-844-aborted-command-live.png": "db226890317a527819465cdc6befe3b61745870f5489ba3b7d256c5f351c9513",
+    "docs/frontend/evidence/planet-terminal-return/390-844-aborted-command-reload.png": "db226890317a527819465cdc6befe3b61745870f5489ba3b7d256c5f351c9513",
+    "docs/frontend/evidence/planet-terminal-return/390-844-normal-aborted.png": "87671c3e8620371dcf90156d4efd4a6f80e8de9e95e3d7cff953db4782a108e9",
+    "docs/frontend/evidence/planet-terminal-return/390-844-normal-finished.png": "87671c3e8620371dcf90156d4efd4a6f80e8de9e95e3d7cff953db4782a108e9",
+    "docs/frontend/evidence/planet-terminal-return/390-844-reduced-aborted.png": "87671c3e8620371dcf90156d4efd4a6f80e8de9e95e3d7cff953db4782a108e9",
+    "docs/frontend/evidence/planet-terminal-return/390-844-reduced-finished.png": "87671c3e8620371dcf90156d4efd4a6f80e8de9e95e3d7cff953db4782a108e9",
+    "docs/frontend/evidence/planet-terminal-return/facts.json": "dd63f096828d130c48f317505174fc9bf4d677a1beaa62b54eac6e069ad1f203",
+    "docs/frontend/evidence/planet-lifecycle-shell/320-568-normal-blackout.png": "6632be8251290c49b5300486359e95508452c4b789223f27c14e59b0156c1ee3",
+    "docs/frontend/evidence/planet-lifecycle-shell/320-568-normal-board.png": "8e4713fc07691c816c5a039354b9e5729a862f12396c6d310122052b0ddaaa6c",
+    "docs/frontend/evidence/planet-lifecycle-shell/320-568-normal-display.png": "bfc439308ea4723dd671e75c45894ac645d0d1599d694677d654eae43d8fe6f0",
+    "docs/frontend/evidence/planet-lifecycle-shell/320-568-normal-doctor.png": "0851183b5c056ef1406d4adc8a1f3986a77a542c012f9d2182d2639e636007ee",
+    "docs/frontend/evidence/planet-lifecycle-shell/320-568-normal-engineer.png": "5d2f2c73d18ca524bc0fd1140240d57709a1485040021694a9ea0555c8a4b7a2",
+    "docs/frontend/evidence/planet-lifecycle-shell/320-568-normal-finished.png": "985b89e1fdb474be770aa66f5c7f1e9a8eb789dfe7ad58f7a4fc946e60e1d530",
+    "docs/frontend/evidence/planet-lifecycle-shell/320-568-normal-hacker.png": "6d8c02a07014c626dee072473918b05aa10734ad808e46c9b3b3f63096cf15a3",
+    "docs/frontend/evidence/planet-lifecycle-shell/320-568-normal-navigation.png": "05007a8ee14a8c0085f0790c8a27c81c9dea04035062a9336fbeec0390c3f7da",
+    "docs/frontend/evidence/planet-lifecycle-shell/320-568-normal-promises.png": "a351835e01f66591318da4c070ee3e928bbc645126152acaae77cde1e9337d44",
+    "docs/frontend/evidence/planet-lifecycle-shell/320-568-normal-reading.png": "80aa1b51dabfb80cdb40d07665bce502bc97b5d2ad7f22e67768504a1c3dfd62",
+    "docs/frontend/evidence/planet-lifecycle-shell/320-568-normal-roster7-board.png": "39d0e46da252abc93c218734ce78ea8e22906e128c2387fb9a6177345e959ac1",
+    "docs/frontend/evidence/planet-lifecycle-shell/320-568-normal-roster8-board.png": "677fc592940acc3867cb72e4e2a1ddc2787cd6d03b5a104db3eb0735a90c9875",
+    "docs/frontend/evidence/planet-lifecycle-shell/320-568-normal-windows.png": "b2de75de350dd143687520ecc248dec4e33ff163dd5b1245e7d2761d04a8c4d2",
+    "docs/frontend/evidence/planet-lifecycle-shell/320-568-reduced-board.png": "8e4713fc07691c816c5a039354b9e5729a862f12396c6d310122052b0ddaaa6c",
+    "docs/frontend/evidence/planet-lifecycle-shell/320-568-reduced-hacker.png": "6d8c02a07014c626dee072473918b05aa10734ad808e46c9b3b3f63096cf15a3",
+    "docs/frontend/evidence/planet-lifecycle-shell/320-568-reduced-reading.png": "80aa1b51dabfb80cdb40d07665bce502bc97b5d2ad7f22e67768504a1c3dfd62",
+    "docs/frontend/evidence/planet-lifecycle-shell/320-568-reduced-roster7-board.png": "39d0e46da252abc93c218734ce78ea8e22906e128c2387fb9a6177345e959ac1",
+    "docs/frontend/evidence/planet-lifecycle-shell/320-568-reduced-roster8-board.png": "677fc592940acc3867cb72e4e2a1ddc2787cd6d03b5a104db3eb0735a90c9875",
+    "docs/frontend/evidence/planet-lifecycle-shell/320-568-reduced-windows.png": "b2de75de350dd143687520ecc248dec4e33ff163dd5b1245e7d2761d04a8c4d2",
+    "docs/frontend/evidence/planet-lifecycle-shell/390-844-normal-board.png": "f8ca8224bd7d53012f1d8644afa68ad6fc7b75024c752666d0091af556bba56d",
+    "docs/frontend/evidence/planet-lifecycle-shell/390-844-normal-hacker.png": "c44ea61ce97dedd8d60e93289126cdea2c0f4b9004fd8f1409f92c72d66ac1a5",
+    "docs/frontend/evidence/planet-lifecycle-shell/390-844-normal-reading.png": "b5f7f657adfaaecacc6079eb1c5726a59fba75bddd66a3b5fdfb15af5b623ae5",
+    "docs/frontend/evidence/planet-lifecycle-shell/390-844-normal-roster7-board.png": "685fd182d6cf15d7cc2321348c5456e38930dcc10f1d1bcf5cfbf3003c29dc77",
+    "docs/frontend/evidence/planet-lifecycle-shell/390-844-normal-roster8-board.png": "3c74d7d82ea7c884d1f267f39807816b33955b272f6a874ebb301d4e55c613cb",
+    "docs/frontend/evidence/planet-lifecycle-shell/390-844-normal-windows.png": "6f36c45ccf128d3cccd1b3e2661f42f94dd528f70c5f2dc901ff14192ea3cf25",
+    "docs/frontend/evidence/planet-lifecycle-shell/390-844-reduced-blackout.png": "e79b0e309aba5050ae79ef90fc820a751f318420ec915a36f41ec2dbe0cf3330",
+    "docs/frontend/evidence/planet-lifecycle-shell/390-844-reduced-board.png": "f8ca8224bd7d53012f1d8644afa68ad6fc7b75024c752666d0091af556bba56d",
+    "docs/frontend/evidence/planet-lifecycle-shell/390-844-reduced-display.png": "e1977a2ffa9dd507288303a2c9c939eabf489938731b34b38851c498e5fd5705",
+    "docs/frontend/evidence/planet-lifecycle-shell/390-844-reduced-doctor.png": "a842b7f8a659fe10904fcb24ff46c7a0228da02b4d977463b2524c04d4f3f7e4",
+    "docs/frontend/evidence/planet-lifecycle-shell/390-844-reduced-engineer.png": "1e206548a6ac62f43b9132b50f0820d5cca6715a6ff3110881eeb627141d4fd8",
+    "docs/frontend/evidence/planet-lifecycle-shell/390-844-reduced-finished.png": "2119c4ce0688014424badcdbddf81bf7c13f33e0676fae9d344309c0434c60aa",
+    "docs/frontend/evidence/planet-lifecycle-shell/390-844-reduced-hacker.png": "c44ea61ce97dedd8d60e93289126cdea2c0f4b9004fd8f1409f92c72d66ac1a5",
+    "docs/frontend/evidence/planet-lifecycle-shell/390-844-reduced-navigation.png": "4c21af80e5d1616f2f8ee2955cb09f7283bd852783122e5315531b5f98e1cae4",
+    "docs/frontend/evidence/planet-lifecycle-shell/390-844-reduced-promises.png": "21608fd6c1f48f74f6fba6411017ac078b2c3cdb7358ac1f17e12b20e3ddc78c",
+    "docs/frontend/evidence/planet-lifecycle-shell/390-844-reduced-reading.png": "b5f7f657adfaaecacc6079eb1c5726a59fba75bddd66a3b5fdfb15af5b623ae5",
+    "docs/frontend/evidence/planet-lifecycle-shell/390-844-reduced-roster7-board.png": "685fd182d6cf15d7cc2321348c5456e38930dcc10f1d1bcf5cfbf3003c29dc77",
+    "docs/frontend/evidence/planet-lifecycle-shell/390-844-reduced-roster8-board.png": "3c74d7d82ea7c884d1f267f39807816b33955b272f6a874ebb301d4e55c613cb",
+    "docs/frontend/evidence/planet-lifecycle-shell/390-844-reduced-windows.png": "6f36c45ccf128d3cccd1b3e2661f42f94dd528f70c5f2dc901ff14192ea3cf25",
+    "docs/frontend/evidence/planet-lifecycle-shell/facts.json": "c960808e9cdffca65d852d4bbb9d009bb315f5beaa0d41066e3be92b9b8a5fef",
+    "docs/frontend/evidence/planet-lifecycle-shell/flow-authorized-blackhole-hook.png": "037debbd0c81033e3e2b6652177a3682d5e959353fdde0d03e1afcd0459a025b",
+    "docs/frontend/evidence/planet-lifecycle-shell/flow-blackout-fixed-slot.png": "4e5a8e533b955475edcf87d55b09fe399471f5dc758a87e5413d368133b40b0d",
+    "docs/frontend/evidence/planet-lifecycle-shell/flow-capsule-entry.png": "fa34a610cabba756492107c003c2c47dab0a337a5d04e14f77ac52bb3320dfdc",
+    "docs/frontend/evidence/planet-lifecycle-shell/flow-capsule-talk-authoritative-time.png": "4b06abb81d5e10d5fa49b19819189630091f867a2a627dd0d255427af4fbc020",
+    "docs/frontend/evidence/planet-lifecycle-shell/flow-keyboard-code-confirm.png": "754346a9db08dd17df94197537d6fddc07d0cdc6f0443eb15c3e2a79be8c4326",
+    "docs/frontend/evidence/planet-lifecycle-shell/flow-rescue-live-normal.png": "4d837e3fd6cbbe68a23d91f5501c486c18e1425bb23bdf063eb1f54a924d0a1d",
+    "docs/frontend/evidence/planet-lifecycle-shell/flow-room-block-normal.png": "f170b8d5e5dc83af43a60e7a9619939b74e551f2f711c807b84b04b544edfd8b",
+    "docs/frontend/evidence/planet-lifecycle-shell/flow-same-room-move-confirm.png": "25f50f397efb2e3241ca1226b1162e59bc96523464158c6f63965139b2747d8f"
+  },
+  "realServiceSmoke": "Earlier 0b9e5057 checkpoint retained; not rerun for this follow-up",
+  "emulatorsStartedForFollowup": false,
+  "deployment": "not performed",
+  "profileActivation": "not performed",
+  "remainingGates": [
+    "Integration unpublished consumer hash refresh",
+    "Integration exact-head emulator CI",
+    "Hosted and production attestation checks",
+    "Physical devices and human playtests"
+  ],
+  "nativeCaptureSynchronization": {
+    "waitsForIssuedMatchIdExactText": true,
+    "waitsForIssuedRecoveryCodeDom": true,
+    "modelOnlyReadinessRemoved": true,
+    "originalTextAssertionRetained": true,
+    "productionSecretLoggingAdded": false,
+    "actualServiceCiRerun": "Integration exact-head gate"
+  }
+}

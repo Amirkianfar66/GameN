@@ -22,11 +22,14 @@ export async function mountPlanetApp(root,{connection,matchId,allowSynthetic=fal
  const session=createPlanetSession(connection,ports,stores);
  const libraryAssets=createPlanetLibraryAssets(document);
  await loadArt('player',document);
- let game=null,renderer=null,gameRoot=null,key=null,model=null,disposed=false,hostOpen=false,abortConfirm=false,unsubscribe=null,roleOpen=false,lastStatus=null,sessionKey=null,entryMode='join';
+ let game=null,renderer=null,gameRoot=null,terminalReturn=null,key=null,model=null,disposed=false,hostOpen=false,abortConfirm=false,unsubscribe=null,roleOpen=false,lastStatus=null,sessionKey=null,entryMode='join';
  const entryDraft={roomCode:'',displayName:'',kind:'player'};
  const el=(tag,text=null)=>{const n=document.createElement(tag);if(text!==null)n.textContent=text;return n;};
  const button=(label,run)=>{const b=el('button',label);b.type='button';b.addEventListener('click',run);return b;};
  const operate=action=>void session.operate(action);
+ const hasCommandRecovery=()=>{try{return ports.unresolved.load()!==null||!!game?.getModel().recovery||game?.getModel().action?.step==='sending';}catch{return true;}};
+ const canReturnToLobby=()=>{const s=session.getModel(),g=game?.getModel();return s.canReturnToLobby&&(!g||g.connection==='live'&&!g.concealed&&g.phase?.trusted&&!g.recovery&&g.action?.step!=='sending');};
+ function returnButton(){const b=button('Return to lobby',()=>{if(!canReturnToLobby())return;entryMode='join';hostOpen=false;abortConfirm=false;roleOpen=false;Object.assign(entryDraft,{roomCode:'',displayName:'',kind:'player'});session.returnToLobby();});b.id='planet-return-lobby';b.className='planet-return-lobby';return b;}
  function createRoleCard(value,own){
   const look=planetRoleLook(value.role,value.faction),card=el('article');card.className='ms-role-card ms-role-card--full';card.dataset.device=look.device??'';card.dataset.team=value.faction.toLowerCase();
   if(own?.characterId){card.dataset.character=own.characterId;card.style.setProperty('--ms-role-person',`var(--ms-asset-piece-crew-card-${own.characterId})`);}
@@ -40,7 +43,7 @@ export async function mountPlanetApp(root,{connection,matchId,allowSynthetic=fal
   root.className='planet-setup';root.replaceChildren();
   const heading=el('h1',model.mode==='synthetic'?'SYNTHETIC · Mothership':'Mothership');root.append(heading);
   const status=el('p',model.message??(model.connection==='connecting'?'Connecting…':''));status.setAttribute('role','status');root.append(status);
-  if(model.uncertain){root.append(button('Retry original session request',()=>void session.retry()));return;}
+  if(model.uncertain){const retry=button('Retry original session request',()=>void session.retry());retry.disabled=model.busy;root.append(retry);return;}
   if(model.pendingAdmission){
    const state=model.pendingAdmission.status,denied=state==='closed'||state==='declined';status.textContent=model.connection==='error'?model.message:state==='closed'?'Request closed.':state==='declined'?'Request declined.':'Request registered.';root.append(el('h2',`Room ${model.pendingAdmission.roomCode}`),el('p',`Requested ${model.pendingAdmission.kind==='display'?'shared display':'player seat'}. ${denied?'This request was not admitted.':'Waiting for the server to confirm admission.'}`));
    const check=button('Check admission',()=>void session.refresh());check.id='planet-check-admission';root.append(check);return;
@@ -71,13 +74,18 @@ export async function mountPlanetApp(root,{connection,matchId,allowSynthetic=fal
    const toggle=button(model.ownRole?'Conceal my role':'Reveal my role',()=>{roleOpen=!roleOpen;session.revealRole(roleOpen);});toggle.id='planet-role-reveal';toggle.setAttribute('aria-expanded',String(model.ownRole!==null));root.append(toggle);
    const privatePanel=el('div');privatePanel.className='ms-shell planet-setup-card';const inner=el('div');inner.className='ms-private__panel';if(model.ownRole)inner.append(createRoleCard(model.ownRole,own));else inner.append(el('p',own.ready?'Ready. Waiting for the other players.':'Your role is concealed.'));privatePanel.append(inner);root.append(privatePanel);
    const ready=button(own.ready?'Ready ✓':'Ready',()=>{roleOpen=false;operate({operation:'ready',matchId:model.matchId});});ready.id='planet-ready';ready.disabled=!model.canReady;root.append(ready);
-  }else if(model.status==='aborted')root.append(el('h2','Match aborted · No winner'));
+  }else if(model.status==='aborted'){
+   root.append(el('h2','Match aborted · No winner'));
+   if(canReturnToLobby())root.append(returnButton());
+   else if(game){const recovery=game.getModel(),check=button('Check original receipt',async()=>{await game?.checkReceipt();sessionKey=null;render(session.getModel());});check.id='planet-terminal-check-receipt';check.disabled=!recovery.recovery?.canCheck;root.append(el('p',recovery.message??'The previous command still needs its original receipt.'),check);}
+  }
   else root.append(el('p',model.isHost?'Host lobby':'Waiting for admission or the next stage.'));
   const roster=el('ul');for(const member of model.members)roster.append(el('li',`Player ${member.seatId.slice(5)} · ${member.displayName}${member.controller==='bot'?' · Bot':''}${member.ready?' · Ready':''}`));if(['reading','lobby'].includes(model.status)){const details=el('details');details.append(el('summary',model.status==='reading'?`${model.members.filter(m=>m.ready).length} of ${model.playerCount} players ready`:`${model.members.length} of ${model.playerCount} seats filled`),roster);root.append(details);}else root.append(roster);
   if(model.isHost)hostControls(root);
   const timer=el('p');timer.id='planet-setup-timer';root.append(timer);updateTimer();
  }
  function hostControls(parent){
+  if(model.uncertain){const status=el('p',model.message),retry=button('Retry original session request',()=>void session.retry());status.setAttribute('role','status');retry.disabled=model.busy;parent.append(status,retry);return;}
   for(const admission of model.pendingAdmissions)parent.append(button(`Admit ${admission.displayName} (${admission.kind})`,()=>operate({operation:'approveAdmission',matchId:model.matchId,admissionId:admission.id})));
   if(model.status==='lobby'){
    const form=el('form'),select=el('select');select.id='planet-bot-count';for(let n=0;n<=model.playerCount-model.members.filter(m=>m.controller==='human').length;n++){const o=el('option',`${n} bots`);o.value=String(n);select.append(o);}select.value=String(model.members.filter(m=>m.controller==='bot').length);const label=el('label','Bots');label.htmlFor=select.id;form.append(label,select,el('button','Set bots'));form.addEventListener('submit',e=>{e.preventDefault();operate({operation:'setBots',matchId:model.matchId,count:Number(select.value)});});parent.append(form);
@@ -93,17 +101,23 @@ export async function mountPlanetApp(root,{connection,matchId,allowSynthetic=fal
  function updateTimer(){const t=document.getElementById('planet-setup-timer');if(t)t.textContent=model.remainingMs===null?'':model.status==='reading'?model.remainingMs>0?`Read for at least ${Math.ceil(model.remainingMs/1000)} more seconds.`:'Ready is available after the minimum reading time.':`${Math.ceil(model.remainingMs/1000)} seconds remaining.`;}
  function render(next){
   if(disposed)return;model=next;libraryAssets.setVersions(model.versions);
+  if(terminalReturn)terminalReturn.hidden=!canReturnToLobby();
   const running=['running','finished'].includes(model.status),surface=model.selfSeatId?'player':'display';
   if(running){
    const nextKey=`${model.matchId}:${surface}:${model.selfSeatId}`;
-   if(key!==nextKey){renderer?.dispose();game?.dispose();root.className='planet-container';root.replaceChildren();gameRoot=el('div');root.append(gameRoot);key=nextKey;game=createPlanetController(session.gameTransport(surface),ports,{matchId:model.matchId,surface});renderer=mountPlanetRenderer(gameRoot,game,{cinematics:planetHasLibraryArt(model.versions)?PLANET_LIBRARY_MEDIA:[]});void game.start();}
+   if(key!==nextKey){renderer?.dispose();game?.dispose();root.className='planet-container';root.replaceChildren();gameRoot=el('div');root.append(gameRoot);key=nextKey;game=createPlanetController(session.gameTransport(surface),ports,{matchId:model.matchId,surface});terminalReturn=returnButton();terminalReturn.hidden=true;renderer=mountPlanetRenderer(gameRoot,game,{cinematics:planetHasLibraryArt(model.versions)?PLANET_LIBRARY_MEDIA:[],terminalAction:terminalReturn});void game.start();}
    root.querySelector('.planet-host-menu')?.remove();if(model.isHost){const menu=el('aside');menu.className='planet-host-menu';const open=button(hostOpen?'Close host controls':'Host controls',()=>{hostOpen=!hostOpen;render(model);});menu.append(open);if(hostOpen){const panel=el('section');panel.className='planet-host-panel';panel.append(el('h2',`Room ${model.roomCode}`));hostControls(panel);menu.append(panel);}root.append(menu);}return;
   }
   // A stale/hidden session does not discard a command's controller or recovery identifiers.
-  if(game&&model.connection!=='live'){root.querySelector('.planet-host-menu')?.remove();return;}
-  if(key){renderer?.dispose();game?.dispose();renderer=null;game=null;key=null;}
+  if(game&&renderer&&model.connection!=='live'){root.querySelector('.planet-host-menu')?.remove();return;}
+  if(model.status==='aborted'&&hasCommandRecovery()){
+   // An abort closes gameplay, but the original command receipt remains readable.
+   // Keep its controller, or reconstruct it from UID-bound identifiers after reload.
+   renderer?.dispose();renderer=null;terminalReturn=null;
+   if(!game){key=`${model.matchId}:${surface}:${model.selfSeatId}`;game=createPlanetController(session.gameTransport(surface),ports,{matchId:model.matchId,surface});void game.start();}
+  }else if(key){renderer?.dispose();game?.dispose();renderer=null;game=null;terminalReturn=null;key=null;}
   if(lastStatus!==model.status){roleOpen=false;lastStatus=model.status;}
-  const nextSessionKey=JSON.stringify({...model,remainingMs:null,canChoose:model.canChoose,canReady:model.canReady});
+  const nextSessionKey=JSON.stringify({...model,remainingMs:null,canChoose:model.canChoose,canReady:model.canReady,commandRecovery:game?.getModel().recovery,commandMessage:game?.getModel().message});
   if(sessionKey!==nextSessionKey){const focus=document.activeElement?.id;sessionKey=nextSessionKey;lobbyView();if(focus)document.getElementById(focus)?.focus({preventScroll:true});}updateTimer();
  }
  const visibility=()=>{session.setVisible(document.visibilityState==='visible');if(document.visibilityState!=='visible')roleOpen=false;};
