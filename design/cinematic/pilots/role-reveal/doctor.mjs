@@ -1,16 +1,18 @@
 // mothership:dev-only
 //
-// The Doctor's three panels (docs/design/cinematic/role-reveal.md, "Doctor"): the medic who holds the
-// ship's last two doses.
-//   1  the Hospital at night: a patient's silhouette on a berth, the monitor's trace stuttering, its
-//      amber lamp blinking in a slow, safe rhythm (BEEP)
-//   2  the ceiling opens: the ward's iris dilates, the medical drone descends on its searchlight, and
-//      one of the injector's two vials empties toward it (WHIRR)
-//   3  the trace steadies, the patient sits up, and the Hospital panel's keypad lights one number:
-//      the player's own (the panel's code is the Doctor's player number, P21 and P22)
-// The rules they teach: two shared injections, the Doctor's Rescue, the panel's code. The drone and
-// the medical palette are the Hospital films' own (board-v2/fx/medical.mjs), so the player meets
-// them here before the game. Every figure is a silhouette with no face, number or name.
+// The Doctor's three panels (docs/design/cinematic/role-reveal.md, "Doctor"): a small back story, as a
+// comic book gives its characters one (the owner, 6 November 2026), told around the player's own
+// character:
+//   1  Colony Nine, the fever years (memory, in sepia): a field ward at night, its cots full under one
+//      hanging lamp, and the player's character at the foot of a cot with a chart
+//   2  the last two doses (memory): an open medicine case under a desk lamp, every slot empty but two,
+//      their vials still glowing, rain on the window
+//   3  aboard, now: the Mothership's Hospital at night; the trace steadies, and the Hospital panel's
+//      keypad lights one number, the player's own (the panel's code is the Doctor's player number,
+//      P21 and P22)
+// The rules it teaches: two doses for the whole voyage, and the panel's code. The medical palette is
+// the Hospital films' own (board-v2/fx/medical.mjs). The player's character is the only figure in
+// colour; every other figure is a silhouette with no face, number or name.
 //
 // Lit as noir (the owner's review: the patient and the equipment must not sink into the dark once
 // three panels share the screen): the patient is a navy silhouette with a paper rim light and a pool
@@ -18,15 +20,15 @@
 // lamps glow and cast their light; things stand on contact shadows. Each panel is shot as an animated
 // comic: three layers (far, middle, near) under a slow push, the near layer moving most.
 //
-// Each panel is a pure function (local ms since the panel slammed in, { w, h, prefix, seat, reduced })
+// Each panel is a pure function (local ms since the panel slammed in, { w, h, prefix, seat, character, reduced })
 // -> SVG markup in the panel's own units, drawn for a nominal 828 x 480 panel and scaled to its height.
 
-import { DRONE, MEDICAL, droneSvg } from '../../../board-v2/fx/medical.mjs';
+import { MEDICAL } from '../../../board-v2/fx/medical.mjs';
 import { skeletonOf } from '../../../board-motion/figures/gestures.mjs';
-import { INK, AMBER, lightCone, lightPool, stars } from '../../lib/comic.mjs';
-import { beat, bell, clamp01, easeInOutCubic, easeOutBack, easeOutCubic, lerp, rand } from '../../lib/ease.mjs';
-import { figureItems, placeSvg } from '../../lib/scene.mjs';
-import { NIGHT, beamSvg, lampFlicker, motes, rimLit, sfxSvg } from './art.mjs';
+import { INK, AMBER, lightCone, lightPool, stars, streaks } from '../../lib/comic.mjs';
+import { beat, clamp01, easeInOutCubic, easeOutBack, easeOutCubic, rand } from '../../lib/ease.mjs';
+import { figureItems } from '../../lib/scene.mjs';
+import { NIGHT, lampFlicker, motes, rimLit, sfxSvg } from './art.mjs';
 
 const f = v => Number((+v).toFixed(2));
 const NOMINAL = Object.freeze([828, 480]);
@@ -72,16 +74,6 @@ function viewport(prefix, { x, y, w, h, t }) {
     + `<g clip-path="url(#${id})">${stars({ x, y, w, h, count: 46, seed: 53, t })}${slats}</g>`
     + `<rect x="${f(x)}" y="${f(y)}" width="${f(w)}" height="${f(h)}" rx="22" fill="none" stroke="${NIGHT.steelLit}" stroke-width="10"/>`
     + `<rect x="${f(x)}" y="${f(y)}" width="${f(w)}" height="${f(h)}" rx="22" fill="none" stroke="${INK}" stroke-width="4"/>`;
-}
-
-/** Bars of slat light falling from the viewport through the air, bright at the sill and gone at the floor. */
-function slatBeams(prefix, { from, h, opacity = 0.2 }) {
-  let out = '';
-  for (let i = 0; i < 4; i += 1) {
-    const x0 = from[0] + i * 70;
-    out += beamSvg(prefix, `slat-${i}`, { points: [[x0, from[1]], [x0 + 40, from[1]], [x0 + 260, h], [x0 + 170, h]], from: [x0 + 20, from[1]], to: [x0 + 215, h], opacity });
-  }
-  return out;
 }
 
 /** The ward's floor: a lit edge where the wall meets it, halftone in the dark. */
@@ -179,86 +171,108 @@ export function sevenSegment(digit, { x, y, h, lit = 1 }) {
 
 // ---------- the three panels ----------
 
-/** Panel 1: the Hospital at night. */
-export function panelNight(local, { w, h, prefix, reduced = false }) {
-  const t = local;
-  const bed = berth({ x: 120, y: 318, w: 380 });
-  const far = viewport(prefix, { x: 40, y: 34, w: 280, h: 150, t })
-    // Light behind the patient: the wall lit by the viewport and the monitor, so the silhouette reads.
-    + lightPool(prefix, 'backlight', { cx: 360, cy: 270, rx: 300, ry: 150, color: NIGHT.slat, opacity: 0.17 })
-    + slatBeams(prefix, { from: [80, 184], h: NOMINAL[1], opacity: 0.2 });
-  const middle = floor(prefix)
-    + bed.svg
-    + patient(`${prefix}-pt`, { gesture: 'stand', at: [452, 296], scale: 1.18, rotate: -90, rim: [-3, -4] })
-    + blanket(prefix, { from: 260, to: 498, top: bed.top, height: 30 })
-    + motes({ x: 90, y: 190, w: 380, h: 240, t, count: 14, seed: 23, color: NIGHT.slat, opacity: 0.5, reduced });
-  const near = monitor(prefix, { x: 570, y: 96, local: t, stable: false, lamp: lampFlicker(t, 3) })
-    + sfxSvg('BEEP', { x: 612, y: 80, size: 44, rotate: -8, pop: easeOutBack(beat(t % 900, [0, 180]), 1.8), opacity: 1 - beat(t % 900, [480, 760]) });
-  return shot(w, h, { far, middle, near }, { local: t, focus: [380, 300] });
+/** A cot in three-quarter view: a frame, legs and a thin mattress, with a rim of lamp light. Returns { svg, top }. */
+function cot({ x, y, w, depth = 1 }) {
+  const svg = contact(x + w / 2, w + 30 * depth).replace('cy="446"', `cy="${f(y + 74 * depth)}"`)
+    + `<path d="M${f(x + 10)} ${f(y + 18)}V${f(y + 72 * depth)}M${f(x + w - 10)} ${f(y + 18)}V${f(y + 72 * depth)}" stroke="${INK}" stroke-width="${f(7 * depth)}"/>`
+    + `<rect x="${f(x)}" y="${f(y)}" width="${f(w)}" height="${f(22 * depth)}" rx="5" fill="${NIGHT.steelShadow}" stroke="${INK}" stroke-width="${f(4 * depth)}"/>`
+    + `<rect x="${f(x + 4)}" y="${f(y - 10 * depth)}" width="${f(w - 8)}" height="${f(14 * depth)}" rx="5" fill="${WARD.mattress}" stroke="${INK}" stroke-width="${f(3.5 * depth)}"/>`
+    + `<path d="M${f(x + 10)} ${f(y - 8 * depth)}H${f(x + w - 10)}" stroke="${NIGHT.rim}" stroke-width="2.5" opacity="0.7"/>`;
+  return { svg, top: y - 10 * depth };
 }
 
-/** Panel 2: the ceiling opens and the drone descends; one vial empties toward it. */
-export function panelCeiling(local, { w, h, prefix, reduced = false }) {
+/** A hanging lamp on its cord, its cone of light down to `floor`. */
+function hangingLamp(prefix, { x, y, floor, on = 1 }) {
+  return lightCone(prefix, 'hang', { from: [x, y + 22], to: [x, floor], spread: 210, color: '#FFE7A3', opacity: 0.3 * on, near: 34 })
+    + `<path d="M${f(x)} 0V${f(y)}" stroke="${INK}" stroke-width="4"/>`
+    + `<path d="M${f(x - 46)} ${f(y + 26)}L${f(x - 18)} ${f(y)}H${f(x + 18)}L${f(x + 46)} ${f(y + 26)}Z" fill="${NIGHT.steelLit}" stroke="${INK}" stroke-width="5" stroke-linejoin="round"/>`
+    + `<ellipse cx="${f(x)}" cy="${f(y + 27)}" rx="30" ry="7" fill="#FFF3C4" opacity="${f(0.5 + 0.5 * on)}"/>`
+    + lightPool(prefix, 'hang-bulb', { cx: x, cy: y + 30, rx: 90, ry: 50, color: '#FFE7A3', opacity: 0.5 * on });
+}
+
+/**
+ * Panel 1 (memory): Colony Nine, the fever years. A field ward at night: cots full of patients under
+ * one hanging lamp, dust beating on the porthole, and the player's own character at the foot of the
+ * nearest cot with a chart. Drawn in colour here; the panel's sepia makes it memory.
+ */
+export function panelColony(local, { w, h, prefix, character = 'c4', reduced = false }) {
   const t = local;
-  const open = easeOutCubic(beat(t, [60, 520]));
-  const descend = easeInOutCubic(beat(t, [260, 1050]));
-  const ds = 1.1;
-  const dw = DRONE.w * ds, dh = DRONE.h * ds;
-  const dx = 414 - dw / 2, dy = lerp(-dh * 0.55, 150, descend) + Math.sin(t / 260) * 3 * descend;
-  const frame = t < 700 ? 'folded' : t < 1050 ? 'open' : 'charge';
-  const lens = [dx + DRONE.lens[0] * ds, dy + DRONE.lens[1] * ds];
-  const searching = clamp01((t - 620) / 300);
-  const drain = easeInOutCubic(beat(t, [650, 1150]));
-  // The ceiling: lit plates in perspective, the iris in the middle.
+  const root = prefix.split('-p')[0];
   let seams = '';
-  for (let i = -6; i <= 6; i += 1) seams += `M${f(414 + i * 40)} 0L${f(414 + i * 120)} 150`;
-  const iris = (() => {
-    const rx = 120, ry = 36, cx = 414, cy = 74;
-    let blades = '';
-    for (let i = 0; i < 8; i += 1) {
-      const a = (i * 45 + open * 60) * Math.PI / 180;
-      const r0 = 1 - open * 0.75;
-      blades += `<path d="M${f(cx + Math.cos(a) * rx)} ${f(cy + Math.sin(a) * ry)}Q${f(cx + Math.cos(a + 0.6) * rx * 0.6)} ${f(cy + Math.sin(a + 0.6) * ry * 0.6)} ${f(cx + Math.cos(a + 1.1) * rx * r0 * 0.4)} ${f(cy + Math.sin(a + 1.1) * ry * r0 * 0.4)}" fill="none" stroke="${NIGHT.steelLit}" stroke-width="4" opacity="${f(1 - open * 0.6)}"/>`;
-    }
-    return `<ellipse cx="${cx}" cy="${cy + 3}" rx="${rx + 10}" ry="${ry + 8}" fill="${INK}"/>`
-      + `<ellipse cx="${cx}" cy="${cy + 3}" rx="${rx + 10}" ry="${ry + 8}" fill="none" stroke="${NIGHT.steelPale}" stroke-width="3" opacity="0.6"/>`
-      + `<ellipse cx="${cx}" cy="${cy}" rx="${f(rx * Math.max(0.08, open))}" ry="${f(ry * Math.max(0.08, open))}" fill="${MEDICAL.lens}" opacity="${f(0.25 + 0.75 * open)}"/>`
-      + (open > 0 ? lightPool(prefix, 'iris-glow', { cx, cy, rx: rx * 1.4, ry: ry * 2.2, color: MEDICAL.glow, opacity: 0.35 * open }) : '')
-      + blades;
-  })();
-  const injector = (() => {
-    const x = 500, y = 366;
-    const vial = (vx, level, lit) => `<rect x="${f(vx)}" y="${f(y - 18)}" width="54" height="36" rx="8" fill="${MEDICAL.screen}" stroke="${INK}" stroke-width="4"/>`
-      + `<rect x="${f(vx + 5)}" y="${f(y - 13 + 26 * (1 - level))}" width="44" height="${f(26 * level)}" rx="5" fill="${MEDICAL.cyan}" opacity="${f(0.55 + 0.45 * lit)}"/>`
-      + (level > 0.05 ? lightPool(prefix, `vial-${vx}`, { cx: vx + 27, cy: y, rx: 52, ry: 40, color: MEDICAL.cyan, opacity: 0.3 * lit }) : '');
-    return `<g transform="rotate(-14 ${x + 120} ${y})">`
-      + `<rect x="${f(x - 40)}" y="${f(y - 9)}" width="60" height="18" rx="6" fill="${NIGHT.steelLit}" stroke="${INK}" stroke-width="4"/>`
-      + `<rect x="${f(x + 10)}" y="${f(y - 30)}" width="240" height="60" rx="18" fill="#C6CDD4" stroke="${INK}" stroke-width="6"/>`
-      + `<rect x="${f(x + 10)}" y="${f(y - 30)}" width="240" height="60" rx="18" fill="url(#${prefix.split('-p')[0]}-dots)" opacity="0.22"/>`
-      + `<path d="M${f(x + 26)} ${f(y - 24)}H${f(x + 234)}" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" opacity="0.7"/>`
-      + vial(x + 44, 1 - drain, 1 - drain) + vial(x + 136, 1, 1)
-      + `<rect x="${f(x + 250)}" y="${f(y - 14)}" width="40" height="28" rx="6" fill="${NIGHT.steelShadow}" stroke="${INK}" stroke-width="4"/></g>`;
-  })();
-  const nozzle = [478, 402];
-  const stream = drain > 0 && drain < 1
-    ? `<path d="M${f(nozzle[0])} ${f(nozzle[1])}Q${f(470)} ${f(260)} ${f(lens[0])} ${f(lens[1] + 20)}" fill="none" stroke="${MEDICAL.cyan}" stroke-width="5" stroke-dasharray="4 14" stroke-dashoffset="${f(-t / 12)}" stroke-linecap="round" opacity="${f(bell(drain))}"/>` : '';
-  const far = `<rect x="0" y="0" width="${NOMINAL[0]}" height="150" fill="${NIGHT.steelShadow}"/><path d="${seams}" stroke="${INK}" stroke-width="3" opacity="0.7"/>`
-    + `<path d="${seams}" stroke="${NIGHT.steelLit}" stroke-width="1.5" opacity="0.5" transform="translate(2 0)"/>`
-    + `<rect x="0" y="146" width="${NOMINAL[0]}" height="8" fill="${INK}"/><path d="M0 145H${NOMINAL[0]}" stroke="${NIGHT.steelPale}" stroke-width="2" opacity="0.5"/>`
-    + iris
-    + (open > 0 ? lightCone(prefix, 'iris', { from: [414, 80], to: [414, 300], spread: 140, color: MEDICAL.lens, opacity: 0.22 * open, near: 90 }) : '');
-  const middle = (searching > 0 ? lightCone(prefix, 'search', { from: [lens[0], lens[1] + 8], to: [414, 480], spread: 180, color: MEDICAL.lens, opacity: 0.42 * searching, near: 10 })
-      + lightPool(prefix, 'search-pool', { cx: 414, cy: 470, rx: 230, ry: 44, color: MEDICAL.glow, opacity: 0.55 * searching })
-      + motes({ x: 300, y: 200, w: 230, h: 260, t, count: 14, seed: 37, color: MEDICAL.glow, opacity: 0.55 * searching, reduced }) : '')
-    + placeSvg(droneSvg(frame), { x: dx, y: dy, width: dw, height: dh, scope: `${prefix}-drone` })
-    + lightPool(prefix, 'drone-lens', { cx: lens[0], cy: lens[1], rx: 40, ry: 40, color: MEDICAL.glow, opacity: 0.4 * searching })
-    + stream;
-  const near = injector
-    + sfxSvg('WHIRR', { x: 640, y: 128, size: 48, rotate: -10, pop: easeOutBack(beat(t, [320, 520]), 1.8), opacity: 1 - beat(t, [1000, 1250]) });
-  return shot(w, h, { far, middle, near }, { local: t, focus: [414, 260] });
+  for (let sx = 0; sx <= NOMINAL[0]; sx += 92) seams += `M${f(sx)} 0V438`;
+  // The prefab's wall: ribbed panels, and a porthole on the storm outside.
+  const far = `<path d="${seams}" stroke="${INK}" stroke-width="3" opacity="0.55"/>`
+    + `<path d="M0 214H${NOMINAL[0]}" stroke="${NIGHT.steelLit}" stroke-width="2" opacity="0.4"/>`
+    + `<defs><clipPath id="${prefix}-port"><circle cx="640" cy="150" r="64"/></clipPath></defs>`
+    + `<circle cx="640" cy="150" r="64" fill="#2A2216"/>`
+    + `<g clip-path="url(#${prefix}-port)">${streaks({ x: 560, y: 80, w: 160, h: 140, angle: -18, count: 22, seed: 13, color: '#E9D9B8', width: 2.5, length: 0.5, opacity: 0.55, phase: reduced ? 0 : t / 900 })}</g>`
+    + `<circle cx="640" cy="150" r="64" fill="none" stroke="${NIGHT.steelLit}" stroke-width="10"/><circle cx="640" cy="150" r="64" fill="none" stroke="${INK}" stroke-width="4"/>`
+    + lightPool(prefix, 'back', { cx: 380, cy: 300, rx: 330, ry: 150, color: '#FFE7A3', opacity: 0.14 });
+  // The ward: three cots receding, each with a patient under a sheet.
+  const cots = [{ x: 60, y: 300, w: 200, depth: 0.72 }, { x: 250, y: 336, w: 240, depth: 0.86 }, { x: 430, y: 384, w: 300, depth: 1 }];
+  let ward = floor(prefix);
+  cots.forEach((c, i) => {
+    const bed = cot(c);
+    ward += bed.svg
+      + patient(`${prefix}-pt${i}`, { gesture: 'cotLying', at: [c.x + c.w * 0.62, bed.top + 4], scale: 0.9 * c.depth, rim: [-3, -4] })
+      + `<path d="M${f(c.x + c.w * 0.3)} ${f(bed.top - 18 * c.depth)}Q${f(c.x + c.w * 0.62)} ${f(bed.top - 30 * c.depth)} ${f(c.x + c.w - 8)} ${f(bed.top - 10 * c.depth)}L${f(c.x + c.w - 6)} ${f(bed.top + 2)}H${f(c.x + c.w * 0.28)}Z" fill="${WARD.blanket}" stroke="${INK}" stroke-width="${f(4 * c.depth)}" stroke-linejoin="round"/>`
+      + `<path d="M${f(c.x + c.w * 0.3)} ${f(bed.top - 18 * c.depth)}Q${f(c.x + c.w * 0.62)} ${f(bed.top - 30 * c.depth)} ${f(c.x + c.w - 8)} ${f(bed.top - 10 * c.depth)}" fill="none" stroke="${NIGHT.rim}" stroke-width="3" opacity="0.85"/>`;
+  });
+  const middle = hangingLamp(prefix, { x: 360, y: 40, floor: 440, on: lampFlicker(t, 5) * 0.3 + 0.7 })
+    + ward
+    + motes({ x: 230, y: 90, w: 260, h: 320, t, count: 16, seed: 19, color: '#FFE7A3', opacity: 0.55, reduced });
+  // The player's own character at the foot of the nearest cot, the chart in hand, lit by the lamp behind.
+  const at = [676, 480];
+  const drawn = id => figureItems({ character, sk: skeletonOf('tablet'), at, scale: 1.36, depth: 2, prefix: `${prefix}-${id}`, mirror: true }).map(item => item.svg).join('');
+  const near = `<g filter="url(#${root}-rim)" opacity="0.9" transform="translate(-5 -4)">${drawn('rim')}</g>`
+    + `<g filter="url(#${root}-noir)">${drawn('dr')}</g>`;
+  return shot(w, h, { far, middle, near }, { local: t, focus: [520, 320] });
 }
 
-/** Panel 3: the trace steadies, the patient sits up, and the panel's keypad lights the player's number. */
+/**
+ * Panel 2 (memory): the last two doses. An open medicine case under a desk lamp, every slot empty
+ * but two, their vials still glowing; spent vials on the table; rain running down the window.
+ */
+export function panelDoses(local, { w, h, prefix, reduced = false }) {
+  const t = local;
+  const root = prefix.split('-p')[0];
+  const pulse = reduced ? 1 : 0.8 + 0.2 * Math.sin(t / 260);
+  const far = `<rect x="40" y="40" width="260" height="210" rx="10" fill="#14110C" stroke="${NIGHT.steelLit}" stroke-width="10"/>`
+    + `<defs><clipPath id="${prefix}-win"><rect x="40" y="40" width="260" height="210" rx="10"/></clipPath></defs>`
+    + `<g clip-path="url(#${prefix}-win)">${streaks({ x: 30, y: 30, w: 280, h: 230, angle: 78, count: 34, seed: 41, color: '#E9D9B8', width: 2, length: 0.35, opacity: 0.5, phase: reduced ? 0 : t / 700 })}`
+    + `<path d="M40 214Q170 196 300 222V250H40Z" fill="#3A2E1E"/></g>`
+    + `<rect x="40" y="40" width="260" height="210" rx="10" fill="none" stroke="${INK}" stroke-width="4"/><path d="M170 40V250M40 145H300" stroke="${INK}" stroke-width="6"/>`
+    + lightPool(prefix, 'desk', { cx: 470, cy: 330, rx: 360, ry: 170, color: '#FFE7A3', opacity: 0.22 });
+  // The table, the case and its slots.
+  const table = `<path d="M0 352H${NOMINAL[0]}V480H0Z" fill="${NIGHT.steelShadow}" stroke="${INK}" stroke-width="5"/>`
+    + `<path d="M0 354H${NOMINAL[0]}" stroke="${NIGHT.rim}" stroke-width="2.5" opacity="0.6"/>`
+    + `<rect x="0" y="352" width="${NOMINAL[0]}" height="128" fill="url(#${root}-dots)" opacity="0.25"/>`;
+  const caseX = 230, caseY = 290, caseW = 380, caseH = 96;
+  let slots = '';
+  for (let r = 0; r < 2; r += 1) {
+    for (let c = 0; c < 6; c += 1) {
+      const sx = caseX + 26 + c * 56, sy = caseY + 14 + r * 40;
+      const full = r === 0 && (c === 2 || c === 3);
+      slots += `<rect x="${f(sx)}" y="${f(sy)}" width="44" height="30" rx="7" fill="#0B0D12" stroke="${INK}" stroke-width="3"/>`
+        + (full ? `<rect x="${f(sx + 4)}" y="${f(sy + 4)}" width="36" height="22" rx="5" fill="${MEDICAL.cyan}" opacity="${f(0.75 + 0.25 * pulse)}"/>`
+          + `<path d="M${f(sx + 8)} ${f(sy + 8)}H${f(sx + 32)}" stroke="#FFFFFF" stroke-width="2.5" opacity="0.8"/>`
+          + lightPool(prefix, `dose-${c}`, { cx: sx + 22, cy: sy + 15, rx: 70, ry: 54, color: MEDICAL.cyan, opacity: 0.35 * pulse }) : '');
+    }
+  }
+  const medicineCase = `<path d="M${f(caseX + 10)} ${f(caseY)}L${f(caseX + 40)} ${f(caseY - 150)}H${f(caseX + caseW - 40)}L${f(caseX + caseW - 10)} ${f(caseY)}Z" fill="${NIGHT.steelLit}" stroke="${INK}" stroke-width="6" stroke-linejoin="round"/>`
+    + `<path d="M${f(caseX + 50)} ${f(caseY - 136)}H${f(caseX + caseW - 50)}" stroke="${NIGHT.steelPale}" stroke-width="3" opacity="0.7"/>`
+    + `<rect x="${f(caseX + caseW / 2 - 40)}" y="${f(caseY - 104)}" width="80" height="44" rx="6" fill="${WARD.pillow}" stroke="${INK}" stroke-width="4"/>`
+    + `<path d="M${f(caseX + caseW / 2)} ${f(caseY - 96)}V${f(caseY - 68)}M${f(caseX + caseW / 2 - 14)} ${f(caseY - 82)}H${f(caseX + caseW / 2 + 14)}" stroke="${INK}" stroke-width="6"/>`
+    + contact(caseX + caseW / 2, caseW + 60).replace('cy="446"', `cy="${f(caseY + caseH + 6)}"`)
+    + `<rect x="${f(caseX)}" y="${f(caseY)}" width="${caseW}" height="${caseH}" rx="12" fill="${NIGHT.steelShadow}" stroke="${INK}" stroke-width="6"/>`
+    + slots;
+  // The spent vials, tipped over on the table.
+  const spent = [[110, 404, -70], [160, 420, 20], [700, 410, 64], [752, 432, -12]].map(([vx, vy, a]) => `<g transform="rotate(${a} ${vx} ${vy})"><rect x="${vx - 9}" y="${vy - 22}" width="18" height="44" rx="6" fill="${WARD.pillow}" stroke="${INK}" stroke-width="3" opacity="0.85"/><rect x="${vx - 5}" y="${vy - 26}" width="10" height="8" rx="2" fill="${NIGHT.steelLit}" stroke="${INK}" stroke-width="2"/></g>`).join('');
+  const drip = sfxSvg('DRIP', { x: 170, y: 290, size: 40, rotate: -6, pop: reduced ? 1 : easeOutBack(beat(t % 1100, [0, 200]), 1.8), opacity: reduced ? 1 : 1 - beat(t % 1100, [600, 900]) });
+  return shot(w, h, { far, middle: table + medicineCase, near: spent + drip }, { local: t, focus: [420, 330], push: 0.06 });
+}
+
+/** Panel 3 (now, aboard): the trace steadies, the patient sits up, and the panel's keypad lights the player's number. */
 export function panelSteady(local, { w, h, prefix, seat }) {
   const t = local;
   const bed = berth({ x: 60, y: 330, w: 300 });
@@ -283,7 +297,7 @@ export function panelSteady(local, { w, h, prefix, seat }) {
       + keys
       + (lit > 0 && key ? lightPool(prefix, 'readout', { cx: x + w2 / 2, cy: y + 62, rx: 100, ry: 60, color: AMBER, opacity: 0.38 * lit }) : '');
   })();
-  const far = viewport(prefix, { x: 40, y: 34, w: 220, h: 120, t: t + 2000 })
+  const far = viewport(prefix, { x: 40, y: 104, w: 220, h: 110, t: t + 2000 })
     + lightPool(prefix, 'backlight', { cx: 200, cy: 250, rx: 220, ry: 170, color: NIGHT.slat, opacity: 0.17 })
     + lightPool(prefix, 'cure', { cx: 200, cy: 260, rx: 160, ry: 140, color: MEDICAL.stable, opacity: 0.12 * lit });
   const middle = floor(prefix)
@@ -295,9 +309,10 @@ export function panelSteady(local, { w, h, prefix, seat }) {
     + blanket(prefix, { from: 112, to: 352, top: bed.top + 4, height: 40 })
     + (pulse > 0 && pulse < 1 ? `<ellipse cx="160" cy="250" rx="${f(40 + 70 * pulse)}" ry="${f(40 + 70 * pulse)}" fill="none" stroke="${MEDICAL.cyan}" stroke-width="5" opacity="${f(0.7 * (1 - pulse))}"/>` : '');
   const near = monitor(prefix, { x: 370, y: 96, local: t, stable: true, lamp: 1 })
-    + console;
+    + console
+    + (key ? sfxSvg('BEEP', { x: 520, y: 300, size: 40, rotate: -8, pop: easeOutBack(beat(t, [380, 560]), 1.8), opacity: 1 }) : '');
   return shot(w, h, { far, middle, near }, { local: t, focus: [300, 300] });
 }
 
 /** The Doctor's panels, in order. */
-export const DOCTOR_PANELS = Object.freeze([panelNight, panelCeiling, panelSteady]);
+export const DOCTOR_PANELS = Object.freeze([panelColony, panelDoses, panelSteady]);

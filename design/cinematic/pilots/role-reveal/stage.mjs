@@ -18,7 +18,7 @@ import { DEVICE_FILES, ROLE_REVEAL_ASSETS } from './roles.mjs';
 const SIZES = { device: [120, 140], emblem: [48, 48], portrait: [84, 96] };
 const sizeOf = href => (href.includes('emblem') ? SIZES.emblem : href.includes('crew.card') ? SIZES.portrait : SIZES.device);
 
-/** The page text over the composition: the two caption lines and an announcement of the role. */
+/** The page text over the composition: the three panels' narration, the line under the title and an announcement of the role. */
 function wordsLayer(root, w, h, k) {
   const node = document.createElement('div');
   Object.assign(node.style, { position: 'absolute', left: '0', top: '0', width: `${w}px`, height: `${h}px`, pointerEvents: 'none' });
@@ -29,7 +29,7 @@ function wordsLayer(root, w, h, k) {
     node.append(el);
     return el;
   };
-  const purpose = line(), play = line();
+  const story = [line(), line(), line()], play = line();
   const live = document.createElement('p');
   live.setAttribute('aria-live', 'polite');
   Object.assign(live.style, { position: 'absolute', width: '1px', height: '1px', overflow: 'hidden', clip: 'rect(0 0 0 0)' });
@@ -42,7 +42,7 @@ function wordsLayer(root, w, h, k) {
   };
   return {
     draw(words) {
-      place(purpose, words.purpose);
+      story.forEach((el, i) => place(el, words.story[i]));
       place(play, words.play);
       const say = words.role.visible ? words.role.text : '';
       if (live.textContent !== say) live.textContent = say;

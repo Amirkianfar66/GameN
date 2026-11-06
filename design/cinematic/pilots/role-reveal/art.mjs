@@ -20,9 +20,25 @@ export const NIGHT = Object.freeze({
   // Lit equipment and figures (the owner's review: nothing sinks into the dark): the token steels,
   // a lifted wall and a navy silhouette that a rim light can separate from it.
   steelLit: '#55657E', steelPale: '#B9C4D3', steelShadow: '#34415A', wallLit: '#1A2438', figure: '#1B2436',
+  // The back story's narration boxes: aged paper, as a comic sets its flashback captions.
+  memory: '#E6D3AE',
 });
 
 const f = v => Number((+v).toFixed(2));
+
+/** The flashback's colour matrix (rows R, G, B, A of an feColorMatrix): warm sepia, a little darker than the classic one. */
+export const SEPIA = Object.freeze([
+  Object.freeze([0.36, 0.7, 0.17, 0, 0]),
+  Object.freeze([0.31, 0.62, 0.15, 0, 0]),
+  Object.freeze([0.24, 0.47, 0.12, 0, 0]),
+  Object.freeze([0, 0, 0, 1, 0]),
+]);
+/** A colour as the flashback's filter draws it (#RRGGBB in and out): what the palette test checks. */
+export function sepiaOf(hex) {
+  const [r, g, b] = [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16) / 255);
+  const out = SEPIA.slice(0, 3).map(([kr, kg, kb]) => Math.round(Math.min(1, kr * r + kg * g + kb * b) * 255));
+  return `#${out.map(v => v.toString(16).padStart(2, '0')).join('').toUpperCase()}`;
+}
 
 /** The defs every film uses, under `prefix`: the comic effects, an ink silhouette and a paper rim light. */
 export function revealDefs(prefix) {
@@ -33,7 +49,9 @@ export function revealDefs(prefix) {
     + `<filter id="${prefix}-noir" x="-10%" y="-10%" width="120%" height="120%"><feComponentTransfer><feFuncR type="linear" slope="0.72"/><feFuncG type="linear" slope="0.72"/><feFuncB type="linear" slope="0.8"/></feComponentTransfer></filter>`
     // A silhouette in night navy rather than black, so its rim light and the wall behind both read.
     + `<filter id="${prefix}-sil-lit" x="-10%" y="-10%" width="120%" height="120%"><feFlood flood-color="${NIGHT.figure}"/><feComposite in2="SourceAlpha" operator="in"/></filter>`
-    + `<filter id="${prefix}-glow" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="5"/></filter></defs>`;
+    + `<filter id="${prefix}-glow" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="5"/></filter>`
+    // Memory: the back story's panels in sepia (SEPIA, above), the comic's flashback.
+    + `<filter id="${prefix}-sepia" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feColorMatrix type="matrix" values="${SEPIA.map(row => row.join(' ')).join('  ')}"/></filter></defs>`;
 }
 
 /**
@@ -139,7 +157,7 @@ export function rimLit(prefix, { figure, rimFigure, offset = [-4, -4], rim = 0.9
  * enter 0..1: the slam (scale from 1.16 and a side slide to rest, with an overshoot already in the
  * value), tilt: the panel's rest angle. A shadow, an ink border with a paper keyline.
  */
-export function panelSvg(prefix, { i, x, y, w, h, enter, slam = 1, tilt = 0, side = 1, content, reduced = false }) {
+export function panelSvg(prefix, { i, x, y, w, h, enter, slam = 1, tilt = 0, side = 1, content, tone = 'present', reduced = false }) {
   if (enter <= 0) return '';
   const id = `${prefix}-panel-${i}`;
   const s = lerp(1.16, 1, enter);
@@ -155,8 +173,10 @@ export function panelSvg(prefix, { i, x, y, w, h, enter, slam = 1, tilt = 0, sid
     + `<defs><clipPath id="${id}"><rect x="0" y="0" width="${f(w)}" height="${f(h)}"/></clipPath>`
     + `<linearGradient id="${id}-bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${NIGHT.wallLit}"/><stop offset="1" stop-color="${NIGHT.wall}"/></linearGradient></defs>`
     + `<rect x="10" y="12" width="${f(w)}" height="${f(h)}" fill="${NIGHT.deep}" opacity="0.85"/>`
-    + `<g clip-path="url(#${id})"><rect width="${f(w)}" height="${f(h)}" fill="url(#${id}-bg)"/>${content}`
-    + vignette(`${id}-v`, { width: w, height: h, strength: 0.42 })
+    + `<g clip-path="url(#${id})">`
+    // The back story's panels are memory: drawn in sepia, a heavier vignette closing in at the edges.
+    + (tone === 'past' ? `<g filter="url(#${prefix}-sepia)"><rect width="${f(w)}" height="${f(h)}" fill="url(#${id}-bg)"/>${content}</g>` : `<rect width="${f(w)}" height="${f(h)}" fill="url(#${id}-bg)"/>${content}`)
+    + vignette(`${id}-v`, { width: w, height: h, strength: tone === 'past' ? 0.6 : 0.42 })
     + `</g>${panelFrame({ x: 0, y: 0, w, h, border: 7, shadow: false })}</g>`;
 }
 
@@ -195,10 +215,10 @@ export function titlePlateSvg(prefix, { name, emblemHref, cx, cy, width, stamp, 
 }
 
 /** A caption box (the comic's yellow narration box); its words are page text set over it by the stage. */
-export function captionBoxSvg({ x, y, w, h, opacity }) {
+export function captionBoxSvg({ x, y, w, h, opacity, tone = 'present' }) {
   if (opacity <= 0) return '';
   return `<g opacity="${f(opacity)}"><rect x="${f(x + 7)}" y="${f(y + 8)}" width="${f(w)}" height="${f(h)}" fill="${NIGHT.deep}" opacity="0.8"/>`
-    + `<rect x="${f(x)}" y="${f(y)}" width="${f(w)}" height="${f(h)}" fill="${NIGHT.caption}" stroke="${INK}" stroke-width="5"/></g>`;
+    + `<rect x="${f(x)}" y="${f(y)}" width="${f(w)}" height="${f(h)}" fill="${tone === 'past' ? NIGHT.memory : NIGHT.caption}" stroke="${INK}" stroke-width="5"/></g>`;
 }
 
 /** A deterministic flicker 0..1 for a lamp: slow (under 2 Hz) and never a full-contrast flash. */

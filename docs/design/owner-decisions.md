@@ -6,6 +6,35 @@ What the game owner decided about look, feel and presentation while working with
 
 The owner's messages are quoted as written.
 
+## 6 November 2026: a back story for every role
+
+**The owner liked the relit pilot much better and asked for a story, then said what kind: a small back story, as a comic book gives each of its characters one, not necessarily the game's own story aboard the spaceship.**
+
+The owner wrote:
+
+> I like it much better but can we have a little bit storyline feeling
+
+> sory to intrupt you but story can be little back story maybe it is not really the story of the game in spaceship imagine it like a comic =book each character has a back story
+
+| # | What it says | What it decides |
+| --- | --- | --- |
+| 1 | "a little bit storyline feeling" | The three panels read as one story, told by a narration box on each panel |
+| 2 | "story can be little back story maybe it is not really the story of the game in spaceship" | The first two panels look back at who the role-holder was before the voyage. They are memory, drawn in sepia, and are fiction around the role. The third comes aboard, now, to what the role does |
+| 3 | "imagine it like a comic book each character has a back story" | Every role gets its own back story (`role-reveal.md`, section 3). It is told to "you", so it fits whichever crew character the player is, and that character is the protagonist wherever a figure is in colour |
+
+### What the Designer did with it
+
+- **The Doctor's back story.** "Colony Nine, the fever years": the player's own character at the foot of a cot in a field ward. "When the medicine ran out, you kept two doses": a medicine case with every slot empty but two. "Aboard, your number is the Hospital panel's code": the Mothership's Hospital, the keypad lighting the player's number. Under the title: "Two doses for the whole voyage. Who you tell your number is up to you."
+- **The other eight.** Their back stories and narration are written as proposals (`design/cinematic/pilots/role-reveal/copy.mjs`; storyboards in `role-reveal.md`).
+- **Ten seconds.** Every film is now ten seconds, the top of the owner's five to ten, to give the narration time to be read. It is still the same for every role.
+- **Unchanged.** The words stay page text, every colour of the sepia panels is checked as the filter draws it, and reduced motion keeps three stills.
+
+### What it does not settle
+
+- **"Character".** Designer reads it as each role (the Doctor, the Insider…), because the film is the role's. A back story for each of the nine crew characters (Vega, Rigel…) would be another piece of work, and the owner can ask for it.
+- **The words** are proposals; the game's copy is Frontend's. The places and names in the back stories (Colony Nine, Vesta Station, Ceres…) are fiction, not rules.
+- **The other eight films** stay storyboards until the owner reviews this pilot.
+
 ## 6 November 2026: the pilot's card, light and finish
 
 **The owner reviewed the nine-second Doctor pilot and asked for three changes: the card on the desk must match the real role card, the patient and the medical equipment must be brighter, and the whole film should look like a high-end animated noir comic.**

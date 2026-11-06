@@ -1,4 +1,4 @@
-# Role reveal films: one nine-second film per role (proposal)
+# Role reveal films: one ten-second film per role (proposal)
 
 Designer proposal, 6 November 2026. Branch `claude/designer-role-reveal`, stacked on #184.
 
@@ -29,8 +29,18 @@ spaceship, picks up the Hospital gadget from a table with the Doctor card on it,
 these three panels you made.")
 
 Every film now opens in the briefing room at the dock, where the player's own character takes the
-role's gadget from the desk where the role card lies (sections 2 and 4). Every film is nine seconds:
-inside the owner's five to ten, and the same for every role.
+role's gadget from the desk where their role card stands (sections 2 and 4).
+
+After the nine-second pilot, the owner asked for a story, and then said what kind:
+
+> I like it much better but can we have a little bit storyline feeling
+
+> sory to intrupt you but story can be little back story maybe it is not really the story of the game in spaceship imagine it like a comic =book each character has a back story
+
+The three panels now tell a small back story, as a comic book gives its characters one. The first
+two are memory, in sepia: who the role-holder was before the voyage. The third comes aboard, to
+what the role does. A narration box rides each panel. Every film is now ten seconds: inside the
+owner's five to ten, and the same for every role.
 
 This page holds the storyboards for all nine roles and the pilot's specification. Nothing here is
 a rule. A film plays only inside the existing role-reading stage and takes no time from it.
@@ -42,40 +52,45 @@ and a neighbour nothing.
 
 | Rule | Why |
 | --- | --- |
-| **Every film lasts exactly 9,000 ms**, full and reduced, and its beats change at the same moments: 3,000, 4,300, 5,600, 7,000 and 8,400 ms. The opener's moves (the reach, the take, the raise) keep the same times in every film | A neighbour who sees a phone's screen change, or times it, learns nothing |
+| **Every film lasts exactly 10,000 ms**, full and reduced, and its beats change at the same moments: 3,000, 4,500, 6,000, 7,800 and 9,300 ms. The opener's moves (the reach, the take, the raise) keep the same times in every film, and every film has the same two panels of memory and one aboard | A neighbour who sees a phone's screen change, or times it, learns nothing |
 | **Silent, with no vibration** | The art direction: "Phones produce no role-specific or secret-action sound" |
 | **One palette and one brightness for every role:** ink, paper, steel and amber focus. A team's colour appears only small: in the emblem on the title plate, and on the role card standing on the desk (its device picture and its team swatch, as on the phone's card). The gadget the character raises is drawn large, so its team accent is taken out and it catches the room's starlight, the same for every role | A big red or blue flash would be visible across the table. A test holds every colour drawn, the gadget's included, at least 30 (CIE76) from each faction accent; the card's swatch is the one exception, and the test checks it is the dealt role's own. Each beat's brightness is compared across roles once a second film exists |
 | **Own phone only**, during the role-reading stage (the 30-second minimum read). A tap skips to the card. It never replays on a reconnect or a refresh. The card may offer "Watch again" | The reading stage is private, and a film is never an event anyone else gets |
-| **No other player appears.** The opener draws the player's own character: their lobby character, public, and the same whatever the role. It is the only figure in colour. Every other figure is an ink silhouette with no face, number or name | A film shows what a role does, never who is who (the Insider's and Hacker's knowledge stay in their files) |
+| **No other player appears.** The opener and the back story draw the player's own character: their lobby character, public, and the same whatever the role. It is the only figure in colour. Every other figure is a silhouette with no face, number or name | A film shows what a role does, never who is who (the Insider's and Hacker's knowledge stay in their files) |
 | **Every film ships to every phone:** the frame functions and art are one shared bundle, with every role's device and emblem and every crew character's portrait, and nothing is fetched for a dealt role | The art direction: "fetching only a dealt role or hidden action can disclose identity" |
-| **Words are page text.** The two caption lines are DOM text. The role's name in Ink Block lettering is decorative and is repeated in page text | Captions translate and scale with the player's text size; a picture is never the only place a meaning appears |
-| **Reduced motion:** three still pictures (the gadget raised in the briefing room, the full page, the title), cross-faded in 80 ms at 0, 3,000 and 7,000 ms. No travel, zoom, push, glint, dust, impact lines, sheen, sparks or particles | The motion direction's reduced form |
+| **Words are page text.** The three narration boxes and the line under the title are DOM text. The role's name in Ink Block lettering is decorative and is repeated in page text. Sound words are decoration and say nothing the picture does not | Captions translate and scale with the player's text size; a picture is never the only place a meaning appears |
+| **Reduced motion:** three still pictures (the gadget raised in the briefing room, the full page with its three narration boxes, the title), cross-faded in 80 ms at 0, 3,000 and 7,800 ms. No travel, zoom, push, glint, rain, dust, impact lines, sheen, sparks or particles | The motion direction's reduced form |
 
 ## 2. The shared structure: a page from the ship's crew file
 
 Every film is one page of the Mothership's classified crew file, told in a space-noir comic. The
 ship is the city and the stars are the streetlights. The light falls through a viewport's slats as
 it would through a detective's blinds. The film opens the night before the voyage, in the briefing
-room at the dock, where the player takes up the role.
+room at the dock, where the player takes up the role. As the gadget glints, the page turns to the
+role-holder's past: a small back story, as a comic book gives its characters one.
 
 | Beat | ms | Every role |
 | --- | --- | --- |
 | **Opener: the briefing room** | 0–3,000 | Through a tall viewport the Mothership waits at its dock under the stars, the blinds half open, and the slats' light falls across a steel desk. The player's own role card stands on the desk in a steel holder, drawn as the phone draws it: their portrait, the role's held device, the role's name and the team line, straight and flat. A desk lamp behind it bends over it and pools its warm light on the card, and the role's gadget stands beside it. The player's own character leans in and reaches for the gadget (500–1,250 ms), takes it (1,300 ms) and raises it into the light, looking at it (1,400–2,250 ms), where it glints once (2,050–2,650 ms). The camera pushes in over the three seconds, the wall and viewport 2.5% and the character and desk 6.5%. This is the moment the player becomes the role |
-| **Three panels** | 3,000–7,000 | A comic tier of three panels slams in over the briefing room, which stays dimmed beneath: one at 3,000, one at 4,300 and one at 5,600. Together they tell what the role does on the ship, in the ship's own rooms: the Hospital, the Jail, the cargo hold, the corridors, the Command Room, the space outside. Each panel has a hard border, a gutter, ink silhouettes and one comic sound word in Ink Block lettering |
-| **Title** | 7,000–8,400 | The page darkens around a paper plate. The role's name stamps onto it in Ink Block lettering with a small overshoot. The team's emblem (Blue Planet, Red Planet or the Alien's spiral) sits in its corner, small |
-| **Hold** | 8,400–9,000 | Everything settles. The page then gives way to the role card |
+| **The back story: three panels** | 3,000–7,800 | A comic tier of three panels slams in over the briefing room, which stays dimmed beneath: one at 3,000, one at 4,500 and one at 6,000. **Panels 1 and 2 are memory**: who the role-holder was before the voyage, in sepia, under aged-paper narration boxes. **Panel 3 is aboard, now**, in the night colours, at what the role does on the Mothership. Each panel has a hard border, a gutter, its narration box riding its top edge (from 250 ms after it lands to the title), and at most one comic sound word in Ink Block lettering |
+| **Title** | 7,800–9,300 | The page darkens around a paper plate. The role's name stamps onto it in Ink Block lettering with a small overshoot. The team's emblem (Blue Planet, Red Planet or the Alien's spiral) sits in its corner, small |
+| **Hold** | 9,300–10,000 | Everything settles. The page then gives way to the role card |
 
-Two caption lines are shown as page text, in the comic's yellow caption boxes: one during the panels
-(the role's purpose) and one under the title (how the role plays). The opener has no captions: the
-role's name is on the card in the picture, and the page text announces it at the title.
+The words are page text in the comic's caption boxes. Each panel has a narration box in the second
+person, so the back story fits whichever crew character the player is. The line under the title
+says how the role plays. The back stories are fiction around the role. Only their last box, and the
+line under the title, state rules, and only what the rules give the role. The opener has no
+captions: the role's name is on the card in the picture, and the page text announces it at the
+title.
 
 **The look: an animated noir comic** (the owner's review of the pilot: "Animation comic book Noir AAA
 style"). These are shared by every role and timed by the shared clock:
 - **Depth.** Each panel is three layers (far, middle, near) under a slow push over its life, the near layer moving most. The opener is two layers. This is the motion comic's 2.5D camera.
 - **Light.** Light falls in volumetric beams that are bright where they enter and gone where they land, with dust turning in them. Figures are navy silhouettes with a paper rim light and a pool of light on the wall behind. Steel takes bevel highlights. Screens and lamps glow and cast their light. Things stand on contact shadows.
 - **Impact.** A panel lands with pale impact lines bursting from behind its edges, and they fade as it settles.
-- **The title.** After the stamp, a sheen crosses the plate once (7,520–8,120 ms), as light across a laminated file.
-- **Reduced motion** keeps the three stills, with none of the dust, impact lines or sheen.
+- **Memory.** The back story's two panels are drawn through one sepia colour matrix (`art.mjs` `SEPIA`) with a heavier vignette, and their narration boxes are aged paper.
+- **The title.** After the stamp, a sheen crosses the plate once (8,320–8,920 ms), as light across a laminated file.
+- **Reduced motion** keeps the three stills, with none of the rain, dust, impact lines or sheen.
 
 **The gadget on the desk, by role.** The opener draws each role's own device, the one its role card
 draws, without the hand, and without its team accent:
@@ -91,126 +106,129 @@ draws, without the hand, and without its team accent:
 | Hacker | the hacking box with its antenna |
 | Alien | the crystal with its orbiting motes |
 
-## 3. The storyboards
+## 3. The storyboards: a back story for every role
 
-The panels show what the rules give each role (`docs/specifications/planet-successor/game-design.md`,
-the owner's decisions). They teach, so the first game is easier. The captions are proposals; the
-game's words are Frontend's.
+Each film tells who the role-holder was before the voyage (panels 1 and 2, memory) and brings them
+aboard (panel 3, now). The back stories are fiction around the role, in the space-noir world of the
+Mothership and its planets. Only panel 3's narration and the line under the title state rules, and
+they say only what the rules give the role (the game design and the owner's decisions). They teach,
+so the first game is easier. The words are proposals; the game's words are Frontend's. The narration
+is told to "you", so each back story fits whichever crew character the player is. That character is
+the protagonist wherever a figure is shown in colour.
 
 ### Doctor (Blue) · the pilot
 
-*The medic who holds the ship's last two doses.*
+*The medic who kept the last two doses.*
 
-| Panel | Picture | Sound word |
-| --- | --- | --- |
-| 1 · 3,000 | **The Hospital at night.** A patient's silhouette on a berth. The heart monitor's trace stutters, and its amber lamp blinks in a slow, safe rhythm | BEEP |
-| 2 · 4,300 | **The ceiling opens.** The ward's iris dilates, the medical drone descends on its searchlight, and the injector's two vials glow as one empties into the drone | WHIRR |
-| 3 · 5,600 | **The trace steadies.** The patient sits up. Beside the berth, the Hospital panel's keypad lights one number: the player's own | — |
+| Panel | Picture | Narration | Sound word |
+| --- | --- | --- | --- |
+| 1 · memory · 3,000 | **Colony Nine, the fever years.** A prefab field ward at night: three cots full under one hanging lamp, a dust storm beating on the porthole. You stand at the foot of the nearest cot with a chart | "Colony Nine, the fever years." | — |
+| 2 · memory · 4,500 | **The last two doses.** An open medicine case under a desk lamp. Every slot is empty but two, and their vials still glow. Spent vials lie on the table, and rain runs down the window | "When the medicine ran out, you kept two doses." | DRIP |
+| 3 · aboard · 6,000 | **The Mothership's Hospital at night.** The trace steadies and a patient sits up. The Hospital panel's keypad lights one number: yours | "Aboard, your number is the Hospital panel's code." | BEEP |
 
-- **Captions:** "Two doses for the whole voyage." / "Your player number is the Hospital panel's code. Who you tell is up to you."
+- **Under the title:** "Two doses for the whole voyage. Who you tell your number is up to you."
 - **The rules it teaches:**
-  - two shared injections;
-  - the Doctor's Rescue;
-  - the panel's code is the Doctor's original player number (P21, P22).
-- **Continuity:** the drone, the iris and the monitor are the Hospital film's own art (S5 and Pilot 1). The player meets them here first.
+  - two shared doses for the whole voyage;
+  - the panel's code is the Doctor's original player number (P21, P22);
+  - who learns that number is the Doctor's choice.
+- **Continuity:** the monitor and the medical palette are the Hospital films' own (S5 and Pilot 1). The injector is the role card's device, the one the opener's character raises.
 
 ### Insider (Blue)
 
-*The informant who knows three faces, but not their masks.*
+*The clerk who read the files nobody read.*
 
-| Panel | Picture | Sound word |
-| --- | --- | --- |
-| 1 | **Crew quarters, lamp low.** A hand pins three faceless silhouette photos on a cork board. A red string runs between them | — |
-| 2 | **Three label tapes** (UNDERCOVER, ALIEN, DOCTOR) fall into an envelope. Its flap closes and ONE EACH stamps across it | STAMP |
-| 3 | **A lens passes over the three photos.** They stay faceless and a question mark hangs on the string | — |
+| Panel | Picture | Narration | Sound word |
+| --- | --- | --- | --- |
+| 1 · memory | **Vesta Station's archive.** Cabinets to the ceiling, one desk lamp, and you behind a wall of reports | "Vesta Station. You filed reports nobody read." | — |
+| 2 · memory | **Three files.** Three folders slide across your desk, each with a faceless photograph clipped to it | "Then three files crossed your desk." | THUD |
+| 3 · aboard | **The cork board.** Three faceless photos pinned up, a red string between them. Three label tapes, UNDERCOVER, ALIEN and DOCTOR, fall into an envelope stamped ONE EACH | "Aboard: Undercover, Alien, Doctor. One each." | STAMP |
 
-- **Captions:** "Three of them, three roles: Undercover, Alien, Doctor." / "You know who, not which. With you, they are the Code."
+- **Under the title:** "You know who, not which. With you, they are the Code."
 - **Continuity:** the cork board, the tapes and the envelope are the Insider file's own kit (`insider-file`).
 
 ### Blue Disabler and Red Disabler (one film)
 
-*The saboteur with one charge for the whole voyage.*
+*The breaker of machines, hired with one charge.*
 
 The two Disablers share one film, frame for frame, as their phones already share one Disable strip.
-Only the title's name and emblem differ.
+Only the title's name and emblem, the card on the desk and the line under the title differ.
 
-| Panel | Picture | Sound word |
-| --- | --- | --- |
-| 1 | **Engine room conduits.** A gloved hand charges the stun device. Sparks crawl along a pipe | ZZT |
-| 2 | **A dark cabin.** A silhouette stands in it. The charge arcs once and the cabin's light dips | — |
-| 3 | **The charge cell drains** to empty: one use, the whole match | — |
+| Panel | Picture | Narration | Sound word |
+| --- | --- | --- | --- |
+| 1 · memory | **The engine decks of Ceres.** Pipes and sparks. Your gloved hand throws a breaker, and a whole deck goes dark | "The engine decks of Ceres. You shut things down." | CLUNK |
+| 2 · memory | **One charge.** The stun rod laid in its case beside a single charge cell; an envelope of credits slid across the table | "They gave you one charge, and no questions." | — |
+| 3 · aboard | **A dark cabin aboard.** A silhouette in your room. The charge arcs once and the cabin's light dips | "Choose someone in your room: hit at the round's end." | ZZT |
 
-- **Captions:** "One charge for the whole voyage." / "Choose someone in your room. They are hit when the round ends."
-- **Red Disabler's added line:** "You know who the Undercover is."
+- **Under the title:** "One charge for the whole voyage." The Red Disabler's adds: "You know who the Undercover is."
 - **Rule:** the Disable is one hidden attack per match, public only as damage at the round's end.
 
 ### Supplier (Blue)
 
-*The quartermaster who arms the crew in secret.*
+*The fixer of the Belt markets.*
 
-| Panel | Picture | Sound word |
-| --- | --- | --- |
-| 1 | **The cargo hold.** A crate rides the conveyor under a swinging lamp | CLANK |
-| 2 | **ROUND 3 stamps** on the crate. Two shipping tags flutter down onto two silhouettes | — |
-| 3 | **The crate's seal tag lights** as the Supplier steps back into the shadow | — |
+| Panel | Picture | Narration | Sound word |
+| --- | --- | --- | --- |
+| 1 · memory | **The Belt markets.** Crates stacked up to a swinging lamp, a stall that sells everything | "The Belt markets. You could find anything." | CLANK |
+| 2 · memory | **Two crates.** A false floor lifts on two sealed crates | "You still keep two crates nobody knows about." | — |
+| 3 · aboard | **The cargo hold, Round 3.** ROUND 3 stamps on a crate, and two shipping tags flutter down onto two silhouettes | "In Round 3, two weapons leave your hold." | STAMP |
 
-- **Captions:** "In Round 3, two weapons leave your hold." / "Choose two crew in your room. They never learn who armed them."
-- **Continuity:** the crate and tags are group 8's and the ability kit's.
+- **Under the title:** "Choose two crew in your room. They never learn who armed them."
+- **Continuity:** the crate and the tags are group 8's and the ability kit's.
 
 ### Engineer (Blue, nine players)
 
-*The technician whose one photograph silences a room.*
+*The shipwright who knows where every wire runs.*
 
-| Panel | Picture | Sound word |
-| --- | --- | --- |
-| 1 | **A bulkhead between Room A and Room B.** The signal clamp (the Engineer's device) locks on and its LED lights | — |
-| 2 | **Viewfinder brackets** close on the opposite room's silhouettes, and the shutter blinks | CLICK |
-| 3 | **The print develops: CAPTURED.** Beside it the ship's course needle stutters and holds | — |
+| Panel | Picture | Narration | Sound word |
+| --- | --- | --- | --- |
+| 1 · memory | **The Titan yards.** Scaffolds and welding sparks around a ship's ribs; you on a gantry with the plans | "The Titan yards. You built ships like this one." | — |
+| 2 · memory | **Every wire.** Your hand traces a bundle of cables into a bulkhead, and the signal clamp clicks on | "You know where every wire runs." | CLICK |
+| 3 · aboard | **The photograph.** Viewfinder brackets close on the room opposite. The print develops: CAPTURED. The course needle stutters and holds | "One photograph silences the room opposite." | — |
 
-- **Captions:** "One photograph. One room's voice." / "From Room A or B, capture the room opposite: they do not steer the ship this round."
-- **Continuity:** the viewfinder and print are library group 1's capture art.
+- **Under the title:** "From Room A or B, capture the room opposite: they do not steer the ship this round."
+- **Continuity:** the viewfinder and the print are library group 1's capture art.
 
 ### Undercover (Red)
 
-*The agent who starts the voyage armed.*
+*The agent with no name on any list.*
 
-| Panel | Picture | Sound word |
-| --- | --- | --- |
-| 1 | **A corridor lamp flickers** over condensation dripping like rain. A figure in a long coat lifts the collar | DRIP |
-| 2 | **A pistol slides into a shoulder holster:** the only weapon aboard at the start | — |
-| 3 | **The figure presses a shield emblem** onto another silhouette's shoulder, and it glows once | — |
+| Panel | Picture | Narration | Sound word |
+| --- | --- | --- | --- |
+| 1 · memory | **Red Planet intelligence.** A street lamp in the dust rain. A figure in a long coat walks under it, and a personnel file with no name in it lies open | "Red Planet intelligence. No name on any list." | DRIP |
+| 2 · memory | **Armed.** A pistol slides into a shoulder holster | "They sent you aboard armed." | — |
+| 3 · aboard | **The shields.** Aboard, you press a shield emblem onto another silhouette's shoulder, and it glows once | "The only weapon aboard at the start is yours." | — |
 
-- **Captions:** "The only weapon aboard at the start is yours." / "Hand out shields: the first attack on a protected crew member fails."
+- **Under the title:** "Hand out shields: the first attack on a protected crew member fails."
 - **Rule:** the weapon shoots from Round 4. Protection is given once per player in the match.
 
 ### Hacker (Red)
 
-*The codebreaker who can turn the ship.*
+*The lock-breaker the Red Planet paid in advance.*
 
-| Panel | Picture | Sound word |
-| --- | --- | --- |
-| 1 | **A maintenance shaft lit by a terminal.** A scanner line sweeps four silhouettes, and one already carries a mark: the Undercover the Hacker knows | — |
-| 2 | **A punch card with four windows** clicks shut, hole by hole, and UNLOCKED stamps across it | CLICK |
-| 3 | **The cartridge seats** in the ship's port. The route arrow on the Y-shaped course swings toward the Red Planet | KA-CHUNK |
+| Panel | Picture | Narration | Sound word |
+| --- | --- | --- | --- |
+| 1 · memory | **The data dens of Phobos.** A den lit by terminals, cables like vines, and locks on a screen opening one by one | "The data dens of Phobos. Every lock had a price." | — |
+| 2 · memory | **Paid in advance.** A credit chip on the table, sealed with the Red Planet's mark | "The Red Planet paid you in advance." | — |
+| 3 · aboard | **The Code.** A scanner sweeps four silhouettes, one already marked: your Undercover. The punch card's windows click shut, and UNLOCKED stamps across it. The route arrow swings toward the Red Planet | "You know your Undercover. Find the rest of the Code." | KA-CHUNK |
 
-- **Captions:** "You know your Undercover. Find the rest of the Code." / "Crack it, and the ship can be pushed toward the Red Planet."
+- **Under the title:** "Crack it, and the ship can be pushed toward the Red Planet."
 - **Continuity:** the punch card and the cartridge are group 1's art.
 
 ### Red Disabler (Red, eight and nine players)
 
-The Disablers' shared film, with the RED DISABLER plate and the added caption line above.
+The Disablers' shared film, with the RED DISABLER plate and card, and the added line under the title.
 
 ### Alien (alone)
 
-*The stowaway who bends reality.*
+*The stowaway from the sailors' stories.*
 
-| Panel | Picture | Sound word |
-| --- | --- | --- |
-| 1 | **A porthole, stars stretching.** A figure's shadow on the wall splits in two: the Phantom Clone | — |
-| 2 | **The walls give way to space.** A blackhole forms and the ship's lights bend toward it | WHOOM |
-| 3 | **Two panels of the same room, side by side.** They differ in one detail. One fades and the other stays: the Sync | — |
+| Panel | Picture | Narration | Sound word |
+| --- | --- | --- | --- |
+| 1 · memory | **A sailors' story.** Old spacers around a lamp. At the porthole behind them is a shadow that is not theirs | "Before the ship, you were a story sailors told." | — |
+| 2 · memory | **A crew face.** A figure's shadow on the wall splits in two: the Phantom Clone | "You learned to wear a crew face." | — |
+| 3 · aboard | **The Blackhole.** The walls give way to space. A blackhole forms and the ship's lights bend toward it | "A second shadow walks this ship." | WHOOM |
 
-- **Captions:** "A second shadow walks this ship." / "Hold an office to open a Blackhole. Use it and stay alive: you win with whichever side arrives."
+- **Under the title:** "Hold an office to open a Blackhole. Use it and stay alive: you win with whichever side arrives."
 - **Continuity:** the blackhole and the starfield are Pilot 2's art.
 
 ## 4. The pilot: the Doctor
@@ -225,19 +243,20 @@ owner's review of the pilot on a phone.
 | 1,300 | The hand closes on it: the injector is taken |
 | 1,400–2,250 | The character straightens and raises the injector into the light beside their face, looking at it. Its two vials catch the starlight |
 | 2,050–2,650 | A glint: a white four-point star and a pale pool of light on the vials. Through the three seconds the camera has pushed in, the near layer more than the far |
-| 3,000 | Panel 1 slams in with impact lines, tilted 1.1°, over the briefing room, which dims beneath. **The Hospital at night:** a viewport with slatted blinds and stars, its slat light falling in beams across a berth, and dust in the beams. The patient lies under a blanket: a navy silhouette with a rim light, against a pool of light on the wall. The monitor's amber trace stutters and its lamp blinks at 1.2 Hz (no flash). BEEP pops in. The caption "Two doses for the whole voyage." appears at 3,200 |
-| 4,300 | Panel 2 slams in. **The ceiling opens:** the iris dilates and the medical drone (S5's own) descends, folded, then open, then charging. Its searchlight falls to the berth below. One of the injector's two vials drains, and a line of cyan dashes carries the dose up to the drone. WHIRR |
-| 5,600 | Panel 3 slams in. **The trace steadies:** the patient sits up in bed, rim-lit and ringed by one pulse, as a green glow rises on the wall behind. The monitor's trace runs green, and the Hospital panel's keypad lights the player's own number on its readout and its key |
-| 7,000 | The page darkens. The paper plate stamps DOCTOR in Ink Block lettering, with the Blue Planet emblem in its corner. A sheen crosses the plate at 7,520–8,120 |
-| 7,400 | The caption: "Your player number is the Hospital panel's code. Who you tell is up to you." |
-| 8,400–9,000 | Held. The page then gives way to the role card |
+| 2,650–3,000 | The glint fades: the page is about to turn to the past |
+| 3,000 | Panel 1 slams in with impact lines, tilted 1.1°, over the briefing room, which dims beneath. **Memory, in sepia: Colony Nine, the fever years.** A prefab field ward at night. Three cots recede under one hanging lamp, each with a patient's silhouette under a sheet, rim-lit. A dust storm beats on the porthole, and dust turns in the lamp's cone. The player's own character stands at the foot of the nearest cot with a chart. At 3,250 the aged-paper narration box: "Colony Nine, the fever years." |
+| 4,500 | Panel 2 slams in. **Memory: the last two doses.** An open medicine case under a desk lamp: twelve slots, every one empty but two, whose vials still glow and pulse. Spent vials lie tipped on the table, and rain runs down the window. DRIP. At 4,750: "When the medicine ran out, you kept two doses." |
+| 6,000 | Panel 3 slams in. **Aboard, now, in the night colours: the Mothership's Hospital.** The patient sits up in bed, rim-lit and ringed by one pulse, as a green glow rises on the wall behind. The monitor's trace runs green. The Hospital panel's keypad lights the player's own number on its readout and its key: BEEP. At 6,250 the narration box, in caption yellow: "Aboard, your number is the Hospital panel's code." |
+| 7,800 | The narration boxes go. The page darkens. The paper plate stamps DOCTOR in Ink Block lettering, with the Blue Planet emblem in its corner. A sheen crosses the plate at 8,320–8,920 |
+| 8,200 | The line under the title: "Two doses for the whole voyage. Who you tell your number is up to you." |
+| 9,300–10,000 | Held. The page then gives way to the role card |
 
-**Reduced motion:** three stills over the same 9,000 ms, each faded in over 80 ms:
+**Reduced motion:** three stills over the same 10,000 ms, each faded in over 80 ms:
 - 0 ms: the briefing room, the character holding the injector up in the light (no glint, no push);
-- 3,000 ms: the page, with all three panels at rest;
-- 7,000 ms: the title.
+- 3,000 ms: the page, with all three panels at rest and their three narration boxes;
+- 7,800 ms: the title.
 
-The stars stop twinkling and the ship's lights hold. There is no dust, impact or sheen.
+The stars stop twinkling, the ship's lights and the case's vials hold, and the rain stops. There is no dust, impact or sheen.
 
 **Review:**
 - the stage: `design/cinematic/stage.html?pilot=role-reveal&surface=phone&variant=full|reduced&role=Doctor&seat=6&character=c4&w=390&h=844`, with `&play=1` to loop it (`character` is any of c1 to c9);
@@ -254,9 +273,9 @@ The stars stop twinkling and the ship's lights hold. There is no dust, impact or
   - Going to the background stops it and conceals the card, by the reviewed rule.
 - **How it is drawn.** Live, from the frame functions:
   - `revealSvg(t, { role, variant, seat, character, gadget, width: 900, height: pageHeight(w, h) })` in `design/cinematic/pilots/role-reveal/compose.mjs` returns the SVG and the page text's boxes. It throws without `character` or `gadget`, so a missing input never draws a stand-in.
-  - `character` is the player's own character id (c1 to c9).
+  - `character` is the player's own character id (c1 to c9). The film draws that character in the opener, on the card, and in the back story.
   - `gadget` is the dealt role's device as SVG text, passed through `deviceOnly()` (`art.mjs`): the role card's held picture without the arm and the fist. Read every role's device on every phone, as the stage does (`stage.mjs`), and pass the dealt role's. The film takes the team accent out itself (`unaccented()`).
-  - Set the two captions over their boxes and announce the role line in a live region (`words`).
+  - Set the page text over its boxes (`words`): the three narration boxes (`story`, each with its `tone`, past or present) and the line under the title (`play`). Announce the role line in a live region.
   - Preload every picture in `ROLE_REVEAL_ASSETS` on every phone, whatever its role and character: nine devices, three emblems and the nine crew portraits (the card on the desk shows the player's own, `PORTRAIT_FILES`). Fetch nothing at the moment of the film.
   - Draw each picture from the decoded copy, as the stage does (`stage.mjs`), so that nothing re-decodes between frames.
 - **Inputs.** All are already in the player's own view:
@@ -273,45 +292,47 @@ The stars stop twinkling and the ship's lights hold. There is no dust, impact or
 
 | File | SHA-256 | What it is |
 | --- | --- | --- |
-| `design/cinematic/pilots/role-reveal/film.mjs` | `d496571ea8ee57cfd15f0e9b6c0d677bf1a2d7987f5ca9fa3a7113ba0c2fe78c` | the shared clock: 9000 ms, the beats, the opener's moves, the reduced stills (`revealFrame`) |
+| `design/cinematic/pilots/role-reveal/film.mjs` | `edc8c5cf16c1d2854daf9b344620b24e9f6e7b8226b61a28c939e62c8a884b47` | the shared clock: 10000 ms, the beats, the opener's moves, the panels' tones (memory, aboard), the narration's times, the reduced stills (`revealFrame`) |
 | `design/cinematic/pilots/role-reveal/briefing.mjs` | `03a1232e3041db00e60574abc63f494a920024e21ef28a3f81e2ec3d257b35f6` | the opener: the briefing room, the player's role card standing on the desk as the phone draws it, the player's own character taking the gadget, in two depth layers (`briefingSvg`, `briefingLayout`, `POSES`, `CARD`) |
-| `design/cinematic/pilots/role-reveal/art.mjs` | `bc8f5fcd102eecfee7a46143f274684191ca8c51e2b11bd0c962868bdaa918bf` | the shared art: the slats, the panels and their impact lines, the title plate and its sheen, the caption boxes, beams, dust and rim light; `deviceOnly()` and `unaccented()` for the gadget |
-| `design/cinematic/pilots/role-reveal/doctor.mjs` | `1a7503563a30d141cd7a4374947b1a862f2d31266f3dbd60bd18566304915f49` | the Doctor's three panels, lit and shot in three depth layers |
+| `design/cinematic/pilots/role-reveal/art.mjs` | `01b8622e62004a4461f1f552446b6cf0308a18f88b776e6b4a25e31dd8ae83da` | the shared art: the slats, the panels and their impact lines, the memory's sepia (`SEPIA`, `sepiaOf()`), the title plate and its sheen, the caption and narration boxes, beams, dust and rim light; `deviceOnly()` and `unaccented()` for the gadget |
+| `design/cinematic/pilots/role-reveal/doctor.mjs` | `57af5533e16b1e69f948fcfde8c7c123539ca421932b05f77106103144fa2ca8` | the Doctor's back story: the colony ward and the last two doses (memory), the Hospital panel aboard; lit and shot in three depth layers |
 | `design/cinematic/pilots/role-reveal/roles.mjs` | `f537180d1627ed7f39f6fb6bc54bb4f86a1606c3a9721879d4bd2c4855ff70d0` | the nine roles: team, device, emblem, film; the crew portraits; `ROLE_REVEAL_ASSETS` |
-| `design/cinematic/pilots/role-reveal/copy.mjs` | `449d2989a6e5225c7bfc4eb52e07cefc37a6c33b8d05af2b82b7bf347892dec2` | the two caption lines of every role (proposals) |
-| `design/cinematic/pilots/role-reveal/compose.mjs` | `d745f490c17905e5b1fa1174a15568ef284aebd11b2d2b3fea1d22c60d63e924` | one frame as one SVG at the phone's aspect, with the page text's boxes (`revealSvg`, `pageHeight`) |
-| `design/cinematic/pilots/role-reveal/stage.mjs` | `886811df6303081d89bfa8132a68e4022ce4928de6862dee8238f20b95f150ab` | the review stage's phone surface |
+| `design/cinematic/pilots/role-reveal/copy.mjs` | `29be19ce5b2b47fb2775a2928f88c7e528b03a71bb54ff25772a34f2c3cb9afb` | every role's back story narration and the line under its title (proposals) |
+| `design/cinematic/pilots/role-reveal/compose.mjs` | `511b7b3ea16aa11cf8865e6954b48bf9dd634f0e5bda85aabbc54c252f77a82e` | one frame as one SVG at the phone's aspect, with the page text's boxes (`revealSvg`, `pageHeight`) |
+| `design/cinematic/pilots/role-reveal/stage.mjs` | `5974b4aa59de23191b7fd4a1f0d9dbb114538995a06aac7221bc4692538ffd29` | the review stage's phone surface |
 
 Review renders (review only: each draws a dealt role, the Doctor, with a stand-in character, c4; a
 client draws the film live):
 
 | File | Bytes | SHA-256 |
 | --- | ---: | --- |
-| `design/cinematic/exports/role-reveal/review/doctor-phone390-full.mp4` | 690,472 | `42e90ffbcffa9445bbc6ff6abafcfd1da833fb3d7ec26ba19e12c98b36b1db07` |
-| `design/cinematic/exports/role-reveal/review/doctor-phone390-reduced.mp4` | 227,197 | `da5baf009cb97f38edc6e7a3185308c3c843bde52f4aee0094262adce5297eb2` |
-| `design/cinematic/exports/role-reveal/review/doctor-phone320-full.mp4` | 448,966 | `7704f1d31e617212af93cb80271c673bb8f168b87996d8ab544d04f5c4f30298` |
+| `design/cinematic/exports/role-reveal/review/doctor-phone390-full.mp4` | 776,935 | `60cd1ad9db3af9e506e9b9121f9d003ee9c4f26a8f43ea237c0f7978c2769d9d` |
+| `design/cinematic/exports/role-reveal/review/doctor-phone390-reduced.mp4` | 243,877 | `d6f16dcbf12a6df34c842ab82b277f21a50ca04888cce99b239a0093e3d22752` |
+| `design/cinematic/exports/role-reveal/review/doctor-phone320-full.mp4` | 496,497 | `9bfc369a375f6585b7a10eda9188d24f8af9db8f916729ac8fc359a6c413fabb` |
 
 **Checks.**
-- **Tests.** `node --test test/*.test.mjs` in `packages/design-tokens`: 441 of 441. Thirteen are the role films' (`cinematic-role-reveal.test.mjs`):
+- **Tests.** `node --test test/*.test.mjs` in `packages/design-tokens`: 442 of 442. Fourteen are the role films' (`cinematic-role-reveal.test.mjs`):
   - the nine roles' films, devices, emblems and the nine crew portraits;
-  - one 9,000 ms clock for every role, its beats changing only at the shared moments;
+  - one 10,000 ms clock for every role, its beats changing only at the shared moments, two panels of memory then one aboard;
   - reduced motion as three stills, the first with the gadget raised and no glint, and no sheen;
   - one self-contained SVG with no words, no repeated id and only shipped pictures;
   - silence;
-  - no colour within the accent distance of a faction accent, the gadget included, for every role's gadget and every character; the card's team swatch is the dealt role's own;
-  - the captions, with no words over the opener;
-  - the layout at seven phone sizes, the briefing room included;
+  - no colour within the accent distance of a faction accent, the gadget included, for every role's gadget and every character, and every colour of the memory panels as the sepia filter draws it; the card's team swatch is the dealt role's own;
+  - the words: three narration lines and a line under the title for every role, short enough for their boxes, current names, timed with their panels, all three on the reduced page still, none over the opener;
+  - the layout at seven phone sizes, the briefing room included, each narration box riding its panel's top edge;
   - the Doctor's device and keypad;
   - the opener: the character and gadget required, each character drawing itself, the gadget taken at 1,300 ms and raised, the arm and fist stripped from every device;
   - the card on the desk: the player's own portrait, the role's device, straight with only the portrait's −2.5° turn, and the longest name inside it;
   - one opener scene for every role, with only the card and the gadget differing;
+  - the Doctor's back story: two panels in sepia, the player's own character in the colony ward, two doses left in the case;
   - the motion bible's entry.
-- **Renders.** `cinematic-exports.mjs --only role-reveal` gave three renders in Chromium 141.0.7390.37 with ffmpeg 6.1.1, 271 frames each. A frame-by-frame scan found no one- or two-frame dropout. Frames pulled from the encoded videos were checked by eye at both phone sizes, full and reduced. The opener was also rendered once with each of the nine characters, and each card shows that character's own portrait.
-- **Manifests and docs.** `cinematic-manifest.mjs` gave 44 sources and 264 exports, every render record's hash matching its file. The audio sheets match their 48 files. `cinematic-docs.mjs` gave `cinematic-catalogue-0.14.0`.
+- **Renders.** `cinematic-exports.mjs --only role-reveal` gave three renders in Chromium 141.0.7390.37 with ffmpeg 6.1.1, 301 frames each. A frame-by-frame scan found no one- or two-frame dropout. Frames pulled from the encoded videos were checked by eye at both phone sizes, full and reduced. The opener was also rendered once with each of the nine characters, and each card shows that character's own portrait.
+- **Manifests and docs.** `cinematic-manifest.mjs` gave 44 sources and 264 exports, every render record's hash matching its file. The audio sheets match their 48 files. `cinematic-docs.mjs` gave `cinematic-catalogue-0.15.0`.
 
 **Limitations:**
 - **No phone has run it.** Every frame and video is desktop Chromium.
 - **Luminance parity is not yet measured across roles.** With one film drawn, the shared opener, page and title keep the brightness common. A measured comparison comes with the second film.
 - **The take is a cut.** The hand closes on the gadget in one frame at 1,300 ms; the rig has no finger animation.
 - **Large text is untested.** Captions at 200% text are Frontend's to fit.
-- **The other eight films are storyboards.** Each will open in the same briefing room with its own gadget.
+- **The narration's reading time is short.** Panel 3's box shows for 1.55 s before the title. Large text and slower readers are Frontend's to try on a phone.
+- **The other eight films are storyboards.** Each will open in the same briefing room with its own gadget, and tell its own back story.

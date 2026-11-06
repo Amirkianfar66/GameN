@@ -2,9 +2,10 @@
 //
 // A role reveal film's frame as one SVG, composed at the phone's own shape: 900 units wide and as tall
 // as the phone's aspect needs, so a tall phone and a short one both fill the screen without cropping
-// a panel (the three panels share the height left between the caption and the bottom margin). Pure:
-// t, the role and the page's size in; the SVG, the frame and the page text's boxes out. The page text
-// (the captions and the role's name) is set by the stage over the boxes, never drawn into the picture.
+// a panel (the three panels share the page's height between the margins). Pure: t, the role and the
+// page's size in; the SVG, the frame and the page text's boxes out. The page text (each panel's
+// narration, the line under the title and the role's name) is set by the stage over the boxes, never
+// drawn into the picture.
 
 import { CREW } from '../../../board-motion/figures/crew.mjs';
 import { FACTION_ACCENTS } from '../../../board-v2/fx/blocked.mjs';
@@ -12,7 +13,7 @@ import { clamp01 } from '../../lib/ease.mjs';
 import { GRIP, NIGHT, captionBoxSvg, panelSvg, revealDefs, slatsSvg, titlePlateSvg } from './art.mjs';
 import { briefingSvg } from './briefing.mjs';
 import { ROLE_REVEAL_COPY, roleLine } from './copy.mjs';
-import { revealFrame } from './film.mjs';
+import { PANEL_TONES, revealFrame } from './film.mjs';
 import { PORTRAIT_FILES, ROLE_FILMS } from './roles.mjs';
 
 export const PAGE_WIDTH = 900;
@@ -23,23 +24,24 @@ export const pageHeight = (w, h) => Math.round((PAGE_WIDTH * h) / w);
 
 /** Where everything sits on a 900 x H page. */
 export function layout(H) {
-  const top = 196, bottom = 92, gutter = 28;
+  const top = 70, bottom = 92, gutter = 44;
   const ph = (H - top - bottom - 2 * gutter) / 3;
   const panels = [0, 1, 2].map(i => ({ x: 36, y: top + i * (ph + gutter), w: 828, h: ph, tilt: [-1.1, 0.7, -0.5][i], side: i % 2 ? 1 : -1 }));
+  // Each panel's narration box rides its top edge, as a comic's caption does, on alternating sides.
+  const story = panels.map((p, i) => ({ x: i === 1 ? p.x + p.w - 566 : p.x - 14, y: p.y - 30, w: 580, h: 128 }));
   const titleCy = H * 0.44;
   return {
     panels,
+    story,
     title: { cx: PAGE_WIDTH / 2, cy: titleCy, w: 720 },
-    captions: {
-      purpose: { x: 60, y: 44, w: 780, h: 124 },
-      play: { x: 60, y: titleCy + 210, w: 780, h: 170 },
-    },
+    captions: { play: { x: 60, y: titleCy + 210, w: 780, h: 170 } },
   };
 }
 
 /**
- * The frame at t: { svg, frame, words }. words: { purpose, play } each { box, text, opacity } (in page
- * units), role { text, visible }. role: a current role; seat: the player's own number (the Doctor's
+ * The frame at t: { svg, frame, words }. words: story (the three panels' narration boxes, each { box,
+ * text, opacity, tone: past | present }) and play ({ box, text, opacity }), in page units; role
+ * { text, visible }. role: a current role; seat: the player's own number (the Doctor's
  * keypad); character: the player's own crew character (c1..c9), the only figure drawn in colour;
  * gadget: the role's device alone (art.mjs deviceOnly() of its held picture, which the caller has
  * read: this module reads no file); width x height: the page in units (900 x pageHeight()).
@@ -62,13 +64,13 @@ export function revealSvg(t, { role = 'Doctor', variant = 'full', seat = 6, char
   frame.panels.forEach((p, i) => {
     if (!p.visible) return;
     const box = L.panels[i];
-    const content = film.panels[i](p.local, { w: box.w, h: box.h, prefix: `${prefix}-p${i}`, seat, reduced: variant === 'reduced' });
-    body += panelSvg(prefix, { i, ...box, enter: p.enter, slam: p.slam ?? 1, content, reduced: variant === 'reduced' });
+    const content = film.panels[i](p.local, { w: box.w, h: box.h, prefix: `${prefix}-p${i}`, seat, character, reduced: variant === 'reduced' });
+    body += panelSvg(prefix, { i, ...box, enter: p.enter, slam: p.slam ?? 1, content, tone: PANEL_TONES[i], reduced: variant === 'reduced' });
   });
   if (frame.dim > 0) body += `<rect width="${width}" height="${f(height)}" fill="${NIGHT.deep}" opacity="${f(0.8 * frame.dim)}"/>`;
   const plate = titlePlateSvg(prefix, { name: role.toUpperCase(), emblemHref: film.emblem, cx: L.title.cx, cy: L.title.cy, width: L.title.w, stamp: frame.title.stamp, settle: frame.title.settle, sweep: frame.title.sweep });
   body += plate.svg;
-  body += captionBoxSvg({ ...L.captions.purpose, opacity: frame.captions.purpose });
+  L.story.forEach((box, i) => { body += captionBoxSvg({ ...box, opacity: frame.captions.story[i], tone: PANEL_TONES[i] }); });
   body += captionBoxSvg({ ...L.captions.play, opacity: frame.captions.play });
   // Reduced motion: each still fades in from the night over 80 ms.
   if (variant === 'reduced' && frame.fade < 1) body += `<rect width="${width}" height="${f(height)}" fill="${NIGHT.deep}" opacity="${f(1 - frame.fade)}"/>`;
@@ -77,7 +79,7 @@ export function revealSvg(t, { role = 'Doctor', variant = 'full', seat = 6, char
   return {
     svg, frame,
     words: {
-      purpose: { box: [L.captions.purpose.x, L.captions.purpose.y, L.captions.purpose.w, L.captions.purpose.h], text: copy.purpose, opacity: frame.captions.purpose },
+      story: L.story.map((box, i) => ({ box: [box.x, box.y, box.w, box.h], text: copy.story[i], opacity: frame.captions.story[i], tone: PANEL_TONES[i] })),
       play: { box: [L.captions.play.x, L.captions.play.y, L.captions.play.w, L.captions.play.h], text: copy.play, opacity: frame.captions.play },
       role: { text: roleLine(role), visible: frame.title.visible },
     },

@@ -18,6 +18,6 @@ export const PILOTS = Object.freeze({
   [eject.id]: eject,
   // Library group 2's public films (design/library/navigation/), on the same stage.
   [navigation.id]: navigation,
-  // The role reveal films (the owner, 6 November 2026): one nine-second film per role, the Doctor first.
+  // The role reveal films (the owner, 6 November 2026): one ten-second film per role, the Doctor first.
   [roleReveal.id]: roleReveal,
 });

@@ -1,6 +1,6 @@
 // mothership:dev-only
 //
-// The role reveal films: one nine-second film per role, on the player's own phone, after their role
+// The role reveal films: one ten-second film per role, on the player's own phone, after their role
 // card is revealed and inside the role-reading stage (the owner, 6 November 2026; storyboards in
 // docs/design/cinematic/role-reveal.md). This module is the films' shared clock. Every role keeps the
 // same length and the same beats, full and reduced, so a neighbour who sees a phone change, or times
@@ -8,40 +8,45 @@
 // panel's local time (./doctor.mjs).
 //
 //   opener   0-3000     the briefing room at the dock, before boarding (./briefing.mjs): the player's
-//                       own character takes the role's gadget from the desk where the role card lies
-//                       and raises it into the light (the owner's feedback on the pilot)
-//   panels   3000-7000  a comic tier of three panels slams in at 3000, 4300 and 5600: what the role
-//                       does, in the ship's own rooms
-//   title    7000-8400  the page darkens around a paper plate; the role's name stamps on it
-//   hold     8400-9000  everything settles; the page then gives way to the role card
+//                       own character takes the role's gadget from the desk where their role card
+//                       stands and raises it into the light (the owner's review of the pilot)
+//   panels   3000-7800  a comic tier of three panels slams in at 3000, 4500 and 6000, each with its
+//                       narration box: a small back story, as a comic book gives its characters one
+//                       (the owner's review): two panels look back at who the role-holder was (in
+//                       the sepia of memory), and the third brings them aboard, to what the role does
+//   title    7800-9300  the page darkens around a paper plate; the role's name stamps on it
+//   hold     9300-10000 everything settles; the page then gives way to the role card
 //
 // Reduced motion: three stills (the gadget raised, the full page, the title), each cross-faded in over
-// 80 ms at the same moments (0, 3000, 7000), within the same 9000 ms. No travel, zoom, sparks or
+// 80 ms at the same moments (0, 3000, 7800), within the same 10000 ms. No travel, zoom, sparks or
 // particles. The films are silent and never vibrate.
 
 import { beat, bell, clamp01, easeInOutCubic, easeOutBack, easeOutCubic } from '../../lib/ease.mjs';
 
-export const ROLE_REVEAL_VERSION = 'cinematic-role-reveal-0.3.0';
+export const ROLE_REVEAL_VERSION = 'cinematic-role-reveal-0.4.0';
 export const VARIANTS = Object.freeze(['full', 'reduced']);
 
 /** Every film's length, ms: the same for every role and both variants. */
-export const REVEAL_END = 9000;
+export const REVEAL_END = 10000;
 
 /** The beats, ms, the same for every role and both variants. */
 export const BEATS = Object.freeze({
   opener: Object.freeze([0, 3000]),
-  panel1: Object.freeze([3000, 4300]),
-  panel2: Object.freeze([4300, 5600]),
-  panel3: Object.freeze([5600, 7000]),
-  title: Object.freeze([7000, 8400]),
-  hold: Object.freeze([8400, REVEAL_END]),
+  panel1: Object.freeze([3000, 4500]),
+  panel2: Object.freeze([4500, 6000]),
+  panel3: Object.freeze([6000, 7800]),
+  title: Object.freeze([7800, 9300]),
+  hold: Object.freeze([9300, REVEAL_END]),
 });
 
 /** The moments the picture changes beat: what a neighbour could time. The same for every role. */
-export const CHANGES = Object.freeze([3000, 4300, 5600, 7000, 8400]);
+export const CHANGES = Object.freeze([3000, 4500, 6000, 7800, 9300]);
 
 /** When each of the three panels slams in. */
 export const PANEL_STARTS = Object.freeze([BEATS.panel1[0], BEATS.panel2[0], BEATS.panel3[0]]);
+
+/** Each panel's time in the back story, the same for every role: two looking back, then aboard. */
+export const PANEL_TONES = Object.freeze(['past', 'past', 'present']);
 
 /** A panel's slam-in, ms. */
 export const SLAM_MS = 260;
@@ -56,8 +61,11 @@ export const STILLS = Object.freeze([
   Object.freeze({ at: BEATS.title[0], still: 'title' }),
 ]);
 
-/** The two caption lines (page text): the role's purpose during the panels, how it plays under the title. */
-export const CAPTION_TIMES = Object.freeze({ purpose: Object.freeze([3200, BEATS.title[0]]), play: Object.freeze([7400, REVEAL_END]) });
+/** The page text's times: each panel's narration box from just after it lands, and how the role plays under the title. */
+export const CAPTION_TIMES = Object.freeze({
+  story: Object.freeze(PANEL_STARTS.map(start => Object.freeze([start + 250, BEATS.title[0]]))),
+  play: Object.freeze([BEATS.title[0] + 400, REVEAL_END]),
+});
 
 const fadeIn = (t, [from, to], ms = 200) => (t < from || t >= to ? 0 : clamp01((t - from) / ms));
 
@@ -97,7 +105,7 @@ export const PANEL_LOCAL_REST = 1300;
  *   panels   three { visible, enter, slam, local }
  *   dim      0..1, the page darkening around the title
  *   title    { visible, stamp 0..1 (the slam), settle 0..1, sweep 0..1 (the sheen, full only) }
- *   captions { purpose, play } 0..1 (opacity of each page-text line)
+ *   captions { story: three 0..1 (each panel's narration box), play } (opacity of each page-text line)
  *   still    reduced motion only: 'opener' | 'page' | 'title', and fade 0..1 (the cross-fade in)
  */
 export function revealFrame(t, { variant = 'full' } = {}) {
@@ -125,7 +133,7 @@ export function revealFrame(t, { variant = 'full' } = {}) {
       sweep: !titleOn || rest ? 0 : beat(time, [BEATS.title[0] + 520, BEATS.title[0] + 1120]),
     },
     captions: {
-      purpose: reduced ? (time >= BEATS.panel1[0] && time < BEATS.title[0] ? 1 : 0) : fadeIn(time, CAPTION_TIMES.purpose),
+      story: CAPTION_TIMES.story.map(times => (reduced ? (pageOn && !titleOn ? 1 : 0) : fadeIn(time, times))),
       play: reduced ? (time >= BEATS.title[0] ? 1 : 0) : fadeIn(time, CAPTION_TIMES.play),
     },
   };

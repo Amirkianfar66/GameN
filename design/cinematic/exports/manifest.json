@@ -11,8 +11,8 @@
   "sources": [
     {
       "path": "design/cinematic/README.md",
-      "sha256": "bdc196978e61220fb295e5c74ea66412579fb48115c745323b070e88a6c2b05b",
-      "bytes": 7021
+      "sha256": "849782d57b314c486f7ad6cbcba990bcf880d3696c40b614c91cfc7aae3ccc2b",
+      "bytes": 7120
     },
     {
       "path": "design/cinematic/stage.html",
@@ -31,8 +31,8 @@
     },
     {
       "path": "design/cinematic/gallery.mjs",
-      "sha256": "670ee88164aedc156808d2cbaee478dab58a03523f810b7fb1dcd4cc969ae332",
-      "bytes": 13499
+      "sha256": "9e9381192f0fe8f6a8c92f9255450cc50862a5f48e814ade07222803feacfed9",
+      "bytes": 13543
     },
     {
       "path": "design/cinematic/lib/ease.mjs",
@@ -71,8 +71,8 @@
     },
     {
       "path": "design/cinematic/pilots/index.mjs",
-      "sha256": "31642dbf04f75060d80fd20d740816367fc32e1b4d218024c9f12228a6d6f7b8",
-      "bytes": 1069
+      "sha256": "a20fbd961286843d98b3dc352a3df79c0193129321eb92d4928968f353658de4",
+      "bytes": 1068
     },
     {
       "path": "design/cinematic/pilots/hospital-rescue/film.mjs",
@@ -146,13 +146,13 @@
     },
     {
       "path": "design/cinematic/pilots/role-reveal/film.mjs",
-      "sha256": "d496571ea8ee57cfd15f0e9b6c0d677bf1a2d7987f5ca9fa3a7113ba0c2fe78c",
-      "bytes": 7009
+      "sha256": "edc8c5cf16c1d2854daf9b344620b24e9f6e7b8226b61a28c939e62c8a884b47",
+      "bytes": 7535
     },
     {
       "path": "design/cinematic/pilots/role-reveal/art.mjs",
-      "sha256": "bc8f5fcd102eecfee7a46143f274684191ca8c51e2b11bd0c962868bdaa918bf",
-      "bytes": 14029
+      "sha256": "01b8622e62004a4461f1f552446b6cf0308a18f88b776e6b4a25e31dd8ae83da",
+      "bytes": 15518
     },
     {
       "path": "design/cinematic/pilots/role-reveal/briefing.mjs",
@@ -161,8 +161,8 @@
     },
     {
       "path": "design/cinematic/pilots/role-reveal/doctor.mjs",
-      "sha256": "1a7503563a30d141cd7a4374947b1a862f2d31266f3dbd60bd18566304915f49",
-      "bytes": 22370
+      "sha256": "57af5533e16b1e69f948fcfde8c7c123539ca421932b05f77106103144fa2ca8",
+      "bytes": 24783
     },
     {
       "path": "design/cinematic/pilots/role-reveal/roles.mjs",
@@ -171,23 +171,23 @@
     },
     {
       "path": "design/cinematic/pilots/role-reveal/copy.mjs",
-      "sha256": "449d2989a6e5225c7bfc4eb52e07cefc37a6c33b8d05af2b82b7bf347892dec2",
-      "bytes": 2190
+      "sha256": "29be19ce5b2b47fb2775a2928f88c7e528b03a71bb54ff25772a34f2c3cb9afb",
+      "bytes": 3473
     },
     {
       "path": "design/cinematic/pilots/role-reveal/compose.mjs",
-      "sha256": "d745f490c17905e5b1fa1174a15568ef284aebd11b2d2b3fea1d22c60d63e924",
-      "bytes": 5530
+      "sha256": "511b7b3ea16aa11cf8865e6954b48bf9dd634f0e5bda85aabbc54c252f77a82e",
+      "bytes": 5874
     },
     {
       "path": "design/cinematic/pilots/role-reveal/stage.mjs",
-      "sha256": "886811df6303081d89bfa8132a68e4022ce4928de6862dee8238f20b95f150ab",
-      "bytes": 5186
+      "sha256": "5974b4aa59de23191b7fd4a1f0d9dbb114538995a06aac7221bc4692538ffd29",
+      "bytes": 5256
     },
     {
       "path": "design/cinematic/catalogue/catalogue.mjs",
-      "sha256": "9154b0a74c7e2f0f5b55002e8e70c63b1179412d742da7a27eea7c1482529e4c",
-      "bytes": 47030
+      "sha256": "db4d8de4500f65fb44e742cdd320ca8bbdac07c5bd96f22226676a42846772fd",
+      "bytes": 47153
     },
     {
       "path": "design/tools/cinematic-inventory.mjs",
@@ -206,7 +206,7 @@
     },
     {
       "path": "design/tools/cinematic-exports.mjs",
-      "sha256": "e7d39b5a718885437590cb51b6afdbfc6b47ae17f6753cbfa203d92b246d2871",
+      "sha256": "cbd3e990786b2be3ef8ba412c5b934ad0ee45b83f1948bb04db746ea6fe54237",
       "bytes": 14433
     },
     {
@@ -4782,15 +4782,15 @@
       "path": "design/cinematic/exports/role-reveal/review/doctor-phone320-full.mp4",
       "pilot": "role-reveal",
       "class": "review",
-      "sha256": "7704f1d31e617212af93cb80271c673bb8f168b87996d8ab544d04f5c4f30298",
-      "bytes": 448966,
+      "sha256": "9bfc369a375f6585b7a10eda9188d24f8af9db8f916729ac8fc359a6c413fabb",
+      "bytes": 496497,
       "width": 480,
       "height": 852,
       "codec": "h264",
       "pixelFormat": "yuv420p",
       "alpha": false,
       "fps": 30,
-      "durationMs": 9033,
+      "durationMs": 10033,
       "kind": "video",
       "surface": "phone",
       "variant": "full",
@@ -4798,10 +4798,10 @@
       "browser": "Chromium 141.0.7390.37",
       "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
       "deviceScale": 1.5,
-      "frames": 271,
+      "frames": 301,
       "timelineMs": [
         0,
-        9000
+        10000
       ],
       "audience": "own phone only, in the role-reading stage (a dealt role: review renders only)"
     },
@@ -4809,8 +4809,8 @@
       "path": "design/cinematic/exports/role-reveal/review/doctor-phone320-full.poster.webp",
       "pilot": "role-reveal",
       "class": "review",
-      "sha256": "df25f86ebd1b77b4d6f4cb65a2423b0453f84b12f8d31c0599083c73e3996d0d",
-      "bytes": 27580,
+      "sha256": "a92f39f3ef5610e8cc30c2428935b8947845f80f34b02876cb2d8cd778567223",
+      "bytes": 16952,
       "width": 480,
       "height": 852,
       "codec": "webp",
@@ -4822,20 +4822,20 @@
       "browser": "Chromium 141.0.7390.37",
       "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
       "deviceScale": 1.5,
-      "posterT": 6300,
+      "posterT": 2400,
       "audience": "own phone only, in the role-reading stage (a dealt role: review renders only)"
     },
     {
       "path": "design/cinematic/exports/role-reveal/review/doctor-phone320-full.preview.webp",
       "pilot": "role-reveal",
       "class": "review",
-      "sha256": "68dee5834c4a623da18958518c42ee9935de45efdb10c26fc730e5a68f81a759",
-      "bytes": 266128,
+      "sha256": "9e0429b060e429aadc9fa8df33ce108b90993e5295faed16996f193d22f50395",
+      "bytes": 314302,
       "width": 240,
       "height": 426,
       "codec": "webp",
-      "frames": 108,
-      "durationMs": 8999,
+      "frames": 120,
+      "durationMs": 9999,
       "animated": true,
       "kind": "preview",
       "surface": "phone",
@@ -4850,23 +4850,23 @@
       "path": "design/cinematic/exports/role-reveal/review/doctor-phone320-full.render.json",
       "pilot": "role-reveal",
       "class": "review",
-      "sha256": "f5cf1bc4b4bc0cee3947a0891632315f34712e686bdcb7c55f561b0069752723",
-      "bytes": 1621,
+      "sha256": "ec108d484d6e196594bc8c203f860fd832b2b012700c17eaa38b2b6be49117ca",
+      "bytes": 1623,
       "audience": "own phone only, in the role-reading stage (a dealt role: review renders only)"
     },
     {
       "path": "design/cinematic/exports/role-reveal/review/doctor-phone390-full.mp4",
       "pilot": "role-reveal",
       "class": "review",
-      "sha256": "42e90ffbcffa9445bbc6ff6abafcfd1da833fb3d7ec26ba19e12c98b36b1db07",
-      "bytes": 690472,
+      "sha256": "60cd1ad9db3af9e506e9b9121f9d003ee9c4f26a8f43ea237c0f7978c2769d9d",
+      "bytes": 776935,
       "width": 586,
       "height": 1266,
       "codec": "h264",
       "pixelFormat": "yuv420p",
       "alpha": false,
       "fps": 30,
-      "durationMs": 9033,
+      "durationMs": 10033,
       "kind": "video",
       "surface": "phone",
       "variant": "full",
@@ -4874,10 +4874,10 @@
       "browser": "Chromium 141.0.7390.37",
       "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
       "deviceScale": 1.5,
-      "frames": 271,
+      "frames": 301,
       "timelineMs": [
         0,
-        9000
+        10000
       ],
       "audience": "own phone only, in the role-reading stage (a dealt role: review renders only)"
     },
@@ -4885,8 +4885,8 @@
       "path": "design/cinematic/exports/role-reveal/review/doctor-phone390-full.poster.webp",
       "pilot": "role-reveal",
       "class": "review",
-      "sha256": "5148d00462eac1cfac5692019f8750c3dfafee579c99c915ad91c1ee50ae917d",
-      "bytes": 26820,
+      "sha256": "0ed9cd585f7f1ea572db442f21b75e97b63a9b43aea8a5d9d5be04e71ae330a9",
+      "bytes": 49216,
       "width": 585,
       "height": 1266,
       "codec": "webp",
@@ -4898,20 +4898,20 @@
       "browser": "Chromium 141.0.7390.37",
       "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
       "deviceScale": 1.5,
-      "posterT": 2400,
+      "posterT": 7400,
       "audience": "own phone only, in the role-reading stage (a dealt role: review renders only)"
     },
     {
       "path": "design/cinematic/exports/role-reveal/review/doctor-phone390-full.preview.webp",
       "pilot": "role-reveal",
       "class": "review",
-      "sha256": "54fba3ac4352d21baea730f362f4269eef3044b34aa9109a3fe88b91fd332840",
-      "bytes": 318692,
+      "sha256": "97693724be517648d433d10911aac62d4a08b367c4674e7ef124abfcc107179a",
+      "bytes": 379514,
       "width": 240,
       "height": 520,
       "codec": "webp",
-      "frames": 108,
-      "durationMs": 8999,
+      "frames": 120,
+      "durationMs": 9999,
       "animated": true,
       "kind": "preview",
       "surface": "phone",
@@ -4926,23 +4926,23 @@
       "path": "design/cinematic/exports/role-reveal/review/doctor-phone390-full.render.json",
       "pilot": "role-reveal",
       "class": "review",
-      "sha256": "0fb9bbed79182a57d62210f3130f98f76ce51954556172623cfde46fdfa9215c",
-      "bytes": 1621,
+      "sha256": "cf1adca0b68cb8042b2824205e02b926dc85159d4cfd1a4d435190547dd0f853",
+      "bytes": 1623,
       "audience": "own phone only, in the role-reading stage (a dealt role: review renders only)"
     },
     {
       "path": "design/cinematic/exports/role-reveal/review/doctor-phone390-reduced.mp4",
       "pilot": "role-reveal",
       "class": "review",
-      "sha256": "da5baf009cb97f38edc6e7a3185308c3c843bde52f4aee0094262adce5297eb2",
-      "bytes": 227197,
+      "sha256": "d6f16dcbf12a6df34c842ab82b277f21a50ca04888cce99b239a0093e3d22752",
+      "bytes": 243877,
       "width": 586,
       "height": 1266,
       "codec": "h264",
       "pixelFormat": "yuv420p",
       "alpha": false,
       "fps": 30,
-      "durationMs": 9033,
+      "durationMs": 10033,
       "kind": "video",
       "surface": "phone",
       "variant": "reduced",
@@ -4950,10 +4950,10 @@
       "browser": "Chromium 141.0.7390.37",
       "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
       "deviceScale": 1.5,
-      "frames": 271,
+      "frames": 301,
       "timelineMs": [
         0,
-        9000
+        10000
       ],
       "audience": "own phone only, in the role-reading stage (a dealt role: review renders only)"
     },
@@ -4961,8 +4961,8 @@
       "path": "design/cinematic/exports/role-reveal/review/doctor-phone390-reduced.poster.webp",
       "pilot": "role-reveal",
       "class": "review",
-      "sha256": "ef1d61665ff432a98b782ab0c72fb583fa5abb1d7d36f02c9c78db03ce591ca7",
-      "bytes": 41278,
+      "sha256": "0d0b44c589429bf204539cc66632e27ea3ec540ec7d96121f3d8e12bd0dd1134",
+      "bytes": 49062,
       "width": 585,
       "height": 1266,
       "codec": "webp",
@@ -4981,13 +4981,13 @@
       "path": "design/cinematic/exports/role-reveal/review/doctor-phone390-reduced.preview.webp",
       "pilot": "role-reveal",
       "class": "review",
-      "sha256": "e3155421ead461a668f69da68724f4c2f9b5137074a0e20c126a9c00b2d78e77",
-      "bytes": 35168,
+      "sha256": "0ddaf1f9381a7bb81a338efef39b3c036c89391a897d05f6d554905f43edcc1e",
+      "bytes": 41792,
       "width": 240,
       "height": 520,
       "codec": "webp",
       "frames": 6,
-      "durationMs": 8999,
+      "durationMs": 9999,
       "animated": true,
       "kind": "preview",
       "surface": "phone",
@@ -5002,14 +5002,14 @@
       "path": "design/cinematic/exports/role-reveal/review/doctor-phone390-reduced.render.json",
       "pilot": "role-reveal",
       "class": "review",
-      "sha256": "aa2e7329791142c5aa0536fe467729136ebd7e6ecdf2d7d8ae3f9839cda4e51c",
-      "bytes": 1635,
+      "sha256": "d62069bfb6bac6bcd173730135c820a5eed783c6ba544a440835edac3d9b3181",
+      "bytes": 1637,
       "audience": "own phone only, in the role-reading stage (a dealt role: review renders only)"
     }
   ],
   "totals": {
     "sources": 44,
     "exports": 264,
-    "bytes": 56420989
+    "bytes": 56706841
   }
 }

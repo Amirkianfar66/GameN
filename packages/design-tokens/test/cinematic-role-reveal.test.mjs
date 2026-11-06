@@ -1,9 +1,10 @@
 // The role reveal films (the owner, 6 November 2026; docs/design/cinematic/role-reveal.md): one
-// nine-second film per role on the player's own phone. Each opens in the briefing room at the dock,
+// ten-second film per role on the player's own phone. Each opens in the briefing room at the dock,
 // where the player's own character takes the role's gadget from the desk where their role card
-// stands, and then turns to a comic page of three panels. These tests hold the privacy rules every
-// film keeps (one length, one rhythm, silence, one palette, only shipped pictures, no words in the
-// picture), the shared opener, the card that matches the phone's role card, and the Doctor's pilot.
+// stands, and then turns to a comic page of three panels with their narration: a small back story,
+// two panels of memory in sepia and one aboard. These tests hold the privacy rules every film keeps
+// (one length, one rhythm, silence, one palette, only shipped pictures, no words in the picture),
+// the shared opener, the card that matches the phone's role card, and the Doctor's pilot.
 
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
@@ -12,22 +13,24 @@ import { test } from 'node:test';
 import { fileURLToPath } from 'node:url';
 import { CREW } from '../../../design/board-motion/figures/crew.mjs';
 import { FACTION_ACCENTS, MIN_ACCENT_DISTANCE, cie76 } from '../../../design/board-v2/fx/blocked.mjs';
+import { MEDICAL } from '../../../design/board-v2/fx/medical.mjs';
 import { CATALOGUE } from '../../../design/cinematic/catalogue/catalogue.mjs';
 import { measure } from '../../../design/cinematic/lib/lettering.mjs';
 import { figureItems } from '../../../design/cinematic/lib/scene.mjs';
 import { PILOTS } from '../../../design/cinematic/pilots/index.mjs';
-import { GRIP, deviceOnly, unaccented } from '../../../design/cinematic/pilots/role-reveal/art.mjs';
+import { GRIP, deviceOnly, sepiaOf, unaccented } from '../../../design/cinematic/pilots/role-reveal/art.mjs';
 import { POSES, briefingLayout, briefingSvg, onPage } from '../../../design/cinematic/pilots/role-reveal/briefing.mjs';
 import { PAGE_WIDTH, layout, pageHeight, revealSvg } from '../../../design/cinematic/pilots/role-reveal/compose.mjs';
+import { DOCTOR_PANELS } from '../../../design/cinematic/pilots/role-reveal/doctor.mjs';
 import { ROLE_REVEAL_COPY } from '../../../design/cinematic/pilots/role-reveal/copy.mjs';
-import { BEATS, CHANGES, FADE_MS, PANEL_STARTS, REVEAL_END, STILLS, VARIANTS, revealFrame } from '../../../design/cinematic/pilots/role-reveal/film.mjs';
+import { BEATS, CHANGES, FADE_MS, PANEL_STARTS, PANEL_TONES, REVEAL_END, STILLS, VARIANTS, revealFrame } from '../../../design/cinematic/pilots/role-reveal/film.mjs';
 import { DEVICE_FILES, EMBLEM_FILES, FILM_OF, PORTRAIT_FILES, ROLE_FILMS, ROLE_REVEAL_ASSETS, TEAMS } from '../../../design/cinematic/pilots/role-reveal/roles.mjs';
 import { CURRENT_ROLES, usesCurrentNames } from '../../../design/library/successor/names.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../../..');
 const CINE = resolve(ROOT, 'design/cinematic');
 const PHONES = [[320, 568], [360, 640], [360, 780], [375, 667], [390, 844], [414, 896], [430, 932]];
-const SAMPLES = [0, 200, 600, 1250, 1299, 1300, 1800, 2400, 2999, 3000, 3100, 3500, 4100, 4299, 4300, 4500, 5000, 5599, 5600, 5800, 6400, 6999, 7000, 7300, 8000, 8399, 8400, 8999, 9000];
+const SAMPLES = [0, 200, 600, 1250, 1299, 1300, 1800, 2400, 2999, 3000, 3100, 3600, 4400, 4499, 4500, 4700, 5300, 5999, 6000, 6200, 6800, 7799, 7800, 8100, 8600, 9299, 9300, 9999, 10000];
 const CHARACTERS = Object.keys(CREW);
 /** A role's gadget as a client gets it: the role card's held device, read and stripped of its hand. */
 const gadget = role => deviceOnly(readFileSync(resolve(CINE, DEVICE_FILES[role]), 'utf8'));
@@ -72,14 +75,15 @@ test('the nine current roles each have a film, a team, a device and an emblem th
   assert.ok(PILOTS['role-reveal']?.surfaces.phone, 'on the stage, on a phone');
 });
 
-test('every film keeps one clock: 9000 ms, the same beats and the same moments of change, full and reduced', () => {
-  assert.equal(REVEAL_END, 9000);
+test('every film keeps one clock: 10000 ms, the same beats and the same moments of change, full and reduced', () => {
+  assert.equal(REVEAL_END, 10000);
   const beats = Object.values(BEATS);
   assert.equal(beats[0][0], 0);
   for (let i = 1; i < beats.length; i += 1) assert.equal(beats[i][0], beats[i - 1][1], 'the beats are contiguous');
   assert.equal(beats.at(-1)[1], REVEAL_END);
   assert.deepEqual([...CHANGES], beats.slice(1).map(b => b[0]));
-  assert.deepEqual([...PANEL_STARTS], [3000, 4300, 5600]);
+  assert.deepEqual([...PANEL_STARTS], [3000, 4500, 6000]);
+  assert.deepEqual([...PANEL_TONES], ['past', 'past', 'present'], 'two panels of memory, then aboard: the same for every role');
   assert.deepEqual([...BEATS.opener], [0, 3000], 'the briefing room opens every film');
   // The frame function takes no role: no film can stretch, shorten or re-time a beat.
   for (const variant of VARIANTS) {
@@ -94,7 +98,7 @@ test('every film keeps one clock: 9000 ms, the same beats and the same moments o
 });
 
 test('reduced motion: three stills, each faded in over 80 ms at the same moments, and nothing else moves', () => {
-  assert.deepEqual(STILLS.map(s => s.at), [0, 3000, 7000]);
+  assert.deepEqual(STILLS.map(s => s.at), [0, 3000, 7800]);
   const pictures = new Set();
   for (const [i, { at }] of STILLS.entries()) {
     const until = STILLS[i + 1]?.at ?? REVEAL_END;
@@ -109,8 +113,8 @@ test('reduced motion: three stills, each faded in over 80 ms at the same moments
   const first = doctor(1000, { variant: 'reduced' }).frame.opener;
   assert.deepEqual([first.grip, first.raise, first.glint, first.push], [true, 1, 0, 0], 'the first still: the gadget raised, no glint, no push');
   assert.ok(!doctor(1000, { variant: 'reduced' }).svg.includes('-pool-glint'), 'no glint in reduced motion');
-  assert.equal(revealFrame(7800, { variant: 'reduced' }).title.sweep, 0, 'no sheen in reduced motion');
-  assert.ok(doctor(7800).svg.includes('-sheen') && !doctor(7800, { variant: 'reduced' }).svg.includes('-sheen'), 'the sheen crosses the plate in full motion only');
+  assert.equal(revealFrame(8600, { variant: 'reduced' }).title.sweep, 0, 'no sheen in reduced motion');
+  assert.ok(doctor(8600).svg.includes('-sheen') && !doctor(8600, { variant: 'reduced' }).svg.includes('-sheen'), 'the sheen crosses the plate in full motion only');
 });
 
 test('a frame is one self-contained SVG: no words drawn in, no repeated id, only the pictures every phone ships, deterministic', () => {
@@ -159,6 +163,17 @@ test('one palette: no colour drawn comes within the accent distance of a faction
     assert.ok([...colours(own)].some(hex => nearAccents(hex).length > 0), `${role}: the card's device carries its team's accent`);
     for (const hex of colours(unaccented(own))) assert.deepEqual(nearAccents(hex), [], `${role}'s gadget: ${hex}`);
   }
+  // The back story's panels are drawn through the sepia filter: every colour in them, as the filter
+  // draws it, keeps the palette too (the player's own character included, so for every character).
+  const height = pageHeight(390, 844), box = layout(height).panels[0];
+  for (const character of CHARACTERS) {
+    for (const [i, panel] of DOCTOR_PANELS.entries()) {
+      if (PANEL_TONES[i] !== 'past') continue;
+      for (const local of [0, 400, 1300, 3000]) {
+        for (const hex of colours(panel(local, { w: box.w, h: box.h, prefix: `rr-p${i}`, character }))) assert.deepEqual(nearAccents(sepiaOf(hex)), [], `panel ${i + 1} (${character}): ${hex} drawn as ${sepiaOf(hex)}`);
+      }
+    }
+  }
   // The player's own character keeps its own colours (public from the lobby, the same whatever the role
   // dealt); every other colour keeps the palette, whoever the character.
   for (const character of CHARACTERS) {
@@ -167,26 +182,38 @@ test('one palette: no colour drawn comes within the accent distance of a faction
   }
 });
 
-test('the captions: two lines for every role, current names only, saying what the rules give', () => {
+test('the words: a back story in three narration boxes and a line under the title, for every role, current names only', () => {
   for (const role of CURRENT_ROLES) {
     const copy = ROLE_REVEAL_COPY[role];
-    assert.ok(copy?.purpose && copy?.play, `${role}: two lines`);
-    assert.ok(usesCurrentNames(copy.purpose) && usesCurrentNames(copy.play), `${role}: current names`);
+    assert.equal(copy?.story?.length, 3, `${role}: three narration boxes`);
+    assert.ok(copy.play, `${role}: the line under the title`);
+    for (const line of [...copy.story, copy.play]) {
+      assert.ok(usesCurrentNames(line), `${role}: current names in "${line}"`);
+      assert.ok(line.length <= 100, `${role}: a short line`);
+    }
+    for (const line of copy.story) assert.ok(line.length <= 52, `${role}: "${line}" fits a narration box`);
   }
-  assert.match(ROLE_REVEAL_COPY.Doctor.play, /player number is the Hospital panel's code/);
-  assert.match(ROLE_REVEAL_COPY.Doctor.purpose, /Two doses/);
-  for (const name of ['Undercover', 'Alien', 'Doctor']) assert.ok(ROLE_REVEAL_COPY.Insider.purpose.includes(name));
+  // What the rules give, in the story's last box (aboard) or under the title.
+  assert.match(ROLE_REVEAL_COPY.Doctor.story[1], /two doses/);
+  assert.match(ROLE_REVEAL_COPY.Doctor.story[2], /your number is the Hospital panel's code/);
+  assert.match(ROLE_REVEAL_COPY.Doctor.play, /Two doses for the whole voyage/);
+  for (const name of ['Undercover', 'Alien', 'Doctor']) assert.ok(ROLE_REVEAL_COPY.Insider.story[2].includes(name));
   assert.match(ROLE_REVEAL_COPY['Red Disabler'].play, /Undercover/);
-  assert.ok(!ROLE_REVEAL_COPY['Blue Disabler'].play.includes('Undercover'), 'only the Red Disabler knows the Undercover');
-  const { words } = doctor(8000);
-  assert.equal(words.purpose.opacity, 0);
-  assert.equal(words.play.text, ROLE_REVEAL_COPY.Doctor.play);
-  assert.equal(words.play.opacity, 1);
-  assert.equal(words.role.text, 'Your role: Doctor.');
-  assert.ok(words.role.visible);
-  assert.equal(doctor(4000).words.purpose.opacity, 1);
-  const opener = doctor(2400).words;
-  assert.deepEqual([opener.purpose.opacity, opener.play.opacity, opener.role.visible], [0, 0, false], 'the opener has no words: the role is named on the card in the picture and in page text at the title');
+  for (const line of [...ROLE_REVEAL_COPY['Blue Disabler'].story, ROLE_REVEAL_COPY['Blue Disabler'].play]) assert.ok(!line.includes('Undercover'), 'only the Red Disabler knows the Undercover');
+  // Each panel's narration comes with its panel and stays until the title; then the line under the title.
+  const at = t => doctor(t).words;
+  assert.deepEqual(at(2400).story.map(s => s.opacity), [0, 0, 0], 'the opener has no words');
+  assert.deepEqual(at(3600).story.map(s => s.opacity), [1, 0, 0]);
+  assert.deepEqual(at(5100).story.map(s => s.opacity), [1, 1, 0]);
+  assert.deepEqual(at(7400).story.map(s => s.opacity), [1, 1, 1]);
+  assert.deepEqual(at(7400).story.map(s => s.text), [...ROLE_REVEAL_COPY.Doctor.story]);
+  assert.deepEqual(at(7400).story.map(s => s.tone), ['past', 'past', 'present']);
+  const { story, play, role } = at(9000);
+  assert.deepEqual(story.map(s => s.opacity), [0, 0, 0]);
+  assert.deepEqual([play.text, play.opacity], [ROLE_REVEAL_COPY.Doctor.play, 1]);
+  assert.deepEqual([role.text, role.visible], ['Your role: Doctor.', true]);
+  assert.equal(at(2400).role.visible, false, 'the role is named on the card in the picture, and in page text at the title');
+  assert.deepEqual(doctor(5000, { variant: 'reduced' }).words.story.map(s => s.opacity), [1, 1, 1], 'reduced motion: the page still carries all three');
 });
 
 test('the page fits every phone: panels, the title plate and the captions inside, panels tall enough to read', () => {
@@ -197,8 +224,12 @@ test('the page fits every phone: panels, the title plate and the captions inside
       assert.ok(p.x >= 0 && p.x + p.w <= PAGE_WIDTH && p.y >= 0 && p.y + p.h <= H, `${w}x${h}: a panel inside the page`);
       assert.ok(p.h >= 360, `${w}x${h}: a panel ${p.h.toFixed(0)} units tall`);
     }
-    for (const c of Object.values(L.captions)) assert.ok(c.y >= 0 && c.y + c.h <= H, `${w}x${h}: a caption inside the page`);
-    assert.ok(L.captions.purpose.y + L.captions.purpose.h <= L.panels[0].y, `${w}x${h}: the caption above the panels`);
+    for (const c of [...Object.values(L.captions), ...L.story]) assert.ok(c.x >= 0 && c.x + c.w <= PAGE_WIDTH && c.y >= 0 && c.y + c.h <= H, `${w}x${h}: a caption inside the page`);
+    L.story.forEach((box, i) => {
+      const p = L.panels[i];
+      assert.ok(box.y < p.y && box.y + box.h > p.y, `${w}x${h}: narration ${i + 1} rides its panel's top edge`);
+      if (i > 0) assert.ok(box.y >= L.panels[i - 1].y + L.panels[i - 1].h, `${w}x${h}: narration ${i + 1} clear of the panel above`);
+    });
     // The briefing room: the viewport, the desk, the card, the character and the gadget, inside the page.
     const B = briefingLayout(PAGE_WIDTH, H);
     const inside = ([x, y], what) => assert.ok(x >= 0 && x <= PAGE_WIDTH && y >= 0 && y <= H, `${w}x${h}: ${what} at ${x.toFixed(0)}, ${y.toFixed(0)}`);
@@ -219,7 +250,7 @@ test('the Doctor\'s pilot: its own device in the opener, and the Hospital panel 
   assert.ok(opener.includes(DEVICE_FILES.Doctor), 'the role card on the desk draws the injector');
   assert.ok(cut(opener, 'gadget').part.includes('device-cracker-head'), 'the gadget is the injector');
   for (const role of CURRENT_ROLES.filter(r => r !== 'Doctor')) assert.ok(!opener.includes(DEVICE_FILES[role]), `no ${role} device`);
-  const at = seat => doctor(6800, { seat }).svg;
+  const at = seat => doctor(7000, { seat }).svg;
   assert.notEqual(at(6), at(3), 'the readout shows the player\'s own number');
   assert.equal(at(null), at(0), 'without a valid number nothing is lit');
   const lit = svg => (svg.match(/fill="#F2C14E" opacity="1"/g) ?? []).length;
@@ -288,11 +319,22 @@ test('the opener is one scene for every role: only the card\'s name and picture 
   }
 });
 
+test('the Doctor\'s back story: memory in sepia, the player\'s own character in it, the last two doses, then aboard', () => {
+  const page = doctor(7400).svg;
+  assert.equal((page.match(/filter="url\(#rr-sepia\)"/g) ?? []).length, 2, 'two panels of memory, then one aboard');
+  const height = pageHeight(390, 844), box = layout(height).panels[0];
+  const colony = character => DOCTOR_PANELS[0](800, { w: box.w, h: box.h, prefix: 'rr-p0', character });
+  assert.equal(new Set(CHARACTERS.map(colony)).size, CHARACTERS.length, 'the colony panel draws the player\'s own character');
+  const doses = DOCTOR_PANELS[1](800, { w: box.w, h: box.h, prefix: 'rr-p1' });
+  assert.equal((doses.match(new RegExp(`<rect[^>]*fill="${MEDICAL.cyan}"`, 'g')) ?? []).length, 2, 'two doses left in the case');
+});
+
 test('the motion bible\'s role reveal entry carries the films', () => {
   const scene = CATALOGUE.find(s => s.id === 'role-reveal');
-  assert.match(scene.beats.start, /nine-second film/);
+  assert.match(scene.beats.start, /ten-second film/);
+  assert.match(scene.beats.start, /back story/);
   assert.match(scene.beats.start, /briefing room/);
-  assert.match(scene.durations.full, /9000 ms, the same length and beats for every role/);
+  assert.match(scene.durations.full, /10000 ms, the same length and beats for every role/);
   assert.match(scene.audio, /silent/);
   assert.ok(scene.assets.some(a => a.startsWith('design/cinematic/pilots/role-reveal/')));
 });

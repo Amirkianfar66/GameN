@@ -1,5 +1,5 @@
 {
-  "version": "cinematic-catalogue-0.14.0",
+  "version": "cinematic-catalogue-0.15.0",
   "contract": {
     "protocol": 3,
     "engine": "planet-game-1.0.0",
@@ -142,7 +142,7 @@
     {
       "id": "role-reveal",
       "scene": "Role reveal and private card",
-      "status": "existing (slice 8) + library group 8 (current names, the Engineer's device) + the role films (the owner, 6 November 2026, with the briefing-room opener and the noir relighting from the owner's reviews of the pilot): the Doctor's pilot, the other eight storyboarded",
+      "status": "existing (slice 8) + library group 8 (current names, the Engineer's device) + the role films (the owner, 6 November 2026, with the briefing-room opener, the noir relighting and the comic back story from the owner's reviews of the pilot): the Doctor's pilot, the other eight storyboarded",
       "audience": "own phone only",
       "trigger": "session status reading + player view self.role / self.faction",
       "fields": [
@@ -152,13 +152,13 @@
         "members[].characterId (own: the film draws the player's own character)"
       ],
       "beats": {
-        "start": "card face-down, flip on Ready-to-read; then the role's own nine-second film: the briefing room at the dock before boarding, where the player's own character takes the role's gadget from the desk where their role card stands, drawn as the phone draws it, and raises it into the light (0-3 s), three comic panels of what the role does on the ship (3-7 s), the role's name stamped on a paper plate (7-8.4 s), held to 9 s",
+        "start": "card face-down, flip on Ready-to-read; then the role's own ten-second film: the briefing room at the dock before boarding, where the player's own character takes the role's gadget from the desk where their role card stands, drawn as the phone draws it, and raises it into the light (0-3 s); then a comic page of three panels with narration boxes, a small back story: two panels of memory in sepia, then one aboard, at what the role does (3-7.8 s); the role's name stamped on a paper plate (7.8-9.3 s), held to 10 s",
         "loop": "held: 30 s minimum reading (the film plays inside it; a tap skips to the card)",
         "exit": "Ready closes; concealment on window blur"
       },
       "durations": {
-        "full": "flip 600 ms; the role film 9000 ms, the same length and beats for every role; reading 30 s minimum (server)",
-        "reduced": "no flip: face shown with an 80 ms fade; the film as three stills, 80 ms fades at 0, 3 and 7 s, still 9000 ms"
+        "full": "flip 600 ms; the role film 10000 ms, the same length and beats for every role; reading 30 s minimum (server)",
+        "reduced": "no flip: face shown with an 80 ms fade; the film as three stills, 80 ms fades at 0, 3 and 7.8 s, still 10000 ms"
       },
       "final": "card closed, retrievable from Card",
       "cancel": "window blur conceals the card immediately",
