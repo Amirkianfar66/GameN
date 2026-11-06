@@ -6,7 +6,7 @@
 //      them; on the wall behind, their shadows, and the player's shadow is not a human's
 //   2  a crew face (memory): the player's character in a lamp's light, their shadow on the wall
 //      splitting in two (the Phantom Clone)
-//   3  aboard, now: the Blackhole; the cabin's walls give way to space, a blackhole forms and the
+//   3  aboard, ahead (a glimpse of the work to come, not an event of the match): the Blackhole; the cabin's walls give way to space, a blackhole forms and the
 //      stars bend toward it (WHOOM), in Pilot 2's art
 // What the pictures show: the Alien among the crew, its Clone and its Blackhole; the role card says
 // the rules. The light is lantern amber, paper and starlight, never a team colour.

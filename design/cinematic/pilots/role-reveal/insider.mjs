@@ -6,7 +6,7 @@
 //      player's character behind a wall of reports, reading
 //   2  three files (memory): three folders slide across the desk, each with a faceless photograph
 //      clipped to it (THUD)
-//   3  aboard, now: the player's character at a cork board in their cabin; three faceless photos
+//   3  aboard, ahead (a glimpse of the work to come, not an event of the match): the player's character at a cork board in their cabin; three faceless photos
 //      pinned up and a string drawn between them
 // What the pictures show: the Insider is given three players, and who they are; the role card says
 // what they hold (one each). No face, number or name is drawn on any photograph.

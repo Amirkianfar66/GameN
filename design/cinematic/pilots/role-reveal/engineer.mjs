@@ -6,7 +6,7 @@
 //      the scaffolds, and the player's character on a gantry with the plans
 //   2  every wire (memory): a gloved hand traces a cable bundle into a bulkhead, and the signal clamp
 //      clicks on (CLICK)
-//   3  aboard, now: the photograph; viewfinder brackets close on the room opposite, the shutter
+//   3  aboard, ahead (a glimpse of the work to come, not an event of the match): the photograph; viewfinder brackets close on the room opposite, the shutter
 //      blinks dark (ink, never a flash of light), and the print slides out and develops
 // What the pictures show: the Engineer's one capture of the opposite room, the whole room and never
 // one target (library group 1's capture: brackets, dark shutter, print). The people in it are

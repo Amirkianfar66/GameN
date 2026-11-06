@@ -7,7 +7,7 @@
 //      hanging lamp, and the player's character at the foot of a cot with a chart
 //   2  the last two doses (memory): an open medicine case under a desk lamp, every slot empty but two,
 //      their vials still glowing, rain on the window
-//   3  aboard, now: the Mothership's Hospital at night; the trace steadies, and the Hospital panel's
+//   3  aboard, ahead (a glimpse of the work to come, not an event of the match): the Mothership's Hospital at night; the trace steadies, and the Hospital panel's
 //      keypad lights one number, the player's own (the panel's code is the Doctor's player number,
 //      P21 and P22)
 // The rules it teaches: two doses for the whole voyage, and the panel's code. The medical palette is

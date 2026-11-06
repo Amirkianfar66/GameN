@@ -7,7 +7,7 @@
 //      throws a breaker, sparks fly, and the deck's lamps go out one by one (CLUNK)
 //   2  one charge (memory): the stun rod in its open case beside a single charge cell, and an
 //      envelope of credits pushed across the table by a gloved hand
-//   3  aboard, now: a dark cabin, a silhouette in it; the rod's charge arcs once and the cabin's
+//   3  aboard, ahead (a glimpse of the work to come, not an event of the match): a dark cabin, a silhouette in it; the rod's charge arcs once and the cabin's
 //      light dips (ZZT)
 // What the pictures show: one hidden attack in the whole match, the one charge; the role card says
 // it in words. The arc is white and paper light, never a team colour; every figure but the player's

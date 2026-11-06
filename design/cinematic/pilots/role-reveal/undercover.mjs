@@ -5,7 +5,7 @@
 //   1  Red Planet intelligence (memory, in sepia): a street lamp in the dust rain, the player's
 //      character leaning on its post; in front, an open personnel file with no name in it (DRIP)
 //   2  armed (memory): a pistol slides into a shoulder holster
-//   3  aboard, now: the player's character beside a silhouette; a shield mark settles on the
+//   3  aboard, ahead (a glimpse of the work to come, not an event of the match): the player's character beside a silhouette; a shield mark settles on the
 //      silhouette's shoulder and glows once
 // What the pictures show: one gun, and a protection given to another player; the role card says
 // when the gun shoots and how often protection is given. The shield is paper and amber light,

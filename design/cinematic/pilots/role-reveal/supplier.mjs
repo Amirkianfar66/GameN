@@ -6,7 +6,7 @@
 //      swinging lamp, the player's character leaning on them; a crate lands on the counter (CLANK)
 //   2  two crates, off the books (memory): the player's character crouched at a false floor that
 //      lifts on two sealed crates
-//   3  aboard, now: the cargo hold; two crates come down on the hoist and land, one beside each of
+//   3  aboard, ahead (a glimpse of the work to come, not an event of the match): the cargo hold; two crates come down on the hoist and land, one beside each of
 //      two silhouettes, a blank tag on each
 // What the pictures show: two deliveries, kept secret; the role card says when and what. No
 // recipient has a face, number or name, and no tag is written on.

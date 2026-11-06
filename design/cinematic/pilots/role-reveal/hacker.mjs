@@ -5,7 +5,7 @@
 //   1  the data dens of Phobos (memory, in sepia): a den lit by its screens, cables hanging like
 //      vines, the player's character on a stool at a laptop; on the big screen, locks open one by one
 //   2  paid in advance (memory): a credit chip slides across the table under a wax seal
-//   3  aboard, now: the Code; a scanner sweeps four silhouettes, one already marked (the Undercover
+//   3  aboard, ahead (a glimpse of the work to come, not an event of the match): the Code; a scanner sweeps four silhouettes, one already marked (the Undercover
 //      the Hacker knows), and the punch card's four windows click shut (KA-CHUNK)
 // What the pictures show: the scan, the known ally and the four-player Code; the role card says the
 // rules. The four are silhouettes with no face, number or name, in no order but their places.
