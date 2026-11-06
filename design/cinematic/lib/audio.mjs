@@ -102,6 +102,12 @@ export const CUES = Object.freeze({
   'door-seal': () => add(tone(0.1, () => 70, { amp: x => env(x, 0.002, 0.03) * 0.9 }), highpass(noiseBuf(0.28, 53, x => env(x, 0.04, 0.08) * 0.3), 3000)),
   'seat-settle': () => lowpass(noiseBuf(0.18, 59, x => env(x, 0.01, 0.05) * 0.35), 500),
   'busy-chime': () => add(tone(0.22, () => 740, { amp: x => env(x, 0.004, 0.08) * 0.2 }), tone(0.22, () => 988, { amp: x => env(x, 0.004, 0.08) * 0.2 }), 1, 0.11),
+  // The Captain's EJECT cut: public sounds only (the console's hard click, the air leaving)
+  'switch-click': () => add(tone(0.09, x => 150 - 70 * x / 0.09, { amp: x => env(x, 0.002, 0.02) * 0.8 }), highpass(tone(0.03, () => 2600, { amp: x => env(x, 0.001, 0.006) * 0.6 }), 1200)),
+  'air-rush': (len = 1.6) => {
+    const out = noiseBuf(len, 61, x => Math.min(1, x / 0.25, (len - x) / 0.5) * 0.8);
+    return add(highpass(lowpass(out, 3200), 300), tone(len, x => 90 + 30 * Math.sin(Math.PI * x / len), { amp: x => Math.min(1, x / 0.3, (len - x) / 0.5) * 0.15 }));
+  },
 });
 
 /**

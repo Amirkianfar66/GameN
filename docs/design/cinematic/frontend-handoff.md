@@ -24,7 +24,8 @@ runtime implementation, Backend the events, deadlines and audiences.
 | Identity-free runtime inserts: drone insert, space insert titled and textless | **delivered video** (comic, rendered from the frame functions; MP4 + WebM + poster + animated WebP) |
 | Public cue mixes (procedural) | **delivered audio** (WAV masters, AAC, Opus) |
 | Live-action inserts | **NOT PRODUCED**: treatment, shot list, storyboard frames, exact prompts, grade and rights plan only (`live-action/`) |
-| Remaining library (Hack Spaceship, Engineer, navigation, Promises, windows, arrival...) | **not drawn yet**: gap map in `inventory.md` and per scene in `motion-bible.md` |
+| The Captain's EJECT as a display cut over the approved S7 | **delivered, working** (proposal; S7 under it approved and unchanged): frame functions, composition, stage, review renders, an identity-free exterior insert video and cue mixes. See below |
+| Role, action and environment library | **delivered as library groups 1 to 8** (proposals): `design/library/README.md`; the remaining gaps per scene in `motion-bible.md` |
 
 ## Rules for every pilot
 
@@ -113,6 +114,30 @@ runtime implementation, Backend the events, deadlines and audiences.
 | Display mount | The entrance only: a 1920×1080 page over the board in `HACK_RESULT`: the P1 room panel (40, 60, 880×465), the P2 room panel (40, 555, 880×465), the capsule (950, 60, 930×960); rooms framed at 1.45 px per scene unit on the participant's place, the capsule at 1.816 on `CAPSULE_VIEW`. The talk and the exit are the board's own (S2) |
 | Phones | S2 unchanged (the capsule panel in the board's top band, approved #144) |
 | Static / muted / failure | Static: S2's settled states. Muted: steps and door cues off. Failure: S2's board treatment |
+
+## The Captain's EJECT: a display cut over S7
+
+The display and the phones keep S7 on the board, unchanged (approved, #159). That is the default.
+An EJECT is a command during the turns, so decisions are open while it plays (the owner's review of
+6 November 2026; `design/cinematic/lib/visibility.mjs`). This cut covers the board, so it may play
+only in a phase where nobody decides, and none follows an EJECT today. It is a reviewed proposal for a
+presentation stage the owner would have to approve, which no film assumes. The brief also asks that
+"long medical/ejection films need shorter or nonblocking forms": S7 on the board is that form. Source `design/cinematic/pilots/eject/` (`film.mjs`, `compose.mjs`, `stage.mjs`);
+tests `packages/design-tokens/test/cinematic-eject.test.mjs`.
+
+| Need | Value |
+| --- | --- |
+| Trigger and audience | The Captain's EJECT outcome (S7's input), public: its kind and `seatIds`, the snapshot before it (each subject's Jail slot, character and whether it was a body), the time since its presentation start |
+| Not an input | who pressed (the actor is whoever holds the public office), a role, a side, a cause |
+| Frame function | `cutFrame(t, { reduced, subjects })` (pure). Its `s7` is S7's `ejectFrame()` at the same moment, unchanged (tested at every 40 ms); the cut adds only the shot, its set, the camera and the letterbox |
+| Shots (full, 7200 ms: S7's own length) | `console` 0-1500 (the cover lifts, the press, the click; the emergency light from 900), `lockdown` 1500-2700 (the Jail's wall: the door locks, the hatch is revealed, the prisoners brace), `airlock` 2700-4400 (the iris opens, the living are taken as ink silhouettes with a paper rim, a body leaves as a grey cut-out), `exterior` 4400-5800 (the hull, the silhouettes drifting away), `closure` 5800-7200 (the iris shuts, the hatch is gone, the memorial plaque, the console's EJECT used as an inset). Hard cuts on S7's beats; the camera eases inside each shot and never shows past its set's edge or shakes |
+| Reduced (2560 ms) | S7's four stills (console, open, empty, memorial) with S7's 80 ms cross-fades; the three wall stills share one camera, so they dissolve in place. No suction, debris, silhouette, push or travel |
+| Words | Never in the picture. `cutSvg()` returns where a stage puts page text: the plate's EJECT (lit `#FFB3A3`, used `#8A97AB`, as S7's inset), the closing USED stamp, and S7's `captainWords()` in the lower letterbox from S7's announce (3300 ms) |
+| Mount | One 1920×1080 SVG for the display, letterbox 10%, vignette and grain; the Jail's approved back picture (`design/board-motion/assets/scenes/jail.back.svg`) through the stage's picture library |
+| Static / muted / failure | Static: the snapshot (the Jail empty). Muted: the cue sheet off. Failure: S7's words alone |
+| Runtime-eligible video | `exports/eject/runtime/exterior-insert.{mp4,webm}` 2.43 s, the hull and the hatch's light with the loose things leaving it: no person, no word, no count; poster PNG/WebP; animated WebP. A client draws the match's own silhouettes over it from the frame functions, or plays the cut live |
+| Review only | `exports/eject/review/cut-full.mp4` (7.23 s) and `cut-reduced.mp4` (2.60 s) draw the synthetic fixture's prisoners (seats 3 and 4 living, seat 9's body) and its words. Re-rendered with the settled renderer: the earlier cut had the same dropped Jail picture at 2.60 s |
+| Sound | Public cues (`AUDIO`): the console's click, the alarm's blip every 625 ms (under 2 Hz) while the Jail is locked down, the locks and clamps, the hatch, the air leaving; silence outside the hull and at the memorial. The insert has none of its own |
 
 ## Privacy-safe preload plan
 

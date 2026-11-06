@@ -9,7 +9,7 @@
 // a trigger, the entry says so and names the request (REQUESTS), and the scene stays a labeled
 // design fixture until the contract supports it. Nothing here is a game rule.
 
-export const CATALOGUE_VERSION = 'cinematic-catalogue-0.9.0';
+export const CATALOGUE_VERSION = 'cinematic-catalogue-0.10.0';
 export const CONTRACT = Object.freeze({ protocol: 3, engine: 'planet-game-1.0.0', ruleset: 'in-person-planet-2026-11-05', file: 'packages/contracts/src/planet-game.ts', commit: '79418e72dba99ba99afe047ecb97467fb5e73b62', status: 'candidate; not adopted into runtime' });
 
 /** The lifecycle every presentation follows (the motion bible's rules, for every scene below). */
@@ -104,13 +104,13 @@ export const CATALOGUE = Object.freeze([
     assets: ['design/board-v2/fx/captain.mjs', 'design/board-v2/films/captain.mjs'], gaps: [],
   }),
   S('captain-eject', 'Captain EJECT', {
-    status: 'existing S7 (approved art, #159)', audience: 'public',
+    status: 'existing S7 (approved art, #159) on the board, every surface; a display cut (proposal, covering: only where nobody decides)', audience: 'public',
     trigger: 'event CAPTAIN_EJECT (actorSeatId, seatIds)', fields: ['events[].actorSeatId', 'events[].seatIds'],
     beats: { start: 'cover lifts, EJECT pressed, lockdown', loop: 'airlock, non-graphic silhouettes', exit: 'empty cell, memorial plaque' },
-    durations: { full: '7200 ms (ejectEnd()); a shorter board form exists', reduced: '2560 ms: four stills' },
+    durations: { full: '7200 ms (ejectEnd()): S7 on the board, every surface; the cut the same, only where nobody decides', reduced: '2560 ms: four stills' },
     final: 'memorial treatment off the board', cancel: 'terminal result', precedence: 'Captain commands',
     audio: 'alarm, hiss (public)', reduced: 'four stills', rosters: 'n/a', concurrency: 'once per match',
-    assets: ['design/board-v2/fx/captain.mjs', 'design/board-v2/films/captain.mjs'], gaps: ['a cinematic display cut (proposal, after the pilots review)'],
+    assets: ['design/board-v2/fx/captain.mjs', 'design/board-v2/films/captain.mjs', 'design/cinematic/pilots/eject/ (the display cut over S7: five shots on the console, the Jail\'s wall and the hull, S7\'s four stills when reduced, and the identity-free exterior insert; exports in design/cinematic/exports/eject/)'], gaps: [],
   }),
   S('shot-injury', 'Ordinary shot and injury', {
     status: 'existing (slice 4, Blackout impact) + library group 8 (admission walk, proposal)', audience: 'public outcome; no shooter',

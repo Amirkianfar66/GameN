@@ -167,7 +167,6 @@ What the catalogue (docs/design/cinematic/motion-bible.md) still needs, by scene
 | Scene | Status | Missing |
 | --- | --- | --- |
 | Core board and movement | existing (board-motion walk, board-v2 slots) | origin slot for walks after reconnect (request R4) |
-| Captain EJECT | existing S7 (approved art, #159) | a cinematic display cut (proposal, after the pilots review) |
 | Doctor Rescue | PILOT 1 (cinematic pass over the approved S5): the board treatment on phones and the display; the display cut only where nobody decides | live-action insert: study only (NOT PRODUCED) |
 | Hack Spaceship | library group 1 (proposal) | no public or office cue for the hack beyond the direction itself: none is authorized |
 | Private Talk capsule | PILOT 3 (the display's entrance page over the approved S2, in the result stage; the talk and the exit are S2 on the board everywhere) | live-action study not needed (comic-only by design) |
