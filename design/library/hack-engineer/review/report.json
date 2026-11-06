@@ -5,48 +5,48 @@
   "captures": [
     {
       "file": "design/library/hack-engineer/review/w390-final-code-round1.png",
-      "sha256": "874c74082ad40d2dc4535835f3caf832be34d34d05001b9f4406859474da320b",
-      "bytes": 16510,
+      "sha256": "c3452078243ca39b71def2521aaa871068e4e1fc64a2f6e8d6a3447fee8a08e2",
+      "bytes": 16673,
       "state": "final Code: round1",
       "width": 390,
       "text": "100%"
     },
     {
       "file": "design/library/hack-engineer/review/w390-final-code-available-choosing-2-of-4.png",
-      "sha256": "47ebafa7d624b1b244d12fbe2d4e96efab69efeb47d60a85174d8e0005a67da2",
-      "bytes": 40321,
+      "sha256": "1a8335dde2aabc8976e78074325445d4ed7e0559618c5704b4fd320e41a08e08",
+      "bytes": 40413,
       "state": "final Code: available (choosing, 2 of 4)",
       "width": 390,
       "text": "100%"
     },
     {
       "file": "design/library/hack-engineer/review/w390-final-code-available.png",
-      "sha256": "032f6bc3b59449b68e1ea1d7a059a73692263a724003cffc20dc006017dea8c1",
-      "bytes": 48553,
+      "sha256": "41a214e4fc7af1738d3901294f3204727a80285e20265b99e75b0ecdfb8677de",
+      "bytes": 48644,
       "state": "final Code: available",
       "width": 390,
       "text": "100%"
     },
     {
       "file": "design/library/hack-engineer/review/w390-final-code-sending.png",
-      "sha256": "45887d316eef2979ae217b1100ad5e3b041ab86f0e5909564a3583dfa09d8412",
-      "bytes": 37921,
+      "sha256": "54771bb91025eafd9816e5efed9c1fa00a8dad85797cc52c1b4f30835fe19a83",
+      "bytes": 38108,
       "state": "final Code: sending",
       "width": 390,
       "text": "100%"
     },
     {
       "file": "design/library/hack-engineer/review/w390-final-code-correct.png",
-      "sha256": "a6e2552e1e52a9acfec6f58c3b8f1bc91216926188030b6fb2b3fc972d7cc4d1",
-      "bytes": 43531,
+      "sha256": "66452cf4d2c36fe23629c6ae2f409685c09bb4b0e3982d0d6f3f1bc49606ea3f",
+      "bytes": 43590,
       "state": "final Code: correct",
       "width": 390,
       "text": "100%"
     },
     {
       "file": "design/library/hack-engineer/review/w390-final-code-wrong.png",
-      "sha256": "fa7f7031e00a4eea636dbae5aa7575615ab6928ce2db8986e7f37afe9ef1de99",
-      "bytes": 40046,
+      "sha256": "cc833e3b4280cc54a910313406c70277d5e38de8fe0d2ed3bf75be726d5070c6",
+      "bytes": 40074,
       "state": "final Code: wrong",
       "width": 390,
       "text": "100%"
@@ -61,232 +61,232 @@
     },
     {
       "file": "design/library/hack-engineer/review/w390-ship-hack-sealed.png",
-      "sha256": "67141da96f68d8592f698e065b82d0bd6b54ebc983276756aaecd4a650689683",
-      "bytes": 37015,
+      "sha256": "b86d4974affa5552c19b32f29e0619b8b755089f1cc9ae7481a465d0dc6fb704",
+      "bytes": 37074,
       "state": "ship hack: sealed",
       "width": 390,
       "text": "100%"
     },
     {
       "file": "design/library/hack-engineer/review/w390-ship-hack-armed-not-your-turn.png",
-      "sha256": "498d32d5c2cad4ab014e15f835311e6ec4a05c444456b8b9306103d3eefefd89",
-      "bytes": 44622,
+      "sha256": "8b4f2a590e6487d7b670bdb88c61ce9b0f0b1883e518041abfdc3d9c184a6496",
+      "bytes": 44823,
       "state": "ship hack: armed (not your turn)",
       "width": 390,
       "text": "100%"
     },
     {
       "file": "design/library/hack-engineer/review/w390-ship-hack-armed-injured.png",
-      "sha256": "812425882fa8f0459ff983f28accf3ced6bcfb33aa20e82df0492b7b32743b7a",
-      "bytes": 44269,
+      "sha256": "8715c978d032cc9512a4028a4dafedd49b3e637bdd26737849b8e4b91d5e457b",
+      "bytes": 44322,
       "state": "ship hack: armed (Injured)",
       "width": 390,
       "text": "100%"
     },
     {
       "file": "design/library/hack-engineer/review/w390-ship-hack-armed-role-action-used.png",
-      "sha256": "abaefba110e9fde36fb932107298eba2367877d1bee251331e303ebe901be067",
-      "bytes": 47546,
+      "sha256": "6697ff183f778d48eba187760d6754830038ee5bec3118972864de436b093f78",
+      "bytes": 47605,
       "state": "ship hack: armed (Role Action used)",
       "width": 390,
       "text": "100%"
     },
     {
       "file": "design/library/hack-engineer/review/w390-ship-hack-eligible.png",
-      "sha256": "ae55aa2ba4d8415a27c438a799d341cb4296a281d0a7e091fc4b579f7b8b588b",
-      "bytes": 43367,
+      "sha256": "8f24f6640ffca452b71c9f813a21a5681acf4ed8be2a2811ab007212a0965c2e",
+      "bytes": 43437,
       "state": "ship hack: eligible",
       "width": 390,
       "text": "100%"
     },
     {
       "file": "design/library/hack-engineer/review/w390-ship-hack-retained.png",
-      "sha256": "e547e4633d6d091091003a7016e2ea33345c7014bec7025a7e7536e1b4ad28a3",
-      "bytes": 45668,
+      "sha256": "1e43be66a6f860683eba8f1152458dd7c1f335ad48726e4b2907fd037e75f000",
+      "bytes": 46620,
       "state": "ship hack: retained",
       "width": 390,
       "text": "100%"
     },
     {
       "file": "design/library/hack-engineer/review/w390-ship-hack-used-round-known-later-round.png",
-      "sha256": "bf4b2832fb6e3addbe7a9150af60fa60b928972c0d4c80857192a845b6ea909b",
-      "bytes": 40953,
+      "sha256": "f8f3da612df5fabe2ef87426d28a15aed54990e50958d35630cf2275277c5f1e",
+      "bytes": 42013,
       "state": "ship hack: used (round known, later round)",
       "width": 390,
       "text": "100%"
     },
     {
       "file": "design/library/hack-engineer/review/w390-ship-hack-used-round-not-in-the-view-r9.png",
-      "sha256": "b98332e96323a3b5955c4230f8bcf350857ecf422b2d4abeee6ca968538edd08",
-      "bytes": 38807,
+      "sha256": "61190ea12e893afb844eb3e2bc8f0fe0bfeec7215860f008cd8230717027bff6",
+      "bytes": 38986,
       "state": "ship hack: used (round not in the view (R9))",
       "width": 390,
       "text": "100%"
     },
     {
       "file": "design/library/hack-engineer/review/w390-ship-hack-strip-eligible.png",
-      "sha256": "b76724e4422cb7bfb6c989c98affa20edc4e0f91ec5f5cf04d098e0740be7ad3",
-      "bytes": 38905,
+      "sha256": "36b6ee44edf19bc0ae42543a228fcbaede562de7d0d5ed461be042f2c4a0e389",
+      "bytes": 38987,
       "state": "ship hack strip: eligible",
       "width": 390,
       "text": "100%"
     },
     {
       "file": "design/library/hack-engineer/review/w390-ship-hack-strip-sending.png",
-      "sha256": "d9b17c75a8d390fb40fa017b295e82414572d499204241cc64a18759ccfa401d",
-      "bytes": 33909,
+      "sha256": "814ae31829bfff5b6cfeb1bc745d3397205add68bf67058462168fab5c75c2e8",
+      "bytes": 34297,
       "state": "ship hack strip: sending",
       "width": 390,
       "text": "100%"
     },
     {
       "file": "design/library/hack-engineer/review/w390-ship-hack-strip-retained.png",
-      "sha256": "947f84140cd53c6b6be0d67e462467c3dc751c01303ae11d3a8f46dec38790d1",
-      "bytes": 33440,
+      "sha256": "eb8446764a6ad61fe7fbadf34f082708c80be2f8585d0912dc866cc1e440f2f7",
+      "bytes": 34385,
       "state": "ship hack strip: retained",
       "width": 390,
       "text": "100%"
     },
     {
       "file": "design/library/hack-engineer/review/w390-capture-available-two-in-room-b.png",
-      "sha256": "8e130891e722e5b5b1c4b22214bd2045d125e409971bceab8debabe046b996e9",
-      "bytes": 89496,
+      "sha256": "055c469f3bfc7916d2dd74751fe51779eaac676e5da3dac92845b90fc343f66a",
+      "bytes": 89647,
       "state": "capture: available (two in Room B)",
       "width": 390,
       "text": "100%"
     },
     {
       "file": "design/library/hack-engineer/review/w390-capture-available-room-b-empty.png",
-      "sha256": "832cdf248dc5274a25b4602b66c315ce982f422dbd88473420180004ddc703d0",
-      "bytes": 80293,
+      "sha256": "45c79727c547cfd3606be81d872e51101d5e4021100d48323e0d26345e1bd087",
+      "bytes": 80437,
       "state": "capture: available (Room B empty)",
       "width": 390,
       "text": "100%"
     },
     {
       "file": "design/library/hack-engineer/review/w390-capture-sending.png",
-      "sha256": "7ae98f4a246369682f7b105f1ca3b427e415e01a48c5da347253473ebbe6d75d",
-      "bytes": 79561,
+      "sha256": "d9ac2dc5fe73a3cd222037b6c6258f17b6dbfef0acbdd94d330a82e08f846cca",
+      "bytes": 80236,
       "state": "capture: sending",
       "width": 390,
       "text": "100%"
     },
     {
       "file": "design/library/hack-engineer/review/w390-capture-captured.png",
-      "sha256": "3d0bcd35dac3ef53e42482053ea511848c491141094d7313fe1727f8f40cdb78",
-      "bytes": 58521,
+      "sha256": "57ee34d67cc1bcdf9e579053fae55375b8cfd3eda882120e1677e32799a85155",
+      "bytes": 59408,
       "state": "capture: captured",
       "width": 390,
       "text": "100%"
     },
     {
       "file": "design/library/hack-engineer/review/w390-capture-used-later-round.png",
-      "sha256": "49dfc67de726becde72c5a3bccee5f46429e5d8e220aef700eb5c7cdd0dc8758",
-      "bytes": 68532,
+      "sha256": "4014451ea62c58182f8a5b693d9c26ffff1bccae8cc6463aab8726ea2780f20b",
+      "bytes": 69258,
       "state": "capture: used (later round)",
       "width": 390,
       "text": "100%"
     },
     {
       "file": "design/library/hack-engineer/review/w390-capture-used-record-not-in-the-view-r8.png",
-      "sha256": "7ca76e4c3cefbff4ca1e12361568714a3a1a8e1bc953f783af832f50a6deabb1",
-      "bytes": 35435,
+      "sha256": "cf5023ef7c54837a71adf385c31fc3cfbed9d4bf1d233947d3e0c42e0b86a4e0",
+      "bytes": 35590,
       "state": "capture: used (record not in the view (R8))",
       "width": 390,
       "text": "100%"
     },
     {
       "file": "design/library/hack-engineer/review/w390-capture-unavailable-not-your-turn.png",
-      "sha256": "2d34ebb6ab9618b159834d993cdf1861903c0e4ad573e16bd31d3327fd5c5c34",
-      "bytes": 38114,
+      "sha256": "a8fc9baa5a73fadb64c3371a48906198fb955b34697313f7d864ce42cb97876c",
+      "bytes": 38282,
       "state": "capture: unavailable (not your turn)",
       "width": 390,
       "text": "100%"
     },
     {
       "file": "design/library/hack-engineer/review/w390-capture-unavailable-in-the-command-room.png",
-      "sha256": "55a5ea8843d285165807b261bdc6690ee79ed9a7eef924890c17fde19aeced3c",
-      "bytes": 39778,
+      "sha256": "126d66313cae0e010d1006650815e198dfcd9d3977ae72339efeda322923e54b",
+      "bytes": 39937,
       "state": "capture: unavailable (in the Command Room)",
       "width": 390,
       "text": "100%"
     },
     {
       "file": "design/library/hack-engineer/review/w390-capture-unavailable-in-the-jail.png",
-      "sha256": "53b60f5a849f95e938c0152e1b209485f0858827a135294a484a4b7763479708",
-      "bytes": 37886,
+      "sha256": "a0a2dedce31619f4617d6ca7d7904f5eb0751a7b4b0097df248f66782f3e4214",
+      "bytes": 38070,
       "state": "capture: unavailable (in the Jail)",
       "width": 390,
       "text": "100%"
     },
     {
       "file": "design/library/hack-engineer/review/w390-tray-ship-hack.png",
-      "sha256": "4a2f95db8d56f2166964a1e5364aacb040b06ef62e49f85a3b46238f45e91f78",
-      "bytes": 15561,
+      "sha256": "fa405856118b32f32edaa0939ebcddec1f1d9144621044186bb2b10ded235f8d",
+      "bytes": 15589,
       "state": "tray: ship hack",
       "width": 390,
       "text": "100%"
     },
     {
       "file": "design/library/hack-engineer/review/w390-tray-capture.png",
-      "sha256": "3090dfb62f84a78cb5767a336f573b80876788ea6b51fab87479aac3e376a4b9",
-      "bytes": 11943,
+      "sha256": "013df78506837797c72138e0fe168b6c6de3b7b297b32837195efbce10d6e608",
+      "bytes": 11924,
       "state": "tray: capture",
       "width": 390,
       "text": "100%"
     },
     {
       "file": "design/library/hack-engineer/review/contact-w390.png",
-      "sha256": "260a826d071a970b8505cd45ffac1ab844e8fd3908066212580f48e4d2412531",
-      "bytes": 1302477,
+      "sha256": "57ff3207b79fbd12949b9bf6935d048082ea5b735697f81798ad7e74654afc5b",
+      "bytes": 1310088,
       "kind": "contact",
       "width": 390,
       "text": "100%"
     },
     {
       "file": "design/library/hack-engineer/review/w320-final-code-round1.png",
-      "sha256": "e89cf0de25849fb0487f397efb8260015b1752e22e3018d7b67633d9caf1c51f",
-      "bytes": 15959,
+      "sha256": "5da8469bece3a57063772cf0bbc871eef58bf90e0912aaa95e40ea9b23ffcdf1",
+      "bytes": 16158,
       "state": "final Code: round1",
       "width": 320,
       "text": "100%"
     },
     {
       "file": "design/library/hack-engineer/review/w320-final-code-available-choosing-2-of-4.png",
-      "sha256": "dfd01b22bf96d79a350836880b54d53eef382f4dc4528c5cd1450e1e35bfb5c9",
-      "bytes": 41033,
+      "sha256": "31025e086b792b2bb5a1d55ce86c96e2fd49b425dff5f2b7f33dda50a73c6a20",
+      "bytes": 41159,
       "state": "final Code: available (choosing, 2 of 4)",
       "width": 320,
       "text": "100%"
     },
     {
       "file": "design/library/hack-engineer/review/w320-final-code-available.png",
-      "sha256": "a220c502c712ef52e79d5bd9b25d37203f55ce04592a766d26eddcb729bb6e6d",
-      "bytes": 49566,
+      "sha256": "5b5a6647e61e25f3f5deb821fd8631ba2495d75430402af7cb4dcd7ef16b0262",
+      "bytes": 49672,
       "state": "final Code: available",
       "width": 320,
       "text": "100%"
     },
     {
       "file": "design/library/hack-engineer/review/w320-final-code-sending.png",
-      "sha256": "7fd77d85f15f9e18c58e61df19d52dea61e2aa1f823558f7109e3a0dc4f037b9",
-      "bytes": 37759,
+      "sha256": "3c760dbf4c44e1cfa01f59870788f6272a0c081bc2825424661f64129e13b0e2",
+      "bytes": 37751,
       "state": "final Code: sending",
       "width": 320,
       "text": "100%"
     },
     {
       "file": "design/library/hack-engineer/review/w320-final-code-correct.png",
-      "sha256": "2796dbc28076a9f18548403df56df7c6de292f7c347a670339147a56717f807d",
-      "bytes": 43173,
+      "sha256": "c8d2581cbde6a35ddf4c214930ec49e4f91c400765dabe8bb563e27fc46b4be6",
+      "bytes": 43386,
       "state": "final Code: correct",
       "width": 320,
       "text": "100%"
     },
     {
       "file": "design/library/hack-engineer/review/w320-final-code-wrong.png",
-      "sha256": "d6077b713d302749288edea501d5eb8a9c2eecb3e3ec01ef69336375bd4e012e",
-      "bytes": 40446,
+      "sha256": "56cb43d2fb07d4db5e0683ab1e9bb8238749cdd93f3771aa2d414f6e492ca74e",
+      "bytes": 40649,
       "state": "final Code: wrong",
       "width": 320,
       "text": "100%"
@@ -301,232 +301,232 @@
     },
     {
       "file": "design/library/hack-engineer/review/w320-ship-hack-sealed.png",
-      "sha256": "54a8f9de76df6a62423160a058d7a985f7d4c78ef5b764f4540714ad5b988584",
-      "bytes": 36593,
+      "sha256": "cfc9f51c9059fa617c7065147fdfa3d1823a7f5d6c6458eb2babe51b9a33e962",
+      "bytes": 36702,
       "state": "ship hack: sealed",
       "width": 320,
       "text": "100%"
     },
     {
       "file": "design/library/hack-engineer/review/w320-ship-hack-armed-not-your-turn.png",
-      "sha256": "8afd40387f8f8550903f5e91468af03c3469320b6d837abfdd7dfd485de01fd6",
-      "bytes": 42698,
+      "sha256": "599e087c8aba1fa0fb18887373a649414aeb4408acd4d7d6bb2382b6971cba09",
+      "bytes": 42974,
       "state": "ship hack: armed (not your turn)",
       "width": 320,
       "text": "100%"
     },
     {
       "file": "design/library/hack-engineer/review/w320-ship-hack-armed-injured.png",
-      "sha256": "4c2815176dde6fff39b10f10a7c111bbd7b429267961597805971b13ab550c1b",
-      "bytes": 42279,
+      "sha256": "70dc3715e4410ef8a0773dc00d2d0df9e58dced4da9958d50f05053ceda49c22",
+      "bytes": 42492,
       "state": "ship hack: armed (Injured)",
       "width": 320,
       "text": "100%"
     },
     {
       "file": "design/library/hack-engineer/review/w320-ship-hack-armed-role-action-used.png",
-      "sha256": "93f779ad8b9321a408cfdc8252290225f158e3e4e4017e343a5c2e25812b0160",
-      "bytes": 44751,
+      "sha256": "45a0c0941e18a074d9b82c436e0624c45dd597e3e227ddad303efe62677c8a43",
+      "bytes": 44964,
       "state": "ship hack: armed (Role Action used)",
       "width": 320,
       "text": "100%"
     },
     {
       "file": "design/library/hack-engineer/review/w320-ship-hack-eligible.png",
-      "sha256": "a072ab0cc5b2cfbb06c3fa97b900bf94f13e307a93605eeac33348fc4bae20b4",
-      "bytes": 41295,
+      "sha256": "cde08fd19c12aa73f695fc8325e7cff827eda6dc9eded0c62ef0a940b32ba995",
+      "bytes": 41509,
       "state": "ship hack: eligible",
       "width": 320,
       "text": "100%"
     },
     {
       "file": "design/library/hack-engineer/review/w320-ship-hack-retained.png",
-      "sha256": "893950adcc04c7612f3e9fae8de7b4cd273303b500243fa2f16ae22f30485346",
-      "bytes": 44610,
+      "sha256": "07b6a55a08ec89266e3bfb867deacd397109f728853124e3ad655541c5dc5e80",
+      "bytes": 44681,
       "state": "ship hack: retained",
       "width": 320,
       "text": "100%"
     },
     {
       "file": "design/library/hack-engineer/review/w320-ship-hack-used-round-known-later-round.png",
-      "sha256": "ffa14e76273b93f96d407fbca3cbb23a151bfe40e44524fbfb3545a4abe0467d",
-      "bytes": 41160,
+      "sha256": "7dcc6832c60ba3180fbf31a1e47cf3eb00108beeea7827ad4c9773a95aa4a6b7",
+      "bytes": 41247,
       "state": "ship hack: used (round known, later round)",
       "width": 320,
       "text": "100%"
     },
     {
       "file": "design/library/hack-engineer/review/w320-ship-hack-used-round-not-in-the-view-r9.png",
-      "sha256": "0b969eb622d42e950d69948dd94286ff57c30dd35faed442595e0360b9b01102",
-      "bytes": 40264,
+      "sha256": "ada861916129661320d1a6091a99058384e66954a15d63354319ea9bc9c53ab5",
+      "bytes": 40454,
       "state": "ship hack: used (round not in the view (R9))",
       "width": 320,
       "text": "100%"
     },
     {
       "file": "design/library/hack-engineer/review/w320-ship-hack-strip-eligible.png",
-      "sha256": "9074ea43c246e458781106f7692b5025f1f2c39a2f99392dbc900bca80ebca3f",
-      "bytes": 39115,
+      "sha256": "2f86c69ba52ace966a0ad62ce77c549b8f30c8709723d587a3ab54f84e56e1d7",
+      "bytes": 39337,
       "state": "ship hack strip: eligible",
       "width": 320,
       "text": "100%"
     },
     {
       "file": "design/library/hack-engineer/review/w320-ship-hack-strip-sending.png",
-      "sha256": "9b2b9555b0a174909f3bf61cb723befaa2fb5379d0bd34b930d5e62ebe8a4f05",
-      "bytes": 33154,
+      "sha256": "36796531f7d987fd73de19dd4aca0be0ae74d276f517a0fc1d2396fdab8f14a2",
+      "bytes": 33373,
       "state": "ship hack strip: sending",
       "width": 320,
       "text": "100%"
     },
     {
       "file": "design/library/hack-engineer/review/w320-ship-hack-strip-retained.png",
-      "sha256": "96eb12d1bb8740d6f8a6cd13e17383198ea6953bac52015a1694ffcb76109844",
-      "bytes": 33164,
+      "sha256": "c88c97a4a236cd998ae4a40fe4467cc4cb2860b95210d5e0b7c2ce65413c7234",
+      "bytes": 33239,
       "state": "ship hack strip: retained",
       "width": 320,
       "text": "100%"
     },
     {
       "file": "design/library/hack-engineer/review/w320-capture-available-two-in-room-b.png",
-      "sha256": "426f67d576c7cd296b4974570db87bda3454cf05787abd54437c3d3ce42d27bf",
-      "bytes": 78202,
+      "sha256": "6d7e23c424c92a3b1a4f09acfcd3660a9fad3bdbf7e7aa2eee46da2363f5e6fe",
+      "bytes": 78320,
       "state": "capture: available (two in Room B)",
       "width": 320,
       "text": "100%"
     },
     {
       "file": "design/library/hack-engineer/review/w320-capture-available-room-b-empty.png",
-      "sha256": "02a1378e15fcbbeb08b753519c9e3dfc20826ec848537c768e4b76d30c53f26c",
-      "bytes": 68103,
+      "sha256": "553c230b5e46d5a8ce9c1ff193494ea0f22745ab8a118a27e796de320d0c93a0",
+      "bytes": 68221,
       "state": "capture: available (Room B empty)",
       "width": 320,
       "text": "100%"
     },
     {
       "file": "design/library/hack-engineer/review/w320-capture-sending.png",
-      "sha256": "6c9a35fed9f05f01219a102c3d53295e319872861052a03e33dffe8c27e8d6d8",
-      "bytes": 66922,
+      "sha256": "53d65ead7375b4032c08641bbdc66b3890cedf10ee41d818d2cbc2772bcb4375",
+      "bytes": 67078,
       "state": "capture: sending",
       "width": 320,
       "text": "100%"
     },
     {
       "file": "design/library/hack-engineer/review/w320-capture-captured.png",
-      "sha256": "a4cc8bb54492cdc3f182d0e75c78a4a8a6e429bc529a27366e1f0e2bfa73ee0d",
-      "bytes": 58964,
+      "sha256": "ad02754b5e125da26d75fb17b0406929357deca75fd20deb3866645299f0b51e",
+      "bytes": 59739,
       "state": "capture: captured",
       "width": 320,
       "text": "100%"
     },
     {
       "file": "design/library/hack-engineer/review/w320-capture-used-later-round.png",
-      "sha256": "846c7d96f69d6ae5359c06ec0ac63f9a4ba98616220715465e70f30b6e91271a",
-      "bytes": 67108,
+      "sha256": "f297a1db584d86969046a5465a66d0b3d0d1e114d861f8c568ea89388615dc4f",
+      "bytes": 67765,
       "state": "capture: used (later round)",
       "width": 320,
       "text": "100%"
     },
     {
       "file": "design/library/hack-engineer/review/w320-capture-used-record-not-in-the-view-r8.png",
-      "sha256": "ae01ea2364c8b003d7d034f013a8efe572bc7c22d2b0122473deeb5c73f706f1",
-      "bytes": 35019,
+      "sha256": "42c1ae05fb4593ec259eaf01c72f9fadb1010b54b9a98a1fcdcc1cf79a29ebaf",
+      "bytes": 35305,
       "state": "capture: used (record not in the view (R8))",
       "width": 320,
       "text": "100%"
     },
     {
       "file": "design/library/hack-engineer/review/w320-capture-unavailable-not-your-turn.png",
-      "sha256": "752906a1d38a16366b0713c1e78bb146caddbd9f2a78e09990ded0888fc0da6f",
-      "bytes": 38328,
+      "sha256": "e6300b06378c586fb3d029f1e3e648b6b7c7d689fcce90c0ac614b51c6512f5f",
+      "bytes": 38624,
       "state": "capture: unavailable (not your turn)",
       "width": 320,
       "text": "100%"
     },
     {
       "file": "design/library/hack-engineer/review/w320-capture-unavailable-in-the-command-room.png",
-      "sha256": "73dbc040d5892fff2501c3a53bef35f71ba1f9d6e6f5f0a863bb8f8c0addf020",
-      "bytes": 40282,
+      "sha256": "7ba310f9bf97ff5d4db2f08d1d4a5e58f696d4ac04b733140bc6570ea8a0af89",
+      "bytes": 40468,
       "state": "capture: unavailable (in the Command Room)",
       "width": 320,
       "text": "100%"
     },
     {
       "file": "design/library/hack-engineer/review/w320-capture-unavailable-in-the-jail.png",
-      "sha256": "d6146a1d6956fca7828ac54cdb51d3f793670fe9aa4839b032f3c5f0ce6d4510",
-      "bytes": 38165,
+      "sha256": "8054ff19e10395159bc57ab30be4e354eea0d7c80d470b314ce49a826a7dedab",
+      "bytes": 38347,
       "state": "capture: unavailable (in the Jail)",
       "width": 320,
       "text": "100%"
     },
     {
       "file": "design/library/hack-engineer/review/w320-tray-ship-hack.png",
-      "sha256": "7c144668ee5301c630f16a90f3bf367445f6083b9ce4aad42fcf3475cd8909d2",
-      "bytes": 15011,
+      "sha256": "11313beb5cb6837517bea8b583aa3f2d3a0200799bf48134676d10052f3e295c",
+      "bytes": 15012,
       "state": "tray: ship hack",
       "width": 320,
       "text": "100%"
     },
     {
       "file": "design/library/hack-engineer/review/w320-tray-capture.png",
-      "sha256": "2ac0c3b6c6951c81bb4635347d5f79a9924335aeb615c4cf1a10f6a699ddd43e",
-      "bytes": 11787,
+      "sha256": "6e059bfb5ce0883569825e7b43d4b18d5d4d8da341eb06af4f3d6b3d40584b64",
+      "bytes": 11784,
       "state": "tray: capture",
       "width": 320,
       "text": "100%"
     },
     {
       "file": "design/library/hack-engineer/review/contact-w320.png",
-      "sha256": "d70cd1026009f62ebdbed1b3fccbf856ebe7e69a8332563b811fbd84159d2155",
-      "bytes": 1261358,
+      "sha256": "b99a144222831f4ae85b34bb783bb07a87e082f505d673f7ecfa54c97d523bc1",
+      "bytes": 1268865,
       "kind": "contact",
       "width": 320,
       "text": "100%"
     },
     {
       "file": "design/library/hack-engineer/review/w390-text200-final-code-round1.png",
-      "sha256": "9df29d46189b3198d05b8cfdbdb6ea788da75dfbd0deecaf009c7aebb6fca653",
-      "bytes": 23584,
+      "sha256": "7dbb043e8ee13244b2058ddf50d2b660d4ca009bffbc49463b88bf5b1af7aef7",
+      "bytes": 23745,
       "state": "final Code: round1",
       "width": 390,
       "text": "200%"
     },
     {
       "file": "design/library/hack-engineer/review/w390-text200-final-code-available-choosing-2-of-4.png",
-      "sha256": "72f99360417d71d14d1e1ba79ad6ee5d3436ff298dd1ec1284238d86be9be604",
-      "bytes": 64866,
+      "sha256": "609c46cc2839af9f282c3c86415858d95cf73eca74dcf9df19fec17c09b8fd77",
+      "bytes": 64953,
       "state": "final Code: available (choosing, 2 of 4)",
       "width": 390,
       "text": "200%"
     },
     {
       "file": "design/library/hack-engineer/review/w390-text200-final-code-available.png",
-      "sha256": "d1825159c3572d76bae56888d6c24ec990df0b1f44c38a783479a75400644a08",
-      "bytes": 78552,
+      "sha256": "8709f18b227460e24185bdbb8145c9357ec19bb31e610eea5652e4e23940faec",
+      "bytes": 78646,
       "state": "final Code: available",
       "width": 390,
       "text": "200%"
     },
     {
       "file": "design/library/hack-engineer/review/w390-text200-final-code-sending.png",
-      "sha256": "a142f8478ebce4c8ca25ebbaf02e9cbe5937ac3b3d09a6688e01880205268961",
-      "bytes": 43303,
+      "sha256": "129aa84598ea0794889334ecb014265df36880d29958f3a9a56fa4d498007beb",
+      "bytes": 43480,
       "state": "final Code: sending",
       "width": 390,
       "text": "200%"
     },
     {
       "file": "design/library/hack-engineer/review/w390-text200-final-code-correct.png",
-      "sha256": "a1579fd203a03636c411397b0863a8d4855b01277fe8b5034d98b26fb63b4996",
-      "bytes": 60816,
+      "sha256": "0aaeb21590c238344a02db6bc11f96968123fd2ce64e2d9745dc9354eda430b8",
+      "bytes": 60882,
       "state": "final Code: correct",
       "width": 390,
       "text": "200%"
     },
     {
       "file": "design/library/hack-engineer/review/w390-text200-final-code-wrong.png",
-      "sha256": "637f8c27ba2ad6546aec8bd47add1067b8986a2167660548a191283333644de4",
-      "bytes": 52549,
+      "sha256": "a702b881815137686d7b61897c5508ff3995038def180a9f1f6ef02f85e92d5a",
+      "bytes": 52582,
       "state": "final Code: wrong",
       "width": 390,
       "text": "200%"
@@ -541,96 +541,96 @@
     },
     {
       "file": "design/library/hack-engineer/review/w390-text200-ship-hack-sealed.png",
-      "sha256": "868c5e6bb308c49dace5889197eb70dd05e81bcb3a2dfc075180499eb1c0b813",
-      "bytes": 53166,
+      "sha256": "e3b9a07ff5719dbde6258dde2c85a9e7e94836772f3f16d618ed42f13f2d6bc7",
+      "bytes": 53215,
       "state": "ship hack: sealed",
       "width": 390,
       "text": "200%"
     },
     {
       "file": "design/library/hack-engineer/review/w390-text200-ship-hack-armed-not-your-turn.png",
-      "sha256": "860d2ce6b36426d71ba845b308e5c627361357256706594ce2c8cd69ee31fa76",
-      "bytes": 81373,
+      "sha256": "8821c3615000d1b8f3e2fcc2e1ed4fb37670bc23394a4030d6dbee8608507131",
+      "bytes": 81573,
       "state": "ship hack: armed (not your turn)",
       "width": 390,
       "text": "200%"
     },
     {
       "file": "design/library/hack-engineer/review/w390-text200-ship-hack-armed-injured.png",
-      "sha256": "2fa0df4dda0b0c8dc17a0f20e29946035d5e26a5706fc3d2a907a3171ef7dc1d",
-      "bytes": 81084,
+      "sha256": "191c6df11c85a20d2caaa106ac299e2ea81c25ad599d0ff3aa6577eada39b302",
+      "bytes": 81146,
       "state": "ship hack: armed (Injured)",
       "width": 390,
       "text": "200%"
     },
     {
       "file": "design/library/hack-engineer/review/w390-text200-ship-hack-armed-role-action-used.png",
-      "sha256": "e3cef4e2a0a8fac8896a2d23b7180bde24b54cf406e23a3c70c2ea163d482f5d",
-      "bytes": 88411,
+      "sha256": "5110a0c23854503f54426d754d5ee0c5d4bf665e5e9d05a11184bf8be75faacd",
+      "bytes": 88475,
       "state": "ship hack: armed (Role Action used)",
       "width": 390,
       "text": "200%"
     },
     {
       "file": "design/library/hack-engineer/review/w390-text200-ship-hack-eligible.png",
-      "sha256": "63210596ea9f19cd30f47f4f3d7cf7e241a7c4998dcc212406f17adc5c2639af",
-      "bytes": 76671,
+      "sha256": "044dc5d6772ae08a74677a583922aff5809cc4483ced0fe0501450b8d7a507d2",
+      "bytes": 76745,
       "state": "ship hack: eligible",
       "width": 390,
       "text": "200%"
     },
     {
       "file": "design/library/hack-engineer/review/w390-text200-ship-hack-retained.png",
-      "sha256": "cf1b2ee79138d81c7ebd26c9dfb2815de4c5cde66831f05d95af70c68bdfd5db",
-      "bytes": 61965,
+      "sha256": "de6cb4923c275f4aa0e926fff248c6a105437c674ba07194e4d5543ae5af5565",
+      "bytes": 62900,
       "state": "ship hack: retained",
       "width": 390,
       "text": "200%"
     },
     {
       "file": "design/library/hack-engineer/review/w390-text200-ship-hack-used-round-known-later-round.png",
-      "sha256": "d122804f9bcd0678d19efccb07f007dd2e70ec39f2c57bb883e4bb1915e448ee",
-      "bytes": 54800,
+      "sha256": "1783fb3a5fc8a2e63fa6396ddfdd5d5acc3748a2e1fe2581d29b7a90561c2dce",
+      "bytes": 55861,
       "state": "ship hack: used (round known, later round)",
       "width": 390,
       "text": "200%"
     },
     {
       "file": "design/library/hack-engineer/review/w390-text200-ship-hack-used-round-not-in-the-view-r9.png",
-      "sha256": "be696504956935e828e371b2c51d18bd31d4739dbd7f9a56e15769cb24261b53",
-      "bytes": 50624,
+      "sha256": "73003c7e9f34841dabe85617a28ce9b04c5baa958cf3ebaf2ac723a3c22e55fd",
+      "bytes": 50802,
       "state": "ship hack: used (round not in the view (R9))",
       "width": 390,
       "text": "200%"
     },
     {
       "file": "design/library/hack-engineer/review/w390-text200-ship-hack-strip-eligible.png",
-      "sha256": "abec697b952078743635e41916e241bad4b086f19aa34757892eba674a6ffde1",
-      "bytes": 62752,
+      "sha256": "667e2ad4a92f211857bb8660657ca427ddb543b77fd2b1e8dfe40b04fe9afe9b",
+      "bytes": 62851,
       "state": "ship hack strip: eligible",
       "width": 390,
       "text": "200%"
     },
     {
       "file": "design/library/hack-engineer/review/w390-text200-ship-hack-strip-sending.png",
-      "sha256": "1daf732f8e015c3c3b1f36fa046284258a859ba2530a1fb566ea83673ec28a58",
-      "bytes": 43620,
+      "sha256": "d0683017a6cc6c5c2773e49628316249b0fc69aa37525d6ac58346b49f9afc66",
+      "bytes": 44005,
       "state": "ship hack strip: sending",
       "width": 390,
       "text": "200%"
     },
     {
       "file": "design/library/hack-engineer/review/w390-text200-ship-hack-strip-retained.png",
-      "sha256": "b31c94d7047d433305636bc8748963ba9274ba59ddb38101edb5be58702f2c87",
-      "bytes": 45203,
+      "sha256": "71eacb230e4e53acc53c1b0a992af566b1f62f5f2e0b6455709cfa21a33b8645",
+      "bytes": 46149,
       "state": "ship hack strip: retained",
       "width": 390,
       "text": "200%"
     },
     {
       "file": "design/library/hack-engineer/review/contact-w390-text200-hacker.png",
-      "sha256": "e782374450c6b121c869a50d3b85273450fc54dd875c957cb1d0e1efcd426013",
-      "bytes": 1100769,
+      "sha256": "72a423d8ffb01b100f3da1a6da3f0fa599ac211439d58bac6aff0d4635fff4b1",
+      "bytes": 1105316,
       "kind": "contact",
       "width": 390,
       "text": "200%",
@@ -638,80 +638,80 @@
     },
     {
       "file": "design/library/hack-engineer/review/w390-text200-capture-available-two-in-room-b.png",
-      "sha256": "f3313d2b1a939c8aef552fcf092f597e4a2c07848948353305d0a4d9e74ffef1",
-      "bytes": 121346,
+      "sha256": "9059a99c6c9114b1f8941ba7f1577f2ec32423f9aab91d4aca414529d2c26613",
+      "bytes": 121496,
       "state": "capture: available (two in Room B)",
       "width": 390,
       "text": "200%"
     },
     {
       "file": "design/library/hack-engineer/review/w390-text200-capture-available-room-b-empty.png",
-      "sha256": "dc4de03be9e0afdde8f3b56e48f53d6eef4e622e1e54d58f1f05a7efd5fd5189",
-      "bytes": 100201,
+      "sha256": "23a537a9cd768345ea0c5518c1f152df2b06aaaeedb432e0b4167df0b090a522",
+      "bytes": 100356,
       "state": "capture: available (Room B empty)",
       "width": 390,
       "text": "200%"
     },
     {
       "file": "design/library/hack-engineer/review/w390-text200-capture-sending.png",
-      "sha256": "e22fbeffd61a9f613ff0500bc3c6a3d7256c4d8df39091e83647c5898749c22b",
-      "bytes": 90854,
+      "sha256": "09a9ae2d4b0a3ec9dfcf036ab87af4979ee2f9d3b7d01201c1253f8b30b3918a",
+      "bytes": 91547,
       "state": "capture: sending",
       "width": 390,
       "text": "200%"
     },
     {
       "file": "design/library/hack-engineer/review/w390-text200-capture-captured.png",
-      "sha256": "098093ffe92d64df7777c9709bb2a986e1f37b4f6caa583954d2c875cd6e232f",
-      "bytes": 74646,
+      "sha256": "4d8911a16213706cfa2918f220973582e47d4f6bc0c56b7092b37c4c703fa3de",
+      "bytes": 75532,
       "state": "capture: captured",
       "width": 390,
       "text": "200%"
     },
     {
       "file": "design/library/hack-engineer/review/w390-text200-capture-used-later-round.png",
-      "sha256": "c258ff9ff2d679fba66838640a40a621b7ef500a036ca0e1e7d08baf958957ef",
-      "bytes": 81934,
+      "sha256": "d26d41100b2e19e28fd30d54541d0ef9a02cd4be1e43ad80ac5b9f4d6e061fab",
+      "bytes": 82732,
       "state": "capture: used (later round)",
       "width": 390,
       "text": "200%"
     },
     {
       "file": "design/library/hack-engineer/review/w390-text200-capture-used-record-not-in-the-view-r8.png",
-      "sha256": "189844c559e18f01d706071b29a2b6ade169bc1daf74cf3da222231a60c54e21",
-      "bytes": 45528,
+      "sha256": "81e7772c17cf0bd9d745fbfc810825cc3a3c912f7602ab46485f2ebbf51f8267",
+      "bytes": 45632,
       "state": "capture: used (record not in the view (R8))",
       "width": 390,
       "text": "200%"
     },
     {
       "file": "design/library/hack-engineer/review/w390-text200-capture-unavailable-not-your-turn.png",
-      "sha256": "101f6a9bec4d6424ea9f8cf8cbb7f3e5769be142fc657f08e45fa8dace6360e8",
-      "bytes": 63823,
+      "sha256": "3033ed948007798a8d149aae41fcece86e97644770495b4edc2c8edffa87ad81",
+      "bytes": 63982,
       "state": "capture: unavailable (not your turn)",
       "width": 390,
       "text": "200%"
     },
     {
       "file": "design/library/hack-engineer/review/w390-text200-capture-unavailable-in-the-command-room.png",
-      "sha256": "9a942cfff1b7bd09c4c8e9f06ab9ed19c776abd32fb01a865e49366475a46bef",
-      "bytes": 68295,
+      "sha256": "dd954a903ecb1042cd673377f6b8a957ae8c7d9aa00213150d6990e6f2300f79",
+      "bytes": 68543,
       "state": "capture: unavailable (in the Command Room)",
       "width": 390,
       "text": "200%"
     },
     {
       "file": "design/library/hack-engineer/review/w390-text200-capture-unavailable-in-the-jail.png",
-      "sha256": "c400e8b2ba2c29460ccb93edb162610bcd80889d61a8b959f62cc23e76a53dd6",
-      "bytes": 63501,
+      "sha256": "448b5355497ac41dcde60a814a0c73e9d74d18d2351a1d4864b0c151fd0c12a8",
+      "bytes": 63680,
       "state": "capture: unavailable (in the Jail)",
       "width": 390,
       "text": "200%"
     },
     {
       "file": "design/library/hack-engineer/review/contact-w390-text200-engineer.png",
-      "sha256": "b27f10d4efc77b7b4c341c599e43d21af8c62b06784b7c3ca02d33ca63e495a3",
-      "bytes": 757880,
+      "sha256": "400953179c970aceae913f581d7597f3488e14d8d2fa283b5a9d8c37c07c46b7",
+      "bytes": 761317,
       "kind": "contact",
       "width": 390,
       "text": "200%",

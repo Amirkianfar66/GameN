@@ -23,8 +23,8 @@
     {
       "kind": "video",
       "file": "design/cinematic/exports/hospital-rescue/review/display-full.mp4",
-      "sha256": "f01cb3dfe33abb11154739fba4ba9f5169fcb58dfada78290031c1595a727a79",
-      "bytes": 453305,
+      "sha256": "aa6eca1b14858133f595547e3b29fb650d7a543addcfc90ec4952640f370132f",
+      "bytes": 450012,
       "fps": 30,
       "frames": 187,
       "durationMs": 6200,
@@ -35,20 +35,20 @@
     {
       "kind": "preview",
       "file": "design/cinematic/exports/hospital-rescue/review/display-full.preview.webp",
-      "sha256": "18ba030c855d683879c26229edbeaf2f66c45790655fa43e336ccf60c0e37576",
-      "bytes": 161238
+      "sha256": "ca8429d44a7a57c0714131b23742922bb2aac9bd474365ddf8264bd1c7110d4b",
+      "bytes": 157282
     },
     {
       "kind": "poster",
       "file": "design/cinematic/exports/hospital-rescue/review/display-full.poster.webp",
-      "sha256": "ce91a50fb31de6bf8bc42a3cb12d7ef2e1b41dc74c0ee890766804ae33200c65",
-      "bytes": 103906,
+      "sha256": "5f2b860c89d5dbc39afa27fc9226efdf8986b2363967e42e93f08836e4fb8af8",
+      "bytes": 104370,
       "t": 3800
     }
   ],
   "settling": {
     "rule": "a frame is kept once two captures a redraw apart agree; pictures decode before their tiles draw",
-    "resettled": 7,
+    "resettled": 14,
     "unsettled": []
   }
 }

@@ -14,12 +14,13 @@ import { LIBRARY_COPY, listSeats } from '../../../design/library/hack-engineer/c
 import { FRAMES, MOTION, motionEnd } from '../../../design/library/hack-engineer/motion.mjs';
 import { STATES, engineerState, finalCodeState, roleActionBlockers, shipHackState } from '../../../design/library/hack-engineer/states.mjs';
 import { build } from '../../../design/tools/library-assets.mjs';
+import { seatIdOf } from '../../../design/library/seats.mjs';
 
 const PLACES = { 1: 'Room A', 2: 'Room A', 3: 'Room A', 4: 'Room A', 5: 'Room B', 6: 'Room B', 7: 'Command Room', 8: 'Hospital', 9: 'Jail' };
 function view({ role, seat, round = 3, phase = 'ORDINARY_TURN', active = seat, health = 'Healthy', location = PLACES[seat], jailed = false, roleActionSpent = false, abilities = {}, offers = [], lastMovedRound = round - 1, places = PLACES }) {
   return {
-    round, phase: { kind: phase }, activeSeatId: active, navigation: { lastMovedRound, arrivedAt: null }, self: { seatId: seat, role, roleActionSpent },
-    board: { kind: 'PLAYER_CURRENT', seats: Object.keys(places).map(Number).map(n => ({ seatId: n, health: n === seat ? health : 'Healthy', location: n === seat ? location : places[n], slotId: null, jailed: n === seat ? jailed : n === 9, captain: false, officer: false, revealedFaction: null })) },
+    round, phase: { kind: phase }, activeSeatId: seatIdOf(active), navigation: { lastMovedRound, arrivedAt: null }, self: { seatId: seatIdOf(seat), role, roleActionSpent },
+    board: { kind: 'PLAYER_CURRENT', seats: Object.keys(places).map(Number).map(n => ({ seatId: seatIdOf(n), health: n === seat ? health : 'Healthy', location: n === seat ? location : places[n], slotId: null, jailed: n === seat ? jailed : n === 9, captain: false, officer: false, revealedFaction: null })) },
     abilities: { codeAttempted: false, shipHackUnlocked: false, shipHackSpent: false, engineerSpent: false, ...abilities },
     offers: offers.map(type => ({ type, targetSeatIds: [], slotIds: [], windowIds: [], promiseTargetSeatIds: [] })),
   };
@@ -65,16 +66,16 @@ test('the ship hack: sealed until unlocked, eligible only when offered, retained
 });
 
 test('the Engineer\'s capture: offered from A/B, a preview of the opposite room, and the server\'s fixed identities after', () => {
-  assert.deepEqual(engineerState(E({ offers: ['ENGINEER_SUPPRESS'] })), { state: 'available', room: 'Room B', preview: [5, 6] });
-  assert.deepEqual(engineerState(E({ location: 'Room B', offers: ['ENGINEER_SUPPRESS'] })).preview, [1, 2, 3]);
+  assert.deepEqual(engineerState(E({ offers: ['ENGINEER_SUPPRESS'] })), { state: 'available', room: 'Room B', preview: ['seat-5', 'seat-6'] });
+  assert.deepEqual(engineerState(E({ location: 'Room B', offers: ['ENGINEER_SUPPRESS'] })).preview, ['seat-1', 'seat-2', 'seat-3']);
   assert.deepEqual(engineerState(E({ offers: ['ENGINEER_SUPPRESS'], places: { ...PLACES, 5: 'Room A', 6: 'Jail' } })).preview, []);
   assert.equal(engineerState(E({ offers: ['ENGINEER_SUPPRESS'] }), { pending: 'ENGINEER_SUPPRESS' }).state, 'sending');
   assert.deepEqual(engineerState(E({ active: 2 })).blockers, ['notYourTurn']);
   assert.deepEqual(engineerState(E({ location: 'Command Room' })).blockers, ['notInAB']);
   // The record is the server's, not the board: after the capture the captured may move, the print does not.
   const moved = { ...PLACES, 5: 'Hospital', 6: 'Room A', 1: 'Room B' };
-  assert.deepEqual(engineerState(E({ places: moved, abilities: { engineerSpent: true, engineerCapture: { round: 3, seatIds: [6, 5] } } })), { state: 'captured', round: 3, seatIds: [5, 6] });
-  assert.deepEqual(engineerState(E({ round: 4, abilities: { engineerSpent: true, engineerCapture: { round: 3, seatIds: [5, 6] } } })), { state: 'used', round: 3, seatIds: [5, 6] });
+  assert.deepEqual(engineerState(E({ places: moved, abilities: { engineerSpent: true, engineerCapture: { round: 3, seatIds: ['seat-6', 'seat-5'] } } })), { state: 'captured', round: 3, seatIds: ['seat-5', 'seat-6'] });
+  assert.deepEqual(engineerState(E({ round: 4, abilities: { engineerSpent: true, engineerCapture: { round: 3, seatIds: ['seat-5', 'seat-6'] } } })), { state: 'used', round: 3, seatIds: ['seat-5', 'seat-6'] });
   // Without the record (R8), no identities are drawn.
   assert.deepEqual(engineerState(E({ abilities: { engineerSpent: true } })), { state: 'used', round: null, seatIds: null });
   assert.equal(engineerState(H({ offers: ['ENGINEER_SUPPRESS'] })).state, 'none');

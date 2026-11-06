@@ -15,10 +15,11 @@ import { END_COPY, listNumbers } from '../../../design/library/end/copy.mjs';
 import { FRAMES, MOTION, motionEnd, revealEnd } from '../../../design/library/end/motion.mjs';
 import { ROLE_SIDE, STALE_MS, RESTORED_MS, connectionState, endState, filmDecision, revealStart } from '../../../design/library/end/states.mjs';
 import { build } from '../../../design/tools/library-assets.mjs';
+import { seatIdOf } from '../../../design/library/seats.mjs';
 
 const ROLES9 = ['Engineer', 'Doctor', 'Undercover', 'Alien', 'Insider', 'Red Disabler', 'Supplier', 'Hacker', 'Blue Disabler'];
-function view({ phase = 'FINISHED', result = { winner: 'Blue', reason: 'ARRIVAL', alienCoWinner: false }, roles = ROLES9, code = [5, 3, 2, 4] }) {
-  return { phase: { id: 'p', kind: phase, startedAt: 1000 }, result, endReveal: phase === 'FINISHED' ? { roles: roles.map((role, i) => ({ seatId: i + 1, role })), code } : null };
+function view({ phase = 'FINISHED', result = { winner: 'Blue', reason: 'ARRIVAL', alienCoWinner: false }, roles = ROLES9, code = ['seat-5', 'seat-3', 'seat-2', 'seat-4'] }) {
+  return { phase: { id: 'p', kind: phase, startedAt: 1000 }, result, endReveal: phase === 'FINISHED' ? { roles: roles.map((role, i) => ({ seatId: seatIdOf(i + 1), role })), code } : null };
 }
 
 test('every role has its side, and the rosters\' team counts hold (4/2/1, 4/3/1, 5/3/1)', () => {
@@ -32,7 +33,7 @@ test('the ending comes only from the result: winners, the co-win, no survivors a
   const blue = endState(view({}));
   assert.equal(blue.state, 'arrival'); assert.equal(blue.winner, 'Blue'); assert.equal(blue.alienCoWinner, false);
   assert.ok(blue.bySide.Blue.every(x => x.winner) && blue.bySide.Red.every(x => !x.winner) && blue.bySide.Alien.every(x => !x.winner));
-  assert.deepEqual(blue.code, [2, 3, 4, 5], 'the Code in number order');
+  assert.deepEqual(blue.code, ['seat-2', 'seat-3', 'seat-4', 'seat-5'], 'the Code in number order');
   const red = endState(view({ result: { winner: 'Red', reason: 'ARRIVAL', alienCoWinner: true } }));
   assert.ok(red.bySide.Red.every(x => x.winner) && red.bySide.Alien.every(x => x.winner) && red.bySide.Blue.every(x => !x.winner));
   const none = endState(view({ result: { winner: null, reason: 'NO_SURVIVORS', alienCoWinner: false } }));

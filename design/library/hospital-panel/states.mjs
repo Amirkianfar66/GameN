@@ -21,6 +21,14 @@
 // without them the console says only what the view says (registered, used, refused) and never
 // guesses. The injection count (abilities.injectionsRemaining) is the Doctor's own and is never read
 // here, not even on the Doctor's phone.
+//
+// Keys and the command (the owner's correction of 6 November 2026: "Keypads display player numbers
+// but preserve canonical player IDs for Frontend commands"): each key is { seatId, number }. The
+// player reads and presses the number; the client remembers the seatId it picked and sends
+// PANEL_CODE { doctorSeatId: seatId } (panelCommand()). A number is never sent, and the number is
+// never parsed back into an id.
+
+import { bySeat, seatKey, seatNumber, SEAT_IDS } from '../seats.mjs';
 
 export const R12_RESULTS = Object.freeze(['RESERVED', 'WRONG']);
 export const R12_STATUSES = Object.freeze(['QUEUED', 'TREATED', 'NO_EFFECT', 'DISCARDED']);
@@ -28,12 +36,19 @@ export const R12_STATUSES = Object.freeze(['QUEUED', 'TREATED', 'NO_EFFECT', 'DI
 const offer = (view, type) => (view.offers ?? []).find(o => o.type === type) ?? null;
 const ownSeat = view => view.board.seats.find(seat => seat.seatId === view.self.seatId);
 
-/** The keys the console offers: the offer's numbers when it lists them, else every player number. */
+/**
+ * The keys the console offers, in player-number order: the offer's seats when it lists them, else
+ * every seat of the match (the code is any player's number; the server checks it). Each key is
+ * { seatId, number }: the number is drawn, the seatId is what the command sends.
+ */
 export function keypad(view) {
   const listed = offer(view, 'PANEL_CODE')?.targetSeatIds ?? [];
-  const numbers = listed.length ? [...listed] : Array.from({ length: view.playerCount }, (_, i) => i + 1);
-  return numbers.sort((a, b) => a - b);
+  const ids = listed.length ? [...listed] : SEAT_IDS.slice(0, view.playerCount);
+  return ids.sort(bySeat).map(seatKey);
 }
+
+/** The command for a picked key: PANEL_CODE with the canonical seat id. null without a pick. */
+export const panelCommand = pickedSeatId => (pickedSeatId ? Object.freeze({ type: 'PANEL_CODE', doctorSeatId: pickedSeatId }) : null);
 
 /**
  * The medical deadline line, from the seat's own public medical facts (the berth's rescue tag, S9):
@@ -66,8 +81,9 @@ export function deadline(view) {
  *   used        the attempt was used earlier and the view says no more
  *   closed      the attempt is unused, but no number is offered now (outside the turns, P22)
  * Options: pending (a command type sent, no receipt yet), accepted ({ PANEL_CODE: phaseId }),
- * rejected ({ PANEL_CODE: { phaseId, code } }), picked (the number chosen on this phone, or null).
- * Every state carries the deadline line and, where the console shows one, the number and the round.
+ * rejected ({ PANEL_CODE: { phaseId, code } }), picked (the seat id whose key was pressed on this
+ * phone, or null). Every state carries the deadline line and, where the console shows one, the
+ * picked seat (seatId, for the command) with its number (for the screen and the words) and the round.
  */
 export function panelState(view, { pending = null, accepted = {}, rejected = {}, picked = null } = {}) {
   const seat = ownSeat(view);
@@ -80,7 +96,7 @@ export function panelState(view, { pending = null, accepted = {}, rejected = {},
     const by = { QUEUED: 'reserved', TREATED: 'treated', NO_EFFECT: 'no-effect', DISCARDED: 'discarded' }[request.status];
     if (by) return { ...at, state: by };
   }
-  if (pending === 'PANEL_CODE') return { ...base, state: 'sending', number: picked };
+  if (pending === 'PANEL_CODE') return { ...base, state: 'sending', seatId: picked, number: seatNumber(picked) };
   const refusal = rejected.PANEL_CODE ?? null;
   if (refusal && refusal.phaseId === view.phase.id && !view.abilities.panelAttemptSpent) {
     return { ...base, state: refusal.code === 'NO_INJECTION' ? 'exhausted' : 'refused' };
@@ -88,7 +104,8 @@ export function panelState(view, { pending = null, accepted = {}, rejected = {},
   if (view.abilities.panelAttemptSpent) return { ...base, state: accepted.PANEL_CODE === view.phase.id ? 'registered' : 'used' };
   if (offer(view, 'PANEL_CODE')) {
     const keys = keypad(view);
-    return picked !== null && keys.includes(picked) ? { ...base, state: 'choosing', keys, number: picked } : { ...base, state: 'available', keys };
+    const key = keys.find(k => k.seatId === picked) ?? null;
+    return key ? { ...base, state: 'choosing', keys, seatId: key.seatId, number: key.number } : { ...base, state: 'available', keys };
   }
   return { ...base, state: 'closed' };
 }

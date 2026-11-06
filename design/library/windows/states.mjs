@@ -33,8 +33,35 @@ export function otherEnd(windowId, location) {
   return location === a ? b : location === b ? a : null;
 }
 
-/** Whether the board is dark: the Blackout window, when no window gives a view. */
-export const isDark = view => view.phase.kind === 'BLACKOUT';
+/**
+ * When the windows are dark: the Blackout's dark span, from its authoritative preview deadline to its
+ * end. The Blackout is five seconds lit, then ten dark (the brief's "Five seconds lit with stable
+ * positions ... ten seconds dark"; the owner's correction of 6 November 2026: "Windows remain lit
+ * during Blackout's first five seconds; darkness begins at the authoritative preview deadline").
+ * During the lit seconds every window shows its pane as before; from blackout.previewEndsAt to the
+ * Blackout's end none gives a view (windows cannot bypass the darkness).
+ * Missing field: a BLACKOUT phase whose view carries no blackout.previewEndsAt is dark from the
+ * phase's start (fail closed: a window never shows what the server has not timed as lit).
+ * null outside the Blackout. { from, until (null if unknown), timed (false when the deadline was missing) }.
+ */
+export function darkSpan(view) {
+  if (view.phase.kind !== 'BLACKOUT') return null;
+  const b = view.blackout ?? null;
+  const timed = Number.isFinite(b?.previewEndsAt);
+  const until = Number.isFinite(b?.endsAt) ? b.endsAt : Number.isFinite(view.phase.endsAt) ? view.phase.endsAt : null;
+  return { from: timed ? b.previewEndsAt : view.phase.startedAt ?? 0, until, timed };
+}
+
+/**
+ * Whether the windows are dark at `now` (the server-corrected clock, ms). Without a clock, a Blackout
+ * reads dark (fail closed); with one, only inside darkSpan().
+ */
+export function isDark(view, now = null) {
+  const span = darkSpan(view);
+  if (!span) return false;
+  if (!Number.isFinite(now)) return true;
+  return now >= span.from && (span.until === null || now < span.until);
+}
 
 /**
  * The windows this seat sees, from the view's windows[] only (the contract already limits it to the
@@ -77,7 +104,8 @@ export function drawingValid(d) {
 /**
  * The drawing pad of one window, for this seat:
  *   none       the seat does not see this window
- *   dark       the Blackout: every window is dark, nothing is drawn or shown
+ *   dark       the Blackout's dark span (from blackout.previewEndsAt): every window is dark, nothing
+ *              is drawn or shown. During its five lit seconds the window keeps its usual state.
  *   view-only  the seat sees the window but is not at its drawing station (or is in the Hospital or the Jail)
  *   blank      at the station, nothing drawn yet
  *   drawing    at the station, a local drawing in progress
@@ -88,13 +116,14 @@ export function drawingValid(d) {
  *   refused    refused in this phase: nothing shown, the local drawing kept
  *   closed     at the station, but Show is not offered now (drawing stays local)
  * Options: local (the drawing on this phone), reviewing (bool), pending, accepted ({ windowId:
- * phaseId }), rejected ({ windowId: { phaseId, code } }).
+ * phaseId }), rejected ({ windowId: { phaseId, code } }), now (the server-corrected clock, ms: the
+ * Blackout's lit seconds need it; without it a Blackout reads dark).
  */
-export function padState(view, windowId, { local = null, reviewing = false, pending = null, accepted = {}, rejected = {} } = {}) {
+export function padState(view, windowId, { local = null, reviewing = false, pending = null, accepted = {}, rejected = {}, now = null } = {}) {
   const w = windowsFor(view).find(x => x.windowId === windowId);
   if (!w) return { state: 'none' };
   const base = { windowId, facing: w.facing };
-  if (isDark(view)) return { ...base, state: 'dark' };
+  if (isDark(view, now)) return { ...base, state: 'dark' };
   if (!w.station) return { ...base, state: 'view-only' };
   if (pending === `SHOW_WINDOW:${windowId}`) return { ...base, state: 'sending' };
   const refusal = rejected[windowId] ?? null;
@@ -115,11 +144,19 @@ export function newDrawings(previous, view) {
   return (view.windows ?? []).flatMap(w => w.drawings.filter(d => !seen.has(d.id)).map(d => d.id));
 }
 
-/** Whether the darkness begins or ends between two views (the shade's motion). */
-export function darkChange(previous, view) {
+/**
+ * Whether the darkness begins or ends between two moments this screen drew (the shade's motion): each
+ * a view and the clock at that moment. The shade lowers when the clock passes blackout.previewEndsAt
+ * (no new view is needed), and rises when the Blackout ends. A screen with no earlier moment (a
+ * reconnect, a late join) draws the shade at rest: null.
+ * Options: previousNow, now (ms; without them each side reads as isDark() does without a clock).
+ */
+export function darkChange(previous, view, { previousNow = null, now = null } = {}) {
   if (!previous) return null;
-  if (!isDark(previous) && isDark(view)) return 'dark';
-  if (isDark(previous) && !isDark(view)) return 'light';
+  const was = isDark(previous, previousNow);
+  const is = isDark(view, now);
+  if (!was && is) return 'dark';
+  if (was && !is) return 'light';
   return null;
 }
 

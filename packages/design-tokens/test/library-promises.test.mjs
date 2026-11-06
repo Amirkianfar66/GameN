@@ -11,13 +11,14 @@ import { readFile } from 'node:fs/promises';
 import { test } from 'node:test';
 import { FACTION_ACCENTS, MIN_ACCENT_DISTANCE, cie76 } from '../../../design/board-v2/fx/blocked.mjs';
 import { KIND_FILES, P, PROMISE_ART_VERSION, SEAL_FILES, promiseAssets } from '../../../design/library/promises/art.mjs';
-import { BLURBS, PROMISE_COPY, TITLES, decided, label, result, term } from '../../../design/library/promises/copy.mjs';
+import { BLURBS, PENDING_R13, PROMISE_COPY, TITLES, decided, label, result, term } from '../../../design/library/promises/copy.mjs';
 import { FRAMES, MOTION, motionEnd } from '../../../design/library/promises/motion.mjs';
 import { KINDS, STATUSES, changes, composerState, inboxState, ledger, opportunity, promiseRecord, quota } from '../../../design/library/promises/states.mjs';
 import { build } from '../../../design/tools/library-assets.mjs';
+import { seatNumber } from '../../../design/library/seats.mjs';
 
-const HANA = 8, CLEO = 3, ELI = 5, ADA = 1;
-function view({ seat = HANA, round = 4, phase = 'HACK', offers = [], recipients = [CLEO], targets = [1, 2, 4, 5, 6, 7, 9], promises = [], promiseQuota = { given: false, received: false } }) {
+const HANA = 'seat-8', CLEO = 'seat-3', ELI = 'seat-5', ADA = 'seat-1';
+function view({ seat = HANA, round = 4, phase = 'HACK', offers = [], recipients = [CLEO], targets = ['seat-1', 'seat-2', 'seat-4', 'seat-5', 'seat-6', 'seat-7', 'seat-9'], promises = [], promiseQuota = { given: false, received: false } }) {
   return {
     round, playerCount: 9, phase: { id: `r${round}-${phase}`, kind: phase }, self: { seatId: seat },
     offers: offers.map(type => ({ type, targetSeatIds: type === 'OFFER_PROMISE' ? recipients : [], slotIds: [], windowIds: [], promiseTargetSeatIds: type === 'OFFER_PROMISE' ? targets : [] })),
@@ -55,7 +56,7 @@ test('the composer: the offer decides; a Jail Vote needs a target from the offer
   assert.equal(composerState(view({ ...talk, recipients: [CLEO, ELI] }), { draft: { kind: 'MEET_A' } }).state, 'choose');
   assert.equal(composerState(view(talk), { draft: { kind: 'JAIL_VOTE' } }).state, 'target');
   assert.equal(composerState(view(talk), { draft: { kind: 'JAIL_VOTE', target: 3 } }).state, 'target', 'a target the offer does not list');
-  assert.deepEqual(composerState(view(talk), { draft: { kind: 'JAIL_VOTE', target: ELI } }), { recipients: [CLEO], targets: [1, 2, 4, 5, 6, 7, 9], note: null, state: 'review', recipient: CLEO, kind: 'JAIL_VOTE', target: ELI });
+  assert.deepEqual(composerState(view(talk), { draft: { kind: 'JAIL_VOTE', target: ELI } }), { recipients: [CLEO], targets: ['seat-1', 'seat-2', 'seat-4', 'seat-5', 'seat-6', 'seat-7', 'seat-9'], note: null, state: 'review', recipient: CLEO, kind: 'JAIL_VOTE', target: ELI });
   for (const kind of KINDS.filter(k => k !== 'JAIL_VOTE')) assert.equal(composerState(view(talk), { draft: { kind, target: ELI } }).target, null, `${kind} carries no target`);
   assert.equal(composerState(view(talk), { draft: { kind: 'NOT_A_KIND' } }).state, 'choose');
   assert.equal(composerState(view(talk), { pending: 'OFFER_PROMISE' }).state, 'sending');
@@ -102,7 +103,8 @@ test('the words: every kind and result from either side, in grammar; no lie, bet
   const names = ['Ada', 'Ben', 'Cleo', 'Dev', 'Eli', 'Fay', 'Gus', 'Hana', 'Ivo'];
   const texts = [];
   for (const reader of [HANA, CLEO, ELI, ADA]) for (const kind of KINDS) {
-    const t = { giver: label(HANA, reader, s => names[s - 1]), recipient: label(CLEO, reader, s => names[s - 1]), target: label(ELI, reader, s => names[s - 1]), round: 4 };
+    const nameOf = s => names[seatNumber(s) - 1];
+    const t = { giver: label(HANA, reader, nameOf), recipient: label(CLEO, reader, nameOf), target: label(ELI, reader, nameOf), round: 4 };
     texts.push(term(kind, t), decided(kind, t), ...STATUSES.map(s => result(kind, s, t)));
   }
   texts.push(...Object.values(TITLES), ...Object.values(BLURBS), ...Object.values(PROMISE_COPY).map(v => (typeof v === 'function' ? v('Player 3, Cleo') : v)));
@@ -140,6 +142,20 @@ test('the art: one palette off every faction accent; six silhouettes; four seals
   assert.ok(!notFulfilled.includes(P.amber) && !notFulfilled.includes(P.stable));
   assert.match(notFulfilled, /M20 32 H44/);
   assert.equal(Object.keys(assets).length, 13);
+});
+
+test('Meet in A and Meet in B are the giver\'s alone (the owner, 6 November 2026: keep it): the term names only the giver\'s place', () => {
+  const nameOf = s => ['Ada', 'Ben', 'Cleo', 'Dev', 'Eli', 'Fay', 'Gus', 'Hana', 'Ivo'][seatNumber(s) - 1];
+  for (const reader of [HANA, CLEO]) {
+    const t = { giver: label(HANA, reader, nameOf), recipient: label(CLEO, reader, nameOf), target: null, round: 4 };
+    for (const kind of ['MEET_A', 'MEET_B']) {
+      const words = term(kind, t);
+      assert.ok(words.toLowerCase().startsWith(t.giver.toLowerCase()), `${kind}: ${words}`);
+      assert.ok(!words.includes(t.recipient === 'you' ? ' you ' : t.recipient), `${kind} names no place for the recipient: ${words}`);
+    }
+  }
+  assert.ok(!('MEET_A' in PENDING_R13) && !('MEET_B' in PENDING_R13), 'no longer marked as waiting on R13');
+  assert.deepEqual(Object.keys(PENDING_R13).sort(), ['CAPTAIN_SUPPORT', 'NO_JAIL_VOTE', 'OFFICER_SELECTION']);
 });
 
 test('the generated assets are what the source makes, and the manifest hashes them', async () => {

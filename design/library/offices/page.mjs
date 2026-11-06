@@ -10,22 +10,26 @@ import { OFFICE_COPY as C } from './copy.mjs';
 import { FRAMES, MOTION, motionEnd } from './motion.mjs';
 import { APPOINT_STATES, BLOCK_STATES, appointState, badges, blockState, publicStage, selfBlocked } from './states.mjs';
 import { buttons, card, el, failed, loadArt, mountPage, player, stamp, strip, words } from '../review.mjs';
+import { seatIdOf, seatNumber } from '../seats.mjs';
 
 // ---------- the synthetic match (labelled as such on the page) ----------
 
 const NAMES = ['Ada', 'Ben', 'Cleo', 'Dev', 'Eli', 'Fay', 'Gus', 'Hana', 'Ivo'];
-const who = n => `Player ${n}, ${NAMES[n - 1]}`;
-const CAPTAIN = 7, OFFICER = 3, BLOCKED = 5;
+/** A seat in words, from its canonical id (the views and the commands carry ids; the words show numbers). */
+const who = id => `Player ${seatNumber(id)}, ${NAMES[seatNumber(id) - 1]}`;
+const CAPTAIN = 'seat-7', OFFICER = 'seat-3', BLOCKED = 'seat-5';
+/** The page's shorthand: a player number stands for its seat's canonical id. */
+const id = x => (typeof x === 'number' ? seatIdOf(x) : x);
 
 /** A view with only what the state map reads, every field named as the contract names it. */
 function view({ seat = CAPTAIN, phase = 'ORDINARY_TURN', round = 4, captain = CAPTAIN, officer = OFFICER, blocked = null, offers = {} }) {
   return {
-    round, phase: { id: `r${round}-${phase}`, kind: phase }, self: { seatId: seat },
-    offices: { captainSeatId: captain, officerSeatId: officer, blockedSeatId: blocked },
-    offers: Object.entries(offers).map(([type, targetSeatIds]) => ({ type, targetSeatIds, slotIds: [], windowIds: [], promiseTargetSeatIds: [] })),
+    round, phase: { id: `r${round}-${phase}`, kind: phase }, self: { seatId: id(seat) },
+    offices: { captainSeatId: id(captain), officerSeatId: id(officer), blockedSeatId: id(blocked) },
+    offers: Object.entries(offers).map(([type, targetSeatIds]) => ({ type, targetSeatIds: targetSeatIds.map(id), slotIds: [], windowIds: [], promiseTargetSeatIds: [] })),
   };
 }
-const fieldText = (v, extra = '') => `round ${v.round} · ${v.phase.kind} · seat ${v.self.seatId} (${NAMES[v.self.seatId - 1]}) · offices {captain ${v.offices.captainSeatId ?? 'null'}, officer ${v.offices.officerSeatId ?? 'null'}, blocked ${v.offices.blockedSeatId ?? 'null'}} · offers [${v.offers.map(o => `${o.type} [${o.targetSeatIds.join(',')}]`).join('; ')}]${extra}`;
+const fieldText = (v, extra = '') => `round ${v.round} · ${v.phase.kind} · ${v.self.seatId} (${NAMES[seatNumber(v.self.seatId) - 1]}) · offices {captain ${v.offices.captainSeatId ?? 'null'}, officer ${v.offices.officerSeatId ?? 'null'}, blocked ${v.offices.blockedSeatId ?? 'null'}} · offers [${v.offers.map(o => `${o.type} [${o.targetSeatIds.join(',')}]`).join('; ')}]${extra}`;
 
 // ---------- parts ----------
 
@@ -46,7 +50,7 @@ function boardSeat(v, seat, { tape = null } = {}) {
     el('div', { class: 'of-stand' }, figure, tapeNode, ...badges(v, seat).filter(k => k !== 'blocked').map(k => badgeIcon(k, 'of-badge of-badge--float'))),
     tag(v, seat));
 }
-const playerButtons = (targets, picked) => el('div', { class: 'of-players', role: 'group', 'aria-label': 'Players' }, targets.map(n => el('button', { type: 'button', class: 'ab-button of-player', 'aria-pressed': n === picked ? 'true' : 'false' }, who(n))));
+const playerButtons = (targets, picked) => el('div', { class: 'of-players', role: 'group', 'aria-label': 'Players' }, targets.map(t => el('button', { type: 'button', class: 'ab-button of-player', 'data-seat-id': t, 'aria-pressed': t === picked ? 'true' : 'false' }, who(t))));
 
 // ---------- the Captain's appointment ----------
 
@@ -72,8 +76,8 @@ function captainCases() {
   };
   return [
     add('six eligible players', v()),
-    add('', v(), { picked: 3 }),
-    add('', v(), { pending: 'APPOINT_OFFICER', picked: 3 }),
+    add('', v(), { picked: 'seat-3' }),
+    add('', v(), { pending: 'APPOINT_OFFICER', picked: 'seat-3' }),
     add('the view names the Officer', v({ officer: 3, offers: {} })),
     add('NOT_ALLOWED', v(), { rejected: { APPOINT_OFFICER: { phaseId: 'r4-OFFICER_APPOINTMENT', code: 'NOT_ALLOWED' } } }),
     add('no eligible player', v({ offers: { APPOINT_OFFICER: [] } })),
@@ -120,7 +124,7 @@ function publicStrip(v) {
   const s = publicStage(v);
   const line = s.stage === 'appointing' ? C.appointing : s.stage === 'pre-turn' ? C.preTurn : s.stage === 'quiet' ? C.quiet : v.offices.officerSeatId !== null ? C.officerIs(who(v.offices.officerSeatId)) : C.noOfficer;
   const blockLine = v.offices.blockedSeatId !== null ? el('p', { class: 'of-public-block' }, badgeIcon('blocked'), C.blockedIs(who(v.offices.blockedSeatId))) : null;
-  const seats = [v.offices.captainSeatId, v.offices.officerSeatId, v.offices.blockedSeatId, 1].filter((n, i, a) => n !== null && a.indexOf(n) === i);
+  const seats = [v.offices.captainSeatId, v.offices.officerSeatId, v.offices.blockedSeatId, 'seat-1'].filter((n, i, a) => n !== null && a.indexOf(n) === i);
   return strip(C.tapeOffices, null, el('p', { class: 'of-public' }, line), blockLine, el('div', { class: 'of-board' }, seats.map(n => boardSeat(v, n))),
     selfBlocked(v) ? el('p', { class: 'of-self' }, C.selfBlocked) : null);
 }

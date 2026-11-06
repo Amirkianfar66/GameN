@@ -20,9 +20,12 @@
 // The film ends on the authoritative state (the owner's review of 6 November 2026): a healed patient
 // who is free is in Room A or B, one still detained is in the Jail, wherever the published snapshot
 // places them. The release follows that placement; nothing leaves the patient apparently in a
-// Hospital bed, and the patient's playable figure at its snapshot place stays drawn throughout
-// (greyed as away while the film shows the rescue, back in colour as the walker leaves the ward).
-// Only if the snapshot itself still had the patient at this berth would the film end at the berth.
+// Hospital bed. The patient's authoritative figure at its snapshot place is the board's own and the
+// film never touches it: never hidden, greyed, dimmed or moved, its name tag and press area live
+// throughout (the owner's correction of 6 November 2026: "Rescue animation must leave the player's
+// current authoritative figure and interaction target usable"). The film's patient is a performance
+// in the ward that walks out and fades at the exit. Only if the snapshot itself still had the patient
+// at this berth would the film draw no patient of its own and play its effects around the board's.
 //
 // Inputs, all authorized and public (protocol 3 candidate, packages/contracts/src/planet-game.ts at
 // 79418e7): a RESCUED occurrence's seat, its Hospital slot and its clinical anchor; the published
@@ -73,8 +76,8 @@ export const PILOT = Object.freeze({
      * The release, once the snapshot places the patient outside the Hospital: stand beside the bed
      * (the drone already lifted clear), walk out of the ward toward the nearer side, fading at the
      * panel's edge; the berth is empty from the moment the patient is off it. On the board the
-     * patient's playable figure returns to colour as the walker leaves (arrive); on the display the
-     * closing panel shows the destination with the patient at its place.
+     * patient's authoritative figure stays as the board draws it throughout; on the display cut the
+     * closing panel settles the patient into its place (arrive).
      */
     release: Object.freeze({ stand: Object.freeze([4800, 5120]), walk: Object.freeze([5120, 5800]), fade: Object.freeze([5620, 5800]), arrive: Object.freeze([5800, 6050]), panel: Object.freeze([5560, 5880]), cycleMs: 620 }),
   }),
@@ -90,10 +93,10 @@ export const PILOT = Object.freeze({
     recover: Object.freeze([650, 1080]),
     rise: Object.freeze([1120, 1460]),
     fade: Object.freeze([1460, 1600]),
-    /** The release, short: stand beside the bed, then fade out toward the exit; the playable figure returns to colour. */
+    /** The release, short: stand beside the bed, then fade out toward the exit (the board's own figure untouched throughout). */
     release: Object.freeze({ stand: Object.freeze([1080, 1300]), leave: Object.freeze([1300, 1460]), arrive: Object.freeze([1460, 1600]) }),
   }),
-  /** S5's two stills, then a third: the berth empty and the playable figure back in colour (80 ms cross-fade). */
+  /** S5's two stills, then a third: the berth empty (80 ms cross-fade); the board's own figure untouched throughout. */
   reduced: Object.freeze({ end: rescueEnd(true), switchAt: RESCUE.reduced.switchAt, releaseAt: 1300, fade: 80 }),
   /** The display's camera, in scene units (centre) and pixels per scene unit at 1080 rows (zoom). */
   camera: Object.freeze({ shots: 'per berth, cameraShots()', shakePx: 10, shake: Object.freeze([RESCUE.pulse[0], RESCUE.pulse[0] + 300]) }),
@@ -247,7 +250,8 @@ function shortBase(t, berthId, fit) {
  *   ecg        (display) the close-up panel { opacity, slide, kind: unstable | stable, sweep }
  *   release    null (the patient stays at the berth) or { phase: bed | stand | walk | gone, stand 0..1,
  *              walk 0..1, cycle 0..1 (the walk's two-step cycle), opacity, offBed }
- *   arrive     0..1: the playable figure's return to colour at its snapshot place (the board's settle)
+ *   arrive     0..1: the cut's closing panel settling the patient into its snapshot place (the board
+ *              treatment does not use it: the board's own figure is never touched)
  *   panel      (display) 0..1: the closing panel with the patient at the snapshot's place
  *   done       nothing left to draw: the board shows the snapshot alone
  *
@@ -319,7 +323,7 @@ export function rescueCinematicFrame(t, berthId, { variant = 'full', surface = '
   const base = lift ? { ...s5, drone: { ...s5.drone, at: [s5.drone.at[0], r2(s5.drone.at[1] - lift)] } } : s5;
   const lens = base.drone.at;
   const frame = { ...empty, base };
-  // The release: stand, walk out, the berth empty once the patient is off it, the playable figure back in colour.
+  // The release: stand, walk out, the berth empty once the patient is off it; the board's own figure untouched.
   if (leaves && t >= R.stand[0]) {
     const walk = beat(t, R.walk);
     frame.release = {

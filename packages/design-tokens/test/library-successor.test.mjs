@@ -14,7 +14,7 @@ import { DEVICE, NEUTRAL, SUCCESSOR_ART_VERSION, successorAssets } from '../../.
 import { SUCCESSOR_COPY } from '../../../design/library/successor/copy.mjs';
 import { FRAMES, MOTION, motionEnd } from '../../../design/library/successor/motion.mjs';
 import { CURRENT_ROLES, OBSOLETE_NAMES, OVERLAY, ROLE_DEVICES, SUPERSEDED, usesCurrentNames } from '../../../design/library/successor/names.mjs';
-import { LOBBY_STATES, WALK, admissionPlan, lobbyState, supplyReceipt } from '../../../design/library/successor/states.mjs';
+import { LOBBY_STATES, SUPPLY_EVENT, WALK, admissionPlan, inventoryAtRest, lobbyState, supplyReceipt } from '../../../design/library/successor/states.mjs';
 import { ROLE_SIDE } from '../../../design/library/end/states.mjs';
 import { build } from '../../../design/tools/library-assets.mjs';
 
@@ -101,12 +101,26 @@ test('the lobby\'s words: every failure code worded, a fallback, no room picker,
   assert.equal(SUCCESSOR_COPY.beginHint(6, 7), 'Fill 1 more seat with players or bots to begin.');
 });
 
-test('the Supply: a receipt only on the recipient\'s own phone, only when its weapons grow, never on a reconnect', () => {
-  const v = (n, round = 3) => ({ round, self: { ordinaryWeapons: n } });
-  assert.deepEqual(supplyReceipt(v(0), v(1)), { gained: 1, total: 1, round: 3 });
-  assert.equal(supplyReceipt(null, v(1)), null, 'a reconnect draws the inventory at rest');
-  assert.equal(supplyReceipt(v(1), v(1)), null);
-  assert.equal(supplyReceipt(v(1, 4), v(0, 4)), null, 'a weapon used is not a delivery');
+test('the Supply: a receipt only from R15\'s delivery marker, on the recipient\'s own phone, once; a weapon restored by a Blackhole Sync is never a delivery', () => {
+  const SELF = 'seat-4';
+  const v = (n, events = [], round = 3) => ({ round, self: { seatId: SELF, ordinaryWeapons: n }, events });
+  const marker = (seat = SELF, id = 'ev-supply') => ({ id, kind: SUPPLY_EVENT.kind, round: 3, audience: { kind: 'player', seatId: seat }, seatIds: [seat], actorSeatId: null });
+  const synced = { id: 'ev-sync', kind: 'BLACKHOLE_SYNCED', round: 3, audience: { kind: 'public' }, seatIds: [], actorSeatId: null };
+  assert.equal(SUPPLY_EVENT.kind, 'SUPPLY_RECEIVED');
+  assert.equal(SUPPLY_EVENT.inContract, false, 'a proposal (R15): the protocol 3 candidate has no such event');
+  // With the marker: once, on the recipient's own phone.
+  assert.deepEqual(supplyReceipt(v(0), v(1, [marker()])), { eventId: 'ev-supply', round: 3, total: 1 });
+  assert.equal(supplyReceipt(v(0, [marker()]), v(1, [marker()])), null, 'a marker the previous view already carried');
+  assert.equal(supplyReceipt(v(0), v(1, [marker()]), { played: new Set(['ev-supply']) }), null, 'a marker this screen already played');
+  assert.equal(supplyReceipt(null, v(1, [marker()])), null, 'a reconnect draws the inventory at rest');
+  assert.equal(supplyReceipt(v(0), v(1, [marker('seat-5')])), null, 'another seat\'s marker');
+  // Without the marker the count never plays a delivery, whatever made it grow.
+  assert.equal(supplyReceipt(v(0), v(1, [synced])), null, 'a weapon restored by an actual Blackhole Sync (P03) is not a delivery');
+  assert.equal(supplyReceipt(v(0), v(1)), null, 'missing field: no marker, no receipt');
+  assert.equal(supplyReceipt(v(1, [], 4), v(0, [], 4)), null, 'a weapon used is not a delivery');
+  assert.deepEqual(inventoryAtRest(v(1, [synced])), { ordinaryWeapons: 1 });
+  assert.equal(SUCCESSOR_COPY.inventory(1), 'Ordinary weapons: 1.');
+  assert.doesNotMatch(SUCCESSOR_COPY.inventory(2), /receiv|deliver|supplied|new/i, 'the count at rest claims nothing');
   assert.match(SUCCESSOR_COPY.supplyReceived, /one ordinary weapon/);
   assert.match(SUCCESSOR_COPY.supplierWaiting, /Round 3's Supply stage/);
   assert.doesNotMatch(SUCCESSOR_COPY.supplierWaiting, /\b(received|delivered|have|got)\b/i, 'a receipt never says the delivery resolved');

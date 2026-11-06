@@ -13,6 +13,7 @@
 // Where a view carries them they are used; without them the states fall back to what the view
 // says (spent), and never guess the identities or the round.
 
+import { bySeat } from '../seats.mjs';
 const OPPOSITE = Object.freeze({ 'Room A': 'Room B', 'Room B': 'Room A' });
 
 const offered = (view, type) => (view.offers ?? []).some(offer => offer.type === type);
@@ -101,14 +102,14 @@ export function engineerState(view, { pending = null } = {}) {
   const a = view.abilities;
   if (a.engineerSpent) {
     const record = a.engineerCapture ?? null;
-    if (record && record.round === view.round) return { state: 'captured', round: record.round, seatIds: [...record.seatIds].sort((x, y) => x - y) };
-    return { state: 'used', round: record?.round ?? null, seatIds: record ? [...record.seatIds].sort((x, y) => x - y) : null };
+    if (record && record.round === view.round) return { state: 'captured', round: record.round, seatIds: [...record.seatIds].sort(bySeat) };
+    return { state: 'used', round: record?.round ?? null, seatIds: record ? [...record.seatIds].sort(bySeat) : null };
   }
   if (pending === 'ENGINEER_SUPPRESS') return { state: 'sending' };
   const seat = ownSeat(view);
   const room = OPPOSITE[seat.location] ?? null;
   if (offered(view, 'ENGINEER_SUPPRESS')) {
-    const seatIds = view.board.seats.filter(other => other.location === room && other.seatId !== view.self.seatId).map(other => other.seatId).sort((x, y) => x - y);
+    const seatIds = view.board.seats.filter(other => other.location === room && other.seatId !== view.self.seatId).map(other => other.seatId).sort(bySeat);
     return { state: 'available', room, preview: seatIds };
   }
   const blockers = roleActionBlockers(view);

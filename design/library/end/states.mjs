@@ -14,6 +14,8 @@
 // server's reason says so); on reconnect, restore the latest state and never replay a historical
 // death, Sync or film. endReveal (every role and the Code) exists only in FINISHED.
 
+import { bySeat } from '../seats.mjs';
+
 /** Each secret role's side (7: Insider, Doctor, Blue Disabler, Supplier, Undercover, Hacker, Alien; 8 adds Red Disabler; 9 adds Engineer). */
 export const ROLE_SIDE = Object.freeze({
   Insider: 'Blue', Doctor: 'Blue', 'Blue Disabler': 'Blue', Supplier: 'Blue', Engineer: 'Blue',
@@ -34,10 +36,10 @@ export function endState(view) {
   if (!r) return { state: 'none' };
   if (view.phase.kind === 'ABORTED' || r.reason === 'ABORTED') return { state: 'aborted' };
   if (view.phase.kind !== 'FINISHED' || !view.endReveal) return { state: 'none' };
-  const roles = [...view.endReveal.roles].sort((a, b) => a.seatId - b.seatId).map(x => ({ ...x, side: ROLE_SIDE[x.role] }));
+  const roles = [...view.endReveal.roles].sort((a, b) => bySeat(a.seatId, b.seatId)).map(x => ({ ...x, side: ROLE_SIDE[x.role] }));
   const winners = r.reason === 'ARRIVAL' ? new Set([r.winner, ...(r.alienCoWinner ? ['Alien'] : [])]) : new Set();
   const bySide = Object.fromEntries(SIDES.map(side => [side, roles.filter(x => x.side === side).map(x => ({ ...x, winner: winners.has(side) }))]));
-  const code = [...view.endReveal.code].sort((a, b) => a - b);
+  const code = [...view.endReveal.code].sort(bySeat);
   if (r.reason === 'ARRIVAL') return { state: 'arrival', winner: r.winner, alienCoWinner: r.alienCoWinner, bySide, code };
   if (r.reason === 'NO_SURVIVORS') return { state: 'no-survivors', bySide, code };
   return { state: 'none' };

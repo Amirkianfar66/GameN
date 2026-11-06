@@ -11,6 +11,7 @@ import { PARTS, partPercent } from './art.mjs';
 import { PANEL_COPY as C } from './copy.mjs';
 import { FRAMES, MOTION, motionEnd } from './motion.mjs';
 import { STATES, panelState } from './states.mjs';
+import { SEAT_IDS, seatIdOf, seatKey } from '../seats.mjs';
 import { buttons, card, el, failed, loadArt, mountPage, player, stamp, strip, words } from '../review.mjs';
 
 // ---------- the synthetic match (labelled as such on the page) ----------
@@ -20,19 +21,19 @@ const PLACES = { 1: 'Room A', 2: 'Room A', 3: 'Room A', 4: 'Room B', 5: 'Room B'
 
 /** A view with only what the state map reads, every field named as the contract (and R12, where marked) names it. */
 function view({ seat = PATIENT, role = 'Undercover', round = 4, phase = 'ORDINARY_TURN', playerCount = 9, offers = [], health = 'Injured', location = PLACES[seat], medical = { admittedRound: 3, rescueDueAfterRound: 5, rescueOpportunity: 'NEXT_NORMAL_ROUND' }, panelAttemptSpent = false, panelRequest, injectionsRemaining = null }) {
-  const seats = Array.from({ length: playerCount }, (_, i) => i + 1).map(n => ({ seatId: n, health: n === seat ? health : 'Healthy', location: n === seat ? location : PLACES[n], slotId: null, jailed: n === 9, captain: n === 6, officer: false, revealedFaction: null, rescueDueAfterRound: n === seat && medical ? medical.rescueDueAfterRound : null, medical: n === seat ? medical : null }));
+  const seats = Array.from({ length: playerCount }, (_, i) => i + 1).map(n => ({ seatId: seatIdOf(n), health: n === seat ? health : 'Healthy', location: n === seat ? location : PLACES[n], slotId: null, jailed: n === 9, captain: n === 6, officer: false, revealedFaction: null, rescueDueAfterRound: n === seat && medical ? medical.rescueDueAfterRound : null, medical: n === seat ? medical : null }));
   const abilities = { panelAttemptSpent, injectionsRemaining };
   if (panelRequest !== undefined) abilities.panelRequest = panelRequest;
   return {
     round, playerCount, phase: { id: `r${round}-${phase}`, kind: phase, startedAt: 0, endsAt: null },
-    self: { seatId: seat, role }, board: { kind: 'PLAYER_CURRENT', seats }, abilities,
+    self: { seatId: seatIdOf(seat), role }, board: { kind: 'PLAYER_CURRENT', seats }, abilities,
     offers: offers.map(type => ({ type, targetSeatIds: [], slotIds: [], windowIds: [], promiseTargetSeatIds: [] })),
   };
 }
 const fieldText = (v, extra = '') => {
   const own = v.board.seats.find(s => s.seatId === v.self.seatId);
   const a = Object.entries(v.abilities).filter(([, x]) => x !== null && x !== false).map(([k, x]) => `${k === 'panelRequest' ? 'R12 ' : ''}${k} ${JSON.stringify(x).replace(/"/g, '')}`);
-  return `round ${v.round} · ${v.phase.kind} · seat ${v.self.seatId} (${v.self.role}) · ${own.health}, ${own.location}${own.medical ? ` · medical ${JSON.stringify(own.medical).replace(/"/g, '')}` : ''} · ${a.join(' · ') || 'panelAttemptSpent false'} · offers [${v.offers.map(o => o.type).join(', ')}]${extra}`;
+  return `round ${v.round} · ${v.phase.kind} · ${v.self.seatId} (${v.self.role}) · ${own.health}, ${own.location}${own.medical ? ` · medical ${JSON.stringify(own.medical).replace(/"/g, '')}` : ''} · ${a.join(' · ') || 'panelAttemptSpent false'} · offers [${v.offers.map(o => o.type).join(', ')}]${extra}`;
 };
 
 // ---------- the console ----------
@@ -54,9 +55,10 @@ function consoleView(s, { digits = null } = {}) {
     s.state === 'wrong' ? overlay('strike') : null,
     el('span', { class: 'hp-screen', 'aria-hidden': 'true', style: `left:${screen.left}%;top:${screen.top}%;width:${screen.width}%;height:${screen.height}%` }, shown));
 }
+/** The keypad: each key shows its player number and keeps its canonical seat id for the command (data-seat-id). */
 function keypadView(keys, picked) {
   return el('div', { class: 'hp-keys', role: 'group', 'aria-label': 'Player numbers' },
-    keys.map(n => el('button', { type: 'button', class: 'ab-button hp-key', 'aria-pressed': n === picked ? 'true' : 'false' }, String(n))));
+    keys.map(k => el('button', { type: 'button', class: 'ab-button hp-key', 'data-seat-id': k.seatId, 'aria-pressed': k.seatId === picked ? 'true' : 'false' }, String(k.number))));
 }
 const crossImg = tone => el('img', { src: `data:image/svg+xml;base64,${btoa(rescueCrossSvg(tone === 'closed' ? 'none' : tone))}`, alt: '' });
 const deadlineLine = d => (d ? el('p', { class: 'hp-deadline' }, crossImg(d.tone), C.deadline(d)) : null);
@@ -69,7 +71,7 @@ export function panelView(s) {
   const tail = [deadlineLine(s.deadline), privacy()];
   switch (s.state) {
     case 'available': return strip(T, null, consoleView(s), words(C.ask), keypadView(s.keys, null), ...tail);
-    case 'choosing': return strip(T, null, consoleView(s), words(C.choose(s.number)), keypadView(s.keys, s.number), buttons(C.send, C.clear), ...tail);
+    case 'choosing': return strip(T, null, consoleView(s), words(C.choose(s.number)), keypadView(s.keys, s.seatId), buttons(C.send, C.clear), ...tail);
     case 'sending': return strip(T, STAMP.sending, consoleView(s), words(C.sending), ...tail);
     case 'registered': return strip(T, STAMP.registered, consoleView(s), words(C.registered), words(C.registeredNote, 'lib-note'), ...tail);
     case 'reserved': return strip(T, STAMP.reserved, consoleView(s), words(C.reserved), words(C.reservedNote, 'lib-note'), ...tail);
@@ -98,8 +100,8 @@ function patientCases() {
   add('seven players', view({ ...open, playerCount: 7, seat: 5, location: 'Hospital' }));
   add('rescue due this round', view({ ...open, medical: { admittedRound: 3, rescueDueAfterRound: 4, rescueOpportunity: 'CURRENT_NORMAL_ROUND' } }));
   add('the Doctor as a patient: no count', view({ ...open, role: 'Doctor', injectionsRemaining: 1 }));
-  add('', view(open), { picked: 6 });
-  add('', view(open), { pending: 'PANEL_CODE', picked: 6 });
+  add('', view(open), { picked: 'seat-6' });
+  add('', view(open), { pending: 'PANEL_CODE', picked: 'seat-6' });
   add('R12 not in the view', view({ panelAttemptSpent: true }), { accepted: { PANEL_CODE: phase } });
   add('R12', view({ panelAttemptSpent: true, panelRequest: { round: 4, result: 'RESERVED', status: 'QUEUED' } }));
   add('R12', view({ panelAttemptSpent: true, panelRequest: { round: 4, result: 'WRONG', status: null } }));
@@ -139,7 +141,7 @@ function consolePlayer(kind) {
       const vial = node.querySelectorAll('.hp-overlay')[1] ?? null;
       const strike = kind === 'wrong' ? node.querySelectorAll('.hp-overlay')[1] : null;
       const mark = stamp({ register: C.stampRegistered, reserve: C.stampReserved, wrong: C.stampWrong, press: '' }[kind]);
-      const keys = kind === 'press' ? keypadView([1, 2, 3, 4, 5, 6, 7, 8, 9], 6) : null;
+      const keys = kind === 'press' ? keypadView(SEAT_IDS.map(seatKey), 'seat-6') : null;
       const cap = keys ? keys.querySelector('[aria-pressed="true"]') : null;
       stage.append(el('div', { class: 'ab-kit lib-strip' }, el('div', { class: 'lib-strip__top' }, el('span', { class: 'lib-tape' }, C.tapePanel), kind === 'press' ? null : el('span', { class: 'lib-stamp-slot' }, mark)), node, keys));
       const { screen: s } = PARTS;

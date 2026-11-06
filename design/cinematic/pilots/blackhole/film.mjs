@@ -5,8 +5,15 @@
 // authorized Sync checkpoint, once the server has published the selected world's state. It shows
 // that a Blackhole's realities were resolved, never which, how many, who, or what was discarded.
 //
-//   full      the default, phones and the display alike: 2.4 s from the Sync, inside the Jail vote's
-//             first seconds and without extending anything. The Blackhole plays behind the crew:
+//   P27 (owner decision, 6 November 2026): "after actual Blackhole Sync, there is a separate
+//   six-second presentation stage. The full 60-second Jail vote starts afterward." In that stage the
+//   display plays the stage cut and the phones play the board treatment, both from the stage's start;
+//   nothing plays into the Jail vote. Missing contract field (R16): no view carries the stage's phase
+//   kind yet; until one does, every surface plays the board treatment at the Jail vote's start
+//   (design/cinematic/lib/visibility.mjs presentationIn(kind, { film: 'blackhole', stageKind, surface: 'display' }); phones get 'board').
+//
+//   full      the board treatment: phones in the stage (and every surface while R16 is missing),
+//             2.4 s from the stage's start, extending nothing. The Blackhole plays behind the crew:
 //             each room's back wall gives way to one shared field of space, the blackhole forming
 //             at the board's centre, the ship streaking across behind the rooms into it, the flare,
 //             and the walls returning. It is drawn only in the rooms' art layers, under every
@@ -17,8 +24,8 @@
 //             the lettered title stays with the stage cut and the inserts.
 //   stage     the 5.2 s display cut (the board pulled into an ink bloom, space, the blackhole
 //             forming, the luminous title, the passage, the ink-wipe cut and the settled board).
-//             It covers the board, so it plays only if the owner approves a separate presentation
-//             stage before the vote (request R1); until then it is never the default.
+//             It covers the board, so it plays only in P27's six-second stage, where nobody
+//             decides, and it ends 0.8 s before the full 60-second Jail vote begins.
 //   reduced   the walls show the still blackhole for 1.2 s, cross-faded in and out over 120 ms:
 //             no zoom, pull, spin, streak or wipe; the same layers, the same nothing covered.
 //   insert    the space shot alone (identity-free, textless or titled), for a runtime that prefers
@@ -66,7 +73,7 @@ export const BEATS = Object.freeze({
   insert: Object.freeze({ end: 3600 }),
 });
 
-/** When a surface's variant is over: behind the crew (the default), the stage cut (display, if approved), the still or the insert. */
+/** When a surface's variant is over: behind the crew (phones in the stage; every surface without R16), the stage cut (the display, in P27's stage), the still or the insert. */
 export const filmEnd = (surface, variant) => (surface === 'insert' ? BEATS.insert.end
   : variant === 'reduced' ? BEATS.reduced.end
     : variant === 'stage' && surface !== 'phone' ? BEATS.display.end : BEATS.board.end);

@@ -7,13 +7,17 @@
 // not proof of lying", P24); a Jail or Captain Promise counts the ballot, never the vote's outcome
 // or the admission (P16, P23); and nothing says a Promise will be shown to anyone else (P25).
 //
-// Three terms wait on request R13 and are marked so: what No Jail Vote rules out (the contract
-// gives it no target; read here as "not against the recipient"), whose place decides a meeting
-// (read here as the giver's), and which election an electionId names (here "the next Captain
-// election", true when it is offered; the record cannot yet name its round).
+// Two terms wait on request R13 and are marked so: what No Jail Vote rules out (the contract gives
+// it no target; read here as "not against the recipient"), and which election an electionId names
+// (here "the next Captain election", true when it is offered; the record cannot yet name its round).
+// Whose place decides a meeting is settled: the giver's alone (the owner, 6 November 2026: "Your
+// giver-only 'Meet in A/B' Promise wording is correct. Keep it"), so Meet in A and Meet in B are no
+// longer marked.
+
+import { seatNumber } from '../seats.mjs';
 
 /** "Player 8, Hana", or "you" for the reader. */
-export const label = (seat, reader, name) => (seat === reader ? 'you' : `Player ${seat}, ${name(seat)}`);
+export const label = (seat, reader, name) => (seat === reader ? 'you' : `Player ${seatNumber(seat)}, ${name(seat)}`);
 const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
 const poss = who => (who === 'you' ? 'your' : `${who}'s`);
 const is = who => (who === 'you' ? 'you are' : `${who} is`);
@@ -36,8 +40,6 @@ export const BLURBS = Object.freeze({
 /** Kinds whose words wait on R13, and why. */
 export const PENDING_R13 = Object.freeze({
   NO_JAIL_VOTE: 'the contract gives No Jail Vote no target: "not against the recipient" or "no Jail ballot at all"',
-  MEET_A: 'whose place decides a meeting: the giver\'s, or both players\'',
-  MEET_B: 'whose place decides a meeting: the giver\'s, or both players\'',
   CAPTAIN_SUPPORT: 'an electionId cannot be named; the words say "the next Captain election"',
   OFFICER_SELECTION: 'an electionId cannot be named; the words say "the next Captain election"',
 });

@@ -16,7 +16,7 @@
   "outputs": [
     {
       "kind": "video",
-      "file": "design/cinematic/exports/eject/runtime/exterior-insert.mp4",
+      "file": "design/cinematic/exports/eject/review/exterior-insert.mp4",
       "sha256": "8ea644529b362f9e4a9ece89114095d68018e308e61a359162241804ffbc3a53",
       "bytes": 1051102,
       "fps": 30,
@@ -28,7 +28,7 @@
     },
     {
       "kind": "video",
-      "file": "design/cinematic/exports/eject/runtime/exterior-insert.webm",
+      "file": "design/cinematic/exports/eject/review/exterior-insert.webm",
       "sha256": "061c1e0c2b40255de0ab317396d3658a7a05921dad1b1ecc8859415dd373955e",
       "bytes": 319605,
       "fps": 30,
@@ -40,20 +40,20 @@
     },
     {
       "kind": "preview",
-      "file": "design/cinematic/exports/eject/runtime/exterior-insert.preview.webp",
+      "file": "design/cinematic/exports/eject/review/exterior-insert.preview.webp",
       "sha256": "98b3fc346686f1f1d1b1ee9672d841ea6f75d41163e350dff5990e74f69a82c7",
       "bytes": 183460
     },
     {
       "kind": "poster",
-      "file": "design/cinematic/exports/eject/runtime/exterior-insert.poster.png",
+      "file": "design/cinematic/exports/eject/review/exterior-insert.poster.png",
       "sha256": "3bb81d79918fac63fa31c28ca540c059cbaa98fe04e5ec06a3aed460b2941294",
       "bytes": 1521559,
       "t": 1200
     },
     {
       "kind": "poster",
-      "file": "design/cinematic/exports/eject/runtime/exterior-insert.poster.webp",
+      "file": "design/cinematic/exports/eject/review/exterior-insert.poster.webp",
       "sha256": "37e657000651d198ef93433cdcefd35cf8359569cf3645c4c2c3c0f82fb9ed86",
       "bytes": 54288,
       "t": 1200

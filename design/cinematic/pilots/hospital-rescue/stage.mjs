@@ -16,7 +16,8 @@
 // t = -1: the board, the berth states and the snapshot, no film), unmodified, in a same-origin
 // frame; this stage draws the pass over its Hospital panel with the same geometry the approved S5
 // controller uses (fitBoardV2(), slotRects(), insetBox(), droneFit()), checks that geometry against
-// the frame's own drawing, and marks the subject's snapshot figure away while the film plays, as S5 does.
+// the frame's own drawing. The subject's snapshot figure is the board's, untouched (S5's review page
+// greys it as away; that is superseded for the Rescue: the owner's correction of 6 November 2026).
 
 import { CREW } from '../../../board-motion/figures/crew.mjs';
 import { frameScene } from '../../../board-motion/scenes/frame.mjs';
@@ -147,13 +148,15 @@ export async function mountPhone(root, { variant = 'full', w = 390, h = 844, ros
     layers = [];
     const playing = t >= 0 && t < end;
     const frame = rescueCinematicFrame(t, film.berth, { variant, surface: 'board', fit: geo.fit, leaves: leaves && !ownBerth });
-    // The playable figure at its snapshot place is always drawn: greyed as away while the film shows
-    // the patient at the berth, back in colour (settling onto its place) as the walker leaves the ward.
-    const arriving = playing && !ownBerth && frame.arrive > 0;
+    // The patient's authoritative figure at its snapshot place (Room A or B if free, the Jail if still
+    // detained) is the board's, untouched: never hidden, greyed, dimmed or moved, and its name tag and
+    // press area stay live (the owner's correction of 6 November 2026). The film's own patient is a
+    // performance in the ward that walks out and fades at the exit; when the snapshot itself places the
+    // patient at this berth, the film draws no second figure and plays its effects around the board's.
     for (const node of snapshot) {
-      node.classList.toggle('v2-fig--away', playing && !ownBerth && !arriving);
-      node.style.visibility = playing && ownBerth ? 'hidden' : '';
-      node.style.translate = arriving && frame.arrive < 1 ? `0 ${r2(-7 * (1 - frame.arrive))}px` : '';
+      node.classList.remove('v2-fig--away');
+      node.style.visibility = '';
+      node.style.translate = '';
     }
     const onBerth = !frame.release || frame.release.phase === 'bed';
     if (playing && !ownBerth && onBerth) section.append(tag); else tag.remove();
@@ -163,7 +166,7 @@ export async function mountPhone(root, { variant = 'full', w = 390, h = 844, ros
     const shake = variant === 'full' && t >= 3500 && t < 3800 ? (1 - beat(t, [3500, 3800])) * 1.5 : 0;
     art.style.translate = shake ? `${r2(noise(3, t / 28) * shake)}px ${r2(noise(5, t / 31) * shake)}px` : '';
     if (!playing) { await frames(); return { t, done: t >= end }; }
-    const items = filmItems(frame, { berthId: film.berth, character: subject.character, surface: 'board', prefix: 'hb', inset: geo.inset, fit: geo.fit, detained: subject.detained, keepClear: geo.keepClear });
+    const items = filmItems(frame, { berthId: film.berth, character: subject.character, surface: 'board', prefix: 'hb', inset: geo.inset, fit: geo.fit, detained: subject.detained, keepClear: geo.keepClear, drawPatient: !ownBerth });
     const byZ = new Map();
     for (const item of items) byZ.set(item.z, (byZ.get(item.z) ?? '') + item.svg);
     for (const [z, markup] of [...byZ.entries()].sort((a, b) => a[0] - b[0])) {

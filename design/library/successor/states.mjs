@@ -9,7 +9,8 @@
 // code; bots fill seats; setup begins on the host's word, then the 30-second character choice and
 // the 30-second minimum role read (the brief's lobby row: no initial-room picker; initial rooms are
 // random). The Supplier's grant reaches each recipient at Round 3's Supply stage, after Rescue, as
-// one ordinary weapon usable in Rounds 4 and 5; no delivery is public (the brief's Supplier row). An
+// one ordinary weapon usable in Rounds 4 and 5; no delivery is public (the brief's Supplier row), and a
+// weapon a Blackhole Sync restores is no delivery (R15: the receipt needs an explicit marker). An
 // injured player is admitted to the Hospital by the server's placement; the walk follows it only
 // when the previous placement is known (R4), and never shows a shooter or a trajectory.
 
@@ -43,15 +44,40 @@ export function lobbyState(snapshot, { requested = false, acknowledged = false, 
 // ---------- the Round 3 Supply ----------
 
 /**
- * The Supply's private receipt, against the previous view this screen drew (never on a reconnect):
- * the recipient's ordinary weapons grew. Only the recipient's own view says so; the Supplier's phone
- * only knows its own command was registered, and says when the delivery happens.
+ * The delivery marker the receipt needs (request R15; Backend owns it). self.ordinaryWeapons alone
+ * cannot say why it grew: an actual Blackhole Sync also restores weapons spent in a discarded reality
+ * (P03), and the owner's correction of 6 November 2026 says "Restored weapons after Blackhole Sync
+ * must not be presented as a new Supply delivery". The proposal: a recipient-private occurrence,
+ * PlanetEvent kind SUPPLY_RECEIVED, audience { kind: 'player', seatId: recipient }, seatIds
+ * [recipient], actorSeatId null (never the Supplier), round 3, published with the Supply stage's
+ * view revision. The kind is not in the protocol 3 candidate's event enum, so no view carries it yet.
  */
-export function supplyReceipt(previous, view) {
+export const SUPPLY_EVENT = Object.freeze({ kind: 'SUPPLY_RECEIVED', request: 'R15', inContract: false });
+
+/**
+ * The Supply's private receipt: only from a delivery marker this screen has not played, addressed to
+ * this seat, that a view newer than the previous one brought (never on a reconnect: without a
+ * previous view the inventory is drawn at rest). Never from the weapon count: a count that grows
+ * without the marker (a Blackhole Sync's restore, or any view before R15 exists) is drawn at rest,
+ * with no crate, no stamp and no "received". Only the recipient's own view carries the marker; the
+ * Supplier's phone only knows its own command was registered, and says when the delivery happens.
+ * Options: played (event ids this screen already played).
+ */
+export function supplyReceipt(previous, view, { played = new Set() } = {}) {
   if (!previous) return null;
-  const gained = view.self.ordinaryWeapons - previous.self.ordinaryWeapons;
-  return gained > 0 ? { gained, total: view.self.ordinaryWeapons, round: view.round } : null;
+  const seen = new Set((previous.events ?? []).map(e => e.id));
+  const self = view.self?.seatId ?? null;
+  const marker = (view.events ?? []).find(e => e.kind === SUPPLY_EVENT.kind && e.audience?.kind === 'player' && e.audience.seatId === self
+    && (e.seatIds ?? []).includes(self) && !seen.has(e.id) && !played.has(e.id)) ?? null;
+  if (!marker) return null;
+  return { eventId: marker.id, round: marker.round, total: view.self.ordinaryWeapons };
 }
+
+/**
+ * The inventory's count, at rest, for any change the receipt does not claim (a restore at Sync, a
+ * weapon used, a reconnect): the number only, never "received" or "delivered".
+ */
+export const inventoryAtRest = view => ({ ordinaryWeapons: view.self.ordinaryWeapons });
 
 // ---------- the admission walk ----------
 

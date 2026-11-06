@@ -9,7 +9,7 @@
 import { SUCCESSOR_COPY as C } from './copy.mjs';
 import { FRAMES, MOTION, motionEnd } from './motion.mjs';
 import { CURRENT_ROLES, OVERLAY, ROLE_DEVICES } from './names.mjs';
-import { LOBBY_STATES, admissionPlan, lobbyState, supplyReceipt } from './states.mjs';
+import { LOBBY_STATES, SUPPLY_EVENT, admissionPlan, inventoryAtRest, lobbyState, supplyReceipt } from './states.mjs';
 import { buttons, card, el, failed, loadArt, mountPage, player, stamp, strip, words } from '../review.mjs';
 
 const NAMES = ['Ada', 'Ben', 'Cleo', 'Dev', 'Eli', 'Fay', 'Gus', 'Hana', 'Ivo'];
@@ -78,11 +78,20 @@ function lobbyCases() {
 // ---------- the Supply ----------
 
 function supplyCards() {
-  const before = { round: 3, self: { ordinaryWeapons: 0 } }, after = { round: 3, self: { ordinaryWeapons: 1 } };
-  const r = supplyReceipt(before, after);
+  // Synthetic views (seat 4 receives). R15's SUPPLY_RECEIVED is proposed, not in the contract: the
+  // first card shows the receipt as it plays once the marker exists; the others are what plays today.
+  const SELF = 'seat-4';
+  const inv = (n, events = []) => ({ round: 3, self: { seatId: SELF, ordinaryWeapons: n }, events });
+  const marker = { id: 'ev-supply-r3-4', kind: SUPPLY_EVENT.kind, round: 3, audience: { kind: 'player', seatId: SELF }, seatIds: [SELF], actorSeatId: null };
+  const synced = { id: 'ev-sync-r3', kind: 'BLACKHOLE_SYNCED', round: 3, audience: { kind: 'public' }, seatIds: [], actorSeatId: null };
+  const r = supplyReceipt(inv(0), inv(1, [marker]));
+  // The strip is what the phone draws: the count alone. The check that no receipt plays is review text, in the field line.
+  const atRest = (label, field, before, after) => card(label, `${field} · ${supplyReceipt(before, after) ? 'ERROR: a receipt' : 'supplyReceipt() null: no crate, no stamp, no "received"'}`, strip(C.tapeSupply, null, el('p', { class: 'sw-count' }, C.inventory(inventoryAtRest(after).ordinaryWeapons))));
   return [
     card('supply: the Supplier\'s phone after its command', 'SUPPLY accepted in Round 3 (this phone\'s receipt): registered, never delivered; the Sync may keep another reality (P03)', strip(C.tapeSupply, null, words(C.supplierWaiting))),
-    card(`supply: a recipient at the Supply stage (+${r.gained})`, `previous self.ordinaryWeapons 0 → ${r.total} in round ${r.round}: the receipt plays once, on this phone only`, strip(C.tapeSupply, null, el('div', { class: 'sw-receipt' }, el('span', { class: 'sw-crate', 'aria-hidden': 'true' }), words(C.supplyReceived)), el('p', { class: 'sw-note' }, C.supplyPrivate))),
+    card('supply: a recipient, with R15\'s delivery marker (proposed)', `events + SUPPLY_RECEIVED (R15, player audience ${SELF}, actorSeatId null) · self.ordinaryWeapons 0 → ${r.total} in round ${r.round}: the receipt plays once, on this phone only`, strip(C.tapeSupply, null, el('div', { class: 'sw-receipt' }, el('span', { class: 'sw-crate', 'aria-hidden': 'true' }), words(C.supplyReceived)), el('p', { class: 'sw-note' }, C.supplyPrivate))),
+    atRest('supply: weapons restored by an actual Blackhole Sync (no delivery)', 'events + BLACKHOLE_SYNCED (public) · self.ordinaryWeapons 0 → 1 · no SUPPLY_RECEIVED: a restore (P03), never presented as a Supply delivery', inv(0), inv(1, [synced])),
+    atRest('supply: weapons grow without R15\'s marker (missing field: no receipt)', 'self.ordinaryWeapons 0 → 1 · no SUPPLY_RECEIVED in the view (the protocol 3 candidate has none): the count changes at rest', inv(0), inv(1)),
     card('supply: anyone else', 'no change in this seat\'s view: nothing is drawn, on the board or the display', el('p', { class: 'sw-none' }, 'Nothing is drawn: no delivery is public.')),
   ];
 }

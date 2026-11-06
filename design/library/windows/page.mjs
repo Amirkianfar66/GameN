@@ -10,7 +10,7 @@
 import { INKS, LINTEL_FILES, PAD, WIDTHS, drawingPaths } from './art.mjs';
 import { WINDOW_COPY as C, bothRooms } from './copy.mjs';
 import { FRAMES, MOTION, motionEnd } from './motion.mjs';
-import { ENDPOINTS, LIMITS, PAD_STATES, STATIONS, padState, windowsFor } from './states.mjs';
+import { ENDPOINTS, LIMITS, PAD_STATES, STATIONS, isDark, padState, windowsFor } from './states.mjs';
 import { card, el, failed, loadArt, mountPage, player, stamp, strip, words } from '../review.mjs';
 
 // ---------- the synthetic match (labelled as such on the page) ----------
@@ -38,19 +38,22 @@ const FEEDS = {
 };
 
 /** A view with only what the state map reads, every field named as the contract names it. */
-function view({ seat = 2, round = 4, phase = 'ORDINARY_TURN', show = true, feeds = FEEDS, place = PLACES[seat] }) {
+/** The Blackout's synthetic clock: it opens at T0, its preview deadline is five seconds in, it ends at fifteen (contract: BLACKOUT 15 s). */
+const T0 = 400_000;
+const BLACKOUT = Object.freeze({ windowId: 'blackout-r4', previewEndsAt: T0 + 5000, endsAt: T0 + 15_000 });
+function view({ seat = 2, round = 4, phase = 'ORDINARY_TURN', show = true, feeds = FEEDS, place = PLACES[seat], blackout = phase === 'BLACKOUT' ? BLACKOUT : null }) {
   const [location, slotId] = place;
   const seats = Array.from({ length: 9 }, (_, i) => i + 1).map(n => ({ seatId: n, location: n === seat ? location : PLACES[n][0], slotId: n === seat ? slotId : PLACES[n][1], health: 'Healthy' }));
   const windows = Object.keys(ENDPOINTS).filter(id => ENDPOINTS[id].includes(location)).map(id => ({ windowId: id, canDraw: STATIONS[slotId] === id, drawings: (feeds[id] ?? []).filter(d => d.round === round) }));
   const showable = windows.filter(w => w.canDraw).map(w => w.windowId);
   return {
-    round, phase: { id: `r${round}-${phase}`, kind: phase }, self: { seatId: seat }, board: { kind: 'PLAYER_CURRENT', seats }, windows,
+    round, phase: { id: `r${round}-${phase}`, kind: phase, ...(phase === 'BLACKOUT' ? { startedAt: T0, endsAt: T0 + 15_000 } : {}) }, blackout, self: { seatId: seat }, board: { kind: 'PLAYER_CURRENT', seats }, windows,
     offers: show && showable.length && phase !== 'BLACKOUT' ? [{ type: 'SHOW_WINDOW', targetSeatIds: [], slotIds: [], windowIds: showable, promiseTargetSeatIds: [] }] : [],
   };
 }
 const fieldText = (v, extra = '') => {
   const s = v.board.seats.find(x => x.seatId === v.self.seatId);
-  return `round ${v.round} · ${v.phase.kind} · seat ${v.self.seatId} (${NAMES[v.self.seatId - 1]}) at ${s.location} ${s.slotId} · windows [${v.windows.map(w => `${w.windowId}${w.canDraw ? ' canDraw' : ''} ${w.drawings.length} shown`).join('; ')}] · offers [${v.offers.map(o => `${o.type} ${o.windowIds.join(',')}`).join('; ')}]${extra}`;
+  return `round ${v.round} · ${v.phase.kind} · seat ${v.self.seatId} (${NAMES[v.self.seatId - 1]}) at ${s.location} ${s.slotId} · windows [${v.windows.map(w => `${w.windowId}${w.canDraw ? ' canDraw' : ''} ${w.drawings.length} shown`).join('; ')}] · offers [${v.offers.map(o => `${o.type} ${o.windowIds.join(',')}`).join('; ')}]${v.phase.kind === 'BLACKOUT' ? (v.blackout ? ` · blackout {previewEndsAt +${(v.blackout.previewEndsAt - v.phase.startedAt) / 1000} s, endsAt +${(v.blackout.endsAt - v.phase.startedAt) / 1000} s}` : ' · blackout null') : ''}${extra}`;
 };
 
 // ---------- drawings, panes, pads ----------
@@ -116,7 +119,7 @@ function padView(s, local, round) {
 function seatStrip(v, opts = {}) {
   const ws = windowsFor(v);
   if (!ws.length) return el('p', { class: 'wn-none' }, 'Nothing is drawn: there is no window from here.');
-  const dark = v.phase.kind === 'BLACKOUT';
+  const dark = isDark(v, opts.now ?? null);
   return strip(C.tapeWindows, dark ? C.stampDark : null, ...ws.map(w => {
     const s = padState(v, w.windowId, opts);
     const pad = s.state === 'view-only' || s.state === 'dark' ? null : padView(s, opts.local, v.round);
@@ -161,7 +164,9 @@ function viewerCases() {
     card('viewer: Hospital (view only)', fieldText(at(8)), seatStrip(at(8))),
     card('viewer: Jail (view only)', fieldText(at(9)), seatStrip(at(9))),
     card('viewer: Command Room (no window)', fieldText(at(7)), seatStrip(at(7))),
-    card('viewer: the Blackout (dark)', fieldText(at(2, { phase: 'BLACKOUT' })), seatStrip(at(2, { phase: 'BLACKOUT' }))),
+    card('viewer: the Blackout\'s first five seconds (lit)', fieldText(at(2, { phase: 'BLACKOUT' }), ` · now +2.0 s (before blackout.previewEndsAt)`), seatStrip(at(2, { phase: 'BLACKOUT' }), { now: T0 + 2000 })),
+    card('viewer: the Blackout from its preview deadline (dark)', fieldText(at(2, { phase: 'BLACKOUT' }), ` · now +6.0 s (after blackout.previewEndsAt)`), seatStrip(at(2, { phase: 'BLACKOUT' }), { now: T0 + 6000 })),
+    card('viewer: the Blackout without a preview deadline (missing field: dark from its start)', fieldText(at(2, { phase: 'BLACKOUT', blackout: null }), ` · now +2.0 s, no blackout in the view`), seatStrip(at(2, { phase: 'BLACKOUT', blackout: null }), { now: T0 + 2000 })),
     card('viewer: the next round (expired)', fieldText(at(4, { round: 5 })), seatStrip(at(4, { round: 5 }))),
   ];
 }
@@ -179,7 +184,7 @@ function boardCards() {
 // ---------- motion players ----------
 
 function motionPlayer(kind) {
-  const caption = { show: 'on the artist\'s accepted SHOW_WINDOW receipt', arrive: 'when a drawing is first seen in a window (R7: first sight only)', dark: 'when the Blackout begins', light: 'when the Blackout ends' }[kind];
+  const caption = { show: 'on the artist\'s accepted SHOW_WINDOW receipt', arrive: 'when a drawing is first seen in a window (R7: first sight only)', dark: 'when the clock reaches the Blackout\'s preview deadline (blackout.previewEndsAt), five seconds in', light: 'when the Blackout ends' }[kind];
   return {
     caption: `${MOTION[kind].end} ms full · ${MOTION.reduced.end} ms reduced · ${caption}`,
     end: reduced => motionEnd(kind, reduced),

@@ -12,7 +12,8 @@ import { FACTION_ACCENTS, MIN_ACCENT_DISTANCE, cie76 } from '../../../design/boa
 import { H, KEY_DIGIT, KEY_FACE, PANEL_ART_VERSION, panelAssets } from '../../../design/library/hospital-panel/art.mjs';
 import { PANEL_COPY } from '../../../design/library/hospital-panel/copy.mjs';
 import { FRAMES, MOTION, motionEnd } from '../../../design/library/hospital-panel/motion.mjs';
-import { STATES, deadline, keypad, panelState } from '../../../design/library/hospital-panel/states.mjs';
+import { STATES, deadline, keypad, panelCommand, panelState } from '../../../design/library/hospital-panel/states.mjs';
+import { SEAT_IDS, seatIdOf, seatKey } from '../../../design/library/seats.mjs';
 import { build } from '../../../design/tools/library-assets.mjs';
 
 const PATIENT = 8;
@@ -22,22 +23,28 @@ const luminance = hex => {
 };
 const contrast = (a, b) => { const [hi, lo] = [luminance(a), luminance(b)].sort((x, y) => y - x); return (hi + 0.05) / (lo + 0.05); };
 function view({ seat = PATIENT, role = 'Undercover', round = 4, phase = 'ORDINARY_TURN', playerCount = 9, offers = [], health = 'Injured', location = 'Hospital', medical = { admittedRound: 3, rescueDueAfterRound: 5, rescueOpportunity: 'NEXT_NORMAL_ROUND' }, panelAttemptSpent = false, panelRequest, injectionsRemaining = null, targets = [] }) {
-  const seats = Array.from({ length: playerCount }, (_, i) => i + 1).map(n => ({ seatId: n, health: n === seat ? health : 'Healthy', location: n === seat ? location : 'Room A', slotId: null, jailed: false, captain: false, officer: false, revealedFaction: null, rescueDueAfterRound: null, medical: n === seat ? medical : null }));
+  const seats = Array.from({ length: playerCount }, (_, i) => i + 1).map(n => ({ seatId: seatIdOf(n), health: n === seat ? health : 'Healthy', location: n === seat ? location : 'Room A', slotId: null, jailed: false, captain: false, officer: false, revealedFaction: null, rescueDueAfterRound: null, medical: n === seat ? medical : null }));
   const abilities = { panelAttemptSpent, injectionsRemaining };
   if (panelRequest !== undefined) abilities.panelRequest = panelRequest;
-  return { round, playerCount, phase: { id: `p${round}`, kind: phase }, self: { seatId: seat, role }, board: { kind: 'PLAYER_CURRENT', seats }, abilities, offers: offers.map(type => ({ type, targetSeatIds: targets, slotIds: [], windowIds: [], promiseTargetSeatIds: [] })) };
+  return { round, playerCount, phase: { id: `p${round}`, kind: phase }, self: { seatId: seatIdOf(seat), role }, board: { kind: 'PLAYER_CURRENT', seats }, abilities, offers: offers.map(type => ({ type, targetSeatIds: targets, slotIds: [], windowIds: [], promiseTargetSeatIds: [] })) };
 }
 const open = { offers: ['PANEL_CODE'] };
 
 test('the console: only a living Hospital patient\'s; the offer decides the keypad; a picked number is confirmed before it is sent', () => {
   assert.equal(panelState(view({ location: 'Room A', health: 'Healthy', medical: null })).state, 'none');
   assert.equal(panelState(view({ health: 'Eliminated', location: null })).state, 'none');
-  assert.deepEqual(panelState(view(open)), { deadline: { tone: 'next', round: 5 }, state: 'available', keys: [1, 2, 3, 4, 5, 6, 7, 8, 9] });
-  assert.deepEqual(panelState(view({ ...open, playerCount: 7, seat: 5 })).keys, [1, 2, 3, 4, 5, 6, 7]);
-  assert.deepEqual(keypad(view({ ...open, targets: [3, 1, 2] })), [1, 2, 3]);
-  assert.deepEqual(panelState(view(open), { picked: 6 }), { deadline: { tone: 'next', round: 5 }, state: 'choosing', keys: [1, 2, 3, 4, 5, 6, 7, 8, 9], number: 6 });
-  assert.equal(panelState(view(open), { picked: 12 }).state, 'available', 'a number the keypad does not offer is not picked');
-  assert.equal(panelState(view(open), { pending: 'PANEL_CODE', picked: 6 }).state, 'sending');
+  const nine = SEAT_IDS.map(seatKey);
+  assert.deepEqual(panelState(view(open)), { deadline: { tone: 'next', round: 5 }, state: 'available', keys: nine });
+  assert.deepEqual(panelState(view({ ...open, playerCount: 7, seat: 5 })).keys.map(k => k.number), [1, 2, 3, 4, 5, 6, 7]);
+  // The offer's canonical seat ids, in player-number order; each key shows its number and keeps its id.
+  assert.deepEqual(keypad(view({ ...open, targets: ['seat-3', 'seat-1', 'seat-2'] })), [{ seatId: 'seat-1', number: 1 }, { seatId: 'seat-2', number: 2 }, { seatId: 'seat-3', number: 3 }]);
+  assert.deepEqual(panelState(view(open), { picked: 'seat-6' }), { deadline: { tone: 'next', round: 5 }, state: 'choosing', keys: nine, seatId: 'seat-6', number: 6 });
+  assert.equal(panelState(view(open), { picked: 6 }).state, 'available', 'a bare number is not a seat id: nothing is picked');
+  assert.equal(panelState(view(open), { picked: 'seat-12' }).state, 'available', 'a seat the keypad does not offer is not picked');
+  assert.deepEqual(panelState(view(open), { pending: 'PANEL_CODE', picked: 'seat-6' }), { deadline: { tone: 'next', round: 5 }, state: 'sending', seatId: 'seat-6', number: 6 });
+  // The command carries the canonical id the key kept, never the number the player read.
+  assert.deepEqual(panelCommand('seat-6'), { type: 'PANEL_CODE', doctorSeatId: 'seat-6' });
+  assert.equal(panelCommand(null), null);
   assert.equal(panelState(view({ phase: 'JAIL_VOTE' })).state, 'closed');
   // No keypad without the offer, whatever else holds.
   for (const phase of ['ORDINARY_TURN', 'JAIL_VOTE', 'BLACKOUT']) assert.notEqual(panelState(view({ phase })).state, 'available');
@@ -66,13 +73,13 @@ test('P21: "no injection left" only from an explicit reason, never inferred; not
   assert.match(PANEL_COPY.exhausted, /not checked/);
   assert.match(PANEL_COPY.exhausted, /not used/);
   // "Empty inventory must not confirm Doctor identity": the refusal is the same whatever number was sent.
-  const refusals = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9].map(picked => JSON.stringify(panelState(view(open), { picked, rejected: { PANEL_CODE: { phaseId: 'p4', code: 'NO_INJECTION' } } }))));
+  const refusals = new Set(SEAT_IDS.map(picked => JSON.stringify(panelState(view(open), { picked, rejected: { PANEL_CODE: { phaseId: 'p4', code: 'NO_INJECTION' } } }))));
   assert.equal(refusals.size, 1);
 });
 
 test('the console never reads the injection count or the role: the Doctor as a patient sees what anyone sees', () => {
-  const allowed = new Set(['state', 'deadline', 'keys', 'number', 'round']);
-  for (const opts of [{}, { picked: 6 }, { pending: 'PANEL_CODE' }, { accepted: { PANEL_CODE: 'p4' } }]) {
+  const allowed = new Set(['state', 'deadline', 'keys', 'seatId', 'number', 'round']);
+  for (const opts of [{}, { picked: 'seat-6' }, { pending: 'PANEL_CODE' }, { accepted: { PANEL_CODE: 'p4' } }]) {
     for (const base of [open, { panelAttemptSpent: true }, { phase: 'JAIL_VOTE' }]) {
       const anyone = panelState(view({ ...base }), opts);
       for (const key of Object.keys(anyone)) assert.ok(allowed.has(key), key);

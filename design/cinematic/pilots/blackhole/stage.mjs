@@ -3,7 +3,7 @@
 // Pilot 2 on the cinematic stage: the board-v2 review page (synthetic, unmodified) in a frame as
 // the board, standing for the snapshot the server published at Sync. By default the Blackhole is
 // drawn behind the crew, in each room's art layer (nothing over the board); the display's stage cut
-// (only if the owner approves a presentation stage) is an overlay over it. The display's frame is
+// (in P27's six-second presentation stage after an actual Sync) is an overlay over it. The display's frame is
 // 1920 x 1080; a phone's w x h. The insert is the space shot alone. A review page's controller: no
 // world, branch or actor exists here.
 
