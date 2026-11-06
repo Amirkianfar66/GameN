@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · library art proposal · lib-icon-ship-hack library-hack-engineer-0.1.0 · generated, do not edit by hand
+  The tray's mark for the ship hack: a cartridge into a port. Drawn only where the seat's own view offers the action.
+  Built by design/tools/library-assets.mjs from design/library/hack-engineer/art.mjs. Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48"><g id="lib-icon-ship-hack"><circle cx="25" cy="25" r="21" fill="#151923" opacity="0.3"/><circle cx="24" cy="24" r="21" fill="#F7C52B" stroke="#151923" stroke-width="2.6"/><rect x="10" y="17" width="16" height="14" rx="2" fill="#151923"/><path d="M26 20 H31 M26 24 H31 M26 28 H31" stroke="#151923" stroke-width="2.2"/><rect x="31" y="14" width="7" height="20" rx="1.5" fill="none" stroke="#151923" stroke-width="2.6"/><circle cx="16" cy="24" r="2.4" fill="#F7C52B"/></g></svg>

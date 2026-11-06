@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · library art proposal · lib-clamp-used library-hack-engineer-0.1.0 · generated, do not edit by hand
+  The Engineer's signal clamp after its one capture: closed, its wave cut and its LED dark.
+  Built by design/tools/library-assets.mjs from design/library/hack-engineer/art.mjs. Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64"><g id="lib-clamp-used"><circle cx="34" cy="35" r="26" fill="#151923" opacity="0.25"/><circle cx="31" cy="32" r="26" fill="#202837" stroke="#151923" stroke-width="2.6"/><path d="M18 22 Q30 16 42 22 L40 30 Q30 26 20 30 Z" fill="#55657E" stroke="#151923" stroke-width="2.2" stroke-linejoin="round"/><path d="M18 42 Q30 48 42 42 L40 34 Q30 38 20 34 Z" fill="#55657E" stroke="#151923" stroke-width="2.2" stroke-linejoin="round"/><path d="M8 32 q4 -6 8 0 t8 0" fill="none" stroke="#8696AE" stroke-width="2.4" stroke-linecap="round"/><path d="M36 32 q4 -6 8 0 t8 0" fill="none" stroke="#8696AE" stroke-width="2.4" stroke-linecap="round"/><path d="M27 25 L33 39" stroke="#151923" stroke-width="3" stroke-linecap="round"/><path d="M50 14 Q58 8 60 2" fill="none" stroke="#151923" stroke-width="3" stroke-linecap="round"/><circle cx="48" cy="48" r="4" fill="#34415A" stroke="#151923" stroke-width="1.8"/></g></svg>

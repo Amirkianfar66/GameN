@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · library art proposal · lib-capture-print library-hack-engineer-0.1.0 · generated, do not edit by hand
+  The Engineer's capture, developed: the print of the opposite room at the moment the server registered it. Its window shows the picture under it.
+  Built by design/tools/library-assets.mjs from design/library/hack-engineer/art.mjs. Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 168" width="140" height="168"><defs><pattern id="lcp-dots" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><circle cx="2" cy="2" r="0.8" fill="#151923"/></pattern></defs><g id="lib-capture-print"><path d="M5 6 H141 V169 H5 Z" fill="#151923" opacity="0.3"/><path d="M2 2 H138 V166 H2 Z M12 12 V124 H128 V12 Z" fill="#F4EBDD" fill-rule="evenodd" stroke="#151923" stroke-width="2.4" stroke-linejoin="round"/><rect x="12" y="12" width="116" height="112" fill="none" stroke="#151923" stroke-width="2"/><rect x="94" y="128" width="40" height="34" fill="url(#lcp-dots)" opacity="0.35"/><path d="M16 144 H76" stroke="#CBBBA2" stroke-width="2.2" stroke-linecap="round"/></g></svg>
