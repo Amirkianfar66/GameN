@@ -1,7 +1,7 @@
 {
   "tool": "design/tools/cinematic-render.mjs",
   "pilot": "role-reveal",
-  "version": "cinematic-role-reveal-0.5.0",
+  "version": "cinematic-role-reveal-0.6.0",
   "surface": "phone",
   "variant": "full",
   "stage": "design/cinematic/stage.html?pilot=role-reveal&surface=phone&variant=full&beds=4&w=390&h=844&role=Doctor&seat=6&character=c4",
@@ -22,8 +22,8 @@
     {
       "kind": "video",
       "file": "design/cinematic/exports/role-reveal/review/doctor-phone390-full.mp4",
-      "sha256": "ad3892768c20e2583cc5ebdc7ff8ef0e63311679864dcdd8a45fae7e70b4e7b9",
-      "bytes": 2677175,
+      "sha256": "1bc4f56d508a5b4bf3d7e32d1ea1e62d20e5591b31e399b24228494cad8f55fe",
+      "bytes": 2600590,
       "fps": 30,
       "frames": 301,
       "durationMs": 10000,
@@ -34,14 +34,14 @@
     {
       "kind": "preview",
       "file": "design/cinematic/exports/role-reveal/review/doctor-phone390-full.preview.webp",
-      "sha256": "52083101ab427f015788dfc198b03e01410b8a6e4de72f2d4317031ad451bd3e",
-      "bytes": 469484
+      "sha256": "0bf79dc576eb009edabc912258ff17cc332f29c14e134f6c82768e958fb49932",
+      "bytes": 445512
     },
     {
       "kind": "poster",
       "file": "design/cinematic/exports/role-reveal/review/doctor-phone390-full.poster.webp",
-      "sha256": "bbc6bd1b9d0e2fcd962a906b29bd9108b2d7fd6cf916dc250cbf46c38b29cf37",
-      "bytes": 62314,
+      "sha256": "cb8cf15a87f6bb2706340d0521436f96eafbed23ef0db0439303b4d34ce5ff96",
+      "bytes": 52894,
       "t": 7400
     }
   ],

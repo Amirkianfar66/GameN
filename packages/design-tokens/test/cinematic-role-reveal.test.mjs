@@ -20,10 +20,10 @@ import { figureItems } from '../../../design/cinematic/lib/scene.mjs';
 import { PILOTS } from '../../../design/cinematic/pilots/index.mjs';
 import { GRIP, deviceOnly, sepiaOf, unaccented } from '../../../design/cinematic/pilots/role-reveal/art.mjs';
 import { POSES, briefingLayout, briefingSvg, onPage } from '../../../design/cinematic/pilots/role-reveal/briefing.mjs';
-import { PAGE_WIDTH, cameraView, layout, pageHeight, revealSvg } from '../../../design/cinematic/pilots/role-reveal/compose.mjs';
+import { CAPTION_LINE, CAPTION_PAD, PAGE_WIDTH, cameraView, captionFont, captionLines, captionWidth, layout, narrationBox, pageHeight, revealSvg } from '../../../design/cinematic/pilots/role-reveal/compose.mjs';
 import { DOCTOR_PANELS } from '../../../design/cinematic/pilots/role-reveal/doctor.mjs';
 import { ROLE_REVEAL_COPY } from '../../../design/cinematic/pilots/role-reveal/copy.mjs';
-import { BEATS, CHANGES, FADE_MS, PANEL_STARTS, PANEL_TONES, REVEAL_END, STILLS, VARIANTS, revealFrame } from '../../../design/cinematic/pilots/role-reveal/film.mjs';
+import { BEATS, CHANGES, FADE_MS, NARRATED, PANEL_STARTS, PANEL_TONES, REVEAL_END, STILLS, VARIANTS, revealFrame } from '../../../design/cinematic/pilots/role-reveal/film.mjs';
 import { DEVICE_FILES, EMBLEM_FILES, FILM_OF, PORTRAIT_FILES, ROLE_FILMS, ROLE_REVEAL_ASSETS, TEAMS } from '../../../design/cinematic/pilots/role-reveal/roles.mjs';
 import { CURRENT_ROLES, usesCurrentNames } from '../../../design/library/successor/names.mjs';
 
@@ -182,39 +182,44 @@ test('one palette: no colour drawn comes within the accent distance of a faction
   }
 });
 
-test('the words: a back story in three narration boxes and a line under the title, for every role, current names only', () => {
+test('the words: a back story told mostly in pictures, two short narration boxes for every role, no rules spelled out', () => {
+  // The owner: fewer words ("it is like tutorial"). Two memory panels carry a few words each; the
+  // panel aboard and the title carry none; the rules are the role card's.
   for (const role of CURRENT_ROLES) {
     const copy = ROLE_REVEAL_COPY[role];
-    assert.equal(copy?.story?.length, 3, `${role}: three narration boxes`);
-    assert.ok(copy.play, `${role}: the line under the title`);
-    for (const line of [...copy.story, copy.play]) {
+    assert.deepEqual(Object.keys(copy), ['story'], `${role}: narration only`);
+    assert.equal(copy.story.length, 2, `${role}: two narration boxes`);
+    for (const line of copy.story) {
       assert.ok(usesCurrentNames(line), `${role}: current names in "${line}"`);
-      assert.ok(line.length <= 100, `${role}: a short line`);
+      assert.ok(line.length <= 32 && line.split(' ').length <= 6, `${role}: "${line}" is a few words`);
+      for (const name of CURRENT_ROLES) assert.ok(!line.includes(name), `${role}: "${line}" names no role`);
+      // Lettered as a comic's caption: a sentence to a line, no line too long for its box.
+      const lines = captionLines(line);
+      assert.equal(lines.join(' '), line, `${role}: "${line}" keeps every word`);
+      assert.ok(lines.length <= 2 && lines.every(l => l.length <= CAPTION_LINE), `${role}: "${line}" on ${lines.length} short lines`);
     }
-    for (const line of copy.story) assert.ok(line.length <= 52, `${role}: "${line}" fits a narration box`);
   }
-  // What the rules give, in the story's last box (aboard) or under the title.
-  assert.match(ROLE_REVEAL_COPY.Doctor.story[1], /two doses/);
-  assert.match(ROLE_REVEAL_COPY.Doctor.story[2], /your number is the Hospital panel's code/);
-  assert.match(ROLE_REVEAL_COPY.Doctor.play, /Two doses for the whole voyage/);
-  for (const name of ['Undercover', 'Alien', 'Doctor']) assert.ok(ROLE_REVEAL_COPY.Insider.story[2].includes(name));
-  assert.match(ROLE_REVEAL_COPY['Red Disabler'].play, /Undercover/);
-  for (const line of [...ROLE_REVEAL_COPY['Blue Disabler'].story, ROLE_REVEAL_COPY['Blue Disabler'].play]) assert.ok(!line.includes('Undercover'), 'only the Red Disabler knows the Undercover');
-  // Each panel's narration comes with its panel and stays until the title; then the line under the title.
+  assert.match(ROLE_REVEAL_COPY.Doctor.story[1], /Two doses/);
+  assert.deepEqual(ROLE_REVEAL_COPY.Doctor.story.map(captionLines), [['Colony Nine.', 'The fever years.'], ['Two doses left.']]);
+  assert.deepEqual(captionLines('The engine decks of Ceres.'), ['The engine', 'decks of Ceres.'], 'a long sentence split at its most even gap');
+  assert.deepEqual(NARRATED, [0, 1], 'the two memory panels');
+  // Each narration box comes with its panel and stays until the title; nothing after it.
   const at = t => doctor(t).words;
-  assert.deepEqual(at(2400).story.map(s => s.opacity), [0, 0, 0], 'the opener has no words');
-  assert.deepEqual(at(3600).story.map(s => s.opacity), [1, 0, 0]);
-  assert.deepEqual(at(5100).story.map(s => s.opacity), [1, 1, 0]);
-  assert.deepEqual(at(7400).story.map(s => s.opacity), [1, 1, 1]);
+  assert.deepEqual(at(2400).story.map(s => s.opacity), [0, 0], 'the opener has no words');
+  assert.deepEqual(at(3600).story.map(s => s.opacity), [1, 0]);
+  assert.deepEqual(at(5100).story.map(s => s.opacity), [1, 1]);
+  assert.deepEqual(at(7400).story.map(s => s.opacity), [1, 1], 'the panel aboard adds no words');
   assert.deepEqual(at(7400).story.map(s => s.text), [...ROLE_REVEAL_COPY.Doctor.story]);
-  assert.deepEqual(at(7400).story.map(s => s.tone), ['past', 'past', 'present']);
-  const { story, play, role } = at(9000);
-  assert.deepEqual(story.map(s => s.opacity), [0, 0, 0]);
-  assert.deepEqual([play.text, play.opacity], [ROLE_REVEAL_COPY.Doctor.play, 1]);
-  assert.deepEqual([role.text, role.visible], ['Your role: Doctor.', true]);
-  assert.equal(at(2400).role.visible, false, 'the role is named on the card in the picture, and in page text at the title');
-  assert.deepEqual(doctor(5000, { variant: 'reduced' }).words.story.map(s => s.opacity), [1, 1, 1], 'reduced motion: the page still carries all three');
+  assert.deepEqual(at(7400).story.map(s => s.lines), ROLE_REVEAL_COPY.Doctor.story.map(captionLines), 'the stage sets the letterer\'s lines');
+  assert.deepEqual(at(7400).story.map(s => s.tone), ['past', 'past']);
+  const { story, role } = at(9000);
+  assert.deepEqual(story.map(s => s.opacity), [0, 0]);
+  assert.equal(at(9000).play, undefined, 'no line under the title');
+  assert.deepEqual([role.text, role.visible], ['Your role: Doctor.', true], 'the role is announced, not shown');
+  assert.equal(at(2400).role.visible, false);
+  assert.deepEqual(doctor(5000, { variant: 'reduced' }).words.story.map(s => s.opacity), [1, 1], 'reduced motion: the page still carries both');
 });
+
 
 test('the page fits every phone: panels, the title plate and the captions inside, panels tall enough to read', () => {
   for (const [w, h] of PHONES) {
@@ -224,12 +229,22 @@ test('the page fits every phone: panels, the title plate and the captions inside
       assert.ok(p.x >= 0 && p.x + p.w <= PAGE_WIDTH && p.y >= 0 && p.y + p.h <= H, `${w}x${h}: a panel inside the page`);
       assert.ok(p.h >= 360, `${w}x${h}: a panel ${p.h.toFixed(0)} units tall`);
     }
-    for (const c of [...Object.values(L.captions), ...L.story]) assert.ok(c.x >= 0 && c.x + c.w <= PAGE_WIDTH && c.y >= 0 && c.y + c.h <= H, `${w}x${h}: a caption inside the page`);
-    L.story.forEach((box, i) => {
-      const p = L.panels[i];
-      assert.ok(box.y < p.y && box.y + box.h > p.y, `${w}x${h}: narration ${i + 1} rides its panel's top edge`);
-      if (i > 0) assert.ok(box.y >= L.panels[i - 1].y + L.panels[i - 1].h, `${w}x${h}: narration ${i + 1} clear of the panel above`);
-    });
+    const k = w / PAGE_WIDTH;
+    for (const role of CURRENT_ROLES) {
+      L.story.forEach((slot, i) => {
+        const box = narrationBox(L, slot, ROLE_REVEAL_COPY[role].story[i], k), p = L.panels[slot.panel];
+        assert.ok(box.x >= 0 && box.x + box.w <= PAGE_WIDTH && box.y >= 0 && box.y + box.h <= H, `${w}x${h}: ${role}'s narration ${i + 1} inside the page`);
+        // Its words fit inside its padding even with the camera pulled all the way back (zoom 1),
+        // at the 13 px floor: no line wraps, none spills.
+        assert.equal(captionFont(k), 13, `${w}x${h}: 13 px lettering`);
+        const widest = Math.max(...box.lines.map(l => captionWidth(l, k)));
+        assert.ok(widest + 2 * Math.round(CAPTION_PAD[1] * k) <= box.w * k, `${w}x${h}: ${role}'s narration ${i + 1} wide enough (${widest.toFixed(0)} px of words)`);
+        assert.ok(box.lines.length * 13 * 1.2 + 2 * Math.round(CAPTION_PAD[0] * k) <= box.h * k, `${w}x${h}: ${role}'s narration ${i + 1} tall enough for ${box.lines.length} lines`);
+        assert.ok(box.w * k <= 0.72 * w, `${w}x${h}: ${role}'s narration ${i + 1} leaves the panel its picture`);
+        assert.ok(box.y < p.y && box.y + box.h > p.y, `${w}x${h}: narration ${i + 1} rides its panel's top edge`);
+        if (slot.panel > 0) assert.ok(box.y >= L.panels[slot.panel - 1].y + L.panels[slot.panel - 1].h, `${w}x${h}: narration ${i + 1} clear of the panel above`);
+      });
+    }
     // The briefing room: the viewport, the desk, the card, the character and the gadget, inside the page.
     const B = briefingLayout(PAGE_WIDTH, H);
     const inside = ([x, y], what) => assert.ok(x >= 0 && x <= PAGE_WIDTH && y >= 0 && y <= H, `${w}x${h}: ${what} at ${x.toFixed(0)}, ${y.toFixed(0)}`);
@@ -346,7 +361,8 @@ test('the motion comic: the memory flash, the guided view and the panels\' focus
   }
   // The page text rides the camera: a narration box is where its panel is drawn.
   const at5300 = doctor(5300).words.story[1].box, v = view(5300);
-  assert.deepEqual(at5300.map(n => Math.round(n)), v.box([L.story[1].x, L.story[1].y, L.story[1].w, L.story[1].h]).map(n => Math.round(n)));
+  const box = narrationBox(L, L.story[1], ROLE_REVEAL_COPY.Doctor.story[1]);
+  assert.deepEqual(at5300.map(n => Math.round(n)), v.box([box.x, box.y, box.w, box.h]).map(n => Math.round(n)));
   // Focus: an earlier panel steps back while a later one plays, and all come back for the page.
   assert.ok(full(5300).focus[0] < 0.7 && full(5300).focus[1] === 1);
   assert.deepEqual(full(7800).focus, [1, 1, 1]);

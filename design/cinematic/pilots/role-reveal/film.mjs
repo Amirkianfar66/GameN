@@ -10,10 +10,11 @@
 //   opener   0-3000     the briefing room at the dock, before boarding (./briefing.mjs): the player's
 //                       own character takes the role's gadget from the desk where their role card
 //                       stands and raises it into the light (the owner's review of the pilot)
-//   panels   3000-7800  a comic tier of three panels slams in at 3000, 4500 and 6000, each with its
-//                       narration box: a small back story, as a comic book gives its characters one
-//                       (the owner's review): two panels look back at who the role-holder was (in
-//                       the sepia of memory), and the third brings them aboard, to what the role does
+//   panels   3000-7800  a comic tier of three panels slams in at 3000, 4500 and 6000: a small back
+//                       story, as a comic book gives its characters one (the owner's review). Two
+//                       panels look back at who the role-holder was (in the sepia of memory), each with
+//                       a few words of narration; the third brings them aboard, to what the role does,
+//                       in pictures only (the owner: fewer words, "it is like tutorial")
 //   title    7800-9300  the page darkens around a paper plate; the role's name stamps on it
 //   hold     9300-10000 everything settles; the page then gives way to the role card
 //
@@ -23,7 +24,7 @@
 
 import { beat, bell, clamp01, easeInOutCubic, easeOutBack, easeOutCubic } from '../../lib/ease.mjs';
 
-export const ROLE_REVEAL_VERSION = 'cinematic-role-reveal-0.5.0';
+export const ROLE_REVEAL_VERSION = 'cinematic-role-reveal-0.6.0';
 export const VARIANTS = Object.freeze(['full', 'reduced']);
 
 /** Every film's length, ms: the same for every role and both variants. */
@@ -61,10 +62,12 @@ export const STILLS = Object.freeze([
   Object.freeze({ at: BEATS.title[0], still: 'title' }),
 ]);
 
-/** The page text's times: each panel's narration box from just after it lands, and how the role plays under the title. */
+/** The panels with a narration box: the two of memory. The panel aboard and the title carry no words. */
+export const NARRATED = Object.freeze(PANEL_TONES.flatMap((tone, i) => (tone === 'past' ? [i] : [])));
+
+/** The page text's times: each narrated panel's box from just after it lands until the title. */
 export const CAPTION_TIMES = Object.freeze({
-  story: Object.freeze(PANEL_STARTS.map(start => Object.freeze([start + 250, BEATS.title[0]]))),
-  play: Object.freeze([BEATS.title[0] + 400, REVEAL_END]),
+  story: Object.freeze(NARRATED.map(i => Object.freeze([PANEL_STARTS[i] + 250, BEATS.title[0]]))),
 });
 
 const fadeIn = (t, [from, to], ms = 200) => (t < from || t >= to ? 0 : clamp01((t - from) / ms));
@@ -126,7 +129,7 @@ export const FLASH = Object.freeze([2650, 2950, 3300]);
  *   camera   { from, to, v }: the guided view, panel indexes or -1 for the whole page
  *   focus    three 0.65..1: each panel's light (an earlier panel steps back while a later one plays)
  *   title    { visible, stamp 0..1 (the slam), settle 0..1, sweep 0..1 (the sheen, full only) }
- *   captions { story: three 0..1 (each panel's narration box), play } (opacity of each page-text line)
+ *   captions { story: two 0..1 } (the opacity of each memory panel's narration box)
  *   still    reduced motion only: 'opener' | 'page' | 'title', and fade 0..1 (the cross-fade in)
  */
 export function revealFrame(t, { variant = 'full' } = {}) {
@@ -166,7 +169,6 @@ export function revealFrame(t, { variant = 'full' } = {}) {
     },
     captions: {
       story: CAPTION_TIMES.story.map(times => (reduced ? (pageOn && !titleOn ? 1 : 0) : fadeIn(time, times))),
-      play: reduced ? (time >= BEATS.title[0] ? 1 : 0) : fadeIn(time, CAPTION_TIMES.play),
     },
   };
   if (reduced) Object.assign(frame, { still: still.still, fade: clamp01((time - still.at) / FADE_MS) });

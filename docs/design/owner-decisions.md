@@ -6,6 +6,26 @@ What the game owner decided about look, feel and presentation while working with
 
 The owner's messages are quoted as written.
 
+## 6 November 2026: fewer words
+
+**The owner found the film's text too much, like a tutorial, and asked for less of it.**
+
+The owner wrote:
+
+> Lets reduce texts in animation it is like tutorial
+
+| # | What it says | What it decides |
+| --- | --- | --- |
+| 1 | "reduce texts in animation" | Only the two memory panels keep a narration box, of a few words each (for the Doctor, "Colony Nine. The fever years." and "Two doses left."). The panel aboard and the title carry no line |
+| 2 | "it is like tutorial" | The film names no role and spells out no rule in words. The pictures show what the role does, and the rules stay on the role card |
+
+### What the Designer did with it
+
+- **The narration.** Every role's narration is cut to two short lines (`design/cinematic/pilots/role-reveal/copy.mjs`), and the storyboards match.
+- **The lettering.** Each box is lettered as a comic's caption, a sentence to a line ("COLONY NINE." over "THE FEVER YEARS."), and fitted to its words on every phone, so no line wraps by accident.
+- **Tests.** A test holds every line to a few words, naming no role, and holds the panel aboard and the title wordless.
+- **Unchanged.** The role is still announced in page text for screen readers at the title. The sound words (DRIP, BEEP) stay, as comic sound effects.
+
 ## 6 November 2026: an animated comic's finish
 
 **The owner liked the back story and asked for better quality, like an animated comic book.**

@@ -166,7 +166,7 @@ What the catalogue (docs/design/cinematic/motion-bible.md) still needs, by scene
 
 | Scene | Status | Missing |
 | --- | --- | --- |
-| Role reveal and private card | existing (slice 8) + library group 8 (current names, the Engineer's device) + the role films (the owner, 6 November 2026, with the briefing-room opener, the noir relighting, the comic back story and the animated-comic finish from the owner's reviews of the pilot): the Doctor's pilot, the other eight storyboarded | The role films of the other eight roles are storyboards until the owner reviews the Doctor's pilot on a phone. |
+| Role reveal and private card | existing (slice 8) + library group 8 (current names, the Engineer's device) + the role films (the owner, 6 November 2026, with the briefing-room opener, the noir relighting, the comic back story, the animated-comic finish and fewer words from the owner's reviews of the pilot): the Doctor's pilot, the other eight storyboarded | The role films of the other eight roles are storyboards until the owner reviews the Doctor's pilot on a phone. |
 | Core board and movement | existing (board-motion walk, board-v2 slots) | origin slot for walks after reconnect (request R4) |
 | Doctor Rescue | PILOT 1 (cinematic pass over the approved S5): the board treatment on phones and the display; the display cut only where nobody decides | live-action insert: study only (NOT PRODUCED) |
 | Hack Spaceship | library group 1 (proposal) | no public or office cue for the hack beyond the direction itself: none is authorized |

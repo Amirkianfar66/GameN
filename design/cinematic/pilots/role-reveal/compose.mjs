@@ -13,7 +13,7 @@ import { clamp01, easeOutCubic, lerp } from '../../lib/ease.mjs';
 import { GRIP, NIGHT, captionBoxSvg, flashSvg, grainSvg, panelSvg, revealDefs, slatsSvg, titlePlateSvg } from './art.mjs';
 import { briefingSvg, glintOnPage } from './briefing.mjs';
 import { ROLE_REVEAL_COPY, roleLine } from './copy.mjs';
-import { CAMERA, PANEL_TONES, revealFrame } from './film.mjs';
+import { CAMERA, NARRATED, PANEL_TONES, revealFrame } from './film.mjs';
 import { PORTRAIT_FILES, ROLE_FILMS } from './roles.mjs';
 
 export const PAGE_WIDTH = 900;
@@ -27,15 +27,53 @@ export function layout(H) {
   const top = 70, bottom = 92, gutter = 44;
   const ph = (H - top - bottom - 2 * gutter) / 3;
   const panels = [0, 1, 2].map(i => ({ x: 36, y: top + i * (ph + gutter), w: 828, h: ph, tilt: [-1.1, 0.7, -0.5][i], side: i % 2 ? 1 : -1 }));
-  // Each panel's narration box rides its top edge, as a comic's caption does, on alternating sides.
-  const story = panels.map((p, i) => ({ x: i === 1 ? p.x + p.w - 566 : p.x - 14, y: p.y - 30, w: 580, h: 128 }));
+  // A memory panel's narration box rides its top edge, as a comic's caption does, on alternating
+  // sides, fitted to its lines (narrationBox()).
+  const story = NARRATED.map(i => ({ panel: i, side: i % 2 ? 'right' : 'left', y: panels[i].y - 30, h: 104 }));
   const titleCy = H * 0.44;
-  return {
-    panels,
-    story,
-    title: { cx: PAGE_WIDTH / 2, cy: titleCy, w: 720 },
-    captions: { play: { x: 60, y: titleCy + 210, w: 780, h: 170 } },
-  };
+  return { panels, story, title: { cx: PAGE_WIDTH / 2, cy: titleCy, w: 720 } };
+}
+
+/** The narration's lettering on a phone of cssPx CSS px a unit: 13 px capitals at least, tracked 0.04 em, lines 1.2 apart. */
+export const captionFont = cssPx => Math.max(13, Math.round(21 * cssPx));
+/** The stage's padding inside a narration box, in units: [top and bottom, each side]. */
+export const CAPTION_PAD = Object.freeze([16, 36]);
+/** The most characters a narration line holds. */
+export const CAPTION_LINE = 17;
+
+/**
+ * A narration's lines, as a letterer breaks them: a sentence to a line ("Colony Nine." over "The
+ * fever years."), and a sentence too long for one line split at its most even word gap.
+ */
+export function captionLines(text) {
+  return text.split(/(?<=[.!?])\s+/).flatMap(sentence => {
+    if (sentence.length <= CAPTION_LINE) return [sentence];
+    const words = sentence.split(' ');
+    let best = [sentence];
+    for (let i = 1; i < words.length; i += 1) {
+      const pair = [words.slice(0, i).join(' '), words.slice(i).join(' ')];
+      if (best.length === 1 || Math.max(...pair.map(l => l.length)) <= Math.max(...best.map(l => l.length))) best = pair;
+    }
+    return best;
+  });
+}
+
+// A capital's width in em, near enough (a little over) for Arial, Helvetica and Roboto bold.
+const em = ch => (/[\s.,'!:;I]/.test(ch) ? 0.3 : /[MW]/.test(ch) ? 0.92 : 0.72);
+/** A narration line's width in CSS px, in capitals at captionFont(cssPx), tracked 0.04 em. */
+export const captionWidth = (line, cssPx) => captionFont(cssPx) * [...line.toUpperCase()].reduce((sum, ch) => sum + em(ch) + 0.04, 0);
+
+/**
+ * A narration box fitted to its lines (captionLines()) on a phone of cssPx CSS px a unit, on its side
+ * of its panel's top edge. Fitted with the camera pulled all the way back (zoom 1), so the words never
+ * outgrow it, and set without wrapping: a line is the letterer's, not the browser's.
+ */
+export function narrationBox(L, slot, text, cssPx = 390 / PAGE_WIDTH) {
+  const p = L.panels[slot.panel];
+  const lines = captionLines(text);
+  const w = Math.min(600, 2 * CAPTION_PAD[1] + (Math.max(...lines.map(line => captionWidth(line, cssPx))) + 10) / cssPx);
+  const h = slot.h + ((lines.length - 1) * captionFont(cssPx) * 1.2) / cssPx;
+  return { x: slot.side === 'right' ? p.x + p.w - w + 14 : p.x - 14, y: slot.y, w, h, lines };
 }
 
 /**
@@ -57,14 +95,15 @@ export function cameraView(cam, L, height) {
 }
 
 /**
- * The frame at t: { svg, frame, words }. words: story (the three panels' narration boxes, each { box,
- * text, opacity, tone: past | present }) and play ({ box, text, opacity }), in page units; role
- * { text, visible }. role: a current role; seat: the player's own number (the Doctor's
+ * The frame at t: { svg, frame, words }. words: story (the memory panels' narration boxes, each { box,
+ * text, lines, opacity, tone }, in page units, riding the camera) and role { text, visible } (announced, not
+ * shown). role: a current role; seat: the player's own number (the Doctor's
  * keypad); character: the player's own crew character (c1..c9), the only figure drawn in colour;
  * gadget: the role's device alone (art.mjs deviceOnly() of its held picture, which the caller has
- * read: this module reads no file); width x height: the page in units (900 x pageHeight()).
+ * read: this module reads no file); width x height: the page in units (900 x pageHeight()); cssPx:
+ * the phone's CSS px a unit (its width / 900), which the narration boxes are fitted for.
  */
-export function revealSvg(t, { role = 'Doctor', variant = 'full', seat = 6, character, gadget, width = PAGE_WIDTH, height = 1600, prefix = 'rr' } = {}) {
+export function revealSvg(t, { role = 'Doctor', variant = 'full', seat = 6, character, gadget, width = PAGE_WIDTH, height = 1600, cssPx = 390 / PAGE_WIDTH, prefix = 'rr' } = {}) {
   const film = ROLE_FILMS[role];
   if (!film) throw new Error(`No role ${role}`);
   if (!film.panels) throw new Error(`The ${role}'s film is a storyboard only so far (docs/design/cinematic/role-reveal.md)`);
@@ -77,7 +116,11 @@ export function revealSvg(t, { role = 'Doctor', variant = 'full', seat = 6, char
   const clock = variant === 'reduced' ? 0 : frame.t;
   const view = cameraView(frame.camera, L, height);
   // Each narration box drops into place as it fades in, as a comic's caption is set down.
-  const storyBoxes = L.story.map((box, i) => ({ ...box, y: box.y - 22 * (1 - easeOutCubic(frame.captions.story[i])) }));
+  const copy = ROLE_REVEAL_COPY[role];
+  const storyBoxes = L.story.map((slot, i) => {
+    const box = narrationBox(L, slot, copy.story[i], cssPx);
+    return { ...box, y: box.y - 22 * (1 - easeOutCubic(frame.captions.story[i])) };
+  });
   // The page under the guided view: the night, the briefing room (it stays, dimmed, under the
   // panels), the panels and their narration boxes.
   let page = slatsSvg(prefix, { width, height, v: 1, dim: 1, t: clock })
@@ -88,7 +131,7 @@ export function revealSvg(t, { role = 'Doctor', variant = 'full', seat = 6, char
     const content = film.panels[i](p.local, { w: box.w, h: box.h, prefix: `${prefix}-p${i}`, seat, character, reduced: variant === 'reduced' });
     page += panelSvg(prefix, { i, ...box, enter: p.enter, slam: p.slam ?? 1, content, tone: PANEL_TONES[i], focus: frame.focus[i], reduced: variant === 'reduced' });
   });
-  storyBoxes.forEach((box, i) => { page += captionBoxSvg({ ...box, opacity: frame.captions.story[i], tone: PANEL_TONES[i] }); });
+  storyBoxes.forEach((box, i) => { page += captionBoxSvg({ ...box, opacity: frame.captions.story[i], tone: PANEL_TONES[NARRATED[i]] }); });
   let body = revealDefs(prefix) + `<g transform="${view.transform}">${page}</g>`;
   // The memory flash out of the gadget's glint, over everything (full motion only).
   if (frame.flash > 0) {
@@ -98,18 +141,15 @@ export function revealSvg(t, { role = 'Doctor', variant = 'full', seat = 6, char
   if (frame.dim > 0) body += `<rect width="${width}" height="${f(height)}" fill="${NIGHT.deep}" opacity="${f(0.8 * frame.dim)}"/>`;
   const plate = titlePlateSvg(prefix, { name: role.toUpperCase(), emblemHref: film.emblem, cx: L.title.cx, cy: L.title.cy, width: L.title.w, stamp: frame.title.stamp, settle: frame.title.settle, sweep: frame.title.sweep });
   body += plate.svg;
-  body += captionBoxSvg({ ...L.captions.play, opacity: frame.captions.play });
   // The paper it is printed on.
   body += grainSvg(prefix, { width, height });
   // Reduced motion: each still fades in from the night over 80 ms.
   if (variant === 'reduced' && frame.fade < 1) body += `<rect width="${width}" height="${f(height)}" fill="${NIGHT.deep}" opacity="${f(1 - frame.fade)}"/>`;
-  const copy = ROLE_REVEAL_COPY[role];
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${f(height)}" width="${width}" height="${f(height)}">${body}</svg>`;
   return {
     svg, frame,
     words: {
-      story: storyBoxes.map((box, i) => ({ box: view.box([box.x, box.y, box.w, box.h]), text: copy.story[i], opacity: frame.captions.story[i], tone: PANEL_TONES[i] })),
-      play: { box: [L.captions.play.x, L.captions.play.y, L.captions.play.w, L.captions.play.h], text: copy.play, opacity: frame.captions.play },
+      story: storyBoxes.map((box, i) => ({ box: view.box([box.x, box.y, box.w, box.h]), text: copy.story[i], lines: box.lines, opacity: frame.captions.story[i], tone: PANEL_TONES[NARRATED[i]] })),
       role: { text: roleLine(role), visible: frame.title.visible },
     },
   };
