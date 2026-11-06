@@ -8,8 +8,9 @@
 //   arrive   an offer to this seat first appears: the envelope drops in, opens, the card rises out
 //   accept   the Promise is first seen accepted: the Pending seal presses onto the card
 //   decline  first seen declined or not answered: the card dims and tips back, its stamp lands
-//   result   first seen with a result (R6: at the evaluation, after Sync): the Pending seal turns
-//            over to the result's seal and its stamp lands
+//   result   first seen with a result (R6: when the Promise's own opportunity closes, which differs
+//            by kind; states.mjs opportunity()): the Pending seal turns over to the result's seal and
+//            its stamp lands
 // No sound and no vibration: a Promise is pair-private, and a sound would tell the table that one
 // was offered, accepted or decided. Reduced: fades only, 160 ms.
 

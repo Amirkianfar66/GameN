@@ -31,8 +31,11 @@ export function findBrowser() {
 /**
  * `defaultFontPx` starts the browser with that default text size, which is what a person
  * changes in the browser's own settings: rem units and em media queries both answer to it.
+ * `syncImages` decodes every picture before its tile is drawn (no checker-imaging), so a frame
+ * captured right after a redraw never shows a large picture missing while it decodes: the
+ * cinematic renderer's scene pictures, redrawn at a new camera scale.
  */
-export async function launchBrowser({ defaultFontPx = null } = {}) {
+export async function launchBrowser({ defaultFontPx = null, syncImages = false } = {}) {
   const executable = findBrowser();
   if (!executable) throw new Error('No Chromium-based browser found. Set CHROME_PATH to render review images.');
   const profile = await mkdtemp(join(tmpdir(), 'mothership-design-render-'));
@@ -43,6 +46,7 @@ export async function launchBrowser({ defaultFontPx = null } = {}) {
     // close to identical. A few anti-aliased pixels of a scaled picture can still differ.
     '--font-render-hinting=none', '--force-color-profile=srgb',
     ...(defaultFontPx ? [`--blink-settings=defaultFontSize=${defaultFontPx},defaultFixedFontSize=${Math.round(defaultFontPx * 0.8125)}`] : []),
+    ...(syncImages ? ['--disable-checker-imaging'] : []),
     'about:blank',
   ], { stdio: ['ignore', 'ignore', 'pipe'] });
   const endpoint = await new Promise((resolve, reject) => {

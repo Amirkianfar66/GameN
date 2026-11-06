@@ -2,7 +2,10 @@
 
 **NOT PRODUCED.** Pre-production only: no footage exists. Comic counterparts, delivered and working:
 `design/cinematic/exports/blackhole/runtime/space-insert-titled.mp4` and `space-insert-textless.mp4`
-(identity-free) and the display cut `review/display-full.mp4`.
+(identity-free) and the stage cut `review/display-stage.mp4` (a proposal for a presentation stage the owner
+has not approved, R1; the default plays behind the crew on the board, `review/display-full.mp4`).
+Like the stage cut, a live-action plate would cover the board, so it could play only in such a
+stage, never over the Jail vote.
 
 ## Treatment
 
@@ -13,7 +16,7 @@ toward the lens. It plays only after the authorized Sync (BLACKHOLE_SYNCED), say
 which reality was chosen, how many existed or who acted, and is the same at every Sync. The title is
 never baked in: the textless plate takes the runtime's vector title (the comic `titleSvg()`).
 
-## Shot list (on the comic film's beats, display cut)
+## Shot list (on the comic film's beats, stage cut)
 
 | # | Time in cut | Shot | Lens / move | Action | Comic frame |
 | --- | --- | --- | --- | --- | --- |

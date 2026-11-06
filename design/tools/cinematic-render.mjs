@@ -15,6 +15,12 @@
 // small), <name>.poster.png and .poster.webp, <name>-<t>.png stills, and <name>.render.json (what
 // was rendered, from which stage address, with which browser and encoder). Needs CHROME_PATH (or a
 // found Chromium) and ffmpeg on PATH. Writes nothing outside --out.
+//
+// Every frame is settled before it is kept: pictures are decoded before their tiles are drawn
+// (launchBrowser's syncImages), and a frame is captured again, a redraw later, until two captures
+// agree. A frame caught while a large scene picture was still being redrawn at a new camera scale
+// once reached an export with its background missing for one frame; the record now counts the
+// frames that needed a second look (frames.resettled) and any that never settled.
 
 import { spawn, execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
@@ -51,7 +57,7 @@ async function main() {
   const outDir = resolve(repoRoot, opt.out);
   await mkdir(outDir, { recursive: true });
   const server = await startStaticServer();
-  const handle = await launchBrowser();
+  const handle = await launchBrowser({ syncImages: true });
   const browser = await connect(handle.endpoint);
   const written = [];
   try {
@@ -72,10 +78,21 @@ async function main() {
     await probe.close();
     const page = await openPage(browser, { width, height, scale: opt.scale });
     await page.goto(url, 'window.__cine && (window.__cine.ready === true || window.__cine.error)');
+    const capture = async () => Buffer.from((await page.send('Page.captureScreenshot', { format: 'png', clip: { x: 0, y: 0, width, height, scale: 1 } })).data, 'base64');
+    const redraw = () => page.evaluate('new Promise(done => requestAnimationFrame(() => requestAnimationFrame(() => done(true))))');
+    const settling = { resettled: 0, unsettled: [] };
+    // A frame is kept once two captures a redraw apart agree (at most eight looks).
     const shot = async t => {
       await page.evaluate(`window.__cine.seek(${t}).then(() => true)`);
-      const { data } = await page.send('Page.captureScreenshot', { format: 'png', clip: { x: 0, y: 0, width, height, scale: 1 } });
-      return Buffer.from(data, 'base64');
+      let previous = await capture();
+      for (let look = 1; look < 8; look += 1) {
+        await redraw();
+        const next = await capture();
+        if (next.equals(previous)) { if (look > 1) settling.resettled += 1; return next; }
+        previous = next;
+      }
+      settling.unsettled.push(Math.round(t));
+      return previous;
     };
     // Warm the pictures once (the first decode of a scene picture can land a frame late).
     await shot(0); await shot(0);
@@ -125,6 +142,8 @@ async function main() {
         record.outputs.push({ kind, file: relative(repoRoot, file), sha256: sha256(bytes), bytes: bytes.length, ...(kind === 'poster' ? { t: posterT } : {}), ...(kind === 'video' ? { fps: opt.fps, frames: count, durationMs: to - from, from, to, audio: audio ? relative(repoRoot, audio) : null } : {}) });
       }
     }
+    record.settling = { rule: 'a frame is kept once two captures a redraw apart agree; pictures decode before their tiles draw', resettled: settling.resettled, unsettled: settling.unsettled };
+    if (settling.unsettled.length) console.warn(`${opt.name}: ${settling.unsettled.length} frames never settled: ${settling.unsettled.join(', ')} ms`);
     await writeFile(join(outDir, `${opt.name}.render.json`), `${JSON.stringify(record, null, 2)}\n`);
     console.log(`${opt.name}: ${record.outputs.length} outputs in ${relative(repoRoot, outDir)}`);
     await page.close();

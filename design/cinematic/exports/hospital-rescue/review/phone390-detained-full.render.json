@@ -1,0 +1,54 @@
+{
+  "tool": "design/tools/cinematic-render.mjs",
+  "pilot": "hospital-rescue",
+  "version": "cinematic-hospital-rescue-0.1.0",
+  "surface": "phone",
+  "variant": "full",
+  "stage": "design/cinematic/stage.html?pilot=hospital-rescue&surface=phone&variant=full&beds=4&w=390&h=844&case=detained",
+  "size": [
+    390,
+    844
+  ],
+  "deviceScale": 1.5,
+  "fixture": {
+    "subject": 8,
+    "berth": "H2",
+    "fit": 0.878,
+    "inset": "band",
+    "leaves": true
+  },
+  "browser": "Chromium 141.0.7390.37",
+  "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+  "outputs": [
+    {
+      "kind": "video",
+      "file": "design/cinematic/exports/hospital-rescue/review/phone390-detained-full.mp4",
+      "sha256": "2d49e6d53dd818b9fe0d25282532100848dce6ce518b42cf787faeb46a1487f9",
+      "bytes": 338983,
+      "fps": 30,
+      "frames": 187,
+      "durationMs": 6200,
+      "from": 0,
+      "to": 6200,
+      "audio": "design/cinematic/exports/hospital-rescue/audio/hospital-rescue-full.cues.wav"
+    },
+    {
+      "kind": "preview",
+      "file": "design/cinematic/exports/hospital-rescue/review/phone390-detained-full.preview.webp",
+      "sha256": "97df71b2f7e3afedc3f6d8574c8c5c99713e6418e8ccdc057c2460d066d4c426",
+      "bytes": 96120
+    },
+    {
+      "kind": "poster",
+      "file": "design/cinematic/exports/hospital-rescue/review/phone390-detained-full.poster.webp",
+      "sha256": "3c0f5fcb68b640e8075231f4e0519e696d3ea98f4faea387e28d04a15846e156",
+      "bytes": 107174,
+      "t": 5500
+    }
+  ],
+  "settling": {
+    "rule": "a frame is kept once two captures a redraw apart agree; pictures decode before their tiles draw",
+    "resettled": 0,
+    "unsettled": []
+  }
+}

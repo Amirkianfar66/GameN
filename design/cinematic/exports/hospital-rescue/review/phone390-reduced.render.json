@@ -14,7 +14,8 @@
     "subject": 2,
     "berth": "H1",
     "fit": 1,
-    "inset": "above"
+    "inset": "above",
+    "leaves": true
   },
   "browser": "Chromium 141.0.7390.37",
   "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
@@ -22,8 +23,8 @@
     {
       "kind": "video",
       "file": "design/cinematic/exports/hospital-rescue/review/phone390-reduced.mp4",
-      "sha256": "9e5ce4a15fcf6d77503c6829733abf4ee940d881d02ec4d9869341d506eaf12a",
-      "bytes": 151158,
+      "sha256": "40eecad659d3cfd6d24ae3e2be7507a4789548d9aafac8f3f7356066c7f62edd",
+      "bytes": 152493,
       "fps": 30,
       "frames": 54,
       "durationMs": 1760,
@@ -34,8 +35,8 @@
     {
       "kind": "preview",
       "file": "design/cinematic/exports/hospital-rescue/review/phone390-reduced.preview.webp",
-      "sha256": "721884560b0f6bc93a20dab4c0827b9b993be73973377bcfcb08a4fdc2137d68",
-      "bytes": 25928
+      "sha256": "50198d53a62a029b4f0d88d5d604f90d8ab401cc72f5be724f8f8675770c4a65",
+      "bytes": 26378
     },
     {
       "kind": "poster",
@@ -44,5 +45,10 @@
       "bytes": 110246,
       "t": 1200
     }
-  ]
+  ],
+  "settling": {
+    "rule": "a frame is kept once two captures a redraw apart agree; pictures decode before their tiles draw",
+    "resettled": 0,
+    "unsettled": []
+  }
 }

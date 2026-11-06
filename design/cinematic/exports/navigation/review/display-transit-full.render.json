@@ -19,8 +19,8 @@
     {
       "kind": "video",
       "file": "design/cinematic/exports/navigation/review/display-transit-full.mp4",
-      "sha256": "278e734de0fb221bdda27a12a4df0fa700d164da12e994fa66968f2ef2861367",
-      "bytes": 301437,
+      "sha256": "2d6fb6fd58ab371dc17bf538f4ec99b9480b92e34052b2e79c700ce7c8535d5c",
+      "bytes": 584858,
       "fps": 30,
       "frames": 73,
       "durationMs": 2400,
@@ -31,15 +31,20 @@
     {
       "kind": "preview",
       "file": "design/cinematic/exports/navigation/review/display-transit-full.preview.webp",
-      "sha256": "d480839c6c92c567a17bb75fcc13c43b5c84038ecf707779be37565c139594de",
-      "bytes": 64070
+      "sha256": "1f585eb91d93f88f3f124c1b9a94ecb2a8b21d704303da510428678b09663090",
+      "bytes": 189904
     },
     {
       "kind": "poster",
       "file": "design/cinematic/exports/navigation/review/display-transit-full.poster.webp",
-      "sha256": "de0b2718a04b4f4fb544c86f24fb7469c79e0b00771b0f59ca35e3832bcd0a03",
-      "bytes": 75594,
+      "sha256": "a4442d227b51d177bd2531031d0cb3cce4b9770e54600204b22e27b685383bc0",
+      "bytes": 57682,
       "t": 1200
     }
-  ]
+  ],
+  "settling": {
+    "rule": "a frame is kept once two captures a redraw apart agree; pictures decode before their tiles draw",
+    "resettled": 0,
+    "unsettled": []
+  }
 }

@@ -205,8 +205,8 @@
     },
     {
       "file": "design/library/navigation/review/w390-public-transit-900-ms-into-the-movement-s-film.png",
-      "sha256": "959fbed5a2268308b0e6a079c0cda3f9d1e8f46bcbe84a533f3a128edbbcef39",
-      "bytes": 54645,
+      "sha256": "478d502b7199c521031d12301a7c5805b1bddefe3ec7e2ca2f35d4080cd1968f",
+      "bytes": 63413,
       "state": "public: transit (900 ms into the movement's film)",
       "width": 390,
       "text": "100%"
@@ -237,8 +237,8 @@
     },
     {
       "file": "design/library/navigation/review/contact-w390.png",
-      "sha256": "c45db5972c444cd7dbb64c768e905b4de30a35a7adb2ce4b068bdc552d838086",
-      "bytes": 2233781,
+      "sha256": "26853253dbadd15ae094aa544df5a98fef9ac941dc80fb03dcdca19e8607276c",
+      "bytes": 2245467,
       "kind": "contact",
       "width": 390,
       "text": "100%"
@@ -445,8 +445,8 @@
     },
     {
       "file": "design/library/navigation/review/w320-public-transit-900-ms-into-the-movement-s-film.png",
-      "sha256": "81411567d328d7e9988d54f4f80523740c44496e2f7852d912b0af42a3f3721c",
-      "bytes": 46222,
+      "sha256": "810bbbc8af3ef7ac12bc18b6dea452785088b18c2d8c128739daa553ca18f0d5",
+      "bytes": 53425,
       "state": "public: transit (900 ms into the movement's film)",
       "width": 320,
       "text": "100%"
@@ -477,8 +477,8 @@
     },
     {
       "file": "design/library/navigation/review/contact-w320.png",
-      "sha256": "3075168b535c3d644cf4c2e8bc287f69252915f31626b2c3bb0489492fa2a8de",
-      "bytes": 1845153,
+      "sha256": "560f2c040c77d8942e42fb0f96b8c91ba119422eb9f63435a73dcbe52433e350",
+      "bytes": 1853462,
       "kind": "contact",
       "width": 320,
       "text": "100%"
@@ -712,8 +712,8 @@
     },
     {
       "file": "design/library/navigation/review/w390-text200-public-transit-900-ms-into-the-movement-s-film.png",
-      "sha256": "a17ac8dcd53e460310ab45595c5e2c126cdf15afbc5e6e33f3427c81f94c36fc",
-      "bytes": 58513,
+      "sha256": "880dba7daf173b29803411c85e2d74f73fdfb8f89c32a93ccd909e0b822130d4",
+      "bytes": 67344,
       "state": "public: transit (900 ms into the movement's film)",
       "width": 390,
       "text": "200%"
@@ -744,8 +744,8 @@
     },
     {
       "file": "design/library/navigation/review/contact-w390-text200-public.png",
-      "sha256": "8176fa7fad4a3065395e70cd81181d428dd59fc881177476b13d330c39cd9664",
-      "bytes": 588245,
+      "sha256": "77b2251ff055a9fb11873692e4e33641ec564d88207788edbb0f7c4f46adf89d",
+      "bytes": 597991,
       "kind": "contact",
       "width": 390,
       "text": "200%",
@@ -1001,32 +1001,32 @@
     },
     {
       "file": "design/library/navigation/review/motion-transit-0360.png",
-      "sha256": "145d8b174d6d51960e3a7cec15ea49cd3d3025b052824c09e08cc413d7f3a50d",
-      "bytes": 35660,
+      "sha256": "63889a64b9cdb4cc447244c962570a8085ba87042f537164b031c7db660c4295",
+      "bytes": 49248,
       "motion": "transit",
       "reduced": false,
       "t": 360
     },
     {
       "file": "design/library/navigation/review/motion-transit-0720.png",
-      "sha256": "86010b6d81aff4b464884dfbee1047605ae78f98e349e37027d3523753485bb1",
-      "bytes": 38816,
+      "sha256": "cc73de0e63910a2e68062ad2dc00559f468f74fe63e8772cc4a8801e045d297d",
+      "bytes": 48144,
       "motion": "transit",
       "reduced": false,
       "t": 720
     },
     {
       "file": "design/library/navigation/review/motion-transit-1080.png",
-      "sha256": "38f22db50476d2bfad39a904882dee225d59c958f1dae843863bd4643f241433",
-      "bytes": 39063,
+      "sha256": "82a855dd41b5d37d6ae58e5552f4797451af05e540d97ca1a59766fca845eed4",
+      "bytes": 48552,
       "motion": "transit",
       "reduced": false,
       "t": 1080
     },
     {
       "file": "design/library/navigation/review/motion-transit-1440.png",
-      "sha256": "1ea53f820bacb0fc3594c13ed5d7774988b6a6d603e719d612dbb65358a3a6fd",
-      "bytes": 36927,
+      "sha256": "56b9ea502c08bfb45d3083c62bc15fb38231f630d654fdafeab2d75cff69f41b",
+      "bytes": 48669,
       "motion": "transit",
       "reduced": false,
       "t": 1440
@@ -1385,32 +1385,32 @@
     },
     {
       "file": "design/library/navigation/review/motion-transit-reduced-0240.png",
-      "sha256": "f530122210ad4f9bc345e94e3fb033cc9b5574ad12400eed0437c6f1e6cc1fc6",
-      "bytes": 38118,
+      "sha256": "73c784b88ab88c1d56436049fc93cd4b4bdd6b809104be640e822e2e81f19ee4",
+      "bytes": 47087,
       "motion": "transit",
       "reduced": true,
       "t": 240
     },
     {
       "file": "design/library/navigation/review/motion-transit-reduced-0480.png",
-      "sha256": "a10dc3f18b8009e760ca2308afe37ceccb3c74039f7e1e8016573d510a39f88f",
-      "bytes": 38078,
+      "sha256": "d404e7f9e1424850a9c7bcd9dafdb8bf3e1515d785788d362ea4bfe1fabfdeb3",
+      "bytes": 47128,
       "motion": "transit",
       "reduced": true,
       "t": 480
     },
     {
       "file": "design/library/navigation/review/motion-transit-reduced-0720.png",
-      "sha256": "49e05ffa9fcb1b83f767ce050e36e5637e19d62ff881687d1e7260acc6546b45",
-      "bytes": 38081,
+      "sha256": "9523a2f751e498b5a4a3a69f365a9a3c16ab8ade73505a095257d474aae01317",
+      "bytes": 47008,
       "motion": "transit",
       "reduced": true,
       "t": 720
     },
     {
       "file": "design/library/navigation/review/motion-transit-reduced-0960.png",
-      "sha256": "8ef9152422c6dfe288e18eda2a2d815a157139565c7e58e30650cd43712d96a9",
-      "bytes": 38282,
+      "sha256": "8ab27ab67b3a8b101b1756fdc7483ae40c598eeb57c2492263b3ce6442d02da8",
+      "bytes": 47071,
       "motion": "transit",
       "reduced": true,
       "t": 960

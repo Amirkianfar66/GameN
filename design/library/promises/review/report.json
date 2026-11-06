@@ -269,8 +269,8 @@
     },
     {
       "file": "design/library/promises/review/contact-w390.png",
-      "sha256": "e0b131e78547984264e32304d5f2525577f6d89b7b34f8cbb608b77947cebde0",
-      "bytes": 1934520,
+      "sha256": "0809eeb5aeb86ad36847f958e17d331a9b2c21d19aff1368e334f8f6325f73c0",
+      "bytes": 1934527,
       "kind": "contact",
       "width": 390,
       "text": "100%"
@@ -541,8 +541,8 @@
     },
     {
       "file": "design/library/promises/review/contact-w320.png",
-      "sha256": "e396b158b52e0c6f2e2725daf864e2a8e35da8c71a93b7a87393e587aa365098",
-      "bytes": 1931977,
+      "sha256": "3513e5892428e8457db5e8114ea6f20008b564ff4e279ec8d816352f5b1a60a2",
+      "bytes": 1932324,
       "kind": "contact",
       "width": 320,
       "text": "100%"
