@@ -459,7 +459,7 @@ Contract: protocol 3, engine `planet-game-1.0.0`, ruleset `in-person-planet-2026
 - **Trigger:** offers OFFER_PROMISE (targetSeatIds, promiseTargetSeatIds), ACCEPT_PROMISE, DECLINE_PROMISE during private talk (phase HACK); promises[] (offerStatus, status) and the command receipts
 - **Audience:** pair-private (the giver's and the recipient's own phones only)
 - **Fields:** `offers[] OFFER_PROMISE / ACCEPT_PROMISE / DECLINE_PROMISE`, `promises[]`, `promiseQuota (not read: R13)`
-- **Start / loop / exit:** six cards in private talk; the exact terms reviewed before sending; the offer in transit; Accept and Decline of equal weight; the Pending seal on acceptance; at the evaluation after Sync, the result's seal
+- **Start / loop / exit:** six cards in private talk; the exact terms reviewed before sending; the offer in transit; Accept and Decline of equal weight; the Pending seal on acceptance; the result's seal as that Promise's own opportunity closes (R6)
 - **Durations:** full offer 720 ms, arrive 760 ms, accept 560 ms, decline 600 ms, result 720 ms; reduced fades of 160 ms
 - **Final state:** the ledger: one Promise given and one received, each with its status
 - **Cancellation:** phase end (an unanswered offer expires); a refused command changes nothing; a reconnect draws everything at rest

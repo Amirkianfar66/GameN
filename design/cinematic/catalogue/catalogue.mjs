@@ -214,7 +214,7 @@ export const CATALOGUE = Object.freeze([
   S('promises', 'Promises', {
     status: 'library group 4 (proposal)', audience: 'pair-private (the giver\'s and the recipient\'s own phones only)',
     trigger: 'offers OFFER_PROMISE (targetSeatIds, promiseTargetSeatIds), ACCEPT_PROMISE, DECLINE_PROMISE during private talk (phase HACK); promises[] (offerStatus, status) and the command receipts', fields: ['offers[] OFFER_PROMISE / ACCEPT_PROMISE / DECLINE_PROMISE', 'promises[]', 'promiseQuota (not read: R13)'],
-    beats: { start: 'six cards in private talk; the exact terms reviewed before sending', loop: 'the offer in transit; Accept and Decline of equal weight', exit: 'the Pending seal on acceptance; at the evaluation after Sync, the result\'s seal' },
+    beats: { start: 'six cards in private talk; the exact terms reviewed before sending', loop: 'the offer in transit; Accept and Decline of equal weight', exit: 'the Pending seal on acceptance; the result\'s seal as that Promise\'s own opportunity closes (R6)' },
     durations: { full: 'offer 720 ms, arrive 760 ms, accept 560 ms, decline 600 ms, result 720 ms', reduced: 'fades of 160 ms' },
     final: 'the ledger: one Promise given and one received, each with its status', cancel: 'phase end (an unanswered offer expires); a refused command changes nothing; a reconnect draws everything at rest', precedence: 'own phone (pair-private)',
     audio: 'none (pair-private: a sound would tell the table that a Promise was offered, made or decided)', reduced: 'fades', rosters: 'n/a', concurrency: 'one accepted Promise given and one received per match; declined and unanswered offers use nothing',

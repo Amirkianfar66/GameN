@@ -808,7 +808,7 @@
       "beats": {
         "start": "six cards in private talk; the exact terms reviewed before sending",
         "loop": "the offer in transit; Accept and Decline of equal weight",
-        "exit": "the Pending seal on acceptance; at the evaluation after Sync, the result's seal"
+        "exit": "the Pending seal on acceptance; the result's seal as that Promise's own opportunity closes (R6)"
       },
       "durations": {
         "full": "offer 720 ms, arrive 760 ms, accept 560 ms, decline 600 ms, result 720 ms",
