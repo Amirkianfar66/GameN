@@ -1,5 +1,7 @@
 # Approved post-Sync presentation — P27
 
+Historical P27 checkpoint. The predecessor-candidate compatibility limit recorded below is resolved by the later [three-tuple dispatch and replay support](planet-private-feedback-verification.md); original evidence remains preserved here.
+
 Actual follow-up starting SHA: `603be00119329ae643cefeac51c12d3885039719`, clean `codex/backend-planet-engine` worktree. The owner explicitly approved the fixed six-second server presentation after a real Blackhole Sync, followed by a separate full 60-second Jail vote. This supersedes the earlier pending R1 design review. The [final decision P27](../specifications/planet-successor/owner-decisions.md#p27--blackhole-presentation-before-jail-voting), [state contract](../specifications/planet-successor/rules-contracts.md) and [motion packet](../specifications/planet-successor/motion-requirements.md) are authority.
 
 Integration's shared commit `aa90fbd42283813116a41922337406139ff9905a` is adopted as `bdeba7457e846695a8b72f9b5bdd375e02aa06b4`. This branch lacked the earlier Designer production brief, so the modify/delete cherry-pick conflict was resolved by retaining the exact incoming file; no independent shared/spec edits were made. Owned engine implementation: `f3c91d62904edbc0ff885f0428047815c5ffe9f9`.

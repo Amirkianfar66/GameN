@@ -6,7 +6,7 @@ The [six successor specifications](../specifications/planet-successor/README.md)
 
 ## Agreement and API
 
-Current P27 gameplay pins: protocol `3`, engine `planet-game-1.0.1`, ruleset `in-person-planet-sync-six-2026-11-05`, source hash `4f26343641fcff00480bb3c0ba852703418f772bb677117a272828ad229c8b1c`. `assetManifestVersion` is required from the reviewed service setup. This engine does not allocate a production artwork identity or activate a creation profile.
+Current candidate pins: protocol `3`, engine `planet-game-1.1.0`, ruleset `in-person-planet-private-feedback-2026-11-06`, source hash `4a1fc0e0dc21255253e31ae46e6042f9bd71e3fdec0f82f8a79b3ce213d01bfa`. See [current implementation and preservation evidence](planet-private-feedback-verification.md). `assetManifestVersion` is required from the reviewed service setup. This engine does not allocate a production artwork identity or activate a creation profile.
 
 Exports from `@mothership/engine`:
 
@@ -50,3 +50,5 @@ Historical 1.0.0 implementation source: `d12689d3a9bc975552aafbf628688bfe6d993f4
 No unresolved game-owner choice was invented. The refined contracts are sufficient for these engine APIs. Integration owns protocol-3 sessions/auth, atomic persistence, receipts, deadline dispatch, setup/Ready, bots, release profiles and emulator/API acceptance. Frontend/Designer own audience-safe consumer/film implementation. No service, infra, shared-contract rewrite, historical engine rewrite, cloud/IAM/billing action, deployment or human balance claim is part of this engine deliverable.
 
 The [Designer review follow-up](planet-designer-review.md) records the earlier clinical-placement and per-card Promise review. Its pending R1 status is superseded by approved P27 and [the implemented server presentation stage](planet-sync-presentation.md). Asset adoption remains separately reviewed.
+
+P28 now adds the fixed neutral15-second navigation window, giver-only Meet and required Engineer/patient evidence under the new tuple. Both older Planet tuples are explicitly supported with their historical behavior and omitted new fields; replay supplies recorded `setup.versions`. Optional R9/R11 history is deferred. [Current handoff](planet-private-feedback-verification.md).
