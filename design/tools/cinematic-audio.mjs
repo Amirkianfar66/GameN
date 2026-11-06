@@ -18,6 +18,7 @@ import { RATE, mix, wav } from '../cinematic/lib/audio.mjs';
 import { AUDIO as HOSPITAL, pilotEnd } from '../cinematic/pilots/hospital-rescue/film.mjs';
 import { AUDIO as BLACKHOLE, filmEnd } from '../cinematic/pilots/blackhole/film.mjs';
 import { AUDIO as TALK, exitEnd, pageEnd } from '../cinematic/pilots/private-talk/film.mjs';
+import { AUDIO as NAV, filmEnd as navEnd } from '../library/navigation/films.mjs';
 
 const repoRoot = resolve(fileURLToPath(new URL('../../', import.meta.url)));
 const out = resolve(repoRoot, 'design/cinematic/exports');
@@ -33,6 +34,11 @@ const SHEETS = [
   ['private-talk', 'entrance', TALK.entrance, pageEnd('entrance', 'full')],
   ['private-talk', 'exit', TALK.exit, exitEnd('full')],
   ['private-talk', 'reduced', TALK.reduced, pageEnd('entrance', 'reduced')],
+  ['navigation', 'transit', NAV.transit, navEnd('transit', 'display')],
+  ['navigation', 'transit-short', NAV['transit-short'], navEnd('transit', 'phone')],
+  ['navigation', 'arrival', NAV.arrival, navEnd('arrival-blue', 'display')],
+  ['navigation', 'arrival-short', NAV['arrival-short'], navEnd('arrival-blue', 'phone')],
+  ['navigation', 'reduced', NAV.reduced, navEnd('arrival-blue', 'display', 'reduced')],
 ];
 
 const at = process.argv.indexOf('--only');

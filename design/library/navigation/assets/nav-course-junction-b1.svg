@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · library art proposal · nav-course-junction-b1 library-navigation-0.1.0 · generated, do not edit by hand
+  The course from Junction to B1, over the panel: drawn for the final direction while the offices acknowledge it, and both of a place's courses while the Officer chooses an undecided course.
+  Built by design/tools/library-assets.mjs from design/library/navigation/art.mjs. Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 236" width="320" height="236"><g id="nav-course-junction-b1"><path d="M148.44 154.45 L128.65 138.1" stroke="#151923" stroke-width="7" stroke-linecap="round" opacity="0.55"/><path d="M148.44 154.45 L128.65 138.1" stroke="#F7C52B" stroke-width="3.6" stroke-dasharray="7 5" stroke-linecap="round"/><path d="M121.71 132.37 L132.79 133.09 L124.51 143.11 Z" fill="#F7C52B" stroke="#151923" stroke-width="1.6" stroke-linejoin="round"/><circle cx="114" cy="126" r="15" fill="none" stroke="#F7C52B" stroke-width="2.6" stroke-dasharray="5 4"/></g></svg>

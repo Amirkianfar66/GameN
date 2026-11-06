@@ -1,0 +1,139 @@
+{
+  "version": "library-navigation-0.1.0",
+  "generatedBy": "design/tools/library-assets.mjs",
+  "source": "design/library/navigation/art.mjs",
+  "audience": "office-private (the route instrument, its ship token, courses and tray mark: an office holder's own open private sheet) and public (the movement chip); loaded whole on every player phone whatever the role or office",
+  "assets": [
+    {
+      "name": "nav-panel",
+      "file": "design/library/navigation/assets/nav-panel.svg",
+      "size": "320x236",
+      "role": "office-private: the route instrument",
+      "about": "The offices' private route instrument; the arms told apart by shape, never by hue.",
+      "sha256": "d9fd98fc52ed76383be3fc02c50c0497df2b5853e7cc665c8c8fb5cc3af63bc9",
+      "bytes": 5742
+    },
+    {
+      "name": "nav-ship",
+      "file": "design/library/navigation/assets/nav-ship.svg",
+      "size": "32x32",
+      "role": "office-private: the ship token",
+      "about": "The ship token, centred on the current position's anchor.",
+      "sha256": "85514804d1a44be36d8463f49d4611661139fb5f8babf381bfb71654afefd8eb",
+      "bytes": 903
+    },
+    {
+      "name": "nav-icon-course",
+      "file": "design/library/navigation/assets/nav-icon-course.svg",
+      "size": "48x48",
+      "role": "office-private: tray mark",
+      "about": "The tray mark for the offices' Course panel.",
+      "sha256": "26ab630a2dab41501aa0e37e89a97c110ebdc659abbd9f2e3078310df5d817a6",
+      "bytes": 906
+    },
+    {
+      "name": "nav-chip-moved",
+      "file": "design/library/navigation/assets/nav-chip-moved.svg",
+      "size": "48x38",
+      "role": "public: movement chip",
+      "about": "The public mark for a completed movement, the same every round.",
+      "sha256": "d4f58064799a04a78f54cd5a1bde471d5bd539ffe22a497b78b50001737f717c",
+      "bytes": 1046
+    },
+    {
+      "name": "nav-course-junction-b1",
+      "file": "design/library/navigation/assets/nav-course-junction-b1.svg",
+      "size": "320x236",
+      "role": "office-private: course Junction to B1 (advance)",
+      "about": "The course from Junction to B1 (Blue, advance).",
+      "sha256": "3677af7797bd8b80f463698a947d67691e435c2965f8bb01a17acd5c679a1517",
+      "bytes": 1088
+    },
+    {
+      "name": "nav-course-junction-r1",
+      "file": "design/library/navigation/assets/nav-course-junction-r1.svg",
+      "size": "320x236",
+      "role": "office-private: course Junction to R1 (advance)",
+      "about": "The course from Junction to R1 (Red, advance).",
+      "sha256": "8732b919f2481a5a62f11dcb32e7311eea7301cb47c5cc4145b86dbc2154b678",
+      "bytes": 1088
+    },
+    {
+      "name": "nav-course-b1-b2",
+      "file": "design/library/navigation/assets/nav-course-b1-b2.svg",
+      "size": "320x236",
+      "role": "office-private: course B1 to B2 (advance)",
+      "about": "The course from B1 to B2 (Blue, advance).",
+      "sha256": "1f13a157ba06e03e97c126b12c9a092e8b7624c0683d6d6b5f69fbdba7f2751c",
+      "bytes": 1063
+    },
+    {
+      "name": "nav-course-b1-r1",
+      "file": "design/library/navigation/assets/nav-course-b1-r1.svg",
+      "size": "320x236",
+      "role": "office-private: course B1 to R1 (switch)",
+      "about": "The course from B1 to R1 (Red, switch).",
+      "sha256": "b48074b3ed958071a02bdf998335f4ab75c06f793db484750a547eb847642c39",
+      "bytes": 1034
+    },
+    {
+      "name": "nav-course-b2-blue-planet",
+      "file": "design/library/navigation/assets/nav-course-b2-blue-planet.svg",
+      "size": "320x236",
+      "role": "office-private: course B2 to Blue Planet (arrive)",
+      "about": "The course from B2 to Blue Planet (Blue, arrive).",
+      "sha256": "c0f52f681c8116bd79937bf7953d9aaaf2be0aa9063d92a0b89c08cbd688c4dc",
+      "bytes": 1083
+    },
+    {
+      "name": "nav-course-b2-r2",
+      "file": "design/library/navigation/assets/nav-course-b2-r2.svg",
+      "size": "320x236",
+      "role": "office-private: course B2 to R2 (switch)",
+      "about": "The course from B2 to R2 (Red, switch).",
+      "sha256": "a5f4e975d28f84ed55de898259af9f450b20532ece8d4eb837bbc550c4f7142b",
+      "bytes": 1024
+    },
+    {
+      "name": "nav-course-r1-b1",
+      "file": "design/library/navigation/assets/nav-course-r1-b1.svg",
+      "size": "320x236",
+      "role": "office-private: course R1 to B1 (switch)",
+      "about": "The course from R1 to B1 (Blue, switch).",
+      "sha256": "9094a1bcd63638fb9ff4ba8718c5b187cc0b15124fa66a48d689ca3fb2b4b2c5",
+      "bytes": 1034
+    },
+    {
+      "name": "nav-course-r1-r2",
+      "file": "design/library/navigation/assets/nav-course-r1-r2.svg",
+      "size": "320x236",
+      "role": "office-private: course R1 to R2 (advance)",
+      "about": "The course from R1 to R2 (Red, advance).",
+      "sha256": "af9080731c7af356cc22f7b04825c54a195af667513a03f7ee0eed529b241cf8",
+      "bytes": 1069
+    },
+    {
+      "name": "nav-course-r2-b2",
+      "file": "design/library/navigation/assets/nav-course-r2-b2.svg",
+      "size": "320x236",
+      "role": "office-private: course R2 to B2 (switch)",
+      "about": "The course from R2 to B2 (Blue, switch).",
+      "sha256": "2f0b76860d5dd12c216e2191147955ab2a8b61d91fa445e91f0f67c53179f0ba",
+      "bytes": 1020
+    },
+    {
+      "name": "nav-course-r2-red-planet",
+      "file": "design/library/navigation/assets/nav-course-r2-red-planet.svg",
+      "size": "320x236",
+      "role": "office-private: course R2 to Red Planet (arrive)",
+      "about": "The course from R2 to Red Planet (Red, arrive).",
+      "sha256": "91d599261913c59578be249768738b75a6b9e63d73ba620056f4ce76186bc064",
+      "bytes": 1088
+    }
+  ],
+  "stylesheet": {
+    "file": "design/library/navigation/assets/navigation.art.css",
+    "sha256": "3de259f5c5507836e32a1b3fb4df01e651a1d2908ec70a6a252fc2126f1663ee",
+    "bytes": 15114
+  }
+}

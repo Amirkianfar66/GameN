@@ -1,13 +1,17 @@
 // mothership:dev-only
 //
-// The cinematic library's pilots, by id, for the stage and the review gallery.
+// The cinematic library's pilots and the library groups' public films, by id, for the stage and the
+// review gallery.
 
 import { PILOT_STAGE as blackhole } from './blackhole/stage.mjs';
 import { PILOT_STAGE as hospitalRescue } from './hospital-rescue/stage.mjs';
 import { PILOT_STAGE as privateTalk } from './private-talk/stage.mjs';
+import { PILOT_STAGE as navigation } from '../../library/navigation/stage.mjs';
 
 export const PILOTS = Object.freeze({
   [hospitalRescue.id]: hospitalRescue,
   [blackhole.id]: blackhole,
   [privateTalk.id]: privateTalk,
+  // Library group 2's public films (design/library/navigation/), on the same stage.
+  [navigation.id]: navigation,
 });

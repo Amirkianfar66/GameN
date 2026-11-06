@@ -1,0 +1,50 @@
+{
+  "tool": "design/tools/cinematic-render.mjs",
+  "pilot": "navigation",
+  "version": "library-navigation-films-0.1.0",
+  "surface": "phone",
+  "variant": "full",
+  "stage": "design/cinematic/stage.html?pilot=navigation&surface=phone&variant=full&beds=4&w=390&h=844&case=transit",
+  "size": [
+    390,
+    844
+  ],
+  "deviceScale": 1.5,
+  "fixture": {
+    "board": "board-v2 mixed (synthetic)"
+  },
+  "browser": "Chromium 141.0.7390.37",
+  "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+  "outputs": [
+    {
+      "kind": "video",
+      "file": "design/cinematic/exports/navigation/review/phone390-transit-full.mp4",
+      "sha256": "dd9053fe8c301d7637a261860f6a413dd2c50601647a83d49887b975c271345b",
+      "bytes": 449538,
+      "fps": 30,
+      "frames": 55,
+      "durationMs": 1800,
+      "from": 0,
+      "to": 1800,
+      "audio": "design/cinematic/exports/navigation/audio/navigation-transit-short.cues.wav"
+    },
+    {
+      "kind": "preview",
+      "file": "design/cinematic/exports/navigation/review/phone390-transit-full.preview.webp",
+      "sha256": "848e34cee7cde9ccf4b0d1312806cea5faae0148b42a7ca08766422dd7ead3f5",
+      "bytes": 165332
+    },
+    {
+      "kind": "poster",
+      "file": "design/cinematic/exports/navigation/review/phone390-transit-full.poster.webp",
+      "sha256": "6ba7a20202ea041163be67762a8a4ff47622ab75bc506d41d7ce01fc78753ea9",
+      "bytes": 60940,
+      "t": 900
+    }
+  ],
+  "settling": {
+    "rule": "a frame is kept once two captures a redraw apart agree; pictures decode before their tiles draw",
+    "resettled": 0,
+    "unsettled": []
+  }
+}

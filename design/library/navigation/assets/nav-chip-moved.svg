@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · library art proposal · nav-chip-moved library-navigation-0.1.0 · generated, do not edit by hand
+  The public mark beside "Round N: the ship moved": the ship in profile, the same for every movement.
+  Built by design/tools/library-assets.mjs from design/library/navigation/art.mjs. Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 38" width="48" height="38"><g id="nav-chip-moved"><path d="M3 14 H11 M1 19 H9 M4 24 H10" stroke="#8A97AB" stroke-width="2.2" stroke-linecap="round"/><path d="M13 19 Q14 12 22 11 L34 11 Q42 12 47 19 Q42 26 34 27 L22 27 Q14 26 13 19 Z" fill="#F4EBDD" stroke="#151923" stroke-width="2.2" stroke-linejoin="round"/><path d="M34 14 Q40 15 43 19 H34 Z" fill="#1B2747" stroke="#151923" stroke-width="1.4" stroke-linejoin="round"/><path d="M18 16 V22" stroke="#151923" stroke-width="1.6" stroke-linecap="round"/><circle cx="12.5" cy="19" r="2.2" fill="#F2A33A" stroke="#151923" stroke-width="1.2"/></g></svg>

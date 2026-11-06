@@ -1,0 +1,1524 @@
+{
+  "tool": "design/tools/library-capture.mjs",
+  "browser": "Chromium 141.0.7390.37",
+  "page": "design/library/navigation/index.html",
+  "captures": [
+    {
+      "file": "design/library/navigation/review/w390-captain-panel-idle-round-2-at-the-junction.png",
+      "sha256": "485ab5e97d4d7091511fc12d0134c38a26426c027f3e507c868efceba5e2f8c4",
+      "bytes": 78490,
+      "state": "captain panel: idle (Round 2, at the Junction)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w390-captain-panel-idle-at-b1.png",
+      "sha256": "07227c2b8ffd0406c6e70b7888559030541e4ee76a80c1e73989602ecc8b1a6b",
+      "bytes": 79076,
+      "state": "captain panel: idle (at B1)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w390-captain-panel-setting-the-tie-stage-not-choosing.png",
+      "sha256": "039f79e51f8f88a136e16092242a2cc140e190bf6b4975a6385d124dedd3c014",
+      "bytes": 79401,
+      "state": "captain panel: setting (the tie stage, not choosing)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w390-captain-panel-confirm-b1-blue-advance.png",
+      "sha256": "f2040325539c6da6c14625c4907c9992b72eaf47e9cf8ba23900eda7d25392d3",
+      "bytes": 84962,
+      "state": "captain panel: confirm (B1, Blue: advance)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w390-captain-panel-confirm-b2-red-switch.png",
+      "sha256": "ce8ff9f3b0a150ba8e7dec238315edfffcf58631ebd032f7891078bf40ab1d0c",
+      "bytes": 84325,
+      "state": "captain panel: confirm (B2, Red: switch)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w390-captain-panel-confirm-r2-red-arrive.png",
+      "sha256": "488a923961bc96df38fae204fb121cd8d51378c0f171f946ade4d0bc476e3ee1",
+      "bytes": 81607,
+      "state": "captain panel: confirm (R2, Red: arrive)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w390-captain-panel-sending.png",
+      "sha256": "f510ec6d64fc71cea79dc23a4f61a690df3c600c46f39161fa9e605a5a6dd05a",
+      "bytes": 71711,
+      "state": "captain panel: sending",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w390-captain-panel-confirmed.png",
+      "sha256": "ca303a05b5d186c12dc456dac304b29d0c1729f3383e8b1a12c032cad43a7d3f",
+      "bytes": 72203,
+      "state": "captain panel: confirmed",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w390-captain-panel-closed-a-reconnect-after-acknowledging.png",
+      "sha256": "082788cbb83d6ae704b926f43c44f13752e6f57b4219c6e94b1ce3f847298fd9",
+      "bytes": 68081,
+      "state": "captain panel: closed (a reconnect after acknowledging)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w390-captain-panel-waiting-the-officer-s-stage.png",
+      "sha256": "3ba38e4aa29e8d2fb43c442985eba4a27a62bd4b717b165f88372cdd6dcc69f9",
+      "bytes": 70245,
+      "state": "captain panel: waiting (the Officer's stage)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w390-captain-panel-arrived.png",
+      "sha256": "7b79b4a88fb80d91f109e33b855e30849e1429db6c206104504a628bb27029bc",
+      "bytes": 64435,
+      "state": "captain panel: arrived",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w390-officer-panel-idle-at-r1.png",
+      "sha256": "57db11dcc917ae64d42aa6c0e608217238651990f2064857bac660d4537f2dc7",
+      "bytes": 78945,
+      "state": "officer panel: idle (at R1)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w390-officer-panel-tie-at-the-junction.png",
+      "sha256": "f34730ab61a49e080e19e03e5c95d22ec86d23ff0472d0ed1adbfebafa34d085",
+      "bytes": 84766,
+      "state": "officer panel: tie (at the Junction)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w390-officer-panel-tie-at-b2.png",
+      "sha256": "1066e2cc696d9a5aa6c71e8e925e5b2cc39f1b58e67c4e60861483bf00d676f8",
+      "bytes": 83196,
+      "state": "officer panel: tie (at B2)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w390-officer-panel-sending.png",
+      "sha256": "9ecf85dcec90afd5719eff3eff09bb6c48895cc4c7c59834d4105114bbcf8da6",
+      "bytes": 68001,
+      "state": "officer panel: sending",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w390-officer-panel-chosen.png",
+      "sha256": "d039add43b28abaa12b4daeb7d8c3af459a5c50531cd872024e6b1720c0ad9a8",
+      "bytes": 75357,
+      "state": "officer panel: chosen",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w390-officer-panel-waiting-the-captain-s-stage.png",
+      "sha256": "ba4d2a7f1976d2ba6416e82edd998e002c0f177b5adbf7171fc9343f36b7c650",
+      "bytes": 74616,
+      "state": "officer panel: waiting (the Captain's stage)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w390-officer-panel-confirm.png",
+      "sha256": "411149453f8200e07ba0ffce80887351e3689dd6d6380fcf53153023b7c6b920",
+      "bytes": 83331,
+      "state": "officer panel: confirm",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w390-officer-panel-confirmed.png",
+      "sha256": "e7493c01074aef2574306533ce220d167bc5d311f95514ad286fc67fcb94bc8d",
+      "bytes": 72482,
+      "state": "officer panel: confirmed",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w390-crew-none.png",
+      "sha256": "ee43a16490c86c87f7df262eaaebd027229253b5ab553ebd71cee737399b8f72",
+      "bytes": 14290,
+      "state": "crew: none",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w390-tray-course-offices.png",
+      "sha256": "838ca01204d609ee6fa6e2bc4667a85ef27ee997b58616a66cc41ddb9890be92",
+      "bytes": 16248,
+      "state": "tray: course (offices)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w390-public-idle-round-1-before-the-first-movement.png",
+      "sha256": "a91462e0c2e2e8b0be0de35f85fff0f559b66cb8175391d84889e77af8064ef6",
+      "bytes": 14506,
+      "state": "public: idle (Round 1, before the first movement)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w390-public-navigating-the-tie-stage.png",
+      "sha256": "3148d120c836216264be31c1961b004526b1ca6d328e90619fb7e05ce24e5ac2",
+      "bytes": 15399,
+      "state": "public: navigating (the tie stage)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w390-public-navigating-a-confirmation-stage-drawn-the-same.png",
+      "sha256": "f94c659f10780e13f9b5544028dd458fceecdc06c20387e65408f386e1b7f318",
+      "bytes": 18027,
+      "state": "public: navigating (a confirmation stage: drawn the same)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w390-public-moved-round-4-after-round-3-s-movement.png",
+      "sha256": "c71672ad11f870024757da9fc33294f7ba6ab846cf0bf86c38b22b370eab70cd",
+      "bytes": 17196,
+      "state": "public: moved (Round 4, after Round 3's movement)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w390-public-transit-900-ms-into-the-movement-s-film.png",
+      "sha256": "478d502b7199c521031d12301a7c5805b1bddefe3ec7e2ca2f35d4080cd1968f",
+      "bytes": 63413,
+      "state": "public: transit (900 ms into the movement's film)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w390-public-moved-a-late-join-after-the-film.png",
+      "sha256": "dd062eb10408ede937511fa988b70796ae9a88b1c7afe4e534f0490c95043814",
+      "bytes": 19547,
+      "state": "public: moved (a late join after the film)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w390-public-arrived-blue.png",
+      "sha256": "bfb88f5eb6e00862b2f3300771ed89d3146baacfb7f6cf1d29fd74880723ae00",
+      "bytes": 177464,
+      "state": "public: arrived (Blue)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w390-public-arrived-red.png",
+      "sha256": "be716f4ee7e50e199286c26ac6a11d63965d7cf418dfc6042ccea6f740e09588",
+      "bytes": 172031,
+      "state": "public: arrived (Red)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/contact-w390.png",
+      "sha256": "26853253dbadd15ae094aa544df5a98fef9ac941dc80fb03dcdca19e8607276c",
+      "bytes": 2245467,
+      "kind": "contact",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w320-captain-panel-idle-round-2-at-the-junction.png",
+      "sha256": "a50a823a750afaf8974b15b1255da739cacbeaba78b88aefbffdb48b0cea3476",
+      "bytes": 67733,
+      "state": "captain panel: idle (Round 2, at the Junction)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w320-captain-panel-idle-at-b1.png",
+      "sha256": "f3e17e5798885f48aeaf54ea7c89c4165b6313833bb62bcd33fbded95f57b635",
+      "bytes": 67746,
+      "state": "captain panel: idle (at B1)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w320-captain-panel-setting-the-tie-stage-not-choosing.png",
+      "sha256": "b30ef60bd529a6954e3d1aac7cf32a152843945feab14f9da4c85625eb638aa6",
+      "bytes": 66003,
+      "state": "captain panel: setting (the tie stage, not choosing)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w320-captain-panel-confirm-b1-blue-advance.png",
+      "sha256": "85f920b3411d3f4a08d57940b83cff09765174ca01704bacf0f8fe157bb28589",
+      "bytes": 71206,
+      "state": "captain panel: confirm (B1, Blue: advance)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w320-captain-panel-confirm-b2-red-switch.png",
+      "sha256": "48cc707160a1ed3a56d11f8a51aecf5111ffe3f517edec24f17f0ef0e23ed6ae",
+      "bytes": 72463,
+      "state": "captain panel: confirm (B2, Red: switch)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w320-captain-panel-confirm-r2-red-arrive.png",
+      "sha256": "a0cb927f6b8f9b3443e14d9c005582a17d93e8d668e533ab04d23ea1955c957a",
+      "bytes": 69932,
+      "state": "captain panel: confirm (R2, Red: arrive)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w320-captain-panel-sending.png",
+      "sha256": "3fdfa95333b40b2e573e032d2cfbfba026d7928c6bb33728576936adf27cb59f",
+      "bytes": 59048,
+      "state": "captain panel: sending",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w320-captain-panel-confirmed.png",
+      "sha256": "994b8307156be054b06dbcc9e22cecfd9ead3cb50ad25218d02d2514ad9ca352",
+      "bytes": 60224,
+      "state": "captain panel: confirmed",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w320-captain-panel-closed-a-reconnect-after-acknowledging.png",
+      "sha256": "2b8f5d7d249ba143c0786c9f211cdbc397766d821bee2fa6279894a3c09d90e7",
+      "bytes": 56171,
+      "state": "captain panel: closed (a reconnect after acknowledging)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w320-captain-panel-waiting-the-officer-s-stage.png",
+      "sha256": "83b5c6b09c3950f9a9859bd8b8b63233541c9527985166c9b2c352c2e19430e8",
+      "bytes": 58133,
+      "state": "captain panel: waiting (the Officer's stage)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w320-captain-panel-arrived.png",
+      "sha256": "552a791ce4f25b8605601f4bc22d77aca4b04b61373139e0b0711e4d97d7e4a3",
+      "bytes": 52834,
+      "state": "captain panel: arrived",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w320-officer-panel-idle-at-r1.png",
+      "sha256": "0b0171abb4c195b5db565f62b9cce1f5d915c96171fa73687fdb53126b13260e",
+      "bytes": 67614,
+      "state": "officer panel: idle (at R1)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w320-officer-panel-tie-at-the-junction.png",
+      "sha256": "f2059467f7987191a94ccda528b97cdb2cfdc8d68a5c4c4ede955b02ff99e854",
+      "bytes": 73782,
+      "state": "officer panel: tie (at the Junction)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w320-officer-panel-tie-at-b2.png",
+      "sha256": "b5e99ece535786a8d810e822a6746c55c5bfaca30c09c95d8a53612f5e7444a8",
+      "bytes": 72540,
+      "state": "officer panel: tie (at B2)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w320-officer-panel-sending.png",
+      "sha256": "9089b6fa4682c742519dd2389116a32a9a13cbdbec43bf801d2db93ce01ea72b",
+      "bytes": 55000,
+      "state": "officer panel: sending",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w320-officer-panel-chosen.png",
+      "sha256": "3981a2713f31e8992fe27ccd009fefe40bf094d2495e2b86a70fcf3a7f716083",
+      "bytes": 61941,
+      "state": "officer panel: chosen",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w320-officer-panel-waiting-the-captain-s-stage.png",
+      "sha256": "39f9dc20b66d2e984c7ef28c97e8091d908e0d522659eca42a1f5dd72d219d64",
+      "bytes": 59807,
+      "state": "officer panel: waiting (the Captain's stage)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w320-officer-panel-confirm.png",
+      "sha256": "b39781e5b73b7cfc9294f8c233d6a18fc5e5741b2ba40df32794eb13a0048ce6",
+      "bytes": 71584,
+      "state": "officer panel: confirm",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w320-officer-panel-confirmed.png",
+      "sha256": "5378ef84cf284e1ea29eb6be85f4140f3c1c0023e03c7e1395fc2a6343784e3b",
+      "bytes": 60315,
+      "state": "officer panel: confirmed",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w320-crew-none.png",
+      "sha256": "bf9760b4e3bf65a19ad2f9672fcb6dd20f281ccd579b8977fe8f62d24d07b82d",
+      "bytes": 13767,
+      "state": "crew: none",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w320-tray-course-offices.png",
+      "sha256": "23d5dd5056b2f8dbb3e314caed1f307f42ca5b9d482fcaf8001a8dd1eddb4f79",
+      "bytes": 16316,
+      "state": "tray: course (offices)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w320-public-idle-round-1-before-the-first-movement.png",
+      "sha256": "ce3509b4f651aba796815d291ed3db226bda5dde3e6c2af02970770773051cdb",
+      "bytes": 14978,
+      "state": "public: idle (Round 1, before the first movement)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w320-public-navigating-the-tie-stage.png",
+      "sha256": "1e5e8d3e6a82e95e88ae955e0519f83aa564125f86688db0a59fdfb3a2f7e235",
+      "bytes": 15149,
+      "state": "public: navigating (the tie stage)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w320-public-navigating-a-confirmation-stage-drawn-the-same.png",
+      "sha256": "7c0b3fb1cb79b760c32b3235ef7c8736486f391a814282da41513823bb9ed5f1",
+      "bytes": 17717,
+      "state": "public: navigating (a confirmation stage: drawn the same)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w320-public-moved-round-4-after-round-3-s-movement.png",
+      "sha256": "3fb219bc6dbb1d8c64cc3defbda6d288795da98f92688545afd1afa2a5dbaea0",
+      "bytes": 17490,
+      "state": "public: moved (Round 4, after Round 3's movement)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w320-public-transit-900-ms-into-the-movement-s-film.png",
+      "sha256": "810bbbc8af3ef7ac12bc18b6dea452785088b18c2d8c128739daa553ca18f0d5",
+      "bytes": 53425,
+      "state": "public: transit (900 ms into the movement's film)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w320-public-moved-a-late-join-after-the-film.png",
+      "sha256": "1d07b6f088fcca9d5261849ebd31f4d0d38ba9357972062beb175fce9fe89eda",
+      "bytes": 19300,
+      "state": "public: moved (a late join after the film)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w320-public-arrived-blue.png",
+      "sha256": "005b2781400069b6bde7c9d0c484ac4649373ef76894d3b6d7f63d07269189f7",
+      "bytes": 126947,
+      "state": "public: arrived (Blue)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w320-public-arrived-red.png",
+      "sha256": "54022891006f9335441db9ac97a1179a7d6d6ecf767948eaab4354ed53025a9c",
+      "bytes": 124090,
+      "state": "public: arrived (Red)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/contact-w320.png",
+      "sha256": "560f2c040c77d8942e42fb0f96b8c91ba119422eb9f63435a73dcbe52433e350",
+      "bytes": 1853462,
+      "kind": "contact",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/navigation/review/w390-text200-captain-panel-idle-round-2-at-the-junction.png",
+      "sha256": "05ae4e92967b24e93f82d2e516b4bef8548396ec88829925de8b2370ba949c02",
+      "bytes": 116364,
+      "state": "captain panel: idle (Round 2, at the Junction)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/navigation/review/w390-text200-captain-panel-idle-at-b1.png",
+      "sha256": "76fe00992b0993a8e056d83107284cb1e7b28cf13794586a1d0432f125865668",
+      "bytes": 118883,
+      "state": "captain panel: idle (at B1)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/navigation/review/w390-text200-captain-panel-setting-the-tie-stage-not-choosing.png",
+      "sha256": "fb0bed6f522c1209dcab13585bf801551c1a10a7449f919bf2bf9833d3a6c7e3",
+      "bytes": 108645,
+      "state": "captain panel: setting (the tie stage, not choosing)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/navigation/review/w390-text200-captain-panel-confirm-b1-blue-advance.png",
+      "sha256": "526dffef285559a3599c0c789297778f970415bc1d50e485a9915444c3678be4",
+      "bytes": 119705,
+      "state": "captain panel: confirm (B1, Blue: advance)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/navigation/review/w390-text200-captain-panel-confirm-b2-red-switch.png",
+      "sha256": "ad16c7e614a5390c7392dc8fabdf5fb40de220f2156216feb4b8e210f6639114",
+      "bytes": 125087,
+      "state": "captain panel: confirm (B2, Red: switch)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/navigation/review/w390-text200-captain-panel-confirm-r2-red-arrive.png",
+      "sha256": "d076612bbaaaa591cc7f8f3a5ea8a9d6a7fc101dfd09497f335fcaf7534a65fb",
+      "bytes": 117889,
+      "state": "captain panel: confirm (R2, Red: arrive)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/navigation/review/w390-text200-captain-panel-sending.png",
+      "sha256": "324a306ee5b05964ad955e1e489e16e5b044767eab92bbe746a898b3d4933d7b",
+      "bytes": 80568,
+      "state": "captain panel: sending",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/navigation/review/w390-text200-captain-panel-confirmed.png",
+      "sha256": "5da9feacf8a1ee72d31aef2f2010a9b2481b00512e7a40162c9655c389de033d",
+      "bytes": 84436,
+      "state": "captain panel: confirmed",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/navigation/review/w390-text200-captain-panel-closed-a-reconnect-after-acknowledging.png",
+      "sha256": "5078647fa5b772b213b0a63abf5815e02748393a01ff42a5bf7fe44832ca6ff7",
+      "bytes": 78600,
+      "state": "captain panel: closed (a reconnect after acknowledging)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/navigation/review/w390-text200-captain-panel-waiting-the-officer-s-stage.png",
+      "sha256": "c375455c699088a81e5654e7c661613bb6b8120a95f7e996a4f2016f896711ff",
+      "bytes": 85921,
+      "state": "captain panel: waiting (the Officer's stage)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/navigation/review/w390-text200-captain-panel-arrived.png",
+      "sha256": "78b6592f9eac1c82ad6efcd386cda03999e99caaea19431f2352f8428cf0991e",
+      "bytes": 70394,
+      "state": "captain panel: arrived",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/navigation/review/contact-w390-text200-captain.png",
+      "sha256": "44d6241392314c4c170b27602cfdb0def1ba77e4e3e5db6168d0abb05f02f4a5",
+      "bytes": 1167894,
+      "kind": "contact",
+      "width": 390,
+      "text": "200%",
+      "section": "captain"
+    },
+    {
+      "file": "design/library/navigation/review/w390-text200-officer-panel-idle-at-r1.png",
+      "sha256": "13586d941c31c768e81ab65a20aebf35ff8bf739e063ae60398b2129a4ce0fb7",
+      "bytes": 118181,
+      "state": "officer panel: idle (at R1)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/navigation/review/w390-text200-officer-panel-tie-at-the-junction.png",
+      "sha256": "0dbee1bcc3109ef40a5911f1be96d3b559da268b287483aafd850512065eda3e",
+      "bytes": 124522,
+      "state": "officer panel: tie (at the Junction)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/navigation/review/w390-text200-officer-panel-tie-at-b2.png",
+      "sha256": "47ccdaf222487f722287292024b47331fd96f12a3fcbdeb1069e20d85b06bc22",
+      "bytes": 122896,
+      "state": "officer panel: tie (at B2)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/navigation/review/w390-text200-officer-panel-sending.png",
+      "sha256": "a775e3b7bf2f7c6a49baaf039901678d28a11eb9fd076e6a3c94ba199157ee96",
+      "bytes": 73954,
+      "state": "officer panel: sending",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/navigation/review/w390-text200-officer-panel-chosen.png",
+      "sha256": "552b853155d2812ece7c94d644b61abf9f891e1a93c236e4c69e461d9c78030d",
+      "bytes": 91279,
+      "state": "officer panel: chosen",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/navigation/review/w390-text200-officer-panel-waiting-the-captain-s-stage.png",
+      "sha256": "33cbfca57139dd249666b982336a991e67a91907863107bf2e32f82d0f9ee382",
+      "bytes": 92150,
+      "state": "officer panel: waiting (the Captain's stage)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/navigation/review/w390-text200-officer-panel-confirm.png",
+      "sha256": "1b397101255d37a304babe82a743b475fd8edb41f1baa79ff9074049d629ad7c",
+      "bytes": 124437,
+      "state": "officer panel: confirm",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/navigation/review/w390-text200-officer-panel-confirmed.png",
+      "sha256": "820e67ec1e174e0a3c21fb96283859c68fb4dda359597df444deb9eec2a65cfd",
+      "bytes": 84942,
+      "state": "officer panel: confirmed",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/navigation/review/contact-w390-text200-officer.png",
+      "sha256": "2f97dcc9d7dcb59b4db3221fa0b9d2919a7d847e292393176116ec922e90b128",
+      "bytes": 891722,
+      "kind": "contact",
+      "width": 390,
+      "text": "200%",
+      "section": "officer"
+    },
+    {
+      "file": "design/library/navigation/review/w390-text200-crew-none.png",
+      "sha256": "45eb1bceeca5df1a2d099dbf96585ba695289c2bac2c5483a4ffc0b15f57a927",
+      "bytes": 23781,
+      "state": "crew: none",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/navigation/review/w390-text200-tray-course-offices.png",
+      "sha256": "e3874f1aca6ffc3e27df67dffb51032a2aaf4a0ed94b740b5693693c781e1b72",
+      "bytes": 21182,
+      "state": "tray: course (offices)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/navigation/review/contact-w390-text200-others.png",
+      "sha256": "fe23595d5a553f4a3f08e7b317016fdb9a2612b29b68540ec58cc623baf3ed1e",
+      "bytes": 98531,
+      "kind": "contact",
+      "width": 390,
+      "text": "200%",
+      "section": "others"
+    },
+    {
+      "file": "design/library/navigation/review/w390-text200-public-idle-round-1-before-the-first-movement.png",
+      "sha256": "2713a7569cdeab6854b2609c39893b37d47ea2d5ff609940f0afe0afee6d50e8",
+      "bytes": 19713,
+      "state": "public: idle (Round 1, before the first movement)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/navigation/review/w390-text200-public-navigating-the-tie-stage.png",
+      "sha256": "73377661e51ff19ee7840c4460bc7a038210bcc688a691e8309a9c635130fe08",
+      "bytes": 19402,
+      "state": "public: navigating (the tie stage)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/navigation/review/w390-text200-public-navigating-a-confirmation-stage-drawn-the-same.png",
+      "sha256": "a1e856092c6dc0f499ccd074cf42710457136f0449075c6afdb96d65ac3ba762",
+      "bytes": 21999,
+      "state": "public: navigating (a confirmation stage: drawn the same)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/navigation/review/w390-text200-public-moved-round-4-after-round-3-s-movement.png",
+      "sha256": "b1f91c09b9c4641d058f4868a972afe65ca41bac3bd264d999ede98fcd7f9f97",
+      "bytes": 22940,
+      "state": "public: moved (Round 4, after Round 3's movement)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/navigation/review/w390-text200-public-transit-900-ms-into-the-movement-s-film.png",
+      "sha256": "880dba7daf173b29803411c85e2d74f73fdfb8f89c32a93ccd909e0b822130d4",
+      "bytes": 67344,
+      "state": "public: transit (900 ms into the movement's film)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/navigation/review/w390-text200-public-moved-a-late-join-after-the-film.png",
+      "sha256": "a9a3bdb6b1b9563683aebed98d8e2449f35fa6cd89555c376316f99affd04a39",
+      "bytes": 25317,
+      "state": "public: moved (a late join after the film)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/navigation/review/w390-text200-public-arrived-blue.png",
+      "sha256": "2e4a51e777768be27dc3e43781179047beb5af6afe99629f3d86f380401c9fd9",
+      "bytes": 187360,
+      "state": "public: arrived (Blue)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/navigation/review/w390-text200-public-arrived-red.png",
+      "sha256": "78c8070815ae2be808f3e813ed7d9a53ab5a0838248e3ea3ddc4266f0e27d4e0",
+      "bytes": 173101,
+      "state": "public: arrived (Red)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/navigation/review/contact-w390-text200-public.png",
+      "sha256": "77b2251ff055a9fb11873692e4e33641ec564d88207788edbb0f7c4f46adf89d",
+      "bytes": 597991,
+      "kind": "contact",
+      "width": 390,
+      "text": "200%",
+      "section": "public"
+    },
+    {
+      "file": "design/library/navigation/review/motion-step-advance-0000.png",
+      "sha256": "3ec6fec0573093bc1503c2ca908704bb4c288b733a7bb6bd9c12d7132ac4712a",
+      "bytes": 48769,
+      "motion": "step-advance",
+      "reduced": false,
+      "t": 0
+    },
+    {
+      "file": "design/library/navigation/review/motion-step-advance-0180.png",
+      "sha256": "d3980ca5d4bd1dbdf976c113df40a63d8b6c38bb29a7d860da4161a72e6d6b88",
+      "bytes": 48841,
+      "motion": "step-advance",
+      "reduced": false,
+      "t": 180
+    },
+    {
+      "file": "design/library/navigation/review/motion-step-advance-0360.png",
+      "sha256": "2a99a1878e2dff660c54cabc91ab4d5413815fb49a60847ae44825861ea95024",
+      "bytes": 48382,
+      "motion": "step-advance",
+      "reduced": false,
+      "t": 360
+    },
+    {
+      "file": "design/library/navigation/review/motion-step-advance-0540.png",
+      "sha256": "a28ec1185ab6eaa11a25d16cd105e00ecb2611f1e3993b7ba99304be114a65f8",
+      "bytes": 48130,
+      "motion": "step-advance",
+      "reduced": false,
+      "t": 540
+    },
+    {
+      "file": "design/library/navigation/review/motion-step-advance-0720.png",
+      "sha256": "a8f435dcf9aecf6449cfc60e5fd46f34fc65c6a26ea3aed81994cb43d84893fe",
+      "bytes": 49947,
+      "motion": "step-advance",
+      "reduced": false,
+      "t": 720
+    },
+    {
+      "file": "design/library/navigation/review/motion-step-advance-0900.png",
+      "sha256": "28574c1b10a3c1670fa82bd4f9a62e9c838d0f085b75af3e88c13232911d0f26",
+      "bytes": 47963,
+      "motion": "step-advance",
+      "reduced": false,
+      "t": 900
+    },
+    {
+      "file": "design/library/navigation/review/motion-step-switch-0000.png",
+      "sha256": "fdcf34aae775a3eb41610ba2a4130a44caecd11b73a0cc33f30b98d2a82bf284",
+      "bytes": 49329,
+      "motion": "step-switch",
+      "reduced": false,
+      "t": 0
+    },
+    {
+      "file": "design/library/navigation/review/motion-step-switch-0180.png",
+      "sha256": "c7057fc57c6589614de98353cb4d1101e4eb82456580299b768422e0d0a5afe9",
+      "bytes": 49922,
+      "motion": "step-switch",
+      "reduced": false,
+      "t": 180
+    },
+    {
+      "file": "design/library/navigation/review/motion-step-switch-0360.png",
+      "sha256": "7c183e7f0be3e9e9c4a67ef7e8d0870d806b0600d98375f17e6c44fc08130f06",
+      "bytes": 49465,
+      "motion": "step-switch",
+      "reduced": false,
+      "t": 360
+    },
+    {
+      "file": "design/library/navigation/review/motion-step-switch-0540.png",
+      "sha256": "d12a61aa9964227464314215e1d7cc1a97254194d68d7b711879cbc1bc22efca",
+      "bytes": 49333,
+      "motion": "step-switch",
+      "reduced": false,
+      "t": 540
+    },
+    {
+      "file": "design/library/navigation/review/motion-step-switch-0720.png",
+      "sha256": "0e08e30dc9c1e2e02c141e4dbccd33804074a27d3e395fc4c27d9c9ef7fe0e30",
+      "bytes": 50661,
+      "motion": "step-switch",
+      "reduced": false,
+      "t": 720
+    },
+    {
+      "file": "design/library/navigation/review/motion-step-switch-0900.png",
+      "sha256": "b608b1a6ad6f01252dcb25185988d635b5a5591b2894b67ef4b62f4696e76d2c",
+      "bytes": 48835,
+      "motion": "step-switch",
+      "reduced": false,
+      "t": 900
+    },
+    {
+      "file": "design/library/navigation/review/motion-step-arrive-0000.png",
+      "sha256": "341b40cfa356c80bfd2e5abe45c24779e236db5a3ebc2aed6b838e326168ae0a",
+      "bytes": 48540,
+      "motion": "step-arrive",
+      "reduced": false,
+      "t": 0
+    },
+    {
+      "file": "design/library/navigation/review/motion-step-arrive-0180.png",
+      "sha256": "b2dff31d069622c5b18701a0da1fbff60c5fcf40364d7459a283980ecf17db61",
+      "bytes": 48611,
+      "motion": "step-arrive",
+      "reduced": false,
+      "t": 180
+    },
+    {
+      "file": "design/library/navigation/review/motion-step-arrive-0360.png",
+      "sha256": "783d8d61a158061d97d9fbe61005d0cad1e851f6ba4b4976104ede9b8505b8db",
+      "bytes": 48386,
+      "motion": "step-arrive",
+      "reduced": false,
+      "t": 360
+    },
+    {
+      "file": "design/library/navigation/review/motion-step-arrive-0540.png",
+      "sha256": "2a29178f0d7ad31a0904dba1eef1d74a98aface43ee83454231214edbe92ef6b",
+      "bytes": 48133,
+      "motion": "step-arrive",
+      "reduced": false,
+      "t": 540
+    },
+    {
+      "file": "design/library/navigation/review/motion-step-arrive-0720.png",
+      "sha256": "8339953754908dd5b614ef7932c922156d3d6d7d7ca9db0392a732c1e0b194bc",
+      "bytes": 50795,
+      "motion": "step-arrive",
+      "reduced": false,
+      "t": 720
+    },
+    {
+      "file": "design/library/navigation/review/motion-step-arrive-0900.png",
+      "sha256": "bd1aa4b69d5adb3e252f4f6d0cf4f43f1d6705ff06e13ddbae2a19050c436efe",
+      "bytes": 48307,
+      "motion": "step-arrive",
+      "reduced": false,
+      "t": 900
+    },
+    {
+      "file": "design/library/navigation/review/motion-choose-0000.png",
+      "sha256": "701b074fbd1b9c7ccd4c220acb387cdee5ea818e744dd5d55188e46d8a41636a",
+      "bytes": 48858,
+      "motion": "choose",
+      "reduced": false,
+      "t": 0
+    },
+    {
+      "file": "design/library/navigation/review/motion-choose-0104.png",
+      "sha256": "4c6e6732b4a24299d66d50479e285fca44c1fd63af84d3d8d19cac91247a1feb",
+      "bytes": 49019,
+      "motion": "choose",
+      "reduced": false,
+      "t": 104
+    },
+    {
+      "file": "design/library/navigation/review/motion-choose-0208.png",
+      "sha256": "f8d61ba422d48de5861618aa5bbac26095c73637e82ed7f1f81b03141bc4baca",
+      "bytes": 48886,
+      "motion": "choose",
+      "reduced": false,
+      "t": 208
+    },
+    {
+      "file": "design/library/navigation/review/motion-choose-0312.png",
+      "sha256": "7119ea709d08810574f4bf17c2da472b895593af06f1236a903ead2e0f00eb9c",
+      "bytes": 52586,
+      "motion": "choose",
+      "reduced": false,
+      "t": 312
+    },
+    {
+      "file": "design/library/navigation/review/motion-choose-0416.png",
+      "sha256": "a023e9021322fa6a20a64adf36b104e82e001a90b8653078b582f348b5357b47",
+      "bytes": 52392,
+      "motion": "choose",
+      "reduced": false,
+      "t": 416
+    },
+    {
+      "file": "design/library/navigation/review/motion-choose-0520.png",
+      "sha256": "db330224d0254d253da005c5edb9922f6041e6f19a3c9cd46c909b81ee5ce551",
+      "bytes": 52570,
+      "motion": "choose",
+      "reduced": false,
+      "t": 520
+    },
+    {
+      "file": "design/library/navigation/review/motion-confirm-0000.png",
+      "sha256": "a9ccb80ff2b702b5d9b62fea63a428f13af058634411ccab3f201ed7d4eb3186",
+      "bytes": 47997,
+      "motion": "confirm",
+      "reduced": false,
+      "t": 0
+    },
+    {
+      "file": "design/library/navigation/review/motion-confirm-0084.png",
+      "sha256": "e7d9e87772431bfaec2e44e67417bdf05aa6ee2be1b1a254dea7282955deebcd",
+      "bytes": 53687,
+      "motion": "confirm",
+      "reduced": false,
+      "t": 84
+    },
+    {
+      "file": "design/library/navigation/review/motion-confirm-0168.png",
+      "sha256": "a2d2faa76741847989070f1bacb888f06587f4a50640d076692215a70b2d9480",
+      "bytes": 53738,
+      "motion": "confirm",
+      "reduced": false,
+      "t": 168
+    },
+    {
+      "file": "design/library/navigation/review/motion-confirm-0252.png",
+      "sha256": "976078809bed66c060508f7df6e08fd779db897cba945f42b2716be412b190ea",
+      "bytes": 53571,
+      "motion": "confirm",
+      "reduced": false,
+      "t": 252
+    },
+    {
+      "file": "design/library/navigation/review/motion-confirm-0336.png",
+      "sha256": "3a2026ff8140c5c7f69e81c36211e58ff103e7ac3b1d95b9bc2f9d8b33ba32bc",
+      "bytes": 53753,
+      "motion": "confirm",
+      "reduced": false,
+      "t": 336
+    },
+    {
+      "file": "design/library/navigation/review/motion-confirm-0420.png",
+      "sha256": "666f542cd6cb754d8118db46a5f4a70b7f8a3390e41a0a2bf29f24248409533e",
+      "bytes": 53703,
+      "motion": "confirm",
+      "reduced": false,
+      "t": 420
+    },
+    {
+      "file": "design/library/navigation/review/motion-transit-0000.png",
+      "sha256": "dcb8244577ea7e3da4124e2a00dc4b668fa624d43dfd6b7b6a365d50b6ecf975",
+      "bytes": 67759,
+      "motion": "transit",
+      "reduced": false,
+      "t": 0
+    },
+    {
+      "file": "design/library/navigation/review/motion-transit-0360.png",
+      "sha256": "63889a64b9cdb4cc447244c962570a8085ba87042f537164b031c7db660c4295",
+      "bytes": 49248,
+      "motion": "transit",
+      "reduced": false,
+      "t": 360
+    },
+    {
+      "file": "design/library/navigation/review/motion-transit-0720.png",
+      "sha256": "cc73de0e63910a2e68062ad2dc00559f468f74fe63e8772cc4a8801e045d297d",
+      "bytes": 48144,
+      "motion": "transit",
+      "reduced": false,
+      "t": 720
+    },
+    {
+      "file": "design/library/navigation/review/motion-transit-1080.png",
+      "sha256": "82a855dd41b5d37d6ae58e5552f4797451af05e540d97ca1a59766fca845eed4",
+      "bytes": 48552,
+      "motion": "transit",
+      "reduced": false,
+      "t": 1080
+    },
+    {
+      "file": "design/library/navigation/review/motion-transit-1440.png",
+      "sha256": "56b9ea502c08bfb45d3083c62bc15fb38231f630d654fdafeab2d75cff69f41b",
+      "bytes": 48669,
+      "motion": "transit",
+      "reduced": false,
+      "t": 1440
+    },
+    {
+      "file": "design/library/navigation/review/motion-transit-1800.png",
+      "sha256": "a1899d8a09c0d7aa0bb86483317151372b9462c590dda912aec980a74ec929f9",
+      "bytes": 68206,
+      "motion": "transit",
+      "reduced": false,
+      "t": 1800
+    },
+    {
+      "file": "design/library/navigation/review/motion-arrival-blue-0000.png",
+      "sha256": "2e04e108283dfc4b549dc8da418c2ff1378385c6778b737201836278e1ca7bab",
+      "bytes": 133563,
+      "motion": "arrival-blue",
+      "reduced": false,
+      "t": 0
+    },
+    {
+      "file": "design/library/navigation/review/motion-arrival-blue-0680.png",
+      "sha256": "0f058ea0f136c3e418cec0f1312d8dbbc915e7a9cc0880e9632fa4389d4e1464",
+      "bytes": 173744,
+      "motion": "arrival-blue",
+      "reduced": false,
+      "t": 680
+    },
+    {
+      "file": "design/library/navigation/review/motion-arrival-blue-1360.png",
+      "sha256": "c47f49dbbfa40b2e5a0378002833adc4a9220ad8cb4d272be23c6752120ba69a",
+      "bytes": 182846,
+      "motion": "arrival-blue",
+      "reduced": false,
+      "t": 1360
+    },
+    {
+      "file": "design/library/navigation/review/motion-arrival-blue-2040.png",
+      "sha256": "a8367696eaa2020cf85367b516a31184ca3d777a290dad4bef916dfb89896f66",
+      "bytes": 166997,
+      "motion": "arrival-blue",
+      "reduced": false,
+      "t": 2040
+    },
+    {
+      "file": "design/library/navigation/review/motion-arrival-blue-2720.png",
+      "sha256": "d1533175f1fce79aef5c94c006de5d1b93e78774cdaee3862e17d289c89f1341",
+      "bytes": 166770,
+      "motion": "arrival-blue",
+      "reduced": false,
+      "t": 2720
+    },
+    {
+      "file": "design/library/navigation/review/motion-arrival-blue-3400.png",
+      "sha256": "abb76c091d838db81c26f444ad83579edd50cb97ddf8f5de4bffbbbbe61ac00b",
+      "bytes": 165620,
+      "motion": "arrival-blue",
+      "reduced": false,
+      "t": 3400
+    },
+    {
+      "file": "design/library/navigation/review/motion-arrival-red-0000.png",
+      "sha256": "c6b37bc840452b128799503707df261c40160f90e31c0f8dd5db9068cbf6edd2",
+      "bytes": 133570,
+      "motion": "arrival-red",
+      "reduced": false,
+      "t": 0
+    },
+    {
+      "file": "design/library/navigation/review/motion-arrival-red-0680.png",
+      "sha256": "7abbb197f18e513e2b7359f376f85b7847e54035c60f2744137592e9afa03c69",
+      "bytes": 164927,
+      "motion": "arrival-red",
+      "reduced": false,
+      "t": 680
+    },
+    {
+      "file": "design/library/navigation/review/motion-arrival-red-1360.png",
+      "sha256": "d5462b12aaf953b1636a28593783011b068f885c1af7acb3b2c2bf183188733d",
+      "bytes": 177709,
+      "motion": "arrival-red",
+      "reduced": false,
+      "t": 1360
+    },
+    {
+      "file": "design/library/navigation/review/motion-arrival-red-2040.png",
+      "sha256": "260080cf5ef0c866ecbce2a0e104d6e144f45272a9b237dc630f4564f5284d01",
+      "bytes": 162660,
+      "motion": "arrival-red",
+      "reduced": false,
+      "t": 2040
+    },
+    {
+      "file": "design/library/navigation/review/motion-arrival-red-2720.png",
+      "sha256": "820344a33d358450aed5d2f22f9734e0d845d8865881c65c2eb63a67f7abb8e8",
+      "bytes": 162003,
+      "motion": "arrival-red",
+      "reduced": false,
+      "t": 2720
+    },
+    {
+      "file": "design/library/navigation/review/motion-arrival-red-3400.png",
+      "sha256": "46cb05b30e69c72a252b0ab362e207d9cee46bbea9e428a480a9ae2c5abe5bd9",
+      "bytes": 160949,
+      "motion": "arrival-red",
+      "reduced": false,
+      "t": 3400
+    },
+    {
+      "file": "design/library/navigation/review/motion-step-advance-reduced-0000.png",
+      "sha256": "b6ffee45c62818160bb7ddd652a7b10d69fe305d79042071dda1cda9851eecc4",
+      "bytes": 47684,
+      "motion": "step-advance",
+      "reduced": true,
+      "t": 0
+    },
+    {
+      "file": "design/library/navigation/review/motion-step-advance-reduced-0032.png",
+      "sha256": "0aee97644c849580460e8a77bf2c67c63ba6d3fc3b0d34e9f263a06c5b012549",
+      "bytes": 48086,
+      "motion": "step-advance",
+      "reduced": true,
+      "t": 32
+    },
+    {
+      "file": "design/library/navigation/review/motion-step-advance-reduced-0064.png",
+      "sha256": "b6688885108ded4675b74d9ea8d3315dd599c6795b1f036fa755d52ca87cd0be",
+      "bytes": 47893,
+      "motion": "step-advance",
+      "reduced": true,
+      "t": 64
+    },
+    {
+      "file": "design/library/navigation/review/motion-step-advance-reduced-0096.png",
+      "sha256": "65b2ca873a19ed6c74c31b7b2c9160c2420e092f40a79438c440013b1cfd1396",
+      "bytes": 47973,
+      "motion": "step-advance",
+      "reduced": true,
+      "t": 96
+    },
+    {
+      "file": "design/library/navigation/review/motion-step-advance-reduced-0128.png",
+      "sha256": "6669b1128541393018603b1338f1c5fc86b5e0e84321955f09e4921ea8a73d5d",
+      "bytes": 48109,
+      "motion": "step-advance",
+      "reduced": true,
+      "t": 128
+    },
+    {
+      "file": "design/library/navigation/review/motion-step-advance-reduced-0160.png",
+      "sha256": "f69cf2d1b830e4781f13a3f3e77efad72caf938e1767e3ca42b075b2c123fe9a",
+      "bytes": 47823,
+      "motion": "step-advance",
+      "reduced": true,
+      "t": 160
+    },
+    {
+      "file": "design/library/navigation/review/motion-step-switch-reduced-0000.png",
+      "sha256": "528e05996dba9f069aed718aef367678a8742e30d838b2a56d1049399daf2cc5",
+      "bytes": 48397,
+      "motion": "step-switch",
+      "reduced": true,
+      "t": 0
+    },
+    {
+      "file": "design/library/navigation/review/motion-step-switch-reduced-0032.png",
+      "sha256": "2cc1e9e1824c8f8b9fa06d3dfdcfa11f69590e6525c562637923588f3fc0161d",
+      "bytes": 48888,
+      "motion": "step-switch",
+      "reduced": true,
+      "t": 32
+    },
+    {
+      "file": "design/library/navigation/review/motion-step-switch-reduced-0064.png",
+      "sha256": "ab1c347416d7fa2b7ebde4e26c0981309cb01bfca1da4a9bce4ca104dfa833f0",
+      "bytes": 48757,
+      "motion": "step-switch",
+      "reduced": true,
+      "t": 64
+    },
+    {
+      "file": "design/library/navigation/review/motion-step-switch-reduced-0096.png",
+      "sha256": "3aaea89c1b57892518f9f62c38263b8b285e81bd80913a3cb27865437993b00a",
+      "bytes": 48818,
+      "motion": "step-switch",
+      "reduced": true,
+      "t": 96
+    },
+    {
+      "file": "design/library/navigation/review/motion-step-switch-reduced-0128.png",
+      "sha256": "675cfafe221e94fa492436f494b4466894eb4a4ee388111d3fb07219a3333ae8",
+      "bytes": 49034,
+      "motion": "step-switch",
+      "reduced": true,
+      "t": 128
+    },
+    {
+      "file": "design/library/navigation/review/motion-step-switch-reduced-0160.png",
+      "sha256": "da56537ad67f81cf748ce06b5b10bc4e591adcee2f8e4c9bb420f9b363d98639",
+      "bytes": 48701,
+      "motion": "step-switch",
+      "reduced": true,
+      "t": 160
+    },
+    {
+      "file": "design/library/navigation/review/motion-step-arrive-reduced-0000.png",
+      "sha256": "e2d320622ca5d8a8b715e0d03b5a646cc6f8bdba412181ed7aeb6465eeea11a2",
+      "bytes": 47896,
+      "motion": "step-arrive",
+      "reduced": true,
+      "t": 0
+    },
+    {
+      "file": "design/library/navigation/review/motion-step-arrive-reduced-0032.png",
+      "sha256": "179a1ee6cae6f8357423b743e95c7ac4aa5c91a720cdcfa99cc12c6438c78151",
+      "bytes": 48433,
+      "motion": "step-arrive",
+      "reduced": true,
+      "t": 32
+    },
+    {
+      "file": "design/library/navigation/review/motion-step-arrive-reduced-0064.png",
+      "sha256": "64ab55a0d1969c10937869941e3c5e6cb2fcdbaddead2096fcbb92268baf6e0c",
+      "bytes": 48212,
+      "motion": "step-arrive",
+      "reduced": true,
+      "t": 64
+    },
+    {
+      "file": "design/library/navigation/review/motion-step-arrive-reduced-0096.png",
+      "sha256": "5988450a903fcc710548d43d7513cda231913115fbd6ecbdb1d0e1eb4a17db7d",
+      "bytes": 48171,
+      "motion": "step-arrive",
+      "reduced": true,
+      "t": 96
+    },
+    {
+      "file": "design/library/navigation/review/motion-step-arrive-reduced-0128.png",
+      "sha256": "5e4f559ff5beb2c111bed430e773f2126a1f6cec477ff98cf1d59cfbe5edc0e9",
+      "bytes": 48332,
+      "motion": "step-arrive",
+      "reduced": true,
+      "t": 128
+    },
+    {
+      "file": "design/library/navigation/review/motion-step-arrive-reduced-0160.png",
+      "sha256": "3e7809c15bbd94ea9b1ee76aabcab38275ce942deb22a227c705a0a780a9ba56",
+      "bytes": 48167,
+      "motion": "step-arrive",
+      "reduced": true,
+      "t": 160
+    },
+    {
+      "file": "design/library/navigation/review/motion-choose-reduced-0000.png",
+      "sha256": "701b074fbd1b9c7ccd4c220acb387cdee5ea818e744dd5d55188e46d8a41636a",
+      "bytes": 48858,
+      "motion": "choose",
+      "reduced": true,
+      "t": 0
+    },
+    {
+      "file": "design/library/navigation/review/motion-choose-reduced-0032.png",
+      "sha256": "388002c4cd54b4c87f347951d9a9e5f9db1ce546eef877016864a725a3574c7f",
+      "bytes": 49103,
+      "motion": "choose",
+      "reduced": true,
+      "t": 32
+    },
+    {
+      "file": "design/library/navigation/review/motion-choose-reduced-0064.png",
+      "sha256": "6a4ac602338aeb780810b8e8ef46aa86e2572de1667d5d48bdc77dcfd81096a1",
+      "bytes": 48924,
+      "motion": "choose",
+      "reduced": true,
+      "t": 64
+    },
+    {
+      "file": "design/library/navigation/review/motion-choose-reduced-0096.png",
+      "sha256": "9904101b3bda356a453ba1cc2164576ddd7b8b6ccba625c3ebc6599cdb414a6d",
+      "bytes": 51279,
+      "motion": "choose",
+      "reduced": true,
+      "t": 96
+    },
+    {
+      "file": "design/library/navigation/review/motion-choose-reduced-0128.png",
+      "sha256": "e1da06602bd480ea3d9811fd4412f18c7ebe0145a7e9e72fc785ac84198ae543",
+      "bytes": 52109,
+      "motion": "choose",
+      "reduced": true,
+      "t": 128
+    },
+    {
+      "file": "design/library/navigation/review/motion-choose-reduced-0160.png",
+      "sha256": "b624b925dd7d4d1ccf563a316f651abbb1e45182e517644d1534e2b23c5f0fd3",
+      "bytes": 52512,
+      "motion": "choose",
+      "reduced": true,
+      "t": 160
+    },
+    {
+      "file": "design/library/navigation/review/motion-confirm-reduced-0000.png",
+      "sha256": "a9ccb80ff2b702b5d9b62fea63a428f13af058634411ccab3f201ed7d4eb3186",
+      "bytes": 47997,
+      "motion": "confirm",
+      "reduced": true,
+      "t": 0
+    },
+    {
+      "file": "design/library/navigation/review/motion-confirm-reduced-0032.png",
+      "sha256": "5f3ff8773ce54e0aaff8782fe8de90c87b2f43e4abe5af8e3541eab8ca6bd143",
+      "bytes": 52079,
+      "motion": "confirm",
+      "reduced": true,
+      "t": 32
+    },
+    {
+      "file": "design/library/navigation/review/motion-confirm-reduced-0064.png",
+      "sha256": "01031f0763f0656124cc34c52f9f16dacb46a66b63c7669fc9de6ef5e7edecf5",
+      "bytes": 52718,
+      "motion": "confirm",
+      "reduced": true,
+      "t": 64
+    },
+    {
+      "file": "design/library/navigation/review/motion-confirm-reduced-0096.png",
+      "sha256": "5949dcf7b4ad654a3d70142ef3940cdb09066822fea44b674068ea4f30ea4fac",
+      "bytes": 53107,
+      "motion": "confirm",
+      "reduced": true,
+      "t": 96
+    },
+    {
+      "file": "design/library/navigation/review/motion-confirm-reduced-0128.png",
+      "sha256": "a6f855b32e8c8e12485bb9130604976dfc90e670b61586ac083d7a9749d916e7",
+      "bytes": 53546,
+      "motion": "confirm",
+      "reduced": true,
+      "t": 128
+    },
+    {
+      "file": "design/library/navigation/review/motion-confirm-reduced-0160.png",
+      "sha256": "80ef135a45610dd0869cffd22dd3e44f16fa37d88386e5c9d60db3b63eab212e",
+      "bytes": 53670,
+      "motion": "confirm",
+      "reduced": true,
+      "t": 160
+    },
+    {
+      "file": "design/library/navigation/review/motion-transit-reduced-0000.png",
+      "sha256": "dcb8244577ea7e3da4124e2a00dc4b668fa624d43dfd6b7b6a365d50b6ecf975",
+      "bytes": 67759,
+      "motion": "transit",
+      "reduced": true,
+      "t": 0
+    },
+    {
+      "file": "design/library/navigation/review/motion-transit-reduced-0240.png",
+      "sha256": "73c784b88ab88c1d56436049fc93cd4b4bdd6b809104be640e822e2e81f19ee4",
+      "bytes": 47087,
+      "motion": "transit",
+      "reduced": true,
+      "t": 240
+    },
+    {
+      "file": "design/library/navigation/review/motion-transit-reduced-0480.png",
+      "sha256": "d404e7f9e1424850a9c7bcd9dafdb8bf3e1515d785788d362ea4bfe1fabfdeb3",
+      "bytes": 47128,
+      "motion": "transit",
+      "reduced": true,
+      "t": 480
+    },
+    {
+      "file": "design/library/navigation/review/motion-transit-reduced-0720.png",
+      "sha256": "9523a2f751e498b5a4a3a69f365a9a3c16ab8ade73505a095257d474aae01317",
+      "bytes": 47008,
+      "motion": "transit",
+      "reduced": true,
+      "t": 720
+    },
+    {
+      "file": "design/library/navigation/review/motion-transit-reduced-0960.png",
+      "sha256": "8ab27ab67b3a8b101b1756fdc7483ae40c598eeb57c2492263b3ce6442d02da8",
+      "bytes": 47071,
+      "motion": "transit",
+      "reduced": true,
+      "t": 960
+    },
+    {
+      "file": "design/library/navigation/review/motion-transit-reduced-1200.png",
+      "sha256": "a98f7b5b3461d5542606178dab643676b5e2296c7073c158550c74fa05b1e750",
+      "bytes": 68149,
+      "motion": "transit",
+      "reduced": true,
+      "t": 1200
+    },
+    {
+      "file": "design/library/navigation/review/motion-arrival-blue-reduced-0000.png",
+      "sha256": "2e04e108283dfc4b549dc8da418c2ff1378385c6778b737201836278e1ca7bab",
+      "bytes": 133563,
+      "motion": "arrival-blue",
+      "reduced": true,
+      "t": 0
+    },
+    {
+      "file": "design/library/navigation/review/motion-arrival-blue-reduced-0240.png",
+      "sha256": "d636094257cb0c0c71026c8dc9df31b6d0260efe8bfbbde0d1f448abd05aa0b3",
+      "bytes": 165573,
+      "motion": "arrival-blue",
+      "reduced": true,
+      "t": 240
+    },
+    {
+      "file": "design/library/navigation/review/motion-arrival-blue-reduced-0480.png",
+      "sha256": "bc9cdc2362cf0512d5d88b75141475f1a3477ab39bd1bb3695441a1a6648a86f",
+      "bytes": 165585,
+      "motion": "arrival-blue",
+      "reduced": true,
+      "t": 480
+    },
+    {
+      "file": "design/library/navigation/review/motion-arrival-blue-reduced-0720.png",
+      "sha256": "0a946041b4d9d33df3bf0863b84ec9d49ad38f5d4aad5f8cb4337d7bc75b1850",
+      "bytes": 165350,
+      "motion": "arrival-blue",
+      "reduced": true,
+      "t": 720
+    },
+    {
+      "file": "design/library/navigation/review/motion-arrival-blue-reduced-0960.png",
+      "sha256": "740fd4b0aa7c0fdef72486cfeae5323033d04d09e26508130ceb5ecd06e895fa",
+      "bytes": 165837,
+      "motion": "arrival-blue",
+      "reduced": true,
+      "t": 960
+    },
+    {
+      "file": "design/library/navigation/review/motion-arrival-blue-reduced-1200.png",
+      "sha256": "9df173f866e4c4fdf82f7580d16ab2026d620c733105361e33e101b0ce3327a9",
+      "bytes": 165617,
+      "motion": "arrival-blue",
+      "reduced": true,
+      "t": 1200
+    },
+    {
+      "file": "design/library/navigation/review/motion-arrival-red-reduced-0000.png",
+      "sha256": "c6b37bc840452b128799503707df261c40160f90e31c0f8dd5db9068cbf6edd2",
+      "bytes": 133570,
+      "motion": "arrival-red",
+      "reduced": true,
+      "t": 0
+    },
+    {
+      "file": "design/library/navigation/review/motion-arrival-red-reduced-0240.png",
+      "sha256": "1854e5df1e52927709d6aec33142c7f02c76a1b4f9ebc7dd6f8088726f84ff8f",
+      "bytes": 160853,
+      "motion": "arrival-red",
+      "reduced": true,
+      "t": 240
+    },
+    {
+      "file": "design/library/navigation/review/motion-arrival-red-reduced-0480.png",
+      "sha256": "3ae20c3e4a25e17a35344cfe6bf46b6b54a46465b76a9b76ef13fe747012cbbb",
+      "bytes": 161009,
+      "motion": "arrival-red",
+      "reduced": true,
+      "t": 480
+    },
+    {
+      "file": "design/library/navigation/review/motion-arrival-red-reduced-0720.png",
+      "sha256": "eef24f07bb1cf4e21c5665eed8527cd3fcdf21ae7297cf61e12fe992908a6f89",
+      "bytes": 160651,
+      "motion": "arrival-red",
+      "reduced": true,
+      "t": 720
+    },
+    {
+      "file": "design/library/navigation/review/motion-arrival-red-reduced-0960.png",
+      "sha256": "26af2c8cd418b07c03953a592685a7478d374b0d2860458e19be452c1a424bd4",
+      "bytes": 161205,
+      "motion": "arrival-red",
+      "reduced": true,
+      "t": 960
+    },
+    {
+      "file": "design/library/navigation/review/motion-arrival-red-reduced-1200.png",
+      "sha256": "ffae2677e5bc603f8c56ef13b0fa50ac2c5a49ece79e31b9f3ef2a913f39529c",
+      "bytes": 160946,
+      "motion": "arrival-red",
+      "reduced": true,
+      "t": 1200
+    }
+  ],
+  "problems": []
+}

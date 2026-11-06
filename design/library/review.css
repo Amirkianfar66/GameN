@@ -1,0 +1,51 @@
+/* mothership:dev-only · the library review pages' shared frame (from group 2 on; group 1's page.css keeps its own copy).
+   A page, its controls, the groups and the state cards (a phone-width sheet, its state id and the view fields that make
+   it), the dossier's tape, strip, words and buttons as the library sets them, the motion players, and 200% text. */
+:root { color-scheme: dark; }
+/* The root keeps the reader's text size (100%), so the dossier's rem sizes and em media rules follow it. */
+html { font-size: 100%; }
+html, body { margin: 0; background: var(--ms-color-canvas); color: var(--ms-color-text); }
+body { font: 15px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+#lib-app { padding: 16px max(16px, env(safe-area-inset-right, 0px)) 40px max(16px, env(safe-area-inset-left, 0px)); display: grid; gap: 22px; }
+.lib-head { display: grid; gap: 6px; border-bottom: 2px solid var(--ms-color-caption); padding-bottom: 12px; }
+.lib-head h1 { margin: 0; font-family: var(--ms-font-lettering); font-weight: var(--ms-weight-lettering); font-size: 24px; letter-spacing: 0.04em; text-transform: uppercase; }
+.lib-head p { margin: 0; color: var(--ms-color-text-secondary); max-width: 80ch; }
+.lib-controls { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; }
+.lib-controls label { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; color: var(--ms-color-text-secondary); font-size: 13px; }
+.lib-controls select, .lib-controls button { font: inherit; min-height: 36px; max-width: 100%; padding: 4px 10px; border-radius: 8px; border: 2px solid var(--ms-color-steel-mid); background: var(--ms-color-panel); color: var(--ms-color-text); }
+.lib-group { display: grid; gap: 12px; min-width: 0; }
+.lib-group > h2 { margin: 0; font-family: var(--ms-font-lettering); font-weight: var(--ms-weight-lettering); font-size: 18px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ms-color-caption); }
+.lib-cards { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start; }
+.lib-card { width: var(--lib-width, 390px); max-width: 100%; margin: 0; display: grid; gap: 6px; }
+.lib-card__sheet { background: var(--ms-color-panel); border: 2px solid var(--ms-color-ink); border-radius: 12px; padding: 10px 12px 14px; color: var(--ms-color-text); min-height: 80px; }
+.lib-card__state { display: flex; flex-wrap: wrap; gap: 6px; align-items: baseline; font-size: 12px; color: var(--ms-color-text-secondary); }
+.lib-card__state b { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--ms-color-caption); font-weight: 600; }
+.lib-card__fields { margin: 0; font: 11px/1.45 ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--ms-color-text-secondary); overflow-wrap: anywhere; }
+/* 200% text: the sheet's inherited size doubles (the dossier's buttons follow it), and every size a page sets is a
+   multiple of --lib-text. The dossier's slip words and file titles are fixed at 14 px in its own stylesheet: doubled
+   here, for review pages only, and the file's tab wraps as the dossier's own large-text rule makes it on a phone. The
+   review captures start the browser at a 32 px default text size, so that rule and every rem answer as they would. */
+[data-text="2"] .lib-card__sheet { font-size: 200%; --lib-text: 2; }
+[data-text="2"] .lib-card__sheet .ab-kit__words, [data-text="2"] .lib-card__sheet .ab-file__title { font-size: 28px; }
+[data-text="2"] .lib-card__sheet .ab-file__tab { flex-wrap: wrap; row-gap: 6px; }
+[data-text="2"] .lib-card__sheet .ab-file__title { white-space: normal; }
+
+/* The label tape, as the dossier sets one: ink, paper lettering, a little askew. */
+.lib-tape { display: inline-block; padding: 3px 8px 2px; rotate: -2deg; font-family: var(--ms-font-lettering); font-weight: var(--ms-weight-lettering); font-size: calc(13px * var(--lib-text, 1)); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ms-color-paper); background: var(--ms-color-ink); border-radius: 2px; box-shadow: 2px 2px 0 rgb(21 25 35 / 0.3); }
+/* A strip: the dossier's paper slip with its tape, words, picture, stamp and buttons. */
+.lib-strip { display: grid; gap: 8px; color: var(--ms-color-ink); }
+.lib-strip.ab-kit { display: grid; margin: 4px 0 0; padding: 10px 12px; }
+.lib-strip__top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; align-items: center; }
+.lib-words { margin: 0; font-weight: 800; font-size: calc(14px * var(--lib-text, 1)); line-height: 1.3; }
+.lib-note { margin: 0; font-size: calc(13px * var(--lib-text, 1)); line-height: 1.3; }
+.lib-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
+.lib-buttons .ab-button { flex: 1 1 140px; }
+.lib-stamp-slot { position: relative; min-height: 28px; display: flex; justify-content: flex-end; }
+.lib-stamp-slot .ab-stamp { transform-origin: 50% 50%; }
+
+/* Motion players. */
+.lib-player { display: grid; gap: 8px; }
+.lib-player__controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-size: 12px; color: var(--ms-color-text-secondary); }
+.lib-player__controls input[type=range] { flex: 1 1 140px; accent-color: var(--ms-color-caption); }
+.lib-player__controls button { font: inherit; min-height: 32px; padding: 2px 10px; border-radius: 8px; border: 2px solid var(--ms-color-steel-mid); background: var(--ms-color-panel); color: var(--ms-color-text); }
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto; } }

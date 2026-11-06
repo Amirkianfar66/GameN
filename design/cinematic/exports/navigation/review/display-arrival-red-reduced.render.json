@@ -1,0 +1,43 @@
+{
+  "tool": "design/tools/cinematic-render.mjs",
+  "pilot": "navigation",
+  "version": "library-navigation-films-0.1.0",
+  "surface": "display",
+  "variant": "reduced",
+  "stage": "design/cinematic/stage.html?pilot=navigation&surface=display&variant=reduced&beds=4&case=arrival-red",
+  "size": [
+    1920,
+    1080
+  ],
+  "deviceScale": 0.6667,
+  "fixture": null,
+  "browser": "Chromium 141.0.7390.37",
+  "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+  "outputs": [
+    {
+      "kind": "video",
+      "file": "design/cinematic/exports/navigation/review/display-arrival-red-reduced.mp4",
+      "sha256": "41b6de3952fc217cc6414271db83297d1d33e7350f4f297ea5c5734007c4a730",
+      "bytes": 77213,
+      "fps": 30,
+      "frames": 37,
+      "durationMs": 1200,
+      "from": 0,
+      "to": 1200,
+      "audio": "design/cinematic/exports/navigation/audio/navigation-reduced.cues.wav"
+    },
+    {
+      "kind": "preview",
+      "file": "design/cinematic/exports/navigation/review/display-arrival-red-reduced.preview.webp",
+      "sha256": "a366d240fa2215709c5b2a2e9a97000a6d24d2201cbfee2af884dcddfe1474f5",
+      "bytes": 21726
+    },
+    {
+      "kind": "poster",
+      "file": "design/cinematic/exports/navigation/review/display-arrival-red-reduced.poster.webp",
+      "sha256": "b8d017fcad1f4f86c139137f7c46c3d172bb38ef81971a6220333d2602e4e412",
+      "bytes": 15246,
+      "t": 1100
+    }
+  ]
+}

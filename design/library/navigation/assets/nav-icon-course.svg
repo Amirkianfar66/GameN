@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · library art proposal · nav-icon-course library-navigation-0.1.0 · generated, do not edit by hand
+  The tray mark for the offices' Course panel.
+  Built by design/tools/library-assets.mjs from design/library/navigation/art.mjs. Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48"><g id="nav-icon-course"><circle cx="24" cy="24" r="20" fill="#1B2747" stroke="#151923" stroke-width="3"/><circle cx="24" cy="24" r="14" fill="none" stroke="#8A97AB" stroke-width="1.8" stroke-dasharray="2 4"/><path d="M24 8 L28 24 L24 40 L20 24 Z" fill="#F4EBDD" stroke="#151923" stroke-width="1.8" stroke-linejoin="round"/><path d="M24 8 L28 24 H20 Z" fill="#F7C52B" stroke="#151923" stroke-width="1.8" stroke-linejoin="round"/><circle cx="24" cy="24" r="2.6" fill="#151923"/></g></svg>

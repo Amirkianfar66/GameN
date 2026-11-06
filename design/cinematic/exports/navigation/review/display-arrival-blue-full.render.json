@@ -1,0 +1,43 @@
+{
+  "tool": "design/tools/cinematic-render.mjs",
+  "pilot": "navigation",
+  "version": "library-navigation-films-0.1.0",
+  "surface": "display",
+  "variant": "full",
+  "stage": "design/cinematic/stage.html?pilot=navigation&surface=display&variant=full&beds=4&case=arrival-blue",
+  "size": [
+    1920,
+    1080
+  ],
+  "deviceScale": 0.6667,
+  "fixture": null,
+  "browser": "Chromium 141.0.7390.37",
+  "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+  "outputs": [
+    {
+      "kind": "video",
+      "file": "design/cinematic/exports/navigation/review/display-arrival-blue-full.mp4",
+      "sha256": "7ef7dbb8df6d4a00f56e91dba28459d86af038e12f7c9cae0a1ff1a7a0bd2558",
+      "bytes": 450039,
+      "fps": 30,
+      "frames": 127,
+      "durationMs": 4200,
+      "from": 0,
+      "to": 4200,
+      "audio": "design/cinematic/exports/navigation/audio/navigation-arrival.cues.wav"
+    },
+    {
+      "kind": "preview",
+      "file": "design/cinematic/exports/navigation/review/display-arrival-blue-full.preview.webp",
+      "sha256": "315c2191c66482b7da5bbf348a98935de8400095539b31ce48a6a17772b8569e",
+      "bytes": 170680
+    },
+    {
+      "kind": "poster",
+      "file": "design/cinematic/exports/navigation/review/display-arrival-blue-full.poster.webp",
+      "sha256": "781656e044d720b51ab2787ab2165c3449471d557966d1a09058c08885b935f4",
+      "bytes": 17194,
+      "t": 4100
+    }
+  ]
+}

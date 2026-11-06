@@ -1,0 +1,43 @@
+{
+  "tool": "design/tools/cinematic-render.mjs",
+  "pilot": "navigation",
+  "version": "library-navigation-films-0.1.0",
+  "surface": "phone",
+  "variant": "full",
+  "stage": "design/cinematic/stage.html?pilot=navigation&surface=phone&variant=full&beds=4&w=390&h=844&case=arrival-red",
+  "size": [
+    390,
+    844
+  ],
+  "deviceScale": 1.5,
+  "fixture": null,
+  "browser": "Chromium 141.0.7390.37",
+  "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+  "outputs": [
+    {
+      "kind": "video",
+      "file": "design/cinematic/exports/navigation/review/phone390-arrival-red-full.mp4",
+      "sha256": "b626c155f98a673dc59275e5c9ce8327312131f603af5d56af30e3b5c27aa4fe",
+      "bytes": 337151,
+      "fps": 30,
+      "frames": 103,
+      "durationMs": 3400,
+      "from": 0,
+      "to": 3400,
+      "audio": "design/cinematic/exports/navigation/audio/navigation-arrival-short.cues.wav"
+    },
+    {
+      "kind": "preview",
+      "file": "design/cinematic/exports/navigation/review/phone390-arrival-red-full.preview.webp",
+      "sha256": "a27066e48d9752d43b38bf378db210a180178291919adffa3941aab46353a6b8",
+      "bytes": 117240
+    },
+    {
+      "kind": "poster",
+      "file": "design/cinematic/exports/navigation/review/phone390-arrival-red-full.poster.webp",
+      "sha256": "a16f3f8f4c9736b0796f73047b0964866f631600eea0cf2e52ca4561bc80729b",
+      "bytes": 11736,
+      "t": 3300
+    }
+  ]
+}
