@@ -1,10 +1,16 @@
 // mothership:dev-only
 //
-// Pilot 1 on the cinematic stage (../../stage.html): the display's cut, the phone board with the
-// cinematic pass over its Hospital panel, and the identity-free drone insert. A review page's
+// Pilot 1 on the cinematic stage (../../stage.html): the board treatment (the cinematic pass over
+// the board's own Hospital panel) on a phone and, by default, on the display; the display's covering
+// cut (surface "cut": only in a phase where nobody decides, ../../lib/visibility.mjs); and the
+// identity-free drone insert. RESCUED is published as the navigation confirmations begin, a phase
+// with an open decision, so the display's default is the board treatment, never the cut. A review page's
 // controller, not a client: every input is the board-v2 review page's synthetic medical fixture
-// (design/board-v2/js/medical-fixtures.mjs, outcome "rescue": Rigel, seat 2, Injured at H1, healed;
-// the published snapshot already has Rigel at A2, as S5 plays it), and t is the stage's to seek.
+// (design/board-v2/js/medical-fixtures.mjs): outcome "rescue" (Rigel, seat 2, Injured at H1, healed;
+// free, so the published snapshot has Rigel in Room A at A2) or, with case=detained, outcome
+// "rescue-detained" (Mira, seat 8, Injured and detained at H2, healed; the snapshot has Mira back in
+// the Jail at J1). t is the stage's to seek. The film ends on that placement: the patient walks out,
+// the berth is left empty, and the playable figure at its place is never hidden.
 //
 // The phone board is the approved board-v2 review page itself (index.html?beds=4&film=rescue at
 // t = -1: the board, the berth states and the snapshot, no film), unmodified, in a same-origin
@@ -14,6 +20,7 @@
 
 import { CREW } from '../../../board-motion/figures/crew.mjs';
 import { frameScene } from '../../../board-motion/scenes/frame.mjs';
+import { SCENES } from '../../../board-motion/scenes/index.mjs';
 import { LABEL_MARGIN } from '../../../board-v2/fx/label-box.mjs';
 import { DOCK, DRONE, MEDICAL, droneFit, droneSvg, insetBox } from '../../../board-v2/fx/medical.mjs';
 import { fourBerthKit, fourFilmBerth } from '../../../board-v2/fx/medical-four.mjs';
@@ -32,33 +39,46 @@ const ASSETS = '../board-v2/assets/scenes';
 const SVGNS = 'http://www.w3.org/2000/svg';
 const f = v => Number((+v).toFixed(2));
 
-/** The review fixture: the board-v2 review page's "rescue" outcome on the four-berth board. */
+/** The review cases: a free patient healed back to Room A, and a detained one healed back to the Jail. */
+export const CASES = Object.freeze({ free: 'rescue', detained: 'rescue-detained' });
+
+/**
+ * The review fixture: one of the board-v2 review page's rescue outcomes on the four-berth board, with
+ * where the snapshot places the patient (destination: the room, the slot and the room's occupants).
+ */
 export function reviewOutcome(roster = 9, name = 'rescue') {
   const outcome = medicalOutcome(name, roster);
   const seats = outcome.after.map(seat => ({ seat: seat.seat, slotId: seat.room === 'hospital' ? seat.slot : null }));
   const film = fourFilmBerth(outcome.anchor, seats, outcome.subject.seat);
   const occupants = outcome.after.filter(seat => seat.room === 'hospital' && seat.seat !== outcome.subject.seat);
-  return { outcome, film, occupants, subject: outcome.subject };
+  const after = outcome.after.find(seat => seat.seat === outcome.subject.seat);
+  const destination = { room: after.room, slotId: after.slot, seats: outcome.after.filter(seat => seat.room === after.room), subjectSeat: after.seat };
+  const subject = { ...outcome.subject, detained: Boolean(after.jailed) };
+  return { outcome, film, occupants, subject, destination, leaves: after.room !== 'hospital' };
 }
 
 const WARD_PICTURES = ['hospital-ward-four.back.svg', 'hospital-ward-four.berth-four-h1-head.svg', 'hospital-ward-four.berth-four-h1.svg', 'hospital-ward-four.berth-four-h2-head.svg', 'hospital-ward-four.berth-four-h2.svg', 'hospital-ward-four.berth-four-h3.svg', 'hospital-ward-four.berth-four-h4.svg'].map(name => ({ href: `${ASSETS}/${name}`, w: 1024, h: 768 }));
 
-/** The display's cut: a 1920 x 1080 SVG redrawn at each seek. */
-export async function mountDisplay(root, { variant = 'full', width = 1920, height = 1080, roster = 9 } = {}) {
-  const { film, occupants, subject } = reviewOutcome(roster);
-  const library = pictureLibrary(root, WARD_PICTURES);
+const ROOM_ASSETS = '../board-motion/assets/scenes';
+/** A room's pictures (page.js scenePictures()), for the closing panel. */
+const roomPictures = room => [{ href: `${ROOM_ASSETS}/${room}.back.svg`, w: 1024, h: 768 }, ...Object.keys(SCENES[room].layers ?? {}).map(id => ({ href: `${ROOM_ASSETS}/${room}.${id.replace(/[A-Z]/g, m => `-${m.toLowerCase()}`)}.svg`, w: 1024, h: 768 }))];
+
+/** The display's covering cut: a 1920 x 1080 SVG redrawn at each seek. Only where lib/visibility.mjs mayCover(). */
+export async function mountCut(root, { variant = 'full', width = 1920, height = 1080, roster = 9, case: which = 'free' } = {}) {
+  const { film, occupants, subject, destination } = reviewOutcome(roster, CASES[which] ?? CASES.free);
+  const library = pictureLibrary(root, [...WARD_PICTURES, ...(destination.room !== 'hospital' ? roomPictures(destination.room) : [])]);
   await library.ready;
   const host = document.createElement('div');
   root.append(host);
   let last = null;
   const seek = async t => {
-    const { svg, frame } = displaySvg(t, { berthId: film.berth, subject, occupants, variant, assets: ASSETS, width, height });
+    const { svg, frame } = displaySvg(t, { berthId: film.berth, subject, occupants, variant, assets: ASSETS, roomAssets: ROOM_ASSETS, destination, roster, width, height });
     host.innerHTML = library.swap(svg);
     last = frame;
     await frames();
     return { t, stage: frame.base?.stage ?? (frame.done ? 'done' : null), done: frame.done };
   };
-  return { seek, end: pilotEnd(variant), size: [width, height], selector: '#stage', last: () => last, fixture: { subject: subject.seat, berth: film.berth } };
+  return { seek, end: pilotEnd(variant), size: [width, height], selector: '#stage', last: () => last, fixture: { subject: subject.seat, berth: film.berth, destination: `${destination.room} ${destination.slotId}`, detained: subject.detained } };
 }
 
 /** The frame's Hospital panel geometry, computed as page.js and medical-view.mjs compute it, checked against the frame's drawing. */
@@ -80,15 +100,18 @@ function boardGeometry(doc, { w, h, roster, film, outcome }) {
   const kit = fourBerthKit(film.berth);
   const fit = droneFit({ kit, frame, keepClear: [...(caption ? [{ left: caption.left - LABEL_MARGIN, top: caption.top - LABEL_MARGIN, width: caption.width + 2 * LABEL_MARGIN, height: caption.height + 2 * LABEL_MARGIN }] : []), ...held] });
   const inset = place ? { x: (place.left - frame.tx) / frame.k, y: (place.top - frame.ty) / frame.k, width: place.width / frame.k } : null;
-  return { section, art: section.querySelector('.v2-art'), frame, panel, rect, inset, fit, place };
+  // The pass keeps clear of what S5 keeps clear of: the room label (with its margin) and the other occupants' berths, in scene units.
+  const toScene = r => ({ x: (r.left - frame.tx) / frame.k, y: (r.top - frame.ty) / frame.k, w: r.width / frame.k, h: r.height / frame.k });
+  const keepClear = [...(caption ? [{ left: caption.left - LABEL_MARGIN, top: caption.top - LABEL_MARGIN, width: caption.width + 2 * LABEL_MARGIN, height: caption.height + 2 * LABEL_MARGIN }] : []), ...held].map(toScene);
+  return { section, art: section.querySelector('.v2-art'), frame, panel, rect, inset, fit, place, keepClear };
 }
 
 /**
  * The phone board: the approved review page in a frame w x h, the pass over its Hospital panel.
  * Each seek redraws the pass's layers, each as one scene-sized SVG at its board z-index.
  */
-export async function mountPhone(root, { variant = 'full', w = 390, h = 844, roster = 9 } = {}) {
-  const { outcome, film, subject } = reviewOutcome(roster);
+export async function mountPhone(root, { variant = 'full', w = 390, h = 844, roster = 9, case: which = 'free' } = {}) {
+  const { outcome, film, subject, leaves } = reviewOutcome(roster, CASES[which] ?? CASES.free);
   if (!film.plays) throw new Error('The review outcome plays no film');
   const iframe = document.createElement('iframe');
   iframe.title = 'Board v2 review page (synthetic)';
@@ -123,19 +146,24 @@ export async function mountPhone(root, { variant = 'full', w = 390, h = 844, ros
     for (const node of layers) node.remove();
     layers = [];
     const playing = t >= 0 && t < end;
+    const frame = rescueCinematicFrame(t, film.berth, { variant, surface: 'board', fit: geo.fit, leaves: leaves && !ownBerth });
+    // The playable figure at its snapshot place is always drawn: greyed as away while the film shows
+    // the patient at the berth, back in colour (settling onto its place) as the walker leaves the ward.
+    const arriving = playing && !ownBerth && frame.arrive > 0;
     for (const node of snapshot) {
-      node.classList.toggle('v2-fig--away', playing && !ownBerth);
+      node.classList.toggle('v2-fig--away', playing && !ownBerth && !arriving);
       node.style.visibility = playing && ownBerth ? 'hidden' : '';
+      node.style.translate = arriving && frame.arrive < 1 ? `0 ${r2(-7 * (1 - frame.arrive))}px` : '';
     }
-    if (playing && !ownBerth) section.append(tag); else tag.remove();
-    const frame = rescueCinematicFrame(t, film.berth, { variant, surface: 'board', fit: geo.fit });
+    const onBerth = !frame.release || frame.release.phase === 'bed';
+    if (playing && !ownBerth && onBerth) section.append(tag); else tag.remove();
     const sentence = playing && (frame.base.announce || (variant === 'reduced' && t >= 800)) ? `Player ${subject.seat}: Healed.` : '';
     if (live && live.textContent !== sentence) live.textContent = sentence;
     // A film may shake the art layer, never its press areas: 1.5 px for 300 ms at the pulse (full only).
     const shake = variant === 'full' && t >= 3500 && t < 3800 ? (1 - beat(t, [3500, 3800])) * 1.5 : 0;
     art.style.translate = shake ? `${r2(noise(3, t / 28) * shake)}px ${r2(noise(5, t / 31) * shake)}px` : '';
     if (!playing) { await frames(); return { t, done: t >= end }; }
-    const items = filmItems(frame, { berthId: film.berth, character: subject.character, surface: 'board', prefix: 'hb', inset: geo.inset, fit: geo.fit });
+    const items = filmItems(frame, { berthId: film.berth, character: subject.character, surface: 'board', prefix: 'hb', inset: geo.inset, fit: geo.fit, detained: subject.detained, keepClear: geo.keepClear });
     const byZ = new Map();
     for (const item of items) byZ.set(item.z, (byZ.get(item.z) ?? '') + item.svg);
     for (const [z, markup] of [...byZ.entries()].sort((a, b) => a[0] - b[0])) {
@@ -151,7 +179,7 @@ export async function mountPhone(root, { variant = 'full', w = 390, h = 844, ros
     await frames();
     return { t, stage: frame.base.stage, done: false };
   };
-  return { seek, end, size: [w, h], selector: '#stage iframe', fixture: { subject: subject.seat, berth: film.berth, fit: geo.fit, inset: geo.place?.place ?? null } };
+  return { seek, end, size: [w, h], selector: '#stage iframe', fixture: { subject: subject.seat, berth: film.berth, fit: geo.fit, inset: geo.place?.place ?? null, leaves: leaves && !ownBerth } };
 }
 
 // ---------- the identity-free drone insert ----------
@@ -198,7 +226,10 @@ export async function mountInsert(root, { width = 1920, height = 1080 } = {}) {
   return { seek, end: INSERT.end, size: [width, height], selector: '#stage', fixture: null };
 }
 
+/** The display's default: the board treatment on the display's own board, under everything selectable or read. */
+export const mountDisplay = (root, { variant = 'full', w = 1920, h = 1080, roster = 9, case: which = 'free' } = {}) => mountPhone(root, { variant, w, h, roster, case: which });
+
 export const PILOT_STAGE = Object.freeze({
   id: 'hospital-rescue', version: HOSPITAL_RESCUE_VERSION, variants: VARIANTS,
-  surfaces: Object.freeze({ display: mountDisplay, phone: mountPhone, insert: mountInsert }),
+  surfaces: Object.freeze({ display: mountDisplay, cut: mountCut, phone: mountPhone, insert: mountInsert }),
 });

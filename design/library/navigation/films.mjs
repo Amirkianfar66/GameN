@@ -4,10 +4,13 @@
 // at either planet. Built from the cinematic library (design/cinematic/lib/) and the Blackhole
 // pilot's ship in profile; registered with the cinematic stage for review renders and exports.
 //
-// The transit is the same film for every movement: the ship crosses a band of space from left to
+// The transit is the same film for every movement: the ship crosses a field of space from left to
 // right, never turning, never tinted, the same length whether it advanced, switched arm or left
-// Start. It says that the ship moved, not where (P13). It plays over the board's middle, below the
-// bars, and never covers a control.
+// Start. It says that the ship moved, not where (P13). It plays as the next round's decisions open,
+// so it is drawn behind the crew (design/cinematic/lib/visibility.mjs; the owner's review of
+// 6 November 2026): each room's back wall gives way to one shared field of space and the ship passes
+// behind every figure, name tag, room label, press area, timer and bar, covering nothing. The
+// full-frame insert covers the board: it is for a stage where nobody decides, never over a decision.
 //
 // The arrival reveals the destination, which is public from that moment (navigation.arrivedAt):
 // the camera closes on the planet, the ship slows and descends on its landing beam. The planets
@@ -49,10 +52,13 @@ function ship(prefix, { x, y, height, engine = 1, lights = 1, tilt = 0, opacity 
 
 // ---------- the transit ----------
 
-/** The ship's place across the band at progress v: fast in, a readable slow pass at the middle, fast out. */
+/** Behind the crew: the walls' space in and out (ms), its peak (the rooms' own art always faintly there), the ship's lane (share of the board's height) and the ship's height in it. */
+export const TRANSIT_BOARD = Object.freeze({ wallIn: 300, wallOut: 420, peak: 0.85, lane: Object.freeze({ display: 0.3, phone: 0.17 }), ship: 0.56 });
+
+/** The ship's place across its lane at progress v: fast in, a readable slow pass at the middle, fast out. */
 const transitX = (v, width) => width * (-0.3 + 1.6 * v + 0.12 * Math.sin(2 * Math.PI * v));
 
-/** The band's content (space, stars, streaks, the ship) for a box, at t over a film of `end` ms. */
+/** The insert's content (space, stars, streaks, the ship) for a box, at t over a film of `end` ms. */
 function transitContent(prefix, t, { x, y, w, h, end, still = false, shipRatio = 0.58 }) {
   const v = still ? 0.5 : clamp01(t / end);
   const cy = y + h / 2;
@@ -69,39 +75,44 @@ function transitContent(prefix, t, { x, y, w, h, end, still = false, shipRatio =
 }
 
 /**
- * The transit over a board: a band across the board's middle (layout.board), opening from its
- * centre line, closing at the end, ink edges with caption-yellow keylines. Display and phone differ
- * only in the band's height and the film's length.
+ * The transit behind the crew (the default on every surface): one field of space in the board's
+ * pixels for the rooms' art layers (layout.board: the rooms' area). The stage puts a copy in each
+ * room's art layer at z-index 1 (design/cinematic/lib/stage-kit.mjs artHolders()), each clipped by
+ * its room, so the ship is seen crossing the board's middle through every back wall at once, behind
+ * every figure, name tag, label, press area and bar. The walls never go fully dark
+ * (TRANSIT_BOARD.peak). Reduced: the still field with the ship at the middle, 160 ms in and out.
+ * Returns { art, frame }; art is '' while nothing shows.
  */
-export function transitOverlay(t, layout, { surface = 'display', variant = 'full' } = {}) {
-  const { width, height } = layout;
-  const board = layout.board ?? { x: 0, y: 0, w: width, h: height };
-  const prefix = surface === 'phone' ? 'ntp' : 'ntd';
+export function transitBoardArt(t, layout, { surface = 'display', variant = 'full', prefix = 'ntb' } = {}) {
+  const board = layout.board ?? { x: 0, y: 0, w: layout.width, h: layout.height };
   const end = filmEnd('transit', surface, variant);
-  const full = surface === 'phone' ? Math.min(Math.max(board.h * 0.26, 140), 230) : board.h * 0.3;
-  const cy = board.y + board.h / 2;
-  let open; let opacity = 1;
-  if (variant === 'reduced') {
-    open = 1;
-    opacity = Math.min(clamp01(t / FILM.transit.fade), clamp01((end - t) / FILM.transit.fade));
-  } else {
-    const o = FILM.transit.open;
-    open = Math.min(easeOutCubic(clamp01(t / o)), easeOutCubic(clamp01((end - t) / o)));
-  }
-  const h = full * open;
-  const y = cy - h / 2;
-  const clip = `${prefix}-band`;
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" width="${width}" height="${height}" data-film="navigation-transit" style="pointer-events:none">`
-    + fxDefs(prefix) + `<defs><clipPath id="${clip}"><rect x="${f(board.x)}" y="${f(y)}" width="${f(board.w)}" height="${f(h)}"/></clipPath></defs>`
-    + `<g opacity="${f(opacity)}">`
-    + (h > 1 ? `<g clip-path="url(#${clip})">${transitContent(prefix, t, { x: board.x, y: cy - full / 2, w: board.w, h: full, end, still: variant === 'reduced' })}</g>` : '')
-    + (h > 1 ? `<path d="M${f(board.x)} ${f(y)} H${f(board.x + board.w)} M${f(board.x)} ${f(y + h)} H${f(board.x + board.w)}" stroke="${INK}" stroke-width="7"/>`
-      + `<path d="M${f(board.x)} ${f(y + 5)} H${f(board.x + board.w)} M${f(board.x)} ${f(y + h - 5)} H${f(board.x + board.w)}" stroke="#F2C14E" stroke-width="2.6" opacity="0.9"/>` : '')
-    + `</g></svg>`;
-  return { svg, band: { y, h, full }, end };
+  const still = variant === 'reduced';
+  const B = TRANSIT_BOARD;
+  const frame = { t, done: t >= end, space: 0, ship: null };
+  if (t < 0 || t >= end) return { art: '', frame };
+  frame.space = f(B.peak * (still
+    ? Math.min(clamp01(t / FILM.transit.fade), clamp01((end - t) / FILM.transit.fade))
+    : Math.min(easeOutCubic(clamp01(t / B.wallIn)), easeOutCubic(clamp01((end - t) / B.wallOut)))));
+  if (frame.space <= 0) return { art: '', frame };
+  const laneH = board.h * (surface === 'phone' ? B.lane.phone : B.lane.display);
+  const lane = { x: board.x, y: board.y + board.h / 2 - laneH / 2, w: board.w, h: laneH };
+  const v = still ? 0.5 : clamp01(t / end);
+  frame.ship = { v: f(v), x: f(lane.x + transitX(v, lane.w)), y: f(lane.y + lane.h / 2), height: f(lane.h * B.ship) };
+  const drift = still ? 0 : t;
+  const tail = frame.ship.x - frame.ship.height * (SHIP.w / SHIP.h) * 0.5;
+  const phone = surface === 'phone';
+  const art = `<g opacity="${frame.space}">`
+    + `<rect x="${f(board.x)}" y="${f(board.y)}" width="${f(board.w)}" height="${f(board.h)}" fill="${VOID.space}"/>`
+    + stars({ x: board.x, y: board.y, w: board.w, h: board.h, count: Math.round((board.w * board.h) / (phone ? 2600 : 5200)), seed: 31, t, drift: [-drift * 0.08, 0] })
+    + stars({ x: board.x, y: board.y, w: board.w, h: board.h, count: Math.round((board.w * board.h) / (phone ? 8000 : 16000)), seed: 37, t, drift: [-drift * 0.34, 0] })
+    + (still ? '' : streaks({ x: lane.x, y: lane.y - lane.h * 0.4, w: lane.w, h: lane.h * 1.8, count: 26, seed: 41, color: '#CFE2FF', width: phone ? 1.2 : 1.6, length: 0.22, opacity: 0.22, phase: (t / 700) % 1 }))
+    + (still ? '' : streaks({ x: tail - lane.w * 0.55, y: frame.ship.y - frame.ship.height * 0.32, w: lane.w * 0.55, h: frame.ship.height * 0.64, count: 16, seed: 43, color: '#E8F4FF', width: phone ? 1.6 : 2.6, length: 0.42, opacity: 0.5, phase: (t / 260) % 1 }))
+    + ship(`${prefix}s`, { x: frame.ship.x, y: frame.ship.y + Math.sin(t / 320) * lane.h * 0.012, height: frame.ship.height, engine: still ? 0.6 : 1 })
+    + `</g>`;
+  return { art, frame };
 }
 
-/** The transit as a full-frame insert (no board): the band's content letterboxed, for a video. */
+/** The transit as a full-frame insert (no board): the field of space letterboxed, for a video; it covers, so never over a decision. */
 export function transitInsert(t, { width = 1920, height = 1080, variant = 'full' } = {}) {
   const prefix = 'nti';
   const end = filmEnd('transit', 'insert', variant);

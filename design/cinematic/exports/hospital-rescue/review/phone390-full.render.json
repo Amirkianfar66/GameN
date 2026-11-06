@@ -14,7 +14,8 @@
     "subject": 2,
     "berth": "H1",
     "fit": 1,
-    "inset": "above"
+    "inset": "above",
+    "leaves": true
   },
   "browser": "Chromium 141.0.7390.37",
   "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
@@ -22,27 +23,32 @@
     {
       "kind": "video",
       "file": "design/cinematic/exports/hospital-rescue/review/phone390-full.mp4",
-      "sha256": "312f79e39236c384d49208934c0d9569e6ba042d2865bbfc29f1f87899699d48",
-      "bytes": 335582,
+      "sha256": "c2ae2dded5d013c160cb6077bd7854a07734a41e56507840d5b9437498b1fec2",
+      "bytes": 349740,
       "fps": 30,
-      "frames": 169,
-      "durationMs": 5600,
+      "frames": 187,
+      "durationMs": 6200,
       "from": 0,
-      "to": 5600,
+      "to": 6200,
       "audio": "design/cinematic/exports/hospital-rescue/audio/hospital-rescue-full.cues.wav"
     },
     {
       "kind": "preview",
       "file": "design/cinematic/exports/hospital-rescue/review/phone390-full.preview.webp",
-      "sha256": "914ad144a08b7ef39b513857ce94a3b9197fd24e3b7d0d4200153362e0a8e5c6",
-      "bytes": 88720
+      "sha256": "c34dceaa40c943fcc1d891a8554b88dfeadcddb343d23a161cf093a6321b75aa",
+      "bytes": 87872
     },
     {
       "kind": "poster",
       "file": "design/cinematic/exports/hospital-rescue/review/phone390-full.poster.webp",
-      "sha256": "be1bbac16f236ca6c3f1e50f86a23c8ac3735079fc9bbf36b2e6a4ac237bfda3",
-      "bytes": 110606,
+      "sha256": "bfb006a9dea6ec83b59ec8ea311906efc1fb1fadb5de6ac00d359d07bad95425",
+      "bytes": 110120,
       "t": 3700
     }
-  ]
+  ],
+  "settling": {
+    "rule": "a frame is kept once two captures a redraw apart agree; pictures decode before their tiles draw",
+    "resettled": 0,
+    "unsettled": []
+  }
 }

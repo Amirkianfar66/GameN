@@ -12,7 +12,10 @@
   "deviceScale": 0.6667,
   "fixture": {
     "subject": 2,
-    "berth": "H1"
+    "berth": "H1",
+    "fit": 1,
+    "inset": "above",
+    "leaves": true
   },
   "browser": "Chromium 141.0.7390.37",
   "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
@@ -20,8 +23,8 @@
     {
       "kind": "video",
       "file": "design/cinematic/exports/hospital-rescue/review/display-reduced.mp4",
-      "sha256": "d665d2515e44917c9615c30cbfb8899becadda9bf5ebf04d950f644f49b7acba",
-      "bytes": 157271,
+      "sha256": "d90b79298099f0d44add62e49165f52ab9c7d716de43dba2004b94ad676b3d0c",
+      "bytes": 152624,
       "fps": 30,
       "frames": 54,
       "durationMs": 1760,
@@ -32,15 +35,20 @@
     {
       "kind": "preview",
       "file": "design/cinematic/exports/hospital-rescue/review/display-reduced.preview.webp",
-      "sha256": "ac89512663e935bbd63b17f8abd89f9df39ce3577b41c28a2c1ef178181ff07c",
-      "bytes": 37320
+      "sha256": "67eed710674fd7b0a7e0a938c3d06a3a72d8acdb7902596888093f107df2d4dc",
+      "bytes": 25318
     },
     {
       "kind": "poster",
       "file": "design/cinematic/exports/hospital-rescue/review/display-reduced.poster.webp",
-      "sha256": "58eb1ea35f71e30921604744a72cbc65a2226d6e905ded7b6d5da88c04e2c331",
-      "bytes": 76712,
+      "sha256": "cc30aaf6045850a328e0e9bf70b38791496d9e26648bbfded2f9e5339e10470b",
+      "bytes": 102672,
       "t": 1200
     }
-  ]
+  ],
+  "settling": {
+    "rule": "a frame is kept once two captures a redraw apart agree; pictures decode before their tiles draw",
+    "resettled": 0,
+    "unsettled": []
+  }
 }

@@ -95,7 +95,8 @@ export function pulseAccentsSvg(prefix, frame, { chest, scale, surface }) {
       + lightPool(prefix, 'burst', { cx, cy, rx: frame.burst.r * 1.6, color: '#FFFFFF', opacity: 0.55 * frame.burst.opacity });
   }
   if (frame.sparks > 0) out += particles({ origin: [cx, cy - 4 * scale], v: frame.sparks, count: surface === 'display' ? 26 : 14, seed: 31, direction: -90, spread: 210, speed: 120 * scale, gravity: 80 * scale, color: MEDICAL.glow, ink: INK, size: 2.1 * scale, streak: 0.07 });
-  if (frame.sfx.opacity > 0) out += lettering(frame.sfx.text, { x: frame.sfx.at[0], y: frame.sfx.at[1], size: frame.sfx.size, fill: MEDICAL.yellow, highlight: '#FFF6CF', rotate: frame.sfx.rotate, scale: frame.sfx.scale, opacity: frame.sfx.opacity, skew: -10 });
+  // The lettering is the display cut's alone: on the board it would cross the neighbouring berths.
+  if (frame.sfx.opacity > 0 && surface === 'display') out += lettering(frame.sfx.text, { x: frame.sfx.at[0], y: frame.sfx.at[1], size: frame.sfx.size, fill: MEDICAL.yellow, highlight: '#FFF6CF', rotate: frame.sfx.rotate, scale: frame.sfx.scale, opacity: frame.sfx.opacity, skew: -10 });
   return out;
 }
 
@@ -139,7 +140,8 @@ export function baseItems(base, kit, { fit = 1, inset = null, drone: perspective
   if (screenKind) items.push({ z: 3, svg: placeSvg(berthScreenSvg(screenKind), { x: kit.monitor.x, y: kit.monitor.y, width: kit.monitor.w, height: kit.monitor.h, scope: `${prefix}-${kit.id}-screen` }), kind: 's5-screen' });
   const lampState = base.lamp.state === 'dark' ? 'off' : base.lamp.state;
   const side = 8 * kit.lamp.r;
-  items.push({ z: 3, svg: placeSvg(lampSvg(lampState), { x: kit.lamp.cx - side / 2, y: kit.lamp.cy - side / 2, width: side, height: side, opacity: lampState === 'off' ? 1 : base.lamp.opacity, scope: `${prefix}-${kit.id}-lamp` }), kind: 's5-lamp' });
+  // 'none': the berth is empty (the release has emptied it), and the board draws no lamp of its own there.
+  if (lampState !== 'none') items.push({ z: 3, svg: placeSvg(lampSvg(lampState), { x: kit.lamp.cx - side / 2, y: kit.lamp.cy - side / 2, width: side, height: side, opacity: lampState === 'off' ? 1 : base.lamp.opacity, scope: `${prefix}-${kit.id}-lamp` }), kind: 's5-lamp' });
   const droneWidth = DRONE_SCENE.width * kit.scale * fit;
   const droneHeight = (droneWidth * DRONE.h) / DRONE.w;
   if (base.drone.at) {
