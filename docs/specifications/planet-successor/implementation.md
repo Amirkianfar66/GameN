@@ -12,7 +12,7 @@ Approved implementation request: 5 November 2026. Source worktree: isolated inte
 ## Required acceptance coverage
 
 - Y route Blue, Blue, Red, Red from Junction reaches Red Planet in four movements; no extra movement from weight margins or hacking; no Round 5 ending.
-- Officer tie selection, absent/timeout fallback and non-veto sequential acknowledgements; Round 1 fixed move before election.
+- P28: every navigation opportunity from Round 2 has the same full 15000ms neutral route-setting window, including non-ties, retained Hack overrides and absent Officers. Only an eligible Officer gets genuine-tie controls. Compare public payloads, phase identity, revisions and timing across ties/non-ties and early choices; preserve the random tie fallback, non-veto sequential acknowledgements and Round 1 fixed move before election. Duplicate/stale tasks and reconnect must not restart, shorten or skip the interval. See the [owner record](../../../rules/overlays/navigation-window-owner-decision-2026-11-06.json); the current 1.0.1 tuple remains unchanged until a new immutable tuple is adopted.
 - Engineer captures opposite-room identities; movement/late arrivals and Captain multiplier follow P12.
 - Wrong Scan locks next whole round; one final Code attempt; correct unlock is separate from one retained Hack Spaceship activation; failed final Code leaves Scan.
 - Alien alive plus personally used Blackhole co-wins on either planet; no-survivor check only after selected final resolution.
