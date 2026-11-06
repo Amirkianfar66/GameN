@@ -1,0 +1,37 @@
+{
+  "decision_id": "hospital-panel-global-attempt-2026-10-25",
+  "status": "owner-confirmed-design",
+  "decided_on": "2026-10-25",
+  "authority": "The game owner confirmed that a patient's one lifetime panel attempt remains spent even when the reality in which it was used is discarded at Blackhole Sync.",
+  "supersedes": [
+    "rules/overlays/hospital-panel-owner-decision-2026-10-25.json: Blackhole integration follow-up, only the lifetime patient-attempt reconciliation question",
+    "rules/overlays/hospital-panel-blackhole-owner-decision-2026-10-25.json: the unresolved lifetime panel-attempt flag at Sync"
+  ],
+  "confirmed_rules": [
+    {
+      "id": "BH-ATTEMPT-01",
+      "rule": "The Hospital panel allows one code attempt per player for the entire match. Once used, that opportunity is spent globally, whether the submitted code is correct or incorrect."
+    },
+    {
+      "id": "BH-ATTEMPT-02",
+      "rule": "Blackhole branching and Sync do not reset or duplicate the patient's attempt allowance. An attempt remains spent even if the reality in which it occurred is not selected."
+    },
+    {
+      "id": "BH-ATTEMPT-03",
+      "rule": "The global attempt flag is distinct from healing inventory. Healing requests/effects and reserved/spent injections still follow the selected reality under BH-PANEL-01 through BH-PANEL-05; discarding a reality can discard its healing request and injection cost without restoring the patient's attempt."
+    },
+    {
+      "id": "BH-ATTEMPT-04",
+      "rule": "An incorrect code consumes the patient's attempt but no injection. An accepted correct-code request reserves an available injection in the relevant reality and, if retained at Sync, follows the same round's Rescue stage. Sync does not create an immediate heal."
+    }
+  ],
+  "owner_confirmation": {
+    "question": "If a patient tries the code but their reality is not selected, should their one lifetime opportunity remain spent because they have already seen the result of their guess?",
+    "answer": "Yes.",
+    "language_note": "English translation of the owner discussion."
+  },
+  "remaining_integration_work": [
+    "The broader pre-vote Blackhole Sync and normal end-round resolution integration remains separate. This decision does not move the agreed Rescue stage."
+  ],
+  "implementation_boundary": "Design reference only. Existing historical records, engine behavior, active matches and deployed gameplay tuples remain unchanged."
+}

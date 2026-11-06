@@ -1,0 +1,44 @@
+{
+  "decision_id": "P28-navigation-window-owner-decision-2026-11-06",
+  "status": "owner-confirmed-awaiting-versioned-implementation",
+  "recorded_on": "2026-11-06",
+  "integration_base_commit": "aa90fbd42283813116a41922337406139ff9905a",
+  "owner_reply": {
+    "conversation_id": "01a0de94-e774-7a53-80fd-5897c518c9bf",
+    "question_item_id": [
+      "request_user_input_async",
+      "call_X0KWRmnorixpitTpkHXRABsJ",
+      0
+    ],
+    "question": "One real privacy issue remains in navigation: the current 15-second stage appears only on a tie, so its timing reveals the tie to everyone even if the label is hidden. I recommend a fixed 15-second route-setting window every round from Round 2, with only the Officer receiving tie-choice controls when needed. Should we preserve tie privacy this way, or allow players to infer ties from timing?",
+    "answer": "Use the fixed 15-second window; keep ties private (Recommended)"
+  },
+  "supersedes": "The tie-only navigation-stage timing in P10 and Designer request R10. P10 tie eligibility and authoritative random fallback, P09 sequential confirmations and P11 Round 1 movement remain unchanged.",
+  "confirmed_rules": [
+    "From Round 2 onward, every round that reaches navigation has a fixed server-authoritative 15000-millisecond route-setting window before Captain and Officer confirmations. Round 1 retains its fixed Start-to-Junction movement and first-election sequence.",
+    "The full window applies to a tie, a non-tie, a retained Hack Spaceship override and an unavailable Officer. An early Officer choice cannot shorten the window; no client animation or reconnect may restart or extend it.",
+    "Only the currently eligible Officer receives tie-choice controls, and only for a genuine unresolved tie after applying any retained Hack Spaceship override. Other viewers receive no tie flag or tie-specific phase identity, wording, sound or animation.",
+    "Keep ties private through both projected data and timing. Public route-setting phase identity, interval and updates must not distinguish tie versus non-tie or expose whether or when the Officer selected a direction.",
+    "If a genuine tie remains without an accepted eligible Officer response at the deadline, use the existing authoritative equal-probability Blue/Red fallback. An absent or unavailable Officer does not skip the fixed window.",
+    "After the full route-setting interval, retain Captain-first then Officer confirmation under P09, with existing unavailable-office and timeout handling. Confirmation is not a veto, and navigation still makes exactly one movement per round.",
+    "Only the existing authorized office views receive final direction. Do not disclose totals, separate Captain weight, pre-override direction or detailed public route progress. P27 Blackhole presentation and the full Jail vote remain unchanged."
+  ],
+  "implementation_recommendations": [
+    "Integration should define a neutral phase such as NAV_SETTING in the next exact contract tuple. This wire name is a technical recommendation, not a separately approved game rule.",
+    "Backend should persist the common interval and private Officer selection atomically, retain idempotent receipt/deadline handling, and avoid public revision/event differences caused only by a private tie choice.",
+    "Frontend and Designer should show the same neutral course-setting treatment and countdown for every outcome; derive the Officer controls from authorized offers. Reconnect resumes the existing server interval.",
+    "Verify paired tie/non-tie public projections and timing, early/late Officer choice, absent Officer, retained ship hack, zero-zero tie, duplicate/stale deadline delivery, reconnect and unchanged Round 1/historical-tuple behavior."
+  ],
+  "version_boundary": {
+    "existing_candidate": {
+      "protocol_version": 3,
+      "engine_version": "planet-game-1.0.1",
+      "ruleset_version": "in-person-planet-sync-six-2026-11-05",
+      "authority_path": "rules/planet-successor-sync-authority-2026-11-05.json",
+      "authority_sha256": "4f26343641fcff00480bb3c0ba852703418f772bb677117a272828ad229c8b1c"
+    },
+    "required_change": "Allocate a new immutable engine/ruleset/source-hash tuple before runtime adoption. Do not rewrite the current authority manifest or its hash-bound specification files; existing matches retain their pinned behavior.",
+    "runtime_implemented_by_this_record": false,
+    "deployment_authorized_by_this_record": false
+  }
+}

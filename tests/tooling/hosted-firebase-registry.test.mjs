@@ -46,7 +46,7 @@ export async function probe() {
   } finally { await deleteApp(app); }
 }
 `);
-    const result = await build({ ...hosted, configFile: false, logLevel: 'silent', build: { ...hosted.build, write: false, lib: { entry, formats: ['es'] } } });
+    const result = await build({ ...hosted, configFile: false, logLevel: 'silent', build: { ...hosted.build, write: false, rollupOptions: { ...hosted.build.rollupOptions, input: entry }, lib: { entry, formats: ['es'] } } });
     const chunks = (Array.isArray(result) ? result : [result]).flatMap(output => output.output).filter(item => item.type === 'chunk');
     assert.equal(chunks.length, 1);
     const executable = resolve(temporary, 'registration.mjs');

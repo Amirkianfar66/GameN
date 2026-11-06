@@ -1,0 +1,51 @@
+{
+  "scope": "Show Match ID alongside the issued recovery code, keep secrets in memory only",
+  "baseCommit": "1ed1b4395891b281897a47614b5378124a19b74f",
+  "consumerSourceChanges": [
+    {
+      "path": "apps/game/hosted/planet/app.mjs",
+      "previousSha256": "f595188fdbdd9468972bdef68ad6a2b5a00aa37f46a3dc221f8d42fa0bd4dc20",
+      "sha256": "bc87680d675a1d9e900ac08343d0bbfc0ef6eada86215aa8ff0b6bb6d20ba8a5"
+    },
+    {
+      "path": "apps/game/hosted/planet/planet.css",
+      "previousSha256": "885c33ca55e7363bdb102b22e4a455872e4b9ce401dc60f6c79e6328ca15efab",
+      "sha256": "d582a3c2d29be8f23892aa1e2fc57b4e606ef6975fd16a98b309c7c57522ebe3"
+    }
+  ],
+  "verification": {
+    "focusedSessionTests": 14,
+    "browserCases": 8,
+    "screenshots": 8,
+    "viewports": [
+      [
+        320,
+        568
+      ],
+      [
+        390,
+        844
+      ]
+    ],
+    "motion": [
+      "normal",
+      "reduced"
+    ],
+    "hostContexts": [
+      "reading",
+      "running"
+    ],
+    "maximumCodeLength": 128,
+    "secretPersisted": false,
+    "hiddenAndReloadClearSecret": true,
+    "runtimeExceptions": 0,
+    "scope": "Synthetic authority through native consumer; desktop Chromium phone emulation"
+  },
+  "browserFacts": {
+    "path": "docs/frontend/evidence/planet-recovery-presentation/facts.json",
+    "sha256": "83fece4d5225146d77a48f4695889e329e2bd49a969519931dda0fd6a682462e"
+  },
+  "sharedReleaseInventory": "Integration must refresh these consumer source hashes in the still-unpublished design-0.6.0 candidate. Exact Designer approval and 18 artwork bytes are unchanged.",
+  "runtimePersistenceChanged": false,
+  "deployment": "not performed"
+}

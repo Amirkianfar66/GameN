@@ -1,0 +1,102 @@
+{
+  "scope": "Synthetic host responses through the native consumer; desktop Chromium phone emulation only.",
+  "generatedAt": "2026-11-06T13:41:11.081Z",
+  "browser": {
+    "protocolVersion": "1.3",
+    "product": "Chrome/156.0.8078.80",
+    "revision": "@fb096c0011f9d50f0a264a9376420cdea9c421e3",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+    "jsVersion": "15.6.75.27"
+  },
+  "cases": [
+    {
+      "name": "320-568-normal-reading",
+      "passed": true,
+      "matchId": "planet-local",
+      "maximumCodeLength": 128,
+      "bothFieldsPresented": true,
+      "noHorizontalOverflow": true,
+      "secretPersisted": false,
+      "hiddenAndReloadClearSecret": true,
+      "screenshot": "320-568-normal-reading.png"
+    },
+    {
+      "name": "320-568-normal-running",
+      "passed": true,
+      "matchId": "planet-local",
+      "maximumCodeLength": 128,
+      "bothFieldsPresented": true,
+      "noHorizontalOverflow": true,
+      "secretPersisted": false,
+      "hiddenAndReloadClearSecret": true,
+      "screenshot": "320-568-normal-running.png"
+    },
+    {
+      "name": "320-568-reduced-reading",
+      "passed": true,
+      "matchId": "planet-local",
+      "maximumCodeLength": 128,
+      "bothFieldsPresented": true,
+      "noHorizontalOverflow": true,
+      "secretPersisted": false,
+      "hiddenAndReloadClearSecret": true,
+      "screenshot": "320-568-reduced-reading.png"
+    },
+    {
+      "name": "320-568-reduced-running",
+      "passed": true,
+      "matchId": "planet-local",
+      "maximumCodeLength": 128,
+      "bothFieldsPresented": true,
+      "noHorizontalOverflow": true,
+      "secretPersisted": false,
+      "hiddenAndReloadClearSecret": true,
+      "screenshot": "320-568-reduced-running.png"
+    },
+    {
+      "name": "390-844-normal-reading",
+      "passed": true,
+      "matchId": "planet-local",
+      "maximumCodeLength": 128,
+      "bothFieldsPresented": true,
+      "noHorizontalOverflow": true,
+      "secretPersisted": false,
+      "hiddenAndReloadClearSecret": true,
+      "screenshot": "390-844-normal-reading.png"
+    },
+    {
+      "name": "390-844-normal-running",
+      "passed": true,
+      "matchId": "planet-local",
+      "maximumCodeLength": 128,
+      "bothFieldsPresented": true,
+      "noHorizontalOverflow": true,
+      "secretPersisted": false,
+      "hiddenAndReloadClearSecret": true,
+      "screenshot": "390-844-normal-running.png"
+    },
+    {
+      "name": "390-844-reduced-reading",
+      "passed": true,
+      "matchId": "planet-local",
+      "maximumCodeLength": 128,
+      "bothFieldsPresented": true,
+      "noHorizontalOverflow": true,
+      "secretPersisted": false,
+      "hiddenAndReloadClearSecret": true,
+      "screenshot": "390-844-reduced-reading.png"
+    },
+    {
+      "name": "390-844-reduced-running",
+      "passed": true,
+      "matchId": "planet-local",
+      "maximumCodeLength": 128,
+      "bothFieldsPresented": true,
+      "noHorizontalOverflow": true,
+      "secretPersisted": false,
+      "hiddenAndReloadClearSecret": true,
+      "screenshot": "390-844-reduced-running.png"
+    }
+  ],
+  "runtimeErrors": []
+}

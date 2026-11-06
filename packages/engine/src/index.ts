@@ -215,3 +215,10 @@ export { projectOwnAcknowledgments } from './full-game/own-acknowledgments.js';
 export { assertInitialRoomCapacity } from './full-game/capacity.js';
 
 export { slotIdsFor, boardSlotIdsFor } from './full-game/slots.js';
+
+// Protocol 3 successor is isolated from historical full-game saves and dispatch.
+export type { PlanetGameState, PlanetGameSetup, PlanetGameContext } from './planet-game/model.js';
+export { createPlanetGame, applyPlanetCommand, advancePlanetDeadline, planetDeadlineAt, abortPlanetGame } from './planet-game/lifecycle.js';
+export { projectPlanetPublic, projectPlanetPlayer } from './planet-game/projection.js';
+export { assertPlanetGameState, encodePlanetGameState, decodePlanetGameState } from './planet-game/validation.js';
+export { PLANET_GAME_PINS } from '@mothership/contracts';

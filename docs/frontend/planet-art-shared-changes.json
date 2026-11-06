@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "owner": "Backend and Integration",
+  "releaseProposal": {
+    "source": "docs/frontend/planet-design-0.6.0-release-proposal.json",
+    "target": "design/releases/design-0.6.0.json",
+    "sha256": "d8dbcc979067954051629f2a37ca66196a530ef61d8b1d366726366bc3b429dc",
+    "action": "Review and copy exact proposed bytes; this Frontend task did not create or edit the shared release file"
+  },
+  "changes": [
+    {
+      "path": "scripts/runtime-art-release.mjs",
+      "action": "Add explicit design-0.6.0 support bound to the proposed exact gameplay tuple, 17 uniform stylesheet bundles and five named media/poster pairs. Validate approved nested /art/planet-library/ output paths and media hashes. Preserve the existing 0.3/0.4/0.5 entries and default profile."
+    },
+    {
+      "path": "scripts/check-sources.mjs",
+      "action": "Include the new immutable release inventory/approval hash in shared source checks without rewriting historical manifests or Designer source bytes."
+    }
+  ],
+  "frontendGate": "apps/game/hosted/build/planet-library-art.mjs independently enforces exact Integration approval 9493e29a8ce1b06c6848846b0c8932d65c42abcb24b2b43aaf35ed7239aaf228; the existing base production gate remains intact",
+  "combinedRelease": "Integration owns service creation pairing, R14 standing, deadline/audience-write verification and deployment. No live profile is selected by this proposal."
+}

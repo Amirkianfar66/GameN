@@ -1,0 +1,203 @@
+{
+  "schemaVersion": 1,
+  "status": "Historical native candidate preparation at ef98b494; superseded by private-feedback consumer and subsequent approved-art wiring",
+  "generatedAt": "2026-11-06T05:59:31.756308+00:00",
+  "baseCommit": "cf7bebaeac43b37a193ed2def7759e9613c06ba2",
+  "branch": "codex/frontend-planet-successor",
+  "designerHead": "ff7b689a17282e63606506bbf151d79c7da858fc",
+  "designerHeadChanged": false,
+  "versions": {
+    "protocolVersion": 3,
+    "engineVersion": "planet-game-1.0.1",
+    "rulesetVersion": "in-person-planet-sync-six-2026-11-05",
+    "rulesetHash": "4f26343641fcff00480bb3c0ba852703418f772bb677117a272828ad229c8b1c",
+    "assetManifestVersion": "design-0.5.0"
+  },
+  "checks": {
+    "frontend": {
+      "passed": 836,
+      "presentation": 215,
+      "game": 621,
+      "failed": 0,
+      "skipped": 0,
+      "cancelled": 0
+    },
+    "build": "passed",
+    "typecheckPure": "passed",
+    "typecheckBrowser": "passed",
+    "workspaceBoundaries": "passed",
+    "sourceIntegrity": "passed",
+    "productionBuild": "passed with existing large-chunk advisory",
+    "productionExclusion": "passed: 75 reachable modules; 244 shipped or source files scanned; 79 development files labeled",
+    "candidateProvenance": "passed: 20 original and proposed derivative hashes; no candidate bytes or named candidate URLs in 21 production files",
+    "designerGitObjectComparison": "passed: all 20 candidate byte copies and static navigation-anchor source compared directly with ff7b689a",
+    "sharedAndDesignerPathsUnchangedFromBase": "passed",
+    "gitDiffCheck": "passed"
+  },
+  "artwork": {
+    "proposal": "docs/frontend/planet-library-adoption-proposal.json",
+    "proposalSha256": "baf4970f63e3c0aaaac276405c6503b2ba76c10829fc0bf36237dd17ce18f96f",
+    "files": 20,
+    "sourceBytes": 5361094,
+    "stylesheets": 8,
+    "embeddedSvgAssets": 80,
+    "runtimeVideoPosterPairs": 6,
+    "productionAdopted": false,
+    "normalizationApplied": false,
+    "sharedApprovalFencesChanged": false,
+    "reviewVideosIncluded": false,
+    "audioAdopted": false
+  },
+  "browser": {
+    "implementation": "Native consumer with explicit synthetic authoritative responses; no Designer pages or fixture state engine",
+    "viewports": [
+      [
+        320,
+        568
+      ],
+      [
+        390,
+        844
+      ]
+    ],
+    "motion": [
+      "normal",
+      "reduced"
+    ],
+    "facts": [
+      {
+        "path": "docs/frontend/evidence/planet-library/facts.json",
+        "sha256": "6200280de03e3cd3e5c6218c34a3e430fd6aa9f7f963e001ca843b1702049f6f",
+        "generatedAt": "2026-11-06T05:55:42.579Z",
+        "cases": 52,
+        "interactionFlows": 0,
+        "screenshots": 52,
+        "runtimeExceptions": 0,
+        "scope": "Native production-consumer UI with explicitly unadopted Designer candidates in the excluded synthetic preview; desktop Chromium phone emulation only."
+      },
+      {
+        "path": "docs/frontend/evidence/planet-consumer-fixes/facts.json",
+        "sha256": "a2400fcee85fc66716386fd8bcbd0281900e32c0c9d636ac0ef7a6a0cc2568ac",
+        "generatedAt": "2026-11-06T05:58:29.171Z",
+        "cases": 16,
+        "interactionFlows": 0,
+        "screenshots": 16,
+        "runtimeExceptions": 0,
+        "scope": "Synthetic production-consumer checks in desktop Chromium phone emulation; no hosted or device acceptance."
+      },
+      {
+        "path": "docs/frontend/evidence/planet-pr174-safety/facts.json",
+        "sha256": "eb3671280bee6fe33424bdcadf8479ea219d0e0a59f31933d59cc800fb72dd2d",
+        "generatedAt": "2026-11-06T05:55:40.825Z",
+        "cases": 16,
+        "interactionFlows": 0,
+        "screenshots": 16,
+        "runtimeExceptions": 0,
+        "scope": "Headless Chromium phone emulation with synthetic authoritative views; not hosted, Firebase, physical-device or Designer PR adoption."
+      },
+      {
+        "path": "docs/frontend/evidence/planet-p27-stage/facts.json",
+        "sha256": "95983522f92f9a6e5793af0bb55a3f768395c3637a79c313d523f20b71a504e1",
+        "generatedAt": "2026-11-06T05:56:11.418Z",
+        "cases": 24,
+        "interactionFlows": 0,
+        "screenshots": 36,
+        "runtimeExceptions": 0,
+        "scope": "Synthetic P27 protocol-3 snapshots through the production consumer, desktop Chromium phone emulation; no Firebase, engine, hosted or physical-device acceptance."
+      },
+      {
+        "path": "docs/frontend/evidence/planet-successor/facts.json",
+        "sha256": "8a08a18c677228aa90a33636f5dab1753dd8c8cb93fdff74bf378d93c858cef1",
+        "generatedAt": "2026-11-06T05:56:57.253Z",
+        "cases": 100,
+        "interactionFlows": 12,
+        "screenshots": 46,
+        "runtimeExceptions": 0,
+        "scope": "Explicit synthetic protocol-3 sessions; headless desktop Chrome phone emulation, not Firebase, hosted, physical-device, screen-reader or multiplayer acceptance."
+      }
+    ]
+  },
+  "sourceFilesSha256": {
+    "apps/game/dev/planet/candidate-art-plugin.mjs": "afdf0c70ce4d74698f68ec77d0bfaba3c676f8abb74f0d8d5cbb5d6eeb5bac8c",
+    "apps/game/dev/planet/capture-library.mjs": "c909d327a9adc43f6ca254c06e637260440b9d87f78ef1652a0e2124a170693c",
+    "apps/game/dev/planet/capture-review-safety.mjs": "d2633c0381b508e2b7d63b306c1a77b98541922ea077803a04679ec84b62d081",
+    "apps/game/dev/planet/capture-stage.mjs": "4fdd396d77276b78366e43cfc00de05b01b6fe6630f3a72ab0981da36d93157d",
+    "apps/game/dev/planet/capture.mjs": "ccd8af18559f77489331412e155401e693758ab2eea479a12a8419cafa5e7e84",
+    "apps/game/dev/planet/main.mjs": "d1e0054155338360f45a9d79070864a9afef682af1ba0e0f5bc33d974681e2c9",
+    "apps/game/dev/planet/vite.config.mjs": "a358d3376bf89512b2231bf36da29cd315129d12ebd341e57ea8b025b296c5c3",
+    "apps/game/hosted/planet/app.mjs": "681c68b71f8a53137e4115e0e78b2221749911ead9d027e3311985d77e7286f0",
+    "apps/game/hosted/planet/cinematic.mjs": "74c0fb056e0aee3715a221b098e7fc65b91057aafae789d71ffda1658ad34d45",
+    "apps/game/hosted/planet/library.mjs": "74815af2f03e5438b740cfc3a7609729b34bdeae4353f3eafb0a9f2f72073947",
+    "apps/game/hosted/planet/motion.mjs": "b54a7e5e21e6c631c8c71968af22f6af72423c1a85cff9b9cae49d58abd240d2",
+    "apps/game/hosted/planet/planet.css": "aaeff91e8e382b3071400a8a7590c44b67bb8f138a082b964133c01d6c5de5e6",
+    "apps/game/hosted/planet/render.mjs": "7a792e7ebfd923d422dd12dbd0cf7c270832827c947175ef1566d611c1957440",
+    "apps/game/scripts/check-planet-library-candidates.mjs": "6d0a02865f51ce42f63aeae4c1616690ac4f58985c6a3cb02a3442f0362f8a56",
+    "apps/game/src/planet/controller.ts": "0cd8be7899f2f1cad0ec4aa86e15ef746d59da966c01e5197f6456a2048bea91",
+    "apps/game/test/planet-library.test.mjs": "9ed3f714ac56247ff81a79513f1a39da0423cddbcae25eba4058c32852396276",
+    "packages/presentation/src/index.ts": "a759f562cedc670e36d4ca504e211eb33819fbe29e5fe97b71458d501f0b884c",
+    "packages/presentation/src/planet/library.ts": "6d2be3e3b7b60034d444dc306b09c58e108bac4cdde3f83581a095a7848817b8",
+    "packages/presentation/src/planet/model.ts": "d2b0254fb21598709df2fe97720c4e8ff09422f89d6c188c0cc8864bbce8f3c6",
+    "packages/presentation/test/planet-library.test.mjs": "0b6b87a6fd0b6898e2f891606fab0ec13e7d41d00df9573acb29eb262b15c200"
+  },
+  "productionFilesSha256": {
+    "dist/hosted-preview/art/abilities.art.f7ff31a86d.css": "f7ff31a86dc6a7315e386648bc5664e29e6390f2018ff14831270532409a2ffd",
+    "dist/hosted-preview/art/board-v2-films.art.9e6abdef0f.css": "9e6abdef0f0be32d8283dffbef9bff18898c62d4f330c8f72f9216717f1e8bbb",
+    "dist/hosted-preview/art/board-v2-motion.art.7793869d6b.css": "7793869d6bef7d4a851ba5d5aa12e686544c3ae3f842409ac70598d864532677",
+    "dist/hosted-preview/art/board-v2.art.5dedbf2450.css": "5dedbf2450adca159480d3ba448501ce6957595f1a018c5ced4d9d17f5031cd2",
+    "dist/hosted-preview/art/player-ui.art.fc4830756c.css": "fc4830756cfe0119d98e2a06c207aa5178bdec96d0ed8d8b98f263c1a47cdc67",
+    "dist/hosted-preview/art/public-board.art.1f47b9f920.css": "1f47b9f920c4b7090891bc23c27223c56762f43508b731ae1c6a0142ace06996",
+    "dist/hosted-preview/art/roles.art.14e56b5e3e.css": "14e56b5e3eaa713c6003dbe1092b40585b1ced17d658bcc7ccfd0587cf43a995",
+    "dist/hosted-preview/art/scenes.art.0ff8b3c930.css": "0ff8b3c9305e99a2ff3562411ea412910b66d9ba52800858c5fa010ee9b07b29",
+    "dist/hosted-preview/art/setup.art.f196649c9c.css": "f196649c9c117d402ac1ee2483870be279f7a347c823c0175b0caa07be9ebe15",
+    "dist/hosted-preview/assets/board-v2-Cd3y2tf7.js": "0b98e675178dfa5d15a8837d72a0e8cfdec3a01ddabc2172a4b0f56df5cb71b0",
+    "dist/hosted-preview/assets/board-v2-pMYnV5uf.css": "4170edebd272a6d1440353c8720232f06b444fc61ef7876b9dedac61560660b8",
+    "dist/hosted-preview/assets/development-DOjPKNpG.css": "19c1460aa387c1f80a953203ecd8574961fffdf964f2a6877f78bda7f01c3f44",
+    "dist/hosted-preview/assets/game-C8Q2E3be.js": "5d0269b230db2d23a6f3aed71d1658e0d767be3925e926072373ee24f731532f",
+    "dist/hosted-preview/assets/main-D2N6iYqc.js": "64d59d1af2959f94faaad7aa34a3717071d210e0d4e09fdd06bf85b287cbcf93",
+    "dist/hosted-preview/assets/main-kmz3ZQTr.css": "65929172035084d3145ddaf43b458231c0d99ffed7482162ee0baeac5afb3637",
+    "dist/hosted-preview/assets/modulepreload-polyfill-P2Xu9kJm.js": "418c206484b89b68ef5f067277831e583fc9193a62aadf4de269acaaeb12a85f",
+    "dist/hosted-preview/assets/planet-D2fN144U.css": "aaeff91e8e382b3071400a8a7590c44b67bb8f138a082b964133c01d6c5de5e6",
+    "dist/hosted-preview/assets/planet-DzgsOmAs.js": "e9f2ad1e14b06611b607fb5ab85b2f8f6acca78033420329e8aa5474457c68a1",
+    "dist/hosted-preview/development/index.html": "c3bb91a5733b31236a6df105b7b7073dd54604e4337818adb347f004a1c941b5",
+    "dist/hosted-preview/index.html": "46e92b15c2370670eeee2ab634672342b147516d5edb7dfc233601b97e37980c",
+    "dist/hosted-preview/planet/index.html": "318508aa1bd3d0daa7b922892f8bb11680b3eb26a828f3758fe48cec0841b075"
+  },
+  "pending": {
+    "P28": {
+      "ownerDecisionCommit": "8572fc0abb717ab07e09b4db3c25d6748ec8800b",
+      "status": "Awaiting Backend reviewed neutral phase and next immutable contract; old tuple unchanged",
+      "requiredIntervalMs": 15000,
+      "firstRound": 2
+    },
+    "privateRecords": [
+      "R8 confirmed Engineer capture identities, including empty set",
+      "R9 historical ship-hack round optional",
+      "R11 acknowledgement history cannot be inferred from availability flags",
+      "R12 filtered patient panel-result record"
+    ],
+    "R14": "Integration requester-specific admission standing; pending seatless display remains waiting",
+    "artworkPublication": "Integration approval of the exact named original/normalized hashes and shared fence update",
+    "designerReplacementHead": "Requires explicit old/new head and changed-file hashes"
+  },
+  "preservedTreatments": {
+    "Rescue": "Existing machinery-only vignette; healthy current figure/nameplate/target untouched. Candidate drone media not activated.",
+    "EJECT": "Existing S7 board film remains default; no covering cut or extra stage. Candidate exterior media not activated.",
+    "PrivateTalk": "Existing S2 board-only exit; no covering exit page.",
+    "Clone": "Existing own-card-only current state and no historical replay."
+  },
+  "notRun": [
+    "Real service/Firebase end-to-end",
+    "Authenticated hosted multiplayer",
+    "Safari",
+    "Physical devices",
+    "Media codec and performance acceptance",
+    "Audio acceptance",
+    "Assistive-technology acceptance",
+    "Human playtests"
+  ],
+  "merge": "not performed",
+  "deployment": "not performed",
+  "publication": "not performed",
+  "profileActivation": "not performed",
+  "supersededBy": "docs/frontend/planet-private-feedback-verification.json"
+}

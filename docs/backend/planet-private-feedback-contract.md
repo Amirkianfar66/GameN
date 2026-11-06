@@ -1,0 +1,24 @@
+# Candidate contract: private navigation and feedback
+
+Actual Backend starting commit: `b4825e0662859c4a8ba2690a447f034bc3b294f9`. Integration delegated single-writer preparation of the shared contract and immutable authority for review before adoption. P28's canonical owner record is Integration commit `8572fc0abb717ab07e09b4db3c25d6748ec8800b`; it is adopted here without changing the existing P27 hash-bound specification files. No assets, service code or creation profile are adopted by this contract.
+
+New tuple: protocol `3`, engine `planet-game-1.1.0`, ruleset `in-person-planet-private-feedback-2026-11-06`, authority SHA-256 `4a1fc0e0dc21255253e31ae46e6042f9bd71e3fdec0f82f8a79b3ce213d01bfa`. Authority: `rules/planet-successor-private-feedback-authority-2026-11-06.json`; focused clarification record: `rules/overlays/planet-private-feedback-implementation-2026-11-06.json`.
+
+## Consumer agreement
+
+- Every round reaching navigation from Round 2 uses `NAV_SETTING`, exactly 15000 ms. Tie, non-tie, retained ship hack and absent Officer use the same public phase/timestamps. A private Officer choice never ends the interval or updates other audience packets/revisions/events. Final direction remains null for all offices during setting; at the deadline, use a retained choice/computed direction or the existing uniform fallback, then normal Captain/Officer confirmation. Round 1 and P27 remain unchanged.
+- `privateNavigation.tieChoice` means this eligible Officer can choose now. `confirmation` means this player's current acknowledgement is awaited now. Legal offers control enabled actions. Neither field records completed acknowledgements; generic closed/used copy remains truthful after reconnect. R9 historical hack round and R11 acknowledgement history are deferred.
+- New-only `abilities.engineerCapture: null | {round,seatIds}` contains the server-fixed registration identities, including an empty used capture. Only Engineer sees it. It is retained with the per-world activation, including copies/inherited effects, rather than reconstructed from later room occupants or an expired suppression array.
+- New-only `abilities.panelRequest: null | {commandId,round,status}` is patient-own evidence. Status is `WRONG`, `QUEUED`, `TREATED`, `NO_EFFECT` or `DISCARDED`. QUEUED means an injection was reserved, not that treatment succeeded. Global attempt knowledge persists; actual queue/reservation/cost remains world-local. Retained inherited reservations stay queued; only a missing selected reservation is discarded. Treatment status is attributed at that request's actual Rescue step. Never deduce it from final health, return an injection for a retained no-effect request, or expose Doctor identity/count/other patients/world labels.
+- An otherwise eligible unused patient gets uniform rejected `NO_INJECTION` before code correctness when the actor-world pool is empty. No attempt or reservation is spent. Other ineligibility retains existing codes. `REGISTERED` remains registration, not successful treatment. The receipt schema has no tuple field; the engine/service must gate emission of this new code by the match's exact supported version.
+- Meet A/B uses only the giver's final voting-start location in the new candidate. No Jail Vote remains against the recipient; quota true remains used; future-election round is not inferred from opaque IDs. Result opportunities stay distinct.
+
+All new private fields are required (possibly null) under the new tuple and forbidden under historical Planet packets. Public packets have neither field. Strict phase guards reject NAV_SETTING on old tuples, NAV_TIE on the new tuple, and P27 on original1.0.0. No interface adopts unreviewed art or new gameplay powers.
+
+## Preservation and review gate
+
+`PLANET_ORIGINAL_PINS` and `PLANET_SYNC_PINS` preserve both old exact tuples. `PLANET_GAME_PINS` selects only new creation by default; saved engine replay explicitly supplies its recorded full versions and asset identity. Historical packet shapes omit the new private fields. Engine work must retain old navigation, old Meet semantics and old rejection behavior under those pins; old authority/source bytes remain unchanged. Protocol 2 stays separate.
+
+Actual shared-only checks: pinned Node22.21.1/npm10.9.4 contracts build passed; 23 Planet contract tests passed (16 historical-P27 controls plus seven new contract/authority controls), zero failures/skips. Runtime implementation, compatibility goldens and full engine checks are separate follow-up evidence. This commit is ready for affected-role review, not adoption/release approval. Integration owns R14, service persistence/auth/deadline dispatch, combined verification and profile selection. No merge, deployment or cloud action occurred.
+
+Runtime implementation and final verification are recorded in [the implementation checkpoint](planet-private-feedback-verification.md). Shared review remains required before consumer adoption.

@@ -1,0 +1,47 @@
+{
+  "importedStudioCommit": "9f5ac4f45589935fb2ed1027f0d54ebcd7017138",
+  "integrationBase": "db65bb87f05983ff6861d27689ba1b7bab55d051",
+  "decisionDate": "2026-10-26",
+  "privateSeedSha256": {
+    "initial.json": "1a6b9113773f8d3182e3db15b81039403bdc30b5d09e176de96661a9e1ecadef",
+    "seed.json": "50b407c86d10a639ee8f5e24e7dde25011f5e56b64f3cda58d51ffe0260554f1",
+    "references.json": "362ec342820dce58c8b2940a370f6529da1f77bcd6dde0295a47893a327e301a",
+    "owner-decisions.json": "b0c30b02efe78141025ddb6bb0fd3b131b8247c8e13c481caebff948d7e74ed8"
+  },
+  "sitesDatabaseExportRecovered": false,
+  "historicalReferenceModified": false,
+  "ownerCorrections": [
+    {
+      "id": "owner-officer-public-office-2026-10-25",
+      "source": "rules/overlays/officer-public-office-owner-decision-2026-10-25.json"
+    },
+    {
+      "id": "owner-soldier-blue-nine-player-2026-10-25",
+      "source": "rules/overlays/soldier-blue-owner-decision-2026-10-25.json"
+    },
+    {
+      "id": "owner-hospital-panel-shared-rescue-2026-10-25",
+      "source": "rules/overlays/hospital-panel-owner-decision-2026-10-25.json"
+    },
+    {
+      "id": "owner-hospital-blackhole-healing-state-2026-10-25",
+      "source": "rules/overlays/hospital-panel-blackhole-owner-decision-2026-10-25.json"
+    },
+    {
+      "id": "owner-hospital-panel-attempt-persists-2026-10-25",
+      "source": "rules/overlays/hospital-panel-attempt-owner-decision-2026-10-25.json"
+    },
+    {
+      "id": "owner-soldier-blue-replace-shot-with-vote-disruption-2026-10-25",
+      "source": "rules/overlays/soldier-blue-vote-disruption-owner-decision-2026-10-25.json"
+    },
+    {
+      "id": "owner-planet-navigation-code-and-information-2026-10-25",
+      "source": "rules/overlays/planet-navigation-code-owner-decisions-2026-10-25.json"
+    },
+    {
+      "id": "owner-role-names-engineer-doctor-2026-10-26",
+      "source": "rules/overlays/role-names-owner-decision-2026-10-26.json"
+    }
+  ]
+}

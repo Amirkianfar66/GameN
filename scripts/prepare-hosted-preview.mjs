@@ -1,11 +1,11 @@
 import { createHash } from 'node:crypto';
-import { readFile, writeFile, readdir } from 'node:fs/promises';
+import { readFile, writeFile, readdir, cp } from 'node:fs/promises';
 import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
 import { build } from 'vite';
 import { createHostedPreviewCsp } from './hosted-preview-policy.mjs';
-import { readRuntimeArtRelease } from './runtime-art-release.mjs';
+import { readRuntimeArtRelease, assertRuntimeArtOutput, PLANET_ART_VERSION } from './runtime-art-release.mjs';
 import { readHostedConfiguration } from '../apps/game/dist/browser/hosted-config.js';
 import { checkProductionExclusion, workspaceOptions } from '../apps/game/scripts/check-production-exclusion.mjs';
 
@@ -14,11 +14,18 @@ const configPath = process.argv[2];
 if (!configPath || process.argv.length !== 3) throw new Error('Usage: node scripts/prepare-hosted-preview.mjs PUBLIC_CONFIG_JSON');
 const config = readHostedConfiguration(JSON.parse(await readFile(resolve(configPath), 'utf8')));
 const art = readRuntimeArtRelease(root);
+const planetArt = readRuntimeArtRelease(root, PLANET_ART_VERSION);
 await build({ configFile: join(root, 'apps/game/hosted/vite.config.mjs') });
 const output = join(root, 'dist/hosted-preview');
+assertRuntimeArtOutput(art, output);
+assertRuntimeArtOutput(planetArt, output);
 await writeFile(join(output, 'preview-config.json'), JSON.stringify(config, null, 2) + '\n');
 const exclusion = checkProductionExclusion(workspaceOptions(root, [output]));
 if (exclusion.problems.length) throw new Error(exclusion.problems.join('\n'));
+// Studio has its own pinned dependencies and build. It never enters the game bundle.
+const studio = join(root, 'tools/design-studio');
+execFileSync(process.execPath, [join(studio, 'node_modules/vite/bin/vite.js'), 'build'], { cwd: studio, stdio: 'inherit' });
+await cp(join(studio, 'dist/client'), join(output, 'development/design-studio'), { recursive: true });
 const files = [];
 async function scan(directory) {
   for (const item of await readdir(directory, { withFileTypes: true })) {
@@ -37,10 +44,18 @@ const sourceCommit = execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root, enc
 const sourceDirty = execFileSync('git', ['status', '--porcelain'], { cwd: root, encoding: 'utf8' }).trim().length > 0;
 const release = { kind: 'hosted-playtest-preview', sourceCommit, sourceDirty, projectId: config.projectId,
   assetManifestVersion: art.manifestVersion, artManifestSha256: art.manifestSha256,
-  gameplayPins: art.gameplayPins, bundleSha256: digest, files };
+  gameplayPins: art.gameplayPins,
+  planetRelease: { entryPath: '/planet/', assetManifestVersion: planetArt.manifestVersion,
+    artManifestSha256: planetArt.manifestSha256, gameplayPins: planetArt.gameplayPins },
+  bundleSha256: digest, files };
 await writeFile(join(output, 'preview-release.json'), JSON.stringify(release, null, 2) + '\n');
 const csp = createHostedPreviewCsp(config.projectId);
 const hosting = { hosting: { site: config.projectId, public: 'hosted-preview',
+  rewrites: [
+    { source: '/planet{,/**}', destination: '/planet/index.html' },
+    { source: '/development/design-studio/api/**', function: { functionId: 'designStudioApi', region: 'us-central1' } },
+    { source: '/development/design-studio{,/**}', destination: '/development/design-studio/index.html' },
+  ],
   ignore: ['firebase.json', '**/.*', '**/node_modules/**'],
   headers: [{ source: '**', headers: [
     { key: 'Cache-Control', value: 'no-store' }, { key: 'Content-Security-Policy', value: csp },

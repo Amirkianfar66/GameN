@@ -14,3 +14,13 @@ test('generated Hosting CSP permits the installed App Check SDK exchange endpoin
   assert.equal(connect.some(value => value.includes('*') || /localhost|127\.0\.0\.1|demo-/u.test(value)), false);
   assert.ok(policy.includes("frame-ancestors 'none'"));
 });
+
+
+test('cinematic playback is limited to same-origin media without weakening the default', () => {
+  const directives = new Map(createHostedPreviewCsp('gamen-mothership-staging').split('; ').map(value => {
+    const [name, ...sources] = value.split(' '); return [name, sources];
+  }));
+  assert.deepEqual(directives.get('media-src'), ["'self'"]);
+  assert.deepEqual(directives.get('default-src'), ["'none'"]);
+  assert.deepEqual(directives.get('object-src'), ["'none'"]);
+});

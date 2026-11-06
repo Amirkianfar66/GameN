@@ -12,6 +12,7 @@ const httpSuites = new Set([
   'infra/firebase/test-emulator/full-http.test.mjs',
   'infra/firebase/test-emulator/blackout-functions.test.mjs',
   'infra/firebase/test-emulator/v1-practice-bots-functions.test.mjs',
+  'infra/firebase/test-emulator/planet-functions.test.mjs',
 ]);
 
 export function emulatorTestGroups(root = repositoryRoot) {
@@ -45,7 +46,8 @@ export function runEmulatorTests(root = repositoryRoot, modes = ['data', 'functi
     const command = mode === 'functions'
       ? `${invoke([legacy])} && ${invoke(groups.functions.filter(path => path !== legacy))}`
       : invoke(groups.data);
-    const environment = { ...process.env, MOTHERSHIP_FUNCTIONS_EMULATOR_HOST: '127.0.0.1:5101' };
+    const environment = { ...process.env, MOTHERSHIP_FUNCTIONS_EMULATOR_HOST: '127.0.0.1:5101',
+      MOTHERSHIP_PLANET_CREATION_ENABLED: 'true', MOTHERSHIP_PLANET_ASSET_MANIFEST_VERSION: 'design-0.6.0' };
     delete environment.NODE_TEST_CONTEXT;
     console.log(`Emulator group ${mode}: ${groups[mode].length} files; ${only}; demo-mothership`);
     const result = spawnSync(process.execPath, [cli, 'emulators:exec', '--config', 'infra/firebase/firebase.json',

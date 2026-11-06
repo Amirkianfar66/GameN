@@ -1,5 +1,6 @@
 import { fileURLToPath } from 'node:url';
 import { comicAssetsPlugin } from './comic-assets.mjs';
+import { planetLibraryAssetsPlugin } from './build/planet-library-art.mjs';
 
 const repositoryRoot = fileURLToPath(new URL('../../../', import.meta.url));
 const allowedSources = ['apps/game/hosted/', 'apps/game/dist/', 'packages/contracts/dist/', 'packages/presentation/dist/', 'packages/design-tokens/dist/'];
@@ -10,7 +11,7 @@ export default {
   // All Firebase services must register with the client SDK's one app factory.
   // Admin dependencies can otherwise contribute another hoisted @firebase/app.
   resolve: { dedupe: ['@firebase/app'] },
-  plugins: [comicAssetsPlugin(repositoryRoot), {
+  plugins: [comicAssetsPlugin(repositoryRoot), planetLibraryAssetsPlugin(repositoryRoot), {
     name: 'hosted-preview-source-boundary',
     transform(_code, id) {
       const path = id.split('?')[0];
@@ -32,6 +33,11 @@ export default {
     },
   }],
   build: {
+    rollupOptions: { input: {
+      game: fileURLToPath(new URL('./index.html', import.meta.url)),
+      planet: fileURLToPath(new URL('./planet/index.html', import.meta.url)),
+      development: fileURLToPath(new URL('./development/index.html', import.meta.url)),
+    } },
     target: 'es2022',
     // Runtime art is loaded as unprocessed CSS; preserve individual transform resets.
     cssMinify: false,

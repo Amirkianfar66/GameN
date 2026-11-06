@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { prepareSetupArt } from './setup-art-candidate.mjs';
 import { prepareBoardV2MotionArt } from './board-v2-motion-art.mjs';
 import { verifyBoardV2RuntimePorts } from './board-v2-runtime-ports.mjs';
+import { readRuntimeArtRelease, PLANET_ART_VERSION } from './runtime-art-release.mjs';
 
 const root = new URL('../', import.meta.url);
 const read = path => readFileSync(new URL(path, root));
@@ -114,3 +115,6 @@ console.log('Blackout candidate integrity: exact fixed-window successor and priv
 
 assert.equal(hash('rules/overlays/clone-owner-decision-2026-10-14.json'),'6168feb6931a8f590176521e3d2eb1cb9de800eec5171cdfd5b77b4d952e1234');
 console.log('Clone candidate integrity: exact lifetime/normal-round successor; historical pins and defaults retained');
+
+const planetArt = readRuntimeArtRelease(fileURLToPath(root), PLANET_ART_VERSION);
+console.log(`Planet art integrity: ${Object.keys(planetArt.bundles).length} common stylesheets and ${Object.keys(planetArt.media).length} approved film pairs; historical releases preserved`);

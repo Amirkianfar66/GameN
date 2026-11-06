@@ -1,0 +1,2567 @@
+{
+  "scope": "Explicit synthetic protocol-3 authoritative snapshots through the native consumer; desktop Chromium phone emulation, no engine/service/hosted/device claim.",
+  "designerHead": "0fb17a35c4b2fdd3418c9ffb575dbd4a7d0d9878",
+  "generatedAt": "2026-11-06T14:16:34.414Z",
+  "browser": {
+    "protocolVersion": "1.3",
+    "product": "Chrome/156.0.8078.80",
+    "revision": "@fb096c0011f9d50f0a264a9376420cdea9c421e3",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+    "jsVersion": "15.6.75.27"
+  },
+  "cases": [
+    {
+      "name": "320-568-normal-officer-early-choice",
+      "passed": true,
+      "phaseId": "reviewed-setting",
+      "fullDurationMs": 15000,
+      "deadlineUnchanged": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "width": 132.40625,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-a",
+            "width": 76.546875,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-b",
+            "width": 76.0625,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-board",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-card",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-actions",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-more",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-close",
+            "width": 102,
+            "height": 44
+          }
+        ],
+        "withdrawnRequests": []
+      },
+      "screenshot": "320-568-normal-officer-early-choice.png"
+    },
+    {
+      "name": "320-568-normal-public-neutral-setting",
+      "passed": true,
+      "duplicatePacketKeepsNeutralCopy": true,
+      "noPrivateControls": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [],
+        "withdrawnRequests": []
+      },
+      "screenshot": "320-568-normal-public-neutral-setting.png"
+    },
+    {
+      "name": "320-568-normal-engineer-empty-capture",
+      "passed": true,
+      "confirmedEmptyDistinctFromUnused": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "width": 132.40625,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-a",
+            "width": 76.546875,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-b",
+            "width": 76.0625,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-board",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-card",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-actions",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-more",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-pass",
+            "width": 52,
+            "height": 52
+          },
+          {
+            "id": "planet-close",
+            "width": 102,
+            "height": 44
+          }
+        ],
+        "withdrawnRequests": []
+      },
+      "screenshot": "320-568-normal-engineer-empty-capture.png"
+    },
+    {
+      "name": "320-568-normal-patient-authorized-statuses",
+      "passed": true,
+      "statuses": [
+        "QUEUED",
+        "WRONG",
+        "TREATED",
+        "NO_EFFECT",
+        "DISCARDED"
+      ],
+      "noInventoryOrDoctorIdentity": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "width": 132.40625,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-a",
+            "width": 76.546875,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-b",
+            "width": 76.0625,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-board",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-card",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-actions",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-more",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-pass",
+            "width": 52,
+            "height": 52
+          },
+          {
+            "id": "planet-close",
+            "width": 102,
+            "height": 44
+          }
+        ],
+        "withdrawnRequests": []
+      },
+      "screenshot": "320-568-normal-patient-authorized-statuses.png"
+    },
+    {
+      "name": "320-568-normal-uniform-panel-rejection",
+      "passed": true,
+      "canonicalSeatId": "seat-6",
+      "attemptNotInventedSpent": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "width": 132.40625,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-a",
+            "width": 76.546875,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-b",
+            "width": 76.0625,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-board",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-card",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-actions",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-more",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-pass",
+            "width": 52,
+            "height": 52
+          },
+          {
+            "id": "planet-action-PANEL_CODE",
+            "width": 278,
+            "height": 44
+          },
+          {
+            "id": "planet-close",
+            "width": 102,
+            "height": 44
+          }
+        ],
+        "withdrawnRequests": []
+      },
+      "screenshot": "320-568-normal-uniform-panel-rejection.png"
+    },
+    {
+      "name": "320-568-normal-inventory-without-marker",
+      "passed": true,
+      "noCountOrStageInference": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "width": 132.40625,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-a",
+            "width": 76.546875,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-b",
+            "width": 76.0625,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-board",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-card",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-actions",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-more",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-pass",
+            "width": 52,
+            "height": 52
+          },
+          {
+            "id": "planet-close",
+            "width": 102,
+            "height": 44
+          }
+        ],
+        "withdrawnRequests": []
+      },
+      "screenshot": "320-568-normal-inventory-without-marker.png"
+    },
+    {
+      "name": "320-568-normal-historical-tuple-dispatch",
+      "passed": true,
+      "tuples": [
+        "planet-game-1.0.0",
+        "planet-game-1.0.1"
+      ],
+      "oldPhasePreserved": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "width": 132.40625,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-a",
+            "width": 76.546875,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-b",
+            "width": 76.0625,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-board",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-card",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-actions",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-more",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-pass",
+            "width": 52,
+            "height": 52
+          },
+          {
+            "id": "planet-action-CHOOSE_NAV_DIRECTION",
+            "width": 278,
+            "height": 44
+          },
+          {
+            "id": "planet-close",
+            "width": 102,
+            "height": 44
+          }
+        ],
+        "withdrawnRequests": []
+      },
+      "screenshot": "320-568-normal-historical-tuple-dispatch.png"
+    },
+    {
+      "name": "320-568-normal-uniform-approved-catalogue",
+      "passed": true,
+      "roleAndDisplayRequests": [
+        {
+          "scene": "board",
+          "urls": [
+            "/art/planet-library/arrival-blue.5a905ac795.mp4",
+            "/art/planet-library/arrival-blue.poster.4ca9e33913.webp",
+            "/art/planet-library/arrival-red.11cc978817.mp4",
+            "/art/planet-library/arrival-red.poster.32f9127d58.webp",
+            "/art/planet-library/blackhole.1f1aa0ee1a.mp4",
+            "/art/planet-library/blackhole.poster.dfa7e8141b.webp",
+            "/art/planet-library/end.art.717e2dcc59.css",
+            "/art/planet-library/hack-engineer.art.15e5c98ff2.css",
+            "/art/planet-library/hospital-panel.art.e6b5bddef6.css",
+            "/art/planet-library/navigation.art.b583b8bc4e.css",
+            "/art/planet-library/offices.art.6d780e7fff.css",
+            "/art/planet-library/promises.art.0298ebef8d.css",
+            "/art/planet-library/rescue.eccab99be1.mp4",
+            "/art/planet-library/rescue.poster.dffbce3adf.webp",
+            "/art/planet-library/successor.art.676b8d3fd6.css",
+            "/art/planet-library/transit.6e338df52f.mp4",
+            "/art/planet-library/transit.poster.cd2ee84274.webp",
+            "/art/planet-library/windows.art.767ae8ccdc.css"
+          ]
+        },
+        {
+          "scene": "engineer",
+          "urls": [
+            "/art/planet-library/arrival-blue.5a905ac795.mp4",
+            "/art/planet-library/arrival-blue.poster.4ca9e33913.webp",
+            "/art/planet-library/arrival-red.11cc978817.mp4",
+            "/art/planet-library/arrival-red.poster.32f9127d58.webp",
+            "/art/planet-library/blackhole.1f1aa0ee1a.mp4",
+            "/art/planet-library/blackhole.poster.dfa7e8141b.webp",
+            "/art/planet-library/end.art.717e2dcc59.css",
+            "/art/planet-library/hack-engineer.art.15e5c98ff2.css",
+            "/art/planet-library/hospital-panel.art.e6b5bddef6.css",
+            "/art/planet-library/navigation.art.b583b8bc4e.css",
+            "/art/planet-library/offices.art.6d780e7fff.css",
+            "/art/planet-library/promises.art.0298ebef8d.css",
+            "/art/planet-library/rescue.eccab99be1.mp4",
+            "/art/planet-library/rescue.poster.dffbce3adf.webp",
+            "/art/planet-library/successor.art.676b8d3fd6.css",
+            "/art/planet-library/transit.6e338df52f.mp4",
+            "/art/planet-library/transit.poster.cd2ee84274.webp",
+            "/art/planet-library/windows.art.767ae8ccdc.css"
+          ]
+        },
+        {
+          "scene": "doctor",
+          "urls": [
+            "/art/planet-library/arrival-blue.5a905ac795.mp4",
+            "/art/planet-library/arrival-blue.poster.4ca9e33913.webp",
+            "/art/planet-library/arrival-red.11cc978817.mp4",
+            "/art/planet-library/arrival-red.poster.32f9127d58.webp",
+            "/art/planet-library/blackhole.1f1aa0ee1a.mp4",
+            "/art/planet-library/blackhole.poster.dfa7e8141b.webp",
+            "/art/planet-library/end.art.717e2dcc59.css",
+            "/art/planet-library/hack-engineer.art.15e5c98ff2.css",
+            "/art/planet-library/hospital-panel.art.e6b5bddef6.css",
+            "/art/planet-library/navigation.art.b583b8bc4e.css",
+            "/art/planet-library/offices.art.6d780e7fff.css",
+            "/art/planet-library/promises.art.0298ebef8d.css",
+            "/art/planet-library/rescue.eccab99be1.mp4",
+            "/art/planet-library/rescue.poster.dffbce3adf.webp",
+            "/art/planet-library/successor.art.676b8d3fd6.css",
+            "/art/planet-library/transit.6e338df52f.mp4",
+            "/art/planet-library/transit.poster.cd2ee84274.webp",
+            "/art/planet-library/windows.art.767ae8ccdc.css"
+          ]
+        },
+        {
+          "scene": "alien",
+          "urls": [
+            "/art/planet-library/arrival-blue.5a905ac795.mp4",
+            "/art/planet-library/arrival-blue.poster.4ca9e33913.webp",
+            "/art/planet-library/arrival-red.11cc978817.mp4",
+            "/art/planet-library/arrival-red.poster.32f9127d58.webp",
+            "/art/planet-library/blackhole.1f1aa0ee1a.mp4",
+            "/art/planet-library/blackhole.poster.dfa7e8141b.webp",
+            "/art/planet-library/end.art.717e2dcc59.css",
+            "/art/planet-library/hack-engineer.art.15e5c98ff2.css",
+            "/art/planet-library/hospital-panel.art.e6b5bddef6.css",
+            "/art/planet-library/navigation.art.b583b8bc4e.css",
+            "/art/planet-library/offices.art.6d780e7fff.css",
+            "/art/planet-library/promises.art.0298ebef8d.css",
+            "/art/planet-library/rescue.eccab99be1.mp4",
+            "/art/planet-library/rescue.poster.dffbce3adf.webp",
+            "/art/planet-library/successor.art.676b8d3fd6.css",
+            "/art/planet-library/transit.6e338df52f.mp4",
+            "/art/planet-library/transit.poster.cd2ee84274.webp",
+            "/art/planet-library/windows.art.767ae8ccdc.css"
+          ]
+        },
+        {
+          "scene": "display",
+          "urls": [
+            "/art/planet-library/arrival-blue.5a905ac795.mp4",
+            "/art/planet-library/arrival-blue.poster.4ca9e33913.webp",
+            "/art/planet-library/arrival-red.11cc978817.mp4",
+            "/art/planet-library/arrival-red.poster.32f9127d58.webp",
+            "/art/planet-library/blackhole.1f1aa0ee1a.mp4",
+            "/art/planet-library/blackhole.poster.dfa7e8141b.webp",
+            "/art/planet-library/end.art.717e2dcc59.css",
+            "/art/planet-library/hack-engineer.art.15e5c98ff2.css",
+            "/art/planet-library/hospital-panel.art.e6b5bddef6.css",
+            "/art/planet-library/navigation.art.b583b8bc4e.css",
+            "/art/planet-library/offices.art.6d780e7fff.css",
+            "/art/planet-library/promises.art.0298ebef8d.css",
+            "/art/planet-library/rescue.eccab99be1.mp4",
+            "/art/planet-library/rescue.poster.dffbce3adf.webp",
+            "/art/planet-library/successor.art.676b8d3fd6.css",
+            "/art/planet-library/transit.6e338df52f.mp4",
+            "/art/planet-library/transit.poster.cd2ee84274.webp",
+            "/art/planet-library/windows.art.767ae8ccdc.css"
+          ]
+        }
+      ],
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [],
+        "withdrawnRequests": []
+      },
+      "screenshot": "320-568-normal-uniform-approved-catalogue.png"
+    },
+    {
+      "name": "320-568-normal-resolved-neutral-transit",
+      "passed": true,
+      "initialTerminalStatic": true,
+      "publicDirectionAbsent": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "width": 132.40625,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-a",
+            "width": 76.546875,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-b",
+            "width": 76.0625,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-board",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-card",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-actions",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-more",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-pass",
+            "width": 52,
+            "height": 52
+          }
+        ],
+        "withdrawnRequests": []
+      },
+      "screenshot": "320-568-normal-resolved-neutral-transit.png"
+    },
+    {
+      "name": "320-568-normal-live-approved-arrival",
+      "passed": true,
+      "authoritativeDestination": "Red",
+      "winner": "Red",
+      "underlayOnly": true,
+      "reducedTreatment": null,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "width": 132.40625,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-a",
+            "width": 76.546875,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-b",
+            "width": 76.0625,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-board",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-card",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-actions",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-more",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-pass",
+            "width": 52,
+            "height": 52
+          }
+        ],
+        "withdrawnRequests": []
+      },
+      "screenshot": "320-568-normal-live-approved-arrival.png"
+    },
+    {
+      "name": "320-568-reduced-officer-early-choice",
+      "passed": true,
+      "phaseId": "reviewed-setting",
+      "fullDurationMs": 15000,
+      "deadlineUnchanged": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "width": 132.40625,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-a",
+            "width": 76.546875,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-b",
+            "width": 76.0625,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-board",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-card",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-actions",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-more",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-close",
+            "width": 102,
+            "height": 44
+          }
+        ],
+        "withdrawnRequests": []
+      },
+      "screenshot": "320-568-reduced-officer-early-choice.png"
+    },
+    {
+      "name": "320-568-reduced-public-neutral-setting",
+      "passed": true,
+      "duplicatePacketKeepsNeutralCopy": true,
+      "noPrivateControls": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [],
+        "withdrawnRequests": []
+      },
+      "screenshot": "320-568-reduced-public-neutral-setting.png"
+    },
+    {
+      "name": "320-568-reduced-engineer-empty-capture",
+      "passed": true,
+      "confirmedEmptyDistinctFromUnused": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "width": 132.40625,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-a",
+            "width": 76.546875,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-b",
+            "width": 76.0625,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-board",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-card",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-actions",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-more",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-pass",
+            "width": 52,
+            "height": 52
+          },
+          {
+            "id": "planet-close",
+            "width": 102,
+            "height": 44
+          }
+        ],
+        "withdrawnRequests": []
+      },
+      "screenshot": "320-568-reduced-engineer-empty-capture.png"
+    },
+    {
+      "name": "320-568-reduced-patient-authorized-statuses",
+      "passed": true,
+      "statuses": [
+        "QUEUED",
+        "WRONG",
+        "TREATED",
+        "NO_EFFECT",
+        "DISCARDED"
+      ],
+      "noInventoryOrDoctorIdentity": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "width": 132.40625,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-a",
+            "width": 76.546875,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-b",
+            "width": 76.0625,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-board",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-card",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-actions",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-more",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-pass",
+            "width": 52,
+            "height": 52
+          },
+          {
+            "id": "planet-close",
+            "width": 102,
+            "height": 44
+          }
+        ],
+        "withdrawnRequests": []
+      },
+      "screenshot": "320-568-reduced-patient-authorized-statuses.png"
+    },
+    {
+      "name": "320-568-reduced-uniform-panel-rejection",
+      "passed": true,
+      "canonicalSeatId": "seat-6",
+      "attemptNotInventedSpent": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "width": 132.40625,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-a",
+            "width": 76.546875,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-b",
+            "width": 76.0625,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-board",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-card",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-actions",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-more",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-pass",
+            "width": 52,
+            "height": 52
+          },
+          {
+            "id": "planet-action-PANEL_CODE",
+            "width": 278,
+            "height": 44
+          },
+          {
+            "id": "planet-close",
+            "width": 102,
+            "height": 44
+          }
+        ],
+        "withdrawnRequests": []
+      },
+      "screenshot": "320-568-reduced-uniform-panel-rejection.png"
+    },
+    {
+      "name": "320-568-reduced-inventory-without-marker",
+      "passed": true,
+      "noCountOrStageInference": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "width": 132.40625,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-a",
+            "width": 76.546875,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-b",
+            "width": 76.0625,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-board",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-card",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-actions",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-more",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-pass",
+            "width": 52,
+            "height": 52
+          },
+          {
+            "id": "planet-close",
+            "width": 102,
+            "height": 44
+          }
+        ],
+        "withdrawnRequests": []
+      },
+      "screenshot": "320-568-reduced-inventory-without-marker.png"
+    },
+    {
+      "name": "320-568-reduced-historical-tuple-dispatch",
+      "passed": true,
+      "tuples": [
+        "planet-game-1.0.0",
+        "planet-game-1.0.1"
+      ],
+      "oldPhasePreserved": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "width": 132.40625,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-a",
+            "width": 76.546875,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-b",
+            "width": 76.0625,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-board",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-card",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-actions",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-more",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-pass",
+            "width": 52,
+            "height": 52
+          },
+          {
+            "id": "planet-action-CHOOSE_NAV_DIRECTION",
+            "width": 278,
+            "height": 44
+          },
+          {
+            "id": "planet-close",
+            "width": 102,
+            "height": 44
+          }
+        ],
+        "withdrawnRequests": []
+      },
+      "screenshot": "320-568-reduced-historical-tuple-dispatch.png"
+    },
+    {
+      "name": "320-568-reduced-uniform-approved-catalogue",
+      "passed": true,
+      "roleAndDisplayRequests": [
+        {
+          "scene": "board",
+          "urls": [
+            "/art/planet-library/arrival-blue.5a905ac795.mp4",
+            "/art/planet-library/arrival-blue.poster.4ca9e33913.webp",
+            "/art/planet-library/arrival-red.11cc978817.mp4",
+            "/art/planet-library/arrival-red.poster.32f9127d58.webp",
+            "/art/planet-library/blackhole.1f1aa0ee1a.mp4",
+            "/art/planet-library/blackhole.poster.dfa7e8141b.webp",
+            "/art/planet-library/end.art.717e2dcc59.css",
+            "/art/planet-library/hack-engineer.art.15e5c98ff2.css",
+            "/art/planet-library/hospital-panel.art.e6b5bddef6.css",
+            "/art/planet-library/navigation.art.b583b8bc4e.css",
+            "/art/planet-library/offices.art.6d780e7fff.css",
+            "/art/planet-library/promises.art.0298ebef8d.css",
+            "/art/planet-library/rescue.eccab99be1.mp4",
+            "/art/planet-library/rescue.poster.dffbce3adf.webp",
+            "/art/planet-library/successor.art.676b8d3fd6.css",
+            "/art/planet-library/transit.6e338df52f.mp4",
+            "/art/planet-library/transit.poster.cd2ee84274.webp",
+            "/art/planet-library/windows.art.767ae8ccdc.css"
+          ]
+        },
+        {
+          "scene": "engineer",
+          "urls": [
+            "/art/planet-library/arrival-blue.5a905ac795.mp4",
+            "/art/planet-library/arrival-blue.poster.4ca9e33913.webp",
+            "/art/planet-library/arrival-red.11cc978817.mp4",
+            "/art/planet-library/arrival-red.poster.32f9127d58.webp",
+            "/art/planet-library/blackhole.1f1aa0ee1a.mp4",
+            "/art/planet-library/blackhole.poster.dfa7e8141b.webp",
+            "/art/planet-library/end.art.717e2dcc59.css",
+            "/art/planet-library/hack-engineer.art.15e5c98ff2.css",
+            "/art/planet-library/hospital-panel.art.e6b5bddef6.css",
+            "/art/planet-library/navigation.art.b583b8bc4e.css",
+            "/art/planet-library/offices.art.6d780e7fff.css",
+            "/art/planet-library/promises.art.0298ebef8d.css",
+            "/art/planet-library/rescue.eccab99be1.mp4",
+            "/art/planet-library/rescue.poster.dffbce3adf.webp",
+            "/art/planet-library/successor.art.676b8d3fd6.css",
+            "/art/planet-library/transit.6e338df52f.mp4",
+            "/art/planet-library/transit.poster.cd2ee84274.webp",
+            "/art/planet-library/windows.art.767ae8ccdc.css"
+          ]
+        },
+        {
+          "scene": "doctor",
+          "urls": [
+            "/art/planet-library/arrival-blue.5a905ac795.mp4",
+            "/art/planet-library/arrival-blue.poster.4ca9e33913.webp",
+            "/art/planet-library/arrival-red.11cc978817.mp4",
+            "/art/planet-library/arrival-red.poster.32f9127d58.webp",
+            "/art/planet-library/blackhole.1f1aa0ee1a.mp4",
+            "/art/planet-library/blackhole.poster.dfa7e8141b.webp",
+            "/art/planet-library/end.art.717e2dcc59.css",
+            "/art/planet-library/hack-engineer.art.15e5c98ff2.css",
+            "/art/planet-library/hospital-panel.art.e6b5bddef6.css",
+            "/art/planet-library/navigation.art.b583b8bc4e.css",
+            "/art/planet-library/offices.art.6d780e7fff.css",
+            "/art/planet-library/promises.art.0298ebef8d.css",
+            "/art/planet-library/rescue.eccab99be1.mp4",
+            "/art/planet-library/rescue.poster.dffbce3adf.webp",
+            "/art/planet-library/successor.art.676b8d3fd6.css",
+            "/art/planet-library/transit.6e338df52f.mp4",
+            "/art/planet-library/transit.poster.cd2ee84274.webp",
+            "/art/planet-library/windows.art.767ae8ccdc.css"
+          ]
+        },
+        {
+          "scene": "alien",
+          "urls": [
+            "/art/planet-library/arrival-blue.5a905ac795.mp4",
+            "/art/planet-library/arrival-blue.poster.4ca9e33913.webp",
+            "/art/planet-library/arrival-red.11cc978817.mp4",
+            "/art/planet-library/arrival-red.poster.32f9127d58.webp",
+            "/art/planet-library/blackhole.1f1aa0ee1a.mp4",
+            "/art/planet-library/blackhole.poster.dfa7e8141b.webp",
+            "/art/planet-library/end.art.717e2dcc59.css",
+            "/art/planet-library/hack-engineer.art.15e5c98ff2.css",
+            "/art/planet-library/hospital-panel.art.e6b5bddef6.css",
+            "/art/planet-library/navigation.art.b583b8bc4e.css",
+            "/art/planet-library/offices.art.6d780e7fff.css",
+            "/art/planet-library/promises.art.0298ebef8d.css",
+            "/art/planet-library/rescue.eccab99be1.mp4",
+            "/art/planet-library/rescue.poster.dffbce3adf.webp",
+            "/art/planet-library/successor.art.676b8d3fd6.css",
+            "/art/planet-library/transit.6e338df52f.mp4",
+            "/art/planet-library/transit.poster.cd2ee84274.webp",
+            "/art/planet-library/windows.art.767ae8ccdc.css"
+          ]
+        },
+        {
+          "scene": "display",
+          "urls": [
+            "/art/planet-library/arrival-blue.5a905ac795.mp4",
+            "/art/planet-library/arrival-blue.poster.4ca9e33913.webp",
+            "/art/planet-library/arrival-red.11cc978817.mp4",
+            "/art/planet-library/arrival-red.poster.32f9127d58.webp",
+            "/art/planet-library/blackhole.1f1aa0ee1a.mp4",
+            "/art/planet-library/blackhole.poster.dfa7e8141b.webp",
+            "/art/planet-library/end.art.717e2dcc59.css",
+            "/art/planet-library/hack-engineer.art.15e5c98ff2.css",
+            "/art/planet-library/hospital-panel.art.e6b5bddef6.css",
+            "/art/planet-library/navigation.art.b583b8bc4e.css",
+            "/art/planet-library/offices.art.6d780e7fff.css",
+            "/art/planet-library/promises.art.0298ebef8d.css",
+            "/art/planet-library/rescue.eccab99be1.mp4",
+            "/art/planet-library/rescue.poster.dffbce3adf.webp",
+            "/art/planet-library/successor.art.676b8d3fd6.css",
+            "/art/planet-library/transit.6e338df52f.mp4",
+            "/art/planet-library/transit.poster.cd2ee84274.webp",
+            "/art/planet-library/windows.art.767ae8ccdc.css"
+          ]
+        }
+      ],
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [],
+        "withdrawnRequests": []
+      },
+      "screenshot": "320-568-reduced-uniform-approved-catalogue.png"
+    },
+    {
+      "name": "320-568-reduced-resolved-neutral-transit",
+      "passed": true,
+      "initialTerminalStatic": true,
+      "publicDirectionAbsent": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "width": 132.40625,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-a",
+            "width": 76.546875,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-b",
+            "width": 76.0625,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-board",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-card",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-actions",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-more",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-pass",
+            "width": 52,
+            "height": 52
+          }
+        ],
+        "withdrawnRequests": []
+      },
+      "screenshot": "320-568-reduced-resolved-neutral-transit.png"
+    },
+    {
+      "name": "320-568-reduced-live-approved-arrival",
+      "passed": true,
+      "authoritativeDestination": "Red",
+      "winner": "Red",
+      "underlayOnly": true,
+      "reducedTreatment": "brief poster or static terminal fallback",
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "width": 132.40625,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-a",
+            "width": 76.546875,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-b",
+            "width": 76.0625,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-board",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-card",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-actions",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-more",
+            "width": 54,
+            "height": 44
+          },
+          {
+            "id": "planet-pass",
+            "width": 52,
+            "height": 52
+          }
+        ],
+        "withdrawnRequests": []
+      },
+      "screenshot": "320-568-reduced-live-approved-arrival.png"
+    },
+    {
+      "name": "390-844-normal-officer-early-choice",
+      "passed": true,
+      "phaseId": "reviewed-setting",
+      "fullDurationMs": 15000,
+      "deadlineUnchanged": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "width": 132.40625,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-a",
+            "width": 76.546875,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-b",
+            "width": 76.0625,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-board",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-card",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-actions",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-more",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-close",
+            "width": 137,
+            "height": 44
+          }
+        ],
+        "withdrawnRequests": []
+      },
+      "screenshot": "390-844-normal-officer-early-choice.png"
+    },
+    {
+      "name": "390-844-normal-public-neutral-setting",
+      "passed": true,
+      "duplicatePacketKeepsNeutralCopy": true,
+      "noPrivateControls": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [],
+        "withdrawnRequests": []
+      },
+      "screenshot": "390-844-normal-public-neutral-setting.png"
+    },
+    {
+      "name": "390-844-normal-engineer-empty-capture",
+      "passed": true,
+      "confirmedEmptyDistinctFromUnused": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "width": 132.40625,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-a",
+            "width": 76.546875,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-b",
+            "width": 76.0625,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-board",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-card",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-actions",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-more",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-pass",
+            "width": 64,
+            "height": 64
+          },
+          {
+            "id": "planet-close",
+            "width": 137,
+            "height": 44
+          }
+        ],
+        "withdrawnRequests": []
+      },
+      "screenshot": "390-844-normal-engineer-empty-capture.png"
+    },
+    {
+      "name": "390-844-normal-patient-authorized-statuses",
+      "passed": true,
+      "statuses": [
+        "QUEUED",
+        "WRONG",
+        "TREATED",
+        "NO_EFFECT",
+        "DISCARDED"
+      ],
+      "noInventoryOrDoctorIdentity": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "width": 132.40625,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-a",
+            "width": 76.546875,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-b",
+            "width": 76.0625,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-board",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-card",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-actions",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-more",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-pass",
+            "width": 64,
+            "height": 64
+          },
+          {
+            "id": "planet-close",
+            "width": 137,
+            "height": 44
+          }
+        ],
+        "withdrawnRequests": []
+      },
+      "screenshot": "390-844-normal-patient-authorized-statuses.png"
+    },
+    {
+      "name": "390-844-normal-uniform-panel-rejection",
+      "passed": true,
+      "canonicalSeatId": "seat-6",
+      "attemptNotInventedSpent": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "width": 132.40625,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-a",
+            "width": 76.546875,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-b",
+            "width": 76.0625,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-board",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-card",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-actions",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-more",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-pass",
+            "width": 64,
+            "height": 64
+          },
+          {
+            "id": "planet-action-PANEL_CODE",
+            "width": 348,
+            "height": 44
+          },
+          {
+            "id": "planet-close",
+            "width": 137,
+            "height": 44
+          }
+        ],
+        "withdrawnRequests": []
+      },
+      "screenshot": "390-844-normal-uniform-panel-rejection.png"
+    },
+    {
+      "name": "390-844-normal-inventory-without-marker",
+      "passed": true,
+      "noCountOrStageInference": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "width": 132.40625,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-a",
+            "width": 76.546875,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-b",
+            "width": 76.0625,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-board",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-card",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-actions",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-more",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-pass",
+            "width": 64,
+            "height": 64
+          },
+          {
+            "id": "planet-close",
+            "width": 137,
+            "height": 44
+          }
+        ],
+        "withdrawnRequests": []
+      },
+      "screenshot": "390-844-normal-inventory-without-marker.png"
+    },
+    {
+      "name": "390-844-normal-historical-tuple-dispatch",
+      "passed": true,
+      "tuples": [
+        "planet-game-1.0.0",
+        "planet-game-1.0.1"
+      ],
+      "oldPhasePreserved": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "width": 132.40625,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-a",
+            "width": 76.546875,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-b",
+            "width": 76.0625,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-board",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-card",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-actions",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-more",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-pass",
+            "width": 64,
+            "height": 64
+          },
+          {
+            "id": "planet-action-CHOOSE_NAV_DIRECTION",
+            "width": 348,
+            "height": 44
+          },
+          {
+            "id": "planet-close",
+            "width": 137,
+            "height": 44
+          }
+        ],
+        "withdrawnRequests": []
+      },
+      "screenshot": "390-844-normal-historical-tuple-dispatch.png"
+    },
+    {
+      "name": "390-844-normal-uniform-approved-catalogue",
+      "passed": true,
+      "roleAndDisplayRequests": [
+        {
+          "scene": "board",
+          "urls": [
+            "/art/planet-library/arrival-blue.5a905ac795.mp4",
+            "/art/planet-library/arrival-blue.poster.4ca9e33913.webp",
+            "/art/planet-library/arrival-red.11cc978817.mp4",
+            "/art/planet-library/arrival-red.poster.32f9127d58.webp",
+            "/art/planet-library/blackhole.1f1aa0ee1a.mp4",
+            "/art/planet-library/blackhole.poster.dfa7e8141b.webp",
+            "/art/planet-library/end.art.717e2dcc59.css",
+            "/art/planet-library/hack-engineer.art.15e5c98ff2.css",
+            "/art/planet-library/hospital-panel.art.e6b5bddef6.css",
+            "/art/planet-library/navigation.art.b583b8bc4e.css",
+            "/art/planet-library/offices.art.6d780e7fff.css",
+            "/art/planet-library/promises.art.0298ebef8d.css",
+            "/art/planet-library/rescue.eccab99be1.mp4",
+            "/art/planet-library/rescue.poster.dffbce3adf.webp",
+            "/art/planet-library/successor.art.676b8d3fd6.css",
+            "/art/planet-library/transit.6e338df52f.mp4",
+            "/art/planet-library/transit.poster.cd2ee84274.webp",
+            "/art/planet-library/windows.art.767ae8ccdc.css"
+          ]
+        },
+        {
+          "scene": "engineer",
+          "urls": [
+            "/art/planet-library/arrival-blue.5a905ac795.mp4",
+            "/art/planet-library/arrival-blue.poster.4ca9e33913.webp",
+            "/art/planet-library/arrival-red.11cc978817.mp4",
+            "/art/planet-library/arrival-red.poster.32f9127d58.webp",
+            "/art/planet-library/blackhole.1f1aa0ee1a.mp4",
+            "/art/planet-library/blackhole.poster.dfa7e8141b.webp",
+            "/art/planet-library/end.art.717e2dcc59.css",
+            "/art/planet-library/hack-engineer.art.15e5c98ff2.css",
+            "/art/planet-library/hospital-panel.art.e6b5bddef6.css",
+            "/art/planet-library/navigation.art.b583b8bc4e.css",
+            "/art/planet-library/offices.art.6d780e7fff.css",
+            "/art/planet-library/promises.art.0298ebef8d.css",
+            "/art/planet-library/rescue.eccab99be1.mp4",
+            "/art/planet-library/rescue.poster.dffbce3adf.webp",
+            "/art/planet-library/successor.art.676b8d3fd6.css",
+            "/art/planet-library/transit.6e338df52f.mp4",
+            "/art/planet-library/transit.poster.cd2ee84274.webp",
+            "/art/planet-library/windows.art.767ae8ccdc.css"
+          ]
+        },
+        {
+          "scene": "doctor",
+          "urls": [
+            "/art/planet-library/arrival-blue.5a905ac795.mp4",
+            "/art/planet-library/arrival-blue.poster.4ca9e33913.webp",
+            "/art/planet-library/arrival-red.11cc978817.mp4",
+            "/art/planet-library/arrival-red.poster.32f9127d58.webp",
+            "/art/planet-library/blackhole.1f1aa0ee1a.mp4",
+            "/art/planet-library/blackhole.poster.dfa7e8141b.webp",
+            "/art/planet-library/end.art.717e2dcc59.css",
+            "/art/planet-library/hack-engineer.art.15e5c98ff2.css",
+            "/art/planet-library/hospital-panel.art.e6b5bddef6.css",
+            "/art/planet-library/navigation.art.b583b8bc4e.css",
+            "/art/planet-library/offices.art.6d780e7fff.css",
+            "/art/planet-library/promises.art.0298ebef8d.css",
+            "/art/planet-library/rescue.eccab99be1.mp4",
+            "/art/planet-library/rescue.poster.dffbce3adf.webp",
+            "/art/planet-library/successor.art.676b8d3fd6.css",
+            "/art/planet-library/transit.6e338df52f.mp4",
+            "/art/planet-library/transit.poster.cd2ee84274.webp",
+            "/art/planet-library/windows.art.767ae8ccdc.css"
+          ]
+        },
+        {
+          "scene": "alien",
+          "urls": [
+            "/art/planet-library/arrival-blue.5a905ac795.mp4",
+            "/art/planet-library/arrival-blue.poster.4ca9e33913.webp",
+            "/art/planet-library/arrival-red.11cc978817.mp4",
+            "/art/planet-library/arrival-red.poster.32f9127d58.webp",
+            "/art/planet-library/blackhole.1f1aa0ee1a.mp4",
+            "/art/planet-library/blackhole.poster.dfa7e8141b.webp",
+            "/art/planet-library/end.art.717e2dcc59.css",
+            "/art/planet-library/hack-engineer.art.15e5c98ff2.css",
+            "/art/planet-library/hospital-panel.art.e6b5bddef6.css",
+            "/art/planet-library/navigation.art.b583b8bc4e.css",
+            "/art/planet-library/offices.art.6d780e7fff.css",
+            "/art/planet-library/promises.art.0298ebef8d.css",
+            "/art/planet-library/rescue.eccab99be1.mp4",
+            "/art/planet-library/rescue.poster.dffbce3adf.webp",
+            "/art/planet-library/successor.art.676b8d3fd6.css",
+            "/art/planet-library/transit.6e338df52f.mp4",
+            "/art/planet-library/transit.poster.cd2ee84274.webp",
+            "/art/planet-library/windows.art.767ae8ccdc.css"
+          ]
+        },
+        {
+          "scene": "display",
+          "urls": [
+            "/art/planet-library/arrival-blue.5a905ac795.mp4",
+            "/art/planet-library/arrival-blue.poster.4ca9e33913.webp",
+            "/art/planet-library/arrival-red.11cc978817.mp4",
+            "/art/planet-library/arrival-red.poster.32f9127d58.webp",
+            "/art/planet-library/blackhole.1f1aa0ee1a.mp4",
+            "/art/planet-library/blackhole.poster.dfa7e8141b.webp",
+            "/art/planet-library/end.art.717e2dcc59.css",
+            "/art/planet-library/hack-engineer.art.15e5c98ff2.css",
+            "/art/planet-library/hospital-panel.art.e6b5bddef6.css",
+            "/art/planet-library/navigation.art.b583b8bc4e.css",
+            "/art/planet-library/offices.art.6d780e7fff.css",
+            "/art/planet-library/promises.art.0298ebef8d.css",
+            "/art/planet-library/rescue.eccab99be1.mp4",
+            "/art/planet-library/rescue.poster.dffbce3adf.webp",
+            "/art/planet-library/successor.art.676b8d3fd6.css",
+            "/art/planet-library/transit.6e338df52f.mp4",
+            "/art/planet-library/transit.poster.cd2ee84274.webp",
+            "/art/planet-library/windows.art.767ae8ccdc.css"
+          ]
+        }
+      ],
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [],
+        "withdrawnRequests": []
+      },
+      "screenshot": "390-844-normal-uniform-approved-catalogue.png"
+    },
+    {
+      "name": "390-844-normal-resolved-neutral-transit",
+      "passed": true,
+      "initialTerminalStatic": true,
+      "publicDirectionAbsent": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "width": 132.40625,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-a",
+            "width": 76.546875,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-b",
+            "width": 76.0625,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-board",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-card",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-actions",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-more",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-pass",
+            "width": 64,
+            "height": 64
+          }
+        ],
+        "withdrawnRequests": []
+      },
+      "screenshot": "390-844-normal-resolved-neutral-transit.png"
+    },
+    {
+      "name": "390-844-normal-live-approved-arrival",
+      "passed": true,
+      "authoritativeDestination": "Red",
+      "winner": "Red",
+      "underlayOnly": true,
+      "reducedTreatment": null,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "width": 132.40625,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-a",
+            "width": 76.546875,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-b",
+            "width": 76.0625,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-board",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-card",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-actions",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-more",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-pass",
+            "width": 64,
+            "height": 64
+          }
+        ],
+        "withdrawnRequests": []
+      },
+      "screenshot": "390-844-normal-live-approved-arrival.png"
+    },
+    {
+      "name": "390-844-reduced-officer-early-choice",
+      "passed": true,
+      "phaseId": "reviewed-setting",
+      "fullDurationMs": 15000,
+      "deadlineUnchanged": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "width": 132.40625,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-a",
+            "width": 76.546875,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-b",
+            "width": 76.0625,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-board",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-card",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-actions",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-more",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-close",
+            "width": 137,
+            "height": 44
+          }
+        ],
+        "withdrawnRequests": []
+      },
+      "screenshot": "390-844-reduced-officer-early-choice.png"
+    },
+    {
+      "name": "390-844-reduced-public-neutral-setting",
+      "passed": true,
+      "duplicatePacketKeepsNeutralCopy": true,
+      "noPrivateControls": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [],
+        "withdrawnRequests": []
+      },
+      "screenshot": "390-844-reduced-public-neutral-setting.png"
+    },
+    {
+      "name": "390-844-reduced-engineer-empty-capture",
+      "passed": true,
+      "confirmedEmptyDistinctFromUnused": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "width": 132.40625,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-a",
+            "width": 76.546875,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-b",
+            "width": 76.0625,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-board",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-card",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-actions",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-more",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-pass",
+            "width": 64,
+            "height": 64
+          },
+          {
+            "id": "planet-close",
+            "width": 137,
+            "height": 44
+          }
+        ],
+        "withdrawnRequests": []
+      },
+      "screenshot": "390-844-reduced-engineer-empty-capture.png"
+    },
+    {
+      "name": "390-844-reduced-patient-authorized-statuses",
+      "passed": true,
+      "statuses": [
+        "QUEUED",
+        "WRONG",
+        "TREATED",
+        "NO_EFFECT",
+        "DISCARDED"
+      ],
+      "noInventoryOrDoctorIdentity": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "width": 132.40625,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-a",
+            "width": 76.546875,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-b",
+            "width": 76.0625,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-board",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-card",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-actions",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-more",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-pass",
+            "width": 64,
+            "height": 64
+          },
+          {
+            "id": "planet-close",
+            "width": 137,
+            "height": 44
+          }
+        ],
+        "withdrawnRequests": []
+      },
+      "screenshot": "390-844-reduced-patient-authorized-statuses.png"
+    },
+    {
+      "name": "390-844-reduced-uniform-panel-rejection",
+      "passed": true,
+      "canonicalSeatId": "seat-6",
+      "attemptNotInventedSpent": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "width": 132.40625,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-a",
+            "width": 76.546875,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-b",
+            "width": 76.0625,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-board",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-card",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-actions",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-more",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-pass",
+            "width": 64,
+            "height": 64
+          },
+          {
+            "id": "planet-action-PANEL_CODE",
+            "width": 348,
+            "height": 44
+          },
+          {
+            "id": "planet-close",
+            "width": 137,
+            "height": 44
+          }
+        ],
+        "withdrawnRequests": []
+      },
+      "screenshot": "390-844-reduced-uniform-panel-rejection.png"
+    },
+    {
+      "name": "390-844-reduced-inventory-without-marker",
+      "passed": true,
+      "noCountOrStageInference": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "width": 132.40625,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-a",
+            "width": 76.546875,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-b",
+            "width": 76.0625,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-board",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-card",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-actions",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-more",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-pass",
+            "width": 64,
+            "height": 64
+          },
+          {
+            "id": "planet-close",
+            "width": 137,
+            "height": 44
+          }
+        ],
+        "withdrawnRequests": []
+      },
+      "screenshot": "390-844-reduced-inventory-without-marker.png"
+    },
+    {
+      "name": "390-844-reduced-historical-tuple-dispatch",
+      "passed": true,
+      "tuples": [
+        "planet-game-1.0.0",
+        "planet-game-1.0.1"
+      ],
+      "oldPhasePreserved": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "width": 132.40625,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-a",
+            "width": 76.546875,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-b",
+            "width": 76.0625,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-board",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-card",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-actions",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-more",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-pass",
+            "width": 64,
+            "height": 64
+          },
+          {
+            "id": "planet-action-CHOOSE_NAV_DIRECTION",
+            "width": 348,
+            "height": 44
+          },
+          {
+            "id": "planet-close",
+            "width": 137,
+            "height": 44
+          }
+        ],
+        "withdrawnRequests": []
+      },
+      "screenshot": "390-844-reduced-historical-tuple-dispatch.png"
+    },
+    {
+      "name": "390-844-reduced-uniform-approved-catalogue",
+      "passed": true,
+      "roleAndDisplayRequests": [
+        {
+          "scene": "board",
+          "urls": [
+            "/art/planet-library/arrival-blue.5a905ac795.mp4",
+            "/art/planet-library/arrival-blue.poster.4ca9e33913.webp",
+            "/art/planet-library/arrival-red.11cc978817.mp4",
+            "/art/planet-library/arrival-red.poster.32f9127d58.webp",
+            "/art/planet-library/blackhole.1f1aa0ee1a.mp4",
+            "/art/planet-library/blackhole.poster.dfa7e8141b.webp",
+            "/art/planet-library/end.art.717e2dcc59.css",
+            "/art/planet-library/hack-engineer.art.15e5c98ff2.css",
+            "/art/planet-library/hospital-panel.art.e6b5bddef6.css",
+            "/art/planet-library/navigation.art.b583b8bc4e.css",
+            "/art/planet-library/offices.art.6d780e7fff.css",
+            "/art/planet-library/promises.art.0298ebef8d.css",
+            "/art/planet-library/rescue.eccab99be1.mp4",
+            "/art/planet-library/rescue.poster.dffbce3adf.webp",
+            "/art/planet-library/successor.art.676b8d3fd6.css",
+            "/art/planet-library/transit.6e338df52f.mp4",
+            "/art/planet-library/transit.poster.cd2ee84274.webp",
+            "/art/planet-library/windows.art.767ae8ccdc.css"
+          ]
+        },
+        {
+          "scene": "engineer",
+          "urls": [
+            "/art/planet-library/arrival-blue.5a905ac795.mp4",
+            "/art/planet-library/arrival-blue.poster.4ca9e33913.webp",
+            "/art/planet-library/arrival-red.11cc978817.mp4",
+            "/art/planet-library/arrival-red.poster.32f9127d58.webp",
+            "/art/planet-library/blackhole.1f1aa0ee1a.mp4",
+            "/art/planet-library/blackhole.poster.dfa7e8141b.webp",
+            "/art/planet-library/end.art.717e2dcc59.css",
+            "/art/planet-library/hack-engineer.art.15e5c98ff2.css",
+            "/art/planet-library/hospital-panel.art.e6b5bddef6.css",
+            "/art/planet-library/navigation.art.b583b8bc4e.css",
+            "/art/planet-library/offices.art.6d780e7fff.css",
+            "/art/planet-library/promises.art.0298ebef8d.css",
+            "/art/planet-library/rescue.eccab99be1.mp4",
+            "/art/planet-library/rescue.poster.dffbce3adf.webp",
+            "/art/planet-library/successor.art.676b8d3fd6.css",
+            "/art/planet-library/transit.6e338df52f.mp4",
+            "/art/planet-library/transit.poster.cd2ee84274.webp",
+            "/art/planet-library/windows.art.767ae8ccdc.css"
+          ]
+        },
+        {
+          "scene": "doctor",
+          "urls": [
+            "/art/planet-library/arrival-blue.5a905ac795.mp4",
+            "/art/planet-library/arrival-blue.poster.4ca9e33913.webp",
+            "/art/planet-library/arrival-red.11cc978817.mp4",
+            "/art/planet-library/arrival-red.poster.32f9127d58.webp",
+            "/art/planet-library/blackhole.1f1aa0ee1a.mp4",
+            "/art/planet-library/blackhole.poster.dfa7e8141b.webp",
+            "/art/planet-library/end.art.717e2dcc59.css",
+            "/art/planet-library/hack-engineer.art.15e5c98ff2.css",
+            "/art/planet-library/hospital-panel.art.e6b5bddef6.css",
+            "/art/planet-library/navigation.art.b583b8bc4e.css",
+            "/art/planet-library/offices.art.6d780e7fff.css",
+            "/art/planet-library/promises.art.0298ebef8d.css",
+            "/art/planet-library/rescue.eccab99be1.mp4",
+            "/art/planet-library/rescue.poster.dffbce3adf.webp",
+            "/art/planet-library/successor.art.676b8d3fd6.css",
+            "/art/planet-library/transit.6e338df52f.mp4",
+            "/art/planet-library/transit.poster.cd2ee84274.webp",
+            "/art/planet-library/windows.art.767ae8ccdc.css"
+          ]
+        },
+        {
+          "scene": "alien",
+          "urls": [
+            "/art/planet-library/arrival-blue.5a905ac795.mp4",
+            "/art/planet-library/arrival-blue.poster.4ca9e33913.webp",
+            "/art/planet-library/arrival-red.11cc978817.mp4",
+            "/art/planet-library/arrival-red.poster.32f9127d58.webp",
+            "/art/planet-library/blackhole.1f1aa0ee1a.mp4",
+            "/art/planet-library/blackhole.poster.dfa7e8141b.webp",
+            "/art/planet-library/end.art.717e2dcc59.css",
+            "/art/planet-library/hack-engineer.art.15e5c98ff2.css",
+            "/art/planet-library/hospital-panel.art.e6b5bddef6.css",
+            "/art/planet-library/navigation.art.b583b8bc4e.css",
+            "/art/planet-library/offices.art.6d780e7fff.css",
+            "/art/planet-library/promises.art.0298ebef8d.css",
+            "/art/planet-library/rescue.eccab99be1.mp4",
+            "/art/planet-library/rescue.poster.dffbce3adf.webp",
+            "/art/planet-library/successor.art.676b8d3fd6.css",
+            "/art/planet-library/transit.6e338df52f.mp4",
+            "/art/planet-library/transit.poster.cd2ee84274.webp",
+            "/art/planet-library/windows.art.767ae8ccdc.css"
+          ]
+        },
+        {
+          "scene": "display",
+          "urls": [
+            "/art/planet-library/arrival-blue.5a905ac795.mp4",
+            "/art/planet-library/arrival-blue.poster.4ca9e33913.webp",
+            "/art/planet-library/arrival-red.11cc978817.mp4",
+            "/art/planet-library/arrival-red.poster.32f9127d58.webp",
+            "/art/planet-library/blackhole.1f1aa0ee1a.mp4",
+            "/art/planet-library/blackhole.poster.dfa7e8141b.webp",
+            "/art/planet-library/end.art.717e2dcc59.css",
+            "/art/planet-library/hack-engineer.art.15e5c98ff2.css",
+            "/art/planet-library/hospital-panel.art.e6b5bddef6.css",
+            "/art/planet-library/navigation.art.b583b8bc4e.css",
+            "/art/planet-library/offices.art.6d780e7fff.css",
+            "/art/planet-library/promises.art.0298ebef8d.css",
+            "/art/planet-library/rescue.eccab99be1.mp4",
+            "/art/planet-library/rescue.poster.dffbce3adf.webp",
+            "/art/planet-library/successor.art.676b8d3fd6.css",
+            "/art/planet-library/transit.6e338df52f.mp4",
+            "/art/planet-library/transit.poster.cd2ee84274.webp",
+            "/art/planet-library/windows.art.767ae8ccdc.css"
+          ]
+        }
+      ],
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [],
+        "withdrawnRequests": []
+      },
+      "screenshot": "390-844-reduced-uniform-approved-catalogue.png"
+    },
+    {
+      "name": "390-844-reduced-resolved-neutral-transit",
+      "passed": true,
+      "initialTerminalStatic": true,
+      "publicDirectionAbsent": true,
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "width": 132.40625,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-a",
+            "width": 76.546875,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-b",
+            "width": 76.0625,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-board",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-card",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-actions",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-more",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-pass",
+            "width": 64,
+            "height": 64
+          }
+        ],
+        "withdrawnRequests": []
+      },
+      "screenshot": "390-844-reduced-resolved-neutral-transit.png"
+    },
+    {
+      "name": "390-844-reduced-live-approved-arrival",
+      "passed": true,
+      "authoritativeDestination": "Red",
+      "winner": "Red",
+      "underlayOnly": true,
+      "reducedTreatment": "brief poster or static terminal fallback",
+      "layout": {
+        "overflow": [
+          false,
+          false
+        ],
+        "buttons": [
+          {
+            "id": "phone-move-command-room",
+            "width": 132.40625,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-a",
+            "width": 76.546875,
+            "height": 44
+          },
+          {
+            "id": "phone-move-room-b",
+            "width": 76.0625,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-board",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-card",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-actions",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-nav-more",
+            "width": 71.5,
+            "height": 44
+          },
+          {
+            "id": "planet-pass",
+            "width": 64,
+            "height": 64
+          }
+        ],
+        "withdrawnRequests": []
+      },
+      "screenshot": "390-844-reduced-live-approved-arrival.png"
+    }
+  ],
+  "runtimeErrors": []
+}

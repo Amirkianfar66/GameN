@@ -1,0 +1,333 @@
+{
+  "schema": "mothership.planet-library-art-adoption/1",
+  "assetManifestVersion": "design-0.6.0",
+  "baseAssetManifestVersion": "design-0.5.0",
+  "approvalCommit": "47417a57478a7be2bad9ef5c492b09a1e39132d4",
+  "approvalPath": "docs/integration/planet-library-art-approval-2026-11-06.json",
+  "approvalSha256": "9493e29a8ce1b06c6848846b0c8932d65c42abcb24b2b43aaf35ed7239aaf228",
+  "designerHead": "0fb17a35c4b2fdd3418c9ffb575dbd4a7d0d9878",
+  "gameplayTuple": {
+    "protocolVersion": 3,
+    "engineVersion": "planet-game-1.1.0",
+    "rulesetVersion": "in-person-planet-private-feedback-2026-11-06",
+    "rulesetHash": "4a1fc0e0dc21255253e31ae46e6042f9bd71e3fdec0f82f8a79b3ce213d01bfa"
+  },
+  "groups": [
+    {
+      "token": "library",
+      "url": "/art/planet-library/hack-engineer.art.15e5c98ff2.css"
+    },
+    {
+      "token": "navigation",
+      "url": "/art/planet-library/navigation.art.b583b8bc4e.css"
+    },
+    {
+      "token": "hospital-panel",
+      "url": "/art/planet-library/hospital-panel.art.e6b5bddef6.css"
+    },
+    {
+      "token": "promises",
+      "url": "/art/planet-library/promises.art.0298ebef8d.css"
+    },
+    {
+      "token": "windows",
+      "url": "/art/planet-library/windows.art.767ae8ccdc.css"
+    },
+    {
+      "token": "offices",
+      "url": "/art/planet-library/offices.art.6d780e7fff.css"
+    },
+    {
+      "token": "end",
+      "url": "/art/planet-library/end.art.717e2dcc59.css"
+    },
+    {
+      "token": "successor",
+      "url": "/art/planet-library/successor.art.676b8d3fd6.css"
+    }
+  ],
+  "media": [
+    {
+      "name": "blackhole",
+      "video": "/art/planet-library/blackhole.1f1aa0ee1a.mp4",
+      "durationMs": 3633,
+      "poster": "/art/planet-library/blackhole.poster.dfa7e8141b.webp"
+    },
+    {
+      "name": "rescue",
+      "video": "/art/planet-library/rescue.eccab99be1.mp4",
+      "durationMs": 1433,
+      "poster": "/art/planet-library/rescue.poster.dffbce3adf.webp"
+    },
+    {
+      "name": "transit",
+      "video": "/art/planet-library/transit.6e338df52f.mp4",
+      "durationMs": 2433,
+      "poster": "/art/planet-library/transit.poster.cd2ee84274.webp"
+    },
+    {
+      "name": "arrival-blue",
+      "video": "/art/planet-library/arrival-blue.5a905ac795.mp4",
+      "durationMs": 4233,
+      "poster": "/art/planet-library/arrival-blue.poster.4ca9e33913.webp"
+    },
+    {
+      "name": "arrival-red",
+      "video": "/art/planet-library/arrival-red.11cc978817.mp4",
+      "durationMs": 4233,
+      "poster": "/art/planet-library/arrival-red.poster.32f9127d58.webp"
+    }
+  ],
+  "files": [
+    {
+      "source": "design/library/hack-engineer/assets/library.art.css",
+      "sha256": "b42b84198a4d23e3ce65f46a72f16fa3e6e5df2809c976b82024f4ac2d31aa47",
+      "bytes": 20632,
+      "kind": "stylesheet",
+      "consumerCandidate": "apps/game/candidates/planet-library/hack-engineer.css",
+      "publication": {
+        "target": "art/planet-library/hack-engineer.art.15e5c98ff2.css",
+        "sha256": "15e5c98ff253858148986476a2c7035cc924898191e2ddbb1f422bca694e6c0c",
+        "bytes": 20609,
+        "normalization": "Remove only the single development-only marker from the leading CSS comment; preserve every CSS declaration and encoded SVG byte."
+      }
+    },
+    {
+      "source": "design/library/navigation/assets/navigation.art.css",
+      "sha256": "3de259f5c5507836e32a1b3fb4df01e651a1d2908ec70a6a252fc2126f1663ee",
+      "bytes": 15114,
+      "kind": "stylesheet",
+      "consumerCandidate": "apps/game/candidates/planet-library/navigation.css",
+      "publication": {
+        "target": "art/planet-library/navigation.art.b583b8bc4e.css",
+        "sha256": "b583b8bc4e749b26d811065beb247ec40d7cbd386f4d134e2c31940dfd5672b3",
+        "bytes": 15091,
+        "normalization": "Remove only the single development-only marker from the leading CSS comment; preserve every CSS declaration and encoded SVG byte."
+      }
+    },
+    {
+      "source": "design/library/hospital-panel/assets/hospital-panel.art.css",
+      "sha256": "fb5b43380259d397e0c702eb211f6be21483ebc5eee16553b024df5ac37dee27",
+      "bytes": 10056,
+      "kind": "stylesheet",
+      "consumerCandidate": "apps/game/candidates/planet-library/hospital-panel.css",
+      "publication": {
+        "target": "art/planet-library/hospital-panel.art.e6b5bddef6.css",
+        "sha256": "e6b5bddef618d97fbc2acbf9166d766ca70ba8199d337f41776a79b642263358",
+        "bytes": 10033,
+        "normalization": "Remove only the single development-only marker from the leading CSS comment; preserve every CSS declaration and encoded SVG byte."
+      }
+    },
+    {
+      "source": "design/library/promises/assets/promises.art.css",
+      "sha256": "2c10c7d93df13543a088fc047b0428c144fba15b408c45310fdf8d58baa16d55",
+      "bytes": 10716,
+      "kind": "stylesheet",
+      "consumerCandidate": "apps/game/candidates/planet-library/promises.css",
+      "publication": {
+        "target": "art/planet-library/promises.art.0298ebef8d.css",
+        "sha256": "0298ebef8d319080e7cb751632908d06784ff75790093227e6300401d2d0867a",
+        "bytes": 10693,
+        "normalization": "Remove only the single development-only marker from the leading CSS comment; preserve every CSS declaration and encoded SVG byte."
+      }
+    },
+    {
+      "source": "design/library/windows/assets/windows.art.css",
+      "sha256": "c94a85643f8a5b8d780b930786fcefd1fdf9bfb29e6cb7c8d3d6cb83069b4795",
+      "bytes": 6600,
+      "kind": "stylesheet",
+      "consumerCandidate": "apps/game/candidates/planet-library/windows.css",
+      "publication": {
+        "target": "art/planet-library/windows.art.767ae8ccdc.css",
+        "sha256": "767ae8ccdc9aceef3604a88260b2149a0766a2910836084247d5bfc6ab9d27a0",
+        "bytes": 6577,
+        "normalization": "Remove only the single development-only marker from the leading CSS comment; preserve every CSS declaration and encoded SVG byte."
+      }
+    },
+    {
+      "source": "design/library/offices/assets/offices.art.css",
+      "sha256": "db5d3cdadca9bad1880d3a6faca8983eb9d0994d6e8fc7c932e6a21d3f38a3e8",
+      "bytes": 7551,
+      "kind": "stylesheet",
+      "consumerCandidate": "apps/game/candidates/planet-library/offices.css",
+      "publication": {
+        "target": "art/planet-library/offices.art.6d780e7fff.css",
+        "sha256": "6d780e7fffa10f9f6caccd22a92e33c20e413554778876a08bbf6cd1e5e79b01",
+        "bytes": 7528,
+        "normalization": "Remove only the single development-only marker from the leading CSS comment; preserve every CSS declaration and encoded SVG byte."
+      }
+    },
+    {
+      "source": "design/library/end/assets/end.art.css",
+      "sha256": "c4480d8733c666c22762052c243aa8cb6ddea8bfbde3834aa5eff5c9dbf308d9",
+      "bytes": 13876,
+      "kind": "stylesheet",
+      "consumerCandidate": "apps/game/candidates/planet-library/end.css",
+      "publication": {
+        "target": "art/planet-library/end.art.717e2dcc59.css",
+        "sha256": "717e2dcc59088759615cc7536a341592eb5ef1e2c0ff811feb499eb3ba806613",
+        "bytes": 13853,
+        "normalization": "Remove only the single development-only marker from the leading CSS comment; preserve every CSS declaration and encoded SVG byte."
+      }
+    },
+    {
+      "source": "design/library/successor/assets/successor.art.css",
+      "sha256": "08a57bc05adbdf1994316666d9fe4bedbbb63f9e53709b6388d23305347ce45e",
+      "bytes": 5081,
+      "kind": "stylesheet",
+      "consumerCandidate": "apps/game/candidates/planet-library/successor.css",
+      "publication": {
+        "target": "art/planet-library/successor.art.676b8d3fd6.css",
+        "sha256": "676b8d3fd6100193d8f1bd4c5b13a55e883f48cbfa6fd7666bfbbb83c72248bd",
+        "bytes": 5058,
+        "normalization": "Remove only the single development-only marker from the leading CSS comment; preserve every CSS declaration and encoded SVG byte."
+      }
+    },
+    {
+      "source": "design/cinematic/exports/blackhole/runtime/space-insert-textless.mp4",
+      "sha256": "1f1aa0ee1a3b227bd09bd62496178a28e9aeee18b617863943ceae3f32047c57",
+      "bytes": 1065335,
+      "kind": "video",
+      "consumerCandidate": "apps/game/candidates/planet-library/blackhole.mp4",
+      "publication": {
+        "target": "art/planet-library/blackhole.1f1aa0ee1a.mp4",
+        "sha256": "1f1aa0ee1a3b227bd09bd62496178a28e9aeee18b617863943ceae3f32047c57",
+        "bytes": 1065335,
+        "normalization": "Exact byte copy of the reviewed runtime media."
+      }
+    },
+    {
+      "source": "design/cinematic/exports/blackhole/runtime/space-insert-textless.poster.webp",
+      "sha256": "dfa7e8141b3738fc65e33d4ee5de825b97925de487e7906d50394c25959c99e5",
+      "bytes": 25704,
+      "kind": "poster",
+      "consumerCandidate": "apps/game/candidates/planet-library/blackhole.poster.webp",
+      "publication": {
+        "target": "art/planet-library/blackhole.poster.dfa7e8141b.webp",
+        "sha256": "dfa7e8141b3738fc65e33d4ee5de825b97925de487e7906d50394c25959c99e5",
+        "bytes": 25704,
+        "normalization": "Exact byte copy of the reviewed runtime media."
+      }
+    },
+    {
+      "source": "design/cinematic/exports/hospital-rescue/runtime/drone-insert.mp4",
+      "sha256": "eccab99be11d1696a90d7a81270006819c05ccd218623df6e3f105cc743cc097",
+      "bytes": 412513,
+      "kind": "video",
+      "consumerCandidate": "apps/game/candidates/planet-library/rescue.mp4",
+      "publication": {
+        "target": "art/planet-library/rescue.eccab99be1.mp4",
+        "sha256": "eccab99be11d1696a90d7a81270006819c05ccd218623df6e3f105cc743cc097",
+        "bytes": 412513,
+        "normalization": "Exact byte copy of the reviewed runtime media."
+      }
+    },
+    {
+      "source": "design/cinematic/exports/hospital-rescue/runtime/drone-insert.poster.webp",
+      "sha256": "dffbce3adf4f2d0744905fd6c235f32aebb38ace5206992c73614cbcae764826",
+      "bytes": 26508,
+      "kind": "poster",
+      "consumerCandidate": "apps/game/candidates/planet-library/rescue.poster.webp",
+      "publication": {
+        "target": "art/planet-library/rescue.poster.dffbce3adf.webp",
+        "sha256": "dffbce3adf4f2d0744905fd6c235f32aebb38ace5206992c73614cbcae764826",
+        "bytes": 26508,
+        "normalization": "Exact byte copy of the reviewed runtime media."
+      }
+    },
+    {
+      "source": "design/cinematic/exports/navigation/runtime/transit-insert.mp4",
+      "sha256": "6e338df52f1b4f4feac3d56ed53b2114057516a038c4aa8d7f336c65162a34f8",
+      "bytes": 510059,
+      "kind": "video",
+      "consumerCandidate": "apps/game/candidates/planet-library/transit.mp4",
+      "publication": {
+        "target": "art/planet-library/transit.6e338df52f.mp4",
+        "sha256": "6e338df52f1b4f4feac3d56ed53b2114057516a038c4aa8d7f336c65162a34f8",
+        "bytes": 510059,
+        "normalization": "Exact byte copy of the reviewed runtime media."
+      }
+    },
+    {
+      "source": "design/cinematic/exports/navigation/runtime/transit-insert.poster.webp",
+      "sha256": "cd2ee84274ed955176005b4ed0bb44c353e26cf3f5585b5ff1ce515c8903daa2",
+      "bytes": 21348,
+      "kind": "poster",
+      "consumerCandidate": "apps/game/candidates/planet-library/transit.poster.webp",
+      "publication": {
+        "target": "art/planet-library/transit.poster.cd2ee84274.webp",
+        "sha256": "cd2ee84274ed955176005b4ed0bb44c353e26cf3f5585b5ff1ce515c8903daa2",
+        "bytes": 21348,
+        "normalization": "Exact byte copy of the reviewed runtime media."
+      }
+    },
+    {
+      "source": "design/cinematic/exports/navigation/runtime/arrival-blue-insert.mp4",
+      "sha256": "5a905ac79545c818550e8718b0d5d2de9db705840387d87f1d00d9157a9fb643",
+      "bytes": 1089173,
+      "kind": "video",
+      "consumerCandidate": "apps/game/candidates/planet-library/arrival-blue.mp4",
+      "publication": {
+        "target": "art/planet-library/arrival-blue.5a905ac795.mp4",
+        "sha256": "5a905ac79545c818550e8718b0d5d2de9db705840387d87f1d00d9157a9fb643",
+        "bytes": 1089173,
+        "normalization": "Exact byte copy of the reviewed runtime media."
+      }
+    },
+    {
+      "source": "design/cinematic/exports/navigation/runtime/arrival-blue-insert.poster.webp",
+      "sha256": "4ca9e33913cb798ecc8f58345d85f04830c8ac1afb1d5c5ab26114237a2aaf88",
+      "bytes": 27990,
+      "kind": "poster",
+      "consumerCandidate": "apps/game/candidates/planet-library/arrival-blue.poster.webp",
+      "publication": {
+        "target": "art/planet-library/arrival-blue.poster.4ca9e33913.webp",
+        "sha256": "4ca9e33913cb798ecc8f58345d85f04830c8ac1afb1d5c5ab26114237a2aaf88",
+        "bytes": 27990,
+        "normalization": "Exact byte copy of the reviewed runtime media."
+      }
+    },
+    {
+      "source": "design/cinematic/exports/navigation/runtime/arrival-red-insert.mp4",
+      "sha256": "11cc9788177ac56a7859849718677e9b3ffb8a92f367a2f8f6ef86bdec2a73c7",
+      "bytes": 962504,
+      "kind": "video",
+      "consumerCandidate": "apps/game/candidates/planet-library/arrival-red.mp4",
+      "publication": {
+        "target": "art/planet-library/arrival-red.11cc978817.mp4",
+        "sha256": "11cc9788177ac56a7859849718677e9b3ffb8a92f367a2f8f6ef86bdec2a73c7",
+        "bytes": 962504,
+        "normalization": "Exact byte copy of the reviewed runtime media."
+      }
+    },
+    {
+      "source": "design/cinematic/exports/navigation/runtime/arrival-red-insert.poster.webp",
+      "sha256": "32f9127d58c31f727d17d9cc57c9d160d40dff4c933145e131a9ce5b0a6ad938",
+      "bytes": 24944,
+      "kind": "poster",
+      "consumerCandidate": "apps/game/candidates/planet-library/arrival-red.poster.webp",
+      "publication": {
+        "target": "art/planet-library/arrival-red.poster.32f9127d58.webp",
+        "sha256": "32f9127d58c31f727d17d9cc57c9d160d40dff4c933145e131a9ce5b0a6ad938",
+        "bytes": 24944,
+        "normalization": "Exact byte copy of the reviewed runtime media."
+      }
+    }
+  ],
+  "excludedFiles": [
+    {
+      "source": "design/cinematic/exports/eject/review/exterior-insert.mp4",
+      "sha256": "8ea644529b362f9e4a9ece89114095d68018e308e61a359162241804ffbc3a53",
+      "reason": "PR184 explicitly withdraws EJECT exterior media from runtime eligibility. Keep S7 board EJECT."
+    },
+    {
+      "source": "design/cinematic/exports/eject/review/exterior-insert.poster.webp",
+      "sha256": "37e657000651d198ef93433cdcefd35cf8359569cf3645c4c2c3c0f82fb9ed86",
+      "reason": "PR184 explicitly withdraws EJECT exterior media from runtime eligibility. Keep S7 board EJECT."
+    }
+  ],
+  "productionWiring": "Local native build; deployment and profile activation not performed",
+  "status": "Implemented in the native local build/runtime; central release registry and live profile selection remain with Integration",
+  "localBuildOutputs": 18,
+  "publiclyPublished": false
+}

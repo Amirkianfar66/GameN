@@ -1,0 +1,29 @@
+{
+  "decision_id": "role-names-engineer-doctor-2026-10-26",
+  "status": "owner-confirmed-design",
+  "decided_on": "2026-10-26",
+  "recorded_from": {
+    "conversation_id": "01a14f15-9d9a-7811-b0e2-477b23bd9f1b",
+    "owner_instruction": "Rename Soldier Blue to Engineer and Cracker to Doctor."
+  },
+  "base_commit": "50d2abc78454c36fca204714ad15ab18c7ce05f2",
+  "scope": "Role terminology only. Faction, mode eligibility, information, actions, resources, targeting, timing and victory conditions are unchanged.",
+  "renames": [
+    {
+      "previous_name": "Soldier Blue",
+      "name": "Engineer",
+      "studio_node_id": "soldier-blue",
+      "unchanged_behavior": "The ninth Blue secret role, in nine-player games. Once per match, suppress the fixed opposite-room occupants' navigation weight for the current round. Ballots are unaffected. No starting weapon or special shooting allowance."
+    },
+    {
+      "previous_name": "Cracker",
+      "name": "Doctor",
+      "studio_node_id": "cracker",
+      "unchanged_behavior": "The Blue healing role. Rescue and the Hospital panel share the same two heals. The panel uses this player's number. This original identity remains a Code member and one of Insider's three unmapped identities."
+    }
+  ],
+  "current_code_names": ["Undercover", "Alien", "Insider", "Doctor"],
+  "supersedes": "Only the role-name wording in earlier current-design records. Earlier rule behavior remains authoritative except where already superseded by other confirmed decisions.",
+  "history_and_identity": "Keep stable Studio node IDs and connections. Preserve dated source overlays, historical artifacts and previous immutable board revisions with their original names. Use Engineer and Doctor in current cards, descriptions, Code and Hospital references.",
+  "implementation_boundary": "Update the owner design reference and Studio. Existing gameplay wire identifiers, runtime profiles and active matches are not migrated by this terminology change; the gameplay successor must adopt these approved names."
+}

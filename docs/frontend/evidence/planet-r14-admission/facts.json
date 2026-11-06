@@ -1,0 +1,242 @@
+{
+  "scope": "R14 synthetic authority through the native consumer; desktop Chromium phone emulation.",
+  "generatedAt": "2026-11-06T14:12:54.660Z",
+  "browser": {
+    "protocolVersion": "1.3",
+    "product": "Chrome/156.0.8078.80",
+    "revision": "@fb096c0011f9d50f0a264a9376420cdea9c421e3",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+    "jsVersion": "15.6.75.27"
+  },
+  "cases": [
+    {
+      "name": "320-568-normal-pending-reload",
+      "passed": true,
+      "requestIdBound": true,
+      "noAdmittedData": true,
+      "screenshot": "320-568-normal-pending-reload.png"
+    },
+    {
+      "name": "320-568-normal-unavailable-pending",
+      "passed": true,
+      "requestContextRetained": true,
+      "screenshot": "320-568-normal-unavailable-pending.png"
+    },
+    {
+      "name": "320-568-normal-unbound-standing-rejected",
+      "passed": true,
+      "requestAndKindMismatchRejected": true,
+      "screenshot": "320-568-normal-unbound-standing-rejected.png"
+    },
+    {
+      "name": "320-568-normal-admitted-display",
+      "passed": true,
+      "matchingStanding": true,
+      "reloadAccepted": true,
+      "publicOnly": true,
+      "screenshot": "320-568-normal-admitted-display.png"
+    },
+    {
+      "name": "320-568-normal-closed-declined",
+      "passed": true,
+      "statuses": [
+        "closed",
+        "declined"
+      ],
+      "noGameOrRoster": true,
+      "screenshot": "320-568-normal-closed-declined.png"
+    },
+    {
+      "name": "320-568-normal-admitted-player",
+      "passed": true,
+      "requestKindBound": true,
+      "assignedSeat": "seat-6",
+      "screenshot": "320-568-normal-admitted-player.png"
+    },
+    {
+      "name": "320-568-normal-recovery-and-uid-boundary",
+      "passed": true,
+      "oldContextCleared": true,
+      "foreignUidCannotInherit": true,
+      "screenshot": "320-568-normal-recovery-and-uid-boundary.png"
+    },
+    {
+      "name": "320-568-normal-player-without-seat",
+      "passed": true,
+      "nullSeatDoesNotApproveDisplay": true,
+      "screenshot": "320-568-normal-player-without-seat.png"
+    },
+    {
+      "name": "320-568-reduced-pending-reload",
+      "passed": true,
+      "requestIdBound": true,
+      "noAdmittedData": true,
+      "screenshot": "320-568-reduced-pending-reload.png"
+    },
+    {
+      "name": "320-568-reduced-unavailable-pending",
+      "passed": true,
+      "requestContextRetained": true,
+      "screenshot": "320-568-reduced-unavailable-pending.png"
+    },
+    {
+      "name": "320-568-reduced-unbound-standing-rejected",
+      "passed": true,
+      "requestAndKindMismatchRejected": true,
+      "screenshot": "320-568-reduced-unbound-standing-rejected.png"
+    },
+    {
+      "name": "320-568-reduced-admitted-display",
+      "passed": true,
+      "matchingStanding": true,
+      "reloadAccepted": true,
+      "publicOnly": true,
+      "screenshot": "320-568-reduced-admitted-display.png"
+    },
+    {
+      "name": "320-568-reduced-closed-declined",
+      "passed": true,
+      "statuses": [
+        "closed",
+        "declined"
+      ],
+      "noGameOrRoster": true,
+      "screenshot": "320-568-reduced-closed-declined.png"
+    },
+    {
+      "name": "320-568-reduced-admitted-player",
+      "passed": true,
+      "requestKindBound": true,
+      "assignedSeat": "seat-6",
+      "screenshot": "320-568-reduced-admitted-player.png"
+    },
+    {
+      "name": "320-568-reduced-recovery-and-uid-boundary",
+      "passed": true,
+      "oldContextCleared": true,
+      "foreignUidCannotInherit": true,
+      "screenshot": "320-568-reduced-recovery-and-uid-boundary.png"
+    },
+    {
+      "name": "320-568-reduced-player-without-seat",
+      "passed": true,
+      "nullSeatDoesNotApproveDisplay": true,
+      "screenshot": "320-568-reduced-player-without-seat.png"
+    },
+    {
+      "name": "390-844-normal-pending-reload",
+      "passed": true,
+      "requestIdBound": true,
+      "noAdmittedData": true,
+      "screenshot": "390-844-normal-pending-reload.png"
+    },
+    {
+      "name": "390-844-normal-unavailable-pending",
+      "passed": true,
+      "requestContextRetained": true,
+      "screenshot": "390-844-normal-unavailable-pending.png"
+    },
+    {
+      "name": "390-844-normal-unbound-standing-rejected",
+      "passed": true,
+      "requestAndKindMismatchRejected": true,
+      "screenshot": "390-844-normal-unbound-standing-rejected.png"
+    },
+    {
+      "name": "390-844-normal-admitted-display",
+      "passed": true,
+      "matchingStanding": true,
+      "reloadAccepted": true,
+      "publicOnly": true,
+      "screenshot": "390-844-normal-admitted-display.png"
+    },
+    {
+      "name": "390-844-normal-closed-declined",
+      "passed": true,
+      "statuses": [
+        "closed",
+        "declined"
+      ],
+      "noGameOrRoster": true,
+      "screenshot": "390-844-normal-closed-declined.png"
+    },
+    {
+      "name": "390-844-normal-admitted-player",
+      "passed": true,
+      "requestKindBound": true,
+      "assignedSeat": "seat-6",
+      "screenshot": "390-844-normal-admitted-player.png"
+    },
+    {
+      "name": "390-844-normal-recovery-and-uid-boundary",
+      "passed": true,
+      "oldContextCleared": true,
+      "foreignUidCannotInherit": true,
+      "screenshot": "390-844-normal-recovery-and-uid-boundary.png"
+    },
+    {
+      "name": "390-844-normal-player-without-seat",
+      "passed": true,
+      "nullSeatDoesNotApproveDisplay": true,
+      "screenshot": "390-844-normal-player-without-seat.png"
+    },
+    {
+      "name": "390-844-reduced-pending-reload",
+      "passed": true,
+      "requestIdBound": true,
+      "noAdmittedData": true,
+      "screenshot": "390-844-reduced-pending-reload.png"
+    },
+    {
+      "name": "390-844-reduced-unavailable-pending",
+      "passed": true,
+      "requestContextRetained": true,
+      "screenshot": "390-844-reduced-unavailable-pending.png"
+    },
+    {
+      "name": "390-844-reduced-unbound-standing-rejected",
+      "passed": true,
+      "requestAndKindMismatchRejected": true,
+      "screenshot": "390-844-reduced-unbound-standing-rejected.png"
+    },
+    {
+      "name": "390-844-reduced-admitted-display",
+      "passed": true,
+      "matchingStanding": true,
+      "reloadAccepted": true,
+      "publicOnly": true,
+      "screenshot": "390-844-reduced-admitted-display.png"
+    },
+    {
+      "name": "390-844-reduced-closed-declined",
+      "passed": true,
+      "statuses": [
+        "closed",
+        "declined"
+      ],
+      "noGameOrRoster": true,
+      "screenshot": "390-844-reduced-closed-declined.png"
+    },
+    {
+      "name": "390-844-reduced-admitted-player",
+      "passed": true,
+      "requestKindBound": true,
+      "assignedSeat": "seat-6",
+      "screenshot": "390-844-reduced-admitted-player.png"
+    },
+    {
+      "name": "390-844-reduced-recovery-and-uid-boundary",
+      "passed": true,
+      "oldContextCleared": true,
+      "foreignUidCannotInherit": true,
+      "screenshot": "390-844-reduced-recovery-and-uid-boundary.png"
+    },
+    {
+      "name": "390-844-reduced-player-without-seat",
+      "passed": true,
+      "nullSeatDoesNotApproveDisplay": true,
+      "screenshot": "390-844-reduced-player-without-seat.png"
+    }
+  ],
+  "runtimeErrors": []
+}

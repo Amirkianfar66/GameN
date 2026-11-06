@@ -1,0 +1,65 @@
+{
+  "decision_id": "hospital-panel-shared-rescue-2026-10-25",
+  "status": "owner-confirmed-design",
+  "decided_on": "2026-10-25",
+  "authority": "The game owner proposed the Hospital code panel and explicitly confirmed both the wrong-code penalty and end-round Rescue timing in this design conversation.",
+  "confirmed_rules": [
+    {
+      "id": "PANEL-01",
+      "rule": "Every living player in Hospital may submit one Hospital-panel code attempt in the entire match. It is available during a round spent in Hospital, independently of the patient's own turn. It targets only that patient."
+    },
+    {
+      "id": "PANEL-02",
+      "rule": "The correct code is the player number of the player whose secret role is Cracker (the doctor). It is not the role catalog number."
+    },
+    {
+      "id": "PANEL-03",
+      "rule": "The Hospital panel contains two healing injections in total for the match. Cracker's Rescue and successful patient-panel attempts draw from this same pool. The panel does not add two more heals and each patient does not receive a separate healing pool."
+    },
+    {
+      "id": "PANEL-04",
+      "rule": "A wrong code consumes that patient's sole lifetime panel attempt but consumes none of the shared healing injections. No further code attempt is available to that player."
+    },
+    {
+      "id": "PANEL-05",
+      "rule": "An accepted correct code consumes that patient's lifetime attempt and reserves one available shared healing injection immediately. Queue self-Rescue for the Rescue stage at the end of that same round. Entering the code does not heal the patient immediately."
+    },
+    {
+      "id": "PANEL-06",
+      "rule": "Present this as a shared Public Onboard Action, available to all secret roles subject to Hospital eligibility and its own once-per-match limit. Existing independent Role/Public action allowances still apply. This specific Hospital interaction does not reactivate other disabled actions."
+    }
+  ],
+  "owner_confirmations": [
+    {
+      "question": "If the patient enters the wrong Cracker number, should their only panel opportunity be spent without spending a Cracker heal?",
+      "answer": "Yes; spend the patient opportunity, not a heal."
+    },
+    {
+      "question": "On a correct code, reserve one heal immediately and heal at the end-of-round Rescue stage, matching the existing order?",
+      "answer": "Correct."
+    }
+  ],
+  "existing_rules_still_apply": [
+    "Normal attacks resolve before Rescue. A second hit can eliminate the patient before the reserved heal resolves; Rescue cannot revive an Eliminated player.",
+    "An accepted Rescue with no healing effect still spends its reserved use. The panel does not create a refund rule.",
+    "Healing does not release detention. Existing end-round placement, medical episode, Hospital capacity and admission rules still apply."
+  ],
+  "existing_rule_sources": [
+    "rules/overlays/in-person-v1-owner-decisions-2026-10-06.json: V1-02, V1-07, V1-15",
+    "rules/overlays/board-medical-owner-decision-2026-10-14.json",
+    "rules/overlays/hospital-four-owner-decision-2026-10-19.json"
+  ],
+  "integration_followups": [
+    {
+      "topic": "Blackhole",
+      "status": "unresolved",
+      "detail": "Reconcile the patient attempt and shared healing pool with Blackhole action-cost branching and Sync. Hospital does not branch, while Cracker may act in an A/B reality. Do not silently reset a patient attempt or duplicate the shared resource."
+    },
+    {
+      "topic": "Command and disclosure contract",
+      "status": "implementation-design-pending",
+      "detail": "Define the exact round phase cutoff, simultaneous reservation handling and private feedback without publishing a player's entered code or the Cracker identity. The server must never reserve more than the available shared injections. These technical details are not additional approved gameplay powers."
+    }
+  ],
+  "implementation_boundary": "Confirmed design reference only. No gameplay engine, command contract, active match, deployed ruleset tuple or historical source is changed by this record."
+}
