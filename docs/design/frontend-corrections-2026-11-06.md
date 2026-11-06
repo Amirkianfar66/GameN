@@ -284,7 +284,55 @@ The review pages (`design/library/*/page.mjs`) changed too, to draw canonical fi
 
 ## 11. Checks performed
 
-_Pending: filled in after the final run._
+Every check below ran on `572d1eb`, this delivery's first commit, with Node 22.21.1 and npm 10.9.4 in
+a 4-core container. The second commit only fills in this section.
+
+- **`npm run verify`, every step except the capacity gate:** passed in 976 s.
+  - toolchain, workspace, sources and typecheck;
+  - `npm test`: bootstrap 55, engine 253, backend 187, tooling 130, frontend 194 and 448, and design 428;
+  - balance static 103 of 103;
+  - scenarios: 555 IDs, 516 passed, 33 reviewed blocked, 6 explicit manual, zero errors;
+  - 4,490 balance controls detected;
+  - playouts clean in modes 7, 8 and 9.
+- **The capacity playouts:** `test:capacity`'s 600 playouts (200 per mode) were run without the
+  gate's 600 s limit. They finished in 672 s and passed the gate's own assertions. The stock limit is
+  shorter than this container needs; raising it is Integration's. This diff touches none of the code
+  the playouts run.
+- **The design tests:** 428, of which 6 are new and 1 is rewritten:
+  - P27: the stage only in its own phase, on the display only, and never before Backend names it;
+  - no covering EJECT, in any phase, whatever stage kind or surface is passed;
+  - the Rescue never hides, greys or moves the board's figure;
+  - P28: four worlds (no tie, a tie open, a tie chosen early, a tie unanswered) give one public strip
+    and one Captain's panel;
+  - the meeting Promises are the giver's place alone;
+  - the Blackout's windows are lit for five seconds, dark from `previewEndsAt`, and fail closed;
+  - the Supply receipt (rewritten): only from R15's marker, and never from a Sync's restore or from
+    growth alone.
+
+  The fixtures of groups 1, 3, 4, 6 and 7 now use canonical seat ids.
+- **The library review captures:** `library-capture.mjs` gave every group 0 problems:
+  - hack-engineer 137;
+  - hospital-panel 109;
+  - promises 165;
+  - windows 123;
+  - offices 117;
+  - end 89;
+  - successor 99.
+
+  A before-and-after pixel comparison found the drawn UI unchanged except for the new cards. The
+  other differences are the review cards' fixture lines, which now show canonical ids.
+  `library-assets.mjs --check`: 96 assets, every hash matching its manifest.
+- **The Rescue renders:** `cinematic-exports.mjs` re-rendered the nine board-treatment videos in
+  Chromium 141.0.7390.37 with ffmpeg 6.1.1.
+  - A frame-by-frame scan finds no one- or two-frame dropout in any of them.
+  - Frames pulled at 0.5, 2.0, 3.2, 4.6 and 6.1 s were checked by eye. They show the healed player's
+    board figure in colour throughout; the earlier renders greyed it.
+- **The manifests:**
+  - `cinematic-manifest.mjs`: 36 sources and 252 exports, each render record's hash matching its file;
+  - the audio sheets match their 48 files;
+  - `cinematic-docs.mjs`: `cinematic-catalogue-0.11.0`, 23 scenes and 16 requests.
+- **Hygiene:** `git diff --check` is clean. A scan of the 77 changed text files for credentials, local
+  paths and model names found none.
 
 ## 12. Limitations
 
