@@ -15,12 +15,15 @@
 //   talk      the conversation (60 s, HACK): the capsule panel's seated variations (S2's seeded,
 //             speaker-neutral loop): no mouth, speaker, gesture-to-speech or sound. A review render
 //             shows a 6 s excerpt of the panel enlarged; the runtime keeps it in the board's panel.
-//   exit      from the conversation's end: the door opens, they stand, walk out by their paths and
-//             step back into their rooms at their latest places; it plays over whatever stage comes
-//             next and blocks nothing (a proposal for the owner: the page form on the display, or
-//             S2's board-only exit; see the motion bible).
+//   exit      the live game's, on the board, on every surface (the owner's review of 6 November
+//             2026, request R2): the approved S2 exit itself. The door opens, they stand, walk out by
+//             their paths and step back into their rooms at their latest places, over whatever phase
+//             comes next, drawn in the board's own panels and covering nothing. There is no page.
 //   reduced   S2's reduced variants (one cross-faded swap, the door's two states), in the same page,
 //             which appears and leaves by an 80 ms fade.
+//
+// The entrance page covers the display's board, so it plays only in the result stage, where nobody
+// decides (../../lib/visibility.mjs mayCover('HACK_RESULT')), and it is gone before that stage ends.
 //
 // Inputs: S2's (the stage, ms from its authoritative start, the public pair as two seat ids ordered
 // by player number, each participant's public place, health and detention, the exchange's public
@@ -32,14 +35,14 @@ import { beat, clamp01, easeInCubic, easeOutBack, easeOutCubic, r2 } from '../..
 
 export const PRIVATE_TALK_VERSION = 'cinematic-private-talk-0.1.0';
 export const VARIANTS = Object.freeze(['full', 'reduced']);
-export const CASES = Object.freeze(['entrance', 'talk', 'exit']);
+/** The page's cases. The exit is not one: it is S2's own, on the board (exitEnd()). */
+export const CASES = Object.freeze(['entrance', 'talk']);
 
 /** The page's beats per case, in ms from the stage's authoritative start; S2's own beats run inside. */
 export const PAGE = Object.freeze({
   entrance: Object.freeze({ end: 4900, in: Object.freeze([[0, 300], [80, 380], [160, 460]]), out: Object.freeze([4300, 4800]), s2: 'result', s2End: capsuleEnd('result') }),
   talk: Object.freeze({ end: 6000, excerpt: Object.freeze([0, 6000]), s2: 'talk' }),
-  exit: Object.freeze({ end: 2800, in: Object.freeze([[0, 200], [40, 240], [0, 160]]), out: Object.freeze([2300, 2750]), s2: 'exit', s2End: capsuleEnd('exit') }),
-  reduced: Object.freeze({ fade: 80, entrance: Object.freeze({ end: 2000, out: 1700 }), exit: Object.freeze({ end: 1100, out: 800 }), talk: Object.freeze({ end: 3000 }) }),
+  reduced: Object.freeze({ fade: 80, entrance: Object.freeze({ end: 2000, out: 1700 }), talk: Object.freeze({ end: 3000 }) }),
 });
 
 /** The display's page layout, 1920 x 1080: the two rooms stacked on the left, the capsule on the right. */
@@ -51,6 +54,9 @@ export const LAYOUT = Object.freeze({
 });
 
 export const pageEnd = (caseName, variant) => (variant === 'reduced' ? PAGE.reduced[caseName].end : PAGE[caseName].end);
+
+/** The exit's length: S2's own exit on the board (approved, unchanged), with its 300 ms settle. */
+export const exitEnd = variant => (variant === 'reduced' ? 400 : capsuleEnd('exit')) + 300;
 
 /**
  * The page at t for a case: each panel's presence (0..1) and slam (its scale over 1), the backdrop's

@@ -163,7 +163,7 @@ Each motion plays once, from the moment its cause first arrives in a view this s
 | `arrive` | 760 ms | when an offer to this seat first appears: the envelope drops in 0–300 and opens 260–440; the card rises out 380–760 | fades, 160 ms |
 | `accept` | 560 ms | when first seen accepted (both phones): the Pending seal presses into the status row 0–360; an ink ring spreads and fades 300–560 | fades, 160 ms |
 | `decline` | 600 ms | when first seen declined or not answered (both phones): the card dims and tips back at most 3° 0–420; DECLINED or NOT ANSWERED lands 300–600 | fades, 160 ms |
-| `result` | 720 ms | when first seen with a result, at the evaluation after Sync (R6): the Pending seal turns edge-on 0–240 and the result's seal turns face-on in its place 240–480; its stamp lands 420–720 | fades, 160 ms |
+| `result` | 720 ms | when first seen with a result, as that Promise's own opportunity closes (R6): the Pending seal turns edge-on 0–240 and the result's seal turns face-on in its place 240–480; its stamp lands 420–720 | fades, 160 ms |
 
 There is no shake, flash or particle.
 
@@ -182,7 +182,7 @@ None, for any state. A Promise is pair-private, and a sound would tell the table
   - **(b) Meet in A and Meet in B:** whose place decides at voting start, the giver's alone or both players'? The cards read the giver's.
   - **(c) Election names:** `electionId` is opaque. Add the election's round so a card can name "Round 5's Captain election" rather than "the next Captain election".
   - **(d) `promiseQuota`:** does `true` mean used, or open? Until defined, the ledger reads the slots from the accepted records.
-- **R6** (existing): status changes must arrive with a view revision at the evaluation (voting start after Sync), so the result plays once at the right moment.
+- **R6** (existing, corrected after the owner's review of 6 November 2026): each Promise is evaluated at its own opportunity, not all at voting start. A meeting is decided when its round's voting begins after Sync. A Jail Vote or No Jail Vote is decided when its round's Jail vote closes. Captain Support is decided at the specified election, runoffs included. Officer Selection is decided at that election and its Officer appointment. Each status change must arrive with the view revision that closes its own opportunity, so the result plays once, then.
 
 Both are in the motion bible's request table (`cinematic-catalogue-0.5.0`), whose Promises entry now points here.
 

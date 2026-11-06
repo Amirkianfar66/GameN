@@ -2,9 +2,10 @@
 //
 // Renders every pilot's public cue sheets (each pilot's film.mjs AUDIO) to sound files with the
 // cinematic library's procedural cues (design/cinematic/lib/audio.mjs: synthesized, no samples):
-//   node design/tools/cinematic-audio.mjs [--only <pilot>]
-// --only renders that pilot's sheets alone and merges their records into audio.json, leaving every
-// other pilot's files as they are (the Opus encoder does not repeat its bytes from run to run).
+//   node design/tools/cinematic-audio.mjs [--only <pilot>|<pilot>/<sheet>]
+// --only renders those sheets alone and merges their records into audio.json, leaving every other
+// sheet's files as they are (the Opus encoder does not repeat its bytes from run to run). A record
+// for a sheet no longer listed here is dropped.
 // Writes design/cinematic/exports/<pilot>/audio/<pilot>-<sheet>.cues.{wav,m4a,opus} and an
 // audio.json record (cue sheet, length, hashes). Needs ffmpeg for the AAC and Opus encodes.
 
@@ -16,7 +17,7 @@ import { fileURLToPath } from 'node:url';
 import { RATE, mix, wav } from '../cinematic/lib/audio.mjs';
 import { AUDIO as HOSPITAL, pilotEnd } from '../cinematic/pilots/hospital-rescue/film.mjs';
 import { AUDIO as BLACKHOLE, filmEnd } from '../cinematic/pilots/blackhole/film.mjs';
-import { AUDIO as TALK, pageEnd } from '../cinematic/pilots/private-talk/film.mjs';
+import { AUDIO as TALK, exitEnd, pageEnd } from '../cinematic/pilots/private-talk/film.mjs';
 import { AUDIO as NAV, filmEnd as navEnd } from '../library/navigation/films.mjs';
 
 const repoRoot = resolve(fileURLToPath(new URL('../../', import.meta.url)));
@@ -28,10 +29,10 @@ const SHEETS = [
   ['hospital-rescue', 'short', HOSPITAL.short, pilotEnd('short')],
   ['hospital-rescue', 'reduced', HOSPITAL.reduced, pilotEnd('reduced')],
   ['blackhole', 'full', BLACKHOLE.full, filmEnd('display', 'full')],
-  ['blackhole', 'short', BLACKHOLE.short, filmEnd('phone', 'full')],
+  ['blackhole', 'stage', BLACKHOLE.stage, filmEnd('display', 'stage')],
   ['blackhole', 'reduced', BLACKHOLE.reduced, filmEnd('display', 'reduced')],
   ['private-talk', 'entrance', TALK.entrance, pageEnd('entrance', 'full')],
-  ['private-talk', 'exit', TALK.exit, pageEnd('exit', 'full')],
+  ['private-talk', 'exit', TALK.exit, exitEnd('full')],
   ['private-talk', 'reduced', TALK.reduced, pageEnd('entrance', 'reduced')],
   ['navigation', 'transit', NAV.transit, navEnd('transit', 'display')],
   ['navigation', 'transit-short', NAV['transit-short'], navEnd('transit', 'phone')],
@@ -42,13 +43,15 @@ const SHEETS = [
 
 const at = process.argv.indexOf('--only');
 const only = at > 0 ? process.argv[at + 1] : null;
+const picked = (pilot, name) => !only || pilot === only || `${pilot}/${name}` === only;
 const record = { tool: 'design/tools/cinematic-audio.mjs', synthesis: 'design/cinematic/lib/audio.mjs (procedural; no samples, recordings or licences)', rate: RATE, encoder: execFileSync('ffmpeg', ['-hide_banner', '-version']).toString().split('\n')[0], sheets: [] };
 if (only) {
-  // Keep every other pilot's records as they are.
-  const kept = JSON.parse(await readFile(join(out, 'audio.json'), 'utf8')).sheets.filter(entry => entry.pilot !== only);
+  // Keep every other listed sheet's record as it is.
+  const kept = JSON.parse(await readFile(join(out, 'audio.json'), 'utf8')).sheets
+    .filter(entry => !picked(entry.pilot, entry.sheet) && SHEETS.some(([pilot, name]) => pilot === entry.pilot && name === entry.sheet));
   record.sheets.push(...kept);
 }
-for (const [pilot, name, sheet, lengthMs] of SHEETS.filter(([pilot]) => !only || pilot === only)) {
+for (const [pilot, name, sheet, lengthMs] of SHEETS.filter(([pilot, name]) => picked(pilot, name))) {
   const dir = join(out, pilot, 'audio');
   await mkdir(dir, { recursive: true });
   const base = join(dir, `${pilot}-${name}.cues`);
