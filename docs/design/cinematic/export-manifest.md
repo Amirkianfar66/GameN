@@ -290,7 +290,7 @@ Full-size frames of the cinematic forms (the Rescue cut, the Blackhole stage cut
 | `design/cinematic/pilots/private-talk/film.mjs` | `a5d4fe5a5537c5d73d2324a1ac339dabb91b74567743ece87c265438d071766f` | 6743 |
 | `design/cinematic/pilots/private-talk/compose.mjs` | `8eafadb199eb9b620eb3a70668481322702c905f32ff80424ca3928a39dc6882` | 11117 |
 | `design/cinematic/pilots/private-talk/stage.mjs` | `65ded5d58bb32eb2a8cd2b98246ae6181e77510606fa909272b405a451823bfc` | 5753 |
-| `design/cinematic/catalogue/catalogue.mjs` | `18d4f8e1e9daaf6c75a921e6c610291b65437dc4c7bec71ca101f3b9a211669a` | 37539 |
+| `design/cinematic/catalogue/catalogue.mjs` | `5fb2574e44d6a15db2fada366d5af11afca06d0f22bb77bd9f18f06a59d22c88` | 38630 |
 | `design/tools/cinematic-inventory.mjs` | `46becd977965fb27576d1f96aece5c0886497b2eec8a4d77edf3a69c7452a6d8` | 17291 |
 | `design/tools/cinematic-contact.mjs` | `db081043223bb6486d480ab78d209c392cdd0f0e41a15012921ff546a9fc9fa1` | 6805 |
 | `design/tools/cinematic-render.mjs` | `db7a36c5e6201e565080dddce5f2f46166134502bd0db1d51fbf58a8ec6b0990` | 10594 |

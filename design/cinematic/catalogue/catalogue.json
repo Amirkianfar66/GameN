@@ -1,5 +1,5 @@
 {
-  "version": "cinematic-catalogue-0.5.0",
+  "version": "cinematic-catalogue-0.6.0",
   "contract": {
     "protocol": 3,
     "engine": "planet-game-1.0.0",
@@ -833,32 +833,35 @@
     {
       "id": "windows",
       "scene": "Windows and drawing",
-      "status": "gap (proposal)",
-      "audience": "window-scoped",
-      "trigger": "windows[] (canDraw, drawings[])",
+      "status": "library group 5 (proposal)",
+      "audience": "window-scoped (players at either end of a window); the pad station-private; the station markers public on the board",
+      "trigger": "windows[] (windowId, canDraw, drawings[] by order); offers SHOW_WINDOW (windowIds); the SHOW_WINDOW receipt; phase BLACKOUT",
       "fields": [
-        "windows[]"
+        "windows[]",
+        "offers[] SHOW_WINDOW",
+        "board.seats[] (own location and slotId)",
+        "phase.kind"
       ],
       "beats": {
-        "start": "framed view",
-        "loop": "local canvas",
-        "exit": "Show stamp"
+        "start": "the window to the other room: its lintel, the pane with this round's shown drawings",
+        "loop": "the local pad at a station (inks, widths, undo, clear); Show after a warning that nothing can be erased",
+        "exit": "the drawing lifts into the pane, SHOWN; a new drawing drops in on first sight; the shade lowers for the Blackout and rises after"
       },
       "durations": {
-        "full": "600 ms stamp",
-        "reduced": "swap"
+        "full": "show 760 ms, arrive 420 ms, dark 420 ms, light 320 ms",
+        "reduced": "fades of 160 ms"
       },
-      "final": "immutable image",
-      "cancel": "round end expires",
-      "precedence": "own phone",
-      "audio": "none public",
-      "reduced": "swap",
+      "final": "the pane with every drawing shown this round, numbered, with its author; empty at the next round",
+      "cancel": "round end expires the drawings; a refused Show keeps the local drawing; a reconnect draws everything at rest",
+      "precedence": "window audience only; the Blackout darkens every window",
+      "audio": "none (a sound would tell the table that someone drew or showed)",
+      "reduced": "fades",
       "rosters": "n/a",
-      "concurrency": "chronological",
-      "assets": [],
-      "gaps": [
-        "three framed views, four stations"
+      "concurrency": "append-only, in shown order; any number per round within the drawing budget",
+      "assets": [
+        "design/library/windows/ (three lintels, the station marker, the pad paper, the Blackout shade, the tray mark; the drawing renderer; state maps, words, motion)"
       ],
+      "gaps": [],
       "request": "R7"
     },
     {

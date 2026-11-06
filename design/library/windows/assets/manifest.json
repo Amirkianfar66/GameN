@@ -1,0 +1,76 @@
+{
+  "version": "library-windows-0.1.0",
+  "generatedBy": "design/tools/library-assets.mjs",
+  "source": "design/library/windows/art.mjs",
+  "audience": "the window audience (players at either end of a window), the station-private pad, and the public board's station markers; loaded whole on every player phone",
+  "assets": [
+    {
+      "name": "wn-station",
+      "file": "design/library/windows/assets/wn-station.svg",
+      "size": "40x40",
+      "role": "public: the board's drawing-station marker (A1, B1, A2, B2)",
+      "about": "A drawing station's floor plate, under the figure at A1, B1, A2 and B2, shown even when the slot is empty.",
+      "sha256": "16984012c76967b093f0521165db4ba0182161da1d817f80de43835a7a31a5a9",
+      "bytes": 1149
+    },
+    {
+      "name": "wn-pad",
+      "file": "design/library/windows/assets/wn-pad.svg",
+      "size": "320x240",
+      "role": "station-private: the drawing pad's paper",
+      "about": "The drawing pad's paper with a faint dot grid; only the player at a drawing station sees a pad.",
+      "sha256": "351eed1cfe8e2f2d8c937ef95447d29ce5784c257ef3e5b5e26af2d05eaed47e",
+      "bytes": 764
+    },
+    {
+      "name": "wn-shade",
+      "file": "design/library/windows/assets/wn-shade.svg",
+      "size": "320x120",
+      "role": "window audience: the Blackout's shade",
+      "about": "The Blackout's shade, lowered over every window's pane until the lights return.",
+      "sha256": "1abd18df9fd8421d743a87d4d17d4d4c33b8021b0cc3aa42fba83d9385c48c94",
+      "bytes": 1111
+    },
+    {
+      "name": "wn-icon-window",
+      "file": "design/library/windows/assets/wn-icon-window.svg",
+      "size": "48x48",
+      "role": "window audience: tray mark",
+      "about": "The tray mark for the windows, beside the entry of a seat that sees at least one window.",
+      "sha256": "95369f7d065850114aa93f00747ba845fa225236dce87ae8d425969da381f46b",
+      "bytes": 1020
+    },
+    {
+      "name": "wn-lintel-a-b",
+      "file": "design/library/windows/assets/wn-lintel-a-b.svg",
+      "size": "320x48",
+      "role": "window audience: the A_B window's lintel",
+      "about": "The lintel of the window between Room A and Room B: two joined portholes.",
+      "sha256": "6620f2dc5f4912a560acf31f0cf58d40af8b5eface6dff0a53c2d5f6f044c802",
+      "bytes": 1341
+    },
+    {
+      "name": "wn-lintel-a-hospital",
+      "file": "design/library/windows/assets/wn-lintel-a-hospital.svg",
+      "size": "320x48",
+      "role": "window audience: the A_HOSPITAL window's lintel",
+      "about": "The lintel of the window between Room A and the Hospital: the ward's rounded cross.",
+      "sha256": "402c85aa4b171db08299383ad5ae52a500910e20ffdf81f48406ef8ccbff4c7d",
+      "bytes": 1340
+    },
+    {
+      "name": "wn-lintel-b-jail",
+      "file": "design/library/windows/assets/wn-lintel-b-jail.svg",
+      "size": "320x48",
+      "role": "window audience: the B_JAIL window's lintel",
+      "about": "The lintel of the window between Room B and the Jail: three bars.",
+      "sha256": "b6f98973b1fb1146b93f18edf1a5cf38bd7e1e5450c5cca77fc1d4343e08c47e",
+      "bytes": 1340
+    }
+  ],
+  "stylesheet": {
+    "file": "design/library/windows/assets/windows.art.css",
+    "sha256": "c94a85643f8a5b8d780b930786fcefd1fdf9bfb29e6cb7c8d3d6cb83069b4795",
+    "bytes": 6600
+  }
+}

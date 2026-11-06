@@ -131,8 +131,8 @@
     },
     {
       "path": "design/cinematic/catalogue/catalogue.mjs",
-      "sha256": "18d4f8e1e9daaf6c75a921e6c610291b65437dc4c7bec71ca101f3b9a211669a",
-      "bytes": 37539
+      "sha256": "5fb2574e44d6a15db2fada366d5af11afca06d0f22bb77bd9f18f06a59d22c88",
+      "bytes": 38630
     },
     {
       "path": "design/tools/cinematic-inventory.mjs",

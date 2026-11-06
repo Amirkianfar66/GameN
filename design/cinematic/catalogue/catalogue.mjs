@@ -9,7 +9,7 @@
 // a trigger, the entry says so and names the request (REQUESTS), and the scene stays a labeled
 // design fixture until the contract supports it. Nothing here is a game rule.
 
-export const CATALOGUE_VERSION = 'cinematic-catalogue-0.5.0';
+export const CATALOGUE_VERSION = 'cinematic-catalogue-0.6.0';
 export const CONTRACT = Object.freeze({ protocol: 3, engine: 'planet-game-1.0.0', ruleset: 'in-person-planet-2026-11-05', file: 'packages/contracts/src/planet-game.ts', commit: '79418e72dba99ba99afe047ecb97467fb5e73b62', status: 'candidate; not adopted into runtime' });
 
 /** The lifecycle every presentation follows (the motion bible's rules, for every scene below). */
@@ -221,10 +221,13 @@ export const CATALOGUE = Object.freeze([
     assets: ['design/library/promises/ (six kind pictures, four result seals, the envelope, the card band and the tray mark; state maps, words, motion)'], gaps: [], request: ['R6', 'R13'],
   }),
   S('windows', 'Windows and drawing', {
-    status: 'gap (proposal)', audience: 'window-scoped', trigger: 'windows[] (canDraw, drawings[])', fields: ['windows[]'],
-    beats: { start: 'framed view', loop: 'local canvas', exit: 'Show stamp' }, durations: { full: '600 ms stamp', reduced: 'swap' },
-    final: 'immutable image', cancel: 'round end expires', precedence: 'own phone', audio: 'none public', reduced: 'swap', rosters: 'n/a', concurrency: 'chronological',
-    assets: [], gaps: ['three framed views, four stations'], request: 'R7',
+    status: 'library group 5 (proposal)', audience: 'window-scoped (players at either end of a window); the pad station-private; the station markers public on the board',
+    trigger: 'windows[] (windowId, canDraw, drawings[] by order); offers SHOW_WINDOW (windowIds); the SHOW_WINDOW receipt; phase BLACKOUT', fields: ['windows[]', 'offers[] SHOW_WINDOW', 'board.seats[] (own location and slotId)', 'phase.kind'],
+    beats: { start: 'the window to the other room: its lintel, the pane with this round\'s shown drawings', loop: 'the local pad at a station (inks, widths, undo, clear); Show after a warning that nothing can be erased', exit: 'the drawing lifts into the pane, SHOWN; a new drawing drops in on first sight; the shade lowers for the Blackout and rises after' },
+    durations: { full: 'show 760 ms, arrive 420 ms, dark 420 ms, light 320 ms', reduced: 'fades of 160 ms' },
+    final: 'the pane with every drawing shown this round, numbered, with its author; empty at the next round', cancel: 'round end expires the drawings; a refused Show keeps the local drawing; a reconnect draws everything at rest', precedence: 'window audience only; the Blackout darkens every window',
+    audio: 'none (a sound would tell the table that someone drew or showed)', reduced: 'fades', rosters: 'n/a', concurrency: 'append-only, in shown order; any number per round within the drawing budget',
+    assets: ['design/library/windows/ (three lintels, the station marker, the pad paper, the Blackout shade, the tray mark; the drawing renderer; state maps, words, motion)'], gaps: [], request: 'R7',
   }),
   S('arrival-end', 'Arrival, no survivors and recovery', {
     status: 'existing (slice 6, superseded parts) + gap', audience: 'public (endReveal on FINISHED)', trigger: 'phase FINISHED / ABORTED; result {winner, reason, alienCoWinner}; endReveal', fields: ['result', 'endReveal'],

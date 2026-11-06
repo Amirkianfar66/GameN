@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · library art proposal · wn-station library-windows-0.1.0 · generated, do not edit by hand
+  A drawing station's floor plate (A1, B1, A2, B2 only): a steel oval with an easel; centred on the slot's feet anchor, under the figure, shown even when the slot is empty.
+  Built by design/tools/library-assets.mjs from design/library/windows/art.mjs. Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" width="40" height="40"><g id="wn-station"><ellipse cx="20" cy="31" rx="17" ry="7" fill="#151923" opacity="0.35"/><ellipse cx="20" cy="29" rx="17" ry="7" fill="#3A4A6B" stroke="#151923" stroke-width="2.2"/><path d="M13 29 L20 6 L27 29 M16.5 19 H23.5" stroke="#151923" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><rect x="12" y="9" width="16" height="12" rx="1.5" fill="#F4EBDD" stroke="#151923" stroke-width="2"/><path d="M15 18 L25 12" stroke="#F7C52B" stroke-width="3" stroke-linecap="round"/><path d="M15 18 L25 12" stroke="#151923" stroke-width="0.8" stroke-linecap="round" opacity="0.6"/></g></svg>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · library art proposal · wn-pad library-windows-0.1.0 · generated, do not edit by hand
+  The drawing pad's paper (4:3): the dossier's paper with a faint dot grid; strokes are drawn over it.
+  Built by design/tools/library-assets.mjs from design/library/windows/art.mjs. Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" width="320" height="240"><defs><pattern id="wn-pad-dots" width="16" height="16" patternUnits="userSpaceOnUse"><circle cx="8" cy="8" r="1" fill="#E6D8C0"/></pattern></defs><g id="wn-pad"><rect x="0" y="0" width="320" height="240" fill="#F4EBDD"/><rect x="0" y="0" width="320" height="240" fill="url(#wn-pad-dots)"/></g></svg>

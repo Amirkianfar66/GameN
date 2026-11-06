@@ -9,7 +9,7 @@
 // at least 44 px tall (the review page's own Play controls are tools, not game controls), no page
 // error, and at 200% text no visible sheet text under 24 px (12 px, the smallest size, doubled is 24).
 // 1x device pixels.
-//   node design/tools/library-capture.mjs [--group hack-engineer|navigation|hospital-panel|promises]
+//   node design/tools/library-capture.mjs [--group hack-engineer|navigation|hospital-panel|promises|windows]
 // Writes design/library/<group>/review/*.png and review/report.json. Needs CHROME_PATH.
 
 import { createHash } from 'node:crypto';
@@ -23,6 +23,7 @@ import { motionEnd as navMotionEnd } from '../library/navigation/motion.mjs';
 import { filmEnd as navFilmEnd } from '../library/navigation/films.mjs';
 import { motionEnd as panelMotionEnd } from '../library/hospital-panel/motion.mjs';
 import { motionEnd as promiseMotionEnd } from '../library/promises/motion.mjs';
+import { motionEnd as windowMotionEnd } from '../library/windows/motion.mjs';
 
 const repoRoot = resolve(fileURLToPath(new URL('../../', import.meta.url)));
 const slug = text => text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
@@ -53,6 +54,10 @@ export const PLANS = Object.freeze({
   promises: Object.freeze({
     text200: ['composer', 'inbox', 'ledger', 'others'],
     motions: ['offer', 'arrive', 'accept', 'decline', 'result'].map(kind => [kind, reduced => promiseMotionEnd(kind, reduced)]),
+  }),
+  windows: Object.freeze({
+    text200: ['stations', 'pad', 'viewers', 'board'],
+    motions: ['show', 'arrive', 'dark', 'light'].map(kind => [kind, reduced => windowMotionEnd(kind, reduced)]),
   }),
 });
 
