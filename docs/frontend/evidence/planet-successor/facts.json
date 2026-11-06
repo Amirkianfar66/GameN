@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-06T05:56:57.253Z",
+  "generatedAt": "2026-11-06T12:53:18.657Z",
   "browser": {
     "protocolVersion": "1.3",
     "product": "Chrome/156.0.8078.80",
@@ -1077,7 +1077,7 @@
           "out": false
         }
       ],
-      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\nCaptain\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n6\nCrew 6\nOfficer\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\nJAIL\nPRIVATE TALK\nSYNTHETIC · R6 · NAV TIE · P6\n14s\nCaptain Player 1 · Officer Player 6\nTurn: Player 6\n\nBoard\nCard\nActions\nMore\nPASS\nNavigation\n\nPosition: R1\n\nFinal direction: awaiting resolution\n\nChoose tie direction\nClose\n\nPlayer 1, Crew 1: Healthy, Room A, A1, Captain.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1, Officer.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
+      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\nCaptain\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n6\nCrew 6\nOfficer\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\nJAIL\nPRIVATE TALK\nSYNTHETIC · R6 · SETTING COURSE · P6\n14s\nCaptain Player 1 · Officer Player 6\nThe course is being set.\n\nBoard\nCard\nActions\nMore\nPASS\nNavigation\n\nThe course is being set.\n\nPosition: R1\n\nChoose tie direction\nClose\n\nPlayer 1, Crew 1: Healthy, Room A, A1, Captain.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1, Officer.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
       "screenshot": null
     },
     {
@@ -2861,7 +2861,7 @@
           "out": false
         }
       ],
-      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\nCaptain\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n6\nCrew 6\nOfficer\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\nJAIL\nPRIVATE TALK\nSYNTHETIC · R6 · NAV TIE · P6\n14s\nCaptain Player 1 · Officer Player 6\nTurn: Player 6\n\nBoard\nCard\nActions\nMore\nPASS\nNavigation\n\nPosition: R1\n\nFinal direction: awaiting resolution\n\nChoose tie direction\nClose\n\nPlayer 1, Crew 1: Healthy, Room A, A1, Captain.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1, Officer.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
+      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\nCaptain\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n6\nCrew 6\nOfficer\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\nJAIL\nPRIVATE TALK\nSYNTHETIC · R6 · SETTING COURSE · P6\n14s\nCaptain Player 1 · Officer Player 6\nThe course is being set.\n\nBoard\nCard\nActions\nMore\nPASS\nNavigation\n\nThe course is being set.\n\nPosition: R1\n\nChoose tie direction\nClose\n\nPlayer 1, Crew 1: Healthy, Room A, A1, Captain.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1, Officer.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
       "screenshot": null
     },
     {
@@ -4645,7 +4645,7 @@
           "out": false
         }
       ],
-      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\nCaptain\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n6\nCrew 6\nOfficer\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\nJAIL\nPRIVATE TALK\nSYNTHETIC · R6 · NAV TIE · P6\n14s\nCaptain Player 1 · Officer Player 6\nTurn: Player 6\n\nBoard\nCard\nActions\nMore\nPASS\nNavigation\n\nPosition: R1\n\nFinal direction: awaiting resolution\n\nChoose tie direction\nClose\n\nPlayer 1, Crew 1: Healthy, Room A, A1, Captain.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1, Officer.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
+      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\nCaptain\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n6\nCrew 6\nOfficer\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\nJAIL\nPRIVATE TALK\nSYNTHETIC · R6 · SETTING COURSE · P6\n14s\nCaptain Player 1 · Officer Player 6\nThe course is being set.\n\nBoard\nCard\nActions\nMore\nPASS\nNavigation\n\nThe course is being set.\n\nPosition: R1\n\nChoose tie direction\nClose\n\nPlayer 1, Crew 1: Healthy, Room A, A1, Captain.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1, Officer.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
       "screenshot": null
     },
     {
@@ -6429,7 +6429,7 @@
           "out": false
         }
       ],
-      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\nCaptain\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n6\nCrew 6\nOfficer\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\nJAIL\nPRIVATE TALK\nSYNTHETIC · R6 · NAV TIE · P6\n14s\nCaptain Player 1 · Officer Player 6\nTurn: Player 6\n\nBoard\nCard\nActions\nMore\nPASS\nNavigation\n\nPosition: R1\n\nFinal direction: awaiting resolution\n\nChoose tie direction\nClose\n\nPlayer 1, Crew 1: Healthy, Room A, A1, Captain.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1, Officer.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
+      "text": "The ship\nCOMMAND ROOM\nROOM A\n1\nCrew 1\nCaptain\n2\nCrew 2\n3\nCrew 3\n4\nCrew 4\n5\nCrew 5\nROOM B\n6\nCrew 6\nOfficer\n7\nCrew 7\n8\nCrew 8\n9\nCrew 9\nHOSPITAL\nJAIL\nPRIVATE TALK\nSYNTHETIC · R6 · SETTING COURSE · P6\n14s\nCaptain Player 1 · Officer Player 6\nThe course is being set.\n\nBoard\nCard\nActions\nMore\nPASS\nNavigation\n\nThe course is being set.\n\nPosition: R1\n\nChoose tie direction\nClose\n\nPlayer 1, Crew 1: Healthy, Room A, A1, Captain.\nPlayer 2, Crew 2: Healthy, Room A, A2.\nPlayer 3, Crew 3: Healthy, Room A, A3.\nPlayer 4, Crew 4: Healthy, Room A, A4.\nPlayer 5, Crew 5: Healthy, Room A, A5.\nPlayer 6, Crew 6: Healthy, Room B, B1, Officer.\nPlayer 7, Crew 7: Healthy, Room B, B2.\nPlayer 8, Crew 8: Healthy, Room B, B3.\nPlayer 9, Crew 9: Healthy, Room B, B4.",
       "screenshot": null
     },
     {
@@ -7790,7 +7790,7 @@
       "command": {
         "protocolVersion": 3,
         "matchId": "planet-local",
-        "commandId": "92b68bf3-5d2c-4beb-91c9-66c8348eca15",
+        "commandId": "31294dda-d950-4a59-b818-8c8d4f1d2893",
         "phaseId": "planet-phase-turn",
         "command": {
           "type": "MOVE",
@@ -7839,7 +7839,7 @@
     {
       "name": "capsule conversation starts with the original full server 60-second window; entrance adds no local delay",
       "passed": true,
-      "remainingMs": 59931.550048828125
+      "remainingMs": 59933.550048828125
     },
     {
       "name": "authorized room block mounts the approved source-free shield; public view omits it and motion change removes it",

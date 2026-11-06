@@ -6,16 +6,11 @@ export function planetPlayerNumberChoices(ids:readonly SeatId[]):readonly {value
  return ids.map(value=>({value,label:value.slice(5)})).sort((a,b)=>Number(a.label)-Number(b.label));
 }
 
-/** A resource increase is a Supply receipt only across its actual finalized opportunity. */
-export interface PlanetSupplyObservation {
- readonly matchId:string;readonly seatId:SeatId;readonly round:number;readonly revision:number;
- readonly phaseKind:string;readonly finalizedRound:number;readonly lastMovedRound:number;readonly ordinaryWeapons:number;
-}
-export function planetSupplyDelivery(previous:PlanetSupplyObservation|null,next:PlanetSupplyObservation):{round:3;count:1}|null{
- if(!previous||previous.matchId!==next.matchId||previous.seatId!==next.seatId||previous.round!==3||next.round!==3||
-  previous.phaseKind!=='BLACKOUT'||!next.phaseKind.startsWith('NAV_')||previous.finalizedRound!==2||next.finalizedRound!==3||
-  next.lastMovedRound!==2||next.revision<=previous.revision)return null;
- return next.ordinaryWeapons-previous.ordinaryWeapons===1?{round:3,count:1}:null;
+/** Only the patient's authorized request record supplies an outcome. */
+export function planetPanelRequestText(record:NonNullable<PlanetScreenModel['privateArea']>['panelRequest']):string|null{
+ if(!record)return null;
+ const words={WRONG:'The number was wrong. Your panel attempt is used.',QUEUED:'Your request is queued. An injection was reserved; treatment is not confirmed.',TREATED:'Your panel request treated you.',NO_EFFECT:'Your queued panel request had no effect. Your attempt remains used.',DISCARDED:'Your queued panel request was discarded. Your attempt remains used.'};
+ return `Round ${record.round}: ${words[record.status]}`;
 }
 
 /** Colored arrival artwork requires the matching authoritative terminal facts. */

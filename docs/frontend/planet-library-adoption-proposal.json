@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "status": "Proposed for Integration review; candidate preview only; not production adoption",
-  "designerHead": "ff7b689a17282e63606506bbf151d79c7da858fc",
-  "consumerBase": "cf7bebaeac43b37a193ed2def7759e9613c06ba2",
+  "designerHead": "0fb17a35c4b2fdd3418c9ffb575dbd4a7d0d9878",
+  "consumerBase": "ef98b49408ffba68d2924be63cc536a10091a8a9",
   "approvalFence": "Existing shared artwork approval/source fences remain unchanged. Candidate files are emitted only by the excluded Planet development preview.",
   "groups": [
     {
@@ -376,40 +376,6 @@
         "target": "art/planet-library/arrival-red.poster.32f9127d58.webp",
         "published": false
       }
-    },
-    {
-      "source": "design/cinematic/exports/eject/runtime/exterior-insert.mp4",
-      "candidate": "apps/game/candidates/planet-library/eject.mp4",
-      "url": "/candidate-art/eject.mp4",
-      "sha256": "8ea644529b362f9e4a9ece89114095d68018e308e61a359162241804ffbc3a53",
-      "bytes": 1051102,
-      "kind": "video",
-      "productionAdopted": false,
-      "proposedPublication": {
-        "requiresIntegrationApproval": true,
-        "normalization": "Exact byte copy of the reviewed runtime media.",
-        "sha256": "8ea644529b362f9e4a9ece89114095d68018e308e61a359162241804ffbc3a53",
-        "bytes": 1051102,
-        "target": "art/planet-library/eject.8ea644529b.mp4",
-        "published": false
-      }
-    },
-    {
-      "source": "design/cinematic/exports/eject/runtime/exterior-insert.poster.webp",
-      "candidate": "apps/game/candidates/planet-library/eject.poster.webp",
-      "url": "/candidate-art/eject.poster.webp",
-      "sha256": "37e657000651d198ef93433cdcefd35cf8359569cf3645c4c2c3c0f82fb9ed86",
-      "bytes": 54288,
-      "kind": "poster",
-      "productionAdopted": false,
-      "proposedPublication": {
-        "requiresIntegrationApproval": true,
-        "normalization": "Exact byte copy of the reviewed runtime media.",
-        "sha256": "37e657000651d198ef93433cdcefd35cf8359569cf3645c4c2c3c0f82fb9ed86",
-        "bytes": 54288,
-        "target": "art/planet-library/eject.poster.37e6570006.webp",
-        "published": false
-      }
     }
   ],
   "cinematicFamilies": [
@@ -452,21 +418,12 @@
       "video": "/candidate-art/arrival-red.mp4",
       "durationMs": 4233,
       "poster": "/candidate-art/arrival-red.poster.webp"
-    },
-    {
-      "name": "eject",
-      "status": "candidate-only",
-      "use": "pending optional insert; current S7 board treatment remains default",
-      "video": "/candidate-art/eject.mp4",
-      "durationMs": 2433,
-      "poster": "/candidate-art/eject.poster.webp"
     }
   ],
   "pending": [
-    "Integration approval and shared art/source fence update before production publication",
-    "Backend next immutable P28 tuple and private records",
-    "Integration R14 requester standing",
-    "Designer coordinated corrections; keep ff7b689a bytes until a reviewed replacement head is supplied",
+    "Integration named-file approval and shared art/source fence update before production publication",
+    "Integration R14 requester standing and final service/release verification",
+    "R9 historical hack round and R11 acknowledgement history remain deferred",
     "Audio adoption and real-device codec/performance acceptance"
   ],
   "sourceDependencies": [
@@ -479,12 +436,31 @@
   "timingAuthority": {
     "P27": "Existing approved six-second presentation, followed by the separate full-minute vote",
     "P28DecisionCommit": "8572fc0abb717ab07e09b4db3c25d6748ec8800b",
-    "P28Runtime": "Awaiting the next reviewed shared contract; existing tuple not rewritten"
+    "P28Runtime": "New exact planet-game-1.1.0 tuple: literal NAV_SETTING, full authoritative 15000ms; historical NAV_TIE retained only under historical tuples"
   },
   "preservedTreatments": {
     "Rescue": "Existing machinery-only vignette; healthy current figure/nameplate/target untouched. Candidate drone media not activated.",
-    "EJECT": "Existing S7 board film remains default; no covering cut or extra stage. Candidate exterior media not activated.",
+    "EJECT": "S7 board film only on every surface. Exterior study withdrawn; no EJECT runtime candidate or covering cut.",
     "PrivateTalk": "Existing S2 board-only exit; no covering exit page.",
     "Clone": "Existing own-card-only current state and no historical replay."
+  },
+  "previousDesignerHead": "ff7b689a17282e63606506bbf151d79c7da858fc",
+  "withdrawn": [
+    {
+      "name": "eject.mp4",
+      "sha256": "8ea644529b362f9e4a9ece89114095d68018e308e61a359162241804ffbc3a53",
+      "reason": "Designer PR184 moved exterior insert to review only; removed from candidate publication and loader"
+    },
+    {
+      "name": "eject.poster.webp",
+      "sha256": "37e657000651d198ef93433cdcefd35cf8359569cf3645c4c2c3c0f82fb9ed86",
+      "reason": "Withdrawn with the exterior insert"
+    }
+  ],
+  "supplyReceipt": "Disabled until a typed authorized delivery marker exists. No count, stage or Sync inference; inventory at rest only.",
+  "sourceCorrections": {
+    "R16": "Designer field-gap note superseded by reviewed literal BLACKHOLE_PRESENTATION; no film fallback at JAIL_VOTE",
+    "navigation": "Designer NAV_TIE reference maps to NAV_SETTING only under the new exact tuple",
+    "R15": "Disabled until a typed authorized delivery marker exists. No count, stage or Sync inference; inventory at rest only."
   }
 }

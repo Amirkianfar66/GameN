@@ -25,6 +25,8 @@ for(const entry of cases)test(`Planet command form: ${entry.type}`,async()=>{
  const v=planetView(entry.role??'Hacker');
  v.offers=[{type:entry.type,targetSeatIds:ids,slotIds:entry.type==='SELECT_BLACKOUT_SLOT'?['A1','A2','A3']:['B5','C1'],windowIds:['A_B'],promiseTargetSeatIds:ids}];
  if(entry.type==='VOTE')v.phase={id:'phase-ballot',kind:'JAIL_VOTE',startedAt:1000,endsAt:61000};
+ if(entry.type==='CHOOSE_NAV_DIRECTION')v.phase={id:'setting',kind:'NAV_SETTING',startedAt:1000,endsAt:16000};
+ if(entry.type==='CONFIRM_NAVIGATION')v.phase={id:'confirmation',kind:'NAV_OFFICER_CONFIRM',startedAt:1000,endsAt:16000};
  if(entry.type==='SUPPLY'){v.round=3;v.board.finalizedRound=2;v.navigation.lastMovedRound=2;}
  if(entry.type==='ACTIVATE_SHIP_HACK'){v.abilities.codeAttempted=true;v.abilities.shipHackUnlocked=true;}
  if(['OFFER_PROMISE','ACCEPT_PROMISE','DECLINE_PROMISE','DECLARE_HACK_SIDE'].includes(entry.type)){

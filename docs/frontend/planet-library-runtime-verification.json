@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "status": "Native runtime preparation verified locally; candidate publication and next shared contract pending",
+  "status": "Historical native candidate preparation at ef98b494; superseded by private-feedback consumer and subsequent approved-art wiring",
   "generatedAt": "2026-11-06T05:59:31.756308+00:00",
   "baseCommit": "cf7bebaeac43b37a193ed2def7759e9613c06ba2",
   "branch": "codex/frontend-planet-successor",
@@ -198,5 +198,6 @@
   "merge": "not performed",
   "deployment": "not performed",
   "publication": "not performed",
-  "profileActivation": "not performed"
+  "profileActivation": "not performed",
+  "supersededBy": "docs/frontend/planet-private-feedback-verification.json"
 }

@@ -1,4 +1,4 @@
-import {PLANET_ACTION_LABELS,PLANET_PROMISE_LABELS,planetPromiseTerms,planetBlackholePresentation,planetTerminalArrival} from '@mothership/presentation';
+import {PLANET_ACTION_LABELS,PLANET_PROMISE_LABELS,planetPromiseTerms,planetBlackholePresentation,planetTerminalArrival,planetPanelRequestText} from '@mothership/presentation';
 import {PlanetDrawingSchema} from '@mothership/contracts';
 import {turnsLayout} from '../board-v2-drawing/turns-four.mjs';
 import {slotRects} from '../board-v2-drawing/fit-four.mjs';
@@ -76,7 +76,6 @@ export function mountPlanetRenderer(root,controller,{candidateCinematics=[]}={})
   if(role.name==='Alien')addText(`Blackhole ${a.blackholeSpent?'spent':'unused'}.`);
   for(const grant of a?.protectionGrants??[])addText(`Protection for ${number(grant.targetSeatId)} from Round ${grant.activeFromRound}: ${grant.consumed?'consumed':'registered'}.`);
   const file=library.roleFile(model,p);if(file)sheetBody.append(file);
-  if(p?.supplyDelivery){const receipt=el('p','You received one ordinary weapon at Round 3 Supply. It is usable from Round 4.','planet-supply-receipt');receipt.prepend(library.art('sw-crate'));sheetBody.append(receipt);}
  }
  function renderPromises(p){
   addText('Promises','h2');if(!p?.promiseQuota)return;
@@ -149,12 +148,13 @@ export function mountPlanetRenderer(root,controller,{candidateCinematics=[]}={})
    else if(model.panel==='promises')renderPromises(p);
    else if(model.panel==='windows')renderWindows(p);
    else if(model.panel==='navigation'){
-    addText('Navigation','h2');if(p?.navigation){const picture=library.route(p.navigation);if(picture)sheetBody.append(picture);addText(`Position: ${p.navigation.position}`);addText(`Final direction: ${p.navigation.direction??'awaiting resolution'}`);if(p.offers?.some(o=>o.type==='CHOOSE_NAV_DIRECTION'))sheetBody.append(beginButton('CHOOSE_NAV_DIRECTION'));if(p.offers?.some(o=>o.type==='CONFIRM_NAVIGATION'))sheetBody.append(beginButton('CONFIRM_NAVIGATION'));}
+    addText('Navigation','h2');const setting=model.versions?.engineVersion==='planet-game-1.1.0'&&model.phase?.kind==='NAV_SETTING';if(setting)addText('The course is being set.');if(p?.navigation){const picture=library.route(p.navigation);if(picture)sheetBody.append(picture);addText(`Position: ${p.navigation.position}`);if(!setting)addText(`Final direction: ${p.navigation.direction??'awaiting resolution'}`);if(p.offers?.some(o=>o.type==='CHOOSE_NAV_DIRECTION'))sheetBody.append(beginButton('CHOOSE_NAV_DIRECTION'));if(p.offers?.some(o=>o.type==='CONFIRM_NAVIGATION'))sheetBody.append(beginButton('CONFIRM_NAVIGATION'));}
     else addText('Current route and direction are private to the offices.');
    }else if(model.panel==='hospital'){
     addText('Hospital panel','h2');addText('One patient attempt with the Doctor’s original player number. A registered request resolves later.');
     if(model.board?.seats.some(s=>s.seatId===model.ownSeatId&&s.location==='Hospital'&&s.health!=='Eliminated'))sheetBody.append(library.panelConsole(model,p));
-    if(p?.panelAttemptSpent)addText('Your panel attempt is spent.');else if(p?.offers?.some(o=>o.type==='PANEL_CODE'))sheetBody.append(beginButton('PANEL_CODE'));else addText('The panel is not currently available.');
+    const requestText=planetPanelRequestText(p?.panelRequest);if(requestText)addText(requestText);
+    if(p?.panelAttemptSpent){if(!requestText)addText('Your panel attempt is spent.');}else if(p?.offers?.some(o=>o.type==='PANEL_CODE'))sheetBody.append(beginButton('PANEL_CODE'));else addText('The panel is not currently available.');
    }else if(model.panel==='actions'){
     addText('Actions','h2');
     if(p?.blackoutTargeting?.selectedSlotId)addText(`Your fixed selection: ${p.blackoutTargeting.selectedSlotId}.`);
@@ -232,10 +232,11 @@ export function mountPlanetRenderer(root,controller,{candidateCinematics=[]}={})
  function render(next){
   if(disposed)return;model=next;
   root.dataset.planetPanel=model.panel;root.dataset.connection=model.connection;root.dataset.surface=model.surface;root.dataset.mode=model.mode;root.dataset.motion=reduced()?'reduced':'normal';root.dataset.blackout=model.dark?'dark':'none';
-  phase.textContent=`${model.mode==='synthetic'?'SYNTHETIC · ':''}${model.round===null?'Connecting':`R${model.round} · ${(model.phase?.kind==='BLACKHOLE_PRESENTATION'?'BLACKHOLE SYNC':model.phase?.kind.replaceAll('_',' '))??''}${model.activeSeatId?` · P${model.activeSeatId.slice(5)}`:''}`}`;
+  phase.textContent=`${model.mode==='synthetic'?'SYNTHETIC · ':''}${model.round===null?'Connecting':`R${model.round} · ${(model.phase?.kind==='BLACKHOLE_PRESENTATION'?'BLACKHOLE SYNC':model.phase?.kind==='NAV_SETTING'?'SETTING COURSE':model.phase?.kind.replaceAll('_',' '))??''}${model.activeSeatId?` · P${model.activeSeatId.slice(5)}`:''}`}`;
   timer.textContent=model.phase?.remainingMs==null?'—':`${Math.ceil(model.phase.remainingMs/1000)}s`;timer.setAttribute('aria-label','Phase time remaining');
   offices.textContent=`Captain ${number(model.offices?.captainSeatId)} · Officer ${number(model.offices?.officerSeatId)}${model.offices?.blockedSeatId?` · Move blocked: ${number(model.offices.blockedSeatId)}`:''}`;
   checkpoint.textContent=(model.boardLabel?`${model.boardLabel} · `:'')+(model.talk?`Private talk: ${number(model.talk.actorSeatId)} + ${number(model.talk.targetSeatId)}`:`Turn: ${number(model.activeSeatId)}`);
+  if(model.phase?.kind==='NAV_SETTING')checkpoint.textContent=(model.boardLabel?`${model.boardLabel} · `:'')+'The course is being set.';
   if(model.action?.prompt)checkpoint.textContent=model.action.prompt;
   checkpointText=checkpoint.textContent;
   instruction.textContent=model.action?.prompt??(model.dark?'Blackout':model.result?`${model.result.winner??'No team'} · ${model.result.reason.replaceAll('_',' ')}${model.result.alienCoWinner?' · Alien co-victory':''}`:'');

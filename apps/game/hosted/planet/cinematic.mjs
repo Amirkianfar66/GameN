@@ -4,7 +4,7 @@ import {planetTerminalArrival} from '@mothership/presentation';
 export function createPlanetCinematic(holder,catalogue=[]){
  const document=holder.ownerDocument,win=document.defaultView,assets=new Map(),canvases=new Map();
  const field=document.createElement('canvas'),fieldContext=field.getContext('2d');
- const allowed=new Set(['blackhole','rescue','transit','arrival-blue','arrival-red','eject']);
+ const allowed=new Set(['blackhole','rescue','transit','arrival-blue','arrival-red']);
  const candidateUrl=value=>{const url=new URL(value,win.location.href);if(url.origin!==win.location.origin||!url.pathname.startsWith('/candidate-art/')||url.search||url.hash)throw TypeError('Unreviewed media location');return url.href;};
  for(const item of catalogue){
   if(!allowed.has(item.name)||!Number.isFinite(item.durationMs)||item.durationMs<=0)throw TypeError('Unknown cinematic candidate');

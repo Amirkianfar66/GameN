@@ -27,7 +27,7 @@ export interface PlanetScreenModel {
     readonly role?: { readonly name: PlanetRole; readonly faction: string; readonly guide: string; readonly device: string | null };
     readonly abilities?: PlanetPlayerView['abilities']; readonly knowledge?: PlanetPlayerView['knowledge'];
     readonly resources?: { readonly ordinaryWeapons: number; readonly roleActionSpent: boolean; readonly movementSpent: boolean };
-    readonly supplyDelivery?:{readonly round:3;readonly count:1}|null;
+    readonly panelRequest?:PlanetPlayerView['abilities']['panelRequest'];
     readonly offers?: PlanetPlayerView['offers']; readonly promises?: PlanetPlayerView['promises']; readonly promiseQuota?: PlanetPlayerView['promiseQuota'];
     readonly windows?: PlanetPlayerView['windows']; readonly navigation?: PlanetPlayerView['privateNavigation'];
     readonly captainCommands?:PlanetPlayerView['abilities']['captainCommands']; readonly ownBallot?:PlanetPlayerView['ownBallot']; readonly blackoutTargeting?: PlanetPlayerView['blackoutTargeting']; readonly panelAttemptSpent?: boolean; readonly hackFeedback?: PlanetPlayerView['hackFeedback'];

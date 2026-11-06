@@ -5,9 +5,10 @@ import {planetBlackholePresentation} from '@mothership/presentation';
 import {sessionScenario,makePlanetScenario,publicPlanet} from './scenarios.mjs';
 import candidateArt from 'virtual:planet-library-candidates';
 const name=new URL(location.href).searchParams.get('scenario')??'board';
+const tuple=new URL(location.href).searchParams.get('tuple')??'current';
 const count=Number(new URL(location.href).searchParams.get('count')??9);
-let value=sessionScenario(name==='join'?'display':name,{now:Date.now(),count}),lost=false,admissionRead=name==='join'?'forbidden':null;
-const requests=[];
+let value=sessionScenario(name==='join'?'display':name,{now:Date.now(),count,tuple}),lost=false,admissionRead=name==='join'?'forbidden':null;
+const requests=[];let rejectNextPanel=false;
 const connection={mode:'synthetic',currentUid:()=> 'planet-synthetic-uid',signIn:async()=> 'planet-synthetic-uid',async request(request){
  requests.push(structuredClone(request));
  const answer=result=>({ok:true,serverTimeMs:Date.now(),result});
@@ -15,6 +16,7 @@ const connection={mode:'synthetic',currentUid:()=> 'planet-synthetic-uid',signIn
  if(request.operation==='receipt')return answer({receipt:null});
  if(request.operation==='command'){
   if(lost)return null;
+  if(rejectNextPanel&&request.request.command.type==='PANEL_CODE'){rejectNextPanel=false;return answer({receipt:{protocolVersion:3,matchId:value.matchId,phaseId:request.request.phaseId,commandId:request.request.commandId,status:'rejected',code:'NO_INJECTION'}});}
   return answer({receipt:{protocolVersion:3,matchId:value.matchId,phaseId:request.request.phaseId,commandId:request.request.commandId,status:'accepted',code:'REGISTERED'}});
  }
  if(request.operation==='chooseCharacter'){value.members.find(m=>m.seatId===value.selfSeatId).characterId=request.characterId;return answer({matchId:value.matchId});}
@@ -30,8 +32,8 @@ let phaseSequence=0;
 const applyPlayer=async player=>{value.publicView=publicPlanet(player);if(value.selfSeatId!==null)value.playerView=player;await app.session.refresh();};
 const currentPlayer=()=>value.playerView?structuredClone(value.playerView):{...makePlanetScenario('board',{now:Date.now(),count:value.playerCount}),...structuredClone(value.publicView),board:{...structuredClone(value.publicView.board),kind:'PLAYER_CURRENT'}};
 // Only this excluded harness exposes synthetic authority and inspection controls.
-window.planetHarness={app,requests,candidateReady,get value(){return value;},setLost(next){lost=next;},
- async admission(mode){admissionRead=mode==='forbidden'?'forbidden':null;value=sessionScenario(mode==='player'?'board':'display',{now:Date.now(),count});await app.session.refresh();},
+window.planetHarness={app,requests,candidateReady,rejectPanel(){rejectNextPanel=true;},get value(){return value;},setLost(next){lost=next;},
+ async admission(mode){admissionRead=mode==='forbidden'?'forbidden':null;value=sessionScenario(mode==='player'?'board':'display',{now:Date.now(),count,tuple});await app.session.refresh();},
  presentation:()=>app.game?planetBlackholePresentation(app.game.getModel()):null,
  setVisible(visible){app.game?.setVisible(visible);app.session.setVisible(visible);},
  reloadArt:()=>loadArt('player',document),
@@ -44,7 +46,7 @@ window.planetHarness={app,requests,candidateReady,get value(){return value;},set
   if(fulfillMeetings)p.promises=p.promises.map(x=>['MEET_A','MEET_B'].includes(x.kind)?{...x,status:'Fulfilled'}:x);await applyPlayer(p);
  },
  async replace(next){value=structuredClone(next);await app.session.refresh();},
- async scene(scenario){value=sessionScenario(scenario,{now:Date.now(),count});await app.session.refresh();},
+ async scene(scenario){value=sessionScenario(scenario,{now:Date.now(),count,tuple});await app.session.refresh();},
  async expired(){if(value.playerView){value.playerView.phase.startedAt=Date.now()-61000;value.playerView.phase.endsAt=value.playerView.phase.startedAt+60000;value.playerView.viewRevision++;value.publicView=publicPlanet(value.playerView);}await app.session.refresh();},
  async setupExpired(){value.setup.endsAt=Date.now()-1000;await app.session.refresh();},
  makePlanetScenario,publicPlanet};

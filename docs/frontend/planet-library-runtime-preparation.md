@@ -1,5 +1,7 @@
 # Planet library runtime preparation
 
+Historical checkpoint at `ef98b494`. The [private-feedback consumer](planet-private-feedback-consumer.md) supersedes the pending-contract statements below, updates the Designer head and removes the two withdrawn EJECT files from the now 18-file proposal. Original verification counts and source hashes remain historical evidence.
+
 All eight Designer library groups now have native Planet consumer composition, with optional cinematic underlays in the excluded synthetic preview. Designer head `ff7b689a17282e63606506bbf151d79c7da858fc` supplies the exact candidate bytes. Integration must approve named artwork and update the shared publication fences before these candidates can enter production.
 
 This follows the independent consumer correction commit `cf7bebaeac43b37a193ed2def7759e9613c06ba2`. The current consumer remains on protocol 3, engine `planet-game-1.0.1`, ruleset `in-person-planet-sync-six-2026-11-05`, hash `4f26343641fcff00480bb3c0ba852703418f772bb677117a272828ad229c8b1c`, and artwork `design-0.5.0`. P28 requires Backend's next reviewed contract.

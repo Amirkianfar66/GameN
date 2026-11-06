@@ -1,0 +1,174 @@
+{
+  "schemaVersion": 1,
+  "status": "Reviewed contract consumed and synthetic-tested; production-art wiring follows separately",
+  "startingConsumerCommit": "ef98b49408ffba68d2924be63cc536a10091a8a9",
+  "sharedOwnerDecision": {
+    "original": "8572fc0abb717ab07e09b4db3c25d6748ec8800b",
+    "local": "ca90acef90cef5e100e15b1086b1142efdec726a"
+  },
+  "sharedContract": {
+    "original": "2b88a3676923efc41c0fab61b14b28ee609aec2f",
+    "local": "7c6ad3d715663c802349f21bf74cbbce27ca7909",
+    "sourceSha256": "935cfc750e48429605cc352c67aec3f998ca75ccc11461f7a45ecc918f91b364",
+    "materialConsumerFindings": []
+  },
+  "versions": {
+    "protocolVersion": 3,
+    "engineVersion": "planet-game-1.1.0",
+    "rulesetVersion": "in-person-planet-private-feedback-2026-11-06",
+    "rulesetHash": "4a1fc0e0dc21255253e31ae46e6042f9bd71e3fdec0f82f8a79b3ce213d01bfa",
+    "assetManifestVersion": "design-0.5.0"
+  },
+  "generatedAt": "2026-11-06T12:57:17.293883+00:00",
+  "designer": {
+    "previousHead": "ff7b689a17282e63606506bbf151d79c7da858fc",
+    "currentHead": "0fb17a35c4b2fdd3418c9ffb575dbd4a7d0d9878",
+    "retainedFiles": 18,
+    "retainedBytes": 4255704,
+    "withdrawn": [
+      "eject.mp4",
+      "eject.poster.webp"
+    ],
+    "allRetainedBytesUnchanged": true,
+    "approvalCommitForNextArtStep": "47417a57478a7be2bad9ef5c492b09a1e39132d4"
+  },
+  "checks": {
+    "frontend": {
+      "passed": 845,
+      "presentation": 215,
+      "game": 630,
+      "failed": 0,
+      "skipped": 0,
+      "cancelled": 0
+    },
+    "focusedPlanet": 104,
+    "contracts": {
+      "planet": 23,
+      "historical": 26,
+      "failed": 0
+    },
+    "build": "passed",
+    "typecheckPure": "passed",
+    "typecheckBrowser": "passed",
+    "workspace": "passed",
+    "sources": "passed",
+    "productionBuild": "passed with existing large-chunk advisory",
+    "productionExclusion": "passed",
+    "candidateProvenance": "18 exact candidates; no candidate/withdrawn hashes or candidate URLs in 21 production files",
+    "outsideFrontendChangesAfterSharedAdoption": "none",
+    "gitDiffCheck": "passed"
+  },
+  "browser": {
+    "scope": "Native consumer with explicit synthetic snapshots; desktop Chromium phone emulation only",
+    "viewports": [
+      [
+        320,
+        568
+      ],
+      [
+        390,
+        844
+      ]
+    ],
+    "motion": [
+      "normal",
+      "reduced"
+    ],
+    "facts": [
+      {
+        "path": "docs/frontend/evidence/planet-private-feedback/facts.json",
+        "sha256": "6622b00abe64d94f761dea888043f6459a75841fb10ee1e612f8dc0b4d9a706f",
+        "generatedAt": "2026-11-06T12:55:35.892Z",
+        "cases": 28,
+        "screenshots": 28,
+        "interactionFlows": 0,
+        "runtimeExceptions": 0
+      },
+      {
+        "path": "docs/frontend/evidence/planet-library/facts.json",
+        "sha256": "76173da1b4735667b8bdcd692d890a977678e6d133ae77419377a17a6bd00680",
+        "generatedAt": "2026-11-06T12:50:41.523Z",
+        "cases": 52,
+        "screenshots": 52,
+        "interactionFlows": 0,
+        "runtimeExceptions": 0
+      },
+      {
+        "path": "docs/frontend/evidence/planet-consumer-fixes/facts.json",
+        "sha256": "cda322667942244902b08c255c2d92b7b0c0ed9f093e5f896edf1ace0be0471c",
+        "generatedAt": "2026-11-06T12:52:09.115Z",
+        "cases": 16,
+        "screenshots": 16,
+        "interactionFlows": 0,
+        "runtimeExceptions": 0
+      },
+      {
+        "path": "docs/frontend/evidence/planet-pr174-safety/facts.json",
+        "sha256": "c5090796066cd31c5e792d546fd98b222b1becc84e45cce4385c796952787c36",
+        "generatedAt": "2026-11-06T12:52:13.325Z",
+        "cases": 16,
+        "screenshots": 16,
+        "interactionFlows": 0,
+        "runtimeExceptions": 0
+      },
+      {
+        "path": "docs/frontend/evidence/planet-p27-stage/facts.json",
+        "sha256": "89befe753ddcbca2d0c3136f4200ed14622e7c98f8fed3a6a30cdf50e071f0f4",
+        "generatedAt": "2026-11-06T12:52:32.822Z",
+        "cases": 24,
+        "screenshots": 36,
+        "interactionFlows": 0,
+        "runtimeExceptions": 0
+      },
+      {
+        "path": "docs/frontend/evidence/planet-successor/facts.json",
+        "sha256": "ff672a540821614085652d24b6b8498b2a879cd4b6f95627390cbc10f1bdbed9",
+        "generatedAt": "2026-11-06T12:53:18.657Z",
+        "cases": 100,
+        "screenshots": 46,
+        "interactionFlows": 12,
+        "runtimeExceptions": 0
+      }
+    ]
+  },
+  "sourceFilesSha256": {
+    "apps/game/dev/planet/capture-library.mjs": "27e71b10c55fd2696fb02ce87bf05d23c70c7b9dfe873de460d6beff23379ace",
+    "apps/game/dev/planet/capture-private-feedback.mjs": "13f7694ffe2bbb3385f178e5e515b4e1c53b8cfa4b23a54976d3bd619cbc91a2",
+    "apps/game/dev/planet/main.mjs": "a7912d191cfc1d7e1f44328ed9f6ae6e019bc77708b1094e9a9ff7aff0037d80",
+    "apps/game/dev/planet/scenarios.mjs": "a5509cdeca7be5fd353e4e8c90459c98d88f11076aa3155269fb171bf3360ccd",
+    "apps/game/hosted/planet/cinematic.mjs": "5181044cbee354ee8b9dfbe19f53f99e5caf359a8e11d50db24d98996347e747",
+    "apps/game/hosted/planet/library.mjs": "82b13fafc35759c90adcd9d60848b8c1c952f4601976d67a26a282aa5e02023c",
+    "apps/game/hosted/planet/render.mjs": "11b4ca9c735d016522f9a13367d1b384be36ed5c62476fa1f7c6cb5389565b15",
+    "apps/game/scripts/check-planet-library-candidates.mjs": "27a2bb25246c629016437e80227614348d6ed0df50097457fe6df4f629ed944c",
+    "apps/game/src/planet/controller.ts": "4491782063738ea4d8c8fac72204e019dcf935fa27872513bfa40e7c137a4c57",
+    "apps/game/test/planet-commands.test.mjs": "6d6a2f46635edde5091421b2d7e14d17bc6d924c1cab031ff7fe52959fa4059f",
+    "apps/game/test/planet-library.test.mjs": "70e4ef0ba19a96d81b9d301d63d3a22130dec73c97e825e4488ddaa2269dff2d",
+    "apps/game/test/planet-private-feedback.test.mjs": "c847f086726867c42831ffdcb3611e84edc0d6dcae9863071af001090296b63d",
+    "apps/game/test/planet-support.mjs": "f1a643c13b907ef0dad0db2ef0e41a459f4b1a4d62ebf5016eb5d7e1b85e7097",
+    "packages/presentation/src/planet/library.ts": "091123af056bca0b847824f1014c102108b9e41a0a7a9659065a6ccb2352d31e",
+    "packages/presentation/src/planet/model.ts": "d611b72dec085315aa1935065a43126bb2f2b9de56f69fd7d4d9c6bb3fe527c9",
+    "packages/presentation/test/planet-library.test.mjs": "9a7a2d146119d49efcb42244111d18f84ed41dadd88630124afc1a1074fc338c"
+  },
+  "adoptionProposalSha256": "80ca8c68393185de7a3f46f65c5496abe2b7cea3ba685cef149392c337b134dc",
+  "notImported": [
+    "Backend engine implementation commits",
+    "Designer branch ancestry",
+    "Review/stills media"
+  ],
+  "pending": [
+    "Separate exact approved design-0.6.0 production-art commit",
+    "Integration R14 requester admission standing",
+    "Integration service/deadline/audience-write verification",
+    "R9 and R11 optional history"
+  ],
+  "notRun": [
+    "Real service/Firebase end-to-end",
+    "Authenticated hosted multiplayer",
+    "Physical devices and Safari",
+    "Assistive technology",
+    "Media/audio performance acceptance"
+  ],
+  "merge": "not performed",
+  "deployment": "not performed",
+  "profileActivation": "not performed"
+}

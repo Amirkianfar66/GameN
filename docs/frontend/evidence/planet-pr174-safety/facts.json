@@ -3,7 +3,7 @@
   "reviewReference": "Integration review of Designer PR 174 at db49cea2cbafa0c11743555ff9111d93a0827e91",
   "baseFrontend": "4e68b73776905b6d6041ef771be4f503d06becc8",
   "timing": "P27 authoritative stage before a separate full Jail vote",
-  "generatedAt": "2026-11-06T05:55:40.825Z",
+  "generatedAt": "2026-11-06T12:52:13.325Z",
   "browser": {
     "protocolVersion": "1.3",
     "product": "Chrome/156.0.8078.80",
@@ -19,7 +19,7 @@
       "noOverlay": true,
       "headerClear": true,
       "phase": "JAIL_VOTE",
-      "remaining": 59989.14990234375,
+      "remaining": 59989.550048828125,
       "targets": 9,
       "capsuleActors": 0,
       "cancelReachable": true,
@@ -32,7 +32,7 @@
       "hasCheckpoint": true,
       "noOverlay": true,
       "phase": "BLACKHOLE_PRESENTATION",
-      "remaining": 5995.550048828125,
+      "remaining": 5996.650146484375,
       "screenshot": "320-568-normal-sync-display.png"
     },
     {
@@ -70,7 +70,7 @@
       "noOverlay": true,
       "headerClear": true,
       "phase": "JAIL_VOTE",
-      "remaining": 59988.449951171875,
+      "remaining": 59987.550048828125,
       "targets": 9,
       "capsuleActors": 0,
       "cancelReachable": true,
@@ -83,7 +83,7 @@
       "hasCheckpoint": true,
       "noOverlay": true,
       "phase": "BLACKHOLE_PRESENTATION",
-      "remaining": 5996.75,
+      "remaining": 5996.300048828125,
       "screenshot": "320-568-reduced-sync-display.png"
     },
     {
@@ -121,7 +121,7 @@
       "noOverlay": true,
       "headerClear": true,
       "phase": "JAIL_VOTE",
-      "remaining": 59987.64990234375,
+      "remaining": 59989.449951171875,
       "targets": 9,
       "capsuleActors": 0,
       "cancelReachable": true,
@@ -134,7 +134,7 @@
       "hasCheckpoint": true,
       "noOverlay": true,
       "phase": "BLACKHOLE_PRESENTATION",
-      "remaining": 5996.25,
+      "remaining": 5996.150146484375,
       "screenshot": "390-844-normal-sync-display.png"
     },
     {
@@ -172,7 +172,7 @@
       "noOverlay": true,
       "headerClear": true,
       "phase": "JAIL_VOTE",
-      "remaining": 59989.199951171875,
+      "remaining": 59984.89990234375,
       "targets": 9,
       "capsuleActors": 0,
       "cancelReachable": true,
@@ -185,7 +185,7 @@
       "hasCheckpoint": true,
       "noOverlay": true,
       "phase": "BLACKHOLE_PRESENTATION",
-      "remaining": 5996.300048828125,
+      "remaining": 5995.85009765625,
       "screenshot": "390-844-reduced-sync-display.png"
     },
     {

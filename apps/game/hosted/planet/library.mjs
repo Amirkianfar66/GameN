@@ -18,7 +18,7 @@ export function createPlanetLibrary(document){
   }else{
    file.append(art(a.engineerSpent?'lib-clamp-used':'lib-viewfinder','planet-library-prop'),node('strong',a.engineerSpent?'Capture used':'Capture the opposite room'));
    const record=a.engineerCapture;
-   if(a.engineerSpent&&record)file.append(node('p',record.seatIds.length?`Fixed identities in Round ${record.round}: ${record.seatIds.map(id=>`Player ${id.slice(5)}`).join(', ')}.`:`Round ${record.round}: no players were captured.`));
+   if(a.engineerSpent&&record)file.append(node('p',record.seatIds.length?`Fixed identities in Round ${record.round}: ${[...record.seatIds].sort().map(id=>`Player ${id.slice(5)}`).join(', ')}.`:`Round ${record.round}: no players were captured.`));
    else if(!a.engineerSpent){const own=model.board?.seats.find(s=>s.seatId===model.ownSeatId),opposite=own?.location==='Room A'?'Room B':own?.location==='Room B'?'Room A':null;
     if(opposite){const ids=model.board.seats.filter(s=>s.location===opposite).map(s=>s.seatId);file.append(node('p',`Current preview in ${opposite}: ${ids.length?ids.map(id=>`Player ${id.slice(5)}`).join(', '):'empty'}. The server fixes identities when registered.`));}
    }
