@@ -40,12 +40,16 @@ for(const entry of cases)test(`Planet command form: ${entry.type}`,async()=>{
  if(entry.type==='SHOW_WINDOW')r.controller.showDrawing('A_B',entry.command.drawing);else{r.controller.begin(entry.type);for(const value of entry.choose)r.controller.choose(value);}
  assert.equal(r.read().action?.step,'confirm');
  if(entry.type==='OFFER_PROMISE')assert.match(r.read().action.confirmation,/Player 3/);
- if(entry.type==='ACCEPT_PROMISE')assert.match(r.read().action.confirmation,/both in Room A.*Round 6/);
+ if(entry.type==='ACCEPT_PROMISE')assert.match(r.read().action.confirmation,/Player 1 will be in Room A.*Round 6/);
  await r.controller.confirm();assert.equal(r.sent.length,1);assert.deepEqual(r.sent[0].command,entry.command);assert.ok(PlanetCommandRequestSchema.safeParse(r.sent[0]).success);r.controller.dispose();
 });
 test('a changed empty slot is rechecked at confirmation',async()=>{
  const r=rig();await r.controller.start();r.controller.begin('MOVE');r.controller.choose('Room B');r.controller.choose('B5');
  const next=planetView();next.viewRevision=2;next.board.seats[4].location='Room B';next.board.seats[4].slotId='B5';r.push(next);await r.controller.confirm();assert.equal(r.sent.length,0);assert.equal(r.read().action,null);r.controller.dispose();
+});
+test('navigation controls expose only private legal offers, including after acknowledgement recovery',async()=>{
+ const v=planetView();v.phase={id:'ack',kind:'NAV_CAPTAIN_CONFIRM',startedAt:1000,endsAt:16000};v.offices.captainSeatId=v.self.seatId;v.board.seats.find(s=>s.seatId===v.self.seatId).captain=true;v.privateNavigation={position:'B2',direction:'Red',tieChoice:false,confirmation:'CAPTAIN'};v.offers=[];
+ const r=rig(v);await r.controller.start();r.controller.openPanel('navigation');assert.deepEqual(r.read().privateArea.offers,[]);r.controller.begin('CONFIRM_NAVIGATION');await r.controller.confirm();assert.equal(r.sent.length,0);r.controller.dispose();
 });
 test('Promise outcomes remain the server statuses when a current board changes',async()=>{
  const v=planetView();v.promises=[{id:'accepted-promise',giverSeatId:v.self.seatId,recipientSeatId:'seat-1',kind:'MEET_A',targetSeatId:null,round:6,electionId:null,accepted:true,status:'Pending',offerStatus:'accepted'}];v.promiseQuota.given=true;

@@ -92,7 +92,7 @@ export function createPlanetController(transport:PlanetTransport,ports:PlayerPor
    }
    if(panel==='promises'){privateArea.promises=p.promises;privateArea.promiseQuota=p.promiseQuota;privateArea.offers=p.offers.filter(o=>['OFFER_PROMISE','ACCEPT_PROMISE','DECLINE_PROMISE'].includes(o.type));}
    if(panel==='windows')privateArea.windows=ownPlanetWindows(p,{dark:isDark()});
-   if(panel==='navigation')privateArea.navigation=p.privateNavigation;
+   if(panel==='navigation'){privateArea.navigation=p.privateNavigation;privateArea.offers=p.offers.filter(o=>['CHOOSE_NAV_DIRECTION','CONFIRM_NAVIGATION'].includes(o.type)&&phaseAllows(o.type));}
    if(panel==='hospital'){privateArea.panelAttemptSpent=p.abilities.panelAttemptSpent;privateArea.offers=p.offers.filter(o=>o.type==='PANEL_CODE'&&phaseAllows(o.type));}
   }
   let action:PlanetActionModel|null=null;

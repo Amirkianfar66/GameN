@@ -92,7 +92,7 @@ export function planetPromiseTerms(p:Pick<PlanetPlayerView['promises'][number],'
   case 'OFFICER_SELECTION':return `If ${giver} wins the specified next Captain election, appoint ${recipient} as Officer.`;
   case 'JAIL_VOTE':return `${giver} votes for Player ${p.targetSeatId?.slice(5)} at the next Jail vote of Round ${p.round}; admission is not required.`;
   case 'NO_JAIL_VOTE':return `${giver} does not vote for ${recipient} at the next Jail vote of Round ${p.round}.`;
-  case 'MEET_A':return `${giver} and ${recipient} are both in Room A at voting start after Sync in Round ${p.round}.`;
-  case 'MEET_B':return `${giver} and ${recipient} are both in Room B at voting start after Sync in Round ${p.round}.`;
+  case 'MEET_A':return `${giver} will be in Room A when Round ${p.round}'s voting begins, after Sync.`;
+  case 'MEET_B':return `${giver} will be in Room B when Round ${p.round}'s voting begins, after Sync.`;
  }
 }

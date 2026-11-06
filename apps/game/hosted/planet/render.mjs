@@ -136,7 +136,7 @@ export function mountPlanetRenderer(root,controller){
    else if(model.panel==='promises')renderPromises(p);
    else if(model.panel==='windows')renderWindows(p);
    else if(model.panel==='navigation'){
-    addText('Navigation','h2');if(p?.navigation){addText(`Position: ${p.navigation.position}`);addText(`Final direction: ${p.navigation.direction??'awaiting resolution'}`);if(p.navigation.tieChoice)sheetBody.append(beginButton('CHOOSE_NAV_DIRECTION'));if(p.navigation.confirmation)sheetBody.append(beginButton('CONFIRM_NAVIGATION'));}
+    addText('Navigation','h2');if(p?.navigation){addText(`Position: ${p.navigation.position}`);addText(`Final direction: ${p.navigation.direction??'awaiting resolution'}`);if(p.offers?.some(o=>o.type==='CHOOSE_NAV_DIRECTION'))sheetBody.append(beginButton('CHOOSE_NAV_DIRECTION'));if(p.offers?.some(o=>o.type==='CONFIRM_NAVIGATION'))sheetBody.append(beginButton('CONFIRM_NAVIGATION'));}
     else addText('Current route and direction are private to the offices.');
    }else if(model.panel==='hospital'){
     addText('Hospital panel','h2');addText('One patient attempt with the Doctor’s original player number. A registered request resolves later.');

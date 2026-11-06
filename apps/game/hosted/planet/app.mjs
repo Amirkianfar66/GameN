@@ -1,5 +1,6 @@
 import {createPlanetSession,createPlanetController} from '@mothership/game';
 import {planetRoleLook} from '@mothership/presentation';
+import {CrewDisplayNameSchema,CREW_NAME_MAX_LENGTH} from '@mothership/contracts';
 import {loadArt} from '../art.mjs';
 import {mountPlanetRenderer} from './render.mjs';
 import '../comic-tokens.css';
@@ -35,13 +36,20 @@ export async function mountPlanetApp(root,{connection,matchId,allowSynthetic=fal
   const heading=el('h1',model.mode==='synthetic'?'SYNTHETIC · Mothership':'Mothership');root.append(heading);
   const status=el('p',model.message??(model.connection==='connecting'?'Connecting…':''));status.setAttribute('role','status');root.append(status);
   if(model.uncertain){root.append(button('Retry original session request',()=>void session.retry()));return;}
+  if(model.pendingAdmission){
+   status.textContent='Request registered.';root.append(el('h2',`Room ${model.pendingAdmission.roomCode}`),el('p',`Requested ${model.pendingAdmission.kind==='display'?'shared display':'player seat'}. Waiting for the server to confirm admission.`));
+   const check=button('Check admission',()=>void session.refresh());check.id='planet-check-admission';root.append(check);return;
+  }
   if(model.connection!=='live'){root.append(button('Reconnect',()=>void session.refresh()));return;}
   if(!model.matchId){
    const create=el('form'),count=el('select');count.id='planet-player-count';for(const n of [7,8,9]){const o=el('option',`${n} players`);o.value=String(n);count.append(o);}
    const countLabel=el('label','Players');countLabel.htmlFor=count.id;create.append(countLabel,count);const host=el('button','Create Planet game');host.id='planet-create';host.disabled=model.busy;create.append(host);create.addEventListener('submit',e=>{e.preventDefault();operate({operation:'create',playerCount:Number(count.value)});});root.append(create);
-   const join=el('form'),room=el('input'),name=el('input'),kind=el('select');room.id='planet-room-code';room.autocomplete='off';room.maxLength=6;room.required=true;room.pattern='[A-Za-z0-9]{6}';name.id='planet-display-name';name.maxLength=24;name.required=true;name.autocomplete='nickname';
+   const join=el('form'),room=el('input'),name=el('input'),kind=el('select');room.id='planet-room-code';room.autocomplete='off';room.maxLength=6;room.required=true;room.pattern='[A-Za-z0-9]{6}';name.id='planet-display-name';name.maxLength=CREW_NAME_MAX_LENGTH*2;name.required=true;name.autocomplete='nickname';
    for(const [text,input]of [['Room code',room],['Your name',name]]){const label=el('label',text);label.htmlFor=input.id;join.append(label,input);}
-   kind.id='planet-join-kind';for(const value of ['player','display']){const o=el('option',value==='player'?'Player phone':'Shared display');o.value=value;kind.append(o);}const kindLabel=el('label','Device');kindLabel.htmlFor=kind.id;join.append(kindLabel,kind);const submit=el('button','Request admission');submit.id='planet-join';submit.disabled=model.busy;join.append(submit);join.addEventListener('submit',e=>{e.preventDefault();operate({operation:'requestAdmission',roomCode:room.value.trim().toUpperCase(),kind:kind.value,displayName:name.value.trim()});});root.append(join);
+   const nameHint=el('p',`Use 1–${CREW_NAME_MAX_LENGTH} characters.`);nameHint.id='planet-name-hint';nameHint.setAttribute('role','status');name.setAttribute('aria-describedby',nameHint.id);join.append(nameHint);
+   const validateName=()=>{const value=name.value.trim(),valid=CrewDisplayNameSchema.safeParse(value).success;name.setCustomValidity(valid?'':`Enter a name of 1–${CREW_NAME_MAX_LENGTH} characters without control characters.`);name.setAttribute('aria-invalid',String(!valid));nameHint.textContent=valid?`${[...value].length} / ${CREW_NAME_MAX_LENGTH} characters`:name.validationMessage;return valid;};
+   name.addEventListener('input',validateName);
+   kind.id='planet-join-kind';for(const value of ['player','display']){const o=el('option',value==='player'?'Player phone':'Shared display');o.value=value;kind.append(o);}const kindLabel=el('label','Device');kindLabel.htmlFor=kind.id;join.append(kindLabel,kind);const submit=el('button','Request admission');submit.id='planet-join';submit.disabled=model.busy;join.append(submit);join.addEventListener('submit',e=>{e.preventDefault();if(!validateName()){name.reportValidity();return;}operate({operation:'requestAdmission',roomCode:room.value.trim().toUpperCase(),kind:kind.value,displayName:name.value.trim()});});root.append(join);
    const recover=el('details');recover.append(el('summary','Recover a player seat'));const form=el('form'),id=el('input'),token=el('input');id.id='planet-recovery-match';id.required=true;token.id='planet-recovery-code';token.type='password';token.required=true;token.autocomplete='off';for(const [text,input]of [['Match ID',id],['Recovery code',token]]){const label=el('label',text);label.htmlFor=input.id;form.append(label,input);}form.append(el('button','Recover seat'));form.addEventListener('submit',e=>{e.preventDefault();const recoveryCode=token.value;token.value='';operate({operation:'redeemRecovery',matchId:id.value.trim(),recoveryCode});});recover.append(form);root.append(recover);return;
   }
   root.append(el('p',`Room ${model.roomCode??'…'}`));

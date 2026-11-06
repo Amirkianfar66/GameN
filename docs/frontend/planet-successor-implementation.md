@@ -1,6 +1,6 @@
 # Planet successor Frontend consumer
 
-Latest timing and verification: [P27 presentation consumer](planet-p27-stage.md). The [PR 174 safety follow-up](planet-pr174-safety-followup.md) records the earlier capsule and Rescue corrections.
+Latest independent fixes: [6 November consumer follow-up](planet-consumer-followup-2026-11-06.md). Timing baseline: [P27 presentation consumer](planet-p27-stage.md). The [PR 174 safety follow-up](planet-pr174-safety-followup.md) records the earlier capsule and Rescue corrections.
 
 Implemented on `codex/frontend-planet-successor` in `/private/tmp/gamen-planet-frontend` from shared base `29e6ea82a31085df12ddee62758a55646eecbd3a`. This is the separate protocol-3 player, host and shared-display consumer. Integration supplies the authoritative `planetApi` service and owns shared release adoption, backend verification and activation.
 
