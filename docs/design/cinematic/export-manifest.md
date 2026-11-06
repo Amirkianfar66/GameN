@@ -134,14 +134,14 @@ Synthetic fixtures from the board-v2 review page (Rigel, Mira, Echo; Vega and Or
 | `blackhole/review/phone390-reduced.poster.webp` | `69c7a144143ab7dc9f47ef10006cce434bc881f32213ba67e92d7892e92120dd` | 0.06 | 585×1266 |  | webp |
 | `blackhole/review/phone390-reduced.preview.webp` | `16b76aaa5a629c4a1d50239c7ff4ad4263e912c9ca7575804de3d52d5d472357` | 0.07 | 240×520 | 1.50 s, 5 frames | webp |
 | `blackhole/review/phone390-reduced.render.json` | `4758aba05ace7dc61452642c3dfaa19f64e8fca1ddf6b79086a8d6f76416bbe3` | 0.00 |  |  |  |
-| `eject/review/display-full.mp4` | `7168edba3fad0bc1a3a0f951bad5d604dff60bd575f8bc82e3c50796132f7509` | 1.63 | 1280×720 | 30 fps, 7.23 s | h264, yuv420p, no alpha, aac 48 kHz |
-| `eject/review/display-full.poster.webp` | `0e570eb2efbed19d53037eb5093262baa6d3306de9dc1b71159f8bd4263a082c` | 0.06 | 1280×720 |  | webp |
-| `eject/review/display-full.preview.webp` | `2dd8309a892f957ded3bb1dabee8cd29a5207bd2217f839635684e1f90ecb697` | 0.88 | 480×270 | 7.25 s, 87 frames | webp |
-| `eject/review/display-full.render.json` | `48dc8eccdc8881eb2f04ced9f16f65363db68c5b25c052111ebb9ba814f60715` | 0.00 |  |  |  |
-| `eject/review/display-reduced.mp4` | `d412151d737aac70ef2646458645f9c1d872ea2a15f6c994862f6688bac62827` | 0.21 | 1280×720 | 30 fps, 2.60 s | h264, yuv420p, no alpha, aac 48 kHz |
-| `eject/review/display-reduced.poster.webp` | `e78a59d398f952fc4438ead30e9ca1c03b86b32c451315f25cdc23dd5b570424` | 0.06 | 1280×720 |  | webp |
-| `eject/review/display-reduced.preview.webp` | `31767ff57a704af0d49206358f27922cc0c315143b892bbd296ded94d59a12da` | 0.05 | 480×270 | 2.58 s, 8 frames | webp |
-| `eject/review/display-reduced.render.json` | `a9b991ae2fcd831a5700143854d7d49ec28aeaa0ab03ea10a46650a4adc79fad` | 0.00 |  |  |  |
+| `eject/review/cut-full.mp4` | `af1c77ecc9c33fdb1d9f8d59480cddf246eac07fa7f804978cfabcaf82581d24` | 1.63 | 1280×720 | 30 fps, 7.23 s | h264, yuv420p, no alpha, aac 48 kHz |
+| `eject/review/cut-full.poster.webp` | `b10c92dc418aa1088534669452eb42344a70828c20a42e903fdbd46b8969da95` | 0.06 | 1280×720 |  | webp |
+| `eject/review/cut-full.preview.webp` | `695fa010a400c54afb0061b3dbea9e509c6fd41dbb9c6a012a34b54453c33544` | 0.89 | 480×270 | 7.25 s, 87 frames | webp |
+| `eject/review/cut-full.render.json` | `97b5f671e90017566ad76bece030cc52a6507402b9d03e4e044e48e2af5550b4` | 0.00 |  |  |  |
+| `eject/review/cut-reduced.mp4` | `d412151d737aac70ef2646458645f9c1d872ea2a15f6c994862f6688bac62827` | 0.21 | 1280×720 | 30 fps, 2.60 s | h264, yuv420p, no alpha, aac 48 kHz |
+| `eject/review/cut-reduced.poster.webp` | `e78a59d398f952fc4438ead30e9ca1c03b86b32c451315f25cdc23dd5b570424` | 0.06 | 1280×720 |  | webp |
+| `eject/review/cut-reduced.preview.webp` | `31767ff57a704af0d49206358f27922cc0c315143b892bbd296ded94d59a12da` | 0.05 | 480×270 | 2.58 s, 8 frames | webp |
+| `eject/review/cut-reduced.render.json` | `2791145aea3ace5f4fd5ad17d976a98ce89159415f443d867d14d287f526ab11` | 0.00 |  |  |  |
 | `hospital-rescue/review/cut-detained-full.mp4` | `c8d828d0e09f548494ddc88b4a84a2ab2bff9f86323fdc4f4b079252454b2d40` | 2.00 | 1280×720 | 30 fps, 6.23 s | h264, yuv420p, no alpha, aac 48 kHz |
 | `hospital-rescue/review/cut-detained-full.poster.webp` | `35b17c0250efecf070947ab338c308798706b768a14deecd19a6d3b1973e8dd2` | 0.07 | 1280×720 |  | webp |
 | `hospital-rescue/review/cut-detained-full.preview.webp` | `afbb15b59b518779bd19866cee0b8be7c6800a54180276986363543d02b349a7` | 0.90 | 480×270 | 6.25 s, 75 frames | webp |
@@ -286,11 +286,11 @@ Full-size frames of the cinematic forms (the Rescue cut, the Blackhole stage cut
 
 | File | SHA-256 | Bytes |
 | --- | --- | --- |
-| `design/cinematic/README.md` | `3699770bcf3d3313c4e7c7fc4dfd5efce24dd4f5ae1d517de617beb2202246f8` | 5422 |
+| `design/cinematic/README.md` | `d759429661cfea2e976b9ae97af65920db8067a11fbed54e945c47a10b9215c6` | 5554 |
 | `design/cinematic/stage.html` | `ca09d795de91ac1fbfbff1f503dd2329fc0c0d3e04a8a07fd0f69e445a1b1b49` | 724 |
 | `design/cinematic/stage.mjs` | `ebdd6d06017d9f8835603a0380cdbb47fa708005b0985397cc1a88ff13ee44e3` | 2514 |
 | `design/cinematic/gallery.html` | `60a1b737d05933e6376c1f0760232a37424c8cd743aebd1dbb918b24a187ad6e` | 5720 |
-| `design/cinematic/gallery.mjs` | `6a9d02551120158b9980dd52b9bea52e122f484da78732a21c3a03329bd254e4` | 12674 |
+| `design/cinematic/gallery.mjs` | `d9cb2f96edfbbddfd409d4bc741a41bfdd606714c2ec3ff8c54e6146e60633f7` | 12809 |
 | `design/cinematic/lib/ease.mjs` | `960f260248d848d71dc74404e9d9824bb8a115d2e2badb537b985b20a4dae16e` | 3796 |
 | `design/cinematic/lib/comic.mjs` | `af9f49c95a89e8de6b35b6567de343834254e57f853363e5d5811cd7d505ad99` | 11204 |
 | `design/cinematic/lib/lettering.mjs` | `c5f7fa7ce0f969694178002d01fb1a29e02d1a8574cbd40cb07d344f52e1754e` | 4805 |
@@ -312,12 +312,12 @@ Full-size frames of the cinematic forms (the Rescue cut, the Blackhole stage cut
 | `design/cinematic/pilots/private-talk/stage.mjs` | `65ded5d58bb32eb2a8cd2b98246ae6181e77510606fa909272b405a451823bfc` | 5753 |
 | `design/cinematic/pilots/eject/film.mjs` | `e52310a0193387c8096173450d701702dfdf7844ae58442ef91c77c6eb09776e` | 8483 |
 | `design/cinematic/pilots/eject/compose.mjs` | `3cb03dedd1111971a95b0940cdcd8d8e2c690251526a8ff522ad6624ab7f400b` | 18532 |
-| `design/cinematic/pilots/eject/stage.mjs` | `e54d58de634860313294548a540ab3fb5bae2ffe33d30aab52cfcc19a04b8ed1` | 5191 |
-| `design/cinematic/catalogue/catalogue.mjs` | `d87afd0ccf505e49cdb988d11dd47a9c777f54d17fc6137cc90f9fd9dd6ec744` | 42173 |
+| `design/cinematic/pilots/eject/stage.mjs` | `1bbdcf36379156dc5f5b43bf3c0e5e9d77f633b9baaf78741068142b1779698b` | 7638 |
+| `design/cinematic/catalogue/catalogue.mjs` | `d066ed256b74187de9ab56aaf6b3ea1703a468017442281414ffbd1ab9189d81` | 42285 |
 | `design/tools/cinematic-inventory.mjs` | `46becd977965fb27576d1f96aece5c0886497b2eec8a4d77edf3a69c7452a6d8` | 17291 |
 | `design/tools/cinematic-contact.mjs` | `db081043223bb6486d480ab78d209c392cdd0f0e41a15012921ff546a9fc9fa1` | 6805 |
 | `design/tools/cinematic-render.mjs` | `db7a36c5e6201e565080dddce5f2f46166134502bd0db1d51fbf58a8ec6b0990` | 10594 |
-| `design/tools/cinematic-exports.mjs` | `203272ca974954206cee9cdfe9d20d3789444035f5c29be74e9530fd26a55256` | 13231 |
+| `design/tools/cinematic-exports.mjs` | `c209107cff3ca809d7785c8487e57110b2dc728bd2d33cfcf3052962254bac13` | 13215 |
 | `design/tools/cinematic-audio.mjs` | `2771a1d1ae13e15067420cf9b593e834057957581da47455c5be1ff5dedc7ad0` | 4921 |
 | `design/tools/cinematic-manifest.mjs` | `8e58a6b316cde61e206b56b55ded39f0580c20c2ace478e96c7216cf1674f47c` | 11645 |
 | `design/tools/cinematic-docs.mjs` | `a116c8120653ab19b7bd8dc131701e8d7ddd63bfb4560b8806456b50d01fa2f9` | 10851 |

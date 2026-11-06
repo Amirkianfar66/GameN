@@ -104,7 +104,8 @@ test('the insert is the same for every EJECT: nothing of a person, a word or a c
     assert.equal(svg, insertSvg(t).svg, 'deterministic');
     if (t >= INSERT.end) assert.equal(frame.done, true);
   }
-  assert.ok(Object.keys(PILOTS.eject.surfaces).includes('insert') && Object.keys(PILOTS.eject.surfaces).includes('display'));
+  // The display's default is S7 on the board; the covering cut is its own surface, for a stage where nobody decides.
+  assert.deepEqual(Object.keys(PILOTS.eject.surfaces).sort(), ['cut', 'display', 'insert', 'phone']);
 });
 
 test('the cue sheets: known cues inside the film, the alarm under 2 Hz, nothing at the memorial, the insert silent', () => {

@@ -47,7 +47,7 @@ Contract: protocol 3, engine `planet-game-1.0.0`, ruleset `in-person-planet-2026
 | Turn and contextual action | existing (phone kit, turns) | own phone; activeSeatId public | phase ORDINARY_TURN + activeSeatId; offers[]; command result accepted / rejected | full: pulse 600 ms; stamp 900 ms; reduced: no pulse; stamp fades | no pulse |
 | Captain and Officer | existing (votes) + library group 6 (proposal) | public (offices, tally, badges, the block marker); the appointment Captain-private; the block panel Officer-private | phases CAPTAIN_ELECTION, VOTE_RESULT (5 s), OFFICER_APPOINTMENT (30 s), PRE_TURN (15 s); offices.*; lastTally | full: VOTE_RESULT 5 s (server); appoint 560 ms, block 480 ms, expire 360 ms; reduced: panel without count-up; fades of 160 ms | static panel |
 | Captain RELEASE | existing S6 (approved art, #159) | public | event CAPTAIN_RELEASE (actorSeatId = Captain, seatIds = released) | full: 4200 ms (releaseEnd()); reduced: 2240 ms: four stills, 80 ms fades | four stills |
-| Captain EJECT | existing S7 (approved art, #159) + a display cut (proposal) | public | event CAPTAIN_EJECT (actorSeatId, seatIds) | full: 7200 ms (ejectEnd()); a shorter board form exists; reduced: 2560 ms: four stills | four stills |
+| Captain EJECT | existing S7 (approved art, #159) on the board, every surface; a display cut (proposal, covering: only where nobody decides) | public | event CAPTAIN_EJECT (actorSeatId, seatIds) | full: 7200 ms (ejectEnd()): S7 on the board, every surface; the cut the same, only where nobody decides; reduced: 2560 ms: four stills | four stills |
 | Ordinary shot and injury | existing (slice 4, Blackout impact) + library group 8 (admission walk, proposal) | public outcome; no shooter | events INJURED / ELIMINATED (seatIds, location, slotId, clinicalAnchor) after resolution | full: 900-1400 ms; reduced: swap to injured state | swap |
 | Blackout Strike | existing (#129, approved) | public lighting; selected position private (blackoutTargeting) | phase BLACKOUT (15 s) + blackout {previewEndsAt, endsAt}; event BLACKOUT_HIT | full: 15 s (server); reduced: no flicker: a dim step | dim step, no flicker |
 | Protection and Phantom Clone | existing S3 + S4 (approved) | private activation; room-filtered ATTACK_BLOCKED (player audience) | event ATTACK_BLOCKED (audience player, room observers); abilities.clone / protectionGrants (own) | full: 2420 ms (blockedEnd()); reduced: 1760 ms still ring and label | still ring |
@@ -183,13 +183,13 @@ Contract: protocol 3, engine `planet-game-1.0.0`, ruleset `in-person-planet-2026
 
 ### Captain EJECT
 
-`captain-eject` · existing S7 (approved art, #159) + a display cut (proposal)
+`captain-eject` · existing S7 (approved art, #159) on the board, every surface; a display cut (proposal, covering: only where nobody decides)
 
 - **Trigger:** event CAPTAIN_EJECT (actorSeatId, seatIds)
 - **Audience:** public
 - **Fields:** `events[].actorSeatId`, `events[].seatIds`
 - **Start / loop / exit:** cover lifts, EJECT pressed, lockdown; airlock, non-graphic silhouettes; empty cell, memorial plaque
-- **Durations:** full 7200 ms (ejectEnd()); a shorter board form exists; reduced 2560 ms: four stills
+- **Durations:** full 7200 ms (ejectEnd()): S7 on the board, every surface; the cut the same, only where nobody decides; reduced 2560 ms: four stills
 - **Final state:** memorial treatment off the board
 - **Cancellation:** terminal result
 - **Precedence:** Captain commands

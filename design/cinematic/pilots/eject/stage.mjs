@@ -6,7 +6,16 @@
 // text over the composition, as a client draws them: the plate's EJECT, the closing USED stamp, and
 // S7's captainWords() in the lower letterbox from S7's announce.
 //
-//   display  the 1920 x 1080 cut, full or reduced
+//   display  the default, as on every phone: the approved S7 on the board-v2 review page itself,
+//            unchanged, re-drawn at each seek from its own &film=eject and &t. CAPTAIN_EJECT is a
+//            command during the turns, so decisions are open while it plays: the board treatment
+//            covers nothing (design/cinematic/lib/visibility.mjs; the owner's review of
+//            6 November 2026; the brief: "long medical/ejection films need shorter or nonblocking
+//            forms")
+//   phone    the same at a phone's size
+//   cut      the 1920 x 1080 cut, full or reduced: it covers the board, so it plays only in a phase
+//            where nobody decides; no such phase follows an EJECT today, so it needs a presentation
+//            stage the owner would have to approve
 //   insert   the identity-free exterior insert (a runtime export): no person, no word, no count
 
 import { captainWords } from '../../../board-v2/films/captain.mjs';
@@ -56,7 +65,8 @@ function wordsLayer(root, w, h) {
   };
 }
 
-export async function mountDisplay(root, { variant = 'full', w = 1920, h = 1080, roster = ROSTER } = {}) {
+/** The covering cut (design/cinematic/lib/visibility.mjs mayCover()): one 1920 x 1080 SVG and its page text. */
+export async function mountCut(root, { variant = 'full', w = 1920, h = 1080, roster = ROSTER } = {}) {
   root.style.width = `${w}px`; root.style.height = `${h}px`;
   const outcome = captainOutcome('eject', roster);
   const cast = castOf(outcome, roster);
@@ -78,6 +88,30 @@ export async function mountDisplay(root, { variant = 'full', w = 1920, h = 1080,
   return { seek, end, size: [w, h], selector: '#stage', last: () => last, fixture: { outcome: 'eject', seatIds: outcome.seatIds, roster } };
 }
 
+/** The approved S7 on the board-v2 review page, unchanged: the page re-drawn at each seek from its &t. */
+export async function mountBoard(root, { variant = 'full', w = 1920, h = 1080, roster = ROSTER } = {}) {
+  root.style.width = `${w}px`; root.style.height = `${h}px`;
+  const iframe = document.createElement('iframe');
+  iframe.title = 'Board v2 review page (synthetic)';
+  Object.assign(iframe.style, { position: 'absolute', left: '0', top: '0', width: `${w}px`, height: `${h}px`, border: '0' });
+  root.append(iframe);
+  const motion = variant === 'reduced' ? '&motion=reduced' : '';
+  const end = cutEnd(variant);
+  const seek = async t => {
+    iframe.src = `../board-v2/index.html?beds=4&roster=${roster}&film=eject&t=${Math.max(0, Math.min(end, Math.round(t)))}${motion}`;
+    await new Promise(done => iframe.addEventListener('load', done, { once: true }));
+    const doc = iframe.contentDocument;
+    for (let i = 0; i < 200 && !doc.querySelector('.v2-room'); i += 1) await new Promise(done => setTimeout(done, 20));
+    await Promise.all([...doc.images].map(img => (img.complete ? null : new Promise(done => { img.onload = img.onerror = done; }))));
+    await frames();
+    return { t, done: t >= end };
+  };
+  return { seek, end, size: [w, h], selector: '#stage', fixture: { outcome: 'eject', s7: 'approved, unchanged', roster } };
+}
+
+export const mountDisplay = (root, options = {}) => mountBoard(root, { w: 1920, h: 1080, ...options });
+export const mountPhone = (root, options = {}) => mountBoard(root, { w: 390, h: 844, ...options });
+
 export async function mountInsert(root, { w = 1920, h = 1080 } = {}) {
   root.style.width = `${w}px`; root.style.height = `${h}px`;
   const host = layer(root, w, h);
@@ -88,5 +122,5 @@ export async function mountInsert(root, { w = 1920, h = 1080 } = {}) {
 
 export const PILOT_STAGE = Object.freeze({
   id: 'eject', version: EJECT_CUT_VERSION, variants: VARIANTS,
-  surfaces: Object.freeze({ display: mountDisplay, insert: mountInsert }),
+  surfaces: Object.freeze({ display: mountDisplay, phone: mountPhone, cut: mountCut, insert: mountInsert }),
 });

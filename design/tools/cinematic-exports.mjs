@@ -79,8 +79,8 @@ export const JOBS = [
   { pilot: 'navigation', name: 'runtime/arrival-blue-insert', surface: 'insert', variant: 'full', params: ['case=arrival-blue'], ...runtime, poster: '4100' },
   { pilot: 'navigation', name: 'runtime/arrival-red-insert', surface: 'insert', variant: 'full', params: ['case=arrival-red'], ...runtime, poster: '4100' },
   // The Captain's EJECT as a display cut over the approved S7; the phones keep S7.
-  { pilot: 'eject', name: 'review/display-full', surface: 'display', variant: 'full', ...display, ...review, audio: audio('eject', 'full'), poster: '3700' },
-  { pilot: 'eject', name: 'review/display-reduced', surface: 'display', variant: 'reduced', ...display, ...review, audio: audio('eject', 'reduced'), poster: '900' },
+  { pilot: 'eject', name: 'review/cut-full', surface: 'cut', variant: 'full', ...display, ...review, audio: audio('eject', 'full'), poster: '3700' },
+  { pilot: 'eject', name: 'review/cut-reduced', surface: 'cut', variant: 'reduced', ...display, ...review, audio: audio('eject', 'reduced'), poster: '900' },
   { pilot: 'eject', name: 'runtime/exterior-insert', surface: 'insert', variant: 'full', ...runtime, poster: '1200' },
 ];
 

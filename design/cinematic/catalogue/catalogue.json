@@ -306,7 +306,7 @@
     {
       "id": "captain-eject",
       "scene": "Captain EJECT",
-      "status": "existing S7 (approved art, #159) + a display cut (proposal)",
+      "status": "existing S7 (approved art, #159) on the board, every surface; a display cut (proposal, covering: only where nobody decides)",
       "audience": "public",
       "trigger": "event CAPTAIN_EJECT (actorSeatId, seatIds)",
       "fields": [
@@ -319,7 +319,7 @@
         "exit": "empty cell, memorial plaque"
       },
       "durations": {
-        "full": "7200 ms (ejectEnd()); a shorter board form exists",
+        "full": "7200 ms (ejectEnd()): S7 on the board, every surface; the cut the same, only where nobody decides",
         "reduced": "2560 ms: four stills"
       },
       "final": "memorial treatment off the board",

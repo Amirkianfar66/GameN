@@ -117,8 +117,12 @@ runtime implementation, Backend the events, deadlines and audiences.
 
 ## The Captain's EJECT: a display cut over S7
 
-The phones keep S7 on the board, unchanged (approved, #159). The display may play this cut instead of
-S7's board treatment. Source `design/cinematic/pilots/eject/` (`film.mjs`, `compose.mjs`, `stage.mjs`);
+The display and the phones keep S7 on the board, unchanged (approved, #159). That is the default.
+An EJECT is a command during the turns, so decisions are open while it plays (the owner's review of
+6 November 2026; `design/cinematic/lib/visibility.mjs`). This cut covers the board, so it may play
+only in a phase where nobody decides, and none follows an EJECT today. It is a reviewed proposal for a
+presentation stage the owner would have to approve, which no film assumes. The brief also asks that
+"long medical/ejection films need shorter or nonblocking forms": S7 on the board is that form. Source `design/cinematic/pilots/eject/` (`film.mjs`, `compose.mjs`, `stage.mjs`);
 tests `packages/design-tokens/test/cinematic-eject.test.mjs`.
 
 | Need | Value |
@@ -132,7 +136,7 @@ tests `packages/design-tokens/test/cinematic-eject.test.mjs`.
 | Mount | One 1920×1080 SVG for the display, letterbox 10%, vignette and grain; the Jail's approved back picture (`design/board-motion/assets/scenes/jail.back.svg`) through the stage's picture library |
 | Static / muted / failure | Static: the snapshot (the Jail empty). Muted: the cue sheet off. Failure: S7's words alone |
 | Runtime-eligible video | `exports/eject/runtime/exterior-insert.{mp4,webm}` 2.43 s, the hull and the hatch's light with the loose things leaving it: no person, no word, no count; poster PNG/WebP; animated WebP. A client draws the match's own silhouettes over it from the frame functions, or plays the cut live |
-| Review only | `exports/eject/review/display-full.mp4` (7.23 s) and `display-reduced.mp4` (2.60 s) draw the synthetic fixture's prisoners (seats 3 and 4 living, seat 9's body) and its words |
+| Review only | `exports/eject/review/cut-full.mp4` (7.23 s) and `cut-reduced.mp4` (2.60 s) draw the synthetic fixture's prisoners (seats 3 and 4 living, seat 9's body) and its words. Re-rendered with the settled renderer: the earlier cut had the same dropped Jail picture at 2.60 s |
 | Sound | Public cues (`AUDIO`): the console's click, the alarm's blip every 625 ms (under 2 Hz) while the Jail is locked down, the locks and clamps, the hatch, the air leaving; silence outside the hull and at the memorial. The insert has none of its own |
 
 ## Privacy-safe preload plan

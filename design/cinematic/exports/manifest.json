@@ -11,8 +11,8 @@
   "sources": [
     {
       "path": "design/cinematic/README.md",
-      "sha256": "3699770bcf3d3313c4e7c7fc4dfd5efce24dd4f5ae1d517de617beb2202246f8",
-      "bytes": 5422
+      "sha256": "d759429661cfea2e976b9ae97af65920db8067a11fbed54e945c47a10b9215c6",
+      "bytes": 5554
     },
     {
       "path": "design/cinematic/stage.html",
@@ -31,8 +31,8 @@
     },
     {
       "path": "design/cinematic/gallery.mjs",
-      "sha256": "6a9d02551120158b9980dd52b9bea52e122f484da78732a21c3a03329bd254e4",
-      "bytes": 12674
+      "sha256": "d9cb2f96edfbbddfd409d4bc741a41bfdd606714c2ec3ff8c54e6146e60633f7",
+      "bytes": 12809
     },
     {
       "path": "design/cinematic/lib/ease.mjs",
@@ -141,13 +141,13 @@
     },
     {
       "path": "design/cinematic/pilots/eject/stage.mjs",
-      "sha256": "e54d58de634860313294548a540ab3fb5bae2ffe33d30aab52cfcc19a04b8ed1",
-      "bytes": 5191
+      "sha256": "1bbdcf36379156dc5f5b43bf3c0e5e9d77f633b9baaf78741068142b1779698b",
+      "bytes": 7638
     },
     {
       "path": "design/cinematic/catalogue/catalogue.mjs",
-      "sha256": "d87afd0ccf505e49cdb988d11dd47a9c777f54d17fc6137cc90f9fd9dd6ec744",
-      "bytes": 42173
+      "sha256": "d066ed256b74187de9ab56aaf6b3ea1703a468017442281414ffbd1ab9189d81",
+      "bytes": 42285
     },
     {
       "path": "design/tools/cinematic-inventory.mjs",
@@ -166,8 +166,8 @@
     },
     {
       "path": "design/tools/cinematic-exports.mjs",
-      "sha256": "203272ca974954206cee9cdfe9d20d3789444035f5c29be74e9530fd26a55256",
-      "bytes": 13231
+      "sha256": "c209107cff3ca809d7785c8487e57110b2dc728bd2d33cfcf3052962254bac13",
+      "bytes": 13215
     },
     {
       "path": "design/tools/cinematic-audio.mjs",
@@ -1163,11 +1163,11 @@
       "audience": "public (the Captain's EJECT outcome: its kind and seatIds)"
     },
     {
-      "path": "design/cinematic/exports/eject/review/display-full.mp4",
+      "path": "design/cinematic/exports/eject/review/cut-full.mp4",
       "pilot": "eject",
       "class": "review",
-      "sha256": "7168edba3fad0bc1a3a0f951bad5d604dff60bd575f8bc82e3c50796132f7509",
-      "bytes": 1626739,
+      "sha256": "af1c77ecc9c33fdb1d9f8d59480cddf246eac07fa7f804978cfabcaf82581d24",
+      "bytes": 1626894,
       "width": 1280,
       "height": 720,
       "codec": "h264",
@@ -1181,9 +1181,9 @@
         "channels": 1
       },
       "kind": "video",
-      "surface": "display",
+      "surface": "cut",
       "variant": "full",
-      "stage": "design/cinematic/stage.html?pilot=eject&surface=display&variant=full&beds=4",
+      "stage": "design/cinematic/stage.html?pilot=eject&surface=cut&variant=full&beds=4",
       "browser": "Chromium 141.0.7390.37",
       "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
       "deviceScale": 0.6667,
@@ -1196,19 +1196,19 @@
       "audience": "public (the Captain's EJECT outcome: its kind and seatIds)"
     },
     {
-      "path": "design/cinematic/exports/eject/review/display-full.poster.webp",
+      "path": "design/cinematic/exports/eject/review/cut-full.poster.webp",
       "pilot": "eject",
       "class": "review",
-      "sha256": "0e570eb2efbed19d53037eb5093262baa6d3306de9dc1b71159f8bd4263a082c",
-      "bytes": 58704,
+      "sha256": "b10c92dc418aa1088534669452eb42344a70828c20a42e903fdbd46b8969da95",
+      "bytes": 58630,
       "width": 1280,
       "height": 720,
       "codec": "webp",
       "animated": false,
       "kind": "poster",
-      "surface": "display",
+      "surface": "cut",
       "variant": "full",
-      "stage": "design/cinematic/stage.html?pilot=eject&surface=display&variant=full&beds=4",
+      "stage": "design/cinematic/stage.html?pilot=eject&surface=cut&variant=full&beds=4",
       "browser": "Chromium 141.0.7390.37",
       "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
       "deviceScale": 0.6667,
@@ -1216,11 +1216,11 @@
       "audience": "public (the Captain's EJECT outcome: its kind and seatIds)"
     },
     {
-      "path": "design/cinematic/exports/eject/review/display-full.preview.webp",
+      "path": "design/cinematic/exports/eject/review/cut-full.preview.webp",
       "pilot": "eject",
       "class": "review",
-      "sha256": "2dd8309a892f957ded3bb1dabee8cd29a5207bd2217f839635684e1f90ecb697",
-      "bytes": 883698,
+      "sha256": "695fa010a400c54afb0061b3dbea9e509c6fd41dbb9c6a012a34b54453c33544",
+      "bytes": 890372,
       "width": 480,
       "height": 270,
       "codec": "webp",
@@ -1228,24 +1228,24 @@
       "durationMs": 7249,
       "animated": true,
       "kind": "preview",
-      "surface": "display",
+      "surface": "cut",
       "variant": "full",
-      "stage": "design/cinematic/stage.html?pilot=eject&surface=display&variant=full&beds=4",
+      "stage": "design/cinematic/stage.html?pilot=eject&surface=cut&variant=full&beds=4",
       "browser": "Chromium 141.0.7390.37",
       "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
       "deviceScale": 0.6667,
       "audience": "public (the Captain's EJECT outcome: its kind and seatIds)"
     },
     {
-      "path": "design/cinematic/exports/eject/review/display-full.render.json",
+      "path": "design/cinematic/exports/eject/review/cut-full.render.json",
       "pilot": "eject",
       "class": "review",
-      "sha256": "48dc8eccdc8881eb2f04ced9f16f65363db68c5b25c052111ebb9ba814f60715",
-      "bytes": 1417,
+      "sha256": "97b5f671e90017566ad76bece030cc52a6507402b9d03e4e044e48e2af5550b4",
+      "bytes": 1569,
       "audience": "public (the Captain's EJECT outcome: its kind and seatIds)"
     },
     {
-      "path": "design/cinematic/exports/eject/review/display-reduced.mp4",
+      "path": "design/cinematic/exports/eject/review/cut-reduced.mp4",
       "pilot": "eject",
       "class": "review",
       "sha256": "d412151d737aac70ef2646458645f9c1d872ea2a15f6c994862f6688bac62827",
@@ -1263,9 +1263,9 @@
         "channels": 1
       },
       "kind": "video",
-      "surface": "display",
+      "surface": "cut",
       "variant": "reduced",
-      "stage": "design/cinematic/stage.html?pilot=eject&surface=display&variant=reduced&beds=4",
+      "stage": "design/cinematic/stage.html?pilot=eject&surface=cut&variant=reduced&beds=4",
       "browser": "Chromium 141.0.7390.37",
       "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
       "deviceScale": 0.6667,
@@ -1278,7 +1278,7 @@
       "audience": "public (the Captain's EJECT outcome: its kind and seatIds)"
     },
     {
-      "path": "design/cinematic/exports/eject/review/display-reduced.poster.webp",
+      "path": "design/cinematic/exports/eject/review/cut-reduced.poster.webp",
       "pilot": "eject",
       "class": "review",
       "sha256": "e78a59d398f952fc4438ead30e9ca1c03b86b32c451315f25cdc23dd5b570424",
@@ -1288,9 +1288,9 @@
       "codec": "webp",
       "animated": false,
       "kind": "poster",
-      "surface": "display",
+      "surface": "cut",
       "variant": "reduced",
-      "stage": "design/cinematic/stage.html?pilot=eject&surface=display&variant=reduced&beds=4",
+      "stage": "design/cinematic/stage.html?pilot=eject&surface=cut&variant=reduced&beds=4",
       "browser": "Chromium 141.0.7390.37",
       "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
       "deviceScale": 0.6667,
@@ -1298,7 +1298,7 @@
       "audience": "public (the Captain's EJECT outcome: its kind and seatIds)"
     },
     {
-      "path": "design/cinematic/exports/eject/review/display-reduced.preview.webp",
+      "path": "design/cinematic/exports/eject/review/cut-reduced.preview.webp",
       "pilot": "eject",
       "class": "review",
       "sha256": "31767ff57a704af0d49206358f27922cc0c315143b892bbd296ded94d59a12da",
@@ -1310,20 +1310,20 @@
       "durationMs": 2583,
       "animated": true,
       "kind": "preview",
-      "surface": "display",
+      "surface": "cut",
       "variant": "reduced",
-      "stage": "design/cinematic/stage.html?pilot=eject&surface=display&variant=reduced&beds=4",
+      "stage": "design/cinematic/stage.html?pilot=eject&surface=cut&variant=reduced&beds=4",
       "browser": "Chromium 141.0.7390.37",
       "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
       "deviceScale": 0.6667,
       "audience": "public (the Captain's EJECT outcome: its kind and seatIds)"
     },
     {
-      "path": "design/cinematic/exports/eject/review/display-reduced.render.json",
+      "path": "design/cinematic/exports/eject/review/cut-reduced.render.json",
       "pilot": "eject",
       "class": "review",
-      "sha256": "a9b991ae2fcd831a5700143854d7d49ec28aeaa0ab03ea10a46650a4adc79fad",
-      "bytes": 1431,
+      "sha256": "2791145aea3ace5f4fd5ad17d976a98ce89159415f443d867d14d287f526ab11",
+      "bytes": 1583,
       "audience": "public (the Captain's EJECT outcome: its kind and seatIds)"
     },
     {
@@ -4742,6 +4742,6 @@
   "totals": {
     "sources": 36,
     "exports": 252,
-    "bytes": 54356558
+    "bytes": 54363617
   }
 }

@@ -2,9 +2,9 @@
   "tool": "design/tools/cinematic-render.mjs",
   "pilot": "eject",
   "version": "cinematic-eject-0.1.0",
-  "surface": "display",
+  "surface": "cut",
   "variant": "reduced",
-  "stage": "design/cinematic/stage.html?pilot=eject&surface=display&variant=reduced&beds=4",
+  "stage": "design/cinematic/stage.html?pilot=eject&surface=cut&variant=reduced&beds=4",
   "size": [
     1920,
     1080
@@ -24,7 +24,7 @@
   "outputs": [
     {
       "kind": "video",
-      "file": "design/cinematic/exports/eject/review/display-reduced.mp4",
+      "file": "design/cinematic/exports/eject/review/cut-reduced.mp4",
       "sha256": "d412151d737aac70ef2646458645f9c1d872ea2a15f6c994862f6688bac62827",
       "bytes": 213197,
       "fps": 30,
@@ -36,16 +36,21 @@
     },
     {
       "kind": "preview",
-      "file": "design/cinematic/exports/eject/review/display-reduced.preview.webp",
+      "file": "design/cinematic/exports/eject/review/cut-reduced.preview.webp",
       "sha256": "31767ff57a704af0d49206358f27922cc0c315143b892bbd296ded94d59a12da",
       "bytes": 45096
     },
     {
       "kind": "poster",
-      "file": "design/cinematic/exports/eject/review/display-reduced.poster.webp",
+      "file": "design/cinematic/exports/eject/review/cut-reduced.poster.webp",
       "sha256": "e78a59d398f952fc4438ead30e9ca1c03b86b32c451315f25cdc23dd5b570424",
       "bytes": 58382,
       "t": 900
     }
-  ]
+  ],
+  "settling": {
+    "rule": "a frame is kept once two captures a redraw apart agree; pictures decode before their tiles draw",
+    "resettled": 0,
+    "unsettled": []
+  }
 }
