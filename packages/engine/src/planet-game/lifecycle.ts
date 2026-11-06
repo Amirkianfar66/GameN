@@ -5,10 +5,11 @@ import type { PlanetGameSetup, PlanetGameContext, PlanetGameState, PlanetWorld }
 import { assertPlanetContext, assertPlanetGameState } from './validation.js';
 import { planetCommand } from './commands.js';
 import { projectPlanetPublic, projectPlanetPlayer, stampPlanetEventPublications } from './projection.js';
-import { resolvePlanetPhysical, jailPlanetSeat, planetSlotIds } from './physical.js';
+import { resolvePlanetPhysical, jailPlanetSeat, planetSlotIds, panelExhaustedForEligibleRequest } from './physical.js';
 import { finalizePlanetPromises } from './social.js';
 import { planetNavigationWeights, nextPlanetPosition } from './navigation.js';
 import { tallyElection, tallyJailVote } from '../full-game/votes.js';
+import { finalizePlanetPanelSync } from './feedback.js';
 
 function phase(state:PlanetGameState,kind:PlanetPhaseKind,ctx:PlanetGameContext):void {
   if(ctx.nextPhaseId===state.phase?.id||ctx.nextDeadlineToken===state.deadlineToken)throw Error('Fresh phase/deadline identities required');
@@ -107,6 +108,7 @@ function syncAndVote(state:PlanetGameState,ctx:PlanetGameContext):void {
     const worlds=Object.keys(state.worlds),chosen=worlds[draw(ctx,worlds.length)]!;
     state.currentWorldId=chosen;state.worlds={[chosen]:state.worlds[chosen]!};for(const id of seatIds(state))state.realityOf[id]=chosen;
     state.blackholeActive=false;
+    if(planetHasPrivateFeedback(state.versions))finalizePlanetPanelSync(state,planetWorld(state));
     storePlanetEvent(state,planetWorld(state),'BLACKHOLE_SYNCED',[]);
     // Selected physical state is finalized, but attacks and Promise opportunities wait.
     publishBoard(state,state.round);
@@ -176,6 +178,8 @@ export function applyPlanetCommand(before:PlanetGameState,actorId:SeatId,raw:Pla
   const receipt=(status:'accepted'|'rejected',code:'REGISTERED'|'NOT_ALLOWED'|'PHASE_CLOSED'|'NO_INJECTION')=>PlanetReceiptSchema.parse({protocolVersion:3,matchId:request.matchId,phaseId:request.phaseId,commandId:request.commandId,status,code});
   if(request.matchId!==before.matchId||!before.roles[actorId])return {state:before,receipt:receipt('rejected','NOT_ALLOWED')};
   if(before.result||request.phaseId!==before.phase.id||ctx.now<before.phase.startedAt||ctx.now<before.evaluatedAt||ctx.now>=before.phase.endsAt!)return {state:before,receipt:receipt('rejected','PHASE_CLOSED')};
+  if(planetHasPrivateFeedback(before.versions)&&request.command.type==='PANEL_CODE'&&panelExhaustedForEligibleRequest(before,actorId,request.command))
+    return {state:before,receipt:receipt('rejected','NO_INJECTION')};
   const state=copyPlanet(before);state.evaluatedAt=ctx.now;
   if(!planetCommand(state,actorId,request.command,request.commandId,ctx.now))return {state:before,receipt:receipt('rejected','NOT_ALLOWED')};
   switch(request.command.type){

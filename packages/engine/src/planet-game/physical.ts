@@ -1,5 +1,6 @@
 import type { ClinicalPresentationAnchor, PlanetCommand, PlanetOffer, PlanetSeatView, PlanetSlotId, SeatId } from '@mothership/contracts';
-import { alive, canRoleAction, copyPlanet, freeHealthy, ordinaryStage, ownTurn, planetFaction, planetSeat, planetWorld, seatIds, storePlanetEvent } from './model.js';
+import { registerPlanetPanelRequest, resolvePlanetPanelReservation } from './feedback.js';
+import { alive, canRoleAction, copyPlanet, freeHealthy, ordinaryStage, ownTurn, planetFaction, planetSeat, planetWorld, seatIds, storePlanetEvent, planetHasPrivateFeedback } from './model.js';
 import type { PlanetGameState, PlanetPhysicalSeat, PlanetRegisteredAction, PlanetWorld } from './model.js';
 
 type PlanetLocation = NonNullable<PlanetSeatView['location']>;
@@ -74,6 +75,17 @@ function captainAvailable(state:PlanetGameState,world:PlanetWorld,actor:PlanetPh
     && world.seats.some(s=>s.location==='Jail'&&s.jailed&&alive(s));
 }
 
+function panelEligibleWithoutInventory(state:PlanetGameState,actorId:SeatId):boolean {
+  if(!state.roles[actorId]||state.result||!state.panelOpen||!ordinaryStage(state)||state.global.panelAttempts.includes(actorId))return false;
+  const actor=planetWorld(state,actorId).seats.find(s=>s.seatId===actorId);
+  return actor!==undefined&&alive(actor)&&actor.location==='Hospital';
+}
+/** P21/R12: an eligible unused patient learns exhaustion, never submitted-number correctness. */
+export function panelExhaustedForEligibleRequest(state:PlanetGameState,actorId:SeatId,command:PlanetCommand):boolean {
+  return planetHasPrivateFeedback(state.versions)&&command.type==='PANEL_CODE'&&panelEligibleWithoutInventory(state,actorId)
+    &&planetWorld(state,actorId).injectionsRemaining===0;
+}
+
 /** All rejection paths precede mutation. The enclosing engine owns authentication/time/phase identity. */
 export function physicalPlanetCommand(state:PlanetGameState,actorId:SeatId,command:PlanetCommand,commandId:string):boolean {
   if(!state.roles[actorId] || typeof commandId!=='string'||commandId.length===0)return false;
@@ -109,12 +121,15 @@ export function physicalPlanetCommand(state:PlanetGameState,actorId:SeatId,comma
     case 'ENGINEER_SUPPRESS': {
       if(role!=='Engineer'||!canRoleAction(state,actorId)||actor.engineerSpent||!['Room A','Room B'].includes(actor.location??''))return false;
       const opposite=actor.location==='Room A'?'Room B':'Room A';
-      actor.roleActionSpent=true;actor.engineerSpent=true;world.suppressedSeatIds=[...new Set([...world.suppressedSeatIds,...world.seats.filter(s=>s.location===opposite).map(s=>s.seatId)])];return true;
+      const captured=world.seats.filter(s=>s.location===opposite).map(s=>s.seatId);
+      actor.roleActionSpent=true;actor.engineerSpent=true;world.suppressedSeatIds=[...new Set([...world.suppressedSeatIds,...captured])];
+      if(planetHasPrivateFeedback(state.versions))actor.engineerCapture={round:state.round,seatIds:[...captured].sort((a,b)=>numeric(a)-numeric(b))};return true;
     }
     case 'PANEL_CODE': {
       // P21: an empty shared pool is rejected before looking at the Doctor answer.
-      if(!state.panelOpen||!ordinaryStage(state)||actor.location!=='Hospital'||world.injectionsRemaining<1||state.global.panelAttempts.includes(actorId))return false;
-      const correct=state.roles[command.doctorSeatId]==='Doctor';state.global.panelAttempts.push(actorId);
+      if(!panelEligibleWithoutInventory(state,actorId)||world.injectionsRemaining<1)return false;
+      const correct=state.roles[command.doctorSeatId]==='Doctor';
+      registerPlanetPanelRequest(state,world,actorId,commandId,correct);state.global.panelAttempts.push(actorId);
       if(correct){world.injectionsRemaining--;register(state,world,actorId,command,commandId);}return true;
     }
     case 'CAPTAIN_RELEASE': case 'CAPTAIN_EJECT': {
@@ -208,6 +223,7 @@ export function resolvePlanetPhysical(state:PlanetGameState,world:PlanetWorld):v
   // Registered treatment survives actor incapacity and has already reserved its injection.
   for(const action of ordered)if(action.command.type==='RESCUE'||action.command.type==='PANEL_CODE'){
     const id=action.command.type==='RESCUE'?action.command.targetSeatId:action.actorSeatId,target=planetSeat(world,id);
+    if(action.command.type==='PANEL_CODE')resolvePlanetPanelReservation(state,world,action.actorSeatId,action.commandId,target.health==='Injured');
     if(target.health==='Injured'){target.health='Healthy';target.rescueDueAfterRound=null;target.medical=null;storePlanetEvent(state,world,'RESCUED',[id]);}
   }
   if(state.round===3)for(const action of ordered)if(action.command.type==='SUPPLY')for(const id of action.command.targetSeatIds){const target=planetSeat(world,id);if(alive(target))target.ordinaryWeapons++;}
