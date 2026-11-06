@@ -107,8 +107,8 @@ function patientCases() {
   add('NOT_ALLOWED: the reason unknown', view(open), { rejected: { PANEL_CODE: { phaseId: phase, code: 'NOT_ALLOWED' } } });
   add('outside the turns', view({ phase: 'JAIL_VOTE' }));
   add('an earlier round, R12 not in the view', view({ round: 5, panelAttemptSpent: true, medical: { admittedRound: 3, rescueDueAfterRound: 5, rescueOpportunity: 'CURRENT_NORMAL_ROUND' } }));
-  add('R12; R3: healthy, still placed in the Hospital', view({ round: 5, health: 'Healthy', medical: null, panelAttemptSpent: true, panelRequest: { round: 4, result: 'RESERVED', status: 'TREATED' } }));
-  add('R12; R3: healthy, still placed in the Hospital', view({ round: 5, health: 'Healthy', medical: null, panelAttemptSpent: true, panelRequest: { round: 4, result: 'RESERVED', status: 'NO_EFFECT' } }));
+  add('R12; R3 rules this out: a healed seat leaves the Hospital', view({ round: 5, health: 'Healthy', medical: null, panelAttemptSpent: true, panelRequest: { round: 4, result: 'RESERVED', status: 'TREATED' } }));
+  add('R12; R3 rules this out: a healed seat leaves the Hospital', view({ round: 5, health: 'Healthy', medical: null, panelAttemptSpent: true, panelRequest: { round: 4, result: 'RESERVED', status: 'NO_EFFECT' } }));
   add('R12', view({ round: 5, panelAttemptSpent: true, panelRequest: { round: 4, result: 'RESERVED', status: 'DISCARDED' }, medical: { admittedRound: 3, rescueDueAfterRound: 5, rescueOpportunity: 'CURRENT_NORMAL_ROUND' } }));
   add('no rescue round left', view({ round: 6, panelAttemptSpent: true, medical: { admittedRound: 3, rescueDueAfterRound: 5, rescueOpportunity: 'CLOSED' } }));
   return out;
