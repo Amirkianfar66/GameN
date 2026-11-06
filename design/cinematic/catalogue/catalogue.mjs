@@ -9,7 +9,7 @@
 // a trigger, the entry says so and names the request (REQUESTS), and the scene stays a labeled
 // design fixture until the contract supports it. Nothing here is a game rule.
 
-export const CATALOGUE_VERSION = 'cinematic-catalogue-0.6.0';
+export const CATALOGUE_VERSION = 'cinematic-catalogue-0.7.0';
 export const CONTRACT = Object.freeze({ protocol: 3, engine: 'planet-game-1.0.0', ruleset: 'in-person-planet-2026-11-05', file: 'packages/contracts/src/planet-game.ts', commit: '79418e72dba99ba99afe047ecb97467fb5e73b62', status: 'candidate; not adopted into runtime' });
 
 /** The lifecycle every presentation follows (the motion bible's rules, for every scene below). */
@@ -85,13 +85,13 @@ export const CATALOGUE = Object.freeze([
     assets: ['design/phone-kit', 'design/board-v2/js/turns-four.mjs'], gaps: ['successor action names (Engineer, Hack Spaceship) in the action overlay'],
   }),
   S('offices', 'Captain and Officer', {
-    status: 'existing (votes) + gap', audience: 'public (offices, tally)',
+    status: 'existing (votes) + library group 6 (proposal)', audience: 'public (offices, tally, badges, the block marker); the appointment Captain-private; the block panel Officer-private',
     trigger: 'phases CAPTAIN_ELECTION, VOTE_RESULT (5 s), OFFICER_APPOINTMENT (30 s), PRE_TURN (15 s); offices.*; lastTally', fields: ['offices.captainSeatId', 'offices.officerSeatId', 'offices.blockedSeatId', 'lastTally'],
-    beats: { start: 'tally panel in VOTE_RESULT', loop: 'badges on the board', exit: 'block marker expires at round end' },
-    durations: { full: 'VOTE_RESULT 5 s (server)', reduced: 'panel without count-up' },
+    beats: { start: 'tally panel in VOTE_RESULT; the Captain\'s appointment panel (30 s); the Officer\'s block panel in the pre-turn window (15 s)', loop: 'badges on name tags and the board: the reviewed Captain star, the Officer\'s two chevrons; the block\'s dashed badge and the hazard tape at the blocked figure\'s feet', exit: 'block marker expires at round end (the tape rolls back)' },
+    durations: { full: 'VOTE_RESULT 5 s (server); appoint 560 ms, block 480 ms, expire 360 ms', reduced: 'panel without count-up; fades of 160 ms' },
     final: 'badges held by office holders', cancel: 'runoff replaces the panel', precedence: 'stage-bound',
     audio: 'gavel (public) on result', reduced: 'static panel', rosters: 'n/a', concurrency: 'none',
-    assets: ['design/phone-kit (five-second vote result)'], gaps: ['Officer appointment panel', 'Officer badge distinct from secret roles', 'movement-block marker and its round expiry'],
+    assets: ['design/phone-kit (five-second vote result)', 'design/exports/public-board marker-captain (the reviewed Captain badge)', 'design/library/offices/ (Officer and block badges and glyphs, the block tape, tray marks; appointment and block panels; state maps, words, motion)'], gaps: [],
   }),
   S('captain-release', 'Captain RELEASE', {
     status: 'existing S6 (approved art, #159)', audience: 'public',

@@ -15,6 +15,7 @@ a contract or runtime code; Integration adopts named files and hashes.
 | 3 · `hospital-panel/` | A Hospital patient's own code console: keypad, registration, R12 results, the deadline line | proposal | [docs/design/library/hospital-panel.md](../../docs/design/library/hospital-panel.md) |
 | 4 · `promises/` | The six Promise cards, the giver's composer, the recipient's inbox, the ledger and the four results | proposal | [docs/design/library/promises.md](../../docs/design/library/promises.md) |
 | 5 · `windows/` | The three windows, the four drawing stations, the drawing pad and Show, the feed, the Blackout's shade | proposal | [docs/design/library/windows.md](../../docs/design/library/windows.md) |
+| 6 · `offices/` | The Captain's Officer appointment, the Officer badge, the movement block, its marker and expiry | proposal | [docs/design/library/offices.md](../../docs/design/library/offices.md) |
 
 From group 2 on, the review pages share their frame: `review.mjs` (parameters, state cards, motion players, controls, art
 loader) and `review.css`. Group 1's page keeps its own copy. `design/tools/library-assets.mjs` and

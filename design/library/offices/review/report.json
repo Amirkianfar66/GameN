@@ -1,0 +1,948 @@
+{
+  "tool": "design/tools/library-capture.mjs",
+  "browser": "Chromium 141.0.7390.37",
+  "page": "design/library/offices/index.html",
+  "captures": [
+    {
+      "file": "design/library/offices/review/w390-appointment-choose-six-eligible-players.png",
+      "sha256": "9ef858bf0d1cd710b32a839f8fa7204750674b987a3cd87a190a085c35cef24b",
+      "bytes": 50448,
+      "state": "appointment: choose (six eligible players)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/offices/review/w390-appointment-confirm.png",
+      "sha256": "66f8fa35292580ae24809c02d528888b62079cca6cbba915d8ecf53242cc5616",
+      "bytes": 49254,
+      "state": "appointment: confirm",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/offices/review/w390-appointment-sending.png",
+      "sha256": "a1ef97d5ab9d0b8008665fcf6dc51a78475ed28ffe860c3d26cd70e503ea5b0b",
+      "bytes": 27974,
+      "state": "appointment: sending",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/offices/review/w390-appointment-appointed-the-view-names-the-officer.png",
+      "sha256": "bfa5d8c4d71075113fc0e211735abc1b84cd282a73083b924a4cb8aa4759e6b2",
+      "bytes": 32133,
+      "state": "appointment: appointed (the view names the Officer)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/offices/review/w390-appointment-refused-not-allowed.png",
+      "sha256": "72d12118fbef85c6a4e0b43925f9e6b756c27a85f0cf645c1873116f8d80880f",
+      "bytes": 41521,
+      "state": "appointment: refused (NOT_ALLOWED)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/offices/review/w390-appointment-vacant-no-eligible-player.png",
+      "sha256": "9ac7543539c3c52253e2f0e1a8b93913859a1a2b895cd473637183d403c7556e",
+      "bytes": 27630,
+      "state": "appointment: vacant (no eligible player)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/offices/review/w390-appointment-closed-the-window-closing.png",
+      "sha256": "9faf52d85c101fbff3d6f5a1d0a7dad5168b2b59541af0da8aca038e812f5f6c",
+      "bytes": 21517,
+      "state": "appointment: closed (the window closing)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/offices/review/w390-appointment-none-not-the-captain.png",
+      "sha256": "188598c725e014b2516d86a09298af542955f1569a5a0a89460fc5424a4d8684",
+      "bytes": 17685,
+      "state": "appointment: none (not the Captain)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/offices/review/w390-block-choose-last-round-s-target-left-out-by-the-offer.png",
+      "sha256": "813e24d1d16cc0b849802a7081e99869ec7f813f25dd248ed4a74ad4486526f2",
+      "bytes": 44619,
+      "state": "block: choose (last round's target left out by the offer)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/offices/review/w390-block-confirm.png",
+      "sha256": "832c6c9bf7750b0bf4d4e4d81b9f368925bb1dd807d0acb35cb5b09e16189f58",
+      "bytes": 44213,
+      "state": "block: confirm",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/offices/review/w390-block-sending.png",
+      "sha256": "c11d6e229db2a7c243b1c0c3bff934314b1cd6c2facde16f55764506ac70fcdf",
+      "bytes": 25803,
+      "state": "block: sending",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/offices/review/w390-block-blocked-the-view-names-the-block.png",
+      "sha256": "8fde8da81f079862157485edcd05ade4ec7c401f060b99dbeb6119693c86f049",
+      "bytes": 30087,
+      "state": "block: blocked (the view names the block)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/offices/review/w390-block-refused-not-allowed.png",
+      "sha256": "d5a264cf8b6e55cb523a2b3e2c0e768eba91598b6f8022e88a7e95f8f96e26d8",
+      "bytes": 25779,
+      "state": "block: refused (NOT_ALLOWED)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/offices/review/w390-block-closed-no-offer.png",
+      "sha256": "7c968e8da054eb664b40f91aad0173eeec8d61582cc65db8f603575ba1f4a3d1",
+      "bytes": 19220,
+      "state": "block: closed (no offer)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/offices/review/w390-block-none-not-the-officer.png",
+      "sha256": "319d7ba51f89f1e518bbaf2c656c49e61abdb143b4582cd5813f8f661c3e7486",
+      "bytes": 16848,
+      "state": "block: none (not the Officer)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/offices/review/w390-public-the-appointment-window.png",
+      "sha256": "2c31290366f0818d38caa66cacb777b4e11a95773a86adeb78fb9d29ae54044b",
+      "bytes": 31038,
+      "state": "public: the appointment window",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/offices/review/w390-public-the-officer-appointed.png",
+      "sha256": "7752eafeff1e6b4f4ee6a934c052a9a4d33f5d8e905cf77c3603f6f00bb3045c",
+      "bytes": 37140,
+      "state": "public: the Officer appointed",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/offices/review/w390-public-no-officer-this-term.png",
+      "sha256": "8d0c0f7038dd673edebd4fe8c012a9e177402117f16e3729bf13a532ac219b00",
+      "bytes": 28602,
+      "state": "public: no Officer this term",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/offices/review/w390-public-the-pre-turn-window-with-an-officer.png",
+      "sha256": "d75f33eb9cc517aed817ba4a711fd5b0e5c281853f526d53b9a3e1830cd5958f",
+      "bytes": 40435,
+      "state": "public: the pre-turn window, with an Officer",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/offices/review/w390-public-the-pre-turn-window-no-officer-the-same-15-s.png",
+      "sha256": "80e51e8db98ee3f19d8c81265555e527b6016613bd386f683e05cfddc3549030",
+      "bytes": 30207,
+      "state": "public: the pre-turn window, no Officer (the same 15 s)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/offices/review/w390-public-a-block-this-round.png",
+      "sha256": "6447b5b1b59b759e02f6023b0a8a6f9dee88f01a5f8db30e3bd0ed7f5ad8b0fc",
+      "bytes": 48389,
+      "state": "public: a block this round",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/offices/review/w390-public-the-blocked-player-s-own-phone.png",
+      "sha256": "0df35eceeed4a9d1f7b87c1043ad2c0e3cd141e2873109d18d085ac6dceaf24a",
+      "bytes": 60900,
+      "state": "public: the blocked player's own phone",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/offices/review/w390-public-the-next-round-the-block-expired.png",
+      "sha256": "3eaff2970031fe04f01296488991160300c9e875ce8778ab3cd3540bc34119be",
+      "bytes": 37565,
+      "state": "public: the next round, the block expired",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/offices/review/w390-badges-the-offices-and-the-block.png",
+      "sha256": "79cef1c4fe0a67b4b1125083541fa6dabb4bdaf3b5f3debf314d4ca47db1aa15",
+      "bytes": 40980,
+      "state": "badges: the offices and the block",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/offices/review/w390-tray-the-appointment-and-the-block.png",
+      "sha256": "e35491b2857b606a32ad1f14b910a063d36981c66d84843075c0dfd5b5950b6e",
+      "bytes": 25539,
+      "state": "tray: the appointment and the block",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/offices/review/contact-w390.png",
+      "sha256": "3b36ba735778538696dfcaa201fb4c7c98bd86479ede7923adb18f83f00cdb50",
+      "bytes": 965174,
+      "kind": "contact",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/offices/review/w320-appointment-choose-six-eligible-players.png",
+      "sha256": "6d3aab60f5100d8ff0150104d97500c85ce23f6e820674732876e1199bc36ecd",
+      "bytes": 54436,
+      "state": "appointment: choose (six eligible players)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/offices/review/w320-appointment-confirm.png",
+      "sha256": "672f3fbd31a055e2d8664005e4546c20aeac8e1710e0f6b3de020f31e9d09df5",
+      "bytes": 51397,
+      "state": "appointment: confirm",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/offices/review/w320-appointment-sending.png",
+      "sha256": "437a558d141f1935f48a87e36c1e8e0c425269a80a83655bdd509658c64bb4ac",
+      "bytes": 27145,
+      "state": "appointment: sending",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/offices/review/w320-appointment-appointed-the-view-names-the-officer.png",
+      "sha256": "1fb56a298e758e53dee2fab84060d21b395275c4e0a6def7f97e717626298195",
+      "bytes": 32499,
+      "state": "appointment: appointed (the view names the Officer)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/offices/review/w320-appointment-refused-not-allowed.png",
+      "sha256": "418ef16b7b9975d5a05bb09b2c67e3142943c4004d91d6ac8dccc8e522d08955",
+      "bytes": 43827,
+      "state": "appointment: refused (NOT_ALLOWED)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/offices/review/w320-appointment-vacant-no-eligible-player.png",
+      "sha256": "3a56d09c7c4a9f4482a94caeb339e4824bf08b62c99ed3d8c2e909999e3e9688",
+      "bytes": 27551,
+      "state": "appointment: vacant (no eligible player)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/offices/review/w320-appointment-closed-the-window-closing.png",
+      "sha256": "84d9c6e4d9b3f2f8da2d2584946e11dbb12fb87a99f89c83e8137d2979290a8d",
+      "bytes": 21626,
+      "state": "appointment: closed (the window closing)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/offices/review/w320-appointment-none-not-the-captain.png",
+      "sha256": "db27b527e9688f06872a6dcfae683df3042c66ece683e6f351191784ba27741c",
+      "bytes": 17836,
+      "state": "appointment: none (not the Captain)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/offices/review/w320-block-choose-last-round-s-target-left-out-by-the-offer.png",
+      "sha256": "ba4a4856a1d169b324032f70f9e0934cb73f599b5157ff9a4e36b80cc9a20119",
+      "bytes": 48839,
+      "state": "block: choose (last round's target left out by the offer)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/offices/review/w320-block-confirm.png",
+      "sha256": "22cadae255d3547464691ca8c9b2fede600fc6038f3ac67987915d667364f049",
+      "bytes": 47341,
+      "state": "block: confirm",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/offices/review/w320-block-sending.png",
+      "sha256": "a3b96503e1962a507178504f1f028a2da077f86203a963411566edc5212a0310",
+      "bytes": 25948,
+      "state": "block: sending",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/offices/review/w320-block-blocked-the-view-names-the-block.png",
+      "sha256": "ea9d832018ddd6f18eeabf79d391e750cf066bbd7acfcf244ab9f1dc4c9d2ce6",
+      "bytes": 31149,
+      "state": "block: blocked (the view names the block)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/offices/review/w320-block-refused-not-allowed.png",
+      "sha256": "744d119f8064c4da2cc1700403d5aa6d8c4a505b9c412602c4ed6eaaea94387b",
+      "bytes": 26291,
+      "state": "block: refused (NOT_ALLOWED)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/offices/review/w320-block-closed-no-offer.png",
+      "sha256": "a4cb90761dfe883156f44541df9c8b33699547a18412fcc2244c24b1d0c9cec6",
+      "bytes": 18689,
+      "state": "block: closed (no offer)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/offices/review/w320-block-none-not-the-officer.png",
+      "sha256": "49de8365767ffb4dc8f82278ffe9f5975ca7d76954538054ea4a4c40e9d2f07b",
+      "bytes": 16766,
+      "state": "block: none (not the Officer)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/offices/review/w320-public-the-appointment-window.png",
+      "sha256": "4612afc9a49954eaeff9385acd92e190ed54e0f3b77e115c56042acc19cccdef",
+      "bytes": 30948,
+      "state": "public: the appointment window",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/offices/review/w320-public-the-officer-appointed.png",
+      "sha256": "2d2a791dd7274550097cf52112729130c70ac65ea48554b2fc85d125c3452169",
+      "bytes": 36654,
+      "state": "public: the Officer appointed",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/offices/review/w320-public-no-officer-this-term.png",
+      "sha256": "f03e7d203e748122c91b5e0d8b71f22a60e0cf226ec488a59de21c13486632f2",
+      "bytes": 28289,
+      "state": "public: no Officer this term",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/offices/review/w320-public-the-pre-turn-window-with-an-officer.png",
+      "sha256": "f3a13a66cc18af4ba62f279c9b833e8c1949fc192e32051e940442c5b8dab08e",
+      "bytes": 40379,
+      "state": "public: the pre-turn window, with an Officer",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/offices/review/w320-public-the-pre-turn-window-no-officer-the-same-15-s.png",
+      "sha256": "49b3cd9d2fd2320c5a71c7d18d1a1be50bceec0c1c511086a85760fa6a22f2e1",
+      "bytes": 29817,
+      "state": "public: the pre-turn window, no Officer (the same 15 s)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/offices/review/w320-public-a-block-this-round.png",
+      "sha256": "a2c75c3861d5541c148cfa6750d69d7bf5658fdb1dbf5ad5a7c4b7020619c299",
+      "bytes": 47942,
+      "state": "public: a block this round",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/offices/review/w320-public-the-blocked-player-s-own-phone.png",
+      "sha256": "aedfda191d72b0beb4ee095ea6142fe2f1770eedc0d13330f8c120f5dc490c82",
+      "bytes": 61718,
+      "state": "public: the blocked player's own phone",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/offices/review/w320-public-the-next-round-the-block-expired.png",
+      "sha256": "677e2b81e3563d8d9e6df0c95ca163b7e18ed1a005f1696d0476f9eef83c64ef",
+      "bytes": 37297,
+      "state": "public: the next round, the block expired",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/offices/review/w320-badges-the-offices-and-the-block.png",
+      "sha256": "659fc804f09011054564ce7e44665d3d0ffd3b043b1d693fa60c01d0bffaacab",
+      "bytes": 41069,
+      "state": "badges: the offices and the block",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/offices/review/w320-tray-the-appointment-and-the-block.png",
+      "sha256": "1d6d6a03c7b6ee20889e09e8e1500a8412ddf6b405f77a7fab792b779306af96",
+      "bytes": 25113,
+      "state": "tray: the appointment and the block",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/offices/review/contact-w320.png",
+      "sha256": "768a92e20a8dadb3983dbfa50abd55c99f99dddc0875dc7faaaf13d26e3eb960",
+      "bytes": 1018532,
+      "kind": "contact",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/offices/review/w390-text200-appointment-choose-six-eligible-players.png",
+      "sha256": "6cf5650293206d7d48275a934fa94a13c968d5e6fa6d621a3dd75e9787b637f7",
+      "bytes": 98416,
+      "state": "appointment: choose (six eligible players)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/offices/review/w390-text200-appointment-confirm.png",
+      "sha256": "a842ded3435c8204cf0beabe5a0566e8835dc1c1222877922af116b033f9b570",
+      "bytes": 88166,
+      "state": "appointment: confirm",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/offices/review/w390-text200-appointment-sending.png",
+      "sha256": "2d3725a95d0ff1c2b6668cf88e95c8391e0800479755913bed2b3cf2da813851",
+      "bytes": 39455,
+      "state": "appointment: sending",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/offices/review/w390-text200-appointment-appointed-the-view-names-the-officer.png",
+      "sha256": "e8890a9d7c880167eb93f96f14d3011af41d19390292aeaba7643a596f6b25bc",
+      "bytes": 47920,
+      "state": "appointment: appointed (the view names the Officer)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/offices/review/w390-text200-appointment-refused-not-allowed.png",
+      "sha256": "0eb051c1fca7430a85ea2462c0eea379cb3311eb84ed1540b9704cbe9dff043f",
+      "bytes": 69000,
+      "state": "appointment: refused (NOT_ALLOWED)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/offices/review/w390-text200-appointment-vacant-no-eligible-player.png",
+      "sha256": "7b46da91506532260abacda27eb2056859d0163c5296aa92f1a82feb553e3eeb",
+      "bytes": 45125,
+      "state": "appointment: vacant (no eligible player)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/offices/review/w390-text200-appointment-closed-the-window-closing.png",
+      "sha256": "017c72fe6903912593f34201eebf8f1beb2cd738b0f7380331defb02d0715cf5",
+      "bytes": 30795,
+      "state": "appointment: closed (the window closing)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/offices/review/w390-text200-appointment-none-not-the-captain.png",
+      "sha256": "3f7ed08642cfb236e499c93514b8bb767cf118222483964d3b8310ace4b717f2",
+      "bytes": 30856,
+      "state": "appointment: none (not the Captain)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/offices/review/contact-w390-text200-captain.png",
+      "sha256": "e909d4926169eb67713cfd99250711be514b1f1884077f62aeef90735967b6e7",
+      "bytes": 499271,
+      "kind": "contact",
+      "width": 390,
+      "text": "200%",
+      "section": "captain"
+    },
+    {
+      "file": "design/library/offices/review/w390-text200-block-choose-last-round-s-target-left-out-by-the-offer.png",
+      "sha256": "dc2cc38cb871e4aaa936e7b0635e7d15bcd80dff587443e0055ec690c5f73f55",
+      "bytes": 74910,
+      "state": "block: choose (last round's target left out by the offer)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/offices/review/w390-text200-block-confirm.png",
+      "sha256": "df13bff8de7078ab4ca4256ee0f0b3ac7b38766fe90c98e17b025f191d91f5fb",
+      "bytes": 71105,
+      "state": "block: confirm",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/offices/review/w390-text200-block-sending.png",
+      "sha256": "986f66f59aa31f7156370a4240d3bdd139157c1c48bf333818a41ce09ecd6dce",
+      "bytes": 35738,
+      "state": "block: sending",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/offices/review/w390-text200-block-blocked-the-view-names-the-block.png",
+      "sha256": "d678962c0ee304662beac44c31bb2746c547b5f9911eb5a568fb4a2efa6819a5",
+      "bytes": 48875,
+      "state": "block: blocked (the view names the block)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/offices/review/w390-text200-block-refused-not-allowed.png",
+      "sha256": "a07967868b62889720709daeb28e09014620ecc4966c1ebbb0f8737ea251e91b",
+      "bytes": 38935,
+      "state": "block: refused (NOT_ALLOWED)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/offices/review/w390-text200-block-closed-no-offer.png",
+      "sha256": "fc6faf713ab98be4048e262b6833d9ddbc664f71b8d58b5c9e921ddb47aba5d6",
+      "bytes": 29275,
+      "state": "block: closed (no offer)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/offices/review/w390-text200-block-none-not-the-officer.png",
+      "sha256": "c14eb0705aa0c156e84d459f03fa63ff97f517c04f1f8a03c8a537987bd5c929",
+      "bytes": 30045,
+      "state": "block: none (not the Officer)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/offices/review/contact-w390-text200-officer.png",
+      "sha256": "886d05a0a4c0aee8b17dc8d216579372b0b30de26ba45ce2eaf0011fe47c8326",
+      "bytes": 380445,
+      "kind": "contact",
+      "width": 390,
+      "text": "200%",
+      "section": "officer"
+    },
+    {
+      "file": "design/library/offices/review/w390-text200-public-the-appointment-window.png",
+      "sha256": "a042fe646c6cd007fc4d7cadce16c15557a6954eceda416d89174e8db526138d",
+      "bytes": 44928,
+      "state": "public: the appointment window",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/offices/review/w390-text200-public-the-officer-appointed.png",
+      "sha256": "c5c157472637ddbb2d7a6aa4f0d167b28d4580ccb356b6d3b77fe6a9fdc7140e",
+      "bytes": 54020,
+      "state": "public: the Officer appointed",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/offices/review/w390-text200-public-no-officer-this-term.png",
+      "sha256": "61fc652c91092295dda3258f40f4b5c58a24f80e53fdca0ae616496922a4948c",
+      "bytes": 39274,
+      "state": "public: no Officer this term",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/offices/review/w390-text200-public-the-pre-turn-window-with-an-officer.png",
+      "sha256": "c5a4b94398fb85a740199d327f739feda75c2a0fd2891699b7884b011993e2ff",
+      "bytes": 61629,
+      "state": "public: the pre-turn window, with an Officer",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/offices/review/w390-text200-public-the-pre-turn-window-no-officer-the-same-15-s.png",
+      "sha256": "d563bf9ecb01c01185d98baa7be369575d0379d237a62e73cf3e643d9e45b66a",
+      "bytes": 40350,
+      "state": "public: the pre-turn window, no Officer (the same 15 s)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/offices/review/w390-text200-public-a-block-this-round.png",
+      "sha256": "41bd95e9dc0e617b7405573843215b7e994f17b95b544dba36e8d00858d77241",
+      "bytes": 76069,
+      "state": "public: a block this round",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/offices/review/w390-text200-public-the-blocked-player-s-own-phone.png",
+      "sha256": "a80f2c47a8480e0800f3f7bdb077687fd87499ca365df05ba8bf425fec432f56",
+      "bytes": 110074,
+      "state": "public: the blocked player's own phone",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/offices/review/w390-text200-public-the-next-round-the-block-expired.png",
+      "sha256": "474ffb996b22f8db6de599fd63176912a25cd70d10fe339696db00b1e70c78ea",
+      "bytes": 54369,
+      "state": "public: the next round, the block expired",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/offices/review/contact-w390-text200-public.png",
+      "sha256": "911824367f7b5f89d606c094247a2360cca9847fb070abc1bbe9b236c73b549b",
+      "bytes": 531343,
+      "kind": "contact",
+      "width": 390,
+      "text": "200%",
+      "section": "public"
+    },
+    {
+      "file": "design/library/offices/review/w390-text200-badges-the-offices-and-the-block.png",
+      "sha256": "54d7f66a9e370dba878c9016fd3a59dc35c8e3d6400e0415f3a03680af68246b",
+      "bytes": 77322,
+      "state": "badges: the offices and the block",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/offices/review/w390-text200-tray-the-appointment-and-the-block.png",
+      "sha256": "c8677f41452d17e318bb82daf53681e6a0a7cb090cb0a20541f6432a4ff9be99",
+      "bytes": 36234,
+      "state": "tray: the appointment and the block",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/offices/review/contact-w390-text200-badges.png",
+      "sha256": "862110fefa66bc411a01f6886068c45bba092d0f6a6f96b7f7a80adb8d1ef070",
+      "bytes": 158910,
+      "kind": "contact",
+      "width": 390,
+      "text": "200%",
+      "section": "badges"
+    },
+    {
+      "file": "design/library/offices/review/motion-appoint-0000.png",
+      "sha256": "7f0cf8629a21bfefa353a693163f5c76923ce10515efe8c7bd83f4648a8850a1",
+      "bytes": 14623,
+      "motion": "appoint",
+      "reduced": false,
+      "t": 0
+    },
+    {
+      "file": "design/library/offices/review/motion-appoint-0112.png",
+      "sha256": "64f0fd109ab5051e95732a10a4f00669db06e8be5e682b8a338b11713051de99",
+      "bytes": 16654,
+      "motion": "appoint",
+      "reduced": false,
+      "t": 112
+    },
+    {
+      "file": "design/library/offices/review/motion-appoint-0224.png",
+      "sha256": "f918d2cbfc9cd2ce37090eeb723ff9c750a4fac4e156b3aac5883c17ade67fb5",
+      "bytes": 16419,
+      "motion": "appoint",
+      "reduced": false,
+      "t": 224
+    },
+    {
+      "file": "design/library/offices/review/motion-appoint-0336.png",
+      "sha256": "986cc43541f668b3541b9d198636c60ce304a706cd5ad6e42d097cc933c45b5b",
+      "bytes": 17169,
+      "motion": "appoint",
+      "reduced": false,
+      "t": 336
+    },
+    {
+      "file": "design/library/offices/review/motion-appoint-0448.png",
+      "sha256": "6bd15b5c10fe9414e2b4f02b9212f42816760f24881186133a0ec2fec9ae6a7f",
+      "bytes": 17301,
+      "motion": "appoint",
+      "reduced": false,
+      "t": 448
+    },
+    {
+      "file": "design/library/offices/review/motion-appoint-0560.png",
+      "sha256": "617f358e2611639b4fa50e8a0cb3393638962fa90f47ab3b7dbbd771d24d026c",
+      "bytes": 16316,
+      "motion": "appoint",
+      "reduced": false,
+      "t": 560
+    },
+    {
+      "file": "design/library/offices/review/motion-block-0000.png",
+      "sha256": "c1254c1883a33c0f79efe5b2a01288c552112455966a6c66aa5aab5d72489bb8",
+      "bytes": 14767,
+      "motion": "block",
+      "reduced": false,
+      "t": 0
+    },
+    {
+      "file": "design/library/offices/review/motion-block-0096.png",
+      "sha256": "a7e2fab6e5d2204f74f81aa0f458f3e87572f5dd858f1a13d462319ac743a57f",
+      "bytes": 15213,
+      "motion": "block",
+      "reduced": false,
+      "t": 96
+    },
+    {
+      "file": "design/library/offices/review/motion-block-0192.png",
+      "sha256": "e549845657b1136f3a5f584d2f13f8575890c3e9fb67baef43211618173c4a42",
+      "bytes": 15876,
+      "motion": "block",
+      "reduced": false,
+      "t": 192
+    },
+    {
+      "file": "design/library/offices/review/motion-block-0288.png",
+      "sha256": "4c33b0d2a91ce57e174dac47fbdfab24581aa93a556235f1e774393aba29223c",
+      "bytes": 16212,
+      "motion": "block",
+      "reduced": false,
+      "t": 288
+    },
+    {
+      "file": "design/library/offices/review/motion-block-0384.png",
+      "sha256": "08d6a5ae97d263ebf4b0f3ddb2ee81f07827d1d2dc43503b36a0462687f4176b",
+      "bytes": 16228,
+      "motion": "block",
+      "reduced": false,
+      "t": 384
+    },
+    {
+      "file": "design/library/offices/review/motion-block-0480.png",
+      "sha256": "f3d2270a644b1e5247f98238d8d9ba2a1e8a89f424179bb1ece5182da7329919",
+      "bytes": 16119,
+      "motion": "block",
+      "reduced": false,
+      "t": 480
+    },
+    {
+      "file": "design/library/offices/review/motion-expire-0000.png",
+      "sha256": "1b5b9c79ab72a6aaddbdb845d64df64455a05b9f57966335f17c7cf65b17c267",
+      "bytes": 15855,
+      "motion": "expire",
+      "reduced": false,
+      "t": 0
+    },
+    {
+      "file": "design/library/offices/review/motion-expire-0072.png",
+      "sha256": "790723719945ab33ab7390ec899fafb27a245227bcace55f8e3be1b297146f8a",
+      "bytes": 15965,
+      "motion": "expire",
+      "reduced": false,
+      "t": 72
+    },
+    {
+      "file": "design/library/offices/review/motion-expire-0144.png",
+      "sha256": "a384ab8458f036a81330963d3e930df375d4c484ad7205cdece7172fc05b4a81",
+      "bytes": 15906,
+      "motion": "expire",
+      "reduced": false,
+      "t": 144
+    },
+    {
+      "file": "design/library/offices/review/motion-expire-0216.png",
+      "sha256": "4df34b6f6baf4b69937f37eb87ca46938c8024e126fb0b8e529c04608af880f7",
+      "bytes": 15495,
+      "motion": "expire",
+      "reduced": false,
+      "t": 216
+    },
+    {
+      "file": "design/library/offices/review/motion-expire-0288.png",
+      "sha256": "aeed35537531204deb311e480192ae062e34cc1347e6cd6accba0d261a059749",
+      "bytes": 15320,
+      "motion": "expire",
+      "reduced": false,
+      "t": 288
+    },
+    {
+      "file": "design/library/offices/review/motion-expire-0360.png",
+      "sha256": "7ff089b7ff8ecd60d16601b4e399cb3689f5b20f6a7e80020711edcbce7a8f64",
+      "bytes": 15145,
+      "motion": "expire",
+      "reduced": false,
+      "t": 360
+    },
+    {
+      "file": "design/library/offices/review/motion-appoint-reduced-0000.png",
+      "sha256": "7f0cf8629a21bfefa353a693163f5c76923ce10515efe8c7bd83f4648a8850a1",
+      "bytes": 14623,
+      "motion": "appoint",
+      "reduced": true,
+      "t": 0
+    },
+    {
+      "file": "design/library/offices/review/motion-appoint-reduced-0032.png",
+      "sha256": "0553e5033e3b52921358805e4495aa640e10833352c47d281440ee8d59323bbc",
+      "bytes": 15964,
+      "motion": "appoint",
+      "reduced": true,
+      "t": 32
+    },
+    {
+      "file": "design/library/offices/review/motion-appoint-reduced-0064.png",
+      "sha256": "18f4d5701eaaecf86e0cf0b258c912787efbc8593fb8854a6dfb6a9743bdf768",
+      "bytes": 16044,
+      "motion": "appoint",
+      "reduced": true,
+      "t": 64
+    },
+    {
+      "file": "design/library/offices/review/motion-appoint-reduced-0096.png",
+      "sha256": "9e424e12dde4803ec10afd0a46e9d7777f5a41019c776178329685131ec66ad7",
+      "bytes": 16190,
+      "motion": "appoint",
+      "reduced": true,
+      "t": 96
+    },
+    {
+      "file": "design/library/offices/review/motion-appoint-reduced-0128.png",
+      "sha256": "e03ef10e42a1b94a63520889b0c2183073e0f9f8f11cf551cd59474a51c0d9da",
+      "bytes": 16242,
+      "motion": "appoint",
+      "reduced": true,
+      "t": 128
+    },
+    {
+      "file": "design/library/offices/review/motion-appoint-reduced-0160.png",
+      "sha256": "c0e1f9516f7bc206c67dc85ef346172f7ae5a018835d48700c8dc7a00df217e7",
+      "bytes": 16196,
+      "motion": "appoint",
+      "reduced": true,
+      "t": 160
+    },
+    {
+      "file": "design/library/offices/review/motion-block-reduced-0000.png",
+      "sha256": "c1254c1883a33c0f79efe5b2a01288c552112455966a6c66aa5aab5d72489bb8",
+      "bytes": 14767,
+      "motion": "block",
+      "reduced": true,
+      "t": 0
+    },
+    {
+      "file": "design/library/offices/review/motion-block-reduced-0032.png",
+      "sha256": "6717725b8be363d77831bd20940563e7f4e51f866016dc7136e1cd1c0c0341af",
+      "bytes": 15947,
+      "motion": "block",
+      "reduced": true,
+      "t": 32
+    },
+    {
+      "file": "design/library/offices/review/motion-block-reduced-0064.png",
+      "sha256": "39f2e88eb8c766fabf97e417045a55810631b029c492ef6e186f048c42b67b40",
+      "bytes": 16039,
+      "motion": "block",
+      "reduced": true,
+      "t": 64
+    },
+    {
+      "file": "design/library/offices/review/motion-block-reduced-0096.png",
+      "sha256": "0a62f466af0b060ead8d577f6547029684545601d6353a84000644f729312aa6",
+      "bytes": 16180,
+      "motion": "block",
+      "reduced": true,
+      "t": 96
+    },
+    {
+      "file": "design/library/offices/review/motion-block-reduced-0128.png",
+      "sha256": "3e6a1b18f1e7d84d9832f91486500f512317aa513ff75829486ede19e75335de",
+      "bytes": 16219,
+      "motion": "block",
+      "reduced": true,
+      "t": 128
+    },
+    {
+      "file": "design/library/offices/review/motion-block-reduced-0160.png",
+      "sha256": "e5af07d4b07aa21738bb4f4abbaf4172f19f38ff5167b836ec477bdd225a06e9",
+      "bytes": 16033,
+      "motion": "block",
+      "reduced": true,
+      "t": 160
+    },
+    {
+      "file": "design/library/offices/review/motion-expire-reduced-0000.png",
+      "sha256": "1b5b9c79ab72a6aaddbdb845d64df64455a05b9f57966335f17c7cf65b17c267",
+      "bytes": 15855,
+      "motion": "expire",
+      "reduced": true,
+      "t": 0
+    },
+    {
+      "file": "design/library/offices/review/motion-expire-reduced-0032.png",
+      "sha256": "4902901dd37d4b6d77b3c1dc124a533b9728c743093075f2a7e84aa517000169",
+      "bytes": 16094,
+      "motion": "expire",
+      "reduced": true,
+      "t": 32
+    },
+    {
+      "file": "design/library/offices/review/motion-expire-reduced-0064.png",
+      "sha256": "23f09e2501a1479c1ea98210b19507c3e2252b20a3774e4ee17817298ed48791",
+      "bytes": 16066,
+      "motion": "expire",
+      "reduced": true,
+      "t": 64
+    },
+    {
+      "file": "design/library/offices/review/motion-expire-reduced-0096.png",
+      "sha256": "c884c9e243754b84779224fa8783477d6d35b7ba140831ec84424629111bf5b2",
+      "bytes": 16035,
+      "motion": "expire",
+      "reduced": true,
+      "t": 96
+    },
+    {
+      "file": "design/library/offices/review/motion-expire-reduced-0128.png",
+      "sha256": "a702c5a8163a2a01b82d174375701f73cc426f3b99163c5cae9d96f398d7fdd9",
+      "bytes": 16004,
+      "motion": "expire",
+      "reduced": true,
+      "t": 128
+    },
+    {
+      "file": "design/library/offices/review/motion-expire-reduced-0160.png",
+      "sha256": "b0fe78747d8602d177aed2dfddfcbab921a860b141796025252b8b328b121d52",
+      "bytes": 15019,
+      "motion": "expire",
+      "reduced": true,
+      "t": 160
+    }
+  ],
+  "problems": []
+}
