@@ -1,0 +1,55 @@
+{
+  "tool": "design/tools/cinematic-render.mjs",
+  "pilot": "private-talk",
+  "version": "cinematic-private-talk-0.1.0",
+  "surface": "phone",
+  "variant": "full",
+  "stage": "design/cinematic/stage.html?pilot=private-talk&surface=phone&variant=full&beds=4&w=390&h=844&case=exit",
+  "size": [
+    390,
+    844
+  ],
+  "deviceScale": 1.5,
+  "fixture": {
+    "pair": [
+      1,
+      5
+    ],
+    "case": "exit",
+    "s2": "approved, unchanged"
+  },
+  "browser": "Chromium 141.0.7390.37",
+  "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+  "outputs": [
+    {
+      "kind": "video",
+      "file": "design/cinematic/exports/private-talk/review/phone390-s2-exit.mp4",
+      "sha256": "4de8c35d9c5fcb239b50fd91f6b29ab7c67503c6f5fdcdc5f295d918f02eb501",
+      "bytes": 245020,
+      "fps": 30,
+      "frames": 77,
+      "durationMs": 2530,
+      "from": 0,
+      "to": 2530,
+      "audio": "design/cinematic/exports/private-talk/audio/private-talk-exit.cues.wav"
+    },
+    {
+      "kind": "preview",
+      "file": "design/cinematic/exports/private-talk/review/phone390-s2-exit.preview.webp",
+      "sha256": "c1645a542ae225493503475b0ead046eed90d62bfe320251cf20ceeb9afa95e5",
+      "bytes": 56014
+    },
+    {
+      "kind": "poster",
+      "file": "design/cinematic/exports/private-talk/review/phone390-s2-exit.poster.webp",
+      "sha256": "c81008957d43790bcbdd3ef398b49a66e79795dec1be7bb9bfde64de6253147f",
+      "bytes": 108888,
+      "t": 1000
+    }
+  ],
+  "settling": {
+    "rule": "a frame is kept once two captures a redraw apart agree; pictures decode before their tiles draw",
+    "resettled": 0,
+    "unsettled": []
+  }
+}

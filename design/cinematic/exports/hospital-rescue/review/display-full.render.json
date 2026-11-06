@@ -1,0 +1,54 @@
+{
+  "tool": "design/tools/cinematic-render.mjs",
+  "pilot": "hospital-rescue",
+  "version": "cinematic-hospital-rescue-0.1.0",
+  "surface": "display",
+  "variant": "full",
+  "stage": "design/cinematic/stage.html?pilot=hospital-rescue&surface=display&variant=full&beds=4",
+  "size": [
+    1920,
+    1080
+  ],
+  "deviceScale": 0.6667,
+  "fixture": {
+    "subject": 2,
+    "berth": "H1",
+    "fit": 1,
+    "inset": "above",
+    "leaves": true
+  },
+  "browser": "Chromium 141.0.7390.37",
+  "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+  "outputs": [
+    {
+      "kind": "video",
+      "file": "design/cinematic/exports/hospital-rescue/review/display-full.mp4",
+      "sha256": "f01cb3dfe33abb11154739fba4ba9f5169fcb58dfada78290031c1595a727a79",
+      "bytes": 453305,
+      "fps": 30,
+      "frames": 187,
+      "durationMs": 6200,
+      "from": 0,
+      "to": 6200,
+      "audio": "design/cinematic/exports/hospital-rescue/audio/hospital-rescue-full.cues.wav"
+    },
+    {
+      "kind": "preview",
+      "file": "design/cinematic/exports/hospital-rescue/review/display-full.preview.webp",
+      "sha256": "18ba030c855d683879c26229edbeaf2f66c45790655fa43e336ccf60c0e37576",
+      "bytes": 161238
+    },
+    {
+      "kind": "poster",
+      "file": "design/cinematic/exports/hospital-rescue/review/display-full.poster.webp",
+      "sha256": "ce91a50fb31de6bf8bc42a3cb12d7ef2e1b41dc74c0ee890766804ae33200c65",
+      "bytes": 103906,
+      "t": 3800
+    }
+  ],
+  "settling": {
+    "rule": "a frame is kept once two captures a redraw apart agree; pictures decode before their tiles draw",
+    "resettled": 7,
+    "unsettled": []
+  }
+}

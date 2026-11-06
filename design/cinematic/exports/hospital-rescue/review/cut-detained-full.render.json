@@ -1,0 +1,53 @@
+{
+  "tool": "design/tools/cinematic-render.mjs",
+  "pilot": "hospital-rescue",
+  "version": "cinematic-hospital-rescue-0.1.0",
+  "surface": "cut",
+  "variant": "full",
+  "stage": "design/cinematic/stage.html?pilot=hospital-rescue&surface=cut&variant=full&beds=4&case=detained",
+  "size": [
+    1920,
+    1080
+  ],
+  "deviceScale": 0.6667,
+  "fixture": {
+    "subject": 8,
+    "berth": "H2",
+    "destination": "jail J1",
+    "detained": true
+  },
+  "browser": "Chromium 141.0.7390.37",
+  "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+  "outputs": [
+    {
+      "kind": "video",
+      "file": "design/cinematic/exports/hospital-rescue/review/cut-detained-full.mp4",
+      "sha256": "c8d828d0e09f548494ddc88b4a84a2ab2bff9f86323fdc4f4b079252454b2d40",
+      "bytes": 2000869,
+      "fps": 30,
+      "frames": 187,
+      "durationMs": 6200,
+      "from": 0,
+      "to": 6200,
+      "audio": "design/cinematic/exports/hospital-rescue/audio/hospital-rescue-full.cues.wav"
+    },
+    {
+      "kind": "preview",
+      "file": "design/cinematic/exports/hospital-rescue/review/cut-detained-full.preview.webp",
+      "sha256": "afbb15b59b518779bd19866cee0b8be7c6800a54180276986363543d02b349a7",
+      "bytes": 902510
+    },
+    {
+      "kind": "poster",
+      "file": "design/cinematic/exports/hospital-rescue/review/cut-detained-full.poster.webp",
+      "sha256": "35b17c0250efecf070947ab338c308798706b768a14deecd19a6d3b1973e8dd2",
+      "bytes": 72676,
+      "t": 6100
+    }
+  ],
+  "settling": {
+    "rule": "a frame is kept once two captures a redraw apart agree; pictures decode before their tiles draw",
+    "resettled": 5,
+    "unsettled": []
+  }
+}

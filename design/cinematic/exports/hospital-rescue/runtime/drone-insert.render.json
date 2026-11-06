@@ -1,0 +1,67 @@
+{
+  "tool": "design/tools/cinematic-render.mjs",
+  "pilot": "hospital-rescue",
+  "version": "cinematic-hospital-rescue-0.1.0",
+  "surface": "insert",
+  "variant": "full",
+  "stage": "design/cinematic/stage.html?pilot=hospital-rescue&surface=insert&variant=full&beds=4",
+  "size": [
+    1920,
+    1080
+  ],
+  "deviceScale": 1,
+  "fixture": null,
+  "browser": "Chromium 141.0.7390.37",
+  "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+  "outputs": [
+    {
+      "kind": "video",
+      "file": "design/cinematic/exports/hospital-rescue/runtime/drone-insert.mp4",
+      "sha256": "eccab99be11d1696a90d7a81270006819c05ccd218623df6e3f105cc743cc097",
+      "bytes": 412513,
+      "fps": 30,
+      "frames": 43,
+      "durationMs": 1400,
+      "from": 0,
+      "to": 1400,
+      "audio": null
+    },
+    {
+      "kind": "video",
+      "file": "design/cinematic/exports/hospital-rescue/runtime/drone-insert.webm",
+      "sha256": "077fe9dbb27b2d06684858273bbb34a0bff49d4a6f6754824f5aac5ac87b71a5",
+      "bytes": 185954,
+      "fps": 30,
+      "frames": 43,
+      "durationMs": 1400,
+      "from": 0,
+      "to": 1400,
+      "audio": null
+    },
+    {
+      "kind": "preview",
+      "file": "design/cinematic/exports/hospital-rescue/runtime/drone-insert.preview.webp",
+      "sha256": "107ec7a5be8e93d79c7499ce4607fe564644c8b15110abac12470a198377a84a",
+      "bytes": 58024
+    },
+    {
+      "kind": "poster",
+      "file": "design/cinematic/exports/hospital-rescue/runtime/drone-insert.poster.png",
+      "sha256": "e1bcf16befa2235376ef7fc6e3234ffec8d83332478d58f817be4a87388316ac",
+      "bytes": 1543854,
+      "t": 900
+    },
+    {
+      "kind": "poster",
+      "file": "design/cinematic/exports/hospital-rescue/runtime/drone-insert.poster.webp",
+      "sha256": "dffbce3adf4f2d0744905fd6c235f32aebb38ace5206992c73614cbcae764826",
+      "bytes": 26508,
+      "t": 900
+    }
+  ],
+  "settling": {
+    "rule": "a frame is kept once two captures a redraw apart agree; pictures decode before their tiles draw",
+    "resettled": 1,
+    "unsettled": []
+  }
+}

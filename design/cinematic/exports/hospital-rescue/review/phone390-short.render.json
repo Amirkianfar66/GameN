@@ -1,0 +1,54 @@
+{
+  "tool": "design/tools/cinematic-render.mjs",
+  "pilot": "hospital-rescue",
+  "version": "cinematic-hospital-rescue-0.1.0",
+  "surface": "phone",
+  "variant": "short",
+  "stage": "design/cinematic/stage.html?pilot=hospital-rescue&surface=phone&variant=short&beds=4&w=390&h=844",
+  "size": [
+    390,
+    844
+  ],
+  "deviceScale": 1.5,
+  "fixture": {
+    "subject": 2,
+    "berth": "H1",
+    "fit": 1,
+    "inset": "above",
+    "leaves": true
+  },
+  "browser": "Chromium 141.0.7390.37",
+  "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+  "outputs": [
+    {
+      "kind": "video",
+      "file": "design/cinematic/exports/hospital-rescue/review/phone390-short.mp4",
+      "sha256": "9b97c54c3100b926db46a7541c8d59ae70b62a78df282882c25e2565cc3d457a",
+      "bytes": 193523,
+      "fps": 30,
+      "frames": 49,
+      "durationMs": 1600,
+      "from": 0,
+      "to": 1600,
+      "audio": "design/cinematic/exports/hospital-rescue/audio/hospital-rescue-short.cues.wav"
+    },
+    {
+      "kind": "preview",
+      "file": "design/cinematic/exports/hospital-rescue/review/phone390-short.preview.webp",
+      "sha256": "afbba62378c0a549c5fb5b100edf564b0e858627cf1b432b4edd2eacb06177fc",
+      "bytes": 37206
+    },
+    {
+      "kind": "poster",
+      "file": "design/cinematic/exports/hospital-rescue/review/phone390-short.poster.webp",
+      "sha256": "2d4687c9b370be6a51ca9699c672d2f0b3dbd6076c9b60e3670cb16b23e2be8b",
+      "bytes": 109866,
+      "t": 900
+    }
+  ],
+  "settling": {
+    "rule": "a frame is kept once two captures a redraw apart agree; pictures decode before their tiles draw",
+    "resettled": 0,
+    "unsettled": []
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "tool": "design/tools/cinematic-render.mjs",
+  "pilot": "blackhole",
+  "version": "cinematic-blackhole-0.1.0",
+  "surface": "insert",
+  "variant": "full",
+  "stage": "design/cinematic/stage.html?pilot=blackhole&surface=insert&variant=full&beds=4",
+  "size": [
+    1920,
+    1080
+  ],
+  "deviceScale": 1,
+  "fixture": null,
+  "browser": "Chromium 141.0.7390.37",
+  "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+  "outputs": [
+    {
+      "kind": "video",
+      "file": "design/cinematic/exports/blackhole/runtime/space-insert-titled.mp4",
+      "sha256": "3d4a14c81aaf1888bcf90732cc1c01e7faa3515d2f764486015c54c93fbbca53",
+      "bytes": 1239011,
+      "fps": 30,
+      "frames": 109,
+      "durationMs": 3600,
+      "from": 0,
+      "to": 3600,
+      "audio": null
+    },
+    {
+      "kind": "video",
+      "file": "design/cinematic/exports/blackhole/runtime/space-insert-titled.webm",
+      "sha256": "127273efe597068a2eb6aec536ba7c41503d11e863370c61c68b410ed580da52",
+      "bytes": 594145,
+      "fps": 30,
+      "frames": 109,
+      "durationMs": 3600,
+      "from": 0,
+      "to": 3600,
+      "audio": null
+    },
+    {
+      "kind": "preview",
+      "file": "design/cinematic/exports/blackhole/runtime/space-insert-titled.preview.webp",
+      "sha256": "04225131f897d3169cb67a9813e2efdcffb084a6678471b45a4029d337fe7028",
+      "bytes": 141778
+    },
+    {
+      "kind": "poster",
+      "file": "design/cinematic/exports/blackhole/runtime/space-insert-titled.poster.png",
+      "sha256": "9a0e93efed794471364b20fcc36aa5ef35f3a257cb53bbcb49736a809f9dfca5",
+      "bytes": 1554681,
+      "t": 1600
+    },
+    {
+      "kind": "poster",
+      "file": "design/cinematic/exports/blackhole/runtime/space-insert-titled.poster.webp",
+      "sha256": "d8fd19c81d2c16472d0c423d44f3424a97c8dc49df53e275b05cf3812d18a5a5",
+      "bytes": 39608,
+      "t": 1600
+    }
+  ]
+}

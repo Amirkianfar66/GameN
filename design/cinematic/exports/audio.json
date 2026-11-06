@@ -1,0 +1,505 @@
+{
+  "tool": "design/tools/cinematic-audio.mjs",
+  "synthesis": "design/cinematic/lib/audio.mjs (procedural; no samples, recordings or licences)",
+  "rate": 48000,
+  "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+  "sheets": [
+    {
+      "pilot": "hospital-rescue",
+      "sheet": "full",
+      "lengthMs": 6600,
+      "cues": [
+        {
+          "at": 0,
+          "cue": "alert-blip"
+        },
+        {
+          "at": 400,
+          "cue": "alert-blip"
+        },
+        {
+          "at": 620,
+          "cue": "hatch-open"
+        },
+        {
+          "at": 800,
+          "cue": "drone-hum",
+          "until": 5600
+        },
+        {
+          "at": 1800,
+          "cue": "servo-unfold"
+        },
+        {
+          "at": 2200,
+          "cue": "scan-sweep",
+          "until": 3100
+        },
+        {
+          "at": 3100,
+          "cue": "charge-whine",
+          "until": 3500
+        },
+        {
+          "at": 3500,
+          "cue": "revival-thump"
+        },
+        {
+          "at": 3900,
+          "cue": "monitor-beep"
+        },
+        {
+          "at": 4300,
+          "cue": "monitor-beep"
+        },
+        {
+          "at": 4700,
+          "cue": "monitor-beep"
+        },
+        {
+          "at": 5100,
+          "cue": "monitor-beep"
+        },
+        {
+          "at": 5420,
+          "cue": "hatch-close"
+        },
+        {
+          "at": 4880,
+          "cue": "seat-settle",
+          "gain": 0.6
+        },
+        {
+          "at": 5160,
+          "cue": "footstep",
+          "gain": 0.55
+        },
+        {
+          "at": 5400,
+          "cue": "footstep",
+          "gain": 0.55
+        },
+        {
+          "at": 5640,
+          "cue": "footstep",
+          "gain": 0.55
+        }
+      ],
+      "files": [
+        {
+          "file": "design/cinematic/exports/hospital-rescue/audio/hospital-rescue-full.cues.wav",
+          "sha256": "c39d87c929fd605674dc27087524dd5fd55f2c19002889eea85cdb06409f5b2f",
+          "bytes": 633644
+        },
+        {
+          "file": "design/cinematic/exports/hospital-rescue/audio/hospital-rescue-full.cues.m4a",
+          "sha256": "8fe4a25614d2a63c49a2dbc5bc444b121e0d094f6edc0b4174784016229c7cf9",
+          "bytes": 95121
+        },
+        {
+          "file": "design/cinematic/exports/hospital-rescue/audio/hospital-rescue-full.cues.opus",
+          "sha256": "3729d3dd560e7945e3931bf1ae6cb39a254512622dad4abd145cf0f96eda22ca",
+          "bytes": 71907
+        }
+      ]
+    },
+    {
+      "pilot": "hospital-rescue",
+      "sheet": "short",
+      "lengthMs": 2000,
+      "cues": [
+        {
+          "at": 0,
+          "cue": "alert-blip"
+        },
+        {
+          "at": 100,
+          "cue": "drone-whoosh"
+        },
+        {
+          "at": 450,
+          "cue": "revival-thump"
+        },
+        {
+          "at": 800,
+          "cue": "monitor-beep"
+        },
+        {
+          "at": 1120,
+          "cue": "drone-whoosh"
+        }
+      ],
+      "files": [
+        {
+          "file": "design/cinematic/exports/hospital-rescue/audio/hospital-rescue-short.cues.wav",
+          "sha256": "28e4f090d3c2d7222490c446700618328e99b457708eef5bbff05603d0ec080f",
+          "bytes": 192044
+        },
+        {
+          "file": "design/cinematic/exports/hospital-rescue/audio/hospital-rescue-short.cues.m4a",
+          "sha256": "022dbc30749d39047d23ed107f23d91483c6c74d764c4e564e85fd1d6d6b791a",
+          "bytes": 25167
+        },
+        {
+          "file": "design/cinematic/exports/hospital-rescue/audio/hospital-rescue-short.cues.opus",
+          "sha256": "80a7741611bfc785cca1884a3430a4e24981c22758289bf5250815d6558c9f57",
+          "bytes": 23336
+        }
+      ]
+    },
+    {
+      "pilot": "hospital-rescue",
+      "sheet": "reduced",
+      "lengthMs": 2160,
+      "cues": [
+        {
+          "at": 0,
+          "cue": "alert-blip"
+        },
+        {
+          "at": 800,
+          "cue": "monitor-beep"
+        }
+      ],
+      "files": [
+        {
+          "file": "design/cinematic/exports/hospital-rescue/audio/hospital-rescue-reduced.cues.wav",
+          "sha256": "00c362fde2e7941a572ec66da950e3c2ccae2186a451e74a3bd9fa8561bddb30",
+          "bytes": 207404
+        },
+        {
+          "file": "design/cinematic/exports/hospital-rescue/audio/hospital-rescue-reduced.cues.m4a",
+          "sha256": "6ab714ea9b81555147790406027f28a64ff890e02e2413aa4232774a1cdaae1e",
+          "bytes": 7273
+        },
+        {
+          "file": "design/cinematic/exports/hospital-rescue/audio/hospital-rescue-reduced.cues.opus",
+          "sha256": "ec3435000fd39d55f6d173ab06d183f3bd8b567901f43b399d1164bf3792b005",
+          "bytes": 10719
+        }
+      ]
+    },
+    {
+      "pilot": "blackhole",
+      "sheet": "full",
+      "lengthMs": 2800,
+      "cues": [
+        {
+          "at": 120,
+          "cue": "reveal-sting",
+          "gain": 0.7
+        },
+        {
+          "at": 620,
+          "cue": "pass-whoosh",
+          "gain": 0.6
+        },
+        {
+          "at": 1350,
+          "cue": "void-rumble",
+          "until": 2350,
+          "gain": 0.5
+        }
+      ],
+      "files": [
+        {
+          "file": "design/cinematic/exports/blackhole/audio/blackhole-full.cues.wav",
+          "sha256": "87d8c7b55e2e9a0b18307505eb22b48d1ff8e273b09c40db40457346d19b00ab",
+          "bytes": 268844
+        },
+        {
+          "file": "design/cinematic/exports/blackhole/audio/blackhole-full.cues.m4a",
+          "sha256": "61307c13c540808c203af0ea114dcc8b70eaf2cb2434abd0548d31fdc24aee1d",
+          "bytes": 39883
+        },
+        {
+          "file": "design/cinematic/exports/blackhole/audio/blackhole-full.cues.opus",
+          "sha256": "9e69854609807f7c5cefc55a73dea8df6646f36d8811d56dcce2bed4c85b3f20",
+          "bytes": 28702
+        }
+      ]
+    },
+    {
+      "pilot": "blackhole",
+      "sheet": "stage",
+      "lengthMs": 5600,
+      "cues": [
+        {
+          "at": 0,
+          "cue": "void-rumble",
+          "until": 4300
+        },
+        {
+          "at": 1050,
+          "cue": "reveal-sting"
+        },
+        {
+          "at": 2300,
+          "cue": "pass-whoosh"
+        },
+        {
+          "at": 3250,
+          "cue": "revival-thump",
+          "gain": 0.7
+        },
+        {
+          "at": 3800,
+          "cue": "ink-cut"
+        }
+      ],
+      "files": [
+        {
+          "file": "design/cinematic/exports/blackhole/audio/blackhole-stage.cues.wav",
+          "sha256": "8473a166903a09eec437e28a1cc5f51e2b361311d71af3e5d05da1c15d414e25",
+          "bytes": 537644
+        },
+        {
+          "file": "design/cinematic/exports/blackhole/audio/blackhole-stage.cues.m4a",
+          "sha256": "917feecf924e2c71c21307f9fc5766b958bedb0363941103bdbdd77f4db2859d",
+          "bytes": 70882
+        },
+        {
+          "file": "design/cinematic/exports/blackhole/audio/blackhole-stage.cues.opus",
+          "sha256": "324008845c36d74c98439905de4a050f47757aa5f068d1a91bc0c253bbf3e8f8",
+          "bytes": 50370
+        }
+      ]
+    },
+    {
+      "pilot": "blackhole",
+      "sheet": "reduced",
+      "lengthMs": 1840,
+      "cues": [
+        {
+          "at": 0,
+          "cue": "reveal-sting",
+          "gain": 0.6
+        }
+      ],
+      "files": [
+        {
+          "file": "design/cinematic/exports/blackhole/audio/blackhole-reduced.cues.wav",
+          "sha256": "238812deb247ac7860fd802e1be1110e766d1b888feb1f07b1e2b1d357737d57",
+          "bytes": 176684
+        },
+        {
+          "file": "design/cinematic/exports/blackhole/audio/blackhole-reduced.cues.m4a",
+          "sha256": "ed8dd4e3d332ad4fa6aec79312be0504d9179d36cda587f2aaa64ff6acfba9f6",
+          "bytes": 24916
+        },
+        {
+          "file": "design/cinematic/exports/blackhole/audio/blackhole-reduced.cues.opus",
+          "sha256": "013872da83ff11c75eda5b129de32e3eb13501cbc2946ca9c1d7c321065c55b3",
+          "bytes": 23997
+        }
+      ]
+    },
+    {
+      "pilot": "private-talk",
+      "sheet": "entrance",
+      "lengthMs": 5300,
+      "cues": [
+        {
+          "at": 0,
+          "cue": "ink-cut",
+          "gain": 0.5
+        },
+        {
+          "at": 880,
+          "cue": "footstep",
+          "gain": 0.7
+        },
+        {
+          "at": 1180,
+          "cue": "footstep",
+          "gain": 0.7
+        },
+        {
+          "at": 1250,
+          "cue": "door-slide"
+        },
+        {
+          "at": 1700,
+          "cue": "footstep",
+          "gain": 0.6
+        },
+        {
+          "at": 1990,
+          "cue": "footstep",
+          "gain": 0.6
+        },
+        {
+          "at": 2280,
+          "cue": "footstep",
+          "gain": 0.6
+        },
+        {
+          "at": 2150,
+          "cue": "footstep",
+          "gain": 0.6
+        },
+        {
+          "at": 2450,
+          "cue": "footstep",
+          "gain": 0.6
+        },
+        {
+          "at": 2750,
+          "cue": "footstep",
+          "gain": 0.6
+        },
+        {
+          "at": 2650,
+          "cue": "seat-settle"
+        },
+        {
+          "at": 2950,
+          "cue": "seat-settle"
+        },
+        {
+          "at": 3300,
+          "cue": "door-slide"
+        },
+        {
+          "at": 3560,
+          "cue": "door-seal"
+        },
+        {
+          "at": 3600,
+          "cue": "busy-chime"
+        }
+      ],
+      "files": [
+        {
+          "file": "design/cinematic/exports/private-talk/audio/private-talk-entrance.cues.wav",
+          "sha256": "bfea29776739199ba0ac89c7bb4e194f0af88218536ea96aaaf8eb3b65892f6c",
+          "bytes": 508844
+        },
+        {
+          "file": "design/cinematic/exports/private-talk/audio/private-talk-entrance.cues.m4a",
+          "sha256": "a0ddc28ecff9b0ba688703120c9b48c173c10ea718508011cde579c0c6b8d8c5",
+          "bytes": 49936
+        },
+        {
+          "file": "design/cinematic/exports/private-talk/audio/private-talk-entrance.cues.opus",
+          "sha256": "f710287c9fbeb5b8ab013ca0baca384e4f2937708f2c7e3f706eecce85798d27",
+          "bytes": 50683
+        }
+      ]
+    },
+    {
+      "pilot": "private-talk",
+      "sheet": "exit",
+      "lengthMs": 2930,
+      "cues": [
+        {
+          "at": 0,
+          "cue": "door-slide"
+        },
+        {
+          "at": 320,
+          "cue": "seat-settle"
+        },
+        {
+          "at": 600,
+          "cue": "footstep",
+          "gain": 0.6
+        },
+        {
+          "at": 880,
+          "cue": "footstep",
+          "gain": 0.6
+        },
+        {
+          "at": 1160,
+          "cue": "footstep",
+          "gain": 0.6
+        },
+        {
+          "at": 520,
+          "cue": "footstep",
+          "gain": 0.6
+        },
+        {
+          "at": 800,
+          "cue": "footstep",
+          "gain": 0.6
+        },
+        {
+          "at": 1080,
+          "cue": "footstep",
+          "gain": 0.6
+        },
+        {
+          "at": 1300,
+          "cue": "door-slide"
+        },
+        {
+          "at": 1560,
+          "cue": "door-seal"
+        },
+        {
+          "at": 1420,
+          "cue": "footstep",
+          "gain": 0.5
+        },
+        {
+          "at": 1720,
+          "cue": "footstep",
+          "gain": 0.5
+        },
+        {
+          "at": 1900,
+          "cue": "footstep",
+          "gain": 0.5
+        }
+      ],
+      "files": [
+        {
+          "file": "design/cinematic/exports/private-talk/audio/private-talk-exit.cues.wav",
+          "sha256": "0956e0ad754eb2a04a845e35fac972bd06c42d1fcfa9237d078882e529a679e1",
+          "bytes": 281324
+        },
+        {
+          "file": "design/cinematic/exports/private-talk/audio/private-talk-exit.cues.m4a",
+          "sha256": "94bd2db784e2038413744e46135bec41ebdbd9641863b3092bde2880227e34e2",
+          "bytes": 37319
+        },
+        {
+          "file": "design/cinematic/exports/private-talk/audio/private-talk-exit.cues.opus",
+          "sha256": "d971f6552b9a02790db12e82eb6af38f2448622ce6f9d51d55632ea61fd97ff2",
+          "bytes": 32593
+        }
+      ]
+    },
+    {
+      "pilot": "private-talk",
+      "sheet": "reduced",
+      "lengthMs": 2400,
+      "cues": [
+        {
+          "at": 700,
+          "cue": "door-seal",
+          "gain": 0.6
+        }
+      ],
+      "files": [
+        {
+          "file": "design/cinematic/exports/private-talk/audio/private-talk-reduced.cues.wav",
+          "sha256": "5ccf4a5281bed6ee4eb8720dc74b2f2f5a2aeac0406dc8f4c7f76933e20e62c9",
+          "bytes": 230444
+        },
+        {
+          "file": "design/cinematic/exports/private-talk/audio/private-talk-reduced.cues.m4a",
+          "sha256": "5ec948853b62517467aa8e00f9728e8d7c232318cfc46e1dfcc0ac6c76b4ccac",
+          "bytes": 5341
+        },
+        {
+          "file": "design/cinematic/exports/private-talk/audio/private-talk-reduced.cues.opus",
+          "sha256": "52594ad4adce7ac669588b9bc5610b817a9fb0fff08c32ae09131c774a2da3ed",
+          "bytes": 8488
+        }
+      ]
+    }
+  ]
+}
