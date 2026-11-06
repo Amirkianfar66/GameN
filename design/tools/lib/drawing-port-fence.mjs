@@ -10,6 +10,8 @@ import ts from 'typescript';
 export const REVIEWED_DRAWING_PORTS = JSON.parse(readFileSync(new URL('./reviewed-drawing-ports.json', import.meta.url), 'utf8'));
 export const contentSha256 = value => createHash('sha256').update(value).digest('hex');
 export const CANDIDATE_DRAWING_POLICY = 'design/releases/board-v2-four-drawing-approval.json';
+export const PLANET_DRAWING_POLICY = 'design/releases/planet-drawing-approval.json';
+const PLANET_DRAWING_POLICY_SHA256 = '840ce96b9337f2d7e43bf331216d01754062900528e915bc9efa7f2a6a3440f1';
 const CANDIDATE_DRAWING_POLICY_SHA256 = '5ef70aa1da1f78b81ca945485b08083aa70856bb9b482df9b3b4e131c23869a0';
 
 // Absence means a historical-only checkout. A present supplement must match the
@@ -25,6 +27,13 @@ export function readDrawingPolicy(root) {
   }
   const policy = { ...REVIEWED_DRAWING_PORTS, requiredFiles: supplement.requiredFiles, abilityProseFiles: supplement.abilityProseFiles };
   for (const key of ['ports', 'metadataFiles', 'buildFiles', 'sourceHashes']) policy[key] = { ...policy[key], ...supplement[key] };
+  let planetBytes;
+  try { planetBytes = readFileSync(resolve(root, PLANET_DRAWING_POLICY)); }
+  catch (error) { if (error.code === 'ENOENT') return policy; throw error; }
+  if (contentSha256(planetBytes) !== PLANET_DRAWING_POLICY_SHA256) throw Error('Planet drawing approval content hash differs');
+  const planet = JSON.parse(planetBytes);
+  if (planet.parentApprovalSha256 !== CANDIDATE_DRAWING_POLICY_SHA256) throw Error('Planet drawing parent approval differs');
+  for (const key of ['metadataFiles', 'buildFiles']) policy[key] = { ...policy[key], ...planet[key] };
   return policy;
 }
 const DRAWING_DIRECTORIES = ['apps/game/hosted/scene-drawing/', 'apps/game/hosted/board-v2-drawing/'];
