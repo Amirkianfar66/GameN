@@ -1,0 +1,140 @@
+// mothership:dev-only
+//
+// The role reveal films' shared art, in the Comic Noir kit (design/cinematic/lib/comic.mjs): a page of
+// the ship's crew file at night. The light falls through a viewport's slats as it would through a
+// detective's blinds, the crew are ink silhouettes, the panels have hard borders and a gutter, and
+// the role's name is stamped in Ink Block lettering. Pure string builders: nothing here reads a game
+// fact; the film passes in what to draw and where. Every role shares these parts, so every film keeps
+// one palette and one brightness (docs/design/cinematic/role-reveal.md, section 1).
+
+import { INK, PAPER, AMBER, fxDefs, panelFrame, stars, vignette } from '../../lib/comic.mjs';
+import { clamp01, lerp, rand } from '../../lib/ease.mjs';
+import { lettering } from '../../lib/lettering.mjs';
+
+/** The page's palette: night ink, ship steel, paper light and the amber of focus. No team colour. */
+export const NIGHT = Object.freeze({
+  deep: '#07090F', wall: '#0E1420', steel: '#3A4A6B', steelDark: '#232E44', slat: '#E9F1FF',
+  paper: PAPER, ink: INK, amber: AMBER, caption: '#F3E3A6', rim: '#FFF3C4',
+});
+
+const f = v => Number((+v).toFixed(2));
+
+/** The defs every film uses, under `prefix`: the comic effects, an ink silhouette and a paper rim light. */
+export function revealDefs(prefix) {
+  return fxDefs(prefix)
+    + `<defs><filter id="${prefix}-sil" x="-10%" y="-10%" width="120%" height="120%"><feFlood flood-color="${NIGHT.deep}"/><feComposite in2="SourceAlpha" operator="in"/></filter>`
+    + `<filter id="${prefix}-rim" x="-20%" y="-20%" width="140%" height="140%"><feFlood flood-color="${NIGHT.rim}"/><feComposite in2="SourceAlpha" operator="in"/><feGaussianBlur stdDeviation="1.4"/></filter></defs>`;
+}
+
+/**
+ * Starlight through a viewport's slats: bars of pale light across the dark page, the stars showing
+ * inside them only. v 0..1 sweeps the bars in from the left; `dim` 0..1 darkens them (under the panels).
+ */
+export function slatsSvg(prefix, { width, height, v, dim = 0, t = 0 }) {
+  const id = `${prefix}-slats`;
+  const angle = -24, gap = 132, bar = 46;
+  const reach = Math.hypot(width, height) * 1.2;
+  const count = Math.ceil(reach / gap) + 2;
+  // A clipPath takes shapes, not groups: each bar carries the slant itself.
+  const turn = `rotate(${angle} ${f(width / 2)} ${f(height / 2)})`;
+  let bars = '';
+  for (let i = -2; i < count; i += 1) {
+    const y = i * gap - reach * 0.2;
+    bars += `<rect x="${f(-reach * 0.2)}" y="${f(y)}" width="${f(reach * clamp01(v) * 1.4)}" height="${bar}" transform="${turn}"/>`;
+  }
+  const field = `<rect width="${width}" height="${height}" fill="${NIGHT.deep}"/>`;
+  const light = 0.26 * (1 - 0.7 * dim);
+  return field
+    + `<defs><clipPath id="${id}">${bars}</clipPath>`
+    // The light falls from the viewport at the upper left and dies away across the page.
+    + `<radialGradient id="${id}-g" gradientUnits="userSpaceOnUse" cx="${f(width * 0.18)}" cy="${f(height * 0.12)}" r="${f(Math.hypot(width, height) * 0.95)}"><stop offset="0" stop-color="${NIGHT.slat}" stop-opacity="${f(light * 1.5)}"/><stop offset="0.45" stop-color="${NIGHT.slat}" stop-opacity="${f(light * 0.75)}"/><stop offset="1" stop-color="${NIGHT.slat}" stop-opacity="${f(light * 0.12)}"/></radialGradient></defs>`
+    + `<g clip-path="url(#${id})"><rect width="${width}" height="${height}" fill="url(#${id}-g)"/>`
+    + `<g opacity="${f(0.9 * (1 - 0.6 * dim))}">${stars({ w: width, h: height, count: 160, seed: 37, t })}</g></g>`
+    + `<rect width="${width}" height="${height}" fill="url(#${prefix}-dots)" opacity="${f(0.16 + 0.24 * dim)}"/>`;
+}
+
+/**
+ * The role's own device in its hand (the role card's reviewed held-device art, 120 x 140), rising
+ * into the light: `rise` 0..1 from below the page, `rim` 0..1 the paper light along its edge.
+ */
+export function deviceHandSvg(prefix, { href, x, y, scale, rise, rim, opacity = 1 }) {
+  const w = 120 * scale, h = 140 * scale;
+  const dy = (1 - rise) * h * 0.85;
+  const at = `translate(${f(x)} ${f(y + dy)})`;
+  const image = `<image href="${href}" x="0" y="0" width="${f(w)}" height="${f(h)}" preserveAspectRatio="none"/>`;
+  // The art's sleeve ends at its box: in the page the arm falls away into shadow below the fist, so
+  // only the hand and the device are lit (noir), and no cut edge shows.
+  const fade = `${prefix}-arm-fade`;
+  return `<defs><linearGradient id="${fade}-g" x1="0" y1="0" x2="0" y2="1"><stop offset="0.5" stop-color="#FFFFFF"/><stop offset="0.8" stop-color="#FFFFFF" stop-opacity="0.25"/><stop offset="0.97" stop-color="#FFFFFF" stop-opacity="0"/></linearGradient>`
+    + `<mask id="${fade}" maskUnits="userSpaceOnUse" x="${f(-w * 0.2)}" y="${f(-h * 0.2)}" width="${f(w * 1.4)}" height="${f(h * 1.4)}"><rect x="${f(-w * 0.2)}" y="${f(-h * 0.2)}" width="${f(w * 1.4)}" height="${f(h * 1.2)}" fill="url(#${fade}-g)"/></mask></defs>`
+    + `<g transform="${at}" opacity="${f(opacity)}"><g mask="url(#${fade})">`
+    + (rim > 0 ? `<g filter="url(#${prefix}-rim)" opacity="${f(0.85 * rim)}" transform="translate(${f(-5 * scale / 4)} ${f(-5 * scale / 4)})">${image}</g>` : '')
+    + image
+    + `<rect width="${f(w)}" height="${f(h)}" fill="url(#${prefix}-dots)" opacity="${f(0.16 * (1 - rim))}"/></g></g>`;
+}
+
+/** A pool of slat light behind the hand: where the light falls in the opener. */
+export function spotSvg(prefix, { cx, cy, rx, ry, v }) {
+  const g = `${prefix}-spot`;
+  return `<defs><radialGradient id="${g}"><stop offset="0" stop-color="${NIGHT.rim}" stop-opacity="${f(0.34 * v)}"/><stop offset="0.6" stop-color="${NIGHT.slat}" stop-opacity="${f(0.1 * v)}"/><stop offset="1" stop-color="${NIGHT.slat}" stop-opacity="0"/></radialGradient></defs>`
+    + `<ellipse cx="${f(cx)}" cy="${f(cy)}" rx="${f(rx)}" ry="${f(ry)}" fill="url(#${g})"/>`;
+}
+
+/**
+ * One comic panel at (x, y, w, h), its content drawn in local units (0..w, 0..h) and clipped to it.
+ * enter 0..1: the slam (scale from 1.16 and a side slide to rest, with an overshoot already in the
+ * value), tilt: the panel's rest angle. A shadow, an ink border with a paper keyline.
+ */
+export function panelSvg(prefix, { i, x, y, w, h, enter, slam = 1, tilt = 0, side = 1, content }) {
+  if (enter <= 0) return '';
+  const id = `${prefix}-panel-${i}`;
+  const s = lerp(1.16, 1, enter);
+  const dx = (1 - Math.min(1, enter)) * 70 * side;
+  const cx = x + w / 2, cy = y + h / 2;
+  const opacity = clamp01(slam / 0.35);
+  return `<g opacity="${f(opacity)}" transform="translate(${f(cx + dx)} ${f(cy)}) rotate(${f(tilt)}) scale(${f(s)}) translate(${f(-w / 2)} ${f(-h / 2)})">`
+    + `<defs><clipPath id="${id}"><rect x="0" y="0" width="${f(w)}" height="${f(h)}"/></clipPath></defs>`
+    + `<rect x="10" y="12" width="${f(w)}" height="${f(h)}" fill="${NIGHT.deep}" opacity="0.85"/>`
+    + `<g clip-path="url(#${id})"><rect width="${f(w)}" height="${f(h)}" fill="${NIGHT.wall}"/>${content}`
+    + vignette(`${id}-v`, { width: w, height: h, strength: 0.55 })
+    + `</g>${panelFrame({ x: 0, y: 0, w, h, border: 7, shadow: false })}</g>`;
+}
+
+/** A comic sound word in Ink Block lettering (decorative: a word drawn here is never its only meaning). */
+export function sfxSvg(text, { x, y, size = 56, rotate = -6, pop = 1, opacity = 1, fill = AMBER }) {
+  if (opacity <= 0 || pop <= 0) return '';
+  return lettering(text, { x, y, size, rotate, scale: lerp(0.6, 1, Math.min(1, pop)), opacity, fill, skew: -10 });
+}
+
+/**
+ * The title plate: a paper file tab, the role's name stamped on it in Ink Block lettering and the
+ * team's emblem (library group 7's) small in its corner. stamp 0..1 (with its overshoot), settle 0..1.
+ * Returns { svg, box } (box: the plate's rectangle, for the page text under it).
+ */
+export function titlePlateSvg(prefix, { name, emblemHref, cx, cy, width, stamp, settle }) {
+  if (stamp <= 0) return { svg: '', box: null };
+  const size = Math.min(118, (width - 120) / (name.length * 0.82));
+  const h = size * 1.75 + 70;
+  const s = lerp(1.32, 1, Math.min(1, stamp));
+  const rot = lerp(-7, -3, clamp01(stamp));
+  const x = -width / 2, y = -h / 2;
+  const plate = `<rect x="${f(x + 12)}" y="${f(y + 14)}" width="${f(width)}" height="${f(h)}" fill="${NIGHT.deep}" opacity="0.8"/>`
+    + `<rect x="${f(x)}" y="${f(y)}" width="${f(width)}" height="${f(h)}" fill="${NIGHT.paper}" stroke="${INK}" stroke-width="7"/>`
+    + `<rect x="${f(x)}" y="${f(y)}" width="${f(width)}" height="${f(h)}" fill="url(#${prefix}-dots)" opacity="0.12"/>`
+    + `<path d="M${f(x + 26)} ${f(y + 30)}H${f(x + width - 26)}M${f(x + 26)} ${f(y + h - 30)}H${f(x + width - 26)}" stroke="${INK}" stroke-width="3" opacity="0.55"/>`;
+  const word = lettering(name, { x: 0, y: 6, size, skew: -6, fill: AMBER, highlight: '#FFF3C4', tracking: 1.4 });
+  const emblem = emblemHref ? `<g transform="translate(${f(x + width - 78)} ${f(y - 34)}) rotate(8)"><circle cx="34" cy="34" r="38" fill="${NIGHT.paper}" stroke="${INK}" stroke-width="6"/><image href="${emblemHref}" x="6" y="6" width="56" height="56"/></g>` : '';
+  const svg = `<g transform="translate(${f(cx)} ${f(cy)}) rotate(${f(rot)}) scale(${f(s)})" opacity="${f(clamp01(stamp * 3))}">${plate}${word}${emblem}</g>`
+    + (settle > 0 && settle < 1 ? '' : '');
+  return { svg, box: [cx - width / 2, cy - h / 2, width, h] };
+}
+
+/** A caption box (the comic's yellow narration box); its words are page text set over it by the stage. */
+export function captionBoxSvg({ x, y, w, h, opacity }) {
+  if (opacity <= 0) return '';
+  return `<g opacity="${f(opacity)}"><rect x="${f(x + 7)}" y="${f(y + 8)}" width="${f(w)}" height="${f(h)}" fill="${NIGHT.deep}" opacity="0.8"/>`
+    + `<rect x="${f(x)}" y="${f(y)}" width="${f(w)}" height="${f(h)}" fill="${NIGHT.caption}" stroke="${INK}" stroke-width="5"/></g>`;
+}
+
+/** A deterministic flicker 0..1 for a lamp: slow (under 2 Hz) and never a full-contrast flash. */
+export const lampFlicker = (t, seed = 1) => 0.62 + 0.38 * (0.5 + 0.5 * Math.sin((t / 1000) * Math.PI * 2 * 1.2 + rand(seed, 0) * 6.28));

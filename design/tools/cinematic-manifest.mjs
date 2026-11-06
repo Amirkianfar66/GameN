@@ -69,11 +69,12 @@ const SOURCES = [
   'design/cinematic/lib/ease.mjs', 'design/cinematic/lib/comic.mjs', 'design/cinematic/lib/lettering.mjs', 'design/cinematic/lib/scene.mjs', 'design/cinematic/lib/audio.mjs', 'design/cinematic/lib/stage-kit.mjs', 'design/cinematic/lib/visibility.mjs',
   'design/cinematic/pilots/index.mjs',
   ...['hospital-rescue/film.mjs', 'hospital-rescue/art.mjs', 'hospital-rescue/compose.mjs', 'hospital-rescue/stage.mjs', 'blackhole/film.mjs', 'blackhole/art.mjs', 'blackhole/compose.mjs', 'blackhole/stage.mjs', 'private-talk/film.mjs', 'private-talk/compose.mjs', 'private-talk/stage.mjs', 'eject/film.mjs', 'eject/compose.mjs', 'eject/stage.mjs'].map(p => `design/cinematic/pilots/${p}`),
+  ...['film.mjs', 'art.mjs', 'doctor.mjs', 'roles.mjs', 'copy.mjs', 'compose.mjs', 'stage.mjs'].map(p => `design/cinematic/pilots/role-reveal/${p}`),
   'design/cinematic/catalogue/catalogue.mjs',
   'design/tools/cinematic-inventory.mjs', 'design/tools/cinematic-contact.mjs', 'design/tools/cinematic-render.mjs', 'design/tools/cinematic-exports.mjs', 'design/tools/cinematic-audio.mjs', 'design/tools/cinematic-manifest.mjs', 'design/tools/cinematic-docs.mjs', 'design/tools/cinematic-serve.mjs',
 ];
 
-const AUDIENCE = { 'hospital-rescue': 'public (RESCUED)', blackhole: 'public (BLACKHOLE_SYNCED)', 'private-talk': 'public pair and transitions (hackSession); no pair-private content', eject: 'public (the Captain\'s EJECT outcome: its kind and seatIds)' };
+const AUDIENCE = { 'hospital-rescue': 'public (RESCUED)', blackhole: 'public (BLACKHOLE_SYNCED)', 'private-talk': 'public pair and transitions (hackSession); no pair-private content', eject: 'public (the Captain\'s EJECT outcome: its kind and seatIds)', 'role-reveal': 'own phone only, in the role-reading stage (a dealt role: review renders only)' };
 
 const manifest = {
   version: 'cinematic-exports-0.1.0',
@@ -81,7 +82,7 @@ const manifest = {
   contract: 'protocol 3 candidate, packages/contracts/src/planet-game.ts at 79418e72dba99ba99afe047ecb97467fb5e73b62',
   classes: {
     runtime: 'identity-free: no player name, character, role, outcome, control or variable text; eligible as a prerendered runtime movie with its poster and animated alternative, after Integration review',
-    review: 'for review only, never a runtime asset: synthetic fixture identities drawn in (board-v2 review fixtures; a runtime draws its own match from the frame functions), or a study with no approved mount (the EJECT display cut and its exterior: no covering EJECT stage is approved)',
+    review: 'for review only, never a runtime asset: synthetic fixture identities drawn in (board-v2 review fixtures; a runtime draws its own match from the frame functions), or a role reveal film (it draws a dealt role; a client draws it live), or a study with no approved mount (the EJECT display cut and its exterior: no covering EJECT stage is approved)',
     stills: 'storyboard frames for the live-action studies (review only)',
     audio: 'public cue mixes, procedurally synthesized; a runtime plays the cue sheet itself under the device sound setting',
   },
@@ -148,7 +149,7 @@ const lines = [
   '',
   ...section('Runtime-eligible (identity-free)', 'No name, character, role, outcome, control or variable text. Each video has a poster (PNG and WebP) and a lightweight animated WebP alternative; none carries audio (a runtime plays the cue sheet under the device sound setting).', e => e.class === 'runtime'),
   ...section('Audio (public cue mixes)', 'Synthesized by `design/cinematic/lib/audio.mjs`; no samples, recordings or licences. WAV is the editable master; AAC (m4a) and Opus encodes for runtime use.', e => e.class === 'audio'),
-  ...section('Review renders', 'Synthetic fixtures from the board-v2 review page (Rigel, Mira, Echo; Vega and Orion), and the EJECT display cut and its identity-free exterior, a study with no approved mount (no covering EJECT stage is approved; S7 on the board is the runtime EJECT). Review only, never in the game: a runtime draws its own match from the frame functions.', e => e.class === 'review'),
+  ...section('Review renders', 'Synthetic fixtures from the board-v2 review page (Rigel, Mira, Echo; Vega and Orion), and the EJECT display cut and its identity-free exterior, a study with no approved mount (no covering EJECT stage is approved; S7 on the board is the runtime EJECT). The role reveal films\' renders draw a dealt role (the Doctor\'s pilot): a client draws each film live from its frame functions. Review only, never in the game: a runtime draws its own match from the frame functions.', e => e.class === 'review'),
   ...section('Storyboard stills', 'Full-size frames of the cinematic forms (the Rescue cut, the Blackhole stage cut, the capsule page) at the beats the live-action studies name.', e => e.class === 'stills'),
   '## Editable sources',
   '',

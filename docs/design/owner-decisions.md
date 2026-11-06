@@ -6,6 +6,38 @@ What the game owner decided about look, feel and presentation while working with
 
 The owner's messages are quoted as written.
 
+## 6 November 2026: a film for every role
+
+**A request, then an approval and a creative brief: after seeing their role, each player sees a short film for that role, of five to ten seconds. The Designer proposed a fixed seven seconds for every role, shared privacy rules and one pilot (the Doctor) first; the owner agreed and set the direction.**
+
+The owner wrote:
+
+> می خوام بازیکن ها بعد از دیدن نقش شون یک animation کوتاه ببین پس کلا به ازای هر role یک animation 5 to 10 ثانیه ای . نظرت برای هر Role چیه
+
+("I want players to see a short animation after seeing their role, so one animation of 5 to 10 seconds for each role. What is your idea for each role?")
+
+After the Designer's proposal (the same length, sound and palette for every role, own phone only, a pilot first):
+
+> یا کل طرح و ایده ات موافقم فقط دوست دارم ازتباط انیمشن هر نقش با نقش و کارایی اش و فضای space و sci fi بازی و روح نوآر کمیک بوک هماهگ باشه و به داستان بتزی و محتوا بخوره
+
+("I agree with your whole plan and idea. I only want each role's animation to match the role and what it does, the game's space and sci-fi setting and the noir comic-book spirit, and to fit the game's story and content.")
+
+| # | What it says | What it decides |
+| --- | --- | --- |
+| 1 | "one animation of 5 to 10 seconds for each role" | A film per role after the role card, inside the role-reading stage. The Designer's plan makes every film exactly 7 s with the same beats, so no length or rhythm tells a neighbour anything |
+| 2 | "I agree with your whole plan and idea" | The shared rules: own phone only, silent, one palette and brightness, every film shipped to every phone, a tap skips, never replayed on a reconnect, a reduced-motion form; the Doctor's pilot before the other eight |
+| 3 | each film matches "the role and what it does", "space and sci-fi", "the noir comic-book spirit" and "the game's story and content" | Every film is a page of the ship's crew file in a space-noir comic: the role's own device in the light of a viewport's slats, three panels of what the role does in the ship's own rooms, the role's name stamped on the file |
+
+### What the Designer did with it
+
+The storyboards for all nine roles and the Doctor's pilot are on the branch `claude/designer-role-reveal`, stacked on #184 ([docs/design/cinematic/role-reveal.md](cinematic/role-reveal.md); `design/cinematic/pilots/role-reveal/`).
+
+### What it does not settle
+
+- **The other eight films** are storyboards until the owner reviews the Doctor's pilot on a phone.
+- **The words** are proposals; the game's copy is Frontend's.
+- **Phones.** The pilot has been rendered in desktop Chromium only.
+
 ## 6 November 2026: the Blackhole's stage, the route window and seven corrections
 
 **Two timing decisions, P27 and P28, and seven focused corrections, given to the Designer with the latest reviewed Designer head (`ff7b689`, PR [Amirkianfar66/GameN#183](https://github.com/Amirkianfar66/GameN/pull/183)). The owner marked the timing decisions as not to be reopened.**
