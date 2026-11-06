@@ -12,22 +12,24 @@ import { END_COPY as C, listNumbers } from './copy.mjs';
 import { FRAMES, MOTION, motionEnd } from './motion.mjs';
 import { CONNECTION_STATES, END_STATES, SIDES, connectionState, endState, filmDecision } from './states.mjs';
 import { card, el, failed, loadArt, mountPage, player, stamp, strip, words } from '../review.mjs';
+import { seatIdOf, seatNumber } from '../seats.mjs';
 
 // ---------- the synthetic matches (labelled as such on the page) ----------
 
 const NAMES = ['Ada', 'Ben', 'Cleo', 'Dev', 'Eli', 'Fay', 'Gus', 'Hana', 'Ivo'];
-const who = n => `Player ${n}, ${NAMES[n - 1]}`;
+/** A seat in words, from its canonical id (the views carry ids; the words show numbers). */
+const who = id => `Player ${seatNumber(id)}, ${NAMES[seatNumber(id) - 1]}`;
 const ROSTER = {
   7: ['Insider', 'Undercover', 'Doctor', 'Hacker', 'Alien', 'Supplier', 'Blue Disabler'],
   8: ['Hacker', 'Insider', 'Alien', 'Blue Disabler', 'Undercover', 'Doctor', 'Red Disabler', 'Supplier'],
   9: ['Engineer', 'Doctor', 'Undercover', 'Alien', 'Insider', 'Red Disabler', 'Supplier', 'Hacker', 'Blue Disabler'],
 };
-const codeOf = roles => roles.map((role, i) => [role, i + 1]).filter(([role]) => ['Undercover', 'Alien', 'Insider', 'Doctor'].includes(role)).map(([, n]) => n);
+const codeOf = roles => roles.map((role, i) => [role, i + 1]).filter(([role]) => ['Undercover', 'Alien', 'Insider', 'Doctor'].includes(role)).map(([, n]) => seatIdOf(n));
 function view({ players = 7, phase = 'FINISHED', result = { winner: 'Blue', reason: 'ARRIVAL', alienCoWinner: false } }) {
   const roles = ROSTER[players];
   return {
     playerCount: players, round: 7, phase: { id: `r7-${phase}`, kind: phase, startedAt: 0, endsAt: null },
-    result, endReveal: phase === 'FINISHED' ? { roles: roles.map((role, i) => ({ seatId: i + 1, role })), code: codeOf(roles) } : null,
+    result, endReveal: phase === 'FINISHED' ? { roles: roles.map((role, i) => ({ seatId: seatIdOf(i + 1), role })), code: codeOf(roles) } : null,
   };
 }
 const fieldText = v => `${v.playerCount} players · ${v.phase.kind} · result ${v.result ? JSON.stringify(v.result).replace(/"/g, '') : 'null'} · endReveal ${v.endReveal ? `${v.endReveal.roles.length} roles, code [${v.endReveal.code.join(',')}]` : 'null'}`;
@@ -49,7 +51,7 @@ function reveal(s) {
     ...SIDES.filter(side => s.bySide[side].length).map(side => el('div', { class: `en-side en-side--${side.toLowerCase()}` },
       el('h4', {}, emblem(side), C.sides[side]),
       el('ol', { class: 'en-roles' }, s.bySide[side].map(roleCard)))),
-    el('div', { class: 'en-code' }, el('div', { class: 'en-code__plate', role: 'img', 'aria-label': C.code(listNumbers(s.code)) }, s.code.map(n => el('span', { 'aria-hidden': 'true' }, String(n)))), el('p', {}, C.code(listNumbers(s.code)))));
+    el('div', { class: 'en-code' }, el('div', { class: 'en-code__plate', role: 'img', 'aria-label': C.code(listNumbers(s.code.map(seatNumber))) }, s.code.map(id => el('span', { 'aria-hidden': 'true' }, String(seatNumber(id))))), el('p', {}, C.code(listNumbers(s.code.map(seatNumber))))));
 }
 /** The ending's strip for a state from endState(). */
 function endView(s) {

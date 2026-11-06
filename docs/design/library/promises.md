@@ -95,7 +95,7 @@ The term, as each side reads it (a giver's phone; a recipient's phone):
 | Officer Selection | "You will appoint Player 3, Cleo as Officer if you win the next Captain election." / "Player 8, Hana will appoint you as Officer if they win the next Captain election." |
 | Jail Vote | "You will vote to jail Player 5, Eli in Round 4's Jail vote." |
 | No Jail Vote (R13) | "You will not vote to jail Player 3, Cleo in Round 4's Jail vote." |
-| Meet in A / B (R13) | "You will be in Room A when Round 4's voting begins." |
+| Meet in A / B (the giver's place alone: confirmed by the owner) | "You will be in Room A when Round 4's voting begins." |
 
 Each card's Decided line names its opportunity:
 - **Captain Support:** "By the next Captain election, runoffs included."
@@ -108,6 +108,8 @@ Results:
 - **Fulfilled:** specific to the kind, naming the ballot or the place and never the outcome.
 - **Not fulfilled:** "Not fulfilled. This records what happened, not why, and it is not proof of a lie."
 - **Condition not met:** for Captain Support, the recipient was not a candidate. For Officer Selection, the giver was not elected Captain. For the others, "the opportunity it named did not happen."
+
+**Seat ids** (the owner's correction of 6 November 2026: "Keypads display player numbers but preserve canonical player IDs for Frontend commands"). Recipients and Jail Vote targets are the offer's canonical `seat-N` ids, in player-number order (`design/library/seats.mjs` `bySeat`); a card and a button show "Player N, Name" (`label()` reads the number with `seatNumber()`), and `OFFER_PROMISE` sends `{ recipientSeatId, targetSeatId }`, the ids. The review page's fixture uses canonical ids.
 
 ## Assets
 
@@ -177,9 +179,9 @@ None, for any state. A Promise is pair-private, and a sound would tell the table
 
 ## Contract requests
 
-- **R13** (new, Integration). A card must state exact terms, but three terms and one field have no stated sense:
+- **R13** (Integration). A card must state exact terms; two terms and one field still have no stated sense, and (b) is answered:
   - **(a) No Jail Vote:** it has no target. Does it rule out voting to jail the recipient, or any Jail ballot at all? The cards read "not against the recipient".
-  - **(b) Meet in A and Meet in B:** whose place decides at voting start, the giver's alone or both players'? The cards read the giver's.
+  - **(b) Meet in A and Meet in B:** answered by the owner (6 November 2026): the giver's place alone, as the cards read. "Your giver-only 'Meet in A/B' Promise wording is correct. Keep it; Backend and Frontend are correcting their mismatch." The words are unchanged, and the review page no longer marks them as waiting.
   - **(c) Election names:** `electionId` is opaque. Add the election's round so a card can name "Round 5's Captain election" rather than "the next Captain election".
   - **(d) `promiseQuota`:** does `true` mean used, or open? Until defined, the ledger reads the slots from the accepted records.
 - **R6** (existing, corrected after the owner's review of 6 November 2026): each Promise is evaluated at its own opportunity, not all at voting start. A meeting is decided when its round's voting begins after Sync. A Jail Vote or No Jail Vote is decided when its round's Jail vote closes. Captain Support is decided at the specified election, runoffs included. Officer Selection is decided at that election and its Officer appointment. Each status change must arrive with the view revision that closes its own opportunity, so the result plays once, then.

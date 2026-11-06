@@ -17,9 +17,12 @@
 // What the view does not settle (request R13): promiseQuota's booleans have no stated sense (a slot
 // used, or a slot open), so the quota is read from the records instead (a slot is used only by an
 // accepted Promise); NO_JAIL_VOTE has no target, and whether it means "not against the recipient"
-// or "no Jail ballot at all" is not stated; whose place decides a meeting is not stated; and an
-// electionId cannot be named for a person. None of these is guessed here: the state map carries
+// or "no Jail ballot at all" is not stated; and an electionId cannot be named for a person. Whose
+// place decides a meeting is settled by the owner (6 November 2026): the giver's alone, as the words
+// already read. None of these is guessed here: the state map carries
 // the contract's fields, and the words (copy.mjs) say only what the view says.
+
+import { bySeat } from '../seats.mjs';
 
 export const KINDS = Object.freeze(['CAPTAIN_SUPPORT', 'OFFICER_SELECTION', 'JAIL_VOTE', 'NO_JAIL_VOTE', 'MEET_A', 'MEET_B']);
 export const RESULTS = Object.freeze(['Fulfilled', 'Not fulfilled', 'Condition not met']);
@@ -97,8 +100,8 @@ export function composerState(view, { pending = null, rejected = {}, draft = nul
   if (refusal && refusal.phaseId === view.phase.id) return { state: 'refused', code: refusal.code, note };
   const o = offer(view, 'OFFER_PROMISE');
   if (!o) return { state: 'closed', note };
-  const recipients = [...o.targetSeatIds].sort((a, b) => a - b);
-  const targets = [...(o.promiseTargetSeatIds ?? [])].sort((a, b) => a - b);
+  const recipients = [...o.targetSeatIds].sort(bySeat);
+  const targets = [...(o.promiseTargetSeatIds ?? [])].sort(bySeat);
   const recipient = draft?.recipient ?? (recipients.length === 1 ? recipients[0] : null);
   const base = { recipients, targets, note };
   if (!draft?.kind || !KINDS.includes(draft.kind) || recipient === null || !recipients.includes(recipient)) return { ...base, state: 'choose', recipient };

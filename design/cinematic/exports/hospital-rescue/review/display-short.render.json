@@ -23,8 +23,8 @@
     {
       "kind": "video",
       "file": "design/cinematic/exports/hospital-rescue/review/display-short.mp4",
-      "sha256": "b0e406cbc6eee80e3ad822bfa3430f5af6e40b2e8adf4f9067f8bcea0568132f",
-      "bytes": 232563,
+      "sha256": "3c1d26a4d36cbefbc5a018fd2133447ad04036c31ad63b70e39687c88162fb00",
+      "bytes": 231504,
       "fps": 30,
       "frames": 49,
       "durationMs": 1600,
@@ -35,20 +35,20 @@
     {
       "kind": "preview",
       "file": "design/cinematic/exports/hospital-rescue/review/display-short.preview.webp",
-      "sha256": "2844b0b8e073338724f711e32e6bd3507f96e13c53cdae6160bfeb6ad96b0ced",
-      "bytes": 57050
+      "sha256": "e2566dafe9cab5fc5e6bc55f48f910a553fcdeaa6d16cc54a8d3dfbe1e4e2cf7",
+      "bytes": 54670
     },
     {
       "kind": "poster",
       "file": "design/cinematic/exports/hospital-rescue/review/display-short.poster.webp",
-      "sha256": "6468c82ca72b7aa4cd9c345a160de52f6f4c87bdc7e433185eede3f5f52d62e8",
-      "bytes": 101872,
+      "sha256": "d4fc03ca866d0f75ea3f51750dd18c0ac36a892a4c6f9f08da4a4e20e5498995",
+      "bytes": 102322,
       "t": 900
     }
   ],
   "settling": {
     "rule": "a frame is kept once two captures a redraw apart agree; pictures decode before their tiles draw",
-    "resettled": 3,
+    "resettled": 1,
     "unsettled": []
   }
 }

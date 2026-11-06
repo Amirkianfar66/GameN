@@ -22,7 +22,7 @@ import { AUDIO as BLACKHOLE_AUDIO, BEATS, boardFrame, displayFrame, filmEnd } fr
 import { insertSvg, overlaySvg } from '../../../design/cinematic/pilots/blackhole/compose.mjs';
 import { AUDIO as TALK_AUDIO, CASES as TALK_CASES, PAGE, exitEnd, pageEnd, pageFrame } from '../../../design/cinematic/pilots/private-talk/film.mjs';
 import { capsuleEnd } from '../../../design/board-v2/films/capsule.mjs';
-import { COVER_PHASES, DECISION_PHASES, mayCover, presentationIn } from '../../../design/cinematic/lib/visibility.mjs';
+import { COVER_PHASES, DECISION_PHASES, NO_RUNTIME_COVER, PRESENTATION_STAGES, mayCover, presentationIn, stageKindOf } from '../../../design/cinematic/lib/visibility.mjs';
 import { pageSvg } from '../../../design/cinematic/pilots/private-talk/compose.mjs';
 import { CATALOGUE, REQUESTS } from '../../../design/cinematic/catalogue/catalogue.mjs';
 import { CUES, mix } from '../../../design/cinematic/lib/audio.mjs';
@@ -47,7 +47,7 @@ test('Pilot 1 ends on its end in every variant on the snapshot\'s placement, and
   for (const berth of BERTHS) {
     for (const variant of HOSPITAL_VARIANTS) {
       const end = pilotEnd(variant);
-      // The snapshot places the patient outside the Hospital: released, gone from the berth, the playable figure back in colour.
+      // The snapshot places the patient outside the Hospital: released, gone from the berth (arrive: the cut's closing panel settles).
       const out = rescueCinematicFrame(end, berth, { variant });
       assert.equal(out.done, true);
       assert.equal(out.release.phase, 'gone');
@@ -367,7 +367,56 @@ test('a covering film plays only where nobody decides; in every other phase the 
   // The pilots' covering forms fit inside the stage they may cover: the capsule page inside the five-second result stage.
   assert.ok(mayCover('HACK_RESULT'));
   assert.ok(PAGE.entrance.end <= 5000 && PAGE.reduced.entrance.end <= 5000);
-  // The Rescue and the Blackhole arrive as a decision opens (the round's resolution, the Sync before
-  // the Jail vote), so their default everywhere is the board treatment; nothing assumes a stage of its own.
+  // The Rescue arrives as a decision opens (the round's resolution), so its default everywhere is the board treatment.
   for (const kind of ['JAIL_VOTE', 'NAV_CAPTAIN_CONFIRM', 'NAV_OFFICER_CONFIRM', 'NAV_TIE', 'CAPTAIN_ELECTION', 'PRE_TURN', 'ORDINARY_TURN']) assert.equal(presentationIn(kind), 'board', kind);
+});
+
+test('P27: the Blackhole\'s stage cut plays only in its own six-second stage, and never before Backend names that stage', () => {
+  const stage = PRESENTATION_STAGES.blackhole;
+  assert.equal(stage.decision, 'P27');
+  assert.equal(stage.durationMs, 6000);
+  assert.equal(stage.kind, null, 'missing contract field (R16): no phase kind yet');
+  assert.ok(!DECISION_PHASES.includes(stage.proposedKind) && !COVER_PHASES.includes(stage.proposedKind), 'the proposed name is a request, not a known phase');
+  // Missing field: without Backend's name nothing reaches the stage; the board treatment plays, in every phase.
+  for (const kind of [...DECISION_PHASES, ...COVER_PHASES, stage.proposedKind, null]) assert.equal(presentationIn(kind, { film: 'blackhole', surface: 'display' }), 'board', String(kind));
+  // With the name Backend publishes (whatever it is), only that phase is the stage, and only on the display.
+  const named = 'SOME_PUBLISHED_KIND';
+  assert.equal(stageKindOf('blackhole', named), named);
+  assert.deepEqual([...stage.surfaces], ['display']);
+  assert.equal(presentationIn(named, { film: 'blackhole', stageKind: named, surface: 'display' }), 'stage');
+  assert.equal(presentationIn(named, { film: 'blackhole', stageKind: named, surface: 'phone' }), 'board', 'phones play the board treatment in the stage');
+  assert.equal(presentationIn(named, { film: 'blackhole', stageKind: named }), 'board', 'no surface named: board (fail closed)');
+  for (const kind of [...DECISION_PHASES, ...COVER_PHASES]) assert.equal(presentationIn(kind, { film: 'blackhole', stageKind: named, surface: 'display' }), 'board', `the Blackhole covers in no other phase: ${kind}`);
+  // The stage cut fits inside the stage: it ends before the full 60-second Jail vote starts, and takes no time from it.
+  assert.ok(filmEnd('display', 'stage') <= stage.durationMs, `${filmEnd('display', 'stage')} ms`);
+  assert.ok(filmEnd('display', 'reduced') <= stage.durationMs && filmEnd('phone', 'full') <= stage.durationMs);
+  // No other film has a stage of its own.
+  assert.deepEqual(Object.keys(PRESENTATION_STAGES), ['blackhole']);
+  assert.equal(stageKindOf('eject', named), null);
+});
+
+test('no covering EJECT: the cut is a review study that nothing mounts; S7 on the board in every phase', () => {
+  assert.deepEqual([...NO_RUNTIME_COVER], ['eject']);
+  for (const kind of [...DECISION_PHASES, ...COVER_PHASES, 'SOME_PUBLISHED_KIND']) {
+    assert.equal(presentationIn(kind, { film: 'eject' }), 'board', kind);
+    assert.equal(presentationIn(kind, { film: 'eject', stageKind: kind, surface: 'display' }), 'board', `${kind}: no stage either`);
+  }
+});
+
+test('the Rescue never hides, greys or moves the patient\'s authoritative figure; at its own berth the film draws no second patient', async () => {
+  const { readFile } = await import('node:fs/promises');
+  const src = await readFile(new URL('../../../design/cinematic/pilots/hospital-rescue/stage.mjs', import.meta.url), 'utf8');
+  assert.doesNotMatch(src, /classList\.toggle\('v2-fig--away'/, 'never marked away');
+  assert.doesNotMatch(src, /visibility = playing/, 'never hidden while the film plays');
+  assert.doesNotMatch(src, /translate = arriving/, 'never moved');
+  for (const berth of BERTHS) {
+    for (const t of [600, 2400, 3600, 4800]) {
+      const frame = rescueCinematicFrame(t, berth, { variant: 'full', leaves: false });
+      if (frame.done) continue;
+      const own = filmItems(frame, { berthId: berth, character: 'c2', surface: 'board', prefix: 't', drawPatient: false });
+      assert.equal(own.filter(item => item.kind === 'figure' || item.kind === 'figure-front').length, 0, `${berth} ${t}: no second patient`);
+      const drawn = filmItems(frame, { berthId: berth, character: 'c2', surface: 'board', prefix: 't' });
+      assert.ok(drawn.length > own.length, `${berth} ${t}: only the figure is left out`);
+    }
+  }
 });

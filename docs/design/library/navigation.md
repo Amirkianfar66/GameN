@@ -40,9 +40,9 @@ Every state is a pure function of a view and of the client's own command memory.
 | --- | --- | --- |
 | `none` | no `privateNavigation` (not an office; Round 1 before the first election) | nothing |
 | `idle` | outside the navigation phases | the panel at rest, the place in words, the legend, "Only the Captain and the Officer see the course." |
-| `setting` | `NAV_TIE`, not offered the choice (the Captain) | "The course is being set." (the public strip's words) |
-| `tie` | `NAV_TIE`, offered `CHOOSE_NAV_DIRECTION` (the Officer) | both courses; the ask; Blue and Red buttons of the same weight |
-| `chosen` | the choice accepted in this phase (this client's receipt) | the chosen course; CHOSEN; "The Captain acknowledges it next." |
+| `setting` | the route-setting window (`NAV_TIE`; P28: every opportunity from Round 2, 15 s, tie or not), not offered the choice: the Captain always, the Officer when there is no genuine tie | "The course is being set." (the public strip's words) |
+| `tie` | the route-setting window, offered `CHOOSE_NAV_DIRECTION` (the eligible Officer, a genuine tie only) | both courses; the ask; Blue and Red buttons of the same weight |
+| `chosen` | the choice accepted in this phase (this client's receipt); it holds until the window's own end (an early choice never shortens it) | the chosen course; CHOSEN; "The Captain acknowledges it next." |
 | `confirm` | the office's own stage, offered `CONFIRM_NAVIGATION` | the course; "This round's course: Red."; the step in words; "Acknowledge course" |
 | `confirmed` | the acknowledgement accepted in this phase (this client's receipt) | CONFIRMED; "You acknowledged this round's course." |
 | `closed` | the office's own stage, no offer and no acceptance seen here (a reconnect, or the timeout) | "Your acknowledgement is closed for this round." (R11) |
@@ -185,15 +185,14 @@ No word names a total, a weight, a count, a tie or a margin. Only the Officer's 
 ## Contract requests
 
 - **R5** (existing): the panel derives a step from the previous view's position. Without one there is no step animation, only the place at rest.
-- **R10** (Integration, privacy):
-  - The rule says the Officer privately sees an undecided course, but `phase.kind: NAV_TIE` is in every view, and its 15 s stage runs only on a tie.
-  - The Captain's panel and the public strip draw it exactly as the acknowledgement stages. The phase kind and its timing still tell anyone.
-  - Ask: a neutral phase kind outside the Officer's view, or the owner's acceptance that a tie is public by its timing.
+- **R10** (answered by the owner, P28, 6 November 2026): "from Round 2, every navigation opportunity has the same full 15-second route-setting window. Only the eligible Officer receives controls for a genuine tie. Early selection cannot shorten the window. Public wording, animation, sound and timing must not reveal whether a tie occurred."
+  - The candidate's `NAV_TIE` phase then runs at every opportunity, so its kind and its timing say nothing. Its name no longer means a tie; Backend may rename it, and the state map follows the name it publishes (`ROUTE_WINDOW.kind`).
+  - The state map already met the rest: the strip and the Captain's panel read only `phase.kind`, never an offer or a choice; nothing public moves or sounds on the Officer's choice; the window ends at `phase.endsAt` (`routeWindowEnds()`), never earlier. A test runs four worlds (no tie, a tie open, a tie chosen early, a tie unanswered) and finds one public strip and one Captain's panel.
 - **R11** (Integration):
   - `privateNavigation.tieChoice` and `.confirmation` need a defined meaning.
   - Until then, an office that reconnects after acknowledging sees "closed", not "you acknowledged".
 
-All three are in the motion bible's request table (`cinematic-catalogue-0.3.0`).
+All three are in the motion bible's request table (`cinematic-catalogue-0.11.0`, which records R10's answer).
 
 ## Checks
 

@@ -138,13 +138,20 @@ export function releaseItems(frame, { berthId, character, prefix = 'r', detained
 }
 
 /** Every item of the frame in scene units: the ward without its subject is the caller's (wardItems()). */
-export function filmItems(frame, { berthId, character, surface, prefix = 'c', inset = null, fit = 1, detained = false, keepClear = [] }) {
+/**
+ * The film's items at a frame. drawPatient: false when the snapshot itself still places the patient at
+ * this berth: the board's own figure is the patient then, so the film draws no second one, only its
+ * effects around it (the owner's correction of 6 November 2026: the Rescue leaves the player's current
+ * authoritative figure and interaction target usable; the film never hides, greys or moves it).
+ */
+export function filmItems(frame, { berthId, character, surface, prefix = 'c', inset = null, fit = 1, detained = false, keepClear = [], drawPatient = true }) {
   const kit = fourBerthKit(berthId);
   if (frame.done) return [];
   const released = frame.release && frame.release.phase !== 'bed';
+  const patient = !drawPatient ? [] : released ? releaseItems(frame, { berthId, character, prefix: `${prefix}r`, detained }) : patientItems(frame, { berthId, character, prefix: `${prefix}p` });
   return [
     ...baseItems(frame.base, kit, { fit, inset, drone: frame.drone, prefix }),
-    ...(released ? releaseItems(frame, { berthId, character, prefix: `${prefix}r`, detained }) : patientItems(frame, { berthId, character, prefix: `${prefix}p` })),
+    ...patient,
     ...passItems(frame, { berthId, surface, prefix, keepClear }),
   ];
 }

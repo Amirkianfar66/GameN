@@ -108,10 +108,26 @@
       "text": "100%"
     },
     {
-      "file": "design/library/successor/review/w390-supply-a-recipient-at-the-supply-stage-1.png",
-      "sha256": "9141b2bfe1879bc7edaf4227b76503426096b6c6f2144d5b5aea6204babdc201",
-      "bytes": 24793,
-      "state": "supply: a recipient at the Supply stage (+1)",
+      "file": "design/library/successor/review/w390-supply-a-recipient-with-r15-s-delivery-marker-proposed.png",
+      "sha256": "95d14d1da181253e046ec96cc2697974a6a5588a5d245c6992171c35879b0de4",
+      "bytes": 30597,
+      "state": "supply: a recipient, with R15's delivery marker (proposed)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/successor/review/w390-supply-weapons-restored-by-an-actual-blackhole-sync-no-delivery.png",
+      "sha256": "97b33776e211af1cd21d03f7760c1efd6f1e4fe388855395ca7f3a7d06cddec4",
+      "bytes": 26280,
+      "state": "supply: weapons restored by an actual Blackhole Sync (no delivery)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/successor/review/w390-supply-weapons-grow-without-r15-s-marker-missing-field-no-receipt.png",
+      "sha256": "74d9dac99f9b778cd0e168b0dc088915ee4578e1b947179b7aed8e14d6925a36",
+      "bytes": 24400,
+      "state": "supply: weapons grow without R15's marker (missing field: no receipt)",
       "width": 390,
       "text": "100%"
     },
@@ -125,24 +141,24 @@
     },
     {
       "file": "design/library/successor/review/w390-admission-walk.png",
-      "sha256": "26affe110c03035f64ec5ad650de459ac8080f7c74ed5819e585cc97dd0f5afa",
-      "bytes": 27179,
+      "sha256": "48470377baa4e92ffe6825973614699414f91608fbd01e4bffbdf41dc0b3868e",
+      "bytes": 27074,
       "state": "admission: walk",
       "width": 390,
       "text": "100%"
     },
     {
       "file": "design/library/successor/review/w390-admission-snap.png",
-      "sha256": "4b6d27bd1318c1f8f38bfdc660912ddebd070c5802a4d2ecc71feba1596d4734",
-      "bytes": 23985,
+      "sha256": "793d5502662602ac1e1d0aee587c0c860d1b807b2544e9bd2ea008eaf960c31d",
+      "bytes": 23900,
       "state": "admission: snap",
       "width": 390,
       "text": "100%"
     },
     {
       "file": "design/library/successor/review/contact-w390.png",
-      "sha256": "7ad74800593f70b714c2ec1a8aec6b2de6874df7eb4f11bfc16e394f5ca8858e",
-      "bytes": 693438,
+      "sha256": "b07cadfb1c56c90f9df84b3ad87635836326b486f082a28496a55ad84d8846de",
+      "bytes": 744201,
       "kind": "contact",
       "width": 390,
       "text": "100%"
@@ -252,41 +268,57 @@
       "text": "100%"
     },
     {
-      "file": "design/library/successor/review/w320-supply-a-recipient-at-the-supply-stage-1.png",
-      "sha256": "b093bfcf7351bb9eb517eae58c1eba691505afffc2de6cc59e04473361178707",
-      "bytes": 25154,
-      "state": "supply: a recipient at the Supply stage (+1)",
+      "file": "design/library/successor/review/w320-supply-a-recipient-with-r15-s-delivery-marker-proposed.png",
+      "sha256": "9e77513b240383dfdfc5c4668c696e2b1a664d2626050945794c47ebef46d7ea",
+      "bytes": 30924,
+      "state": "supply: a recipient, with R15's delivery marker (proposed)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/successor/review/w320-supply-weapons-restored-by-an-actual-blackhole-sync-no-delivery.png",
+      "sha256": "f468769f075b0559b9f519ebee0accc887a3a1130bff97aef35a751fbd2e9bb8",
+      "bytes": 26602,
+      "state": "supply: weapons restored by an actual Blackhole Sync (no delivery)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/successor/review/w320-supply-weapons-grow-without-r15-s-marker-missing-field-no-receipt.png",
+      "sha256": "214354729786e7a0c89b37db1c9aec3fb12c9abd096abb76da258c7330707acf",
+      "bytes": 24023,
+      "state": "supply: weapons grow without R15's marker (missing field: no receipt)",
       "width": 320,
       "text": "100%"
     },
     {
       "file": "design/library/successor/review/w320-supply-anyone-else.png",
-      "sha256": "ceacee9d77abbf24afd822f4d2017676f8003b46571e10d83a4d443ce8a70a00",
-      "bytes": 11277,
+      "sha256": "d42175c751cee913d82bc45b11c529387c0f0785ec07bf829b8d87a66d5ca325",
+      "bytes": 11275,
       "state": "supply: anyone else",
       "width": 320,
       "text": "100%"
     },
     {
       "file": "design/library/successor/review/w320-admission-walk.png",
-      "sha256": "1644cfe0c95579ef8bf16622edca5180c185d80ca2bfe906770a2ddf66d726f5",
-      "bytes": 26968,
+      "sha256": "7228b9de9f675dfecfb832e1b543c78f3bba558571ebfa03f171db2a58542f54",
+      "bytes": 26953,
       "state": "admission: walk",
       "width": 320,
       "text": "100%"
     },
     {
       "file": "design/library/successor/review/w320-admission-snap.png",
-      "sha256": "7b6fb4c1c6eb15166fe873e09494a2286b3cd8dcfb60320ed860786c76d2921d",
-      "bytes": 23589,
+      "sha256": "51db0a3364bf38b72b8cce628ea819c901b2de17feb581d3eb4f45f8a051e6c5",
+      "bytes": 23626,
       "state": "admission: snap",
       "width": 320,
       "text": "100%"
     },
     {
       "file": "design/library/successor/review/contact-w320.png",
-      "sha256": "cb3f0cbbfee24fe242509b34dcbe821a8973354dc38e3257d5802f6ffe845008",
-      "bytes": 693586,
+      "sha256": "3f1ab93455ed1601fe34d080a7eb00f4ce5d40cef09216fe22e0dd0a0da85680",
+      "bytes": 746078,
       "kind": "contact",
       "width": 320,
       "text": "100%"
@@ -414,25 +446,41 @@
       "text": "200%"
     },
     {
-      "file": "design/library/successor/review/w390-text200-supply-a-recipient-at-the-supply-stage-1.png",
-      "sha256": "6563bf8fe5b7f08d403c3324b00b0668a225aa6a59adb380379ed5f11b8b891d",
-      "bytes": 39831,
-      "state": "supply: a recipient at the Supply stage (+1)",
+      "file": "design/library/successor/review/w390-text200-supply-a-recipient-with-r15-s-delivery-marker-proposed.png",
+      "sha256": "73c53ce7477fc4fdda01b9f55d33b6405764cf035e1f333e2fc23d8cb3ff2634",
+      "bytes": 45682,
+      "state": "supply: a recipient, with R15's delivery marker (proposed)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/successor/review/w390-text200-supply-weapons-restored-by-an-actual-blackhole-sync-no-delivery.png",
+      "sha256": "7e7556aef339519791b5521bbad1f8a9700c707f28b123ed6b87109922f3d945",
+      "bytes": 30816,
+      "state": "supply: weapons restored by an actual Blackhole Sync (no delivery)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/successor/review/w390-text200-supply-weapons-grow-without-r15-s-marker-missing-field-no-receipt.png",
+      "sha256": "7d42fe3c7a9a6d7e297dcc7acda8425864fddcc78822e07ac06d59f2318e5188",
+      "bytes": 28975,
+      "state": "supply: weapons grow without R15's marker (missing field: no receipt)",
       "width": 390,
       "text": "200%"
     },
     {
       "file": "design/library/successor/review/w390-text200-supply-anyone-else.png",
-      "sha256": "7addb58b2b7de131465e78441a6329e28e9e708819a8beec0684042d32fabb36",
-      "bytes": 16061,
+      "sha256": "ba27ed4b4ce600e110cf6f0c01fb3acc1649059588c6c4d8b8c4ca30103d0ac8",
+      "bytes": 16059,
       "state": "supply: anyone else",
       "width": 390,
       "text": "200%"
     },
     {
       "file": "design/library/successor/review/contact-w390-text200-supply.png",
-      "sha256": "3addf8360ba2f71e3a3d3e9432200e44b55e166f902aa1551090d5fcf1a3de95",
-      "bytes": 142985,
+      "sha256": "5d6181218cf059d68b886d52504e3108522718973cf94566cd88e0abaf811f2e",
+      "bytes": 208838,
       "kind": "contact",
       "width": 390,
       "text": "200%",
@@ -649,8 +697,8 @@
     },
     {
       "file": "design/library/successor/review/motion-supply-reduced-0160.png",
-      "sha256": "fa029bfb751692a6c0a6fc7bda0dc5677cb490af6eed04ea0efa0c0757a30824",
-      "bytes": 15635,
+      "sha256": "1ac9e76ca51dfd6354519da5e102e27ffe20ee837a37716ead18f2877426b93d",
+      "bytes": 15632,
       "motion": "supply",
       "reduced": true,
       "t": 160

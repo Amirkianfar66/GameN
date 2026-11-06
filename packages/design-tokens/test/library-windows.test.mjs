@@ -12,8 +12,40 @@ import { FACTION_ACCENTS, MIN_ACCENT_DISTANCE, cie76 } from '../../../design/boa
 import { INKS, LINTEL_FILES, W, WINDOW_ART_VERSION, drawingPaths, drawingSvg, windowAssets } from '../../../design/library/windows/art.mjs';
 import { WINDOW_COPY } from '../../../design/library/windows/copy.mjs';
 import { FRAMES, MOTION, motionEnd } from '../../../design/library/windows/motion.mjs';
-import { ENDPOINTS, LIMITS, STATIONS, budget, darkChange, drawingValid, newDrawings, otherEnd, padState, windowsFor } from '../../../design/library/windows/states.mjs';
+import { ENDPOINTS, LIMITS, STATIONS, budget, darkChange, darkSpan, drawingValid, isDark, newDrawings, otherEnd, padState, windowsFor } from '../../../design/library/windows/states.mjs';
 import { build } from '../../../design/tools/library-assets.mjs';
+
+test('the Blackout: every window lit for its first five seconds, dark from the authoritative preview deadline to its end; dark from its start when the deadline is missing', () => {
+  const t0 = 100_000;
+  const blackout = b => ({ ...view({}), phase: { id: 'r4-BLACKOUT', kind: 'BLACKOUT', startedAt: t0, endsAt: t0 + 15_000 }, blackout: b });
+  const timed = blackout({ windowId: 'bo-r4', previewEndsAt: t0 + 5000, endsAt: t0 + 15_000 });
+  assert.deepEqual(darkSpan(timed), { from: t0 + 5000, until: t0 + 15_000, timed: true });
+  for (const now of [t0, t0 + 2500, t0 + 4999]) {
+    assert.equal(isDark(timed, now), false, `lit at +${now - t0} ms`);
+    assert.notEqual(padState(timed, 'A_B', { now }).state, 'dark');
+    assert.notEqual(padState(timed, 'A_HOSPITAL', { now }).state, 'dark');
+  }
+  for (const now of [t0 + 5000, t0 + 9000, t0 + 14_999]) {
+    assert.equal(isDark(timed, now), true, `dark at +${now - t0} ms`);
+    for (const id of ['A_B', 'A_HOSPITAL']) assert.equal(padState(timed, id, { now }).state, 'dark');
+  }
+  assert.equal(isDark(timed, t0 + 15_000), false, 'the lights return with the Blackout\'s end');
+  // The shade lowers as the clock passes the deadline, with no new view; nothing moves before it.
+  assert.equal(darkChange(timed, timed, { previousNow: t0 + 4900, now: t0 + 5100 }), 'dark');
+  assert.equal(darkChange(timed, timed, { previousNow: t0 + 1000, now: t0 + 4000 }), null);
+  assert.equal(darkChange(view({}), timed, { previousNow: t0 - 100, now: t0 + 100 }), null, 'the Blackout opens lit');
+  assert.equal(darkChange(timed, view({ round: 5 }), { previousNow: t0 + 14_900, now: t0 + 15_100 }), 'light');
+  // Missing field: no preview deadline in the view, so dark from the phase's start (fail closed).
+  for (const b of [null, { windowId: 'bo-r4', endsAt: t0 + 15_000 }]) {
+    const untimed = blackout(b);
+    assert.equal(darkSpan(untimed).timed, false);
+    assert.equal(isDark(untimed, t0), true);
+    assert.equal(padState(untimed, 'A_B', { now: t0 + 1 }).state, 'dark');
+  }
+  // Outside the Blackout a window is never dark, whatever the clock.
+  assert.equal(isDark(view({}), t0 + 6000), false);
+  assert.equal(darkSpan(view({})), null);
+});
 
 const dot = (x = 0.5, y = 0.5) => ({ color: '#151923', width: 7, points: [[x, y]] });
 const d = (id, windowId, author, order, round = 4) => ({ id, windowId, authorSeatId: author, round, order, drawing: { strokes: [dot()] } });

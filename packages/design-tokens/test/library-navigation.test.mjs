@@ -15,7 +15,7 @@ import { NAV_COPY } from '../../../design/library/navigation/copy.mjs';
 import { AUDIO, FILM, PLANETS, TRANSIT_BOARD, arrivalSvg, filmEnd, transitBoardArt, transitInsert } from '../../../design/library/navigation/films.mjs';
 import { MOTION, chooseFrame, confirmFrame, motionEnd, stepFrame } from '../../../design/library/navigation/motion.mjs';
 import { MOVES, POSITIONS, classify, step } from '../../../design/library/navigation/route.mjs';
-import { NAV_PHASES, STATES, officePanelState, panelStep, publicNavState } from '../../../design/library/navigation/states.mjs';
+import { NAV_PHASES, ROUTE_WINDOW, STATES, officePanelState, panelStep, publicNavState, routeWindowEnds } from '../../../design/library/navigation/states.mjs';
 import { build } from '../../../design/tools/library-assets.mjs';
 
 const CAPTAIN = 7, OFFICER = 2, CREW = 5;
@@ -109,6 +109,38 @@ test('the public strip: the same "being set" for every navigation stage, a movem
   for (const s of [...stages, publicNavState(v, { now: 1500, transitEnd }), arrived]) for (const key of Object.keys(s)) assert.ok(allowed.has(key), key);
   // Only an arrival names a planet.
   for (const s of [...stages, publicNavState(v, { now: 1500, transitEnd })]) assert.equal(s.planet, undefined);
+});
+
+test('P28: the same full 15 s route-setting window every opportunity; only the eligible Officer gets tie controls; nothing public changes on a tie or an early choice', () => {
+  assert.deepEqual({ ...ROUTE_WINDOW }, { kind: 'NAV_TIE', durationMs: 15_000, fromRound: 2, decision: 'P28' });
+  const at = (o, start = 1_000_000) => ({ ...o, phase: { ...o.phase, startedAt: start, endsAt: start + ROUTE_WINDOW.durationMs } });
+  // Four worlds in one round's window: no tie; a tie, the Officer still choosing; a tie chosen early; a tie the Officer never answers.
+  const worlds = {
+    noTie: { offers: [] },
+    tieOpen: { offers: ['CHOOSE_NAV_DIRECTION'] },
+    tieChosen: { offers: [], accepted: { CHOOSE_NAV_DIRECTION: 'r4-NAV_TIE' } },
+    tieUnanswered: { offers: [] },
+  };
+  const strips = new Set(), captains = new Set(), crews = new Set(), ends = new Set();
+  for (const [name, w] of Object.entries(worlds)) {
+    const phase = 'NAV_TIE';
+    // Every screen but the Officer's reads the same, whatever the world (the strip and the Captain's panel never read offers or a choice).
+    strips.add(JSON.stringify(publicNavState(at(view({ seat: CREW, phase })))));
+    crews.add(JSON.stringify(publicNavState(at(view({ seat: CREW, phase, tieChoice: name.startsWith('tie') })))));
+    captains.add(JSON.stringify(officePanelState(at(C({ phase, tieChoice: name.startsWith('tie') })))));
+    ends.add(routeWindowEnds(at(O({ phase, offers: w.offers }))));
+    // The Officer: controls only for a genuine tie; a choice made early holds until the window ends.
+    const officer = officePanelState(at(O({ phase, offers: w.offers })), { accepted: w.accepted ?? {} });
+    assert.equal(officer.state, { noTie: 'setting', tieOpen: 'tie', tieChosen: 'chosen', tieUnanswered: 'setting' }[name], name);
+  }
+  assert.equal(strips.size, 1, 'one public strip for every world');
+  assert.equal(crews.size, 1);
+  assert.equal(captains.size, 1, 'the Captain\'s panel is the same tie or not');
+  assert.deepEqual([...ends], [1_000_000 + 15_000], 'the window ends at its own endsAt in every world: an early choice never shortens it');
+  assert.equal(JSON.parse([...captains][0]).state, 'setting');
+  assert.equal(JSON.parse([...strips][0]).state, 'navigating');
+  // Outside the window there is no route-setting end to count down to.
+  assert.equal(routeWindowEnds(C({ phase: 'NAV_CAPTAIN_CONFIRM' })), null);
 });
 
 test('the panel animates only a step the rule can name', () => {

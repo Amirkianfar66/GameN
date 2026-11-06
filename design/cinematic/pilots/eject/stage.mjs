@@ -13,10 +13,10 @@
 //            6 November 2026; the brief: "long medical/ejection films need shorter or nonblocking
 //            forms")
 //   phone    the same at a phone's size
-//   cut      the 1920 x 1080 cut, full or reduced: it covers the board, so it plays only in a phase
-//            where nobody decides; no such phase follows an EJECT today, so it needs a presentation
-//            stage the owner would have to approve
-//   insert   the identity-free exterior insert (a runtime export): no person, no word, no count
+//   cut      the 1920 x 1080 cut, full or reduced: a review study, never mounted in the game. It
+//            covers the board, and no covering EJECT stage is approved (the owner, 6 November 2026),
+//            so presentationIn() answers 'board' for the EJECT in every phase
+//   insert   the identity-free exterior (exports/eject/review/): a study for the cut, never mounted
 
 import { captainWords } from '../../../board-v2/films/captain.mjs';
 import { captainOutcome } from '../../../board-v2/js/captain-fixtures.mjs';

@@ -45,6 +45,9 @@ export const SUCCESSOR_COPY = Object.freeze({
   supplierWaiting: 'Registered. Deliveries happen at Round 3\'s Supply stage, after the Rescue. Nobody else sees them.',
   supplyReceived: 'You received one ordinary weapon. You can use it from Round 4.',
   supplyPrivate: 'Only you see this.',
+  // The count at rest, for any change the receipt does not claim (a Blackhole Sync's restore, a
+  // weapon used, a reconnect, or no R15 marker): the number only, never "received" or "delivered".
+  inventory: n => `Ordinary weapons: ${n}.`,
   // Admission.
   admissionWalk: name => `${name} is taken to the Hospital.`,
   admissionSnap: name => `${name} is in the Hospital.`,

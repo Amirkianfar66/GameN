@@ -15,40 +15,40 @@ import { FRAMES, MOTION, motionEnd } from '../../../design/library/offices/motio
 import { appointState, badges, blockState, officeChanges, publicStage, selfBlocked } from '../../../design/library/offices/states.mjs';
 import { build } from '../../../design/tools/library-assets.mjs';
 
-function view({ seat = 7, phase = 'ORDINARY_TURN', round = 4, captain = 7, officer = 3, blocked = null, offers = {} }) {
+function view({ seat = 'seat-7', phase = 'ORDINARY_TURN', round = 4, captain = 'seat-7', officer = 'seat-3', blocked = null, offers = {} }) {
   return { round, phase: { id: `r${round}-${phase}`, kind: phase }, self: { seatId: seat }, offices: { captainSeatId: captain, officerSeatId: officer, blockedSeatId: blocked }, offers: Object.entries(offers).map(([type, targetSeatIds]) => ({ type, targetSeatIds })) };
 }
 
 test('the appointment: only the Captain, only in its 30 seconds; the offer lists the eligible; none eligible leaves the office vacant', () => {
-  const appoint = (o = {}) => view({ phase: 'OFFICER_APPOINTMENT', officer: null, offers: { APPOINT_OFFICER: [6, 1, 3] }, ...o });
-  assert.equal(appointState(view({ seat: 2, phase: 'OFFICER_APPOINTMENT', officer: null })).state, 'none', 'not the Captain');
+  const appoint = (o = {}) => view({ phase: 'OFFICER_APPOINTMENT', officer: null, offers: { APPOINT_OFFICER: ['seat-6', 'seat-1', 'seat-3'] }, ...o });
+  assert.equal(appointState(view({ seat: 'seat-2', phase: 'OFFICER_APPOINTMENT', officer: null })).state, 'none', 'not the Captain');
   assert.equal(appointState(view({ phase: 'ORDINARY_TURN', officer: null })).state, 'none', 'another phase');
-  assert.deepEqual(appointState(appoint()), { state: 'choose', targets: [1, 3, 6] });
-  assert.deepEqual(appointState(appoint(), { picked: 3 }), { state: 'confirm', targets: [1, 3, 6], target: 3 });
-  assert.equal(appointState(appoint(), { picked: 7 }).state, 'choose', 'a player the offer does not list');
-  assert.equal(appointState(appoint(), { pending: 'APPOINT_OFFICER', picked: 3 }).state, 'sending');
-  assert.deepEqual(appointState(appoint({ officer: 3, offers: {} })), { state: 'appointed', officer: 3 });
+  assert.deepEqual(appointState(appoint()), { state: 'choose', targets: ['seat-1', 'seat-3', 'seat-6'] });
+  assert.deepEqual(appointState(appoint(), { picked: 'seat-3' }), { state: 'confirm', targets: ['seat-1', 'seat-3', 'seat-6'], target: 'seat-3' });
+  assert.equal(appointState(appoint(), { picked: 'seat-7' }).state, 'choose', 'a player the offer does not list');
+  assert.equal(appointState(appoint(), { pending: 'APPOINT_OFFICER', picked: 'seat-3' }).state, 'sending');
+  assert.deepEqual(appointState(appoint({ officer: 'seat-3', offers: {} })), { state: 'appointed', officer: 'seat-3' });
   assert.equal(appointState(appoint({ offers: { APPOINT_OFFICER: [] } })).state, 'vacant');
   assert.equal(appointState(appoint({ offers: {} })).state, 'closed');
   assert.equal(appointState(appoint(), { rejected: { APPOINT_OFFICER: { phaseId: 'r4-OFFICER_APPOINTMENT', code: 'NOT_ALLOWED' } } }).state, 'refused');
 });
 
 test('the block: only the Officer, only in the pre-turn window; optional; the offer leaves out who cannot be blocked', () => {
-  const pre = (o = {}) => view({ seat: 3, phase: 'PRE_TURN', offers: { BLOCK_MOVE: [5, 1, 8] }, ...o });
-  assert.equal(blockState(view({ seat: 2, phase: 'PRE_TURN' })).state, 'none');
-  assert.equal(blockState(view({ seat: 3, phase: 'ORDINARY_TURN' })).state, 'none');
-  assert.deepEqual(blockState(pre()), { state: 'choose', targets: [1, 5, 8] });
-  assert.equal(blockState(pre(), { picked: 5 }).state, 'confirm');
-  assert.equal(blockState(pre(), { picked: 2 }).state, 'choose', 'a player the offer leaves out');
-  assert.equal(blockState(pre(), { pending: 'BLOCK_MOVE', picked: 5 }).state, 'sending');
-  assert.deepEqual(blockState(pre({ blocked: 5, offers: {} })), { state: 'blocked', target: 5 });
+  const pre = (o = {}) => view({ seat: 'seat-3', phase: 'PRE_TURN', offers: { BLOCK_MOVE: ['seat-5', 'seat-1', 'seat-8'] }, ...o });
+  assert.equal(blockState(view({ seat: 'seat-2', phase: 'PRE_TURN' })).state, 'none');
+  assert.equal(blockState(view({ seat: 'seat-3', phase: 'ORDINARY_TURN' })).state, 'none');
+  assert.deepEqual(blockState(pre()), { state: 'choose', targets: ['seat-1', 'seat-5', 'seat-8'] });
+  assert.equal(blockState(pre(), { picked: 'seat-5' }).state, 'confirm');
+  assert.equal(blockState(pre(), { picked: 'seat-2' }).state, 'choose', 'a player the offer leaves out');
+  assert.equal(blockState(pre(), { pending: 'BLOCK_MOVE', picked: 'seat-5' }).state, 'sending');
+  assert.deepEqual(blockState(pre({ blocked: 'seat-5', offers: {} })), { state: 'blocked', target: 'seat-5' });
   assert.equal(blockState(pre({ offers: {} })).state, 'closed');
   assert.match(OFFICE_COPY.blockChoose, /If you choose no one, nobody is blocked/);
 });
 
 test('the public stage reads the same whoever acts in the pre-turn window, and never hints at anything secret', () => {
-  assert.deepEqual(publicStage(view({ phase: 'OFFICER_APPOINTMENT' })), { stage: 'appointing', captain: 7 });
-  assert.deepEqual(publicStage(view({ phase: 'PRE_TURN' })), { stage: 'pre-turn', officer: 3 });
+  assert.deepEqual(publicStage(view({ phase: 'OFFICER_APPOINTMENT' })), { stage: 'appointing', captain: 'seat-7' });
+  assert.deepEqual(publicStage(view({ phase: 'PRE_TURN' })), { stage: 'pre-turn', officer: 'seat-3' });
   assert.deepEqual(publicStage(view({ phase: 'PRE_TURN', officer: null })), { stage: 'quiet' });
   // The stage depends on public fields only: a view carrying anything else draws the same stage.
   const extra = { ...view({ phase: 'PRE_TURN' }), abilities: { blackholeSpent: true }, self: { seatId: 1, role: 'Alien' } };
@@ -57,15 +57,15 @@ test('the public stage reads the same whoever acts in the pre-turn window, and n
 });
 
 test('badges and the block: offices first, the block for this round only; the blocked player\'s own note; changes play once', () => {
-  const v = view({ blocked: 5, captain: 7, officer: 3 });
-  assert.deepEqual(badges(v, 7), ['captain']); assert.deepEqual(badges(v, 3), ['officer']); assert.deepEqual(badges(v, 5), ['blocked']); assert.deepEqual(badges(v, 1), []);
-  assert.deepEqual(badges(view({ captain: 7, officer: 7 }), 7), ['captain', 'officer'], 'one seat, both offices, in order');
-  assert.equal(selfBlocked(view({ seat: 5, blocked: 5 })), true); assert.equal(selfBlocked(view({ seat: 1, blocked: 5 })), false);
+  const v = view({ blocked: 'seat-5', captain: 'seat-7', officer: 'seat-3' });
+  assert.deepEqual(badges(v, 'seat-7'), ['captain']); assert.deepEqual(badges(v, 'seat-3'), ['officer']); assert.deepEqual(badges(v, 'seat-5'), ['blocked']); assert.deepEqual(badges(v, 'seat-1'), []);
+  assert.deepEqual(badges(view({ captain: 'seat-7', officer: 'seat-7' }), 'seat-7'), ['captain', 'officer'], 'one seat, both offices, in order');
+  assert.equal(selfBlocked(view({ seat: 'seat-5', blocked: 'seat-5' })), true); assert.equal(selfBlocked(view({ seat: 'seat-1', blocked: 'seat-5' })), false);
   assert.match(OFFICE_COPY.selfBlocked, /still vote.*windows.*Hospital or the Jail, still happens/);
   assert.deepEqual(officeChanges(null, v), { appointed: null, blocked: null, expired: null }, 'a reconnect draws at rest');
-  assert.deepEqual(officeChanges(view({ officer: null }), view({ officer: 3 })), { appointed: 3, blocked: null, expired: null });
-  assert.deepEqual(officeChanges(view({}), view({ blocked: 5 })), { appointed: null, blocked: 5, expired: null });
-  assert.deepEqual(officeChanges(view({ blocked: 5 }), view({ round: 5 })), { appointed: null, blocked: null, expired: 5 });
+  assert.deepEqual(officeChanges(view({ officer: null }), view({ officer: 'seat-3' })), { appointed: 'seat-3', blocked: null, expired: null });
+  assert.deepEqual(officeChanges(view({}), view({ blocked: 'seat-5' })), { appointed: null, blocked: 'seat-5', expired: null });
+  assert.deepEqual(officeChanges(view({ blocked: 'seat-5' }), view({ round: 5 })), { appointed: null, blocked: null, expired: 'seat-5' });
 });
 
 test('the words: the Officer is an office, never a role or a side; nothing says whether the clock chose', () => {

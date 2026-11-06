@@ -19,6 +19,11 @@ a contract or runtime code; Integration adopts named files and hashes.
 | 7 · `end/` | The end reveal over the arrival, no survivors, the abort, reconnect, stale and failed-asset states | proposal | [docs/design/library/end.md](../../docs/design/library/end.md) |
 | 8 · `successor/` | The successor sweep: current role names and devices (the Engineer's new device), the action overlay's successor entries, the compact lobby at 320 × 568, the Round 3 Supply receipt, the Hospital admission walk | proposal | [docs/design/library/successor.md](../../docs/design/library/successor.md) |
 
+Seats: every state map takes and returns canonical seat ids (`seat-1` to `seat-9`, the contract's
+`SeatIdSchema`) and every key, button and line shows the player number, through `seats.mjs` (the same
+table as the reviewed Frontend's `seatNumber()`). Commands carry the ids, never the numbers (the
+owner's correction of 6 November 2026).
+
 From group 2 on, the review pages share their frame: `review.mjs` (parameters, state cards, motion players, controls, art
 loader) and `review.css`. Group 1's page keeps its own copy. `design/tools/library-assets.mjs` and
 `design/tools/library-capture.mjs` take `--group <name>`, every group by default.

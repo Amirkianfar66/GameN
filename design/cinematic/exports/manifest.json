@@ -4,15 +4,15 @@
   "contract": "protocol 3 candidate, packages/contracts/src/planet-game.ts at 79418e72dba99ba99afe047ecb97467fb5e73b62",
   "classes": {
     "runtime": "identity-free: no player name, character, role, outcome, control or variable text; eligible as a prerendered runtime movie with its poster and animated alternative, after Integration review",
-    "review": "synthetic fixture identities drawn in (board-v2 review fixtures); for review only, never a runtime asset: a runtime draws its own match from the frame functions",
+    "review": "for review only, never a runtime asset: synthetic fixture identities drawn in (board-v2 review fixtures; a runtime draws its own match from the frame functions), or a study with no approved mount (the EJECT display cut and its exterior: no covering EJECT stage is approved)",
     "stills": "storyboard frames for the live-action studies (review only)",
     "audio": "public cue mixes, procedurally synthesized; a runtime plays the cue sheet itself under the device sound setting"
   },
   "sources": [
     {
       "path": "design/cinematic/README.md",
-      "sha256": "d759429661cfea2e976b9ae97af65920db8067a11fbed54e945c47a10b9215c6",
-      "bytes": 5554
+      "sha256": "bbac8109d2c180a34216d505309efe0b817d6e451401f00744bb7e03bd4cb1c1",
+      "bytes": 5991
     },
     {
       "path": "design/cinematic/stage.html",
@@ -31,8 +31,8 @@
     },
     {
       "path": "design/cinematic/gallery.mjs",
-      "sha256": "d9cb2f96edfbbddfd409d4bc741a41bfdd606714c2ec3ff8c54e6146e60633f7",
-      "bytes": 12809
+      "sha256": "1fc51ecc8a184364bc24799795656fef3f1f94d45a872df2cb63c6a48e7627d7",
+      "bytes": 12924
     },
     {
       "path": "design/cinematic/lib/ease.mjs",
@@ -66,8 +66,8 @@
     },
     {
       "path": "design/cinematic/lib/visibility.mjs",
-      "sha256": "002060b4c0dddc282423b8265d45137e42dd141b63c63067162803dfcc5fa9c4",
-      "bytes": 2546
+      "sha256": "296a4ea4755fed194b3db1e61be1eb8283d2a2da7490e01d9bce99639b282dae",
+      "bytes": 5465
     },
     {
       "path": "design/cinematic/pilots/index.mjs",
@@ -76,8 +76,8 @@
     },
     {
       "path": "design/cinematic/pilots/hospital-rescue/film.mjs",
-      "sha256": "c25fd14e438dceea0d2302732c223719439a435498ae604c0517841fd038af36",
-      "bytes": 27354
+      "sha256": "91bee899982d3d1afd777d2df46c452d248b489d1b0673f9860c3be82f267daf",
+      "bytes": 27747
     },
     {
       "path": "design/cinematic/pilots/hospital-rescue/art.mjs",
@@ -86,18 +86,18 @@
     },
     {
       "path": "design/cinematic/pilots/hospital-rescue/compose.mjs",
-      "sha256": "d2bd11c93ad23283d5612718952bdc01b9cca7376cf6b18b6aee72cf9d4c0053",
-      "bytes": 17378
+      "sha256": "028a4127d7cea7d476f93e02a003811644191f5e6482e6a18fdfb77c8ac5a0d8",
+      "bytes": 17857
     },
     {
       "path": "design/cinematic/pilots/hospital-rescue/stage.mjs",
-      "sha256": "2c7ea40feef549da0f1f99e219488ab6dfb92ca61473e8e6d7b1ed85e1a4681b",
-      "bytes": 17548
+      "sha256": "71d9e1c44a2cf877363e5e091bc7cecedcc92e4a5ccd8eb1458edc0dc4a96969",
+      "bytes": 17777
     },
     {
       "path": "design/cinematic/pilots/blackhole/film.mjs",
-      "sha256": "afd3d607aa7b2da14943450784aec4f7578adea105435eeec03a9908ce90d326",
-      "bytes": 10004
+      "sha256": "b500ee1b3ba5a20d28b25a060a40f57f524b4e3ca2c1a10f8455fd63b5bec12a",
+      "bytes": 10678
     },
     {
       "path": "design/cinematic/pilots/blackhole/art.mjs",
@@ -106,13 +106,13 @@
     },
     {
       "path": "design/cinematic/pilots/blackhole/compose.mjs",
-      "sha256": "aab96b543cae331b8428aecdf438bc20f1dd97f0ae0fc1b3585b5f1f8568042b",
-      "bytes": 10020
+      "sha256": "c1ff7879a3db07482cc4512cea2256de98caae74ecbbb256b30138f5d88aad2b",
+      "bytes": 10001
     },
     {
       "path": "design/cinematic/pilots/blackhole/stage.mjs",
-      "sha256": "fc184af8587f7dede4be90c3b53f2fd1fa8d7074853845c149faeb1ce13f0a82",
-      "bytes": 4259
+      "sha256": "d2944416d8a9109a7fda2218dddb5f9e2d86b2692c2bb6da1d75eebd6f0c2e66",
+      "bytes": 4271
     },
     {
       "path": "design/cinematic/pilots/private-talk/film.mjs",
@@ -131,8 +131,8 @@
     },
     {
       "path": "design/cinematic/pilots/eject/film.mjs",
-      "sha256": "e52310a0193387c8096173450d701702dfdf7844ae58442ef91c77c6eb09776e",
-      "bytes": 8483
+      "sha256": "ff8c73743ece5366cff3ec6d2a6a8a1876da225e0e8c6f099be243b886e22cf2",
+      "bytes": 8711
     },
     {
       "path": "design/cinematic/pilots/eject/compose.mjs",
@@ -141,13 +141,13 @@
     },
     {
       "path": "design/cinematic/pilots/eject/stage.mjs",
-      "sha256": "1bbdcf36379156dc5f5b43bf3c0e5e9d77f633b9baaf78741068142b1779698b",
-      "bytes": 7638
+      "sha256": "cf3925a8e8e3ad6b5f71cbae76085def5be4170f1bfa641e36e140efa8be402f",
+      "bytes": 7667
     },
     {
       "path": "design/cinematic/catalogue/catalogue.mjs",
-      "sha256": "d066ed256b74187de9ab56aaf6b3ea1703a468017442281414ffbd1ab9189d81",
-      "bytes": 42285
+      "sha256": "a59d89f3bf81c511e98cf1e1f4c1ef8655b864028cf29bef2426e7b6804ee44b",
+      "bytes": 45531
     },
     {
       "path": "design/tools/cinematic-inventory.mjs",
@@ -166,8 +166,8 @@
     },
     {
       "path": "design/tools/cinematic-exports.mjs",
-      "sha256": "c209107cff3ca809d7785c8487e57110b2dc728bd2d33cfcf3052962254bac13",
-      "bytes": 13215
+      "sha256": "683a2b88bd9af6fc01bf5858fa47f7f0af79dfbad35ac357ef6b0e66b5340812",
+      "bytes": 13503
     },
     {
       "path": "design/tools/cinematic-audio.mjs",
@@ -176,8 +176,8 @@
     },
     {
       "path": "design/tools/cinematic-manifest.mjs",
-      "sha256": "8e58a6b316cde61e206b56b55ded39f0580c20c2ace478e96c7216cf1674f47c",
-      "bytes": 11645
+      "sha256": "9e274ab7c88202d0eea0518efc1771ba8cde8dbec47e19b4ecbce3dcf32a4787",
+      "bytes": 12002
     },
     {
       "path": "design/tools/cinematic-docs.mjs",
@@ -1327,9 +1327,9 @@
       "audience": "public (the Captain's EJECT outcome: its kind and seatIds)"
     },
     {
-      "path": "design/cinematic/exports/eject/runtime/exterior-insert.mp4",
+      "path": "design/cinematic/exports/eject/review/exterior-insert.mp4",
       "pilot": "eject",
-      "class": "runtime",
+      "class": "review",
       "sha256": "8ea644529b362f9e4a9ece89114095d68018e308e61a359162241804ffbc3a53",
       "bytes": 1051102,
       "width": 1920,
@@ -1354,9 +1354,9 @@
       "audience": "public (the Captain's EJECT outcome: its kind and seatIds)"
     },
     {
-      "path": "design/cinematic/exports/eject/runtime/exterior-insert.poster.png",
+      "path": "design/cinematic/exports/eject/review/exterior-insert.poster.png",
       "pilot": "eject",
-      "class": "runtime",
+      "class": "review",
       "sha256": "3bb81d79918fac63fa31c28ca540c059cbaa98fe04e5ec06a3aed460b2941294",
       "bytes": 1521559,
       "width": 1920,
@@ -1375,9 +1375,9 @@
       "audience": "public (the Captain's EJECT outcome: its kind and seatIds)"
     },
     {
-      "path": "design/cinematic/exports/eject/runtime/exterior-insert.poster.webp",
+      "path": "design/cinematic/exports/eject/review/exterior-insert.poster.webp",
       "pilot": "eject",
-      "class": "runtime",
+      "class": "review",
       "sha256": "37e657000651d198ef93433cdcefd35cf8359569cf3645c4c2c3c0f82fb9ed86",
       "bytes": 54288,
       "width": 1920,
@@ -1395,9 +1395,9 @@
       "audience": "public (the Captain's EJECT outcome: its kind and seatIds)"
     },
     {
-      "path": "design/cinematic/exports/eject/runtime/exterior-insert.preview.webp",
+      "path": "design/cinematic/exports/eject/review/exterior-insert.preview.webp",
       "pilot": "eject",
-      "class": "runtime",
+      "class": "review",
       "sha256": "98b3fc346686f1f1d1b1ee9672d841ea6f75d41163e350dff5990e74f69a82c7",
       "bytes": 183460,
       "width": 480,
@@ -1416,17 +1416,17 @@
       "audience": "public (the Captain's EJECT outcome: its kind and seatIds)"
     },
     {
-      "path": "design/cinematic/exports/eject/runtime/exterior-insert.render.json",
+      "path": "design/cinematic/exports/eject/review/exterior-insert.render.json",
       "pilot": "eject",
-      "class": "runtime",
-      "sha256": "3aee78824c4b2cacccbb293de7d1483a7c16fed3865e60205a86e4a5fe9ea84f",
-      "bytes": 1858,
+      "class": "review",
+      "sha256": "9e811f9e9e4cb303dc8946f4e04aaf3f4bf841754b80f98a8845fd33201fd219",
+      "bytes": 1853,
       "audience": "public (the Captain's EJECT outcome: its kind and seatIds)"
     },
     {
-      "path": "design/cinematic/exports/eject/runtime/exterior-insert.webm",
+      "path": "design/cinematic/exports/eject/review/exterior-insert.webm",
       "pilot": "eject",
-      "class": "runtime",
+      "class": "review",
       "sha256": "061c1e0c2b40255de0ab317396d3658a7a05921dad1b1ecc8859415dd373955e",
       "bytes": 319605,
       "width": 1920,
@@ -1826,8 +1826,8 @@
       "path": "design/cinematic/exports/hospital-rescue/review/display-detained-full.mp4",
       "pilot": "hospital-rescue",
       "class": "review",
-      "sha256": "26d1b58322d8a25ba000b70fb95f19cb437bfc62c1a39e5ae575a7d6d14a5f38",
-      "bytes": 424443,
+      "sha256": "ffacb31d3bf08cb3ecd07bfb239f06c43ad394ef53f3ae4002075ef5711b3402",
+      "bytes": 423664,
       "width": 1280,
       "height": 720,
       "codec": "h264",
@@ -1859,8 +1859,8 @@
       "path": "design/cinematic/exports/hospital-rescue/review/display-detained-full.poster.webp",
       "pilot": "hospital-rescue",
       "class": "review",
-      "sha256": "93f02ccf0c56e82d6cc257625d397bb977bcf479af4e78e769fb3937b5e106d5",
-      "bytes": 95728,
+      "sha256": "652f9c823a0ac85993df7064b0b1a7cbe41ffd6d4ce1673db3f1fe62df2738dd",
+      "bytes": 95834,
       "width": 1280,
       "height": 720,
       "codec": "webp",
@@ -1879,12 +1879,12 @@
       "path": "design/cinematic/exports/hospital-rescue/review/display-detained-full.preview.webp",
       "pilot": "hospital-rescue",
       "class": "review",
-      "sha256": "e1fb3f0e3fe86dd6a5541fcd26b9e5923910476b444605015dbfeff565867bda",
-      "bytes": 156022,
+      "sha256": "610a4b1ed7a11d9dbf31f2717bfaae29a9f6386e1b581bf7456bf7bf59be44a5",
+      "bytes": 154452,
       "width": 480,
       "height": 270,
       "codec": "webp",
-      "frames": 69,
+      "frames": 66,
       "durationMs": 6249,
       "animated": true,
       "kind": "preview",
@@ -1900,16 +1900,16 @@
       "path": "design/cinematic/exports/hospital-rescue/review/display-detained-full.render.json",
       "pilot": "hospital-rescue",
       "class": "review",
-      "sha256": "04cbaecd9b385116f531b6563739c815b16d15d23d279a3f20b921e002839a22",
-      "bytes": 1711,
+      "sha256": "861fd17210a3029ff811980b89b44a7cbd602faeaa2f9daf0132eb6d2827203d",
+      "bytes": 1712,
       "audience": "public (RESCUED)"
     },
     {
       "path": "design/cinematic/exports/hospital-rescue/review/display-full.mp4",
       "pilot": "hospital-rescue",
       "class": "review",
-      "sha256": "f01cb3dfe33abb11154739fba4ba9f5169fcb58dfada78290031c1595a727a79",
-      "bytes": 453305,
+      "sha256": "aa6eca1b14858133f595547e3b29fb650d7a543addcfc90ec4952640f370132f",
+      "bytes": 450012,
       "width": 1280,
       "height": 720,
       "codec": "h264",
@@ -1941,8 +1941,8 @@
       "path": "design/cinematic/exports/hospital-rescue/review/display-full.poster.webp",
       "pilot": "hospital-rescue",
       "class": "review",
-      "sha256": "ce91a50fb31de6bf8bc42a3cb12d7ef2e1b41dc74c0ee890766804ae33200c65",
-      "bytes": 103906,
+      "sha256": "5f2b860c89d5dbc39afa27fc9226efdf8986b2363967e42e93f08836e4fb8af8",
+      "bytes": 104370,
       "width": 1280,
       "height": 720,
       "codec": "webp",
@@ -1961,12 +1961,12 @@
       "path": "design/cinematic/exports/hospital-rescue/review/display-full.preview.webp",
       "pilot": "hospital-rescue",
       "class": "review",
-      "sha256": "18ba030c855d683879c26229edbeaf2f66c45790655fa43e336ccf60c0e37576",
-      "bytes": 161238,
+      "sha256": "ca8429d44a7a57c0714131b23742922bb2aac9bd474365ddf8264bd1c7110d4b",
+      "bytes": 157282,
       "width": 480,
       "height": 270,
       "codec": "webp",
-      "frames": 69,
+      "frames": 66,
       "durationMs": 6249,
       "animated": true,
       "kind": "preview",
@@ -1982,16 +1982,16 @@
       "path": "design/cinematic/exports/hospital-rescue/review/display-full.render.json",
       "pilot": "hospital-rescue",
       "class": "review",
-      "sha256": "d89dc6896ce178bcea63fc9024140663c5cf74398be5524dfb881eef8dc3a45c",
-      "bytes": 1671,
+      "sha256": "d019e6caf106bfd883cbe137d0a21e5cd3b7c962ec2d433def853c60fb6c823f",
+      "bytes": 1672,
       "audience": "public (RESCUED)"
     },
     {
       "path": "design/cinematic/exports/hospital-rescue/review/display-reduced.mp4",
       "pilot": "hospital-rescue",
       "class": "review",
-      "sha256": "d90b79298099f0d44add62e49165f52ab9c7d716de43dba2004b94ad676b3d0c",
-      "bytes": 152624,
+      "sha256": "c646e562839cdbcf9723dcb99199e034e12708100120eeada309fdcf3970bd96",
+      "bytes": 151902,
       "width": 1280,
       "height": 720,
       "codec": "h264",
@@ -2023,8 +2023,8 @@
       "path": "design/cinematic/exports/hospital-rescue/review/display-reduced.poster.webp",
       "pilot": "hospital-rescue",
       "class": "review",
-      "sha256": "cc30aaf6045850a328e0e9bf70b38791496d9e26648bbfded2f9e5339e10470b",
-      "bytes": 102672,
+      "sha256": "35aedd1a43e5df252fa14fbc16e16ef14fe21e632838a45c1d9c261d293c4683",
+      "bytes": 102738,
       "width": 1280,
       "height": 720,
       "codec": "webp",
@@ -2043,8 +2043,8 @@
       "path": "design/cinematic/exports/hospital-rescue/review/display-reduced.preview.webp",
       "pilot": "hospital-rescue",
       "class": "review",
-      "sha256": "67eed710674fd7b0a7e0a938c3d06a3a72d8acdb7902596888093f107df2d4dc",
-      "bytes": 25318,
+      "sha256": "488919e41cf6d546fc7e59e4f5a62bf08b3c9b677c053ffbcb5944c944813f89",
+      "bytes": 23498,
       "width": 480,
       "height": 270,
       "codec": "webp",
@@ -2064,7 +2064,7 @@
       "path": "design/cinematic/exports/hospital-rescue/review/display-reduced.render.json",
       "pilot": "hospital-rescue",
       "class": "review",
-      "sha256": "5073117f4551aca3cdf42cd27e9f5d379223e9ee400baaf8dfb165696ea94ea5",
+      "sha256": "e1e85cde4a01b1e920668d70ed9816a21fd2c4b8667e87c8e904e66e08269cb1",
       "bytes": 1687,
       "audience": "public (RESCUED)"
     },
@@ -2072,8 +2072,8 @@
       "path": "design/cinematic/exports/hospital-rescue/review/display-short.mp4",
       "pilot": "hospital-rescue",
       "class": "review",
-      "sha256": "b0e406cbc6eee80e3ad822bfa3430f5af6e40b2e8adf4f9067f8bcea0568132f",
-      "bytes": 232563,
+      "sha256": "3c1d26a4d36cbefbc5a018fd2133447ad04036c31ad63b70e39687c88162fb00",
+      "bytes": 231504,
       "width": 1280,
       "height": 720,
       "codec": "h264",
@@ -2105,8 +2105,8 @@
       "path": "design/cinematic/exports/hospital-rescue/review/display-short.poster.webp",
       "pilot": "hospital-rescue",
       "class": "review",
-      "sha256": "6468c82ca72b7aa4cd9c345a160de52f6f4c87bdc7e433185eede3f5f52d62e8",
-      "bytes": 101872,
+      "sha256": "d4fc03ca866d0f75ea3f51750dd18c0ac36a892a4c6f9f08da4a4e20e5498995",
+      "bytes": 102322,
       "width": 1280,
       "height": 720,
       "codec": "webp",
@@ -2125,8 +2125,8 @@
       "path": "design/cinematic/exports/hospital-rescue/review/display-short.preview.webp",
       "pilot": "hospital-rescue",
       "class": "review",
-      "sha256": "2844b0b8e073338724f711e32e6bd3507f96e13c53cdae6160bfeb6ad96b0ced",
-      "bytes": 57050,
+      "sha256": "e2566dafe9cab5fc5e6bc55f48f910a553fcdeaa6d16cc54a8d3dfbe1e4e2cf7",
+      "bytes": 54670,
       "width": 480,
       "height": 270,
       "codec": "webp",
@@ -2146,7 +2146,7 @@
       "path": "design/cinematic/exports/hospital-rescue/review/display-short.render.json",
       "pilot": "hospital-rescue",
       "class": "review",
-      "sha256": "6bcab6fd9ebc9b747c56b842d465939643479aa305e7e0689ed496219020ab42",
+      "sha256": "995ddde9a65088715094f7d83dc6a9a197445d7655a24d382dcb9f51f4d3a848",
       "bytes": 1674,
       "audience": "public (RESCUED)"
     },
@@ -2154,8 +2154,8 @@
       "path": "design/cinematic/exports/hospital-rescue/review/phone320-full.mp4",
       "pilot": "hospital-rescue",
       "class": "review",
-      "sha256": "1ba3a170e05602f2225d4f31ef5874f04d18c98a77a4f94b12d2f28b178451f2",
-      "bytes": 276925,
+      "sha256": "027263141aa7e5a02902010fa58ccd4196b7f0fbf174f516c965528544717119",
+      "bytes": 275103,
       "width": 480,
       "height": 852,
       "codec": "h264",
@@ -2187,8 +2187,8 @@
       "path": "design/cinematic/exports/hospital-rescue/review/phone320-full.poster.webp",
       "pilot": "hospital-rescue",
       "class": "review",
-      "sha256": "5ccbba6f42f6c4fe57d734424bb9f12d2c18ac937d7d6670c7d08534d9ea9484",
-      "bytes": 71812,
+      "sha256": "6cf7c09ddc741b03471e15054f12ba4ce09c3eb0614f4f6c70e5a287aeac8762",
+      "bytes": 71948,
       "width": 480,
       "height": 852,
       "codec": "webp",
@@ -2207,12 +2207,12 @@
       "path": "design/cinematic/exports/hospital-rescue/review/phone320-full.preview.webp",
       "pilot": "hospital-rescue",
       "class": "review",
-      "sha256": "ed49f2daaded8866aeb8fa730852aa38dd149ea9641480ec01a28008f8567aed",
-      "bytes": 86290,
+      "sha256": "073afa46dfd045f95e8745e25b80187de6e348e6e45f86269aaf03f6be29016c",
+      "bytes": 84012,
       "width": 240,
       "height": 426,
       "codec": "webp",
-      "frames": 71,
+      "frames": 68,
       "durationMs": 6249,
       "animated": true,
       "kind": "preview",
@@ -2228,7 +2228,7 @@
       "path": "design/cinematic/exports/hospital-rescue/review/phone320-full.render.json",
       "pilot": "hospital-rescue",
       "class": "review",
-      "sha256": "c6c49a2542750acd81500bd7567bae6516f180d99f435a78bca2b01c74616ecb",
+      "sha256": "173f427b5795ba20366ea2782b594568da0f5020ddf5c6f1b5ba70696a2c3073",
       "bytes": 1675,
       "audience": "public (RESCUED)"
     },
@@ -2236,8 +2236,8 @@
       "path": "design/cinematic/exports/hospital-rescue/review/phone390-detained-full.mp4",
       "pilot": "hospital-rescue",
       "class": "review",
-      "sha256": "2d49e6d53dd818b9fe0d25282532100848dce6ce518b42cf787faeb46a1487f9",
-      "bytes": 338983,
+      "sha256": "72479f1e4e1fd7d0292059a102ab9d4bc94ad07eb5637d26c83b144936232637",
+      "bytes": 337355,
       "width": 586,
       "height": 1266,
       "codec": "h264",
@@ -2269,8 +2269,8 @@
       "path": "design/cinematic/exports/hospital-rescue/review/phone390-detained-full.poster.webp",
       "pilot": "hospital-rescue",
       "class": "review",
-      "sha256": "3c0f5fcb68b640e8075231f4e0519e696d3ea98f4faea387e28d04a15846e156",
-      "bytes": 107174,
+      "sha256": "a48f58b22c473065cf2db1772d373e6b5c6b2422e0144a6a04d1385ab0b3e362",
+      "bytes": 107242,
       "width": 585,
       "height": 1266,
       "codec": "webp",
@@ -2289,12 +2289,12 @@
       "path": "design/cinematic/exports/hospital-rescue/review/phone390-detained-full.preview.webp",
       "pilot": "hospital-rescue",
       "class": "review",
-      "sha256": "97df71b2f7e3afedc3f6d8574c8c5c99713e6418e8ccdc057c2460d066d4c426",
-      "bytes": 96120,
+      "sha256": "6a5859c251d17e18e1ebf3c16c9c01ac4f4b3b1367929f9fc72f707729665686",
+      "bytes": 95406,
       "width": 240,
       "height": 520,
       "codec": "webp",
-      "frames": 71,
+      "frames": 68,
       "durationMs": 6249,
       "animated": true,
       "kind": "preview",
@@ -2310,7 +2310,7 @@
       "path": "design/cinematic/exports/hospital-rescue/review/phone390-detained-full.render.json",
       "pilot": "hospital-rescue",
       "class": "review",
-      "sha256": "0d28fe431b2ea3373aee4ff09f355dbc73999053c046077a68d0ce30fae31bad",
+      "sha256": "1e860d71501fa44af10e9e4ee7e5015e7e544c1f454ef32c2884b7cb2b0e4315",
       "bytes": 1720,
       "audience": "public (RESCUED)"
     },
@@ -2318,8 +2318,8 @@
       "path": "design/cinematic/exports/hospital-rescue/review/phone390-full.mp4",
       "pilot": "hospital-rescue",
       "class": "review",
-      "sha256": "c2ae2dded5d013c160cb6077bd7854a07734a41e56507840d5b9437498b1fec2",
-      "bytes": 349740,
+      "sha256": "6a2c74ef064ac4f22aa4a436cf349bf53730e95ed45db06324b7582e2795d63e",
+      "bytes": 347411,
       "width": 586,
       "height": 1266,
       "codec": "h264",
@@ -2351,8 +2351,8 @@
       "path": "design/cinematic/exports/hospital-rescue/review/phone390-full.poster.webp",
       "pilot": "hospital-rescue",
       "class": "review",
-      "sha256": "bfb006a9dea6ec83b59ec8ea311906efc1fb1fadb5de6ac00d359d07bad95425",
-      "bytes": 110120,
+      "sha256": "0e188b3b9dee75492326098ac28cacbe6326a9754d3a3ef7209511ff56658986",
+      "bytes": 110280,
       "width": 585,
       "height": 1266,
       "codec": "webp",
@@ -2371,12 +2371,12 @@
       "path": "design/cinematic/exports/hospital-rescue/review/phone390-full.preview.webp",
       "pilot": "hospital-rescue",
       "class": "review",
-      "sha256": "c34dceaa40c943fcc1d891a8554b88dfeadcddb343d23a161cf093a6321b75aa",
-      "bytes": 87872,
+      "sha256": "9d46090a3327fc31efd35c378e10668bcbce785e0b0cfdb1c53285a6ff8a6a7b",
+      "bytes": 85580,
       "width": 240,
       "height": 520,
       "codec": "webp",
-      "frames": 71,
+      "frames": 68,
       "durationMs": 6249,
       "animated": true,
       "kind": "preview",
@@ -2392,7 +2392,7 @@
       "path": "design/cinematic/exports/hospital-rescue/review/phone390-full.render.json",
       "pilot": "hospital-rescue",
       "class": "review",
-      "sha256": "1d8ce6b3cf5cbc25dd66392c98773c1bd824c3f08a612b71fc8c1a6df754cbaa",
+      "sha256": "781b41a8222daaa11259cbda93dce42d1f11f0db035174020c778a7ec8d018f2",
       "bytes": 1676,
       "audience": "public (RESCUED)"
     },
@@ -2400,8 +2400,8 @@
       "path": "design/cinematic/exports/hospital-rescue/review/phone390-reduced.mp4",
       "pilot": "hospital-rescue",
       "class": "review",
-      "sha256": "40eecad659d3cfd6d24ae3e2be7507a4789548d9aafac8f3f7356066c7f62edd",
-      "bytes": 152493,
+      "sha256": "edcff5bd57737edc2686623460dc12eb1d9739acf948b979325825f29a93833a",
+      "bytes": 153210,
       "width": 586,
       "height": 1266,
       "codec": "h264",
@@ -2433,8 +2433,8 @@
       "path": "design/cinematic/exports/hospital-rescue/review/phone390-reduced.poster.webp",
       "pilot": "hospital-rescue",
       "class": "review",
-      "sha256": "0ef480312ef1e8c582b90c17810fc21d54d08d2fd0bfaf21f8f988512e78fd19",
-      "bytes": 110246,
+      "sha256": "2c0531d5948beeaefa503beba2e3ef6242b34ceaa8fb2328d7ccf5b7a818ae3d",
+      "bytes": 110170,
       "width": 585,
       "height": 1266,
       "codec": "webp",
@@ -2453,8 +2453,8 @@
       "path": "design/cinematic/exports/hospital-rescue/review/phone390-reduced.preview.webp",
       "pilot": "hospital-rescue",
       "class": "review",
-      "sha256": "50198d53a62a029b4f0d88d5d604f90d8ab401cc72f5be724f8f8675770c4a65",
-      "bytes": 26378,
+      "sha256": "272a40218974781f6a41c7acdbfb361973ca577f1141de4e2549214e0f39447a",
+      "bytes": 24880,
       "width": 240,
       "height": 520,
       "codec": "webp",
@@ -2474,7 +2474,7 @@
       "path": "design/cinematic/exports/hospital-rescue/review/phone390-reduced.render.json",
       "pilot": "hospital-rescue",
       "class": "review",
-      "sha256": "cc6823f701868f3053f2e6a5785e025ece213de446a5e223f53b1e965840b0a1",
+      "sha256": "6ed00b2df753b24415c565bbf5e1fda47f95fc1817b603e28103b6067b754578",
       "bytes": 1693,
       "audience": "public (RESCUED)"
     },
@@ -2482,8 +2482,8 @@
       "path": "design/cinematic/exports/hospital-rescue/review/phone390-short.mp4",
       "pilot": "hospital-rescue",
       "class": "review",
-      "sha256": "9b97c54c3100b926db46a7541c8d59ae70b62a78df282882c25e2565cc3d457a",
-      "bytes": 193523,
+      "sha256": "dfbbb7f8e0d27b43db9af686b1d6ac78ec83e76897b87f4af935dad91d4f3ac5",
+      "bytes": 191437,
       "width": 586,
       "height": 1266,
       "codec": "h264",
@@ -2515,8 +2515,8 @@
       "path": "design/cinematic/exports/hospital-rescue/review/phone390-short.poster.webp",
       "pilot": "hospital-rescue",
       "class": "review",
-      "sha256": "2d4687c9b370be6a51ca9699c672d2f0b3dbd6076c9b60e3670cb16b23e2be8b",
-      "bytes": 109866,
+      "sha256": "f8ddd133f6361f1f7e1ccc09b6ec5515d1fc64173ab0482b49a5d00884be46c5",
+      "bytes": 110064,
       "width": 585,
       "height": 1266,
       "codec": "webp",
@@ -2535,12 +2535,12 @@
       "path": "design/cinematic/exports/hospital-rescue/review/phone390-short.preview.webp",
       "pilot": "hospital-rescue",
       "class": "review",
-      "sha256": "afbba62378c0a549c5fb5b100edf564b0e858627cf1b432b4edd2eacb06177fc",
-      "bytes": 37206,
+      "sha256": "84c7d373f7882033f10b366f1f646b53d2602d71b882dfa311cebad78baff88e",
+      "bytes": 35340,
       "width": 240,
       "height": 520,
       "codec": "webp",
-      "frames": 19,
+      "frames": 18,
       "durationMs": 1666,
       "animated": true,
       "kind": "preview",
@@ -2556,7 +2556,7 @@
       "path": "design/cinematic/exports/hospital-rescue/review/phone390-short.render.json",
       "pilot": "hospital-rescue",
       "class": "review",
-      "sha256": "10653987502a1835c0db0ca4aeb5c56b14e6e42a68ecf66fcdcf48ffa51a3a55",
+      "sha256": "7252916e9bec5479fe5a7e3dab2126d2438fba2aa0985a19c1f4d37766fa8a69",
       "bytes": 1680,
       "audience": "public (RESCUED)"
     },
@@ -4742,6 +4742,6 @@
   "totals": {
     "sources": 36,
     "exports": 252,
-    "bytes": 54363617
+    "bytes": 54333811
   }
 }

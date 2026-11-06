@@ -34,7 +34,7 @@ This is a proposal: nothing is adopted until Integration review, and the words a
 | Draw locally; Show an immutable image, appended with author and order; no erase or replace (game design; motion requirements) | Inks, widths, Undo and Clear act only on this phone. Show asks first: "… Everyone in Room A and Room B sees it, and it cannot be erased or replaced." The feed numbers each drawing in shown order with its author ("#2 · Player 6, Fay"). No control acts on a shown drawing |
 | Drawings expire at the round's end; they survive Sync with window-only access (game design; P04) | "Shown drawings stay until the end of Round 4." The next round's feed is empty ("Nothing shown yet this round.") |
 | Viewing, drawing and Show are free; a movement block does not stop a seated artist (P26) | No cost is drawn anywhere. The pad depends only on the station and the offer |
-| Windows cannot bypass the Blackout's darkness (brief; motion requirements) | During `BLACKOUT` a shade lowers over every pane: "Lights out: the Blackout darkens every window until the lights return." No pad is drawn |
+| Windows cannot bypass the Blackout's darkness (brief; motion requirements); "Windows remain lit during Blackout's first five seconds; darkness begins at the authoritative preview deadline" (the owner, 6 November 2026) | The panes stay lit through the Blackout's five lit seconds; from `blackout.previewEndsAt` to the Blackout's end a shade covers every pane: "Lights out: the Blackout darkens every window until the lights return." No pad is drawn while dark. A Blackout whose view has no `previewEndsAt` is dark from its start (missing field: fail closed) |
 | Drawings are claims, not verified evidence (brief; P25) | Every window says "Drawings are claims. The app does not check them." No word calls a drawing proof, evidence or fact |
 | Bounded vector strokes only; never script, HTML, SVG markup or remote URLs (contract) | `drawingPaths()` keeps only `#RRGGBB` colours, widths 1 to 24 and points inside 0 to 1, and emits numbers. A test feeds it hostile strokes. The pad's ink meter counts toward the contract's 4,096 points |
 
@@ -61,7 +61,7 @@ This seat's windows, in the view's order. Each carries:
 | State | When | Drawn |
 | --- | --- | --- |
 | `none` | the seat does not see this window | nothing |
-| `dark` | the `BLACKOUT` phase | the shade over the pane, no pad |
+| `dark` | the Blackout's dark span: from `blackout.previewEndsAt` to its end, at `now` (`isDark(view, now)`, `darkSpan(view)`); without a clock, or without the deadline, the whole Blackout | the shade over the pane, no pad |
 | `view-only` | not at this window's station | the pane and its notes |
 | `blank` | at the station, nothing drawn | "You are at this window's drawing station…", the pad, inks, widths, "Draw with your finger. Nothing is sent until you press Show." |
 | `drawing` | a local drawing in progress | the pad, the ink meter, Show (primary), Undo and Clear (quiet) |
@@ -75,7 +75,8 @@ This seat's windows, in the view's order. Each carries:
 ### What a view brings once
 
 - `newDrawings(previous, view)` returns drawings first seen on this screen. `windows[].drawings[]` has no `publishedAt` (R7), so a drawing stamps in on first sight only and never on a reconnect.
-- `darkChange(previous, view)` returns `dark` or `light` when the Blackout starts or ends.
+- `darkChange(previous, view, { previousNow, now })` returns `dark` when the clock passes `blackout.previewEndsAt` (no new view is needed) and `light` when the Blackout ends; a screen with no earlier moment draws the shade at rest.
+- `padState(view, windowId, { now })` takes the server-corrected clock: during the five lit seconds a window keeps its usual state (`view-only`, `closed`...).
 
 ## Assets
 
@@ -128,7 +129,7 @@ Each motion plays once, from the moment its cause first arrives in a view this s
 | --- | --- | --- | --- |
 | `show` | 760 ms | on the artist's accepted receipt: the drawing lifts off the pad into the pane and shrinks 0–480; the new image lands 360–560; SHOWN 480–760 | fades, 160 ms |
 | `arrive` | 420 ms | a drawing first seen (R7): it drops into the end of the feed 0–360; its tape presses down 240–420 | fades, 160 ms |
-| `dark` | 420 ms | the Blackout begins: the shade lowers over the pane 0–320; "Lights out" 240–420 | fades, 160 ms |
+| `dark` | 420 ms | the clock reaches the Blackout's preview deadline (five seconds in): the shade lowers over the pane 0–320; "Lights out" 240–420 | fades, 160 ms |
 | `light` | 320 ms | the Blackout ends: the shade rises 0–320 | fades, 160 ms |
 
 ## Sound and vibration

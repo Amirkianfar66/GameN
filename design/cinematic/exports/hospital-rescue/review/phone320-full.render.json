@@ -23,8 +23,8 @@
     {
       "kind": "video",
       "file": "design/cinematic/exports/hospital-rescue/review/phone320-full.mp4",
-      "sha256": "1ba3a170e05602f2225d4f31ef5874f04d18c98a77a4f94b12d2f28b178451f2",
-      "bytes": 276925,
+      "sha256": "027263141aa7e5a02902010fa58ccd4196b7f0fbf174f516c965528544717119",
+      "bytes": 275103,
       "fps": 30,
       "frames": 187,
       "durationMs": 6200,
@@ -35,14 +35,14 @@
     {
       "kind": "preview",
       "file": "design/cinematic/exports/hospital-rescue/review/phone320-full.preview.webp",
-      "sha256": "ed49f2daaded8866aeb8fa730852aa38dd149ea9641480ec01a28008f8567aed",
-      "bytes": 86290
+      "sha256": "073afa46dfd045f95e8745e25b80187de6e348e6e45f86269aaf03f6be29016c",
+      "bytes": 84012
     },
     {
       "kind": "poster",
       "file": "design/cinematic/exports/hospital-rescue/review/phone320-full.poster.webp",
-      "sha256": "5ccbba6f42f6c4fe57d734424bb9f12d2c18ac937d7d6670c7d08534d9ea9484",
-      "bytes": 71812,
+      "sha256": "6cf7c09ddc741b03471e15054f12ba4ce09c3eb0614f4f6c70e5a287aeac8762",
+      "bytes": 71948,
       "t": 3700
     }
   ],

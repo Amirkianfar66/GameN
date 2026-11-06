@@ -6,6 +6,54 @@ What the game owner decided about look, feel and presentation while working with
 
 The owner's messages are quoted as written.
 
+## 6 November 2026: the Blackhole's stage, the route window and seven corrections
+
+**Two timing decisions, P27 and P28, and seven focused corrections, given to the Designer with the latest reviewed Designer head (`ff7b689`, PR [Amirkianfar66/GameN#183](https://github.com/Amirkianfar66/GameN/pull/183)). The owner marked the timing decisions as not to be reopened.**
+
+The owner wrote:
+
+> CONFIRMED TIMING — do not reopen these decisions:
+>
+> • R1 / P27: after actual Blackhole Sync, there is a separate six-second presentation stage. The full 60-second Jail vote starts afterward. Update the catalogue, handoff and presentation guards that still call R1 undecided.
+>
+> • R10 / P28: from Round 2, every navigation opportunity has the same full 15-second route-setting window. Only the eligible Officer receives controls for a genuine tie. Early selection cannot shorten the window. Public wording, animation, sound and timing must not reveal whether a tie occurred.
+
+> FOCUSED CORRECTIONS:
+>
+> • Windows remain lit during Blackout's first five seconds; darkness begins at the authoritative preview deadline.
+> • Restored weapons after Blackhole Sync must not be presented as a new Supply delivery.
+> • Keypads display player numbers but preserve canonical player IDs for Frontend commands.
+> • Rescue animation must leave the player's current authoritative figure and interaction target usable. A healed free player returns to A/B; a healed detained player returns to Jail.
+> • Capsule exit remains on the board. Do not add an unapproved covering EJECT stage.
+> • Your giver-only "Meet in A/B" Promise wording is correct. Keep it; Backend and Frontend are correcting their mismatch.
+
+| # | What it says | What it decides |
+| --- | --- | --- |
+| P27 | "a separate six-second presentation stage" after an actual Blackhole Sync | R1 is answered. The Blackhole's 5.2 s stage cut plays on the display in that stage, and the phones play the board treatment from the stage's start. The full 60-second Jail vote follows; no film plays into it |
+| P28 | "the same full 15-second route-setting window" at every navigation opportunity from Round 2 | R10 is answered. The route-setting window runs every round, tie or not. Only the eligible Officer sees tie controls, an early choice does not end the window, and every other screen reads the same throughout |
+| 1 | windows "lit during Blackout's first five seconds" | A window darkens at `blackout.previewEndsAt`, not at the Blackout's start |
+| 2 | "Restored weapons after Blackhole Sync must not be presented as a new Supply delivery" | The Supply receipt needs an explicit delivery marker; a count that grows without one is drawn at rest |
+| 3 | "Keypads display player numbers but preserve canonical player IDs" | Every key and target keeps its `seat-N` id for the command and shows N |
+| 4 | the Rescue leaves "the player's current authoritative figure and interaction target usable" | The board's own figure is never hidden, greyed or moved during the Rescue |
+| 5 | "Capsule exit remains on the board. Do not add an unapproved covering EJECT stage" | S2's exit on the board stands. S7 on the board is the only runtime EJECT; the display cut is a review study |
+| 6 | the giver-only "Meet in A/B" wording "is correct. Keep it" | R13(b) is answered: a meeting Promise is the giver's place alone |
+
+### What the Designer did with it
+
+The corrections are on the branch `claude/designer-owner-corrections`, stacked on #183, with a handoff for Frontend in [frontend-corrections-2026-11-06.md](frontend-corrections-2026-11-06.md).
+
+- **The presentation guard** (`design/cinematic/lib/visibility.mjs`): `PRESENTATION_STAGES` holds P27's stage for the Blackhole alone, and `NO_RUNTIME_COVER` keeps the EJECT on the board in every phase.
+- **The motion bible** (`cinematic-catalogue-0.11.0`): R1 and R10 answered, R13(b) answered, and two new requests for Backend, R15 and R16.
+- **The library:** the windows' dark span, the Supply receipt's marker, the route window, and canonical seat ids in the keypads and seat pickers of groups 1, 3, 4, 6 and 7 (`design/library/seats.mjs`).
+- **Pilot 1:** the Rescue's board treatment leaves the patient's figure as the board draws it; its eight board-treatment renders are redone.
+
+### What it does not settle
+
+- **The stage's phase kind** (R16). The protocol 3 candidate has no phase for P27's stage. Until a view carries one, the Blackhole plays behind the crew at the Jail vote's start, covering nothing.
+- **The Supply's marker** (R15). The candidate has no event or field that says a weapon was delivered. Until it does, no receipt is drawn.
+- **The route window's name.** The candidate calls it `NAV_TIE`. Since it now runs every round the name no longer means a tie; Backend may rename it.
+- **Phones.** None of this has been tried on a real phone.
+
 ## 13 October 2026: the fixed slots, the ward and the smallest phone
 
 **A go-ahead and an approval, recorded: artwork for the owner's motion specification starts with the board's fixed slots and a Hospital ward, and the smallest phone gets a more compact shell rather than smaller targets or a scrolling board.**

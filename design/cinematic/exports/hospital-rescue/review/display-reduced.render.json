@@ -23,8 +23,8 @@
     {
       "kind": "video",
       "file": "design/cinematic/exports/hospital-rescue/review/display-reduced.mp4",
-      "sha256": "d90b79298099f0d44add62e49165f52ab9c7d716de43dba2004b94ad676b3d0c",
-      "bytes": 152624,
+      "sha256": "c646e562839cdbcf9723dcb99199e034e12708100120eeada309fdcf3970bd96",
+      "bytes": 151902,
       "fps": 30,
       "frames": 54,
       "durationMs": 1760,
@@ -35,14 +35,14 @@
     {
       "kind": "preview",
       "file": "design/cinematic/exports/hospital-rescue/review/display-reduced.preview.webp",
-      "sha256": "67eed710674fd7b0a7e0a938c3d06a3a72d8acdb7902596888093f107df2d4dc",
-      "bytes": 25318
+      "sha256": "488919e41cf6d546fc7e59e4f5a62bf08b3c9b677c053ffbcb5944c944813f89",
+      "bytes": 23498
     },
     {
       "kind": "poster",
       "file": "design/cinematic/exports/hospital-rescue/review/display-reduced.poster.webp",
-      "sha256": "cc30aaf6045850a328e0e9bf70b38791496d9e26648bbfded2f9e5339e10470b",
-      "bytes": 102672,
+      "sha256": "35aedd1a43e5df252fa14fbc16e16ef14fe21e632838a45c1d9c261d293c4683",
+      "bytes": 102738,
       "t": 1200
     }
   ],

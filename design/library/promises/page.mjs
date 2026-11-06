@@ -11,15 +11,17 @@ import { BLURBS, PENDING_R13, PROMISE_COPY as C, TITLES, decided, label, result,
 import { FRAMES, MOTION, motionEnd } from './motion.mjs';
 import { COMPOSER_STATES, INBOX_STATES, KINDS, composerState, inboxState, ledger } from './states.mjs';
 import { buttons, card, el, failed, loadArt, mountPage, player, stamp, strip, words } from '../review.mjs';
+import { seatNumber } from '../seats.mjs';
 
 // ---------- the synthetic match (labelled as such on the page) ----------
 
 const NAMES = ['Ada', 'Ben', 'Cleo', 'Dev', 'Eli', 'Fay', 'Gus', 'Hana', 'Ivo'];
-const name = n => NAMES[n - 1];
-const HANA = 8, CLEO = 3, ELI = 5;
+/** A seat's synthetic name, from its canonical id (the views carry ids; the words show numbers). */
+const name = id => NAMES[seatNumber(id) - 1];
+const HANA = 'seat-8', CLEO = 'seat-3', ELI = 'seat-5';
 
 /** A view with only what the state map reads, every field named as the contract names it. */
-function view({ seat = HANA, round = 4, phase = 'HACK', offers = [], recipients = [CLEO], targets = [1, 2, 3, 4, 5, 6, 7, 9], promises = [] }) {
+function view({ seat = HANA, round = 4, phase = 'HACK', offers = [], recipients = [CLEO], targets = ['seat-1', 'seat-2', 'seat-3', 'seat-4', 'seat-5', 'seat-6', 'seat-7', 'seat-9'], promises = [] }) {
   return {
     round, playerCount: 9, phase: { id: `r${round}-${phase}`, kind: phase, startedAt: 0, endsAt: null }, self: { seatId: seat },
     offers: offers.map(type => ({ type, targetSeatIds: type === 'OFFER_PROMISE' ? recipients : [], slotIds: [], windowIds: [], promiseTargetSeatIds: type === 'OFFER_PROMISE' ? targets : [] })),
@@ -29,7 +31,7 @@ function view({ seat = HANA, round = 4, phase = 'HACK', offers = [], recipients 
 let serial = 0;
 const promise = (fields) => ({ id: `promise-${++serial}`, giverSeatId: HANA, recipientSeatId: CLEO, targetSeatId: null, round: 4, electionId: null, accepted: false, status: 'Pending', offerStatus: 'offered', ...fields, ...(fields.offerStatus === 'accepted' ? { accepted: true } : {}) });
 const election = kind => (kind === 'CAPTAIN_SUPPORT' || kind === 'OFFICER_SELECTION' ? 'election-r5' : null);
-const fieldText = (v, extra = '') => `round ${v.round} · ${v.phase.kind} · seat ${v.self.seatId} (${name(v.self.seatId)}) · offers [${v.offers.map(o => o.type).join(', ')}] · promises [${v.promises.map(p => `${p.kind} ${p.giverSeatId}→${p.recipientSeatId}${p.targetSeatId ? ` target ${p.targetSeatId}` : ''} ${p.offerStatus}${p.offerStatus === 'accepted' ? ` ${p.status}` : ''}`).join('; ')}]${extra}`;
+const fieldText = (v, extra = '') => `round ${v.round} · ${v.phase.kind} · ${v.self.seatId} (${name(v.self.seatId)}) · offers [${v.offers.map(o => o.type).join(', ')}] · promises [${v.promises.map(p => `${p.kind} ${p.giverSeatId}→${p.recipientSeatId}${p.targetSeatId ? ` target ${p.targetSeatId}` : ''} ${p.offerStatus}${p.offerStatus === 'accepted' ? ` ${p.status}` : ''}`).join('; ')}]${extra}`;
 
 // ---------- the card ----------
 
@@ -84,7 +86,7 @@ export function composerView(s, v) {
     case 'closed': return strip(C.tape, null, words(C.closed), note, words(C.quotaGive, 'lib-note'));
     case 'given': return strip(C.tape, null, words(C.given));
     case 'choose': return strip(C.tape, null, words(R ? C.choose(R) : C.chooseWho), chooser(s, reader), note, words(C.quotaGive, 'lib-note'));
-    case 'target': return strip(C.tape, null, words(C.chooseTarget), el('div', { class: 'pr-targets', role: 'group', 'aria-label': 'Jail vote target' }, s.targets.map(n => el('button', { type: 'button', class: 'ab-button pr-target' }, `${n} ${name(n)}`))), buttons(C.back));
+    case 'target': return strip(C.tape, null, words(C.chooseTarget), el('div', { class: 'pr-targets', role: 'group', 'aria-label': 'Jail vote target' }, s.targets.map(id => el('button', { type: 'button', class: 'ab-button pr-target', 'data-seat-id': id }, `${seatNumber(id)} ${name(id)}`))), buttons(C.back));
     case 'review': return strip(C.tape, null, words(C.review(R)), promiseCard(draftRecord(s.kind, s.target), reader), buttons(C.offer, C.back), words(C.quotaGive, 'lib-note'));
     case 'sending': return strip(C.tape, C.stampSending, art('pr-envelope', 'pr-envelope'), words(C.sending));
     case 'waiting': return strip(C.tape, C.stampOffered, art('pr-envelope', 'pr-envelope'), words(C.waiting(label(s.record.recipient, reader, name))), promiseCard(s.record, reader));

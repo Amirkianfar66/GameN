@@ -23,8 +23,8 @@
     {
       "kind": "video",
       "file": "design/cinematic/exports/hospital-rescue/review/phone390-reduced.mp4",
-      "sha256": "40eecad659d3cfd6d24ae3e2be7507a4789548d9aafac8f3f7356066c7f62edd",
-      "bytes": 152493,
+      "sha256": "edcff5bd57737edc2686623460dc12eb1d9739acf948b979325825f29a93833a",
+      "bytes": 153210,
       "fps": 30,
       "frames": 54,
       "durationMs": 1760,
@@ -35,14 +35,14 @@
     {
       "kind": "preview",
       "file": "design/cinematic/exports/hospital-rescue/review/phone390-reduced.preview.webp",
-      "sha256": "50198d53a62a029b4f0d88d5d604f90d8ab401cc72f5be724f8f8675770c4a65",
-      "bytes": 26378
+      "sha256": "272a40218974781f6a41c7acdbfb361973ca577f1141de4e2549214e0f39447a",
+      "bytes": 24880
     },
     {
       "kind": "poster",
       "file": "design/cinematic/exports/hospital-rescue/review/phone390-reduced.poster.webp",
-      "sha256": "0ef480312ef1e8c582b90c17810fc21d54d08d2fd0bfaf21f8f988512e78fd19",
-      "bytes": 110246,
+      "sha256": "2c0531d5948beeaefa503beba2e3ef6242b34ceaa8fb2328d7ccf5b7a818ae3d",
+      "bytes": 110170,
       "t": 1200
     }
   ],

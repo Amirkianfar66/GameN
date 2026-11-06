@@ -28,7 +28,7 @@ This is a proposal: nothing is adopted until Integration review, and the words a
 | Rule | Drawn as |
 | --- | --- |
 | Each living Hospital patient has one code attempt in the whole match, spent globally (game design; rules contracts) | The console only for a living seat placed in the Hospital. The ask names the one attempt, and so does the confirmation before sending. After that the console says "used" for the rest of the match |
-| The code is the Doctor's original player number (game design) | A keypad of player numbers only (1 to 7, 8 or 9), never faces or names. Every key is the same picture, so none is suggested |
+| The code is the Doctor's original player number (game design); "Keypads display player numbers but preserve canonical player IDs for Frontend commands" (the owner, 6 November 2026) | A keypad of player numbers only (1 to 7, 8 or 9), never faces or names. Every key is the same picture, so none is suggested. Each key keeps its canonical seat id (`seat-1` to `seat-9`); the command sends that id, never the number |
 | A correct number reserves one of the two shared injections and queues self-Rescue at this round's Rescue stage. Registering is not a heal (game design; brief; motion requirements) | Accepted: "registered", never "healed". With R12: "reserved", plus "Until then nothing is healed: an attack before the Rescue stage still counts." |
 | A wrong number spends only the attempt (game design) | With R12: "Not the Doctor's number. Your one attempt is used; no injection was spent." A strike across the blank screen, with no shake |
 | With no injection available, the request is refused before the number is checked: nothing spent, no correctness revealed (P21; "no empty-pool code oracle") | Only with R12's explicit reason: "The panel has no injection left. Your number was not checked, and your attempt is not used." The words are the same for every number. Without the reason: "The server did not accept the number. Nothing was used." |
@@ -43,15 +43,17 @@ This is a proposal: nothing is adopted until Integration review, and the words a
 - `pending`: a command sent, with no receipt yet;
 - `accepted`: the phase in which this client saw `PANEL_CODE` accepted;
 - `rejected`: the phase and code of a refusal;
-- `picked`: the number chosen on this phone.
+- `picked`: the canonical seat id (`seat-N`) of the key pressed on this phone. A bare number is not a pick.
 
 `offers[]` is the only authority on whether a number may be sent.
+
+**Keys and the command.** `keypad(view)` returns the keys in player-number order, each `{ seatId, number }`: the offer's `targetSeatIds` when it lists them, else every seat of the match. The player reads and presses `number`; the client remembers `seatId`, and `panelCommand(seatId)` builds `{ type: 'PANEL_CODE', doctorSeatId: seatId }`. The number shown comes from `design/library/seats.mjs` `seatNumber()`, the same table as the reviewed Frontend's `seatNumber()`; nothing parses a number back into an id. `choosing` and `sending` carry both `seatId` (for the command) and `number` (for the screen and the words).
 
 | State | When | Drawn |
 | --- | --- | --- |
 | `none` | not a living seat placed in the Hospital | nothing |
 | `available` | `PANEL_CODE` offered, no number picked | the console (screen "– –", lamp ready), the ask, the keypad |
-| `choosing` | offered, a number from the keypad picked on this phone | the number on the screen and its key lit; "Send 6? This is your one attempt in the match."; Send number, Clear |
+| `choosing` | offered, a key picked on this phone (its seat id) | the key's number on the screen and its key lit; "Send 6? This is your one attempt in the match."; Send number, Clear |
 | `sending` | `PANEL_CODE` sent, no receipt | SENDING; the number on the screen; lamp busy |
 | `registered` | accepted in this phase, and the view carries no R12 result | REGISTERED; the screen blank; "Your number is registered. Your one attempt is used." and "The server has not told this phone whether the number was right." |
 | `reserved` | R12 `result: RESERVED, status: QUEUED` | RESERVED; the vial seated and lit; lamp ok; the reserved words and the "nothing is healed" note |

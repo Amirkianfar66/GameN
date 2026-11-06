@@ -2,10 +2,10 @@
 
 **NOT PRODUCED.** Pre-production only: no footage exists. Comic counterparts, delivered and working:
 `design/cinematic/exports/blackhole/runtime/space-insert-titled.mp4` and `space-insert-textless.mp4`
-(identity-free) and the stage cut `review/display-stage.mp4` (a proposal for a presentation stage the owner
-has not approved, R1; the default plays behind the crew on the board, `review/display-full.mp4`).
-Like the stage cut, a live-action plate would cover the board, so it could play only in such a
-stage, never over the Jail vote.
+(identity-free) and the stage cut `review/display-stage.mp4` (for the display in P27's six-second
+presentation stage after an actual Sync; phones play the board treatment, `review/phone390-full.mp4`).
+Like the stage cut, a live-action plate would cover the board, so it could play only in that stage,
+inside its six seconds, never over the Jail vote.
 
 ## Treatment
 

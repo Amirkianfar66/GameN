@@ -170,5 +170,5 @@ What the catalogue (docs/design/cinematic/motion-bible.md) still needs, by scene
 | Doctor Rescue | PILOT 1 (cinematic pass over the approved S5): the board treatment on phones and the display; the display cut only where nobody decides | live-action insert: study only (NOT PRODUCED) |
 | Hack Spaceship | library group 1 (proposal) | no public or office cue for the hack beyond the direction itself: none is authorized |
 | Private Talk capsule | PILOT 3 (the display's entrance page over the approved S2, in the result stage; the talk and the exit are S2 on the board everywhere) | live-action study not needed (comic-only by design) |
-| Blackhole and Sync | PILOT 2: behind the crew on every surface; the display's stage cut only with an approved presentation stage (R1) | live-action insert: study only (NOT PRODUCED) |
+| Blackhole and Sync | PILOT 2: the display's stage cut in P27's six-second presentation stage; phones behind the crew from the stage's start; behind the crew at the Jail vote's start wherever the stage's phase kind is missing (R16) | live-action insert: study only (NOT PRODUCED) |
 

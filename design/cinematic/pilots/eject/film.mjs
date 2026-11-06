@@ -19,9 +19,11 @@
 //   closure   5800-7200  the wall again: the iris shuts, the clamps engage, the hatch is gone, the
 //                        light returns to normal, the memorial plaque; the console's EJECT used
 //
-// The insert (a runtime export) is the exterior alone with nothing of a person in it: the hatch's
-// light and the loose things the air takes, the same for every EJECT. A client draws the match's own
-// silhouettes over it, from the frame functions, or plays the cut live.
+// A review study, never mounted in the game: no covering EJECT stage is approved (the owner,
+// 6 November 2026: "Do not add an unapproved covering EJECT stage"), so S7 on the board is the only
+// runtime EJECT, on every surface, and design/cinematic/lib/visibility.mjs presentationIn() answers
+// 'board' for it in every phase. The insert (exports/eject/review/) is the exterior alone with nothing
+// of a person in it: the hatch's light and the loose things the air takes; a study for the same cut.
 //
 // Inputs are S7's: the time since the outcome's presentation start, the outcome's subjects in slot
 // order (each { body }), and the device's reduced-motion setting. Nothing here reads a role, a side

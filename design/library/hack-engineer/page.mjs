@@ -13,6 +13,7 @@ import { chip, codeCard } from '../../abilities/js/intel.js';
 import { LIBRARY_COPY as C, listSeats } from './copy.mjs';
 import { FRAMES, MOTION, motionEnd } from './motion.mjs';
 import { engineerState, finalCodeState, shipHackState } from './states.mjs';
+import { seatIdOf } from '../seats.mjs';
 
 const params = new URLSearchParams(location.search);
 const root = document.documentElement;
@@ -24,16 +25,17 @@ root.dataset.motion = reduced ? 'reduced' : 'full';
 // ---------- the synthetic match (labelled as such on the page) ----------
 
 const NAMES = ['Ada', 'Ben', 'Cleo', 'Dev', 'Eli', 'Fay', 'Gus', 'Hana', 'Ivo'];
-const SEATS = NAMES.map((name, i) => Object.freeze({ n: i + 1, name, character: `c${i + 1}` }));
-const seatOf = n => SEATS[n - 1];
+const SEATS = NAMES.map((name, i) => Object.freeze({ seatId: seatIdOf(i + 1), n: i + 1, name, character: `c${i + 1}` }));
+/** A seat by its canonical id (the views and the commands carry ids; n is the number drawn). */
+const seatOf = seatId => SEATS.find(s => s.seatId === seatId);
 const PLACES = { 1: 'Room A', 2: 'Room A', 3: 'Room A', 4: 'Room A', 5: 'Room B', 6: 'Room B', 7: 'Command Room', 8: 'Hospital', 9: 'Jail' };
 
 /** A player view with only what the state map reads, every field named as the contract names it. */
 function view({ role, seat, round = 3, phase = 'ORDINARY_TURN', active = seat, health = 'Healthy', location = PLACES[seat], jailed = false, roleActionSpent = false, abilities = {}, offers = [], lastMovedRound = round - 1, places = PLACES }) {
-  const seats = SEATS.map(s => ({ seatId: s.n, health: s.n === seat ? health : s.n === 8 ? 'Injured' : 'Healthy', location: s.n === seat ? location : places[s.n], slotId: null, jailed: s.n === seat ? jailed : s.n === 9, captain: s.n === 7, officer: false, revealedFaction: null }));
+  const seats = SEATS.map(s => ({ seatId: s.seatId, health: s.n === seat ? health : s.n === 8 ? 'Injured' : 'Healthy', location: s.n === seat ? location : places[s.n], slotId: null, jailed: s.n === seat ? jailed : s.n === 9, captain: s.n === 7, officer: false, revealedFaction: null }));
   return {
-    round, phase: { kind: phase }, activeSeatId: active, navigation: { lastMovedRound, arrivedAt: null },
-    self: { seatId: seat, role, roleActionSpent },
+    round, phase: { kind: phase }, activeSeatId: seatIdOf(active), navigation: { lastMovedRound, arrivedAt: null },
+    self: { seatId: seatIdOf(seat), role, roleActionSpent },
     board: { kind: 'PLAYER_CURRENT', seats },
     abilities: { codeAttempted: false, shipHackUnlocked: false, shipHackSpent: false, engineerSpent: false, ...abilities },
     offers: offers.map(type => ({ type, targetSeatIds: [], slotIds: [], windowIds: [], promiseTargetSeatIds: [] })),
@@ -66,7 +68,7 @@ const ROOM_ART = { 'Room A': '../../board-motion/assets/scenes/room-a.back.svg',
 
 // ---------- the Hacker: the final Code ----------
 
-const PICKS = [2, 6, 7, 9].map(seatOf);
+const PICKS = ['seat-2', 'seat-6', 'seat-7', 'seat-9'].map(seatOf);
 function codeWithPunch(picks, punched) {
   return el('span', { class: 'lib-code' }, codeCard(picks), punched ? prop('punch') : null);
 }
@@ -130,7 +132,7 @@ export function engineerView(s, { room = 'Room B' } = {}) {
   const seats = list => (list ?? []).map(seatOf);
   switch (s.state) {
     case 'available': return strip(C.tapeCapture(s.room), null, roomView(s.room, s.preview), words(C.captureAsk(s.room, seats(s.preview))), words(C.captureOnce, 'lib-note'), buttons(C.captureButton(s.room), C.notNow));
-    case 'sending': return strip(C.tapeCapture(room), C.stampSending, roomView(room, [5, 6], { shutter: false }), words(C.captureSending));
+    case 'sending': return strip(C.tapeCapture(room), C.stampSending, roomView(room, ['seat-5', 'seat-6'], { shutter: false }), words(C.captureSending));
     case 'captured': return strip(C.tapeCapture(room), C.stampCaptured, print(room, s.seatIds), words(C.captured(seats(s.seatIds), s.round)));
     case 'used': return file('engineer', C.tapeEngineer, s.seatIds ? print(room, s.seatIds) : prop('clamp-used'), el('div', { class: 'lib-file__words' }, words(C.captureUsed(s.seatIds ? seats(s.seatIds) : null, s.round)), el('span', { class: 'lib-stamp-slot' }, stamp(C.stampUsed))));
     case 'unavailable': return file('engineer', C.tapeEngineer, prop('clamp'), el('div', { class: 'lib-file__words' }, words(C.engineerRule, 'lib-note'), el('p', { class: 'lib-blocker' }, blockerWords(s.blockers ?? []))));
@@ -148,7 +150,7 @@ function hackerCases() {
   const add = (label, v, opts, draw) => { const s = draw.state(v, opts); out.push(card(`${draw.name}: ${s.state}${label ? ` (${label})` : ''}`, fieldText(v, opts?.pending ? ` · pending ${opts.pending}` : ''), draw.view(s, opts?.drawOptions))); };
   const FC = { name: 'final Code', state: finalCodeState, view: finalCodeView };
   add('', H({ round: 1 }), {}, FC);
-  add('choosing, 2 of 4', H({ offers: ['SUBMIT_CODE'] }), { drawOptions: { picks: [2, 6].map(seatOf) } }, FC);
+  add('choosing, 2 of 4', H({ offers: ['SUBMIT_CODE'] }), { drawOptions: { picks: ['seat-2', 'seat-6'].map(seatOf) } }, FC);
   add('', H({ offers: ['SUBMIT_CODE'] }), {}, FC);
   add('', H({ offers: ['SUBMIT_CODE'] }), { pending: 'SUBMIT_CODE' }, FC);
   add('', H({ abilities: { codeAttempted: true, shipHackUnlocked: true } }), {}, FC);
@@ -177,8 +179,8 @@ function engineerCases() {
   add('two in Room B', E({ offers: ['ENGINEER_SUPPRESS'] }));
   add('Room B empty', E({ offers: ['ENGINEER_SUPPRESS'], places: { ...PLACES, 5: 'Room A', 6: 'Command Room' } }));
   add('', E({ offers: ['ENGINEER_SUPPRESS'] }), { pending: 'ENGINEER_SUPPRESS' });
-  add('', E({ abilities: { engineerSpent: true, engineerCapture: { round: 3, seatIds: [6, 5] } } }));
-  add('later round', E({ round: 4, abilities: { engineerSpent: true, engineerCapture: { round: 3, seatIds: [5, 6] } } }));
+  add('', E({ abilities: { engineerSpent: true, engineerCapture: { round: 3, seatIds: ['seat-6', 'seat-5'] } } }));
+  add('later round', E({ round: 4, abilities: { engineerSpent: true, engineerCapture: { round: 3, seatIds: ['seat-5', 'seat-6'] } } }));
   add('record not in the view (R8)', E({ abilities: { engineerSpent: true } }));
   add('not your turn', E({ active: 2 }));
   add('in the Command Room', E({ location: 'Command Room' }));
@@ -275,9 +277,9 @@ const STAGES = {
     };
   },
   capture: stage => {
-    const view = roomView('Room B', [5, 6]);
+    const view = roomView('Room B', ['seat-5', 'seat-6']);
     const frame = view.querySelector('.lib-view__frame'), shutter = view.querySelector('.lib-view__shutter');
-    const pic = print('Room B', [5, 6]);
+    const pic = print('Room B', ['seat-5', 'seat-6']);
     const develop = pic.querySelector('.lib-print__develop');
     const s = stamp(C.stampCaptured);
     stage.append(strip(C.tapeCapture('Room B'), null, el('div', { style: 'display:grid;justify-items:center' }, el('div', { style: 'grid-area:1/1;width:100%' }, view), el('div', { style: 'grid-area:1/1;padding-top:6px' }, pic)), el('span', { class: 'lib-stamp-slot' }, s)));

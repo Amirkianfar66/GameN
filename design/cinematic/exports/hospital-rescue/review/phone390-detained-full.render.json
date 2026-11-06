@@ -23,8 +23,8 @@
     {
       "kind": "video",
       "file": "design/cinematic/exports/hospital-rescue/review/phone390-detained-full.mp4",
-      "sha256": "2d49e6d53dd818b9fe0d25282532100848dce6ce518b42cf787faeb46a1487f9",
-      "bytes": 338983,
+      "sha256": "72479f1e4e1fd7d0292059a102ab9d4bc94ad07eb5637d26c83b144936232637",
+      "bytes": 337355,
       "fps": 30,
       "frames": 187,
       "durationMs": 6200,
@@ -35,14 +35,14 @@
     {
       "kind": "preview",
       "file": "design/cinematic/exports/hospital-rescue/review/phone390-detained-full.preview.webp",
-      "sha256": "97df71b2f7e3afedc3f6d8574c8c5c99713e6418e8ccdc057c2460d066d4c426",
-      "bytes": 96120
+      "sha256": "6a5859c251d17e18e1ebf3c16c9c01ac4f4b3b1367929f9fc72f707729665686",
+      "bytes": 95406
     },
     {
       "kind": "poster",
       "file": "design/cinematic/exports/hospital-rescue/review/phone390-detained-full.poster.webp",
-      "sha256": "3c0f5fcb68b640e8075231f4e0519e696d3ea98f4faea387e28d04a15846e156",
-      "bytes": 107174,
+      "sha256": "a48f58b22c473065cf2db1772d373e6b5c6b2422e0144a6a04d1385ab0b3e362",
+      "bytes": 107242,
       "t": 5500
     }
   ],

@@ -13,8 +13,16 @@
 //             alone sees that there is a tie) and each office's acknowledgement, which never vetoes
 //   everyone  navigation.lastMovedRound and the MOVEMENT_COMPLETED event: that the ship moved; the
 //             destination only on arrival (navigation.arrivedAt, result)
-// The Captain's panel and the public strip draw the tie stage exactly as the confirmation stages:
-// "the course is being set". The contract's public phase kind still names NAV_TIE (request R10).
+// The route-setting window (owner decision P28, 6 November 2026): "from Round 2, every navigation
+// opportunity has the same full 15-second route-setting window. Only the eligible Officer receives
+// controls for a genuine tie. Early selection cannot shorten the window. Public wording, animation,
+// sound and timing must not reveal whether a tie occurred." The protocol 3 candidate calls that
+// window's phase NAV_TIE (15 s); it now runs at every opportunity, tie or not, so neither its kind
+// nor its timing tells anyone anything. Every screen but the eligible Officer's draws it exactly as
+// the acknowledgement stages ("the course is being set"), for the window's full time: the strip and
+// the Captain's panel read only phase.kind, never offers or a choice, and nothing moves on the
+// Officer's choice but the Officer's own panel. The Officer's panel itself shows the tie controls
+// only while CHOOSE_NAV_DIRECTION is offered (a genuine tie), and otherwise reads as everyone's.
 //
 // privateNavigation.tieChoice and .confirmation are not read: their meaning (a tie to choose now, or
 // one chosen; the acknowledgement awaited, or one given) is not settled (request R11). The stage is
@@ -23,6 +31,18 @@
 import { armOf, classify, depthOf, isPlanet, step } from './route.mjs';
 
 export const NAV_PHASES = Object.freeze(['NAV_TIE', 'NAV_CAPTAIN_CONFIRM', 'NAV_OFFICER_CONFIRM']);
+
+/**
+ * The route-setting window (P28): the phase kind the candidate gives it, and its fixed length. It
+ * runs at every navigation opportunity from Round 2, the same 15 s whether or not there is a tie.
+ */
+export const ROUTE_WINDOW = Object.freeze({ kind: 'NAV_TIE', durationMs: 15_000, fromRound: 2, decision: 'P28' });
+
+/**
+ * When the route-setting window ends: the phase's own endsAt, never earlier (an early choice does not
+ * shorten it). null outside the window.
+ */
+export const routeWindowEnds = view => (view.phase?.kind === ROUTE_WINDOW.kind ? view.phase.endsAt ?? null : null);
 
 const offered = (view, type) => (view.offers ?? []).some(offer => offer.type === type);
 
@@ -37,9 +57,11 @@ export function officeOf(view) {
  * The office panel (the Captain's or the Officer's own private route view):
  *   none       no privateNavigation in the view (not an office, or Round 1 before the first election)
  *   idle       outside navigation: the position at rest
- *   setting    the tie stage, for an office that is not choosing: "the course is being set"
- *   tie        the Officer is offered CHOOSE_NAV_DIRECTION: Blue or Red, no numbers
- *   chosen     this client's tie choice was accepted in this phase
+ *   setting    the route-setting window (P28: every opportunity from Round 2, 15 s), for an office
+ *              not offered the choice: the Captain always, the Officer when there is no genuine tie
+ *   tie        the Officer is offered CHOOSE_NAV_DIRECTION (a genuine tie): Blue or Red, no numbers
+ *   chosen     this client's tie choice was accepted in this phase; it holds until the window ends
+ *              (an early choice never shortens it, P28)
  *   confirm    the office is offered CONFIRM_NAVIGATION: the final direction and the step it makes
  *   confirmed  this client's acknowledgement was accepted in this phase
  *   closed     the office's own stage, not offered and no acceptance seen here (a reconnect after

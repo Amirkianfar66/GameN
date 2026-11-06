@@ -15,8 +15,10 @@
 // transfers, votes, actions and windows are unaffected; the same player cannot be blocked in
 // consecutive rounds (the offer leaves them out). A block expires with its round.
 
+import { bySeat } from '../seats.mjs';
+
 const offer = (view, type) => (view.offers ?? []).find(o => o.type === type) ?? null;
-const sorted = ids => [...ids].sort((a, b) => a - b);
+const sorted = ids => [...ids].sort(bySeat);
 
 /** The public offices: who holds each, and who is blocked from moving this round. */
 export const offices = view => ({ captain: view.offices.captainSeatId, officer: view.offices.officerSeatId, blocked: view.offices.blockedSeatId });

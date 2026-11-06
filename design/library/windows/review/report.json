@@ -140,41 +140,57 @@
       "text": "100%"
     },
     {
-      "file": "design/library/windows/review/w390-viewer-the-blackout-dark.png",
-      "sha256": "7a7f4fd39b4e87ad472eda166bb1cf1f7006ef7585ccb76e3fe6854d6c36acbe",
-      "bytes": 67398,
-      "state": "viewer: the Blackout (dark)",
+      "file": "design/library/windows/review/w390-viewer-the-blackout-s-first-five-seconds-lit.png",
+      "sha256": "794a12fdc3767bf8b73c7048d3354abb0064513fd330bb37dc5e73b38bf5569f",
+      "bytes": 110947,
+      "state": "viewer: the Blackout's first five seconds (lit)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/windows/review/w390-viewer-the-blackout-from-its-preview-deadline-dark.png",
+      "sha256": "df30f2bdc0b558222abaaa153f0d676d41d3b989831df4c2497cccdfdd60ea96",
+      "bytes": 74929,
+      "state": "viewer: the Blackout from its preview deadline (dark)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/windows/review/w390-viewer-the-blackout-without-a-preview-deadline-missing-field-dark-from-its-start.png",
+      "sha256": "788002b1f55b0ffda97a3e2f9364b24100286121fc4aadf65c65ecf238194852",
+      "bytes": 73895,
+      "state": "viewer: the Blackout without a preview deadline (missing field: dark from its start)",
       "width": 390,
       "text": "100%"
     },
     {
       "file": "design/library/windows/review/w390-viewer-the-next-round-expired.png",
-      "sha256": "9e3185cea437720ef96a6c8d3c578aca6220c9ddc706c6904d29d732199e8732",
-      "bytes": 62904,
+      "sha256": "416dd9f85c64098597c55432a011d2ac37f795fdaf5722beb7460e9cb4be3764",
+      "bytes": 62932,
       "state": "viewer: the next round (expired)",
       "width": 390,
       "text": "100%"
     },
     {
       "file": "design/library/windows/review/w390-board-the-four-drawing-stations.png",
-      "sha256": "fbf5c05140dfc37de4eedb39431f541ed4d85e66cf72157c050f3d9df4d19dc2",
-      "bytes": 31896,
+      "sha256": "0648ee7a6b8cebd121e76d301a30ff2c19084adca8594526b1c95b85886a3f85",
+      "bytes": 31876,
       "state": "board: the four drawing stations",
       "width": 390,
       "text": "100%"
     },
     {
       "file": "design/library/windows/review/w390-tray-windows.png",
-      "sha256": "51b0e6d33d596fff05d39d43c9b03dff630abf08b6bde9163ff8373092e597d5",
-      "bytes": 14240,
+      "sha256": "ee930bd73cfe2733235571376ffafc4160d63435945f84edbe472bff0d7e9fd4",
+      "bytes": 14250,
       "state": "tray: Windows",
       "width": 390,
       "text": "100%"
     },
     {
       "file": "design/library/windows/review/contact-w390.png",
-      "sha256": "e92383bd5b7d92b830aa7fbde2ec964bba9d25cb73232e5bf2927dc09313dd38",
-      "bytes": 1498813,
+      "sha256": "47667fa0be260cb7b1fa3d01a1982a7d10f881de1b63ea4d89868cc824cb86c2",
+      "bytes": 1656523,
       "kind": "contact",
       "width": 390,
       "text": "100%"
@@ -316,41 +332,57 @@
       "text": "100%"
     },
     {
-      "file": "design/library/windows/review/w320-viewer-the-blackout-dark.png",
-      "sha256": "43587329d77814d6760998329ca9afcf477b7bca6cad76d68e9764c2155ba165",
-      "bytes": 70934,
-      "state": "viewer: the Blackout (dark)",
+      "file": "design/library/windows/review/w320-viewer-the-blackout-s-first-five-seconds-lit.png",
+      "sha256": "1ee2ab7b57788b45a94a26fac21b2ceed8d3726c17d1604a54eec0fec8a14218",
+      "bytes": 115765,
+      "state": "viewer: the Blackout's first five seconds (lit)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/windows/review/w320-viewer-the-blackout-from-its-preview-deadline-dark.png",
+      "sha256": "8d8dcb48bd479631e63902d4b0fb11aabdb1051c28976334f5c8de4b6f893683",
+      "bytes": 77980,
+      "state": "viewer: the Blackout from its preview deadline (dark)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/windows/review/w320-viewer-the-blackout-without-a-preview-deadline-missing-field-dark-from-its-start.png",
+      "sha256": "394e65126de8ac2d1193803a184feb12c84471c80653fe790b332592af859827",
+      "bytes": 77485,
+      "state": "viewer: the Blackout without a preview deadline (missing field: dark from its start)",
       "width": 320,
       "text": "100%"
     },
     {
       "file": "design/library/windows/review/w320-viewer-the-next-round-expired.png",
-      "sha256": "6dc21e82dc1c52493d1a05c75210fd74947948afca749aff624ba92706d45fbf",
-      "bytes": 62932,
+      "sha256": "e1ebe9e96b0784668416753af01f6f40b74af38964dfa354d8a1c9f82971c22a",
+      "bytes": 62925,
       "state": "viewer: the next round (expired)",
       "width": 320,
       "text": "100%"
     },
     {
       "file": "design/library/windows/review/w320-board-the-four-drawing-stations.png",
-      "sha256": "e6a7251792c69911c23ac96d8fbc54505f16002947ea333fe5323c8e91da2a32",
-      "bytes": 26723,
+      "sha256": "0aec946695cb0503aa5e7878ba04338c58550febdfe5c00a2bb4d7d983e3a1f3",
+      "bytes": 26706,
       "state": "board: the four drawing stations",
       "width": 320,
       "text": "100%"
     },
     {
       "file": "design/library/windows/review/w320-tray-windows.png",
-      "sha256": "2154d6ed653c9da1a40893cc76d0a5ff371fbde0af44d31c49c90e209af0ba1c",
-      "bytes": 13943,
+      "sha256": "b66dba0020399e4f9c2f5f804b3405885895cd6c0d764fcfe9e16094503f3f9a",
+      "bytes": 13922,
       "state": "tray: Windows",
       "width": 320,
       "text": "100%"
     },
     {
       "file": "design/library/windows/review/contact-w320.png",
-      "sha256": "247b8ab9034c9aef073248a35557de234a769bf9b13256d8a35ce9b9918ac16d",
-      "bytes": 1615014,
+      "sha256": "6e9c1e0d5100de85a66d94df84bdd0b2565b2f30a6f236c8b277d111e8f81d73",
+      "bytes": 1781172,
       "kind": "contact",
       "width": 320,
       "text": "100%"
@@ -510,25 +542,41 @@
       "text": "200%"
     },
     {
-      "file": "design/library/windows/review/w390-text200-viewer-the-blackout-dark.png",
-      "sha256": "7356fc41ed7039fe70afcb6b165ae632629ac94c6cd09ae39863e4e03f90dde5",
-      "bytes": 131460,
-      "state": "viewer: the Blackout (dark)",
+      "file": "design/library/windows/review/w390-text200-viewer-the-blackout-s-first-five-seconds-lit.png",
+      "sha256": "1dec6ed1a7e0a693f1e551ba3944d82ded4bdba3100c56c991ec32212ed74e73",
+      "bytes": 194927,
+      "state": "viewer: the Blackout's first five seconds (lit)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/windows/review/w390-text200-viewer-the-blackout-from-its-preview-deadline-dark.png",
+      "sha256": "e6d580eb393044bef44a56d57b7dd8794fb93f8ee0f229e1b048029b851d1ddf",
+      "bytes": 139069,
+      "state": "viewer: the Blackout from its preview deadline (dark)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/windows/review/w390-text200-viewer-the-blackout-without-a-preview-deadline-missing-field-dark-from-its-start.png",
+      "sha256": "e022468c979612e9dc78b79971edb48385d9e966c2594cfd0a2e487de30d0f59",
+      "bytes": 137816,
+      "state": "viewer: the Blackout without a preview deadline (missing field: dark from its start)",
       "width": 390,
       "text": "200%"
     },
     {
       "file": "design/library/windows/review/w390-text200-viewer-the-next-round-expired.png",
-      "sha256": "f5d4dfcd8a2eba4382847b1312884adcc8af4f0e62e0f5c83b11bdc31dae2c11",
-      "bytes": 133966,
+      "sha256": "527a72d4d7549d83b6902629c7e5d1968bf0a6a624967d9913c61b4f3aef3272",
+      "bytes": 133910,
       "state": "viewer: the next round (expired)",
       "width": 390,
       "text": "200%"
     },
     {
       "file": "design/library/windows/review/contact-w390-text200-viewers.png",
-      "sha256": "ee849ca0d359e11c14d4763a9c962eccf14fd75e58bd71bf6cd5be6f0b46ec6f",
-      "bytes": 809146,
+      "sha256": "12f0fdab6aa5d287d9f0c70ed1ebf8f0926d019f310613eb24dc2089e5c0b0d9",
+      "bytes": 1150767,
       "kind": "contact",
       "width": 390,
       "text": "200%",

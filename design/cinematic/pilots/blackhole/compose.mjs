@@ -26,7 +26,7 @@ function shipLayer(prefix, ship, { unit = 1 } = {}) {
   return out + place(0, ship.opacity);
 }
 
-/** The stage cut over a board (display only; only if the owner approves a presentation stage before the vote: R1). */
+/** The stage cut over a board (the display only, in P27's six-second presentation stage after an actual Sync). */
 function fullOverlay(t, layout, prefix) {
   const { width, height } = layout;
   const F = displayFrame(t, { width, height });
@@ -101,8 +101,8 @@ export function boardArt(t, layout, { surface = 'display', reduced = false, pref
 }
 
 /**
- * The overlay at t for a surface (display | phone) and variant: the stage cut (display only, if the
- * owner approves a presentation stage: R1) is one SVG over the board; the default and the reduced
+ * The overlay at t for a surface (display | phone) and variant: the stage cut (the display only, in
+ * P27's presentation stage) is one SVG over the board; the default and the reduced
  * still are nothing over the board and the rooms' art (art) instead.
  */
 export function overlaySvg(t, layout, { surface = 'display', variant = 'full' } = {}) {

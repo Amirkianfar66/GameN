@@ -5,32 +5,32 @@
   "captures": [
     {
       "file": "design/library/end/review/w390-end-arrival-blue-wins-7-players.png",
-      "sha256": "709bdf7ac70d7c31d80e936466f7e661184fa6854b86e2032f784a1f0bcdf6b8",
-      "bytes": 76289,
+      "sha256": "652e37b570333aeab740ae4b818ca413b60116d67c8c2fb129df34ef7d7fe711",
+      "bytes": 77263,
       "state": "end: arrival (Blue wins, 7 players)",
       "width": 390,
       "text": "100%"
     },
     {
       "file": "design/library/end/review/w390-end-arrival-red-wins-and-the-alien-co-wins-9-players.png",
-      "sha256": "b86f912781594eeaa74eb19d796801913a90a5d59b3d6e54fc6c332d3bd8ac62",
-      "bytes": 91485,
+      "sha256": "77ea47d4ae36ba7de05cb2316d6a7528fe5ac25a83c0c35865a0a64d92178abd",
+      "bytes": 92532,
       "state": "end: arrival (Red wins and the Alien co-wins, 9 players)",
       "width": 390,
       "text": "100%"
     },
     {
       "file": "design/library/end/review/w390-end-arrival-blue-wins-the-alien-does-not-co-win-8-players.png",
-      "sha256": "076bf5626d17242da294d0c1c1c249f3277c95760b011a44ba9018a331c2a42f",
-      "bytes": 82737,
+      "sha256": "3a425c6850009f67274b493773edc03070437d701d0fea730b10a58fcb25fca1",
+      "bytes": 83748,
       "state": "end: arrival (Blue wins, the Alien does not co-win, 8 players)",
       "width": 390,
       "text": "100%"
     },
     {
       "file": "design/library/end/review/w390-end-no-survivors-8-players.png",
-      "sha256": "17da77aea18270eecdaf893385fc7610df5017db0fb55ef0b7db67e4aa7e7043",
-      "bytes": 74603,
+      "sha256": "eb4b42828764ea7fc3c62c1e7ac0233c638d67037a1fbf384f12963cc11ef614",
+      "bytes": 75498,
       "state": "end: no-survivors (8 players)",
       "width": 390,
       "text": "100%"
@@ -101,144 +101,144 @@
     },
     {
       "file": "design/library/end/review/contact-w390.png",
-      "sha256": "56c3784b5daec8790de22d884995a986a97b03a1ba6a933e9890d7d24893bec9",
-      "bytes": 802169,
+      "sha256": "d270987617491e8f1c666c7546e44221f2bae59ab264054dc42a1f21b793ef8a",
+      "bytes": 807255,
       "kind": "contact",
       "width": 390,
       "text": "100%"
     },
     {
       "file": "design/library/end/review/w320-end-arrival-blue-wins-7-players.png",
-      "sha256": "b235aa789eda418abca1acaa76aa6fafc81c6814d50dd3fb3bd703a34df3fd23",
-      "bytes": 74893,
+      "sha256": "3427589e5b93ae6ca311164943a9667ed0f7ebebe0cad849d897e2e2fac4f6ed",
+      "bytes": 75632,
       "state": "end: arrival (Blue wins, 7 players)",
       "width": 320,
       "text": "100%"
     },
     {
       "file": "design/library/end/review/w320-end-arrival-red-wins-and-the-alien-co-wins-9-players.png",
-      "sha256": "23d1eda9ee9e377573ca4c66f27195a7c9743044026c4154f34b3b027de6445b",
-      "bytes": 86882,
+      "sha256": "8b2074997e5d48b0a71dd1097f6b263e5b8e3529f0d452c1c63bb8810ab5d4fc",
+      "bytes": 87763,
       "state": "end: arrival (Red wins and the Alien co-wins, 9 players)",
       "width": 320,
       "text": "100%"
     },
     {
       "file": "design/library/end/review/w320-end-arrival-blue-wins-the-alien-does-not-co-win-8-players.png",
-      "sha256": "1308119f4277a130a1767a26d34b2b5a43d9fccb276dec79bdf6159b415f45cb",
-      "bytes": 80090,
+      "sha256": "a10d27fdd4d4e8e6090390162ad9a839d7c4b30554a653dc017c01b7f8bb885a",
+      "bytes": 80962,
       "state": "end: arrival (Blue wins, the Alien does not co-win, 8 players)",
       "width": 320,
       "text": "100%"
     },
     {
       "file": "design/library/end/review/w320-end-no-survivors-8-players.png",
-      "sha256": "4b29ebdc33812bb1223132ab49f2cc57bee1ccc9a26402f319bf335fa475b30c",
-      "bytes": 69440,
+      "sha256": "104a9f5c4cf803c0c5768d42a2f5bc448f01d8f0272b40b247816f0d91a7c7fa",
+      "bytes": 70227,
       "state": "end: no-survivors (8 players)",
       "width": 320,
       "text": "100%"
     },
     {
       "file": "design/library/end/review/w320-end-aborted-the-host-s-abort.png",
-      "sha256": "a6c610c50f34eb12037aaae4a70f6456bd0e09c0c9c5e0cdb5e709c5343f6f91",
-      "bytes": 28947,
+      "sha256": "c0a6de143390aa4523770a2ab9568cbaa6e3be1ac3018ab982ca89cb8b8efd73",
+      "bytes": 28966,
       "state": "end: aborted (the host's abort)",
       "width": 320,
       "text": "100%"
     },
     {
       "file": "design/library/end/review/w320-end-none-a-crew-all-jailed-or-injured-is-not-an-ending.png",
-      "sha256": "92e2842afb8e2f3e97dc4ab74cecc3cc9a75d184f27b1c035c6c9eb93840f991",
-      "bytes": 13352,
+      "sha256": "456de05aa46b3723e852372e8adbefd7b16fc2b5a6c136d3b6bb86328368582e",
+      "bytes": 13353,
       "state": "end: none (a crew all jailed or injured is not an ending)",
       "width": 320,
       "text": "100%"
     },
     {
       "file": "design/library/end/review/w320-connection-reconnecting.png",
-      "sha256": "714a7165bfdaaaf96f0aec4889b83f52e5030fb859bd1ca3bd55496851ad9b2d",
-      "bytes": 28365,
+      "sha256": "e815b247e00ae31042edfbdc6afb7d4bea1f624a906bbf391900e618f92a7e5a",
+      "bytes": 27987,
       "state": "connection: reconnecting",
       "width": 320,
       "text": "100%"
     },
     {
       "file": "design/library/end/review/w320-connection-restored.png",
-      "sha256": "cd67ef112e1b1d59d0e2247d6cb8ae8f2168d5480ae0bdaa790dca54a963bb90",
-      "bytes": 24690,
+      "sha256": "445302a5a71cc308fc6695d3d7eba6e3d166ab2d95202f6ceb4a747948294224",
+      "bytes": 24694,
       "state": "connection: restored",
       "width": 320,
       "text": "100%"
     },
     {
       "file": "design/library/end/review/w320-connection-stale.png",
-      "sha256": "07f62f3ac7c57b4b22657bf9cb6fd718340f82fcd9d6ba69b718b5bdd127a01c",
-      "bytes": 24205,
+      "sha256": "0542da3b83f6847976f1b577c75aa3447cebbf97b32af4bec3c89cfcf49dc90e",
+      "bytes": 24185,
       "state": "connection: stale",
       "width": 320,
       "text": "100%"
     },
     {
       "file": "design/library/end/review/w320-asset-a-picture-did-not-load.png",
-      "sha256": "15b534fa3b7dc7325f64875e6d1c6c252faeeea55cdcaef2808367b5b3e22037",
-      "bytes": 21059,
+      "sha256": "d38ae0c6e15645e6d85f1d08d248750d69e7087247eb67a0d2df0241f79745cb",
+      "bytes": 21091,
       "state": "asset: a picture did not load",
       "width": 320,
       "text": "100%"
     },
     {
       "file": "design/library/end/review/w320-asset-a-film-did-not-load.png",
-      "sha256": "72a982e4644bd7f6b50599d76e780868a6e87d5a5fbe0ac3b6a87e232b487f3f",
-      "bytes": 20330,
+      "sha256": "83dadb1a9b179db076d866e6be57588f02b7c94374f5f17afb6b703d64ac5828",
+      "bytes": 20295,
       "state": "asset: a film did not load",
       "width": 320,
       "text": "100%"
     },
     {
       "file": "design/library/end/review/w320-late-join-after-the-end-final.png",
-      "sha256": "9a39c18b254b68fac3e4c1743dabe1eedc6186b5c2a6faccab01f7ef13d857a8",
-      "bytes": 77989,
+      "sha256": "9d6a84712f8c3935e5fa3625e7ae5b9bad0aa69aaeba6d8f814c26021ec6e1d6",
+      "bytes": 77871,
       "state": "late join after the end: final",
       "width": 320,
       "text": "100%"
     },
     {
       "file": "design/library/end/review/contact-w320.png",
-      "sha256": "4739ecccbdeab981d3d099fa24fd973a8c2a5d354df3e19b97013049e2d3a6bc",
-      "bytes": 799691,
+      "sha256": "fd09b4b6e32f1a98e6f983d7d92a1a86540c3d33947be15866cb8652a3d11a65",
+      "bytes": 806322,
       "kind": "contact",
       "width": 320,
       "text": "100%"
     },
     {
       "file": "design/library/end/review/w390-text200-end-arrival-blue-wins-7-players.png",
-      "sha256": "f2d742bd05497c3e93f04111a23096f4dbea454efa45184a0b8f8a0a629c425f",
-      "bytes": 138056,
+      "sha256": "773ba53231ac3469493d6f4fe2e4d75d8a71612572ebe03c5e82aef083e7da8b",
+      "bytes": 139044,
       "state": "end: arrival (Blue wins, 7 players)",
       "width": 390,
       "text": "200%"
     },
     {
       "file": "design/library/end/review/w390-text200-end-arrival-red-wins-and-the-alien-co-wins-9-players.png",
-      "sha256": "a232f2ae169b1808c2287dbc081a680aa90fc7340349002ded630aee3735f5df",
-      "bytes": 170938,
+      "sha256": "926b8c7935cac58412bd1fc3eab3a33754b6971e1ffe8e2ae981138f12db6d80",
+      "bytes": 171969,
       "state": "end: arrival (Red wins and the Alien co-wins, 9 players)",
       "width": 390,
       "text": "200%"
     },
     {
       "file": "design/library/end/review/w390-text200-end-arrival-blue-wins-the-alien-does-not-co-win-8-players.png",
-      "sha256": "509c3b820b59f4e1411e0408d022f2fd2940d5bea5a979b275fae07763987210",
-      "bytes": 147945,
+      "sha256": "41c27b9aeeb93401081a5bdf9ae6d8b11b673a1426e180598c11daddf972852e",
+      "bytes": 148978,
       "state": "end: arrival (Blue wins, the Alien does not co-win, 8 players)",
       "width": 390,
       "text": "200%"
     },
     {
       "file": "design/library/end/review/contact-w390-text200-arrival.png",
-      "sha256": "fff8fc058145db79d3134ad71907a4eaf34d3f4e06878436e7cdec2acc0d06ab",
-      "bytes": 502779,
+      "sha256": "a8cca792669194550bbddca488b8ee195f2b5dfb2e063340feee178a63794a90",
+      "bytes": 505806,
       "kind": "contact",
       "width": 390,
       "text": "200%",
@@ -246,8 +246,8 @@
     },
     {
       "file": "design/library/end/review/w390-text200-end-no-survivors-8-players.png",
-      "sha256": "ab9058960baeddaa5e4c743891e7210e616511b2939885f97eea493a3d1dcbc7",
-      "bytes": 131863,
+      "sha256": "e836d15f03ebc2e378166cf5beeea547ba6599c38e0b01818a01c53f08ad630a",
+      "bytes": 132776,
       "state": "end: no-survivors (8 players)",
       "width": 390,
       "text": "200%"
@@ -270,8 +270,8 @@
     },
     {
       "file": "design/library/end/review/contact-w390-text200-others.png",
-      "sha256": "00957e007f0e68f03421f0f4cdd11d711cc2ec1662d574db13d402964e73a240",
-      "bytes": 245504,
+      "sha256": "f1e7ab5c989f2ab86dc9adebf63cc55db44ec8fd02f9caee4d2c193bb299d9fd",
+      "bytes": 246450,
       "kind": "contact",
       "width": 390,
       "text": "200%",
