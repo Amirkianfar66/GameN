@@ -84,6 +84,18 @@ export function briefingLayout(width, height) {
   };
 }
 
+/**
+ * Where the raised gadget's glint sits on the page at the opener's camera push (0..1): the memory
+ * flash swells out of it (compose.mjs).
+ */
+export function glintOnPage(width, height, push = 1) {
+  const L = briefingLayout(width, height);
+  const wrist = onPage(L.at, L.scale, POSES.raise.wN);
+  const point = [wrist[0], wrist[1] + 4 - 40 * L.scale * 0.5];
+  const focus = [width / 2, L.deskTop - 160], k = lerp(1, 1.065, push);
+  return [focus[0] + (point[0] - focus[0]) * k, focus[1] + (point[1] - focus[1]) * k];
+}
+
 /** The viewport and the Mothership at its dock, under the stars, the blinds half open. */
 function viewportSvg(prefix, { x, y, w, h, t }) {
   const id = `${prefix}-bvp`;
@@ -222,7 +234,7 @@ export function briefingSvg(prefix, { width, height, opener, name, team, teamCol
   // Near: the character in noir light (a paper rim behind, the figure darkened, the slats across it),
   // the desk, the card in its holder under the lamp, and the gadget.
   const who = `<g filter="url(#${prefix}-rim)" opacity="${f(0.75 * opener.slats)}" transform="translate(-5 -4)">${drawn('rimwho')}</g>`
-    + `<g filter="url(#${prefix}-noir)">${drawn('who')}</g>`
+    + `<g filter="url(#${prefix}-outline)"><g filter="url(#${prefix}-noir)">${drawn('who')}</g></g>`
     + [0, 1, 2].map(i => `<polygon points="${f(250 + i * 130)},${f(L.window.y + L.window.h * 0.55)} ${f(300 + i * 130)},${f(L.window.y + L.window.h * 0.55)} ${f(420 + i * 130)},${f(L.deskTop)} ${f(360 + i * 130)},${f(L.deskTop)}" fill="${NIGHT.slat}" opacity="${f(0.06 * opener.slats)}" style="mix-blend-mode:screen"/>`).join('');
   const near = who
     + deskSvg(prefix, { width, top: L.deskTop, front: L.deskFront })

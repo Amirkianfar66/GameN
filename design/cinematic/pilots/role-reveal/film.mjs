@@ -23,7 +23,7 @@
 
 import { beat, bell, clamp01, easeInOutCubic, easeOutBack, easeOutCubic } from '../../lib/ease.mjs';
 
-export const ROLE_REVEAL_VERSION = 'cinematic-role-reveal-0.4.0';
+export const ROLE_REVEAL_VERSION = 'cinematic-role-reveal-0.5.0';
 export const VARIANTS = Object.freeze(['full', 'reduced']);
 
 /** Every film's length, ms: the same for every role and both variants. */
@@ -100,10 +100,31 @@ function panel(t, start, still) {
 export const PANEL_LOCAL_REST = 1300;
 
 /**
+ * The motion comic's guided view, the same for every role: the camera eases onto each panel as it
+ * lands (a light zoom, the panel's narration in view) and pulls back to the whole page before the
+ * title. `from` and `to` are a panel's index or -1 for the whole page; v 0..1 between them.
+ */
+export const CAMERA = Object.freeze({ zoom: 1.08, move: 450, pullBack: Object.freeze([7300, 7800]) });
+function camera(t) {
+  const steps = [...PANEL_STARTS.map((start, i) => [start, i - 1, i]), [CAMERA.pullBack[0], PANEL_STARTS.length - 1, -1]];
+  const step = steps.filter(([start]) => t >= start).at(-1);
+  if (!step) return { from: -1, to: -1, v: 1 };
+  const [start, from, to] = step;
+  const span = to === -1 ? CAMERA.pullBack[1] - CAMERA.pullBack[0] : CAMERA.move;
+  return { from, to, v: easeInOutCubic(beat(t, [start, start + span])) };
+}
+
+/** The memory flash: the gadget's glint swells into a wash of warm light, and the page opens on the past. */
+export const FLASH = Object.freeze([2650, 2950, 3300]);
+
+/**
  * The frame at t (clamped to the film), for every role:
  *   opener   { fade, slats, lamp, reach, grip, raise, glint, push }; it stays, dimmed, under the panels
  *   panels   three { visible, enter, slam, local }
  *   dim      0..1, the page darkening around the title
+ *   flash    0..1, the memory flash from the gadget's glint into the back story (full motion only)
+ *   camera   { from, to, v }: the guided view, panel indexes or -1 for the whole page
+ *   focus    three 0.65..1: each panel's light (an earlier panel steps back while a later one plays)
  *   title    { visible, stamp 0..1 (the slam), settle 0..1, sweep 0..1 (the sheen, full only) }
  *   captions { story: three 0..1 (each panel's narration box), play } (opacity of each page-text line)
  *   still    reduced motion only: 'opener' | 'page' | 'title', and fade 0..1 (the cross-fade in)
@@ -125,6 +146,17 @@ export function revealFrame(t, { variant = 'full' } = {}) {
     opener: opener(at, rest),
     panels: PANEL_STARTS.map(start => (reduced ? (pageOn ? { visible: true, enter: 1, slam: 1, local: PANEL_LOCAL_REST } : { visible: false, enter: 0, local: 0 }) : panel(time, start, false))),
     dim: reduced ? (titleOn ? 1 : 0) : easeOutCubic(beat(time, [BEATS.title[0], BEATS.title[0] + 380])),
+    // Full motion only: the flash into memory, the guided view, and the earlier panels stepping back
+    // in light while a later one has the stage (until the camera pulls back to the page).
+    flash: reduced ? 0 : (time < FLASH[1] ? easeInOutCubic(beat(time, [FLASH[0], FLASH[1]])) : 1 - easeOutCubic(beat(time, [FLASH[1], FLASH[2]]))),
+    camera: reduced ? { from: -1, to: -1, v: 1 } : camera(time),
+    focus: PANEL_STARTS.map((start, i) => {
+      if (reduced) return 1;
+      const next = PANEL_STARTS[i + 1];
+      const back = next === undefined ? 0 : easeOutCubic(beat(time, [next, next + 400]));
+      const lift = easeInOutCubic(beat(time, CAMERA.pullBack));
+      return 1 - 0.35 * back * (1 - lift);
+    }),
     title: {
       visible: titleOn,
       stamp: !titleOn ? 0 : rest ? 1 : easeOutBack(beat(time, [BEATS.title[0] + 120, BEATS.title[0] + 420]), 1.6),

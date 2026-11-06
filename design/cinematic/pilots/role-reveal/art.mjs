@@ -26,6 +26,9 @@ export const NIGHT = Object.freeze({
 
 const f = v => Number((+v).toFixed(2));
 
+/** The paper grain's tile: specks of ink and paper at fixed places (print texture, the same every frame). */
+const GRAIN = Array.from({ length: 70 }, (_, i) => `<circle cx="${f(rand(71, i, 'x') * 96)}" cy="${f(rand(71, i, 'y') * 96)}" r="${f(0.5 + rand(71, i, 'r') * 0.9)}" fill="${i % 3 ? INK : PAPER}" opacity="${f(0.25 + rand(71, i, 'o') * 0.45)}"/>`).join('');
+
 /** The flashback's colour matrix (rows R, G, B, A of an feColorMatrix): warm sepia, a little darker than the classic one. */
 export const SEPIA = Object.freeze([
   Object.freeze([0.36, 0.7, 0.17, 0, 0]),
@@ -51,7 +54,11 @@ export function revealDefs(prefix) {
     + `<filter id="${prefix}-sil-lit" x="-10%" y="-10%" width="120%" height="120%"><feFlood flood-color="${NIGHT.figure}"/><feComposite in2="SourceAlpha" operator="in"/></filter>`
     + `<filter id="${prefix}-glow" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="5"/></filter>`
     // Memory: the back story's panels in sepia (SEPIA, above), the comic's flashback.
-    + `<filter id="${prefix}-sepia" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feColorMatrix type="matrix" values="${SEPIA.map(row => row.join(' ')).join('  ')}"/></filter></defs>`;
+    + `<filter id="${prefix}-sepia" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feColorMatrix type="matrix" values="${SEPIA.map(row => row.join(' ')).join('  ')}"/></filter>`
+    // The comic's inking: a bold ink contour around a figure, as a penciller's outline is inked heavier.
+    + `<filter id="${prefix}-outline" x="-10%" y="-10%" width="120%" height="120%"><feMorphology in="SourceAlpha" operator="dilate" radius="2.4" result="grown"/><feFlood flood-color="${INK}"/><feComposite in2="grown" operator="in" result="ink"/><feMerge><feMergeNode in="ink"/><feMergeNode in="SourceGraphic"/></feMerge></filter>`
+    // Print: the page's paper grain, a fixed scatter of specks (no noise filter, nothing that moves).
+    + `<pattern id="${prefix}-paper" width="96" height="96" patternUnits="userSpaceOnUse">${GRAIN}</pattern></defs>`;
 }
 
 /**
@@ -152,12 +159,27 @@ export function rimLit(prefix, { figure, rimFigure, offset = [-4, -4], rim = 0.9
     + `<g filter="url(#${prefix}-sil-lit)">${figure}</g>`;
 }
 
+/** The page's paper grain over everything, faint: the film reads as a printed comic. */
+export const grainSvg = (prefix, { width, height, opacity = 0.18 }) => `<rect width="${f(width)}" height="${f(height)}" fill="url(#${prefix}-paper)" opacity="${f(opacity)}" style="mix-blend-mode:multiply"/>`;
+
+/**
+ * The memory flash: warm light swells out of the gadget's glint at (cx, cy) and washes the page, then
+ * clears on the back story's first panel. v 0..1 (film.mjs FLASH; full motion only).
+ */
+export function flashSvg(prefix, { width, height, cx, cy, v }) {
+  if (v <= 0) return '';
+  const g = `${prefix}-flash`;
+  const r = Math.hypot(width, height) * (0.12 + 0.95 * v);
+  return `<defs><radialGradient id="${g}" gradientUnits="userSpaceOnUse" cx="${f(cx)}" cy="${f(cy)}" r="${f(r)}"><stop offset="0" stop-color="#FFFFFF" stop-opacity="${f(0.95 * v)}"/><stop offset="0.35" stop-color="${NIGHT.rim}" stop-opacity="${f(0.9 * v)}"/><stop offset="1" stop-color="${NIGHT.memory}" stop-opacity="${f(0.75 * v)}"/></radialGradient></defs>`
+    + `<rect width="${f(width)}" height="${f(height)}" fill="url(#${g})"/>`;
+}
+
 /**
  * One comic panel at (x, y, w, h), its content drawn in local units (0..w, 0..h) and clipped to it.
  * enter 0..1: the slam (scale from 1.16 and a side slide to rest, with an overshoot already in the
  * value), tilt: the panel's rest angle. A shadow, an ink border with a paper keyline.
  */
-export function panelSvg(prefix, { i, x, y, w, h, enter, slam = 1, tilt = 0, side = 1, content, tone = 'present', reduced = false }) {
+export function panelSvg(prefix, { i, x, y, w, h, enter, slam = 1, tilt = 0, side = 1, content, tone = 'present', focus = 1, reduced = false }) {
   if (enter <= 0) return '';
   const id = `${prefix}-panel-${i}`;
   const s = lerp(1.16, 1, enter);
@@ -177,6 +199,13 @@ export function panelSvg(prefix, { i, x, y, w, h, enter, slam = 1, tilt = 0, sid
     // The back story's panels are memory: drawn in sepia, a heavier vignette closing in at the edges.
     + (tone === 'past' ? `<g filter="url(#${prefix}-sepia)"><rect width="${f(w)}" height="${f(h)}" fill="url(#${id}-bg)"/>${content}</g>` : `<rect width="${f(w)}" height="${f(h)}" fill="url(#${id}-bg)"/>${content}`)
     + vignette(`${id}-v`, { width: w, height: h, strength: tone === 'past' ? 0.6 : 0.42 })
+    // Ink hatching closes in at the panel's corners, as a comic shades its edges.
+    + `<defs><pattern id="${id}-hatch" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><path d="M0 0V9" stroke="${INK}" stroke-width="1.8"/></pattern>`
+    + `<radialGradient id="${id}-hatch-g" cx="50%" cy="50%" r="75%"><stop offset="0.62" stop-color="#FFFFFF" stop-opacity="0"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0.9"/></radialGradient>`
+    + `<mask id="${id}-hatch-m" maskUnits="userSpaceOnUse" x="0" y="0" width="${f(w)}" height="${f(h)}"><rect width="${f(w)}" height="${f(h)}" fill="url(#${id}-hatch-g)"/></mask></defs>`
+    + `<rect width="${f(w)}" height="${f(h)}" fill="url(#${id}-hatch)" mask="url(#${id}-hatch-m)" opacity="0.55"/>`
+    // An earlier panel steps back in light while a later one has the stage.
+    + (focus < 1 ? `<rect width="${f(w)}" height="${f(h)}" fill="${NIGHT.deep}" opacity="${f(1 - focus)}"/>` : '')
     + `</g>${panelFrame({ x: 0, y: 0, w, h, border: 7, shadow: false })}</g>`;
 }
 

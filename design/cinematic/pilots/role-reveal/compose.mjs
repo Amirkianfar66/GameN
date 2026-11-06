@@ -9,11 +9,11 @@
 
 import { CREW } from '../../../board-motion/figures/crew.mjs';
 import { FACTION_ACCENTS } from '../../../board-v2/fx/blocked.mjs';
-import { clamp01 } from '../../lib/ease.mjs';
-import { GRIP, NIGHT, captionBoxSvg, panelSvg, revealDefs, slatsSvg, titlePlateSvg } from './art.mjs';
-import { briefingSvg } from './briefing.mjs';
+import { clamp01, easeOutCubic, lerp } from '../../lib/ease.mjs';
+import { GRIP, NIGHT, captionBoxSvg, flashSvg, grainSvg, panelSvg, revealDefs, slatsSvg, titlePlateSvg } from './art.mjs';
+import { briefingSvg, glintOnPage } from './briefing.mjs';
 import { ROLE_REVEAL_COPY, roleLine } from './copy.mjs';
-import { PANEL_TONES, revealFrame } from './film.mjs';
+import { CAMERA, PANEL_TONES, revealFrame } from './film.mjs';
 import { PORTRAIT_FILES, ROLE_FILMS } from './roles.mjs';
 
 export const PAGE_WIDTH = 900;
@@ -39,6 +39,24 @@ export function layout(H) {
 }
 
 /**
+ * The guided view at a frame (film.mjs camera): a zoom k and the page row cy it centres, easing
+ * between a panel (its narration in view) and the whole page; clamped so the view never leaves the
+ * page. Returns the SVG transform and the same mapping for the page text's boxes.
+ */
+export function cameraView(cam, L, height) {
+  const at = idx => (idx < 0 ? [1, height / 2] : [CAMERA.zoom, L.panels[idx].y + L.panels[idx].h / 2 - 30]);
+  const [k0, c0] = at(cam.from), [k1, c1] = at(cam.to);
+  const k = lerp(k0, k1, cam.v);
+  const half = height / (2 * k);
+  const cy = Math.min(height - half, Math.max(half, lerp(c0, c1, cam.v)));
+  return {
+    k, cy,
+    transform: `translate(${f(PAGE_WIDTH / 2)} ${f(height / 2)}) scale(${f(k)}) translate(${f(-PAGE_WIDTH / 2)} ${f(-cy)})`,
+    box: ([x, y, w, h]) => [(x - PAGE_WIDTH / 2) * k + PAGE_WIDTH / 2, (y - cy) * k + height / 2, w * k, h * k],
+  };
+}
+
+/**
  * The frame at t: { svg, frame, words }. words: story (the three panels' narration boxes, each { box,
  * text, opacity, tone: past | present }) and play ({ box, text, opacity }), in page units; role
  * { text, visible }. role: a current role; seat: the player's own number (the Doctor's
@@ -57,21 +75,32 @@ export function revealSvg(t, { role = 'Doctor', variant = 'full', seat = 6, char
   const panelsIn = frame.panels[0].visible ? clamp01(frame.panels[0].slam ?? 1) : 0;
   // Reduced motion holds its stills: the stars do not twinkle.
   const clock = variant === 'reduced' ? 0 : frame.t;
-  let body = revealDefs(prefix)
-    + slatsSvg(prefix, { width, height, v: 1, dim: 1, t: clock })
-    // The briefing room, before boarding; it stays, dimmed, under the panels.
+  const view = cameraView(frame.camera, L, height);
+  // Each narration box drops into place as it fades in, as a comic's caption is set down.
+  const storyBoxes = L.story.map((box, i) => ({ ...box, y: box.y - 22 * (1 - easeOutCubic(frame.captions.story[i])) }));
+  // The page under the guided view: the night, the briefing room (it stays, dimmed, under the
+  // panels), the panels and their narration boxes.
+  let page = slatsSvg(prefix, { width, height, v: 1, dim: 1, t: clock })
     + `<g opacity="${f(1 - 0.72 * panelsIn)}">${briefingSvg(prefix, { width, height, opener: frame.opener, name: role.toUpperCase(), team: film.team, teamColour: FACTION_ACCENTS[film.team.toLowerCase()], character, gadget, grip: GRIP, deviceHref: film.device, portraitHref: PORTRAIT_FILES[character], t: clock, reduced: variant === 'reduced' })}</g>`;
   frame.panels.forEach((p, i) => {
     if (!p.visible) return;
     const box = L.panels[i];
     const content = film.panels[i](p.local, { w: box.w, h: box.h, prefix: `${prefix}-p${i}`, seat, character, reduced: variant === 'reduced' });
-    body += panelSvg(prefix, { i, ...box, enter: p.enter, slam: p.slam ?? 1, content, tone: PANEL_TONES[i], reduced: variant === 'reduced' });
+    page += panelSvg(prefix, { i, ...box, enter: p.enter, slam: p.slam ?? 1, content, tone: PANEL_TONES[i], focus: frame.focus[i], reduced: variant === 'reduced' });
   });
+  storyBoxes.forEach((box, i) => { page += captionBoxSvg({ ...box, opacity: frame.captions.story[i], tone: PANEL_TONES[i] }); });
+  let body = revealDefs(prefix) + `<g transform="${view.transform}">${page}</g>`;
+  // The memory flash out of the gadget's glint, over everything (full motion only).
+  if (frame.flash > 0) {
+    const [cx, cy] = glintOnPage(width, height, frame.opener.push);
+    body += flashSvg(prefix, { width, height, cx, cy, v: frame.flash });
+  }
   if (frame.dim > 0) body += `<rect width="${width}" height="${f(height)}" fill="${NIGHT.deep}" opacity="${f(0.8 * frame.dim)}"/>`;
   const plate = titlePlateSvg(prefix, { name: role.toUpperCase(), emblemHref: film.emblem, cx: L.title.cx, cy: L.title.cy, width: L.title.w, stamp: frame.title.stamp, settle: frame.title.settle, sweep: frame.title.sweep });
   body += plate.svg;
-  L.story.forEach((box, i) => { body += captionBoxSvg({ ...box, opacity: frame.captions.story[i], tone: PANEL_TONES[i] }); });
   body += captionBoxSvg({ ...L.captions.play, opacity: frame.captions.play });
+  // The paper it is printed on.
+  body += grainSvg(prefix, { width, height });
   // Reduced motion: each still fades in from the night over 80 ms.
   if (variant === 'reduced' && frame.fade < 1) body += `<rect width="${width}" height="${f(height)}" fill="${NIGHT.deep}" opacity="${f(1 - frame.fade)}"/>`;
   const copy = ROLE_REVEAL_COPY[role];
@@ -79,7 +108,7 @@ export function revealSvg(t, { role = 'Doctor', variant = 'full', seat = 6, char
   return {
     svg, frame,
     words: {
-      story: L.story.map((box, i) => ({ box: [box.x, box.y, box.w, box.h], text: copy.story[i], opacity: frame.captions.story[i], tone: PANEL_TONES[i] })),
+      story: storyBoxes.map((box, i) => ({ box: view.box([box.x, box.y, box.w, box.h]), text: copy.story[i], opacity: frame.captions.story[i], tone: PANEL_TONES[i] })),
       play: { box: [L.captions.play.x, L.captions.play.y, L.captions.play.w, L.captions.play.h], text: copy.play, opacity: frame.captions.play },
       role: { text: roleLine(role), visible: frame.title.visible },
     },

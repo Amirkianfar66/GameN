@@ -6,6 +6,30 @@ What the game owner decided about look, feel and presentation while working with
 
 The owner's messages are quoted as written.
 
+## 6 November 2026: an animated comic's finish
+
+**The owner liked the back story and asked for better quality, like an animated comic book.**
+
+The owner wrote:
+
+> I like it just can we make it better quality like animated comicbook
+
+| # | What it says | What it decides |
+| --- | --- | --- |
+| 1 | "I like it" | The back story, its narration and the ten-second clock stay |
+| 2 | "better quality like animated comicbook" | The film is finished as a motion comic: a memory flash out of the gadget's glint, a guided camera panel by panel with a pull-back to the page, comic capitals for the narration, bold ink outlines, cross-hatched panel edges, paper grain, breathing and swaying figures, and review renders at twice the phone's pixels |
+
+### What the Designer did with it
+
+- **Shared by every role:** the flash, the camera and the panels' focus, the inking and the print. They are all timed by the shared clock, so they tell a neighbour nothing.
+- **Reduced motion** keeps its three stills, with none of the movement.
+- **Tests and renders.** A test covers the flash, the camera, the focus and the print. The three review renders are re-made at 2× and CRF 18.
+
+### What it does not settle
+
+- **Phones.** The renders are desktop Chromium. The filters' cost on a low-end phone is Frontend's to measure.
+- **The other eight films** stay storyboards until the owner reviews this pilot.
+
 ## 6 November 2026: a back story for every role
 
 **The owner liked the relit pilot much better and asked for a story, then said what kind: a small back story, as a comic book gives each of its characters one, not necessarily the game's own story aboard the spaceship.**

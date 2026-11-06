@@ -181,14 +181,19 @@ function cot({ x, y, w, depth = 1 }) {
   return { svg, top: y - 10 * depth };
 }
 
-/** A hanging lamp on its cord, its cone of light down to `floor`. */
-function hangingLamp(prefix, { x, y, floor, on = 1 }) {
-  return lightCone(prefix, 'hang', { from: [x, y + 22], to: [x, floor], spread: 210, color: '#FFE7A3', opacity: 0.3 * on, near: 34 })
+/** A hanging lamp on its cord, its cone of light down to `floor`, swaying `swing` degrees from the ceiling. */
+function hangingLamp(prefix, { x, y, floor, on = 1, swing = 0 }) {
+  return `<g transform="rotate(${f(swing)} ${f(x)} 0)">`
+    + lightCone(prefix, 'hang', { from: [x, y + 22], to: [x, floor], spread: 210, color: '#FFE7A3', opacity: 0.3 * on, near: 34 })
     + `<path d="M${f(x)} 0V${f(y)}" stroke="${INK}" stroke-width="4"/>`
     + `<path d="M${f(x - 46)} ${f(y + 26)}L${f(x - 18)} ${f(y)}H${f(x + 18)}L${f(x + 46)} ${f(y + 26)}Z" fill="${NIGHT.steelLit}" stroke="${INK}" stroke-width="5" stroke-linejoin="round"/>`
     + `<ellipse cx="${f(x)}" cy="${f(y + 27)}" rx="30" ry="7" fill="#FFF3C4" opacity="${f(0.5 + 0.5 * on)}"/>`
-    + lightPool(prefix, 'hang-bulb', { cx: x, cy: y + 30, rx: 90, ry: 50, color: '#FFE7A3', opacity: 0.5 * on });
+    + lightPool(prefix, 'hang-bulb', { cx: x, cy: y + 30, rx: 90, ry: 50, color: '#FFE7A3', opacity: 0.5 * on })
+    + `</g>`;
 }
+
+/** Breathing, for a figure lying or sitting: a slow swell of its body about `pivot` (full motion only). */
+const breathe = (t, pivot, phase = 0, amount = 0.025) => `translate(${f(pivot[0])} ${f(pivot[1])}) scale(1 ${f(1 + amount * Math.sin(t / 620 + phase))}) translate(${f(-pivot[0])} ${f(-pivot[1])})`;
 
 /**
  * Panel 1 (memory): Colony Nine, the fever years. A field ward at night: cots full of patients under
@@ -213,19 +218,23 @@ export function panelColony(local, { w, h, prefix, character = 'c4', reduced = f
   let ward = floor(prefix);
   cots.forEach((c, i) => {
     const bed = cot(c);
-    ward += bed.svg
+    ward += bed.svg + `<g transform="${reduced ? '' : breathe(t, [c.x + c.w * 0.6, bed.top + 2], i * 1.7)}">`
       + patient(`${prefix}-pt${i}`, { gesture: 'cotLying', at: [c.x + c.w * 0.62, bed.top + 4], scale: 0.9 * c.depth, rim: [-3, -4] })
       + `<path d="M${f(c.x + c.w * 0.3)} ${f(bed.top - 18 * c.depth)}Q${f(c.x + c.w * 0.62)} ${f(bed.top - 30 * c.depth)} ${f(c.x + c.w - 8)} ${f(bed.top - 10 * c.depth)}L${f(c.x + c.w - 6)} ${f(bed.top + 2)}H${f(c.x + c.w * 0.28)}Z" fill="${WARD.blanket}" stroke="${INK}" stroke-width="${f(4 * c.depth)}" stroke-linejoin="round"/>`
-      + `<path d="M${f(c.x + c.w * 0.3)} ${f(bed.top - 18 * c.depth)}Q${f(c.x + c.w * 0.62)} ${f(bed.top - 30 * c.depth)} ${f(c.x + c.w - 8)} ${f(bed.top - 10 * c.depth)}" fill="none" stroke="${NIGHT.rim}" stroke-width="3" opacity="0.85"/>`;
+      + `<path d="M${f(c.x + c.w * 0.3)} ${f(bed.top - 18 * c.depth)}Q${f(c.x + c.w * 0.62)} ${f(bed.top - 30 * c.depth)} ${f(c.x + c.w - 8)} ${f(bed.top - 10 * c.depth)}" fill="none" stroke="${NIGHT.rim}" stroke-width="3" opacity="0.85"/></g>`;
   });
-  const middle = hangingLamp(prefix, { x: 360, y: 40, floor: 440, on: lampFlicker(t, 5) * 0.3 + 0.7 })
+  const middle = hangingLamp(prefix, { x: 360, y: 40, floor: 440, on: lampFlicker(t, 5) * 0.3 + 0.7, swing: reduced ? 0 : 2.4 * Math.sin(t / 1100) })
     + ward
     + motes({ x: 230, y: 90, w: 260, h: 320, t, count: 16, seed: 19, color: '#FFE7A3', opacity: 0.55, reduced });
   // The player's own character at the foot of the nearest cot, the chart in hand, lit by the lamp behind.
   const at = [676, 480];
-  const drawn = id => figureItems({ character, sk: skeletonOf('tablet'), at, scale: 1.36, depth: 2, prefix: `${prefix}-${id}`, mirror: true }).map(item => item.svg).join('');
-  const near = `<g filter="url(#${root}-rim)" opacity="0.9" transform="translate(-5 -4)">${drawn('rim')}</g>`
-    + `<g filter="url(#${root}-noir)">${drawn('dr')}</g>`;
+  // Reading the chart, then looking up at the ward: the head's tilt eases between the two.
+  const look = reduced ? 0.5 : 0.5 - 0.5 * Math.cos(t / 900);
+  const sk = { ...skeletonOf('tablet'), tilt: -6 + 14 * look };
+  const drawn = id => figureItems({ character, sk, at, scale: 1.36, depth: 2, prefix: `${prefix}-${id}`, mirror: true }).map(item => item.svg).join('');
+  const body = `<g filter="url(#${root}-rim)" opacity="0.9" transform="translate(-5 -4)">${drawn('rim')}</g>`
+    + `<g filter="url(#${root}-outline)"><g filter="url(#${root}-noir)">${drawn('dr')}</g></g>`;
+  const near = reduced ? body : `<g transform="${breathe(t, at, 0.4, 0.008)}">${body}</g>`;
   return shot(w, h, { far, middle, near }, { local: t, focus: [520, 320] });
 }
 
@@ -273,7 +282,7 @@ export function panelDoses(local, { w, h, prefix, reduced = false }) {
 }
 
 /** Panel 3 (now, aboard): the trace steadies, the patient sits up, and the panel's keypad lights the player's number. */
-export function panelSteady(local, { w, h, prefix, seat }) {
+export function panelSteady(local, { w, h, prefix, seat, reduced = false }) {
   const t = local;
   const bed = berth({ x: 60, y: 330, w: 300 });
   const lit = easeOutCubic(beat(t, [380, 760]));
@@ -302,7 +311,7 @@ export function panelSteady(local, { w, h, prefix, seat }) {
     + lightPool(prefix, 'cure', { cx: 200, cy: 260, rx: 160, ry: 140, color: MEDICAL.stable, opacity: 0.12 * lit });
   const middle = floor(prefix)
     + bed.svg
-    + patient(`${prefix}-pt`, { gesture: 'bedSitting', at: [176, 352], scale: 1.18, rim: [-4, -3] })
+    + `<g transform="${reduced ? '' : breathe(t, [176, 352], 0.9, 0.012)}">${patient(`${prefix}-pt`, { gesture: 'bedSitting', at: [176, 352], scale: 1.18, rim: [-4, -3] })}</g>`
     // The berth's side skirt in front of the patient: they sit up in bed, legs under the blanket.
     + `<rect x="58" y="${bed.top + 22}" width="306" height="64" rx="6" fill="${NIGHT.steelShadow}" stroke="${INK}" stroke-width="5"/>`
     + `<path d="M64 ${bed.top + 27}H358" stroke="${NIGHT.steelLit}" stroke-width="2.5" opacity="0.9"/>`

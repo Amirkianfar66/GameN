@@ -20,7 +20,7 @@ import { figureItems } from '../../../design/cinematic/lib/scene.mjs';
 import { PILOTS } from '../../../design/cinematic/pilots/index.mjs';
 import { GRIP, deviceOnly, sepiaOf, unaccented } from '../../../design/cinematic/pilots/role-reveal/art.mjs';
 import { POSES, briefingLayout, briefingSvg, onPage } from '../../../design/cinematic/pilots/role-reveal/briefing.mjs';
-import { PAGE_WIDTH, layout, pageHeight, revealSvg } from '../../../design/cinematic/pilots/role-reveal/compose.mjs';
+import { PAGE_WIDTH, cameraView, layout, pageHeight, revealSvg } from '../../../design/cinematic/pilots/role-reveal/compose.mjs';
 import { DOCTOR_PANELS } from '../../../design/cinematic/pilots/role-reveal/doctor.mjs';
 import { ROLE_REVEAL_COPY } from '../../../design/cinematic/pilots/role-reveal/copy.mjs';
 import { BEATS, CHANGES, FADE_MS, PANEL_STARTS, PANEL_TONES, REVEAL_END, STILLS, VARIANTS, revealFrame } from '../../../design/cinematic/pilots/role-reveal/film.mjs';
@@ -327,6 +327,39 @@ test('the Doctor\'s back story: memory in sepia, the player\'s own character in 
   assert.equal(new Set(CHARACTERS.map(colony)).size, CHARACTERS.length, 'the colony panel draws the player\'s own character');
   const doses = DOCTOR_PANELS[1](800, { w: box.w, h: box.h, prefix: 'rr-p1' });
   assert.equal((doses.match(new RegExp(`<rect[^>]*fill="${MEDICAL.cyan}"`, 'g')) ?? []).length, 2, 'two doses left in the case');
+});
+
+test('the motion comic: the memory flash, the guided view and the panels\' focus, the same for every role and full motion only', () => {
+  const full = t => revealFrame(t), reduced = t => revealFrame(t, { variant: 'reduced' });
+  // The flash swells out of the glint and clears on the back story's first panel.
+  assert.deepEqual([full(2600).flash, full(3400).flash], [0, 0]);
+  assert.ok(full(2950).flash > 0.95 && full(2800).flash > 0 && full(3100).flash > 0);
+  assert.ok(doctor(2950).svg.includes('rr-flash') && !doctor(2400).svg.includes('rr-flash'));
+  // The guided view: the page before the panels and at the title, a panel while it plays.
+  const H = pageHeight(390, 844), L = layout(H);
+  const view = t => cameraView(full(t).camera, L, H);
+  assert.deepEqual([view(2000).k, view(9000).k], [1, 1], 'the whole page');
+  for (const [t, i] of [[4000, 0], [5300, 1], [6800, 2]]) {
+    const { k, cy } = view(t);
+    assert.ok(k > 1, `${t} ms: a closer view`);
+    assert.ok(cy - H / (2 * k) <= L.panels[i].y && cy + H / (2 * k) >= L.panels[i].y + L.panels[i].h * 0.9, `${t} ms: panel ${i + 1} in view`);
+  }
+  // The page text rides the camera: a narration box is where its panel is drawn.
+  const at5300 = doctor(5300).words.story[1].box, v = view(5300);
+  assert.deepEqual(at5300.map(n => Math.round(n)), v.box([L.story[1].x, L.story[1].y, L.story[1].w, L.story[1].h]).map(n => Math.round(n)));
+  // Focus: an earlier panel steps back while a later one plays, and all come back for the page.
+  assert.ok(full(5300).focus[0] < 0.7 && full(5300).focus[1] === 1);
+  assert.deepEqual(full(7800).focus, [1, 1, 1]);
+  // Reduced motion: none of it.
+  for (const t of [2950, 5300, 6800]) {
+    assert.equal(reduced(t).flash, 0);
+    assert.deepEqual(reduced(t).camera, { from: -1, to: -1, v: 1 });
+    assert.deepEqual(reduced(t).focus, [1, 1, 1]);
+  }
+  // Print: the paper grain, the same every frame, and the player's character inked with a bold outline.
+  const grain = svg => svg.match(/<pattern id="rr-paper"[\s\S]*?<\/pattern>/)?.[0];
+  assert.ok(grain(doctor(1000).svg) && grain(doctor(1000).svg) === grain(doctor(8000).svg));
+  assert.match(doctor(1000).svg, /<g filter="url\(#rr-outline\)"><g filter="url\(#rr-noir\)">/);
 });
 
 test('the motion bible\'s role reveal entry carries the films', () => {

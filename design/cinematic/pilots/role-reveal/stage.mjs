@@ -25,7 +25,8 @@ function wordsLayer(root, w, h, k) {
   root.append(node);
   const line = () => {
     const el = document.createElement('p');
-    Object.assign(el.style, { position: 'absolute', margin: '0', display: 'grid', placeItems: 'center', textAlign: 'center', boxSizing: 'border-box', color: '#151923', fontFamily: '"Arial Narrow", "Helvetica Neue", Arial, sans-serif', fontWeight: '800', lineHeight: '1.25' });
+    // Comic lettering: captions in capitals, a little tracked (the words stay in sentence case for screen readers).
+    Object.assign(el.style, { position: 'absolute', margin: '0', display: 'grid', placeItems: 'center', textAlign: 'center', boxSizing: 'border-box', color: '#151923', fontFamily: '"Arial Narrow", "Helvetica Neue", Arial, sans-serif', fontWeight: '800', lineHeight: '1.2', textTransform: 'uppercase', letterSpacing: '0.04em' });
     node.append(el);
     return el;
   };
