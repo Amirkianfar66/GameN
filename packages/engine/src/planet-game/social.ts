@@ -1,6 +1,6 @@
 import { IdentifierSchema, PlanetCommandSchema, PlanetPromiseSchema, PlanetWindowDrawingSchema } from '@mothership/contracts';
 import type { PlanetCommand, PlanetPlayerView, PlanetPromise, PlanetWindowId, SeatId } from '@mothership/contracts';
-import { alive, copyPlanet, planetSeat, planetWorld } from './model.js';
+import { alive, copyPlanet, planetSeat, planetWorld, planetHasPrivateFeedback } from './model.js';
 import type { PlanetGameState } from './model.js';
 
 export interface PlanetPromiseOpportunityDetails {
@@ -120,7 +120,8 @@ export function finalizePlanetPromises(state:PlanetGameState,opportunity:PlanetP
     const world=planetWorld(state);
     for(const p of pending.filter(p=>p.round===state.round && ['MEET_A','MEET_B'].includes(p.kind))) {
       const room=p.kind==='MEET_A'?'Room A':'Room B';
-      p.status=[p.giverSeatId,p.recipientSeatId].every(id=>{const seat=planetSeat(world,id);return alive(seat)&&seat.location===room;})?'Fulfilled':'Not fulfilled';
+      const subjects=planetHasPrivateFeedback(state.versions)?[p.giverSeatId]:[p.giverSeatId,p.recipientSeatId];
+      p.status=subjects.every(id=>{const seat=planetSeat(world,id);return alive(seat)&&seat.location===room;})?'Fulfilled':'Not fulfilled';
     }
     return;
   }
