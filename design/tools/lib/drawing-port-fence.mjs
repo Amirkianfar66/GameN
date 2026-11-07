@@ -11,6 +11,8 @@ export const REVIEWED_DRAWING_PORTS = JSON.parse(readFileSync(new URL('./reviewe
 export const contentSha256 = value => createHash('sha256').update(value).digest('hex');
 export const CANDIDATE_DRAWING_POLICY = 'design/releases/board-v2-four-drawing-approval.json';
 export const PLANET_DRAWING_POLICY = 'design/releases/planet-drawing-approval.json';
+export const CREW_DRAWING_POLICY = 'design/releases/crew-drawing-approval.json';
+const CREW_DRAWING_POLICY_SHA256 = 'e77ab2129d696d8752c2868ff19e669a0dc35ded8064e97f0717bf1be1455500';
 const PLANET_DRAWING_POLICY_SHA256 = '0fc219ac5f1f8598a715c1a35140ff18f04cc6593785329b9219cb3d2478d497';
 const CANDIDATE_DRAWING_POLICY_SHA256 = '5ef70aa1da1f78b81ca945485b08083aa70856bb9b482df9b3b4e131c23869a0';
 
@@ -34,9 +36,16 @@ export function readDrawingPolicy(root) {
   const planet = JSON.parse(planetBytes);
   if (planet.parentApprovalSha256 !== CANDIDATE_DRAWING_POLICY_SHA256) throw Error('Planet drawing parent approval differs');
   for (const key of ['metadataFiles', 'buildFiles']) policy[key] = { ...policy[key], ...planet[key] };
+  let crewBytes;
+  try { crewBytes = readFileSync(resolve(root, CREW_DRAWING_POLICY)); }
+  catch (error) { if (error.code === 'ENOENT') return policy; throw error; }
+  if (contentSha256(crewBytes) !== CREW_DRAWING_POLICY_SHA256) throw Error('Crew drawing approval content hash differs');
+  const crew = JSON.parse(crewBytes);
+  if (crew.parentApprovalSha256 !== PLANET_DRAWING_POLICY_SHA256) throw Error('Crew drawing parent approval differs');
+  for (const key of ['ports', 'sourceHashes', 'requiredFiles', 'metadataFiles', 'buildFiles']) policy[key] = { ...policy[key], ...crew[key] };
   return policy;
 }
-const DRAWING_DIRECTORIES = ['apps/game/hosted/scene-drawing/', 'apps/game/hosted/board-v2-drawing/'];
+const DRAWING_DIRECTORIES = ['apps/game/hosted/scene-drawing/', 'apps/game/hosted/board-v2-drawing/', 'apps/game/hosted/crew-drawing/'];
 const DIRECTORIES = ['apps/game/src', 'apps/game/hosted', 'packages/presentation/src'];
 
 function normalize(value) {

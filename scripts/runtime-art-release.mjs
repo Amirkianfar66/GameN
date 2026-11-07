@@ -6,6 +6,8 @@ export const RUNTIME_ART_VERSION = 'design-0.5.0';
 export const RUNTIME_ART_MANIFEST = 'design/releases/design-0.5.0.json';
 export const PLANET_ART_VERSION = 'design-0.6.0';
 export const PLANET_ART_MANIFEST = 'design/releases/design-0.6.0.json';
+export const CREW_ART_VERSION = 'design-0.7.0';
+export const CREW_ART_MANIFEST = 'design/releases/design-0.7.0.json';
 // The release selects this reviewed art set; historical manifests remain immutable.
 export const HOSPITAL_FOUR_ART_VERSION = 'design-0.5.0';
 export const HOSPITAL_FOUR_ART_MANIFEST = 'design/releases/design-0.5.0.json';
@@ -17,6 +19,24 @@ const historical = {
   'design-0.4.0': '64975b15cd9815472dc35276e19bdc9ffbdd13040a89f72ab9c15b3cf1cce33e',
 };
 const releases = {
+  'design-0.7.0': {
+    manifestSha256: 'c85fe09bb766c6f53aa42cc1aa8e9a40818f708f06864b56ef4b3b56a10dad79',
+    crewApprovalSha256: 'a2ef5f03666e046bb712b4c177adc30d35556aaa590f9f7aa0d45fd3cb55dbab',
+    approvalSha256: '9493e29a8ce1b06c6848846b0c8932d65c42abcb24b2b43aaf35ed7239aaf228',
+    baseManifest: PLANET_ART_MANIFEST,
+    gameplay: {
+      protocolVersion: 3,
+      engineVersion: 'planet-game-1.1.0',
+      rulesetVersion: 'in-person-planet-private-feedback-2026-11-06',
+      rulesetHash: '4a1fc0e0dc21255253e31ae46e6042f9bd71e3fdec0f82f8a79b3ce213d01bfa',
+    },
+    bundles: ['abilities', 'board-v2-art', 'board-v2-films-art', 'board-v2-motion-art',
+      'planet-library-end', 'planet-library-hospital-panel', 'planet-library-library',
+      'planet-library-navigation', 'planet-library-offices', 'planet-library-promises',
+      'planet-library-successor', 'planet-library-windows', 'player-ui', 'public-board',
+      'roles', 'scene-art', 'setup-art'],
+    media: ['arrival-blue', 'arrival-red', 'blackhole', 'rescue', 'transit'],
+  },
   'design-0.6.0': {
     manifestSha256: 'eeb4a88c7b71166a1c9782231ccd7fa81931cb50eed112e3d6153a862751bec4',
     approvalSha256: '9493e29a8ce1b06c6848846b0c8932d65c42abcb24b2b43aaf35ed7239aaf228',
@@ -85,7 +105,7 @@ function readRelease(root, version, fromSnapshot) {
   const names = Object.keys(manifest.bundles ?? {}).sort();
   check(JSON.stringify(names) === JSON.stringify(expected.bundles), 'complete uniform bundle set required');
   for (const entry of Object.values(manifest.bundles)) {
-    const validUrl = version === PLANET_ART_VERSION
+    const validUrl = version === PLANET_ART_VERSION || version === CREW_ART_VERSION
       ? /^\/art\/(?:planet-library\/)?[a-z0-9.-]+\.css$/.test(entry.url)
       : /^\/art\/[a-z0-9.-]+\.css$/.test(entry.url);
     check(validUrl && /^[a-f0-9]{64}$/.test(entry.sha256), 'invalid bundle identity');
@@ -96,8 +116,10 @@ function readRelease(root, version, fromSnapshot) {
     const approvalBytes = readFileSync(resolve(root, approvalPath));
     check(sha(approvalBytes) === expected.approvalSha256, 'integration approval differs');
     const approval = JSON.parse(approvalBytes);
-    check(manifest.integrationApproval.path === approvalPath && manifest.integrationApproval.sha256 === expected.approvalSha256, 'approval binding differs');
-    check(sha(readFileSync(resolve(root, HOSPITAL_FOUR_ART_MANIFEST))) === manifest.baseManifest.sha256, 'base manifest differs');
+    const libraryApproval = expected.crewApprovalSha256 ? manifest.libraryIntegrationApproval : manifest.integrationApproval;
+    check(libraryApproval?.path === approvalPath && libraryApproval.sha256 === expected.approvalSha256, 'approval binding differs');
+    const baseManifest = expected.baseManifest ?? HOSPITAL_FOUR_ART_MANIFEST;
+    check(manifest.baseManifest.path === baseManifest && sha(readFileSync(resolve(root, baseManifest))) === manifest.baseManifest.sha256, 'base manifest differs');
     const published = new Map(approval.approvedFiles.map(file => ['/' + file.publication.target, file.publication.sha256]));
     for (const [name, entry] of Object.entries(manifest.media)) {
       check(entry.name === name && Number.isSafeInteger(entry.durationMs) && entry.durationMs > 0, 'invalid media description');
@@ -111,6 +133,14 @@ function readRelease(root, version, fromSnapshot) {
       check(published.get(entry.url) === entry.sha256, 'unapproved library stylesheet');
     }
     check(![...sources, ...runtime].some(([path]) => /\/(review|stills)\//.test(path)), 'review media cannot enter runtime inventories');
+  }
+  if (expected.crewApprovalSha256) {
+    const path = 'docs/integration/crew-drawing-art-approval-2026-11-07.json';
+    check(manifest.integrationApproval.path === path && manifest.integrationApproval.sha256 === expected.crewApprovalSha256
+      && sha(readFileSync(resolve(root, path))) === expected.crewApprovalSha256, 'crew integration approval differs');
+    check(manifest.tokens?.version === '0.5.0' && manifest.tokens.path === 'packages/design-tokens/src/tokens-0.5.0.json'
+      && manifest.tokens.sha256 === 'cfd8604611196fa6799367e1b438570ec96e914f937859199629317a4ac8ac5d'
+      && manifest.sources[manifest.tokens.path] === manifest.tokens.sha256, 'crew token binding differs');
   }
   return Object.freeze({ ...manifest, manifestSha256: sha(bytes) });
 }
