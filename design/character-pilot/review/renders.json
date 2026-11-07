@@ -1,0 +1,32 @@
+{
+  "tool": "design/tools/character-pilot-render.mjs",
+  "page": "design/character-pilot/review.html",
+  "outputs": {
+    "design/character-pilot/review/motion-poster.png": {
+      "kind": "poster",
+      "width": 1920,
+      "height": 1080,
+      "bytes": 933971,
+      "sha256": "8fa53f9b2209bde25b7572a1e633cd0dd7c063531d897bd6f2c6a829c60d5096"
+    },
+    "design/character-pilot/review/motion.mp4": {
+      "kind": "video",
+      "width": 1920,
+      "height": 1080,
+      "fps": 30,
+      "frames": 288,
+      "durationMs": 9600,
+      "bytes": 2049559,
+      "sha256": "18a86ee386d8bf239dd96c5850acfd8f56b4814744ccb938bcd650de5d79424d"
+    },
+    "design/character-pilot/review/sheet.png": {
+      "kind": "sheet",
+      "width": 2340,
+      "height": 2142,
+      "bytes": 774168,
+      "sha256": "77335854437714154392002a9f0144638c3d44d5ec171c1e75db9997dfe9c0ec"
+    }
+  },
+  "browser": "Chrome/153.0.8010.12",
+  "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers"
+}

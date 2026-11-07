@@ -6,6 +6,20 @@ What the game owner decided about look, feel and presentation while working with
 
 The owner's messages are quoted as written.
 
+## 7 November 2026: the character restyle, a pilot of three
+
+**The owner drew a redesign of the nine crew members and chose to try it as a pilot of three: Mira, Nova and Atlas.** The owner's sheet has portraits in app-icon frames and full figures in a two-tone suit. The owner asked, "do you think it's better and is it possible?" Designer answered yes, as a restyle of the code-drawn rig, and asked five questions. The answers:
+
+| # | What the owner said | What it decides |
+| --- | --- | --- |
+| 1 | "I am Agree with Pilot first … starting with Pilot with 3 of them" | A pilot first: Mira, Nova and Atlas |
+| 2 | "do not keep hejab it is not hood for rigging" | Mira is drawn without a hijab, with long hair as on the owner's sheet |
+| 3 | "Colors as recommend and the icon border like IOS style" | Nova's pink and Echo's purple move away from the team colours; portraits are framed as iOS app icons |
+| 4 | "You can change them 1 fat or thinner" | Atlas and Juno are told apart by build: Atlas heavy |
+| 5 | "I created the images … even you can be free to improve them and send me to check … the main Goal is give the design of game style and more like AAA animation but with a specific style Noir, Comic book Style" | The owner's own designs, which Designer may improve; the look is noir and comic-book with a hand-drawn line, and the animation is polished. The owner named a game as the inspiration for the hand-drawn line; nothing is taken from it |
+
+**What it does not decide:** adoption. The pilot is a proposal in `design/character-pilot/` (handoff: [character-pilot.md](character-pilot.md)). The game, the board, the films and the approved rig are unchanged until the owner approves the style and the other six are drawn.
+
 ## 11 October 2026: the Insider's file, portraits and role labels
 
 **A choice of content, recorded: the Insider's starting knowledge is drawn as the three players' portraits and the three role labels.** The assignment for the ability art, relayed to the Designer on 11 October 2026, says:
