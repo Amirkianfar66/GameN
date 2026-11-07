@@ -1,0 +1,65 @@
+{
+  "tool": "design/tools/crew-drawing-render.mjs",
+  "page": "design/crew-drawing/review.html",
+  "outputs": {
+    "design/crew-drawing/review/compare.png": {
+      "kind": "sheet",
+      "width": 2340,
+      "height": 6114,
+      "bytes": 2612030,
+      "sha256": "d44825bd83dfe7d9dccdb96dd150ff18acd7a2f722512e3b0d9c805b85a5964b"
+    },
+    "design/crew-drawing/review/preview-full-poster.png": {
+      "kind": "poster",
+      "width": 1920,
+      "height": 1080,
+      "atMs": 5000,
+      "bytes": 1074922,
+      "sha256": "8b8b848e655362fc6a4955643c83f39ef70a0bc53ab24c72a9bba57e0028494b"
+    },
+    "design/crew-drawing/review/preview-full.mp4": {
+      "kind": "video",
+      "width": 1920,
+      "height": 1080,
+      "fps": 30,
+      "frames": 360,
+      "durationMs": 12000,
+      "reducedMotion": false,
+      "bytes": 1725082,
+      "sha256": "d02355edd132a3cc7acf0b9af67c8eba5f08eac51a8146d71a778b8cee093d93"
+    },
+    "design/crew-drawing/review/preview-reduced-poster.png": {
+      "kind": "poster",
+      "width": 1920,
+      "height": 1080,
+      "atMs": 5000,
+      "bytes": 1011667,
+      "sha256": "b8f53980259d46bb569970028fbf8dcc7f08d4a9a4be574a6f3aab2f7cf83837"
+    },
+    "design/crew-drawing/review/preview-reduced.mp4": {
+      "kind": "video",
+      "width": 1920,
+      "height": 1080,
+      "fps": 30,
+      "frames": 360,
+      "durationMs": 12000,
+      "reducedMotion": true,
+      "bytes": 762028,
+      "sha256": "2d08f01564a1eae4bc43e3fb18f767b09e03dab63b141ddd4fb3489c423c4e3b"
+    }
+  },
+  "browser": "Chrome/153.0.8010.12",
+  "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+  "note": "Review media, not runtime assets: a picture of a page in desktop Chrome, silent. Nothing here is measured on a phone.",
+  "desktopTimings": {
+    "figures": 9,
+    "msPerFrame": {
+      "oldRigRebuild": 17.18,
+      "rebuildInlineArt": 93.56,
+      "rebuildSharedArt": 83.97,
+      "cachedPosesWithLiveFrame": 12.15,
+      "liveFrameOnly": 0.19
+    },
+    "note": "Desktop Chrome on the render machine: JavaScript and DOM time per frame for nine figures, layout forced, paint not included. Not a phone measurement."
+  }
+}

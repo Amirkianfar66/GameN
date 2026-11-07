@@ -23,6 +23,7 @@ Codex owns the root manifests, the lockfile, CI, the source lock, the workspace 
 | [DSN-REQ-14](#dsn-req-14) | State in the contract that `knowledge.insiderCandidates`, `knowledge.code` and a Supplier's `successfulRecipientSeatIds` list seats in seat order (ability art, 11 October 2026) | Nothing today: the engine sorts all three. It keeps any later producer from leaking a role order, or a picking order, through a list's order | None |
 | [DSN-REQ-15](#dsn-req-15) | Carry a Disabler's spent Disable, and the Officer's spent shot, in the seat's own view (ability art, slices 3 and 4) | A lasting "spent" mark in the Disabler's card, and an Officer's supplied weapon drawn as one that cannot be used. Today the receipt shows the charge or the round spent, and then the action is simply not offered again | None |
 | [DSN-REQ-16](#dsn-req-16) | Decide whether a stale or timed-out view hides the private card (raised by Frontend on PR #102) | The port of the closed folder. Recommended: keep the release's behaviour for the card; the folder only after the background | None |
+| [DSN-REQ-17](#dsn-req-17) | Register the crew drawing release `crew-drawing-1.0.0` (the owner-approved crew of nine, 7 November 2026): pin its sources and ports, add its runtime directory to the drawing-port fence, build its cards, standees and devices into the bundles, adopt tokens 0.5.0, retire the films art's 27 old crew drawings | Frontend's port of the approved crew. Until then every surface draws today's crew | None |
 
 Nothing here installs anything. Every script Designer added uses Node built-ins only.
 
@@ -268,6 +269,31 @@ The Designer's recommendation, for Integration to confirm or overrule:
 If Integration keeps PR #88's rule instead, the release's conceal changes for every role, as Frontend notes, and the folder stays as drawn. Either way nothing private reaches another surface; the question is only what the seat's own phone shows its own player while its view is not current.
 
 **Both are now drawn (ability art, slice 7).** The prototype keeps PR #88's folder by default, and draws the recommendation where it is asked for (the scenarios `stale.card` and `stale.card-notes`, `?stale=card`, or the fixture panel's "Keep the card on an out-of-date view"): the card stays, its file at rest and not pressable (the card stays in place, so focus stays where it is; an inspected snapshot is put back, focus in its card going back to the snapshot as Back does), and while the view may be out of date (the connection lost or an update unreadable, not merely a turn's time up) one mark at its top, **May be out of date** (proposed words), the same for every role, with the reviewed stale-connection icon. Every sheet, the card included, keeps clear of the connection banner, which Frontend found covering an open card's heading and Close at 320 x 568 in the release. Frontend's #106 already follows the recommendation; the mark is the Designer's proposal for it ([abilities-handoff.md](abilities-handoff.md) section 19).
+
+## DSN-REQ-17
+
+**Register the crew drawing release for runtime adoption.** Raised by Designer on 7 November 2026, after the owner approved the restyled crew of nine (PRs #191 and #192, merged as `5f1a1ce97570ddc3304b7b286ddd8ebbc3d8b0be` and `d2933b08eff0e5bd00cfbdf1730b81a007f1c646`). For Integration, with Frontend, who ports it.
+
+The release is in [crew-drawing-release.md](crew-drawing-release.md), with its machine-readable record in `design/crew-drawing/release-candidate.json`. It contains:
+- 17 dev-only sources: a drop-in for the rig's `crew.mjs` and `wardrobe.mjs`, the approved traced heads byte for byte, and the motion and mounting interfaces;
+- 36 baked exports with their manifest;
+- a tokens 0.5.0 candidate.
+
+It changes no rule, skeleton, gesture, walk, easing, place or public id, and none of Integration's files.
+
+Requested:
+
+1. **Pin the sources and their ports.** The 17 entries in `release-candidate.json` give each source's SHA-256 and its port's. A port drops the first line and rewrites two import specifiers, nothing else. The release depends on the rig's `body.mjs` and `wardrobe.mjs` at their `design-0.6.0` pins.
+2. **Add the runtime directory to the drawing-port fence.** That is `apps/game/hosted/crew-drawing/`, with `heads/` inside it, or another directory Integration prefers. No port names a prototype (tested).
+3. **Build the baked sets into the bundles, each set whole.** Cards and standees go into public-board; the nine held devices, with the new suit's sleeve, go into roles. `assets/manifest.json` names the property and shipped file each replaces. The cards keep the old box and face anchor, and the standees keep the old stand and anchors.
+4. **Adopt tokens 0.5.0.** `color.crew` keeps its shape. Every change is listed in `revisedFrom040`.
+5. **Retire the films art catalog's 27 crew drawings** (memorial, outline and halftone of each), with Frontend, who owns the catalog. No runtime file reads them. If they stay, `filmArt.ifKept` gives the recipe to redraw them.
+6. **Register the release after `design-0.6.0`.** `design-0.7.0` is proposed. Historical releases stay as they are.
+7. **Decide where the app icons live:** baked into public-board (0.91 MB raw, 218 KB gzip), or drawn live with shared heads.
+
+Frontend measures the result on a physical low-end Android phone and an iPhone. Until it does, every performance figure stays unverified. The new cards and standees grow the public-board stylesheet from about 20 KB to about 430 KB gzip. Ways to cut that are in the release document. Designer reviews the port's screenshots and short video before Integration merges it.
+
+Until then, every surface keeps drawing today's crew, and nothing breaks. The release sits in `design/crew-drawing/` as dev-only sources, and the runtime does not import it.
 
 ## What Designer does next, and what it waits for
 

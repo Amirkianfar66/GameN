@@ -1,0 +1,1638 @@
+{
+  "schema": "mothership.crew-drawing-assets/1",
+  "release": "crew-drawing-1.0.0",
+  "status": "Designer candidate (DSN-REQ-17). Not registered: no shipped manifest, bundle or catalog is changed; Integration builds bundles from these.",
+  "generatedBy": "design/tools/crew-drawing-export.mjs",
+  "conventions": {
+    "files": "Each file is one SVG starting with <svg (no XML declaration, no comment), ids prefixed per file, no text, no script, no external reference. Cards, standees, portraits and devices end with a newline, as design/exports does; the films art does not, as the films catalog's runtime files do not.",
+    "replaces": "The shipped file it stands in for: its CSS custom property, bundle, path and SHA-256. A null replaces is new art with a proposed property. Swap a whole set (all nine), never one character's.",
+    "colours": "A character drawing's colour count and its least CIE76 distance from a faction accent (the palette rule keeps it at 30 or more; a test recomputes it). A device's colours are listed: they are its role's."
+  },
+  "assets": [
+    {
+      "path": "design/crew-drawing/assets/cards/card-c1.svg",
+      "sha256": "2aaa54ecdcb82bc41ad28115802579a7cfe2057656e4553d464d4197d7531b51",
+      "bytes": 88461,
+      "kind": "card",
+      "character": "c1",
+      "audience": "public",
+      "viewBox": "8 0 84 96",
+      "width": 84,
+      "height": 96,
+      "anchors": {
+        "faceCenter": [
+          48,
+          38
+        ],
+        "note": "The face where the old card had it: every crop of the card's face (50% 22% / 175%) still holds it."
+      },
+      "replaces": {
+        "cssVariable": "--ms-asset-piece-crew-card-c1",
+        "bundle": "public-board",
+        "path": "design/exports/public-board/piece-crew.card-c1.b8ee37c22e.svg",
+        "sha256": "b8ee37c22e0c7a6dd91a29c9bd020fc9722cd250451cc3e6088bb186061d4acd",
+        "viewBox": "8 0 84 96",
+        "anchors": {
+          "note": "The piece without its stand: for a list row, a target row, the character chooser and the player's own role card.",
+          "faceCenter": [
+            48,
+            38
+          ]
+        }
+      },
+      "colours": {
+        "count": 226,
+        "nearestFactionAccentCie76": 31.8
+      }
+    },
+    {
+      "path": "design/crew-drawing/assets/standees/standee-c1.svg",
+      "sha256": "33a64e41cc77a880284241db8d65890433654ab0e9d0bfcf266ee7d5182b3489",
+      "bytes": 89709,
+      "kind": "standee",
+      "character": "c1",
+      "audience": "public",
+      "viewBox": "0 0 96 120",
+      "width": 96,
+      "height": 120,
+      "anchors": {
+        "origin": [
+          48,
+          104
+        ],
+        "tagTop": [
+          48,
+          116
+        ],
+        "markerSlots": {
+          "turn": [
+            48,
+            -2
+          ],
+          "captain": [
+            78,
+            18
+          ],
+          "health": [
+            78,
+            70
+          ],
+          "jail": [
+            18,
+            70
+          ]
+        }
+      },
+      "replaces": {
+        "cssVariable": "--ms-asset-piece-crew-standee-c1",
+        "bundle": "public-board",
+        "path": "design/exports/public-board/piece-crew.standee-c1.a219a3b9b3.svg",
+        "sha256": "a219a3b9b3a919b86e6a416c5478f5b631a9615f7662c3b6a8a713c6e9e7ca86",
+        "viewBox": "0 0 96 120",
+        "anchors": {
+          "origin": [
+            48,
+            104
+          ],
+          "tagTop": [
+            48,
+            116
+          ],
+          "markerSlots": {
+            "turn": [
+              48,
+              -2
+            ],
+            "captain": [
+              78,
+              18
+            ],
+            "health": [
+              78,
+              70
+            ],
+            "jail": [
+              18,
+              70
+            ]
+          }
+        }
+      },
+      "colours": {
+        "count": 231,
+        "nearestFactionAccentCie76": 31.8
+      }
+    },
+    {
+      "path": "design/crew-drawing/assets/portraits/portrait-c1.svg",
+      "sha256": "fd4c98883ec490d46ac7fedd71e982df797304cb95087020f40e819502e3e54b",
+      "bytes": 93676,
+      "kind": "portrait",
+      "character": "c1",
+      "audience": "public",
+      "viewBox": "-64 -64 128 128",
+      "width": 128,
+      "height": 128,
+      "anchors": {
+        "frame": "A continuous-corner square (superellipse, n = 5) of half-size 54 round 0,0; its white rim reaches 57.5."
+      },
+      "replaces": null,
+      "proposedCssVariable": "--ms-asset-crew-portrait-c1",
+      "proposedBundle": "public-board",
+      "colours": {
+        "count": 226,
+        "nearestFactionAccentCie76": 31.8
+      }
+    },
+    {
+      "path": "design/crew-drawing/assets/cards/card-c2.svg",
+      "sha256": "4bdcda99d1f878f99cc287e3dc9a1ebf272c1be5ffbb310d6136cffe918c1cfd",
+      "bytes": 93203,
+      "kind": "card",
+      "character": "c2",
+      "audience": "public",
+      "viewBox": "8 0 84 96",
+      "width": 84,
+      "height": 96,
+      "anchors": {
+        "faceCenter": [
+          48,
+          38
+        ],
+        "note": "The face where the old card had it: every crop of the card's face (50% 22% / 175%) still holds it."
+      },
+      "replaces": {
+        "cssVariable": "--ms-asset-piece-crew-card-c2",
+        "bundle": "public-board",
+        "path": "design/exports/public-board/piece-crew.card-c2.fa486c89e9.svg",
+        "sha256": "fa486c89e988a380cf187559e37d6737e32fd05eb4e3936345587584086b9c09",
+        "viewBox": "8 0 84 96",
+        "anchors": {
+          "note": "The piece without its stand: for a list row, a target row, the character chooser and the player's own role card.",
+          "faceCenter": [
+            48,
+            38
+          ]
+        }
+      },
+      "colours": {
+        "count": 237,
+        "nearestFactionAccentCie76": 32.3
+      }
+    },
+    {
+      "path": "design/crew-drawing/assets/standees/standee-c2.svg",
+      "sha256": "fe57bf16329768b0e31166e839f61f56c985af0d0d0399e62a8224b086c63d46",
+      "bytes": 94451,
+      "kind": "standee",
+      "character": "c2",
+      "audience": "public",
+      "viewBox": "0 0 96 120",
+      "width": 96,
+      "height": 120,
+      "anchors": {
+        "origin": [
+          48,
+          104
+        ],
+        "tagTop": [
+          48,
+          116
+        ],
+        "markerSlots": {
+          "turn": [
+            48,
+            -2
+          ],
+          "captain": [
+            78,
+            18
+          ],
+          "health": [
+            78,
+            70
+          ],
+          "jail": [
+            18,
+            70
+          ]
+        }
+      },
+      "replaces": {
+        "cssVariable": "--ms-asset-piece-crew-standee-c2",
+        "bundle": "public-board",
+        "path": "design/exports/public-board/piece-crew.standee-c2.e0362aae3f.svg",
+        "sha256": "e0362aae3f0d6c5d85a5b6dc4ed7fe76459d78df958b6b6839ae09ab063ea351",
+        "viewBox": "0 0 96 120",
+        "anchors": {
+          "origin": [
+            48,
+            104
+          ],
+          "tagTop": [
+            48,
+            116
+          ],
+          "markerSlots": {
+            "turn": [
+              48,
+              -2
+            ],
+            "captain": [
+              78,
+              18
+            ],
+            "health": [
+              78,
+              70
+            ],
+            "jail": [
+              18,
+              70
+            ]
+          }
+        }
+      },
+      "colours": {
+        "count": 242,
+        "nearestFactionAccentCie76": 32.3
+      }
+    },
+    {
+      "path": "design/crew-drawing/assets/portraits/portrait-c2.svg",
+      "sha256": "3223b2dc2a6cc123c1ac9cd7cce192e9ab490fdee33cec543fd80502e258e80a",
+      "bytes": 98418,
+      "kind": "portrait",
+      "character": "c2",
+      "audience": "public",
+      "viewBox": "-64 -64 128 128",
+      "width": 128,
+      "height": 128,
+      "anchors": {
+        "frame": "A continuous-corner square (superellipse, n = 5) of half-size 54 round 0,0; its white rim reaches 57.5."
+      },
+      "replaces": null,
+      "proposedCssVariable": "--ms-asset-crew-portrait-c2",
+      "proposedBundle": "public-board",
+      "colours": {
+        "count": 237,
+        "nearestFactionAccentCie76": 32.3
+      }
+    },
+    {
+      "path": "design/crew-drawing/assets/cards/card-c3.svg",
+      "sha256": "89f99bea141b00cf0918504fa88813a879eb08624420b2c20378db4f4e5734ca",
+      "bytes": 73565,
+      "kind": "card",
+      "character": "c3",
+      "audience": "public",
+      "viewBox": "8 0 84 96",
+      "width": 84,
+      "height": 96,
+      "anchors": {
+        "faceCenter": [
+          48,
+          38
+        ],
+        "note": "The face where the old card had it: every crop of the card's face (50% 22% / 175%) still holds it."
+      },
+      "replaces": {
+        "cssVariable": "--ms-asset-piece-crew-card-c3",
+        "bundle": "public-board",
+        "path": "design/exports/public-board/piece-crew.card-c3.73339084a9.svg",
+        "sha256": "73339084a9ea5138b757e6be8af7e50a4957c53cc35a7d6b370730c1bffe12ef",
+        "viewBox": "8 0 84 96",
+        "anchors": {
+          "note": "The piece without its stand: for a list row, a target row, the character chooser and the player's own role card.",
+          "faceCenter": [
+            48,
+            38
+          ]
+        }
+      },
+      "colours": {
+        "count": 194,
+        "nearestFactionAccentCie76": 32.4
+      }
+    },
+    {
+      "path": "design/crew-drawing/assets/standees/standee-c3.svg",
+      "sha256": "1af73d5cefc13293b4413b113ee197eb23d1a9159f24a11305a9d525dcbcb43d",
+      "bytes": 74813,
+      "kind": "standee",
+      "character": "c3",
+      "audience": "public",
+      "viewBox": "0 0 96 120",
+      "width": 96,
+      "height": 120,
+      "anchors": {
+        "origin": [
+          48,
+          104
+        ],
+        "tagTop": [
+          48,
+          116
+        ],
+        "markerSlots": {
+          "turn": [
+            48,
+            -2
+          ],
+          "captain": [
+            78,
+            18
+          ],
+          "health": [
+            78,
+            70
+          ],
+          "jail": [
+            18,
+            70
+          ]
+        }
+      },
+      "replaces": {
+        "cssVariable": "--ms-asset-piece-crew-standee-c3",
+        "bundle": "public-board",
+        "path": "design/exports/public-board/piece-crew.standee-c3.a4554e6f59.svg",
+        "sha256": "a4554e6f596aceaf6c11e2e2e90877996dcc74e86cbbda6f8cc784bc2dd9aa13",
+        "viewBox": "0 0 96 120",
+        "anchors": {
+          "origin": [
+            48,
+            104
+          ],
+          "tagTop": [
+            48,
+            116
+          ],
+          "markerSlots": {
+            "turn": [
+              48,
+              -2
+            ],
+            "captain": [
+              78,
+              18
+            ],
+            "health": [
+              78,
+              70
+            ],
+            "jail": [
+              18,
+              70
+            ]
+          }
+        }
+      },
+      "colours": {
+        "count": 199,
+        "nearestFactionAccentCie76": 32.4
+      }
+    },
+    {
+      "path": "design/crew-drawing/assets/portraits/portrait-c3.svg",
+      "sha256": "aa506742eea4186398318d2df95b3b971351dbbf51a9602bd48795b5cc962d96",
+      "bytes": 78780,
+      "kind": "portrait",
+      "character": "c3",
+      "audience": "public",
+      "viewBox": "-64 -64 128 128",
+      "width": 128,
+      "height": 128,
+      "anchors": {
+        "frame": "A continuous-corner square (superellipse, n = 5) of half-size 54 round 0,0; its white rim reaches 57.5."
+      },
+      "replaces": null,
+      "proposedCssVariable": "--ms-asset-crew-portrait-c3",
+      "proposedBundle": "public-board",
+      "colours": {
+        "count": 194,
+        "nearestFactionAccentCie76": 32.4
+      }
+    },
+    {
+      "path": "design/crew-drawing/assets/cards/card-c4.svg",
+      "sha256": "0eb3c449c91b62ecaae5ea65d5b7d8291d66dd8f313f3e01e80a5b9bfa3a0e0c",
+      "bytes": 61491,
+      "kind": "card",
+      "character": "c4",
+      "audience": "public",
+      "viewBox": "8 0 84 96",
+      "width": 84,
+      "height": 96,
+      "anchors": {
+        "faceCenter": [
+          48,
+          38
+        ],
+        "note": "The face where the old card had it: every crop of the card's face (50% 22% / 175%) still holds it."
+      },
+      "replaces": {
+        "cssVariable": "--ms-asset-piece-crew-card-c4",
+        "bundle": "public-board",
+        "path": "design/exports/public-board/piece-crew.card-c4.e4067febcb.svg",
+        "sha256": "e4067febcb9f71d1bac5444674293d4be53eb96167412e144c9d8877c7afb35e",
+        "viewBox": "8 0 84 96",
+        "anchors": {
+          "note": "The piece without its stand: for a list row, a target row, the character chooser and the player's own role card.",
+          "faceCenter": [
+            48,
+            38
+          ]
+        }
+      },
+      "colours": {
+        "count": 137,
+        "nearestFactionAccentCie76": 34.1
+      }
+    },
+    {
+      "path": "design/crew-drawing/assets/standees/standee-c4.svg",
+      "sha256": "65ee38894f32e58a47c6e5d19c1d05b826812e72c678de5af6812b1eb662c5a0",
+      "bytes": 62739,
+      "kind": "standee",
+      "character": "c4",
+      "audience": "public",
+      "viewBox": "0 0 96 120",
+      "width": 96,
+      "height": 120,
+      "anchors": {
+        "origin": [
+          48,
+          104
+        ],
+        "tagTop": [
+          48,
+          116
+        ],
+        "markerSlots": {
+          "turn": [
+            48,
+            -2
+          ],
+          "captain": [
+            78,
+            18
+          ],
+          "health": [
+            78,
+            70
+          ],
+          "jail": [
+            18,
+            70
+          ]
+        }
+      },
+      "replaces": {
+        "cssVariable": "--ms-asset-piece-crew-standee-c4",
+        "bundle": "public-board",
+        "path": "design/exports/public-board/piece-crew.standee-c4.144fa8cfcc.svg",
+        "sha256": "144fa8cfcc9feec830ae5cfd331bc771c8b58539095d9f1078f1de9c741ea290",
+        "viewBox": "0 0 96 120",
+        "anchors": {
+          "origin": [
+            48,
+            104
+          ],
+          "tagTop": [
+            48,
+            116
+          ],
+          "markerSlots": {
+            "turn": [
+              48,
+              -2
+            ],
+            "captain": [
+              78,
+              18
+            ],
+            "health": [
+              78,
+              70
+            ],
+            "jail": [
+              18,
+              70
+            ]
+          }
+        }
+      },
+      "colours": {
+        "count": 142,
+        "nearestFactionAccentCie76": 32.6
+      }
+    },
+    {
+      "path": "design/crew-drawing/assets/portraits/portrait-c4.svg",
+      "sha256": "6d6d9947449d161a1c0e85f6503b082bc0cbce9200fdc964b0ab8fa5d7cefa62",
+      "bytes": 66706,
+      "kind": "portrait",
+      "character": "c4",
+      "audience": "public",
+      "viewBox": "-64 -64 128 128",
+      "width": 128,
+      "height": 128,
+      "anchors": {
+        "frame": "A continuous-corner square (superellipse, n = 5) of half-size 54 round 0,0; its white rim reaches 57.5."
+      },
+      "replaces": null,
+      "proposedCssVariable": "--ms-asset-crew-portrait-c4",
+      "proposedBundle": "public-board",
+      "colours": {
+        "count": 137,
+        "nearestFactionAccentCie76": 34.1
+      }
+    },
+    {
+      "path": "design/crew-drawing/assets/cards/card-c5.svg",
+      "sha256": "c321479ff18fd5d6384ae2dc41d37ba35de682c10e6a477e93987a8c156458cc",
+      "bytes": 80069,
+      "kind": "card",
+      "character": "c5",
+      "audience": "public",
+      "viewBox": "8 0 84 96",
+      "width": 84,
+      "height": 96,
+      "anchors": {
+        "faceCenter": [
+          48,
+          38
+        ],
+        "note": "The face where the old card had it: every crop of the card's face (50% 22% / 175%) still holds it."
+      },
+      "replaces": {
+        "cssVariable": "--ms-asset-piece-crew-card-c5",
+        "bundle": "public-board",
+        "path": "design/exports/public-board/piece-crew.card-c5.0c33e38fd5.svg",
+        "sha256": "0c33e38fd5ff564277910c8d6a6d8fd6a248a6aa29f2313a777ad62b28e2b36b",
+        "viewBox": "8 0 84 96",
+        "anchors": {
+          "note": "The piece without its stand: for a list row, a target row, the character chooser and the player's own role card.",
+          "faceCenter": [
+            48,
+            38
+          ]
+        }
+      },
+      "colours": {
+        "count": 187,
+        "nearestFactionAccentCie76": 32.2
+      }
+    },
+    {
+      "path": "design/crew-drawing/assets/standees/standee-c5.svg",
+      "sha256": "8491013791bc0a6ffea7b82ff0f7b678544830e2a3011cf022e4e087bff267da",
+      "bytes": 81317,
+      "kind": "standee",
+      "character": "c5",
+      "audience": "public",
+      "viewBox": "0 0 96 120",
+      "width": 96,
+      "height": 120,
+      "anchors": {
+        "origin": [
+          48,
+          104
+        ],
+        "tagTop": [
+          48,
+          116
+        ],
+        "markerSlots": {
+          "turn": [
+            48,
+            -2
+          ],
+          "captain": [
+            78,
+            18
+          ],
+          "health": [
+            78,
+            70
+          ],
+          "jail": [
+            18,
+            70
+          ]
+        }
+      },
+      "replaces": {
+        "cssVariable": "--ms-asset-piece-crew-standee-c5",
+        "bundle": "public-board",
+        "path": "design/exports/public-board/piece-crew.standee-c5.5c0acdaa35.svg",
+        "sha256": "5c0acdaa35e5b13a2a58f5a03922e88b8d64f599843b59e0b92d8884d0f81aa0",
+        "viewBox": "0 0 96 120",
+        "anchors": {
+          "origin": [
+            48,
+            104
+          ],
+          "tagTop": [
+            48,
+            116
+          ],
+          "markerSlots": {
+            "turn": [
+              48,
+              -2
+            ],
+            "captain": [
+              78,
+              18
+            ],
+            "health": [
+              78,
+              70
+            ],
+            "jail": [
+              18,
+              70
+            ]
+          }
+        }
+      },
+      "colours": {
+        "count": 192,
+        "nearestFactionAccentCie76": 32.2
+      }
+    },
+    {
+      "path": "design/crew-drawing/assets/portraits/portrait-c5.svg",
+      "sha256": "cef27f3cb26a70449e8869cd7961268997fd46d9d412f1df82343e50d14a68f9",
+      "bytes": 85284,
+      "kind": "portrait",
+      "character": "c5",
+      "audience": "public",
+      "viewBox": "-64 -64 128 128",
+      "width": 128,
+      "height": 128,
+      "anchors": {
+        "frame": "A continuous-corner square (superellipse, n = 5) of half-size 54 round 0,0; its white rim reaches 57.5."
+      },
+      "replaces": null,
+      "proposedCssVariable": "--ms-asset-crew-portrait-c5",
+      "proposedBundle": "public-board",
+      "colours": {
+        "count": 187,
+        "nearestFactionAccentCie76": 32.2
+      }
+    },
+    {
+      "path": "design/crew-drawing/assets/cards/card-c6.svg",
+      "sha256": "f2663394f46587dff30960a23833e5acf522f92282f8801e976e769fc0e9fe64",
+      "bytes": 65129,
+      "kind": "card",
+      "character": "c6",
+      "audience": "public",
+      "viewBox": "8 0 84 96",
+      "width": 84,
+      "height": 96,
+      "anchors": {
+        "faceCenter": [
+          48,
+          38
+        ],
+        "note": "The face where the old card had it: every crop of the card's face (50% 22% / 175%) still holds it."
+      },
+      "replaces": {
+        "cssVariable": "--ms-asset-piece-crew-card-c6",
+        "bundle": "public-board",
+        "path": "design/exports/public-board/piece-crew.card-c6.1a5d90c548.svg",
+        "sha256": "1a5d90c548d78d2cacbf1f2a03e62e9f0d648774c31f338ec40f163a32306148",
+        "viewBox": "8 0 84 96",
+        "anchors": {
+          "note": "The piece without its stand: for a list row, a target row, the character chooser and the player's own role card.",
+          "faceCenter": [
+            48,
+            38
+          ]
+        }
+      },
+      "colours": {
+        "count": 157,
+        "nearestFactionAccentCie76": 33.1
+      }
+    },
+    {
+      "path": "design/crew-drawing/assets/standees/standee-c6.svg",
+      "sha256": "f96240e8192ae138d8fa77565bc5c54d8677601389d3c5d728dc35dd9a8b8316",
+      "bytes": 66377,
+      "kind": "standee",
+      "character": "c6",
+      "audience": "public",
+      "viewBox": "0 0 96 120",
+      "width": 96,
+      "height": 120,
+      "anchors": {
+        "origin": [
+          48,
+          104
+        ],
+        "tagTop": [
+          48,
+          116
+        ],
+        "markerSlots": {
+          "turn": [
+            48,
+            -2
+          ],
+          "captain": [
+            78,
+            18
+          ],
+          "health": [
+            78,
+            70
+          ],
+          "jail": [
+            18,
+            70
+          ]
+        }
+      },
+      "replaces": {
+        "cssVariable": "--ms-asset-piece-crew-standee-c6",
+        "bundle": "public-board",
+        "path": "design/exports/public-board/piece-crew.standee-c6.530e199f02.svg",
+        "sha256": "530e199f02bc3025e5f31e2c31b9d312705a4bbfdf3cab282ef8e65ebfdd057d",
+        "viewBox": "0 0 96 120",
+        "anchors": {
+          "origin": [
+            48,
+            104
+          ],
+          "tagTop": [
+            48,
+            116
+          ],
+          "markerSlots": {
+            "turn": [
+              48,
+              -2
+            ],
+            "captain": [
+              78,
+              18
+            ],
+            "health": [
+              78,
+              70
+            ],
+            "jail": [
+              18,
+              70
+            ]
+          }
+        }
+      },
+      "colours": {
+        "count": 162,
+        "nearestFactionAccentCie76": 32.6
+      }
+    },
+    {
+      "path": "design/crew-drawing/assets/portraits/portrait-c6.svg",
+      "sha256": "1c0d246d9ad4694e0b38b9a64bfa6e7ece0eecee9678d83c0f6f164d60247a1f",
+      "bytes": 70344,
+      "kind": "portrait",
+      "character": "c6",
+      "audience": "public",
+      "viewBox": "-64 -64 128 128",
+      "width": 128,
+      "height": 128,
+      "anchors": {
+        "frame": "A continuous-corner square (superellipse, n = 5) of half-size 54 round 0,0; its white rim reaches 57.5."
+      },
+      "replaces": null,
+      "proposedCssVariable": "--ms-asset-crew-portrait-c6",
+      "proposedBundle": "public-board",
+      "colours": {
+        "count": 157,
+        "nearestFactionAccentCie76": 33.1
+      }
+    },
+    {
+      "path": "design/crew-drawing/assets/cards/card-c7.svg",
+      "sha256": "18413d441f999987af27304fdacde798931ac98b61e1b3aa5e91cdaed462e0bd",
+      "bytes": 78015,
+      "kind": "card",
+      "character": "c7",
+      "audience": "public",
+      "viewBox": "8 0 84 96",
+      "width": 84,
+      "height": 96,
+      "anchors": {
+        "faceCenter": [
+          48,
+          38
+        ],
+        "note": "The face where the old card had it: every crop of the card's face (50% 22% / 175%) still holds it."
+      },
+      "replaces": {
+        "cssVariable": "--ms-asset-piece-crew-card-c7",
+        "bundle": "public-board",
+        "path": "design/exports/public-board/piece-crew.card-c7.7ac4db8356.svg",
+        "sha256": "7ac4db8356585bb39820c73d7f6fc1f71eab0c9e4b45896bea56ac62c37ee275",
+        "viewBox": "8 0 84 96",
+        "anchors": {
+          "note": "The piece without its stand: for a list row, a target row, the character chooser and the player's own role card.",
+          "faceCenter": [
+            48,
+            38
+          ]
+        }
+      },
+      "colours": {
+        "count": 201,
+        "nearestFactionAccentCie76": 33.7
+      }
+    },
+    {
+      "path": "design/crew-drawing/assets/standees/standee-c7.svg",
+      "sha256": "bae28f764192127424e0d6a2935804d9ecfcc11a92b129471975be0b59ff8b7f",
+      "bytes": 79263,
+      "kind": "standee",
+      "character": "c7",
+      "audience": "public",
+      "viewBox": "0 0 96 120",
+      "width": 96,
+      "height": 120,
+      "anchors": {
+        "origin": [
+          48,
+          104
+        ],
+        "tagTop": [
+          48,
+          116
+        ],
+        "markerSlots": {
+          "turn": [
+            48,
+            -2
+          ],
+          "captain": [
+            78,
+            18
+          ],
+          "health": [
+            78,
+            70
+          ],
+          "jail": [
+            18,
+            70
+          ]
+        }
+      },
+      "replaces": {
+        "cssVariable": "--ms-asset-piece-crew-standee-c7",
+        "bundle": "public-board",
+        "path": "design/exports/public-board/piece-crew.standee-c7.79d878b274.svg",
+        "sha256": "79d878b2741cd44725dbdec63a07f3fe05d94dc06e7fac717f421de11245e05b",
+        "viewBox": "0 0 96 120",
+        "anchors": {
+          "origin": [
+            48,
+            104
+          ],
+          "tagTop": [
+            48,
+            116
+          ],
+          "markerSlots": {
+            "turn": [
+              48,
+              -2
+            ],
+            "captain": [
+              78,
+              18
+            ],
+            "health": [
+              78,
+              70
+            ],
+            "jail": [
+              18,
+              70
+            ]
+          }
+        }
+      },
+      "colours": {
+        "count": 206,
+        "nearestFactionAccentCie76": 32.6
+      }
+    },
+    {
+      "path": "design/crew-drawing/assets/portraits/portrait-c7.svg",
+      "sha256": "a85e050f8a993a5d1011bea788821c13c5cafd386e897eeb671df33262e47e2e",
+      "bytes": 83230,
+      "kind": "portrait",
+      "character": "c7",
+      "audience": "public",
+      "viewBox": "-64 -64 128 128",
+      "width": 128,
+      "height": 128,
+      "anchors": {
+        "frame": "A continuous-corner square (superellipse, n = 5) of half-size 54 round 0,0; its white rim reaches 57.5."
+      },
+      "replaces": null,
+      "proposedCssVariable": "--ms-asset-crew-portrait-c7",
+      "proposedBundle": "public-board",
+      "colours": {
+        "count": 201,
+        "nearestFactionAccentCie76": 33.7
+      }
+    },
+    {
+      "path": "design/crew-drawing/assets/cards/card-c8.svg",
+      "sha256": "fa97839916fcf1392ebbe0c95b1bbc051d85c8afe433f4effb44ee11150f097b",
+      "bytes": 66664,
+      "kind": "card",
+      "character": "c8",
+      "audience": "public",
+      "viewBox": "8 0 84 96",
+      "width": 84,
+      "height": 96,
+      "anchors": {
+        "faceCenter": [
+          48,
+          38
+        ],
+        "note": "The face where the old card had it: every crop of the card's face (50% 22% / 175%) still holds it."
+      },
+      "replaces": {
+        "cssVariable": "--ms-asset-piece-crew-card-c8",
+        "bundle": "public-board",
+        "path": "design/exports/public-board/piece-crew.card-c8.130c29c947.svg",
+        "sha256": "130c29c947e54d398669f3c216138e3440d347bec2583537314ba814411b68fb",
+        "viewBox": "8 0 84 96",
+        "anchors": {
+          "note": "The piece without its stand: for a list row, a target row, the character chooser and the player's own role card.",
+          "faceCenter": [
+            48,
+            38
+          ]
+        }
+      },
+      "colours": {
+        "count": 168,
+        "nearestFactionAccentCie76": 31.1
+      }
+    },
+    {
+      "path": "design/crew-drawing/assets/standees/standee-c8.svg",
+      "sha256": "1538e534e4f0072cf64105f2f7314638678701e64a005afecc6b95934ea47541",
+      "bytes": 67927,
+      "kind": "standee",
+      "character": "c8",
+      "audience": "public",
+      "viewBox": "0 0 96 120",
+      "width": 96,
+      "height": 120,
+      "anchors": {
+        "origin": [
+          48,
+          104
+        ],
+        "tagTop": [
+          48,
+          116
+        ],
+        "markerSlots": {
+          "turn": [
+            48,
+            -2
+          ],
+          "captain": [
+            78,
+            18
+          ],
+          "health": [
+            78,
+            70
+          ],
+          "jail": [
+            18,
+            70
+          ]
+        }
+      },
+      "replaces": {
+        "cssVariable": "--ms-asset-piece-crew-standee-c8",
+        "bundle": "public-board",
+        "path": "design/exports/public-board/piece-crew.standee-c8.b427bfe90f.svg",
+        "sha256": "b427bfe90fd2edd65fb9e07a5adafccbf78e0b56fc101a19ec958b142f673101",
+        "viewBox": "0 0 96 120",
+        "anchors": {
+          "origin": [
+            48,
+            104
+          ],
+          "tagTop": [
+            48,
+            116
+          ],
+          "markerSlots": {
+            "turn": [
+              48,
+              -2
+            ],
+            "captain": [
+              78,
+              18
+            ],
+            "health": [
+              78,
+              70
+            ],
+            "jail": [
+              18,
+              70
+            ]
+          }
+        }
+      },
+      "colours": {
+        "count": 173,
+        "nearestFactionAccentCie76": 31.1
+      }
+    },
+    {
+      "path": "design/crew-drawing/assets/portraits/portrait-c8.svg",
+      "sha256": "9a1aa01e38dd098f3157ca05ee79703db5b1ddb82c6c3ae123fbf718502977c8",
+      "bytes": 71899,
+      "kind": "portrait",
+      "character": "c8",
+      "audience": "public",
+      "viewBox": "-64 -64 128 128",
+      "width": 128,
+      "height": 128,
+      "anchors": {
+        "frame": "A continuous-corner square (superellipse, n = 5) of half-size 54 round 0,0; its white rim reaches 57.5."
+      },
+      "replaces": null,
+      "proposedCssVariable": "--ms-asset-crew-portrait-c8",
+      "proposedBundle": "public-board",
+      "colours": {
+        "count": 168,
+        "nearestFactionAccentCie76": 31.1
+      }
+    },
+    {
+      "path": "design/crew-drawing/assets/cards/card-c9.svg",
+      "sha256": "a2b3d12f0c4f33d6a4b9a0d7f2bba1aae73e89e60468b45a16233278c70c8eb8",
+      "bytes": 71904,
+      "kind": "card",
+      "character": "c9",
+      "audience": "public",
+      "viewBox": "8 0 84 96",
+      "width": 84,
+      "height": 96,
+      "anchors": {
+        "faceCenter": [
+          48,
+          38
+        ],
+        "note": "The face where the old card had it: every crop of the card's face (50% 22% / 175%) still holds it."
+      },
+      "replaces": {
+        "cssVariable": "--ms-asset-piece-crew-card-c9",
+        "bundle": "public-board",
+        "path": "design/exports/public-board/piece-crew.card-c9.56a0fdbe4a.svg",
+        "sha256": "56a0fdbe4a8df22b3f9530112398ece8946f9515d53343440b2cb7da39b2f27d",
+        "viewBox": "8 0 84 96",
+        "anchors": {
+          "note": "The piece without its stand: for a list row, a target row, the character chooser and the player's own role card.",
+          "faceCenter": [
+            48,
+            38
+          ]
+        }
+      },
+      "colours": {
+        "count": 210,
+        "nearestFactionAccentCie76": 34.7
+      }
+    },
+    {
+      "path": "design/crew-drawing/assets/standees/standee-c9.svg",
+      "sha256": "82a5d8afbc3cc8d82273335abc8d0d01488f77b01c0bde9121fec57225488c16",
+      "bytes": 73167,
+      "kind": "standee",
+      "character": "c9",
+      "audience": "public",
+      "viewBox": "0 0 96 120",
+      "width": 96,
+      "height": 120,
+      "anchors": {
+        "origin": [
+          48,
+          104
+        ],
+        "tagTop": [
+          48,
+          116
+        ],
+        "markerSlots": {
+          "turn": [
+            48,
+            -2
+          ],
+          "captain": [
+            78,
+            18
+          ],
+          "health": [
+            78,
+            70
+          ],
+          "jail": [
+            18,
+            70
+          ]
+        }
+      },
+      "replaces": {
+        "cssVariable": "--ms-asset-piece-crew-standee-c9",
+        "bundle": "public-board",
+        "path": "design/exports/public-board/piece-crew.standee-c9.4dd0ba9a76.svg",
+        "sha256": "4dd0ba9a767cec119a889ba093af252d1be57825cde408e08cd0f62e30f34160",
+        "viewBox": "0 0 96 120",
+        "anchors": {
+          "origin": [
+            48,
+            104
+          ],
+          "tagTop": [
+            48,
+            116
+          ],
+          "markerSlots": {
+            "turn": [
+              48,
+              -2
+            ],
+            "captain": [
+              78,
+              18
+            ],
+            "health": [
+              78,
+              70
+            ],
+            "jail": [
+              18,
+              70
+            ]
+          }
+        }
+      },
+      "colours": {
+        "count": 215,
+        "nearestFactionAccentCie76": 32.6
+      }
+    },
+    {
+      "path": "design/crew-drawing/assets/portraits/portrait-c9.svg",
+      "sha256": "ed5916f4f4b6a137862f0e061c696e58b5a26ba5fc62a6d7b2db9f3d00a84cf9",
+      "bytes": 77139,
+      "kind": "portrait",
+      "character": "c9",
+      "audience": "public",
+      "viewBox": "-64 -64 128 128",
+      "width": 128,
+      "height": 128,
+      "anchors": {
+        "frame": "A continuous-corner square (superellipse, n = 5) of half-size 54 round 0,0; its white rim reaches 57.5."
+      },
+      "replaces": null,
+      "proposedCssVariable": "--ms-asset-crew-portrait-c9",
+      "proposedBundle": "public-board",
+      "colours": {
+        "count": 210,
+        "nearestFactionAccentCie76": 34.7
+      }
+    },
+    {
+      "path": "design/crew-drawing/assets/roles/device-alien.held.svg",
+      "sha256": "b430162392aa6d555630c612613f6402f6a0ffd857edb72118f505e61ea80cec",
+      "bytes": 2065,
+      "kind": "device-held",
+      "character": null,
+      "audience": "player (the roles bundle: every phone loads all of it)",
+      "viewBox": "0 0 120 140",
+      "width": 120,
+      "height": 140,
+      "anchors": {
+        "placement": "Over the lower right of the character's card: 74% of the picture's width, 9% past its right edge and 10% past its lower edge.",
+        "grip": [
+          78,
+          104
+        ]
+      },
+      "replaces": {
+        "cssVariable": "--ms-asset-device-alien-held",
+        "bundle": "roles",
+        "path": "design/exports/roles/device-alien.held.63a0609fbd.svg",
+        "sha256": "63a0609fbd15f09b3847ac1c987fe4b42ee3396240800d867c9faf2fdadd3342",
+        "viewBox": "0 0 120 140",
+        "anchors": {
+          "placement": "Over the lower right of the character's card: 74% of the picture's width, 9% past its right edge and 10% past its lower edge.",
+          "grip": [
+            78,
+            104
+          ]
+        }
+      },
+      "change": "The sleeve and glove: #C6CDD4 (the old suit) to #DCCDB2 (the new suit's canvas). Nothing else.",
+      "colours": {
+        "count": 5,
+        "list": [
+          "#151923",
+          "#B9C4D3",
+          "#C4A4FF",
+          "#DCCDB2",
+          "#F4EBDD"
+        ]
+      }
+    },
+    {
+      "path": "design/crew-drawing/assets/roles/device-blue-disabler.held.svg",
+      "sha256": "89cb324d7eb7d2cb0dcca375cacad90992a4c537ccff8fafc4c9b98bb242347e",
+      "bytes": 2350,
+      "kind": "device-held",
+      "character": null,
+      "audience": "player (the roles bundle: every phone loads all of it)",
+      "viewBox": "0 0 120 140",
+      "width": 120,
+      "height": 140,
+      "anchors": {
+        "placement": "Over the lower right of the character's card: 74% of the picture's width, 9% past its right edge and 10% past its lower edge.",
+        "grip": [
+          78,
+          104
+        ]
+      },
+      "replaces": {
+        "cssVariable": "--ms-asset-device-blue-disabler-held",
+        "bundle": "roles",
+        "path": "design/exports/roles/device-blue-disabler.held.d31e0ca8b7.svg",
+        "sha256": "d31e0ca8b753ca8d721cc39eee98eeabcc25bd8235b15293d39f1107d789bf64",
+        "viewBox": "0 0 120 140",
+        "anchors": {
+          "placement": "Over the lower right of the character's card: 74% of the picture's width, 9% past its right edge and 10% past its lower edge.",
+          "grip": [
+            78,
+            104
+          ]
+        }
+      },
+      "change": "The sleeve and glove: #C6CDD4 (the old suit) to #DCCDB2 (the new suit's canvas). Nothing else.",
+      "colours": {
+        "count": 7,
+        "list": [
+          "#151923",
+          "#34415A",
+          "#70AFFF",
+          "#8696AE",
+          "#B9C4D3",
+          "#DCCDB2",
+          "#F4EBDD"
+        ]
+      }
+    },
+    {
+      "path": "design/crew-drawing/assets/roles/device-cracker.held.svg",
+      "sha256": "80b480a7c49c431bebe5e9585c770892d8a7d1bf591f341f5b1168b142336c04",
+      "bytes": 2977,
+      "kind": "device-held",
+      "character": null,
+      "audience": "player (the roles bundle: every phone loads all of it)",
+      "viewBox": "0 0 120 140",
+      "width": 120,
+      "height": 140,
+      "anchors": {
+        "placement": "Over the lower right of the character's card: 74% of the picture's width, 9% past its right edge and 10% past its lower edge.",
+        "grip": [
+          78,
+          104
+        ]
+      },
+      "replaces": {
+        "cssVariable": "--ms-asset-device-cracker-held",
+        "bundle": "roles",
+        "path": "design/exports/roles/device-cracker.held.bbb6dc87a8.svg",
+        "sha256": "bbb6dc87a8edef4d659ee414d348dd267ef3dc6e0ebd3cfed26eeb5113dbafde",
+        "viewBox": "0 0 120 140",
+        "anchors": {
+          "placement": "Over the lower right of the character's card: 74% of the picture's width, 9% past its right edge and 10% past its lower edge.",
+          "grip": [
+            78,
+            104
+          ]
+        }
+      },
+      "change": "The sleeve and glove: #C6CDD4 (the old suit) to #DCCDB2 (the new suit's canvas). Nothing else.",
+      "colours": {
+        "count": 9,
+        "list": [
+          "#151923",
+          "#222B3A",
+          "#34415A",
+          "#55657E",
+          "#70AFFF",
+          "#8696AE",
+          "#B9C4D3",
+          "#DCCDB2",
+          "#F4EBDD"
+        ]
+      }
+    },
+    {
+      "path": "design/crew-drawing/assets/roles/device-hacker.held.svg",
+      "sha256": "188a946a2e8605c667cf8cf4e7237df4ad7f0b372370ae8cfeed73a4c0d85cce",
+      "bytes": 2648,
+      "kind": "device-held",
+      "character": null,
+      "audience": "player (the roles bundle: every phone loads all of it)",
+      "viewBox": "0 0 120 140",
+      "width": 120,
+      "height": 140,
+      "anchors": {
+        "placement": "Over the lower right of the character's card: 74% of the picture's width, 9% past its right edge and 10% past its lower edge.",
+        "grip": [
+          78,
+          104
+        ]
+      },
+      "replaces": {
+        "cssVariable": "--ms-asset-device-hacker-held",
+        "bundle": "roles",
+        "path": "design/exports/roles/device-hacker.held.de106a4fc3.svg",
+        "sha256": "de106a4fc34ecdbe453746c1ced4bf790f812e055f47fb462ab8ff9d88d8ec59",
+        "viewBox": "0 0 120 140",
+        "anchors": {
+          "placement": "Over the lower right of the character's card: 74% of the picture's width, 9% past its right edge and 10% past its lower edge.",
+          "grip": [
+            78,
+            104
+          ]
+        }
+      },
+      "change": "The sleeve and glove: #C6CDD4 (the old suit) to #DCCDB2 (the new suit's canvas). Nothing else.",
+      "colours": {
+        "count": 8,
+        "list": [
+          "#151923",
+          "#34415A",
+          "#55657E",
+          "#8696AE",
+          "#B9C4D3",
+          "#DCCDB2",
+          "#F4EBDD",
+          "#FF8C8C"
+        ]
+      }
+    },
+    {
+      "path": "design/crew-drawing/assets/roles/device-insider.held.svg",
+      "sha256": "1a09f0cb52069dbd11aaeb4999510b12f5f62db4f947e3b9e7fca3338274fbbd",
+      "bytes": 2375,
+      "kind": "device-held",
+      "character": null,
+      "audience": "player (the roles bundle: every phone loads all of it)",
+      "viewBox": "0 0 120 140",
+      "width": 120,
+      "height": 140,
+      "anchors": {
+        "placement": "Over the lower right of the character's card: 74% of the picture's width, 9% past its right edge and 10% past its lower edge.",
+        "grip": [
+          78,
+          104
+        ]
+      },
+      "replaces": {
+        "cssVariable": "--ms-asset-device-insider-held",
+        "bundle": "roles",
+        "path": "design/exports/roles/device-insider.held.a1ee17deeb.svg",
+        "sha256": "a1ee17deebd88c3ff7dda59ed28c180e10a53d34bc901b114640bde822be1de8",
+        "viewBox": "0 0 120 140",
+        "anchors": {
+          "placement": "Over the lower right of the character's card: 74% of the picture's width, 9% past its right edge and 10% past its lower edge.",
+          "grip": [
+            78,
+            104
+          ]
+        }
+      },
+      "change": "The sleeve and glove: #C6CDD4 (the old suit) to #DCCDB2 (the new suit's canvas). Nothing else.",
+      "colours": {
+        "count": 8,
+        "list": [
+          "#151923",
+          "#222B3A",
+          "#34415A",
+          "#70AFFF",
+          "#8696AE",
+          "#B9C4D3",
+          "#DCCDB2",
+          "#F4EBDD"
+        ]
+      }
+    },
+    {
+      "path": "design/crew-drawing/assets/roles/device-officer.held.svg",
+      "sha256": "023c24fedea1f0718d0fd26dec384133a814b13883b9aa09c869537fdc99e801",
+      "bytes": 2736,
+      "kind": "device-held",
+      "character": null,
+      "audience": "player (the roles bundle: every phone loads all of it)",
+      "viewBox": "0 0 120 140",
+      "width": 120,
+      "height": 140,
+      "anchors": {
+        "placement": "Over the lower right of the character's card: 74% of the picture's width, 9% past its right edge and 10% past its lower edge.",
+        "grip": [
+          78,
+          104
+        ]
+      },
+      "replaces": {
+        "cssVariable": "--ms-asset-device-officer-held",
+        "bundle": "roles",
+        "path": "design/exports/roles/device-officer.held.b2050837cc.svg",
+        "sha256": "b2050837ccec420372b87296680436a0b6491d3acee1101df63643f4157def09",
+        "viewBox": "0 0 120 140",
+        "anchors": {
+          "placement": "Over the lower right of the character's card: 74% of the picture's width, 9% past its right edge and 10% past its lower edge.",
+          "grip": [
+            78,
+            104
+          ]
+        }
+      },
+      "change": "The sleeve and glove: #C6CDD4 (the old suit) to #DCCDB2 (the new suit's canvas). Nothing else.",
+      "colours": {
+        "count": 8,
+        "list": [
+          "#151923",
+          "#34415A",
+          "#55657E",
+          "#70AFFF",
+          "#8696AE",
+          "#B9C4D3",
+          "#DCCDB2",
+          "#F4EBDD"
+        ]
+      }
+    },
+    {
+      "path": "design/crew-drawing/assets/roles/device-red-disabler.held.svg",
+      "sha256": "df3d0bef877be503028b3f7ddd09b83905519083f53e1236c6ead52c33dcb2f1",
+      "bytes": 2342,
+      "kind": "device-held",
+      "character": null,
+      "audience": "player (the roles bundle: every phone loads all of it)",
+      "viewBox": "0 0 120 140",
+      "width": 120,
+      "height": 140,
+      "anchors": {
+        "placement": "Over the lower right of the character's card: 74% of the picture's width, 9% past its right edge and 10% past its lower edge.",
+        "grip": [
+          78,
+          104
+        ]
+      },
+      "replaces": {
+        "cssVariable": "--ms-asset-device-red-disabler-held",
+        "bundle": "roles",
+        "path": "design/exports/roles/device-red-disabler.held.c72bccd5e5.svg",
+        "sha256": "c72bccd5e560ca797f759db3ce46a3f8c8c5cb9e992ddd7666fea7c3c51e3306",
+        "viewBox": "0 0 120 140",
+        "anchors": {
+          "placement": "Over the lower right of the character's card: 74% of the picture's width, 9% past its right edge and 10% past its lower edge.",
+          "grip": [
+            78,
+            104
+          ]
+        }
+      },
+      "change": "The sleeve and glove: #C6CDD4 (the old suit) to #DCCDB2 (the new suit's canvas). Nothing else.",
+      "colours": {
+        "count": 7,
+        "list": [
+          "#151923",
+          "#34415A",
+          "#8696AE",
+          "#B9C4D3",
+          "#DCCDB2",
+          "#F4EBDD",
+          "#FF8C8C"
+        ]
+      }
+    },
+    {
+      "path": "design/crew-drawing/assets/roles/device-supplier.held.svg",
+      "sha256": "91f27b4e064e5b9ca879fa24f9c492fd3b476e58c3569dc7b957340aaa000fd2",
+      "bytes": 2459,
+      "kind": "device-held",
+      "character": null,
+      "audience": "player (the roles bundle: every phone loads all of it)",
+      "viewBox": "0 0 120 140",
+      "width": 120,
+      "height": 140,
+      "anchors": {
+        "placement": "Over the lower right of the character's card: 74% of the picture's width, 9% past its right edge and 10% past its lower edge.",
+        "grip": [
+          78,
+          104
+        ]
+      },
+      "replaces": {
+        "cssVariable": "--ms-asset-device-supplier-held",
+        "bundle": "roles",
+        "path": "design/exports/roles/device-supplier.held.d3b15d7502.svg",
+        "sha256": "d3b15d7502ed5593c3bc69e00cf70f3789fabf2af8881fb4c4a9ebce51763c92",
+        "viewBox": "0 0 120 140",
+        "anchors": {
+          "placement": "Over the lower right of the character's card: 74% of the picture's width, 9% past its right edge and 10% past its lower edge.",
+          "grip": [
+            78,
+            104
+          ]
+        }
+      },
+      "change": "The sleeve and glove: #C6CDD4 (the old suit) to #DCCDB2 (the new suit's canvas). Nothing else.",
+      "colours": {
+        "count": 8,
+        "list": [
+          "#151923",
+          "#34415A",
+          "#55657E",
+          "#70AFFF",
+          "#8696AE",
+          "#B9C4D3",
+          "#DCCDB2",
+          "#F4EBDD"
+        ]
+      }
+    },
+    {
+      "path": "design/crew-drawing/assets/roles/device-undercover.held.svg",
+      "sha256": "c5a464be85641ee96427a7ce75098a7799fe27594e0edd0ed008f437ef21d38e",
+      "bytes": 2349,
+      "kind": "device-held",
+      "character": null,
+      "audience": "player (the roles bundle: every phone loads all of it)",
+      "viewBox": "0 0 120 140",
+      "width": 120,
+      "height": 140,
+      "anchors": {
+        "placement": "Over the lower right of the character's card: 74% of the picture's width, 9% past its right edge and 10% past its lower edge.",
+        "grip": [
+          78,
+          104
+        ]
+      },
+      "replaces": {
+        "cssVariable": "--ms-asset-device-undercover-held",
+        "bundle": "roles",
+        "path": "design/exports/roles/device-undercover.held.7e6afbf356.svg",
+        "sha256": "7e6afbf356e6ceeca5976cb527e2f8d99367e5de0938e0d3ea2640afe874a168",
+        "viewBox": "0 0 120 140",
+        "anchors": {
+          "placement": "Over the lower right of the character's card: 74% of the picture's width, 9% past its right edge and 10% past its lower edge.",
+          "grip": [
+            78,
+            104
+          ]
+        }
+      },
+      "change": "The sleeve and glove: #C6CDD4 (the old suit) to #DCCDB2 (the new suit's canvas). Nothing else.",
+      "colours": {
+        "count": 8,
+        "list": [
+          "#151923",
+          "#34415A",
+          "#55657E",
+          "#8696AE",
+          "#B9C4D3",
+          "#DCCDB2",
+          "#F4EBDD",
+          "#FF8C8C"
+        ]
+      }
+    }
+  ]
+}
