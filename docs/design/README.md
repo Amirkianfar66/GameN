@@ -55,6 +55,7 @@ Nothing here changes a rule, a contract, a lockfile or CI. The four pinned Desig
 | [phone-kit-verification.md](phone-kit-verification.md) | The checks run for the phone kit, with their results, and what was not run |
 | [character-pilot.md](character-pilot.md) | **The crew restyle.** The owner's redesign of the nine in the new style (noir, comic ink, faces traced from the owner's art), approved on 7 November 2026 (PRs #191 and #192). Review pages, not runtime |
 | [crew-drawing-release.md](crew-drawing-release.md) | **DSN-REQ-17.** The approved crew packaged for runtime adoption: the inventory, sources and exports with their SHA-256, porting, the drawing, mounting, caching and motion interfaces, baked art, tokens 0.5.0, the budget and what is unverified. A candidate for Integration |
+| [room-pilot.md](room-pilot.md) | **The room pilot.** Room A redrawn to match the approved crew (the crew's ink, noir light, Room A's colours), one room as a test for the owner: the same places, props and camera. A proposal; review pages only |
 
 The generated pages are written by `design/tools/write-docs.mjs` from the JSON under `design/contract/` and from the two manifests. Change the source, not the page.
 

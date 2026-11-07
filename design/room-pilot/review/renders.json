@@ -1,0 +1,31 @@
+{
+  "tool": "design/tools/room-pilot-render.mjs",
+  "page": "design/room-pilot/review.html",
+  "drawing": "design/room-pilot/room-a.mjs",
+  "browser": "Chrome/153.0.8010.12",
+  "outputs": {
+    "design/room-pilot/review/compare.png": {
+      "kind": "image",
+      "view": "compare",
+      "width": 2050,
+      "height": 1783,
+      "bytes": 2305366,
+      "sha256": "f28b6da3c026f12798005944e49a47e46af38b94c78e9acc7ed9bd1a7292256b"
+    },
+    "design/room-pilot/review/room-a.png": {
+      "kind": "image",
+      "view": "room",
+      "width": 2048,
+      "height": 1536,
+      "bytes": 2347693,
+      "sha256": "3cce4118a729c52b2c5c62c96388ff344dcf19e3d05c6c9554f837abaf259e56"
+    },
+    "design/room-pilot/review/room-a.svg": {
+      "kind": "picture",
+      "width": 1024,
+      "height": 768,
+      "bytes": 338154,
+      "sha256": "327709b9b589faffa6fb4a996aef8d4bbfc33e43157ae10c87e05a8e15441697"
+    }
+  }
+}
