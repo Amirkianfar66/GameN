@@ -50,6 +50,16 @@
   .who { position: absolute; left: 0; right: 0; bottom: 34px; display: flex; align-items: center; justify-content: center; gap: 12px; color: #E9E2D4; font-size: 22px; }
   .action { position: absolute; top: 26px; left: 0; right: 0; text-align: center; color: #F2C14E; font: 800 26px/1 system-ui, sans-serif; letter-spacing: 0.06em; text-transform: uppercase; }
   .mark { position: absolute; right: 18px; bottom: 10px; color: #E9E2D466; font-size: 12px; }
+  /* The crew's sheet and stage: the same parts, nine across. */
+  .portrait.crew svg { width: 150px; height: 150px; }
+  .duo { display: flex; gap: 4px; flex-wrap: wrap; width: 324px; }
+  .duo p, .set.crew p { width: 100%; margin: 2px 0 0; font-weight: 700; text-align: center; }
+  .set.crew { width: 366px; }
+  html[data-view="crew-motion"] body { background: var(--night); overflow: hidden; }
+  .stage.crew .col { width: 136px; }
+  .stage.crew .spot { left: 3px; top: 150px; width: 130px; height: 430px; }
+  .stage.crew .figure svg { left: -82px; top: 92px; width: 300px; height: 300px; }
+  .stage.crew .who { bottom: 44px; flex-direction: column; gap: 6px; font-size: 16px; }
 </style>
 </head>
 <body>

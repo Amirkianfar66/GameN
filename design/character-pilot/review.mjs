@@ -1,8 +1,9 @@
 // mothership:dev-only
 //
-// The character pilot's review page (review.html): ?view=sheet, the still review sheet; ?view=motion,
-// the three characters idling, walking and waving. A design review page, not the game: the poses
-// are the rig's, the characters are the pilot's, and nothing here reads a match.
+// The character pilot's review page (review.html): ?view=sheet, the pilot's still review sheet;
+// ?view=motion, the pilot's three characters idling, walking and waving; ?view=crew and
+// ?view=crew-motion, the same for the whole crew of nine. A design review page, not the game: the
+// poses are the rig's, the characters are the restyle's, and nothing here reads a match.
 // window.__pilot = { ready, end, seek(t) } lets design/tools/character-pilot-render.mjs capture exact
 // frames; without it, the motion view plays in real time.
 
@@ -12,7 +13,8 @@ import { figureSvg } from '../board-motion/figures/body.mjs';
 import { GESTURES, STAND } from '../board-motion/figures/gestures.mjs';
 import { blend, EASE } from '../board-motion/figures/motion.mjs';
 import { idle, walk, wave } from './anim.mjs';
-import { COLOUR_PROPOSALS, PILOT_CAST, PILOT_ORDER, PILOT_VERSION } from './cast.mjs';
+import { FACTION_ACCENTS, cie76 } from '../board-v2/fx/blocked.mjs';
+import { COLOUR_PROPOSALS, CREW_ORDER, CREW_VERSION, PILOT_CAST, PILOT_ORDER, PILOT_VERSION } from './cast.mjs';
 import { pilotFigureSvg } from './figure.mjs';
 import { pilotHead } from './head.mjs';
 import { inkCanvas } from './ink.mjs';
@@ -21,7 +23,7 @@ import { portraitSvg } from './portrait.mjs';
 const params = new URLSearchParams(location.search);
 const view = params.get('view') ?? 'sheet';
 const root = document.getElementById('pilot');
-const SEEDS = { c8: 3, c6: 7, c4: 11 };
+const SEEDS = { c1: 13, c2: 17, c3: 19, c4: 11, c5: 23, c6: 7, c7: 29, c8: 3, c9: 31 };
 
 /** Today's figure, drawn by the approved rig. */
 const today = (id, sk, prefix) => figureSvg(CREW[id], sk, { prefix });
@@ -51,6 +53,28 @@ function sheet() {
   root.innerHTML = title + portraits + faces + compare + gestures + small + colours;
 }
 
+/** Where each of the crew's colours comes from. */
+const COLOUR_SOURCE = { c4: "the pilot's", c6: 'proposed, accepted', c8: "the pilot's", c9: 'proposed, accepted' };
+const nearestTeam = hex => Math.min(...Object.values(FACTION_ACCENTS).map(accent => cie76(hex, accent)));
+
+function crewSheet() {
+  const sign = id => PILOT_CAST[id].sign;
+  const title = `<header><h1>The crew: nine characters in the new style</h1><p>The pilot's look, approved by the owner on 7 November 2026, carried to the whole crew on the owner's go-ahead. Every face is traced from the owner's own art. Nothing here is adopted. <span class="v">${CREW_VERSION}</span></p></header>`;
+  const portraits = `<section><h2>Portraits: iOS-style icons</h2><div class="row crew">${CREW_ORDER.map(id => `<figure class="portrait crew">${portraitSvg(PILOT_CAST[id], { prefix: `cp${id}` })}<figcaption>${sign(id)}</figcaption></figure>`).join('')}</div></section>`;
+  const faces = `<section><h2>Faces traced from the owner's art, rigged: open, blinking, looking down</h2><div class="row">${CREW_ORDER.map(id => `<div class="faces">${[['front', {}], ['front', { blink: 0.5 }], ['down', {}]].map(([v, motion], i) => headSvg(id, v, motion, `cf${id}${i}`)).join('')}<p>${sign(id)}</p></div>`).join('')}</div></section>`;
+  const figures = `<section><h2>Front and back</h2><div class="row">${CREW_ORDER.map(id => `<div class="duo"><div class="fig">${pilot(id, STAND, `cn${id}`)}</div><div class="fig">${pilot(id, GESTURES.doorBack, `cb${id}`)}</div><p>${sign(id)}</p></div>`).join('')}</div></section>`;
+  const poses = ['tablet', 'wallLean', 'wheelchair'];
+  const gestures = `<section><h2>The rig's own gestures, in the new style</h2><div class="row">${CREW_ORDER.map(id => `<div class="set crew">${poses.map((g, i) => `<div class="fig small"><span>${g}</span>${pilot(id, GESTURES[g], `cg${id}${i}`)}</div>`).join('')}<p>${sign(id)}</p></div>`).join('')}</div></section>`;
+  const small = `<section class="noir"><h2>At the sizes they are seen: board figures (84 px) and list icons (64 and 44 px)</h2><div class="row sizes">${CREW_ORDER.map(id => `
+    <div class="pair"><div class="tiny">${pilot(id, STAND, `cz${id}`)}</div><div class="icons">${portraitSvg(PILOT_CAST[id], { prefix: `cy${id}`, size: 64 })}${portraitSvg(PILOT_CAST[id], { prefix: `cx${id}`, size: 44 })}</div></div>`).join('')}</div></section>`;
+  const rows = CREW_ORDER.map(id => {
+    const c = PILOT_CAST[id];
+    return `<tr><td>${c.sign}</td>${[c.field, c.accent].map(hex => `<td><i class="sw" style="background:${hex}"></i>${hex}</td>`).join('')}<td>${Math.min(nearestTeam(c.field), nearestTeam(c.accent)).toFixed(1)}</td><td>${COLOUR_SOURCE[id] ?? "today's crew colours"}</td></tr>`;
+  }).join('');
+  const colours = `<section><h2>The crew's colours, kept away from the team colours</h2><table><thead><tr><th>Character</th><th>Field</th><th>Accent</th><th>Nearest team colour (CIE76)</th><th>From</th></tr></thead><tbody>${rows}</tbody></table><p class="note">The game keeps every colour at least 30 from each team's colour; a test checks every colour each character draws.</p></section>`;
+  root.innerHTML = title + portraits + faces + figures + gestures + small + colours;
+}
+
 /** The actions, one after another, each eased in from the last pose of the one before. */
 const TIMELINE = [
   { name: 'Idle', from: 0, to: 3200, at: (t, s) => idle(t, { seed: s }) },
@@ -73,16 +97,16 @@ function frameAt(t, seed) {
   return { name: action.name, ...now };
 }
 
-function motionView() {
-  root.innerHTML = `<div class="stage">${PILOT_ORDER.map(id => `<div class="col" id="col-${id}"><div class="spot"></div><div class="figure"></div><div class="who"><div class="face"></div><b>${PILOT_CAST[id].sign}</b></div></div>`).join('')}<div class="action"></div><div class="mark">Character pilot · proposal · ${PILOT_VERSION}</div></div>`;
+function motionView(ids = PILOT_ORDER, { stage = 'stage', mark = `Character pilot · proposal · ${PILOT_VERSION}`, face = 92 } = {}) {
+  root.innerHTML = `<div class="${stage}">${ids.map(id => `<div class="col" id="col-${id}"><div class="spot"></div><div class="figure"></div><div class="who"><div class="face"></div><b>${PILOT_CAST[id].sign}</b></div></div>`).join('')}<div class="action"></div><div class="mark">${mark}</div></div>`;
   const draw = t => {
     let label = '';
-    for (const id of PILOT_ORDER) {
+    for (const id of ids) {
       const f = frameAt(t, SEEDS[id]);
       label = f.name;
       const col = document.getElementById(`col-${id}`);
       col.querySelector('.figure').innerHTML = pilot(id, f.sk, `m${id}`, f.motion);
-      col.querySelector('.face').innerHTML = portraitSvg(PILOT_CAST[id], { prefix: `mp${id}`, size: 92, motion: { blink: f.motion.blink } });
+      col.querySelector('.face').innerHTML = portraitSvg(PILOT_CAST[id], { prefix: `mp${id}`, size: face, motion: { blink: f.motion.blink } });
     }
     root.querySelector('.action').textContent = label;
   };
@@ -95,6 +119,9 @@ function motionView() {
 }
 
 document.documentElement.dataset.view = view;
-if (view === 'motion') motionView(); else sheet();
+if (view === 'motion') motionView();
+else if (view === 'crew-motion') motionView(CREW_ORDER, { stage: 'stage crew', mark: `Character crew · proposal · ${CREW_VERSION}`, face: 54 });
+else if (view === 'crew') crewSheet();
+else sheet();
 window.__designReady = true;
 export { FRAME };
