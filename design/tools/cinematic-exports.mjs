@@ -1,6 +1,7 @@
 // mothership:dev-only
 //
-// Every export of the three cinematic pilots and the library groups' public films, rendered from
+// Every export of the three cinematic pilots, the library groups' public films, the role films and the
+// two openings, rendered from
 // their stages with the local Chromium
 // and ffmpeg (design/tools/cinematic-render.mjs), two at a time:
 //   node design/tools/cinematic-exports.mjs [--only <pilot/name prefix>]   (a prefix covering <pilot>/stills renders those too)
@@ -103,6 +104,18 @@ JOBS.push(
   // plate and card differ). Their reduced stills are the tests'.
   ...[['Insider', 'c2'], ['Blue Disabler', 'c7'], ['Supplier', 'c3'], ['Engineer', 'c5'], ['Undercover', 'c6'], ['Hacker', 'c8'], ['Alien', 'c9']].map(([role, character]) => (
     { pilot: 'role-reveal', name: `review/${role.toLowerCase().replace(' ', '-')}-phone390-full`, variant: 'full', ...phone(390, 844), params: [`role=${role}`, 'seat=3', `character=${character}`], ...review, scale: '2', crf: '18', exact: true, poster: '7400' })),
+  // The openings (issue #188), encoded to their exact lengths (--exact: 60 and 300 frames at 30 fps).
+  // The brand intro draws no identity: runtime candidates on the phone (390, 320) and the display,
+  // full and reduced. The boarding draws a match's roster: review renders only, of synthetic 7, 8 and
+  // 9 rosters (roster.mjs REVIEW_ROSTERS), and one of the environment alone, without a figure.
+  ...[['phone390', phone(390, 844)], ['phone320', phone(320, 568)], ['display', { surface: 'display', scale: '1', 'preview-width': '480' }]].flatMap(([size, surface]) => ['full', 'reduced'].filter(v => size !== 'phone320' || v === 'full').map(variant => (
+    { pilot: 'brand-intro', name: `runtime/${size}-${variant}`, variant, ...surface, ...(size.startsWith('phone') ? { scale: '2' } : {}), ...runtime, exact: true, poster: '1200' }))),
+  ...[7, 8, 9].map(n => ({ pilot: 'boarding', name: `review/phone390-${n}-full`, variant: 'full', ...phone(390, 844), params: [`roster=${n}`], ...review, scale: '2', crf: '20', exact: true, poster: '8600' })),
+  { pilot: 'boarding', name: 'review/phone390-9-reduced', variant: 'reduced', ...phone(390, 844), params: ['roster=9'], ...review, scale: '2', crf: '20', exact: true, poster: '8000' },
+  { pilot: 'boarding', name: 'review/phone320-8-full', variant: 'full', ...phone(320, 568), params: ['roster=8'], ...review, scale: '2', crf: '20', exact: true, poster: '8600' },
+  ...[7, 9].map(n => ({ pilot: 'boarding', name: `review/display-${n}-full`, variant: 'full', surface: 'display', scale: '1', 'preview-width': '480', params: [`roster=${n}`], ...review, crf: '20', exact: true, poster: '8600' })),
+  { pilot: 'boarding', name: 'review/display-8-reduced', variant: 'reduced', surface: 'display', scale: '1', 'preview-width': '480', params: ['roster=8'], ...review, crf: '20', exact: true, poster: '8000' },
+  { pilot: 'boarding', name: 'review/display-environment-full', variant: 'full', surface: 'display', scale: '1', 'preview-width': '480', params: ['roster=9', 'layer=environment'], ...review, crf: '20', exact: true, poster: '4300' },
 );
 
 /** Storyboard frames for the live-action studies: full-size frames of the cinematic forms (the cut, the stage, the page), kept as WebP. */

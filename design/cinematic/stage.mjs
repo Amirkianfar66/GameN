@@ -3,11 +3,12 @@
 // The cinematic library's stage: one pilot on one surface, at one moment, for review and for
 // rendering. A review page, not a client: no server, clock, command or private state; every input
 // is a pilot's synthetic review fixture. Parameters:
-//   pilot=hospital-rescue | blackhole | private-talk
+//   pilot=hospital-rescue | blackhole | private-talk | ... | brand-intro | boarding
 //   surface=display | phone | insert | ...   (what a pilot offers)
 //   variant=full | short | reduced            (what a pilot offers)
 //   w, h (phone)  t=<ms>  play=1 (loop in real time)  beds=4 (the four-berth board's geometry)
 //   role, seat, character (the role reveal films: a current role, the player's own number and crew character, review parameters)
+//   roster=7|8|9 or crew=c3,c1,... (the boarding's public roster, seat order), layer=all|environment|crew
 // window.__cine = { ready, end, seek(t) -> Promise<{ t, stage, done }>, size, selector, fixture }.
 
 import { PILOTS } from './pilots/index.mjs';
@@ -25,7 +26,7 @@ async function start() {
   if (!pilot.variants.includes(variant)) throw new Error(`Pilot ${pilot.id} has no variant ${variant}`);
   const options = { variant };
   for (const name of ['w', 'h', 'roster', 'seat']) if (params.has(name)) options[name] = Number(params.get(name));
-  for (const name of ['case', 'audience', 'viewer', 'role', 'character']) if (params.has(name)) options[name] = params.get(name);
+  for (const name of ['case', 'audience', 'viewer', 'role', 'character', 'crew', 'layer']) if (params.has(name)) options[name] = params.get(name);
   const cine = await mount(root, options);
   document.documentElement.dataset.pilot = pilot.id;
   document.documentElement.dataset.surface = surface;

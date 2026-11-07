@@ -44,7 +44,7 @@ for (const s of CATALOGUE) {
   lines.push(`### ${s.scene}`, '', `\`${s.id}\` · ${s.status}`, '');
   lines.push(`- **Trigger:** ${s.trigger}`);
   lines.push(`- **Audience:** ${s.audience}`);
-  lines.push(`- **Fields:** ${s.fields.map(field => `\`${field}\``).join(', ')}`);
+  lines.push(`- **Fields:** ${s.fields.length ? s.fields.map(field => `\`${field}\``).join(', ') : 'none'}`);
   lines.push(`- **Start / loop / exit:** ${s.beats.start}; ${s.beats.loop}; ${s.beats.exit}`);
   lines.push(`- **Durations:** ${Object.entries(s.durations).map(([k, v]) => `${k} ${v}`).join('; ')}`);
   lines.push(`- **Final state:** ${s.final}`);

@@ -1,0 +1,82 @@
+{
+  "tool": "design/tools/cinematic-render.mjs",
+  "pilot": "boarding",
+  "version": "cinematic-openings-0.1.0",
+  "surface": "display",
+  "variant": "full",
+  "stage": "design/cinematic/stage.html?pilot=boarding&surface=display&variant=full&beds=4&roster=7",
+  "size": [
+    1920,
+    1080
+  ],
+  "deviceScale": 1,
+  "fixture": {
+    "synthetic": true,
+    "roster": [
+      {
+        "seat": 1,
+        "character": "c3"
+      },
+      {
+        "seat": 2,
+        "character": "c7"
+      },
+      {
+        "seat": 3,
+        "character": "c1"
+      },
+      {
+        "seat": 4,
+        "character": "c9"
+      },
+      {
+        "seat": 5,
+        "character": "c5"
+      },
+      {
+        "seat": 6,
+        "character": "c2"
+      },
+      {
+        "seat": 7,
+        "character": "c8"
+      }
+    ]
+  },
+  "browser": "Google Chrome for Testing 153.0.8010.12",
+  "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+  "outputs": [
+    {
+      "kind": "video",
+      "file": "design/cinematic/exports/boarding/review/display-7-full.mp4",
+      "sha256": "700c1414af943ed75cc80234719ce24a230e932bb6e312a396aa073cbd96dbf3",
+      "bytes": 3865973,
+      "fps": 30,
+      "frames": 300,
+      "durationMs": 10000,
+      "from": 0,
+      "to": 10000,
+      "audio": null,
+      "exact": true,
+      "encodedMs": 10000
+    },
+    {
+      "kind": "preview",
+      "file": "design/cinematic/exports/boarding/review/display-7-full.preview.webp",
+      "sha256": "a2cea6c70d1d0baebae9dfd90d94bdea8f6fa77c049a16ec256424cd9bea53dd",
+      "bytes": 689168
+    },
+    {
+      "kind": "poster",
+      "file": "design/cinematic/exports/boarding/review/display-7-full.poster.webp",
+      "sha256": "9bd889e1123ca50e4f44e51fabb0bf00e248b5083ec751962e56ec70a70f1231",
+      "bytes": 68948,
+      "t": 8600
+    }
+  ],
+  "settling": {
+    "rule": "a frame is kept once two captures a redraw apart agree; pictures decode before their tiles draw",
+    "resettled": 0,
+    "unsettled": []
+  }
+}

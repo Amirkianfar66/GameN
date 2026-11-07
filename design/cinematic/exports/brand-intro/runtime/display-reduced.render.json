@@ -1,0 +1,74 @@
+{
+  "tool": "design/tools/cinematic-render.mjs",
+  "pilot": "brand-intro",
+  "version": "cinematic-openings-0.1.0",
+  "surface": "display",
+  "variant": "reduced",
+  "stage": "design/cinematic/stage.html?pilot=brand-intro&surface=display&variant=reduced&beds=4",
+  "size": [
+    1920,
+    1080
+  ],
+  "deviceScale": 1,
+  "fixture": {
+    "synthetic": false,
+    "inputs": "none"
+  },
+  "browser": "Google Chrome for Testing 153.0.8010.12",
+  "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+  "outputs": [
+    {
+      "kind": "video",
+      "file": "design/cinematic/exports/brand-intro/runtime/display-reduced.mp4",
+      "sha256": "fa9fba385076105cb37f165ac92b092ab91ff8acfc00b4eb268c7822a7cb67e5",
+      "bytes": 495542,
+      "fps": 30,
+      "frames": 60,
+      "durationMs": 2000,
+      "from": 0,
+      "to": 2000,
+      "audio": null,
+      "exact": true,
+      "encodedMs": 2000
+    },
+    {
+      "kind": "video",
+      "file": "design/cinematic/exports/brand-intro/runtime/display-reduced.webm",
+      "sha256": "a85b490e2b52eb55394b9e11d63174d8bc28635d74924ae7affcc828c796f450",
+      "bytes": 280291,
+      "fps": 30,
+      "frames": 60,
+      "durationMs": 2000,
+      "from": 0,
+      "to": 2000,
+      "audio": null,
+      "exact": true,
+      "encodedMs": 2000
+    },
+    {
+      "kind": "preview",
+      "file": "design/cinematic/exports/brand-intro/runtime/display-reduced.preview.webp",
+      "sha256": "1a1f278e6a01eec29143e8ce50350d76181e7605ad22b7407239de881bf62402",
+      "bytes": 34146
+    },
+    {
+      "kind": "poster",
+      "file": "design/cinematic/exports/brand-intro/runtime/display-reduced.poster.png",
+      "sha256": "3e6e9b73b3bf4ae155041065ea830e7588de1e39dc48aa98cab97db1494885f6",
+      "bytes": 1295234,
+      "t": 1200
+    },
+    {
+      "kind": "poster",
+      "file": "design/cinematic/exports/brand-intro/runtime/display-reduced.poster.webp",
+      "sha256": "21518a16a71ece54974d7eead61e0b7062e6ccc3cc5c48ae117215742163ac24",
+      "bytes": 88662,
+      "t": 1200
+    }
+  ],
+  "settling": {
+    "rule": "a frame is kept once two captures a redraw apart agree; pictures decode before their tiles draw",
+    "resettled": 0,
+    "unsettled": []
+  }
+}

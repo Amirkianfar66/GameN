@@ -6,6 +6,25 @@ What the game owner decided about look, feel and presentation while working with
 
 The owner's messages are quoted as written.
 
+## 6 November 2026: two openings, a brand intro and a boarding (issue #188)
+
+**The owner asked for two opening previews with one visual identity: a two-second Game N brand intro and a ten-second crew boarding before Round 1.**
+
+The request is recorded in [issue #188](https://github.com/Amirkianfar66/GameN/issues/188), with the owner's confirmation that "Claude Designer creates the artwork; Codex coordinates Backend/Frontend integration". It "does not authorize production adoption, engine changes or deployment".
+
+| # | What it says | What it decides |
+| --- | --- | --- |
+| 1 | "exactly two seconds, on initial entry before login/lobby. Primary wording is exactly **Game N**; smaller credit is exactly **by Plan B**." | The brand intro's length and words. It plays on the app's first entry, never on ordinary navigation and never over an active or recovering match |
+| 2 | "exactly ten seconds after character selection, role confirmation and everyone Ready, before Round 1." | The boarding's length and place. No stage for it exists yet: Backend and Integration are to propose one (R17 in the catalogue) |
+| 3 | "Use the match's actual **public selected character appearances and participant count**, supporting 7, 8 and 9 players." | The boarding's only input is the admitted public roster. "No secret roles, factions, Code membership or private abilities may influence boarding order, emphasis, clothing, gadgets, gestures, camera or sound" |
+| 4 | "Make routine creative decisions independently; do not ask the owner to approve each camera move, cut, lighting choice or gesture." | Shots, cuts, light and gestures are the Designer's. The total lengths, the words and the boarding's story are fixed |
+
+### What the Designer did with it
+
+- **The brand intro.** No approved wordmark existed, so the Designer drew one: "Game N" in the films' Ink Block lettering with a hand-drawn lower case, on a paper plate, and "by Plan B" stamped on an ink tab. Exactly 2,000 ms, silent, with a reduced-motion fade (`design/cinematic/pilots/openings/`).
+- **The boarding.** The whole story in exactly 10,000 ms. The ship waits at dusk with its entrance open and light spilling out. The crew walks to it in pairs, in seat order, and climbs into the light. The door seals, the crew stands in the lit corridor, and a brief Game N mark hands over to the game. It is drawn from the public roster alone, for 7, 8 or 9 players, with five held pictures for reduced motion.
+- **Review only.** Both openings are previews: nothing is adopted, mounted or deployed. The brand intro's renders are candidate runtime assets; the boarding's renders show synthetic rosters and are review renders only. The handoff is `docs/design/cinematic/openings.md`.
+
 ## 6 November 2026: the Doctor's film approved; every role's film drawn
 
 **The owner approved the fewer-words Doctor film as the role films' pilot.**

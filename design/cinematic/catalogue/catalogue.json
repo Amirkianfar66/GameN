@@ -1,5 +1,5 @@
 {
-  "version": "cinematic-catalogue-0.18.0",
+  "version": "cinematic-catalogue-0.19.0",
   "contract": {
     "protocol": 3,
     "engine": "planet-game-1.0.0",
@@ -101,9 +101,43 @@
       "id": "R16",
       "scene": "blackhole-sync",
       "ask": "P27's presentation stage needs a phase kind in the view (proposed BLACKHOLE_PRESENTATION, 6000 ms, between the actual Sync's BLACKHOLE_SYNCED and JAIL_VOTE), so a client can tell the stage from the vote and play the covering stage cut only there. The protocol 3 candidate has none. Until a view carries it (Frontend passes Backend's name to presentationIn()), the Blackhole plays its board treatment at the Jail vote's start."
+    },
+    {
+      "id": "R17",
+      "scene": "boarding",
+      "ask": "Issue #188: the boarding plays for exactly 10,000 ms after everyone is Ready and before Round 1, but startIfReady (services/game-api/src/planet-game.ts) starts Round 1 at once and the session status contract (packages/contracts/src/planet-service.ts) has no boarding stage. Ask Backend and Integration for a versioned pre-Round-1 presentation boundary: a stage (proposed BOARDING, 10,000 ms) with authoritative startsAt and endsAt, carrying the admitted public roster (seat and character only) and the player count, that consumes none of Round 1's time, is not the Blackhole's phase (P27), and leaves saved match versions as they are. Until it exists the boarding is a review film: no client mounts it, and Round 1 starts as it does today. A local Skip dismisses the pictures only; a reconnect seeks to now - startsAt, or draws nothing past endsAt."
     }
   ],
   "scenes": [
+    {
+      "id": "brand-intro",
+      "scene": "Game N brand intro",
+      "status": "new (issue #188, the owner, 6 November 2026): candidate runtime asset, not adopted",
+      "audience": "this device only (no server state)",
+      "trigger": "the app's first entry on a device, before login and the lobby (client-side; never on ordinary navigation, never over an active or recovering match)",
+      "fields": [],
+      "beats": {
+        "start": "the starlight of the role films' night through a viewport's slats; a paper plate slams in with pale impact lines and \"Game N\" is written on it in ink and amber (0-0.46 s)",
+        "loop": "none: \"by Plan B\" is stamped under it on an ink tab (0.42-0.7 s) and the mark holds to be read while a sheen crosses it once (0.88-1.38 s)",
+        "exit": "the comic's ink cut (Pilot 2's) sweeps across and hands over to the app's night (1.6-1.96 s), the night held to 2 s"
+      },
+      "durations": {
+        "full": "exactly 2000 ms (encoded 60 frames at 30 fps)",
+        "reduced": "exactly 2000 ms: the mark fades in over 200 ms, holds, fades out from 1700 to 1960 ms"
+      },
+      "final": "the app's night (#07090F), then login or the lobby",
+      "cancel": "a tap may skip it (the client's choice); nothing waits on it",
+      "precedence": "never plays over a match; a recovering match goes straight to its state",
+      "audio": "none: silent, reads muted",
+      "reduced": "a fade in, hold and fade out of the finished mark: no slam, draw-on, impact lines, sheen or wipe",
+      "rosters": "none",
+      "concurrency": "none",
+      "assets": [
+        "design/cinematic/pilots/openings/ (wordmark.mjs: the Game N wordmark in Ink Block with hand-drawn lower case, the \"by Plan B\" tab; brand.mjs; film.mjs BRAND_BEATS)",
+        "design/cinematic/exports/brand-intro/runtime/ (phone 390 and 320 and the display, full and reduced; docs/design/cinematic/openings.md)"
+      ],
+      "gaps": []
+    },
     {
       "id": "lobby-identity",
       "scene": "Lobby and identity",
@@ -175,6 +209,43 @@
         "design/cinematic/pilots/role-reveal/ (the role films: the shared clock and art, the briefing-room opener with the player's own character, their role card and the role's gadget, every role's three panels, one module per film, on shared stagecraft, every role's device and emblem and every crew portrait shipped to every phone; storyboards in docs/design/cinematic/role-reveal.md)"
       ],
       "gaps": []
+    },
+    {
+      "id": "boarding",
+      "scene": "Crew boarding before Round 1",
+      "status": "new (issue #188, the owner, 6 November 2026): review film; no stage for it exists yet (R17)",
+      "audience": "every member and the shared display (public roster only)",
+      "trigger": "R17: a pre-Round-1 boarding stage after everyone is Ready (none in protocol 3; startIfReady starts Round 1 at once)",
+      "fields": [
+        "members[].seatId",
+        "members[].characterId",
+        "playerCount (7, 8 or 9)",
+        "the stage's startsAt and endsAt (R17)"
+      ],
+      "beats": {
+        "start": "the Mothership waits on a planet at dusk, its entrance open and warm light spilling over the ground; the crew, in pairs in seat order, walks to it (0-2 s, the phone tilting down from the ringed giant to the doorway, the display wide on the field)",
+        "loop": "the pairs reach the ramp and climb it into the light, the camera following (2-6.1 s); the last steps aboard, the ramp slides up, the door comes down and seals amber, the portholes light along the hull, the camera pushing in (6.1-6.9 s); a cut inside on the dark: the crew stands together in the spine corridor, the ceiling lights wake far to near over them and the consoles power up (6.9-8.7 s)",
+        "exit": "a brief Game N mark stamped over the corridor (9.0-9.6 s), then the comic's ink cut to the night the game's first view opens on (9.6-9.96 s), held to 10 s"
+      },
+      "durations": {
+        "full": "exactly 10000 ms (encoded 300 frames at 30 fps)",
+        "reduced": "exactly 10000 ms: five held pictures (the ship waiting, the crew boarding, the door shut, the crew in the lit corridor, the mark), each fading in over 160 ms at 0, 2.4, 5.2, 6.9 and 8.9 s; a fade to the night from 9.7 to 9.96 s"
+      },
+      "final": "the night (#07090F), then Round 1's first view",
+      "cancel": "a local Skip dismisses the pictures only, never the stage; a reconnect seeks to now - startsAt (R17), past endsAt draws nothing",
+      "precedence": "its own stage only: never over Round 1, never waiting for or extending anything",
+      "audio": "none: silent, reads muted; sound optional and unmade",
+      "reduced": "held pictures with fades only: no camera move, walk, dust, flicker, blink or wipe",
+      "rosters": "7, 8 or 9 members drawn from the admitted public roster in seat order, in pairs (an odd last member alone); every character's own appearance; no role, faction, Code or ability reaches the order, pose, light, camera or sound",
+      "concurrency": "none",
+      "assets": [
+        "design/cinematic/pilots/openings/ (film.mjs BOARDING_BEATS, the camera and the stills; world.mjs: the planet, the ship and its entrance, the corridor; crew.mjs: the composited crew layer on the approved rig; roster.mjs: the public roster, seat and character only; boarding.mjs)",
+        "design/cinematic/exports/boarding/review/ (synthetic 7, 8 and 9 rosters: review only; docs/design/cinematic/openings.md)"
+      ],
+      "gaps": [
+        "R17: no pre-Round-1 stage, timestamps or roster in the session contract"
+      ],
+      "request": "R17"
     },
     {
       "id": "core-movement",

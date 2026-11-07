@@ -5,6 +5,7 @@
 
 import { PILOT_STAGE as blackhole } from './blackhole/stage.mjs';
 import { PILOT_STAGE as eject } from './eject/stage.mjs';
+import { BOARDING_STAGE as boarding, BRAND_STAGE as brandIntro } from './openings/stage.mjs';
 import { PILOT_STAGE as hospitalRescue } from './hospital-rescue/stage.mjs';
 import { PILOT_STAGE as privateTalk } from './private-talk/stage.mjs';
 import { PILOT_STAGE as roleReveal } from './role-reveal/stage.mjs';
@@ -20,4 +21,7 @@ export const PILOTS = Object.freeze({
   [navigation.id]: navigation,
   // The role reveal films (the owner, 6 November 2026): one ten-second film per role, the Doctor's first.
   [roleReveal.id]: roleReveal,
+  // The two openings (issue #188): the 2 s Game N brand intro and the 10 s crew boarding.
+  [brandIntro.id]: brandIntro,
+  [boarding.id]: boarding,
 });
