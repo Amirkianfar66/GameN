@@ -53,6 +53,8 @@ Nothing here changes a rule, a contract, a lockfile or CI. The four pinned Desig
 | [abilities-verification.md](abilities-verification.md) | The checks run for the ability art, with their results, what each asserts and does not, and what was not run |
 | [phone-kit-handoff.md](phone-kit-handoff.md) | **Issue #121.** The phone kit: the navy and gold shell, the five-second vote result (#119), the Hospital gown and Jail suit for all nine characters, and the private declared-side Hack (#120). For Frontend: components, inputs, anchors, layers, motion, privacy, words and the checklist, on the integration baseline `abb6839`; with the review correction (the Hack concealed on window blur, its feedback bound to the current phase). A proposal |
 | [phone-kit-verification.md](phone-kit-verification.md) | The checks run for the phone kit, with their results, and what was not run |
+| [character-pilot.md](character-pilot.md) | **The crew restyle.** The owner's redesign of the nine in the new style (noir, comic ink, faces traced from the owner's art), approved on 7 November 2026 (PRs #191 and #192). Review pages, not runtime |
+| [crew-drawing-release.md](crew-drawing-release.md) | **DSN-REQ-17.** The approved crew packaged for runtime adoption: the inventory, sources and exports with their SHA-256, porting, the drawing, mounting, caching and motion interfaces, baked art, tokens 0.5.0, the budget and what is unverified. A candidate for Integration |
 
 The generated pages are written by `design/tools/write-docs.mjs` from the JSON under `design/contract/` and from the two manifests. Change the source, not the page.
 
