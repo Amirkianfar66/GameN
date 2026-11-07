@@ -1,3 +1,4 @@
+import {paintCrewFigure} from './crew-runtime.mjs';
 // Production composition over current sanitized models. The two drawing modules are exact
 // Claude #127 derivatives; no prototype controller or stand-in server enters this module.
 import { HACK_ART, RESULT_ART } from './scene-drawing/phone-kit-art.mjs';
@@ -71,9 +72,10 @@ export function applyPhoneKit(root, model) {
     for (const subject of subjects) {
       if (!CREW[subject.character] || !subject.facts) continue;
       const gesture = subject.facts.health === 'Injured' ? 'stand+injured' : subject.facts.health === 'Eliminated' ? 'stand+still' : 'stand';
-      figures.append(span(document,'pk-vr__fig',dressedFigureSvg(CREW[subject.character],skeletonOf(gesture),{
+      const drawing=span(document,'pk-vr__fig');figures.append(drawing);
+      if(!paintCrewFigure(root,drawing,match.versions,subject.character,skeletonOf(gesture),{outfit:outfitFor(subject.facts.location),gesture,seat:Number(subject.id.slice(5)),cacheTemplate:true}))drawing.innerHTML=dressedFigureSvg(CREW[subject.character],skeletonOf(gesture),{
         outfit:outfitFor(subject.facts.location),prefix:`phone-vote-${subject.id}`,layer:'body',
-      })));
+      });
     }
     const piece = span(document,`pk-vr__piece pk-vr__piece--${composition.piece}`,RESULT_ART[composition.piece]());
     stage.replaceChildren(ground,figures,piece);

@@ -1,3 +1,4 @@
+import {disposeCrewMounts} from './crew-runtime.mjs';
 // Connected native Board V2 adapter. Geometry comes only from Claude's exact pure ports;
 // gameplay comes only from the validated model. RAF changes drawings, never a phase/command.
 import {turnsLayout} from './board-v2-drawing/turns.mjs';
@@ -51,10 +52,10 @@ export function createBoardV2Host(root,{now=()=>performance.now(),publicIdentiti
   const choices=card?.body.step==='choosing'?card.body.choices.filter(c=>c.number!==null):[];
   const sample=capsule.sample(),night=blackout.sample(),drawings=presentations.sample();
   films.beforePaint();
-  paintBoardV2(holder,frame,layout.board.boxes,{artForRoom,choices,marks:card?.board??null,capsule:night?.dark?null:sample,canMove:model.surface==='player',blackout:night});
+  paintBoardV2(holder,frame,layout.board.boxes,{artForRoom,choices,marks:card?.board??null,capsule:night?.dark?null:sample,canMove:model.surface==='player',blackout:night,versions:model.match?.versions});
   paintNight(night,card);
   paintOutcomes(night);
-  films.paint({sample:drawings,frame,board:model.match.boardLayout,seats:allSeats(),geometry,layout,enabled:completeArt()&&focused&&document.visibilityState==='visible'&&model.match.boardLayout.clock.current,dark:night?.dark===true,privateOpen:model.match.privateArea?.open===true&&root.dataset.phoneView==='actions',captain:model.match.privateArea?.content?.captain,card,time:now()});
+  films.paint({sample:drawings,frame,board:model.match.boardLayout,seats:allSeats(),geometry,layout,enabled:completeArt()&&focused&&document.visibilityState==='visible'&&model.match.boardLayout.clock.current,dark:night?.dark===true,privateOpen:model.match.privateArea?.open===true&&root.dataset.phoneView==='actions',captain:model.match.privateArea?.content?.captain,card,time:now(),versions:model.match.versions});
   if(holder._boardV2Paint?.board&&offboardTab){holder._boardV2Paint.board.inert=true;}
   root.dataset.boardDark=String(night?.dark===true);
   if((sample.animate||night?.animate||blocks.size>0||drawings.animate)&&document.visibilityState==='visible')raf=requestAnimationFrame(paint);else raf=null;
@@ -217,7 +218,7 @@ export function createBoardV2Host(root,{now=()=>performance.now(),publicIdentiti
    const original=root.querySelector(`[id="${choice.id}"]`);if(original&&!body.contains(original))original.remove();
    const seat=allSeats().find(s=>s.seatId===choice.value);let button=body.querySelector(`[id="${choice.id}"]`);if(!button){button=document.createElement('button');button.type='button';button.id=choice.id;body.append(button);}button.dataset.intent='action/choose';button.dataset.value=choice.value;button.setAttribute('aria-label',choice.label);button.setAttribute('aria-describedby','ms-action-step');
    if(places){const r=places[i];box(button,{left:r.left,top:r.top,width:r.width,height:r.height});}
-   const art=document.createElement('span');art.setAttribute('aria-hidden','true');art.innerHTML=boardV2FigureSvg({...seat,gesture:'stand',outfit:'crew'})??'';
+   const art=document.createElement('span');art.setAttribute('aria-hidden','true');art.innerHTML=boardV2FigureSvg({...seat,gesture:'stand',outfit:'crew'},{versions:model.match?.versions})??'';
    const label=document.createElement('span');label.textContent=`${choice.number} ${seat.displayName??choice.label}`;if(button.dataset.character!==seat.characterId){button.replaceChildren(art,label);button.dataset.character=seat.characterId;}button.setAttribute('aria-pressed',String(card.board.picked.includes(choice.value)));
   });
  }
@@ -270,5 +271,5 @@ export function createBoardV2Host(root,{now=()=>performance.now(),publicIdentiti
   tab=!tab;controls();
  };
  root.addEventListener('click',onClick);window.addEventListener('blur',blur);window.addEventListener('focus',focus);media.addEventListener('change',reduced);document.addEventListener('visibilitychange',visibility);
- return {after,resize(){if(model){geometryKey=null;after(model);}},dispose(){disposed=true;stop();capsule.dispose();blackout.dispose();presentations.dispose();films.dispose();blocks.clear();holder.remove();window.removeEventListener('blur',blur);window.removeEventListener('focus',focus);root.removeEventListener('click',onClick);media.removeEventListener('change',reduced);document.removeEventListener('visibilitychange',visibility);},getLayout:()=>layout};
+ return {after,resize(){if(model){geometryKey=null;after(model);}},dispose(){disposed=true;stop();disposeCrewMounts(holder);capsule.dispose();blackout.dispose();presentations.dispose();films.dispose();blocks.clear();holder.remove();window.removeEventListener('blur',blur);window.removeEventListener('focus',focus);root.removeEventListener('click',onClick);media.removeEventListener('change',reduced);document.removeEventListener('visibilitychange',visibility);},getLayout:()=>layout};
 }

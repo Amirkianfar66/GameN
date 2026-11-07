@@ -1,0 +1,30 @@
+{
+  "status": "draft consumer checkpoint; Integration review required; no release approval or device acceptance",
+  "sourceHead": "8cee39d89798390d03c2a4a9fe457fa6de387bda",
+  "registrationBase": "975b5fe669d8734cdf5e85c4440c45efb9b3339f",
+  "files": {
+    "apps/game/dev/planet/scenarios.mjs": "6d5cdd41b118102eebf9688d1aaf90b41c7d01bc3ad7fb09bd81ffe5cb89ca42",
+    "apps/game/dev/planet/vite.config.mjs": "24ab768641c32d787e4ae68b5b1d79ac0b56173cc36782f488f50e08adb41526",
+    "apps/game/hosted/art.mjs": "60a17f1b08b6d2518db173ac73b8ca16dea6c161349660ff0a7523c2f00a575d",
+    "apps/game/hosted/board-v2-films.mjs": "8aae8600c0a3b74f0b324b5c85728083aba3ffbf502d6ed711c8a32202e6ee30",
+    "apps/game/hosted/board-v2-host.mjs": "27b7f04873c18bdd0bae90b8957f26c01cef904bb27f80272b52bab8f4fe2e3b",
+    "apps/game/hosted/board-v2-scene.mjs": "444623ddef1cec702280a36d752647bd6eacaae89706fbc9881239acfaaac936",
+    "apps/game/hosted/browser-host.js": "f24e2712800750612e2d37f91f62a5b21756b71492349bbe3eaf3744d11f0fc5",
+    "apps/game/hosted/comic-motion.mjs": "5ceac0e9d5d4438ca5be285c79a831c90523a1b36228e85c85d0c732f30f71bd",
+    "apps/game/hosted/crew-runtime.css": "5740495c620679caa2c08d60e6aeb53d9392b89d5d9e758b27d02fa9c2bde220",
+    "apps/game/hosted/crew-runtime.mjs": "6cb5a0dc6bf892af0cea5d59618beec78a0c3f7aecd5c63e7f8a9b92168a26b8",
+    "apps/game/hosted/main.js": "ab24a0fb479f943a056c3e865dda95faf29b7580ea22f07119d8c4c4b81f2c00",
+    "apps/game/hosted/phone-kit.mjs": "bf46b34d2461aba86c8e675ad33468e649709d89eb8940593461301aefd85fee",
+    "apps/game/hosted/planet/app.mjs": "807f467447603bcc715e5ea9d4800b49f4abd67a1b371870121584c26b86dbdd",
+    "apps/game/hosted/planet/render.mjs": "4b256b05863a88d89150a7d8c8d8551966ebdf95bb87801d31dd62d245545b12",
+    "apps/game/hosted/scene-board.mjs": "872e052fd63cb660725206d800a6cbf2fdd2ee5073eed3b70940af7cae1f0565",
+    "packages/presentation/src/planet/library.ts": "b4b283f5dc3fbc296f756014c97ac7bca786dedeb2617b124c191187d4f9c2c3",
+    "packages/presentation/test/planet-library.test.mjs": "d1e272e75205d7547bbb8f6bbafe3437d43398a4d14ddaa5af87a83bed29e6fc"
+  },
+  "strictReleaseInventoryChanges": [
+    "apps/game/hosted/planet/app.mjs",
+    "apps/game/hosted/planet/render.mjs",
+    "packages/presentation/src/planet/library.ts"
+  ],
+  "sharedFilesEdited": []
+}

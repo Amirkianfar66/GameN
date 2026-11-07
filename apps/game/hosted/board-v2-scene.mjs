@@ -1,3 +1,4 @@
+import {crewFigureSvg,crewInstancePrefix,hasCrewDrawing,paintCrewFigure,releaseCrewFigure} from './crew-runtime.mjs';
 // Paint preparation over public, already-validated logical slots. This renderer is dormant
 // until the versioned slot reader, revised Claude layout and complete common art are adopted.
 // It never allocates a slot, mutates gameplay, fetches a role-specific asset or runs a film.
@@ -52,7 +53,8 @@ export function boardV2SceneFrame(roster,seats,{panels,pressAreas,geometry={scen
 }
 
 /** Reviewed wardrobe/rig only; names remain semantic text in the caller's DOM. */
-export function boardV2FigureSvg(figure,{layer='body'}={}) {
+export function boardV2FigureSvg(figure,{layer='body',versions=null}={}) {
+ if(hasCrewDrawing(versions))return crewFigureSvg(figure.characterId,skeletonOf(figure.gesture),{versions,outfit:figure.outfit,prefix:crewInstancePrefix(),layer});
  if(!CREW[figure.characterId])return null;
  return dressedFigureSvg(CREW[figure.characterId],skeletonOf(figure.gesture),{outfit:figure.outfit,prefix:`bv2-${figure.seatId}-${layer}`,layer});
 }
@@ -64,7 +66,7 @@ const setBox=(node,box)=>{for(const [property,key]of [['left','left'],['top','to
  * Hidden cinematic actors keep their world anchor for the current-return resolver; their
  * exact same choice objects are returned to the capsule painter, never silently dropped.
  */
-export function paintBoardV2(root,frame,boxes,{artForRoom,choices=[],marks=null,capsule=null,canMove=false,pass=null,blackout=null}={}) {
+export function paintBoardV2(root,frame,boxes,{artForRoom,choices=[],marks=null,capsule=null,canMove=false,pass=null,blackout=null,versions=null}={}) {
  if(frame.problems.length)return {painted:false,problems:frame.problems,capsuleChoices:[]};
  const document=root.ownerDocument;
  const create=(tag,className)=>{const n=document.createElement(tag);n.className=className;return n;};
@@ -100,9 +102,12 @@ export function paintBoardV2(root,frame,boxes,{artForRoom,choices=[],marks=null,
  const figure=(actor,who,person,scene,opacity=1,ghost=false)=>{
   const unit=person.scale*scene.k;
   for(const layer of ['body','front']){
+   if(layer==='front'&&hasCrewDrawing(versions)&&!person.sk.front?.length){const front=actor.querySelector('.bv2-figure[data-part="front"]');if(front){releaseCrewFigure(root,front);front.remove();}continue;}
    let node=actor.querySelector(`.bv2-figure[data-part="${layer}"]`);if(!node){node=create('span','bv2-figure');node.dataset.part=layer;node.setAttribute('aria-hidden','true');actor.append(node);}
-   const key=JSON.stringify([who.characterId,who.outfit,person.sk,layer]);
-   if(node._figureKey!==key){node.innerHTML=CREW[who.characterId]?dressedFigureSvg(CREW[who.characterId],person.sk,{outfit:who.outfit,prefix:`bv2-${who.seatId}-${actor.dataset.place}-${layer}`,layer}):'';node._figureKey=key;}
+   if(!paintCrewFigure(root,node,versions,who.characterId,person.sk,{outfit:who.outfit,layer,cacheTemplate:person.sk===person.rest,gesture:who.gesture,still:who.health==='Eliminated',seat:Number(who.seatId.slice(5)),point:[person.sk.head[0]+person.at[0]/person.scale,person.sk.head[1]+person.at[1]/person.scale],mirror:person.mirror})){
+    const key=JSON.stringify([who.characterId,who.outfit,person.sk,layer]);
+    if(node._figureKey!==key){node.innerHTML=CREW[who.characterId]?dressedFigureSvg(CREW[who.characterId],person.sk,{outfit:who.outfit,prefix:`bv2-${who.seatId}-${actor.dataset.place}-${layer}`,layer}):'';node._figureKey=key;}
+   }
    setBox(node,{left:scene.tx+person.at[0]*scene.k-(ax-bx)*unit,top:scene.ty+person.at[1]*scene.k-(ay-by)*unit,width:box*unit,height:box*unit});
    node.dataset.mirror=String(person.mirror);node.style.opacity=String(opacity*(blackout?.film.peopleOpacity??1));node.style.filter=ghost?'grayscale(1)':'';
    node.style.zIndex=String(layer==='body'?2*Math.round(who.depth):1500+Math.round(who.depth));
@@ -134,7 +139,7 @@ export function paintBoardV2(root,frame,boxes,{artForRoom,choices=[],marks=null,
    const home=personState?.home;
    const posed=home?homePerson(who.slot,home,rest,status):{at:who.slot.at,scale:who.slot.scale,mirror:who.slot.mirror,sk:rest};
    const ghost=home?.ghost>0&&home.figure===0;
-   figure(actor,who,posed,who.sceneFrame,ghost?0.35:(home?.figure??1),ghost);
+   figure(actor,who,{...posed,rest},who.sceneFrame,ghost?0.35:(home?.figure??1),ghost);
    nameplate(actor,who.seatId,who.displayName??CREW[who.characterId]?.sign??`Player ${who.seatId.slice(5)}`,who.name,room.panel);
    let badge=actor.querySelector('.bv2-away');if(home?.ghost>0){if(!badge){badge=create('span','bv2-away');badge.setAttribute('aria-hidden','true');actor.append(badge);}badge.style.left=px(who.press.left+who.press.side-20);badge.style.top=px(who.press.top-10);badge.style.setProperty('--bv2-layer-art','var(--board-v2-art-capsule-badge)');}else badge?.remove();
    const choice=choices.find(c=>c.value===who.seatId),picked=marks?.picked.indexOf(who.seatId)??-1;
