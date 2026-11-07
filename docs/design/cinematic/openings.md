@@ -4,7 +4,7 @@
 
 The owner asked for two opening previews with one visual identity: a two-second brand intro on the app's first entry, and a ten-second crew boarding after everyone is Ready and before Round 1. Designer makes the artwork; Codex coordinates Backend and Frontend timing. The boarding has no stage to play in yet ([R17](#r17-the-missing-stage)).
 
-- **Branch.** `claude/designer-openings`, stacked on the role films (`claude/designer-role-films`, #189, itself stacked on #187). The work is in `design/cinematic/pilots/openings/`.
+- **Branch.** `claude/brave-cannon-lmhd0i`, stacked on the role films (`claude/designer-role-films`, #189, itself stacked on #187). The work is in `design/cinematic/pilots/openings/`.
 - **Base.** Main is `a343ca6`; the role films' stack carries `design/cinematic/`, which main does not have yet.
 - **Review.** The stage plays both: `design/cinematic/stage.html?pilot=brand-intro&surface=phone&w=390&h=844&play=1`, and `?pilot=boarding&surface=display&roster=8&play=1`. The review gallery lists both openings.
 
