@@ -303,6 +303,13 @@ On this delivery, with Node 22.21.1 and npm 10.9.4. The renders were made in Chr
 - **Drawing cost.** The table under Mounts. On this machine the brand intro costs under 5 ms a frame, and rebuilding a whole boarding frame 22 to 31 ms.
 - **Tests.** `cinematic-openings.test.mjs` passes 12 of 12; two are new with these fixes (the held pictures, the ink cut), and the corridor test now checks whole figures. The design suite passes 459 of 459.
 - **Hygiene.** `git diff --check` is clean. A scan of the added lines for credentials, local paths and model names found none.
+- **Verify, on `8faa9f5`** (the delivery's commit, clean checkout). Every `npm run verify` step except the capacity gate passed, in 1,112 s:
+  - toolchain, workspace, sources and typecheck;
+  - `npm test`: bootstrap 55, engine 253, backend 187, tooling 130, frontend 194 and 448, and design 459;
+  - balance static 103 of 103; 4,490 balance controls detected, zero misses; playouts clean in all three modes;
+  - scenarios: 555 IDs, 516 passed, 33 reviewed blocked, 6 explicit manual, zero errors.
+
+  The capacity gate (`test:capacity`) stopped at its 600 s limit in this container, as it did for #189. It finished modes 7 and 8 (400 playouts; zero invariant violations and zero hint or replay mismatches); mode 9 was cut off. This delivery touches none of the code the playouts run, and CI's verify job passed on #189's head (`bbc7bf2`).
 - **Not tested.**
   - **Devices.** No phone, display hardware, screen reader or large-text setting was tried. Every frame is desktop Chromium, and the drawing cost on a phone is unmeasured.
   - **Runtime.** No client mounts either opening. The boarding has no stage (R17), so its timing against a server clock, reconnect, skip and the fallback are untested.
