@@ -330,7 +330,9 @@ test('Pilot 3\'s page draws the public pair by S2\'s functions and nothing of th
 });
 
 test('the catalogue covers every scene of the brief\'s coverage table, each fully specified', () => {
-  const scenes = ['Lobby and identity', 'Role reveal and private card', 'Core board and movement', 'Turn and contextual action', 'Captain and Officer', 'Captain RELEASE', 'Captain EJECT', 'Ordinary shot and injury', 'Blackout Strike', 'Protection and Phantom Clone', 'Doctor Rescue', 'Hospital panel and death', 'Supplier and weapons', 'Insider investigation', 'Hacker investigation', 'Hack Spaceship', 'Engineer', 'Private Talk capsule', 'Blackhole and Sync', 'Navigation', 'Promises', 'Windows and drawing', 'Arrival, no survivors and recovery'];
+  // The brief's coverage table, with issue #188's two openings in the match's order (the brand intro
+  // before the lobby, the boarding after the role reveal).
+  const scenes = ['Game N brand intro', 'Lobby and identity', 'Role reveal and private card', 'Crew boarding before Round 1', 'Core board and movement', 'Turn and contextual action', 'Captain and Officer', 'Captain RELEASE', 'Captain EJECT', 'Ordinary shot and injury', 'Blackout Strike', 'Protection and Phantom Clone', 'Doctor Rescue', 'Hospital panel and death', 'Supplier and weapons', 'Insider investigation', 'Hacker investigation', 'Hack Spaceship', 'Engineer', 'Private Talk capsule', 'Blackhole and Sync', 'Navigation', 'Promises', 'Windows and drawing', 'Arrival, no survivors and recovery'];
   assert.deepEqual(CATALOGUE.map(s => s.scene), scenes);
   for (const s of CATALOGUE) {
     for (const key of ['trigger', 'audience', 'fields', 'beats', 'durations', 'final', 'cancel', 'precedence', 'audio', 'reduced', 'rosters', 'concurrency', 'assets', 'gaps']) assert.ok(s[key] !== undefined && s[key] !== '', `${s.id} ${key}`);

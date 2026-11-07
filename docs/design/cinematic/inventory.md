@@ -166,6 +166,7 @@ What the catalogue (docs/design/cinematic/motion-bible.md) still needs, by scene
 
 | Scene | Status | Missing |
 | --- | --- | --- |
+| Crew boarding before Round 1 | new (issue #188, the owner, 6 November 2026): review film; no stage for it exists yet (R17) | R17: no pre-Round-1 stage, timestamps or roster in the session contract |
 | Core board and movement | existing (board-motion walk, board-v2 slots) | origin slot for walks after reconnect (request R4) |
 | Doctor Rescue | PILOT 1 (cinematic pass over the approved S5): the board treatment on phones and the display; the display cut only where nobody decides | live-action insert: study only (NOT PRODUCED) |
 | Hack Spaceship | library group 1 (proposal) | no public or office cue for the hack beyond the direction itself: none is authorized |
