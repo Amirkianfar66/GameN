@@ -9,7 +9,9 @@
 //     --out design/cinematic/exports/hospital-rescue --name display-full [--fps 30] [--scale 1] \
 //     [--w 390 --h 844] [--stills 0,1500,3550] [--video] [--poster 3600] [--preview-width 480] \
 //     [--param case=... --param audience=...] [--formats mp4,webm,preview] [--crf 18] [--vp9-crf 33]
-//     [--audio path/to/cues.wav] [--poster-formats png,webp]
+//     [--audio path/to/cues.wav] [--poster-formats png,webp] [--exact]
+// --exact: encode exactly (to - from) of film, frames at i / fps for i < (to - from) * fps (a 2 s film
+// is 60 frames at 30 fps, its encoded duration 2.000 s); without it the end frame is also kept.
 //
 // Writes <name>.mp4 (H.264, yuv420p, faststart), <name>.webm (VP9), <name>.preview.webp (animated,
 // small), <name>.poster.png and .poster.webp, <name>-<t>.png stills, and <name>.render.json (what
@@ -36,7 +38,7 @@ function args(argv) {
   const out = { fps: 30, scale: 1, params: [] };
   for (let i = 0; i < argv.length; i += 1) {
     const name = argv[i].replace(/^--/, '');
-    if (name === 'video') { out.video = true; continue; }
+    if (name === 'video' || name === 'exact') { out[name] = true; continue; }
     const value = argv[i + 1];
     i += 1;
     if (name === 'param') out.params.push(value);
@@ -106,7 +108,7 @@ async function main() {
     }
     if (opt.video) {
       const from = opt.from ?? 0, to = opt.to ?? info.end;
-      const count = Math.round(((to - from) / 1000) * opt.fps) + 1;
+      const count = Math.round(((to - from) / 1000) * opt.fps) + (opt.exact ? 0 : 1);
       const base = join(outDir, opt.name);
       const previewWidth = opt['preview-width'] ?? (width >= 1000 ? 480 : 240);
       const even = v => Math.round((v * opt.scale) / 2) * 2;
@@ -139,7 +141,7 @@ async function main() {
         const file = `${base}.${ext}`;
         const bytes = await readFile(file);
         written.push(file);
-        record.outputs.push({ kind, file: relative(repoRoot, file), sha256: sha256(bytes), bytes: bytes.length, ...(kind === 'poster' ? { t: posterT } : {}), ...(kind === 'video' ? { fps: opt.fps, frames: count, durationMs: to - from, from, to, audio: audio ? relative(repoRoot, audio) : null } : {}) });
+        record.outputs.push({ kind, file: relative(repoRoot, file), sha256: sha256(bytes), bytes: bytes.length, ...(kind === 'poster' ? { t: posterT } : {}), ...(kind === 'video' ? { fps: opt.fps, frames: count, durationMs: to - from, from, to, audio: audio ? relative(repoRoot, audio) : null, ...(opt.exact ? { exact: true, encodedMs: (count * 1000) / opt.fps } : {}) } : {}) });
       }
     }
     record.settling = { rule: 'a frame is kept once two captures a redraw apart agree; pictures decode before their tiles draw', resettled: settling.resettled, unsettled: settling.unsettled };

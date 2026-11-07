@@ -1,7 +1,7 @@
 {
   "tool": "design/tools/cinematic-render.mjs",
   "pilot": "role-reveal",
-  "version": "cinematic-role-reveal-0.7.0",
+  "version": "cinematic-role-reveal-0.8.0",
   "surface": "phone",
   "variant": "full",
   "stage": "design/cinematic/stage.html?pilot=role-reveal&surface=phone&variant=full&beds=4&w=390&h=844&role=Blue+Disabler&seat=3&character=c7",
@@ -16,32 +16,34 @@
     "character": "c7",
     "synthetic": true
   },
-  "browser": "Chromium 141.0.7390.37",
+  "browser": "Google Chrome for Testing 153.0.8010.12",
   "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
   "outputs": [
     {
       "kind": "video",
       "file": "design/cinematic/exports/role-reveal/review/blue-disabler-phone390-full.mp4",
-      "sha256": "b4249bebd0b205afb7eb8ef3c94f6f7cffd06f7c9822eddc1ee3578b93f8b667",
-      "bytes": 2372867,
+      "sha256": "c65489c3ce4fce9f77c64fcf577e9c1c44aef84556879b438f76d3fd0e02a5d0",
+      "bytes": 2364087,
       "fps": 30,
-      "frames": 301,
+      "frames": 300,
       "durationMs": 10000,
       "from": 0,
       "to": 10000,
-      "audio": null
+      "audio": null,
+      "exact": true,
+      "encodedMs": 10000
     },
     {
       "kind": "preview",
       "file": "design/cinematic/exports/role-reveal/review/blue-disabler-phone390-full.preview.webp",
-      "sha256": "cef7b3245d90a4b5ae33118ff5c0529d03121071954074cc2379ee45dc1a2303",
-      "bytes": 368806
+      "sha256": "010258112703dd6cfbb0974f9b6b76a49158716f20e0a7340fa84332d7a029a7",
+      "bytes": 365976
     },
     {
       "kind": "poster",
       "file": "design/cinematic/exports/role-reveal/review/blue-disabler-phone390-full.poster.webp",
-      "sha256": "379ca9d65a7d93de6dd5ea3fb4de2c6949fec61fb1272ccf7d930dd13293ee1c",
-      "bytes": 39444,
+      "sha256": "836c5cdad7d5e582577d51f4005c39605b9de2e86d3573cde0463a73f2e4fde9",
+      "bytes": 39412,
       "t": 7400
     }
   ],

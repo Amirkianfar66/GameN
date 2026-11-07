@@ -1,7 +1,7 @@
 {
   "tool": "design/tools/cinematic-render.mjs",
   "pilot": "role-reveal",
-  "version": "cinematic-role-reveal-0.7.0",
+  "version": "cinematic-role-reveal-0.8.0",
   "surface": "phone",
   "variant": "full",
   "stage": "design/cinematic/stage.html?pilot=role-reveal&surface=phone&variant=full&beds=4&w=390&h=844&role=Alien&seat=3&character=c9",
@@ -16,32 +16,34 @@
     "character": "c9",
     "synthetic": true
   },
-  "browser": "Chromium 141.0.7390.37",
+  "browser": "Google Chrome for Testing 153.0.8010.12",
   "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
   "outputs": [
     {
       "kind": "video",
       "file": "design/cinematic/exports/role-reveal/review/alien-phone390-full.mp4",
-      "sha256": "fb61e36e6be5e8bd54efec330e83cd0325b6cada148b079c013a9baf7dc5052a",
-      "bytes": 2469816,
+      "sha256": "a69031a407719678bd04157a82ed4791c4a34fec6588de6ea03c1ea5c4b0128f",
+      "bytes": 2437887,
       "fps": 30,
-      "frames": 301,
+      "frames": 300,
       "durationMs": 10000,
       "from": 0,
       "to": 10000,
-      "audio": null
+      "audio": null,
+      "exact": true,
+      "encodedMs": 10000
     },
     {
       "kind": "preview",
       "file": "design/cinematic/exports/role-reveal/review/alien-phone390-full.preview.webp",
-      "sha256": "a68ffc553ffca0a3c95957cfef1108fc085fa2c42b5f68aedf5d439045d1b77b",
-      "bytes": 368900
+      "sha256": "27b3c3dd93d1e02f36efc99d47aea0b2703f76203e12c49c3b73ee5539173a9f",
+      "bytes": 368008
     },
     {
       "kind": "poster",
       "file": "design/cinematic/exports/role-reveal/review/alien-phone390-full.poster.webp",
-      "sha256": "c2a07f4449fbc78beb93a1af33107784ad8e3a8b313b1e70de86be9888020fe8",
-      "bytes": 45518,
+      "sha256": "89b36c74ed4cb820515c35b58ff5962bbcb078597a984fbe3c5fdb22a2492644",
+      "bytes": 44478,
       "t": 7400
     }
   ],

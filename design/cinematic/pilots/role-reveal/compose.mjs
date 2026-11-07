@@ -10,7 +10,7 @@
 import { CREW } from '../../../board-motion/figures/crew.mjs';
 import { FACTION_ACCENTS } from '../../../board-v2/fx/blocked.mjs';
 import { clamp01, easeOutCubic, lerp } from '../../lib/ease.mjs';
-import { GRIP, NIGHT, captionBoxSvg, flashSvg, grainSvg, panelSvg, revealDefs, slatsSvg, titlePlateSvg } from './art.mjs';
+import { GRIP, NIGHT, captionBoxSvg, flashSvg, grainSvg, inlinePicture, panelSvg, revealDefs, slatsSvg, titlePlateSvg } from './art.mjs';
 import { briefingSvg, glintOnPage } from './briefing.mjs';
 import { ROLE_REVEAL_COPY, roleLine } from './copy.mjs';
 import { CAMERA, NARRATED, PANEL_TONES, revealFrame } from './film.mjs';
@@ -102,8 +102,11 @@ export function cameraView(cam, L, height) {
  * gadget: the role's device alone (art.mjs deviceOnly() of its held picture, which the caller has
  * read: this module reads no file); width x height: the page in units (900 x pageHeight()); cssPx:
  * the phone's CSS px a unit (its width / 900), which the narration boxes are fitted for.
+ * pictures: every shipped picture's SVG text by its href (roles.mjs ROLE_REVEAL_ASSETS, read once on
+ * every phone): given, the frame draws them inline and refers to no file at all (a client passes it);
+ * left out, the frame keeps an <image> for each (the tests read which pictures a film draws).
  */
-export function revealSvg(t, { role = 'Doctor', variant = 'full', seat = 6, character, gadget, width = PAGE_WIDTH, height = 1600, cssPx = 390 / PAGE_WIDTH, prefix = 'rr' } = {}) {
+export function revealSvg(t, { role = 'Doctor', variant = 'full', seat = 6, character, gadget, pictures = null, width = PAGE_WIDTH, height = 1600, cssPx = 390 / PAGE_WIDTH, prefix = 'rr' } = {}) {
   const film = ROLE_FILMS[role];
   if (!film) throw new Error(`No role ${role}`);
   if (!film.panels) throw new Error(`The ${role}'s film is a storyboard only so far (docs/design/cinematic/role-reveal.md)`);
@@ -115,12 +118,8 @@ export function revealSvg(t, { role = 'Doctor', variant = 'full', seat = 6, char
   // Reduced motion holds its stills: the stars do not twinkle.
   const clock = variant === 'reduced' ? 0 : frame.t;
   const view = cameraView(frame.camera, L, height);
-  // Each narration box drops into place as it fades in, as a comic's caption is set down.
   const copy = ROLE_REVEAL_COPY[role];
-  const storyBoxes = L.story.map((slot, i) => {
-    const box = narrationBox(L, slot, copy.story[i], cssPx);
-    return { ...box, y: box.y - 22 * (1 - easeOutCubic(frame.captions.story[i])) };
-  });
+  const storyBoxes = storyPlaces(frame, L, view, role, cssPx);
   // The page under the guided view: the night, the briefing room (it stays, dimmed, under the
   // panels), the panels and their narration boxes.
   let page = slatsSvg(prefix, { width, height, v: 1, dim: 1, t: clock })
@@ -145,12 +144,43 @@ export function revealSvg(t, { role = 'Doctor', variant = 'full', seat = 6, char
   body += grainSvg(prefix, { width, height });
   // Reduced motion: each still fades in from the night over 80 ms.
   if (variant === 'reduced' && frame.fade < 1) body += `<rect width="${width}" height="${f(height)}" fill="${NIGHT.deep}" opacity="${f(1 - frame.fade)}"/>`;
+  // Every shipped picture inline from its text, when the caller has them: nothing left to load or decode.
+  let n = 0;
+  if (pictures) {
+    body = body.replace(/<image href="([^"]+)" x="([^"]+)" y="([^"]+)" width="([^"]+)" height="([^"]+)"[^>]*\/>/g, (whole, href, x, y, w, h) => (
+      typeof pictures[href] === 'string' ? inlinePicture(pictures[href], { x: +x, y: +y, width: +w, height: +h, scope: `${prefix}-pic${n++}` }) : whole));
+  }
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${f(height)}" width="${width}" height="${f(height)}">${body}</svg>`;
-  return {
-    svg, frame,
-    words: {
-      story: storyBoxes.map((box, i) => ({ box: view.box([box.x, box.y, box.w, box.h]), text: copy.story[i], lines: box.lines, opacity: frame.captions.story[i], tone: PANEL_TONES[NARRATED[i]] })),
-      role: { text: roleLine(role), visible: frame.title.visible },
-    },
-  };
+  return { svg, frame, words: wordsOf(frame, view, storyBoxes, role) };
+}
+
+/**
+ * The memory panels' narration boxes at a frame, in page units. Each drops into place as it fades in,
+ * as a comic's caption is set down, and leaves where it is. It rides its panel's top edge, overhanging
+ * the panel a little; under the guided view's zoom it is drawn in just far enough to stay whole in the
+ * frame, its stroke and shadow too (the review of #189). With the whole page in view (zoom 1) it sits
+ * where it always did.
+ */
+function storyPlaces(frame, L, view, role, cssPx) {
+  const copy = ROLE_REVEAL_COPY[role];
+  const half = PAGE_WIDTH / (2 * view.k);
+  return L.story.map((slot, i) => {
+    const box = narrationBox(L, slot, copy.story[i], cssPx);
+    const x = Math.min(Math.max(box.x, PAGE_WIDTH / 2 - half + 4), PAGE_WIDTH / 2 + half - 10 - box.w);
+    return { ...box, x, y: box.y - 22 * (1 - easeOutCubic(frame.captions.drop[i])) };
+  });
+}
+
+const wordsOf = (frame, view, storyBoxes, role) => ({
+  story: storyBoxes.map((box, i) => ({ box: view.box([box.x, box.y, box.w, box.h]), text: ROLE_REVEAL_COPY[role].story[i], lines: box.lines, opacity: frame.captions.story[i], tone: PANEL_TONES[NARRATED[i]] })),
+  role: { text: roleLine(role), visible: frame.title.visible },
+});
+
+/** The page text alone at t (revealSvg()'s words, without drawing the frame): where each box is, on the phone's page. */
+export function revealWords(t, { role = 'Doctor', variant = 'full', height = 1600, cssPx = 390 / PAGE_WIDTH } = {}) {
+  if (!ROLE_FILMS[role]) throw new Error(`No role ${role}`);
+  const frame = revealFrame(t, { variant });
+  const L = layout(height);
+  const view = cameraView(frame.camera, L, height);
+  return wordsOf(frame, view, storyPlaces(frame, L, view, role, cssPx), role);
 }

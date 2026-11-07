@@ -90,18 +90,19 @@ export const JOBS = [
 // The role reveal films (the owner, 6 November 2026): the Doctor's pilot (approved) on a phone, full
 // and reduced, opening in the briefing room with a stand-in player's character (c4), and every other film. Review only: a film draws a
 // dealt role and the player's own character, so no render of one is ever a runtime asset (a client
-// draws it live from the frame functions). Silent: no cue mix. Rendered at twice the phone's CSS
+// draws it live from the frame functions). Silent: no cue mix. Exactly 10 s: 300 frames at 30 fps
+// (--exact; the live clock is 10,000 ms). Rendered at twice the phone's CSS
 // pixels and a lower CRF than other review renders: the owner reviews line and lettering quality on
 // these (the animated comic's ink, hatching and narration).
 JOBS.push(
-  { pilot: 'role-reveal', name: 'review/doctor-phone390-full', variant: 'full', ...phone(390, 844), params: ['role=Doctor', 'seat=6', 'character=c4'], ...review, scale: '2', crf: '18', poster: '7400' },
-  { pilot: 'role-reveal', name: 'review/doctor-phone390-reduced', variant: 'reduced', ...phone(390, 844), params: ['role=Doctor', 'seat=6', 'character=c4'], ...review, scale: '2', crf: '18', poster: '5000' },
-  { pilot: 'role-reveal', name: 'review/doctor-phone320-full', variant: 'full', ...phone(320, 568), params: ['role=Doctor', 'seat=6', 'character=c4'], ...review, scale: '2', crf: '18', poster: '2400' },
+  { pilot: 'role-reveal', name: 'review/doctor-phone390-full', variant: 'full', ...phone(390, 844), params: ['role=Doctor', 'seat=6', 'character=c4'], ...review, scale: '2', crf: '18', exact: true, poster: '7400' },
+  { pilot: 'role-reveal', name: 'review/doctor-phone390-reduced', variant: 'reduced', ...phone(390, 844), params: ['role=Doctor', 'seat=6', 'character=c4'], ...review, scale: '2', crf: '18', exact: true, poster: '5000' },
+  { pilot: 'role-reveal', name: 'review/doctor-phone320-full', variant: 'full', ...phone(320, 568), params: ['role=Doctor', 'seat=6', 'character=c4'], ...review, scale: '2', crf: '18', exact: true, poster: '2400' },
   // The other films, drawn from the approved pilot: one render each at the 390 phone in full motion,
   // each with its own stand-in character (the Red Disabler plays the Blue Disabler's film; only its
   // plate and card differ). Their reduced stills are the tests'.
   ...[['Insider', 'c2'], ['Blue Disabler', 'c7'], ['Supplier', 'c3'], ['Engineer', 'c5'], ['Undercover', 'c6'], ['Hacker', 'c8'], ['Alien', 'c9']].map(([role, character]) => (
-    { pilot: 'role-reveal', name: `review/${role.toLowerCase().replace(' ', '-')}-phone390-full`, variant: 'full', ...phone(390, 844), params: [`role=${role}`, 'seat=3', `character=${character}`], ...review, scale: '2', crf: '18', poster: '7400' })),
+    { pilot: 'role-reveal', name: `review/${role.toLowerCase().replace(' ', '-')}-phone390-full`, variant: 'full', ...phone(390, 844), params: [`role=${role}`, 'seat=3', `character=${character}`], ...review, scale: '2', crf: '18', exact: true, poster: '7400' })),
 );
 
 /** Storyboard frames for the live-action studies: full-size frames of the cinematic forms (the cut, the stage, the page), kept as WebP. */
@@ -115,7 +116,8 @@ async function render(job) {
   const args = ['design/tools/cinematic-render.mjs', '--pilot', job.pilot, '--out', `${EX}/${job.pilot}/${job.name.split('/')[0]}`, '--name', job.name.split('/')[1], '--video'];
   for (const [key, value] of Object.entries(job)) {
     if (['pilot', 'name', 'params'].includes(key)) continue;
-    args.push(`--${key}`, value);
+    if (value === true) args.push(`--${key}`);
+    else args.push(`--${key}`, value);
   }
   for (const param of job.params ?? []) args.push('--param', param);
   const started = Date.now();

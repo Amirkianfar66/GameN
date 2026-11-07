@@ -22,7 +22,7 @@ import { PILOTS } from '../../../design/cinematic/pilots/index.mjs';
 import { easeOutBack } from '../../../design/cinematic/lib/ease.mjs';
 import { GRIP, deviceOnly, sepiaOf, sfxSvg, unaccented } from '../../../design/cinematic/pilots/role-reveal/art.mjs';
 import { POSES, briefingLayout, briefingSvg, onPage } from '../../../design/cinematic/pilots/role-reveal/briefing.mjs';
-import { CAPTION_LINE, CAPTION_PAD, PAGE_WIDTH, cameraView, captionFont, captionLines, captionWidth, layout, narrationBox, pageHeight, revealSvg } from '../../../design/cinematic/pilots/role-reveal/compose.mjs';
+import { CAPTION_LINE, CAPTION_PAD, PAGE_WIDTH, cameraView, captionFont, captionLines, captionWidth, layout, narrationBox, pageHeight, revealSvg, revealWords } from '../../../design/cinematic/pilots/role-reveal/compose.mjs';
 import { DOCTOR_PANELS } from '../../../design/cinematic/pilots/role-reveal/doctor.mjs';
 import { ROLE_REVEAL_COPY } from '../../../design/cinematic/pilots/role-reveal/copy.mjs';
 import { BEATS, CHANGES, FADE_MS, NARRATED, PANEL_LOCAL_REST, PANEL_STARTS, PANEL_TONES, REVEAL_END, STILLS, VARIANTS, revealFrame } from '../../../design/cinematic/pilots/role-reveal/film.mjs';
@@ -233,12 +233,17 @@ test('the words: a back story told mostly in pictures, two short narration boxes
   assert.deepEqual(ROLE_REVEAL_COPY.Doctor.story.map(captionLines), [['Colony Nine.', 'The fever years.'], ['Two doses left.']]);
   assert.deepEqual(captionLines('The engine decks of Ceres.'), ['The engine', 'decks of Ceres.'], 'a long sentence split at its most even gap');
   assert.deepEqual(NARRATED, [0, 1], 'the two memory panels');
-  // Each narration box comes with its panel and stays until the title; nothing after it.
+  // Each narration box comes with its panel. The first steps out as the third panel lands (5.9-6.1 s,
+  // before the camera's turn to it takes the top of the page out of the frame); the second stays until
+  // the title; nothing after it.
   const at = t => doctor(t).words;
   assert.deepEqual(at(2400).story.map(s => s.opacity), [0, 0], 'the opener has no words');
   assert.deepEqual(at(3600).story.map(s => s.opacity), [1, 0]);
   assert.deepEqual(at(5100).story.map(s => s.opacity), [1, 1]);
-  assert.deepEqual(at(7400).story.map(s => s.opacity), [1, 1], 'the panel aboard adds no words');
+  assert.deepEqual(at(5900).story.map(s => s.opacity), [1, 1], 'both read until the third panel comes');
+  assert.deepEqual(at(6000).story.map(s => s.opacity), [0.5, 1]);
+  assert.deepEqual(at(6100).story.map(s => s.opacity), [0, 1], 'the first has stepped out');
+  assert.deepEqual(at(7400).story.map(s => s.opacity), [0, 1], 'the panel aboard adds no words');
   assert.deepEqual(at(7400).story.map(s => s.text), [...ROLE_REVEAL_COPY.Doctor.story]);
   assert.deepEqual(at(7400).story.map(s => s.lines), ROLE_REVEAL_COPY.Doctor.story.map(captionLines), 'the stage sets the letterer\'s lines');
   assert.deepEqual(at(7400).story.map(s => s.tone), ['past', 'past']);
@@ -427,10 +432,17 @@ test('the motion comic: the memory flash, the guided view and the panels\' focus
     assert.ok(k > 1, `${t} ms: a closer view`);
     assert.ok(cy - H / (2 * k) <= L.panels[i].y && cy + H / (2 * k) >= L.panels[i].y + L.panels[i].h * 0.9, `${t} ms: panel ${i + 1} in view`);
   }
-  // The page text rides the camera: a narration box is where its panel is drawn.
+  // The page text rides the camera: a narration box is where its panel is drawn, drawn in just far
+  // enough under the zoom to stay whole in the frame (its overhang past the panel's edge).
   const at5300 = doctor(5300).words.story[1].box, v = view(5300);
   const box = narrationBox(L, L.story[1], ROLE_REVEAL_COPY.Doctor.story[1]);
-  assert.deepEqual(at5300.map(n => Math.round(n)), v.box([box.x, box.y, box.w, box.h]).map(n => Math.round(n)));
+  const half = PAGE_WIDTH / (2 * v.k);
+  const x = Math.min(Math.max(box.x, PAGE_WIDTH / 2 - half + 4), PAGE_WIDTH / 2 + half - 10 - box.w);
+  assert.ok(x < box.x, 'zoomed, the right-hand box comes in from its overhang');
+  assert.deepEqual(at5300.map(n => Math.round(n)), v.box([x, box.y, box.w, box.h]).map(n => Math.round(n)));
+  // With the whole page in view the box sits where it always did, overhanging its panel.
+  const page = doctor(5300, { variant: 'reduced' }).words.story[1].box;
+  assert.deepEqual(page.map(n => Math.round(n)), [box.x, box.y, box.w, box.h].map(n => Math.round(n)));
   // Focus: an earlier panel steps back while a later one plays, and all come back for the page.
   assert.ok(full(5300).focus[0] < 0.7 && full(5300).focus[1] === 1);
   assert.deepEqual(full(7800).focus, [1, 1, 1]);
@@ -454,4 +466,44 @@ test('the motion bible\'s role reveal entry carries the films', () => {
   assert.match(scene.durations.full, /10000 ms, the same length and beats for every role/);
   assert.match(scene.audio, /silent/);
   assert.ok(scene.assets.some(a => a.startsWith('design/cinematic/pilots/role-reveal/')));
+});
+
+test('no narration box is ever cut by the frame: every visible box lies inside the phone, the whole film, every size', () => {
+  // The review of #189: on the guided camera's turn to the third panel the first box was clipped at the
+  // top (320 x 568, 430 x 932). Every box that shows at all lies wholly inside the frame, in full motion
+  // and reduced, at every phone size, for every role (their boxes differ in width with their words).
+  for (const variant of VARIANTS) for (const [w, h] of PHONES) for (const role of ONE_PER_FILM) {
+    const height = pageHeight(w, h);
+    for (let t = 0; t <= REVEAL_END; t += 1000 / 30) {
+      const words = revealWords(t, { role, variant, height, cssPx: w / PAGE_WIDTH });
+      for (const [i, s] of words.story.entries()) {
+        if (!(s.opacity > 0.001)) continue;
+        const [x, y, bw, bh] = s.box;
+        assert.ok(y >= 0 && y + bh <= height && x >= 0 && x + bw <= PAGE_WIDTH, `${role} ${variant} ${w}x${h} t ${Math.round(t)}: box ${i + 1} at ${s.box.map(Math.round)} (opacity ${s.opacity})`);
+      }
+    }
+  }
+  // The page text alone is revealSvg()'s, exactly.
+  for (const t of [3300, 5000, 6050, 7500]) assert.deepEqual(revealWords(t, { role: 'Doctor', height: pageHeight(390, 844) }), doctor(t).words, `words ${t}`);
+  // Reduced motion keeps both boxes on the page's still until the title.
+  for (const t of [3000, 4000, 7000, 7799]) assert.deepEqual(doctor(t, { variant: 'reduced' }).words.story.map(s => s.opacity), [1, 1], `reduced ${t}`);
+});
+
+test('with the shipped pictures given, a frame draws them inline: no picture is loaded or decoded at film time', () => {
+  // The review of #189: the Engineer's card lost its portrait and device for two frames while their
+  // images decoded again. A client passes every shipped picture's text (read once, on every phone).
+  const pictures = Object.fromEntries(ROLE_REVEAL_ASSETS.map(href => [href, readFileSync(resolve(CINE, href), 'utf8')]));
+  for (const role of CURRENT_ROLES) for (const character of ['c1', 'c5', 'c9']) for (const t of [0, 500, 533, 2400, 8600]) {
+    const plain = film(role, t, { character });
+    const inline = film(role, t, { character, pictures });
+    const images = [...plain.svg.matchAll(/<image href="([^"]+)"/g)].map(m => m[1]);
+    assert.ok(!/<image[\s>]/.test(inline.svg), `${role} ${character} ${t}: no <image> left`);
+    assert.ok(!/href="(?!#)/.test(inline.svg), `${role} ${character} ${t}: no file referred to`);
+    assert.equal((inline.svg.match(/-box"><rect/g) ?? []).length, images.length, `${role} ${t}: each picture drawn once, clipped to its box`);
+    const all = [...inline.svg.matchAll(/\bid="([^"]+)"/g)].map(m => m[1]);
+    assert.equal(new Set(all).size, all.length, `${role} ${character} ${t}: an id twice`);
+    for (const ref of [...inline.svg.matchAll(/url\(#([^)]+)\)|href="#([^"]+)"/g)].map(m => m[1] ?? m[2])) assert.ok(all.includes(ref), `${role} ${t}: #${ref} has no target`);
+    // The card shows the player's own portrait and the role's device in the opener, every frame.
+    if (t < 3000) assert.ok(images.includes(PORTRAIT_FILES[character]) && images.includes(DEVICE_FILES[role]), `${role} ${character} ${t}: the card's pictures`);
+  }
 });

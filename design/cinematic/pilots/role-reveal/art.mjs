@@ -118,6 +118,26 @@ export function unaccented(svg) {
   return Object.values(FACTION_ACCENTS).reduce((out, accent) => out.replace(new RegExp(accent, 'gi'), NIGHT.slat), svg);
 }
 
+/**
+ * A shipped picture (its SVG text, read once with the rest) drawn inline where the film placed an
+ * <image>: its own viewBox mapped onto the image's box, stretched as the image is, clipped to that
+ * box as an image is, its ids scoped. Nothing is fetched or decoded when a frame is drawn, so no
+ * frame can catch a picture undrawn (the review of #189: the Engineer's card lost its portrait and
+ * device for two frames while their images decoded again).
+ */
+export function inlinePicture(svg, { x, y, width, height, scope }) {
+  const view = /<svg\b[^>]*\bviewBox="([^"]+)"/.exec(svg);
+  if (!view) throw new Error('inlinePicture: the picture has no viewBox');
+  const [vx, vy, vw, vh] = view[1].trim().split(/[\s,]+/).map(Number);
+  const inner = svg.replace(/^[\s\S]*?<svg\b[^>]*>/, '').replace(/<\/svg>\s*$/, '').replace(/<title>[\s\S]*?<\/title>/g, '')
+    .replace(/\bid="([^"]+)"/g, (whole, id) => `id="${scope}-${id}"`)
+    .replace(/url\(#([^)]+)\)/g, (whole, id) => `url(#${scope}-${id})`)
+    .replace(/href="#([^"]+)"/g, (whole, id) => `href="#${scope}-${id}"`);
+  const k = v => Number((+v).toFixed(5));
+  return `<g transform="translate(${f(x)} ${f(y)}) scale(${k(width / vw)} ${k(height / vh)}) translate(${f(-vx)} ${f(-vy)})">`
+    + `<clipPath id="${scope}-box"><rect x="${f(vx)}" y="${f(vy)}" width="${f(vw)}" height="${f(vh)}"/></clipPath><g clip-path="url(#${scope}-box)">${inner}</g></g>`;
+}
+
 /** Where every held device's fist holds it, in its 120 x 140 picture (the reviewed devices share one grip). */
 export const GRIP = Object.freeze([71, 86]);
 

@@ -24,7 +24,7 @@
 
 import { beat, bell, clamp01, easeInOutCubic, easeOutBack, easeOutCubic } from '../../lib/ease.mjs';
 
-export const ROLE_REVEAL_VERSION = 'cinematic-role-reveal-0.7.0';
+export const ROLE_REVEAL_VERSION = 'cinematic-role-reveal-0.8.0';
 export const VARIANTS = Object.freeze(['full', 'reduced']);
 
 /** Every film's length, ms: the same for every role and both variants. */
@@ -65,12 +65,20 @@ export const STILLS = Object.freeze([
 /** The panels with a narration box: the two of memory. The panel aboard and the title carry no words. */
 export const NARRATED = Object.freeze(PANEL_TONES.flatMap((tone, i) => (tone === 'past' ? [i] : [])));
 
-/** The page text's times: each narrated panel's box from just after it lands until the title. */
+/**
+ * The page text's times: each narrated panel's box from just after it lands. The first fades out as
+ * the third panel lands, before the guided camera turns to it: its reading beat is over by then
+ * (2.65 s), and the camera's zoom on the third panel takes the top of the page out of the frame on
+ * every phone (the review of #189: it was clipped at the top). The second stays until the title.
+ */
 export const CAPTION_TIMES = Object.freeze({
-  story: Object.freeze(NARRATED.map(i => Object.freeze([PANEL_STARTS[i] + 250, BEATS.title[0]]))),
+  story: Object.freeze(NARRATED.map((i, n) => Object.freeze([PANEL_STARTS[i] + 250, n === 0 ? PANEL_STARTS[2] + 100 : BEATS.title[0]]))),
 });
+/** How long a box takes to fade in, and to fade out when it leaves before the title (the title cuts the page text). */
+export const CAPTION_FADE = Object.freeze({ in: 200, out: 200 });
 
-const fadeIn = (t, [from, to], ms = 200) => (t < from || t >= to ? 0 : clamp01((t - from) / ms));
+const caption = (t, [from, to]) => (t < from || t >= to ? 0
+  : Math.min(clamp01((t - from) / CAPTION_FADE.in), to < BEATS.title[0] ? clamp01((to - t) / CAPTION_FADE.out) : 1));
 
 /**
  * The opener (./briefing.mjs): fade, slats and lamp (the room's light coming up), reach (the hand to
@@ -129,7 +137,8 @@ export const FLASH = Object.freeze([2650, 2950, 3300]);
  *   camera   { from, to, v }: the guided view, panel indexes or -1 for the whole page
  *   focus    three 0.65..1: each panel's light (an earlier panel steps back while a later one plays)
  *   title    { visible, stamp 0..1 (the slam), settle 0..1, sweep 0..1 (the sheen, full only) }
- *   captions { story: two 0..1 } (the opacity of each memory panel's narration box)
+ *   captions { story: two 0..1 (the opacity of each memory panel's narration box), drop: two 0..1 (how
+ *            far each has dropped into place: its fade-in only; it leaves where it is) }
  *   still    reduced motion only: 'opener' | 'page' | 'title', and fade 0..1 (the cross-fade in)
  */
 export function revealFrame(t, { variant = 'full' } = {}) {
@@ -168,7 +177,8 @@ export function revealFrame(t, { variant = 'full' } = {}) {
       sweep: !titleOn || rest ? 0 : beat(time, [BEATS.title[0] + 520, BEATS.title[0] + 1120]),
     },
     captions: {
-      story: CAPTION_TIMES.story.map(times => (reduced ? (pageOn && !titleOn ? 1 : 0) : fadeIn(time, times))),
+      story: CAPTION_TIMES.story.map(times => (reduced ? (pageOn && !titleOn ? 1 : 0) : caption(time, times))),
+      drop: CAPTION_TIMES.story.map(([from]) => (reduced ? 1 : clamp01((time - from) / CAPTION_FADE.in))),
     },
   };
   if (reduced) Object.assign(frame, { still: still.still, fade: clamp01((time - still.at) / FADE_MS) });
