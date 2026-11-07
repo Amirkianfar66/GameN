@@ -1,4 +1,4 @@
-import {paintCrewFigure} from './crew-runtime.mjs';
+import {paintCrewFigure,setCrewMountMotion} from './crew-runtime.mjs';
 // Production composition over current sanitized models. The two drawing modules are exact
 // Claude #127 derivatives; no prototype controller or stand-in server enters this module.
 import { HACK_ART, RESULT_ART } from './scene-drawing/phone-kit-art.mjs';
@@ -41,6 +41,7 @@ const span = (document, className, svg) => {
 export function applyPhoneKit(root, model) {
   const match = model.match;
   if (model.screen !== 'match' || !match) return;
+  setCrewMountMotion(root,model.motion==='reduced');
   root.dataset.phoneKit = 'phone-kit-0.1.0';
   const document = root.ownerDocument;
   const seats = (match.board?.zones ?? match.roster?.zones ?? []).flatMap(zone => zone.seats);

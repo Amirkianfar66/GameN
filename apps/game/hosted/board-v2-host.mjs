@@ -52,7 +52,7 @@ export function createBoardV2Host(root,{now=()=>performance.now(),publicIdentiti
   const choices=card?.body.step==='choosing'?card.body.choices.filter(c=>c.number!==null):[];
   const sample=capsule.sample(),night=blackout.sample(),drawings=presentations.sample();
   films.beforePaint();
-  paintBoardV2(holder,frame,layout.board.boxes,{artForRoom,choices,marks:card?.board??null,capsule:night?.dark?null:sample,canMove:model.surface==='player',blackout:night,versions:model.match?.versions});
+  paintBoardV2(holder,frame,layout.board.boxes,{artForRoom,choices,marks:card?.board??null,capsule:night?.dark?null:sample,canMove:model.surface==='player',blackout:night,versions:model.match?.versions,reducedMotion:model.motion==='reduced'||media.matches});
   paintNight(night,card);
   paintOutcomes(night);
   films.paint({sample:drawings,frame,board:model.match.boardLayout,seats:allSeats(),geometry,layout,enabled:completeArt()&&focused&&document.visibilityState==='visible'&&model.match.boardLayout.clock.current,dark:night?.dark===true,privateOpen:model.match.privateArea?.open===true&&root.dataset.phoneView==='actions',captain:model.match.privateArea?.content?.captain,card,time:now(),versions:model.match.versions});

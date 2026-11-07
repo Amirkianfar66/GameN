@@ -45,7 +45,7 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
  let checkpointText='';
  let model=null,layout=null,frame=null,raf=null,disposed=false,more=false,uiKey=null,lastPanel='board';
  const drawings=new Map();
- const reduced=()=>media.matches;
+ const reduced=()=>model?.motion==='reduced'||media.matches;
  const completeArt=()=>{const loaded=new Set((document.documentElement.dataset.art??'').split(' '));return ['public-board','player-ui','roles','scene-art','abilities','board-v2-art','board-v2-motion-art','board-v2-films-art'].every(name=>loaded.has(name));};
  const artForRoom=room=>room==='hospital'?
   [{id:'back',cssVar:'--board-v2-film-scenes-hospital-ward-four-back',sceneDepth:-1000},...Object.entries(sceneOf(room,model.playerCount).layers).map(([id,layer])=>({id,cssVar:`--board-v2-film-scenes-hospital-ward-four-${id}`,sceneDepth:layer.depth}))]:
@@ -175,7 +175,7 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   const sample=motion.sample();films.beforePaint();clearBlocks();
   if(frame&&layout?.fits){
    const choosing=model.action?.choices??[],choices=choosing.filter(c=>/^seat-[1-9]$/.test(c.value)).map(c=>({...c,id:`planet-seat-${c.value}`}));
-   paintBoardV2(holder,frame,layout.board.boxes,{artForRoom,choices,marks:model.action?{picked:model.action.selected,numbered:['SUPPLY','SUBMIT_CODE'].includes(model.action.type)}:null,capsule:model.dark?null:capsule.sample(),canMove:model.surface==='player',blackout:blackout.sample(),versions:model.versions});
+   paintBoardV2(holder,frame,layout.board.boxes,{artForRoom,choices,marks:model.action?{picked:model.action.selected,numbered:['SUPPLY','SUBMIT_CODE'].includes(model.action.type)}:null,capsule:model.dark?null:capsule.sample(),canMove:model.surface==='player',blackout:blackout.sample(),versions:model.versions,reducedMotion:reduced()});
    paintNight();
    for(const heading of holder.querySelectorAll('button[data-move-room]'))heading.disabled=!model.moveRooms.includes(heading.dataset.moveRoom);
    const seats=(model.board?.seats??[]).map(seat=>({...seat,...model.identities.find(i=>i.seatId===seat.seatId)}));

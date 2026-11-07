@@ -1,4 +1,4 @@
-import {crewFigureSvg,crewInstancePrefix,hasCrewDrawing,paintCrewFigure,releaseCrewFigure} from './crew-runtime.mjs';
+import {crewFigureSvg,crewInstancePrefix,hasCrewDrawing,paintCrewFigure,releaseCrewFigure,setCrewMountMotion} from './crew-runtime.mjs';
 // Paint preparation over public, already-validated logical slots. This renderer is dormant
 // until the versioned slot reader, revised Claude layout and complete common art are adopted.
 // It never allocates a slot, mutates gameplay, fetches a role-specific asset or runs a film.
@@ -66,8 +66,9 @@ const setBox=(node,box)=>{for(const [property,key]of [['left','left'],['top','to
  * Hidden cinematic actors keep their world anchor for the current-return resolver; their
  * exact same choice objects are returned to the capsule painter, never silently dropped.
  */
-export function paintBoardV2(root,frame,boxes,{artForRoom,choices=[],marks=null,capsule=null,canMove=false,pass=null,blackout=null,versions=null}={}) {
+export function paintBoardV2(root,frame,boxes,{artForRoom,choices=[],marks=null,capsule=null,canMove=false,pass=null,blackout=null,versions=null,reducedMotion=false}={}) {
  if(frame.problems.length)return {painted:false,problems:frame.problems,capsuleChoices:[]};
+ setCrewMountMotion(root,reducedMotion);
  const document=root.ownerDocument;
  const create=(tag,className)=>{const n=document.createElement(tag);n.className=className;return n;};
  let owned=root._boardV2Paint;

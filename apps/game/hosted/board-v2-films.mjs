@@ -1,4 +1,4 @@
-import {crewFigureSvg,crewInstancePrefix,disposeCrewMounts,hasCrewDrawing,paintCrewFigure} from './crew-runtime.mjs';
+import {crewFigureSvg,crewInstancePrefix,disposeCrewMounts,hasCrewDrawing,paintCrewFigure,setCrewMountMotion} from './crew-runtime.mjs';
 // Native painter over the reviewed pure drawing ports. All inputs are authorized model facts.
 // Optional drawings never create a target, modify a placement, send a command or fetch an asset.
 import {FRAME} from './scene-drawing/body.mjs';
@@ -203,6 +203,7 @@ export function createBoardV2Films(root,holder){
   part('stage',{left:0,top:0,width:l.portrait.left+l.portrait.width+6,height:l.height},stageSvg({width:l.portrait.left+l.portrait.width+6,height:l.height,real:l.real.feet[0],clone:l.clone.feet[0],floor:l.real.feet[1],lit:state.pad,prefix:'own-stage'}),1);
   const rect=p=>({left:p.left,top:p.top,width:p.size,height:p.size});
   if(currentCrew){
+   setCrewMountMotion(card,own.reduced);
    for(const [key,place,opacity]of [['real',l.real,state.real.opacity],['duplicate',l.clone,state.clone.opacity]]){
     const n=part(key,rect(place),null,opacity);
     paintCrewFigure(card,n,drawingVersions,who.characterId,skeletonOf('stand'),{outfit,seat:Number(who.seatId.slice(5)),still:who.health==='Eliminated'});
@@ -241,6 +242,7 @@ export function createBoardV2Films(root,holder){
  }
  return {beforePaint,paint({sample,frame,board,seats,geometry,layout,enabled,dark=false,privateOpen=false,captain:captainState=null,card=null,time=0,versions=null}){
   drawingVersions=versions;
+  setCrewMountMotion(holder,sample.reduced);
   used=new Set();
   const rooms=frame.rooms.map(r=>({...r,slots:geometry.slotsOf(r.room,board.playerCount),presses:geometry.slotRects(r.room,board.playerCount,r.panel)}));
   if(enabled&&!dark){

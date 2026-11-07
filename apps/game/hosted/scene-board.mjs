@@ -1,4 +1,4 @@
-import {paintCrewFigure,releaseCrewFigure} from './crew-runtime.mjs';
+import {paintCrewFigure,releaseCrewFigure,setCrewMountMotion} from './crew-runtime.mjs';
 // Hosted adapter for the owner-authorized unpainted trial. Drawing primitives are the
 // reviewed Designer port at 49f0db4d; source hashes live beside them and in the handoff.
 // Placement reads only the current public snapshot. No station enters the wire contract.
@@ -101,6 +101,7 @@ function figure(token, front, character, gesture, seat, location, scope, version
 export function applySceneBoard(root, model) {
   const enabled = (document.documentElement.dataset.art ?? '').split(' ').includes('scene-art');
   if (!enabled || model.screen !== 'match' || !model.match) return;
+  setCrewMountMotion(root,model.motion==='reduced');
   const seats = publicSceneSeats(model);
   const placed = placements(seats);
   for (const board of root.querySelectorAll('.ms-board')) {

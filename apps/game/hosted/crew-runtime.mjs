@@ -9,7 +9,7 @@ import { applyCrewFrame, applyCrewPose, CANONICAL_PREFIX, crewArtDefs, crewFrame
 import { crewMotion, hairFollow, isStill } from './crew-drawing/motion.mjs';
 
 export const CREW_ART_VERSION = 'design-0.7.0';
-const managers = new WeakMap(), definitions = new WeakMap();
+const managers = new WeakMap(), definitions = new WeakMap(), motionPreferences = new WeakMap();
 let rendererSequence = 0, definitionSequence = 0, externalSequence = 0;
 export const crewInstancePrefix = () => `crew-inline-${++externalSequence}`;
 export function hasCrewDrawing(versions) {
@@ -54,9 +54,9 @@ function createMounts(scope) {
   const document = scope.ownerDocument, win = document.defaultView, media = win.matchMedia('(prefers-reduced-motion: reduce)');
   const renderer = `crew-renderer-${++rendererSequence}`, states = new Map(), templates = new Map();
   const stats = { mounts: 0, poseUpdates: 0, headUpdates: 0, templatesBuilt: 0 };
-  let mountSequence = 0, raf = null, disposed = false, active = true, focused = true, shared = null;
+  let mountSequence = 0, raf = null, disposed = false, active = true, focused = true, shared = null, appReduced = motionPreferences.get(scope) === true;
   const now = () => win.performance.now();
-  const reduced = () => media.matches;
+  const reduced = () => appReduced || media.matches;
   const stop = () => { if (raf !== null) win.cancelAnimationFrame(raf); raf = null; };
   const visible = () => active && focused && document.visibilityState !== 'hidden' && !scope.closest?.('[hidden]');
   const ensureShared = () => (shared ??= acquireDefinitions(scope));
@@ -69,9 +69,10 @@ function createMounts(scope) {
     const follow = state.follow.step(dt, (state.mirror ? -1 : 1) * (point[0] + motion.drift.dx), point[1] + motion.drift.dy);
     return crewMotion(time, state.characterId, { follow, seat: state.seat });
   }
-  function head(state, time) {
+  function head(state, time, neutral = false) {
     if (!state.node.firstElementChild) return;
-    applyCrewFrame(state.node.firstElementChild, crewFrame(CREW[state.characterId], state.skeleton, motionFor(state, time)));
+    const motion = neutral ? crewMotion(time, state.characterId, { reduced: true, still: true, seat: state.seat }) : motionFor(state, time);
+    applyCrewFrame(state.node.firstElementChild, crewFrame(CREW[state.characterId], state.skeleton, motion));
     stats.headUpdates++;
   }
   function tick(time) {
@@ -138,9 +139,9 @@ function createMounts(scope) {
   const visibility = () => { stop(); reset(); if (visible()) start(); };
   const blur = () => { focused = false; visibility(); };
   const focus = () => { focused = true; visibility(); };
-  const preference = () => { stop(); reset(); for (const state of states.values()) head(state, now()); start(); };
+  const preference = () => { stop(); reset(); for (const state of states.values()) head(state, now(), true); start(); };
   document.addEventListener('visibilitychange', visibility); win.addEventListener('blur', blur); win.addEventListener('focus', focus); media.addEventListener('change', preference);
-  return { paint, drop(node) { states.delete(node); if(node?.dataset?.crewInstance){node.replaceChildren();delete node.dataset.crewInstance;} }, setActive(value) { for(const node of states.keys())if(!scope.contains(node))states.delete(node); active = value; if (!states.size){templates.clear();shared?.release();shared=null;} if (!value) { stop(); reset(); } else start(); },
+  return { paint, setReduced(value) { const before = reduced(); appReduced = value; if (before !== reduced()) preference(); }, drop(node) { states.delete(node); if(node?.dataset?.crewInstance){node.replaceChildren();delete node.dataset.crewInstance;} }, setActive(value) { for(const node of states.keys())if(!scope.contains(node))states.delete(node); active = value; if (!states.size){templates.clear();shared?.release();shared=null;} if (!value) { stop(); reset(); } else start(); },
     stats: () => ({ ...stats, instances: states.size, templates: templates.size, running: raf !== null }),
     dispose() { if (disposed) return; disposed = true; clear(); document.removeEventListener('visibilitychange', visibility); win.removeEventListener('blur', blur); win.removeEventListener('focus', focus); media.removeEventListener('change', preference); }
   };
@@ -154,7 +155,9 @@ export function paintCrewFigure(scope, node, versions, characterId, skeleton, op
   return manager.paint(node, characterId, skeleton, options);
 }
 export function setCrewMountActivity(scope, active) { managers.get(scope)?.setActive(active); }
+/** Each consumer supplies its app preference; the manager also always honors the device. */
+export function setCrewMountMotion(scope, reduced) { motionPreferences.set(scope, Boolean(reduced)); managers.get(scope)?.setReduced(Boolean(reduced)); }
 export function crewMountStats(scope) { return managers.get(scope)?.stats() ?? { instances: 0, templates: 0, running: false }; }
-export function disposeCrewMounts(scope) { managers.get(scope)?.dispose(); managers.delete(scope); }
+export function disposeCrewMounts(scope) { managers.get(scope)?.dispose(); managers.delete(scope); motionPreferences.delete(scope); }
 
 export function releaseCrewFigure(scope, node) { managers.get(scope)?.drop(node); }

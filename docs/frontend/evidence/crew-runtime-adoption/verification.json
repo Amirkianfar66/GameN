@@ -1,0 +1,140 @@
+{
+  "registrationBase": "a1ad3e541f3b7ea0789b4ec2f2dd777c7764f414",
+  "sourceHead": "8cee39d89798390d03c2a4a9fe457fa6de387bda",
+  "consumerCheckpointSha256": "72c38a0172335a828e06cfbfdae2d5a0bf55d815ddd8b773790cd57d05158e3e",
+  "frontend": {
+    "baseline": {
+      "presentation": 217,
+      "game": 683,
+      "total": 900,
+      "failed": 0
+    },
+    "afterMotionCorrection": {
+      "command": "npm run test:frontend",
+      "exitCode": 0,
+      "presentation": 217,
+      "game": 683,
+      "total": 900,
+      "failed": 0
+    }
+  },
+  "typecheck": {
+    "command": "npm run typecheck",
+    "exitCode": 0,
+    "pure": "passed",
+    "browser": "passed"
+  },
+  "sourcePorts": {
+    "verified": 17,
+    "edited": 0
+  },
+  "productionExclusion": "Production exclusion: 75 modules reachable from 2 production entries, 223 shipped or source files scanned, 94 development files labeled; no fixture, test or development module or marker found",
+  "appMotion": {
+    "cases": 6,
+    "failures": [],
+    "browserProblems": []
+  },
+  "mountLifecycle": {
+    "poseUpdates": 121,
+    "mounts": 1,
+    "cachedContinuous": 0,
+    "ids": {
+      "total": 201,
+      "unique": 201,
+      "missing": []
+    },
+    "failures": []
+  },
+  "reviewBuild": {
+    "command": "vite build --config apps/game/dev/planet/crew-review-vite.config.mjs",
+    "exitCode": 0,
+    "scope": "Excluded synthetic review harness; exact approved source and assets verified; consumer inventory not approved",
+    "assets": [
+      {
+        "name": "index-0m1d1069.js",
+        "sha256": "949c1ab284f026516cf2e50a996817251d648b4bdfa01ffd07c3d73e2f84e6d7"
+      },
+      {
+        "name": "index-Cub8m1Eg.css",
+        "sha256": "67f769b7dee8704e6bc516f50b7ddff661a92ecdc8a7e0b008064ab92092b4b0"
+      }
+    ]
+  },
+  "guardedBuild": {
+    "command": "vite build --config apps/game/dev/planet/vite.config.mjs",
+    "exitCode": 1,
+    "status": "blocked",
+    "reason": "Runtime art release: content differs: apps/game/hosted/planet/app.mjs",
+    "owner": "Integration",
+    "strictInventoryChanges": [
+      "apps/game/hosted/planet/app.mjs",
+      "apps/game/hosted/planet/render.mjs",
+      "packages/presentation/src/planet/library.ts"
+    ]
+  },
+  "captures": {
+    "viewportCombinations": 6,
+    "reviewScreenshots": 30,
+    "historicalBoardScreenshots": 6,
+    "effectsScreenshots": 3,
+    "historicalCloneScreenshots": 1,
+    "videoSeconds": 35,
+    "videoFrames": 525,
+    "browser": "Google Chrome 156.0.8078.80"
+  },
+  "mediaSha256": {
+    "320-568-full-board.png": "da8c4d9cfba0e90bc8fb96c01c338a2cd12d3b27b0fe2558914a4da110483f8d",
+    "320-568-full-capsule.png": "9aec7b82c63b19fab948884f067441f7ec0d8aa695ec09d6c13045e26c84bd4f",
+    "320-568-full-historical-board.png": "1117ac9a05158abfd7bdec8ef0728af78f734721ebef3e5a0a55651c238d69c5",
+    "320-568-full-own-card.png": "32d04d51cb284023af7d6aaf49d65b00bb333ffdc5e3eebe35fa2f1b008134cf",
+    "320-568-full-selector.png": "f1e04bf5b7461e1c8295aee215c2e617dfa5ef85899a5b5a5e5b8062dc91e693",
+    "320-568-full-targets.png": "38eddc8aee645fe388954a3b2b77fb817dcc0d0f9b3d4194417dd6b65a641cb5",
+    "320-568-reduced-board.png": "b9d8343f7ce5382ea0e13e77402f3b0b9ad5356360a62fbe665ca47c8dd4c59d",
+    "320-568-reduced-capsule.png": "0c27e134acc6444911ca07e61ac5c7397e63d1ea60cecb1c44588ca0ef60019c",
+    "320-568-reduced-historical-board.png": "1117ac9a05158abfd7bdec8ef0728af78f734721ebef3e5a0a55651c238d69c5",
+    "320-568-reduced-own-card.png": "32d04d51cb284023af7d6aaf49d65b00bb333ffdc5e3eebe35fa2f1b008134cf",
+    "320-568-reduced-selector.png": "f1e04bf5b7461e1c8295aee215c2e617dfa5ef85899a5b5a5e5b8062dc91e693",
+    "320-568-reduced-targets.png": "f5e94d0379d03c9e48e7515c7fd6ee5843a009770414393f7b4c64a6ac9d1106",
+    "390-844-full-board.png": "5e183a688c17b6173b7635325f97821e495b087878460507ac35381695cac712",
+    "390-844-full-capsule.png": "1b4723c6096ed4e932600e7a1fd57e4fd9747257fcd3ca3448dc5266596903c9",
+    "390-844-full-historical-board.png": "252e1d5d797162a6b8752782356357bae2af591011e0dd67850f5daa8731b365",
+    "390-844-full-hospital-gown.png": "a6536fcd6e2186535def9c9f62dfa0ec63af17075def1914895d37c73d15501c",
+    "390-844-full-memorial.png": "eab50f0357e0f293e6aea8b0fc37ac6501f62da625ec5496164f5584677b8a37",
+    "390-844-full-own-card.png": "2b9218c62ed251a1d9c345511ebe0d258d4fb5f8adc409b849d39a77436f3286",
+    "390-844-full-private-clone.png": "b5653f4f6542d9412b40b0159b2f25a731b4115185b60b8b1d8c92cea6c635b6",
+    "390-844-full-selector.png": "0d367d8d2f0308e0a4eab4669c4f45a605b3b968b6357047489a9f4a23d93905",
+    "390-844-full-targets.png": "2fbaed5de5173b5c1cb54be27b0242f54dd4ad979ed5f2332c8bdaf68de34354",
+    "390-844-historical-private-clone.png": "669f936347e9a29e8f5f242bbe4e6a079fa6e8b3efe4bed727c5de5154b72ae8",
+    "390-844-reduced-board.png": "2f12907424ecb8c416c5e13acff47f3ce9a0404d9c69cb81e5309475ec6120a5",
+    "390-844-reduced-capsule.png": "ccccb96e2eb52d18c2d2aefeef47e840087227e5e6370816f932a606a91e78e5",
+    "390-844-reduced-historical-board.png": "252e1d5d797162a6b8752782356357bae2af591011e0dd67850f5daa8731b365",
+    "390-844-reduced-own-card.png": "2b9218c62ed251a1d9c345511ebe0d258d4fb5f8adc409b849d39a77436f3286",
+    "390-844-reduced-selector.png": "0d367d8d2f0308e0a4eab4669c4f45a605b3b968b6357047489a9f4a23d93905",
+    "390-844-reduced-targets.png": "84d19b4f9c3b412135c27440df5c84515d03c4bcde262a8896cf8b50fa3d62c6",
+    "430-932-full-board.png": "4a09bcf8a7dddb9c9c76febee554c1df4392a2f156cf812f7880c369767d7a81",
+    "430-932-full-capsule.png": "bb4f1e378e6a3c6c0a15f9d9bf44b10fc8881cbbd37564e28f1cf84df69ddbda",
+    "430-932-full-historical-board.png": "7b3a418786c39ec78641c58ddd0634ddca3dfccda509f2c790f64256cd7de15d",
+    "430-932-full-own-card.png": "86f0d9fb5ccb6ae0c77c7e63106a6df1214758045f692614b1a4fe9e03072143",
+    "430-932-full-selector.png": "ada8ad66825c23fb7579cc3fba9cd128e309b60022d8789bfd8df9329f812ee8",
+    "430-932-full-targets.png": "48d90a9109ef57e1fa3888f29b857248d9e6b5350fbac3c981c4328916dc9589",
+    "430-932-reduced-board.png": "b0aa12b3a6364979718b726430b7cc6aedfd5094a03a228b57d522df7db3cd28",
+    "430-932-reduced-capsule.png": "d908ab738303406f068a7c4a5d407f6582a4d6a95263b2cb093fed4543c1a2ed",
+    "430-932-reduced-historical-board.png": "7b3a418786c39ec78641c58ddd0634ddca3dfccda509f2c790f64256cd7de15d",
+    "430-932-reduced-own-card.png": "86f0d9fb5ccb6ae0c77c7e63106a6df1214758045f692614b1a4fe9e03072143",
+    "430-932-reduced-selector.png": "ada8ad66825c23fb7579cc3fba9cd128e309b60022d8789bfd8df9329f812ee8",
+    "430-932-reduced-targets.png": "18ef776e10a3f7a7f1391c5529f77b907771aa91b17704449ffa01f9e9d7092a",
+    "crew-runtime-review.mp4": "bfec15083332092396de21c48f868dca866b9e1018019d27c9c181f0f6659800"
+  },
+  "physicalDevices": {
+    "android": "unmeasured - unavailable to this session",
+    "iphone": "unmeasured - unavailable to this session",
+    "startup": "not run",
+    "frameTime": "not run",
+    "inputLatency": "not run",
+    "heapAndResidentMemory": "not run",
+    "sustainedRuns": "not run"
+  },
+  "designerVisualAcceptance": "pending",
+  "deployment": "not performed",
+  "activation": "not performed"
+}

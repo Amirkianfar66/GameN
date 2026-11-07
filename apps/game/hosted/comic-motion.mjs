@@ -1,4 +1,4 @@
-import {disposeCrewMounts,hasCrewDrawing,paintCrewFigure,releaseCrewFigure} from './crew-runtime.mjs';
+import {disposeCrewMounts,hasCrewDrawing,paintCrewFigure,releaseCrewFigure,setCrewMountMotion} from './crew-runtime.mjs';
 // Local presentation of public changes on the comic board. It reads only the public facts of
 // the drawn model (where each seat is, its health, Jail, Captain and revealed faction, the
 // active seat, the round and the phase) and never a role, an action, a receipt or an
@@ -219,6 +219,7 @@ export function createComicMotion(root, { fx = null, now = () => performance.now
     /** After a redraw: play what changed in the public facts, and keep pieces in flight hidden. Returns what was played. */
     after(model, before) {
       if (disposed) return [];
+      if(fx)setCrewMountMotion(fx,model.motion==='reduced');
       versions = model.match?.versions ?? null;
       const next = publicFacts(model);
       // Not live, a reconnect, or a page in the background: settle at once and play nothing.
