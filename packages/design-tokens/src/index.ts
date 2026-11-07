@@ -12,3 +12,6 @@ export { default as proposedDesignTokens } from './tokens.json' with { type: 'js
 // caption yellow. tokens-0.3.0.json stays beside it, unexported, so that a test and a check
 // can hold 0.4.0 to changing in it only what it lists (revisedFrom030).
 export { default as nextDesignTokens } from './tokens-0.4.0.json' with { type: 'json' };
+
+// Explicit opt-in for design-0.7.0. Historical consumers keep their existing exports.
+export { default as crewDesignTokens } from './tokens-0.5.0.json' with { type: 'json' };
