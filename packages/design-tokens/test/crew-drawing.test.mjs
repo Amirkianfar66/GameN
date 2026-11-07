@@ -6,9 +6,11 @@
 // the approved traced heads byte for byte, a drop-in for the rig's wardrobe and crew that draws
 // every gesture, outfit and health mark, the films' effects on its output, a unique id prefix per
 // mounted figure, the motion interface (independent blinks, no lids on Echo's visor, only Mira's
-// hair and Echo's locs swing, reduced motion and still figures), the caching interface (pose keys,
-// live attributes equal to a rebuild), the palette rule, the exports and their record, the tokens
-// candidate and the review renders' record. Nothing here adopts the release: Integration does.
+// hair and Echo's locs swing, reduced motion and still figures), the mounting interface (a figure
+// posed in place through continuous walks, exits and arrivals, the head's own motion from the
+// front, looking down and from behind, portraits with their own head, templates given each
+// instance's prefix: every result equal to a fresh draw), the palette rule, the exports and their
+// record, the tokens candidate and the review renders' record. Nothing here adopts the release.
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { readFileSync, readdirSync } from 'node:fs';
@@ -16,14 +18,14 @@ import { test } from 'node:test';
 import { FRAME, hasFront } from '../../../design/board-motion/figures/body.mjs';
 import { CREW as RIG_CREW } from '../../../design/board-motion/figures/crew.mjs';
 import { GESTURES, skeletonOf } from '../../../design/board-motion/figures/gestures.mjs';
-import { walkPose } from '../../../design/board-motion/figures/motion.mjs';
+import { TIMELINES, sample, walkPose } from '../../../design/board-motion/figures/motion.mjs';
 import * as rigWardrobe from '../../../design/board-motion/figures/wardrobe.mjs';
 import { FACTION_ACCENTS, MIN_ACCENT_DISTANCE, cie76 } from '../../../design/board-v2/fx/blocked.mjs';
 import { CREW, CREW_DRAWING_VERSION, CREW_ORDER, SUIT, crewMember } from '../../../design/crew-drawing/source/crew.mjs';
-import { HEADS, lidPaths } from '../../../design/crew-drawing/source/head.mjs';
-import { applyCrewFrame, crewArtDefs, crewFrame, poseKey } from '../../../design/crew-drawing/source/mount.mjs';
+import { HEADS, headArt, lidPaths } from '../../../design/crew-drawing/source/head.mjs';
+import { CANONICAL_PREFIX, applyCrewFrame, applyCrewPose, crewArtDefs, crewFrame, crewPoseFrame, poseKey, withPrefix } from '../../../design/crew-drawing/source/mount.mjs';
 import { STILL_DRIFT, blinkAt, crewMotion, hairFollow, hasHangingHair, hasLids, isStill } from '../../../design/crew-drawing/source/motion.mjs';
-import { CARD, PORTRAIT_HEAD, STANDEE_ANCHORS, crewCardSvg, crewPortraitSvg, crewStandeeSvg } from '../../../design/crew-drawing/source/portrait.mjs';
+import { CARD, PORTRAIT_HEAD, STANDEE_ANCHORS, crewCardSvg, crewPortraitFrame, crewPortraitSvg, crewStandeeSvg } from '../../../design/crew-drawing/source/portrait.mjs';
 import { OUTFITS, dressedFigureSvg, outfitFor } from '../../../design/crew-drawing/source/wardrobe.mjs';
 import { IMPORT_REWRITES, build, portOf } from '../../../design/tools/crew-drawing-export.mjs';
 import { prototypeReferences } from '../../../design/tools/lib/drawing-port-fence.mjs';
@@ -48,6 +50,40 @@ function wellFormed(svg, label, { defs = '' } = {}) {
   const all = ids(svg), outer = ids(defs);
   assert.equal(new Set(all).size, all.length, `${label}: an id twice`);
   for (const ref of refs(svg)) assert.ok(all.includes(ref) || outer.includes(ref), `${label}: #${ref} has no target`);
+}
+
+/**
+ * A minimal DOM for the SVG text the drawing makes (elements, ordered attributes, document order,
+ * [name] and [name="value"] selectors), enough to mount a figure, set frames on it and serialise it.
+ */
+const TAG = /<(\/?)([A-Za-z][\w:-]*)((?:\s+[\w:-]+="[^"]*")*)\s*(\/?)>/g;
+class Node {
+  constructor(tagName, attributes, parentNode) { Object.assign(this, { tagName, attributes, parentNode, children: [] }); }
+  getAttribute(name) { return this.attributes.find(a => a.name === name)?.value ?? null; }
+  hasAttribute(name) { return this.attributes.some(a => a.name === name); }
+  setAttribute(name, value) { const a = this.attributes.find(x => x.name === name); if (a) a.value = String(value); else this.attributes.push({ name, value: String(value) }); }
+  *walk() { for (const child of this.children) { yield child; yield* child.walk(); } }
+  getElementsByTagName() { return [...this.walk()]; }
+  contains(node) { for (let n = node; n; n = n.parentNode) if (n === this) return true; return false; }
+  querySelector(selector) {
+    const [, name, value] = selector.match(/^\[([\w:-]+)(?:="([^"]*)")?\]$/);
+    for (const el of this.walk()) if (el.hasAttribute(name) && (value === undefined || el.getAttribute(name) === value)) return el;
+    return null;
+  }
+  get outerHTML() {
+    const attrs = this.attributes.map(a => ` ${a.name}="${a.value}"`).join('');
+    return this.children.length ? `<${this.tagName}${attrs}>${this.children.map(c => c.outerHTML).join('')}</${this.tagName}>` : `<${this.tagName}${attrs}/>`;
+  }
+}
+function mount(svg) {
+  let top = null, at = null;
+  for (const [, close, tag, attrs, self] of svg.matchAll(TAG)) {
+    if (close) { at = at.parentNode; continue; }
+    const el = new Node(tag, [...attrs.matchAll(/([\w:-]+)="([^"]*)"/g)].map(([, name, value]) => ({ name, value })), at);
+    if (at) at.children.push(el); else top = el;
+    if (!self) at = el;
+  }
+  return top;
 }
 
 test('the sources: dev-only, importing only one another and two rig modules, never the character pilot', () => {
@@ -190,7 +226,7 @@ test('motion: the hair trails a move and settles; reduced motion keeps the blink
   assert.deepEqual(['stand', 'bedLying', 'benchSling+injured', 'tablet', 'downstairs'].map(isStill), [false, false, false, false, false]);
 });
 
-test('caching: a pose key names a drawing; a frame\'s live attributes are what a rebuild would draw', () => {
+test('placed poses: a key names a drawing, and a template drawn once takes each instance\'s own prefix', () => {
   const sk = skeletonOf('think');
   const opts = { outfit: 'crew', layer: 'body', art: { ref: 'crew-art' }, live: true };
   assert.equal(poseKey(CREW.c1, sk, opts), poseKey(CREW.c1, structuredClone(sk), opts));
@@ -198,30 +234,94 @@ test('caching: a pose key names a drawing; a frame\'s live attributes are what a
   assert.notEqual(poseKey(CREW.c1, sk, opts), poseKey(CREW.c1, skeletonOf('stand'), opts));
   assert.notEqual(poseKey(CREW.c1, sk, opts), poseKey(CREW.c2, sk, opts));
   assert.notEqual(poseKey(CREW.c1, sk, opts), poseKey(CREW.c1, sk, { ...opts, outfit: 'gown' }));
-  assert.notEqual(poseKey(CREW.c1, walkPose(0), opts), poseKey(CREW.c1, walkPose(0.0625), opts));
-  // A frame set by attributes equals the figure drawn with that motion.
-  const attr = (svg, hook, name) => svg.match(new RegExp(`<[^>]*${hook}[^>]*>`))[0].match(new RegExp(` ${name}="([^"]*)"`))[1];
-  for (const id of CREW_ORDER) for (const t of [0, 1234, 4321, 9876]) {
-    const motion = crewMotion(t, id, { follow: hasHangingHair(id) ? { sway: 2.5, lift: -1 } : null });
-    const drawn = dressedFigureSvg(CREW[id], sk, { prefix: 'f', live: true, motion });
-    const frame = crewFrame(CREW[id], sk, motion);
-    assert.equal(attr(drawn, 'data-crew-head=""', 'transform'), frame.head, `${id} at ${t}: head`);
-    frame.lids.forEach(({ lid, lash }, i) => {
-      assert.equal(attr(drawn, `data-crew-lid="${i}"`, 'd'), lid, `${id} at ${t}: lid ${i}`);
-      assert.equal(attr(drawn, `data-crew-lash="${i}"`, 'd'), lash, `${id} at ${t}: lash ${i}`);
-    });
-    if (frame.hang) assert.equal(attr(drawn, 'data-crew-hang=""', 'transform'), frame.hang, `${id} at ${t}: hang`);
+  for (const name of Object.keys(GESTURES)) for (const art of [null, { ref: 'crew-art' }]) {
+    const pose = skeletonOf(`${name}+injured`);
+    for (const layer of hasFront(pose) ? ['body', 'front'] : ['body']) {
+      const template = dressedFigureSvg(CREW.c8, pose, { layer, prefix: CANONICAL_PREFIX, art, live: true });
+      assert.equal(withPrefix(template, 'board-2-seat-4-body'), dressedFigureSvg(CREW.c8, pose, { layer, prefix: 'board-2-seat-4-body', art, live: true }), `${name} ${layer}`);
+    }
   }
-  // applyCrewFrame sets each hook it finds, on any element with querySelector and setAttribute.
-  const fake = () => {
-    const set = [];
-    return { set, querySelector: selector => ({ setAttribute: (name, value) => set.push([selector, name, value]) }) };
+  assert.throws(() => withPrefix('<svg/>', 'not a prefix'));
+});
+
+test('a moving figure is posed in place: continuous walk, exit and arrival samples equal fresh draws, on the same elements, the traced art never redrawn', () => {
+  const ART = { ref: 'crew-art' };
+  // The game's walk, sampled every 16.7 ms as comic-motion samples it (phase = ms / 225), never rounded.
+  const walk = (id, outfit, art) => {
+    const prefix = `walk-${id}-${outfit}`;
+    const motion = { blink: 0.25, sway: 1.5, lift: -0.5, drift: { dx: 0.4, dy: 0.1, tilt: 1 } };
+    const root = mount(dressedFigureSvg(CREW[id], walkPose(120 / 225), { outfit, prefix, art, live: true }));
+    const elements = root.getElementsByTagName('*'), named = elements.map(el => el.getAttribute('id'));
+    for (let ms = 136.7; ms < 570; ms += 16.7) {
+      const sk = walkPose((ms - 120) / 225);
+      const pose = crewPoseFrame(CREW[id], sk, { outfit, prefix, art, motion });
+      assert.ok(applyCrewPose(root, pose) > 0, `${id} ${outfit}: posed in place at ${ms} ms`);
+      assert.equal(root.outerHTML, mount(dressedFigureSvg(CREW[id], sk, { outfit, prefix, art, live: true, motion })).outerHTML, `${id} ${outfit} at ${ms} ms`);
+    }
+    const after = root.getElementsByTagName('*');
+    assert.ok(after.length === elements.length && after.every((el, i) => el === elements[i]), `${id}: the same elements`);
+    assert.deepEqual(after.map(el => el.getAttribute('id')), named, `${id}: the same ids`);
   };
-  const a = fake(), b = fake();
-  assert.equal(applyCrewFrame(a, crewFrame(CREW.c1, skeletonOf('stand'), crewMotion(100, 'c1'))), 5);
-  assert.equal(applyCrewFrame(b, crewFrame(CREW.c9, skeletonOf('stand'), crewMotion(100, 'c9'))), 2);
+  for (const id of CREW_ORDER) { walk(id, 'crew', ART); walk(id, 'crew', null); }
+  for (const id of ['c8', 'c9', 'c4']) for (const outfit of ['gown', 'prison']) walk(id, outfit, ART);
+  // The traced art is never in a pose: an inline head is its mark alone.
+  const pose = crewPoseFrame(CREW.c2, walkPose(0.3), { prefix: 'p' });
+  assert.equal(pose.elements.filter(([, attrs]) => attrs.some(([name]) => name === 'data-crew-art')).length, 1);
+  assert.ok(!JSON.stringify(pose).includes(HEADS.c2.paths[0][1]), 'no traced path in a pose');
+  const inline = mount(dressedFigureSvg(CREW.c2, walkPose(0.3), { prefix: 'p', live: true }));
+  assert.equal(pose.elements.length, inline.getElementsByTagName('*').length - HEADS.c2.paths.length, 'every element but the traced paths');
+  assert.ok(inline.outerHTML.includes(headArt('c2', 'x').slice(9, 200)), 'the mounted figure keeps its traced art');
+  // Exits and arrivals: every 16.7 ms on the body and front layers; remounted once at most, where the rig switches what cannot be blended.
+  Object.keys(GESTURES).forEach((name, i) => {
+    const id = CREW_ORDER[i % 9], outfit = ['crew', 'gown', 'prison'][i % 3];
+    for (const [keys, ms] of [[TIMELINES.exit(skeletonOf(name), 120, walkPose(0)), 120], [TIMELINES.arrive(skeletonOf(name), 330, walkPose(2)), 330]]) {
+      for (const layer of ['body', 'front']) {
+        const prefix = `blend-${name}-${layer}`;
+        let root = mount(dressedFigureSvg(CREW[id], sample(keys, 0), { outfit, layer, prefix, art: ART, live: true })), remounts = 0;
+        for (let t = 16.7; t <= ms; t += 16.7) {
+          const sk = sample(keys, t), fresh = dressedFigureSvg(CREW[id], sk, { outfit, layer, prefix, art: ART, live: true });
+          if (applyCrewPose(root, crewPoseFrame(CREW[id], sk, { outfit, layer, prefix, art: ART })) < 0) { remounts += 1; root = mount(fresh); continue; }
+          assert.equal(root.outerHTML, mount(fresh).outerHTML, `${name} ${layer} at ${t} ms`);
+        }
+        assert.ok(remounts <= 1, `${name} ${layer}: ${remounts} remounts`);
+      }
+    }
+  });
+});
+
+test('the head\'s own motion in place: from the front, looking down and from behind (the back of Mira\'s hair and Echo\'s locs), reduced motion back to neutral; a portrait has its own head', () => {
+  const ART = { ref: 'crew-art' };
+  for (const id of CREW_ORDER) for (const name of ['think', 'tablet', 'doorBack', 'tankBack', 'benchHunched', 'stand+injured']) {
+    const sk = skeletonOf(name), prefix = `head-${id}`;
+    const root = mount(dressedFigureSvg(CREW[id], sk, { prefix, art: ART, live: true }));
+    for (const motion of [{ sway: 4, lift: 2, blink: 0.5, drift: { dx: 1, dy: 0.3, tilt: 2 } }, crewMotion(2345, id), crewMotion(2345, id, { reduced: true })]) {
+      applyCrewFrame(root, crewFrame(CREW[id], sk, motion));
+      assert.equal(root.outerHTML, mount(dressedFigureSvg(CREW[id], sk, { prefix, art: ART, live: true, motion })).outerHTML, `${id} ${name} ${JSON.stringify(motion)}`);
+    }
+  }
+  // From behind, the back of the hanging hair has hooks, and only theirs.
+  for (const id of CREW_ORDER) {
+    const back = dressedFigureSvg(CREW[id], skeletonOf('doorBack'), { prefix: 'b', live: true });
+    assert.equal(/data-crew-back-hair="/.test(back), hasHangingHair(id), id);
+    assert.equal(crewFrame(CREW[id], skeletonOf('doorBack'), { sway: 4 }).backHair.length > 0, hasHangingHair(id), id);
+  }
+  // Hooks on a stand-in element: a figure's head and lids, Echo's head and locs.
+  const fake = () => ({ querySelector: () => ({ setAttribute() {} }) });
+  assert.equal(applyCrewFrame(fake(), crewFrame(CREW.c1, skeletonOf('stand'), crewMotion(100, 'c1'))), 5);
+  assert.equal(applyCrewFrame(fake(), crewFrame(CREW.c9, skeletonOf('stand'), crewMotion(100, 'c9'))), 2);
   assert.deepEqual(crewFrame(CREW.c2, skeletonOf('doorBack'), {}).lids, [], 'turned away, no lids');
   assert.ok(crewFrame(CREW.c2, skeletonOf('tablet'), { blink: 0 }).lids.length > 0, 'looking down, the lids are lowered');
+  // A portrait: its own frame sets it; a figure's frame never moves its head.
+  for (const id of CREW_ORDER) {
+    const root = mount(crewPortraitSvg(CREW[id], { prefix: `p-${id}`, live: true }));
+    const head = root.querySelector('[data-crew-portrait-head]').getAttribute('transform');
+    applyCrewFrame(root, crewFrame(CREW[id], skeletonOf('stand'), { drift: { dx: 3, dy: 2, tilt: 4 } }));
+    assert.equal(root.querySelector('[data-crew-portrait-head]').getAttribute('transform'), head, `${id}: a figure's frame leaves the portrait's head`);
+    assert.equal(root.querySelector('[data-crew-head]'), null);
+    const motion = { blink: 0.7, sway: 3, lift: 1 };
+    applyCrewFrame(root, crewPortraitFrame(CREW[id], motion));
+    assert.equal(root.outerHTML, mount(crewPortraitSvg(CREW[id], { prefix: `p-${id}`, live: true, motion })).outerHTML, `${id}: portrait frame`);
+  }
 });
 
 test('the palette rule: everything a character is drawn with keeps at least 30 from each faction accent', () => {
@@ -332,5 +432,13 @@ test('the review renders are recorded: each file\'s hash, and each preview exact
     const video = record.outputs[`design/crew-drawing/review/${name}`];
     assert.deepEqual([video.frames, video.fps, video.durationMs, video.reducedMotion], [360, 30, 12000, reducedMotion], name);
   }
-  assert.ok(record.desktopTimings?.msPerFrame, 'the desktop timings');
+  assert.ok(record.desktopTimings?.msPerFrame?.releaseInPlaceOneWalking > 0, 'the desktop timings');
+  // The live interfaces, checked in the browser against fresh draws: every result equal.
+  const checks = record.liveChecks;
+  for (const bucket of ['reviewerRepro', 'walk', 'blends', 'views', 'portraits']) {
+    assert.ok(checks[bucket].total > 0 && checks[bucket].equal === checks[bucket].total, `${bucket}: ${checks[bucket].equal} of ${checks[bucket].total}`);
+  }
+  assert.equal(checks.reviewerRepro.total, 5);
+  assert.equal(checks.walk.remounts, 0, 'a walk is never mounted again');
+  for (const [id, counts] of Object.entries(checks.stageCounts)) assert.ok(counts.poses > 0 && counts.frames > 0 && counts.mounts <= 6, `${id} on the stage`);
 });

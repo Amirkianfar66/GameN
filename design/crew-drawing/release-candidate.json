@@ -1,7 +1,7 @@
 {
   "schema": "mothership.crew-drawing-release-candidate/1",
   "release": "crew-drawing-1.0.0",
-  "status": "Designer candidate for Integration review (DSN-REQ-17). Integration owns final release registration, drawing-source pins, the drawing-port fence and shared manifests; nothing here registers, pins or publishes.",
+  "status": "Designer candidate for Integration review (DSN-REQ-17), corrected after Integration's review of 6bba38844d394bbef2a69f3a523a67f883c18fd5: figures are posed in place through continuous movement, and the back of Mira's hair and Echo's locs is live. Integration owns final release registration, drawing-source pins, the drawing-port fence and shared manifests; nothing here registers, pins or publishes.",
   "approval": {
     "owner": "2026-11-07",
     "record": "docs/design/owner-decisions.md",
@@ -27,9 +27,44 @@
   "proposed": {
     "manifestVersion": "design-0.7.0",
     "tokensVersion": "0.5.0",
-    "note": "A proposal: Integration chooses the numbers when it registers the release."
+    "note": "The candidate art version and crew token candidate Integration named in its review; final registration and source hashes follow the corrected-source review."
   },
-  "portRule": "A runtime file is its source with the first line \"// mothership:dev-only\" removed and the import specifiers in imports rewritten. Nothing else changes; runtimeSha256 is the result. The runtime directory is apps/game/hosted/crew-drawing/ (heads/ inside it), which the drawing-port fence's drawing directories do not list yet.",
+  "provenance": {
+    "faces": "Traced from the game owner's own drawings (images the owner provided on 7 November 2026) by design/tools/character-pilot-trace.py. The source crops are design/character-pilot/faces/source/*.png, kept public with the owner's permission and never shipped; source/heads/ is the traced result, byte for byte the approved character pilot's.",
+    "drawn": "Bodies, clothes, hands, the bandage and sling, the hanging-hair motion, the portrait and card frames and grounds, and the standee card are drawn in code (design/crew-drawing/source) on the approved rig. The standee keeps the rig standee's stand and clamp; the held devices are the shipped devices with the sleeve recoloured.",
+    "approval": "Approved by the game owner on 7 November 2026 (PRs 191 and 192; docs/design/owner-decisions.md).",
+    "rights": "Original work for the Mothership project. No third-party artwork, font, stock asset or photograph. Use inside the project only."
+  },
+  "portRule": "A runtime file is its source with the first line \"// mothership:dev-only\" removed and the import specifiers in imports rewritten. Nothing else changes; runtimeSha256 is the result. The runtime directory is apps/game/hosted/crew-drawing/ (heads/ inside it), which Integration accepts in principle; the drawing-port fence's drawing directories do not list it yet.",
+  "liveInterface": {
+    "mount": [
+      "crewArtDefs",
+      "CANONICAL_PREFIX",
+      "withPrefix",
+      "poseKey",
+      "crewFrame",
+      "applyCrewFrame",
+      "crewPoseFrame",
+      "applyCrewPose"
+    ],
+    "motion": [
+      "crewMotion",
+      "blinkAt",
+      "idleDrift",
+      "hairFollow",
+      "hasLids",
+      "hasHangingHair",
+      "isStill",
+      "STILL_DRIFT"
+    ],
+    "portrait": [
+      "crewPortraitSvg",
+      "crewPortraitFrame",
+      "crewCardSvg",
+      "crewStandeeSvg"
+    ],
+    "rule": "A figure is mounted once per instance and layer, with its own prefix. In its place, crewFrame sets the head, lids, hanging hair and the back of hanging hair; moving, crewPoseFrame sets every attribute of the same elements for a continuously sampled skeleton, never redrawing the traced art; it is mounted again only where applyCrewPose returns -1. No pose is quantized; no cache holds continuously sampled poses."
+  },
   "importRewrites": {
     "../../board-motion/figures/body.mjs": "../scene-drawing/body.mjs",
     "../../board-motion/figures/wardrobe.mjs": "../scene-drawing/wardrobe.mjs"
@@ -44,9 +79,9 @@
     },
     {
       "source": "design/crew-drawing/source/ink.mjs",
-      "sourceSha256": "19c4de465cce69a33f2c0018a6fa01b673f5886f7c8e699810e6c7e867b33aac",
+      "sourceSha256": "48c881a03cfbfaf383aedacc2d8f91818279655b3737416d93f36373b95be34d",
       "runtime": "apps/game/hosted/crew-drawing/ink.mjs",
-      "runtimeSha256": "96d73713f5d1ce3d7d3126c0df0d4660ea0cc1091553ebb13c6e54b7483cc7c6",
+      "runtimeSha256": "53787159af457c1c4e41cc9ce7567f14b154149fcdbe986b27b6aae3b8f2966e",
       "imports": {}
     },
     {
@@ -114,9 +149,9 @@
     },
     {
       "source": "design/crew-drawing/source/head.mjs",
-      "sourceSha256": "1e02ddc6535e460f078289dd00c2b70642c6f7afcc324bea3ac90c8441ba917b",
+      "sourceSha256": "c03fb04cafc1b3d27d8fc5e7edfbf8b2fc8969ab370f9d92d8f8b65bac996891",
       "runtime": "apps/game/hosted/crew-drawing/head.mjs",
-      "runtimeSha256": "7e560235d95f173ac885e17b0a587c29fc60c9e705effda3149d4904fc6e353f",
+      "runtimeSha256": "d4ac83d8782c3e03938b4ea70888491db701c5dfcfde0b994db7fbed92d66290",
       "imports": {}
     },
     {
@@ -147,16 +182,16 @@
     },
     {
       "source": "design/crew-drawing/source/mount.mjs",
-      "sourceSha256": "acbd90c17bf45906b4376fe270443343d31e77f9491fc6be0701b10a9a98ea35",
+      "sourceSha256": "cdd0b23ab769f5dafcbc78f73fd484ff0b4bfcb640e0eea8b86652d07ccd895c",
       "runtime": "apps/game/hosted/crew-drawing/mount.mjs",
-      "runtimeSha256": "2b82c0d2b099d7426fb51a26633f03d7a462b88cc925f8969375dd3369bda427",
+      "runtimeSha256": "bd0a00e7cc8c3d2d898cfb0be745233730550d3eb4212d10faa2332caa0206d8",
       "imports": {}
     },
     {
       "source": "design/crew-drawing/source/portrait.mjs",
-      "sourceSha256": "2e6573f3ad1b9ac1493a976effe910aff4fc692c91d18b43940b6fe4a9611a61",
+      "sourceSha256": "06839757ada8939295b626e6c142935fa0db69bda266f05230fd9ad50d2dfac7",
       "runtime": "apps/game/hosted/crew-drawing/portrait.mjs",
-      "runtimeSha256": "5bed8cf83872c8680d7c334f9416296ac09f467d87e8cd6c0c0510b6972eeacc",
+      "runtimeSha256": "4026cd28a4234f45345a25fa9bb59705dbff58f38ecb4321408b36fca395adf5",
       "imports": {}
     }
   ],
@@ -179,19 +214,19 @@
     }
   ],
   "consumers": {
-    "note": "Each swaps two imports and nothing else; the calls are the same (dressedFigureSvg, outfitFor, CREW).",
+    "note": "Exact-release dispatch, which Frontend owns: a match pinned to design-0.6.0 or earlier keeps drawing with today's modules; a match on the new release draws with these. The calls are the same (dressedFigureSvg, outfitFor, CREW); each consumer reads them today from the two modules named here, and the release's from its own two. No import is replaced unconditionally.",
     "files": [
       {
         "path": "apps/game/hosted/scene-board.mjs",
         "sha256AtBase": "78a8ddcb56f48a2fbf16fbc96f88a36af67fb9d7bc557ed33aaa3493721e0e45",
         "swaps": [
           {
-            "from": "./scene-drawing/crew.mjs",
-            "to": "./crew-drawing/crew.mjs"
+            "today": "./scene-drawing/crew.mjs",
+            "release": "./crew-drawing/crew.mjs"
           },
           {
-            "from": "./scene-drawing/wardrobe.mjs",
-            "to": "./crew-drawing/wardrobe.mjs"
+            "today": "./scene-drawing/wardrobe.mjs",
+            "release": "./crew-drawing/wardrobe.mjs"
           }
         ]
       },
@@ -200,12 +235,12 @@
         "sha256AtBase": "b3921d9c263b322ee32ce4a7c0bec4f97396bdc809aeab98ed5baebef68af6ff",
         "swaps": [
           {
-            "from": "./scene-drawing/crew.mjs",
-            "to": "./crew-drawing/crew.mjs"
+            "today": "./scene-drawing/crew.mjs",
+            "release": "./crew-drawing/crew.mjs"
           },
           {
-            "from": "./scene-drawing/wardrobe.mjs",
-            "to": "./crew-drawing/wardrobe.mjs"
+            "today": "./scene-drawing/wardrobe.mjs",
+            "release": "./crew-drawing/wardrobe.mjs"
           }
         ]
       },
@@ -214,12 +249,12 @@
         "sha256AtBase": "f42cc6654b12744f037c5756500d85fdc829ba59ede4dc3decb2eca3467af656",
         "swaps": [
           {
-            "from": "./scene-drawing/crew.mjs",
-            "to": "./crew-drawing/crew.mjs"
+            "today": "./scene-drawing/crew.mjs",
+            "release": "./crew-drawing/crew.mjs"
           },
           {
-            "from": "./scene-drawing/wardrobe.mjs",
-            "to": "./crew-drawing/wardrobe.mjs"
+            "today": "./scene-drawing/wardrobe.mjs",
+            "release": "./crew-drawing/wardrobe.mjs"
           }
         ]
       },
@@ -228,12 +263,12 @@
         "sha256AtBase": "acf897d9f8fcaf9c63e1bc6591e2d9c2f6bc77db077b639f9e1ad50aab1f9bf7",
         "swaps": [
           {
-            "from": "./scene-drawing/crew.mjs",
-            "to": "./crew-drawing/crew.mjs"
+            "today": "./scene-drawing/crew.mjs",
+            "release": "./crew-drawing/crew.mjs"
           },
           {
-            "from": "./scene-drawing/wardrobe.mjs",
-            "to": "./crew-drawing/wardrobe.mjs"
+            "today": "./scene-drawing/wardrobe.mjs",
+            "release": "./crew-drawing/wardrobe.mjs"
           }
         ]
       },
@@ -242,12 +277,12 @@
         "sha256AtBase": "bd92882fdf3a30903882f097274f61290a4af9952a62d5336b3e258d0507f683",
         "swaps": [
           {
-            "from": "./scene-drawing/crew.mjs",
-            "to": "./crew-drawing/crew.mjs"
+            "today": "./scene-drawing/crew.mjs",
+            "release": "./crew-drawing/crew.mjs"
           },
           {
-            "from": "./scene-drawing/wardrobe.mjs",
-            "to": "./crew-drawing/wardrobe.mjs"
+            "today": "./scene-drawing/wardrobe.mjs",
+            "release": "./crew-drawing/wardrobe.mjs"
           }
         ]
       }
@@ -255,7 +290,7 @@
   },
   "assets": {
     "manifest": "design/crew-drawing/assets/manifest.json",
-    "sha256": "751b1ae94d45654832454e36bfbe36bbf1816a8d31d0e6372b71d0dc6b464a98",
+    "sha256": "17b0d9d058dc47cd724a0d4035098877a3ab4238ab67606bba3bcab43e2288dc",
     "count": 36
   },
   "tokens": {
@@ -264,7 +299,7 @@
     "status": "candidate: not exported from index.ts; Integration adopts it"
   },
   "filmArt": {
-    "recommendation": "Retire these 27 entries from the films art catalog (Frontend owns it; Integration re-pins the stylesheet), so no shipped stylesheet keeps the old crew.",
+    "recommendation": "Retire these 27 entries from the new release's films bundle after Frontend's consumer check, as Integration decided; historical releases, catalogs, files and hashes stay as they are and verifiable.",
     "shipped": [
       {
         "cssVariable": "--board-v2-film-captain-memorial-c1",

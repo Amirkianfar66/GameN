@@ -28,7 +28,6 @@ export const lerp = (a, b, t) => [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1])
 export const dist = (a, b) => Math.hypot(a[0] - b[0], a[1] - b[1]);
 export function unit([x, y]) { const l = Math.hypot(x, y) || 1; return [x / l, y / l]; }
 export const perp = ([x, y]) => [-y, x];
-const dot = (a, b) => a[0] * b[0] + a[1] * b[1];
 const clamp01 = v => Math.max(0, Math.min(1, v));
 const smooth = v => { const t = clamp01(v); return t * t * (3 - 2 * t); };
 
@@ -48,10 +47,12 @@ export function noise(seed, x) {
 
 /** A Catmull-Rom point (tension 1: the rig's blob() curves). */
 function catmull(p0, p1, p2, p3, t, k) {
-  const m1 = mul(sub(p2, p0), 0.5 * k), m2 = mul(sub(p3, p1), 0.5 * k);
+  // The arithmetic of mul(sub(…)) written out, in the same order, without the arrays.
+  const kk = 0.5 * k;
+  const m1x = (p2[0] - p0[0]) * kk, m1y = (p2[1] - p0[1]) * kk, m2x = (p3[0] - p1[0]) * kk, m2y = (p3[1] - p1[1]) * kk;
   const t2 = t * t, t3 = t2 * t;
   const h00 = 2 * t3 - 3 * t2 + 1, h10 = t3 - 2 * t2 + t, h01 = -2 * t3 + 3 * t2, h11 = t3 - t2;
-  return [h00 * p1[0] + h10 * m1[0] + h01 * p2[0] + h11 * m2[0], h00 * p1[1] + h10 * m1[1] + h01 * p2[1] + h11 * m2[1]];
+  return [h00 * p1[0] + h10 * m1x + h01 * p2[0] + h11 * m2x, h00 * p1[1] + h10 * m1y + h01 * p2[1] + h11 * m2y];
 }
 
 /** A smooth curve through control points, sampled every `step` units. */
@@ -63,7 +64,7 @@ export function spline(points, { closed = true, step = 2, tension = 1 } = {}) {
   for (let i = 0; i < segments; i += 1) {
     const p0 = points[closed ? (i - 1 + n) % n : Math.max(0, i - 1)], p1 = points[i];
     const p2 = points[(i + 1) % n], p3 = points[closed ? (i + 2) % n : Math.min(n - 1, i + 2)];
-    const k = Math.max(2, Math.ceil(dist(p1, p2) / step));
+    const k = Math.max(2, Math.ceil(Math.hypot(p1[0] - p2[0], p1[1] - p2[1]) / step));
     for (let j = 0; j < k; j += 1) out.push(catmull(p0, p1, p2, p3, j / k, tension));
   }
   if (!closed) out.push(points[n - 1]);
@@ -76,11 +77,14 @@ function normals(poly, closed = true) {
   let area = 0;
   for (let i = 0; i < n; i += 1) { const a = poly[i], b = poly[(i + 1) % n]; area += a[0] * b[1] - b[0] * a[1]; }
   const sign = closed && area < 0 ? -1 : 1;
-  return poly.map((p, i) => {
+  const out = new Array(n);
+  for (let i = 0; i < n; i += 1) {
     const prev = poly[closed ? (i - 1 + n) % n : Math.max(0, i - 1)], next = poly[closed ? (i + 1) % n : Math.min(n - 1, i + 1)];
-    const [tx, ty] = unit(sub(next, prev));
-    return [ty * sign, -tx * sign];
-  });
+    const dx = next[0] - prev[0], dy = next[1] - prev[1], l = Math.hypot(dx, dy) || 1;
+    const tx = dx / l, ty = dy / l;
+    out[i] = [ty * sign, -tx * sign];
+  }
+  return out;
 }
 
 /** The hand-drawn waver: each point pushed along its normal by smooth noise of its distance along the outline. */
@@ -88,13 +92,33 @@ export function waver(poly, seed, amp, wavelength = 14, closed = true) {
   if (!amp) return poly;
   const nn = normals(poly, closed);
   let s = 0;
-  return poly.map((p, i) => {
-    if (i) s += dist(p, poly[i - 1]);
-    return add(p, nn[i], amp * noise(seed, s / wavelength));
-  });
+  const out = new Array(poly.length);
+  for (let i = 0; i < poly.length; i += 1) {
+    const p = poly[i];
+    if (i) s += Math.hypot(p[0] - poly[i - 1][0], p[1] - poly[i - 1][1]);
+    const k = amp * noise(seed, s / wavelength), q = nn[i];
+    out[i] = [p[0] + q[0] * k, p[1] + q[1] * k];
+  }
+  return out;
 }
 
-const pathOf = (poly, closed = true) => `M${poly.map(p => `${r1(p[0])} ${r1(p[1])}`).join('L')}${closed ? 'Z' : ''}`;
+/**
+ * A number to a tenth, written as String(r1(n)) writes it, without the general number printer:
+ * path data is most of a figure's text and a live figure writes it every frame.
+ */
+function d1(n) {
+  const m = Math.round(n * 10);
+  if (m === 0) return '0';
+  if (!Number.isFinite(m)) return String(m / 10);
+  const a = m < 0 ? -m : m, tenths = a % 10;
+  return `${m < 0 ? '-' : ''}${(a - tenths) / 10}${tenths ? `.${tenths}` : ''}`;
+}
+
+const pathOf = (poly, closed = true) => {
+  let d = 'M';
+  for (let i = 0; i < poly.length; i += 1) d += `${i ? 'L' : ''}${d1(poly[i][0])} ${d1(poly[i][1])}`;
+  return closed ? `${d}Z` : d;
+};
 
 /**
  * The ink ribbon round a closed outline: heavier where the outline faces away from the light,
@@ -103,15 +127,17 @@ const pathOf = (poly, closed = true) => `M${poly.map(p => `${r1(p[0])} ${r1(p[1]
 function ribbon(poly, weight, seed) {
   const nn = normals(poly);
   let s = 0;
-  const outer = [], inner = [];
-  poly.forEach((p, i) => {
-    if (i) s += dist(p, poly[i - 1]);
-    const facing = smooth((dot(nn[i], AWAY) + 0.35) / 1.2);
+  const n = poly.length, outer = new Array(n), inner = new Array(n);
+  for (let i = 0; i < n; i += 1) {
+    const p = poly[i], q = nn[i];
+    if (i) s += Math.hypot(p[0] - poly[i - 1][0], p[1] - poly[i - 1][1]);
+    const facing = smooth((q[0] * AWAY[0] + q[1] * AWAY[1] + 0.35) / 1.2);
     const w = weight * (0.5 + 0.95 * facing) * (1 + 0.22 * noise(seed + 7, s / 9));
-    outer.push(add(p, nn[i], w * 0.7));
-    inner.push(add(p, nn[i], -w * 0.3));
-  });
-  return `${pathOf(outer)}${pathOf(inner.reverse())}`;
+    const ko = w * 0.7, ki = -w * 0.3;
+    outer[i] = [p[0] + q[0] * ko, p[1] + q[1] * ko];
+    inner[n - 1 - i] = [p[0] + q[0] * ki, p[1] + q[1] * ki];
+  }
+  return `${pathOf(outer)}${pathOf(inner)}`;
 }
 
 /** A tapered brush stroke along an open polyline: thin at both ends (or one), full in the middle. */
@@ -158,6 +184,9 @@ export function inkCanvas(prefix) {
   let body = layers.body;
   let count = 0;
   const id = kind => `${prefix}-${kind}${(count += 1)}`;
+  // While marking (mark()), each path whose geometry a frame may change carries a numbered hook.
+  let marking = null;
+  const mk = () => (marking ? ` data-crew-${marking.name}="${(marking.k += 1) - 1}"` : '');
   const api = {
     prefix,
     /**
@@ -175,9 +204,10 @@ export function inkCanvas(prefix) {
      */
     polyForm(poly, fill, { weight = 2.4, depth = null, rim = true, hatch = true, grain = true, shadowTone = null, seed = 1, clip = null } = {}) {
       const pid = id('p'), cid = id('c');
-      defs.push(`<path id="${pid}" d="${pathOf(poly)}"/>`, `<clipPath id="${cid}"><use href="#${pid}"/></clipPath>`);
-      const xs = poly.map(p => p[0]), ys = poly.map(p => p[1]);
-      const size = Math.min(Math.max(...xs) - Math.min(...xs), Math.max(...ys) - Math.min(...ys));
+      defs.push(`<path id="${pid}"${mk()} d="${pathOf(poly)}"/>`, `<clipPath id="${cid}"><use href="#${pid}"/></clipPath>`);
+      let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+      for (const [x, y] of poly) { if (x < minX) minX = x; if (x > maxX) maxX = x; if (y < minY) minY = y; if (y > maxY) maxY = y; }
+      const size = Math.min(maxX - minX, maxY - minY);
       const d = depth ?? Math.max(1.2, Math.min(7, size * 0.2));
       const parts = [`<use href="#${pid}" fill="${fill}"/>`];
       const inner = [];
@@ -189,7 +219,7 @@ export function inkCanvas(prefix) {
       }
       if (grain) inner.push(`<use href="#${pid}" fill="url(#${prefix}-grain)"/>`);
       if (inner.length) parts.push(`<g clip-path="url(#${cid})">${inner.join('')}</g>`);
-      if (weight > 0) parts.push(`<path d="${ribbon(poly, weight, seed)}" fill="${INK}" fill-rule="evenodd"/>`);
+      if (weight > 0) parts.push(`<path${mk()} d="${ribbon(poly, weight, seed)}" fill="${INK}" fill-rule="evenodd"/>`);
       body.push(clip ? `<g clip-path="url(#${clip})">${parts.join('')}</g>` : parts.join(''));
       return cid;
     },
@@ -199,18 +229,23 @@ export function inkCanvas(prefix) {
     },
     /** The ink round a polygon again, over what was drawn inside it (a panel's edge kept crisp). */
     outline(poly, weight = 2.4, seed = 1) {
-      body.push(`<path d="${ribbon(poly, weight, seed)}" fill="${INK}" fill-rule="evenodd"/>`);
+      body.push(`<path${mk()} d="${ribbon(poly, weight, seed)}" fill="${INK}" fill-rule="evenodd"/>`);
     },
     /** A tapered brush line through points. */
     line(points, { weight = 1.4, color = INK, taper = 'both', tension = 1, seed = 3, opacity = null } = {}) {
       const poly = points.length > 2 ? spline(points, { closed: false, step: 1.6, tension }) : spline(points, { closed: false, step: 1.6 });
-      body.push(`<path d="${brush(poly, weight, { taper, seed })}" fill="${color}"${opacity === null ? '' : ` opacity="${opacity}"`}/>`);
+      body.push(`<path${mk()} d="${brush(poly, weight, { taper, seed })}" fill="${color}"${opacity === null ? '' : ` opacity="${opacity}"`}/>`);
     },
     /** A plain filled shape: no ink, no shadow (eyes' whites, highlights, a contact shadow). */
     flat(points, color, { opacity = null, tension = 1, closed = true } = {}) {
-      body.push(`<path d="${pathOf(spline(points, { tension, closed }), closed)}" fill="${color}"${opacity === null ? '' : ` opacity="${opacity}"`}/>`);
+      body.push(`<path${mk()} d="${pathOf(spline(points, { tension, closed }), closed)}" fill="${color}"${opacity === null ? '' : ` opacity="${opacity}"`}/>`);
     },
     raw(svg) { body.push(svg); },
+    /**
+     * Draws with every geometry path numbered as a hook (data-crew-<name>="0", "1", ...): the paths
+     * a live frame updates without redrawing the figure (the back of Mira's hair and Echo's locs).
+     */
+    mark(name, draw) { const keep = marking; marking = { name, k: 0 }; draw(); marking = keep; },
     /** A fresh id under this canvas's prefix, and a definition added to its defs. */
     uid: kind => id(kind),
     def(svg) { defs.push(svg); },

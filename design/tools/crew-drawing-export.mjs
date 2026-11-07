@@ -13,9 +13,10 @@
 // The films art catalog's 27 baked crew drawings (memorial-cN, outline-cN, halftone-cN) are not
 // redrawn: no runtime file shows them (the films draw each character live, through the drop-in),
 // so the record proposes retiring them and gives the recipe that would redraw them.
-// It writes assets/manifest.json (every export's hash, box, anchors and the shipped file it
-// replaces) and release-candidate.json (the sources, their hashes, where they go and how their
-// imports are rewritten, the rig modules they depend on, the tokens candidate).
+// It writes assets/manifest.json (every export's hash, box, anchors, the shipped file it replaces,
+// and where the art comes from) and release-candidate.json (the sources, their hashes, where they
+// go and how their imports are rewritten, the live interface, the rig modules they depend on, the
+// consumers and their exact-release dispatch, the tokens candidate, the films art to retire).
 //
 // Usage: node design/tools/crew-drawing-export.mjs [--check]
 //   --check: draws everything and compares it with the files on disk; writes nothing; exits 1 on any difference.
@@ -45,6 +46,18 @@ export const APPROVAL = Object.freeze({
   baseCommit: 'd2933b08eff0e5bd00cfbdf1730b81a007f1c646',
 });
 
+/**
+ * Where the art comes from. The faces are traced from the owner's own drawings: the statement in
+ * design/exports/asset-manifest.json that no traced image was used describes those earlier
+ * exports, not these.
+ */
+export const PROVENANCE = Object.freeze({
+  faces: "Traced from the game owner's own drawings (images the owner provided on 7 November 2026) by design/tools/character-pilot-trace.py. The source crops are design/character-pilot/faces/source/*.png, kept public with the owner's permission and never shipped; source/heads/ is the traced result, byte for byte the approved character pilot's.",
+  drawn: 'Bodies, clothes, hands, the bandage and sling, the hanging-hair motion, the portrait and card frames and grounds, and the standee card are drawn in code (design/crew-drawing/source) on the approved rig. The standee keeps the rig standee\'s stand and clamp; the held devices are the shipped devices with the sleeve recoloured.',
+  approval: 'Approved by the game owner on 7 November 2026 (PRs 191 and 192; docs/design/owner-decisions.md).',
+  rights: 'Original work for the Mothership project. No third-party artwork, font, stock asset or photograph. Use inside the project only.',
+});
+
 /** Where the release's modules go, and the only rewrite a port makes besides dropping the dev-only mark. */
 export const RUNTIME_DIRECTORY = 'apps/game/hosted/crew-drawing';
 export const IMPORT_REWRITES = Object.freeze({
@@ -60,7 +73,7 @@ const DEPENDENCIES = Object.freeze([
   Object.freeze({ path: 'design/board-motion/figures/body.mjs', runtime: 'apps/game/hosted/scene-drawing/body.mjs', why: "FRAME (the figure's box) and ORDER (the parts' order)" }),
   Object.freeze({ path: 'design/board-motion/figures/wardrobe.mjs', runtime: 'apps/game/hosted/scene-drawing/wardrobe.mjs', why: 'OUTFITS and outfitFor, re-exported unchanged (what is worn where)' }),
 ]);
-/** The runtime modules that draw a character today, and the two imports each swaps. */
+/** The runtime modules that draw a character today, and the two modules each reads (exact-release dispatch chooses today's or the release's). */
 const CONSUMERS = Object.freeze(['apps/game/hosted/scene-board.mjs', 'apps/game/hosted/comic-motion.mjs', 'apps/game/hosted/phone-kit.mjs', 'apps/game/hosted/board-v2-scene.mjs', 'apps/game/hosted/board-v2-films.mjs']);
 
 /** The port of a release source: the dev-only mark dropped, the rig's imports rewritten, nothing else. */
@@ -136,8 +149,10 @@ export async function build() {
   const manifest = {
     schema: 'mothership.crew-drawing-assets/1',
     release: CREW_DRAWING_VERSION,
-    status: 'Designer candidate (DSN-REQ-17). Not registered: no shipped manifest, bundle or catalog is changed; Integration builds bundles from these.',
+    status: 'Designer candidate (DSN-REQ-17), for the art release design-0.7.0. Not registered: no shipped manifest, bundle or catalog is changed; Integration builds bundles from these.',
     generatedBy: 'design/tools/crew-drawing-export.mjs',
+    provenance: PROVENANCE,
+    portraits: 'The app-icon portraits are required for portrait UI (selection, crew lists, own cards, ability portraits and chips), as the owner asked. Frontend maps and frames them; cards and standees stay separate formats where a surface needs them.',
     conventions: {
       files: 'Each file is one SVG starting with <svg (no XML declaration, no comment), ids prefixed per file, no text, no script, no external reference. Cards, standees, portraits and devices end with a newline, as design/exports does; the films art does not, as the films catalog\'s runtime files do not.',
       replaces: "The shipped file it stands in for: its CSS custom property, bundle, path and SHA-256. A null replaces is new art with a proposed property. Swap a whole set (all nine), never one character's.",
@@ -172,7 +187,7 @@ export async function releaseCandidate(files) {
     const text = (await read(path)).toString('utf8');
     const swaps = [];
     for (const [from, to] of [['./scene-drawing/crew.mjs', './crew-drawing/crew.mjs'], ['./scene-drawing/wardrobe.mjs', './crew-drawing/wardrobe.mjs']]) {
-      if (text.includes(`'${from}'`)) swaps.push({ from, to });
+      if (text.includes(`'${from}'`)) swaps.push({ today: from, release: to });
     }
     if (swaps.length !== 2) throw new Error(`${path}: expected both imports`);
     consumers.push({ path, sha256AtBase: sha(text), swaps });
@@ -183,15 +198,22 @@ export async function releaseCandidate(files) {
   return {
     schema: 'mothership.crew-drawing-release-candidate/1',
     release: CREW_DRAWING_VERSION,
-    status: 'Designer candidate for Integration review (DSN-REQ-17). Integration owns final release registration, drawing-source pins, the drawing-port fence and shared manifests; nothing here registers, pins or publishes.',
+    status: 'Designer candidate for Integration review (DSN-REQ-17), corrected after Integration\'s review of 6bba38844d394bbef2a69f3a523a67f883c18fd5: figures are posed in place through continuous movement, and the back of Mira\'s hair and Echo\'s locs is live. Integration owns final release registration, drawing-source pins, the drawing-port fence and shared manifests; nothing here registers, pins or publishes.',
     approval: APPROVAL,
     after: { manifestVersion: 'design-0.6.0', path: 'design/releases/design-0.6.0.json', sha256: sha(release060) },
-    proposed: { manifestVersion: 'design-0.7.0', tokensVersion: '0.5.0', note: 'A proposal: Integration chooses the numbers when it registers the release.' },
-    portRule: `A runtime file is its source with the first line "// mothership:dev-only" removed and the import specifiers in imports rewritten. Nothing else changes; runtimeSha256 is the result. The runtime directory is ${RUNTIME_DIRECTORY}/ (heads/ inside it), which the drawing-port fence's drawing directories do not list yet.`,
+    proposed: { manifestVersion: 'design-0.7.0', tokensVersion: '0.5.0', note: 'The candidate art version and crew token candidate Integration named in its review; final registration and source hashes follow the corrected-source review.' },
+    provenance: PROVENANCE,
+    portRule: `A runtime file is its source with the first line "// mothership:dev-only" removed and the import specifiers in imports rewritten. Nothing else changes; runtimeSha256 is the result. The runtime directory is ${RUNTIME_DIRECTORY}/ (heads/ inside it), which Integration accepts in principle; the drawing-port fence's drawing directories do not list it yet.`,
+    liveInterface: {
+      mount: ['crewArtDefs', 'CANONICAL_PREFIX', 'withPrefix', 'poseKey', 'crewFrame', 'applyCrewFrame', 'crewPoseFrame', 'applyCrewPose'],
+      motion: ['crewMotion', 'blinkAt', 'idleDrift', 'hairFollow', 'hasLids', 'hasHangingHair', 'isStill', 'STILL_DRIFT'],
+      portrait: ['crewPortraitSvg', 'crewPortraitFrame', 'crewCardSvg', 'crewStandeeSvg'],
+      rule: 'A figure is mounted once per instance and layer, with its own prefix. In its place, crewFrame sets the head, lids, hanging hair and the back of hanging hair; moving, crewPoseFrame sets every attribute of the same elements for a continuously sampled skeleton, never redrawing the traced art; it is mounted again only where applyCrewPose returns -1. No pose is quantized; no cache holds continuously sampled poses.',
+    },
     importRewrites: IMPORT_REWRITES,
     sources,
     dependencies,
-    consumers: { note: 'Each swaps two imports and nothing else; the calls are the same (dressedFigureSvg, outfitFor, CREW).', files: consumers },
+    consumers: { note: 'Exact-release dispatch, which Frontend owns: a match pinned to design-0.6.0 or earlier keeps drawing with today\'s modules; a match on the new release draws with these. The calls are the same (dressedFigureSvg, outfitFor, CREW); each consumer reads them today from the two modules named here, and the release\'s from its own two. No import is replaced unconditionally.', files: consumers },
     assets: { manifest: `${OUT}/manifest.json`, sha256: sha(assetManifest), count: JSON.parse(assetManifest).assets.length },
     tokens: { path: tokensPath, sha256: sha(tokens), status: 'candidate: not exported from index.ts; Integration adopts it' },
     filmArt: await filmArt(),
@@ -209,7 +231,7 @@ async function filmArt() {
   const catalog = JSON.parse(await read('apps/game/hosted/board-v2-film-art/catalog.json'));
   const crew = catalog.assets.filter(a => /\/(memorial|outline|halftone)-c[1-9]\.svg$/.test(a.runtimePath));
   return {
-    recommendation: 'Retire these 27 entries from the films art catalog (Frontend owns it; Integration re-pins the stylesheet), so no shipped stylesheet keeps the old crew.',
+    recommendation: 'Retire these 27 entries from the new release\'s films bundle after Frontend\'s consumer check, as Integration decided; historical releases, catalogs, files and hashes stay as they are and verifiable.',
     shipped: crew.map(a => ({ cssVariable: a.cssVariable, path: a.runtimePath, sha256: a.runtimeSha256 })),
     evidence: 'No runtime file reads these properties: board-v2-films.mjs sets only the Captain pulse head, emergency, suction, debris and plate art, and the scenes and lighting of the four-bed ward. The films draw a character live, through dressedFigureSvg and the effects (memorialSvg, outlineSvg, halftoneSvg), which the drop-in serves (tested).',
     ifKept: 'Redraw them as they were made, with the runtime effects on the release figure standing in the crew suit: memorialSvg(dressedFigureSvg(CREW[id], skeletonOf("stand"), { outfit: "crew", prefix: `mem-${id}` })); with figure = dressedFigureSvg(CREW[id], skeletonOf("stand"), { outfit: "crew", prefix: `cl-${id}` }), outlineSvg(figure, { prefix: `ol-${id}` }) and halftoneSvg(figure, { density: 1, prefix: `ht-${id}` }). Measured: 3.96 MB for the 27, against 0.81 MB shipped.',

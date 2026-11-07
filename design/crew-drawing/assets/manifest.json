@@ -1,8 +1,15 @@
 {
   "schema": "mothership.crew-drawing-assets/1",
   "release": "crew-drawing-1.0.0",
-  "status": "Designer candidate (DSN-REQ-17). Not registered: no shipped manifest, bundle or catalog is changed; Integration builds bundles from these.",
+  "status": "Designer candidate (DSN-REQ-17), for the art release design-0.7.0. Not registered: no shipped manifest, bundle or catalog is changed; Integration builds bundles from these.",
   "generatedBy": "design/tools/crew-drawing-export.mjs",
+  "provenance": {
+    "faces": "Traced from the game owner's own drawings (images the owner provided on 7 November 2026) by design/tools/character-pilot-trace.py. The source crops are design/character-pilot/faces/source/*.png, kept public with the owner's permission and never shipped; source/heads/ is the traced result, byte for byte the approved character pilot's.",
+    "drawn": "Bodies, clothes, hands, the bandage and sling, the hanging-hair motion, the portrait and card frames and grounds, and the standee card are drawn in code (design/crew-drawing/source) on the approved rig. The standee keeps the rig standee's stand and clamp; the held devices are the shipped devices with the sleeve recoloured.",
+    "approval": "Approved by the game owner on 7 November 2026 (PRs 191 and 192; docs/design/owner-decisions.md).",
+    "rights": "Original work for the Mothership project. No third-party artwork, font, stock asset or photograph. Use inside the project only."
+  },
+  "portraits": "The app-icon portraits are required for portrait UI (selection, crew lists, own cards, ability portraits and chips), as the owner asked. Frontend maps and frames them; cards and standees stay separate formats where a surface needs them.",
   "conventions": {
     "files": "Each file is one SVG starting with <svg (no XML declaration, no comment), ids prefixed per file, no text, no script, no external reference. Cards, standees, portraits and devices end with a newline, as design/exports does; the films art does not, as the films catalog's runtime files do not.",
     "replaces": "The shipped file it stands in for: its CSS custom property, bundle, path and SHA-256. A null replaces is new art with a proposed property. Swap a whole set (all nine), never one character's.",

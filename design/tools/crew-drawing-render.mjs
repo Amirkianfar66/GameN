@@ -9,8 +9,9 @@
 //   preview-full-poster.png     one frame of it;
 //   preview-reduced.mp4         the same clock with reduced motion; its poster beside it;
 //   compare.png                 today's drawing and the release's, surface by surface;
-//   renders.json                what was rendered, with what, each file's SHA-256, and the
-//                               desktop timings of the three ways to draw a frame.
+//   renders.json                what was rendered, with what, each file's SHA-256, the desktop
+//                               timings of the ways to draw a frame, and the live interfaces
+//                               checked against fresh draws in the browser.
 // Needs a Chromium-based browser (CHROME_PATH) and ffmpeg on PATH. A review render is a picture
 // of a page in desktop Chrome: it proves nothing about phones or their performance.
 
@@ -60,10 +61,11 @@ async function renderMotion(browser, origin, reduced) {
   const posterFile = join(OUT, `${name}-poster.png`);
   await writeFile(posterFile, poster);
   const measured = reduced ? null : await page.evaluate('window.__crew.measure()');
+  const checked = reduced ? null : await page.evaluate('window.__crew.liveCheck()');
   const problems = page.problems();
   await page.close();
   if (problems.length) throw new Error(`${name}: ${problems.join('; ')}`);
-  return { outputs: [{ kind: 'video', file, width: 1920, height: 1080, fps: FPS, frames, durationMs: MOTION_MS, reducedMotion: reduced }, { kind: 'poster', file: posterFile, width: 1920, height: 1080, atMs: 5000 }], measured };
+  return { outputs: [{ kind: 'video', file, width: 1920, height: 1080, fps: FPS, frames, durationMs: MOTION_MS, reducedMotion: reduced }, { kind: 'poster', file: posterFile, width: 1920, height: 1080, atMs: 5000 }], measured, checked };
 }
 
 /** The films' effects, today's (the shipped files) and the release's (the runtime's effects on the release figure). */
@@ -101,11 +103,11 @@ await mkdir(OUT, { recursive: true });
 const server = await startStaticServer();
 const chrome = await launchBrowser();
 const outputs = [];
-let measured = null, browserName = '';
+let measured = null, checked = null, browserName = '';
 try {
   const browser = await connect(chrome.endpoint);
   browserName = (await browser.send('Browser.getVersion')).product;
-  if (!only || only === 'full') { const r = await renderMotion(browser, server.origin, false); outputs.push(...r.outputs); measured = r.measured; }
+  if (!only || only === 'full') { const r = await renderMotion(browser, server.origin, false); outputs.push(...r.outputs); measured = r.measured; checked = r.checked; }
   if (!only || only === 'reduced') outputs.push(...(await renderMotion(browser, server.origin, true)).outputs);
   if (!only || only === 'compare') outputs.push(await renderCompare(browser, server.origin));
 } finally {
@@ -120,6 +122,7 @@ record.browser = browserName;
 record.encoder = encoder;
 record.note = 'Review media, not runtime assets: a picture of a page in desktop Chrome, silent. Nothing here is measured on a phone.';
 if (measured) record.desktopTimings = measured;
+if (checked) record.liveChecks = checked;
 for (const output of outputs) {
   const bytes = await readFile(output.file);
   record.outputs[rel(output.file)] = { ...output, file: undefined, bytes: bytes.length, sha256: sha256(bytes) };
@@ -128,3 +131,4 @@ record.outputs = Object.fromEntries(Object.entries(record.outputs).sort(([a], [b
 await writeFile(recordFile, `${JSON.stringify(record, null, 2)}\n`);
 for (const output of outputs) console.log(`${rel(output.file)}: ${output.kind}${output.frames ? `, ${output.frames} frames` : ''}`);
 if (measured) console.log(JSON.stringify(measured));
+if (checked) console.log(JSON.stringify(checked));

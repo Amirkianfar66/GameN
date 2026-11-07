@@ -4,11 +4,11 @@ The game owner's approved restyle of the nine crew characters (7 November 2026; 
 
 | Path | What it is | Runtime? |
 | --- | --- | --- |
-| `source/` | The drawing: `crew.mjs`, `ink.mjs`, `head.mjs` and `heads/` (the approved traces, byte for byte), `figure.mjs`, `wardrobe.mjs` (the drop-in for the rig's), `motion.mjs`, `mount.mjs`, `portrait.mjs`. Each starts with `// mothership:dev-only`; a port drops that line and rewrites two import specifiers, nothing else | **Yes**, as exact ports, once Integration registers them |
+| `source/` | The drawing: `crew.mjs`, `ink.mjs`, `head.mjs` and `heads/` (the approved traces, byte for byte), `figure.mjs`, `wardrobe.mjs` (the drop-in for the rig's), `motion.mjs`, `mount.mjs` (shared heads, prefixes, and figures updated in place: their own motion and continuous poses), `portrait.mjs`. Each starts with `// mothership:dev-only`; a port drops that line and rewrites two import specifiers, nothing else | **Yes**, as exact ports, once Integration registers them |
 | `assets/` | Baked exports: the nine cards, standees and app-icon portraits, and the nine held devices with the new suit's sleeve; `manifest.json` gives each one's hash, box, anchors and the shipped file it replaces | **Yes**, once Integration builds them into the bundles |
-| `release-candidate.json` | The handoff record: every source, its hash and its port's, the runtime paths, the import rewrites, the rig modules depended on, the consumers' import swaps, the asset manifest's and the tokens candidate's hashes, and the films art to retire | No (a record) |
+| `release-candidate.json` | The handoff record: every source, its hash and its port's, the runtime paths, the import rewrites, the live interface, the rig modules depended on, the consumers and their exact-release dispatch, the provenance, the asset manifest's and the tokens candidate's hashes, and the films art to retire | No (a record) |
 | `review.html`, `review.mjs` | The review page: the motion stage and the comparison of today's drawing and the release's | No (dev-only) |
-| `review/` | Review media: the full and reduced-motion previews, their posters, the comparison sheet, `renders.json` | **No**: review media, never imported or bundled |
+| `review/` | Review media: the full and reduced-motion previews, their posters, the comparison sheet, and `renders.json` with the desktop timings and the live interfaces checked in the browser | **No**: review media, never imported or bundled |
 
 Regenerate and check:
 

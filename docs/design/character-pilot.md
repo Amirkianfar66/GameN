@@ -155,7 +155,7 @@ One fix in the pilot's own ink: the ends of its limbs were drawn curving inward.
 
 The owner approved the crew of nine on 7 November 2026, and the adoption release is [crew-drawing-release.md](crew-drawing-release.md) (DSN-REQ-17).
 - It is a drop-in for the rig's crew and wardrobe: consumers swap two imports, and the frozen rig's files stay as they are.
-- It includes baked cards, standees, held devices and app icons, a tokens 0.5.0 candidate, and interfaces for shared heads, pose caching and live blinks and hair.
+- It includes baked cards, standees, held devices and app icons, a tokens 0.5.0 candidate, and interfaces for shared heads, in-place pose updates and live blinks and hair.
 - The pages here stay review pages. The runtime never imports `design/character-pilot/`.
 
 ## Checks

@@ -5,17 +5,17 @@
     "design/crew-drawing/review/compare.png": {
       "kind": "sheet",
       "width": 2340,
-      "height": 6114,
-      "bytes": 2612030,
-      "sha256": "d44825bd83dfe7d9dccdb96dd150ff18acd7a2f722512e3b0d9c805b85a5964b"
+      "height": 6290,
+      "bytes": 2783499,
+      "sha256": "716c343d9ea74076f883af297d152ac5a078ca9b0a4c13a7c8849b74451f1eb5"
     },
     "design/crew-drawing/review/preview-full-poster.png": {
       "kind": "poster",
       "width": 1920,
       "height": 1080,
       "atMs": 5000,
-      "bytes": 1074922,
-      "sha256": "8b8b848e655362fc6a4955643c83f39ef70a0bc53ab24c72a9bba57e0028494b"
+      "bytes": 1081413,
+      "sha256": "8ce3c016d46051b78b83ab5abdc51bfb9e09214533f73c28dd75478b9c91368e"
     },
     "design/crew-drawing/review/preview-full.mp4": {
       "kind": "video",
@@ -25,8 +25,8 @@
       "frames": 360,
       "durationMs": 12000,
       "reducedMotion": false,
-      "bytes": 1725082,
-      "sha256": "d02355edd132a3cc7acf0b9af67c8eba5f08eac51a8146d71a778b8cee093d93"
+      "bytes": 1749830,
+      "sha256": "3e618322970cd526c1f400c6ec2454ffcda2b7826ba8ffccacb227b12c3438e4"
     },
     "design/crew-drawing/review/preview-reduced-poster.png": {
       "kind": "poster",
@@ -44,22 +44,96 @@
       "frames": 360,
       "durationMs": 12000,
       "reducedMotion": true,
-      "bytes": 762028,
-      "sha256": "2d08f01564a1eae4bc43e3fb18f767b09e03dab63b141ddd4fb3489c423c4e3b"
+      "bytes": 762910,
+      "sha256": "f7fba65cc60aa622cedc18279b4d0b45b725a0e63c90951068aeda2ade8fb4b5"
     }
   },
   "browser": "Chrome/153.0.8010.12",
   "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
   "note": "Review media, not runtime assets: a picture of a page in desktop Chrome, silent. Nothing here is measured on a phone.",
   "desktopTimings": {
-    "figures": 9,
     "msPerFrame": {
-      "oldRigRebuild": 17.18,
-      "rebuildInlineArt": 93.56,
-      "rebuildSharedArt": 83.97,
-      "cachedPosesWithLiveFrame": 12.15,
-      "liveFrameOnly": 0.19
+      "oldRigRebuildNineWalking": 15.18,
+      "releaseRebuildNineWalking": 65.6,
+      "releaseInPlaceNineWalking": 31.35,
+      "releaseInPlaceOneWalking": 3.15,
+      "releaseIdleNine": 0.76
     },
-    "note": "Desktop Chrome on the render machine: JavaScript and DOM time per frame for nine figures, layout forced, paint not included. Not a phone measurement."
+    "note": "Desktop Chrome on the render machine: JavaScript and DOM time per frame (layout forced, paint not included), the walk sampled continuously at 60 Hz. Not a phone measurement."
+  },
+  "liveChecks": {
+    "walk": {
+      "equal": 1404,
+      "total": 1404,
+      "remounts": 0
+    },
+    "blends": {
+      "equal": 1304,
+      "total": 1304,
+      "remounts": 100
+    },
+    "views": {
+      "equal": 135,
+      "total": 135,
+      "remounts": 0
+    },
+    "portraits": {
+      "equal": 9,
+      "total": 9,
+      "remounts": 0
+    },
+    "reviewerRepro": {
+      "equal": 5,
+      "total": 5,
+      "remounts": 0
+    },
+    "stageCounts": {
+      "c1": {
+        "mounts": 6,
+        "poses": 55,
+        "frames": 305
+      },
+      "c2": {
+        "mounts": 6,
+        "poses": 56,
+        "frames": 303
+      },
+      "c3": {
+        "mounts": 6,
+        "poses": 57,
+        "frames": 303
+      },
+      "c4": {
+        "mounts": 6,
+        "poses": 57,
+        "frames": 303
+      },
+      "c5": {
+        "mounts": 6,
+        "poses": 56,
+        "frames": 303
+      },
+      "c6": {
+        "mounts": 6,
+        "poses": 54,
+        "frames": 305
+      },
+      "c7": {
+        "mounts": 6,
+        "poses": 56,
+        "frames": 303
+      },
+      "c8": {
+        "mounts": 6,
+        "poses": 56,
+        "frames": 303
+      },
+      "c9": {
+        "mounts": 6,
+        "poses": 56,
+        "frames": 303
+      }
+    },
+    "note": "Each result is a mounted figure set by the live interfaces, its serialised DOM compared with a fresh mount of the same pose and motion, in desktop Chrome."
   }
 }

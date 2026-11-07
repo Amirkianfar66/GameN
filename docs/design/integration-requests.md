@@ -23,7 +23,7 @@ Codex owns the root manifests, the lockfile, CI, the source lock, the workspace 
 | [DSN-REQ-14](#dsn-req-14) | State in the contract that `knowledge.insiderCandidates`, `knowledge.code` and a Supplier's `successfulRecipientSeatIds` list seats in seat order (ability art, 11 October 2026) | Nothing today: the engine sorts all three. It keeps any later producer from leaking a role order, or a picking order, through a list's order | None |
 | [DSN-REQ-15](#dsn-req-15) | Carry a Disabler's spent Disable, and the Officer's spent shot, in the seat's own view (ability art, slices 3 and 4) | A lasting "spent" mark in the Disabler's card, and an Officer's supplied weapon drawn as one that cannot be used. Today the receipt shows the charge or the round spent, and then the action is simply not offered again | None |
 | [DSN-REQ-16](#dsn-req-16) | Decide whether a stale or timed-out view hides the private card (raised by Frontend on PR #102) | The port of the closed folder. Recommended: keep the release's behaviour for the card; the folder only after the background | None |
-| [DSN-REQ-17](#dsn-req-17) | Register the crew drawing release `crew-drawing-1.0.0` (the owner-approved crew of nine, 7 November 2026): pin its sources and ports, add its runtime directory to the drawing-port fence, build its cards, standees and devices into the bundles, adopt tokens 0.5.0, retire the films art's 27 old crew drawings | Frontend's port of the approved crew. Until then every surface draws today's crew | None |
+| [DSN-REQ-17](#dsn-req-17) | Register the crew drawing release `crew-drawing-1.0.0` (the owner-approved crew of nine, 7 November 2026) as `design-0.7.0` with tokens 0.5.0: pin its corrected sources and ports, add `apps/game/hosted/crew-drawing/` to the drawing-port fence, build its portraits, cards, standees and devices into the new release's bundles, retire the 27 old crew film drawings from that bundle | Frontend's port of the approved crew, by exact-release dispatch. Until then every surface draws today's crew | None |
 
 Nothing here installs anything. Every script Designer added uses Node built-ins only.
 
@@ -281,17 +281,37 @@ The release is in [crew-drawing-release.md](crew-drawing-release.md), with its m
 
 It changes no rule, skeleton, gesture, walk, easing, place or public id, and none of Integration's files.
 
-Requested:
+Requested, with what Integration has decided:
 
-1. **Pin the sources and their ports.** The 17 entries in `release-candidate.json` give each source's SHA-256 and its port's. A port drops the first line and rewrites two import specifiers, nothing else. The release depends on the rig's `body.mjs` and `wardrobe.mjs` at their `design-0.6.0` pins.
-2. **Add the runtime directory to the drawing-port fence.** That is `apps/game/hosted/crew-drawing/`, with `heads/` inside it, or another directory Integration prefers. No port names a prototype (tested).
-3. **Build the baked sets into the bundles, each set whole.** Cards and standees go into public-board; the nine held devices, with the new suit's sleeve, go into roles. `assets/manifest.json` names the property and shipped file each replaces. The cards keep the old box and face anchor, and the standees keep the old stand and anchors.
-4. **Adopt tokens 0.5.0.** `color.crew` keeps its shape. Every change is listed in `revisedFrom040`.
-5. **Retire the films art catalog's 27 crew drawings** (memorial, outline and halftone of each), with Frontend, who owns the catalog. No runtime file reads them. If they stay, `filmArt.ifKept` gives the recipe to redraw them.
-6. **Register the release after `design-0.6.0`.** `design-0.7.0` is proposed. Historical releases stay as they are.
-7. **Decide where the app icons live:** baked into public-board (0.91 MB raw, 218 KB gzip), or drawn live with shared heads.
+1. **Pin the corrected sources and their ports.** The 17 entries in `release-candidate.json` give each source's SHA-256 and its port's. A port drops the first line and rewrites two import specifiers, nothing else. The release depends on the rig's `body.mjs` and `wardrobe.mjs` at their `design-0.6.0` pins. Final registration and source hashes follow the corrected-source review.
+2. **Add the runtime directory to the drawing-port fence:** `apps/game/hosted/crew-drawing/`, with `heads/` inside it. Integration accepts it and the exact-copy and import-rewrite scheme in principle. No port names a prototype (tested).
+3. **Build the baked sets into the new release's bundles, each set whole.**
+   - The app-icon portraits are required for portrait UI, as the owner asked, and Frontend maps and frames them.
+   - The cards and standees remain where a surface needs their format.
+   - The nine held devices, with the new suit's sleeve, go into roles.
+   - `assets/manifest.json` names the property and shipped file each replaces or proposes, and the art's provenance (faces traced from the owner's own drawings).
+4. **Adopt tokens 0.5.0** as the crew token candidate. `color.crew` keeps its shape. Every change is listed in `revisedFrom040`.
+5. **Retire the films art's 27 crew drawings** (memorial, outline and halftone of each) from the new release's films bundle, after Frontend's consumer check. Historical releases, catalogs, files and hashes stay as they are and verifiable.
+6. **Register the release after `design-0.6.0`**, as the candidate art version `design-0.7.0`. Historical releases stay as they are.
+7. **Dispatch by exact release** (Frontend): a match pinned to `design-0.6.0` or earlier keeps today's drawing, and no import is replaced unconditionally.
 
-Frontend measures the result on a physical low-end Android phone and an iPhone. Until it does, every performance figure stays unverified. The new cards and standees grow the public-board stylesheet from about 20 KB to about 430 KB gzip. Ways to cut that are in the release document. Designer reviews the port's screenshots and short video before Integration merges it.
+**Update, 7 November 2026, after Integration's review of `6bba38844d394bbef2a69f3a523a67f883c18fd5`.** Integration found two live-update gaps. Both are corrected, in Designer-owned files only:
+1. **A moving figure is posed in place.**
+   - `mount.mjs` `crewPoseFrame` and `applyCrewPose` take the rig's continuously sampled walk, exit and arrival skeletons.
+   - They set the attributes of the same mounted elements, with stable ids, and never redraw the traced art.
+   - A figure is mounted again only where the rig switches what cannot be blended: at most once per exit or arrival, never during the walk.
+   - Quantization is no longer the adoption path, and no cache holds sampled poses.
+2. **The back of Mira's hair and Echo's locs is live.** It has numbered hooks, and `crewFrame` carries it for `applyCrewFrame`.
+
+Also in this update:
+- Portraits have their own updater (`crewPortraitFrame`), and a figure's frame cannot move a portrait's head.
+- `withPrefix` namespaces a template drawn once under `CANONICAL_PREFIX`.
+- The drawing code is about twice as fast with byte-identical output.
+- The handoff is reconciled with Frontend's adoption inventory and agreed budget (`6bac4554`).
+
+Every update is tested equal to a fresh draw, in Node and in desktop Chrome: consecutive walk samples, exits and arrivals on body and front layers, front, down and back views with reduced motion, and portraits.
+
+Frontend measures the result on a physical low-end Android phone and an iPhone, by the agreed protocol. Until it does, every performance figure stays unverified. Designer reviews the port's captures and video before Integration merges it.
 
 Until then, every surface keeps drawing today's crew, and nothing breaks. The release sits in `design/crew-drawing/` as dev-only sources, and the runtime does not import it.
 

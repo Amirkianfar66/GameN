@@ -11,8 +11,8 @@
 // - crewStandeeSvg: the card standing on its pedestal, in the box of the rig's standee (0 0 96 120),
 //   the board's piece where live figures are not drawn.
 
-import { SUIT } from './crew.mjs';
-import { HEADS, crewHead } from './head.mjs';
+import { SUIT, crewMember } from './crew.mjs';
+import { HEADS, crewHead, hangTransform, lidPaths } from './head.mjs';
 import { INK, inkCanvas, pathOfPoly, shade, squircle, tint } from './ink.mjs';
 
 /** The icon's own box (viewBox) and its half-size inside it. */
@@ -50,9 +50,23 @@ function bust(cv, c, { bottom = 66, motion = {}, art = null, live = false } = {}
   const [nx, ny, nr] = HEADS[c.id].neck;
   const top = [HEAD.at[0] + HEAD.scale * nx, HEAD.at[1] + HEAD.scale * (ny - nr)], r = HEAD.scale * nr;
   cv.form([[top[0] - r, top[1]], [top[0] + r, top[1]], [2 + r * 1.1, 28], [2 - r * 1.1, 29]], c.skin, { weight: 1.8, depth: 3, tension: 0.6, seed: 223, rim: false, hatch: false });
-  cv.raw(`<g${live ? ' data-crew-head=""' : ''} transform="translate(${HEAD.at.join(' ')}) scale(${HEAD.scale})">`);
+  cv.raw(`<g${live ? ' data-crew-portrait-head=""' : ''} transform="${portraitHeadTransform()}">`);
   crewHead(cv, c, 'front', motion, { art, live });
   cv.raw('</g>');
+}
+
+/** The head's place in the icon: fixed (a portrait does not drift). */
+const portraitHeadTransform = () => `translate(${HEAD.at.join(' ')}) scale(${HEAD.scale})`;
+
+/**
+ * The values of one frame for a live portrait (crewPortraitSvg with live): { portraitHead, lids,
+ * hang }, set by mount.mjs applyCrewFrame. The portrait's head keeps its place; its lids blink and
+ * its hanging hair follows motion's { blink, sway, lift }. A figure's frame (crewFrame) never
+ * moves a portrait's head: the two heads have their own hooks.
+ */
+export function crewPortraitFrame(c, motion = {}) {
+  const { id } = crewMember(c);
+  return { portraitHead: portraitHeadTransform(), lids: lidPaths(id, motion.blink ?? 0), hang: hangTransform(id, motion.sway ?? 0, motion.lift ?? 0) };
 }
 
 /** The ground's gradient and a shape's clip, with this drawing's own ids. */
@@ -64,9 +78,9 @@ function ground(cv, c, d) {
 }
 
 /**
- * A character's app-icon portrait as an inline SVG. motion: the head's { blink } (a portrait
- * blinks on a lobby screen). size: CSS pixels, or null to fill its container. art, live: as for a
- * figure (mount.mjs); a live portrait's head moves with crewFrame's lids (its head stays put).
+ * A character's app-icon portrait as an inline SVG. motion: the head's { blink, sway, lift }.
+ * size: CSS pixels, or null to fill its container. art: as for a figure (mount.mjs). live: hooks
+ * for crewPortraitFrame (the lids and the hanging hair; the head stays in its place).
  */
 export function crewPortraitSvg(c, { prefix = 'pp', motion = {}, size = null, art = null, live = false } = {}) {
   const cv = inkCanvas(prefix);

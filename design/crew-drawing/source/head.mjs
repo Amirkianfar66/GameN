@@ -29,7 +29,7 @@ import { NOVA_HEAD } from './heads/nova.mjs';
 import { ORION_HEAD } from './heads/orion.mjs';
 import { RIGEL_HEAD } from './heads/rigel.mjs';
 import { VEGA_HEAD } from './heads/vega.mjs';
-import { INK, shade, tint } from './ink.mjs';
+import { INK, inkCanvas, shade, tint } from './ink.mjs';
 
 /** Each character's traced head: { id, eyes, neck, skin, hair, sway, paths }. */
 export const HEADS = Object.freeze({
@@ -56,11 +56,16 @@ export function headArt(id, artId) {
   return `<g id="${artId}">${head.paths.map(([fill, d]) => `<path fill="${fill}" d="${d}"/>`).join('')}</g>`;
 }
 
-/** The art's id: shared on the page (art.ref, from mount.mjs crewArtDefs), or the figure's own. */
-function artId(cv, id, art) {
+/**
+ * The art's id: shared on the page (art.ref, from mount.mjs crewArtDefs), or the figure's own.
+ * A live figure's own art is marked (data-crew-art), so a pose frame passes over it; art.shell
+ * draws that mark alone, for a pose frame, which never redraws the art (mount.mjs crewPoseFrame).
+ */
+function artId(cv, id, art, live = false) {
   if (art?.ref) return `${art.ref}-${id}`;
   const own = cv.uid('head');
-  cv.def(headArt(id, own));
+  if (art?.shell) cv.def(`<g data-crew-art="" id="${own}"/>`);
+  else cv.def(live ? headArt(id, own).replace('<g id=', '<g data-crew-art="" id=') : headArt(id, own));
   return own;
 }
 
@@ -144,7 +149,7 @@ function bandageBack(cv) {
 
 function tracedFront(cv, c, motion, down, { art, live, bandaged }) {
   const id = c.id;
-  const ref = artId(cv, id, art);
+  const ref = artId(cv, id, art, live);
   if (HEADS[id].sway == null) cv.raw(`<use href="#${ref}"/>`);
   else hangingHair(cv, id, ref, motion, live);
   if (bandaged) bandage(cv, id);
@@ -166,9 +171,25 @@ const bumpy = (cx, cy, rx, ry, n, bump) => Array.from({ length: n }, (_, i) => {
   return [cx + Math.cos(a) * rx * k, cy + Math.sin(a) * ry * k];
 });
 
-function headBack(cv, c, motion) {
+function headBack(cv, c, motion, live = false) {
   const [sx, sy, dy] = BACK_FIT[c.hairStyle] ?? [1, 1, 0];
-  cv.group(`translate(0 ${dy}) scale(${sx} ${sy})`, () => backShapes(cv, c, motion));
+  // Live, the back of hanging hair (it trails the head) is numbered, so a frame can move it (backHairPaths).
+  const hangs = live && HEADS[c.id].sway != null;
+  cv.group(`translate(0 ${dy}) scale(${sx} ${sy})`, () => (hangs ? cv.mark('back-hair', () => backShapes(cv, c, motion)) : backShapes(cv, c, motion)));
+}
+
+/**
+ * The back of Mira's hair or Echo's locs for a sway and a lift: each numbered path's geometry, in
+ * the order a live figure numbers them (data-crew-back-hair), for a frame (mount.mjs crewFrame).
+ * [] for a head whose hair does not hang.
+ */
+export function backHairPaths(c, motion = {}) {
+  if (HEADS[c.id].sway == null) return [];
+  const cv = inkCanvas('bh');
+  cv.mark('back-hair', () => backShapes(cv, c, { blink: 0, sway: motion.sway ?? 0, lift: motion.lift ?? 0 }));
+  const out = [];
+  for (const m of `${cv.defs()}${cv.layer('body')}`.matchAll(/data-crew-back-hair="(\d+)" d="([^"]*)"/g)) out[Number(m[1])] = m[2];
+  return out;
 }
 
 function backShapes(cv, c, motion) {
@@ -253,7 +274,7 @@ function backShapes(cv, c, motion) {
 export function crewHead(cv, c, view = 'front', motion = {}, { bandage: bandaged = false, art = null, live = false } = {}) {
   const m = { blink: motion.blink ?? 0, sway: motion.sway ?? 0, lift: motion.lift ?? 0 };
   if (view === 'back') {
-    headBack(cv, c, m);
+    headBack(cv, c, m, live);
     if (bandaged) bandageBack(cv);
     return;
   }

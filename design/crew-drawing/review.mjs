@@ -3,28 +3,29 @@
 // The crew drawing release's review page (review.html), rendered by
 // design/tools/crew-drawing-render.mjs into design/crew-drawing/review/. Two views:
 // - ?view=motion (&reduced=1): the nine on a noir stage for 12 s, drawn the way the release asks a
-//   client to draw them (mount.mjs): the traced heads placed once (crewArtDefs), each pose drawn
-//   once per mounted figure and kept (poseKey), and every frame only the live attributes set
-//   (crewFrame, applyCrewFrame): blinks, the idle drift, Mira's hair and Echo's locs. Idle, then a
-//   move with the rig's exit, walk and arrive at the game's timings, then places, views and health.
-//   With reduced=1, the same clock with reduced motion: no drift, no swing, and a move is placed
-//   with the game's short fade instead of walked.
+//   client to draw them (mount.mjs): the traced heads placed once (crewArtDefs), each figure
+//   mounted once, and every frame attributes only: in its place, the head's own motion (crewFrame,
+//   applyCrewFrame: blinks, drift, Mira's hair and Echo's locs, from the front or behind); moving,
+//   the pose itself (crewPoseFrame, applyCrewPose), sampled continuously as the game samples it.
+//   Idle, then a move with the rig's exit, walk and arrive at the game's timings, then places,
+//   views and health. With reduced=1, the same clock with reduced motion: no drift, no swing, and
+//   a move is placed with the game's short fade instead of walked.
 // - ?view=compare: today's drawing and the release's, surface by surface: the board, the Hospital
 //   and the Jail, health, the walk at the capsule's size, the phone kit's vote stage, the cards in
 //   every crop the game uses, the standees, the role card with its device, the films' effects (put
 //   in by the render tool) and the app icons.
-// window.__crew: { ready, seek(t), measure(), films(markup) }. A review page in desktop Chrome:
-// it proves nothing about phones.
+// window.__crew: { ready, seek(t), measure(), liveCheck(), films(markup) }. A review page in
+// desktop Chrome: it proves nothing about phones.
 
 import { FRAME, hasFront } from '../board-motion/figures/body.mjs';
 import { CREW as OLD_CREW } from '../board-motion/figures/crew.mjs';
-import { skeletonOf } from '../board-motion/figures/gestures.mjs';
+import { GESTURES, skeletonOf } from '../board-motion/figures/gestures.mjs';
 import { TIMELINES, sample, walkPose } from '../board-motion/figures/motion.mjs';
 import { dressedFigureSvg as oldFigureSvg } from '../board-motion/figures/wardrobe.mjs';
 import { CREW, CREW_DRAWING_VERSION, CREW_ORDER } from './source/crew.mjs';
-import { applyCrewFrame, crewArtDefs, crewFrame, poseKey } from './source/mount.mjs';
+import { applyCrewFrame, applyCrewPose, crewArtDefs, crewFrame, crewPoseFrame } from './source/mount.mjs';
 import { crewMotion, hairFollow, isStill } from './source/motion.mjs';
-import { crewPortraitSvg } from './source/portrait.mjs';
+import { crewPortraitFrame, crewPortraitSvg } from './source/portrait.mjs';
 import { dressedFigureSvg } from './source/wardrobe.mjs';
 
 const params = new URLSearchParams(location.search);
@@ -34,16 +35,18 @@ document.documentElement.dataset.view = view;
 const app = document.getElementById('app');
 const ART = Object.freeze({ ref: 'crew-art' });
 const el = (tag, cls, html = '') => { const n = document.createElement(tag); if (cls) n.className = cls; n.innerHTML = html; return n; };
+/** One skeleton object per drawn gesture, so a figure in its place keeps the same one. */
+const SKELETONS = new Map();
+const skeleton = gesture => { if (!SKELETONS.has(gesture)) SKELETONS.set(gesture, skeletonOf(gesture)); return SKELETONS.get(gesture); };
 
 // ---------- the game's move (apps/game/hosted/comic-motion.mjs): 900 ms, exit 120, walk 450, arrive 330 ----------
 const MOVE_MS = 900, EXIT_MS = 120, WALK_END = 570, REDUCED_MS = 80;
 const STEP = 48; // px a move travels on this stage: everyone the same way, and Echo stays on it
-/** The rig's move at elapsed ms (as the game samples it), the walk's phase kept to sixteenths and the blends to 30 ms, so poses repeat and are drawn once. */
+/** The rig's move at elapsed ms, sampled as the game samples it: continuously, never rounded. */
 function movePose(from, to, elapsed) {
-  const walk = phase => walkPose(Math.round(phase * 16) / 16);
-  if (elapsed < EXIT_MS) return sample(TIMELINES.exit(from, EXIT_MS, walk(0)), Math.round(elapsed / 30) * 30);
-  if (elapsed < WALK_END) return walk((elapsed - EXIT_MS) / 225);
-  return sample(TIMELINES.arrive(to, MOVE_MS - WALK_END, walk(2)), Math.min(MOVE_MS - WALK_END, Math.round((elapsed - WALK_END) / 30) * 30));
+  if (elapsed < EXIT_MS) return sample(TIMELINES.exit(from, EXIT_MS, walkPose(0)), elapsed);
+  if (elapsed < WALK_END) return walkPose((elapsed - EXIT_MS) / 225);
+  return sample(TIMELINES.arrive(to, MOVE_MS - WALK_END, walkPose(2)), elapsed - WALK_END);
 }
 const easeInOut = u => (u < 0.5 ? 2 * u * u : 1 - (-2 * u + 2) ** 2 / 2);
 
@@ -75,37 +78,47 @@ function propSvg(kind, sk) {
   return svg(`<rect x="${x - 40}" y="${top}" width="80" height="9" rx="2" fill="#34415A" stroke="#151923" stroke-width="2.4"/><rect x="${x - 34}" y="${top + 9}" width="6" height="${floor - top - 9}" fill="#222B3A" stroke="#151923" stroke-width="2"/><rect x="${x + 28}" y="${top + 9}" width="6" height="${floor - top - 9}" fill="#222B3A" stroke="#151923" stroke-width="2"/>`);
 }
 
-// ---------- a mounted figure: poses drawn once and kept, the live attributes set every frame ----------
+// ---------- a mounted figure: mounted once; each frame, attributes only ----------
+/**
+ * One figure on the page, in two layers (body, front), each with its own prefix. show() mounts it
+ * when it has no drawing or its outfit or layers change; a new skeleton is set in place
+ * (crewPoseFrame, applyCrewPose), mounting again only where the rig switches what cannot be
+ * blended; the same skeleton takes the head's own motion (crewFrame, applyCrewFrame). It keeps no
+ * cache of poses: counts says how often each happened.
+ */
 function mountFigure(host, c, prefix) {
   const layers = { body: el('span', 'layer'), front: el('span', 'layer') };
   const prop = el('span', 'layer');
   host.append(prop, layers.body, layers.front);
-  const cache = new Map();
-  const state = { key: null, prop: null };
-  const markup = (sk, outfit, layer) => {
-    const key = poseKey(c, sk, { outfit, layer, art: ART, live: true });
-    if (!cache.has(key)) cache.set(key, dressedFigureSvg(c, sk, { outfit, layer, prefix: `${prefix}-${layer}`, art: ART, live: true }));
-    return [key, cache.get(key)];
+  const state = { sk: null, outfit: null, front: null, prop: null };
+  const counts = { mounts: 0, poses: 0, frames: 0 };
+  const draw = (sk, outfit, motion) => {
+    state.front = hasFront(sk);
+    for (const [name, node] of Object.entries(layers)) {
+      node.innerHTML = name === 'front' && !state.front ? '' : dressedFigureSvg(c, sk, { outfit, layer: name, prefix: `${prefix}-${name}`, art: ART, live: true, motion });
+    }
+    counts.mounts += 1;
   };
   return {
-    cache,
-    show(sk, outfit, gesture) {
-      const [bodyKey, body] = markup(sk, outfit, 'body');
-      const front = hasFront(sk) ? markup(sk, outfit, 'front') : [null, ''];
-      const key = `${bodyKey}/${front[0]}`;
-      if (state.key !== key) {
-        layers.body.innerHTML = body;
-        layers.front.innerHTML = front[1];
-        state.key = key;
-      }
+    counts,
+    show(sk, outfit, gesture, motion) {
       const kind = propOf(gesture), propKey = kind ? gesture : null;
       if (state.prop !== propKey) { prop.innerHTML = kind ? propSvg(kind, sk) : ''; state.prop = propKey; }
-    },
-    frame(sk, motion) {
-      const frame = crewFrame(c, sk, motion);
-      let set = 0;
-      for (const layer of Object.values(layers)) { const svg = layer.firstElementChild; if (svg) set += applyCrewFrame(svg, frame); }
-      return set;
+      if (state.sk === null || state.outfit !== outfit || state.front !== hasFront(sk)) {
+        draw(sk, outfit, motion);
+      } else if (state.sk !== sk) {
+        for (const [name, node] of Object.entries(layers)) {
+          const svg = node.firstElementChild;
+          if (svg && applyCrewPose(svg, crewPoseFrame(c, sk, { outfit, layer: name, prefix: `${prefix}-${name}`, art: ART, motion })) < 0) { draw(sk, outfit, motion); break; }
+        }
+        counts.poses += 1;
+      } else {
+        const frame = crewFrame(c, sk, motion);
+        for (const node of Object.values(layers)) { const svg = node.firstElementChild; if (svg) applyCrewFrame(svg, frame); }
+        counts.frames += 1;
+      }
+      state.sk = sk;
+      state.outfit = outfit;
     },
   };
 }
@@ -127,7 +140,7 @@ function motionView() {
     return { id, c: CREW[id], col, actor, what: col.querySelector('.what'), fig: mountFigure(actor, CREW[id], `rv-${id}`), follow: hairFollow(id), acc: null };
   });
   app.append(stage);
-  const stand = skeletonOf('stand');
+  const stand = skeleton('stand');
   const unitsPerPx = FRAME.box[2] / 260;
   let last = null;
 
@@ -136,10 +149,9 @@ function motionView() {
     let gesture = 'stand', outfit = 'crew', sk = stand, x = 0, mirror = false, opacity = 1, what = '';
     if (t >= 8000) {
       [gesture, outfit, what] = PLACES[col.id];
-      sk = skeletonOf(gesture);
+      sk = skeleton(gesture);
     } else if (t >= 4000) {
       const moves = [[4300 + delay, 0, STEP], [6200 + delay, STEP, 0]];
-      x = 0;
       for (const [start, from, to] of moves) {
         if (t < start) break;
         const elapsed = t - start;
@@ -169,18 +181,13 @@ function motionView() {
     caption.textContent = [reduced ? 'Idle, with reduced motion' : 'Idle', reduced ? 'A move, with reduced motion' : 'A move: the rig\'s walk, unchanged', 'Places, views and health'][part];
     sub.textContent = [
       reduced ? 'The blinks stay; the drift and the hair\'s swing stop.' : 'Each blinks on its own schedule and the head drifts; Mira\'s hair and Echo\'s locs follow. Echo\'s visor has no lids.',
-      reduced ? 'No walk: each figure is placed with the game\'s 80 ms fade. Blinks stay; no drift, no swing.' : 'Exit 120 ms, walk 450 ms (stride 17), arrive 330 ms: the game\'s move. The hanging hair trails it and settles.',
+      reduced ? 'No walk: each figure is placed with the game\'s 80 ms fade. Blinks stay; no drift, no swing.' : 'Exit 120 ms, walk 450 ms (stride 17), arrive 330 ms: the game\'s move, sampled continuously. The hanging hair trails it and settles.',
       'The rig\'s gestures: the Hospital gown, the Jail\'s suit, Injured, Eliminated, looking down, turned away.',
     ][part];
     stage.querySelector('.clock').textContent = `${(t / 1000).toFixed(2)} s`;
     const dip = Math.min(1, Math.abs(t - 8000) / 120);
     cols.forEach((col, i) => {
       const s = columnAt(col, i, t);
-      col.fig.show(s.sk, s.outfit, s.gesture);
-      col.actor.dataset.mirror = String(s.mirror);
-      col.actor.style.transform = `translateX(${s.x.toFixed(2)}px)`;
-      col.actor.style.opacity = String(s.opacity * dip);
-      col.what.textContent = s.what;
       // The hanging hair follows the head: its position in the head's own frame, the figure's travel included.
       const world = [s.x * unitsPerPx, 0], head = s.sk.head;
       if (restart || !col.acc) { col.follow.reset(); col.acc = { world, head, local: [head[0], head[1]] }; }
@@ -190,30 +197,117 @@ function motionView() {
       const follow = reduced ? null : col.follow.step(dt, col.acc.local[0], col.acc.local[1]);
       const moving = t >= 4000 && t < 8000 && !reduced;
       const motion = crewMotion(t, col.id, { reduced, still: isStill(s.gesture), follow: moving ? follow : null });
-      col.fig.frame(s.sk, motion);
+      col.fig.show(s.sk, s.outfit, s.gesture, motion);
+      col.actor.dataset.mirror = String(s.mirror);
+      col.actor.style.transform = `translateX(${s.x.toFixed(2)}px)`;
+      col.actor.style.opacity = String(s.opacity * dip);
+      col.what.textContent = s.what;
     });
   }
 
-  /** Desktop timings of the three ways to draw a frame (JS and DOM, not paint). Not a phone. */
+  /** Desktop timings of the ways to draw a frame of nine walking figures, and of an idle board (JS and DOM, layout forced, not paint). Not a phone. */
   function measure() {
-    const host = el('div', 'actor');
+    const host = el('div');
     host.style.cssText = 'position:absolute;left:-9999px;top:0;width:260px;height:260px';
     document.body.append(host);
-    const slots = CREW_ORDER.map((id, i) => { const n = el('div', 'actor'); host.append(n); return { id, c: CREW[id], n, f: mountFigure(n, CREW[id], `ms-${i}`) }; });
+    const slots = CREW_ORDER.map(id => { const n = el('div', 'actor'); host.append(n); return { id, c: CREW[id], n }; });
     const time = (frames, draw) => { const t0 = performance.now(); for (let f = 0; f < frames; f += 1) { draw(f); host.getBoundingClientRect(); } return (performance.now() - t0) / frames; };
-    const rebuild = time(32, f => slots.forEach(s => { s.n.innerHTML = dressedFigureSvg(s.c, walkPose(f / 13.5), { outfit: 'crew', prefix: `rb-${s.id}`, art: ART, live: true }); }));
-    const rebuildInline = time(32, f => slots.forEach(s => { s.n.innerHTML = dressedFigureSvg(s.c, walkPose(f / 13.5), { outfit: 'crew', prefix: `ri-${s.id}` }); }));
-    const old = time(32, f => slots.forEach(s => { s.n.innerHTML = oldFigureSvg(OLD_CREW[s.id] ?? Object.values(OLD_CREW).find(o => o.sign === s.c.sign), walkPose(f / 13.5), { outfit: 'crew', prefix: `ro-${s.id}` }); }));
-    slots.forEach(s => { s.n.innerHTML = ''; });
-    for (let p = 0; p < 16; p += 1) slots.forEach(s => s.f.show(walkPose(p / 16), 'crew', 'stand'));
-    const cached = time(32, f => slots.forEach(s => { const sk = walkPose(Math.round((f / 13.5) * 16) / 16); s.f.show(sk, 'crew', 'stand'); s.f.frame(sk, crewMotion(f * 33, s.id)); }));
-    slots.forEach(s => s.f.show(stand, 'crew', 'stand'));
-    const live = time(64, f => slots.forEach(s => s.f.frame(stand, crewMotion(f * 33, s.id))));
+    const phase = f => (f * 16.7) / 225; // the game's walk, sampled continuously
+    const old = time(48, f => slots.forEach(s => { s.n.innerHTML = oldFigureSvg(OLD_CREW[s.id], walkPose(phase(f)), { outfit: 'crew', prefix: `ro-${s.id}` }); }));
+    const rebuild = time(48, f => slots.forEach(s => { s.n.innerHTML = dressedFigureSvg(s.c, walkPose(phase(f)), { outfit: 'crew', prefix: `rb-${s.id}`, art: ART, live: true }); }));
+    slots.forEach(s => { s.n.innerHTML = dressedFigureSvg(s.c, walkPose(0), { outfit: 'crew', prefix: `ip-${s.id}`, art: ART, live: true }); });
+    const inPlace = time(48, f => slots.forEach(s => applyCrewPose(s.n.firstElementChild, crewPoseFrame(s.c, walkPose(phase(f + 1)), { prefix: `ip-${s.id}`, art: ART, motion: crewMotion(f * 16.7, s.id) }))));
+    const one = slots[7];
+    const inPlaceOne = time(96, f => applyCrewPose(one.n.firstElementChild, crewPoseFrame(one.c, walkPose(phase(f + 50)), { prefix: `ip-${one.id}`, art: ART, motion: crewMotion(f * 16.7, one.id) })));
+    slots.forEach(s => { s.n.innerHTML = dressedFigureSvg(s.c, stand, { outfit: 'crew', prefix: `lf-${s.id}`, art: ART, live: true }); });
+    const live = time(96, f => slots.forEach(s => applyCrewFrame(s.n.firstElementChild, crewFrame(s.c, stand, crewMotion(f * 16.7, s.id)))));
     host.remove();
     const r = v => Math.round(v * 100) / 100;
-    return { figures: 9, msPerFrame: { oldRigRebuild: r(old), rebuildInlineArt: r(rebuildInline), rebuildSharedArt: r(rebuild), cachedPosesWithLiveFrame: r(cached), liveFrameOnly: r(live) }, note: 'Desktop Chrome on the render machine: JavaScript and DOM time per frame for nine figures, layout forced, paint not included. Not a phone measurement.' };
+    return {
+      msPerFrame: { oldRigRebuildNineWalking: r(old), releaseRebuildNineWalking: r(rebuild), releaseInPlaceNineWalking: r(inPlace), releaseInPlaceOneWalking: r(inPlaceOne), releaseIdleNine: r(live) },
+      note: 'Desktop Chrome on the render machine: JavaScript and DOM time per frame (layout forced, paint not included), the walk sampled continuously at 60 Hz. Not a phone measurement.',
+    };
   }
-  window.__crew = { ready: true, seek, measure };
+
+  /** The live interfaces against fresh draws, in this browser: each result's serialised DOM equal to a fresh mount's. */
+  function liveCheck() {
+    const host = el('div');
+    host.style.cssText = 'position:absolute;left:-9999px;top:0;width:260px;height:260px';
+    document.body.append(host);
+    const parse = markup => { const box = document.createElement('div'); box.innerHTML = markup; return box.firstElementChild; };
+    const tally = () => ({ equal: 0, total: 0, remounts: 0 });
+    const out = { walk: tally(), blends: tally(), views: tally(), portraits: tally(), reviewerRepro: tally() };
+    const compare = (bucket, root, fresh) => { bucket.total += 1; if (root.outerHTML === parse(fresh).outerHTML) bucket.equal += 1; };
+    // Integration's reproduction: Vega mounted at walkPose(0.1), set to walkPose(0.2).
+    {
+      const root = parse(dressedFigureSvg(CREW.c1, walkPose(0.1), { prefix: 'repro', live: true }));
+      host.append(root);
+      applyCrewPose(root, crewPoseFrame(CREW.c1, walkPose(0.2), { prefix: 'repro' }));
+      compare(out.reviewerRepro, root, dressedFigureSvg(CREW.c1, walkPose(0.2), { prefix: 'repro', live: true }));
+      for (const id of ['c8', 'c9']) {
+        const sk = skeleton('doorBack'), back = parse(dressedFigureSvg(CREW[id], sk, { prefix: `repro-${id}`, live: true }));
+        host.append(back);
+        applyCrewFrame(back, crewFrame(CREW[id], sk, { sway: 4, lift: 2 }));
+        compare(out.reviewerRepro, back, dressedFigureSvg(CREW[id], sk, { prefix: `repro-${id}`, live: true, motion: { sway: 4, lift: 2 } }));
+        applyCrewFrame(back, crewFrame(CREW[id], sk, crewMotion(2000, id, { reduced: true })));
+        compare(out.reviewerRepro, back, dressedFigureSvg(CREW[id], sk, { prefix: `repro-${id}`, live: true, motion: crewMotion(2000, id, { reduced: true }) }));
+      }
+    }
+    // Continuous walks, every 16.7 ms: all nine, three outfits, shared and inline art.
+    for (const id of CREW_ORDER) for (const outfit of ['crew', 'gown', 'prison']) for (const art of [ART, null]) {
+      const prefix = `w-${id}-${outfit}-${art ? 's' : 'i'}`, motion = { blink: 0.3, sway: 1.2, lift: -0.4, drift: { dx: 0.3, dy: 0.1, tilt: 0.8 } };
+      let root = parse(dressedFigureSvg(CREW[id], walkPose(120 / 225), { outfit, prefix, art, live: true }));
+      host.append(root);
+      for (let ms = 136.7; ms < 570; ms += 16.7) {
+        const sk = walkPose((ms - 120) / 225), fresh = dressedFigureSvg(CREW[id], sk, { outfit, prefix, art, live: true, motion });
+        if (applyCrewPose(root, crewPoseFrame(CREW[id], sk, { outfit, prefix, art, motion })) < 0) { out.walk.remounts += 1; const next = parse(fresh); root.replaceWith(next); root = next; continue; }
+        compare(out.walk, root, fresh);
+      }
+      root.remove();
+    }
+    // Exits and arrivals from every gesture, body and front layers.
+    Object.keys(GESTURES).forEach((name, i) => {
+      const id = CREW_ORDER[i % 9], outfit = ['crew', 'gown', 'prison'][i % 3];
+      for (const [keys, ms] of [[TIMELINES.exit(skeleton(name), 120, walkPose(0)), 120], [TIMELINES.arrive(skeleton(name), 330, walkPose(2)), 330]]) {
+        for (const layer of ['body', 'front']) {
+          const prefix = `b-${name}-${layer}`;
+          let root = parse(dressedFigureSvg(CREW[id], sample(keys, 0), { outfit, layer, prefix, art: ART, live: true }));
+          host.append(root);
+          for (let t = 16.7; t <= ms; t += 16.7) {
+            const sk = sample(keys, t), fresh = dressedFigureSvg(CREW[id], sk, { outfit, layer, prefix, art: ART, live: true });
+            if (applyCrewPose(root, crewPoseFrame(CREW[id], sk, { outfit, layer, prefix, art: ART })) < 0) { out.blends.remounts += 1; const next = parse(fresh); root.replaceWith(next); root = next; continue; }
+            compare(out.blends, root, fresh);
+          }
+          root.remove();
+        }
+      }
+    });
+    // The head's own motion from the front, looking down and from behind, and reduced motion.
+    for (const id of CREW_ORDER) for (const name of ['think', 'tablet', 'doorBack', 'tankBack', 'benchHunched']) {
+      const sk = skeleton(name), prefix = `v-${id}-${name}`;
+      const root = parse(dressedFigureSvg(CREW[id], sk, { prefix, art: ART, live: true }));
+      host.append(root);
+      for (const motion of [{ sway: 4, lift: 2, blink: 0.5, drift: { dx: 1, dy: 0.3, tilt: 2 } }, crewMotion(2345, id), crewMotion(2345, id, { reduced: true })]) {
+        applyCrewFrame(root, crewFrame(CREW[id], sk, motion));
+        compare(out.views, root, dressedFigureSvg(CREW[id], sk, { prefix, art: ART, live: true, motion }));
+      }
+      root.remove();
+    }
+    // Portraits, set by their own frame after a figure's.
+    for (const id of CREW_ORDER) {
+      const root = parse(crewPortraitSvg(CREW[id], { prefix: `p-${id}`, live: true }));
+      host.append(root);
+      const motion = { blink: 0.7, sway: 3, lift: 1 };
+      applyCrewFrame(root, crewFrame(CREW[id], stand, { drift: { dx: 3, dy: 2, tilt: 4 } }));
+      applyCrewFrame(root, crewPortraitFrame(CREW[id], motion));
+      compare(out.portraits, root, crewPortraitSvg(CREW[id], { prefix: `p-${id}`, live: true, motion }));
+      root.remove();
+    }
+    host.remove();
+    const stage = Object.fromEntries(cols.map(col => [col.id, { ...col.fig.counts }]));
+    return { ...out, stageCounts: stage, note: 'Each result is a mounted figure set by the live interfaces, its serialised DOM compared with a fresh mount of the same pose and motion, in desktop Chrome.' };
+  }
+  window.__crew = { ready: true, seek, measure, liveCheck };
   seek(0);
 }
 
@@ -259,7 +353,8 @@ async function compareView() {
   rows('Standees', 'The board\'s piece: the card in the stand. The stand, the clamp and every anchor are today\'s.', side => CREW_ORDER.map(id => cell(`<div class="crop-standee" style="background-image:url('${side === 'old' ? oldUrl(`standee-${id}`) : newUrl('standee', id)}')"></div>`, CREW[id].sign)).join(''));
   const films = el('section', '', '<h2>The films\' effects</h2><div id="films"><p class="note">Put in by the render tool (the runtime\'s memorialSvg, outlineSvg and halftoneSvg).</p></div>');
   app.append(films);
-  const icons = el('section', '', `<h2>The app icons (new)</h2><div class="strip">${CREW_ORDER.map(id => cell(`<div class="icon">${crewPortraitSvg(CREW[id], { prefix: `ic-${id}` })}</div>`, CREW[id].sign)).join('')}</div>`);
+  const sizes = id => [96, 64, 44].map(n => `<div style="width:${n}px;height:${n}px">${crewPortraitSvg(CREW[id], { prefix: `ic-${id}-${n}`, size: n })}</div>`).join('');
+  const icons = el('section', '', `<h2>The app icons (new): for portrait UI, at 96, 64 and 44 px</h2><div class="strip">${CREW_ORDER.map(id => cell(`<div style="display:flex;gap:6px;align-items:flex-end">${sizes(id)}</div>`, CREW[id].sign)).join('')}</div>`);
   app.append(icons);
   await Promise.all([...document.images].map(img => img.decode?.().catch(() => null)));
   window.__crew = {
