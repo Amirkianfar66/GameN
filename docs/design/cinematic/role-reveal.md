@@ -302,7 +302,7 @@ This section is the handoff for adopting the role films. It reflects the fix of 
 ### Delivery
 
 - **Branch and PR.** `claude/designer-role-films`, [#189](https://github.com/Amirkianfar66/GameN/pull/189), stacked on #187. Nothing is merged or deployed.
-- **Commit.** The review fix is the commit that adds this section; the commit after it records its hash here.
+- **Commit.** `41414afa262d0d03b658a6dbf51c5fa8ca4a4840`: the review fix (the sources, the ten re-rendered videos, the manifest and this handoff). The commit after it only records that hash here. The hashes below are at `41414af`.
 - **Hashes.** Every module and review render, with its SHA-256, is in [section 6](#6-files-hashes-and-checks). The files this fix changed:
 
 | File | SHA-256 | Change |
