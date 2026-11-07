@@ -1,21 +1,21 @@
 # mothership:dev-only
 #
-# Traces the character pilot's three heads from the owner's own art into the rig's head frame
+# Traces the crew's nine heads from the owner's own art into the rig's head frame
 # (docs/design/character-pilot.md, "Faces traced from the owner's art"):
 #   python3 -m venv .venv && .venv/bin/pip install vtracer pillow
 #   .venv/bin/python -I design/tools/character-pilot-trace.py
-# Inputs:  design/character-pilot/faces/source/{mira,nova,atlas}.png, heads cropped from the owner's
-#          art (Mira from the owner's example of 7 November 2026; Nova and Atlas from the owner's
-#          redesign sheet, mirrored to face left as the rig's figures do).
-# Outputs: design/character-pilot/faces/{mira,nova,atlas}.mjs, each head as filled paths in the rig's
-#          head frame (the middle of the face near 0,0, the chin near 16), with its eyes for the
-#          blink, where its neck leaves the jaw, its skin and hair colours, and where its hanging
-#          hair may sway.
+# Inputs:  design/character-pilot/faces/source/<name>.png, heads cropped from the owner's art (Mira
+#          from the owner's example of 7 November 2026; the other eight from the portraits on the
+#          owner's redesign sheet, mirrored to face left as the rig's figures do).
+# Outputs: design/character-pilot/faces/<name>.mjs, each head as filled paths in the rig's head
+#          frame (the middle of the face near 0,0, the chin near 16), with its eyes for the blink,
+#          where its neck leaves the jaw, its skin and hair colours, and where its hanging hair may
+#          sway.
 # Optional: only someone re-tracing needs Python; the outputs are committed. vtracer is MIT-licensed.
 #
 # For each head: the ground is flood-filled away from the crop's edge (a fill cannot reach shapes
-# enclosed in ink), the neck and shoulders are cut away below a line under the jaw, and stray specks
-# are dropped. The rest is traced at 4x (vtracer); every outline is smoothed of the source pixels'
+# enclosed in ink, so ground the drawing encloses is filled from points given by hand), the neck and
+# shoulders are cut away below a line under the jaw, and stray specks are dropped. The rest is traced at 4x (vtracer); every outline is smoothed of the source pixels'
 # staircase (sharp turns kept) and simplified to within a third of a source pixel; and the head is
 # fitted to the head frame by two landmarks, the eyes' midpoint and the chin.
 # A colour within 31 (CIE76, the game's minimum of 30 and a margin) of a team colour is moved just far
@@ -48,14 +48,23 @@ def bluish_dark(rgb):
     return (b - r) > 8 and max(rgb) < 70          # the example's navy stage; the ink is neutral
 
 
-def hue_ground(lo, hi, smin=0.35):
+def is_white(rgb):
+    r, g, b = (v / 255 for v in rgb)
+    h, s, v = colorsys.rgb_to_hsv(r, g, b)
+    return s < 0.1 and v > 0.86
+
+
+def hue_ground(lo, hi, smin=0.35, halo=0.06, white=True, vmin=0.18):
     def test(rgb):
         r, g, b = (v / 255 for v in rgb)
         h, s, v = colorsys.rgb_to_hsv(r, g, b)
         hd = h * 360
         inside = (lo <= hd <= hi) if lo <= hi else (hd >= lo or hd <= hi)
-        # The ground, its pale halo against the icon's rim, or the rim and page themselves.
-        return (inside and s >= smin and v > 0.18) or (inside and s >= 0.06 and v > 0.5) or (s < 0.1 and v > 0.86)
+        # The ground, its pale halo against the icon's rim, or the rim and page themselves. A head
+        # with white hair against the ground has the rim and page taken first, from the edge only
+        # (white=False), so the ground's fill cannot run on into the hair.
+        return (inside and s >= smin and v > vmin) or (inside and s >= halo and v > 0.5) or (white and s < 0.1 and v > 0.86)
+    test.white_first = not white
     return test
 
 
@@ -75,6 +84,56 @@ HEADS = {
         'eyes_mid': (100, 112), 'chin': (82, 181),
         'eyes': [(84, 112, 11, 14), (125, 110, 22, 15)], 'neck': (144, 180, 16),
         'trace': (24, 7, 16), 'sway': False, 'tint': '#C2408F',
+    },
+    'vega': {
+        'id': 'c1', 'source': "the owner's redesign sheet (portrait), mirrored",
+        'ground': hue_ground(12, 45),
+        'pockets': [(54, 124), (50, 145)],
+        'keep': [(0, 0), (315, 0), (315, 206), (280, 206), (240, 210), (200, 214), (170, 213), (160, 209), (128, 208), (112, 212), (90, 214), (60, 215), (0, 215)],
+        'eyes_mid': (96, 136), 'chin': (72, 208),
+        'eyes': [(70, 136, 8, 11), (123, 136, 17, 14)], 'neck': (138, 214, 20),
+        'skin_at': (95, 170), 'hair_at': (250, 120), 'trace': (24, 7, 16), 'sway': False,
+    },
+    'rigel': {
+        'id': 'c2', 'source': "the owner's redesign sheet (portrait), mirrored",
+        'ground': hue_ground(38, 62),
+        'keep': [(0, 0), (315, 0), (315, 200), (255, 200), (225, 196), (200, 200), (175, 204), (160, 205), (130, 206), (118, 215), (105, 224), (55, 224), (0, 224)],
+        'eyes_mid': (111, 115), 'chin': (95, 187),
+        'eyes': [(92, 114, 6, 10), (130, 117, 15, 10)], 'neck': (145, 208, 15),
+        'skin_at': (120, 140), 'hair_at': (215, 150), 'trace': (24, 7, 16), 'sway': False,
+    },
+    'lyra': {
+        'id': 'c3', 'source': "the owner's redesign sheet (portrait), mirrored",
+        'ground': hue_ground(58, 95),
+        'pockets': [(189, 21), (265, 110), (257, 119), (238, 141), (249, 148), (260, 149)],
+        'keep': [(0, 0), (315, 0), (315, 232), (232, 232), (200, 223), (172, 213), (163, 207), (128, 207), (112, 212), (90, 214), (60, 214), (0, 214)],
+        'eyes_mid': (103, 135), 'chin': (80, 210),
+        'eyes': [(80, 135, 8, 12), (127, 136, 19, 13)], 'neck': (145, 211, 18),
+        'skin_at': (115, 165), 'hair_at': (150, 90), 'trace': (24, 7, 16), 'sway': False,
+    },
+    'orion': {
+        'id': 'c5', 'source': "the owner's redesign sheet (portrait), mirrored",
+        'ground': hue_ground(160, 205, halo=0.15, white=False),
+        'keep': [(0, 0), (315, 0), (315, 186), (230, 186), (185, 186), (162, 186), (128, 189), (121, 200), (80, 200), (0, 200)],
+        'eyes_mid': (114, 98), 'chin': (98, 170),
+        'eyes': [(92, 98, 6, 9), (136, 99, 16, 11)], 'neck': (145, 190, 15),
+        'skin_at': (130, 117), 'hair_at': (230, 90), 'trace': (24, 7, 16), 'sway': False,
+    },
+    'juno': {
+        'id': 'c7', 'source': "the owner's redesign sheet (portrait), mirrored",
+        'ground': hue_ground(16, 40, smin=0.5),
+        'keep': [(0, 0), (315, 0), (315, 186), (240, 186), (190, 176), (170, 171), (155, 173), (130, 181), (110, 187), (95, 191), (60, 191), (0, 191)],
+        'eyes_mid': (110, 109), 'chin': (88, 186),
+        'eyes': [(90, 108, 7, 11), (131, 110, 16, 12)], 'neck': (140, 180, 17),
+        'skin_at': (125, 150), 'hair_at': (220, 110), 'trace': (24, 7, 16), 'sway': False,
+    },
+    'echo': {
+        'id': 'c9', 'source': "the owner's redesign sheet (portrait), mirrored",
+        'ground': hue_ground(225, 295, smin=0.12, vmin=0.25),
+        'keep': [(0, 0), (315, 0), (315, 235), (235, 235), (200, 222), (170, 215), (162, 200), (160, 182), (140, 178), (115, 178), (114, 206), (95, 208), (92, 182), (75, 178), (0, 178)],
+        'eyes_mid': (93, 96), 'chin': (75, 175),
+        'eyes': [], 'neck': (133, 181, 20),
+        'skin_at': (95, 150), 'hair_at': (230, 150), 'trace': (24, 7, 16), 'sway': True,
     },
     'atlas': {
         'id': 'c4', 'source': "the owner's redesign sheet (portrait), mirrored",
@@ -247,21 +306,32 @@ def subpaths(d):
 
 # ---------- Tracing ----------
 
-def ground_mask(im, test):
+def ground_mask(im, test, seeds=()):
     w, h = im.size
     px = im.load()
     seen = bytearray(w * h)
-    q = deque([(x, y) for x in range(w) for y in (0, h - 1)] + [(x, y) for y in range(h) for x in (0, w - 1)])
-    while q:
-        x, y = q.popleft()
-        i = y * w + x
-        if seen[i] or not test(px[x, y]):
-            continue
-        seen[i] = 1
-        if x > 0: q.append((x - 1, y))
-        if x < w - 1: q.append((x + 1, y))
-        if y > 0: q.append((x, y - 1))
-        if y < h - 1: q.append((x, y + 1))
+    edge = [(x, y) for x in range(w) for y in (0, h - 1)] + [(x, y) for y in range(h) for x in (0, w - 1)]
+
+    def fill(starts, accept):
+        q = deque(starts)
+        while q:
+            x, y = q.popleft()
+            i = y * w + x
+            if seen[i] or not accept(px[x, y]):
+                continue
+            seen[i] = 1
+            if x > 0: q.append((x - 1, y))
+            if x < w - 1: q.append((x + 1, y))
+            if y > 0: q.append((x, y - 1))
+            if y < h - 1: q.append((x, y + 1))
+
+    starts = edge + list(seeds)
+    if getattr(test, 'white_first', False):
+        # The rim and the page first, from the edge; then the ground, from everything they touch.
+        fill(edge, is_white)
+        starts = [(x + dx, y + dy) for y in range(h) for x in range(w) if seen[y * w + x]
+                  for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)) if 0 <= x + dx < w and 0 <= y + dy < h] + starts
+    fill(starts, test)
     m = Image.new('L', (w, h), 0)
     m.putdata([255 if s else 0 for s in seen])
     return m
@@ -298,7 +368,7 @@ def largest_island(mask):
 
 def trace(name, spec, work):
     im = Image.open(os.path.join(FACES, 'source', f'{name}.png')).convert('RGB')
-    ground = ground_mask(im, spec['ground'])
+    ground = ground_mask(im, spec['ground'], spec.get('pockets', ()))
     cut = Image.new('L', im.size, 0)
     ImageDraw.Draw(cut).polygon(spec['keep'], fill=255)
     alpha = largest_island(Image.composite(Image.new('L', im.size, 0), cut, ground))
@@ -347,14 +417,24 @@ def fit(name, spec, svg_text):
     eyes = [frame_ellipse(*e) for e in spec['eyes']]
     nx, ny = to_frame(spec['neck'][:2])
     neck = [round(nx, 2), round(ny, 2), round(spec['neck'][2] * s, 2)]
-    # The skin: the largest warm, light colour; the hair: the largest dark one.
+    # The skin and the hair: the traced colours nearest the drawing at the points given, or else the
+    # largest warm, light colour and the largest dark one.
     def hsv(h):
         return colorsys.rgb_to_hsv(*(int(h[i:i + 2], 16) / 255 for i in (1, 3, 5)))
+    def nearest_fill(at):
+        im = Image.open(os.path.join(FACES, 'source', f'{name}.png')).convert('RGB')
+        x, y = at
+        sample = [im.getpixel((x + dx, y + dy)) for dx in (-1, 0, 1) for dy in (-1, 0, 1)]
+        mean = '#' + ''.join(f'{round(sum(p[i] for p in sample) / 9):02X}' for i in range(3))
+        big = [c for c in areas if areas[c] > 2]
+        # The most used of the traced colours close to the drawing there, so a shade does not win.
+        close = [c for c in big if math.dist(lab(c), lab(mean)) < 12]
+        return max(close, key=lambda c: areas[c]) if close else min(big, key=lambda c: math.dist(lab(c), lab(mean)))
     skins = [c for c in areas if 0.02 <= hsv(c)[0] <= 0.12 and hsv(c)[1] > 0.2 and hsv(c)[2] > 0.7]
     browns = [c for c in areas if hsv(c)[1] >= 0.25 and 0.08 <= hsv(c)[2] <= 0.45]
     darks = [c for c in areas if hsv(c)[2] < 0.42]
-    skin = max(skins, key=lambda c: areas[c])
-    hair = max(browns or darks, key=lambda c: areas[c])
+    skin = nearest_fill(spec['skin_at']) if 'skin_at' in spec else max(skins, key=lambda c: areas[c])
+    hair = nearest_fill(spec['hair_at']) if 'hair_at' in spec else max(browns or darks, key=lambda c: areas[c])
     chin_y = round(to_frame(spec['chin'])[1], 2)
     return {'paths': paths, 'eyes': eyes, 'neck': neck, 'skin': skin, 'hair': hair, 'sway': chin_y + 1.2 if spec['sway'] else None, 'remapped': remapped, 'scale': s}
 

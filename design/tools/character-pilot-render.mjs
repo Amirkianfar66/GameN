@@ -1,13 +1,17 @@
 // mothership:dev-only
 //
 // Renders the character pilot's review files (design/character-pilot/review.html) for the owner:
-//   node design/tools/character-pilot-render.mjs [--only sheet|motion]
+//   node design/tools/character-pilot-render.mjs [--only sheet|motion|crew|crew-motion]
 // into design/character-pilot/review/:
-//   sheet.png          the still review sheet (portraits, today and the pilot, sizes, colours);
-//   motion.mp4         the three characters idling, walking and waving: exactly 288 frames at
-//                      30 fps (9.6 s), H.264, no audio stream;
-//   motion-poster.png  one frame of it;
-//   renders.json       what was rendered, with what, and each file's SHA-256.
+//   sheet.png               the pilot's still review sheet (portraits, faces, today and the pilot,
+//                           sizes, colours);
+//   motion.mp4              the pilot's three characters idling, walking and waving: exactly 288
+//                           frames at 30 fps (9.6 s), H.264, no audio stream;
+//   motion-poster.png       one frame of it;
+//   crew-sheet.png          the same sheet for the whole crew of nine;
+//   crew-motion.mp4         the nine idling, walking and waving, as motion.mp4 is made;
+//   crew-motion-poster.png  one frame of it;
+//   renders.json            what was rendered, with what, and each file's SHA-256.
 // Needs a Chromium-based browser (CHROME_PATH) and ffmpeg on PATH. A review render is a picture
 // of a page in desktop Chrome: it proves nothing about phones or performance.
 
@@ -27,23 +31,23 @@ const only = args.includes('--only') ? args[args.indexOf('--only') + 1] : null;
 const sha256 = buffer => createHash('sha256').update(buffer).digest('hex');
 const rel = file => relative(join(DESIGN_ROOT, '..'), file);
 
-async function renderSheet(browser, origin) {
+async function renderSheet(browser, origin, view = 'sheet', name = 'sheet.png') {
   const page = await openPage(browser, { width: 1560, height: 900, scale: 1.5 });
-  await page.goto(`${origin}/character-pilot/review.html?view=sheet`);
+  await page.goto(`${origin}/character-pilot/review.html?view=${view}`);
   await page.fitHeight();
-  const file = join(OUT, 'sheet.png');
+  const file = join(OUT, name);
   const size = await page.screenshot(file);
   const problems = page.problems();
   await page.close();
-  if (problems.length) throw new Error(`sheet: ${problems.join('; ')}`);
+  if (problems.length) throw new Error(`${view}: ${problems.join('; ')}`);
   return { kind: 'sheet', file, ...size };
 }
 
-async function renderMotion(browser, origin) {
+async function renderMotion(browser, origin, view = 'motion', name = 'motion') {
   const page = await openPage(browser, { width: 1280, height: 720, scale: 1.5 });
-  await page.goto(`${origin}/character-pilot/review.html?view=motion&play=0`, 'window.__pilot && window.__pilot.ready');
+  await page.goto(`${origin}/character-pilot/review.html?view=${view}&play=0`, 'window.__pilot && window.__pilot.ready');
   const frames = Math.round((MOTION_MS / 1000) * FPS);
-  const file = join(OUT, 'motion.mp4');
+  const file = join(OUT, `${name}.mp4`);
   const ffmpeg = spawn('ffmpeg', ['-v', 'error', '-y', '-f', 'image2pipe', '-framerate', String(FPS), '-i', '-',
     '-c:v', 'libx264', '-preset', 'slow', '-crf', '20', '-pix_fmt', 'yuv420p', '-an', '-movflags', '+faststart', file], { stdio: ['pipe', 'ignore', 'pipe'] });
   let errors = '';
@@ -60,11 +64,11 @@ async function renderMotion(browser, origin) {
   }
   ffmpeg.stdin.end();
   await done;
-  const posterFile = join(OUT, 'motion-poster.png');
+  const posterFile = join(OUT, `${name}-poster.png`);
   await writeFile(posterFile, poster);
   const problems = page.problems();
   await page.close();
-  if (problems.length) throw new Error(`motion: ${problems.join('; ')}`);
+  if (problems.length) throw new Error(`${view}: ${problems.join('; ')}`);
   return [{ kind: 'video', file, width: 1920, height: 1080, fps: FPS, frames, durationMs: MOTION_MS }, { kind: 'poster', file: posterFile, width: 1920, height: 1080 }];
 }
 
@@ -78,6 +82,8 @@ try {
   browserName = (await browser.send('Browser.getVersion')).product;
   if (!only || only === 'sheet') outputs.push(await renderSheet(browser, server.origin));
   if (!only || only === 'motion') outputs.push(...await renderMotion(browser, server.origin));
+  if (!only || only === 'crew') outputs.push(await renderSheet(browser, server.origin, 'crew', 'crew-sheet.png'));
+  if (!only || only === 'crew-motion') outputs.push(...await renderMotion(browser, server.origin, 'crew-motion', 'crew-motion'));
 } finally {
   await chrome.close?.();
   await server.close();

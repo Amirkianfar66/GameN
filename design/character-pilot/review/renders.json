@@ -2,6 +2,30 @@
   "tool": "design/tools/character-pilot-render.mjs",
   "page": "design/character-pilot/review.html",
   "outputs": {
+    "design/character-pilot/review/crew-motion-poster.png": {
+      "kind": "poster",
+      "width": 1920,
+      "height": 1080,
+      "bytes": 1005242,
+      "sha256": "cad28262881a2a1a73e02c955812143d95c33715f75c45c7b977d69885ea6ae0"
+    },
+    "design/character-pilot/review/crew-motion.mp4": {
+      "kind": "video",
+      "width": 1920,
+      "height": 1080,
+      "fps": 30,
+      "frames": 288,
+      "durationMs": 9600,
+      "bytes": 3986386,
+      "sha256": "9398988a613c9fca80407901f26686255490edb92fb5f539855370466d5dcd5d"
+    },
+    "design/character-pilot/review/crew-sheet.png": {
+      "kind": "sheet",
+      "width": 2340,
+      "height": 4653,
+      "bytes": 1882737,
+      "sha256": "53234e3aa006e2885a6522c8f8c3e6bec934a54b501b4f86b06cdeee7f5936ef"
+    },
     "design/character-pilot/review/motion-poster.png": {
       "kind": "poster",
       "width": 1920,

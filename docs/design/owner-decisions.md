@@ -30,7 +30,12 @@ The owner's messages are quoted as written.
 - The pilot stands as drawn: the traced faces and what the rig moves on them, the body and the suit, the animation and the portraits.
 - That includes the choices made with the traced faces: the head as large against the body as in the owner's example, and the traced colours moved just clear of the team colours.
 
-**What it does not decide:** adoption. The pilot lives in `design/character-pilot/` (handoff: [character-pilot.md](character-pilot.md)). The game, the board, the films and the approved rig are unchanged. Adopting the style is a separate change: the other six characters first, then the rig's drawing replaced (Frontend re-ports it and Integration re-pins it).
+**Then, the whole crew.** Asked whether to trace the other six the same way, the owner answered: "Go a head with all of them". What it decides:
+- Vega, Rigel, Lyra, Orion, Juno and Echo are traced from the portraits on the owner's redesign sheet and rigged as the pilot is.
+- The earlier answers carry over: Juno slim beside Atlas heavy, and Echo in the proposed violet.
+- No larger drawings were sent, so the sheet's portraits are the sources.
+
+**What it does not decide:** adoption. The restyle lives in `design/character-pilot/` (handoff: [character-pilot.md](character-pilot.md)). The game, the board, the films and the approved rig are unchanged. Adopting the style is a separate change: the owner's check of the crew first, then the rig's drawing replaced (Frontend re-ports it and Integration re-pins it).
 
 ## 11 October 2026: the Insider's file, portraits and role labels
 
