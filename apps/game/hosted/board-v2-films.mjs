@@ -25,7 +25,7 @@ const unitBox=(f,x,y,w,h)=>({left:f.tx+x*f.k,top:f.ty+y*f.k,width:w*f.k,height:h
 const namespaceSvg=(svg,prefix)=>{const ids=[...svg.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]);for(const id of ids)svg=svg.replaceAll(`id="${id}"`,`id="${prefix}-${id}"`).replaceAll(`url(#${id})`,`url(#${prefix}-${id})`).replaceAll(`href="#${id}"`,`href="#${prefix}-${id}"`);return svg;};
 const nameBand=who=>({left:who.name.left-38,top:who.name.top,width:76,height:16});
 export function createBoardV2Films(root,holder){
- const document=root.ownerDocument,nodes=new Map(),restored=new Map();let used=new Set(),drawingVersions=null;
+ const document=root.ownerDocument,nodes=new Map(),restored=new Map();let used=new Set(),drawingVersions=null,privateCardNode=null;
  const caption=room=>{
   const parent=holder._boardV2Paint.rooms.get(room.room),node=parent?.querySelector('.bv2-caption');
   if(!node)return {left:0,top:0,width:room.panel.width,height:room.panel.cap};
@@ -173,12 +173,15 @@ export function createBoardV2Films(root,holder){
    const point=overflowWay(at,target,f.flyer.v);figure(holder,`${entry.event.eventId}-paper`,who,{at:point,scale:.18*f.flyer.scale,mirror:false},{k:1,tx:0,ty:0},skeletonOf(slot.down),{opacity:f.flyer.opacity,body:true,memorial:true,outfit:outfitFor(entry.origin.location),z:3100});}
  }
  function privateCard(own,seats){
-  let card=root.querySelector('.bv2-clone-card');
+  let card=privateCardNode??root.querySelector('.bv2-clone-card');
   const panel=root.dataset.phoneView==='actions'?root.querySelector('.ms-private[data-open="true"] .ms-private__panel'):null;
+  // A parent UI redraw can detach the card before this painter runs. Keep ownership
+  // independently of DOM queries so its listeners and shared-art lease are released.
+  if(card&&card.parentNode!==panel){disposeCrewMounts(card);card.remove();card=null;privateCardNode=null;}
   const who=seats.find(s=>s.seatId===own?.seatId);
-  if(!own||!panel||!CREW[who?.characterId]){if(card){disposeCrewMounts(card);card.remove();}root.dataset.boardClone='false';for(const line of root.querySelectorAll('[data-clone-duplicate]')){line.hidden=false;delete line.dataset.cloneDuplicate;}return;}
+  if(!own||!panel||!CREW[who?.characterId]){if(card){disposeCrewMounts(card);card.remove();}privateCardNode=null;root.dataset.boardClone='false';for(const line of root.querySelectorAll('[data-clone-duplicate]')){line.hidden=false;delete line.dataset.cloneDuplicate;}return;}
   root.dataset.boardClone='true';for(const line of root.querySelectorAll('.bv2-private-status'))if(line.textContent===cloneWords(own.status)){line.hidden=true;line.dataset.cloneDuplicate='true';}
-  if(!card){card=document.createElement('div');card.className='bv2-clone-card';card.dataset.private='true';const drawing=document.createElement('div');drawing.className='bv2-clone-drawing';drawing.setAttribute('aria-hidden','true');const words=document.createElement('p');card.append(drawing,words);panel.prepend(card);}
+  if(!card){card=document.createElement('div');card.className='bv2-clone-card';card.dataset.private='true';const drawing=document.createElement('div');drawing.className='bv2-clone-drawing';drawing.setAttribute('aria-hidden','true');const words=document.createElement('p');card.append(drawing,words);panel.prepend(card);}privateCardNode=card;
   card.dataset.cloneState=own.state;card.dataset.cloneFilm=own.film??'rest';
   const width=Math.max(180,panel.clientWidth-12),l=cloneCardLayout({width,height:100}),drawing=card.firstElementChild;card.style.minHeight='100px';
   const currentCrew=hasCrewDrawing(drawingVersions),outfit=outfitFor(who.location),drawingKey=`${who.characterId}|${outfit}`;
@@ -269,5 +272,5 @@ export function createBoardV2Films(root,holder){
   }
   privateCard(enabled&&privateOpen?sample.own:null,seats);if(enabled&&privateOpen)commandPlates(captainState,card);
   for(const[key,node]of nodes)if(!used.has(key)){node.remove();nodes.delete(key);}
- },clear(){beforePaint();root.dataset.boardClone='false';for(const line of root.querySelectorAll('[data-clone-duplicate]')){line.hidden=false;delete line.dataset.cloneDuplicate;}for(const node of nodes.values())node.remove();nodes.clear();const card=root.querySelector('.bv2-clone-card');if(card){disposeCrewMounts(card);card.remove();}root.querySelector('.bv2-captain-states')?.remove();},dispose(){this.clear();}};
+ },clear(){beforePaint();root.dataset.boardClone='false';for(const line of root.querySelectorAll('[data-clone-duplicate]')){line.hidden=false;delete line.dataset.cloneDuplicate;}for(const node of nodes.values())node.remove();nodes.clear();const card=privateCardNode??root.querySelector('.bv2-clone-card');if(card){disposeCrewMounts(card);card.remove();}privateCardNode=null;root.querySelector('.bv2-captain-states')?.remove();},dispose(){this.clear();}};
 }

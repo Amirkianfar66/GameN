@@ -1,7 +1,7 @@
 {
   "registrationBase": "a1ad3e541f3b7ea0789b4ec2f2dd777c7764f414",
   "sourceHead": "8cee39d89798390d03c2a4a9fe457fa6de387bda",
-  "consumerCheckpointSha256": "72c38a0172335a828e06cfbfdae2d5a0bf55d815ddd8b773790cd57d05158e3e",
+  "consumerCheckpointSha256": "719b08573fb0da0beb0f4bd5703f0175406b0468540aea61ae27b7e137767f6b",
   "frontend": {
     "baseline": {
       "presentation": 217,
@@ -10,6 +10,14 @@
       "failed": 0
     },
     "afterMotionCorrection": {
+      "command": "npm run test:frontend",
+      "exitCode": 0,
+      "presentation": 217,
+      "game": 683,
+      "total": 900,
+      "failed": 0
+    },
+    "afterLifecycleCorrection": {
       "command": "npm run test:frontend",
       "exitCode": 0,
       "presentation": 217,
@@ -28,11 +36,12 @@
     "verified": 17,
     "edited": 0
   },
-  "productionExclusion": "Production exclusion: 75 modules reachable from 2 production entries, 223 shipped or source files scanned, 94 development files labeled; no fixture, test or development module or marker found",
+  "productionExclusion": "Production exclusion: 75 modules reachable from 2 production entries, 223 shipped or source files scanned, 95 development files labeled; no fixture, test or development module or marker found",
   "appMotion": {
     "cases": 6,
     "failures": [],
-    "browserProblems": []
+    "browserProblems": [],
+    "remainingCrewListeners": []
   },
   "mountLifecycle": {
     "poseUpdates": 121,
@@ -80,7 +89,9 @@
     "historicalCloneScreenshots": 1,
     "videoSeconds": 35,
     "videoFrames": 525,
-    "browser": "Google Chrome 156.0.8078.80"
+    "browser": "Google Chrome 156.0.8078.80",
+    "consumerHead": "9737ad26fdf8eb24d3d14cecf29f322a57b93f4a",
+    "followup": "Selector and disconnected Clone cleanup validated separately; visual drawing paths unchanged"
   },
   "mediaSha256": {
     "320-568-full-board.png": "da8c4d9cfba0e90bc8fb96c01c338a2cd12d3b27b0fe2558914a4da110483f8d",
@@ -136,5 +147,10 @@
   },
   "designerVisualAcceptance": "pending",
   "deployment": "not performed",
-  "activation": "not performed"
+  "activation": "not performed",
+  "rootDisposalReuse": {
+    "cases": 2,
+    "failures": [],
+    "browserProblems": []
+  }
 }

@@ -126,5 +126,5 @@ export async function mountPlanetApp(root,{connection,matchId,allowSynthetic=fal
  const artReady=()=>{sessionKey=null;if(model)render(session.getModel());};
  const concealRole=()=>{roleOpen=false;session.revealRole(false);};
  document.addEventListener('visibilitychange',visibility);document.addEventListener('mothership:art-ready',artReady);win.addEventListener('blur',concealRole);unsubscribe=session.subscribe(render);await session.start(matchId);
- return {session,artReady:libraryAssets.ready,get game(){return game;},dispose(){disposed=true;unsubscribe?.();document.removeEventListener('visibilitychange',visibility);document.removeEventListener('mothership:art-ready',artReady);win.removeEventListener('blur',concealRole);renderer?.dispose();game?.dispose();session.dispose();libraryAssets.dispose();void connection.dispose?.();root.replaceChildren();}};
+ return {session,artReady:libraryAssets.ready,get game(){return game;},dispose(){disposed=true;unsubscribe?.();document.removeEventListener('visibilitychange',visibility);document.removeEventListener('mothership:art-ready',artReady);win.removeEventListener('blur',concealRole);renderer?.dispose();game?.dispose();session.dispose();libraryAssets.dispose();void connection.dispose?.();delete root.dataset.crewArt;root.replaceChildren();}};
 }

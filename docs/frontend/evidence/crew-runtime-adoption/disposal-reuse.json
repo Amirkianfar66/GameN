@@ -1,0 +1,18 @@
+{
+  "scope": "Actual app and renderer dispose/reuse under synthetic sessions, desktop Chromium only",
+  "cases": [
+    {
+      "name": "setup dispose and historical reuse",
+      "selectorCleared": true,
+      "hostAttributesPreserved": true
+    },
+    {
+      "name": "running dispose and historical reuse",
+      "selectorCleared": true,
+      "hostAttributesPreserved": true
+    }
+  ],
+  "failures": [],
+  "problems": [],
+  "browser": "Google Chrome 156.0.8078.80"
+}
