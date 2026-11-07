@@ -4,7 +4,7 @@ import { dirname, join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { fileURLToPath } from 'node:url';
 import test from 'node:test';
-import { readRuntimeArtRelease, assertRuntimeArtOutput, PLANET_ART_VERSION, PLANET_ART_MANIFEST } from '../../scripts/runtime-art-release.mjs';
+import { CREW_CONSUMER_APPROVAL, readCrewConsumerApproval, readRuntimeArtRelease, assertRuntimeArtOutput, PLANET_ART_VERSION, PLANET_ART_MANIFEST } from '../../scripts/runtime-art-release.mjs';
 import { preparePlanetLibraryArt } from '../../apps/game/hosted/build/planet-library-art.mjs';
 const root = fileURLToPath(new URL('../../', import.meta.url));
 const manifest = () => readRuntimeArtRelease(root, PLANET_ART_VERSION);
@@ -13,6 +13,7 @@ function candidate(t) {
   t.after(()=>rmSync(output,{recursive:true,force:true}));
   const release=manifest();
   const files=new Set([PLANET_ART_MANIFEST,release.baseManifest.path,release.integrationApproval.path,
+    CREW_CONSUMER_APPROVAL,...Object.keys(readCrewConsumerApproval(root).requiredFiles),
     ...Object.keys(release.sources),...Object.keys(release.runtimeFiles)]);
   for(const path of files){mkdirSync(dirname(join(output,path)),{recursive:true});cpSync(join(root,path),join(output,path));}
   return output;
