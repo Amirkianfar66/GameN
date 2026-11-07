@@ -18,6 +18,10 @@ The owner's messages are quoted as written.
 | 4 | "You can change them 1 fat or thinner" | Atlas and Juno are told apart by build: Atlas heavy |
 | 5 | "I created the images … even you can be free to improve them and send me to check … the main Goal is give the design of game style and more like AAA animation but with a specific style Noir, Comic book Style" | The owner's own designs, which Designer may improve; the look is noir and comic-book with a hand-drawn line, and the animation is polished. The owner named a game as the inspiration for the hand-drawn line; nothing is taken from it |
 
+**Later that day, the faces.** The owner reviewed the first renders: "You did a good job on rigging and the body and dress, but the face is not good! I created an example as a better face", with a repainted Mira. What it decides:
+- The rig, the body and the suit stand as drawn.
+- The faces follow the example: big almond eyes with dark irises, a winged lash line, full brows, a small nose and mouth inside a soft oval face, and hair framing the face.
+
 **What it does not decide:** adoption. The pilot is a proposal in `design/character-pilot/` (handoff: [character-pilot.md](character-pilot.md)). The game, the board, the films and the approved rig are unchanged until the owner approves the style and the other six are drawn.
 
 ## 11 October 2026: the Insider's file, portraits and role labels

@@ -12,6 +12,8 @@ The owner drew a redesign of the nine crew members: portraits in app-icon frames
 | 4 | "You can change them 1 fat or thinner" | Atlas and Juno are told apart by build: Atlas is the heavy one |
 | 5 | "I created the images I wanted to inspire by the dont starve together style … the main Goal is give the design of game style and more like AAA animation but with a specific style Noir, Comic book Style" | A noir, comic-book look with a hand-drawn line, in the redesign's spirit, and animation with the follow-through of a polished production |
 
+**The owner's review of the first renders, the same day:** "You did a good job on rigging and the body and dress, but the face is not good! I created an example as a better face". The owner sent a repainted Mira. The faces are redrawn in its language (below); the rig, the body and the suit are kept as they were.
+
 ## What to look at
 
 - **Renders:**
@@ -46,6 +48,20 @@ Each character's colour is on the shoulder pads, collar, cuffs, buckle and boot 
 | Atlas (`c4`) | A swept-up crop with tufts, a mustache and a goatee, stubble | Heavy: broad shoulders, thicker limbs and neck, a belly | Green ground, deep green accent |
 
 The skin tones and hair colours follow the owner's sheet. Mira's skin is lighter than her current token.
+
+### Faces, from the owner's example
+
+- **Eyes.** Big almond eyes:
+  - the dark iris fills the eye's height, with a catch-light, and looks left;
+  - the white shows beside it;
+  - a heavy lash line lifts past the outer corner into a small wing, with a thin lower lid.
+  - Atlas's eyes are hooded and narrower, without a wing.
+- **Brows.** Full and dark, thick toward the nose and tapering out: arched for Mira, straighter for Nova, low and heavy for Atlas.
+- **Nose and mouth.** A small nose by the far cheek and a small, slightly parted mouth with a hint of lower lip, both drawn inside the face.
+- **Face shape.** A soft oval with a small chin; Atlas's broader and squarer.
+- **Hair framing.** For Mira and Nova, the hair frames the face on both sides: a fall behind the far cheek as well as behind the ear.
+- **Cheeks and skin.** The cheeks are modelled in a deeper skin tone, not pink: a pink blush comes within 16 to 26 (CIE76) of the red team's colour. The skin is clean, without the paper texture.
+- **Blinks and looking down.** The upper lid closes onto the lower, and the iris goes with it.
 
 ## Colours
 

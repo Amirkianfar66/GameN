@@ -210,6 +210,9 @@ export function inkCanvas(prefix) {
       body.push(`<path d="${pathOf(spline(points, { tension, closed }), closed)}" fill="${color}"${opacity === null ? '' : ` opacity="${opacity}"`}/>`);
     },
     raw(svg) { body.push(svg); },
+    /** A fresh id under this canvas's prefix, and a definition added to its defs. */
+    uid: kind => id(kind),
+    def(svg) { defs.push(svg); },
     group(transform, draw) { body.push(`<g transform="${transform}">`); draw(); body.push('</g>'); },
     front(draw) { const keep = body; body = layers.front; draw(); body = keep; },
     hasFront: () => layers.front.length > 0,
