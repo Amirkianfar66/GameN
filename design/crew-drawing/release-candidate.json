@@ -1,0 +1,461 @@
+{
+  "schema": "mothership.crew-drawing-release-candidate/1",
+  "release": "crew-drawing-1.0.0",
+  "status": "Designer candidate for Integration review (DSN-REQ-17), corrected after Integration's review of 6bba38844d394bbef2a69f3a523a67f883c18fd5: figures are posed in place through continuous movement, and the back of Mira's hair and Echo's locs is live. Integration owns final release registration, drawing-source pins, the drawing-port fence and shared manifests; nothing here registers, pins or publishes.",
+  "approval": {
+    "owner": "2026-11-07",
+    "record": "docs/design/owner-decisions.md",
+    "pullRequests": [
+      {
+        "number": 191,
+        "merge": "5f1a1ce97570ddc3304b7b286ddd8ebbc3d8b0be",
+        "what": "the pilot: Mira, Nova and Atlas"
+      },
+      {
+        "number": 192,
+        "merge": "d2933b08eff0e5bd00cfbdf1730b81a007f1c646",
+        "what": "the other six"
+      }
+    ],
+    "baseCommit": "d2933b08eff0e5bd00cfbdf1730b81a007f1c646"
+  },
+  "after": {
+    "manifestVersion": "design-0.6.0",
+    "path": "design/releases/design-0.6.0.json",
+    "sha256": "eeb4a88c7b71166a1c9782231ccd7fa81931cb50eed112e3d6153a862751bec4"
+  },
+  "proposed": {
+    "manifestVersion": "design-0.7.0",
+    "tokensVersion": "0.5.0",
+    "note": "The candidate art version and crew token candidate Integration named in its review; final registration and source hashes follow the corrected-source review."
+  },
+  "provenance": {
+    "faces": "Traced from the game owner's own drawings (images the owner provided on 7 November 2026) by design/tools/character-pilot-trace.py. The source crops are design/character-pilot/faces/source/*.png, kept public with the owner's permission and never shipped; source/heads/ is the traced result, byte for byte the approved character pilot's.",
+    "drawn": "Bodies, clothes, hands, the bandage and sling, the hanging-hair motion, the portrait and card frames and grounds, and the standee card are drawn in code (design/crew-drawing/source) on the approved rig. The standee keeps the rig standee's stand and clamp; the held devices are the shipped devices with the sleeve recoloured.",
+    "approval": "Approved by the game owner on 7 November 2026 (PRs 191 and 192; docs/design/owner-decisions.md).",
+    "rights": "Original work for the Mothership project. No third-party artwork, font, stock asset or photograph. Use inside the project only."
+  },
+  "portRule": "A runtime file is its source with the first line \"// mothership:dev-only\" removed and the import specifiers in imports rewritten. Nothing else changes; runtimeSha256 is the result. The runtime directory is apps/game/hosted/crew-drawing/ (heads/ inside it), which Integration accepts in principle; the drawing-port fence's drawing directories do not list it yet.",
+  "liveInterface": {
+    "mount": [
+      "crewArtDefs",
+      "CANONICAL_PREFIX",
+      "withPrefix",
+      "poseKey",
+      "crewFrame",
+      "applyCrewFrame",
+      "crewPoseFrame",
+      "applyCrewPose"
+    ],
+    "motion": [
+      "crewMotion",
+      "blinkAt",
+      "idleDrift",
+      "hairFollow",
+      "hasLids",
+      "hasHangingHair",
+      "isStill",
+      "STILL_DRIFT"
+    ],
+    "portrait": [
+      "crewPortraitSvg",
+      "crewPortraitFrame",
+      "crewCardSvg",
+      "crewStandeeSvg"
+    ],
+    "rule": "A figure is mounted once per instance and layer, with its own prefix. In its place, crewFrame sets the head, lids, hanging hair and the back of hanging hair; moving, crewPoseFrame sets every attribute of the same elements for a continuously sampled skeleton, never redrawing the traced art; it is mounted again only where applyCrewPose returns -1. No pose is quantized; no cache holds continuously sampled poses."
+  },
+  "importRewrites": {
+    "../../board-motion/figures/body.mjs": "../scene-drawing/body.mjs",
+    "../../board-motion/figures/wardrobe.mjs": "../scene-drawing/wardrobe.mjs"
+  },
+  "sources": [
+    {
+      "source": "design/crew-drawing/source/crew.mjs",
+      "sourceSha256": "ac1634f0ac43a8c0a8e1b3adf0cd2803b983d7c2c868f0497724e108795ff043",
+      "runtime": "apps/game/hosted/crew-drawing/crew.mjs",
+      "runtimeSha256": "108685e795f20100e9fdbba4d03d15a9825487d761a469e6cbf62a2a8697d0c0",
+      "imports": {}
+    },
+    {
+      "source": "design/crew-drawing/source/ink.mjs",
+      "sourceSha256": "48c881a03cfbfaf383aedacc2d8f91818279655b3737416d93f36373b95be34d",
+      "runtime": "apps/game/hosted/crew-drawing/ink.mjs",
+      "runtimeSha256": "53787159af457c1c4e41cc9ce7567f14b154149fcdbe986b27b6aae3b8f2966e",
+      "imports": {}
+    },
+    {
+      "source": "design/crew-drawing/source/heads/vega.mjs",
+      "sourceSha256": "ee61eaad800b04631ab4dbbfffda62dc792bcef8c876f7504a2d44e478165656",
+      "runtime": "apps/game/hosted/crew-drawing/heads/vega.mjs",
+      "runtimeSha256": "99bf51b375c60b857fd71a36433b84e1a4e767da6366752aa08ed1277ed8c4ff",
+      "imports": {}
+    },
+    {
+      "source": "design/crew-drawing/source/heads/rigel.mjs",
+      "sourceSha256": "803a3c768d8eb21634d0a3f37953fb4788008f471bd7f4a14f1526aa76289898",
+      "runtime": "apps/game/hosted/crew-drawing/heads/rigel.mjs",
+      "runtimeSha256": "ec5b2197530c581d8eaa7dbb1152ad795c7118993f6f374108f09f2fcbc5cf5f",
+      "imports": {}
+    },
+    {
+      "source": "design/crew-drawing/source/heads/lyra.mjs",
+      "sourceSha256": "dc9271377889eaf171812ef306c5fc30bc2467b26f0100e60188c6aac5cd7ab7",
+      "runtime": "apps/game/hosted/crew-drawing/heads/lyra.mjs",
+      "runtimeSha256": "39e6609847417994edf7c17ce25e46a0d9a349654cb02790e7b7f5a20ffa44d1",
+      "imports": {}
+    },
+    {
+      "source": "design/crew-drawing/source/heads/atlas.mjs",
+      "sourceSha256": "1909d4a10c5bc28f4e7e44406c8f06d5130dd287bfde8fb3f153070fd5fe0cd1",
+      "runtime": "apps/game/hosted/crew-drawing/heads/atlas.mjs",
+      "runtimeSha256": "33e1c9250ab863bfa3cf9cddc40275b296938b4c8fa3c82db8abf68d1943b268",
+      "imports": {}
+    },
+    {
+      "source": "design/crew-drawing/source/heads/orion.mjs",
+      "sourceSha256": "a37e4340d38f46d5c618746f424e7992339645b0f63e27d887b04d29cce5151e",
+      "runtime": "apps/game/hosted/crew-drawing/heads/orion.mjs",
+      "runtimeSha256": "7c0a2053f250ba030fe4aac4cb16e7334ec5b14379cc8333f61498d2e4fd25b5",
+      "imports": {}
+    },
+    {
+      "source": "design/crew-drawing/source/heads/nova.mjs",
+      "sourceSha256": "4380e7e76071ba74f6db2f69600ba239fa13d3907b914523704191dcadf5338f",
+      "runtime": "apps/game/hosted/crew-drawing/heads/nova.mjs",
+      "runtimeSha256": "cf3304025eb6243d2aacfaaece05d027c5733569b671b6463e71972c531c43d6",
+      "imports": {}
+    },
+    {
+      "source": "design/crew-drawing/source/heads/juno.mjs",
+      "sourceSha256": "b9da5c07018ff73f7f222e056b8d7236eb2034b8cfc48ff7d56a6b4ca89942cb",
+      "runtime": "apps/game/hosted/crew-drawing/heads/juno.mjs",
+      "runtimeSha256": "4aa9f9600b1413ee8e2d55923be0ccfbe0c94e6624e438ecb435c5a46fe9e0ad",
+      "imports": {}
+    },
+    {
+      "source": "design/crew-drawing/source/heads/mira.mjs",
+      "sourceSha256": "21244acd174f1728b405c28086a0c9df50f89a214f8ff00d076397e7b3ccd523",
+      "runtime": "apps/game/hosted/crew-drawing/heads/mira.mjs",
+      "runtimeSha256": "8e410ed0422df3a8da91109d7770637680da7e3d2bb53b323c38314a14b8da69",
+      "imports": {}
+    },
+    {
+      "source": "design/crew-drawing/source/heads/echo.mjs",
+      "sourceSha256": "3c8f99652e244b9f8c6b98f13f21249795c4fd106dfb5485695558488d5b0abf",
+      "runtime": "apps/game/hosted/crew-drawing/heads/echo.mjs",
+      "runtimeSha256": "8f11f3764ce45676f11d5d56bae0ef6d72c081a888245696e1455c799a023a15",
+      "imports": {}
+    },
+    {
+      "source": "design/crew-drawing/source/head.mjs",
+      "sourceSha256": "c03fb04cafc1b3d27d8fc5e7edfbf8b2fc8969ab370f9d92d8f8b65bac996891",
+      "runtime": "apps/game/hosted/crew-drawing/head.mjs",
+      "runtimeSha256": "d4ac83d8782c3e03938b4ea70888491db701c5dfcfde0b994db7fbed92d66290",
+      "imports": {}
+    },
+    {
+      "source": "design/crew-drawing/source/figure.mjs",
+      "sourceSha256": "d61e1ee54161829fcb812b72e57c965523de6da6c84702ee848a84372fc23a90",
+      "runtime": "apps/game/hosted/crew-drawing/figure.mjs",
+      "runtimeSha256": "fcaa9fd62acb2f2a0378c63605ab52450cced0d10591c2ca786af422f6c0f968",
+      "imports": {
+        "../../board-motion/figures/body.mjs": "../scene-drawing/body.mjs"
+      }
+    },
+    {
+      "source": "design/crew-drawing/source/wardrobe.mjs",
+      "sourceSha256": "5ce2a7530cfb7d3cfc41153d29a33894ed4a74afbd9b88cb30a6e38d9eadca17",
+      "runtime": "apps/game/hosted/crew-drawing/wardrobe.mjs",
+      "runtimeSha256": "d1de51191efb793ae484fe5a0ef9b10e530b43ea2e227aa093d07cf6ce25fa9b",
+      "imports": {
+        "../../board-motion/figures/body.mjs": "../scene-drawing/body.mjs",
+        "../../board-motion/figures/wardrobe.mjs": "../scene-drawing/wardrobe.mjs"
+      }
+    },
+    {
+      "source": "design/crew-drawing/source/motion.mjs",
+      "sourceSha256": "405f22b75eb027d4408c3d0d9c5f328f01711e8363f69e7517ee7fa4160dd280",
+      "runtime": "apps/game/hosted/crew-drawing/motion.mjs",
+      "runtimeSha256": "fe753aa1be111f99e98ef146e0c648d1f9e6b3f9726e312ca38bcc3be040c5fe",
+      "imports": {}
+    },
+    {
+      "source": "design/crew-drawing/source/mount.mjs",
+      "sourceSha256": "72435fa70884038602b26f65f3970ad0a83f93b138ea3bd311a027a263048d32",
+      "runtime": "apps/game/hosted/crew-drawing/mount.mjs",
+      "runtimeSha256": "651e41ccd7141abd4521dae27a249307687671ea3a60b77ecbe139de92166e27",
+      "imports": {}
+    },
+    {
+      "source": "design/crew-drawing/source/portrait.mjs",
+      "sourceSha256": "06839757ada8939295b626e6c142935fa0db69bda266f05230fd9ad50d2dfac7",
+      "runtime": "apps/game/hosted/crew-drawing/portrait.mjs",
+      "runtimeSha256": "4026cd28a4234f45345a25fa9bb59705dbff58f38ecb4321408b36fca395adf5",
+      "imports": {}
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "design/board-motion/figures/body.mjs",
+      "runtime": "apps/game/hosted/scene-drawing/body.mjs",
+      "why": "FRAME (the figure's box) and ORDER (the parts' order)",
+      "sha256": "9d081fc4926d07dd1d56e90bd5452ed05052a806f2d33212a1b76c8e107fc958",
+      "runtimeSha256": "82762010294c652f13a592a3f6de9117400bc18df414557492bec47b7d84b513",
+      "pinnedIn": "design/releases/design-0.6.0.json"
+    },
+    {
+      "path": "design/board-motion/figures/wardrobe.mjs",
+      "runtime": "apps/game/hosted/scene-drawing/wardrobe.mjs",
+      "why": "OUTFITS and outfitFor, re-exported unchanged (what is worn where)",
+      "sha256": "1c30862d77ce7fa94275934467c5b596e68dbe0d41f3d102bd0c040bc5feca6f",
+      "runtimeSha256": "312c4cda048585f9270b3de095e2dcf44dc0dadd4c73392b1206da303ae8ddc3",
+      "pinnedIn": "design/releases/design-0.6.0.json"
+    }
+  ],
+  "consumers": {
+    "note": "Exact-release dispatch, which Frontend owns: a match pinned to design-0.6.0 or earlier keeps drawing with today's modules; a match on the new release draws with these. The calls are the same (dressedFigureSvg, outfitFor, CREW); each consumer reads them today from the two modules named here, and the release's from its own two. No import is replaced unconditionally.",
+    "files": [
+      {
+        "path": "apps/game/hosted/scene-board.mjs",
+        "sha256AtBase": "78a8ddcb56f48a2fbf16fbc96f88a36af67fb9d7bc557ed33aaa3493721e0e45",
+        "swaps": [
+          {
+            "today": "./scene-drawing/crew.mjs",
+            "release": "./crew-drawing/crew.mjs"
+          },
+          {
+            "today": "./scene-drawing/wardrobe.mjs",
+            "release": "./crew-drawing/wardrobe.mjs"
+          }
+        ]
+      },
+      {
+        "path": "apps/game/hosted/comic-motion.mjs",
+        "sha256AtBase": "b3921d9c263b322ee32ce4a7c0bec4f97396bdc809aeab98ed5baebef68af6ff",
+        "swaps": [
+          {
+            "today": "./scene-drawing/crew.mjs",
+            "release": "./crew-drawing/crew.mjs"
+          },
+          {
+            "today": "./scene-drawing/wardrobe.mjs",
+            "release": "./crew-drawing/wardrobe.mjs"
+          }
+        ]
+      },
+      {
+        "path": "apps/game/hosted/phone-kit.mjs",
+        "sha256AtBase": "f42cc6654b12744f037c5756500d85fdc829ba59ede4dc3decb2eca3467af656",
+        "swaps": [
+          {
+            "today": "./scene-drawing/crew.mjs",
+            "release": "./crew-drawing/crew.mjs"
+          },
+          {
+            "today": "./scene-drawing/wardrobe.mjs",
+            "release": "./crew-drawing/wardrobe.mjs"
+          }
+        ]
+      },
+      {
+        "path": "apps/game/hosted/board-v2-scene.mjs",
+        "sha256AtBase": "acf897d9f8fcaf9c63e1bc6591e2d9c2f6bc77db077b639f9e1ad50aab1f9bf7",
+        "swaps": [
+          {
+            "today": "./scene-drawing/crew.mjs",
+            "release": "./crew-drawing/crew.mjs"
+          },
+          {
+            "today": "./scene-drawing/wardrobe.mjs",
+            "release": "./crew-drawing/wardrobe.mjs"
+          }
+        ]
+      },
+      {
+        "path": "apps/game/hosted/board-v2-films.mjs",
+        "sha256AtBase": "bd92882fdf3a30903882f097274f61290a4af9952a62d5336b3e258d0507f683",
+        "swaps": [
+          {
+            "today": "./scene-drawing/crew.mjs",
+            "release": "./crew-drawing/crew.mjs"
+          },
+          {
+            "today": "./scene-drawing/wardrobe.mjs",
+            "release": "./crew-drawing/wardrobe.mjs"
+          }
+        ]
+      }
+    ]
+  },
+  "assets": {
+    "manifest": "design/crew-drawing/assets/manifest.json",
+    "sha256": "17b0d9d058dc47cd724a0d4035098877a3ab4238ab67606bba3bcab43e2288dc",
+    "count": 36
+  },
+  "tokens": {
+    "path": "packages/design-tokens/src/tokens-0.5.0.json",
+    "sha256": "cfd8604611196fa6799367e1b438570ec96e914f937859199629317a4ac8ac5d",
+    "status": "candidate: not exported from index.ts; Integration adopts it"
+  },
+  "filmArt": {
+    "recommendation": "Retire these 27 entries from the new release's films bundle after Frontend's consumer check, as Integration decided; historical releases, catalogs, files and hashes stay as they are and verifiable.",
+    "shipped": [
+      {
+        "cssVariable": "--board-v2-film-captain-memorial-c1",
+        "path": "apps/game/hosted/board-v2-film-art/captain/memorial-c1.svg",
+        "sha256": "5fb2c8e13d981de0e43ab6c33f1fb37c6cbc6895d2c0098fc65501ada29a7f77"
+      },
+      {
+        "cssVariable": "--board-v2-film-captain-memorial-c2",
+        "path": "apps/game/hosted/board-v2-film-art/captain/memorial-c2.svg",
+        "sha256": "6d27e26e5ff878d2229b090f264c43045ae081faebbbb4b1189a249515c3a612"
+      },
+      {
+        "cssVariable": "--board-v2-film-captain-memorial-c3",
+        "path": "apps/game/hosted/board-v2-film-art/captain/memorial-c3.svg",
+        "sha256": "c78c2d88ae0f4e524d5755f0b6dbf2336da8faa39ab8b3584f5c2df01ec60f15"
+      },
+      {
+        "cssVariable": "--board-v2-film-captain-memorial-c4",
+        "path": "apps/game/hosted/board-v2-film-art/captain/memorial-c4.svg",
+        "sha256": "9ee1721f566c1c2b0fac8af5d4413b69cbf30420f66e934dd03cd4983c91c782"
+      },
+      {
+        "cssVariable": "--board-v2-film-captain-memorial-c5",
+        "path": "apps/game/hosted/board-v2-film-art/captain/memorial-c5.svg",
+        "sha256": "db9d3cbbad8d7a65f98ba6efb624a235204023398c5509d8a7841467565f417e"
+      },
+      {
+        "cssVariable": "--board-v2-film-captain-memorial-c6",
+        "path": "apps/game/hosted/board-v2-film-art/captain/memorial-c6.svg",
+        "sha256": "e14ea277fa2341b3ab7b736cabd7c44f4ab890bf5c68a30dce66fbb42679933d"
+      },
+      {
+        "cssVariable": "--board-v2-film-captain-memorial-c7",
+        "path": "apps/game/hosted/board-v2-film-art/captain/memorial-c7.svg",
+        "sha256": "f87fbede01aa7b94d151a9aa14a70d6434fef47cfd1f9e79a53213b5f82c3ad1"
+      },
+      {
+        "cssVariable": "--board-v2-film-captain-memorial-c8",
+        "path": "apps/game/hosted/board-v2-film-art/captain/memorial-c8.svg",
+        "sha256": "d17642603b8967babec8b100ef16bd7dd8d5ec6597e7877ac23aab142f077c36"
+      },
+      {
+        "cssVariable": "--board-v2-film-captain-memorial-c9",
+        "path": "apps/game/hosted/board-v2-film-art/captain/memorial-c9.svg",
+        "sha256": "44b7f22033071dbc034ba77bd061b4be9fdc682af78cf65c556ba3852f7ba760"
+      },
+      {
+        "cssVariable": "--board-v2-film-clone-halftone-c1",
+        "path": "apps/game/hosted/board-v2-film-art/clone/halftone-c1.svg",
+        "sha256": "2f9119c64c40baa177869860a891e856f859071edc16ccaaaa37a3cd63206b34"
+      },
+      {
+        "cssVariable": "--board-v2-film-clone-halftone-c2",
+        "path": "apps/game/hosted/board-v2-film-art/clone/halftone-c2.svg",
+        "sha256": "8144ffd9276f6628c32a76330dfb1eb19380d2fd74596555ed86a9f5c193ee90"
+      },
+      {
+        "cssVariable": "--board-v2-film-clone-halftone-c3",
+        "path": "apps/game/hosted/board-v2-film-art/clone/halftone-c3.svg",
+        "sha256": "74a7e88c1889cf3c31384248165c26ae34203b576e9091e537260e19494736bd"
+      },
+      {
+        "cssVariable": "--board-v2-film-clone-halftone-c4",
+        "path": "apps/game/hosted/board-v2-film-art/clone/halftone-c4.svg",
+        "sha256": "b7ffbfb51785ac888a340cfd58c12b9c76086d9744c214388f1bfa9084ff6072"
+      },
+      {
+        "cssVariable": "--board-v2-film-clone-halftone-c5",
+        "path": "apps/game/hosted/board-v2-film-art/clone/halftone-c5.svg",
+        "sha256": "82503ff756a7a1e71ab03d52fd3b82d71675138c7e3961d025840cdc3b7464fa"
+      },
+      {
+        "cssVariable": "--board-v2-film-clone-halftone-c6",
+        "path": "apps/game/hosted/board-v2-film-art/clone/halftone-c6.svg",
+        "sha256": "18902d9dbc3a2085ec758012e56d057ed10771f925ee39117c728c4fe11722b9"
+      },
+      {
+        "cssVariable": "--board-v2-film-clone-halftone-c7",
+        "path": "apps/game/hosted/board-v2-film-art/clone/halftone-c7.svg",
+        "sha256": "113aa7182e9b210682725634a44cf7bebc5e2e6fb84059067aba2c72f136df21"
+      },
+      {
+        "cssVariable": "--board-v2-film-clone-halftone-c8",
+        "path": "apps/game/hosted/board-v2-film-art/clone/halftone-c8.svg",
+        "sha256": "a4935c13695a195483c9560dbc6322b0cf6377a5efffa8223a72d142da6f9c8a"
+      },
+      {
+        "cssVariable": "--board-v2-film-clone-halftone-c9",
+        "path": "apps/game/hosted/board-v2-film-art/clone/halftone-c9.svg",
+        "sha256": "0ad2cb3dda186c82b95c33088c52f9a0275b85fa065cc6a4445966248d0c609b"
+      },
+      {
+        "cssVariable": "--board-v2-film-clone-outline-c1",
+        "path": "apps/game/hosted/board-v2-film-art/clone/outline-c1.svg",
+        "sha256": "e1a9321e4cc233a0cf40e81062080757e65403058465162f04fe28a3b02c7fb3"
+      },
+      {
+        "cssVariable": "--board-v2-film-clone-outline-c2",
+        "path": "apps/game/hosted/board-v2-film-art/clone/outline-c2.svg",
+        "sha256": "83f7efd0603ee91630636bbf1b678c16f199269ce473fcd59924c1e4b51a40db"
+      },
+      {
+        "cssVariable": "--board-v2-film-clone-outline-c3",
+        "path": "apps/game/hosted/board-v2-film-art/clone/outline-c3.svg",
+        "sha256": "1d6188117332938d68dc5fbb6be0e940f7f0c92476e69528fbb0bd9a262d30a4"
+      },
+      {
+        "cssVariable": "--board-v2-film-clone-outline-c4",
+        "path": "apps/game/hosted/board-v2-film-art/clone/outline-c4.svg",
+        "sha256": "5769fe075b7dd9e62b3e7af4848c85ecfc73082f388d04f21e79505f97778aa0"
+      },
+      {
+        "cssVariable": "--board-v2-film-clone-outline-c5",
+        "path": "apps/game/hosted/board-v2-film-art/clone/outline-c5.svg",
+        "sha256": "1b0ee3eb5529425dba5775711cd5c8d1e90e06a018d1a8ff26ba5798c6676d6e"
+      },
+      {
+        "cssVariable": "--board-v2-film-clone-outline-c6",
+        "path": "apps/game/hosted/board-v2-film-art/clone/outline-c6.svg",
+        "sha256": "7c2cd855398fbe9c805113d49e6702f5aa6609bad89a70b136439de22ad95f4c"
+      },
+      {
+        "cssVariable": "--board-v2-film-clone-outline-c7",
+        "path": "apps/game/hosted/board-v2-film-art/clone/outline-c7.svg",
+        "sha256": "7e6b5a1f9426a15f4209b9da437ca6749ca848f001594a072a131ee4b37ae20e"
+      },
+      {
+        "cssVariable": "--board-v2-film-clone-outline-c8",
+        "path": "apps/game/hosted/board-v2-film-art/clone/outline-c8.svg",
+        "sha256": "549d1744c47f68cf217b24078e6292ad89a28598839391d395542cd2f600bab2"
+      },
+      {
+        "cssVariable": "--board-v2-film-clone-outline-c9",
+        "path": "apps/game/hosted/board-v2-film-art/clone/outline-c9.svg",
+        "sha256": "068695394db0077221c1d3d37a46f822f50c880dae01a423a2fbb4a1d22af386"
+      }
+    ],
+    "evidence": "No runtime file reads these properties: board-v2-films.mjs sets only the Captain pulse head, emergency, suction, debris and plate art, and the scenes and lighting of the four-bed ward. The films draw a character live, through dressedFigureSvg and the effects (memorialSvg, outlineSvg, halftoneSvg), which the drop-in serves (tested).",
+    "ifKept": "Redraw them as they were made, with the runtime effects on the release figure standing in the crew suit: memorialSvg(dressedFigureSvg(CREW[id], skeletonOf(\"stand\"), { outfit: \"crew\", prefix: `mem-${id}` })); with figure = dressedFigureSvg(CREW[id], skeletonOf(\"stand\"), { outfit: \"crew\", prefix: `cl-${id}` }), outlineSvg(figure, { prefix: `ol-${id}` }) and halftoneSvg(figure, { density: 1, prefix: `ht-${id}` }). Measured: 3.96 MB for the 27, against 0.81 MB shipped."
+  },
+  "notForRuntime": [
+    {
+      "path": "design/character-pilot/",
+      "why": "The dev-only prototype the owner reviewed. Never imported or ported: the release has its own copies of everything it needs (heads/ is byte for byte the approved traces)."
+    },
+    {
+      "path": "design/crew-drawing/review/",
+      "why": "Review media: the watchable previews, comparison screenshots and their record."
+    },
+    {
+      "path": "design/phone-feedback/assets/",
+      "why": "An archived prototype (its runtime ports were retired); it keeps the old crew as history."
+    },
+    {
+      "path": "design/source/crew/",
+      "why": "The old cards' sources, kept as history; the release's cards replace their exports."
+    }
+  ]
+}

@@ -153,18 +153,10 @@ One fix in the pilot's own ink: the ends of its limbs were drawn curving inward.
 
 ## What adoption would take
 
-The restyle is not wired into anything. Adopting it for the game would be its own decision and change:
-- **The owner.** Approve the crew of nine, or ask for changes.
-- **Designer.**
-  - Replace the frozen rig's drawing (`body.mjs`, `crew.mjs`, `parts.mjs`, `rig.mjs`) with the new skin, as a new reviewed version.
-  - Update the crew colour tokens: Mira, Atlas, Nova and Echo change; the other five keep theirs.
-  - Re-render the board and every film that draws a character: the role films, the openings and the cinematic library.
-- **Frontend.** Re-port the reviewed drawing and re-review it.
-- **Integration.** Re-pin the drawing sources (`design/tools/lib/reviewed-drawing-ports.json`).
-- **Cost.** The new look draws more than today's:
-  - A figure is about 93 to 124 KB of SVG, standing or walking, against 20 to 22 KB today (about 4.5 to 6 times).
-  - The traced head is 30 to 62 KB of that, defined once and drawn by reference. Rigel's beard and Vega's curls are the largest.
-  - A runtime should draw a pose once and move it rather than rebuild every frame.
+The owner approved the crew of nine on 7 November 2026, and the adoption release is [crew-drawing-release.md](crew-drawing-release.md) (DSN-REQ-17).
+- It is a drop-in for the rig's crew and wardrobe: consumers swap two imports, and the frozen rig's files stay as they are.
+- It includes baked cards, standees, held devices and app icons, a tokens 0.5.0 candidate, and interfaces for shared heads, in-place pose updates and live blinks and hair.
+- The pages here stay review pages. The runtime never imports `design/character-pilot/`.
 
 ## Checks
 
