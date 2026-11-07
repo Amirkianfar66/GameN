@@ -39,15 +39,15 @@ export const BUILDS = Object.freeze({
 export const PILOT_CAST = Object.freeze({
   c8: Object.freeze({
     id: 'c8', sign: 'Mira', build: 'regular', hairStyle: 'long',
-    skin: '#E2AE82', hair: '#3B2617', hairLight: '#7A5236', field: '#D2B48C', accent: '#9C7A50',
+    skin: '#EDAD78', hair: '#583927', hairLight: '#7A5236', field: '#D2B48C', accent: '#9C7A50',
   }),
   c6: Object.freeze({
     id: 'c6', sign: 'Nova', build: 'slim', hairStyle: 'bob', headphones: true,
-    skin: '#EEC7A0', hair: '#1F1C22', hairLight: '#4D4852', field: '#C2408F', accent: '#8F2E6A', gear: '#3B3740',
+    skin: '#FAC98C', hair: '#1F1915', hairLight: '#4D3D34', field: '#C2408F', accent: '#8F2E6A', gear: '#5D524F',
   }),
   c4: Object.freeze({
-    id: 'c4', sign: 'Atlas', build: 'heavy', hairStyle: 'quiff', mustache: true, goatee: true,
-    skin: '#D19B6E', hair: '#25201F', hairLight: '#4E4441', field: '#2F9461', accent: '#1F6B45',
+    id: 'c4', sign: 'Atlas', build: 'heavy', hairStyle: 'quiff',
+    skin: '#F4B266', hair: '#231C17', hairLight: '#54453A', field: '#2F9461', accent: '#1F6B45',
   }),
 });
 

@@ -14,6 +14,8 @@ import { blend, EASE } from '../board-motion/figures/motion.mjs';
 import { idle, walk, wave } from './anim.mjs';
 import { COLOUR_PROPOSALS, PILOT_CAST, PILOT_ORDER, PILOT_VERSION } from './cast.mjs';
 import { pilotFigureSvg } from './figure.mjs';
+import { pilotHead } from './head.mjs';
+import { inkCanvas } from './ink.mjs';
 import { portraitSvg } from './portrait.mjs';
 
 const params = new URLSearchParams(location.search);
@@ -24,13 +26,20 @@ const SEEDS = { c8: 3, c6: 7, c4: 11 };
 /** Today's figure, drawn by the approved rig. */
 const today = (id, sk, prefix) => figureSvg(CREW[id], sk, { prefix });
 const pilot = (id, sk, prefix, motion = {}) => pilotFigureSvg(PILOT_CAST[id], sk, { prefix, motion });
+/** A pilot head alone, large: the face traced from the owner's art, with the rig's lids. */
+const headSvg = (id, view, motion, prefix) => {
+  const cv = inkCanvas(prefix);
+  pilotHead(cv, PILOT_CAST[id], view, motion);
+  return cv.svg({ viewBox: '-28 -32 70 64' });
+};
 
 function sheet() {
-  const title = `<header><h1>Character pilot: Mira, Nova and Atlas</h1><p>A proposal in the owner's direction of 7 November 2026: noir light, comic-book ink and a hand-drawn line, on the approved rig's skeletons. Nothing here is adopted. <span class="v">${PILOT_VERSION}</span></p></header>`;
+  const title = `<header><h1>Character pilot: Mira, Nova and Atlas</h1><p>A proposal in the owner's direction of 7 November 2026: noir light, comic-book ink and a hand-drawn line, on the approved rig's skeletons. The faces are traced from the owner's own art. Nothing here is adopted. <span class="v">${PILOT_VERSION}</span></p></header>`;
   const portraits = `<section><h2>Portraits: iOS-style icons</h2><div class="row">${PILOT_ORDER.map(id => {
     const c = PILOT_CAST[id];
     return `<figure class="portrait">${portraitSvg(c, { prefix: `sp${id}` })}<figcaption>${c.sign}<span class="chips"><i style="background:${c.field}"></i><i style="background:${c.accent}"></i><i style="background:${c.skin}"></i><i style="background:${c.hair}"></i></span></figcaption></figure>`;
   }).join('')}</div></section>`;
+  const faces = `<section><h2>Faces traced from the owner's art, rigged: open, blinking, looking down</h2><div class="row">${PILOT_ORDER.map(id => `<div class="faces">${[['front', {}], ['front', { blink: 0.5 }], ['down', {}]].map(([v, motion], i) => headSvg(id, v, motion, `sf${id}${i}`)).join('')}<p>${PILOT_CAST[id].sign}</p></div>`).join('')}</div></section>`;
   const compare = `<section><h2>Today, and the pilot (front and back)</h2><div class="row">${PILOT_ORDER.map(id => `
     <div class="trio"><div class="fig light"><span>today</span>${today(id, STAND, `st${id}`)}</div><div class="fig"><span>pilot</span>${pilot(id, STAND, `sn${id}`)}</div><div class="fig"><span>pilot, back</span>${pilot(id, GESTURES.doorBack, `sb${id}`)}</div><p>${PILOT_CAST[id].sign}</p></div>`).join('')}</div></section>`;
   const poses = ['think', 'tablet', 'standFolded', 'wallLean'];
@@ -39,7 +48,7 @@ function sheet() {
     <div class="pair"><div class="tiny">${today(id, STAND, `zt${id}`)}</div><div class="tiny">${pilot(id, STAND, `zn${id}`)}</div><div class="icons">${portraitSvg(PILOT_CAST[id], { prefix: `zp${id}`, size: 64 })}${portraitSvg(PILOT_CAST[id], { prefix: `zq${id}`, size: 44 })}</div></div>`).join('')}</div><p class="note">Left of each pair: today's figure. Right: the pilot.</p></section>`;
   const rows = COLOUR_PROPOSALS.map(p => `<tr><td>${p.sign}</td><td>${p.role}</td>${['current', 'sheet', 'proposed'].map(k => `<td><i class="sw" style="background:${p[k]}"></i>${p[k]}</td>`).join('')}</tr>`).join('');
   const colours = `<section><h2>Colours kept away from the team colours</h2><table><thead><tr><th>Character</th><th>Use</th><th>Today</th><th>The redesign sheet</th><th>Proposed</th></tr></thead><tbody>${rows}</tbody></table><p class="note">Every proposed colour is at least 41 (CIE76) from each team's colour; the minimum the game keeps is 30. The sheet's pink was 27.7 from red, its purple 29.4 from the Alien's.</p></section>`;
-  root.innerHTML = title + portraits + compare + gestures + small + colours;
+  root.innerHTML = title + portraits + faces + compare + gestures + small + colours;
 }
 
 /** The actions, one after another, each eased in from the last pose of the one before. */

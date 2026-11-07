@@ -22,6 +22,10 @@ The owner's messages are quoted as written.
 - The rig, the body and the suit stand as drawn.
 - The faces follow the example: big almond eyes with dark irises, a winged lash line, full brows, a small nose and mouth inside a soft oval face, and hair framing the face.
 
+**Then, how the faces are made.** The owner reviewed the redrawn faces: "Still the faces are not good enough, can we use github project for face like Faces.js or Bean heads or Cubism Web Samples github to improve the result?" Designer recommended tracing the owner's own art instead: those projects draw their own face styles or animate models made in another editor, while the owner's drawings already are the style. The owner answered: "yes go as you recommended". What it decides:
+- The pilot's faces are traced from the owner's own art: Mira from the example, Nova and Atlas from the redesign sheet's portraits. The rig adds the blink, the look down and the hair's follow-through.
+- The owner did not say which tool made the images. They are recorded as the owner's own art.
+
 **What it does not decide:** adoption. The pilot is a proposal in `design/character-pilot/` (handoff: [character-pilot.md](character-pilot.md)). The game, the board, the films and the approved rig are unchanged until the owner approves the style and the other six are drawn.
 
 ## 11 October 2026: the Insider's file, portraits and role labels

@@ -6,8 +6,8 @@
       "kind": "poster",
       "width": 1920,
       "height": 1080,
-      "bytes": 938366,
-      "sha256": "7956bb4afd6d3bbeeb27870bba93864f9f99f8c3b967dc26866af3a12e251250"
+      "bytes": 973703,
+      "sha256": "88da8cbe466ebbfb8b8abca7eda60982e74cdc689e3ca080cb7ea7188e75d494"
     },
     "design/character-pilot/review/motion.mp4": {
       "kind": "video",
@@ -16,15 +16,15 @@
       "fps": 30,
       "frames": 288,
       "durationMs": 9600,
-      "bytes": 2062344,
-      "sha256": "41795fe5b02522ce81d44f4043689232ebfe704ec6b1de7115253d9076ea89b4"
+      "bytes": 2176876,
+      "sha256": "3d89c1035a064090f8c8bb29220d9be178def46d330e7cdfa6fac4691e6fa579"
     },
     "design/character-pilot/review/sheet.png": {
       "kind": "sheet",
       "width": 2340,
-      "height": 2142,
-      "bytes": 778815,
-      "sha256": "576513a9400d42c6be0fdd0023073c15677ccbbf94cb86356d31dfc1fbe23a28"
+      "height": 2505,
+      "bytes": 941896,
+      "sha256": "c2d53aa4beb7683ded6a0a1e1f650f5f5cc1b7a8d21a9e468b5ddd084521d6fd"
     }
   },
   "browser": "Chrome/153.0.8010.12",

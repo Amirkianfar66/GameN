@@ -12,23 +12,27 @@ The owner drew a redesign of the nine crew members: portraits in app-icon frames
 | 4 | "You can change them 1 fat or thinner" | Atlas and Juno are told apart by build: Atlas is the heavy one |
 | 5 | "I created the images I wanted to inspire by the dont starve together style … the main Goal is give the design of game style and more like AAA animation but with a specific style Noir, Comic book Style" | A noir, comic-book look with a hand-drawn line, in the redesign's spirit, and animation with the follow-through of a polished production |
 
-**The owner's review of the first renders, the same day:** "You did a good job on rigging and the body and dress, but the face is not good! I created an example as a better face". The owner sent a repainted Mira. The faces are redrawn in its language (below); the rig, the body and the suit are kept as they were.
+**The owner's reviews, the same day.**
+- Of the first renders: "You did a good job on rigging and the body and dress, but the face is not good! I created an example as a better face", with a repainted Mira.
+- Of the faces redrawn after the example: "Still the faces are not good enough". The owner asked whether projects such as Faces.js, Bean Heads or the Cubism Web Samples could help. Designer recommended tracing the owner's own art instead, and the owner answered: "yes go as you recommended".
+
+So the faces are now the owner's own drawings, traced and rigged (below). The rig, the body and the suit are kept.
 
 ## What to look at
 
 - **Renders:**
-  - [`design/character-pilot/review/sheet.png`](../../design/character-pilot/review/sheet.png): the portraits, today's figure beside the pilot (front and back), the rig's gestures in the new style, the sizes they are seen at, and the colours.
+  - [`design/character-pilot/review/sheet.png`](../../design/character-pilot/review/sheet.png): the portraits; the faces open, blinking and looking down; today's figure beside the pilot (front and back); the rig's gestures in the new style; the sizes they are seen at; and the colours.
   - [`motion.mp4`](../../design/character-pilot/review/motion.mp4): the three characters idling, walking and waving on a noir stage, 9.6 s, silent.
 - **Live:** `node design/tools/serve.mjs`, then `/character-pilot/review.html?view=sheet` or `?view=motion` (it plays).
 - **Render again:** `node design/tools/character-pilot-render.mjs` (needs `CHROME_PATH` and ffmpeg).
 
 ## The style
 
-- **Noir light.** The key light comes from the upper left, as in the rig. Every form's far side falls into a hard cel shadow, hatched with ink, and a cool rim light catches its edge. On the dark stage the figures stand out by their rims.
+- **Noir light.** The key light comes from the upper left, as in the rig. Every form of the body falls into a hard cel shadow on its far side, hatched with ink, and a cool rim light catches its edge. On the dark stage the figures stand out by their rims. The heads keep the owner's own shading and line.
 - **Comic-book ink.** Every form is inked with a brush ribbon, not a hairline. The line is heavy on the side away from the light and thin on the lit side, and details are drawn with tapered strokes.
 - **A hand-drawn line.** Outlines waver slightly, and the waver belongs to the shape, so it does not crawl between frames. Fills carry a faint scratched texture, as if inked on paper. The aim is the owner's sheet's gothic, hand-made feel; nothing is taken from another game.
-- **Proportions.** The owner's sheet's proportions are followed:
-  - the heads are a little larger than the rig's (1.5 against 1.32);
+- **Proportions:**
+  - the head is as large against the body as in the owner's example of Mira (the head frame at 1.2);
   - the trousers are cut loose;
   - the boots are chunky.
 
@@ -45,23 +49,34 @@ Each character's colour is on the shoulder pads, collar, cuffs, buckle and boot 
 | --- | --- | --- | --- |
 | Mira (`c8`) | Long, wavy, side-parted hair falling to the shoulders; no hijab | Regular | Tan accent and ground |
 | Nova (`c6`) | A blunt bob with straight bangs; headphones, their ring in her colour | Slim | Magenta-pink (`#C2408F`), wine accent (`#8F2E6A`) |
-| Atlas (`c4`) | A swept-up crop with tufts, a mustache and a goatee, stubble | Heavy: broad shoulders, thicker limbs and neck, a belly | Green ground, deep green accent |
+| Atlas (`c4`) | A swept-up crop with tufts, a mustache, stubble on the chin | Heavy: broad shoulders, thicker limbs and neck, a belly | Green ground, deep green accent |
 
-The skin tones and hair colours follow the owner's sheet. Mira's skin is lighter than her current token.
+The skin and hair colours are the traced art's, so the neck and hands match the face.
 
-### Faces, from the owner's example
+### Faces traced from the owner's art
 
-- **Eyes.** Big almond eyes:
-  - the dark iris fills the eye's height, with a catch-light, and looks left;
-  - the white shows beside it;
-  - a heavy lash line lifts past the outer corner into a small wing, with a thin lower lid.
-  - Atlas's eyes are hooded and narrower, without a wing.
-- **Brows.** Full and dark, thick toward the nose and tapering out: arched for Mira, straighter for Nova, low and heavy for Atlas.
-- **Nose and mouth.** A small nose by the far cheek and a small, slightly parted mouth with a hint of lower lip, both drawn inside the face.
-- **Face shape.** A soft oval with a small chin; Atlas's broader and squarer.
-- **Hair framing.** For Mira and Nova, the hair frames the face on both sides: a fall behind the far cheek as well as behind the ear.
-- **Cheeks and skin.** The cheeks are modelled in a deeper skin tone, not pink: a pink blush comes within 16 to 26 (CIE76) of the red team's colour. The skin is clean, without the paper texture.
-- **Blinks and looking down.** The upper lid closes onto the lower, and the iris goes with it.
+- **The sources.**
+  - Mira's head is traced from the owner's example of 7 November 2026.
+  - Nova's and Atlas's heads are traced from the portraits on the owner's redesign sheet, mirrored to face left as the rig's figures do.
+  - The crops are kept in `design/character-pilot/faces/source/`. They are the owner's own art; the owner did not say which tool made the images.
+- **The tracing.** `design/tools/character-pilot-trace.py`, for each head:
+  - removes the ground and cuts the neck and shoulders away under the jaw;
+  - traces the head into filled shapes (vtracer, MIT-licensed);
+  - smooths the pixels' steps out of every outline and simplifies it to within a third of a source pixel;
+  - fits the head to the rig's head frame by the eyes' midpoint and the chin.
+
+  The tool needs Python with vtracer and Pillow. Only someone re-tracing needs them: its outputs, `faces/*.mjs`, are committed.
+- **Colours.**
+  - A traced colour within 31 (CIE76) of a team colour is moved just far enough away, by taking a little red out at the same lightness. This touched 25 of Mira's warm shading tones, each slightly.
+  - Nova's pinks take her proposed magenta, as her accent does.
+  - Atlas's colours are unchanged.
+  - Every colour drawn stays at least 30 from each team colour, as the game requires.
+- **What the rig adds:**
+  - **Blinks.** A lid in the head's skin comes down over each drawn eye, its edge inked as a lash line. Shut, it lies along the lower lid. Looking down shuts the eyes the same way.
+  - **Hair.** Mira's hair below the jaw swings and lifts with the follow-through, a beat behind the head; above the jaw the drawing holds still. Nova's bob and Atlas's crop do not hang, so they move with the head.
+  - **The neck** leaves the jaw where each drawing has it, behind the chin, and runs down into the collar.
+  - **From behind**, the head is drawn in the traced colours and sized to the traced head.
+- **Why tracing and not a face library.** Faces.js and Bean Heads generate faces in their own styles, and the Cubism Web Samples animate models made in Live2D's editor. Tracing keeps the owner's line, shapes and colours.
 
 ## Colours
 
@@ -78,7 +93,12 @@ Echo is not in the pilot; the proposal is recorded so the other six start from i
 
 ## The portraits
 
-Each portrait is a character's head and shoulders in the continuous-corner rounded square of an iOS app icon (a superellipse, n = 5), not a plain rounded rectangle. As on the owner's sheet it has a white rim and a soft shadow. Inside are the character's colour under a noir vignette, painted brush strokes and the shoulders with their pads. On the motion stage the portraits blink with their figures. They read at 64 and 44 px.
+Each portrait is a character's head and shoulders in the continuous-corner rounded square of an iOS app icon (a superellipse, n = 5), not a plain rounded rectangle. As on the owner's sheet:
+- it has a white rim and a soft shadow;
+- inside are the character's colour under a noir vignette, painted brush strokes, and the shoulders with their pads;
+- the face sits a little left of the middle, so the hair and headphones fit.
+
+On the motion stage the portraits blink with their figures. They read at 64 and 44 px.
 
 ## Animation
 
@@ -88,8 +108,8 @@ The pilot plays on the rig's own skeletons and easing curves. It adds the overla
   - the weight shifts slowly;
   - the head drifts and tilts;
   - the blinks are irregular (every 2.4 to 4.6 s), each 170 ms: quick to close, slower to open;
-  - the hair answers the head half a second late.
-- **Walk:** the rig's walk with a longer stride and a counter-tilt of the head. The hair streams behind and bounces a beat after the body.
+  - Mira's hair answers the head half a second late.
+- **Walk:** the rig's walk with a longer stride and a counter-tilt of the head. Mira's hair streams behind and bounces a beat after the body.
 - **Wave:**
   - an anticipation dip, a snapped raise;
   - three swings of the forearm about the elbow, easing in and out;
@@ -102,26 +122,29 @@ Every frame is a pure function of time and a character's seed, so a frame looks 
 The pilot is a new skin over the approved rig, kept beside it in `design/character-pilot/`:
 - `ink.mjs`: the brush ribbon, waver, noir cel shadow, hatching, rim light, texture, and the squircle.
 - `cast.mjs`: the three characters, the suit, the builds and the colour proposals.
-- `head.mjs`: the heads, front, looking down and from behind, with blink and hair follow-through.
-- `figure.mjs`: the suit drawn on any skeleton.
+- `faces/`: the traced heads (`mira.mjs`, `nova.mjs` and `atlas.mjs`, generated by `design/tools/character-pilot-trace.py`) and the crops they were traced from (`faces/source/`).
+- `head.mjs`: the heads, front, looking down and from behind: the traced art with its lids and Mira's swinging hair.
+- `figure.mjs`: the suit drawn on any skeleton, with the neck where each drawing has it.
 - `portrait.mjs`: the portraits.
 - `anim.mjs`: idle, walk and wave.
 - `review.html` and `review.mjs`: the review page.
 
 It reads the rig's frame, joints, gestures, walk and easing (`design/board-motion/figures/`), and changes none of them. Those files are frozen drawing sources, pinned by hash for Frontend's reviewed ports. Every gesture of the rig draws in the new style, so the board's places, the moves and the films' poses carry over.
 
+One fix in the pilot's own ink: the ends of its limbs were drawn curving inward. That left gaps at the hips of seated figures and in the neck under the traced heads. The ends are round now. The rig is not affected.
+
 ## What adoption would take
 
 The pilot is not wired into anything. Adopting the style for the game would be its own decision and change:
 - **The owner.** Approve the pilot, or ask for changes, then the other six characters (Vega, Rigel, Lyra, Orion, Juno slim, Echo with the violet above).
 - **Designer.**
-  - Draw the six.
+  - Trace the six from the owner's sheet, and rig them. The sheet's portraits are about 310 px across; larger drawings would trace finer.
   - Replace the frozen rig's drawing (`body.mjs`, `crew.mjs`, `parts.mjs`, `rig.mjs`) with the new skin, as a new reviewed version.
   - Update the crew colour tokens.
   - Re-render the board and every film that draws a character: the role films, the openings and the cinematic library.
 - **Frontend.** Re-port the reviewed drawing and re-review it.
 - **Integration.** Re-pin the drawing sources (`design/tools/lib/reviewed-drawing-ports.json`).
-- **Cost.** The new ink draws more than today's: each form is drawn with its shadow, rim and texture. A pilot figure is about 73 to 75 KB of SVG, standing or walking, against 20 to 22 KB today (about 3.5 times). A runtime should draw a pose once and move it rather than rebuild every frame.
+- **Cost.** The new look draws more than today's. A pilot figure is about 94 to 97 KB of SVG, standing or walking, against 20 to 22 KB today (about 4.5 times). The traced head is 30 to 35 KB of it, defined once and drawn by reference. A runtime should draw a pose once and move it rather than rebuild every frame.
 
 ## Checks
 
@@ -131,15 +154,23 @@ The pilot is not wired into anything. Adopting the style for the game would be i
   - `renders.json` records every file's SHA-256, and a test checks them.
 - **Watched:**
   - every render;
-  - each character at full size, standing and in four of the rig's gestures, from the front and from behind;
+  - each traced head beside the drawing it came from, large;
+  - the lids half and fully closed, and looking down;
+  - the necks and Mira's swinging hair, close up;
+  - each character at the size of the owner's example beside it, standing, in four of the rig's gestures, from the front and from behind, and seated;
   - the walk at four phases and the wave at its beats;
-  - the portraits at 230, 64 and 44 px.
+  - the portraits beside the owner's icons, and at 230, 64 and 44 px.
 - **Tests:** `packages/design-tokens/test/character-pilot.test.mjs` checks:
   - the owner's decisions;
-  - the colour distances;
+  - the colour distances, of every colour drawn;
+  - the traced faces: each kept source, the fit to the head frame, and the skin shared with the neck and hands;
+  - what the rig moves on them: the lids, looking down, and Mira's hair only;
   - that all 27 gestures, the walk and the three actions draw well-formed SVG for each character;
   - determinism;
   - blink timing, the walk's loop and the wave's settle;
   - the squircle;
   - the render record.
-- **Not tested:** no phone, tablet or display was tried; every frame is desktop Chromium. The pilot's drawing cost on a phone is unmeasured. The other six characters are not drawn.
+- **Not tested:**
+  - No phone, tablet or display was tried; every frame is desktop Chromium. The pilot's drawing cost on a phone is unmeasured.
+  - The tests do not run the trace tool; they check its committed outputs.
+  - The other six characters are not drawn.

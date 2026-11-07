@@ -247,16 +247,16 @@ export function limbOutline(joints, radii) {
     return out;
   };
   const along = unit(sub(joints[n - 1], joints[n - 2]));
-  const back = unit(sub(joints[0], joints[1]));
-  // Which way round the end caps go: through the point beyond the joint.
+  // Which way round the end caps go: through the point beyond each end joint, so the ends are round
+  // (the hips of a seated figure, the neck under a raised chin).
   const endDir = Math.sign((a[n - 1][0] - joints[n - 1][0]) * along[1] - (a[n - 1][1] - joints[n - 1][1]) * along[0]) || 1;
   const sideA = spline(a, { closed: false, step: 2 });
   const sideB = spline(b, { closed: false, step: 2 }).reverse();
   return [
     ...sideA,
-    ...cap(joints[n - 1], a[n - 1], b[n - 1], radii[n - 1], -endDir),
+    ...cap(joints[n - 1], a[n - 1], b[n - 1], radii[n - 1], endDir),
     ...sideB,
-    ...cap(joints[0], b[0], a[0], radii[0], -endDir),
+    ...cap(joints[0], b[0], a[0], radii[0], endDir),
   ].filter((p, i, arr) => !i || dist(p, arr[i - 1]) > 0.05);
 }
 

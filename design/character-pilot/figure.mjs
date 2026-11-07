@@ -12,14 +12,14 @@
 
 import { FRAME, ORDER } from '../board-motion/figures/body.mjs';
 import { BUILDS, SUIT } from './cast.mjs';
-import { pilotHead } from './head.mjs';
+import { TRACED_HEADS, pilotHead } from './head.mjs';
 import { INK, add, inkCanvas, lerp, limbOutline, mul, perp, shade, spline, sub, unit, waver } from './ink.mjs';
 
 /** Limb radii at the joints (the rig's ARM, and LEG cut looser for cargo trousers), scaled by a build. */
 const ARM = [8.2, 6.8, 5.4];
 const LEG = [12.4, 10.6, 8.8];
-/** The pilot's heads are drawn larger than the rig's (1.32), as on the owner's sheet. */
-export const PILOT_HEAD_SCALE = 1.5;
+/** The head frame's scale: Mira's head against her body as the owner's example draws it (the rig's own is 1.32). */
+export const PILOT_HEAD_SCALE = 1.2;
 /** Light from the upper left (ink.mjs): the side a panel's shadow falls on. */
 const AWAY = unit([1, 0.78]);
 
@@ -218,10 +218,23 @@ function drawLeg(cv, c, sk, side, build) {
   boot(cv, c, a, foot.dir ?? -1, foot.angle ?? 0, { view: foot.view ?? (sk.back ? 'back' : 'side') });
 }
 
+/** A point of the head's own frame in the figure's frame, where drawHead puts it. */
+function headPoint(sk, [x, y]) {
+  const a = ((sk.tilt ?? 0) * Math.PI) / 180, s = PILOT_HEAD_SCALE;
+  return [sk.head[0] + s * (x * Math.cos(a) - y * Math.sin(a)), sk.head[1] + s * (x * Math.sin(a) + y * Math.cos(a))];
+}
+
 function drawNeck(cv, c, sk, build) {
   const toward = unit(sub(sk.neck, sk.head));
-  const chin = add(sk.head, toward, 15);
   const base = add(sk.neck, toward, -1);
+  const traced = (sk.view ?? 'front') === 'back' ? null : TRACED_HEADS[c.id]?.neck;
+  if (traced) {
+    // Facing us, the neck leaves the jaw where the owner's drawing has it: behind the chin.
+    const [x, y, r] = traced;
+    cv.limb([headPoint(sk, [x, y - r]), base], [r * PILOT_HEAD_SCALE, 6.4 * build.neck], c.skin, { weight: 2, seed: 65, rim: false });
+    return;
+  }
+  const chin = add(sk.head, toward, 15);
   cv.limb([chin, base], [6.4 * build.neck, 7.4 * build.neck], c.skin, { weight: 2, seed: 65, rim: false });
 }
 
