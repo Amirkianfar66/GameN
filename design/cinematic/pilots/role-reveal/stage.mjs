@@ -9,14 +9,11 @@
 // character (./roles.mjs ROLE_REVEAL_ASSETS): a client ships them all, so nothing fetched tells a
 // dealt role.
 
-import { frames, pictureLibrary } from '../../lib/stage-kit.mjs';
+import { frames } from '../../lib/stage-kit.mjs';
 import { deviceOnly } from './art.mjs';
 import { CAPTION_PAD, PAGE_WIDTH, captionFont, pageHeight, revealSvg } from './compose.mjs';
 import { REVEAL_END, ROLE_REVEAL_VERSION, VARIANTS } from './film.mjs';
 import { DEVICE_FILES, ROLE_REVEAL_ASSETS } from './roles.mjs';
-
-const SIZES = { device: [120, 140], emblem: [48, 48], portrait: [84, 96] };
-const sizeOf = href => (href.includes('emblem') ? SIZES.emblem : href.includes('crew.card') ? SIZES.portrait : SIZES.device);
 
 /** The page text over the composition: the memory panels' narration and an announcement of the role. */
 function wordsLayer(root, w, h, k) {
@@ -54,29 +51,23 @@ function wordsLayer(root, w, h, k) {
 
 export async function mountPhone(root, { variant = 'full', w = 390, h = 844, role = 'Doctor', seat = 6, character = 'c4', case: caseRole = null } = {}) {
   const name = caseRole ?? role;
-  // Every role's device, read whatever the role (nothing fetched tells a dealt role); the opener's
-  // gadget is the device alone, the same approved art the role card draws.
-  const gadgets = Object.fromEntries(await Promise.all(Object.entries(DEVICE_FILES).map(async ([r, href]) => [r, deviceOnly(await (await fetch(href)).text())])));
+  // Every picture any film draws, read whatever the role and the character (nothing fetched tells a
+  // dealt role), once: the films draw them inline from this text (compose.mjs revealSvg's pictures),
+  // so no frame waits on a picture to load or decode. The opener's gadget is the device alone, the
+  // same approved art the role card draws.
+  const pictures = Object.fromEntries(await Promise.all(ROLE_REVEAL_ASSETS.map(async href => [href, await (await fetch(href)).text()])));
+  const gadgets = Object.fromEntries(Object.entries(DEVICE_FILES).map(([r, href]) => [r, deviceOnly(pictures[href])]));
   root.style.width = `${w}px`; root.style.height = `${h}px`;
   root.style.position = 'relative'; root.style.overflow = 'hidden'; root.style.background = '#07090F';
-  const library = pictureLibrary(root, ROLE_REVEAL_ASSETS.map(href => ({ href, w: sizeOf(href)[0], h: sizeOf(href)[1] })));
-  await library.ready;
   const host = document.createElement('div');
   Object.assign(host.style, { position: 'absolute', left: '0', top: '0', width: `${w}px`, height: `${h}px` });
   root.append(host);
   const k = w / PAGE_WIDTH;
   const height = pageHeight(w, h);
   const words = wordsLayer(root, w, h, k);
-  // Each picture drawn from the library's decoded copy at its own place and size: nothing re-decodes between frames.
-  const swap = markup => markup.replace(/<image href="([^"]+)" x="([^"]+)" y="([^"]+)" width="([^"]+)" height="([^"]+)"[^>]*\/>/g, (whole, href, x, y, iw, ih) => {
-    const id = library.ids.get(href);
-    if (!id) return whole;
-    const [nw, nh] = sizeOf(href);
-    return `<svg x="${x}" y="${y}" width="${iw}" height="${ih}" viewBox="0 0 ${nw} ${nh}" preserveAspectRatio="none" overflow="visible"><use href="#${id}"/></svg>`;
-  });
   const seek = async t => {
-    const out = revealSvg(t, { role: name, variant, seat, character, gadget: gadgets[name], width: PAGE_WIDTH, height, cssPx: k });
-    host.innerHTML = swap(out.svg.replace(/width="900" height="[^"]+"/, `width="${w}" height="${h}"`));
+    const out = revealSvg(t, { role: name, variant, seat, character, gadget: gadgets[name], pictures, width: PAGE_WIDTH, height, cssPx: k });
+    host.innerHTML = out.svg.replace(/width="900" height="[^"]+"/, `width="${w}" height="${h}"`);
     words.draw(out.words);
     await frames();
     return { t, stage: out.frame.still ?? null, done: t >= REVEAL_END };

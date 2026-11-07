@@ -3,17 +3,24 @@
 // The nine role films: each current role's team, the device its role card draws (the reviewed
 // held-device exports under their historical ids, and library group 8's Engineer device: the same
 // pictures as design/library/successor/names.mjs ROLE_DEVICES), the team emblem on its title plate
-// (library group 7's), and its film:
-//   pilot       drawn (the Doctor), for the owner's review on a phone
-//   storyboard  in docs/design/cinematic/role-reveal.md only, to be drawn after the pilot's review
-// The two Disablers share one film, frame for frame; only the plate's name and emblem differ.
+// (library group 7's), and its film: drawn for every role, three panels each, the Doctor's first
+// (the pilot the owner approved, 6 November 2026) and the other eight after it, each told as its
+// storyboard in docs/design/cinematic/role-reveal.md. The two Disablers share one film, frame for
+// frame; only the plate's name and emblem and the card on the desk differ.
 //
 // Every phone ships every device, emblem and crew portrait below (ROLE_REVEAL_ASSETS), whatever role
 // it was dealt and whoever it plays: nothing is fetched for a dealt role (the art direction: "fetching
 // only a dealt role or hidden action can disclose identity").
 
 import { CURRENT_ROLES } from '../../../library/successor/names.mjs';
+import { ALIEN_PANELS } from './alien.mjs';
+import { DISABLER_PANELS } from './disabler.mjs';
 import { DOCTOR_PANELS } from './doctor.mjs';
+import { ENGINEER_PANELS } from './engineer.mjs';
+import { HACKER_PANELS } from './hacker.mjs';
+import { INSIDER_PANELS } from './insider.mjs';
+import { SUPPLIER_PANELS } from './supplier.mjs';
+import { UNDERCOVER_PANELS } from './undercover.mjs';
 
 /** Paths from the stage's page (design/cinematic/). */
 const ROLES_DIR = '../exports/roles';
@@ -62,8 +69,8 @@ export const TEAMS = Object.freeze({
 /** The film each role plays: the two Disablers share one. */
 export const FILM_OF = Object.freeze(Object.fromEntries(CURRENT_ROLES.map(role => [role, role.endsWith('Disabler') ? 'Disabler' : role])));
 
-/** The films drawn so far, by film id: three panel functions each. */
-const DRAWN = Object.freeze({ Doctor: DOCTOR_PANELS });
+/** Every film, by film id: three panel functions each. */
+const DRAWN = Object.freeze({ Doctor: DOCTOR_PANELS, Insider: INSIDER_PANELS, Disabler: DISABLER_PANELS, Supplier: SUPPLIER_PANELS, Engineer: ENGINEER_PANELS, Undercover: UNDERCOVER_PANELS, Hacker: HACKER_PANELS, Alien: ALIEN_PANELS });
 
 export const ROLE_FILMS = Object.freeze(Object.fromEntries(CURRENT_ROLES.map(role => [role, Object.freeze({
   role,
@@ -71,7 +78,7 @@ export const ROLE_FILMS = Object.freeze(Object.fromEntries(CURRENT_ROLES.map(rol
   film: FILM_OF[role],
   device: DEVICE_FILES[role],
   emblem: EMBLEM_FILES[TEAMS[role]],
-  status: DRAWN[FILM_OF[role]] ? 'pilot' : 'storyboard',
+  status: DRAWN[FILM_OF[role]] ? 'drawn' : 'storyboard',
   panels: DRAWN[FILM_OF[role]] ?? null,
 })])));
 

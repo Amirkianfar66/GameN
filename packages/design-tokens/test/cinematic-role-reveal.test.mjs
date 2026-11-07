@@ -3,11 +3,12 @@
 // where the player's own character takes the role's gadget from the desk where their role card
 // stands, and then turns to a comic page of three panels with their narration: a small back story,
 // two panels of memory in sepia and one aboard. These tests hold the privacy rules every film keeps
-// (one length, one rhythm, silence, one palette, only shipped pictures, no words in the picture),
-// the shared opener, the card that matches the phone's role card, and the Doctor's pilot.
+// (one length, one rhythm, silence, one palette, only shipped pictures, no words in the picture) for
+// every role's film, the shared opener, the card that matches the phone's role card, the Doctor's
+// pilot (the owner approved it) and the other eight films drawn after it.
 
 import assert from 'node:assert/strict';
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { test } from 'node:test';
 import { fileURLToPath } from 'node:url';
@@ -18,12 +19,13 @@ import { CATALOGUE } from '../../../design/cinematic/catalogue/catalogue.mjs';
 import { measure } from '../../../design/cinematic/lib/lettering.mjs';
 import { figureItems } from '../../../design/cinematic/lib/scene.mjs';
 import { PILOTS } from '../../../design/cinematic/pilots/index.mjs';
-import { GRIP, deviceOnly, sepiaOf, unaccented } from '../../../design/cinematic/pilots/role-reveal/art.mjs';
+import { easeOutBack } from '../../../design/cinematic/lib/ease.mjs';
+import { GRIP, deviceOnly, sepiaOf, sfxSvg, unaccented } from '../../../design/cinematic/pilots/role-reveal/art.mjs';
 import { POSES, briefingLayout, briefingSvg, onPage } from '../../../design/cinematic/pilots/role-reveal/briefing.mjs';
-import { CAPTION_LINE, CAPTION_PAD, PAGE_WIDTH, cameraView, captionFont, captionLines, captionWidth, layout, narrationBox, pageHeight, revealSvg } from '../../../design/cinematic/pilots/role-reveal/compose.mjs';
+import { CAPTION_LINE, CAPTION_PAD, PAGE_WIDTH, cameraView, captionFont, captionLines, captionWidth, layout, narrationBox, pageHeight, revealSvg, revealWords } from '../../../design/cinematic/pilots/role-reveal/compose.mjs';
 import { DOCTOR_PANELS } from '../../../design/cinematic/pilots/role-reveal/doctor.mjs';
 import { ROLE_REVEAL_COPY } from '../../../design/cinematic/pilots/role-reveal/copy.mjs';
-import { BEATS, CHANGES, FADE_MS, NARRATED, PANEL_STARTS, PANEL_TONES, REVEAL_END, STILLS, VARIANTS, revealFrame } from '../../../design/cinematic/pilots/role-reveal/film.mjs';
+import { BEATS, CHANGES, FADE_MS, NARRATED, PANEL_LOCAL_REST, PANEL_STARTS, PANEL_TONES, REVEAL_END, STILLS, VARIANTS, revealFrame } from '../../../design/cinematic/pilots/role-reveal/film.mjs';
 import { DEVICE_FILES, EMBLEM_FILES, FILM_OF, PORTRAIT_FILES, ROLE_FILMS, ROLE_REVEAL_ASSETS, TEAMS } from '../../../design/cinematic/pilots/role-reveal/roles.mjs';
 import { CURRENT_ROLES, usesCurrentNames } from '../../../design/library/successor/names.mjs';
 
@@ -35,6 +37,10 @@ const CHARACTERS = Object.keys(CREW);
 /** A role's gadget as a client gets it: the role card's held device, read and stripped of its hand. */
 const gadget = role => deviceOnly(readFileSync(resolve(CINE, DEVICE_FILES[role]), 'utf8'));
 const doctor = (t, options = {}) => revealSvg(t, { role: 'Doctor', seat: 6, character: 'c4', gadget: gadget('Doctor'), width: PAGE_WIDTH, height: pageHeight(390, 844), ...options });
+/** Any role's film at t, for the stand-in character c4 unless given. */
+const film = (role, t, options = {}) => revealSvg(t, { role, seat: 6, character: 'c4', gadget: gadget(role), width: PAGE_WIDTH, height: pageHeight(390, 844), ...options });
+/** One role for each of the eight films, the first that plays it (the Blue Disabler for the Disablers'). */
+const ONE_PER_FILM = CURRENT_ROLES.filter((role, i) => CURRENT_ROLES.findIndex(r => FILM_OF[r] === FILM_OF[role]) === i);
 const colours = svg => new Set([...svg.matchAll(/#[0-9A-Fa-f]{6}\b/g)].map(m => m[0].toUpperCase()));
 const nearAccents = hex => Object.entries(FACTION_ACCENTS).filter(([, accent]) => cie76(hex, accent) < MIN_ACCENT_DISTANCE).map(([faction]) => faction);
 /** The role card's team swatch (the phone's card: a small square in the team's colour), and the picture without it. */
@@ -55,7 +61,7 @@ function cut(svg, part) {
   throw new Error(`unbalanced ${part}`);
 }
 
-test('the nine current roles each have a film, a team, a device and an emblem that exist, and only the Doctor is drawn so far', () => {
+test('the nine current roles each have a film, a team, a device and an emblem that exist, and every film is drawn', () => {
   assert.deepEqual(Object.keys(ROLE_FILMS).sort(), [...CURRENT_ROLES].sort());
   const count = team => Object.values(TEAMS).filter(t => t === team).length;
   assert.deepEqual([count('Blue'), count('Red'), count('Alien')], [5, 3, 1], 'game-design.md: nine roles, five Blue, three Red, the Alien');
@@ -70,8 +76,14 @@ test('the nine current roles each have a film, a team, a device and an emblem th
   assert.equal(ROLE_REVEAL_ASSETS.length, 21, 'nine devices, three emblems and nine crew portraits, shipped to every phone');
   assert.deepEqual(Object.keys(PORTRAIT_FILES), CHARACTERS, 'a portrait for every crew character');
   for (const href of Object.values(PORTRAIT_FILES)) assert.ok(existsSync(resolve(CINE, href)), href);
-  assert.deepEqual(CURRENT_ROLES.filter(role => ROLE_FILMS[role].status === 'pilot'), ['Doctor']);
-  for (const role of CURRENT_ROLES.filter(r => r !== 'Doctor')) assert.throws(() => revealSvg(1000, { role }), /storyboard/, `${role}: no half-drawn film`);
+  // Every film is drawn, three panels each; the two Disablers play one film, frame for frame.
+  for (const role of CURRENT_ROLES) {
+    assert.equal(ROLE_FILMS[role].status, 'drawn', `${role}: drawn`);
+    assert.equal(ROLE_FILMS[role].panels.length, 3, `${role}: three panels`);
+  }
+  assert.equal(ROLE_FILMS['Blue Disabler'].panels, ROLE_FILMS['Red Disabler'].panels, 'one film for both Disablers');
+  assert.equal(new Set(CURRENT_ROLES.map(role => ROLE_FILMS[role].panels)).size, 8, 'eight films for the nine roles');
+  assert.equal(ONE_PER_FILM.length, 8);
   assert.ok(PILOTS['role-reveal']?.surfaces.phone, 'on the stage, on a phone');
 });
 
@@ -94,6 +106,7 @@ test('every film keeps one clock: 10000 ms, the same beats and the same moments 
     assert.equal(revealFrame(REVEAL_END, { variant }).done, true);
     assert.equal(revealFrame(REVEAL_END - 1, { variant }).done, false);
     for (const t of SAMPLES) assert.deepEqual(doctor(t, { variant }).frame, revealFrame(t, { variant }), `the Doctor's frame is the shared clock's at ${t}`);
+    for (const role of CURRENT_ROLES) for (const t of [0, 1300, 3000, 4500, 6000, 7800, 9300, 10000]) assert.deepEqual(film(role, t, { variant }).frame, revealFrame(t, { variant }), `${role}'s frame is the shared clock's at ${t}`);
   }
 });
 
@@ -108,6 +121,13 @@ test('reduced motion: three stills, each faded in over 80 ms at the same moments
     pictures.add(rest);
   }
   assert.equal(pictures.size, 3);
+  for (const role of ONE_PER_FILM) {
+    for (const [i, { at }] of STILLS.entries()) {
+      const until = STILLS[i + 1]?.at ?? REVEAL_END;
+      const rest = film(role, at + FADE_MS, { variant: 'reduced' }).svg;
+      for (const t of [Math.round((at + until) / 2), until - 1]) assert.equal(film(role, t, { variant: 'reduced' }).svg, rest, `${role}: still ${i} holds at ${t} ms`);
+    }
+  }
   const page = doctor(5000, { variant: 'reduced' }).frame;
   assert.ok(page.panels.every(p => p.visible && p.enter === 1), 'the page still holds all three panels at rest');
   const first = doctor(1000, { variant: 'reduced' }).frame.opener;
@@ -118,16 +138,16 @@ test('reduced motion: three stills, each faded in over 80 ms at the same moments
 });
 
 test('a frame is one self-contained SVG: no words drawn in, no repeated id, only the pictures every phone ships, deterministic', () => {
-  for (const variant of VARIANTS) {
+  for (const variant of VARIANTS) for (const role of CURRENT_ROLES) {
     for (const t of SAMPLES) {
-      const { svg } = doctor(t, { variant });
+      const { svg } = film(role, t, { variant });
       assert.equal((svg.match(/<svg[\s>]/g) ?? []).length, 1 + (svg.match(/<svg x=/g) ?? []).length, 'one root (nested pictures only)');
       assert.ok(!/<text[\s>]/.test(svg), 'words are page text, never drawn in');
       const ids = [...svg.matchAll(/\bid="([^"]+)"/g)].map(m => m[1]);
-      assert.equal(new Set(ids).size, ids.length, `no repeated id at ${t} (${variant})`);
+      assert.equal(new Set(ids).size, ids.length, `${role}: no repeated id at ${t} (${variant})`);
       for (const [, href] of svg.matchAll(/<image href="([^"]+)"/g)) assert.ok(ROLE_REVEAL_ASSETS.includes(href), `${href}: a shipped picture`);
       assert.ok(!/(?:href="|url\()https?:/.test(svg), 'nothing fetched from elsewhere (references only; the xmlns is a name, not a fetch)');
-      assert.equal(doctor(t, { variant }).svg, svg, 'deterministic');
+      assert.equal(film(role, t, { variant }).svg, svg, `${role}: deterministic`);
     }
   }
 });
@@ -136,7 +156,10 @@ test('silent: no film has a cue sheet or an audio export', () => {
   const audio = JSON.parse(readFileSync(resolve(CINE, 'exports/audio.json'), 'utf8'));
   assert.ok(!JSON.stringify(audio).includes('role-reveal'), 'no cue sheet');
   assert.ok(!existsSync(resolve(CINE, 'exports/role-reveal/audio')), 'no audio export');
-  for (const name of ['doctor-phone390-full', 'doctor-phone390-reduced', 'doctor-phone320-full']) {
+  const renders = readdirSync(resolve(CINE, 'exports/role-reveal/review')).filter(name => name.endsWith('.render.json')).map(name => name.replace('.render.json', ''));
+  assert.ok(renders.length >= 10, 'a review render for every film');
+  for (const film of ONE_PER_FILM) assert.ok(renders.some(name => name.startsWith(`${film.toLowerCase().replace(' ', '-')}-`)), `${film}: a review render`);
+  for (const name of renders) {
     const record = JSON.parse(readFileSync(resolve(CINE, `exports/role-reveal/review/${name}.render.json`), 'utf8'));
     const video = record.outputs.find(o => o.kind === 'video');
     assert.equal(video.audio, null, `${name}: no sound`);
@@ -146,12 +169,12 @@ test('silent: no film has a cue sheet or an audio export', () => {
 
 test('one palette: no colour drawn comes within the accent distance of a faction accent, the gadget included', () => {
   const drawn = new Set();
-  for (const variant of VARIANTS) {
+  for (const variant of VARIANTS) for (const role of CURRENT_ROLES) {
     for (const t of SAMPLES) {
-      const { svg } = doctor(t, { variant });
+      const { svg } = film(role, t, { variant });
       // The one exception, as on the phone's card: the team swatch on the role card standing on the desk, small.
       const swatch = SWATCH.exec(svg);
-      if (swatch) assert.equal(swatch[1].toUpperCase(), FACTION_ACCENTS.blue, 'the Doctor\'s card: the Blue team\'s swatch');
+      if (swatch) assert.equal(swatch[1].toUpperCase(), FACTION_ACCENTS[TEAMS[role].toLowerCase()], `the ${role}'s card: the ${TEAMS[role]} team's swatch`);
       for (const hex of colours(unswatched(svg))) drawn.add(hex);
     }
   }
@@ -165,12 +188,19 @@ test('one palette: no colour drawn comes within the accent distance of a faction
   }
   // The back story's panels are drawn through the sepia filter: every colour in them, as the filter
   // draws it, keeps the palette too (the player's own character included, so for every character).
+  // The panel aboard keeps it as drawn, all but the player's own character's colours.
   const height = pageHeight(390, 844), box = layout(height).panels[0];
-  for (const character of CHARACTERS) {
-    for (const [i, panel] of DOCTOR_PANELS.entries()) {
-      if (PANEL_TONES[i] !== 'past') continue;
-      for (const local of [0, 400, 1300, 3000]) {
-        for (const hex of colours(panel(local, { w: box.w, h: box.h, prefix: `rr-p${i}`, character }))) assert.deepEqual(nearAccents(sepiaOf(hex)), [], `panel ${i + 1} (${character}): ${hex} drawn as ${sepiaOf(hex)}`);
+  const ownColours = character => colours(figureItems({ character, sk: POSES.raise, at: [0, 0], scale: 1, depth: 2, prefix: 'x' }).map(item => item.svg).join(''));
+  for (const role of ONE_PER_FILM) {
+    for (const character of CHARACTERS) {
+      const own = ownColours(character);
+      for (const [i, panel] of ROLE_FILMS[role].panels.entries()) {
+        for (const local of [0, 400, 1300, 3000]) {
+          for (const hex of colours(panel(local, { w: box.w, h: box.h, prefix: `rr-p${i}`, character, seat: 6 }))) {
+            if (PANEL_TONES[i] === 'past') assert.deepEqual(nearAccents(sepiaOf(hex)), [], `${role} panel ${i + 1} (${character}): ${hex} drawn as ${sepiaOf(hex)}`);
+            else if (!own.has(hex)) assert.deepEqual(nearAccents(hex), [], `${role} panel ${i + 1} (${character}): ${hex}`);
+          }
+        }
       }
     }
   }
@@ -203,12 +233,17 @@ test('the words: a back story told mostly in pictures, two short narration boxes
   assert.deepEqual(ROLE_REVEAL_COPY.Doctor.story.map(captionLines), [['Colony Nine.', 'The fever years.'], ['Two doses left.']]);
   assert.deepEqual(captionLines('The engine decks of Ceres.'), ['The engine', 'decks of Ceres.'], 'a long sentence split at its most even gap');
   assert.deepEqual(NARRATED, [0, 1], 'the two memory panels');
-  // Each narration box comes with its panel and stays until the title; nothing after it.
+  // Each narration box comes with its panel. The first steps out as the third panel lands (5.9-6.1 s,
+  // before the camera's turn to it takes the top of the page out of the frame); the second stays until
+  // the title; nothing after it.
   const at = t => doctor(t).words;
   assert.deepEqual(at(2400).story.map(s => s.opacity), [0, 0], 'the opener has no words');
   assert.deepEqual(at(3600).story.map(s => s.opacity), [1, 0]);
   assert.deepEqual(at(5100).story.map(s => s.opacity), [1, 1]);
-  assert.deepEqual(at(7400).story.map(s => s.opacity), [1, 1], 'the panel aboard adds no words');
+  assert.deepEqual(at(5900).story.map(s => s.opacity), [1, 1], 'both read until the third panel comes');
+  assert.deepEqual(at(6000).story.map(s => s.opacity), [0.5, 1]);
+  assert.deepEqual(at(6100).story.map(s => s.opacity), [0, 1], 'the first has stepped out');
+  assert.deepEqual(at(7400).story.map(s => s.opacity), [0, 1], 'the panel aboard adds no words');
   assert.deepEqual(at(7400).story.map(s => s.text), [...ROLE_REVEAL_COPY.Doctor.story]);
   assert.deepEqual(at(7400).story.map(s => s.lines), ROLE_REVEAL_COPY.Doctor.story.map(captionLines), 'the stage sets the letterer\'s lines');
   assert.deepEqual(at(7400).story.map(s => s.tone), ['past', 'past']);
@@ -344,6 +379,44 @@ test('the Doctor\'s back story: memory in sepia, the player\'s own character in 
   assert.equal((doses.match(new RegExp(`<rect[^>]*fill="${MEDICAL.cyan}"`, 'g')) ?? []).length, 2, 'two doses left in the case');
 });
 
+test('every role\'s back story: two panels of memory then one aboard, the player\'s own character in it, its own pictures', () => {
+  const height = pageHeight(390, 844), box = layout(height).panels[0];
+  const pictures = new Set();
+  for (const role of ONE_PER_FILM) {
+    const { panels } = ROLE_FILMS[role];
+    const page = film(role, 7400).svg;
+    assert.equal((page.match(/filter="url\(#rr-sepia\)"/g) ?? []).length, 2, `${role}: two panels of memory, then one aboard`);
+    // The first memory draws the player's own character, whoever it is.
+    const first = character => panels[0](800, { w: box.w, h: box.h, prefix: 'rr-p0', character });
+    assert.equal(new Set(CHARACTERS.map(first)).size, CHARACTERS.length, `${role}: the player's own character is in the first memory`);
+    for (const [i, panel] of panels.entries()) {
+      const at = local => panel(local, { w: box.w, h: box.h, prefix: `rr-p${i}`, character: 'c4', seat: 6 });
+      assert.equal(at(900), at(900), `${role} panel ${i + 1}: deterministic`);
+      assert.notEqual(at(100), at(1100), `${role} panel ${i + 1}: it moves`);
+      assert.equal(at(1300), panel(1300, { w: box.w, h: box.h, prefix: `rr-p${i}`, character: 'c4', seat: 6 }), `${role} panel ${i + 1}: at rest the same`);
+      assert.ok(!/<text[\s>]/.test(at(900)), `${role} panel ${i + 1}: no words drawn in`);
+      pictures.add(at(PANEL_LOCAL_REST));
+    }
+  }
+  assert.equal(pictures.size, 8 * 3, 'every film draws its own three panels');
+  // The two Disablers: one film; the plate's name and emblem and the card on the desk differ.
+  const blue = film('Blue Disabler', 5300).svg, red = film('Red Disabler', 5300).svg;
+  assert.notEqual(blue, red);
+  assert.ok(blue.includes(EMBLEM_FILES.Blue) || film('Blue Disabler', 8600).svg.includes(EMBLEM_FILES.Blue));
+  assert.ok(film('Red Disabler', 8600).svg.includes(EMBLEM_FILES.Red), 'the Red Disabler\'s plate carries the Red Planet');
+});
+
+test('a sound word waits for its beat: nothing of it shows before it pops', () => {
+  assert.equal(sfxSvg('BEEP', { x: 0, y: 0, pop: easeOutBack(0, 1.8) }), '', 'a pop eased from 0 (a rounding error above it) draws nothing');
+  assert.notEqual(sfxSvg('BEEP', { x: 0, y: 0, pop: 0.2 }), '');
+  // The Doctor's BEEP pops when the key lights, not as the panel lands.
+  const height = pageHeight(390, 844), box = layout(height).panels[0];
+  const steady = local => DOCTOR_PANELS[2](local, { w: box.w, h: box.h, prefix: 'rr-p2', seat: 6 });
+  const words = svg => (svg.match(/skewX\(-10\)/g) ?? []).length;
+  assert.equal(words(steady(200)), 0, 'no BEEP before the key lights');
+  assert.equal(words(steady(700)), 1, 'BEEP as the key lights');
+});
+
 test('the motion comic: the memory flash, the guided view and the panels\' focus, the same for every role and full motion only', () => {
   const full = t => revealFrame(t), reduced = t => revealFrame(t, { variant: 'reduced' });
   // The flash swells out of the glint and clears on the back story's first panel.
@@ -359,10 +432,17 @@ test('the motion comic: the memory flash, the guided view and the panels\' focus
     assert.ok(k > 1, `${t} ms: a closer view`);
     assert.ok(cy - H / (2 * k) <= L.panels[i].y && cy + H / (2 * k) >= L.panels[i].y + L.panels[i].h * 0.9, `${t} ms: panel ${i + 1} in view`);
   }
-  // The page text rides the camera: a narration box is where its panel is drawn.
+  // The page text rides the camera: a narration box is where its panel is drawn, drawn in just far
+  // enough under the zoom to stay whole in the frame (its overhang past the panel's edge).
   const at5300 = doctor(5300).words.story[1].box, v = view(5300);
   const box = narrationBox(L, L.story[1], ROLE_REVEAL_COPY.Doctor.story[1]);
-  assert.deepEqual(at5300.map(n => Math.round(n)), v.box([box.x, box.y, box.w, box.h]).map(n => Math.round(n)));
+  const half = PAGE_WIDTH / (2 * v.k);
+  const x = Math.min(Math.max(box.x, PAGE_WIDTH / 2 - half + 4), PAGE_WIDTH / 2 + half - 10 - box.w);
+  assert.ok(x < box.x, 'zoomed, the right-hand box comes in from its overhang');
+  assert.deepEqual(at5300.map(n => Math.round(n)), v.box([x, box.y, box.w, box.h]).map(n => Math.round(n)));
+  // With the whole page in view the box sits where it always did, overhanging its panel.
+  const page = doctor(5300, { variant: 'reduced' }).words.story[1].box;
+  assert.deepEqual(page.map(n => Math.round(n)), [box.x, box.y, box.w, box.h].map(n => Math.round(n)));
   // Focus: an earlier panel steps back while a later one plays, and all come back for the page.
   assert.ok(full(5300).focus[0] < 0.7 && full(5300).focus[1] === 1);
   assert.deepEqual(full(7800).focus, [1, 1, 1]);
@@ -386,4 +466,44 @@ test('the motion bible\'s role reveal entry carries the films', () => {
   assert.match(scene.durations.full, /10000 ms, the same length and beats for every role/);
   assert.match(scene.audio, /silent/);
   assert.ok(scene.assets.some(a => a.startsWith('design/cinematic/pilots/role-reveal/')));
+});
+
+test('no narration box is ever cut by the frame: every visible box lies inside the phone, the whole film, every size', () => {
+  // The review of #189: on the guided camera's turn to the third panel the first box was clipped at the
+  // top (320 x 568, 430 x 932). Every box that shows at all lies wholly inside the frame, in full motion
+  // and reduced, at every phone size, for every role (their boxes differ in width with their words).
+  for (const variant of VARIANTS) for (const [w, h] of PHONES) for (const role of ONE_PER_FILM) {
+    const height = pageHeight(w, h);
+    for (let t = 0; t <= REVEAL_END; t += 1000 / 30) {
+      const words = revealWords(t, { role, variant, height, cssPx: w / PAGE_WIDTH });
+      for (const [i, s] of words.story.entries()) {
+        if (!(s.opacity > 0.001)) continue;
+        const [x, y, bw, bh] = s.box;
+        assert.ok(y >= 0 && y + bh <= height && x >= 0 && x + bw <= PAGE_WIDTH, `${role} ${variant} ${w}x${h} t ${Math.round(t)}: box ${i + 1} at ${s.box.map(Math.round)} (opacity ${s.opacity})`);
+      }
+    }
+  }
+  // The page text alone is revealSvg()'s, exactly.
+  for (const t of [3300, 5000, 6050, 7500]) assert.deepEqual(revealWords(t, { role: 'Doctor', height: pageHeight(390, 844) }), doctor(t).words, `words ${t}`);
+  // Reduced motion keeps both boxes on the page's still until the title.
+  for (const t of [3000, 4000, 7000, 7799]) assert.deepEqual(doctor(t, { variant: 'reduced' }).words.story.map(s => s.opacity), [1, 1], `reduced ${t}`);
+});
+
+test('with the shipped pictures given, a frame draws them inline: no picture is loaded or decoded at film time', () => {
+  // The review of #189: the Engineer's card lost its portrait and device for two frames while their
+  // images decoded again. A client passes every shipped picture's text (read once, on every phone).
+  const pictures = Object.fromEntries(ROLE_REVEAL_ASSETS.map(href => [href, readFileSync(resolve(CINE, href), 'utf8')]));
+  for (const role of CURRENT_ROLES) for (const character of ['c1', 'c5', 'c9']) for (const t of [0, 500, 533, 2400, 8600]) {
+    const plain = film(role, t, { character });
+    const inline = film(role, t, { character, pictures });
+    const images = [...plain.svg.matchAll(/<image href="([^"]+)"/g)].map(m => m[1]);
+    assert.ok(!/<image[\s>]/.test(inline.svg), `${role} ${character} ${t}: no <image> left`);
+    assert.ok(!/href="(?!#)/.test(inline.svg), `${role} ${character} ${t}: no file referred to`);
+    assert.equal((inline.svg.match(/-box"><rect/g) ?? []).length, images.length, `${role} ${t}: each picture drawn once, clipped to its box`);
+    const all = [...inline.svg.matchAll(/\bid="([^"]+)"/g)].map(m => m[1]);
+    assert.equal(new Set(all).size, all.length, `${role} ${character} ${t}: an id twice`);
+    for (const ref of [...inline.svg.matchAll(/url\(#([^)]+)\)|href="#([^"]+)"/g)].map(m => m[1] ?? m[2])) assert.ok(all.includes(ref), `${role} ${t}: #${ref} has no target`);
+    // The card shows the player's own portrait and the role's device in the opener, every frame.
+    if (t < 3000) assert.ok(images.includes(PORTRAIT_FILES[character]) && images.includes(DEVICE_FILES[role]), `${role} ${character} ${t}: the card's pictures`);
+  }
 });

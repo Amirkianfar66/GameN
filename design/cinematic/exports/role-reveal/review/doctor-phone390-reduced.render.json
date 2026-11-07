@@ -1,7 +1,7 @@
 {
   "tool": "design/tools/cinematic-render.mjs",
   "pilot": "role-reveal",
-  "version": "cinematic-role-reveal-0.6.0",
+  "version": "cinematic-role-reveal-0.8.0",
   "surface": "phone",
   "variant": "reduced",
   "stage": "design/cinematic/stage.html?pilot=role-reveal&surface=phone&variant=reduced&beds=4&w=390&h=844&role=Doctor&seat=6&character=c4",
@@ -16,32 +16,34 @@
     "character": "c4",
     "synthetic": true
   },
-  "browser": "Chromium 141.0.7390.37",
+  "browser": "Google Chrome for Testing 153.0.8010.12",
   "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
   "outputs": [
     {
       "kind": "video",
       "file": "design/cinematic/exports/role-reveal/review/doctor-phone390-reduced.mp4",
-      "sha256": "1e81371412fba9bd7930d6745629166692645acc4bb11694ca934797dbea4764",
-      "bytes": 584794,
+      "sha256": "c578cd53cfd74356b9ab1542e0b1abe0d1a1f39914e0b0904fac93abc019f0a7",
+      "bytes": 584818,
       "fps": 30,
-      "frames": 301,
+      "frames": 300,
       "durationMs": 10000,
       "from": 0,
       "to": 10000,
-      "audio": null
+      "audio": null,
+      "exact": true,
+      "encodedMs": 10000
     },
     {
       "kind": "preview",
       "file": "design/cinematic/exports/role-reveal/review/doctor-phone390-reduced.preview.webp",
-      "sha256": "98b4d646299cbfe05eca45976714d7a7ccaa3e1cf1d692fa656444a0316af0bf",
-      "bytes": 36878
+      "sha256": "07d6c1b3e8976768a74f02cffb1e9fe9207f96f3880bdc02d4e44161c1a4b1f5",
+      "bytes": 36894
     },
     {
       "kind": "poster",
       "file": "design/cinematic/exports/role-reveal/review/doctor-phone390-reduced.poster.webp",
-      "sha256": "550eb1c5b00b9dcf3168028ad07d648e937213c48659ac5fcabb501a80755729",
-      "bytes": 65090,
+      "sha256": "a5ce360125e30f97153378c7e5666567e4d187b0af486111e75931daa48c545d",
+      "bytes": 65620,
       "t": 5000
     }
   ],

@@ -1,0 +1,55 @@
+{
+  "tool": "design/tools/cinematic-render.mjs",
+  "pilot": "role-reveal",
+  "version": "cinematic-role-reveal-0.8.0",
+  "surface": "phone",
+  "variant": "full",
+  "stage": "design/cinematic/stage.html?pilot=role-reveal&surface=phone&variant=full&beds=4&w=390&h=844&role=Blue+Disabler&seat=3&character=c7",
+  "size": [
+    390,
+    844
+  ],
+  "deviceScale": 2,
+  "fixture": {
+    "role": "Blue Disabler",
+    "seat": 3,
+    "character": "c7",
+    "synthetic": true
+  },
+  "browser": "Google Chrome for Testing 153.0.8010.12",
+  "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+  "outputs": [
+    {
+      "kind": "video",
+      "file": "design/cinematic/exports/role-reveal/review/blue-disabler-phone390-full.mp4",
+      "sha256": "c65489c3ce4fce9f77c64fcf577e9c1c44aef84556879b438f76d3fd0e02a5d0",
+      "bytes": 2364087,
+      "fps": 30,
+      "frames": 300,
+      "durationMs": 10000,
+      "from": 0,
+      "to": 10000,
+      "audio": null,
+      "exact": true,
+      "encodedMs": 10000
+    },
+    {
+      "kind": "preview",
+      "file": "design/cinematic/exports/role-reveal/review/blue-disabler-phone390-full.preview.webp",
+      "sha256": "010258112703dd6cfbb0974f9b6b76a49158716f20e0a7340fa84332d7a029a7",
+      "bytes": 365976
+    },
+    {
+      "kind": "poster",
+      "file": "design/cinematic/exports/role-reveal/review/blue-disabler-phone390-full.poster.webp",
+      "sha256": "836c5cdad7d5e582577d51f4005c39605b9de2e86d3573cde0463a73f2e4fde9",
+      "bytes": 39412,
+      "t": 7400
+    }
+  ],
+  "settling": {
+    "rule": "a frame is kept once two captures a redraw apart agree; pictures decode before their tiles draw",
+    "resettled": 0,
+    "unsettled": []
+  }
+}

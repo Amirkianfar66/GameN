@@ -1,0 +1,55 @@
+{
+  "tool": "design/tools/cinematic-render.mjs",
+  "pilot": "role-reveal",
+  "version": "cinematic-role-reveal-0.8.0",
+  "surface": "phone",
+  "variant": "full",
+  "stage": "design/cinematic/stage.html?pilot=role-reveal&surface=phone&variant=full&beds=4&w=390&h=844&role=Undercover&seat=3&character=c6",
+  "size": [
+    390,
+    844
+  ],
+  "deviceScale": 2,
+  "fixture": {
+    "role": "Undercover",
+    "seat": 3,
+    "character": "c6",
+    "synthetic": true
+  },
+  "browser": "Google Chrome for Testing 153.0.8010.12",
+  "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+  "outputs": [
+    {
+      "kind": "video",
+      "file": "design/cinematic/exports/role-reveal/review/undercover-phone390-full.mp4",
+      "sha256": "00a4ef5f14cfc1eafdbffde33892e272b2bab28cc6fdd8436947a94600b20e06",
+      "bytes": 2720081,
+      "fps": 30,
+      "frames": 300,
+      "durationMs": 10000,
+      "from": 0,
+      "to": 10000,
+      "audio": null,
+      "exact": true,
+      "encodedMs": 10000
+    },
+    {
+      "kind": "preview",
+      "file": "design/cinematic/exports/role-reveal/review/undercover-phone390-full.preview.webp",
+      "sha256": "094cd13f8d7d803df8b813e3f6dd06d264669bdc35d3aefc57f912ce5b5fe69d",
+      "bytes": 497628
+    },
+    {
+      "kind": "poster",
+      "file": "design/cinematic/exports/role-reveal/review/undercover-phone390-full.poster.webp",
+      "sha256": "eb72eb39b950becad7323d23e19e3faafbfb1b636a7c3553f09cf239ca9778cc",
+      "bytes": 50930,
+      "t": 7400
+    }
+  ],
+  "settling": {
+    "rule": "a frame is kept once two captures a redraw apart agree; pictures decode before their tiles draw",
+    "resettled": 0,
+    "unsettled": []
+  }
+}
