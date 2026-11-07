@@ -1,6 +1,6 @@
 # Character pilot: Mira, Nova and Atlas in the new style
 
-**Status: a proposal for the owner's review. Nothing here is adopted: the game, the board, the films and the approved rig are unchanged.**
+**Status: approved by the owner on 7 November 2026 ("i am happy with results"). Nothing is adopted yet: the game, the board, the films and the approved rig are unchanged until the change described in [What adoption would take](#what-adoption-would-take).**
 
 The owner drew a redesign of the nine crew members: portraits in app-icon frames and full figures in a two-tone suit. The owner then asked whether it was better and possible. The answer was yes, as a restyle of the code-drawn rig, starting with a pilot of three characters. The owner's decisions of 7 November 2026 set the pilot (recorded in [owner-decisions.md](owner-decisions.md)).
 
@@ -15,8 +15,9 @@ The owner drew a redesign of the nine crew members: portraits in app-icon frames
 **The owner's reviews, the same day.**
 - Of the first renders: "You did a good job on rigging and the body and dress, but the face is not good! I created an example as a better face", with a repainted Mira.
 - Of the faces redrawn after the example: "Still the faces are not good enough". The owner asked whether projects such as Faces.js, Bean Heads or the Cubism Web Samples could help. Designer recommended tracing the owner's own art instead, and the owner answered: "yes go as you recommended".
+- Of the traced faces on the rig: "i am happy with results". The pilot is approved as drawn.
 
-So the faces are now the owner's own drawings, traced and rigged (below). The rig, the body and the suit are kept.
+So the faces are the owner's own drawings, traced and rigged (below). The rig, the body and the suit are kept.
 
 ## What to look at
 
@@ -136,7 +137,7 @@ One fix in the pilot's own ink: the ends of its limbs were drawn curving inward.
 ## What adoption would take
 
 The pilot is not wired into anything. Adopting the style for the game would be its own decision and change:
-- **The owner.** Approve the pilot, or ask for changes, then the other six characters (Vega, Rigel, Lyra, Orion, Juno slim, Echo with the violet above).
+- **The owner.** The pilot is approved. Next is the go-ahead for the other six characters (Vega, Rigel, Lyra, Orion, Juno slim, Echo with the violet above).
 - **Designer.**
   - Trace the six from the owner's sheet, and rig them. The sheet's portraits are about 310 px across; larger drawings would trace finer.
   - Replace the frozen rig's drawing (`body.mjs`, `crew.mjs`, `parts.mjs`, `rig.mjs`) with the new skin, as a new reviewed version.
