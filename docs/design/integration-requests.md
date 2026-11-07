@@ -295,13 +295,14 @@ Requested, with what Integration has decided:
 6. **Register the release after `design-0.6.0`**, as the candidate art version `design-0.7.0`. Historical releases stay as they are.
 7. **Dispatch by exact release** (Frontend): a match pinned to `design-0.6.0` or earlier keeps today's drawing, and no import is replaced unconditionally.
 
-**Update, 7 November 2026, after Integration's review of `6bba38844d394bbef2a69f3a523a67f883c18fd5`.** Integration found two live-update gaps. Both are corrected, in Designer-owned files only:
+**Update, 7 November 2026, after Integration's review of `6bba38844d394bbef2a69f3a523a67f883c18fd5`.** Integration found two live-update gaps and a smaller cache-contract issue. All three are corrected, in Designer-owned files only:
 1. **A moving figure is posed in place.**
    - `mount.mjs` `crewPoseFrame` and `applyCrewPose` take the rig's continuously sampled walk, exit and arrival skeletons.
    - They set the attributes of the same mounted elements, with stable ids, and never redraw the traced art.
    - A figure is mounted again only where the rig switches what cannot be blended: at most once per exit or arrival, never during the walk.
    - Quantization is no longer the adoption path, and no cache holds sampled poses.
 2. **The back of Mira's hair and Echo's locs is live.** It has numbered hooks, and `crewFrame` carries it for `applyCrewFrame`.
+3. **`poseKey` is exact.** A still drawing's motion is part of its key and its numbers are exact, so equal keys always mean equal markup (the review's smaller cache-contract correction).
 
 Also in this update:
 - Portraits have their own updater (`crewPortraitFrame`), and a figure's frame cannot move a portrait's head.

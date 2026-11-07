@@ -13,12 +13,13 @@ Where everything is: [design/crew-drawing/README.md](../../design/crew-drawing/R
 - `review/` holds review media, never imported.
 - `design/character-pilot/` is the prototype the owner reviewed. It is **not** part of the release, and nothing in the runtime may import it.
 
-**Corrected after Integration's review of `6bba3884`.** Integration's review on PR #193 found two live-update gaps. Both are fixed, without changing the drawing:
+**Corrected after Integration's review of `6bba3884`.** Integration's review on PR #193 found two live-update gaps and a smaller cache-contract issue. All three are fixed, without changing the drawing:
 1. **A moving figure is now posed in place.**
    - `crewPoseFrame` and `applyCrewPose` take the rig's continuously sampled skeleton: the walk, and the exit and arrival blends.
    - They set the attributes of the same mounted elements and never redraw the traced art.
    - Nothing is quantized and nothing is cached per pose.
 2. **The back of Mira's hair and Echo's locs is live.** `crewFrame` carries it, and `applyCrewFrame` sets it.
+3. **`poseKey` is exact** (the review's smaller cache-contract correction). A still drawing's motion is part of its key, so a still Vega with eyes open and shut no longer shares one.
 
 The review's other points are taken in below:
 - the Frontend [adoption inventory](https://github.com/Amirkianfar66/GameN/blob/6bac45545b428de60f060c6dcbeccb9a3dcc8ef5/docs/frontend/character-restyle-adoption-inventory.md) and [agreed performance budget](https://github.com/Amirkianfar66/GameN/blob/6bac45545b428de60f060c6dcbeccb9a3dcc8ef5/docs/frontend/character-restyle-performance-budget.md) (`6bac4554`);
@@ -100,7 +101,7 @@ Full records: `design/crew-drawing/release-candidate.json` (sources, ports, the 
 | `figure.mjs` | `d61e1ee54161829fcb812b72e57c965523de6da6c84702ee848a84372fc23a90` | `apps/game/hosted/crew-drawing/figure.mjs` | `fcaa9fd62acb2f2a0378c63605ab52450cced0d10591c2ca786af422f6c0f968` | `../../board-motion/figures/body.mjs` → `../scene-drawing/body.mjs` |
 | `wardrobe.mjs` | `5ce2a7530cfb7d3cfc41153d29a33894ed4a74afbd9b88cb30a6e38d9eadca17` | `apps/game/hosted/crew-drawing/wardrobe.mjs` | `d1de51191efb793ae484fe5a0ef9b10e530b43ea2e227aa093d07cf6ce25fa9b` | `../../board-motion/figures/body.mjs` → `../scene-drawing/body.mjs`, `../../board-motion/figures/wardrobe.mjs` → `../scene-drawing/wardrobe.mjs` |
 | `motion.mjs` | `405f22b75eb027d4408c3d0d9c5f328f01711e8363f69e7517ee7fa4160dd280` | `apps/game/hosted/crew-drawing/motion.mjs` | `fe753aa1be111f99e98ef146e0c648d1f9e6b3f9726e312ca38bcc3be040c5fe` | none |
-| `mount.mjs` | `cdd0b23ab769f5dafcbc78f73fd484ff0b4bfcb640e0eea8b86652d07ccd895c` | `apps/game/hosted/crew-drawing/mount.mjs` | `bd0a00e7cc8c3d2d898cfb0be745233730550d3eb4212d10faa2332caa0206d8` | none |
+| `mount.mjs` | `72435fa70884038602b26f65f3970ad0a83f93b138ea3bd311a027a263048d32` | `apps/game/hosted/crew-drawing/mount.mjs` | `651e41ccd7141abd4521dae27a249307687671ea3a60b77ecbe139de92166e27` | none |
 | `portrait.mjs` | `06839757ada8939295b626e6c142935fa0db69bda266f05230fd9ad50d2dfac7` | `apps/game/hosted/crew-drawing/portrait.mjs` | `4026cd28a4234f45345a25fa9bb59705dbff58f38ecb4321408b36fca395adf5` | none |
 <!-- sources:end -->
 
@@ -204,6 +205,8 @@ From `motion.mjs`: `crewMotion`, `blinkAt`, `idleDrift`, `hairFollow`, `hasLids`
   - Give every inline figure, front layer, capsule, portrait and film instance its own. Include a renderer-instance counter and a mount counter, not only the seat, character or event. Two simultaneous boards, or a character at home, in the capsule and in a film, would otherwise share ids.
   - Two figures with different prefixes share no id (tested).
 - **Templates, namespaced at mount.** A placed pose (a gesture in a place) can be drawn once under `CANONICAL_PREFIX` and kept in a cache keyed by `poseKey`.
+  - `poseKey` names a drawing exactly: equal keys mean equal markup, apart from the prefix. Its numbers are exact, and a still drawing's motion (blink, sway, lift, drift) is part of its key (tested).
+  - A live template is drawn with no motion and keyed so. Once mounted, its frames set the motion.
   - At mount, `withPrefix(template, prefix)` gives it the instance's own prefix. It renames every id and every reference together, and the result equals drawing it under that prefix (tested for every gesture, both layers, shared and inline art).
   - Bound the cache (for instance to the board's figures), and clear it with the board.
   - Never cache a continuously sampled skeleton: those are posed in place.
@@ -398,6 +401,7 @@ What the 16 tests hold:
 - the traced heads byte for byte;
 - the drop-in's ids, signs and flags, and every gesture, outfit and mark;
 - unique prefixes, shared art, and templates given each instance's prefix;
+- `poseKey` exact: equal keys mean equal markup over still and live drawings, and a still drawing's motion is in its key (a still Vega with eyes open and shut has two keys);
 - the films' three effects;
 - blinks, Echo's visor and the hanging hair;
 - reduced motion and still figures;

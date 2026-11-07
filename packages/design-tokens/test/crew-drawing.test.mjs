@@ -234,6 +234,24 @@ test('placed poses: a key names a drawing, and a template drawn once takes each 
   assert.notEqual(poseKey(CREW.c1, sk, opts), poseKey(CREW.c1, skeletonOf('stand'), opts));
   assert.notEqual(poseKey(CREW.c1, sk, opts), poseKey(CREW.c2, sk, opts));
   assert.notEqual(poseKey(CREW.c1, sk, opts), poseKey(CREW.c1, sk, { ...opts, outfit: 'gown' }));
+  // Equal keys, equal markup (so different markup, different keys): a still drawing's motion is in its key, and numbers are exact.
+  const stand = skeletonOf('stand');
+  const still = blink => ({ live: false, motion: { blink } });
+  assert.notEqual(poseKey(CREW.c1, stand, still(0)), poseKey(CREW.c1, stand, still(1)), 'a still Vega, eyes open and shut');
+  assert.notEqual(dressedFigureSvg(CREW.c1, stand, { prefix: 'k', ...still(0) }), dressedFigureSvg(CREW.c1, stand, { prefix: 'k', ...still(1) }));
+  assert.equal(poseKey(CREW.c1, stand, {}), poseKey(CREW.c1, stand, { motion: { blink: 0, sway: 0, lift: 0, drift: { dx: 0, dy: 0, tilt: 0 } } }), 'no motion is neutral motion');
+  assert.notEqual(poseKey(CREW.c1, stand), poseKey(CREW.c1, { ...stand, head: [stand.head[0] + 0.001, stand.head[1]] }), 'numbers are exact');
+  assert.notEqual(poseKey(CREW.c1, stand, { inline: false, header: 'a' }), poseKey(CREW.c1, stand, { inline: false, header: 'b' }));
+  const byKey = new Map();
+  for (const name of ['stand', 'think', 'tablet', 'doorBack', 'benchSling+injured']) for (const live of [false, true]) {
+    for (const motion of [{}, { blink: 0 }, { blink: 1 }, { blink: 0.5, sway: 2 }, { drift: { dx: 1, dy: 0, tilt: 2 } }, { sway: 2, blink: 0.5 }]) for (const id of ['c1', 'c8', 'c9']) {
+      const options = { live, motion };
+      const markup = dressedFigureSvg(CREW[id], skeletonOf(name), { prefix: 'k', ...options }), key = poseKey(CREW[id], skeletonOf(name), options);
+      if (byKey.has(key)) assert.equal(byKey.get(key), markup, `${key}: one key, one drawing`);
+      else byKey.set(key, markup);
+    }
+  }
+  assert.ok(byKey.size > 60, 'many drawings were keyed');
   for (const name of Object.keys(GESTURES)) for (const art of [null, { ref: 'crew-art' }]) {
     const pose = skeletonOf(`${name}+injured`);
     for (const layer of hasFront(pose) ? ['body', 'front'] : ['body']) {

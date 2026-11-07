@@ -182,9 +182,9 @@
     },
     {
       "source": "design/crew-drawing/source/mount.mjs",
-      "sourceSha256": "cdd0b23ab769f5dafcbc78f73fd484ff0b4bfcb640e0eea8b86652d07ccd895c",
+      "sourceSha256": "72435fa70884038602b26f65f3970ad0a83f93b138ea3bd311a027a263048d32",
       "runtime": "apps/game/hosted/crew-drawing/mount.mjs",
-      "runtimeSha256": "bd0a00e7cc8c3d2d898cfb0be745233730550d3eb4212d10faa2332caa0206d8",
+      "runtimeSha256": "651e41ccd7141abd4521dae27a249307687671ea3a60b77ecbe139de92166e27",
       "imports": {}
     },
     {

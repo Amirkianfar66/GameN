@@ -8,8 +8,9 @@
 //    roots (shadow roots, iframes) needs it in each; a figure whose SVG text is rewritten
 //    afterwards (the films' memorial, halftone and outline effects) keeps its art inline.
 // 2. Mount: a figure's markup, drawn with its own prefix (or a template drawn once under
-//    CANONICAL_PREFIX and given its prefix by withPrefix). poseKey() names a drawing for a bounded
-//    template cache of placed poses; a continuously sampled skeleton is never cached.
+//    CANONICAL_PREFIX and given its prefix by withPrefix). poseKey() names a drawing exactly (equal
+//    keys, equal markup), for a bounded template cache of placed poses; a continuously sampled
+//    skeleton is never cached.
 // 3. Every frame, attributes only, on the mounted elements:
 //    - the same skeleton (a figure in its place): crewFrame() and applyCrewFrame() set the head's
 //      place and drift, the lids, the hanging hair and, from behind, the back of Mira's hair and
@@ -53,13 +54,19 @@ export function withPrefix(markup, prefix, from = CANONICAL_PREFIX) {
 
 // ---------- Pose keys: for a bounded cache of placed poses ----------
 
-/** A skeleton's own text, numbers rounded to a hundredth, keys in order: two skeletons that draw alike read alike. */
+/** A value's own text, keys in order and numbers exact: two values that read alike are alike, so they draw alike. */
 function canonical(value) {
   if (Array.isArray(value)) return `[${value.map(canonical).join(',')}]`;
   if (value && typeof value === 'object') return `{${Object.keys(value).sort().map(k => `${k}:${canonical(value[k])}`).join(',')}}`;
-  if (typeof value === 'number') return (Math.round(value * 100) / 100).toString();
+  if (typeof value === 'number') return String(value);
   return JSON.stringify(value ?? null);
 }
+
+/** The head's motion as the drawing reads it, absent parts as their neutral values. */
+const motionOf = (motion = {}) => {
+  const drift = motion.drift ?? {};
+  return { blink: motion.blink ?? 0, sway: motion.sway ?? 0, lift: motion.lift ?? 0, drift: { dx: drift.dx ?? 0, dy: drift.dy ?? 0, tilt: drift.tilt ?? 0 } };
+};
 
 /** A short, stable digest of a text (FNV-1a, 32 bits, twice): a cache key, not a security hash. */
 function digest(text) {
@@ -73,14 +80,17 @@ function digest(text) {
 }
 
 /**
- * The key of a placed pose's drawing: equal keys, equal markup but for the prefix. For a cache of
- * templates of the poses a board holds (a gesture in a place), bounded and cleared with the board;
- * never for a continuously sampled skeleton (a walk, a blend), which crewPoseFrame updates in place.
- * options: the dressedFigureSvg options that change markup. The head's motion is not in it.
+ * The key of a drawing: equal keys, equal markup but for the prefix. options: every
+ * dressedFigureSvg option that changes markup, the head's motion included (a still drawing bakes
+ * its blink, sway, lift and drift in). For a cache of templates of the poses a board holds (a
+ * gesture in a place), bounded and cleared with the board; never for a continuously sampled
+ * skeleton (a walk, a blend), which crewPoseFrame updates in place. A live template is drawn with
+ * no motion and keyed so; once mounted, its frames (crewFrame, crewPoseFrame) set the motion.
  */
-export function poseKey(c, sk, { outfit = 'crew', layer = 'body', inline = true, art = null, live = false } = {}) {
+export function poseKey(c, sk, { outfit = 'crew', layer = 'body', inline = true, header = '', art = null, live = false, motion = {} } = {}) {
   const who = crewMember(c);
-  return `${who.id}|${outfit}|${layer}|${inline ? 'i' : 'f'}|${art?.ref ?? '-'}|${live ? 'l' : 's'}|${digest(canonical(sk))}`;
+  const file = inline ? 'i' : `f${digest(header)}`;
+  return `${who.id}|${outfit}|${layer}|${file}|${art?.ref ?? '-'}|${live ? 'l' : 's'}|${digest(canonical(sk))}|${digest(canonical(motionOf(motion)))}`;
 }
 
 // ---------- The same skeleton: the head's own motion ----------
