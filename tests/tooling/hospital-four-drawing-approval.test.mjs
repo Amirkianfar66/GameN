@@ -4,7 +4,7 @@ import { cpSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } f
 import { dirname, join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { fileURLToPath } from 'node:url';
-import { CANDIDATE_DRAWING_POLICY, PLANET_DRAWING_POLICY, readDrawingPolicy, productionDrawingProblems,
+import { CANDIDATE_DRAWING_POLICY, PLANET_DRAWING_POLICY, CREW_DRAWING_POLICY, readDrawingPolicy, productionDrawingProblems,
   abilityPrototypeReferences, reviewedAbilityProse } from '../../design/tools/lib/drawing-port-fence.mjs';
 
 const root = fileURLToPath(new URL('../../', import.meta.url));
@@ -12,7 +12,7 @@ const policy = readDrawingPolicy(root);
 function fixture(t) {
   const target = mkdtempSync(join(tmpdir(), 'mothership-current-drawing-'));
   t.after(() => rmSync(target, { recursive: true, force: true }));
-  const paths = new Set([CANDIDATE_DRAWING_POLICY, PLANET_DRAWING_POLICY, 'design/tools/lib/reviewed-drawing-ports.json',
+  const paths = new Set([CANDIDATE_DRAWING_POLICY, PLANET_DRAWING_POLICY, CREW_DRAWING_POLICY, 'design/tools/lib/reviewed-drawing-ports.json',
     ...Object.keys(policy.sourceHashes), ...Object.keys(policy.ports), ...Object.keys(policy.styles),
     ...Object.keys(policy.metadataFiles), ...Object.keys(policy.buildFiles),
     ...Object.values(policy.styles).map(pin => pin.source),

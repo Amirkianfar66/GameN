@@ -20,7 +20,7 @@ const historical = {
 };
 const releases = {
   'design-0.7.0': {
-    manifestSha256: 'c85fe09bb766c6f53aa42cc1aa8e9a40818f708f06864b56ef4b3b56a10dad79',
+    manifestSha256: '5cd0a792c780a937fee6aee918c133567ecdf2a1ef801251d209209c24e49cc0',
     crewApprovalSha256: 'a2ef5f03666e046bb712b4c177adc30d35556aaa590f9f7aa0d45fd3cb55dbab',
     approvalSha256: '9493e29a8ce1b06c6848846b0c8932d65c42abcb24b2b43aaf35ed7239aaf228',
     baseManifest: PLANET_ART_MANIFEST,

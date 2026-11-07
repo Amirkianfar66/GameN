@@ -315,7 +315,7 @@
     "docs/integration/crew-drawing-art-approval-2026-11-07.json": "a2ef5f03666e046bb712b4c177adc30d35556aaa590f9f7aa0d45fd3cb55dbab",
     "packages/design-tokens/src/tokens-0.5.0.json": "cfd8604611196fa6799367e1b438570ec96e914f937859199629317a4ac8ac5d",
     "scripts/board-v2-motion-art.mjs": "60dac0df0510b9fbc1110d8c1553f9df3c4385cf1b1bb18a869b48f74441b8b8",
-    "scripts/crew-drawing-art.mjs": "ebc698632c8674b3a0da0a284d42c32d4a1b10ca008793a2da059bbf6f757e91",
+    "scripts/crew-drawing-art.mjs": "6b6ba5cdba4b0f7afe75716ffb1122077d3df723ff34949f047ec2a81997541d",
     "scripts/setup-art-candidate.mjs": "ef1b9e8fc451a6ff4658db1351530a78b7140179be17eed0137758742e72fde2"
   },
   "runtimeFiles": {
@@ -505,8 +505,8 @@
       "sha256": "5dedbf2450adca159480d3ba448501ce6957595f1a018c5ced4d9d17f5031cd2"
     },
     "board-v2-films-art": {
-      "url": "/art/crew-board-v2-films-art.7da041977c.css",
-      "sha256": "7da041977cb6a140a6cf0cda10b27f1883b761192ff0257ed7991209654c154d"
+      "url": "/art/crew-board-v2-films-art.b30ecdebc3.css",
+      "sha256": "b30ecdebc3d17620381249c4c519effd98a117568216eb174cf0b7d23a403eae"
     },
     "board-v2-motion-art": {
       "url": "/art/board-v2-motion.art.7793869d6b.css",
@@ -517,12 +517,12 @@
       "sha256": "fc4830756cfe0119d98e2a06c207aa5178bdec96d0ed8d8b98f263c1a47cdc67"
     },
     "public-board": {
-      "url": "/art/crew-public-board.c9fe208e88.css",
-      "sha256": "c9fe208e889e3ce13e6c2ac913685ecb877970bfd068fa620936ae6771729cce"
+      "url": "/art/crew-public-board.332a656b4b.css",
+      "sha256": "332a656b4b631b5cdbfd8b88eba7cf2d00bb1f882f32ee936ee9d0587d02e3ba"
     },
     "roles": {
-      "url": "/art/crew-roles.a4e24c6a24.css",
-      "sha256": "a4e24c6a242c9ba3272465e6351e9d6c58153167b8a5887378dd8ff60e1fed6c"
+      "url": "/art/crew-roles.9bfc1dc3b2.css",
+      "sha256": "9bfc1dc3b29cc91ff38fd17349c8113d4562b3b1c93bdee062b5dbdbe92f6fc7"
     },
     "scene-art": {
       "url": "/art/scenes.art.0ff8b3c930.css",

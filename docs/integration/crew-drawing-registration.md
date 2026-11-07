@@ -24,11 +24,11 @@ Exact-head evidence: clean installation under Node 22.21.1/npm 10.9.4, build, 27
 
 | Bundle | New complete contents | URL |
 | --- | --- | --- |
-| public-board | 110 properties, including all nine cards, standees and app-icon portraits | `/art/crew-public-board.c9fe208e88.css` |
-| roles | All nine held devices, loaded uniformly | `/art/crew-roles.a4e24c6a24.css` |
-| board-v2-films-art | 73 environment properties; the 27 unused memorial/outline/halftone crew drawings omitted | `/art/crew-board-v2-films-art.7da041977c.css` |
+| public-board | 110 properties, including all nine cards, standees and app-icon portraits | `/art/crew-public-board.332a656b4b.css` |
+| roles | All nine held devices, loaded uniformly | `/art/crew-roles.9bfc1dc3b2.css` |
+| board-v2-films-art | 73 environment properties; the 27 unused memorial/outline/halftone crew drawings omitted | `/art/crew-board-v2-films-art.b30ecdebc3.css` |
 
-The existing film catalog, SVGs, release manifests, CSS and hashes remain intact. The builder emits the new bundles alongside the historical bundles. It does not load a bundle by role, character or hidden state. Review videos, synthetic fixtures, source crops and the character-pilot prototype are not runtime inputs.
+The existing film catalog, SVGs, release manifests, CSS and hashes remain intact. The builder emits the new bundles alongside the historical bundles. New declarations are scoped to `[data-crew-art="crew-drawing-1.0.0"]`, so uniformly preloading them cannot restyle a historical match. Frontend sets this attribute only after exact-release/tuple selection, and clears it when that match view is disposed. It does not load a bundle by role, character or hidden state. Review videos, synthetic fixtures, source crops and the character-pilot prototype are not runtime inputs.
 
 The explicit `crewDesignTokens` export supplies 0.5.0. `nextDesignTokens` continues exporting 0.4.0 for existing consumers; changing an old export globally would change pinned matches. The Designer's original token candidate bytes are preserved, with adoption status recorded in the release manifest.
 
@@ -48,5 +48,7 @@ The new manifest currently records the registration baseline, not a completed co
 ## Validation and remaining gates
 
 Registration validation covers exact port derivation, source/port/asset tampering, unknown and missing files, independent approval hashes, complete uniform bundles, preserved historical output, and explicit token selection. `npm run check:sources` now verifies the registered crew release; the ordinary hosted build emits its three bundles.
+
+Frontend's affected-consumer review identified the need to scope preloaded CSS. The correction is included. A Chromium check loaded old and new bundles together and confirmed six conditions: both unselected views retain old cards; new portraits are initially absent; selecting the crew root changes only that view; the historical view is unchanged; portraits appear only on the selected root; clearing selection restores the original variables. A separate tooling fixture was updated to include the new approval supplement, without weakening its rejection checks.
 
 Frontend runtime adoption, real Android/iPhone measurements and Designer review of the runtime captures remain outstanding. No gameplay rules, backend scheduler, current match-creation default, Firebase configuration or deployed site are changed by this registration.

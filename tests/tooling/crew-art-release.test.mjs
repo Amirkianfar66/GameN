@@ -58,6 +58,10 @@ test('DSN-REQ-17 binds exact source, 17 exact-copy ports and explicit tokens wit
 
 test('new uniform bundles contain exactly the 36 approved exports and retire only the 27 obsolete film properties', () => {
   const approval = readCrewDrawingApproval(root), files = prepareCrewDrawingArt(root);
+  for (const file of files) {
+    assert.match(file.stylesheet, /\[data-crew-art="crew-drawing-1.0.0"\] \{/);
+    assert.doesNotMatch(file.stylesheet, /^:root\s*\{/m, 'preloading must not restyle a historical match');
+  }
   for (const asset of approval.assets) {
     const name = asset.replaces?.bundle ?? asset.proposedBundle;
     const variable = asset.replaces?.cssVariable ?? asset.proposedCssVariable;

@@ -101,6 +101,9 @@ export function prepareCrewDrawingArt(root) {
 }
 
 function bundle(name, stylesheet, assetCount) {
+  // Preloading is uniform; only the exact-release consumer root inherits new art.
+  assert.equal([...stylesheet.matchAll(/^:root \{$/gm)].length, 1, 'Expected one bundle root');
+  stylesheet = stylesheet.replace(/^:root \{$/m, '[data-crew-art="crew-drawing-1.0.0"] {');
   const sha256 = digest(stylesheet);
   return Object.freeze({ name, stylesheet, sha256, assetCount,
     url: `/art/crew-${name}.${sha256.slice(0, 10)}.css`, byteLength: Buffer.byteLength(stylesheet) });

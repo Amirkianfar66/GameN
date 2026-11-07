@@ -12,7 +12,7 @@ export const contentSha256 = value => createHash('sha256').update(value).digest(
 export const CANDIDATE_DRAWING_POLICY = 'design/releases/board-v2-four-drawing-approval.json';
 export const PLANET_DRAWING_POLICY = 'design/releases/planet-drawing-approval.json';
 export const CREW_DRAWING_POLICY = 'design/releases/crew-drawing-approval.json';
-const CREW_DRAWING_POLICY_SHA256 = 'e77ab2129d696d8752c2868ff19e669a0dc35ded8064e97f0717bf1be1455500';
+const CREW_DRAWING_POLICY_SHA256 = 'f2be8f9c702443effefcbb63fff36aab97f4f4d1bff3c9e13246077c95800f25';
 const PLANET_DRAWING_POLICY_SHA256 = '0fc219ac5f1f8598a715c1a35140ff18f04cc6593785329b9219cb3d2478d497';
 const CANDIDATE_DRAWING_POLICY_SHA256 = '5ef70aa1da1f78b81ca945485b08083aa70856bb9b482df9b3b4e131c23869a0';
 
