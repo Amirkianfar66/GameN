@@ -6,6 +6,32 @@ What the game owner decided about look, feel and presentation while working with
 
 The owner's messages are quoted as written.
 
+## 7 November 2026: the character restyle, a pilot of three
+
+**The owner drew a redesign of the nine crew members and chose to try it as a pilot of three: Mira, Nova and Atlas.** The owner's sheet has portraits in app-icon frames and full figures in a two-tone suit. The owner asked, "do you think it's better and is it possible?" Designer answered yes, as a restyle of the code-drawn rig, and asked five questions. The answers:
+
+| # | What the owner said | What it decides |
+| --- | --- | --- |
+| 1 | "I am Agree with Pilot first … starting with Pilot with 3 of them" | A pilot first: Mira, Nova and Atlas |
+| 2 | "do not keep hejab it is not hood for rigging" | Mira is drawn without a hijab, with long hair as on the owner's sheet |
+| 3 | "Colors as recommend and the icon border like IOS style" | Nova's pink and Echo's purple move away from the team colours; portraits are framed as iOS app icons |
+| 4 | "You can change them 1 fat or thinner" | Atlas and Juno are told apart by build: Atlas heavy |
+| 5 | "I created the images … even you can be free to improve them and send me to check … the main Goal is give the design of game style and more like AAA animation but with a specific style Noir, Comic book Style" | The owner's own designs, which Designer may improve; the look is noir and comic-book with a hand-drawn line, and the animation is polished. The owner named a game as the inspiration for the hand-drawn line; nothing is taken from it |
+
+**Later that day, the faces.** The owner reviewed the first renders: "You did a good job on rigging and the body and dress, but the face is not good! I created an example as a better face", with a repainted Mira. What it decides:
+- The rig, the body and the suit stand as drawn.
+- The faces follow the example: big almond eyes with dark irises, a winged lash line, full brows, a small nose and mouth inside a soft oval face, and hair framing the face.
+
+**Then, how the faces are made.** The owner reviewed the redrawn faces: "Still the faces are not good enough, can we use github project for face like Faces.js or Bean heads or Cubism Web Samples github to improve the result?" Designer recommended tracing the owner's own art instead: those projects draw their own face styles or animate models made in another editor, while the owner's drawings already are the style. The owner answered: "yes go as you recommended". What it decides:
+- The pilot's faces are traced from the owner's own art: Mira from the example, Nova and Atlas from the redesign sheet's portraits. The rig adds the blink, the look down and the hair's follow-through.
+- The owner did not say which tool made the images. They are recorded as the owner's own art.
+
+**Then, the pilot approved.** The owner was sent the traced faces on the rig (`0a5612d`: the faces beside the owner's art, the review sheet and the motion film) and answered: "i am happy with results". What it decides:
+- The pilot stands as drawn: the traced faces and what the rig moves on them, the body and the suit, the animation and the portraits.
+- That includes the choices made with the traced faces: the head as large against the body as in the owner's example, and the traced colours moved just clear of the team colours.
+
+**What it does not decide:** adoption. The pilot lives in `design/character-pilot/` (handoff: [character-pilot.md](character-pilot.md)). The game, the board, the films and the approved rig are unchanged. Adopting the style is a separate change: the other six characters first, then the rig's drawing replaced (Frontend re-ports it and Integration re-pins it).
+
 ## 11 October 2026: the Insider's file, portraits and role labels
 
 **A choice of content, recorded: the Insider's starting knowledge is drawn as the three players' portraits and the three role labels.** The assignment for the ability art, relayed to the Designer on 11 October 2026, says:
