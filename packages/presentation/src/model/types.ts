@@ -131,9 +131,10 @@ export type ReleaseVoteKind = 'release-vote';
  * seat and a guessed faction, a Supply names two seats, a Code attempt names four.
  */
 export type CompoundActionKind = 'scan' | 'supply' | 'code';
-export type ActionKind = 'move' | TargetActionKind | SeatBallotKind | ReleaseVoteKind | CompoundActionKind;
+export type ActionKind = 'pass' | 'move' | TargetActionKind | SeatBallotKind | ReleaseVoteKind | CompoundActionKind;
 /** What a player picked for one action. It exists on the page that picked it and is never stored. */
 export type ActionChoice =
+  | { readonly kind: 'pass' }
   | { readonly kind: 'move'; readonly destination: Destination }
   | { readonly kind: TargetActionKind; readonly targetSeatId: SeatId }
   | { readonly kind: SeatBallotKind; readonly targetSeatId: SeatId | null }
@@ -188,6 +189,7 @@ export type ShellIntent =
   | { readonly type: 'shot/confirm' }
   | { readonly type: 'shot/check-again' }
   | { readonly type: 'shot/dismiss' }
+  | { readonly type: 'action/pass' }
   | { readonly type: 'action/open'; readonly kind: ActionKind }
   /** value names a destination, a seat or an answer, exactly as the control carried it. The screen checks it against what is offered. */
   | { readonly type: 'action/choose'; readonly value: string }
@@ -358,6 +360,8 @@ export interface ShellModelBase {
 }
 
 export interface PlayerMatchModel {
+  /** The public gameplay tuple, used for display-only capacity labels. */
+  readonly versions: AudienceFacts['versions'];
   readonly identity: { readonly seatId: SeatId; readonly number: number; readonly label: string };
   readonly phase: PhaseStripModel;
   readonly location: {
@@ -403,6 +407,7 @@ export interface VotePanelModel {
  * host ended it. The roles and the Code are shown only when the server's view carries them.
  */
 export interface ResultModel {
+  readonly winner: NonNullable<FullPublicView['result']>['winner'] | null;
   readonly heading: string;
   readonly outcome: string;
   readonly lines: readonly string[];
@@ -411,10 +416,12 @@ export interface ResultModel {
     readonly columns: { readonly player: string; readonly role: string };
     readonly roles: readonly { readonly seatId: SeatId; readonly label: string; readonly role: RoleName }[];
     readonly code: string;
+    readonly codeSeatIds: readonly SeatId[];
   } | null;
 }
 
 export interface TableMatchModel {
+  readonly versions: PublicFacts['versions'];
   readonly phase: PhaseStripModel;
   /** Null while the match is being played, and for a view that cannot carry an end. */
   readonly result: ResultModel | null;
@@ -448,10 +455,19 @@ export interface ActionChoiceModel {
   readonly number: number | null;
 }
 
+/**
+ * Where one kind of action stands while nothing is in progress, as the view states it:
+ * open now, open on a view this device can no longer trust as current, not opened, or opened
+ * with nobody to name (one seat) or too few to make the choice (several).
+ */
+export type ActionOfferState = 'available' | 'paused' | 'unavailable' | 'no-target' | 'too-few';
+
 /** One kind of action as it stands while nothing is in progress. */
 export interface ActionOfferModel {
   readonly kind: ActionKind;
   readonly label: string;
+  /** The same as statusLabel, for styling; it never says more than the words. */
+  readonly state: ActionOfferState;
   readonly statusLabel: string;
   /** Present only when the server offers at least one choice now, on a fresh view. */
   readonly open: { readonly id: string; readonly label: string } | null;
@@ -463,6 +479,8 @@ export type ConnectedActionBody =
     readonly step: 'choosing'; readonly prompt: string; readonly note: string; readonly choices: readonly ActionChoiceModel[]; readonly back: CardButtonModel;
     /** What has been picked so far of a choice that has several parts, in words; null when nothing has. */
     readonly progress: string | null;
+    /** Private picks, used only while the player is explicitly choosing on their own board. */
+    readonly pickedSeatIds: readonly SeatId[];
   }
   | { readonly step: 'confirming'; readonly prompt: string; readonly consequence: string; readonly confirm: CardButtonModel; readonly back: CardButtonModel }
   | { readonly step: 'busy'; readonly text: string }
@@ -480,11 +498,42 @@ export type ConnectedActionStatus = 'idle' | 'choosing' | 'confirming' | 'submit
 /** The one card for the player's own command. One command at a time, so one card. */
 export interface ConnectedActionCardModel {
   readonly title: string;
+  /** The action the card is about, or null when idle or when a reloaded page does not know it. */
+  readonly kind: ActionKind | null;
   readonly status: ConnectedActionStatus;
   readonly statusLabel: string;
   /** True from the moment the player picks an action up until its command is settled. */
   readonly selected: boolean;
   readonly body: ConnectedActionBody;
+  /** What this command marks on the player's own board. */
+  readonly board: ActionBoardMarksModel;
+  /** Pictures of this seat's known choice/resources only; null after identifier-only recovery. */
+  readonly art: {
+    readonly seatIds: readonly SeatId[];
+    readonly vote: 'for' | 'yes' | 'no' | 'abstain' | null;
+    readonly resourceCount: number | null;
+    readonly offered: boolean;
+  } | null;
+}
+
+/**
+ * What the player's own command marks on their own comic board: seats and a room, from the
+ * command's own choice and the server's offer, and nothing else. It exists only in a card,
+ * so only while the private panel is open or a Pass of the player's own is on its way.
+ */
+export interface ActionBoardMarksModel {
+  /** Seats that get a press area now: exactly the seats the view offers for the next part. */
+  readonly eligible: readonly SeatId[];
+  /** Seats chosen so far, in the order they were chosen. */
+  readonly picked: readonly SeatId[];
+  /** Current treatments use identical checks for sets; retained for older presentation consumers. */
+  readonly numbered: boolean;
+  /** The chosen seats while the command is on its way to the server. */
+  readonly pending: readonly SeatId[];
+  /** While a seat is being chosen or confirmed, every other character is drawn faint. */
+  readonly faint: boolean;
+  /** A move being confirmed or sent: a tentative place in that room until the view shows the player there. */
+  readonly move: { readonly destination: LocationName; readonly state: 'tentative' | 'pending' } | null;
 }
 
 export interface ConnectedPrivateAreaModel {
@@ -497,18 +546,47 @@ export interface ConnectedPrivateAreaModel {
     readonly role: { readonly label: string; readonly name: RoleName };
     /** While the server says this seat is in a Hack: who with. Known to the two of them only. */
     readonly hack: string | null;
+    readonly hackPartnerSeatId: SeatId | null;
     /** While the server's view says this seat has voted in the open vote: its own ballot, as the server recorded it. */
     readonly ballot: string | null;
     /**
      * What the server's view tells this seat and nobody else: what its role knows, the
      * results it has been given, and what it holds. Null when the view says none of it.
      */
-    readonly knowledge: { readonly heading: string; readonly items: readonly string[] } | null;
+    readonly knowledge: {
+      readonly heading: string; readonly items: readonly string[]; readonly insider: InsiderSetModel | null;
+      readonly art: {
+        readonly undercover: { readonly seatId: SeatId; readonly sentence: string } | null;
+        readonly code: { readonly seatIds: readonly SeatId[]; readonly sentence: string } | null;
+        readonly scans: readonly (FullPlayerView['knowledge']['scanResults'][number] & { readonly sentence: string })[];
+        readonly protections: readonly { readonly seatId: SeatId; readonly state: 'used' | 'active' | 'queued'; readonly sentence: string }[];
+        readonly weapons: { readonly count: number; readonly sentence: string };
+        readonly rescues: { readonly count: number; readonly sentence: string } | null;
+      };
+    } | null;
     readonly actions: { readonly heading: string; readonly notice: string | null; readonly card: ConnectedActionCardModel };
   } | null;
 }
 
+/**
+ * The Insider's starting knowledge: three players who between them hold three roles, one
+ * each, without saying who holds which. The seats are in public seat order and the roles
+ * in the rule's own order, so neither order can pair a player with a role.
+ */
+export interface InsiderSetModel {
+  readonly seatIds: readonly SeatId[];
+  readonly roles: readonly RoleName[];
+  /** The same set in words, as the list of what the seat knows says it. */
+  readonly sentence: string;
+}
+
 export interface ConnectedPlayerMatchModel extends Omit<PlayerMatchModel, 'privateArea'> {
+  /** Ending your own turn is role-neutral; it does not require revealing the private card. */
+  /**
+   * inRules is false only in a match whose ruleset has no Pass (the legacy tuple) and whose
+   * view does not offer one, so the control is left out instead of being unavailable forever.
+   */
+  readonly passTurn: { readonly available: boolean; readonly inRules: boolean; readonly card: ConnectedActionCardModel | null };
   readonly privateArea: ConnectedPrivateAreaModel;
   /** The public facts of a vote, the same on every phone and on the shared display. */
   readonly vote: VotePanelModel | null;

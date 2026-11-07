@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · phone kit phone-kit-0.1.0 (art phone-kit-art-0.1.0) · hack-side-alien · generated, do not edit by hand
+  The Alien side card: a declared side, never a verified one. Audience: the two Hack participants only, in their own private view.
+  Drawn by design/phone-kit/source/art.mjs (original vector drawing for this repository by the Visual and Motion Designer,
+  Claude Code) through design/tools/phone-kit-assets.mjs. No word is in the picture: every word is the page's own text.
+  Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 104"><!-- side card, Alien --><rect x="4" y="4" width="72" height="96" rx="10" fill="#C4A4FF" stroke="#151923" stroke-width="4"/><rect x="10" y="10" width="60" height="84" rx="6" fill="none" stroke="#151923" stroke-width="1.5" opacity="0.35"/><path d="M14 48 Q40 18 66 48 Q40 78 14 48 Z" fill="#F4EBDD" stroke="#151923" stroke-width="4" stroke-linejoin="round"/><ellipse cx="40" cy="48" rx="9" ry="13" fill="#151923"/><circle cx="37" cy="43" r="3" fill="#F4EBDD"/><path d="M12 86 H68" stroke="#151923" stroke-width="2" opacity="0.25"/></svg>

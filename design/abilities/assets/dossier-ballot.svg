@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · ability art proposal · dossier-ballot 0.1.0 · generated, do not edit by hand
+  A ballot slip. The seat's own ballot in its strip: the picked player's chip in the box (a Captain election, its runoff, a Jail vote), the jailed player's chip on a release vote, or blank for an abstention.
+  Built by design/tools/abilities-assets.mjs from design/abilities/source/ballot.svg (layer dossier-ballot). Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 56" width="48" height="56"><g id="dossier-ballot"><path d="M4 3 H44 V54 H4 Z" fill="#151923" opacity="0.3" transform="translate(2 2)"/><path d="M4 3 H44 V54 H4 Z" fill="#F4EBDD" stroke="#151923" stroke-width="2.2" stroke-linejoin="round"/><circle cx="9" cy="6" r="0.9" fill="#CBBBA2"/><circle cx="14" cy="6" r="0.9" fill="#CBBBA2"/><circle cx="19" cy="6" r="0.9" fill="#CBBBA2"/><circle cx="24" cy="6" r="0.9" fill="#CBBBA2"/><circle cx="29" cy="6" r="0.9" fill="#CBBBA2"/><circle cx="34" cy="6" r="0.9" fill="#CBBBA2"/><circle cx="39" cy="6" r="0.9" fill="#CBBBA2"/><rect x="8" y="9" width="32" height="32" rx="3" fill="#E3D6C2" stroke="#55657E" stroke-width="1.6"/><path d="M10 46 H38 M10 50 H30" fill="none" stroke="#B9C4D3" stroke-width="1.6" stroke-linecap="round"/></g></svg>

@@ -59,8 +59,8 @@ const packages = ['packages/contracts', 'packages/engine', 'services/game-api'];
 const vendor = {}, packedMetadata = {}, fingerprints = [];
 const indexes = {
   'packages/engine': {
-    js: "export * from './full-game/model.js';\nexport * from './full-game/lifecycle.js';\nexport { projectOwnAcknowledgments } from './full-game/own-acknowledgments.js';\nexport { buildRoster } from './full-game/roster.js';\n",
-    dts: "export * from './full-game/model.js';\nexport * from './full-game/lifecycle.js';\nexport { projectOwnAcknowledgments } from './full-game/own-acknowledgments.js';\nexport { buildRoster } from './full-game/roster.js';\n",
+    js: "export * from './full-game/model.js';\nexport * from './full-game/lifecycle.js';\nexport { projectOwnAcknowledgments } from './full-game/own-acknowledgments.js';\nexport { buildRoster } from './full-game/roster.js';\nexport { assertInitialRoomCapacity } from './full-game/capacity.js';\n",
+    dts: "export * from './full-game/model.js';\nexport * from './full-game/lifecycle.js';\nexport { projectOwnAcknowledgments } from './full-game/own-acknowledgments.js';\nexport { buildRoster } from './full-game/roster.js';\nexport { assertInitialRoomCapacity } from './full-game/capacity.js';\n",
   },
   'services/game-api': {
     js: "export { createV1Service, encodeV1Setup, decodeV1Setup, encodeV1State, decodeV1State } from './full-game.js';\n",
@@ -74,7 +74,7 @@ try {
     mkdirSync(stage, { recursive: true });
     const include = location === 'packages/contracts' ? () => true
       : location === 'packages/engine' ? file => file.startsWith('full-game/')
-      : file => /^(?:full-game|practice-bot-policy)\.(?:js|d\.ts)$/.test(file);
+      : file => /^(?:full-game|practice-bot-policy|joint-starting-rooms)\.(?:js|d\.ts)$/.test(file);
     copyDist(join(root, location, 'dist'), join(stage, 'dist'), include);
     if (indexes[location] !== undefined) {
       writeFileSync(join(stage, 'dist/index.js'), indexes[location].js);
@@ -120,7 +120,7 @@ try {
     execFileSync(process.execPath, ['--input-type=module', '-e', `import assert from 'node:assert/strict';
       const contracts=await import('@mothership/contracts');assert.equal(typeof contracts.parseOwnAcknowledgments,'function');assert.ok(contracts.OwnAcknowledgmentsSchema);assert.ok(contracts.SeatSessionSchema);
       const engine=await import('@mothership/engine'),api=await import('@mothership/game-api');
-      assert.equal(typeof engine.projectOwnAcknowledgments,'function');assert.equal(engine.resolveSlice,undefined);assert.equal(api.createGameService,undefined);assert.equal(api.resolveFixtureAfterVote,undefined);
+      assert.equal(typeof engine.projectOwnAcknowledgments,'function');assert.equal(typeof engine.assertInitialRoomCapacity,'function');assert.equal(engine.MAX_ROOM_OCCUPANTS,5);assert.equal(engine.roomCapacityEnabled(engine.FULL_GAME_VERSION_PINS),true);assert.equal(engine.roomCapacityEnabled(engine.PASS_FULL_GAME_VERSION_PINS),false);assert.equal(engine.resolveSlice,undefined);assert.equal(api.createGameService,undefined);assert.equal(api.resolveFixtureAfterVote,undefined);
       const functions=await import(${JSON.stringify('./' + manifest.main)});
       for(const name of ['command','receipt','advance','serverTime','deadlineTask']) assert.equal(functions[name],undefined);
       for(const name of ['v1CreateMatch','v1RequestAdmission','v1ApproveAdmission','v1AdmitDisplay','v1StartMatch','v1Command','v1Receipt','v1Advance','v1ServerTime','v1AbortMatch','v1IssueSeatRecovery','v1RedeemSeatRecovery','v1SetLobbyIdentity','v1SetPracticeBots','v1BeginSetup','v1ConfirmSetupChoice','v1ReadyForMatch','v1RunPracticeBots','v1DeadlineTask','v1DispatchDeadline','v1RepairDeadlines','v1SetupDeadlineTask','v1DispatchSetupDeadline','v1RepairSetupDeadlines']) assert.ok(functions[name].__endpoint);

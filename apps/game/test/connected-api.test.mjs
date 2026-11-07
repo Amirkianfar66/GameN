@@ -43,7 +43,7 @@ test('every request the client sends satisfies the shared protocol-2 schema, and
     s.api.setLobbyIdentity({ schemaVersion: 1, protocolVersion: 2, matchId: MATCH, requestId: 'identity-1', displayName: 'Ada', characterId: 'c8' }),
     s.api.serverTime(MATCH), s.api.advance(MATCH, 'phase-one'), s.api.command(move()), s.api.receipt({ protocolVersion: 2, matchId: MATCH, commandId: 'command-1' }),
     s.api.createMatch({ protocolVersion: 2, requestId: 'request-1', playerCount: 7 }),
-    s.api.requestAdmission({ protocolVersion: 2, requestId: 'request-2', roomCode: 'A1B2C3D4E5F6', initialRoom: 'Room A' }),
+    s.api.requestAdmission({ protocolVersion: 2, requestId: 'request-2', roomCode: 'A1B2C3D4E5F6' }),
     s.api.approveAdmission({ protocolVersion: 2, matchId: MATCH, requestId: 'request-3', admissionId: 'admission-1', seatId: 'seat-1' }),
     s.api.admitDisplay({ protocolVersion: 2, matchId: MATCH, requestId: 'request-4', displayUid: 'display-uid' }),
     s.api.startMatch({ protocolVersion: 2, matchId: MATCH, requestId: 'request-5' }),
@@ -60,6 +60,7 @@ test('every request the client sends satisfies the shared protocol-2 schema, and
     v1IssueSeatRecovery: FullIssueSeatRecoveryRequestSchema, v1RedeemSeatRecovery: FullRedeemSeatRecoveryRequestSchema,
   };
   assert.equal(s.fake.calls.length, 17);
+  assert.deepEqual(s.fake.calls.find(call => call.operation === 'v1RequestAdmission').body, { protocolVersion: 2, requestId: 'request-2', roomCode: 'A1B2C3D4E5F6' });
   assert.deepEqual(Object.keys(schemas).sort(), [...V1_OPERATIONS].sort(), 'Every operation the client can reach is checked here');
   assert.deepEqual([...new Set(s.fake.calls.map(call => call.operation))].sort(), [...V1_OPERATIONS].sort(), 'and every one of them was sent');
   for (const { operation, body } of s.fake.calls) {
@@ -196,7 +197,7 @@ test('each lobby operation accepts only its own result, for its own request', as
   };
   const calls = {
     v1CreateMatch: [() => s.api.createMatch({ protocolVersion: 2, requestId: 'request-1', playerCount: 7 }), 'created', { matchId: MATCH, roomCode: 'A1B2C3D4E5F6', playerCount: 7 }],
-    v1RequestAdmission: [() => s.api.requestAdmission({ protocolVersion: 2, requestId: 'request-2', roomCode: 'A1B2C3D4E5F6', initialRoom: 'Room B' }), 'pending', { matchId: MATCH, admissionId: 'admission-1' }],
+    v1RequestAdmission: [() => s.api.requestAdmission({ protocolVersion: 2, requestId: 'request-2', roomCode: 'A1B2C3D4E5F6' }), 'pending', { matchId: MATCH, admissionId: 'admission-1' }],
     v1ApproveAdmission: [() => s.api.approveAdmission({ protocolVersion: 2, matchId: MATCH, requestId: 'request-3', admissionId: 'admission-1', seatId: 'seat-1' }), 'approved', { admissionId: 'admission-1', seatId: 'seat-1' }],
     v1AdmitDisplay: [() => s.api.admitDisplay({ protocolVersion: 2, matchId: MATCH, requestId: 'request-4', displayUid: 'display-uid' }), 'admitted', true],
     v1StartMatch: [() => s.api.startMatch({ protocolVersion: 2, matchId: MATCH, requestId: 'request-5' }), 'started', true],

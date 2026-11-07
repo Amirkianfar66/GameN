@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  mothership:dev-only · board-v2 medical proposal board-v2-medical-0.1.0 · berth screen, stable · generated, do not edit by hand
+  A berth's own small monitor, a stable heartbeat, drawn over the ward's dark monitor at its headboard (berthKit().monitor).
+  Built by design/tools/board-v2-assets.mjs from design/board-v2/fx/medical.mjs. Public: the same on every phone and the display; it reads no role, side, attacker, healer or cause. Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 24" width="40" height="24"><g data-layer="fx-berth-screen-stable"><rect x="1" y="1" width="38" height="22" rx="3" fill="#0D1A22" stroke="#151923" stroke-width="2"/><rect x="1" y="1" width="38" height="22" rx="3" fill="#6FE3B0" opacity="0.18"/><path d="M4 13.92 L5.07 13.92 L5.92 13.04 L6.77 13.92 L7.63 13.92 L8.05 14.66 L8.48 6.56 L8.91 15.76 L9.33 13.92 L10.61 13.92 L11.68 12.3 L12.75 13.92 L14.67 13.92 L14.67 13.92 L15.73 13.92 L16.59 13.04 L17.44 13.92 L18.29 13.92 L18.72 14.66 L19.15 6.56 L19.57 15.76 L20 13.92 L21.28 13.92 L22.35 12.3 L23.41 13.92 L25.33 13.92 L25.33 13.92 L26.4 13.92 L27.25 13.04 L28.11 13.92 L28.96 13.92 L29.39 14.66 L29.81 6.56 L30.24 15.76 L30.67 13.92 L31.95 13.92 L33.01 12.3 L34.08 13.92 L36 13.92" fill="none" stroke="#6FE3B0" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/></g></svg>

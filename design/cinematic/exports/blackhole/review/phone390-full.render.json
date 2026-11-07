@@ -1,0 +1,50 @@
+{
+  "tool": "design/tools/cinematic-render.mjs",
+  "pilot": "blackhole",
+  "version": "cinematic-blackhole-0.1.0",
+  "surface": "phone",
+  "variant": "full",
+  "stage": "design/cinematic/stage.html?pilot=blackhole&surface=phone&variant=full&beds=4&w=390&h=844",
+  "size": [
+    390,
+    844
+  ],
+  "deviceScale": 1.5,
+  "fixture": {
+    "board": "board-v2 mixed (synthetic)"
+  },
+  "browser": "Chromium 141.0.7390.37",
+  "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+  "outputs": [
+    {
+      "kind": "video",
+      "file": "design/cinematic/exports/blackhole/review/phone390-full.mp4",
+      "sha256": "e06c50fa68709ebd00abd6e6c5dfb38db927af4d2424ca1d9bba4fd7bb58a594",
+      "bytes": 487467,
+      "fps": 30,
+      "frames": 73,
+      "durationMs": 2400,
+      "from": 0,
+      "to": 2400,
+      "audio": "design/cinematic/exports/blackhole/audio/blackhole-full.cues.wav"
+    },
+    {
+      "kind": "preview",
+      "file": "design/cinematic/exports/blackhole/review/phone390-full.preview.webp",
+      "sha256": "9a5c620c98c9aaada3ada43afeb38a4406dfe35ca5356014d547168f0dc8281a",
+      "bytes": 210262
+    },
+    {
+      "kind": "poster",
+      "file": "design/cinematic/exports/blackhole/review/phone390-full.poster.webp",
+      "sha256": "05ed03cdd7ac6555ab0f94c3b01391c8413a664cd30afb305cef5836e7e020e5",
+      "bytes": 62210,
+      "t": 1300
+    }
+  ],
+  "settling": {
+    "rule": "a frame is kept once two captures a redraw apart agree; pictures decode before their tiles draw",
+    "resettled": 0,
+    "unsettled": []
+  }
+}

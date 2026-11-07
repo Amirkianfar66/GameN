@@ -4,6 +4,7 @@ import { runInNewContext } from 'node:vm';
 import test from 'node:test';
 import { SeatSessionSchema } from '@mothership/contracts';
 import { readLobby } from '@mothership/game';
+import { disclosure } from '../hosted/phone-ui.js';
 import { createFakeHost } from './support/fakes.mjs';
 import { createFakeConnectedTransport, lobbyView, MATCH, playerView } from './support/connected.mjs';
 
@@ -36,7 +37,7 @@ async function reloadedAfterLostReply() {
     ENDED_IN_LOBBY: 'Ended before starting',
     resume: { load: () => resumeState, save: value => { resumeState = value; saved.push(value); }, clear: () => { resumeState = null; } },
     lifecycle: { unsettled: () => null, abandon: () => true },
-    el: node, facts: value => value, frame: (title, ...content) => frames.push(content),
+    el: node, disclosure, facts: value => value, frame: (title, ...content) => frames.push(content),
     identityPicker: (matchId, seatId) => { const result = node('picker', seatId); pickers.push({ matchId, seatId }); return result; },
     createConnectedPlayerScreen: options => options,
     renderComicPlayerShell() {}, showMatch: screen => opened.push(screen),

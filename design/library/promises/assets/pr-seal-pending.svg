@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · library art proposal · pr-seal-pending library-promises-0.1.0 · generated, do not edit by hand
+  Pending: an open amber ring and an hourglass. Pair-private; the words beside it carry the meaning too.
+  Built by design/tools/library-assets.mjs from design/library/promises/art.mjs. Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64"><g id="pr-seal-pending"><circle cx="32" cy="34" r="25" fill="#151923" opacity="0.35"/><circle cx="32" cy="32" r="25" fill="#F4EBDD" stroke="#151923" stroke-width="3"/><circle cx="32" cy="32" r="19.5" fill="none" stroke="#F2A33A" stroke-width="5"/><path d="M24 20 H40 L32 32 L40 44 H24 L32 32 Z" fill="#E6D8C0" stroke="#151923" stroke-width="2.4" stroke-linejoin="round"/><path d="M27.5 42 H36.5 L32 37 Z" fill="#F2A33A"/></g></svg>

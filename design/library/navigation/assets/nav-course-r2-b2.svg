@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · library art proposal · nav-course-r2-b2 library-navigation-0.1.0 · generated, do not edit by hand
+  The course from R2 to B2, over the panel: drawn for the final direction while the offices acknowledge it, and both of a place's courses while the Officer chooses an undecided course.
+  Built by design/tools/library-assets.mjs from design/library/navigation/art.mjs. Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 236" width="320" height="236"><g id="nav-course-r2-b2"><path d="M227 88 L97 88" stroke="#151923" stroke-width="7" stroke-linecap="round" opacity="0.55"/><path d="M227 88 L97 88" stroke="#F7C52B" stroke-width="3.6" stroke-dasharray="7 5" stroke-linecap="round"/><path d="M88 88 L97 81.5 L97 94.5 Z" fill="#F7C52B" stroke="#151923" stroke-width="1.6" stroke-linejoin="round"/><circle cx="78" cy="88" r="15" fill="none" stroke="#F7C52B" stroke-width="2.6" stroke-dasharray="5 4"/></g></svg>

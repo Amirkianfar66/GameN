@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  mothership:dev-only · board-v2 medical proposal board-v2-medical-0.1.0 · lamp, amber · generated, do not edit by hand
+  The warning amber of an Injured patient. Centred on the berth's lamp (berthKit().lamp).
+  Built by design/tools/board-v2-assets.mjs from design/board-v2/fx/medical.mjs. Public: the same on every phone and the display; it reads no role, side, attacker, healer or cause. Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" width="40" height="40"><defs><radialGradient id="lamp-amber" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#F2A33A" stop-opacity="0.85"/><stop offset="1" stop-color="#F2A33A" stop-opacity="0"/></radialGradient></defs><g data-layer="fx-lamp-amber"><circle cx="20" cy="20" r="19" fill="url(#lamp-amber)"/><circle cx="20" cy="20" r="6.5" fill="#F2A33A" stroke="#151923" stroke-width="2.5"/><circle cx="18" cy="18" r="2" fill="#FFFFFF" opacity="0.8"/></g></svg>

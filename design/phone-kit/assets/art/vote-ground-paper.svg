@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · phone kit phone-kit-0.1.0 (art phone-kit-art-0.1.0) · vote-ground-paper · generated, do not edit by hand
+  The result stage behind a tie or no selection. Audience: every screen.
+  Drawn by design/phone-kit/source/art.mjs (original vector drawing for this repository by the Visual and Motion Designer,
+  Claude Code) through design/tools/phone-kit-assets.mjs. No word is in the picture: every word is the page's own text.
+  Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice"><!-- result ground, paper --><defs><pattern id="pk-ht-paper" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><circle cx="3.5" cy="3.5" r="1.25" fill="#151923" opacity="0.18"/></pattern></defs><rect width="320" height="180" fill="#F4EBDD"/><path d="M160 170 L-260 170 L-258.4 133.39 Z M160 170 L-253.62 97.07 L-245.69 61.3 Z M160 170 L-234.67 26.35 L-220.65 -7.5 Z M160 170 L-203.73 -40 L-184.04 -70.9 Z M160 170 L-161.74 -99.97 L-136.98 -126.98 Z M160 170 L-109.97 -151.74 L-80.9 -174.04 Z M160 170 L-50 -193.73 L-17.5 -210.65 Z M160 170 L16.35 -224.67 L51.3 -235.69 Z M160 170 L87.07 -243.62 L123.39 -248.4 Z M160 170 L160 -250 L196.61 -248.4 Z M160 170 L232.93 -243.62 L268.7 -235.69 Z M160 170 L303.65 -224.67 L337.5 -210.65 Z M160 170 L370 -193.73 L400.9 -174.04 Z M160 170 L429.97 -151.74 L456.98 -126.98 Z M160 170 L481.74 -99.97 L504.04 -70.9 Z M160 170 L523.73 -40 L540.65 -7.5 Z M160 170 L554.67 26.35 L565.69 61.3 Z M160 170 L573.62 97.07 L578.4 133.39 Z" fill="#E3D6C2" opacity="0.55"/><rect width="320" height="180" fill="url(#pk-ht-paper)"/><ellipse cx="160" cy="168" rx="92" ry="12" fill="#151923" opacity="0.18"/></svg>

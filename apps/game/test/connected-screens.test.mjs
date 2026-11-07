@@ -58,18 +58,20 @@ test('only a snapshot the server confirmed makes the view current; a cached one 
   assert.deepEqual([s.frame().model.screen, s.frame().model.connection], ['match', 'stale']);
   assert.equal(s.frame().model.banners.some(banner => banner.variant === 'stale'), true);
   s.screen.dispatch(TOGGLE);
-  assert.equal(s.card().body.offers.every(offer => offer.open === null), true, 'Nothing can be started on it');
+  assert.equal(s.card(), null, 'stale private content is not displayed');
   s.screen.dispatch({ type: 'action/open', kind: 'move' });
-  assert.equal(s.card().status, 'idle');
+  assert.equal(s.card(), null);
   // The server's confirmation arrives without the bytes changing.
   await s.fake.deliver(OWN, playerView(), true);
   assert.equal(s.frame().model.connection, 'live');
+  assert.equal(s.card(), null, 'server confirmation does not reopen private contents');
+  s.screen.dispatch(TOGGLE);
   assert.notEqual(s.card().body.offers[0].open, null);
   // The listener fails: stale again, and actions are withdrawn.
   await s.fake.fail(OWN);
   assert.equal(s.frame().model.connection, 'stale');
-  assert.equal(s.card().body.offers.every(offer => offer.open === null), true);
-  assert.equal(s.frame().model.match.privateArea.content.actions.notice, 'Actions are paused until the connection is restored.');
+  assert.equal(s.card(), null);
+  assert.equal(s.frame().model.match.privateArea.content, null);
 });
 
 test('a view for another seat, or a public view, never becomes this phone’s view', async () => {
@@ -123,7 +125,7 @@ test('a move by intents alone: the server’s destination, one command, the rece
   await s.fake.deliver(OWN, playerView('seat-1', view => { view.viewRevision += 1; view.seats[0].location = 'Room B'; view.self.movementDestinations = []; }));
   await s.host.advance(GUARD);
   s.screen.dispatch({ type: 'action/dismiss' });
-  assert.deepEqual(s.card().body.offers[0], { kind: 'move', label: 'Move', statusLabel: 'Not available', open: null });
+  assert.deepEqual(s.card().body.offers[0], { kind: 'move', label: 'Move', state: 'unavailable', statusLabel: 'Not available', open: null });
   assert.equal(s.frame().model.match.location.name, 'Room B');
 });
 
@@ -346,7 +348,7 @@ test('when the host ends the match, a phone shows it ended without a winner, rev
 
   await s.fake.deliver(OWN, playerView('seat-1', endedByHost));
   const { match } = s.frame().model;
-  assert.deepEqual(match.result, { heading: 'Result', outcome: 'The host ended this match. There is no winner.', lines: [], reveal: null });
+  assert.deepEqual(match.result, { heading: 'Result', winner: null, outcome: 'The host ended this match. There is no winner.', lines: [], reveal: null });
   assert.deepEqual([match.phase.phaseLabel, match.phase.timer.state], ['Match ended by the host', 'none']);
   assert.match(s.frame().announcement.text, /The host ended this match\. There is no winner\./);
   // What was being chosen is dropped, the player is told, and nothing can be started.
@@ -408,7 +410,7 @@ test('a phone the server refuses its view lets go of everything it was showing, 
 
   // A listener that merely fails is a lost connection: the last view stays, marked as such.
   await s.fake.fail(OWN, 'failed');
-  assert.deepEqual([s.frame().model.screen, s.frame().model.connection, s.frame().model.match.privateArea.content.role.name], ['match', 'stale', 'Cracker']);
+  assert.deepEqual([s.frame().model.screen, s.frame().model.connection, s.frame().model.match.privateArea.content], ['match', 'stale', null]);
   await s.fake.deliver(OWN, playerView('seat-1', view => { view.viewRevision += 1; }));
   assert.equal(s.frame().model.connection, 'live');
 
@@ -884,5 +886,24 @@ test('a conflicting same-revision recovery cannot settle an unanswered command a
   assert.equal(s.frame().model.match, null);
   assert.equal(s.host.kept, kept, 'A conflicting pending-ID list proves nothing about the unresolved command');
   assert.equal(s.fake.callsTo('v1Command').length, 1, 'The command is never replaced or resent');
+  s.screen.dispose();
+});
+
+
+test('the neutral Pass intent works with the private card closed and leaves private content concealed', async () => {
+  const s=setup();s.screen.start();
+  const view=playerView('seat-1',v=>{v.legalTargets.PASS_TURN=['seat-1'];});
+  await s.fake.deliver(OWN,view);
+  s.fake.respond.v1Command=request=>s.receipt(request);
+  assert.equal(s.frame().model.match.passTurn.available,true);
+  s.screen.dispatch({type:'action/pass'});s.screen.dispatch({type:'action/pass'});await flush();
+  assert.equal(s.fake.callsTo('v1Command').length,1);
+  assert.deepEqual(s.fake.callsTo('v1Command')[0].command,{type:'PASS_TURN'});
+  assert.equal(s.frame().model.match.privateArea.content,null);
+  assert.equal(s.frame().model.match.passTurn.card.status,'accepted');
+  await s.host.advance(GUARD);
+  s.screen.dispatch({type:'action/dismiss'});
+  assert.equal(s.frame().model.match.passTurn.card,null);
+  assert.equal(s.frame().model.match.privateArea.content,null);
   s.screen.dispose();
 });

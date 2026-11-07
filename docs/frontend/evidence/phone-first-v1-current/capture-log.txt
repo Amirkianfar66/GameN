@@ -1,0 +1,29 @@
+01:15:23 scenario 1: seven seats, confirmed character
+01:15:24 shot 00-entry
+01:15:25 shot 01-host-create
+01:15:27 shot 04-join-form
+01:15:27 shot 05-join-waiting-admission
+01:15:28 shot 02-host-request-pending
+01:15:29 shot 03-host-ready-to-start
+01:15:29 shot 06-seated-waiting-setup
+01:15:30 shot 07-host-choosing
+01:15:31 shot 08-select-open
+01:15:32 shot 09-select-picked-320
+01:15:33 shot 10-select-confirmed
+01:16:00 shot 11-select-ended
+01:16:01 shot 12-role-concealed
+01:16:03 shot 13-role-revealed
+01:16:04 shot 14-role-revealed-320
+01:16:05 shot 15-ready-waiting
+01:16:34 shot 16-game-first-turn
+01:16:35 shot 17-host-running-end-confirm
+01:16:39 shot 18-game-host-ended
+01:16:39 scenario 2: nine seats, shared display, automatic assignment
+01:16:40 shot 19-display-entry
+01:16:43 shot 20-display-waiting
+01:16:44 shot 21-select-name-too-long-320
+01:17:15 shot 22-auto-assigned-no-notice
+01:17:48 shot 23-game-nine-seats-320
+01:17:50 shot 24-game-private-open
+01:17:52 shot 25-display-board-1280
+01:17:53 done

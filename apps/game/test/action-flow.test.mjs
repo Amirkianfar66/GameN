@@ -1407,3 +1407,41 @@ test('the one Code attempt whose answer is lost is asked about and sent again as
   assert.deepEqual(reloaded.state(), { step: 'accepted', choice: null, armed: false });
 });
 
+
+
+test('Pass uses one durable command with the private panel closed, and settles across a phase change', async () => {
+  const s=setup();
+  const view=playerView('seat-1',v=>{v.legalTargets.PASS_TURN=['seat-1'];});
+  s.observe(view,{panelOpen:false});
+  s.script.command.push(s.noAnswer);
+  assert.equal(s.flow.pass(),true);
+  assert.equal(s.flow.pass(),false,'Double tap cannot send a second command');
+  await flush();
+  assert.equal(s.sent.length,1);
+  assert.deepEqual(s.sent[0].command,{type:'PASS_TURN'});
+  FullCommandRequestSchema.parse(s.sent[0]);
+  const kept=JSON.parse(s.host.kept);
+  assert.deepEqual(Object.keys(kept).sort(),['commandId','matchId','phaseId','seatId']);
+  const moved=nextPhase(view);moved.legalTargets={};moved.activeSeatId='seat-2';
+  s.script.receipt.push(s.found(s.sent[0]));
+  s.observe(moved);
+  await s.host.advance(FIRST);
+  assert.equal(s.state().step,'accepted');
+  assert.equal(s.host.kept,null);
+  assert.equal(s.sent.length,1,'A fresh new phase needs only a receipt lookup');
+});
+test('Pass requires its own server hint, current time/view/foreground, and no unresolved or unsent action', async () => {
+  for(const override of [{current:false},{inTime:false},{foreground:false}]) {
+    const s=setup();s.observe(playerView('seat-1',v=>{v.legalTargets.PASS_TURN=['seat-1'];}),override);
+    assert.equal(s.flow.pass(),false);assert.equal(s.sent.length,0);
+  }
+  for(const alter of [()=>{},v=>{v.legalTargets.PASS_TURN=['seat-2'];},v=>{v.legalTargets.PASS_TURN=['seat-1'];v.activeSeatId='seat-2';},v=>{v.legalTargets.PASS_TURN=['seat-1'];v.phase.kind='HACK';}]) {
+    const s=setup();s.observe(playerView('seat-1',alter));assert.equal(s.flow.pass(),false);
+  }
+  const s=setup();s.observe(playerView('seat-1',v=>{v.legalTargets.PASS_TURN=['seat-1'];}));
+  s.flow.open('move');assert.equal(s.flow.pass(),false,'Do not discard an unfinished choice');
+  s.flow.back();s.script.command.push(r=>s.receipt(r));assert.equal(s.flow.pass(),true);await flush();
+  assert.equal(s.flow.pass(),false,'Receipt acknowledgment guard still applies');
+  await s.host.advance(GUARD);
+  s.observe(nextPhase(playerView()));assert.equal(s.flow.pass(),false);
+});

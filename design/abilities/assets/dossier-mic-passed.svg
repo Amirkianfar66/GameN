@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · ability art proposal · dossier-mic-passed 0.1.0 · generated, do not edit by hand
+  A microphone handed on. The speaking turn handed on: drawn once the server accepts Pass.
+  Built by design/tools/abilities-assets.mjs from design/abilities/source/ballot.svg (layer dossier-mic-passed). Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 36" width="22" height="36"><g id="dossier-mic-passed"><rect x="4" y="2" width="14" height="16" rx="7" fill="#E3D6C2" stroke="#151923" stroke-width="1.8" stroke-dasharray="3 2"/><path d="M11 19 V29" fill="none" stroke="#151923" stroke-width="1.6" stroke-dasharray="3 2" stroke-linecap="round"/><path d="M4.5 34 Q11 27 17.5 34 Z" fill="#E3D6C2" stroke="#151923" stroke-width="1.4" stroke-dasharray="3 2" stroke-linejoin="round"/></g></svg>

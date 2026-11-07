@@ -1,0 +1,44 @@
+{
+  "decision_id": "ordinary-turn-pass-owner-decision-2026-10-08",
+  "status": "confirmed",
+  "decided_on": "2026-10-08",
+  "authority": "Game owner requested an explicit Pass control to finish the active player ordinary turn early; acceptance is recorded in issue #85.",
+  "issue": "https://github.com/Amirkianfar66/GameN/issues/85",
+  "base_commit": "90f079d113e014a0cc0d3a337ae69b020abe1ce7",
+  "parent_ruleset": {
+    "version": "in-person-v1-2026-10-06",
+    "hash": "6ca355ebf3553e24a16eae847f5b550b1d3da8bd0a2daf80f69ec94dd2809a90"
+  },
+  "ruleset_version": "in-person-v1-pass-2026-10-08",
+  "engine_version": "full-game-1.1.0",
+  "protocol_version": 2,
+  "optional_powers": false,
+  "decisions": [
+    {
+      "id": "PASS-01",
+      "decision": "Only the active non-eliminated player may explicitly pass their ordinary speaking turn. Injured and jailed players retain this right. Authorization requires the current ordinary phase and trusted startedAt <= now < endsAt."
+    },
+    {
+      "id": "PASS-02",
+      "decision": "Passing closes only the ordinary turn. A previously requested Hack opens its normal separate 60-second conversation; otherwise the recorded turn order advances to the next living seat or the normal post-turn release/vote phase."
+    },
+    {
+      "id": "PASS-03",
+      "decision": "Registered main actions and shots keep their resource reservations, recorded targets and canonical resolution timing. Passing neither cancels them nor triggers early round resolution."
+    },
+    {
+      "id": "PASS-04",
+      "decision": "Hack, Captain election/runoff, release choice/vote, Jail vote and showdown cannot be passed or closed early by this command. All their existing timing and audience rules remain."
+    },
+    {
+      "id": "PASS-05",
+      "decision": "Pass is a strict targetless protocol-2 command through the normal authenticated receipt path. The current player capability is legalTargets.PASS_TURN = [self seat ID]; it grants no client authority."
+    },
+    {
+      "id": "PASS-06",
+      "decision": "Passing is explicit player intent. Practice bots do not automatically pass and retain their existing pace."
+    }
+  ],
+  "version_policy": "Newly created matches pin this gameplay version at creation. Controls without gameplay pins, already prepared legacy deals and running legacy matches retain the exact deployed full-game-1.0.1 parent tuple without Pass. Recorded setup versions determine launch and replay; no existing pin is rewritten.",
+  "unchanged": "Role/Code/turn randomization, random starting-room assignment, 30-second character stage, 30-second reading minimum plus every human Ready, movement, defenses, round resolution, victory and audience disclosure."
+}

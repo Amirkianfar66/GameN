@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · phone kit phone-kit-0.1.0 (art phone-kit-art-0.1.0) · hack-waiting-dots · generated, do not edit by hand
+  Waiting on the target's declaration. Audience: the two Hack participants only, in their own private view.
+  Drawn by design/phone-kit/source/art.mjs (original vector drawing for this repository by the Visual and Motion Designer,
+  Claude Code) through design/tools/phone-kit-assets.mjs. No word is in the picture: every word is the page's own text.
+  Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 40"><!-- waiting dots --><path d="M10 4 H62 Q68 4 68 10 V28 Q68 34 62 34 H22 L10 40 L14 34 H10 Q4 34 4 28 V10 Q4 4 10 4 Z" fill="#F4EBDD" stroke="#151923" stroke-width="3"/><circle class="pk-dot pk-dot--1" cx="22" cy="19" r="4.6" fill="#151923"/><circle class="pk-dot pk-dot--2" cx="36" cy="19" r="4.6" fill="#151923"/><circle class="pk-dot pk-dot--3" cx="50" cy="19" r="4.6" fill="#151923"/></svg>

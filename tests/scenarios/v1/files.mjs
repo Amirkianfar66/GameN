@@ -52,12 +52,15 @@ function renderScenario(scenario) {
   return `    {\n${lines.join('\n')}\n    }`;
 }
 
-/** Deterministic text of one scenario file. */
-export function renderFile(group, scenarios) {
+/**
+ * Deterministic text of one scenario file. Another suite gives its own header; the Version 1
+ * files are written with the one below, as before.
+ */
+export function renderFile(group, scenarios, suiteHeader = null) {
   const setups = new Map();
   for (const scenario of scenarios) if (scenario.setup !== null) setups.set(scenario.setup.seed, scenario.setup);
   const count = status => scenarios.filter(scenario => scenario.status === status).length;
-  const header = {
+  const header = suiteHeader !== null ? { ...suiteHeader, counts: { total: scenarios.length, ready: count('ready'), blocked: count('blocked'), manual: count('manual') } } : {
     schema: SCENARIO_SCHEMA,
     group,
     mode: group === 'unsupported' ? null : Number(group),

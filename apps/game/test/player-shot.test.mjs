@@ -322,21 +322,21 @@ test('a lost connection blocks new submissions and drops an unsent choice, witho
   // Said on two channels in one redraw, the public one first, and never as one sentence: a
   // host that withdraws private speech must not take the public line with it.
   assert.deepEqual(s.frame().announcement, { seq: 2, politeness: 'polite', text: 'Connection lost. Showing the last known state.' });
-  assert.deepEqual(s.frame().privateAnnouncement, { seq: 3, politeness: 'polite', text: 'Your choice was not sent.' });
-  assert.equal(s.card().status, 'available');
-  assert.deepEqual(s.card().body, { step: 'idle', open: null, reason: null, note: null });
-  assert.equal(s.frame().model.match.privateArea.content.actions.notice, 'Actions are paused until the connection is restored.');
+  assert.equal(s.frame().privateAnnouncement, null, 'private speech is withdrawn with the card');
+  assert.equal(s.card(), null);
+  assert.equal(s.frame().model.match.privateArea.content, null);
   for (const intent of [CONFIRM, OPEN, choose('seat-2')]) s.screen.dispatch(intent);
   assert.equal(s.sent().length, 0);
   // Reading and navigation stay: the role and the last known roster are still there.
-  assert.equal(s.frame().model.match.privateArea.content.role.name, 'Officer');
+  assert.equal(s.frame().model.match.privateArea.content, null);
   assert.equal(s.frame().model.match.roster.zones.length > 0, true);
   // Reconnected but not yet re-delivered is still not current.
   await s.fake.connect();
   s.screen.dispatch(OPEN);
-  assert.equal(s.card().status, 'available');
-  assert.equal(s.card().body.open, null);
+  assert.equal(s.card(), null);
   await s.fake.deliver(before.officer);
+  assert.equal(s.card(), null, 'a fresh view does not reopen private contents');
+  s.screen.dispatch(TOGGLE);
   assert.equal(s.card().body.open.intent, 'shot/open');
   s.screen.dispatch(OPEN);
   assert.equal(s.card().status, 'targeting', 'The choice was dropped; it is made again from the start');
@@ -354,13 +354,11 @@ test('an unanswered command is reconciled across a reconnect instead of being re
   assert.equal(s.frame().privateAnnouncement.text, 'Checking whether your shot was registered…');
 
   await s.fake.disconnect();
-  assert.equal(s.card().status, 'checking', 'An unresolved command is not abandoned because the feed dropped');
-  assert.equal(s.card().body.step, 'busy');
+  assert.equal(s.card(), null, 'unresolved recovery remains internal while stale');
   assert.equal(s.html().includes('shot/open'), false);
   await s.host.advance(FIRST + SECOND + THIRD);
-  assert.equal(s.card().status, 'unknown');
-  assert.equal(s.frame().privateAnnouncement.politeness, 'assertive');
-  assert.equal(s.frame().privateAnnouncement.text, 'Result unknown. The app could not confirm whether your shot was registered.');
+  assert.equal(s.card(), null);
+  assert.equal(s.frame().privateAnnouncement, null);
   // The public line of the same moments stayed on its own channel.
   assert.equal(s.frame().announcement.text, 'Connection lost. Showing the last known state.');
   const asked = s.looked().length;
@@ -370,6 +368,8 @@ test('an unanswered command is reconciled across a reconnect instead of being re
   s.onSubmit(s.answers.accepted);
   await s.fake.connectWith(before.officer);
   assert.equal(s.looked().length, asked + 1);
+  assert.equal(s.card(), null);
+  s.screen.dispatch(TOGGLE);
   assert.equal(s.card().status, 'registered');
   assert.equal(s.sent().length, 2);
   assert.deepEqual(s.sent()[1], s.sent()[0]);

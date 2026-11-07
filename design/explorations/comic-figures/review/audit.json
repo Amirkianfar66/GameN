@@ -1,0 +1,501 @@
+{
+  "devOnly": "mothership:dev-only",
+  "note": "Measured by render.mjs in desktop Chrome at a 390 x 844 phone. Synthetic states only.",
+  "audits": {
+    "spread": {
+      "problems": [],
+      "areas": [
+        {
+          "seat": 1,
+          "room": "command-room",
+          "width": 80,
+          "height": 78
+        },
+        {
+          "seat": 2,
+          "room": "room-a",
+          "width": 51,
+          "height": 72
+        },
+        {
+          "seat": 3,
+          "room": "room-a",
+          "width": 51,
+          "height": 72
+        },
+        {
+          "seat": 4,
+          "room": "room-a",
+          "width": 46,
+          "height": 46
+        },
+        {
+          "seat": 7,
+          "room": "room-a",
+          "width": 46,
+          "height": 46
+        },
+        {
+          "seat": 5,
+          "room": "room-b",
+          "width": 51,
+          "height": 51
+        },
+        {
+          "seat": 6,
+          "room": "room-b",
+          "width": 50,
+          "height": 70
+        },
+        {
+          "seat": 8,
+          "room": "hospital",
+          "width": 52,
+          "height": 54
+        },
+        {
+          "seat": 9,
+          "room": "jail",
+          "width": 46,
+          "height": 63
+        }
+      ]
+    },
+    "full": {
+      "problems": [],
+      "areas": [
+        {
+          "seat": 1,
+          "room": "command-room",
+          "width": 80,
+          "height": 78
+        },
+        {
+          "seat": 2,
+          "room": "room-a",
+          "width": 51,
+          "height": 72
+        },
+        {
+          "seat": 3,
+          "room": "room-a",
+          "width": 52,
+          "height": 72
+        },
+        {
+          "seat": 4,
+          "room": "room-a",
+          "width": 51,
+          "height": 72
+        },
+        {
+          "seat": 6,
+          "room": "room-a",
+          "width": 46,
+          "height": 46
+        },
+        {
+          "seat": 7,
+          "room": "room-a",
+          "width": 46,
+          "height": 46
+        },
+        {
+          "seat": 5,
+          "room": "room-b",
+          "width": 51,
+          "height": 51
+        },
+        {
+          "seat": 8,
+          "room": "hospital",
+          "width": 52,
+          "height": 54
+        },
+        {
+          "seat": 9,
+          "room": "jail",
+          "width": 46,
+          "height": 63
+        }
+      ]
+    },
+    "fullB": {
+      "problems": [],
+      "areas": [
+        {
+          "seat": 1,
+          "room": "command-room",
+          "width": 80,
+          "height": 78
+        },
+        {
+          "seat": 7,
+          "room": "room-a",
+          "width": 51,
+          "height": 72
+        },
+        {
+          "seat": 8,
+          "room": "room-a",
+          "width": 51,
+          "height": 72
+        },
+        {
+          "seat": 9,
+          "room": "room-a",
+          "width": 46,
+          "height": 54
+        },
+        {
+          "seat": 2,
+          "room": "room-b",
+          "width": 51,
+          "height": 72
+        },
+        {
+          "seat": 3,
+          "room": "room-b",
+          "width": 52,
+          "height": 72
+        },
+        {
+          "seat": 4,
+          "room": "room-b",
+          "width": 49,
+          "height": 72
+        },
+        {
+          "seat": 5,
+          "room": "room-b",
+          "width": 46,
+          "height": 46
+        },
+        {
+          "seat": 6,
+          "room": "room-b",
+          "width": 46,
+          "height": 46
+        }
+      ]
+    },
+    "fullH": {
+      "problems": [],
+      "areas": [
+        {
+          "seat": 1,
+          "room": "command-room",
+          "width": 80,
+          "height": 78
+        },
+        {
+          "seat": 7,
+          "room": "room-a",
+          "width": 50,
+          "height": 70
+        },
+        {
+          "seat": 8,
+          "room": "room-b",
+          "width": 51,
+          "height": 51
+        },
+        {
+          "seat": 2,
+          "room": "hospital",
+          "width": 52,
+          "height": 46
+        },
+        {
+          "seat": 3,
+          "room": "hospital",
+          "width": 51,
+          "height": 72
+        },
+        {
+          "seat": 4,
+          "room": "hospital",
+          "width": 51,
+          "height": 72
+        },
+        {
+          "seat": 5,
+          "room": "hospital",
+          "width": 46,
+          "height": 46
+        },
+        {
+          "seat": 6,
+          "room": "hospital",
+          "width": 46,
+          "height": 46
+        },
+        {
+          "seat": 9,
+          "room": "jail",
+          "width": 46,
+          "height": 63
+        }
+      ]
+    },
+    "fullJ": {
+      "problems": [],
+      "areas": [
+        {
+          "seat": 1,
+          "room": "command-room",
+          "width": 80,
+          "height": 78
+        },
+        {
+          "seat": 7,
+          "room": "room-a",
+          "width": 50,
+          "height": 70
+        },
+        {
+          "seat": 8,
+          "room": "room-b",
+          "width": 51,
+          "height": 51
+        },
+        {
+          "seat": 2,
+          "room": "hospital",
+          "width": 52,
+          "height": 54
+        },
+        {
+          "seat": 3,
+          "room": "jail",
+          "width": 46,
+          "height": 48
+        },
+        {
+          "seat": 4,
+          "room": "jail",
+          "width": 51,
+          "height": 72
+        },
+        {
+          "seat": 5,
+          "room": "jail",
+          "width": 51,
+          "height": 72
+        },
+        {
+          "seat": 6,
+          "room": "jail",
+          "width": 46,
+          "height": 46
+        },
+        {
+          "seat": 9,
+          "room": "jail",
+          "width": 46,
+          "height": 46
+        }
+      ]
+    },
+    "crowded": {
+      "problems": [],
+      "areas": [
+        {
+          "seat": 1,
+          "room": "command-room",
+          "width": 80,
+          "height": 78
+        },
+        {
+          "seat": 3,
+          "room": "room-a",
+          "width": 50,
+          "height": 70
+        },
+        {
+          "seat": 7,
+          "room": "room-a",
+          "width": 50,
+          "height": 70
+        },
+        {
+          "seat": 5,
+          "room": "room-b",
+          "width": 51,
+          "height": 51
+        },
+        {
+          "seat": 6,
+          "room": "room-b",
+          "width": 50,
+          "height": 70
+        },
+        {
+          "seat": 2,
+          "room": "hospital",
+          "width": 52,
+          "height": 54
+        },
+        {
+          "seat": 8,
+          "room": "hospital",
+          "width": 50,
+          "height": 70
+        },
+        {
+          "seat": 4,
+          "room": "jail",
+          "width": 46,
+          "height": 63
+        },
+        {
+          "seat": 9,
+          "room": "jail",
+          "width": 50,
+          "height": 70
+        }
+      ]
+    },
+    "after a move (full)": {
+      "problems": [],
+      "areas": [
+        {
+          "seat": 1,
+          "room": "command-room",
+          "width": 80,
+          "height": 78
+        },
+        {
+          "seat": 2,
+          "room": "room-a",
+          "width": 51,
+          "height": 72
+        },
+        {
+          "seat": 3,
+          "room": "room-a",
+          "width": 51,
+          "height": 72
+        },
+        {
+          "seat": 4,
+          "room": "room-a",
+          "width": 46,
+          "height": 54
+        },
+        {
+          "seat": 5,
+          "room": "room-b",
+          "width": 51,
+          "height": 51
+        },
+        {
+          "seat": 6,
+          "room": "room-b",
+          "width": 51,
+          "height": 71
+        },
+        {
+          "seat": 7,
+          "room": "room-b",
+          "width": 51,
+          "height": 71
+        },
+        {
+          "seat": 8,
+          "room": "hospital",
+          "width": 52,
+          "height": 54
+        },
+        {
+          "seat": 9,
+          "room": "jail",
+          "width": 46,
+          "height": 63
+        }
+      ]
+    },
+    "after a move (reduced)": {
+      "problems": [],
+      "areas": [
+        {
+          "seat": 1,
+          "room": "command-room",
+          "width": 80,
+          "height": 78
+        },
+        {
+          "seat": 2,
+          "room": "room-a",
+          "width": 51,
+          "height": 72
+        },
+        {
+          "seat": 3,
+          "room": "room-a",
+          "width": 51,
+          "height": 72
+        },
+        {
+          "seat": 4,
+          "room": "room-a",
+          "width": 46,
+          "height": 54
+        },
+        {
+          "seat": 5,
+          "room": "room-b",
+          "width": 51,
+          "height": 51
+        },
+        {
+          "seat": 6,
+          "room": "room-b",
+          "width": 51,
+          "height": 71
+        },
+        {
+          "seat": 7,
+          "room": "room-b",
+          "width": 51,
+          "height": 71
+        },
+        {
+          "seat": 8,
+          "room": "hospital",
+          "width": 52,
+          "height": 54
+        },
+        {
+          "seat": 9,
+          "room": "jail",
+          "width": 46,
+          "height": 63
+        }
+      ]
+    }
+  },
+  "pictures": [
+    "phone-board.png",
+    "phone-board-five-in-room-a.png",
+    "phone-board-hospital-and-jail.png",
+    "phone-board-five-in-room-b.png",
+    "phone-board-five-in-hospital.png",
+    "phone-board-five-in-jail.png",
+    "phone-board-no-plates.png",
+    "phone-pick.png",
+    "phone-picked.png",
+    "phone-press-areas.png",
+    "today-and-pilot.png",
+    "poses.png",
+    "move-full-a-rest.png",
+    "move-full-b-lift.png",
+    "move-full-c-gone.png",
+    "move-full-d-drop.png",
+    "move-full-e-land.png",
+    "move-full-f-settled.png",
+    "move-reduced-a-rest.png",
+    "move-reduced-c-gone.png",
+    "move-reduced-f-settled.png"
+  ]
+}

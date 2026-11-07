@@ -4,7 +4,7 @@ import {
   FullPlayerViewSchema, FullPublicViewSchema, FullReceiptSchema,
 } from '@mothership/contracts';
 import {
-  createFullGame, executeFullGame, advanceFullGame, abortFullGame, projectFullGame,
+  PASS_FULL_GAME_VERSION_PINS, createFullGame, executeFullGame, advanceFullGame, abortFullGame, projectFullGame,
 } from '../dist/index.js';
 
 const fixtureStart = 1_800_000_000_000;
@@ -23,6 +23,8 @@ function driver(playerCount = 9) {
       initialRooms: Object.fromEntries(ids.map(id => [id, 'Room A'])),
       roundOrders: Array.from({ length: 5 }, () => [...ids]),
     },
+    // This historical lifecycle fixture intentionally retains uncapped occupancy.
+    versions: { ...PASS_FULL_GAME_VERSION_PINS, assetManifestVersion: 'fixture-assets-v1' },
     now: fixtureStart, phaseId: 'phase-start', deadlineToken: 'deadline-start', assetManifestVersion: 'fixture-assets-v1',
   });
   const request = (state, command, commandId = `command-${next()}`) => ({
@@ -115,7 +117,7 @@ test('setup begins with ordinary Round 1 and validates every recorded round perm
   assert.equal(d.initial.activeSeatId, 'seat-1');
   assert.equal(d.initial.phase.endsAt - d.initial.phase.startedAt, 60_000);
   assert.equal(d.initial.seats.some(item => item.captain), false);
-  const args = { matchId: 'fixture-full-a', setup: d.initial.setup, now: fixtureStart, phaseId: 'phase-start', deadlineToken: 'deadline-start', assetManifestVersion: 'fixture-assets-v1' };
+  const args = { matchId: 'fixture-full-a', setup: d.initial.setup, now: fixtureStart, phaseId: 'phase-start', deadlineToken: 'deadline-start', assetManifestVersion: 'fixture-assets-v1', versions: { ...PASS_FULL_GAME_VERSION_PINS, assetManifestVersion: 'fixture-assets-v1' } };
   assert.throws(() => createFullGame({ ...args, setup: { ...args.setup, roundOrders: args.setup.roundOrders.slice(1) } }));
   const invalidOrders = structuredClone(args.setup.roundOrders);
   invalidOrders[3][0] = invalidOrders[3][1];
@@ -641,7 +643,7 @@ test('private knowledge contracts reject role-inappropriate fields, invalid Code
 
 test('asset manifest versions retain bounded dotted version strings', () => {
   const d = driver(7);
-  const args = { matchId: 'fixture-full-a', setup: d.initial.setup, now: fixtureStart, phaseId: 'phase-start', deadlineToken: 'deadline-start', assetManifestVersion: '0.1.0' };
+  const args = { matchId: 'fixture-full-a', setup: d.initial.setup, now: fixtureStart, phaseId: 'phase-start', deadlineToken: 'deadline-start', assetManifestVersion: '0.1.0', versions: { ...PASS_FULL_GAME_VERSION_PINS, assetManifestVersion: '0.1.0' } };
   const dotted = createFullGame(args);
   assert.equal(projectFullGame(dotted).public.versions.assetManifestVersion, '0.1.0');
   assert.throws(() => createFullGame({ ...args, assetManifestVersion: '' }));
@@ -654,6 +656,6 @@ test('commands before phase start fail closed and new deadline windows cannot ov
   assert.equal(d.apply(d.initial, 'seat-1', { type: 'MOVE', destination: 'Room B' }, d.initial.phase.startedAt - 1).receipt.code, 'PHASE_CLOSED');
   assert.deepEqual(d.initial, saved);
   assert.throws(()=>abortFullGame(d.initial,d.ctx(d.initial.phase.startedAt-1)));
-  assert.throws(() => createFullGame({ matchId: 'fixture-full-a', setup: d.initial.setup, now: Number.MAX_SAFE_INTEGER - 59_999, phaseId: 'phase-start', deadlineToken: 'deadline-start', assetManifestVersion: 'fixture-assets-v1' }));
+  assert.throws(() => createFullGame({ matchId: 'fixture-full-a', setup: d.initial.setup, now: Number.MAX_SAFE_INTEGER - 59_999, phaseId: 'phase-start', deadlineToken: 'deadline-start', assetManifestVersion: 'fixture-assets-v1', versions: { ...PASS_FULL_GAME_VERSION_PINS, assetManifestVersion: 'fixture-assets-v1' } }));
   assert.throws(() => advanceFullGame(d.initial, { ...d.ctx(Number.MAX_SAFE_INTEGER - 59_999), phaseId: d.initial.phase.id, deadlineToken: d.initial.deadlineToken }));
 });

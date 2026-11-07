@@ -148,7 +148,7 @@ export async function openPage(browser, { width, height, scale = 1, mobile = fal
       await sleep(250);
     },
     async press(key) {
-      const keys = { Tab: { code: 'Tab', keyCode: 9 }, Enter: { code: 'Enter', keyCode: 13, text: '\r' }, ' ': { code: 'Space', keyCode: 32, text: ' ' } };
+      const keys = { Tab: { code: 'Tab', keyCode: 9 }, Enter: { code: 'Enter', keyCode: 13, text: '\r' }, ' ': { code: 'Space', keyCode: 32, text: ' ' }, Escape: { code: 'Escape', keyCode: 27 } };
       const { code, keyCode, text } = keys[key];
       // No native key code. With one, headless Chrome on macOS re-delivers a key the page does
       // not handle (Enter on plain text, say) thousands of times, as if it were held down.
@@ -211,7 +211,9 @@ export async function openPage(browser, { width, height, scale = 1, mobile = fal
         const margin = 12;
         clip = { x: Math.max(0, box.x - margin), y: Math.max(0, box.y - margin), width: box.width + margin * 2, height: box.height + margin * 2 };
       }
-      const { data } = await send('Page.captureScreenshot', { format: 'png', captureBeyondViewport: true, clip: { ...clip, scale: 1 } });
+      // Capturing beyond the viewport lays the page out again at its full size and drops an
+      // emulated text size on the way, so a first screenful is captured as it stands.
+      const { data } = await send('Page.captureScreenshot', { format: 'png', captureBeyondViewport: !viewport, clip: { ...clip, scale: 1 } });
       await writeFile(file, Buffer.from(data, 'base64'));
     },
     close: () => browser.send('Target.closeTarget', { targetId }),

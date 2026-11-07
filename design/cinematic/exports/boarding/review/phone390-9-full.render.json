@@ -1,0 +1,90 @@
+{
+  "tool": "design/tools/cinematic-render.mjs",
+  "pilot": "boarding",
+  "version": "cinematic-openings-0.1.0",
+  "surface": "phone",
+  "variant": "full",
+  "stage": "design/cinematic/stage.html?pilot=boarding&surface=phone&variant=full&beds=4&w=390&h=844&roster=9",
+  "size": [
+    390,
+    844
+  ],
+  "deviceScale": 2,
+  "fixture": {
+    "synthetic": true,
+    "roster": [
+      {
+        "seat": 1,
+        "character": "c5"
+      },
+      {
+        "seat": 2,
+        "character": "c1"
+      },
+      {
+        "seat": 3,
+        "character": "c9"
+      },
+      {
+        "seat": 4,
+        "character": "c3"
+      },
+      {
+        "seat": 5,
+        "character": "c7"
+      },
+      {
+        "seat": 6,
+        "character": "c2"
+      },
+      {
+        "seat": 7,
+        "character": "c6"
+      },
+      {
+        "seat": 8,
+        "character": "c4"
+      },
+      {
+        "seat": 9,
+        "character": "c8"
+      }
+    ]
+  },
+  "browser": "Google Chrome for Testing 153.0.8010.12",
+  "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+  "outputs": [
+    {
+      "kind": "video",
+      "file": "design/cinematic/exports/boarding/review/phone390-9-full.mp4",
+      "sha256": "70c592966a2639b8835514cba19bc5bf8e032ccbe6d5d468c8b274a0602a51d2",
+      "bytes": 3358726,
+      "fps": 30,
+      "frames": 300,
+      "durationMs": 10000,
+      "from": 0,
+      "to": 10000,
+      "audio": null,
+      "exact": true,
+      "encodedMs": 10000
+    },
+    {
+      "kind": "preview",
+      "file": "design/cinematic/exports/boarding/review/phone390-9-full.preview.webp",
+      "sha256": "b1897a5b95782f7ec60be663a95543af036ab8900cd3b4d3845482e15be33675",
+      "bytes": 777196
+    },
+    {
+      "kind": "poster",
+      "file": "design/cinematic/exports/boarding/review/phone390-9-full.poster.webp",
+      "sha256": "70f0fb55a1776307a661bdb6d50d5dc9a3c0e54476b4a7a15d91bf7dc9bce89f",
+      "bytes": 69074,
+      "t": 8600
+    }
+  ],
+  "settling": {
+    "rule": "a frame is kept once two captures a redraw apart agree; pictures decode before their tiles draw",
+    "resettled": 0,
+    "unsettled": []
+  }
+}

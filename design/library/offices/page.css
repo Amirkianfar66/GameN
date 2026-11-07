@@ -1,0 +1,50 @@
+/* mothership:dev-only · library group 6 review page: the offices (the Captain's appointment, the Officer's block, the
+   public strip, the badges and the board's block marker), each state drawn from a synthetic view through states.mjs;
+   the frame is ../review.css. The new pictures are drawn only behind [data-art~="offices"]; the Captain's badge is the
+   reviewed board art (--ms-asset-marker-captain-badge). Badges beside words grow with the reader's text size. */
+
+.of-badge { display: inline-block; flex: none; width: calc(28px * var(--lib-text, 1)); aspect-ratio: 1; border-radius: 50%; background: #F4EBDD; border: 2px solid var(--ms-color-ink); vertical-align: middle; }
+[data-art~="offices"] .of-badge { background: var(--of-art) center / contain no-repeat; border: 0; }
+.of-badge--big { width: calc(48px * var(--lib-text, 1)); }
+.of-badge--small { width: calc(20px * var(--lib-text, 1)); }
+
+/* Name tags: the name, then each badge with its name in words. */
+.of-tag { display: inline-flex; flex-wrap: wrap; gap: 4px 8px; align-items: center; padding: 4px 10px; background: var(--ms-color-paper); color: var(--ms-color-ink); border: 2px solid var(--ms-color-ink); border-radius: 14px; font-size: calc(13px * var(--lib-text, 1)); line-height: 1.25; }
+.of-tag__badge { display: inline-flex; gap: 4px; align-items: center; font-weight: 700; }
+
+/* Board seats: a stand-in figure (a plain silhouette, never a character), the floating office badge, the tape at the feet. */
+.of-board { display: flex; flex-wrap: wrap; gap: 12px 16px; align-items: flex-end; }
+.of-seat { display: grid; justify-items: center; gap: 6px; min-width: 0; }
+.of-stand { position: relative; width: 72px; height: 96px; }
+.of-figure { position: absolute; left: 50%; bottom: 8px; width: 34px; height: 74px; translate: -50% 0; background:
+  radial-gradient(circle at 50% 13px, #3A4A6B 0 11px, transparent 11.5px),
+  linear-gradient(#3A4A6B, #3A4A6B) 50% 26px / 26px 48px no-repeat; }
+.of-badge--float { position: absolute; right: 2px; top: 0; width: 28px; }
+.of-tape { position: absolute; left: 50%; bottom: 2px; width: 70px; height: 16px; translate: -50% 0; background: #F7C52B; border: 2px solid var(--ms-color-ink); }
+[data-art~="offices"] .of-tape { background: var(--of-asset-of-tape-blocked) center / 100% 100% no-repeat; border: 0; }
+.of-ring { position: absolute; inset: 0; border: 3px solid var(--ms-color-ink); border-radius: 50%; opacity: 0; }
+
+.of-public { margin: 0; font-weight: 800; font-size: calc(14px * var(--lib-text, 1)); line-height: 1.3; }
+.of-public-block { display: flex; gap: 8px; align-items: center; margin: 0; font-weight: 700; font-size: calc(13px * var(--lib-text, 1)); line-height: 1.3; }
+.of-self { margin: 0; padding: 10px 12px; font-weight: 700; font-size: calc(13px * var(--lib-text, 1)); line-height: 1.35; background: rgb(247 197 43 / 0.25); border: 2px solid var(--ms-color-ink); border-radius: 8px; }
+.of-note { margin: 0; font-size: calc(12px * var(--lib-text, 1)); line-height: 1.3; color: var(--ms-color-steel-shadow); }
+.of-none { margin: 0; font-size: calc(13px * var(--lib-text, 1)); color: var(--ms-color-text-secondary); }
+.of-result { display: flex; gap: 12px; align-items: center; }
+.of-result .lib-words { flex: 1 1 auto; min-width: 0; }
+
+/* Player buttons: every eligible player the same (the dossier's first-button yellow is outranked). */
+.of-players { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 136px), 1fr)); gap: 8px; }
+.of-players .ab-button.of-player { display: inline-flex; justify-content: center; align-items: center; text-align: center; background: var(--ms-color-paper-shade); }
+.of-players .ab-button.of-player[aria-pressed="true"] { background: var(--ms-color-caption); box-shadow: inset 0 0 0 2px var(--ms-color-ink); }
+
+/* The badge family sheet and the tray. */
+.of-families { display: grid; gap: 10px; }
+.of-family { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; padding: 8px 10px; background: var(--ms-color-paper); color: var(--ms-color-ink); border: 2px solid var(--ms-color-ink); border-radius: 10px; }
+.of-family p { flex: 1 1 10em; margin: 0; font-size: calc(13px * var(--lib-text, 1)); line-height: 1.3; }
+.of-trays { display: grid; gap: 10px; }
+.of-tray { display: flex; gap: 12px; align-items: center; padding: 12px 14px; background: var(--ms-color-paper); color: var(--ms-color-ink); border: 2px solid var(--ms-color-ink); border-radius: 12px; box-shadow: 3px 4px 0 rgb(21 25 35 / 0.45); }
+.of-tray strong { display: block; font-size: calc(18px * var(--lib-text, 1)); line-height: 1.1; }
+.of-tray span { color: var(--ms-color-steel-shadow); font-size: calc(14px * var(--lib-text, 1)); }
+.of-icon { flex: none; width: 44px; aspect-ratio: 1; border-radius: 10px; background: #3A4A6B; }
+[data-art~="offices"] .of-icon--appoint { background: var(--of-asset-of-icon-appoint) center / contain no-repeat; }
+[data-art~="offices"] .of-icon--block { background: var(--of-asset-of-icon-block) center / contain no-repeat; }

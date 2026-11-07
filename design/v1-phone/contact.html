@@ -1,0 +1,62 @@
+<!doctype html>
+<!-- mothership:dev-only · Contact sheets of the V1 phone journey captures (issue #76). Synthetic; desktop Chromium renders, not device measurements. -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Mothership · V1 phone journey · contact sheet</title>
+  <link rel="stylesheet" href="../prototypes/css/tokens.css">
+  <style>
+    body { margin: 0; background: var(--ms-color-canvas); color: var(--ms-color-text); font-family: var(--ms-font-body); }
+    main { padding: 24px 28px 40px; display: grid; gap: 22px; }
+    h1 { margin: 0; font-family: var(--ms-font-lettering); font-weight: 800; text-transform: uppercase; letter-spacing: 0.03em; font-size: 26px; }
+    .meta { margin: 0; color: var(--ms-color-text-secondary); font-size: 13px; line-height: 1.45; max-width: 120ch; }
+    .flag { display: inline-block; padding: 0 6px; border: 2px dashed currentColor; border-radius: 3px; font-size: 11px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; margin-left: 8px; vertical-align: 2px; }
+    section { display: grid; gap: 10px; }
+    h2 { margin: 0; font-family: var(--ms-font-lettering); font-weight: 800; font-size: 17px; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 2px solid var(--ms-color-steel-mid); padding-bottom: 4px; }
+    .grid { display: flex; flex-wrap: wrap; gap: 14px 12px; align-items: flex-start; }
+    figure { margin: 0; display: grid; gap: 4px; width: var(--w, 150px); }
+    img { display: block; width: 100%; height: auto; border: 2px solid var(--ms-color-steel-mid); border-radius: 4px; background: var(--ms-color-ink); }
+    figcaption { font-size: 11px; line-height: 1.3; color: var(--ms-color-text-secondary); }
+    figcaption b { display: block; color: var(--ms-color-text); font-size: 12px; }
+    .rt { font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; font-size: 10px; }
+  </style>
+</head>
+<body>
+  <main id="sheet"></main>
+  <script type="module">
+    const set = new URLSearchParams(location.search).get('set') ?? 'priority';
+    const [index, journey] = await Promise.all([fetch('./review/index.json').then(r => r.json()), fetch('./contract/journey.json').then(r => r.json())]);
+    const sheet = document.getElementById('sheet');
+    const el = (tag, attrs = {}, ...kids) => { const n = document.createElement(tag); for (const [k, v] of Object.entries(attrs)) n.setAttribute(k, v); n.append(...kids.filter(k => k !== null)); return n; };
+    const states = new Map(journey.screens.flatMap(s => s.states.map(st => [st.id, { ...st, screen: s }])));
+    const fig = (image, label, sub, width) => el('figure', { style: `--w:${width}px` }, el('img', { src: '/' + image.file.replace(/^design\//, ''), alt: label }), el('figcaption', {}, el('b', {}, label), sub));
+    const word = { existing: 'release', partial: 'partial', proposed: 'proposal' };
+    sheet.append(el('h1', {}, set === 'motion' ? 'Motion storyboards: frames of the real CSS' : set === 'matrix' ? 'Viewport and text checks' : set === 'priority' ? 'The five priority screens and key states' : 'Every state', el('span', { class: 'flag' }, 'Synthetic · not a match')),
+      el('p', { class: 'meta' }, `Mothership phone-first V1 journey, issue #76. Design base ${journey.designBase.commit.slice(0, 12)} (${journey.designBase.branch}). Tokens ${journey.pins.tokenVersion}, assets ${journey.pins.assetManifestVersion}. ${index.browser}, this machine's fonts: simulated viewports, not device measurements. A proposal; not owner-approved.`));
+    if (set === 'motion') {
+      for (const board of index.storyboard) {
+        const frames = index.images.filter(i => i.frame && i.frame.row === board.row);
+        const row = el('section', {}, el('h2', {}, `${board.title}`, board.proposal ? el('span', { class: 'flag' }, 'New cue: proposal') : null),
+          el('p', { class: 'meta' }, `${board.cue} · ${board.token} · Trigger: ${board.trigger} Reduced motion: the last frame, reached directly.`),
+          el('div', { class: 'grid' }, ...frames.map(i => fig(i, i.frame.at === 'reduced' ? 'Reduced motion' : `${i.frame.at} ms`, el('span', { class: 'rt' }, i.frame.at === 'reduced' ? 'direct / 80 ms fade' : ''), board.selector ? Math.min(300, Math.round(i.width * 0.62)) : 160))));
+        sheet.append(row);
+      }
+    } else if (set === 'matrix') {
+      const about = new Map(index.matrix.map(m => [m.id, m.about]));
+      const sec = el('section', {}, el('div', { class: 'grid' }, ...index.images.filter(i => i.matrix).map(i => fig(i, about.get(i.id), el('span', { class: 'rt' }, `${i.viewport}${i.fontPx ? ' · font ' + i.fontPx + 'px' : ''}`), i.viewport.startsWith('1280') ? 360 : 170))));
+      sheet.append(sec);
+    } else {
+      for (const screen of journey.screens) {
+        const shown = screen.states.filter(st => set === 'all' || st.priority === true || (set === 'priority' && ['join.refused', 'select.conflict', 'phase.jail-vote', 'phase.tally', 'phase.resolution', 'phase.showdown', 'status.eliminated', 'system.reconnecting', 'system.no-access', 'end.winner', 'end.aborted', 'display.board'].includes(st.id)));
+        if (!shown.length) continue;
+        const imgs = shown.map(st => [st, index.images.find(i => i.state === st.id && !i.matrix && !i.contact)]).filter(([, i]) => i);
+        sheet.append(el('section', {}, el('h2', {}, screen.priority ? `${screen.priority}. ${screen.title}` : screen.title),
+          el('div', { class: 'grid' }, ...imgs.map(([st, i]) => fig(i, st.title, el('span', { class: 'rt' }, `${st.id} · ${word[st.runtime]}`), set === 'all' ? 128 : 170)))));
+      }
+    }
+    window.__designReady = true;
+  </script>
+</body>
+</html>

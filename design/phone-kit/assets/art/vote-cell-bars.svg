@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · phone kit phone-kit-0.1.0 (art phone-kit-art-0.1.0) · vote-cell-bars · generated, do not edit by hand
+  The cell's bars that drop in front of a jailed player (or one not released). Audience: every screen.
+  Drawn by design/phone-kit/source/art.mjs (original vector drawing for this repository by the Visual and Motion Designer,
+  Claude Code) through design/tools/phone-kit-assets.mjs. No word is in the picture: every word is the page's own text.
+  Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 200"><!-- cell bars --><path d="M18 4 V196" stroke="#151923" stroke-width="9" stroke-linecap="round"/><path d="M16.5 8 V192" stroke="#F7D886" stroke-width="2" opacity="0.8"/><path d="M43.5 4 V196" stroke="#151923" stroke-width="9" stroke-linecap="round"/><path d="M42 8 V192" stroke="#F7D886" stroke-width="2" opacity="0.8"/><path d="M69 4 V196" stroke="#151923" stroke-width="9" stroke-linecap="round"/><path d="M67.5 8 V192" stroke="#F7D886" stroke-width="2" opacity="0.8"/><path d="M94.5 4 V196" stroke="#151923" stroke-width="9" stroke-linecap="round"/><path d="M93 8 V192" stroke="#F7D886" stroke-width="2" opacity="0.8"/><path d="M120 4 V196" stroke="#151923" stroke-width="9" stroke-linecap="round"/><path d="M118.5 8 V192" stroke="#F7D886" stroke-width="2" opacity="0.8"/><path d="M145.5 4 V196" stroke="#151923" stroke-width="9" stroke-linecap="round"/><path d="M144 8 V192" stroke="#F7D886" stroke-width="2" opacity="0.8"/><rect x="6" y="98" width="148" height="12" rx="3" fill="#1B3058" stroke="#151923" stroke-width="3"/><circle cx="22" cy="104" r="2.4" fill="#E9B64E"/><circle cx="58" cy="104" r="2.4" fill="#E9B64E"/><circle cx="102" cy="104" r="2.4" fill="#E9B64E"/><circle cx="138" cy="104" r="2.4" fill="#E9B64E"/></svg>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · library art proposal · wn-icon-window library-windows-0.1.0 · generated, do not edit by hand
+  The tray mark for the windows: a small window with a line drawn in it and a pencil.
+  Built by design/tools/library-assets.mjs from design/library/windows/art.mjs. Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48"><g id="wn-icon-window"><rect x="7" y="9" width="34" height="30" rx="3" fill="#151923" opacity="0.4"/><rect x="5" y="7" width="34" height="30" rx="3" fill="#3A4A6B" stroke="#151923" stroke-width="2.6"/><rect x="10" y="12" width="24" height="20" fill="#F4EBDD" stroke="#151923" stroke-width="1.8"/><path d="M13 26 Q18 17 22 24 T31 18" stroke="#151923" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M30 40 L43 27" stroke="#F7C52B" stroke-width="5" stroke-linecap="round"/><path d="M30 40 L43 27" stroke="#151923" stroke-width="1" opacity="0.5"/></g></svg>

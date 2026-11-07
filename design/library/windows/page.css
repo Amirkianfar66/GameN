@@ -1,0 +1,65 @@
+/* mothership:dev-only · library group 5 review page: windows and drawing (the windows a seat sees, a station's pad,
+   the feed of shown drawings, the Blackout's shade, the board's station markers), each state drawn from a synthetic
+   view through states.mjs; the frame is ../review.css. Every picture is drawn only behind [data-art~="windows"];
+   without it, plain steel and paper boxes of the same size. */
+
+/* A window: its lintel (emblem and title), the pane with the feed, its notes, and (at its station) the pad. */
+.wn-window { display: grid; gap: 8px; padding-bottom: 10px; background: var(--ms-color-paper); color: var(--ms-color-ink); border: 3px solid var(--ms-color-ink); border-radius: 10px; box-shadow: 3px 4px 0 rgb(21 25 35 / 0.45); overflow: hidden; }
+.wn-lintel { display: flex; align-items: center; min-height: 48px; padding: 6px 12px 6px 62px; background: #3A4A6B; }
+[data-art~="windows"] .wn-lintel { background: var(--wn-art) center / 100% 100% no-repeat; }
+.wn-lintel h3 { margin: 0; font-family: var(--ms-font-lettering); font-weight: var(--ms-weight-lettering); font-size: calc(15px * var(--lib-text, 1)); line-height: 1.15; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ms-color-paper); }
+.wn-pane { position: relative; margin: 0 10px; min-height: 96px; padding: 8px; background: #E6D8C0; border: 2px solid var(--ms-color-ink); border-radius: 6px; }
+.wn-feed { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 120px), 1fr)); gap: 10px; margin: 0; padding: 0; list-style: none; }
+.wn-shown { position: relative; display: grid; gap: 4px; padding: 10px 6px 6px; background: var(--ms-color-paper); border: 2px solid var(--ms-color-ink); border-radius: 4px; box-shadow: 2px 2px 0 rgb(21 25 35 / 0.3); }
+.wn-tape { position: absolute; left: 50%; top: -6px; width: 44px; height: 12px; background: rgb(247 197 43 / 0.85); border: 1px solid rgb(21 25 35 / 0.4); transform: translateX(-50%) rotate(-3deg); }
+.wn-drawing { display: block; width: 100%; aspect-ratio: 4 / 3; background: #FBF6EE; border-radius: 2px; }
+.wn-caption { font-size: calc(12px * var(--lib-text, 1)); font-weight: 700; line-height: 1.25; }
+.wn-empty { margin: 0; padding: 12px 4px; font-size: calc(13px * var(--lib-text, 1)); color: var(--ms-color-steel-shadow); text-align: center; }
+.wn-note, .wn-privacy { margin: 0 12px; font-size: calc(12px * var(--lib-text, 1)); line-height: 1.3; color: var(--ms-color-steel-shadow); }
+.wn-privacy { margin: 0; }
+.wn-none { margin: 0; font-size: calc(13px * var(--lib-text, 1)); color: var(--ms-color-text-secondary); }
+
+/* The Blackout's shade over a pane: nothing shows through it. */
+.wn-shade { position: absolute; inset: 0; display: grid; place-items: center; padding: 10px; background: #0D1422; border-radius: 4px; }
+[data-art~="windows"] .wn-shade { background: var(--wn-asset-wn-shade) center / 100% 100% no-repeat; }
+.wn-shade p { margin: 0; padding: 6px 10px; font-weight: 800; font-size: calc(13px * var(--lib-text, 1)); line-height: 1.3; text-align: center; color: var(--ms-color-paper); background: rgb(13 20 34 / 0.85); border-radius: 6px; }
+
+/* The station's pad: the words, the canvas (4:3), the inks, the widths, the ink meter and the tools. */
+.wn-station { display: grid; gap: 8px; margin: 0 10px; padding-top: 8px; border-top: 2px dashed rgb(21 25 35 / 0.35); }
+.wn-station__words { margin: 0; font-weight: 800; font-size: calc(13px * var(--lib-text, 1)); line-height: 1.3; }
+.wn-pad { position: relative; aspect-ratio: 4 / 3; background: #F4EBDD; border: 2px solid var(--ms-color-ink); border-radius: 6px; overflow: hidden; touch-action: none; }
+[data-art~="windows"] .wn-pad { background: var(--wn-asset-wn-pad) center / 100% 100% no-repeat; }
+.wn-drawing--pad { position: absolute; inset: 0; width: 100%; height: 100%; background: none; }
+.wn-swatches { display: flex; flex-wrap: wrap; gap: 8px; }
+.wn-swatch { width: 44px; height: 44px; border-radius: 50%; background: var(--ink); border: 3px solid var(--ms-color-ink); box-shadow: inset 0 0 0 3px var(--ms-color-paper); cursor: pointer; }
+.wn-swatch[aria-pressed="true"] { outline: 3px solid var(--ms-color-ink); outline-offset: 3px; }
+.wn-widths { display: flex; flex-wrap: wrap; gap: 8px; }
+.wn-width { display: inline-flex; gap: 8px; align-items: center; min-height: 44px; padding: 0 12px; font: inherit; font-weight: 700; font-size: calc(13px * var(--lib-text, 1)); color: var(--ms-color-ink); background: var(--ms-color-paper); border: 2px solid var(--ms-color-ink); border-radius: 22px; cursor: pointer; }
+.wn-width[aria-pressed="true"] { background: var(--ms-color-paper-shade); box-shadow: inset 0 0 0 2px var(--ms-color-ink); }
+.wn-width__line { width: 22px; height: var(--w); max-height: 14px; background: var(--ms-color-ink); border-radius: 8px; }
+.wn-meter { display: flex; gap: 10px; align-items: center; font-size: calc(12px * var(--lib-text, 1)); color: var(--ms-color-steel-shadow); }
+.wn-meter__bar { position: relative; flex: 1 1 auto; height: 8px; background: rgb(21 25 35 / 0.12); border-radius: 4px; overflow: hidden; }
+.wn-meter__bar::after { content: ''; position: absolute; inset: 0 auto 0 0; width: calc(var(--used) * 100%); background: var(--ms-color-ink); }
+/* Undo and Clear are quiet: Show is the station's one primary action. */
+.wn-station .ab-button.wn-quiet { background: var(--ms-color-paper-shade); }
+
+/* The board's station markers (a schematic of the slots; on the board the plate sits at the slot's feet anchor). */
+.wn-board { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 140px), 1fr)); gap: 10px; }
+.wn-room { padding: 8px; background: var(--ms-color-paper); color: var(--ms-color-ink); border: 2px solid var(--ms-color-ink); border-radius: 8px; }
+.wn-room h4 { margin: 0 0 6px; font-size: calc(14px * var(--lib-text, 1)); }
+.wn-slots { display: grid; gap: 4px; margin: 0; padding: 0; list-style: none; }
+.wn-slot { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; min-height: 32px; font-size: calc(12px * var(--lib-text, 1)); line-height: 1.2; }
+.wn-slot > span:last-child { flex: 1 1 8em; min-width: 0; overflow-wrap: anywhere; }
+.wn-slot--station { font-weight: 700; }
+.wn-marker { flex: none; width: calc(32px * var(--lib-text, 1)); aspect-ratio: 1; border-radius: 50%; background: #3A4A6B; }
+[data-art~="windows"] .wn-marker { background: var(--wn-asset-wn-station) center / contain no-repeat; border-radius: 0; }
+.wn-tray { display: flex; gap: 12px; align-items: center; padding: 12px 14px; background: var(--ms-color-paper); color: var(--ms-color-ink); border: 2px solid var(--ms-color-ink); border-radius: 12px; box-shadow: 3px 4px 0 rgb(21 25 35 / 0.45); }
+.wn-tray strong { display: block; font-size: calc(18px * var(--lib-text, 1)); line-height: 1.1; }
+.wn-tray span { color: var(--ms-color-steel-shadow); font-size: calc(14px * var(--lib-text, 1)); }
+.wn-icon { flex: none; width: 44px; aspect-ratio: 1; border-radius: 10px; background: #3A4A6B; }
+[data-art~="windows"] .wn-icon { background: var(--wn-asset-wn-icon-window) center / contain no-repeat; }
+
+/* Motion stages. */
+.wn-motion { position: relative; }
+.wn-ghost { position: absolute; left: 22%; right: 22%; bottom: 8px; aspect-ratio: 4 / 3; background: #F4EBDD; border: 2px solid var(--ms-color-ink); border-radius: 6px; pointer-events: none; }
+.wn-ghost .wn-drawing--pad { position: absolute; inset: 0; }

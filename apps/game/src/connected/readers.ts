@@ -90,14 +90,14 @@ const isRoom = (value: unknown): value is (typeof ROOMS)[number] => ROOMS.some(r
 
 /** One request to be seated, as the host and the requester may read it. */
 export type Admission =
-  | { readonly uid: string; readonly initialRoom: 'Room A' | 'Room B'; readonly requestedAt: number; readonly status: 'pending' }
-  | { readonly uid: string; readonly initialRoom: 'Room A' | 'Room B'; readonly requestedAt: number; readonly status: 'approved'; readonly seatId: SeatId };
+  | { readonly uid: string; readonly initialRoom: 'Room A' | 'Room B' | null; readonly requestedAt: number; readonly status: 'pending' }
+  | { readonly uid: string; readonly initialRoom: 'Room A' | 'Room B' | null; readonly requestedAt: number; readonly status: 'approved'; readonly seatId: SeatId };
 
 export function readAdmission(payload: unknown): DocumentOutcome<Admission> {
   if (payload === null) return { kind: 'missing' };
   if (!isRecord(payload) || !hasOnly(payload, ['uid', 'initialRoom', 'requestedAt', 'status', 'seatId'])) return rejected({ kind: 'unreadable' });
   const { uid, initialRoom, requestedAt, status, seatId } = payload;
-  if (typeof uid !== 'string' || !UID.test(uid) || !isRoom(initialRoom) || !TimestampSchema.safeParse(requestedAt).success) return rejected({ kind: 'unreadable' });
+  if (typeof uid !== 'string' || !UID.test(uid) || (initialRoom !== null && !isRoom(initialRoom)) || !TimestampSchema.safeParse(requestedAt).success) return rejected({ kind: 'unreadable' });
   const base = { uid, initialRoom, requestedAt: requestedAt as number };
   if (status === 'pending' && seatId === undefined) return { kind: 'accepted', value: { ...base, status } };
   const seat = SeatIdSchema.safeParse(seatId);

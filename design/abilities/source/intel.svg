@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · editable source · ability art proposal · intel kit
+  Original vector artwork made for this repository. Rights and provenance: design/abilities/assets/manifest.json.
+
+  PRIVATE. The paper of a seat's own results and sets, added to the dossier kit (dossier.svg) for
+  the Hacker's file and Scan, the Hacker's Code attempt and the Alien's Code. Drawn only inside that
+  seat's own open private sheet or its own action strip, never on the board, the shared display or
+  in a public cue. Every player phone loads the whole kit in one stylesheet, whatever its role, and
+  nothing in it is named after or coloured for a role or a team.
+
+  The Code's mark is a little punch card with four holes in a square, two by two: a set of four, not
+  a row of positions. No text is drawn: every word, number and stamp is live text in the client.
+
+  A sheet: the wrapper groups lay the layers out for editing; each layer is exported in its own box
+  (design/abilities/recipes.json). Colors are token values (tokens 0.4.0): paper, the paper shades,
+  ink, canvas, the steel values.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 220" width="560" height="220">
+  <defs>
+    <pattern id="intel-ink-dots" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <circle cx="2" cy="2" r="0.8" fill="#151923"/>
+    </pattern>
+    <pattern id="intel-rows" width="8" height="7" patternUnits="userSpaceOnUse">
+      <rect x="0" y="5.6" width="8" height="1.1" fill="#E3D6C2"/>
+    </pattern>
+  </defs>
+
+  <!-- A printout: thermal paper torn at both ends, the paper of a result. 240 x 56. Words and the stamp are live text. -->
+  <g transform="translate(10 10)">
+    <g id="dossier-printout">
+      <path d="M8 9 L232 7 L236 54 L12 55 Z" fill="#151923" opacity="0.28"/>
+      <path d="M4 3 L9 7 L4 11 L9 15 L4 19 L9 23 L4 27 L9 31 L4 35 L9 39 L4 43 L9 47 L5 51 L230 50 L235 46 L230 42 L235 38 L230 34 L235 30 L230 26 L235 22 L230 18 L235 14 L230 10 L235 6 L231 2 Z" fill="#F4EBDD" stroke="#151923" stroke-width="2.2" stroke-linejoin="round"/>
+      <rect x="14" y="8" width="210" height="38" fill="url(#intel-rows)" opacity="0.9"/>
+      <path d="M196 4 L231 3 L234 46 L230 50 L186 50 Q206 30 196 4 Z" fill="url(#intel-ink-dots)" opacity="0.18"/>
+    </g>
+  </g>
+
+  <!-- A portrait chip: a round window in an ink ring with a paper rim. 48 x 48. The window is the circle at (24, 24), r 17. -->
+  <g transform="translate(270 10)">
+    <g id="dossier-chip">
+      <circle cx="26" cy="26" r="21" fill="#151923" opacity="0.3"/>
+      <circle cx="24" cy="24" r="21.5" fill="#F4EBDD" stroke="#151923" stroke-width="2.6"/>
+      <circle cx="24" cy="24" r="17" fill="#10141C" stroke="#151923" stroke-width="2"/>
+      <path d="M11 15.5 Q15.5 8.5 23.5 7.6" fill="none" stroke="#B9C4D3" stroke-width="1.6" stroke-linecap="round"/>
+    </g>
+  </g>
+
+  <!-- The Code's mark: a little punch card with four holes, two by two. 40 x 30. -->
+  <g transform="translate(340 10)">
+    <g id="dossier-code-mark">
+      <path d="M9 4 H36 Q38 4 38 6 V27 Q38 29 36 29 H5 Q3 29 3 27 V10 Z" fill="#151923" opacity="0.3" transform="translate(1.5 1.5)"/>
+      <path d="M9 2 H35 Q37 2 37 4 V25 Q37 27 35 27 H4 Q2 27 2 25 V9 Z" fill="#F4EBDD" stroke="#151923" stroke-width="2.2" stroke-linejoin="round"/>
+      <g fill="#10141C">
+        <circle cx="14" cy="10.5" r="3.4"/><circle cx="26" cy="10.5" r="3.4"/>
+        <circle cx="14" cy="19.5" r="3.4"/><circle cx="26" cy="19.5" r="3.4"/>
+      </g>
+      <path d="M31 4 H35 V25 H27 Q33 15 31 4 Z" fill="url(#intel-ink-dots)" opacity="0.22"/>
+    </g>
+  </g>
+
+  <!-- A punch card for a Code attempt: four round windows for portrait chips, a punched edge. 240 x 76. Windows at x 38, 92, 148, 202 (y 44, r 20). -->
+  <g transform="translate(10 90)">
+    <g id="dossier-code-card">
+      <path d="M18 8 H236 V74 H6 V20 Z" fill="#151923" opacity="0.3" transform="translate(3 3)"/>
+      <path d="M16 4 H234 Q236 4 236 6 V70 Q236 72 234 72 H6 Q4 72 4 70 V16 Z" fill="#F4EBDD" stroke="#151923" stroke-width="2.6" stroke-linejoin="round"/>
+      <g fill="#10141C">
+        <rect x="24" y="9" width="4" height="7" rx="1"/><rect x="34" y="9" width="4" height="7" rx="1"/><rect x="44" y="9" width="4" height="7" rx="1"/>
+        <rect x="88" y="9" width="4" height="7" rx="1"/><rect x="98" y="9" width="4" height="7" rx="1"/>
+        <rect x="140" y="9" width="4" height="7" rx="1"/><rect x="150" y="9" width="4" height="7" rx="1"/><rect x="160" y="9" width="4" height="7" rx="1"/>
+        <rect x="204" y="9" width="4" height="7" rx="1"/><rect x="214" y="9" width="4" height="7" rx="1"/>
+      </g>
+      <g fill="#E3D6C2" stroke="#151923" stroke-width="2">
+        <circle cx="38" cy="44" r="20"/><circle cx="92" cy="44" r="20"/><circle cx="148" cy="44" r="20"/><circle cx="202" cy="44" r="20"/>
+      </g>
+      <g fill="none" stroke="#CBBBA2" stroke-width="1.6" stroke-dasharray="3 3">
+        <circle cx="38" cy="44" r="14"/><circle cx="92" cy="44" r="14"/><circle cx="148" cy="44" r="14"/><circle cx="202" cy="44" r="14"/>
+      </g>
+      <path d="M196 6 H234 V70 H180 Q206 40 196 6 Z" fill="url(#intel-ink-dots)" opacity="0.16"/>
+    </g>
+  </g>
+</svg>

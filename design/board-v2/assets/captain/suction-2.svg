@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  mothership:dev-only · board-v2 Captain proposal board-v2-captain-0.1.0 · suction, frame 2 · generated, do not edit by hand
+  Paper streaks over the Jail, converging on the hatch: the air rushing out. Over the Jail's art at its scene frame.
+  Built by design/tools/board-v2-assets.mjs from design/board-v2/fx/captain.mjs. Public: the same on every phone and the display (the plates: the Captain's own controls); it reads no role, side, faction or cause. Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 768" width="1024" height="768"><g data-layer="fx-suction-2"><g fill="#F4EBDD" opacity="0.85"><path d="M803.05 596.56 L521.28 399.88 L800.15 600.64 Z"/><path d="M834.97 427.67 L515.04 313.84 L832.55 434.25 Z"/><path d="M655.31 609.57 L421.2 374.2 L651.73 613.07 Z"/><path d="M588.43 650.54 L420.48 425.08 L582.77 654.66 Z"/><path d="M800.45 285.68 L500.64 252.64 L799.87 290.64 Z"/><path d="M608.71 452.44 L403.2 314.2 L604.73 458.2 Z"/><path d="M497.71 570.26 L378.48 387.28 L493.49 572.94 Z"/><path d="M366.78 614.99 L313.44 393.04 L359.94 616.53 Z"/><path d="M700.2 203.22 L439.2 218.2 L700.44 208.22 Z"/><path d="M569.4 397.6 L412.08 307.48 L565.8 403.6 Z"/><path d="M432.56 429.45 L342.24 313.84 L428.56 432.47 Z"/><path d="M298.21 517.5 L283.2 338.2 L291.23 517.94 Z"/><path d="M910.77 560.39 L571.68 383.08 L908.43 564.81 Z"/><path d="M649.76 309.95 L435.84 263.44 L648.16 316.77 Z"/></g></g></svg>

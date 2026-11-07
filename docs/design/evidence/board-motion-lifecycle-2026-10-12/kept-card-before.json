@@ -1,0 +1,29 @@
+{
+  "paused": "true",
+  "inspect": "",
+  "moving": [
+    {
+      "kind": "CSSTransition",
+      "id": "",
+      "target": "ab-photo",
+      "property": "transform",
+      "keyframes": [
+        {
+          "offset": 0,
+          "easing": "linear",
+          "composite": "auto",
+          "transform": "translateX(0px) translateY(0px) scale(1)",
+          "computedOffset": 0
+        },
+        {
+          "offset": 1,
+          "easing": "linear",
+          "composite": "auto",
+          "transform": "none",
+          "computedOffset": 1
+        }
+      ],
+      "time": 33.37000000000001
+    }
+  ]
+}

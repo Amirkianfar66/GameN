@@ -1,5 +1,11 @@
 // Browser mounting for the hosted playtest. No fixture state or operator controls.
+import { openRoomMovement } from './room-movement.mjs';
 import { createComicMotion } from './comic-motion.mjs';
+import { fitBoard } from './board-layout.mjs';
+import { applySceneBoard } from './scene-board.mjs';
+import { createStripCues } from './strip-cues.mjs';
+import { createInsiderFile } from './insider-file.mjs';
+import { createAbilityCues } from './ability-cues.mjs';
 import { parseShellIntent, planRedraw, SHELL_IDS, splitRegions } from '@mothership/presentation';
 
 // A command identifier is random and means nothing. randomUUID needs a secure context,
@@ -71,14 +77,34 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
   const root = document.createElement('div');
   const polite = liveRegion('polite');
   const assertive = liveRegion('assertive');
-  container.replaceChildren(root, polite, assertive);
+  // The layer a moving character is carried in. Outside the redrawn shell, so a redraw never
+  // cuts a flight short, and over every room, so a flight is never clipped by a panel.
+  const fx = document.createElement('div');
+  fx.className = 'phone-fx';
+  fx.setAttribute('aria-hidden', 'true');
+  container.replaceChildren(root, polite, assertive, fx);
 
-  const comicMotion = createComicMotion(root);
+  const comicMotion = createComicMotion(root, { fx });
+  const stripCues = createStripCues(root);
+  const insiderFile = createInsiderFile(root);
+  const abilityCues = createAbilityCues(root);
   let rootAttributes = {};
   let drawn = null;
   let spokenSeq = 0;
   let focusSeq = 0;
   let privacyEpoch = 0;
+  let privateWasOpen = false;
+  let phoneView = 'board';
+  let phoneFocus = null;
+  let phoneNotice = null;
+  // The snapshot inspected in the Insider's file, by seat. Only a deliberate tap sets it; it is
+  // forgotten with the card, with any loss of private content and with a view the server no
+  // longer confirms (the file then stays at rest), and nothing sets it again by itself.
+  let inspect = null;
+  // The player has just pressed Card: a file that appears in the next drawing may assemble.
+  let cardRequested = false;
+  let phoneOpener = '#ms-phone-actions';
+  const inertNodes = new Set();
 
   function applyRootAttributes(next) {
     for (const name of Object.keys(rootAttributes)) if (!(name in next)) root.removeAttribute(name);
@@ -90,9 +116,16 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
 
   function draw() {
     const beforeMotion = comicMotion.before();
+    insiderFile.before();
     const frame = screen.getFrame();
-    const split = splitRegions(render(frame.model));
+    if (frame.model.connection !== 'live' && ['actions', 'role'].includes(phoneView)) phoneView = 'board';
+    if (!frame.model.match?.privateArea?.open && privateWasOpen && ['actions', 'role'].includes(phoneView)) phoneView = 'board';
+    if (frame.model.match?.result && ['actions', 'role'].includes(phoneView)) phoneView = 'board';
+    if (!frame.model.match?.privateArea?.open) phoneNotice = null;
+    if (phoneView !== 'role' || !frame.model.match?.privateArea?.open || frame.model.connection !== 'live' || frame.privacyEpoch !== privacyEpoch) inspect = null;
+    const split = splitRegions(render(frame.model, { phoneView, phoneNotice, inspect }));
     applyRootAttributes(split.rootAttrs);
+    root.dataset.short = String(window.innerHeight <= 640);
 
     // Only what changed is replaced, so focus and reading position elsewhere survive a
     // countdown tick. The plan says what to redraw and in which order; this host carries it out.
@@ -114,7 +147,30 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
       root.querySelector(selector).outerHTML = step.html;
     }
     drawn = split;
+    const sheet = root.querySelector('.ms-private[data-open="true"]');
+    for (const node of inertNodes) node.inert = false;
+    inertNodes.clear();
+    const compact = root.querySelector('.phone-nav') !== null;
+    if (sheet && !compact) {
+      const phaseBottom = root.querySelector('.ms-phase')?.getBoundingClientRect().bottom ?? 0;
+      sheet.style.setProperty('--phone-sheet-top', `${Math.max(0, phaseBottom) + 8}px`);
+      for (const node of root.querySelectorAll('.ms-main > *, .ms-header, .ms-footer')) {
+        if (node === sheet || node.contains(sheet)) continue;
+        node.inert = true; inertNodes.add(node);
+      }
+    }
+    const opened = Boolean(sheet) && !privateWasOpen;
+    privateWasOpen = Boolean(sheet);
+    // Stations and bands first, so motion measures where every character finally stands.
+    fitBoard(root);
+    applySceneBoard(root, frame.model);
     comicMotion.after(frame.model, beforeMotion);
+    stripCues.after();
+    abilityCues.after(frame.model);
+    insiderFile.after({ requested: cardRequested, reduced: frame.model.motion === 'reduced' || motion.matches,
+      current: frame.model.screen === 'match' && frame.model.connection === 'live' && document.visibilityState === 'visible' && !frame.model.banners.some(banner => banner.kind === 'connection') });
+    cardRequested = false;
+    if (inspect !== null && !root.querySelector('.ab-photo[aria-pressed="true"]')) inspect = null;
     const focusWasReplaced = hadFocus && !root.contains(document.activeElement);
     if (document.title !== frame.model.title) document.title = frame.model.title;
 
@@ -125,6 +181,9 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
       const target = candidates.map(id => document.getElementById(id)).find(element => element !== null) ?? document.getElementById(SHELL_IDS.main);
       target?.focus({ preventScroll: true });
     }
+
+    if (phoneFocus) { root.querySelector(phoneFocus)?.focus({ preventScroll: true }); phoneFocus = null; }
+    else if (opened) root.querySelector('#ms-private-heading')?.focus({ preventScroll: true });
 
     // Private content left the screen: private lines that were spoken leave the document too.
     if (frame.privacyEpoch !== privacyEpoch) {
@@ -142,10 +201,76 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
   // A control says what it is for and, where it stands for one, which seat, action or choice. The shared parser decides
   // whether that is an intent at all; this host assembles none of its own.
   function onClick(event) {
+    const room = event.target instanceof Element ? event.target.closest('button[data-move-room]') : null;
+    if (room && root.contains(room)) {
+      phoneOpener = `#${room.id}`;
+      phoneView = 'actions'; phoneNotice = null;
+      phoneNotice = openRoomMovement(screen, room.dataset.moveRoom);
+      phoneFocus = phoneNotice ? '#ms-private-heading' : null; draw(); return;
+    }
+    // A snapshot in the Insider's file: inspect that player, or put them back. Focus stays on it.
+    const photo = event.target instanceof Element ? event.target.closest('button.ab-photo[data-seat]') : null;
+    if (photo && root.contains(photo)) {
+      insiderFile.finish();
+      const seatId = `seat-${photo.dataset.seat}`;
+      inspect = inspect === seatId ? null : seatId;
+      phoneFocus = `#${CSS.escape(photo.id)}`;
+      draw();
+      // At large text the inspect card follows the snapshots in the card, which scrolls: bring it into
+      // view, its top below the card's sticky heading even when it is taller than the card.
+      const card = inspect ? root.querySelector('.ab-inspect') : null;
+      const sheet = card?.closest('.ms-private');
+      if (card && sheet && getComputedStyle(card).position === 'static') {
+        card.scrollIntoView({ block: 'nearest' });
+        const head = sheet.querySelector('.phone-panel-head');
+        const covered = head ? head.getBoundingClientRect().bottom - card.getBoundingClientRect().top : 0;
+        if (covered > 0) sheet.scrollTop -= covered;
+      }
+      return;
+    }
+    const act = event.target instanceof Element ? event.target.closest('button[data-file-act]') : null;
+    if (act && root.contains(act)) {
+      inspect = null;
+      if (act.dataset.fileAct === 'back') {
+        phoneFocus = `#ab-photo-${CSS.escape(act.dataset.seat)}`;
+        draw();
+        return;
+      }
+      // Show on board: the card closes, and that character is ringed on this phone's own board.
+      insiderFile.spot(`seat-${act.dataset.seat}`);
+      phoneView = 'board'; phoneNotice = null; phoneFocus = '#ms-private-toggle';
+      if (screen.getFrame().model.match?.privateArea?.open) screen.dispatch({ type: 'private/toggle' });
+      else draw();
+      return;
+    }
+    const tab = event.target instanceof Element ? event.target.closest('button[data-phone-view]') : null;
+    if (tab && root.contains(tab)) {
+      if (tab.disabled) return;
+      let view = tab.dataset.phoneView;
+      if (!['board', 'actions', 'role', 'more'].includes(view)) return;
+      if (view === phoneView && view !== 'board') view = 'board';
+      if (view !== 'board') phoneOpener = `#${tab.id}`;
+      cardRequested = view === 'role';
+      phoneView = view; phoneNotice = null;
+      phoneFocus = view === 'more' ? '#phone-menu-heading' : ['actions', 'role'].includes(view) ? '#ms-private-heading' : phoneOpener;
+      const needsPrivate = view === 'actions' || view === 'role';
+      if (needsPrivate !== Boolean(screen.getFrame().model.match?.privateArea?.open)) screen.dispatch({ type: 'private/toggle' });
+      else draw();
+      return;
+    }
     const control = event.target instanceof Element ? event.target.closest('button[data-intent]') : null;
-    if (control === null || !root.contains(control)) return;
+    if (control === null || !root.contains(control) || control.disabled) return;
+    if (control.dataset.intent === 'action/pass') {
+      if (!screen.getFrame().model.match?.passTurn.available) return;
+      phoneView = 'board'; phoneNotice = null;
+      if (screen.getFrame().model.match?.privateArea?.open) screen.dispatch({ type: 'private/toggle' });
+      phoneFocus = '#ms-action-step';
+      screen.dispatch({ type: 'action/pass' });
+      draw();
+      return;
+    }
     const intent = parseShellIntent(control.dataset.intent, { seatId: control.dataset.targetSeat, kind: control.dataset.kind, value: control.dataset.value });
-    if (intent !== null) screen.dispatch(intent);
+    if (intent !== null) { phoneNotice = null; screen.dispatch(intent); }
   }
   function onChange(event) {
     const control = event.target;
@@ -154,15 +279,67 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
     if (intent !== null) screen.dispatch(intent);
   }
   const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const onMotion = () => screen.setDeviceReducedMotion(motion.matches);
+  const onMotion = () => {
+    screen.setDeviceReducedMotion(motion.matches);
+    if (motion.matches) insiderFile.finish(); // Explicit full can emit no frame.
+  };
   const onVisibility = () => screen.setPageVisible(document.visibilityState === 'visible');
+  const onBlur = () => { insiderFile.conceal(); abilityCues.finish(); if (screen.getFrame().model.match?.privateArea?.open) { phoneView = 'board'; screen.dispatch({ type: 'private/toggle' }); } };
+  function onKeyDown(event) {
+    const sheet = root.querySelector('.ms-private[data-open="true"]');
+    // Escape steps back like the strip's own Back control while a choice is being made or
+    // confirmed; with nothing chosen, Back puts the action down and the tray is shown again.
+    const unsent = root.querySelector('.phone-action-dock .phone-strip > .ms-card__state:is([data-step="choosing"], [data-step="confirming"])');
+    if (event.key === 'Escape' && unsent && phoneView === 'actions') {
+      event.preventDefault(); phoneNotice = null;
+      screen.dispatch({ type: 'action/back' });
+      return;
+    }
+    // Escape puts an inspected snapshot back first, and focus returns to it.
+    if (event.key === 'Escape' && inspect !== null) {
+      event.preventDefault(); phoneFocus = `#ab-photo-${CSS.escape(inspect.slice(5))}`; inspect = null;
+      insiderFile.finish();
+      draw();
+      return;
+    }
+    if (event.key === 'Escape' && phoneView !== 'board') {
+      event.preventDefault(); phoneView = 'board'; phoneNotice = null; phoneFocus = phoneOpener;
+      if (screen.getFrame().model.match?.privateArea?.open) screen.dispatch({ type: 'private/toggle' });
+      else draw();
+      return;
+    }
+    if (!sheet) return;
+    if (root.querySelector('.phone-nav') || event.key !== 'Tab') return;
+    const controls = [...sheet.querySelectorAll('button:not([disabled]), input:not([disabled]), summary, [tabindex="0"]')]
+      .filter(node => !node.hidden && node.getClientRects().length > 0);
+    const first = controls[0], last = controls.at(-1);
+    if (!first) return;
+    if (event.shiftKey && (document.activeElement === first || !controls.includes(document.activeElement))) {
+      event.preventDefault(); last.focus();
+    } else if (!event.shiftKey && (document.activeElement === last || !controls.includes(document.activeElement))) {
+      event.preventDefault(); first.focus();
+    }
+  };
+
 
   const stopFrames = screen.subscribe(draw);
   const stopExtra = subscribeExtra(draw);
+  // A rotation, a resized window or a keyboard opening refits the board; nothing else is redrawn.
+  let fittedSize = [root.clientWidth, root.clientHeight];
+  const resized = typeof ResizeObserver === 'function' ? new ResizeObserver(() => {
+    const nextSize = [root.clientWidth, root.clientHeight];
+    if (nextSize.some((size, index) => size !== fittedSize[index])) comicMotion.settle();
+    fittedSize = nextSize;
+    fitBoard(root); applySceneBoard(root, screen.getFrame().model);
+  }) : null;
+  resized?.observe(root);
   root.addEventListener('click', onClick);
   root.addEventListener('change', onChange);
   document.addEventListener('visibilitychange', onVisibility);
+  window.addEventListener('blur', onBlur);
+  root.addEventListener('keydown', onKeyDown);
   motion.addEventListener('change', onMotion);
+  document.addEventListener('mothership:art-ready', draw);
 
   screen.setDeviceReducedMotion(motion.matches);
   screen.start();
@@ -176,11 +353,20 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
     stopFrames();
     stopExtra();
     onDispose();
+    resized?.disconnect();
     comicMotion.dispose();
+    stripCues.dispose();
+    insiderFile.dispose();
+    abilityCues.dispose();
     root.removeEventListener('click', onClick);
     root.removeEventListener('change', onChange);
     document.removeEventListener('visibilitychange', onVisibility);
+    window.removeEventListener('blur', onBlur);
+    root.removeEventListener('keydown', onKeyDown);
+    for (const node of inertNodes) node.inert = false;
+    inertNodes.clear();
     motion.removeEventListener('change', onMotion);
+    document.removeEventListener('mothership:art-ready', draw);
     screen.dispose();
     container.replaceChildren();
   }

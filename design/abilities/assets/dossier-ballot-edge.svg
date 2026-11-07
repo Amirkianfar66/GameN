@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · ability art proposal · dossier-ballot-edge 0.1.0 · generated, do not edit by hand
+  A ballot slip's top edge. The seat's own ballot posted, standing in the box's slot once the server accepts it.
+  Built by design/tools/abilities-assets.mjs from design/abilities/source/ballot.svg (layer dossier-ballot-edge). Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 12" width="18" height="12"><g id="dossier-ballot-edge"><path d="M2 11 V3 Q2 1.5 3.5 1.5 H14.5 Q16 1.5 16 3 V11 Z" fill="#F4EBDD" stroke="#151923" stroke-width="1.8" stroke-linejoin="round"/><circle cx="5.5" cy="4.5" r="0.7" fill="#CBBBA2"/><circle cx="9" cy="4.5" r="0.7" fill="#CBBBA2"/><circle cx="12.5" cy="4.5" r="0.7" fill="#CBBBA2"/><path d="M5 8 H13" fill="none" stroke="#B9C4D3" stroke-width="1.2" stroke-linecap="round"/></g></svg>

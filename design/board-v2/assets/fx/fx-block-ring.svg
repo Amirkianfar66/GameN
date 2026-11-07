@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  mothership:dev-only · board-v2 effects proposal board-v2-blocked-0.1.0 · ring · generated, do not edit by hand
+  The energy ring that absorbs the attack; the film grows and fades it. The same for every defense that blocks an attack.
+  Built by design/tools/board-v2-assets.mjs from design/board-v2/fx/blocked.mjs. Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200"><g data-layer="fx-block-ring"><circle cx="100" cy="100" r="80" fill="none" stroke="#151923" stroke-width="9"/><circle cx="100" cy="100" r="80" fill="none" stroke="#A6E6F0" stroke-width="4.5"/><circle cx="100" cy="100" r="68" fill="none" stroke="#E8FBFF" stroke-width="2" stroke-dasharray="6 7"/></g></svg>

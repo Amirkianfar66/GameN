@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  mothership:dev-only · board-v2 Captain proposal board-v2-captain-0.1.0 · emergency light · generated, do not edit by hand
+  A red wash over a room's art and people, pulsed by the film under 2 Hz between 0.16 and 0.34 opacity, multiplied; never over a caption, a tag or a press area.
+  Built by design/tools/board-v2-assets.mjs from design/board-v2/fx/captain.mjs. Public: the same on every phone and the display (the plates: the Captain's own controls); it reads no role, side, faction or cause. Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" preserveAspectRatio="none"><defs><radialGradient id="emergency" cx="50%" cy="30%" r="80%"><stop offset="0" stop-color="#FF5A3C" stop-opacity="0.55"/><stop offset="0.6" stop-color="#D3271F" stop-opacity="0.8"/><stop offset="1" stop-color="#A3170F"/></radialGradient></defs><g data-layer="fx-emergency"><rect width="100" height="100" fill="url(#emergency)"/></g></svg>

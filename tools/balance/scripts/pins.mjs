@@ -10,6 +10,7 @@ import { ENGINE_COMMIT_BASIS } from '@mothership/balance';
 import { CATALOG_FILES } from '../../../tests/scenarios/v1/catalog.mjs';
 import { GROUPS, V1_OVERLAY_PATH, scenarioFileUrl } from '../../../tests/scenarios/v1/files.mjs';
 import { invocationPath } from './args.mjs';
+import { ADDITIONAL_OWNER_OVERLAYS } from '../../../scripts/test-balance-reports.mjs';
 
 export const root = resolve(dirname(fileURLToPath(import.meta.url)), '../../..');
 export const V1_MANIFEST_PATH = 'rules/in-person-v1-manifest.json';
@@ -68,6 +69,7 @@ export function sourceHashes(engineCheckout = root) {
     sourceManifestSha256: sha256(join(root, 'rules/source-manifest.json')),
     ruleSourceHashes: Object.fromEntries(manifest.sources.map(source => [source.path, sha256(join(root, source.path))])),
     v1OverlaySha256: existsSync(overlay) ? sha256(overlay) : null,
+    additionalOwnerOverlayHashes: Object.fromEntries(Object.keys(ADDITIONAL_OWNER_OVERLAYS).map(path => [path, existsSync(join(engineCheckout, path)) ? sha256(join(engineCheckout, path)) : null])),
     v1ManifestSha256: existsSync(combined) ? sha256(combined) : null,
     scenarioFileHashes: Object.fromEntries(GROUPS.map(group => [CATALOG_FILES[group], sha256(fileURLToPath(scenarioFileUrl(group)))])),
     rulebookSha256: sha256(join(root, 'docs/balance/game-rules.md')),
@@ -101,11 +103,13 @@ export function engineProvenance(engineRoot, stated, tree) {
 }
 
 /**
- * @param {{ engineRoot: string | null, engineCommit: string | null, adapter: { pins: object } | null, runner: string }} run
- *   engineRoot is absolute, or null for the engine of this checkout
+ * @param {{ engineRoot: string | null, engineCommit: string | null, adapter: { pins: object } | null, runner: string, extra?: object }} run
+ *   engineRoot is absolute, or null for the engine of this checkout. `extra` is what a run of
+ *   another suite, or under a ruleset asked for by name, records beside the usual pins; a run
+ *   without it carries exactly the pins it always did.
  * @returns {{ problem: string } | { pins: object }}
  */
-export function buildPins({ engineRoot, engineCommit, adapter, runner }) {
+export function buildPins({ engineRoot, engineCommit, adapter, runner, extra = {} }) {
   const tree = treeState(root);
   const engine = engineProvenance(engineRoot, engineCommit, tree);
   if ('problem' in engine) return { problem: engine.problem };
@@ -126,6 +130,7 @@ export function buildPins({ engineRoot, engineCommit, adapter, runner }) {
       runner,
       node: process.version,
       generatedAt: new Date().toISOString(),
+      ...extra,
     },
   };
 }

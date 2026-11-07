@@ -1,0 +1,346 @@
+[
+  {
+    "name": "320x568-protection-states",
+    "scenario": "protection-states",
+    "size": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": true,
+    "knowledge": [
+      "Protection for Player 2: used up.",
+      "Protection for Player 4: active.",
+      "Ordinary weapons you hold: 1."
+    ],
+    "results": [],
+    "privateWordsOutside": [],
+    "problems": []
+  },
+  {
+    "name": "320x568-cracker-no-rescues",
+    "scenario": "cracker-no-rescues",
+    "size": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": true,
+    "knowledge": [
+      "Ordinary weapons you hold: 0.",
+      "You have no Rescues left."
+    ],
+    "results": [],
+    "privateWordsOutside": [],
+    "problems": []
+  },
+  {
+    "name": "320x568-scan-results",
+    "scenario": "scan-results",
+    "size": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": true,
+    "knowledge": [
+      "The Undercover is Player 5.",
+      "Round 1: you scanned Player 4 and guessed Red. The guess was wrong.",
+      "Round 2: you scanned Player 1 and guessed Blue. The guess was right, and that player is in the Code.",
+      "Ordinary weapons you hold: 0."
+    ],
+    "results": [],
+    "privateWordsOutside": [],
+    "problems": []
+  },
+  {
+    "name": "320x568-alien-code",
+    "scenario": "alien-code",
+    "size": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": true,
+    "knowledge": [
+      "The Code is these four players: Player 1, Player 2, Player 3 (you), Player 4.",
+      "Ordinary weapons you hold: 0."
+    ],
+    "results": [],
+    "privateWordsOutside": [],
+    "problems": []
+  },
+  {
+    "name": "320x568-supplier-results",
+    "scenario": "supplier-results",
+    "size": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": true,
+    "knowledge": [],
+    "results": [
+      "Your Round 3 Supply granted one weapon each to Player 1 and Player 5."
+    ],
+    "privateWordsOutside": [],
+    "problems": []
+  },
+  {
+    "name": "320x568-disable-registered",
+    "scenario": "disable",
+    "size": [
+      320,
+      568
+    ],
+    "strip": {
+      "kind": "disable",
+      "status": "accepted",
+      "text": "DISABLE : Disable at Player 8 registered. This is not a result. Registered actions are resolved at the end of the round."
+    },
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "problems": []
+  },
+  {
+    "name": "320x568-disable-not-accepted",
+    "scenario": "disable",
+    "size": [
+      320,
+      568
+    ],
+    "strip": {
+      "kind": "disable",
+      "status": "not-accepted",
+      "text": "DISABLE : Not accepted. The server did not allow it. You can choose again if the server still offers it."
+    },
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "problems": []
+  },
+  {
+    "name": "320x568-rescue-registered",
+    "scenario": "rescue",
+    "size": [
+      320,
+      568
+    ],
+    "strip": {
+      "kind": "rescue",
+      "status": "accepted",
+      "text": "RESCUE : Rescue of Player 6 registered. This is not a result. Registered actions are resolved at the end of the round."
+    },
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "problems": []
+  },
+  {
+    "name": "320x568-protect-registered",
+    "scenario": "protect",
+    "size": [
+      320,
+      568
+    ],
+    "strip": {
+      "kind": "protect",
+      "status": "accepted",
+      "text": "PROTECTION : Protection for yourself registered. This is not a result. Registered actions are resolved at the end of the round."
+    },
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "problems": []
+  },
+  {
+    "name": "320x568-officer-shot-registered",
+    "scenario": "officer-round-1",
+    "size": [
+      320,
+      568
+    ],
+    "strip": {
+      "kind": "shot",
+      "status": "accepted",
+      "text": "SHOT : Shot at Player 5 registered. This is not a result. Registered shots are resolved at the end of the round."
+    },
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "problems": []
+  },
+  {
+    "name": "390x844-protection-states",
+    "scenario": "protection-states",
+    "size": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": true,
+    "knowledge": [
+      "Protection for Player 2: used up.",
+      "Protection for Player 4: active.",
+      "Ordinary weapons you hold: 1."
+    ],
+    "results": [],
+    "privateWordsOutside": [],
+    "problems": []
+  },
+  {
+    "name": "390x844-cracker-no-rescues",
+    "scenario": "cracker-no-rescues",
+    "size": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": true,
+    "knowledge": [
+      "Ordinary weapons you hold: 0.",
+      "You have no Rescues left."
+    ],
+    "results": [],
+    "privateWordsOutside": [],
+    "problems": []
+  },
+  {
+    "name": "390x844-scan-results",
+    "scenario": "scan-results",
+    "size": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": true,
+    "knowledge": [
+      "The Undercover is Player 5.",
+      "Round 1: you scanned Player 4 and guessed Red. The guess was wrong.",
+      "Round 2: you scanned Player 1 and guessed Blue. The guess was right, and that player is in the Code.",
+      "Ordinary weapons you hold: 0."
+    ],
+    "results": [],
+    "privateWordsOutside": [],
+    "problems": []
+  },
+  {
+    "name": "390x844-alien-code",
+    "scenario": "alien-code",
+    "size": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": true,
+    "knowledge": [
+      "The Code is these four players: Player 1, Player 2, Player 3 (you), Player 4.",
+      "Ordinary weapons you hold: 0."
+    ],
+    "results": [],
+    "privateWordsOutside": [],
+    "problems": []
+  },
+  {
+    "name": "390x844-supplier-results",
+    "scenario": "supplier-results",
+    "size": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": true,
+    "knowledge": [],
+    "results": [
+      "Your Round 3 Supply granted one weapon each to Player 1 and Player 5."
+    ],
+    "privateWordsOutside": [],
+    "problems": []
+  },
+  {
+    "name": "390x844-disable-registered",
+    "scenario": "disable",
+    "size": [
+      390,
+      844
+    ],
+    "strip": {
+      "kind": "disable",
+      "status": "accepted",
+      "text": "DISABLE : Disable at Player 8 registered. This is not a result. Registered actions are resolved at the end of the round."
+    },
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "problems": []
+  },
+  {
+    "name": "390x844-disable-not-accepted",
+    "scenario": "disable",
+    "size": [
+      390,
+      844
+    ],
+    "strip": {
+      "kind": "disable",
+      "status": "not-accepted",
+      "text": "DISABLE : Not accepted. The server did not allow it. You can choose again if the server still offers it."
+    },
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "problems": []
+  },
+  {
+    "name": "390x844-rescue-registered",
+    "scenario": "rescue",
+    "size": [
+      390,
+      844
+    ],
+    "strip": {
+      "kind": "rescue",
+      "status": "accepted",
+      "text": "RESCUE : Rescue of Player 6 registered. This is not a result. Registered actions are resolved at the end of the round."
+    },
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "problems": []
+  },
+  {
+    "name": "390x844-protect-registered",
+    "scenario": "protect",
+    "size": [
+      390,
+      844
+    ],
+    "strip": {
+      "kind": "protect",
+      "status": "accepted",
+      "text": "PROTECTION : Protection for yourself registered. This is not a result. Registered actions are resolved at the end of the round."
+    },
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "problems": []
+  },
+  {
+    "name": "390x844-officer-shot-registered",
+    "scenario": "officer-round-1",
+    "size": [
+      390,
+      844
+    ],
+    "strip": {
+      "kind": "shot",
+      "status": "accepted",
+      "text": "SHOT : Shot at Player 5 registered. This is not a result. Registered shots are resolved at the end of the round."
+    },
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "problems": []
+  }
+]

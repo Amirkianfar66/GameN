@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  mothership:dev-only · board-v2 four-berth proposal board-v2-four-0.1.0 · hospital ward, four berths · berth-four-h2 · generated, do not edit by hand
+  Drawn again in front of its patient (depth 770): the blanket, the rail and the foot of the berth.
+  Built by design/tools/board-v2-assets.mjs from design/board-v2/scenes/hospital-ward-four.mjs and design/source/board/board-hospital.svg (lifted unchanged:
+  hospital-space, hospital-backwall, hospital-shell, hospital-edges), printed in the room's colors by design/source/export-recipes.json#board-hospital. For the successor's four-bed Hospital
+  (the owner's decision of 18 October 2026, issue #155); the roster-sized ward is unchanged. Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 768" width="1024" height="768">
+  <defs>
+    <pattern id="halftone-ink-s-hospital" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <circle cx="4.5" cy="4.5" r="1.5" fill="#151923"/>
+    </pattern>
+    <pattern id="halftone-ink-m-hospital" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <circle cx="4.5" cy="4.5" r="2.5" fill="#151923"/>
+    </pattern>
+    <pattern id="halftone-ink-l-hospital" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <circle cx="4.5" cy="4.5" r="3.5" fill="#151923"/>
+    </pattern>
+    <pattern id="halftone-paper-s-hospital" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <circle cx="4.5" cy="4.5" r="1.5" fill="#F4EBDD"/>
+    </pattern>
+    <pattern id="halftone-paper-m-hospital" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <circle cx="4.5" cy="4.5" r="2.6" fill="#F4EBDD"/>
+    </pattern>
+    <clipPath id="clip-hospital-floor">
+      <polygon points="120,372 904,372 1004,748 20,748"/>
+    </clipPath>
+    <clipPath id="clip-hospital-glass">
+      <path d="M756 122 H858 Q872 122 872 136 V286 Q872 300 858 300 H756 Q742 300 742 286 V136 Q742 122 756 122 Z"/>
+    </clipPath>
+  <pattern id="bm-ht-ink-s" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><circle cx="4.5" cy="4.5" r="1.5" fill="#151923"/></pattern><pattern id="bm-ht-ink-m" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><circle cx="4.5" cy="4.5" r="2.5" fill="#151923"/></pattern><pattern id="bm-ht-ink-l" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><circle cx="4.5" cy="4.5" r="3.5" fill="#151923"/></pattern><pattern id="bm-ht-paper-s" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><circle cx="4.5" cy="4.5" r="1.5" fill="#F4EBDD"/></pattern><pattern id="bm-ht-paper-m" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><circle cx="4.5" cy="4.5" r="2.6" fill="#F4EBDD"/></pattern></defs>
+  <g id="hospital-scene-berth-four-h2"><polygon points="616.4,650 751.6,650 790.6,768 577.4,768" fill="#57BBA8" stroke="#151923" stroke-width="3" stroke-linejoin="round"/><polygon points="702.2,658 751.6,658 790.6,768 710,768" fill="url(#bm-ht-ink-s)"/><rect x="613.8" y="644.8" width="140.4" height="14.3" rx="3" fill="#F4EBDD" stroke="#151923" stroke-width="2.5"/><path d="M606 663 L572.2 760.2 M762 663 L795.8 760.2" fill="none" stroke="#151923" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M606 663 L572.2 760.2 M762 663 L795.8 760.2" fill="none" stroke="#A6DFD0" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></g>
+</svg>

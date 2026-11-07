@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  mothership:dev-only · board-v2 lighting proposal board-v2-lighting-0.1.0 · impact, frame 1 · generated, do not edit by hand
+  The flash: a white-hot disc, the only part bright enough to count as a flash. Centred on a hit position's press point (160 x 160); symmetric, so it points at no one. The same for every cause.
+  Built by design/tools/board-v2-assets.mjs from design/board-v2/scenes/lighting.mjs. Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160"><g data-layer="fx-impact-1"><circle cx="80" cy="80" r="30" fill="#FFF8E4" stroke="#151923" stroke-width="3"/><circle cx="80" cy="80" r="17" fill="#FFFFFF"/><polygon points="95.31,43.04 101.21,58.79 116.96,64.69 110,80 116.96,95.31 101.21,101.21 95.31,116.96 80,110 64.69,116.96 58.79,101.21 43.04,95.31 50,80 43.04,64.69 58.79,58.79 64.69,43.04 80,50" fill="none" stroke="#151923" stroke-width="2" stroke-linejoin="round"/></g></svg>

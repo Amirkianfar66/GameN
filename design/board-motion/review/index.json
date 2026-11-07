@@ -1,0 +1,6250 @@
+{
+  "devOnly": "mothership:dev-only",
+  "tool": "design/tools/board-motion-capture.mjs",
+  "base": "94a49ce0c5220b814ec56333b028fbe6180b257e",
+  "inputsSha256": "46f414795a852e5ec731b25085308f9cfa603b45f702a5f809469096c6dd7c97",
+  "browser": "Chromium 141.0.7390.37",
+  "note": "Desktop Chromium laying out the prototype with this machine’s fonts. Simulated viewports, not device measurements.",
+  "scenarios": [
+    {
+      "id": "board.idle",
+      "group": "Board",
+      "title": "Your turn: the board, nothing open",
+      "key": true
+    },
+    {
+      "id": "board.other-turn",
+      "group": "Board",
+      "title": "Someone else’s turn: Pass is unavailable",
+      "key": false
+    },
+    {
+      "id": "board.seven",
+      "group": "Board",
+      "title": "Seven players",
+      "key": false
+    },
+    {
+      "id": "board.eight",
+      "group": "Board",
+      "title": "Eight players",
+      "key": false
+    },
+    {
+      "id": "board.crowded",
+      "group": "Board",
+      "title": "Layout stress: Seven in Room A, everyone reachable",
+      "key": true
+    },
+    {
+      "id": "board.all-one-room",
+      "group": "Board",
+      "title": "Layout stress: All nine in Room A",
+      "key": false
+    },
+    {
+      "id": "board.crowded-hospital",
+      "group": "Board",
+      "title": "Layout stress: Six in the Hospital",
+      "key": false
+    },
+    {
+      "id": "board.final-zone",
+      "group": "Board",
+      "title": "Final Zone: the showdown",
+      "key": true
+    },
+    {
+      "id": "board.long-names",
+      "group": "Board",
+      "title": "Twelve-character names",
+      "key": false
+    },
+    {
+      "id": "board.tightest",
+      "group": "Board",
+      "title": "Layout stress: The tallest board: six in Room A, the Captain, two in the Hospital",
+      "key": false
+    },
+    {
+      "id": "end.blue",
+      "group": "The end",
+      "title": "Blue wins: the result, the roles and the Code",
+      "key": true
+    },
+    {
+      "id": "end.alien-co",
+      "group": "The end",
+      "title": "Blue wins, and the Alien with Blue",
+      "key": false
+    },
+    {
+      "id": "end.red",
+      "group": "The end",
+      "title": "Red wins",
+      "key": false
+    },
+    {
+      "id": "end.alien",
+      "group": "The end",
+      "title": "The Alien wins",
+      "key": false
+    },
+    {
+      "id": "end.draw",
+      "group": "The end",
+      "title": "A draw after the showdown, in the Final Zone",
+      "key": false
+    },
+    {
+      "id": "end.aborted",
+      "group": "The end",
+      "title": "The host ended the match: no winner, nothing revealed",
+      "key": true
+    },
+    {
+      "id": "tray.open",
+      "group": "Actions tray",
+      "title": "Actions tray: what the view opens, over the board",
+      "key": true
+    },
+    {
+      "id": "tray.empty",
+      "group": "Actions tray",
+      "title": "Actions tray: nothing open",
+      "key": false
+    },
+    {
+      "id": "tray.undercover",
+      "group": "Actions tray",
+      "title": "Actions tray, the Undercover in Round 4: a shot, Protection, a Hack",
+      "key": true
+    },
+    {
+      "id": "tray.cracker",
+      "group": "Actions tray",
+      "title": "Actions tray, the Cracker: a Rescue, a Hack",
+      "key": false
+    },
+    {
+      "id": "tray.disabler",
+      "group": "Actions tray",
+      "title": "Actions tray, a Disabler: the Disable, a Hack",
+      "key": false
+    },
+    {
+      "id": "tray.supplier",
+      "group": "Actions tray",
+      "title": "Actions tray, the Supplier in Round 3: Supply, a Hack",
+      "key": false
+    },
+    {
+      "id": "tray.showdown",
+      "group": "Actions tray",
+      "title": "Actions tray in the Final Zone: the showdown shot",
+      "key": false
+    },
+    {
+      "id": "tray.vote",
+      "group": "Actions tray",
+      "title": "Actions tray in a Jail vote: a ballot",
+      "key": false
+    },
+    {
+      "id": "tray.release",
+      "group": "Actions tray",
+      "title": "Actions tray, the Captain: the release request",
+      "key": false
+    },
+    {
+      "id": "tray.release-vote",
+      "group": "Actions tray",
+      "title": "Actions tray in a release vote: the same ballot",
+      "key": false
+    },
+    {
+      "id": "shot.choose",
+      "group": "One target",
+      "title": "Shot: eligible characters on the board",
+      "key": true
+    },
+    {
+      "id": "shot.confirm",
+      "group": "One target",
+      "title": "Shot: one character chosen, confirm in the strip",
+      "key": true
+    },
+    {
+      "id": "shot.pending",
+      "group": "One target",
+      "title": "Shot: sending",
+      "key": false
+    },
+    {
+      "id": "shot.registered",
+      "group": "One target",
+      "title": "Shot: registered (not a result), the round spent",
+      "key": true
+    },
+    {
+      "id": "shot.officer",
+      "group": "One target",
+      "title": "The Officer's shot in Round 1, its one round",
+      "key": false
+    },
+    {
+      "id": "shot.undercover-confirm",
+      "group": "One target",
+      "title": "The Undercover's shot in Round 4: the same strip",
+      "key": false
+    },
+    {
+      "id": "shot.alien-confirm",
+      "group": "One target",
+      "title": "An Alien's supplied weapon in Round 4: the same strip",
+      "key": false
+    },
+    {
+      "id": "shot.rejected",
+      "group": "One target",
+      "title": "Shot: not accepted",
+      "key": true
+    },
+    {
+      "id": "shot.unknown",
+      "group": "One target",
+      "title": "Shot: result unknown",
+      "key": true
+    },
+    {
+      "id": "disable.choose",
+      "group": "One target",
+      "title": "Disable: eligible characters",
+      "key": false
+    },
+    {
+      "id": "disable.confirm",
+      "group": "One target",
+      "title": "Disable (Blue Disabler): the target in the sparks, the one charge",
+      "key": false
+    },
+    {
+      "id": "disable.registered",
+      "group": "One target",
+      "title": "Disable (Blue Disabler) registered: the charge spent, not a result",
+      "key": false
+    },
+    {
+      "id": "disable.red-confirm",
+      "group": "One target",
+      "title": "Disable (Red Disabler): the same strip as the Blue Disabler's",
+      "key": false
+    },
+    {
+      "id": "disable.red-registered",
+      "group": "One target",
+      "title": "Disable (Red Disabler) registered: the same receipt",
+      "key": false
+    },
+    {
+      "id": "protect.choose",
+      "group": "One target",
+      "title": "Protection: yourself included",
+      "key": true
+    },
+    {
+      "id": "protect.confirm",
+      "group": "One target",
+      "title": "Protection: the target on the shield",
+      "key": false
+    },
+    {
+      "id": "protect.registered",
+      "group": "One target",
+      "title": "Protection registered: not a grant",
+      "key": false
+    },
+    {
+      "id": "rescue.choose",
+      "group": "One target",
+      "title": "Rescue: a character in the Hospital, from Room A",
+      "key": true
+    },
+    {
+      "id": "rescue.self",
+      "group": "One target",
+      "title": "Rescue: yourself, injured",
+      "key": false
+    },
+    {
+      "id": "rescue.confirm",
+      "group": "One target",
+      "title": "Rescue: the target in the medical cross, two Rescues left",
+      "key": false
+    },
+    {
+      "id": "rescue.registered",
+      "group": "One target",
+      "title": "Rescue registered: one vial spent, not a recovery",
+      "key": false
+    },
+    {
+      "id": "rescue.kit",
+      "group": "Private file",
+      "title": "Cracker card: one Rescue left",
+      "key": false
+    },
+    {
+      "id": "hack.choose",
+      "group": "One target",
+      "title": "Hack request: eligible characters",
+      "key": false
+    },
+    {
+      "id": "hack.phase",
+      "group": "One target",
+      "title": "Hack phase: its own full minute",
+      "key": true
+    },
+    {
+      "id": "hack.confirm",
+      "group": "One target",
+      "title": "Hack request: the asked player in the comms ring",
+      "key": false
+    },
+    {
+      "id": "hack.requested",
+      "group": "One target",
+      "title": "Hack request accepted: not the Hack itself",
+      "key": false
+    },
+    {
+      "id": "hack.partner",
+      "group": "One target",
+      "title": "Hack phase on the other partner’s phone: the same note",
+      "key": false
+    },
+    {
+      "id": "showdown.choose",
+      "group": "One target",
+      "title": "Showdown shot in the Final Zone",
+      "key": true
+    },
+    {
+      "id": "showdown.resolved",
+      "group": "One target",
+      "title": "Showdown resolved: the shots landed, before the end",
+      "key": false
+    },
+    {
+      "id": "showdown.confirm",
+      "group": "One target",
+      "title": "Showdown shot: the target in the reticle, the special shot",
+      "key": false
+    },
+    {
+      "id": "showdown.registered",
+      "group": "One target",
+      "title": "Showdown shot registered: spent, the target still secret",
+      "key": true
+    },
+    {
+      "id": "crowd.shot",
+      "group": "Crowded rooms",
+      "title": "Layout stress: All nine in Room A: a Shot at any of eight",
+      "key": false
+    },
+    {
+      "id": "crowd.disable",
+      "group": "Crowded rooms",
+      "title": "Layout stress: All nine in Room A: a Disable at any of eight",
+      "key": false
+    },
+    {
+      "id": "crowd.protect",
+      "group": "Crowded rooms",
+      "title": "Layout stress: All nine in Room A: Protection for any of nine",
+      "key": false
+    },
+    {
+      "id": "crowd.rescue",
+      "group": "Crowded rooms",
+      "title": "Layout stress: Eight in the Hospital: a Rescue for any of them",
+      "key": true
+    },
+    {
+      "id": "crowd.hack",
+      "group": "Crowded rooms",
+      "title": "Layout stress: All nine in Room A: a Hack request with any of eight",
+      "key": false
+    },
+    {
+      "id": "crowd.scan",
+      "group": "Crowded rooms",
+      "title": "Layout stress: All nine in Room A: a Scan of any of nine",
+      "key": false
+    },
+    {
+      "id": "crowd.supply",
+      "group": "Crowded rooms",
+      "title": "Layout stress: All nine in Room A: Supply, one chosen",
+      "key": false
+    },
+    {
+      "id": "crowd.vote",
+      "group": "Crowded rooms",
+      "title": "Layout stress: All nine in Room A: nine candidates, all reachable",
+      "key": true
+    },
+    {
+      "id": "scan.choose",
+      "group": "Several parts",
+      "title": "Scan: choose a character",
+      "key": false
+    },
+    {
+      "id": "scan.faction",
+      "group": "Several parts",
+      "title": "Scan: guess a faction inline",
+      "key": true
+    },
+    {
+      "id": "scan.result",
+      "group": "Several parts",
+      "title": "Scan: accepted; the result is private, in the card",
+      "key": false
+    },
+    {
+      "id": "scan.sending",
+      "group": "Several parts",
+      "title": "Scan: on its way, the scanner sweeping its target",
+      "key": false
+    },
+    {
+      "id": "scan.fresh",
+      "group": "Several parts",
+      "title": "Scan from the board; its result printed once in the Hacker's file",
+      "key": false
+    },
+    {
+      "id": "supply.first",
+      "group": "Several parts",
+      "title": "Supply: choose the first of two",
+      "key": false
+    },
+    {
+      "id": "supply.second",
+      "group": "Several parts",
+      "title": "Supply: one chosen, choose the second",
+      "key": true
+    },
+    {
+      "id": "supply.confirm",
+      "group": "Several parts",
+      "title": "Supply: two chosen, confirm",
+      "key": false
+    },
+    {
+      "id": "supply.registered",
+      "group": "Several parts",
+      "title": "Supply registered: the two tags tied, not a delivery",
+      "key": false
+    },
+    {
+      "id": "supply.ack",
+      "group": "Several parts",
+      "title": "Supply: delivered to both, the Supplier's slip in the card",
+      "key": false
+    },
+    {
+      "id": "supply.ack-one",
+      "group": "Several parts",
+      "title": "Supply: delivered to one of the two",
+      "key": false
+    },
+    {
+      "id": "supply.ack-none",
+      "group": "Several parts",
+      "title": "Supply: no one received a weapon",
+      "key": false
+    },
+    {
+      "id": "supply.self",
+      "group": "Several parts",
+      "title": "Supply to yourself and Player 8: two slips",
+      "key": false
+    },
+    {
+      "id": "supply.received",
+      "group": "Several parts",
+      "title": "A recipient's slip: one weapon received, no Supplier named",
+      "key": false
+    },
+    {
+      "id": "supply.history",
+      "group": "Several parts",
+      "title": "Supply: the result history is unavailable",
+      "key": false
+    },
+    {
+      "id": "file.insider",
+      "group": "Private file",
+      "title": "Insider file: three players, three roles, who is which unknown",
+      "key": false
+    },
+    {
+      "id": "file.hidden",
+      "group": "Private file",
+      "title": "Private file: hidden while the view is out of date",
+      "key": false
+    },
+    {
+      "id": "file.hacker",
+      "group": "Private file",
+      "title": "Hacker file: the known Undercover and two Scan results",
+      "key": false
+    },
+    {
+      "id": "file.hacker-start",
+      "group": "Private file",
+      "title": "Hacker file at the start: the known Undercover, no Scan yet",
+      "key": false
+    },
+    {
+      "id": "file.alien",
+      "group": "Private file",
+      "title": "Alien file: the Code, four players in no order",
+      "key": false
+    },
+    {
+      "id": "guard.card",
+      "group": "Private file",
+      "title": "Undercover card: Protection for Player 5, one weapon",
+      "key": false
+    },
+    {
+      "id": "guard.used",
+      "group": "Private file",
+      "title": "Undercover card: the Protection used up",
+      "key": false
+    },
+    {
+      "id": "guard.self",
+      "group": "Private file",
+      "title": "Undercover card: Protection for yourself, and one used up",
+      "key": false
+    },
+    {
+      "id": "weapons.officer-spent",
+      "group": "Private file",
+      "title": "Officer card after the one shot",
+      "key": false
+    },
+    {
+      "id": "weapons.officer-supplied",
+      "group": "Private file",
+      "title": "Officer card after the one shot, a weapon supplied in Round 3",
+      "key": false
+    },
+    {
+      "id": "alien.weapon",
+      "group": "Private file",
+      "title": "Alien card in Round 4: the Code, a supplied weapon",
+      "key": false
+    },
+    {
+      "id": "code.two",
+      "group": "Several parts",
+      "title": "Code attempt: two of four chosen",
+      "key": true
+    },
+    {
+      "id": "code.four",
+      "group": "Several parts",
+      "title": "Code attempt: four chosen, confirm",
+      "key": false
+    },
+    {
+      "id": "code.registered",
+      "group": "Several parts",
+      "title": "Code attempt: registered (not a result), the card punched",
+      "key": false
+    },
+    {
+      "id": "vote.election",
+      "group": "Ballots",
+      "title": "Captain election: tap a candidate, or abstain",
+      "key": true
+    },
+    {
+      "id": "vote.runoff",
+      "group": "Ballots",
+      "title": "Captain election again, among the tied",
+      "key": false
+    },
+    {
+      "id": "vote.jail",
+      "group": "Ballots",
+      "title": "Jail vote: tap a player, or abstain",
+      "key": false
+    },
+    {
+      "id": "vote.recorded",
+      "group": "Ballots",
+      "title": "Ballot recorded (not a result)",
+      "key": false
+    },
+    {
+      "id": "vote.tally",
+      "group": "Ballots",
+      "title": "The count, published when the vote closes",
+      "key": true
+    },
+    {
+      "id": "release.choice",
+      "group": "Ballots",
+      "title": "Captain’s release request: a jailed character",
+      "key": true
+    },
+    {
+      "id": "release.vote",
+      "group": "Ballots",
+      "title": "Release vote: Yes, No or Abstain inline",
+      "key": true
+    },
+    {
+      "id": "vote.confirm",
+      "group": "Ballots",
+      "title": "Captain election: the ballot for Player 5",
+      "key": false
+    },
+    {
+      "id": "vote.abstain",
+      "group": "Ballots",
+      "title": "Jail vote: an abstention, a blank slip",
+      "key": false
+    },
+    {
+      "id": "vote.abstained",
+      "group": "Ballots",
+      "title": "Abstention recorded: the blank slip posted",
+      "key": false
+    },
+    {
+      "id": "release.confirm",
+      "group": "Ballots",
+      "title": "Captain’s release request: Player 9 in the key ring",
+      "key": false
+    },
+    {
+      "id": "release.requested",
+      "group": "Ballots",
+      "title": "Release request accepted: not the vote",
+      "key": false
+    },
+    {
+      "id": "release.vote-yes",
+      "group": "Ballots",
+      "title": "Release vote: Yes, ticked on Player 9’s slip",
+      "key": false
+    },
+    {
+      "id": "release.vote-no",
+      "group": "Ballots",
+      "title": "Release vote: No, crossed",
+      "key": false
+    },
+    {
+      "id": "release.voted",
+      "group": "Ballots",
+      "title": "Release ballot recorded: posted, not a result",
+      "key": false
+    },
+    {
+      "id": "move.tags",
+      "group": "Movement",
+      "title": "Room name tags are the move controls",
+      "key": false
+    },
+    {
+      "id": "move.confirm",
+      "group": "Movement",
+      "title": "Room B pressed: a tentative place, then confirm",
+      "key": true
+    },
+    {
+      "id": "move.pending",
+      "group": "Movement",
+      "title": "Move: sending",
+      "key": false
+    },
+    {
+      "id": "move.accepted",
+      "group": "Movement",
+      "title": "Move accepted; the piece moves with the public update",
+      "key": true
+    },
+    {
+      "id": "move.refused",
+      "group": "Movement",
+      "title": "A room you cannot move to",
+      "key": false
+    },
+    {
+      "id": "move.full",
+      "group": "Movement",
+      "title": "Room A is full (five, the owner’s capacity): its tag says FULL on every screen, and it is never offered",
+      "key": false
+    },
+    {
+      "id": "pass.confirm",
+      "group": "Pass",
+      "title": "Pass: confirm on the board",
+      "key": true
+    },
+    {
+      "id": "pass.passed",
+      "group": "Pass",
+      "title": "Pass accepted: neutral receipt",
+      "key": true
+    },
+    {
+      "id": "pass.legacy",
+      "group": "Pass",
+      "title": "A match on the legacy rules: no Pass",
+      "key": false
+    },
+    {
+      "id": "public.injured",
+      "group": "Public changes",
+      "title": "A player is now Injured",
+      "key": false
+    },
+    {
+      "id": "public.eliminated",
+      "group": "Public changes",
+      "title": "A player is now Eliminated; the faction the rules reveal",
+      "key": false
+    },
+    {
+      "id": "public.jailed",
+      "group": "Public changes",
+      "title": "A player is now in Jail",
+      "key": false
+    },
+    {
+      "id": "public.captain",
+      "group": "Public changes",
+      "title": "A new Captain",
+      "key": false
+    },
+    {
+      "id": "robust.unreadable",
+      "group": "Robustness",
+      "title": "An update could not be read: actions paused, Reconnect now",
+      "key": false
+    },
+    {
+      "id": "stale.card",
+      "group": "Robustness",
+      "title": "Out of date with the card kept: the Insider file at rest, marked",
+      "key": true
+    },
+    {
+      "id": "stale.card-notes",
+      "group": "Robustness",
+      "title": "Out of date with the card kept: the Undercover’s notes, marked",
+      "key": false
+    },
+    {
+      "id": "robust.stale",
+      "group": "Robustness",
+      "title": "Connection lost: actions paused, private cues gone",
+      "key": true
+    },
+    {
+      "id": "robust.dropped",
+      "group": "Robustness",
+      "title": "Backgrounded while choosing: the choice was not sent",
+      "key": false
+    },
+    {
+      "id": "robust.withdrawn",
+      "group": "Robustness",
+      "title": "A fresh view no longer offers a chosen character",
+      "key": false
+    },
+    {
+      "id": "robust.queued",
+      "group": "Robustness",
+      "title": "One command at a time: an earlier one is still registered",
+      "key": false
+    },
+    {
+      "id": "result.captain",
+      "group": "Vote results",
+      "title": "Captain elected: Player 5, five votes of nine (the count, five seconds)",
+      "key": false
+    },
+    {
+      "id": "result.runoff",
+      "group": "Vote results",
+      "title": "Captain election tied: Players 2 and 7, a runoff next",
+      "key": false
+    },
+    {
+      "id": "result.no-captain",
+      "group": "Vote results",
+      "title": "No Captain: everyone abstained",
+      "key": false
+    },
+    {
+      "id": "result.jailed",
+      "group": "Vote results",
+      "title": "Jail vote: Player 4 sent to Jail, five votes of eight",
+      "key": false
+    },
+    {
+      "id": "result.no-jail-tie",
+      "group": "Vote results",
+      "title": "Jail vote tied: Players 2 and 4, nobody sent to Jail",
+      "key": false
+    },
+    {
+      "id": "result.no-jail",
+      "group": "Vote results",
+      "title": "Jail vote: three votes for Player 4 of nine, nobody sent to Jail",
+      "key": false
+    },
+    {
+      "id": "result.released",
+      "group": "Vote results",
+      "title": "Release vote: Player 9 released, five yes of eight",
+      "key": false
+    },
+    {
+      "id": "result.denied",
+      "group": "Vote results",
+      "title": "Release vote: Player 9 not released, three yes of eight",
+      "key": false
+    },
+    {
+      "id": "result.late",
+      "group": "Vote results",
+      "title": "A screen that joins at 3.2 s (a reconnect): the settled result for the time left, no entrance",
+      "key": false
+    },
+    {
+      "id": "result.long-names",
+      "group": "Vote results",
+      "title": "Tie with long names",
+      "key": false
+    },
+    {
+      "id": "clothes.hospital-five",
+      "group": "Room clothes",
+      "title": "Five in the Hospital in gowns (one Healthy again, still in the gown until the next move)",
+      "key": false
+    },
+    {
+      "id": "clothes.jail-five",
+      "group": "Room clothes",
+      "title": "Five in the Jail in stripes, one of them Injured",
+      "key": false
+    },
+    {
+      "id": "clothes.waiting",
+      "group": "Room clothes",
+      "title": "Released, Injured, still waiting in the Jail (Hospital full): stripes, no Jailed badge",
+      "key": false
+    },
+    {
+      "id": "hack.declare",
+      "group": "Private Hack",
+      "title": "Target: declare a side within 15 s (the same three for every target)",
+      "key": false
+    },
+    {
+      "id": "hack.declare-undercover",
+      "group": "Private Hack",
+      "title": "Target holding the Undercover: the same three, alike",
+      "key": false
+    },
+    {
+      "id": "hack.declare-confirm",
+      "group": "Private Hack",
+      "title": "Target: Red chosen, confirm before it is sent",
+      "key": false
+    },
+    {
+      "id": "hack.declare-sending",
+      "group": "Private Hack",
+      "title": "Target: the declaration on its way (pending)",
+      "key": false
+    },
+    {
+      "id": "hack.declare-not-accepted",
+      "group": "Private Hack",
+      "title": "Target: not accepted, choose again",
+      "key": false
+    },
+    {
+      "id": "hack.declare-unknown",
+      "group": "Private Hack",
+      "title": "Target: sent, no answer yet (the next view decides)",
+      "key": false
+    },
+    {
+      "id": "hack.declare-accepted",
+      "group": "Private Hack",
+      "title": "Target: declared (the receipt, before the claim's view)",
+      "key": false
+    },
+    {
+      "id": "hack.declare-five",
+      "group": "Private Hack",
+      "title": "Target in a room of five",
+      "key": false
+    },
+    {
+      "id": "hack.declare-long-names",
+      "group": "Private Hack",
+      "title": "Target: twelve-character names",
+      "key": false
+    },
+    {
+      "id": "hack.waiting",
+      "group": "Private Hack",
+      "title": "Initiator: waiting for Player 5 to declare",
+      "key": false
+    },
+    {
+      "id": "hack.claim-blue",
+      "group": "Private Hack",
+      "title": "Initiator: Player 5 claims Blue (five seconds)",
+      "key": false
+    },
+    {
+      "id": "hack.claim-red",
+      "group": "Private Hack",
+      "title": "Initiator: Player 5 claims Red",
+      "key": false
+    },
+    {
+      "id": "hack.claim-alien",
+      "group": "Private Hack",
+      "title": "Initiator: Player 5 claims Alien",
+      "key": false
+    },
+    {
+      "id": "hack.claim-none",
+      "group": "Private Hack",
+      "title": "Initiator: no side declared",
+      "key": false
+    },
+    {
+      "id": "hack.claim-late",
+      "group": "Private Hack",
+      "title": "Initiator joins at 3.2 s (a reconnect): the settled claim, no entrance",
+      "key": false
+    },
+    {
+      "id": "hack.own-claim",
+      "group": "Private Hack",
+      "title": "Target: what you declared, shown to Player 5 only",
+      "key": false
+    },
+    {
+      "id": "hack.own-none",
+      "group": "Private Hack",
+      "title": "Target: time ran out, no side declared",
+      "key": false
+    },
+    {
+      "id": "hack.talk",
+      "group": "Private Hack",
+      "title": "Initiator: the full minute's talk, the claim beside it",
+      "key": false
+    },
+    {
+      "id": "hack.talk-target",
+      "group": "Private Hack",
+      "title": "Target: the full minute's talk",
+      "key": false
+    },
+    {
+      "id": "hack.talk-none",
+      "group": "Private Hack",
+      "title": "Initiator: the talk after no declaration",
+      "key": false
+    },
+    {
+      "id": "hack.public",
+      "group": "Private Hack",
+      "title": "Any other phone during the prelude: the phase only, no partner, no claim",
+      "key": false
+    }
+  ],
+  "matrix": [
+    {
+      "id": "w320-idle",
+      "about": "320 x 568: the board, nine players"
+    },
+    {
+      "id": "w320-shot",
+      "about": "320 x 568: a Shot, eligible characters"
+    },
+    {
+      "id": "w320-code",
+      "about": "320 x 568: a Code attempt, two of four"
+    },
+    {
+      "id": "w320-vote",
+      "about": "320 x 568: seven Healthy, unjailed candidates on the board"
+    },
+    {
+      "id": "w320-crowded",
+      "about": "320 x 568: seven in Room A"
+    },
+    {
+      "id": "w320-all",
+      "about": "320 x 568: all nine in Room A"
+    },
+    {
+      "id": "w320-tightest",
+      "about": "320 x 568: the tallest board, with a Shot open"
+    },
+    {
+      "id": "w320-tray",
+      "about": "320 x 568: the actions tray"
+    },
+    {
+      "id": "w320-release",
+      "about": "320 x 568: a release vote"
+    },
+    {
+      "id": "w320-move",
+      "about": "320 x 568: a tentative move"
+    },
+    {
+      "id": "w320-showdown",
+      "about": "320 x 568: the Final Zone"
+    },
+    {
+      "id": "w320-end",
+      "about": "320 x 568: the end: the winner, the roles and the Code"
+    },
+    {
+      "id": "w320-end-co",
+      "about": "320 x 568: the end: Blue wins, and the Alien with Blue"
+    },
+    {
+      "id": "w320-aborted",
+      "about": "320 x 568: the host ended the match: no winner, nothing revealed"
+    },
+    {
+      "id": "w320-stale",
+      "about": "320 x 568: connection lost, the banner with Reconnect now"
+    },
+    {
+      "id": "w320-stale-menu",
+      "about": "320 x 568: connection lost, the menu open below the banner"
+    },
+    {
+      "id": "w320-stale-tray",
+      "about": "320 x 568: connection lost, the actions paused"
+    },
+    {
+      "id": "w320-stale-card",
+      "about": "320 x 568: out of date with the card kept, below the banner, marked"
+    },
+    {
+      "id": "w320-unreadable",
+      "about": "320 x 568: an update could not be read"
+    },
+    {
+      "id": "w320-hospital",
+      "about": "320 x 568: six in the Hospital"
+    },
+    {
+      "id": "w320-crowd-vote",
+      "about": "320 x 568: all nine in Room A, all nine candidates"
+    },
+    {
+      "id": "w320-crowd-shot",
+      "about": "320 x 568: all nine in Room A, a Shot at any of eight"
+    },
+    {
+      "id": "w320-crowd-rescue",
+      "about": "320 x 568: eight in the Hospital, a Rescue for any"
+    },
+    {
+      "id": "w320-crowd-supply",
+      "about": "320 x 568: all nine in Room A, a Supply under way"
+    },
+    {
+      "id": "w360-idle",
+      "about": "360 x 740: the board"
+    },
+    {
+      "id": "w360-shot",
+      "about": "360 x 740: a Shot"
+    },
+    {
+      "id": "w360-crowded",
+      "about": "360 x 740: seven in Room A"
+    },
+    {
+      "id": "w360-crowd-vote",
+      "about": "360 x 740: all nine candidates in Room A"
+    },
+    {
+      "id": "w430-crowd-vote",
+      "about": "430 x 932: all nine candidates in Room A"
+    },
+    {
+      "id": "text200-crowd",
+      "about": "200% text: all nine candidates in Room A"
+    },
+    {
+      "id": "w430-idle",
+      "about": "430 x 932: the board"
+    },
+    {
+      "id": "w430-code",
+      "about": "430 x 932: a Code attempt, confirm"
+    },
+    {
+      "id": "w390-crowded",
+      "about": "390 x 844: all nine in Room A"
+    },
+    {
+      "id": "w390-seven",
+      "about": "390 x 844: seven players"
+    },
+    {
+      "id": "w390-eight",
+      "about": "390 x 844: eight players"
+    },
+    {
+      "id": "long-names",
+      "about": "Twelve-character names"
+    },
+    {
+      "id": "long-names-vote",
+      "about": "Twelve-character names, seven eligible candidates"
+    },
+    {
+      "id": "long-names-320",
+      "about": "320 x 568, twelve-character names"
+    },
+    {
+      "id": "text150-shot",
+      "about": "150% text (default font 24 px): a Shot"
+    },
+    {
+      "id": "text200-idle",
+      "about": "200% text (default font 32 px): the board"
+    },
+    {
+      "id": "text200-shot",
+      "about": "200% text: a Shot"
+    },
+    {
+      "id": "text200-release",
+      "about": "200% text: a release vote"
+    },
+    {
+      "id": "text200-320",
+      "about": "320 x 568 at 200% text: a Shot"
+    },
+    {
+      "id": "text200-end",
+      "about": "200% text: the end, the roles and the Code in one column"
+    },
+    {
+      "id": "text200-stale-card",
+      "about": "200% text: the card kept below the banner, marked"
+    },
+    {
+      "id": "reduced-end",
+      "about": "Reduced motion: the match ends, the result sheet faded in"
+    },
+    {
+      "id": "safe-idle",
+      "about": "Simulated safe areas (47 px top, 34 px bottom): the board"
+    },
+    {
+      "id": "safe-shot",
+      "about": "Simulated safe areas: a Shot"
+    },
+    {
+      "id": "reduced-move",
+      "about": "Reduced motion: a public move, settled with the 80 ms fade"
+    },
+    {
+      "id": "reduced-registered",
+      "about": "Reduced motion: registered"
+    },
+    {
+      "id": "desktop-idle",
+      "about": "Desktop 1280 x 800: the same design, one centered column"
+    },
+    {
+      "id": "desktop-shot",
+      "about": "Desktop 1280 x 800: a Shot"
+    }
+  ],
+  "storyboard": [
+    {
+      "row": "01-cue-tray-open",
+      "cue": "cue-tray-open",
+      "title": "The actions tray rises over the board",
+      "scenario": "board.idle",
+      "frames": [
+        0,
+        110,
+        220
+      ],
+      "play": "tray",
+      "token": "motionMs.cardTransition 220 ms",
+      "audience": "local",
+      "trigger": "Actions pressed.",
+      "proposal": true
+    },
+    {
+      "row": "02-cue-strip-enter",
+      "cue": "cue-strip-enter",
+      "title": "Shot chosen: the strip rises above navigation",
+      "scenario": "board.idle",
+      "frames": [
+        0,
+        110,
+        220
+      ],
+      "play": "strip",
+      "crop": ".bm-app",
+      "token": "motionMs.cardTransition 220 ms",
+      "audience": "local",
+      "trigger": "An action is chosen in the tray.",
+      "proposal": true
+    },
+    {
+      "row": "03-cue-target-eligible",
+      "cue": "cue-target-eligible",
+      "title": "Eligible characters for a Shot",
+      "scenario": "shot.choose",
+      "frames": [
+        0
+      ],
+      "crop": ".bm-board",
+      "token": "state, no motion",
+      "audience": "local (own open action)",
+      "trigger": "Shot chosen in the tray.",
+      "proposal": true
+    },
+    {
+      "row": "04-cue-selection",
+      "cue": "cue-selection",
+      "title": "A character is chosen: lift and stamp",
+      "scenario": "shot.choose",
+      "frames": [
+        0,
+        60,
+        120
+      ],
+      "play": "pick",
+      "crop": ".bm-room[data-room=\"room-a\"]",
+      "token": "motionMs.selection 120 ms",
+      "audience": "local",
+      "trigger": "Tap on an eligible character."
+    },
+    {
+      "row": "05-cue-target-pick",
+      "cue": "cue-target-pick",
+      "title": "Supply: the first pick is numbered",
+      "scenario": "supply.first",
+      "frames": [
+        0,
+        60,
+        120
+      ],
+      "play": "pick",
+      "crop": ".bm-room[data-room=\"room-a\"]",
+      "token": "motionMs.registrationStamp 120 ms",
+      "audience": "local",
+      "trigger": "Tap on an eligible character, several to pick.",
+      "proposal": true
+    },
+    {
+      "row": "06-cue-pending",
+      "cue": "cue-pending",
+      "title": "Sending: dotted ring, nothing moves",
+      "scenario": "shot.pending",
+      "frames": [
+        0
+      ],
+      "crop": ".bm-app",
+      "token": "state, no motion",
+      "audience": "local",
+      "trigger": "Confirm pressed.",
+      "proposal": true
+    },
+    {
+      "row": "07-cue-registration",
+      "cue": "cue-registration",
+      "title": "Registered: the same neutral stamp for every action",
+      "scenario": "shot.confirm",
+      "frames": [
+        0,
+        60,
+        120
+      ],
+      "play": "register",
+      "crop": ".bm-strip",
+      "token": "motionMs.registrationStamp 120 ms",
+      "audience": "private (own receipt)",
+      "trigger": "Accepted receipt."
+    },
+    {
+      "row": "08-cue-not-accepted",
+      "cue": "cue-not-accepted",
+      "title": "Not accepted: a short nudge of the strip",
+      "scenario": "shot.confirm",
+      "frames": [
+        0,
+        60,
+        120
+      ],
+      "play": "reject",
+      "crop": ".bm-strip",
+      "token": "motionMs.selection 120 ms",
+      "audience": "private (own receipt)",
+      "trigger": "Rejected receipt.",
+      "proposal": true
+    },
+    {
+      "row": "09-cue-room-press",
+      "cue": "cue-room-press",
+      "title": "A room tag is pressed; a tentative place appears",
+      "scenario": "board.idle",
+      "frames": [
+        0,
+        110,
+        220
+      ],
+      "play": "tag",
+      "also": [
+        "cue-move-tentative"
+      ],
+      "crop": ".bm-room[data-room=\"room-b\"]",
+      "token": "motionMs.selection 120 ms; motionMs.cardTransition 220 ms",
+      "audience": "local",
+      "trigger": "Room B tag pressed.",
+      "proposal": true
+    },
+    {
+      "row": "10-cue-public-move",
+      "cue": "cue-public-move",
+      "title": "A public move: up from B2, the walk to Room A, settled at A2",
+      "scenario": "board.idle",
+      "frames": [
+        0,
+        60,
+        120,
+        345,
+        570,
+        735,
+        900
+      ],
+      "play": "move",
+      "crop": ".bm-board",
+      "token": "motionMs.pieceMove 900 ms (120 / 450 / 330)",
+      "audience": "public: every screen",
+      "trigger": "A view that shows Player 2 in Room A."
+    },
+    {
+      "row": "11-cue-public-move",
+      "cue": "cue-public-move",
+      "title": "Your own move, when the public update arrives",
+      "scenario": "board.idle",
+      "frames": [
+        0,
+        300,
+        600,
+        900
+      ],
+      "play": "self",
+      "crop": ".bm-board",
+      "token": "motionMs.pieceMove 900 ms",
+      "audience": "public: every screen",
+      "trigger": "The accepted move, then a view that shows Player 3 in Room B."
+    },
+    {
+      "row": "12-cue-public-hit",
+      "cue": "cue-public-hit",
+      "title": "A hit, Injured where it is: burst and jolt, a flinch, the bandage",
+      "scenario": "board.idle",
+      "frames": [
+        0,
+        40,
+        80,
+        200,
+        320,
+        520,
+        720
+      ],
+      "play": "injure",
+      "crop": ".bm-room[data-room=\"room-a\"]",
+      "token": "motionMs.publicImpact 320 ms, settled by 720 ms (within motionMs.comicBeatMaximum 900 ms)",
+      "audience": "public: every screen",
+      "trigger": "A view that shows Player 5 Injured.",
+      "proposal": true
+    },
+    {
+      "row": "13-cue-public-hit",
+      "cue": "cue-public-hit",
+      "title": "A hit, Eliminated: burst and jolt, the fall into the place's fall",
+      "scenario": "board.idle",
+      "frames": [
+        0,
+        80,
+        240,
+        370,
+        500,
+        700,
+        900
+      ],
+      "play": "eliminate",
+      "crop": ".bm-room[data-room=\"room-b\"]",
+      "token": "motionMs.comicBeatMaximum 900 ms (240 / 260 / 400)",
+      "audience": "public: every screen",
+      "trigger": "A view that shows Player 4 Eliminated.",
+      "proposal": true
+    },
+    {
+      "row": "14-cue-public-move",
+      "cue": "cue-public-move",
+      "title": "Injured, to the Hospital at the end of the round: the limp",
+      "scenario": "board.idle",
+      "frames": [
+        0,
+        60,
+        120,
+        345,
+        570,
+        735,
+        900
+      ],
+      "play": "hospital",
+      "crop": ".bm-board",
+      "token": "motionMs.pieceMove 900 ms (120 / 450 / 330)",
+      "audience": "public: every screen",
+      "trigger": "A view that shows Player 5 Injured, then one that shows Player 5 in the Hospital."
+    },
+    {
+      "row": "15-cue-status-change",
+      "cue": "cue-status-change",
+      "title": "Now Injured: the marker is stamped on",
+      "scenario": "board.idle",
+      "frames": [
+        0,
+        110,
+        220
+      ],
+      "play": "injure",
+      "crop": ".bm-room[data-room=\"room-a\"]",
+      "token": "motionMs.cardTransition 220 ms",
+      "audience": "public: every screen",
+      "trigger": "A view that shows Player 5 Injured."
+    },
+    {
+      "row": "16-cue-status-change",
+      "cue": "cue-status-change",
+      "title": "Now Eliminated: grey, and the faction the rules reveal",
+      "scenario": "board.idle",
+      "frames": [
+        0,
+        110,
+        220
+      ],
+      "play": "eliminate",
+      "crop": ".bm-room[data-room=\"room-b\"]",
+      "token": "motionMs.cardTransition 220 ms",
+      "audience": "public: every screen",
+      "trigger": "A view that shows Player 4 Eliminated."
+    },
+    {
+      "row": "17-cue-status-change",
+      "cue": "cue-status-change",
+      "title": "A new Captain",
+      "scenario": "board.idle",
+      "frames": [
+        0,
+        110,
+        220
+      ],
+      "play": "captain",
+      "crop": ".bm-board",
+      "token": "motionMs.cardTransition 220 ms",
+      "audience": "public: every screen",
+      "trigger": "A view that shows Player 1 as Captain."
+    },
+    {
+      "row": "18-cue-phase-change",
+      "cue": "cue-phase-change",
+      "title": "The next turn: the status words and the turn marker",
+      "scenario": "board.idle",
+      "frames": [
+        0,
+        110,
+        220
+      ],
+      "play": "phase",
+      "also": [
+        "cue-turn-accent"
+      ],
+      "token": "motionMs.cardTransition 220 ms",
+      "audience": "public: every screen",
+      "trigger": "PHASE_CHANGED to the next player."
+    },
+    {
+      "row": "19-cue-round-transition",
+      "cue": "cue-round-transition",
+      "title": "A new round",
+      "scenario": "board.idle",
+      "frames": [
+        0,
+        230,
+        470,
+        700
+      ],
+      "play": "round",
+      "crop": ".bm-status",
+      "token": "motionMs.roundTransition 700 ms",
+      "audience": "public: every screen",
+      "trigger": "PHASE_CHANGED with a higher round."
+    },
+    {
+      "row": "20-cue-end-reveal",
+      "cue": "cue-end-reveal",
+      "title": "The match ends: the result rises, the winner is struck, the roles turn up",
+      "scenario": "showdown.resolved",
+      "frames": [
+        0,
+        120,
+        380,
+        600,
+        900
+      ],
+      "play": "finish",
+      "crop": ".bm-app",
+      "token": "motionMs.comicBeatMaximum 900 ms (240 / 260 / 400)",
+      "audience": "public: every screen",
+      "trigger": "A view whose phase is FINISHED, with the result and the end reveal.",
+      "proposal": true
+    },
+    {
+      "row": "21-cue-end-reveal",
+      "cue": "cue-end-reveal",
+      "title": "The host ends the match: the sheet rises with its sentence, nothing revealed",
+      "scenario": "board.idle",
+      "frames": [
+        0,
+        120,
+        240
+      ],
+      "play": "abort",
+      "crop": ".bm-app",
+      "token": "motionMs.comicBeatMaximum (its 240 ms opening only)",
+      "audience": "public: every screen",
+      "trigger": "A view whose phase is ABORTED.",
+      "proposal": true
+    },
+    {
+      "row": "22-cue-sheet-open",
+      "cue": "cue-sheet-open",
+      "title": "The private card opens over the board",
+      "scenario": "hack.phase",
+      "frames": [
+        0
+      ],
+      "token": "motionMs.cardTransition 220 ms",
+      "audience": "private",
+      "trigger": "Card pressed.",
+      "proposal": true
+    },
+    {
+      "row": "23-cue-tally",
+      "cue": "cue-tally",
+      "title": "The published count of a closed vote",
+      "scenario": "vote.tally",
+      "frames": [
+        0
+      ],
+      "crop": ".bm-board",
+      "token": "motionMs.cardTransition 220 ms",
+      "audience": "public: every screen",
+      "trigger": "The view carries lastTally.",
+      "proposal": true
+    },
+    {
+      "row": "24-cue-ballot-subject",
+      "cue": "cue-ballot-subject",
+      "title": "The subject of a release vote",
+      "scenario": "release.vote",
+      "frames": [
+        0
+      ],
+      "crop": ".bm-board",
+      "token": "state, no motion",
+      "audience": "public: every screen",
+      "trigger": "A release vote opens.",
+      "proposal": true
+    }
+  ],
+  "images": [
+    {
+      "id": "board.idle",
+      "state": "board.idle",
+      "file": "design/board-motion/review/states/board.idle.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "board.other-turn",
+      "state": "board.other-turn",
+      "file": "design/board-motion/review/states/board.other-turn.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "board.seven",
+      "state": "board.seven",
+      "file": "design/board-motion/review/states/board.seven.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "board.eight",
+      "state": "board.eight",
+      "file": "design/board-motion/review/states/board.eight.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "board.crowded",
+      "state": "board.crowded",
+      "file": "design/board-motion/review/states/board.crowded.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "board.all-one-room",
+      "state": "board.all-one-room",
+      "file": "design/board-motion/review/states/board.all-one-room.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "board.crowded-hospital",
+      "state": "board.crowded-hospital",
+      "file": "design/board-motion/review/states/board.crowded-hospital.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "board.final-zone",
+      "state": "board.final-zone",
+      "file": "design/board-motion/review/states/board.final-zone.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "board.long-names",
+      "state": "board.long-names",
+      "file": "design/board-motion/review/states/board.long-names.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "board.tightest",
+      "state": "board.tightest",
+      "file": "design/board-motion/review/states/board.tightest.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "end.blue",
+      "state": "end.blue",
+      "file": "design/board-motion/review/states/end.blue.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "end.alien-co",
+      "state": "end.alien-co",
+      "file": "design/board-motion/review/states/end.alien-co.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "end.red",
+      "state": "end.red",
+      "file": "design/board-motion/review/states/end.red.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "end.alien",
+      "state": "end.alien",
+      "file": "design/board-motion/review/states/end.alien.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "end.draw",
+      "state": "end.draw",
+      "file": "design/board-motion/review/states/end.draw.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "end.aborted",
+      "state": "end.aborted",
+      "file": "design/board-motion/review/states/end.aborted.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "tray.open",
+      "state": "tray.open",
+      "file": "design/board-motion/review/states/tray.open.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "tray.empty",
+      "state": "tray.empty",
+      "file": "design/board-motion/review/states/tray.empty.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "tray.undercover",
+      "state": "tray.undercover",
+      "file": "design/board-motion/review/states/tray.undercover.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "tray.cracker",
+      "state": "tray.cracker",
+      "file": "design/board-motion/review/states/tray.cracker.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "tray.disabler",
+      "state": "tray.disabler",
+      "file": "design/board-motion/review/states/tray.disabler.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "tray.supplier",
+      "state": "tray.supplier",
+      "file": "design/board-motion/review/states/tray.supplier.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "tray.showdown",
+      "state": "tray.showdown",
+      "file": "design/board-motion/review/states/tray.showdown.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "tray.vote",
+      "state": "tray.vote",
+      "file": "design/board-motion/review/states/tray.vote.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "tray.release",
+      "state": "tray.release",
+      "file": "design/board-motion/review/states/tray.release.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "tray.release-vote",
+      "state": "tray.release-vote",
+      "file": "design/board-motion/review/states/tray.release-vote.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "shot.choose",
+      "state": "shot.choose",
+      "file": "design/board-motion/review/states/shot.choose.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "shot.confirm",
+      "state": "shot.confirm",
+      "file": "design/board-motion/review/states/shot.confirm.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "shot.pending",
+      "state": "shot.pending",
+      "file": "design/board-motion/review/states/shot.pending.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "shot.registered",
+      "state": "shot.registered",
+      "file": "design/board-motion/review/states/shot.registered.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "shot.officer",
+      "state": "shot.officer",
+      "file": "design/board-motion/review/states/shot.officer.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "shot.undercover-confirm",
+      "state": "shot.undercover-confirm",
+      "file": "design/board-motion/review/states/shot.undercover-confirm.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "shot.alien-confirm",
+      "state": "shot.alien-confirm",
+      "file": "design/board-motion/review/states/shot.alien-confirm.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "shot.rejected",
+      "state": "shot.rejected",
+      "file": "design/board-motion/review/states/shot.rejected.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "shot.unknown",
+      "state": "shot.unknown",
+      "file": "design/board-motion/review/states/shot.unknown.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "disable.choose",
+      "state": "disable.choose",
+      "file": "design/board-motion/review/states/disable.choose.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "disable.confirm",
+      "state": "disable.confirm",
+      "file": "design/board-motion/review/states/disable.confirm.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "disable.registered",
+      "state": "disable.registered",
+      "file": "design/board-motion/review/states/disable.registered.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "disable.red-confirm",
+      "state": "disable.red-confirm",
+      "file": "design/board-motion/review/states/disable.red-confirm.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "disable.red-registered",
+      "state": "disable.red-registered",
+      "file": "design/board-motion/review/states/disable.red-registered.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "protect.choose",
+      "state": "protect.choose",
+      "file": "design/board-motion/review/states/protect.choose.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "protect.confirm",
+      "state": "protect.confirm",
+      "file": "design/board-motion/review/states/protect.confirm.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "protect.registered",
+      "state": "protect.registered",
+      "file": "design/board-motion/review/states/protect.registered.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "rescue.choose",
+      "state": "rescue.choose",
+      "file": "design/board-motion/review/states/rescue.choose.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "rescue.self",
+      "state": "rescue.self",
+      "file": "design/board-motion/review/states/rescue.self.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "rescue.confirm",
+      "state": "rescue.confirm",
+      "file": "design/board-motion/review/states/rescue.confirm.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "rescue.registered",
+      "state": "rescue.registered",
+      "file": "design/board-motion/review/states/rescue.registered.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "rescue.kit",
+      "state": "rescue.kit",
+      "file": "design/board-motion/review/states/rescue.kit.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "hack.choose",
+      "state": "hack.choose",
+      "file": "design/board-motion/review/states/hack.choose.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "hack.phase",
+      "state": "hack.phase",
+      "file": "design/board-motion/review/states/hack.phase.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "hack.confirm",
+      "state": "hack.confirm",
+      "file": "design/board-motion/review/states/hack.confirm.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "hack.requested",
+      "state": "hack.requested",
+      "file": "design/board-motion/review/states/hack.requested.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "hack.partner",
+      "state": "hack.partner",
+      "file": "design/board-motion/review/states/hack.partner.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "showdown.choose",
+      "state": "showdown.choose",
+      "file": "design/board-motion/review/states/showdown.choose.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "showdown.resolved",
+      "state": "showdown.resolved",
+      "file": "design/board-motion/review/states/showdown.resolved.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "showdown.confirm",
+      "state": "showdown.confirm",
+      "file": "design/board-motion/review/states/showdown.confirm.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "showdown.registered",
+      "state": "showdown.registered",
+      "file": "design/board-motion/review/states/showdown.registered.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "crowd.shot",
+      "state": "crowd.shot",
+      "file": "design/board-motion/review/states/crowd.shot.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "crowd.disable",
+      "state": "crowd.disable",
+      "file": "design/board-motion/review/states/crowd.disable.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "crowd.protect",
+      "state": "crowd.protect",
+      "file": "design/board-motion/review/states/crowd.protect.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "crowd.rescue",
+      "state": "crowd.rescue",
+      "file": "design/board-motion/review/states/crowd.rescue.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "crowd.hack",
+      "state": "crowd.hack",
+      "file": "design/board-motion/review/states/crowd.hack.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "crowd.scan",
+      "state": "crowd.scan",
+      "file": "design/board-motion/review/states/crowd.scan.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "crowd.supply",
+      "state": "crowd.supply",
+      "file": "design/board-motion/review/states/crowd.supply.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "crowd.vote",
+      "state": "crowd.vote",
+      "file": "design/board-motion/review/states/crowd.vote.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "scan.choose",
+      "state": "scan.choose",
+      "file": "design/board-motion/review/states/scan.choose.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "scan.faction",
+      "state": "scan.faction",
+      "file": "design/board-motion/review/states/scan.faction.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "scan.result",
+      "state": "scan.result",
+      "file": "design/board-motion/review/states/scan.result.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "scan.sending",
+      "state": "scan.sending",
+      "file": "design/board-motion/review/states/scan.sending.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "scan.fresh",
+      "state": "scan.fresh",
+      "file": "design/board-motion/review/states/scan.fresh.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "supply.first",
+      "state": "supply.first",
+      "file": "design/board-motion/review/states/supply.first.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "supply.second",
+      "state": "supply.second",
+      "file": "design/board-motion/review/states/supply.second.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "supply.confirm",
+      "state": "supply.confirm",
+      "file": "design/board-motion/review/states/supply.confirm.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "supply.registered",
+      "state": "supply.registered",
+      "file": "design/board-motion/review/states/supply.registered.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "supply.ack",
+      "state": "supply.ack",
+      "file": "design/board-motion/review/states/supply.ack.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "supply.ack-one",
+      "state": "supply.ack-one",
+      "file": "design/board-motion/review/states/supply.ack-one.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "supply.ack-none",
+      "state": "supply.ack-none",
+      "file": "design/board-motion/review/states/supply.ack-none.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "supply.self",
+      "state": "supply.self",
+      "file": "design/board-motion/review/states/supply.self.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "supply.received",
+      "state": "supply.received",
+      "file": "design/board-motion/review/states/supply.received.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "supply.history",
+      "state": "supply.history",
+      "file": "design/board-motion/review/states/supply.history.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "file.insider",
+      "state": "file.insider",
+      "file": "design/board-motion/review/states/file.insider.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "file.hidden",
+      "state": "file.hidden",
+      "file": "design/board-motion/review/states/file.hidden.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "file.hacker",
+      "state": "file.hacker",
+      "file": "design/board-motion/review/states/file.hacker.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "file.hacker-start",
+      "state": "file.hacker-start",
+      "file": "design/board-motion/review/states/file.hacker-start.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "file.alien",
+      "state": "file.alien",
+      "file": "design/board-motion/review/states/file.alien.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "guard.card",
+      "state": "guard.card",
+      "file": "design/board-motion/review/states/guard.card.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "guard.used",
+      "state": "guard.used",
+      "file": "design/board-motion/review/states/guard.used.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "guard.self",
+      "state": "guard.self",
+      "file": "design/board-motion/review/states/guard.self.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "weapons.officer-spent",
+      "state": "weapons.officer-spent",
+      "file": "design/board-motion/review/states/weapons.officer-spent.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "weapons.officer-supplied",
+      "state": "weapons.officer-supplied",
+      "file": "design/board-motion/review/states/weapons.officer-supplied.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "alien.weapon",
+      "state": "alien.weapon",
+      "file": "design/board-motion/review/states/alien.weapon.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "code.two",
+      "state": "code.two",
+      "file": "design/board-motion/review/states/code.two.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "code.four",
+      "state": "code.four",
+      "file": "design/board-motion/review/states/code.four.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "code.registered",
+      "state": "code.registered",
+      "file": "design/board-motion/review/states/code.registered.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "vote.election",
+      "state": "vote.election",
+      "file": "design/board-motion/review/states/vote.election.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "vote.runoff",
+      "state": "vote.runoff",
+      "file": "design/board-motion/review/states/vote.runoff.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "vote.jail",
+      "state": "vote.jail",
+      "file": "design/board-motion/review/states/vote.jail.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "vote.recorded",
+      "state": "vote.recorded",
+      "file": "design/board-motion/review/states/vote.recorded.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "vote.tally",
+      "state": "vote.tally",
+      "file": "design/board-motion/review/states/vote.tally.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "release.choice",
+      "state": "release.choice",
+      "file": "design/board-motion/review/states/release.choice.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "release.vote",
+      "state": "release.vote",
+      "file": "design/board-motion/review/states/release.vote.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "vote.confirm",
+      "state": "vote.confirm",
+      "file": "design/board-motion/review/states/vote.confirm.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "vote.abstain",
+      "state": "vote.abstain",
+      "file": "design/board-motion/review/states/vote.abstain.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "vote.abstained",
+      "state": "vote.abstained",
+      "file": "design/board-motion/review/states/vote.abstained.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "release.confirm",
+      "state": "release.confirm",
+      "file": "design/board-motion/review/states/release.confirm.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "release.requested",
+      "state": "release.requested",
+      "file": "design/board-motion/review/states/release.requested.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "release.vote-yes",
+      "state": "release.vote-yes",
+      "file": "design/board-motion/review/states/release.vote-yes.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "release.vote-no",
+      "state": "release.vote-no",
+      "file": "design/board-motion/review/states/release.vote-no.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "release.voted",
+      "state": "release.voted",
+      "file": "design/board-motion/review/states/release.voted.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "move.tags",
+      "state": "move.tags",
+      "file": "design/board-motion/review/states/move.tags.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "move.confirm",
+      "state": "move.confirm",
+      "file": "design/board-motion/review/states/move.confirm.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "move.pending",
+      "state": "move.pending",
+      "file": "design/board-motion/review/states/move.pending.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "move.accepted",
+      "state": "move.accepted",
+      "file": "design/board-motion/review/states/move.accepted.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "move.refused",
+      "state": "move.refused",
+      "file": "design/board-motion/review/states/move.refused.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "move.full",
+      "state": "move.full",
+      "file": "design/board-motion/review/states/move.full.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "pass.confirm",
+      "state": "pass.confirm",
+      "file": "design/board-motion/review/states/pass.confirm.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "pass.passed",
+      "state": "pass.passed",
+      "file": "design/board-motion/review/states/pass.passed.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "pass.legacy",
+      "state": "pass.legacy",
+      "file": "design/board-motion/review/states/pass.legacy.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "public.injured",
+      "state": "public.injured",
+      "file": "design/board-motion/review/states/public.injured.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "public.eliminated",
+      "state": "public.eliminated",
+      "file": "design/board-motion/review/states/public.eliminated.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "public.jailed",
+      "state": "public.jailed",
+      "file": "design/board-motion/review/states/public.jailed.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "public.captain",
+      "state": "public.captain",
+      "file": "design/board-motion/review/states/public.captain.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "robust.unreadable",
+      "state": "robust.unreadable",
+      "file": "design/board-motion/review/states/robust.unreadable.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "stale.card",
+      "state": "stale.card",
+      "file": "design/board-motion/review/states/stale.card.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "stale.card-notes",
+      "state": "stale.card-notes",
+      "file": "design/board-motion/review/states/stale.card-notes.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "robust.stale",
+      "state": "robust.stale",
+      "file": "design/board-motion/review/states/robust.stale.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "robust.dropped",
+      "state": "robust.dropped",
+      "file": "design/board-motion/review/states/robust.dropped.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "robust.withdrawn",
+      "state": "robust.withdrawn",
+      "file": "design/board-motion/review/states/robust.withdrawn.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "robust.queued",
+      "state": "robust.queued",
+      "file": "design/board-motion/review/states/robust.queued.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "result.captain",
+      "state": "result.captain",
+      "file": "design/board-motion/review/states/result.captain.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "result.runoff",
+      "state": "result.runoff",
+      "file": "design/board-motion/review/states/result.runoff.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "result.no-captain",
+      "state": "result.no-captain",
+      "file": "design/board-motion/review/states/result.no-captain.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "result.jailed",
+      "state": "result.jailed",
+      "file": "design/board-motion/review/states/result.jailed.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "result.no-jail-tie",
+      "state": "result.no-jail-tie",
+      "file": "design/board-motion/review/states/result.no-jail-tie.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "result.no-jail",
+      "state": "result.no-jail",
+      "file": "design/board-motion/review/states/result.no-jail.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "result.released",
+      "state": "result.released",
+      "file": "design/board-motion/review/states/result.released.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "result.denied",
+      "state": "result.denied",
+      "file": "design/board-motion/review/states/result.denied.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "result.late",
+      "state": "result.late",
+      "file": "design/board-motion/review/states/result.late.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "result.long-names",
+      "state": "result.long-names",
+      "file": "design/board-motion/review/states/result.long-names.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "clothes.hospital-five",
+      "state": "clothes.hospital-five",
+      "file": "design/board-motion/review/states/clothes.hospital-five.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "clothes.jail-five",
+      "state": "clothes.jail-five",
+      "file": "design/board-motion/review/states/clothes.jail-five.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "clothes.waiting",
+      "state": "clothes.waiting",
+      "file": "design/board-motion/review/states/clothes.waiting.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "hack.declare",
+      "state": "hack.declare",
+      "file": "design/board-motion/review/states/hack.declare.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "hack.declare-undercover",
+      "state": "hack.declare-undercover",
+      "file": "design/board-motion/review/states/hack.declare-undercover.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "hack.declare-confirm",
+      "state": "hack.declare-confirm",
+      "file": "design/board-motion/review/states/hack.declare-confirm.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "hack.declare-sending",
+      "state": "hack.declare-sending",
+      "file": "design/board-motion/review/states/hack.declare-sending.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "hack.declare-not-accepted",
+      "state": "hack.declare-not-accepted",
+      "file": "design/board-motion/review/states/hack.declare-not-accepted.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "hack.declare-unknown",
+      "state": "hack.declare-unknown",
+      "file": "design/board-motion/review/states/hack.declare-unknown.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "hack.declare-accepted",
+      "state": "hack.declare-accepted",
+      "file": "design/board-motion/review/states/hack.declare-accepted.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "hack.declare-five",
+      "state": "hack.declare-five",
+      "file": "design/board-motion/review/states/hack.declare-five.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "hack.declare-long-names",
+      "state": "hack.declare-long-names",
+      "file": "design/board-motion/review/states/hack.declare-long-names.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "hack.waiting",
+      "state": "hack.waiting",
+      "file": "design/board-motion/review/states/hack.waiting.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "hack.claim-blue",
+      "state": "hack.claim-blue",
+      "file": "design/board-motion/review/states/hack.claim-blue.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "hack.claim-red",
+      "state": "hack.claim-red",
+      "file": "design/board-motion/review/states/hack.claim-red.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "hack.claim-alien",
+      "state": "hack.claim-alien",
+      "file": "design/board-motion/review/states/hack.claim-alien.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "hack.claim-none",
+      "state": "hack.claim-none",
+      "file": "design/board-motion/review/states/hack.claim-none.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "hack.claim-late",
+      "state": "hack.claim-late",
+      "file": "design/board-motion/review/states/hack.claim-late.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "hack.own-claim",
+      "state": "hack.own-claim",
+      "file": "design/board-motion/review/states/hack.own-claim.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "hack.own-none",
+      "state": "hack.own-none",
+      "file": "design/board-motion/review/states/hack.own-none.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "hack.talk",
+      "state": "hack.talk",
+      "file": "design/board-motion/review/states/hack.talk.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "hack.talk-target",
+      "state": "hack.talk-target",
+      "file": "design/board-motion/review/states/hack.talk-target.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "hack.talk-none",
+      "state": "hack.talk-none",
+      "file": "design/board-motion/review/states/hack.talk-none.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "hack.public",
+      "state": "hack.public",
+      "file": "design/board-motion/review/states/hack.public.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "state"
+    },
+    {
+      "id": "w320-idle",
+      "state": "board.idle",
+      "file": "design/board-motion/review/matrix/w320-idle.png",
+      "width": 320,
+      "height": 568,
+      "viewport": "320x568",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w320-shot",
+      "state": "shot.choose",
+      "file": "design/board-motion/review/matrix/w320-shot.png",
+      "width": 320,
+      "height": 568,
+      "viewport": "320x568",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w320-code",
+      "state": "code.two",
+      "file": "design/board-motion/review/matrix/w320-code.png",
+      "width": 320,
+      "height": 568,
+      "viewport": "320x568",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w320-vote",
+      "state": "vote.election",
+      "file": "design/board-motion/review/matrix/w320-vote.png",
+      "width": 320,
+      "height": 568,
+      "viewport": "320x568",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w320-crowded",
+      "state": "board.crowded",
+      "file": "design/board-motion/review/matrix/w320-crowded.png",
+      "width": 320,
+      "height": 568,
+      "viewport": "320x568",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w320-all",
+      "state": "board.all-one-room",
+      "file": "design/board-motion/review/matrix/w320-all.png",
+      "width": 320,
+      "height": 568,
+      "viewport": "320x568",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w320-tightest",
+      "state": "board.tightest",
+      "file": "design/board-motion/review/matrix/w320-tightest.png",
+      "width": 320,
+      "height": 568,
+      "viewport": "320x568",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w320-tray",
+      "state": "tray.open",
+      "file": "design/board-motion/review/matrix/w320-tray.png",
+      "width": 320,
+      "height": 568,
+      "viewport": "320x568",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w320-release",
+      "state": "release.vote",
+      "file": "design/board-motion/review/matrix/w320-release.png",
+      "width": 320,
+      "height": 568,
+      "viewport": "320x568",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w320-move",
+      "state": "move.confirm",
+      "file": "design/board-motion/review/matrix/w320-move.png",
+      "width": 320,
+      "height": 568,
+      "viewport": "320x568",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w320-showdown",
+      "state": "showdown.choose",
+      "file": "design/board-motion/review/matrix/w320-showdown.png",
+      "width": 320,
+      "height": 568,
+      "viewport": "320x568",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w320-end",
+      "state": "end.blue",
+      "file": "design/board-motion/review/matrix/w320-end.png",
+      "width": 320,
+      "height": 568,
+      "viewport": "320x568",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w320-end-co",
+      "state": "end.alien-co",
+      "file": "design/board-motion/review/matrix/w320-end-co.png",
+      "width": 320,
+      "height": 568,
+      "viewport": "320x568",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w320-aborted",
+      "state": "end.aborted",
+      "file": "design/board-motion/review/matrix/w320-aborted.png",
+      "width": 320,
+      "height": 568,
+      "viewport": "320x568",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w320-stale",
+      "state": "robust.stale",
+      "file": "design/board-motion/review/matrix/w320-stale.png",
+      "width": 320,
+      "height": 568,
+      "viewport": "320x568",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w320-stale-menu",
+      "state": "robust.stale",
+      "file": "design/board-motion/review/matrix/w320-stale-menu.png",
+      "width": 320,
+      "height": 568,
+      "viewport": "320x568",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w320-stale-tray",
+      "state": "robust.stale",
+      "file": "design/board-motion/review/matrix/w320-stale-tray.png",
+      "width": 320,
+      "height": 568,
+      "viewport": "320x568",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w320-stale-card",
+      "state": "stale.card",
+      "file": "design/board-motion/review/matrix/w320-stale-card.png",
+      "width": 320,
+      "height": 568,
+      "viewport": "320x568",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w320-unreadable",
+      "state": "robust.unreadable",
+      "file": "design/board-motion/review/matrix/w320-unreadable.png",
+      "width": 320,
+      "height": 568,
+      "viewport": "320x568",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w320-hospital",
+      "state": "board.crowded-hospital",
+      "file": "design/board-motion/review/matrix/w320-hospital.png",
+      "width": 320,
+      "height": 568,
+      "viewport": "320x568",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w320-crowd-vote",
+      "state": "crowd.vote",
+      "file": "design/board-motion/review/matrix/w320-crowd-vote.png",
+      "width": 320,
+      "height": 568,
+      "viewport": "320x568",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w320-crowd-shot",
+      "state": "crowd.shot",
+      "file": "design/board-motion/review/matrix/w320-crowd-shot.png",
+      "width": 320,
+      "height": 568,
+      "viewport": "320x568",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w320-crowd-rescue",
+      "state": "crowd.rescue",
+      "file": "design/board-motion/review/matrix/w320-crowd-rescue.png",
+      "width": 320,
+      "height": 568,
+      "viewport": "320x568",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w320-crowd-supply",
+      "state": "crowd.supply",
+      "file": "design/board-motion/review/matrix/w320-crowd-supply.png",
+      "width": 320,
+      "height": 568,
+      "viewport": "320x568",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w360-idle",
+      "state": "board.idle",
+      "file": "design/board-motion/review/matrix/w360-idle.png",
+      "width": 360,
+      "height": 740,
+      "viewport": "360x740",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w360-shot",
+      "state": "shot.choose",
+      "file": "design/board-motion/review/matrix/w360-shot.png",
+      "width": 360,
+      "height": 740,
+      "viewport": "360x740",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w360-crowded",
+      "state": "board.crowded",
+      "file": "design/board-motion/review/matrix/w360-crowded.png",
+      "width": 360,
+      "height": 740,
+      "viewport": "360x740",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w360-crowd-vote",
+      "state": "crowd.vote",
+      "file": "design/board-motion/review/matrix/w360-crowd-vote.png",
+      "width": 360,
+      "height": 740,
+      "viewport": "360x740",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w430-crowd-vote",
+      "state": "crowd.vote",
+      "file": "design/board-motion/review/matrix/w430-crowd-vote.png",
+      "width": 430,
+      "height": 932,
+      "viewport": "430x932",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "text200-crowd",
+      "state": "crowd.vote",
+      "file": "design/board-motion/review/matrix/text200-crowd.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": 32,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w430-idle",
+      "state": "board.idle",
+      "file": "design/board-motion/review/matrix/w430-idle.png",
+      "width": 430,
+      "height": 932,
+      "viewport": "430x932",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w430-code",
+      "state": "code.four",
+      "file": "design/board-motion/review/matrix/w430-code.png",
+      "width": 430,
+      "height": 932,
+      "viewport": "430x932",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w390-crowded",
+      "state": "board.all-one-room",
+      "file": "design/board-motion/review/matrix/w390-crowded.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w390-seven",
+      "state": "board.seven",
+      "file": "design/board-motion/review/matrix/w390-seven.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "w390-eight",
+      "state": "board.eight",
+      "file": "design/board-motion/review/matrix/w390-eight.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "long-names",
+      "state": "board.long-names",
+      "file": "design/board-motion/review/matrix/long-names.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "long-names-vote",
+      "state": "vote.election",
+      "file": "design/board-motion/review/matrix/long-names-vote.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": "long",
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "long-names-320",
+      "state": "board.long-names",
+      "file": "design/board-motion/review/matrix/long-names-320.png",
+      "width": 320,
+      "height": 568,
+      "viewport": "320x568",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "text150-shot",
+      "state": "shot.choose",
+      "file": "design/board-motion/review/matrix/text150-shot.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": 24,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "text200-idle",
+      "state": "board.idle",
+      "file": "design/board-motion/review/matrix/text200-idle.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": 32,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "text200-shot",
+      "state": "shot.choose",
+      "file": "design/board-motion/review/matrix/text200-shot.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": 32,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "text200-release",
+      "state": "release.vote",
+      "file": "design/board-motion/review/matrix/text200-release.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": 32,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "text200-320",
+      "state": "shot.choose",
+      "file": "design/board-motion/review/matrix/text200-320.png",
+      "width": 320,
+      "height": 568,
+      "viewport": "320x568",
+      "fontPx": 32,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "text200-end",
+      "state": "end.blue",
+      "file": "design/board-motion/review/matrix/text200-end.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": 32,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "text200-stale-card",
+      "state": "stale.card",
+      "file": "design/board-motion/review/matrix/text200-stale-card.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": 32,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "reduced-end",
+      "state": "board.idle",
+      "file": "design/board-motion/review/matrix/reduced-end.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "safe-idle",
+      "state": "board.idle",
+      "file": "design/board-motion/review/matrix/safe-idle.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "safe-shot",
+      "state": "shot.choose",
+      "file": "design/board-motion/review/matrix/safe-shot.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "reduced-move",
+      "state": "board.idle",
+      "file": "design/board-motion/review/matrix/reduced-move.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "reduced-registered",
+      "state": "shot.registered",
+      "file": "design/board-motion/review/matrix/reduced-registered.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "desktop-idle",
+      "state": "board.idle",
+      "file": "design/board-motion/review/matrix/desktop-idle.png",
+      "width": 1280,
+      "height": 800,
+      "viewport": "1280x800",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "desktop-shot",
+      "state": "shot.choose",
+      "file": "design/board-motion/review/matrix/desktop-shot.png",
+      "width": 1280,
+      "height": 800,
+      "viewport": "1280x800",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "matrix",
+      "matrix": true
+    },
+    {
+      "id": "01-cue-tray-open-0",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/01-cue-tray-open-0ms.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "01-cue-tray-open",
+        "cue": "cue-tray-open",
+        "at": 0
+      }
+    },
+    {
+      "id": "01-cue-tray-open-110",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/01-cue-tray-open-110ms.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "01-cue-tray-open",
+        "cue": "cue-tray-open",
+        "at": 110
+      }
+    },
+    {
+      "id": "01-cue-tray-open-220",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/01-cue-tray-open-220ms.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "01-cue-tray-open",
+        "cue": "cue-tray-open",
+        "at": 220
+      }
+    },
+    {
+      "id": "01-cue-tray-open-reduced",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/01-cue-tray-open-reduced.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "kind": "frame",
+      "frame": {
+        "row": "01-cue-tray-open",
+        "cue": "cue-tray-open",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "02-cue-strip-enter-0",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/02-cue-strip-enter-0ms.png",
+      "width": 402,
+      "height": 856,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "02-cue-strip-enter",
+        "cue": "cue-strip-enter",
+        "at": 0
+      }
+    },
+    {
+      "id": "02-cue-strip-enter-110",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/02-cue-strip-enter-110ms.png",
+      "width": 402,
+      "height": 856,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "02-cue-strip-enter",
+        "cue": "cue-strip-enter",
+        "at": 110
+      }
+    },
+    {
+      "id": "02-cue-strip-enter-220",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/02-cue-strip-enter-220ms.png",
+      "width": 402,
+      "height": 856,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "02-cue-strip-enter",
+        "cue": "cue-strip-enter",
+        "at": 220
+      }
+    },
+    {
+      "id": "02-cue-strip-enter-reduced",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/02-cue-strip-enter-reduced.png",
+      "width": 402,
+      "height": 856,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "kind": "frame",
+      "frame": {
+        "row": "02-cue-strip-enter",
+        "cue": "cue-strip-enter",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "03-cue-target-eligible-0",
+      "state": "shot.choose",
+      "file": "design/board-motion/review/motion/03-cue-target-eligible-0ms.png",
+      "width": 402,
+      "height": 670,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "03-cue-target-eligible",
+        "cue": "cue-target-eligible",
+        "at": 0
+      }
+    },
+    {
+      "id": "03-cue-target-eligible-reduced",
+      "state": "shot.choose",
+      "file": "design/board-motion/review/motion/03-cue-target-eligible-reduced.png",
+      "width": 402,
+      "height": 670,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "kind": "frame",
+      "frame": {
+        "row": "03-cue-target-eligible",
+        "cue": "cue-target-eligible",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "04-cue-selection-0",
+      "state": "shot.choose",
+      "file": "design/board-motion/review/motion/04-cue-selection-0ms.png",
+      "width": 192,
+      "height": 235,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "04-cue-selection",
+        "cue": "cue-selection",
+        "at": 0
+      }
+    },
+    {
+      "id": "04-cue-selection-60",
+      "state": "shot.choose",
+      "file": "design/board-motion/review/motion/04-cue-selection-60ms.png",
+      "width": 192,
+      "height": 235,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "04-cue-selection",
+        "cue": "cue-selection",
+        "at": 60
+      }
+    },
+    {
+      "id": "04-cue-selection-120",
+      "state": "shot.choose",
+      "file": "design/board-motion/review/motion/04-cue-selection-120ms.png",
+      "width": 192,
+      "height": 235,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "04-cue-selection",
+        "cue": "cue-selection",
+        "at": 120
+      }
+    },
+    {
+      "id": "04-cue-selection-reduced",
+      "state": "shot.choose",
+      "file": "design/board-motion/review/motion/04-cue-selection-reduced.png",
+      "width": 192,
+      "height": 235,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "kind": "frame",
+      "frame": {
+        "row": "04-cue-selection",
+        "cue": "cue-selection",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "05-cue-target-pick-0",
+      "state": "supply.first",
+      "file": "design/board-motion/review/motion/05-cue-target-pick-0ms.png",
+      "width": 192,
+      "height": 245,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "05-cue-target-pick",
+        "cue": "cue-target-pick",
+        "at": 0
+      }
+    },
+    {
+      "id": "05-cue-target-pick-60",
+      "state": "supply.first",
+      "file": "design/board-motion/review/motion/05-cue-target-pick-60ms.png",
+      "width": 192,
+      "height": 245,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "05-cue-target-pick",
+        "cue": "cue-target-pick",
+        "at": 60
+      }
+    },
+    {
+      "id": "05-cue-target-pick-120",
+      "state": "supply.first",
+      "file": "design/board-motion/review/motion/05-cue-target-pick-120ms.png",
+      "width": 192,
+      "height": 245,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "05-cue-target-pick",
+        "cue": "cue-target-pick",
+        "at": 120
+      }
+    },
+    {
+      "id": "05-cue-target-pick-reduced",
+      "state": "supply.first",
+      "file": "design/board-motion/review/motion/05-cue-target-pick-reduced.png",
+      "width": 192,
+      "height": 245,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "kind": "frame",
+      "frame": {
+        "row": "05-cue-target-pick",
+        "cue": "cue-target-pick",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "06-cue-pending-0",
+      "state": "shot.pending",
+      "file": "design/board-motion/review/motion/06-cue-pending-0ms.png",
+      "width": 402,
+      "height": 856,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "06-cue-pending",
+        "cue": "cue-pending",
+        "at": 0
+      }
+    },
+    {
+      "id": "06-cue-pending-reduced",
+      "state": "shot.pending",
+      "file": "design/board-motion/review/motion/06-cue-pending-reduced.png",
+      "width": 402,
+      "height": 856,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "kind": "frame",
+      "frame": {
+        "row": "06-cue-pending",
+        "cue": "cue-pending",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "07-cue-registration-0",
+      "state": "shot.confirm",
+      "file": "design/board-motion/review/motion/07-cue-registration-0ms.png",
+      "width": 390,
+      "height": 113,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "07-cue-registration",
+        "cue": "cue-registration",
+        "at": 0
+      }
+    },
+    {
+      "id": "07-cue-registration-60",
+      "state": "shot.confirm",
+      "file": "design/board-motion/review/motion/07-cue-registration-60ms.png",
+      "width": 390,
+      "height": 113,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "07-cue-registration",
+        "cue": "cue-registration",
+        "at": 60
+      }
+    },
+    {
+      "id": "07-cue-registration-120",
+      "state": "shot.confirm",
+      "file": "design/board-motion/review/motion/07-cue-registration-120ms.png",
+      "width": 390,
+      "height": 113,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "07-cue-registration",
+        "cue": "cue-registration",
+        "at": 120
+      }
+    },
+    {
+      "id": "07-cue-registration-reduced",
+      "state": "shot.confirm",
+      "file": "design/board-motion/review/motion/07-cue-registration-reduced.png",
+      "width": 390,
+      "height": 113,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "kind": "frame",
+      "frame": {
+        "row": "07-cue-registration",
+        "cue": "cue-registration",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "08-cue-not-accepted-0",
+      "state": "shot.confirm",
+      "file": "design/board-motion/review/motion/08-cue-not-accepted-0ms.png",
+      "width": 390,
+      "height": 98,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "08-cue-not-accepted",
+        "cue": "cue-not-accepted",
+        "at": 0
+      }
+    },
+    {
+      "id": "08-cue-not-accepted-60",
+      "state": "shot.confirm",
+      "file": "design/board-motion/review/motion/08-cue-not-accepted-60ms.png",
+      "width": 390,
+      "height": 98,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "08-cue-not-accepted",
+        "cue": "cue-not-accepted",
+        "at": 60
+      }
+    },
+    {
+      "id": "08-cue-not-accepted-120",
+      "state": "shot.confirm",
+      "file": "design/board-motion/review/motion/08-cue-not-accepted-120ms.png",
+      "width": 390,
+      "height": 98,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "08-cue-not-accepted",
+        "cue": "cue-not-accepted",
+        "at": 120
+      }
+    },
+    {
+      "id": "08-cue-not-accepted-reduced",
+      "state": "shot.confirm",
+      "file": "design/board-motion/review/motion/08-cue-not-accepted-reduced.png",
+      "width": 390,
+      "height": 85,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "kind": "frame",
+      "frame": {
+        "row": "08-cue-not-accepted",
+        "cue": "cue-not-accepted",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "09-cue-room-press-0",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/09-cue-room-press-0ms.png",
+      "width": 192,
+      "height": 241,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "09-cue-room-press",
+        "cue": "cue-room-press",
+        "at": 0
+      }
+    },
+    {
+      "id": "09-cue-room-press-110",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/09-cue-room-press-110ms.png",
+      "width": 192,
+      "height": 241,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "09-cue-room-press",
+        "cue": "cue-room-press",
+        "at": 110
+      }
+    },
+    {
+      "id": "09-cue-room-press-220",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/09-cue-room-press-220ms.png",
+      "width": 192,
+      "height": 241,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "09-cue-room-press",
+        "cue": "cue-room-press",
+        "at": 220
+      }
+    },
+    {
+      "id": "09-cue-room-press-reduced",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/09-cue-room-press-reduced.png",
+      "width": 192,
+      "height": 241,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "kind": "frame",
+      "frame": {
+        "row": "09-cue-room-press",
+        "cue": "cue-room-press",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "10-cue-public-move-0",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/10-cue-public-move-0ms.png",
+      "width": 402,
+      "height": 740,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "10-cue-public-move",
+        "cue": "cue-public-move",
+        "at": 0
+      }
+    },
+    {
+      "id": "10-cue-public-move-60",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/10-cue-public-move-60ms.png",
+      "width": 402,
+      "height": 740,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "10-cue-public-move",
+        "cue": "cue-public-move",
+        "at": 60
+      }
+    },
+    {
+      "id": "10-cue-public-move-120",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/10-cue-public-move-120ms.png",
+      "width": 402,
+      "height": 740,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "10-cue-public-move",
+        "cue": "cue-public-move",
+        "at": 120
+      }
+    },
+    {
+      "id": "10-cue-public-move-345",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/10-cue-public-move-345ms.png",
+      "width": 402,
+      "height": 740,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "10-cue-public-move",
+        "cue": "cue-public-move",
+        "at": 345
+      }
+    },
+    {
+      "id": "10-cue-public-move-570",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/10-cue-public-move-570ms.png",
+      "width": 402,
+      "height": 740,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "10-cue-public-move",
+        "cue": "cue-public-move",
+        "at": 570
+      }
+    },
+    {
+      "id": "10-cue-public-move-735",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/10-cue-public-move-735ms.png",
+      "width": 402,
+      "height": 740,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "10-cue-public-move",
+        "cue": "cue-public-move",
+        "at": 735
+      }
+    },
+    {
+      "id": "10-cue-public-move-900",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/10-cue-public-move-900ms.png",
+      "width": 402,
+      "height": 740,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "10-cue-public-move",
+        "cue": "cue-public-move",
+        "at": 900
+      }
+    },
+    {
+      "id": "10-cue-public-move-reduced",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/10-cue-public-move-reduced.png",
+      "width": 402,
+      "height": 740,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "kind": "frame",
+      "frame": {
+        "row": "10-cue-public-move",
+        "cue": "cue-public-move",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "11-cue-public-move-0",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/11-cue-public-move-0ms.png",
+      "width": 402,
+      "height": 671,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "11-cue-public-move",
+        "cue": "cue-public-move",
+        "at": 0
+      }
+    },
+    {
+      "id": "11-cue-public-move-300",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/11-cue-public-move-300ms.png",
+      "width": 402,
+      "height": 671,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "11-cue-public-move",
+        "cue": "cue-public-move",
+        "at": 300
+      }
+    },
+    {
+      "id": "11-cue-public-move-600",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/11-cue-public-move-600ms.png",
+      "width": 402,
+      "height": 671,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "11-cue-public-move",
+        "cue": "cue-public-move",
+        "at": 600
+      }
+    },
+    {
+      "id": "11-cue-public-move-900",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/11-cue-public-move-900ms.png",
+      "width": 402,
+      "height": 671,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "11-cue-public-move",
+        "cue": "cue-public-move",
+        "at": 900
+      }
+    },
+    {
+      "id": "11-cue-public-move-reduced",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/11-cue-public-move-reduced.png",
+      "width": 402,
+      "height": 671,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "kind": "frame",
+      "frame": {
+        "row": "11-cue-public-move",
+        "cue": "cue-public-move",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "12-cue-public-hit-0",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/12-cue-public-hit-0ms.png",
+      "width": 192,
+      "height": 320,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "12-cue-public-hit",
+        "cue": "cue-public-hit",
+        "at": 0
+      }
+    },
+    {
+      "id": "12-cue-public-hit-40",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/12-cue-public-hit-40ms.png",
+      "width": 192,
+      "height": 320,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "12-cue-public-hit",
+        "cue": "cue-public-hit",
+        "at": 40
+      }
+    },
+    {
+      "id": "12-cue-public-hit-80",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/12-cue-public-hit-80ms.png",
+      "width": 192,
+      "height": 320,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "12-cue-public-hit",
+        "cue": "cue-public-hit",
+        "at": 80
+      }
+    },
+    {
+      "id": "12-cue-public-hit-200",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/12-cue-public-hit-200ms.png",
+      "width": 192,
+      "height": 320,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "12-cue-public-hit",
+        "cue": "cue-public-hit",
+        "at": 200
+      }
+    },
+    {
+      "id": "12-cue-public-hit-320",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/12-cue-public-hit-320ms.png",
+      "width": 192,
+      "height": 320,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "12-cue-public-hit",
+        "cue": "cue-public-hit",
+        "at": 320
+      }
+    },
+    {
+      "id": "12-cue-public-hit-520",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/12-cue-public-hit-520ms.png",
+      "width": 192,
+      "height": 320,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "12-cue-public-hit",
+        "cue": "cue-public-hit",
+        "at": 520
+      }
+    },
+    {
+      "id": "12-cue-public-hit-720",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/12-cue-public-hit-720ms.png",
+      "width": 192,
+      "height": 320,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "12-cue-public-hit",
+        "cue": "cue-public-hit",
+        "at": 720
+      }
+    },
+    {
+      "id": "12-cue-public-hit-reduced",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/12-cue-public-hit-reduced.png",
+      "width": 192,
+      "height": 320,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "kind": "frame",
+      "frame": {
+        "row": "12-cue-public-hit",
+        "cue": "cue-public-hit",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "13-cue-public-hit-0",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/13-cue-public-hit-0ms.png",
+      "width": 192,
+      "height": 320,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "13-cue-public-hit",
+        "cue": "cue-public-hit",
+        "at": 0
+      }
+    },
+    {
+      "id": "13-cue-public-hit-80",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/13-cue-public-hit-80ms.png",
+      "width": 192,
+      "height": 320,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "13-cue-public-hit",
+        "cue": "cue-public-hit",
+        "at": 80
+      }
+    },
+    {
+      "id": "13-cue-public-hit-240",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/13-cue-public-hit-240ms.png",
+      "width": 192,
+      "height": 320,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "13-cue-public-hit",
+        "cue": "cue-public-hit",
+        "at": 240
+      }
+    },
+    {
+      "id": "13-cue-public-hit-370",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/13-cue-public-hit-370ms.png",
+      "width": 192,
+      "height": 320,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "13-cue-public-hit",
+        "cue": "cue-public-hit",
+        "at": 370
+      }
+    },
+    {
+      "id": "13-cue-public-hit-500",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/13-cue-public-hit-500ms.png",
+      "width": 192,
+      "height": 320,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "13-cue-public-hit",
+        "cue": "cue-public-hit",
+        "at": 500
+      }
+    },
+    {
+      "id": "13-cue-public-hit-700",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/13-cue-public-hit-700ms.png",
+      "width": 192,
+      "height": 320,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "13-cue-public-hit",
+        "cue": "cue-public-hit",
+        "at": 700
+      }
+    },
+    {
+      "id": "13-cue-public-hit-900",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/13-cue-public-hit-900ms.png",
+      "width": 192,
+      "height": 320,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "13-cue-public-hit",
+        "cue": "cue-public-hit",
+        "at": 900
+      }
+    },
+    {
+      "id": "13-cue-public-hit-reduced",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/13-cue-public-hit-reduced.png",
+      "width": 192,
+      "height": 320,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "kind": "frame",
+      "frame": {
+        "row": "13-cue-public-hit",
+        "cue": "cue-public-hit",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "14-cue-public-move-0",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/14-cue-public-move-0ms.png",
+      "width": 402,
+      "height": 740,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "14-cue-public-move",
+        "cue": "cue-public-move",
+        "at": 0
+      }
+    },
+    {
+      "id": "14-cue-public-move-60",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/14-cue-public-move-60ms.png",
+      "width": 402,
+      "height": 740,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "14-cue-public-move",
+        "cue": "cue-public-move",
+        "at": 60
+      }
+    },
+    {
+      "id": "14-cue-public-move-120",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/14-cue-public-move-120ms.png",
+      "width": 402,
+      "height": 740,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "14-cue-public-move",
+        "cue": "cue-public-move",
+        "at": 120
+      }
+    },
+    {
+      "id": "14-cue-public-move-345",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/14-cue-public-move-345ms.png",
+      "width": 402,
+      "height": 740,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "14-cue-public-move",
+        "cue": "cue-public-move",
+        "at": 345
+      }
+    },
+    {
+      "id": "14-cue-public-move-570",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/14-cue-public-move-570ms.png",
+      "width": 402,
+      "height": 740,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "14-cue-public-move",
+        "cue": "cue-public-move",
+        "at": 570
+      }
+    },
+    {
+      "id": "14-cue-public-move-735",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/14-cue-public-move-735ms.png",
+      "width": 402,
+      "height": 740,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "14-cue-public-move",
+        "cue": "cue-public-move",
+        "at": 735
+      }
+    },
+    {
+      "id": "14-cue-public-move-900",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/14-cue-public-move-900ms.png",
+      "width": 402,
+      "height": 740,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "14-cue-public-move",
+        "cue": "cue-public-move",
+        "at": 900
+      }
+    },
+    {
+      "id": "14-cue-public-move-reduced",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/14-cue-public-move-reduced.png",
+      "width": 402,
+      "height": 740,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "kind": "frame",
+      "frame": {
+        "row": "14-cue-public-move",
+        "cue": "cue-public-move",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "15-cue-status-change-0",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/15-cue-status-change-0ms.png",
+      "width": 192,
+      "height": 320,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "15-cue-status-change",
+        "cue": "cue-status-change",
+        "at": 0
+      }
+    },
+    {
+      "id": "15-cue-status-change-110",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/15-cue-status-change-110ms.png",
+      "width": 192,
+      "height": 320,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "15-cue-status-change",
+        "cue": "cue-status-change",
+        "at": 110
+      }
+    },
+    {
+      "id": "15-cue-status-change-220",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/15-cue-status-change-220ms.png",
+      "width": 192,
+      "height": 320,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "15-cue-status-change",
+        "cue": "cue-status-change",
+        "at": 220
+      }
+    },
+    {
+      "id": "15-cue-status-change-reduced",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/15-cue-status-change-reduced.png",
+      "width": 192,
+      "height": 320,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "kind": "frame",
+      "frame": {
+        "row": "15-cue-status-change",
+        "cue": "cue-status-change",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "16-cue-status-change-0",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/16-cue-status-change-0ms.png",
+      "width": 192,
+      "height": 320,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "16-cue-status-change",
+        "cue": "cue-status-change",
+        "at": 0
+      }
+    },
+    {
+      "id": "16-cue-status-change-110",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/16-cue-status-change-110ms.png",
+      "width": 192,
+      "height": 320,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "16-cue-status-change",
+        "cue": "cue-status-change",
+        "at": 110
+      }
+    },
+    {
+      "id": "16-cue-status-change-220",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/16-cue-status-change-220ms.png",
+      "width": 192,
+      "height": 320,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "16-cue-status-change",
+        "cue": "cue-status-change",
+        "at": 220
+      }
+    },
+    {
+      "id": "16-cue-status-change-reduced",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/16-cue-status-change-reduced.png",
+      "width": 192,
+      "height": 320,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "kind": "frame",
+      "frame": {
+        "row": "16-cue-status-change",
+        "cue": "cue-status-change",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "17-cue-status-change-0",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/17-cue-status-change-0ms.png",
+      "width": 402,
+      "height": 740,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "17-cue-status-change",
+        "cue": "cue-status-change",
+        "at": 0
+      }
+    },
+    {
+      "id": "17-cue-status-change-110",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/17-cue-status-change-110ms.png",
+      "width": 402,
+      "height": 740,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "17-cue-status-change",
+        "cue": "cue-status-change",
+        "at": 110
+      }
+    },
+    {
+      "id": "17-cue-status-change-220",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/17-cue-status-change-220ms.png",
+      "width": 402,
+      "height": 740,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "17-cue-status-change",
+        "cue": "cue-status-change",
+        "at": 220
+      }
+    },
+    {
+      "id": "17-cue-status-change-reduced",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/17-cue-status-change-reduced.png",
+      "width": 402,
+      "height": 740,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "kind": "frame",
+      "frame": {
+        "row": "17-cue-status-change",
+        "cue": "cue-status-change",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "18-cue-phase-change-0",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/18-cue-phase-change-0ms.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "18-cue-phase-change",
+        "cue": "cue-phase-change",
+        "at": 0
+      }
+    },
+    {
+      "id": "18-cue-phase-change-110",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/18-cue-phase-change-110ms.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "18-cue-phase-change",
+        "cue": "cue-phase-change",
+        "at": 110
+      }
+    },
+    {
+      "id": "18-cue-phase-change-220",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/18-cue-phase-change-220ms.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "18-cue-phase-change",
+        "cue": "cue-phase-change",
+        "at": 220
+      }
+    },
+    {
+      "id": "18-cue-phase-change-reduced",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/18-cue-phase-change-reduced.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "kind": "frame",
+      "frame": {
+        "row": "18-cue-phase-change",
+        "cue": "cue-phase-change",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "19-cue-round-transition-0",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/19-cue-round-transition-0ms.png",
+      "width": 402,
+      "height": 64,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "19-cue-round-transition",
+        "cue": "cue-round-transition",
+        "at": 0
+      }
+    },
+    {
+      "id": "19-cue-round-transition-230",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/19-cue-round-transition-230ms.png",
+      "width": 402,
+      "height": 64,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "19-cue-round-transition",
+        "cue": "cue-round-transition",
+        "at": 230
+      }
+    },
+    {
+      "id": "19-cue-round-transition-470",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/19-cue-round-transition-470ms.png",
+      "width": 402,
+      "height": 64,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "19-cue-round-transition",
+        "cue": "cue-round-transition",
+        "at": 470
+      }
+    },
+    {
+      "id": "19-cue-round-transition-700",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/19-cue-round-transition-700ms.png",
+      "width": 402,
+      "height": 64,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "19-cue-round-transition",
+        "cue": "cue-round-transition",
+        "at": 700
+      }
+    },
+    {
+      "id": "19-cue-round-transition-reduced",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/19-cue-round-transition-reduced.png",
+      "width": 402,
+      "height": 64,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "kind": "frame",
+      "frame": {
+        "row": "19-cue-round-transition",
+        "cue": "cue-round-transition",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "20-cue-end-reveal-0",
+      "state": "showdown.resolved",
+      "file": "design/board-motion/review/motion/20-cue-end-reveal-0ms.png",
+      "width": 402,
+      "height": 856,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "20-cue-end-reveal",
+        "cue": "cue-end-reveal",
+        "at": 0
+      }
+    },
+    {
+      "id": "20-cue-end-reveal-120",
+      "state": "showdown.resolved",
+      "file": "design/board-motion/review/motion/20-cue-end-reveal-120ms.png",
+      "width": 402,
+      "height": 856,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "20-cue-end-reveal",
+        "cue": "cue-end-reveal",
+        "at": 120
+      }
+    },
+    {
+      "id": "20-cue-end-reveal-380",
+      "state": "showdown.resolved",
+      "file": "design/board-motion/review/motion/20-cue-end-reveal-380ms.png",
+      "width": 402,
+      "height": 856,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "20-cue-end-reveal",
+        "cue": "cue-end-reveal",
+        "at": 380
+      }
+    },
+    {
+      "id": "20-cue-end-reveal-600",
+      "state": "showdown.resolved",
+      "file": "design/board-motion/review/motion/20-cue-end-reveal-600ms.png",
+      "width": 402,
+      "height": 856,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "20-cue-end-reveal",
+        "cue": "cue-end-reveal",
+        "at": 600
+      }
+    },
+    {
+      "id": "20-cue-end-reveal-900",
+      "state": "showdown.resolved",
+      "file": "design/board-motion/review/motion/20-cue-end-reveal-900ms.png",
+      "width": 402,
+      "height": 856,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "20-cue-end-reveal",
+        "cue": "cue-end-reveal",
+        "at": 900
+      }
+    },
+    {
+      "id": "20-cue-end-reveal-reduced",
+      "state": "showdown.resolved",
+      "file": "design/board-motion/review/motion/20-cue-end-reveal-reduced.png",
+      "width": 402,
+      "height": 856,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "kind": "frame",
+      "frame": {
+        "row": "20-cue-end-reveal",
+        "cue": "cue-end-reveal",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "21-cue-end-reveal-0",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/21-cue-end-reveal-0ms.png",
+      "width": 402,
+      "height": 856,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "21-cue-end-reveal",
+        "cue": "cue-end-reveal",
+        "at": 0
+      }
+    },
+    {
+      "id": "21-cue-end-reveal-120",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/21-cue-end-reveal-120ms.png",
+      "width": 402,
+      "height": 856,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "21-cue-end-reveal",
+        "cue": "cue-end-reveal",
+        "at": 120
+      }
+    },
+    {
+      "id": "21-cue-end-reveal-240",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/21-cue-end-reveal-240ms.png",
+      "width": 402,
+      "height": 856,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "21-cue-end-reveal",
+        "cue": "cue-end-reveal",
+        "at": 240
+      }
+    },
+    {
+      "id": "21-cue-end-reveal-reduced",
+      "state": "board.idle",
+      "file": "design/board-motion/review/motion/21-cue-end-reveal-reduced.png",
+      "width": 402,
+      "height": 856,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "kind": "frame",
+      "frame": {
+        "row": "21-cue-end-reveal",
+        "cue": "cue-end-reveal",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "22-cue-sheet-open-0",
+      "state": "hack.phase",
+      "file": "design/board-motion/review/motion/22-cue-sheet-open-0ms.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "22-cue-sheet-open",
+        "cue": "cue-sheet-open",
+        "at": 0
+      }
+    },
+    {
+      "id": "22-cue-sheet-open-reduced",
+      "state": "hack.phase",
+      "file": "design/board-motion/review/motion/22-cue-sheet-open-reduced.png",
+      "width": 390,
+      "height": 844,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "kind": "frame",
+      "frame": {
+        "row": "22-cue-sheet-open",
+        "cue": "cue-sheet-open",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "23-cue-tally-0",
+      "state": "vote.tally",
+      "file": "design/board-motion/review/motion/23-cue-tally-0ms.png",
+      "width": 402,
+      "height": 740,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "23-cue-tally",
+        "cue": "cue-tally",
+        "at": 0
+      }
+    },
+    {
+      "id": "23-cue-tally-reduced",
+      "state": "vote.tally",
+      "file": "design/board-motion/review/motion/23-cue-tally-reduced.png",
+      "width": 402,
+      "height": 740,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "kind": "frame",
+      "frame": {
+        "row": "23-cue-tally",
+        "cue": "cue-tally",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "24-cue-ballot-subject-0",
+      "state": "release.vote",
+      "file": "design/board-motion/review/motion/24-cue-ballot-subject-0ms.png",
+      "width": 402,
+      "height": 604,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "frame",
+      "frame": {
+        "row": "24-cue-ballot-subject",
+        "cue": "cue-ballot-subject",
+        "at": 0
+      }
+    },
+    {
+      "id": "24-cue-ballot-subject-reduced",
+      "state": "release.vote",
+      "file": "design/board-motion/review/motion/24-cue-ballot-subject-reduced.png",
+      "width": 402,
+      "height": 604,
+      "viewport": "390x844",
+      "fontPx": null,
+      "names": null,
+      "motion": "reduced",
+      "kind": "frame",
+      "frame": {
+        "row": "24-cue-ballot-subject",
+        "cue": "cue-ballot-subject",
+        "at": "reduced"
+      }
+    },
+    {
+      "id": "secrecy-shot.pending",
+      "state": "shot.pending",
+      "file": "design/board-motion/review/secrecy/shot.pending.png",
+      "width": 754,
+      "height": 888,
+      "viewport": "1440x920",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "secrecy",
+      "secrecy": true,
+      "title": "Shot: sending"
+    },
+    {
+      "id": "secrecy-supply.second",
+      "state": "supply.second",
+      "file": "design/board-motion/review/secrecy/supply.second.png",
+      "width": 754,
+      "height": 888,
+      "viewport": "1440x920",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "secrecy",
+      "secrecy": true,
+      "title": "Supply: one chosen, choose the second"
+    },
+    {
+      "id": "secrecy-code.four",
+      "state": "code.four",
+      "file": "design/board-motion/review/secrecy/code.four.png",
+      "width": 754,
+      "height": 888,
+      "viewport": "1440x920",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "secrecy",
+      "secrecy": true,
+      "title": "Code attempt: four chosen, confirm"
+    },
+    {
+      "id": "secrecy-scan.faction",
+      "state": "scan.faction",
+      "file": "design/board-motion/review/secrecy/scan.faction.png",
+      "width": 754,
+      "height": 888,
+      "viewport": "1440x920",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "secrecy",
+      "secrecy": true,
+      "title": "Scan: guess a faction inline"
+    },
+    {
+      "id": "secrecy-protect.choose",
+      "state": "protect.choose",
+      "file": "design/board-motion/review/secrecy/protect.choose.png",
+      "width": 754,
+      "height": 888,
+      "viewport": "1440x920",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "secrecy",
+      "secrecy": true,
+      "title": "Protection: yourself included"
+    },
+    {
+      "id": "secrecy-vote.recorded",
+      "state": "vote.recorded",
+      "file": "design/board-motion/review/secrecy/vote.recorded.png",
+      "width": 754,
+      "height": 888,
+      "viewport": "1440x920",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "secrecy",
+      "secrecy": true,
+      "title": "Ballot recorded (not a result)"
+    },
+    {
+      "id": "secrecy-move.confirm",
+      "state": "move.confirm",
+      "file": "design/board-motion/review/secrecy/move.confirm.png",
+      "width": 754,
+      "height": 888,
+      "viewport": "1440x920",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "secrecy",
+      "secrecy": true,
+      "title": "Room B pressed: a tentative place, then confirm"
+    },
+    {
+      "id": "secrecy-hack.phase",
+      "state": "hack.phase",
+      "file": "design/board-motion/review/secrecy/hack.phase.png",
+      "width": 754,
+      "height": 888,
+      "viewport": "1440x920",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "secrecy",
+      "secrecy": true,
+      "title": "Hack phase: its own full minute"
+    },
+    {
+      "id": "secrecy-showdown.registered",
+      "state": "showdown.registered",
+      "file": "design/board-motion/review/secrecy/showdown.registered.png",
+      "width": 754,
+      "height": 888,
+      "viewport": "1440x920",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "secrecy",
+      "secrecy": true,
+      "title": "Showdown shot registered: spent, the target still secret"
+    },
+    {
+      "id": "secrecy-end.blue",
+      "state": "end.blue",
+      "file": "design/board-motion/review/secrecy/end.blue.png",
+      "width": 754,
+      "height": 888,
+      "viewport": "1440x920",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "secrecy",
+      "secrecy": true,
+      "title": "Blue wins: the result, the roles and the Code"
+    },
+    {
+      "id": "secrecy-stale.card",
+      "state": "stale.card",
+      "file": "design/board-motion/review/secrecy/stale.card.png",
+      "width": 754,
+      "height": 888,
+      "viewport": "1440x920",
+      "fontPx": null,
+      "names": null,
+      "motion": null,
+      "kind": "secrecy",
+      "secrecy": true,
+      "title": "Out of date with the card kept: the Insider file at rest, marked"
+    },
+    {
+      "id": "vocabulary",
+      "state": null,
+      "file": "design/board-motion/review/vocabulary.png",
+      "width": 1420,
+      "height": 1390,
+      "viewport": "1420",
+      "kind": "vocabulary"
+    },
+    {
+      "id": "contact-key",
+      "state": null,
+      "file": "design/board-motion/review/contact-key.png",
+      "width": 1600,
+      "height": 5362,
+      "viewport": "1600",
+      "contact": true
+    },
+    {
+      "id": "contact-all",
+      "state": null,
+      "file": "design/board-motion/review/contact-all.png",
+      "width": 1600,
+      "height": 8697,
+      "viewport": "1600",
+      "contact": true
+    },
+    {
+      "id": "contact-matrix",
+      "state": null,
+      "file": "design/board-motion/review/contact-matrix.png",
+      "width": 1600,
+      "height": 3109,
+      "viewport": "1600",
+      "contact": true
+    },
+    {
+      "id": "contact-motion",
+      "state": null,
+      "file": "design/board-motion/review/contact-motion.png",
+      "width": 1600,
+      "height": 17535,
+      "viewport": "1600",
+      "contact": true
+    },
+    {
+      "id": "contact-secrecy",
+      "state": null,
+      "file": "design/board-motion/review/contact-secrecy.png",
+      "width": 1600,
+      "height": 4215,
+      "viewport": "1600",
+      "contact": true
+    }
+  ]
+}

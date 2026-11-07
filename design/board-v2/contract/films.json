@@ -1,0 +1,830 @@
+{
+  "devOnly": "mothership:dev-only",
+  "version": "board-v2-films-0.2.0",
+  "status": "proposal",
+  "note": "The board-v2 films as data, from design/board-v2/films/. Durations are targets for drawing; the server's deadlines are the only clock. Not a rule and not an adopted contract.",
+  "films": [
+    {
+      "id": "blackout-window",
+      "storyboard": "S1",
+      "status": "proposal",
+      "audience": {
+        "lighting": "public: every phone and the display, every normal round, whether or not anyone asked for a strike",
+        "markers": "public",
+        "line": "public box: the window's line, a second row of the top bar from the window's opening until the lights start back, the same box on every phone and the display. It says \"Remember who is where.\" in the lit preview and \"Wait for the lights.\" in the dark on every screen but the eligible Disabler's, whose line is their own selection (owner-private). The top bar is above the board, so the line covers no position",
+        "selection": "owner-private: the eligible Disabler's own phone, in their bound room only",
+        "outcome": "public: the round's published batch (authorized hits only; a miss shows nothing anywhere)",
+        "blocks": "room-visible: a blocked strike is a miss in public; ATTACK BLOCKED (S4, films/blocked.mjs) plays only for its room's occupants, once the lights are back"
+      },
+      "clock": "Milliseconds from the window's opening: previewEndsAt - 5000. Drawn from the trusted previewEndsAt and endsAt, never from a local start time.",
+      "inputs": [
+        "t (from the trusted deadlines)",
+        "outcomeAt (the round's publication, R)",
+        "hits (slot ids of authorized hits)",
+        "reduced (the device setting)",
+        "windowId (public)"
+      ],
+      "notInputs": [
+        "a request or its absence",
+        "a side (Blue or Red)",
+        "a selection",
+        "a viewer or audience",
+        "a role, a cause or a defense"
+      ],
+      "server": {
+        "previewMs": 5000,
+        "windowMs": 15000,
+        "holdCapMs": 1500
+      },
+      "beats": [
+        {
+          "id": "markers-in",
+          "from": 0,
+          "to": 300,
+          "what": "Numbered position markers fade in at every fixed slot of every room, empty ones included. The top bar shows the window's clock and, in a second row, its line"
+        },
+        {
+          "id": "preview",
+          "from": 300,
+          "to": 4200,
+          "what": "Lights on: figures, name tags and markers"
+        },
+        {
+          "id": "flicker",
+          "from": 4200,
+          "to": 5000,
+          "what": "Inside the lit preview: two dips of every room's light (4300-4420, 4650-4770) and each room's own light sparking at 4700, which light seeded by the window id. People stay on the page throughout"
+        },
+        {
+          "id": "lights-out",
+          "at": 5000,
+          "what": "At previewEndsAt exactly, in both motion modes: every room cuts to its dark drawing; every figure, name tag and name leaves the page and the accessibility tree; markers turn dark; captions to 70%; the top bar's line says the dark's words. The selection opens in the same instant"
+        },
+        {
+          "id": "dark",
+          "from": 5000,
+          "to": 15000,
+          "what": "Static dark, the half-open interval [previewEndsAt, endsAt). The eligible Disabler selects in their bound room"
+        },
+        {
+          "id": "hold",
+          "from": 15000,
+          "to": "R, at most 16500",
+          "what": "Dark until the outcome is published"
+        },
+        {
+          "id": "impact",
+          "from": "R",
+          "to": "R+320",
+          "what": "At each authorized hit: the flash, the star, its rays; the hit room's art shakes 3 px for 160 ms. Nothing at a miss"
+        },
+        {
+          "id": "lights-return",
+          "from": "R+120",
+          "to": "R+520",
+          "what": "Every room comes back together; people in their published state and place: a hit patient in the Hospital, at the slot the authoritative state gives, in the gown. The top bar's clock and line go as the lights start back"
+        },
+        {
+          "id": "settle",
+          "from": "R+520",
+          "to": "R+900",
+          "what": "Markers fade out; the board is normal"
+        }
+      ],
+      "reduced": {
+        "what": "No flicker, sparks, shake or travel. The same cut to the static dark at previewEndsAt, with a still bolt in each caption; 80 ms fades elsewhere: markers in at 0, one fade back at R; a still burst on each hit position for 600 ms",
+        "fadeMs": 80,
+        "burstMs": 600
+      },
+      "flashLimit": {
+        "perSecond": 3,
+        "panelShare": 0.25,
+        "note": "Counted over every second of the film; a flash's area is its bright part (a dip covers the board, which is why there are only two)"
+      },
+      "layers": {
+        "L1": "figures (hidden in the dark, not on the page)",
+        "L3": "each room's dark drawing over its art, clipped to the panel; sparks; impacts; markers",
+        "L5": "the eligible Disabler's chosen marker (private)",
+        "L6": "press areas: never moved, never shaken",
+        "L7": "room captions (70% in the dark)",
+        "L10": "top bar and navigation: never dimmed; the top bar carries the window's clock and line (public box; the eligible Disabler's line private)"
+      }
+    },
+    {
+      "id": "attack-blocked",
+      "storyboard": "S4",
+      "status": "proposal",
+      "audience": {
+        "film": "room-visible: only the occupants the server authorizes at the checkpoint, from the room fact it sends them. Never the display, the host or anyone outside the room: no banner, count or sound",
+        "announcement": "the same recipients, while the label is up: \"Attack blocked on <name>.\" in a polite live region that every screen has and only theirs fills. It names the affected character only"
+      },
+      "clock": "Milliseconds from the room fact's checkpoint. Played live only: never on a reconnect, never for a stale checkpoint.",
+      "inputs": [
+        "t (from the checkpoint)",
+        "reduced (the device setting)",
+        "the target's slot (where to draw it)"
+      ],
+      "notInputs": [
+        "the defense that blocked the attack, or its kind",
+        "the attacker or the kind of attack",
+        "a grantor",
+        "a count of blocks or of uses left",
+        "a direction"
+      ],
+      "sizes": {
+        "shield": "2.1 x the target's press side, centred on its press point",
+        "star": "1.6 x the press side, as a hit's"
+      },
+      "label": "Centred on the press point, 2 px inside the panel and never over the room's caption: above the press area, else below the name tag; the two words stacked where one line is wider than the panel",
+      "beats": [
+        {
+          "id": "incoming",
+          "from": 0,
+          "to": 120,
+          "what": "A source-free comic star at the chest (the press point), as a hit's: no direction or trail"
+        },
+        {
+          "id": "shield",
+          "from": 120,
+          "to": 360,
+          "what": "The hexagonal shield flashes on and blooms from 0.8 to 1.05 of its size; the figure braces (2 px back), its art only"
+        },
+        {
+          "id": "absorb",
+          "from": 360,
+          "to": 620,
+          "what": "The ring expands and fades; eight symmetric particles scatter; the shield is spent"
+        },
+        {
+          "id": "return",
+          "from": 620,
+          "to": 900,
+          "what": "The figure is back in its authoritative pose. An Injured character stays Injured: bandage kept, no healing glow"
+        },
+        {
+          "id": "label",
+          "from": 620,
+          "to": 2420,
+          "what": "ATTACK BLOCKED, caption yellow on ink: held 1600 ms, faded over 200 ms"
+        }
+      ],
+      "reduced": {
+        "what": "A still ring and the label: in over 80 ms, held 1 600 ms, out over 80 ms. No star, bloom, brace or particles",
+        "fadeMs": 80,
+        "holdMs": 1600
+      },
+      "blackout": "In the Blackout a block is a miss on every screen but its room's occupants', whose film starts once the lights are fully back: R + 520 (reduced, R + 80)",
+      "several": "Several blocks at one checkpoint each play on their own target, together",
+      "residue": "Every node the film adds is removed when it ends; nothing is left on the page",
+      "layers": {
+        "L4": "the room-visible effects layer, clipped to the room's panel; mounted only for the authorized recipients",
+        "L1": "the brace moves the target's figure art only",
+        "L6": "press areas never move"
+      }
+    },
+    {
+      "id": "private-capsule",
+      "storyboard": "S2",
+      "status": "proposal",
+      "audience": {
+        "film": "public: every phone and the shared display, the same; the pair, their entrance, the conversation scene and their exit are public (G-02; rules-contracts, Audiences and delivery)",
+        "claim": "participant-private, not part of this film: the declared side and its card stay in the two participants' own panel (design/phone-kit/js/hack.js), which the film never covers and never reads"
+      },
+      "clock": "Milliseconds from the authoritative start of the stage (the result stage, the conversation, the conversation's end), from the server's deadlines; never a local start time and never an animation's end.",
+      "inputs": [
+        "stage (declare, result, talk, exit, idle)",
+        "t (from the stage's authoritative start)",
+        "the public pair: two seat ids, ordered by player number (P1 the lower)",
+        "each participant's public place, health and detention, from the board (the latest authoritative)",
+        "the exchange's public id (the seated variations' seed)",
+        "reduced (the device setting)"
+      ],
+      "notInputs": [
+        "the declared side or the claim",
+        "which participant asked",
+        "who is speaking, a microphone or any sound",
+        "a role, a faction or a defense",
+        "an animation's completion"
+      ],
+      "server": {
+        "declareMaxMs": 15000,
+        "resultMs": 5000,
+        "talkMs": 60000
+      },
+      "beats": [
+        {
+          "stage": "declare",
+          "what": "Both participants outlined at their places in caption yellow, with the capsule's badge, once the projection names the pair"
+        },
+        {
+          "stage": "result",
+          "from": 0,
+          "to": 700,
+          "what": "The outline and the badge (in by 300 ms); the private claim card on the participants' own phones is theirs, beside the board"
+        },
+        {
+          "stage": "result",
+          "from": 700,
+          "to": 1420,
+          "what": "Each stands (120 ms), steps toward the capsule's side and fades out of its room; its away marker comes up at its slot, which keeps its press area"
+        },
+        {
+          "stage": "result",
+          "from": 1250,
+          "to": 3600,
+          "what": "The capsule's door slides open (1 250 to 1 550 ms). P1 comes in at 1 550 and walks behind the table to its chair (1 050 ms), P2 at 2 000 straight to its own (900 ms); each turns and sits (330 ms). The door slides shut (3 300 to 3 600 ms)"
+        },
+        {
+          "stage": "result",
+          "at": 3600,
+          "what": "The door-status light lights. Settled, still, until the conversation starts: 1 400 ms to spare inside the stage"
+        },
+        {
+          "stage": "talk",
+          "from": 0,
+          "to": 60000,
+          "what": "Both seated; quiet variations on a schedule seeded by the exchange's public id (lean in, sit back, a nod, an open hand, a hand at the chin, a blink), unrelated to speech; the top bar counts the conversation's server time down from 1:00"
+        },
+        {
+          "stage": "exit",
+          "from": 0,
+          "to": 1600,
+          "what": "The light goes out and the door opens (300 ms); both stand (300 to 420 ms) and walk their paths back to the doorway, fading in it, P2 gone at 1 120 ms and P1 at 1 300; the door shuts (1 300 to 1 600 ms)"
+        },
+        {
+          "stage": "exit",
+          "from": 1120,
+          "to": 2230,
+          "what": "As each leaves the capsule it steps back in at its latest authoritative place, where the board has it now (600 ms), and settles into its gesture (330 ms); its away marker fades. Nothing waits for this"
+        }
+      ],
+      "reduced": {
+        "what": "No walking, no steps, no variations. Result: the outline and badge; at 700 ms the people fade (80 ms) to their away markers and appear seated in the capsule, its door shown open until 1 100 ms, then shut and the light lit. Exit: the door shown open for 400 ms while the people fade (80 ms) from the capsule back to their places.",
+        "fadeMs": 80
+      },
+      "reconnect": "Draws the stage's settled state at the current server time: in the result stage and the conversation, the pair seated, the door shut and its light lit, the away markers at their places; after it, everyone at their places and the capsule empty. The entrance and the exit are never replayed, and the minute is never restarted.",
+      "loading": "Draws only the seats the public projection names: none, one or two. With none, the capsule as when idle (its door shut, its light off) under the stage's top bar; with one, that one's film alone. A seat named after its part began is drawn settled. Nobody is invented while a projection is awaited.",
+      "away": {
+        "opacity": 0.35,
+        "saturation": 0
+      },
+      "paths": {
+        "P1": [
+          [
+            368,
+            374
+          ],
+          [
+            164,
+            480
+          ],
+          [
+            164,
+            650
+          ]
+        ],
+        "P2": [
+          [
+            368,
+            374
+          ],
+          [
+            348,
+            650
+          ]
+        ],
+        "units": "scene units of the 512 x 768 capsule (its feet); the way out is the same path backward",
+        "cadence": "the approved public move's: 1.5 two-step cycles per 450 ms",
+        "scale": "the doorway's (0.9) in the doorway to the seat's (1.05) at the chairs, by depth"
+      },
+      "layers": {
+        "capsule": "its own panel beside the Command Room, exactly half its width (fit.mjs { capsule: true }); back, door, the participants, busy; no slots: its only targets are each seated participant's own seat (scenes/capsule.mjs capsuleTargets(), 44 px), as its slot is",
+        "home": "the participant's own room, its figure layer: the away marker at its slot; the step out is clipped to the room's panel",
+        "tags": "every name tag stays: at the slot, and under each seated participant in the capsule"
+      }
+    },
+    {
+      "id": "hospital-critical",
+      "storyboard": "S9",
+      "status": "proposal",
+      "audience": "public: every phone and the display, from the public snapshot",
+      "clock": "Loops on any clock, encoding nothing. The entry is milliseconds from the INJURY outcome, live only; it plays at the seat's own berth (its slotId).",
+      "inputs": [
+        "the seat: location Hospital, health Injured, jailed, slotId",
+        "medical: { admittedRound, rescueDueAfterRound, rescueOpportunity } (full-game-1.7.0)",
+        "reduced (the device setting)"
+      ],
+      "notInputs": [
+        "an attacker, a healer or whoever registered a Rescue",
+        "a role, a side or a hidden cause",
+        "a receipt or a private command",
+        "a local countdown or the client's own observation of time"
+      ],
+      "shows": "The berth's monitor (unstable trace), its lamp (red while the due round is in progress, else amber, a slow pulse), the rescue tag on its plate (\"R3\" from rescueDueAfterRound; a struck cross for NO_ADDITIONAL_ROUND; none when CLOSED) and, for a detained patient, the neutral detention tag beside it. The patient keeps the gown and the injured pose; a faint breath on the figure's art only. The round is the server's; nothing counts down",
+      "tags": "tagBox() (fx/medical.mjs): on the berth's plate, whole in the panel, never in the caption's band (the upper berths' tags go just below it) and never over a name tag (just below the one it would meet)",
+      "entry": {
+        "boot": [
+          0,
+          240
+        ],
+        "tagPop": [
+          240,
+          360
+        ],
+        "what": "The authorized transfer: the patient arrives in the berth (fades in) as the monitor boots, then the lamp comes on and the tag pops in, at the seat's own berth"
+      },
+      "loops": {
+        "sweepMs": 2400,
+        "lampMs": 2000,
+        "breathMs": 4000,
+        "breathPx": 0.6
+      },
+      "reduced": "Static: the trace, the lamp and the tag, faded in over 80 ms on admission; no breath, no pulse",
+      "body": "An Eliminated patient's monitor and lamp are off and its bed light down; nothing is added for an empty berth"
+    },
+    {
+      "id": "medical-rescue",
+      "storyboard": "S5",
+      "status": "proposal",
+      "audience": "public: every phone and the display, from the MEDICAL_OUTCOME kind HEALED event (alone, or after INJURY in the same batch); live only, never on a reconnect or for an expired event",
+      "clock": "Milliseconds from the outcome's presentation start; 5600 ms (reduced 1760 ms). Nonblocking and cancelable: the board, the timer and the navigation stay usable; the film stops at once and draws nothing more when a newer snapshot moves its subject or another seat into its berth, or when the Blackout's window (S1) owns the board, which then shows the latest snapshot.",
+      "inputs": [
+        "t (from the outcome's presentation start)",
+        "reduced (the device setting)",
+        "the berth: the outcome's presentationAnchor (HVn names berth Hn) and the snapshot's slots (filmBerth())",
+        "the subject's public character, clothes and detention, from the snapshot"
+      ],
+      "notInputs": [
+        "an attacker, a healer or whoever registered a Rescue",
+        "a role, a side or a hidden cause",
+        "a receipt or a private command",
+        "a local countdown or the client's own observation of time"
+      ],
+      "where": {
+        "berth": "filmBerth(): the berth the anchor names, unless another seat holds that slot in the published snapshot (a patient admitted in the same batch can take the berth the subject left); then no film is drawn and the outcome's announcement stands alone, as Backend's CLINICAL_VIGNETTE rule asks",
+        "subject": "At its own berth the snapshot's figure is hidden while the film draws it there; anywhere else the snapshot's figure is marked away (grey) and its name tag is carried to the berth for the film, so it is never drawn in two places",
+        "inset": "insetBox() (fx/medical.mjs): above the berth's press area, else below its name tag, else in the band beside the caption; never over the caption, the berth's own press area or a press area another seat holds; else no inset, and the berth's monitor shows the trace alone",
+        "drone": "droneFit() (fx/medical.mjs): drawn smaller, to half its size at least, where the caption or another seat's press area is above the berth, so that it covers neither; its probes stay on the chest",
+        "several": "Several clinical outcomes in one batch play at once, each at its own berth; each inset keeps clear of the insets placed before it (keepClear), in the batch's event order"
+      },
+      "words": "None of the film's own: the client's announcement of the authoritative outcome (today the hosted board's \"Player 2: Healed.\" or \"Player 2: Eliminated.\", #154). announce marks the beat at which the picture shows the change, for a client that times its words to the film as it does ATTACK BLOCKED's; said once either way",
+      "beats": [
+        {
+          "id": "alert",
+          "from": 0,
+          "to": 800,
+          "what": "The berth's lamp blinks amber twice; the vitals inset opens on the unstable trace"
+        },
+        {
+          "id": "arrive",
+          "from": 800,
+          "to": 1800,
+          "what": "The drone leaves the Hospital's ceiling dock and comes down over the bed, arms tucked, hovering"
+        },
+        {
+          "id": "unfold",
+          "from": 1800,
+          "to": 2200,
+          "what": "Its three arms unfold over the bed"
+        },
+        {
+          "id": "scan",
+          "from": 2200,
+          "to": 3100,
+          "what": "A scan line goes down the patient and back under a faint diagnostic hologram"
+        },
+        {
+          "id": "charge",
+          "from": 3100,
+          "to": 3500,
+          "what": "The probes and the lens charge"
+        },
+        {
+          "id": "pulse",
+          "from": 3500,
+          "to": 3700,
+          "what": "One controlled revival pulse at the chest; the patient reacts (2.5 px, its art only)"
+        },
+        {
+          "id": "recover",
+          "from": 3700,
+          "to": 4700,
+          "what": "The trace steadies, the lamp calms, the patient sits up: Injured to Healthy, in the gown, the detention tag kept"
+        },
+        {
+          "id": "depart",
+          "from": 4700,
+          "to": 5600,
+          "what": "Arms tucked, the drone goes back up to its dock; the inset closes. The board then shows the snapshot: the patient in their room, or in the Jail if detained"
+        }
+      ],
+      "reduced": {
+        "what": "No travel, flash or jolt: the drone still over the bed and the inset fade in over 80 ms; at 800 ms the trace steadies, the lamp calms and the patient sits up; out over 80 ms",
+        "fadeMs": 80,
+        "holdMs": 1600,
+        "switchAt": 800
+      },
+      "origin": "The Hospital's ceiling dock, whoever registered the Rescue: it never comes from anyone's room or points to anyone",
+      "never": "An Eliminated patient is never revived: the film plays only for a HEALED outcome of an Injured patient"
+    },
+    {
+      "id": "medical-flatline",
+      "storyboard": "S10",
+      "status": "proposal",
+      "audience": "public: every phone and the display, from the MEDICAL_OUTCOME kind DEATH event; live only",
+      "clock": "Milliseconds from the outcome's presentation start; 4200 ms (reduced 1760 ms). It plays after the authorized outcome and never causes it. Nonblocking and cancelable: the board, the timer and the navigation stay usable; the film stops at once and draws nothing more when a newer snapshot moves its subject or another seat into its berth, or when the Blackout's window (S1) owns the board, which then shows the latest snapshot.",
+      "inputs": [
+        "t (from the outcome's presentation start)",
+        "reduced (the device setting)",
+        "the berth: the outcome's presentationAnchor (HVn names berth Hn) and the snapshot's slots (filmBerth())",
+        "the subject's public character, clothes and detention, from the snapshot"
+      ],
+      "notInputs": [
+        "an attacker, a healer or whoever registered a Rescue",
+        "a role, a side or a hidden cause",
+        "a receipt or a private command",
+        "a local countdown or the client's own observation of time"
+      ],
+      "where": {
+        "berth": "filmBerth(): the berth the anchor names, unless another seat holds that slot in the published snapshot (a patient admitted in the same batch can take the berth the subject left); then no film is drawn and the outcome's announcement stands alone, as Backend's CLINICAL_VIGNETTE rule asks",
+        "subject": "At its own berth the snapshot's figure is hidden while the film draws it there; anywhere else the snapshot's figure is marked away (grey) and its name tag is carried to the berth for the film, so it is never drawn in two places",
+        "inset": "insetBox() (fx/medical.mjs): above the berth's press area, else below its name tag, else in the band beside the caption; never over the caption, the berth's own press area or a press area another seat holds; else no inset, and the berth's monitor shows the trace alone",
+        "several": "Several clinical outcomes in one batch play at once, each at its own berth; each inset keeps clear of the insets placed before it (keepClear), in the batch's event order"
+      },
+      "words": "None of the film's own: the client's announcement of the authoritative outcome (today the hosted board's \"Player 2: Healed.\" or \"Player 2: Eliminated.\", #154). announce marks the beat at which the picture shows the change, for a client that times its words to the film as it does ATTACK BLOCKED's; said once either way",
+      "beats": [
+        {
+          "id": "fail",
+          "from": 0,
+          "to": 1600,
+          "what": "The inset opens: the heartbeat slows and thins; the lamp pulses red once a second; the patient's breath fades until it lies still"
+        },
+        {
+          "id": "flat",
+          "from": 1600,
+          "to": 2400,
+          "what": "The trace goes flat; the lamp holds red; the Hospital's light dips to 0.72 of its brightness, never dark"
+        },
+        {
+          "id": "shutdown",
+          "from": 2400,
+          "to": 3400,
+          "what": "The equipment powers down: the trace collapses to a dot, the lamp and the bed light go out; the patient lies still (Eliminated)"
+        },
+        {
+          "id": "settle",
+          "from": 3400,
+          "to": 4200,
+          "what": "The room's light returns; the inset closes. The body stays where the snapshot has it, its equipment off"
+        }
+      ],
+      "reduced": {
+        "what": "No dip or pulse: the inset with the flat trace and the patient still fade in over 80 ms; at 800 ms the screen and the lamp go off; out over 80 ms",
+        "fadeMs": 80,
+        "holdMs": 1600,
+        "switchAt": 800
+      },
+      "never": "No local countdown, timer or animation kills a patient or shortens a rescue opportunity: the server's deadline does, and its DEATH outcome comes first; a death's cause is never shown"
+    },
+    {
+      "id": "captain-release",
+      "storyboard": "S6",
+      "status": "proposal",
+      "audience": "public: every phone and the display, from the CAPTAIN_OUTCOME kind RELEASE event; live only",
+      "clock": "Milliseconds from the outcome's presentation start; 4200 ms (reduced 2240 ms), inside the Captain's turn, whose timer keeps running. Nonblocking and cancelable: the board, the turn timer and the navigation stay usable; the film stops at once and the board shows the latest snapshot when a newer snapshot moves a subject or places anyone in the Jail, when the Blackout's window (S1) owns the board, or when the page is hidden. Never replayed: not on a reconnect, nor for an expired or duplicate event.",
+      "inputs": [
+        "t (from the outcome's presentation start)",
+        "reduced (the device setting)",
+        "seatIds: every living prisoner physically in the Jail",
+        "the snapshot before: each subject's Jail slot",
+        "the snapshot published with it: each subject's Room A or Room B slot, and the Captain at C1"
+      ],
+      "notInputs": [
+        "an actor field (the outcome names none; the Captain at C1 is the public office holder)",
+        "a role, a side, a faction or a cause",
+        "a receipt, a private command or another player's captainCommandUses",
+        "a local countdown or the client's own observation of time"
+      ],
+      "where": {
+        "console": "consoleBox() (fx/captain.mjs): in the top band right of C1's press area and name tag, below the band's caption line, whole inside the band (over the capsule's panel where the board has one: an ordinary turn has nobody seated there), never over a caption or a target; else no inset",
+        "pulse": "conduitPoints() (fx/captain.mjs): from the inset's foot down the board's gutters and spine to the Jail's door lamp; it crosses no caption and no press area",
+        "door": "jailDoorSvg() over the Jail's art at its scene frame (JAIL_DOOR.box): at rest exactly the room's door, lamp and keypad"
+      },
+      "words": "None of the film's own: the client's announcement of the authoritative outcome (today the hosted board's \"Player 3, Player 4: released from detention.\", #154); announce marks the beat the picture shows it (the door opening). Said once either way",
+      "beats": [
+        {
+          "id": "console",
+          "from": 0,
+          "to": 500,
+          "what": "The console inset opens on the RELEASE plate; C1 lifts the near hand over the console in the chart table"
+        },
+        {
+          "id": "press",
+          "from": 500,
+          "to": 800,
+          "what": "The press: the button 3 px down (Activated), a green ring round it; C1's shoulders dip about 2 px"
+        },
+        {
+          "id": "pulse",
+          "from": 800,
+          "to": 1300,
+          "what": "A green dotted pulse runs from the inset down the board's gutters and spine to the Jail's door lamp"
+        },
+        {
+          "id": "locks",
+          "from": 1300,
+          "to": 1700,
+          "what": "The keypad and the lamp go green; the lock's wheel turns in three steps"
+        },
+        {
+          "id": "door",
+          "from": 1700,
+          "to": 2200,
+          "what": "The blast door's two leaves slide into the wall: the ship's corridor behind"
+        },
+        {
+          "id": "walk",
+          "from": 2200,
+          "to": 3300,
+          "what": "The prisoners, 80 ms apart in slot order: each gets up, walks to the door and through it, crosses the board (the reviewed public move, in the prison suit) and lands at the place the snapshot gives it, in the room's clothes, the change hidden in the landing's puff. Their new places show the away marker until they land"
+        },
+        {
+          "id": "close",
+          "from": 3300,
+          "to": 4200,
+          "what": "The door shuts; the signals and the wheel go back; C1 goes back to the table; the plate shows USED (the page's stamp) and the inset closes"
+        }
+      ],
+      "reduced": {
+        "what": "Four still panels, each faded in over 80 ms: the console with RELEASE pressed; the door open; the prisoners at their new places; the door shut. No travel, ring, turn or pulse",
+        "fadeMs": 80,
+        "holdMs": 520,
+        "stages": [
+          "console",
+          "open",
+          "arrived",
+          "closed"
+        ]
+      },
+      "never": "A Hospital detainee is never touched (it stays in its berth, its detention tag kept), and a body in the Jail stays where it is; no vote, no block. A rejected, pending or unknown command plays nothing"
+    },
+    {
+      "id": "captain-eject",
+      "storyboard": "S7",
+      "status": "proposal",
+      "audience": "public: every phone and the display, from the CAPTAIN_OUTCOME kind EJECT event; live only",
+      "clock": "Milliseconds from the outcome's presentation start; 7200 ms (reduced 2560 ms). Nonblocking and cancelable: the board, the turn timer and the navigation stay usable; the film stops at once and the board shows the latest snapshot when a newer snapshot moves a subject or places anyone in the Jail, when the Blackout's window (S1) owns the board, or when the page is hidden. Never replayed: not on a reconnect, nor for an expired or duplicate event.",
+      "inputs": [
+        "t (from the outcome's presentation start)",
+        "reduced (the device setting)",
+        "seatIds: every physical Jail occupant, bodies included",
+        "the snapshot before: each subject's Jail slot, and whether it was a body",
+        "the snapshot published with it: the subjects off the board (location null), the Captain at C1"
+      ],
+      "notInputs": [
+        "an actor field (the outcome names none; the Captain at C1 is the public office holder)",
+        "a role, a side, a faction or a cause",
+        "a receipt, a private command or another player's captainCommandUses",
+        "a local countdown or the client's own observation of time"
+      ],
+      "where": {
+        "console": "consoleBox() (fx/captain.mjs): in the top band right of C1's press area and name tag, below the band's caption line, whole inside the band (over the capsule's panel where the board has one: an ordinary turn has nobody seated there), never over a caption or a target; else no inset",
+        "pulse": "conduitPoints() (fx/captain.mjs): from the inset's foot down the board's gutters and spine to the Jail's door lamp; it crosses no caption and no press area",
+        "door": "jailDoorSvg() over the Jail's art at its scene frame (JAIL_DOOR.box): at rest exactly the room's door, lamp and keypad",
+        "hatch": "AIRLOCK (fx/captain.mjs): in the Jail's back wall left of the blast door, inside every phone's Jail panel and below its caption band; drawn only while the film plays"
+      },
+      "words": "None of the film's own: the client's announcement (today \"Player 3, Player 4, Player 9: ejected.\", #154, which lists the bodies too); announce marks the ejection beat. EJECTED, while the hatch is open, is the page's caption, as ATTACK BLOCKED's is",
+      "beats": [
+        {
+          "id": "command",
+          "from": 0,
+          "to": 900,
+          "what": "A short push (at most 6%, the Command Room's art only) on C1; the inset on the EJECT plate under its clear cover; the cover lifts in three frames, the press, a hard click drawn as a red comic burst"
+        },
+        {
+          "id": "alert",
+          "from": 900,
+          "to": 1500,
+          "what": "The emergency light pulses over the Command Room's and the Jail's art (1.6 Hz, opacity 0.16 to 0.34); a red pulse runs down the gutters"
+        },
+        {
+          "id": "lockdown",
+          "from": 1500,
+          "to": 2400,
+          "what": "The door locks (the wheel turns back), the keypad stripes red and amber; the airlock hatch appears in the wall, its rim glowing; the prisoners start and get up to brace"
+        },
+        {
+          "id": "airlock",
+          "from": 2400,
+          "to": 3300,
+          "what": "The clamps release in three steps; the iris opens onto space; the suction builds toward the hatch"
+        },
+        {
+          "id": "ejection",
+          "from": 3300,
+          "to": 4400,
+          "what": "The living, 100 ms apart in slot order, are pulled to the hatch as tumbling silhouettes with a paper rim and gone into it, with papers and a cup; the bodies rise and fade as grey cut-outs; EJECTED. Nothing graphic"
+        },
+        {
+          "id": "exterior",
+          "from": 4400,
+          "to": 5800,
+          "what": "The Jail's panel shows the hull from outside, the hatch open, the characters drifting away, small, as silhouettes"
+        },
+        {
+          "id": "closure",
+          "from": 5800,
+          "to": 7200,
+          "what": "The iris shuts, the clamps engage, the hatch is gone; the light settles; the Jail is empty. The inset shows EJECT used under its shut cover (the page's stamp); the memorial plaque, with the count of characters off the board, appears beside the Jail's caption"
+        }
+      ],
+      "reduced": {
+        "what": "Four still panels, each faded in over 80 ms: the console with EJECT pressed, its cover open; the Jail with the hatch open and EJECTED; the empty Jail; the memorial plaque. No suction, travel, push, shake, pulse or flash; the emergency light a still, low tint",
+        "fadeMs": 80,
+        "holdMs": 600,
+        "stages": [
+          "console",
+          "open",
+          "empty",
+          "memorial"
+        ]
+      },
+      "settled": "The Jail empty; the characters off the board are drawn nowhere on it; the plaque beside the Jail's caption counts them (the page's text). Frontend lists them as grey memorial silhouettes with their seat and name (memorialSvg()); a faction is shown only where the authoritative state reveals it, never by the film",
+      "never": "A Hospital detainee is never touched; no module detaches; nothing graphic; no block. A rejected, pending or unknown command plays nothing"
+    },
+    {
+      "id": "captain-buttons",
+      "storyboard": "S8",
+      "status": "proposal",
+      "audience": "the current Captain's own controls: self.captainCommandUses is non-null only for the current Captain",
+      "inputs": [
+        "self.captainCommandUses { releaseUsed, ejectUsed }",
+        "legalTargets.CAPTAIN_RELEASE / CAPTAIN_EJECT (the Captain's own seat while offered)",
+        "the client's own command in flight",
+        "reduced (the device setting)"
+      ],
+      "states": [
+        {
+          "id": "available",
+          "what": "Lit, its rim solid; a glow cycle of 2400 ms, at most 15% luminance change (still under reduced motion)",
+          "withoutColor": "a solid outline and the label"
+        },
+        {
+          "id": "unavailable",
+          "what": "Dull and unlit; the server gives no reason in 1.8, so the client's line is neutral (Frontend's words)",
+          "withoutColor": "a dashed outline"
+        },
+        {
+          "id": "sending",
+          "what": "Activated: the button 3 px down under an inner shadow (120 ms), then Frontend's \"Sending Release…\" / \"Sending Eject…\". EJECT's cover is lifted first (closed, lifting, open); RELEASE confirms with Frontend's strip",
+          "withoutColor": "the pressed shape and the words"
+        },
+        {
+          "id": "used",
+          "what": "No rim, the button dark, the page's USED stamp across the plate; a new Captain sees it used too",
+          "withoutColor": "the stamp"
+        }
+      ],
+      "never": "A rejected, pending or unknown command never plays S6 or S7, and an invalid or empty command never shows used"
+    },
+    {
+      "id": "hospital-overflow",
+      "storyboard": "HOSPITAL-4 (proposal)",
+      "status": "proposal: on the occurrence of Backend's preferred event choice A (H4-CLINICAL-01, draft #157), still unallocated",
+      "audience": "public: every phone and the display, from the non-bed overflow occurrence; live only",
+      "clock": "Milliseconds from the occurrence's presentation start; 2800 ms (reduced 1560 ms). Nonblocking and cancelable: the board, the timers and the navigation stay usable; it stops at once, the board showing the latest snapshot, when a newer snapshot moves anyone, when the Blackout's window owns the board, or when the page is hidden. Never replayed: not on a reconnect, nor for an expired, duplicate or baseline-suppressed occurrence.",
+      "inputs": [
+        "t (from the occurrence's presentation start)",
+        "reduced (the device setting)",
+        "seatId: the occurrence's",
+        "the snapshot before: the victim's room and slot (when the client held it)",
+        "the snapshot published with it: the victim Eliminated, location null, slotId null"
+      ],
+      "notInputs": [
+        "an attacker, a role, a side, a faction or any cause beyond the occurrence",
+        "a bed, a berth or a clinical anchor (the victim never had one)",
+        "a local countdown or the client's own observation of time"
+      ],
+      "where": {
+        "stamp": "fullStampBox() (fx/overflow.mjs): right of the Hospital's caption, in its band",
+        "way": "overflowWay() (fx/overflow.mjs): from the victim's press point to the plaque's centre, on an arc",
+        "plaque": "spinePlaqueBox() (fx/overflow.mjs): in the spine between the Hospital and the Jail, at their caption band"
+      },
+      "words": "None of the beat's own: the client's announcement of the occurrence (Frontend's words, not yet written); announce marks the beat. FULL is the page's stamp, as USED is",
+      "beats": [
+        {
+          "id": "full",
+          "from": 0,
+          "to": 300,
+          "what": "The Hospital's FULL stamp appears beside its caption: the four beds are taken"
+        },
+        {
+          "id": "grey",
+          "from": 300,
+          "to": 1100,
+          "what": "At the victim's place (the snapshot before), its figure becomes the grey cut-out of the off-board record (fx/captain.mjs memorialSvg()), the same whatever its side"
+        },
+        {
+          "id": "lift",
+          "from": 1100,
+          "to": 2200,
+          "what": "The cut-out leaves the board on a short arc to the plaque, shrinking to 0.32 of its size; its place is empty"
+        },
+        {
+          "id": "counted",
+          "from": 2200,
+          "to": 2800,
+          "what": "The plaque takes it: a small pop, its count the published snapshot's; the FULL stamp fades"
+        }
+      ],
+      "reduced": {
+        "what": "Two still panels, each faded in over 80 ms: the grey cut-out at its place with FULL; then the place empty and the plaque counting it. No travel, pop or fade beyond the panels",
+        "fadeMs": 80,
+        "holdMs": 700,
+        "stages": [
+          "grey",
+          "counted"
+        ]
+      },
+      "settled": "The victim is drawn nowhere on the board; the plaque in the spine counts every character off the board, whatever took them off; Frontend lists them as grey cut-outs with seat and name, and a Code may still name them (#159's cards)",
+      "never": "No bed, berth, monitor, drone, flatline or admission is drawn for the victim, and no fifth bed; no existing patient or body moves; nothing graphic. No occurrence, no beat"
+    },
+    {
+      "id": "clone",
+      "storyboard": "S3",
+      "status": "proposal",
+      "audience": "owner-private: its owner's own phone alone, in its sheet's private area, from its own view (self.cloneStatus, full-game-1.10.0: null for every other seat). Never on the board, on any phone; never on the display, another player's phone or the host. A block by the Clone is S4's, exactly as Protection's",
+      "clock": "Milliseconds from the film's start: the activation 1800 ms (reduced 480 ms), the expiry 900 ms (reduced 480 ms). Nonblocking: the sheet's controls and the board stay usable. The film stops at once, the card showing its state, when the private area closes or conceals, the page is hidden, or a newer view changes the Clone",
+      "inputs": [
+        "t (from the film's start)",
+        "the film: activate or expire (cloneFilmFor(): a live change of the own view's cloneStatus, the match not over)",
+        "reduced (the device setting)",
+        "the own seat's character and the clothes of its current place, for the portrait",
+        "the own view's cloneStatus, for the card's state and the client's status line"
+      ],
+      "notInputs": [
+        "an actor, a target, an attacker or a block",
+        "a role word, a side, a faction or a cause on the card",
+        "another seat's view",
+        "a local countdown or the client's own observation of time",
+        "the activation round as a timer: expiresAfterRound is shown in the client's words only"
+      ],
+      "where": "The sheet's body, as its private claim (js/turns.mjs turnsLayout(); fx/clone.mjs cloneCardLayout()): the portrait window at the card's start, the words after it; never under the raised Pass",
+      "words": "None of the film's own. CLONE ACTIVE and CLONE ENDED are the page's stamps; the status line is the client's (today the hosted board's \"Clone active through Round 3.\" and \"Clone inactive; its once-only use is spent.\")",
+      "beats": {
+        "activate": [
+          {
+            "id": "scan",
+            "from": 0,
+            "to": 400,
+            "what": "Holographic scan lines sweep up the character, feet to head"
+          },
+          {
+            "id": "duplicate",
+            "from": 400,
+            "to": 900,
+            "what": "A halftone duplicate silhouette forms beside it, on a second projector pad"
+          },
+          {
+            "id": "resolve",
+            "from": 900,
+            "to": 1300,
+            "what": "The duplicate resolves into the same character, the same drawing in the same clothes"
+          },
+          {
+            "id": "vanish",
+            "from": 1300,
+            "to": 1800,
+            "what": "The real character fades to a dotted outline as the lines sweep back down it; CLONE ACTIVE is stamped"
+          }
+        ],
+        "expire": [
+          {
+            "id": "scan",
+            "from": 0,
+            "to": 300,
+            "what": "The scan lines sweep down the duplicate; CLONE ACTIVE fades"
+          },
+          {
+            "id": "dissolve",
+            "from": 300,
+            "to": 600,
+            "what": "The duplicate breaks up into its halftone and is gone; its pad goes dark"
+          },
+          {
+            "id": "restore",
+            "from": 600,
+            "to": 900,
+            "what": "The dotted outline fills back into the character; CLONE ENDED is stamped"
+          }
+        ]
+      },
+      "reduced": {
+        "what": "The card before, held, then the card after, cross-faded over 80 ms. No scan, halftone, travel or pop",
+        "holdMs": 400,
+        "fadeMs": 80
+      },
+      "never": "Never on the board or for anyone but its owner. Never replayed: not on a reconnect, a baseline or a resumed page. No card and no film once its owner is Eliminated. No film for the view that finishes or aborts the match, which ends an active Clone: the result takes the screen. A rejected, pending or unknown command plays nothing"
+    }
+  ]
+}

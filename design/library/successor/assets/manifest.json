@@ -1,0 +1,40 @@
+{
+  "version": "library-successor-0.1.0",
+  "generatedBy": "design/tools/library-assets.mjs",
+  "source": "design/library/successor/art.mjs",
+  "audience": "private (the Engineer's held device, the Supply's crate) and the lobby's code plate; loaded whole on every phone",
+  "assets": [
+    {
+      "name": "sw-device-engineer",
+      "file": "design/library/successor/assets/sw-device-engineer.svg",
+      "size": "120x140",
+      "role": "private: the Engineer's held device (role card and sheet)",
+      "about": "The Engineer's held device in the reviewed role devices' family, holding the signal clamp.",
+      "sha256": "a58fbb9cc2ef2a4fb409a8f3ef1c4f01997ed559fd315ffbe295d7511955fbea",
+      "bytes": 2885
+    },
+    {
+      "name": "sw-crate",
+      "file": "design/library/successor/assets/sw-crate.svg",
+      "size": "64x64",
+      "role": "private: the Supply's receipt (each recipient)",
+      "about": "The Round 3 Supply's receipt on a recipient's own phone: a sealed crate.",
+      "sha256": "9780e5f6fdca7a2808e0414c92aa6025c091d7e6670e1a9599ec761a5b3b53fa",
+      "bytes": 1307
+    },
+    {
+      "name": "sw-code-plate",
+      "file": "design/library/successor/assets/sw-code-plate.svg",
+      "size": "248x64",
+      "role": "lobby: the room code's plate",
+      "about": "The lobby's room-code plate; the code is page text over its six slots.",
+      "sha256": "4b353bf5412efa46ce966c3009be56861812d519f6ac41101dbf185fd80706af",
+      "bytes": 1229
+    }
+  ],
+  "stylesheet": {
+    "file": "design/library/successor/assets/successor.art.css",
+    "sha256": "08a57bc05adbdf1994316666d9fe4bedbbb63f9e53709b6388d23305347ce45e",
+    "bytes": 5081
+  }
+}

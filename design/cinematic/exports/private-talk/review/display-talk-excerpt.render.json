@@ -1,0 +1,54 @@
+{
+  "tool": "design/tools/cinematic-render.mjs",
+  "pilot": "private-talk",
+  "version": "cinematic-private-talk-0.1.0",
+  "surface": "display",
+  "variant": "full",
+  "stage": "design/cinematic/stage.html?pilot=private-talk&surface=display&variant=full&beds=4&case=talk",
+  "size": [
+    1920,
+    1080
+  ],
+  "deviceScale": 0.6667,
+  "fixture": {
+    "pair": [
+      1,
+      5
+    ],
+    "case": "talk"
+  },
+  "browser": "Chromium 141.0.7390.37",
+  "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+  "outputs": [
+    {
+      "kind": "video",
+      "file": "design/cinematic/exports/private-talk/review/display-talk-excerpt.mp4",
+      "sha256": "dc4106d7e22160788589a0a24d9ed6a0b71a928e061bf73856801123d71ae764",
+      "bytes": 210839,
+      "fps": 30,
+      "frames": 181,
+      "durationMs": 6000,
+      "from": 0,
+      "to": 6000,
+      "audio": null
+    },
+    {
+      "kind": "preview",
+      "file": "design/cinematic/exports/private-talk/review/display-talk-excerpt.preview.webp",
+      "sha256": "62a2de8adef88898ce7f3adbc0419f0641fd123fbeebab5067a45cb9aa064ce3",
+      "bytes": 29516
+    },
+    {
+      "kind": "poster",
+      "file": "design/cinematic/exports/private-talk/review/display-talk-excerpt.poster.webp",
+      "sha256": "2febb7d2991d131a5569de0f190b5fea95e4af771f63f3e08d14ea58bca06dfe",
+      "bytes": 70910,
+      "t": 3000
+    }
+  ],
+  "settling": {
+    "rule": "a frame is kept once two captures a redraw apart agree; pictures decode before their tiles draw",
+    "resettled": 32,
+    "unsettled": []
+  }
+}

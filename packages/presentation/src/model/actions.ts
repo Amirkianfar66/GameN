@@ -7,7 +7,7 @@ import type { ActionChoice, ActionKind, CompoundActionKind, FactionName, SeatBal
 
 /** Every action the connected phone knows how to offer, in the order it lists them. */
 export const ACTION_KINDS: readonly ActionKind[] = [
-  'move', 'shot', 'disable', 'protect', 'rescue', 'scan', 'supply', 'hack', 'code', 'showdown-shot', 'vote', 'release-choice', 'release-vote',
+  'pass', 'move', 'shot', 'disable', 'protect', 'rescue', 'scan', 'supply', 'hack', 'code', 'showdown-shot', 'vote', 'release-choice', 'release-vote',
 ];
 
 /**
@@ -74,6 +74,9 @@ export function offeredTargets(view: FullPlayerView, kind: TargetActionKind): re
  */
 export function offeredChoices(view: FullPlayerView, kind: Exclude<ActionKind, CompoundActionKind>): readonly ActionChoice[] | null {
   switch (kind) {
+    case 'pass':
+      return view.phase.kind === 'ORDINARY_TURN' && view.activeSeatId === view.self.seatId
+        && view.legalTargets.PASS_TURN?.includes(view.self.seatId) ? [{ kind }] : null;
     case 'move':
       return view.self.movementDestinations.map(destination => ({ kind, destination }));
     case 'vote':
@@ -176,6 +179,7 @@ export function isOffered(view: FullPlayerView, choice: ActionChoice): boolean {
  */
 export function choiceValue(choice: ActionChoice): string {
   switch (choice.kind) {
+    case 'pass': return 'pass';
     case 'move': return choice.destination;
     case 'release-vote': return RELEASE_ANSWERS.find(([, approve]) => approve === choice.approve)?.[0] ?? NOBODY;
     case 'scan': return `${choice.targetSeatId}/${choice.guess}`;

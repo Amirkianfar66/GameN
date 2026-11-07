@@ -10,7 +10,9 @@ const playerCount=z.union([z.literal(7),z.literal(8),z.literal(9)]);
 const roomCode=z.string().regex(/^[A-F0-9]{12}$/);
 const recoveryToken=z.string().regex(/^[A-Za-z0-9_-]{43}$/);
 export const FullCreateMatchRequestSchema=z.strictObject({...protocol,requestId:IdentifierSchema,playerCount});
-export const FullAdmissionRequestSchema=z.strictObject({...protocol,requestId:IdentifierSchema,roomCode,initialRoom:room});
+// Compatibility only: deployed older clients may send initialRoom. The server ignores it;
+// new clients omit it and the server assigns Room A/B independently of role and character.
+export const FullAdmissionRequestSchema=z.strictObject({...protocol,requestId:IdentifierSchema,roomCode,initialRoom:room.optional()});
 export const FullApproveAdmissionRequestSchema=z.strictObject({...operation,admissionId:IdentifierSchema,seatId:SeatIdSchema});
 export const FullAdmitDisplayRequestSchema=z.strictObject({...operation,displayUid:uid});
 export const FullStartMatchRequestSchema=z.strictObject(operation);
@@ -21,8 +23,9 @@ export const FullLookupRequestSchema=z.strictObject({...match,commandId:Identifi
 export const FullAdvanceRequestSchema=z.strictObject({...match,phaseId:IdentifierSchema});
 export const FullServerTimeRequestSchema=z.strictObject(match);
 export const FullLobbyViewSchema=z.strictObject({...match,playerCount,status:z.enum(['lobby','running','complete','aborted']),
-  seats:z.array(z.strictObject({seatId:SeatIdSchema,initialRoom:room})).max(9),
+  seats:z.array(z.strictObject({seatId:SeatIdSchema,initialRoom:room.nullable()})).max(9),
 }).refine(v=>v.seats.length<=v.playerCount && new Set(v.seats.map(s=>s.seatId)).size===v.seats.length && v.seats.every(s=>Number(s.seatId.slice(5))<=v.playerCount)
+  && (v.seats.length<v.playerCount || v.seats.every(s=>s.initialRoom!==null))
   && (!['running','complete'].includes(v.status)||v.seats.length===v.playerCount));
 export type FullLobbyView=z.infer<typeof FullLobbyViewSchema>;
 const result=z.union([

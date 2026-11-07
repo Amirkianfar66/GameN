@@ -77,6 +77,7 @@ test('the roles and the Code are shown when the server’s view carries them, wh
     heading: 'Roles', columns: { player: 'Player', role: 'Role' },
     roles: ROLES.map((role, index) => ({ seatId: `seat-${index + 1}`, label: `Player ${index + 1}`, role })),
     code: 'The Code was: Player 1, Player 2, Player 3, Player 7.',
+    codeSeatIds: ['seat-1', 'seat-2', 'seat-3', 'seat-7'],
   });
   const drawn = renderTableShell(display);
   const text = textOf(find(drawn, byRegion('result')));
@@ -101,7 +102,7 @@ test('the roles and the Code are shown when the server’s view carries them, wh
 
 test('a match the host ended has no winner, and nothing is revealed that the view does not carry', () => {
   const display = table(aborted);
-  assert.deepEqual(display.match.result, { heading: 'Result', outcome: 'The host ended this match. There is no winner.', lines: [], reveal: null });
+  assert.deepEqual(display.match.result, { heading: 'Result', winner: null, outcome: 'The host ended this match. There is no winner.', lines: [], reveal: null });
   assert.deepEqual([display.match.phase.phaseLabel, display.match.phase.timer.state], ['Match ended by the host', 'none']);
   const own = phone(aborted);
   assert.deepEqual(own.match.result, display.match.result);
@@ -122,7 +123,7 @@ test('once the match is over the phone says so and offers nothing', () => {
     assert.deepEqual(actions.card.body.offers.map(offer => [offer.kind, offer.statusLabel]), [['move', 'Not available'], ['shot', 'Not available']]);
   }
   // A lost connection is still said first: the phone cannot vouch for what it shows.
-  assert.equal(phone(aborted, IDLE, { ...over, connection: 'stale' }).match.privateArea.content.actions.notice, 'Actions are paused until the connection is restored.');
+  assert.equal(phone(aborted, IDLE, { ...over, connection: 'stale' }).match.privateArea.content, null);
   // While the match is played, nothing says it is over.
   assert.equal(card(playerView()).body.offers.some(offer => offer.open !== null), true);
   assert.equal(model(playerView()).match.privateArea.content.actions.notice, null);

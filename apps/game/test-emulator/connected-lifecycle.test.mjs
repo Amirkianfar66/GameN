@@ -38,7 +38,7 @@ test('connected: the host ends a match; every audience’s view says so and reve
   assert.deepEqual([publicView.phase.endsAt, publicView.result, publicView.endReveal, publicView.activeSeatId], [null, null, null, null]);
   assert.equal(publicView.seats.every(seat => seat.revealedFaction === null), true);
   const table = buildTableShellModel({ ...environment, view: publicView });
-  assert.deepEqual(table.match.result, { heading: 'Result', outcome: 'The host ended this match. There is no winner.', lines: [], reveal: null });
+  assert.deepEqual(table.match.result, { heading: 'Result', winner: null, outcome: 'The host ended this match. There is no winner.', lines: [], reveal: null });
   assert.deepEqual([table.match.phase.phaseLabel, table.match.phase.timer.state], ['Match ended by the host', 'none']);
   assert.doesNotMatch(JSON.stringify(table), ROLES, 'The shared display names no role');
 

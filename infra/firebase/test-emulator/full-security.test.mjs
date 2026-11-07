@@ -43,6 +43,7 @@ test('V1 Rules require active reverse binding; host/display stay public; p-seat 
     [`${root}/views/public`, { matchId, versions: { protocolVersion: 2 }, audience: { kind: 'public' }, viewRevision: 1 }],
     [`${root}/playerViews/${player.uid}`, view('seat-1')], [`${root}/playerViews/${target.uid}`, view('seat-2')],
     [`${root}/engine/current`, { serverOnly: 'synthetic-role-map' }],
+    [`${root}/engine/gameplayPins`, { serverOnly: 'synthetic-creation-pins' }],
     [`${root}/admissions/request-a`, { uid: outsider.uid, initialRoom: 'Room A', status: 'pending' }],
     [`${root}/admissions/request-b`, { uid: target.uid, initialRoom: 'Room B', status: 'approved', seatId: 'seat-2' }],
     [`${root}/audienceEvents/public/items/1-0`, event({ kind: 'public' }, { type: 'PHASE_CHANGED', phaseId: 'phase-a' })],
@@ -68,7 +69,10 @@ test('V1 Rules require active reverse binding; host/display stay public; p-seat 
       assert.equal((await firestoreRequest(`${root}/playerViews/${player.uid}`, { idToken: identity.idToken })).status, 403);
       assert.equal((await firestoreEventQuery(matchId, 'p-seat-1', identity, 'seat-1')).status, 403);
     }
-    for (const identity of [host, player, display]) assert.equal((await firestoreRequest(`${root}/engine/current`, { idToken: identity.idToken })).status, 403);
+    for (const identity of [host, player, display, outsider]) for (const path of [`${root}/engine/current`, `${root}/engine/gameplayPins`]) {
+      assert.equal((await firestoreRequest(path, { idToken: identity.idToken })).status, 403);
+      assert.equal((await firestoreRequest(path, { idToken: identity.idToken, method: 'PATCH', data: view('seat-1') })).status, 403);
+    }
     for (const path of [`${root}/views/public`, `${root}/playerViews/${player.uid}`, `${root}/members/${player.uid}`, `${root}/seats/seat-1`, `${root}/control/session`, `${root}/audienceEvents/p-seat-1/items/1-0`]) {
       assert.equal((await firestoreRequest(path, { idToken: player.idToken, method: 'PATCH', data: view('seat-1') })).status, 403);
     }

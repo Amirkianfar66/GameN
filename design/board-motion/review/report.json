@@ -1,0 +1,6013 @@
+{
+  "devOnly": "mothership:dev-only",
+  "tool": "design/tools/board-motion-capture.mjs",
+  "base": "94a49ce0c5220b814ec56333b028fbe6180b257e",
+  "inputsSha256": "46f414795a852e5ec731b25085308f9cfa603b45f702a5f809469096c6dd7c97",
+  "browser": "Chromium 141.0.7390.37",
+  "captures": 333,
+  "failures": [],
+  "results": [
+    {
+      "id": "board.idle",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "board.other-turn",
+      "scenario": "board.other-turn",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "board.seven",
+      "scenario": "board.seven",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1"
+        }
+      }
+    },
+    {
+      "id": "board.eight",
+      "scenario": "board.eight",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3"
+        }
+      }
+    },
+    {
+      "id": "board.crowded",
+      "scenario": "board.crowded",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/room-a-crowd-1",
+          "2": "room-a/room-a-crowd-2",
+          "3": "room-a/room-a-crowd-3",
+          "4": "room-a/room-a-crowd-4",
+          "5": "room-a/room-a-crowd-5",
+          "6": "room-a/room-a-crowd-6",
+          "7": "room-a/room-a-crowd-7",
+          "8": "hospital/H3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "board.all-one-room",
+      "scenario": "board.all-one-room",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/room-a-crowd-1",
+          "2": "room-a/room-a-crowd-2",
+          "3": "room-a/room-a-crowd-3",
+          "4": "room-a/room-a-crowd-4",
+          "5": "room-a/room-a-crowd-5",
+          "6": "room-a/room-a-crowd-6",
+          "7": "room-a/room-a-crowd-7",
+          "8": "room-a/room-a-crowd-8",
+          "9": "room-a/room-a-crowd-9"
+        }
+      }
+    },
+    {
+      "id": "board.crowded-hospital",
+      "scenario": "board.crowded-hospital",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "hospital/hospital-crowd-1",
+          "2": "hospital/hospital-crowd-2",
+          "3": "room-a/A3",
+          "4": "hospital/hospital-crowd-3",
+          "5": "hospital/hospital-crowd-4",
+          "6": "hospital/hospital-crowd-5",
+          "7": "command-room/C1",
+          "8": "hospital/hospital-crowd-6",
+          "9": "room-b/B4"
+        }
+      }
+    },
+    {
+      "id": "board.final-zone",
+      "scenario": "board.final-zone",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "final-zone/F1",
+          "2": "final-zone/F2",
+          "3": "final-zone/F3",
+          "4": "final-zone/F4",
+          "5": "final-zone/F5",
+          "6": "final-zone/F6",
+          "7": "final-zone/F7",
+          "8": "final-zone/F8",
+          "9": "final-zone/F9"
+        }
+      }
+    },
+    {
+      "id": "board.long-names",
+      "scenario": "board.long-names",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "board.tightest",
+      "scenario": "board.tightest",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 5,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/room-a-crowd-1",
+          "2": "room-a/room-a-crowd-2",
+          "3": "room-a/room-a-crowd-3",
+          "4": "room-a/room-a-crowd-4",
+          "5": "room-a/room-a-crowd-5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/room-a-crowd-6",
+          "9": "hospital/H4"
+        }
+      }
+    },
+    {
+      "id": "end.blue",
+      "scenario": "end.blue",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "end.alien-co",
+      "scenario": "end.alien-co",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "end.red",
+      "scenario": "end.red",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "end.alien",
+      "scenario": "end.alien",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "end.draw",
+      "scenario": "end.draw",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "final-zone/F1",
+          "2": "final-zone/F2",
+          "3": "final-zone/F3",
+          "4": "final-zone/F4",
+          "5": "final-zone/F5",
+          "6": "final-zone/F6",
+          "7": "final-zone/F7",
+          "8": "final-zone/F8",
+          "9": "final-zone/F9"
+        }
+      }
+    },
+    {
+      "id": "end.aborted",
+      "scenario": "end.aborted",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "tray.open",
+      "scenario": "tray.open",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "tray.empty",
+      "scenario": "tray.empty",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "tray.undercover",
+      "scenario": "tray.undercover",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "tray.cracker",
+      "scenario": "tray.cracker",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "tray.disabler",
+      "scenario": "tray.disabler",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "tray.supplier",
+      "scenario": "tray.supplier",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "tray.showdown",
+      "scenario": "tray.showdown",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "final-zone/F1",
+          "2": "final-zone/F2",
+          "3": "final-zone/F3",
+          "4": "final-zone/F4",
+          "5": "final-zone/F5",
+          "6": "final-zone/F6",
+          "7": "final-zone/F7",
+          "8": "final-zone/F8",
+          "9": "final-zone/F9"
+        }
+      }
+    },
+    {
+      "id": "tray.vote",
+      "scenario": "tray.vote",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "tray.release",
+      "scenario": "tray.release",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "command-room/C1",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "room-a/A2",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "tray.release-vote",
+      "scenario": "tray.release-vote",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "shot.choose",
+      "scenario": "shot.choose",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 3,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "shot.confirm",
+      "scenario": "shot.confirm",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "shot.pending",
+      "scenario": "shot.pending",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "shot.registered",
+      "scenario": "shot.registered",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "shot.officer",
+      "scenario": "shot.officer",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 3,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "shot.undercover-confirm",
+      "scenario": "shot.undercover-confirm",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "shot.alien-confirm",
+      "scenario": "shot.alien-confirm",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "shot.rejected",
+      "scenario": "shot.rejected",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "shot.unknown",
+      "scenario": "shot.unknown",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "disable.choose",
+      "scenario": "disable.choose",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 3,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "disable.confirm",
+      "scenario": "disable.confirm",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "disable.registered",
+      "scenario": "disable.registered",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "disable.red-confirm",
+      "scenario": "disable.red-confirm",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "disable.red-registered",
+      "scenario": "disable.red-registered",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "protect.choose",
+      "scenario": "protect.choose",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 4,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "protect.confirm",
+      "scenario": "protect.confirm",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "protect.registered",
+      "scenario": "protect.registered",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "rescue.choose",
+      "scenario": "rescue.choose",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 1,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "rescue.self",
+      "scenario": "rescue.self",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 1,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "rescue.confirm",
+      "scenario": "rescue.confirm",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "rescue.registered",
+      "scenario": "rescue.registered",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "rescue.kit",
+      "scenario": "rescue.kit",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "hack.choose",
+      "scenario": "hack.choose",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 3,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "hack.phase",
+      "scenario": "hack.phase",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "hack.confirm",
+      "scenario": "hack.confirm",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "hack.requested",
+      "scenario": "hack.requested",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "hack.partner",
+      "scenario": "hack.partner",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "showdown.choose",
+      "scenario": "showdown.choose",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 7,
+        "boardOverflow": 0,
+        "places": {
+          "1": "final-zone/F1",
+          "2": "final-zone/F2",
+          "3": "final-zone/F3",
+          "4": "final-zone/F4",
+          "5": "final-zone/F5",
+          "6": "final-zone/F6",
+          "7": "final-zone/F7",
+          "8": "final-zone/F8",
+          "9": "final-zone/F9"
+        }
+      }
+    },
+    {
+      "id": "showdown.resolved",
+      "scenario": "showdown.resolved",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "final-zone/F1",
+          "2": "final-zone/F2",
+          "3": "final-zone/F3",
+          "4": "final-zone/F4",
+          "5": "final-zone/F5",
+          "6": "final-zone/F6",
+          "7": "final-zone/F7",
+          "8": "final-zone/F8",
+          "9": "final-zone/F9"
+        }
+      }
+    },
+    {
+      "id": "showdown.confirm",
+      "scenario": "showdown.confirm",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "final-zone/F1",
+          "2": "final-zone/F2",
+          "3": "final-zone/F3",
+          "4": "final-zone/F4",
+          "5": "final-zone/F5",
+          "6": "final-zone/F6",
+          "7": "final-zone/F7",
+          "8": "final-zone/F8",
+          "9": "final-zone/F9"
+        }
+      }
+    },
+    {
+      "id": "showdown.registered",
+      "scenario": "showdown.registered",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "final-zone/F1",
+          "2": "final-zone/F2",
+          "3": "final-zone/F3",
+          "4": "final-zone/F4",
+          "5": "final-zone/F5",
+          "6": "final-zone/F6",
+          "7": "final-zone/F7",
+          "8": "final-zone/F8",
+          "9": "final-zone/F9"
+        }
+      }
+    },
+    {
+      "id": "crowd.shot",
+      "scenario": "crowd.shot",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 8,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/room-a-crowd-1",
+          "2": "room-a/room-a-crowd-2",
+          "3": "room-a/room-a-crowd-3",
+          "4": "room-a/room-a-crowd-4",
+          "5": "room-a/room-a-crowd-5",
+          "6": "room-a/room-a-crowd-6",
+          "7": "room-a/room-a-crowd-7",
+          "8": "room-a/room-a-crowd-8",
+          "9": "room-a/room-a-crowd-9"
+        }
+      }
+    },
+    {
+      "id": "crowd.disable",
+      "scenario": "crowd.disable",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 8,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/room-a-crowd-1",
+          "2": "room-a/room-a-crowd-2",
+          "3": "room-a/room-a-crowd-3",
+          "4": "room-a/room-a-crowd-4",
+          "5": "room-a/room-a-crowd-5",
+          "6": "room-a/room-a-crowd-6",
+          "7": "room-a/room-a-crowd-7",
+          "8": "room-a/room-a-crowd-8",
+          "9": "room-a/room-a-crowd-9"
+        }
+      }
+    },
+    {
+      "id": "crowd.protect",
+      "scenario": "crowd.protect",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 9,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/room-a-crowd-1",
+          "2": "room-a/room-a-crowd-2",
+          "3": "room-a/room-a-crowd-3",
+          "4": "room-a/room-a-crowd-4",
+          "5": "room-a/room-a-crowd-5",
+          "6": "room-a/room-a-crowd-6",
+          "7": "room-a/room-a-crowd-7",
+          "8": "room-a/room-a-crowd-8",
+          "9": "room-a/room-a-crowd-9"
+        }
+      }
+    },
+    {
+      "id": "crowd.rescue",
+      "scenario": "crowd.rescue",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 8,
+        "boardOverflow": 0,
+        "places": {
+          "1": "hospital/hospital-crowd-1",
+          "2": "hospital/hospital-crowd-2",
+          "3": "room-a/A3",
+          "4": "hospital/hospital-crowd-3",
+          "5": "hospital/hospital-crowd-4",
+          "6": "hospital/hospital-crowd-5",
+          "7": "hospital/hospital-crowd-6",
+          "8": "hospital/hospital-crowd-7",
+          "9": "hospital/hospital-crowd-8"
+        }
+      }
+    },
+    {
+      "id": "crowd.hack",
+      "scenario": "crowd.hack",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 8,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/room-a-crowd-1",
+          "2": "room-a/room-a-crowd-2",
+          "3": "room-a/room-a-crowd-3",
+          "4": "room-a/room-a-crowd-4",
+          "5": "room-a/room-a-crowd-5",
+          "6": "room-a/room-a-crowd-6",
+          "7": "room-a/room-a-crowd-7",
+          "8": "room-a/room-a-crowd-8",
+          "9": "room-a/room-a-crowd-9"
+        }
+      }
+    },
+    {
+      "id": "crowd.scan",
+      "scenario": "crowd.scan",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 9,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/room-a-crowd-1",
+          "2": "room-a/room-a-crowd-2",
+          "3": "room-a/room-a-crowd-3",
+          "4": "room-a/room-a-crowd-4",
+          "5": "room-a/room-a-crowd-5",
+          "6": "room-a/room-a-crowd-6",
+          "7": "room-a/room-a-crowd-7",
+          "8": "room-a/room-a-crowd-8",
+          "9": "room-a/room-a-crowd-9"
+        }
+      }
+    },
+    {
+      "id": "crowd.supply",
+      "scenario": "crowd.supply",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 8,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/room-a-crowd-1",
+          "2": "room-a/room-a-crowd-2",
+          "3": "room-a/room-a-crowd-3",
+          "4": "room-a/room-a-crowd-4",
+          "5": "room-a/room-a-crowd-5",
+          "6": "room-a/room-a-crowd-6",
+          "7": "room-a/room-a-crowd-7",
+          "8": "room-a/room-a-crowd-8",
+          "9": "room-a/room-a-crowd-9"
+        }
+      }
+    },
+    {
+      "id": "crowd.vote",
+      "scenario": "crowd.vote",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 9,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/room-a-crowd-1",
+          "2": "room-a/room-a-crowd-2",
+          "3": "room-a/room-a-crowd-3",
+          "4": "room-a/room-a-crowd-4",
+          "5": "room-a/room-a-crowd-5",
+          "6": "room-a/room-a-crowd-6",
+          "7": "room-a/room-a-crowd-7",
+          "8": "room-a/room-a-crowd-8",
+          "9": "room-a/room-a-crowd-9"
+        }
+      }
+    },
+    {
+      "id": "scan.choose",
+      "scenario": "scan.choose",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 4,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "scan.faction",
+      "scenario": "scan.faction",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "scan.result",
+      "scenario": "scan.result",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "scan.sending",
+      "scenario": "scan.sending",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "scan.fresh",
+      "scenario": "scan.fresh",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "supply.first",
+      "scenario": "supply.first",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 3,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "supply.second",
+      "scenario": "supply.second",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 2,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "supply.confirm",
+      "scenario": "supply.confirm",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "supply.registered",
+      "scenario": "supply.registered",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "supply.ack",
+      "scenario": "supply.ack",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "supply.ack-one",
+      "scenario": "supply.ack-one",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "supply.ack-none",
+      "scenario": "supply.ack-none",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "supply.self",
+      "scenario": "supply.self",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "supply.received",
+      "scenario": "supply.received",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "supply.history",
+      "scenario": "supply.history",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "file.insider",
+      "scenario": "file.insider",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "file.hidden",
+      "scenario": "file.hidden",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "file.hacker",
+      "scenario": "file.hacker",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "file.hacker-start",
+      "scenario": "file.hacker-start",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "file.alien",
+      "scenario": "file.alien",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "guard.card",
+      "scenario": "guard.card",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "guard.used",
+      "scenario": "guard.used",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "guard.self",
+      "scenario": "guard.self",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "weapons.officer-spent",
+      "scenario": "weapons.officer-spent",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "weapons.officer-supplied",
+      "scenario": "weapons.officer-supplied",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "alien.weapon",
+      "scenario": "alien.weapon",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "code.two",
+      "scenario": "code.two",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 7,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "code.four",
+      "scenario": "code.four",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "code.registered",
+      "scenario": "code.registered",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "vote.election",
+      "scenario": "vote.election",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 7,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "room-b/B3",
+          "8": "room-b/B5",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "vote.runoff",
+      "scenario": "vote.runoff",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 2,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "room-b/B3",
+          "8": "room-b/B5",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "vote.jail",
+      "scenario": "vote.jail",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 8,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "vote.recorded",
+      "scenario": "vote.recorded",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "vote.tally",
+      "scenario": "vote.tally",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "jail/J4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "room-b/B4"
+        }
+      }
+    },
+    {
+      "id": "release.choice",
+      "scenario": "release.choice",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 1,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "command-room/C1",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "room-a/A2",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "release.vote",
+      "scenario": "release.vote",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "vote.confirm",
+      "scenario": "vote.confirm",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "room-b/B3",
+          "8": "room-b/B5",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "vote.abstain",
+      "scenario": "vote.abstain",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "vote.abstained",
+      "scenario": "vote.abstained",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "release.confirm",
+      "scenario": "release.confirm",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "command-room/C1",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "room-a/A2",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "release.requested",
+      "scenario": "release.requested",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "command-room/C1",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "room-a/A2",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "release.vote-yes",
+      "scenario": "release.vote-yes",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "release.vote-no",
+      "scenario": "release.vote-no",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "release.voted",
+      "scenario": "release.voted",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "move.tags",
+      "scenario": "move.tags",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "room-b/B3",
+          "8": "room-b/B5",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "move.confirm",
+      "scenario": "move.confirm",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "move.pending",
+      "scenario": "move.pending",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "move.accepted",
+      "scenario": "move.accepted",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-b/B3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B5",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "move.refused",
+      "scenario": "move.refused",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "move.full",
+      "scenario": "move.full",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-a/A2",
+          "3": "room-b/B3",
+          "4": "room-a/A4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "pass.confirm",
+      "scenario": "pass.confirm",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "pass.passed",
+      "scenario": "pass.passed",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "pass.legacy",
+      "scenario": "pass.legacy",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "public.injured",
+      "scenario": "public.injured",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "public.eliminated",
+      "scenario": "public.eliminated",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "public.jailed",
+      "scenario": "public.jailed",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "jail/J3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "public.captain",
+      "scenario": "public.captain",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "robust.unreadable",
+      "scenario": "robust.unreadable",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "stale.card",
+      "scenario": "stale.card",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "stale.card-notes",
+      "scenario": "stale.card-notes",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "robust.stale",
+      "scenario": "robust.stale",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "robust.dropped",
+      "scenario": "robust.dropped",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "robust.withdrawn",
+      "scenario": "robust.withdrawn",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 2,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "robust.queued",
+      "scenario": "robust.queued",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "result.captain",
+      "scenario": "result.captain",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "command-room/C1",
+          "6": "hospital/H1",
+          "7": "room-a/A2",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "result.runoff",
+      "scenario": "result.runoff",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "room-b/B3",
+          "8": "room-b/B5",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "result.no-captain",
+      "scenario": "result.no-captain",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "room-b/B3",
+          "8": "room-b/B5",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "result.jailed",
+      "scenario": "result.jailed",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "jail/J4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J5"
+        }
+      }
+    },
+    {
+      "id": "result.no-jail-tie",
+      "scenario": "result.no-jail-tie",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "result.no-jail",
+      "scenario": "result.no-jail",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "result.released",
+      "scenario": "result.released",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "room-a/A4"
+        }
+      }
+    },
+    {
+      "id": "result.denied",
+      "scenario": "result.denied",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "result.late",
+      "scenario": "result.late",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "command-room/C1",
+          "6": "hospital/H1",
+          "7": "room-a/A2",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "result.long-names",
+      "scenario": "result.long-names",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "room-b/B3",
+          "8": "room-b/B5",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "clothes.hospital-five",
+      "scenario": "clothes.hospital-five",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "hospital/H1",
+          "2": "hospital/H2",
+          "3": "room-a/A3",
+          "4": "hospital/H4",
+          "5": "hospital/H5",
+          "6": "hospital/H3",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "clothes.jail-five",
+      "scenario": "clothes.jail-five",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "jail/J1",
+          "2": "jail/J2",
+          "3": "room-a/A3",
+          "4": "jail/J4",
+          "5": "jail/J5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J3"
+        }
+      }
+    },
+    {
+      "id": "clothes.waiting",
+      "scenario": "clothes.waiting",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "hospital/H1",
+          "2": "jail/J2",
+          "3": "room-a/A3",
+          "4": "hospital/H4",
+          "5": "hospital/H5",
+          "6": "hospital/H2",
+          "7": "command-room/C1",
+          "8": "hospital/H3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "hack.declare",
+      "scenario": "hack.declare",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "hack.declare-undercover",
+      "scenario": "hack.declare-undercover",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "hack.declare-confirm",
+      "scenario": "hack.declare-confirm",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "hack.declare-sending",
+      "scenario": "hack.declare-sending",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "hack.declare-not-accepted",
+      "scenario": "hack.declare-not-accepted",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "hack.declare-unknown",
+      "scenario": "hack.declare-unknown",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "hack.declare-accepted",
+      "scenario": "hack.declare-accepted",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "hack.declare-five",
+      "scenario": "hack.declare-five",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-a/A4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A2",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "hack.declare-long-names",
+      "scenario": "hack.declare-long-names",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "hack.waiting",
+      "scenario": "hack.waiting",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "hack.claim-blue",
+      "scenario": "hack.claim-blue",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "hack.claim-red",
+      "scenario": "hack.claim-red",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "hack.claim-alien",
+      "scenario": "hack.claim-alien",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "hack.claim-none",
+      "scenario": "hack.claim-none",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "hack.claim-late",
+      "scenario": "hack.claim-late",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "hack.own-claim",
+      "scenario": "hack.own-claim",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "hack.own-none",
+      "scenario": "hack.own-none",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "hack.talk",
+      "scenario": "hack.talk",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "hack.talk-target",
+      "scenario": "hack.talk-target",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "hack.talk-none",
+      "scenario": "hack.talk-none",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "hack.public",
+      "scenario": "hack.public",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "state",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "w320-idle",
+      "scenario": "board.idle",
+      "viewport": "320x568",
+      "fontPx": null,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "w320-shot",
+      "scenario": "shot.choose",
+      "viewport": "320x568",
+      "fontPx": null,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 3,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "w320-code",
+      "scenario": "code.two",
+      "viewport": "320x568",
+      "fontPx": null,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 7,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "w320-vote",
+      "scenario": "vote.election",
+      "viewport": "320x568",
+      "fontPx": null,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 7,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "room-b/B3",
+          "8": "room-b/B5",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "w320-crowded",
+      "scenario": "board.crowded",
+      "viewport": "320x568",
+      "fontPx": null,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/room-a-crowd-1",
+          "2": "room-a/room-a-crowd-2",
+          "3": "room-a/room-a-crowd-3",
+          "4": "room-a/room-a-crowd-4",
+          "5": "room-a/room-a-crowd-5",
+          "6": "room-a/room-a-crowd-6",
+          "7": "room-a/room-a-crowd-7",
+          "8": "hospital/H3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "w320-all",
+      "scenario": "board.all-one-room",
+      "viewport": "320x568",
+      "fontPx": null,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/room-a-crowd-1",
+          "2": "room-a/room-a-crowd-2",
+          "3": "room-a/room-a-crowd-3",
+          "4": "room-a/room-a-crowd-4",
+          "5": "room-a/room-a-crowd-5",
+          "6": "room-a/room-a-crowd-6",
+          "7": "room-a/room-a-crowd-7",
+          "8": "room-a/room-a-crowd-8",
+          "9": "room-a/room-a-crowd-9"
+        }
+      }
+    },
+    {
+      "id": "w320-tightest",
+      "scenario": "board.tightest",
+      "viewport": "320x568",
+      "fontPx": null,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 5,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/room-a-crowd-1",
+          "2": "room-a/room-a-crowd-2",
+          "3": "room-a/room-a-crowd-3",
+          "4": "room-a/room-a-crowd-4",
+          "5": "room-a/room-a-crowd-5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/room-a-crowd-6",
+          "9": "hospital/H4"
+        }
+      }
+    },
+    {
+      "id": "w320-tray",
+      "scenario": "tray.open",
+      "viewport": "320x568",
+      "fontPx": null,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "w320-release",
+      "scenario": "release.vote",
+      "viewport": "320x568",
+      "fontPx": null,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "w320-move",
+      "scenario": "move.confirm",
+      "viewport": "320x568",
+      "fontPx": null,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "w320-showdown",
+      "scenario": "showdown.choose",
+      "viewport": "320x568",
+      "fontPx": null,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 7,
+        "boardOverflow": 0,
+        "places": {
+          "1": "final-zone/F1",
+          "2": "final-zone/F2",
+          "3": "final-zone/F3",
+          "4": "final-zone/F4",
+          "5": "final-zone/F5",
+          "6": "final-zone/F6",
+          "7": "final-zone/F7",
+          "8": "final-zone/F8",
+          "9": "final-zone/F9"
+        }
+      }
+    },
+    {
+      "id": "w320-end",
+      "scenario": "end.blue",
+      "viewport": "320x568",
+      "fontPx": null,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "w320-end-co",
+      "scenario": "end.alien-co",
+      "viewport": "320x568",
+      "fontPx": null,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "w320-aborted",
+      "scenario": "end.aborted",
+      "viewport": "320x568",
+      "fontPx": null,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "w320-stale",
+      "scenario": "robust.stale",
+      "viewport": "320x568",
+      "fontPx": null,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "w320-stale-menu",
+      "scenario": "robust.stale",
+      "viewport": "320x568",
+      "fontPx": null,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "w320-stale-tray",
+      "scenario": "robust.stale",
+      "viewport": "320x568",
+      "fontPx": null,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "w320-stale-card",
+      "scenario": "stale.card",
+      "viewport": "320x568",
+      "fontPx": null,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "w320-unreadable",
+      "scenario": "robust.unreadable",
+      "viewport": "320x568",
+      "fontPx": null,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "w320-hospital",
+      "scenario": "board.crowded-hospital",
+      "viewport": "320x568",
+      "fontPx": null,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "hospital/hospital-crowd-1",
+          "2": "hospital/hospital-crowd-2",
+          "3": "room-a/A3",
+          "4": "hospital/hospital-crowd-3",
+          "5": "hospital/hospital-crowd-4",
+          "6": "hospital/hospital-crowd-5",
+          "7": "command-room/C1",
+          "8": "hospital/hospital-crowd-6",
+          "9": "room-b/B4"
+        }
+      }
+    },
+    {
+      "id": "w320-crowd-vote",
+      "scenario": "crowd.vote",
+      "viewport": "320x568",
+      "fontPx": null,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 9,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/room-a-crowd-1",
+          "2": "room-a/room-a-crowd-2",
+          "3": "room-a/room-a-crowd-3",
+          "4": "room-a/room-a-crowd-4",
+          "5": "room-a/room-a-crowd-5",
+          "6": "room-a/room-a-crowd-6",
+          "7": "room-a/room-a-crowd-7",
+          "8": "room-a/room-a-crowd-8",
+          "9": "room-a/room-a-crowd-9"
+        }
+      }
+    },
+    {
+      "id": "w320-crowd-shot",
+      "scenario": "crowd.shot",
+      "viewport": "320x568",
+      "fontPx": null,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 8,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/room-a-crowd-1",
+          "2": "room-a/room-a-crowd-2",
+          "3": "room-a/room-a-crowd-3",
+          "4": "room-a/room-a-crowd-4",
+          "5": "room-a/room-a-crowd-5",
+          "6": "room-a/room-a-crowd-6",
+          "7": "room-a/room-a-crowd-7",
+          "8": "room-a/room-a-crowd-8",
+          "9": "room-a/room-a-crowd-9"
+        }
+      }
+    },
+    {
+      "id": "w320-crowd-rescue",
+      "scenario": "crowd.rescue",
+      "viewport": "320x568",
+      "fontPx": null,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 8,
+        "boardOverflow": 0,
+        "places": {
+          "1": "hospital/hospital-crowd-1",
+          "2": "hospital/hospital-crowd-2",
+          "3": "room-a/A3",
+          "4": "hospital/hospital-crowd-3",
+          "5": "hospital/hospital-crowd-4",
+          "6": "hospital/hospital-crowd-5",
+          "7": "hospital/hospital-crowd-6",
+          "8": "hospital/hospital-crowd-7",
+          "9": "hospital/hospital-crowd-8"
+        }
+      }
+    },
+    {
+      "id": "w320-crowd-supply",
+      "scenario": "crowd.supply",
+      "viewport": "320x568",
+      "fontPx": null,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 8,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/room-a-crowd-1",
+          "2": "room-a/room-a-crowd-2",
+          "3": "room-a/room-a-crowd-3",
+          "4": "room-a/room-a-crowd-4",
+          "5": "room-a/room-a-crowd-5",
+          "6": "room-a/room-a-crowd-6",
+          "7": "room-a/room-a-crowd-7",
+          "8": "room-a/room-a-crowd-8",
+          "9": "room-a/room-a-crowd-9"
+        }
+      }
+    },
+    {
+      "id": "w360-idle",
+      "scenario": "board.idle",
+      "viewport": "360x740",
+      "fontPx": null,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "w360-shot",
+      "scenario": "shot.choose",
+      "viewport": "360x740",
+      "fontPx": null,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 3,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "w360-crowded",
+      "scenario": "board.crowded",
+      "viewport": "360x740",
+      "fontPx": null,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/room-a-crowd-1",
+          "2": "room-a/room-a-crowd-2",
+          "3": "room-a/room-a-crowd-3",
+          "4": "room-a/room-a-crowd-4",
+          "5": "room-a/room-a-crowd-5",
+          "6": "room-a/room-a-crowd-6",
+          "7": "room-a/room-a-crowd-7",
+          "8": "hospital/H3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "w360-crowd-vote",
+      "scenario": "crowd.vote",
+      "viewport": "360x740",
+      "fontPx": null,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 9,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/room-a-crowd-1",
+          "2": "room-a/room-a-crowd-2",
+          "3": "room-a/room-a-crowd-3",
+          "4": "room-a/room-a-crowd-4",
+          "5": "room-a/room-a-crowd-5",
+          "6": "room-a/room-a-crowd-6",
+          "7": "room-a/room-a-crowd-7",
+          "8": "room-a/room-a-crowd-8",
+          "9": "room-a/room-a-crowd-9"
+        }
+      }
+    },
+    {
+      "id": "w430-crowd-vote",
+      "scenario": "crowd.vote",
+      "viewport": "430x932",
+      "fontPx": null,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 9,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/room-a-crowd-1",
+          "2": "room-a/room-a-crowd-2",
+          "3": "room-a/room-a-crowd-3",
+          "4": "room-a/room-a-crowd-4",
+          "5": "room-a/room-a-crowd-5",
+          "6": "room-a/room-a-crowd-6",
+          "7": "room-a/room-a-crowd-7",
+          "8": "room-a/room-a-crowd-8",
+          "9": "room-a/room-a-crowd-9"
+        }
+      }
+    },
+    {
+      "id": "text200-crowd",
+      "scenario": "crowd.vote",
+      "viewport": "390x844",
+      "fontPx": 32,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 9,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/room-a-crowd-1",
+          "2": "room-a/room-a-crowd-2",
+          "3": "room-a/room-a-crowd-3",
+          "4": "room-a/room-a-crowd-4",
+          "5": "room-a/room-a-crowd-5",
+          "6": "room-a/room-a-crowd-6",
+          "7": "room-a/room-a-crowd-7",
+          "8": "room-a/room-a-crowd-8",
+          "9": "room-a/room-a-crowd-9"
+        }
+      }
+    },
+    {
+      "id": "w430-idle",
+      "scenario": "board.idle",
+      "viewport": "430x932",
+      "fontPx": null,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "w430-code",
+      "scenario": "code.four",
+      "viewport": "430x932",
+      "fontPx": null,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "w390-crowded",
+      "scenario": "board.all-one-room",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/room-a-crowd-1",
+          "2": "room-a/room-a-crowd-2",
+          "3": "room-a/room-a-crowd-3",
+          "4": "room-a/room-a-crowd-4",
+          "5": "room-a/room-a-crowd-5",
+          "6": "room-a/room-a-crowd-6",
+          "7": "room-a/room-a-crowd-7",
+          "8": "room-a/room-a-crowd-8",
+          "9": "room-a/room-a-crowd-9"
+        }
+      }
+    },
+    {
+      "id": "w390-seven",
+      "scenario": "board.seven",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1"
+        }
+      }
+    },
+    {
+      "id": "w390-eight",
+      "scenario": "board.eight",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3"
+        }
+      }
+    },
+    {
+      "id": "long-names",
+      "scenario": "board.long-names",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "long-names-vote",
+      "scenario": "vote.election",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 7,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "room-b/B3",
+          "8": "room-b/B5",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "long-names-320",
+      "scenario": "board.long-names",
+      "viewport": "320x568",
+      "fontPx": null,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "text150-shot",
+      "scenario": "shot.choose",
+      "viewport": "390x844",
+      "fontPx": 24,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 3,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "text200-idle",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": 32,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "text200-shot",
+      "scenario": "shot.choose",
+      "viewport": "390x844",
+      "fontPx": 32,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 3,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "text200-release",
+      "scenario": "release.vote",
+      "viewport": "390x844",
+      "fontPx": 32,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "text200-320",
+      "scenario": "shot.choose",
+      "viewport": "320x568",
+      "fontPx": 32,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 3,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "text200-end",
+      "scenario": "end.blue",
+      "viewport": "390x844",
+      "fontPx": 32,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "text200-stale-card",
+      "scenario": "stale.card",
+      "viewport": "390x844",
+      "fontPx": 32,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "reduced-end",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "safe-idle",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "safe-shot",
+      "scenario": "shot.choose",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 3,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "reduced-move",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-a/A2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "reduced-registered",
+      "scenario": "shot.registered",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "desktop-idle",
+      "scenario": "board.idle",
+      "viewport": "1280x800",
+      "fontPx": null,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 0,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-b/B3",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "desktop-shot",
+      "scenario": "shot.choose",
+      "viewport": "1280x800",
+      "fontPx": null,
+      "kind": "matrix",
+      "problems": [],
+      "measured": {
+        "targets": 3,
+        "boardOverflow": 0,
+        "places": {
+          "1": "room-a/A1",
+          "2": "room-b/B2",
+          "3": "room-a/A3",
+          "4": "room-b/B4",
+          "5": "room-a/A5",
+          "6": "hospital/H1",
+          "7": "command-room/C1",
+          "8": "room-a/A4",
+          "9": "jail/J4"
+        }
+      }
+    },
+    {
+      "id": "01-cue-tray-open-0",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "01-cue-tray-open-110",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "01-cue-tray-open-220",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "01-cue-tray-open-reduced",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "02-cue-strip-enter-0",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "02-cue-strip-enter-110",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "02-cue-strip-enter-220",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "02-cue-strip-enter-reduced",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "03-cue-target-eligible-0",
+      "scenario": "shot.choose",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "03-cue-target-eligible-reduced",
+      "scenario": "shot.choose",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "04-cue-selection-0",
+      "scenario": "shot.choose",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "04-cue-selection-60",
+      "scenario": "shot.choose",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "04-cue-selection-120",
+      "scenario": "shot.choose",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "04-cue-selection-reduced",
+      "scenario": "shot.choose",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "05-cue-target-pick-0",
+      "scenario": "supply.first",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "05-cue-target-pick-60",
+      "scenario": "supply.first",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "05-cue-target-pick-120",
+      "scenario": "supply.first",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "05-cue-target-pick-reduced",
+      "scenario": "supply.first",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "06-cue-pending-0",
+      "scenario": "shot.pending",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "06-cue-pending-reduced",
+      "scenario": "shot.pending",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "07-cue-registration-0",
+      "scenario": "shot.confirm",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "07-cue-registration-60",
+      "scenario": "shot.confirm",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "07-cue-registration-120",
+      "scenario": "shot.confirm",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "07-cue-registration-reduced",
+      "scenario": "shot.confirm",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "08-cue-not-accepted-0",
+      "scenario": "shot.confirm",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "08-cue-not-accepted-60",
+      "scenario": "shot.confirm",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "08-cue-not-accepted-120",
+      "scenario": "shot.confirm",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "08-cue-not-accepted-reduced",
+      "scenario": "shot.confirm",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "09-cue-room-press-0",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "09-cue-room-press-110",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "09-cue-room-press-220",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "09-cue-room-press-reduced",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "10-cue-public-move-0",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "10-cue-public-move-60",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "10-cue-public-move-120",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "10-cue-public-move-345",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "10-cue-public-move-570",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "10-cue-public-move-735",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "10-cue-public-move-900",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "10-cue-public-move-reduced",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "11-cue-public-move-0",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "11-cue-public-move-300",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "11-cue-public-move-600",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "11-cue-public-move-900",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "11-cue-public-move-reduced",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "12-cue-public-hit-0",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "12-cue-public-hit-40",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "12-cue-public-hit-80",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "12-cue-public-hit-200",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "12-cue-public-hit-320",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "12-cue-public-hit-520",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "12-cue-public-hit-720",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "12-cue-public-hit-reduced",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "13-cue-public-hit-0",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "13-cue-public-hit-80",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "13-cue-public-hit-240",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "13-cue-public-hit-370",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "13-cue-public-hit-500",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "13-cue-public-hit-700",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "13-cue-public-hit-900",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "13-cue-public-hit-reduced",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "14-cue-public-move-0",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "14-cue-public-move-60",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "14-cue-public-move-120",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "14-cue-public-move-345",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "14-cue-public-move-570",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "14-cue-public-move-735",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "14-cue-public-move-900",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "14-cue-public-move-reduced",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "15-cue-status-change-0",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "15-cue-status-change-110",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "15-cue-status-change-220",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "15-cue-status-change-reduced",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "16-cue-status-change-0",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "16-cue-status-change-110",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "16-cue-status-change-220",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "16-cue-status-change-reduced",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "17-cue-status-change-0",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "17-cue-status-change-110",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "17-cue-status-change-220",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "17-cue-status-change-reduced",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "18-cue-phase-change-0",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "18-cue-phase-change-110",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "18-cue-phase-change-220",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "18-cue-phase-change-reduced",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "19-cue-round-transition-0",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "19-cue-round-transition-230",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "19-cue-round-transition-470",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "19-cue-round-transition-700",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "19-cue-round-transition-reduced",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "20-cue-end-reveal-0",
+      "scenario": "showdown.resolved",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "20-cue-end-reveal-120",
+      "scenario": "showdown.resolved",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "20-cue-end-reveal-380",
+      "scenario": "showdown.resolved",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "20-cue-end-reveal-600",
+      "scenario": "showdown.resolved",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "20-cue-end-reveal-900",
+      "scenario": "showdown.resolved",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "20-cue-end-reveal-reduced",
+      "scenario": "showdown.resolved",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "21-cue-end-reveal-0",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "21-cue-end-reveal-120",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "21-cue-end-reveal-240",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "21-cue-end-reveal-reduced",
+      "scenario": "board.idle",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "22-cue-sheet-open-0",
+      "scenario": "hack.phase",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "22-cue-sheet-open-reduced",
+      "scenario": "hack.phase",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "23-cue-tally-0",
+      "scenario": "vote.tally",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "23-cue-tally-reduced",
+      "scenario": "vote.tally",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "24-cue-ballot-subject-0",
+      "scenario": "release.vote",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "24-cue-ballot-subject-reduced",
+      "scenario": "release.vote",
+      "viewport": "390x844",
+      "fontPx": null,
+      "kind": "frame",
+      "problems": [],
+      "measured": null
+    },
+    {
+      "id": "secrecy-shot.pending",
+      "scenario": "shot.pending",
+      "viewport": "1440x920",
+      "fontPx": null,
+      "kind": "secrecy",
+      "problems": [],
+      "measured": {}
+    },
+    {
+      "id": "secrecy-supply.second",
+      "scenario": "supply.second",
+      "viewport": "1440x920",
+      "fontPx": null,
+      "kind": "secrecy",
+      "problems": [],
+      "measured": {}
+    },
+    {
+      "id": "secrecy-code.four",
+      "scenario": "code.four",
+      "viewport": "1440x920",
+      "fontPx": null,
+      "kind": "secrecy",
+      "problems": [],
+      "measured": {}
+    },
+    {
+      "id": "secrecy-scan.faction",
+      "scenario": "scan.faction",
+      "viewport": "1440x920",
+      "fontPx": null,
+      "kind": "secrecy",
+      "problems": [],
+      "measured": {}
+    },
+    {
+      "id": "secrecy-protect.choose",
+      "scenario": "protect.choose",
+      "viewport": "1440x920",
+      "fontPx": null,
+      "kind": "secrecy",
+      "problems": [],
+      "measured": {}
+    },
+    {
+      "id": "secrecy-vote.recorded",
+      "scenario": "vote.recorded",
+      "viewport": "1440x920",
+      "fontPx": null,
+      "kind": "secrecy",
+      "problems": [],
+      "measured": {}
+    },
+    {
+      "id": "secrecy-move.confirm",
+      "scenario": "move.confirm",
+      "viewport": "1440x920",
+      "fontPx": null,
+      "kind": "secrecy",
+      "problems": [],
+      "measured": {}
+    },
+    {
+      "id": "secrecy-hack.phase",
+      "scenario": "hack.phase",
+      "viewport": "1440x920",
+      "fontPx": null,
+      "kind": "secrecy",
+      "problems": [],
+      "measured": {}
+    },
+    {
+      "id": "secrecy-showdown.registered",
+      "scenario": "showdown.registered",
+      "viewport": "1440x920",
+      "fontPx": null,
+      "kind": "secrecy",
+      "problems": [],
+      "measured": {}
+    },
+    {
+      "id": "secrecy-end.blue",
+      "scenario": "end.blue",
+      "viewport": "1440x920",
+      "fontPx": null,
+      "kind": "secrecy",
+      "problems": [],
+      "measured": {}
+    },
+    {
+      "id": "secrecy-stale.card",
+      "scenario": "stale.card",
+      "viewport": "1440x920",
+      "fontPx": null,
+      "kind": "secrecy",
+      "problems": [],
+      "measured": {}
+    },
+    {
+      "id": "vocabulary",
+      "kind": "vocabulary",
+      "problems": []
+    },
+    {
+      "id": "contact-sheets",
+      "kind": "contact",
+      "problems": []
+    }
+  ]
+}

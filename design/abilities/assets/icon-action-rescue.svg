@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · ability art proposal · icon-action-rescue 0.1.0 · generated, do not edit by hand
+  The Rescue: its tray icon. The Rescue's chip in the seat's own Actions tray: the medical cross of its strip. One ink, beside its live label; the Shot keeps the reviewed icon-action-shot.
+  Built by design/tools/abilities-assets.mjs from design/abilities/source/actions.svg (layer icon-action-rescue). Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32"><g id="icon-action-rescue" fill="none" stroke="#151923" stroke-width="2.6" stroke-linejoin="round"><circle cx="16" cy="16" r="12.5"/><path d="M13 8.5 H19 V13 H23.5 V19 H19 V23.5 H13 V19 H8.5 V13 H13 Z" fill="#151923" stroke-width="1.4"/></g></svg>

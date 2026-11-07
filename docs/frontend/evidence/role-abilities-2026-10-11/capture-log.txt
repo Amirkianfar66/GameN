@@ -1,0 +1,20 @@
+17:29:54 320x568-protection-states 320x568 clean
+17:29:55 320x568-cracker-no-rescues 320x568 clean
+17:29:57 320x568-scan-results 320x568 clean
+17:29:59 320x568-alien-code 320x568 clean
+17:30:01 320x568-supplier-results 320x568 clean
+17:30:04 320x568-disable-registered 320x568 clean | accepted: DISABLE : Disable at Player 8 registered. This is not a result. Registered actio
+17:30:07 320x568-disable-not-accepted 320x568 clean | not-accepted: DISABLE : Not accepted. The server did not allow it. You can choose again if the
+17:30:10 320x568-rescue-registered 320x568 clean | accepted: RESCUE : Rescue of Player 6 registered. This is not a result. Registered actions
+17:30:13 320x568-protect-registered 320x568 clean | accepted: PROTECTION : Protection for yourself registered. This is not a result. Registere
+17:30:16 320x568-officer-shot-registered 320x568 clean | accepted: SHOT : Shot at Player 5 registered. This is not a result. Registered shots are r
+17:30:18 390x844-protection-states 390x844 clean
+17:30:19 390x844-cracker-no-rescues 390x844 clean
+17:30:21 390x844-scan-results 390x844 clean
+17:30:23 390x844-alien-code 390x844 clean
+17:30:25 390x844-supplier-results 390x844 clean
+17:30:28 390x844-disable-registered 390x844 clean | accepted: DISABLE : Disable at Player 8 registered. This is not a result. Registered actio
+17:30:31 390x844-disable-not-accepted 390x844 clean | not-accepted: DISABLE : Not accepted. The server did not allow it. You can choose again if the
+17:30:34 390x844-rescue-registered 390x844 clean | accepted: RESCUE : Rescue of Player 6 registered. This is not a result. Registered actions
+17:30:37 390x844-protect-registered 390x844 clean | accepted: PROTECTION : Protection for yourself registered. This is not a result. Registere
+17:30:40 390x844-officer-shot-registered 390x844 clean | accepted: SHOT : Shot at Player 5 registered. This is not a result. Registered shots are r

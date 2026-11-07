@@ -1,0 +1,17 @@
+# Pass and direct character targeting
+
+Issue [#85](https://github.com/Amirkianfar66/GameN/issues/85), based on deployed integration commit `90f079d113e014a0cc0d3a337ae69b020abe1ce7`. Backend source: `012a0206eced172bd2158116654dfdd732bf3fbb`. This is a focused follow-up to the room-tag movement and random admission-room changes.
+
+The middle bottom-navigation button sends strict `PASS_TURN` through the existing authenticated command controller. It needs the active ordinary turn's server capability, a current view, a trusted running clock, a foreground page and no unfinished choice or unresolved command. A settled action can be followed by Pass after the existing double-tap guard. Pass does not reveal the role card. Its neutral receipt strip supports the same durable lookup and recovery path as every other action. The server advances the turn; the client does not move a timer or phase itself.
+
+An action that needs a player now makes exactly its server-provided next targets into keyboard-operable character buttons inside their rooms. The old player list is removed from the comic action strip. Ordered Supply/Code picks get numbered markers and cannot be selected twice; Back undoes the existing flow's latest pick. Scan faction, release answers and abstention remain compact non-character choices. The existing explicit confirmation and durable receipt flow follow the final selection. No rules, target eligibility or outcomes are inferred from character artwork.
+
+The strip occupies its own row above navigation, leaving Hospital and Jail reachable. At short phone heights, room tags and characters share a row. Target controls are at least 44 by 44 CSS pixels. Private target highlights exist only while the player's action panel is open; closing it, changing phone view, backgrounding, stale data and elapsed time remove unsent selection cues. The shared table never receives those controls. Normal room-tag movement and the approved comic assets remain in use.
+
+## Version and evidence boundaries
+
+The backend handoff is [pass-turn.md](../backend/pass-turn.md). New matches use `full-game-1.1.0` / `in-person-v1-pass-2026-10-08`, owner overlay SHA-256 `a25cec290370a3140829292b3cb8bdda3fb4402e0b529b56c6ef9692f7870183`. Existing matches keep their exact legacy tuple and cannot Pass. The Balance catalogue, original owner overlay, source manifests and reviewed exceptions stay byte-for-byte unchanged. Current evidence additionally pins the Pass overlay and the new engine tuple; the report gate rejects missing or changed additive-decision evidence. The original random playout policy does not exercise Pass; the new engine/service tests do.
+
+Before the combined source commit, pure/browser typechecks passed, all 160 presentation tests passed and all 409 app tests passed. A temporary synthetic layout fixture checked nine players together in a room, together in Hospital, and distributed among all five rooms at 320 by 568: each target was inside its room and passed center hit-testing, with no document overflow. The crowded-room case also passed at 390 by 844. This fixture was removed and is not part of any release. These are layout checks, not multiplayer evidence.
+
+The integrated clean-commit verify, CI, packaging and actual local/hosted interaction results are recorded in the PR. No game-rule decision remains unresolved for these controls. Claude Frontend/Designer review of the integrated phone interaction remains a merge-review step; no external Claude review is claimed here.

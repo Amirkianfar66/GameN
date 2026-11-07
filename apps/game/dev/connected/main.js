@@ -569,10 +569,6 @@ async function player(uid) {
     const code = el('input', undefined, { type: 'text', id: 'connected-room-code-input', autocomplete: 'off', autocapitalize: 'characters', spellcheck: 'false', maxlength: '12' });
     const codeLabel = el('label', 'Room code');
     codeLabel.append(code);
-    const room = el('select', undefined, { id: 'connected-initial-room' });
-    for (const name of ['Room A', 'Room B']) room.append(el('option', name, { value: name }));
-    const roomLabel = el('label', 'Where you start');
-    roomLabel.append(room);
     const join = el('button', 'Ask to join', { type: 'button', id: 'connected-join' });
     // Taking over a seat that another device held, with a one-time code from the host. The
     // code goes from the field into the request and nowhere else: not into the address, not
@@ -615,10 +611,10 @@ async function player(uid) {
       // whether it has in fact given this device a seat, which settles it either way.
       void player(uid);
     });
-    frame('Player', facts([['This device', uid, 'connected-uid']]), codeLabel, roomLabel, keeping('join', join, [code, room]),
+    frame('Player', facts([['This device', uid, 'connected-uid']]), codeLabel, keeping('join', join, [code]),
       el('h2', 'Or take over a seat from another device'), recoverMatchLabel, recoverCodeLabel, keeping('recover', recover, [recoverMatch, recoverCode]));
     join.addEventListener('click', async () => {
-      const outcome = await operate('join', requestId => ({ protocolVersion: 2, requestId, roomCode: code.value.trim().toUpperCase(), initialRoom: room.value }), request => api.requestAdmission(request), 'Asking to join',
+      const outcome = await operate('join', requestId => ({ protocolVersion: 2, requestId, roomCode: code.value.trim().toUpperCase() }), request => api.requestAdmission(request), 'Asking to join',
         { invalid: 'A room code is twelve characters, 0 to 9 and A to F.' });
       if (outcome.kind !== 'done') return;
       resume.save({ device: 'player', matchId: outcome.result.matchId, admissionId: outcome.result.admissionId });

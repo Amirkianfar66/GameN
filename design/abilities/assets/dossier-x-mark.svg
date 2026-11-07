@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · ability art proposal · dossier-x-mark 0.1.0 · generated, do not edit by hand
+  A pencil cross. On the seat's own ballot: No to a release.
+  Built by design/tools/abilities-assets.mjs from design/abilities/source/ballot.svg (layer dossier-x-mark). Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><g id="dossier-x-mark"><path d="M5 5 L19 19 M19 5 L5 19" fill="none" stroke="#F4EBDD" stroke-width="7.5" stroke-linecap="round"/><path d="M5 5 L19 19 M19 5 L5 19" fill="none" stroke="#151923" stroke-width="3.6" stroke-linecap="round"/></g></svg>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  mothership:dev-only · board-v2 capsule proposal board-v2-capsule-0.1.0 · badge · generated, do not edit by hand
+  The pair's badge: a capsule with two heads in it, at the participants' places while the board names them, 48 units drawn 22 px square. No microphone, no sound, no side.
+  Built by design/tools/board-v2-assets.mjs from design/board-v2/scenes/capsule.mjs. Scenery, not a room: no slots, no press areas. Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <g id="capsule-badge"><circle cx="24" cy="24" r="21" fill="#151923"/><circle cx="24" cy="24" r="19.5" fill="none" stroke="#F7C52B" stroke-width="3"/><rect x="10" y="16" width="28" height="16" rx="8" fill="#303F80"/><rect x="10" y="16" width="28" height="16" rx="8" fill="none" stroke="#F7C52B" stroke-width="2"/><circle cx="17.5" cy="24" r="3.6" fill="#F4EBDD"/><circle cx="30.5" cy="24" r="3.6" fill="#F4EBDD"/></g>
+</svg>

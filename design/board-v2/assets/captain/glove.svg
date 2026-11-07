@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  mothership:dev-only · board-v2 Captain proposal board-v2-captain-0.1.0 · glove · generated, do not edit by hand
+  The Captain's gloved hand, its index finger out, its tip at (17, 4). The same glove whoever is Captain.
+  Built by design/tools/board-v2-assets.mjs from design/board-v2/fx/captain.mjs. Public: the same on every phone and the display (the plates: the Captain's own controls); it reads no role, side, faction or cause. Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 56 72" width="56" height="72"><g data-layer="fx-glove"><rect x="13" y="54" width="34" height="17" rx="3" fill="#1B2747" stroke="#151923" stroke-width="3"/><path d="M15 61 H45" stroke="#F7C52B" stroke-width="3"/><path d="M10 34 Q9 30 13 29 H44 Q49 30 48 37 L47 52 Q46 58 40 58 H17 Q10 58 9 50 Z" fill="#E3D6C2" stroke="#151923" stroke-width="3" stroke-linejoin="round"/><path d="M10 40 Q3 39 3 45 Q4 51 12 52" fill="#E3D6C2" stroke="#151923" stroke-width="3" stroke-linejoin="round"/><path d="M33 36 Q38 37 43 36 M24 36 Q28 37 32 36" fill="none" stroke="#151923" stroke-width="1.6" stroke-linecap="round" opacity="0.55"/><path d="M23 30 Q24 24 30 24 Q35 24 35 30 V36" fill="#E3D6C2" stroke="#151923" stroke-width="3"/><path d="M34 31 Q35 26 40 26 Q45 27 45 32 V39" fill="#E3D6C2" stroke="#151923" stroke-width="3"/><path d="M11 36 V11 Q11 4 17 4 Q23 4 23 11 V34" fill="#E3D6C2" stroke="#151923" stroke-width="3" stroke-linejoin="round"/></g></svg>

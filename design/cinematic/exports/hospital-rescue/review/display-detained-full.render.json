@@ -1,0 +1,54 @@
+{
+  "tool": "design/tools/cinematic-render.mjs",
+  "pilot": "hospital-rescue",
+  "version": "cinematic-hospital-rescue-0.1.0",
+  "surface": "display",
+  "variant": "full",
+  "stage": "design/cinematic/stage.html?pilot=hospital-rescue&surface=display&variant=full&beds=4&case=detained",
+  "size": [
+    1920,
+    1080
+  ],
+  "deviceScale": 0.6667,
+  "fixture": {
+    "subject": 8,
+    "berth": "H2",
+    "fit": 1,
+    "inset": "above",
+    "leaves": true
+  },
+  "browser": "Chromium 141.0.7390.37",
+  "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+  "outputs": [
+    {
+      "kind": "video",
+      "file": "design/cinematic/exports/hospital-rescue/review/display-detained-full.mp4",
+      "sha256": "ffacb31d3bf08cb3ecd07bfb239f06c43ad394ef53f3ae4002075ef5711b3402",
+      "bytes": 423664,
+      "fps": 30,
+      "frames": 187,
+      "durationMs": 6200,
+      "from": 0,
+      "to": 6200,
+      "audio": "design/cinematic/exports/hospital-rescue/audio/hospital-rescue-full.cues.wav"
+    },
+    {
+      "kind": "preview",
+      "file": "design/cinematic/exports/hospital-rescue/review/display-detained-full.preview.webp",
+      "sha256": "610a4b1ed7a11d9dbf31f2717bfaae29a9f6386e1b581bf7456bf7bf59be44a5",
+      "bytes": 154452
+    },
+    {
+      "kind": "poster",
+      "file": "design/cinematic/exports/hospital-rescue/review/display-detained-full.poster.webp",
+      "sha256": "652f9c823a0ac85993df7064b0b1a7cbe41ffd6d4ce1673db3f1fe62df2738dd",
+      "bytes": 95834,
+      "t": 5500
+    }
+  ],
+  "settling": {
+    "rule": "a frame is kept once two captures a redraw apart agree; pictures decode before their tiles draw",
+    "resettled": 13,
+    "unsettled": []
+  }
+}

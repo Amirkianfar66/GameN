@@ -6,7 +6,7 @@
 //
 // The three modes are materialized into separate files by tools/balance/scripts/materialize.mjs
 // and must never be pooled. Optional Original Powers are off in every case.
-import { ROLES_BY_MODE, deriveSetup, expectedCode, factionOf, jailThreshold, seatIdsFor } from '@mothership/balance';
+import { ROLES_BY_MODE, deriveSetup, expectedCode, factionOf, jailThreshold, seatIdsFor, validateSetup } from '@mothership/balance';
 
 const PLANS = {
   A: { roles: 'canonical', rooms: 'all-a', orders: 'seeded' },
@@ -66,8 +66,13 @@ const onlyActorSaw = (since, actor) => unchanged(since, { allPlayersExcept: [ref
 const sameAsTwin = audiences => ({ sameAsTwin: { audiences } });
 const differsFromTwin = audiences => ({ differsFromTwin: { audiences } });
 // The table and every player except the ones named.
-const everyoneBut = (...roles) => ({ allPlayersExcept: roles.map(ref) });
+const everyoneBut = (...roles) => ({ allPlayersExcept: [...new Set(roles)].map(ref) });
 const only = (...roles) => ({ players: roles.map(ref) });
+// A watch runs to a checkpoint as an `until` does, and compares the two runs in the phase it
+// starts in and in every phase entered on the way: the two must look the same to these audiences.
+const watch = (to, audiences) => ({ ...to, op: 'watch', sameAsTwin: { audiences } });
+// The last phase before Round 5 resolves. Nothing about the Code or the weapons is revealed before it has closed.
+const lastVote = phase(5, 'JAIL_VOTE');
 
 // ---------------------------------------------------------------------------------------------
 // Rules that a scenario uses besides the ones it is about, read mechanically from the commands it
@@ -93,7 +98,8 @@ function leadUpRules(steps) {
   let captainInside = null; // a Captain who was placed in Command Room and has not left it
   const actedIn = new Map(); // round -> players who registered an action in it
   for (const step of steps) {
-    if (step.op === 'until') {
+    // A watch runs to its checkpoint as an until does.
+    if (step.op === 'until' || step.op === 'watch') {
       if (step.phase === 'CAPTAIN_ELECTION' && step.round === undefined && round === 1) use('R-CAPT-01');
       if (step.phase === 'SHOWDOWN' || step.phase === 'FINISHED') round = 6;
       else if (step.round !== undefined) round = step.round;
@@ -202,6 +208,12 @@ function context(mode) {
   // that is in neither Code now. Undercover's number is never in the Code.
   const spare = outside.find(seat => seat !== seatOf(A, 'Undercover'));
   const otherExtras = [...A.codeExtraSeatIds.slice(0, 2), spare].sort();
+  // A role that can change places with `role` and leave a legal setup: Undercover may not come to
+  // sit on a number of the Code, and Alien's number may not be one of the other three. Roles
+  // without knowledge of their own are taken first, so that as few players as possible notice.
+  const partnerOf = (role, avoid = []) => ['Blue Disabler', 'Officer', 'Red Disabler', 'Supplier', 'Hacker', 'Cracker', 'Insider']
+    .find(other => roles.includes(other) && other !== role && !avoid.includes(other)
+      && validateSetup({ ...A, roleOrder: A.roleOrder.map(held => (held === role ? other : held === other ? role : held)) }, mode).length === 0);
   const has = role => roles.includes(role);
   const scenarios = [];
   const add = (area, number, title, options) => {
@@ -218,7 +230,7 @@ function context(mode) {
       ...(options.twin === undefined ? {} : { twin: options.twin }),
     });
   };
-  return { mode, roles, seatIds, A, B, seatOf, orderOf, byTurn, acts, voters, T, jail, elect, code, wrongCode, otherExtras, has, scenarios, add };
+  return { mode, roles, seatIds, A, B, seatOf, orderOf, byTurn, acts, voters, T, jail, elect, code, wrongCode, otherExtras, partnerOf, has, scenarios, add };
 }
 
 // Two attacks on one Healthy target in the same round. With eight or nine players both Disablers
@@ -592,6 +604,11 @@ function build(mode) {
     steps: [turn(1, 'Blue Disabler'), cmd('Blue Disabler', disable('Cracker')), turn(2, 'Undercover'), check(truth('Cracker', 'location', 'Hospital')),
       cmd('Undercover', protect('Cracker'), 'NOT_ALLOWED'), cmd('Undercover', protect('Insider'), 'NOT_ALLOWED'), cmd('Undercover', protect('Supplier'))],
   });
+  add('PROT', 9, 'Nobody but Undercover, the protected player included, can tell who was given a Protection', {
+    areas: ['authorized-views'], rules: ['R-PROT-06', 'R-VIEW-05', 'R-VIEW-07'], lineage: [], kind: 'privacy',
+    note: 'A paired case. In the twin run Undercover protects Cracker in place of Insider. The Protection becomes active at the start of Round 2 in both runs, and the two are compared in every phase through the Round 2 vote. Neither protected player may see a difference.',
+    steps: [turn(1, 'Undercover'), cmdTwin('Undercover', protect('Insider'), protect('Cracker')), watch(phase(2, 'JAIL_VOTE'), everyoneBut('Undercover'))],
+  });
   add('PROT', 6, 'Only Undercover learns that a Protection was granted, became active and was used up', {
     areas: ['authorized-views'], rules: ['R-PROT-06', 'R-VIEW-05', 'R-VIEW-06', 'R-VIEW-07', 'R-ACT-08'], lineage: ['BAL-109', 'BAL-024'], kind: 'privacy',
     steps: [turn(1, 'Undercover'), mark('before-grant'), cmd('Undercover', protect('Insider')), check(onlyActorSaw('before-grant', 'Undercover'), sees('Undercover', 'pendingCount', 1), truth('Insider', 'protection', 'pending'), sees('Insider', 'protectionSeats', [])),
@@ -752,13 +769,14 @@ function build(mode) {
     });
   }
   // The same comparison twice, with the player who is armed in both runs named first and then second.
+  // The two runs are compared in every phase from the registration to the last vote of Round 5.
   for (const [number, place, main, other] of [[15, 'first', supply('Insider', 'Cracker'), supply('Insider', 'Hacker')], [20, 'second', supply('Cracker', 'Insider'), supply('Hacker', 'Insider')]]) {
     add('SUP', number, `Nobody but Supplier and the player concerned is told whom Supplier armed (the player armed in both runs is named ${place})`, {
       areas: ['authorized-views'], rules: ['R-ROLE-08', 'R-ROLE-21', 'R-VIEW-07'], lineage: [], kind: 'privacy',
       note: `A paired case. In the twin run Supplier arms Insider and Hacker in place of Insider and Cracker. Insider is armed in both, is named ${place} in both, and must not be told who the other recipient was.`,
-      steps: [turn(3, 'Supplier'), cmdTwin('Supplier', main, other), check(sameAsTwin(everyoneBut('Supplier'))),
-        startOf(4), check(sameAsTwin(everyoneBut('Supplier', 'Cracker', 'Hacker')), differsFromTwin(only('Cracker', 'Hacker'))),
-        startOf(5), check(sameAsTwin(everyoneBut('Supplier', 'Cracker', 'Hacker')))],
+      steps: [turn(3, 'Supplier'), cmdTwin('Supplier', main, other), watch(phase(3, 'JAIL_VOTE'), everyoneBut('Supplier')),
+        watch(startOf(4), everyoneBut('Supplier', 'Cracker', 'Hacker')), check(differsFromTwin(only('Cracker', 'Hacker'))),
+        watch(lastVote, everyoneBut('Supplier', 'Cracker', 'Hacker'))],
     });
   }
   add('SUP', 16, 'What Supplier is shown after the Supplier stage depends on whom they armed', {
@@ -766,14 +784,23 @@ function build(mode) {
     note: 'A paired case, and the one that does not need to know where an engine keeps the fact. In the twin run Supplier arms Insider and Hacker in place of Insider and Cracker. If the two runs look the same to Supplier afterwards, Supplier has been told nothing. It would also pass if Supplier were only shown the two names they entered; the cases that name the list are the ones that say what must be in it.',
     steps: [turn(3, 'Supplier'), cmdTwin('Supplier', supply('Insider', 'Cracker'), supply('Insider', 'Hacker')), startOf(4), check(differsFromTwin(only('Supplier')))],
   });
-  add('SUP', 17, 'A recipient is not told who Supplier is, at the Supplier stage or later', {
-    areas: ['authorized-views'], rules: ['R-ROLE-21', 'R-SETUP-05'], lineage: [], kind: 'privacy', twin: { swapRoles: ['Supplier', 'Blue Disabler'] },
-    note: 'A paired case. In the twin run Supplier and Blue Disabler have changed seats, and the same two players are armed. What the app tells is compared; a table can still narrow down who Supplier is from who was in the room.',
-    steps: [turn(3, 'Supplier'), cmd('Supplier', supply('Insider', 'Cracker')), startOf(4),
-      check(truth('Insider', 'ordinaryWeapons', 1), truth('Cracker', 'ordinaryWeapons', 1), sameAsTwin(everyoneBut('Supplier', 'Blue Disabler'))),
-      ...M.byTurn(A, 4, ['Insider', 'Cracker']).flatMap(role => [turn(4, role), check(sameAsTwin(everyoneBut('Supplier', 'Blue Disabler')))]),
-      startOf(5), check(sameAsTwin(everyoneBut('Supplier', 'Blue Disabler')))],
-  });
+  // A recipient is not told who armed them. Supplier and Blue Disabler change seats in the twin
+  // run and the same two players are armed. Once with a Blue and a Red recipient, the first of
+  // whom then fires the weapon; once with Alien among the two. The two runs send Supplier's choice
+  // on different turns of Round 3, so they are compared from the vote that follows them.
+  for (const [number, pair, title, fires] of [
+    [17, ['Insider', 'Hacker'], 'A recipient is not told who Supplier is, at the Supplier stage, on a later turn or on firing the weapon', 'Insider'],
+    [26, ['Alien', 'Cracker'], 'A recipient is not told who Supplier is, whatever team the recipient is on', null],
+  ]) {
+    const others = everyoneBut('Supplier', 'Blue Disabler');
+    add('SUP', number, title, {
+      areas: ['authorized-views'], rules: ['R-ROLE-21', 'R-SETUP-05'], depends: ['R-SETUP-12'], lineage: [], kind: 'privacy', twin: { swapRoles: ['Supplier', 'Blue Disabler'] },
+      note: `A paired case. In the twin run Supplier and Blue Disabler have changed seats, and the same two players, ${pair[0]} and ${pair[1]}, are armed. What the app tells is compared; a table can still narrow down who Supplier is from who was in the room.`,
+      steps: [turn(3, 'Supplier'), cmd('Supplier', supply(...pair)), phase(3, 'JAIL_VOTE'), watch(startOf(4), others),
+        check(truth(pair[0], 'ordinaryWeapons', 1), truth(pair[1], 'ordinaryWeapons', 1)),
+        ...(fires === null ? [] : [watch(turn(4, fires), others), cmd(fires, shot('Undercover'))]), watch(lastVote, others)],
+    });
+  }
   // What happens to Supplier after registering changes neither the weapons nor what Supplier is
   // told. The two are separate cases: the weapons are given by every current engine, and a case
   // that also asked for the disclosure would fail for G17 and hide a fault in the other half.
@@ -800,23 +827,55 @@ function build(mode) {
   });
   add('SUP', 21, 'Nobody but Supplier and the two recipients can tell that weapons were given at all', {
     areas: ['authorized-views'], rules: ['R-ROLE-08', 'R-ROLE-21', 'R-VIEW-07'], lineage: [], kind: 'privacy',
-    note: 'A paired case. In the twin run Supplier registers nothing. A marker, a count or a flag that says weapons were given would make the two runs differ for somebody who was not armed.',
-    steps: [turn(3, 'Supplier'), cmdTwin('Supplier', supply('Insider', 'Cracker'), null), check(sameAsTwin(everyoneBut('Supplier'))),
-      startOf(4), check(sameAsTwin(everyoneBut('Supplier', 'Insider', 'Cracker')), differsFromTwin(only('Insider', 'Cracker'))),
-      startOf(5), check(sameAsTwin(everyoneBut('Supplier', 'Insider', 'Cracker')))],
+    note: 'A paired case. In the twin run Supplier registers nothing. A marker, a count or a flag that says weapons were given, at any moment up to the last vote, would make the two runs differ for somebody who was not armed.',
+    steps: [turn(3, 'Supplier'), cmdTwin('Supplier', supply('Insider', 'Cracker'), null), watch(phase(3, 'JAIL_VOTE'), everyoneBut('Supplier')),
+      watch(startOf(4), everyoneBut('Supplier', 'Insider', 'Cracker')), check(differsFromTwin(only('Insider', 'Cracker'))),
+      watch(lastVote, everyoneBut('Supplier', 'Insider', 'Cracker'))],
   });
-  add('SUP', 22, 'Supplier is shown that a player was armed and nothing about that player', {
-    areas: ['authorized-views'], rules: ['R-ROLE-21', 'R-ROLE-07', 'R-SETUP-05'], lineage: [], kind: 'privacy', twin: { swapRoles: ['Insider', 'Hacker'] },
-    note: 'A paired case. Supplier arms the same seat in both runs. In the twin run Insider and Hacker have changed seats, so that seat is held by a Blue player in one run and by a Red player in the other, and Supplier must not be able to tell.',
-    steps: [turn(3, 'Supplier'), cmd('Supplier', { type: 'SUPPLY', targets: [M.seatOf(A, 'Insider'), ref('Cracker')] }), startOf(4),
-      check(count('ordinaryWeapons', startingWeapons + 2), sameAsTwin(everyoneBut('Insider', 'Hacker'))), turn(4, 'Supplier'), check(sameAsTwin(everyoneBut('Insider', 'Hacker')))],
+  {
+    // The same, with what happens to an armed player afterwards: one is Injured in Round 4 and the other is sent to Jail.
+    const others = everyoneBut('Supplier', 'Insider', 'Cracker');
+    add('SUP', 28, 'Nobody can tell that a player was armed when that player is later Injured or sent to Jail', {
+      areas: ['authorized-views', 'voting'], rules: ['R-ROLE-08', 'R-ROLE-21', 'R-VIEW-02'], lineage: [], kind: 'privacy',
+      note: 'A paired case. In the twin run Supplier registers nothing. In both runs Blue Disabler then injures Insider in Round 4 and the table sends Cracker to Jail. A weapon that became visible with its holder\'s fate would show here.',
+      steps: [turn(3, 'Supplier'), cmdTwin('Supplier', supply('Insider', 'Cracker'), null), watch(turn(4, 'Blue Disabler'), others), cmd('Blue Disabler', disable('Insider')),
+        watch(phase(4, 'JAIL_VOTE'), others), ...M.voters(T).map(voter => cmd(voter, vote('Cracker'))), watch(startOf(5), others),
+        check(truth('Insider', 'health', 'Injured'), truth('Cracker', 'jailed', true)), watch(lastVote, others)],
+    });
+  }
+  add('SUP', 22, 'What Supplier is told does not depend on the team of a player they armed', {
+    areas: ['authorized-views'], rules: ['R-ROLE-21', 'R-ROLE-07', 'R-SETUP-05'], depends: ['R-SETUP-12'], lineage: [], kind: 'privacy', twin: { swapRoles: ['Insider', 'Hacker'] },
+    note: 'A paired case. Supplier arms the same seat in both runs. In the twin run Insider and Hacker have changed seats, so that seat is held by a Blue player in one run and by a Red player in the other, and Supplier must not be able to tell: not from a view, and not from the receipt of the command.',
+    steps: [turn(3, 'Supplier'), cmd('Supplier', { type: 'SUPPLY', targets: [M.seatOf(A, 'Insider'), ref('Cracker')] }), watch(startOf(4), everyoneBut('Insider', 'Hacker')),
+      check(count('ordinaryWeapons', startingWeapons + 2)), watch(lastVote, everyoneBut('Insider', 'Hacker'))],
   });
   if (M.has('Officer')) {
-    add('SUP', 23, 'Supplier is not shown whether a weapon they gave can be used', {
-      areas: ['authorized-views', 'resources'], rules: ['R-ROLE-21', 'R-ROLE-11', 'R-SETUP-05'], lineage: ['BAL-005'], kind: 'privacy', twin: { swapRoles: ['Officer', 'Blue Disabler'] },
+    add('SUP', 23, 'What Supplier is told does not depend on whether the weapon they gave can be used', {
+      areas: ['authorized-views', 'resources'], rules: ['R-ROLE-21', 'R-ROLE-11', 'R-SETUP-05'], depends: ['R-SETUP-12'], lineage: ['BAL-005'], kind: 'privacy', twin: { swapRoles: ['Officer', 'Blue Disabler'] },
       note: 'A paired case. Supplier arms the same seat in both runs. In one it is held by an Officer who has fired, for whom the weapon is of no use; in the twin run Officer and Blue Disabler have changed seats and it is held by Blue Disabler, who can use it. Telling Supplier which would tell them a role.',
-      steps: [turn(1, 'Officer'), cmd('Officer', shot('Insider')), turn(3, 'Supplier'), cmd('Supplier', { type: 'SUPPLY', targets: [M.seatOf(A, 'Officer'), ref('Cracker')] }), startOf(4),
-        check(count('ordinaryWeapons', startingWeapons + 1), sameAsTwin(everyoneBut('Officer', 'Blue Disabler'))), turn(4, 'Supplier'), check(sameAsTwin(everyoneBut('Officer', 'Blue Disabler')))],
+      steps: [turn(1, 'Officer'), cmd('Officer', shot('Insider')), turn(3, 'Supplier'), cmd('Supplier', { type: 'SUPPLY', targets: [M.seatOf(A, 'Officer'), ref('Cracker')] }),
+        watch(startOf(4), everyoneBut('Officer', 'Blue Disabler')), check(count('ordinaryWeapons', startingWeapons + 1)), watch(lastVote, everyoneBut('Officer', 'Blue Disabler'))],
+    });
+  }
+  {
+    // Undercover already holds a weapon, so a Supplier who arms that seat has armed a player with two.
+    const other = M.partnerOf('Undercover', ['Supplier', 'Cracker']);
+    const knowing = everyoneBut('Undercover', other, 'Hacker', 'Insider');
+    add('SUP', 27, 'What Supplier is told does not depend on the weapons the player they armed already held', {
+      areas: ['authorized-views', 'resources'], rules: ['R-ROLE-21', 'R-SETUP-05', 'R-VIEW-02'], depends: ['R-SETUP-12', 'R-SETUP-09', 'R-SETUP-10'], lineage: [], kind: 'privacy', twin: { swapRoles: ['Undercover', other] },
+      note: `A paired case. Supplier arms the same seat in both runs. In one it is Undercover's, who then holds two weapons; in the twin run Undercover and ${other} have changed seats and it is held by a player who had none. Hacker and Insider are left out with the two: the rules tell each of them something about where Undercover sits.`,
+      steps: [turn(3, 'Supplier'), cmd('Supplier', { type: 'SUPPLY', targets: [M.seatOf(A, 'Undercover'), ref('Cracker')] }), watch(startOf(4), knowing),
+        check(truth('Undercover', 'ordinaryWeapons', 2), count('ordinaryWeapons', startingWeapons + 2)), watch(lastVote, knowing)],
+    });
+  }
+  {
+    // Both recipients are armed in both runs, and the player who fires sits in the other one's seat in the twin run.
+    const others = everyoneBut('Insider', 'Cracker');
+    add('SUP', 29, 'Nobody, Supplier included, can tell which of the two armed players fired', {
+      areas: ['authorized-views'], rules: ['R-ROLE-21', 'R-VIEW-07', 'R-VIEW-06'], depends: ['R-SETUP-12'], lineage: [], kind: 'privacy', twin: { swapRoles: ['Insider', 'Cracker'] },
+      note: 'A paired case. Supplier arms the same two seats in both runs. In the twin run Insider and Cracker have changed seats, so the weapon that is fired in Round 4 is the one given to the other seat. The two runs are compared from the vote after the shot, since the two shooters have different turns.',
+      steps: [turn(3, 'Supplier'), cmd('Supplier', { type: 'SUPPLY', targets: [M.seatOf(A, 'Insider'), M.seatOf(A, 'Cracker')] }), watch(startOf(4), others),
+        turn(4, 'Insider'), cmd('Insider', shot('Hacker')), phase(4, 'JAIL_VOTE'), watch(startOf(5), others), check(truth('Hacker', 'health', 'Injured'), count('ordinaryWeapons', startingWeapons + 1)), watch(lastVote, others)],
     });
   }
 
@@ -846,6 +905,11 @@ function build(mode) {
   add('SCAN', 5, 'A Jailed Hacker cannot Scan', {
     areas: ['resources'], rules: ['R-ROLE-18', 'R-STATE-04', 'R-ROLE-13'], lineage: ['BAL-015'],
     steps: [...jail(1, 'Hacker'), turn(2, 'Hacker'), cmd('Hacker', scan('Hacker', 'Red'), 'NOT_ALLOWED'), check(sees('Hacker', 'scanCount', 0))],
+  });
+  add('SCAN', 8, 'Nobody but Hacker, the scanned player included, can tell whom Hacker scanned', {
+    areas: ['authorized-views'], rules: ['R-ROLE-14', 'R-VIEW-05', 'R-VIEW-07'], lineage: [], kind: 'privacy',
+    note: 'A paired case. In the twin run Hacker scans Cracker in place of Insider, with the same guess. The two runs are compared in every phase through the Round 2 vote.',
+    steps: [turn(1, 'Hacker'), cmdTwin('Hacker', scan('Insider', 'Blue'), scan('Cracker', 'Blue')), watch(phase(2, 'JAIL_VOTE'), everyoneBut('Hacker'))],
   });
   add('SCAN', 6, 'A Scan result reaches Hacker at once and nobody else', {
     areas: ['authorized-views'], rules: ['R-ROLE-14', 'R-VIEW-05', 'R-VIEW-07'], lineage: ['BAL-109', 'BAL-024'], kind: 'privacy',
@@ -957,10 +1021,21 @@ function build(mode) {
   // attempt is right in one and wrong in the other. Alien knows the Code and sees the difference
   // from the start; nobody else may, Hacker included, until the match ends.
   add('CODE', 11, 'Nobody but Alien can tell a right Code attempt from a wrong one before the Round 5 check, Hacker included', {
-    areas: ['authorized-views', 'victory'], rules: ['R-WIN-06', 'R-VIEW-08', 'R-VIEW-05', 'R-SETUP-10'], lineage: [], kind: 'privacy', twin: { codeExtras: M.otherExtras },
+    areas: ['authorized-views', 'victory'], rules: ['R-ROLE-22', 'R-WIN-06', 'R-VIEW-08', 'R-VIEW-05'], lineage: [], kind: 'privacy', twin: { codeExtras: M.otherExtras },
     note: 'A paired case. In the twin run the Code has one other number, so the same attempt is wrong there. What Hacker entered is the same in both runs, so a view that repeats the entry stays the same; one that says whether it was right does not.',
     steps: [turn(5, notHackerTurn(5)), check(differsFromTwin(only('Alien')), sameAsTwin(everyoneBut('Alien'))), cmd('Hacker', submit(M.code)),
-      check(is('codeCorrect', true), sameAsTwin(everyoneBut('Alien'))), phase(5, 'JAIL_VOTE'), check(is('hasResult', false), sameAsTwin(everyoneBut('Alien')))],
+      check(is('codeCorrect', true)), watch(lastVote, everyoneBut('Alien')), check(is('hasResult', false))],
+  });
+  // The attempt itself is Hacker's secret until the match ends: what was entered, and that anything was.
+  add('CODE', 12, 'Nobody but Hacker, Alien included, can tell what was entered as the Code before the Round 5 check', {
+    areas: ['authorized-views'], rules: ['R-ROLE-22', 'R-VIEW-07', 'R-VIEW-08'], lineage: [], kind: 'privacy',
+    note: 'A paired case. In the twin run Hacker enters a wrong Code in place of the right one. Alien knows the Code and is compared with everyone else: told of the attempt a phase later, Alien would know what Hacker entered.',
+    steps: [turn(5, notHackerTurn(5)), cmdTwin('Hacker', submit(M.code), submit(M.wrongCode)), watch(lastVote, everyoneBut('Hacker')), check(is('hasResult', false))],
+  });
+  add('CODE', 13, 'Nobody but Hacker can tell that a Code attempt was made before the Round 5 check', {
+    areas: ['authorized-views'], rules: ['R-ROLE-22', 'R-VIEW-07'], lineage: [], kind: 'privacy',
+    note: 'A paired case. In the twin run Hacker enters nothing. A sign that the attempt has been used, shown to the table at any moment before the round resolves, would make the two runs differ.',
+    steps: [turn(5, notHackerTurn(5)), cmdTwin('Hacker', submit(M.code), null), watch(lastVote, everyoneBut('Hacker')), check(is('hasResult', false))],
   });
 
   // ----- Jail vote -----------------------------------------------------------------------------
@@ -1364,29 +1439,43 @@ function build(mode) {
     });
   }
 
-  // Who holds which role changes nothing that the table or a third player can read. Three swaps:
-  // two Blue players, a Blue and a Red player, and the two Disablers, whose roles are the same
-  // action on opposite teams. The two players who change roles are left out of each comparison.
-  for (const [number, swap, title, note] of [
-    [4, ['Supplier', 'Blue Disabler'], 'Two Blue players changing roles changes nothing that the table or another player can see',
+  // Who holds which role changes nothing that the table or a player who may not know can read. The
+  // players who change roles are left out of each comparison, and so is every player to whom the
+  // rules give knowledge of one of them. The two runs are compared in every phase of two rounds.
+  const twoRounds = phase(2, 'JAIL_VOTE');
+  const alienWith = M.partnerOf('Alien');
+  const undercoverWith = M.partnerOf('Undercover');
+  for (const [number, swap, alsoKnow, title, note] of [
+    [4, ['Supplier', 'Blue Disabler'], [], 'Two Blue players changing roles changes nothing that the table or another player can see',
       'Neither role starts with knowledge or a weapon, so no other player and no display is entitled to notice.'],
-    [5, ['Supplier', 'Hacker'], 'A Blue and a Red player changing roles changes nothing that the table or another player can see',
+    [5, ['Supplier', 'Hacker'], [], 'A Blue and a Red player changing roles changes nothing that the table or another player can see',
       'Hacker knows who Undercover is, and that is in Hacker\'s own view. Nobody is entitled to know where Hacker sits: not the table, and not Undercover, since Red players do not know each other.'],
-    ...(M.has('Red Disabler') ? [[6, ['Blue Disabler', 'Red Disabler'], 'The two Disablers changing teams changes nothing that the table or another player can see',
+    ...(M.has('Red Disabler') ? [[6, ['Blue Disabler', 'Red Disabler'], [], 'The two Disablers changing teams changes nothing that the table or another player can see',
       'The two roles have the same action and no knowledge. A fact that followed a player\'s team would show here and nowhere else.']] : []),
+    [8, ['Alien', alienWith], ['Insider'], 'Alien and another player changing roles changes nothing that the table or a player who may not know can see',
+      'The Code moves with Alien. Insider is left out with the two: Alien is one of the three players Insider is shown.'],
+    [9, ['Undercover', undercoverWith], ['Insider', 'Hacker'], 'Undercover and another player changing roles changes nothing that the table or a player who may not know can see',
+      'Insider and Hacker are left out with the two: Undercover is one of the three players Insider is shown, and Hacker knows who Undercover is.'],
   ]) {
+    const others = everyoneBut(...swap, ...alsoKnow);
     add('VIEW', number, title, {
       areas: ['authorized-views', 'mode-setup'], rules: ['R-SETUP-05', 'R-SETUP-12', 'R-VIEW-02'], lineage: [], kind: 'privacy', twin: { swapRoles: swap },
       note: `A paired case. In the twin run ${swap[0]} and ${swap[1]} have changed seats. ${note}`,
-      steps: [check(sameAsTwin(everyoneBut(...swap))), phase(1, 'JAIL_VOTE'), check(sameAsTwin(everyoneBut(...swap))), startOf(2), check(sameAsTwin(everyoneBut(...swap)))],
+      steps: [watch(twoRounds, others)],
     });
   }
+  // Insider is shown three players as a set. With Undercover and Alien changing seats the set is the same, and Insider must see the same.
+  add('VIEW', 10, 'Insider is shown the three players and not which of them is which', {
+    areas: ['authorized-views', 'mode-setup'], rules: ['R-SETUP-09', 'R-SETUP-05', 'R-VIEW-05'], depends: ['R-SETUP-12'], lineage: [], kind: 'privacy', twin: { swapRoles: ['Undercover', 'Alien'] },
+    note: 'A paired case. In the twin run Undercover and Alien have changed seats, so the three players Insider is shown are the same three, and the Code has another number. Insider is compared with everyone else; Hacker is left out with the two, since Hacker knows who Undercover is.',
+    steps: [watch(twoRounds, everyoneBut('Undercover', 'Alien', 'Hacker'))],
+  });
 
   // The Code changes nothing that the table or any player but Alien can read.
   add('VIEW', 7, 'Another Code changes nothing that the table or any player but Alien can see', {
     areas: ['authorized-views', 'mode-setup'], rules: ['R-VIEW-02', 'R-VIEW-05', 'R-VIEW-08', 'R-SETUP-10'], lineage: [], kind: 'privacy', twin: { codeExtras: M.otherExtras },
     note: 'A paired case. In the twin run the Code has one other number. Alien knows the Code and sees the difference. A fact that followed the Code, such as a mark on the seats whose numbers are in it, would show to everyone else.',
-    steps: [check(differsFromTwin(only('Alien')), sameAsTwin(everyoneBut('Alien'))), phase(1, 'JAIL_VOTE'), check(sameAsTwin(everyoneBut('Alien'))), startOf(2), check(sameAsTwin(everyoneBut('Alien')))],
+    steps: [check(differsFromTwin(only('Alien'))), watch(twoRounds, everyoneBut('Alien'))],
   });
 
   // ----- Operating policy ----------------------------------------------------------------------

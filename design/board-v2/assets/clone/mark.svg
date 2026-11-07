@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  mothership:dev-only · board-v2 Clone proposal board-v2-clone-0.1.0 · the tray's mark · generated, do not edit by hand
+  The Actions tray's mark for the Clone, beside its English label: a character's bust and its dashed double. One ink, a 32 x 32 cell, a 2.6 stroke, as the kit's other marks (design/abilities/source/actions.svg).
+  Built by design/tools/board-v2-assets.mjs from design/board-v2/fx/clone.mjs. Owner-private: drawn only on its owner's own phone, in its sheet, never on the board; every phone's bundle ships it whatever its seat, and nothing in it names a role or a side. Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32"><g fill="none" stroke="#151923" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><g stroke-dasharray="2.2 2.9"><circle cx="20.5" cy="8.5" r="4.4"/><path d="M13 26.5 Q14 18 20.5 18 Q27 18 28 26.5"/></g><circle cx="11.5" cy="12" r="4.6" fill="#F4EBDD"/><path d="M3 29 Q4 21.5 11.5 21.5 Q19 21.5 20 29 Z" fill="#F4EBDD"/></g></svg>

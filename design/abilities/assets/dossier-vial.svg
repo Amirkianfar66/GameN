@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · ability art proposal · dossier-vial 0.1.0 · generated, do not edit by hand
+  A vial. One Rescue left, in the Cracker's own strip and card: the full ones first, as many as the view's count (self.rescuesRemaining).
+  Built by design/tools/abilities-assets.mjs from design/abilities/source/tools.svg (layer dossier-vial). Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 36" width="22" height="36"><g id="dossier-vial"><rect x="6" y="2" width="10" height="6" rx="1.5" fill="#55657E" stroke="#151923" stroke-width="2"/><path d="M5 9 H17 V29 Q17 34 11 34 Q5 34 5 29 Z" fill="#F4EBDD"/><path d="M6.5 17 H15.5 V29 Q15.5 32.5 11 32.5 Q6.5 32.5 6.5 29 Z" fill="#F7C52B"/><path d="M8 19 V28" fill="none" stroke="#F4EBDD" stroke-width="1.6" stroke-linecap="round"/><path d="M5 9 H17 V29 Q17 34 11 34 Q5 34 5 29 Z" fill="none" stroke="#151923" stroke-width="2.2" stroke-linejoin="round"/></g></svg>

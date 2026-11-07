@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  mothership:dev-only · board-v2 medical proposal board-v2-medical-0.1.0 · berth screen, off · generated, do not edit by hand
+  A berth's own small monitor, powered down: the screen dark, drawn over the ward's dark monitor at its headboard (berthKit().monitor).
+  Built by design/tools/board-v2-assets.mjs from design/board-v2/fx/medical.mjs. Public: the same on every phone and the display; it reads no role, side, attacker, healer or cause. Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 24" width="40" height="24"><g data-layer="fx-berth-screen-off"><rect x="1" y="1" width="38" height="22" rx="3" fill="#0D1A22" stroke="#151923" stroke-width="2"/></g></svg>

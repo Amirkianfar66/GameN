@@ -1,0 +1,110 @@
+/* mothership:dev-only · library group 1 review page: the states of the Hacker's final Code and ship hack and the
+   Engineer's capture, each drawn from a synthetic player view through states.mjs, in the ability dossier's parts. */
+:root { color-scheme: dark; }
+/* The root keeps the reader's text size (100%), so the dossier's rem sizes and em media rules follow it. */
+html { font-size: 100%; }
+html, body { margin: 0; background: var(--ms-color-canvas); color: var(--ms-color-text); }
+body { font: 15px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+#lib-app { padding: 16px max(16px, env(safe-area-inset-right, 0px)) 40px max(16px, env(safe-area-inset-left, 0px)); display: grid; gap: 22px; }
+.lib-head { display: grid; gap: 6px; border-bottom: 2px solid var(--ms-color-caption); padding-bottom: 12px; }
+.lib-head h1 { margin: 0; font-family: var(--ms-font-lettering); font-weight: var(--ms-weight-lettering); font-size: 24px; letter-spacing: 0.04em; text-transform: uppercase; }
+.lib-head p { margin: 0; color: var(--ms-color-text-secondary); max-width: 80ch; }
+.lib-controls { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; }
+.lib-controls label { display: flex; gap: 6px; align-items: center; color: var(--ms-color-text-secondary); font-size: 13px; }
+.lib-controls select, .lib-controls button { font: inherit; min-height: 36px; padding: 4px 10px; border-radius: 8px; border: 2px solid var(--ms-color-steel-mid); background: var(--ms-color-panel); color: var(--ms-color-text); }
+.lib-group { display: grid; gap: 12px; }
+.lib-group > h2 { margin: 0; font-family: var(--ms-font-lettering); font-weight: var(--ms-weight-lettering); font-size: 18px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ms-color-caption); }
+.lib-cards { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start; }
+/* One state: a phone-width sheet, its id and the view fields that make it. */
+.lib-card { width: var(--lib-width, 390px); max-width: 100%; margin: 0; display: grid; gap: 6px; }
+.lib-card__sheet { background: var(--ms-color-panel); border: 2px solid var(--ms-color-ink); border-radius: 12px; padding: 10px 12px 14px; color: var(--ms-color-text); min-height: 80px; }
+.lib-card__state { display: flex; flex-wrap: wrap; gap: 6px; align-items: baseline; font-size: 12px; color: var(--ms-color-text-secondary); }
+.lib-card__state b { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--ms-color-caption); font-weight: 600; }
+.lib-card__fields { margin: 0; font: 11px/1.45 ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--ms-color-text-secondary); overflow-wrap: anywhere; }
+/* 200% text: the sheet's inherited size doubles (the dossier's buttons follow it), and every size this page sets
+   is a multiple of --lib-text, so the tapes, words, notes, blockers and labels double with it. The dossier's slip
+   words and file titles are fixed at 14 px in its own stylesheet: doubled here, for this page only, and the file's
+   tab wraps as the dossier's own large-text rule (abilities.css, max-width: 18em) makes it on a phone. The review
+   captures also start the browser at a 32 px default text size, so that rule and every rem answer as they would. */
+[data-text="2"] .lib-card__sheet { font-size: 200%; --lib-text: 2; }
+[data-text="2"] .lib-card__sheet .ab-kit__words, [data-text="2"] .lib-card__sheet .ab-file__title { font-size: 28px; }
+[data-text="2"] .lib-card__sheet .ab-file__tab { flex-wrap: wrap; row-gap: 6px; }
+[data-text="2"] .lib-card__sheet .ab-file__title { white-space: normal; }
+
+/* The label tape, as the dossier sets one: ink, paper lettering, a little askew. */
+.lib-tape { display: inline-block; padding: 3px 8px 2px; rotate: -2deg; font-family: var(--ms-font-lettering); font-weight: var(--ms-weight-lettering); font-size: calc(13px * var(--lib-text, 1)); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ms-color-paper); background: var(--ms-color-ink); border-radius: 2px; box-shadow: 2px 2px 0 rgb(21 25 35 / 0.3); }
+/* A strip: the dossier's paper slip with its tape, words, prop, stamp and buttons. */
+.lib-strip { display: grid; gap: 8px; color: var(--ms-color-ink); }
+.lib-strip.ab-kit { display: grid; margin: 4px 0 0; padding: 10px 12px; }
+.lib-strip__top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; align-items: center; }
+.lib-words { margin: 0; font-weight: 800; font-size: calc(14px * var(--lib-text, 1)); line-height: 1.3; }
+.lib-note { margin: 0; font-size: calc(13px * var(--lib-text, 1)); line-height: 1.3; }
+.lib-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
+.lib-buttons .ab-button { flex: 1 1 140px; }
+.lib-stamp-slot { position: relative; min-height: 28px; display: flex; justify-content: flex-end; }
+.lib-stamp-slot .ab-stamp { transform-origin: 50% 50%; }
+
+/* The props. Each draws its picture behind [data-art~="library"]; without it, a plain shape with the same size. */
+.lib-prop { position: relative; display: block; flex: none; background: var(--ms-color-paper-shade); border: 2px solid var(--ms-color-ink); border-radius: 6px; }
+[data-art~="library"] .lib-prop { background: var(--lib-art) center / contain no-repeat; border: 0; border-radius: 0; }
+.lib-prop[data-art="cartridge"] { --lib-art: var(--lib-asset-lib-ship-cartridge); width: 128px; aspect-ratio: 128 / 76; }
+.lib-prop[data-art="cartridge-sealed"] { --lib-art: var(--lib-asset-lib-ship-cartridge-sealed); width: 136px; aspect-ratio: 136 / 96; }
+.lib-prop[data-art="cartridge-used"] { --lib-art: var(--lib-asset-lib-ship-cartridge-used); width: 128px; aspect-ratio: 128 / 76; }
+.lib-prop[data-art="jack"] { --lib-art: var(--lib-asset-lib-ship-jack); width: 176px; aspect-ratio: 176 / 108; }
+.lib-prop[data-art="jack-seated"] { --lib-art: var(--lib-asset-lib-ship-jack-seated); width: 176px; aspect-ratio: 176 / 108; }
+.lib-prop[data-art="spark"] { --lib-art: var(--lib-asset-lib-breach-spark); width: 64px; aspect-ratio: 1; background-color: transparent; border: 0; }
+.lib-prop[data-art="clamp"] { --lib-art: var(--lib-asset-lib-clamp); width: 56px; aspect-ratio: 1; border-radius: 50%; }
+.lib-prop[data-art="clamp-used"] { --lib-art: var(--lib-asset-lib-clamp-used); width: 56px; aspect-ratio: 1; border-radius: 50%; }
+.lib-prop[data-art="icon-ship-hack"] { --lib-art: var(--lib-asset-lib-icon-ship-hack); width: 44px; aspect-ratio: 1; border-radius: 50%; }
+.lib-prop[data-art="icon-capture"] { --lib-art: var(--lib-asset-lib-icon-capture); width: 44px; aspect-ratio: 1; border-radius: 50%; }
+.lib-prop[data-art="punch"] { --lib-art: var(--lib-asset-lib-code-punch); width: 30px; aspect-ratio: 1; border-radius: 50%; background-color: var(--ms-color-ink); }
+[data-art~="library"] .lib-prop[data-art="punch"] { background-color: transparent; }
+
+/* The ship hack: the cartridge into the port. */
+.lib-ship { position: relative; display: flex; align-items: center; gap: 12px; min-height: 112px; }
+.lib-ship__port { position: relative; }
+/* The port 150 px wide; the cartridge rests beside it and travels 81 px into the slot. */
+.lib-ship__port { position: relative; width: 236px; height: 92px; }
+.lib-ship__port .lib-prop[data-art^="jack"] { position: absolute; left: 0; top: 0; width: 150px; }
+.lib-ship__port .lib-prop[data-art="cartridge"] { position: absolute; left: 156px; top: 22px; width: 80px; }
+.lib-ship__port .lib-prop[data-art="spark"] { position: absolute; left: 70px; top: 18px; width: 52px; pointer-events: none; }
+
+/* The Code card with its punch. */
+.lib-code { position: relative; display: inline-block; justify-self: start; width: max-content; }
+.lib-code .lib-prop[data-art="punch"] { position: absolute; right: -4px; top: 0; }
+
+/* The Engineer: the viewfinder over the opposite room, the print, the chips of who is there. */
+.lib-view { display: grid; gap: 6px; width: 100%; max-width: 300px; }
+.lib-view__picture { position: relative; width: 100%; aspect-ratio: 240 / 160; border: 2px solid var(--ms-color-ink); border-radius: 4px; overflow: hidden; background: var(--ms-color-canvas); }
+.lib-who { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; min-height: 36px; }
+.lib-view__room, .lib-print__room { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.lib-view__frame { position: absolute; inset: 0; background: var(--lib-asset-lib-viewfinder) center / 100% 100% no-repeat; }
+.lib-view__shutter { position: absolute; inset: 0; background: var(--ms-color-ink); opacity: 0; }
+.lib-chips { position: absolute; left: 8px; right: 8px; bottom: 8px; display: flex; flex-wrap: wrap; gap: 4px; }
+.lib-chips .ab-chip { width: 30px; height: 30px; }
+.lib-empty { font-weight: 800; font-size: calc(13px * var(--lib-text, 1)); color: var(--ms-color-steel-shadow); }
+.lib-print { position: relative; width: 140px; aspect-ratio: 140 / 168; rotate: -3deg; }
+.lib-print__window { position: absolute; left: 8.6%; top: 7.1%; width: 82.9%; height: 66.7%; overflow: hidden; background: var(--ms-color-canvas); }
+.lib-print__develop { position: absolute; inset: 0; background: var(--ms-color-ink); opacity: 0; }
+.lib-print__paper { position: absolute; inset: 0; background: var(--lib-asset-lib-capture-print) center / 100% 100% no-repeat; }
+.lib-print .lib-chips { bottom: 6px; left: 6px; right: 6px; }
+.lib-print .lib-chips .ab-chip { width: 24px; height: 24px; }
+.lib-pinned { position: absolute; top: -10px; left: 50%; width: 22px; height: 24px; translate: -50% 0; background: var(--ab-asset-dossier-pin) center / contain no-repeat; z-index: 2; }
+
+/* A file panel inside the private card (the dossier's cork file). */
+.lib-file.ab-file { margin-top: 14px; }
+.lib-file__body { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; padding: 6px 2px 2px; }
+.lib-file__words { flex: 1 1 160px; min-width: 0; display: grid; gap: 4px; padding: 8px 10px; background: var(--ms-color-paper); border: 2px solid var(--ms-color-ink); border-radius: 3px; box-shadow: 2px 3px 0 rgb(21 25 35 / 0.3); }
+.lib-blocker { margin: 0; font-size: calc(13px * var(--lib-text, 1)); font-weight: 700; color: var(--ms-color-steel-shadow); }
+
+/* The Actions tray card, as the board's tray draws one. */
+.lib-tray { display: flex; gap: 12px; align-items: center; padding: 12px 14px; background: var(--ms-color-paper); color: var(--ms-color-ink); border: 2px solid var(--ms-color-ink); border-radius: 12px; box-shadow: 3px 4px 0 rgb(21 25 35 / 0.45); }
+.lib-tray strong { display: block; font-size: calc(20px * var(--lib-text, 1)); line-height: 1.1; }
+.lib-tray span { color: var(--ms-color-steel-shadow); font-size: calc(15px * var(--lib-text, 1)); }
+
+/* Motion players. */
+.lib-player { display: grid; gap: 8px; }
+.lib-player__controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-size: 12px; color: var(--ms-color-text-secondary); }
+.lib-player__controls input[type=range] { flex: 1 1 140px; accent-color: var(--ms-color-caption); }
+.lib-player__controls button { font: inherit; min-height: 32px; padding: 2px 10px; border-radius: 8px; border: 2px solid var(--ms-color-steel-mid); background: var(--ms-color-panel); color: var(--ms-color-text); }
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto; } }

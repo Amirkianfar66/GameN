@@ -1,0 +1,804 @@
+{
+  "tool": "design/tools/library-capture.mjs",
+  "browser": "Chromium 141.0.7390.37",
+  "page": "design/library/successor/index.html",
+  "captures": [
+    {
+      "file": "design/library/successor/review/w390-role-cards-the-nine-current-roles.png",
+      "sha256": "b1292ba7dde62d48b8a42cbb92b4aa4a256c13404452124584927f8d1f6a60ea",
+      "bytes": 96626,
+      "state": "role cards: the nine current roles",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/successor/review/w390-action-overlay-successor-entries.png",
+      "sha256": "b45f319bee38f866b423c681c0a0bde765697961a837d07570177c6d7338bd81",
+      "bytes": 84568,
+      "state": "action overlay: successor entries",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/successor/review/w390-lobby-start.png",
+      "sha256": "4269f295e8b3372407dd32b28a4a8b673a7d67db45b1d596b705644961d7ecb0",
+      "bytes": 23249,
+      "state": "lobby: start",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/successor/review/w390-lobby-requesting.png",
+      "sha256": "4e7a9b8e1effd7830c7f52ebd64c396b82d8ed19d8235a7bae00735c884981b9",
+      "bytes": 18434,
+      "state": "lobby: requesting",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/successor/review/w390-lobby-waiting-the-host-has-the-request.png",
+      "sha256": "0c4d3c0847daeb1cf44cb932a56f196cfef0aecb5c5e8cbc07ef3609d35a34cd",
+      "bytes": 23344,
+      "state": "lobby: waiting (the host has the request)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/successor/review/w390-lobby-host-two-requests-seats-to-fill.png",
+      "sha256": "32177560087881fa7a650ec8b5cc96fe42a540b37962d09ef0f5ed8ad87262b0",
+      "bytes": 43203,
+      "state": "lobby: host (two requests, seats to fill)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/successor/review/w390-lobby-host-every-seat-filled-with-bots.png",
+      "sha256": "63b2b7d47c627fb9e70680bca94aef03ec8831f301839d5a9349120c6d787c92",
+      "bytes": 43643,
+      "state": "lobby: host (every seat filled with bots)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/successor/review/w390-lobby-joined.png",
+      "sha256": "3da90f9cbd59fc2e83a02aa91f682f2c814cf25f084b48de3d54bb1069aa9676",
+      "bytes": 27691,
+      "state": "lobby: joined",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/successor/review/w390-lobby-display-the-shared-display.png",
+      "sha256": "0b019c11d0c181e1cc257fef9f12b214c5d15d340a839bb61b67860226eb8e0c",
+      "bytes": 31352,
+      "state": "lobby: display (the shared display)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/successor/review/w390-lobby-refused-not-found.png",
+      "sha256": "2afb4c9ba2fd3077d9f24c01d36be72dff21573931ee1902e1044820972d5d61",
+      "bytes": 17233,
+      "state": "lobby: refused (NOT_FOUND)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/successor/review/w390-lobby-refused-rate-limited.png",
+      "sha256": "46dbc03825bfb8e0fdaec8d1d0a6a3a9bf1881b409dcd8fa4e53fbc5b916f291",
+      "bytes": 17546,
+      "state": "lobby: refused (RATE_LIMITED)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/successor/review/w390-lobby-setup-choosing.png",
+      "sha256": "f3ad472513995d28c2606df197d1d91b2d53f81b37715f3ea5ebae6229de535b",
+      "bytes": 21803,
+      "state": "lobby: setup (choosing)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/successor/review/w390-supply-the-supplier-s-phone-after-its-command.png",
+      "sha256": "1556481f02dca8436b2cf0c565e770f9d6890472a272d54c704495c9300043a2",
+      "bytes": 25502,
+      "state": "supply: the Supplier's phone after its command",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/successor/review/w390-supply-a-recipient-with-r15-s-delivery-marker-proposed.png",
+      "sha256": "95d14d1da181253e046ec96cc2697974a6a5588a5d245c6992171c35879b0de4",
+      "bytes": 30597,
+      "state": "supply: a recipient, with R15's delivery marker (proposed)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/successor/review/w390-supply-weapons-restored-by-an-actual-blackhole-sync-no-delivery.png",
+      "sha256": "97b33776e211af1cd21d03f7760c1efd6f1e4fe388855395ca7f3a7d06cddec4",
+      "bytes": 26280,
+      "state": "supply: weapons restored by an actual Blackhole Sync (no delivery)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/successor/review/w390-supply-weapons-grow-without-r15-s-marker-missing-field-no-receipt.png",
+      "sha256": "74d9dac99f9b778cd0e168b0dc088915ee4578e1b947179b7aed8e14d6925a36",
+      "bytes": 24400,
+      "state": "supply: weapons grow without R15's marker (missing field: no receipt)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/successor/review/w390-supply-anyone-else.png",
+      "sha256": "56247643e6c1f5595db154425b844d4fa75a1a1828f630c65f80e6c17816711d",
+      "bytes": 11433,
+      "state": "supply: anyone else",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/successor/review/w390-admission-walk.png",
+      "sha256": "48470377baa4e92ffe6825973614699414f91608fbd01e4bffbdf41dc0b3868e",
+      "bytes": 27074,
+      "state": "admission: walk",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/successor/review/w390-admission-snap.png",
+      "sha256": "793d5502662602ac1e1d0aee587c0c860d1b807b2544e9bd2ea008eaf960c31d",
+      "bytes": 23900,
+      "state": "admission: snap",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/successor/review/contact-w390.png",
+      "sha256": "b07cadfb1c56c90f9df84b3ad87635836326b486f082a28496a55ad84d8846de",
+      "bytes": 744201,
+      "kind": "contact",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/successor/review/w320-role-cards-the-nine-current-roles.png",
+      "sha256": "5b34a77282df970769bfb60b430669eba75000ea4c08433f5c45552c0391dca9",
+      "bytes": 92861,
+      "state": "role cards: the nine current roles",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/successor/review/w320-action-overlay-successor-entries.png",
+      "sha256": "7642210a3a05cc695dbbe91629c408b329ec37f99a0d1276818933c0db08e57a",
+      "bytes": 83202,
+      "state": "action overlay: successor entries",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/successor/review/w320-lobby-start.png",
+      "sha256": "720ef6c04b51ad1701400f95e4aad22912686a184b533cca75e828ab0b8a0ab3",
+      "bytes": 23846,
+      "state": "lobby: start",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/successor/review/w320-lobby-requesting.png",
+      "sha256": "12341d1b035524614b3f49462cf4d04547d3859f09f5aaa6a87542509a2aa1d2",
+      "bytes": 18066,
+      "state": "lobby: requesting",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/successor/review/w320-lobby-waiting-the-host-has-the-request.png",
+      "sha256": "a74b099ecb48a22ecd4d62dbd2f45e5c2cfb76bb3bbbcf3745cf1b310f5ec98e",
+      "bytes": 22423,
+      "state": "lobby: waiting (the host has the request)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/successor/review/w320-lobby-host-two-requests-seats-to-fill.png",
+      "sha256": "82f95a41d53ac12ef0373ec9167e430cf7dda0c8ba40323be0f52b6a21525bca",
+      "bytes": 42689,
+      "state": "lobby: host (two requests, seats to fill)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/successor/review/w320-lobby-host-every-seat-filled-with-bots.png",
+      "sha256": "c09bc1e1ff9120fd7a24f0bdeafe39c14de80303fdf2b6b863ecb95801c7e7e4",
+      "bytes": 43007,
+      "state": "lobby: host (every seat filled with bots)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/successor/review/w320-lobby-joined.png",
+      "sha256": "381bba3080d9b9e0009cd7411a69fdfe3c9c87430f73b69a7b7cb4658e1df3cc",
+      "bytes": 26843,
+      "state": "lobby: joined",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/successor/review/w320-lobby-display-the-shared-display.png",
+      "sha256": "54af7af2ea1d58c12b34b5da8cd7188b4916a39a6f7fb533c34fc5c30ef12a53",
+      "bytes": 30122,
+      "state": "lobby: display (the shared display)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/successor/review/w320-lobby-refused-not-found.png",
+      "sha256": "dcd5dea714984e7457ac1f4021712863ed4c1680415374bb67dec3091b3f1904",
+      "bytes": 17703,
+      "state": "lobby: refused (NOT_FOUND)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/successor/review/w320-lobby-refused-rate-limited.png",
+      "sha256": "37d40e421c64e08fd7fb58159f0561b18f87b77a1a2075f6fe4f3d90c56fa0b1",
+      "bytes": 17098,
+      "state": "lobby: refused (RATE_LIMITED)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/successor/review/w320-lobby-setup-choosing.png",
+      "sha256": "c5774e3686e03e651e8fdd414a806ca00d048a6e892107261bd3a06c0cd5d9f9",
+      "bytes": 21684,
+      "state": "lobby: setup (choosing)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/successor/review/w320-supply-the-supplier-s-phone-after-its-command.png",
+      "sha256": "4b970eb46941f9c119d09a0cc6a2c7ff8bb779992bcc3db2e6709c693534b998",
+      "bytes": 25881,
+      "state": "supply: the Supplier's phone after its command",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/successor/review/w320-supply-a-recipient-with-r15-s-delivery-marker-proposed.png",
+      "sha256": "9e77513b240383dfdfc5c4668c696e2b1a664d2626050945794c47ebef46d7ea",
+      "bytes": 30924,
+      "state": "supply: a recipient, with R15's delivery marker (proposed)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/successor/review/w320-supply-weapons-restored-by-an-actual-blackhole-sync-no-delivery.png",
+      "sha256": "f468769f075b0559b9f519ebee0accc887a3a1130bff97aef35a751fbd2e9bb8",
+      "bytes": 26602,
+      "state": "supply: weapons restored by an actual Blackhole Sync (no delivery)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/successor/review/w320-supply-weapons-grow-without-r15-s-marker-missing-field-no-receipt.png",
+      "sha256": "214354729786e7a0c89b37db1c9aec3fb12c9abd096abb76da258c7330707acf",
+      "bytes": 24023,
+      "state": "supply: weapons grow without R15's marker (missing field: no receipt)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/successor/review/w320-supply-anyone-else.png",
+      "sha256": "d42175c751cee913d82bc45b11c529387c0f0785ec07bf829b8d87a66d5ca325",
+      "bytes": 11275,
+      "state": "supply: anyone else",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/successor/review/w320-admission-walk.png",
+      "sha256": "7228b9de9f675dfecfb832e1b543c78f3bba558571ebfa03f171db2a58542f54",
+      "bytes": 26953,
+      "state": "admission: walk",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/successor/review/w320-admission-snap.png",
+      "sha256": "51db0a3364bf38b72b8cce628ea819c901b2de17feb581d3eb4f45f8a051e6c5",
+      "bytes": 23626,
+      "state": "admission: snap",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/successor/review/contact-w320.png",
+      "sha256": "3f1ab93455ed1601fe34d080a7eb00f4ce5d40cef09216fe22e0dd0a0da85680",
+      "bytes": 746078,
+      "kind": "contact",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/successor/review/w390-text200-role-cards-the-nine-current-roles.png",
+      "sha256": "d0b4be454cc9d6a254096dc2aff76d99dd7e98b47370cb94ac13387751f04d11",
+      "bytes": 149810,
+      "state": "role cards: the nine current roles",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/successor/review/w390-text200-action-overlay-successor-entries.png",
+      "sha256": "f44c399c6ff4b1abae10995bb58cbbb658666eaec9371a70aea889e8e2666d72",
+      "bytes": 168463,
+      "state": "action overlay: successor entries",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/successor/review/contact-w390-text200-roles.png",
+      "sha256": "342cd3f855f5d1d37f40d878cb131464209b0b520991670a1826d3975473e300",
+      "bytes": 364376,
+      "kind": "contact",
+      "width": 390,
+      "text": "200%",
+      "section": "roles"
+    },
+    {
+      "file": "design/library/successor/review/w390-text200-lobby-start.png",
+      "sha256": "07c2f3799780cc0e86c283d5dc3a9273452acaf059fac4ed7a552bd51a1e8f2f",
+      "bytes": 41031,
+      "state": "lobby: start",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/successor/review/w390-text200-lobby-requesting.png",
+      "sha256": "258e0b4b9a7fbe528f684cf8902ed5a021bdb6a8079109a385fe9136750209eb",
+      "bytes": 26433,
+      "state": "lobby: requesting",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/successor/review/w390-text200-lobby-waiting-the-host-has-the-request.png",
+      "sha256": "399244f7060b984f9ff39a7b39b20bad750c2dc34ae21ff20d1bfa10f5ec898f",
+      "bytes": 34403,
+      "state": "lobby: waiting (the host has the request)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/successor/review/w390-text200-lobby-host-two-requests-seats-to-fill.png",
+      "sha256": "d9bb1a459e06e6f1f04d6ac47b43b99a1d6a4f74cae31679368cd5461a1c36c6",
+      "bytes": 76758,
+      "state": "lobby: host (two requests, seats to fill)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/successor/review/w390-text200-lobby-host-every-seat-filled-with-bots.png",
+      "sha256": "2f9ec50ff5d3a85c6df91a6d80fb9592f615e4266b2bdaad29ae1f843a44ece5",
+      "bytes": 81914,
+      "state": "lobby: host (every seat filled with bots)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/successor/review/w390-text200-lobby-joined.png",
+      "sha256": "74ed1ee4f868f2b72176b50ca26d2bd34457c28f5c3b2cd1fc571026a68c4e49",
+      "bytes": 45065,
+      "state": "lobby: joined",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/successor/review/w390-text200-lobby-display-the-shared-display.png",
+      "sha256": "b4f93939c366409d5cc0572739d0252dc9aead6e8ce87a005e98737e090b5119",
+      "bytes": 53224,
+      "state": "lobby: display (the shared display)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/successor/review/w390-text200-lobby-refused-not-found.png",
+      "sha256": "12f148bbd6ffb678604f39a3169f671c77fadd4b3d15db348b74e868bcabb126",
+      "bytes": 26647,
+      "state": "lobby: refused (NOT_FOUND)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/successor/review/w390-text200-lobby-refused-rate-limited.png",
+      "sha256": "632e0ff901c51079ada32dd59bbd79a0bfc965cd2da64b96efd25f7c26f6381c",
+      "bytes": 26820,
+      "state": "lobby: refused (RATE_LIMITED)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/successor/review/w390-text200-lobby-setup-choosing.png",
+      "sha256": "4468b744b2e2dec1b13a83ec603bd9664a288cf00f916dc8993d042a2c4672a7",
+      "bytes": 36890,
+      "state": "lobby: setup (choosing)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/successor/review/contact-w390-text200-lobby.png",
+      "sha256": "90b435121c118fe6681d5ba0684723bd6bc9cc096468ce3bea0580674d4c17e2",
+      "bytes": 495770,
+      "kind": "contact",
+      "width": 390,
+      "text": "200%",
+      "section": "lobby"
+    },
+    {
+      "file": "design/library/successor/review/w390-text200-supply-the-supplier-s-phone-after-its-command.png",
+      "sha256": "f44df00295c6e0a5031756ff65c2b7d741efbf3b459cfc7862f2397cbf09e455",
+      "bytes": 43565,
+      "state": "supply: the Supplier's phone after its command",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/successor/review/w390-text200-supply-a-recipient-with-r15-s-delivery-marker-proposed.png",
+      "sha256": "73c53ce7477fc4fdda01b9f55d33b6405764cf035e1f333e2fc23d8cb3ff2634",
+      "bytes": 45682,
+      "state": "supply: a recipient, with R15's delivery marker (proposed)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/successor/review/w390-text200-supply-weapons-restored-by-an-actual-blackhole-sync-no-delivery.png",
+      "sha256": "7e7556aef339519791b5521bbad1f8a9700c707f28b123ed6b87109922f3d945",
+      "bytes": 30816,
+      "state": "supply: weapons restored by an actual Blackhole Sync (no delivery)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/successor/review/w390-text200-supply-weapons-grow-without-r15-s-marker-missing-field-no-receipt.png",
+      "sha256": "7d42fe3c7a9a6d7e297dcc7acda8425864fddcc78822e07ac06d59f2318e5188",
+      "bytes": 28975,
+      "state": "supply: weapons grow without R15's marker (missing field: no receipt)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/successor/review/w390-text200-supply-anyone-else.png",
+      "sha256": "ba27ed4b4ce600e110cf6f0c01fb3acc1649059588c6c4d8b8c4ca30103d0ac8",
+      "bytes": 16059,
+      "state": "supply: anyone else",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/successor/review/contact-w390-text200-supply.png",
+      "sha256": "5d6181218cf059d68b886d52504e3108522718973cf94566cd88e0abaf811f2e",
+      "bytes": 208838,
+      "kind": "contact",
+      "width": 390,
+      "text": "200%",
+      "section": "supply"
+    },
+    {
+      "file": "design/library/successor/review/w390-text200-admission-walk.png",
+      "sha256": "b71b9a5b74a179beca7d4e3a9a0be4fa111280283a37e2cd277ee3941592f739",
+      "bytes": 39612,
+      "state": "admission: walk",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/successor/review/w390-text200-admission-snap.png",
+      "sha256": "15cd1432e96badf0fab5b017f7a660c780a42ec548674e4af1f9fde58798138e",
+      "bytes": 36832,
+      "state": "admission: snap",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/successor/review/contact-w390-text200-admission.png",
+      "sha256": "398f61d271cd5f284f80a550b5314ccd6ee0727bbfbdcba983005193500bf533",
+      "bytes": 118725,
+      "kind": "contact",
+      "width": 390,
+      "text": "200%",
+      "section": "admission"
+    },
+    {
+      "file": "design/library/successor/review/motion-supply-0000.png",
+      "sha256": "42da7eb0d13a5d2ce95c148290599c27a09cca0877053daa52b83330193e1a0a",
+      "bytes": 14313,
+      "motion": "supply",
+      "reduced": false,
+      "t": 0
+    },
+    {
+      "file": "design/library/successor/review/motion-supply-0104.png",
+      "sha256": "f1c844d99ecd75286e770a5fe3c4085e741914e9f03358288502b11a91f5b577",
+      "bytes": 15919,
+      "motion": "supply",
+      "reduced": false,
+      "t": 104
+    },
+    {
+      "file": "design/library/successor/review/motion-supply-0208.png",
+      "sha256": "e812e4a83706a0941264104a683039bf45f2812b938cce640b65cbd4a1cd8f75",
+      "bytes": 16157,
+      "motion": "supply",
+      "reduced": false,
+      "t": 208
+    },
+    {
+      "file": "design/library/successor/review/motion-supply-0312.png",
+      "sha256": "78ed4a1a0916bbf245b39552aaafa7ce38bb799150ae5be295f3276a4ba67403",
+      "bytes": 16119,
+      "motion": "supply",
+      "reduced": false,
+      "t": 312
+    },
+    {
+      "file": "design/library/successor/review/motion-supply-0416.png",
+      "sha256": "bb025564e6e8fb1e7da7076a92bcbf7758cd76c8b1d3682c184b3451858b3ee8",
+      "bytes": 15734,
+      "motion": "supply",
+      "reduced": false,
+      "t": 416
+    },
+    {
+      "file": "design/library/successor/review/motion-supply-0520.png",
+      "sha256": "d33ccd81a74b7ac2be141505623ce33397a1bf389589d114711f3fdb39a2db25",
+      "bytes": 15698,
+      "motion": "supply",
+      "reduced": false,
+      "t": 520
+    },
+    {
+      "file": "design/library/successor/review/motion-admission-0000.png",
+      "sha256": "f99389a4ce95958a112acf68ec10f2d1770f6d4383f00f4b3ab6cb4dca329d2b",
+      "bytes": 15070,
+      "motion": "admission",
+      "reduced": false,
+      "t": 0
+    },
+    {
+      "file": "design/library/successor/review/motion-admission-0480.png",
+      "sha256": "72ff22f662505a5040b83f637d1420be8b31e765991fdc75364433998c61eba5",
+      "bytes": 15532,
+      "motion": "admission",
+      "reduced": false,
+      "t": 480
+    },
+    {
+      "file": "design/library/successor/review/motion-admission-0960.png",
+      "sha256": "0619affa9f5aaaa270f3c804134d319d8f44a0e26fc931b8834b5aa605de2cd8",
+      "bytes": 15518,
+      "motion": "admission",
+      "reduced": false,
+      "t": 960
+    },
+    {
+      "file": "design/library/successor/review/motion-admission-1440.png",
+      "sha256": "562c34e546574e9ac74943cd32d38500948475edfcf29176aa73a0da82c68ce6",
+      "bytes": 15485,
+      "motion": "admission",
+      "reduced": false,
+      "t": 1440
+    },
+    {
+      "file": "design/library/successor/review/motion-admission-1920.png",
+      "sha256": "99e8402e5cb3f65eb31650288f2c6199bcaa19d2897ddadcd874a816e03dd90b",
+      "bytes": 15602,
+      "motion": "admission",
+      "reduced": false,
+      "t": 1920
+    },
+    {
+      "file": "design/library/successor/review/motion-admission-2400.png",
+      "sha256": "28a0e9c12db184d93ea09244f17563f9ea78b0b88b4eade2244b55e5e4642124",
+      "bytes": 15473,
+      "motion": "admission",
+      "reduced": false,
+      "t": 2400
+    },
+    {
+      "file": "design/library/successor/review/motion-seat-0000.png",
+      "sha256": "82903e11c9639226ee0a228b6a3884867990ffa5a4ca9ada3ae874fd737f2bfb",
+      "bytes": 10581,
+      "motion": "seat",
+      "reduced": false,
+      "t": 0
+    },
+    {
+      "file": "design/library/successor/review/motion-seat-0048.png",
+      "sha256": "61ca8c6f2204eac5b8d44c0c3cea532ece254f43a3d9cbe28555356fe69234b6",
+      "bytes": 12567,
+      "motion": "seat",
+      "reduced": false,
+      "t": 48
+    },
+    {
+      "file": "design/library/successor/review/motion-seat-0096.png",
+      "sha256": "1307bfb60da0cfe0ec5b1aa34b6186d202e611a64bbee9b47f444e083ad4b66d",
+      "bytes": 12728,
+      "motion": "seat",
+      "reduced": false,
+      "t": 96
+    },
+    {
+      "file": "design/library/successor/review/motion-seat-0144.png",
+      "sha256": "a1b9c355b373fbf7cea7960b561f3bcf87266c9d518b9a6588cf5317b16a89c5",
+      "bytes": 12699,
+      "motion": "seat",
+      "reduced": false,
+      "t": 144
+    },
+    {
+      "file": "design/library/successor/review/motion-seat-0192.png",
+      "sha256": "619ac46e4b9dee07be081158e665851d385d54502a684e322a867418cacf07c8",
+      "bytes": 12713,
+      "motion": "seat",
+      "reduced": false,
+      "t": 192
+    },
+    {
+      "file": "design/library/successor/review/motion-seat-0240.png",
+      "sha256": "6b1a2fa1152d543e270d47e0b265a8c7676a18dfd46cc90bf89fc95207f0ac93",
+      "bytes": 12319,
+      "motion": "seat",
+      "reduced": false,
+      "t": 240
+    },
+    {
+      "file": "design/library/successor/review/motion-supply-reduced-0000.png",
+      "sha256": "42da7eb0d13a5d2ce95c148290599c27a09cca0877053daa52b83330193e1a0a",
+      "bytes": 14313,
+      "motion": "supply",
+      "reduced": true,
+      "t": 0
+    },
+    {
+      "file": "design/library/successor/review/motion-supply-reduced-0032.png",
+      "sha256": "12d968f2ee0c9486fc2b611f4da0f477ae230299950d30faf0f85aaf8bfe552c",
+      "bytes": 15448,
+      "motion": "supply",
+      "reduced": true,
+      "t": 32
+    },
+    {
+      "file": "design/library/successor/review/motion-supply-reduced-0064.png",
+      "sha256": "ee6ce50a07daf5d788bc446f047d8a79c13a5de51cd7c66b59e60684282cc967",
+      "bytes": 15566,
+      "motion": "supply",
+      "reduced": true,
+      "t": 64
+    },
+    {
+      "file": "design/library/successor/review/motion-supply-reduced-0096.png",
+      "sha256": "1d0315b204df7ffe44d2666a68067089eceb2c824dd8c8a13d6663941ad7c4d5",
+      "bytes": 15690,
+      "motion": "supply",
+      "reduced": true,
+      "t": 96
+    },
+    {
+      "file": "design/library/successor/review/motion-supply-reduced-0128.png",
+      "sha256": "bd63c283b3075f5151e51b16d17d2d87e26ee6c253430b1cf0ba28ef04530317",
+      "bytes": 15738,
+      "motion": "supply",
+      "reduced": true,
+      "t": 128
+    },
+    {
+      "file": "design/library/successor/review/motion-supply-reduced-0160.png",
+      "sha256": "1ac9e76ca51dfd6354519da5e102e27ffe20ee837a37716ead18f2877426b93d",
+      "bytes": 15632,
+      "motion": "supply",
+      "reduced": true,
+      "t": 160
+    },
+    {
+      "file": "design/library/successor/review/motion-admission-reduced-0000.png",
+      "sha256": "46dd6b8cffca311dd4528015beb3b8d54eb158c36efc577fa6396638aa6aad37",
+      "bytes": 14950,
+      "motion": "admission",
+      "reduced": true,
+      "t": 0
+    },
+    {
+      "file": "design/library/successor/review/motion-admission-reduced-0032.png",
+      "sha256": "b0d63240245c597285f41f4b357d82e2c6fde1a8a420e2c713919decdbccc31a",
+      "bytes": 15213,
+      "motion": "admission",
+      "reduced": true,
+      "t": 32
+    },
+    {
+      "file": "design/library/successor/review/motion-admission-reduced-0064.png",
+      "sha256": "3c7db48e7c6f7073a1dcc48d53597d157cef53f223f4ead71842c95dfa9dbf0d",
+      "bytes": 15183,
+      "motion": "admission",
+      "reduced": true,
+      "t": 64
+    },
+    {
+      "file": "design/library/successor/review/motion-admission-reduced-0096.png",
+      "sha256": "796b0d1628867e18db983bf8c34d75ca504c98f5436bd5f5c9f6606005bb0c67",
+      "bytes": 15240,
+      "motion": "admission",
+      "reduced": true,
+      "t": 96
+    },
+    {
+      "file": "design/library/successor/review/motion-admission-reduced-0128.png",
+      "sha256": "d7c943e1b2398a1d63b4d0f0a6c694c7cb6d1cb8a3816b65ad44abe9ac9a0eb2",
+      "bytes": 15267,
+      "motion": "admission",
+      "reduced": true,
+      "t": 128
+    },
+    {
+      "file": "design/library/successor/review/motion-admission-reduced-0160.png",
+      "sha256": "41cd5f85ce925c827bf7190fc6107c90062231bc8ab7aea39caeebd2976e30b1",
+      "bytes": 15267,
+      "motion": "admission",
+      "reduced": true,
+      "t": 160
+    },
+    {
+      "file": "design/library/successor/review/motion-seat-reduced-0000.png",
+      "sha256": "82903e11c9639226ee0a228b6a3884867990ffa5a4ca9ada3ae874fd737f2bfb",
+      "bytes": 10581,
+      "motion": "seat",
+      "reduced": true,
+      "t": 0
+    },
+    {
+      "file": "design/library/successor/review/motion-seat-reduced-0032.png",
+      "sha256": "fcc021df3b6a51fb0dada7f161e3da9a48fcbb720be40f20ac1736f4b3a5c4a1",
+      "bytes": 12341,
+      "motion": "seat",
+      "reduced": true,
+      "t": 32
+    },
+    {
+      "file": "design/library/successor/review/motion-seat-reduced-0064.png",
+      "sha256": "52751263d119e269ac910d741d9966caa6adb6d3a71e69b67de507863566f206",
+      "bytes": 12552,
+      "motion": "seat",
+      "reduced": true,
+      "t": 64
+    },
+    {
+      "file": "design/library/successor/review/motion-seat-reduced-0096.png",
+      "sha256": "e2d2ec3750bbf858a6b9d6e347b8ee124c1b28494d6c69c59b06a6971e87bf67",
+      "bytes": 12641,
+      "motion": "seat",
+      "reduced": true,
+      "t": 96
+    },
+    {
+      "file": "design/library/successor/review/motion-seat-reduced-0128.png",
+      "sha256": "911429aaacb0507ef16654a513bc3205169557db1e211ed942f45b39e8269988",
+      "bytes": 12735,
+      "motion": "seat",
+      "reduced": true,
+      "t": 128
+    },
+    {
+      "file": "design/library/successor/review/motion-seat-reduced-0160.png",
+      "sha256": "d78a362b7ce3a541ef2d5ac95fb7d9e063605521ab489a7252c18e9e048c2672",
+      "bytes": 12309,
+      "motion": "seat",
+      "reduced": true,
+      "t": 160
+    }
+  ],
+  "problems": []
+}

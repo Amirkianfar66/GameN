@@ -1,0 +1,4673 @@
+[
+  {
+    "name": "320x568-board",
+    "size": [
+      320,
+      568
+    ],
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": false,
+    "sheetScroll": null,
+    "sheetOverflowsSideways": null,
+    "sheetClipsSideways": null,
+    "art": [
+      "public-board",
+      "player-ui",
+      "roles",
+      "abilities"
+    ],
+    "kitRequests": 1,
+    "running": 0,
+    "file": null,
+    "fileShown": null,
+    "thread": false,
+    "photos": [],
+    "roleGroups": [],
+    "roleNames": [],
+    "rolesBelowPhotos": null,
+    "rolesShown": null,
+    "inspect": null,
+    "controls": [],
+    "focus": null,
+    "folder": false,
+    "outOfDate": false,
+    "headUnderBanner": null,
+    "roleCard": false,
+    "hideReachable": null,
+    "spot": [],
+    "sentence": false,
+    "roleWordsOutsideCard": [],
+    "roleWordsInPage": [],
+    "hooks": false,
+    "problems": []
+  },
+  {
+    "name": "320x568-assembling",
+    "size": [
+      320,
+      568
+    ],
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": true,
+    "sheetScroll": {
+      "top": 0,
+      "height": 521,
+      "client": 463
+    },
+    "sheetOverflowsSideways": false,
+    "sheetClipsSideways": 5,
+    "art": [
+      "public-board",
+      "player-ui",
+      "roles",
+      "abilities"
+    ],
+    "kitRequests": 1,
+    "running": 20,
+    "file": {
+      "x": 30,
+      "y": 180,
+      "w": 272,
+      "h": 295
+    },
+    "fileShown": true,
+    "thread": true,
+    "photos": [
+      {
+        "seat": "1",
+        "label": "Player 1, Ada. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Ada",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "matrix(1.04239, -0.071493, 0.071493, 1.04239, 0, -15.6941)",
+        "layout": "70x90",
+        "frame": "70x90",
+        "x": 43,
+        "y": 205,
+        "w": 84,
+        "h": 102
+      },
+      {
+        "seat": "2",
+        "label": "Player 2, Ben. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Ben",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "matrix(1.07195, 0.131619, -0.131619, 1.07195, 0, -28)",
+        "layout": "70x90",
+        "frame": "70x90",
+        "x": 122,
+        "y": 190,
+        "w": 89,
+        "h": 107
+      },
+      {
+        "seat": "4",
+        "label": "Player 4, Dev. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Dev",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "matrix(1.07195, -0.131619, 0.131619, 1.07195, 0, -28)",
+        "layout": "70x90",
+        "frame": "70x90",
+        "x": 201,
+        "y": 190,
+        "w": 89,
+        "h": 107
+      }
+    ],
+    "roleGroups": [
+      "Their roles, one each: Undercover, Alien and Cracker. Which of them holds which is not known."
+    ],
+    "roleNames": [
+      "Undercover",
+      "Alien",
+      "Cracker"
+    ],
+    "rolesBelowPhotos": true,
+    "rolesShown": true,
+    "inspect": null,
+    "controls": [
+      {
+        "id": "ab-photo-1",
+        "x": 43,
+        "y": 205,
+        "w": 84,
+        "h": 102
+      },
+      {
+        "id": "ab-photo-2",
+        "x": 122,
+        "y": 190,
+        "w": 89,
+        "h": 107
+      },
+      {
+        "id": "ab-photo-4",
+        "x": 201,
+        "y": 190,
+        "w": 89,
+        "h": 107
+      }
+    ],
+    "focus": "ms-private-heading",
+    "folder": false,
+    "outOfDate": false,
+    "headUnderBanner": null,
+    "roleCard": true,
+    "hideReachable": true,
+    "spot": [],
+    "sentence": true,
+    "roleWordsOutsideCard": [],
+    "roleWordsInPage": [
+      "Undercover",
+      "Alien",
+      "Cracker"
+    ],
+    "hooks": true,
+    "problems": []
+  },
+  {
+    "name": "320x568-file",
+    "size": [
+      320,
+      568
+    ],
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": true,
+    "sheetScroll": {
+      "top": 0,
+      "height": 521,
+      "client": 463
+    },
+    "sheetOverflowsSideways": false,
+    "sheetClipsSideways": 0,
+    "art": [
+      "public-board",
+      "player-ui",
+      "roles",
+      "abilities"
+    ],
+    "kitRequests": 1,
+    "running": 0,
+    "file": {
+      "x": 30,
+      "y": 177,
+      "w": 272,
+      "h": 296
+    },
+    "fileShown": true,
+    "thread": true,
+    "photos": [
+      {
+        "seat": "1",
+        "label": "Player 1, Ada. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Ada",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "70x90",
+        "frame": "70x90",
+        "x": 48,
+        "y": 222,
+        "w": 75,
+        "h": 94
+      },
+      {
+        "seat": "2",
+        "label": "Player 2, Ben. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Ben",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "70x90",
+        "frame": "70x90",
+        "x": 130,
+        "y": 223,
+        "w": 72,
+        "h": 92
+      },
+      {
+        "seat": "4",
+        "label": "Player 4, Dev. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Dev",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "70x90",
+        "frame": "70x90",
+        "x": 211,
+        "y": 223,
+        "w": 72,
+        "h": 92
+      }
+    ],
+    "roleGroups": [
+      "Their roles, one each: Undercover, Alien and Cracker. Which of them holds which is not known."
+    ],
+    "roleNames": [
+      "Undercover",
+      "Alien",
+      "Cracker"
+    ],
+    "rolesBelowPhotos": true,
+    "rolesShown": true,
+    "inspect": null,
+    "controls": [
+      {
+        "id": "ab-photo-1",
+        "x": 48,
+        "y": 222,
+        "w": 75,
+        "h": 94
+      },
+      {
+        "id": "ab-photo-2",
+        "x": 130,
+        "y": 223,
+        "w": 72,
+        "h": 92
+      },
+      {
+        "id": "ab-photo-4",
+        "x": 211,
+        "y": 223,
+        "w": 72,
+        "h": 92
+      }
+    ],
+    "focus": "ms-private-heading",
+    "folder": false,
+    "outOfDate": false,
+    "headUnderBanner": null,
+    "roleCard": true,
+    "hideReachable": true,
+    "spot": [],
+    "sentence": true,
+    "roleWordsOutsideCard": [],
+    "roleWordsInPage": [
+      "Undercover",
+      "Alien",
+      "Cracker"
+    ],
+    "hooks": true,
+    "problems": []
+  },
+  {
+    "name": "320x568-inspect",
+    "size": [
+      320,
+      568
+    ],
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": true,
+    "sheetScroll": {
+      "top": 0,
+      "height": 521,
+      "client": 463
+    },
+    "sheetOverflowsSideways": false,
+    "sheetClipsSideways": 0,
+    "art": [
+      "public-board",
+      "player-ui",
+      "roles",
+      "abilities"
+    ],
+    "kitRequests": 1,
+    "running": 0,
+    "file": {
+      "x": 30,
+      "y": 177,
+      "w": 272,
+      "h": 296
+    },
+    "fileShown": true,
+    "thread": true,
+    "photos": [
+      {
+        "seat": "1",
+        "label": "Player 1, Ada. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Ada",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "70x90",
+        "frame": "70x90",
+        "x": 48,
+        "y": 222,
+        "w": 75,
+        "h": 94
+      },
+      {
+        "seat": "2",
+        "label": "Player 2, Ben. Inspect",
+        "pressed": "true",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Ben",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "matrix(1.42, 0, 0, 1.42, 0, 2)",
+        "layout": "70x90",
+        "frame": "70x90",
+        "x": 116,
+        "y": 226,
+        "w": 99,
+        "h": 128
+      },
+      {
+        "seat": "4",
+        "label": "Player 4, Dev. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Dev",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "70x90",
+        "frame": "70x90",
+        "x": 211,
+        "y": 223,
+        "w": 72,
+        "h": 92
+      }
+    ],
+    "roleGroups": [
+      "Their roles, one each: Undercover, Alien and Cracker. Which of them holds which is not known."
+    ],
+    "roleNames": [
+      "Undercover",
+      "Alien",
+      "Cracker"
+    ],
+    "rolesBelowPhotos": false,
+    "rolesShown": true,
+    "inspect": {
+      "text": "Player 2 , Ben Room B · Healthy Show on board Back",
+      "shown": true
+    },
+    "controls": [
+      {
+        "id": "ab-photo-1",
+        "x": 48,
+        "y": 222,
+        "w": 75,
+        "h": 94
+      },
+      {
+        "id": "ab-photo-2",
+        "x": 116,
+        "y": 226,
+        "w": 99,
+        "h": 128
+      },
+      {
+        "id": "ab-photo-4",
+        "x": 211,
+        "y": 223,
+        "w": 72,
+        "h": 92
+      },
+      {
+        "id": "ab-inspect-show",
+        "x": 55,
+        "y": 407,
+        "w": 143,
+        "h": 44
+      },
+      {
+        "id": "ab-inspect-back",
+        "x": 206,
+        "y": 407,
+        "w": 65,
+        "h": 44
+      }
+    ],
+    "focus": "ab-photo-2",
+    "folder": false,
+    "outOfDate": false,
+    "headUnderBanner": null,
+    "roleCard": true,
+    "hideReachable": true,
+    "spot": [],
+    "sentence": true,
+    "roleWordsOutsideCard": [],
+    "roleWordsInPage": [
+      "Undercover",
+      "Alien",
+      "Cracker"
+    ],
+    "hooks": true,
+    "problems": []
+  },
+  {
+    "name": "320x568-escape",
+    "size": [
+      320,
+      568
+    ],
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": true,
+    "sheetScroll": {
+      "top": 0,
+      "height": 521,
+      "client": 463
+    },
+    "sheetOverflowsSideways": false,
+    "sheetClipsSideways": 0,
+    "art": [
+      "public-board",
+      "player-ui",
+      "roles",
+      "abilities"
+    ],
+    "kitRequests": 1,
+    "running": 0,
+    "file": {
+      "x": 30,
+      "y": 177,
+      "w": 272,
+      "h": 296
+    },
+    "fileShown": true,
+    "thread": true,
+    "photos": [
+      {
+        "seat": "1",
+        "label": "Player 1, Ada. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Ada",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "70x90",
+        "frame": "70x90",
+        "x": 48,
+        "y": 222,
+        "w": 75,
+        "h": 94
+      },
+      {
+        "seat": "2",
+        "label": "Player 2, Ben. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Ben",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "70x90",
+        "frame": "70x90",
+        "x": 130,
+        "y": 223,
+        "w": 72,
+        "h": 92
+      },
+      {
+        "seat": "4",
+        "label": "Player 4, Dev. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Dev",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "70x90",
+        "frame": "70x90",
+        "x": 211,
+        "y": 223,
+        "w": 72,
+        "h": 92
+      }
+    ],
+    "roleGroups": [
+      "Their roles, one each: Undercover, Alien and Cracker. Which of them holds which is not known."
+    ],
+    "roleNames": [
+      "Undercover",
+      "Alien",
+      "Cracker"
+    ],
+    "rolesBelowPhotos": true,
+    "rolesShown": true,
+    "inspect": null,
+    "controls": [
+      {
+        "id": "ab-photo-1",
+        "x": 48,
+        "y": 222,
+        "w": 75,
+        "h": 94
+      },
+      {
+        "id": "ab-photo-2",
+        "x": 130,
+        "y": 223,
+        "w": 72,
+        "h": 92
+      },
+      {
+        "id": "ab-photo-4",
+        "x": 211,
+        "y": 223,
+        "w": 72,
+        "h": 92
+      }
+    ],
+    "focus": "ab-photo-2",
+    "folder": false,
+    "outOfDate": false,
+    "headUnderBanner": null,
+    "roleCard": true,
+    "hideReachable": true,
+    "spot": [],
+    "sentence": true,
+    "roleWordsOutsideCard": [],
+    "roleWordsInPage": [
+      "Undercover",
+      "Alien",
+      "Cracker"
+    ],
+    "hooks": true,
+    "problems": []
+  },
+  {
+    "name": "320x568-show-on-board",
+    "size": [
+      320,
+      568
+    ],
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": false,
+    "sheetScroll": null,
+    "sheetOverflowsSideways": null,
+    "sheetClipsSideways": null,
+    "art": [
+      "public-board",
+      "player-ui",
+      "roles",
+      "abilities"
+    ],
+    "kitRequests": 1,
+    "running": 0,
+    "file": null,
+    "fileShown": null,
+    "thread": false,
+    "photos": [],
+    "roleGroups": [],
+    "roleNames": [],
+    "rolesBelowPhotos": null,
+    "rolesShown": null,
+    "inspect": null,
+    "controls": [],
+    "focus": "ms-private-toggle",
+    "folder": false,
+    "outOfDate": false,
+    "headUnderBanner": null,
+    "roleCard": false,
+    "hideReachable": null,
+    "spot": [
+      "seat-4"
+    ],
+    "sentence": false,
+    "roleWordsOutsideCard": [],
+    "roleWordsInPage": [],
+    "hooks": false,
+    "problems": []
+  },
+  {
+    "name": "320x568-ring-over",
+    "size": [
+      320,
+      568
+    ],
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": false,
+    "sheetScroll": null,
+    "sheetOverflowsSideways": null,
+    "sheetClipsSideways": null,
+    "art": [
+      "public-board",
+      "player-ui",
+      "roles",
+      "abilities"
+    ],
+    "kitRequests": 1,
+    "running": 0,
+    "file": null,
+    "fileShown": null,
+    "thread": false,
+    "photos": [],
+    "roleGroups": [],
+    "roleNames": [],
+    "rolesBelowPhotos": null,
+    "rolesShown": null,
+    "inspect": null,
+    "controls": [],
+    "focus": "ms-private-toggle",
+    "folder": false,
+    "outOfDate": false,
+    "headUnderBanner": null,
+    "roleCard": false,
+    "hideReachable": null,
+    "spot": [],
+    "sentence": false,
+    "roleWordsOutsideCard": [],
+    "roleWordsInPage": [],
+    "hooks": false,
+    "problems": []
+  },
+  {
+    "name": "320x568-reopened",
+    "size": [
+      320,
+      568
+    ],
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": true,
+    "sheetScroll": {
+      "top": 0,
+      "height": 521,
+      "client": 463
+    },
+    "sheetOverflowsSideways": false,
+    "sheetClipsSideways": 0,
+    "art": [
+      "public-board",
+      "player-ui",
+      "roles",
+      "abilities"
+    ],
+    "kitRequests": 1,
+    "running": 0,
+    "file": {
+      "x": 31,
+      "y": 188,
+      "w": 269,
+      "h": 293
+    },
+    "fileShown": true,
+    "thread": true,
+    "photos": [
+      {
+        "seat": "1",
+        "label": "Player 1, Ada. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Ada",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "70x90",
+        "frame": "70x90",
+        "x": 49,
+        "y": 232,
+        "w": 74,
+        "h": 93
+      },
+      {
+        "seat": "2",
+        "label": "Player 2, Ben. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Ben",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "70x90",
+        "frame": "70x90",
+        "x": 130,
+        "y": 233,
+        "w": 72,
+        "h": 91
+      },
+      {
+        "seat": "4",
+        "label": "Player 4, Dev. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Dev",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "70x90",
+        "frame": "70x90",
+        "x": 210,
+        "y": 233,
+        "w": 72,
+        "h": 91
+      }
+    ],
+    "roleGroups": [
+      "Their roles, one each: Undercover, Alien and Cracker. Which of them holds which is not known."
+    ],
+    "roleNames": [
+      "Undercover",
+      "Alien",
+      "Cracker"
+    ],
+    "rolesBelowPhotos": true,
+    "rolesShown": true,
+    "inspect": null,
+    "controls": [
+      {
+        "id": "ab-photo-1",
+        "x": 49,
+        "y": 232,
+        "w": 74,
+        "h": 93
+      },
+      {
+        "id": "ab-photo-2",
+        "x": 130,
+        "y": 233,
+        "w": 72,
+        "h": 91
+      },
+      {
+        "id": "ab-photo-4",
+        "x": 210,
+        "y": 233,
+        "w": 72,
+        "h": 91
+      }
+    ],
+    "focus": "ms-private-heading",
+    "folder": false,
+    "outOfDate": false,
+    "headUnderBanner": null,
+    "roleCard": true,
+    "hideReachable": true,
+    "spot": [],
+    "sentence": true,
+    "roleWordsOutsideCard": [],
+    "roleWordsInPage": [
+      "Undercover",
+      "Alien",
+      "Cracker"
+    ],
+    "hooks": true,
+    "problems": []
+  },
+  {
+    "name": "320x568-blurred",
+    "size": [
+      320,
+      568
+    ],
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": false,
+    "sheetScroll": null,
+    "sheetOverflowsSideways": null,
+    "sheetClipsSideways": null,
+    "art": [
+      "public-board",
+      "player-ui",
+      "roles",
+      "abilities"
+    ],
+    "kitRequests": 1,
+    "running": 0,
+    "file": null,
+    "fileShown": null,
+    "thread": false,
+    "photos": [],
+    "roleGroups": [],
+    "roleNames": [],
+    "rolesBelowPhotos": null,
+    "rolesShown": null,
+    "inspect": null,
+    "controls": [],
+    "focus": null,
+    "folder": false,
+    "outOfDate": false,
+    "headUnderBanner": null,
+    "roleCard": false,
+    "hideReachable": null,
+    "spot": [],
+    "sentence": false,
+    "roleWordsOutsideCard": [],
+    "roleWordsInPage": [],
+    "hooks": false,
+    "problems": []
+  },
+  {
+    "name": "320x568-stale",
+    "size": [
+      320,
+      568
+    ],
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": false,
+    "sheetScroll": null,
+    "sheetOverflowsSideways": null,
+    "sheetClipsSideways": null,
+    "art": [
+      "public-board",
+      "player-ui",
+      "roles",
+      "abilities"
+    ],
+    "kitRequests": 1,
+    "running": 0,
+    "file": null,
+    "fileShown": null,
+    "thread": false,
+    "photos": [],
+    "roleGroups": [],
+    "roleNames": [],
+    "rolesBelowPhotos": null,
+    "rolesShown": null,
+    "inspect": null,
+    "controls": [],
+    "focus": "ms-private-toggle",
+    "folder": false,
+    "outOfDate": true,
+    "headUnderBanner": null,
+    "roleCard": false,
+    "hideReachable": null,
+    "spot": [],
+    "sentence": false,
+    "roleWordsOutsideCard": [],
+    "roleWordsInPage": [],
+    "hooks": false,
+    "problems": []
+  },
+  {
+    "name": "320x568-live-again",
+    "size": [
+      320,
+      568
+    ],
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": false,
+    "sheetScroll": null,
+    "sheetOverflowsSideways": null,
+    "sheetClipsSideways": null,
+    "art": [
+      "public-board",
+      "player-ui",
+      "roles",
+      "abilities"
+    ],
+    "kitRequests": 1,
+    "running": 0,
+    "file": null,
+    "fileShown": null,
+    "thread": false,
+    "photos": [],
+    "roleGroups": [],
+    "roleNames": [],
+    "rolesBelowPhotos": null,
+    "rolesShown": null,
+    "inspect": null,
+    "controls": [],
+    "focus": "ms-private-toggle",
+    "folder": false,
+    "outOfDate": false,
+    "headUnderBanner": null,
+    "roleCard": false,
+    "hideReachable": null,
+    "spot": [],
+    "sentence": false,
+    "roleWordsOutsideCard": [],
+    "roleWordsInPage": [],
+    "hooks": false,
+    "problems": []
+  },
+  {
+    "name": "320x568-deliberate-reopen",
+    "size": [
+      320,
+      568
+    ],
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": true,
+    "sheetScroll": {
+      "top": 0,
+      "height": 521,
+      "client": 463
+    },
+    "sheetOverflowsSideways": false,
+    "sheetClipsSideways": 0,
+    "art": [
+      "public-board",
+      "player-ui",
+      "roles",
+      "abilities"
+    ],
+    "kitRequests": 1,
+    "running": 0,
+    "file": {
+      "x": 30,
+      "y": 177,
+      "w": 272,
+      "h": 296
+    },
+    "fileShown": true,
+    "thread": true,
+    "photos": [
+      {
+        "seat": "1",
+        "label": "Player 1, Ada. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Ada",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "70x90",
+        "frame": "70x90",
+        "x": 48,
+        "y": 222,
+        "w": 75,
+        "h": 94
+      },
+      {
+        "seat": "2",
+        "label": "Player 2, Ben. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Ben",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "70x90",
+        "frame": "70x90",
+        "x": 130,
+        "y": 223,
+        "w": 72,
+        "h": 92
+      },
+      {
+        "seat": "4",
+        "label": "Player 4, Dev. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Dev",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "70x90",
+        "frame": "70x90",
+        "x": 211,
+        "y": 223,
+        "w": 72,
+        "h": 92
+      }
+    ],
+    "roleGroups": [
+      "Their roles, one each: Undercover, Alien and Cracker. Which of them holds which is not known."
+    ],
+    "roleNames": [
+      "Undercover",
+      "Alien",
+      "Cracker"
+    ],
+    "rolesBelowPhotos": true,
+    "rolesShown": true,
+    "inspect": null,
+    "controls": [
+      {
+        "id": "ab-photo-1",
+        "x": 48,
+        "y": 222,
+        "w": 75,
+        "h": 94
+      },
+      {
+        "id": "ab-photo-2",
+        "x": 130,
+        "y": 223,
+        "w": 72,
+        "h": 92
+      },
+      {
+        "id": "ab-photo-4",
+        "x": 211,
+        "y": 223,
+        "w": 72,
+        "h": 92
+      }
+    ],
+    "focus": "ms-private-heading",
+    "folder": false,
+    "outOfDate": false,
+    "headUnderBanner": null,
+    "roleCard": true,
+    "hideReachable": true,
+    "spot": [],
+    "sentence": true,
+    "roleWordsOutsideCard": [],
+    "roleWordsInPage": [
+      "Undercover",
+      "Alien",
+      "Cracker"
+    ],
+    "hooks": true,
+    "problems": []
+  },
+  {
+    "name": "390x844-board",
+    "size": [
+      390,
+      844
+    ],
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": false,
+    "sheetScroll": null,
+    "sheetOverflowsSideways": null,
+    "sheetClipsSideways": null,
+    "art": [
+      "public-board",
+      "player-ui",
+      "roles",
+      "abilities"
+    ],
+    "kitRequests": 1,
+    "running": 0,
+    "file": null,
+    "fileShown": null,
+    "thread": false,
+    "photos": [],
+    "roleGroups": [],
+    "roleNames": [],
+    "rolesBelowPhotos": null,
+    "rolesShown": null,
+    "inspect": null,
+    "controls": [],
+    "focus": null,
+    "folder": false,
+    "outOfDate": false,
+    "headUnderBanner": null,
+    "roleCard": false,
+    "hideReachable": null,
+    "spot": [],
+    "sentence": false,
+    "roleWordsOutsideCard": [],
+    "roleWordsInPage": [],
+    "hooks": false,
+    "problems": []
+  },
+  {
+    "name": "390x844-assembling",
+    "size": [
+      390,
+      844
+    ],
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": true,
+    "sheetScroll": {
+      "top": 0,
+      "height": 688,
+      "client": 688
+    },
+    "sheetOverflowsSideways": false,
+    "sheetClipsSideways": 11,
+    "art": [
+      "public-board",
+      "player-ui",
+      "roles",
+      "abilities"
+    ],
+    "kitRequests": 1,
+    "running": 20,
+    "file": {
+      "x": 30,
+      "y": 278,
+      "w": 341,
+      "h": 412
+    },
+    "fileShown": true,
+    "thread": true,
+    "photos": [
+      {
+        "seat": "1",
+        "label": "Player 1, Ada. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Ada",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "matrix(1.04244, -0.0715862, 0.0715862, 1.04244, 0, -15.7137)",
+        "layout": "95x122",
+        "frame": "95x122",
+        "x": 39,
+        "y": 320,
+        "w": 113,
+        "h": 138
+      },
+      {
+        "seat": "2",
+        "label": "Player 2, Ben. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Ben",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "matrix(1.07195, 0.131619, -0.131619, 1.07195, 0, -28)",
+        "layout": "95x122",
+        "frame": "95x122",
+        "x": 142,
+        "y": 305,
+        "w": 120,
+        "h": 145
+      },
+      {
+        "seat": "4",
+        "label": "Player 4, Dev. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Dev",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "matrix(1.07195, -0.131619, 0.131619, 1.07195, 0, -28)",
+        "layout": "95x122",
+        "frame": "95x122",
+        "x": 245,
+        "y": 305,
+        "w": 120,
+        "h": 145
+      }
+    ],
+    "roleGroups": [
+      "Their roles, one each: Undercover, Alien and Cracker. Which of them holds which is not known."
+    ],
+    "roleNames": [
+      "Undercover",
+      "Alien",
+      "Cracker"
+    ],
+    "rolesBelowPhotos": true,
+    "rolesShown": true,
+    "inspect": null,
+    "controls": [
+      {
+        "id": "ab-photo-1",
+        "x": 39,
+        "y": 320,
+        "w": 113,
+        "h": 138
+      },
+      {
+        "id": "ab-photo-2",
+        "x": 142,
+        "y": 305,
+        "w": 120,
+        "h": 145
+      },
+      {
+        "id": "ab-photo-4",
+        "x": 245,
+        "y": 305,
+        "w": 120,
+        "h": 145
+      }
+    ],
+    "focus": "ms-private-heading",
+    "folder": false,
+    "outOfDate": false,
+    "headUnderBanner": null,
+    "roleCard": true,
+    "hideReachable": true,
+    "spot": [],
+    "sentence": true,
+    "roleWordsOutsideCard": [],
+    "roleWordsInPage": [
+      "Undercover",
+      "Alien",
+      "Cracker"
+    ],
+    "hooks": true,
+    "problems": []
+  },
+  {
+    "name": "390x844-file",
+    "size": [
+      390,
+      844
+    ],
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": true,
+    "sheetScroll": {
+      "top": 0,
+      "height": 688,
+      "client": 688
+    },
+    "sheetOverflowsSideways": false,
+    "sheetClipsSideways": 0,
+    "art": [
+      "public-board",
+      "player-ui",
+      "roles",
+      "abilities"
+    ],
+    "kitRequests": 1,
+    "running": 0,
+    "file": {
+      "x": 30,
+      "y": 275,
+      "w": 342,
+      "h": 413
+    },
+    "fileShown": true,
+    "thread": true,
+    "photos": [
+      {
+        "seat": "1",
+        "label": "Player 1, Ada. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Ada",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "95x122",
+        "frame": "95x122",
+        "x": 46,
+        "y": 339,
+        "w": 101,
+        "h": 127
+      },
+      {
+        "seat": "2",
+        "label": "Player 2, Ben. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Ben",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "95x122",
+        "frame": "95x122",
+        "x": 152,
+        "y": 340,
+        "w": 98,
+        "h": 125
+      },
+      {
+        "seat": "4",
+        "label": "Player 4, Dev. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Dev",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "95x122",
+        "frame": "95x122",
+        "x": 257,
+        "y": 340,
+        "w": 98,
+        "h": 125
+      }
+    ],
+    "roleGroups": [
+      "Their roles, one each: Undercover, Alien and Cracker. Which of them holds which is not known."
+    ],
+    "roleNames": [
+      "Undercover",
+      "Alien",
+      "Cracker"
+    ],
+    "rolesBelowPhotos": true,
+    "rolesShown": true,
+    "inspect": null,
+    "controls": [
+      {
+        "id": "ab-photo-1",
+        "x": 46,
+        "y": 339,
+        "w": 101,
+        "h": 127
+      },
+      {
+        "id": "ab-photo-2",
+        "x": 152,
+        "y": 340,
+        "w": 98,
+        "h": 125
+      },
+      {
+        "id": "ab-photo-4",
+        "x": 257,
+        "y": 340,
+        "w": 98,
+        "h": 125
+      }
+    ],
+    "focus": "ms-private-heading",
+    "folder": false,
+    "outOfDate": false,
+    "headUnderBanner": null,
+    "roleCard": true,
+    "hideReachable": true,
+    "spot": [],
+    "sentence": true,
+    "roleWordsOutsideCard": [],
+    "roleWordsInPage": [
+      "Undercover",
+      "Alien",
+      "Cracker"
+    ],
+    "hooks": true,
+    "problems": []
+  },
+  {
+    "name": "390x844-inspect",
+    "size": [
+      390,
+      844
+    ],
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": true,
+    "sheetScroll": {
+      "top": 0,
+      "height": 688,
+      "client": 688
+    },
+    "sheetOverflowsSideways": false,
+    "sheetClipsSideways": 0,
+    "art": [
+      "public-board",
+      "player-ui",
+      "roles",
+      "abilities"
+    ],
+    "kitRequests": 1,
+    "running": 0,
+    "file": {
+      "x": 30,
+      "y": 275,
+      "w": 342,
+      "h": 413
+    },
+    "fileShown": true,
+    "thread": true,
+    "photos": [
+      {
+        "seat": "1",
+        "label": "Player 1, Ada. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Ada",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "95x122",
+        "frame": "95x122",
+        "x": 46,
+        "y": 339,
+        "w": 101,
+        "h": 127
+      },
+      {
+        "seat": "2",
+        "label": "Player 2, Ben. Inspect",
+        "pressed": "true",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Ben",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "matrix(1.42, 0, 0, 1.42, 0, 2)",
+        "layout": "95x122",
+        "frame": "95x122",
+        "x": 134,
+        "y": 344,
+        "w": 135,
+        "h": 173
+      },
+      {
+        "seat": "4",
+        "label": "Player 4, Dev. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Dev",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "95x122",
+        "frame": "95x122",
+        "x": 257,
+        "y": 340,
+        "w": 98,
+        "h": 125
+      }
+    ],
+    "roleGroups": [
+      "Their roles, one each: Undercover, Alien and Cracker. Which of them holds which is not known."
+    ],
+    "roleNames": [
+      "Undercover",
+      "Alien",
+      "Cracker"
+    ],
+    "rolesBelowPhotos": false,
+    "rolesShown": true,
+    "inspect": {
+      "text": "Player 2 , Ben Room B · Healthy Show on board Back",
+      "shown": true
+    },
+    "controls": [
+      {
+        "id": "ab-photo-1",
+        "x": 46,
+        "y": 339,
+        "w": 101,
+        "h": 127
+      },
+      {
+        "id": "ab-photo-2",
+        "x": 134,
+        "y": 344,
+        "w": 135,
+        "h": 173
+      },
+      {
+        "id": "ab-photo-4",
+        "x": 257,
+        "y": 340,
+        "w": 98,
+        "h": 125
+      },
+      {
+        "id": "ab-inspect-show",
+        "x": 57,
+        "y": 619,
+        "w": 149,
+        "h": 44
+      },
+      {
+        "id": "ab-inspect-back",
+        "x": 214,
+        "y": 619,
+        "w": 71,
+        "h": 44
+      }
+    ],
+    "focus": "ab-photo-2",
+    "folder": false,
+    "outOfDate": false,
+    "headUnderBanner": null,
+    "roleCard": true,
+    "hideReachable": true,
+    "spot": [],
+    "sentence": true,
+    "roleWordsOutsideCard": [],
+    "roleWordsInPage": [
+      "Undercover",
+      "Alien",
+      "Cracker"
+    ],
+    "hooks": true,
+    "problems": []
+  },
+  {
+    "name": "390x844-escape",
+    "size": [
+      390,
+      844
+    ],
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": true,
+    "sheetScroll": {
+      "top": 0,
+      "height": 688,
+      "client": 688
+    },
+    "sheetOverflowsSideways": false,
+    "sheetClipsSideways": 0,
+    "art": [
+      "public-board",
+      "player-ui",
+      "roles",
+      "abilities"
+    ],
+    "kitRequests": 1,
+    "running": 0,
+    "file": {
+      "x": 30,
+      "y": 275,
+      "w": 342,
+      "h": 413
+    },
+    "fileShown": true,
+    "thread": true,
+    "photos": [
+      {
+        "seat": "1",
+        "label": "Player 1, Ada. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Ada",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "95x122",
+        "frame": "95x122",
+        "x": 46,
+        "y": 339,
+        "w": 101,
+        "h": 127
+      },
+      {
+        "seat": "2",
+        "label": "Player 2, Ben. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Ben",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "95x122",
+        "frame": "95x122",
+        "x": 152,
+        "y": 340,
+        "w": 98,
+        "h": 125
+      },
+      {
+        "seat": "4",
+        "label": "Player 4, Dev. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Dev",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "95x122",
+        "frame": "95x122",
+        "x": 257,
+        "y": 340,
+        "w": 98,
+        "h": 125
+      }
+    ],
+    "roleGroups": [
+      "Their roles, one each: Undercover, Alien and Cracker. Which of them holds which is not known."
+    ],
+    "roleNames": [
+      "Undercover",
+      "Alien",
+      "Cracker"
+    ],
+    "rolesBelowPhotos": true,
+    "rolesShown": true,
+    "inspect": null,
+    "controls": [
+      {
+        "id": "ab-photo-1",
+        "x": 46,
+        "y": 339,
+        "w": 101,
+        "h": 127
+      },
+      {
+        "id": "ab-photo-2",
+        "x": 152,
+        "y": 340,
+        "w": 98,
+        "h": 125
+      },
+      {
+        "id": "ab-photo-4",
+        "x": 257,
+        "y": 340,
+        "w": 98,
+        "h": 125
+      }
+    ],
+    "focus": "ab-photo-2",
+    "folder": false,
+    "outOfDate": false,
+    "headUnderBanner": null,
+    "roleCard": true,
+    "hideReachable": true,
+    "spot": [],
+    "sentence": true,
+    "roleWordsOutsideCard": [],
+    "roleWordsInPage": [
+      "Undercover",
+      "Alien",
+      "Cracker"
+    ],
+    "hooks": true,
+    "problems": []
+  },
+  {
+    "name": "390x844-show-on-board",
+    "size": [
+      390,
+      844
+    ],
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": false,
+    "sheetScroll": null,
+    "sheetOverflowsSideways": null,
+    "sheetClipsSideways": null,
+    "art": [
+      "public-board",
+      "player-ui",
+      "roles",
+      "abilities"
+    ],
+    "kitRequests": 1,
+    "running": 0,
+    "file": null,
+    "fileShown": null,
+    "thread": false,
+    "photos": [],
+    "roleGroups": [],
+    "roleNames": [],
+    "rolesBelowPhotos": null,
+    "rolesShown": null,
+    "inspect": null,
+    "controls": [],
+    "focus": "ms-private-toggle",
+    "folder": false,
+    "outOfDate": false,
+    "headUnderBanner": null,
+    "roleCard": false,
+    "hideReachable": null,
+    "spot": [
+      "seat-4"
+    ],
+    "sentence": false,
+    "roleWordsOutsideCard": [],
+    "roleWordsInPage": [],
+    "hooks": false,
+    "problems": []
+  },
+  {
+    "name": "390x844-ring-over",
+    "size": [
+      390,
+      844
+    ],
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": false,
+    "sheetScroll": null,
+    "sheetOverflowsSideways": null,
+    "sheetClipsSideways": null,
+    "art": [
+      "public-board",
+      "player-ui",
+      "roles",
+      "abilities"
+    ],
+    "kitRequests": 1,
+    "running": 0,
+    "file": null,
+    "fileShown": null,
+    "thread": false,
+    "photos": [],
+    "roleGroups": [],
+    "roleNames": [],
+    "rolesBelowPhotos": null,
+    "rolesShown": null,
+    "inspect": null,
+    "controls": [],
+    "focus": "ms-private-toggle",
+    "folder": false,
+    "outOfDate": false,
+    "headUnderBanner": null,
+    "roleCard": false,
+    "hideReachable": null,
+    "spot": [],
+    "sentence": false,
+    "roleWordsOutsideCard": [],
+    "roleWordsInPage": [],
+    "hooks": false,
+    "problems": []
+  },
+  {
+    "name": "390x844-reopened",
+    "size": [
+      390,
+      844
+    ],
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": true,
+    "sheetScroll": {
+      "top": 0,
+      "height": 688,
+      "client": 688
+    },
+    "sheetOverflowsSideways": false,
+    "sheetClipsSideways": 0,
+    "art": [
+      "public-board",
+      "player-ui",
+      "roles",
+      "abilities"
+    ],
+    "kitRequests": 1,
+    "running": 0,
+    "file": {
+      "x": 32,
+      "y": 286,
+      "w": 339,
+      "h": 409
+    },
+    "fileShown": true,
+    "thread": true,
+    "photos": [
+      {
+        "seat": "1",
+        "label": "Player 1, Ada. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Ada",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "95x122",
+        "frame": "95x122",
+        "x": 47,
+        "y": 349,
+        "w": 100,
+        "h": 126
+      },
+      {
+        "seat": "2",
+        "label": "Player 2, Ben. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Ben",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "95x122",
+        "frame": "95x122",
+        "x": 153,
+        "y": 351,
+        "w": 97,
+        "h": 123
+      },
+      {
+        "seat": "4",
+        "label": "Player 4, Dev. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Dev",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "95x122",
+        "frame": "95x122",
+        "x": 256,
+        "y": 351,
+        "w": 97,
+        "h": 123
+      }
+    ],
+    "roleGroups": [
+      "Their roles, one each: Undercover, Alien and Cracker. Which of them holds which is not known."
+    ],
+    "roleNames": [
+      "Undercover",
+      "Alien",
+      "Cracker"
+    ],
+    "rolesBelowPhotos": true,
+    "rolesShown": true,
+    "inspect": null,
+    "controls": [
+      {
+        "id": "ab-photo-1",
+        "x": 47,
+        "y": 349,
+        "w": 100,
+        "h": 126
+      },
+      {
+        "id": "ab-photo-2",
+        "x": 153,
+        "y": 351,
+        "w": 97,
+        "h": 123
+      },
+      {
+        "id": "ab-photo-4",
+        "x": 256,
+        "y": 351,
+        "w": 97,
+        "h": 123
+      }
+    ],
+    "focus": "ms-private-heading",
+    "folder": false,
+    "outOfDate": false,
+    "headUnderBanner": null,
+    "roleCard": true,
+    "hideReachable": true,
+    "spot": [],
+    "sentence": true,
+    "roleWordsOutsideCard": [],
+    "roleWordsInPage": [
+      "Undercover",
+      "Alien",
+      "Cracker"
+    ],
+    "hooks": true,
+    "problems": []
+  },
+  {
+    "name": "390x844-blurred",
+    "size": [
+      390,
+      844
+    ],
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": false,
+    "sheetScroll": null,
+    "sheetOverflowsSideways": null,
+    "sheetClipsSideways": null,
+    "art": [
+      "public-board",
+      "player-ui",
+      "roles",
+      "abilities"
+    ],
+    "kitRequests": 1,
+    "running": 0,
+    "file": null,
+    "fileShown": null,
+    "thread": false,
+    "photos": [],
+    "roleGroups": [],
+    "roleNames": [],
+    "rolesBelowPhotos": null,
+    "rolesShown": null,
+    "inspect": null,
+    "controls": [],
+    "focus": null,
+    "folder": false,
+    "outOfDate": false,
+    "headUnderBanner": null,
+    "roleCard": false,
+    "hideReachable": null,
+    "spot": [],
+    "sentence": false,
+    "roleWordsOutsideCard": [],
+    "roleWordsInPage": [],
+    "hooks": false,
+    "problems": []
+  },
+  {
+    "name": "390x844-stale",
+    "size": [
+      390,
+      844
+    ],
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": false,
+    "sheetScroll": null,
+    "sheetOverflowsSideways": null,
+    "sheetClipsSideways": null,
+    "art": [
+      "public-board",
+      "player-ui",
+      "roles",
+      "abilities"
+    ],
+    "kitRequests": 1,
+    "running": 0,
+    "file": null,
+    "fileShown": null,
+    "thread": false,
+    "photos": [],
+    "roleGroups": [],
+    "roleNames": [],
+    "rolesBelowPhotos": null,
+    "rolesShown": null,
+    "inspect": null,
+    "controls": [],
+    "focus": "ms-private-toggle",
+    "folder": false,
+    "outOfDate": true,
+    "headUnderBanner": null,
+    "roleCard": false,
+    "hideReachable": null,
+    "spot": [],
+    "sentence": false,
+    "roleWordsOutsideCard": [],
+    "roleWordsInPage": [],
+    "hooks": false,
+    "problems": []
+  },
+  {
+    "name": "390x844-live-again",
+    "size": [
+      390,
+      844
+    ],
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": false,
+    "sheetScroll": null,
+    "sheetOverflowsSideways": null,
+    "sheetClipsSideways": null,
+    "art": [
+      "public-board",
+      "player-ui",
+      "roles",
+      "abilities"
+    ],
+    "kitRequests": 1,
+    "running": 0,
+    "file": null,
+    "fileShown": null,
+    "thread": false,
+    "photos": [],
+    "roleGroups": [],
+    "roleNames": [],
+    "rolesBelowPhotos": null,
+    "rolesShown": null,
+    "inspect": null,
+    "controls": [],
+    "focus": "ms-private-toggle",
+    "folder": false,
+    "outOfDate": false,
+    "headUnderBanner": null,
+    "roleCard": false,
+    "hideReachable": null,
+    "spot": [],
+    "sentence": false,
+    "roleWordsOutsideCard": [],
+    "roleWordsInPage": [],
+    "hooks": false,
+    "problems": []
+  },
+  {
+    "name": "390x844-deliberate-reopen",
+    "size": [
+      390,
+      844
+    ],
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": true,
+    "sheetScroll": {
+      "top": 0,
+      "height": 688,
+      "client": 688
+    },
+    "sheetOverflowsSideways": false,
+    "sheetClipsSideways": 0,
+    "art": [
+      "public-board",
+      "player-ui",
+      "roles",
+      "abilities"
+    ],
+    "kitRequests": 1,
+    "running": 0,
+    "file": {
+      "x": 30,
+      "y": 275,
+      "w": 342,
+      "h": 413
+    },
+    "fileShown": true,
+    "thread": true,
+    "photos": [
+      {
+        "seat": "1",
+        "label": "Player 1, Ada. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Ada",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "95x122",
+        "frame": "95x122",
+        "x": 46,
+        "y": 339,
+        "w": 101,
+        "h": 127
+      },
+      {
+        "seat": "2",
+        "label": "Player 2, Ben. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Ben",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "95x122",
+        "frame": "95x122",
+        "x": 152,
+        "y": 340,
+        "w": 98,
+        "h": 125
+      },
+      {
+        "seat": "4",
+        "label": "Player 4, Dev. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Dev",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "95x122",
+        "frame": "95x122",
+        "x": 257,
+        "y": 340,
+        "w": 98,
+        "h": 125
+      }
+    ],
+    "roleGroups": [
+      "Their roles, one each: Undercover, Alien and Cracker. Which of them holds which is not known."
+    ],
+    "roleNames": [
+      "Undercover",
+      "Alien",
+      "Cracker"
+    ],
+    "rolesBelowPhotos": true,
+    "rolesShown": true,
+    "inspect": null,
+    "controls": [
+      {
+        "id": "ab-photo-1",
+        "x": 46,
+        "y": 339,
+        "w": 101,
+        "h": 127
+      },
+      {
+        "id": "ab-photo-2",
+        "x": 152,
+        "y": 340,
+        "w": 98,
+        "h": 125
+      },
+      {
+        "id": "ab-photo-4",
+        "x": 257,
+        "y": 340,
+        "w": 98,
+        "h": 125
+      }
+    ],
+    "focus": "ms-private-heading",
+    "folder": false,
+    "outOfDate": false,
+    "headUnderBanner": null,
+    "roleCard": true,
+    "hideReachable": true,
+    "spot": [],
+    "sentence": true,
+    "roleWordsOutsideCard": [],
+    "roleWordsInPage": [
+      "Undercover",
+      "Alien",
+      "Cracker"
+    ],
+    "hooks": true,
+    "problems": []
+  },
+  {
+    "name": "320x568-text-file",
+    "size": [
+      320,
+      568
+    ],
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": true,
+    "sheetScroll": {
+      "top": 0,
+      "height": 1289,
+      "client": 420
+    },
+    "sheetOverflowsSideways": false,
+    "sheetClipsSideways": 0,
+    "art": [
+      "public-board",
+      "player-ui",
+      "roles",
+      "abilities"
+    ],
+    "kitRequests": 1,
+    "running": 0,
+    "file": {
+      "x": 43,
+      "y": 283,
+      "w": 247,
+      "h": 884
+    },
+    "fileShown": false,
+    "thread": true,
+    "photos": [
+      {
+        "seat": "1",
+        "label": "Player 1, Ada. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Ada",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "197x108",
+        "frame": "84x108",
+        "x": 70,
+        "y": 412,
+        "w": 197,
+        "h": 108
+      },
+      {
+        "seat": "2",
+        "label": "Player 2, Ben. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Ben",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "197x108",
+        "frame": "84x108",
+        "x": 70,
+        "y": 538,
+        "w": 197,
+        "h": 108
+      },
+      {
+        "seat": "4",
+        "label": "Player 4, Dev. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Dev",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "197x108",
+        "frame": "84x108",
+        "x": 70,
+        "y": 665,
+        "w": 197,
+        "h": 108
+      }
+    ],
+    "roleGroups": [
+      "Their roles, one each: Undercover, Alien and Cracker. Which of them holds which is not known."
+    ],
+    "roleNames": [
+      "Undercover",
+      "Alien",
+      "Cracker"
+    ],
+    "rolesBelowPhotos": true,
+    "rolesShown": false,
+    "inspect": null,
+    "controls": [
+      {
+        "id": "ab-photo-1",
+        "x": 70,
+        "y": 412,
+        "w": 197,
+        "h": 108
+      },
+      {
+        "id": "ab-photo-2",
+        "x": 70,
+        "y": 538,
+        "w": 197,
+        "h": 108
+      },
+      {
+        "id": "ab-photo-4",
+        "x": 70,
+        "y": 665,
+        "w": 197,
+        "h": 108
+      }
+    ],
+    "focus": "ms-private-heading",
+    "folder": false,
+    "outOfDate": false,
+    "headUnderBanner": null,
+    "roleCard": true,
+    "hideReachable": true,
+    "spot": [],
+    "sentence": true,
+    "roleWordsOutsideCard": [],
+    "roleWordsInPage": [
+      "Undercover",
+      "Alien",
+      "Cracker"
+    ],
+    "hooks": true,
+    "problems": []
+  },
+  {
+    "name": "320x568-text-inspect",
+    "size": [
+      320,
+      568
+    ],
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": true,
+    "sheetScroll": {
+      "top": 1008,
+      "height": 1625,
+      "client": 420
+    },
+    "sheetOverflowsSideways": false,
+    "sheetClipsSideways": 0,
+    "art": [
+      "public-board",
+      "player-ui",
+      "roles",
+      "abilities"
+    ],
+    "kitRequests": 1,
+    "running": 0,
+    "file": {
+      "x": 43,
+      "y": -725,
+      "w": 247,
+      "h": 1220
+    },
+    "fileShown": false,
+    "thread": true,
+    "photos": [
+      {
+        "seat": "1",
+        "label": "Player 1, Ada. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Ada",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "197x108",
+        "frame": "84x108",
+        "x": 70,
+        "y": -596,
+        "w": 197,
+        "h": 108
+      },
+      {
+        "seat": "2",
+        "label": "Player 2, Ben. Inspect",
+        "pressed": "true",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Ben",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "197x108",
+        "frame": "84x108",
+        "x": 70,
+        "y": -470,
+        "w": 197,
+        "h": 108
+      },
+      {
+        "seat": "4",
+        "label": "Player 4, Dev. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Dev",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "197x108",
+        "frame": "84x108",
+        "x": 70,
+        "y": -343,
+        "w": 197,
+        "h": 108
+      }
+    ],
+    "roleGroups": [
+      "Their roles, one each: Undercover, Alien and Cracker. Which of them holds which is not known."
+    ],
+    "roleNames": [
+      "Undercover",
+      "Alien",
+      "Cracker"
+    ],
+    "rolesBelowPhotos": true,
+    "rolesShown": false,
+    "inspect": {
+      "text": "Player 2 , Ben Room B · Healthy Show on board Back",
+      "shown": true
+    },
+    "controls": [
+      {
+        "id": "ab-photo-1",
+        "x": 70,
+        "y": -596,
+        "w": 197,
+        "h": 108
+      },
+      {
+        "id": "ab-photo-2",
+        "x": 70,
+        "y": -470,
+        "w": 197,
+        "h": 108
+      },
+      {
+        "id": "ab-photo-4",
+        "x": 70,
+        "y": -343,
+        "w": 197,
+        "h": 108
+      },
+      {
+        "id": "ab-inspect-show",
+        "x": 70,
+        "y": 300,
+        "w": 193,
+        "h": 102
+      },
+      {
+        "id": "ab-inspect-back",
+        "x": 70,
+        "y": 410,
+        "w": 97,
+        "h": 61
+      }
+    ],
+    "focus": "ab-photo-2",
+    "folder": false,
+    "outOfDate": false,
+    "headUnderBanner": null,
+    "roleCard": true,
+    "hideReachable": true,
+    "spot": [],
+    "sentence": true,
+    "roleWordsOutsideCard": [],
+    "roleWordsInPage": [
+      "Undercover",
+      "Alien",
+      "Cracker"
+    ],
+    "hooks": true,
+    "problems": []
+  },
+  {
+    "name": "390x844-text-file",
+    "size": [
+      390,
+      844
+    ],
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": true,
+    "sheetScroll": {
+      "top": 0,
+      "height": 1293,
+      "client": 676
+    },
+    "sheetOverflowsSideways": false,
+    "sheetClipsSideways": 0,
+    "art": [
+      "public-board",
+      "player-ui",
+      "roles",
+      "abilities"
+    ],
+    "kitRequests": 1,
+    "running": 0,
+    "file": {
+      "x": 43,
+      "y": 303,
+      "w": 317,
+      "h": 888
+    },
+    "fileShown": false,
+    "thread": true,
+    "photos": [
+      {
+        "seat": "1",
+        "label": "Player 1, Ada. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Ada",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "267x108",
+        "frame": "84x108",
+        "x": 70,
+        "y": 432,
+        "w": 267,
+        "h": 108
+      },
+      {
+        "seat": "2",
+        "label": "Player 2, Ben. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Ben",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "267x108",
+        "frame": "84x108",
+        "x": 70,
+        "y": 558,
+        "w": 267,
+        "h": 108
+      },
+      {
+        "seat": "4",
+        "label": "Player 4, Dev. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Dev",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "267x108",
+        "frame": "84x108",
+        "x": 70,
+        "y": 685,
+        "w": 267,
+        "h": 108
+      }
+    ],
+    "roleGroups": [
+      "Their roles, one each: Undercover, Alien and Cracker. Which of them holds which is not known."
+    ],
+    "roleNames": [
+      "Undercover",
+      "Alien",
+      "Cracker"
+    ],
+    "rolesBelowPhotos": true,
+    "rolesShown": false,
+    "inspect": null,
+    "controls": [
+      {
+        "id": "ab-photo-1",
+        "x": 70,
+        "y": 432,
+        "w": 267,
+        "h": 108
+      },
+      {
+        "id": "ab-photo-2",
+        "x": 70,
+        "y": 558,
+        "w": 267,
+        "h": 108
+      },
+      {
+        "id": "ab-photo-4",
+        "x": 70,
+        "y": 685,
+        "w": 267,
+        "h": 108
+      }
+    ],
+    "focus": "ms-private-heading",
+    "folder": false,
+    "outOfDate": false,
+    "headUnderBanner": null,
+    "roleCard": true,
+    "hideReachable": true,
+    "spot": [],
+    "sentence": true,
+    "roleWordsOutsideCard": [],
+    "roleWordsInPage": [
+      "Undercover",
+      "Alien",
+      "Cracker"
+    ],
+    "hooks": true,
+    "problems": []
+  },
+  {
+    "name": "390x844-text-inspect",
+    "size": [
+      390,
+      844
+    ],
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": true,
+    "sheetScroll": {
+      "top": 674,
+      "height": 1547,
+      "client": 676
+    },
+    "sheetOverflowsSideways": false,
+    "sheetClipsSideways": 0,
+    "art": [
+      "public-board",
+      "player-ui",
+      "roles",
+      "abilities"
+    ],
+    "kitRequests": 1,
+    "running": 0,
+    "file": {
+      "x": 43,
+      "y": -371,
+      "w": 317,
+      "h": 1142
+    },
+    "fileShown": false,
+    "thread": true,
+    "photos": [
+      {
+        "seat": "1",
+        "label": "Player 1, Ada. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Ada",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "267x108",
+        "frame": "84x108",
+        "x": 70,
+        "y": -242,
+        "w": 267,
+        "h": 108
+      },
+      {
+        "seat": "2",
+        "label": "Player 2, Ben. Inspect",
+        "pressed": "true",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Ben",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "267x108",
+        "frame": "84x108",
+        "x": 70,
+        "y": -116,
+        "w": 267,
+        "h": 108
+      },
+      {
+        "seat": "4",
+        "label": "Player 4, Dev. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Dev",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "267x108",
+        "frame": "84x108",
+        "x": 70,
+        "y": 11,
+        "w": 267,
+        "h": 108
+      }
+    ],
+    "roleGroups": [
+      "Their roles, one each: Undercover, Alien and Cracker. Which of them holds which is not known."
+    ],
+    "roleNames": [
+      "Undercover",
+      "Alien",
+      "Cracker"
+    ],
+    "rolesBelowPhotos": true,
+    "rolesShown": false,
+    "inspect": {
+      "text": "Player 2 , Ben Room B · Healthy Show on board Back",
+      "shown": true
+    },
+    "controls": [
+      {
+        "id": "ab-photo-1",
+        "x": 70,
+        "y": -242,
+        "w": 267,
+        "h": 108
+      },
+      {
+        "id": "ab-photo-2",
+        "x": 70,
+        "y": -116,
+        "w": 267,
+        "h": 108
+      },
+      {
+        "id": "ab-photo-4",
+        "x": 70,
+        "y": 11,
+        "w": 267,
+        "h": 108
+      },
+      {
+        "id": "ab-inspect-show",
+        "x": 70,
+        "y": 617,
+        "w": 226,
+        "h": 61
+      },
+      {
+        "id": "ab-inspect-back",
+        "x": 70,
+        "y": 686,
+        "w": 97,
+        "h": 61
+      }
+    ],
+    "focus": "ab-photo-2",
+    "folder": false,
+    "outOfDate": false,
+    "headUnderBanner": null,
+    "roleCard": true,
+    "hideReachable": true,
+    "spot": [],
+    "sentence": true,
+    "roleWordsOutsideCard": [],
+    "roleWordsInPage": [
+      "Undercover",
+      "Alien",
+      "Cracker"
+    ],
+    "hooks": true,
+    "problems": []
+  },
+  {
+    "name": "320x568-text-long-names-file",
+    "size": [
+      320,
+      568
+    ],
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": true,
+    "sheetScroll": {
+      "top": 0,
+      "height": 1362,
+      "client": 420
+    },
+    "sheetOverflowsSideways": false,
+    "sheetClipsSideways": 0,
+    "art": [
+      "public-board",
+      "player-ui",
+      "roles",
+      "abilities"
+    ],
+    "kitRequests": 1,
+    "running": 0,
+    "file": {
+      "x": 43,
+      "y": 283,
+      "w": 247,
+      "h": 957
+    },
+    "fileShown": false,
+    "thread": true,
+    "photos": [
+      {
+        "seat": "1",
+        "label": "Player 1, WWWWWWWWWWWW. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "WWWWWWWWWWWW",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "197x176",
+        "frame": "84x108",
+        "x": 70,
+        "y": 412,
+        "w": 197,
+        "h": 176
+      },
+      {
+        "seat": "2",
+        "label": "Player 2, Maximiliana. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Maximiliana",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "197x111",
+        "frame": "84x108",
+        "x": 70,
+        "y": 606,
+        "w": 197,
+        "h": 111
+      },
+      {
+        "seat": "4",
+        "label": "Player 4, Konstantinos. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Konstantinos",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "197x111",
+        "frame": "84x108",
+        "x": 70,
+        "y": 735,
+        "w": 197,
+        "h": 111
+      }
+    ],
+    "roleGroups": [
+      "Their roles, one each: Undercover, Alien and Cracker. Which of them holds which is not known."
+    ],
+    "roleNames": [
+      "Undercover",
+      "Alien",
+      "Cracker"
+    ],
+    "rolesBelowPhotos": true,
+    "rolesShown": false,
+    "inspect": null,
+    "controls": [
+      {
+        "id": "ab-photo-1",
+        "x": 70,
+        "y": 412,
+        "w": 197,
+        "h": 176
+      },
+      {
+        "id": "ab-photo-2",
+        "x": 70,
+        "y": 606,
+        "w": 197,
+        "h": 111
+      },
+      {
+        "id": "ab-photo-4",
+        "x": 70,
+        "y": 735,
+        "w": 197,
+        "h": 111
+      }
+    ],
+    "focus": "ms-private-heading",
+    "folder": false,
+    "outOfDate": false,
+    "headUnderBanner": null,
+    "roleCard": true,
+    "hideReachable": true,
+    "spot": [],
+    "sentence": true,
+    "roleWordsOutsideCard": [],
+    "roleWordsInPage": [
+      "Undercover",
+      "Alien",
+      "Cracker"
+    ],
+    "hooks": true,
+    "problems": []
+  },
+  {
+    "name": "320x568-text-long-names-inspect",
+    "size": [
+      320,
+      568
+    ],
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": true,
+    "sheetScroll": {
+      "top": 1098,
+      "height": 1746,
+      "client": 420
+    },
+    "sheetOverflowsSideways": false,
+    "sheetClipsSideways": 0,
+    "art": [
+      "public-board",
+      "player-ui",
+      "roles",
+      "abilities"
+    ],
+    "kitRequests": 1,
+    "running": 0,
+    "file": {
+      "x": 43,
+      "y": -815,
+      "w": 247,
+      "h": 1341
+    },
+    "fileShown": false,
+    "thread": true,
+    "photos": [
+      {
+        "seat": "1",
+        "label": "Player 1, WWWWWWWWWWWW. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "WWWWWWWWWWWW",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "197x176",
+        "frame": "84x108",
+        "x": 70,
+        "y": -686,
+        "w": 197,
+        "h": 176
+      },
+      {
+        "seat": "2",
+        "label": "Player 2, Maximiliana. Inspect",
+        "pressed": "true",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Maximiliana",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "197x111",
+        "frame": "84x108",
+        "x": 70,
+        "y": -492,
+        "w": 197,
+        "h": 111
+      },
+      {
+        "seat": "4",
+        "label": "Player 4, Konstantinos. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Konstantinos",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "197x111",
+        "frame": "84x108",
+        "x": 70,
+        "y": -363,
+        "w": 197,
+        "h": 111
+      }
+    ],
+    "roleGroups": [
+      "Their roles, one each: Undercover, Alien and Cracker. Which of them holds which is not known."
+    ],
+    "roleNames": [
+      "Undercover",
+      "Alien",
+      "Cracker"
+    ],
+    "rolesBelowPhotos": true,
+    "rolesShown": false,
+    "inspect": {
+      "text": "Player 2 , Maximiliana Room B · Healthy Show on board Back",
+      "shown": true
+    },
+    "controls": [
+      {
+        "id": "ab-photo-1",
+        "x": 70,
+        "y": -686,
+        "w": 197,
+        "h": 176
+      },
+      {
+        "id": "ab-photo-2",
+        "x": 70,
+        "y": -492,
+        "w": 197,
+        "h": 111
+      },
+      {
+        "id": "ab-photo-4",
+        "x": 70,
+        "y": -363,
+        "w": 197,
+        "h": 111
+      },
+      {
+        "id": "ab-inspect-show",
+        "x": 70,
+        "y": 331,
+        "w": 193,
+        "h": 102
+      },
+      {
+        "id": "ab-inspect-back",
+        "x": 70,
+        "y": 441,
+        "w": 97,
+        "h": 61
+      }
+    ],
+    "focus": "ab-photo-2",
+    "folder": false,
+    "outOfDate": false,
+    "headUnderBanner": null,
+    "roleCard": true,
+    "hideReachable": true,
+    "spot": [],
+    "sentence": true,
+    "roleWordsOutsideCard": [],
+    "roleWordsInPage": [
+      "Undercover",
+      "Alien",
+      "Cracker"
+    ],
+    "hooks": true,
+    "problems": []
+  },
+  {
+    "name": "320x568-long-names",
+    "size": [
+      320,
+      568
+    ],
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": true,
+    "sheetScroll": {
+      "top": 0,
+      "height": 521,
+      "client": 463
+    },
+    "sheetOverflowsSideways": false,
+    "sheetClipsSideways": 0,
+    "art": [
+      "public-board",
+      "player-ui",
+      "roles",
+      "abilities"
+    ],
+    "kitRequests": 1,
+    "running": 0,
+    "file": {
+      "x": 30,
+      "y": 177,
+      "w": 272,
+      "h": 296
+    },
+    "fileShown": true,
+    "thread": true,
+    "photos": [
+      {
+        "seat": "1",
+        "label": "Player 1, WWWWWWWWWWWW. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "WWWWWWWWWWWW",
+          "cut": true,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "70x90",
+        "frame": "70x90",
+        "x": 48,
+        "y": 222,
+        "w": 75,
+        "h": 94
+      },
+      {
+        "seat": "2",
+        "label": "Player 2, Maximiliana. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Maximiliana",
+          "cut": true,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "70x90",
+        "frame": "70x90",
+        "x": 130,
+        "y": 223,
+        "w": 72,
+        "h": 92
+      },
+      {
+        "seat": "4",
+        "label": "Player 4, Konstantinos. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Konstantinos",
+          "cut": true,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "70x90",
+        "frame": "70x90",
+        "x": 211,
+        "y": 223,
+        "w": 72,
+        "h": 92
+      }
+    ],
+    "roleGroups": [
+      "Their roles, one each: Undercover, Alien and Cracker. Which of them holds which is not known."
+    ],
+    "roleNames": [
+      "Undercover",
+      "Alien",
+      "Cracker"
+    ],
+    "rolesBelowPhotos": true,
+    "rolesShown": true,
+    "inspect": null,
+    "controls": [
+      {
+        "id": "ab-photo-1",
+        "x": 48,
+        "y": 222,
+        "w": 75,
+        "h": 94
+      },
+      {
+        "id": "ab-photo-2",
+        "x": 130,
+        "y": 223,
+        "w": 72,
+        "h": 92
+      },
+      {
+        "id": "ab-photo-4",
+        "x": 211,
+        "y": 223,
+        "w": 72,
+        "h": 92
+      }
+    ],
+    "focus": "ms-private-heading",
+    "folder": false,
+    "outOfDate": false,
+    "headUnderBanner": null,
+    "roleCard": true,
+    "hideReachable": true,
+    "spot": [],
+    "sentence": true,
+    "roleWordsOutsideCard": [],
+    "roleWordsInPage": [
+      "Undercover",
+      "Alien",
+      "Cracker"
+    ],
+    "hooks": true,
+    "problems": []
+  },
+  {
+    "name": "320x568-long-names-inspect",
+    "size": [
+      320,
+      568
+    ],
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": true,
+    "sheetScroll": {
+      "top": 0,
+      "height": 521,
+      "client": 463
+    },
+    "sheetOverflowsSideways": false,
+    "sheetClipsSideways": 0,
+    "art": [
+      "public-board",
+      "player-ui",
+      "roles",
+      "abilities"
+    ],
+    "kitRequests": 1,
+    "running": 0,
+    "file": {
+      "x": 30,
+      "y": 177,
+      "w": 272,
+      "h": 296
+    },
+    "fileShown": true,
+    "thread": true,
+    "photos": [
+      {
+        "seat": "1",
+        "label": "Player 1, WWWWWWWWWWWW. Inspect",
+        "pressed": "true",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "WWWWWWWWWWWW",
+          "cut": true,
+          "ellipsis": true
+        },
+        "transform": "matrix(1.42, 0, 0, 1.42, 81, 2)",
+        "layout": "70x90",
+        "frame": "70x90",
+        "x": 116,
+        "y": 226,
+        "w": 99,
+        "h": 128
+      },
+      {
+        "seat": "2",
+        "label": "Player 2, Maximiliana. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Maximiliana",
+          "cut": true,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "70x90",
+        "frame": "70x90",
+        "x": 130,
+        "y": 223,
+        "w": 72,
+        "h": 92
+      },
+      {
+        "seat": "4",
+        "label": "Player 4, Konstantinos. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Konstantinos",
+          "cut": true,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "70x90",
+        "frame": "70x90",
+        "x": 211,
+        "y": 223,
+        "w": 72,
+        "h": 92
+      }
+    ],
+    "roleGroups": [
+      "Their roles, one each: Undercover, Alien and Cracker. Which of them holds which is not known."
+    ],
+    "roleNames": [
+      "Undercover",
+      "Alien",
+      "Cracker"
+    ],
+    "rolesBelowPhotos": false,
+    "rolesShown": true,
+    "inspect": {
+      "text": "Player 1 , WWWWWWWWWWWW Room A · Healthy Show on board Back",
+      "shown": true
+    },
+    "controls": [
+      {
+        "id": "ab-photo-1",
+        "x": 116,
+        "y": 226,
+        "w": 99,
+        "h": 128
+      },
+      {
+        "id": "ab-photo-2",
+        "x": 130,
+        "y": 223,
+        "w": 72,
+        "h": 92
+      },
+      {
+        "id": "ab-photo-4",
+        "x": 211,
+        "y": 223,
+        "w": 72,
+        "h": 92
+      },
+      {
+        "id": "ab-inspect-show",
+        "x": 55,
+        "y": 407,
+        "w": 143,
+        "h": 44
+      },
+      {
+        "id": "ab-inspect-back",
+        "x": 206,
+        "y": 407,
+        "w": 65,
+        "h": 44
+      }
+    ],
+    "focus": "ab-photo-1",
+    "folder": false,
+    "outOfDate": false,
+    "headUnderBanner": null,
+    "roleCard": true,
+    "hideReachable": true,
+    "spot": [],
+    "sentence": true,
+    "roleWordsOutsideCard": [],
+    "roleWordsInPage": [
+      "Undercover",
+      "Alien",
+      "Cracker"
+    ],
+    "hooks": true,
+    "problems": []
+  },
+  {
+    "name": "390x844-reduced-opening",
+    "size": [
+      390,
+      844
+    ],
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": true,
+    "sheetScroll": {
+      "top": 0,
+      "height": 688,
+      "client": 688
+    },
+    "sheetOverflowsSideways": false,
+    "sheetClipsSideways": 0,
+    "art": [
+      "public-board",
+      "player-ui",
+      "roles",
+      "abilities"
+    ],
+    "kitRequests": 1,
+    "running": 1,
+    "file": {
+      "x": 30,
+      "y": 275,
+      "w": 342,
+      "h": 413
+    },
+    "fileShown": true,
+    "thread": true,
+    "photos": [
+      {
+        "seat": "1",
+        "label": "Player 1, Ada. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Ada",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "95x122",
+        "frame": "95x122",
+        "x": 46,
+        "y": 339,
+        "w": 101,
+        "h": 127
+      },
+      {
+        "seat": "2",
+        "label": "Player 2, Ben. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Ben",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "95x122",
+        "frame": "95x122",
+        "x": 152,
+        "y": 340,
+        "w": 98,
+        "h": 125
+      },
+      {
+        "seat": "4",
+        "label": "Player 4, Dev. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Dev",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "95x122",
+        "frame": "95x122",
+        "x": 257,
+        "y": 340,
+        "w": 98,
+        "h": 125
+      }
+    ],
+    "roleGroups": [
+      "Their roles, one each: Undercover, Alien and Cracker. Which of them holds which is not known."
+    ],
+    "roleNames": [
+      "Undercover",
+      "Alien",
+      "Cracker"
+    ],
+    "rolesBelowPhotos": true,
+    "rolesShown": true,
+    "inspect": null,
+    "controls": [
+      {
+        "id": "ab-photo-1",
+        "x": 46,
+        "y": 339,
+        "w": 101,
+        "h": 127
+      },
+      {
+        "id": "ab-photo-2",
+        "x": 152,
+        "y": 340,
+        "w": 98,
+        "h": 125
+      },
+      {
+        "id": "ab-photo-4",
+        "x": 257,
+        "y": 340,
+        "w": 98,
+        "h": 125
+      }
+    ],
+    "focus": "ms-private-heading",
+    "folder": false,
+    "outOfDate": false,
+    "headUnderBanner": null,
+    "roleCard": true,
+    "hideReachable": true,
+    "spot": [],
+    "sentence": true,
+    "roleWordsOutsideCard": [],
+    "roleWordsInPage": [
+      "Undercover",
+      "Alien",
+      "Cracker"
+    ],
+    "hooks": true,
+    "problems": []
+  },
+  {
+    "name": "390x844-reduced-inspect",
+    "size": [
+      390,
+      844
+    ],
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": true,
+    "sheetScroll": {
+      "top": 0,
+      "height": 688,
+      "client": 688
+    },
+    "sheetOverflowsSideways": false,
+    "sheetClipsSideways": 0,
+    "art": [
+      "public-board",
+      "player-ui",
+      "roles",
+      "abilities"
+    ],
+    "kitRequests": 1,
+    "running": 0,
+    "file": {
+      "x": 30,
+      "y": 275,
+      "w": 342,
+      "h": 413
+    },
+    "fileShown": true,
+    "thread": true,
+    "photos": [
+      {
+        "seat": "1",
+        "label": "Player 1, Ada. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Ada",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "95x122",
+        "frame": "95x122",
+        "x": 46,
+        "y": 339,
+        "w": 101,
+        "h": 127
+      },
+      {
+        "seat": "2",
+        "label": "Player 2, Ben. Inspect",
+        "pressed": "true",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Ben",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "95x122",
+        "frame": "95x122",
+        "x": 154,
+        "y": 342,
+        "w": 95,
+        "h": 122
+      },
+      {
+        "seat": "4",
+        "label": "Player 4, Dev. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Dev",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "95x122",
+        "frame": "95x122",
+        "x": 257,
+        "y": 340,
+        "w": 98,
+        "h": 125
+      }
+    ],
+    "roleGroups": [
+      "Their roles, one each: Undercover, Alien and Cracker. Which of them holds which is not known."
+    ],
+    "roleNames": [
+      "Undercover",
+      "Alien",
+      "Cracker"
+    ],
+    "rolesBelowPhotos": true,
+    "rolesShown": true,
+    "inspect": {
+      "text": "Player 2 , Ben Room B · Healthy Show on board Back",
+      "shown": true
+    },
+    "controls": [
+      {
+        "id": "ab-photo-1",
+        "x": 46,
+        "y": 339,
+        "w": 101,
+        "h": 127
+      },
+      {
+        "id": "ab-photo-2",
+        "x": 154,
+        "y": 342,
+        "w": 95,
+        "h": 122
+      },
+      {
+        "id": "ab-photo-4",
+        "x": 257,
+        "y": 340,
+        "w": 98,
+        "h": 125
+      },
+      {
+        "id": "ab-inspect-show",
+        "x": 57,
+        "y": 619,
+        "w": 149,
+        "h": 44
+      },
+      {
+        "id": "ab-inspect-back",
+        "x": 214,
+        "y": 619,
+        "w": 71,
+        "h": 44
+      }
+    ],
+    "focus": "ab-photo-2",
+    "folder": false,
+    "outOfDate": false,
+    "headUnderBanner": null,
+    "roleCard": true,
+    "hideReachable": true,
+    "spot": [],
+    "sentence": true,
+    "roleWordsOutsideCard": [],
+    "roleWordsInPage": [
+      "Undercover",
+      "Alien",
+      "Cracker"
+    ],
+    "hooks": true,
+    "problems": []
+  },
+  {
+    "name": "320x568-no-kit",
+    "size": [
+      320,
+      568
+    ],
+    "viewport": [
+      320,
+      568
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": true,
+    "sheetScroll": {
+      "top": 0,
+      "height": 518,
+      "client": 463
+    },
+    "sheetOverflowsSideways": false,
+    "sheetClipsSideways": 0,
+    "art": [
+      "public-board",
+      "player-ui",
+      "roles"
+    ],
+    "kitRequests": 0,
+    "running": 0,
+    "file": {
+      "x": 30,
+      "y": 177,
+      "w": 272,
+      "h": 293
+    },
+    "fileShown": true,
+    "thread": true,
+    "photos": [
+      {
+        "seat": "1",
+        "label": "Player 1, Ada. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Ada",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "70x90",
+        "frame": "70x90",
+        "x": 48,
+        "y": 219,
+        "w": 75,
+        "h": 94
+      },
+      {
+        "seat": "2",
+        "label": "Player 2, Ben. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Ben",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "70x90",
+        "frame": "70x90",
+        "x": 130,
+        "y": 220,
+        "w": 72,
+        "h": 92
+      },
+      {
+        "seat": "4",
+        "label": "Player 4, Dev. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Dev",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "70x90",
+        "frame": "70x90",
+        "x": 211,
+        "y": 220,
+        "w": 72,
+        "h": 92
+      }
+    ],
+    "roleGroups": [
+      "Their roles, one each: Undercover, Alien and Cracker. Which of them holds which is not known."
+    ],
+    "roleNames": [
+      "Undercover",
+      "Alien",
+      "Cracker"
+    ],
+    "rolesBelowPhotos": true,
+    "rolesShown": true,
+    "inspect": null,
+    "controls": [
+      {
+        "id": "ab-photo-1",
+        "x": 48,
+        "y": 219,
+        "w": 75,
+        "h": 94
+      },
+      {
+        "id": "ab-photo-2",
+        "x": 130,
+        "y": 220,
+        "w": 72,
+        "h": 92
+      },
+      {
+        "id": "ab-photo-4",
+        "x": 211,
+        "y": 220,
+        "w": 72,
+        "h": 92
+      }
+    ],
+    "focus": "ms-private-heading",
+    "folder": false,
+    "outOfDate": false,
+    "headUnderBanner": null,
+    "roleCard": true,
+    "hideReachable": true,
+    "spot": [],
+    "sentence": true,
+    "roleWordsOutsideCard": [],
+    "roleWordsInPage": [
+      "Undercover",
+      "Alien",
+      "Cracker"
+    ],
+    "hooks": true,
+    "problems": []
+  },
+  {
+    "name": "390x844-no-kit",
+    "size": [
+      390,
+      844
+    ],
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": true,
+    "sheetScroll": {
+      "top": 0,
+      "height": 685,
+      "client": 685
+    },
+    "sheetOverflowsSideways": false,
+    "sheetClipsSideways": 0,
+    "art": [
+      "public-board",
+      "player-ui",
+      "roles"
+    ],
+    "kitRequests": 0,
+    "running": 0,
+    "file": {
+      "x": 30,
+      "y": 278,
+      "w": 342,
+      "h": 410
+    },
+    "fileShown": true,
+    "thread": true,
+    "photos": [
+      {
+        "seat": "1",
+        "label": "Player 1, Ada. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Ada",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "95x122",
+        "frame": "95x122",
+        "x": 46,
+        "y": 339,
+        "w": 101,
+        "h": 127
+      },
+      {
+        "seat": "2",
+        "label": "Player 2, Ben. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Ben",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "95x122",
+        "frame": "95x122",
+        "x": 152,
+        "y": 340,
+        "w": 98,
+        "h": 125
+      },
+      {
+        "seat": "4",
+        "label": "Player 4, Dev. Inspect",
+        "pressed": "false",
+        "shape": "ab-photo__frame|ab-photo__art|ab-photo__numeral|ab-photo__pin|ab-photo__query|ab-seat ab-photo__seat|ab-photo__caption|ab-seat ab-photo__caption-seat|ab-photo__name",
+        "pairing": [],
+        "roleWord": false,
+        "number": true,
+        "name": {
+          "text": "Dev",
+          "cut": false,
+          "ellipsis": true
+        },
+        "transform": "none",
+        "layout": "95x122",
+        "frame": "95x122",
+        "x": 257,
+        "y": 340,
+        "w": 98,
+        "h": 125
+      }
+    ],
+    "roleGroups": [
+      "Their roles, one each: Undercover, Alien and Cracker. Which of them holds which is not known."
+    ],
+    "roleNames": [
+      "Undercover",
+      "Alien",
+      "Cracker"
+    ],
+    "rolesBelowPhotos": true,
+    "rolesShown": true,
+    "inspect": null,
+    "controls": [
+      {
+        "id": "ab-photo-1",
+        "x": 46,
+        "y": 339,
+        "w": 101,
+        "h": 127
+      },
+      {
+        "id": "ab-photo-2",
+        "x": 152,
+        "y": 340,
+        "w": 98,
+        "h": 125
+      },
+      {
+        "id": "ab-photo-4",
+        "x": 257,
+        "y": 340,
+        "w": 98,
+        "h": 125
+      }
+    ],
+    "focus": "ms-private-heading",
+    "folder": false,
+    "outOfDate": false,
+    "headUnderBanner": null,
+    "roleCard": true,
+    "hideReachable": true,
+    "spot": [],
+    "sentence": true,
+    "roleWordsOutsideCard": [],
+    "roleWordsInPage": [
+      "Undercover",
+      "Alien",
+      "Cracker"
+    ],
+    "hooks": true,
+    "problems": []
+  },
+  {
+    "name": "390x844-seven-card",
+    "size": [
+      390,
+      844
+    ],
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": true,
+    "sheetScroll": {
+      "top": 0,
+      "height": 549,
+      "client": 549
+    },
+    "sheetOverflowsSideways": false,
+    "sheetClipsSideways": 0,
+    "art": [
+      "public-board",
+      "player-ui",
+      "roles",
+      "abilities"
+    ],
+    "kitRequests": 1,
+    "running": 0,
+    "file": null,
+    "fileShown": null,
+    "thread": false,
+    "photos": [],
+    "roleGroups": [],
+    "roleNames": [],
+    "rolesBelowPhotos": null,
+    "rolesShown": null,
+    "inspect": null,
+    "controls": [],
+    "focus": "ms-private-heading",
+    "folder": false,
+    "outOfDate": false,
+    "headUnderBanner": null,
+    "roleCard": true,
+    "hideReachable": true,
+    "spot": [],
+    "sentence": false,
+    "roleWordsOutsideCard": [],
+    "roleWordsInPage": [],
+    "hooks": false,
+    "problems": []
+  },
+  {
+    "name": "390x844-seven-stale",
+    "size": [
+      390,
+      844
+    ],
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": false,
+    "sheetScroll": null,
+    "sheetOverflowsSideways": null,
+    "sheetClipsSideways": null,
+    "art": [
+      "public-board",
+      "player-ui",
+      "roles",
+      "abilities"
+    ],
+    "kitRequests": 1,
+    "running": 0,
+    "file": null,
+    "fileShown": null,
+    "thread": false,
+    "photos": [],
+    "roleGroups": [],
+    "roleNames": [],
+    "rolesBelowPhotos": null,
+    "rolesShown": null,
+    "inspect": null,
+    "controls": [],
+    "focus": null,
+    "folder": false,
+    "outOfDate": true,
+    "headUnderBanner": null,
+    "roleCard": false,
+    "hideReachable": null,
+    "spot": [],
+    "sentence": false,
+    "roleWordsOutsideCard": [],
+    "roleWordsInPage": [],
+    "hooks": false,
+    "problems": []
+  },
+  {
+    "name": "390x844-disable-card",
+    "size": [
+      390,
+      844
+    ],
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": true,
+    "sheetScroll": {
+      "top": 0,
+      "height": 549,
+      "client": 549
+    },
+    "sheetOverflowsSideways": false,
+    "sheetClipsSideways": 0,
+    "art": [
+      "public-board",
+      "player-ui",
+      "roles",
+      "abilities"
+    ],
+    "kitRequests": 1,
+    "running": 0,
+    "file": null,
+    "fileShown": null,
+    "thread": false,
+    "photos": [],
+    "roleGroups": [],
+    "roleNames": [],
+    "rolesBelowPhotos": null,
+    "rolesShown": null,
+    "inspect": null,
+    "controls": [],
+    "focus": "ms-private-heading",
+    "folder": false,
+    "outOfDate": false,
+    "headUnderBanner": null,
+    "roleCard": true,
+    "hideReachable": true,
+    "spot": [],
+    "sentence": false,
+    "roleWordsOutsideCard": [],
+    "roleWordsInPage": [],
+    "hooks": false,
+    "problems": []
+  },
+  {
+    "name": "390x844-disable-stale",
+    "size": [
+      390,
+      844
+    ],
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": false,
+    "sheetScroll": null,
+    "sheetOverflowsSideways": null,
+    "sheetClipsSideways": null,
+    "art": [
+      "public-board",
+      "player-ui",
+      "roles",
+      "abilities"
+    ],
+    "kitRequests": 1,
+    "running": 0,
+    "file": null,
+    "fileShown": null,
+    "thread": false,
+    "photos": [],
+    "roleGroups": [],
+    "roleNames": [],
+    "rolesBelowPhotos": null,
+    "rolesShown": null,
+    "inspect": null,
+    "controls": [],
+    "focus": null,
+    "folder": false,
+    "outOfDate": true,
+    "headUnderBanner": null,
+    "roleCard": false,
+    "hideReachable": null,
+    "spot": [],
+    "sentence": false,
+    "roleWordsOutsideCard": [],
+    "roleWordsInPage": [],
+    "hooks": false,
+    "problems": []
+  },
+  {
+    "name": "390x844-tray-card",
+    "size": [
+      390,
+      844
+    ],
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": true,
+    "sheetScroll": {
+      "top": 0,
+      "height": 549,
+      "client": 549
+    },
+    "sheetOverflowsSideways": false,
+    "sheetClipsSideways": 0,
+    "art": [
+      "public-board",
+      "player-ui",
+      "roles",
+      "abilities"
+    ],
+    "kitRequests": 1,
+    "running": 0,
+    "file": null,
+    "fileShown": null,
+    "thread": false,
+    "photos": [],
+    "roleGroups": [],
+    "roleNames": [],
+    "rolesBelowPhotos": null,
+    "rolesShown": null,
+    "inspect": null,
+    "controls": [],
+    "focus": "ms-private-heading",
+    "folder": false,
+    "outOfDate": false,
+    "headUnderBanner": null,
+    "roleCard": true,
+    "hideReachable": true,
+    "spot": [],
+    "sentence": false,
+    "roleWordsOutsideCard": [],
+    "roleWordsInPage": [],
+    "hooks": false,
+    "problems": []
+  },
+  {
+    "name": "390x844-tray-stale",
+    "size": [
+      390,
+      844
+    ],
+    "viewport": [
+      390,
+      844
+    ],
+    "pageScrolls": false,
+    "pageOverflowsSideways": false,
+    "sheetOpen": false,
+    "sheetScroll": null,
+    "sheetOverflowsSideways": null,
+    "sheetClipsSideways": null,
+    "art": [
+      "public-board",
+      "player-ui",
+      "roles",
+      "abilities"
+    ],
+    "kitRequests": 1,
+    "running": 0,
+    "file": null,
+    "fileShown": null,
+    "thread": false,
+    "photos": [],
+    "roleGroups": [],
+    "roleNames": [],
+    "rolesBelowPhotos": null,
+    "rolesShown": null,
+    "inspect": null,
+    "controls": [],
+    "focus": null,
+    "folder": false,
+    "outOfDate": true,
+    "headUnderBanner": null,
+    "roleCard": false,
+    "hideReachable": null,
+    "spot": [],
+    "sentence": false,
+    "roleWordsOutsideCard": [],
+    "roleWordsInPage": [],
+    "hooks": false,
+    "problems": []
+  },
+  {
+    "name": "display",
+    "size": [
+      1280,
+      720
+    ],
+    "viewport": [
+      1280,
+      720
+    ],
+    "pageScrolls": true,
+    "pageOverflowsSideways": false,
+    "sheetOpen": false,
+    "sheetScroll": null,
+    "sheetOverflowsSideways": null,
+    "sheetClipsSideways": null,
+    "art": [
+      "public-board"
+    ],
+    "kitRequests": 0,
+    "running": 0,
+    "file": null,
+    "fileShown": null,
+    "thread": false,
+    "photos": [],
+    "roleGroups": [],
+    "roleNames": [],
+    "rolesBelowPhotos": null,
+    "rolesShown": null,
+    "inspect": null,
+    "controls": [],
+    "focus": null,
+    "folder": false,
+    "outOfDate": false,
+    "headUnderBanner": null,
+    "roleCard": false,
+    "hideReachable": null,
+    "spot": [],
+    "sentence": false,
+    "roleWordsOutsideCard": [],
+    "roleWordsInPage": [],
+    "hooks": false,
+    "problems": []
+  }
+]

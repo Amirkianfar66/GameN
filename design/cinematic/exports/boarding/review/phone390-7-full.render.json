@@ -1,0 +1,82 @@
+{
+  "tool": "design/tools/cinematic-render.mjs",
+  "pilot": "boarding",
+  "version": "cinematic-openings-0.1.0",
+  "surface": "phone",
+  "variant": "full",
+  "stage": "design/cinematic/stage.html?pilot=boarding&surface=phone&variant=full&beds=4&w=390&h=844&roster=7",
+  "size": [
+    390,
+    844
+  ],
+  "deviceScale": 2,
+  "fixture": {
+    "synthetic": true,
+    "roster": [
+      {
+        "seat": 1,
+        "character": "c3"
+      },
+      {
+        "seat": 2,
+        "character": "c7"
+      },
+      {
+        "seat": 3,
+        "character": "c1"
+      },
+      {
+        "seat": 4,
+        "character": "c9"
+      },
+      {
+        "seat": 5,
+        "character": "c5"
+      },
+      {
+        "seat": 6,
+        "character": "c2"
+      },
+      {
+        "seat": 7,
+        "character": "c8"
+      }
+    ]
+  },
+  "browser": "Google Chrome for Testing 153.0.8010.12",
+  "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+  "outputs": [
+    {
+      "kind": "video",
+      "file": "design/cinematic/exports/boarding/review/phone390-7-full.mp4",
+      "sha256": "0906d9bb5c4e64bc6e877211c20d73faac668344f2e199476fd1310d9c330043",
+      "bytes": 3080413,
+      "fps": 30,
+      "frames": 300,
+      "durationMs": 10000,
+      "from": 0,
+      "to": 10000,
+      "audio": null,
+      "exact": true,
+      "encodedMs": 10000
+    },
+    {
+      "kind": "preview",
+      "file": "design/cinematic/exports/boarding/review/phone390-7-full.preview.webp",
+      "sha256": "5f9a4aae121d4a652e08d11ea77c96831eaae326289b32474c9882780bfd4404",
+      "bytes": 726272
+    },
+    {
+      "kind": "poster",
+      "file": "design/cinematic/exports/boarding/review/phone390-7-full.poster.webp",
+      "sha256": "75f076103ba80087946458efd3968959302feb060aeab90965358fb7e0b306ec",
+      "bytes": 62554,
+      "t": 8600
+    }
+  ],
+  "settling": {
+    "rule": "a frame is kept once two captures a redraw apart agree; pictures decode before their tiles draw",
+    "resettled": 0,
+    "unsettled": []
+  }
+}

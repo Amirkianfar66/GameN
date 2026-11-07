@@ -1,0 +1,28 @@
+16:14:46 lobby ABB07776A9CC, 7 seats, 6 bots
+16:14:48 player chose c7
+16:15:50 match running on the phone and the display
+16:15:52 emulator-01-board clean | Bot 3’s turn
+16:15:53 emulator-02-display clean | Player 3’s turn
+16:15:53 display privacy (start): no private hook or role word
+16:20:54 the player's turn after 300 s
+16:20:54 emulator-04-your-turn clean | Your turn
+16:20:54 emulator-05-tray clean | Your turn
+16:20:54 tray offers: disable, hack
+16:20:55 emulator-06-hack-choose clean | Your turn | HACK CHOOSING HACK : Who do you request a Hack with? Hack · Tap a character These are the choices th
+16:20:55 display privacy (hack-choosing): no private hook or role word
+16:20:55 emulator-07-hack-picked clean | Your turn | HACK NOT SENT YET HACK : Request a Hack with Player 5? You cannot change or withdraw it here once th
+16:20:57 emulator-09-move-confirm clean | Your turn | MOVE NOT SENT YET MOVE : Move to Room B? You cannot change or withdraw it here once the server accep
+16:20:58 own move in flight: phone 1, display 1
+16:21:00 emulator-12-move-accepted clean | Your turn | MOVE ACCEPTED MOVE : Move to Room B accepted. Where you are is shown under “Your location”, as the s
+16:21:00 display privacy (after-move): no private hook or role word
+16:21:01 emulator-13-pass-receipt clean | Bot 5’s turn | PASS ACCEPTED PASS : Turn passed. The next phase is shown at the top of the board. Done
+16:22:01 Jail vote after 59 s
+16:22:01 emulator-14-jail-vote-board clean | Jail vote
+16:22:02 emulator-15-jail-vote-choose clean | Jail vote | VOTE CHOOSING VOTE : Who do you vote to send to Jail? Vote · Tap a character These are the choices t
+16:22:02 display privacy (vote-choosing): no private hook or role word
+16:22:02 emulator-16-jail-vote-confirm clean | Jail vote | VOTE NOT SENT YET VOTE : Vote to send Player 5 to Jail? This is your one ballot in this vote. You ca
+16:22:03 emulator-17-jail-vote-recorded clean | Jail vote | VOTE ACCEPTED VOTE : Your vote for Player 5 is recorded. This is not a result. The count is shown to
+16:22:03 display privacy (vote-recorded): no private hook or role word
+16:22:04 emulator-18-display-during-vote clean | Jail vote
+16:23:03 emulator-20-after-vote clean | Captain election | VOTE ACCEPTED VOTE : Your vote for Player 5 is recorded. This is not a result. The count is shown to
+16:23:03 host ended the match

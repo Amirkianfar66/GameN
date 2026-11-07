@@ -41,6 +41,18 @@ export function factionCounts(mode: Mode): Record<Faction, number> {
   return counts;
 }
 
+// The owner's decision of 11 October 2026 (issue #96): at most five players are in Room A, Room B,
+// Hospital and Jail at any time. Command Room holds its one Captain, and the Final Zone of the
+// showdown is not a room. It applies from the ruleset that carries it; earlier matches keep theirs.
+export const ROOM_CAPACITY = 5;
+export const CAPPED_LOCATIONS = ['Room A', 'Room B', 'Hospital', 'Jail'] as const;
+
+/** Whether a starting assignment puts at most `capacity` players in each of Room A and Room B. */
+export function roomsWithinCapacity(rooms: Readonly<Record<SeatId, Room>>, capacity: number = ROOM_CAPACITY): boolean {
+  const inA = Object.values(rooms).filter(room => room === 'Room A').length;
+  return inA <= capacity && Object.keys(rooms).length - inA <= capacity;
+}
+
 // R-VOTE-03: at least 50% of the eligible voters; exactly 50% is sufficient.
 export function jailThreshold(eligibleVoters: number): number {
   return Math.ceil(eligibleVoters / 2);

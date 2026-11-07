@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · library art proposal · en-flatline library-end-0.1.0 · generated, do not edit by hand
+  The no-survivors strip: a monitor line gone flat (plate grey, never a side's colour).
+  Built by design/tools/library-assets.mjs from design/library/end/art.mjs. Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 64" width="320" height="64" preserveAspectRatio="none"><g id="en-flatline"><rect x="0" y="0" width="320" height="64" fill="#0D1422"/><path d="M0 16 H320 M0 32 H320 M0 48 H320" stroke="#3A4A6B" stroke-width="1" opacity="0.5"/><path d="M0 34 H120 L128 28 L134 38 L140 34 H320" stroke="#8D97A8" stroke-width="2.6" fill="none" stroke-linejoin="round"/><path d="M0 62 H320" stroke="#151923" stroke-width="4"/></g></svg>

@@ -1,0 +1,4198 @@
+{
+  "synthetic": true,
+  "tool": "design/tools/board-motion-lifecycle-flows.mjs",
+  "inputsSha256": "7ab30422ce4bc75401e51d294cce4946b468390c58e98558f5950607dc4422ed",
+  "browser": "Google Chrome 155.0.8059.39",
+  "assertions": 52,
+  "failed": 0,
+  "results": [
+    {
+      "name": "precondition: public move is walking on both boards",
+      "passed": true,
+      "actual": {
+        "boards": [
+          {
+            "surface": "own",
+            "moving": 1,
+            "effects": 5,
+            "poses": [
+              {
+                "seat": 7,
+                "health": "Healthy",
+                "gesture": "captainTable",
+                "expected": "c3|captainTable",
+                "drawn": "c3|captainTable"
+              },
+              {
+                "seat": 1,
+                "health": "Healthy",
+                "gesture": "consoleBack",
+                "expected": "c4|consoleBack",
+                "drawn": "c4|consoleBack"
+              },
+              {
+                "seat": 3,
+                "health": "Healthy",
+                "gesture": "crouchHatch",
+                "expected": "c1|crouchHatch",
+                "drawn": "c1|crouchHatch"
+              },
+              {
+                "seat": 5,
+                "health": "Healthy",
+                "gesture": "wallPanelBack",
+                "expected": "c2|wallPanelBack",
+                "drawn": "c2|wallPanelBack"
+              },
+              {
+                "seat": 2,
+                "health": "Healthy",
+                "gesture": "laptopStool",
+                "expected": "c7|laptopStool",
+                "drawn": "c7|laptopStool"
+              },
+              {
+                "seat": 4,
+                "health": "Healthy",
+                "gesture": "leanBench",
+                "expected": "c9|leanBench",
+                "drawn": "c9|leanBench"
+              },
+              {
+                "seat": 6,
+                "health": "Injured",
+                "gesture": "tablet+injured",
+                "expected": "c6|tablet+injured",
+                "drawn": "c6|tablet+injured"
+              },
+              {
+                "seat": 8,
+                "health": "Healthy",
+                "gesture": "tankBack",
+                "expected": "c8|tankBack",
+                "drawn": "c8|tankBack"
+              },
+              {
+                "seat": 9,
+                "health": "Healthy",
+                "gesture": "floorSit",
+                "expected": "c5|floorSit",
+                "drawn": "c5|floorSit"
+              }
+            ]
+          },
+          {
+            "surface": "observer",
+            "moving": 1,
+            "effects": 5,
+            "poses": [
+              {
+                "seat": 7,
+                "health": "Healthy",
+                "gesture": "captainTable",
+                "expected": "c3|captainTable",
+                "drawn": "c3|captainTable"
+              },
+              {
+                "seat": 1,
+                "health": "Healthy",
+                "gesture": "consoleBack",
+                "expected": "c4|consoleBack",
+                "drawn": "c4|consoleBack"
+              },
+              {
+                "seat": 3,
+                "health": "Healthy",
+                "gesture": "crouchHatch",
+                "expected": "c1|crouchHatch",
+                "drawn": "c1|crouchHatch"
+              },
+              {
+                "seat": 5,
+                "health": "Healthy",
+                "gesture": "wallPanelBack",
+                "expected": "c2|wallPanelBack",
+                "drawn": "c2|wallPanelBack"
+              },
+              {
+                "seat": 2,
+                "health": "Healthy",
+                "gesture": "laptopStool",
+                "expected": "c7|laptopStool",
+                "drawn": "c7|laptopStool"
+              },
+              {
+                "seat": 4,
+                "health": "Healthy",
+                "gesture": "leanBench",
+                "expected": "c9|leanBench",
+                "drawn": "c9|leanBench"
+              },
+              {
+                "seat": 6,
+                "health": "Injured",
+                "gesture": "tablet+injured",
+                "expected": "c6|tablet+injured",
+                "drawn": "c6|tablet+injured"
+              },
+              {
+                "seat": 8,
+                "health": "Healthy",
+                "gesture": "tankBack",
+                "expected": "c8|tankBack",
+                "drawn": "c8|tankBack"
+              },
+              {
+                "seat": 9,
+                "health": "Healthy",
+                "gesture": "floorSit",
+                "expected": "c5|floorSit",
+                "drawn": "c5|floorSit"
+              }
+            ]
+          }
+        ],
+        "motion": "full",
+        "system": false,
+        "revision": 2,
+        "cues": 2,
+        "requests": {
+          "sent": 0,
+          "lookups": 0
+        },
+        "listeners": {
+          "added": 3,
+          "removed": 0,
+          "active": 3
+        }
+      }
+    },
+    {
+      "name": "heal interrupts walk: the drawn figure matches the latest Healthy gesture on both boards",
+      "passed": true,
+      "actual": {
+        "boards": [
+          {
+            "surface": "own",
+            "moving": 0,
+            "effects": 0,
+            "poses": [
+              {
+                "seat": 7,
+                "health": "Healthy",
+                "gesture": "captainTable",
+                "expected": "c3|captainTable",
+                "drawn": "c3|captainTable"
+              },
+              {
+                "seat": 1,
+                "health": "Healthy",
+                "gesture": "consoleBack",
+                "expected": "c4|consoleBack",
+                "drawn": "c4|consoleBack"
+              },
+              {
+                "seat": 3,
+                "health": "Healthy",
+                "gesture": "crouchHatch",
+                "expected": "c1|crouchHatch",
+                "drawn": "c1|crouchHatch"
+              },
+              {
+                "seat": 5,
+                "health": "Healthy",
+                "gesture": "wallPanelBack",
+                "expected": "c2|wallPanelBack",
+                "drawn": "c2|wallPanelBack"
+              },
+              {
+                "seat": 2,
+                "health": "Healthy",
+                "gesture": "laptopStool",
+                "expected": "c7|laptopStool",
+                "drawn": "c7|laptopStool"
+              },
+              {
+                "seat": 4,
+                "health": "Healthy",
+                "gesture": "leanBench",
+                "expected": "c9|leanBench",
+                "drawn": "c9|leanBench"
+              },
+              {
+                "seat": 6,
+                "health": "Healthy",
+                "gesture": "tablet",
+                "expected": "c6|tablet",
+                "drawn": "c6|tablet"
+              },
+              {
+                "seat": 8,
+                "health": "Healthy",
+                "gesture": "tankBack",
+                "expected": "c8|tankBack",
+                "drawn": "c8|tankBack"
+              },
+              {
+                "seat": 9,
+                "health": "Healthy",
+                "gesture": "floorSit",
+                "expected": "c5|floorSit",
+                "drawn": "c5|floorSit"
+              }
+            ]
+          },
+          {
+            "surface": "observer",
+            "moving": 0,
+            "effects": 0,
+            "poses": [
+              {
+                "seat": 7,
+                "health": "Healthy",
+                "gesture": "captainTable",
+                "expected": "c3|captainTable",
+                "drawn": "c3|captainTable"
+              },
+              {
+                "seat": 1,
+                "health": "Healthy",
+                "gesture": "consoleBack",
+                "expected": "c4|consoleBack",
+                "drawn": "c4|consoleBack"
+              },
+              {
+                "seat": 3,
+                "health": "Healthy",
+                "gesture": "crouchHatch",
+                "expected": "c1|crouchHatch",
+                "drawn": "c1|crouchHatch"
+              },
+              {
+                "seat": 5,
+                "health": "Healthy",
+                "gesture": "wallPanelBack",
+                "expected": "c2|wallPanelBack",
+                "drawn": "c2|wallPanelBack"
+              },
+              {
+                "seat": 2,
+                "health": "Healthy",
+                "gesture": "laptopStool",
+                "expected": "c7|laptopStool",
+                "drawn": "c7|laptopStool"
+              },
+              {
+                "seat": 4,
+                "health": "Healthy",
+                "gesture": "leanBench",
+                "expected": "c9|leanBench",
+                "drawn": "c9|leanBench"
+              },
+              {
+                "seat": 6,
+                "health": "Healthy",
+                "gesture": "tablet",
+                "expected": "c6|tablet",
+                "drawn": "c6|tablet"
+              },
+              {
+                "seat": 8,
+                "health": "Healthy",
+                "gesture": "tankBack",
+                "expected": "c8|tankBack",
+                "drawn": "c8|tankBack"
+              },
+              {
+                "seat": 9,
+                "health": "Healthy",
+                "gesture": "floorSit",
+                "expected": "c5|floorSit",
+                "drawn": "c5|floorSit"
+              }
+            ]
+          }
+        ],
+        "motion": "full",
+        "system": false,
+        "revision": 3,
+        "cues": 4,
+        "requests": {
+          "sent": 0,
+          "lookups": 0
+        },
+        "listeners": {
+          "added": 3,
+          "removed": 0,
+          "active": 3
+        }
+      }
+    },
+    {
+      "name": "no cancelled frame later restores the Injured pose",
+      "passed": true,
+      "actual": {
+        "boards": [
+          {
+            "surface": "own",
+            "moving": 0,
+            "effects": 0,
+            "poses": [
+              {
+                "seat": 7,
+                "health": "Healthy",
+                "gesture": "captainTable",
+                "expected": "c3|captainTable",
+                "drawn": "c3|captainTable"
+              },
+              {
+                "seat": 1,
+                "health": "Healthy",
+                "gesture": "consoleBack",
+                "expected": "c4|consoleBack",
+                "drawn": "c4|consoleBack"
+              },
+              {
+                "seat": 3,
+                "health": "Healthy",
+                "gesture": "crouchHatch",
+                "expected": "c1|crouchHatch",
+                "drawn": "c1|crouchHatch"
+              },
+              {
+                "seat": 5,
+                "health": "Healthy",
+                "gesture": "wallPanelBack",
+                "expected": "c2|wallPanelBack",
+                "drawn": "c2|wallPanelBack"
+              },
+              {
+                "seat": 2,
+                "health": "Healthy",
+                "gesture": "laptopStool",
+                "expected": "c7|laptopStool",
+                "drawn": "c7|laptopStool"
+              },
+              {
+                "seat": 4,
+                "health": "Healthy",
+                "gesture": "leanBench",
+                "expected": "c9|leanBench",
+                "drawn": "c9|leanBench"
+              },
+              {
+                "seat": 6,
+                "health": "Healthy",
+                "gesture": "tablet",
+                "expected": "c6|tablet",
+                "drawn": "c6|tablet"
+              },
+              {
+                "seat": 8,
+                "health": "Healthy",
+                "gesture": "tankBack",
+                "expected": "c8|tankBack",
+                "drawn": "c8|tankBack"
+              },
+              {
+                "seat": 9,
+                "health": "Healthy",
+                "gesture": "floorSit",
+                "expected": "c5|floorSit",
+                "drawn": "c5|floorSit"
+              }
+            ]
+          },
+          {
+            "surface": "observer",
+            "moving": 0,
+            "effects": 0,
+            "poses": [
+              {
+                "seat": 7,
+                "health": "Healthy",
+                "gesture": "captainTable",
+                "expected": "c3|captainTable",
+                "drawn": "c3|captainTable"
+              },
+              {
+                "seat": 1,
+                "health": "Healthy",
+                "gesture": "consoleBack",
+                "expected": "c4|consoleBack",
+                "drawn": "c4|consoleBack"
+              },
+              {
+                "seat": 3,
+                "health": "Healthy",
+                "gesture": "crouchHatch",
+                "expected": "c1|crouchHatch",
+                "drawn": "c1|crouchHatch"
+              },
+              {
+                "seat": 5,
+                "health": "Healthy",
+                "gesture": "wallPanelBack",
+                "expected": "c2|wallPanelBack",
+                "drawn": "c2|wallPanelBack"
+              },
+              {
+                "seat": 2,
+                "health": "Healthy",
+                "gesture": "laptopStool",
+                "expected": "c7|laptopStool",
+                "drawn": "c7|laptopStool"
+              },
+              {
+                "seat": 4,
+                "health": "Healthy",
+                "gesture": "leanBench",
+                "expected": "c9|leanBench",
+                "drawn": "c9|leanBench"
+              },
+              {
+                "seat": 6,
+                "health": "Healthy",
+                "gesture": "tablet",
+                "expected": "c6|tablet",
+                "drawn": "c6|tablet"
+              },
+              {
+                "seat": 8,
+                "health": "Healthy",
+                "gesture": "tankBack",
+                "expected": "c8|tankBack",
+                "drawn": "c8|tankBack"
+              },
+              {
+                "seat": 9,
+                "health": "Healthy",
+                "gesture": "floorSit",
+                "expected": "c5|floorSit",
+                "drawn": "c5|floorSit"
+              }
+            ]
+          }
+        ],
+        "motion": "full",
+        "system": false,
+        "revision": 3,
+        "cues": 4,
+        "requests": {
+          "sent": 0,
+          "lookups": 0
+        },
+        "listeners": {
+          "added": 3,
+          "removed": 0,
+          "active": 3
+        }
+      }
+    },
+    {
+      "name": "fixture-panel reduced motion settles both walks in the same call",
+      "passed": true,
+      "actual": {
+        "boards": [
+          {
+            "surface": "own",
+            "moving": 0,
+            "effects": 0,
+            "poses": [
+              {
+                "seat": 7,
+                "health": "Healthy",
+                "gesture": "captainTable",
+                "expected": "c3|captainTable",
+                "drawn": "c3|captainTable"
+              },
+              {
+                "seat": 1,
+                "health": "Healthy",
+                "gesture": "consoleBack",
+                "expected": "c4|consoleBack",
+                "drawn": "c4|consoleBack"
+              },
+              {
+                "seat": 3,
+                "health": "Healthy",
+                "gesture": "crouchHatch",
+                "expected": "c1|crouchHatch",
+                "drawn": "c1|crouchHatch"
+              },
+              {
+                "seat": 5,
+                "health": "Healthy",
+                "gesture": "wallPanelBack",
+                "expected": "c2|wallPanelBack",
+                "drawn": "c2|wallPanelBack"
+              },
+              {
+                "seat": 2,
+                "health": "Healthy",
+                "gesture": "laptopStool",
+                "expected": "c7|laptopStool",
+                "drawn": "c7|laptopStool"
+              },
+              {
+                "seat": 4,
+                "health": "Healthy",
+                "gesture": "leanBench",
+                "expected": "c9|leanBench",
+                "drawn": "c9|leanBench"
+              },
+              {
+                "seat": 6,
+                "health": "Injured",
+                "gesture": "tablet+injured",
+                "expected": "c6|tablet+injured",
+                "drawn": "c6|tablet+injured"
+              },
+              {
+                "seat": 8,
+                "health": "Healthy",
+                "gesture": "tankBack",
+                "expected": "c8|tankBack",
+                "drawn": "c8|tankBack"
+              },
+              {
+                "seat": 9,
+                "health": "Healthy",
+                "gesture": "floorSit",
+                "expected": "c5|floorSit",
+                "drawn": "c5|floorSit"
+              }
+            ]
+          },
+          {
+            "surface": "observer",
+            "moving": 0,
+            "effects": 0,
+            "poses": [
+              {
+                "seat": 7,
+                "health": "Healthy",
+                "gesture": "captainTable",
+                "expected": "c3|captainTable",
+                "drawn": "c3|captainTable"
+              },
+              {
+                "seat": 1,
+                "health": "Healthy",
+                "gesture": "consoleBack",
+                "expected": "c4|consoleBack",
+                "drawn": "c4|consoleBack"
+              },
+              {
+                "seat": 3,
+                "health": "Healthy",
+                "gesture": "crouchHatch",
+                "expected": "c1|crouchHatch",
+                "drawn": "c1|crouchHatch"
+              },
+              {
+                "seat": 5,
+                "health": "Healthy",
+                "gesture": "wallPanelBack",
+                "expected": "c2|wallPanelBack",
+                "drawn": "c2|wallPanelBack"
+              },
+              {
+                "seat": 2,
+                "health": "Healthy",
+                "gesture": "laptopStool",
+                "expected": "c7|laptopStool",
+                "drawn": "c7|laptopStool"
+              },
+              {
+                "seat": 4,
+                "health": "Healthy",
+                "gesture": "leanBench",
+                "expected": "c9|leanBench",
+                "drawn": "c9|leanBench"
+              },
+              {
+                "seat": 6,
+                "health": "Injured",
+                "gesture": "tablet+injured",
+                "expected": "c6|tablet+injured",
+                "drawn": "c6|tablet+injured"
+              },
+              {
+                "seat": 8,
+                "health": "Healthy",
+                "gesture": "tankBack",
+                "expected": "c8|tankBack",
+                "drawn": "c8|tankBack"
+              },
+              {
+                "seat": 9,
+                "health": "Healthy",
+                "gesture": "floorSit",
+                "expected": "c5|floorSit",
+                "drawn": "c5|floorSit"
+              }
+            ]
+          }
+        ],
+        "motion": "reduced",
+        "system": false,
+        "revision": 2,
+        "cues": 2,
+        "requests": {
+          "sent": 0,
+          "lookups": 0
+        },
+        "listeners": {
+          "added": 3,
+          "removed": 0,
+          "active": 3
+        }
+      }
+    },
+    {
+      "name": "panel cancellation has no late frame, public revision, cue or request",
+      "passed": true,
+      "actual": {
+        "boards": [
+          {
+            "surface": "own",
+            "moving": 0,
+            "effects": 0,
+            "poses": [
+              {
+                "seat": 7,
+                "health": "Healthy",
+                "gesture": "captainTable",
+                "expected": "c3|captainTable",
+                "drawn": "c3|captainTable"
+              },
+              {
+                "seat": 1,
+                "health": "Healthy",
+                "gesture": "consoleBack",
+                "expected": "c4|consoleBack",
+                "drawn": "c4|consoleBack"
+              },
+              {
+                "seat": 3,
+                "health": "Healthy",
+                "gesture": "crouchHatch",
+                "expected": "c1|crouchHatch",
+                "drawn": "c1|crouchHatch"
+              },
+              {
+                "seat": 5,
+                "health": "Healthy",
+                "gesture": "wallPanelBack",
+                "expected": "c2|wallPanelBack",
+                "drawn": "c2|wallPanelBack"
+              },
+              {
+                "seat": 2,
+                "health": "Healthy",
+                "gesture": "laptopStool",
+                "expected": "c7|laptopStool",
+                "drawn": "c7|laptopStool"
+              },
+              {
+                "seat": 4,
+                "health": "Healthy",
+                "gesture": "leanBench",
+                "expected": "c9|leanBench",
+                "drawn": "c9|leanBench"
+              },
+              {
+                "seat": 6,
+                "health": "Injured",
+                "gesture": "tablet+injured",
+                "expected": "c6|tablet+injured",
+                "drawn": "c6|tablet+injured"
+              },
+              {
+                "seat": 8,
+                "health": "Healthy",
+                "gesture": "tankBack",
+                "expected": "c8|tankBack",
+                "drawn": "c8|tankBack"
+              },
+              {
+                "seat": 9,
+                "health": "Healthy",
+                "gesture": "floorSit",
+                "expected": "c5|floorSit",
+                "drawn": "c5|floorSit"
+              }
+            ]
+          },
+          {
+            "surface": "observer",
+            "moving": 0,
+            "effects": 0,
+            "poses": [
+              {
+                "seat": 7,
+                "health": "Healthy",
+                "gesture": "captainTable",
+                "expected": "c3|captainTable",
+                "drawn": "c3|captainTable"
+              },
+              {
+                "seat": 1,
+                "health": "Healthy",
+                "gesture": "consoleBack",
+                "expected": "c4|consoleBack",
+                "drawn": "c4|consoleBack"
+              },
+              {
+                "seat": 3,
+                "health": "Healthy",
+                "gesture": "crouchHatch",
+                "expected": "c1|crouchHatch",
+                "drawn": "c1|crouchHatch"
+              },
+              {
+                "seat": 5,
+                "health": "Healthy",
+                "gesture": "wallPanelBack",
+                "expected": "c2|wallPanelBack",
+                "drawn": "c2|wallPanelBack"
+              },
+              {
+                "seat": 2,
+                "health": "Healthy",
+                "gesture": "laptopStool",
+                "expected": "c7|laptopStool",
+                "drawn": "c7|laptopStool"
+              },
+              {
+                "seat": 4,
+                "health": "Healthy",
+                "gesture": "leanBench",
+                "expected": "c9|leanBench",
+                "drawn": "c9|leanBench"
+              },
+              {
+                "seat": 6,
+                "health": "Injured",
+                "gesture": "tablet+injured",
+                "expected": "c6|tablet+injured",
+                "drawn": "c6|tablet+injured"
+              },
+              {
+                "seat": 8,
+                "health": "Healthy",
+                "gesture": "tankBack",
+                "expected": "c8|tankBack",
+                "drawn": "c8|tankBack"
+              },
+              {
+                "seat": 9,
+                "health": "Healthy",
+                "gesture": "floorSit",
+                "expected": "c5|floorSit",
+                "drawn": "c5|floorSit"
+              }
+            ]
+          }
+        ],
+        "motion": "reduced",
+        "system": false,
+        "revision": 2,
+        "cues": 2,
+        "requests": {
+          "sent": 0,
+          "lookups": 0
+        },
+        "listeners": {
+          "added": 3,
+          "removed": 0,
+          "active": 3
+        }
+      }
+    },
+    {
+      "name": "in-app Menu reduced motion also cancels both walks immediately",
+      "passed": true,
+      "actual": {
+        "boards": [
+          {
+            "surface": "own",
+            "moving": 0,
+            "effects": 0,
+            "poses": [
+              {
+                "seat": 7,
+                "health": "Healthy",
+                "gesture": "captainTable",
+                "expected": "c3|captainTable",
+                "drawn": "c3|captainTable"
+              },
+              {
+                "seat": 1,
+                "health": "Healthy",
+                "gesture": "consoleBack",
+                "expected": "c4|consoleBack",
+                "drawn": "c4|consoleBack"
+              },
+              {
+                "seat": 3,
+                "health": "Healthy",
+                "gesture": "crouchHatch",
+                "expected": "c1|crouchHatch",
+                "drawn": "c1|crouchHatch"
+              },
+              {
+                "seat": 5,
+                "health": "Healthy",
+                "gesture": "wallPanelBack",
+                "expected": "c2|wallPanelBack",
+                "drawn": "c2|wallPanelBack"
+              },
+              {
+                "seat": 2,
+                "health": "Healthy",
+                "gesture": "laptopStool",
+                "expected": "c7|laptopStool",
+                "drawn": "c7|laptopStool"
+              },
+              {
+                "seat": 4,
+                "health": "Healthy",
+                "gesture": "leanBench",
+                "expected": "c9|leanBench",
+                "drawn": "c9|leanBench"
+              },
+              {
+                "seat": 6,
+                "health": "Injured",
+                "gesture": "tablet+injured",
+                "expected": "c6|tablet+injured",
+                "drawn": "c6|tablet+injured"
+              },
+              {
+                "seat": 8,
+                "health": "Healthy",
+                "gesture": "tankBack",
+                "expected": "c8|tankBack",
+                "drawn": "c8|tankBack"
+              },
+              {
+                "seat": 9,
+                "health": "Healthy",
+                "gesture": "floorSit",
+                "expected": "c5|floorSit",
+                "drawn": "c5|floorSit"
+              }
+            ]
+          },
+          {
+            "surface": "observer",
+            "moving": 0,
+            "effects": 0,
+            "poses": [
+              {
+                "seat": 7,
+                "health": "Healthy",
+                "gesture": "captainTable",
+                "expected": "c3|captainTable",
+                "drawn": "c3|captainTable"
+              },
+              {
+                "seat": 1,
+                "health": "Healthy",
+                "gesture": "consoleBack",
+                "expected": "c4|consoleBack",
+                "drawn": "c4|consoleBack"
+              },
+              {
+                "seat": 3,
+                "health": "Healthy",
+                "gesture": "crouchHatch",
+                "expected": "c1|crouchHatch",
+                "drawn": "c1|crouchHatch"
+              },
+              {
+                "seat": 5,
+                "health": "Healthy",
+                "gesture": "wallPanelBack",
+                "expected": "c2|wallPanelBack",
+                "drawn": "c2|wallPanelBack"
+              },
+              {
+                "seat": 2,
+                "health": "Healthy",
+                "gesture": "laptopStool",
+                "expected": "c7|laptopStool",
+                "drawn": "c7|laptopStool"
+              },
+              {
+                "seat": 4,
+                "health": "Healthy",
+                "gesture": "leanBench",
+                "expected": "c9|leanBench",
+                "drawn": "c9|leanBench"
+              },
+              {
+                "seat": 6,
+                "health": "Injured",
+                "gesture": "tablet+injured",
+                "expected": "c6|tablet+injured",
+                "drawn": "c6|tablet+injured"
+              },
+              {
+                "seat": 8,
+                "health": "Healthy",
+                "gesture": "tankBack",
+                "expected": "c8|tankBack",
+                "drawn": "c8|tankBack"
+              },
+              {
+                "seat": 9,
+                "health": "Healthy",
+                "gesture": "floorSit",
+                "expected": "c5|floorSit",
+                "drawn": "c5|floorSit"
+              }
+            ]
+          }
+        ],
+        "motion": "reduced",
+        "system": false,
+        "revision": 2,
+        "cues": 2,
+        "requests": {
+          "sent": 0,
+          "lookups": 0
+        },
+        "listeners": {
+          "added": 3,
+          "removed": 0,
+          "active": 3
+        }
+      }
+    },
+    {
+      "name": "native OS reduction overrides explicit full and cancels both directors without a public update",
+      "passed": true,
+      "actual": {
+        "boards": [
+          {
+            "surface": "own",
+            "moving": 0,
+            "effects": 0,
+            "poses": [
+              {
+                "seat": 7,
+                "health": "Healthy",
+                "gesture": "captainTable",
+                "expected": "c3|captainTable",
+                "drawn": "c3|captainTable"
+              },
+              {
+                "seat": 1,
+                "health": "Healthy",
+                "gesture": "consoleBack",
+                "expected": "c4|consoleBack",
+                "drawn": "c4|consoleBack"
+              },
+              {
+                "seat": 3,
+                "health": "Healthy",
+                "gesture": "crouchHatch",
+                "expected": "c1|crouchHatch",
+                "drawn": "c1|crouchHatch"
+              },
+              {
+                "seat": 5,
+                "health": "Healthy",
+                "gesture": "wallPanelBack",
+                "expected": "c2|wallPanelBack",
+                "drawn": "c2|wallPanelBack"
+              },
+              {
+                "seat": 2,
+                "health": "Healthy",
+                "gesture": "laptopStool",
+                "expected": "c7|laptopStool",
+                "drawn": "c7|laptopStool"
+              },
+              {
+                "seat": 4,
+                "health": "Healthy",
+                "gesture": "leanBench",
+                "expected": "c9|leanBench",
+                "drawn": "c9|leanBench"
+              },
+              {
+                "seat": 6,
+                "health": "Injured",
+                "gesture": "tablet+injured",
+                "expected": "c6|tablet+injured",
+                "drawn": "c6|tablet+injured"
+              },
+              {
+                "seat": 8,
+                "health": "Healthy",
+                "gesture": "tankBack",
+                "expected": "c8|tankBack",
+                "drawn": "c8|tankBack"
+              },
+              {
+                "seat": 9,
+                "health": "Healthy",
+                "gesture": "floorSit",
+                "expected": "c5|floorSit",
+                "drawn": "c5|floorSit"
+              }
+            ]
+          },
+          {
+            "surface": "observer",
+            "moving": 0,
+            "effects": 0,
+            "poses": [
+              {
+                "seat": 7,
+                "health": "Healthy",
+                "gesture": "captainTable",
+                "expected": "c3|captainTable",
+                "drawn": "c3|captainTable"
+              },
+              {
+                "seat": 1,
+                "health": "Healthy",
+                "gesture": "consoleBack",
+                "expected": "c4|consoleBack",
+                "drawn": "c4|consoleBack"
+              },
+              {
+                "seat": 3,
+                "health": "Healthy",
+                "gesture": "crouchHatch",
+                "expected": "c1|crouchHatch",
+                "drawn": "c1|crouchHatch"
+              },
+              {
+                "seat": 5,
+                "health": "Healthy",
+                "gesture": "wallPanelBack",
+                "expected": "c2|wallPanelBack",
+                "drawn": "c2|wallPanelBack"
+              },
+              {
+                "seat": 2,
+                "health": "Healthy",
+                "gesture": "laptopStool",
+                "expected": "c7|laptopStool",
+                "drawn": "c7|laptopStool"
+              },
+              {
+                "seat": 4,
+                "health": "Healthy",
+                "gesture": "leanBench",
+                "expected": "c9|leanBench",
+                "drawn": "c9|leanBench"
+              },
+              {
+                "seat": 6,
+                "health": "Injured",
+                "gesture": "tablet+injured",
+                "expected": "c6|tablet+injured",
+                "drawn": "c6|tablet+injured"
+              },
+              {
+                "seat": 8,
+                "health": "Healthy",
+                "gesture": "tankBack",
+                "expected": "c8|tankBack",
+                "drawn": "c8|tankBack"
+              },
+              {
+                "seat": 9,
+                "health": "Healthy",
+                "gesture": "floorSit",
+                "expected": "c5|floorSit",
+                "drawn": "c5|floorSit"
+              }
+            ]
+          }
+        ],
+        "motion": "full",
+        "system": true,
+        "revision": 2,
+        "cues": 2,
+        "requests": {
+          "sent": 0,
+          "lookups": 0
+        },
+        "listeners": {
+          "added": 3,
+          "removed": 0,
+          "active": 3
+        }
+      }
+    },
+    {
+      "name": "OS cancellation leaves no delayed JavaScript walk or lost state",
+      "passed": true,
+      "actual": {
+        "boards": [
+          {
+            "surface": "own",
+            "moving": 0,
+            "effects": 0,
+            "poses": [
+              {
+                "seat": 7,
+                "health": "Healthy",
+                "gesture": "captainTable",
+                "expected": "c3|captainTable",
+                "drawn": "c3|captainTable"
+              },
+              {
+                "seat": 1,
+                "health": "Healthy",
+                "gesture": "consoleBack",
+                "expected": "c4|consoleBack",
+                "drawn": "c4|consoleBack"
+              },
+              {
+                "seat": 3,
+                "health": "Healthy",
+                "gesture": "crouchHatch",
+                "expected": "c1|crouchHatch",
+                "drawn": "c1|crouchHatch"
+              },
+              {
+                "seat": 5,
+                "health": "Healthy",
+                "gesture": "wallPanelBack",
+                "expected": "c2|wallPanelBack",
+                "drawn": "c2|wallPanelBack"
+              },
+              {
+                "seat": 2,
+                "health": "Healthy",
+                "gesture": "laptopStool",
+                "expected": "c7|laptopStool",
+                "drawn": "c7|laptopStool"
+              },
+              {
+                "seat": 4,
+                "health": "Healthy",
+                "gesture": "leanBench",
+                "expected": "c9|leanBench",
+                "drawn": "c9|leanBench"
+              },
+              {
+                "seat": 6,
+                "health": "Injured",
+                "gesture": "tablet+injured",
+                "expected": "c6|tablet+injured",
+                "drawn": "c6|tablet+injured"
+              },
+              {
+                "seat": 8,
+                "health": "Healthy",
+                "gesture": "tankBack",
+                "expected": "c8|tankBack",
+                "drawn": "c8|tankBack"
+              },
+              {
+                "seat": 9,
+                "health": "Healthy",
+                "gesture": "floorSit",
+                "expected": "c5|floorSit",
+                "drawn": "c5|floorSit"
+              }
+            ]
+          },
+          {
+            "surface": "observer",
+            "moving": 0,
+            "effects": 0,
+            "poses": [
+              {
+                "seat": 7,
+                "health": "Healthy",
+                "gesture": "captainTable",
+                "expected": "c3|captainTable",
+                "drawn": "c3|captainTable"
+              },
+              {
+                "seat": 1,
+                "health": "Healthy",
+                "gesture": "consoleBack",
+                "expected": "c4|consoleBack",
+                "drawn": "c4|consoleBack"
+              },
+              {
+                "seat": 3,
+                "health": "Healthy",
+                "gesture": "crouchHatch",
+                "expected": "c1|crouchHatch",
+                "drawn": "c1|crouchHatch"
+              },
+              {
+                "seat": 5,
+                "health": "Healthy",
+                "gesture": "wallPanelBack",
+                "expected": "c2|wallPanelBack",
+                "drawn": "c2|wallPanelBack"
+              },
+              {
+                "seat": 2,
+                "health": "Healthy",
+                "gesture": "laptopStool",
+                "expected": "c7|laptopStool",
+                "drawn": "c7|laptopStool"
+              },
+              {
+                "seat": 4,
+                "health": "Healthy",
+                "gesture": "leanBench",
+                "expected": "c9|leanBench",
+                "drawn": "c9|leanBench"
+              },
+              {
+                "seat": 6,
+                "health": "Injured",
+                "gesture": "tablet+injured",
+                "expected": "c6|tablet+injured",
+                "drawn": "c6|tablet+injured"
+              },
+              {
+                "seat": 8,
+                "health": "Healthy",
+                "gesture": "tankBack",
+                "expected": "c8|tankBack",
+                "drawn": "c8|tankBack"
+              },
+              {
+                "seat": 9,
+                "health": "Healthy",
+                "gesture": "floorSit",
+                "expected": "c5|floorSit",
+                "drawn": "c5|floorSit"
+              }
+            ]
+          }
+        ],
+        "motion": "full",
+        "system": true,
+        "revision": 2,
+        "cues": 2,
+        "requests": {
+          "sent": 0,
+          "lookups": 0
+        },
+        "listeners": {
+          "added": 3,
+          "removed": 0,
+          "active": 3
+        }
+      }
+    },
+    {
+      "name": "returning to full does not replay the cancelled walk",
+      "passed": true,
+      "actual": {
+        "boards": [
+          {
+            "surface": "own",
+            "moving": 0,
+            "effects": 0,
+            "poses": [
+              {
+                "seat": 7,
+                "health": "Healthy",
+                "gesture": "captainTable",
+                "expected": "c3|captainTable",
+                "drawn": "c3|captainTable"
+              },
+              {
+                "seat": 1,
+                "health": "Healthy",
+                "gesture": "consoleBack",
+                "expected": "c4|consoleBack",
+                "drawn": "c4|consoleBack"
+              },
+              {
+                "seat": 3,
+                "health": "Healthy",
+                "gesture": "crouchHatch",
+                "expected": "c1|crouchHatch",
+                "drawn": "c1|crouchHatch"
+              },
+              {
+                "seat": 5,
+                "health": "Healthy",
+                "gesture": "wallPanelBack",
+                "expected": "c2|wallPanelBack",
+                "drawn": "c2|wallPanelBack"
+              },
+              {
+                "seat": 2,
+                "health": "Healthy",
+                "gesture": "laptopStool",
+                "expected": "c7|laptopStool",
+                "drawn": "c7|laptopStool"
+              },
+              {
+                "seat": 4,
+                "health": "Healthy",
+                "gesture": "leanBench",
+                "expected": "c9|leanBench",
+                "drawn": "c9|leanBench"
+              },
+              {
+                "seat": 6,
+                "health": "Injured",
+                "gesture": "tablet+injured",
+                "expected": "c6|tablet+injured",
+                "drawn": "c6|tablet+injured"
+              },
+              {
+                "seat": 8,
+                "health": "Healthy",
+                "gesture": "tankBack",
+                "expected": "c8|tankBack",
+                "drawn": "c8|tankBack"
+              },
+              {
+                "seat": 9,
+                "health": "Healthy",
+                "gesture": "floorSit",
+                "expected": "c5|floorSit",
+                "drawn": "c5|floorSit"
+              }
+            ]
+          },
+          {
+            "surface": "observer",
+            "moving": 0,
+            "effects": 0,
+            "poses": [
+              {
+                "seat": 7,
+                "health": "Healthy",
+                "gesture": "captainTable",
+                "expected": "c3|captainTable",
+                "drawn": "c3|captainTable"
+              },
+              {
+                "seat": 1,
+                "health": "Healthy",
+                "gesture": "consoleBack",
+                "expected": "c4|consoleBack",
+                "drawn": "c4|consoleBack"
+              },
+              {
+                "seat": 3,
+                "health": "Healthy",
+                "gesture": "crouchHatch",
+                "expected": "c1|crouchHatch",
+                "drawn": "c1|crouchHatch"
+              },
+              {
+                "seat": 5,
+                "health": "Healthy",
+                "gesture": "wallPanelBack",
+                "expected": "c2|wallPanelBack",
+                "drawn": "c2|wallPanelBack"
+              },
+              {
+                "seat": 2,
+                "health": "Healthy",
+                "gesture": "laptopStool",
+                "expected": "c7|laptopStool",
+                "drawn": "c7|laptopStool"
+              },
+              {
+                "seat": 4,
+                "health": "Healthy",
+                "gesture": "leanBench",
+                "expected": "c9|leanBench",
+                "drawn": "c9|leanBench"
+              },
+              {
+                "seat": 6,
+                "health": "Injured",
+                "gesture": "tablet+injured",
+                "expected": "c6|tablet+injured",
+                "drawn": "c6|tablet+injured"
+              },
+              {
+                "seat": 8,
+                "health": "Healthy",
+                "gesture": "tankBack",
+                "expected": "c8|tankBack",
+                "drawn": "c8|tankBack"
+              },
+              {
+                "seat": 9,
+                "health": "Healthy",
+                "gesture": "floorSit",
+                "expected": "c5|floorSit",
+                "drawn": "c5|floorSit"
+              }
+            ]
+          }
+        ],
+        "motion": "full",
+        "system": false,
+        "revision": 2,
+        "cues": 2,
+        "requests": {
+          "sent": 0,
+          "lookups": 0
+        },
+        "listeners": {
+          "added": 3,
+          "removed": 0,
+          "active": 3
+        }
+      }
+    },
+    {
+      "name": "a subsequent fresh public move still walks on both boards",
+      "passed": true,
+      "actual": {
+        "boards": [
+          {
+            "surface": "own",
+            "moving": 1,
+            "effects": 5,
+            "poses": [
+              {
+                "seat": 7,
+                "health": "Healthy",
+                "gesture": "captainTable",
+                "expected": "c3|captainTable",
+                "drawn": "c3|captainTable"
+              },
+              {
+                "seat": 1,
+                "health": "Healthy",
+                "gesture": "consoleBack",
+                "expected": "c4|consoleBack",
+                "drawn": "c4|consoleBack"
+              },
+              {
+                "seat": 2,
+                "health": "Healthy",
+                "gesture": "think",
+                "expected": "c7|think",
+                "drawn": "c7|think"
+              },
+              {
+                "seat": 3,
+                "health": "Healthy",
+                "gesture": "crouchHatch",
+                "expected": "c1|crouchHatch",
+                "drawn": "c1|crouchHatch"
+              },
+              {
+                "seat": 5,
+                "health": "Healthy",
+                "gesture": "wallPanelBack",
+                "expected": "c2|wallPanelBack",
+                "drawn": "c2|wallPanelBack"
+              },
+              {
+                "seat": 4,
+                "health": "Healthy",
+                "gesture": "leanBench",
+                "expected": "c9|leanBench",
+                "drawn": "c9|leanBench"
+              },
+              {
+                "seat": 6,
+                "health": "Injured",
+                "gesture": "tablet+injured",
+                "expected": "c6|tablet+injured",
+                "drawn": "c6|tablet+injured"
+              },
+              {
+                "seat": 8,
+                "health": "Healthy",
+                "gesture": "tankBack",
+                "expected": "c8|tankBack",
+                "drawn": "c8|tankBack"
+              },
+              {
+                "seat": 9,
+                "health": "Healthy",
+                "gesture": "floorSit",
+                "expected": "c5|floorSit",
+                "drawn": "c5|floorSit"
+              }
+            ]
+          },
+          {
+            "surface": "observer",
+            "moving": 1,
+            "effects": 5,
+            "poses": [
+              {
+                "seat": 7,
+                "health": "Healthy",
+                "gesture": "captainTable",
+                "expected": "c3|captainTable",
+                "drawn": "c3|captainTable"
+              },
+              {
+                "seat": 1,
+                "health": "Healthy",
+                "gesture": "consoleBack",
+                "expected": "c4|consoleBack",
+                "drawn": "c4|consoleBack"
+              },
+              {
+                "seat": 2,
+                "health": "Healthy",
+                "gesture": "think",
+                "expected": "c7|think",
+                "drawn": "c7|think"
+              },
+              {
+                "seat": 3,
+                "health": "Healthy",
+                "gesture": "crouchHatch",
+                "expected": "c1|crouchHatch",
+                "drawn": "c1|crouchHatch"
+              },
+              {
+                "seat": 5,
+                "health": "Healthy",
+                "gesture": "wallPanelBack",
+                "expected": "c2|wallPanelBack",
+                "drawn": "c2|wallPanelBack"
+              },
+              {
+                "seat": 4,
+                "health": "Healthy",
+                "gesture": "leanBench",
+                "expected": "c9|leanBench",
+                "drawn": "c9|leanBench"
+              },
+              {
+                "seat": 6,
+                "health": "Injured",
+                "gesture": "tablet+injured",
+                "expected": "c6|tablet+injured",
+                "drawn": "c6|tablet+injured"
+              },
+              {
+                "seat": 8,
+                "health": "Healthy",
+                "gesture": "tankBack",
+                "expected": "c8|tankBack",
+                "drawn": "c8|tankBack"
+              },
+              {
+                "seat": 9,
+                "health": "Healthy",
+                "gesture": "floorSit",
+                "expected": "c5|floorSit",
+                "drawn": "c5|floorSit"
+              }
+            ]
+          }
+        ],
+        "motion": "full",
+        "system": false,
+        "revision": 3,
+        "cues": 4,
+        "requests": {
+          "sent": 0,
+          "lookups": 0
+        },
+        "listeners": {
+          "added": 3,
+          "removed": 0,
+          "active": 3
+        }
+      }
+    },
+    {
+      "name": "initial OS reduced preference starts no JavaScript walk on either board",
+      "passed": true,
+      "actual": {
+        "boards": [
+          {
+            "surface": "own",
+            "moving": 0,
+            "effects": 0,
+            "poses": [
+              {
+                "seat": 7,
+                "health": "Healthy",
+                "gesture": "captainTable",
+                "expected": "c3|captainTable",
+                "drawn": "c3|captainTable"
+              },
+              {
+                "seat": 1,
+                "health": "Healthy",
+                "gesture": "consoleBack",
+                "expected": "c4|consoleBack",
+                "drawn": "c4|consoleBack"
+              },
+              {
+                "seat": 3,
+                "health": "Healthy",
+                "gesture": "crouchHatch",
+                "expected": "c1|crouchHatch",
+                "drawn": "c1|crouchHatch"
+              },
+              {
+                "seat": 5,
+                "health": "Healthy",
+                "gesture": "wallPanelBack",
+                "expected": "c2|wallPanelBack",
+                "drawn": "c2|wallPanelBack"
+              },
+              {
+                "seat": 2,
+                "health": "Healthy",
+                "gesture": "laptopStool",
+                "expected": "c7|laptopStool",
+                "drawn": "c7|laptopStool"
+              },
+              {
+                "seat": 4,
+                "health": "Healthy",
+                "gesture": "leanBench",
+                "expected": "c9|leanBench",
+                "drawn": "c9|leanBench"
+              },
+              {
+                "seat": 6,
+                "health": "Injured",
+                "gesture": "tablet+injured",
+                "expected": "c6|tablet+injured",
+                "drawn": "c6|tablet+injured"
+              },
+              {
+                "seat": 8,
+                "health": "Healthy",
+                "gesture": "tankBack",
+                "expected": "c8|tankBack",
+                "drawn": "c8|tankBack"
+              },
+              {
+                "seat": 9,
+                "health": "Healthy",
+                "gesture": "floorSit",
+                "expected": "c5|floorSit",
+                "drawn": "c5|floorSit"
+              }
+            ]
+          },
+          {
+            "surface": "observer",
+            "moving": 0,
+            "effects": 0,
+            "poses": [
+              {
+                "seat": 7,
+                "health": "Healthy",
+                "gesture": "captainTable",
+                "expected": "c3|captainTable",
+                "drawn": "c3|captainTable"
+              },
+              {
+                "seat": 1,
+                "health": "Healthy",
+                "gesture": "consoleBack",
+                "expected": "c4|consoleBack",
+                "drawn": "c4|consoleBack"
+              },
+              {
+                "seat": 3,
+                "health": "Healthy",
+                "gesture": "crouchHatch",
+                "expected": "c1|crouchHatch",
+                "drawn": "c1|crouchHatch"
+              },
+              {
+                "seat": 5,
+                "health": "Healthy",
+                "gesture": "wallPanelBack",
+                "expected": "c2|wallPanelBack",
+                "drawn": "c2|wallPanelBack"
+              },
+              {
+                "seat": 2,
+                "health": "Healthy",
+                "gesture": "laptopStool",
+                "expected": "c7|laptopStool",
+                "drawn": "c7|laptopStool"
+              },
+              {
+                "seat": 4,
+                "health": "Healthy",
+                "gesture": "leanBench",
+                "expected": "c9|leanBench",
+                "drawn": "c9|leanBench"
+              },
+              {
+                "seat": 6,
+                "health": "Injured",
+                "gesture": "tablet+injured",
+                "expected": "c6|tablet+injured",
+                "drawn": "c6|tablet+injured"
+              },
+              {
+                "seat": 8,
+                "health": "Healthy",
+                "gesture": "tankBack",
+                "expected": "c8|tankBack",
+                "drawn": "c8|tankBack"
+              },
+              {
+                "seat": 9,
+                "health": "Healthy",
+                "gesture": "floorSit",
+                "expected": "c5|floorSit",
+                "drawn": "c5|floorSit"
+              }
+            ]
+          }
+        ],
+        "motion": "full",
+        "system": true,
+        "revision": 2,
+        "cues": 2,
+        "requests": {
+          "sent": 0,
+          "lookups": 0
+        },
+        "listeners": {
+          "added": 3,
+          "removed": 0,
+          "active": 3
+        }
+      }
+    },
+    {
+      "name": "heal plus immediate reduction preserves the latest pose through both cancellations",
+      "passed": true,
+      "actual": {
+        "boards": [
+          {
+            "surface": "own",
+            "moving": 0,
+            "effects": 0,
+            "poses": [
+              {
+                "seat": 7,
+                "health": "Healthy",
+                "gesture": "captainTable",
+                "expected": "c3|captainTable",
+                "drawn": "c3|captainTable"
+              },
+              {
+                "seat": 1,
+                "health": "Healthy",
+                "gesture": "consoleBack",
+                "expected": "c4|consoleBack",
+                "drawn": "c4|consoleBack"
+              },
+              {
+                "seat": 3,
+                "health": "Healthy",
+                "gesture": "crouchHatch",
+                "expected": "c1|crouchHatch",
+                "drawn": "c1|crouchHatch"
+              },
+              {
+                "seat": 5,
+                "health": "Healthy",
+                "gesture": "wallPanelBack",
+                "expected": "c2|wallPanelBack",
+                "drawn": "c2|wallPanelBack"
+              },
+              {
+                "seat": 2,
+                "health": "Healthy",
+                "gesture": "laptopStool",
+                "expected": "c7|laptopStool",
+                "drawn": "c7|laptopStool"
+              },
+              {
+                "seat": 4,
+                "health": "Healthy",
+                "gesture": "leanBench",
+                "expected": "c9|leanBench",
+                "drawn": "c9|leanBench"
+              },
+              {
+                "seat": 6,
+                "health": "Healthy",
+                "gesture": "tablet",
+                "expected": "c6|tablet",
+                "drawn": "c6|tablet"
+              },
+              {
+                "seat": 8,
+                "health": "Healthy",
+                "gesture": "tankBack",
+                "expected": "c8|tankBack",
+                "drawn": "c8|tankBack"
+              },
+              {
+                "seat": 9,
+                "health": "Healthy",
+                "gesture": "floorSit",
+                "expected": "c5|floorSit",
+                "drawn": "c5|floorSit"
+              }
+            ]
+          },
+          {
+            "surface": "observer",
+            "moving": 0,
+            "effects": 0,
+            "poses": [
+              {
+                "seat": 7,
+                "health": "Healthy",
+                "gesture": "captainTable",
+                "expected": "c3|captainTable",
+                "drawn": "c3|captainTable"
+              },
+              {
+                "seat": 1,
+                "health": "Healthy",
+                "gesture": "consoleBack",
+                "expected": "c4|consoleBack",
+                "drawn": "c4|consoleBack"
+              },
+              {
+                "seat": 3,
+                "health": "Healthy",
+                "gesture": "crouchHatch",
+                "expected": "c1|crouchHatch",
+                "drawn": "c1|crouchHatch"
+              },
+              {
+                "seat": 5,
+                "health": "Healthy",
+                "gesture": "wallPanelBack",
+                "expected": "c2|wallPanelBack",
+                "drawn": "c2|wallPanelBack"
+              },
+              {
+                "seat": 2,
+                "health": "Healthy",
+                "gesture": "laptopStool",
+                "expected": "c7|laptopStool",
+                "drawn": "c7|laptopStool"
+              },
+              {
+                "seat": 4,
+                "health": "Healthy",
+                "gesture": "leanBench",
+                "expected": "c9|leanBench",
+                "drawn": "c9|leanBench"
+              },
+              {
+                "seat": 6,
+                "health": "Healthy",
+                "gesture": "tablet",
+                "expected": "c6|tablet",
+                "drawn": "c6|tablet"
+              },
+              {
+                "seat": 8,
+                "health": "Healthy",
+                "gesture": "tankBack",
+                "expected": "c8|tankBack",
+                "drawn": "c8|tankBack"
+              },
+              {
+                "seat": 9,
+                "health": "Healthy",
+                "gesture": "floorSit",
+                "expected": "c5|floorSit",
+                "drawn": "c5|floorSit"
+              }
+            ]
+          }
+        ],
+        "motion": "reduced",
+        "system": false,
+        "revision": 3,
+        "cues": 4,
+        "requests": {
+          "sent": 0,
+          "lookups": 0
+        },
+        "listeners": {
+          "added": 3,
+          "removed": 0,
+          "active": 3
+        }
+      }
+    },
+    {
+      "name": "the app and both directors own native motion listeners",
+      "passed": true,
+      "actual": {
+        "added": 3,
+        "removed": 0,
+        "active": 3
+      }
+    },
+    {
+      "name": "idempotent page disposal cancels all work and removes every motion listener",
+      "passed": true,
+      "actual": {
+        "boards": [
+          {
+            "surface": "own",
+            "moving": 0,
+            "effects": 0,
+            "poses": [
+              {
+                "seat": 7,
+                "health": "Healthy",
+                "gesture": "captainTable",
+                "expected": "c3|captainTable",
+                "drawn": "c3|captainTable"
+              },
+              {
+                "seat": 1,
+                "health": "Healthy",
+                "gesture": "consoleBack",
+                "expected": "c4|consoleBack",
+                "drawn": "c4|consoleBack"
+              },
+              {
+                "seat": 3,
+                "health": "Healthy",
+                "gesture": "crouchHatch",
+                "expected": "c1|crouchHatch",
+                "drawn": "c1|crouchHatch"
+              },
+              {
+                "seat": 5,
+                "health": "Healthy",
+                "gesture": "wallPanelBack",
+                "expected": "c2|wallPanelBack",
+                "drawn": "c2|wallPanelBack"
+              },
+              {
+                "seat": 2,
+                "health": "Healthy",
+                "gesture": "laptopStool",
+                "expected": "c7|laptopStool",
+                "drawn": "c7|laptopStool"
+              },
+              {
+                "seat": 4,
+                "health": "Healthy",
+                "gesture": "leanBench",
+                "expected": "c9|leanBench",
+                "drawn": "c9|leanBench"
+              },
+              {
+                "seat": 6,
+                "health": "Injured",
+                "gesture": "tablet+injured",
+                "expected": "c6|tablet+injured",
+                "drawn": "c6|tablet+injured"
+              },
+              {
+                "seat": 8,
+                "health": "Healthy",
+                "gesture": "tankBack",
+                "expected": "c8|tankBack",
+                "drawn": "c8|tankBack"
+              },
+              {
+                "seat": 9,
+                "health": "Healthy",
+                "gesture": "floorSit",
+                "expected": "c5|floorSit",
+                "drawn": "c5|floorSit"
+              }
+            ]
+          },
+          {
+            "surface": "observer",
+            "moving": 0,
+            "effects": 0,
+            "poses": [
+              {
+                "seat": 7,
+                "health": "Healthy",
+                "gesture": "captainTable",
+                "expected": "c3|captainTable",
+                "drawn": "c3|captainTable"
+              },
+              {
+                "seat": 1,
+                "health": "Healthy",
+                "gesture": "consoleBack",
+                "expected": "c4|consoleBack",
+                "drawn": "c4|consoleBack"
+              },
+              {
+                "seat": 3,
+                "health": "Healthy",
+                "gesture": "crouchHatch",
+                "expected": "c1|crouchHatch",
+                "drawn": "c1|crouchHatch"
+              },
+              {
+                "seat": 5,
+                "health": "Healthy",
+                "gesture": "wallPanelBack",
+                "expected": "c2|wallPanelBack",
+                "drawn": "c2|wallPanelBack"
+              },
+              {
+                "seat": 2,
+                "health": "Healthy",
+                "gesture": "laptopStool",
+                "expected": "c7|laptopStool",
+                "drawn": "c7|laptopStool"
+              },
+              {
+                "seat": 4,
+                "health": "Healthy",
+                "gesture": "leanBench",
+                "expected": "c9|leanBench",
+                "drawn": "c9|leanBench"
+              },
+              {
+                "seat": 6,
+                "health": "Injured",
+                "gesture": "tablet+injured",
+                "expected": "c6|tablet+injured",
+                "drawn": "c6|tablet+injured"
+              },
+              {
+                "seat": 8,
+                "health": "Healthy",
+                "gesture": "tankBack",
+                "expected": "c8|tankBack",
+                "drawn": "c8|tankBack"
+              },
+              {
+                "seat": 9,
+                "health": "Healthy",
+                "gesture": "floorSit",
+                "expected": "c5|floorSit",
+                "drawn": "c5|floorSit"
+              }
+            ]
+          }
+        ],
+        "motion": "full",
+        "system": false,
+        "revision": 2,
+        "cues": 2,
+        "requests": {
+          "sent": 0,
+          "lookups": 0
+        },
+        "listeners": {
+          "added": 3,
+          "removed": 3,
+          "active": 0
+        }
+      }
+    },
+    {
+      "name": "an OS change after disposal cannot redraw or restart a director",
+      "passed": true,
+      "actual": {
+        "boards": [
+          {
+            "surface": "own",
+            "moving": 0,
+            "effects": 0,
+            "poses": [
+              {
+                "seat": 7,
+                "health": "Healthy",
+                "gesture": "captainTable",
+                "expected": "c3|captainTable",
+                "drawn": "c3|captainTable"
+              },
+              {
+                "seat": 1,
+                "health": "Healthy",
+                "gesture": "consoleBack",
+                "expected": "c4|consoleBack",
+                "drawn": "c4|consoleBack"
+              },
+              {
+                "seat": 3,
+                "health": "Healthy",
+                "gesture": "crouchHatch",
+                "expected": "c1|crouchHatch",
+                "drawn": "c1|crouchHatch"
+              },
+              {
+                "seat": 5,
+                "health": "Healthy",
+                "gesture": "wallPanelBack",
+                "expected": "c2|wallPanelBack",
+                "drawn": "c2|wallPanelBack"
+              },
+              {
+                "seat": 2,
+                "health": "Healthy",
+                "gesture": "laptopStool",
+                "expected": "c7|laptopStool",
+                "drawn": "c7|laptopStool"
+              },
+              {
+                "seat": 4,
+                "health": "Healthy",
+                "gesture": "leanBench",
+                "expected": "c9|leanBench",
+                "drawn": "c9|leanBench"
+              },
+              {
+                "seat": 6,
+                "health": "Injured",
+                "gesture": "tablet+injured",
+                "expected": "c6|tablet+injured",
+                "drawn": "c6|tablet+injured"
+              },
+              {
+                "seat": 8,
+                "health": "Healthy",
+                "gesture": "tankBack",
+                "expected": "c8|tankBack",
+                "drawn": "c8|tankBack"
+              },
+              {
+                "seat": 9,
+                "health": "Healthy",
+                "gesture": "floorSit",
+                "expected": "c5|floorSit",
+                "drawn": "c5|floorSit"
+              }
+            ]
+          },
+          {
+            "surface": "observer",
+            "moving": 0,
+            "effects": 0,
+            "poses": [
+              {
+                "seat": 7,
+                "health": "Healthy",
+                "gesture": "captainTable",
+                "expected": "c3|captainTable",
+                "drawn": "c3|captainTable"
+              },
+              {
+                "seat": 1,
+                "health": "Healthy",
+                "gesture": "consoleBack",
+                "expected": "c4|consoleBack",
+                "drawn": "c4|consoleBack"
+              },
+              {
+                "seat": 3,
+                "health": "Healthy",
+                "gesture": "crouchHatch",
+                "expected": "c1|crouchHatch",
+                "drawn": "c1|crouchHatch"
+              },
+              {
+                "seat": 5,
+                "health": "Healthy",
+                "gesture": "wallPanelBack",
+                "expected": "c2|wallPanelBack",
+                "drawn": "c2|wallPanelBack"
+              },
+              {
+                "seat": 2,
+                "health": "Healthy",
+                "gesture": "laptopStool",
+                "expected": "c7|laptopStool",
+                "drawn": "c7|laptopStool"
+              },
+              {
+                "seat": 4,
+                "health": "Healthy",
+                "gesture": "leanBench",
+                "expected": "c9|leanBench",
+                "drawn": "c9|leanBench"
+              },
+              {
+                "seat": 6,
+                "health": "Injured",
+                "gesture": "tablet+injured",
+                "expected": "c6|tablet+injured",
+                "drawn": "c6|tablet+injured"
+              },
+              {
+                "seat": 8,
+                "health": "Healthy",
+                "gesture": "tankBack",
+                "expected": "c8|tankBack",
+                "drawn": "c8|tankBack"
+              },
+              {
+                "seat": 9,
+                "health": "Healthy",
+                "gesture": "floorSit",
+                "expected": "c5|floorSit",
+                "drawn": "c5|floorSit"
+              }
+            ]
+          }
+        ],
+        "motion": "full",
+        "system": true,
+        "revision": 2,
+        "cues": 2,
+        "requests": {
+          "sent": 0,
+          "lookups": 0
+        },
+        "listeners": {
+          "added": 3,
+          "removed": 3,
+          "active": 0
+        }
+      }
+    },
+    {
+      "name": "default stale: an explicit Card open constructs private content",
+      "passed": true
+    },
+    {
+      "name": "default stale: the private card is concealed rather than kept",
+      "passed": true,
+      "actual": {
+        "concealed": true,
+        "view": "board",
+        "privateNodes": 0
+      }
+    },
+    {
+      "name": "default expire: an explicit Card open constructs private content",
+      "passed": true
+    },
+    {
+      "name": "default expire: the private card is concealed rather than kept",
+      "passed": true,
+      "actual": {
+        "concealed": true,
+        "view": "board",
+        "privateNodes": 0
+      }
+    },
+    {
+      "name": "optional kept illustration: expiry is immediately at rest after repeated fresh/inspect/stale changes",
+      "passed": true,
+      "actual": {
+        "mark": null,
+        "role": "Insider",
+        "paused": "true",
+        "disabled": true,
+        "moving": 0
+      }
+    },
+    {
+      "name": "320x568 shot.choose: selection strip, full board and navigation fit without scrolling",
+      "passed": true,
+      "actual": {
+        "viewport": [
+          320,
+          568
+        ],
+        "app": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 568,
+          "width": 320,
+          "height": 568
+        },
+        "board": {
+          "left": 0,
+          "right": 320,
+          "top": 44,
+          "bottom": 450,
+          "width": 320,
+          "height": 406
+        },
+        "strip": {
+          "left": 6,
+          "right": 314,
+          "top": 450,
+          "bottom": 510,
+          "width": 308,
+          "height": 60
+        },
+        "nav": {
+          "left": 0,
+          "right": 320,
+          "top": 512,
+          "bottom": 568,
+          "width": 320,
+          "height": 56
+        },
+        "status": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 44,
+          "width": 320,
+          "height": 44
+        },
+        "overflow": 0,
+        "pageOverflow": [
+          0,
+          0
+        ],
+        "stripVisible": true,
+        "smallControls": 0,
+        "badTargets": 0,
+        "overlaps": 0
+      }
+    },
+    {
+      "name": "320x568 shot.choose: controls are 44 px and target centers are unobstructed without overlap",
+      "passed": true,
+      "actual": {
+        "viewport": [
+          320,
+          568
+        ],
+        "app": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 568,
+          "width": 320,
+          "height": 568
+        },
+        "board": {
+          "left": 0,
+          "right": 320,
+          "top": 44,
+          "bottom": 450,
+          "width": 320,
+          "height": 406
+        },
+        "strip": {
+          "left": 6,
+          "right": 314,
+          "top": 450,
+          "bottom": 510,
+          "width": 308,
+          "height": 60
+        },
+        "nav": {
+          "left": 0,
+          "right": 320,
+          "top": 512,
+          "bottom": 568,
+          "width": 320,
+          "height": 56
+        },
+        "status": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 44,
+          "width": 320,
+          "height": 44
+        },
+        "overflow": 0,
+        "pageOverflow": [
+          0,
+          0
+        ],
+        "stripVisible": true,
+        "smallControls": 0,
+        "badTargets": 0,
+        "overlaps": 0
+      }
+    },
+    {
+      "name": "320x568 shot.confirm: selection strip, full board and navigation fit without scrolling",
+      "passed": true,
+      "actual": {
+        "viewport": [
+          320,
+          568
+        ],
+        "app": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 568,
+          "width": 320,
+          "height": 568
+        },
+        "board": {
+          "left": 0,
+          "right": 320,
+          "top": 44,
+          "bottom": 397.65625,
+          "width": 320,
+          "height": 353.65625
+        },
+        "strip": {
+          "left": 6,
+          "right": 314,
+          "top": 397.65625,
+          "bottom": 510,
+          "width": 308,
+          "height": 112.34375
+        },
+        "nav": {
+          "left": 0,
+          "right": 320,
+          "top": 512,
+          "bottom": 568,
+          "width": 320,
+          "height": 56
+        },
+        "status": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 44,
+          "width": 320,
+          "height": 44
+        },
+        "overflow": 0,
+        "pageOverflow": [
+          0,
+          0
+        ],
+        "stripVisible": true,
+        "smallControls": 0,
+        "badTargets": 0,
+        "overlaps": 0
+      }
+    },
+    {
+      "name": "320x568 shot.confirm: controls are 44 px and target centers are unobstructed without overlap",
+      "passed": true,
+      "actual": {
+        "viewport": [
+          320,
+          568
+        ],
+        "app": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 568,
+          "width": 320,
+          "height": 568
+        },
+        "board": {
+          "left": 0,
+          "right": 320,
+          "top": 44,
+          "bottom": 397.65625,
+          "width": 320,
+          "height": 353.65625
+        },
+        "strip": {
+          "left": 6,
+          "right": 314,
+          "top": 397.65625,
+          "bottom": 510,
+          "width": 308,
+          "height": 112.34375
+        },
+        "nav": {
+          "left": 0,
+          "right": 320,
+          "top": 512,
+          "bottom": 568,
+          "width": 320,
+          "height": 56
+        },
+        "status": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 44,
+          "width": 320,
+          "height": 44
+        },
+        "overflow": 0,
+        "pageOverflow": [
+          0,
+          0
+        ],
+        "stripVisible": true,
+        "smallControls": 0,
+        "badTargets": 0,
+        "overlaps": 0
+      }
+    },
+    {
+      "name": "320x568 shot.registered: selection strip, full board and navigation fit without scrolling",
+      "passed": true,
+      "actual": {
+        "viewport": [
+          320,
+          568
+        ],
+        "app": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 568,
+          "width": 320,
+          "height": 568
+        },
+        "board": {
+          "left": 0,
+          "right": 320,
+          "top": 44,
+          "bottom": 414.46875,
+          "width": 320,
+          "height": 370.46875
+        },
+        "strip": {
+          "left": 6,
+          "right": 314,
+          "top": 414.46875,
+          "bottom": 510,
+          "width": 308,
+          "height": 95.53125
+        },
+        "nav": {
+          "left": 0,
+          "right": 320,
+          "top": 512,
+          "bottom": 568,
+          "width": 320,
+          "height": 56
+        },
+        "status": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 44,
+          "width": 320,
+          "height": 44
+        },
+        "overflow": 0,
+        "pageOverflow": [
+          0,
+          0
+        ],
+        "stripVisible": true,
+        "smallControls": 0,
+        "badTargets": 0,
+        "overlaps": 0
+      }
+    },
+    {
+      "name": "320x568 shot.registered: controls are 44 px and target centers are unobstructed without overlap",
+      "passed": true,
+      "actual": {
+        "viewport": [
+          320,
+          568
+        ],
+        "app": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 568,
+          "width": 320,
+          "height": 568
+        },
+        "board": {
+          "left": 0,
+          "right": 320,
+          "top": 44,
+          "bottom": 414.46875,
+          "width": 320,
+          "height": 370.46875
+        },
+        "strip": {
+          "left": 6,
+          "right": 314,
+          "top": 414.46875,
+          "bottom": 510,
+          "width": 308,
+          "height": 95.53125
+        },
+        "nav": {
+          "left": 0,
+          "right": 320,
+          "top": 512,
+          "bottom": 568,
+          "width": 320,
+          "height": 56
+        },
+        "status": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 44,
+          "width": 320,
+          "height": 44
+        },
+        "overflow": 0,
+        "pageOverflow": [
+          0,
+          0
+        ],
+        "stripVisible": true,
+        "smallControls": 0,
+        "badTargets": 0,
+        "overlaps": 0
+      }
+    },
+    {
+      "name": "320x568 shot.unknown: selection strip, full board and navigation fit without scrolling",
+      "passed": true,
+      "actual": {
+        "viewport": [
+          320,
+          568
+        ],
+        "app": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 568,
+          "width": 320,
+          "height": 568
+        },
+        "board": {
+          "left": 0,
+          "right": 320,
+          "top": 44,
+          "bottom": 402.125,
+          "width": 320,
+          "height": 358.125
+        },
+        "strip": {
+          "left": 6,
+          "right": 314,
+          "top": 402.125,
+          "bottom": 510,
+          "width": 308,
+          "height": 107.875
+        },
+        "nav": {
+          "left": 0,
+          "right": 320,
+          "top": 512,
+          "bottom": 568,
+          "width": 320,
+          "height": 56
+        },
+        "status": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 44,
+          "width": 320,
+          "height": 44
+        },
+        "overflow": 0,
+        "pageOverflow": [
+          0,
+          0
+        ],
+        "stripVisible": true,
+        "smallControls": 0,
+        "badTargets": 0,
+        "overlaps": 0
+      }
+    },
+    {
+      "name": "320x568 shot.unknown: controls are 44 px and target centers are unobstructed without overlap",
+      "passed": true,
+      "actual": {
+        "viewport": [
+          320,
+          568
+        ],
+        "app": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 568,
+          "width": 320,
+          "height": 568
+        },
+        "board": {
+          "left": 0,
+          "right": 320,
+          "top": 44,
+          "bottom": 402.125,
+          "width": 320,
+          "height": 358.125
+        },
+        "strip": {
+          "left": 6,
+          "right": 314,
+          "top": 402.125,
+          "bottom": 510,
+          "width": 308,
+          "height": 107.875
+        },
+        "nav": {
+          "left": 0,
+          "right": 320,
+          "top": 512,
+          "bottom": 568,
+          "width": 320,
+          "height": 56
+        },
+        "status": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 44,
+          "width": 320,
+          "height": 44
+        },
+        "overflow": 0,
+        "pageOverflow": [
+          0,
+          0
+        ],
+        "stripVisible": true,
+        "smallControls": 0,
+        "badTargets": 0,
+        "overlaps": 0
+      }
+    },
+    {
+      "name": "320x568 code.two: selection strip, full board and navigation fit without scrolling",
+      "passed": true,
+      "actual": {
+        "viewport": [
+          320,
+          568
+        ],
+        "app": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 568,
+          "width": 320,
+          "height": 568
+        },
+        "board": {
+          "left": 0,
+          "right": 320,
+          "top": 44,
+          "bottom": 398.78125,
+          "width": 320,
+          "height": 354.78125
+        },
+        "strip": {
+          "left": 6,
+          "right": 314,
+          "top": 398.78125,
+          "bottom": 510,
+          "width": 308,
+          "height": 111.21875
+        },
+        "nav": {
+          "left": 0,
+          "right": 320,
+          "top": 512,
+          "bottom": 568,
+          "width": 320,
+          "height": 56
+        },
+        "status": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 44,
+          "width": 320,
+          "height": 44
+        },
+        "overflow": 0,
+        "pageOverflow": [
+          0,
+          0
+        ],
+        "stripVisible": true,
+        "smallControls": 0,
+        "badTargets": 0,
+        "overlaps": 0
+      }
+    },
+    {
+      "name": "320x568 code.two: controls are 44 px and target centers are unobstructed without overlap",
+      "passed": true,
+      "actual": {
+        "viewport": [
+          320,
+          568
+        ],
+        "app": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 568,
+          "width": 320,
+          "height": 568
+        },
+        "board": {
+          "left": 0,
+          "right": 320,
+          "top": 44,
+          "bottom": 398.78125,
+          "width": 320,
+          "height": 354.78125
+        },
+        "strip": {
+          "left": 6,
+          "right": 314,
+          "top": 398.78125,
+          "bottom": 510,
+          "width": 308,
+          "height": 111.21875
+        },
+        "nav": {
+          "left": 0,
+          "right": 320,
+          "top": 512,
+          "bottom": 568,
+          "width": 320,
+          "height": 56
+        },
+        "status": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 44,
+          "width": 320,
+          "height": 44
+        },
+        "overflow": 0,
+        "pageOverflow": [
+          0,
+          0
+        ],
+        "stripVisible": true,
+        "smallControls": 0,
+        "badTargets": 0,
+        "overlaps": 0
+      }
+    },
+    {
+      "name": "320x568 code.four: selection strip, full board and navigation fit without scrolling",
+      "passed": true,
+      "actual": {
+        "viewport": [
+          320,
+          568
+        ],
+        "app": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 568,
+          "width": 320,
+          "height": 568
+        },
+        "board": {
+          "left": 0,
+          "right": 320,
+          "top": 44,
+          "bottom": 348.5,
+          "width": 320,
+          "height": 304.5
+        },
+        "strip": {
+          "left": 6,
+          "right": 314,
+          "top": 348.5,
+          "bottom": 510,
+          "width": 308,
+          "height": 161.5
+        },
+        "nav": {
+          "left": 0,
+          "right": 320,
+          "top": 512,
+          "bottom": 568,
+          "width": 320,
+          "height": 56
+        },
+        "status": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 44,
+          "width": 320,
+          "height": 44
+        },
+        "overflow": 0,
+        "pageOverflow": [
+          0,
+          0
+        ],
+        "stripVisible": true,
+        "smallControls": 0,
+        "badTargets": 0,
+        "overlaps": 0
+      }
+    },
+    {
+      "name": "320x568 code.four: controls are 44 px and target centers are unobstructed without overlap",
+      "passed": true,
+      "actual": {
+        "viewport": [
+          320,
+          568
+        ],
+        "app": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 568,
+          "width": 320,
+          "height": 568
+        },
+        "board": {
+          "left": 0,
+          "right": 320,
+          "top": 44,
+          "bottom": 348.5,
+          "width": 320,
+          "height": 304.5
+        },
+        "strip": {
+          "left": 6,
+          "right": 314,
+          "top": 348.5,
+          "bottom": 510,
+          "width": 308,
+          "height": 161.5
+        },
+        "nav": {
+          "left": 0,
+          "right": 320,
+          "top": 512,
+          "bottom": 568,
+          "width": 320,
+          "height": 56
+        },
+        "status": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 44,
+          "width": 320,
+          "height": 44
+        },
+        "overflow": 0,
+        "pageOverflow": [
+          0,
+          0
+        ],
+        "stripVisible": true,
+        "smallControls": 0,
+        "badTargets": 0,
+        "overlaps": 0
+      }
+    },
+    {
+      "name": "320x568 supply.second: selection strip, full board and navigation fit without scrolling",
+      "passed": true,
+      "actual": {
+        "viewport": [
+          320,
+          568
+        ],
+        "app": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 568,
+          "width": 320,
+          "height": 568
+        },
+        "board": {
+          "left": 0,
+          "right": 320,
+          "top": 44,
+          "bottom": 400,
+          "width": 320,
+          "height": 356
+        },
+        "strip": {
+          "left": 6,
+          "right": 314,
+          "top": 400,
+          "bottom": 510,
+          "width": 308,
+          "height": 110
+        },
+        "nav": {
+          "left": 0,
+          "right": 320,
+          "top": 512,
+          "bottom": 568,
+          "width": 320,
+          "height": 56
+        },
+        "status": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 44,
+          "width": 320,
+          "height": 44
+        },
+        "overflow": 0,
+        "pageOverflow": [
+          0,
+          0
+        ],
+        "stripVisible": true,
+        "smallControls": 0,
+        "badTargets": 0,
+        "overlaps": 0
+      }
+    },
+    {
+      "name": "320x568 supply.second: controls are 44 px and target centers are unobstructed without overlap",
+      "passed": true,
+      "actual": {
+        "viewport": [
+          320,
+          568
+        ],
+        "app": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 568,
+          "width": 320,
+          "height": 568
+        },
+        "board": {
+          "left": 0,
+          "right": 320,
+          "top": 44,
+          "bottom": 400,
+          "width": 320,
+          "height": 356
+        },
+        "strip": {
+          "left": 6,
+          "right": 314,
+          "top": 400,
+          "bottom": 510,
+          "width": 308,
+          "height": 110
+        },
+        "nav": {
+          "left": 0,
+          "right": 320,
+          "top": 512,
+          "bottom": 568,
+          "width": 320,
+          "height": 56
+        },
+        "status": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 44,
+          "width": 320,
+          "height": 44
+        },
+        "overflow": 0,
+        "pageOverflow": [
+          0,
+          0
+        ],
+        "stripVisible": true,
+        "smallControls": 0,
+        "badTargets": 0,
+        "overlaps": 0
+      }
+    },
+    {
+      "name": "320x568 scan.faction: selection strip, full board and navigation fit without scrolling",
+      "passed": true,
+      "actual": {
+        "viewport": [
+          320,
+          568
+        ],
+        "app": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 568,
+          "width": 320,
+          "height": 568
+        },
+        "board": {
+          "left": 0,
+          "right": 320,
+          "top": 44,
+          "bottom": 399.21875,
+          "width": 320,
+          "height": 355.21875
+        },
+        "strip": {
+          "left": 6,
+          "right": 314,
+          "top": 399.21875,
+          "bottom": 510,
+          "width": 308,
+          "height": 110.78125
+        },
+        "nav": {
+          "left": 0,
+          "right": 320,
+          "top": 512,
+          "bottom": 568,
+          "width": 320,
+          "height": 56
+        },
+        "status": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 44,
+          "width": 320,
+          "height": 44
+        },
+        "overflow": 0,
+        "pageOverflow": [
+          0,
+          0
+        ],
+        "stripVisible": true,
+        "smallControls": 0,
+        "badTargets": 0,
+        "overlaps": 0
+      }
+    },
+    {
+      "name": "320x568 scan.faction: controls are 44 px and target centers are unobstructed without overlap",
+      "passed": true,
+      "actual": {
+        "viewport": [
+          320,
+          568
+        ],
+        "app": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 568,
+          "width": 320,
+          "height": 568
+        },
+        "board": {
+          "left": 0,
+          "right": 320,
+          "top": 44,
+          "bottom": 399.21875,
+          "width": 320,
+          "height": 355.21875
+        },
+        "strip": {
+          "left": 6,
+          "right": 314,
+          "top": 399.21875,
+          "bottom": 510,
+          "width": 308,
+          "height": 110.78125
+        },
+        "nav": {
+          "left": 0,
+          "right": 320,
+          "top": 512,
+          "bottom": 568,
+          "width": 320,
+          "height": 56
+        },
+        "status": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 44,
+          "width": 320,
+          "height": 44
+        },
+        "overflow": 0,
+        "pageOverflow": [
+          0,
+          0
+        ],
+        "stripVisible": true,
+        "smallControls": 0,
+        "badTargets": 0,
+        "overlaps": 0
+      }
+    },
+    {
+      "name": "320x568 move.confirm: selection strip, full board and navigation fit without scrolling",
+      "passed": true,
+      "actual": {
+        "viewport": [
+          320,
+          568
+        ],
+        "app": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 568,
+          "width": 320,
+          "height": 568
+        },
+        "board": {
+          "left": 0,
+          "right": 320,
+          "top": 44,
+          "bottom": 398.5,
+          "width": 320,
+          "height": 354.5
+        },
+        "strip": {
+          "left": 6,
+          "right": 314,
+          "top": 398.5,
+          "bottom": 510,
+          "width": 308,
+          "height": 111.5
+        },
+        "nav": {
+          "left": 0,
+          "right": 320,
+          "top": 512,
+          "bottom": 568,
+          "width": 320,
+          "height": 56
+        },
+        "status": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 44,
+          "width": 320,
+          "height": 44
+        },
+        "overflow": 0,
+        "pageOverflow": [
+          0,
+          0
+        ],
+        "stripVisible": true,
+        "smallControls": 0,
+        "badTargets": 0,
+        "overlaps": 0
+      }
+    },
+    {
+      "name": "320x568 move.confirm: controls are 44 px and target centers are unobstructed without overlap",
+      "passed": true,
+      "actual": {
+        "viewport": [
+          320,
+          568
+        ],
+        "app": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 568,
+          "width": 320,
+          "height": 568
+        },
+        "board": {
+          "left": 0,
+          "right": 320,
+          "top": 44,
+          "bottom": 398.5,
+          "width": 320,
+          "height": 354.5
+        },
+        "strip": {
+          "left": 6,
+          "right": 314,
+          "top": 398.5,
+          "bottom": 510,
+          "width": 308,
+          "height": 111.5
+        },
+        "nav": {
+          "left": 0,
+          "right": 320,
+          "top": 512,
+          "bottom": 568,
+          "width": 320,
+          "height": 56
+        },
+        "status": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 44,
+          "width": 320,
+          "height": 44
+        },
+        "overflow": 0,
+        "pageOverflow": [
+          0,
+          0
+        ],
+        "stripVisible": true,
+        "smallControls": 0,
+        "badTargets": 0,
+        "overlaps": 0
+      }
+    },
+    {
+      "name": "320x568 pass.confirm: selection strip, full board and navigation fit without scrolling",
+      "passed": true,
+      "actual": {
+        "viewport": [
+          320,
+          568
+        ],
+        "app": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 568,
+          "width": 320,
+          "height": 568
+        },
+        "board": {
+          "left": 0,
+          "right": 320,
+          "top": 44,
+          "bottom": 405,
+          "width": 320,
+          "height": 361
+        },
+        "strip": {
+          "left": 6,
+          "right": 314,
+          "top": 405,
+          "bottom": 510,
+          "width": 308,
+          "height": 105
+        },
+        "nav": {
+          "left": 0,
+          "right": 320,
+          "top": 512,
+          "bottom": 568,
+          "width": 320,
+          "height": 56
+        },
+        "status": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 44,
+          "width": 320,
+          "height": 44
+        },
+        "overflow": 0,
+        "pageOverflow": [
+          0,
+          0
+        ],
+        "stripVisible": true,
+        "smallControls": 0,
+        "badTargets": 0,
+        "overlaps": 0
+      }
+    },
+    {
+      "name": "320x568 pass.confirm: controls are 44 px and target centers are unobstructed without overlap",
+      "passed": true,
+      "actual": {
+        "viewport": [
+          320,
+          568
+        ],
+        "app": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 568,
+          "width": 320,
+          "height": 568
+        },
+        "board": {
+          "left": 0,
+          "right": 320,
+          "top": 44,
+          "bottom": 405,
+          "width": 320,
+          "height": 361
+        },
+        "strip": {
+          "left": 6,
+          "right": 314,
+          "top": 405,
+          "bottom": 510,
+          "width": 308,
+          "height": 105
+        },
+        "nav": {
+          "left": 0,
+          "right": 320,
+          "top": 512,
+          "bottom": 568,
+          "width": 320,
+          "height": 56
+        },
+        "status": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 44,
+          "width": 320,
+          "height": 44
+        },
+        "overflow": 0,
+        "pageOverflow": [
+          0,
+          0
+        ],
+        "stripVisible": true,
+        "smallControls": 0,
+        "badTargets": 0,
+        "overlaps": 0
+      }
+    },
+    {
+      "name": "320x568 vote.election: selection strip, full board and navigation fit without scrolling",
+      "passed": true,
+      "actual": {
+        "viewport": [
+          320,
+          568
+        ],
+        "app": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 568,
+          "width": 320,
+          "height": 568
+        },
+        "board": {
+          "left": 0,
+          "right": 320,
+          "top": 44,
+          "bottom": 402,
+          "width": 320,
+          "height": 358
+        },
+        "strip": {
+          "left": 6,
+          "right": 314,
+          "top": 402,
+          "bottom": 510,
+          "width": 308,
+          "height": 108
+        },
+        "nav": {
+          "left": 0,
+          "right": 320,
+          "top": 512,
+          "bottom": 568,
+          "width": 320,
+          "height": 56
+        },
+        "status": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 44,
+          "width": 320,
+          "height": 44
+        },
+        "overflow": 0,
+        "pageOverflow": [
+          0,
+          0
+        ],
+        "stripVisible": true,
+        "smallControls": 0,
+        "badTargets": 0,
+        "overlaps": 0
+      }
+    },
+    {
+      "name": "320x568 vote.election: controls are 44 px and target centers are unobstructed without overlap",
+      "passed": true,
+      "actual": {
+        "viewport": [
+          320,
+          568
+        ],
+        "app": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 568,
+          "width": 320,
+          "height": 568
+        },
+        "board": {
+          "left": 0,
+          "right": 320,
+          "top": 44,
+          "bottom": 402,
+          "width": 320,
+          "height": 358
+        },
+        "strip": {
+          "left": 6,
+          "right": 314,
+          "top": 402,
+          "bottom": 510,
+          "width": 308,
+          "height": 108
+        },
+        "nav": {
+          "left": 0,
+          "right": 320,
+          "top": 512,
+          "bottom": 568,
+          "width": 320,
+          "height": 56
+        },
+        "status": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 44,
+          "width": 320,
+          "height": 44
+        },
+        "overflow": 0,
+        "pageOverflow": [
+          0,
+          0
+        ],
+        "stripVisible": true,
+        "smallControls": 0,
+        "badTargets": 0,
+        "overlaps": 0
+      }
+    },
+    {
+      "name": "320x568 rescue.choose: selection strip, full board and navigation fit without scrolling",
+      "passed": true,
+      "actual": {
+        "viewport": [
+          320,
+          568
+        ],
+        "app": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 568,
+          "width": 320,
+          "height": 568
+        },
+        "board": {
+          "left": 0,
+          "right": 320,
+          "top": 44,
+          "bottom": 450,
+          "width": 320,
+          "height": 406
+        },
+        "strip": {
+          "left": 6,
+          "right": 314,
+          "top": 450,
+          "bottom": 510,
+          "width": 308,
+          "height": 60
+        },
+        "nav": {
+          "left": 0,
+          "right": 320,
+          "top": 512,
+          "bottom": 568,
+          "width": 320,
+          "height": 56
+        },
+        "status": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 44,
+          "width": 320,
+          "height": 44
+        },
+        "overflow": 0,
+        "pageOverflow": [
+          0,
+          0
+        ],
+        "stripVisible": true,
+        "smallControls": 0,
+        "badTargets": 0,
+        "overlaps": 0
+      }
+    },
+    {
+      "name": "320x568 rescue.choose: controls are 44 px and target centers are unobstructed without overlap",
+      "passed": true,
+      "actual": {
+        "viewport": [
+          320,
+          568
+        ],
+        "app": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 568,
+          "width": 320,
+          "height": 568
+        },
+        "board": {
+          "left": 0,
+          "right": 320,
+          "top": 44,
+          "bottom": 450,
+          "width": 320,
+          "height": 406
+        },
+        "strip": {
+          "left": 6,
+          "right": 314,
+          "top": 450,
+          "bottom": 510,
+          "width": 308,
+          "height": 60
+        },
+        "nav": {
+          "left": 0,
+          "right": 320,
+          "top": 512,
+          "bottom": 568,
+          "width": 320,
+          "height": 56
+        },
+        "status": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 44,
+          "width": 320,
+          "height": 44
+        },
+        "overflow": 0,
+        "pageOverflow": [
+          0,
+          0
+        ],
+        "stripVisible": true,
+        "smallControls": 0,
+        "badTargets": 0,
+        "overlaps": 0
+      }
+    },
+    {
+      "name": "320x568 release.choice: selection strip, full board and navigation fit without scrolling",
+      "passed": true,
+      "actual": {
+        "viewport": [
+          320,
+          568
+        ],
+        "app": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 568,
+          "width": 320,
+          "height": 568
+        },
+        "board": {
+          "left": 0,
+          "right": 320,
+          "top": 44,
+          "bottom": 399.0625,
+          "width": 320,
+          "height": 355.0625
+        },
+        "strip": {
+          "left": 6,
+          "right": 314,
+          "top": 399.0625,
+          "bottom": 510,
+          "width": 308,
+          "height": 110.9375
+        },
+        "nav": {
+          "left": 0,
+          "right": 320,
+          "top": 512,
+          "bottom": 568,
+          "width": 320,
+          "height": 56
+        },
+        "status": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 44,
+          "width": 320,
+          "height": 44
+        },
+        "overflow": 0,
+        "pageOverflow": [
+          0,
+          0
+        ],
+        "stripVisible": true,
+        "smallControls": 0,
+        "badTargets": 0,
+        "overlaps": 0
+      }
+    },
+    {
+      "name": "320x568 release.choice: controls are 44 px and target centers are unobstructed without overlap",
+      "passed": true,
+      "actual": {
+        "viewport": [
+          320,
+          568
+        ],
+        "app": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 568,
+          "width": 320,
+          "height": 568
+        },
+        "board": {
+          "left": 0,
+          "right": 320,
+          "top": 44,
+          "bottom": 399.0625,
+          "width": 320,
+          "height": 355.0625
+        },
+        "strip": {
+          "left": 6,
+          "right": 314,
+          "top": 399.0625,
+          "bottom": 510,
+          "width": 308,
+          "height": 110.9375
+        },
+        "nav": {
+          "left": 0,
+          "right": 320,
+          "top": 512,
+          "bottom": 568,
+          "width": 320,
+          "height": 56
+        },
+        "status": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 44,
+          "width": 320,
+          "height": 44
+        },
+        "overflow": 0,
+        "pageOverflow": [
+          0,
+          0
+        ],
+        "stripVisible": true,
+        "smallControls": 0,
+        "badTargets": 0,
+        "overlaps": 0
+      }
+    },
+    {
+      "name": "320x568 release.vote: selection strip, full board and navigation fit without scrolling",
+      "passed": true,
+      "actual": {
+        "viewport": [
+          320,
+          568
+        ],
+        "app": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 568,
+          "width": 320,
+          "height": 568
+        },
+        "board": {
+          "left": 0,
+          "right": 320,
+          "top": 44,
+          "bottom": 388.8125,
+          "width": 320,
+          "height": 344.8125
+        },
+        "strip": {
+          "left": 6,
+          "right": 314,
+          "top": 388.8125,
+          "bottom": 510,
+          "width": 308,
+          "height": 121.1875
+        },
+        "nav": {
+          "left": 0,
+          "right": 320,
+          "top": 512,
+          "bottom": 568,
+          "width": 320,
+          "height": 56
+        },
+        "status": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 44,
+          "width": 320,
+          "height": 44
+        },
+        "overflow": 0,
+        "pageOverflow": [
+          0,
+          0
+        ],
+        "stripVisible": true,
+        "smallControls": 0,
+        "badTargets": 0,
+        "overlaps": 0
+      }
+    },
+    {
+      "name": "320x568 release.vote: controls are 44 px and target centers are unobstructed without overlap",
+      "passed": true,
+      "actual": {
+        "viewport": [
+          320,
+          568
+        ],
+        "app": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 568,
+          "width": 320,
+          "height": 568
+        },
+        "board": {
+          "left": 0,
+          "right": 320,
+          "top": 44,
+          "bottom": 388.8125,
+          "width": 320,
+          "height": 344.8125
+        },
+        "strip": {
+          "left": 6,
+          "right": 314,
+          "top": 388.8125,
+          "bottom": 510,
+          "width": 308,
+          "height": 121.1875
+        },
+        "nav": {
+          "left": 0,
+          "right": 320,
+          "top": 512,
+          "bottom": 568,
+          "width": 320,
+          "height": 56
+        },
+        "status": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 44,
+          "width": 320,
+          "height": 44
+        },
+        "overflow": 0,
+        "pageOverflow": [
+          0,
+          0
+        ],
+        "stripVisible": true,
+        "smallControls": 0,
+        "badTargets": 0,
+        "overlaps": 0
+      }
+    },
+    {
+      "name": "320x568 showdown.choose: selection strip, full board and navigation fit without scrolling",
+      "passed": true,
+      "actual": {
+        "viewport": [
+          320,
+          568
+        ],
+        "app": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 568,
+          "width": 320,
+          "height": 568
+        },
+        "board": {
+          "left": 0,
+          "right": 320,
+          "top": 44,
+          "bottom": 450,
+          "width": 320,
+          "height": 406
+        },
+        "strip": {
+          "left": 6,
+          "right": 314,
+          "top": 450,
+          "bottom": 510,
+          "width": 308,
+          "height": 60
+        },
+        "nav": {
+          "left": 0,
+          "right": 320,
+          "top": 512,
+          "bottom": 568,
+          "width": 320,
+          "height": 56
+        },
+        "status": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 44,
+          "width": 320,
+          "height": 44
+        },
+        "overflow": 0,
+        "pageOverflow": [
+          0,
+          0
+        ],
+        "stripVisible": true,
+        "smallControls": 0,
+        "badTargets": 0,
+        "overlaps": 0
+      }
+    },
+    {
+      "name": "320x568 showdown.choose: controls are 44 px and target centers are unobstructed without overlap",
+      "passed": true,
+      "actual": {
+        "viewport": [
+          320,
+          568
+        ],
+        "app": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 568,
+          "width": 320,
+          "height": 568
+        },
+        "board": {
+          "left": 0,
+          "right": 320,
+          "top": 44,
+          "bottom": 450,
+          "width": 320,
+          "height": 406
+        },
+        "strip": {
+          "left": 6,
+          "right": 314,
+          "top": 450,
+          "bottom": 510,
+          "width": 308,
+          "height": 60
+        },
+        "nav": {
+          "left": 0,
+          "right": 320,
+          "top": 512,
+          "bottom": 568,
+          "width": 320,
+          "height": 56
+        },
+        "status": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 44,
+          "width": 320,
+          "height": 44
+        },
+        "overflow": 0,
+        "pageOverflow": [
+          0,
+          0
+        ],
+        "stripVisible": true,
+        "smallControls": 0,
+        "badTargets": 0,
+        "overlaps": 0
+      }
+    },
+    {
+      "name": "320x568 showdown.registered: selection strip, full board and navigation fit without scrolling",
+      "passed": true,
+      "actual": {
+        "viewport": [
+          320,
+          568
+        ],
+        "app": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 568,
+          "width": 320,
+          "height": 568
+        },
+        "board": {
+          "left": 0,
+          "right": 320,
+          "top": 44,
+          "bottom": 399.8125,
+          "width": 320,
+          "height": 355.8125
+        },
+        "strip": {
+          "left": 6,
+          "right": 314,
+          "top": 399.8125,
+          "bottom": 510,
+          "width": 308,
+          "height": 110.1875
+        },
+        "nav": {
+          "left": 0,
+          "right": 320,
+          "top": 512,
+          "bottom": 568,
+          "width": 320,
+          "height": 56
+        },
+        "status": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 44,
+          "width": 320,
+          "height": 44
+        },
+        "overflow": 0,
+        "pageOverflow": [
+          0,
+          0
+        ],
+        "stripVisible": true,
+        "smallControls": 0,
+        "badTargets": 0,
+        "overlaps": 0
+      }
+    },
+    {
+      "name": "320x568 showdown.registered: controls are 44 px and target centers are unobstructed without overlap",
+      "passed": true,
+      "actual": {
+        "viewport": [
+          320,
+          568
+        ],
+        "app": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 568,
+          "width": 320,
+          "height": 568
+        },
+        "board": {
+          "left": 0,
+          "right": 320,
+          "top": 44,
+          "bottom": 399.8125,
+          "width": 320,
+          "height": 355.8125
+        },
+        "strip": {
+          "left": 6,
+          "right": 314,
+          "top": 399.8125,
+          "bottom": 510,
+          "width": 308,
+          "height": 110.1875
+        },
+        "nav": {
+          "left": 0,
+          "right": 320,
+          "top": 512,
+          "bottom": 568,
+          "width": 320,
+          "height": 56
+        },
+        "status": {
+          "left": 0,
+          "right": 320,
+          "top": 0,
+          "bottom": 44,
+          "width": 320,
+          "height": 44
+        },
+        "overflow": 0,
+        "pageOverflow": [
+          0,
+          0
+        ],
+        "stripVisible": true,
+        "smallControls": 0,
+        "badTargets": 0,
+        "overlaps": 0
+      }
+    }
+  ]
+}

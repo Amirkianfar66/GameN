@@ -1,5 +1,7 @@
 # Owner decision: staged V1 start
 
+**Initial-room update, 8 October:** [Random starting rooms](2026-10-08-random-starting-rooms.md) supersedes the player-choice clause below. The server now assigns new admissions; this older record remains as history.
+
 Recorded 7 October 2026 for [issue #73](https://github.com/Amirkianfar66/GameN/issues/73),
 from deployed base `af797838dee531d7874da2145e99a50c67d32b45` (practice bots, PR #72).
 The game owner requested this order: everyone joins, the host starts setup, each

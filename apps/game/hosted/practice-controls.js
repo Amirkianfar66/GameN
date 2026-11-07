@@ -52,7 +52,7 @@ export function createPracticeControls({ matchId, api, lifecycle, operate, feed,
     roster.replaceChildren(...bots.map(seatId => {
       const name = feed.identities()?.seats.find(seat => seat.seatId === seatId)?.displayName;
       const room = lobby.seats.find(seat => seat.seatId === seatId)?.initialRoom;
-      return el('li', `Player ${seatId.slice(5)} · ${name ?? 'Bot'}${room ? ` · starts in ${room}` : ''}`, { 'data-bot-seat': seatId });
+      return el('li', `Player ${seatId.slice(5)} · ${name ?? 'Bot'}${room ? ` · starts in ${room}` : room === null ? ' · Room assignment pending' : ''}`, { 'data-bot-seat': seatId });
     }));
     roster.hidden = bots.length === 0;
   }

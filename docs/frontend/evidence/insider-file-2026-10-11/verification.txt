@@ -1,0 +1,33 @@
+npm run verify on the clean commit e9855567ef79ca1523d97cb3cd19f9ef139120b8 (codex/frontend-insider-file), Node 22.21.1, npm 10.9.4, 11 October 2026.
+The summary lines of that run, in order. The test counts are, in order: bootstrap, engine, Backend, tooling, presentation, game.
+The earlier commit 788b42c0f56f3ee6983cafd32be10a7b505048d2, which drew the closed folder, passed with the same counts.
+
+Toolchain: Node 22.21.1, npm 10.9.4
+Workspace boundaries: 8 explicit packages; TS/TSX imports checked; pure and browser programs separated; exact runtime subpaths; fixture and reference imports excluded
+Source integrity: 119 original Canvas files + 1 unbound example; 7 rule sources; 24 pinned source files; token proposal unchanged
+# tests 53
+# pass 53
+# fail 0
+# tests 148
+# pass 148
+# fail 0
+# tests 130
+# pass 130
+# fail 0
+# tests 102
+# pass 102
+# fail 0
+# tests 181
+# pass 181
+# fail 0
+# tests 435
+# pass 435
+# fail 0
+Production exclusion: 54 modules reachable from 2 production entries, 167 shipped or source files scanned, 39 development files labeled; no fixture, test or development module or marker found
+Balance static: 71 executed, 71 passed, zero failed/cancelled/skipped/todo; materialization and traceability checked
+Balance scenarios: 522 catalogue IDs; 483 passed, 33 reviewed blocked, 6 explicit manual; zero errors
+Balance controls: 475 baselines passed; 4388 controls executed and detected; zero misses
+Balance playouts: 10 completed in each of modes 7/8/9; zero unfinished/invariant/hint/replay mismatches
+Balance report gate: common build/manifest/Git provenance checked at this clean candidate
+Balance engine source: e9855567ef79ca1523d97cb3cd19f9ef139120b8; protocol 2; Original Powers off
+verify exit=0

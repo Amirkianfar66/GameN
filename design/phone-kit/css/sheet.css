@@ -1,0 +1,19 @@
+/* mothership:dev-only */
+/* The review sheets of the phone kit: figures on a plain board, labeled; nothing here is the game. */
+html { background: #0C1730; }
+body { margin: 0; padding: 16px; color: var(--ms-color-paper); font-family: var(--ms-font-body); }
+h1 { margin: 0 0 4px; font-size: 1.1rem; }
+.sheet-note { margin: 0 0 14px; font-size: 0.8rem; color: #AFC0DD; max-width: 70ch; }
+.sheet-section { margin: 0 0 18px; }
+.sheet-section > h2 { margin: 0 0 8px; font-size: 0.9rem; letter-spacing: 0.06em; text-transform: uppercase; color: #E6B24A; }
+.sheet-grid { display: grid; grid-template-columns: 96px repeat(var(--cols), var(--cell, 116px)); gap: 4px; align-items: stretch; }
+.sheet-head { font-size: 0.68rem; color: #AFC0DD; align-self: end; text-align: center; padding-bottom: 2px; }
+.sheet-row { font-size: 0.72rem; color: var(--ms-color-paper); align-self: center; }
+.sheet-cell { position: relative; height: calc(var(--cell, 116px) * 1.1); border-radius: 6px; border: 1px solid #2D4170; overflow: hidden; }
+.sheet-cell[data-outfit="crew"] { background: #3E6FB8; }
+.sheet-cell[data-outfit="gown"] { background: #2E8A86; }
+.sheet-cell[data-outfit="prison"] { background: #B9473F; }
+.sheet-cell > .fig { position: absolute; inset: 0; }
+.sheet-cell > .fig > svg { width: 100%; height: 100%; display: block; }
+.sheet-cell > .prop { position: absolute; left: 6%; right: 6%; bottom: 16%; height: 22%; background: #F4EBDD; opacity: 0.55; border-radius: 4px; }
+.sheet-cell > .label { position: absolute; left: 3px; bottom: 2px; font-size: 9px; color: #F4EBDD; background: rgb(12 23 48 / 0.7); padding: 0 3px; border-radius: 3px; }

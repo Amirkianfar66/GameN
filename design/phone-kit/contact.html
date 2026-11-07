@@ -1,0 +1,52 @@
+<!doctype html>
+<!-- mothership:dev-only -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Phone kit · contact sheet</title>
+<style>
+  body { margin: 0; padding: 16px 20px 24px; background: #0A1530; color: #F4EBDD; font: 13px/1.35 system-ui, sans-serif; }
+  h1 { margin: 0 0 4px; font-size: 18px; color: #F7D886; }
+  p { margin: 0 0 14px; color: #A7B6D3; max-width: 90ch; }
+  .grid { display: flex; flex-wrap: wrap; gap: 14px 12px; align-items: flex-start; }
+  figure { margin: 0; width: min-content; }
+  img { display: block; height: 420px; width: auto; border: 1px solid #2A4374; background: #060C1C; }
+  figure[data-wide] img { height: 420px; }
+  figure[data-sheet] img { height: auto; width: 1540px; }
+  figcaption { margin-top: 4px; font-size: 11px; color: #A7B6D3; }
+  figcaption b { color: #F4EBDD; }
+  figcaption .bad { color: #FF8C8C; }
+</style>
+</head>
+<body>
+<h1 id="title">Phone kit</h1>
+<p id="note"></p>
+<div class="grid" id="grid"></div>
+<script type="module">
+  // The contact sheet of design/phone-kit/review/ (design/tools/phone-kit-capture.mjs): every picture of a group with its label.
+  const group = new URLSearchParams(location.search).get('group') ?? 'shell';
+  const titles = { shell: 'A · the shell: navy framing, gold tags, the top bar, the bottom bar', result: 'B · the vote result: five seconds, public', clothes: 'C · the room clothes: gowns in the Hospital, stripes in the Jail', hack: 'D · the private Hack: declare, claim, talk' };
+  const report = await (await fetch('./review/report.json', { cache: 'no-store' })).json();
+  document.getElementById('title').textContent = `Phone kit 0.1.0 · ${titles[group]}`;
+  document.getElementById('note').textContent = `Synthetic fixtures on the board-motion prototype. ${report.note} ${report.browser}.`;
+  const grid = document.getElementById('grid');
+  for (const shot of report.shots.filter(item => item.group === group)) {
+    const figure = document.createElement('figure');
+    if (shot.pair) figure.dataset.wide = '';
+    if (shot.name.startsWith('c-sheet-')) figure.dataset.sheet = '';
+    const img = document.createElement('img');
+    img.src = `./${shot.file.replace(/^design\/phone-kit\//, "")}`; img.alt = shot.label; img.loading = "eager";
+    const caption = document.createElement('figcaption');
+    caption.innerHTML = `<b></b><br><span></span>`;
+    caption.querySelector('b').textContent = shot.name;
+    caption.querySelector('span').textContent = shot.label + (shot.problems.length ? ` · ${shot.problems.length} problem(s)` : '');
+    if (shot.problems.length) caption.querySelector('span').className = 'bad';
+    figure.append(img, caption);
+    grid.append(figure);
+  }
+  await Promise.all([...document.images].map(img => img.decode().catch(() => {})));
+  window.__designReady = true;
+</script>
+</body>
+</html>

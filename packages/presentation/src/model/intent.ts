@@ -15,6 +15,7 @@ const PLAIN: Readonly<Record<PlainIntentType, true>> = {
   'shot/confirm': true,
   'shot/check-again': true,
   'shot/dismiss': true,
+  'action/pass': true,
   'action/back': true,
   'action/confirm': true,
   'action/check-again': true,

@@ -1,0 +1,2187 @@
+{
+  "devOnly": "mothership:dev-only",
+  "inputsSha256": "0c8b6661ecc7e1624c9a73f92b223c0cc50b6198bd19dde61fae47cb801e3787",
+  "note": "Desktop Chromium laying out design/board-v2/index.html from synthetic fixtures. Not a phone measurement and nothing about a match.",
+  "captures": [
+    {
+      "file": "board-320x568-ward.png",
+      "group": "board",
+      "query": "roster=9&fixture=ward&hit=1",
+      "about": "Every seat Injured: the nine-berth ward full, at 320 x 568"
+    },
+    {
+      "file": "board-320x568-mixed.png",
+      "group": "board",
+      "query": "roster=9&fixture=mixed&hit=1",
+      "about": "A third-round board: a Captain, people in A, B and the Jail, two patients (one detained), one patient who died, at 320 x 568"
+    },
+    {
+      "file": "slots-320x568.png",
+      "group": "slots",
+      "query": "roster=9&fixture=empty&markers=1&press=1&ids=1",
+      "about": "Every fixed slot of every room: its press area, its position number and its id, nobody there, at 320 x 568"
+    },
+    {
+      "file": "slots-320x568-stress.png",
+      "group": "slots",
+      "query": "roster=9&fixture=stress&markers=1&press=1",
+      "about": "Every slot taken (characters repeat; layout only), with press areas and position numbers, at 320 x 568"
+    },
+    {
+      "file": "hospital-320x568.png",
+      "group": "hospital",
+      "query": "roster=9&fixture=ward",
+      "about": "The Hospital panel alone, nine patients, at 320 x 568 (3x); the edge of the raised Pass shows at its lower right, as on the phone"
+    },
+    {
+      "file": "board-360x740-ward.png",
+      "group": "board",
+      "query": "roster=9&fixture=ward&hit=1",
+      "about": "Every seat Injured: the nine-berth ward full, at 360 x 740"
+    },
+    {
+      "file": "board-360x740-mixed.png",
+      "group": "board",
+      "query": "roster=9&fixture=mixed&hit=1",
+      "about": "A third-round board: a Captain, people in A, B and the Jail, two patients (one detained), one patient who died, at 360 x 740"
+    },
+    {
+      "file": "slots-360x740.png",
+      "group": "slots",
+      "query": "roster=9&fixture=empty&markers=1&press=1&ids=1",
+      "about": "Every fixed slot of every room: its press area, its position number and its id, nobody there, at 360 x 740"
+    },
+    {
+      "file": "slots-360x740-stress.png",
+      "group": "slots",
+      "query": "roster=9&fixture=stress&markers=1&press=1",
+      "about": "Every slot taken (characters repeat; layout only), with press areas and position numbers, at 360 x 740"
+    },
+    {
+      "file": "hospital-360x740.png",
+      "group": "hospital",
+      "query": "roster=9&fixture=ward",
+      "about": "The Hospital panel alone, nine patients, at 360 x 740 (3x); the edge of the raised Pass shows at its lower right, as on the phone"
+    },
+    {
+      "file": "board-390x844-ward.png",
+      "group": "board",
+      "query": "roster=9&fixture=ward&hit=1",
+      "about": "Every seat Injured: the nine-berth ward full, at 390 x 844"
+    },
+    {
+      "file": "board-390x844-mixed.png",
+      "group": "board",
+      "query": "roster=9&fixture=mixed&hit=1",
+      "about": "A third-round board: a Captain, people in A, B and the Jail, two patients (one detained), one patient who died, at 390 x 844"
+    },
+    {
+      "file": "slots-390x844.png",
+      "group": "slots",
+      "query": "roster=9&fixture=empty&markers=1&press=1&ids=1",
+      "about": "Every fixed slot of every room: its press area, its position number and its id, nobody there, at 390 x 844"
+    },
+    {
+      "file": "slots-390x844-stress.png",
+      "group": "slots",
+      "query": "roster=9&fixture=stress&markers=1&press=1",
+      "about": "Every slot taken (characters repeat; layout only), with press areas and position numbers, at 390 x 844"
+    },
+    {
+      "file": "hospital-390x844.png",
+      "group": "hospital",
+      "query": "roster=9&fixture=ward",
+      "about": "The Hospital panel alone, nine patients, at 390 x 844 (3x); the edge of the raised Pass shows at its lower right, as on the phone"
+    },
+    {
+      "file": "board-430x932-ward.png",
+      "group": "board",
+      "query": "roster=9&fixture=ward&hit=1",
+      "about": "Every seat Injured: the nine-berth ward full, at 430 x 932"
+    },
+    {
+      "file": "board-430x932-mixed.png",
+      "group": "board",
+      "query": "roster=9&fixture=mixed&hit=1",
+      "about": "A third-round board: a Captain, people in A, B and the Jail, two patients (one detained), one patient who died, at 430 x 932"
+    },
+    {
+      "file": "slots-430x932.png",
+      "group": "slots",
+      "query": "roster=9&fixture=empty&markers=1&press=1&ids=1",
+      "about": "Every fixed slot of every room: its press area, its position number and its id, nobody there, at 430 x 932"
+    },
+    {
+      "file": "slots-430x932-stress.png",
+      "group": "slots",
+      "query": "roster=9&fixture=stress&markers=1&press=1",
+      "about": "Every slot taken (characters repeat; layout only), with press areas and position numbers, at 430 x 932"
+    },
+    {
+      "file": "hospital-430x932.png",
+      "group": "hospital",
+      "query": "roster=9&fixture=ward",
+      "about": "The Hospital panel alone, nine patients, at 430 x 932 (3x); the edge of the raised Pass shows at its lower right, as on the phone"
+    },
+    {
+      "file": "hospital-390x844-r7.png",
+      "group": "hospital",
+      "query": "roster=7&fixture=ward",
+      "about": "The 7-berth ward full, at 390 x 844 (3x); the edge of the raised Pass shows at its lower right"
+    },
+    {
+      "file": "slots-390x844-r7.png",
+      "group": "slots",
+      "query": "roster=7&fixture=empty&markers=1&press=1&ids=1",
+      "about": "Every fixed slot for 7 players, at 390 x 844"
+    },
+    {
+      "file": "hospital-390x844-r8.png",
+      "group": "hospital",
+      "query": "roster=8&fixture=ward",
+      "about": "The 8-berth ward full, at 390 x 844 (3x); the edge of the raised Pass shows at its lower right"
+    },
+    {
+      "file": "slots-390x844-r8.png",
+      "group": "slots",
+      "query": "roster=8&fixture=empty&markers=1&press=1&ids=1",
+      "about": "Every fixed slot for 8 players, at 390 x 844"
+    },
+    {
+      "file": "board-430x601-mixed.png",
+      "group": "board",
+      "query": "roster=9&fixture=mixed&hit=1",
+      "about": "At 430 x 601 the short shell would leave the rooms 21 px short: the compact shell, every target clear of the navigation"
+    },
+    {
+      "file": "board-390x844-safe-mixed.png",
+      "group": "board",
+      "query": "roster=9&fixture=mixed&hit=1&safe=47,0,34,0",
+      "about": "At 390 x 844 with safe-area insets of 47 px above and 34 px below: the bars fill them, the board fits the 763 px between"
+    },
+    {
+      "file": "board-1024x768-narrow.png",
+      "group": "board",
+      "query": "roster=9&fixture=mixed&hit=1",
+      "about": "A wide, short window (1024 x 768): no shell fits the full width, so the compact shell and a centred board 852 px wide (fallback narrow)"
+    },
+    {
+      "file": "board-844x390-too-short.png",
+      "group": "board",
+      "query": "roster=9&fixture=mixed&hit=1",
+      "about": "A phone on its side (844 x 390): no board fits 390 px, so no board and a message (fallback too-short); never a board under the navigation"
+    },
+    {
+      "file": "board-280x653-too-narrow.png",
+      "group": "board",
+      "query": "roster=9&fixture=mixed&hit=1",
+      "about": "A folding phone's cover screen (280 x 653): Rooms B and the Hospital cannot hold their slots at 121 px, so no board and a message (fallback too-narrow)"
+    },
+    {
+      "file": "scene-hospital-r9-ward.png",
+      "group": "scene",
+      "query": "scene=hospital&roster=9&fixture=ward",
+      "about": "The whole ward scene, 9 players: nine patients, Injured",
+      "sheetHeight": 300
+    },
+    {
+      "file": "scene-hospital-r9-mixed.png",
+      "group": "scene",
+      "query": "scene=hospital&roster=9&fixture=mixed",
+      "about": "The whole ward scene, 9 players: a patient lying, one detained sitting up, one who died, empty berths made up",
+      "sheetHeight": 300
+    },
+    {
+      "file": "scene-hospital-r8-empty.png",
+      "group": "scene",
+      "query": "scene=hospital&roster=8&fixture=empty",
+      "about": "The whole ward scene, 8 players: eight berths, empty and made up; the vitals board in the ninth's place",
+      "sheetHeight": 300
+    },
+    {
+      "file": "scene-hospital-r7-empty.png",
+      "group": "scene",
+      "query": "scene=hospital&roster=7&fixture=empty",
+      "about": "The whole ward scene, 7 players: seven berths; the approved medicine cabinet and the vitals board in the upper places",
+      "sheetHeight": 300
+    },
+    {
+      "file": "blackout-390x844-0150-markers.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=150",
+      "about": "Markers fading in at every slot of every room, empty ones included; the top bar's clock and its line, \"Remember who is where.\" (150 ms)"
+    },
+    {
+      "file": "blackout-390x844-1000-preview.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=1000",
+      "about": "The preview: lights on, people, name tags and position markers (1 s)"
+    },
+    {
+      "file": "blackout-390x844-4360-dip.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=4360",
+      "about": "The flicker's first dip: every room at about 60% (4 360 ms)"
+    },
+    {
+      "file": "blackout-390x844-4760-sparks.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=4760",
+      "about": "Each room's own light sparking, which light from the window's id; the second dip (4 760 ms)"
+    },
+    {
+      "file": "blackout-390x844-4999-last-lit.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=4999",
+      "about": "The preview's last millisecond: everyone still on the page, and no selection open (4 999 ms)"
+    },
+    {
+      "file": "blackout-390x844-5000-lights-out.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=5000",
+      "about": "previewEndsAt exactly: every room dark, nobody and no name on the page, markers dark, the line \"Wait for the lights.\"; the selection opens in this instant (5 000 ms)"
+    },
+    {
+      "file": "blackout-390x844-8000-dark.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=8000",
+      "about": "The dark on any player's screen: faint line work, dark markers, captions at 70%, the window's line in the top bar and nothing over any room (8 s)"
+    },
+    {
+      "file": "blackout-390x844-8000-disabler-choose.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=8000&viewer=disabler&bound=room-b&step=choose",
+      "about": "The eligible Disabler's screen, bound to Room B: the same top bar, its line theirs; Room B's press areas live (8 s)"
+    },
+    {
+      "file": "blackout-390x844-8000-disabler-confirm.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=8000&viewer=disabler&bound=room-b&step=confirm&pick=2",
+      "about": "The Disabler chose position 2: its marker gold on their screen only; a second tap on it strikes (8 s)"
+    },
+    {
+      "file": "blackout-390x844-8000-disabler-command.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=8000&viewer=disabler&bound=command-room&step=confirm&pick=1",
+      "about": "A Disabler bound to the Command Room chose C1, its one position: nothing covers it (8 s)"
+    },
+    {
+      "file": "blackout-390x844-9200-disabler-sending.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=9200&viewer=disabler&bound=room-b&step=sent&pick=2&sentAt=9000",
+      "about": "The second tap sent position 2 as one command; the press areas gone; sending (9.2 s)"
+    },
+    {
+      "file": "blackout-390x844-12000-disabler-registered.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=12000&viewer=disabler&bound=room-b&step=sent&pick=2",
+      "about": "Registered: no answer about the target until the outcome (12 s)"
+    },
+    {
+      "file": "blackout-390x844-15200-disabler-waiting.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=15200&viewer=disabler&bound=room-b&step=sent&pick=2&sentAt=14800&replyAt=15300",
+      "about": "Sent at 14.8 s, no answer yet at the deadline: waiting, never a rejection the server did not give (15.2 s)"
+    },
+    {
+      "file": "blackout-390x844-15350-disabler-late-answer.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=15350&viewer=disabler&bound=room-b&step=sent&pick=2&sentAt=14800&replyAt=15300",
+      "about": "The answer arrives after the deadline: registered, as it was before the deadline (15.35 s)"
+    },
+    {
+      "file": "blackout-390x844-15450-disabler-lost.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=15450&viewer=disabler&bound=room-b&step=sent&pick=2&sentAt=14800&lost=1",
+      "about": "The answer was lost: still waiting as the outcome lands; the receipt is recovered with the same command id, and nothing is sent again (15.45 s)"
+    },
+    {
+      "file": "blackout-390x844-15250-disabler-rejected.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=15250&viewer=disabler&bound=room-b&step=sent&pick=2&sentAt=14990&reply=rejected&replyAt=15200",
+      "about": "The server answered that position 2 was not registered (it arrived after the deadline): said only once the server says it (15.25 s)"
+    },
+    {
+      "file": "blackout-390x844-15200-disabler-timeout.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=15200&viewer=disabler&bound=room-b&step=confirm&pick=2",
+      "about": "Chosen and never sent by the deadline: time is up, no position was sent (15.2 s)"
+    },
+    {
+      "file": "blackout-390x844-15000-hold.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=15000",
+      "about": "The window's end: dark until the outcome is published (15 s)"
+    },
+    {
+      "file": "blackout-390x844-15440-impact.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=15440",
+      "about": "The outcome published at 15 400: the flash at the hit position, B2 (15 440 ms)"
+    },
+    {
+      "file": "blackout-390x844-15560-star.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=15560",
+      "about": "The comic star at B2; the lights coming back together in every room, on the resolved board; B2's room art shaking 3 px, its markers and press areas still (15 560 ms)"
+    },
+    {
+      "file": "blackout-390x844-15760-back.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=15760",
+      "about": "The lights back: Orion Injured in the Hospital at H3, in the gown; B2 empty; markers still up (15 760 ms)"
+    },
+    {
+      "file": "blackout-390x844-16300-settled.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=16300",
+      "about": "Settled: markers gone, the board normal, Orion in the Hospital (16 300 ms)"
+    },
+    {
+      "file": "blackout-390x844-15560-double.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=15560&outcome=double",
+      "about": "Two strikes, two hits (B2 and A3): one star each, identical (15 560 ms)"
+    },
+    {
+      "file": "blackout-390x844-16300-double.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=16300&outcome=double",
+      "about": "Two hits settled: Lyra and Orion Injured in the Hospital at H3 and H5, as the after-state names them (16 300 ms)"
+    },
+    {
+      "file": "blackout-390x844-16300-double-r7.png",
+      "group": "blackout",
+      "query": "roster=7&fixture=mixed&film=blackout&t=16300&outcome=double",
+      "about": "Seven players, two hits settled: Lyra and Orion at H2 and H3 (16 300 ms)"
+    },
+    {
+      "file": "blackout-390x844-15560-miss.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=15560&outcome=miss",
+      "about": "A strike that missed: nothing anywhere, the same as a round with no strike (15 560 ms)"
+    },
+    {
+      "file": "blackout-390x844-reduced-0040-markers.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=40&motion=reduced",
+      "about": "Reduced motion: markers in with an 80 ms fade (40 ms)"
+    },
+    {
+      "file": "blackout-390x844-reduced-5000-dark.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=5000&motion=reduced",
+      "about": "Reduced motion: the same cut at previewEndsAt as full motion: no flicker, no sparks, nobody on the page (5000 ms)"
+    },
+    {
+      "file": "blackout-390x844-reduced-8000-dark.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=8000&motion=reduced",
+      "about": "Reduced motion: the static dark, a still bolt in each caption (8000 ms)"
+    },
+    {
+      "file": "blackout-390x844-reduced-15420-back.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=15420&motion=reduced",
+      "about": "Reduced motion: one 80 ms fade back on the resolved board; a still burst at B2 (15420 ms)"
+    },
+    {
+      "file": "blackout-390x844-reduced-15700-burst.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=15700&motion=reduced",
+      "about": "Reduced motion: the burst held 600 ms beside the position, then gone (15700 ms)"
+    },
+    {
+      "file": "blackout-320x568-1000-preview.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=1000",
+      "about": "The preview on the smallest phone, compact shell (1 s)"
+    },
+    {
+      "file": "blackout-320x568-8000-dark.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=8000",
+      "about": "The dark on the smallest phone: the line in the compact top bar (8 s)"
+    },
+    {
+      "file": "blackout-320x568-8000-disabler-confirm.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=8000&viewer=disabler&bound=room-b&step=confirm&pick=2",
+      "about": "The Disabler's choice on the smallest phone: tap it again to strike (8 s)"
+    },
+    {
+      "file": "blackout-320x568-8000-disabler-command.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=8000&viewer=disabler&bound=command-room&step=confirm&pick=1",
+      "about": "C1 chosen on the smallest phone: nothing covers it (8 s)"
+    },
+    {
+      "file": "blackout-320x568-15200-disabler-waiting.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=15200&viewer=disabler&bound=room-b&step=sent&pick=2&sentAt=14800&replyAt=15300",
+      "about": "Waiting for the answer after the deadline, on the smallest phone (15.2 s)"
+    },
+    {
+      "file": "blackout-320x568-15560-star.png",
+      "group": "blackout",
+      "query": "roster=9&fixture=mixed&film=blackout&t=15560",
+      "about": "The star on the smallest phone (15 560 ms)"
+    },
+    {
+      "file": "blocked-390x844-0060-incoming.png",
+      "group": "blocked",
+      "query": "roster=9&fixture=mixed&film=blocked&t=60",
+      "about": "Incoming: a source-free star at Orion's chest, as a hit's; nothing yet says blocked (60 ms)"
+    },
+    {
+      "file": "blocked-390x844-0160-flash.png",
+      "group": "blocked",
+      "query": "roster=9&fixture=mixed&film=blocked&t=160",
+      "about": "The shield flashes on: a white-hot core in a pale hexagon (160 ms)"
+    },
+    {
+      "file": "blocked-390x844-0280-bubble.png",
+      "group": "blocked",
+      "query": "roster=9&fixture=mixed&film=blocked&t=280",
+      "about": "The bubble blooming towards 1.05 of its size; Orion braced 2 px, the art only (280 ms)"
+    },
+    {
+      "file": "blocked-390x844-0480-absorb.png",
+      "group": "blocked",
+      "query": "roster=9&fixture=mixed&film=blocked&t=480",
+      "about": "The ring absorbing the attack, eight particles scattering, the shield spent (480 ms)"
+    },
+    {
+      "file": "blocked-390x844-0760-label.png",
+      "group": "blocked",
+      "query": "roster=9&fixture=mixed&film=blocked&t=760",
+      "about": "ATTACK BLOCKED above Orion, who is back in place; the words in the live region (760 ms)"
+    },
+    {
+      "file": "blocked-390x844-2320-fading.png",
+      "group": "blocked",
+      "query": "roster=9&fixture=mixed&film=blocked&t=2320",
+      "about": "The label fading (2 320 ms)"
+    },
+    {
+      "file": "blocked-390x844-2500-done.png",
+      "group": "blocked",
+      "query": "roster=9&fixture=mixed&film=blocked&t=2500",
+      "about": "Done: nothing the film added is left on the page (2 500 ms)"
+    },
+    {
+      "file": "blocked-390x844-0280-injured.png",
+      "group": "blocked",
+      "query": "roster=9&fixture=mixed&film=blocked&t=280&injured=1",
+      "about": "The already-Injured example: the bubble round Rigel, a patient at H1 in the Hospital, braced 2 px in the gown (280 ms)"
+    },
+    {
+      "file": "blocked-390x844-0760-injured.png",
+      "group": "blocked",
+      "query": "roster=9&fixture=mixed&film=blocked&t=760&injured=1",
+      "about": "The already-Injured example: ATTACK BLOCKED over Rigel, still Injured at H1 in the gown: bandage kept, no healing glow (760 ms)"
+    },
+    {
+      "file": "blocked-390x844-2500-injured-done.png",
+      "group": "blocked",
+      "query": "roster=9&fixture=mixed&film=blocked&t=2500&injured=1",
+      "about": "After the block: Rigel still Injured at H1 in the gown; nothing the film added is left (2 500 ms)"
+    },
+    {
+      "file": "blocked-390x844-reduced-0800-injured.png",
+      "group": "blocked",
+      "query": "roster=9&fixture=mixed&film=blocked&t=800&injured=1&motion=reduced",
+      "about": "Reduced motion, the already-Injured example: a still ring and the label over Rigel at H1 (800 ms)"
+    },
+    {
+      "file": "blocked-390x844-0280-injured-outsider.png",
+      "group": "blocked",
+      "query": "roster=9&fixture=mixed&film=blocked&t=280&injured=1&viewer=outsider",
+      "about": "The already-Injured example on a screen outside the Hospital: nothing at all (280 ms)"
+    },
+    {
+      "file": "blocked-390x844-0280-double.png",
+      "group": "blocked",
+      "query": "roster=9&fixture=mixed&film=blocked&t=280&targets=B2,B4",
+      "about": "Two blocks at one checkpoint, each on its own target (280 ms)"
+    },
+    {
+      "file": "blocked-390x844-0280-outsider.png",
+      "group": "blocked",
+      "query": "roster=9&fixture=mixed&film=blocked&t=280&viewer=outsider",
+      "about": "A player in another room at the same moment: nothing at all (280 ms)"
+    },
+    {
+      "file": "blocked-390x844-0280-display.png",
+      "group": "blocked",
+      "query": "roster=9&fixture=mixed&film=blocked&t=280&viewer=display",
+      "about": "The shared display at the same moment: nothing at all (280 ms)"
+    },
+    {
+      "file": "blocked-390x844-reduced-0040-in.png",
+      "group": "blocked",
+      "query": "roster=9&fixture=mixed&film=blocked&t=40&motion=reduced",
+      "about": "Reduced motion: a still ring and the label, in over 80 ms (40 ms)"
+    },
+    {
+      "file": "blocked-390x844-reduced-0800-hold.png",
+      "group": "blocked",
+      "query": "roster=9&fixture=mixed&film=blocked&t=800&motion=reduced",
+      "about": "Reduced motion: held 1 600 ms: no star, bloom, brace or particles (800 ms)"
+    },
+    {
+      "file": "blocked-390x844-reduced-1800-done.png",
+      "group": "blocked",
+      "query": "roster=9&fixture=mixed&film=blocked&t=1800&motion=reduced",
+      "about": "Reduced motion: gone at 1 760 ms (1800 ms)"
+    },
+    {
+      "file": "blocked-320x568-0280-bubble.png",
+      "group": "blocked",
+      "query": "roster=9&fixture=mixed&film=blocked&t=280",
+      "about": "The bubble on the smallest phone, clipped to Room B's panel (280 ms)"
+    },
+    {
+      "file": "blocked-320x568-0760-label.png",
+      "group": "blocked",
+      "query": "roster=9&fixture=mixed&film=blocked&t=760",
+      "about": "The label on the smallest phone: the two words stacked to fit the panel (760 ms)"
+    },
+    {
+      "file": "blocked-320x568-0760-injured.png",
+      "group": "blocked",
+      "query": "roster=9&fixture=mixed&film=blocked&t=760&injured=1",
+      "about": "The already-Injured example on the smallest phone: the label over Rigel at H1 (760 ms)"
+    },
+    {
+      "file": "blocked-390x844-art-0280.png",
+      "group": "blocked",
+      "query": "roster=9&fixture=mixed&film=blocked&t=280&viewer=art&targets=A1,C1,H1,J2,B4",
+      "about": "Art review only, which no screen ever receives: a block in every room at once, on each room's colors (280 ms)"
+    },
+    {
+      "file": "blocked-390x844-art-0760.png",
+      "group": "blocked",
+      "query": "roster=9&fixture=mixed&film=blocked&t=760&viewer=art&targets=A1,C1,H1,J2,B4",
+      "about": "Art review only: the label in every room, above its target or below its name tag, never over a caption (760 ms)"
+    },
+    {
+      "file": "blocked-390x844-blackout-16200-occupant.png",
+      "group": "blocked",
+      "query": "roster=9&fixture=mixed&film=blackout&outcome=blocked&t=16200&in=room-b",
+      "about": "The Blackout, a blocked strike: on a Room B occupant's screen the shield once the lights are fully back (16 200 ms; the outcome at 15 400)"
+    },
+    {
+      "file": "blocked-390x844-blackout-16700-occupant.png",
+      "group": "blocked",
+      "query": "roster=9&fixture=mixed&film=blackout&outcome=blocked&t=16700&in=room-b",
+      "about": "The Blackout: ATTACK BLOCKED on the Room B occupant's screen (16 700 ms)"
+    },
+    {
+      "file": "blocked-390x844-blackout-16700-outsider.png",
+      "group": "blocked",
+      "query": "roster=9&fixture=mixed&film=blackout&outcome=blocked&t=16700&in=room-a",
+      "about": "The Blackout at the same moment on a Room A player's screen: a miss (16 700 ms)"
+    },
+    {
+      "file": "blocked-320x568-blackout-16700-occupant.png",
+      "group": "blocked",
+      "query": "roster=9&fixture=mixed&film=blackout&outcome=blocked&t=16700&in=room-b",
+      "about": "The Blackout's block on the smallest phone (16 700 ms)"
+    },
+    {
+      "file": "capsule-320x568-idle.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=idle&hit=1",
+      "about": "Idle: the capsule beside the Command Room, half its width, empty, its door shut and its light off; every slot's press area pressable, C1 included, at 320 x 568"
+    },
+    {
+      "file": "capsule-360x740-idle.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=idle&hit=1",
+      "about": "Idle: the capsule beside the Command Room, half its width, empty, its door shut and its light off; every slot's press area pressable, C1 included, at 360 x 740"
+    },
+    {
+      "file": "capsule-390x844-idle.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=idle&hit=1",
+      "about": "Idle: the capsule beside the Command Room, half its width, empty, its door shut and its light off; every slot's press area pressable, C1 included, at 390 x 844"
+    },
+    {
+      "file": "capsule-430x932-idle.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=idle&hit=1",
+      "about": "Idle: the capsule beside the Command Room, half its width, empty, its door shut and its light off; every slot's press area pressable, C1 included, at 430 x 932"
+    },
+    {
+      "file": "capsule-390x844-declare-4000.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=declare&t=4000",
+      "about": "The declaration, once the projection names the pair: Vega and Orion outlined at their places with the capsule's badge; the declaration's time in the top bar (4 s)"
+    },
+    {
+      "file": "capsule-390x844-result-0400.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=result&t=400",
+      "about": "The result stage: the outline and the badge; the claim card is on the participants' own phones (400 ms)"
+    },
+    {
+      "file": "capsule-390x844-result-1200.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=result&t=1200",
+      "about": "Each has stood and is stepping toward the capsule's side, fading out of its room; its away marker (gray, faint, the badge, its name tag) at its slot (1 200 ms)"
+    },
+    {
+      "file": "capsule-390x844-result-2000.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=result&t=2000",
+      "about": "The door open; Vega walking behind the table toward the far chair (2 000 ms)"
+    },
+    {
+      "file": "capsule-390x844-result-2400.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=result&t=2400",
+      "about": "Vega coming forward beside the far chair; Orion walking in to the near one (2 400 ms)"
+    },
+    {
+      "file": "capsule-390x844-result-2750.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=result&t=2750",
+      "about": "Vega turning and sitting; Orion at his chair (2 750 ms)"
+    },
+    {
+      "file": "capsule-390x844-result-3600.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=result&t=3600&hit=1",
+      "about": "Settled: both seated, the door shut, its light lit; 1 400 ms to spare before the conversation (3 600 ms); each seated participant a 44 px target for its own seat"
+    },
+    {
+      "file": "capsule-390x844-talk-0000.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=0",
+      "about": "The conversation's authoritative start: the top bar at 1:00 from the server; both seated"
+    },
+    {
+      "file": "capsule-390x844-talk-30000.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=30000&hit=1",
+      "about": "Halfway: the quiet variations, seeded by the exchange's public id, unrelated to speech (0:30); every slot, C1 and both seated participants' own targets pressed"
+    },
+    {
+      "file": "capsule-390x844-exit-0360.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=exit&t=360",
+      "about": "The conversation's end: the light out, the door open, both standing (360 ms)"
+    },
+    {
+      "file": "capsule-390x844-exit-0800.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=exit&t=800",
+      "about": "Both walking their paths back to the doorway (800 ms)"
+    },
+    {
+      "file": "capsule-390x844-exit-1250.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=exit&t=1250",
+      "about": "Orion back at B2, stepping in; Vega fading in the doorway, then back at A1 (1 250 ms)"
+    },
+    {
+      "file": "capsule-390x844-reduced-result-0760.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=result&t=760&motion=reduced",
+      "about": "Reduced motion: the people faded (80 ms) to their away markers and seated in the capsule, its door shown open (760 ms)"
+    },
+    {
+      "file": "capsule-390x844-reduced-result-1100.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=result&t=1100&motion=reduced",
+      "about": "Reduced motion: the door shut and the light lit: settled (1 100 ms)"
+    },
+    {
+      "file": "capsule-390x844-reduced-talk-30000.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=30000&motion=reduced",
+      "about": "Reduced motion: both seated, still: no variations (0:30)"
+    },
+    {
+      "file": "capsule-390x844-reduced-exit-0040.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=exit&t=40&motion=reduced",
+      "about": "Reduced motion: the door shown open while the people fade back to their places (40 ms)"
+    },
+    {
+      "file": "capsule-390x844-reduced-exit-0400.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=exit&t=400&motion=reduced",
+      "about": "Reduced motion: the door shut, everyone at their places (400 ms)"
+    },
+    {
+      "file": "capsule-390x844-talk-20000-patient-prisoner.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=20000&pair=2,4&hit=1",
+      "about": "Rigel, a patient (H1), in the gown with the bandage and a hunch, and Atlas, a prisoner (J2), in the prison suit, hands together: seated (20 s)"
+    },
+    {
+      "file": "capsule-390x844-result-2400-patient-prisoner.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=result&t=2400&pair=2,4",
+      "about": "Rigel walking in with the approved stagger, in the gown; Atlas in the prison suit (2 400 ms)"
+    },
+    {
+      "file": "capsule-390x844-talk-20000-captain-detainee.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=20000&pair=7,8",
+      "about": "Juno, the Captain (C1), beside her own Command Room, and Mira, detained in the Hospital (H2), in the gown, hands together (20 s)"
+    },
+    {
+      "file": "capsule-390x844-result-1200-captain-detainee.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=result&t=1200&pair=7,8",
+      "about": "Juno stepping out of the Command Room and Mira out of the Hospital, their slots kept (1 200 ms)"
+    },
+    {
+      "file": "capsule-390x844-loading-0.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=result&t=2400&known=0",
+      "about": "The projection names nobody yet: the stage's top bar; the capsule as when idle; nobody invented (2 400 ms)"
+    },
+    {
+      "file": "capsule-390x844-loading-1.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=result&t=2400&known=1",
+      "about": "The projection names one: Vega's film alone; Orion untouched at B2 (2 400 ms)"
+    },
+    {
+      "file": "capsule-390x844-late.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=result&t=2400&late=1",
+      "about": "Orion named after his part began: drawn settled, seated, while Vega still walks (2 400 ms)"
+    },
+    {
+      "file": "capsule-390x844-reconnect-result-2400.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=result&t=2400&settled=1",
+      "about": "A reconnect in the result stage: the settled state, nothing replayed (2 400 ms)"
+    },
+    {
+      "file": "capsule-390x844-reconnect-exit-0800.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=exit&t=800&settled=1",
+      "about": "A reconnect during the exit: everyone at their places, the capsule empty, nothing replayed (800 ms)"
+    },
+    {
+      "file": "capsule-390x844-moved-exit-1250.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=exit&t=1250&moved=5:B5",
+      "about": "Orion's latest authoritative place is B5: he steps back in there, not at B2 (1 250 ms)"
+    },
+    {
+      "file": "capsule-390x844-participant-result-2400.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=result&t=2400&viewer=participant",
+      "about": "A participant's screen: the stand-in for their own claim panel where the phone puts it, never under the film (2 400 ms)"
+    },
+    {
+      "file": "capsule-320x568-result-2400.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=result&t=2400",
+      "about": "The entrance on the smallest phone (2 400 ms)"
+    },
+    {
+      "file": "capsule-320x568-talk-30000.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=30000&hit=1",
+      "about": "The conversation on the smallest phone: both tags whole in the capsule, both seated participants' targets 44 px beside C1's (0:30)"
+    },
+    {
+      "file": "capsule-320x568-exit-0800.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=exit&t=800",
+      "about": "The exit on the smallest phone (800 ms)"
+    },
+    {
+      "file": "capsule-320x568-participant-result-2400.png",
+      "group": "capsule",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=result&t=2400&viewer=participant",
+      "about": "A participant's screen on the smallest phone: the claim panel's stand-in clear of the film (2 400 ms)"
+    },
+    {
+      "file": "capsule-390x844-talk-30000-r7.png",
+      "group": "capsule",
+      "query": "roster=7&fixture=mixed&film=capsule&stage=talk&t=30000",
+      "about": "7 players: the capsule beside the Command Room, the conversation (0:30)"
+    },
+    {
+      "file": "capsule-390x844-talk-30000-r8.png",
+      "group": "capsule",
+      "query": "roster=8&fixture=mixed&film=capsule&stage=talk&t=30000",
+      "about": "8 players: the capsule beside the Command Room, the conversation (0:30)"
+    },
+    {
+      "file": "capsule-sheet.png",
+      "group": "capsule",
+      "query": "sheet=capsule",
+      "about": "The capsule's art for review: its layers (empty, the door's four positions, occupied, dark), the badge, the seats' anchors and the paths, and every pose by public status",
+      "sheetHeight": 460
+    },
+    {
+      "file": "turns-390x844-choosing.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=30000&ui=choosing&chosen=5,8&hit=1",
+      "about": "A character choice open (a Code, during the conversation): the board is the chooser. Every living character ringed where it is, Vega and Orion at their slots and in the capsule; Orion and Mira chosen. The choosing row in the navigation's box, the Pass hidden; the top bar says what is chosen"
+    },
+    {
+      "file": "turns-320x568-choosing.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=30000&ui=choosing&chosen=5&viewer=participant&tab=1&hit=1",
+      "about": "A participant choosing on the smallest phone: the sheet folded to its tab at the row's start; every target pressable"
+    },
+    {
+      "file": "turns-390x844-choosing-safe.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=30000&ui=choosing&safe=47,0,34,0&hit=1",
+      "about": "With 47/34 px safe areas: the choosing row takes the navigation's box, its inset included"
+    },
+    {
+      "file": "turns-390x844-result-0400.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=result&t=400&viewer=participant&ui=sheet&claim=result&hit=1",
+      "about": "A participant's private result whole in the sheet over the Hospital and the Jail while the pair walks in (400 ms): the capsule never under it"
+    },
+    {
+      "file": "turns-390x844-result-2400.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=result&t=2400&viewer=participant&ui=sheet&claim=result&hit=1",
+      "about": "A participant's private result whole in the sheet over the Hospital and the Jail while the pair walks in (2400 ms): the capsule never under it"
+    },
+    {
+      "file": "turns-390x844-result-3600.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=result&t=3600&viewer=participant&ui=sheet&claim=result&hit=1",
+      "about": "A participant's private result whole in the sheet over the Hospital and the Jail while the pair walks in (3600 ms): the capsule never under it"
+    },
+    {
+      "file": "turns-320x568-result-2400.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=result&t=2400&viewer=participant&ui=sheet&claim=result&hit=1",
+      "about": "The private result through the entrance on the smallest phone (2 400 ms)"
+    },
+    {
+      "file": "turns-390x844-talk-receipt.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=30000&viewer=participant&ui=sheet&claim=conversation&receipt=1&hit=1",
+      "about": "The conversation: the claim, and a sent command's recovery row with its 44 px Check again"
+    },
+    {
+      "file": "turns-390x844-talk-code-confirm.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=30000&viewer=participant&ui=sheet&claim=conversation&command=code-confirm&hit=1",
+      "about": "A participant confirming a Code in the conversation: the claim folded to its row, the confirmation's words, Cancel and Confirm pinned either side of the Pass"
+    },
+    {
+      "file": "turns-390x844-declare-offer.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=declare&t=4000&viewer=participant&ui=sheet&claim=declare&command=declare-offer&hit=1",
+      "about": "The declaration: its claim and the offer"
+    },
+    {
+      "file": "turns-390x844-declare-side-choice.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=declare&t=4000&viewer=participant&ui=sheet&claim=declare&command=side-choice&hit=1",
+      "about": "The side choice: three stand-in choices; the claim folded where both do not fit"
+    },
+    {
+      "file": "turns-320x568-talk-receipt.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=30000&viewer=participant&ui=sheet&claim=conversation&receipt=1&hit=1",
+      "about": "The conversation: the claim, and a sent command's recovery row with its 44 px Check again"
+    },
+    {
+      "file": "turns-320x568-talk-code-confirm.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=30000&viewer=participant&ui=sheet&claim=conversation&command=code-confirm&hit=1",
+      "about": "A participant confirming a Code in the conversation: the claim folded to its row, the confirmation's words, Cancel and Confirm pinned either side of the Pass"
+    },
+    {
+      "file": "turns-320x568-declare-offer.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=declare&t=4000&viewer=participant&ui=sheet&claim=declare&command=declare-offer&hit=1",
+      "about": "The declaration: its claim and the offer"
+    },
+    {
+      "file": "turns-320x568-declare-side-choice.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=declare&t=4000&viewer=participant&ui=sheet&claim=declare&command=side-choice&hit=1",
+      "about": "The side choice: three stand-in choices; the claim folded where both do not fit"
+    },
+    {
+      "file": "turns-390x844-declare-side-confirm.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=declare&t=4000&viewer=participant&ui=sheet&claim=declare&command=side-confirm&hit=1",
+      "about": "The declaration's confirmation, the claim folded"
+    },
+    {
+      "file": "turns-390x844-rescue-confirm.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=idle&ui=sheet&command=rescue-confirm&hit=1",
+      "about": "Another player's confirmation: no claim; the capsule idle"
+    },
+    {
+      "file": "turns-390x844-text2-choosing.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=30000&ui=choosing&chosen=5&viewer=participant&tab=1&text=2&hit=1",
+      "about": "200% text: the top bar 124 px, chosen before the board is laid out; every target still 44 px; the choosing row's words at 200%"
+    },
+    {
+      "file": "turns-390x844-text2-result-2400.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=result&t=2400&viewer=participant&ui=sheet&claim=result&text=2&hit=1",
+      "about": "200% text: the private result whole in the sheet through the entrance (2 400 ms)"
+    },
+    {
+      "file": "turns-390x844-text2-code-confirm.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=30000&viewer=participant&ui=sheet&claim=conversation&command=code-confirm&text=2&hit=1",
+      "about": "200% text: the confirmation scrolls inside the sheet; its 64 px actions stay pinned"
+    },
+    {
+      "file": "turns-375x667-text2-side-choice.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=declare&t=4000&viewer=participant&ui=sheet&claim=declare&command=side-choice&text=2&hit=1",
+      "about": "200% text at 375 x 667: the narrower board (fallback narrow); the side choice scrolls inside the sheet"
+    },
+    {
+      "file": "turns-320x568-text2-too-short.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=30000&ui=sheet&claim=conversation&text=2&hit=1",
+      "about": "200% text at 320 x 568: no board fits below the 124 px top bar, so the explicit too-short page with the navigation, as the owner decided"
+    },
+    {
+      "file": "turns-320x568-safe-too-short.png",
+      "group": "turns",
+      "query": "roster=9&fixture=mixed&film=capsule&stage=talk&t=30000&ui=choosing&safe=20,0,16,0&hit=1",
+      "about": "320 x 568 with 20/16 px safe areas: 36 px short at any text size, so the too-short page, as the owner decided"
+    },
+    {
+      "file": "medical-390x844-critical-r3.png",
+      "group": "medical",
+      "query": "roster=9&film=critical&round=3&hit=1",
+      "about": "S9 in round 3: Rigel (H1), admitted in round 2, in his due round: the red lamp and an amber R3; Mira (H2, detained), admitted in round 3: the amber lamp, a cyan R4 and the detention tag; the body at H4, its equipment off and its bed light down"
+    },
+    {
+      "file": "medical-390x844-critical-r3-panel.png",
+      "group": "medical",
+      "query": "roster=9&film=critical&round=3&hit=1",
+      "about": "S9: the Hospital panel alone (3x): the berths' unstable traces, the lamps, the rescue tags and the detention tag"
+    },
+    {
+      "file": "medical-390x844-critical-r5.png",
+      "group": "medical",
+      "query": "roster=9&film=critical&round=5&hit=1",
+      "about": "S9 in round 5: every patient a new round-5 injury, with no Rescue round left: a struck grey cross, no round and no deadline"
+    },
+    {
+      "file": "medical-390x844-critical-r5-panel.png",
+      "group": "medical",
+      "query": "roster=9&film=critical&round=5&hit=1",
+      "about": "S9 in round 5: the Hospital panel alone (3x)"
+    },
+    {
+      "file": "medical-390x844-critical-entry-0150.png",
+      "group": "medical",
+      "query": "roster=9&film=critical&round=3&entry=2&t=150&hit=1",
+      "about": "S9, an admission: Rigel's monitor booting, one bright line; no lamp or tag yet (150 ms after the INJURY outcome)"
+    },
+    {
+      "file": "medical-390x844-critical-entry-0300.png",
+      "group": "medical",
+      "query": "roster=9&film=critical&round=3&entry=2&t=300&hit=1",
+      "about": "S9, an admission: the lamp on, the tag popping in (300 ms)"
+    },
+    {
+      "file": "medical-390x844-critical-r3-r7.png",
+      "group": "medical",
+      "query": "roster=7&film=critical&round=3&hit=1",
+      "about": "S9, seven players: Rigel alone in the ward"
+    },
+    {
+      "file": "medical-390x844-critical-r3-r8.png",
+      "group": "medical",
+      "query": "roster=8&film=critical&round=3&hit=1",
+      "about": "S9, eight players: Rigel and Mira"
+    },
+    {
+      "file": "medical-390x844-reduced-critical-r3.png",
+      "group": "medical",
+      "query": "roster=9&film=critical&round=3&motion=reduced&hit=1",
+      "about": "S9, reduced motion: the same states, still: no sweep, no lamp pulse, no breath"
+    },
+    {
+      "file": "medical-320x568-critical-r3.png",
+      "group": "medical",
+      "query": "roster=9&film=critical&round=3&hit=1",
+      "about": "S9 on the smallest phone: every tag whole in the Hospital's panel"
+    },
+    {
+      "file": "medical-320x568-critical-ward.png",
+      "group": "medical",
+      "query": "roster=9&film=critical&fixture=ward&round=3&hit=1",
+      "about": "S9 with every seat Injured: a tag at every berth; the upper berths' plates are in the caption's band, so their tags go just below the caption, at 320 x 568"
+    },
+    {
+      "file": "medical-360x740-critical-ward.png",
+      "group": "medical",
+      "query": "roster=9&film=critical&fixture=ward&round=3&hit=1",
+      "about": "S9 with every seat Injured: a tag at every berth; the upper berths' plates are in the caption's band, so their tags go just below the caption, at 360 x 740"
+    },
+    {
+      "file": "medical-390x844-critical-ward.png",
+      "group": "medical",
+      "query": "roster=9&film=critical&fixture=ward&round=3&hit=1",
+      "about": "S9 with every seat Injured: a tag at every berth; the upper berths' plates are in the caption's band, so their tags go just below the caption, at 390 x 844"
+    },
+    {
+      "file": "medical-430x932-critical-ward.png",
+      "group": "medical",
+      "query": "roster=9&film=critical&fixture=ward&round=3&hit=1",
+      "about": "S9 with every seat Injured: a tag at every berth; the upper berths' plates are in the caption's band, so their tags go just below the caption, at 430 x 932"
+    },
+    {
+      "file": "medical-390x844-critical-ward-r7.png",
+      "group": "medical",
+      "query": "roster=7&film=critical&fixture=ward&round=3&hit=1",
+      "about": "S9, 7 patients: a tag at every berth"
+    },
+    {
+      "file": "medical-390x844-critical-ward-r8.png",
+      "group": "medical",
+      "query": "roster=8&film=critical&fixture=ward&round=3&hit=1",
+      "about": "S9, 8 patients: a tag at every berth"
+    },
+    {
+      "file": "medical-390x844-rescue-0400.png",
+      "group": "medical",
+      "query": "roster=9&film=rescue&t=400&hit=1",
+      "about": "S5, Rigel (H1) healed: the alert: the lamp's second amber blink; the vitals inset open on the unstable trace (400 ms)"
+    },
+    {
+      "file": "medical-390x844-rescue-1300.png",
+      "group": "medical",
+      "query": "roster=9&film=rescue&t=1300&hit=1",
+      "about": "S5, Rigel (H1) healed: the drone coming down from the Hospital's ceiling dock, arms tucked; Rigel marked away at A2, where the snapshot has him, his name tag carried to the berth (1300 ms)"
+    },
+    {
+      "file": "medical-390x844-rescue-2000.png",
+      "group": "medical",
+      "query": "roster=9&film=rescue&t=2000&hit=1",
+      "about": "S5, Rigel (H1) healed: over the bed, its arms unfolding (2000 ms)"
+    },
+    {
+      "file": "medical-390x844-rescue-2600.png",
+      "group": "medical",
+      "query": "roster=9&film=rescue&t=2600&hit=1",
+      "about": "S5, Rigel (H1) healed: the scan line going down Rigel under the faint hologram (2600 ms)"
+    },
+    {
+      "file": "medical-390x844-rescue-3300.png",
+      "group": "medical",
+      "query": "roster=9&film=rescue&t=3300&hit=1",
+      "about": "S5, Rigel (H1) healed: the probes and the lens charging (3300 ms)"
+    },
+    {
+      "file": "medical-390x844-rescue-3550.png",
+      "group": "medical",
+      "query": "roster=9&film=rescue&t=3550&hit=1",
+      "about": "S5, Rigel (H1) healed: the revival pulse at the chest; Rigel's art jolting 2.5 px (3550 ms)"
+    },
+    {
+      "file": "medical-390x844-rescue-4000.png",
+      "group": "medical",
+      "query": "roster=9&film=rescue&t=4000&hit=1",
+      "about": "S5, Rigel (H1) healed: the trace steadying, the lamp calm; the client's words, \"Player 2: Healed.\", in the live region (4000 ms)"
+    },
+    {
+      "file": "medical-390x844-rescue-4500.png",
+      "group": "medical",
+      "query": "roster=9&film=rescue&t=4500&hit=1",
+      "about": "S5, Rigel (H1) healed: Rigel sitting up, Healthy, in the gown (4500 ms)"
+    },
+    {
+      "file": "medical-390x844-rescue-5200.png",
+      "group": "medical",
+      "query": "roster=9&film=rescue&t=5200&hit=1",
+      "about": "S5, Rigel (H1) healed: the drone going back up to its dock; the inset closing (5200 ms)"
+    },
+    {
+      "file": "medical-390x844-rescue-5700.png",
+      "group": "medical",
+      "query": "roster=9&film=rescue&t=5700&hit=1",
+      "about": "S5, Rigel (H1) healed: done: the snapshot, Rigel Healthy at A2; nothing the film added is left (5700 ms)"
+    },
+    {
+      "file": "medical-390x844-reduced-rescue-0040.png",
+      "group": "medical",
+      "query": "roster=9&film=rescue&t=40&motion=reduced&hit=1",
+      "about": "S5, reduced motion: the drone still over the bed and the inset fading in over 80 ms (40 ms)"
+    },
+    {
+      "file": "medical-390x844-reduced-rescue-0900.png",
+      "group": "medical",
+      "query": "roster=9&film=rescue&t=900&motion=reduced&hit=1",
+      "about": "S5, reduced motion: switched once at 800 ms: the trace steady, the lamp calm, Rigel sitting up (900 ms)"
+    },
+    {
+      "file": "medical-390x844-reduced-rescue-1720.png",
+      "group": "medical",
+      "query": "roster=9&film=rescue&t=1720&motion=reduced&hit=1",
+      "about": "S5, reduced motion: fading out (1720 ms)"
+    },
+    {
+      "file": "medical-390x844-reduced-rescue-1800.png",
+      "group": "medical",
+      "query": "roster=9&film=rescue&t=1800&motion=reduced&hit=1",
+      "about": "S5, reduced motion: done at 1 760 ms (1800 ms)"
+    },
+    {
+      "file": "medical-320x568-rescue-2600.png",
+      "group": "medical",
+      "query": "roster=9&film=rescue&t=2600&hit=1",
+      "about": "S5 on the smallest phone: the scan (2 600 ms)"
+    },
+    {
+      "file": "medical-320x568-rescue-4500.png",
+      "group": "medical",
+      "query": "roster=9&film=rescue&t=4500&hit=1",
+      "about": "S5 on the smallest phone: Rigel recovered (4 500 ms)"
+    },
+    {
+      "file": "medical-390x844-rescue-detained-2600.png",
+      "group": "medical",
+      "query": "roster=9&film=rescue&outcome=rescue-detained&t=2600&hit=1",
+      "about": "S5, a detained patient healed: the scan over Mira at H2, the detention tag kept on the berth (2600 ms)"
+    },
+    {
+      "file": "medical-390x844-rescue-detained-4500.png",
+      "group": "medical",
+      "query": "roster=9&film=rescue&outcome=rescue-detained&t=4500&hit=1",
+      "about": "S5, a detained patient healed: Mira sitting up, Healthy, in the gown, still detained (4500 ms)"
+    },
+    {
+      "file": "medical-390x844-rescue-detained-5700.png",
+      "group": "medical",
+      "query": "roster=9&film=rescue&outcome=rescue-detained&t=5700&hit=1",
+      "about": "S5, a detained patient healed: done: Mira in the Jail at J1, as the snapshot has her (5700 ms)"
+    },
+    {
+      "file": "medical-390x844-vignette-2600.png",
+      "group": "medical",
+      "query": "roster=9&film=rescue&outcome=vignette&t=2600&hit=1",
+      "about": "S5, injured and healed in one batch: Orion is in the Hospital in no snapshot; the film plays at the anchor the event names, the lowest free one, HV3 (berth H3); Orion marked away at B2 (2 600 ms)"
+    },
+    {
+      "file": "medical-390x844-vignette-5700.png",
+      "group": "medical",
+      "query": "roster=9&film=rescue&outcome=vignette&t=5700&hit=1",
+      "about": "Done: Orion at B2, Healthy, as the snapshot has him (5 700 ms)"
+    },
+    {
+      "file": "medical-390x844-vignette-2600-r7.png",
+      "group": "medical",
+      "query": "roster=7&film=rescue&outcome=vignette&t=2600&hit=1",
+      "about": "Seven players: the lowest free anchor is HV2, berth H2 (2 600 ms)"
+    },
+    {
+      "file": "medical-390x844-taken-2600.png",
+      "group": "medical",
+      "query": "roster=9&film=rescue&outcome=rescue-taken&t=2600&hit=1",
+      "about": "Rigel healed while Lyra, injured in the same batch, takes H1, the berth he left and his anchor's: no film over Lyra; the client's words alone (2 600 ms)"
+    },
+    {
+      "file": "medical-390x844-ward-2600.png",
+      "group": "medical",
+      "query": "roster=9&film=rescue&outcome=rescue-ward&t=2600&hit=1",
+      "about": "Every other berth holds a living patient: the inset in the band beside the caption, over no press area (2 600 ms)"
+    },
+    {
+      "file": "medical-390x844-upper-2600.png",
+      "group": "medical",
+      "query": "roster=9&film=rescue&outcome=rescue-upper&t=2600&hit=1",
+      "about": "A film at an upper berth (H8), the ward full: the drone below the caption's band, the inset beside the caption (2 600 ms)"
+    },
+    {
+      "file": "medical-320x568-ward-2600.png",
+      "group": "medical",
+      "query": "roster=9&film=rescue&outcome=rescue-ward&t=2600&hit=1",
+      "about": "Every other berth holds a living patient: the inset in the band beside the caption, over no press area (2 600 ms)"
+    },
+    {
+      "file": "medical-320x568-upper-2600.png",
+      "group": "medical",
+      "query": "roster=9&film=rescue&outcome=rescue-upper&t=2600&hit=1",
+      "about": "A film at an upper berth (H8), the ward full: the drone below the caption's band, the inset beside the caption (2 600 ms)"
+    },
+    {
+      "file": "medical-390x844-rescue-2600-panel.png",
+      "group": "medical",
+      "query": "roster=9&film=rescue&t=2600&hit=1",
+      "about": "S5: the scan, the Hospital panel alone (3x)"
+    },
+    {
+      "file": "medical-390x844-rescue-3550-panel.png",
+      "group": "medical",
+      "query": "roster=9&film=rescue&t=3550&hit=1",
+      "about": "S5: the pulse, the Hospital panel alone (3x)"
+    },
+    {
+      "file": "medical-390x844-rescue-4500-panel.png",
+      "group": "medical",
+      "query": "roster=9&film=rescue&t=4500&hit=1",
+      "about": "S5: recovered, the Hospital panel alone (3x)"
+    },
+    {
+      "file": "medical-390x844-flatline-0800.png",
+      "group": "medical",
+      "query": "roster=9&film=flatline&t=800&hit=1",
+      "about": "S10, Rigel (H1) dies: the inset open, the heartbeat slowing and thinning; the lamp's slow red pulse (800 ms)"
+    },
+    {
+      "file": "medical-390x844-flatline-2000.png",
+      "group": "medical",
+      "query": "roster=9&film=flatline&t=2000&hit=1",
+      "about": "S10, Rigel (H1) dies: the flatline; the Hospital's light dipped to 0.72, never dark; the client's words, \"Player 2: Eliminated.\", in the live region (2000 ms)"
+    },
+    {
+      "file": "medical-390x844-flatline-2700.png",
+      "group": "medical",
+      "query": "roster=9&film=flatline&t=2700&hit=1",
+      "about": "S10, Rigel (H1) dies: the shutdown: the trace collapsing to a dot, the lamp and the bed light going out; Rigel still (2700 ms)"
+    },
+    {
+      "file": "medical-390x844-flatline-3600.png",
+      "group": "medical",
+      "query": "roster=9&film=flatline&t=3600&hit=1",
+      "about": "S10, Rigel (H1) dies: the light back; the inset closing (3600 ms)"
+    },
+    {
+      "file": "medical-390x844-flatline-4300.png",
+      "group": "medical",
+      "query": "roster=9&film=flatline&t=4300&hit=1",
+      "about": "S10, Rigel (H1) dies: done: the body at H1, its equipment off; nothing the film added is left (4300 ms)"
+    },
+    {
+      "file": "medical-390x844-reduced-flatline-0040.png",
+      "group": "medical",
+      "query": "roster=9&film=flatline&t=40&motion=reduced&hit=1",
+      "about": "S10, reduced motion: the flat trace and Rigel still, fading in over 80 ms (40 ms)"
+    },
+    {
+      "file": "medical-390x844-reduced-flatline-0900.png",
+      "group": "medical",
+      "query": "roster=9&film=flatline&t=900&motion=reduced&hit=1",
+      "about": "S10, reduced motion: switched once at 800 ms, the screen and the lamp off; no dip, no pulse (900 ms)"
+    },
+    {
+      "file": "medical-320x568-flatline-2000.png",
+      "group": "medical",
+      "query": "roster=9&film=flatline&t=2000&hit=1",
+      "about": "S10 on the smallest phone: the flatline (2 000 ms)"
+    },
+    {
+      "file": "medical-390x844-flatline-2000-panel.png",
+      "group": "medical",
+      "query": "roster=9&film=flatline&t=2000&hit=1",
+      "about": "S10: the flatline, the Hospital panel alone (3x)"
+    },
+    {
+      "file": "medical-390x844-flatline-2700-panel.png",
+      "group": "medical",
+      "query": "roster=9&film=flatline&t=2700&hit=1",
+      "about": "S10: the shutdown, the Hospital panel alone (3x)"
+    },
+    {
+      "file": "captain-390x844-release-0250.png",
+      "group": "captain",
+      "query": "roster=9&capsule=1&film=release&t=250&hit=1",
+      "about": "S6, Lyra and Atlas released: the console inset opens on the RELEASE plate; Juno lifts a hand over the console in the chart table (250 ms)"
+    },
+    {
+      "file": "captain-390x844-release-0650.png",
+      "group": "captain",
+      "query": "roster=9&capsule=1&film=release&t=650&hit=1",
+      "about": "S6, Lyra and Atlas released: the press: the button down, a green ring; Juno's shoulders dip (650 ms)"
+    },
+    {
+      "file": "captain-390x844-release-1050.png",
+      "group": "captain",
+      "query": "roster=9&capsule=1&film=release&t=1050&hit=1",
+      "about": "S6, Lyra and Atlas released: the green pulse down the board's spine, in the gutters (1050 ms)"
+    },
+    {
+      "file": "captain-390x844-release-1500.png",
+      "group": "captain",
+      "query": "roster=9&capsule=1&film=release&t=1500&hit=1",
+      "about": "S6, Lyra and Atlas released: the keypad and the lamp green, the lock's wheel turned (1500 ms)"
+    },
+    {
+      "file": "captain-390x844-release-1950.png",
+      "group": "captain",
+      "query": "roster=9&capsule=1&film=release&t=1950&hit=1",
+      "about": "S6, Lyra and Atlas released: the door sliding open onto the corridor (1950 ms)"
+    },
+    {
+      "file": "captain-390x844-release-2500.png",
+      "group": "captain",
+      "query": "roster=9&capsule=1&film=release&t=2500&hit=1",
+      "about": "S6, Lyra and Atlas released: Lyra and Atlas up and walking to the door; their new places (A2, B1) marked away (2500 ms)"
+    },
+    {
+      "file": "captain-390x844-release-3000.png",
+      "group": "captain",
+      "query": "roster=9&capsule=1&film=release&t=3000&hit=1",
+      "about": "S6, Lyra and Atlas released: through the door; Lyra crossing the board in the prison suit (3000 ms)"
+    },
+    {
+      "file": "captain-390x844-release-3350.png",
+      "group": "captain",
+      "query": "roster=9&capsule=1&film=release&t=3350&hit=1",
+      "about": "S6, Lyra and Atlas released: Atlas crossing; Lyra landing at A2 in the crew suit, the puff (3350 ms)"
+    },
+    {
+      "file": "captain-390x844-release-3700.png",
+      "group": "captain",
+      "query": "roster=9&capsule=1&film=release&t=3700&hit=1",
+      "about": "S6, Lyra and Atlas released: Atlas landing at B1; the door shutting (3700 ms)"
+    },
+    {
+      "file": "captain-390x844-release-4100.png",
+      "group": "captain",
+      "query": "roster=9&capsule=1&film=release&t=4100&hit=1",
+      "about": "S6, Lyra and Atlas released: everyone settled; the plate used; Juno back at the table (4100 ms)"
+    },
+    {
+      "file": "captain-390x844-release-4300.png",
+      "group": "captain",
+      "query": "roster=9&capsule=1&film=release&t=4300&hit=1",
+      "about": "S6, Lyra and Atlas released: done: the board is the snapshot (4300 ms)"
+    },
+    {
+      "file": "captain-390x844-reduced-release-0040.png",
+      "group": "captain",
+      "query": "roster=9&capsule=1&film=release&t=40&motion=reduced&hit=1",
+      "about": "S6, reduced motion: the console fading in (40 ms)"
+    },
+    {
+      "file": "captain-390x844-reduced-release-0300.png",
+      "group": "captain",
+      "query": "roster=9&capsule=1&film=release&t=300&motion=reduced&hit=1",
+      "about": "S6, reduced motion: the console, RELEASE pressed (300 ms)"
+    },
+    {
+      "file": "captain-390x844-reduced-release-0700.png",
+      "group": "captain",
+      "query": "roster=9&capsule=1&film=release&t=700&motion=reduced&hit=1",
+      "about": "S6, reduced motion: the door open (700 ms)"
+    },
+    {
+      "file": "captain-390x844-reduced-release-1250.png",
+      "group": "captain",
+      "query": "roster=9&capsule=1&film=release&t=1250&motion=reduced&hit=1",
+      "about": "S6, reduced motion: Lyra and Atlas at their new places (1250 ms)"
+    },
+    {
+      "file": "captain-390x844-reduced-release-1800.png",
+      "group": "captain",
+      "query": "roster=9&capsule=1&film=release&t=1800&motion=reduced&hit=1",
+      "about": "S6, reduced motion: the door shut (1800 ms)"
+    },
+    {
+      "file": "captain-390x844-reduced-release-2300.png",
+      "group": "captain",
+      "query": "roster=9&capsule=1&film=release&t=2300&motion=reduced&hit=1",
+      "about": "S6, reduced motion: done (2300 ms)"
+    },
+    {
+      "file": "captain-320x568-release-0650.png",
+      "group": "captain",
+      "query": "roster=9&capsule=1&film=release&t=650&hit=1",
+      "about": "S6 on the smallest phone: the console inset at half size, right of Juno, below the captions (650 ms)"
+    },
+    {
+      "file": "captain-320x568-release-3000.png",
+      "group": "captain",
+      "query": "roster=9&capsule=1&film=release&t=3000&hit=1",
+      "about": "S6 on the smallest phone: through the door and across (3 000 ms)"
+    },
+    {
+      "file": "captain-360x740-release-0650.png",
+      "group": "captain",
+      "query": "roster=9&capsule=1&film=release&t=650&hit=1",
+      "about": "S6: the console inset (650 ms)"
+    },
+    {
+      "file": "captain-430x932-release-0650.png",
+      "group": "captain",
+      "query": "roster=9&capsule=1&film=release&t=650&hit=1",
+      "about": "S6: the console inset (650 ms)"
+    },
+    {
+      "file": "captain-390x844-nocapsule-release-0650.png",
+      "group": "captain",
+      "query": "roster=9&film=release&t=650&hit=1",
+      "about": "S6 on a board without the capsule: the inset right of Juno in the Command Room (650 ms)"
+    },
+    {
+      "file": "captain-390x844-nocapsule-release-3000.png",
+      "group": "captain",
+      "query": "roster=9&film=release&t=3000&hit=1",
+      "about": "S6 without the capsule: across the board (3 000 ms)"
+    },
+    {
+      "file": "captain-390x844-release-full-2700.png",
+      "group": "captain",
+      "query": "roster=9&capsule=1&film=release&outcome=release-full&t=2700&hit=1",
+      "about": "S6, a full Jail released (synthetic places): five prisoners up, 80 ms apart in slot order (2700 ms)"
+    },
+    {
+      "file": "captain-390x844-release-full-3300.png",
+      "group": "captain",
+      "query": "roster=9&capsule=1&film=release&outcome=release-full&t=3300&hit=1",
+      "about": "S6, a full Jail released (synthetic places): through the door one after another, the first crossing (3300 ms)"
+    },
+    {
+      "file": "captain-390x844-release-full-3700.png",
+      "group": "captain",
+      "query": "roster=9&capsule=1&film=release&outcome=release-full&t=3700&hit=1",
+      "about": "S6, a full Jail released (synthetic places): landing in Room A and Room B, the door shutting (3700 ms)"
+    },
+    {
+      "file": "captain-320x568-release-full-3500.png",
+      "group": "captain",
+      "query": "roster=9&capsule=1&film=release&outcome=release-full&t=3500&hit=1",
+      "about": "S6, a full Jail released, on the smallest phone (3 500 ms)"
+    },
+    {
+      "file": "captain-390x844-release-3000-r7.png",
+      "group": "captain",
+      "query": "roster=7&capsule=1&film=release&t=3000&hit=1",
+      "about": "S6, seven players (no detainee, no body) (3 000 ms)"
+    },
+    {
+      "file": "captain-390x844-eject-0300.png",
+      "group": "captain",
+      "query": "roster=9&capsule=1&film=eject&t=300&hit=1",
+      "about": "S7, Lyra and Atlas ejected and Echo's body cleared: a short push on Juno; the EJECT plate, its cover lifting (300 ms)"
+    },
+    {
+      "file": "captain-390x844-eject-0650.png",
+      "group": "captain",
+      "query": "roster=9&capsule=1&film=eject&t=650&hit=1",
+      "about": "S7, Lyra and Atlas ejected and Echo's body cleared: the press under the open cover: a hard click, a red burst (650 ms)"
+    },
+    {
+      "file": "captain-390x844-eject-1200.png",
+      "group": "captain",
+      "query": "roster=9&capsule=1&film=eject&t=1200&hit=1",
+      "about": "S7, Lyra and Atlas ejected and Echo's body cleared: the emergency light in the Command Room and the Jail; the red pulse down the spine (1200 ms)"
+    },
+    {
+      "file": "captain-390x844-eject-1900.png",
+      "group": "captain",
+      "query": "roster=9&capsule=1&film=eject&t=1900&hit=1",
+      "about": "S7, Lyra and Atlas ejected and Echo's body cleared: lockdown: the door locked, the keypad striped; the hatch revealed in the wall; Lyra and Atlas brace (1900 ms)"
+    },
+    {
+      "file": "captain-390x844-eject-2600.png",
+      "group": "captain",
+      "query": "roster=9&capsule=1&film=eject&t=2600&hit=1",
+      "about": "S7, Lyra and Atlas ejected and Echo's body cleared: the clamps released (2600 ms)"
+    },
+    {
+      "file": "captain-390x844-eject-3000.png",
+      "group": "captain",
+      "query": "roster=9&capsule=1&film=eject&t=3000&hit=1",
+      "about": "S7, Lyra and Atlas ejected and Echo's body cleared: the iris opening onto space; the suction building (3000 ms)"
+    },
+    {
+      "file": "captain-390x844-eject-3500.png",
+      "group": "captain",
+      "query": "roster=9&capsule=1&film=eject&t=3500&hit=1",
+      "about": "S7, Lyra and Atlas ejected and Echo's body cleared: Lyra pulled out as a silhouette, Atlas leaning; Echo's body rising as a grey cut-out; EJECTED (3500 ms)"
+    },
+    {
+      "file": "captain-390x844-eject-3900.png",
+      "group": "captain",
+      "query": "roster=9&capsule=1&film=eject&t=3900&hit=1",
+      "about": "S7, Lyra and Atlas ejected and Echo's body cleared: Atlas into the hatch; papers and a cup (3900 ms)"
+    },
+    {
+      "file": "captain-390x844-eject-4900.png",
+      "group": "captain",
+      "query": "roster=9&capsule=1&film=eject&t=4900&hit=1",
+      "about": "S7, Lyra and Atlas ejected and Echo's body cleared: the exterior: the hull, the open hatch, Lyra and Atlas drifting away, small (4900 ms)"
+    },
+    {
+      "file": "captain-390x844-eject-6000.png",
+      "group": "captain",
+      "query": "roster=9&capsule=1&film=eject&t=6000&hit=1",
+      "about": "S7, Lyra and Atlas ejected and Echo's body cleared: the iris shutting (6000 ms)"
+    },
+    {
+      "file": "captain-390x844-eject-6500.png",
+      "group": "captain",
+      "query": "roster=9&capsule=1&film=eject&t=6500&hit=1",
+      "about": "S7, Lyra and Atlas ejected and Echo's body cleared: the final panel: EJECT used under its shut cover; the memorial plaque (6500 ms)"
+    },
+    {
+      "file": "captain-390x844-eject-7000.png",
+      "group": "captain",
+      "query": "roster=9&capsule=1&film=eject&t=7000&hit=1",
+      "about": "S7, Lyra and Atlas ejected and Echo's body cleared: the light settling, the hatch gone (7000 ms)"
+    },
+    {
+      "file": "captain-390x844-eject-7300.png",
+      "group": "captain",
+      "query": "roster=9&capsule=1&film=eject&t=7300&hit=1",
+      "about": "S7, Lyra and Atlas ejected and Echo's body cleared: done: the Jail empty, the plaque beside its caption (7300 ms)"
+    },
+    {
+      "file": "captain-390x844-reduced-eject-0040.png",
+      "group": "captain",
+      "query": "roster=9&capsule=1&film=eject&t=40&motion=reduced&hit=1",
+      "about": "S7, reduced motion: the console fading in (40 ms)"
+    },
+    {
+      "file": "captain-390x844-reduced-eject-0300.png",
+      "group": "captain",
+      "query": "roster=9&capsule=1&film=eject&t=300&motion=reduced&hit=1",
+      "about": "S7, reduced motion: the console, EJECT pressed, its cover open (300 ms)"
+    },
+    {
+      "file": "captain-390x844-reduced-eject-0800.png",
+      "group": "captain",
+      "query": "roster=9&capsule=1&film=eject&t=800&motion=reduced&hit=1",
+      "about": "S7, reduced motion: the hatch open and EJECTED (800 ms)"
+    },
+    {
+      "file": "captain-390x844-reduced-eject-1400.png",
+      "group": "captain",
+      "query": "roster=9&capsule=1&film=eject&t=1400&motion=reduced&hit=1",
+      "about": "S7, reduced motion: the empty Jail (1400 ms)"
+    },
+    {
+      "file": "captain-390x844-reduced-eject-2000.png",
+      "group": "captain",
+      "query": "roster=9&capsule=1&film=eject&t=2000&motion=reduced&hit=1",
+      "about": "S7, reduced motion: the memorial plaque (2000 ms)"
+    },
+    {
+      "file": "captain-390x844-reduced-eject-2600.png",
+      "group": "captain",
+      "query": "roster=9&capsule=1&film=eject&t=2600&motion=reduced&hit=1",
+      "about": "S7, reduced motion: done (2600 ms)"
+    },
+    {
+      "file": "captain-320x568-eject-0650.png",
+      "group": "captain",
+      "query": "roster=9&capsule=1&film=eject&t=650&hit=1",
+      "about": "S7 on the smallest phone: the press (650 ms)"
+    },
+    {
+      "file": "captain-320x568-eject-full-3600.png",
+      "group": "captain",
+      "query": "roster=9&capsule=1&film=eject&outcome=eject-full&t=3600&hit=1",
+      "about": "S7, a full Jail ejected, on the smallest phone (3 600 ms)"
+    },
+    {
+      "file": "captain-320x568-eject-full-4900.png",
+      "group": "captain",
+      "query": "roster=9&capsule=1&film=eject&outcome=eject-full&t=4900&hit=1",
+      "about": "S7, a full Jail: the exterior, five drifting (4 900 ms)"
+    },
+    {
+      "file": "captain-390x844-nocapsule-eject-0650.png",
+      "group": "captain",
+      "query": "roster=9&film=eject&t=650&hit=1",
+      "about": "S7 on a board without the capsule (650 ms)"
+    },
+    {
+      "file": "captain-390x844-eject-full-3600.png",
+      "group": "captain",
+      "query": "roster=9&capsule=1&film=eject&outcome=eject-full&t=3600&hit=1",
+      "about": "S7, a full Jail ejected, 100 ms apart in slot order (3600 ms)"
+    },
+    {
+      "file": "captain-390x844-eject-full-4000.png",
+      "group": "captain",
+      "query": "roster=9&capsule=1&film=eject&outcome=eject-full&t=4000&hit=1",
+      "about": "S7, a full Jail ejected, 100 ms apart in slot order (4000 ms)"
+    },
+    {
+      "file": "captain-390x844-eject-3500-r8.png",
+      "group": "captain",
+      "query": "roster=8&capsule=1&film=eject&t=3500&hit=1",
+      "about": "S7, eight players: no body in the Jail (3 500 ms)"
+    },
+    {
+      "file": "captain-390x844-offboard-choosing.png",
+      "group": "captain",
+      "query": "roster=9&capsule=1&film=eject&t=7300&ui=choosing&offboard=1&offered=1,2,3,4,5,6,7,8,9&chosen=4&hit=1",
+      "about": "After the EJECT, a Code choice offering every seat: Lyra, Atlas and Echo off the board, a card each in the sheet the tab opened, ringed; Atlas chosen"
+    },
+    {
+      "file": "captain-320x568-offboard-choosing.png",
+      "group": "captain",
+      "query": "roster=9&capsule=1&film=eject&t=7300&ui=choosing&offboard=1&offered=1,2,3,4,5,6,7,8,9&chosen=4&hit=1",
+      "about": "The same on the smallest phone: three cards in one row"
+    },
+    {
+      "file": "captain-320x568-offboard-full-choosing.png",
+      "group": "captain",
+      "query": "roster=9&capsule=1&film=eject&outcome=eject-full&t=7300&ui=choosing&offboard=1&offered=1,2,3,4,5,6,7,8,9&chosen=2,6&hit=1",
+      "about": "A full Jail ejected: five cards in one row at 320 px, two chosen"
+    },
+    {
+      "file": "captain-390x844-offboard-choosing-text2.png",
+      "group": "captain",
+      "query": "roster=9&capsule=1&film=eject&t=7300&ui=choosing&offboard=1&offered=1,2,3,4,5,6,7,8,9&chosen=4&text=2&hit=1",
+      "about": "200% text: the top bar 124 px; the cards in the sheet as before"
+    },
+    {
+      "file": "captain-sheet.png",
+      "group": "captain",
+      "query": "sheet=captain",
+      "about": "The Captain's art for review: S8's plates in every state at a phone's size and the cover's frames; the console inset at its moments; the Jail's door, the airlock, the suction and the debris over the Jail; the exterior; the plaque and the history's grey cut-outs; the poses",
+      "sheetHeight": 630
+    },
+    {
+      "file": "four-320x568-ward.png",
+      "group": "four",
+      "query": "roster=9&beds=4&fixture=ward&hit=1",
+      "about": "Four beds: four patients, the ward full; the current board's rooms and press areas everywhere else, at 320x568"
+    },
+    {
+      "file": "four-320x568-mixed.png",
+      "group": "four",
+      "query": "roster=9&beds=4&fixture=mixed&hit=1",
+      "about": "Four beds on a third-round board: Rigel at H1, Mira detained at H2, a body at H4, at 320x568"
+    },
+    {
+      "file": "four-360x740-ward.png",
+      "group": "four",
+      "query": "roster=9&beds=4&fixture=ward&hit=1",
+      "about": "Four beds: four patients, the ward full; the current board's rooms and press areas everywhere else, at 360x740"
+    },
+    {
+      "file": "four-360x740-mixed.png",
+      "group": "four",
+      "query": "roster=9&beds=4&fixture=mixed&hit=1",
+      "about": "Four beds on a third-round board: Rigel at H1, Mira detained at H2, a body at H4, at 360x740"
+    },
+    {
+      "file": "four-390x844-ward.png",
+      "group": "four",
+      "query": "roster=9&beds=4&fixture=ward&hit=1",
+      "about": "Four beds: four patients, the ward full; the current board's rooms and press areas everywhere else, at 390x844"
+    },
+    {
+      "file": "four-390x844-mixed.png",
+      "group": "four",
+      "query": "roster=9&beds=4&fixture=mixed&hit=1",
+      "about": "Four beds on a third-round board: Rigel at H1, Mira detained at H2, a body at H4, at 390x844"
+    },
+    {
+      "file": "four-430x932-ward.png",
+      "group": "four",
+      "query": "roster=9&beds=4&fixture=ward&hit=1",
+      "about": "Four beds: four patients, the ward full; the current board's rooms and press areas everywhere else, at 430x932"
+    },
+    {
+      "file": "four-430x932-mixed.png",
+      "group": "four",
+      "query": "roster=9&beds=4&fixture=mixed&hit=1",
+      "about": "Four beds on a third-round board: Rigel at H1, Mira detained at H2, a body at H4, at 430x932"
+    },
+    {
+      "file": "four-390x844-mixed-capsule.png",
+      "group": "four",
+      "query": "roster=9&beds=4&fixture=mixed&capsule=1&hit=1",
+      "about": "Four beds with the capsule beside the Command Room"
+    },
+    {
+      "file": "four-390x844-slots.png",
+      "group": "four",
+      "query": "roster=9&beds=4&fixture=empty&markers=1&press=1&ids=1",
+      "about": "Every slot: the Hospital's four, H1 to H4, their press areas and position numbers, nobody there"
+    },
+    {
+      "file": "four-320x568-slots.png",
+      "group": "four",
+      "query": "roster=9&beds=4&fixture=empty&markers=1&press=1&ids=1",
+      "about": "Every slot: the Hospital's four, H1 to H4, their press areas and position numbers, nobody there"
+    },
+    {
+      "file": "four-390x844-stress.png",
+      "group": "four",
+      "query": "roster=9&beds=4&fixture=stress&markers=1&press=1",
+      "about": "Every slot taken (layout only): four patients in the ward"
+    },
+    {
+      "file": "four-390x844-ward-r7.png",
+      "group": "four",
+      "query": "roster=7&beds=4&fixture=ward&hit=1",
+      "about": "Four beds for 7 players: the same four berths"
+    },
+    {
+      "file": "four-390x844-ward-r8.png",
+      "group": "four",
+      "query": "roster=8&beds=4&fixture=ward&hit=1",
+      "about": "Four beds for 8 players: the same four berths"
+    },
+    {
+      "file": "four-390x844-hospital.png",
+      "group": "four",
+      "query": "roster=9&beds=4&fixture=ward",
+      "about": "The four-berth ward alone (3x): larger berths in two rows of two, none under the caption"
+    },
+    {
+      "file": "four-320x568-hospital.png",
+      "group": "four",
+      "query": "roster=9&beds=4&fixture=ward",
+      "about": "The four-berth ward alone (3x): larger berths in two rows of two, none under the caption"
+    },
+    {
+      "file": "four-scene-hospital.png",
+      "group": "four",
+      "query": "scene=hospital&roster=9&beds=4&fixture=ward",
+      "about": "The whole four-berth ward scene: the approved back wall whole (its monitor, medicine cabinet and window), the back row at its foot, the front row cut by the panel",
+      "sheetHeight": 300
+    },
+    {
+      "file": "four-390x844-blackout-8000-dark.png",
+      "group": "four",
+      "query": "roster=9&beds=4&fixture=mixed&film=blackout&t=8000",
+      "about": "The Blackout's dark on the four-berth board: the ward's own dark art, its four positions' markers"
+    },
+    {
+      "file": "four-390x844-blackout-8000-disabler-hospital.png",
+      "group": "four",
+      "query": "roster=9&beds=4&fixture=mixed&film=blackout&t=8000&viewer=disabler&bound=hospital&step=choose",
+      "about": "A Disabler bound to the Hospital: its four positions live in the dark, H1 to H4"
+    },
+    {
+      "file": "four-390x844-blackout-16300-settled.png",
+      "group": "four",
+      "query": "roster=9&beds=4&fixture=mixed&film=blackout&t=16300",
+      "about": "Lights back after a hit at B2: Orion admitted at H3, the free bed"
+    },
+    {
+      "file": "four-390x844-critical-r3.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=critical&round=3&hit=1",
+      "about": "S9 on four berths: Rigel (H1) in his due round, Mira (H2) detained, the body at H4"
+    },
+    {
+      "file": "four-320x568-critical-r3.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=critical&round=3&hit=1",
+      "about": "S9 on four berths, the smallest phone: every tag whole in the panel"
+    },
+    {
+      "file": "four-390x844-rescue-1300.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=rescue&t=1300&hit=1",
+      "about": "S5 on four berths: the drone coming down from the ceiling dock (1300 ms)"
+    },
+    {
+      "file": "four-390x844-rescue-2600.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=rescue&t=2600&hit=1",
+      "about": "S5 on four berths: the scan over Rigel at H1 (2600 ms)"
+    },
+    {
+      "file": "four-390x844-rescue-3550.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=rescue&t=3550&hit=1",
+      "about": "S5 on four berths: the revival pulse (3550 ms)"
+    },
+    {
+      "file": "four-390x844-rescue-4500.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=rescue&t=4500&hit=1",
+      "about": "S5 on four berths: Rigel sitting up, Healthy (4500 ms)"
+    },
+    {
+      "file": "four-320x568-rescue-2600.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=rescue&t=2600&hit=1",
+      "about": "S5 on four berths, the smallest phone (2 600 ms)"
+    },
+    {
+      "file": "four-390x844-reduced-rescue-0900.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=rescue&t=900&motion=reduced&hit=1",
+      "about": "S5 on four berths, reduced motion: switched once (900 ms)"
+    },
+    {
+      "file": "four-390x844-rescue-detained-2600.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=rescue&outcome=rescue-detained&t=2600&hit=1",
+      "about": "S5 on four berths: Mira, detained, at H2 (2 600 ms)"
+    },
+    {
+      "file": "four-390x844-vignette-2600.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=rescue&outcome=vignette&t=2600&hit=1",
+      "about": "S5 on four berths, injured and healed in one batch: the anchor HV3 names bed H3, the free one (synthetic anchor, the Designer's proposal on #155) (2 600 ms)"
+    },
+    {
+      "file": "four-390x844-taken-2600.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=rescue&outcome=rescue-taken&t=2600&hit=1",
+      "about": "Rigel healed while Lyra takes H1 in the same batch: no film over Lyra, the words alone (2 600 ms)"
+    },
+    {
+      "file": "four-390x844-fifth-2600.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=rescue&outcome=rescue-fifth&t=2600&hit=1",
+      "about": "Rigel healed with the anchor HV5, a fifth subject's (constructed): it names none of the four beds, so no film plays; the words alone (2 600 ms)"
+    },
+    {
+      "file": "four-390x844-fifth-reduced-0600.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=rescue&outcome=rescue-fifth&t=600&motion=reduced&hit=1",
+      "about": "The same in reduced motion: no film, the words alone (600 ms)"
+    },
+    {
+      "file": "four-390x844-body-2600.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=rescue&outcome=rescue-body&t=2600&hit=1",
+      "about": "Rigel healed with the anchor HV4 (constructed), the bed where a body lies: no film over the body, the words alone (2 600 ms)"
+    },
+    {
+      "file": "four-390x844-body-reduced-0600.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=rescue&outcome=rescue-body&t=600&motion=reduced&hit=1",
+      "about": "The same in reduced motion: no film over the body (600 ms)"
+    },
+    {
+      "file": "four-390x844-death-fifth-2000.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=flatline&outcome=death-fifth&t=2000&hit=1",
+      "about": "Rigel dies with the anchor HV5 (constructed): no flatline film, the words alone; the body stays at H1 (2 000 ms)"
+    },
+    {
+      "file": "four-390x844-flatline-2000.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=flatline&t=2000&hit=1",
+      "about": "S10 on four berths: the flatline, the light dipped to 0.72 (2000 ms)"
+    },
+    {
+      "file": "four-390x844-flatline-2700.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=flatline&t=2700&hit=1",
+      "about": "S10 on four berths: the shutdown (2700 ms)"
+    },
+    {
+      "file": "four-390x844-rescue-2600-panel.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=rescue&t=2600&hit=1",
+      "about": "S5 on four berths: the scan, the Hospital panel alone (3x)"
+    },
+    {
+      "file": "four-390x844-turns-choosing.png",
+      "group": "four",
+      "query": "roster=9&beds=4&fixture=mixed&film=capsule&stage=talk&t=30000&ui=choosing&chosen=5,8&hit=1",
+      "about": "A character choice on the four-berth board: every target ringed, the Hospital's at its four berths"
+    },
+    {
+      "file": "four-320x568-turns-choosing.png",
+      "group": "four",
+      "query": "roster=9&beds=4&fixture=mixed&film=capsule&stage=talk&t=30000&ui=choosing&chosen=5&viewer=participant&tab=1&hit=1",
+      "about": "The same on the smallest phone"
+    },
+    {
+      "file": "four-390x844-turns-result-2400.png",
+      "group": "four",
+      "query": "roster=9&beds=4&fixture=mixed&film=capsule&stage=result&t=2400&viewer=participant&ui=sheet&claim=result&hit=1",
+      "about": "The private result whole in the sheet over the Hospital and the Jail: the same sheet as the current board's"
+    },
+    {
+      "file": "four-320x568-turns-talk-code-confirm.png",
+      "group": "four",
+      "query": "roster=9&beds=4&fixture=mixed&film=capsule&stage=talk&t=30000&viewer=participant&ui=sheet&claim=conversation&command=code-confirm&hit=1",
+      "about": "A Code confirmation on the smallest phone: the same sheet"
+    },
+    {
+      "file": "four-390x844-release-3000.png",
+      "group": "four",
+      "query": "roster=9&beds=4&capsule=1&film=release&t=3000&hit=1",
+      "about": "S6 on the four-berth board: Mira stays in her berth (3 000 ms)"
+    },
+    {
+      "file": "four-390x844-eject-3500.png",
+      "group": "four",
+      "query": "roster=9&beds=4&capsule=1&film=eject&t=3500&hit=1",
+      "about": "S7 on the four-berth board (3 500 ms)"
+    },
+    {
+      "file": "four-390x844-eject-7300.png",
+      "group": "four",
+      "query": "roster=9&beds=4&capsule=1&film=eject&t=7300&hit=1",
+      "about": "S7 done: the plaque in the spine between the Hospital and the Jail, counting the three off the board"
+    },
+    {
+      "file": "four-390x844-offboard-choosing.png",
+      "group": "four",
+      "query": "roster=9&beds=4&capsule=1&film=eject&t=7300&ui=choosing&offboard=1&offered=1,2,3,4,5,6,7,8,9&chosen=4&hit=1",
+      "about": "After the EJECT, the off-board cards in the same sheet"
+    },
+    {
+      "file": "four-390x844-overflow-0150.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=overflow&t=150&hit=1",
+      "about": "The overflow beat: the Hospital's FULL stamp appearing; Orion at B2 (150 ms)"
+    },
+    {
+      "file": "four-390x844-overflow-0700.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=overflow&t=700&hit=1",
+      "about": "The overflow beat: Orion turning into the grey cut-out at his place (700 ms)"
+    },
+    {
+      "file": "four-390x844-overflow-1600.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=overflow&t=1600&hit=1",
+      "about": "The overflow beat: the cut-out leaving the board on its arc to the spine; the client's words (1600 ms)"
+    },
+    {
+      "file": "four-390x844-overflow-2350.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=overflow&t=2350&hit=1",
+      "about": "The overflow beat: the plaque taking it: its count 1 (2350 ms)"
+    },
+    {
+      "file": "four-390x844-overflow-2900.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=overflow&t=2900&hit=1",
+      "about": "The overflow beat: done: Orion nowhere on the board, the plaque in the spine (2900 ms)"
+    },
+    {
+      "file": "four-320x568-overflow-1600.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=overflow&t=1600&hit=1",
+      "about": "The overflow beat on the smallest phone (1600 ms)"
+    },
+    {
+      "file": "four-320x568-overflow-2900.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=overflow&t=2900&hit=1",
+      "about": "The overflow beat on the smallest phone (2900 ms)"
+    },
+    {
+      "file": "four-390x844-overflow-reduced-0040.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=overflow&t=40&motion=reduced&hit=1",
+      "about": "The overflow beat, reduced motion: the cut-out at its place with FULL, fading in (40 ms)"
+    },
+    {
+      "file": "four-390x844-overflow-reduced-0900.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=overflow&t=900&motion=reduced&hit=1",
+      "about": "The overflow beat, reduced motion: the place empty, the plaque counting it (900 ms)"
+    },
+    {
+      "file": "four-390x844-overflow-reduced-1600.png",
+      "group": "four",
+      "query": "roster=9&beds=4&film=overflow&t=1600&motion=reduced&hit=1",
+      "about": "The overflow beat, reduced motion: done (1600 ms)"
+    },
+    {
+      "file": "clone-390x844-activate-0200.png",
+      "group": "clone",
+      "query": "roster=9&film=clone&capsule=1&case=activate&t=200&hit=1",
+      "about": "S3, the activation, on the Alien's own phone alone (synthetic: seat 3, Lyra): the scan lines sweeping up Lyra (200 ms). The board is everyone's, unchanged"
+    },
+    {
+      "file": "clone-390x844-activate-0650.png",
+      "group": "clone",
+      "query": "roster=9&film=clone&capsule=1&case=activate&t=650&hit=1",
+      "about": "S3, the activation, on the Alien's own phone alone (synthetic: seat 3, Lyra): a halftone duplicate forming beside her (650 ms). The board is everyone's, unchanged"
+    },
+    {
+      "file": "clone-390x844-activate-1100.png",
+      "group": "clone",
+      "query": "roster=9&film=clone&capsule=1&case=activate&t=1100&hit=1",
+      "about": "S3, the activation, on the Alien's own phone alone (synthetic: seat 3, Lyra): the duplicate resolving into the same drawing (1100 ms). The board is everyone's, unchanged"
+    },
+    {
+      "file": "clone-390x844-activate-1550.png",
+      "group": "clone",
+      "query": "roster=9&film=clone&capsule=1&case=activate&t=1550&hit=1",
+      "about": "S3, the activation, on the Alien's own phone alone (synthetic: seat 3, Lyra): the real Lyra fading to a dotted outline as the lines sweep back down (1550 ms). The board is everyone's, unchanged"
+    },
+    {
+      "file": "clone-390x844-activate-1720.png",
+      "group": "clone",
+      "query": "roster=9&film=clone&capsule=1&case=activate&t=1720&hit=1",
+      "about": "S3, the activation, on the Alien's own phone alone (synthetic: seat 3, Lyra): CLONE ACTIVE stamped (1720 ms). The board is everyone's, unchanged"
+    },
+    {
+      "file": "clone-390x844-activate-1900.png",
+      "group": "clone",
+      "query": "roster=9&film=clone&capsule=1&case=activate&t=1900&hit=1",
+      "about": "S3, the activation, on the Alien's own phone alone (synthetic: seat 3, Lyra): at rest: the dotted outline, the duplicate, CLONE ACTIVE and the status line (1900 ms). The board is everyone's, unchanged"
+    },
+    {
+      "file": "clone-390x844-expire-0150.png",
+      "group": "clone",
+      "query": "roster=9&film=clone&capsule=1&case=expire&t=150&hit=1",
+      "about": "S3, the expiry: the scan lines sweeping down the duplicate; CLONE ACTIVE fading (150 ms)"
+    },
+    {
+      "file": "clone-390x844-expire-0450.png",
+      "group": "clone",
+      "query": "roster=9&film=clone&capsule=1&case=expire&t=450&hit=1",
+      "about": "S3, the expiry: the duplicate breaking up into its halftone (450 ms)"
+    },
+    {
+      "file": "clone-390x844-expire-0750.png",
+      "group": "clone",
+      "query": "roster=9&film=clone&capsule=1&case=expire&t=750&hit=1",
+      "about": "S3, the expiry: the outline filling back into Lyra; CLONE ENDED (750 ms)"
+    },
+    {
+      "file": "clone-390x844-expire-0950.png",
+      "group": "clone",
+      "query": "roster=9&film=clone&capsule=1&case=expire&t=950&hit=1",
+      "about": "S3, the expiry: at rest: Lyra alone, CLONE ENDED and the status line (950 ms)"
+    },
+    {
+      "file": "clone-390x844-reduced-activate-0200.png",
+      "group": "clone",
+      "query": "roster=9&film=clone&capsule=1&case=activate&t=200&motion=reduced&hit=1",
+      "about": "S3, the activation with reduced motion: the card before, held (200 ms)"
+    },
+    {
+      "file": "clone-390x844-reduced-activate-0440.png",
+      "group": "clone",
+      "query": "roster=9&film=clone&capsule=1&case=activate&t=440&motion=reduced&hit=1",
+      "about": "S3, the activation with reduced motion: the 80 ms cross-fade (440 ms)"
+    },
+    {
+      "file": "clone-390x844-reduced-activate-0600.png",
+      "group": "clone",
+      "query": "roster=9&film=clone&capsule=1&case=activate&t=600&motion=reduced&hit=1",
+      "about": "S3, the activation with reduced motion: the card after (600 ms)"
+    },
+    {
+      "file": "clone-390x844-reduced-expire-0200.png",
+      "group": "clone",
+      "query": "roster=9&film=clone&capsule=1&case=expire&t=200&motion=reduced&hit=1",
+      "about": "S3, the expiry with reduced motion: the card before, held (200 ms)"
+    },
+    {
+      "file": "clone-390x844-reduced-expire-0440.png",
+      "group": "clone",
+      "query": "roster=9&film=clone&capsule=1&case=expire&t=440&motion=reduced&hit=1",
+      "about": "S3, the expiry with reduced motion: the 80 ms cross-fade (440 ms)"
+    },
+    {
+      "file": "clone-390x844-reduced-expire-0600.png",
+      "group": "clone",
+      "query": "roster=9&film=clone&capsule=1&case=expire&t=600&motion=reduced&hit=1",
+      "about": "S3, the expiry with reduced motion: the card after (600 ms)"
+    },
+    {
+      "file": "clone-320x568-activate-1100.png",
+      "group": "clone",
+      "query": "roster=9&film=clone&capsule=1&case=activate&t=1100&hit=1",
+      "about": "The activation on the smallest phone (1 100 ms)"
+    },
+    {
+      "file": "clone-320x568-activate-1900.png",
+      "group": "clone",
+      "query": "roster=9&film=clone&capsule=1&case=activate&t=1900&hit=1",
+      "about": "The active card on the smallest phone"
+    },
+    {
+      "file": "clone-320x568-expire-0450.png",
+      "group": "clone",
+      "query": "roster=9&film=clone&capsule=1&case=expire&t=450&hit=1",
+      "about": "The expiry on the smallest phone (450 ms)"
+    },
+    {
+      "file": "clone-320x568-jailed.png",
+      "group": "clone",
+      "query": "roster=9&film=clone&capsule=1&case=jailed&state=active&hit=1",
+      "about": "After a Jail vote: the Clone still active through Round 3, its card at rest, Lyra in the prison suit"
+    },
+    {
+      "file": "clone-390x844-jailed.png",
+      "group": "clone",
+      "query": "roster=9&film=clone&capsule=1&case=jailed&state=active&hit=1",
+      "about": "After a Jail vote: the Clone still active through Round 3, its card at rest, Lyra in the prison suit"
+    },
+    {
+      "file": "clone-390x844-r5.png",
+      "group": "clone",
+      "query": "roster=9&film=clone&capsule=1&case=r5&state=active&hit=1",
+      "about": "Activated in Round 5: active through Round 5, its card at rest"
+    },
+    {
+      "file": "clone-390x844-activate-1900-r7.png",
+      "group": "clone",
+      "query": "roster=7&film=clone&capsule=1&case=activate&t=1900&hit=1",
+      "about": "The active card for 7 players"
+    },
+    {
+      "file": "clone-390x844-activate-1900-r8.png",
+      "group": "clone",
+      "query": "roster=8&film=clone&capsule=1&case=activate&t=1900&hit=1",
+      "about": "The active card for 8 players"
+    },
+    {
+      "file": "clone-390x844-four-activate-1900.png",
+      "group": "clone",
+      "query": "roster=9&film=clone&capsule=1&beds=4&case=activate&t=1900&hit=1",
+      "about": "On the successor's four-berth board: the same card in the same sheet"
+    },
+    {
+      "file": "clone-360x740-text2-active.png",
+      "group": "clone",
+      "query": "roster=9&film=clone&capsule=1&case=activate&state=active&text=2&hit=1",
+      "about": "200% text: the card taller, whole in the sheet and clear of the raised Pass"
+    },
+    {
+      "file": "clone-375x667-text2-ended.png",
+      "group": "clone",
+      "query": "roster=9&film=clone&capsule=1&case=expire&state=ended&text=2&hit=1",
+      "about": "200% text, the ended card: the status line on three lines"
+    },
+    {
+      "file": "clone-390x844-text2-activate-1100.png",
+      "group": "clone",
+      "query": "roster=9&film=clone&capsule=1&case=activate&t=1100&text=2&hit=1",
+      "about": "200% text during the activation (1 100 ms)"
+    },
+    {
+      "file": "clone-390x844-player-1100.png",
+      "group": "clone",
+      "query": "roster=9&film=clone&capsule=1&case=activate&t=1100&viewer=player&hit=1",
+      "about": "The same moment on another player's phone: the board alone, nothing of the Clone"
+    },
+    {
+      "file": "clone-390x844-display-1100.png",
+      "group": "clone",
+      "query": "roster=9&film=clone&capsule=1&case=activate&t=1100&viewer=display&hit=1",
+      "about": "The same moment on the display: the board alone, nothing of the Clone"
+    },
+    {
+      "file": "clone-sheet.png",
+      "group": "clone",
+      "query": "sheet=clone",
+      "about": "The Clone's art for review: each character, its halftone duplicate forming and formed, and its dotted outline; the clothes of its place; the scan band, the stage and the tray's mark",
+      "sheetHeight": 380
+    }
+  ]
+}

@@ -6,9 +6,10 @@ import { spawnSync } from 'node:child_process';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { ENGINE_COMMIT_BASIS, controlsFor, gateProblems } from '@mothership/balance';
+import { ENGINE_COMMIT_BASIS, controlsFor, gateProblems, hasTwin } from '@mothership/balance';
 import { sourceHashes } from '../../../tools/balance/scripts/pins.mjs';
 import { ADAPTER_NAME } from '../adapters/full-game-v1.mjs';
+import { LEAKS, leakModes } from './leaks.mjs';
 import { SOURCE_MANIFEST_SHA256, V1_OVERLAY_SHA256, V1_RULESET_VERSION, loadAll, loadExceptions } from '../v1/files.mjs';
 
 export const root = fileURLToPath(new URL('../../../', import.meta.url));
@@ -55,14 +56,26 @@ export function cleanReports(playouts = 10) {
   }
   return {
     scenarios: { schema: 'mothership.balance.scenario-run/1', pins: pins(), totals, runs },
-    controls: { schema: 'mothership.balance.controls/1', pins: pins(), modes: controlModes, undetected: [], baselineFailures: [], verdict: 'passed' },
+    controls: { schema: 'mothership.balance.controls/1', pins: pins(), modes: controlModes, undetected: [], baselineFailures: [], verdict: 'passed', ...leakControls() },
     playouts: { schema: 'mothership.balance.walk/1', pins: pins(), seedsPerMode: playouts, modes: playoutModes },
+  };
+}
+
+// The deliberate leaks as a clean controls run reports them. Which scenario catches which leak is
+// a result and is not made up here: every leak is simply given every paired scenario.
+export const pairedScenarios = () => catalogue.filter(scenario => scenario.status === 'ready' && hasTwin(scenario));
+export const knownLeaks = () => Object.keys(LEAKS).map(name => ({ name, modes: leakModes(name) }));
+function leakControls() {
+  const paired = pairedScenarios();
+  return {
+    leaks: Object.entries(LEAKS).map(([leak, meaning]) => ({ leak, meaning, modes: leakModes(leak), caughtBy: paired.map(scenario => ({ scenario: scenario.id, couldTell: ['public'] })) })),
+    pairedCases: paired.length, unexercised: [],
   };
 }
 
 export const expectations = (changes = {}) => ({
   engineCommit: ENGINE_COMMIT, playoutsPerMode: 10, candidateCommit: null, allowUnpinnedTree: false,
-  adapter: ADAPTER, rulesetVersion: V1_RULESET_VERSION, overlaySha256: V1_OVERLAY_SHA256, sourceManifestSha256: SOURCE_MANIFEST_SHA256,
+  adapter: ADAPTER, leaks: knownLeaks(), rulesetVersion: V1_RULESET_VERSION, overlaySha256: V1_OVERLAY_SHA256, sourceManifestSha256: SOURCE_MANIFEST_SHA256,
   // As the command does it: the manifest is compared with the file where this checkout has one.
   v1Manifest: disk.v1ManifestSha256 === null ? null : { sha256: disk.v1ManifestSha256 }, scenarioFileHashes: disk.scenarioFileHashes,
   ruleSourceHashes: disk.ruleSourceHashes, rulebookSha256: disk.rulebookSha256, ...changes,

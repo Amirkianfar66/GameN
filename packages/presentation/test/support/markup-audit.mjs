@@ -28,7 +28,7 @@ export function find(root, predicate) {
 const INTENTS = new Set([
   'private/toggle', 'session/reconnect', 'app/reload', 'settings/reduce-motion',
   'shot/open', 'shot/choose-target', 'shot/back', 'shot/confirm', 'shot/check-again', 'shot/dismiss',
-  'action/open', 'action/choose', 'action/back', 'action/confirm', 'action/check-again', 'action/dismiss',
+  'action/pass', 'action/open', 'action/choose', 'action/back', 'action/confirm', 'action/check-again', 'action/dismiss',
 ]);
 const IDREF_ATTRIBUTES = ['aria-labelledby', 'aria-describedby', 'aria-controls', 'for', 'data-focus-fallback'];
 

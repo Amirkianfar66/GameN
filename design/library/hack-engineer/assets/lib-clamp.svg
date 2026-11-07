@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · library art proposal · lib-clamp library-hack-engineer-0.1.0 · generated, do not edit by hand
+  The Engineer's signal clamp, not yet used: its wave whole and its LED lit. In the Engineer's file.
+  Built by design/tools/library-assets.mjs from design/library/hack-engineer/art.mjs. Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64"><g id="lib-clamp"><circle cx="34" cy="35" r="26" fill="#151923" opacity="0.25"/><circle cx="31" cy="32" r="26" fill="#202837" stroke="#151923" stroke-width="2.6"/><path d="M16 16 Q30 6 44 16 L40 26 Q30 20 20 26 Z" fill="#55657E" stroke="#151923" stroke-width="2.2" stroke-linejoin="round"/><path d="M16 48 Q30 58 44 48 L40 38 Q30 44 20 38 Z" fill="#55657E" stroke="#151923" stroke-width="2.2" stroke-linejoin="round"/><path d="M8 32 q4 -7 8 0 t8 0 t8 0 t8 0 t8 0" fill="none" stroke="#F7C52B" stroke-width="2.6" stroke-linecap="round"/><path d="M50 14 Q58 8 60 2" fill="none" stroke="#151923" stroke-width="3" stroke-linecap="round"/><circle cx="48" cy="48" r="4" fill="#F7C52B" stroke="#151923" stroke-width="1.8"/></g></svg>

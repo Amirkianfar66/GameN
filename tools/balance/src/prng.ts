@@ -1,4 +1,4 @@
-import { ROLES_BY_MODE, factionOf, seatIdsFor } from './model.js';
+import { ROLES_BY_MODE, factionOf, roomsWithinCapacity, seatIdsFor } from './model.js';
 import type { Mode, Role, Room, ScenarioSetup, SeatId } from './model.js';
 
 // Deterministic, dependency-free generator for test inputs only. It is NOT the production
@@ -38,7 +38,10 @@ export function pickInt(random: () => number, exclusiveMax: number): number {
   return Math.floor(random() * exclusiveMax);
 }
 
-export type RoomPlan = 'all-a' | 'split' | 'seeded';
+// 'capped' is 'seeded' made legal under the room capacity: the same draws where they put at most
+// five players in each room, and otherwise fresh draws from a stream of their own until they do.
+// Every legal assignment is then equally likely. It is a test input, not the service's method.
+export type RoomPlan = 'all-a' | 'split' | 'seeded' | 'capped';
 export type RolePlan = 'canonical' | 'seeded';
 export type OrderPlan = 'seat-order' | 'seeded';
 
@@ -78,6 +81,11 @@ export function deriveSetup(mode: Mode, seed: string, plan: SetupPlan): Scenario
       initialRooms[seatId] = role === 'Red Disabler' || role === 'Insider' || role === 'Alien' ? 'Room B' : 'Room A';
     } else initialRooms[seatId] = random() < 0.5 ? 'Room A' : 'Room B';
   });
+  if (plan.rooms === 'capped' && !roomsWithinCapacity(initialRooms)) {
+    const again = mulberry32(hashSeed(`${seed}|${mode}|rooms`));
+    do seatIds.forEach(seatId => { initialRooms[seatId] = again() < 0.5 ? 'Room A' : 'Room B'; });
+    while (!roomsWithinCapacity(initialRooms));
+  }
   const excluded = [seatOf('Alien'), seatOf('Undercover')];
   const candidates = seatIds.filter(seatId => !excluded.includes(seatId));
   const codeExtraSeatIds = shuffled(candidates, random).slice(0, 3).sort();

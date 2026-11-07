@@ -68,26 +68,40 @@ const commandCalls = player => player.requests.filter(request => request.operati
 
 test('connected: an answer that is lost, a request that is lost, and a reload with the answer lost all end as one accepted move each', async t => {
   const { players, matchId, display } = await startedMatch(t);
-  const [first, second, third] = players.filter(player => player.view.self.movementDestinations.length > 0);
-  assert.notEqual(third, undefined, 'At least three players may move in the first phase');
+  const chosen = new Set();
+  async function freshMover() {
+    // Earlier accepted moves can fill a room. Choose each distinct mover from a new own-player read.
+    for (const player of players) {
+      if (chosen.has(player)) continue;
+      const view = await nextView(player, { kind: 'player-view', matchId }, player.store, () => true, 'fresh private movement offers');
+      const self = view.seats.find(seat => seat.seatId === view.self.seatId);
+      if (self?.health !== 'Healthy' || view.self.movementDestinations.length === 0) continue;
+      chosen.add(player);
+      return { player, view };
+    }
+    assert.fail('Another distinct healthy player must have an offered MOVE in the first phase');
+  }
 
   // The service decides the command and its answer never arrives.
+  const { player: first, view: firstView } = await freshMover();
   const lostAnswer = flowFor(first, matchId, keptStore(), { answer: once() });
-  const firstDestination = await lostAnswer.confirmMove(first.view);
+  const firstDestination = await lostAnswer.confirmMove(firstView);
   assert.deepEqual((await lostAnswer.settled('accepted')).choice, { kind: 'move', destination: firstDestination });
   assert.deepEqual([lostAnswer.counts.command, commandCalls(first)], [1, 1], 'Settled by looking the receipt up; nothing was sent twice');
   assert.equal(lostAnswer.counts.receipt >= 1, true);
 
   // The request never reaches the service: no receipt exists, so the identical command goes again.
+  const { player: second, view: secondView } = await freshMover();
   const lostRequest = flowFor(second, matchId, keptStore(), { request: once() });
-  const secondDestination = await lostRequest.confirmMove(second.view);
+  const secondDestination = await lostRequest.confirmMove(secondView);
   await lostRequest.settled('accepted');
   assert.deepEqual([lostRequest.counts.command, commandCalls(second)], [2, 1], 'One attempt lost on the way, one that arrived');
 
   // The page is reloaded while its command is unaccounted for. Only identifiers were kept.
+  const { player: third, view: thirdView } = await freshMover();
   const kept = keptStore();
   const beforeReload = flowFor(third, matchId, kept, { answer: once() });
-  const thirdDestination = await beforeReload.confirmMove(third.view);
+  const thirdDestination = await beforeReload.confirmMove(thirdView);
   await beforeReload.settled('checking');
   assert.deepEqual(Object.keys(JSON.parse(kept.value)).sort(), ['commandId', 'matchId', 'phaseId', 'seatId']);
   assert.doesNotMatch(kept.value, /Room|MOVE|move|destination/);

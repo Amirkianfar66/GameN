@@ -106,9 +106,11 @@ test('real V1 Functions authenticate seven players, wait both setup windows, reg
   const override=await invoke('v1Advance',{protocolVersion:2,matchId,phaseId:publicView.phase.id,now:publicView.phase.endsAt},display);
   assert.equal(override.status,400);assert.equal(override.body.error.code,'INVALID_REQUEST');
   assert.equal(JSON.stringify(publicView).includes('role'),false);
-  const actorIndex=Number(publicView.activeSeatId.slice(5))-1,actor=players[actorIndex];
-  const privateView=await readView(`${root}/playerViews/${actor.uid}`,actor,FullPlayerViewSchema);
-  assert.ok(privateView.self.movementDestinations.length>0);
+  // MOVE is available outside the actor's own turn; capacity can leave that turn's actor without a destination.
+  const ownViews=await Promise.all(players.map(async actor=>({actor,view:await readView(`${root}/playerViews/${actor.uid}`,actor,FullPlayerViewSchema)})));
+  const mover=ownViews.find(({view})=>view.seats.find(seat=>seat.seatId===view.self.seatId)?.health==='Healthy'&&view.self.movementDestinations.length>0);
+  assert.ok(mover,'A healthy player has an offered MOVE in the fresh private view');
+  const {actor,view:privateView}=mover;
   const command={protocolVersion:2,matchId,phaseId:publicView.phase.id,commandId:requestId(),command:{type:'MOVE',destination:privateView.self.movementDestinations[0]}};
   const denied=await invoke('v1Command',command,display);
   assert.equal(denied.status,403);assert.equal(denied.body.error.code,'FORBIDDEN');
@@ -122,7 +124,7 @@ test('real V1 Functions authenticate seven players, wait both setup windows, reg
   assert.equal(receipt.status,200);assert.equal(receipt.body.status,'found');assert.deepEqual(receipt.body.receipt,accepted.body.receipt);
   assert.equal((await invoke('v1ServerTime',{protocolVersion:2,matchId},display)).status,200);
   const updated=await readView(`${root}/views/public`,display,FullPublicViewSchema);
-  assert.equal(updated.seats.find(seat=>seat.seatId===publicView.activeSeatId).location,command.command.destination);
+  assert.equal(updated.seats.find(seat=>seat.seatId===privateView.self.seatId).location,command.command.destination);
   assert.equal((await firestoreRequest(`${root}/playerViews/${actor.uid}`,{idToken:display.idToken})).status,403);
   const aborted=await invoke('v1AbortMatch',{protocolVersion:2,matchId,requestId:requestId()},host);
   assert.equal(aborted.status,200,JSON.stringify(aborted.body));assert.equal(aborted.body.ok,true);

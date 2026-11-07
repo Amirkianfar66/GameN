@@ -1,10 +1,11 @@
 import { FullCommandSchema, FullPlayerViewSchema } from '@mothership/contracts';
 import type { FullCommand, FullPlayerView, SeatId } from '@mothership/contracts';
+import { FULL_RULESET_VERSION, FULL_RULESET_HASH, isSupportedFullGameVersions } from '@mothership/engine';
 
 // This is a practice heuristic over one authorized audience, not a balance model.
-// Source: rules/overlays/in-person-v1-owner-decisions-2026-10-06.json; Powers off.
-export const PRACTICE_BOT_RULESET_VERSION = 'in-person-v1-2026-10-06' as const;
-export const PRACTICE_BOT_RULESET_HASH = '6ca355ebf3553e24a16eae847f5b550b1d3da8bd0a2daf80f69ec94dd2809a90' as const;
+// Reviewed parent and ordinary-turn Pass overlay; Powers off. Pass remains player intent.
+export const PRACTICE_BOT_RULESET_VERSION = FULL_RULESET_VERSION;
+export const PRACTICE_BOT_RULESET_HASH = FULL_RULESET_HASH;
 
 /**
  * Ordered candidates, at most one per command type. The caller must reproject after
@@ -14,7 +15,7 @@ export const PRACTICE_BOT_RULESET_HASH = '6ca355ebf3553e24a16eae847f5b550b1d3da8
 export function choosePracticeBotActions(input: FullPlayerView): readonly FullCommand[] {
   if (arguments.length !== 1) throw new TypeError('Practice policy requires exactly one player view');
   const view = FullPlayerViewSchema.parse(input);
-  if (view.versions.rulesetVersion !== PRACTICE_BOT_RULESET_VERSION || view.versions.rulesetHash !== PRACTICE_BOT_RULESET_HASH) {
+  if (!isSupportedFullGameVersions(view.versions)) {
     throw new TypeError('Unsupported practice ruleset');
   }
   const self = view.seats.find(seat => seat.seatId === view.self.seatId)!;

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · ability art proposal · dossier-shield-used 0.1.0 · generated, do not edit by hand
+  A shield used up. A Protection the view says is used up (knowledge.protections[].consumed), on the Undercover's own note only.
+  Built by design/tools/abilities-assets.mjs from design/abilities/source/guard.svg (layer dossier-shield-used). Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 56" width="48" height="56"><g id="dossier-shield-used"><g transform="translate(-1.6 0) rotate(-4 24 54)"><path d="M24 3.5 L19.5 15 L26 22 L18.5 33 L25 41 L24 53 Q6 43.5 6 27 V10.5 Z" fill="#E3D6C2" stroke="#151923" stroke-width="2.2" stroke-linejoin="round"/><path d="M24 3.5 L19.5 15 L26 22 L18.5 33 L25 41 L24 53" fill="none" stroke="#151923" stroke-width="2.6" stroke-linejoin="round"/></g><g transform="translate(1.6 0) rotate(4 24 54)"><path d="M24 3.5 L42 10.5 V27 Q42 43.5 24 53 L25 41 L18.5 33 L26 22 L19.5 15 Z" fill="#E3D6C2" stroke="#151923" stroke-width="2.2" stroke-linejoin="round"/><path d="M24 3.5 L19.5 15 L26 22 L18.5 33 L25 41 L24 53" fill="none" stroke="#151923" stroke-width="2.6" stroke-linejoin="round"/></g></g></svg>

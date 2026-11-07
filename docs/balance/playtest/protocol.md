@@ -37,7 +37,7 @@ Gaps the reviews have recorded, and what the facilitator does about each. Write 
 
 | Gap | What a player meets | The facilitator |
 | --- | --- | --- |
-| G17 | Supplier is not told whether the weapons were given. V1-16 says Supplier is told. A defect, to be fixed | Does not tell Supplier. Logs it when Supplier asks or plays in doubt, and marks whether it affected the outcome |
+| G17 | Supplier is not told whether the weapons were given. V1-16 says Supplier is told. A defect. A fix exists since 7 October, in draft PR #65, and is in no deployed build: the preview named above predates it | Checks which build is played. On a build without the fix: does not tell Supplier, logs it when Supplier asks or plays in doubt, and marks whether it affected the outcome |
 | G18, G14 | After a Code attempt, and after the Captain's release choice, the phone no longer says what was entered | Logs it if a player is unsure what they did. Does not look at the phone |
 | G15 | The last vote count stays on screen in later rounds without saying which round it is from | Logs it if the table reads an old count as a new one |
 | G20, G22 | Moving a seat to another device needs a long code read out by the host. A host who loses their own device cannot hand the match on | Plans for it: one spare charged device, and the host's device on power. If the host's device is lost the match is aborted and recorded |
@@ -122,8 +122,9 @@ The audit derived these from the rules by counting. They are hypotheses about wh
 | Whether the table knows who plays next | The order is not announced (D20) | Rule problem log |
 | How a Hack conversation is actually held | Its format is undecided (D18). Record the shape, never the words | Facilitator notes |
 | The board and the app out of step | Tokens are moved by hand | Rule problem log |
-| Supplier unsure whether the weapons were given | The build does not tell them (G17) | Rule problem log, with G17 |
+| Supplier unsure whether the weapons were given | A build without the fix does not tell them (G17) | Rule problem log, with G17 and the build played |
 | A screen seen by a neighbour | Secrets live on the phone, and the approved role card is large and carries the team's color | Rule problem log, `information-leak`; seating on the session form |
+| A name that reads like a role, or that a player uses to claim one | Once names are in the lobby a player may type anything of up to twelve characters, and the decision record allows it. It is talk, and no rule forbids talk | Rule problem log, `rule-missing` if the table disputes it; otherwise facilitator notes |
 | A room's color taken for a team | On the approved comic board the rooms include a red, a blue and a violet, which are also the teams' colors. Only once that board is connected | Rule problem log, `rule-misunderstood`; questionnaire |
 
 ## Reporting

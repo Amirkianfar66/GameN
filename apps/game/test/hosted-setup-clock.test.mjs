@@ -22,7 +22,7 @@ test('late time answers after suspension cannot enable a stale countdown',async(
   assert.equal(clock.read().status,'unsynced');assert.equal(host.pendingTimers(),0);clock.dispose();
 });
 test('zero on the countdown shows server waiting, and only a fresh document changes the stage',()=>{
-  const nodes=new Map();const el=(tag,text,attrs={})=>{const node={textContent:text??'',hidden:false,children:[],append(...value){this.children.push(...value);},replaceChildren(...value){this.children=value;}};if(attrs.id)nodes.set(attrs.id,node);return node;};
+  const nodes=new Map();const el=(tag,text,attrs={})=>{const node={textContent:text??'',hidden:false,children:[],setAttribute(){},append(...value){this.children.push(...value);},replaceChildren(...value){this.children=value;}};if(attrs.id)nodes.set(attrs.id,node);return node;};
   const progress=createSetupProgress({el});
   const setup={stage:'choosing',choosingEndsAt:50_000,playerCount:7,seats:[]};
   progress.update(setup,{status:'synced',serverNowMs:20_000});assert.match(nodes.get('setup-countdown').textContent,/30 s/);

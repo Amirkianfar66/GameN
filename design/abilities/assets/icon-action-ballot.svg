@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · ability art proposal · icon-action-ballot 0.1.0 · generated, do not edit by hand
+  A ballot: its tray icon. Every ballot's chip in the seat's own Actions tray (a Captain election, a Jail vote, a release vote): the box of its strip. One ink, beside its live label; the Shot keeps the reviewed icon-action-shot.
+  Built by design/tools/abilities-assets.mjs from design/abilities/source/actions.svg (layer icon-action-ballot). Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32"><g id="icon-action-ballot" fill="none" stroke="#151923" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><path d="M4 15 H28 V28 H4 Z"/><path d="M10 15 V6 H22 V15" fill="#F4EBDD" stroke-width="2.2"/><path d="M12.5 10 L15 12.5 L19.5 7.5" stroke-width="2"/><path d="M8 15 H24" stroke-width="3.4"/></g></svg>

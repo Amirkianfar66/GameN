@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · phone kit phone-kit-0.1.0 (art phone-kit-art-0.1.0) · vote-empty-chair · generated, do not edit by hand
+  The empty Captain's chair: nobody elected. Audience: every screen.
+  Drawn by design/phone-kit/source/art.mjs (original vector drawing for this repository by the Visual and Motion Designer,
+  Claude Code) through design/tools/phone-kit-assets.mjs. No word is in the picture: every word is the page's own text.
+  Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 180"><!-- empty captain chair --><ellipse cx="80" cy="168" rx="56" ry="8" fill="#151923" opacity="0.22"/><path d="M54 24 Q80 14 106 24 L112 104 H48 Z" fill="#E9B64E" stroke="#151923" stroke-width="4" stroke-linejoin="round"/><path d="M58 34 Q80 27 102 34 L106 96 H54 Z" fill="#F7D886" opacity="0.55"/><path d="M38 100 H122 L128 122 H32 Z" fill="#A7771E" stroke="#151923" stroke-width="4" stroke-linejoin="round"/><path d="M78 122 V150 M58 162 L80 150 L102 162" fill="none" stroke="#151923" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/><path d="M78 122 V150" stroke="#B9C4D3" stroke-width="2.5"/></svg>

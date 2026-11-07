@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · ability art proposal · icon-action-code 0.1.0 · generated, do not edit by hand
+  A Code attempt: its tray icon. A Code attempt's chip in the seat's own Actions tray: the punch card, four holes two by two, never a row. One ink, beside its live label; the Shot keeps the reviewed icon-action-shot.
+  Built by design/tools/abilities-assets.mjs from design/abilities/source/actions.svg (layer icon-action-code). Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32"><g id="icon-action-code" fill="none" stroke="#151923" stroke-width="2.6" stroke-linejoin="round"><path d="M5 5 H22 L27 10 V27 H5 Z"/><circle cx="11.5" cy="13" r="2.2" fill="#151923" stroke="none"/><circle cx="20.5" cy="13" r="2.2" fill="#151923" stroke="none"/><circle cx="11.5" cy="21" r="2.2" fill="#151923" stroke="none"/><circle cx="20.5" cy="21" r="2.2" fill="#151923" stroke="none"/></g></svg>

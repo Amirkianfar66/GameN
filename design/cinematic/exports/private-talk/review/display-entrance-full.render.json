@@ -1,0 +1,54 @@
+{
+  "tool": "design/tools/cinematic-render.mjs",
+  "pilot": "private-talk",
+  "version": "cinematic-private-talk-0.1.0",
+  "surface": "display",
+  "variant": "full",
+  "stage": "design/cinematic/stage.html?pilot=private-talk&surface=display&variant=full&beds=4&case=entrance",
+  "size": [
+    1920,
+    1080
+  ],
+  "deviceScale": 0.6667,
+  "fixture": {
+    "pair": [
+      1,
+      5
+    ],
+    "case": "entrance"
+  },
+  "browser": "Chromium 141.0.7390.37",
+  "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+  "outputs": [
+    {
+      "kind": "video",
+      "file": "design/cinematic/exports/private-talk/review/display-entrance-full.mp4",
+      "sha256": "edc8253cebf4421135a2bc37015dfd2017041ee83c7118f6c01ce77b8899ac66",
+      "bytes": 932282,
+      "fps": 30,
+      "frames": 148,
+      "durationMs": 4900,
+      "from": 0,
+      "to": 4900,
+      "audio": "design/cinematic/exports/private-talk/audio/private-talk-entrance.cues.wav"
+    },
+    {
+      "kind": "preview",
+      "file": "design/cinematic/exports/private-talk/review/display-entrance-full.preview.webp",
+      "sha256": "9a43151d7ba4ce23c555180215c7980b2298953de4a81f001f9c771afaf31e25",
+      "bytes": 228202
+    },
+    {
+      "kind": "poster",
+      "file": "design/cinematic/exports/private-talk/review/display-entrance-full.poster.webp",
+      "sha256": "b6b269f79a5236807a7a3243d59c788893476c5eceed03535699f872a1e95e04",
+      "bytes": 87162,
+      "t": 3000
+    }
+  ],
+  "settling": {
+    "rule": "a frame is kept once two captures a redraw apart agree; pictures decode before their tiles draw",
+    "resettled": 4,
+    "unsettled": []
+  }
+}

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  mothership:dev-only · board-v2 medical proposal board-v2-medical-0.1.0 · revival pulse, frame 1 · generated, do not edit by hand
+  One controlled pulse: a white-hot core, the only part bright enough to count as a flash, and four short arcs. Centred on the patient's chest (berthKit().chest).
+  Built by design/tools/board-v2-assets.mjs from design/board-v2/fx/medical.mjs. Public: the same on every phone and the display; it reads no role, side, attacker, healer or cause. Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120"><defs><radialGradient id="pulse-core" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#FFFFFF"/><stop offset="0.6" stop-color="#E8FBFF"/><stop offset="1" stop-color="#5FE0E8" stop-opacity="0"/></radialGradient></defs><g data-layer="fx-pulse-1"><circle cx="60" cy="60" r="14" fill="url(#pulse-core)"/><path d="M79.66 46.23 L91 60 L79.66 73.77" fill="none" stroke="#E8FBFF" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M73.77 79.66 L60 91 L46.23 79.66" fill="none" stroke="#E8FBFF" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M40.34 73.77 L29 60 L40.34 46.23" fill="none" stroke="#E8FBFF" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M46.23 40.34 L60 29 L73.77 40.34" fill="none" stroke="#E8FBFF" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/></g></svg>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · ability art proposal · dossier-shield 0.1.0 · generated, do not edit by hand
+  A shield. Behind the chip of a Protection's target, in the Undercover's strip and on its own note of the Protection in the card. Never on the recipient's phone or a public surface (V1-17).
+  Built by design/tools/abilities-assets.mjs from design/abilities/source/guard.svg (layer dossier-shield). Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 56" width="48" height="56"><g id="dossier-shield"><path d="M24 3 L44 10 V27 Q44 44 24 54 Q4 44 4 27 V10 Z" fill="#151923" opacity="0.3" transform="translate(2 2)"/><path d="M24 3 L44 10 V27 Q44 44 24 54 Q4 44 4 27 V10 Z" fill="#CBBBA2" stroke="#151923" stroke-width="2.6" stroke-linejoin="round"/><path d="M24 7 L40 12.5 V27 Q40 41 24 49.5 Q8 41 8 27 V12.5 Z" fill="none" stroke="#F4EBDD" stroke-width="1.6" stroke-linejoin="round"/><path d="M17 49 Q24 52 31 49" fill="none" stroke="#F7C52B" stroke-width="2.4" stroke-linecap="round"/></g></svg>

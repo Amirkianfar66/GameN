@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · library art proposal · sw-crate library-successor-0.1.0 · generated, do not edit by hand
+  The Round 3 Supply's receipt: a sealed, strapped crate with a yellow seal tag. PRIVATE to each recipient; never drawn on the board.
+  Built by design/tools/library-assets.mjs from design/library/successor/art.mjs. Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64"><g id="sw-crate"><rect x="9" y="19" width="48" height="36" rx="3" fill="#151923" opacity="0.4"/><rect x="7" y="16" width="48" height="36" rx="3" fill="#E6D8C0" stroke="#151923" stroke-width="2.6"/><path d="M7 26 H55 M7 42 H55" stroke="#151923" stroke-width="1.6" opacity="0.5"/><path d="M19 16 V52 M43 16 V52" stroke="#3A4A6B" stroke-width="5"/><path d="M19 16 V52 M43 16 V52" stroke="#151923" stroke-width="1.2" opacity="0.5"/><path d="M7 16 L13 9 H61 L55 16 Z" fill="#F4EBDD" stroke="#151923" stroke-width="2.4" stroke-linejoin="round"/><path d="M55 16 L61 9 V45 L55 52 Z" fill="#8D97A8" stroke="#151923" stroke-width="2.4" stroke-linejoin="round"/><rect x="25" y="28" width="12" height="10" rx="2" fill="#F7C52B" stroke="#151923" stroke-width="2"/><circle cx="31" cy="33" r="1.8" fill="#151923"/></g></svg>

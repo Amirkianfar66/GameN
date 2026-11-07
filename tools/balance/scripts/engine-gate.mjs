@@ -1,7 +1,7 @@
 // The engine-backed Balance checks as one command for a merge gate.
 //
 //   node scripts/engine-gate.mjs [--out-dir <dir>] [--playouts-per-mode 10]
-//     [--engine-root <dir> [--engine-commit <sha>]] [--allow-unpinned-tree]
+//     [--engine-root <dir> [--engine-commit <sha>]] [--allow-unpinned-tree] [--ruleset <ruleset version>]
 //
 // Runs the scenarios, the negative controls and the seeded playouts with --require-engine against
 // the engine of this checkout at its current commit, and then lets gate.mjs decide. Nothing is
@@ -19,6 +19,10 @@
 //                                    as an exported archive, can only be used for a trial
 //   --allow-unpinned-tree            run on uncommitted work, or on an engine whose commit can only
 //                                    be stated. For trying it locally; never for a merge gate
+//   --ruleset                        the ruleset every match of the three runs is created under.
+//                                    The Version 1 catalogue starts every player in one room, so
+//                                    on an engine whose own default has the room-capacity rule
+//                                    (issue #96) it has to be run under an earlier ruleset by name
 //
 // Exit status: 0 only when the gate passed; 1 when any step did not; 2 when nothing was run
 // because the command line cannot be understood or a commit cannot be pinned.
@@ -32,7 +36,7 @@ import { invocationPath, readArgs } from './args.mjs';
 import { engineProvenance, root, treeState } from './pins.mjs';
 
 const notRun = message => { console.error(`Balance engine gate: NOT RUN. ${message}`); process.exit(2); };
-const { values, flags } = readArgs({ values: ['out-dir', 'playouts-per-mode', 'engine-root', 'engine-commit'], flags: ['allow-unpinned-tree'] }, notRun);
+const { values, flags } = readArgs({ values: ['out-dir', 'playouts-per-mode', 'engine-root', 'engine-commit', 'ruleset'], flags: ['allow-unpinned-tree'] }, notRun);
 
 const trial = flags['allow-unpinned-tree'];
 const tree = treeState(root);
@@ -51,7 +55,7 @@ mkdirSync(outDir, { recursive: true });
 const report = name => join(outDir, `${name}.json`);
 // A report left by an earlier run must not be read as this run's.
 for (const name of ['scenarios', 'controls', 'playouts']) rmSync(report(name), { force: true });
-const engineArgs = ['--require-engine', '--engine-root', engineRoot ?? root, '--engine-commit', engine.commit];
+const engineArgs = ['--require-engine', '--engine-root', engineRoot ?? root, '--engine-commit', engine.commit, ...(values.ruleset === null ? [] : ['--ruleset', values.ruleset])];
 const steps = [
   ['scenarios', 'run-scenarios.mjs', [...engineArgs, '--out', report('scenarios')]],
   ['controls', 'controls.mjs', [...engineArgs, '--out', report('controls')]],

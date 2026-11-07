@@ -17,9 +17,11 @@ Prior untimed checkpoints `297de42609ff575aa914e0f852aba80482957622` and
 Protocol remains `2`; lifecycle is `staged-start-1`. Engine remains
 `full-game-1.0.1`; ruleset remains `in-person-v1-2026-10-06` with hash
 `6ca355ebf3553e24a16eae847f5b550b1d3da8bd0a2daf80f69ec94dd2809a90`.
-Original Powers remain disabled. Initial rooms are selected at admission,
-before the private deal, and preserved through all stages and recovery.
-Gameplay canon and engine code are unchanged.
+Original Powers remain disabled. Under the [8 October admission override](../decisions/2026-10-08-random-starting-rooms.md), new initial rooms are server-assigned
+before the private deal and preserved through all stages and recovery.
+The room-choice behavior of the checkpoints above is historical; existing
+admissions and seats keep their stored rooms.
+In-match mechanics and engine code are unchanged.
 
 ## Timed lifecycle and projections
 

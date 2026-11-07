@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  mothership:dev-only · board-v2 medical proposal board-v2-medical-0.1.0 · revival pulse, frame 2 · generated, do not edit by hand
+  The ring and the arcs fading out. Centred on the patient's chest (berthKit().chest).
+  Built by design/tools/board-v2-assets.mjs from design/board-v2/fx/medical.mjs. Public: the same on every phone and the display; it reads no role, side, attacker, healer or cause. Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120"><defs><radialGradient id="pulse-core" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#FFFFFF"/><stop offset="0.6" stop-color="#E8FBFF"/><stop offset="1" stop-color="#5FE0E8" stop-opacity="0"/></radialGradient></defs><g data-layer="fx-pulse-2"><circle cx="60" cy="60" r="34" fill="none" stroke="#151923" stroke-width="5"/><circle cx="60" cy="60" r="34" fill="none" stroke="#5FE0E8" stroke-width="2.6"/><path d="M92.77 37.06 L107 60 L92.77 82.94" fill="none" stroke="#E8FBFF" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M82.94 92.77 L60 107 L37.06 92.77" fill="none" stroke="#E8FBFF" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M27.23 82.94 L13 60 L27.23 37.06" fill="none" stroke="#E8FBFF" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M37.06 27.23 L60 13 L82.94 27.23" fill="none" stroke="#E8FBFF" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/></g></svg>

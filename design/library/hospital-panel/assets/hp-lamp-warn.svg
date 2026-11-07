@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · library art proposal · hp-lamp-warn library-hospital-panel-0.1.0 · generated, do not edit by hand
+  The console's status lamp, warn: over the lamp's socket, same size as the console, transparent.
+  Built by design/tools/library-assets.mjs from design/library/hospital-panel/art.mjs. Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 150" width="320" height="150"><g id="hp-lamp-warn"><circle cx="276" cy="38" r="18" fill="#C7372B" opacity="0.28"/><circle cx="276" cy="38" r="11" fill="#C7372B" stroke="#151923" stroke-width="2.5"/><circle cx="272.5" cy="34.5" r="3" fill="#E8FBFF" opacity="0.85"/></g></svg>

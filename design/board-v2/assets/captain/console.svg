@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  mothership:dev-only · board-v2 Captain proposal board-v2-captain-0.1.0 · console inset · generated, do not edit by hand
+  The console inset's frame: the plate goes at (12, 26). consoleBox() places it on the board.
+  Built by design/tools/board-v2-assets.mjs from design/board-v2/fx/captain.mjs. Public: the same on every phone and the display (the plates: the Captain's own controls); it reads no role, side, faction or cause. Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 224 96" width="224" height="96"><defs><pattern id="console-dots" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><circle cx="3.5" cy="3.5" r="1.3" fill="#151923"/></pattern></defs><g data-layer="fx-console"><rect x="2.5" y="2.5" width="219" height="91" rx="10" fill="#3A4A6B" stroke="#151923" stroke-width="5"/><rect x="8" y="20" width="208" height="68" rx="8" fill="#2A3346" stroke="#151923" stroke-width="2.5"/><path d="M184 5 H216 Q219 5 219 9 V87 Q219 91 215 91 H154 Z" fill="url(#console-dots)" opacity="0.3"/><circle cx="10" cy="10" r="3" fill="#8A97AB" stroke="#151923" stroke-width="1.8"/><circle cx="214" cy="10" r="3" fill="#8A97AB" stroke="#151923" stroke-width="1.8"/><circle cx="10" cy="86" r="3" fill="#8A97AB" stroke="#151923" stroke-width="1.8"/><circle cx="214" cy="86" r="3" fill="#8A97AB" stroke="#151923" stroke-width="1.8"/><path d="M24 11 H200" stroke="#151923" stroke-width="3" stroke-linecap="round" opacity="0.5"/></g></svg>

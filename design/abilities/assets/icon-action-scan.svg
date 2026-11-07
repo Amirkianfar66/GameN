@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · ability art proposal · icon-action-scan 0.1.0 · generated, do not edit by hand
+  The Scan: its tray icon. The Scan's chip in the seat's own Actions tray: the lens and its sweep. One ink, beside its live label; the Shot keeps the reviewed icon-action-shot.
+  Built by design/tools/abilities-assets.mjs from design/abilities/source/actions.svg (layer icon-action-scan). Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32"><g id="icon-action-scan" fill="none" stroke="#151923" stroke-width="2.6" stroke-linecap="round"><circle cx="13.5" cy="13.5" r="9"/><path d="M20.2 20.2 L28.5 28.5" stroke-width="3.6"/><path d="M7.5 13.5 H19.5" stroke-width="2" stroke-dasharray="2 2.4"/></g></svg>

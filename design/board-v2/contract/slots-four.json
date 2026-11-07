@@ -1,0 +1,1611 @@
+{
+  "devOnly": "mothership:dev-only",
+  "version": "board-v2-four-0.1.0",
+  "status": "proposal",
+  "note": "The successor board's fixed slots for each roster, as design/board-v2/scenes/slots-four.mjs gives them: contract/slots.json's, with a Hospital of four berths (H1 to H4) whatever the roster, for the owner's four-bed decision of 18 October 2026 (issue #155). The roster stays 7, 8 or 9. The table allocates nothing, and its version is a proposal for Integration to allocate with the successor's tuple. Not a rule and not an adopted contract.",
+  "beds": 4,
+  "anchors": {
+    "feet": "where the figure stands",
+    "press": "centre of the press area (the place's gesture's press point; never moves)",
+    "badge": "status tag (detention, rescue deadline)",
+    "fx": "impact or shield centre"
+  },
+  "rosters": {
+    "7": {
+      "command-room": [
+        {
+          "id": "C1",
+          "feet": [
+            0.5,
+            0.7474
+          ],
+          "press": [
+            0.5,
+            0.5215
+          ],
+          "badge": [
+            0.5,
+            0.4115
+          ],
+          "fx": [
+            0.5,
+            0.5215
+          ],
+          "depth": 440,
+          "scale": 1.2,
+          "mirror": false,
+          "gesture": "captainTable",
+          "down": "down",
+          "front": null,
+          "about": "The Captain, leaning over the chart table on both hands"
+        }
+      ],
+      "room-a": [
+        {
+          "id": "A1",
+          "feet": [
+            0.5059,
+            0.6901
+          ],
+          "press": [
+            0.5071,
+            0.5395
+          ],
+          "badge": [
+            0.5079,
+            0.4417
+          ],
+          "fx": [
+            0.5071,
+            0.5395
+          ],
+          "depth": 530,
+          "scale": 1.02,
+          "mirror": false,
+          "gesture": "consoleBack",
+          "down": "slumpDesk",
+          "front": null,
+          "about": "Seated at the workstation, back to us, at the monitors"
+        },
+        {
+          "id": "A2",
+          "feet": [
+            0.3828,
+            0.7057
+          ],
+          "press": [
+            0.3858,
+            0.4906
+          ],
+          "badge": [
+            0.3878,
+            0.3908
+          ],
+          "fx": [
+            0.3858,
+            0.4906
+          ],
+          "depth": 542,
+          "scale": 1.025,
+          "mirror": true,
+          "gesture": "think",
+          "down": "down",
+          "front": null,
+          "about": "Standing on the deck, an arm across, a hand at the chin"
+        },
+        {
+          "id": "A3",
+          "feet": [
+            0.6738,
+            0.7865
+          ],
+          "press": [
+            0.64,
+            0.6569
+          ],
+          "badge": [
+            0.6174,
+            0.5621
+          ],
+          "fx": [
+            0.64,
+            0.6569
+          ],
+          "depth": 604,
+          "scale": 1.07,
+          "mirror": false,
+          "gesture": "crouchHatch",
+          "down": "down",
+          "front": null,
+          "about": "Crouched at the open floor hatch, a wrench in hand"
+        },
+        {
+          "id": "A4",
+          "feet": [
+            0.6484,
+            0.5313
+          ],
+          "press": [
+            0.6492,
+            0.3336
+          ],
+          "badge": [
+            0.6521,
+            0.2406
+          ],
+          "fx": [
+            0.6492,
+            0.3336
+          ],
+          "depth": 408,
+          "scale": 0.95,
+          "mirror": false,
+          "gesture": "leanCrates",
+          "down": "down",
+          "front": null,
+          "about": "Leaning back on the crates, the arms folded"
+        },
+        {
+          "id": "A5",
+          "feet": [
+            0.3574,
+            0.513
+          ],
+          "press": [
+            0.3541,
+            0.315
+          ],
+          "badge": [
+            0.3519,
+            0.2229
+          ],
+          "fx": [
+            0.3541,
+            0.315
+          ],
+          "depth": 394,
+          "scale": 0.94,
+          "mirror": false,
+          "gesture": "wallPanelBack",
+          "down": "down",
+          "front": null,
+          "about": "At the open junction box on the wall, back to us, a hand in the wires"
+        }
+      ],
+      "room-b": [
+        {
+          "id": "B1",
+          "feet": [
+            0.5488,
+            0.862
+          ],
+          "press": [
+            0.5533,
+            0.6378
+          ],
+          "badge": [
+            0.5562,
+            0.5343
+          ],
+          "fx": [
+            0.5533,
+            0.6378
+          ],
+          "depth": 662,
+          "scale": 1.08,
+          "mirror": true,
+          "gesture": "tablet",
+          "down": "down",
+          "front": null,
+          "about": "Standing on the deck, reading a tablet"
+        },
+        {
+          "id": "B2",
+          "feet": [
+            0.4141,
+            0.8646
+          ],
+          "press": [
+            0.4098,
+            0.7125
+          ],
+          "badge": [
+            0.4012,
+            0.6082
+          ],
+          "fx": [
+            0.4098,
+            0.7125
+          ],
+          "depth": 664,
+          "scale": 1.1,
+          "mirror": false,
+          "gesture": "laptopStool",
+          "down": "down",
+          "front": null,
+          "about": "Seated on a stool, a laptop open on the knees, typing"
+        },
+        {
+          "id": "B3",
+          "feet": [
+            0.6895,
+            0.8542
+          ],
+          "press": [
+            0.6882,
+            0.6258
+          ],
+          "badge": [
+            0.6873,
+            0.5195
+          ],
+          "fx": [
+            0.6882,
+            0.6258
+          ],
+          "depth": 656,
+          "scale": 1.08,
+          "mirror": false,
+          "gesture": "tankBack",
+          "down": "down",
+          "front": null,
+          "about": "At the specimen tank, back to us, a hand on the glass"
+        },
+        {
+          "id": "B4",
+          "feet": [
+            0.5625,
+            0.6354
+          ],
+          "press": [
+            0.5625,
+            0.4506
+          ],
+          "badge": [
+            0.5625,
+            0.3645
+          ],
+          "fx": [
+            0.5625,
+            0.4506
+          ],
+          "depth": 400,
+          "scale": 0.95,
+          "mirror": false,
+          "gesture": "leanBench",
+          "down": "slumpBench",
+          "front": null,
+          "about": "Behind the bench, leaning on it with both hands, looking at the samples"
+        },
+        {
+          "id": "B5",
+          "feet": [
+            0.3906,
+            0.6354
+          ],
+          "press": [
+            0.3862,
+            0.4388
+          ],
+          "badge": [
+            0.3833,
+            0.3478
+          ],
+          "fx": [
+            0.3862,
+            0.4388
+          ],
+          "depth": 400,
+          "scale": 0.94,
+          "mirror": false,
+          "gesture": "microscope",
+          "down": "slumpBench",
+          "front": null,
+          "about": "Behind the bench, bent over the microscope"
+        }
+      ],
+      "hospital": [
+        {
+          "id": "H1",
+          "feet": [
+            0.3542,
+            0.9046
+          ],
+          "press": [
+            0.332,
+            0.8177
+          ],
+          "badge": [
+            0.2682,
+            0.7207
+          ],
+          "fx": [
+            0.332,
+            0.8177
+          ],
+          "depth": 694.7,
+          "scale": 1.42,
+          "mirror": false,
+          "gesture": "bedLying",
+          "down": "bedLying+still",
+          "front": "berth-four-h1",
+          "about": "Front row, left: lying, an arm across the forehead"
+        },
+        {
+          "id": "H2",
+          "feet": [
+            0.6663,
+            0.9349
+          ],
+          "press": [
+            0.668,
+            0.8177
+          ],
+          "badge": [
+            0.6041,
+            0.7207
+          ],
+          "fx": [
+            0.668,
+            0.8177
+          ],
+          "depth": 718,
+          "scale": 1.42,
+          "mirror": true,
+          "gesture": "bedSitting",
+          "down": "bedSitting+still",
+          "front": "berth-four-h2",
+          "about": "Front row, right: sitting up against the pillow"
+        },
+        {
+          "id": "H3",
+          "feet": [
+            0.3334,
+            0.659
+          ],
+          "press": [
+            0.332,
+            0.5599
+          ],
+          "badge": [
+            0.2801,
+            0.4461
+          ],
+          "fx": [
+            0.332,
+            0.5599
+          ],
+          "depth": 506.1,
+          "scale": 1.2,
+          "mirror": false,
+          "gesture": "bedSitting",
+          "down": "bedSitting+still",
+          "front": "berth-four-h3",
+          "about": "Back row, left: sitting up against the pillow"
+        },
+        {
+          "id": "H4",
+          "feet": [
+            0.6492,
+            0.6333
+          ],
+          "press": [
+            0.668,
+            0.5599
+          ],
+          "badge": [
+            0.616,
+            0.4461
+          ],
+          "fx": [
+            0.668,
+            0.5599
+          ],
+          "depth": 486.4,
+          "scale": 1.2,
+          "mirror": true,
+          "gesture": "bedLying",
+          "down": "bedLying+still",
+          "front": "berth-four-h4",
+          "about": "Back row, right: lying, an arm across the forehead"
+        }
+      ],
+      "jail": [
+        {
+          "id": "J1",
+          "feet": [
+            0.2402,
+            0.526
+          ],
+          "press": [
+            0.2402,
+            0.3992
+          ],
+          "badge": [
+            0.2402,
+            0.3206
+          ],
+          "fx": [
+            0.2402,
+            0.3992
+          ],
+          "depth": 404,
+          "scale": 0.98,
+          "mirror": false,
+          "gesture": "benchHunched",
+          "down": "benchHunched+still",
+          "front": null,
+          "about": "Hunched on the bench, the elbows on the knees, looking down"
+        },
+        {
+          "id": "J2",
+          "feet": [
+            0.5,
+            0.5182
+          ],
+          "press": [
+            0.4994,
+            0.319
+          ],
+          "badge": [
+            0.4991,
+            0.227
+          ],
+          "fx": [
+            0.4994,
+            0.319
+          ],
+          "depth": 398,
+          "scale": 0.96,
+          "mirror": false,
+          "gesture": "doorBack",
+          "down": "down",
+          "front": null,
+          "about": "At the door, back to us, both hands flat on it"
+        },
+        {
+          "id": "J3",
+          "feet": [
+            0.7578,
+            0.526
+          ],
+          "press": [
+            0.7582,
+            0.3221
+          ],
+          "badge": [
+            0.7597,
+            0.2262
+          ],
+          "fx": [
+            0.7582,
+            0.3221
+          ],
+          "depth": 404,
+          "scale": 0.98,
+          "mirror": false,
+          "gesture": "wallLean",
+          "down": "down",
+          "front": null,
+          "about": "Leaning on the wall, the arms folded, a foot against it"
+        },
+        {
+          "id": "J4",
+          "feet": [
+            0.3711,
+            0.9115
+          ],
+          "press": [
+            0.3711,
+            0.8126
+          ],
+          "badge": [
+            0.3711,
+            0.7095
+          ],
+          "fx": [
+            0.3711,
+            0.8126
+          ],
+          "depth": 700,
+          "scale": 1.1,
+          "mirror": true,
+          "gesture": "floorSit",
+          "down": "floorSit+still",
+          "front": null,
+          "about": "Sitting on the deck against the wall, the knees up, the arms on them"
+        },
+        {
+          "id": "J5",
+          "feet": [
+            0.6367,
+            0.9167
+          ],
+          "press": [
+            0.598,
+            0.8637
+          ],
+          "badge": [
+            0.5637,
+            0.8092
+          ],
+          "fx": [
+            0.598,
+            0.8637
+          ],
+          "depth": 704,
+          "scale": 1.1,
+          "mirror": false,
+          "gesture": "cotLying",
+          "down": "cotLying+still",
+          "front": null,
+          "about": "Lying on the cot, the hands behind the head"
+        }
+      ]
+    },
+    "8": {
+      "command-room": [
+        {
+          "id": "C1",
+          "feet": [
+            0.5,
+            0.7474
+          ],
+          "press": [
+            0.5,
+            0.5215
+          ],
+          "badge": [
+            0.5,
+            0.4115
+          ],
+          "fx": [
+            0.5,
+            0.5215
+          ],
+          "depth": 440,
+          "scale": 1.2,
+          "mirror": false,
+          "gesture": "captainTable",
+          "down": "down",
+          "front": null,
+          "about": "The Captain, leaning over the chart table on both hands"
+        }
+      ],
+      "room-a": [
+        {
+          "id": "A1",
+          "feet": [
+            0.5059,
+            0.6901
+          ],
+          "press": [
+            0.5071,
+            0.5395
+          ],
+          "badge": [
+            0.5079,
+            0.4417
+          ],
+          "fx": [
+            0.5071,
+            0.5395
+          ],
+          "depth": 530,
+          "scale": 1.02,
+          "mirror": false,
+          "gesture": "consoleBack",
+          "down": "slumpDesk",
+          "front": null,
+          "about": "Seated at the workstation, back to us, at the monitors"
+        },
+        {
+          "id": "A2",
+          "feet": [
+            0.3828,
+            0.7057
+          ],
+          "press": [
+            0.3858,
+            0.4906
+          ],
+          "badge": [
+            0.3878,
+            0.3908
+          ],
+          "fx": [
+            0.3858,
+            0.4906
+          ],
+          "depth": 542,
+          "scale": 1.025,
+          "mirror": true,
+          "gesture": "think",
+          "down": "down",
+          "front": null,
+          "about": "Standing on the deck, an arm across, a hand at the chin"
+        },
+        {
+          "id": "A3",
+          "feet": [
+            0.6738,
+            0.7865
+          ],
+          "press": [
+            0.64,
+            0.6569
+          ],
+          "badge": [
+            0.6174,
+            0.5621
+          ],
+          "fx": [
+            0.64,
+            0.6569
+          ],
+          "depth": 604,
+          "scale": 1.07,
+          "mirror": false,
+          "gesture": "crouchHatch",
+          "down": "down",
+          "front": null,
+          "about": "Crouched at the open floor hatch, a wrench in hand"
+        },
+        {
+          "id": "A4",
+          "feet": [
+            0.6484,
+            0.5313
+          ],
+          "press": [
+            0.6492,
+            0.3336
+          ],
+          "badge": [
+            0.6521,
+            0.2406
+          ],
+          "fx": [
+            0.6492,
+            0.3336
+          ],
+          "depth": 408,
+          "scale": 0.95,
+          "mirror": false,
+          "gesture": "leanCrates",
+          "down": "down",
+          "front": null,
+          "about": "Leaning back on the crates, the arms folded"
+        },
+        {
+          "id": "A5",
+          "feet": [
+            0.3574,
+            0.513
+          ],
+          "press": [
+            0.3541,
+            0.315
+          ],
+          "badge": [
+            0.3519,
+            0.2229
+          ],
+          "fx": [
+            0.3541,
+            0.315
+          ],
+          "depth": 394,
+          "scale": 0.94,
+          "mirror": false,
+          "gesture": "wallPanelBack",
+          "down": "down",
+          "front": null,
+          "about": "At the open junction box on the wall, back to us, a hand in the wires"
+        }
+      ],
+      "room-b": [
+        {
+          "id": "B1",
+          "feet": [
+            0.5488,
+            0.862
+          ],
+          "press": [
+            0.5533,
+            0.6378
+          ],
+          "badge": [
+            0.5562,
+            0.5343
+          ],
+          "fx": [
+            0.5533,
+            0.6378
+          ],
+          "depth": 662,
+          "scale": 1.08,
+          "mirror": true,
+          "gesture": "tablet",
+          "down": "down",
+          "front": null,
+          "about": "Standing on the deck, reading a tablet"
+        },
+        {
+          "id": "B2",
+          "feet": [
+            0.4141,
+            0.8646
+          ],
+          "press": [
+            0.4098,
+            0.7125
+          ],
+          "badge": [
+            0.4012,
+            0.6082
+          ],
+          "fx": [
+            0.4098,
+            0.7125
+          ],
+          "depth": 664,
+          "scale": 1.1,
+          "mirror": false,
+          "gesture": "laptopStool",
+          "down": "down",
+          "front": null,
+          "about": "Seated on a stool, a laptop open on the knees, typing"
+        },
+        {
+          "id": "B3",
+          "feet": [
+            0.6895,
+            0.8542
+          ],
+          "press": [
+            0.6882,
+            0.6258
+          ],
+          "badge": [
+            0.6873,
+            0.5195
+          ],
+          "fx": [
+            0.6882,
+            0.6258
+          ],
+          "depth": 656,
+          "scale": 1.08,
+          "mirror": false,
+          "gesture": "tankBack",
+          "down": "down",
+          "front": null,
+          "about": "At the specimen tank, back to us, a hand on the glass"
+        },
+        {
+          "id": "B4",
+          "feet": [
+            0.5625,
+            0.6354
+          ],
+          "press": [
+            0.5625,
+            0.4506
+          ],
+          "badge": [
+            0.5625,
+            0.3645
+          ],
+          "fx": [
+            0.5625,
+            0.4506
+          ],
+          "depth": 400,
+          "scale": 0.95,
+          "mirror": false,
+          "gesture": "leanBench",
+          "down": "slumpBench",
+          "front": null,
+          "about": "Behind the bench, leaning on it with both hands, looking at the samples"
+        },
+        {
+          "id": "B5",
+          "feet": [
+            0.3906,
+            0.6354
+          ],
+          "press": [
+            0.3862,
+            0.4388
+          ],
+          "badge": [
+            0.3833,
+            0.3478
+          ],
+          "fx": [
+            0.3862,
+            0.4388
+          ],
+          "depth": 400,
+          "scale": 0.94,
+          "mirror": false,
+          "gesture": "microscope",
+          "down": "slumpBench",
+          "front": null,
+          "about": "Behind the bench, bent over the microscope"
+        }
+      ],
+      "hospital": [
+        {
+          "id": "H1",
+          "feet": [
+            0.3542,
+            0.9046
+          ],
+          "press": [
+            0.332,
+            0.8177
+          ],
+          "badge": [
+            0.2682,
+            0.7207
+          ],
+          "fx": [
+            0.332,
+            0.8177
+          ],
+          "depth": 694.7,
+          "scale": 1.42,
+          "mirror": false,
+          "gesture": "bedLying",
+          "down": "bedLying+still",
+          "front": "berth-four-h1",
+          "about": "Front row, left: lying, an arm across the forehead"
+        },
+        {
+          "id": "H2",
+          "feet": [
+            0.6663,
+            0.9349
+          ],
+          "press": [
+            0.668,
+            0.8177
+          ],
+          "badge": [
+            0.6041,
+            0.7207
+          ],
+          "fx": [
+            0.668,
+            0.8177
+          ],
+          "depth": 718,
+          "scale": 1.42,
+          "mirror": true,
+          "gesture": "bedSitting",
+          "down": "bedSitting+still",
+          "front": "berth-four-h2",
+          "about": "Front row, right: sitting up against the pillow"
+        },
+        {
+          "id": "H3",
+          "feet": [
+            0.3334,
+            0.659
+          ],
+          "press": [
+            0.332,
+            0.5599
+          ],
+          "badge": [
+            0.2801,
+            0.4461
+          ],
+          "fx": [
+            0.332,
+            0.5599
+          ],
+          "depth": 506.1,
+          "scale": 1.2,
+          "mirror": false,
+          "gesture": "bedSitting",
+          "down": "bedSitting+still",
+          "front": "berth-four-h3",
+          "about": "Back row, left: sitting up against the pillow"
+        },
+        {
+          "id": "H4",
+          "feet": [
+            0.6492,
+            0.6333
+          ],
+          "press": [
+            0.668,
+            0.5599
+          ],
+          "badge": [
+            0.616,
+            0.4461
+          ],
+          "fx": [
+            0.668,
+            0.5599
+          ],
+          "depth": 486.4,
+          "scale": 1.2,
+          "mirror": true,
+          "gesture": "bedLying",
+          "down": "bedLying+still",
+          "front": "berth-four-h4",
+          "about": "Back row, right: lying, an arm across the forehead"
+        }
+      ],
+      "jail": [
+        {
+          "id": "J1",
+          "feet": [
+            0.2402,
+            0.526
+          ],
+          "press": [
+            0.2402,
+            0.3992
+          ],
+          "badge": [
+            0.2402,
+            0.3206
+          ],
+          "fx": [
+            0.2402,
+            0.3992
+          ],
+          "depth": 404,
+          "scale": 0.98,
+          "mirror": false,
+          "gesture": "benchHunched",
+          "down": "benchHunched+still",
+          "front": null,
+          "about": "Hunched on the bench, the elbows on the knees, looking down"
+        },
+        {
+          "id": "J2",
+          "feet": [
+            0.5,
+            0.5182
+          ],
+          "press": [
+            0.4994,
+            0.319
+          ],
+          "badge": [
+            0.4991,
+            0.227
+          ],
+          "fx": [
+            0.4994,
+            0.319
+          ],
+          "depth": 398,
+          "scale": 0.96,
+          "mirror": false,
+          "gesture": "doorBack",
+          "down": "down",
+          "front": null,
+          "about": "At the door, back to us, both hands flat on it"
+        },
+        {
+          "id": "J3",
+          "feet": [
+            0.7578,
+            0.526
+          ],
+          "press": [
+            0.7582,
+            0.3221
+          ],
+          "badge": [
+            0.7597,
+            0.2262
+          ],
+          "fx": [
+            0.7582,
+            0.3221
+          ],
+          "depth": 404,
+          "scale": 0.98,
+          "mirror": false,
+          "gesture": "wallLean",
+          "down": "down",
+          "front": null,
+          "about": "Leaning on the wall, the arms folded, a foot against it"
+        },
+        {
+          "id": "J4",
+          "feet": [
+            0.3711,
+            0.9115
+          ],
+          "press": [
+            0.3711,
+            0.8126
+          ],
+          "badge": [
+            0.3711,
+            0.7095
+          ],
+          "fx": [
+            0.3711,
+            0.8126
+          ],
+          "depth": 700,
+          "scale": 1.1,
+          "mirror": true,
+          "gesture": "floorSit",
+          "down": "floorSit+still",
+          "front": null,
+          "about": "Sitting on the deck against the wall, the knees up, the arms on them"
+        },
+        {
+          "id": "J5",
+          "feet": [
+            0.6367,
+            0.9167
+          ],
+          "press": [
+            0.598,
+            0.8637
+          ],
+          "badge": [
+            0.5637,
+            0.8092
+          ],
+          "fx": [
+            0.598,
+            0.8637
+          ],
+          "depth": 704,
+          "scale": 1.1,
+          "mirror": false,
+          "gesture": "cotLying",
+          "down": "cotLying+still",
+          "front": null,
+          "about": "Lying on the cot, the hands behind the head"
+        }
+      ]
+    },
+    "9": {
+      "command-room": [
+        {
+          "id": "C1",
+          "feet": [
+            0.5,
+            0.7474
+          ],
+          "press": [
+            0.5,
+            0.5215
+          ],
+          "badge": [
+            0.5,
+            0.4115
+          ],
+          "fx": [
+            0.5,
+            0.5215
+          ],
+          "depth": 440,
+          "scale": 1.2,
+          "mirror": false,
+          "gesture": "captainTable",
+          "down": "down",
+          "front": null,
+          "about": "The Captain, leaning over the chart table on both hands"
+        }
+      ],
+      "room-a": [
+        {
+          "id": "A1",
+          "feet": [
+            0.5059,
+            0.6901
+          ],
+          "press": [
+            0.5071,
+            0.5395
+          ],
+          "badge": [
+            0.5079,
+            0.4417
+          ],
+          "fx": [
+            0.5071,
+            0.5395
+          ],
+          "depth": 530,
+          "scale": 1.02,
+          "mirror": false,
+          "gesture": "consoleBack",
+          "down": "slumpDesk",
+          "front": null,
+          "about": "Seated at the workstation, back to us, at the monitors"
+        },
+        {
+          "id": "A2",
+          "feet": [
+            0.3828,
+            0.7057
+          ],
+          "press": [
+            0.3858,
+            0.4906
+          ],
+          "badge": [
+            0.3878,
+            0.3908
+          ],
+          "fx": [
+            0.3858,
+            0.4906
+          ],
+          "depth": 542,
+          "scale": 1.025,
+          "mirror": true,
+          "gesture": "think",
+          "down": "down",
+          "front": null,
+          "about": "Standing on the deck, an arm across, a hand at the chin"
+        },
+        {
+          "id": "A3",
+          "feet": [
+            0.6738,
+            0.7865
+          ],
+          "press": [
+            0.64,
+            0.6569
+          ],
+          "badge": [
+            0.6174,
+            0.5621
+          ],
+          "fx": [
+            0.64,
+            0.6569
+          ],
+          "depth": 604,
+          "scale": 1.07,
+          "mirror": false,
+          "gesture": "crouchHatch",
+          "down": "down",
+          "front": null,
+          "about": "Crouched at the open floor hatch, a wrench in hand"
+        },
+        {
+          "id": "A4",
+          "feet": [
+            0.6484,
+            0.5313
+          ],
+          "press": [
+            0.6492,
+            0.3336
+          ],
+          "badge": [
+            0.6521,
+            0.2406
+          ],
+          "fx": [
+            0.6492,
+            0.3336
+          ],
+          "depth": 408,
+          "scale": 0.95,
+          "mirror": false,
+          "gesture": "leanCrates",
+          "down": "down",
+          "front": null,
+          "about": "Leaning back on the crates, the arms folded"
+        },
+        {
+          "id": "A5",
+          "feet": [
+            0.3574,
+            0.513
+          ],
+          "press": [
+            0.3541,
+            0.315
+          ],
+          "badge": [
+            0.3519,
+            0.2229
+          ],
+          "fx": [
+            0.3541,
+            0.315
+          ],
+          "depth": 394,
+          "scale": 0.94,
+          "mirror": false,
+          "gesture": "wallPanelBack",
+          "down": "down",
+          "front": null,
+          "about": "At the open junction box on the wall, back to us, a hand in the wires"
+        }
+      ],
+      "room-b": [
+        {
+          "id": "B1",
+          "feet": [
+            0.5488,
+            0.862
+          ],
+          "press": [
+            0.5533,
+            0.6378
+          ],
+          "badge": [
+            0.5562,
+            0.5343
+          ],
+          "fx": [
+            0.5533,
+            0.6378
+          ],
+          "depth": 662,
+          "scale": 1.08,
+          "mirror": true,
+          "gesture": "tablet",
+          "down": "down",
+          "front": null,
+          "about": "Standing on the deck, reading a tablet"
+        },
+        {
+          "id": "B2",
+          "feet": [
+            0.4141,
+            0.8646
+          ],
+          "press": [
+            0.4098,
+            0.7125
+          ],
+          "badge": [
+            0.4012,
+            0.6082
+          ],
+          "fx": [
+            0.4098,
+            0.7125
+          ],
+          "depth": 664,
+          "scale": 1.1,
+          "mirror": false,
+          "gesture": "laptopStool",
+          "down": "down",
+          "front": null,
+          "about": "Seated on a stool, a laptop open on the knees, typing"
+        },
+        {
+          "id": "B3",
+          "feet": [
+            0.6895,
+            0.8542
+          ],
+          "press": [
+            0.6882,
+            0.6258
+          ],
+          "badge": [
+            0.6873,
+            0.5195
+          ],
+          "fx": [
+            0.6882,
+            0.6258
+          ],
+          "depth": 656,
+          "scale": 1.08,
+          "mirror": false,
+          "gesture": "tankBack",
+          "down": "down",
+          "front": null,
+          "about": "At the specimen tank, back to us, a hand on the glass"
+        },
+        {
+          "id": "B4",
+          "feet": [
+            0.5625,
+            0.6354
+          ],
+          "press": [
+            0.5625,
+            0.4506
+          ],
+          "badge": [
+            0.5625,
+            0.3645
+          ],
+          "fx": [
+            0.5625,
+            0.4506
+          ],
+          "depth": 400,
+          "scale": 0.95,
+          "mirror": false,
+          "gesture": "leanBench",
+          "down": "slumpBench",
+          "front": null,
+          "about": "Behind the bench, leaning on it with both hands, looking at the samples"
+        },
+        {
+          "id": "B5",
+          "feet": [
+            0.3906,
+            0.6354
+          ],
+          "press": [
+            0.3862,
+            0.4388
+          ],
+          "badge": [
+            0.3833,
+            0.3478
+          ],
+          "fx": [
+            0.3862,
+            0.4388
+          ],
+          "depth": 400,
+          "scale": 0.94,
+          "mirror": false,
+          "gesture": "microscope",
+          "down": "slumpBench",
+          "front": null,
+          "about": "Behind the bench, bent over the microscope"
+        }
+      ],
+      "hospital": [
+        {
+          "id": "H1",
+          "feet": [
+            0.3542,
+            0.9046
+          ],
+          "press": [
+            0.332,
+            0.8177
+          ],
+          "badge": [
+            0.2682,
+            0.7207
+          ],
+          "fx": [
+            0.332,
+            0.8177
+          ],
+          "depth": 694.7,
+          "scale": 1.42,
+          "mirror": false,
+          "gesture": "bedLying",
+          "down": "bedLying+still",
+          "front": "berth-four-h1",
+          "about": "Front row, left: lying, an arm across the forehead"
+        },
+        {
+          "id": "H2",
+          "feet": [
+            0.6663,
+            0.9349
+          ],
+          "press": [
+            0.668,
+            0.8177
+          ],
+          "badge": [
+            0.6041,
+            0.7207
+          ],
+          "fx": [
+            0.668,
+            0.8177
+          ],
+          "depth": 718,
+          "scale": 1.42,
+          "mirror": true,
+          "gesture": "bedSitting",
+          "down": "bedSitting+still",
+          "front": "berth-four-h2",
+          "about": "Front row, right: sitting up against the pillow"
+        },
+        {
+          "id": "H3",
+          "feet": [
+            0.3334,
+            0.659
+          ],
+          "press": [
+            0.332,
+            0.5599
+          ],
+          "badge": [
+            0.2801,
+            0.4461
+          ],
+          "fx": [
+            0.332,
+            0.5599
+          ],
+          "depth": 506.1,
+          "scale": 1.2,
+          "mirror": false,
+          "gesture": "bedSitting",
+          "down": "bedSitting+still",
+          "front": "berth-four-h3",
+          "about": "Back row, left: sitting up against the pillow"
+        },
+        {
+          "id": "H4",
+          "feet": [
+            0.6492,
+            0.6333
+          ],
+          "press": [
+            0.668,
+            0.5599
+          ],
+          "badge": [
+            0.616,
+            0.4461
+          ],
+          "fx": [
+            0.668,
+            0.5599
+          ],
+          "depth": 486.4,
+          "scale": 1.2,
+          "mirror": true,
+          "gesture": "bedLying",
+          "down": "bedLying+still",
+          "front": "berth-four-h4",
+          "about": "Back row, right: lying, an arm across the forehead"
+        }
+      ],
+      "jail": [
+        {
+          "id": "J1",
+          "feet": [
+            0.2402,
+            0.526
+          ],
+          "press": [
+            0.2402,
+            0.3992
+          ],
+          "badge": [
+            0.2402,
+            0.3206
+          ],
+          "fx": [
+            0.2402,
+            0.3992
+          ],
+          "depth": 404,
+          "scale": 0.98,
+          "mirror": false,
+          "gesture": "benchHunched",
+          "down": "benchHunched+still",
+          "front": null,
+          "about": "Hunched on the bench, the elbows on the knees, looking down"
+        },
+        {
+          "id": "J2",
+          "feet": [
+            0.5,
+            0.5182
+          ],
+          "press": [
+            0.4994,
+            0.319
+          ],
+          "badge": [
+            0.4991,
+            0.227
+          ],
+          "fx": [
+            0.4994,
+            0.319
+          ],
+          "depth": 398,
+          "scale": 0.96,
+          "mirror": false,
+          "gesture": "doorBack",
+          "down": "down",
+          "front": null,
+          "about": "At the door, back to us, both hands flat on it"
+        },
+        {
+          "id": "J3",
+          "feet": [
+            0.7578,
+            0.526
+          ],
+          "press": [
+            0.7582,
+            0.3221
+          ],
+          "badge": [
+            0.7597,
+            0.2262
+          ],
+          "fx": [
+            0.7582,
+            0.3221
+          ],
+          "depth": 404,
+          "scale": 0.98,
+          "mirror": false,
+          "gesture": "wallLean",
+          "down": "down",
+          "front": null,
+          "about": "Leaning on the wall, the arms folded, a foot against it"
+        },
+        {
+          "id": "J4",
+          "feet": [
+            0.3711,
+            0.9115
+          ],
+          "press": [
+            0.3711,
+            0.8126
+          ],
+          "badge": [
+            0.3711,
+            0.7095
+          ],
+          "fx": [
+            0.3711,
+            0.8126
+          ],
+          "depth": 700,
+          "scale": 1.1,
+          "mirror": true,
+          "gesture": "floorSit",
+          "down": "floorSit+still",
+          "front": null,
+          "about": "Sitting on the deck against the wall, the knees up, the arms on them"
+        },
+        {
+          "id": "J5",
+          "feet": [
+            0.6367,
+            0.9167
+          ],
+          "press": [
+            0.598,
+            0.8637
+          ],
+          "badge": [
+            0.5637,
+            0.8092
+          ],
+          "fx": [
+            0.598,
+            0.8637
+          ],
+          "depth": 704,
+          "scale": 1.1,
+          "mirror": false,
+          "gesture": "cotLying",
+          "down": "cotLying+still",
+          "front": null,
+          "about": "Lying on the cot, the hands behind the head"
+        }
+      ]
+    }
+  }
+}

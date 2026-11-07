@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · editable source · ability art proposal · tools kit
+  Original vector artwork made for this repository. Rights and provenance: design/abilities/assets/manifest.json.
+
+  PRIVATE. The paper and gear of a seat's own actions, added to the dossier and intel kits for the
+  Cracker's Rescue, the two Disablers' Disable and the Supplier's Supply: what is left (vials, a
+  charge cell), the ring round a picked player's chip, the shipping tags of a Supply, the slip of a
+  result. Drawn only inside that seat's own open card or its own action strip, never on the board,
+  the shared display or in a public cue. Every player phone loads the whole kit in one stylesheet,
+  whatever its role, and nothing in it is named after or coloured for a role or a team: the two
+  Disablers share every piece here, and their private identities are their approved devices.
+
+  No text is drawn: every word, number and stamp is live text in the client. Colors are token values
+  (tokens 0.4.0): paper, the paper shades, ink, canvas, the steel values and the caption yellow.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 200" width="560" height="200">
+  <defs>
+    <pattern id="tools-ink-dots" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <circle cx="2" cy="2" r="0.8" fill="#151923"/>
+    </pattern>
+  </defs>
+
+  <!-- A vial: one Rescue left. 22 x 36. -->
+  <g transform="translate(10 10)">
+    <g id="dossier-vial">
+      <rect x="6" y="2" width="10" height="6" rx="1.5" fill="#55657E" stroke="#151923" stroke-width="2"/>
+      <path d="M5 9 H17 V29 Q17 34 11 34 Q5 34 5 29 Z" fill="#F4EBDD"/>
+      <path d="M6.5 17 H15.5 V29 Q15.5 32.5 11 32.5 Q6.5 32.5 6.5 29 Z" fill="#F7C52B"/>
+      <path d="M8 19 V28" fill="none" stroke="#F4EBDD" stroke-width="1.6" stroke-linecap="round"/>
+      <path d="M5 9 H17 V29 Q17 34 11 34 Q5 34 5 29 Z" fill="none" stroke="#151923" stroke-width="2.2" stroke-linejoin="round"/>
+    </g>
+  </g>
+
+  <!-- An empty vial: a Rescue spent. 22 x 36. -->
+  <g transform="translate(40 10)">
+    <g id="dossier-vial-empty">
+      <rect x="6" y="2" width="10" height="6" rx="1.5" fill="#B9C4D3" stroke="#151923" stroke-width="2" stroke-dasharray="3 2"/>
+      <path d="M5 9 H17 V29 Q17 34 11 34 Q5 34 5 29 Z" fill="#E3D6C2" stroke="#151923" stroke-width="2" stroke-dasharray="3 2" stroke-linejoin="round"/>
+    </g>
+  </g>
+
+  <!-- A cross ring: round the chip of a Rescue's target, a medical cross on its top. 48 x 48. -->
+  <g transform="translate(80 6)">
+    <g id="dossier-cross">
+      <circle cx="24" cy="26" r="20" fill="none" stroke="#151923" stroke-width="4"/>
+      <circle cx="24" cy="26" r="20" fill="none" stroke="#F4EBDD" stroke-width="1.6"/>
+      <path d="M20.5 1.5 H27.5 V6 H32 V13 H27.5 V17.5 H20.5 V13 H16 V6 H20.5 Z" fill="#F4EBDD" stroke="#151923" stroke-width="1.8" stroke-linejoin="round"/>
+    </g>
+  </g>
+
+  <!-- A charge cell: the one use left. 24 x 36. -->
+  <g transform="translate(140 10)">
+    <g id="dossier-cell">
+      <rect x="8" y="1" width="8" height="5" rx="1" fill="#55657E" stroke="#151923" stroke-width="1.8"/>
+      <rect x="3" y="5" width="18" height="29" rx="3" fill="#202837" stroke="#151923" stroke-width="2.2"/>
+      <rect x="6" y="9" width="12" height="21" rx="1.5" fill="#F7C52B"/>
+      <path d="M13.5 11 L9 20 H12.5 L10.5 28 L15.5 18 H12 Z" fill="#151923"/>
+    </g>
+  </g>
+
+  <!-- An empty cell: the use spent. 24 x 36. -->
+  <g transform="translate(170 10)">
+    <g id="dossier-cell-empty">
+      <rect x="8" y="1" width="8" height="5" rx="1" fill="#B9C4D3" stroke="#151923" stroke-width="1.8"/>
+      <rect x="3" y="5" width="18" height="29" rx="3" fill="#E3D6C2" stroke="#151923" stroke-width="2" stroke-dasharray="3 2"/>
+    </g>
+  </g>
+
+  <!-- Sparks: four little arcs at the corners of a Disable's target, outside the chip (clear within r 20 of (28, 28)),
+       a charged reticle and never a hit: the receipt is not a result. 56 x 56. -->
+  <g transform="translate(210 4)">
+    <g id="dossier-spark">
+      <circle cx="28" cy="28" r="21.5" fill="none" stroke="#151923" stroke-width="2.4" stroke-dasharray="5 4"/>
+      <g transform="rotate(0 28 28)">
+        <path d="M42 14 L46 13 L45 9 L49 8 L48 4" fill="none" stroke="#151923" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M42 14 L46 13 L45 9 L49 8 L48 4" fill="none" stroke="#F7C52B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </g>
+      <g transform="rotate(90 28 28)">
+        <path d="M42 14 L46 13 L45 9 L49 8 L48 4" fill="none" stroke="#151923" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M42 14 L46 13 L45 9 L49 8 L48 4" fill="none" stroke="#F7C52B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </g>
+      <g transform="rotate(180 28 28)">
+        <path d="M42 14 L46 13 L45 9 L49 8 L48 4" fill="none" stroke="#151923" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M42 14 L46 13 L45 9 L49 8 L48 4" fill="none" stroke="#F7C52B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </g>
+      <g transform="rotate(270 28 28)">
+        <path d="M42 14 L46 13 L45 9 L49 8 L48 4" fill="none" stroke="#151923" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M42 14 L46 13 L45 9 L49 8 L48 4" fill="none" stroke="#F7C52B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </g>
+    </g>
+  </g>
+
+  <!-- A shipping tag: one of a Supply's two picks; the chip sits at (42, 20). 70 x 40. The eyelet at (12, 20). -->
+  <g transform="translate(280 10)">
+    <g id="dossier-tag">
+      <path d="M16 3 H66 Q68 3 68 5 V35 Q68 37 66 37 H16 L3 24 V16 Z" fill="#151923" opacity="0.3" transform="translate(2 2)"/>
+      <path d="M16 3 H66 Q68 3 68 5 V35 Q68 37 66 37 H16 L3 24 V16 Z" fill="#CBBBA2" stroke="#151923" stroke-width="2.2" stroke-linejoin="round"/>
+      <circle cx="12" cy="20" r="3.6" fill="#F4EBDD" stroke="#151923" stroke-width="1.8"/>
+      <path d="M22 9 H62 M22 31 H62" fill="none" stroke="#E3D6C2" stroke-width="1.4" stroke-linecap="round"/>
+    </g>
+  </g>
+
+  <!-- A slip: a note, perforated along its top, its right edge shaded. 200 x 64. Nine-sliced at 18 34 10 10:
+       the perforation lies in the top band and the shading in the right band, so neither stretches out of
+       shape however long the words. Words are live text. -->
+  <g transform="translate(10 100)">
+    <g id="dossier-slip">
+      <path d="M6 8 H198 V62 H6 Z" fill="#151923" opacity="0.28" transform="translate(2 2)"/>
+      <path d="M4 6 H196 V60 H4 Z" fill="#F4EBDD" stroke="#151923" stroke-width="2.2" stroke-linejoin="round"/>
+      <path d="M8 14 H192" fill="none" stroke="#151923" stroke-width="1.4" stroke-dasharray="2 3" opacity="0.6"/>
+      <path d="M176 7 H195 V59 H170 Q182 32 176 7 Z" fill="url(#tools-ink-dots)" opacity="0.2"/>
+    </g>
+  </g>
+</svg>

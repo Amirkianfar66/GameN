@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · ability art proposal · dossier-round-special 0.1.0 · generated, do not edit by hand
+  The special shot. The showdown's one special shot, at the start of the seat's own showdown strip; drawn spent (dossier-round-spent) once the server accepts it.
+  Built by design/tools/abilities-assets.mjs from design/abilities/source/finale.svg (layer dossier-round-special). Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 30" width="14" height="30"><g id="dossier-round-special"><path d="M7 2 Q12 2 12 10 V27 H2 V10 Q2 2 7 2 Z" fill="#F7C52B" stroke="#151923" stroke-width="2" stroke-linejoin="round"/><path d="M2.5 14 H11.5 M2.5 17.5 H11.5" fill="none" stroke="#151923" stroke-width="1.6"/><path d="M2.5 20.5 H11.5 V23 H2.5 Z" fill="#E3D6C2"/><path d="M1.5 25 H12.5 V28.5 H1.5 Z" fill="#55657E" stroke="#151923" stroke-width="1.6" stroke-linejoin="round"/><path d="M5 6 Q5.5 4 7 3.6" fill="none" stroke="#F4EBDD" stroke-width="1.4" stroke-linecap="round"/></g></svg>

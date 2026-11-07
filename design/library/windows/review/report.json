@@ -1,0 +1,996 @@
+{
+  "tool": "design/tools/library-capture.mjs",
+  "browser": "Chromium 141.0.7390.37",
+  "page": "design/library/windows/index.html",
+  "captures": [
+    {
+      "file": "design/library/windows/review/w390-station-a1-a-b.png",
+      "sha256": "1b34302b764abfe93d4497cf743e0d2c5ebd5ac6af3114ddee71a973889a1454",
+      "bytes": 101040,
+      "state": "station A1: A_B",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/windows/review/w390-station-a2-a-hospital.png",
+      "sha256": "4072b2a873ee19bee97d33a525043c0a1ae50b56ec32f72295989207ff324aad",
+      "bytes": 106439,
+      "state": "station A2: A_HOSPITAL",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/windows/review/w390-station-b1-a-b.png",
+      "sha256": "5e89cb0b3cf640f018d583be93def1ccdbb770ed2331a5c12df3f7dc7a74f6c9",
+      "bytes": 107938,
+      "state": "station B1: A_B",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/windows/review/w390-station-b2-b-jail.png",
+      "sha256": "30c8225cf0dcb5bee7b347eeb9d2318df10e6f35b3eeb7fcfc5ea7aea5985a4b",
+      "bytes": 106832,
+      "state": "station B2: B_JAIL",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/windows/review/w390-pad-blank.png",
+      "sha256": "485921c5672cf67819c5166b0cf4fc11de18150f8edabf1286e67233673aea04",
+      "bytes": 78596,
+      "state": "pad: blank",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/windows/review/w390-pad-drawing.png",
+      "sha256": "1c698f8fb64e084846d55e6e7ae6616ed8c6969460b3866a0683c552ea43bac3",
+      "bytes": 88915,
+      "state": "pad: drawing",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/windows/review/w390-pad-full-the-contract-s-4-096-points.png",
+      "sha256": "fe20e2d189f09b589975c57c18f618a4488dfb09640655c76e0368102a7ae964",
+      "bytes": 116457,
+      "state": "pad: full (the contract's 4,096 points)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/windows/review/w390-pad-review.png",
+      "sha256": "b38dea8e9d7da573f10e6fcea3f5379341504824c0b1108d29f507c60e2b2582",
+      "bytes": 68487,
+      "state": "pad: review",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/windows/review/w390-pad-sending.png",
+      "sha256": "c63452c054ab4a81ec5161cd90f48ce47c67d7c44f7938652b72da24b61a9b0f",
+      "bytes": 62477,
+      "state": "pad: sending",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/windows/review/w390-pad-shown-the-pad-is-blank-again.png",
+      "sha256": "5afa1fd55f71c6ef89b1846d72da9666297c7cce9f3868a5a0e06708d29c4535",
+      "bytes": 60009,
+      "state": "pad: shown (the pad is blank again)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/windows/review/w390-pad-refused-not-allowed.png",
+      "sha256": "26e63fc674ced072b452854662a0ae77badf4c52723e1396ab61dfa504eb676f",
+      "bytes": 90984,
+      "state": "pad: refused (NOT_ALLOWED)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/windows/review/w390-pad-closed-show-not-offered-now.png",
+      "sha256": "af5405789c570fa9469258f37c12595e550ca6c7f0e0b5dc1c1c98c858aed03c",
+      "bytes": 88271,
+      "state": "pad: closed (Show not offered now)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/windows/review/w390-viewer-room-a-no-station-a3.png",
+      "sha256": "a8dc6aba122d86c7b6ac8671e93c26baa6b4e1ad9785866b95344e1d5877396b",
+      "bytes": 74029,
+      "state": "viewer: Room A, no station (A3)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/windows/review/w390-viewer-room-b-no-station-b4.png",
+      "sha256": "0dc4034814365fdab342dfa6d85b36bcb5a9993fe651ea5bf7ff0ca2949215d2",
+      "bytes": 75544,
+      "state": "viewer: Room B, no station (B4)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/windows/review/w390-viewer-hospital-view-only.png",
+      "sha256": "a1830a040a9c62030cdbc8c3d2c4e4c57005d3ebb99320200ec656a24af064dd",
+      "bytes": 42669,
+      "state": "viewer: Hospital (view only)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/windows/review/w390-viewer-jail-view-only.png",
+      "sha256": "905f56d3c8dc89854311af86895d0cfe6b13791caa69e4156be27e34921f902a",
+      "bytes": 44375,
+      "state": "viewer: Jail (view only)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/windows/review/w390-viewer-command-room-no-window.png",
+      "sha256": "d8c22e678edfcb3a4165f9a387ea8c055511f6da23967af1432efffd89b4fc6b",
+      "bytes": 13272,
+      "state": "viewer: Command Room (no window)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/windows/review/w390-viewer-the-blackout-s-first-five-seconds-lit.png",
+      "sha256": "794a12fdc3767bf8b73c7048d3354abb0064513fd330bb37dc5e73b38bf5569f",
+      "bytes": 110947,
+      "state": "viewer: the Blackout's first five seconds (lit)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/windows/review/w390-viewer-the-blackout-from-its-preview-deadline-dark.png",
+      "sha256": "df30f2bdc0b558222abaaa153f0d676d41d3b989831df4c2497cccdfdd60ea96",
+      "bytes": 74929,
+      "state": "viewer: the Blackout from its preview deadline (dark)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/windows/review/w390-viewer-the-blackout-without-a-preview-deadline-missing-field-dark-from-its-start.png",
+      "sha256": "788002b1f55b0ffda97a3e2f9364b24100286121fc4aadf65c65ecf238194852",
+      "bytes": 73895,
+      "state": "viewer: the Blackout without a preview deadline (missing field: dark from its start)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/windows/review/w390-viewer-the-next-round-expired.png",
+      "sha256": "416dd9f85c64098597c55432a011d2ac37f795fdaf5722beb7460e9cb4be3764",
+      "bytes": 62932,
+      "state": "viewer: the next round (expired)",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/windows/review/w390-board-the-four-drawing-stations.png",
+      "sha256": "0648ee7a6b8cebd121e76d301a30ff2c19084adca8594526b1c95b85886a3f85",
+      "bytes": 31876,
+      "state": "board: the four drawing stations",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/windows/review/w390-tray-windows.png",
+      "sha256": "ee930bd73cfe2733235571376ffafc4160d63435945f84edbe472bff0d7e9fd4",
+      "bytes": 14250,
+      "state": "tray: Windows",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/windows/review/contact-w390.png",
+      "sha256": "47667fa0be260cb7b1fa3d01a1982a7d10f881de1b63ea4d89868cc824cb86c2",
+      "bytes": 1656523,
+      "kind": "contact",
+      "width": 390,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/windows/review/w320-station-a1-a-b.png",
+      "sha256": "81884c0cd93431b6fb9fb1ab4d756ee5ab52aca944feed4d00d7b3f550d0c61c",
+      "bytes": 109894,
+      "state": "station A1: A_B",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/windows/review/w320-station-a2-a-hospital.png",
+      "sha256": "bdfa9892b59bcefe202e052342d3759c74e683fcfbb089b394161881b87241c0",
+      "bytes": 110661,
+      "state": "station A2: A_HOSPITAL",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/windows/review/w320-station-b1-a-b.png",
+      "sha256": "11c799b8fbe7f02e4276c756aabd67b5ed4fa90246103e856cb51b11618a7b34",
+      "bytes": 115223,
+      "state": "station B1: A_B",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/windows/review/w320-station-b2-b-jail.png",
+      "sha256": "7886bb7b689b5999fc8a76fb043ab739fbce056663ed8341148bdec053543c6a",
+      "bytes": 114626,
+      "state": "station B2: B_JAIL",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/windows/review/w320-pad-blank.png",
+      "sha256": "2500bd550cfc0c3be30e4f73817c09788ed92de385e010a2e617f493ed1be861",
+      "bytes": 80760,
+      "state": "pad: blank",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/windows/review/w320-pad-drawing.png",
+      "sha256": "29e307f60efa1ad98fc69e1e47c89ae6efd3344b37e87a2821baf1ff4c07d06a",
+      "bytes": 90002,
+      "state": "pad: drawing",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/windows/review/w320-pad-full-the-contract-s-4-096-points.png",
+      "sha256": "2b8bd00c4f57b06d207f4ccb83d35dc82676abede435b3231934a2a2cacf0b30",
+      "bytes": 113276,
+      "state": "pad: full (the contract's 4,096 points)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/windows/review/w320-pad-review.png",
+      "sha256": "41bb132b18de2c14c1f4823b98e6806e7f03dda17b2c13b23c09d00155cbdf31",
+      "bytes": 69249,
+      "state": "pad: review",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/windows/review/w320-pad-sending.png",
+      "sha256": "9fa0e7a12a34590a51fad8fcbd9eb28d05f464c1f64ab705a0e3261441b6401e",
+      "bytes": 62662,
+      "state": "pad: sending",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/windows/review/w320-pad-shown-the-pad-is-blank-again.png",
+      "sha256": "049a69d29bfaff552e5565a8280e41b27d95b3ea4572c4bf532c10631f652962",
+      "bytes": 65806,
+      "state": "pad: shown (the pad is blank again)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/windows/review/w320-pad-refused-not-allowed.png",
+      "sha256": "65600c34bf45fc82d8808d6bbc4aef5ccd6df1c9a855f12b8ab8164c702607ac",
+      "bytes": 92327,
+      "state": "pad: refused (NOT_ALLOWED)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/windows/review/w320-pad-closed-show-not-offered-now.png",
+      "sha256": "9042f8cdf77d4133c9f892072dcbfcac5c82568b789077102aaa394bc202a58f",
+      "bytes": 90170,
+      "state": "pad: closed (Show not offered now)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/windows/review/w320-viewer-room-a-no-station-a3.png",
+      "sha256": "46cdcc8320643214277ce333b8dabb3940a1712daeee7dd3b26fbaac0f545012",
+      "bytes": 78666,
+      "state": "viewer: Room A, no station (A3)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/windows/review/w320-viewer-room-b-no-station-b4.png",
+      "sha256": "e62c0511ce4840e6139d50a3227e496dd71924d210e7991bde1c5d5068b9ea40",
+      "bytes": 82909,
+      "state": "viewer: Room B, no station (B4)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/windows/review/w320-viewer-hospital-view-only.png",
+      "sha256": "6e232f3a496bff8ab69d4230dd7fb706b8809b0ccdf6a9975e1cb7b52f6a6524",
+      "bytes": 42980,
+      "state": "viewer: Hospital (view only)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/windows/review/w320-viewer-jail-view-only.png",
+      "sha256": "e372e9c3da6e897c6e129158cd404c9ab37ee1115cad797116ab081794ad677c",
+      "bytes": 48188,
+      "state": "viewer: Jail (view only)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/windows/review/w320-viewer-command-room-no-window.png",
+      "sha256": "e2d8eaffbb6e819ed46526cff1315cac3b6778314865195c88dfd1b8d4f9d826",
+      "bytes": 13109,
+      "state": "viewer: Command Room (no window)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/windows/review/w320-viewer-the-blackout-s-first-five-seconds-lit.png",
+      "sha256": "1ee2ab7b57788b45a94a26fac21b2ceed8d3726c17d1604a54eec0fec8a14218",
+      "bytes": 115765,
+      "state": "viewer: the Blackout's first five seconds (lit)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/windows/review/w320-viewer-the-blackout-from-its-preview-deadline-dark.png",
+      "sha256": "8d8dcb48bd479631e63902d4b0fb11aabdb1051c28976334f5c8de4b6f893683",
+      "bytes": 77980,
+      "state": "viewer: the Blackout from its preview deadline (dark)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/windows/review/w320-viewer-the-blackout-without-a-preview-deadline-missing-field-dark-from-its-start.png",
+      "sha256": "394e65126de8ac2d1193803a184feb12c84471c80653fe790b332592af859827",
+      "bytes": 77485,
+      "state": "viewer: the Blackout without a preview deadline (missing field: dark from its start)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/windows/review/w320-viewer-the-next-round-expired.png",
+      "sha256": "e1ebe9e96b0784668416753af01f6f40b74af38964dfa354d8a1c9f82971c22a",
+      "bytes": 62925,
+      "state": "viewer: the next round (expired)",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/windows/review/w320-board-the-four-drawing-stations.png",
+      "sha256": "0aec946695cb0503aa5e7878ba04338c58550febdfe5c00a2bb4d7d983e3a1f3",
+      "bytes": 26706,
+      "state": "board: the four drawing stations",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/windows/review/w320-tray-windows.png",
+      "sha256": "b66dba0020399e4f9c2f5f804b3405885895cd6c0d764fcfe9e16094503f3f9a",
+      "bytes": 13922,
+      "state": "tray: Windows",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/windows/review/contact-w320.png",
+      "sha256": "6e9c1e0d5100de85a66d94df84bdd0b2565b2f30a6f236c8b277d111e8f81d73",
+      "bytes": 1781172,
+      "kind": "contact",
+      "width": 320,
+      "text": "100%"
+    },
+    {
+      "file": "design/library/windows/review/w390-text200-station-a1-a-b.png",
+      "sha256": "5e3f6a6dfacc45e5efb33eb4075a96077de8c53dbff58438882124cd345783ec",
+      "bytes": 189106,
+      "state": "station A1: A_B",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/windows/review/w390-text200-station-a2-a-hospital.png",
+      "sha256": "277fe4a218de6e08acfdcdd0d9b77a677a124569ff85bda2b056d16da94827c6",
+      "bytes": 191152,
+      "state": "station A2: A_HOSPITAL",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/windows/review/w390-text200-station-b1-a-b.png",
+      "sha256": "6d17dffbe0d68b65f276f009294d0669557b1a2264dd9f11f322524505072204",
+      "bytes": 186773,
+      "state": "station B1: A_B",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/windows/review/w390-text200-station-b2-b-jail.png",
+      "sha256": "768f720e7380a597d39d81146882c16e8512e5f671bd0419e280182b6f22cee0",
+      "bytes": 185894,
+      "state": "station B2: B_JAIL",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/windows/review/contact-w390-text200-stations.png",
+      "sha256": "3126de8f5af52bbe2854ca4399c285c5d3d133a86160fce742fd01678ca77738",
+      "bytes": 820956,
+      "kind": "contact",
+      "width": 390,
+      "text": "200%",
+      "section": "stations"
+    },
+    {
+      "file": "design/library/windows/review/w390-text200-pad-blank.png",
+      "sha256": "516cf45780330e55d28b5ad0a446dc5ce80985c0cc0e40e991a7f44a8da2dab5",
+      "bytes": 125280,
+      "state": "pad: blank",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/windows/review/w390-text200-pad-drawing.png",
+      "sha256": "d3fdf4caf333e969654ef21c65d0a84cfc8e1b783a9cd159ffa71f160eda0a10",
+      "bytes": 141292,
+      "state": "pad: drawing",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/windows/review/w390-text200-pad-full-the-contract-s-4-096-points.png",
+      "sha256": "7d7d772f131da6960a76f6572575d2ca1a055eda9b8929a5ebcba3935a039456",
+      "bytes": 167343,
+      "state": "pad: full (the contract's 4,096 points)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/windows/review/w390-text200-pad-review.png",
+      "sha256": "6819a55c0fde29a2deebfd74def44b8111a06f08cf95d54e3673e042d628a655",
+      "bytes": 114655,
+      "state": "pad: review",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/windows/review/w390-text200-pad-sending.png",
+      "sha256": "9f437089a773fedb72db3b13eee087f2e0bbdc5048265f581ce4233341822dfb",
+      "bytes": 94332,
+      "state": "pad: sending",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/windows/review/w390-text200-pad-shown-the-pad-is-blank-again.png",
+      "sha256": "79cae000d8d3da9fa2bc02babbcb4a46615835222a95e867c8947f026b3dc997",
+      "bytes": 101062,
+      "state": "pad: shown (the pad is blank again)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/windows/review/w390-text200-pad-refused-not-allowed.png",
+      "sha256": "410aad7dccaec262db321e332af2de42b0c9d932d1c620262cee7979c39c9ff4",
+      "bytes": 145271,
+      "state": "pad: refused (NOT_ALLOWED)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/windows/review/w390-text200-pad-closed-show-not-offered-now.png",
+      "sha256": "fd4c9fd6b75c2b410c772242481f4506c0991f3d310f226c5be08d895701cfe2",
+      "bytes": 140294,
+      "state": "pad: closed (Show not offered now)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/windows/review/contact-w390-text200-pad.png",
+      "sha256": "eb5c77c095f2e9d1598838176c3aad9b948f428902b5aea7dca9b064ec27006b",
+      "bytes": 1096354,
+      "kind": "contact",
+      "width": 390,
+      "text": "200%",
+      "section": "pad"
+    },
+    {
+      "file": "design/library/windows/review/w390-text200-viewer-room-a-no-station-a3.png",
+      "sha256": "97b9aa2b3f54ee2dccce3d679858bb8e5cdb54bf0c71555264440f72dbce30ed",
+      "bytes": 147849,
+      "state": "viewer: Room A, no station (A3)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/windows/review/w390-text200-viewer-room-b-no-station-b4.png",
+      "sha256": "60d037ee10bde5fecfe46a0434b12e1c2ed3acf37680dd87a9ce136c39f7bea8",
+      "bytes": 149835,
+      "state": "viewer: Room B, no station (B4)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/windows/review/w390-text200-viewer-hospital-view-only.png",
+      "sha256": "4f3837f72b2bfa81653d97765c0743bae5ba1ac51c7826f2be13e9eb46c21d0b",
+      "bytes": 78795,
+      "state": "viewer: Hospital (view only)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/windows/review/w390-text200-viewer-jail-view-only.png",
+      "sha256": "e07eb46b9378b5c99e7b1ab1850e601428564541f27b92c72c0c44f1e1c3874a",
+      "bytes": 81484,
+      "state": "viewer: Jail (view only)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/windows/review/w390-text200-viewer-command-room-no-window.png",
+      "sha256": "f9660f866a9cbba87946b905ea8669bf70d8d4129830d0b831e21858a70f9c59",
+      "bytes": 18560,
+      "state": "viewer: Command Room (no window)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/windows/review/w390-text200-viewer-the-blackout-s-first-five-seconds-lit.png",
+      "sha256": "1dec6ed1a7e0a693f1e551ba3944d82ded4bdba3100c56c991ec32212ed74e73",
+      "bytes": 194927,
+      "state": "viewer: the Blackout's first five seconds (lit)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/windows/review/w390-text200-viewer-the-blackout-from-its-preview-deadline-dark.png",
+      "sha256": "e6d580eb393044bef44a56d57b7dd8794fb93f8ee0f229e1b048029b851d1ddf",
+      "bytes": 139069,
+      "state": "viewer: the Blackout from its preview deadline (dark)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/windows/review/w390-text200-viewer-the-blackout-without-a-preview-deadline-missing-field-dark-from-its-start.png",
+      "sha256": "e022468c979612e9dc78b79971edb48385d9e966c2594cfd0a2e487de30d0f59",
+      "bytes": 137816,
+      "state": "viewer: the Blackout without a preview deadline (missing field: dark from its start)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/windows/review/w390-text200-viewer-the-next-round-expired.png",
+      "sha256": "527a72d4d7549d83b6902629c7e5d1968bf0a6a624967d9913c61b4f3aef3272",
+      "bytes": 133910,
+      "state": "viewer: the next round (expired)",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/windows/review/contact-w390-text200-viewers.png",
+      "sha256": "12f0fdab6aa5d287d9f0c70ed1ebf8f0926d019f310613eb24dc2089e5c0b0d9",
+      "bytes": 1150767,
+      "kind": "contact",
+      "width": 390,
+      "text": "200%",
+      "section": "viewers"
+    },
+    {
+      "file": "design/library/windows/review/w390-text200-board-the-four-drawing-stations.png",
+      "sha256": "dd8d22ea523f1024951a4d9cac33e05bb6f307be3567c40c62eaf0e411693e9d",
+      "bytes": 49575,
+      "state": "board: the four drawing stations",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/windows/review/w390-text200-tray-windows.png",
+      "sha256": "0e55df798eceb7d8c03459fcfd55d994ebe1021c11a392ca84bd00a250cf36c5",
+      "bytes": 21040,
+      "state": "tray: Windows",
+      "width": 390,
+      "text": "200%"
+    },
+    {
+      "file": "design/library/windows/review/contact-w390-text200-board.png",
+      "sha256": "c9f46f404c3782d2785520e109abfa8f1e6c037d814c077312a87271aee4e117",
+      "bytes": 134029,
+      "kind": "contact",
+      "width": 390,
+      "text": "200%",
+      "section": "board"
+    },
+    {
+      "file": "design/library/windows/review/motion-show-0000.png",
+      "sha256": "c81d479c448f5a3f4b0f9e75a66f11dfa0f08e8b02075bcefacbaaf8e5a7b0ec",
+      "bytes": 28153,
+      "motion": "show",
+      "reduced": false,
+      "t": 0
+    },
+    {
+      "file": "design/library/windows/review/motion-show-0152.png",
+      "sha256": "2cd2c1ef452d57f501345200a29af43237158ee33f22b5282860076b92501977",
+      "bytes": 28854,
+      "motion": "show",
+      "reduced": false,
+      "t": 152
+    },
+    {
+      "file": "design/library/windows/review/motion-show-0304.png",
+      "sha256": "e5df1940e3e2d82e30ed064504930943bcac5d0778858c46ec7a420d48e4f7b7",
+      "bytes": 31157,
+      "motion": "show",
+      "reduced": false,
+      "t": 304
+    },
+    {
+      "file": "design/library/windows/review/motion-show-0456.png",
+      "sha256": "637e7ad79d3515c1eda9fd5eb60122328b642bf5e9b1c0d07ea639c872530316",
+      "bytes": 35609,
+      "motion": "show",
+      "reduced": false,
+      "t": 456
+    },
+    {
+      "file": "design/library/windows/review/motion-show-0608.png",
+      "sha256": "72d531fcf926502ee6c96aca2438ccb1d1321660b111afa9d68ea4570e54854c",
+      "bytes": 38478,
+      "motion": "show",
+      "reduced": false,
+      "t": 608
+    },
+    {
+      "file": "design/library/windows/review/motion-show-0760.png",
+      "sha256": "ecd25aa9b997e063cb1d56d88d1c496467e56c4ae00af1565f75165c214e009d",
+      "bytes": 38254,
+      "motion": "show",
+      "reduced": false,
+      "t": 760
+    },
+    {
+      "file": "design/library/windows/review/motion-arrive-0000.png",
+      "sha256": "459eb40bf98934ec1f9eb9b4ce23d7019113f773a873afd241c7d28f0ae2f181",
+      "bytes": 30802,
+      "motion": "arrive",
+      "reduced": false,
+      "t": 0
+    },
+    {
+      "file": "design/library/windows/review/motion-arrive-0084.png",
+      "sha256": "da16cf901f449339ed2270abc7d9f706fa87b5680e40f252f7c1dae496523bb1",
+      "bytes": 34034,
+      "motion": "arrive",
+      "reduced": false,
+      "t": 84
+    },
+    {
+      "file": "design/library/windows/review/motion-arrive-0168.png",
+      "sha256": "b72294d93bd3ea8e55ce24b45cdcaffa044167b907442d9d008533600b328253",
+      "bytes": 34190,
+      "motion": "arrive",
+      "reduced": false,
+      "t": 168
+    },
+    {
+      "file": "design/library/windows/review/motion-arrive-0252.png",
+      "sha256": "2069612779055dad784e2f23011d70911459672820dc74faaa89690b9ee8cf6f",
+      "bytes": 34237,
+      "motion": "arrive",
+      "reduced": false,
+      "t": 252
+    },
+    {
+      "file": "design/library/windows/review/motion-arrive-0336.png",
+      "sha256": "969e96d803ba6a585e483b20197b3283824816060bfc3e52e40bee08e79b7b3d",
+      "bytes": 34418,
+      "motion": "arrive",
+      "reduced": false,
+      "t": 336
+    },
+    {
+      "file": "design/library/windows/review/motion-arrive-0420.png",
+      "sha256": "122261506e325c66c6ea9fb24f7096eb143793740abdc254663230dc04a6b73d",
+      "bytes": 34254,
+      "motion": "arrive",
+      "reduced": false,
+      "t": 420
+    },
+    {
+      "file": "design/library/windows/review/motion-dark-0000.png",
+      "sha256": "06630d3abcf375c40531d5b190a29b12098a3c51a5e048ecdfe5381cfa086b58",
+      "bytes": 33977,
+      "motion": "dark",
+      "reduced": false,
+      "t": 0
+    },
+    {
+      "file": "design/library/windows/review/motion-dark-0084.png",
+      "sha256": "32be5e00c88dd7cf7b09bdd6d77274b0f7e3a998f351286974b6c8487bf0a598",
+      "bytes": 33069,
+      "motion": "dark",
+      "reduced": false,
+      "t": 84
+    },
+    {
+      "file": "design/library/windows/review/motion-dark-0168.png",
+      "sha256": "e5936fe0e20ba79a73565282048ca76e85947d3c6cee19c5511ed05ffd48186a",
+      "bytes": 27274,
+      "motion": "dark",
+      "reduced": false,
+      "t": 168
+    },
+    {
+      "file": "design/library/windows/review/motion-dark-0252.png",
+      "sha256": "d6160da526c95e34b0f8fa445599dece806455e8eaffd34fca24b17c3ede6d47",
+      "bytes": 33845,
+      "motion": "dark",
+      "reduced": false,
+      "t": 252
+    },
+    {
+      "file": "design/library/windows/review/motion-dark-0336.png",
+      "sha256": "4a978831cf7b5f04ceb1047dc9c044e4851944fa0ee90c13de8b25ef533636a2",
+      "bytes": 36271,
+      "motion": "dark",
+      "reduced": false,
+      "t": 336
+    },
+    {
+      "file": "design/library/windows/review/motion-dark-0420.png",
+      "sha256": "845189e8c7b006ae54c10ec6b2aec858c189c98090e4186612bf99bebc9ffa91",
+      "bytes": 35919,
+      "motion": "dark",
+      "reduced": false,
+      "t": 420
+    },
+    {
+      "file": "design/library/windows/review/motion-light-0000.png",
+      "sha256": "4bec27d60b70081267e7a2379499d677932addf2e5c50cc5e3a0bf570eeb70bf",
+      "bytes": 30603,
+      "motion": "light",
+      "reduced": false,
+      "t": 0
+    },
+    {
+      "file": "design/library/windows/review/motion-light-0064.png",
+      "sha256": "1e35530328a838a4d0feb7257cbab76de15fd8a1fd5679320f8f85db980e7bdb",
+      "bytes": 31057,
+      "motion": "light",
+      "reduced": false,
+      "t": 64
+    },
+    {
+      "file": "design/library/windows/review/motion-light-0128.png",
+      "sha256": "1a2316ada5b475fde0956b3b619638b8401b89c05f6af0cf28bdd534bcb8e01c",
+      "bytes": 32518,
+      "motion": "light",
+      "reduced": false,
+      "t": 128
+    },
+    {
+      "file": "design/library/windows/review/motion-light-0192.png",
+      "sha256": "878f9c0cd08cf3f7a704cbe8a5f92037906c542d49fb147a51437eece91daf91",
+      "bytes": 32114,
+      "motion": "light",
+      "reduced": false,
+      "t": 192
+    },
+    {
+      "file": "design/library/windows/review/motion-light-0256.png",
+      "sha256": "ad54df980c37843f478b51bdd2685b6e074bc8f82cb7d1b9a0a4303dc209d1ea",
+      "bytes": 33887,
+      "motion": "light",
+      "reduced": false,
+      "t": 256
+    },
+    {
+      "file": "design/library/windows/review/motion-light-0320.png",
+      "sha256": "399671369202f36f30505873c52fbf5d67fc5165f2cf260c0dad44cb6725d99b",
+      "bytes": 34092,
+      "motion": "light",
+      "reduced": false,
+      "t": 320
+    },
+    {
+      "file": "design/library/windows/review/motion-show-reduced-0000.png",
+      "sha256": "c81d479c448f5a3f4b0f9e75a66f11dfa0f08e8b02075bcefacbaaf8e5a7b0ec",
+      "bytes": 28153,
+      "motion": "show",
+      "reduced": true,
+      "t": 0
+    },
+    {
+      "file": "design/library/windows/review/motion-show-reduced-0032.png",
+      "sha256": "a93dab193ac40ee5e3d67a3d734c32c02444ca3edf92c77475584dd2452f5a63",
+      "bytes": 37219,
+      "motion": "show",
+      "reduced": true,
+      "t": 32
+    },
+    {
+      "file": "design/library/windows/review/motion-show-reduced-0064.png",
+      "sha256": "f297cadee93329847347028b23534db13710a412ceacf976680141aedd0e85fd",
+      "bytes": 38494,
+      "motion": "show",
+      "reduced": true,
+      "t": 64
+    },
+    {
+      "file": "design/library/windows/review/motion-show-reduced-0096.png",
+      "sha256": "9cc346e40952de268f96c01b74a28a8ad96c9b77d0718a9575a7b510d574cd48",
+      "bytes": 39292,
+      "motion": "show",
+      "reduced": true,
+      "t": 96
+    },
+    {
+      "file": "design/library/windows/review/motion-show-reduced-0128.png",
+      "sha256": "1903fadda46a0d5713c86fbe580d7c34f46e96c692e3cc5564ed8578335828d8",
+      "bytes": 39951,
+      "motion": "show",
+      "reduced": true,
+      "t": 128
+    },
+    {
+      "file": "design/library/windows/review/motion-show-reduced-0160.png",
+      "sha256": "574ac056e48295897674f7851c421febbf13147d706b949f59ad50b52612f0f8",
+      "bytes": 38226,
+      "motion": "show",
+      "reduced": true,
+      "t": 160
+    },
+    {
+      "file": "design/library/windows/review/motion-arrive-reduced-0000.png",
+      "sha256": "459eb40bf98934ec1f9eb9b4ce23d7019113f773a873afd241c7d28f0ae2f181",
+      "bytes": 30802,
+      "motion": "arrive",
+      "reduced": true,
+      "t": 0
+    },
+    {
+      "file": "design/library/windows/review/motion-arrive-reduced-0032.png",
+      "sha256": "0f828b990570376960f16423d3b6e487cccf9b19315782ebbf49238c445892ed",
+      "bytes": 33517,
+      "motion": "arrive",
+      "reduced": true,
+      "t": 32
+    },
+    {
+      "file": "design/library/windows/review/motion-arrive-reduced-0064.png",
+      "sha256": "f66f1da1b850227865f7f516da3b3142db32f08e7fd0b9712e5ec64e8283a81b",
+      "bytes": 33826,
+      "motion": "arrive",
+      "reduced": true,
+      "t": 64
+    },
+    {
+      "file": "design/library/windows/review/motion-arrive-reduced-0096.png",
+      "sha256": "633173ad40d383fb093fec1034faf8e68e9638526dc1d28e53fd80c413e77463",
+      "bytes": 34081,
+      "motion": "arrive",
+      "reduced": true,
+      "t": 96
+    },
+    {
+      "file": "design/library/windows/review/motion-arrive-reduced-0128.png",
+      "sha256": "b39b497518ed4b5104b7df1110f3110825557df8a84ed6e6fdbc127e55421307",
+      "bytes": 34261,
+      "motion": "arrive",
+      "reduced": true,
+      "t": 128
+    },
+    {
+      "file": "design/library/windows/review/motion-arrive-reduced-0160.png",
+      "sha256": "33db3398b258bb867a906d5f8288236017d32074682f0eada35d8381819eae96",
+      "bytes": 34214,
+      "motion": "arrive",
+      "reduced": true,
+      "t": 160
+    },
+    {
+      "file": "design/library/windows/review/motion-dark-reduced-0000.png",
+      "sha256": "06630d3abcf375c40531d5b190a29b12098a3c51a5e048ecdfe5381cfa086b58",
+      "bytes": 33977,
+      "motion": "dark",
+      "reduced": true,
+      "t": 0
+    },
+    {
+      "file": "design/library/windows/review/motion-dark-reduced-0032.png",
+      "sha256": "d301aa020c55349200aae4ad6d0dbecb13d44bf74a2eb43611a71aff85229131",
+      "bytes": 42004,
+      "motion": "dark",
+      "reduced": true,
+      "t": 32
+    },
+    {
+      "file": "design/library/windows/review/motion-dark-reduced-0064.png",
+      "sha256": "6be6b5407e4428ee16a258c6345953561ea91cdadef2dab25eb665555c2a6345",
+      "bytes": 43530,
+      "motion": "dark",
+      "reduced": true,
+      "t": 64
+    },
+    {
+      "file": "design/library/windows/review/motion-dark-reduced-0096.png",
+      "sha256": "84332abbf3fb68f28d016837d93966aec73c907cc00c0d7adb2562f0b41ef637",
+      "bytes": 43964,
+      "motion": "dark",
+      "reduced": true,
+      "t": 96
+    },
+    {
+      "file": "design/library/windows/review/motion-dark-reduced-0128.png",
+      "sha256": "6b6e44af0a62e74b13b89449dca89bd50cc5d65bac4e71b30de26daf58b5f6c9",
+      "bytes": 44089,
+      "motion": "dark",
+      "reduced": true,
+      "t": 128
+    },
+    {
+      "file": "design/library/windows/review/motion-dark-reduced-0160.png",
+      "sha256": "0354c5a64d1a754083f50d69e2656efdd740fcffb1f5cc302f3ca0e5ea2d2007",
+      "bytes": 35881,
+      "motion": "dark",
+      "reduced": true,
+      "t": 160
+    },
+    {
+      "file": "design/library/windows/review/motion-light-reduced-0000.png",
+      "sha256": "4bec27d60b70081267e7a2379499d677932addf2e5c50cc5e3a0bf570eeb70bf",
+      "bytes": 30603,
+      "motion": "light",
+      "reduced": true,
+      "t": 0
+    },
+    {
+      "file": "design/library/windows/review/motion-light-reduced-0032.png",
+      "sha256": "b780c6b476861f445b68a5abf8af94298dd219d569d1c7c1ad7fac10f341b6cd",
+      "bytes": 38967,
+      "motion": "light",
+      "reduced": true,
+      "t": 32
+    },
+    {
+      "file": "design/library/windows/review/motion-light-reduced-0064.png",
+      "sha256": "a4e300745f7fe1841a313ff87c60b0e7a21674310dd387ba2cab8feb4725f5d5",
+      "bytes": 39078,
+      "motion": "light",
+      "reduced": true,
+      "t": 64
+    },
+    {
+      "file": "design/library/windows/review/motion-light-reduced-0096.png",
+      "sha256": "6903076c854106988ab04d138523005213db37e8a2ee68262c57369f5fc2cfb1",
+      "bytes": 39151,
+      "motion": "light",
+      "reduced": true,
+      "t": 96
+    },
+    {
+      "file": "design/library/windows/review/motion-light-reduced-0128.png",
+      "sha256": "e91281632168161c5719d7460f2f2351d0c17218e826be8a70371ab0e817f587",
+      "bytes": 38186,
+      "motion": "light",
+      "reduced": true,
+      "t": 128
+    },
+    {
+      "file": "design/library/windows/review/motion-light-reduced-0160.png",
+      "sha256": "f288cc6bbe547c6dc7395c1d84ee439476729dddf3ed3af658b7b052745561e6",
+      "bytes": 34009,
+      "motion": "light",
+      "reduced": true,
+      "t": 160
+    }
+  ],
+  "problems": []
+}

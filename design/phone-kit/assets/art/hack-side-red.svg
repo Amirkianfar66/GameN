@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · phone kit phone-kit-0.1.0 (art phone-kit-art-0.1.0) · hack-side-red · generated, do not edit by hand
+  The Red side card: a declared side, never a verified one. Audience: the two Hack participants only, in their own private view.
+  Drawn by design/phone-kit/source/art.mjs (original vector drawing for this repository by the Visual and Motion Designer,
+  Claude Code) through design/tools/phone-kit-assets.mjs. No word is in the picture: every word is the page's own text.
+  Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 104"><!-- side card, Red --><rect x="4" y="4" width="72" height="96" rx="10" fill="#FF8C8C" stroke="#151923" stroke-width="4"/><rect x="10" y="10" width="60" height="84" rx="6" fill="none" stroke="#151923" stroke-width="1.5" opacity="0.35"/><path d="M40 20 L62 48 L40 76 L18 48 Z" fill="#F4EBDD" stroke="#151923" stroke-width="4" stroke-linejoin="round"/><path d="M40 32 L52 48 L40 64 L28 48 Z" fill="#151923" opacity="0.18"/><path d="M12 86 H68" stroke="#151923" stroke-width="2" opacity="0.25"/></svg>

@@ -4,6 +4,7 @@ import { checkSetup, checkState, checkTransition, startLedger } from './invarian
 import type { Violation } from './invariants.js';
 import type { CommandOutcome, EngineAdapter, NeutralCommand, Observation, PlayerFacts } from './observation.js';
 import { deriveSetup, hashSeed, mulberry32, pickInt, shuffled } from './prng.js';
+import type { RoomPlan } from './prng.js';
 
 // Seeded random-policy playouts. Their purpose is to exercise legality, resource accounting,
 // phase transitions, elimination and audience boundaries over many reachable states.
@@ -38,6 +39,70 @@ export interface WalkResult {
   maxJailed: number;
   windowSeconds: number;
   endDigest: string;
+  occupancy: OccupancyStats;
+}
+
+// What a playout showed about how full the places got. Under a random policy these are facts
+// about what can be reached and how the engine answered, never about how people would play.
+export interface OccupancyStats {
+  // The most players located at once in each place, whatever their health.
+  most: Record<string, number>;
+  // Phases that opened with five players in Room A or in Room B, and phases that opened at all.
+  phasesWithAFullRoom: number;
+  phasesOpened: number;
+  // Phases that opened with more than five players in Room A, Room B, Hospital or Jail.
+  phasesOverCapacity: number;
+  // Moves sent towards a room that held five players, and how many of them were accepted.
+  movesTowardsAFullRoom: number;
+  movesIntoAFullRoom: number;
+  // Players sent back to a room: after healing or release, or as a Captain who lost the title
+  // inside Command Room. Then those sent to another room than the one they were last in; and of
+  // those, the ones whose last room had a place once the resolution was over.
+  returns: number;
+  returnsToTheOtherRoom: number;
+  returnsToTheOtherRoomThoughTheLastHadAPlace: number;
+  // The most Injured, free players in Room A or Room B at once: players waiting for Hospital.
+  mostWaiting: number;
+}
+
+const PLACES = ['Room A', 'Room B', 'Hospital', 'Jail', 'Command Room'] as const;
+const FULL = 5;
+
+function newOccupancy(): OccupancyStats {
+  return {
+    most: Object.fromEntries(PLACES.map(place => [place, 0])), phasesWithAFullRoom: 0, phasesOpened: 0, phasesOverCapacity: 0,
+    movesTowardsAFullRoom: 0, movesIntoAFullRoom: 0, returns: 0, returnsToTheOtherRoom: 0, returnsToTheOtherRoomThoughTheLastHadAPlace: 0, mostWaiting: 0,
+  };
+}
+
+const heldIn = (observation: Observation, place: string, except?: SeatId): number =>
+  observation.truth.seats.filter(seat => seat.location === place && seat.seat !== except).length;
+
+function notePhase(stats: OccupancyStats, observation: Observation): void {
+  stats.phasesOpened += 1;
+  for (const place of PLACES) stats.most[place] = Math.max(stats.most[place] ?? 0, heldIn(observation, place));
+  if (heldIn(observation, 'Room A') >= FULL || heldIn(observation, 'Room B') >= FULL) stats.phasesWithAFullRoom += 1;
+  if (['Room A', 'Room B', 'Hospital', 'Jail'].some(place => heldIn(observation, place) > FULL)) stats.phasesOverCapacity += 1;
+  const waiting = observation.truth.seats.filter(seat => seat.health === 'Injured' && !seat.jailed && (seat.location === 'Room A' || seat.location === 'Room B')).length;
+  stats.mostWaiting = Math.max(stats.mostWaiting, waiting);
+}
+
+// `lastStood` is the room each player was last seen in, kept by the playout itself.
+function noteReturns(stats: OccupancyStats, before: Observation, after: Observation, lastStood: Record<SeatId, string>): void {
+  for (const now of after.truth.seats) {
+    const was = before.truth.seats.find(seat => seat.seat === now.seat);
+    // A return: from Hospital or Jail, or from Command Room for a Captain who lost the title there.
+    const from = was !== undefined && (was.location === 'Hospital' || was.location === 'Jail' || (was.location === 'Command Room' && was.captain && !now.captain));
+    if (was !== undefined && from && (now.location === 'Room A' || now.location === 'Room B')) {
+      const last = lastStood[now.seat] ?? was.lastRoom;
+      stats.returns += 1;
+      if (now.location !== last) {
+        stats.returnsToTheOtherRoom += 1;
+        if (heldIn(after, last, now.seat) < FULL) stats.returnsToTheOtherRoomThoughTheLastHadAPlace += 1;
+      }
+    }
+  }
+  for (const now of after.truth.seats) if (now.location === 'Room A' || now.location === 'Room B') lastStood[now.seat] = now.location;
 }
 
 export interface WalkOptions {
@@ -49,6 +114,13 @@ export interface WalkOptions {
   // states are reached often enough to be exercised.
   coordination: number;
   maxPhases: number;
+  // How starting rooms are drawn. 'seeded' is an independent draw for each player, which was the
+  // rule until the capacity rule; 'capped' is the same made legal under it. Default 'seeded'.
+  rooms?: RoomPlan;
+  // Probability that a seat also tries to move into a room that holds five players, in a phase in
+  // which one does. The plain policy seldom tries; a run that is about capacity asks for more.
+  // Default 0, which leaves every earlier playout exactly as it was.
+  pressFullRooms?: number;
 }
 
 export const DEFAULT_WALK: WalkOptions = { activity: 0.6, noise: 0.25, coordination: 0.5, maxPhases: 400 };
@@ -115,7 +187,7 @@ function isOffered(view: PlayerFacts, command: NeutralCommand): boolean {
  * this function fails instead of crashing or passing.
  */
 export function walk(adapter: EngineAdapter, mode: Mode, seed: string, options: WalkOptions = DEFAULT_WALK): WalkResult {
-  const setup = deriveSetup(mode, seed, { roles: 'seeded', rooms: 'seeded', orders: 'seeded' });
+  const setup = deriveSetup(mode, seed, { roles: 'seeded', rooms: options.rooms ?? 'seeded', orders: 'seeded' });
   try {
     return play(adapter, mode, seed, setup, options);
   } catch (error) {
@@ -124,7 +196,7 @@ export function walk(adapter: EngineAdapter, mode: Mode, seed: string, options: 
       mode, seed, setup, completed: false, phases: 0, commandsAccepted: 0, commandsRejected: 0, hintMismatches: [],
       violations: [{ invariant: 'engine-error', message: `the engine or its adapter threw: ${message}` }],
       terminalPhase: 'none', winner: null, alienCoWinner: null, showdown: false, eliminatedBeforeShowdown: 0, eliminatedAtEnd: 0,
-      maxJailed: 0, windowSeconds: 0, endDigest: `error: ${message}`,
+      maxJailed: 0, windowSeconds: 0, endDigest: `error: ${message}`, occupancy: newOccupancy(),
     };
   }
 }
@@ -135,7 +207,12 @@ function play(adapter: EngineAdapter, mode: Mode, seed: string, setup: ScenarioS
   const match = adapter.createMatch(setup, `walk-${mode}-${hashSeed(seed).toString(36)}`);
   let current = match.observe();
   const ledger = startLedger(current);
+  ledger.roomCapacity = adapter.roomCapacity ?? null;
   const violations: Violation[] = [...checkSetup(setup, current), ...checkState(setup, current, ledger)];
+  const occupancy = newOccupancy();
+  notePhase(occupancy, current);
+  const lastStood: Record<SeatId, string> = {};
+  for (const seat of current.truth.seats) lastStood[seat.seat] = seat.location;
   const hintMismatches: HintMismatch[] = [];
   let commandsAccepted = 0;
   let commandsRejected = 0;
@@ -150,8 +227,16 @@ function play(adapter: EngineAdapter, mode: Mode, seed: string, setup: ScenarioS
     const before = current;
     const outcome = match.command(seat, command, atMs);
     current = match.observe();
+    // A move sent towards a room that held five players when it was sent, the mover not among them.
+    if (command.type === 'MOVE' && (command.destination === 'Room A' || command.destination === 'Room B') && heldIn(before, command.destination, seat) >= FULL) {
+      occupancy.movesTowardsAFullRoom += 1;
+      if (outcome === 'REGISTERED') occupancy.movesIntoAFullRoom += 1;
+    }
     violations.push(...checkTransition(setup, before, current, { kind: 'command', actor: seat, command, outcome }, ledger));
     if (outcome === 'REGISTERED') commandsAccepted += 1; else commandsRejected += 1;
+    // A command can close its phase, as the Captain's release choice does.
+    noteReturns(occupancy, before, current, lastStood);
+    if (current.phaseId !== before.phaseId) notePhase(occupancy, current);
     if ((outcome === 'REGISTERED') !== offered) {
       hintMismatches.push({ round: before.round, phaseKind: before.phaseKind, seat, type: command.type, offered, outcome });
     }
@@ -188,6 +273,16 @@ function play(adapter: EngineAdapter, mode: Mode, seed: string, setup: ScenarioS
           offset += 7;
         }
       }
+      if ((options.pressFullRooms ?? 0) > 0 && random() < (options.pressFullRooms ?? 0)) {
+        const here = current.truth.seats.find(item => item.seat === seat)?.location;
+        const full = ROOMS.filter(room => room !== here && room !== 'Command Room' && heldIn(current, room, seat) >= FULL);
+        const fresh = current.playerViews[seat];
+        if (full.length > 0 && fresh !== undefined) {
+          const command: NeutralCommand = { type: 'MOVE', destination: pick(full, random) };
+          send(seat, command, isOffered(fresh, command), current.phaseStartedAt + offset);
+          offset += 7;
+        }
+      }
     }
     const before = current;
     if (before.phaseEndsAt === null) break;
@@ -196,6 +291,8 @@ function play(adapter: EngineAdapter, mode: Mode, seed: string, setup: ScenarioS
     current = match.observe();
     violations.push(...checkTransition(setup, before, current, { kind: 'advance', atMs: before.phaseEndsAt, advanced }, ledger));
     phases += 1;
+    noteReturns(occupancy, before, current, lastStood);
+    if (current.phaseId !== before.phaseId) notePhase(occupancy, current);
     maxJailed = Math.max(maxJailed, current.truth.seats.filter(seat => seat.jailed).length);
     if (current.phaseKind === 'SHOWDOWN') { showdown = true; eliminatedBeforeShowdown = eliminated(current); }
     if (!advanced) break;
@@ -204,7 +301,7 @@ function play(adapter: EngineAdapter, mode: Mode, seed: string, setup: ScenarioS
   return {
     mode, seed, setup, completed: current.terminal, phases, commandsAccepted, commandsRejected, hintMismatches, violations,
     terminalPhase: current.phaseKind, winner: current.result?.winner ?? null, alienCoWinner: current.result?.alienCoWinner ?? null,
-    showdown, eliminatedBeforeShowdown, eliminatedAtEnd: eliminated(current), maxJailed, windowSeconds,
+    showdown, eliminatedBeforeShowdown, eliminatedAtEnd: eliminated(current), maxJailed, windowSeconds, occupancy,
     endDigest: JSON.stringify({ truth: current.truth, result: current.result, phase: current.phaseKind, round: current.round }),
   };
 }

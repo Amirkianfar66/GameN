@@ -1,0 +1,56 @@
+{
+  "tool": "design/tools/cinematic-render.mjs",
+  "pilot": "eject",
+  "version": "cinematic-eject-0.1.0",
+  "surface": "cut",
+  "variant": "full",
+  "stage": "design/cinematic/stage.html?pilot=eject&surface=cut&variant=full&beds=4",
+  "size": [
+    1920,
+    1080
+  ],
+  "deviceScale": 0.6667,
+  "fixture": {
+    "outcome": "eject",
+    "seatIds": [
+      3,
+      4,
+      9
+    ],
+    "roster": 9
+  },
+  "browser": "Chromium 141.0.7390.37",
+  "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+  "outputs": [
+    {
+      "kind": "video",
+      "file": "design/cinematic/exports/eject/review/cut-full.mp4",
+      "sha256": "af1c77ecc9c33fdb1d9f8d59480cddf246eac07fa7f804978cfabcaf82581d24",
+      "bytes": 1626894,
+      "fps": 30,
+      "frames": 217,
+      "durationMs": 7200,
+      "from": 0,
+      "to": 7200,
+      "audio": "design/cinematic/exports/eject/audio/eject-full.cues.wav"
+    },
+    {
+      "kind": "preview",
+      "file": "design/cinematic/exports/eject/review/cut-full.preview.webp",
+      "sha256": "695fa010a400c54afb0061b3dbea9e509c6fd41dbb9c6a012a34b54453c33544",
+      "bytes": 890372
+    },
+    {
+      "kind": "poster",
+      "file": "design/cinematic/exports/eject/review/cut-full.poster.webp",
+      "sha256": "b10c92dc418aa1088534669452eb42344a70828c20a42e903fdbd46b8969da95",
+      "bytes": 58630,
+      "t": 3700
+    }
+  ],
+  "settling": {
+    "rule": "a frame is kept once two captures a redraw apart agree; pictures decode before their tiles draw",
+    "resettled": 1,
+    "unsettled": []
+  }
+}

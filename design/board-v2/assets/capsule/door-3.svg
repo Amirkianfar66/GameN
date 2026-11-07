@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  mothership:dev-only · board-v2 capsule proposal board-v2-capsule-0.1.0 · door 3 · generated, do not edit by hand
+  The door's two leaves, open (no leaf: the doorway clear), drawn over the back and under the participants.
+  Built by design/tools/board-v2-assets.mjs from design/board-v2/scenes/capsule.mjs. Scenery, not a room: no slots, no press areas. Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 768" width="512" height="768">
+  <defs><pattern id="bm-ht-ink-s" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><circle cx="4.5" cy="4.5" r="1.5" fill="#151923"/></pattern><pattern id="bm-ht-ink-m" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><circle cx="4.5" cy="4.5" r="2.5" fill="#151923"/></pattern><pattern id="bm-ht-ink-l" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><circle cx="4.5" cy="4.5" r="3.5" fill="#151923"/></pattern><pattern id="bm-ht-paper-s" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><circle cx="4.5" cy="4.5" r="1.5" fill="#F4EBDD"/></pattern><pattern id="bm-ht-paper-m" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><circle cx="4.5" cy="4.5" r="2.6" fill="#F4EBDD"/></pattern><clipPath id="clip-capsule-floor"><polygon points="66,372 446,372 502,748 10,748"/></clipPath><clipPath id="clip-capsule-door"><rect x="318" y="164" width="100" height="208"/></clipPath></defs>
+  <g id="capsule-door-3"></g>
+</svg>

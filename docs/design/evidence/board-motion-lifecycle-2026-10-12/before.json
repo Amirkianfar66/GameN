@@ -1,0 +1,230 @@
+[
+  {
+    "case": "move then heal",
+    "boards": [
+      {
+        "board": "own",
+        "health": "Healthy",
+        "gesture": "tablet",
+        "drawn": "c6|tablet+injured",
+        "moving": false,
+        "effects": 0
+      },
+      {
+        "board": "observer",
+        "health": "Healthy",
+        "gesture": "tablet",
+        "drawn": "c6|tablet+injured",
+        "moving": false,
+        "effects": 0
+      }
+    ],
+    "motion": "full",
+    "system": false,
+    "revision": 3
+  },
+  {
+    "case": "move then heal after 1100ms",
+    "boards": [
+      {
+        "board": "own",
+        "health": "Healthy",
+        "gesture": "tablet",
+        "drawn": "c6|tablet+injured",
+        "moving": false,
+        "effects": 0
+      },
+      {
+        "board": "observer",
+        "health": "Healthy",
+        "gesture": "tablet",
+        "drawn": "c6|tablet+injured",
+        "moving": false,
+        "effects": 0
+      }
+    ],
+    "motion": "full",
+    "system": false,
+    "revision": 3
+  },
+  {
+    "case": "in-app reduced during walk",
+    "boards": [
+      {
+        "board": "own",
+        "health": "Injured",
+        "gesture": "tablet+injured",
+        "drawn": "c6|tablet+injured",
+        "moving": true,
+        "effects": 5
+      },
+      {
+        "board": "observer",
+        "health": "Injured",
+        "gesture": "tablet+injured",
+        "drawn": "c6|tablet+injured",
+        "moving": true,
+        "effects": 5
+      }
+    ],
+    "motion": "reduced",
+    "system": false,
+    "revision": 2
+  },
+  {
+    "case": "system reduced during explicit full walk",
+    "boards": [
+      {
+        "board": "own",
+        "health": "Injured",
+        "gesture": "tablet+injured",
+        "drawn": "c6|tablet+injured",
+        "moving": true,
+        "effects": 5
+      },
+      {
+        "board": "observer",
+        "health": "Injured",
+        "gesture": "tablet+injured",
+        "drawn": "c6|tablet+injured",
+        "moving": true,
+        "effects": 5
+      }
+    ],
+    "motion": "full",
+    "system": true,
+    "revision": 2
+  },
+  {
+    "case": "fit shot.choose 320x568",
+    "app": {
+      "x": 0,
+      "y": 0,
+      "width": 320,
+      "height": 568,
+      "bottom": 568
+    },
+    "board": {
+      "x": 0,
+      "y": 44,
+      "width": 320,
+      "height": 406,
+      "bottom": 450
+    },
+    "strip": {
+      "x": 6,
+      "y": 450,
+      "width": 308,
+      "height": 60,
+      "bottom": 510
+    },
+    "nav": {
+      "x": 0,
+      "y": 512,
+      "width": 320,
+      "height": 56,
+      "bottom": 568
+    },
+    "boardOverflow": 0,
+    "appOverflow": 0
+  },
+  {
+    "case": "fit shot.confirm 320x568",
+    "app": {
+      "x": 0,
+      "y": 0,
+      "width": 320,
+      "height": 568,
+      "bottom": 568
+    },
+    "board": {
+      "x": 0,
+      "y": 44,
+      "width": 320,
+      "height": 323.25,
+      "bottom": 367.25
+    },
+    "strip": {
+      "x": 6,
+      "y": 367.25,
+      "width": 308,
+      "height": 142.75,
+      "bottom": 510
+    },
+    "nav": {
+      "x": 0,
+      "y": 512,
+      "width": 320,
+      "height": 56,
+      "bottom": 568
+    },
+    "boardOverflow": 31,
+    "appOverflow": 0
+  },
+  {
+    "case": "fit code.two 320x568",
+    "app": {
+      "x": 0,
+      "y": 0,
+      "width": 320,
+      "height": 568,
+      "bottom": 568
+    },
+    "board": {
+      "x": 0,
+      "y": 44,
+      "width": 320,
+      "height": 354.78125,
+      "bottom": 398.78125
+    },
+    "strip": {
+      "x": 6,
+      "y": 398.78125,
+      "width": 308,
+      "height": 111.21875,
+      "bottom": 510
+    },
+    "nav": {
+      "x": 0,
+      "y": 512,
+      "width": 320,
+      "height": 56,
+      "bottom": 568
+    },
+    "boardOverflow": 0,
+    "appOverflow": 0
+  },
+  {
+    "case": "fit supply.second 320x568",
+    "app": {
+      "x": 0,
+      "y": 0,
+      "width": 320,
+      "height": 568,
+      "bottom": 568
+    },
+    "board": {
+      "x": 0,
+      "y": 44,
+      "width": 320,
+      "height": 356,
+      "bottom": 400
+    },
+    "strip": {
+      "x": 6,
+      "y": 400,
+      "width": 308,
+      "height": 110,
+      "bottom": 510
+    },
+    "nav": {
+      "x": 0,
+      "y": 512,
+      "width": 320,
+      "height": 56,
+      "bottom": 568
+    },
+    "boardOverflow": 0,
+    "appOverflow": 0
+  }
+]

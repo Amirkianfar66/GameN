@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  mothership:dev-only · board-v2 effects proposal board-v2-blocked-0.1.0 · shield, frame 1 · generated, do not edit by hand
+  It flashes on: a white-hot core in a pale hexagon, the only part bright enough to count as a flash. Centred on the target's press point, drawn at 2.1 times its press side. The same for every defense that blocks an attack.
+  Built by design/tools/board-v2-assets.mjs from design/board-v2/fx/blocked.mjs. Not in the reviewed manifest design-0.2.0.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200"><defs>
+    <radialGradient id="shield-fill" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#FFFFFF" stop-opacity="0.95"/><stop offset="0.55" stop-color="#E8FBFF" stop-opacity="0.55"/><stop offset="1" stop-color="#A6E6F0" stop-opacity="0.35"/></radialGradient>
+    <radialGradient id="shield-core" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#FFFFFF"/><stop offset="0.6" stop-color="#FFFFFF"/><stop offset="1" stop-color="#E8FBFF" stop-opacity="0"/></radialGradient>
+    <pattern id="shield-dots" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><circle cx="4" cy="4" r="1.6" fill="#3EA6BC"/></pattern>
+    <clipPath id="shield-clip"><polygon points="100,19 170.15,59.5 170.15,140.5 100,181 29.85,140.5 29.85,59.5"/></clipPath>
+  </defs><g data-layer="fx-shield-1"><polygon points="100,16 172.75,58 172.75,142 100,184 27.25,142 27.25,58" fill="#E8FBFF" fill-opacity="0.7" stroke="#151923" stroke-width="5" stroke-linejoin="round"/><polygon points="100,28 162.35,64 162.35,136 100,172 37.65,136 37.65,64" fill="none" stroke="#A6E6F0" stroke-width="4" stroke-linejoin="round"/><circle cx="100" cy="100" r="32" fill="url(#shield-core)"/></g></svg>

@@ -1,0 +1,15 @@
+# Staged-trial compatibility checkpoint
+
+Issue #97 / #99; worktree `/Users/amirkianfar/.codex/worktrees/fc13/GameN`; branch `codex/frontend-staged-trial`. Source integration baseline `91ff45c6aae479e9537ac01ac4c8ee19978bc041` preserves Frontend #100 `721b1f2`, #101 `56441c0`, #103 `5a95d75`, #106 `075c29f` and cumulative Designer #110 `1e2f491`. The original `codex/frontend-board-recovery` branch remains at `af291c1`.
+
+This checkpoint is separate from the larger drawing/ability port so Integration can verify Backend 1.3 compatibility early.
+
+- Current-view or authorization loss removes private contents from both protocol-1 and protocol-2 models and markup. The screen clears reveal state, private announcements and private focus. A current view returning never reopens the card; another deliberate action is required.
+- Unresolved command IDs, lookup/retry behavior and late receipts remain internal. Real-controller regressions retain their original send/lookup-ID assertions and prove accepted results become visible only after a current view and explicit reopen. Local timer expiry alone still pauses action controls without treating it as an authorization loss.
+- The Insider's inspect state and personal board spotlight clear on staleness. An OS reduction settles its assembly even with an explicit full setting and no screen frame. The earlier public motion-owner listener is unchanged.
+- The hide control has a fixed minimum 44 px width and cannot shrink. Native hit testing checks it on every open sheet at normal and enlarged text. Stale sheets disappear, removing the formerly inaccessible stale-banner/heading overlap.
+- Admission records accept exactly Room A, Room B or explicit null. Missing/invalid rooms remain rejected. Lobby, admission and bot labels use **Room assignment pending** for null, preserving non-null room text. The shared lobby schema and 1.3 tuple remain Integration/Backend adoption; no shared schema is weakened here.
+
+Actual checks: root build passed; all 188 presentation tests passed; all 437 existing game tests passed, plus the new pending-room test in the 13-test focused checkpoint suite. The existing private-file browser capture was revised to the approved concealment boundary and ran **43 steps, zero problems** at 320×568, 390×844, doubled reader text, long names, reduced motion, missing art, other roles and the shared display. The hide-control check uses the existing geometry tolerance and native `elementFromPoint`, not appearance alone. Before the fix, two new stale-concealment regressions failed; the original stale-retention tests were deliberately updated to the new assignment's boundary.
+
+No Backend emulator suite, physical device or deployed service was run for this checkpoint. The larger scene/ability integration and full `npm run verify` follow from the shared checkpoint selected by Integration. Historical #106 screenshots and stale-retention claims remain historical evidence, not acceptance of the new boundary. No cloud change, merge to main or deployment was performed.

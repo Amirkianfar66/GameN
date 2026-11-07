@@ -7,6 +7,7 @@ export const FULL_PROTOCOL_VERSION = 2 as const;
 export const FactionSchema = z.enum(['Blue', 'Red', 'Alien']);
 const target = { targetSeatId: SeatIdSchema };
 export const FullCommandSchema = z.discriminatedUnion('type', [
+  z.strictObject({ type: z.literal('PASS_TURN') }),
   z.strictObject({ type: z.literal('MOVE'), destination: z.enum(['Room A', 'Room B', 'Command Room']) }),
   z.strictObject({ type: z.literal('REGISTER_SHOT'), ...target }),
   z.strictObject({ type: z.literal('DISABLE'), ...target }),

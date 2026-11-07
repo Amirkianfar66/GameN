@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Mothership · editable source · ability art proposal · action icons
+  Original vector artwork made for this repository. Rights and provenance: design/abilities/assets/manifest.json.
+
+  PRIVATE. One mark for each action the seat's own Actions tray can open, beside its name: the tray
+  is drawn only on the seat's own phone, from its own view's offers. They follow the reviewed
+  icon-action-shot (design/source/cards/ui-icons.svg): one ink, a 32 x 32 cell, a 2.6 stroke with
+  round ends, no transform; each repeats the mark the action's strip draws (slices 2 to 6), so the
+  tray and the strip say the same. The Shot keeps the reviewed icon. None is ever the only way a
+  thing is said: each sits beside its English label, which is live text.
+
+  Every player phone loads the whole kit in one stylesheet, whatever its role, and nothing in it is
+  named after or coloured for a role or a team: the Disable's icon is the same for both Disablers,
+  Supply's is not the Supplier's, a Hack's is not the Hacker's.
+
+  Colors are token values (tokens 0.4.0): ink and paper.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 60" width="480" height="60">
+  <!-- The Disable: the charged ring, dashed, its four sparks, a bolt within. -->
+  <g transform="translate(10 14)">
+    <g id="icon-action-disable" fill="none" stroke="#151923" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="16" cy="16" r="9.5" stroke-dasharray="4.2 3.2"/>
+      <path d="M5 5 L8.2 6.6 L6.6 8.2 Z M27 5 L23.8 6.6 L25.4 8.2 Z M5 27 L8.2 25.4 L6.6 23.8 Z M27 27 L23.8 25.4 L25.4 23.8 Z" fill="#151923" stroke-width="1.6"/>
+      <path d="M17.5 10.5 L13.5 16.5 H18.5 L14.5 22" stroke-width="2.4"/>
+    </g>
+  </g>
+  <!-- Protection: the shield. -->
+  <g transform="translate(56 14)">
+    <g id="icon-action-protect" fill="none" stroke="#151923" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round">
+      <path d="M16 3.5 L27 7.5 V16 Q27 25 16 29.5 Q5 25 5 16 V7.5 Z"/>
+      <path d="M16 8.5 V24.5" stroke-width="2"/>
+    </g>
+  </g>
+  <!-- The Rescue: the medical cross in its ring. -->
+  <g transform="translate(102 14)">
+    <g id="icon-action-rescue" fill="none" stroke="#151923" stroke-width="2.6" stroke-linejoin="round">
+      <circle cx="16" cy="16" r="12.5"/>
+      <path d="M13 8.5 H19 V13 H23.5 V19 H19 V23.5 H13 V19 H8.5 V13 H13 Z" fill="#151923" stroke-width="1.4"/>
+    </g>
+  </g>
+  <!-- The Scan: the lens and its sweep. -->
+  <g transform="translate(148 14)">
+    <g id="icon-action-scan" fill="none" stroke="#151923" stroke-width="2.6" stroke-linecap="round">
+      <circle cx="13.5" cy="13.5" r="9"/>
+      <path d="M20.2 20.2 L28.5 28.5" stroke-width="3.6"/>
+      <path d="M7.5 13.5 H19.5" stroke-width="2" stroke-dasharray="2 2.4"/>
+    </g>
+  </g>
+  <!-- Supply: the shipping tag on its string. -->
+  <g transform="translate(194 14)">
+    <g id="icon-action-supply" fill="none" stroke="#151923" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round">
+      <path d="M13 6 H26.5 V26 H13 L6 16 Z"/>
+      <circle cx="13.5" cy="16" r="2" fill="#151923" stroke="none"/>
+      <path d="M11.5 16 Q5 11 3 4" stroke-width="1.8"/>
+      <path d="M17.5 12 H23 M17.5 16 H23 M17.5 20 H21" stroke-width="1.8"/>
+    </g>
+  </g>
+  <!-- A Hack: the comms. -->
+  <g transform="translate(240 14)">
+    <g id="icon-action-hack" fill="none" stroke="#151923" stroke-width="2.6" stroke-linecap="round">
+      <circle cx="16" cy="16" r="3" fill="#151923" stroke="none"/>
+      <path d="M10.5 10.5 Q7 16 10.5 21.5 M21.5 10.5 Q25 16 21.5 21.5"/>
+      <path d="M6 6.5 Q0.5 16 6 25.5 M26 6.5 Q31.5 16 26 25.5"/>
+    </g>
+  </g>
+  <!-- A Code attempt: the punch card, four holes two by two (never a row: the Code has no order). -->
+  <g transform="translate(286 14)">
+    <g id="icon-action-code" fill="none" stroke="#151923" stroke-width="2.6" stroke-linejoin="round">
+      <path d="M5 5 H22 L27 10 V27 H5 Z"/>
+      <circle cx="11.5" cy="13" r="2.2" fill="#151923" stroke="none"/>
+      <circle cx="20.5" cy="13" r="2.2" fill="#151923" stroke="none"/>
+      <circle cx="11.5" cy="21" r="2.2" fill="#151923" stroke="none"/>
+      <circle cx="20.5" cy="21" r="2.2" fill="#151923" stroke="none"/>
+    </g>
+  </g>
+  <!-- The showdown's shot: the special round, its double band. -->
+  <g transform="translate(332 14)">
+    <g id="icon-action-showdown" fill="none" stroke="#151923" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round">
+      <path d="M16 3 Q22.5 3 22.5 12 V25 H9.5 V12 Q9.5 3 16 3 Z"/>
+      <path d="M9.5 13.5 H22.5 M9.5 17.5 H22.5" stroke-width="2"/>
+      <path d="M7.5 25 H24.5 V29 H7.5 Z" fill="#151923"/>
+    </g>
+  </g>
+  <!-- A ballot (every vote, the release vote included): the box and a slip going in. -->
+  <g transform="translate(378 14)">
+    <g id="icon-action-ballot" fill="none" stroke="#151923" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round">
+      <path d="M4 15 H28 V28 H4 Z"/>
+      <path d="M10 15 V6 H22 V15" fill="#F4EBDD" stroke-width="2.2"/>
+      <path d="M12.5 10 L15 12.5 L19.5 7.5" stroke-width="2"/>
+      <path d="M8 15 H24" stroke-width="3.4"/>
+    </g>
+  </g>
+  <!-- The Captain's release request: the key. -->
+  <g transform="translate(424 14)">
+    <g id="icon-action-key" fill="none" stroke="#151923" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round">
+      <circle cx="10" cy="11" r="6"/>
+      <path d="M14.2 15.2 L27 28 M21 22 L24.5 18.5 M24.5 25.5 L28 22"/>
+    </g>
+  </g>
+</svg>
