@@ -1,0 +1,53 @@
+{
+  "render": "boarding-display-9",
+  "film": "boarding",
+  "outputs": [
+    {
+      "kind": "video",
+      "file": "design/pregame-films/review/boarding-display-9.mp4",
+      "sha256": "0be7e35c384e61e0ad74ab54a10a70cf7f9fb2e4fd70ca4f88ce32d238f669ed",
+      "bytes": 4839687,
+      "stage": "pregame-films/stage.html?film=boarding&roster=9",
+      "css": [
+        1920,
+        1080
+      ],
+      "deviceScale": 1,
+      "fps": 60,
+      "framesRendered": 600,
+      "durationMs": 10000,
+      "msPerFrame": 1346,
+      "probe": {
+        "width": 1920,
+        "height": 1080,
+        "frames": 600,
+        "fps": "60/1",
+        "durationS": 10,
+        "streams": 1
+      }
+    },
+    {
+      "kind": "sheet",
+      "file": "design/pregame-films/review/boarding-display-9.sheet.jpg",
+      "sha256": "f23d956335e6df08fa3190c2ee952fde511a77f0e1b06179316241efb1a05cba",
+      "bytes": 375692,
+      "moments": [
+        300,
+        1500,
+        2600,
+        3400,
+        4300,
+        5300,
+        6300,
+        6800,
+        7300,
+        8000,
+        8800,
+        9400
+      ]
+    }
+  ],
+  "browser": "Google Chrome for Testing 153.0.8010.12",
+  "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+  "note": "A review render: frames captured in desktop Chromium from the review stage and encoded with ffmpeg. Not a device measurement."
+}

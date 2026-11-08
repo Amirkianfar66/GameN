@@ -1,0 +1,25 @@
+<!doctype html>
+<!-- mothership:dev-only. The pre-game films' review stage: one film on one surface, seekable. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pre-game films · stage</title>
+<style>
+  html, body { margin: 0; padding: 0; background: #07090F; overflow: hidden; }
+  #film { position: fixed; inset: 0; }
+  #film > svg { display: block; width: 100vw; height: 100vh; }
+  #caption { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  /* Page text: the narration boxes, lettered as a comic's captions on aged paper. */
+  .boxes { position: fixed; inset: 0; pointer-events: none; }
+  .box { position: absolute; margin: 0; padding: 0.32em 0.6em 0.36em; display: flex; flex-direction: column; transform-origin: 0 0;
+    font: 700 13px/1.15 "Arial Narrow", "Helvetica Neue", Arial, sans-serif; letter-spacing: 0.04em; text-transform: uppercase;
+    color: #1B140C; background: linear-gradient(180deg, #F3E3BE, #E2CC9C); border: 2px solid #0B0E15; box-shadow: 3px 4px 0 rgba(0,0,0,0.55); }
+</style>
+</head>
+<body>
+<div id="film" role="img" aria-labelledby="caption"></div>
+<p id="caption" aria-live="polite"></p>
+<script type="module" src="./stage.mjs"></script>
+</body>
+</html>

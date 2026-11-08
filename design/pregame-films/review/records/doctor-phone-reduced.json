@@ -1,0 +1,33 @@
+{
+  "render": "doctor-phone-reduced",
+  "film": "role",
+  "outputs": [
+    {
+      "kind": "video",
+      "file": "design/pregame-films/review/doctor-phone-reduced.mp4",
+      "sha256": "c57d25664a7dc2372a99eca6f498991b42e98c29e8edda9e538f0aef82ed99b4",
+      "bytes": 663011,
+      "stage": "pregame-films/stage.html?film=role&role=doctor&character=c3&seat=4&variant=reduced",
+      "css": [
+        390,
+        844
+      ],
+      "deviceScale": 2,
+      "fps": 60,
+      "framesRendered": 600,
+      "durationMs": 10000,
+      "msPerFrame": 1457,
+      "probe": {
+        "width": 780,
+        "height": 1688,
+        "frames": 600,
+        "fps": "60/1",
+        "durationS": 10,
+        "streams": 1
+      }
+    }
+  ],
+  "browser": "Google Chrome for Testing 153.0.8010.12",
+  "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+  "note": "A review render: frames captured in desktop Chromium from the review stage and encoded with ffmpeg. Not a device measurement."
+}

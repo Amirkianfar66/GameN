@@ -1,0 +1,33 @@
+{
+  "render": "brand-phone-reduced",
+  "film": "brand",
+  "outputs": [
+    {
+      "kind": "video",
+      "file": "design/pregame-films/review/brand-phone-reduced.mp4",
+      "sha256": "aa1e2346d356ab9ecd45bd271db32ee3e42828c181a6a67f28b6874ad3c91c41",
+      "bytes": 20862,
+      "stage": "pregame-films/stage.html?film=brand&variant=reduced",
+      "css": [
+        390,
+        844
+      ],
+      "deviceScale": 2,
+      "fps": 60,
+      "framesRendered": 120,
+      "durationMs": 2000,
+      "msPerFrame": 92,
+      "probe": {
+        "width": 780,
+        "height": 1688,
+        "frames": 120,
+        "fps": "60/1",
+        "durationS": 2,
+        "streams": 1
+      }
+    }
+  ],
+  "browser": "Google Chrome for Testing 153.0.8010.12",
+  "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+  "note": "A review render: frames captured in desktop Chromium from the review stage and encoded with ffmpeg. Not a device measurement."
+}
