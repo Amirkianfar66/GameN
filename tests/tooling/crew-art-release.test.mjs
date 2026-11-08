@@ -27,7 +27,7 @@ function seed(t) {
     'design/releases/design-0.5.0.json', 'design/exports/asset-manifest.json',
     'design/tools/lib/reviewed-drawing-ports.json', 'design/releases/board-v2-four-drawing-approval.json',
     'design/releases/planet-drawing-approval.json', 'design/releases/crew-drawing-approval.json',
-    'design/releases/crew-consumer-drawing-approval.json',
+    'design/releases/crew-consumer-drawing-approval.json', 'design/releases/pregame-drawing-approval.json',
     CREW_CONSUMER_APPROVAL, ...Object.keys(readCrewConsumerApproval(root).requiredFiles),
     CREW_APPROVAL, release.libraryIntegrationApproval.path,
     ...Object.keys(release.sources), ...Object.keys(release.runtimeFiles),
