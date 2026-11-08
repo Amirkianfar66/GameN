@@ -1,0 +1,26 @@
+--- /private/tmp/gamen-pregame-cast-approved.mjs	2026-11-08 20:19:16
++++ apps/game/hosted/pregame-films/kit/cast.mjs	2026-11-08 20:16:23
+@@ -70,10 +70,22 @@
+  * the films' reduced motion is held pictures, so the eyes stay open (the crew renderer's own option
+  * for a frozen frame, `blink: false`); its general reduced motion, which keeps the blinks, is unchanged.
+  */
++// Runtime boundary: preserve the reviewed placement/light calculation while a retained consumer
++// mounts the frozen crew drawing once and applies crewPoseFrame to that same figure. The ordinary
++// reference renderer is unchanged when no collector is installed. The scope is synchronous.
++let retainedFigures = null;
++export function withRetainedFigures(collect, draw) {
++  const previous = retainedFigures;
++  retainedFigures = collect;
++  try { return draw(); } finally { retainedFigures = previous; }
++}
++
+ export function litFigure(D, id, { c, sk, at, scale, t = 0, motion = null, flip = false, ambient = null, key = null, rim = null, silhouette = null, clip = null, reduced = false, seat = 0, opacity = 1, outfit = 'crew' }) {
+   const member = typeof c === 'string' ? CREW[c] : c;
+   const life = motion ?? crewMotion(t, member.id, { reduced, seat, blink: !reduced });
+-  const inner = dressedFigureSvg(member, sk, { outfit, prefix: `${id}-f`, inline: true, motion: life });
++  const inner = retainedFigures
++    ? retainedFigures({ id, member, sk, outfit, prefix: `${id}-f`, motion: life })
++    : dressedFigureSvg(member, sk, { outfit, prefix: `${id}-f`, inline: true, motion: life });
+   const [bx, by, bw, bh] = RIG.box;
+   const w = bw * scale, h = bh * scale;
+   const x = at[0] - (RIG.anchor[0] - bx) * scale, y = at[1] - (RIG.anchor[1] - by) * scale;

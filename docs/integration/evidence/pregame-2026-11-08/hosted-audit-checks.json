@@ -1,0 +1,252 @@
+{
+  "browser": "Google Chrome 156.0.8078.80",
+  "provenance": "Synthetic transport through actual hosted app/session/controller; desktop Chromium only; no real multiplayer or physical-device acceptance",
+  "errorScope": "Every opened context; intentionally blocked-art failures excluded by the capture helper, Runtime exceptions aggregated across the browser",
+  "checks": [
+    {
+      "name": "actual hosted app accepts registered0.8 and current R17 contract",
+      "passed": true
+    },
+    {
+      "name": "private Skip returns to the card without Ready or advance",
+      "passed": true
+    },
+    {
+      "name": "refresh does not replay private film",
+      "passed": true
+    },
+    {
+      "name": "fresh recovered app with no seen marker still skips intro and private replay",
+      "passed": true
+    },
+    {
+      "name": "blur removes private scene, captions and card",
+      "passed": true
+    },
+    {
+      "name": "foreground reconnect and reveal do not replay private film",
+      "passed": true
+    },
+    {
+      "name": "revocation clears private pixels and text",
+      "passed": true
+    },
+    {
+      "name": "changed authentication clears private film",
+      "passed": true
+    },
+    {
+      "name": "public 7-player late join, Skip, expiry wait and server transition",
+      "passed": true
+    },
+    {
+      "name": "public 8-player late join, Skip, expiry wait and server transition",
+      "passed": true
+    },
+    {
+      "name": "public 9-player late join, Skip, expiry wait and server transition",
+      "passed": true
+    },
+    {
+      "name": "effective Reduced switches to a held picture at the current local clock",
+      "passed": true,
+      "elapsedSinceSwitchMs": 396.2999999523163
+    },
+    {
+      "name": "private role art requests are uniform",
+      "passed": true,
+      "roles": [
+        "doctor",
+        "hacker",
+        "alien"
+      ],
+      "paths": 42
+    },
+    {
+      "name": "paused uniform art does not block admission or film",
+      "passed": true,
+      "readyMs": 268
+    },
+    {
+      "name": "failed uniform art keeps the role card and has no phase authority",
+      "passed": true
+    },
+    {
+      "name": "disposal removes presentation resources",
+      "passed": true
+    }
+  ],
+  "captures": [],
+  "videos": [],
+  "uniform": [
+    {
+      "role": "doctor",
+      "paths": [
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/boarding/boarding.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/boarding/clock.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/boarding/roster.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/brand/brand.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/kit/cast.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/kit/fx.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/kit/letters.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/kit/math.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/alien.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/briefing.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/clock.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/common.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/disabler.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/doctor.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/engineer.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/film.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/hacker.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/insider.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/page.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/roles.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/supplier.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/undercover.mjs",
+        "/art/abilities.art.f7ff31a86d.css",
+        "/art/board-v2-films.art.9e6abdef0f.css",
+        "/art/board-v2-motion.art.7793869d6b.css",
+        "/art/board-v2.art.5dedbf2450.css",
+        "/art/crew-board-v2-films-art.b30ecdebc3.css",
+        "/art/crew-public-board.332a656b4b.css",
+        "/art/crew-roles.9bfc1dc3b2.css",
+        "/art/planet-library/end.art.717e2dcc59.css",
+        "/art/planet-library/hack-engineer.art.15e5c98ff2.css",
+        "/art/planet-library/hospital-panel.art.e6b5bddef6.css",
+        "/art/planet-library/navigation.art.b583b8bc4e.css",
+        "/art/planet-library/offices.art.6d780e7fff.css",
+        "/art/planet-library/promises.art.0298ebef8d.css",
+        "/art/planet-library/successor.art.676b8d3fd6.css",
+        "/art/planet-library/windows.art.767ae8ccdc.css",
+        "/art/player-ui.art.fc4830756c.css",
+        "/art/public-board.art.1f47b9f920.css",
+        "/art/roles.art.14e56b5e3e.css",
+        "/art/scenes.art.0ff8b3c930.css",
+        "/art/setup.art.f196649c9c.css"
+      ]
+    },
+    {
+      "role": "hacker",
+      "paths": [
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/boarding/boarding.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/boarding/clock.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/boarding/roster.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/brand/brand.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/kit/cast.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/kit/fx.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/kit/letters.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/kit/math.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/alien.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/briefing.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/clock.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/common.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/disabler.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/doctor.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/engineer.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/film.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/hacker.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/insider.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/page.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/roles.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/supplier.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/undercover.mjs",
+        "/art/abilities.art.f7ff31a86d.css",
+        "/art/board-v2-films.art.9e6abdef0f.css",
+        "/art/board-v2-motion.art.7793869d6b.css",
+        "/art/board-v2.art.5dedbf2450.css",
+        "/art/crew-board-v2-films-art.b30ecdebc3.css",
+        "/art/crew-public-board.332a656b4b.css",
+        "/art/crew-roles.9bfc1dc3b2.css",
+        "/art/planet-library/end.art.717e2dcc59.css",
+        "/art/planet-library/hack-engineer.art.15e5c98ff2.css",
+        "/art/planet-library/hospital-panel.art.e6b5bddef6.css",
+        "/art/planet-library/navigation.art.b583b8bc4e.css",
+        "/art/planet-library/offices.art.6d780e7fff.css",
+        "/art/planet-library/promises.art.0298ebef8d.css",
+        "/art/planet-library/successor.art.676b8d3fd6.css",
+        "/art/planet-library/windows.art.767ae8ccdc.css",
+        "/art/player-ui.art.fc4830756c.css",
+        "/art/public-board.art.1f47b9f920.css",
+        "/art/roles.art.14e56b5e3e.css",
+        "/art/scenes.art.0ff8b3c930.css",
+        "/art/setup.art.f196649c9c.css"
+      ]
+    },
+    {
+      "role": "alien",
+      "paths": [
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/boarding/boarding.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/boarding/clock.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/boarding/roster.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/brand/brand.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/kit/cast.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/kit/fx.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/kit/letters.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/kit/math.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/alien.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/briefing.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/clock.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/common.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/disabler.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/doctor.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/engineer.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/film.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/hacker.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/insider.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/page.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/roles.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/supplier.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/undercover.mjs",
+        "/art/abilities.art.f7ff31a86d.css",
+        "/art/board-v2-films.art.9e6abdef0f.css",
+        "/art/board-v2-motion.art.7793869d6b.css",
+        "/art/board-v2.art.5dedbf2450.css",
+        "/art/crew-board-v2-films-art.b30ecdebc3.css",
+        "/art/crew-public-board.332a656b4b.css",
+        "/art/crew-roles.9bfc1dc3b2.css",
+        "/art/planet-library/end.art.717e2dcc59.css",
+        "/art/planet-library/hack-engineer.art.15e5c98ff2.css",
+        "/art/planet-library/hospital-panel.art.e6b5bddef6.css",
+        "/art/planet-library/navigation.art.b583b8bc4e.css",
+        "/art/planet-library/offices.art.6d780e7fff.css",
+        "/art/planet-library/promises.art.0298ebef8d.css",
+        "/art/planet-library/successor.art.676b8d3fd6.css",
+        "/art/planet-library/windows.art.767ae8ccdc.css",
+        "/art/player-ui.art.fc4830756c.css",
+        "/art/public-board.art.1f47b9f920.css",
+        "/art/roles.art.14e56b5e3e.css",
+        "/art/scenes.art.0ff8b3c930.css",
+        "/art/setup.art.f196649c9c.css"
+      ]
+    }
+  ],
+  "contexts": [
+    {
+      "index": 0,
+      "problems": []
+    },
+    {
+      "index": 1,
+      "problems": []
+    },
+    {
+      "index": 2,
+      "problems": []
+    },
+    {
+      "index": 3,
+      "problems": []
+    },
+    {
+      "index": 4,
+      "problems": []
+    },
+    {
+      "index": 5,
+      "problems": []
+    }
+  ],
+  "problems": [],
+  "runtimeExceptions": []
+}

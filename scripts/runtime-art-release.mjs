@@ -2,6 +2,7 @@ import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { resolve, sep } from 'node:path';
 import { readPregameConsumerCandidate, acceptsPregameCandidateFile } from './pregame-consumer-candidate.mjs';
+import { readPregameProductionConsumerApproval, acceptsPregameProductionFile } from './pregame-consumer-approval.mjs';
 import { readPregameSourceApproval, verifyPregameRuntimePorts, PREGAME_APPROVAL, PREGAME_APPROVAL_SHA256 } from './pregame-runtime-ports.mjs';
 
 export const RUNTIME_ART_VERSION = 'design-0.5.0';
@@ -103,12 +104,13 @@ export function readCrewConsumerApproval(root) {
   check(sha(bytes) === CREW_CONSUMER_APPROVAL_SHA256, 'crew consumer approval differs');
   const approval = JSON.parse(bytes);
   const candidate = readPregameConsumerCandidate(root);
+  const production = readPregameProductionConsumerApproval(root);
   check(approval.schema === 'mothership.crew-consumer-approval/1', 'invalid crew consumer approval');
   for (const [path, digest] of Object.entries(approval.requiredFiles)) {
     check(!path.includes('..') && !path.includes('\\') && !path.startsWith('/')
       && /^[a-f0-9]{64}$/.test(digest), 'invalid consumer evidence path');
     const actual = sha(readFileSync(resolve(root, path)));
-    check(actual === digest || acceptsPregameCandidateFile(candidate, path, digest, actual), `crew consumer content differs: ${path}`);
+    check(actual === digest || acceptsPregameProductionFile(production, path, digest, actual) || acceptsPregameCandidateFile(candidate, path, digest, actual), `crew consumer content differs: ${path}`);
   }
   return approval;
 }
@@ -118,6 +120,8 @@ function readRelease(root, version, fromSnapshot) {
   check(Object.hasOwn(releases, version), 'unknown art release');
   const expected = releases[version];
   const candidate = fromSnapshot ? null : readPregameConsumerCandidate(root);
+  const production = !fromSnapshot && [PLANET_ART_VERSION, CREW_ART_VERSION, PREGAME_ART_VERSION].includes(version)
+    ? readPregameProductionConsumerApproval(root) : null;
   const bytes = readFileSync(resolve(root, `design/releases/${version}.json`));
   if (fromSnapshot) check(sha(bytes) === historical[version], 'historical manifest differs');
   if (expected.manifestSha256) check(sha(bytes) === expected.manifestSha256, 'approved manifest differs');
@@ -138,9 +142,9 @@ function readRelease(root, version, fromSnapshot) {
     const inventoryPath = fromSnapshot ? `${HISTORICAL_ART_BLOBS}/${digest}` : path;
     const actual = sha(readFileSync(resolve(root, inventoryPath)));
     const compatibility = consumer?.historicalRuntimeOverrides?.[version]?.[path];
-    if (acceptsPregameCandidateFile(candidate, path, digest, actual)) {
-      // Explicit local hosted-review mode only. The immutable inventory and its
-      // previous bytes remain preserved; the complete named candidate is verified.
+    if (acceptsPregameProductionFile(production, path, digest, actual) || acceptsPregameCandidateFile(candidate, path, digest, actual)) {
+      // The complete production approval or explicit local review verifies this
+      // exact successor. Immutable inventories and prior bytes remain preserved.
     } else if (compatibility) {
       // Preserve the published manifest and original bytes. Only this reviewed
       // successor consumer is permitted; no wildcard or unverified fallback.

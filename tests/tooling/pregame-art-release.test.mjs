@@ -1,3 +1,5 @@
+import {pregameProductionFixturePaths} from './support/pregame-production-fixture.mjs';
+import {PREGAME_PRODUCTION_CONSUMER_APPROVAL,readPregameConsumerApproval} from '../../scripts/pregame-consumer-approval.mjs';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {cpSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync} from 'node:fs';
@@ -20,7 +22,7 @@ const read=path=>readFileSync(join(root,path));
 function temporary(t){const dir=mkdtempSync(join(tmpdir(),'gamen-pregame-release-'));t.after(()=>rmSync(dir,{recursive:true,force:true}));return dir;}
 function seed(t){
   const dir=temporary(t),release=readRuntimeArtRelease(root,PREGAME_ART_VERSION),approval=readPregameSourceApproval(root);
-  const paths=new Set(['design/releases/design-0.8.0.json','design/releases/design-0.7.0.json','design/releases/design-0.6.0.json','design/releases/design-0.5.0.json',release.integrationApproval.path,release.libraryIntegrationApproval.path,
+  const paths=new Set([...pregameProductionFixturePaths(root),'design/releases/design-0.8.0.json','design/releases/design-0.7.0.json','design/releases/design-0.6.0.json','design/releases/design-0.5.0.json',release.integrationApproval.path,release.libraryIntegrationApproval.path,
     approval.approvedRuntimeHook.evidence.path,PREGAME_CONSUMER_CANDIDATE,CREW_CONSUMER_APPROVAL,...Object.keys(readCrewConsumerApproval(root).requiredFiles),
     ...Object.keys(release.sources),...Object.keys(release.runtimeFiles),
     ...Object.keys(approval.sourcePins),...Object.keys(approval.runtimePins)]);
@@ -57,9 +59,10 @@ test('source checkpoint excludes review artifacts and does not authorize the pen
     assert.doesNotMatch(path,/design\/pregame-films\/.*(?:stage|films|renders)\.(?:mjs|html)$/);
   }
   const dir=seed(t);
+  const production=readPregameConsumerApproval(root);
   writeFileSync(join(dir,'apps/game/hosted/crew-runtime.mjs'),'// unreviewed consumer');
   for(const version of ['design-0.6.0',CREW_ART_VERSION,PREGAME_ART_VERSION])
-    assert.throws(()=>readRuntimeArtRelease(dir,version),/crew consumer content differs/);
+    assert.throws(()=>readRuntimeArtRelease(dir,version),production?/^Error: Pregame consumer candidate: current content differs:/:/crew consumer content differs/);
 });
 
 test('source or runtime drift and a self-edited candidate manifest fail independently',t=>{
@@ -71,7 +74,7 @@ test('source or runtime drift and a self-edited candidate manifest fail independ
   }
   const path='design/releases/design-0.8.0.json',manifest=JSON.parse(readFileSync(join(dir,path)));
   manifest.registrationScope='adopted';writeFileSync(join(dir,path),JSON.stringify(manifest));
-  assert.throws(()=>readRuntimeArtRelease(dir,PREGAME_ART_VERSION),/approved manifest differs/);
+  assert.throws(()=>readRuntimeArtRelease(dir,PREGAME_ART_VERSION),readPregameConsumerApproval(root)?/art manifest binding differs/:/approved manifest differs/);
   assert.throws(()=>readRuntimeArtRelease(root,'design-0.8.1'),/unknown art release/);
 });
 
@@ -88,9 +91,10 @@ test('unchanged complete uniform output validates for06,07 and source registrati
   for(const version of ['design-0.6.0',CREW_ART_VERSION,PREGAME_ART_VERSION])assert.equal(assertRuntimeArtOutput(readRuntimeArtRelease(root,version),output),27);
 });
 
-// Consumer code lives in reviewed blobs here; native files remain Frontend-owned.
+// Materialize the exact local-review checkpoint without final production acceptance.
 test('explicit local review accepts only the complete reviewed candidate while preserving old release identities',t=>{
   const dir=seed(t),record=JSON.parse(read(PREGAME_CONSUMER_CANDIDATE));
+  rmSync(join(dir,PREGAME_PRODUCTION_CONSUMER_APPROVAL),{force:true});
   for(const [path,entry]of Object.entries(record.files)){mkdirSync(dirname(join(dir,path)),{recursive:true});cpSync(join(root,entry.candidateBlob),join(dir,path));}
   assert.throws(()=>readRuntimeArtRelease(dir,PREGAME_ART_VERSION),/crew consumer content differs/);
   const old=process.env[PREGAME_CONSUMER_REVIEW_ENV];

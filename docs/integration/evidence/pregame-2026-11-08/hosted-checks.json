@@ -1,0 +1,2688 @@
+{
+  "browser": "Google Chrome 156.0.8078.80",
+  "provenance": "Synthetic transport through actual hosted app/session/controller; desktop Chromium only; no real multiplayer or physical-device acceptance",
+  "checks": [
+    {
+      "name": "actual hosted app accepts registered0.8 and current R17 contract",
+      "passed": true
+    },
+    {
+      "name": "private Skip returns to the card without Ready or advance",
+      "passed": true
+    },
+    {
+      "name": "refresh does not replay private film",
+      "passed": true
+    },
+    {
+      "name": "fresh recovered app with no seen marker still skips intro and private replay",
+      "passed": true
+    },
+    {
+      "name": "blur removes private scene, captions and card",
+      "passed": true
+    },
+    {
+      "name": "foreground reconnect and reveal do not replay private film",
+      "passed": true
+    },
+    {
+      "name": "revocation clears private pixels and text",
+      "passed": true
+    },
+    {
+      "name": "changed authentication clears private film",
+      "passed": true
+    },
+    {
+      "name": "public 7-player late join, Skip, expiry wait and server transition",
+      "passed": true
+    },
+    {
+      "name": "public 8-player late join, Skip, expiry wait and server transition",
+      "passed": true
+    },
+    {
+      "name": "public 9-player late join, Skip, expiry wait and server transition",
+      "passed": true
+    },
+    {
+      "name": "effective Reduced switches to a held picture at the current local clock",
+      "passed": true,
+      "elapsedSinceSwitchMs": 392.60000002384186
+    },
+    {
+      "name": "private role art requests are uniform",
+      "passed": true,
+      "roles": [
+        "doctor",
+        "hacker",
+        "alien"
+      ],
+      "paths": 42
+    },
+    {
+      "name": "paused uniform art does not block admission or film",
+      "passed": true,
+      "readyMs": 215
+    },
+    {
+      "name": "failed uniform art keeps the role card and has no phase authority",
+      "passed": true
+    },
+    {
+      "name": "disposal removes presentation resources",
+      "passed": true
+    }
+  ],
+  "captures": [
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/320x568-doctor-full-page.jpg",
+      "viewport": [
+        320,
+        568
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-9",
+        "endsAt": 1794168704003
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168679079.7,
+        "uncertaintyMs": 0
+      },
+      "ownRole": "Doctor",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 121,
+        "figureMounts": 3,
+        "poseUpdates": 169,
+        "headUpdates": 112,
+        "environmentInsertions": 207,
+        "attributes": 44105,
+        "largestSampleBytes": 191882
+      },
+      "captionBoxes": [
+        {
+          "font": "13px",
+          "left": 11.390625,
+          "top": 18.688232421875,
+          "right": 142.37391662597656,
+          "bottom": 63.882755279541016
+        },
+        {
+          "font": "13px",
+          "left": 11.00295639038086,
+          "top": 205.421875,
+          "right": 135.33166122436523,
+          "bottom": 234.9154510498047
+        }
+      ]
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/320x568-doctor-full-title.jpg",
+      "viewport": [
+        320,
+        568
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-9",
+        "endsAt": 1794168704003
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168682627.85,
+        "uncertaintyMs": 0.04999995231628418
+      },
+      "ownRole": "Doctor",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 204,
+        "figureMounts": 5,
+        "poseUpdates": 395,
+        "headUpdates": 322,
+        "environmentInsertions": 395,
+        "attributes": 107414,
+        "largestSampleBytes": 236021
+      },
+      "captionBoxes": []
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/320x568-boarding-7-full.jpg",
+      "viewport": [
+        320,
+        568
+      ],
+      "status": "boarding",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-boarding-10",
+        "startedAt": 1794168675132,
+        "endsAt": 1794168685132
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168682912.3,
+        "uncertaintyMs": 0
+      },
+      "ownRole": null,
+      "ownSeat": null,
+      "film": "boarding",
+      "stats": {
+        "samples": 7,
+        "figureMounts": 7,
+        "poseUpdates": 49,
+        "headUpdates": 42,
+        "environmentInsertions": 18,
+        "attributes": 1242,
+        "largestSampleBytes": 21215
+      },
+      "captionBoxes": []
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/320x568-boarding-8-full.jpg",
+      "viewport": [
+        320,
+        568
+      ],
+      "status": "boarding",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-boarding-11",
+        "startedAt": 1794168675415,
+        "endsAt": 1794168685415
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168683194.6,
+        "uncertaintyMs": 0
+      },
+      "ownRole": null,
+      "ownSeat": null,
+      "film": "boarding",
+      "stats": {
+        "samples": 7,
+        "figureMounts": 8,
+        "poseUpdates": 56,
+        "headUpdates": 48,
+        "environmentInsertions": 20,
+        "attributes": 1297,
+        "largestSampleBytes": 22499
+      },
+      "captionBoxes": []
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/320x568-boarding-9-full.jpg",
+      "viewport": [
+        320,
+        568
+      ],
+      "status": "boarding",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-boarding-12",
+        "startedAt": 1794168675699,
+        "endsAt": 1794168685699
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168683495.3499,
+        "uncertaintyMs": 0.050000011920928955
+      },
+      "ownRole": null,
+      "ownSeat": null,
+      "film": "boarding",
+      "stats": {
+        "samples": 7,
+        "figureMounts": 9,
+        "poseUpdates": 63,
+        "headUpdates": 54,
+        "environmentInsertions": 20,
+        "attributes": 1301,
+        "largestSampleBytes": 23708
+      },
+      "captionBoxes": []
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/320x568-brand-full.jpg",
+      "viewport": [
+        320,
+        568
+      ],
+      "status": null,
+      "setupFlowVersion": null,
+      "setup": null,
+      "clock": {
+        "status": "unsynced"
+      },
+      "ownRole": null,
+      "ownSeat": null,
+      "film": "brand",
+      "stats": {
+        "samples": 28,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 20,
+        "attributes": 68,
+        "largestSampleBytes": 4684
+      },
+      "captionBoxes": []
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/320x568-doctor-reduced-page.jpg",
+      "viewport": [
+        320,
+        568
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-14",
+        "endsAt": 1794168714646
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168689718.7002,
+        "uncertaintyMs": 0.10000002384185791
+      },
+      "ownRole": "Doctor",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 2,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": [
+        {
+          "font": "13px",
+          "left": 22.390625,
+          "top": 39.578857421875,
+          "right": 153.37391662597656,
+          "bottom": 84.77338409423828
+        },
+        {
+          "font": "13px",
+          "left": 22.00295639038086,
+          "top": 212.65625,
+          "right": 146.33166122436523,
+          "bottom": 242.1498260498047
+        }
+      ]
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/320x568-doctor-reduced-title.jpg",
+      "viewport": [
+        320,
+        568
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-14",
+        "endsAt": 1794168714646
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168693251.4001,
+        "uncertaintyMs": 0
+      },
+      "ownRole": "Doctor",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 3,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": []
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/320x568-boarding-7-reduced.jpg",
+      "viewport": [
+        320,
+        568
+      ],
+      "status": "boarding",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-boarding-15",
+        "startedAt": 1794168685759,
+        "endsAt": 1794168695759
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168693543.5,
+        "uncertaintyMs": 0
+      },
+      "ownRole": null,
+      "ownSeat": null,
+      "film": "boarding",
+      "stats": {
+        "samples": 1,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": []
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/320x568-boarding-8-reduced.jpg",
+      "viewport": [
+        320,
+        568
+      ],
+      "status": "boarding",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-boarding-16",
+        "startedAt": 1794168686047,
+        "endsAt": 1794168696047
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168693811.3,
+        "uncertaintyMs": 0
+      },
+      "ownRole": null,
+      "ownSeat": null,
+      "film": "boarding",
+      "stats": {
+        "samples": 1,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": []
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/320x568-boarding-9-reduced.jpg",
+      "viewport": [
+        320,
+        568
+      ],
+      "status": "boarding",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-boarding-17",
+        "startedAt": 1794168686315,
+        "endsAt": 1794168696315
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168694092.8,
+        "uncertaintyMs": 0
+      },
+      "ownRole": null,
+      "ownSeat": null,
+      "film": "boarding",
+      "stats": {
+        "samples": 1,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": []
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/320x568-brand-reduced.jpg",
+      "viewport": [
+        320,
+        568
+      ],
+      "status": null,
+      "setupFlowVersion": null,
+      "setup": null,
+      "clock": {
+        "status": "unsynced"
+      },
+      "ownRole": null,
+      "ownSeat": null,
+      "film": "brand",
+      "stats": {
+        "samples": 27,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 5,
+        "largestSampleBytes": 6000
+      },
+      "captionBoxes": []
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/390x844-doctor-full-page.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-19",
+        "endsAt": 1794168725237
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168700353.2,
+        "uncertaintyMs": 0.09999996423721313
+      },
+      "ownRole": "Doctor",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 120,
+        "figureMounts": 3,
+        "poseUpdates": 171,
+        "headUpdates": 117,
+        "environmentInsertions": 222,
+        "attributes": 45579,
+        "largestSampleBytes": 199952
+      },
+      "captionBoxes": [
+        {
+          "font": "13px",
+          "left": 11.984375,
+          "top": 24.781982421875,
+          "right": 142.96766662597656,
+          "bottom": 69.97650909423828
+        },
+        {
+          "font": "13px",
+          "left": 11.59670639038086,
+          "top": 301.046875,
+          "right": 135.92541122436523,
+          "bottom": 330.5404357910156
+        }
+      ]
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/390x844-doctor-full-title.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-19",
+        "endsAt": 1794168725237
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168703925.4001,
+        "uncertaintyMs": 0
+      },
+      "ownRole": "Doctor",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 204,
+        "figureMounts": 5,
+        "poseUpdates": 402,
+        "headUpdates": 331,
+        "environmentInsertions": 435,
+        "attributes": 110749,
+        "largestSampleBytes": 247394
+      },
+      "captionBoxes": []
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/390x844-insider-full-page.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-20",
+        "endsAt": 1794168733930
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168709013,
+        "uncertaintyMs": 0
+      },
+      "ownRole": "Insider",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 122,
+        "figureMounts": 3,
+        "poseUpdates": 172,
+        "headUpdates": 116,
+        "environmentInsertions": 166,
+        "attributes": 32600,
+        "largestSampleBytes": 156038
+      },
+      "captionBoxes": [
+        {
+          "font": "13px",
+          "left": 11.984375,
+          "top": 25.123638153076172,
+          "right": 125.17407989501953,
+          "bottom": 69.97650909423828
+        },
+        {
+          "font": "13px",
+          "left": 11.38814640045166,
+          "top": 301.046875,
+          "right": 115.39617252349854,
+          "bottom": 345.1898193359375
+        }
+      ]
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/390x844-insider-full-title.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-20",
+        "endsAt": 1794168733930
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168712568.45,
+        "uncertaintyMs": 0.050000011920928955
+      },
+      "ownRole": "Insider",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 208,
+        "figureMounts": 4,
+        "poseUpdates": 407,
+        "headUpdates": 350,
+        "environmentInsertions": 408,
+        "attributes": 61200,
+        "largestSampleBytes": 181665
+      },
+      "captionBoxes": []
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/390x844-blue-disabler-full-page.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-21",
+        "endsAt": 1794168742573
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168717650.4502,
+        "uncertaintyMs": 0.050000011920928955
+      },
+      "ownRole": "Blue Disabler",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 121,
+        "figureMounts": 4,
+        "poseUpdates": 170,
+        "headUpdates": 116,
+        "environmentInsertions": 367,
+        "attributes": 34168,
+        "largestSampleBytes": 134734
+      },
+      "captionBoxes": [
+        {
+          "font": "13px",
+          "left": 11.984375,
+          "top": 24.879169464111328,
+          "right": 137.90611267089844,
+          "bottom": 69.97650909423828
+        },
+        {
+          "font": "13px",
+          "left": 11.59670639038086,
+          "top": 301.046875,
+          "right": 112.50582504272461,
+          "bottom": 330.21343994140625
+        }
+      ]
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/390x844-blue-disabler-full-title.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-21",
+        "endsAt": 1794168742573
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168721195.05,
+        "uncertaintyMs": 0.050000011920928955
+      },
+      "ownRole": "Blue Disabler",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 206,
+        "figureMounts": 5,
+        "poseUpdates": 403,
+        "headUpdates": 348,
+        "environmentInsertions": 554,
+        "attributes": 57813,
+        "largestSampleBytes": 162068
+      },
+      "captionBoxes": []
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/390x844-red-disabler-full-page.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-22",
+        "endsAt": 1794168751199
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168726265.45,
+        "uncertaintyMs": 0.050000011920928955
+      },
+      "ownRole": "Red Disabler",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 122,
+        "figureMounts": 4,
+        "poseUpdates": 171,
+        "headUpdates": 115,
+        "environmentInsertions": 369,
+        "attributes": 34439,
+        "largestSampleBytes": 134718
+      },
+      "captionBoxes": [
+        {
+          "font": "13px",
+          "left": 11.984375,
+          "top": 24.879169464111328,
+          "right": 137.90611267089844,
+          "bottom": 69.97650909423828
+        },
+        {
+          "font": "13px",
+          "left": 11.59670639038086,
+          "top": 301.046875,
+          "right": 112.50582504272461,
+          "bottom": 330.21343994140625
+        }
+      ]
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/390x844-red-disabler-full-title.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-22",
+        "endsAt": 1794168751199
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168729812.7998,
+        "uncertaintyMs": 0
+      },
+      "ownRole": "Red Disabler",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 206,
+        "figureMounts": 5,
+        "poseUpdates": 400,
+        "headUpdates": 343,
+        "environmentInsertions": 578,
+        "attributes": 57873,
+        "largestSampleBytes": 162220
+      },
+      "captionBoxes": []
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/390x844-supplier-full-page.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-23",
+        "endsAt": 1794168759816
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168734882.25,
+        "uncertaintyMs": 0.050000011920928955
+      },
+      "ownRole": "Supplier",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 120,
+        "figureMounts": 4,
+        "poseUpdates": 182,
+        "headUpdates": 134,
+        "environmentInsertions": 230,
+        "attributes": 33572,
+        "largestSampleBytes": 142982
+      },
+      "captionBoxes": [
+        {
+          "font": "13px",
+          "left": 11.984375,
+          "top": 24.62450408935547,
+          "right": 150.8825225830078,
+          "bottom": 55.0417594909668
+        },
+        {
+          "font": "13px",
+          "left": 11.38814640045166,
+          "top": 301.046875,
+          "right": 129.47291660308838,
+          "bottom": 345.3863830566406
+        }
+      ]
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/390x844-supplier-full-title.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-23",
+        "endsAt": 1794168759816
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168738450.75,
+        "uncertaintyMs": 0.050000011920928955
+      },
+      "ownRole": "Supplier",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 205,
+        "figureMounts": 6,
+        "poseUpdates": 561,
+        "headUpdates": 511,
+        "environmentInsertions": 465,
+        "attributes": 63576,
+        "largestSampleBytes": 155920
+      },
+      "captionBoxes": []
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/390x844-engineer-full-page.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-24",
+        "endsAt": 1794168768455
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168743545.55,
+        "uncertaintyMs": 0.050000011920928955
+      },
+      "ownRole": "Engineer",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 121,
+        "figureMounts": 3,
+        "poseUpdates": 170,
+        "headUpdates": 122,
+        "environmentInsertions": 316,
+        "attributes": 37833,
+        "largestSampleBytes": 152494
+      },
+      "captionBoxes": [
+        {
+          "font": "13px",
+          "left": 11.984375,
+          "top": 24.88426971435547,
+          "right": 137.35377502441406,
+          "bottom": 55.0417594909668
+        },
+        {
+          "font": "13px",
+          "left": 11.38814640045166,
+          "top": 301.046875,
+          "right": 106.61577701568604,
+          "bottom": 345.0672302246094
+        }
+      ]
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/390x844-engineer-full-title.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-24",
+        "endsAt": 1794168768455
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168747077.8,
+        "uncertaintyMs": 0
+      },
+      "ownRole": "Engineer",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 206,
+        "figureMounts": 7,
+        "poseUpdates": 550,
+        "headUpdates": 498,
+        "environmentInsertions": 537,
+        "attributes": 61229,
+        "largestSampleBytes": 175449
+      },
+      "captionBoxes": []
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/390x844-undercover-full-page.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-25",
+        "endsAt": 1794168777083
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168752146.45,
+        "uncertaintyMs": 0.050000011920928955
+      },
+      "ownRole": "Undercover",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 120,
+        "figureMounts": 3,
+        "poseUpdates": 168,
+        "headUpdates": 119,
+        "environmentInsertions": 214,
+        "attributes": 44816,
+        "largestSampleBytes": 144479
+      },
+      "captionBoxes": [
+        {
+          "font": "13px",
+          "left": 11.984375,
+          "top": 25.217525482177734,
+          "right": 120.28435516357422,
+          "bottom": 69.97650909423828
+        },
+        {
+          "font": "13px",
+          "left": 11.38814640045166,
+          "top": 301.046875,
+          "right": 89.03936100006104,
+          "bottom": 344.8218078613281
+        }
+      ]
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/390x844-undercover-full-title.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-25",
+        "endsAt": 1794168777083
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168755714.5498,
+        "uncertaintyMs": 0.050000011920928955
+      },
+      "ownRole": "Undercover",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 205,
+        "figureMounts": 5,
+        "poseUpdates": 462,
+        "headUpdates": 411,
+        "environmentInsertions": 422,
+        "attributes": 93415,
+        "largestSampleBytes": 154515
+      },
+      "captionBoxes": []
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/390x844-hacker-full-page.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-26",
+        "endsAt": 1794168785718
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168760810.4,
+        "uncertaintyMs": 0.10000002384185791
+      },
+      "ownRole": "Hacker",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 122,
+        "figureMounts": 3,
+        "poseUpdates": 172,
+        "headUpdates": 123,
+        "environmentInsertions": 214,
+        "attributes": 32080,
+        "largestSampleBytes": 113448
+      },
+      "captionBoxes": [
+        {
+          "font": "13px",
+          "left": 11.984375,
+          "top": 25.153034210205078,
+          "right": 123.64311218261719,
+          "bottom": 69.97650909423828
+        },
+        {
+          "font": "13px",
+          "left": 11.59670639038086,
+          "top": 301.046875,
+          "right": 135.64419174194336,
+          "bottom": 330.5365295410156
+        }
+      ]
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/390x844-hacker-full-title.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-26",
+        "endsAt": 1794168785718
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168764346.05,
+        "uncertaintyMs": 0.050000011920928955
+      },
+      "ownRole": "Hacker",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 206,
+        "figureMounts": 7,
+        "poseUpdates": 584,
+        "headUpdates": 531,
+        "environmentInsertions": 425,
+        "attributes": 58790,
+        "largestSampleBytes": 149677
+      },
+      "captionBoxes": []
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/390x844-alien-full-page.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-27",
+        "endsAt": 1794168794350
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168769451.45,
+        "uncertaintyMs": 0.050000011920928955
+      },
+      "ownRole": "Alien",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 120,
+        "figureMounts": 10,
+        "poseUpdates": 381,
+        "headUpdates": 326,
+        "environmentInsertions": 218,
+        "attributes": 31007,
+        "largestSampleBytes": 115930
+      },
+      "captionBoxes": [
+        {
+          "font": "13px",
+          "left": 11.984375,
+          "top": 25.198328018188477,
+          "right": 121.28417205810547,
+          "bottom": 69.97651100158691
+        },
+        {
+          "font": "13px",
+          "left": 11.38814640045166,
+          "top": 301.046875,
+          "right": 129.2698221206665,
+          "bottom": 345.383544921875
+        }
+      ]
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/390x844-alien-full-title.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-27",
+        "endsAt": 1794168794350
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168773014.45,
+        "uncertaintyMs": 0.04999995231628418
+      },
+      "ownRole": "Alien",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 205,
+        "figureMounts": 11,
+        "poseUpdates": 977,
+        "headUpdates": 921,
+        "environmentInsertions": 735,
+        "attributes": 56936,
+        "largestSampleBytes": 146847
+      },
+      "captionBoxes": []
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/390x844-boarding-7-full.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "boarding",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-boarding-28",
+        "startedAt": 1794168765520,
+        "endsAt": 1794168775520
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168773291.55,
+        "uncertaintyMs": 0.050000011920928955
+      },
+      "ownRole": null,
+      "ownSeat": null,
+      "film": "boarding",
+      "stats": {
+        "samples": 6,
+        "figureMounts": 7,
+        "poseUpdates": 42,
+        "headUpdates": 35,
+        "environmentInsertions": 19,
+        "attributes": 1063,
+        "largestSampleBytes": 21216
+      },
+      "captionBoxes": []
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/390x844-boarding-8-full.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "boarding",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-boarding-29",
+        "startedAt": 1794168765795,
+        "endsAt": 1794168775795
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168773577.4001,
+        "uncertaintyMs": 0
+      },
+      "ownRole": null,
+      "ownSeat": null,
+      "film": "boarding",
+      "stats": {
+        "samples": 7,
+        "figureMounts": 8,
+        "poseUpdates": 56,
+        "headUpdates": 48,
+        "environmentInsertions": 19,
+        "attributes": 1259,
+        "largestSampleBytes": 22446
+      },
+      "captionBoxes": []
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/390x844-boarding-9-full.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "boarding",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-boarding-30",
+        "startedAt": 1794168766081,
+        "endsAt": 1794168776081
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168773858.25,
+        "uncertaintyMs": 0.050000011920928955
+      },
+      "ownRole": null,
+      "ownSeat": null,
+      "film": "boarding",
+      "stats": {
+        "samples": 6,
+        "figureMounts": 9,
+        "poseUpdates": 54,
+        "headUpdates": 45,
+        "environmentInsertions": 19,
+        "attributes": 1070,
+        "largestSampleBytes": 23714
+      },
+      "captionBoxes": []
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/390x844-brand-full.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": null,
+      "setupFlowVersion": null,
+      "setup": null,
+      "clock": {
+        "status": "unsynced"
+      },
+      "ownRole": null,
+      "ownSeat": null,
+      "film": "brand",
+      "stats": {
+        "samples": 28,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 22,
+        "attributes": 92,
+        "largestSampleBytes": 5208
+      },
+      "captionBoxes": []
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/390x844-doctor-reduced-page.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-32",
+        "endsAt": 1794168805027
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168780101.75,
+        "uncertaintyMs": 0.04999995231628418
+      },
+      "ownRole": "Doctor",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 2,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": [
+        {
+          "font": "13px",
+          "left": 25.546875,
+          "top": 56.125732421875,
+          "right": 156.53016662597656,
+          "bottom": 101.32025909423828
+        },
+        {
+          "font": "13px",
+          "left": 25.15920639038086,
+          "top": 312.109375,
+          "right": 149.48791122436523,
+          "bottom": 341.6029357910156
+        }
+      ]
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/390x844-doctor-reduced-title.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-32",
+        "endsAt": 1794168805027
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168783644.55,
+        "uncertaintyMs": 0.04999995231628418
+      },
+      "ownRole": "Doctor",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 3,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": []
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/390x844-insider-reduced-page.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-33",
+        "endsAt": 1794168813649
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168788721.45,
+        "uncertaintyMs": 0.04999995231628418
+      },
+      "ownRole": "Insider",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 2,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": [
+        {
+          "font": "13px",
+          "left": 25.546875,
+          "top": 56.46738815307617,
+          "right": 138.736572265625,
+          "bottom": 101.32025909423828
+        },
+        {
+          "font": "13px",
+          "left": 24.950645446777344,
+          "top": 312.109375,
+          "right": 128.9586639404297,
+          "bottom": 356.2523193359375
+        }
+      ]
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/390x844-insider-reduced-title.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-33",
+        "endsAt": 1794168813649
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168792266.9001,
+        "uncertaintyMs": 0
+      },
+      "ownRole": "Insider",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 3,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": []
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/390x844-blue-disabler-reduced-page.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-34",
+        "endsAt": 1794168822275
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168797349.7,
+        "uncertaintyMs": 0
+      },
+      "ownRole": "Blue Disabler",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 2,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": [
+        {
+          "font": "13px",
+          "left": 25.546875,
+          "top": 56.22291946411133,
+          "right": 151.46861267089844,
+          "bottom": 101.32025909423828
+        },
+        {
+          "font": "13px",
+          "left": 25.15920639038086,
+          "top": 312.109375,
+          "right": 126.06832504272461,
+          "bottom": 341.27593994140625
+        }
+      ]
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/390x844-blue-disabler-reduced-title.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-34",
+        "endsAt": 1794168822275
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168800899.7,
+        "uncertaintyMs": 0
+      },
+      "ownRole": "Blue Disabler",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 3,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": []
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/390x844-red-disabler-reduced-page.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-35",
+        "endsAt": 1794168830908
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168805986.35,
+        "uncertaintyMs": 0.04999995231628418
+      },
+      "ownRole": "Red Disabler",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 2,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": [
+        {
+          "font": "13px",
+          "left": 25.546875,
+          "top": 56.22291946411133,
+          "right": 151.46861267089844,
+          "bottom": 101.32025909423828
+        },
+        {
+          "font": "13px",
+          "left": 25.15920639038086,
+          "top": 312.109375,
+          "right": 126.06832504272461,
+          "bottom": 341.27593994140625
+        }
+      ]
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/390x844-red-disabler-reduced-title.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-35",
+        "endsAt": 1794168830908
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168809530.4502,
+        "uncertaintyMs": 0.050000011920928955
+      },
+      "ownRole": "Red Disabler",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 3,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": []
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/390x844-supplier-reduced-page.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-36",
+        "endsAt": 1794168839538
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168814622.45,
+        "uncertaintyMs": 0.050000011920928955
+      },
+      "ownRole": "Supplier",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 2,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": [
+        {
+          "font": "13px",
+          "left": 25.546875,
+          "top": 55.96825408935547,
+          "right": 164.4450225830078,
+          "bottom": 86.38550567626953
+        },
+        {
+          "font": "13px",
+          "left": 24.950645446777344,
+          "top": 312.109375,
+          "right": 143.03541564941406,
+          "bottom": 356.4488830566406
+        }
+      ]
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/390x844-supplier-reduced-title.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-36",
+        "endsAt": 1794168839538
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168818166,
+        "uncertaintyMs": 0
+      },
+      "ownRole": "Supplier",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 3,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": []
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/390x844-engineer-reduced-page.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-37",
+        "endsAt": 1794168848175
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168823251.75,
+        "uncertaintyMs": 0.04999995231628418
+      },
+      "ownRole": "Engineer",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 2,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": [
+        {
+          "font": "13px",
+          "left": 25.546875,
+          "top": 56.22801971435547,
+          "right": 150.91627502441406,
+          "bottom": 86.38550567626953
+        },
+        {
+          "font": "13px",
+          "left": 24.950645446777344,
+          "top": 312.109375,
+          "right": 120.17827606201172,
+          "bottom": 356.1297302246094
+        }
+      ]
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/390x844-engineer-reduced-title.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-37",
+        "endsAt": 1794168848175
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168826797.1,
+        "uncertaintyMs": 0
+      },
+      "ownRole": "Engineer",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 3,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": []
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/390x844-undercover-reduced-page.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-38",
+        "endsAt": 1794168856806
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168831885.75,
+        "uncertaintyMs": 0.050000011920928955
+      },
+      "ownRole": "Undercover",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 2,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": [
+        {
+          "font": "13px",
+          "left": 25.546875,
+          "top": 56.561275482177734,
+          "right": 133.8468475341797,
+          "bottom": 101.32025909423828
+        },
+        {
+          "font": "13px",
+          "left": 24.950645446777344,
+          "top": 312.109375,
+          "right": 102.60186004638672,
+          "bottom": 355.8843078613281
+        }
+      ]
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/390x844-undercover-reduced-title.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-38",
+        "endsAt": 1794168856806
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168835427.8499,
+        "uncertaintyMs": 0.050000011920928955
+      },
+      "ownRole": "Undercover",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 3,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": []
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/390x844-hacker-reduced-page.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-39",
+        "endsAt": 1794168865438
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168840516.6,
+        "uncertaintyMs": 0.10000002384185791
+      },
+      "ownRole": "Hacker",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 2,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": [
+        {
+          "font": "13px",
+          "left": 25.546875,
+          "top": 56.49678421020508,
+          "right": 137.2056121826172,
+          "bottom": 101.32025909423828
+        },
+        {
+          "font": "13px",
+          "left": 25.15920639038086,
+          "top": 312.109375,
+          "right": 149.20669174194336,
+          "bottom": 341.5990295410156
+        }
+      ]
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/390x844-hacker-reduced-title.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-39",
+        "endsAt": 1794168865438
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168844062.9001,
+        "uncertaintyMs": 0.09999996423721313
+      },
+      "ownRole": "Hacker",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 3,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": []
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/390x844-alien-reduced-page.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-40",
+        "endsAt": 1794168874073
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168849133.9502,
+        "uncertaintyMs": 0.050000011920928955
+      },
+      "ownRole": "Alien",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 2,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": [
+        {
+          "font": "13px",
+          "left": 25.546875,
+          "top": 56.542076110839844,
+          "right": 134.84666442871094,
+          "bottom": 101.32025909423828
+        },
+        {
+          "font": "13px",
+          "left": 24.950645446777344,
+          "top": 312.109375,
+          "right": 142.8323211669922,
+          "bottom": 356.446044921875
+        }
+      ]
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/390x844-alien-reduced-title.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-40",
+        "endsAt": 1794168874073
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168852678.05,
+        "uncertaintyMs": 0.050000011920928955
+      },
+      "ownRole": "Alien",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 3,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": []
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/390x844-boarding-7-reduced.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "boarding",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-boarding-41",
+        "startedAt": 1794168845188,
+        "endsAt": 1794168855188
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168852973.7,
+        "uncertaintyMs": 0
+      },
+      "ownRole": null,
+      "ownSeat": null,
+      "film": "boarding",
+      "stats": {
+        "samples": 1,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": []
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/390x844-boarding-8-reduced.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "boarding",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-boarding-42",
+        "startedAt": 1794168845478,
+        "endsAt": 1794168855478
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168853272.3,
+        "uncertaintyMs": 0
+      },
+      "ownRole": null,
+      "ownSeat": null,
+      "film": "boarding",
+      "stats": {
+        "samples": 1,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": []
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/390x844-boarding-9-reduced.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "boarding",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-boarding-43",
+        "startedAt": 1794168845776,
+        "endsAt": 1794168855776
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168853557.5999,
+        "uncertaintyMs": 0
+      },
+      "ownRole": null,
+      "ownSeat": null,
+      "film": "boarding",
+      "stats": {
+        "samples": 1,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": []
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/390x844-brand-reduced.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": null,
+      "setupFlowVersion": null,
+      "setup": null,
+      "clock": {
+        "status": "unsynced"
+      },
+      "ownRole": null,
+      "ownSeat": null,
+      "film": "brand",
+      "stats": {
+        "samples": 28,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 5,
+        "largestSampleBytes": 6066
+      },
+      "captionBoxes": []
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/430x932-doctor-full-page.jpg",
+      "viewport": [
+        430,
+        932
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-45",
+        "endsAt": 1794168884708
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168859819.7,
+        "uncertaintyMs": 0
+      },
+      "ownRole": "Doctor",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 121,
+        "figureMounts": 3,
+        "poseUpdates": 171,
+        "headUpdates": 113,
+        "environmentInsertions": 190,
+        "attributes": 45165,
+        "largestSampleBytes": 206202
+      },
+      "captionBoxes": [
+        {
+          "font": "13px",
+          "left": 12.328125,
+          "top": 26.735107421875,
+          "right": 143.31141662597656,
+          "bottom": 71.92963409423828
+        },
+        {
+          "font": "13px",
+          "left": 11.94045639038086,
+          "top": 331.53125,
+          "right": 136.26916122436523,
+          "bottom": 361.0248107910156
+        }
+      ]
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/430x932-doctor-full-title.jpg",
+      "viewport": [
+        430,
+        932
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-45",
+        "endsAt": 1794168884708
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168863405.95,
+        "uncertaintyMs": 0.050000011920928955
+      },
+      "ownRole": "Doctor",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 206,
+        "figureMounts": 5,
+        "poseUpdates": 404,
+        "headUpdates": 328,
+        "environmentInsertions": 408,
+        "attributes": 111105,
+        "largestSampleBytes": 255109
+      },
+      "captionBoxes": []
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/430x932-boarding-7-full.jpg",
+      "viewport": [
+        430,
+        932
+      ],
+      "status": "boarding",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-boarding-46",
+        "startedAt": 1794168855910,
+        "endsAt": 1794168865910
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168863689.3,
+        "uncertaintyMs": 0
+      },
+      "ownRole": null,
+      "ownSeat": null,
+      "film": "boarding",
+      "stats": {
+        "samples": 7,
+        "figureMounts": 7,
+        "poseUpdates": 49,
+        "headUpdates": 42,
+        "environmentInsertions": 20,
+        "attributes": 1301,
+        "largestSampleBytes": 21290
+      },
+      "captionBoxes": []
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/430x932-boarding-8-full.jpg",
+      "viewport": [
+        430,
+        932
+      ],
+      "status": "boarding",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-boarding-47",
+        "startedAt": 1794168856192,
+        "endsAt": 1794168866192
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168863974.2,
+        "uncertaintyMs": 0
+      },
+      "ownRole": null,
+      "ownSeat": null,
+      "film": "boarding",
+      "stats": {
+        "samples": 7,
+        "figureMounts": 8,
+        "poseUpdates": 56,
+        "headUpdates": 48,
+        "environmentInsertions": 20,
+        "attributes": 1307,
+        "largestSampleBytes": 22506
+      },
+      "captionBoxes": []
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/430x932-boarding-9-full.jpg",
+      "viewport": [
+        430,
+        932
+      ],
+      "status": "boarding",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-boarding-48",
+        "startedAt": 1794168856479,
+        "endsAt": 1794168866479
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168864275.1,
+        "uncertaintyMs": 0
+      },
+      "ownRole": null,
+      "ownSeat": null,
+      "film": "boarding",
+      "stats": {
+        "samples": 7,
+        "figureMounts": 9,
+        "poseUpdates": 63,
+        "headUpdates": 54,
+        "environmentInsertions": 20,
+        "attributes": 1278,
+        "largestSampleBytes": 23710
+      },
+      "captionBoxes": []
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/430x932-brand-full.jpg",
+      "viewport": [
+        430,
+        932
+      ],
+      "status": null,
+      "setupFlowVersion": null,
+      "setup": null,
+      "clock": {
+        "status": "unsynced"
+      },
+      "ownRole": null,
+      "ownSeat": null,
+      "film": "brand",
+      "stats": {
+        "samples": 28,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 20,
+        "attributes": 74,
+        "largestSampleBytes": 4726
+      },
+      "captionBoxes": []
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/430x932-doctor-reduced-page.jpg",
+      "viewport": [
+        430,
+        932
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-50",
+        "endsAt": 1794168895424
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168870499.95,
+        "uncertaintyMs": 0.050000011920928955
+      },
+      "ownRole": "Doctor",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 2,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": [
+        {
+          "font": "13px",
+          "left": 27.34375,
+          "top": 61.406982421875,
+          "right": 158.32704162597656,
+          "bottom": 106.60150909423828
+        },
+        {
+          "font": "13px",
+          "left": 26.95608139038086,
+          "top": 343.828125,
+          "right": 151.28478622436523,
+          "bottom": 373.3216857910156
+        }
+      ]
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/430x932-doctor-reduced-title.jpg",
+      "viewport": [
+        430,
+        932
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-50",
+        "endsAt": 1794168895424
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168874039.75,
+        "uncertaintyMs": 0.050000011920928955
+      },
+      "ownRole": "Doctor",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 3,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": []
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/430x932-boarding-7-reduced.jpg",
+      "viewport": [
+        430,
+        932
+      ],
+      "status": "boarding",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-boarding-51",
+        "startedAt": 1794168866544,
+        "endsAt": 1794168876544
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168874305.1,
+        "uncertaintyMs": 0
+      },
+      "ownRole": null,
+      "ownSeat": null,
+      "film": "boarding",
+      "stats": {
+        "samples": 1,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": []
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/430x932-boarding-8-reduced.jpg",
+      "viewport": [
+        430,
+        932
+      ],
+      "status": "boarding",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-boarding-52",
+        "startedAt": 1794168866809,
+        "endsAt": 1794168876809
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168874571.8,
+        "uncertaintyMs": 0
+      },
+      "ownRole": null,
+      "ownSeat": null,
+      "film": "boarding",
+      "stats": {
+        "samples": 1,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": []
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/430x932-boarding-9-reduced.jpg",
+      "viewport": [
+        430,
+        932
+      ],
+      "status": "boarding",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-boarding-53",
+        "startedAt": 1794168867076,
+        "endsAt": 1794168877076
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168874854.05,
+        "uncertaintyMs": 0.050000011920928955
+      },
+      "ownRole": null,
+      "ownSeat": null,
+      "film": "boarding",
+      "stats": {
+        "samples": 1,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": []
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/430x932-brand-reduced.jpg",
+      "viewport": [
+        430,
+        932
+      ],
+      "status": null,
+      "setupFlowVersion": null,
+      "setup": null,
+      "clock": {
+        "status": "unsynced"
+      },
+      "ownRole": null,
+      "ownSeat": null,
+      "film": "brand",
+      "stats": {
+        "samples": 28,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 5,
+        "largestSampleBytes": 6078
+      },
+      "captionBoxes": []
+    }
+  ],
+  "videos": [
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/brand-full.mp4",
+      "sampledFrames": 18,
+      "recordingWallMs": 2406,
+      "provenance": "Actual hosted consumer with synthetic transport; sampled VFR screencast, not app/device FPS"
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/doctor-full.mp4",
+      "sampledFrames": 136,
+      "recordingWallMs": 10525,
+      "provenance": "Actual hosted consumer with synthetic transport; sampled VFR screencast, not app/device FPS"
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/boarding-full.mp4",
+      "sampledFrames": 120,
+      "recordingWallMs": 10650,
+      "provenance": "Actual hosted consumer with synthetic transport; sampled VFR screencast, not app/device FPS"
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/brand-reduced.mp4",
+      "sampledFrames": 8,
+      "recordingWallMs": 2286,
+      "provenance": "Actual hosted consumer with synthetic transport; sampled VFR screencast, not app/device FPS"
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/doctor-reduced.mp4",
+      "sampledFrames": 27,
+      "recordingWallMs": 10327,
+      "provenance": "Actual hosted consumer with synthetic transport; sampled VFR screencast, not app/device FPS"
+    },
+    {
+      "file": "/private/tmp/gamen-pregame-hosted-full/boarding-reduced.mp4",
+      "sampledFrames": 37,
+      "recordingWallMs": 10441,
+      "provenance": "Actual hosted consumer with synthetic transport; sampled VFR screencast, not app/device FPS"
+    }
+  ],
+  "uniform": [
+    {
+      "role": "doctor",
+      "paths": [
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/boarding/boarding.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/boarding/clock.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/boarding/roster.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/brand/brand.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/kit/cast.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/kit/fx.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/kit/letters.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/kit/math.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/alien.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/briefing.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/clock.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/common.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/disabler.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/doctor.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/engineer.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/film.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/hacker.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/insider.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/page.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/roles.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/supplier.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/undercover.mjs",
+        "/art/abilities.art.f7ff31a86d.css",
+        "/art/board-v2-films.art.9e6abdef0f.css",
+        "/art/board-v2-motion.art.7793869d6b.css",
+        "/art/board-v2.art.5dedbf2450.css",
+        "/art/crew-board-v2-films-art.b30ecdebc3.css",
+        "/art/crew-public-board.332a656b4b.css",
+        "/art/crew-roles.9bfc1dc3b2.css",
+        "/art/planet-library/end.art.717e2dcc59.css",
+        "/art/planet-library/hack-engineer.art.15e5c98ff2.css",
+        "/art/planet-library/hospital-panel.art.e6b5bddef6.css",
+        "/art/planet-library/navigation.art.b583b8bc4e.css",
+        "/art/planet-library/offices.art.6d780e7fff.css",
+        "/art/planet-library/promises.art.0298ebef8d.css",
+        "/art/planet-library/successor.art.676b8d3fd6.css",
+        "/art/planet-library/windows.art.767ae8ccdc.css",
+        "/art/player-ui.art.fc4830756c.css",
+        "/art/public-board.art.1f47b9f920.css",
+        "/art/roles.art.14e56b5e3e.css",
+        "/art/scenes.art.0ff8b3c930.css",
+        "/art/setup.art.f196649c9c.css"
+      ]
+    },
+    {
+      "role": "hacker",
+      "paths": [
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/boarding/boarding.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/boarding/clock.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/boarding/roster.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/brand/brand.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/kit/cast.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/kit/fx.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/kit/letters.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/kit/math.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/alien.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/briefing.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/clock.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/common.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/disabler.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/doctor.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/engineer.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/film.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/hacker.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/insider.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/page.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/roles.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/supplier.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/undercover.mjs",
+        "/art/abilities.art.f7ff31a86d.css",
+        "/art/board-v2-films.art.9e6abdef0f.css",
+        "/art/board-v2-motion.art.7793869d6b.css",
+        "/art/board-v2.art.5dedbf2450.css",
+        "/art/crew-board-v2-films-art.b30ecdebc3.css",
+        "/art/crew-public-board.332a656b4b.css",
+        "/art/crew-roles.9bfc1dc3b2.css",
+        "/art/planet-library/end.art.717e2dcc59.css",
+        "/art/planet-library/hack-engineer.art.15e5c98ff2.css",
+        "/art/planet-library/hospital-panel.art.e6b5bddef6.css",
+        "/art/planet-library/navigation.art.b583b8bc4e.css",
+        "/art/planet-library/offices.art.6d780e7fff.css",
+        "/art/planet-library/promises.art.0298ebef8d.css",
+        "/art/planet-library/successor.art.676b8d3fd6.css",
+        "/art/planet-library/windows.art.767ae8ccdc.css",
+        "/art/player-ui.art.fc4830756c.css",
+        "/art/public-board.art.1f47b9f920.css",
+        "/art/roles.art.14e56b5e3e.css",
+        "/art/scenes.art.0ff8b3c930.css",
+        "/art/setup.art.f196649c9c.css"
+      ]
+    },
+    {
+      "role": "alien",
+      "paths": [
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/boarding/boarding.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/boarding/clock.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/boarding/roster.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/brand/brand.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/kit/cast.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/kit/fx.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/kit/letters.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/kit/math.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/alien.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/briefing.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/clock.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/common.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/disabler.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/doctor.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/engineer.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/film.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/hacker.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/insider.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/page.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/roles.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/supplier.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/undercover.mjs",
+        "/art/abilities.art.f7ff31a86d.css",
+        "/art/board-v2-films.art.9e6abdef0f.css",
+        "/art/board-v2-motion.art.7793869d6b.css",
+        "/art/board-v2.art.5dedbf2450.css",
+        "/art/crew-board-v2-films-art.b30ecdebc3.css",
+        "/art/crew-public-board.332a656b4b.css",
+        "/art/crew-roles.9bfc1dc3b2.css",
+        "/art/planet-library/end.art.717e2dcc59.css",
+        "/art/planet-library/hack-engineer.art.15e5c98ff2.css",
+        "/art/planet-library/hospital-panel.art.e6b5bddef6.css",
+        "/art/planet-library/navigation.art.b583b8bc4e.css",
+        "/art/planet-library/offices.art.6d780e7fff.css",
+        "/art/planet-library/promises.art.0298ebef8d.css",
+        "/art/planet-library/successor.art.676b8d3fd6.css",
+        "/art/planet-library/windows.art.767ae8ccdc.css",
+        "/art/player-ui.art.fc4830756c.css",
+        "/art/public-board.art.1f47b9f920.css",
+        "/art/roles.art.14e56b5e3e.css",
+        "/art/scenes.art.0ff8b3c930.css",
+        "/art/setup.art.f196649c9c.css"
+      ]
+    }
+  ],
+  "problems": []
+}

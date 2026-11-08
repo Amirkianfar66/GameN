@@ -1,4 +1,5 @@
 // mothership:dev-only
+import {pregameProductionFixturePaths} from '../../../tests/tooling/support/pregame-production-fixture.mjs';
 import assert from 'node:assert/strict';
 import { execFile } from 'node:child_process';
 import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
@@ -37,7 +38,7 @@ function scratchCopy() {
     cpSync(join(repoRoot, path), join(root, path), { recursive: true });
   }
   // The production fence still checks every exact current drawing input in scratch.
-  const policy = readDrawingPolicy(repoRoot), drawingInputs = new Set([
+  const policy = readDrawingPolicy(repoRoot), drawingInputs = new Set([...pregameProductionFixturePaths(repoRoot),
     CANDIDATE_DRAWING_POLICY, PLANET_DRAWING_POLICY, CREW_DRAWING_POLICY, CREW_CONSUMER_DRAWING_POLICY, PREGAME_DRAWING_POLICY,
     ...Object.keys(policy.requiredFiles), ...Object.keys(policy.sourceHashes), ...Object.keys(policy.ports), ...Object.keys(policy.styles),
     ...Object.keys(policy.metadataFiles), ...Object.keys(policy.buildFiles), ...Object.values(policy.styles).map(entry => entry.source),

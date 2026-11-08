@@ -1,0 +1,235 @@
+{
+  "schemaVersion": 1,
+  "status": "exact-ports-and-cast-hook-approved-by-Integration; shared-registration-pending",
+  "sourceHead": "e43d5e675cecf5a5a3c8afadea246f8c22cb8a7c",
+  "baseline": "469b709b6689a1063ec36a10c70b8b6e2420c18c",
+  "entrypoints": [
+    "apps/game/hosted/pregame-films/brand/brand.mjs",
+    "apps/game/hosted/pregame-films/roles/film.mjs",
+    "apps/game/hosted/pregame-films/boarding/boarding.mjs"
+  ],
+  "transforms": [
+    "Remove exactly the first dev-only marker line.",
+    "Rewrite ../../crew-drawing/source/ to ../../crew-drawing/.",
+    "Rewrite ../../board-motion/figures/ to ../../scene-drawing/.",
+    "For boarding/roster.mjs only: omit the synthetic fixture tail starting at /** Synthetic review rosters (fixtures). */; preserve publicRoster verbatim."
+  ],
+  "sources": [
+    {
+      "source": "design/pregame-films/boarding/boarding.mjs",
+      "runtime": "apps/game/hosted/pregame-films/boarding/boarding.mjs",
+      "sourceSha256": "56d3aadedfd2650fe9eabe6825ddc480d5bf551ab18fd49b18976e8f8646e860",
+      "runtimeSha256": "491ba81d4df233afcb702fc4c5ae2aa3eb5634f4e15b5ef24d1e9e5403d6c20f",
+      "sourceBytes": 26093,
+      "runtimeBytes": 26049
+    },
+    {
+      "source": "design/pregame-films/boarding/clock.mjs",
+      "runtime": "apps/game/hosted/pregame-films/boarding/clock.mjs",
+      "sourceSha256": "01ee3d10aa72eb08c314f294f66bd80f3386832f900bd5fe2652928eb22fdca9",
+      "runtimeSha256": "aef87768064ce88a8ecafb8cf687d06191ff026669adb1aae53f0217ff796eab",
+      "sourceBytes": 3306,
+      "runtimeBytes": 3283
+    },
+    {
+      "source": "design/pregame-films/boarding/roster.mjs",
+      "runtime": "apps/game/hosted/pregame-films/boarding/roster.mjs",
+      "sourceSha256": "a9998e948e5c5d5c3a79bd8ccd9a64ad7a0a1b42ba7e8c54ba14227e2ccf3287",
+      "runtimeSha256": "9cf86323ea622402b6131863573df944fdf1c755a17739fda076cd05df29abe5",
+      "sourceBytes": 1741,
+      "runtimeBytes": 1147
+    },
+    {
+      "source": "design/pregame-films/brand/brand.mjs",
+      "runtime": "apps/game/hosted/pregame-films/brand/brand.mjs",
+      "sourceSha256": "d245c6c07264cd67038110fa03306077d4084ab6d89700628f7312aefad4e208",
+      "runtimeSha256": "4345ffc287bd296e2683d7f10789595345b486488ebbd3c2a7fdfd5f1e7a2d4a",
+      "sourceBytes": 5987,
+      "runtimeBytes": 5964
+    },
+    {
+      "source": "design/pregame-films/kit/cast.mjs",
+      "runtime": "apps/game/hosted/pregame-films/kit/cast.mjs",
+      "sourceSha256": "e82621624c1a35ced501f6a11742b82db465803b1c67407231d4d3debb3a0ffa",
+      "runtimeSha256": "d47d7574c6748037687957ca4138f14e06679210679d4c979c758ee760b01024",
+      "sourceBytes": 5666,
+      "runtimeBytes": 6230
+    },
+    {
+      "source": "design/pregame-films/kit/fx.mjs",
+      "runtime": "apps/game/hosted/pregame-films/kit/fx.mjs",
+      "sourceSha256": "63caafa97178fad2e1cc27c74ef6e02cd000c5bf02d9a0451b339c373ace147c",
+      "runtimeSha256": "efb684c8ea0ff76d936ee2fb0cac93967ba6c612b20752b1d05636e247b64372",
+      "sourceBytes": 17499,
+      "runtimeBytes": 17476
+    },
+    {
+      "source": "design/pregame-films/kit/letters.mjs",
+      "runtime": "apps/game/hosted/pregame-films/kit/letters.mjs",
+      "sourceSha256": "6b445e906bc6e24ac41f6f761ac1ca0ea9f18bf51585900d8678e5901a017c03",
+      "runtimeSha256": "a16b9159d8ab25476417e7389583e103d04f26421854e25fc77ab030b3a7c9b4",
+      "sourceBytes": 11217,
+      "runtimeBytes": 11194
+    },
+    {
+      "source": "design/pregame-films/kit/math.mjs",
+      "runtime": "apps/game/hosted/pregame-films/kit/math.mjs",
+      "sourceSha256": "bb75faa3cd9612319844a84b632962eb61ce081d7c8756f6319fa29b0644111d",
+      "runtimeSha256": "1c27a89fa9803516c1f52292e94b271e2ac5f532e5a2c100d6f95150a4d016af",
+      "sourceBytes": 6170,
+      "runtimeBytes": 6147
+    },
+    {
+      "source": "design/pregame-films/roles/alien.mjs",
+      "runtime": "apps/game/hosted/pregame-films/roles/alien.mjs",
+      "sourceSha256": "91d34b541ac984de53c9759c362b4044ba01b151f0f7981844d001b0b2fdf61b",
+      "runtimeSha256": "b3abcbbd38e23d3518c34916eac2a5d3f9ef7a11ec4978b8b2294ec2ef2fe630",
+      "sourceBytes": 13538,
+      "runtimeBytes": 13508
+    },
+    {
+      "source": "design/pregame-films/roles/briefing.mjs",
+      "runtime": "apps/game/hosted/pregame-films/roles/briefing.mjs",
+      "sourceSha256": "67ddd7b4350c4c956bfd7d82842c0810416852cd776d552fd4a454b2b8a0e7ac",
+      "runtimeSha256": "fdaf7a324e65e4ad24bc5bd1c36b88380c69ae517d8db899fecd306af420c3a0",
+      "sourceBytes": 28657,
+      "runtimeBytes": 28613
+    },
+    {
+      "source": "design/pregame-films/roles/clock.mjs",
+      "runtime": "apps/game/hosted/pregame-films/roles/clock.mjs",
+      "sourceSha256": "0a85a45ae3f4209ee119466023be7191265cc6107c0933b7ad1dfbd906b1dec4",
+      "runtimeSha256": "c64310fd8860146d7abb2e07e1acb22c061f8d6095f764b503dbf6653285b9bc",
+      "sourceBytes": 7318,
+      "runtimeBytes": 7295
+    },
+    {
+      "source": "design/pregame-films/roles/common.mjs",
+      "runtime": "apps/game/hosted/pregame-films/roles/common.mjs",
+      "sourceSha256": "ce0fac5e297b21a2062713002ca7cbc43a022446a30fe614ff3b2849cb2ed5d3",
+      "runtimeSha256": "5db58b72b6a6031502c5e7f8523f2539ea29efb966f5d432bf71714908e50179",
+      "sourceBytes": 5993,
+      "runtimeBytes": 5963
+    },
+    {
+      "source": "design/pregame-films/roles/disabler.mjs",
+      "runtime": "apps/game/hosted/pregame-films/roles/disabler.mjs",
+      "sourceSha256": "d0c8d277a37ccc8ed8f08f0119d1bd09f36ff57b249b5ba3394146e57be5b6b4",
+      "runtimeSha256": "c5592b0ebd163bf7a3de006d04fbc28adde55756b6ea8183539261e2734edebe",
+      "sourceBytes": 21427,
+      "runtimeBytes": 21383
+    },
+    {
+      "source": "design/pregame-films/roles/doctor.mjs",
+      "runtime": "apps/game/hosted/pregame-films/roles/doctor.mjs",
+      "sourceSha256": "47c44af4809610491db20dc2450fafdf303b45af284601365bf8e47026f027a8",
+      "runtimeSha256": "97dc322ecf5e0864323de3e586cb6424b04fad92001211626efe0c88496d7410",
+      "sourceBytes": 25101,
+      "runtimeBytes": 25057
+    },
+    {
+      "source": "design/pregame-films/roles/engineer.mjs",
+      "runtime": "apps/game/hosted/pregame-films/roles/engineer.mjs",
+      "sourceSha256": "8dc5345bdc8dcca653bba47e044b708e5d29eb8ccc77b5a6970617a0b7f0d24b",
+      "runtimeSha256": "bfb02a2fc856eb71e823db9050aa1a273d24e3524811c3c68fb86c0b0dc940de",
+      "sourceBytes": 16633,
+      "runtimeBytes": 16596
+    },
+    {
+      "source": "design/pregame-films/roles/film.mjs",
+      "runtime": "apps/game/hosted/pregame-films/roles/film.mjs",
+      "sourceSha256": "2d6e1ccb2943313e6cc896a5f104f556e18ce1869b111f9d8392548bcd75a9e2",
+      "runtimeSha256": "4419626484a27e50d1db50cdcfd6c53354c2b0acb771c11f301672f67bb40bba",
+      "sourceBytes": 5942,
+      "runtimeBytes": 5912
+    },
+    {
+      "source": "design/pregame-films/roles/hacker.mjs",
+      "runtime": "apps/game/hosted/pregame-films/roles/hacker.mjs",
+      "sourceSha256": "213bec620d29395dc9f3a52e3549c48598841f8646e28394e922f1314c68145c",
+      "runtimeSha256": "33146882709ec0ab06aabea9c79852a7c4d292f77bbd0528551f875a9c03733a",
+      "sourceBytes": 15909,
+      "runtimeBytes": 15879
+    },
+    {
+      "source": "design/pregame-films/roles/insider.mjs",
+      "runtime": "apps/game/hosted/pregame-films/roles/insider.mjs",
+      "sourceSha256": "5371c794283210cd1a36ff3bba08c35c9b59b33664f00aecce786aa1bf718685",
+      "runtimeSha256": "c96a88eb5e5a62da8bf8e3a0411a41afb6b7b9442f256729afd7f5b39d401c55",
+      "sourceBytes": 18769,
+      "runtimeBytes": 18725
+    },
+    {
+      "source": "design/pregame-films/roles/page.mjs",
+      "runtime": "apps/game/hosted/pregame-films/roles/page.mjs",
+      "sourceSha256": "e5ffaf527ee213c05574657af45992d71fb843877f72b7e099067bded211a02e",
+      "runtimeSha256": "b200e1bfba08503e49ca5d1357841305d0d35a9849b7f852670c3e52643e042d",
+      "sourceBytes": 11069,
+      "runtimeBytes": 11046
+    },
+    {
+      "source": "design/pregame-films/roles/roles.mjs",
+      "runtime": "apps/game/hosted/pregame-films/roles/roles.mjs",
+      "sourceSha256": "e1924dfe1955abb2ee6f7ebd4e357dda062987dbc7d5d931583a2d55ebba82d2",
+      "runtimeSha256": "acd0729794d183411c1737ab6bdbdda28e2015a7c970091ac1acad7b5ec10ca8",
+      "sourceBytes": 1815,
+      "runtimeBytes": 1792
+    },
+    {
+      "source": "design/pregame-films/roles/supplier.mjs",
+      "runtime": "apps/game/hosted/pregame-films/roles/supplier.mjs",
+      "sourceSha256": "f620c0de3a2701a3226d1f07f1accb68bf53a0fb799e7273c699bff0f935c3a2",
+      "runtimeSha256": "5763945caa5475a0dd7d147462f72a962ac17833a2c9a305b6971e47c8bc1f27",
+      "sourceBytes": 18438,
+      "runtimeBytes": 18408
+    },
+    {
+      "source": "design/pregame-films/roles/undercover.mjs",
+      "runtime": "apps/game/hosted/pregame-films/roles/undercover.mjs",
+      "sourceSha256": "3688784e1d13116a42292546078184d89bce988f8e0c6d6096baca098edb753c",
+      "runtimeSha256": "0b601641df53df31504fcf0283dee28ae1efba1050e92cd3716dc4512ef22a33",
+      "sourceBytes": 18071,
+      "runtimeBytes": 18034
+    }
+  ],
+  "externalDependencies": [
+    "design/board-motion/figures/gestures.mjs",
+    "design/board-motion/figures/motion.mjs",
+    "design/crew-drawing/source/crew.mjs",
+    "design/crew-drawing/source/ink.mjs",
+    "design/crew-drawing/source/motion.mjs",
+    "design/crew-drawing/source/wardrobe.mjs"
+  ],
+  "excluded": [
+    "review/",
+    "stage.html",
+    "stage.mjs",
+    "films.mjs",
+    "renders.mjs",
+    "boarding/roster.mjs synthetic REVIEW_ROSTERS export tail"
+  ],
+  "runtimeAdapter": "apps/game/hosted/planet/pregame.mjs (new; retained shots/figures, not full frame replacement)",
+  "registrationRequests": [
+    "Integration owns pinned-source catalog/fence entries for named exact derivatives.",
+    "Integration assigns a new immutable release tuple; keep all historical pins and design-0.7.0 bundles unchanged.",
+    "Approve the exact publicRoster-only extraction recorded here; synthetic REVIEW_ROSTERS is absent from the derivative."
+  ],
+  "candidateManifestVersion": "design-0.8.0",
+  "hook": {
+    "file": "apps/game/hosted/pregame-films/kit/cast.mjs",
+    "api": "withRetainedFigures(collect, draw)",
+    "scope": "Synchronous optional figure collector; preserves reviewed placement/lighting and ordinary reference drawing; runtime owns retained crew mounting.",
+    "evidence": {
+      "comparisons": 108,
+      "unchangedDefault": true,
+      "retainedSampleBytes": 243899,
+      "fullSampleBytes": 548429,
+      "figures": [
+        "bf-hero",
+        "dc1-hero",
+        "dc3-patient"
+      ]
+    },
+    "collectorContract": "collect receives the frozen crew member/pose/motion and must return an SVG root, because nest() positions that root. The collector scope is synchronous and restores through nested calls or exceptions."
+  }
+}
