@@ -10,7 +10,8 @@ function initializeRuntime() {
   const app = getApps().find(candidate => candidate.name === '[DEFAULT]') ?? initializeApp({projectId: configuration.projectId});
   if (app.options.projectId !== configuration.projectId) throw new Error('Firebase app project does not match the validated Planet runtime');
   return {app, configuration, service: createProductionPlanetService({store: createFirestorePlanetStore(getFirestore(app)),
-    assetManifestVersion: configuration.assetManifestVersion, enabled: configuration.creationEnabled})};
+    assetManifestVersion: configuration.assetManifestVersion, enabled: configuration.creationEnabled,
+    ...(configuration.setupFlowVersion === undefined ? {} : {setupFlowVersion: configuration.setupFlowVersion})})};
 }
 let runtime: ReturnType<typeof initializeRuntime> | undefined;
 const getRuntime = () => runtime ??= initializeRuntime();
