@@ -2,18 +2,18 @@
 //
 // The role film's comic page: a tier of three panels that slam in over the briefing room, the guided
 // camera that moves from panel to panel and pulls back to the page, the memory flash that opens it,
-// and the title plate the role's name is stamped on. The beats are clock.mjs's; the pictures inside
-// the panels are the role's own (./doctor.mjs for the Doctor). Redrawn for the owner's "AAA" review:
+// and the title that names the role. The beats are clock.mjs's; the pictures inside the panels are
+// the role's own (./doctor.mjs for the Doctor). Redrawn for the owner's "AAA" review:
 //   - each panel lands with weight: from a little larger and turned, overshooting, with impact lines
 //     bursting from behind its edges and a jolt through the page;
 //   - memory is printed in sepia, with a heavier vignette, paper grain, a warm leak of light and a
 //     film's scratches flickering over it; the panel aboard is in the night's own colours;
 //   - the room behind the page drops out of focus and into the dark;
-//   - the title is the brand's own lettering (the Game N wordmark's finish), stamped on a paper plate
-//     with a jolt, ink thrown off it and a sheen crossing it.
+//   - the title is simple, at the owner's word: the role's name in the brand's alphabet, in plain
+//     blue on the darkened page.
 
-import { blurFilter, defs, glow, halftone, impactLines, linear, puff, radial, splatter, streak } from '../kit/fx.mjs';
-import { AMBER_FACE, inkWord } from '../kit/letters.mjs';
+import { blurFilter, defs, halftone, impactLines, linear, radial } from '../kit/fx.mjs';
+import { GLYPHS } from '../kit/letters.mjs';
 import { clamp01, ease, f, f3, hash, lerp, progress, rng, shake } from '../kit/math.mjs';
 import { PANEL_STARTS, PANEL_TONES } from './clock.mjs';
 
@@ -129,46 +129,54 @@ export function flashSvg(D, { W, H, at, k }) {
     + `<rect width="${f(W)}" height="${f(H)}" fill="#FFF3DC" opacity="${f3(Math.max(0, k - 0.55) * 1.6)}"/>`;
 }
 
-/** The team's emblem, small: a planet and its ring in the team's colour, or the Alien's spiral. */
-function emblem(team, [x, y], r) {
-  const color = { blue: '#70AFFF', red: '#FF8C8C', alien: '#C4A4FF' }[team];
-  if (team === 'alien') return `<path d="M${f(x)} ${f(y)}m${f(-r)} 0a${f(r)} ${f(r)} 0 1 1 ${f(r * 2)} 0a${f(r * 0.7)} ${f(r * 0.7)} 0 1 1 ${f(-r * 1.4)} 0a${f(r * 0.4)} ${f(r * 0.4)} 0 1 1 ${f(r * 0.8)} 0" fill="none" stroke="${color}" stroke-width="${f(r * 0.28)}" stroke-linecap="round"/>`;
-  return `<circle cx="${f(x)}" cy="${f(y)}" r="${f(r * 0.62)}" fill="${color}" stroke="${INK}" stroke-width="${f(r * 0.16)}"/>`
-    + `<ellipse cx="${f(x)}" cy="${f(y)}" rx="${f(r * 1.05)}" ry="${f(r * 0.32)}" fill="none" stroke="${INK}" stroke-width="${f(r * 0.3)}" transform="rotate(-18 ${f(x)} ${f(y)})"/>`
-    + `<ellipse cx="${f(x)}" cy="${f(y)}" rx="${f(r * 1.05)}" ry="${f(r * 0.32)}" fill="none" stroke="${color}" stroke-width="${f(r * 0.14)}" transform="rotate(-18 ${f(x)} ${f(y)})"/>`;
+/**
+ * The title's one colour, the same for every role: a plain blue, kept 30 or more (CIE76) from every
+ * faction's accent so the title tells a neighbour nothing (the Blue team's accent is a paler sky blue).
+ */
+export const TITLE_BLUE = '#2979FF';
+const TITLE_TRACKING = 1.3;
+
+/** A word in the brand's alphabet: each letter's grid x (from the word's left), advance and strokes. */
+function lettersOf(text) {
+  let x = 0;
+  return [...text].map(ch => {
+    const [advance, lines] = GLYPHS[ch] ?? GLYPHS[' '];
+    const out = { x, advance, lines };
+    x += advance + TITLE_TRACKING;
+    return out;
+  });
 }
 
-/** The title: the page darkens, the role's name is stamped on a paper plate, a sheen crosses it. */
+/**
+ * The title, simple at the owner's word (8 November 2026: "the background of the text is crowded,
+ * make it simple blue color"): the page goes almost black, and the role's name rises into place letter
+ * by letter in plain blue strokes, with a soft glow and a thin rule drawn out beneath it. No plate, no
+ * ink, no dust and no sheen. The same for every role but the name.
+ */
 export function titleSvg(D, { W, H, frame, role }) {
   const tl = frame.title;
   if (!tl.visible) return '';
-  const reduced = frame.reduced;
-  const cx = W / 2, cy = H * 0.5;
-  const pw = Math.min(W * 0.86, 360), ph = pw * 0.36;
-  const s = lerp(1.6, 1, ease.outCubic(clamp01(tl.stamp))), turn = lerp(-9, -2.5, clamp01(tl.stamp));
-  const on = clamp01(tl.stamp * 4);
-  const word = inkWord(D, 'pg-title', role.name.toUpperCase(), { x: 0, y: -2, size: ph * 0.42, skew: -6, face: AMBER_FACE, extrude: [0.45, 0.55], steps: 7, depth: reduced ? 1 : ease.outBack(progress(frame.t, tl.hit - 60, tl.hit + 260), 1.5), fill: 1, sheen: tl.sweep, hot: false, tracking: 1.15 });
-  const span = word.width;
-  const fit = Math.min(1, (pw * 0.8) / span);
-  const plate = `<rect x="${f(-pw / 2 + 8)}" y="${f(-ph / 2 + 12)}" width="${f(pw)}" height="${f(ph)}" fill="#000" opacity="0.7" filter="${blurFilter(D, 'pg-plate-shadow', 10)}"/>`
-    + `<rect x="${f(-pw / 2 - 5)}" y="${f(-ph / 2 - 5)}" width="${f(pw + 10)}" height="${f(ph + 10)}" rx="5" fill="${INK}"/>`
-    + `<rect x="${f(-pw / 2)}" y="${f(-ph / 2)}" width="${f(pw)}" height="${f(ph)}" rx="3" fill="#F1E6D2"/>`
-    + `<rect x="${f(-pw / 2)}" y="${f(-ph / 2)}" width="${f(pw)}" height="${f(ph)}" fill="${halftone(D, 'pg-plate-dots', { size: 5, r: 1.1, color: INK })}" opacity="0.12"/>`
-    + `<path d="M${f(-pw / 2 + 16)} ${f(-ph / 2 + 14)}H${f(pw / 2 - 16)}M${f(-pw / 2 + 16)} ${f(ph / 2 - 14)}H${f(pw / 2 - 16)}" stroke="${INK}" stroke-width="2.2" opacity="0.6"/>`
-    + emblem(role.team, [pw / 2 - ph * 0.2, -ph / 2 + ph * 0.24], ph * 0.12);
-  let out = `<rect width="${f(W)}" height="${f(H)}" fill="#02040A" opacity="${f3(0.72 * frame.dim)}"/>`;
-  out += `<g transform="translate(${f(cx)} ${f(cy)}) rotate(${f3(turn)}) scale(${f3(s)})" opacity="${f3(on)}">${plate}<g transform="scale(${f3(fit)})">${word.svg}</g></g>`;
-  if (!reduced) {
-    const hit = tl.hit;
-    out += puff(D, 'pg-title-puff', { t: frame.t, t0: hit, at: [cx, cy + ph * 0.45], r: pw * 0.4, ms: 600, color: '#C9B998', opacity: 0.35, seed: 4 });
-    out += splatter({ seed: 77, n: 18, t: frame.t, t0: hit, at: [cx, cy], reach: pw * 0.22, from: [pw * 0.52, ph * 0.56], size: [1.2, 4.5], color: INK, fly: 120, opacity: 0.85 });
-    out += impactLines({ seed: 9, n: 24, k: progress(frame.t, hit, hit + 380), at: [cx, cy], r0: pw * 0.56, r1: pw * 0.95, color: '#F4EBDD', width: 6, opacity: 0.4, aspect: 1.8 });
-    if (tl.sweep > 0 && tl.sweep < 1) {
-      const k = Math.sin(Math.PI * tl.sweep), px = cx + lerp(-span * fit / 2, span * fit / 2, tl.sweep);
-      out += streak(D, 'pg-title-streak', { cx: px, cy: cy - ph * 0.05, len: pw * 0.75 * (0.5 + k), thick: 2.5, color: '#CFE0FF', opacity: 0.7 * k })
-        + glow(D, 'pg-title-glint', { cx: px, cy: cy - ph * 0.05, r: ph * 0.35, color: '#FFF4D8', opacity: 0.5 * k });
-    }
-  }
+  const letters = lettersOf(role.name.toUpperCase());
+  const span = letters.at(-1).x + letters.at(-1).advance;
+  const cap = Math.min((W * 0.66) / (span / 6), H * 0.07);
+  const k = cap / 6;
+  const x0 = W / 2 - (span * k) / 2, y0 = H * 0.5 - cap * 0.75;
+  let word = '';
+  letters.forEach((c, i) => {
+    if (!c.lines.length) return;
+    const p = tl.letter(i);
+    if (p <= 0.001) return;
+    const lift = (1 - p) * cap * 0.3;
+    const d = c.lines.map(line => `M${line.map(([u, v]) => `${f(x0 + (c.x + u) * k)} ${f(y0 + v * k + lift)}`).join('L')}`).join('');
+    word += `<path d="${d}" fill="none" stroke="${TITLE_BLUE}" stroke-width="${f(1.05 * k)}" stroke-linecap="round" stroke-linejoin="round" opacity="${f3(clamp01(p * 1.5))}"/>`;
+  });
+  const ruleW = span * k * 0.36 * tl.rule, ruleH = Math.max(1.5, cap * 0.05);
+  // The page goes almost black, and clean black behind the name: nothing shows through the letters.
+  let out = `<rect width="${f(W)}" height="${f(H)}" fill="#03050A" opacity="${f3(0.95 * frame.dim)}"/>`;
+  const pool = radial(D, 'pg-title-pool', [[0, '#03050A', 1], [0.6, '#03050A', 0.9], [1, '#03050A', 0]]);
+  out += `<ellipse cx="${f(W / 2)}" cy="${f(y0 + cap * 0.7)}" rx="${f(Math.min(W * 0.62, span * k * 0.85))}" ry="${f(cap * 2.6)}" fill="${pool}" opacity="${f3(frame.dim)}"/>`;
+  out += `<g opacity="0.3" filter="${blurFilter(D, 'pg-title-glow', cap * 0.1)}">${word}</g>${word}`;
+  if (ruleW > 0.5) out += `<rect x="${f(W / 2 - ruleW / 2)}" y="${f(y0 + cap * 1.5)}" width="${f(ruleW)}" height="${f(ruleH)}" rx="${f(ruleH / 2)}" fill="${TITLE_BLUE}" opacity="0.75"/>`;
   return out;
 }
 

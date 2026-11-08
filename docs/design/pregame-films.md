@@ -2,7 +2,7 @@
 
 **Status: proposal for the owner's review. Nothing here is adopted, mounted or deployed.**
 
-The owner, 8 November 2026: "we had 3 animation before game, 1 is the Game N by Plan B 2-second app intro, second after 10-second film for each role then 10-second boarding cinematic , go for them like AAA ANIMATION improve the quality". On seeing the first cut of the intro, the owner asked for it simple: "For the app start 2 sec can we just have black background and then the texts with Game N by Plan B something simple with typing motion graphic effect" ([owner-decisions.md](owner-decisions.md)).
+The owner, 8 November 2026: "we had 3 animation before game, 1 is the Game N by Plan B 2-second app intro, second after 10-second film for each role then 10-second boarding cinematic , go for them like AAA ANIMATION improve the quality". On seeing the first cut of the intro, the owner asked for it simple: "For the app start 2 sec can we just have black background and then the texts with Game N by Plan B something simple with typing motion graphic effect". On seeing the Doctor's film, the owner asked for its title simple too: "The doctor movie at end of it when Doctor text label appear with yellow color the background of the text is crowded , make it simple blue color" ([owner-decisions.md](owner-decisions.md)).
 
 The three films were first made before the crew was restyled:
 - the role films in [PR #187](https://github.com/Amirkianfar66/GameN/pull/187) and [#189](https://github.com/Amirkianfar66/GameN/pull/189);
@@ -47,7 +47,7 @@ The earlier films were flat vector art on the old crew. These are lit, staged an
 - **Camera.** Close shots that push in, near layers more than far, and depth of field: the view outside the window and the room behind the comic page fall out of focus.
 - **Impact.** Things land with weight: an overshoot and a jolt through the frame, comic impact lines, dust, ink thrown off a stamp.
 - **Finish.** A film's grain (changing 24 times a second), a vignette and a grade over every frame. Memory panels get sepia, a warm light leak and film scratches. Ink blooms in from the edges to end the boarding.
-- **Lettering.** The role's title and the boarding's mark are Ink Block letters (the earlier films' alphabet, ported) finished as a comic cover's logo: an extruded side, a lit face, a highlight, a cast shadow and a sheen. The intro types the same letters plain. They are drawn strokes, never text.
+- **Lettering.** The boarding's mark is Ink Block letters (the earlier films' alphabet, ported) finished as a comic cover's logo: an extruded side, a lit face, a highlight, a cast shadow and a sheen. The intro types the same letters plain, and the role's title sets them plain in one blue, both at the owner's word. They are drawn strokes, never text.
 - **Frame rate.** The reviews are rendered at 60 frames a second, at twice a phone's CSS pixels.
 
 ## The brand intro: 2,000 ms
@@ -79,7 +79,7 @@ The clock is the approved pilot's, unchanged (`roles/clock.mjs`): beats change a
 | Panel 1, memory, sepia | 3,000 | **Colony Nine, the fever years.** A prefab field ward at night, with three cots in a row going back. Under the sheets, nobody's faces show, and they breathe. One hanging lamp swings on its cord, with dust turning in its cone, and a dust storm beats on the porthole. The player's character stands at the foot of the nearest cot reading a chart, then looks up. The room behind the page has dropped out of focus and into the dark. Narration: "Colony Nine. The fever years." |
 | Panel 2, memory, sepia | 4,500 | **The last two doses.** An open medicine case under a desk lamp: twelve slots, empty but two, whose vials glow and pulse. Spent vials lie tipped on the table, and rain runs down the window. A drop falls: DRIP. Narration: "Two doses left." |
 | Panel 3, aboard | 6,000 | **The Mothership's Hospital at night,** in the ward's teal. A patient sits up in bed: a silhouette, nobody, rimmed by one pulse of light as a green glow rises on the wall. The monitor's trace runs and steadies. The Hospital panel's keypad lights the player's own number, on its readout and its key: BEEP. |
-| Title | 7,800-9,300 | The page darkens. DOCTOR is stamped on a paper plate in the brand's own lettering, with the Blue Planet emblem small in its corner. A jolt, ink and dust come off the stamp, then a sheen and a streak cross it. |
+| Title | 7,800-9,300 | **Simple, at the owner's word.** The page goes almost black, and clean black behind the name. DOCTOR rises into place a letter at a time, in the brand's alphabet and plain blue, with a soft glow; a thin blue rule draws out beneath it. No plate, ink, dust or sheen. |
 | Hold | 9,300-10,000 | Everything settles; the page then gives way to the role card. |
 
 Each panel lands with an overshoot, a jolt through the page and impact lines. The guided camera moves onto each panel and pulls back to the page at 7,300-7,800 ms.
@@ -87,7 +87,8 @@ Each panel lands with an overshoot, a jolt through the page and impact lines. Th
 **The rules a role film keeps** (approved with the pilot; tested in `pregame-films.test.mjs`):
 - **Same clock for every role.** A neighbour who sees a phone change, or times it, learns nothing. A role carries pictures and words, never times.
 - **Silent, with no vibration.**
-- **One palette.** Every colour drawn stays at least 30 (CIE76) from each faction's accent, but for the dealt team's own swatch on the card and its emblem on the title, both small. The gadget is drawn without its team colour.
+- **One palette.** Every colour drawn stays at least 30 (CIE76) from each faction's accent, but for the dealt team's own swatch on the card, small. The gadget is drawn without its team colour.
+- **One title blue.** The title is the same blue for every role, `#2979FF`: 39 from the Blue team's accent (a paler sky blue), 38 from the Alien's and 96 from the Red team's. Its colour tells a neighbour nothing about the team. The team emblem that sat on the earlier title's plate went with the plate; the card that follows the film shows the team.
 - **Nobody else.** Only the player's own lobby character is drawn in colour; every other person is a faceless silhouette.
 - **Foreshadowing, not an event.** Nothing in a film happens in the match.
 - **Few words, as page text.** Two narration boxes of a few words each, at most 17 characters a line. They are DOM text over the picture, so they translate, scale with the player's text size and are read by screen readers.
@@ -166,7 +167,7 @@ Run on this delivery's tree, based on `main` `469b709b`, with Node 22.21.1 and n
   - the last frames;
   - pure, well-formed frames with no dangling reference;
   - reduced-motion stills;
-  - the role film's privacy rules (one clock, the palette 30 or more from the accents, silhouettes, page text);
+  - the role film's privacy rules (one clock, the palette 30 or more from the accents, one title blue, silhouettes, page text);
   - the boarding's public roster;
   - the renders against their records;
   - dev-only marks.
@@ -177,9 +178,9 @@ Run on this delivery's tree, based on `main` `469b709b`, with Node 22.21.1 and n
 | `brand-phone.mp4` | 780 x 1688 | 120 | 2.000 s | 27 KB |
 | `brand-display.mp4` | 1920 x 1080 | 120 | 2.000 s | 34 KB |
 | `brand-phone-reduced.mp4` | 780 x 1688 | 120 | 2.000 s | 20 KB |
-| `doctor-phone.mp4` | 780 x 1688 | 600 | 10.000 s | 2327 KB |
-| `doctor-phone-c7.mp4` | 780 x 1688 | 600 | 10.000 s | 2317 KB |
-| `doctor-phone-reduced.mp4` | 780 x 1688 | 600 | 10.000 s | 647 KB |
+| `doctor-phone.mp4` | 780 x 1688 | 600 | 10.000 s | 2184 KB |
+| `doctor-phone-c7.mp4` | 780 x 1688 | 600 | 10.000 s | 2176 KB |
+| `doctor-phone-reduced.mp4` | 780 x 1688 | 600 | 10.000 s | 564 KB |
 | `boarding-phone-8.mp4` | 780 x 1688 | 600 | 10.000 s | 3431 KB |
 | `boarding-display-9.mp4` | 1920 x 1080 | 600 | 10.000 s | 4726 KB |
 | `boarding-phone-7-reduced.mp4` | 780 x 1688 | 600 | 10.000 s | 978 KB |
@@ -191,5 +192,5 @@ The role film is rendered for two characters (`c3`, `c7`) to show it draws which
 
 - **Devices.** No phone, display hardware, screen reader or large-text setting has played these films. Every frame is desktop Chromium.
 - **Runtime.** No client mounts any of them. The boarding has no stage (R17).
-- **The owner** has not seen the new films.
+- **The owner** has seen the typed intro and the Doctor's film, and asked for the Doctor's title simple and blue, which this delivery makes. Neither the Doctor's film nor the boarding is approved yet.
 - **Sound.** None is made; the films are silent.

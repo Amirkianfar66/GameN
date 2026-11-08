@@ -13,7 +13,7 @@
 //                       it into the light
 //   panels   3000-7800  a comic tier of three panels slams in at 3000, 4500 and 6000: two of memory
 //                       (sepia, a few words each), then one aboard (pictures only)
-//   title    7800-9300  the page darkens around a paper plate; the role's name stamps on it
+//   title    7800-9300  the page goes dark; the role's name rises into place in plain blue
 //   hold     9300-10000 everything settles; the page then gives way to the role card
 //
 // Reduced motion: three stills (the gadget raised, the full page, the title), each cross-faded in over
@@ -122,10 +122,10 @@ export function roleFrame(t, { variant = 'full' } = {}) {
     }),
     title: {
       visible: titleOn,
-      stamp: !titleOn ? 0 : reduced ? 1 : ease.outBack(progress(time, BEATS.title[0] + 120, BEATS.title[0] + 420), 1.6),
-      hit: BEATS.title[0] + 420,
-      settle: !titleOn ? 0 : reduced ? 1 : ease.outCubic(progress(time, BEATS.title[0] + 420, BEATS.title[1])),
-      sweep: !titleOn || reduced ? 0 : progress(time, BEATS.title[0] + 520, BEATS.title[0] + 1120),
+      // How far the n-th letter of the role's name has risen into place: one after another, 55 ms apart.
+      letter: i => (!titleOn ? 0 : reduced ? 1 : ease.outCubic(progress(time, BEATS.title[0] + 140 + i * 55, BEATS.title[0] + 480 + i * 55))),
+      // The rule drawn out beneath the name.
+      rule: !titleOn ? 0 : reduced ? 1 : ease.inOutCubic(progress(time, BEATS.title[0] + 560, BEATS.title[0] + 1040)),
     },
     captions: CAPTION_TIMES.map(times => (reduced ? (pageOn && !titleOn ? 1 : 0) : caption(time, times))),
     drops: CAPTION_TIMES.map(([from]) => (reduced ? 1 : clamp01((time - from) / CAPTION_FADE.in))),
