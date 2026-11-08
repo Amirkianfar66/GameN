@@ -1,3 +1,5 @@
+import {pregameProductionFixturePaths} from './support/pregame-production-fixture.mjs';
+import {PREGAME_PRODUCTION_CONSUMER_APPROVAL,readPregameConsumerApproval} from '../../scripts/pregame-consumer-approval.mjs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {createHash} from 'node:crypto';
@@ -6,14 +8,14 @@ import {dirname,join} from 'node:path';
 import {tmpdir} from 'node:os';
 import {fileURLToPath} from 'node:url';
 import {CANDIDATE_DRAWING_POLICY,PLANET_DRAWING_POLICY,CREW_DRAWING_POLICY,CREW_CONSUMER_DRAWING_POLICY,
-  PREGAME_DRAWING_POLICY,readDrawingPolicy,productionDrawingProblems,prototypeReferences} from '../../design/tools/lib/drawing-port-fence.mjs';
+  PREGAME_DRAWING_POLICY,PREGAME_PRODUCTION_DRAWING_POLICY,readDrawingPolicy,productionDrawingProblems,prototypeReferences} from '../../design/tools/lib/drawing-port-fence.mjs';
 import {PREGAME_CONSUMER_CANDIDATE,PREGAME_CONSUMER_REVIEW_ENV} from '../../scripts/pregame-consumer-candidate.mjs';
 
 const root=fileURLToPath(new URL('../../',import.meta.url));
 const prefix='apps/game/hosted/pregame-films/';
 function fixture(t){
   const target=mkdtempSync(join(tmpdir(),'gamen-pregame-fence-'));t.after(()=>rmSync(target,{recursive:true,force:true}));
-  const policy=readDrawingPolicy(root),paths=new Set([
+  const policy=readDrawingPolicy(root),paths=new Set([...pregameProductionFixturePaths(root),
     CANDIDATE_DRAWING_POLICY,PLANET_DRAWING_POLICY,CREW_DRAWING_POLICY,CREW_CONSUMER_DRAWING_POLICY,PREGAME_DRAWING_POLICY,
     'design/tools/lib/reviewed-drawing-ports.json',...Object.keys(policy.requiredFiles),...Object.keys(policy.sourceHashes),
     ...Object.keys(policy.ports),...Object.keys(policy.styles),...Object.keys(policy.metadataFiles),...Object.keys(policy.buildFiles),
@@ -108,10 +110,12 @@ test('deleting the pregame supplement cannot certify remaining ports under histo
 });
 
 test('registration manifest and verification code remain exact approved inputs',async t=>{
-  const target=fixture(t);
+  const target=fixture(t),production=readPregameConsumerApproval(root);
   for(const path of ['design/releases/design-0.8.0.json','scripts/pregame-runtime-ports.mjs','scripts/runtime-art-release.mjs']){
     append(target,path,'\n');
-    assert.ok((await productionDrawingProblems(target)).some(problem=>problem===path+': required candidate drawing input differs'),path);
+    const problems=await productionDrawingProblems(target);
+    if(production&&path==='design/releases/design-0.8.0.json')assert.match(problems.join('\n'),/^Pregame consumer candidate: art manifest binding differs$/);
+    else assert.ok(problems.some(problem=>problem===path+': required candidate drawing input differs'),path);
     cpSync(join(root,path),join(target,path));
   }
 });
@@ -136,10 +140,20 @@ test('design pregame stage/fixture references remain forbidden outside the named
   assert.equal(prototypeReferences(path,"import '../pregame-films/roles/film.mjs';").length,0,'Native reviewed drawing paths are distinct from the design prototype');
 });
 
-test('all 11 exact consumer candidates require the one explicit local review flag',async t=>{
-  const {target}=candidateFixture(t);
-  for(const value of [undefined,'0','true'])await reviewMode(value,()=>rejects(target,/required candidate drawing input differs|reviewed native metadata file content hash differs/));
+test('the exact consumer set requires local review or verified production acceptance',async t=>{
+  const {target}=candidateFixture(t),production=readPregameConsumerApproval(root);
+  for(const value of [undefined,'0','true'])await reviewMode(value,async()=>{
+    if(production)assert.deepEqual(await productionDrawingProblems(target),[]);
+    else await rejects(target,/required candidate drawing input differs|reviewed native metadata file content hash differs/);
+  });
   await reviewMode('1',async()=>assert.deepEqual(await productionDrawingProblems(target),[]));
+});
+
+test('an adopted production policy requires its final approval even in local-review mode',async t=>{
+  if(readPregameConsumerApproval(root)===null){t.skip('Final production approval is not present in the source checkpoint');return;}
+  assert.equal(readDrawingPolicy(root).productionConsumerApproval,true);
+  const {target}=candidateFixture(t);rmSync(join(target,PREGAME_PRODUCTION_CONSUMER_APPROVAL));
+  for(const value of [undefined,'1'])await reviewMode(value,()=>rejects(target,/^Required production consumer approval is missing$/));
 });
 
 test('local review rejects changed consumers, missing preserved bytes and self-edited approval',async t=>{
@@ -164,4 +178,12 @@ test('local consumer review retains prototype, drawing inventory and frozen sour
     await rejects(target,/unreviewed-candidate\.mjs: production code refers to the pregame-films prototype/);rmSync(join(target,script));
     append(target,'design/crew-drawing/source/crew.mjs','\n');await rejects(target,/frozen drawing source hash differs/);
   });
+});
+
+
+test('a dangling production policy is invalid and cannot masquerade as historical absence',async t=>{
+  const target=fixture(t);
+  rmSync(join(target,PREGAME_PRODUCTION_DRAWING_POLICY));
+  symlinkSync(join(target,'missing-production-policy.json'),join(target,PREGAME_PRODUCTION_DRAWING_POLICY));
+  await rejects(target,/Pregame production drawing approval must be a regular file/);
 });

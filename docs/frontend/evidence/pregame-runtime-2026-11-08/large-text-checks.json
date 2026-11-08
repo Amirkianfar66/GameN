@@ -1,0 +1,101 @@
+{
+  "browser": "Google Chrome 156.0.8078.80",
+  "scope": "Actual hosted consumer, synthetic transport,320x568 CSS pixels,200 percent app text preference,full and Reduced; no screen-reader/device acceptance",
+  "cases": [
+    {
+      "reduced": false,
+      "pageFile": "large-text/320x568-supplier-200-full-page.png",
+      "titleFile": "large-text/320x568-supplier-200-full-title.png",
+      "pageText": {
+        "rootFont": "32px",
+        "boxes": [
+          {
+            "text": "The Belt markets.",
+            "font": "26px",
+            "left": 11.390625,
+            "top": 15.95109748840332,
+            "right": 285.0958557128906,
+            "bottom": 72.74050331115723,
+            "scroll": 269,
+            "client": 269
+          },
+          {
+            "text": "Two crates,\noff the books.",
+            "font": "26px",
+            "left": 10.253361701965332,
+            "top": 205.421875,
+            "right": 242.36810779571533,
+            "bottom": 290.0923156738281,
+            "scroll": 227,
+            "client": 227
+          }
+        ],
+        "skip": {
+          "left": 143.4375,
+          "top": 493.609375,
+          "right": 308,
+          "bottom": 556,
+          "width": 164.5625,
+          "height": 62.390625
+        },
+        "documentWidth": 320
+      },
+      "title": {
+        "words": "Supplier",
+        "titlePaths": 16,
+        "inside": true,
+        "skip": true,
+        "film": "role"
+      },
+      "skipKeepsReadyUnchanged": true
+    },
+    {
+      "reduced": true,
+      "pageFile": "large-text/320x568-supplier-200-reduced-page.png",
+      "titleFile": "large-text/320x568-supplier-200-reduced-title.png",
+      "pageText": {
+        "rootFont": "32px",
+        "boxes": [
+          {
+            "text": "The Belt markets.",
+            "font": "26px",
+            "left": 22.390625,
+            "top": 36.84172439575195,
+            "right": 296.0958557128906,
+            "bottom": 93.6311264038086,
+            "scroll": 269,
+            "client": 269
+          },
+          {
+            "text": "Two crates,\noff the books.",
+            "font": "26px",
+            "left": 21.25336265563965,
+            "top": 212.65625,
+            "right": 253.36810874938965,
+            "bottom": 297.3266906738281,
+            "scroll": 227,
+            "client": 227
+          }
+        ],
+        "skip": {
+          "left": 143.4375,
+          "top": 493.609375,
+          "right": 308,
+          "bottom": 556,
+          "width": 164.5625,
+          "height": 62.390625
+        },
+        "documentWidth": 320
+      },
+      "title": {
+        "words": "Supplier",
+        "titlePaths": 16,
+        "inside": true,
+        "skip": true,
+        "film": "role"
+      },
+      "skipKeepsReadyUnchanged": true
+    }
+  ],
+  "problems": []
+}

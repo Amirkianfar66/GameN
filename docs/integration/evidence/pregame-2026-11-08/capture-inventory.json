@@ -1,0 +1,463 @@
+{
+  "schema": "mothership.pregame-capture-inventory/1",
+  "provenance": "Synthetic transport through actual hosted app/session/controller; desktop Chromium only; no real multiplayer or physical-device acceptance",
+  "checksPassed": 16,
+  "captures": 68,
+  "videos": 6,
+  "initialProblemsScope": "Final page only; separate all-page evidence required before final acceptance",
+  "artifacts": [
+    {
+      "kind": "captures",
+      "file": "320x568-doctor-full-page.jpg",
+      "bytes": 35574,
+      "sha256": "dceaa39d31a3260318087629b6f92e89c68abb14ee283b5de6a493e24f4c9a2a"
+    },
+    {
+      "kind": "captures",
+      "file": "320x568-doctor-full-title.jpg",
+      "bytes": 16405,
+      "sha256": "dbbfd4907d5c740b8a21fc61fcef82a610bdee70a3c5e28dbf81b4374f16efe1"
+    },
+    {
+      "kind": "captures",
+      "file": "320x568-boarding-7-full.jpg",
+      "bytes": 28859,
+      "sha256": "e3fff7c5d91c405223330dcf63f48a86794d096d5f61a752fdbe13124d15adfa"
+    },
+    {
+      "kind": "captures",
+      "file": "320x568-boarding-8-full.jpg",
+      "bytes": 31148,
+      "sha256": "27c8e357c6c8c90bdb19b2d072784968cc0cf1f53e0a6e511e0383fe2887cd4a"
+    },
+    {
+      "kind": "captures",
+      "file": "320x568-boarding-9-full.jpg",
+      "bytes": 32446,
+      "sha256": "b9e6b980aca42ab61b67c8cbfbd3d992092140dae11286effd08b6a32f1e9401"
+    },
+    {
+      "kind": "captures",
+      "file": "320x568-brand-full.jpg",
+      "bytes": 7668,
+      "sha256": "f921c5608d976aaf640fbe33d887dd988fea88333db84a8d54e2980970dd057f"
+    },
+    {
+      "kind": "captures",
+      "file": "320x568-doctor-reduced-page.jpg",
+      "bytes": 43857,
+      "sha256": "8cade78cb0f5f9f05f97e7757f1a169332bb99adf15d307f492fc2fb59d02c2a"
+    },
+    {
+      "kind": "captures",
+      "file": "320x568-doctor-reduced-title.jpg",
+      "bytes": 16559,
+      "sha256": "b7a4ac391e5a7e75a9a38b7d943c2fd927bd0e4a77c8dafaf063e7c321ad141c"
+    },
+    {
+      "kind": "captures",
+      "file": "320x568-boarding-7-reduced.jpg",
+      "bytes": 39363,
+      "sha256": "6095326c13b8e3311586c057e530370e430ae0ce35512f54a3e0b0539999e5b7"
+    },
+    {
+      "kind": "captures",
+      "file": "320x568-boarding-8-reduced.jpg",
+      "bytes": 42397,
+      "sha256": "41b90da03de10edf6a3283f0ea37a1d44f6d346ed9460a0abb7d0b3f370c8600"
+    },
+    {
+      "kind": "captures",
+      "file": "320x568-boarding-9-reduced.jpg",
+      "bytes": 44681,
+      "sha256": "a3f06a04eecd0c883cad9c58517c55a3f79f804cad1414e62900236d68f77c42"
+    },
+    {
+      "kind": "captures",
+      "file": "320x568-brand-reduced.jpg",
+      "bytes": 8170,
+      "sha256": "e1b7997189cbbc51f205e1e150b8dcb1f6264c2a03ca4e74534ddee3766de640"
+    },
+    {
+      "kind": "captures",
+      "file": "390x844-doctor-full-page.jpg",
+      "bytes": 51163,
+      "sha256": "cab26a0c160e537acf43801e76ed94c6059b7424f490d62d530f2f304bb5936d"
+    },
+    {
+      "kind": "captures",
+      "file": "390x844-doctor-full-title.jpg",
+      "bytes": 23372,
+      "sha256": "658f262481815d72a3eb645965aa82cda48895dc4e24b2b668594b26ce35a7ae"
+    },
+    {
+      "kind": "captures",
+      "file": "390x844-insider-full-page.jpg",
+      "bytes": 54235,
+      "sha256": "f6287291dec279ec6bc0fce1b952bf0a53378b0c33558b3ae5a9e63370a2a704"
+    },
+    {
+      "kind": "captures",
+      "file": "390x844-insider-full-title.jpg",
+      "bytes": 23731,
+      "sha256": "27fad788a015dc1219c2c65f2076e78b1eba8c90319e230ebc016cfcab7979ac"
+    },
+    {
+      "kind": "captures",
+      "file": "390x844-blue-disabler-full-page.jpg",
+      "bytes": 46424,
+      "sha256": "6f0507bed90069145c89fb875b7d99182fd58fe6d199f7407b5614f0eae82c35"
+    },
+    {
+      "kind": "captures",
+      "file": "390x844-blue-disabler-full-title.jpg",
+      "bytes": 18912,
+      "sha256": "b2908de39c707cecefb03b4955aefe2e1c8dec0fea4a45517d567e11bb315ba4"
+    },
+    {
+      "kind": "captures",
+      "file": "390x844-red-disabler-full-page.jpg",
+      "bytes": 46388,
+      "sha256": "8418d90cbc456d3b70e4a7734e035a81a83b79a73aa0e67c49c70042daa6c608"
+    },
+    {
+      "kind": "captures",
+      "file": "390x844-red-disabler-full-title.jpg",
+      "bytes": 19414,
+      "sha256": "c6a7854ba0cbb6aeb8554cbd85e8970d50b26251f73dc947d2a679b8fb39398a"
+    },
+    {
+      "kind": "captures",
+      "file": "390x844-supplier-full-page.jpg",
+      "bytes": 49923,
+      "sha256": "0f797a0b8a11a4d9b595cb3bdc4322d4930fadd344a9e4a0c315e1083f947a3a"
+    },
+    {
+      "kind": "captures",
+      "file": "390x844-supplier-full-title.jpg",
+      "bytes": 22579,
+      "sha256": "2e06bab78505bf9e61ab6d7dfa83e4a16e5f6b70b0c5ab56dcf1a3868da31f2d"
+    },
+    {
+      "kind": "captures",
+      "file": "390x844-engineer-full-page.jpg",
+      "bytes": 45498,
+      "sha256": "2d948a0850e427633587ad9aff11b17040c57f782f2243478390e3c9b8a24b4a"
+    },
+    {
+      "kind": "captures",
+      "file": "390x844-engineer-full-title.jpg",
+      "bytes": 22310,
+      "sha256": "9154a7644bb69e8e7514c1bf925b3281e8d6192b3a9d92f7c3f0ae626c2595bb"
+    },
+    {
+      "kind": "captures",
+      "file": "390x844-undercover-full-page.jpg",
+      "bytes": 47561,
+      "sha256": "b843aa599e5e61b3244655437c59eadd0ec856d4c2921d388bdfd7d8a400f6fc"
+    },
+    {
+      "kind": "captures",
+      "file": "390x844-undercover-full-title.jpg",
+      "bytes": 21540,
+      "sha256": "a44e74a626fee2d6f4f1a0c9e972968b64ac832b644d5f4d561da3eb2557ca28"
+    },
+    {
+      "kind": "captures",
+      "file": "390x844-hacker-full-page.jpg",
+      "bytes": 43740,
+      "sha256": "68eeff719ac247d3106c9473346fa4d118071607835dc705854d9f08810f2048"
+    },
+    {
+      "kind": "captures",
+      "file": "390x844-hacker-full-title.jpg",
+      "bytes": 22402,
+      "sha256": "e9fe4fa3115be145cea665da10c9ec5d7377acde7fa0ceca8595fd1060409e43"
+    },
+    {
+      "kind": "captures",
+      "file": "390x844-alien-full-page.jpg",
+      "bytes": 43431,
+      "sha256": "f8b712560e62aec0726af783eefa6f7ebb720fd6498dc4457da20e370b2230e5"
+    },
+    {
+      "kind": "captures",
+      "file": "390x844-alien-full-title.jpg",
+      "bytes": 20001,
+      "sha256": "7450983301942bafbb4bc5522f6d7d575f7d5ef0309494e8e06f6005443012f3"
+    },
+    {
+      "kind": "captures",
+      "file": "390x844-boarding-7-full.jpg",
+      "bytes": 46902,
+      "sha256": "cab6f8ebc9d075e94c916f1a60ac22fb24c3cbf8060d5ccc6944d29bc4100df1"
+    },
+    {
+      "kind": "captures",
+      "file": "390x844-boarding-8-full.jpg",
+      "bytes": 51965,
+      "sha256": "6778bebf25a8e673dcfd8bb35bd20ddf637e74136631f5961818f61ad7943f4d"
+    },
+    {
+      "kind": "captures",
+      "file": "390x844-boarding-9-full.jpg",
+      "bytes": 52879,
+      "sha256": "6fd2f7d602786e4ebbce3fd777b240415d510ac54f2e44e3beee23d60de6c96f"
+    },
+    {
+      "kind": "captures",
+      "file": "390x844-brand-full.jpg",
+      "bytes": 10499,
+      "sha256": "1a3156b8e3677af23c1b1478dbf5abee189dbbfa22071b7383895fd5368299cc"
+    },
+    {
+      "kind": "captures",
+      "file": "390x844-doctor-reduced-page.jpg",
+      "bytes": 69829,
+      "sha256": "7d04424bd26f1391620c5093398c54d425a7055f70b038962aa3da33dc0c1d5f"
+    },
+    {
+      "kind": "captures",
+      "file": "390x844-doctor-reduced-title.jpg",
+      "bytes": 23399,
+      "sha256": "9f5b7749b860fa315e376f6603f06859506482ddcc93565e4c187e428583b8af"
+    },
+    {
+      "kind": "captures",
+      "file": "390x844-insider-reduced-page.jpg",
+      "bytes": 79078,
+      "sha256": "7b2d36a3b4c5d5f885055855771ab4bbbdbccc85dd979d863ed6d3af17857f90"
+    },
+    {
+      "kind": "captures",
+      "file": "390x844-insider-reduced-title.jpg",
+      "bytes": 23768,
+      "sha256": "b94fdb9196a32806939a36c3473ee27c1ba7ac298af3eb6c002b4e20381943c1"
+    },
+    {
+      "kind": "captures",
+      "file": "390x844-blue-disabler-reduced-page.jpg",
+      "bytes": 55891,
+      "sha256": "662a9398f6fea5094e9f46d309aa33c47cd1cfd212aafacdfc741bcaf5fba570"
+    },
+    {
+      "kind": "captures",
+      "file": "390x844-blue-disabler-reduced-title.jpg",
+      "bytes": 19426,
+      "sha256": "9306c2627284047333e239f79ec64bcea1b2b64738483dc59f9a9300e6f3dc07"
+    },
+    {
+      "kind": "captures",
+      "file": "390x844-red-disabler-reduced-page.jpg",
+      "bytes": 55891,
+      "sha256": "662a9398f6fea5094e9f46d309aa33c47cd1cfd212aafacdfc741bcaf5fba570"
+    },
+    {
+      "kind": "captures",
+      "file": "390x844-red-disabler-reduced-title.jpg",
+      "bytes": 19759,
+      "sha256": "86b59be5590ee069fdd6088dd11a8e198083d7f5aa7aff95e31bdaabffcfe1d1"
+    },
+    {
+      "kind": "captures",
+      "file": "390x844-supplier-reduced-page.jpg",
+      "bytes": 65172,
+      "sha256": "fa3cf6813282fa44572dbc22e199776391a1dec4340ea02926340eae1b0632a3"
+    },
+    {
+      "kind": "captures",
+      "file": "390x844-supplier-reduced-title.jpg",
+      "bytes": 22744,
+      "sha256": "ccc55f7e92046b550d62423ac691b227d601ec3a732b98487c7930eab23e062e"
+    },
+    {
+      "kind": "captures",
+      "file": "390x844-engineer-reduced-page.jpg",
+      "bytes": 62612,
+      "sha256": "e170167db7fe77d8dd180c866aff3a81678709668616ebf39de85641d284d860"
+    },
+    {
+      "kind": "captures",
+      "file": "390x844-engineer-reduced-title.jpg",
+      "bytes": 22502,
+      "sha256": "d4b63577cb51872f14bbb1b8b10cb07c582c705ae6f3f0d6089e109ab7d70149"
+    },
+    {
+      "kind": "captures",
+      "file": "390x844-undercover-reduced-page.jpg",
+      "bytes": 62204,
+      "sha256": "681f3fca450c78ccd922afb31ef6aa961d7d2bd42aad12123ad9cdd0183674ce"
+    },
+    {
+      "kind": "captures",
+      "file": "390x844-undercover-reduced-title.jpg",
+      "bytes": 21566,
+      "sha256": "6a3d8e0aaec74cdb390f565868c3441e10c79ce2f4ef36b08c882c96ff181bbf"
+    },
+    {
+      "kind": "captures",
+      "file": "390x844-hacker-reduced-page.jpg",
+      "bytes": 60891,
+      "sha256": "444c9f0acf2658d436f60d439d97df847e366353c1d3a309580357556d913f97"
+    },
+    {
+      "kind": "captures",
+      "file": "390x844-hacker-reduced-title.jpg",
+      "bytes": 22500,
+      "sha256": "682a3fdc6708e736ef3732df8ac1dce1f907e643f7706e34c2ac52aff6de18de"
+    },
+    {
+      "kind": "captures",
+      "file": "390x844-alien-reduced-page.jpg",
+      "bytes": 57833,
+      "sha256": "fb901622edde1b47cfb93402147ef6bd172eec0024c7e21ee6842901e53fa20f"
+    },
+    {
+      "kind": "captures",
+      "file": "390x844-alien-reduced-title.jpg",
+      "bytes": 20045,
+      "sha256": "aaaa20e71362e4854c07c3c963c9b563a8f1e971661b2d30181ffe6e2357e612"
+    },
+    {
+      "kind": "captures",
+      "file": "390x844-boarding-7-reduced.jpg",
+      "bytes": 63467,
+      "sha256": "6ce277b8c3bd3f7b21945a44b23264d1ac2d6a5714f40bd9b59edf3e6f2fc725"
+    },
+    {
+      "kind": "captures",
+      "file": "390x844-boarding-8-reduced.jpg",
+      "bytes": 69785,
+      "sha256": "0327f06ec78f08750f64f24504db388c32d9e71394279d1a03b74014fd797f2f"
+    },
+    {
+      "kind": "captures",
+      "file": "390x844-boarding-9-reduced.jpg",
+      "bytes": 71665,
+      "sha256": "efbb9200fb57d3a46b77ed591a9558d18d6288cc2783ed404dac8b0d3f7aabae"
+    },
+    {
+      "kind": "captures",
+      "file": "390x844-brand-reduced.jpg",
+      "bytes": 11189,
+      "sha256": "2cabc79675336ddaf472885b67969e7f46fc143516698cce18789705e010b8c9"
+    },
+    {
+      "kind": "captures",
+      "file": "430x932-doctor-full-page.jpg",
+      "bytes": 60467,
+      "sha256": "3ab3c55429ac73e24d37b1dfec2087492a8258c53d0c67b7072c9f90bf309f39"
+    },
+    {
+      "kind": "captures",
+      "file": "430x932-doctor-full-title.jpg",
+      "bytes": 26122,
+      "sha256": "c48ed5942c01dca18b082fa5f706959dd59655afa5013f6a1b045b2ac9d811df"
+    },
+    {
+      "kind": "captures",
+      "file": "430x932-boarding-7-full.jpg",
+      "bytes": 53946,
+      "sha256": "58e5452a59bdc94d34f3115e8d244c2c643e5b127afe203e63af79388b0ffd91"
+    },
+    {
+      "kind": "captures",
+      "file": "430x932-boarding-8-full.jpg",
+      "bytes": 59973,
+      "sha256": "d34b698346dd669595447acad5287a38b029a72a44f6bdfd0b1ef733d3ce832d"
+    },
+    {
+      "kind": "captures",
+      "file": "430x932-boarding-9-full.jpg",
+      "bytes": 60294,
+      "sha256": "a62f01cb27f3d7e32a0914c462f5429c0913eb80dffb83a623e903ad7eb1d5c5"
+    },
+    {
+      "kind": "captures",
+      "file": "430x932-brand-full.jpg",
+      "bytes": 11589,
+      "sha256": "bbff0f7462ce13d334419bc12a733dc1b42c107ed00a4a574f7e53151838d66e"
+    },
+    {
+      "kind": "captures",
+      "file": "430x932-doctor-reduced-page.jpg",
+      "bytes": 79703,
+      "sha256": "ebd7009f9a845d26e4fd2732d8e945c3bbb3a57cae31b336648177601c772304"
+    },
+    {
+      "kind": "captures",
+      "file": "430x932-doctor-reduced-title.jpg",
+      "bytes": 26017,
+      "sha256": "b08cf8647786748a92bc87fe267109d326c05fe007171020104e98f7d8c27a85"
+    },
+    {
+      "kind": "captures",
+      "file": "430x932-boarding-7-reduced.jpg",
+      "bytes": 73089,
+      "sha256": "df3703ea1fce4e62ecaf2c24e748e8fd107ddf5f8ec71f23cebf436cfb6afeaf"
+    },
+    {
+      "kind": "captures",
+      "file": "430x932-boarding-8-reduced.jpg",
+      "bytes": 80218,
+      "sha256": "ba97ce367487ac7eeca4136f0bbf529c2cc53380760aa79070a91cac5ed3d529"
+    },
+    {
+      "kind": "captures",
+      "file": "430x932-boarding-9-reduced.jpg",
+      "bytes": 82788,
+      "sha256": "2c4ac216b4b9f79f4f0732bb5cef421ec04c4c76c52f255f3ed01da1719dc3d7"
+    },
+    {
+      "kind": "captures",
+      "file": "430x932-brand-reduced.jpg",
+      "bytes": 12680,
+      "sha256": "46e0e3c973202dc91b0b3b70a4755cd047f7e7a30f866d061f1367cae2c60d9d"
+    },
+    {
+      "kind": "videos",
+      "file": "brand-full.mp4",
+      "bytes": 10492,
+      "sha256": "37a7be5fc699f8545e6f99ce96938b0a29954cc684b04f329a84363fb1cd7f5e"
+    },
+    {
+      "kind": "videos",
+      "file": "doctor-full.mp4",
+      "bytes": 791027,
+      "sha256": "3fc19cefa751b0671e91dd66b23f6f98d7cdd1cf1a186250f3ae1b57b5aed131"
+    },
+    {
+      "kind": "videos",
+      "file": "boarding-full.mp4",
+      "bytes": 1493447,
+      "sha256": "a8b7d980eeecda4fa7b434914de815dbb902a7fc900941ac9a95693106150255"
+    },
+    {
+      "kind": "videos",
+      "file": "brand-reduced.mp4",
+      "bytes": 10495,
+      "sha256": "c76eb1de5e400de44a009ca66d13cf7773e094bbf073108154606e572a4b764e"
+    },
+    {
+      "kind": "videos",
+      "file": "doctor-reduced.mp4",
+      "bytes": 207395,
+      "sha256": "0645bdf08f07061698a14e74e4c995e76830683ae3cb1c820a246a6f9d1bdc02"
+    },
+    {
+      "kind": "videos",
+      "file": "boarding-reduced.mp4",
+      "bytes": 441687,
+      "sha256": "bd12ecf721346cefabf90f35582a563bbf8ff61f164b1ab0b3b211064b71e984"
+    }
+  ],
+  "representativeCopies": [
+    "320x568-doctor-full-page.jpg",
+    "320x568-doctor-reduced-title.jpg",
+    "320x568-boarding-7-full.jpg",
+    "390x844-boarding-9-reduced.jpg",
+    "320x568-brand-full.jpg",
+    "390x844-undercover-full-page.jpg"
+  ],
+  "scope": "Synthetic transport through actual hosted consumer. Original full videos/captures retained locally; only named representative JPEGs and reports are copied here. No physical-device or real-multiplayer acceptance."
+}

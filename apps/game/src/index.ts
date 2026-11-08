@@ -14,6 +14,8 @@ export { createPlayerSnapshotStore, createPublicSnapshotStore, probeProtocolVers
 export type { SnapshotOutcome, SnapshotRejection, SnapshotStore } from './snapshot/snapshot-store.js';
 
 export { createServerClock } from './clock/server-clock.js';
+export {createPlanetPregame,publicFilmRoster,PREGAME_ASSET_VERSION,PREGAME_ROLE_IDS} from './planet/pregame.js';
+export type {PregameController,PregameFilm,PregameVisibility,PublicFilmMember} from './planet/pregame.js';
 export type { ClockReading, ClockSample, ServerClock } from './clock/server-clock.js';
 export { estimateDeadline, millisecondsToNextSecond } from './clock/deadline.js';
 

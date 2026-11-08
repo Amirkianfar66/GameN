@@ -16,6 +16,18 @@ function sessionRig(name='reading'){
 }
 function memory(){let value=null;return {load:()=>value,save:next=>{value=next;},clear:()=>{value=null;}};}
 
+test('R17 projects admitted setup and display time only; expiry never starts the client game',async()=>{
+ const r=sessionRig(),s=r.value;s.setupFlowVersion=2;s.status='boarding';s.setup={id:'synthetic-boarding',startedAt:1000,endsAt:11000};s.privateRole=null;s.publicView=null;s.playerView=null;for(const member of s.members)member.ready=true;
+ await r.session.start('planet-local');const model=r.session.getModel();assert.equal(model.status,'boarding');assert.equal(model.setupFlowVersion,2);assert.deepEqual(model.setup,s.setup);assert.equal(model.setupClock.status,'synced');assert.equal(model.ownRole,null);assert.equal(model.canReady,false);
+ await r.advance(11000);assert.equal(r.session.getModel().status,'boarding');assert.equal(r.session.getModel().remainingMs,0);assert.equal(r.requests.some(q=>q.operation==='advance'||q.operation==='ready'),false);
+ r.session.setVisible(false);assert.equal(r.session.getModel().setup,null);assert.equal(r.session.getModel().setupFlowVersion,null);assert.deepEqual(r.session.getModel().setupClock,{status:'unsynced'});assert.deepEqual(r.session.getModel().members,[]);r.session.dispose();
+});
+
+test('unknown explicit setup flow fails closed while historical reading keeps its old behavior',async()=>{
+ const bad=sessionRig();bad.value.setupFlowVersion=3;await bad.session.start('planet-local');assert.equal(bad.session.getModel().connection,'error');assert.equal(bad.session.getModel().setup,null);assert.deepEqual(bad.session.getModel().members,[]);bad.session.dispose();
+ const legacy=sessionRig();await legacy.session.start('planet-local');assert.equal(legacy.session.getModel().setupFlowVersion,null);assert.equal(legacy.session.getModel().status,'reading');legacy.session.revealRole(true);assert.equal(legacy.session.getModel().ownRole.role,'Hacker');legacy.session.dispose();
+});
+
 test('30-second minimum role reading and Ready require server-confirmed time; role starts concealed',async()=>{
  const r=sessionRig();await r.session.start('planet-local');assert.equal(r.session.getModel().ownRole,null);assert.equal(r.session.getModel().canReady,false);
  await r.session.operate({operation:'ready',matchId:'planet-local'});assert.equal(r.requests.some(x=>x.operation==='ready'),false);

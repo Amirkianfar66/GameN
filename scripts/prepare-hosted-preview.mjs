@@ -5,7 +5,8 @@ import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
 import { build } from 'vite';
 import { createHostedPreviewCsp } from './hosted-preview-policy.mjs';
-import { readRuntimeArtRelease, assertRuntimeArtOutput, PLANET_ART_VERSION } from './runtime-art-release.mjs';
+import { assertRuntimeArtOutput } from './runtime-art-release.mjs';
+import { readHostedArtReleases } from './hosted-art-releases.mjs';
 import { readHostedConfiguration } from '../apps/game/dist/browser/hosted-config.js';
 import { checkProductionExclusion, workspaceOptions } from '../apps/game/scripts/check-production-exclusion.mjs';
 
@@ -13,12 +14,11 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const configPath = process.argv[2];
 if (!configPath || process.argv.length !== 3) throw new Error('Usage: node scripts/prepare-hosted-preview.mjs PUBLIC_CONFIG_JSON');
 const config = readHostedConfiguration(JSON.parse(await readFile(resolve(configPath), 'utf8')));
-const art = readRuntimeArtRelease(root);
-const planetArt = readRuntimeArtRelease(root, PLANET_ART_VERSION);
+const artReleases = readHostedArtReleases(root);
+const art = artReleases.rootArt;
 await build({ configFile: join(root, 'apps/game/hosted/vite.config.mjs') });
 const output = join(root, 'dist/hosted-preview');
-assertRuntimeArtOutput(art, output);
-assertRuntimeArtOutput(planetArt, output);
+for (const release of artReleases.validationReleases) assertRuntimeArtOutput(release, output);
 await writeFile(join(output, 'preview-config.json'), JSON.stringify(config, null, 2) + '\n');
 const exclusion = checkProductionExclusion(workspaceOptions(root, [output]));
 if (exclusion.problems.length) throw new Error(exclusion.problems.join('\n'));
@@ -45,8 +45,7 @@ const sourceDirty = execFileSync('git', ['status', '--porcelain'], { cwd: root, 
 const release = { kind: 'hosted-playtest-preview', sourceCommit, sourceDirty, projectId: config.projectId,
   assetManifestVersion: art.manifestVersion, artManifestSha256: art.manifestSha256,
   gameplayPins: art.gameplayPins,
-  planetRelease: { entryPath: '/planet/', assetManifestVersion: planetArt.manifestVersion,
-    artManifestSha256: planetArt.manifestSha256, gameplayPins: planetArt.gameplayPins },
+  planetRelease: artReleases.planetRelease,
   bundleSha256: digest, files };
 await writeFile(join(output, 'preview-release.json'), JSON.stringify(release, null, 2) + '\n');
 const csp = createHostedPreviewCsp(config.projectId);

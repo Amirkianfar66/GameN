@@ -1,0 +1,22 @@
+{
+  "checkedAtUtc": "2026-11-08T19:53:52.793146+00:00",
+  "status": "not-measured",
+  "deviceTools": {
+    "adb": false,
+    "idevice_id": false,
+    "ideviceinfo": false,
+    "ios-deploy": false
+  },
+  "appleDevicectlAvailable": false,
+  "accessibleUsbGroups": 0,
+  "mobileDeviceNames": [],
+  "physicalIphone": "unavailable through current tools",
+  "physicalLowEndAndroid": "unavailable through current tools",
+  "missingEvidence": [
+    "Real-device cold/warm startup and first-frame latency",
+    "Full and Reduced runtime frame times through all scenes and stage cuts",
+    "Skip/input response latency",
+    "Heap/resident memory and sustained/repeated playback behavior"
+  ],
+  "neededHumanHelp": "Connect and unlock an iPhone and a low-end Android, approve trust/debugging and provide working device/browser profiling access. Desktop Chromium emulation does not provide these measurements."
+}

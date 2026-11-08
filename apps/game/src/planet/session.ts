@@ -2,6 +2,7 @@ import {CrewDisplayNameSchema,IdentifierSchema,PlanetServiceRequestSchema,Planet
 import type {PlanetServiceRequest,PlanetSessionSnapshot} from '@mothership/contracts';
 import type {PlayerPorts,UnresolvedCommandStore} from '../ports.js';
 import {createServerClock} from '../clock/server-clock.js';
+import type {ClockReading} from '../clock/server-clock.js';
 import {planetSupportsAssets} from '@mothership/presentation';
 import type {PlanetTransport,PlanetSnapshot} from './transport.js';
 
@@ -21,6 +22,8 @@ export interface PlanetSessionModel {
  readonly versions:PlanetSessionSnapshot['versions']|null;
  readonly isHost:boolean;readonly selfSeatId:PlanetSessionSnapshot['selfSeatId'];readonly playerCount:7|8|9|null;
  readonly members:PlanetSessionSnapshot['members'];readonly pendingAdmissions:PlanetSessionSnapshot['pendingAdmissions'];
+ /** Admitted setup metadata and the existing synchronized display clock; neither grants start authority. */
+ readonly setup:PlanetSessionSnapshot['setup'];readonly setupFlowVersion:2|null;readonly setupClock:ClockReading;
  readonly remainingMs:number|null;readonly canChoose:boolean;readonly canReady:boolean;readonly canReturnToLobby:boolean;readonly busy:boolean;readonly uncertain:boolean;
  readonly ownRole:PlanetSessionSnapshot['privateRole'];readonly recoveryCode:string|null;
  /** A registered request is context for waiting, never evidence of admission. */
@@ -79,7 +82,7 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
   const s=admitted()?snapshot:null,t=clock.read(),remaining=s?.setup&&t.status==='synced'?s.setup.endsAt-t.serverNowMs:null;
   const own=s?.members.find(m=>m.seatId===s.selfSeatId);
   return {mode:connection.mode,connection:connectionState,message,matchId,versions:s?.versions??null,roomCode:s?.roomCode??null,status:s?.status??null,isHost:s?.isHost??false,selfSeatId:s?.selfSeatId??null,playerCount:s?.playerCount??null,
-   members:s?.members??[],pendingAdmissions:s?.isHost?s.pendingAdmissions:[],remainingMs:remaining===null?null:Math.max(0,remaining),
+   members:s?.members??[],pendingAdmissions:s?.isHost?s.pendingAdmissions:[],setup:s?.setup??null,setupFlowVersion:s?.setupFlowVersion??null,setupClock:admitted()?t:{status:'unsynced'},remainingMs:remaining===null?null:Math.max(0,remaining),
    canChoose:!!s&&s.status==='choosing'&&!!own&&t.status==='synced'&&remaining!==null&&remaining>t.uncertaintyMs&&!busy&&!uncertain,
    canReady:!!s&&s.status==='reading'&&!!own&&!own.ready&&t.status==='synced'&&remaining!==null&&remaining<=-t.uncertaintyMs&&!busy&&!uncertain,
    canReturnToLobby:canReturnToLobby(),busy,uncertain,ownRole:s?.status==='reading'&&revealed&&!own?.ready?s.privateRole:null,recoveryCode:s?code:null,
