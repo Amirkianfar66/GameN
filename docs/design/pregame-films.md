@@ -1,6 +1,6 @@
 # The pre-game films, made again as AAA animation
 
-**Status: proposal for the owner's review. Nothing here is adopted, mounted or deployed.**
+**Status: the owner approved the Doctor's film and the boarding (8 November 2026); the other seven role films follow. Nothing here is adopted, mounted or deployed.**
 
 The owner, 8 November 2026: "we had 3 animation before game, 1 is the Game N by Plan B 2-second app intro, second after 10-second film for each role then 10-second boarding cinematic , go for them like AAA ANIMATION improve the quality". On seeing the first cut of the intro, the owner asked for it simple: "For the app start 2 sec can we just have black background and then the texts with Game N by Plan B something simple with typing motion graphic effect". On seeing the Doctor's film, the owner asked for its title simple too: "The doctor movie at end of it when Doctor text label appear with yellow color the background of the text is crowded , make it simple blue color"; and for the card on the desk: "In Dr animation the card on table with Doctor text on it make it the medical cross" ([owner-decisions.md](owner-decisions.md)).
 
@@ -27,7 +27,7 @@ Those branches never reached `main`, and they draw the old crew. This is the sam
 | Role film | exactly 10,000 ms each | the player's own phone, in the role-reading stage, after the card is revealed | **the Doctor's, the pilot**; full and reduced, for any of the nine characters | drawn live from the player's own character and role (see Mounts) |
 | Boarding | exactly 10,000 ms | every phone and the display, after everyone is Ready, before Round 1 (R17) | whole, for 7, 8 or 9 players; full and reduced | review only: no stage exists for it yet |
 
-The other seven role films (Insider, the two Disablers' shared film, Supplier, Engineer, Undercover, Hacker and Alien) follow the owner's review of the Doctor's. Their storyboards are the approved ones. Each needs its gadget, drawn the same way as the injector, and its three panels.
+The other seven role films (Insider, the two Disablers' shared film, Supplier, Engineer, Undercover, Hacker and Alien) follow, now that the owner has approved the Doctor's. Their storyboards are the approved ones. Each needs its gadget, drawn the same way as the injector, and its three panels.
 
 ## What "AAA" means here
 
@@ -189,5 +189,5 @@ The role film is rendered for two characters (`c3`, `c7`) to show it draws which
 
 - **Devices.** No phone, display hardware, screen reader or large-text setting has played these films. Every frame is desktop Chromium.
 - **Runtime.** No client mounts any of them. The boarding has no stage (R17).
-- **The owner** has seen the typed intro and the Doctor's film, and asked for the Doctor's title simple and blue and the desk card as a medical cross, which this delivery makes. Neither the Doctor's film nor the boarding is approved yet.
+- **The owner** asked for the Doctor's title simple and blue and the desk card as a medical cross, then approved the Doctor's film and the boarding: "I approve it". The other seven role films have not been seen yet.
 - **Sound.** None is made; the films are silent.
