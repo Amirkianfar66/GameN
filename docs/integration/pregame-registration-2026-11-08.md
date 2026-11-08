@@ -26,6 +26,17 @@ Use this environment only for local candidate evidence. Final hosted verificatio
 
 ## Verification
 
-Results are recorded in the focused PR and handoff after the final registration checks. Actual-app captures belong to Frontend and are not claimed by source/tooling tests.
+Local verification completed at source checkpoint `f32df2ee0113308a6c1efe13daac606fd0876abc` plus the board-motion scratch-fixture closure update:
+
+- `npm ci`, root build, both typechecks, workspace/source integrity: passed.
+- Full tooling: 276/276 passed. Full design: 286/286 passed.
+- New port/candidate/release/fence cases are included; default rejection and exact opt-in candidate compatibility are exercised using portable review blobs.
+- Baseline hosted Vite build, browser-dependency smoke and production exclusion: passed. Vite reports existing large chunks; no physical-phone performance claim is made.
+- Promise opportunity regression: 51/51 passed for the focused social, native opportunity and election suites.
+- Old06/07 manifests, approvals, original pregame/crew/rig sources, tokens, engine, contracts and service have no diff to the recorded base.
+
+The first regression run exposed a stale helper hash and missing new inputs in historical scratch fixtures. The final helper pin, default-mode lazy import and exact fixture closure corrected those failures; the full suites above then passed. No expectations or source checks were removed.
+
+Actual-app captures belong to Frontend and are not claimed by source/tooling tests. Full `npm run verify`, long capacity playouts and emulator suites were not rerun locally for this art/tooling change; CI is the regression gate.
 
 The owner also clarified that P04/P23/P24 Promises evaluate at their own opportunities. The capacity playout timeout on four-core CI is owned by Integration; this art registration does not change the capacity runner or game mechanics.
