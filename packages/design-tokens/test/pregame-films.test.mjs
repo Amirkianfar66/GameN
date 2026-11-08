@@ -164,6 +164,16 @@ test('a role film tells its own player, and a neighbour no more than the owner c
   assert.throws(() => roleSvg(4000, { ...PHONE, role: 'doctor', character: 'c3' }), /No seat/);
   assert.throws(() => roleCaptions(4000, PHONE), /No role film/);
   assert.throws(() => rolePageText(8000), /No role film/);
+  // Nothing is coerced, and the seat is a whole number from 1 to 9 (Integration's re-review of 51bc841d).
+  const bound = over => roleSvg(4000, { ...PHONE, role: 'doctor', character: 'c3', seat: 4, ...over });
+  for (const role of [['doctor'], new String('doctor'), { toString: () => 'doctor' }, Symbol('doctor')]) {
+    assert.throws(() => bound({ role }), /No role film for (object|symbol)$/);
+    assert.throws(() => roleCaptions(4000, { ...PHONE, role }), /No role film/);
+    assert.throws(() => rolePageText(8000, { role }), /No role film/);
+  }
+  for (const character of [['c3'], new String('c3'), { toString: () => 'c3' }]) assert.throws(() => bound({ character }), /No crew character object$/);
+  for (const seat of [0, -1, 10, 100000, 4.5, NaN, Infinity, '4', [4], null]) assert.throws(() => bound({ seat }), /No seat/);
+  for (const seat of [1, 9]) assert.match(bound({ seat }), /^<svg /, `seat ${seat} is a table's`);
   // The game's nine roles, and the two Disablers' one film.
   assert.deepEqual(Object.values(ROLES).map(r => r.name).sort(), ['Alien', 'Blue Disabler', 'Doctor', 'Engineer', 'Hacker', 'Insider', 'Red Disabler', 'Supplier', 'Undercover']);
   for (const key of ['mark', 'gadget', 'panels', 'captions']) assert.equal(ROLES['blue-disabler'][key], ROLES['red-disabler'][key], `the Disablers share their ${key}`);

@@ -1,6 +1,6 @@
 # The pre-game films, made again as AAA animation
 
-**Status: the owner approved the Doctor's film and the boarding (8 November 2026). The other seven role films are drawn from them, for the owner's review. Nothing here is adopted, mounted or deployed.**
+**Status: the owner approved the Doctor's film and the boarding (8 November 2026). The other seven role films are drawn from them. Integration accepted their designs on 8 November, and they await the owner's review. Nothing here is adopted, mounted or deployed.**
 
 The owner, 8 November 2026: "we had 3 animation before game, 1 is the Game N by Plan B 2-second app intro, second after 10-second film for each role then 10-second boarding cinematic , go for them like AAA ANIMATION improve the quality". On seeing the first cut of the intro, the owner asked for it simple: "For the app start 2 sec can we just have black background and then the texts with Game N by Plan B something simple with typing motion graphic effect". On seeing the Doctor's film, the owner asked for its title simple too: "The doctor movie at end of it when Doctor text label appear with yellow color the background of the text is crowded , make it simple blue color"; and for the card on the desk: "In Dr animation the card on table with Doctor text on it make it the medical cross" ([owner-decisions.md](owner-decisions.md)).
 
@@ -142,7 +142,7 @@ It is not the art release's to enable. Until it exists, no client plays the boar
 | Film | Where and when it plays | Its clock | Its input | Rules |
 | --- | --- | --- | --- | --- |
 | Brand intro | Once per app entry, before the lobby; never over a match, or over one being recovered | Local, from its first frame | None | Identity-free. Draw it live (a few dozen strokes a frame), or ship a prerendered export made for the runtime, reviewed and hash-pinned on its own. The review media under `review/` are never runtime files, and no character-dependent film ships as a movie |
-| Role film | The player's own phone only, in the existing role-reading stage, after the card is revealed, inside the 30-second reading minimum | Local, from the reveal; it ends by 10,000 ms | The role, the player's own character and the public seat, all three bound exactly: a missing or unknown one throws, and no review default (the Doctor) stands in | Private, never on the display. A tap skips to the card. **Finishing or skipping never confirms Ready.** It never replays on a reconnect or refresh |
+| Role film | The player's own phone only, in the existing role-reading stage, after the card is revealed, inside the 30-second reading minimum | Local, from the reveal; it ends by 10,000 ms | The role, the player's own character and the public seat, all three bound exactly: the role and the character by their string ids, nothing coerced, and the seat a whole number from 1 to 9. A missing or unknown one throws, and no review default (the Doctor) stands in | Private, never on the display. A tap skips to the card. **Finishing or skipping never confirms Ready.** It never replays on a reconnect or refresh |
 | Boarding | Every phone and the display, in a server-owned pre-Round-1 stage after the reading minimum and everyone Ready (R17) | `t` = server now minus the stage's `startsAt`. Past `endsAt`, draw nothing and go to the game | The public roster alone | A late server answer never starts a player's game locally. Skip dismisses the pictures only. Activating the artwork must not enable boarding; saved matches keep their setup |
 
 - **Calls.**
@@ -186,6 +186,8 @@ Integration accepted the seven new designs, the team-coloured titles included, a
 
 Also from the review: the brand intro's export classification is made consistent (a runtime export would be its own reviewed, hash-pinned file; review media never ship), and the role film binds the role, the character and the seat exactly, with no default. The reduced renders `doctor-phone-reduced` and `boarding-phone-7-reduced` are rendered again; no full-motion render changes.
 
+**Integration's re-review of `51bc841d`** ([the re-review](https://github.com/Amirkianfar66/GameN/pull/198#issuecomment-6725578118)) closed the three findings and accepted the designs of all seven new films, the team-coloured titles included. It left one nonblocking point for adoption, found by Frontend. The film still took seat 10 or 100000, and `role: ['doctor']` was turned into the Doctor. Now the role and the character must be their string ids and the seat a whole number from 1 to 9, as the boarding's roster takes it; anything else throws (`roles/film.mjs`). The regression refuses arrays, boxed strings, objects that name a role, symbols, and seats 0, -1, 10, 100000, 4.5, NaN, Infinity, `'4'`, `[4]` and `null`, and draws seats 1 and 9. For valid inputs nothing changes: the pictures, narration and screen-reader text of all nine roles, with three characters at seats 1, 4 and 9, full and reduced, every 250 ms (2,214 moments), are byte for byte the same. No render changes.
+
 ## Checks
 
 <!-- checks -->
@@ -196,7 +198,7 @@ Run on this delivery's tree, based on `main` `469b709b`, with Node 22.21.1 and n
   - the last frames;
   - pure, well-formed frames with no dangling reference;
   - reduced-motion stills, held for every role and the boarding (sampled finer than a blink), the first fading in, and unique ids with every reference resolved inside both crossfades and at their edges;
-  - every role film's privacy rules (one clock, no team colour before the title, the card's mark, the title in its team's colour, nobody, page text), the Disablers' one film, and the role, character and seat bound with no default;
+  - every role film's privacy rules (one clock, no team colour before the title, the card's mark, the title in its team's colour, nobody, page text), the Disablers' one film, and the role, character and seat bound exactly (string ids, nothing coerced, a seat from 1 to 9) with no default;
   - the boarding's public roster;
   - the renders against their records;
   - dev-only marks.

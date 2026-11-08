@@ -4,7 +4,8 @@
 // the page of three panels (./page.mjs, the role's own pictures from its module) and the title, under
 // the films' finish. roleSvg(t, { width, height, role, character, seat, variant }) is a pure
 // function of t. The narration is page text (roleCaptions): the page draws it as DOM text over the
-// picture, so it translates, scales with the player's text size and is read by screen readers.
+// picture, so it can be translated, sized in rem and read by a screen reader. Tying it to the
+// player's own text-size setting is Frontend's, and untested.
 
 import { blurFilter, defs, finish, leak } from '../kit/fx.mjs';
 import { f3 } from '../kit/math.mjs';
@@ -43,18 +44,28 @@ function layers(D, { W, H, frame, role, character, seat }) {
   return out;
 }
 
-/** The role whose film this is: one of the nine, named exactly; a film never falls back to another role. */
+/** The public seats a table has, 1 to 9, as the boarding's roster takes them (`../boarding/roster.mjs`). */
+const SEATS = 9;
+
+/** A refused value as an error names it: a string in quotes, a number as itself, anything else by its type. */
+const named = v => (typeof v === 'string' ? JSON.stringify(v) : typeof v === 'number' ? String(v) : typeof v);
+
+/**
+ * The role whose film this is: one of the nine, named exactly by its string id. Nothing is coerced
+ * (`['doctor']` is not `'doctor'`), and a film never falls back to another role.
+ */
 function roleOf(roleId) {
-  if (!Object.hasOwn(ROLES, roleId)) throw new Error(`No role film for ${roleId}`);
+  if (typeof roleId !== 'string' || !Object.hasOwn(ROLES, roleId)) throw new Error(`No role film for ${named(roleId)}`);
   return ROLES[roleId];
 }
 
 export function roleSvg(t, { width: W = 390, height: H = 844, role: roleId, character, seat, variant = 'full' } = {}) {
   const D = defs();
   const role = roleOf(roleId);
-  // The player's own character and public seat are bound explicitly: no review default stands in.
-  if (!Object.hasOwn(CREW, character)) throw new Error(`No crew character ${character}`);
-  if (!Number.isInteger(seat) || seat < 1) throw new Error(`No seat ${seat}`);
+  // The player's own character (its string id) and public seat (a whole number, 1 to 9) are bound
+  // exactly: nothing is coerced, and no review default stands in.
+  if (typeof character !== 'string' || !Object.hasOwn(CREW, character)) throw new Error(`No crew character ${named(character)}`);
+  if (!Number.isInteger(seat) || seat < 1 || seat > SEATS) throw new Error(`No seat ${named(seat)}`);
   const frame = roleFrame(t, { variant });
   let out;
   if (frame.reduced) {
