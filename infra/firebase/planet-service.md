@@ -66,3 +66,16 @@ node node_modules/firebase-tools/lib/bin/firebase.js emulators:exec \
 ```
 
 For a later authorized release, Integration must publish the compatible consumer and deploy saved-flow-capable code to every worker before selecting flow 2 for new creation. Capture existing environment/revision identities, retain both setup consumers and historical artwork, and read back the private queue/task grants after final deployment. Rollback selects `MOTHERSHIP_PLANET_SETUP_FLOW_VERSION=1` or unsets that flow setting on the API; it must not relabel or migrate sessions already pinned to 2. Those sessions still need capable workers and their corresponding consumer until they end. Aborting and recovering a session remain normal authorized operations and never restart or shorten boarding. Client Skip, completion, load and tab callbacks grant no authority.
+
+### R17 local acceptance evidence, 8 November 2026
+
+With the pinned Node 22.21.1/npm 10.9.4 toolchain and Java 21.0.13:
+
+- Build passed.
+- All **135 Firebase unit/regression tests passed**, including the two new creation-flow configuration cases; zero failed/skipped (1,338.56075ms).
+- A fresh Auth/Firestore/Functions/Tasks suite with explicit flow `2` passed **2/2 cases**, zero failed/cancelled/skipped/todo (101,616.873167ms). All three roster sizes automatically traversed selection, minimum reading, boarding and initialization. Shared timing/roster matched, authority remained uninitialized during boarding, one stage/initialization was recorded, and the existing PRE_TURN received its full 15 seconds.
+- A separate fresh suite with explicit flow `1` passed **2/2 cases**, zero failed/cancelled/skipped/todo (86,272.890458ms). Saved version fields remained omitted and no boarding record was introduced.
+
+Both suite processes exited successfully and all local emulators shut down. Early task delivery was refused for retry. Outstanding task requests logged connection refusal only during emulator shutdown after acceptance finished. No client manually advanced a stage or ran bots, no service clock was injected, and no cloud resource or IAM setting changed. These results do not establish live IAM, hosted consumer acceptance, physical-phone performance or human readiness/balance.
+
+Compiled service bytes stayed constant through both real-time suites: `planet-game.js` SHA-256 `a4ef2c85ff41ecd5993a95f809457c011d221bbd6f91a0e82dce1bbbfb054771`; contracts `planet-service.js` `49f71e46a7e6510727da31ed4676f6d0a0325dcc1c408090e9241166cb8cec75`; runtime `planet-runtime.js` `7af7c4c55dad8cfbf6dd35618481d91e38aa408a1c775ba28d2dbce133ae0eec`. The verification document records the final committed source identity.
