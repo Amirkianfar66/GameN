@@ -1,3 +1,5 @@
+import {readPregameConsumerApproval, acceptsPregameProductionFile} from '../../scripts/pregame-consumer-approval.mjs';
+import {pregameProductionFixturePaths} from './support/pregame-production-fixture.mjs';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { cpSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
@@ -22,7 +24,7 @@ function temporary(t) {
 }
 function seed(t) {
   const dir = temporary(t), release = readRuntimeArtRelease(root, CREW_ART_VERSION), policy = readDrawingPolicy(root);
-  const paths = new Set([
+  const paths = new Set([...pregameProductionFixturePaths(root),
     'design/releases/design-0.7.0.json', 'design/releases/design-0.6.0.json',
     'design/releases/design-0.5.0.json', 'design/exports/asset-manifest.json',
     'design/tools/lib/reviewed-drawing-ports.json', 'design/releases/board-v2-four-drawing-approval.json',
@@ -64,12 +66,18 @@ test('published Planet manifest and original consumer bytes survive exact succes
   assert.equal(hash(read(approval.registrationSnapshot.path)), '5cd0a792c780a937fee6aee918c133567ecdf2a1ef801251d209209c24e49cc0');
   const old = readRuntimeArtRelease(root, 'design-0.6.0'), current = readRuntimeArtRelease(root, CREW_ART_VERSION);
   const overrides = Object.entries(approval.historicalRuntimeOverrides['design-0.6.0']);
+  const production = readPregameConsumerApproval(root);
   assert.equal(overrides.length, 3);
   for (const [path, pin] of overrides) {
     assert.equal(old.runtimeFiles[path], pin.previousSha256, 'published inventory is not repinned');
     assert.equal(hash(read(`design/releases/historical-blobs/${pin.previousSha256}`)), pin.previousSha256);
     assert.equal(current.runtimeFiles[path], pin.sha256);
-    assert.equal(hash(read(path)), pin.sha256);
+    const actual = hash(read(path));
+    if (actual === pin.sha256) assert.equal(actual, pin.sha256);
+    else {
+      assert.equal(hash(read(`design/releases/historical-blobs/${pin.sha256}`)), pin.sha256, '07 bytes remain preserved');
+      assert.equal(acceptsPregameProductionFile(production, path, pin.sha256, actual), true, 'only the exact verified production successor may replace current bytes');
+    }
   }
 });
 
@@ -77,18 +85,22 @@ test('compatibility cannot substitute changed current code, erase historical evi
   const dir = seed(t), approval = readCrewConsumerApproval(root);
   const [path, pin] = Object.entries(approval.historicalRuntimeOverrides['design-0.6.0'])[0];
   const historical = `design/releases/historical-blobs/${pin.previousSha256}`;
-  const verifyBoth = () => {
+  const production = readPregameConsumerApproval(root);
+  const verifyBoth = pattern => {
     for (const version of ['design-0.6.0', CREW_ART_VERSION]) {
-      assert.throws(() => readRuntimeArtRelease(dir, version), /crew consumer content differs|crew consumer approval differs/);
+      assert.throws(() => readRuntimeArtRelease(dir, version), pattern);
     }
   };
-  writeFileSync(join(dir, path), '// unreviewed current consumer'); verifyBoth();
+  writeFileSync(join(dir, path), '// unreviewed current consumer');
+  verifyBoth(production ? /^Error: Pregame consumer candidate: current content differs:/ : /crew consumer content differs/);
   cpSync(join(root, path), join(dir, path));
-  writeFileSync(join(dir, historical), '// erased historical evidence'); verifyBoth();
+  writeFileSync(join(dir, historical), '// erased historical evidence');
+  verifyBoth(production ? /^Error: Pregame consumer candidate: preserved previous content differs:/ : /crew consumer content differs/);
   cpSync(join(root, historical), join(dir, historical));
   const changed = JSON.parse(readFileSync(join(dir, CREW_CONSUMER_APPROVAL)));
   changed.historicalRuntimeOverrides['design-0.6.0'][path].sha256 = '0'.repeat(64);
-  writeFileSync(join(dir, CREW_CONSUMER_APPROVAL), JSON.stringify(changed)); verifyBoth();
+  writeFileSync(join(dir, CREW_CONSUMER_APPROVAL), JSON.stringify(changed));
+  verifyBoth(production ? /^Error: Pregame consumer candidate: existing consumer approval differs$/ : /crew consumer approval differs/);
 });
 
 test('new uniform bundles contain exactly the 36 approved exports and retire only the 27 obsolete film properties', () => {

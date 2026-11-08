@@ -1,0 +1,73 @@
+{
+  "schema": "mothership.pregame-consumer-acceptance/1",
+  "status": "accepted-for-combined-release-ci",
+  "date": "2026-11-08",
+  "authority": "Integration owner acting on explicit game-owner delegation",
+  "coordinationChat": "01a0de94-e774-7a53-80fd-5897c518c9bf",
+  "decision": "Exact11 frozen consumers, including app.mjs610711ad, and associated22 frozen ports accepted. Final combined CI is required before merge/deployment. Supplemental200%caption and accurately scoped6-context reports passed. No runtime/source changes requested.",
+  "validationBaseSha": "73654fbb93c58f7d12e59e9c82cd4a9ed5ce8f88",
+  "frontendDependencySha": "f5c4d8ed086cb436772a18224259144d3fe79825",
+  "artManifest": {
+    "path": "design/releases/design-0.8.0.json",
+    "sha256": "c2e5b6a423d2a583be669147b70a23e2391fce770372137e99f46c3c75b13b5d"
+  },
+  "candidate": {
+    "path": "docs/integration/pregame-consumer-candidate-2026-11-08.json",
+    "sha256": "e8799855b67fc81c68089f0bd295715eb5ca6ffe0548eee2f911725b33b7d702",
+    "bytes": 5821
+  },
+  "acceptedFiles": {
+    "apps/game/hosted/crew-runtime.mjs": "3ead960a67a8fe3b9154eb19cb4ca0de6eb122bb0b38392745968ff0b429cb32",
+    "apps/game/hosted/planet/app.mjs": "610711ad7b38bc77936c4f7817dc6c389ce83110c70b198d3b476373b1cca0ca",
+    "apps/game/hosted/planet/render.mjs": "42ecc7f23a496cb341455c6c388648c35de18c2b51dcaec99201f296e1768b4d",
+    "apps/game/hosted/planet/preferences.mjs": "739e25abb257b78d912f18a7ec57ab807be4c84a540cb8ae072b3b45e22813ad",
+    "apps/game/hosted/planet/pregame-scene.mjs": "413bf5fbb4b66b3a21838e0cc85dec94f2f3b953fa5d7a6d1d2dcd0fe09bfbf7",
+    "apps/game/hosted/planet/pregame.mjs": "3d9f69075a9e0db4977735de1e7b65775bd4f6760c676c2311da9fd42d49c2f7",
+    "apps/game/hosted/planet/pregame.css": "e5b7de61422d86b97df6a5ca5885b7ea174504f45a83b6fdc4df5e7a167b30a5",
+    "apps/game/src/index.ts": "dc51ee10a250bec2885a2d235d4c35371796f9716468bbebbd17210254cf6dba",
+    "apps/game/src/planet/session.ts": "51da0ccf3122facc0a64d2f82de5ca7696f7ef23b387886d84d30ff3c28c057f",
+    "apps/game/src/planet/pregame.ts": "e9e3a368f5d1b802dcc6c8b9a21923791c430f562d0f9a8c43e854e00cbe9ed4",
+    "packages/presentation/src/planet/library.ts": "304db05495cec9ab77054c0ad26a400ab122475e03f3abc89d05cc1e5d7c89e1"
+  },
+  "reports": [
+    {
+      "path": "docs/integration/evidence/pregame-2026-11-08/hosted-checks.json",
+      "sha256": "12cc2bc5f82bdcc2339ca04d04a574601d73d8992e2dcb2f9428ddfb2488bf98",
+      "bytes": 74454
+    },
+    {
+      "path": "docs/integration/evidence/pregame-2026-11-08/capture-inventory.json",
+      "sha256": "b289e5403f288d25bb7872551afa7fd4f0daa10e114d876813f6cc79d8ce36ba",
+      "bytes": 15012
+    },
+    {
+      "path": "docs/integration/evidence/pregame-2026-11-08/large-text-checks.json",
+      "sha256": "285a0dc7d96513beb0f88662955a7d0e624378d57bca03fd3829e73837f395c6",
+      "bytes": 2908
+    },
+    {
+      "path": "docs/integration/evidence/pregame-2026-11-08/hosted-audit-checks.json",
+      "sha256": "75e870733680eccef314a059b29f8eb1c649608dab6a612ff0b6480d423d091b",
+      "bytes": 13030
+    }
+  ],
+  "summary": {
+    "hostedChecks": 16,
+    "captures": 68,
+    "vfrVideos": 6,
+    "uniformRoleRequests": 42,
+    "uniformRoleSamples": 3,
+    "caption200PercentCases": 2,
+    "supplementalAuditChecks": 16,
+    "supplementalAuditContexts": 6,
+    "supplementalAuditProblems": 0,
+    "supplementalAuditRuntimeExceptions": 0
+  },
+  "limitations": [
+    "Synthetic transport through the actual hosted app/session/controller in desktop Chromium; no real multiplayer acceptance.",
+    "Original full hosted report problems field covers its last context only. The separate16-check audit aggregates all six opened audit contexts and browser runtime exceptions; intentionally blocked-art failures are excluded.",
+    "200%app text preference was measured at320x568 in Full and Reduced for the longest Supplier caption/title, including reachable Skip and no Ready/advance. It is not screen-reader/device acceptance.",
+    "Physical Android/iPhone, Safari and physical-device performance remain unmeasured. VFR screencasts do not measure app/device FPS.",
+    "Approval does not change creation artwork, setup flow, cloud/IAM settings or deploy anything. Engine/rules/protocol and public/private projection contracts are unchanged."
+  ]
+}

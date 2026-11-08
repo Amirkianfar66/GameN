@@ -36,9 +36,8 @@ function frozen(value) {
   return value;
 }
 
-/** No files are read unless the one explicit local review flag is exactly "1". */
-export function readPregameConsumerCandidate(root) {
-  if (process.env[PREGAME_CONSUMER_REVIEW_ENV] !== '1') return null;
+/** Internal inventory verifier: hash-anchored bytes only, without granting a candidate capability. */
+export function readVerifiedPregameConsumerInventory(root) {
   const bytes = read(root, PREGAME_CONSUMER_CANDIDATE);
   check(sha(bytes) === PREGAME_CONSUMER_CANDIDATE_SHA256, 'independent approval hash differs');
   const candidate = JSON.parse(bytes);
@@ -64,7 +63,13 @@ export function readPregameConsumerCandidate(root) {
         `preserved previous content differs: ${path}`);
     }
   }
-  frozen(candidate);
+  return frozen(candidate);
+}
+
+/** No files are read unless the one explicit local review flag is exactly "1". */
+export function readPregameConsumerCandidate(root) {
+  if (process.env[PREGAME_CONSUMER_REVIEW_ENV] !== '1') return null;
+  const candidate = readVerifiedPregameConsumerInventory(root);
   verified.add(candidate);
   return candidate;
 }
