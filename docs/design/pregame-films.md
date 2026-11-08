@@ -23,7 +23,7 @@ Those branches never reached `main`, and they draw the old crew. This is the sam
 
 | Film | Length | Plays | Delivered | Class |
 | --- | --- | --- | --- | --- |
-| Brand intro, "Game N" by Plan B | exactly 2,000 ms | the app's first entry | whole, as the owner asked it: black, typed; full and reduced | identity-free: a candidate to ship as a prerendered video (27 KB on a phone) |
+| Brand intro, "Game N" by Plan B | exactly 2,000 ms | the app's first entry | whole, as the owner asked it: black, typed; full and reduced | identity-free: drawn live, or a prerendered runtime export of its own, reviewed and hash-pinned (the review video is 27 KB); review media are never runtime files |
 | Role film | exactly 10,000 ms each | the player's own phone, in the role-reading stage, after the card is revealed | **all nine roles', in eight films** (the Disablers share one): the Doctor's, approved, and the other seven for review; full and reduced, for any of the nine characters | drawn live from the player's own character and role (see Mounts) |
 | Boarding | exactly 10,000 ms | every phone and the display, after everyone is Ready, before Round 1 (R17) | whole, for 7, 8 or 9 players; full and reduced | review only: no stage exists for it yet |
 
@@ -107,8 +107,8 @@ Drawn from the Doctor's as the owner approved it, each from its storyboard appro
 - **The title in its team's colour.** At the owner's word, on seeing the seven films: "You used for all blue but For red team roles like undercover , Hacker, red disabler the text  you should use plain red on clean dark background because they are red team and for alien this become purple". The Blue team's roles are plain blue (`#2979FF`, the Doctor's as approved), the Red team's (Undercover, Hacker, Red Disabler) plain red (`#E8423F`) and the Alien purple (`#9B5CFF`). The three have the same lightness, each about 5:1 on the darkened page, and no frame before the title draws its colour (tested). The title therefore shows the team, on the player's own phone; the card that follows the film shows it too.
 - **Nobody else.** Only the player's own lobby character is drawn in colour. Every other person is nobody: one flat colour, on one body with a plain oval head.
 - **Foreshadowing, not an event.** Nothing in a film happens in the match.
-- **Few words, as page text.** Two narration boxes of a few words each, at most 17 characters a line. They are DOM text over the picture, so they translate, scale with the player's text size and are read by screen readers.
-- **Reduced motion.** Three stills (the gadget raised, the full page, the title), cross-faded in 80 ms at 0, 3,000 and 7,800 ms.
+- **Few words, as page text.** Two narration boxes of a few words each, at most 17 characters a line. They are DOM text over the picture, so they translate and screen readers can read them. On the review stage they are sized in `rem` (13px at the usual 16px) and never wider than the screen, so they follow the browser's default font size: at a doubled 32px they are 26px and still fit 320 x 568 for every role, the Supplier's first line wrapping. That is a browser setting, not the game's: connecting the player's own text-size preference, and checking it on phones and with screen readers, is Frontend's and untested.
+- **Reduced motion.** Three held stills (the gadget raised, the full page, the title). The first fades in from the night over 80 ms; each later one cross-fades in over 80 ms at 3,000 and 7,800 ms. Each still is drawn at one moment, its figures' eyes open (the crew renderer's own option for a frozen frame; its general reduced motion is unchanged), so nothing changes inside a still. During a crossfade the still before keeps its own definitions, every id renamed, so no id repeats (tested for all nine roles, inside both crossfades and at their edges).
 
 ## The boarding: 10,000 ms
 
@@ -141,8 +141,8 @@ It is not the art release's to enable. Until it exists, no client plays the boar
 
 | Film | Where and when it plays | Its clock | Its input | Rules |
 | --- | --- | --- | --- | --- |
-| Brand intro | Once per app entry, before the lobby; never over a match, or over one being recovered | Local, from its first frame | None | Identity-free. Ship the review's video, or draw it live (a few dozen strokes a frame) |
-| Role film | The player's own phone only, in the existing role-reading stage, after the card is revealed, inside the 30-second reading minimum | Local, from the reveal; it ends by 10,000 ms | The role; the player's own character and seat | Private, never on the display. A tap skips to the card. **Finishing or skipping never confirms Ready.** It never replays on a reconnect or refresh |
+| Brand intro | Once per app entry, before the lobby; never over a match, or over one being recovered | Local, from its first frame | None | Identity-free. Draw it live (a few dozen strokes a frame), or ship a prerendered export made for the runtime, reviewed and hash-pinned on its own. The review media under `review/` are never runtime files, and no character-dependent film ships as a movie |
+| Role film | The player's own phone only, in the existing role-reading stage, after the card is revealed, inside the 30-second reading minimum | Local, from the reveal; it ends by 10,000 ms | The role, the player's own character and the public seat, all three bound exactly: a missing or unknown one throws, and no review default (the Doctor) stands in | Private, never on the display. A tap skips to the card. **Finishing or skipping never confirms Ready.** It never replays on a reconnect or refresh |
 | Boarding | Every phone and the display, in a server-owned pre-Round-1 stage after the reading minimum and everyone Ready (R17) | `t` = server now minus the stage's `startsAt`. Past `endsAt`, draw nothing and go to the game | The public roster alone | A late server answer never starts a player's game locally. Skip dismisses the pictures only. Activating the artwork must not enable boarding; saved matches keep their setup |
 
 - **Calls.**
@@ -174,17 +174,29 @@ It is not the art release's to enable. Until it exists, no client plays the boar
 
 Render with `node design/tools/pregame-films-render.mjs [--only <name>,...]` (needs `CHROME_PATH` and ffmpeg).
 
+## Integration's review of `79254cc4`
+
+Integration accepted the seven new designs, the team-coloured titles included, and asked for three source corrections before exact-source adoption ([the review](https://github.com/Amirkianfar66/GameN/pull/198#issuecomment-6724585311)). They are made here; the approved artwork, the frozen crew and rig sources, gameplay and timing are unchanged, and every full-motion frame of every film is the same byte for byte.
+
+| Finding | Correction | Regression |
+| --- | --- | --- |
+| Reduced crossfades put the still before and the still after in one SVG with repeated ids (101 at 3,040 ms and 255 at 7,840 ms for the Doctor) | The still before is drawn with its own definitions, every id and reference to it renamed (`roles/film.mjs`) | Every role, in reduced motion, at 19 moments inside both crossfades and at their edges: no repeated id, no dangling reference |
+| Reduced stills used the live clock, so the crew blinked inside a held picture; the first still ignored its 80 ms fade | Each still is drawn at its own moment (`roles/clock.mjs`) with its figures' eyes open, the crew renderer's own `blink: false` (`kit/cast.mjs`); its general reduced motion is unchanged. The first still fades in from the night | Every role's three stills sampled every 83 ms, finer than a 170 ms blink: one picture each. The first frame is the night. The boarding's stills, already held at their own moments, are tested the same way |
+| The narration was fixed at 13px, so it did not follow the reader's text size | Sized in `rem` and never wider than the screen; the claim corrected to what is true (above) | At 320 x 568 with the root font at 16 and 32px, every role's boxes stay on the screen without overlapping (a probe, not a test) |
+
+Also from the review: the brand intro's export classification is made consistent (a runtime export would be its own reviewed, hash-pinned file; review media never ship), and the role film binds the role, the character and the seat exactly, with no default. The reduced renders `doctor-phone-reduced` and `boarding-phone-7-reduced` are rendered again; no full-motion render changes.
+
 ## Checks
 
 <!-- checks -->
 Run on this delivery's tree, based on `main` `469b709b`, with Node 22.21.1 and npm 10.9.4:
 - **Repository checks.** `npm run check:toolchain`, `check:workspace`, `check:sources` and `typecheck`: pass.
-- **`npm run test:design`.** 285 of 285 pass, including `pregame-films.test.mjs` (8 tests). The tests cover:
+- **`npm run test:design`.** 286 of 286 pass, including `pregame-films.test.mjs` (9 tests). The tests cover:
   - the lengths and approved beats;
   - the last frames;
   - pure, well-formed frames with no dangling reference;
-  - reduced-motion stills;
-  - every role film's privacy rules (one clock, no team colour before the title, the card's mark, the title in its team's colour, nobody, page text) and the Disablers' one film;
+  - reduced-motion stills, held for every role and the boarding (sampled finer than a blink), the first fading in, and unique ids with every reference resolved inside both crossfades and at their edges;
+  - every role film's privacy rules (one clock, no team colour before the title, the card's mark, the title in its team's colour, nobody, page text), the Disablers' one film, and the role, character and seat bound with no default;
   - the boarding's public roster;
   - the renders against their records;
   - dev-only marks.
@@ -197,7 +209,7 @@ Run on this delivery's tree, based on `main` `469b709b`, with Node 22.21.1 and n
 | `brand-phone-reduced.mp4` | 780 x 1688 | 120 | 2.000 s | 20 KB |
 | `doctor-phone.mp4` | 780 x 1688 | 600 | 10.000 s | 2125 KB |
 | `doctor-phone-c7.mp4` | 780 x 1688 | 600 | 10.000 s | 2117 KB |
-| `doctor-phone-reduced.mp4` | 780 x 1688 | 600 | 10.000 s | 558 KB |
+| `doctor-phone-reduced.mp4` | 780 x 1688 | 600 | 10.000 s | 575 KB |
 | `insider-phone.mp4` | 780 x 1688 | 600 | 10.000 s | 2087 KB |
 | `disabler-phone.mp4` | 780 x 1688 | 600 | 10.000 s | 1894 KB |
 | `supplier-phone.mp4` | 780 x 1688 | 600 | 10.000 s | 1834 KB |
@@ -216,5 +228,5 @@ The Doctor's film is rendered for two characters (`c3`, `c7`) to show it draws w
 
 - **Devices.** No phone, display hardware, screen reader or large-text setting has played these films. Every frame is desktop Chromium.
 - **Runtime.** No client mounts any of them. The boarding has no stage (R17).
-- **The owner** asked for the Doctor's title simple and blue and the desk card as a medical cross, then approved the Doctor's film and the boarding: "I approve it". The other seven role films have not been seen yet.
+- **The owner** asked for the Doctor's title simple and blue and the desk card as a medical cross, then approved the Doctor's film and the boarding: "I approve it". On seeing the other seven, the owner asked for each title in its team's colour; they are not approved yet. Integration accepted their designs (below).
 - **Sound.** None is made; the films are silent.

@@ -105,7 +105,8 @@ export function roleFrame(t, { variant = 'full' } = {}) {
   const titleOn = at >= BEATS.title[0];
   const pageOn = reduced && still.still !== 'opener';
   const frame = {
-    t: time, variant, reduced,
+    // Reduced motion is three held pictures: each is drawn at its still's own moment, not the clock's.
+    t: reduced ? still.at : time, variant, reduced,
     opener: opener(at, reduced),
     panels: PANEL_STARTS.map(start => (reduced
       ? (pageOn ? { visible: true, enter: 1, slam: 1, local: PANEL_LOCAL_REST } : { visible: false, enter: 0, slam: 0, local: 0 })

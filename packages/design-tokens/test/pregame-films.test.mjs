@@ -26,7 +26,7 @@ import { roleCaptions, rolePageText, roleSvg } from '../../../design/pregame-fil
 import { TITLE_COLOURS } from '../../../design/pregame-films/roles/page.mjs';
 import { ROLES } from '../../../design/pregame-films/roles/roles.mjs';
 import { BOARDING_MS, memberOutside, boardingSvg } from '../../../design/pregame-films/boarding/boarding.mjs';
-import { STILLS as BOARDING_STILLS, TITLE } from '../../../design/pregame-films/boarding/clock.mjs';
+import { STILL_FADE_MS as BOARDING_FADE_MS, STILL_OUT as BOARDING_OUT, STILLS as BOARDING_STILLS, TITLE } from '../../../design/pregame-films/boarding/clock.mjs';
 import { REVIEW_ROSTERS, publicRoster } from '../../../design/pregame-films/boarding/roster.mjs';
 import { RENDERS } from '../../../design/pregame-films/renders.mjs';
 
@@ -89,12 +89,57 @@ test('every frame is a pure function of time, and a well-formed picture', () => 
   }
 });
 
+/** The ids an SVG repeats, and the references in it to an id it does not define. */
+function idFaults(svg) {
+  const ids = [...svg.matchAll(/ id="([^"]+)"/g)].map(m => m[1]);
+  const defined = new Set(ids);
+  return {
+    repeated: [...new Set(ids.filter((id, i) => ids.indexOf(id) !== i))],
+    dangling: [...svg.matchAll(/(?:url\(#|href="#)([^"')]+)/g)].map(m => m[1]).filter(ref => !defined.has(ref)),
+  };
+}
+/** Times from `from` up to (not including) `to`, every `step` ms: finer than a blink (170 ms). */
+const every = (from, to, step = 83) => Array.from({ length: Math.ceil((to - from) / step) }, (_, i) => from + i * step);
+
+test('reduced motion: each still held, the first fading in, crossfades with unique ids (Integration review of 79254cc4)', () => {
+  const FADE = 80;
+  const HELD_ROLE = { character: 'c3', seat: 4, ...PHONE, variant: 'reduced' };
+  for (const id of Object.keys(ROLES)) {
+    const draw = t => roleSvg(t, { ...HELD_ROLE, role: id });
+    // Each still is one picture from the end of its fade to the next still: sampled finer than a
+    // blink, so a figure's live blink would be caught.
+    ROLE_STILLS.forEach((still, i) => {
+      const end = ROLE_STILLS[i + 1]?.at ?? ROLE_MS;
+      const held = draw(still.at + FADE);
+      for (const t of every(still.at + FADE, end)) assert.equal(draw(t), held, `${id}: the ${still.still} still changes at ${t} ms`);
+    });
+    // The first still fades in from the night over its 80 ms.
+    assert.notEqual(draw(0), draw(FADE), `${id}: the first still does not fade in`);
+    assert.match(draw(0), /<rect width="390" height="844" fill="#07090F"\/><g opacity="0">/, `${id}: the first frame is the night`);
+    // Every frame, inside both crossfades and at their edges, defines each id once and resolves
+    // every reference.
+    for (const t of [0, 40, 79, 80, 2999, 3000, 3020, 3040, 3060, 3079, 3080, 7799, 7800, 7820, 7840, 7860, 7879, 7880, 9999]) {
+      const { repeated, dangling } = idFaults(draw(t));
+      assert.deepEqual(repeated, [], `${id} at ${t} ms repeats ids`);
+      assert.deepEqual(dangling, [], `${id} at ${t} ms refers to missing ids`);
+    }
+  }
+  // The boarding's stills hold too, from the end of each fade-in to the next still or the fade out.
+  const board = t => boardingSvg(t, { ...PHONE, roster: REVIEW_ROSTERS[8], variant: 'reduced' });
+  BOARDING_STILLS.forEach((still, i) => {
+    const end = BOARDING_STILLS[i + 1]?.at ?? BOARDING_OUT[0];
+    const held = board(still.at + BOARDING_FADE_MS);
+    for (const t of every(still.at + BOARDING_FADE_MS, end)) assert.equal(board(t), held, `the boarding's still at ${still.at} changes at ${t} ms`);
+  });
+  for (const t of [0, 80, 2400, 2480, 5200, 6900, 8900, 9800]) assert.deepEqual(idFaults(board(t)), { repeated: [], dangling: [] }, `the boarding at ${t} ms`);
+});
+
 test('reduced motion holds still pictures: nothing changes inside a still', () => {
   const brand = t => brandSvg(t, { ...PHONE, variant: 'reduced' });
   assert.equal(brand(400), brand(1500));
-  const role = t => roleSvg(t, { ...PHONE, role: 'doctor', character: 'c3', variant: 'reduced' });
+  const role = t => roleSvg(t, { ...PHONE, role: 'doctor', character: 'c3', seat: 4, variant: 'reduced' });
   for (const id of Object.keys(ROLES)) {
-    const still = t => roleSvg(t, { ...PHONE, role: id, character: 'c3', variant: 'reduced' });
+    const still = t => roleSvg(t, { ...PHONE, role: id, character: 'c3', seat: 4, variant: 'reduced' });
     assert.equal(still(500), still(2900), `${id}: the first still`);
     assert.equal(still(3200), still(7700), `${id}: the page`);
     assert.equal(still(8000), still(9900), `${id}: the title`);
@@ -110,6 +155,15 @@ test('reduced motion holds still pictures: nothing changes inside a still', () =
 test('a role film tells its own player, and a neighbour no more than the owner chose', () => {
   // Every role keeps the shared clock: a role carries pictures and words, never times.
   for (const role of Object.values(ROLES)) assert.deepEqual(Object.keys(role).sort(), ['captions', 'gadget', 'id', 'mark', 'name', 'panels', 'team']);
+  // A film binds the role, the player's own character and the public seat exactly: no review default.
+  assert.throws(() => roleSvg(4000, { ...PHONE, character: 'c3', seat: 4 }), /No role film/);
+  assert.throws(() => roleSvg(4000, { ...PHONE, role: 'Doctor', character: 'c3', seat: 4 }), /No role film/);
+  assert.throws(() => roleSvg(4000, { ...PHONE, role: 'constructor', character: 'c3', seat: 4 }), /No role film/);
+  assert.throws(() => roleSvg(4000, { ...PHONE, role: 'doctor', character: 'constructor', seat: 4 }), /No crew character/);
+  assert.throws(() => roleSvg(4000, { ...PHONE, role: 'doctor', seat: 4 }), /No crew character/);
+  assert.throws(() => roleSvg(4000, { ...PHONE, role: 'doctor', character: 'c3' }), /No seat/);
+  assert.throws(() => roleCaptions(4000, PHONE), /No role film/);
+  assert.throws(() => rolePageText(8000), /No role film/);
   // The game's nine roles, and the two Disablers' one film.
   assert.deepEqual(Object.values(ROLES).map(r => r.name).sort(), ['Alien', 'Blue Disabler', 'Doctor', 'Engineer', 'Hacker', 'Insider', 'Red Disabler', 'Supplier', 'Undercover']);
   for (const key of ['mark', 'gadget', 'panels', 'captions']) assert.equal(ROLES['blue-disabler'][key], ROLES['red-disabler'][key], `the Disablers share their ${key}`);

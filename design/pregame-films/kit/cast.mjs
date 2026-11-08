@@ -67,11 +67,13 @@ function lightFilter(D, id, { ambient, key, rim, silhouette, box }) {
 /**
  * One figure of the crew, lit. `c` a crew id (c1..c9) or a crew member; `sk` a rig skeleton; `at` the
  * anchor on the page (px); `scale` px per rig unit; `t` ms, for the crew's own life (blinks, a
- * breath's drift, hanging hair). `clip` y (px): nothing of the figure below it is drawn.
+ * breath's drift, hanging hair). `clip` y (px): nothing of the figure below it is drawn. `reduced`:
+ * the films' reduced motion is held pictures, so the eyes stay open (the crew renderer's own option
+ * for a frozen frame, `blink: false`); its general reduced motion, which keeps the blinks, is unchanged.
  */
 export function litFigure(D, id, { c, sk, at, scale, t = 0, motion = null, flip = false, ambient = null, key = null, rim = null, silhouette = null, clip = null, reduced = false, seat = 0, opacity = 1, outfit = 'crew' }) {
   const member = typeof c === 'string' ? CREW[c] : c;
-  const life = motion ?? crewMotion(t, member.id, { reduced, seat });
+  const life = motion ?? crewMotion(t, member.id, { reduced, seat, blink: !reduced });
   const inner = dressedFigureSvg(member, sk, { outfit, prefix: `${id}-f`, inline: true, motion: life });
   const [bx, by, bw, bh] = RIG.box;
   const w = bw * scale, h = bh * scale;

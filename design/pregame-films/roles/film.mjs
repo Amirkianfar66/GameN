@@ -11,9 +11,19 @@ import { f3 } from '../kit/math.mjs';
 import { briefingSvg } from './briefing.mjs';
 import { BEATS, ROLE_MS, roleFrame, STILLS } from './clock.mjs';
 import { captionPlaces, flashSvg, pageSvg, titleSvg } from './page.mjs';
+import { CREW } from '../../crew-drawing/source/crew.mjs';
 import { ROLES } from './roles.mjs';
 
 export { ROLE_MS };
+
+/**
+ * A picture's ids, and every reference to them, renamed with `suffix`, so that two stills can share
+ * one document during a crossfade without a repeated id (the still before keeps its own definitions).
+ */
+function namespaced(markup, suffix) {
+  const ids = new Set([...markup.matchAll(/\sid="([^"]+)"/g)].map(m => m[1]));
+  return markup.replace(/(\sid="|url\(#|href="#)([^"')]+)/g, (all, lead, id) => (ids.has(id) ? `${lead}${id}${suffix}` : all));
+}
 
 function layers(D, { W, H, frame, role, character, seat }) {
   const reduced = frame.reduced;
@@ -33,20 +43,32 @@ function layers(D, { W, H, frame, role, character, seat }) {
   return out;
 }
 
-export function roleSvg(t, { width: W = 390, height: H = 844, role: roleId = 'doctor', character = 'c3', seat = 4, variant = 'full' } = {}) {
+/** The role whose film this is: one of the nine, named exactly; a film never falls back to another role. */
+function roleOf(roleId) {
+  if (!Object.hasOwn(ROLES, roleId)) throw new Error(`No role film for ${roleId}`);
+  return ROLES[roleId];
+}
+
+export function roleSvg(t, { width: W = 390, height: H = 844, role: roleId, character, seat, variant = 'full' } = {}) {
   const D = defs();
-  const role = ROLES[roleId];
-  if (!role) throw new Error(`No role film for ${roleId}`);
+  const role = roleOf(roleId);
+  // The player's own character and public seat are bound explicitly: no review default stands in.
+  if (!Object.hasOwn(CREW, character)) throw new Error(`No crew character ${character}`);
+  if (!Number.isInteger(seat) || seat < 1) throw new Error(`No seat ${seat}`);
   const frame = roleFrame(t, { variant });
   let out;
   if (frame.reduced) {
-    // Three stills, each cross-faded in over the one before.
+    // Three stills: the first fades in from the night, each later one cross-fades in over the one
+    // before, which is drawn with its own definitions and every id renamed.
     const index = STILLS.findIndex(s => s.still === frame.still);
     const now = layers(D, { W, H, frame, role, character, seat });
-    if (index > 0 && frame.fade < 1) {
-      const before = roleFrame(STILLS[index - 1].at, { variant });
-      out = layers(D, { W, H, frame: before, role, character, seat }) + `<g opacity="${f3(frame.fade)}">${now}</g>`;
-    } else out = now;
+    if (frame.fade >= 1) out = now;
+    else if (index === 0) out = `<rect width="${W}" height="${H}" fill="#07090F"/><g opacity="${f3(frame.fade)}">${now}</g>`;
+    else {
+      const B = defs();
+      const before = layers(B, { W, H, frame: roleFrame(STILLS[index - 1].at, { variant }), role, character, seat });
+      out = namespaced(B.markup() + before, '-was') + `<g opacity="${f3(frame.fade)}">${now}</g>`;
+    }
   } else out = layers(D, { W, H, frame, role, character, seat });
   out += finish(D, 'rf-fin', { width: W, height: H, t: frame.reduced ? 0 : frame.t, grain: 0.08, vignette: 0.6, grade: '#24345A', gradeOpacity: 0.16 });
   out += leak(D, 'rf-leak', { width: W, height: H, k: 0.05 * frame.opener.lamp, color: '#FFB060', side: 'right' });
@@ -54,15 +76,15 @@ export function roleSvg(t, { width: W = 390, height: H = 844, role: roleId = 'do
 }
 
 /** The narration boxes at t: their words (a line each), place, opacity and how far each has dropped in. */
-export function roleCaptions(t, { width: W = 390, height: H = 844, role: roleId = 'doctor', variant = 'full' } = {}) {
-  const role = ROLES[roleId];
+export function roleCaptions(t, { width: W = 390, height: H = 844, role: roleId, variant = 'full' } = {}) {
+  const role = roleOf(roleId);
   const frame = roleFrame(t, { variant });
   return captionPlaces(W, H, frame).map((p, i) => ({ ...p, lines: role.captions[i] })).filter(c => c.opacity > 0.001);
 }
 
 /** What a screen reader is told at t: the narration shown, and the role's name at the title. */
-export function rolePageText(t, { role: roleId = 'doctor', variant = 'full' } = {}) {
-  const role = ROLES[roleId];
+export function rolePageText(t, { role: roleId, variant = 'full' } = {}) {
+  const role = roleOf(roleId);
   const frame = roleFrame(t, { variant });
   if (frame.title.visible) return role.name;
   return frame.captions.map((k, i) => (k > 0.5 ? role.captions[i].join(' ') : '')).filter(Boolean).join(' ');
