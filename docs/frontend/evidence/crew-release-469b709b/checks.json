@@ -1,0 +1,109 @@
+{
+  "releaseCommit": "469b709b6689a1063ec36a10c70b8b6e2420c18c",
+  "reviewedHead": "060eae93f38c97ffc1fc3735e2f659894be6af80",
+  "identicalReleaseAndReviewedTree": true,
+  "designerAcceptance": {
+    "url": "https://github.com/Amirkianfar66/GameN/pull/196#issuecomment-6716999949",
+    "status": "visually accepted all nine and motion; no art/hash update"
+  },
+  "reusedCi": {
+    "passed": 9,
+    "newFullCiRun": false,
+    "source": "release-state.json"
+  },
+  "capture": {
+    "ordinaryGuardedBuild": "passed",
+    "syntax": "passed",
+    "variants": 2,
+    "segments": 4,
+    "keyFrames": 8,
+    "pixelSize": [
+      780,
+      1688
+    ],
+    "normalPlayback": true,
+    "scope": "Desktop Chromium visual record from the ordinary guarded native build and its real renderer, driven by schema-validated presentation snapshots. Entrance and exit are independently initialized fixtures; this is not controller/transport acceptance, a real match or physical-phone performance measurement.",
+    "bothCharactersEnterAndLeave": true,
+    "reducedTravel": false,
+    "duplicateIds": 0,
+    "unresolvedSvgReferences": 0,
+    "browserProblems": [],
+    "frameCadenceIsNotPhysicalPerformance": true
+  },
+  "publishedPortsVerified": 17,
+  "publishedArtPortManifestChanges": 0,
+  "fixtureSources": {
+    "apps/game/dev/planet/main.mjs": "fb8473bf4c4fa20752524ef1d1a4e5782fe519917844cffb9bee80be1d5e526c",
+    "apps/game/dev/planet/capture-crew-capsule.mjs": "fd77489a2d9c64002cbecdd28e38521efa71d9db4ff7e89323a64eb0f00be0c8"
+  },
+  "artifacts": {
+    "capsule-in-full-2x-1.png": {
+      "bytes": 524714,
+      "sha256": "08434c579b80bde732143a688b23b4746905b1073dc31302451df179465a2880"
+    },
+    "capsule-in-full-2x-2.png": {
+      "bytes": 526176,
+      "sha256": "214db5d1e4a26cf310b6db8aff8de1e0c6b04061e4d7214c6e931dbe197f2923"
+    },
+    "capsule-in-full-2x.mp4": {
+      "bytes": 485687,
+      "sha256": "ae689eecc9250d2c5c6497f9cb2c3c35c594ccf94c75c1c5c8c153327ab76aef"
+    },
+    "capsule-in-reduced-2x-1.png": {
+      "bytes": 526421,
+      "sha256": "cae86b3cba88f6ffa289f2604a4019152de079c8e3142cbcc0a5d171a70d60a4"
+    },
+    "capsule-in-reduced-2x-2.png": {
+      "bytes": 526078,
+      "sha256": "47b36fb437f59f15cfa8bdb569b6036a8b66288c421fe3658a67490c0fe72ceb"
+    },
+    "capsule-in-reduced-2x.mp4": {
+      "bytes": 330484,
+      "sha256": "65b503714be83e6bce7c1655bff1f52665a2af041f1dc8009bf2fe7a0a36b4d2"
+    },
+    "capsule-out-full-2x-1.png": {
+      "bytes": 521549,
+      "sha256": "dfc808cb27d5682fe59093e413f28392ea4f727615aafd583efb069cb0db5499"
+    },
+    "capsule-out-full-2x-2.png": {
+      "bytes": 519592,
+      "sha256": "0103061dd4783bbdd08a0d48faf9ac17f8c17397a650f313cc26c3eed9c0aaf3"
+    },
+    "capsule-out-full-2x.mp4": {
+      "bytes": 394021,
+      "sha256": "1f320f0b1fff88e08cdb40ea9d1fb2f91dae2a3ffdaf129ba14c32d0bb22399b"
+    },
+    "capsule-out-reduced-2x-1.png": {
+      "bytes": 519802,
+      "sha256": "222e92256d7e8d7fe99d0eb6e1c91fbeb0ae5daca0284adbb10eeff532eeb5a3"
+    },
+    "capsule-out-reduced-2x-2.png": {
+      "bytes": 519699,
+      "sha256": "0f80ecd03af3eaeb05455ca702509b5703a4e6bd6d992ef1d44b723279e9aa79"
+    },
+    "capsule-out-reduced-2x.mp4": {
+      "bytes": 292640,
+      "sha256": "c240213dda8ed61a2dbed502b2e5294000b82c0085a911d4cf50e5dff0215320"
+    },
+    "capsule-walk-full-2x.mp4": {
+      "bytes": 878460,
+      "sha256": "dff4d3edb72ffbb5c3b656146b093850e7bb8023356e1e0395730c7a77845da5"
+    },
+    "capsule-walk-reduced-2x.mp4": {
+      "bytes": 621876,
+      "sha256": "7ef663da5c8a1024a60243b25fa8b706712ed1447597cee85d5958a7c2898490"
+    }
+  },
+  "physicalChecks": "not run - no accessible actual devices/debugging session",
+  "pregameDraft": {
+    "pr": 198,
+    "head": "f3d5981a870e4a2819e6f6911d87c08b908cfe3f",
+    "handoffRead": true,
+    "adopted": false,
+    "approved": false
+  },
+  "layoutFixes": 0,
+  "deployment": "not performed",
+  "activation": "not performed",
+  "productionExclusion": "Production exclusion: 75 modules reachable from 2 production entries, 223 shipped or source files scanned, 96 development files labeled; no fixture, test or development module or marker found"
+}

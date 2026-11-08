@@ -1,0 +1,213 @@
+{
+  "date": "2026-11-08",
+  "timezone": "Europe/Rome",
+  "releaseCommit": "469b709b6689a1063ec36a10c70b8b6e2420c18c",
+  "deviceAccess": "No accessible physical iPhone or low-end Android identified in this session; ownership of devices is not inferred",
+  "tools": {
+    "adb": {
+      "foundInPath": false,
+      "path": null
+    },
+    "idevice_id": {
+      "foundInPath": false,
+      "path": null
+    },
+    "ideviceinfo": {
+      "foundInPath": false,
+      "path": null
+    },
+    "ios-deploy": {
+      "foundInPath": false,
+      "path": null
+    },
+    "xcrun": {
+      "foundInPath": true,
+      "path": "/usr/bin/xcrun"
+    }
+  },
+  "xcode": {
+    "devicectl": {
+      "available": false,
+      "exitCode": 72,
+      "error": "xcrun: error: unable to find utility \"devicectl\", not a developer tool or in PATH"
+    },
+    "xctrace": {
+      "available": false,
+      "exitCode": 72,
+      "error": "xcrun: error: unable to find utility \"xctrace\", not a developer tool or in PATH"
+    }
+  },
+  "additionalAdbLocations": [
+    {
+      "path": "/opt/homebrew/bin/adb",
+      "exists": false
+    },
+    {
+      "path": "/usr/local/bin/adb",
+      "exists": false
+    },
+    {
+      "path": "/Users/amirkianfar/Library/Android/sdk/platform-tools/adb",
+      "exists": false
+    }
+  ],
+  "usbInventory": {
+    "command": "system_profiler SPUSBDataType -json",
+    "exitCode": 0,
+    "accessibleEntries": 0,
+    "recognizedPhones": [],
+    "stderr": "",
+    "serialsRecorded": false
+  },
+  "requiredDevices": [
+    {
+      "platform": "iPhone Safari",
+      "effectsTarget": "normal",
+      "proposedReference": "iPhone 13; exact available model must be recorded",
+      "access": "not identified/accessible",
+      "actualModel": null
+    },
+    {
+      "platform": "low-end Android Chrome",
+      "effectsTarget": "lower effects, independent of reduced motion",
+      "proposedReference": "Samsung Galaxy A13; exact variant/RAM or agreed replacement must be recorded",
+      "access": "not identified/accessible",
+      "actualModel": null
+    }
+  ],
+  "budget": {
+    "commit": "6bac45545b428de60f060c6dcbeccb9a3dcc8ef5",
+    "path": "docs/frontend/character-restyle-performance-budget.md",
+    "sha256": "ff04fa118773c6f1b6a065850e5f783a8d56a55978de94d52d86b13c2cf47b13",
+    "normalTargets": {
+      "criticalCompressedBytes": 6000000,
+      "frameP95Ms": 16.7,
+      "localFeedbackP95Ms": 100,
+      "coldUsableP95Ms": 4000,
+      "warmUsableP95Ms": 1500,
+      "heapMiB": 48,
+      "heapAddedMiB": 8,
+      "residentPeakMiB": 200,
+      "residentAddedMiB": 32
+    },
+    "lowerEffectsTargets": {
+      "criticalCompressedBytes": 6000000,
+      "frameP95Ms": 33.3,
+      "localFeedbackP95Ms": 100,
+      "coldUsableP95Ms": 6000,
+      "warmUsableP95Ms": 2000,
+      "heapMiB": 40,
+      "heapAddedMiB": 8,
+      "residentPeakMiB": 160,
+      "residentAddedMiB": 24
+    },
+    "growth": {
+      "fromMinute": 5,
+      "toMinute": 30,
+      "maxMiB": 5,
+      "maxPercent": 10,
+      "bothLimitsApply": true
+    },
+    "protocol": {
+      "baselineBeforeCandidate": true,
+      "coldSamplesPerBuildDeviceScenario": 20,
+      "warmSamplesPerBuildDeviceScenario": 20,
+      "builds": 2,
+      "requiredDevices": 2,
+      "startupScenarios": [
+        "setup",
+        "nine-crew authenticated match resume"
+      ],
+      "totalStartupAttempts": 320,
+      "foregroundBaselineMinutesPerDevice": 30,
+      "foregroundCandidateMinutesPerDevice": 30,
+      "network": {
+        "downMbps": 20,
+        "upMbps": 5,
+        "rttMs": 80
+      },
+      "diagnosticRecordingSeparateFromTiming": true
+    }
+  },
+  "metrics": {
+    "criticalTransferredBytes": {
+      "status": "unmeasured",
+      "observed": null,
+      "samples": 0,
+      "reason": "No accessible named physical device/debugging/profiling session"
+    },
+    "coldFirstUsablePaint": {
+      "status": "unmeasured",
+      "observed": null,
+      "samples": 0,
+      "reason": "No accessible named physical device/debugging/profiling session"
+    },
+    "warmFirstUsablePaint": {
+      "status": "unmeasured",
+      "observed": null,
+      "samples": 0,
+      "reason": "No accessible named physical device/debugging/profiling session"
+    },
+    "activeFrameTime": {
+      "status": "unmeasured",
+      "observed": null,
+      "samples": 0,
+      "reason": "No accessible named physical device/debugging/profiling session"
+    },
+    "localInputFeedback": {
+      "status": "unmeasured",
+      "observed": null,
+      "samples": 0,
+      "reason": "No accessible named physical device/debugging/profiling session"
+    },
+    "liveJavaScriptHeap": {
+      "status": "unmeasured",
+      "observed": null,
+      "samples": 0,
+      "reason": "No accessible named physical device/debugging/profiling session"
+    },
+    "attributableResidentPeak": {
+      "status": "unmeasured",
+      "observed": null,
+      "samples": 0,
+      "reason": "No accessible named physical device/debugging/profiling session"
+    },
+    "minute5To30MemoryGrowth": {
+      "status": "unmeasured",
+      "observed": null,
+      "samples": 0,
+      "reason": "No accessible named physical device/debugging/profiling session"
+    },
+    "matchedBaselineRegressions": {
+      "status": "unmeasured",
+      "observed": null,
+      "samples": 0,
+      "reason": "No accessible named physical device/debugging/profiling session"
+    },
+    "physicalLifecycleStability": {
+      "status": "unmeasured",
+      "observed": null,
+      "samples": 0,
+      "reason": "No accessible named physical device/debugging/profiling session"
+    }
+  },
+  "requiredHumanAction": {
+    "operators": 1,
+    "actions": [
+      "Provide and connect actual required iPhone and low-end Android",
+      "Unlock devices and approve trust/debugging prompts",
+      "Enable iPhone Safari Web Inspector and Android USB debugging; expose actual inspection targets to the session",
+      "Record exact model, RAM/variant, OS/browser, viewport/DPR and effects mode",
+      "Provide working physical-device timing/heap and attributable WebContent/renderer resident-memory instrumentation",
+      "Execute the accepted paired baseline/candidate protocol; missing counters and baseline-limit failures need Integration disposition"
+    ],
+    "sources": {
+      "iphone": "https://developer.apple.com/documentation/safari-developer-tools/inspecting-ios",
+      "android": "https://developer.chrome.com/docs/devtools/remote-debugging/"
+    }
+  },
+  "physicalTestsRun": false,
+  "desktopSubstitution": false,
+  "deployment": "not performed",
+  "activation": "not performed"
+}

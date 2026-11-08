@@ -1,0 +1,4519 @@
+{
+  "scope": "Desktop Chromium visual record from the ordinary guarded native build and its real renderer, driven by schema-validated presentation snapshots. Entrance and exit are independently initialized fixtures; this is not controller/transport acceptance, a real match or physical-phone performance measurement.",
+  "releaseCommit": "469b709b6689a1063ec36a10c70b8b6e2420c18c",
+  "reviewedHead": "060eae93f38c97ffc1fc3735e2f659894be6af80",
+  "designerHead": "8cee39d89798390d03c2a4a9fe457fa6de387bda",
+  "manifestSha256": "0ab15cfec53dd7be09d265685ffada52e01d26681b9a2b7d02c17c2b30b1da79",
+  "buildCommand": "vite build --config apps/game/dev/planet/vite.config.mjs --outDir /private/tmp/gamen-crew-capsule-guarded-469b709b",
+  "viewport": {
+    "width": 390,
+    "height": 844,
+    "devicePixelRatio": 2,
+    "videoWidth": 780,
+    "videoHeight": 1688
+  },
+  "nominalSamplingIntervalMs": 50,
+  "playback": "normal speed; 2x means pixel density",
+  "variants": [
+    {
+      "variant": "full",
+      "segments": [
+        {
+          "direction": "in",
+          "phaseSnapshots": [
+            {
+              "revision": 2,
+              "phase": {
+                "id": "record-full-declare",
+                "kind": "HACK_DECLARE",
+                "startedAt": 1794113897891,
+                "endsAt": 1794113912891
+              },
+              "receiptTime": 1794113897891
+            },
+            {
+              "revision": 3,
+              "phase": {
+                "id": "record-full-result",
+                "kind": "HACK_RESULT",
+                "startedAt": 1794113898345,
+                "endsAt": 1794113903345
+              },
+              "receiptTime": 1794113898345
+            }
+          ],
+          "samples": [
+            {
+              "atMs": 0,
+              "revision": 2,
+              "kind": "HACK_DECLARE",
+              "phaseId": "record-full-declare",
+              "expired": false,
+              "connection": "live",
+              "capsule": [],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "1"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "1"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front"
+              ]
+            },
+            {
+              "atMs": 117,
+              "revision": 2,
+              "kind": "HACK_DECLARE",
+              "phaseId": "record-full-declare",
+              "expired": false,
+              "connection": "live",
+              "capsule": [],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "1"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "1"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front"
+              ]
+            },
+            {
+              "atMs": 219,
+              "revision": 2,
+              "kind": "HACK_DECLARE",
+              "phaseId": "record-full-declare",
+              "expired": false,
+              "connection": "live",
+              "capsule": [],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "1"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "1"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front"
+              ]
+            },
+            {
+              "atMs": 332,
+              "revision": 2,
+              "kind": "HACK_DECLARE",
+              "phaseId": "record-full-declare",
+              "expired": false,
+              "connection": "live",
+              "capsule": [],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "1"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "1"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front"
+              ]
+            },
+            {
+              "atMs": 453,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-full-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "1"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "1"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front"
+              ]
+            },
+            {
+              "atMs": 584,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-full-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "1"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "1"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front"
+              ]
+            },
+            {
+              "atMs": 745,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-full-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "1"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "1"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front"
+              ]
+            },
+            {
+              "atMs": 896,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-full-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "1"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "1"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front"
+              ]
+            },
+            {
+              "atMs": 1027,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-full-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "1"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "1"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front"
+              ]
+            },
+            {
+              "atMs": 1198,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-full-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "1"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "1"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-11-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-12-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front"
+              ]
+            },
+            {
+              "atMs": 1344,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-full-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "1"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "1"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-11-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-12-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front"
+              ]
+            },
+            {
+              "atMs": 1514,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-full-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "1"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "1"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-11-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-12-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front"
+              ]
+            },
+            {
+              "atMs": 1668,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-full-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.710334"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.710334"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-11-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-12-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front"
+              ]
+            },
+            {
+              "atMs": 1815,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-full-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.206"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.206"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-11-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-12-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front"
+              ]
+            },
+            {
+              "atMs": 1972,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-full-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.35"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.35"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-13-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-14-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front"
+              ]
+            },
+            {
+              "atMs": 2100,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-full-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [
+                {
+                  "seat": "seat-1",
+                  "character": "c9",
+                  "state": "entering"
+                }
+              ],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.35"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.35"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-13-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-14-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front",
+                "crew-renderer-2-mount-15-body"
+              ]
+            },
+            {
+              "atMs": 2232,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-full-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [
+                {
+                  "seat": "seat-1",
+                  "character": "c9",
+                  "state": "entering"
+                }
+              ],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.35"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.35"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-13-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-14-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front",
+                "crew-renderer-2-mount-15-body"
+              ]
+            },
+            {
+              "atMs": 2558,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-full-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [
+                {
+                  "seat": "seat-1",
+                  "character": "c9",
+                  "state": "entering"
+                },
+                {
+                  "seat": "seat-6",
+                  "character": "c8",
+                  "state": "entering"
+                }
+              ],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.35"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.35"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-13-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-14-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front",
+                "crew-renderer-2-mount-15-body",
+                "crew-renderer-2-mount-16-body"
+              ]
+            },
+            {
+              "atMs": 2704,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-full-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [
+                {
+                  "seat": "seat-1",
+                  "character": "c9",
+                  "state": "entering"
+                },
+                {
+                  "seat": "seat-6",
+                  "character": "c8",
+                  "state": "entering"
+                }
+              ],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.35"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.35"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-13-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-14-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front",
+                "crew-renderer-2-mount-15-body",
+                "crew-renderer-2-mount-16-body"
+              ]
+            },
+            {
+              "atMs": 2860,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-full-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [
+                {
+                  "seat": "seat-1",
+                  "character": "c9",
+                  "state": "entering"
+                },
+                {
+                  "seat": "seat-6",
+                  "character": "c8",
+                  "state": "entering"
+                }
+              ],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.35"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.35"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-13-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-14-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front",
+                "crew-renderer-2-mount-15-body",
+                "crew-renderer-2-mount-16-body"
+              ]
+            },
+            {
+              "atMs": 3006,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-full-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [
+                {
+                  "seat": "seat-1",
+                  "character": "c9",
+                  "state": "entering"
+                },
+                {
+                  "seat": "seat-6",
+                  "character": "c8",
+                  "state": "entering"
+                }
+              ],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.35"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.35"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-13-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-14-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front",
+                "crew-renderer-2-mount-15-body",
+                "crew-renderer-2-mount-16-body"
+              ]
+            },
+            {
+              "atMs": 3155,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-full-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [
+                {
+                  "seat": "seat-1",
+                  "character": "c9",
+                  "state": "sitting"
+                },
+                {
+                  "seat": "seat-6",
+                  "character": "c8",
+                  "state": "entering"
+                }
+              ],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.35"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.35"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-13-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-14-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front",
+                "crew-renderer-2-mount-17-body",
+                "crew-renderer-2-mount-16-body"
+              ]
+            },
+            {
+              "atMs": 3313,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-full-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [
+                {
+                  "seat": "seat-1",
+                  "character": "c9",
+                  "state": "sitting"
+                },
+                {
+                  "seat": "seat-6",
+                  "character": "c8",
+                  "state": "entering"
+                }
+              ],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.35"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.35"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-13-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-14-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front",
+                "crew-renderer-2-mount-17-body",
+                "crew-renderer-2-mount-16-body"
+              ]
+            },
+            {
+              "atMs": 3463,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-full-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [
+                {
+                  "seat": "seat-1",
+                  "character": "c9",
+                  "state": "seated"
+                },
+                {
+                  "seat": "seat-6",
+                  "character": "c8",
+                  "state": "sitting"
+                }
+              ],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.35"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.35"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-13-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-14-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front",
+                "crew-renderer-2-mount-17-body",
+                "crew-renderer-2-mount-18-body"
+              ]
+            },
+            {
+              "atMs": 3620,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-full-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [
+                {
+                  "seat": "seat-1",
+                  "character": "c9",
+                  "state": "seated"
+                },
+                {
+                  "seat": "seat-6",
+                  "character": "c8",
+                  "state": "sitting"
+                }
+              ],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.35"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.35"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-13-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-14-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front",
+                "crew-renderer-2-mount-17-body",
+                "crew-renderer-2-mount-18-body"
+              ]
+            },
+            {
+              "atMs": 3780,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-full-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [
+                {
+                  "seat": "seat-1",
+                  "character": "c9",
+                  "state": "seated"
+                },
+                {
+                  "seat": "seat-6",
+                  "character": "c8",
+                  "state": "seated"
+                }
+              ],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.35"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.35"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-13-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-14-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front",
+                "crew-renderer-2-mount-17-body",
+                "crew-renderer-2-mount-18-body"
+              ]
+            },
+            {
+              "atMs": 3929,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-full-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [
+                {
+                  "seat": "seat-1",
+                  "character": "c9",
+                  "state": "seated"
+                },
+                {
+                  "seat": "seat-6",
+                  "character": "c8",
+                  "state": "seated"
+                }
+              ],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.35"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.35"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-13-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-14-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front",
+                "crew-renderer-2-mount-17-body",
+                "crew-renderer-2-mount-18-body"
+              ]
+            },
+            {
+              "atMs": 4080,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-full-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [
+                {
+                  "seat": "seat-1",
+                  "character": "c9",
+                  "state": "seated"
+                },
+                {
+                  "seat": "seat-6",
+                  "character": "c8",
+                  "state": "seated"
+                }
+              ],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.35"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.35"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-13-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-14-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front",
+                "crew-renderer-2-mount-17-body",
+                "crew-renderer-2-mount-18-body"
+              ]
+            },
+            {
+              "atMs": 4230,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-full-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [
+                {
+                  "seat": "seat-1",
+                  "character": "c9",
+                  "state": "seated"
+                },
+                {
+                  "seat": "seat-6",
+                  "character": "c8",
+                  "state": "seated"
+                }
+              ],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.35"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.35"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-13-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-14-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front",
+                "crew-renderer-2-mount-17-body",
+                "crew-renderer-2-mount-18-body"
+              ]
+            },
+            {
+              "atMs": 4528,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-full-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [
+                {
+                  "seat": "seat-1",
+                  "character": "c9",
+                  "state": "seated"
+                },
+                {
+                  "seat": "seat-6",
+                  "character": "c8",
+                  "state": "seated"
+                }
+              ],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.35"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.35"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-13-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-14-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front",
+                "crew-renderer-2-mount-17-body",
+                "crew-renderer-2-mount-18-body"
+              ]
+            },
+            {
+              "atMs": 4646,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-full-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [
+                {
+                  "seat": "seat-1",
+                  "character": "c9",
+                  "state": "seated"
+                },
+                {
+                  "seat": "seat-6",
+                  "character": "c8",
+                  "state": "seated"
+                }
+              ],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.35"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.35"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-13-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-14-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front",
+                "crew-renderer-2-mount-17-body",
+                "crew-renderer-2-mount-18-body"
+              ]
+            },
+            {
+              "atMs": 4800,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-full-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [
+                {
+                  "seat": "seat-1",
+                  "character": "c9",
+                  "state": "seated"
+                },
+                {
+                  "seat": "seat-6",
+                  "character": "c8",
+                  "state": "seated"
+                }
+              ],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.35"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.35"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-13-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-14-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front",
+                "crew-renderer-2-mount-17-body",
+                "crew-renderer-2-mount-18-body"
+              ]
+            }
+          ],
+          "screenshots": [
+            "capsule-in-full-2x-1.png",
+            "capsule-in-full-2x-2.png"
+          ],
+          "references": {
+            "total": 799,
+            "unique": 799,
+            "missing": []
+          },
+          "problems": [],
+          "observedStates": [
+            "entering",
+            "sitting",
+            "seated"
+          ],
+          "frameCount": 32,
+          "elapsedMs": 4954,
+          "video": "capsule-in-full-2x.mp4",
+          "probe": {
+            "programs": [],
+            "stream_groups": [],
+            "streams": [
+              {
+                "codec_type": "video",
+                "width": 780,
+                "height": 1688,
+                "avg_frame_rate": "800/119",
+                "nb_read_frames": "32",
+                "side_data_list": [
+                  {}
+                ]
+              }
+            ],
+            "format": {
+              "duration": "4.760000"
+            }
+          },
+          "sha256": "ae689eecc9250d2c5c6497f9cb2c3c35c594ccf94c75c1c5c8c153327ab76aef",
+          "capturedIntervalMs": {
+            "median": 150,
+            "p95": 298,
+            "max": 326
+          },
+          "cadenceNote": "Recording sample intervals, not renderer frame-time measurements"
+        },
+        {
+          "direction": "out",
+          "phaseSnapshots": [
+            {
+              "revision": 2,
+              "phase": {
+                "id": "record-full-talk",
+                "kind": "HACK",
+                "startedAt": 1794113848425,
+                "endsAt": 1794113908425
+              },
+              "receiptTime": 1794113903425
+            },
+            {
+              "revision": 3,
+              "phase": {
+                "id": "record-full-turn",
+                "kind": "ORDINARY_TURN",
+                "startedAt": 1794113908435,
+                "endsAt": 1794113968435
+              },
+              "receiptTime": 1794113908435
+            }
+          ],
+          "samples": [
+            {
+              "atMs": 0,
+              "revision": 3,
+              "kind": "ORDINARY_TURN",
+              "phaseId": "record-full-turn",
+              "expired": false,
+              "connection": "live",
+              "capsule": [
+                {
+                  "seat": "seat-1",
+                  "character": "c9",
+                  "state": "seated"
+                },
+                {
+                  "seat": "seat-6",
+                  "character": "c8",
+                  "state": "seated"
+                }
+              ],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.35"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.35"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front",
+                "crew-renderer-2-mount-11-body",
+                "crew-renderer-2-mount-12-body"
+              ]
+            },
+            {
+              "atMs": 132,
+              "revision": 3,
+              "kind": "ORDINARY_TURN",
+              "phaseId": "record-full-turn",
+              "expired": false,
+              "connection": "live",
+              "capsule": [
+                {
+                  "seat": "seat-1",
+                  "character": "c9",
+                  "state": "seated"
+                },
+                {
+                  "seat": "seat-6",
+                  "character": "c8",
+                  "state": "seated"
+                }
+              ],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.35"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.35"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front",
+                "crew-renderer-2-mount-11-body",
+                "crew-renderer-2-mount-12-body"
+              ]
+            },
+            {
+              "atMs": 282,
+              "revision": 3,
+              "kind": "ORDINARY_TURN",
+              "phaseId": "record-full-turn",
+              "expired": false,
+              "connection": "live",
+              "capsule": [
+                {
+                  "seat": "seat-1",
+                  "character": "c9",
+                  "state": "seated"
+                },
+                {
+                  "seat": "seat-6",
+                  "character": "c8",
+                  "state": "seated"
+                }
+              ],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.35"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.35"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front",
+                "crew-renderer-2-mount-11-body",
+                "crew-renderer-2-mount-12-body"
+              ]
+            },
+            {
+              "atMs": 439,
+              "revision": 3,
+              "kind": "ORDINARY_TURN",
+              "phaseId": "record-full-turn",
+              "expired": false,
+              "connection": "live",
+              "capsule": [
+                {
+                  "seat": "seat-1",
+                  "character": "c9",
+                  "state": "leaving"
+                },
+                {
+                  "seat": "seat-6",
+                  "character": "c8",
+                  "state": "leaving"
+                }
+              ],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.35"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.35"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front",
+                "crew-renderer-2-mount-13-body",
+                "crew-renderer-2-mount-14-body"
+              ]
+            },
+            {
+              "atMs": 585,
+              "revision": 3,
+              "kind": "ORDINARY_TURN",
+              "phaseId": "record-full-turn",
+              "expired": false,
+              "connection": "live",
+              "capsule": [
+                {
+                  "seat": "seat-1",
+                  "character": "c9",
+                  "state": "leaving"
+                },
+                {
+                  "seat": "seat-6",
+                  "character": "c8",
+                  "state": "leaving"
+                }
+              ],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.35"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.35"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front",
+                "crew-renderer-2-mount-13-body",
+                "crew-renderer-2-mount-14-body"
+              ]
+            },
+            {
+              "atMs": 734,
+              "revision": 3,
+              "kind": "ORDINARY_TURN",
+              "phaseId": "record-full-turn",
+              "expired": false,
+              "connection": "live",
+              "capsule": [
+                {
+                  "seat": "seat-1",
+                  "character": "c9",
+                  "state": "leaving"
+                },
+                {
+                  "seat": "seat-6",
+                  "character": "c8",
+                  "state": "leaving"
+                }
+              ],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.35"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.35"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front",
+                "crew-renderer-2-mount-13-body",
+                "crew-renderer-2-mount-14-body"
+              ]
+            },
+            {
+              "atMs": 883,
+              "revision": 3,
+              "kind": "ORDINARY_TURN",
+              "phaseId": "record-full-turn",
+              "expired": false,
+              "connection": "live",
+              "capsule": [
+                {
+                  "seat": "seat-1",
+                  "character": "c9",
+                  "state": "leaving"
+                },
+                {
+                  "seat": "seat-6",
+                  "character": "c8",
+                  "state": "leaving"
+                }
+              ],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.35"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.35"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front",
+                "crew-renderer-2-mount-13-body",
+                "crew-renderer-2-mount-14-body"
+              ]
+            },
+            {
+              "atMs": 1245,
+              "revision": 3,
+              "kind": "ORDINARY_TURN",
+              "phaseId": "record-full-turn",
+              "expired": false,
+              "connection": "live",
+              "capsule": [
+                {
+                  "seat": "seat-1",
+                  "character": "c9",
+                  "state": "leaving"
+                }
+              ],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.35"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.406"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-15-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front",
+                "crew-renderer-2-mount-13-body"
+              ]
+            },
+            {
+              "atMs": 1381,
+              "revision": 3,
+              "kind": "ORDINARY_TURN",
+              "phaseId": "record-full-turn",
+              "expired": false,
+              "connection": "live",
+              "capsule": [],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.309666"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.909666"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-16-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-15-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front"
+              ]
+            },
+            {
+              "atMs": 1544,
+              "revision": 3,
+              "kind": "ORDINARY_TURN",
+              "phaseId": "record-full-turn",
+              "expired": false,
+              "connection": "live",
+              "capsule": [],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.828333"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "1"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-16-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-15-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front"
+              ]
+            },
+            {
+              "atMs": 1703,
+              "revision": 3,
+              "kind": "ORDINARY_TURN",
+              "phaseId": "record-full-turn",
+              "expired": false,
+              "connection": "live",
+              "capsule": [],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "1"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "1"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-16-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-15-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front"
+              ]
+            },
+            {
+              "atMs": 1865,
+              "revision": 3,
+              "kind": "ORDINARY_TURN",
+              "phaseId": "record-full-turn",
+              "expired": false,
+              "connection": "live",
+              "capsule": [],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "1"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "1"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-16-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-17-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front"
+              ]
+            },
+            {
+              "atMs": 2022,
+              "revision": 3,
+              "kind": "ORDINARY_TURN",
+              "phaseId": "record-full-turn",
+              "expired": false,
+              "connection": "live",
+              "capsule": [],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "1"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "1"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-18-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-17-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front"
+              ]
+            },
+            {
+              "atMs": 2167,
+              "revision": 3,
+              "kind": "ORDINARY_TURN",
+              "phaseId": "record-full-turn",
+              "expired": false,
+              "connection": "live",
+              "capsule": [],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "1"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "1"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-18-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-17-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front"
+              ]
+            },
+            {
+              "atMs": 2314,
+              "revision": 3,
+              "kind": "ORDINARY_TURN",
+              "phaseId": "record-full-turn",
+              "expired": false,
+              "connection": "live",
+              "capsule": [],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "1"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "1"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-18-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-17-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front"
+              ]
+            },
+            {
+              "atMs": 2444,
+              "revision": 3,
+              "kind": "ORDINARY_TURN",
+              "phaseId": "record-full-turn",
+              "expired": false,
+              "connection": "live",
+              "capsule": [],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "1"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "1"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-18-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-17-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front"
+              ]
+            },
+            {
+              "atMs": 2568,
+              "revision": 3,
+              "kind": "ORDINARY_TURN",
+              "phaseId": "record-full-turn",
+              "expired": false,
+              "connection": "live",
+              "capsule": [],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "1"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "1"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-18-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-17-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front"
+              ]
+            },
+            {
+              "atMs": 2843,
+              "revision": 3,
+              "kind": "ORDINARY_TURN",
+              "phaseId": "record-full-turn",
+              "expired": false,
+              "connection": "live",
+              "capsule": [],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "1"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "1"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-18-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-17-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front"
+              ]
+            }
+          ],
+          "screenshots": [
+            "capsule-out-full-2x-1.png",
+            "capsule-out-full-2x-2.png"
+          ],
+          "references": {
+            "total": 673,
+            "unique": 673,
+            "missing": []
+          },
+          "problems": [],
+          "observedStates": [
+            "seated",
+            "leaving"
+          ],
+          "frameCount": 18,
+          "elapsedMs": 2946,
+          "video": "capsule-out-full-2x.mp4",
+          "probe": {
+            "programs": [],
+            "stream_groups": [],
+            "streams": [
+              {
+                "codec_type": "video",
+                "width": 780,
+                "height": 1688,
+                "avg_frame_rate": "150/23",
+                "nb_read_frames": "18",
+                "side_data_list": [
+                  {}
+                ]
+              }
+            ],
+            "format": {
+              "duration": "2.760000"
+            }
+          },
+          "sha256": "1f320f0b1fff88e08cdb40ea9d1fb2f91dae2a3ffdaf129ba14c32d0bb22399b",
+          "capturedIntervalMs": {
+            "median": 149,
+            "p95": 362,
+            "max": 362
+          },
+          "cadenceNote": "Recording sample intervals, not renderer frame-time measurements"
+        }
+      ],
+      "video": "capsule-walk-full-2x.mp4",
+      "probe": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_type": "video",
+            "width": 780,
+            "height": 1688,
+            "avg_frame_rate": "625/93",
+            "nb_read_frames": "50",
+            "side_data_list": [
+              {}
+            ]
+          }
+        ],
+        "format": {
+          "duration": "7.440000"
+        }
+      },
+      "sha256": "dff4d3edb72ffbb5c3b656146b093850e7bb8023356e1e0395730c7a77845da5"
+    },
+    {
+      "variant": "reduced",
+      "segments": [
+        {
+          "direction": "in",
+          "phaseSnapshots": [
+            {
+              "revision": 2,
+              "phase": {
+                "id": "record-reduced-declare",
+                "kind": "HACK_DECLARE",
+                "startedAt": 1794113906996,
+                "endsAt": 1794113921996
+              },
+              "receiptTime": 1794113906996
+            },
+            {
+              "revision": 3,
+              "phase": {
+                "id": "record-reduced-result",
+                "kind": "HACK_RESULT",
+                "startedAt": 1794113907373,
+                "endsAt": 1794113912373
+              },
+              "receiptTime": 1794113907373
+            }
+          ],
+          "samples": [
+            {
+              "atMs": 0,
+              "revision": 2,
+              "kind": "HACK_DECLARE",
+              "phaseId": "record-reduced-declare",
+              "expired": false,
+              "connection": "live",
+              "capsule": [],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "1"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "1"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front"
+              ]
+            },
+            {
+              "atMs": 122,
+              "revision": 2,
+              "kind": "HACK_DECLARE",
+              "phaseId": "record-reduced-declare",
+              "expired": false,
+              "connection": "live",
+              "capsule": [],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "1"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "1"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front"
+              ]
+            },
+            {
+              "atMs": 257,
+              "revision": 2,
+              "kind": "HACK_DECLARE",
+              "phaseId": "record-reduced-declare",
+              "expired": false,
+              "connection": "live",
+              "capsule": [],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "1"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "1"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front"
+              ]
+            },
+            {
+              "atMs": 379,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-reduced-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [
+                {
+                  "seat": "seat-1",
+                  "character": "c9",
+                  "state": "seated"
+                },
+                {
+                  "seat": "seat-6",
+                  "character": "c8",
+                  "state": "seated"
+                }
+              ],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.35"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.35"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front",
+                "crew-renderer-2-mount-11-body",
+                "crew-renderer-2-mount-12-body"
+              ]
+            },
+            {
+              "atMs": 507,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-reduced-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [
+                {
+                  "seat": "seat-1",
+                  "character": "c9",
+                  "state": "seated"
+                },
+                {
+                  "seat": "seat-6",
+                  "character": "c8",
+                  "state": "seated"
+                }
+              ],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.35"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.35"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front",
+                "crew-renderer-2-mount-11-body",
+                "crew-renderer-2-mount-12-body"
+              ]
+            },
+            {
+              "atMs": 658,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-reduced-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [
+                {
+                  "seat": "seat-1",
+                  "character": "c9",
+                  "state": "seated"
+                },
+                {
+                  "seat": "seat-6",
+                  "character": "c8",
+                  "state": "seated"
+                }
+              ],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.35"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.35"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front",
+                "crew-renderer-2-mount-11-body",
+                "crew-renderer-2-mount-12-body"
+              ]
+            },
+            {
+              "atMs": 810,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-reduced-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [
+                {
+                  "seat": "seat-1",
+                  "character": "c9",
+                  "state": "seated"
+                },
+                {
+                  "seat": "seat-6",
+                  "character": "c8",
+                  "state": "seated"
+                }
+              ],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.35"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.35"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front",
+                "crew-renderer-2-mount-11-body",
+                "crew-renderer-2-mount-12-body"
+              ]
+            },
+            {
+              "atMs": 958,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-reduced-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [
+                {
+                  "seat": "seat-1",
+                  "character": "c9",
+                  "state": "seated"
+                },
+                {
+                  "seat": "seat-6",
+                  "character": "c8",
+                  "state": "seated"
+                }
+              ],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.35"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.35"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front",
+                "crew-renderer-2-mount-11-body",
+                "crew-renderer-2-mount-12-body"
+              ]
+            },
+            {
+              "atMs": 1093,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-reduced-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [
+                {
+                  "seat": "seat-1",
+                  "character": "c9",
+                  "state": "seated"
+                },
+                {
+                  "seat": "seat-6",
+                  "character": "c8",
+                  "state": "seated"
+                }
+              ],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.35"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.35"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front",
+                "crew-renderer-2-mount-11-body",
+                "crew-renderer-2-mount-12-body"
+              ]
+            },
+            {
+              "atMs": 1244,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-reduced-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [
+                {
+                  "seat": "seat-1",
+                  "character": "c9",
+                  "state": "seated"
+                },
+                {
+                  "seat": "seat-6",
+                  "character": "c8",
+                  "state": "seated"
+                }
+              ],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.35"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.35"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front",
+                "crew-renderer-2-mount-11-body",
+                "crew-renderer-2-mount-12-body"
+              ]
+            },
+            {
+              "atMs": 1392,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-reduced-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [
+                {
+                  "seat": "seat-1",
+                  "character": "c9",
+                  "state": "seated"
+                },
+                {
+                  "seat": "seat-6",
+                  "character": "c8",
+                  "state": "seated"
+                }
+              ],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.35"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.35"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front",
+                "crew-renderer-2-mount-11-body",
+                "crew-renderer-2-mount-12-body"
+              ]
+            },
+            {
+              "atMs": 1547,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-reduced-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [
+                {
+                  "seat": "seat-1",
+                  "character": "c9",
+                  "state": "seated"
+                },
+                {
+                  "seat": "seat-6",
+                  "character": "c8",
+                  "state": "seated"
+                }
+              ],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.35"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.35"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front",
+                "crew-renderer-2-mount-11-body",
+                "crew-renderer-2-mount-12-body"
+              ]
+            },
+            {
+              "atMs": 1691,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-reduced-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [
+                {
+                  "seat": "seat-1",
+                  "character": "c9",
+                  "state": "seated"
+                },
+                {
+                  "seat": "seat-6",
+                  "character": "c8",
+                  "state": "seated"
+                }
+              ],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.35"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.35"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front",
+                "crew-renderer-2-mount-11-body",
+                "crew-renderer-2-mount-12-body"
+              ]
+            },
+            {
+              "atMs": 1840,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-reduced-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [
+                {
+                  "seat": "seat-1",
+                  "character": "c9",
+                  "state": "seated"
+                },
+                {
+                  "seat": "seat-6",
+                  "character": "c8",
+                  "state": "seated"
+                }
+              ],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.35"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.35"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front",
+                "crew-renderer-2-mount-11-body",
+                "crew-renderer-2-mount-12-body"
+              ]
+            },
+            {
+              "atMs": 1992,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-reduced-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [
+                {
+                  "seat": "seat-1",
+                  "character": "c9",
+                  "state": "seated"
+                },
+                {
+                  "seat": "seat-6",
+                  "character": "c8",
+                  "state": "seated"
+                }
+              ],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.35"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.35"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front",
+                "crew-renderer-2-mount-11-body",
+                "crew-renderer-2-mount-12-body"
+              ]
+            },
+            {
+              "atMs": 2126,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-reduced-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [
+                {
+                  "seat": "seat-1",
+                  "character": "c9",
+                  "state": "seated"
+                },
+                {
+                  "seat": "seat-6",
+                  "character": "c8",
+                  "state": "seated"
+                }
+              ],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.35"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.35"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front",
+                "crew-renderer-2-mount-11-body",
+                "crew-renderer-2-mount-12-body"
+              ]
+            },
+            {
+              "atMs": 2260,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-reduced-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [
+                {
+                  "seat": "seat-1",
+                  "character": "c9",
+                  "state": "seated"
+                },
+                {
+                  "seat": "seat-6",
+                  "character": "c8",
+                  "state": "seated"
+                }
+              ],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.35"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.35"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front",
+                "crew-renderer-2-mount-11-body",
+                "crew-renderer-2-mount-12-body"
+              ]
+            },
+            {
+              "atMs": 2564,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-reduced-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [
+                {
+                  "seat": "seat-1",
+                  "character": "c9",
+                  "state": "seated"
+                },
+                {
+                  "seat": "seat-6",
+                  "character": "c8",
+                  "state": "seated"
+                }
+              ],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.35"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.35"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front",
+                "crew-renderer-2-mount-11-body",
+                "crew-renderer-2-mount-12-body"
+              ]
+            },
+            {
+              "atMs": 2673,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-reduced-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [
+                {
+                  "seat": "seat-1",
+                  "character": "c9",
+                  "state": "seated"
+                },
+                {
+                  "seat": "seat-6",
+                  "character": "c8",
+                  "state": "seated"
+                }
+              ],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.35"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.35"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front",
+                "crew-renderer-2-mount-11-body",
+                "crew-renderer-2-mount-12-body"
+              ]
+            },
+            {
+              "atMs": 2809,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-reduced-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [
+                {
+                  "seat": "seat-1",
+                  "character": "c9",
+                  "state": "seated"
+                },
+                {
+                  "seat": "seat-6",
+                  "character": "c8",
+                  "state": "seated"
+                }
+              ],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.35"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.35"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front",
+                "crew-renderer-2-mount-11-body",
+                "crew-renderer-2-mount-12-body"
+              ]
+            },
+            {
+              "atMs": 2957,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-reduced-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [
+                {
+                  "seat": "seat-1",
+                  "character": "c9",
+                  "state": "seated"
+                },
+                {
+                  "seat": "seat-6",
+                  "character": "c8",
+                  "state": "seated"
+                }
+              ],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.35"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.35"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front",
+                "crew-renderer-2-mount-11-body",
+                "crew-renderer-2-mount-12-body"
+              ]
+            },
+            {
+              "atMs": 3099,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-reduced-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [
+                {
+                  "seat": "seat-1",
+                  "character": "c9",
+                  "state": "seated"
+                },
+                {
+                  "seat": "seat-6",
+                  "character": "c8",
+                  "state": "seated"
+                }
+              ],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.35"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.35"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front",
+                "crew-renderer-2-mount-11-body",
+                "crew-renderer-2-mount-12-body"
+              ]
+            },
+            {
+              "atMs": 3241,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-reduced-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [
+                {
+                  "seat": "seat-1",
+                  "character": "c9",
+                  "state": "seated"
+                },
+                {
+                  "seat": "seat-6",
+                  "character": "c8",
+                  "state": "seated"
+                }
+              ],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.35"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.35"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front",
+                "crew-renderer-2-mount-11-body",
+                "crew-renderer-2-mount-12-body"
+              ]
+            },
+            {
+              "atMs": 3393,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-reduced-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [
+                {
+                  "seat": "seat-1",
+                  "character": "c9",
+                  "state": "seated"
+                },
+                {
+                  "seat": "seat-6",
+                  "character": "c8",
+                  "state": "seated"
+                }
+              ],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.35"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.35"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front",
+                "crew-renderer-2-mount-11-body",
+                "crew-renderer-2-mount-12-body"
+              ]
+            },
+            {
+              "atMs": 3524,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-reduced-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [
+                {
+                  "seat": "seat-1",
+                  "character": "c9",
+                  "state": "seated"
+                },
+                {
+                  "seat": "seat-6",
+                  "character": "c8",
+                  "state": "seated"
+                }
+              ],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.35"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.35"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front",
+                "crew-renderer-2-mount-11-body",
+                "crew-renderer-2-mount-12-body"
+              ]
+            },
+            {
+              "atMs": 3677,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-reduced-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [
+                {
+                  "seat": "seat-1",
+                  "character": "c9",
+                  "state": "seated"
+                },
+                {
+                  "seat": "seat-6",
+                  "character": "c8",
+                  "state": "seated"
+                }
+              ],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.35"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.35"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front",
+                "crew-renderer-2-mount-11-body",
+                "crew-renderer-2-mount-12-body"
+              ]
+            },
+            {
+              "atMs": 3827,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-reduced-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [
+                {
+                  "seat": "seat-1",
+                  "character": "c9",
+                  "state": "seated"
+                },
+                {
+                  "seat": "seat-6",
+                  "character": "c8",
+                  "state": "seated"
+                }
+              ],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.35"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.35"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front",
+                "crew-renderer-2-mount-11-body",
+                "crew-renderer-2-mount-12-body"
+              ]
+            },
+            {
+              "atMs": 3973,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-reduced-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [
+                {
+                  "seat": "seat-1",
+                  "character": "c9",
+                  "state": "seated"
+                },
+                {
+                  "seat": "seat-6",
+                  "character": "c8",
+                  "state": "seated"
+                }
+              ],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.35"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.35"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front",
+                "crew-renderer-2-mount-11-body",
+                "crew-renderer-2-mount-12-body"
+              ]
+            },
+            {
+              "atMs": 4126,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-reduced-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [
+                {
+                  "seat": "seat-1",
+                  "character": "c9",
+                  "state": "seated"
+                },
+                {
+                  "seat": "seat-6",
+                  "character": "c8",
+                  "state": "seated"
+                }
+              ],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.35"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.35"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front",
+                "crew-renderer-2-mount-11-body",
+                "crew-renderer-2-mount-12-body"
+              ]
+            },
+            {
+              "atMs": 4275,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-reduced-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [
+                {
+                  "seat": "seat-1",
+                  "character": "c9",
+                  "state": "seated"
+                },
+                {
+                  "seat": "seat-6",
+                  "character": "c8",
+                  "state": "seated"
+                }
+              ],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.35"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.35"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front",
+                "crew-renderer-2-mount-11-body",
+                "crew-renderer-2-mount-12-body"
+              ]
+            },
+            {
+              "atMs": 4609,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-reduced-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [
+                {
+                  "seat": "seat-1",
+                  "character": "c9",
+                  "state": "seated"
+                },
+                {
+                  "seat": "seat-6",
+                  "character": "c8",
+                  "state": "seated"
+                }
+              ],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.35"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.35"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front",
+                "crew-renderer-2-mount-11-body",
+                "crew-renderer-2-mount-12-body"
+              ]
+            },
+            {
+              "atMs": 4750,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-reduced-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [
+                {
+                  "seat": "seat-1",
+                  "character": "c9",
+                  "state": "seated"
+                },
+                {
+                  "seat": "seat-6",
+                  "character": "c8",
+                  "state": "seated"
+                }
+              ],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.35"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.35"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front",
+                "crew-renderer-2-mount-11-body",
+                "crew-renderer-2-mount-12-body"
+              ]
+            },
+            {
+              "atMs": 4894,
+              "revision": 3,
+              "kind": "HACK_RESULT",
+              "phaseId": "record-reduced-result",
+              "expired": false,
+              "connection": "live",
+              "capsule": [
+                {
+                  "seat": "seat-1",
+                  "character": "c9",
+                  "state": "seated"
+                },
+                {
+                  "seat": "seat-6",
+                  "character": "c8",
+                  "state": "seated"
+                }
+              ],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "0.35"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "0.35"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front",
+                "crew-renderer-2-mount-11-body",
+                "crew-renderer-2-mount-12-body"
+              ]
+            }
+          ],
+          "screenshots": [
+            "capsule-in-reduced-2x-1.png",
+            "capsule-in-reduced-2x-2.png"
+          ],
+          "references": {
+            "total": 799,
+            "unique": 799,
+            "missing": []
+          },
+          "problems": [],
+          "observedStates": [
+            "seated"
+          ],
+          "frameCount": 33,
+          "elapsedMs": 5035,
+          "video": "capsule-in-reduced-2x.mp4",
+          "probe": {
+            "programs": [],
+            "stream_groups": [],
+            "streams": [
+              {
+                "codec_type": "video",
+                "width": 780,
+                "height": 1688,
+                "avg_frame_rate": "825/122",
+                "nb_read_frames": "33",
+                "side_data_list": [
+                  {}
+                ]
+              }
+            ],
+            "format": {
+              "duration": "4.880000"
+            }
+          },
+          "sha256": "65b503714be83e6bce7c1655bff1f52665a2af041f1dc8009bf2fe7a0a36b4d2",
+          "capturedIntervalMs": {
+            "median": 146,
+            "p95": 304,
+            "max": 334
+          },
+          "cadenceNote": "Recording sample intervals, not renderer frame-time measurements"
+        },
+        {
+          "direction": "out",
+          "phaseSnapshots": [
+            {
+              "revision": 2,
+              "phase": {
+                "id": "record-reduced-talk",
+                "kind": "HACK",
+                "startedAt": 1794113857562,
+                "endsAt": 1794113917562
+              },
+              "receiptTime": 1794113912562
+            },
+            {
+              "revision": 3,
+              "phase": {
+                "id": "record-reduced-turn",
+                "kind": "ORDINARY_TURN",
+                "startedAt": 1794113917572,
+                "endsAt": 1794113977572
+              },
+              "receiptTime": 1794113917572
+            }
+          ],
+          "samples": [
+            {
+              "atMs": 0,
+              "revision": 3,
+              "kind": "ORDINARY_TURN",
+              "phaseId": "record-reduced-turn",
+              "expired": false,
+              "connection": "live",
+              "capsule": [],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "1"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "1"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front"
+              ]
+            },
+            {
+              "atMs": 130,
+              "revision": 3,
+              "kind": "ORDINARY_TURN",
+              "phaseId": "record-reduced-turn",
+              "expired": false,
+              "connection": "live",
+              "capsule": [],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "1"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "1"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front"
+              ]
+            },
+            {
+              "atMs": 253,
+              "revision": 3,
+              "kind": "ORDINARY_TURN",
+              "phaseId": "record-reduced-turn",
+              "expired": false,
+              "connection": "live",
+              "capsule": [],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "1"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "1"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front"
+              ]
+            },
+            {
+              "atMs": 379,
+              "revision": 3,
+              "kind": "ORDINARY_TURN",
+              "phaseId": "record-reduced-turn",
+              "expired": false,
+              "connection": "live",
+              "capsule": [],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "1"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "1"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front"
+              ]
+            },
+            {
+              "atMs": 502,
+              "revision": 3,
+              "kind": "ORDINARY_TURN",
+              "phaseId": "record-reduced-turn",
+              "expired": false,
+              "connection": "live",
+              "capsule": [],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "1"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "1"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front"
+              ]
+            },
+            {
+              "atMs": 621,
+              "revision": 3,
+              "kind": "ORDINARY_TURN",
+              "phaseId": "record-reduced-turn",
+              "expired": false,
+              "connection": "live",
+              "capsule": [],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "1"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "1"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front"
+              ]
+            },
+            {
+              "atMs": 749,
+              "revision": 3,
+              "kind": "ORDINARY_TURN",
+              "phaseId": "record-reduced-turn",
+              "expired": false,
+              "connection": "live",
+              "capsule": [],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "1"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "1"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front"
+              ]
+            },
+            {
+              "atMs": 875,
+              "revision": 3,
+              "kind": "ORDINARY_TURN",
+              "phaseId": "record-reduced-turn",
+              "expired": false,
+              "connection": "live",
+              "capsule": [],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "1"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "1"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front"
+              ]
+            },
+            {
+              "atMs": 1104,
+              "revision": 3,
+              "kind": "ORDINARY_TURN",
+              "phaseId": "record-reduced-turn",
+              "expired": false,
+              "connection": "live",
+              "capsule": [],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "1"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "1"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front"
+              ]
+            },
+            {
+              "atMs": 1203,
+              "revision": 3,
+              "kind": "ORDINARY_TURN",
+              "phaseId": "record-reduced-turn",
+              "expired": false,
+              "connection": "live",
+              "capsule": [],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "1"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "1"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front"
+              ]
+            },
+            {
+              "atMs": 1323,
+              "revision": 3,
+              "kind": "ORDINARY_TURN",
+              "phaseId": "record-reduced-turn",
+              "expired": false,
+              "connection": "live",
+              "capsule": [],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "1"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "1"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front"
+              ]
+            },
+            {
+              "atMs": 1446,
+              "revision": 3,
+              "kind": "ORDINARY_TURN",
+              "phaseId": "record-reduced-turn",
+              "expired": false,
+              "connection": "live",
+              "capsule": [],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "1"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "1"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front"
+              ]
+            },
+            {
+              "atMs": 1608,
+              "revision": 3,
+              "kind": "ORDINARY_TURN",
+              "phaseId": "record-reduced-turn",
+              "expired": false,
+              "connection": "live",
+              "capsule": [],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "1"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "1"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front"
+              ]
+            },
+            {
+              "atMs": 1725,
+              "revision": 3,
+              "kind": "ORDINARY_TURN",
+              "phaseId": "record-reduced-turn",
+              "expired": false,
+              "connection": "live",
+              "capsule": [],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "1"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "1"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front"
+              ]
+            },
+            {
+              "atMs": 1846,
+              "revision": 3,
+              "kind": "ORDINARY_TURN",
+              "phaseId": "record-reduced-turn",
+              "expired": false,
+              "connection": "live",
+              "capsule": [],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "1"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "1"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front"
+              ]
+            },
+            {
+              "atMs": 1982,
+              "revision": 3,
+              "kind": "ORDINARY_TURN",
+              "phaseId": "record-reduced-turn",
+              "expired": false,
+              "connection": "live",
+              "capsule": [],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "1"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "1"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front"
+              ]
+            },
+            {
+              "atMs": 2107,
+              "revision": 3,
+              "kind": "ORDINARY_TURN",
+              "phaseId": "record-reduced-turn",
+              "expired": false,
+              "connection": "live",
+              "capsule": [],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "1"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "1"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front"
+              ]
+            },
+            {
+              "atMs": 2231,
+              "revision": 3,
+              "kind": "ORDINARY_TURN",
+              "phaseId": "record-reduced-turn",
+              "expired": false,
+              "connection": "live",
+              "capsule": [],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "1"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "1"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front"
+              ]
+            },
+            {
+              "atMs": 2359,
+              "revision": 3,
+              "kind": "ORDINARY_TURN",
+              "phaseId": "record-reduced-turn",
+              "expired": false,
+              "connection": "live",
+              "capsule": [],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "1"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "1"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front"
+              ]
+            },
+            {
+              "atMs": 2481,
+              "revision": 3,
+              "kind": "ORDINARY_TURN",
+              "phaseId": "record-reduced-turn",
+              "expired": false,
+              "connection": "live",
+              "capsule": [],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "1"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "1"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front"
+              ]
+            },
+            {
+              "atMs": 2606,
+              "revision": 3,
+              "kind": "ORDINARY_TURN",
+              "phaseId": "record-reduced-turn",
+              "expired": false,
+              "connection": "live",
+              "capsule": [],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "1"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "1"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front"
+              ]
+            },
+            {
+              "atMs": 2896,
+              "revision": 3,
+              "kind": "ORDINARY_TURN",
+              "phaseId": "record-reduced-turn",
+              "expired": false,
+              "connection": "live",
+              "capsule": [],
+              "home": [
+                {
+                  "seat": "seat-1",
+                  "slot": "A1",
+                  "opacity": "1"
+                },
+                {
+                  "seat": "seat-6",
+                  "slot": "B1",
+                  "opacity": "1"
+                }
+              ],
+              "instances": [
+                "crew-renderer-2-mount-1-body",
+                "crew-renderer-2-mount-2-body",
+                "crew-renderer-2-mount-3-body",
+                "crew-renderer-2-mount-4-body",
+                "crew-renderer-2-mount-5-body",
+                "crew-renderer-2-mount-6-body",
+                "crew-renderer-2-mount-7-body",
+                "crew-renderer-2-mount-8-body",
+                "crew-renderer-2-mount-9-body",
+                "crew-renderer-2-mount-10-front"
+              ]
+            }
+          ],
+          "screenshots": [
+            "capsule-out-reduced-2x-1.png",
+            "capsule-out-reduced-2x-2.png"
+          ],
+          "references": {
+            "total": 673,
+            "unique": 673,
+            "missing": []
+          },
+          "problems": [],
+          "observedStates": [],
+          "frameCount": 22,
+          "elapsedMs": 3012,
+          "video": "capsule-out-reduced-2x.mp4",
+          "probe": {
+            "programs": [],
+            "stream_groups": [],
+            "streams": [
+              {
+                "codec_type": "video",
+                "width": 780,
+                "height": 1688,
+                "avg_frame_rate": "550/69",
+                "nb_read_frames": "22",
+                "side_data_list": [
+                  {}
+                ]
+              }
+            ],
+            "format": {
+              "duration": "2.760000"
+            }
+          },
+          "sha256": "c240213dda8ed61a2dbed502b2e5294000b82c0085a911d4cf50e5dff0215320",
+          "capturedIntervalMs": {
+            "median": 125,
+            "p95": 229,
+            "max": 290
+          },
+          "cadenceNote": "Recording sample intervals, not renderer frame-time measurements"
+        }
+      ],
+      "video": "capsule-walk-reduced-2x.mp4",
+      "probe": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_type": "video",
+            "width": 780,
+            "height": 1688,
+            "avg_frame_rate": "1375/191",
+            "nb_read_frames": "55",
+            "side_data_list": [
+              {}
+            ]
+          }
+        ],
+        "format": {
+          "duration": "7.640000"
+        }
+      },
+      "sha256": "7ef663da5c8a1024a60243b25fa8b706712ed1447597cee85d5958a7c2898490"
+    }
+  ],
+  "failures": [],
+  "buildFiles": {
+    "assets/index-7nKAYARC.js": "9ce9642222fd0a01efecb90b58d3817c9950a3da67a6996464bf79f59f9da83a",
+    "assets/index-Cub8m1Eg.css": "67f769b7dee8704e6bc516f50b7ddff661a92ecdc8a7e0b008064ab92092b4b0"
+  },
+  "browser": "Google Chrome 156.0.8078.80",
+  "attemptNotes": [
+    "Initial controller-backed exit attempts settled through the expired/unusable-view guard. The final record uses explicit schema-validated presentation snapshots over the real renderer; no controller/transport acceptance is claimed."
+  ]
+}

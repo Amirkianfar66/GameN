@@ -2,6 +2,8 @@ globalThis[Symbol.for('mothership:dev-only')]=true;
 import {mountPlanetApp} from '../../hosted/planet/app.mjs';
 import {loadArt} from '../../hosted/art.mjs';
 import {planetBlackholePresentation} from '@mothership/presentation';
+import {PlanetPlayerViewSchema} from '@mothership/contracts';
+import {mountPlanetRenderer} from '../../hosted/planet/render.mjs';
 import {sessionScenario,makePlanetScenario,publicPlanet} from './scenarios.mjs';
 const name=new URL(location.href).searchParams.get('scenario')??'board';
 const tuple=new URL(location.href).searchParams.get('tuple')??'current';
@@ -37,11 +39,23 @@ const connection={mode:'synthetic',currentUid:()=>authUid,signIn:async()=>authUi
 }};
 const app=await mountPlanetApp(document.getElementById('planet-root'),{connection,matchId:name==='join'||new URL(location.href).searchParams.has('resumeOnly')?undefined:'planet-local',allowSynthetic:true});
 const candidateReady=app.artReady;
-let phaseSequence=0;
+let phaseSequence=0,presentationFixture=null;
 const applyPlayer=async player=>{value.publicView=publicPlanet(player);if(value.selfSeatId!==null)value.playerView=player;await app.session.refresh();};
 const currentPlayer=()=>value.playerView?structuredClone(value.playerView):{...makePlanetScenario('board',{now:Date.now(),count:value.playerCount}),...structuredClone(value.publicView),board:{...structuredClone(value.publicView.board),kind:'PLAYER_CURRENT'}};
 // Only this excluded harness exposes synthetic authority and inspection controls.
 window.planetHarness={app,requests,candidateReady,setReceipt(next){receipt=next;},setSessionReplies(operation,replies){sessionReplies={operation,replies:[...replies]};},setUid(uid){authUid=uid;},rejectPanel(){rejectNextPanel=true;},get value(){return value;},setLost(next){lost=next;},
+ get presentationFixture(){return presentationFixture;},
+ // A capture-only presentation fixture over the same guarded runtime renderer.
+ // It does not exercise the real controller's independent clock or transport.
+ startPresentationFixture(){
+  const base=structuredClone(app.game.getModel());app.dispose();let model=base,notify=null,received=performance.now(),serverNow=base.phase.nowMs;
+  const controller={getModel:()=>model,subscribe(fn){notify=fn;fn(model);return()=>{notify=null;};},dismiss(){},setVisible(){},begin(){},choose(){}};
+  const renderer=mountPlanetRenderer(document.getElementById('planet-root'),controller);
+  const paint=()=>{const now=serverNow+performance.now()-received,expired=now<model.phase.startedAt||model.phase.endsAt!==null&&now>=model.phase.endsAt;model={...model,phase:{...model.phase,nowMs:now,remainingMs:model.phase.endsAt===null?null:Math.max(0,model.phase.endsAt-now),expired},presentation:expired?null:{...model.presentation,nowMs:now}};notify?.(model);};
+  const interval=setInterval(paint,100);
+  presentationFixture={getModel:()=>model,advance(next,time){const p=PlanetPlayerViewSchema.parse(next);if(p.viewRevision<=model.revision)throw Error('Presentation fixture revision must increase');if(!Number.isSafeInteger(time)||time<p.phase.startedAt||p.phase.endsAt!==null&&time>=p.phase.endsAt)throw Error('Presentation fixture time must be inside its phase');value.playerView=structuredClone(p);value.publicView=publicPlanet(p);received=performance.now();serverNow=time;model={...base,revision:p.viewRevision,board:p.board,phase:{...p.phase,nowMs:time,remainingMs:p.phase.endsAt===null?null:p.phase.endsAt-time,trusted:true,expired:false},activeSeatId:p.activeSeatId,offices:p.offices,talk:p.hackSession,panel:'board',connection:'live',concealed:false,dark:false,canPass:false,canMove:false,moveRooms:[],action:null,privateArea:null,recovery:null,presentation:{nowMs:time,startedAt:p.phase.startedAt,endsAt:p.phase.endsAt,events:p.events,blackout:p.blackout,clone:null}};notify(model);},dispose(){clearInterval(interval);renderer.dispose();presentationFixture=null;}};
+  return 'guarded renderer, schema-validated presentation fixture';
+ },
  async admission(mode,context=originalAdmission){
   admissionRead=['forbidden','unavailable'].includes(mode)?mode:null;if(admissionRead){await app.session.refresh();return;}
   if(!context)throw Error('Synthetic admission needs its original request binding');originalAdmission=context;
