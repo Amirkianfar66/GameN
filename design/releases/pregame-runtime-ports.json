@@ -1,0 +1,378 @@
+{
+  "schema": "mothership.pregame-runtime-ports/1",
+  "manifestVersion": "design-0.8.0",
+  "sourceCommit": "e43d5e675cecf5a5a3c8afadea246f8c22cb8a7c",
+  "transform": {
+    "removeFirstLine": "// mothership:dev-only\n",
+    "importPrefixes": {
+      "../../crew-drawing/source/": "../../crew-drawing/",
+      "../../board-motion/figures/": "../../scene-drawing/"
+    }
+  },
+  "entrypoints": [
+    "apps/game/hosted/pregame-films/brand/brand.mjs",
+    "apps/game/hosted/pregame-films/roles/film.mjs",
+    "apps/game/hosted/pregame-films/boarding/boarding.mjs"
+  ],
+  "entries": [
+    {
+      "source": "design/pregame-films/boarding/boarding.mjs",
+      "runtime": "apps/game/hosted/pregame-films/boarding/boarding.mjs",
+      "sourceSha256": "56d3aadedfd2650fe9eabe6825ddc480d5bf551ab18fd49b18976e8f8646e860",
+      "runtimeSha256": "491ba81d4df233afcb702fc4c5ae2aa3eb5634f4e15b5ef24d1e9e5403d6c20f",
+      "sourceBytes": 26093,
+      "runtimeBytes": 26049
+    },
+    {
+      "source": "design/pregame-films/boarding/clock.mjs",
+      "runtime": "apps/game/hosted/pregame-films/boarding/clock.mjs",
+      "sourceSha256": "01ee3d10aa72eb08c314f294f66bd80f3386832f900bd5fe2652928eb22fdca9",
+      "runtimeSha256": "aef87768064ce88a8ecafb8cf687d06191ff026669adb1aae53f0217ff796eab",
+      "sourceBytes": 3306,
+      "runtimeBytes": 3283
+    },
+    {
+      "source": "design/pregame-films/boarding/roster.mjs",
+      "runtime": "apps/game/hosted/pregame-films/boarding/roster.mjs",
+      "sourceSha256": "a9998e948e5c5d5c3a79bd8ccd9a64ad7a0a1b42ba7e8c54ba14227e2ccf3287",
+      "runtimeSha256": "9cf86323ea622402b6131863573df944fdf1c755a17739fda076cd05df29abe5",
+      "sourceBytes": 1741,
+      "runtimeBytes": 1147,
+      "omitSyntheticTailAt": "/** Synthetic review rosters (fixtures). */"
+    },
+    {
+      "source": "design/pregame-films/brand/brand.mjs",
+      "runtime": "apps/game/hosted/pregame-films/brand/brand.mjs",
+      "sourceSha256": "d245c6c07264cd67038110fa03306077d4084ab6d89700628f7312aefad4e208",
+      "runtimeSha256": "4345ffc287bd296e2683d7f10789595345b486488ebbd3c2a7fdfd5f1e7a2d4a",
+      "sourceBytes": 5987,
+      "runtimeBytes": 5964
+    },
+    {
+      "source": "design/pregame-films/kit/cast.mjs",
+      "runtime": "apps/game/hosted/pregame-films/kit/cast.mjs",
+      "sourceSha256": "e82621624c1a35ced501f6a11742b82db465803b1c67407231d4d3debb3a0ffa",
+      "runtimeSha256": "d47d7574c6748037687957ca4138f14e06679210679d4c979c758ee760b01024",
+      "sourceBytes": 5666,
+      "runtimeBytes": 6230,
+      "approvedHookPatches": [
+        {
+          "before": "export function litFigure(",
+          "after": "// Runtime boundary: preserve the reviewed placement/light calculation while a retained consumer\n// mounts the frozen crew drawing once and applies crewPoseFrame to that same figure. The ordinary\n// reference renderer is unchanged when no collector is installed. The scope is synchronous.\nlet retainedFigures = null;\nexport function withRetainedFigures(collect, draw) {\n  const previous = retainedFigures;\n  retainedFigures = collect;\n  try { return draw(); } finally { retainedFigures = previous; }\n}\n\nexport function litFigure("
+        },
+        {
+          "before": "  const inner = dressedFigureSvg(member, sk, { outfit, prefix: `${id}-f`, inline: true, motion: life });",
+          "after": "  const inner = retainedFigures\n    ? retainedFigures({ id, member, sk, outfit, prefix: `${id}-f`, motion: life })\n    : dressedFigureSvg(member, sk, { outfit, prefix: `${id}-f`, inline: true, motion: life });"
+        }
+      ]
+    },
+    {
+      "source": "design/pregame-films/kit/fx.mjs",
+      "runtime": "apps/game/hosted/pregame-films/kit/fx.mjs",
+      "sourceSha256": "63caafa97178fad2e1cc27c74ef6e02cd000c5bf02d9a0451b339c373ace147c",
+      "runtimeSha256": "efb684c8ea0ff76d936ee2fb0cac93967ba6c612b20752b1d05636e247b64372",
+      "sourceBytes": 17499,
+      "runtimeBytes": 17476
+    },
+    {
+      "source": "design/pregame-films/kit/letters.mjs",
+      "runtime": "apps/game/hosted/pregame-films/kit/letters.mjs",
+      "sourceSha256": "6b445e906bc6e24ac41f6f761ac1ca0ea9f18bf51585900d8678e5901a017c03",
+      "runtimeSha256": "a16b9159d8ab25476417e7389583e103d04f26421854e25fc77ab030b3a7c9b4",
+      "sourceBytes": 11217,
+      "runtimeBytes": 11194
+    },
+    {
+      "source": "design/pregame-films/kit/math.mjs",
+      "runtime": "apps/game/hosted/pregame-films/kit/math.mjs",
+      "sourceSha256": "bb75faa3cd9612319844a84b632962eb61ce081d7c8756f6319fa29b0644111d",
+      "runtimeSha256": "1c27a89fa9803516c1f52292e94b271e2ac5f532e5a2c100d6f95150a4d016af",
+      "sourceBytes": 6170,
+      "runtimeBytes": 6147
+    },
+    {
+      "source": "design/pregame-films/roles/alien.mjs",
+      "runtime": "apps/game/hosted/pregame-films/roles/alien.mjs",
+      "sourceSha256": "91d34b541ac984de53c9759c362b4044ba01b151f0f7981844d001b0b2fdf61b",
+      "runtimeSha256": "b3abcbbd38e23d3518c34916eac2a5d3f9ef7a11ec4978b8b2294ec2ef2fe630",
+      "sourceBytes": 13538,
+      "runtimeBytes": 13508
+    },
+    {
+      "source": "design/pregame-films/roles/briefing.mjs",
+      "runtime": "apps/game/hosted/pregame-films/roles/briefing.mjs",
+      "sourceSha256": "67ddd7b4350c4c956bfd7d82842c0810416852cd776d552fd4a454b2b8a0e7ac",
+      "runtimeSha256": "fdaf7a324e65e4ad24bc5bd1c36b88380c69ae517d8db899fecd306af420c3a0",
+      "sourceBytes": 28657,
+      "runtimeBytes": 28613
+    },
+    {
+      "source": "design/pregame-films/roles/clock.mjs",
+      "runtime": "apps/game/hosted/pregame-films/roles/clock.mjs",
+      "sourceSha256": "0a85a45ae3f4209ee119466023be7191265cc6107c0933b7ad1dfbd906b1dec4",
+      "runtimeSha256": "c64310fd8860146d7abb2e07e1acb22c061f8d6095f764b503dbf6653285b9bc",
+      "sourceBytes": 7318,
+      "runtimeBytes": 7295
+    },
+    {
+      "source": "design/pregame-films/roles/common.mjs",
+      "runtime": "apps/game/hosted/pregame-films/roles/common.mjs",
+      "sourceSha256": "ce0fac5e297b21a2062713002ca7cbc43a022446a30fe614ff3b2849cb2ed5d3",
+      "runtimeSha256": "5db58b72b6a6031502c5e7f8523f2539ea29efb966f5d432bf71714908e50179",
+      "sourceBytes": 5993,
+      "runtimeBytes": 5963
+    },
+    {
+      "source": "design/pregame-films/roles/disabler.mjs",
+      "runtime": "apps/game/hosted/pregame-films/roles/disabler.mjs",
+      "sourceSha256": "d0c8d277a37ccc8ed8f08f0119d1bd09f36ff57b249b5ba3394146e57be5b6b4",
+      "runtimeSha256": "c5592b0ebd163bf7a3de006d04fbc28adde55756b6ea8183539261e2734edebe",
+      "sourceBytes": 21427,
+      "runtimeBytes": 21383
+    },
+    {
+      "source": "design/pregame-films/roles/doctor.mjs",
+      "runtime": "apps/game/hosted/pregame-films/roles/doctor.mjs",
+      "sourceSha256": "47c44af4809610491db20dc2450fafdf303b45af284601365bf8e47026f027a8",
+      "runtimeSha256": "97dc322ecf5e0864323de3e586cb6424b04fad92001211626efe0c88496d7410",
+      "sourceBytes": 25101,
+      "runtimeBytes": 25057
+    },
+    {
+      "source": "design/pregame-films/roles/engineer.mjs",
+      "runtime": "apps/game/hosted/pregame-films/roles/engineer.mjs",
+      "sourceSha256": "8dc5345bdc8dcca653bba47e044b708e5d29eb8ccc77b5a6970617a0b7f0d24b",
+      "runtimeSha256": "bfb02a2fc856eb71e823db9050aa1a273d24e3524811c3c68fb86c0b0dc940de",
+      "sourceBytes": 16633,
+      "runtimeBytes": 16596
+    },
+    {
+      "source": "design/pregame-films/roles/film.mjs",
+      "runtime": "apps/game/hosted/pregame-films/roles/film.mjs",
+      "sourceSha256": "2d6e1ccb2943313e6cc896a5f104f556e18ce1869b111f9d8392548bcd75a9e2",
+      "runtimeSha256": "4419626484a27e50d1db50cdcfd6c53354c2b0acb771c11f301672f67bb40bba",
+      "sourceBytes": 5942,
+      "runtimeBytes": 5912
+    },
+    {
+      "source": "design/pregame-films/roles/hacker.mjs",
+      "runtime": "apps/game/hosted/pregame-films/roles/hacker.mjs",
+      "sourceSha256": "213bec620d29395dc9f3a52e3549c48598841f8646e28394e922f1314c68145c",
+      "runtimeSha256": "33146882709ec0ab06aabea9c79852a7c4d292f77bbd0528551f875a9c03733a",
+      "sourceBytes": 15909,
+      "runtimeBytes": 15879
+    },
+    {
+      "source": "design/pregame-films/roles/insider.mjs",
+      "runtime": "apps/game/hosted/pregame-films/roles/insider.mjs",
+      "sourceSha256": "5371c794283210cd1a36ff3bba08c35c9b59b33664f00aecce786aa1bf718685",
+      "runtimeSha256": "c96a88eb5e5a62da8bf8e3a0411a41afb6b7b9442f256729afd7f5b39d401c55",
+      "sourceBytes": 18769,
+      "runtimeBytes": 18725
+    },
+    {
+      "source": "design/pregame-films/roles/page.mjs",
+      "runtime": "apps/game/hosted/pregame-films/roles/page.mjs",
+      "sourceSha256": "e5ffaf527ee213c05574657af45992d71fb843877f72b7e099067bded211a02e",
+      "runtimeSha256": "b200e1bfba08503e49ca5d1357841305d0d35a9849b7f852670c3e52643e042d",
+      "sourceBytes": 11069,
+      "runtimeBytes": 11046
+    },
+    {
+      "source": "design/pregame-films/roles/roles.mjs",
+      "runtime": "apps/game/hosted/pregame-films/roles/roles.mjs",
+      "sourceSha256": "e1924dfe1955abb2ee6f7ebd4e357dda062987dbc7d5d931583a2d55ebba82d2",
+      "runtimeSha256": "acd0729794d183411c1737ab6bdbdda28e2015a7c970091ac1acad7b5ec10ca8",
+      "sourceBytes": 1815,
+      "runtimeBytes": 1792
+    },
+    {
+      "source": "design/pregame-films/roles/supplier.mjs",
+      "runtime": "apps/game/hosted/pregame-films/roles/supplier.mjs",
+      "sourceSha256": "f620c0de3a2701a3226d1f07f1accb68bf53a0fb799e7273c699bff0f935c3a2",
+      "runtimeSha256": "5763945caa5475a0dd7d147462f72a962ac17833a2c9a305b6971e47c8bc1f27",
+      "sourceBytes": 18438,
+      "runtimeBytes": 18408
+    },
+    {
+      "source": "design/pregame-films/roles/undercover.mjs",
+      "runtime": "apps/game/hosted/pregame-films/roles/undercover.mjs",
+      "sourceSha256": "3688784e1d13116a42292546078184d89bce988f8e0c6d6096baca098edb753c",
+      "runtimeSha256": "0b601641df53df31504fcf0283dee28ae1efba1050e92cd3716dc4512ef22a33",
+      "sourceBytes": 18071,
+      "runtimeBytes": 18034
+    }
+  ],
+  "directDependencySources": [
+    "design/board-motion/figures/gestures.mjs",
+    "design/board-motion/figures/motion.mjs",
+    "design/crew-drawing/source/crew.mjs",
+    "design/crew-drawing/source/ink.mjs",
+    "design/crew-drawing/source/motion.mjs",
+    "design/crew-drawing/source/wardrobe.mjs"
+  ],
+  "dependencies": [
+    {
+      "source": "design/board-motion/figures/body.mjs",
+      "sourceSha256": "9d081fc4926d07dd1d56e90bd5452ed05052a806f2d33212a1b76c8e107fc958",
+      "runtime": "apps/game/hosted/scene-drawing/body.mjs",
+      "runtimeSha256": "82762010294c652f13a592a3f6de9117400bc18df414557492bec47b7d84b513",
+      "sourceCommit": "49f0db4d34d2a2a418f669a13bed660fc665b1b6"
+    },
+    {
+      "source": "design/board-motion/figures/crew.mjs",
+      "sourceSha256": "bb65a81f52013fc71966ae813d2d7929e871ed9b837c2f2c1cab9093135cb171",
+      "runtime": "apps/game/hosted/scene-drawing/crew.mjs",
+      "runtimeSha256": "d2147b981140504d47d2fecfbcf0d2efd5860cfe4929d2e3238173289ac8a093",
+      "sourceCommit": "49f0db4d34d2a2a418f669a13bed660fc665b1b6"
+    },
+    {
+      "source": "design/board-motion/figures/gestures.mjs",
+      "sourceSha256": "626e0b74fba44d055f0ea79777f4be475fd3998b9bff184ce8ff92b6770fe7c4",
+      "runtime": "apps/game/hosted/scene-drawing/gestures.mjs",
+      "runtimeSha256": "fb0c74ec0feee65f29e5ebbb14c949f2fb51afcb2bcef45e33807f0f7e06a823",
+      "sourceCommit": "49f0db4d34d2a2a418f669a13bed660fc665b1b6"
+    },
+    {
+      "source": "design/board-motion/figures/motion.mjs",
+      "sourceSha256": "b50a12ff2e967eca07778433d2359fef907397de90e04fff355367d0eae5343c",
+      "runtime": "apps/game/hosted/scene-drawing/motion.mjs",
+      "runtimeSha256": "8140af8d28cef802259d571993c5813718dda1ce064ff5075b541f4fee547a63",
+      "sourceCommit": "49f0db4d34d2a2a418f669a13bed660fc665b1b6"
+    },
+    {
+      "source": "design/board-motion/figures/parts.mjs",
+      "sourceSha256": "7c3d34f0b35856ad9287f32d525a612cc40b37feb3e6d26344b9b7de794c2a7e",
+      "runtime": "apps/game/hosted/scene-drawing/parts.mjs",
+      "runtimeSha256": "7f14f7a93d5d7b5d9f99f07e6e53c2d0edc562b9e080005c926cf7435b91f742",
+      "sourceCommit": "49f0db4d34d2a2a418f669a13bed660fc665b1b6"
+    },
+    {
+      "source": "design/board-motion/figures/rig.mjs",
+      "sourceSha256": "b7fd681bb392f0104785fda3c838a2ca2d749c04278e05c8bbec5bb6379da45c",
+      "runtime": "apps/game/hosted/scene-drawing/rig.mjs",
+      "runtimeSha256": "e73d4815b8d5afb457fad712c97136bb69384176c8e7e6335f89d101f63dad5d",
+      "sourceCommit": "49f0db4d34d2a2a418f669a13bed660fc665b1b6"
+    },
+    {
+      "source": "design/board-motion/figures/wardrobe.mjs",
+      "sourceSha256": "1c30862d77ce7fa94275934467c5b596e68dbe0d41f3d102bd0c040bc5feca6f",
+      "runtime": "apps/game/hosted/scene-drawing/wardrobe.mjs",
+      "runtimeSha256": "312c4cda048585f9270b3de095e2dcf44dc0dadd4c73392b1206da303ae8ddc3",
+      "sourceCommit": "49f0db4d34d2a2a418f669a13bed660fc665b1b6"
+    },
+    {
+      "source": "design/crew-drawing/source/crew.mjs",
+      "sourceSha256": "ac1634f0ac43a8c0a8e1b3adf0cd2803b983d7c2c868f0497724e108795ff043",
+      "runtime": "apps/game/hosted/crew-drawing/crew.mjs",
+      "runtimeSha256": "108685e795f20100e9fdbba4d03d15a9825487d761a469e6cbf62a2a8697d0c0",
+      "sourceCommit": "8cee39d89798390d03c2a4a9fe457fa6de387bda"
+    },
+    {
+      "source": "design/crew-drawing/source/figure.mjs",
+      "sourceSha256": "d61e1ee54161829fcb812b72e57c965523de6da6c84702ee848a84372fc23a90",
+      "runtime": "apps/game/hosted/crew-drawing/figure.mjs",
+      "runtimeSha256": "fcaa9fd62acb2f2a0378c63605ab52450cced0d10591c2ca786af422f6c0f968",
+      "sourceCommit": "8cee39d89798390d03c2a4a9fe457fa6de387bda"
+    },
+    {
+      "source": "design/crew-drawing/source/head.mjs",
+      "sourceSha256": "c03fb04cafc1b3d27d8fc5e7edfbf8b2fc8969ab370f9d92d8f8b65bac996891",
+      "runtime": "apps/game/hosted/crew-drawing/head.mjs",
+      "runtimeSha256": "d4ac83d8782c3e03938b4ea70888491db701c5dfcfde0b994db7fbed92d66290",
+      "sourceCommit": "8cee39d89798390d03c2a4a9fe457fa6de387bda"
+    },
+    {
+      "source": "design/crew-drawing/source/heads/atlas.mjs",
+      "sourceSha256": "1909d4a10c5bc28f4e7e44406c8f06d5130dd287bfde8fb3f153070fd5fe0cd1",
+      "runtime": "apps/game/hosted/crew-drawing/heads/atlas.mjs",
+      "runtimeSha256": "33e1c9250ab863bfa3cf9cddc40275b296938b4c8fa3c82db8abf68d1943b268",
+      "sourceCommit": "8cee39d89798390d03c2a4a9fe457fa6de387bda"
+    },
+    {
+      "source": "design/crew-drawing/source/heads/echo.mjs",
+      "sourceSha256": "3c8f99652e244b9f8c6b98f13f21249795c4fd106dfb5485695558488d5b0abf",
+      "runtime": "apps/game/hosted/crew-drawing/heads/echo.mjs",
+      "runtimeSha256": "8f11f3764ce45676f11d5d56bae0ef6d72c081a888245696e1455c799a023a15",
+      "sourceCommit": "8cee39d89798390d03c2a4a9fe457fa6de387bda"
+    },
+    {
+      "source": "design/crew-drawing/source/heads/juno.mjs",
+      "sourceSha256": "b9da5c07018ff73f7f222e056b8d7236eb2034b8cfc48ff7d56a6b4ca89942cb",
+      "runtime": "apps/game/hosted/crew-drawing/heads/juno.mjs",
+      "runtimeSha256": "4aa9f9600b1413ee8e2d55923be0ccfbe0c94e6624e438ecb435c5a46fe9e0ad",
+      "sourceCommit": "8cee39d89798390d03c2a4a9fe457fa6de387bda"
+    },
+    {
+      "source": "design/crew-drawing/source/heads/lyra.mjs",
+      "sourceSha256": "dc9271377889eaf171812ef306c5fc30bc2467b26f0100e60188c6aac5cd7ab7",
+      "runtime": "apps/game/hosted/crew-drawing/heads/lyra.mjs",
+      "runtimeSha256": "39e6609847417994edf7c17ce25e46a0d9a349654cb02790e7b7f5a20ffa44d1",
+      "sourceCommit": "8cee39d89798390d03c2a4a9fe457fa6de387bda"
+    },
+    {
+      "source": "design/crew-drawing/source/heads/mira.mjs",
+      "sourceSha256": "21244acd174f1728b405c28086a0c9df50f89a214f8ff00d076397e7b3ccd523",
+      "runtime": "apps/game/hosted/crew-drawing/heads/mira.mjs",
+      "runtimeSha256": "8e410ed0422df3a8da91109d7770637680da7e3d2bb53b323c38314a14b8da69",
+      "sourceCommit": "8cee39d89798390d03c2a4a9fe457fa6de387bda"
+    },
+    {
+      "source": "design/crew-drawing/source/heads/nova.mjs",
+      "sourceSha256": "4380e7e76071ba74f6db2f69600ba239fa13d3907b914523704191dcadf5338f",
+      "runtime": "apps/game/hosted/crew-drawing/heads/nova.mjs",
+      "runtimeSha256": "cf3304025eb6243d2aacfaaece05d027c5733569b671b6463e71972c531c43d6",
+      "sourceCommit": "8cee39d89798390d03c2a4a9fe457fa6de387bda"
+    },
+    {
+      "source": "design/crew-drawing/source/heads/orion.mjs",
+      "sourceSha256": "a37e4340d38f46d5c618746f424e7992339645b0f63e27d887b04d29cce5151e",
+      "runtime": "apps/game/hosted/crew-drawing/heads/orion.mjs",
+      "runtimeSha256": "7c0a2053f250ba030fe4aac4cb16e7334ec5b14379cc8333f61498d2e4fd25b5",
+      "sourceCommit": "8cee39d89798390d03c2a4a9fe457fa6de387bda"
+    },
+    {
+      "source": "design/crew-drawing/source/heads/rigel.mjs",
+      "sourceSha256": "803a3c768d8eb21634d0a3f37953fb4788008f471bd7f4a14f1526aa76289898",
+      "runtime": "apps/game/hosted/crew-drawing/heads/rigel.mjs",
+      "runtimeSha256": "ec5b2197530c581d8eaa7dbb1152ad795c7118993f6f374108f09f2fcbc5cf5f",
+      "sourceCommit": "8cee39d89798390d03c2a4a9fe457fa6de387bda"
+    },
+    {
+      "source": "design/crew-drawing/source/heads/vega.mjs",
+      "sourceSha256": "ee61eaad800b04631ab4dbbfffda62dc792bcef8c876f7504a2d44e478165656",
+      "runtime": "apps/game/hosted/crew-drawing/heads/vega.mjs",
+      "runtimeSha256": "99bf51b375c60b857fd71a36433b84e1a4e767da6366752aa08ed1277ed8c4ff",
+      "sourceCommit": "8cee39d89798390d03c2a4a9fe457fa6de387bda"
+    },
+    {
+      "source": "design/crew-drawing/source/ink.mjs",
+      "sourceSha256": "48c881a03cfbfaf383aedacc2d8f91818279655b3737416d93f36373b95be34d",
+      "runtime": "apps/game/hosted/crew-drawing/ink.mjs",
+      "runtimeSha256": "53787159af457c1c4e41cc9ce7567f14b154149fcdbe986b27b6aae3b8f2966e",
+      "sourceCommit": "8cee39d89798390d03c2a4a9fe457fa6de387bda"
+    },
+    {
+      "source": "design/crew-drawing/source/motion.mjs",
+      "sourceSha256": "405f22b75eb027d4408c3d0d9c5f328f01711e8363f69e7517ee7fa4160dd280",
+      "runtime": "apps/game/hosted/crew-drawing/motion.mjs",
+      "runtimeSha256": "fe753aa1be111f99e98ef146e0c648d1f9e6b3f9726e312ca38bcc3be040c5fe",
+      "sourceCommit": "8cee39d89798390d03c2a4a9fe457fa6de387bda"
+    },
+    {
+      "source": "design/crew-drawing/source/wardrobe.mjs",
+      "sourceSha256": "5ce2a7530cfb7d3cfc41153d29a33894ed4a74afbd9b88cb30a6e38d9eadca17",
+      "runtime": "apps/game/hosted/crew-drawing/wardrobe.mjs",
+      "runtimeSha256": "d1de51191efb793ae484fe5a0ef9b10e530b43ea2e227aa093d07cf6ce25fa9b",
+      "sourceCommit": "8cee39d89798390d03c2a4a9fe457fa6de387bda"
+    }
+  ],
+  "excluded": [
+    "review/",
+    "stage.html",
+    "stage.mjs",
+    "films.mjs",
+    "renders.mjs",
+    "boarding/roster.mjs synthetic REVIEW_ROSTERS export tail"
+  ]
+}

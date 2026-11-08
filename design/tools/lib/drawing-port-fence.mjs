@@ -13,6 +13,8 @@ export const CANDIDATE_DRAWING_POLICY = 'design/releases/board-v2-four-drawing-a
 export const PLANET_DRAWING_POLICY = 'design/releases/planet-drawing-approval.json';
 export const CREW_DRAWING_POLICY = 'design/releases/crew-drawing-approval.json';
 export const CREW_CONSUMER_DRAWING_POLICY = 'design/releases/crew-consumer-drawing-approval.json';
+export const PREGAME_DRAWING_POLICY = 'design/releases/pregame-drawing-approval.json';
+const PREGAME_DRAWING_POLICY_SHA256 = 'd93469af3e96ddcd35fa41b650ebc6161b34a396dc68a29610c58ce4697fc60e';
 const CREW_CONSUMER_DRAWING_POLICY_SHA256 = 'c7ebfa715d1b197c160156c199c8d90c14276f516b96fd99210cc5bb4a3ef9dc';
 const CREW_DRAWING_POLICY_SHA256 = 'f2be8f9c702443effefcbb63fff36aab97f4f4d1bff3c9e13246077c95800f25';
 const PLANET_DRAWING_POLICY_SHA256 = '0fc219ac5f1f8598a715c1a35140ff18f04cc6593785329b9219cb3d2478d497';
@@ -52,16 +54,24 @@ export function readDrawingPolicy(root) {
   const consumer = JSON.parse(consumerBytes);
   if (consumer.parentApprovalSha256 !== CREW_DRAWING_POLICY_SHA256) throw Error('Crew consumer drawing parent approval differs');
   for (const key of ['buildFiles', 'metadataFiles', 'requiredFiles']) policy[key] = { ...policy[key], ...consumer[key] };
+  let pregameBytes;
+  try { pregameBytes = readFileSync(resolve(root, PREGAME_DRAWING_POLICY)); }
+  catch (error) { if (error.code === 'ENOENT') return policy; throw error; }
+  if (contentSha256(pregameBytes) !== PREGAME_DRAWING_POLICY_SHA256) throw Error('Pregame drawing approval content hash differs');
+  const pregame = JSON.parse(pregameBytes);
+  if (pregame.parentApprovalSha256 !== CREW_CONSUMER_DRAWING_POLICY_SHA256) throw Error('Pregame drawing parent approval differs');
+  for (const key of ['ports', 'sourceHashes', 'requiredFiles', 'metadataFiles', 'buildFiles']) policy[key] = { ...policy[key], ...pregame[key] };
   return policy;
 }
-const DRAWING_DIRECTORIES = ['apps/game/hosted/scene-drawing/', 'apps/game/hosted/board-v2-drawing/', 'apps/game/hosted/crew-drawing/'];
+const DRAWING_DIRECTORIES = ['apps/game/hosted/scene-drawing/', 'apps/game/hosted/board-v2-drawing/', 'apps/game/hosted/crew-drawing/', 'apps/game/hosted/pregame-films/'];
 const DIRECTORIES = ['apps/game/src', 'apps/game/hosted', 'packages/presentation/src'];
 
 function normalize(value) {
   for (let i = 0; i < 2; i++) { try { value = decodeURIComponent(value); } catch { break; } }
   return value.replaceAll('\\', '/').replace(/\/+/g, '/').toLowerCase();
 }
-const prototypeLocation = value => /(?:^|\/)(?:board-motion|phone-feedback|phone-kit|board-v2)(?:\/|$)/.test(normalize(value));
+const prototypeLocation = value => /(?:^|\/)(?:board-motion|phone-feedback|phone-kit|board-v2)(?:\/|$)/.test(normalize(value))
+  || /(?:^|\/)design\/pregame-films(?:\/|$)/.test(normalize(value));
 function staticString(node) {
   if (ts.isStringLiteralLike(node)) return node.text;
   if (ts.isParenthesizedExpression(node)) return staticString(node.expression);
@@ -100,7 +110,7 @@ function staticReferences(path, content, location, nonJsPattern) {
 }
 
 export function prototypeReferences(path, content) {
-  return staticReferences(path, content, prototypeLocation, /(?:design[\\/])?(?:board-motion|phone-feedback|phone-kit|board-v2)[\\/][\w./%\\-]*/gi);
+  return staticReferences(path, content, prototypeLocation, /(?:(?:design[\\/])?(?:board-motion|phone-feedback|phone-kit|board-v2)|design[\\/]pregame-films)[\\/][\w./%\\-]*/gi);
 }
 export function abilityPrototypeReferences(path, content) {
   return staticReferences(path, content, value => /(?:^|\/)design\/abilities(?:\/|$)/.test(normalize(value)), /design[\\/]abilities[\\/][\w./%\\-]*/gi);
@@ -113,23 +123,36 @@ export function reviewedAbilityProse(policy, path, content) {
 export async function productionDrawingProblems(root) {
   root = resolve(root);
   const problems = [], files = [];
-  let policy;
-  try { policy = readDrawingPolicy(root); } catch (error) { return [error.message]; }
+  let policy, acceptsCandidate = () => false;
+  try {
+    policy = readDrawingPolicy(root);
+    if (process.env.MOTHERSHIP_PREGAME_CONSUMER_REVIEW === '1') {
+      const { readPregameConsumerCandidate, acceptsPregameCandidateFile } = await import('../../../scripts/pregame-consumer-candidate.mjs');
+      const candidate = readPregameConsumerCandidate(root);
+      acceptsCandidate = (path, expected, actual) => acceptsPregameCandidateFile(candidate, path, expected, actual);
+    }
+  } catch (error) { return [error.message]; }
+  const acceptedHash = (path, expected, actual) => expected === actual || acceptsCandidate(path, expected, actual);
   const read = path => readFile(resolve(root, path));
   for (const [path, expected] of Object.entries(policy.requiredFiles ?? {})) {
     const bytes = await read(path).catch(() => null);
-    if (bytes === null || contentSha256(bytes) !== expected) problems.push(`${path}: required candidate drawing input differs`);
+    if (bytes === null || !acceptedHash(path, expected, contentSha256(bytes))) problems.push(`${path}: required candidate drawing input differs`);
   }
   for (const directory of DIRECTORIES) {
     const entries = await readdir(resolve(root, directory), { withFileTypes: true, recursive: true }).catch(() => []);
-    for (const entry of entries) if (entry.isFile()) files.push(`${entry.parentPath ?? entry.path}/${entry.name}`.replace(`${root}/`, ''));
+    for (const entry of entries) {
+      const path = `${entry.parentPath ?? entry.path}/${entry.name}`.replace(`${root}/`, '');
+      if (entry.isSymbolicLink() && DRAWING_DIRECTORIES.some(directory => path === directory.slice(0, -1) || path.startsWith(directory)))
+        problems.push(`${path}: symlink in the adopted drawing ports`);
+      if (entry.isFile()) files.push(path);
+    }
   }
   let usesDrawingPorts = false;
   for (const path of files.sort()) {
     const bytes = await read(path), content = bytes.toString('utf8'), hash = contentSha256(bytes);
     const port = policy.ports[path], style = policy.styles[path], build = policy.buildFiles[path], metadata = policy.metadataFiles?.[path];
     const reviewedPort = port?.sha256 === hash, reviewedStyle = style?.sha256 === hash, reviewedBuild = build?.sha256 === hash;
-    const reviewedMetadata = metadata?.sha256 === hash;
+    const reviewedMetadata = metadata && acceptedHash(path, metadata.sha256, hash);
     const drawingPath = DRAWING_DIRECTORIES.some(directory => path.startsWith(directory));
     if (drawingPath) {
       usesDrawingPorts = true;
@@ -160,7 +183,7 @@ export async function productionDrawingProblems(root) {
     ].map(normalize));
     const forbidden = prototypeReferences(path, content).filter(value => !permitted.has(normalize(value)));
     if (forbidden.length || (content.toLowerCase().includes('board-motion') && !reviewedPort && !reviewedStyle && !reviewedBuild)) {
-      const family = forbidden.map(value => normalize(value).match(/(?:^|\/)(phone-feedback|phone-kit|board-v2|board-motion)(?:\/|$)/)?.[1]).find(Boolean) ?? 'board-motion';
+      const family = forbidden.map(value => normalize(value).match(/(?:^|\/)(phone-feedback|phone-kit|board-v2|board-motion|pregame-films)(?:\/|$)/)?.[1]).find(Boolean) ?? 'board-motion';
       problems.push(`${path}: production code refers to the ${family} prototype`);
     }
     if ((content.includes('design/abilities') || abilityPrototypeReferences(path, content).length)

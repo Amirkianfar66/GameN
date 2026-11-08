@@ -1,0 +1,114 @@
+{
+  "schema": "mothership.pregame-consumer-candidate/1",
+  "status": "local-review-only",
+  "reviewEnvironment": {
+    "name": "MOTHERSHIP_PREGAME_CONSUMER_REVIEW",
+    "value": "1"
+  },
+  "scope": "Exact local consumer review only. No default activation, release approval, deployment, or changes to immutable artwork manifests or existing approvals.",
+  "baselineCommit": "32055776d09235be0e55d41ac24407d02c6fafa9",
+  "frontendProposalSha256": "96eb854b919730d7b7979392d683760f501023016a3b6c06a0e178dc8b94508e",
+  "artManifest": {
+    "path": "design/releases/design-0.8.0.json",
+    "sha256": "c2e5b6a423d2a583be669147b70a23e2391fce770372137e99f46c3c75b13b5d"
+  },
+  "existingConsumerApproval": {
+    "path": "docs/integration/crew-consumer-approval-2026-11-07.json",
+    "sha256": "8675a1d45cbf55aa69ccc65e18593d28c7ac54282ed52eb5c10e9b70e2c0511e"
+  },
+  "historicalBlobsDirectory": "design/releases/historical-blobs",
+  "files": {
+    "apps/game/hosted/crew-runtime.mjs": {
+      "sha256": "3ead960a67a8fe3b9154eb19cb4ca0de6eb122bb0b38392745968ff0b429cb32",
+      "bytes": 11429,
+      "previousSha256": "b87470745a0afac4a2d9147d26c4eb622ed4c2f6d8abf710f285d35b50eb2cf5",
+      "acceptedPreviousHashes": [
+        "b87470745a0afac4a2d9147d26c4eb622ed4c2f6d8abf710f285d35b50eb2cf5"
+      ],
+      "candidateBlob": "design/releases/candidate-blobs/3ead960a67a8fe3b9154eb19cb4ca0de6eb122bb0b38392745968ff0b429cb32"
+    },
+    "apps/game/hosted/planet/app.mjs": {
+      "sha256": "610711ad7b38bc77936c4f7817dc6c389ce83110c70b198d3b476373b1cca0ca",
+      "bytes": 20464,
+      "previousSha256": "f107ee5fd6a829a8cd61d4f9a82e19ee7e465208584d9635450464df9740f1d1",
+      "acceptedPreviousHashes": [
+        "5ec4dab00a8f959efab6d1e711e8fa0f304b0209e121df7109b6532e3a281261",
+        "f107ee5fd6a829a8cd61d4f9a82e19ee7e465208584d9635450464df9740f1d1"
+      ],
+      "candidateBlob": "design/releases/candidate-blobs/610711ad7b38bc77936c4f7817dc6c389ce83110c70b198d3b476373b1cca0ca"
+    },
+    "apps/game/hosted/planet/render.mjs": {
+      "sha256": "42ecc7f23a496cb341455c6c388648c35de18c2b51dcaec99201f296e1768b4d",
+      "bytes": 39175,
+      "previousSha256": "b18fa2c7c4065ecf12623719eeed439586aa998e636664c520ad8174bee142d2",
+      "acceptedPreviousHashes": [
+        "b18fa2c7c4065ecf12623719eeed439586aa998e636664c520ad8174bee142d2",
+        "d8f1d3e14278aed096c9a19e8e0c6b30e6d15bccdf38e6d31b4b81f8826f3beb"
+      ],
+      "candidateBlob": "design/releases/candidate-blobs/42ecc7f23a496cb341455c6c388648c35de18c2b51dcaec99201f296e1768b4d"
+    },
+    "apps/game/hosted/planet/preferences.mjs": {
+      "sha256": "739e25abb257b78d912f18a7ec57ab807be4c84a540cb8ae072b3b45e22813ad",
+      "bytes": 2373,
+      "previousSha256": null,
+      "acceptedPreviousHashes": [],
+      "candidateBlob": "design/releases/candidate-blobs/739e25abb257b78d912f18a7ec57ab807be4c84a540cb8ae072b3b45e22813ad"
+    },
+    "apps/game/hosted/planet/pregame-scene.mjs": {
+      "sha256": "413bf5fbb4b66b3a21838e0cc85dec94f2f3b953fa5d7a6d1d2dcd0fe09bfbf7",
+      "bytes": 8491,
+      "previousSha256": null,
+      "acceptedPreviousHashes": [],
+      "candidateBlob": "design/releases/candidate-blobs/413bf5fbb4b66b3a21838e0cc85dec94f2f3b953fa5d7a6d1d2dcd0fe09bfbf7"
+    },
+    "apps/game/hosted/planet/pregame.mjs": {
+      "sha256": "3d9f69075a9e0db4977735de1e7b65775bd4f6760c676c2311da9fd42d49c2f7",
+      "bytes": 4461,
+      "previousSha256": null,
+      "acceptedPreviousHashes": [],
+      "candidateBlob": "design/releases/candidate-blobs/3d9f69075a9e0db4977735de1e7b65775bd4f6760c676c2311da9fd42d49c2f7"
+    },
+    "apps/game/hosted/planet/pregame.css": {
+      "sha256": "e5b7de61422d86b97df6a5ca5885b7ea174504f45a83b6fdc4df5e7a167b30a5",
+      "bytes": 1472,
+      "previousSha256": null,
+      "acceptedPreviousHashes": [],
+      "candidateBlob": "design/releases/candidate-blobs/e5b7de61422d86b97df6a5ca5885b7ea174504f45a83b6fdc4df5e7a167b30a5"
+    },
+    "apps/game/src/index.ts": {
+      "sha256": "dc51ee10a250bec2885a2d235d4c35371796f9716468bbebbd17210254cf6dba",
+      "bytes": 4943,
+      "previousSha256": "d0552ddbe10c479f2bfcd24357a2788d31731918b097c67ef086e99f7ca74829",
+      "acceptedPreviousHashes": [
+        "d0552ddbe10c479f2bfcd24357a2788d31731918b097c67ef086e99f7ca74829"
+      ],
+      "candidateBlob": "design/releases/candidate-blobs/dc51ee10a250bec2885a2d235d4c35371796f9716468bbebbd17210254cf6dba"
+    },
+    "apps/game/src/planet/session.ts": {
+      "sha256": "51da0ccf3122facc0a64d2f82de5ca7696f7ef23b387886d84d30ff3c28c057f",
+      "bytes": 20903,
+      "previousSha256": "8e2cb552b43c81746efccdc6dbf5e85b5effb6d1d42b47ad11f3b720209eeb67",
+      "acceptedPreviousHashes": [
+        "8e2cb552b43c81746efccdc6dbf5e85b5effb6d1d42b47ad11f3b720209eeb67"
+      ],
+      "candidateBlob": "design/releases/candidate-blobs/51da0ccf3122facc0a64d2f82de5ca7696f7ef23b387886d84d30ff3c28c057f"
+    },
+    "apps/game/src/planet/pregame.ts": {
+      "sha256": "e9e3a368f5d1b802dcc6c8b9a21923791c430f562d0f9a8c43e854e00cbe9ed4",
+      "bytes": 7643,
+      "previousSha256": null,
+      "acceptedPreviousHashes": [],
+      "candidateBlob": "design/releases/candidate-blobs/e9e3a368f5d1b802dcc6c8b9a21923791c430f562d0f9a8c43e854e00cbe9ed4"
+    },
+    "packages/presentation/src/planet/library.ts": {
+      "sha256": "304db05495cec9ab77054c0ad26a400ab122475e03f3abc89d05cc1e5d7c89e1",
+      "bytes": 2184,
+      "previousSha256": "b4b283f5dc3fbc296f756014c97ac7bca786dedeb2617b124c191187d4f9c2c3",
+      "acceptedPreviousHashes": [
+        "4e370ff02c4e9d5405e407f49d3dedaceb9a989252274f90dc9e8bb4e2143b17",
+        "b4b283f5dc3fbc296f756014c97ac7bca786dedeb2617b124c191187d4f9c2c3"
+      ],
+      "candidateBlob": "design/releases/candidate-blobs/304db05495cec9ab77054c0ad26a400ab122475e03f3abc89d05cc1e5d7c89e1"
+    }
+  }
+}

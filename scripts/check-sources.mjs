@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { prepareSetupArt } from './setup-art-candidate.mjs';
 import { prepareBoardV2MotionArt } from './board-v2-motion-art.mjs';
 import { verifyBoardV2RuntimePorts } from './board-v2-runtime-ports.mjs';
-import { readRuntimeArtRelease, PLANET_ART_VERSION, CREW_ART_VERSION } from './runtime-art-release.mjs';
+import { readRuntimeArtRelease, PLANET_ART_VERSION, CREW_ART_VERSION, PREGAME_ART_VERSION } from './runtime-art-release.mjs';
 import { verifyCrewDrawingPorts, prepareCrewDrawingArt } from './crew-drawing-art.mjs';
 
 const root = new URL('../', import.meta.url);
@@ -122,3 +122,6 @@ console.log(`Planet art integrity: ${Object.keys(planetArt.bundles).length} comm
 
 const crewArt = readRuntimeArtRelease(fileURLToPath(root), CREW_ART_VERSION);
 console.log(`Crew art registration: ${verifyCrewDrawingPorts(fileURLToPath(root))} exact ports; ${prepareCrewDrawingArt(fileURLToPath(root)).length} new uniform bundles; tokens ${crewArt.tokens.version}; runtime activation remains separate`);
+
+const pregameArt = readRuntimeArtRelease(fileURLToPath(root), PREGAME_ART_VERSION);
+console.log(`Pregame art registration: ${pregameArt.pregameRelease.ports} exact named modules; frozen dependencies; consumer review and setup flow activation remain separate`);
