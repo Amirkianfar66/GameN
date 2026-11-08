@@ -42,7 +42,8 @@ function initializePlanetRuntime() {
   const configuration=assertPlanetRuntimeEnvironment(process.env);
   const app=getRuntime().app;
   return {app,configuration,service:createProductionPlanetService({store:createFirestorePlanetStore(getFirestore(app)),
-    assetManifestVersion:configuration.assetManifestVersion,enabled:configuration.creationEnabled})};
+    assetManifestVersion:configuration.assetManifestVersion,enabled:configuration.creationEnabled,
+    ...(configuration.setupFlowVersion === undefined ? {} : {setupFlowVersion:configuration.setupFlowVersion})})};
 }
 let planetRuntime:ReturnType<typeof initializePlanetRuntime>|undefined;
 const planet=createPlanetEntrypoints(()=>planetRuntime ??= initializePlanetRuntime());

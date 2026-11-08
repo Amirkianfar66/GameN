@@ -34,11 +34,11 @@ export function memoryPlanetStore(seed=[]) {
     export:()=>clone([...records]),retryNext:()=>{retry=true;},loseNextAcknowledgement:(prefix='')=>{loseAck=prefix;}};
 }
 
-export async function planetServiceHarness({count=7,humans=1,store=memoryPlanetStore(),assetManifestVersion='design-0.6.0',sample=.999999}={}) {
+export async function planetServiceHarness({count=7,humans=1,store=memoryPlanetStore(),assetManifestVersion='design-0.6.0',sample=.999999,setupFlowVersion}={}) {
   const prefix='ps-'+randomUUID();let sequence=0,now=1_800_000_000_000,draws=0;
   const nextId=()=>prefix+'-'+(++sequence);
   const options={store,engine,clock:()=>now,newId:nextId,randomSamples:()=>{draws++;return Array(64).fill(sample);},
-    newRecoveryCode:()=>nextId()+'-recovery',assetManifestVersion};
+    newRecoveryCode:()=>nextId()+'-recovery',assetManifestVersion,...(setupFlowVersion===undefined?{}:{setupFlowVersion})};
   let service=createPlanetService(options);
   const host=prefix+'-host',players=Array.from({length:humans},(_,i)=>prefix+'-player-'+(i+1)),display=prefix+'-display';
   const invoke=(uid,operation,fields={})=>service.handle(uid,{operation,...fields});
@@ -58,7 +58,7 @@ export async function planetServiceHarness({count=7,humans=1,store=memoryPlanetS
     },
     approve:admission=>operation(host,'approveAdmission',{matchId:created.matchId,admissionId:admission.admissionId}),
     currentJob:async()=>{
-      const s=await h.current(),setup=s.status==='choosing'||s.status==='reading';
+      const s=await h.current(),setup=s.status==='choosing'||s.status==='reading'||s.status==='boarding';
       const phaseId=setup?s.setup.id:s.state.phase.id,deadlineToken=setup?s.setup.token:s.state.deadlineToken;
       return {matchId:created.matchId,phaseId,deadlineToken,kind:setup?'setup':'game',taskId:digest([created.matchId,phaseId,deadlineToken])};
     },
