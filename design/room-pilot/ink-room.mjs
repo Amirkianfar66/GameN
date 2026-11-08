@@ -250,8 +250,8 @@ export function glow(cv, cx, cy, rx, ry, color, opacity) {
 }
 
 /** A line drawn by hand, even, wavering a little (a seam, a cable, an edge). */
-export function handLine(cv, points, { closed = false, color = INK, width = 2, opacity = null, seed = 3, wobble = 0.5, cap = 'round' } = {}) {
-  const line = waver(spline(points, { closed, step: 4, tension: 0 }), seed, wobble, 14, closed);
+export function handLine(cv, points, { closed = false, color = INK, width = 2, opacity = null, seed = 3, wobble = 0.5, cap = 'round', tension = 0 } = {}) {
+  const line = waver(spline(points, { closed, step: 4, tension }), seed, wobble, 14, closed);
   cv.raw(`<path d="${pathOfPoly(line, closed)}" fill="none" stroke="${color}" stroke-width="${r2(width)}" stroke-linecap="${cap}" stroke-linejoin="round"${opacity === null ? '' : ` opacity="${r2(opacity)}"`}/>`);
 }
 
@@ -342,6 +342,13 @@ function drawShape(cv, node, style, ctx) {
   const rule = style.rule === 'evenodd' ? ' fill-rule="evenodd"' : '';
   const d = () => shapes.map(s => pathOfPoly(s.points, s.closed)).join('');
 
+  // A gradient (a lens, a glow) is kept as it is, under this picture's ids, its outline inked.
+  if (fill && fill.startsWith('url(') && ctx.gradients.has(fill.slice(5, -1))) {
+    cv.raw(`<path d="${d()}"${rule} fill="url(#${cv.prefix}-${fill.slice(5, -1)})"${opacity < 1 ? ` opacity="${r2(opacity)}"` : ''}/>`);
+    if (stroke) shapes.forEach((s, k) => (s.closed ? cv.outline(waver(spline(s.points, { step: 4, tension: 0 }), seed + k, 0.4), clamp(style.strokeWidth * 0.72, 1.2, 3.6), seed + k) : handLine(cv, s.points, { width: style.strokeWidth * 0.92, seed: seed + k })));
+    return 'shape';
+  }
+
   // Today's halftone: ink dots become the crew's hatching; paper dots a paper dot screen. A
   // pool's dotted rim is left out: the pool is drawn again.
   if (fill && fill.startsWith('url(')) {
@@ -409,11 +416,12 @@ function drawShape(cv, node, style, ctx) {
     return 'shape';
   }
 
-  // A line: a seam, a cable, an edge, a mark.
+  // A line: a seam, a cable, an edge, a mark; a ring drawn round (a circle's or an ellipse's outline).
   if (!stroke) return 'empty';
+  const round = node.tag === 'circle' || node.tag === 'ellipse';
   shapes.forEach((s, k) => handLine(cv, s.points, {
     closed: s.closed, color: stroke, width: style.strokeWidth * (stroke === INK ? 0.92 : 1), opacity: opacity < 1 ? opacity : null,
-    seed: seed + k, wobble: clamp(style.strokeWidth * 0.12, 0.3, 0.6), cap: style.cap ?? 'round',
+    seed: seed + k, wobble: clamp(style.strokeWidth * 0.12, 0.3, 0.6), cap: style.cap ?? 'round', tension: round ? 1 : 0,
   }));
   return 'shape';
 }
@@ -423,6 +431,12 @@ const SHAPES = new Set(['polygon', 'polyline', 'rect', 'circle', 'ellipse', 'lin
 function draw(cv, node, inherited, ctx) {
   const a = node.attrs;
   if (node.tag === 'defs' || node.tag === 'clipPath' || node.tag === 'pattern' || node.tag === 'mask') return;
+  // A shape not picked is passed over, its seed spent as if drawn, so every picked shape is drawn
+  // exactly as the whole picture draws it.
+  if (ctx.pick && SHAPES.has(node.tag) && !ctx.pick(node, ctx.part)) {
+    if (shapesOf(node).length) ctx.next();
+    return;
+  }
   const style = {
     fill: a.fill ?? inherited.fill,
     stroke: a.stroke ?? inherited.stroke,
@@ -444,7 +458,7 @@ function draw(cv, node, inherited, ctx) {
     if (space) cv.raw('<g data-space="">');
     for (const child of node.children) draw(cv, child, style, inner);
     if (space) cv.raw('</g>');
-    if (!ctx.layer && part === 'shell' && ctx.part !== 'shell') sideWalls(cv, ctx.family);
+    if (!ctx.layer && !ctx.pick && part === 'shell' && ctx.part !== 'shell') sideWalls(cv, ctx.family);
   } else if (SHAPES.has(node.tag)) {
     ctx.stats.source += 1;
     ctx.stats[drawShape(cv, node, style, ctx)] += 1;
@@ -459,8 +473,13 @@ function draw(cv, node, inherited, ctx) {
  * header: given, the picture as a file, with its XML declaration and this comment. stats: an
  * object given the count of today's shapes (source) and of what each became: a shape drawn again,
  * a pool, a shaft, a pool's dotted rim left out (the pool is drawn whole), or empty (no geometry).
+ * pick(node, part): given, only today's shapes it picks are drawn, each exactly as the whole
+ * picture draws it (the same seed, part and tone), with none of the room's own light: the pieces
+ * a film moves over the room (the Jail's door), which at rest are the room itself. finishing: with
+ * pick, the room's dark at the panel's edges is drawn too (it lies over everything). box: the
+ * picture's size, for a film's sprite (a drone, a lamp) drawn in the same hand; 1024 x 768 a room's.
  */
-export function inkRoomSvg(text, family, { prefix, layer = false, header = null, stats = {} } = {}) {
+export function inkRoomSvg(text, family, { prefix, layer = false, header = null, stats = {}, pick = null, finishing = false, box = [1024, 768] } = {}) {
   if (!prefix) throw new Error('inkRoomSvg needs a prefix');
   const svg = parseSvg(text);
   const cv = inkCanvas(prefix);
@@ -470,10 +489,21 @@ export function inkRoomSvg(text, family, { prefix, layer = false, header = null,
   for (const clip of defs?.children.filter(node => node.tag === 'clipPath') ?? []) {
     cv.def(`<clipPath id="${prefix}-${clip.attrs.id}">${clip.children.map(child => serialize(child, {}, new Set(['id']))).join('')}</clipPath>`);
   }
+  // Today's gradients, kept, under this picture's ids.
+  const gradients = new Set();
+  for (const gradient of defs?.children.filter(node => /^(?:linear|radial)Gradient$/.test(node.tag)) ?? []) {
+    gradients.add(gradient.attrs.id);
+    cv.def(serialize(gradient, { id: `${prefix}-${gradient.attrs.id}` }, new Set()));
+  }
   let count = 0;
   Object.assign(stats, { source: 0, shape: 0, pool: 0, shaft: 0, rim: 0, empty: 0 });
-  const ctx = { family, layer, part: null, stats, next: () => (count += 1) * 7 };
+  const ctx = { family, layer, part: null, stats, pick, gradients, next: () => (count += 1) * 7 };
   for (const child of svg.children) draw(cv, child, { fill: '#000000', stroke: 'none', strokeWidth: 1 }, ctx);
-  if (!layer) finish(cv);
-  return cv.svg({ viewBox: '0 0 1024 768', width: 1024, height: 768, inline: header === null, header: header ?? '' });
+  if (!layer && (!pick || finishing)) finish(cv);
+  const out = cv.svg({ viewBox: `0 0 ${box[0]} ${box[1]}`, width: box[0], height: box[1], inline: header === null, header: header ?? '' });
+  if (!pick) return out;
+  // Groups left empty by the shapes passed over.
+  let trimmed = out, before;
+  do { before = trimmed; trimmed = trimmed.replace(/<g(?: [^>]*)?><\/g>/g, ''); } while (trimmed !== before);
+  return trimmed;
 }

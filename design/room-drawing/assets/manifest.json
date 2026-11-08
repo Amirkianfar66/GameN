@@ -8,7 +8,7 @@
     "rights": "Original work for the Mothership project. No third-party artwork, font, stock asset or photograph. Use inside the project only."
   },
   "conventions": {
-    "box": "Every picture is 1024 x 768 in the scene units of the picture it replaces (viewBox 0 0 1024 768), drawn in the same camera, so every place, slot, focus, frame and press area is unchanged.",
+    "box": "Every picture has the box of the picture it replaces in its scene units (a room 0 0 1024 768, the capsule 0 0 512 768), drawn in the same camera, so every place, slot, focus, frame and press area is unchanged.",
     "layers": "A back picture is drawn behind every place; a layer at its depth (the board paints it at z 2 * depth + 1, over the places behind it); a dark picture is the back and its layers together, as the lights-out pictures it replaces are.",
     "markup": "Each export is an SVG element (no XML declaration or comment), static: no script, style, foreign object, image or external reference; every url() and href points inside the file.",
     "audience": "Public art, the same on every screen: nothing drawn depends on a role, team, ability, private choice or seat."
@@ -16,9 +16,9 @@
   "assets": [
     {
       "path": "design/room-drawing/assets/command-room.back.svg",
-      "sha256": "18c7adf879c3331dd3335e7249a9df4d5204438f81a2b8c1c0f901565b6e9911",
-      "bytes": 82680,
-      "gzipBytes": 23916,
+      "sha256": "fe57eabca9ad533524feab1dd437889f811678411997a48284cb5ffff546ca00",
+      "bytes": 82864,
+      "gzipBytes": 24026,
       "kind": "back",
       "room": "command-room",
       "layer": "back",
@@ -28,8 +28,8 @@
       "width": 1024,
       "height": 768,
       "drawn": {
-        "bytes": 337315,
-        "gzipBytes": 111413
+        "bytes": 337301,
+        "gzipBytes": 111423
       },
       "replaces": {
         "bundle": "scene-art",
@@ -41,9 +41,9 @@
     },
     {
       "path": "design/room-drawing/assets/command-room.table.svg",
-      "sha256": "119dce2d98a2eb5cc06cbd36c5e1496b1e683099e402855be2810bdceadeb33e",
-      "bytes": 10846,
-      "gzipBytes": 3622,
+      "sha256": "7cda0f00304f9abb297720ada9683c8221af39df05041063132cb41fdf967618",
+      "bytes": 11046,
+      "gzipBytes": 3711,
       "kind": "layer",
       "room": "command-room",
       "layer": "table",
@@ -53,8 +53,8 @@
       "width": 1024,
       "height": 768,
       "drawn": {
-        "bytes": 38584,
-        "gzipBytes": 13911
+        "bytes": 38606,
+        "gzipBytes": 13921
       },
       "replaces": {
         "bundle": "scene-art",
@@ -66,9 +66,9 @@
     },
     {
       "path": "design/room-drawing/assets/command-room.dark.svg",
-      "sha256": "259a49c8e431ba03ebb69432ee9c855008f6d7e323e376ecc9501eb4a0495cdb",
-      "bytes": 87063,
-      "gzipBytes": 24759,
+      "sha256": "72b68d796ce42ee4eb2e6835ae6ba768b9ad26a1fa8c371d620214c8b02eb1ff",
+      "bytes": 87447,
+      "gzipBytes": 24941,
       "kind": "dark",
       "room": "command-room",
       "layer": "dark",
@@ -78,8 +78,8 @@
       "width": 1024,
       "height": 768,
       "drawn": {
-        "bytes": 365666,
-        "gzipBytes": 121275
+        "bytes": 365674,
+        "gzipBytes": 121303
       },
       "replaces": {
         "bundle": "board-v2-motion-art",
@@ -141,9 +141,9 @@
     },
     {
       "path": "design/room-drawing/assets/room-b.back.svg",
-      "sha256": "07e7917259ed41ccceabeea3fc76117db6df6836b0c94fe96dbb8780ab69287b",
-      "bytes": 109221,
-      "gzipBytes": 27436,
+      "sha256": "1e64b95cc54f46cdb26da20e5bfac31b473f234cf66aad907f725de01c45520e",
+      "bytes": 109509,
+      "gzipBytes": 27536,
       "kind": "back",
       "room": "room-b",
       "layer": "back",
@@ -153,8 +153,8 @@
       "width": 1024,
       "height": 768,
       "drawn": {
-        "bytes": 379590,
-        "gzipBytes": 114317
+        "bytes": 379572,
+        "gzipBytes": 114330
       },
       "replaces": {
         "bundle": "scene-art",
@@ -191,9 +191,9 @@
     },
     {
       "path": "design/room-drawing/assets/room-b.dark.svg",
-      "sha256": "f766c5df777b1a9b8582d2ccbafd5ce6c57eb53260919481e8319e08eeb5d94b",
-      "bytes": 126350,
-      "gzipBytes": 30817,
+      "sha256": "f33e59d7f4c64b91d5e7f86c3ce061c60e71c85c81ae8da612951760df6f9bf5",
+      "bytes": 126638,
+      "gzipBytes": 30912,
       "kind": "dark",
       "room": "room-b",
       "layer": "dark",
@@ -203,8 +203,8 @@
       "width": 1024,
       "height": 768,
       "drawn": {
-        "bytes": 450555,
-        "gzipBytes": 134024
+        "bytes": 450537,
+        "gzipBytes": 134038
       },
       "replaces": {
         "bundle": "board-v2-motion-art",
@@ -478,6 +478,181 @@
         "catalog": "design/releases/board-v2-motion-art.json",
         "path": "design/board-v2/assets/lighting/jail.dark.svg",
         "sha256": "c0978c8e1cd1678c19a412ea295af7fd8ac2f8bff56839af0bb286ee0cfae638"
+      }
+    },
+    {
+      "path": "design/room-drawing/assets/capsule.back.svg",
+      "sha256": "d4168c5dc058794ef75c00bb1f052a0de82dddb34650a42a9c51df6aa26e6213",
+      "bytes": 46285,
+      "gzipBytes": 12459,
+      "kind": "back",
+      "room": "capsule",
+      "layer": "back",
+      "depth": null,
+      "audience": "public",
+      "viewBox": "0 0 512 768",
+      "width": 512,
+      "height": 768,
+      "drawn": {
+        "bytes": 167478,
+        "gzipBytes": 52153
+      },
+      "replaces": {
+        "bundle": "board-v2-art",
+        "cssVariable": "--board-v2-art-capsule-back",
+        "catalog": "design/releases/board-v2-art-candidate.json",
+        "path": "design/board-v2/assets/capsule/back.svg",
+        "sha256": "1bcfd91e11e73d5c6a6205abf0c12b9b111ee4887c872975fca1dc8b41e87cc5"
+      }
+    },
+    {
+      "path": "design/room-drawing/assets/capsule.door-0.svg",
+      "sha256": "721be42a2369e2f78666f8a35c6ea96e711a31c4d06ba5638bc437fc35748d4c",
+      "bytes": 7597,
+      "gzipBytes": 2067,
+      "kind": "layer",
+      "room": "capsule",
+      "layer": "door-0",
+      "depth": null,
+      "audience": "public",
+      "viewBox": "0 0 512 768",
+      "width": 512,
+      "height": 768,
+      "drawn": {
+        "bytes": 22609,
+        "gzipBytes": 6759
+      },
+      "replaces": {
+        "bundle": "board-v2-art",
+        "cssVariable": "--board-v2-art-capsule-door-0",
+        "catalog": "design/releases/board-v2-art-candidate.json",
+        "path": "design/board-v2/assets/capsule/door-0.svg",
+        "sha256": "63026f9971904a750fed9b6caa04e061f74d0b39b42e40165dea8f812314491e"
+      }
+    },
+    {
+      "path": "design/room-drawing/assets/capsule.door-1.svg",
+      "sha256": "a4e79590e0806436b4bdfc1ff71fc954002f23ef2fa23937c51a3a05d0f2ac14",
+      "bytes": 7633,
+      "gzipBytes": 2090,
+      "kind": "layer",
+      "room": "capsule",
+      "layer": "door-1",
+      "depth": null,
+      "audience": "public",
+      "viewBox": "0 0 512 768",
+      "width": 512,
+      "height": 768,
+      "drawn": {
+        "bytes": 22819,
+        "gzipBytes": 6914
+      },
+      "replaces": {
+        "bundle": "board-v2-art",
+        "cssVariable": "--board-v2-art-capsule-door-1",
+        "catalog": "design/releases/board-v2-art-candidate.json",
+        "path": "design/board-v2/assets/capsule/door-1.svg",
+        "sha256": "ddb0d2d2855c352366db5ca4a9e2470440fa134f613cf92cd8e0a1a47aedc24f"
+      }
+    },
+    {
+      "path": "design/room-drawing/assets/capsule.door-2.svg",
+      "sha256": "6b395e8ef2d26487c89f4b7f746b10ff5e85d010851e3a670c1645f1e7ebe8a7",
+      "bytes": 7609,
+      "gzipBytes": 2101,
+      "kind": "layer",
+      "room": "capsule",
+      "layer": "door-2",
+      "depth": null,
+      "audience": "public",
+      "viewBox": "0 0 512 768",
+      "width": 512,
+      "height": 768,
+      "drawn": {
+        "bytes": 22835,
+        "gzipBytes": 6883
+      },
+      "replaces": {
+        "bundle": "board-v2-art",
+        "cssVariable": "--board-v2-art-capsule-door-2",
+        "catalog": "design/releases/board-v2-art-candidate.json",
+        "path": "design/board-v2/assets/capsule/door-2.svg",
+        "sha256": "9b7d9fdd9f6f02fcfc190a03fcd3d19b6a2d2123a78ce4187c27c5294dc784c9"
+      }
+    },
+    {
+      "path": "design/room-drawing/assets/capsule.door-3.svg",
+      "sha256": "c5ca57c7d160d538f67d8371910e55aeca2b950e1d21df57b0d7a72b78e551e6",
+      "bytes": 1097,
+      "gzipBytes": 483,
+      "kind": "layer",
+      "room": "capsule",
+      "layer": "door-3",
+      "depth": null,
+      "audience": "public",
+      "viewBox": "0 0 512 768",
+      "width": 512,
+      "height": 768,
+      "drawn": {
+        "bytes": 1097,
+        "gzipBytes": 483
+      },
+      "replaces": {
+        "bundle": "board-v2-art",
+        "cssVariable": "--board-v2-art-capsule-door-3",
+        "catalog": "design/releases/board-v2-art-candidate.json",
+        "path": "design/board-v2/assets/capsule/door-3.svg",
+        "sha256": "55cc7717d8f733ce38e6ac5c7c14ac19e8b0296ce44ba0d95ad98415fb8b31e7"
+      }
+    },
+    {
+      "path": "design/room-drawing/assets/capsule.busy.svg",
+      "sha256": "ac7f504e921102027b0c0790350016d414838a408c63891bd0f927759ac55b30",
+      "bytes": 2028,
+      "gzipBytes": 798,
+      "kind": "layer",
+      "room": "capsule",
+      "layer": "busy",
+      "depth": null,
+      "audience": "public",
+      "viewBox": "0 0 512 768",
+      "width": 512,
+      "height": 768,
+      "drawn": {
+        "bytes": 4764,
+        "gzipBytes": 1616
+      },
+      "replaces": {
+        "bundle": "board-v2-art",
+        "cssVariable": "--board-v2-art-capsule-busy",
+        "catalog": "design/releases/board-v2-art-candidate.json",
+        "path": "design/board-v2/assets/capsule/busy.svg",
+        "sha256": "d5e45edd0af0115e0e87b64f0da8985d04d1166ee27ebbf8df2b687f6871dca9"
+      }
+    },
+    {
+      "path": "design/room-drawing/assets/capsule.dark.svg",
+      "sha256": "c0d072a88664a31867243d8ec2c75c3e27d5714c4d78b8762ccc384429cf7623",
+      "bytes": 52486,
+      "gzipBytes": 13757,
+      "kind": "dark",
+      "room": "capsule",
+      "layer": "dark",
+      "depth": null,
+      "audience": "public",
+      "viewBox": "0 0 512 768",
+      "width": 512,
+      "height": 768,
+      "drawn": {
+        "bytes": 188691,
+        "gzipBytes": 58298
+      },
+      "replaces": {
+        "bundle": "board-v2-art",
+        "cssVariable": "--board-v2-art-capsule-dark",
+        "catalog": "design/releases/board-v2-art-candidate.json",
+        "path": "design/board-v2/assets/capsule/dark.svg",
+        "sha256": "bae4c518d7732b2ccbf8179351ed3d7d815d0204dd4a1666b190148cee237185"
       }
     }
   ]

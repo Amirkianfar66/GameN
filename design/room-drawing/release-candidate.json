@@ -37,7 +37,7 @@
     },
     {
       "path": "design/room-pilot/ink-room.mjs",
-      "sha256": "b936e7eaaada82f892cde4760a7234c1024f8f5c5790ee4267d53c7181f2012e"
+      "sha256": "24e66b332cc7e98683659ad7940f3013ed8a6da67a9c2eb048536f3a5ae8e071"
     },
     {
       "path": "design/room-pilot/ward-four.mjs",
@@ -45,15 +45,19 @@
     },
     {
       "path": "design/room-pilot/night.mjs",
-      "sha256": "103fe3218eca8eaa3482dcacf6e1ec334dbab5342618fbdbd22e12bf7f4ed67f"
+      "sha256": "ce3ad11933f8c42c1678a3a2f5062002617daf0255d6e664909d0fa1ad11cd37"
     },
     {
       "path": "design/room-pilot/trim.mjs",
       "sha256": "18236e883c1f163832e869c57dec4652b96d822933c969a28a50c01bb101164c"
     },
     {
+      "path": "design/room-pilot/films.mjs",
+      "sha256": "b35aa72430b73d8732d76b47436690684f1ca27f4f1144ebc40d3af963c98311"
+    },
+    {
       "path": "design/tools/room-drawing-export.mjs",
-      "sha256": "63dda522fcfd4f4c6fbf6e6fb37b3b8bfa32acf725c99d794fb115841b8f3397"
+      "sha256": "f6759fc7dcad300aa738f6e4ed66c61df814781adc60c1b973d56ea2fef887ed"
     }
   ],
   "dependencies": [
@@ -90,6 +94,21 @@
     {
       "path": "design/board-motion/scenes/frame.mjs",
       "sha256": "aa2a9531f8badd28bbe6e03e956b5cb93411ef876c48c509929833fcdd5648c0",
+      "note": "read, not changed"
+    },
+    {
+      "path": "design/board-v2/fx/blocked.mjs",
+      "sha256": "6408b5229172f157086236ec4463e73c9e0ab3aa6755d968ff2552707fd3ef0a",
+      "note": "read, not changed"
+    },
+    {
+      "path": "design/board-v2/fx/label-box.mjs",
+      "sha256": "86acb6f2de5fea096c34b5c336dcc327cfcc17cfda4e6cd3e0ab5a814e63d45c",
+      "note": "read, not changed"
+    },
+    {
+      "path": "design/board-v2/scenes/hospital-ward.mjs",
+      "sha256": "d6af092a86322a81cc941bc41aade276063b5ba209a18a402a1c5195096dc2be",
       "note": "read, not changed"
     }
   ],
@@ -145,6 +164,95 @@
     {
       "path": "design/board-motion/assets/scenes/jail.back.svg",
       "sha256": "0bf39be0c62dfe6ac520d34ffd5464c40d8ccce1ed7bae515628768c13c0d84e"
+    },
+    {
+      "path": "design/releases/source-snapshots/cb9386bd716dc346160509d5e49d7348fdaf4f84/design/board-v2/assets/medical/drone-folded.svg",
+      "sha256": "a1608d09be1e9a582b371dc82b8636c5e76985125b85129e1efbac5d58aab9c1"
+    },
+    {
+      "path": "design/releases/source-snapshots/cb9386bd716dc346160509d5e49d7348fdaf4f84/design/board-v2/assets/medical/drone-open.svg",
+      "sha256": "b0ff575137d29c06999ec1fd079012c1f9f4633973ebe071bd3c3fca0bc1d011"
+    },
+    {
+      "path": "design/releases/source-snapshots/cb9386bd716dc346160509d5e49d7348fdaf4f84/design/board-v2/assets/medical/drone-charge.svg",
+      "sha256": "c0de2a9f07b2202636330e4a07b373d6f9fbcaad5748796627a2f86a3a21711f"
+    },
+    {
+      "path": "design/releases/source-snapshots/cb9386bd716dc346160509d5e49d7348fdaf4f84/design/board-v2/assets/medical/drone-pulse.svg",
+      "sha256": "055a0f9b873438ad34ec1941eaf39b732323cb96583ddd289527f46fcf915515"
+    },
+    {
+      "path": "design/board-v2/assets/capsule/back.svg",
+      "sha256": "1bcfd91e11e73d5c6a6205abf0c12b9b111ee4887c872975fca1dc8b41e87cc5"
+    },
+    {
+      "path": "design/board-v2/assets/capsule/door-0.svg",
+      "sha256": "63026f9971904a750fed9b6caa04e061f74d0b39b42e40165dea8f812314491e"
+    },
+    {
+      "path": "design/board-v2/assets/capsule/door-1.svg",
+      "sha256": "ddb0d2d2855c352366db5ca4a9e2470440fa134f613cf92cd8e0a1a47aedc24f"
+    },
+    {
+      "path": "design/board-v2/assets/capsule/door-2.svg",
+      "sha256": "9b7d9fdd9f6f02fcfc190a03fcd3d19b6a2d2123a78ce4187c27c5294dc784c9"
+    },
+    {
+      "path": "design/board-v2/assets/capsule/door-3.svg",
+      "sha256": "55cc7717d8f733ce38e6ac5c7c14ac19e8b0296ce44ba0d95ad98415fb8b31e7"
+    },
+    {
+      "path": "design/board-v2/assets/capsule/busy.svg",
+      "sha256": "d5e45edd0af0115e0e87b64f0da8985d04d1166ee27ebbf8df2b687f6871dca9"
+    }
+  ],
+  "ports": [
+    {
+      "source": "design/room-drawing/source/captain.mjs",
+      "sha256": "93126bd956cdef02537aa652dca29c5f72d888093fb5e1918f0b9cd701e03c1b",
+      "runtime": "apps/game/hosted/room-drawing/captain-fx.mjs",
+      "portSha256": "a523fc81dfbf56bf7f1e833d11b086e501fc8a0c753e27a192d498be61eb9c2d",
+      "imports": {
+        "../../board-motion/scenes/kit.mjs": "../board-v2-drawing/scene-kit.mjs",
+        "../../board-v2/fx/blocked.mjs": "../board-v2-drawing/blocked-fx.mjs",
+        "../../board-v2/fx/label-box.mjs": "../board-v2-drawing/label-box.mjs"
+      },
+      "replacesUnderThisRelease": "apps/game/hosted/board-v2-drawing/captain-fx.mjs",
+      "todaySha256": "ccacf8507f95b33663a2f7208a26efbd451d07a1ac69e6c2ce20eff2a03b026b",
+      "dropInFor": "design/releases/source-snapshots/cb9386bd716dc346160509d5e49d7348fdaf4f84/design/board-v2/fx/captain.mjs",
+      "canonicalSha256": "ad2853bf1e913cb4da5dafe2ddb728a477b686e02d5115d8d2a812ca5c871d88"
+    },
+    {
+      "source": "design/room-drawing/source/jail-door-art.mjs",
+      "sha256": "ce26f8695f0aad5d5232cd06ed91d7bf50b195f2f36c06754c05aa99a88f3fb5",
+      "runtime": "apps/game/hosted/room-drawing/jail-door-art.mjs",
+      "portSha256": "3d1559b4ce7bbc74f3cf2fa44afa7b60291a497005cd910adc249f8bfd70c3b8",
+      "imports": {},
+      "generated": "design/tools/room-drawing-export.mjs (design/room-pilot/films.mjs)"
+    },
+    {
+      "source": "design/room-drawing/source/medical.mjs",
+      "sha256": "57ddb0ab29d23816f240a1bec504fa9be0457366a9f5ba74a13b91b11474d223",
+      "runtime": "apps/game/hosted/room-drawing/medical-fx.mjs",
+      "portSha256": "4e11654f7644c16db2f01f4a692eea2249eb2186e4ea9f38d95f68b8b98165d9",
+      "imports": {
+        "../../board-motion/scenes/kit.mjs": "../board-v2-drawing/scene-kit.mjs",
+        "../../board-v2/fx/blocked.mjs": "../board-v2-drawing/blocked-fx.mjs",
+        "../../board-v2/fx/label-box.mjs": "../board-v2-drawing/label-box.mjs",
+        "../../board-v2/scenes/hospital-ward.mjs": "../board-v2-drawing/hospital-ward.mjs"
+      },
+      "replacesUnderThisRelease": "apps/game/hosted/board-v2-drawing/medical-fx.mjs",
+      "todaySha256": "76af585bc41418a80355ac7e3f8d156bdbde98a4b694ed2cc726d06cbb800514",
+      "dropInFor": "design/releases/source-snapshots/cb9386bd716dc346160509d5e49d7348fdaf4f84/design/board-v2/fx/medical.mjs",
+      "canonicalSha256": "3f596f1537d0b58d820359993bfbd01ff58194b1e8b7c08435aebbaa306e7af8"
+    },
+    {
+      "source": "design/room-drawing/source/medical-art.mjs",
+      "sha256": "995961b2c2d8de1fbd31eaaa6651c6f247d5c5c28964b6d2cae1a1254313e8b2",
+      "runtime": "apps/game/hosted/room-drawing/medical-art.mjs",
+      "portSha256": "623a06aabaffba96634714d5323a5ea63d05428ab2ccd88d8e17f4019e238abc",
+      "imports": {},
+      "generated": "design/tools/room-drawing-export.mjs (design/room-pilot/films.mjs)"
     }
   ],
   "trim": {
@@ -155,17 +263,17 @@
   },
   "assets": {
     "manifest": "design/room-drawing/assets/manifest.json",
-    "manifestSha256": "e743f51f75fc1d14423329fd0ca9db12e17fbcf49d3d60865f2c6c3a26e76279",
-    "count": 18,
-    "bytes": 1040736,
-    "gzipBytes": 274402,
+    "manifestSha256": "9c5257868b8f400ae107e146af6ab4031b05be20005726ef592fb3e837b7815b",
+    "count": 25,
+    "bytes": 1166815,
+    "gzipBytes": 308733,
     "untrimmed": {
-      "bytes": 3559020,
-      "gzipBytes": 1110209
+      "bytes": 3989293,
+      "gzipBytes": 1243390
     },
     "today": {
-      "bytes": 229371,
-      "gzipBytes": 45384,
+      "bytes": 261349,
+      "gzipBytes": 53698,
       "note": "the pictures these replace, as files (with their headers)"
     }
   },
@@ -177,10 +285,26 @@
     {
       "module": "apps/game/hosted/scene-board.mjs",
       "reads": "The comic board's scene mode: --bm-scene-<zone>-back and its layers."
+    },
+    {
+      "module": "apps/game/hosted/board-v2-scene.mjs",
+      "reads": "The private-talk capsule: --board-v2-art-capsule-<back|door-0..3|busy|dark> (the board-v2 art bundle); its badge stays."
+    },
+    {
+      "module": "apps/game/hosted/board-v2-films.mjs",
+      "reads": "The Captain's films: jailDoorSvg() and airlockSvg() from board-v2-drawing/captain-fx.mjs; the Hospital's: droneSvg(), berthScreenSvg() and lampSvg() from board-v2-drawing/medical-fx.mjs. Under this release they come from the ports in apps/game/hosted/room-drawing/, with the same exports and geometry."
     }
   ],
   "dispatch": "Exact release only. These pictures belong to the art release that registers them (after design-0.7.0); every earlier release keeps its bundles byte for byte. A board draws the new rooms only under that release, as the crew's exact-release dispatch does, and draws the new crew and the new rooms together.",
   "notReplaced": [
+    {
+      "what": "The films' other art: the Captain's console inset, plates, cover, glove, click, suction, debris, emergency light, exterior view and plaque; the medical vitals inset, tags, scan line, hologram and pulse; the clone card; the Blackout's sparks, impact and markers; the shield",
+      "why": "no room behind them: insets, tags and effects drawn over any room, in the board's comic hand; the crew in every film is the crew release's, drawn live"
+    },
+    {
+      "what": "--board-v2-art-capsule-badge",
+      "why": "a tag, not the room"
+    },
     {
       "what": "--bm-scene-hospital-back, --bm-scene-hospital-bed-left and --bm-scene-hospital-bed-right",
       "why": "the two-bed sick bay of the scene art, which the board no longer draws: board-v2 draws the four-berth ward (HOSPITAL-4-2026-10-18), redrawn here"

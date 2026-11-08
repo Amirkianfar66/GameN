@@ -53,9 +53,9 @@ const refsOf = text => new Set([...text.matchAll(/url\(#([^)]+)\)|href="#([^"]+)
 /**
  * The lights-out picture of a room: pictures, its redrawn back and then its layers by depth (SVG
  * text, each with its own ids). Definitions nothing in the night picture uses (the light's
- * gradients) are left out.
+ * gradients) are left out. box: the pictures' size (a room's 1024 x 768, the capsule's 512 x 768).
  */
-export function nightRoomSvg(pictures) {
+export function nightRoomSvg(pictures, { box = [1024, 768] } = {}) {
   const defs = new Map();
   let body = '';
   for (const text of pictures) {
@@ -76,5 +76,5 @@ export function nightRoomSvg(pictures) {
     queue.push(...refsOf(defs.get(id)));
   }
   const kept = [...defs].filter(([id]) => used.has(id)).map(([, def]) => def).join('');
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 768" width="1024" height="768"><defs>${kept}</defs>${body}</svg>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${box[0]} ${box[1]}" width="${box[0]}" height="${box[1]}"><defs>${kept}</defs>${body}</svg>`;
 }

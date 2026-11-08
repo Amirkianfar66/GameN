@@ -320,29 +320,41 @@ Until then, every surface keeps drawing today's crew, and nothing breaks. The re
 
 **Register the room drawing release.** Raised by Designer on 8 November 2026, after the owner approved the five rooms redrawn to match the crew ([PR #197](https://github.com/Amirkianfar66/GameN/pull/197); [owner-decisions.md](owner-decisions.md)). For Integration, with Frontend, who checks the consumers.
 
-The release is in [room-drawing-release.md](room-drawing-release.md), with its machine-readable record in `design/room-drawing/release-candidate.json`. It contains 18 baked pictures with their manifest:
+The release is in [room-drawing-release.md](room-drawing-release.md), with its machine-readable record in `design/room-drawing/release-candidate.json`. It contains 25 baked pictures with their manifest:
 - each room's back picture;
 - the layers drawn in front of its places: Room B's bench, the Command Room's table and the ward's six berth layers;
-- each room's lights-out picture.
+- each room's lights-out picture;
+- the private-talk capsule: its cabin, door frames, busy light and lights-out picture.
 
-No code is ported: the rooms are static pictures, as today's are. It changes no rule, scene, place, slot, press area, token or public id, and none of Integration's files.
+It also contains the films' code. The owner asked about the animations that would need updating: the films that draw parts of a room again are redrawn with the rooms. There are two drop-ins with the same exports and geometry:
+- `design/room-drawing/source/captain.mjs`, for the Jail's door at rest (the redrawn room itself) and the EJECT airlock;
+- `medical.mjs`, for the Hospital's drone, berth monitors and lamps.
+
+Each comes with the art it draws, generated. It changes no rule, scene, place, slot, press area, token or public id, and none of Integration's files.
 
 Requested:
 
 1. **Build the pictures into the new release's bundles, each set whole.** `assets/manifest.json` names, for each picture, the bundle, the CSS property and the picture it replaces, with that picture's SHA-256:
    - `scene-art`: `--bm-scene-<room>-back`, `--bm-scene-room-b-bench` and `--bm-scene-command-room-table`, for the Command Room, Room A, Room B and the Jail;
    - `board-v2-films-art`: the four-berth ward's `--board-v2-film-scenes-hospital-ward-four-*` and `--board-v2-film-lighting-hospital-ward-four-dark`;
-   - `board-v2-motion-art`: `--board-v2-motion-<room>-dark` for the other four.
-2. **Pin the inputs.** `release-candidate.json` gives the SHA-256 of each source, dependency and input. The tool rewrites everything exactly: `node design/tools/room-drawing-export.mjs --check`.
-3. **Leave the old Hospitals as they are.** The two-bed sick bay (`--bm-scene-hospital-*`) and the roster-sized ward of the earlier ruleset are not the board's Hospital now and are not redrawn.
-4. **Register the release after `design-0.7.0`**, with the crew. Historical releases stay as they are.
-5. **Dispatch by exact release** (Frontend). A match pinned to an earlier release keeps today's rooms. A board draws the new rooms only with the new crew, under the release that registers both.
+   - `board-v2-motion-art`: `--board-v2-motion-<room>-dark` for the other four;
+   - `board-v2-art`: the capsule's `--board-v2-art-capsule-<back|door-0..3|busy|dark>` (its badge stays).
+2. **Port the films' code into `apps/game/hosted/room-drawing/`** (Frontend, with Integration's pins):
+   - `captain-fx.mjs`, `jail-door-art.mjs`, `medical-fx.mjs` and `medical-art.mjs`.
+   - Each is an exact copy with its first line dropped and the import specifiers in `release-candidate.json` rewritten to `../board-v2-drawing/`. The record gives each port's SHA-256.
+   - Under this release, `board-v2-films.mjs` takes `jailDoorSvg()`, `airlockSvg()`, `droneSvg()`, `berthScreenSvg()` and `lampSvg()` from them. Earlier releases keep `board-v2-drawing/`.
+3. **Pin the inputs.** `release-candidate.json` gives the SHA-256 of each source, dependency, input and port. The tool rewrites everything exactly: `node design/tools/room-drawing-export.mjs --check`.
+4. **Leave the old Hospitals as they are.** The two-bed sick bay (`--bm-scene-hospital-*`) and the roster-sized ward of the earlier ruleset are not the board's Hospital now and are not redrawn.
+5. **Register the release after `design-0.7.0`**, with the crew. Historical releases stay as they are.
+6. **Dispatch by exact release** (Frontend). A match pinned to an earlier release keeps today's rooms and films. A board draws the new rooms only with the new crew, under the release that registers both.
 
-**Size.** The 18 pictures are 1.04 MB, 274 KB gzipped, against 229 KB (45 KB gzipped) for the pictures they replace.
-- Trimmed from 3.56 MB (1.11 MB gzipped) by keeping only the outline points needed to stay within a quarter unit, so each picture draws the same: at most 1.8% of pixels differ, on outline edges, at twice their pixels in Chrome.
+**Size.** The 25 pictures are 1.17 MB, 309 KB gzipped, against 261 KB (54 KB gzipped) for the pictures they replace.
+- They are trimmed from 3.99 MB (1.24 MB gzipped) by keeping only the outline points needed to stay within a quarter unit, so each picture draws the same: at most 1.8% of pixels differ, on outline edges, at twice their pixels in Chrome.
+- The films' code ports are 44, 51, 26 and 63 KB raw.
+- The Jail door overlay the film rewrites while the door slides is about 25 KB, against about 8 KB today.
 - Integration reports the bundles' sizes. Frontend measures decode, frame time and memory on a physical low-end Android phone and an iPhone. Until then, every performance figure stays unverified.
 
-Until then, every surface keeps drawing today's rooms. The release sits in `design/room-drawing/`, and the runtime does not import it.
+Until then, every surface keeps drawing today's rooms and films. The release sits in `design/room-drawing/`, and the runtime does not import it.
 
 ## What Designer does next, and what it waits for
 

@@ -22,8 +22,14 @@ The owner's messages are quoted as written.
 
 **What it does not decide:** adoption.
 - The approved rooms are packaged as `room-drawing-1.0.0`, with lights-out pictures drawn from them ([room-drawing-release.md](room-drawing-release.md), [DSN-REQ-18](integration-requests.md#dsn-req-18)).
+- The owner then asked: "what about the animations which need to update?" The films that draw parts of a room again are redrawn with the rooms in the same release:
+  - the Captain's Jail door, lamp, keypad and airlock;
+  - the Hospital's drone, berth monitors and lamps;
+  - the private-talk capsule.
+
+  The films' other art (insets, tags and effects with no room behind them) is left as it is.
 - The game, the board and the films are unchanged until Integration registers it and Frontend adopts it.
-- The owner has not seen the lights-out pictures separately.
+- The owner has not seen the lights-out pictures or the films' pieces separately.
 
 ## 7 November 2026: the character restyle, a pilot of three
 

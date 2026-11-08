@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- mothership:dev-only. The room drawing release's review page (design/room-drawing/review.mjs): each room's release pictures, lit and with the lights out, beside today's lights-out picture. A design review page, not the game. -->
+<!-- mothership:dev-only. The room drawing release's review page (design/room-drawing/review.mjs): ?view=night, each room's release pictures, lit and with the lights out, beside today's lights-out picture; ?view=films, the films' pieces of the rooms, today and redrawn. A design review page, not the game. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -18,6 +18,24 @@
   .room { position: relative; width: 480px; height: 360px; overflow: hidden; border-radius: 6px; background: var(--ink); }
   .room img { position: absolute; inset: 0; width: 480px; height: 360px; display: block; }
   footer { padding: 4px 28px 24px; color: var(--muted); font-size: 13px; }
+  /* ---------- films: the films' pieces of the rooms ---------- */
+  html[data-view="films"] section { padding: 8px 28px; }
+  html[data-view="films"] section h2 { margin: 8px 0; font-size: 16px; }
+  html[data-view="films"] .row { display: flex; gap: 14px; flex-wrap: wrap; align-items: flex-start; }
+  html[data-view="films"] .cell h3 { margin: 4px 0 6px; font-size: 13px; color: var(--muted); font-weight: 600; }
+  .crop { position: relative; width: 363px; height: 198px; overflow: hidden; border-radius: 6px; background: var(--ink); margin-bottom: 6px; }
+  .crop > .inner { position: absolute; left: 0; top: 0; width: 660px; height: 360px; transform: scale(0.55); transform-origin: 0 0; }
+  .crop .scene { position: absolute; width: 1024px; height: 768px; }
+  .crop .scene img { width: 1024px; height: 768px; display: block; }
+  .crop .over { position: absolute; }
+  .crop .over > * { width: 100%; height: 100%; display: block; }
+  .ward { background: #16302F; border-radius: 6px; padding: 10px; }
+  .sprite { display: flex; flex-direction: column; gap: 6px; align-items: center; }
+  .sprite.drone > * { width: 160px; height: 132px; display: block; }
+  .sprite.screen > * { width: 120px; height: 72px; display: block; }
+  .sprite.lamp > * { width: 80px; height: 80px; display: block; }
+  .cabin { position: relative; width: 230px; height: 346px; border-radius: 6px; overflow: hidden; background: var(--ink); }
+  .cabin img { position: absolute; inset: 0; width: 100%; height: 100%; }
 </style>
 </head>
 <body>

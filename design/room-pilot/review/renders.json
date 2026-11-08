@@ -13,16 +13,16 @@
       "view": "view=board",
       "width": 1660,
       "height": 1010,
-      "bytes": 1181728,
-      "sha256": "57f106ff44949008d061425f3ef47f8b3400d48f7f1c1d08b8cc71ce008cc021"
+      "bytes": 1181635,
+      "sha256": "b53f81942d6dc4916df1bc949411b6bddce0d16314ae7d3fa0a6b033f0a85047"
     },
     "design/room-pilot/review/command-room.back.svg": {
       "kind": "picture",
       "room": "command-room",
       "width": 1024,
       "height": 768,
-      "bytes": 338488,
-      "sha256": "70316a7ea2d1b14ee33732327bef36f6d787c9b9d8f75ef71b05d74f7a19fbfe"
+      "bytes": 338474,
+      "sha256": "83a788825bb22c092469a55454b40e0548370222db9686854d9010f843a96ff4"
     },
     "design/room-pilot/review/command-room.table.svg": {
       "kind": "picture",
@@ -30,16 +30,16 @@
       "layer": "table",
       "width": 1024,
       "height": 768,
-      "bytes": 39216,
-      "sha256": "244e9c56ca835dd57977dfcf5094511d09d0c555d450886def93d21752363476"
+      "bytes": 39238,
+      "sha256": "06e61a0f112494a3cbf809423eff5f1bdc59f90e1d6f72a585ede3a01402e50d"
     },
     "design/room-pilot/review/compare-command-room.png": {
       "kind": "image",
       "view": "view=compare&room=command-room",
       "width": 1640,
       "height": 791,
-      "bytes": 675366,
-      "sha256": "5fef24720f1d7254c3bd6d3e771aad71c7130a52e4631c6202706a37f9168f43"
+      "bytes": 675510,
+      "sha256": "40f2ba472883f42fab6eaf72396a6ee742704d7a45667cc419765cb232d316ff"
     },
     "design/room-pilot/review/compare-hospital.png": {
       "kind": "image",
@@ -71,7 +71,7 @@
       "width": 1640,
       "height": 812,
       "bytes": 733085,
-      "sha256": "73ce58692846b785a8ab73129a793132888af84193ba32d88d811144491fbad0"
+      "sha256": "d736614e7793885bd4f5a025088388266ce882c6f90273c02099b753769f7aac"
     },
     "design/room-pilot/review/hospital.back.svg": {
       "kind": "picture",
@@ -156,8 +156,8 @@
       "room": "room-b",
       "width": 1024,
       "height": 768,
-      "bytes": 381051,
-      "sha256": "aae8da8ad45e4e65dc1688adfab65fe8231feff4704c0d8e1def51739a8ce850"
+      "bytes": 381033,
+      "sha256": "aa73bf6a21fd8603054eb39e391a55463c45735e854d5e4989068fd054ef8b1b"
     },
     "design/room-pilot/review/room-b.bench.svg": {
       "kind": "picture",
