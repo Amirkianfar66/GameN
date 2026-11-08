@@ -11,7 +11,7 @@
 //  - the colours are each room's family as tokens 0.5.0 gives it, the shared ink and paper, the
 //    crew's rim and those darkened toward ink; outside the family none comes near a team's accent;
 //    and every room is printed about as dark as Room A;
-//  - the review files are what the tools write, and nothing outside the design review imports it.
+//  - the review files are what the tools write, and nothing in the game's code refers to it.
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { readFileSync, readdirSync, statSync } from 'node:fs';
@@ -151,8 +151,8 @@ test('the review files are what the tools write', () => {
   assert.deepEqual(readdirSync(new URL(`${REVIEW}/`, root)).sort(), [...expected.map(path => path.split('/').at(-1)), 'renders.json'].sort());
 });
 
-test('the pilot is a design review only: marked dev-only, and nothing in the game imports it', () => {
-  for (const path of ['design/room-pilot/room-a.mjs', 'design/room-pilot/ink-room.mjs', 'design/room-pilot/rooms.mjs', 'design/room-pilot/ward-four.mjs', 'design/room-pilot/review.mjs', 'design/tools/room-pilot-render.mjs']) {
+test('the pilot is development code: marked dev-only, and nothing in the game\'s code refers to it', () => {
+  for (const path of ['design/room-pilot/room-a.mjs', 'design/room-pilot/ink-room.mjs', 'design/room-pilot/rooms.mjs', 'design/room-pilot/ward-four.mjs', 'design/room-pilot/night.mjs', 'design/room-pilot/trim.mjs', 'design/room-pilot/review.mjs', 'design/tools/room-pilot-render.mjs']) {
     assert.ok(text(path).startsWith('// mothership:dev-only\n'), path);
   }
   assert.match(text('design/room-pilot/review.html').split('\n')[1], /^<!-- mothership:dev-only\./);
@@ -160,7 +160,8 @@ test('the pilot is a design review only: marked dev-only, and nothing in the gam
     const path = `${dir}${name}`;
     return statSync(new URL(path, root)).isDirectory() ? walk(`${path}/`) : [path];
   });
-  const shipped = ['apps/game/src/', 'apps/game/hosted/', 'packages/presentation/src/', 'design/releases/'].flatMap(walk)
+  // The game's code; a release record may name the pilot's files as the sources of its pictures.
+  const shipped = ['apps/game/src/', 'apps/game/hosted/', 'packages/presentation/src/'].flatMap(walk)
     .filter(path => /\.(?:m?js|ts|tsx|json|html|css|svg)$/.test(path));
   assert.ok(shipped.length > 0);
   for (const path of shipped) assert.ok(!text(path).includes('room-pilot'), `${path} refers to the room pilot`);

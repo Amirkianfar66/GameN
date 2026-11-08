@@ -1,0 +1,150 @@
+{
+  "tool": "design/tools/room-drawing-render.mjs",
+  "browser": "Chrome/153.0.8010.12",
+  "outputs": {
+    "design/room-drawing/review/night.png": {
+      "kind": "image",
+      "page": "design/room-drawing/review.html",
+      "width": 1672,
+      "height": 2085,
+      "bytes": 1890483,
+      "sha256": "bdae64b0b5be45d4f67ac6323f5a175a111da5e85dbbde97b133231622e5b3b8"
+    }
+  },
+  "trim": {
+    "scale": 2,
+    "size": [
+      2048,
+      1536
+    ],
+    "worstOver32Share": 0.01761,
+    "exports": {
+      "design/room-drawing/assets/command-room.back.svg": {
+        "pixels": 3145728,
+        "over8": 116612,
+        "over32": 55391,
+        "over8Share": 0.03707,
+        "over32Share": 0.01761
+      },
+      "design/room-drawing/assets/command-room.table.svg": {
+        "pixels": 3145728,
+        "over8": 20745,
+        "over32": 13471,
+        "over8Share": 0.00659,
+        "over32Share": 0.00428
+      },
+      "design/room-drawing/assets/command-room.dark.svg": {
+        "pixels": 3145728,
+        "over8": 95978,
+        "over32": 45688,
+        "over8Share": 0.03051,
+        "over32Share": 0.01452
+      },
+      "design/room-drawing/assets/room-a.back.svg": {
+        "pixels": 3145728,
+        "over8": 135168,
+        "over32": 51479,
+        "over8Share": 0.04297,
+        "over32Share": 0.01636
+      },
+      "design/room-drawing/assets/room-a.dark.svg": {
+        "pixels": 3145728,
+        "over8": 113860,
+        "over32": 43128,
+        "over8Share": 0.0362,
+        "over32Share": 0.01371
+      },
+      "design/room-drawing/assets/room-b.back.svg": {
+        "pixels": 3145728,
+        "over8": 121358,
+        "over32": 47722,
+        "over8Share": 0.03858,
+        "over32Share": 0.01517
+      },
+      "design/room-drawing/assets/room-b.bench.svg": {
+        "pixels": 3145728,
+        "over8": 25436,
+        "over32": 14835,
+        "over8Share": 0.00809,
+        "over32Share": 0.00472
+      },
+      "design/room-drawing/assets/room-b.dark.svg": {
+        "pixels": 3145728,
+        "over8": 104313,
+        "over32": 47459,
+        "over8Share": 0.03316,
+        "over32Share": 0.01509
+      },
+      "design/room-drawing/assets/hospital.back.svg": {
+        "pixels": 3145728,
+        "over8": 85482,
+        "over32": 31552,
+        "over8Share": 0.02717,
+        "over32Share": 0.01003
+      },
+      "design/room-drawing/assets/hospital.berth-four-h3.svg": {
+        "pixels": 3145728,
+        "over8": 7187,
+        "over32": 4880,
+        "over8Share": 0.00228,
+        "over32Share": 0.00155
+      },
+      "design/room-drawing/assets/hospital.berth-four-h4.svg": {
+        "pixels": 3145728,
+        "over8": 7188,
+        "over32": 4870,
+        "over8Share": 0.00229,
+        "over32Share": 0.00155
+      },
+      "design/room-drawing/assets/hospital.berth-four-h1-head.svg": {
+        "pixels": 3145728,
+        "over8": 10171,
+        "over32": 6024,
+        "over8Share": 0.00323,
+        "over32Share": 0.00191
+      },
+      "design/room-drawing/assets/hospital.berth-four-h2-head.svg": {
+        "pixels": 3145728,
+        "over8": 10156,
+        "over32": 5994,
+        "over8Share": 0.00323,
+        "over32Share": 0.00191
+      },
+      "design/room-drawing/assets/hospital.berth-four-h1.svg": {
+        "pixels": 3145728,
+        "over8": 7507,
+        "over32": 5257,
+        "over8Share": 0.00239,
+        "over32Share": 0.00167
+      },
+      "design/room-drawing/assets/hospital.berth-four-h2.svg": {
+        "pixels": 3145728,
+        "over8": 7508,
+        "over32": 5254,
+        "over8Share": 0.00239,
+        "over32Share": 0.00167
+      },
+      "design/room-drawing/assets/hospital.dark.svg": {
+        "pixels": 3145728,
+        "over8": 106703,
+        "over32": 48962,
+        "over8Share": 0.03392,
+        "over32Share": 0.01556
+      },
+      "design/room-drawing/assets/jail.back.svg": {
+        "pixels": 3145728,
+        "over8": 109551,
+        "over32": 44900,
+        "over8Share": 0.03483,
+        "over32Share": 0.01427
+      },
+      "design/room-drawing/assets/jail.dark.svg": {
+        "pixels": 3145728,
+        "over8": 90536,
+        "over32": 43320,
+        "over8Share": 0.02878,
+        "over32Share": 0.01377
+      }
+    }
+  }
+}

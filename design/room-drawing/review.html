@@ -1,0 +1,27 @@
+<!doctype html>
+<!-- mothership:dev-only. The room drawing release's review page (design/room-drawing/review.mjs): each room's release pictures, lit and with the lights out, beside today's lights-out picture. A design review page, not the game. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Room drawing release</title>
+<style>
+  :root { --ink: #151923; --paper: #F4EBDD; --muted: #5B6170; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font: 15px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  header { padding: 22px 28px 6px; }
+  h1 { margin: 0 0 4px; font-size: 26px; }
+  header p { margin: 0; max-width: 1100px; color: var(--muted); }
+  .grid { display: grid; grid-template-columns: 150px repeat(3, 480px); gap: 12px 18px; padding: 14px 28px; align-items: center; }
+  .grid h2 { margin: 0; font-size: 15px; }
+  .grid .head { font-weight: 700; font-size: 14px; color: var(--muted); }
+  .room { position: relative; width: 480px; height: 360px; overflow: hidden; border-radius: 6px; background: var(--ink); }
+  .room img { position: absolute; inset: 0; width: 480px; height: 360px; display: block; }
+  footer { padding: 4px 28px 24px; color: var(--muted); font-size: 13px; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="module" src="./review.mjs"></script>
+</body>
+</html>

@@ -1,13 +1,14 @@
 # Room pilot: the five rooms redrawn to match the crew
 
-**Status: a proposal for the owner, in no release. Nothing is adopted: the game, the board, the films, the five scenes, their exports and the released crew (`design-0.7.0`) are unchanged.**
+**Status: approved by the owner on 8 November 2026, and packaged for Integration as `room-drawing-1.0.0` ([room-drawing-release.md](room-drawing-release.md), [DSN-REQ-18](integration-requests.md#dsn-req-18)). Nothing is adopted yet: the game, the board, the films, the five scenes, their exports and the released crew (`design-0.7.0`) are unchanged.**
 
-**The owner's request and approval:**
+**The owner's request and approval** (recorded in [owner-decisions.md](owner-decisions.md)):
 - On 7 November 2026, after approving the restyled crew, the owner asked: "can you also improve each room match with he quality of the new characters? lets start with 1 room image as a test? what do you think?"
 - Designer redrew Room A first, by hand.
 - On 8 November 2026 the owner answered: "I am really happy with rooms let do it for all".
+- Shown all five, the owner answered: "yes I am happy".
 
-The other four rooms are redrawn here in the same hand and as dark, for the owner's check:
+The other four rooms are redrawn here in the same hand and as dark:
 - the Command Room;
 - Room B;
 - the Hospital, as the board shows it today: the ward of four berths;
@@ -85,16 +86,6 @@ The crew are the release's own figures (`design/crew-drawing/source/`). They are
 ## Not covered, and what comes next
 
 - **No phone has shown it.** The review is desktop Chrome.
-- **The lights-out pictures** (`design/board-v2/assets/lighting/<room>.dark.svg`) are generated from each room's picture. They would be regenerated from the new ones at adoption, and are not drawn here.
+- **The lights-out pictures** are drawn from the redrawn rooms in the release (`design/room-pilot/night.mjs`), by the reviewed night rule, and replace today's (`design/board-v2/assets/lighting/<room>.dark.svg`, the ward's in the films art).
 - **Other Hospitals.** The roster-sized ward (7, 8 or 9 berths) of the earlier ruleset, and the two-bed sick bay that the board no longer shows, are not redrawn.
-- **For the owner:**
-  - Are the five right?
-  - Should any room be darker or lighter?
-  - More or less texture?
-  - Any light that should be warmer or cooler?
-- **Then a versioned release, as the crew had in DSN-REQ-17:**
-  - the pictures baked as the scenes' layers within an agreed size budget;
-  - the lights-out pictures regenerated;
-  - Integration registers it, and Frontend adopts it.
-
-  Until then the pilot is a design review only.
+- **The release** ([room-drawing-release.md](room-drawing-release.md)) packages the pictures, trimmed to about a quarter of their drawn size, with their lights-out pictures. Integration registers it and Frontend adopts it ([DSN-REQ-18](integration-requests.md#dsn-req-18)). Until then the rooms are design files only.

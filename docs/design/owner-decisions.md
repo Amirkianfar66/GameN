@@ -6,6 +6,25 @@ What the game owner decided about look, feel and presentation while working with
 
 The owner's messages are quoted as written.
 
+## 7 and 8 November 2026: the rooms redrawn to match the crew
+
+**The owner asked for the rooms to match the restyled crew, saw one room as a test, then approved all five.**
+
+| When | What the owner said | What it decides |
+| --- | --- | --- |
+| 7 November | "can you also improve each room match with he quality of the new characters? lets start with 1 room image as a test? what do you think?" | One room first, as a test. Designer proposed Room A, the crew bay, drawn by hand in the crew's ink |
+| 8 November | "I am really happy with rooms let do it for all", on seeing Room A redrawn | Room A stands as drawn. The other four are redrawn in the same hand and as dark: the Command Room, Room B, the Hospital (the four-berth ward the board shows today) and the Jail |
+| 8 November | "yes I am happy", on seeing the five ([PR #197](https://github.com/Amirkianfar66/GameN/pull/197)) | The five rooms stand as drawn: the crew's ink, the noir light, each room's own colour family, and Room A's frame drawn behind its props |
+
+**The approval covers:**
+- The drawing only: the places, slots, camera, focus, press areas, props and colour families are today's.
+- Room A's one correction: its frame line is drawn behind the props, as today's scenes draw it.
+
+**What it does not decide:** adoption.
+- The approved rooms are packaged as `room-drawing-1.0.0`, with lights-out pictures drawn from them ([room-drawing-release.md](room-drawing-release.md), [DSN-REQ-18](integration-requests.md#dsn-req-18)).
+- The game, the board and the films are unchanged until Integration registers it and Frontend adopts it.
+- The owner has not seen the lights-out pictures separately.
+
 ## 7 November 2026: the character restyle, a pilot of three
 
 **The owner drew a redesign of the nine crew members and chose to try it as a pilot of three: Mira, Nova and Atlas.** The owner's sheet has portraits in app-icon frames and full figures in a two-tone suit. The owner asked, "do you think it's better and is it possible?" Designer answered yes, as a restyle of the code-drawn rig, and asked five questions. The answers:

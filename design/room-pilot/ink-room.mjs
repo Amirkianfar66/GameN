@@ -14,8 +14,11 @@
 //    its pools a hard-edged step of light with a soft heart and a dotted fringe; the ceiling bars
 //    glow, the side walls fall into the dark toward us, and a vignette gathers the dark at the
 //    panel's edges.
-// It reads SVG text and writes SVG text, in Node and in a browser alike. Nothing here changes a
-// scene, a slot, a place, a focus or a press area, and nothing in it is written.
+// The room's light is drawn in groups marked data-light, and the view through a window in groups
+// marked data-space, so that the lights-out picture (./night.mjs) can take the light away and dim
+// the window gently. It reads SVG text and writes SVG text, in Node and in a browser alike.
+// Nothing here changes a scene, a slot, a place, a focus or a press area, and nothing in it is
+// written.
 
 import { INK, inkCanvas, pathOfPoly, spline, waver } from '../crew-drawing/source/ink.mjs';
 
@@ -243,7 +246,7 @@ function serialize(node, change = {}, omit = OMIT) {
 export function glow(cv, cx, cy, rx, ry, color, opacity) {
   const id = cv.uid('glow');
   cv.def(`<radialGradient id="${id}"><stop offset="0" stop-color="${color}" stop-opacity="${opacity}"/><stop offset="0.45" stop-color="${color}" stop-opacity="${r2(opacity * 0.55)}"/><stop offset="1" stop-color="${color}" stop-opacity="0"/></radialGradient>`);
-  cv.raw(`<ellipse cx="${r2(cx)}" cy="${r2(cy)}" rx="${r2(rx)}" ry="${r2(ry)}" fill="url(#${id})"/>`);
+  cv.raw(`<g data-light="glow"><ellipse cx="${r2(cx)}" cy="${r2(cy)}" rx="${r2(rx)}" ry="${r2(ry)}" fill="url(#${id})"/></g>`);
 }
 
 /** A line drawn by hand, even, wavering a little (a seam, a cable, an edge). */
@@ -258,7 +261,7 @@ export function shaft(cv, [t0, t1], [b0, b1], seed) {
   // A broad cone (a whole bridge lit at once) is fainter, so the window behind it stays dark.
   const k = clamp(180 / Math.abs(t1[0] - t0[0]), 0.5, 1);
   cv.def(`<linearGradient id="${beam}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${PAPER.plain}" stop-opacity="${r2(0.4 * k)}"/><stop offset="0.5" stop-color="${PAPER.plain}" stop-opacity="${r2(0.16 * k)}"/><stop offset="1" stop-color="${PAPER.plain}" stop-opacity="${r2(0.07 * k)}"/></linearGradient>`);
-  cv.raw(`<polygon points="${[t0, t1, b1, b0].map(p => p.map(r2).join(',')).join(' ')}" fill="url(#${beam})"/>`);
+  cv.raw(`<g data-light="shaft"><polygon points="${[t0, t1, b1, b0].map(p => p.map(r2).join(',')).join(' ')}" fill="url(#${beam})"/>`);
   handLine(cv, [t0, b0], { color: PAPER.plain, width: 1.2, opacity: 0.22, seed });
   handLine(cv, [t1, b1], { color: PAPER.plain, width: 1.2, opacity: 0.22, seed: seed + 5 });
   for (let i = 0; i < 9; i += 1) {
@@ -267,15 +270,18 @@ export function shaft(cv, [t0, t1], [b0, b1], seed) {
     const x0 = t0[0] + (b0[0] - t0[0]) * k, x1 = t1[0] + (b1[0] - t1[0]) * k;
     cv.raw(`<circle cx="${(x0 + (x1 - x0) * (0.15 + u * 0.7)).toFixed(1)}" cy="${y.toFixed(1)}" r="${(0.9 + (i % 3) * 0.45).toFixed(2)}" fill="${PAPER.plain}" opacity="${(0.35 + (i % 4) * 0.1).toFixed(2)}"/>`);
   }
+  cv.raw('</g>');
 }
 
 /** A pool of light on the deck: one hard-edged step of light, as the crew's cel shading, a soft heart, a dotted fringe. */
 export function pool(cv, family, [cx, cy, rx, ry], seed) {
   const step = matchedTone(family, 'light'), fringe = family[TONES[TONES.findIndex(tone => family[tone] === step) + 1]];
+  cv.raw('<g data-light="pool">');
   glow(cv, cx, cy, rx * 1.4, ry * 1.5, fringe, 0.3);
   cv.raw(`<ellipse cx="${r2(cx)}" cy="${r2(cy)}" rx="${r2(rx * 1.13)}" ry="${r2(ry * 1.17)}" fill="url(#${cv.prefix}-dots-fringe)" opacity="0.55"/>`);
   cv.form(ellipsePoints(cx, cy, rx, ry, 36), step, { weight: 0, depth: 0, tension: 1, wobble: 1.6, step: 8, seed, rim: false, hatch: false, grain: true });
   glow(cv, cx - rx * 0.08, cy - ry * 0.06, rx * 0.78, ry * 0.74, PAPER.plain, 0.55);
+  cv.raw('</g>');
 }
 
 /** The side walls fall into the dark toward us, as Room A's: a few seams, darker toward the front. */
@@ -284,15 +290,15 @@ function sideWalls(cv, family) {
   cv.def(`<linearGradient id="${dark}" x1="0" y1="0" x2="0" y2="1"><stop offset="0.3" stop-color="${INK}" stop-opacity="0"/><stop offset="1" stop-color="${INK}" stop-opacity="0.42"/></linearGradient>`);
   for (const [x, s] of [[54, 16], [88, 17]]) handLine(cv, [[x, 26 + (x - 20) * 0.5], [x, 748 - (x - 20) * 3.76]], { color: SPACE, width: 1.6, opacity: 0.6, seed: s });
   for (const [x, s] of [[970, 18], [936, 19]]) handLine(cv, [[x, 220 - (1004 - x) * 0.66], [x, 748 - (1004 - x) * 3.76]], { color: family.deep, width: 1.6, opacity: 0.7, seed: s });
-  cv.raw(`<polygon points="20,20 120,70 120,372 20,748" fill="url(#${dark})"/><polygon points="1004,20 904,70 904,372 1004,748" fill="url(#${dark})"/>`);
+  cv.raw(`<g data-light="side"><polygon points="20,20 120,70 120,372 20,748" fill="url(#${dark})"/><polygon points="1004,20 904,70 904,372 1004,748" fill="url(#${dark})"/></g>`);
 }
 
 /** The dark gathering at the panel's edges, and the front of the deck falling into shadow, hatched. */
 export function finish(cv) {
   const vignette = cv.uid('dark');
   cv.def(`<radialGradient id="${vignette}" cx="0.5" cy="0.56" r="0.7"><stop offset="0.5" stop-color="${INK}" stop-opacity="0"/><stop offset="0.82" stop-color="${INK}" stop-opacity="0.4"/><stop offset="1" stop-color="${INK}" stop-opacity="0.7"/></radialGradient>`);
-  cv.raw(`<rect x="0" y="0" width="1024" height="768" fill="url(#${vignette})"/>`);
-  cv.raw(`<polygon points="20,748 1004,748 990,700 34,700" fill="${INK}" opacity="0.18"/><polygon points="20,748 1004,748 990,700 34,700" fill="url(#${cv.prefix}-hatch)" opacity="0.6"/>`);
+  cv.raw(`<g data-light="dark"><rect x="0" y="0" width="1024" height="768" fill="url(#${vignette})"/>`);
+  cv.raw(`<polygon points="20,748 1004,748 990,700 34,700" fill="${INK}" opacity="0.18"/><polygon points="20,748 1004,748 990,700 34,700" fill="url(#${cv.prefix}-hatch)" opacity="0.6"/></g>`);
 }
 
 /** The patterns the room's light uses: a paper dot screen, and the pools' fringe, a tone above their light. */
@@ -433,7 +439,11 @@ function draw(cv, node, inherited, ctx) {
   if (node.tag === 'g' || node.tag === 'svg') {
     const part = partOf(a.id) ?? ctx.part;
     const inner = { ...ctx, part };
+    // The view through a window: the lights-out picture dims it more gently than the room.
+    const space = part === 'space' && ctx.part !== 'space';
+    if (space) cv.raw('<g data-space="">');
     for (const child of node.children) draw(cv, child, style, inner);
+    if (space) cv.raw('</g>');
     if (!ctx.layer && part === 'shell' && ctx.part !== 'shell') sideWalls(cv, ctx.family);
   } else if (SHAPES.has(node.tag)) {
     ctx.stats.source += 1;

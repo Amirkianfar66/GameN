@@ -316,6 +316,34 @@ Frontend measures the result on a physical low-end Android phone and an iPhone, 
 
 Until then, every surface keeps drawing today's crew, and nothing breaks. The release sits in `design/crew-drawing/` as dev-only sources, and the runtime does not import it.
 
+## DSN-REQ-18
+
+**Register the room drawing release.** Raised by Designer on 8 November 2026, after the owner approved the five rooms redrawn to match the crew ([PR #197](https://github.com/Amirkianfar66/GameN/pull/197); [owner-decisions.md](owner-decisions.md)). For Integration, with Frontend, who checks the consumers.
+
+The release is in [room-drawing-release.md](room-drawing-release.md), with its machine-readable record in `design/room-drawing/release-candidate.json`. It contains 18 baked pictures with their manifest:
+- each room's back picture;
+- the layers drawn in front of its places: Room B's bench, the Command Room's table and the ward's six berth layers;
+- each room's lights-out picture.
+
+No code is ported: the rooms are static pictures, as today's are. It changes no rule, scene, place, slot, press area, token or public id, and none of Integration's files.
+
+Requested:
+
+1. **Build the pictures into the new release's bundles, each set whole.** `assets/manifest.json` names, for each picture, the bundle, the CSS property and the picture it replaces, with that picture's SHA-256:
+   - `scene-art`: `--bm-scene-<room>-back`, `--bm-scene-room-b-bench` and `--bm-scene-command-room-table`, for the Command Room, Room A, Room B and the Jail;
+   - `board-v2-films-art`: the four-berth ward's `--board-v2-film-scenes-hospital-ward-four-*` and `--board-v2-film-lighting-hospital-ward-four-dark`;
+   - `board-v2-motion-art`: `--board-v2-motion-<room>-dark` for the other four.
+2. **Pin the inputs.** `release-candidate.json` gives the SHA-256 of each source, dependency and input. The tool rewrites everything exactly: `node design/tools/room-drawing-export.mjs --check`.
+3. **Leave the old Hospitals as they are.** The two-bed sick bay (`--bm-scene-hospital-*`) and the roster-sized ward of the earlier ruleset are not the board's Hospital now and are not redrawn.
+4. **Register the release after `design-0.7.0`**, with the crew. Historical releases stay as they are.
+5. **Dispatch by exact release** (Frontend). A match pinned to an earlier release keeps today's rooms. A board draws the new rooms only with the new crew, under the release that registers both.
+
+**Size.** The 18 pictures are 1.04 MB, 274 KB gzipped, against 229 KB (45 KB gzipped) for the pictures they replace.
+- Trimmed from 3.56 MB (1.11 MB gzipped) by keeping only the outline points needed to stay within a quarter unit, so each picture draws the same: at most 1.8% of pixels differ, on outline edges, at twice their pixels in Chrome.
+- Integration reports the bundles' sizes. Frontend measures decode, frame time and memory on a physical low-end Android phone and an iPhone. Until then, every performance figure stays unverified.
+
+Until then, every surface keeps drawing today's rooms. The release sits in `design/room-drawing/`, and the runtime does not import it.
+
 ## What Designer does next, and what it waits for
 
 | Next | Waits for |

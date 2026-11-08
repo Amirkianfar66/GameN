@@ -21,8 +21,8 @@
       "room": "command-room",
       "width": 1024,
       "height": 768,
-      "bytes": 338226,
-      "sha256": "afbdc0584d19a91c923468d139f3b992b9a4dbf1c9e31963b03f289a8f9aa64f"
+      "bytes": 338488,
+      "sha256": "70316a7ea2d1b14ee33732327bef36f6d787c9b9d8f75ef71b05d74f7a19fbfe"
     },
     "design/room-pilot/review/command-room.table.svg": {
       "kind": "picture",
@@ -78,8 +78,8 @@
       "room": "hospital",
       "width": 1024,
       "height": 768,
-      "bytes": 248434,
-      "sha256": "20460384a96d64ef624a0017c0d48aa1d34a7a9486939eec7dce7dae1c68b190"
+      "bytes": 248700,
+      "sha256": "63ee5853773d674ac04b9a02254eecec2c6e95994df8e186b061b45b202091d1"
     },
     "design/room-pilot/review/hospital.berth-four-h1-head.svg": {
       "kind": "picture",
@@ -140,24 +140,24 @@
       "room": "jail",
       "width": 1024,
       "height": 768,
-      "bytes": 277236,
-      "sha256": "ca7851209f72c03298b25f998511622117cf17e8a3accf628701fddbc6ff6ad8"
+      "bytes": 277421,
+      "sha256": "6345c62f36f70965ec10e02c26ad96f8cd693ddf2e3a4df7a0c98577ff66aa87"
     },
     "design/room-pilot/review/room-a.back.svg": {
       "kind": "picture",
       "room": "room-a",
       "width": 1024,
       "height": 768,
-      "bytes": 338129,
-      "sha256": "b05e9dcf630bc4380ce948742e20d0a3536764c7e05a0bc71dcf627d0ea695d1"
+      "bytes": 338507,
+      "sha256": "7cb2d0848f9a1abca5c7ef3c185f1fc60d74890848000ea065ae8d035020af2a"
     },
     "design/room-pilot/review/room-b.back.svg": {
       "kind": "picture",
       "room": "room-b",
       "width": 1024,
       "height": 768,
-      "bytes": 380704,
-      "sha256": "72b8cbfefe5fc2ecfbfbb86e429556083ce6ade9b0870dead20bdb88abc75b63"
+      "bytes": 381051,
+      "sha256": "aae8da8ad45e4e65dc1688adfab65fe8231feff4704c0d8e1def51739a8ce850"
     },
     "design/room-pilot/review/room-b.bench.svg": {
       "kind": "picture",

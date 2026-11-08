@@ -12,7 +12,8 @@
 // Printed in Room A's colour family (design tokens 0.5.0 color.room.roomA), with the shared ink
 // and paper. Nothing here changes a place, a slot, the camera, the focus or a press area: the
 // scene's own (ROOM_A) are reused as they are. Nothing in it is written, and nothing says which
-// rooms connect.
+// rooms connect. The room's light is drawn in groups marked data-light and the view through the
+// viewport in one marked data-space, for its lights-out picture (./night.mjs).
 
 import { ROOM_A } from '../board-motion/scenes/room-a.mjs';
 import { INK, inkCanvas, pathOfPoly, shade, spline, waver } from '../crew-drawing/source/ink.mjs';
@@ -69,7 +70,7 @@ function stroke(cv, points, { taper = 'both', weight = 1.6, color = INK, opacity
 function glow(cv, cx, cy, rx, ry, color, opacity) {
   const id = cv.uid('glow');
   cv.def(`<radialGradient id="${id}"><stop offset="0" stop-color="${color}" stop-opacity="${opacity}"/><stop offset="0.45" stop-color="${color}" stop-opacity="${opacity * 0.55}"/><stop offset="1" stop-color="${color}" stop-opacity="0"/></radialGradient>`);
-  cv.raw(`<ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}" fill="url(#${id})"/>`);
+  cv.raw(`<g data-light="glow"><ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}" fill="url(#${id})"/></g>`);
 }
 
 // ---------- The room ----------
@@ -90,13 +91,13 @@ function shell(cv) {
   for (const [a, b, s] of [[[20, 260], [120, 170]], [[20, 457], [120, 251]], [[20, 640], [120, 330]]].map((l, i) => [...l, 7 + i])) stroke(cv, [a, b], { color: F.shadow, weight: 3, taper: 'none', seed: s });
   for (const [x, s] of [[54, 16], [88, 17]]) stroke(cv, [[x, 26 + (x - 20) * 0.5], [x, 748 - (x - 20) * 3.76]], { color: SPACE, weight: 1.6, opacity: 0.6, taper: 'none', seed: s });
   slab(cv, [[20, 340], [120, 203], [120, 221], [20, 384]], F.shadow, { weight: 2.4, depth: 3, seed: 9 });
-  cv.raw(`<polygon points="20,420 120,254 120,372 20,748" fill="url(#${cv.prefix}-hatch)" opacity="0.8"/><polygon points="20,20 120,70 120,372 20,748" fill="url(#${sideDark})"/>`);
+  cv.raw(`<polygon points="20,420 120,254 120,372 20,748" fill="url(#${cv.prefix}-hatch)" opacity="0.8"/><g data-light="side"><polygon points="20,20 120,70 120,372 20,748" fill="url(#${sideDark})"/></g>`);
   // The right wall: a lit panel at its top, ribs below.
   slab(cv, [[1004, 20], [904, 70], [904, 372], [1004, 748]], F.shadow, { depth: 12, seed: 11, weight: 3.2 });
   slab(cv, [[1004, 20], [904, 70], [904, 150], [1004, 216]], F.mid, { depth: 5, seed: 12, weight: 2.6 });
   for (const [a, b, s] of [[[1004, 260], [904, 170]], [[1004, 457], [904, 251]], [[1004, 640], [904, 330]]].map((l, i) => [...l, 13 + i])) stroke(cv, [a, b], { color: F.deep, weight: 3, taper: 'none', seed: s });
   for (const [x, s] of [[970, 18], [936, 19]]) stroke(cv, [[x, 220 - (1004 - x) * 0.66], [x, 748 - (1004 - x) * 3.76]], { color: F.deep, weight: 1.6, opacity: 0.7, taper: 'none', seed: s });
-  cv.raw(`<polygon points="1004,420 904,254 904,372 1004,748" fill="url(#${cv.prefix}-hatch)" opacity="0.65"/><polygon points="1004,20 904,70 904,372 1004,748" fill="url(#${sideDark})"/>`);
+  cv.raw(`<polygon points="1004,420 904,254 904,372 1004,748" fill="url(#${cv.prefix}-hatch)" opacity="0.65"/><g data-light="side"><polygon points="1004,20 904,70 904,372 1004,748" fill="url(#${sideDark})"/></g>`);
 }
 
 function backWall(cv) {
@@ -133,7 +134,7 @@ function viewport(cv) {
   blob(cv, circlePts(512, 210, 119, 119, 64), F.pale, { depth: 12, seed: 41, weight: 3.6 });
   const space = cv.uid('space');
   cv.def(`<clipPath id="${space}"><circle cx="512" cy="210" r="92"/></clipPath>`);
-  cv.raw(`<g clip-path="url(#${space})"><circle cx="512" cy="210" r="94" fill="${SPACE}"/>`);
+  cv.raw(`<g clip-path="url(#${space})" data-space=""><circle cx="512" cy="210" r="94" fill="${SPACE}"/>`);
   for (const [x, y, r] of [[452, 164, 1.8], [476, 238, 1.4], [499, 146, 2.4], [537, 170, 1.5], [566, 141, 2], [590, 196, 1.4], [441, 222, 1.6], [489, 190, 1.1], [571, 181, 1.1], [460, 264, 1.2], [523, 131, 1.2]]) {
     cv.raw(`<circle cx="${x}" cy="${y}" r="${r}" fill="${P.plain}"/>`);
   }
@@ -228,6 +229,7 @@ function light(cv) {
   ]) {
     const [cx, cy, rx, ry] = pool;
     const beam = cv.uid('beam');
+    cv.raw('<g data-light="light">');
     cv.def(`<linearGradient id="${beam}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${P.plain}" stop-opacity="0.4"/><stop offset="0.5" stop-color="${P.plain}" stop-opacity="0.16"/><stop offset="1" stop-color="${P.plain}" stop-opacity="0.07"/></linearGradient>`);
     // The pool: one hard-edged step of light, as the crew's cel shading, a soft heart, a dotted fringe.
     glow(cv, cx, cy, rx * 1.4, ry * 1.5, F.pale, 0.3);
@@ -244,6 +246,7 @@ function light(cv) {
       const x0 = top[0][0] + (bottom[0][0] - top[0][0]) * k, x1 = top[1][0] + (bottom[1][0] - top[1][0]) * k;
       cv.raw(`<circle cx="${(x0 + (x1 - x0) * (0.15 + u * 0.7)).toFixed(1)}" cy="${y.toFixed(1)}" r="${(0.9 + (i % 3) * 0.45).toFixed(2)}" fill="${P.plain}" opacity="${(0.35 + (i % 4) * 0.1).toFixed(2)}"/>`);
     }
+    cv.raw('</g>');
   }
 }
 
@@ -349,9 +352,9 @@ function front(cv) {
 function finish(cv) {
   const vignette = cv.uid('dark');
   cv.def(`<radialGradient id="${vignette}" cx="0.5" cy="0.56" r="0.7"><stop offset="0.5" stop-color="${INK}" stop-opacity="0"/><stop offset="0.82" stop-color="${INK}" stop-opacity="0.4"/><stop offset="1" stop-color="${INK}" stop-opacity="0.7"/></radialGradient>`);
-  cv.raw(`<rect x="0" y="0" width="1024" height="768" fill="url(#${vignette})"/>`);
+  cv.raw(`<g data-light="dark"><rect x="0" y="0" width="1024" height="768" fill="url(#${vignette})"/>`);
   // The front edge falls into shadow, hatched.
-  cv.raw(`<polygon points="20,748 1004,748 990,700 34,700" fill="${INK}" opacity="0.18"/><polygon points="20,748 1004,748 990,700 34,700" fill="url(#${cv.prefix}-hatch)" opacity="0.6"/>`);
+  cv.raw(`<polygon points="20,748 1004,748 990,700 34,700" fill="${INK}" opacity="0.18"/><polygon points="20,748 1004,748 990,700 34,700" fill="url(#${cv.prefix}-hatch)" opacity="0.6"/></g>`);
 }
 
 /**
