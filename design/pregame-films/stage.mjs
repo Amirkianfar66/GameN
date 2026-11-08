@@ -11,15 +11,6 @@ const query = new URLSearchParams(location.search);
 const film = FILMS[query.get('film') ?? 'brand'];
 if (!film) throw new Error(`No film ${query.get('film')}`);
 const options = film.options(query);
-// Art every phone already holds (the crew release's bundles), fetched before the first frame.
-if (film.assets) {
-  const wanted = film.assets();
-  const loaded = {};
-  for (const [group, files] of Object.entries(wanted)) {
-    loaded[group] = Object.fromEntries(await Promise.all(Object.entries(files).map(async ([id, path]) => [id, await (await fetch(`../${path}`)).text()])));
-  }
-  options.assets = loaded;
-}
 const holder = document.getElementById('film');
 const caption = document.getElementById('caption');
 

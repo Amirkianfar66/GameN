@@ -16,6 +16,7 @@ The owner's messages are quoted as written.
 | 8 November | "we had 3 animation before game, 1 is the Game N by Plan B 2-second app intro, second after 10-second film for each role then 10-second boarding cinematic , go for them like AAA ANIMATION improve the quality" | The three pre-game films are made again at a higher finish: the 2-second brand intro, the 10-second film for each role, and the 10-second boarding |
 | 8 November | "For the app start 2 sec can we just have black background and then the texts with Game N by Plan B something simple with typing motion graphic effect", on seeing the first cut of the new intro | The intro is made simple: a black screen, "Game N" typed a letter at a time with a cursor, "by Plan B" typed under it, a hold, a fade to black. The plate, lamp and ink of the first cut are dropped |
 | 8 November | "The doctor movie at end of it when Doctor text label appear with yellow color the background of the text is crowded , make it simple blue color", on seeing the Doctor's film | The role film's title is made simple: the page goes almost black, clean behind the name, and DOCTOR rises a letter at a time in plain blue with a thin rule under it. The paper plate, the amber lettering, the ink, dust, impact lines and sheen are dropped, and so is the team emblem that sat on the plate. The blue is the same for every role and kept 30 or more (CIE76) from each team's accent, so it tells a neighbour nothing |
+| 8 November | "In Dr animation the card on table with Doctor text on it make it the medical cross" | The role card on the desk in the opener shows the role's mark instead of the portrait, the injector, DOCTOR and the team line: for the Doctor, a medical cross, paper on a dark plate, as the board's Hospital draws its cross. No red, which is a team's colour and the protected emblem. With the team line gone, a role film draws no team colour at all |
 
 **What Designer kept, and why.** The lengths, the beats, the words and the rules the owner approved in the earlier films stay as they were ([PR #187](https://github.com/Amirkianfar66/GameN/pull/187), [#189](https://github.com/Amirkianfar66/GameN/pull/189), [#190](https://github.com/Amirkianfar66/GameN/pull/190)):
 - The role films' privacy rules, clock and briefing-room opener: "a first part that shows the guy has become the Doctor", the back story ("imagine it like a comic book"), and fewer words ("it is like tutorial").
@@ -23,10 +24,10 @@ The owner's messages are quoted as written.
 
 What changes is how each beat is drawn, lit, staged and finished ([pregame-films.md](pregame-films.md)).
 
-**The order.** The Doctor's film is the pilot again, as the owner approved last time. The other role films follow once the owner has seen it. The intro and the boarding are delivered whole. The intro was then made simple at the owner's word, and so was the Doctor's title (the last two rows).
+**The order.** The Doctor's film is the pilot again, as the owner approved last time. The other role films follow once the owner has seen it. The intro and the boarding are delivered whole. The intro was then made simple at the owner's word, and so were the Doctor's title and desk card (the last three rows).
 
 **What it does not decide:**
-- The look. The owner has seen the typed intro and the Doctor's film, and asked for the title change above; neither the Doctor's film nor the boarding is approved yet.
+- The look. The owner has seen the typed intro and the Doctor's film, and asked for the title and card changes above; neither the Doctor's film nor the boarding is approved yet.
 - Adoption: no client plays any of them. The boarding still has no stage to play in (R17 in [pregame-films.md](pregame-films.md)).
 - Sound: the films stay silent.
 

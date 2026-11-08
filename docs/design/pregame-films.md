@@ -2,7 +2,7 @@
 
 **Status: proposal for the owner's review. Nothing here is adopted, mounted or deployed.**
 
-The owner, 8 November 2026: "we had 3 animation before game, 1 is the Game N by Plan B 2-second app intro, second after 10-second film for each role then 10-second boarding cinematic , go for them like AAA ANIMATION improve the quality". On seeing the first cut of the intro, the owner asked for it simple: "For the app start 2 sec can we just have black background and then the texts with Game N by Plan B something simple with typing motion graphic effect". On seeing the Doctor's film, the owner asked for its title simple too: "The doctor movie at end of it when Doctor text label appear with yellow color the background of the text is crowded , make it simple blue color" ([owner-decisions.md](owner-decisions.md)).
+The owner, 8 November 2026: "we had 3 animation before game, 1 is the Game N by Plan B 2-second app intro, second after 10-second film for each role then 10-second boarding cinematic , go for them like AAA ANIMATION improve the quality". On seeing the first cut of the intro, the owner asked for it simple: "For the app start 2 sec can we just have black background and then the texts with Game N by Plan B something simple with typing motion graphic effect". On seeing the Doctor's film, the owner asked for its title simple too: "The doctor movie at end of it when Doctor text label appear with yellow color the background of the text is crowded , make it simple blue color"; and for the card on the desk: "In Dr animation the card on table with Doctor text on it make it the medical cross" ([owner-decisions.md](owner-decisions.md)).
 
 The three films were first made before the crew was restyled:
 - the role films in [PR #187](https://github.com/Amirkianfar66/GameN/pull/187) and [#189](https://github.com/Amirkianfar66/GameN/pull/189);
@@ -15,10 +15,7 @@ Those branches never reached `main`, and they draw the old crew. This is the sam
   - The character update can be published first.
 - **The work.** `design/pregame-films/`.
 - **Review.** `design/pregame-films/stage.html?film=brand|role|boarding`, and the videos and contact sheets in `design/pregame-films/review/`.
-- **Integration's finding, resolved.** Integration's consumer review ([crew-consumer-review.md](../integration/crew-consumer-review.md), "Separate opening and role films") found that the earlier films imported the old crew renderer and old portraits. These films draw the approved restyle:
-  - the crew drawing (`design/crew-drawing/source/`, unchanged) on the frozen rig;
-  - the release's card art;
-  - the held devices every phone already loads.
+- **Integration's finding, resolved.** Integration's consumer review ([crew-consumer-review.md](../integration/crew-consumer-review.md), "Separate opening and role films") found that the earlier films imported the old crew renderer and old portraits. These films draw the approved restyle: the crew drawing (`design/crew-drawing/source/`, unchanged) on the frozen rig. They draw no portrait or card art, and load no art file: the card on the desk shows the role's mark, drawn in code.
 
   The character-dependent films (the role films and the boarding) are drawn live from their modules; no review movie ships as one of them.
 
@@ -74,7 +71,7 @@ The clock is the approved pilot's, unchanged (`roles/clock.mjs`): beats change a
 
 | Beat | ms | The Doctor's film |
 | --- | --- | --- |
-| Opener | 0-3,000 | **The briefing room at the dock, the night before the voyage.** Through a tall window, the Mothership waits at its dock, out of focus: rows of lit ports, running lights, the gantry's floodlights, a planet's limb, stars. Venetian blinds hang over the top of the glass; the dock's cold light comes through their gaps in beams with dust in them. A gooseneck lamp pools warm light on the player's role card in its holder, drawn as the phone draws it (their portrait, the injector in the gloved hand, DOCTOR, the Blue team line). A mug steams in the foreground, out of focus. **The player's own character** stands behind the desk against the glass, rimmed by the dock light and lit warm by the lamp. They shift their weight, lean in, take the injector, raise it beside their face and look at it. It glints at 2,050-2,650 ms. The camera pushes in. |
+| Opener | 0-3,000 | **The briefing room at the dock, the night before the voyage.** Through a tall window, the Mothership waits at its dock, out of focus: rows of lit ports, running lights, the gantry's floodlights, a planet's limb, stars. Venetian blinds hang over the top of the glass; the dock's cold light comes through their gaps in beams with dust in them. A gooseneck lamp pools warm light on the role card in its holder. **At the owner's word, its face is a medical cross**: paper on a dark plate, as the board's Hospital draws its cross, with no word, portrait or team. A mug steams in the foreground, out of focus. **The player's own character** stands behind the desk against the glass, rimmed by the dock light and lit warm by the lamp. They shift their weight, lean in, take the injector, raise it beside their face and look at it. It glints at 2,050-2,650 ms. The camera pushes in. |
 | Memory flash | 2,650-3,300 | Warm light swells out of the glint and washes the frame, then clears on the first panel. |
 | Panel 1, memory, sepia | 3,000 | **Colony Nine, the fever years.** A prefab field ward at night, with three cots in a row going back. Under the sheets, nobody's faces show, and they breathe. One hanging lamp swings on its cord, with dust turning in its cone, and a dust storm beats on the porthole. The player's character stands at the foot of the nearest cot reading a chart, then looks up. The room behind the page has dropped out of focus and into the dark. Narration: "Colony Nine. The fever years." |
 | Panel 2, memory, sepia | 4,500 | **The last two doses.** An open medicine case under a desk lamp: twelve slots, empty but two, whose vials glow and pulse. Spent vials lie tipped on the table, and rain runs down the window. A drop falls: DRIP. Narration: "Two doses left." |
@@ -87,7 +84,7 @@ Each panel lands with an overshoot, a jolt through the page and impact lines. Th
 **The rules a role film keeps** (approved with the pilot; tested in `pregame-films.test.mjs`):
 - **Same clock for every role.** A neighbour who sees a phone change, or times it, learns nothing. A role carries pictures and words, never times.
 - **Silent, with no vibration.**
-- **One palette.** Every colour drawn stays at least 30 (CIE76) from each faction's accent, but for the dealt team's own swatch on the card, small. The gadget is drawn without its team colour.
+- **One palette, and no team colour.** Every colour drawn stays at least 30 (CIE76) from each faction's accent, with no exception: a role film draws no team's colour at all. The card on the desk shows the role's mark (the Doctor's, a medical cross; never red, which is a team's colour and the protected emblem), and the gadget is drawn without its team colour.
 - **One title blue.** The title is the same blue for every role, `#2979FF`: 39 from the Blue team's accent (a paler sky blue), 38 from the Alien's and 96 from the Red team's. Its colour tells a neighbour nothing about the team. The team emblem that sat on the earlier title's plate went with the plate; the card that follows the film shows the team.
 - **Nobody else.** Only the player's own lobby character is drawn in colour; every other person is a faceless silhouette.
 - **Foreshadowing, not an event.** Nothing in a film happens in the match.
@@ -126,12 +123,12 @@ It is not the art release's to enable. Until it exists, no client plays the boar
 | Film | Where and when it plays | Its clock | Its input | Rules |
 | --- | --- | --- | --- | --- |
 | Brand intro | Once per app entry, before the lobby; never over a match, or over one being recovered | Local, from its first frame | None | Identity-free. Ship the review's video, or draw it live (a few dozen strokes a frame) |
-| Role film | The player's own phone only, in the existing role-reading stage, after the card is revealed, inside the 30-second reading minimum | Local, from the reveal; it ends by 10,000 ms | The role; the player's own character and seat; the device art every phone loads | Private, never on the display. A tap skips to the card. **Finishing or skipping never confirms Ready.** It never replays on a reconnect or refresh |
+| Role film | The player's own phone only, in the existing role-reading stage, after the card is revealed, inside the 30-second reading minimum | Local, from the reveal; it ends by 10,000 ms | The role; the player's own character and seat | Private, never on the display. A tap skips to the card. **Finishing or skipping never confirms Ready.** It never replays on a reconnect or refresh |
 | Boarding | Every phone and the display, in a server-owned pre-Round-1 stage after the reading minimum and everyone Ready (R17) | `t` = server now minus the stage's `startsAt`. Past `endsAt`, draw nothing and go to the game | The public roster alone | A late server answer never starts a player's game locally. Skip dismisses the pictures only. Activating the artwork must not enable boarding; saved matches keep their setup |
 
 - **Calls.**
   - `brandSvg(t, { width, height, variant })`.
-  - `roleSvg(t, { width, height, role, character, seat, variant, assets })`, with `roleCaptions(t, …)` and `rolePageText(t, …)` for the page text.
+  - `roleSvg(t, { width, height, role, character, seat, variant })`, with `roleCaptions(t, …)` and `rolePageText(t, …)` for the page text. It loads no art file: everything it draws is in its modules.
   - `boardingSvg(t, { width, height, variant, roster })`.
   - `variant` follows the app's effective Reduced preference, as the crew consumer's does.
 - **Why the role films are drawn live.** Prerendering every character and role would be 72 videos, and every phone would have to load them all, because fetching only the dealt role's would tell.
@@ -167,7 +164,7 @@ Run on this delivery's tree, based on `main` `469b709b`, with Node 22.21.1 and n
   - the last frames;
   - pure, well-formed frames with no dangling reference;
   - reduced-motion stills;
-  - the role film's privacy rules (one clock, the palette 30 or more from the accents, one title blue, silhouettes, page text);
+  - the role film's privacy rules (one clock, no team colour, the card's mark, one title blue, silhouettes, page text);
   - the boarding's public roster;
   - the renders against their records;
   - dev-only marks.
@@ -178,9 +175,9 @@ Run on this delivery's tree, based on `main` `469b709b`, with Node 22.21.1 and n
 | `brand-phone.mp4` | 780 x 1688 | 120 | 2.000 s | 27 KB |
 | `brand-display.mp4` | 1920 x 1080 | 120 | 2.000 s | 34 KB |
 | `brand-phone-reduced.mp4` | 780 x 1688 | 120 | 2.000 s | 20 KB |
-| `doctor-phone.mp4` | 780 x 1688 | 600 | 10.000 s | 2184 KB |
-| `doctor-phone-c7.mp4` | 780 x 1688 | 600 | 10.000 s | 2176 KB |
-| `doctor-phone-reduced.mp4` | 780 x 1688 | 600 | 10.000 s | 564 KB |
+| `doctor-phone.mp4` | 780 x 1688 | 600 | 10.000 s | 2128 KB |
+| `doctor-phone-c7.mp4` | 780 x 1688 | 600 | 10.000 s | 2114 KB |
+| `doctor-phone-reduced.mp4` | 780 x 1688 | 600 | 10.000 s | 558 KB |
 | `boarding-phone-8.mp4` | 780 x 1688 | 600 | 10.000 s | 3431 KB |
 | `boarding-display-9.mp4` | 1920 x 1080 | 600 | 10.000 s | 4726 KB |
 | `boarding-phone-7-reduced.mp4` | 780 x 1688 | 600 | 10.000 s | 978 KB |
@@ -192,5 +189,5 @@ The role film is rendered for two characters (`c3`, `c7`) to show it draws which
 
 - **Devices.** No phone, display hardware, screen reader or large-text setting has played these films. Every frame is desktop Chromium.
 - **Runtime.** No client mounts any of them. The boarding has no stage (R17).
-- **The owner** has seen the typed intro and the Doctor's film, and asked for the Doctor's title simple and blue, which this delivery makes. Neither the Doctor's film nor the boarding is approved yet.
+- **The owner** has seen the typed intro and the Doctor's film, and asked for the Doctor's title simple and blue and the desk card as a medical cross, which this delivery makes. Neither the Doctor's film nor the boarding is approved yet.
 - **Sound.** None is made; the films are silent.

@@ -8,9 +8,9 @@
 //     rows of lit ports, running lights blinking, the gantry over it, a planet's limb below, stars;
 //   - venetian blinds half-closed over the top of the glass; the dock's cold light comes through
 //     their gaps in beams, with dust turning in them, and lies in stripes across the room;
-//   - a gooseneck desk lamp pools warm light on the player's role card in its holder, drawn as the
-//     phone draws the card; the role's gadget stands beside it; a mug steams in the foreground, out
-//     of focus;
+//   - a gooseneck desk lamp pools warm light on the role card in its holder, its face the role's
+//     mark (the Doctor's, a medical cross, at the owner's word); the role's gadget stands beside it;
+//     a mug steams in the foreground, out of focus;
 //   - the player's own character (the approved crew drawing) stands behind the desk against the
 //     glass, rimmed by the dock light and lit warm from below by the lamp. Their weight shifts, they
 //     lean in, take the gadget and raise it into the light, and look at it; it glints;
@@ -19,13 +19,10 @@
 
 import { skeletonOf } from '../../board-motion/figures/gestures.mjs';
 import { blend } from '../../board-motion/figures/motion.mjs';
-import { crewCardSvg } from '../../crew-drawing/source/portrait.mjs';
-import { CREW } from '../../crew-drawing/source/crew.mjs';
 import { inkCanvas } from '../../crew-drawing/source/ink.mjs';
 import { litFigure, onPage } from '../kit/cast.mjs';
 import { beam, blurFilter, dust, glint, glow, halftone, inBeam, linear, pool, radial, streak } from '../kit/fx.mjs';
-import { inkWord } from '../kit/letters.mjs';
-import { clamp01, f, f3, hash, lerp, nest, noise, rng, smooth } from '../kit/math.mjs';
+import { clamp01, f, f3, hash, lerp, noise, rng, smooth } from '../kit/math.mjs';
 
 export const NIGHT = Object.freeze({
   ink: '#0B0E15', deep: '#070A11', navy: '#0F1626', wall: '#141C2E', wallLit: '#24304A', steel: '#2B3549', steelLit: '#4A5875', steelPale: '#8E9BB3',
@@ -277,27 +274,17 @@ function gadgetPoint(g, [x, y], angle, s, [px, py]) {
   return [x + dx * Math.cos(a) - dy * Math.sin(a), y + dx * Math.sin(a) + dy * Math.cos(a)];
 }
 
-/** The role card in its holder, drawn as the phone draws it: the character's card art with the role's device, the name plate and the team line. */
-function roleCardSvg(D, L, { character, role, assets }) {
+/**
+ * The role card in its holder: a paper card whose face is the role's mark (the Doctor's, a medical
+ * cross). No word, portrait or team: the card says the role at a glance, and nothing of the team.
+ */
+function roleCardSvg(D, L, { role }) {
   const { card, u } = L;
-  const art = { x: card.x + 5 * u, y: card.y + 5 * u, w: card.w - 10 * u, h: (card.w - 10 * u) * 0.9 };
-  const person = crewCardSvg(CREW[character], { prefix: `bf-card-${character}` });
-  const device = assets?.devices?.[role.device] ?? '';
-  const plateY = art.y + art.h;
-  const teamColor = { blue: '#70AFFF', red: '#FF8C8C', alien: '#C4A4FF' }[role.team];
-  const name = inkWord(D, 'bf-card-name', role.name.toUpperCase(), { x: card.x + 9 * u + 0.5 * (role.name.length * 5.6 * u), y: plateY + 13 * u, size: 9.5 * u, skew: 0, weight: 1.3, inkWeight: 0.35, face: { top: NIGHT.ink, mid: NIGHT.ink, bottom: NIGHT.ink, side: NIGHT.ink, sideDeep: NIGHT.ink, ink: NIGHT.ink, highlight: NIGHT.ink }, depth: 0, shadow: 0, rough: false, hot: false, tracking: 1.1 });
-  const team = inkWord(D, 'bf-card-team', `${role.team.toUpperCase()} TEAM`, { x: card.x + 19 * u + 0.5 * ((role.team.length + 5) * 3.3 * u), y: plateY + 26 * u, size: 5 * u, skew: 0, weight: 1.1, inkWeight: 0.2, face: { top: '#3A3A3A', mid: '#3A3A3A', bottom: '#3A3A3A', side: '#000', sideDeep: '#000', ink: '#3A3A3A', highlight: '#3A3A3A' }, depth: 0, shadow: 0, rough: false, hot: false, tracking: 1.2 });
+  const face = { x: card.x + 6 * u, y: card.y + 6 * u, w: card.w - 12 * u, h: card.h - 18 * u };
   return `<g>`
     + `<rect x="${f(card.x + 4 * u)}" y="${f(card.y + 6 * u)}" width="${f(card.w)}" height="${f(card.h)}" rx="${f(5 * u)}" fill="#000" opacity="0.55" filter="${blurFilter(D, 'bf-card-shadow', 4 * u)}"/>`
     + `<rect x="${f(card.x)}" y="${f(card.y)}" width="${f(card.w)}" height="${f(card.h)}" rx="${f(5 * u)}" fill="${NIGHT.paper}" stroke="${NIGHT.ink}" stroke-width="${f(2.2 * u)}"/>`
-    + `<rect x="${f(art.x)}" y="${f(art.y)}" width="${f(art.w)}" height="${f(art.h)}" fill="#E4D6BE"/>`
-    + `<rect x="${f(art.x)}" y="${f(art.y)}" width="${f(art.w)}" height="${f(art.h)}" fill="${halftone(D, 'bf-card-dots', { size: 3 * u, r: 0.55 * u, color: '#B8A688' })}"/>`
-    + nest(person, { x: art.x - 2 * u, y: art.y + 2 * u, width: art.w * 0.82, height: art.h })
-    + (device ? nest(device, { x: art.x + art.w * 0.38, y: art.y, width: art.w * 0.66, height: art.h * 1.02 }) : '')
-    + `<path d="M${f(art.x)} ${f(plateY)}H${f(art.x + art.w)}" stroke="${NIGHT.ink}" stroke-width="${f(1.8 * u)}"/>`
-    + name.svg
-    + `<rect x="${f(card.x + 9 * u)}" y="${f(plateY + 22.5 * u)}" width="${f(6 * u)}" height="${f(6 * u)}" fill="${teamColor}" stroke="${NIGHT.ink}" stroke-width="${f(0.8 * u)}"/>`
-    + team.svg
+    + role.mark(D, face, u)
     // The holder: a steel clip and foot.
     + `<path d="M${f(card.x + card.w * 0.2)} ${f(card.y + card.h - 4 * u)}h${f(card.w * 0.6)}l${f(10 * u)} ${f(18 * u)}h${f(-card.w * 0.6 - 20 * u)}Z" fill="#2B3446" stroke="${NIGHT.ink}" stroke-width="${f(2 * u)}" stroke-linejoin="round"/>`
     + `</g>`;
@@ -359,11 +346,11 @@ const mixWarm = k => (k > 0.6 ? '#FFC27A' : k > 0.3 ? '#F2C391' : '#C9C2B6');
 // ---------- the shot ----------
 
 /**
- * The opener at its moment: `o` is clock.mjs's opener(), `role` the role's look ({ name, team,
- * device, gadget }), `character` the player's own crew id. Returns its picture and the glint's point
- * (px), where the memory flash grows from.
+ * The opener at its moment: `o` is clock.mjs's opener(), `role` the role's look ({ name, team, mark,
+ * gadget }), `character` the player's own crew id. Returns its picture and the glint's point (px),
+ * where the memory flash grows from.
  */
-export function briefingSvg(D, { W, H, t, o, role, character, assets, reduced }) {
+export function briefingSvg(D, { W, H, t, o, role, character, reduced }) {
   const L = layout(W, H);
   const { u, at, scale, deskBack } = L;
   const sk = pickupPose(o);
@@ -419,7 +406,7 @@ export function briefingSvg(D, { W, H, t, o, role, character, assets, reduced })
     + (inHand ? '' : gadget);
   // The card stands on the desk in front of the character.
   const hero = `<g clip-path="url(#${clipId})">${figure}</g>` + (inHand ? `<g${fistHole ? ' mask="url(#bf-fist-hole)"' : ''}>${gadget}</g>${gadgetLight}` : '')
-    + roleCardSvg(D, L, { character, role, assets }) + cardLight;
+    + roleCardSvg(D, L, { role }) + cardLight;
 
   // The glint, where it catches the light by the face.
   const shine = o.glint > 0 ? glint(D, 'bf-glint', { cx: vial[0], cy: vial[1], r: 34 * u * o.glint, opacity: o.glint, rotate: 12 }) + streak(D, 'bf-glint-streak', { cx: vial[0], cy: vial[1], len: 140 * u * o.glint, thick: 2 * u, color: '#DCE8FF', opacity: 0.8 * o.glint }) : '';

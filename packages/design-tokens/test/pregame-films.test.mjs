@@ -7,9 +7,10 @@
 //     frames of the intro and the boarding are the night alone;
 //   - every frame is a pure function of time: drawn twice, it is drawn the same;
 //   - reduced motion holds still pictures: nothing changes inside a still;
-//   - a role film tells its own player and no neighbour: every role keeps the same clock, its
-//     colours stay away from the factions' accents (but for the card's team swatch, small), its
-//     title is one plain blue for every role, and only the player's own character is drawn in colour;
+//   - a role film tells its own player and no neighbour: every role keeps the same clock, it draws
+//     no colour near a faction's accent (no team colour at all), the card on the desk shows the
+//     role's mark, the title is one plain blue for every role, and only the player's own character
+//     is drawn in colour;
 //   - the boarding takes the public roster alone;
 //   - the review renders are exactly their lengths, silent, and match their records;
 //   - the films are development code that nothing in the game imports.
@@ -104,16 +105,19 @@ test('reduced motion holds still pictures: nothing changes inside a still', () =
 
 test('a role film tells its own player and no neighbour', () => {
   // Every role keeps the shared clock: a role carries pictures and words, never times.
-  for (const role of Object.values(ROLES)) assert.deepEqual(Object.keys(role).sort(), ['captions', 'device', 'gadget', 'id', 'name', 'panels', 'team']);
-  // Colours: none near a faction's accent, but the dealt team's own swatch on the card.
+  for (const role of Object.values(ROLES)) assert.deepEqual(Object.keys(role).sort(), ['captions', 'gadget', 'id', 'mark', 'name', 'panels', 'team']);
+  // Colours: none near a faction's accent. No team colour is drawn at all.
   const role = ROLES.doctor;
-  const own = { blue: '#70AFFF', red: '#FF8C8C', alien: '#C4A4FF' }[role.team];
   const seen = new Set();
   for (const t of [300, 1500, 2400, 3600, 5200, 6800, 8600]) for (const c of colours(roleSvg(t, { ...PHONE, role: role.id, character: 'c3', seat: 4 }))) seen.add(c);
   for (const c of seen) {
-    if (c === own) continue;
     for (const accent of Object.values(FACTION_ACCENTS)) assert.ok(cie76(c, accent) >= MIN_ACCENT_DISTANCE, `${c} is ${cie76(c, accent).toFixed(1)} from ${accent}`);
   }
+  // The card on the desk shows the role's mark, at the owner's word: the Doctor's, a medical cross,
+  // paper on a dark plate; no word, portrait or team.
+  const opener = roleSvg(300, { ...PHONE, role: role.id, character: 'c3', seat: 4 });
+  assert.match(opener, /<linearGradient id="dc-mark-paper"/);
+  assert.doesNotMatch(opener, /bf-card-(c\d|name|team)/, 'the card draws no portrait, name or team line');
   // The title is simple, at the owner's word: the name in one plain blue, the same for every role and
   // clear of every accent, and no team colour beside it.
   const title = roleSvg(9500, { ...PHONE, role: role.id, character: 'c3', seat: 4 });

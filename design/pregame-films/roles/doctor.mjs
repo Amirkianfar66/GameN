@@ -31,6 +31,26 @@ const soundWord = (D, id, text, { x, y, size, k = 1, rotate = -8, face }) => (k 
   face: face ?? { top: '#FFF2C9', mid: '#F7D37A', bottom: '#E3A33C', side: '#6B4314', sideDeep: '#2E1C07', ink: INK, highlight: '#FFFFFF' },
 }).svg);
 
+// ---------- the card's mark ----------
+
+/**
+ * The Doctor's mark, on the role card on the desk in the opener (the owner, 8 November 2026: "In Dr
+ * animation the card on table with Doctor text on it make it the medical cross"): a medical cross,
+ * paper on a dark plate, as the board's Hospital draws its cross. No red: red is a team's colour, and
+ * the red cross is a protected emblem. `face` is the card's face in px, `u` the opener's unit.
+ */
+export function doctorMark(D, { x, y, w, h }, u) {
+  const plate = `<rect x="${f(x)}" y="${f(y)}" width="${f(w)}" height="${f(h)}" rx="${f(3.5 * u)}" fill="${linear(D, 'dc-mark-plate', [[0, '#26334D'], [1, '#121A2B']])}" stroke="${INK}" stroke-width="${f(1.6 * u)}"/>`
+    + `<rect x="${f(x)}" y="${f(y)}" width="${f(w)}" height="${f(h)}" rx="${f(3.5 * u)}" fill="${halftone(D, 'dc-mark-dots', { size: 3 * u, r: 0.6 * u, color: INK })}" opacity="0.35"/>`;
+  // A cross of five equal squares, its arms a third of its span.
+  const s = Math.min(w, h) * 0.7, a = s / 3, cx = x + w / 2, cy = y + h / 2;
+  const corners = [[-a, -s], [a, -s], [a, -a], [s, -a], [s, a], [a, a], [a, s], [-a, s], [-a, a], [-s, a], [-s, -a], [-a, -a]];
+  const d = (dx, dy) => `M${corners.map(([px, py]) => `${f(cx + px / 2 + dx)} ${f(cy + py / 2 + dy)}`).join('L')}Z`;
+  const cross = `<path d="${d(1.4 * u, 1.8 * u)}" fill="${INK}" opacity="0.6"/>`
+    + `<path d="${d(0, 0)}" fill="${linear(D, 'dc-mark-paper', [[0, '#FFF7E6'], [1, '#E3D3B5']])}" stroke="${INK}" stroke-width="${f(1.6 * u)}" stroke-linejoin="round"/>`;
+  return plate + cross;
+}
+
 // ---------- panel 1: Colony Nine, the fever years ----------
 
 function cot(cv, [x, y], w, depth, breathe, seed) {

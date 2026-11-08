@@ -6,7 +6,6 @@
 
 import { BRAND, BRAND_MS, brandSvg } from './brand/brand.mjs';
 import { ROLE_MS, roleCaptions, rolePageText, roleSvg } from './roles/film.mjs';
-import { DEVICE_FILES, ROLES } from './roles/roles.mjs';
 import { BOARDING_MS, BOARDING_TEXT, boardingSvg } from './boarding/boarding.mjs';
 import { REVIEW_ROSTERS } from './boarding/roster.mjs';
 
@@ -25,8 +24,6 @@ export const FILMS = Object.freeze({
       character: query.get('character') ?? 'c3',
       seat: Number(query.get('seat') ?? 4),
     }),
-    /** Every role's device art, as every phone loads it (fetching only the dealt role's would tell). */
-    assets: () => ({ devices: DEVICE_FILES }),
     svg: (t, o) => roleSvg(t, o),
     boxes: (t, o) => roleCaptions(t, o),
     caption: (t, o) => rolePageText(t, o),
