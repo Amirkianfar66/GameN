@@ -44,7 +44,7 @@ The earlier films were flat vector art on the old crew. These are lit, staged an
 - **Camera.** Close shots that push in, near layers more than far, and depth of field: the view outside the window and the room behind the comic page fall out of focus.
 - **Impact.** Things land with weight: an overshoot and a jolt through the frame, comic impact lines, dust, ink thrown off a stamp.
 - **Finish.** A film's grain (changing 24 times a second), a vignette and a grade over every frame. Memory panels get sepia, a warm light leak and film scratches. Ink blooms in from the edges to end the boarding.
-- **Lettering.** The boarding's mark is Ink Block letters (the earlier films' alphabet, ported) finished as a comic cover's logo: an extruded side, a lit face, a highlight, a cast shadow and a sheen. The intro types the same letters plain, and the role's title sets them plain in one blue, both at the owner's word. They are drawn strokes, never text.
+- **Lettering.** The boarding's mark is Ink Block letters (the earlier films' alphabet, ported) finished as a comic cover's logo: an extruded side, a lit face, a highlight, a cast shadow and a sheen. The intro types the same letters plain, and the role's title sets them plain in its team's colour, both at the owner's word. They are drawn strokes, never text.
 - **Frame rate.** The reviews are rendered at 60 frames a second, at twice a phone's CSS pixels.
 
 ## The brand intro: 2,000 ms
@@ -97,14 +97,14 @@ Drawn from the Doctor's as the owner approved it, each from its storyboard appro
 
 - **Nobody is anybody.** Every figure but the player's own is drawn as one flat colour, on one body with a plain oval head. A crew member's own head in silhouette could be read as that player. The Doctor's patient is now drawn the same way; nothing else in the approved film changed.
 - **The words** are the approved storyboards', a sentence to a line and at most 17 characters a line. They are proposals; the game's words are Frontend's.
-- **No team colour, in any film.** The shield, the arc, the crystal and the blackhole's light are paper and amber; nothing is red, blue or violet. The Undercover's narration names the Red Planet, as its approved storyboard does: it is page text on the player's own phone.
+- **No team colour, but the title's.** The shield, the arc, the crystal and the blackhole's light are paper and amber; nothing before the title is red, blue or violet. The title is in the team's colour, at the owner's word. The Undercover's narration names the Red Planet, as its approved storyboard does: it is page text on the player's own phone.
 - **The Disablers' one film** is the same for both, frame for frame, until the title names the role (tested).
 
 **The rules every role film keeps** (approved with the pilot; tested in `pregame-films.test.mjs` for all nine roles):
 - **Same clock for every role.** A neighbour who sees a phone change, or times it, learns nothing. A role carries pictures and words, never times.
 - **Silent, with no vibration.**
-- **One palette, and no team colour.** Every colour drawn stays at least 30 (CIE76) from each faction's accent, with no exception: a role film draws no team's colour at all. The card on the desk shows the role's mark (the Doctor's, a medical cross; never red, which is a team's colour and the protected emblem), and the gadget is drawn without its team colour.
-- **One title blue.** The title is the same blue for every role, `#2979FF`: 39 from the Blue team's accent (a paler sky blue), 38 from the Alien's and 96 from the Red team's. Its colour tells a neighbour nothing about the team. The team emblem that sat on the earlier title's plate went with the plate; the card that follows the film shows the team.
+- **One palette, and no team colour but the title's.** Every colour drawn stays at least 30 (CIE76) from each faction's accent, but for the title. The card on the desk shows the role's mark (the Doctor's, a medical cross; never red, which is a team's colour and the protected emblem), and the gadget is drawn without its team colour.
+- **The title in its team's colour.** At the owner's word, on seeing the seven films: "You used for all blue but For red team roles like undercover , Hacker, red disabler the text  you should use plain red on clean dark background because they are red team and for alien this become purple". The Blue team's roles are plain blue (`#2979FF`, the Doctor's as approved), the Red team's (Undercover, Hacker, Red Disabler) plain red (`#E8423F`) and the Alien purple (`#9B5CFF`). The three have the same lightness, each about 5:1 on the darkened page, and no frame before the title draws its colour (tested). The title therefore shows the team, on the player's own phone; the card that follows the film shows it too.
 - **Nobody else.** Only the player's own lobby character is drawn in colour. Every other person is nobody: one flat colour, on one body with a plain oval head.
 - **Foreshadowing, not an event.** Nothing in a film happens in the match.
 - **Few words, as page text.** Two narration boxes of a few words each, at most 17 characters a line. They are DOM text over the picture, so they translate, scale with the player's text size and are read by screen readers.
@@ -184,7 +184,7 @@ Run on this delivery's tree, based on `main` `469b709b`, with Node 22.21.1 and n
   - the last frames;
   - pure, well-formed frames with no dangling reference;
   - reduced-motion stills;
-  - every role film's privacy rules (one clock, no team colour, the card's mark, one title blue, nobody, page text) and the Disablers' one film;
+  - every role film's privacy rules (one clock, no team colour before the title, the card's mark, the title in its team's colour, nobody, page text) and the Disablers' one film;
   - the boarding's public roster;
   - the renders against their records;
   - dev-only marks.

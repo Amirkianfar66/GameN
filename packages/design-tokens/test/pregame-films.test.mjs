@@ -7,10 +7,10 @@
 //     frames of the intro and the boarding are the night alone;
 //   - every frame is a pure function of time: drawn twice, it is drawn the same;
 //   - reduced motion holds still pictures: nothing changes inside a still;
-//   - a role film tells its own player and no neighbour: every role keeps the same clock, it draws
-//     no colour near a faction's accent (no team colour at all), the card on the desk shows the
-//     role's mark, the title is one plain blue for every role, and only the player's own character
-//     is drawn in colour;
+//   - a role film tells its own player and no neighbour more than the owner chose: every role keeps
+//     the same clock, nothing before the title is near a faction's accent, the card on the desk shows
+//     the role's mark, the title is in its team's colour (the owner's word), and only the player's
+//     own character is drawn in colour;
 //   - the boarding takes the public roster alone;
 //   - the review renders are exactly their lengths, silent, and match their records;
 //   - the films are development code that nothing in the game imports.
@@ -23,7 +23,7 @@ import { FACTION_ACCENTS, MIN_ACCENT_DISTANCE, cie76 } from '../../../design/boa
 import { BEATS as BRAND_BEATS, BRAND, BRAND_MS, NIGHT, brandSvg } from '../../../design/pregame-films/brand/brand.mjs';
 import { CHANGES, PANEL_STARTS, ROLE_MS, STILLS as ROLE_STILLS, roleFrame } from '../../../design/pregame-films/roles/clock.mjs';
 import { roleCaptions, rolePageText, roleSvg } from '../../../design/pregame-films/roles/film.mjs';
-import { TITLE_BLUE } from '../../../design/pregame-films/roles/page.mjs';
+import { TITLE_COLOURS } from '../../../design/pregame-films/roles/page.mjs';
 import { ROLES } from '../../../design/pregame-films/roles/roles.mjs';
 import { BOARDING_MS, memberOutside, boardingSvg } from '../../../design/pregame-films/boarding/boarding.mjs';
 import { STILLS as BOARDING_STILLS, TITLE } from '../../../design/pregame-films/boarding/clock.mjs';
@@ -107,20 +107,24 @@ test('reduced motion holds still pictures: nothing changes inside a still', () =
   }
 });
 
-test('a role film tells its own player and no neighbour', () => {
+test('a role film tells its own player, and a neighbour no more than the owner chose', () => {
   // Every role keeps the shared clock: a role carries pictures and words, never times.
-  for (const role of Object.values(ROLES)) assert.deepEqual(Object.keys(role).sort(), ['captions', 'gadget', 'id', 'mark', 'name', 'panels']);
+  for (const role of Object.values(ROLES)) assert.deepEqual(Object.keys(role).sort(), ['captions', 'gadget', 'id', 'mark', 'name', 'panels', 'team']);
   // The game's nine roles, and the two Disablers' one film.
   assert.deepEqual(Object.values(ROLES).map(r => r.name).sort(), ['Alien', 'Blue Disabler', 'Doctor', 'Engineer', 'Hacker', 'Insider', 'Red Disabler', 'Supplier', 'Undercover']);
   for (const key of ['mark', 'gadget', 'panels', 'captions']) assert.equal(ROLES['blue-disabler'][key], ROLES['red-disabler'][key], `the Disablers share their ${key}`);
   for (const t of [300, 2400, 3600, 5200, 6800, 7700]) assert.equal(roleSvg(t, { ...PHONE, role: 'blue-disabler', character: 'c2', seat: 5 }), roleSvg(t, { ...PHONE, role: 'red-disabler', character: 'c2', seat: 5 }), `the Disablers' film at ${t} ms`);
-  // Colours: none near a faction's accent, in any role's film. No team colour is drawn at all.
-  for (const id of Object.keys(ROLES)) {
+  // Colours: none near a faction's accent, in any role's film, but for the title, which the owner
+  // asked in the role's team colour.
+  for (const [id, r] of Object.entries(ROLES)) {
     const seen = new Set();
     for (const t of [300, 1500, 2400, 3600, 5200, 6800, 8600]) for (const c of colours(roleSvg(t, { ...PHONE, role: id, character: 'c3', seat: 4 }))) seen.add(c);
+    seen.delete(TITLE_COLOURS[r.team]);
     for (const c of seen) {
       for (const accent of Object.values(FACTION_ACCENTS)) assert.ok(cie76(c, accent) >= MIN_ACCENT_DISTANCE, `${id}: ${c} is ${cie76(c, accent).toFixed(1)} from ${accent}`);
     }
+    // The team's colour is the title's alone: no frame before the title draws it.
+    for (const t of [300, 2400, 3600, 5200, 6800]) assert.ok(!colours(roleSvg(t, { ...PHONE, role: id, character: 'c3', seat: 4 })).includes(TITLE_COLOURS[r.team]), `${id} at ${t} ms draws its title colour`);
   }
   const role = ROLES.doctor;
   // The card on the desk shows the role's mark, at the owner's word: the Doctor's, a medical cross,
@@ -128,12 +132,20 @@ test('a role film tells its own player and no neighbour', () => {
   const opener = roleSvg(300, { ...PHONE, role: role.id, character: 'c3', seat: 4 });
   assert.match(opener, /<linearGradient id="dc-mark-paper"/);
   assert.doesNotMatch(opener, /bf-card-(c\d|name|team)/, 'the card draws no portrait, name or team line');
-  // The title is simple, at the owner's word: the name in one plain blue, the same for every role and
-  // clear of every accent, and no team colour beside it.
-  const title = roleSvg(9500, { ...PHONE, role: role.id, character: 'c3', seat: 4 });
-  assert.ok(title.includes(`stroke="${TITLE_BLUE}"`), 'the title is drawn in the title blue');
-  for (const accent of Object.values(FACTION_ACCENTS)) assert.ok(cie76(TITLE_BLUE, accent) >= MIN_ACCENT_DISTANCE, `the title blue is ${cie76(TITLE_BLUE, accent).toFixed(1)} from ${accent}`);
-  assert.equal(roleSvg(9500, { ...PHONE, role: role.id, character: 'c3', seat: 4, variant: 'reduced' }).includes(`stroke="${TITLE_BLUE}"`), true);
+  // The title is simple, at the owner's word, in its team's colour: plain blue for the Blue team, plain
+  // red for the Red team, purple for the Alien.
+  assert.deepEqual(TITLE_COLOURS, { blue: '#2979FF', red: '#E8423F', alien: '#9B5CFF' });
+  assert.deepEqual(Object.fromEntries(Object.values(ROLES).map(r => [r.id, r.team])), {
+    doctor: 'blue', insider: 'blue', 'blue-disabler': 'blue', supplier: 'blue', engineer: 'blue',
+    undercover: 'red', hacker: 'red', 'red-disabler': 'red', alien: 'alien',
+  });
+  for (const r of Object.values(ROLES)) {
+    for (const variant of ['full', 'reduced']) {
+      const title = roleSvg(9500, { ...PHONE, role: r.id, character: 'c3', seat: 4, variant });
+      assert.ok(title.includes(`stroke="${TITLE_COLOURS[r.team]}"`), `${r.id} (${variant}): the title in the ${r.team} team's colour`);
+      for (const other of Object.values(TITLE_COLOURS)) if (other !== TITLE_COLOURS[r.team]) assert.ok(!title.includes(other), `${r.id}: another team's title colour`);
+    }
+  }
   // Other people are nobody: one flat colour, and a plain head (a crew member's own, in silhouette,
   // could be read as that player). The Doctor's patient is drawn so.
   const aboard = roleSvg(6800, { ...PHONE, role: 'doctor', character: 'c3', seat: 4 });

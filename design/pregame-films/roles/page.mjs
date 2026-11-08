@@ -9,8 +9,8 @@
 //   - memory is printed in sepia, with a heavier vignette, paper grain, a warm leak of light and a
 //     film's scratches flickering over it; the panel aboard is in the night's own colours;
 //   - the room behind the page drops out of focus and into the dark;
-//   - the title is simple, at the owner's word: the role's name in the brand's alphabet, in plain
-//     blue on the darkened page.
+//   - the title is simple, at the owner's word: the role's name in the brand's alphabet, plain, in
+//     its team's colour on the darkened page.
 
 import { blurFilter, halftone, impactLines, linear, radial } from '../kit/fx.mjs';
 import { GLYPHS } from '../kit/letters.mjs';
@@ -130,10 +130,11 @@ export function flashSvg(D, { W, H, at, k }) {
 }
 
 /**
- * The title's one colour, the same for every role: a plain blue, kept 30 or more (CIE76) from every
- * faction's accent so the title tells a neighbour nothing (the Blue team's accent is a paler sky blue).
+ * The title's colour, by the role's team, at the owner's word (8 November 2026): the Blue team's roles
+ * in plain blue (the Doctor's, approved first), the Red team's in plain red, and the Alien in purple.
+ * The three are one family: the same lightness, each about 5:1 on the darkened page.
  */
-export const TITLE_BLUE = '#2979FF';
+export const TITLE_COLOURS = Object.freeze({ blue: '#2979FF', red: '#E8423F', alien: '#9B5CFF' });
 const TITLE_TRACKING = 1.3;
 
 /** A word in the brand's alphabet: each letter's grid x (from the word's left), advance and strokes. */
@@ -150,12 +151,13 @@ function lettersOf(text) {
 /**
  * The title, simple at the owner's word (8 November 2026: "the background of the text is crowded,
  * make it simple blue color"): the page goes almost black, and the role's name rises into place letter
- * by letter in plain blue strokes, with a soft glow and a thin rule drawn out beneath it. No plate, no
- * ink, no dust and no sheen. The same for every role but the name.
+ * by letter in plain strokes of its team's colour, with a soft glow and a thin rule drawn out beneath
+ * it. No plate, no ink, no dust and no sheen. The same for every role but the name and the colour.
  */
 export function titleSvg(D, { W, H, frame, role }) {
   const tl = frame.title;
   if (!tl.visible) return '';
+  const colour = TITLE_COLOURS[role.team];
   const letters = lettersOf(role.name.toUpperCase());
   const span = letters.at(-1).x + letters.at(-1).advance;
   const cap = Math.min((W * 0.66) / (span / 6), H * 0.07);
@@ -168,7 +170,7 @@ export function titleSvg(D, { W, H, frame, role }) {
     if (p <= 0.001) return;
     const lift = (1 - p) * cap * 0.3;
     const d = c.lines.map(line => `M${line.map(([u, v]) => `${f(x0 + (c.x + u) * k)} ${f(y0 + v * k + lift)}`).join('L')}`).join('');
-    word += `<path d="${d}" fill="none" stroke="${TITLE_BLUE}" stroke-width="${f(1.05 * k)}" stroke-linecap="round" stroke-linejoin="round" opacity="${f3(clamp01(p * 1.5))}"/>`;
+    word += `<path d="${d}" fill="none" stroke="${colour}" stroke-width="${f(1.05 * k)}" stroke-linecap="round" stroke-linejoin="round" opacity="${f3(clamp01(p * 1.5))}"/>`;
   });
   const ruleW = span * k * 0.36 * tl.rule, ruleH = Math.max(1.5, cap * 0.05);
   // The page goes almost black, and clean black behind the name: nothing shows through the letters.
@@ -176,7 +178,7 @@ export function titleSvg(D, { W, H, frame, role }) {
   const pool = radial(D, 'pg-title-pool', [[0, '#03050A', 1], [0.6, '#03050A', 0.9], [1, '#03050A', 0]]);
   out += `<ellipse cx="${f(W / 2)}" cy="${f(y0 + cap * 0.7)}" rx="${f(Math.min(W * 0.62, span * k * 0.85))}" ry="${f(cap * 2.6)}" fill="${pool}" opacity="${f3(frame.dim)}"/>`;
   out += `<g opacity="0.3" filter="${blurFilter(D, 'pg-title-glow', cap * 0.1)}">${word}</g>${word}`;
-  if (ruleW > 0.5) out += `<rect x="${f(W / 2 - ruleW / 2)}" y="${f(y0 + cap * 1.5)}" width="${f(ruleW)}" height="${f(ruleH)}" rx="${f(ruleH / 2)}" fill="${TITLE_BLUE}" opacity="0.75"/>`;
+  if (ruleW > 0.5) out += `<rect x="${f(W / 2 - ruleW / 2)}" y="${f(y0 + cap * 1.5)}" width="${f(ruleW)}" height="${f(ruleH)}" rx="${f(ruleH / 2)}" fill="${colour}" opacity="0.75"/>`;
   return out;
 }
 
