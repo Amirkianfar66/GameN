@@ -14,6 +14,12 @@ export const SETUP_ART_URL = '/art/setup.art.f196649c9c.css';
 export const BOARD_V2_MOTION_ART_URL = '/art/board-v2-motion.art.7793869d6b.css';
 export const BOARD_V2_FILMS_ART_URL = '/art/board-v2-films.art.9e6abdef0f.css';
 export const COMMON_ART_BUNDLES = Object.freeze({ 'board-v2-art': BOARD_V2_ART_URL, 'setup-art': SETUP_ART_URL, 'board-v2-motion-art': BOARD_V2_MOTION_ART_URL, 'board-v2-films-art': BOARD_V2_FILMS_ART_URL });
+// Every device preloads the complete scoped crew set; validated roots select its art.
+export const CREW_ART_BUNDLES = Object.freeze({
+  'crew-public-board': '/art/crew-public-board.332a656b4b.css',
+  'crew-roles': '/art/crew-roles.9bfc1dc3b2.css',
+  'crew-board-v2-films-art': '/art/crew-board-v2-films-art.b30ecdebc3.css',
+});
 function noteArrival(document, name) {
   const names = new Set((document.documentElement.dataset.art ?? '').split(' ').filter(Boolean));
   names.add(name); document.documentElement.dataset.art = [...names].join(' ');
@@ -45,6 +51,7 @@ export async function loadArt(device, document = globalThis.document, options = 
   await Promise.all([
     ...Object.keys(ART_BUNDLES).map(name => loadBundle(document, name, ART_BUNDLES[name])),
     ...Object.entries(COMMON_ART_BUNDLES).map(([name, url]) => loadBundle(document, name, url)),
+    ...Object.entries(CREW_ART_BUNDLES).map(([name, url]) => loadBundle(document, name, url)),
   ]);
   document.documentElement.dataset.art ??= '';
   document.documentElement.dataset.artSettled = 'true';

@@ -6,6 +6,34 @@ What the game owner decided about look, feel and presentation while working with
 
 The owner's messages are quoted as written.
 
+## 8 November 2026: the pre-game films again, as AAA animation
+
+**The owner asked for the three films a player sees before the game to be made again, at a much higher finish, with the restyled crew and rooms.**
+
+| When | What the owner said | What it decides |
+| --- | --- | --- |
+| 8 November | "what about the role animations after role and the animation before the role for game?" | The question that opened it: the films around the role reveal had not been redrawn with the new crew |
+| 8 November | "we had 3 animation before game, 1 is the Game N by Plan B 2-second app intro, second after 10-second film for each role then 10-second boarding cinematic , go for them like AAA ANIMATION improve the quality" | The three pre-game films are made again at a higher finish: the 2-second brand intro, the 10-second film for each role, and the 10-second boarding |
+| 8 November | "For the app start 2 sec can we just have black background and then the texts with Game N by Plan B something simple with typing motion graphic effect", on seeing the first cut of the new intro | The intro is made simple: a black screen, "Game N" typed a letter at a time with a cursor, "by Plan B" typed under it, a hold, a fade to black. The plate, lamp and ink of the first cut are dropped |
+| 8 November | "The doctor movie at end of it when Doctor text label appear with yellow color the background of the text is crowded , make it simple blue color", on seeing the Doctor's film | The role film's title is made simple: the page goes almost black, clean behind the name, and DOCTOR rises a letter at a time in plain blue with a thin rule under it. The paper plate, the amber lettering, the ink, dust, impact lines and sheen are dropped, and so is the team emblem that sat on the plate. The blue is the same for every role and kept 30 or more (CIE76) from each team's accent, so it tells a neighbour nothing |
+| 8 November | "In Dr animation the card on table with Doctor text on it make it the medical cross" | The role card on the desk in the opener shows the role's mark instead of the portrait, the injector, DOCTOR and the team line: for the Doctor, a medical cross, paper on a dark plate, as the board's Hospital draws its cross. No red, which is a team's colour and the protected emblem. With the team line gone, a role film draws no team colour at all |
+| 8 November | "I approve it", answering Designer's "If you approve this Doctor film and the boarding, I'll start the other seven role films", after seeing the Doctor's film with the medical-cross card and the blue title | The Doctor's film and the boarding are approved, as last sent. The other seven role films are made next on the Doctor's pattern, from the storyboards approved on 6 November |
+| 8 November | "You used for all blue but For red team roles like undercover , Hacker, red disabler the text  you should use plain red on clean dark background because they are red team and for alien this become purple", on seeing the other seven role films | Each role film's title is in its team's colour: the Blue team's roles in plain blue (`#2979FF`, as the Doctor's), the Red team's (Undercover, Hacker, Red Disabler) in plain red (`#E8423F`), the Alien in purple (`#9B5CFF`). The three have the same lightness, each about 5:1 on the darkened page. The rest of every film keeps no team colour |
+
+**What Designer kept, and why.** The lengths, the beats, the words and the rules the owner approved in the earlier films stay as they were ([PR #187](https://github.com/Amirkianfar66/GameN/pull/187), [#189](https://github.com/Amirkianfar66/GameN/pull/189), [#190](https://github.com/Amirkianfar66/GameN/pull/190)):
+- The role films' privacy rules, clock and briefing-room opener: "a first part that shows the guy has become the Doctor", the back story ("imagine it like a comic book"), and fewer words ("it is like tutorial").
+- The intro's and the boarding's beats.
+
+What changes is how each beat is drawn, lit, staged and finished ([pregame-films.md](pregame-films.md)).
+
+**The order.** The Doctor's film is the pilot again, as the owner approved last time. The other role films follow once the owner has seen it. The intro and the boarding are delivered whole. The intro was then made simple at the owner's word, and so were the Doctor's title and desk card. The owner then approved the Doctor's film and the boarding (the last four rows).
+
+**What it does not decide:**
+- The look of the other seven role films, beyond their titles' colours: the owner has not approved them yet.
+- A caution Designer keeps on record: the title, from 7.8 seconds, now shows the team's colour on the player's own phone. A neighbour who glimpses that screen sees the team as well as the role. The owner decided it; the role card the phone shows next carries the team too.
+- Adoption: no client plays any of them. The boarding still has no stage to play in (R17 in [pregame-films.md](pregame-films.md)).
+- Sound: the films stay silent.
+
 ## 7 and 8 November 2026: the rooms redrawn to match the crew
 
 **The owner asked for the rooms to match the restyled crew, saw one room as a test, then approved all five.**

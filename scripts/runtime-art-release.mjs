@@ -8,6 +8,8 @@ export const PLANET_ART_VERSION = 'design-0.6.0';
 export const PLANET_ART_MANIFEST = 'design/releases/design-0.6.0.json';
 export const CREW_ART_VERSION = 'design-0.7.0';
 export const CREW_ART_MANIFEST = 'design/releases/design-0.7.0.json';
+export const CREW_CONSUMER_APPROVAL = 'docs/integration/crew-consumer-approval-2026-11-07.json';
+const CREW_CONSUMER_APPROVAL_SHA256 = '8675a1d45cbf55aa69ccc65e18593d28c7ac54282ed52eb5c10e9b70e2c0511e';
 // The release selects this reviewed art set; historical manifests remain immutable.
 export const HOSPITAL_FOUR_ART_VERSION = 'design-0.5.0';
 export const HOSPITAL_FOUR_ART_MANIFEST = 'design/releases/design-0.5.0.json';
@@ -20,7 +22,7 @@ const historical = {
 };
 const releases = {
   'design-0.7.0': {
-    manifestSha256: '5cd0a792c780a937fee6aee918c133567ecdf2a1ef801251d209209c24e49cc0',
+    manifestSha256: '0ab15cfec53dd7be09d265685ffada52e01d26681b9a2b7d02c17c2b30b1da79',
     crewApprovalSha256: 'a2ef5f03666e046bb712b4c177adc30d35556aaa590f9f7aa0d45fd3cb55dbab',
     approvalSha256: '9493e29a8ce1b06c6848846b0c8932d65c42abcb24b2b43aaf35ed7239aaf228',
     baseManifest: PLANET_ART_MANIFEST,
@@ -84,6 +86,20 @@ export function readHistoricalRuntimeArtRelease(root, version) {
   return readRelease(root, version, true);
 }
 
+/** Exact reviewed consumer compatibility, separate from immutable artwork manifests. */
+export function readCrewConsumerApproval(root) {
+  const bytes = readFileSync(resolve(root, CREW_CONSUMER_APPROVAL));
+  check(sha(bytes) === CREW_CONSUMER_APPROVAL_SHA256, 'crew consumer approval differs');
+  const approval = JSON.parse(bytes);
+  check(approval.schema === 'mothership.crew-consumer-approval/1', 'invalid crew consumer approval');
+  for (const [path, digest] of Object.entries(approval.requiredFiles)) {
+    check(!path.includes('..') && !path.includes('\\') && !path.startsWith('/')
+      && /^[a-f0-9]{64}$/.test(digest), 'invalid consumer evidence path');
+    check(sha(readFileSync(resolve(root, path))) === digest, `crew consumer content differs: ${path}`);
+  }
+  return approval;
+}
+
 function readRelease(root, version, fromSnapshot) {
   root = resolve(root);
   check(Object.hasOwn(releases, version), 'unknown art release');
@@ -94,13 +110,29 @@ function readRelease(root, version, fromSnapshot) {
   const manifest = JSON.parse(bytes);
   check(manifest.schema === 'mothership.runtime-art-release/1' && manifest.manifestVersion === version, 'unreviewed manifest version');
   check(JSON.stringify(manifest.gameplayPins) === JSON.stringify(expected.gameplay), 'gameplay compatibility differs');
+  const consumer = !fromSnapshot && [PLANET_ART_VERSION, CREW_ART_VERSION].includes(version)
+    ? readCrewConsumerApproval(root) : null;
+  if (version === CREW_ART_VERSION) {
+    check(manifest.consumerApproval?.path === CREW_CONSUMER_APPROVAL
+      && manifest.consumerApproval.sha256 === CREW_CONSUMER_APPROVAL_SHA256, 'crew consumer binding differs');
+  }
   const sources = Object.entries(manifest.sources ?? {}), runtime = Object.entries(manifest.runtimeFiles ?? {});
   check(sources.length > 0 && runtime.length > 0, 'source and runtime inventories are required');
   for (const [path, digest] of [...sources, ...runtime]) {
     check(typeof path === 'string' && !path.includes('..') && !path.includes('\\') && !path.startsWith('/')
       && resolve(root, path).startsWith(root + sep) && /^[a-f0-9]{64}$/.test(digest), 'invalid inventory entry');
     const inventoryPath = fromSnapshot ? `${HISTORICAL_ART_BLOBS}/${digest}` : path;
-    check(sha(readFileSync(resolve(root, inventoryPath))) === digest, `content differs: ${path}`);
+    const actual = sha(readFileSync(resolve(root, inventoryPath)));
+    const compatibility = consumer?.historicalRuntimeOverrides?.[version]?.[path];
+    if (compatibility) {
+      // Preserve the published manifest and original bytes. Only this reviewed
+      // successor consumer is permitted; no wildcard or unverified fallback.
+      check(compatibility.previousSha256 === digest
+        && compatibility.sha256 === actual
+        && consumer.requiredFiles[path] === actual
+        && consumer.requiredFiles[`${HISTORICAL_ART_BLOBS}/${digest}`] === digest,
+      `historical consumer compatibility differs: ${path}`);
+    } else check(actual === digest, `content differs: ${path}`);
   }
   const names = Object.keys(manifest.bundles ?? {}).sort();
   check(JSON.stringify(names) === JSON.stringify(expected.bundles), 'complete uniform bundle set required');

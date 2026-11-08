@@ -1,0 +1,53 @@
+{
+  "render": "brand-display",
+  "film": "brand",
+  "outputs": [
+    {
+      "kind": "video",
+      "file": "design/pregame-films/review/brand-display.mp4",
+      "sha256": "c7a5af7ecad9b0c8ee03f9ae6301b3fcbb658db39cc5f1f1aa8b24617132e365",
+      "bytes": 35024,
+      "stage": "pregame-films/stage.html?film=brand",
+      "css": [
+        1920,
+        1080
+      ],
+      "deviceScale": 1,
+      "fps": 60,
+      "framesRendered": 120,
+      "durationMs": 2000,
+      "msPerFrame": 116,
+      "probe": {
+        "width": 1920,
+        "height": 1080,
+        "frames": 120,
+        "fps": "60/1",
+        "durationS": 2,
+        "streams": 1
+      }
+    },
+    {
+      "kind": "sheet",
+      "file": "design/pregame-films/review/brand-display.sheet.jpg",
+      "sha256": "42d6620c2c4dbffa20aafc9f38388f24dd6969318b56ff24d2fce148a9743522",
+      "bytes": 83420,
+      "moments": [
+        100,
+        230,
+        330,
+        420,
+        520,
+        640,
+        940,
+        1050,
+        1180,
+        1300,
+        1600,
+        1850
+      ]
+    }
+  ],
+  "browser": "Google Chrome for Testing 153.0.8010.12",
+  "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+  "note": "A review render: frames captured in desktop Chromium from the review stage and encoded with ffmpeg. Not a device measurement."
+}

@@ -12,6 +12,8 @@ export const contentSha256 = value => createHash('sha256').update(value).digest(
 export const CANDIDATE_DRAWING_POLICY = 'design/releases/board-v2-four-drawing-approval.json';
 export const PLANET_DRAWING_POLICY = 'design/releases/planet-drawing-approval.json';
 export const CREW_DRAWING_POLICY = 'design/releases/crew-drawing-approval.json';
+export const CREW_CONSUMER_DRAWING_POLICY = 'design/releases/crew-consumer-drawing-approval.json';
+const CREW_CONSUMER_DRAWING_POLICY_SHA256 = 'c7ebfa715d1b197c160156c199c8d90c14276f516b96fd99210cc5bb4a3ef9dc';
 const CREW_DRAWING_POLICY_SHA256 = 'f2be8f9c702443effefcbb63fff36aab97f4f4d1bff3c9e13246077c95800f25';
 const PLANET_DRAWING_POLICY_SHA256 = '0fc219ac5f1f8598a715c1a35140ff18f04cc6593785329b9219cb3d2478d497';
 const CANDIDATE_DRAWING_POLICY_SHA256 = '5ef70aa1da1f78b81ca945485b08083aa70856bb9b482df9b3b4e131c23869a0';
@@ -43,6 +45,13 @@ export function readDrawingPolicy(root) {
   const crew = JSON.parse(crewBytes);
   if (crew.parentApprovalSha256 !== PLANET_DRAWING_POLICY_SHA256) throw Error('Crew drawing parent approval differs');
   for (const key of ['ports', 'sourceHashes', 'requiredFiles', 'metadataFiles', 'buildFiles']) policy[key] = { ...policy[key], ...crew[key] };
+  let consumerBytes;
+  try { consumerBytes = readFileSync(resolve(root, CREW_CONSUMER_DRAWING_POLICY)); }
+  catch (error) { if (error.code === 'ENOENT') return policy; throw error; }
+  if (contentSha256(consumerBytes) !== CREW_CONSUMER_DRAWING_POLICY_SHA256) throw Error('Crew consumer drawing approval content hash differs');
+  const consumer = JSON.parse(consumerBytes);
+  if (consumer.parentApprovalSha256 !== CREW_DRAWING_POLICY_SHA256) throw Error('Crew consumer drawing parent approval differs');
+  for (const key of ['buildFiles', 'metadataFiles', 'requiredFiles']) policy[key] = { ...policy[key], ...consumer[key] };
   return policy;
 }
 const DRAWING_DIRECTORIES = ['apps/game/hosted/scene-drawing/', 'apps/game/hosted/board-v2-drawing/', 'apps/game/hosted/crew-drawing/'];

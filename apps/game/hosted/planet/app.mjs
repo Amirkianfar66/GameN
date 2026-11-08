@@ -1,3 +1,4 @@
+import {crewPortraitVariable,setCrewPictureSurface} from '../crew-runtime.mjs';
 import {createPlanetSession,createPlanetController} from '@mothership/game';
 import {planetRoleLook,planetHasLibraryArt} from '@mothership/presentation';
 import {CrewDisplayNameSchema,CREW_NAME_MAX_LENGTH} from '@mothership/contracts';
@@ -11,6 +12,7 @@ import '../comic-layout.css';
 import '../claude-phone-kit.css';
 import '../board-v2.css';
 import './planet.css';
+import '../crew-runtime.css';
 
 /** Both production and the explicit development harness mount this same consumer. */
 export async function mountPlanetApp(root,{connection,matchId,allowSynthetic=false,ports:injectedPorts=null,stores:injectedStores=null}={}){
@@ -32,7 +34,7 @@ export async function mountPlanetApp(root,{connection,matchId,allowSynthetic=fal
  function returnButton(){const b=button('Return to lobby',()=>{if(!canReturnToLobby())return;entryMode='join';hostOpen=false;abortConfirm=false;roleOpen=false;Object.assign(entryDraft,{roomCode:'',displayName:'',kind:'player'});session.returnToLobby();});b.id='planet-return-lobby';b.className='planet-return-lobby';return b;}
  function createRoleCard(value,own){
   const look=planetRoleLook(value.role,value.faction),card=el('article');card.className='ms-role-card ms-role-card--full';card.dataset.device=look.device??'';card.dataset.team=value.faction.toLowerCase();
-  if(own?.characterId){card.dataset.character=own.characterId;card.style.setProperty('--ms-role-person',`var(--ms-asset-piece-crew-card-${own.characterId})`);}
+  if(own?.characterId){card.dataset.character=own.characterId;card.style.setProperty('--ms-role-person',crewPortraitVariable(own.characterId,model.versions));}
   if(look.device)card.style.setProperty('--ms-role-device',`var(--ms-asset-device-${look.device}-held)`);
   else if(value.role==='Engineer'&&(document.documentElement.dataset.art??'').split(' ').includes('successor')){card.dataset.device='engineer';card.style.setProperty('--ms-role-device','var(--sw-asset-sw-device-engineer)');}
   const art=el('span');art.className='ms-role-card__art';art.setAttribute('aria-hidden','true');const text=el('div');text.className='ms-role-card__text';text.append(el('h2',look.name),el('p',`${look.faction} team`));card.append(art,text,el('p',look.guide));
@@ -68,7 +70,7 @@ export async function mountPlanetApp(root,{connection,matchId,allowSynthetic=fal
   if(model.status==='choosing'&&own){
    root.append(el('h2','Choose your character'),el('p','A character is assigned automatically when the 30-second selection window closes.'));
    const grid=el('div');grid.className='planet-crew';
-   for(let n=1;n<=9;n++){const id=`c${n}`,taken=model.members.some(m=>m.seatId!==model.selfSeatId&&m.characterId===id),b=button(`Character ${n}`,()=>operate({operation:'chooseCharacter',matchId:model.matchId,characterId:id}));b.id=`planet-character-${id}`;b.dataset.character=id;b.style.setProperty('--crew-picture',`var(--ms-asset-piece-crew-card-${id})`);b.setAttribute('aria-pressed',String(own.characterId===id));b.disabled=!model.canChoose||taken;grid.append(b);}root.append(grid);
+   for(let n=1;n<=9;n++){const id=`c${n}`,taken=model.members.some(m=>m.seatId!==model.selfSeatId&&m.characterId===id),b=button(`Character ${n}`,()=>operate({operation:'chooseCharacter',matchId:model.matchId,characterId:id}));b.id=`planet-character-${id}`;b.dataset.character=id;b.style.setProperty('--crew-picture',crewPortraitVariable(id,model.versions));b.setAttribute('aria-pressed',String(own.characterId===id));b.disabled=!model.canChoose||taken;grid.append(b);}root.append(grid);
   }else if(model.status==='reading'&&own){
    root.append(el('h2',`Player ${model.selfSeatId.slice(5)} · Read your role`));
    const toggle=button(model.ownRole?'Conceal my role':'Reveal my role',()=>{roleOpen=!roleOpen;session.revealRole(roleOpen);});toggle.id='planet-role-reveal';toggle.setAttribute('aria-expanded',String(model.ownRole!==null));root.append(toggle);
@@ -100,7 +102,7 @@ export async function mountPlanetApp(root,{connection,matchId,allowSynthetic=fal
  }
  function updateTimer(){const t=document.getElementById('planet-setup-timer');if(t)t.textContent=model.remainingMs===null?'':model.status==='reading'?model.remainingMs>0?`Read for at least ${Math.ceil(model.remainingMs/1000)} more seconds.`:'Ready is available after the minimum reading time.':`${Math.ceil(model.remainingMs/1000)} seconds remaining.`;}
  function render(next){
-  if(disposed)return;model=next;libraryAssets.setVersions(model.versions);
+  if(disposed)return;model=next;setCrewPictureSurface(root,model.versions);libraryAssets.setVersions(model.versions);
   if(terminalReturn)terminalReturn.hidden=!canReturnToLobby();
   const running=['running','finished'].includes(model.status),surface=model.selfSeatId?'player':'display';
   if(running){
@@ -124,5 +126,5 @@ export async function mountPlanetApp(root,{connection,matchId,allowSynthetic=fal
  const artReady=()=>{sessionKey=null;if(model)render(session.getModel());};
  const concealRole=()=>{roleOpen=false;session.revealRole(false);};
  document.addEventListener('visibilitychange',visibility);document.addEventListener('mothership:art-ready',artReady);win.addEventListener('blur',concealRole);unsubscribe=session.subscribe(render);await session.start(matchId);
- return {session,artReady:libraryAssets.ready,get game(){return game;},dispose(){disposed=true;unsubscribe?.();document.removeEventListener('visibilitychange',visibility);document.removeEventListener('mothership:art-ready',artReady);win.removeEventListener('blur',concealRole);renderer?.dispose();game?.dispose();session.dispose();libraryAssets.dispose();void connection.dispose?.();root.replaceChildren();}};
+ return {session,artReady:libraryAssets.ready,get game(){return game;},dispose(){disposed=true;unsubscribe?.();document.removeEventListener('visibilitychange',visibility);document.removeEventListener('mothership:art-ready',artReady);win.removeEventListener('blur',concealRole);renderer?.dispose();game?.dispose();session.dispose();libraryAssets.dispose();void connection.dispose?.();delete root.dataset.crewArt;root.replaceChildren();}};
 }

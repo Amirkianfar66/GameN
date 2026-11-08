@@ -1,3 +1,4 @@
+import {crewFigureSvg,crewInstancePrefix,disposeCrewMounts,hasCrewDrawing,paintCrewFigure,setCrewMountMotion} from './crew-runtime.mjs';
 // Native painter over the reviewed pure drawing ports. All inputs are authorized model facts.
 // Optional drawings never create a target, modify a placement, send a command or fetch an asset.
 import {FRAME} from './scene-drawing/body.mjs';
@@ -24,7 +25,7 @@ const unitBox=(f,x,y,w,h)=>({left:f.tx+x*f.k,top:f.ty+y*f.k,width:w*f.k,height:h
 const namespaceSvg=(svg,prefix)=>{const ids=[...svg.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]);for(const id of ids)svg=svg.replaceAll(`id="${id}"`,`id="${prefix}-${id}"`).replaceAll(`url(#${id})`,`url(#${prefix}-${id})`).replaceAll(`href="#${id}"`,`href="#${prefix}-${id}"`);return svg;};
 const nameBand=who=>({left:who.name.left-38,top:who.name.top,width:76,height:16});
 export function createBoardV2Films(root,holder){
- const document=root.ownerDocument,nodes=new Map(),restored=new Map();let used=new Set();
+ const document=root.ownerDocument,nodes=new Map(),restored=new Map();let used=new Set(),drawingVersions=null,privateCardNode=null;
  const caption=room=>{
   const parent=holder._boardV2Paint.rooms.get(room.room),node=parent?.querySelector('.bv2-caption');
   if(!node)return {left:0,top:0,width:room.panel.width,height:room.panel.cap};
@@ -47,8 +48,16 @@ export function createBoardV2Films(root,holder){
   if(!CREW[who.characterId])return;
   const unit=slot.scale*f.k;
   for(const layer of ['body','front']){
-   const rig=dressedFigureSvg(CREW[who.characterId],sk,{outfit,prefix:`film-${key}-${layer}`,layer}),svg=memorial?memorialSvg(rig):rig;
-   const node=make(parent,`${key}-${layer}`,{left:f.tx+slot.at[0]*f.k-(AX-BX)*unit+offset[0],top:f.ty+slot.at[1]*f.k-(AY-BY)*unit+offset[1],width:SIZE*unit,height:SIZE*unit},{svg,opacity,z:layer==='front'?1500+z/2:z});
+   if(hasCrewDrawing(drawingVersions)&&layer==='front'&&!sk.front?.length)continue;
+   let node;
+   const rect={left:f.tx+slot.at[0]*f.k-(AX-BX)*unit+offset[0],top:f.ty+slot.at[1]*f.k-(AY-BY)*unit+offset[1],width:SIZE*unit,height:SIZE*unit};
+   if(hasCrewDrawing(drawingVersions)){
+    node=make(parent,`${key}-${layer}`,rect,{opacity,z:layer==='front'?1500+z/2:z});
+    paintCrewFigure(holder,node,drawingVersions,who.characterId,sk,{outfit,layer,still:body||who.health==='Eliminated',seat:Number(who.seatId.slice(5)),point:[sk.head[0]+slot.at[0]/slot.scale,sk.head[1]+slot.at[1]/slot.scale],mirror:slot.mirror,inlineArt:memorial,variant:memorial?'memorial':'',transformMarkup:memorial?memorialSvg:null,transformAttribute:memorial?memorialSvg:null});
+   }else{
+    const rig=dressedFigureSvg(CREW[who.characterId],sk,{outfit,prefix:`film-${key}-${layer}`,layer}),svg=memorial?memorialSvg(rig):rig;
+    node=make(parent,`${key}-${layer}`,rect,{svg,opacity,z:layer==='front'?1500+z/2:z});
+   }
    node.style.transform=`scaleX(${slot.mirror?-1:1})`;node.style.transformOrigin=`${(AX-BX)/SIZE*100}% 50%`;
    node.style.filter=silhouette?'brightness(0)':body&&!memorial?'grayscale(1)':'';
   }
@@ -164,25 +173,54 @@ export function createBoardV2Films(root,holder){
    const point=overflowWay(at,target,f.flyer.v);figure(holder,`${entry.event.eventId}-paper`,who,{at:point,scale:.18*f.flyer.scale,mirror:false},{k:1,tx:0,ty:0},skeletonOf(slot.down),{opacity:f.flyer.opacity,body:true,memorial:true,outfit:outfitFor(entry.origin.location),z:3100});}
  }
  function privateCard(own,seats){
-  let card=root.querySelector('.bv2-clone-card');
+  let card=privateCardNode??root.querySelector('.bv2-clone-card');
   const panel=root.dataset.phoneView==='actions'?root.querySelector('.ms-private[data-open="true"] .ms-private__panel'):null;
+  // A parent UI redraw can detach the card before this painter runs. Keep ownership
+  // independently of DOM queries so its listeners and shared-art lease are released.
+  if(card&&card.parentNode!==panel){disposeCrewMounts(card);card.remove();card=null;privateCardNode=null;}
   const who=seats.find(s=>s.seatId===own?.seatId);
-  if(!own||!panel||!CREW[who?.characterId]){card?.remove();root.dataset.boardClone='false';for(const line of root.querySelectorAll('[data-clone-duplicate]')){line.hidden=false;delete line.dataset.cloneDuplicate;}return;}
+  if(!own||!panel||!CREW[who?.characterId]){if(card){disposeCrewMounts(card);card.remove();}privateCardNode=null;root.dataset.boardClone='false';for(const line of root.querySelectorAll('[data-clone-duplicate]')){line.hidden=false;delete line.dataset.cloneDuplicate;}return;}
   root.dataset.boardClone='true';for(const line of root.querySelectorAll('.bv2-private-status'))if(line.textContent===cloneWords(own.status)){line.hidden=true;line.dataset.cloneDuplicate='true';}
-  if(!card){card=document.createElement('div');card.className='bv2-clone-card';card.dataset.private='true';const drawing=document.createElement('div');drawing.className='bv2-clone-drawing';drawing.setAttribute('aria-hidden','true');const words=document.createElement('p');card.append(drawing,words);panel.prepend(card);}
+  if(!card){card=document.createElement('div');card.className='bv2-clone-card';card.dataset.private='true';const drawing=document.createElement('div');drawing.className='bv2-clone-drawing';drawing.setAttribute('aria-hidden','true');const words=document.createElement('p');card.append(drawing,words);panel.prepend(card);}privateCardNode=card;
   card.dataset.cloneState=own.state;card.dataset.cloneFilm=own.film??'rest';
   const width=Math.max(180,panel.clientWidth-12),l=cloneCardLayout({width,height:100}),drawing=card.firstElementChild;card.style.minHeight='100px';
-  const full=dressedFigureSvg(CREW[who.characterId],skeletonOf('stand'),{outfit:outfitFor(who.location),prefix:'own-clone-card'}),f=own.frame;
+  const currentCrew=hasCrewDrawing(drawingVersions),outfit=outfitFor(who.location),drawingKey=`${who.characterId}|${outfit}`;
+  if(currentCrew&&drawing._crewDrawing?.key!==drawingKey){
+   disposeCrewMounts(card);drawing.replaceChildren();const prefix=crewInstancePrefix(),full=crewFigureSvg(who.characterId,skeletonOf('stand'),{versions:drawingVersions,outfit,prefix});
+   drawing._crewDrawing={key:drawingKey,full,outline:outlineSvg(full,{prefix:`${prefix}-outline`}),halftone:halftoneSvg(full,{density:1,prefix:`${prefix}-halftone`})};
+  }
+  const full=currentCrew?drawing._crewDrawing.full:dressedFigureSvg(CREW[who.characterId],skeletonOf('stand'),{outfit,prefix:'own-clone-card'}),f=own.frame;
   box(drawing,{left:0,top:0,width:l.portrait.left+l.portrait.width+6,height:l.height});
   const kind=own.state==='active'?'activate':'expire',state=f??cloneFrame(kind,cloneEnd(kind,own.reduced),{reduced:own.reduced});
   // This subtree is removed on concealment. All SVG comes from pure reviewed rig functions.
-  drawing.innerHTML='';
-  const part=(key,r,svg,opacity)=>{if(!opacity)return;const n=document.createElement('span');n.className='bv2-film';n.dataset.clonePart=key;box(n,r);n.innerHTML=namespaceSvg(svg,`private-clone-${key}`);n.style.opacity=String(opacity);drawing.append(n);};
+  if(!currentCrew)drawing.innerHTML='';
+  const usedParts=new Set();
+  const part=(key,r,svg,opacity)=>{
+   if(!currentCrew){if(!opacity)return null;const n=document.createElement('span');n.className='bv2-film';n.dataset.clonePart=key;box(n,r);n.innerHTML=namespaceSvg(svg,`private-clone-${key}`);n.style.opacity=String(opacity);drawing.append(n);return n;}
+   usedParts.add(key);let n=drawing.querySelector(`[data-clone-part="${key}"]`);
+   if(!n){n=document.createElement('span');n.className='bv2-film';n.dataset.clonePart=key;n._crewPrefix=crewInstancePrefix();drawing.append(n);}
+   box(n,r);n.hidden=!opacity;n.style.opacity=String(opacity);
+   if(svg!==null&&n._crewSvg!==svg){n.innerHTML=namespaceSvg(svg,n._crewPrefix);n._crewSvg=svg;}
+   return n;
+  };
   part('stage',{left:0,top:0,width:l.portrait.left+l.portrait.width+6,height:l.height},stageSvg({width:l.portrait.left+l.portrait.width+6,height:l.height,real:l.real.feet[0],clone:l.clone.feet[0],floor:l.real.feet[1],lit:state.pad,prefix:'own-stage'}),1);
   const rect=p=>({left:p.left,top:p.top,width:p.size,height:p.size});
-  part('real',rect(l.real),full,state.real.opacity);part('outline',rect(l.real),outlineSvg(full,{prefix:'own-outline'}),state.outline.opacity);
-  part('duplicate',rect(l.clone),full,state.clone.opacity);part('halftone',rect(l.clone),halftoneSvg(full,{density:state.halftone.density,prefix:'own-halftone'}),state.halftone.opacity);
+  if(currentCrew){
+   setCrewMountMotion(card,own.reduced);
+   for(const [key,place,opacity]of [['real',l.real,state.real.opacity],['duplicate',l.clone,state.clone.opacity]]){
+    const n=part(key,rect(place),null,opacity);
+    paintCrewFigure(card,n,drawingVersions,who.characterId,skeletonOf('stand'),{outfit,seat:Number(who.seatId.slice(5)),still:who.health==='Eliminated'});
+   }
+   part('outline',rect(l.real),drawing._crewDrawing.outline,state.outline.opacity);
+   const half=part('halftone',rect(l.clone),drawing._crewDrawing.halftone,state.halftone.opacity),density=Math.max(0,Math.min(1,state.halftone.density));
+   for(const circle of half.querySelectorAll('pattern[id$="-dot"] circle'))circle.setAttribute('r',String(Math.round((.5+1.6*density)*100)/100));
+   const rim=half.querySelector('svg > g[opacity]');if(rim)rim.setAttribute('opacity',String(Math.round((.35+.45*density)*100)/100));
+  }else{
+   part('real',rect(l.real),full,state.real.opacity);part('outline',rect(l.real),outlineSvg(full,{prefix:'own-outline'}),state.outline.opacity);
+   part('duplicate',rect(l.clone),full,state.clone.opacity);part('halftone',rect(l.clone),halftoneSvg(full,{density:state.halftone.density,prefix:'own-halftone'}),state.halftone.opacity);
+  }
   if(state.scan)part('scan',{left:l.portrait.left,top:l.portrait.top+state.scan.y*l.portrait.height,width:l.portrait.width,height:10},scanSvg({width:l.portrait.width,height:10,prefix:'own-scan'}),state.scan.opacity??1);
+  if(currentCrew)for(const n of drawing.children)if(!usedParts.has(n.dataset.clonePart))n.hidden=true;
   for(const kind of ['active','ended']){
    let stamp=card.querySelector(`[data-clone-stamp="${kind}"]`);
    if(!stamp){stamp=document.createElement('span');stamp.className='bv2-clone-stamp';stamp.dataset.cloneStamp=kind;stamp.setAttribute('aria-hidden','true');stamp.textContent=kind==='active'?'CLONE ACTIVE':'CLONE ENDED';card.insertBefore(stamp,card.lastElementChild);}
@@ -205,7 +243,9 @@ export function createBoardV2Films(root,holder){
   if(!strip){strip=document.createElement('div');strip.className='bv2-captain-states';strip.dataset.private='true';strip.setAttribute('aria-hidden','true');panel.prepend(strip);}
   strip.replaceChildren();for(const kind of closed){const plate=document.createElement('div');plate.dataset.captainPlate=states[kind];const word=document.createElement('span');word.className='bv2-captain-word';word.textContent=`${kind.toUpperCase()} · ${states[kind]}`;plate.append(word);plate.style.setProperty('--captain-plate',`var(--board-v2-film-captain-plate-${kind}-${plateFor(states[kind])})`);strip.append(plate);}
  }
- return {beforePaint,paint({sample,frame,board,seats,geometry,layout,enabled,dark=false,privateOpen=false,captain:captainState=null,card=null,time=0}){
+ return {beforePaint,paint({sample,frame,board,seats,geometry,layout,enabled,dark=false,privateOpen=false,captain:captainState=null,card=null,time=0,versions=null}){
+  drawingVersions=versions;
+  setCrewMountMotion(holder,sample.reduced);
   used=new Set();
   const rooms=frame.rooms.map(r=>({...r,slots:geometry.slotsOf(r.room,board.playerCount),presses:geometry.slotRects(r.room,board.playerCount,r.panel)}));
   if(enabled&&!dark){
@@ -232,5 +272,5 @@ export function createBoardV2Films(root,holder){
   }
   privateCard(enabled&&privateOpen?sample.own:null,seats);if(enabled&&privateOpen)commandPlates(captainState,card);
   for(const[key,node]of nodes)if(!used.has(key)){node.remove();nodes.delete(key);}
- },clear(){beforePaint();root.dataset.boardClone='false';for(const line of root.querySelectorAll('[data-clone-duplicate]')){line.hidden=false;delete line.dataset.cloneDuplicate;}for(const node of nodes.values())node.remove();nodes.clear();root.querySelector('.bv2-clone-card')?.remove();root.querySelector('.bv2-captain-states')?.remove();},dispose(){this.clear();}};
+ },clear(){beforePaint();root.dataset.boardClone='false';for(const line of root.querySelectorAll('[data-clone-duplicate]')){line.hidden=false;delete line.dataset.cloneDuplicate;}for(const node of nodes.values())node.remove();nodes.clear();const card=privateCardNode??root.querySelector('.bv2-clone-card');if(card){disposeCrewMounts(card);card.remove();}privateCardNode=null;root.querySelector('.bv2-captain-states')?.remove();},dispose(){this.clear();}};
 }

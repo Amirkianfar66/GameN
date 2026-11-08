@@ -6,7 +6,16 @@ import {sessionScenario,makePlanetScenario,publicPlanet} from './scenarios.mjs';
 const name=new URL(location.href).searchParams.get('scenario')??'board';
 const tuple=new URL(location.href).searchParams.get('tuple')??'current';
 const count=Number(new URL(location.href).searchParams.get('count')??9);
-let value=sessionScenario(name==='join'?'display':name,{now:Date.now(),count,tuple}),lost=false,admissionRead=name==='join'?'forbidden':null;
+// Optional public character assignment for the excluded hair-motion review video.
+function reviewSession(...args){
+ const value=sessionScenario(...args);
+ if(new URL(location.href).searchParams.get('crewPair')==='hair'){
+  const swapped={c1:'c9',c9:'c1',c6:'c8',c8:'c6'};
+  for(const member of value.members)member.characterId=swapped[member.characterId]??member.characterId;
+ }
+ return value;
+}
+let value=reviewSession(name==='join'?'display':name,{now:Date.now(),count,tuple}),lost=false,admissionRead=name==='join'?'forbidden':null;
 const requests=[];let rejectNextPanel=false,originalAdmission=null,authUid='planet-synthetic-uid',sessionReplies=null,receipt=null;
 const connection={mode:'synthetic',currentUid:()=>authUid,signIn:async()=>authUid,async request(request){
  requests.push(structuredClone(request));
@@ -14,7 +23,7 @@ const connection={mode:'synthetic',currentUid:()=>authUid,signIn:async()=>authUi
  if(sessionReplies?.operation===request.operation&&sessionReplies.replies.length){const reply=sessionReplies.replies.shift();if(reply==='missing-code')return answer({});if(reply!=='success')return {ok:false,serverTimeMs:Date.now(),error:{code:reply}};}
  if(request.operation==='read')return admissionRead?{ok:false,serverTimeMs:Date.now(),error:{code:admissionRead==='forbidden'?'FORBIDDEN':'UNAVAILABLE'}}:answer(structuredClone(value));
  if(request.operation==='requestAdmission'){originalAdmission={requestId:request.requestId,kind:request.kind};return answer({matchId:value.matchId,admissionId:'synthetic-admission'});}
- if(request.operation==='redeemRecovery'){value=sessionScenario('board',{now:Date.now(),count,tuple});value.admission=null;admissionRead=null;return answer({matchId:request.matchId,seatId:value.selfSeatId});}
+ if(request.operation==='redeemRecovery'){value=reviewSession('board',{now:Date.now(),count,tuple});value.admission=null;admissionRead=null;return answer({matchId:request.matchId,seatId:value.selfSeatId});}
  if(request.operation==='receipt')return answer({receipt});
  if(request.operation==='issueRecovery')return answer({recoveryCode:'SYNTHETICRECOVERY'+'X'.repeat(111),expiresAt:Date.now()+900000});
  if(request.operation==='command'){
@@ -36,7 +45,7 @@ window.planetHarness={app,requests,candidateReady,setReceipt(next){receipt=next;
  async admission(mode,context=originalAdmission){
   admissionRead=['forbidden','unavailable'].includes(mode)?mode:null;if(admissionRead){await app.session.refresh();return;}
   if(!context)throw Error('Synthetic admission needs its original request binding');originalAdmission=context;
-  value=sessionScenario(mode==='player'?'board':'display',{now:Date.now(),count,tuple});
+  value=reviewSession(mode==='player'?'board':'display',{now:Date.now(),count,tuple});
   value.admission={...context,status:['pending','closed','declined','seatless'].includes(mode)?mode==='seatless'?'pending':mode:'admitted'};
   if(value.admission.status!=='admitted')Object.assign(value,{isHost:false,selfSeatId:null,members:[],pendingAdmissions:[],setup:null,privateRole:null,publicView:null,playerView:null});
   await app.session.refresh();
@@ -53,7 +62,7 @@ window.planetHarness={app,requests,candidateReady,setReceipt(next){receipt=next;
   if(fulfillMeetings)p.promises=p.promises.map(x=>['MEET_A','MEET_B'].includes(x.kind)?{...x,status:'Fulfilled'}:x);await applyPlayer(p);
  },
  async replace(next){value=structuredClone(next);await app.session.refresh();},
- async scene(scenario){value=sessionScenario(scenario,{now:Date.now(),count,tuple});await app.session.refresh();},
+ async scene(scenario){value=reviewSession(scenario,{now:Date.now(),count,tuple});await app.session.refresh();},
  async expired(){if(value.playerView){value.playerView.phase.startedAt=Date.now()-61000;value.playerView.phase.endsAt=value.playerView.phase.startedAt+60000;value.playerView.viewRevision++;value.publicView=publicPlanet(value.playerView);}await app.session.refresh();},
  async setupExpired(){value.setup.endsAt=Date.now()-1000;await app.session.refresh();},
  makePlanetScenario,publicPlanet};

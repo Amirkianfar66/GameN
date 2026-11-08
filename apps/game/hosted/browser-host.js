@@ -1,3 +1,4 @@
+import {disposeCrewMounts,setCrewMountActivity,setCrewPictureSurface} from './crew-runtime.mjs';
 // Browser mounting for the hosted playtest. No fixture state or operator controls.
 import { openRoomMovement } from './room-movement.mjs';
 import { createComicMotion } from './comic-motion.mjs';
@@ -182,7 +183,9 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
     // Stations and bands first, so motion measures where every character finally stands.
     const hasBoardV2 = boardV2.after(frame.model);
     if (!hasBoardV2) { fitBoard(root); applySceneBoard(root, frame.model); }
+    setCrewPictureSurface(root,frame.model.match?.versions);
     applyPhoneKit(root, frame.model);
+    setCrewMountActivity(root,frame.model.match?.connection?.status!=='stale'&&document.visibilityState==='visible');
     phoneKitCues.after(frame.model);
     if (hasBoardV2) comicMotion.settle();
     else comicMotion.after(frame.model, beforeMotion);
@@ -375,6 +378,7 @@ export function mountScreen({ container, screen, render, subscribeExtra = () => 
     stopExtra();
     onDispose();
     resized?.disconnect();
+    disposeCrewMounts(root);
     comicMotion.dispose();
     boardV2.dispose();
     stripCues.dispose();

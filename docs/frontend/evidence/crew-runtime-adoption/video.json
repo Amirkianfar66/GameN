@@ -1,0 +1,55 @@
+{
+  "scope": "35-second native-consumer review video, independently initialized synthetic fixtures; desktop Chromium only. Not gameplay timing, device performance or release-build acceptance.",
+  "fps": 15,
+  "frames": 525,
+  "durationSeconds": 35,
+  "sourceHead": "8cee39d89798390d03c2a4a9fe457fa6de387bda",
+  "browser": "Google Chrome 156.0.8078.80",
+  "segments": [
+    {
+      "start": 0,
+      "end": 7,
+      "view": "Nine-crew board, full motion"
+    },
+    {
+      "start": 7,
+      "end": 12,
+      "view": "All-nine square-icon character selector"
+    },
+    {
+      "start": 12,
+      "end": 18,
+      "view": "Own-phone reading card with baked icon"
+    },
+    {
+      "start": 18,
+      "end": 28,
+      "view": "Mira and Echo in native capsule poses, full motion"
+    },
+    {
+      "start": 28,
+      "end": 35,
+      "view": "Same capsule with reduced motion; meaningful poses retained"
+    }
+  ],
+  "problems": [],
+  "probe": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_type": "video",
+        "width": 390,
+        "height": 844,
+        "r_frame_rate": "15/1",
+        "nb_frames": "525",
+        "side_data_list": [
+          {}
+        ]
+      }
+    ],
+    "format": {
+      "duration": "35.000000"
+    }
+  }
+}

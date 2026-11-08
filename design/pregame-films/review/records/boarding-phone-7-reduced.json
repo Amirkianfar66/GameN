@@ -1,0 +1,33 @@
+{
+  "render": "boarding-phone-7-reduced",
+  "film": "boarding",
+  "outputs": [
+    {
+      "kind": "video",
+      "file": "design/pregame-films/review/boarding-phone-7-reduced.mp4",
+      "sha256": "31c78f86a88b65611c9c9070c2ef292822fa96b9a60185d5c5c9c6fa619da340",
+      "bytes": 1001888,
+      "stage": "pregame-films/stage.html?film=boarding&roster=7&variant=reduced",
+      "css": [
+        390,
+        844
+      ],
+      "deviceScale": 2,
+      "fps": 60,
+      "framesRendered": 600,
+      "durationMs": 10000,
+      "msPerFrame": 852,
+      "probe": {
+        "width": 780,
+        "height": 1688,
+        "frames": 600,
+        "fps": "60/1",
+        "durationS": 10,
+        "streams": 1
+      }
+    }
+  ],
+  "browser": "Google Chrome for Testing 153.0.8010.12",
+  "encoder": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+  "note": "A review render: frames captured in desktop Chromium from the review stage and encoded with ffmpeg. Not a device measurement."
+}
