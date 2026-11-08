@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- mothership:dev-only. The room pilot's review page (design/room-pilot/review.mjs): ?view=compare (the default), ?view=room or ?view=empty. A design review page, not the game. -->
+<!-- mothership:dev-only. The room pilot's review page (design/room-pilot/review.mjs): ?view=compare&room=<id> (the default), ?view=board or ?view=room&room=<id>. A design review page, not the game. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -15,18 +15,18 @@
   h2 { margin: 0 0 8px; font-size: 16px; }
   h2 small { font-weight: 400; color: var(--muted); }
   .row { display: flex; gap: 24px; padding: 14px 28px; align-items: flex-start; }
+  .grid { display: grid; grid-template-columns: repeat(3, 512px); gap: 18px 24px; padding: 14px 28px; }
   .cell { flex: none; }
-  /* A room: the scene's 1024 x 768 picture with the crew in its places, as the board composes it. */
+  /* A room: the scene's 1024 x 768 pictures with the crew in its places, layered as the board layers them. */
   .frame { position: relative; overflow: hidden; border-radius: 6px; background: var(--ink); box-shadow: 0 1px 0 #0002, 0 6px 18px #0002; }
   .scene { position: absolute; left: 0; top: 0; width: 1024px; height: 768px; transform-origin: 0 0; }
-  .scene > img, .scene > .room { position: absolute; inset: 0; width: 1024px; height: 768px; display: block; }
-  .scene > .room svg { width: 1024px; height: 768px; display: block; }
+  .scene > img { position: absolute; left: 0; top: 0; width: 1024px; height: 768px; display: block; }
   .piece { position: absolute; }
   .piece svg { width: 100%; height: 100%; display: block; }
   .piece[data-mirror="true"] { transform: scaleX(-1); }
   footer { padding: 4px 28px 24px; color: var(--muted); font-size: 13px; }
-  html[data-view="room"] body, html[data-view="empty"] body { background: var(--ink); }
-  html[data-view="room"] .frame, html[data-view="empty"] .frame { border-radius: 0; box-shadow: none; }
+  html[data-view="room"] body { background: var(--ink); }
+  html[data-view="room"] .frame { border-radius: 0; box-shadow: none; }
 </style>
 </head>
 <body>

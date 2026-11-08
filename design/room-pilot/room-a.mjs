@@ -1,7 +1,8 @@
 // mothership:dev-only
 //
-// The room pilot (a proposal for the owner, 7 November 2026): Room A redrawn to match the
-// approved crew. The same room, camera, places and props as today's scene
+// The room pilot (a proposal for the owner, 7 November 2026; the owner approved it on 8 November
+// 2026 and asked for every room): Room A redrawn by hand to match the approved crew, and the
+// darkness the other rooms are matched to (./ink-room.mjs). The same room, camera, places and props as today's scene
 // (design/board-motion/scenes/room-a.mjs, its fittings lifted from design/source/board/
 // board-room-a.svg), drawn with the crew's own ink (design/crew-drawing/source/ink.mjs): a
 // hand-drawn wobbling outline, heavier where a form turns from the light; a noir cel shadow on
@@ -344,13 +345,20 @@ function front(cv) {
   slab(cv, rectPts(912, 676, 24, 16), F.pale, { weight: 2, depth: 2, step: 3, wobble: 0.3, seed: 229, hatch: false });
 }
 
-/** The dark gathering at the panel's edges, and the panel's own heavy ink border. */
+/** The dark gathering at the panel's edges, and the front of the deck falling into shadow. */
 function finish(cv) {
   const vignette = cv.uid('dark');
   cv.def(`<radialGradient id="${vignette}" cx="0.5" cy="0.56" r="0.7"><stop offset="0.5" stop-color="${INK}" stop-opacity="0"/><stop offset="0.82" stop-color="${INK}" stop-opacity="0.4"/><stop offset="1" stop-color="${INK}" stop-opacity="0.7"/></radialGradient>`);
   cv.raw(`<rect x="0" y="0" width="1024" height="768" fill="url(#${vignette})"/>`);
   // The front edge falls into shadow, hatched.
   cv.raw(`<polygon points="20,748 1004,748 990,700 34,700" fill="${INK}" opacity="0.18"/><polygon points="20,748 1004,748 990,700 34,700" fill="url(#${cv.prefix}-hatch)" opacity="0.6"/>`);
+}
+
+/**
+ * The panel's heavy ink edges: the back wall's frame and the corners. Drawn behind the props, as
+ * today's scene draws them, so that no edge crosses a crate or the canister standing over it.
+ */
+function edges(cv) {
   cv.raw(`<path d="M120 70 H904 V372 H120 Z" fill="none" stroke="${INK}" stroke-width="5.5" stroke-linejoin="round"/>`);
   for (const [a, b] of [[[20, 20], [120, 70]], [[1004, 20], [904, 70]], [[20, 748], [120, 372]], [[1004, 748], [904, 372]]]) stroke(cv, [a, b], { weight: 5, taper: 'none', seed: 231 });
 }
@@ -369,16 +377,10 @@ export function roomAPilotSvg({ prefix = 'ra', header = null } = {}) {
   fittings(cv);
   deck(cv);
   light(cv);
+  edges(cv);
   back(cv);
   places(cv);
   front(cv);
   finish(cv);
   return cv.svg({ viewBox: VIEWBOX.join(' '), width: 1024, height: 768, inline: header === null, header: header ?? '' });
 }
-
-/** The picture as a file (design/room-pilot/review/room-a.svg): its XML declaration and where it comes from. */
-export const PICTURE_HEADER = `  mothership:dev-only · room pilot · Room A redrawn to match the approved crew · generated, do not edit by hand
-  A proposal for the owner, in no release: the back picture of design/board-motion/scenes/room-a.mjs (its places, focus and
-  frame unchanged), drawn by design/room-pilot/room-a.mjs with the crew's ink (design/crew-drawing/source/ink.mjs) in Room A's
-  colour family (design tokens 0.5.0 color.room.roomA). Written by design/tools/room-pilot-render.mjs.`;
-export const roomAPilotFile = () => roomAPilotSvg({ header: PICTURE_HEADER });
