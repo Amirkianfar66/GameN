@@ -3,7 +3,7 @@
 // They never authorize prototype imports, unlisted files or self-issued provenance.
 import { createHash } from 'node:crypto';
 import { readFile, readdir } from 'node:fs/promises';
-import { readFileSync } from 'node:fs';
+import { readFileSync, lstatSync } from 'node:fs';
 import { resolve } from 'node:path';
 import ts from 'typescript';
 
@@ -14,6 +14,8 @@ export const PLANET_DRAWING_POLICY = 'design/releases/planet-drawing-approval.js
 export const CREW_DRAWING_POLICY = 'design/releases/crew-drawing-approval.json';
 export const CREW_CONSUMER_DRAWING_POLICY = 'design/releases/crew-consumer-drawing-approval.json';
 export const PREGAME_DRAWING_POLICY = 'design/releases/pregame-drawing-approval.json';
+export const PREGAME_PRODUCTION_DRAWING_POLICY = 'design/releases/pregame-production-drawing-approval.json';
+const PREGAME_PRODUCTION_DRAWING_POLICY_SHA256 = '1dafdb0d823f8e561cea94660a02f0cb9a049a92527c92d3f51a2f42e662003b';
 const PREGAME_DRAWING_POLICY_SHA256 = 'd93469af3e96ddcd35fa41b650ebc6161b34a396dc68a29610c58ce4697fc60e';
 const CREW_CONSUMER_DRAWING_POLICY_SHA256 = 'c7ebfa715d1b197c160156c199c8d90c14276f516b96fd99210cc5bb4a3ef9dc';
 const CREW_DRAWING_POLICY_SHA256 = 'f2be8f9c702443effefcbb63fff36aab97f4f4d1bff3c9e13246077c95800f25';
@@ -61,6 +63,16 @@ export function readDrawingPolicy(root) {
   const pregame = JSON.parse(pregameBytes);
   if (pregame.parentApprovalSha256 !== CREW_CONSUMER_DRAWING_POLICY_SHA256) throw Error('Pregame drawing parent approval differs');
   for (const key of ['ports', 'sourceHashes', 'requiredFiles', 'metadataFiles', 'buildFiles']) policy[key] = { ...policy[key], ...pregame[key] };
+  let productionStat;
+  try { productionStat = lstatSync(resolve(root, PREGAME_PRODUCTION_DRAWING_POLICY)); }
+  catch (error) { if (error.code === 'ENOENT') return policy; throw error; }
+  if (productionStat.isSymbolicLink() || !productionStat.isFile()) throw Error('Pregame production drawing approval must be a regular file');
+  const productionBytes = readFileSync(resolve(root, PREGAME_PRODUCTION_DRAWING_POLICY));
+  if (contentSha256(productionBytes) !== PREGAME_PRODUCTION_DRAWING_POLICY_SHA256) throw Error('Pregame production drawing approval content hash differs');
+  const production = JSON.parse(productionBytes);
+  if (production.parentApprovalSha256 !== PREGAME_DRAWING_POLICY_SHA256) throw Error('Pregame production drawing parent differs');
+  for (const key of ['requiredFiles', 'metadataFiles', 'buildFiles']) policy[key] = { ...policy[key], ...production[key] };
+  policy.productionConsumerApproval = true;
   return policy;
 }
 const DRAWING_DIRECTORIES = ['apps/game/hosted/scene-drawing/', 'apps/game/hosted/board-v2-drawing/', 'apps/game/hosted/crew-drawing/', 'apps/game/hosted/pregame-films/'];
@@ -123,16 +135,22 @@ export function reviewedAbilityProse(policy, path, content) {
 export async function productionDrawingProblems(root) {
   root = resolve(root);
   const problems = [], files = [];
-  let policy, acceptsCandidate = () => false;
+  let policy, acceptsCandidate = () => false, acceptsProduction = () => false;
   try {
     policy = readDrawingPolicy(root);
+    if (policy.productionConsumerApproval) {
+      const { readPregameProductionConsumerApproval, acceptsPregameProductionFile } = await import('../../../scripts/pregame-consumer-approval.mjs');
+      const production = readPregameProductionConsumerApproval(root);
+      if (!production) throw Error('Required production consumer approval is missing');
+      acceptsProduction = (path, expected, actual) => acceptsPregameProductionFile(production, path, expected, actual);
+    }
     if (process.env.MOTHERSHIP_PREGAME_CONSUMER_REVIEW === '1') {
       const { readPregameConsumerCandidate, acceptsPregameCandidateFile } = await import('../../../scripts/pregame-consumer-candidate.mjs');
       const candidate = readPregameConsumerCandidate(root);
       acceptsCandidate = (path, expected, actual) => acceptsPregameCandidateFile(candidate, path, expected, actual);
     }
   } catch (error) { return [error.message]; }
-  const acceptedHash = (path, expected, actual) => expected === actual || acceptsCandidate(path, expected, actual);
+  const acceptedHash = (path, expected, actual) => expected === actual || acceptsProduction(path, expected, actual) || acceptsCandidate(path, expected, actual);
   const read = path => readFile(resolve(root, path));
   for (const [path, expected] of Object.entries(policy.requiredFiles ?? {})) {
     const bytes = await read(path).catch(() => null);

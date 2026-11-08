@@ -1,0 +1,192 @@
+{
+  "schema": "mothership.pregame-production-consumer-approval/1",
+  "status": "approved-production-consumer",
+  "scope": "Exact accepted consumer for the combined release, subject to final CI/integration review before merge/deployment; no creation activation or cloud change.",
+  "candidate": {
+    "path": "docs/integration/pregame-consumer-candidate-2026-11-08.json",
+    "sha256": "e8799855b67fc81c68089f0bd295715eb5ca6ffe0548eee2f911725b33b7d702"
+  },
+  "artManifest": {
+    "path": "design/releases/design-0.8.0.json",
+    "sha256": "c2e5b6a423d2a583be669147b70a23e2391fce770372137e99f46c3c75b13b5d"
+  },
+  "existingConsumerApproval": {
+    "path": "docs/integration/crew-consumer-approval-2026-11-07.json",
+    "sha256": "8675a1d45cbf55aa69ccc65e18593d28c7ac54282ed52eb5c10e9b70e2c0511e"
+  },
+  "files": {
+    "apps/game/hosted/crew-runtime.mjs": {
+      "sha256": "3ead960a67a8fe3b9154eb19cb4ca0de6eb122bb0b38392745968ff0b429cb32",
+      "bytes": 11429,
+      "previousSha256": "b87470745a0afac4a2d9147d26c4eb622ed4c2f6d8abf710f285d35b50eb2cf5",
+      "acceptedPreviousHashes": [
+        "b87470745a0afac4a2d9147d26c4eb622ed4c2f6d8abf710f285d35b50eb2cf5"
+      ],
+      "candidateBlob": "design/releases/candidate-blobs/3ead960a67a8fe3b9154eb19cb4ca0de6eb122bb0b38392745968ff0b429cb32"
+    },
+    "apps/game/hosted/planet/app.mjs": {
+      "sha256": "610711ad7b38bc77936c4f7817dc6c389ce83110c70b198d3b476373b1cca0ca",
+      "bytes": 20464,
+      "previousSha256": "f107ee5fd6a829a8cd61d4f9a82e19ee7e465208584d9635450464df9740f1d1",
+      "acceptedPreviousHashes": [
+        "5ec4dab00a8f959efab6d1e711e8fa0f304b0209e121df7109b6532e3a281261",
+        "f107ee5fd6a829a8cd61d4f9a82e19ee7e465208584d9635450464df9740f1d1"
+      ],
+      "candidateBlob": "design/releases/candidate-blobs/610711ad7b38bc77936c4f7817dc6c389ce83110c70b198d3b476373b1cca0ca"
+    },
+    "apps/game/hosted/planet/render.mjs": {
+      "sha256": "42ecc7f23a496cb341455c6c388648c35de18c2b51dcaec99201f296e1768b4d",
+      "bytes": 39175,
+      "previousSha256": "b18fa2c7c4065ecf12623719eeed439586aa998e636664c520ad8174bee142d2",
+      "acceptedPreviousHashes": [
+        "b18fa2c7c4065ecf12623719eeed439586aa998e636664c520ad8174bee142d2",
+        "d8f1d3e14278aed096c9a19e8e0c6b30e6d15bccdf38e6d31b4b81f8826f3beb"
+      ],
+      "candidateBlob": "design/releases/candidate-blobs/42ecc7f23a496cb341455c6c388648c35de18c2b51dcaec99201f296e1768b4d"
+    },
+    "apps/game/hosted/planet/preferences.mjs": {
+      "sha256": "739e25abb257b78d912f18a7ec57ab807be4c84a540cb8ae072b3b45e22813ad",
+      "bytes": 2373,
+      "previousSha256": null,
+      "acceptedPreviousHashes": [],
+      "candidateBlob": "design/releases/candidate-blobs/739e25abb257b78d912f18a7ec57ab807be4c84a540cb8ae072b3b45e22813ad"
+    },
+    "apps/game/hosted/planet/pregame-scene.mjs": {
+      "sha256": "413bf5fbb4b66b3a21838e0cc85dec94f2f3b953fa5d7a6d1d2dcd0fe09bfbf7",
+      "bytes": 8491,
+      "previousSha256": null,
+      "acceptedPreviousHashes": [],
+      "candidateBlob": "design/releases/candidate-blobs/413bf5fbb4b66b3a21838e0cc85dec94f2f3b953fa5d7a6d1d2dcd0fe09bfbf7"
+    },
+    "apps/game/hosted/planet/pregame.mjs": {
+      "sha256": "3d9f69075a9e0db4977735de1e7b65775bd4f6760c676c2311da9fd42d49c2f7",
+      "bytes": 4461,
+      "previousSha256": null,
+      "acceptedPreviousHashes": [],
+      "candidateBlob": "design/releases/candidate-blobs/3d9f69075a9e0db4977735de1e7b65775bd4f6760c676c2311da9fd42d49c2f7"
+    },
+    "apps/game/hosted/planet/pregame.css": {
+      "sha256": "e5b7de61422d86b97df6a5ca5885b7ea174504f45a83b6fdc4df5e7a167b30a5",
+      "bytes": 1472,
+      "previousSha256": null,
+      "acceptedPreviousHashes": [],
+      "candidateBlob": "design/releases/candidate-blobs/e5b7de61422d86b97df6a5ca5885b7ea174504f45a83b6fdc4df5e7a167b30a5"
+    },
+    "apps/game/src/index.ts": {
+      "sha256": "dc51ee10a250bec2885a2d235d4c35371796f9716468bbebbd17210254cf6dba",
+      "bytes": 4943,
+      "previousSha256": "d0552ddbe10c479f2bfcd24357a2788d31731918b097c67ef086e99f7ca74829",
+      "acceptedPreviousHashes": [
+        "d0552ddbe10c479f2bfcd24357a2788d31731918b097c67ef086e99f7ca74829"
+      ],
+      "candidateBlob": "design/releases/candidate-blobs/dc51ee10a250bec2885a2d235d4c35371796f9716468bbebbd17210254cf6dba"
+    },
+    "apps/game/src/planet/session.ts": {
+      "sha256": "51da0ccf3122facc0a64d2f82de5ca7696f7ef23b387886d84d30ff3c28c057f",
+      "bytes": 20903,
+      "previousSha256": "8e2cb552b43c81746efccdc6dbf5e85b5effb6d1d42b47ad11f3b720209eeb67",
+      "acceptedPreviousHashes": [
+        "8e2cb552b43c81746efccdc6dbf5e85b5effb6d1d42b47ad11f3b720209eeb67"
+      ],
+      "candidateBlob": "design/releases/candidate-blobs/51da0ccf3122facc0a64d2f82de5ca7696f7ef23b387886d84d30ff3c28c057f"
+    },
+    "apps/game/src/planet/pregame.ts": {
+      "sha256": "e9e3a368f5d1b802dcc6c8b9a21923791c430f562d0f9a8c43e854e00cbe9ed4",
+      "bytes": 7643,
+      "previousSha256": null,
+      "acceptedPreviousHashes": [],
+      "candidateBlob": "design/releases/candidate-blobs/e9e3a368f5d1b802dcc6c8b9a21923791c430f562d0f9a8c43e854e00cbe9ed4"
+    },
+    "packages/presentation/src/planet/library.ts": {
+      "sha256": "304db05495cec9ab77054c0ad26a400ab122475e03f3abc89d05cc1e5d7c89e1",
+      "bytes": 2184,
+      "previousSha256": "b4b283f5dc3fbc296f756014c97ac7bca786dedeb2617b124c191187d4f9c2c3",
+      "acceptedPreviousHashes": [
+        "4e370ff02c4e9d5405e407f49d3dedaceb9a989252274f90dc9e8bb4e2143b17",
+        "b4b283f5dc3fbc296f756014c97ac7bca786dedeb2617b124c191187d4f9c2c3"
+      ],
+      "candidateBlob": "design/releases/candidate-blobs/304db05495cec9ab77054c0ad26a400ab122475e03f3abc89d05cc1e5d7c89e1"
+    }
+  },
+  "captureEvidence": {
+    "reports": [
+      {
+        "path": "docs/integration/evidence/pregame-2026-11-08/hosted-checks.json",
+        "sha256": "12cc2bc5f82bdcc2339ca04d04a574601d73d8992e2dcb2f9428ddfb2488bf98",
+        "bytes": 74454
+      },
+      {
+        "path": "docs/integration/evidence/pregame-2026-11-08/capture-inventory.json",
+        "sha256": "b289e5403f288d25bb7872551afa7fd4f0daa10e114d876813f6cc79d8ce36ba",
+        "bytes": 15012
+      },
+      {
+        "path": "docs/integration/evidence/pregame-2026-11-08/large-text-checks.json",
+        "sha256": "285a0dc7d96513beb0f88662955a7d0e624378d57bca03fd3829e73837f395c6",
+        "bytes": 2908
+      },
+      {
+        "path": "docs/integration/evidence/pregame-2026-11-08/hosted-audit-checks.json",
+        "sha256": "75e870733680eccef314a059b29f8eb1c649608dab6a612ff0b6480d423d091b",
+        "bytes": 13030
+      }
+    ],
+    "files": [
+      {
+        "path": "docs/integration/evidence/pregame-2026-11-08/320x568-boarding-7-full.jpg",
+        "sha256": "e3fff7c5d91c405223330dcf63f48a86794d096d5f61a752fdbe13124d15adfa",
+        "bytes": 28859
+      },
+      {
+        "path": "docs/integration/evidence/pregame-2026-11-08/320x568-brand-full.jpg",
+        "sha256": "f921c5608d976aaf640fbe33d887dd988fea88333db84a8d54e2980970dd057f",
+        "bytes": 7668
+      },
+      {
+        "path": "docs/integration/evidence/pregame-2026-11-08/320x568-doctor-full-page.jpg",
+        "sha256": "dceaa39d31a3260318087629b6f92e89c68abb14ee283b5de6a493e24f4c9a2a",
+        "bytes": 35574
+      },
+      {
+        "path": "docs/integration/evidence/pregame-2026-11-08/320x568-doctor-reduced-title.jpg",
+        "sha256": "b7a4ac391e5a7e75a9a38b7d943c2fd927bd0e4a77c8dafaf063e7c321ad141c",
+        "bytes": 16559
+      },
+      {
+        "path": "docs/integration/evidence/pregame-2026-11-08/320x568-supplier-200-full-page.png",
+        "sha256": "c2f2be40785e833d84024ad78b7ce2a7c43e6c77d4a3ac3eca683dd290890a2e",
+        "bytes": 166395
+      },
+      {
+        "path": "docs/integration/evidence/pregame-2026-11-08/320x568-supplier-200-full-title.png",
+        "sha256": "8328e25639c8338fc32ba224767d935a8da77b42c3d7bdae38d491798f61f287",
+        "bytes": 64498
+      },
+      {
+        "path": "docs/integration/evidence/pregame-2026-11-08/320x568-supplier-200-reduced-page.png",
+        "sha256": "05118a4acc05100b4a8f773c13aa95250cf2f79bb41e8fc7bc40ca9e3dedb9ea",
+        "bytes": 182710
+      },
+      {
+        "path": "docs/integration/evidence/pregame-2026-11-08/320x568-supplier-200-reduced-title.png",
+        "sha256": "14f922153b137b5f69e87143f6786f46244f442dc7449df3b399a1444ee96497",
+        "bytes": 64639
+      },
+      {
+        "path": "docs/integration/evidence/pregame-2026-11-08/390x844-boarding-9-reduced.jpg",
+        "sha256": "efbb9200fb57d3a46b77ed591a9558d18d6288cc2783ed404dac8b0d3f7aabae",
+        "bytes": 71665
+      },
+      {
+        "path": "docs/integration/evidence/pregame-2026-11-08/390x844-undercover-full-page.jpg",
+        "sha256": "b843aa599e5e61b3244655437c59eadd0ec856d4c2921d388bdfd7d8a400f6fc",
+        "bytes": 47561
+      }
+    ],
+    "acceptance": {
+      "path": "docs/integration/evidence/pregame-2026-11-08/integration-acceptance.json",
+      "sha256": "577f2fcf85d998031908c890715b541ba649a445a5c4ebeb20838d3e6ebdcfac",
+      "bytes": 4324
+    }
+  }
+}

@@ -1,3 +1,5 @@
+import {pregameProductionFixturePaths} from './support/pregame-production-fixture.mjs';
+import {readPregameConsumerApproval} from '../../scripts/pregame-consumer-approval.mjs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { cpSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
@@ -5,14 +7,14 @@ import { dirname, join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { fileURLToPath } from 'node:url';
 import { CANDIDATE_DRAWING_POLICY, PLANET_DRAWING_POLICY, CREW_DRAWING_POLICY, CREW_CONSUMER_DRAWING_POLICY, PREGAME_DRAWING_POLICY, readDrawingPolicy, productionDrawingProblems,
-  abilityPrototypeReferences, reviewedAbilityProse } from '../../design/tools/lib/drawing-port-fence.mjs';
+  abilityPrototypeReferences, reviewedAbilityProse, prototypeReferences } from '../../design/tools/lib/drawing-port-fence.mjs';
 
 const root = fileURLToPath(new URL('../../', import.meta.url));
 const policy = readDrawingPolicy(root);
 function fixture(t) {
   const target = mkdtempSync(join(tmpdir(), 'mothership-current-drawing-'));
   t.after(() => rmSync(target, { recursive: true, force: true }));
-  const paths = new Set([CANDIDATE_DRAWING_POLICY, PLANET_DRAWING_POLICY, CREW_DRAWING_POLICY, CREW_CONSUMER_DRAWING_POLICY, PREGAME_DRAWING_POLICY, 'design/tools/lib/reviewed-drawing-ports.json',
+  const paths = new Set([...pregameProductionFixturePaths(root),CANDIDATE_DRAWING_POLICY, PLANET_DRAWING_POLICY, CREW_DRAWING_POLICY, CREW_CONSUMER_DRAWING_POLICY, PREGAME_DRAWING_POLICY, 'design/tools/lib/reviewed-drawing-ports.json',
     ...Object.keys(policy.requiredFiles), ...Object.keys(policy.sourceHashes), ...Object.keys(policy.ports), ...Object.keys(policy.styles),
     ...Object.keys(policy.metadataFiles), ...Object.keys(policy.buildFiles),
     ...Object.values(policy.styles).map(pin => pin.source),
@@ -98,6 +100,11 @@ test('Planet native metadata requires the exact independently pinned supplement'
 test('Planet board metadata never authorizes a changed renderer or a prototype import', async t => {
   const target = fixture(t), path = 'apps/game/hosted/planet/render.mjs';
   append(target, path, "\nimport '../../../../design/board-v2/js/app.mjs';\n");
-  await refuses(target, /planet\/render\.mjs: reviewed native metadata file content hash differs/);
-  await refuses(target, /planet\/render\.mjs: production code refers to the board-v2 prototype/);
+  if (readPregameConsumerApproval(root)) {
+    await refuses(target, /^Pregame consumer candidate: current content differs: apps\/game\/hosted\/planet\/render\.mjs$/);
+    assert.ok(prototypeReferences(path, readFileSync(join(target, path), 'utf8')).includes('../../../../design/board-v2/js/app.mjs'));
+  } else {
+    await refuses(target, /planet\/render\.mjs: reviewed native metadata file content hash differs/);
+    await refuses(target, /planet\/render\.mjs: production code refers to the board-v2 prototype/);
+  }
 });
