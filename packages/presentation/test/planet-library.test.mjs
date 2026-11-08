@@ -8,10 +8,13 @@ test('library activation requires the exact reviewed art and gameplay pairing',(
 test('crew art reuses library mechanics only under the exact registered gameplay tuple',()=>{
  const versions={...PLANET_GAME_PINS,assetManifestVersion:'design-0.7.0'};
  assert.equal(planetHasLibraryArt(versions),true);assert.equal(planetSupportsAssets(versions),true);
- for(const changed of [{engineVersion:'planet-game-1.0.1'},{rulesetHash:'0'.repeat(64)},{rulesetVersion:'other'},{protocolVersion:2},{assetManifestVersion:'design-0.8.0'}]){
+ for(const changed of [{engineVersion:'planet-game-1.0.1'},{rulesetHash:'0'.repeat(64)},{rulesetVersion:'other'},{protocolVersion:2},{assetManifestVersion:'design-0.9.0'}]){
   assert.equal(planetHasLibraryArt({...versions,...changed}),false);
   assert.equal(planetSupportsAssets({...versions,...changed}),false);
  }
+});
+test('pregame art extends library consumption without changing saved release choices',()=>{
+ for(const assetManifestVersion of ['design-0.6.0','design-0.7.0','design-0.8.0']){const versions={...PLANET_GAME_PINS,assetManifestVersion};assert.equal(planetHasLibraryArt(versions),true);assert.equal(planetSupportsAssets(versions),true);assert.equal(planetHasLibraryArt({...versions,rulesetHash:'0'.repeat(64)}),false);}
 });
 test('number labels sort numerically while preserving offered canonical command identities',()=>{
  assert.deepEqual(planetPlayerNumberChoices(['seat-9','seat-2','seat-6']),[{value:'seat-2',label:'2'},{value:'seat-6',label:'6'},{value:'seat-9',label:'9'}]);

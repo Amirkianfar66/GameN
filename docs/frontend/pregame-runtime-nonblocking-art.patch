@@ -1,0 +1,21 @@
+diff --git a/apps/game/hosted/planet/app.mjs b/apps/game/hosted/planet/app.mjs
+index 7ed2bd8f..855eb8fb 100644
+--- a/apps/game/hosted/planet/app.mjs
++++ b/apps/game/hosted/planet/app.mjs
+@@ -29,7 +29,8 @@ export async function mountPlanetApp(root,{connection,matchId,allowSynthetic=fal
+  const preferences=createPlanetPreferences(document),pregame=createPlanetPregame(ports.clock,store('mothership:planet:films-seen'),{skipEntry:recoveringEntry,skipRoleOnEntry:recoveringEntry});
+  const presentation=mountPregamePresentation(root,pregame,{preferences:preferences.get});
+  const libraryAssets=createPlanetLibraryAssets(document);
+- await loadArt('player',document);
++ // Uniform art loading never holds admission, recovery, Ready eligibility or the server clock.
++ const commonArt=loadArt('player',document).catch(()=>{});
+  let game=null,renderer=null,gameRoot=null,terminalReturn=null,key=null,model=null,disposed=false,hostOpen=false,abortConfirm=false,unsubscribe=null,roleOpen=false,lastStatus=null,sessionKey=null,entryMode='join';
+  const entryDraft={roomCode:'',displayName:'',kind:'player'};
+  const el=(tag,text=null)=>{const n=document.createElement(tag);if(text!==null)n.textContent=text;return n;};
+@@ -137,5 +138,5 @@ export async function mountPlanetApp(root,{connection,matchId,allowSynthetic=fal
+  const artReady=()=>{sessionKey=null;if(model)render(session.getModel());};
+  const concealRole=()=>{roleOpen=false;session.revealRole(false);session.setVisible(false);presentation.clear();};
+  document.addEventListener('visibilitychange',visibility);document.addEventListener('mothership:art-ready',artReady);win.addEventListener('blur',concealRole);win.addEventListener('focus',visibility);unsubscribe=session.subscribe(render);await session.start(matchId);
+- return {session,artReady:libraryAssets.ready,get game(){return game;},get presentationStats(){return presentation.stats},dispose(){disposed=true;unsubscribe?.();document.removeEventListener('visibilitychange',visibility);document.removeEventListener('mothership:art-ready',artReady);win.removeEventListener('blur',concealRole);win.removeEventListener('focus',visibility);presentation.dispose();pregame.dispose();preferences.dispose();renderer?.dispose();game?.dispose();session.dispose();libraryAssets.dispose();void connection.dispose?.();delete root.dataset.crewArt;root.replaceChildren();}};
++ return {session,artReady:Promise.all([commonArt,libraryAssets.ready]),get game(){return game;},get presentationStats(){return presentation.stats},dispose(){disposed=true;unsubscribe?.();document.removeEventListener('visibilitychange',visibility);document.removeEventListener('mothership:art-ready',artReady);win.removeEventListener('blur',concealRole);win.removeEventListener('focus',visibility);presentation.dispose();pregame.dispose();preferences.dispose();renderer?.dispose();game?.dispose();session.dispose();libraryAssets.dispose();void connection.dispose?.();delete root.dataset.crewArt;root.replaceChildren();}};
+ }
