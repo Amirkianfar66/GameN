@@ -12,7 +12,7 @@
 //   - the title is simple, at the owner's word: the role's name in the brand's alphabet, in plain
 //     blue on the darkened page.
 
-import { blurFilter, defs, halftone, impactLines, linear, radial } from '../kit/fx.mjs';
+import { blurFilter, halftone, impactLines, linear, radial } from '../kit/fx.mjs';
 import { GLYPHS } from '../kit/letters.mjs';
 import { clamp01, ease, f, f3, hash, lerp, progress, rng, shake } from '../kit/math.mjs';
 import { PANEL_STARTS, PANEL_TONES } from './clock.mjs';

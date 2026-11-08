@@ -74,6 +74,7 @@ test('every frame is a pure function of time, and a well-formed picture', () => 
   const cases = [
     ['brand', t => brandSvg(t, PHONE), [0, 120, 470, 1100, 1700]],
     ['role', t => roleSvg(t, { ...PHONE, role: 'doctor', character: 'c3', seat: 4 }), [400, 1400, 2900, 3700, 6500, 8600]],
+    ...Object.keys(ROLES).filter(id => id !== 'doctor').map(id => [`role ${id}`, t => roleSvg(t, { ...PHONE, role: id, character: 'c3', seat: 4 }), [400, 2900, 3700, 5200, 6800, 8600]]),
     ['boarding', t => boardingSvg(t, { ...DISPLAY, roster: REVIEW_ROSTERS[8] }), [500, 3300, 6600, 8000, 9400]],
   ];
   for (const [name, draw, times] of cases) {
@@ -92,9 +93,12 @@ test('reduced motion holds still pictures: nothing changes inside a still', () =
   const brand = t => brandSvg(t, { ...PHONE, variant: 'reduced' });
   assert.equal(brand(400), brand(1500));
   const role = t => roleSvg(t, { ...PHONE, role: 'doctor', character: 'c3', variant: 'reduced' });
-  assert.equal(role(500), role(2900));
-  assert.equal(role(3200), role(7700));
-  assert.equal(role(8000), role(9900));
+  for (const id of Object.keys(ROLES)) {
+    const still = t => roleSvg(t, { ...PHONE, role: id, character: 'c3', variant: 'reduced' });
+    assert.equal(still(500), still(2900), `${id}: the first still`);
+    assert.equal(still(3200), still(7700), `${id}: the page`);
+    assert.equal(still(8000), still(9900), `${id}: the title`);
+  }
   const board = t => boardingSvg(t, { ...PHONE, roster: REVIEW_ROSTERS[7], variant: 'reduced' });
   assert.equal(board(300), board(2300));
   assert.equal(board(7100), board(8800));
@@ -105,14 +109,20 @@ test('reduced motion holds still pictures: nothing changes inside a still', () =
 
 test('a role film tells its own player and no neighbour', () => {
   // Every role keeps the shared clock: a role carries pictures and words, never times.
-  for (const role of Object.values(ROLES)) assert.deepEqual(Object.keys(role).sort(), ['captions', 'gadget', 'id', 'mark', 'name', 'panels', 'team']);
-  // Colours: none near a faction's accent. No team colour is drawn at all.
-  const role = ROLES.doctor;
-  const seen = new Set();
-  for (const t of [300, 1500, 2400, 3600, 5200, 6800, 8600]) for (const c of colours(roleSvg(t, { ...PHONE, role: role.id, character: 'c3', seat: 4 }))) seen.add(c);
-  for (const c of seen) {
-    for (const accent of Object.values(FACTION_ACCENTS)) assert.ok(cie76(c, accent) >= MIN_ACCENT_DISTANCE, `${c} is ${cie76(c, accent).toFixed(1)} from ${accent}`);
+  for (const role of Object.values(ROLES)) assert.deepEqual(Object.keys(role).sort(), ['captions', 'gadget', 'id', 'mark', 'name', 'panels']);
+  // The game's nine roles, and the two Disablers' one film.
+  assert.deepEqual(Object.values(ROLES).map(r => r.name).sort(), ['Alien', 'Blue Disabler', 'Doctor', 'Engineer', 'Hacker', 'Insider', 'Red Disabler', 'Supplier', 'Undercover']);
+  for (const key of ['mark', 'gadget', 'panels', 'captions']) assert.equal(ROLES['blue-disabler'][key], ROLES['red-disabler'][key], `the Disablers share their ${key}`);
+  for (const t of [300, 2400, 3600, 5200, 6800, 7700]) assert.equal(roleSvg(t, { ...PHONE, role: 'blue-disabler', character: 'c2', seat: 5 }), roleSvg(t, { ...PHONE, role: 'red-disabler', character: 'c2', seat: 5 }), `the Disablers' film at ${t} ms`);
+  // Colours: none near a faction's accent, in any role's film. No team colour is drawn at all.
+  for (const id of Object.keys(ROLES)) {
+    const seen = new Set();
+    for (const t of [300, 1500, 2400, 3600, 5200, 6800, 8600]) for (const c of colours(roleSvg(t, { ...PHONE, role: id, character: 'c3', seat: 4 }))) seen.add(c);
+    for (const c of seen) {
+      for (const accent of Object.values(FACTION_ACCENTS)) assert.ok(cie76(c, accent) >= MIN_ACCENT_DISTANCE, `${id}: ${c} is ${cie76(c, accent).toFixed(1)} from ${accent}`);
+    }
   }
+  const role = ROLES.doctor;
   // The card on the desk shows the role's mark, at the owner's word: the Doctor's, a medical cross,
   // paper on a dark plate; no word, portrait or team.
   const opener = roleSvg(300, { ...PHONE, role: role.id, character: 'c3', seat: 4 });
@@ -124,14 +134,19 @@ test('a role film tells its own player and no neighbour', () => {
   assert.ok(title.includes(`stroke="${TITLE_BLUE}"`), 'the title is drawn in the title blue');
   for (const accent of Object.values(FACTION_ACCENTS)) assert.ok(cie76(TITLE_BLUE, accent) >= MIN_ACCENT_DISTANCE, `the title blue is ${cie76(TITLE_BLUE, accent).toFixed(1)} from ${accent}`);
   assert.equal(roleSvg(9500, { ...PHONE, role: role.id, character: 'c3', seat: 4, variant: 'reduced' }).includes(`stroke="${TITLE_BLUE}"`), true);
-  // Other people are silhouettes: the panel aboard draws its patient as one flat colour.
+  // Other people are nobody: one flat colour, and a plain head (a crew member's own, in silhouette,
+  // could be read as that player). The Doctor's patient is drawn so.
   const aboard = roleSvg(6800, { ...PHONE, role: 'doctor', character: 'c3', seat: 4 });
   assert.match(aboard, /<filter id="dc3-patient-light"[^>]*><feFlood flood-color="#0A1A1A" result="sil"\/>/);
+  assert.match(aboard, /<mask id="dc3-patient-nohead"/);
   // The narration is page text: two boxes of few words, the title's name for screen readers.
-  assert.deepEqual(roleCaptions(4000, PHONE).map(c => c.lines), [role.captions[0]]);
-  assert.deepEqual(roleCaptions(5000, PHONE).map(c => c.lines), role.captions);
-  assert.equal(rolePageText(8000), role.name);
-  for (const lines of role.captions) assert.ok(lines.every(line => line.length <= 17), lines.join(' '));
+  for (const r of Object.values(ROLES)) {
+    assert.equal(r.captions.length, 2, `${r.id}: two narration boxes`);
+    assert.deepEqual(roleCaptions(4000, { ...PHONE, role: r.id }).map(c => c.lines), [r.captions[0]], r.id);
+    assert.deepEqual(roleCaptions(5000, { ...PHONE, role: r.id }).map(c => c.lines), r.captions, r.id);
+    assert.equal(rolePageText(8000, { role: r.id }), r.name);
+    for (const lines of r.captions) assert.ok(lines.length <= 2 && lines.every(line => line.length <= 17), `${r.id}: ${lines.join(' ')}`);
+  }
 });
 
 test('the boarding takes the public roster alone, places by seat order', () => {

@@ -7,7 +7,7 @@
 // picture, so it translates, scales with the player's text size and is read by screen readers.
 
 import { blurFilter, defs, finish, leak } from '../kit/fx.mjs';
-import { f, f3 } from '../kit/math.mjs';
+import { f3 } from '../kit/math.mjs';
 import { briefingSvg } from './briefing.mjs';
 import { BEATS, ROLE_MS, roleFrame, STILLS } from './clock.mjs';
 import { captionPlaces, flashSvg, pageSvg, titleSvg } from './page.mjs';

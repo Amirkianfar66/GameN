@@ -1,6 +1,6 @@
 # Pre-game films
 
-The three films a player sees before the game, made again for the owner's "AAA animation" (8 November 2026): the Game N brand intro (2 s), a ten-second film for each role (the Doctor's first, the pilot) and the ten-second boarding. The handoff, with every beat, rule and limit, is [docs/design/pregame-films.md](../../docs/design/pregame-films.md).
+The three films a player sees before the game, made again for the owner's "AAA animation" (8 November 2026): the Game N brand intro (2 s), a ten-second film for each of the nine roles (eight films: the Disablers share one; the Doctor's, the approved pilot, first) and the ten-second boarding. The handoff, with every beat, rule and limit, is [docs/design/pregame-films.md](../../docs/design/pregame-films.md).
 
 | Path | What it is | Runtime? |
 | --- | --- | --- |

@@ -21,17 +21,12 @@ import { inkCanvas } from '../../crew-drawing/source/ink.mjs';
 import { litFigure } from '../kit/cast.mjs';
 import { beam, blurFilter, dust, glow, halftone, inBeam, linear, pool, radial, rain } from '../kit/fx.mjs';
 import { inkWord } from '../kit/letters.mjs';
-import { clamp01, ease, f, f3, lerp, noise, progress, rng, smooth } from '../kit/math.mjs';
+import { ease, f, f3, lerp, noise, progress, rng } from '../kit/math.mjs';
+import { INK, STEEL, gadgetOf, inked, markOf, nobody, poly, soundWord } from './common.mjs';
 
-const INK = '#0B0E15';
 export const DOCTOR_CAPTIONS = Object.freeze([['Colony Nine.', 'The fever years.'], ['Two doses left.']]);
 
-const soundWord = (D, id, text, { x, y, size, k = 1, rotate = -8, face }) => (k <= 0 ? '' : inkWord(D, id, text, {
-  x, y, size: size * lerp(1.5, 1, ease.outBack(clamp01(k), 2)), rotate, skew: -10, weight: 1.35, inkWeight: 0.55, extrude: [0.35, 0.42], steps: 4, shadow: 0.35, hot: false, opacity: clamp01(k * 3),
-  face: face ?? { top: '#FFF2C9', mid: '#F7D37A', bottom: '#E3A33C', side: '#6B4314', sideDeep: '#2E1C07', ink: INK, highlight: '#FFFFFF' },
-}).svg);
-
-// ---------- the card's mark ----------
+// ---------- the card's mark and the gadget ----------
 
 /**
  * The Doctor's mark, on the role card on the desk in the opener (the owner, 8 November 2026: "In Dr
@@ -39,16 +34,31 @@ const soundWord = (D, id, text, { x, y, size, k = 1, rotate = -8, face }) => (k 
  * paper on a dark plate, as the board's Hospital draws its cross. No red: red is a team's colour, and
  * the red cross is a protected emblem. `face` is the card's face in px, `u` the opener's unit.
  */
-export function doctorMark(D, { x, y, w, h }, u) {
-  const plate = `<rect x="${f(x)}" y="${f(y)}" width="${f(w)}" height="${f(h)}" rx="${f(3.5 * u)}" fill="${linear(D, 'dc-mark-plate', [[0, '#26334D'], [1, '#121A2B']])}" stroke="${INK}" stroke-width="${f(1.6 * u)}"/>`
-    + `<rect x="${f(x)}" y="${f(y)}" width="${f(w)}" height="${f(h)}" rx="${f(3.5 * u)}" fill="${halftone(D, 'dc-mark-dots', { size: 3 * u, r: 0.6 * u, color: INK })}" opacity="0.35"/>`;
+export function doctorMark(D, face, u) {
   // A cross of five equal squares, its arms a third of its span.
-  const s = Math.min(w, h) * 0.7, a = s / 3, cx = x + w / 2, cy = y + h / 2;
-  const corners = [[-a, -s], [a, -s], [a, -a], [s, -a], [s, a], [a, a], [a, s], [-a, s], [-a, a], [-s, a], [-s, -a], [-a, -a]];
-  const d = (dx, dy) => `M${corners.map(([px, py]) => `${f(cx + px / 2 + dx)} ${f(cy + py / 2 + dy)}`).join('L')}Z`;
-  const cross = `<path d="${d(1.4 * u, 1.8 * u)}" fill="${INK}" opacity="0.6"/>`
-    + `<path d="${d(0, 0)}" fill="${linear(D, 'dc-mark-paper', [[0, '#FFF7E6'], [1, '#E3D3B5']])}" stroke="${INK}" stroke-width="${f(1.6 * u)}" stroke-linejoin="round"/>`;
-  return plate + cross;
+  const s = Math.min(face.w, face.h) * 0.35, a = s / 3, cx = face.x + face.w / 2, cy = face.y + face.h / 2;
+  const cross = [[-a, -s], [a, -s], [a, -a], [s, -a], [s, a], [a, a], [a, s], [-a, s], [-a, a], [-s, a], [-s, -a], [-a, -a]].map(([px, py]) => [cx + px, cy + py]);
+  return markOf(D, 'dc-mark', face, u, { solid: [poly(cross)] });
+}
+
+/** The injector the role card's device draws, without the hand and without its team accent: its two vials catch the light. */
+export function doctorGadget() {
+  return gadgetOf('bf-gadget', { box: [40, 8, 90, 116], grip: [72, 92], glint: [87.5, 29] }, cv => {
+    cv.form([[66, 56], [78, 56], [79, 114], [72, 118], [65, 114]], STEEL.grip, { weight: 2.6, depth: 3, seed: 81, tension: 0.4 });
+    cv.form([[46, 44], [57, 44], [57, 53], [46, 53]], STEEL.dark, { weight: 2.2, depth: 2, seed: 82, tension: 0.3 });
+    cv.form([[100, 42], [115, 46.5], [115, 51.5], [100, 56]], STEEL.dark, { weight: 2.2, depth: 2, seed: 83, tension: 0.2 });
+    cv.line([[115, 49], [123, 49]], { weight: 2, color: INK, taper: 'end' });
+    cv.form([[57, 38], [99, 38], [102, 42], [102, 56], [99, 60], [57, 60], [54, 56], [54, 42]], STEEL.body, { weight: 2.8, depth: 5, seed: 84, tension: 0.35 });
+    cv.flat([[60, 41], [94, 41], [94, 44], [60, 44]], STEEL.shine, { opacity: 0.8, tension: 0.2 });
+    for (const x of [60, 81]) {
+      cv.form([[x, 19], [x + 13, 19], [x + 13, 40], [x, 40]], STEEL.glass, { weight: 2.4, depth: 2, seed: 85 + x, tension: 0.35, hatch: false });
+      cv.flat([[x + 2.5, 27], [x + 10.5, 27], [x + 10.5, 38], [x + 2.5, 38]], STEEL.glassLit, { opacity: 0.95, tension: 0.4 });
+      cv.line([[x + 3.6, 22], [x + 3.6, 34]], { weight: 1.6, color: '#FFFFFF', taper: 'both' });
+      cv.form([[x + 2, 14.5], [x + 11, 14.5], [x + 11, 20.5], [x + 2, 20.5]], STEEL.deep, { weight: 1.8, depth: 1, seed: 87 + x, tension: 0.3 });
+    }
+    cv.form([[61, 49], [68, 42], [75, 49], [68, 56]], '#1C2333', { weight: 1.8, depth: 0, seed: 89, rim: false, hatch: false, grain: false, tension: 1 });
+    cv.flat([[66, 44.5], [70, 44.5], [70, 47], [72.5, 47], [72.5, 51], [70, 51], [70, 53.5], [66, 53.5], [66, 51], [63.5, 51], [63.5, 47], [66, 47]], STEEL.lamp, { tension: 0 });
+  });
 }
 
 // ---------- panel 1: Colony Nine, the fever years ----------
@@ -112,7 +122,7 @@ function colonyWard(D, { w, h, local, character, reduced }) {
     key: { at: [lx, ly + 10 * k], z: 70 * k, color: '#FFD9A0', gain: 1.6 },
     rim: { dx: 0.8, dy: -0.6, color: '#F2DDB4', width: 2.4 * k, gain: 0.8 },
   });
-  return back + cord + air + cv.svg({ viewBox: `0 0 ${f(w)} ${f(h)}` }).replace('<svg ', `<svg x="0" y="0" width="${f(w)}" height="${f(h)}" `) + lampShade + glow(D, 'dc1-bulb', { cx: lx, cy: ly + 2 * k, r: 26 * k, color: '#FFE6B0', opacity: 0.9 }) + hero;
+  return back + cord + air + inked(cv, w, h) + lampShade + glow(D, 'dc1-bulb', { cx: lx, cy: ly + 2 * k, r: 26 * k, color: '#FFE6B0', opacity: 0.9 }) + hero;
 }
 
 // ---------- panel 2: the last two doses ----------
@@ -171,7 +181,7 @@ function lastDoses(D, { w, h, local, reduced }) {
   const dropT = reduced ? 1 : progress(t, 300, 780);
   const drop = dropT < 1 ? `<path d="M${f(w * 0.72)} ${f(h * 0.47 + dropT * h * 0.2)}m0 -${f(4 * k)}q${f(3 * k)} ${f(4 * k)} 0 ${f(7 * k)}q${f(-3 * k)} ${f(-3 * k)} 0 ${f(-7 * k)}" fill="#E6DCCB"/>` : '';
   const drip = soundWord(D, 'dc2-drip', 'DRIP', { x: w * 0.78, y: h * 0.6, size: 18 * k, k: reduced ? 1 : progress(t, 760, 980), rotate: 8 });
-  return back + air + cv.svg({ viewBox: `0 0 ${f(w)} ${f(h)}` }).replace('<svg ', `<svg x="0" y="0" width="${f(w)}" height="${f(h)}" `) + wells + vials + spent + lampHead + glow(D, 'dc2-bulb', { cx: lamp[0] + 3 * k, cy: lamp[1] + 3 * k, r: 30 * k, color: '#FFE6B0', opacity: 0.9 }) + drop + drip;
+  return back + air + inked(cv, w, h) + wells + vials + spent + lampHead + glow(D, 'dc2-bulb', { cx: lamp[0] + 3 * k, cy: lamp[1] + 3 * k, r: 30 * k, color: '#FFE6B0', opacity: 0.9 }) + drop + drip;
 }
 
 // ---------- panel 3: the Mothership's Hospital ----------
@@ -231,13 +241,13 @@ function hospital(D, { w, h, local, seat, reduced }) {
   const sk = up >= 1 ? sitting : blend(lying, sitting, up);
   const scale = (h * 0.9) / 233;
   const waist = h * 0.76;
-  const patient = litFigure(D, 'dc3-patient', { c: 'c5', sk: { ...sk, view: 'front' }, at: [(bx0 + bx1) / 2, waist + (233 - 214) * scale], scale, t, reduced, silhouette: '#0A1A1A', rim: { dx: -0.7, dy: -0.7, color: '#B6F5D4', width: 2.8 * k, gain: 0.6 + 0.4 * glowRise } });
+  const patient = nobody(D, 'dc3-patient', { sk: { ...sk, view: 'front' }, at: [(bx0 + bx1) / 2, waist + (233 - 214) * scale], scale, t, reduced, color: '#0A1A1A', rim: { dx: -0.7, dy: -0.7, color: '#B6F5D4', width: 2.8 * k, gain: 0.6 + 0.4 * glowRise } });
   const ring = reduced ? 0 : progress(t, 200, 900);
   const pulse = ring > 0 && ring < 1 ? `<ellipse cx="${f((bx0 + bx1) / 2)}" cy="${f(h * 0.52)}" rx="${f(lerp(20, 120, ease.outCubic(ring)) * k)}" ry="${f(lerp(14, 80, ease.outCubic(ring)) * k)}" fill="none" stroke="#B6F5D4" stroke-width="${f(lerp(4, 0.5, ring) * k)}" opacity="${f3(1 - ring)}"/>` : '';
   const sheet = `<path d="M${f(bx0 - w * 0.03)} ${f(byNear - 2 * k)}L${f(bx0 + w * 0.01)} ${f(waist)}Q${f((bx0 + bx1) / 2)} ${f(waist - 8 * k)} ${f(bx1 - w * 0.01)} ${f(waist)}L${f(bx1 + w * 0.03)} ${f(byNear - 2 * k)}Z" fill="#DCEDE8" stroke="${INK}" stroke-width="${f(2 * k)}" stroke-linejoin="round"/>`
     + `<path d="M${f(bx0 + w * 0.08)} ${f(waist + 14 * k)}Q${f((bx0 + bx1) / 2)} ${f(waist + 24 * k)} ${f(bx1 - w * 0.06)} ${f(waist + 12 * k)}" stroke="#8FB7AD" stroke-width="${f(1.4 * k)}" fill="none"/>`;
   const beep = soundWord(D, 'dc3-beep', 'BEEP', { x: w * 0.73, y: h * 0.62, size: 20 * k, k: reduced ? 1 : progress(t, 900, 1100), rotate: -6, face: { top: '#E9FFF3', mid: '#9AF5C6', bottom: '#4CC98C', side: '#13452E', sideDeep: '#06200F', ink: INK, highlight: '#FFFFFF' } });
-  return back + cv.svg({ viewBox: `0 0 ${f(w)} ${f(h)}` }).replace('<svg ', `<svg x="0" y="0" width="${f(w)}" height="${f(h)}" `) + patient + sheet + pulse + beep;
+  return back + inked(cv, w, h) + patient + sheet + pulse + beep;
 }
 
 /** The Doctor's panels, as functions of each panel's size and local time. */
@@ -248,3 +258,6 @@ export function doctorPanels(D, { character, seat, reduced }) {
     ({ w, h, local }) => hospital(D, { w, h, local, seat, reduced }),
   ];
 }
+
+/** The Doctor's film: the card's mark, the gadget, the three panels and the narration. */
+export const DOCTOR = Object.freeze({ mark: doctorMark, gadget: doctorGadget, panels: doctorPanels, captions: DOCTOR_CAPTIONS });

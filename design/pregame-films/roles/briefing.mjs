@@ -22,7 +22,7 @@ import { blend } from '../../board-motion/figures/motion.mjs';
 import { inkCanvas } from '../../crew-drawing/source/ink.mjs';
 import { litFigure, onPage } from '../kit/cast.mjs';
 import { beam, blurFilter, dust, glint, glow, halftone, inBeam, linear, pool, radial, streak } from '../kit/fx.mjs';
-import { clamp01, f, f3, hash, lerp, noise, rng, smooth } from '../kit/math.mjs';
+import { f, f3, hash, lerp, noise, rng } from '../kit/math.mjs';
 
 export const NIGHT = Object.freeze({
   ink: '#0B0E15', deep: '#070A11', navy: '#0F1626', wall: '#141C2E', wallLit: '#24304A', steel: '#2B3549', steelLit: '#4A5875', steelPale: '#8E9BB3',
@@ -238,30 +238,6 @@ function deskSvg(D, L) {
 // ---------- props ----------
 
 /** The Doctor's injector, drawn in the crew's ink at the device's shapes, without its team colour. */
-const gadgetCache = new Map();
-export function injectorSvg(prefix) {
-  if (gadgetCache.has(prefix)) return gadgetCache.get(prefix);
-  const cv = inkCanvas(prefix);
-  const steel = '#AEB9CB', steelDark = '#5A667E', glass = '#CFDAE6';
-  cv.form([[66, 56], [78, 56], [79, 114], [72, 118], [65, 114]], '#3A465E', { weight: 2.6, depth: 3, seed: 81, tension: 0.4 });
-  cv.form([[46, 44], [57, 44], [57, 53], [46, 53]], steelDark, { weight: 2.2, depth: 2, seed: 82, tension: 0.3 });
-  cv.form([[100, 42], [115, 46.5], [115, 51.5], [100, 56]], steelDark, { weight: 2.2, depth: 2, seed: 83, tension: 0.2 });
-  cv.line([[115, 49], [123, 49]], { weight: 2, color: NIGHT.ink, taper: 'end' });
-  cv.form([[57, 38], [99, 38], [102, 42], [102, 56], [99, 60], [57, 60], [54, 56], [54, 42]], steel, { weight: 2.8, depth: 5, seed: 84, tension: 0.35 });
-  cv.flat([[60, 41], [94, 41], [94, 44], [60, 44]], '#E8EEF6', { opacity: 0.8, tension: 0.2 });
-  for (const x of [60, 81]) {
-    cv.form([[x, 19], [x + 13, 19], [x + 13, 40], [x, 40]], glass, { weight: 2.4, depth: 2, seed: 85 + x, tension: 0.35, hatch: false });
-    cv.flat([[x + 2.5, 27], [x + 10.5, 27], [x + 10.5, 38], [x + 2.5, 38]], '#F4F8FF', { opacity: 0.95, tension: 0.4 });
-    cv.line([[x + 3.6, 22], [x + 3.6, 34]], { weight: 1.6, color: '#FFFFFF', taper: 'both' });
-    cv.form([[x + 2, 14.5], [x + 11, 14.5], [x + 11, 20.5], [x + 2, 20.5]], '#2E374A', { weight: 1.8, depth: 1, seed: 87 + x, tension: 0.3 });
-  }
-  cv.form([[61, 49], [68, 42], [75, 49], [68, 56]], '#1C2333', { weight: 1.8, depth: 0, seed: 89, rim: false, hatch: false, grain: false, tension: 1 });
-  cv.flat([[66, 44.5], [70, 44.5], [70, 47], [72.5, 47], [72.5, 51], [70, 51], [70, 53.5], [66, 53.5], [66, 51], [63.5, 51], [63.5, 47], [66, 47]], '#F4EBDD', { tension: 0 });
-  const out = { svg: cv.svg({ viewBox: '40 8 90 116' }), grip: [72, 92], vials: [[66.5, 29], [87.5, 29]], box: [40, 8, 90, 116] };
-  gadgetCache.set(prefix, out);
-  return out;
-}
-
 /** A role's gadget on the page: its grip at (x, y), turned `angle`, `s` px per device unit. */
 function placeGadget(g, [x, y], angle, s) {
   const [bx, by, bw, bh] = g.box;
@@ -354,7 +330,7 @@ export function briefingSvg(D, { W, H, t, o, role, character, reduced }) {
   const L = layout(W, H);
   const { u, at, scale, deskBack } = L;
   const sk = pickupPose(o);
-  const g = role.gadget ?? injectorSvg('bf-gadget');
+  const g = role.gadget;
   // The gadget: on the desk, then in the hand, then raised by the face.
   const restAt = [L.gadget.x, L.gadget.y];
   const hand = onPage(at, scale, sk.wF);
@@ -362,7 +338,7 @@ export function briefingSvg(D, { W, H, t, o, role, character, reduced }) {
   const gripAt = inHand ? [hand[0] - 2 * u, hand[1] + 6 * u] : restAt;
   const gAngle = inHand ? lerp(-4, 12, o.raise) : 0;
   const gScale = L.gadget.s * (inHand ? lerp(1, 1.08, o.raise) : 1);
-  const vial = gadgetPoint(g, gripAt, gAngle, gScale, g.vials[1]);
+  const vial = gadgetPoint(g, gripAt, gAngle, gScale, g.glint);
 
   // The camera: a medium close shot (ZOOM) pushing in over the three seconds, far layers 2.5%, near
   // ones 6.5%, centred on where the gadget is raised.

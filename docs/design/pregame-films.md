@@ -1,6 +1,6 @@
 # The pre-game films, made again as AAA animation
 
-**Status: the owner approved the Doctor's film and the boarding (8 November 2026); the other seven role films follow. Nothing here is adopted, mounted or deployed.**
+**Status: the owner approved the Doctor's film and the boarding (8 November 2026). The other seven role films are drawn from them, for the owner's review. Nothing here is adopted, mounted or deployed.**
 
 The owner, 8 November 2026: "we had 3 animation before game, 1 is the Game N by Plan B 2-second app intro, second after 10-second film for each role then 10-second boarding cinematic , go for them like AAA ANIMATION improve the quality". On seeing the first cut of the intro, the owner asked for it simple: "For the app start 2 sec can we just have black background and then the texts with Game N by Plan B something simple with typing motion graphic effect". On seeing the Doctor's film, the owner asked for its title simple too: "The doctor movie at end of it when Doctor text label appear with yellow color the background of the text is crowded , make it simple blue color"; and for the card on the desk: "In Dr animation the card on table with Doctor text on it make it the medical cross" ([owner-decisions.md](owner-decisions.md)).
 
@@ -24,10 +24,10 @@ Those branches never reached `main`, and they draw the old crew. This is the sam
 | Film | Length | Plays | Delivered | Class |
 | --- | --- | --- | --- | --- |
 | Brand intro, "Game N" by Plan B | exactly 2,000 ms | the app's first entry | whole, as the owner asked it: black, typed; full and reduced | identity-free: a candidate to ship as a prerendered video (27 KB on a phone) |
-| Role film | exactly 10,000 ms each | the player's own phone, in the role-reading stage, after the card is revealed | **the Doctor's, the pilot**; full and reduced, for any of the nine characters | drawn live from the player's own character and role (see Mounts) |
+| Role film | exactly 10,000 ms each | the player's own phone, in the role-reading stage, after the card is revealed | **all nine roles', in eight films** (the Disablers share one): the Doctor's, approved, and the other seven for review; full and reduced, for any of the nine characters | drawn live from the player's own character and role (see Mounts) |
 | Boarding | exactly 10,000 ms | every phone and the display, after everyone is Ready, before Round 1 (R17) | whole, for 7, 8 or 9 players; full and reduced | review only: no stage exists for it yet |
 
-The other seven role films (Insider, the two Disablers' shared film, Supplier, Engineer, Undercover, Hacker and Alien) follow, now that the owner has approved the Doctor's. Their storyboards are the approved ones. Each needs its gadget, drawn the same way as the injector, and its three panels.
+The other seven role films (Insider, the two Disablers' shared film, Supplier, Engineer, Undercover, Hacker and Alien) are drawn from the Doctor's, now that the owner has approved it ([below](#the-other-seven-films)).
 
 ## What "AAA" means here
 
@@ -81,12 +81,31 @@ The clock is the approved pilot's, unchanged (`roles/clock.mjs`): beats change a
 
 Each panel lands with an overshoot, a jolt through the page and impact lines. The guided camera moves onto each panel and pulls back to the page at 7,300-7,800 ms.
 
-**The rules a role film keeps** (approved with the pilot; tested in `pregame-films.test.mjs`):
+### The other seven films
+
+Drawn from the Doctor's as the owner approved it, each from its storyboard approved on 6 November 2026 (`docs/design/cinematic/role-reveal.md` on `claude/designer-role-films`). Every film keeps the Doctor's opener, clock, page, camera, flash, finish and title. Only four things are the role's: the card's mark, the gadget, the three panels and the two narration boxes. Panels 1 and 2 are memory, in sepia. Panel 3 is aboard, in the night's colours, and shows no event.
+
+| Role | Card mark; gadget | 1 · memory | 2 · memory | 3 · aboard |
+| --- | --- | --- | --- | --- |
+| Insider | An eye; the dossier tablet, three faceless faces on its screen | Vesta Station's archive: cabinets to the ceiling, one lamp, the reader looks up. "Vesta Station. The archive." | Three folders slide in and land, each with a faceless photograph: THUD. "Three files. Three faces." | The cork board in the cabin: three faceless photographs, a string drawn from pin to pin, a fist at the chin |
+| Blue and Red Disabler (one film) | A lightning bolt; the stun rod | The engine decks of Ceres, back to us: a breaker's lever pulled, CLUNK, sparks, the lamps out one by one, the emergency light. "The engine decks of Ceres." | One charge: the rod in its case, one glowing cell, an envelope of credits pushed in by a gloved hand. "One charge." | A dark cabin: the rod in a gloved fist, one white arc to a silhouette, the light dips: ZZT |
+| Supplier | A braced crate; the twin canister | The Belt markets: a stall, crates up to a swinging lamp, the arms folded; a crate drops on the counter: CLANK. "The Belt markets." | A false floor lifts on two sealed crates under a work lamp. "Two crates, off the books." | The cargo hold: two crates come down on the hoist beside two silhouettes, a blank tag swinging on each |
+| Engineer | A spanner; the signal clamp | The Titan yards: a ship's ribs under Saturn, welders' sparks, the plans on the gantry. "The Titan yards." | A gloved hand traces a cable bundle; the clamp clicks on, its lamp blinking: CLICK. "You know every wire." | The photograph: brackets close on the room across the corridor, two silhouettes in it; the shutter blinks dark (ink, never a flash), and the print slides out and develops |
+| Undercover | A domino mask; the signal beacon | A street in the dust rain, leaning on a lamp post; a faceless file on a café table, the rain on it: DRIP. "Red Planet intelligence." | Close on a shoulder: the strap, and a pistol sliding into its holster, the grip left out. "No name. One gun." | The shield: beside a silhouette, a paper shield settles on its shoulder and a ring of amber light goes out once |
+| Hacker | A terminal's prompt; the hacking box | The data dens of Phobos: screens, hanging cables, a stool and a laptop; four padlocks open on the big screen. "The data dens of Phobos." | A credit chip slides in under the lamp, sealed in wax pressed with a planet and its ring. "Paid in advance." | The Code: a scan sweeps four silhouettes behind glass, the second marked (always the second, in every Hacker's film); the punch card's four windows shut: KA-CHUNK |
+| Alien | A spiral; the crystal, pale as ice, with motes round it | A ship's mess: two spacers round a lantern, the player apart; on the wall, the player's shadow is not a human's. "A story sailors told." | In a lamp's light the player's shadow splits, and the second slides away. "Then, a second shadow." | The cabin's walls part to space; a blackhole forms and the stars bend toward it: WHOOM |
+
+- **Nobody is anybody.** Every figure but the player's own is drawn as one flat colour, on one body with a plain oval head. A crew member's own head in silhouette could be read as that player. The Doctor's patient is now drawn the same way; nothing else in the approved film changed.
+- **The words** are the approved storyboards', a sentence to a line and at most 17 characters a line. They are proposals; the game's words are Frontend's.
+- **No team colour, in any film.** The shield, the arc, the crystal and the blackhole's light are paper and amber; nothing is red, blue or violet. The Undercover's narration names the Red Planet, as its approved storyboard does: it is page text on the player's own phone.
+- **The Disablers' one film** is the same for both, frame for frame, until the title names the role (tested).
+
+**The rules every role film keeps** (approved with the pilot; tested in `pregame-films.test.mjs` for all nine roles):
 - **Same clock for every role.** A neighbour who sees a phone change, or times it, learns nothing. A role carries pictures and words, never times.
 - **Silent, with no vibration.**
 - **One palette, and no team colour.** Every colour drawn stays at least 30 (CIE76) from each faction's accent, with no exception: a role film draws no team's colour at all. The card on the desk shows the role's mark (the Doctor's, a medical cross; never red, which is a team's colour and the protected emblem), and the gadget is drawn without its team colour.
 - **One title blue.** The title is the same blue for every role, `#2979FF`: 39 from the Blue team's accent (a paler sky blue), 38 from the Alien's and 96 from the Red team's. Its colour tells a neighbour nothing about the team. The team emblem that sat on the earlier title's plate went with the plate; the card that follows the film shows the team.
-- **Nobody else.** Only the player's own lobby character is drawn in colour; every other person is a faceless silhouette.
+- **Nobody else.** Only the player's own lobby character is drawn in colour. Every other person is nobody: one flat colour, on one body with a plain oval head.
 - **Foreshadowing, not an event.** Nothing in a film happens in the match.
 - **Few words, as page text.** Two narration boxes of a few words each, at most 17 characters a line. They are DOM text over the picture, so they translate, scale with the player's text size and are read by screen readers.
 - **Reduced motion.** Three stills (the gadget raised, the full page, the title), cross-faded in 80 ms at 0, 3,000 and 7,800 ms.
@@ -129,6 +148,7 @@ It is not the art release's to enable. Until it exists, no client plays the boar
 - **Calls.**
   - `brandSvg(t, { width, height, variant })`.
   - `roleSvg(t, { width, height, role, character, seat, variant })`, with `roleCaptions(t, …)` and `rolePageText(t, …)` for the page text. It loads no art file: everything it draws is in its modules.
+  - `role` is one of `doctor`, `insider`, `blue-disabler`, `red-disabler`, `supplier`, `engineer`, `undercover`, `hacker` and `alien` (`roles/roles.mjs`).
   - `boardingSvg(t, { width, height, variant, roster })`.
   - `variant` follows the app's effective Reduced preference, as the crew consumer's does.
 - **Why the role films are drawn live.** Prerendering every character and role would be 72 videos, and every phone would have to load them all, because fetching only the dealt role's would tell.
@@ -145,7 +165,7 @@ It is not the art release's to enable. Until it exists, no client plays the boar
 | --- | --- |
 | `design/pregame-films/kit/` | The films' kit: `math.mjs` (easing, springs, seeded noise), `fx.mjs` (beams, pools, glow, streaks, glints, dust, sparks, splatter, puffs, rain, impact lines, ink blots and tide, grain, vignette, grade, leaks), `letters.mjs` (Ink Block, the wordmark's lower case, the logo finish), `cast.mjs` (the crew, lit) |
 | `design/pregame-films/brand/brand.mjs` | The brand intro |
-| `design/pregame-films/roles/` | The role films: `clock.mjs` (the shared clock), `briefing.mjs` (the opener, the injector), `page.mjs` (panels, camera, flash, title), `doctor.mjs` (the Doctor's panels), `roles.mjs`, `film.mjs` |
+| `design/pregame-films/roles/` | The role films: `clock.mjs` (the shared clock), `briefing.mjs` (the opener), `page.mjs` (panels, camera, flash, title), `common.mjs` (the card's mark, the gadget, sound words, nobody), one module a film (`doctor.mjs`, `insider.mjs`, `disabler.mjs`, `supplier.mjs`, `engineer.mjs`, `undercover.mjs`, `hacker.mjs`, `alien.mjs`), `roles.mjs` (the nine roles) and `film.mjs` |
 | `design/pregame-films/boarding/` | The boarding: `clock.mjs`, `roster.mjs`, `boarding.mjs` |
 | `design/pregame-films/stage.html`, `stage.mjs`, `films.mjs` | The review stage |
 | `design/pregame-films/renders.mjs`, `design/tools/pregame-films-render.mjs` | The review renders and their tool |
@@ -164,7 +184,7 @@ Run on this delivery's tree, based on `main` `469b709b`, with Node 22.21.1 and n
   - the last frames;
   - pure, well-formed frames with no dangling reference;
   - reduced-motion stills;
-  - the role film's privacy rules (one clock, no team colour, the card's mark, one title blue, silhouettes, page text);
+  - every role film's privacy rules (one clock, no team colour, the card's mark, one title blue, nobody, page text) and the Disablers' one film;
   - the boarding's public roster;
   - the renders against their records;
   - dev-only marks.
@@ -175,14 +195,21 @@ Run on this delivery's tree, based on `main` `469b709b`, with Node 22.21.1 and n
 | `brand-phone.mp4` | 780 x 1688 | 120 | 2.000 s | 27 KB |
 | `brand-display.mp4` | 1920 x 1080 | 120 | 2.000 s | 34 KB |
 | `brand-phone-reduced.mp4` | 780 x 1688 | 120 | 2.000 s | 20 KB |
-| `doctor-phone.mp4` | 780 x 1688 | 600 | 10.000 s | 2128 KB |
-| `doctor-phone-c7.mp4` | 780 x 1688 | 600 | 10.000 s | 2114 KB |
+| `doctor-phone.mp4` | 780 x 1688 | 600 | 10.000 s | 2125 KB |
+| `doctor-phone-c7.mp4` | 780 x 1688 | 600 | 10.000 s | 2117 KB |
 | `doctor-phone-reduced.mp4` | 780 x 1688 | 600 | 10.000 s | 558 KB |
+| `insider-phone.mp4` | 780 x 1688 | 600 | 10.000 s | 2087 KB |
+| `disabler-phone.mp4` | 780 x 1688 | 600 | 10.000 s | 1894 KB |
+| `supplier-phone.mp4` | 780 x 1688 | 600 | 10.000 s | 1834 KB |
+| `engineer-phone.mp4` | 780 x 1688 | 600 | 10.000 s | 1885 KB |
+| `undercover-phone.mp4` | 780 x 1688 | 600 | 10.000 s | 2108 KB |
+| `hacker-phone.mp4` | 780 x 1688 | 600 | 10.000 s | 1843 KB |
+| `alien-phone.mp4` | 780 x 1688 | 600 | 10.000 s | 1853 KB |
 | `boarding-phone-8.mp4` | 780 x 1688 | 600 | 10.000 s | 3431 KB |
 | `boarding-display-9.mp4` | 1920 x 1080 | 600 | 10.000 s | 4726 KB |
 | `boarding-phone-7-reduced.mp4` | 780 x 1688 | 600 | 10.000 s | 978 KB |
 
-The role film is rendered for two characters (`c3`, `c7`) to show it draws whichever the player is.
+The Doctor's film is rendered for two characters (`c3`, `c7`) to show it draws whichever the player is; each of the other seven films with another character.
 <!-- /checks -->
 
 ## Not tested

@@ -5,8 +5,8 @@
     {
       "kind": "video",
       "file": "design/pregame-films/review/doctor-phone-c7.mp4",
-      "sha256": "2e285fe36d411af789a49dc09d23e775386dcc57627cda1b9421b5e4f4f363bd",
-      "bytes": 2164558,
+      "sha256": "0238883ea907af93642c01a058925a1e8bed1d7c5207b2b040ef9866025099ab",
+      "bytes": 2168183,
       "stage": "pregame-films/stage.html?film=role&role=doctor&character=c7&seat=2",
       "css": [
         390,
@@ -16,7 +16,7 @@
       "fps": 60,
       "framesRendered": 600,
       "durationMs": 10000,
-      "msPerFrame": 1746,
+      "msPerFrame": 1477,
       "probe": {
         "width": 780,
         "height": 1688,
@@ -29,8 +29,8 @@
     {
       "kind": "sheet",
       "file": "design/pregame-films/review/doctor-phone-c7.sheet.jpg",
-      "sha256": "c01e6b0b5b1516088bdfb70c63e87307385f53be1eb1134b37c6938265a61992",
-      "bytes": 229053,
+      "sha256": "433ced1aa17a59c019c72a868f92e4f1941bbb374af09d7e2f7997d999e4b135",
+      "bytes": 228779,
       "moments": [
         200,
         900,
