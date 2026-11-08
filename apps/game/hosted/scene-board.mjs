@@ -1,3 +1,4 @@
+import {paintCrewFigure,releaseCrewFigure,setCrewMountMotion} from './crew-runtime.mjs';
 // Hosted adapter for the owner-authorized unpainted trial. Drawing primitives are the
 // reviewed Designer port at 49f0db4d; source hashes live beside them and in the handoff.
 // Placement reads only the current public snapshot. No station enters the wire contract.
@@ -79,9 +80,16 @@ function fitSceneBands(board, placed) {
   Object.keys(BANDS).forEach((band, i) => set(zones, `--band-${band}`, px(sizes[i])));
 }
 
-function figure(token, front, character, gesture, seat, location) {
+function figure(token, front, character, gesture, seat, location, scope, versions) {
   const outfit = outfitFor(location);
   const key = `${character}|${gesture}|${outfit}`;
+  const skNew = skeletonOf(gesture);
+  if(paintCrewFigure(scope,token,versions,character,skNew,{outfit,gesture,seat,cacheTemplate:true})){
+    token.dataset.figure=key;
+    if(hasFront(skNew))paintCrewFigure(scope,front,versions,character,skNew,{outfit,gesture,seat,layer:'front',cacheTemplate:true});
+    else {releaseCrewFigure(scope,front);front.replaceChildren();}
+    return;
+  }
   if (token.dataset.figure === key) return;
   token.dataset.figure = key;
   const sk = skeletonOf(gesture);
@@ -93,6 +101,7 @@ function figure(token, front, character, gesture, seat, location) {
 export function applySceneBoard(root, model) {
   const enabled = (document.documentElement.dataset.art ?? '').split(' ').includes('scene-art');
   if (!enabled || model.screen !== 'match' || !model.match) return;
+  setCrewMountMotion(root,model.motion==='reduced');
   const seats = publicSceneSeats(model);
   const placed = placements(seats);
   for (const board of root.querySelectorAll('.ms-board')) {
@@ -142,7 +151,7 @@ export function applySceneBoard(root, model) {
         if (!CREW[character]) continue; // A missing public character keeps its readable numeral.
         let front = piece.querySelector('.scene-front');
         if (!front) { front = document.createElement('span'); front.className = 'scene-front'; front.setAttribute('aria-hidden', 'true'); token.after(front); }
-        figure(token, front, character, place.gesture, seat, location);
+        figure(token, front, character, place.gesture, seat, location, root, model.match.versions);
         piece.dataset.outfit = outfitFor(location);
       }
       // A private tentative move is a separate drawing, never an occupant or a capacity
@@ -156,7 +165,7 @@ export function applySceneBoard(root, model) {
           for (const [name, value] of Object.entries({ '--body-x': g.left, '--body-y': g.top, '--body-size': g.side, '--press-x': press.left, '--press-y': press.top, '--press-size': press.side })) set(ghost, name, px(value));
           ghost.dataset.mirror = String(future.mirror);
           const token = ghost.querySelector('.phone-move-ghost__art');
-          token.innerHTML = dressedFigureSvg(CREW[ghost.dataset.character], skeletonOf(future.gesture), { outfit: outfitFor(location), prefix: `ghost-${self.n}` });
+          if(!paintCrewFigure(root,token,model.match.versions,ghost.dataset.character,skeletonOf(future.gesture),{outfit:outfitFor(location),gesture:future.gesture,seat:self.n}))token.innerHTML = dressedFigureSvg(CREW[ghost.dataset.character], skeletonOf(future.gesture), { outfit: outfitFor(location), prefix: `ghost-${self.n}` });
         }
       }
     }

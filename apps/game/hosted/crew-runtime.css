@@ -1,0 +1,31 @@
+/* Picture UI for the exact selected crew release. Historical roots keep their existing styles. */
+[data-crew-art="crew-drawing-1.0.0"] [data-character="c1"] { --crew-icon: var(--ms-asset-crew-portrait-c1, none); --cast-art: var(--ms-asset-crew-portrait-c1, none); --phone-crew: var(--ms-asset-crew-portrait-c1, none); }
+[data-crew-art="crew-drawing-1.0.0"] [data-character="c2"] { --crew-icon: var(--ms-asset-crew-portrait-c2, none); --cast-art: var(--ms-asset-crew-portrait-c2, none); --phone-crew: var(--ms-asset-crew-portrait-c2, none); }
+[data-crew-art="crew-drawing-1.0.0"] [data-character="c3"] { --crew-icon: var(--ms-asset-crew-portrait-c3, none); --cast-art: var(--ms-asset-crew-portrait-c3, none); --phone-crew: var(--ms-asset-crew-portrait-c3, none); }
+[data-crew-art="crew-drawing-1.0.0"] [data-character="c4"] { --crew-icon: var(--ms-asset-crew-portrait-c4, none); --cast-art: var(--ms-asset-crew-portrait-c4, none); --phone-crew: var(--ms-asset-crew-portrait-c4, none); }
+[data-crew-art="crew-drawing-1.0.0"] [data-character="c5"] { --crew-icon: var(--ms-asset-crew-portrait-c5, none); --cast-art: var(--ms-asset-crew-portrait-c5, none); --phone-crew: var(--ms-asset-crew-portrait-c5, none); }
+[data-crew-art="crew-drawing-1.0.0"] [data-character="c6"] { --crew-icon: var(--ms-asset-crew-portrait-c6, none); --cast-art: var(--ms-asset-crew-portrait-c6, none); --phone-crew: var(--ms-asset-crew-portrait-c6, none); }
+[data-crew-art="crew-drawing-1.0.0"] [data-character="c7"] { --crew-icon: var(--ms-asset-crew-portrait-c7, none); --cast-art: var(--ms-asset-crew-portrait-c7, none); --phone-crew: var(--ms-asset-crew-portrait-c7, none); }
+[data-crew-art="crew-drawing-1.0.0"] [data-character="c8"] { --crew-icon: var(--ms-asset-crew-portrait-c8, none); --cast-art: var(--ms-asset-crew-portrait-c8, none); --phone-crew: var(--ms-asset-crew-portrait-c8, none); }
+[data-crew-art="crew-drawing-1.0.0"] [data-character="c9"] { --crew-icon: var(--ms-asset-crew-portrait-c9, none); --cast-art: var(--ms-asset-crew-portrait-c9, none); --phone-crew: var(--ms-asset-crew-portrait-c9, none); }
+[data-crew-art="crew-drawing-1.0.0"] .pk-who[data-character],
+[data-crew-art="crew-drawing-1.0.0"] .ab-chip__art[data-character],
+[data-crew-art="crew-drawing-1.0.0"] .ab-photo__art[data-character],
+[data-crew-art="crew-drawing-1.0.0"] .trial-cast__portrait[data-character] {
+  background-image: var(--crew-icon, none) !important;
+  background-position: center !important;
+  background-size: contain !important;
+  background-repeat: no-repeat;
+  border-radius: 0;
+}
+[data-crew-art="crew-drawing-1.0.0"] .crew-option[data-character]::before,
+[data-crew-art="crew-drawing-1.0.0"] .phone-crew-confirmed[data-character]::before {
+  background-image: var(--crew-icon, none);
+  background-position: center;
+  background-size: contain;
+}
+[data-crew-art="crew-drawing-1.0.0"] .phone-slot__face[data-character] {
+  background-image: var(--crew-icon, none);
+  background-position: center;
+  background-size: contain;
+}

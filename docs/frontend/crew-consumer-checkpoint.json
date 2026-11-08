@@ -1,0 +1,66 @@
+{
+  "status": "consumer implementation and desktop evidence prepared; Integration inventory, Designer visual and physical-device acceptance pending",
+  "sourceHead": "8cee39d89798390d03c2a4a9fe457fa6de387bda",
+  "registrationBase": "a1ad3e541f3b7ea0789b4ec2f2dd777c7764f414",
+  "files": {
+    "apps/game/dev/planet/capture-crew-adoption.mjs": "8d01be5108e8e74ed9e6d26c5baa12d347c591824fb80ac0cb294681a078ffb3",
+    "apps/game/dev/planet/capture-crew-disposal.mjs": "33832afe1daee2f64aeaa27ce83e7bbe8896bfeeba5ad73f3031f9129ea959ad",
+    "apps/game/dev/planet/capture-crew-motion.mjs": "b6a18244fb465aa80f2612090fa0902215210db1b97f639c13591108424930a9",
+    "apps/game/dev/planet/capture-crew-mounts.mjs": "7136359514b6c6aecc28ea418634e1a9580e084691ee37af1b13341ec3226226",
+    "apps/game/dev/planet/capture-crew-video.mjs": "1985e41da125116d2c93759b388b9d46041506443f1679d590de15399c74046e",
+    "apps/game/dev/planet/crew-motion-check.mjs": "a00cca7cba03a07c302d82f974e202ccf06acd1b3b4cfd68d58af5cfc1d37083",
+    "apps/game/dev/planet/crew-review-vite.config.mjs": "fe5bf74468aa3e889f99c7a2824a74406e55d783ce2ff40f60263ca888f7e347",
+    "apps/game/dev/planet/main.mjs": "2d946002d8e801f7e1c61541bc6bc6c73306f8f74b096cbe656c9fd31f0188dd",
+    "apps/game/dev/planet/scenarios.mjs": "6d5cdd41b118102eebf9688d1aaf90b41c7d01bc3ad7fb09bd81ffe5cb89ca42",
+    "apps/game/dev/planet/vite.config.mjs": "24ab768641c32d787e4ae68b5b1d79ac0b56173cc36782f488f50e08adb41526",
+    "apps/game/hosted/art.mjs": "60a17f1b08b6d2518db173ac73b8ca16dea6c161349660ff0a7523c2f00a575d",
+    "apps/game/hosted/board-v2-films.mjs": "21b49ec56a788a5ca366a41df7b541ff8800cba2a60ef886ae192c7bdbb724f8",
+    "apps/game/hosted/board-v2-host.mjs": "48f3305e23e84e5c1f6f70088c022f0f40edce4275b91706ad82840a0a0047cc",
+    "apps/game/hosted/board-v2-scene.mjs": "5aceb09010bfdb8708fe7de8357a782375355a51146927c0e20851d56b363bd8",
+    "apps/game/hosted/browser-host.js": "f24e2712800750612e2d37f91f62a5b21756b71492349bbe3eaf3744d11f0fc5",
+    "apps/game/hosted/comic-motion.mjs": "41c43503726d8283c4433c47f92a55f15af28e87b6e98804ecb95de42976dbd0",
+    "apps/game/hosted/crew-runtime.css": "5740495c620679caa2c08d60e6aeb53d9392b89d5d9e758b27d02fa9c2bde220",
+    "apps/game/hosted/crew-runtime.mjs": "b87470745a0afac4a2d9147d26c4eb622ed4c2f6d8abf710f285d35b50eb2cf5",
+    "apps/game/hosted/main.js": "ab24a0fb479f943a056c3e865dda95faf29b7580ea22f07119d8c4c4b81f2c00",
+    "apps/game/hosted/phone-kit.mjs": "9833bbec613b82271738bb603f1b1afe077a89872b7aae2926fd773008d6beeb",
+    "apps/game/hosted/planet/app.mjs": "f107ee5fd6a829a8cd61d4f9a82e19ee7e465208584d9635450464df9740f1d1",
+    "apps/game/hosted/planet/render.mjs": "b18fa2c7c4065ecf12623719eeed439586aa998e636664c520ad8174bee142d2",
+    "apps/game/hosted/scene-board.mjs": "cfe140c27dd8992f42d78ba4bc5e88e353269b9d7f0f8999f18667af3c71fc22",
+    "apps/game/test/crew-runtime.test.mjs": "8583bf4924757c321f450e6a537213a05820c403632486da670d560ba4aeebf2",
+    "apps/game/test/release-art-loading.test.mjs": "36da54b5309781c1beb29654b29b6394771f7c117d72b7bb1c265b3cdf5634f5",
+    "packages/presentation/src/planet/library.ts": "b4b283f5dc3fbc296f756014c97ac7bca786dedeb2617b124c191187d4f9c2c3",
+    "packages/presentation/test/planet-library.test.mjs": "d1e272e75205d7547bbb8f6bbafe3437d43398a4d14ddaa5af87a83bed29e6fc"
+  },
+  "strictReleaseInventoryChanges": [
+    "apps/game/hosted/planet/app.mjs",
+    "apps/game/hosted/planet/render.mjs",
+    "packages/presentation/src/planet/library.ts"
+  ],
+  "inventoryOverlaps": {
+    "design-0.3.0": [],
+    "design-0.4.0": [
+      "apps/game/hosted/art.mjs",
+      "apps/game/hosted/board-v2-host.mjs",
+      "apps/game/hosted/board-v2-scene.mjs",
+      "apps/game/hosted/main.js"
+    ],
+    "design-0.5.0": [],
+    "design-0.6.0": [
+      "apps/game/hosted/planet/app.mjs",
+      "apps/game/hosted/planet/render.mjs",
+      "packages/presentation/src/planet/library.ts"
+    ],
+    "design-0.7.0": [
+      "apps/game/hosted/planet/app.mjs",
+      "apps/game/hosted/planet/render.mjs",
+      "packages/presentation/src/planet/library.ts"
+    ]
+  },
+  "historicalInventoryNote": "design-0.4.0 uses preserved historical blobs; these overlaps do not authorize rewriting that manifest or its evidence.",
+  "newRuntimeFiles": [
+    "apps/game/hosted/crew-runtime.css",
+    "apps/game/hosted/crew-runtime.mjs"
+  ],
+  "sharedFilesEdited": [],
+  "pinnedDrawingFilesEdited": []
+}

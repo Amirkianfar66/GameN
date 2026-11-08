@@ -1,3 +1,4 @@
+import {disposeCrewMounts,hasCrewDrawing,paintCrewFigure,releaseCrewFigure,setCrewMountMotion} from './crew-runtime.mjs';
 // Local presentation of public changes on the comic board. It reads only the public facts of
 // the drawn model (where each seat is, its health, Jail, Captain and revealed faction, the
 // active seat, the round and the phase) and never a role, an action, a receipt or an
@@ -71,7 +72,7 @@ export function publicChanges(previous, next) {
  * @param {{ fx?: HTMLElement | null, now?: () => number }} [options] fx: a layer over the page that takes no pointer events.
  */
 export function createComicMotion(root, { fx = null, now = () => performance.now() } = {}) {
-  let previous = null;
+  let previous = null, versions = null;
   let disposed = false;
   const deviceMotion = matchMedia('(prefers-reduced-motion: reduce)');
   /** seat -> what a running cue owns: animations, timers and fx nodes. */
@@ -185,7 +186,14 @@ export function createComicMotion(root, { fx = null, now = () => performance.now
         const pose = elapsed < 120 ? sample(departure, elapsed) : elapsed < 570 ? walk((elapsed - 120) / 225) : sample(arrival, elapsed - 570);
         const outfit = elapsed < 570 ? departureOutfit : arrivalOutfit;
         const mirror = elapsed < 120 ? fromFigure.mirror : elapsed < 570 ? dx < 0 : piece.dataset.mirror === 'true';
-        flyer.innerHTML = `<span class="travel-body">${dressedFigureSvg(CREW[character], pose, { outfit, prefix: `travel-${seat}-body` })}</span>${hasFront(pose) ? `<span class="travel-front">${dressedFigureSvg(CREW[character], pose, { outfit, prefix: `travel-${seat}-front`, layer: 'front' })}</span>` : ''}`;
+        if(hasCrewDrawing(versions)){
+          for(const layer of ['body','front']){
+            let node=flyer.querySelector(`.travel-${layer}`);
+            if(layer==='front'&&!hasFront(pose)){if(node){releaseCrewFigure(fx,node);node.remove();}continue;}
+            if(!node){node=document.createElement('span');node.className=`travel-${layer}`;flyer.append(node);}
+            paintCrewFigure(fx,node,versions,character,pose,{outfit,layer,gesture:piece.dataset.gesture,seat:Number(seat.slice(5)),mirror,point:[pose.head[0]+(to.left+dx*(1-elapsed/MOVE_MS)),pose.head[1]+(to.top+dy*(1-elapsed/MOVE_MS))]});
+          }
+        }else flyer.innerHTML = `<span class="travel-body">${dressedFigureSvg(CREW[character], pose, { outfit, prefix: `travel-${seat}-body` })}</span>${hasFront(pose) ? `<span class="travel-front">${dressedFigureSvg(CREW[character], pose, { outfit, prefix: `travel-${seat}-front`, layer: 'front' })}</span>` : ''}`;
         for (const svg of flyer.querySelectorAll?.('svg') ?? [flyer.querySelector('svg')]) if (svg) svg.style.transform = mirror ? 'scaleX(-1)' : 'none';
         owned.frame = elapsed < MOVE_MS ? requestAnimationFrame(paint) : null;
       };
@@ -211,6 +219,8 @@ export function createComicMotion(root, { fx = null, now = () => performance.now
     /** After a redraw: play what changed in the public facts, and keep pieces in flight hidden. Returns what was played. */
     after(model, before) {
       if (disposed) return [];
+      if(fx)setCrewMountMotion(fx,model.motion==='reduced');
+      versions = model.match?.versions ?? null;
       const next = publicFacts(model);
       // Not live, a reconnect, or a page in the background: settle at once and play nothing.
       if (next === null || document.visibilityState !== 'visible') { previous = null; cancelAll(); return []; }
@@ -263,6 +273,7 @@ export function createComicMotion(root, { fx = null, now = () => performance.now
     dispose() {
       if (disposed) return;
       disposed = true;
+      if(fx)disposeCrewMounts(fx);
       deviceMotion.removeEventListener('change', onDeviceMotion);
       previous = null;
       cancelAll();

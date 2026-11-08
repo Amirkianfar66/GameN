@@ -1,0 +1,74 @@
+{
+  "schema": "mothership.crew-consumer-approval/1",
+  "status": "Technical consumer candidate; physical-device and Designer acceptance remain pending; no activation",
+  "registrationBase": "a1ad3e541f3b7ea0789b4ec2f2dd777c7764f414",
+  "consumerHead": "722b770027bfc1c9e9210e759b9ed7fc67b2bd34",
+  "designerHead": "8cee39d89798390d03c2a4a9fe457fa6de387bda",
+  "artVersion": "design-0.7.0",
+  "registrationSnapshot": {
+    "path": "design/releases/registration-snapshots/design-0.7.0.json",
+    "sha256": "5cd0a792c780a937fee6aee918c133567ecdf2a1ef801251d209209c24e49cc0"
+  },
+  "historicalManifest": {
+    "path": "design/releases/design-0.6.0.json",
+    "sha256": "eeb4a88c7b71166a1c9782231ccd7fa81931cb50eed112e3d6153a862751bec4"
+  },
+  "historicalRuntimeOverrides": {
+    "design-0.6.0": {
+      "apps/game/hosted/planet/app.mjs": {
+        "previousSha256": "5ec4dab00a8f959efab6d1e711e8fa0f304b0209e121df7109b6532e3a281261",
+        "sha256": "f107ee5fd6a829a8cd61d4f9a82e19ee7e465208584d9635450464df9740f1d1"
+      },
+      "apps/game/hosted/planet/render.mjs": {
+        "previousSha256": "d8f1d3e14278aed096c9a19e8e0c6b30e6d15bccdf38e6d31b4b81f8826f3beb",
+        "sha256": "b18fa2c7c4065ecf12623719eeed439586aa998e636664c520ad8174bee142d2"
+      },
+      "packages/presentation/src/planet/library.ts": {
+        "previousSha256": "4e370ff02c4e9d5405e407f49d3dedaceb9a989252274f90dc9e8bb4e2143b17",
+        "sha256": "b4b283f5dc3fbc296f756014c97ac7bca786dedeb2617b124c191187d4f9c2c3"
+      }
+    }
+  },
+  "runtimeFiles": {
+    "apps/game/hosted/art.mjs": "60a17f1b08b6d2518db173ac73b8ca16dea6c161349660ff0a7523c2f00a575d",
+    "apps/game/hosted/board-v2-films.mjs": "21b49ec56a788a5ca366a41df7b541ff8800cba2a60ef886ae192c7bdbb724f8",
+    "apps/game/hosted/board-v2-host.mjs": "48f3305e23e84e5c1f6f70088c022f0f40edce4275b91706ad82840a0a0047cc",
+    "apps/game/hosted/board-v2-scene.mjs": "5aceb09010bfdb8708fe7de8357a782375355a51146927c0e20851d56b363bd8",
+    "apps/game/hosted/browser-host.js": "f24e2712800750612e2d37f91f62a5b21756b71492349bbe3eaf3744d11f0fc5",
+    "apps/game/hosted/comic-motion.mjs": "41c43503726d8283c4433c47f92a55f15af28e87b6e98804ecb95de42976dbd0",
+    "apps/game/hosted/crew-runtime.css": "5740495c620679caa2c08d60e6aeb53d9392b89d5d9e758b27d02fa9c2bde220",
+    "apps/game/hosted/crew-runtime.mjs": "b87470745a0afac4a2d9147d26c4eb622ed4c2f6d8abf710f285d35b50eb2cf5",
+    "apps/game/hosted/main.js": "ab24a0fb479f943a056c3e865dda95faf29b7580ea22f07119d8c4c4b81f2c00",
+    "apps/game/hosted/phone-kit.mjs": "9833bbec613b82271738bb603f1b1afe077a89872b7aae2926fd773008d6beeb",
+    "apps/game/hosted/planet/app.mjs": "f107ee5fd6a829a8cd61d4f9a82e19ee7e465208584d9635450464df9740f1d1",
+    "apps/game/hosted/planet/render.mjs": "b18fa2c7c4065ecf12623719eeed439586aa998e636664c520ad8174bee142d2",
+    "apps/game/hosted/scene-board.mjs": "cfe140c27dd8992f42d78ba4bc5e88e353269b9d7f0f8999f18667af3c71fc22",
+    "packages/presentation/src/planet/library.ts": "b4b283f5dc3fbc296f756014c97ac7bca786dedeb2617b124c191187d4f9c2c3"
+  },
+  "requiredFiles": {
+    "apps/game/hosted/art.mjs": "60a17f1b08b6d2518db173ac73b8ca16dea6c161349660ff0a7523c2f00a575d",
+    "apps/game/hosted/board-v2-films.mjs": "21b49ec56a788a5ca366a41df7b541ff8800cba2a60ef886ae192c7bdbb724f8",
+    "apps/game/hosted/board-v2-host.mjs": "48f3305e23e84e5c1f6f70088c022f0f40edce4275b91706ad82840a0a0047cc",
+    "apps/game/hosted/board-v2-scene.mjs": "5aceb09010bfdb8708fe7de8357a782375355a51146927c0e20851d56b363bd8",
+    "apps/game/hosted/browser-host.js": "f24e2712800750612e2d37f91f62a5b21756b71492349bbe3eaf3744d11f0fc5",
+    "apps/game/hosted/comic-motion.mjs": "41c43503726d8283c4433c47f92a55f15af28e87b6e98804ecb95de42976dbd0",
+    "apps/game/hosted/crew-runtime.css": "5740495c620679caa2c08d60e6aeb53d9392b89d5d9e758b27d02fa9c2bde220",
+    "apps/game/hosted/crew-runtime.mjs": "b87470745a0afac4a2d9147d26c4eb622ed4c2f6d8abf710f285d35b50eb2cf5",
+    "apps/game/hosted/main.js": "ab24a0fb479f943a056c3e865dda95faf29b7580ea22f07119d8c4c4b81f2c00",
+    "apps/game/hosted/phone-kit.mjs": "9833bbec613b82271738bb603f1b1afe077a89872b7aae2926fd773008d6beeb",
+    "apps/game/hosted/planet/app.mjs": "f107ee5fd6a829a8cd61d4f9a82e19ee7e465208584d9635450464df9740f1d1",
+    "apps/game/hosted/planet/render.mjs": "b18fa2c7c4065ecf12623719eeed439586aa998e636664c520ad8174bee142d2",
+    "apps/game/hosted/scene-board.mjs": "cfe140c27dd8992f42d78ba4bc5e88e353269b9d7f0f8999f18667af3c71fc22",
+    "packages/presentation/src/planet/library.ts": "b4b283f5dc3fbc296f756014c97ac7bca786dedeb2617b124c191187d4f9c2c3",
+    "design/releases/registration-snapshots/design-0.7.0.json": "5cd0a792c780a937fee6aee918c133567ecdf2a1ef801251d209209c24e49cc0",
+    "design/releases/historical-blobs/5ec4dab00a8f959efab6d1e711e8fa0f304b0209e121df7109b6532e3a281261": "5ec4dab00a8f959efab6d1e711e8fa0f304b0209e121df7109b6532e3a281261",
+    "design/releases/historical-blobs/d8f1d3e14278aed096c9a19e8e0c6b30e6d15bccdf38e6d31b4b81f8826f3beb": "d8f1d3e14278aed096c9a19e8e0c6b30e6d15bccdf38e6d31b4b81f8826f3beb",
+    "design/releases/historical-blobs/4e370ff02c4e9d5405e407f49d3dedaceb9a989252274f90dc9e8bb4e2143b17": "4e370ff02c4e9d5405e407f49d3dedaceb9a989252274f90dc9e8bb4e2143b17"
+  },
+  "scope": "Exact tuple dispatch, reusable crew mounts, public portraits, app and device motion preferences, and lifecycle cleanup. No game rule or creation default changes.",
+  "remainingAcceptance": [
+    "Designer review of actual-consumer captures",
+    "Physical Android and iPhone performance",
+    "Final CI and deployment review"
+  ]
+}

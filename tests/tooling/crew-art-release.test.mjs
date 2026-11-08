@@ -6,7 +6,7 @@ import { tmpdir } from 'node:os';
 import { fileURLToPath } from 'node:url';
 import test from 'node:test';
 import { CREW_APPROVAL, readCrewDrawingApproval, prepareCrewDrawingArt, verifyCrewDrawingPorts, crewDrawingAssetsPlugin } from '../../scripts/crew-drawing-art.mjs';
-import { CREW_ART_VERSION, readRuntimeArtRelease, assertRuntimeArtOutput } from '../../scripts/runtime-art-release.mjs';
+import { CREW_ART_VERSION, CREW_CONSUMER_APPROVAL, readCrewConsumerApproval, readRuntimeArtRelease, assertRuntimeArtOutput } from '../../scripts/runtime-art-release.mjs';
 import { comicAssetsPlugin } from '../../apps/game/hosted/comic-assets.mjs';
 import { planetLibraryAssetsPlugin } from '../../apps/game/hosted/build/planet-library-art.mjs';
 import { prepareBoardV2FilmsArt } from '../../apps/game/hosted/build/board-v2-films-art.mjs';
@@ -27,6 +27,8 @@ function seed(t) {
     'design/releases/design-0.5.0.json', 'design/exports/asset-manifest.json',
     'design/tools/lib/reviewed-drawing-ports.json', 'design/releases/board-v2-four-drawing-approval.json',
     'design/releases/planet-drawing-approval.json', 'design/releases/crew-drawing-approval.json',
+    'design/releases/crew-consumer-drawing-approval.json',
+    CREW_CONSUMER_APPROVAL, ...Object.keys(readCrewConsumerApproval(root).requiredFiles),
     CREW_APPROVAL, release.libraryIntegrationApproval.path,
     ...Object.keys(release.sources), ...Object.keys(release.runtimeFiles),
     ...Object.keys(policy.requiredFiles), ...Object.keys(policy.sourceHashes),
@@ -54,6 +56,39 @@ test('DSN-REQ-17 binds exact source, 17 exact-copy ports and explicit tokens wit
     if (changed.includes(name)) assert.notDeepEqual(release.bundles[name], entry);
     else assert.deepEqual(release.bundles[name], entry);
   }
+});
+
+test('published Planet manifest and original consumer bytes survive exact successor adoption', () => {
+  const approval = readCrewConsumerApproval(root);
+  assert.equal(hash(read('design/releases/design-0.6.0.json')), 'eeb4a88c7b71166a1c9782231ccd7fa81931cb50eed112e3d6153a862751bec4');
+  assert.equal(hash(read(approval.registrationSnapshot.path)), '5cd0a792c780a937fee6aee918c133567ecdf2a1ef801251d209209c24e49cc0');
+  const old = readRuntimeArtRelease(root, 'design-0.6.0'), current = readRuntimeArtRelease(root, CREW_ART_VERSION);
+  const overrides = Object.entries(approval.historicalRuntimeOverrides['design-0.6.0']);
+  assert.equal(overrides.length, 3);
+  for (const [path, pin] of overrides) {
+    assert.equal(old.runtimeFiles[path], pin.previousSha256, 'published inventory is not repinned');
+    assert.equal(hash(read(`design/releases/historical-blobs/${pin.previousSha256}`)), pin.previousSha256);
+    assert.equal(current.runtimeFiles[path], pin.sha256);
+    assert.equal(hash(read(path)), pin.sha256);
+  }
+});
+
+test('compatibility cannot substitute changed current code, erase historical evidence or approve itself', t => {
+  const dir = seed(t), approval = readCrewConsumerApproval(root);
+  const [path, pin] = Object.entries(approval.historicalRuntimeOverrides['design-0.6.0'])[0];
+  const historical = `design/releases/historical-blobs/${pin.previousSha256}`;
+  const verifyBoth = () => {
+    for (const version of ['design-0.6.0', CREW_ART_VERSION]) {
+      assert.throws(() => readRuntimeArtRelease(dir, version), /crew consumer content differs|crew consumer approval differs/);
+    }
+  };
+  writeFileSync(join(dir, path), '// unreviewed current consumer'); verifyBoth();
+  cpSync(join(root, path), join(dir, path));
+  writeFileSync(join(dir, historical), '// erased historical evidence'); verifyBoth();
+  cpSync(join(root, historical), join(dir, historical));
+  const changed = JSON.parse(readFileSync(join(dir, CREW_CONSUMER_APPROVAL)));
+  changed.historicalRuntimeOverrides['design-0.6.0'][path].sha256 = '0'.repeat(64);
+  writeFileSync(join(dir, CREW_CONSUMER_APPROVAL), JSON.stringify(changed)); verifyBoth();
 });
 
 test('new uniform bundles contain exactly the 36 approved exports and retire only the 27 obsolete film properties', () => {

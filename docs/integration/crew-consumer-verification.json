@@ -1,0 +1,95 @@
+{
+  "schema": "mothership.crew-consumer-verification/1",
+  "consumerHead": "722b770027bfc1c9e9210e759b9ed7fc67b2bd34",
+  "approvalSha256": "8675a1d45cbf55aa69ccc65e18593d28c7ac54282ed52eb5c10e9b70e2c0511e",
+  "manifestSha256": "0ab15cfec53dd7be09d265685ffada52e01d26681b9a2b7d02c17c2b30b1da79",
+  "checks": {
+    "sourceIntegrity": "passed",
+    "workspace": "passed",
+    "typecheck": "passed",
+    "focusedReleaseTests": {
+      "passed": 47,
+      "failed": 0
+    },
+    "tooling": {
+      "passed": 223,
+      "failed": 0,
+      "scope": "Before the final three-file Frontend cleanup; shared validation logic unchanged. Focused suite repeated afterward."
+    },
+    "design": {
+      "passed": 277,
+      "failed": 0,
+      "scope": "Before the final three-file Frontend cleanup; source/ports unchanged."
+    },
+    "hostedBuild": "passed",
+    "output": {
+      "design-0.5.0": 9,
+      "design-0.6.0": 27,
+      "design-0.7.0": 27
+    }
+  },
+  "browser": {
+    "engine": "Google Chrome 156.0.8078.80",
+    "guardedBuild": true,
+    "authority": "synthetic",
+    "viewportMotionCombinations": 6,
+    "currentCaptures": 30,
+    "historicalCaptures": 6,
+    "historicalGeometry": "matched",
+    "privateCardExtraAssetRequests": 0,
+    "motionCases": [
+      {
+        "name": "native board idle: OS full, app toggle",
+        "figures": 3,
+        "stableInstances": true
+      },
+      {
+        "name": "native capsule: app Reduced during entrance, restore full without replay",
+        "figures": 2,
+        "phaseUnchanged": true
+      },
+      {
+        "name": "private Clone idle: OS full, app toggle",
+        "figures": 2,
+        "stableInstances": true
+      },
+      {
+        "name": "native Hospital film figures: OS full, app toggle",
+        "figures": 2,
+        "stableInstances": true
+      },
+      {
+        "name": "phone kit cached result: OS full, app toggle",
+        "figures": 2,
+        "stableInstances": true
+      },
+      {
+        "name": "native travel: app Reduced during flight, restore full without replay",
+        "playableFigureVisible": true
+      }
+    ],
+    "remainingCrewListeners": [],
+    "disposeReuseCases": [
+      {
+        "name": "setup dispose and historical reuse",
+        "selectorCleared": true,
+        "hostAttributesPreserved": true
+      },
+      {
+        "name": "running dispose and historical reuse",
+        "selectorCleared": true,
+        "hostAttributesPreserved": true
+      }
+    ],
+    "isolatedFailures": [],
+    "parallelRunFailures": [
+      "native board idle: OS full, app toggle full motion did not resume",
+      "private Clone idle: OS full, app toggle full motion did not resume"
+    ],
+    "parallelRunNote": "Two resume assertions failed during concurrent browser captures; the isolated rerun passed all six cases. Timing sensitivity is recorded, not evidence of physical-device performance."
+  },
+  "physicalDevicePerformance": "not run",
+  "designerAcceptance": "pending",
+  "ci": "pending on final PR head",
+  "deployment": "not performed"
+}
