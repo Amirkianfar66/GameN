@@ -1,0 +1,2927 @@
+{
+  "browser": "Google Chrome 156.0.8078.80",
+  "provenance": "Synthetic transport through actual hosted app/session/controller; desktop Chromium only; no real multiplayer or physical-device acceptance",
+  "checks": [
+    {
+      "name": "actual hosted app accepts registered0.8 and current R17 contract",
+      "passed": true
+    },
+    {
+      "name": "private Skip returns to the card without Ready or advance",
+      "passed": true
+    },
+    {
+      "name": "refresh does not replay private film",
+      "passed": true
+    },
+    {
+      "name": "fresh recovered app with no seen marker still skips intro and private replay",
+      "passed": true
+    },
+    {
+      "name": "blur removes private scene, captions and card",
+      "passed": true
+    },
+    {
+      "name": "foreground reconnect and reveal do not replay private film",
+      "passed": true
+    },
+    {
+      "name": "revocation clears private pixels and text",
+      "passed": true
+    },
+    {
+      "name": "changed authentication clears private film",
+      "passed": true
+    },
+    {
+      "name": "public 7-player late join, Skip, expiry wait and server transition",
+      "passed": true
+    },
+    {
+      "name": "public 8-player late join, Skip, expiry wait and server transition",
+      "passed": true
+    },
+    {
+      "name": "public 9-player late join, Skip, expiry wait and server transition",
+      "passed": true
+    },
+    {
+      "name": "effective Reduced switches to a held picture at the current local clock",
+      "passed": true,
+      "elapsedSinceSwitchMs": 392.60000002384186
+    },
+    {
+      "name": "private role art requests are uniform",
+      "passed": true,
+      "roles": [
+        "doctor",
+        "hacker",
+        "alien"
+      ],
+      "paths": 42
+    },
+    {
+      "name": "paused uniform art does not block admission or film",
+      "passed": true,
+      "readyMs": 215
+    },
+    {
+      "name": "failed uniform art keeps the role card and has no phase authority",
+      "passed": true
+    },
+    {
+      "name": "disposal removes presentation resources",
+      "passed": true
+    }
+  ],
+  "captures": [
+    {
+      "file": "hosted/320x568-doctor-full-page.jpg",
+      "viewport": [
+        320,
+        568
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-9",
+        "endsAt": 1794168704003
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168679079.7,
+        "uncertaintyMs": 0
+      },
+      "ownRole": "Doctor",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 121,
+        "figureMounts": 3,
+        "poseUpdates": 169,
+        "headUpdates": 112,
+        "environmentInsertions": 207,
+        "attributes": 44105,
+        "largestSampleBytes": 191882
+      },
+      "captionBoxes": [
+        {
+          "font": "13px",
+          "left": 11.390625,
+          "top": 18.688232421875,
+          "right": 142.37391662597656,
+          "bottom": 63.882755279541016
+        },
+        {
+          "font": "13px",
+          "left": 11.00295639038086,
+          "top": 205.421875,
+          "right": 135.33166122436523,
+          "bottom": 234.9154510498047
+        }
+      ],
+      "sha256": "dceaa39d31a3260318087629b6f92e89c68abb14ee283b5de6a493e24f4c9a2a",
+      "bytes": 35574
+    },
+    {
+      "file": "hosted/320x568-doctor-full-title.jpg",
+      "viewport": [
+        320,
+        568
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-9",
+        "endsAt": 1794168704003
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168682627.85,
+        "uncertaintyMs": 0.04999995231628418
+      },
+      "ownRole": "Doctor",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 204,
+        "figureMounts": 5,
+        "poseUpdates": 395,
+        "headUpdates": 322,
+        "environmentInsertions": 395,
+        "attributes": 107414,
+        "largestSampleBytes": 236021
+      },
+      "captionBoxes": [],
+      "sha256": "dbbfd4907d5c740b8a21fc61fcef82a610bdee70a3c5e28dbf81b4374f16efe1",
+      "bytes": 16405
+    },
+    {
+      "file": "hosted/320x568-boarding-7-full.jpg",
+      "viewport": [
+        320,
+        568
+      ],
+      "status": "boarding",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-boarding-10",
+        "startedAt": 1794168675132,
+        "endsAt": 1794168685132
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168682912.3,
+        "uncertaintyMs": 0
+      },
+      "ownRole": null,
+      "ownSeat": null,
+      "film": "boarding",
+      "stats": {
+        "samples": 7,
+        "figureMounts": 7,
+        "poseUpdates": 49,
+        "headUpdates": 42,
+        "environmentInsertions": 18,
+        "attributes": 1242,
+        "largestSampleBytes": 21215
+      },
+      "captionBoxes": [],
+      "sha256": "e3fff7c5d91c405223330dcf63f48a86794d096d5f61a752fdbe13124d15adfa",
+      "bytes": 28859
+    },
+    {
+      "file": "hosted/320x568-boarding-8-full.jpg",
+      "viewport": [
+        320,
+        568
+      ],
+      "status": "boarding",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-boarding-11",
+        "startedAt": 1794168675415,
+        "endsAt": 1794168685415
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168683194.6,
+        "uncertaintyMs": 0
+      },
+      "ownRole": null,
+      "ownSeat": null,
+      "film": "boarding",
+      "stats": {
+        "samples": 7,
+        "figureMounts": 8,
+        "poseUpdates": 56,
+        "headUpdates": 48,
+        "environmentInsertions": 20,
+        "attributes": 1297,
+        "largestSampleBytes": 22499
+      },
+      "captionBoxes": [],
+      "sha256": "27c8e357c6c8c90bdb19b2d072784968cc0cf1f53e0a6e511e0383fe2887cd4a",
+      "bytes": 31148
+    },
+    {
+      "file": "hosted/320x568-boarding-9-full.jpg",
+      "viewport": [
+        320,
+        568
+      ],
+      "status": "boarding",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-boarding-12",
+        "startedAt": 1794168675699,
+        "endsAt": 1794168685699
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168683495.3499,
+        "uncertaintyMs": 0.050000011920928955
+      },
+      "ownRole": null,
+      "ownSeat": null,
+      "film": "boarding",
+      "stats": {
+        "samples": 7,
+        "figureMounts": 9,
+        "poseUpdates": 63,
+        "headUpdates": 54,
+        "environmentInsertions": 20,
+        "attributes": 1301,
+        "largestSampleBytes": 23708
+      },
+      "captionBoxes": [],
+      "sha256": "b9e6b980aca42ab61b67c8cbfbd3d992092140dae11286effd08b6a32f1e9401",
+      "bytes": 32446
+    },
+    {
+      "file": "hosted/320x568-brand-full.jpg",
+      "viewport": [
+        320,
+        568
+      ],
+      "status": null,
+      "setupFlowVersion": null,
+      "setup": null,
+      "clock": {
+        "status": "unsynced"
+      },
+      "ownRole": null,
+      "ownSeat": null,
+      "film": "brand",
+      "stats": {
+        "samples": 28,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 20,
+        "attributes": 68,
+        "largestSampleBytes": 4684
+      },
+      "captionBoxes": [],
+      "sha256": "f921c5608d976aaf640fbe33d887dd988fea88333db84a8d54e2980970dd057f",
+      "bytes": 7668
+    },
+    {
+      "file": "hosted/320x568-doctor-reduced-page.jpg",
+      "viewport": [
+        320,
+        568
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-14",
+        "endsAt": 1794168714646
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168689718.7002,
+        "uncertaintyMs": 0.10000002384185791
+      },
+      "ownRole": "Doctor",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 2,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": [
+        {
+          "font": "13px",
+          "left": 22.390625,
+          "top": 39.578857421875,
+          "right": 153.37391662597656,
+          "bottom": 84.77338409423828
+        },
+        {
+          "font": "13px",
+          "left": 22.00295639038086,
+          "top": 212.65625,
+          "right": 146.33166122436523,
+          "bottom": 242.1498260498047
+        }
+      ],
+      "sha256": "8cade78cb0f5f9f05f97e7757f1a169332bb99adf15d307f492fc2fb59d02c2a",
+      "bytes": 43857
+    },
+    {
+      "file": "hosted/320x568-doctor-reduced-title.jpg",
+      "viewport": [
+        320,
+        568
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-14",
+        "endsAt": 1794168714646
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168693251.4001,
+        "uncertaintyMs": 0
+      },
+      "ownRole": "Doctor",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 3,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": [],
+      "sha256": "b7a4ac391e5a7e75a9a38b7d943c2fd927bd0e4a77c8dafaf063e7c321ad141c",
+      "bytes": 16559
+    },
+    {
+      "file": "hosted/320x568-boarding-7-reduced.jpg",
+      "viewport": [
+        320,
+        568
+      ],
+      "status": "boarding",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-boarding-15",
+        "startedAt": 1794168685759,
+        "endsAt": 1794168695759
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168693543.5,
+        "uncertaintyMs": 0
+      },
+      "ownRole": null,
+      "ownSeat": null,
+      "film": "boarding",
+      "stats": {
+        "samples": 1,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": [],
+      "sha256": "6095326c13b8e3311586c057e530370e430ae0ce35512f54a3e0b0539999e5b7",
+      "bytes": 39363
+    },
+    {
+      "file": "hosted/320x568-boarding-8-reduced.jpg",
+      "viewport": [
+        320,
+        568
+      ],
+      "status": "boarding",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-boarding-16",
+        "startedAt": 1794168686047,
+        "endsAt": 1794168696047
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168693811.3,
+        "uncertaintyMs": 0
+      },
+      "ownRole": null,
+      "ownSeat": null,
+      "film": "boarding",
+      "stats": {
+        "samples": 1,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": [],
+      "sha256": "41b90da03de10edf6a3283f0ea37a1d44f6d346ed9460a0abb7d0b3f370c8600",
+      "bytes": 42397
+    },
+    {
+      "file": "hosted/320x568-boarding-9-reduced.jpg",
+      "viewport": [
+        320,
+        568
+      ],
+      "status": "boarding",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-boarding-17",
+        "startedAt": 1794168686315,
+        "endsAt": 1794168696315
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168694092.8,
+        "uncertaintyMs": 0
+      },
+      "ownRole": null,
+      "ownSeat": null,
+      "film": "boarding",
+      "stats": {
+        "samples": 1,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": [],
+      "sha256": "a3f06a04eecd0c883cad9c58517c55a3f79f804cad1414e62900236d68f77c42",
+      "bytes": 44681
+    },
+    {
+      "file": "hosted/320x568-brand-reduced.jpg",
+      "viewport": [
+        320,
+        568
+      ],
+      "status": null,
+      "setupFlowVersion": null,
+      "setup": null,
+      "clock": {
+        "status": "unsynced"
+      },
+      "ownRole": null,
+      "ownSeat": null,
+      "film": "brand",
+      "stats": {
+        "samples": 27,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 5,
+        "largestSampleBytes": 6000
+      },
+      "captionBoxes": [],
+      "sha256": "e1b7997189cbbc51f205e1e150b8dcb1f6264c2a03ca4e74534ddee3766de640",
+      "bytes": 8170
+    },
+    {
+      "file": "hosted/390x844-doctor-full-page.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-19",
+        "endsAt": 1794168725237
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168700353.2,
+        "uncertaintyMs": 0.09999996423721313
+      },
+      "ownRole": "Doctor",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 120,
+        "figureMounts": 3,
+        "poseUpdates": 171,
+        "headUpdates": 117,
+        "environmentInsertions": 222,
+        "attributes": 45579,
+        "largestSampleBytes": 199952
+      },
+      "captionBoxes": [
+        {
+          "font": "13px",
+          "left": 11.984375,
+          "top": 24.781982421875,
+          "right": 142.96766662597656,
+          "bottom": 69.97650909423828
+        },
+        {
+          "font": "13px",
+          "left": 11.59670639038086,
+          "top": 301.046875,
+          "right": 135.92541122436523,
+          "bottom": 330.5404357910156
+        }
+      ],
+      "sha256": "cab26a0c160e537acf43801e76ed94c6059b7424f490d62d530f2f304bb5936d",
+      "bytes": 51163
+    },
+    {
+      "file": "hosted/390x844-doctor-full-title.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-19",
+        "endsAt": 1794168725237
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168703925.4001,
+        "uncertaintyMs": 0
+      },
+      "ownRole": "Doctor",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 204,
+        "figureMounts": 5,
+        "poseUpdates": 402,
+        "headUpdates": 331,
+        "environmentInsertions": 435,
+        "attributes": 110749,
+        "largestSampleBytes": 247394
+      },
+      "captionBoxes": [],
+      "sha256": "658f262481815d72a3eb645965aa82cda48895dc4e24b2b668594b26ce35a7ae",
+      "bytes": 23372
+    },
+    {
+      "file": "hosted/390x844-insider-full-page.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-20",
+        "endsAt": 1794168733930
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168709013,
+        "uncertaintyMs": 0
+      },
+      "ownRole": "Insider",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 122,
+        "figureMounts": 3,
+        "poseUpdates": 172,
+        "headUpdates": 116,
+        "environmentInsertions": 166,
+        "attributes": 32600,
+        "largestSampleBytes": 156038
+      },
+      "captionBoxes": [
+        {
+          "font": "13px",
+          "left": 11.984375,
+          "top": 25.123638153076172,
+          "right": 125.17407989501953,
+          "bottom": 69.97650909423828
+        },
+        {
+          "font": "13px",
+          "left": 11.38814640045166,
+          "top": 301.046875,
+          "right": 115.39617252349854,
+          "bottom": 345.1898193359375
+        }
+      ],
+      "sha256": "f6287291dec279ec6bc0fce1b952bf0a53378b0c33558b3ae5a9e63370a2a704",
+      "bytes": 54235
+    },
+    {
+      "file": "hosted/390x844-insider-full-title.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-20",
+        "endsAt": 1794168733930
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168712568.45,
+        "uncertaintyMs": 0.050000011920928955
+      },
+      "ownRole": "Insider",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 208,
+        "figureMounts": 4,
+        "poseUpdates": 407,
+        "headUpdates": 350,
+        "environmentInsertions": 408,
+        "attributes": 61200,
+        "largestSampleBytes": 181665
+      },
+      "captionBoxes": [],
+      "sha256": "27fad788a015dc1219c2c65f2076e78b1eba8c90319e230ebc016cfcab7979ac",
+      "bytes": 23731
+    },
+    {
+      "file": "hosted/390x844-blue-disabler-full-page.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-21",
+        "endsAt": 1794168742573
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168717650.4502,
+        "uncertaintyMs": 0.050000011920928955
+      },
+      "ownRole": "Blue Disabler",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 121,
+        "figureMounts": 4,
+        "poseUpdates": 170,
+        "headUpdates": 116,
+        "environmentInsertions": 367,
+        "attributes": 34168,
+        "largestSampleBytes": 134734
+      },
+      "captionBoxes": [
+        {
+          "font": "13px",
+          "left": 11.984375,
+          "top": 24.879169464111328,
+          "right": 137.90611267089844,
+          "bottom": 69.97650909423828
+        },
+        {
+          "font": "13px",
+          "left": 11.59670639038086,
+          "top": 301.046875,
+          "right": 112.50582504272461,
+          "bottom": 330.21343994140625
+        }
+      ],
+      "sha256": "6f0507bed90069145c89fb875b7d99182fd58fe6d199f7407b5614f0eae82c35",
+      "bytes": 46424
+    },
+    {
+      "file": "hosted/390x844-blue-disabler-full-title.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-21",
+        "endsAt": 1794168742573
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168721195.05,
+        "uncertaintyMs": 0.050000011920928955
+      },
+      "ownRole": "Blue Disabler",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 206,
+        "figureMounts": 5,
+        "poseUpdates": 403,
+        "headUpdates": 348,
+        "environmentInsertions": 554,
+        "attributes": 57813,
+        "largestSampleBytes": 162068
+      },
+      "captionBoxes": [],
+      "sha256": "b2908de39c707cecefb03b4955aefe2e1c8dec0fea4a45517d567e11bb315ba4",
+      "bytes": 18912
+    },
+    {
+      "file": "hosted/390x844-red-disabler-full-page.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-22",
+        "endsAt": 1794168751199
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168726265.45,
+        "uncertaintyMs": 0.050000011920928955
+      },
+      "ownRole": "Red Disabler",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 122,
+        "figureMounts": 4,
+        "poseUpdates": 171,
+        "headUpdates": 115,
+        "environmentInsertions": 369,
+        "attributes": 34439,
+        "largestSampleBytes": 134718
+      },
+      "captionBoxes": [
+        {
+          "font": "13px",
+          "left": 11.984375,
+          "top": 24.879169464111328,
+          "right": 137.90611267089844,
+          "bottom": 69.97650909423828
+        },
+        {
+          "font": "13px",
+          "left": 11.59670639038086,
+          "top": 301.046875,
+          "right": 112.50582504272461,
+          "bottom": 330.21343994140625
+        }
+      ],
+      "sha256": "8418d90cbc456d3b70e4a7734e035a81a83b79a73aa0e67c49c70042daa6c608",
+      "bytes": 46388
+    },
+    {
+      "file": "hosted/390x844-red-disabler-full-title.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-22",
+        "endsAt": 1794168751199
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168729812.7998,
+        "uncertaintyMs": 0
+      },
+      "ownRole": "Red Disabler",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 206,
+        "figureMounts": 5,
+        "poseUpdates": 400,
+        "headUpdates": 343,
+        "environmentInsertions": 578,
+        "attributes": 57873,
+        "largestSampleBytes": 162220
+      },
+      "captionBoxes": [],
+      "sha256": "c6a7854ba0cbb6aeb8554cbd85e8970d50b26251f73dc947d2a679b8fb39398a",
+      "bytes": 19414
+    },
+    {
+      "file": "hosted/390x844-supplier-full-page.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-23",
+        "endsAt": 1794168759816
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168734882.25,
+        "uncertaintyMs": 0.050000011920928955
+      },
+      "ownRole": "Supplier",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 120,
+        "figureMounts": 4,
+        "poseUpdates": 182,
+        "headUpdates": 134,
+        "environmentInsertions": 230,
+        "attributes": 33572,
+        "largestSampleBytes": 142982
+      },
+      "captionBoxes": [
+        {
+          "font": "13px",
+          "left": 11.984375,
+          "top": 24.62450408935547,
+          "right": 150.8825225830078,
+          "bottom": 55.0417594909668
+        },
+        {
+          "font": "13px",
+          "left": 11.38814640045166,
+          "top": 301.046875,
+          "right": 129.47291660308838,
+          "bottom": 345.3863830566406
+        }
+      ],
+      "sha256": "0f797a0b8a11a4d9b595cb3bdc4322d4930fadd344a9e4a0c315e1083f947a3a",
+      "bytes": 49923
+    },
+    {
+      "file": "hosted/390x844-supplier-full-title.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-23",
+        "endsAt": 1794168759816
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168738450.75,
+        "uncertaintyMs": 0.050000011920928955
+      },
+      "ownRole": "Supplier",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 205,
+        "figureMounts": 6,
+        "poseUpdates": 561,
+        "headUpdates": 511,
+        "environmentInsertions": 465,
+        "attributes": 63576,
+        "largestSampleBytes": 155920
+      },
+      "captionBoxes": [],
+      "sha256": "2e06bab78505bf9e61ab6d7dfa83e4a16e5f6b70b0c5ab56dcf1a3868da31f2d",
+      "bytes": 22579
+    },
+    {
+      "file": "hosted/390x844-engineer-full-page.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-24",
+        "endsAt": 1794168768455
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168743545.55,
+        "uncertaintyMs": 0.050000011920928955
+      },
+      "ownRole": "Engineer",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 121,
+        "figureMounts": 3,
+        "poseUpdates": 170,
+        "headUpdates": 122,
+        "environmentInsertions": 316,
+        "attributes": 37833,
+        "largestSampleBytes": 152494
+      },
+      "captionBoxes": [
+        {
+          "font": "13px",
+          "left": 11.984375,
+          "top": 24.88426971435547,
+          "right": 137.35377502441406,
+          "bottom": 55.0417594909668
+        },
+        {
+          "font": "13px",
+          "left": 11.38814640045166,
+          "top": 301.046875,
+          "right": 106.61577701568604,
+          "bottom": 345.0672302246094
+        }
+      ],
+      "sha256": "2d948a0850e427633587ad9aff11b17040c57f782f2243478390e3c9b8a24b4a",
+      "bytes": 45498
+    },
+    {
+      "file": "hosted/390x844-engineer-full-title.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-24",
+        "endsAt": 1794168768455
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168747077.8,
+        "uncertaintyMs": 0
+      },
+      "ownRole": "Engineer",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 206,
+        "figureMounts": 7,
+        "poseUpdates": 550,
+        "headUpdates": 498,
+        "environmentInsertions": 537,
+        "attributes": 61229,
+        "largestSampleBytes": 175449
+      },
+      "captionBoxes": [],
+      "sha256": "9154a7644bb69e8e7514c1bf925b3281e8d6192b3a9d92f7c3f0ae626c2595bb",
+      "bytes": 22310
+    },
+    {
+      "file": "hosted/390x844-undercover-full-page.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-25",
+        "endsAt": 1794168777083
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168752146.45,
+        "uncertaintyMs": 0.050000011920928955
+      },
+      "ownRole": "Undercover",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 120,
+        "figureMounts": 3,
+        "poseUpdates": 168,
+        "headUpdates": 119,
+        "environmentInsertions": 214,
+        "attributes": 44816,
+        "largestSampleBytes": 144479
+      },
+      "captionBoxes": [
+        {
+          "font": "13px",
+          "left": 11.984375,
+          "top": 25.217525482177734,
+          "right": 120.28435516357422,
+          "bottom": 69.97650909423828
+        },
+        {
+          "font": "13px",
+          "left": 11.38814640045166,
+          "top": 301.046875,
+          "right": 89.03936100006104,
+          "bottom": 344.8218078613281
+        }
+      ],
+      "sha256": "b843aa599e5e61b3244655437c59eadd0ec856d4c2921d388bdfd7d8a400f6fc",
+      "bytes": 47561
+    },
+    {
+      "file": "hosted/390x844-undercover-full-title.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-25",
+        "endsAt": 1794168777083
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168755714.5498,
+        "uncertaintyMs": 0.050000011920928955
+      },
+      "ownRole": "Undercover",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 205,
+        "figureMounts": 5,
+        "poseUpdates": 462,
+        "headUpdates": 411,
+        "environmentInsertions": 422,
+        "attributes": 93415,
+        "largestSampleBytes": 154515
+      },
+      "captionBoxes": [],
+      "sha256": "a44e74a626fee2d6f4f1a0c9e972968b64ac832b644d5f4d561da3eb2557ca28",
+      "bytes": 21540
+    },
+    {
+      "file": "hosted/390x844-hacker-full-page.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-26",
+        "endsAt": 1794168785718
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168760810.4,
+        "uncertaintyMs": 0.10000002384185791
+      },
+      "ownRole": "Hacker",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 122,
+        "figureMounts": 3,
+        "poseUpdates": 172,
+        "headUpdates": 123,
+        "environmentInsertions": 214,
+        "attributes": 32080,
+        "largestSampleBytes": 113448
+      },
+      "captionBoxes": [
+        {
+          "font": "13px",
+          "left": 11.984375,
+          "top": 25.153034210205078,
+          "right": 123.64311218261719,
+          "bottom": 69.97650909423828
+        },
+        {
+          "font": "13px",
+          "left": 11.59670639038086,
+          "top": 301.046875,
+          "right": 135.64419174194336,
+          "bottom": 330.5365295410156
+        }
+      ],
+      "sha256": "68eeff719ac247d3106c9473346fa4d118071607835dc705854d9f08810f2048",
+      "bytes": 43740
+    },
+    {
+      "file": "hosted/390x844-hacker-full-title.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-26",
+        "endsAt": 1794168785718
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168764346.05,
+        "uncertaintyMs": 0.050000011920928955
+      },
+      "ownRole": "Hacker",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 206,
+        "figureMounts": 7,
+        "poseUpdates": 584,
+        "headUpdates": 531,
+        "environmentInsertions": 425,
+        "attributes": 58790,
+        "largestSampleBytes": 149677
+      },
+      "captionBoxes": [],
+      "sha256": "e9fe4fa3115be145cea665da10c9ec5d7377acde7fa0ceca8595fd1060409e43",
+      "bytes": 22402
+    },
+    {
+      "file": "hosted/390x844-alien-full-page.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-27",
+        "endsAt": 1794168794350
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168769451.45,
+        "uncertaintyMs": 0.050000011920928955
+      },
+      "ownRole": "Alien",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 120,
+        "figureMounts": 10,
+        "poseUpdates": 381,
+        "headUpdates": 326,
+        "environmentInsertions": 218,
+        "attributes": 31007,
+        "largestSampleBytes": 115930
+      },
+      "captionBoxes": [
+        {
+          "font": "13px",
+          "left": 11.984375,
+          "top": 25.198328018188477,
+          "right": 121.28417205810547,
+          "bottom": 69.97651100158691
+        },
+        {
+          "font": "13px",
+          "left": 11.38814640045166,
+          "top": 301.046875,
+          "right": 129.2698221206665,
+          "bottom": 345.383544921875
+        }
+      ],
+      "sha256": "f8b712560e62aec0726af783eefa6f7ebb720fd6498dc4457da20e370b2230e5",
+      "bytes": 43431
+    },
+    {
+      "file": "hosted/390x844-alien-full-title.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-27",
+        "endsAt": 1794168794350
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168773014.45,
+        "uncertaintyMs": 0.04999995231628418
+      },
+      "ownRole": "Alien",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 205,
+        "figureMounts": 11,
+        "poseUpdates": 977,
+        "headUpdates": 921,
+        "environmentInsertions": 735,
+        "attributes": 56936,
+        "largestSampleBytes": 146847
+      },
+      "captionBoxes": [],
+      "sha256": "7450983301942bafbb4bc5522f6d7d575f7d5ef0309494e8e06f6005443012f3",
+      "bytes": 20001
+    },
+    {
+      "file": "hosted/390x844-boarding-7-full.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "boarding",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-boarding-28",
+        "startedAt": 1794168765520,
+        "endsAt": 1794168775520
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168773291.55,
+        "uncertaintyMs": 0.050000011920928955
+      },
+      "ownRole": null,
+      "ownSeat": null,
+      "film": "boarding",
+      "stats": {
+        "samples": 6,
+        "figureMounts": 7,
+        "poseUpdates": 42,
+        "headUpdates": 35,
+        "environmentInsertions": 19,
+        "attributes": 1063,
+        "largestSampleBytes": 21216
+      },
+      "captionBoxes": [],
+      "sha256": "cab6f8ebc9d075e94c916f1a60ac22fb24c3cbf8060d5ccc6944d29bc4100df1",
+      "bytes": 46902
+    },
+    {
+      "file": "hosted/390x844-boarding-8-full.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "boarding",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-boarding-29",
+        "startedAt": 1794168765795,
+        "endsAt": 1794168775795
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168773577.4001,
+        "uncertaintyMs": 0
+      },
+      "ownRole": null,
+      "ownSeat": null,
+      "film": "boarding",
+      "stats": {
+        "samples": 7,
+        "figureMounts": 8,
+        "poseUpdates": 56,
+        "headUpdates": 48,
+        "environmentInsertions": 19,
+        "attributes": 1259,
+        "largestSampleBytes": 22446
+      },
+      "captionBoxes": [],
+      "sha256": "6778bebf25a8e673dcfd8bb35bd20ddf637e74136631f5961818f61ad7943f4d",
+      "bytes": 51965
+    },
+    {
+      "file": "hosted/390x844-boarding-9-full.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "boarding",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-boarding-30",
+        "startedAt": 1794168766081,
+        "endsAt": 1794168776081
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168773858.25,
+        "uncertaintyMs": 0.050000011920928955
+      },
+      "ownRole": null,
+      "ownSeat": null,
+      "film": "boarding",
+      "stats": {
+        "samples": 6,
+        "figureMounts": 9,
+        "poseUpdates": 54,
+        "headUpdates": 45,
+        "environmentInsertions": 19,
+        "attributes": 1070,
+        "largestSampleBytes": 23714
+      },
+      "captionBoxes": [],
+      "sha256": "6fd2f7d602786e4ebbce3fd777b240415d510ac54f2e44e3beee23d60de6c96f",
+      "bytes": 52879
+    },
+    {
+      "file": "hosted/390x844-brand-full.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": null,
+      "setupFlowVersion": null,
+      "setup": null,
+      "clock": {
+        "status": "unsynced"
+      },
+      "ownRole": null,
+      "ownSeat": null,
+      "film": "brand",
+      "stats": {
+        "samples": 28,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 22,
+        "attributes": 92,
+        "largestSampleBytes": 5208
+      },
+      "captionBoxes": [],
+      "sha256": "1a3156b8e3677af23c1b1478dbf5abee189dbbfa22071b7383895fd5368299cc",
+      "bytes": 10499
+    },
+    {
+      "file": "hosted/390x844-doctor-reduced-page.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-32",
+        "endsAt": 1794168805027
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168780101.75,
+        "uncertaintyMs": 0.04999995231628418
+      },
+      "ownRole": "Doctor",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 2,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": [
+        {
+          "font": "13px",
+          "left": 25.546875,
+          "top": 56.125732421875,
+          "right": 156.53016662597656,
+          "bottom": 101.32025909423828
+        },
+        {
+          "font": "13px",
+          "left": 25.15920639038086,
+          "top": 312.109375,
+          "right": 149.48791122436523,
+          "bottom": 341.6029357910156
+        }
+      ],
+      "sha256": "7d04424bd26f1391620c5093398c54d425a7055f70b038962aa3da33dc0c1d5f",
+      "bytes": 69829
+    },
+    {
+      "file": "hosted/390x844-doctor-reduced-title.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-32",
+        "endsAt": 1794168805027
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168783644.55,
+        "uncertaintyMs": 0.04999995231628418
+      },
+      "ownRole": "Doctor",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 3,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": [],
+      "sha256": "9f5b7749b860fa315e376f6603f06859506482ddcc93565e4c187e428583b8af",
+      "bytes": 23399
+    },
+    {
+      "file": "hosted/390x844-insider-reduced-page.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-33",
+        "endsAt": 1794168813649
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168788721.45,
+        "uncertaintyMs": 0.04999995231628418
+      },
+      "ownRole": "Insider",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 2,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": [
+        {
+          "font": "13px",
+          "left": 25.546875,
+          "top": 56.46738815307617,
+          "right": 138.736572265625,
+          "bottom": 101.32025909423828
+        },
+        {
+          "font": "13px",
+          "left": 24.950645446777344,
+          "top": 312.109375,
+          "right": 128.9586639404297,
+          "bottom": 356.2523193359375
+        }
+      ],
+      "sha256": "7b2d36a3b4c5d5f885055855771ab4bbbdbccc85dd979d863ed6d3af17857f90",
+      "bytes": 79078
+    },
+    {
+      "file": "hosted/390x844-insider-reduced-title.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-33",
+        "endsAt": 1794168813649
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168792266.9001,
+        "uncertaintyMs": 0
+      },
+      "ownRole": "Insider",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 3,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": [],
+      "sha256": "b94fdb9196a32806939a36c3473ee27c1ba7ac298af3eb6c002b4e20381943c1",
+      "bytes": 23768
+    },
+    {
+      "file": "hosted/390x844-blue-disabler-reduced-page.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-34",
+        "endsAt": 1794168822275
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168797349.7,
+        "uncertaintyMs": 0
+      },
+      "ownRole": "Blue Disabler",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 2,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": [
+        {
+          "font": "13px",
+          "left": 25.546875,
+          "top": 56.22291946411133,
+          "right": 151.46861267089844,
+          "bottom": 101.32025909423828
+        },
+        {
+          "font": "13px",
+          "left": 25.15920639038086,
+          "top": 312.109375,
+          "right": 126.06832504272461,
+          "bottom": 341.27593994140625
+        }
+      ],
+      "sha256": "662a9398f6fea5094e9f46d309aa33c47cd1cfd212aafacdfc741bcaf5fba570",
+      "bytes": 55891
+    },
+    {
+      "file": "hosted/390x844-blue-disabler-reduced-title.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-34",
+        "endsAt": 1794168822275
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168800899.7,
+        "uncertaintyMs": 0
+      },
+      "ownRole": "Blue Disabler",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 3,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": [],
+      "sha256": "9306c2627284047333e239f79ec64bcea1b2b64738483dc59f9a9300e6f3dc07",
+      "bytes": 19426
+    },
+    {
+      "file": "hosted/390x844-red-disabler-reduced-page.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-35",
+        "endsAt": 1794168830908
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168805986.35,
+        "uncertaintyMs": 0.04999995231628418
+      },
+      "ownRole": "Red Disabler",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 2,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": [
+        {
+          "font": "13px",
+          "left": 25.546875,
+          "top": 56.22291946411133,
+          "right": 151.46861267089844,
+          "bottom": 101.32025909423828
+        },
+        {
+          "font": "13px",
+          "left": 25.15920639038086,
+          "top": 312.109375,
+          "right": 126.06832504272461,
+          "bottom": 341.27593994140625
+        }
+      ],
+      "sha256": "662a9398f6fea5094e9f46d309aa33c47cd1cfd212aafacdfc741bcaf5fba570",
+      "bytes": 55891
+    },
+    {
+      "file": "hosted/390x844-red-disabler-reduced-title.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-35",
+        "endsAt": 1794168830908
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168809530.4502,
+        "uncertaintyMs": 0.050000011920928955
+      },
+      "ownRole": "Red Disabler",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 3,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": [],
+      "sha256": "86b59be5590ee069fdd6088dd11a8e198083d7f5aa7aff95e31bdaabffcfe1d1",
+      "bytes": 19759
+    },
+    {
+      "file": "hosted/390x844-supplier-reduced-page.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-36",
+        "endsAt": 1794168839538
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168814622.45,
+        "uncertaintyMs": 0.050000011920928955
+      },
+      "ownRole": "Supplier",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 2,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": [
+        {
+          "font": "13px",
+          "left": 25.546875,
+          "top": 55.96825408935547,
+          "right": 164.4450225830078,
+          "bottom": 86.38550567626953
+        },
+        {
+          "font": "13px",
+          "left": 24.950645446777344,
+          "top": 312.109375,
+          "right": 143.03541564941406,
+          "bottom": 356.4488830566406
+        }
+      ],
+      "sha256": "fa3cf6813282fa44572dbc22e199776391a1dec4340ea02926340eae1b0632a3",
+      "bytes": 65172
+    },
+    {
+      "file": "hosted/390x844-supplier-reduced-title.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-36",
+        "endsAt": 1794168839538
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168818166,
+        "uncertaintyMs": 0
+      },
+      "ownRole": "Supplier",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 3,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": [],
+      "sha256": "ccc55f7e92046b550d62423ac691b227d601ec3a732b98487c7930eab23e062e",
+      "bytes": 22744
+    },
+    {
+      "file": "hosted/390x844-engineer-reduced-page.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-37",
+        "endsAt": 1794168848175
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168823251.75,
+        "uncertaintyMs": 0.04999995231628418
+      },
+      "ownRole": "Engineer",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 2,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": [
+        {
+          "font": "13px",
+          "left": 25.546875,
+          "top": 56.22801971435547,
+          "right": 150.91627502441406,
+          "bottom": 86.38550567626953
+        },
+        {
+          "font": "13px",
+          "left": 24.950645446777344,
+          "top": 312.109375,
+          "right": 120.17827606201172,
+          "bottom": 356.1297302246094
+        }
+      ],
+      "sha256": "e170167db7fe77d8dd180c866aff3a81678709668616ebf39de85641d284d860",
+      "bytes": 62612
+    },
+    {
+      "file": "hosted/390x844-engineer-reduced-title.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-37",
+        "endsAt": 1794168848175
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168826797.1,
+        "uncertaintyMs": 0
+      },
+      "ownRole": "Engineer",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 3,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": [],
+      "sha256": "d4b63577cb51872f14bbb1b8b10cb07c582c705ae6f3f0d6089e109ab7d70149",
+      "bytes": 22502
+    },
+    {
+      "file": "hosted/390x844-undercover-reduced-page.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-38",
+        "endsAt": 1794168856806
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168831885.75,
+        "uncertaintyMs": 0.050000011920928955
+      },
+      "ownRole": "Undercover",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 2,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": [
+        {
+          "font": "13px",
+          "left": 25.546875,
+          "top": 56.561275482177734,
+          "right": 133.8468475341797,
+          "bottom": 101.32025909423828
+        },
+        {
+          "font": "13px",
+          "left": 24.950645446777344,
+          "top": 312.109375,
+          "right": 102.60186004638672,
+          "bottom": 355.8843078613281
+        }
+      ],
+      "sha256": "681f3fca450c78ccd922afb31ef6aa961d7d2bd42aad12123ad9cdd0183674ce",
+      "bytes": 62204
+    },
+    {
+      "file": "hosted/390x844-undercover-reduced-title.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-38",
+        "endsAt": 1794168856806
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168835427.8499,
+        "uncertaintyMs": 0.050000011920928955
+      },
+      "ownRole": "Undercover",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 3,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": [],
+      "sha256": "6a3d8e0aaec74cdb390f565868c3441e10c79ce2f4ef36b08c882c96ff181bbf",
+      "bytes": 21566
+    },
+    {
+      "file": "hosted/390x844-hacker-reduced-page.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-39",
+        "endsAt": 1794168865438
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168840516.6,
+        "uncertaintyMs": 0.10000002384185791
+      },
+      "ownRole": "Hacker",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 2,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": [
+        {
+          "font": "13px",
+          "left": 25.546875,
+          "top": 56.49678421020508,
+          "right": 137.2056121826172,
+          "bottom": 101.32025909423828
+        },
+        {
+          "font": "13px",
+          "left": 25.15920639038086,
+          "top": 312.109375,
+          "right": 149.20669174194336,
+          "bottom": 341.5990295410156
+        }
+      ],
+      "sha256": "444c9f0acf2658d436f60d439d97df847e366353c1d3a309580357556d913f97",
+      "bytes": 60891
+    },
+    {
+      "file": "hosted/390x844-hacker-reduced-title.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-39",
+        "endsAt": 1794168865438
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168844062.9001,
+        "uncertaintyMs": 0.09999996423721313
+      },
+      "ownRole": "Hacker",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 3,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": [],
+      "sha256": "682a3fdc6708e736ef3732df8ac1dce1f907e643f7706e34c2ac52aff6de18de",
+      "bytes": 22500
+    },
+    {
+      "file": "hosted/390x844-alien-reduced-page.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-40",
+        "endsAt": 1794168874073
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168849133.9502,
+        "uncertaintyMs": 0.050000011920928955
+      },
+      "ownRole": "Alien",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 2,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": [
+        {
+          "font": "13px",
+          "left": 25.546875,
+          "top": 56.542076110839844,
+          "right": 134.84666442871094,
+          "bottom": 101.32025909423828
+        },
+        {
+          "font": "13px",
+          "left": 24.950645446777344,
+          "top": 312.109375,
+          "right": 142.8323211669922,
+          "bottom": 356.446044921875
+        }
+      ],
+      "sha256": "fb901622edde1b47cfb93402147ef6bd172eec0024c7e21ee6842901e53fa20f",
+      "bytes": 57833
+    },
+    {
+      "file": "hosted/390x844-alien-reduced-title.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-40",
+        "endsAt": 1794168874073
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168852678.05,
+        "uncertaintyMs": 0.050000011920928955
+      },
+      "ownRole": "Alien",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 3,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": [],
+      "sha256": "aaaa20e71362e4854c07c3c963c9b563a8f1e971661b2d30181ffe6e2357e612",
+      "bytes": 20045
+    },
+    {
+      "file": "hosted/390x844-boarding-7-reduced.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "boarding",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-boarding-41",
+        "startedAt": 1794168845188,
+        "endsAt": 1794168855188
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168852973.7,
+        "uncertaintyMs": 0
+      },
+      "ownRole": null,
+      "ownSeat": null,
+      "film": "boarding",
+      "stats": {
+        "samples": 1,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": [],
+      "sha256": "6ce277b8c3bd3f7b21945a44b23264d1ac2d6a5714f40bd9b59edf3e6f2fc725",
+      "bytes": 63467
+    },
+    {
+      "file": "hosted/390x844-boarding-8-reduced.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "boarding",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-boarding-42",
+        "startedAt": 1794168845478,
+        "endsAt": 1794168855478
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168853272.3,
+        "uncertaintyMs": 0
+      },
+      "ownRole": null,
+      "ownSeat": null,
+      "film": "boarding",
+      "stats": {
+        "samples": 1,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": [],
+      "sha256": "0327f06ec78f08750f64f24504db388c32d9e71394279d1a03b74014fd797f2f",
+      "bytes": 69785
+    },
+    {
+      "file": "hosted/390x844-boarding-9-reduced.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": "boarding",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-boarding-43",
+        "startedAt": 1794168845776,
+        "endsAt": 1794168855776
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168853557.5999,
+        "uncertaintyMs": 0
+      },
+      "ownRole": null,
+      "ownSeat": null,
+      "film": "boarding",
+      "stats": {
+        "samples": 1,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": [],
+      "sha256": "efbb9200fb57d3a46b77ed591a9558d18d6288cc2783ed404dac8b0d3f7aabae",
+      "bytes": 71665
+    },
+    {
+      "file": "hosted/390x844-brand-reduced.jpg",
+      "viewport": [
+        390,
+        844
+      ],
+      "status": null,
+      "setupFlowVersion": null,
+      "setup": null,
+      "clock": {
+        "status": "unsynced"
+      },
+      "ownRole": null,
+      "ownSeat": null,
+      "film": "brand",
+      "stats": {
+        "samples": 28,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 5,
+        "largestSampleBytes": 6066
+      },
+      "captionBoxes": [],
+      "sha256": "2cabc79675336ddaf472885b67969e7f46fc143516698cce18789705e010b8c9",
+      "bytes": 11189
+    },
+    {
+      "file": "hosted/430x932-doctor-full-page.jpg",
+      "viewport": [
+        430,
+        932
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-45",
+        "endsAt": 1794168884708
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168859819.7,
+        "uncertaintyMs": 0
+      },
+      "ownRole": "Doctor",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 121,
+        "figureMounts": 3,
+        "poseUpdates": 171,
+        "headUpdates": 113,
+        "environmentInsertions": 190,
+        "attributes": 45165,
+        "largestSampleBytes": 206202
+      },
+      "captionBoxes": [
+        {
+          "font": "13px",
+          "left": 12.328125,
+          "top": 26.735107421875,
+          "right": 143.31141662597656,
+          "bottom": 71.92963409423828
+        },
+        {
+          "font": "13px",
+          "left": 11.94045639038086,
+          "top": 331.53125,
+          "right": 136.26916122436523,
+          "bottom": 361.0248107910156
+        }
+      ],
+      "sha256": "3ab3c55429ac73e24d37b1dfec2087492a8258c53d0c67b7072c9f90bf309f39",
+      "bytes": 60467
+    },
+    {
+      "file": "hosted/430x932-doctor-full-title.jpg",
+      "viewport": [
+        430,
+        932
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-45",
+        "endsAt": 1794168884708
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168863405.95,
+        "uncertaintyMs": 0.050000011920928955
+      },
+      "ownRole": "Doctor",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 206,
+        "figureMounts": 5,
+        "poseUpdates": 404,
+        "headUpdates": 328,
+        "environmentInsertions": 408,
+        "attributes": 111105,
+        "largestSampleBytes": 255109
+      },
+      "captionBoxes": [],
+      "sha256": "c48ed5942c01dca18b082fa5f706959dd59655afa5013f6a1b045b2ac9d811df",
+      "bytes": 26122
+    },
+    {
+      "file": "hosted/430x932-boarding-7-full.jpg",
+      "viewport": [
+        430,
+        932
+      ],
+      "status": "boarding",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-boarding-46",
+        "startedAt": 1794168855910,
+        "endsAt": 1794168865910
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168863689.3,
+        "uncertaintyMs": 0
+      },
+      "ownRole": null,
+      "ownSeat": null,
+      "film": "boarding",
+      "stats": {
+        "samples": 7,
+        "figureMounts": 7,
+        "poseUpdates": 49,
+        "headUpdates": 42,
+        "environmentInsertions": 20,
+        "attributes": 1301,
+        "largestSampleBytes": 21290
+      },
+      "captionBoxes": [],
+      "sha256": "58e5452a59bdc94d34f3115e8d244c2c643e5b127afe203e63af79388b0ffd91",
+      "bytes": 53946
+    },
+    {
+      "file": "hosted/430x932-boarding-8-full.jpg",
+      "viewport": [
+        430,
+        932
+      ],
+      "status": "boarding",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-boarding-47",
+        "startedAt": 1794168856192,
+        "endsAt": 1794168866192
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168863974.2,
+        "uncertaintyMs": 0
+      },
+      "ownRole": null,
+      "ownSeat": null,
+      "film": "boarding",
+      "stats": {
+        "samples": 7,
+        "figureMounts": 8,
+        "poseUpdates": 56,
+        "headUpdates": 48,
+        "environmentInsertions": 20,
+        "attributes": 1307,
+        "largestSampleBytes": 22506
+      },
+      "captionBoxes": [],
+      "sha256": "d34b698346dd669595447acad5287a38b029a72a44f6bdfd0b1ef733d3ce832d",
+      "bytes": 59973
+    },
+    {
+      "file": "hosted/430x932-boarding-9-full.jpg",
+      "viewport": [
+        430,
+        932
+      ],
+      "status": "boarding",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-boarding-48",
+        "startedAt": 1794168856479,
+        "endsAt": 1794168866479
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168864275.1,
+        "uncertaintyMs": 0
+      },
+      "ownRole": null,
+      "ownSeat": null,
+      "film": "boarding",
+      "stats": {
+        "samples": 7,
+        "figureMounts": 9,
+        "poseUpdates": 63,
+        "headUpdates": 54,
+        "environmentInsertions": 20,
+        "attributes": 1278,
+        "largestSampleBytes": 23710
+      },
+      "captionBoxes": [],
+      "sha256": "a62f01cb27f3d7e32a0914c462f5429c0913eb80dffb83a623e903ad7eb1d5c5",
+      "bytes": 60294
+    },
+    {
+      "file": "hosted/430x932-brand-full.jpg",
+      "viewport": [
+        430,
+        932
+      ],
+      "status": null,
+      "setupFlowVersion": null,
+      "setup": null,
+      "clock": {
+        "status": "unsynced"
+      },
+      "ownRole": null,
+      "ownSeat": null,
+      "film": "brand",
+      "stats": {
+        "samples": 28,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 20,
+        "attributes": 74,
+        "largestSampleBytes": 4726
+      },
+      "captionBoxes": [],
+      "sha256": "bbff0f7462ce13d334419bc12a733dc1b42c107ed00a4a574f7e53151838d66e",
+      "bytes": 11589
+    },
+    {
+      "file": "hosted/430x932-doctor-reduced-page.jpg",
+      "viewport": [
+        430,
+        932
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-50",
+        "endsAt": 1794168895424
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168870499.95,
+        "uncertaintyMs": 0.050000011920928955
+      },
+      "ownRole": "Doctor",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 2,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": [
+        {
+          "font": "13px",
+          "left": 27.34375,
+          "top": 61.406982421875,
+          "right": 158.32704162597656,
+          "bottom": 106.60150909423828
+        },
+        {
+          "font": "13px",
+          "left": 26.95608139038086,
+          "top": 343.828125,
+          "right": 151.28478622436523,
+          "bottom": 373.3216857910156
+        }
+      ],
+      "sha256": "ebd7009f9a845d26e4fd2732d8e945c3bbb3a57cae31b336648177601c772304",
+      "bytes": 79703
+    },
+    {
+      "file": "hosted/430x932-doctor-reduced-title.jpg",
+      "viewport": [
+        430,
+        932
+      ],
+      "status": "reading",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-reading-50",
+        "endsAt": 1794168895424
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168874039.75,
+        "uncertaintyMs": 0.050000011920928955
+      },
+      "ownRole": "Doctor",
+      "ownSeat": "seat-6",
+      "film": "role",
+      "stats": {
+        "samples": 3,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": [],
+      "sha256": "b08cf8647786748a92bc87fe267109d326c05fe007171020104e98f7d8c27a85",
+      "bytes": 26017
+    },
+    {
+      "file": "hosted/430x932-boarding-7-reduced.jpg",
+      "viewport": [
+        430,
+        932
+      ],
+      "status": "boarding",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-boarding-51",
+        "startedAt": 1794168866544,
+        "endsAt": 1794168876544
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168874305.1,
+        "uncertaintyMs": 0
+      },
+      "ownRole": null,
+      "ownSeat": null,
+      "film": "boarding",
+      "stats": {
+        "samples": 1,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": [],
+      "sha256": "df3703ea1fce4e62ecaf2c24e748e8fd107ddf5f8ec71f23cebf436cfb6afeaf",
+      "bytes": 73089
+    },
+    {
+      "file": "hosted/430x932-boarding-8-reduced.jpg",
+      "viewport": [
+        430,
+        932
+      ],
+      "status": "boarding",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-boarding-52",
+        "startedAt": 1794168866809,
+        "endsAt": 1794168876809
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168874571.8,
+        "uncertaintyMs": 0
+      },
+      "ownRole": null,
+      "ownSeat": null,
+      "film": "boarding",
+      "stats": {
+        "samples": 1,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": [],
+      "sha256": "ba97ce367487ac7eeca4136f0bbf529c2cc53380760aa79070a91cac5ed3d529",
+      "bytes": 80218
+    },
+    {
+      "file": "hosted/430x932-boarding-9-reduced.jpg",
+      "viewport": [
+        430,
+        932
+      ],
+      "status": "boarding",
+      "setupFlowVersion": 2,
+      "setup": {
+        "id": "synthetic-boarding-53",
+        "startedAt": 1794168867076,
+        "endsAt": 1794168877076
+      },
+      "clock": {
+        "status": "synced",
+        "serverNowMs": 1794168874854.05,
+        "uncertaintyMs": 0.050000011920928955
+      },
+      "ownRole": null,
+      "ownSeat": null,
+      "film": "boarding",
+      "stats": {
+        "samples": 1,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 0,
+        "largestSampleBytes": 0
+      },
+      "captionBoxes": [],
+      "sha256": "2c4ac216b4b9f79f4f0732bb5cef421ec04c4c76c52f255f3ed01da1719dc3d7",
+      "bytes": 82788
+    },
+    {
+      "file": "hosted/430x932-brand-reduced.jpg",
+      "viewport": [
+        430,
+        932
+      ],
+      "status": null,
+      "setupFlowVersion": null,
+      "setup": null,
+      "clock": {
+        "status": "unsynced"
+      },
+      "ownRole": null,
+      "ownSeat": null,
+      "film": "brand",
+      "stats": {
+        "samples": 28,
+        "figureMounts": 0,
+        "poseUpdates": 0,
+        "headUpdates": 0,
+        "environmentInsertions": 0,
+        "attributes": 5,
+        "largestSampleBytes": 6078
+      },
+      "captionBoxes": [],
+      "sha256": "46e0e3c973202dc91b0b3b70a4755cd047f7e7a30f866d061f1367cae2c60d9d",
+      "bytes": 12680
+    }
+  ],
+  "videos": [
+    {
+      "file": "hosted/brand-full.mp4",
+      "sampledFrames": 18,
+      "recordingWallMs": 2406,
+      "provenance": "Actual hosted consumer with synthetic transport; sampled VFR screencast, not app/device FPS",
+      "sha256": "37a7be5fc699f8545e6f99ce96938b0a29954cc684b04f329a84363fb1cd7f5e",
+      "bytes": 10492,
+      "probe": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_type": "video",
+            "width": 390,
+            "height": 844,
+            "nb_read_frames": "18"
+          }
+        ],
+        "format": {
+          "duration": "2.000000"
+        }
+      }
+    },
+    {
+      "file": "hosted/doctor-full.mp4",
+      "sampledFrames": 136,
+      "recordingWallMs": 10525,
+      "provenance": "Actual hosted consumer with synthetic transport; sampled VFR screencast, not app/device FPS",
+      "sha256": "3fc19cefa751b0671e91dd66b23f6f98d7cdd1cf1a186250f3ae1b57b5aed131",
+      "bytes": 791027,
+      "probe": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_type": "video",
+            "width": 390,
+            "height": 844,
+            "nb_read_frames": "136"
+          }
+        ],
+        "format": {
+          "duration": "10.040000"
+        }
+      }
+    },
+    {
+      "file": "hosted/boarding-full.mp4",
+      "sampledFrames": 120,
+      "recordingWallMs": 10650,
+      "provenance": "Actual hosted consumer with synthetic transport; sampled VFR screencast, not app/device FPS",
+      "sha256": "a8b7d980eeecda4fa7b434914de815dbb902a7fc900941ac9a95693106150255",
+      "bytes": 1493447,
+      "probe": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_type": "video",
+            "width": 390,
+            "height": 844,
+            "nb_read_frames": "120"
+          }
+        ],
+        "format": {
+          "duration": "9.840000"
+        }
+      }
+    },
+    {
+      "file": "hosted/brand-reduced.mp4",
+      "sampledFrames": 8,
+      "recordingWallMs": 2286,
+      "provenance": "Actual hosted consumer with synthetic transport; sampled VFR screencast, not app/device FPS",
+      "sha256": "c76eb1de5e400de44a009ca66d13cf7773e094bbf073108154606e572a4b764e",
+      "bytes": 10495,
+      "probe": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_type": "video",
+            "width": 390,
+            "height": 844,
+            "nb_read_frames": "8"
+          }
+        ],
+        "format": {
+          "duration": "1.920000"
+        }
+      }
+    },
+    {
+      "file": "hosted/doctor-reduced.mp4",
+      "sampledFrames": 27,
+      "recordingWallMs": 10327,
+      "provenance": "Actual hosted consumer with synthetic transport; sampled VFR screencast, not app/device FPS",
+      "sha256": "0645bdf08f07061698a14e74e4c995e76830683ae3cb1c820a246a6f9d1bdc02",
+      "bytes": 207395,
+      "probe": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_type": "video",
+            "width": 390,
+            "height": 844,
+            "nb_read_frames": "27"
+          }
+        ],
+        "format": {
+          "duration": "9.320000"
+        }
+      }
+    },
+    {
+      "file": "hosted/boarding-reduced.mp4",
+      "sampledFrames": 37,
+      "recordingWallMs": 10441,
+      "provenance": "Actual hosted consumer with synthetic transport; sampled VFR screencast, not app/device FPS",
+      "sha256": "bd12ecf721346cefabf90f35582a563bbf8ff61f164b1ab0b3b211064b71e984",
+      "bytes": 441687,
+      "probe": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_type": "video",
+            "width": 390,
+            "height": 844,
+            "nb_read_frames": "37"
+          }
+        ],
+        "format": {
+          "duration": "9.960000"
+        }
+      }
+    }
+  ],
+  "uniform": [
+    {
+      "role": "doctor",
+      "paths": [
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/boarding/boarding.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/boarding/clock.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/boarding/roster.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/brand/brand.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/kit/cast.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/kit/fx.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/kit/letters.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/kit/math.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/alien.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/briefing.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/clock.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/common.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/disabler.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/doctor.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/engineer.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/film.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/hacker.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/insider.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/page.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/roles.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/supplier.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/undercover.mjs",
+        "/art/abilities.art.f7ff31a86d.css",
+        "/art/board-v2-films.art.9e6abdef0f.css",
+        "/art/board-v2-motion.art.7793869d6b.css",
+        "/art/board-v2.art.5dedbf2450.css",
+        "/art/crew-board-v2-films-art.b30ecdebc3.css",
+        "/art/crew-public-board.332a656b4b.css",
+        "/art/crew-roles.9bfc1dc3b2.css",
+        "/art/planet-library/end.art.717e2dcc59.css",
+        "/art/planet-library/hack-engineer.art.15e5c98ff2.css",
+        "/art/planet-library/hospital-panel.art.e6b5bddef6.css",
+        "/art/planet-library/navigation.art.b583b8bc4e.css",
+        "/art/planet-library/offices.art.6d780e7fff.css",
+        "/art/planet-library/promises.art.0298ebef8d.css",
+        "/art/planet-library/successor.art.676b8d3fd6.css",
+        "/art/planet-library/windows.art.767ae8ccdc.css",
+        "/art/player-ui.art.fc4830756c.css",
+        "/art/public-board.art.1f47b9f920.css",
+        "/art/roles.art.14e56b5e3e.css",
+        "/art/scenes.art.0ff8b3c930.css",
+        "/art/setup.art.f196649c9c.css"
+      ]
+    },
+    {
+      "role": "hacker",
+      "paths": [
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/boarding/boarding.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/boarding/clock.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/boarding/roster.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/brand/brand.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/kit/cast.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/kit/fx.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/kit/letters.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/kit/math.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/alien.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/briefing.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/clock.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/common.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/disabler.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/doctor.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/engineer.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/film.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/hacker.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/insider.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/page.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/roles.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/supplier.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/undercover.mjs",
+        "/art/abilities.art.f7ff31a86d.css",
+        "/art/board-v2-films.art.9e6abdef0f.css",
+        "/art/board-v2-motion.art.7793869d6b.css",
+        "/art/board-v2.art.5dedbf2450.css",
+        "/art/crew-board-v2-films-art.b30ecdebc3.css",
+        "/art/crew-public-board.332a656b4b.css",
+        "/art/crew-roles.9bfc1dc3b2.css",
+        "/art/planet-library/end.art.717e2dcc59.css",
+        "/art/planet-library/hack-engineer.art.15e5c98ff2.css",
+        "/art/planet-library/hospital-panel.art.e6b5bddef6.css",
+        "/art/planet-library/navigation.art.b583b8bc4e.css",
+        "/art/planet-library/offices.art.6d780e7fff.css",
+        "/art/planet-library/promises.art.0298ebef8d.css",
+        "/art/planet-library/successor.art.676b8d3fd6.css",
+        "/art/planet-library/windows.art.767ae8ccdc.css",
+        "/art/player-ui.art.fc4830756c.css",
+        "/art/public-board.art.1f47b9f920.css",
+        "/art/roles.art.14e56b5e3e.css",
+        "/art/scenes.art.0ff8b3c930.css",
+        "/art/setup.art.f196649c9c.css"
+      ]
+    },
+    {
+      "role": "alien",
+      "paths": [
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/boarding/boarding.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/boarding/clock.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/boarding/roster.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/brand/brand.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/kit/cast.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/kit/fx.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/kit/letters.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/kit/math.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/alien.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/briefing.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/clock.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/common.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/disabler.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/doctor.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/engineer.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/film.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/hacker.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/insider.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/page.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/roles.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/supplier.mjs",
+        "/@fs/private/tmp/gamen-frontend-pregame-runtime/apps/game/hosted/pregame-films/roles/undercover.mjs",
+        "/art/abilities.art.f7ff31a86d.css",
+        "/art/board-v2-films.art.9e6abdef0f.css",
+        "/art/board-v2-motion.art.7793869d6b.css",
+        "/art/board-v2.art.5dedbf2450.css",
+        "/art/crew-board-v2-films-art.b30ecdebc3.css",
+        "/art/crew-public-board.332a656b4b.css",
+        "/art/crew-roles.9bfc1dc3b2.css",
+        "/art/planet-library/end.art.717e2dcc59.css",
+        "/art/planet-library/hack-engineer.art.15e5c98ff2.css",
+        "/art/planet-library/hospital-panel.art.e6b5bddef6.css",
+        "/art/planet-library/navigation.art.b583b8bc4e.css",
+        "/art/planet-library/offices.art.6d780e7fff.css",
+        "/art/planet-library/promises.art.0298ebef8d.css",
+        "/art/planet-library/successor.art.676b8d3fd6.css",
+        "/art/planet-library/windows.art.767ae8ccdc.css",
+        "/art/player-ui.art.fc4830756c.css",
+        "/art/public-board.art.1f47b9f920.css",
+        "/art/roles.art.14e56b5e3e.css",
+        "/art/scenes.art.0ff8b3c930.css",
+        "/art/setup.art.f196649c9c.css"
+      ]
+    }
+  ],
+  "lastContextProblems": [],
+  "errorScope": "The original full visual run collected problems only from its last context. All-context-errors.json separately verifies all six lifecycle/uniform/asset-failure contexts; no whole-run zero-error claim is inferred from this original field."
+}

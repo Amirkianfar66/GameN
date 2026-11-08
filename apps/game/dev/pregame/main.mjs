@@ -3,6 +3,7 @@ globalThis[Symbol.for('mothership:dev-only')]=true;
 import {mountPlanetApp} from '../../hosted/planet/app.mjs';
 import {PREGAME_ROLE_IDS} from '@mothership/game';
 import {sessionScenario} from '../planet/scenarios.mjs';
+import {PlanetSessionSnapshotSchema} from '@mothership/contracts';
 
 const root=document.getElementById('planet-root');let app=null,value=null,uid='synthetic-pregame-owner',lost=false,denied=false,sequence=0;
 const requests=[];
@@ -25,21 +26,23 @@ async function startCase({kind='role',role='hacker',character='c8',count=9,reduc
  const own=value.members.find(m=>m.seatId===value.selfSeatId),other=value.members.find(m=>m.characterId===character),old=own.characterId;if(other)other.characterId=old;own.characterId=character;own.ready=false;
  value.privateRole={role:roleName,faction:roleName==='Alien'?'Alien':['Hacker','Undercover','Red Disabler'].includes(roleName)?'Red':'Blue',knowledge:{insiderSeatIds:roleName==='Insider'?['seat-1','seat-2','seat-5']:[],knownUndercoverSeatId:['Hacker','Red Disabler'].includes(roleName)?'seat-5':null,scanResults:[]}};
  if(kind==='boarding'){
-  value.status='boarding';value.privateRole=null;value.setup={id:`synthetic-boarding-${sequence}`,startedAt:Date.now()-elapsed,endsAt:Date.now()-elapsed+10000};for(const member of value.members)member.ready=true;
+  const startedAt=Date.now()-elapsed;value.status='boarding';value.privateRole=null;value.setup={id:`synthetic-boarding-${sequence}`,startedAt,endsAt:startedAt+10000};for(const member of value.members)member.ready=true;
   if(display)value.selfSeatId=null;
  }
  app=await mountPlanetApp(root,{connection:connection(),allowSynthetic:true});
- if(kind!=='brand')await app.session.operate({operation:'requestAdmission',roomCode:'PLANET',kind:display?'display':'player',displayName:'SYNTHETIC REVIEW'});
+ if(kind!=='brand')await app.session.operate({operation:'requestAdmission',roomCode:'PLANET',kind:display?'display':'player',displayName:'SYNTHETIC'});
  return {kind,role,character,count,reduced,textScale,display,provenance:'Synthetic transport through actual hosted app/session/presentation; no multiplayer/device acceptance'};
 }
 
 window.pregameHarness={startCase,get app(){return app},get value(){return value},requests,
+ diagnostic(){return {model:app.session.getModel(),validation:PlanetSessionSnapshotSchema.safeParse(value),body:document.body.textContent};},
  reveal(){document.getElementById('planet-role-reveal')?.click();},
  async refresh(){await app.session.refresh();},
+ async reloadApp({forgetSeen=false}={}){app.dispose();if(forgetSeen)sessionStorage.removeItem('mothership:planet:films-seen');app=await mountPlanetApp(root,{connection:connection(),allowSynthetic:true});},
  async revoke(){denied=true;await app.session.refresh();},
  async disconnect(){lost=true;await app.session.refresh();},
  async reconnect(){lost=false;await app.session.refresh();},
- async expire(){value.setup.startedAt=Date.now()-11000;value.setup.endsAt=value.setup.startedAt+10000;await app.session.refresh();},
+ async expire(){await new Promise(done=>setTimeout(done,Math.max(0,value.setup.endsAt-Date.now())+40));await app.session.refresh();},
  async serverRunning(){const s=sessionScenario(value.selfSeatId===null?'display':'board',{now:Date.now(),count:value.playerCount});s.matchId=value.matchId;s.versions=value.versions;s.setupFlowVersion=2;s.admission=value.admission;s.members=value.members;s.selfSeatId=value.selfSeatId;for(const view of [s.publicView,s.playerView])if(view){view.matchId=s.matchId;view.versions=s.versions;}value=s;await app.session.refresh();},
  setUid(next){uid=next;},
  dispose(){app?.dispose();app=null;},
