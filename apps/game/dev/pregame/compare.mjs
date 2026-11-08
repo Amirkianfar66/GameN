@@ -1,4 +1,5 @@
 // mothership:dev-only
+globalThis[Symbol.for('mothership:dev-only')]=true;
 import http from 'node:http';
 import {readFile,writeFile,mkdir} from 'node:fs/promises';
 import {resolve,extname} from 'node:path';
