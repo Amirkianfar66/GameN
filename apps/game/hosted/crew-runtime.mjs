@@ -9,16 +9,18 @@ import { applyCrewFrame, applyCrewPose, CANONICAL_PREFIX, crewArtDefs, crewFrame
 import { crewMotion, hairFollow, isStill } from './crew-drawing/motion.mjs';
 
 export const CREW_ART_VERSION = 'design-0.7.0';
+const crewDrawingReleases=new Set([CREW_ART_VERSION,'design-0.8.0']);
+const requestsCrewDrawing=versions=>crewDrawingReleases.has(versions?.assetManifestVersion);
 const managers = new WeakMap(), definitions = new WeakMap(), motionPreferences = new WeakMap();
 let rendererSequence = 0, definitionSequence = 0, externalSequence = 0;
 export const crewInstancePrefix = () => `crew-inline-${++externalSequence}`;
 export function hasCrewDrawing(versions) {
-  return versions?.assetManifestVersion === CREW_ART_VERSION
+  return requestsCrewDrawing(versions)
     && Object.entries(PLANET_GAME_PINS).every(([key, value]) => versions[key] === value);
 }
 export const crewForVersions = versions => hasCrewDrawing(versions) ? CREW : HISTORICAL_CREW;
 export function crewPortraitVariable(characterId, versions) {
-  if (!/^c[1-9]$/.test(characterId ?? '') || versions?.assetManifestVersion === CREW_ART_VERSION && !hasCrewDrawing(versions)) return 'none';
+  if (!/^c[1-9]$/.test(characterId ?? '') || requestsCrewDrawing(versions) && !hasCrewDrawing(versions)) return 'none';
   return `var(${hasCrewDrawing(versions) ? '--ms-asset-crew-portrait-' : '--ms-asset-piece-crew-card-'}${characterId}, none)`;
 }
 export function setCrewPictureSurface(root, versions) {
@@ -27,7 +29,7 @@ export function setCrewPictureSurface(root, versions) {
 }
 export function crewFigureSvg(characterId, skeleton, { versions = null, ...options } = {}) {
   const crew = crewForVersions(versions), draw = hasCrewDrawing(versions) ? dressedFigureSvg : historicalFigure;
-  if (versions?.assetManifestVersion === CREW_ART_VERSION && !hasCrewDrawing(versions)) return null;
+  if (requestsCrewDrawing(versions) && !hasCrewDrawing(versions)) return null;
   return crew[characterId] ? draw(crew[characterId], skeleton, options) : null;
 }
 export { outfitFor };
@@ -149,7 +151,7 @@ function createMounts(scope) {
 
 /** False leaves the historical caller's exact drawing path in control. */
 export function paintCrewFigure(scope, node, versions, characterId, skeleton, options = {}) {
-  if (!hasCrewDrawing(versions)) { disposeCrewMounts(scope); if (versions?.assetManifestVersion === CREW_ART_VERSION) { node.replaceChildren(); return true; } return false; }
+  if (!hasCrewDrawing(versions)) { disposeCrewMounts(scope); if (requestsCrewDrawing(versions)) { node.replaceChildren(); return true; } return false; }
   let manager = managers.get(scope);
   if (!manager) { manager = createMounts(scope); managers.set(scope, manager); }
   return manager.paint(node, characterId, skeleton, options);

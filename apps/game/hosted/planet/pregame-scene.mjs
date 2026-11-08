@@ -3,7 +3,7 @@ import {roleSvg} from '../pregame-films/roles/film.mjs';
 import {boardingSvg} from '../pregame-films/boarding/boarding.mjs';
 import {withRetainedFigures} from '../pregame-films/kit/cast.mjs';
 import {dressedFigureSvg} from '../crew-drawing/wardrobe.mjs';
-import {applyCrewPose,crewPoseFrame} from '../crew-drawing/mount.mjs';
+import {applyCrewFrame,crewFrame,applyCrewPose,crewPoseFrame} from '../crew-drawing/mount.mjs';
 
 let instance = 0;
 const NS='http://www.w3.org/2000/svg';
@@ -47,10 +47,10 @@ function reconcile(current,next,stats){
 export function createPregameScene(holder,{kind,options}){
  const document=holder.ownerDocument,win=document.defaultView,prefix=`pregame-${++instance}-`;
  const parser=new win.DOMParser(),figures=new WeakMap(),reducedLayers=new Map();
- const stats={samples:0,figureMounts:0,poseUpdates:0,environmentInsertions:0,attributes:0,largestSampleBytes:0};
- let svg=null,disposed=false,variant=null,size=null;
+ const stats={samples:0,figureMounts:0,poseUpdates:0,headUpdates:0,environmentInsertions:0,attributes:0,largestSampleBytes:0};
+ let svg=null,disposed=false,variant=null,size=null,reducedFinish=null;
  const parse=markup=>{const root=parser.parseFromString(markup,'image/svg+xml').documentElement;if(root.localName!=='svg')throw new Error('Film drawing failed');return root;};
- const clear=()=>{holder.replaceChildren();svg=null;reducedLayers.clear();};
+ const clear=()=>{holder.replaceChildren();svg=null;reducedFinish=null;reducedLayers.clear();};
  function reduced(t,o){
   const starts=kind==='role'?[0,3000,7800]:kind==='boarding'?[0,2400,5200,6900,8900]:[0];
   const fadeMs=kind==='role'?80:160;
@@ -63,7 +63,23 @@ export function createPregameScene(holder,{kind,options}){
     // Stable moment after the beat's fade. Brand is inexpensive and uses the full sampler below.
     const at=starts[i]+(kind==='role'?80:160);
     const markup=namespace(drawFilm(kind,at,o),`${prefix}still-${i}-`);
-    layer=document.createElement('div');layer.className='pregame-picture';layer.append(document.importNode(parse(markup),true));holder.append(layer);reducedLayers.set(i,layer);stats.samples++;
+    const drawing=parse(markup);
+    if(kind==='role'){
+     // Keep the reference's four finishing rectangles outside the crossfade, in the same SVG
+     // backdrop. Flattening two already-graded SVG images changes blend modes at the boundaries.
+     const children=[...drawing.children],finish=children.slice(-4);
+     if(finish.some(n=>n.localName!=='rect')||!finish[2].getAttribute('filter')?.includes('rf-fin-grain'))throw new Error('Unexpected pinned role finish');
+     if(!svg){
+      svg=document.createElementNS(NS,'svg');svg.setAttribute('viewBox',`0 0 ${o.width} ${o.height}`);svg.setAttribute('width',String(o.width));svg.setAttribute('height',String(o.height));
+      const night=document.createElementNS(NS,'rect');night.setAttribute('width',String(o.width));night.setAttribute('height',String(o.height));night.setAttribute('fill','#07090F');svg.append(night);
+      const refs=[...finish.map(n=>n.outerHTML).join('').matchAll(/url\(#([^)]+)\)/g)].map(m=>m[1]);
+      const definitions=refs.map(id=>drawing.querySelector(`[id="${id}"]`)?.outerHTML??'').join('');
+      const shared=parse(namespace(`<svg xmlns="${NS}"><defs>${definitions}</defs>${finish.map(n=>n.outerHTML).join('')}</svg>`,`${prefix}finish-`));
+      reducedFinish=document.createElementNS(NS,'g');reducedFinish.append(...[...shared.childNodes].map(n=>document.importNode(n,true)));svg.append(reducedFinish);holder.append(svg);
+     }
+     layer=document.createElementNS(NS,'g');layer.append(...children.slice(0,-4).map(n=>document.importNode(n,true)));svg.insertBefore(layer,reducedFinish);
+    }else{layer=document.createElement('div');layer.className='pregame-picture';layer.append(document.importNode(drawing,true));holder.append(layer);}
+    reducedLayers.set(i,layer);stats.samples++;
    }
    layer.style.opacity=String(i===selected?fade:1);
    if(kind==='boarding')layer.style.opacity=String(fade*(1-Math.min(1,Math.max(0,(t-9700)/260))));
@@ -85,15 +101,17 @@ export function createPregameScene(holder,{kind,options}){
     let target=svg.querySelector(`[data-pregame-figure="${id}"]`);if(!target)continue;
     const config={outfit:figure.outfit,prefix:prefix+figure.prefix,inline:true,live:true,motion:figure.motion};
     const signature=JSON.stringify([figure.sk,figure.motion,figure.outfit]);
+    const skeleton=JSON.stringify([figure.sk,figure.outfit]);
     let cached=figures.get(target);
     if(cached?.signature===signature)continue;
     const mount=()=>{const body=parse(dressedFigureSvg(figure.member,figure.sk,config));target.replaceChildren(...[...body.childNodes].map(n=>document.importNode(n,true)));stats.figureMounts++;};
     if(!cached){mount();cached={};}
+    else if(cached.skeleton===skeleton){applyCrewFrame(target,crewFrame(figure.member,figure.sk,figure.motion));stats.headUpdates++;}
     else if(applyCrewPose(target,crewPoseFrame(figure.member,figure.sk,config))<0){
      // A structural pose switch needs a fresh root so the crew renderer discards its cached bindings.
      const replacement=document.createElementNS(NS,'g');replacement.setAttribute('data-pregame-figure',id);target.replaceWith(replacement);target=replacement;mount();cached={};
     }
-    cached.signature=signature;figures.set(target,cached);stats.poseUpdates++;
+    cached.signature=signature;cached.skeleton=skeleton;figures.set(target,cached);stats.poseUpdates++;
    }
   },
   dispose(){disposed=true;clear();},
