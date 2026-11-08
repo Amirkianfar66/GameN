@@ -351,7 +351,7 @@ Requested:
 **Size.** The 25 pictures are 1.17 MB, 309 KB gzipped, against 261 KB (54 KB gzipped) for the pictures they replace.
 - They are trimmed from 3.99 MB (1.24 MB gzipped) by keeping only the outline points needed to stay within a quarter unit, so each picture draws the same: at most 1.8% of pixels differ, on outline edges, at twice their pixels in Chrome.
 - The films' code ports are 44, 51, 26 and 63 KB raw.
-- The Jail door overlay the film rewrites while the door slides is about 25 KB, against about 8 KB today.
+- The pieces the films write again on a changed frame grow. The Jail door overlay goes to about 25 KB while it slides (5 KB today), the airlock to 12 KB (5 KB) and the drone to 13 KB (3.5 KB).
 - Integration reports the bundles' sizes. Frontend measures decode, frame time and memory on a physical low-end Android phone and an iPhone. Until then, every performance figure stays unverified.
 
 Until then, every surface keeps drawing today's rooms and films. The release sits in `design/room-drawing/`, and the runtime does not import it.

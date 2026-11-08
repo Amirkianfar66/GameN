@@ -155,7 +155,10 @@ The rooms' 18 pictures are 275 KB gzipped and the capsule's 7 are 34 KB, about s
 
 The films' code ports are 44 KB (`captain-fx.mjs`), 51 KB (`jail-door-art.mjs`), 26 KB (`medical-fx.mjs`) and 63 KB (`medical-art.mjs`), raw.
 
-The Jail door overlay is about 20 KB at rest and 25 KB while sliding, against about 8 KB today. The film writes it whenever a frame changes it.
+A film writes each of its pieces again whenever a frame changes it. Against today's `board-v2-drawing/` modules:
+- the Jail door overlay is about 20 KB at rest and 25 KB while sliding, against 3 KB and 5 KB;
+- the EJECT airlock is about 12 KB, against 5 KB;
+- the drone is 13 KB, against 3.5 KB; a berth's monitor is at most 1.2 KB and its lamp 1.7 KB, against 0.9 KB and 0.5 KB.
 
 - **The bundles:** Integration builds them as data URIs and reports their sizes.
 - **On phones:** Frontend measures decode time, frame time and memory on a physical low-end Android phone and an iPhone, by the agreed protocol. That includes the door's frames.
