@@ -62,8 +62,13 @@ export function timer(seconds, { urgentAt = 10, ring = null } = {}) {
 /**
  * kind 'turn': who = {seat, name, character}, self flag; kind 'phase': icon + title; kind 'pair': two people.
  * round: number or null. seconds: the authoritative time left (or null).
+ * In a match (a bar with a round) the bar also holds Promises, after the name, and the settings menu (⋮),
+ * beside the clock (the owner, 9 November). A brief fixed presentation (a ring timer: the 5 s vote result,
+ * the 6 s Ship synchronized) has no time for Promises, so it keeps only ⋮.
+ * promises: false | { badge, go, disabled }; menu: false | { go }; open: 'promises' | 'menu' | null, the one
+ * whose sheet is showing.
  */
-export function topBar({ kind = 'turn', who = null, self = false, pair = null, icon = 'hourglass', title = '', sub = '', round = null, seconds = null, tone = null, urgentAt = 10, ring = null }) {
+export function topBar({ kind = 'turn', who = null, self = false, pair = null, icon = 'hourglass', title = '', sub = '', round = null, seconds = null, tone = null, urgentAt = 10, ring = null, promises = null, menu = null, open = null }) {
   let left;
   if (kind === 'turn' && who) {
     left = h('div.tb-who', pt(who.character, 36, ''), h('div.tb-lines',
@@ -76,18 +81,27 @@ export function topBar({ kind = 'turn', who = null, self = false, pair = null, i
     left = h('div.tb-who', h('span.tb-glyph', { 'data-tone': tone }, ic(icon, { filled: true })), h('div.tb-lines',
       h('span.tb-name', title), sub ? h('span.tb-sub', sub) : null));
   }
-  return h('header.tb', { 'data-tone': tone, 'aria-label': 'Match status' }, left,
-    h('div.tb-right', round !== null ? h('span.tb-round', { 'aria-label': `Round ${round}` }, `R${round}`) : null, timer(seconds, { urgentAt, ring })));
+  const inMatch = round !== null;
+  const pr = promises === false || ((!inMatch || ring !== null) && !promises) ? null : { go: 's=promises&state=list', ...(promises ?? {}) };
+  const mn = menu === false || (!inMatch && !menu) ? null : { go: 's=settings', ...(menu ?? {}) };
+  const divider = () => h('span.tb-div', { 'aria-hidden': 'true' });
+  return h('header.tb', { 'data-tone': tone, 'data-kind': kind === 'turn' && who ? 'turn' : kind === 'pair' && pair ? 'pair' : 'phase', 'aria-label': 'Match status' }, left,
+    pr ? [divider(), h('button.tb-promises', {
+      type: 'button', 'data-tb': 'promises', 'data-go': pr.go, 'aria-expanded': String(open === 'promises'), 'aria-disabled': pr.disabled ? 'true' : null,
+      'aria-label': pr.badge ? `Promises, ${pr.badge} new` : 'Promises',
+    }, h('span.tb-pill', ic('promise', { filled: open === 'promises' }), h('span.tb-pill-label', 'Promises')), pr.badge ? h('b.badge-dot', { 'aria-hidden': 'true' }, String(pr.badge)) : null), divider()] : null,
+    h('div.tb-right', round !== null ? h('span.tb-round', { 'aria-label': `Round ${round}` }, `R${round}`) : null, timer(seconds, { urgentAt, ring }),
+      mn ? h('button.tb-menu', { type: 'button', 'data-tb': 'menu', 'data-go': mn.go, 'aria-label': 'Settings', 'aria-expanded': String(open === 'menu') }, ic('menu')) : null));
 }
 
 // ── Bottom tabs ─────────────────────────────────────────────────────────
 /**
- * view: 'room' | 'board' (the first tab names the other view); open: 'actions' | 'card' | 'more' | null;
- * hero: 'pass' | 'pass-off' | 'vote' | 'voted' | 'vote-off'; disabled: {actions, card, more}; badges: {more: n}.
+ * view: 'room' | 'board' (the first tab names the other view); open: 'actions' | 'card' | 'panels' | null;
+ * hero: 'pass' | 'pass-off' | 'vote' | 'voted' | 'vote-off'; disabled: {actions, card, panels}; badges: {panels: n}.
  */
 export function tabs({ view = 'room', open = null, hero = 'pass-off', disabled = {}, badges = {}, go = {} } = {}) {
   const tab = (key, icon, label, extra = {}) => h('button.tab', {
-    type: 'button', 'data-tab': key, 'aria-expanded': ['actions', 'card', 'more'].includes(key) ? String(open === key) : null,
+    type: 'button', 'data-tab': key, 'aria-expanded': ['actions', 'card', 'panels'].includes(key) ? String(open === key) : null,
     'aria-disabled': disabled[key] ? 'true' : null, 'data-go': go[key] ?? null, ...extra,
   }, ic(icon, { filled: open === key }), h('span', label), badges[key] ? h('b.badge-dot', { 'aria-label': `${badges[key]} new` }, String(badges[key])) : null);
   const heroMode = hero.startsWith('vote') ? (hero === 'voted' ? 'voted' : 'vote') : 'pass';
@@ -99,7 +113,7 @@ export function tabs({ view = 'room', open = null, hero = 'pass-off', disabled =
     h('div.tab.tab-hero', h('button.hero', { type: 'button', 'data-tab': 'hero', 'data-mode': heroMode, 'aria-disabled': heroOff ? 'true' : null, 'data-go': go.hero ?? null, 'aria-label': heroMode === 'pass' ? 'Pass your turn' : heroMode === 'voted' ? 'Ballot registered' : 'Open the ballot' },
       ic(heroMode === 'pass' ? 'pass' : 'vote', { filled: true }), h('b', heroLabel)), h('span.hero-label', heroLabel)),
     tab('card', 'card', 'Card'),
-    tab('more', 'more', 'More'));
+    tab('panels', 'panels', 'Panels'));
 }
 
 // ── Sheets ──────────────────────────────────────────────────────────────

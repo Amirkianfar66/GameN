@@ -9,7 +9,7 @@
 
 | | |
 | --- | --- |
-| Sheets | [`design/phone-ui/review/sheets/`](../../design/phone-ui/review/sheets/): 55 numbered sheets. [`contact-sheet.jpg`](../../design/phone-ui/review/contact-sheet.jpg) shows all of them. |
+| Sheets | [`design/phone-ui/review/sheets/`](../../design/phone-ui/review/sheets/): 56 numbered sheets. [`contact-sheet.jpg`](../../design/phone-ui/review/contact-sheet.jpg) shows all of them. |
 | Clickable prototype | [`design/phone-ui/prototype/index.html`](../../design/phone-ui/prototype/index.html). On a desktop it shows a phone and its flows; on a phone it fills the screen. `design/tools/phone-ui-clickable.mjs` exports it as rendered screens with each screen's own tap areas (261 states), which is how the owner's private review copy was made. |
 | Frontend handoff | [phone-ui-handoff.md](phone-ui-handoff.md): each sheet mapped to components, states, assets, audiences and the data it needs. |
 | Backend and Integration | [DSN-REQ-19 to DSN-REQ-21](integration-requests.md#dsn-req-19): the dependencies, kept separate from the visual decisions. |
@@ -25,7 +25,7 @@ The requirements came with the request of 9 November 2026, from the owner's play
 - **Fewer words.** No introductory paragraphs, repeated headings or repeated status lines. Keep only the labels, errors and eligibility feedback that matter.
 - **One screen.** The main screen fits the phone without scrolling, without shrinking text or targets.
 - **Room and Board.** The player's room is the main full-screen scene. One switch shows the whole board: the tab says **Board** in room view and **Room** in board view. Switching never moves the player.
-- **Navigation.** A bottom bar with Board/Room, Actions, Pass/Vote, Card and More, using one icon family.
+- **Navigation.** A bottom bar with Board/Room, Actions, Pass/Vote, Card and More, using one icon family. Later that day the owner renamed More **Panels** and moved Promises and a settings menu (⋮) into the top bar (see "Top bar" and "Tabs" below).
 - **Voting.** Vote replaces Pass during a vote and opens a 3 × 3 grid of the real participants. Results use the same grid.
 - **The role stage.** The private role stage lasts exactly 30 seconds: the role card for 20 seconds, then the role's existing ten-second film.
 - **Blackout.** It must be usable before voting.
@@ -39,7 +39,7 @@ The requirements came with the request of 9 November 2026, from the owner's play
 | A–E | 10 intro and main menu · 11 host · 12 join · 13 waiting and the player lobby · 14 recover · 15 host controls and a recovery code · 16 character selection |
 | F–G | 17 the 30-second role stage (timeline) · 18 role stage states · 19 boarding into Round 1 |
 | H–I | 20 Room A · 21 Room B · 22 Command Room · 23 Hospital · 24 Jail · 25 Private Talk capsule · 26 the whole board and switching views |
-| K–N | 27 each tab, opened · 27.1–27.5 each tab, tap by tap (Board, Actions, Pass and Vote, Card, More) · 28 Actions · 29 targeting and registering · 30 Blackout · 31 Card · 32 More · 33 Promises · 34 Windows |
+| K–N | 27 each tab, opened · 27.1–27.5 each tab, tap by tap (Board, Actions, Pass and Vote, Card, Panels) · 27.6 the top bar's Promises and ⋮, tap by tap · 28 Actions · 29 targeting and registering · 30 Blackout · 31 Card · 32 Panels and Settings · 33 Promises · 34 Windows |
 | O–P | 35 Jail vote · 36 Captain election and stable placement · 37 Captain results · 38 Jail results |
 | Q | 40 Captain and Officer · 41 navigation · 42 Scan and the final Code · 43 Hospital panel · 44 Blackhole, elimination and the end · 45 loading, reconnecting and the unexpected |
 | Viewports | 50 320 × 568 · 51 430 × 932 · 52 in Safari with its toolbars (390 × 664) · 53 larger text (150% and 200%) · 54 Reduce motion |
@@ -57,7 +57,7 @@ These are routine decisions, made by Designer under the brief. The owner can ove
   - Text on glass stays at least 4.5:1 against what is really behind it (measured; see "Measured").
   - Where the phone asks for less transparency, or glass can't be drawn, sheets are solid again.
 - The scenes, crew, role card, stamps and result window stay comic ink: hard ink outlines and offset shadows, halftone, captions.
-- One icon family is used everywhere: 78 icons on a 24 px grid with 1.8 px round strokes. Each has an outline form and a filled form for selected.
+- One icon family is used everywhere: 79 icons on a 24 px grid with 1.8 px round strokes. Each has an outline form and a filled form for selected.
 - The interface font is the system font (SF Pro on iPhone). Condensed lettering is kept for stamps, room captions, role names and results.
 
 **Layout.**
@@ -73,16 +73,23 @@ These are routine decisions, made by Designer under the brief. The owner can ove
 
 **Top bar.**
 - On the left: the active player's portrait, name and seat. With no active player (votes, Blackout, navigation, setup), the phase takes that place instead of a stale portrait.
-- On the right: the round and the server's time.
+- After the name: **Promises**, a handshake button that opens the player's Promises, with a count when an offer is waiting (the owner, 9 November). The handshake is the same grey as the other icons and turns amber, with the button, only while Promises is open.
+  - On a turn bar it shows its word between two hairlines, as the owner drew it.
+  - On a phase or talk bar, on a 320-pixel phone and with larger text, it is the handshake alone, so the phase title and the names keep their room.
+  - The 5-second result and the 6-second Ship synchronized have no Promises button: there is no time to use it.
+- On the right: the round, the server's time and the settings menu **⋮** (the owner, 9 November). ⋮ opens Settings: Reduce motion and text size, which stay on the phone, and Host controls for the host.
+- Promises and ⋮ are 44-pixel targets. On a narrow bar the clock drops its icon, a phase drops its icon tile and a talk's two portraits overlap more.
+- To keep its title whole beside them, the Officer appointment's bar now reads **New Officer**, with "Ben chooses" under it.
 - The last ten seconds turn amber, and the 5-second and 6-second stages show a ring.
 
 **Tabs.**
 - The first tab names the other view: **Board** in room view, **Room** in board view.
+- The fifth tab is **Panels** (it was More), with a stacked-layers icon unlike Board's grid, in the same grey as the other tabs (the owner, 9 November). It holds Windows, Navigation, the Hospital panel, Players and Round order. Promises and Settings moved to the top bar.
 - Moving is always a separate action: tap Move, then an empty position, then Register. "Uses this round's move" is said each time.
 - Pass is a raised centre button. It is enabled only on your own turn.
 - Tapping Pass asks once: **Pass your turn?**, naming whose turn is next, with Cancel and Pass. A turn can't be taken back, and passing never spends the round's move.
 - During a ballot Pass becomes **Vote**, and after your ballot it becomes **Voted**.
-- What each button opens, and the taps after it, is drawn tap by tap on sheets 27.1–27.5 (the owner asked for this on 9 November).
+- What each button opens, and the taps after it, is drawn tap by tap on sheets 27.1–27.5, and the top bar's Promises and ⋮ on 27.6 (the owner asked for this on 9 November).
 
 **Actions.**
 - Each action is a tile with an icon and a short name, and it states its own condition: "From Round 4", "Once a match", "Used".
@@ -217,7 +224,7 @@ Nothing in `apps/` or `packages/` imports the pack.
   - the catalog and every sheet's screens, kept in step with the registry;
   - the review files and their hashes, and every frame's measurements (contrast included) clean;
   - the room view's framing, for every room's fixture: wider than the first draft, filling the space between the bars, with everyone present in view;
-  - a tap-by-tap sheet for each tab, and every tap it draws landing on a control the prototype shows;
+  - a tap-by-tap sheet for each tab and for the top bar's Promises and ⋮, and every tap it draws landing on a control the prototype shows;
   - the kit's colours against tokens 0.5.0;
   - the icon family and its exports;
   - the fixture label kept out of the interface;
@@ -232,8 +239,8 @@ Nothing in `apps/` or `packages/` imports the pack.
 ### Measured
 
 From `design/phone-ui/review/checks.json`, written by the render that produced the committed sheets (Google Chrome for Testing 153, headless, desktop):
-- 55 sheets and 209 phone frames.
-- Every one of the 15 taps drawn on sheets 27.1–27.5 lands on a control the prototype shows.
+- 56 sheets and 213 phone frames.
+- Every one of the 17 taps drawn on sheets 27.1–27.6 lands on a control the prototype shows.
 - Every text run is at least 4.5:1 against what is drawn behind it (3:1 for large text). The lowest is 4.59:1, on sheet 43.
 - Measuring contrast found, and this pack fixed:
   - the top bar and tab bar samples (07, 08), which were cut in half; each sheet now has two frames;
@@ -248,7 +255,7 @@ From `design/phone-ui/review/checks.json`, written by the render that produced t
 - No control is under 44 px.
 - No text is under 11 px.
 - There are no page errors.
-- Four top-bar subtitles are shortened with an ellipsis, by design: one specimen on sheet 07, and the others at 320 px wide and at 150% and 200% text. The full words stay in the accessible name.
+- One top-bar subtitle is shortened with an ellipsis, by design: "Player 7 · Turn" at 200% text (sheet 53). The full words stay in the accessible name. Before Promises and ⋮ joined the bar there were four.
 
 These are measurements of one desktop browser at each CSS size, not of a phone.
 

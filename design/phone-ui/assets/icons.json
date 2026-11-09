@@ -13,8 +13,8 @@
   },
   "sprite": {
     "path": "design/phone-ui/assets/icons.svg",
-    "sha256": "59029e42b1f23a071756ac42e60e16bd7e7f94b8babf3d521bdf6869de145168",
-    "bytes": 60552
+    "sha256": "b36e6004c8961f8c594959bbaabedcc353a03f79fad8f22a27a88f9b3cd944c8",
+    "bytes": 62523
   },
   "icons": [
     {
@@ -60,11 +60,18 @@
       "filled": "4008851cf2ca98a018e0797c5b95e50822f9ab595eb49fc117c1f6c5cc2b969f"
     },
     {
-      "name": "more",
-      "label": "More",
+      "name": "panels",
+      "label": "Panels",
       "group": "navigation",
-      "outline": "db81559f7c1f16fac337f142f43df2fc2e127c5b196f689dbd34f5182727b256",
-      "filled": "db81559f7c1f16fac337f142f43df2fc2e127c5b196f689dbd34f5182727b256"
+      "outline": "3f02a206f4a8d3fd0c053c4c8db16993d0af817d41e8f41f9550236c507c3d1e",
+      "filled": "c3c3f6ad911f934fc31c143a3fe97af1db0b8e0c29b649527d1419658d4cdb45"
+    },
+    {
+      "name": "menu",
+      "label": "Settings menu",
+      "group": "navigation",
+      "outline": "a8345f3b967a4e8dc1032dd41c5c4117e26b4098773f320b342a8a9f6e355c9e",
+      "filled": "a8345f3b967a4e8dc1032dd41c5c4117e26b4098773f320b342a8a9f6e355c9e"
     },
     {
       "name": "shoot",
@@ -217,8 +224,8 @@
       "name": "promise",
       "label": "Promises",
       "group": "action",
-      "outline": "e7f143cb9b63065d92c2ec3fe351b38a097b99b19754bf2982b7680d1a503e24",
-      "filled": "00dd063a9a44a32a30f327746b02e4dd4f1d2aee73189d74c65d6cb641f5c75b"
+      "outline": "36cf3a20b1c68ac1448d842a6daea5df077741763f1adaba469a0c3a26c5bef1",
+      "filled": "aead92610c92b8f31faf29704d06a6f37537fdc94bc31efb0366871492ada37c"
     },
     {
       "name": "window",

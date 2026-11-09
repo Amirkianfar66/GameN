@@ -9,8 +9,9 @@
 //     the art included, and no page error;
 //   - the room view is framed wider than the first draft (the owner found it too zoomed in, 9
 //     November 2026): it fills the space between the bars and keeps everyone present in view;
-//   - each tab (Board, Actions, Pass, Card, More) has a tap-by-tap sheet, and every tap the sheets
-//     draw lands on a control the prototype really shows;
+//   - each tab (Board, Actions, Pass, Card, Panels) and the top bar's Promises and settings menu (⋮)
+//     have a tap-by-tap sheet (the owner, 9 November 2026), and every tap the sheets draw lands on a
+//     control the prototype really shows;
 //   - the kit’s colours are tokens 0.5.0’s, the icon family is whole and its exports are current;
 //   - synthetic-fixture labels stay outside the proposed interface; everything is development-only,
 //     and no game code imports the pack.
@@ -57,7 +58,7 @@ test('every frame names a screen of the prototype', () => {
     const name = new URLSearchParams(f.q).get('s');
     assert.equal(typeof screens[name], 'function', `${sheet.id} “${f.label}”: screen ${name}`);
   }
-  for (const required of ['intro', 'menu', 'host-setup', 'host-lobby', 'join', 'join-wait', 'recover', 'choose', 'role', 'boarding', 'room', 'board', 'actions', 'card', 'more', 'promises', 'windows', 'vote', 'result', 'captain', 'officer', 'nav', 'talk', 'scan', 'code', 'panel', 'blackout', 'blackhole', 'eliminated', 'end', 'system']) assert.equal(typeof screens[required], 'function', required);
+  for (const required of ['intro', 'menu', 'host-setup', 'host-lobby', 'join', 'join-wait', 'recover', 'choose', 'role', 'boarding', 'room', 'board', 'actions', 'card', 'panels', 'settings', 'promises', 'windows', 'vote', 'result', 'captain', 'officer', 'nav', 'talk', 'scan', 'code', 'panel', 'blackout', 'blackhole', 'eliminated', 'end', 'system']) assert.equal(typeof screens[required], 'function', required);
 });
 
 test('the review sheets are the recorded renders, and every measured frame is clean', () => {
@@ -105,9 +106,13 @@ test('the room view is framed wider than the first draft, fills the space betwee
   }
 });
 
-test('each tab has a tap-by-tap sheet, and every tap drawn lands on a real control', () => {
-  for (const key of ['switch', 'actions', 'hero', 'card', 'more']) {
+test('each tab and each top-bar button has a tap-by-tap sheet, and every tap drawn lands on a real control', () => {
+  for (const key of ['switch', 'actions', 'hero', 'card', 'panels']) {
     assert.ok(SHEETS.some(s => s.kind === 'taps' && s.frames[0].tap === `[data-tab="${key}"]`), `a tap-by-tap sheet starts by tapping the ${key} tab`);
+  }
+  // The top bar's Promises (after the name) and settings menu (⋮, beside the clock): the owner, 9 November.
+  for (const key of ['promises', 'menu']) {
+    assert.ok(SHEETS.some(s => s.kind === 'taps' && s.frames.some(f => f.tap === `[data-tb="${key}"]`)), `a tap-by-tap sheet taps the top bar's ${key}`);
   }
   const checks = JSON.parse(read('design/phone-ui/review/checks.json'));
   const recorded = checks.sheets.flatMap(s => s.frames.filter(f => 'tap' in f).map(f => ({ ...f, sheet: s.id })));
@@ -141,6 +146,9 @@ test('the kit’s colours, type and motion are tokens 0.5.0', () => {
 
 test('the icon family is whole and its exports are current', () => {
   assert.ok(ICON_NAMES.length >= 60);
+  // Panels is stacked layers, the settings menu a vertical ⋮ and Promises a handshake (the owner, 9 November).
+  for (const name of ['panels', 'menu', 'promise']) assert.ok(ICONS[name], `the ${name} icon`);
+  assert.equal(ICONS.more, undefined, 'More is now Panels');
   for (const name of ICON_NAMES) {
     const icon = ICONS[name];
     assert.ok(icon.label && icon.label.length > 1, `${name} has an accessible name`);

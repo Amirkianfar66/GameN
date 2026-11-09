@@ -65,7 +65,7 @@ export const VOTE_SCREENS = {
       game(root, {
         top: topBar({ kind: 'phase', icon: kind === 'captain' ? 'captain' : 'vote', title, sub, round: kind === 'captain' ? 2 : 3, seconds }),
         scene: { kind: 'room', room: 'room-a', active: null },
-        tabs: { hero: 'vote', go: { switch: 's=board', card: 's=card&role=Doctor', more: 's=more', hero: `s=vote&kind=${kind}&roster=${roster}` } },
+        tabs: { hero: 'vote', go: { switch: 's=board', card: 's=card&role=Doctor', panels: 's=panels', hero: `s=vote&kind=${kind}&roster=${roster}` } },
         toast: toast(`${title} open`, 'info'),
       });
       return;
@@ -82,7 +82,7 @@ export const VOTE_SCREENS = {
     game(root, {
       top: topBar({ kind: 'phase', icon: kind === 'captain' ? 'captain' : 'vote', title, sub, round: kind === 'captain' ? 2 : 3, seconds }),
       scene: { kind: 'room', room: 'room-a', active: null },
-      tabs: { hero: locked && state !== 'closed' && state !== 'cannot' ? 'voted' : state === 'cannot' ? 'vote-off' : 'vote', go: { switch: 's=board', card: 's=card&role=Doctor', more: 's=more' } },
+      tabs: { hero: locked && state !== 'closed' && state !== 'cannot' ? 'voted' : state === 'cannot' ? 'vote-off' : 'vote', go: { switch: 's=board', card: 's=card&role=Doctor', panels: 's=panels' } },
       sheet: sheet({ title, sub: roster < 9 ? `${roster} players` : null, body, foot, detent: 'large', close: 's=room&room=room-a' }),
     });
   },
@@ -115,7 +115,7 @@ export const VOTE_SCREENS = {
     game(root, {
       top: topBar({ kind: 'phase', icon: kind === 'captain' ? 'captain' : 'jail', title: kind === 'captain' ? 'Captain election · result' : 'Jail vote · result', round: kind === 'captain' ? 2 : 3, seconds: Number(p.seconds ?? 4), ring: (5 - Number(p.seconds ?? 4)) / 5, urgentAt: -1 }),
       scene: { kind: 'room', room: 'room-a', active: null },
-      tabs: { hero: 'vote-off', go: { switch: 's=board', card: 's=card&role=Doctor', more: 's=more' } },
+      tabs: { hero: 'vote-off', go: { switch: 's=board', card: 's=card&role=Doctor', panels: 's=panels' } },
       overlay: [win],
     });
   },

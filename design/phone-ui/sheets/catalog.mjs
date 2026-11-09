@@ -23,8 +23,8 @@ export const SHEETS = Object.freeze([
   { id: '04', slug: 'foundations', section: 'Components', title: 'Foundations: colour, type, space, depth, motion', kind: 'foundations', sub: 'Tokens 0.5.0 in an iOS-like dark interface; the scenes, crew, cards and stamps stay comic ink.' },
   { id: '05', slug: 'icons', section: 'Components', title: 'Icon family', kind: 'icons', sub: 'One drawing language: 24 px grid, 1.8 px round strokes, a filled form for selected. Every icon has a name; none carries meaning alone.' },
   { id: '06', slug: 'controls', section: 'Components', title: 'Controls, lists, feedback and cards', kind: 'controls', sub: 'The shared components every screen reuses, in each state.' },
-  { id: '07', slug: 'top-bar', section: 'J', title: 'Top bar', sub: 'Upper left: the active player’s portrait and name; with no active player, the phase instead. Right: round and authoritative time.', audience: 'Public', frames: [f('Turns and phases', 's=topbars&part=1', { notes: ['Never a stale portrait: outside turns the left shows the phase.', 'The last ten seconds turn amber.'] }), f('Votes, talk, Blackout and recovery', 's=topbars&part=2', { notes: ['Private talk shows the public pair only.', 'The 5 s and 6 s stages show a ring.'] })] },
-  { id: '08', slug: 'bottom-tabs', section: 'K', title: 'Bottom navigation', sub: 'Board/Room · Actions · Pass/Vote · Card · More. The first tab names the other view; Pass becomes Vote while a ballot is open.', audience: 'Own phone', frames: [f('Views and tabs', 's=navbars&part=1', { notes: ['Selected: amber, filled icon.', 'Pass is enabled only on your own turn.'] }), f('Votes and elimination', 's=navbars&part=2', { notes: ['Unavailable: 38% opacity, still focusable (aria-disabled).'] })] },
+  { id: '07', slug: 'top-bar', section: 'J', title: 'Top bar', sub: 'Upper left: the active player’s portrait and name; with no active player, the phase instead. Then Promises (the handshake). Right: round, authoritative time and the settings menu (⋮).', audience: 'Public', frames: [f('Turns and phases', 's=topbars&part=1', { notes: ['Never a stale portrait: outside turns the left shows the phase.', 'Promises shows its word on a turn bar; a phase bar keeps that room for its title.', 'The last ten seconds turn amber.'] }), f('Votes, talk, Blackout and recovery', 's=topbars&part=2', { notes: ['Private talk shows the public pair only.', 'The 5 s and 6 s stages show a ring and no Promises.'] })] },
+  { id: '08', slug: 'bottom-tabs', section: 'K', title: 'Bottom navigation', sub: 'Board/Room · Actions · Pass/Vote · Card · Panels. The first tab names the other view; Pass becomes Vote while a ballot is open.', audience: 'Own phone', frames: [f('Views and tabs', 's=navbars&part=1', { notes: ['Selected: amber, filled icon.', 'Pass is enabled only on your own turn.'] }), f('Votes and elimination', 's=navbars&part=2', { notes: ['Unavailable: 38% opacity, still focusable (aria-disabled).'] })] },
 
   // ── A–E ───────────────────────────────────────────────────────────────
   { id: '10', slug: 'intro-menu', section: 'A', title: 'Intro and main menu', sub: 'The approved two-second Game N / by Plan B intro, then three entry points with one clear hierarchy.', audience: 'Own phone', frames: [
@@ -68,7 +68,7 @@ export const SHEETS = Object.freeze([
 
   // ── K–N ───────────────────────────────────────────────────────────────
   { id: '27', slug: 'tab-destinations', section: 'K', title: 'Each tab, opened', sub: 'Sheets dock between the bars: the clock and Pass/Vote stay in view.', audience: 'Own phone', frames: [
-    f('Board', 's=board'), f('Actions', 's=actions&role=Doctor&active=4'), f('Vote', 's=vote&kind=jail'), f('Card', 's=card&role=Doctor'), f('More', 's=more')] },
+    f('Board', 's=board'), f('Actions', 's=actions&role=Doctor&active=4'), f('Vote', 's=vote&kind=jail'), f('Card', 's=card&role=Doctor'), f('Panels', 's=panels')] },
   // Each tab, tap by tap: a storyboard per tab. A ring marks what is tapped in a frame; an arrow leads to
   // what that tap shows. Frames without a ring show the same tab at another moment.
   { id: '27.1', slug: 'tap-board', section: 'K', kind: 'taps', title: 'Tap Board: the whole ship, and back', sub: 'Board shows every room at once, with yours marked. The tab then says Room; tap it to come back. Switching never moves you.', audience: 'Own phone', frames: [
@@ -96,13 +96,18 @@ export const SHEETS = Object.freeze([
     f('Knowledge · tap Resources', 's=card&role=Doctor&state=knows', { tap: '.seg [data-go*="state=holds"]' }),
     f('Resources · tap Hide', 's=card&role=Doctor&state=holds', { tap: '[aria-label="Hide card"]' }),
     f('Hidden', 's=card&role=Doctor&state=hidden', { notes: ['Show brings the card back.'] })] },
-  { id: '27.5', slug: 'tap-more', section: 'K', kind: 'taps', title: 'Tap More: everything else', sub: 'Promises, Windows, Navigation, the Hospital panel, Players, Round order and Display. A row you cannot use now is grey with the reason.', audience: 'Own phone', frames: [
-    f('Your room · tap More', 's=room&room=room-a', { tap: '[data-tab="more"]' }),
-    f('More · tap Promises', 's=more', { tap: '[data-go^="s=promises"]' }),
-    f('Promises', 's=promises&state=list', { notes: ['‹ returns to More.'] }),
-    f('Windows row', 's=windows&state=view'),
+  { id: '27.5', slug: 'tap-panels', section: 'K', kind: 'taps', title: 'Tap Panels: the match’s panels', sub: 'Windows, Navigation, the Hospital panel, Players and Round order. A row you cannot use now is grey with the reason.', audience: 'Own phone', frames: [
+    f('Your room · tap Panels', 's=room&room=room-a', { tap: '[data-tab="panels"]' }),
+    f('Panels · tap Windows', 's=panels', { tap: '[data-go^="s=windows"]' }),
+    f('Windows', 's=windows&state=view', { notes: ['‹ returns to Panels.'] }),
     f('Players row', 's=players'),
-    f('Display row', 's=settings')] },
+    f('Round order row', 's=rules')] },
+  { id: '27.6', slug: 'tap-top-bar', section: 'K', kind: 'taps', title: 'Tap the top bar: Promises and ⋮', sub: 'Promises, after the name, opens your Promises. ⋮, beside the clock, opens Settings: this phone’s display and, for the host, Host controls.', audience: 'Own phone', frames: [
+    f('Your room · tap Promises', 's=room&room=room-a', { tap: '[data-tb="promises"]' }),
+    f('Promises', 's=promises&state=list', { notes: ['Offers are made in a private talk; the list is one tap away all match.'] }),
+    f('Your room · tap ⋮', 's=room&room=room-a', { tap: '[data-tb="menu"]' }),
+    f('Settings', 's=settings', { notes: ['Stays on this phone; never changes the match.'] }),
+    f('Settings · host', 's=settings&host=1', { notes: ['The host also finds Host controls here.'] })] },
   { id: '28', slug: 'actions', section: 'L', title: 'Actions', sub: 'Recognisable icons with short names instead of paragraphs; each tile names its state.', audience: 'Own phone', frames: [
     f('Doctor · your turn', 's=actions&role=Doctor&active=4'), f('Hacker · your turn', 's=actions&role=Hacker&active=4'), f('Undercover · not your turn', 's=actions&role=Undercover&active=7'), f('Registered and spent', 's=actions&role=Doctor&active=4&state=spent')] },
   { id: '29', slug: 'targeting', section: 'L', title: 'Targeting and registering', sub: 'Targets stay on the people in the scene; other rooms are one tap away. Registering is not an effect.', audience: 'Own phone', frames: [
@@ -111,8 +116,8 @@ export const SHEETS = Object.freeze([
     f('Request · confirm', 's=actions&role=Blue Disabler&active=4&state=confirm&act=blackout'), f('5 s lit · everyone', 's=blackout&state=lit'), f('10 s dark · everyone', 's=blackout&state=dark'), f('Dark · Disabler picks a position', 's=blackout&state=pick'), f('Position fixed', 's=blackout&state=chosen')] },
   { id: '31', slug: 'card', section: 'M', title: 'Card', sub: 'A large, correctly fitted private card; knowledge and resources one tap away; a clear Hide.', audience: 'Own phone', frames: [
     f('Card', 's=card&role=Doctor'), f('Knowledge · Hacker', 's=card&role=Hacker&state=knows'), f('Resources', 's=card&role=Doctor&state=holds'), f('Hidden', 's=card&role=Doctor&state=hidden')] },
-  { id: '32', slug: 'more', section: 'N', title: 'More', sub: 'Compact iOS-style rows; destinations only appear active for those they serve.', audience: 'Own phone', frames: [
-    f('More', 's=more'), f('More · host', 's=more&host=1'), f('Players', 's=players'), f('Round order', 's=rules'), f('Display', 's=settings')] },
+  { id: '32', slug: 'panels-settings', section: 'N', title: 'Panels and Settings', sub: 'Panels holds the match’s panels; ⋮ opens this phone’s Settings. Compact iOS-style rows; a destination only looks active for those it serves.', audience: 'Own phone', frames: [
+    f('Panels', 's=panels'), f('Players', 's=players'), f('Round order', 's=rules'), f('Settings (⋮)', 's=settings'), f('Settings · host', 's=settings&host=1')] },
   { id: '33', slug: 'promises', section: 'N', title: 'Promises', sub: 'Six fixed kinds, exact terms, explicit acceptance, a lifetime quota and four result states. Pair-private.', audience: 'Pair', frames: [
     f('List · during talk', 's=promises&state=list'), f('Choose a kind', 's=promises&state=kinds'), f('Check the terms', 's=promises&state=confirm'), f('Offer received', 's=promises&state=incoming'), f('Results', 's=promises&state=results')] },
   { id: '34', slug: 'windows', section: 'N', title: 'Windows', sub: 'View free at either end; draw and Show only at your station; shown drawings are immutable and expire with the round.', audience: 'Players at the window’s two rooms', frames: [
@@ -150,7 +155,7 @@ export const SHEETS = Object.freeze([
   { id: '52', slug: 'browser-chrome', section: 'V', title: 'In Safari, with its toolbars', sub: 'The page gets 390 × 664 when Safari shows its bars; the game still fits without scrolling.', audience: '—', frames: [
     f('Room', 's=room&room=room-a&state=own', { size: '390x664' }), f('Vote', 's=vote&kind=jail', { size: '390x664' }), f('Board', 's=board', { size: '390x664' }), f('Menu', 's=menu', { size: '390x664' })] },
   { id: '53', slug: 'larger-text', section: 'V', title: 'Larger text', sub: 'The game’s Large (150%) and Largest (200%) settings. Bars grow with the text; lists scroll; nothing is clipped to fit.', audience: '—', frames: [
-    f('Room · Large', 's=room&room=room-a&state=own', { text: '1.5' }), f('Actions · Large', 's=actions&role=Doctor&active=4', { text: '1.5' }), f('Vote · Large', 's=vote&kind=jail&state=selected', { text: '1.5' }), f('More · Largest', 's=more', { text: '2' }), f('Join · Largest', 's=join&state=no-room', { text: '2' })] },
+    f('Room · Large', 's=room&room=room-a&state=own', { text: '1.5' }), f('Actions · Large', 's=actions&role=Doctor&active=4', { text: '1.5' }), f('Vote · Large', 's=vote&kind=jail&state=selected', { text: '1.5' }), f('Panels · Largest', 's=panels', { text: '2' }), f('Join · Largest', 's=join&state=no-room', { text: '2' })] },
   { id: '54', slug: 'reduced-motion', section: 'V', title: 'Reduce motion', sub: 'Films become their reviewed stills; sheets, results and the Blackout change directly or with the 80 ms fade. Same facts, same controls.', audience: '—', frames: [
     f('Role film · stills', 's=role&t=23000', { motion: 'reduced' }), f('Boarding · stills', 's=boarding&t=5200', { motion: 'reduced' }), f('Blackout dark', 's=blackout&state=dark', { motion: 'reduced' }), f('Result', 's=result&outcome=CAPTAIN_ELECTED', { motion: 'reduced' })] },
 
@@ -161,5 +166,5 @@ export const SHEETS = Object.freeze([
 
 export const SECTION_TITLES = Object.freeze({
   Flow: 'Flow', Components: 'Components', A: 'A · Entry', B: 'B · Host', C: 'C · Join', D: 'D · Recover', E: 'E · Characters', F: 'F · Role stage', G: 'G · Boarding',
-  H: 'H · Rooms', I: 'I · Board', J: 'J · Top bar', K: 'K · Tabs', L: 'L · Actions', M: 'M · Card', N: 'N · More', O: 'O · Voting', P: 'P · Results', Q: 'Q · Gameplay and recovery', V: 'Viewports, text and motion', X: 'Art status',
+  H: 'H · Rooms', I: 'I · Board', J: 'J · Top bar', K: 'K · Tabs', L: 'L · Actions', M: 'M · Card', N: 'N · Panels, Promises and Settings', O: 'O · Voting', P: 'P · Results', Q: 'Q · Gameplay and recovery', V: 'Viewports, text and motion', X: 'Art status',
 });

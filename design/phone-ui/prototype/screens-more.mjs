@@ -1,8 +1,9 @@
 // mothership:dev-only
 //
-// N's destinations (Promises, Windows, Display, Players, Round order, Host controls) and Q: offices,
-// navigation, private talk, Scan and Code, the Hospital panel, Blackout, the Blackhole presentation,
-// the eliminated phone, the match result and the system states. Reuses the shared components only.
+// N's destinations (Promises from the top bar; Windows, Players and Round order from Panels; Settings
+// and Host controls from the top bar's ⋮) and Q: offices, navigation, private talk, Scan and Code, the
+// Hospital panel, Blackout, the Blackhole presentation, the eliminated phone, the match result and the
+// system states. Reuses the shared components only.
 
 import { h, ic, pt, button, iconButton, topBar, sheet, row, list, groupLabel, groupNote, cell, stamp, pill, toast, banner } from './ui.mjs';
 import { paintCapsule, cardUrl } from './art.mjs';
@@ -14,7 +15,10 @@ import { floating, targetBar, tile } from './screens-game.mjs';
 const HOSTED = new URL('../../../apps/game/hosted/', import.meta.url).href;
 const LIBRARY = new URL('../../../apps/game/candidates/planet-library/', import.meta.url).href;
 const roomScene = (room = 'room-a', extra = {}) => ({ kind: 'room', room, ...extra });
-const moreTabs = (extra = {}) => ({ open: 'more', go: { switch: 's=board', actions: 's=actions&role=Doctor&active=7', card: 's=card&role=Doctor' }, ...extra });
+const TAB_GO = Object.freeze({ switch: 's=board', actions: 's=actions&role=Doctor&active=7', card: 's=card&role=Doctor', panels: 's=panels' });
+/** Tabs under a Panels destination (Panels shows open), and under a sheet opened from the top bar (none open). */
+const panelsTabs = (extra = {}) => ({ open: 'panels', go: { ...TAB_GO, panels: null }, ...extra });
+const plainTabs = (extra = {}) => ({ go: TAB_GO, ...extra });
 const pick = (seat, state, note, go) => cell(seatOf(seat), { state, note, go, you: seat === SELF });
 const art = (fn, cls = 'piece') => h(`span.${cls}`, { html: fn() });
 
@@ -52,7 +56,7 @@ export const MORE_SCREENS = {
   /** state: list | kinds | confirm | offered | incoming | results */
   promises(root, p) {
     const state = p.state ?? 'list';
-    let body, foot = null, title = 'Promises', back = 's=more';
+    let body, foot = null, title = 'Promises', back = null;
     if (state === 'kinds') {
       title = 'Offer to Ava'; back = 's=promises&state=list';
       body = [groupNote('Only during your private talk. It counts once Ava accepts.'), h('div', { style: { height: '10px' } }),
@@ -87,7 +91,7 @@ export const MORE_SCREENS = {
         results ? groupNote('“Not fulfilled” is a fact about ballots or rooms. It is not proof of lying.') : null,
       ];
     }
-    game(root, { top: topBar({ kind: 'pair', pair: [seatOf(1), seatOf(SELF)], sub: 'Private talk', round: 3, seconds: 41 }), scene: roomScene(), tabs: moreTabs(), sheet: sheet({ title, body, foot, back, close: 's=room&room=room-a', detent: 'large' }) });
+    game(root, { top: topBar({ kind: 'pair', pair: [seatOf(1), seatOf(SELF)], sub: 'Private talk', round: 3, seconds: 41, open: 'promises' }), scene: roomScene(), tabs: plainTabs(), sheet: sheet({ title, body, foot, back, close: 's=room&room=room-a', detent: 'large' }) });
   },
 
   // ── N. Windows ────────────────────────────────────────────────────────
@@ -115,20 +119,25 @@ export const MORE_SCREENS = {
         h('div', sketch(ARROW, '#F4EBDD'), h('div.drawing-meta', h('span', '1 · Eli · Round 3'), h('span', 'Unverified'))),
       ];
     }
-    game(root, { top: turnBar(), scene: roomScene(), tabs: moreTabs(), sheet: sheet({ title: 'Windows', body, foot, back: 's=more', close: 's=room&room=room-a', detent: 'large' }) });
+    game(root, { top: turnBar(), scene: roomScene(), tabs: panelsTabs(), sheet: sheet({ title: 'Windows', body, foot, back: 's=panels', close: 's=room&room=room-a', detent: 'large' }) });
   },
 
-  // ── N. Display settings, Players, Round order, Host controls ──────────
+  // ── N. Settings (the top bar's ⋮), Players, Round order, Host controls ──
+  /** The settings menu (⋮, beside the clock): this phone's display and, for the host, Host controls. */
   settings(root, p) {
     const text = p.size ?? '1';
-    const body = [
-      list(row({ tag: 'div', icon: 'motion', tint: 'steel', title: 'Reduce motion', sub: 'Films become stills; no shake or travel', trail: h('button.switch', { type: 'button', role: 'switch', 'aria-checked': p.reduced === '1' ? 'true' : 'false', 'aria-label': 'Reduce motion', 'data-go': `s=settings&reduced=${p.reduced === '1' ? '0' : '1'}${p.from ? `&from=${p.from}` : ''}` }) })),
+    const host = p.host === '1' && p.from !== 'menu';
+    const keep = `${p.from ? `&from=${p.from}` : ''}${host ? '&host=1' : ''}`;
+    const display = [
+      list(row({ tag: 'div', icon: 'motion', tint: 'steel', title: 'Reduce motion', sub: 'Films become stills; no shake or travel', trail: h('button.switch', { type: 'button', role: 'switch', 'aria-checked': p.reduced === '1' ? 'true' : 'false', 'aria-label': 'Reduce motion', 'data-go': `s=settings&reduced=${p.reduced === '1' ? '0' : '1'}${keep}` }) })),
       groupLabel('Text size'),
-      h('div.seg', { role: 'radiogroup', 'aria-label': 'Text size' }, [['1', 'Standard'], ['1.5', 'Large'], ['2', 'Largest']].map(([v, l]) => h('button', { type: 'button', role: 'radio', 'aria-checked': String(text === v), 'data-go': `s=settings&size=${v}${p.from ? `&from=${p.from}` : ''}` }, l))),
+      h('div.seg', { role: 'radiogroup', 'aria-label': 'Text size' }, [['1', 'Standard'], ['1.5', 'Large'], ['2', 'Largest']].map(([v, l]) => h('button', { type: 'button', role: 'radio', 'aria-checked': String(text === v), 'data-go': `s=settings&size=${v}${keep}` }, l))),
       groupNote('These stay on this phone. They never change the match.'),
     ];
-    if (p.from === 'menu') { root.append(h('div.screen', h('div.nav-bar', h('button.btn.btn-plain', { type: 'button', 'data-go': 's=menu' }, ic('chevronLeft'), h('span', 'Menu')), h('h1', 'Display'), h('span.spacer')), ...body)); return; }
-    game(root, { top: turnBar(), scene: roomScene(), tabs: moreTabs(), sheet: sheet({ title: 'Display', body, back: 's=more', close: 's=room&room=room-a' }) });
+    if (p.from === 'menu') { root.append(h('div.screen', h('div.nav-bar', h('button.btn.btn-plain', { type: 'button', 'data-go': 's=menu' }, ic('chevronLeft'), h('span', 'Menu')), h('h1', 'Display'), h('span.spacer')), ...display)); return; }
+    const body = [groupLabel('Display'), ...display,
+      host ? [groupLabel('Host'), list(row({ icon: 'host', tint: 'amber', title: 'Host controls', sub: 'Bots, deadlines, recovery, abort', chevron: true, go: 's=host-controls' }))] : null];
+    game(root, { top: turnBar({ open: 'menu' }), scene: roomScene(), tabs: plainTabs(), sheet: sheet({ title: 'Settings', body, close: 's=room&room=room-a' }) });
   },
 
   players(root) {
@@ -137,12 +146,12 @@ export const MORE_SCREENS = {
     const body = [list(seats.map(s => row({ tag: 'div', lead: pt(s.character, 36), title: `${s.seat} · ${s.seat === SELF ? `${s.name} (you)` : s.name}`, sub: [s.location, status(s)].filter(Boolean).join(' · '),
       trail: h('span', { style: { display: 'inline-flex', gap: '4px' } }, s.seat === 2 ? pill('Captain', { icon: 'captain', tone: 'paper' }) : null, s.seat === 3 ? pill('Officer', { icon: 'officer', tone: 'paper' }) : null) }))),
     groupNote('Public facts only: seats, rooms, health and offices.')];
-    game(root, { top: turnBar(), scene: roomScene(), tabs: moreTabs(), sheet: sheet({ title: 'Players', body, back: 's=more', close: 's=room&room=room-a', detent: 'large' }) });
+    game(root, { top: turnBar(), scene: roomScene(), tabs: panelsTabs(), sheet: sheet({ title: 'Players', body, back: 's=panels', close: 's=room&room=room-a', detent: 'large' }) });
   },
 
   rules(root) {
     const steps = [['hourglass', 'Before turns', '15 s · Officer block, Blackhole'], ['actions', 'Turns', '60 s each · private talk after a turn'], ['blackhole', 'Ship synchronized', '6 s · only after a Blackhole'], ['vote', 'Jail vote', '60 s, then 5 s result'], ['dark', 'Blackout', '5 s lit, 10 s dark'], ['course', 'Navigation', '15 s, then the offices acknowledge']];
-    game(root, { top: turnBar(), scene: roomScene(), tabs: moreTabs(), sheet: sheet({ title: 'Round order', body: [list(steps.map(([i, t, s]) => row({ tag: 'div', icon: i, tint: 'steel', title: t, sub: s }))), groupNote('Current order. The owner’s Blackout-before-voting order is an Integration proposal, pending the rules update.')], back: 's=more', close: 's=room&room=room-a', detent: 'large' }) });
+    game(root, { top: turnBar(), scene: roomScene(), tabs: panelsTabs(), sheet: sheet({ title: 'Round order', body: [list(steps.map(([i, t, s]) => row({ tag: 'div', icon: i, tint: 'steel', title: t, sub: s }))), groupNote('Current order. The owner’s Blackout-before-voting order is an Integration proposal, pending the rules update.')], back: 's=panels', close: 's=room&room=room-a', detent: 'large' }) });
   },
 
   'host-controls'(root, p) {
@@ -166,7 +175,7 @@ export const MORE_SCREENS = {
         h('div', { style: { height: '14px' } }),
         list(row({ icon: 'warning', tint: 'paper', title: 'Abort match', sub: 'Ends with no winner', chevron: true, go: 's=host-controls&state=abort' }))];
     }
-    game(root, { top: turnBar(), scene: roomScene(), tabs: moreTabs(), sheet: sheet({ title: state === 'code' ? 'Recovery code' : 'Host controls', sub: state === 'code' ? 'Private to this phone' : null, body, foot, back: state === 'list' ? 's=more&host=1' : 's=host-controls', close: 's=room&room=room-a', detent: 'large' }) });
+    game(root, { top: turnBar({ open: 'menu' }), scene: roomScene(), tabs: plainTabs(), sheet: sheet({ title: state === 'code' ? 'Recovery code' : 'Host controls', sub: state === 'code' ? 'Private to this phone' : null, body, foot, back: state === 'list' ? 's=settings&host=1' : 's=host-controls', close: 's=room&room=room-a', detent: 'large' }) });
     if (p.copied === '1') root.append(toast('Copied'));
   },
 
@@ -179,7 +188,7 @@ export const MORE_SCREENS = {
       const body = state === 'waiting'
         ? [h('div.wait', pt(seatOf(2).character, 76), h('h2', { style: { fontSize: '1.25rem' } }, 'Ben is choosing an Officer'), h('p', 'Chosen at random if time runs out'))]
         : [h('div.grid9', Array.from({ length: 9 }, (_, i) => { const s = i + 1; return s === 4 ? pick(s, 'ineligible', 'You are Captain') : eligible.has(s) ? pick(s, s === 3 ? 'selected' : 'available', s === 3 ? 'Selected' : '', 's=captain&state=appoint') : pick(s, 'ineligible', s === 5 ? 'Injured' : s === 6 ? 'In Jail' : s === 9 ? 'Out' : 'In Hospital'); }))];
-      game(root, { top: topBar({ kind: 'phase', icon: 'officer', title: state === 'waiting' ? 'Officer appointment' : 'Appoint an Officer', sub: state === 'waiting' ? 'Ben chooses' : 'Random if time runs out', round: 2, seconds: 22 }), scene: roomScene('command-room', { fixture: { place: { 2: ['Room A', 'A5'], 4: ['Command Room', 'C1'] }, active: null, offices: { captain: 4 } } }), tabs: { hero: 'pass-off', go: {} },
+      game(root, { top: topBar({ kind: 'phase', icon: 'officer', title: state === 'waiting' ? 'New Officer' : 'Appoint an Officer', sub: state === 'waiting' ? 'Ben chooses' : 'Random if time runs out', round: 2, seconds: 22 }), scene: roomScene('command-room', { fixture: { place: { 2: ['Room A', 'A5'], 4: ['Command Room', 'C1'] }, active: null, offices: { captain: 4 } } }), tabs: { hero: 'pass-off', go: {} },
         sheet: sheet({ title: state === 'waiting' ? 'Officer appointment' : 'Choose your Officer', body, foot: state === 'waiting' ? null : [button('Appoint Cleo', { icon: 'officer' })], detent: 'large', close: false }) });
       return;
     }
@@ -333,7 +342,7 @@ export const MORE_SCREENS = {
     game(root, {
       top: turnBar(),
       scene: { kind: 'room', room: 'room-a', health: { 4: 'Eliminated' } },
-      tabs: { hero: 'pass-off', disabled: { actions: true }, go: { switch: 's=board', card: 's=card&role=Doctor', more: 's=more' } },
+      tabs: { hero: 'pass-off', disabled: { actions: true }, go: { switch: 's=board', card: 's=card&role=Doctor', panels: 's=panels' } },
       overlay: [banner({ icon: 'eliminated', title: 'You’re out', sub: 'You can watch. Your role stays private.' })],
     });
   },

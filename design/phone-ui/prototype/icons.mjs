@@ -24,7 +24,10 @@ export const ICONS = Object.freeze({
   pass: { label: 'Pass', group: 'navigation', parts: [p('M6 6.2v11.6l8.6-5.8z', { fill: true }), p('M18 6.2v11.6')] },
   vote: { label: 'Vote', group: 'navigation', parts: [p('M8 12V4.6a.6.6 0 0 1 .6-.6h6.8a.6.6 0 0 1 .6.6V12'), p('M10.1 8.1 11.6 9.6 14 7.2'), p('M3.8 12h16.4v7.4a1.6 1.6 0 0 1-1.6 1.6H5.4a1.6 1.6 0 0 1-1.6-1.6z', { fill: true }), p('M9 15.6h6', { knock: true })] },
   card: { label: 'Card', group: 'navigation', parts: [p('M6.5 3.5h11a1.5 1.5 0 0 1 1.5 1.5v14a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 19V5a1.5 1.5 0 0 1 1.5-1.5z', { fill: true }), ring(12, 9.6, 2.3, { knock: true }), p('M8.4 16.6c.6-1.8 2-2.8 3.6-2.8s3 1 3.6 2.8', { knock: true })] },
-  more: { label: 'More', group: 'navigation', parts: [dot(5.5, 12, 1.7), dot(12, 12, 1.7), dot(18.5, 12, 1.7)] },
+  // Panels (was More) is stacked layers, clearly different from Board; the settings menu is a vertical ⋮
+  // in the top bar, beside the clock (the owner, 9 November).
+  panels: { label: 'Panels', group: 'navigation', parts: [p('M12 3.6 20.6 8.2 12 12.8 3.4 8.2z', { fill: true }), p('M3.4 12 12 16.6 20.6 12'), p('M3.4 15.8 12 20.4 20.6 15.8')] },
+  menu: { label: 'Settings menu', group: 'navigation', parts: [dot(12, 5.5, 1.7), dot(12, 12, 1.7), dot(12, 18.5, 1.7)] },
 
   // Game actions
   shoot: { label: 'Shoot', group: 'action', parts: [ring(12, 12, 6.8), p('M12 2.6v4.2M12 17.2v4.2M2.6 12h4.2M17.2 12h4.2'), dot(12, 12, 1.5)] },
@@ -48,7 +51,8 @@ export const ICONS = Object.freeze({
   talk: { label: 'Private talk', group: 'action', parts: [p('M4 5.6A1.6 1.6 0 0 1 5.6 4h8.8A1.6 1.6 0 0 1 16 5.6v5.8a1.6 1.6 0 0 1-1.6 1.6H9.2L5.8 16v-3H5.6A1.6 1.6 0 0 1 4 11.4z', { fill: true }), p('M18.4 8.2h.1a1.5 1.5 0 0 1 1.5 1.5v5.9a1.5 1.5 0 0 1-1.5 1.5h-.3v3l-3.4-3h-3.6a1.5 1.5 0 0 1-1.5-1.5v-.6')] },
   declare: { label: 'Declare side', group: 'action', parts: [p('M4 6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-6l-4.4 4v-4H6a2 2 0 0 1-2-2z', { fill: true }), p('M12 7.4v3.6', { knock: true }), Object.freeze({ c: [12, 13.4, 1.1], dot: true, knock: true })] },
   panel: { label: 'Hospital panel', group: 'action', parts: [p('M5 4.5h14a1.5 1.5 0 0 1 1.5 1.5v8a1.5 1.5 0 0 1-1.5 1.5H5A1.5 1.5 0 0 1 3.5 14V6A1.5 1.5 0 0 1 5 4.5z', { fill: true }), p('M9 20h6M12 15.5V20'), p('M12 7.4v5.2M9.4 10h5.2', { knock: true })] },
-  promise: { label: 'Promises', group: 'action', parts: [ring(12, 9.4, 5.4, { fill: true }), p('M9.2 14.2 7.6 21l4.4-2.1 4.4 2.1-1.6-6.8'), p('M9.8 9.4 11.4 11 14.3 8.1', { knock: true })] },
+  // A handshake: two cuffs and a clasp (the owner, 9 November).
+  promise: { label: 'Promises', group: 'action', parts: [p('M2.6 8.4h2.6v7.2H2.6z', { fill: true }), p('M21.4 8.4h-2.6v7.2h2.6z', { fill: true }), p('M5.2 9.5l2.9-.5c1.3-.3 2.5.1 3.5.9'), p('M18.8 9.5h-3.4c-1.1 0-2.2.4-3.1 1l-2.9 2.1a1.3 1.3 0 0 0 1.4 2.1l2.5-1.5'), p('M18.8 14.5l-5.8 4a1.4 1.4 0 0 1-1.7-.1L5.2 14.5'), p('M10.7 16.7l2.2-2')] },
   window: { label: 'Windows', group: 'action', parts: [p('M5.5 3.8h13a1 1 0 0 1 1 1v14.4h-15V4.8a1 1 0 0 1 1-1z', { fill: true }), p('M12 3.8v15.4M4.5 11.5h15', { knock: true }), p('M3 19.6h18')] },
   draw: { label: 'Draw', group: 'action', parts: [p('M15.4 4.4l4.2 4.2L9 19.2l-5 .8.8-5z', { fill: true }), p('M13.2 6.6l4.2 4.2', { knock: true })] },
   show: { label: 'Show', group: 'action', parts: [p('M2.6 12s3.4-6.4 9.4-6.4S21.4 12 21.4 12s-3.4 6.4-9.4 6.4S2.6 12 2.6 12z'), ring(12, 12, 2.9, { fill: true })] },

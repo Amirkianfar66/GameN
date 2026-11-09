@@ -17,10 +17,10 @@ export function measure(root) {
   };
 }
 
-/** The default turn bar: the active player's portrait and name, the round and the time. */
-export function turnBar({ active = 7, round = 3, seconds = 42 } = {}) {
+/** The default turn bar: the active player's portrait and name, Promises, the round, the time and ⋮. */
+export function turnBar({ active = 7, round = 3, seconds = 42, ...bar } = {}) {
   const who = seatOf(active);
-  return topBar({ kind: 'turn', who, self: active === SELF, round, seconds });
+  return topBar({ kind: 'turn', who, self: active === SELF, round, seconds, ...bar });
 }
 
 /**
@@ -130,14 +130,19 @@ export const FLOWS = Object.freeze([
     { label: 'Actions', go: 's=actions&role=Doctor&active=4' },
     { label: 'Pass', go: 's=room&room=room-a&state=pass' },
     { label: 'Card', go: 's=card&role=Doctor' },
-    { label: 'More', go: 's=more' },
+    { label: 'Panels', go: 's=panels' },
+  ] },
+  { title: 'The top bar: Promises and Settings', steps: [
+    { label: 'Your room · start here', go: 's=room&room=room-a' },
+    { label: 'Promises', go: 's=promises&state=list' },
+    { label: 'Settings (⋮)', go: 's=settings' },
   ] },
   { title: 'Playing', steps: [
     { label: 'Your room', go: 's=room&room=room-a' },
     { label: 'Whole board', go: 's=board' },
     { label: 'Actions', go: 's=actions&role=Doctor&active=4' },
     { label: 'Card', go: 's=card&role=Doctor' },
-    { label: 'More', go: 's=more' },
+    { label: 'Panels', go: 's=panels' },
     { label: 'Private talk', go: 's=talk&stage=talk' },
   ] },
   { title: 'Voting and results', steps: [

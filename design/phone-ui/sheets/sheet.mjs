@@ -62,16 +62,16 @@ const SPECIAL = {
   flow() {
     return h('div.diagram',
       h('div.flow-cols',
-        h('div.flow-col', h('h2', 'Enter'), node('Intro', '2 s · Game N by Plan B', '10', 'flag'), node('Main menu', 'Join · Host · Recover', '10', 'more'),
+        h('div.flow-col', h('h2', 'Enter'), node('Intro', '2 s · Game N by Plan B', '10', 'flag'), node('Main menu', 'Join · Host · Recover', '10', 'menu'),
           node('Join', 'Room code, name', '12', 'join', null, { class: 'node branch' }), node('Waiting · admitted lobby', '', '13', 'hourglass', null, { class: 'node branch' }),
           node('Host', 'Open room → lobby → Start', '11', 'host', null, { class: 'node branch' }), node('Recover', 'Host’s private code', '14', 'key', null, { class: 'node branch', 'data-last': '' })),
         h('div.flow-col', h('h2', 'Before Round 1'), node('Characters', '30 s · auto-assign', '16', 'players'), node('Role stage', '30 s · card 20 + film 10', '17', 'card', 'private'), node('Ready', 'Every human · bots automatic', '18', 'check', 'private'), node('Boarding', '10 s · shared · Skip is local', '19', 'flag')),
         h('div.flow-col', h('h2', 'Round 1'), node('Before turns', '15 s · no offices yet', '07', 'hourglass'), node('Turns', '60 s each · rooms, actions', '20', 'actions', 'amber'), node('Private talk', '≤15 s + 5 s + 60 s', '25', 'talk'), node('Jail vote', '60 s · Vote replaces Pass', '35', 'vote'), node('Result', '5 s', '38', 'jail'), node('Blackout', '5 s lit + 10 s dark', '30', 'dark'), node('Resolution · fixed move', 'Start → Junction', '41', 'course')),
         h('div.flow-col', h('h2', 'Round 2 and later'), node('Captain election', 'When there is no Captain · runoffs', '36', 'captain'), node('Result → Officer', '5 s · 30 s appointment', '40', 'officer'), node('Before turns', '15 s · block · Blackhole', '40', 'hourglass'), node('Turns and talks', '', '20', 'actions', 'amber'), node('Ship synchronized', '6 s · only after a Blackhole', '44', 'blackhole'), node('Jail vote → result → Blackout', 'today’s order (see 02)', '35', 'vote'), node('Navigation', '15 s neutral · offices confirm', '41', 'course', 'private'), node('Arrival or next round', 'End: 44', '44', 'planet'))),
       h('div.band', h('h3', 'Inside any game phase (own phone)'), h('div.row-nodes',
-        node('Room view', 'your room, full screen', '20–24', 'room'), node('Board view', 'never moves you', '26', 'board'), node('Actions', 'targets on the scene', '28', 'actions'), node('Card', 'private', '31', 'card', 'private'), node('More', 'Promises · Windows · Display', '32', 'more'), node('Vote', 'while a ballot is open', '35', 'vote'))),
+        node('Room view', 'your room, full screen', '20–24', 'room'), node('Board view', 'never moves you', '26', 'board'), node('Actions', 'targets on the scene', '28', 'actions'), node('Card', 'private', '31', 'card', 'private'), node('Panels', 'Windows · Players · Round order', '32', 'panels'), node('Vote', 'while a ballot is open', '35', 'vote'), node('Promises', 'top bar · pair-private', '33', 'promise', 'private'), node('Settings', 'top bar ⋮ · this phone', '32', 'menu'))),
       h('div.band', h('h3', 'From anywhere'), h('div.row-nodes',
-        node('Reconnecting', 'the same seat, no replay', '45', 'retry'), node('Outcome unknown', 'check the original receipt', '45', 'warning'), node('Recover a seat', 'host code, 15 minutes', '14', 'key'), node('Eliminated', 'watch; card stays private', '44', 'eliminated'), node('Host controls', 'host only', '15', 'host'))));
+        node('Reconnecting', 'the same seat, no replay', '45', 'retry'), node('Outcome unknown', 'check the original receipt', '45', 'warning'), node('Recover a seat', 'host code, 15 minutes', '14', 'key'), node('Eliminated', 'watch; card stays private', '44', 'eliminated'), node('Host controls', 'host only · from ⋮', '15', 'host'))));
   },
 
   phases() {
@@ -120,9 +120,9 @@ const SPECIAL = {
       R('vote', 'Vote / Abstain', 'Centre tab → grid', 'Ballot private; totals public', { 5: 'Eligible voters (server)' }),
       R('talk', 'Private talk', 'Actions → scene', 'Public pair', { 1: 'Any living player, once a match' }),
       R('declare', 'Declare side', 'Talk sheet', 'Pair', { 3: 'The target (declare stage)' }),
-      R('panel', 'Hospital panel', 'Room chip / More', 'Private', { 1: 'Patient · attempt unused', 2: 'Same', 3: 'Same' }),
-      R('promise', 'Offer / accept Promise', 'Talk → Promises', 'Pair', { 3: 'The pair (talk stage)' }),
-      R('window', 'Windows: view', 'More / room chip', 'Window’s two rooms', { 0: 'View', 1: 'View', 2: 'View', 3: 'View', 4: 'View', 5: 'View', 6: 'View', 7: 'View', 10: 'View' }),
+      R('panel', 'Hospital panel', 'Room chip / Panels', 'Private', { 1: 'Patient · attempt unused', 2: 'Same', 3: 'Same' }),
+      R('promise', 'Offer / accept Promise', 'Top bar Promises (in talk)', 'Pair', { 3: 'The pair (talk stage)' }),
+      R('window', 'Windows: view', 'Panels / room chip', 'Window’s two rooms', { 0: 'View', 1: 'View', 2: 'View', 3: 'View', 4: 'View', 5: 'View', 6: 'View', 7: 'View', 10: 'View' }),
       R('draw', 'Windows: draw, Show', 'Windows sheet', 'Window’s two rooms', { 0: 'Station occupant', 1: 'Station occupant', 2: 'Station occupant', 3: 'Station occupant', 4: 'Station occupant', 5: 'Station occupant', 6: 'Station occupant', 7: 'Station occupant', 10: 'Station occupant' }),
       R('card', 'Card', 'Card tab', 'Own phone', Object.fromEntries(cols.map((_, i) => [i, 'Always']))),
     ];

@@ -1,6 +1,6 @@
 // mothership:dev-only
 //
-// H–N: the room views, the whole board, the top bar and the tabs, Actions, Card and More.
+// H–N: the room views, the whole board, the top bar and the tabs, Actions, Card and Panels.
 
 import { h, ic, pt, button, iconButton, topBar, tabs, sheet, row, list, groupLabel, groupNote, stamp, pill, toast, banner } from './ui.mjs';
 import { ROOM_NAMES } from './art.mjs';
@@ -92,7 +92,7 @@ export const GAME_SCREENS = {
     game(root, {
       top,
       scene: { kind: 'room', room, active, veil: state === 'reconnecting' ? 'rgba(10,13,19,0.45)' : null, slots: state === 'move' ? { ids: empty, picked: p.slot ?? null, icon: 'move' } : null },
-      tabs: { hero: active === SELF ? 'pass' : 'pass-off', go: { switch: 's=board', actions: `s=actions&role=Doctor&active=${active}`, card: 's=card&role=Doctor', more: 's=more', hero: active === SELF && state !== 'pass' ? `s=room&room=${room}&state=pass` : null } },
+      tabs: { hero: active === SELF ? 'pass' : 'pass-off', go: { switch: 's=board', actions: `s=actions&role=Doctor&active=${active}`, card: 's=card&role=Doctor', panels: 's=panels', hero: active === SELF && state !== 'pass' ? `s=room&room=${room}&state=pass` : null } },
       sheet: passSheet,
       toast: state === 'passed' ? toast('Turn passed', 'info') : null,
       overlay: [
@@ -115,7 +115,7 @@ export const GAME_SCREENS = {
     game(root, {
       top: state === 'move' ? turnBar({ active: SELF, seconds: 38 }) : turnBar(),
       scene: s,
-      tabs: { hero: state === 'move' ? 'pass' : 'pass-off', go: { switch: 's=room&room=room-a', actions: 's=actions&role=Doctor&active=4', card: 's=card&role=Doctor', more: 's=more' } },
+      tabs: { hero: state === 'move' ? 'pass' : 'pass-off', go: { switch: 's=room&room=room-a', actions: 's=actions&role=Doctor&active=4', card: 's=card&role=Doctor', panels: 's=panels' } },
       overlay: [
         state === 'move' ? targetBar('move', 'Move', 'Choose an empty position · uses this round’s move', { cancel: 's=room&room=room-a&state=own' }) : null,
         state === 'targets' ? targetBar('rescue', 'Rescue', 'Choose a player · Hospital shown', { cancel: 's=actions&role=Doctor&active=4' }) : null,
@@ -131,9 +131,10 @@ export const GAME_SCREENS = {
       ['Another player’s turn', turnBar({ active: 7, seconds: 42 })],
       ['Your turn', turnBar({ active: SELF, seconds: 51 })],
       ['Last 10 seconds', turnBar({ active: 2, seconds: 8 })],
+      ['Promises · one new offer', turnBar({ active: 7, seconds: 42, promises: { badge: 1 } })],
       ['Before turns (no active player)', topBar({ kind: 'phase', icon: 'hourglass', title: 'Before turns', sub: 'Officer block · Blackhole', round: 3, seconds: 12 })],
       ['Captain election', topBar({ kind: 'phase', icon: 'captain', title: 'Captain election', sub: 'Your ballot is private', round: 2, seconds: 47 })],
-      ['Officer appointment', topBar({ kind: 'phase', icon: 'officer', title: 'Captain appoints an Officer', sub: 'Ben chooses', round: 2, seconds: 24 })],
+      ['Officer appointment', topBar({ kind: 'phase', icon: 'officer', title: 'New Officer', sub: 'Ben chooses', round: 2, seconds: 24 })],
       ['Jail vote', topBar({ kind: 'phase', icon: 'vote', title: 'Jail vote', sub: 'Your ballot is private', round: 3, seconds: 37 })],
       ['Vote result (5 s)', topBar({ kind: 'phase', icon: 'jail', title: 'Jail vote · result', round: 3, seconds: 4, ring: 0.2, urgentAt: -1 })],
       ['Private talk', topBar({ kind: 'pair', pair: [seatOf(1), seatOf(2)], sub: 'Private talk', round: 3, seconds: 54 })],
@@ -144,7 +145,7 @@ export const GAME_SCREENS = {
       ['Reconnecting', topBar({ kind: 'phase', icon: 'retry', title: 'Reconnecting…', sub: 'Showing Round 3 as last seen', round: 3, seconds: null })],
     ];
     const part = Number(p.part ?? 0);
-    const shown = part === 1 ? items.slice(0, 7) : part === 2 ? items.slice(7) : items;
+    const shown = part === 1 ? items.slice(0, 8) : part === 2 ? items.slice(8) : items;
     // Each bar at its own height, without the phone's top safe area, with its name under it.
     root.append(h('div', { style: { position: 'absolute', inset: 0, overflow: 'auto', background: '#05070B', paddingTop: 'var(--safe-t)' } }, shown.map(([label, bar]) => {
       const box = h('div.specimen', { style: { '--h': 'calc(var(--bar-h) + 26px)', '--safe-t': '0px' } }, bar, h('span.specimen-label', label));
@@ -163,7 +164,7 @@ export const GAME_SCREENS = {
       ['Board view (first tab says Room)', { view: 'board', hero: 'pass-off' }],
       ['Actions open', { view: 'room', hero: 'pass', open: 'actions' }],
       ['Card open', { view: 'room', hero: 'pass-off', open: 'card' }],
-      ['More open · one new offer', { view: 'room', hero: 'pass-off', open: 'more', badges: { more: 1 } }],
+      ['Panels open', { view: 'room', hero: 'pass-off', open: 'panels' }],
       ['Voting · Vote replaces Pass', { view: 'room', hero: 'vote' }],
       ['Ballot registered', { view: 'room', hero: 'voted' }],
       ['Eliminated · Actions unavailable', { view: 'room', hero: 'pass-off', disabled: { actions: true } }],
@@ -187,7 +188,7 @@ export const GAME_SCREENS = {
     const act = p.act ?? 'rescue';
     const own = Number(p.active ?? SELF) === SELF;
     const room = p.room ?? 'room-a';
-    const tabsCfg = { hero: own ? 'pass' : 'pass-off', open: state === 'list' ? 'actions' : null, go: { switch: 's=board', card: `s=card&role=${encodeURIComponent(role)}`, more: 's=more' } };
+    const tabsCfg = { hero: own ? 'pass' : 'pass-off', open: state === 'list' ? 'actions' : null, go: { switch: 's=board', card: `s=card&role=${encodeURIComponent(role)}`, panels: 's=panels' } };
     const scene = { kind: 'room', room, active: own ? SELF : ROOM_FIXTURES[room].active };
     const ACT = {
       rescue: { icon: 'rescue', label: 'Rescue', targets: [1, 4, 7, 9], off: [5], verb: 'Rescue', facts: ['Uses 1 of 2 shared injections', 'Registered now · resolves after the vote', 'Does not revive an eliminated player'] },
@@ -276,18 +277,18 @@ export const GAME_SCREENS = {
     game(root, {
       top: turnBar(),
       scene: { kind: 'room', room: 'room-a' },
-      tabs: { open: 'card', go: { switch: 's=board', actions: 's=actions&role=Doctor&active=7', more: 's=more' } },
+      tabs: { open: 'card', go: { switch: 's=board', actions: 's=actions&role=Doctor&active=7', panels: 's=panels' } },
       sheet: sheet({ title: 'Your role', sub: 'Only on this phone', body, detent: 'large', close: 's=room&room=room-a',
         actions: state === 'hidden' ? [] : [iconButton('hide', 'Hide card', { go: `s=card&role=${encodeURIComponent(role)}&state=hidden` })] }),
     });
   },
 
-  // ── N. More ────────────────────────────────────────────────────────────
-  more(root, p) {
-    const host = p.host === '1';
+  // ── N. Panels ──────────────────────────────────────────────────────────
+  // The fifth tab (was More; the owner, 9 November). Promises moved to the top bar, after the name, and
+  // Display and Host controls to the settings menu (⋮) beside the clock: Panels holds the match's panels.
+  panels(root) {
     const body = [
       list(
-        row({ icon: 'promise', tint: 'amber', title: 'Promises', sub: 'Given 0/1 · Received 1/1', value: h('span.pill', { 'data-tone': 'amber' }, '1 offer'), chevron: true, go: 's=promises&state=list' }),
         row({ icon: 'window', tint: 'paper', title: 'Windows', sub: 'Room A ↔ Room B · Room A ↔ Hospital', chevron: true, go: 's=windows&state=view' }),
         row({ icon: 'course', tint: 'slate', title: 'Navigation', sub: 'Captain and Officer only', chevron: true, disabled: true }),
         row({ icon: 'panel', tint: 'teal', title: 'Hospital panel', sub: 'Patients only', chevron: true, disabled: true })),
@@ -295,11 +296,7 @@ export const GAME_SCREENS = {
       list(
         row({ icon: 'players', tint: 'steel', title: 'Players', sub: 'Seats, rooms and public status', chevron: true, go: 's=players' }),
         row({ icon: 'rules', tint: 'steel', title: 'Round order', sub: 'Phases and timings', chevron: true, go: 's=rules' })),
-      h('div', { style: { height: '14px' } }),
-      list(
-        row({ icon: 'settings', tint: 'steel', title: 'Display', sub: 'Reduce motion · Text size', chevron: true, go: 's=settings' }),
-        host ? row({ icon: 'host', tint: 'amber', title: 'Host controls', sub: 'Bots, deadlines, recovery, abort', chevron: true, go: 's=host-controls' }) : null),
     ];
-    game(root, { top: turnBar(), scene: { kind: 'room', room: 'room-a' }, tabs: { open: 'more', badges: { more: 1 }, go: { switch: 's=board', actions: 's=actions&role=Doctor&active=7', card: 's=card&role=Doctor' } }, sheet: sheet({ title: 'More', body, close: 's=room&room=room-a' }) });
+    game(root, { top: turnBar(), scene: { kind: 'room', room: 'room-a' }, tabs: { open: 'panels', go: { switch: 's=board', actions: 's=actions&role=Doctor&active=7', card: 's=card&role=Doctor' } }, sheet: sheet({ title: 'Panels', body, close: 's=room&room=room-a' }) });
   },
 };
