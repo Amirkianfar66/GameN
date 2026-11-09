@@ -84,7 +84,7 @@ function paintBoard(host, dims, s, common) {
     host.append(panel);
     paintRoom(inner, { ...common, room, width, height, cap: 30, pad: 4, compact: true, slots: s.slotsByRoom?.[room] ?? null });
     panel.append(h('div.room-label', caption(ROOM_NAMES[room])));
-    if (own?.location === ROOM_NAMES[room]) panel.append(h('span.here', pill('You', { icon: 'self', tone: 'amber' })));
+    if (own?.location === ROOM_NAMES[room]) panel.append(h('span.here', pill('You', { icon: 'self', tone: 'accent' })));
   }
   const [left, top, width, height] = boxes.capsule;
   const cap = h('section.board-panel', { 'aria-label': 'Private talk', style: { left: `${left}px`, top: `${top}px`, width: `${width}px`, height: `${height}px` } });

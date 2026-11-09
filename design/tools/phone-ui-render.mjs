@@ -62,6 +62,22 @@ async function jpeg(page, file) {
   return { width: clip.width, height: clip.height };
 }
 
+/**
+ * Each frame's text contrast against what is drawn behind it (sheet.mjs, "Text contrast"): the text
+ * runs, then a lossless capture of the same page with every text made transparent, read back in the page.
+ * Run after the sheet's picture: it changes the page.
+ */
+async function measureContrast(page) {
+  const runs = await page.evaluate('window.__sheetTextRuns ? window.__sheetTextRuns() : []');
+  if (!runs.length) return [];
+  await page.evaluate('window.__sheetHideText()');
+  await page.evaluate('new Promise(done => setTimeout(done, 300))');
+  const { cssContentSize } = await page.send('Page.getLayoutMetrics');
+  const clip = { x: 0, y: 0, width: Math.ceil(cssContentSize.width), height: Math.ceil(cssContentSize.height), scale: 1 };
+  const { data } = await page.send('Page.captureScreenshot', { format: 'png', captureBeyondViewport: true, clip });
+  return page.evaluate(`window.__sheetContrast(${JSON.stringify(data)}, ${JSON.stringify(runs)})`);
+}
+
 const args = process.argv.slice(2);
 const flag = name => { const i = args.indexOf(name); return i < 0 ? null : args[i + 1]; };
 
@@ -94,6 +110,8 @@ async function main() {
       await page.fitHeight();
       const file = join(OUT, 'sheets', `${sheet.id}-${sheet.slug}.jpg`);
       const size = await jpeg(page, file);
+      const contrast = await measureContrast(page);
+      frames.forEach((f, i) => { f.contrast = contrast[i] ?? { error: 'not measured' }; });
       const bytes = await readFile(file);
       checks.push({ id: sheet.id, slug: sheet.slug, title: sheet.title, file: `design/phone-ui/review/sheets/${sheet.id}-${sheet.slug}.jpg`, sha256: createHash('sha256').update(bytes).digest('hex'), bytes: bytes.length, size, frames, problems: page.problems().filter(p => !/favicon/.test(p)) });
       console.log(`${sheet.id} ${sheet.slug}: ${frames.length} frames${page.problems().length ? `, problems: ${page.problems().join(' | ')}` : ''}`);

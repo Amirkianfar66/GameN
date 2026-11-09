@@ -51,6 +51,11 @@ These are routine decisions, made by Designer under the brief. The owner can ove
 
 **One interface language around the comic.**
 - The chrome is clean and dark, like iOS, with translucent bars, rounded controls, grouped lists and sheets.
+- **Sheets are clear glass over the room**, at the level the owner chose on 9 November (the clearest of three).
+  - A 20–34% tint, a 2 px blur, and the room behind darkened to 56%, with its colours raised to 130%. The room above a sheet isn't dimmed.
+  - Boxes inside a sheet are a light dark layer (24%) with a thin light edge, and grey text on glass is brighter (`#DCE3EC`).
+  - Text on glass stays at least 4.5:1 against what is really behind it (measured; see "Measured").
+  - Where the phone asks for less transparency, or glass can't be drawn, sheets are solid again.
 - The scenes, crew, role card, stamps and result window stay comic ink: hard ink outlines and offset shadows, halftone, captions.
 - One icon family is used everywhere: 78 icons on a 24 px grid with 1.8 px round strokes. Each has an outline form and a filled form for selected.
 - The interface font is the system font (SF Pro on iPhone). Condensed lettering is kept for stamps, room captions, role names and results.
@@ -201,11 +206,16 @@ Nothing in `apps/` or `packages/` imports the pack.
   - every control's box against 44 px (counting the declared hit-area extensions of small buttons and swatches);
   - text under 11 px;
   - ellipsis-clipped text;
-  - page errors.
+  - page errors;
+  - every text's contrast against what is really drawn behind it, glass and art included:
+    - first each text run's colour and place;
+    - then the same page with all text made transparent, captured losslessly and read back pixel by pixel;
+    - the ratio is taken against the 80th-percentile luminance behind light text, and the median behind dark text;
+    - text under another element, inactive controls and hidden text are left out.
 - The results are in `checks.json`, and the "Measured" section below summarises them.
 - `packages/design-tokens/test/phone-ui.test.mjs` checks:
   - the catalog and every sheet's screens, kept in step with the registry;
-  - the review files and their hashes;
+  - the review files and their hashes, and every frame's measurements (contrast included) clean;
   - the room view's framing, for every room's fixture: wider than the first draft, filling the space between the bars, with everyone present in view;
   - a tap-by-tap sheet for each tab, and every tap it draws landing on a control the prototype shows;
   - the kit's colours against tokens 0.5.0;
@@ -222,8 +232,18 @@ Nothing in `apps/` or `packages/` imports the pack.
 ### Measured
 
 From `design/phone-ui/review/checks.json`, written by the render that produced the committed sheets (Google Chrome for Testing 153, headless, desktop):
-- 55 sheets and 207 phone frames.
+- 55 sheets and 209 phone frames.
 - Every one of the 15 taps drawn on sheets 27.1–27.5 lands on a control the prototype shows.
+- Every text run is at least 4.5:1 against what is drawn behind it (3:1 for large text). The lowest is 4.59:1, on sheet 43.
+- Measuring contrast found, and this pack fixed:
+  - the top bar and tab bar samples (07, 08), which were cut in half; each sheet now has two frames;
+  - the board's "You" badge and the role stage's "Ready" mark, which were amber on light;
+  - the status on the player's own tag ("· Injured", "· Out"), which was grey on paper;
+  - dimmed name tags, which are now muted rather than faded;
+  - the Officer's "Blocked" mark, which was hidden behind the room's art;
+  - a picked person's note on the 3 × 3 grids;
+  - the More badge at 200% text;
+  - grey words over glass on the brightest rooms.
 - No frame scrolls sideways.
 - No control is under 44 px.
 - No text is under 11 px.

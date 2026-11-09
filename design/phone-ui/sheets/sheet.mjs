@@ -213,6 +213,72 @@ function sheetPage(sheet) {
   return page;
 }
 
+// ── Text contrast, measured on what is drawn ─────────────────────────────
+// Sheets are glass over comic art, so a colour pair alone can't say whether text reads. For every
+// visible text run in a frame: its rectangles and colour (textRuns); then the render tool makes all
+// text transparent (hideText), captures the page, and contrastOf reads the background behind each run
+// from that capture. WCAG 2 ratio of the text against its background (for light text the 80th-percentile
+// luminance behind it, for dark text the median); large text (24 px, or 18.66 px bold) needs 3:1, other
+// text 4.5:1. Text under another element, inactive controls (aria-disabled) and hidden text are left out.
+const rgba = c => { const m = /rgba?\(([^)]+)\)/.exec(c); if (!m) return null; const p = m[1].split(/[\s,/]+/).filter(Boolean).map(Number); return { r: p[0], g: p[1], b: p[2], a: p.length > 3 ? p[3] : 1 }; };
+
+function textRuns(f) {
+  const win = f.contentWindow, doc = f.contentDocument, box = f.getBoundingClientRect();
+  const ox = box.left + f.clientLeft + scrollX, oy = box.top + f.clientTop + scrollY;
+  const runs = [];
+  const walker = doc.createTreeWalker(doc.body, NodeFilter.SHOW_TEXT);
+  for (let n = walker.nextNode(); n; n = walker.nextNode()) {
+    const text = n.textContent.trim();
+    const el = n.parentElement;
+    if (!text || !el || el.closest('[aria-hidden="true"], .vh, [aria-disabled="true"], :disabled')) continue;
+    const cs = win.getComputedStyle(el);
+    const color = rgba(cs.color);
+    let opacity = color?.a ?? 1;
+    for (let a = el; a; a = a.parentElement) opacity *= Number(win.getComputedStyle(a).opacity);
+    if (cs.visibility === 'hidden' || !color || opacity < 0.05) continue;
+    const range = doc.createRange();
+    range.selectNodeContents(n);
+    const rects = [...range.getClientRects()].map(r => ({ x: Math.max(0, r.left), y: Math.max(0, r.top), w: Math.min(win.innerWidth, r.right) - Math.max(0, r.left), h: Math.min(win.innerHeight, r.bottom) - Math.max(0, r.top) })).filter(r => r.w > 2 && r.h > 2);
+    const seen = rects.some(r => { const hit = doc.elementFromPoint(r.x + r.w / 2, r.y + r.h / 2); return hit && (hit === el || el.contains(hit) || hit.contains(el)); });
+    if (!seen) continue;
+    const size = parseFloat(cs.fontSize), weight = Number(cs.fontWeight) || 400;
+    runs.push({ text: text.slice(0, 40), color, opacity, large: size >= 24 || (size >= 18.66 && weight >= 700), rects: rects.map(r => ({ x: r.x + ox, y: r.y + oy, w: r.w, h: r.h })) });
+  }
+  return runs;
+}
+
+async function contrastOf(png, runsByFrame) {
+  const img = new Image();
+  img.src = `data:image/png;base64,${png}`;
+  await img.decode();
+  const canvas = document.createElement('canvas');
+  canvas.width = img.width; canvas.height = img.height;
+  const g = canvas.getContext('2d', { willReadFrequently: true });
+  g.drawImage(img, 0, 0);
+  const lin = v => { v /= 255; return v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; };
+  const lum = (r, gr, b) => 0.2126 * lin(r) + 0.7152 * lin(gr) + 0.0722 * lin(b);
+  return runsByFrame.map(runs => {
+    if (!Array.isArray(runs)) return { error: runs?.error ?? 'not measured' };
+    const results = runs.map(run => {
+      const px = [];
+      for (const r of run.rects) {
+        const d = g.getImageData(Math.round(r.x), Math.round(r.y), Math.max(1, Math.round(r.w)), Math.max(1, Math.round(r.h))).data;
+        for (let i = 0; i < d.length; i += 4) px.push([d[i], d[i + 1], d[i + 2]]);
+      }
+      const ls = px.map(p => lum(...p)).sort((a, b) => a - b);
+      const mid = px[Math.floor(px.length / 2)];
+      const seen = [run.color.r, run.color.g, run.color.b].map((v, i) => v * run.opacity + mid[i] * (1 - run.opacity));
+      const lt = lum(...seen), median = ls[Math.floor(ls.length / 2)];
+      // Light text: the 80th-percentile background (glass and art vary under it). Dark text sits on a solid
+      // fill (a pill, a button, a stamp), whose rounded or tilted edges would otherwise count what is around it.
+      const lb = lt > median ? ls[Math.floor(ls.length * 0.8)] : median;
+      const ratio = (Math.max(lt, lb) + 0.05) / (Math.min(lt, lb) + 0.05);
+      return { text: run.text, ratio: Math.round(ratio * 100) / 100, need: run.large ? 3 : 4.5 };
+    });
+    return { min: results.length ? Math.min(...results.map(r => r.ratio)) : null, low: results.filter(r => r.ratio < r.need) };
+  });
+}
+
 /** Puts each tap ring on the element its frame taps, once the frames have drawn (same origin). */
 function placeTaps(frames) {
   for (const f of frames) {
@@ -266,6 +332,13 @@ if (document.body.dataset.page === 'contact') {
   const frames = [...document.querySelectorAll('iframe')];
   const ready = f => new Promise(done => { const t0 = Date.now(); const tick = () => { let ok = false; try { ok = f.contentWindow.__phoneReady === true || /\.(png|jpg)$/.test(f.src); } catch { ok = true; } if (ok || Date.now() - t0 > 20000) done(); else setTimeout(tick, 60); }; tick(); });
   Promise.all(frames.map(ready)).then(() => { placeTaps(frames); window.__sheetReady = true; });
+  window.__sheetTextRuns = () => frames.map(f => { try { return textRuns(f); } catch (e) { return { error: String(e) }; } });
+  window.__sheetHideText = () => {
+    const hide = '*, *::before, *::after { color: transparent !important; -webkit-text-fill-color: transparent !important; text-shadow: none !important; }';
+    for (const f of frames) { try { const s = f.contentDocument.createElement('style'); s.textContent = hide; f.contentDocument.head.append(s); } catch {} }
+    document.head.append(Object.assign(document.createElement('style'), { textContent: '.tap-ring, .tap-arrow { display: none !important; }' }));
+  };
+  window.__sheetContrast = contrastOf;
   // tap: whether a tap-by-tap frame's tapped element exists (absent for frames that tap nothing).
   window.__sheetChecks = () => frames.map(f => { let m; try { m = measureFrame(f.contentWindow); } catch (e) { m = { error: String(e) }; } const tap = f.dataset.tap ? Boolean(f.contentDocument?.querySelector(f.dataset.tap)) : undefined; return { label: f.title, src: f.getAttribute('src').replace(/^.*index\.html\?/, ''), width: Number(f.width), height: Number(f.height), ...m, ...(tap === undefined ? {} : { tap }) }; });
 }

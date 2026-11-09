@@ -66,7 +66,7 @@
 .rolecard[data-team="red"] { --team: #E8423F; --team-ground: #F4CFC8; }
 .rolecard[data-team="alien"] { --team: #9B5CFF; --team-ground: #DDD0F6; }
 .rolecard[data-art="missing"] .rc-art { display: grid; place-items: center; background: var(--paper-shade); }
-.rolecard .rc-missing { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 8px; color: var(--steel-mid); font: 700 0.875rem/1.2 var(--font-ui); text-align: center; }
+.rolecard .rc-missing { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 8px; color: var(--steel-shadow); font: 700 0.875rem/1.2 var(--font-ui); text-align: center; }
 .rolecard .rc-missing .ic { width: 40px; height: 40px; }
 .cardback { position: relative; width: 100%; max-width: 330px; aspect-ratio: 5 / 7; margin: 0 auto; border-radius: 18px; border: 3px solid var(--ink); background: repeating-linear-gradient(45deg, #1B2333 0 10px, #202A3D 10px 20px); box-shadow: 6px 6px 0 #05070B; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-secondary); gap: 10px; }
 .cardback .ic { width: 44px; height: 44px; }
@@ -180,7 +180,7 @@
 .specimen { position: relative; height: var(--h, 64px); border-bottom: 8px solid #05070B; overflow: hidden; }
 .specimen .tb { position: absolute; }
 .specimen .tabs { position: absolute; }
-.specimen-label { position: absolute; right: 8px; bottom: 4px; z-index: 50; font: 600 0.6875rem/1 var(--font-ui); color: var(--text-tertiary); }
+.specimen-label { position: absolute; left: 14px; bottom: 6px; z-index: 50; font: 600 0.75rem/1 var(--font-ui); color: var(--text-secondary); }
 
 /* ── Stage page (desktop prototype) ──────────────────────────────────── */
 body.stage-page #app { position: static; }

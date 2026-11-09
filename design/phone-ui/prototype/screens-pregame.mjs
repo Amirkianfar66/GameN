@@ -72,7 +72,7 @@ export const PREGAME_SCREENS = {
     root.append(h('div', { style: { position: 'absolute', top: 'calc(var(--safe-t) + 4px)', right: '6px', zIndex: 41 } }));
     root.append(foot);
     if (state === 'late') root.append(toast('Rejoined · the stage carried on', 'info'));
-    if (state === 'waiting') root.append(h('div', { style: { position: 'absolute', left: 0, right: 0, top: 'calc(var(--top) + 18px)', textAlign: 'center', zIndex: 32 } }, pill('Ready', { icon: 'check', tone: 'amber' })));
+    if (state === 'waiting') root.append(h('div', { style: { position: 'absolute', left: 0, right: 0, top: 'calc(var(--top) + 18px)', textAlign: 'center', zIndex: 32 } }, pill('Ready', { icon: 'check', tone: 'accent' })));
   }, { auto: p => { const t = Number(p.t ?? 4000); return t < CARD_MS ? { after: CARD_MS - t, go: `s=role&role=${encodeURIComponent(p.role ?? 'Doctor')}&t=${CARD_MS}`, tx: 'fade' } : t < STAGE_MS && p.state !== 'skipped' ? { after: STAGE_MS - t, go: `s=role&role=${encodeURIComponent(p.role ?? 'Doctor')}&t=${STAGE_MS}`, tx: 'fade' } : null; } }),
 
   /** G. Boarding: the shared ten-second film. Skip hides the picture on this phone only. */

@@ -4,8 +4,9 @@
 //   - the catalog covers every required screen group (A–Q), the flow, the matrix, the components,
 //     the three phone sizes, larger text and Reduce motion, and every frame names a real screen;
 //   - the committed review sheets are the ones the render tool recorded, and the recorded checks of
-//     every frame are clean: no sideways overflow, no control under 44 px, no text under 11 px, no
-//     page error;
+//     every frame are clean: no sideways overflow, no control under 44 px, no text under 11 px, text
+//     contrast of at least 4.5:1 (3:1 large) against what is really drawn behind it, glass sheets over
+//     the art included, and no page error;
 //   - the room view is framed wider than the first draft (the owner found it too zoomed in, 9
 //     November 2026): it fills the space between the bars and keeps everyone present in view;
 //   - each tab (Board, Actions, Pass, Card, More) has a tap-by-tap sheet, and every tap the sheets
@@ -74,6 +75,9 @@ test('the review sheets are the recorded renders, and every measured frame is cl
       assert.equal(f.overflowX, false, `${s.id} ${f.label}: no sideways overflow`);
       assert.deepEqual(f.small, [], `${s.id} ${f.label}: controls at least 44 px`);
       assert.deepEqual(f.tinyText, [], `${s.id} ${f.label}: no text under 11 px`);
+      // Measured against what is drawn behind it, glass and art included (sheet.mjs, "Text contrast").
+      assert.ok(f.contrast && !f.contrast.error, `${s.id} ${f.label}: text contrast measured`);
+      assert.deepEqual(f.contrast.low, [], `${s.id} ${f.label}: text contrast at least 4.5:1 (3:1 for large text)`);
     }
   }
   assert.ok(existsSync(join(PACK, 'review/contact-sheet.jpg')), 'the numbered contact sheet');

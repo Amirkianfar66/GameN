@@ -97,7 +97,7 @@ export const GAME_SCREENS = {
       toast: state === 'passed' ? toast('Turn passed', 'info') : null,
       overlay: [
         state === 'reconnecting' ? banner({ icon: 'offline', title: 'Connection lost', sub: 'Controls return when the match is current', action: button('Retry', { kind: 'secondary', small: true }) }) : null,
-        p.stamp ? h('div', { style: { position: 'absolute', inset: '0', display: 'grid', placeItems: 'center', zIndex: 3500, pointerEvents: 'none' } }, h('span.stamp', { 'data-tone': 'gold', style: { fontSize: '2.25rem', padding: '10px 20px 8px' } }, 'ROUND 1')) : null,
+        p.stamp ? h('div', { style: { position: 'absolute', inset: '0', display: 'grid', placeItems: 'center', zIndex: 3500, pointerEvents: 'none' } }, h('span.stamp', { 'data-tone': 'gold', style: { fontSize: '2.25rem', padding: '10px 20px 8px', pointerEvents: 'auto' } }, 'ROUND 1')) : null,
         state === 'move' ? targetBar('move', p.slot ? `Move to ${p.slot}` : 'Move within Room A', p.slot ? 'Uses this round’s move · register to confirm' : 'Choose an empty position · or another room on the Board', { cancel: active === SELF ? 's=room&room=room-a&state=own' : 's=room&room=room-a' }) : null,
         state === 'move' && !p.slot ? floating('Other rooms on the Board', { icon: 'board', go: 's=board&state=move' }) : null,
         !['reconnecting', 'move', 'pass'].includes(state) && !p.stamp ? roomInteraction(room) : null,
@@ -124,7 +124,8 @@ export const GAME_SCREENS = {
   },
 
   // ── J. Top bar specimens ──────────────────────────────────────────────
-  topbars(root) {
+  /** part: 1 (turns and phases) | 2 (votes, talk, Blackout and recovery) | none (all, scrolling). */
+  topbars(root, p = {}) {
     root.style.overflow = 'auto';
     const items = [
       ['Another player’s turn', turnBar({ active: 7, seconds: 42 })],
@@ -142,15 +143,20 @@ export const GAME_SCREENS = {
       ['Navigation', topBar({ kind: 'phase', icon: 'course', title: 'Setting course', sub: 'Round 3 complete', round: 3, seconds: 11 })],
       ['Reconnecting', topBar({ kind: 'phase', icon: 'retry', title: 'Reconnecting…', sub: 'Showing Round 3 as last seen', round: 3, seconds: null })],
     ];
-    root.append(h('div', { style: { position: 'absolute', inset: 0, overflow: 'auto', background: '#05070B' } }, items.map(([label, bar]) => {
-      const box = h('div.specimen', { style: { '--h': '60px', '--safe-t': '0px' } }, bar, h('span.specimen-label', label));
+    const part = Number(p.part ?? 0);
+    const shown = part === 1 ? items.slice(0, 7) : part === 2 ? items.slice(7) : items;
+    // Each bar at its own height, without the phone's top safe area, with its name under it.
+    root.append(h('div', { style: { position: 'absolute', inset: 0, overflow: 'auto', background: '#05070B', paddingTop: 'var(--safe-t)' } }, shown.map(([label, bar]) => {
+      const box = h('div.specimen', { style: { '--h': 'calc(var(--bar-h) + 26px)', '--safe-t': '0px' } }, bar, h('span.specimen-label', label));
       bar.style.setProperty('--safe-t', '0px');
+      bar.style.setProperty('--top', 'var(--bar-h)');
       return box;
     })));
   },
 
   // ── K. Bottom tab specimens ───────────────────────────────────────────
-  navbars(root) {
+  /** part: 1 (views and tabs) | 2 (votes and elimination) | none (all, scrolling). */
+  navbars(root, p = {}) {
     const items = [
       ['Room view · another player’s turn', { view: 'room', hero: 'pass-off' }],
       ['Room view · your turn', { view: 'room', hero: 'pass' }],
@@ -162,10 +168,14 @@ export const GAME_SCREENS = {
       ['Ballot registered', { view: 'room', hero: 'voted' }],
       ['Eliminated · Actions unavailable', { view: 'room', hero: 'pass-off', disabled: { actions: true } }],
     ];
-    root.append(h('div', { style: { position: 'absolute', inset: 0, overflow: 'auto', background: '#05070B', paddingTop: '6px' } }, items.map(([label, cfg]) => {
+    const part = Number(p.part ?? 0);
+    const shown = part === 1 ? items.slice(0, 5) : part === 2 ? items.slice(5) : items;
+    // Each bar at its own height, without the home-indicator area: its name above, then room for the raised hero.
+    root.append(h('div', { style: { position: 'absolute', inset: 0, overflow: 'auto', background: '#05070B', paddingTop: 'var(--safe-t)' } }, shown.map(([label, cfg]) => {
       const bar = tabs(cfg);
       bar.style.setProperty('--safe-b', '0px');
-      return h('div.specimen', { style: { '--h': '96px', '--safe-b': '0px' } }, bar, h('span.specimen-label', { style: { top: '6px', bottom: 'auto' } }, label));
+      bar.style.setProperty('--bottom', 'var(--tab-h)');
+      return h('div.specimen', { style: { '--h': 'calc(var(--tab-h) + 44px)', '--safe-b': '0px' } }, bar, h('span.specimen-label', { style: { top: '4px', bottom: 'auto' } }, label));
     })));
   },
 

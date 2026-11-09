@@ -78,8 +78,8 @@
       "slug": "controls",
       "title": "Controls, lists, feedback and cards",
       "file": "design/phone-ui/review/sheets/06-controls.jpg",
-      "sha256": "ebac35971316ae9cf96ec1478dc21b3183b7eb14e45d2ffa027ada5885c71e26",
-      "bytes": 255279,
+      "sha256": "ca5c9d33b3a33bcf7e654f8fabd80044f3a89b36a7610cdce73114d22a20a025",
+      "bytes": 255346,
       "size": {
         "width": 2158,
         "height": 1427
@@ -92,22 +92,40 @@
       "slug": "top-bar",
       "title": "Top bar",
       "file": "design/phone-ui/review/sheets/07-top-bar.jpg",
-      "sha256": "ef9feca4a69c9a72f2211f5905fa9c97319b05b09db1121661575f507c06f3af",
-      "bytes": 111091,
+      "sha256": "22ffddafecd5e0c916fb5c9effbf1f06c8373c19e27c9db58e6fa23928197a9d",
+      "bytes": 155054,
       "size": {
         "width": 1533,
-        "height": 1319
+        "height": 1298
       },
       "frames": [
         {
-          "label": "Top bar variants",
-          "src": "s=topbars&safe=47%2C34",
+          "label": "Turns and phases",
+          "src": "s=topbars&part=1&safe=47%2C34",
           "width": 390,
           "height": 844,
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 1
+          "clipped": 1,
+          "contrast": {
+            "min": 9.79,
+            "low": []
+          }
+        },
+        {
+          "label": "Votes, talk, Blackout and recovery",
+          "src": "s=topbars&part=2&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0,
+          "contrast": {
+            "min": 9.79,
+            "low": []
+          }
         }
       ],
       "problems": []
@@ -117,22 +135,40 @@
       "slug": "bottom-tabs",
       "title": "Bottom navigation",
       "file": "design/phone-ui/review/sheets/08-bottom-tabs.jpg",
-      "sha256": "1079f530cd2219dbb1cde801963744b73ae6301100797b8e8593a0e4f812dfa8",
-      "bytes": 109870,
+      "sha256": "c922bde92c75565310468a690c3e7e8012ba5171e10e6cf5b4959b27bbd668c6",
+      "bytes": 131441,
       "size": {
         "width": 1533,
-        "height": 1298
+        "height": 1278
       },
       "frames": [
         {
-          "label": "Tab bar states",
-          "src": "s=navbars&safe=47%2C34",
+          "label": "Views and tabs",
+          "src": "s=navbars&part=1&safe=47%2C34",
           "width": 390,
           "height": 844,
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 9.79,
+            "low": []
+          }
+        },
+        {
+          "label": "Votes and elimination",
+          "src": "s=navbars&part=2&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0,
+          "contrast": {
+            "min": 9.34,
+            "low": []
+          }
         }
       ],
       "problems": []
@@ -157,7 +193,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": null,
+            "low": []
+          }
         },
         {
           "label": "Intro · 1.6 s",
@@ -167,7 +207,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": null,
+            "low": []
+          }
         },
         {
           "label": "Main menu",
@@ -177,7 +221,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 5.58,
+            "low": []
+          }
         },
         {
           "label": "Offline",
@@ -187,7 +235,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 13.16,
+            "low": []
+          }
         }
       ],
       "problems": []
@@ -212,7 +264,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 6.14,
+            "low": []
+          }
         },
         {
           "label": "Lobby · requests",
@@ -222,7 +278,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 6.7,
+            "low": []
+          }
         },
         {
           "label": "Copied",
@@ -232,7 +292,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 6.14,
+            "low": []
+          }
         },
         {
           "label": "Full · Start enabled",
@@ -242,7 +306,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 6.7,
+            "low": []
+          }
         }
       ],
       "problems": []
@@ -252,8 +320,8 @@
       "slug": "join",
       "title": "Join",
       "file": "design/phone-ui/review/sheets/12-join.jpg",
-      "sha256": "a16aa4e68e692855099fa776a1e27d4d4f6f2c5ec46592ec4162484d6ff4edf3",
-      "bytes": 160654,
+      "sha256": "b93ae032c0f12a7d3a859516dd094bd6d8bd6781ddf8d4dc65994687d80763ea",
+      "bytes": 160685,
       "size": {
         "width": 1846,
         "height": 1227
@@ -267,7 +335,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 5.62,
+            "low": []
+          }
         },
         {
           "label": "No such room",
@@ -277,7 +349,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 5.62,
+            "low": []
+          }
         },
         {
           "label": "Name too long",
@@ -287,7 +363,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 5.62,
+            "low": []
+          }
         },
         {
           "label": "Sending",
@@ -297,7 +377,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 5.62,
+            "low": []
+          }
         }
       ],
       "problems": []
@@ -307,8 +391,8 @@
       "slug": "join-lobby",
       "title": "Waiting for admission and the player lobby",
       "file": "design/phone-ui/review/sheets/13-join-lobby.jpg",
-      "sha256": "3bb15f33265652aea480542eefa08d7cfcd42ecc727ce57a3dd914f52d694ecb",
-      "bytes": 152470,
+      "sha256": "80b832d7e392e2f9ff4a46fcf053686f194c5998aa5f0f819eb2d658c0d24b20",
+      "bytes": 152495,
       "size": {
         "width": 1846,
         "height": 1227
@@ -322,7 +406,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 10.27,
+            "low": []
+          }
         },
         {
           "label": "Admitted · lobby",
@@ -332,7 +420,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 6.14,
+            "low": []
+          }
         },
         {
           "label": "Room started without you",
@@ -342,7 +434,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 10.27,
+            "low": []
+          }
         },
         {
           "label": "Busy",
@@ -352,7 +448,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 5.62,
+            "low": []
+          }
         }
       ],
       "problems": []
@@ -377,7 +477,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 5.62,
+            "low": []
+          }
         },
         {
           "label": "Refused (wrong, used or expired)",
@@ -387,7 +491,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 6.14,
+            "low": []
+          }
         },
         {
           "label": "Seat recovered",
@@ -397,7 +505,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 9.79,
+            "low": []
+          }
         },
         {
           "label": "Reconnecting",
@@ -407,7 +519,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 10.07,
+            "low": []
+          }
         }
       ],
       "problems": []
@@ -417,8 +533,8 @@
       "slug": "host-recovery",
       "title": "Host controls and a recovery code",
       "file": "design/phone-ui/review/sheets/15-host-recovery.jpg",
-      "sha256": "11b01de05d10c2019b425548143b65a7e9c4a79e0f5ff4f1d68f9f123536f04b",
-      "bytes": 202864,
+      "sha256": "dbcc782dccc0bcd41decd26acda2441dbb1701f6053d766bd6fe3025dffbdad2",
+      "bytes": 255527,
       "size": {
         "width": 1846,
         "height": 1227
@@ -432,7 +548,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 7.73,
+            "low": []
+          }
         },
         {
           "label": "Code · hidden",
@@ -442,7 +562,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 8.96,
+            "low": []
+          }
         },
         {
           "label": "Code · revealed",
@@ -452,7 +576,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 6.5,
+            "low": []
+          }
         },
         {
           "label": "Abort · confirm",
@@ -462,7 +590,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 4.68,
+            "low": []
+          }
         }
       ],
       "problems": []
@@ -472,8 +604,8 @@
       "slug": "characters",
       "title": "Character selection",
       "file": "design/phone-ui/review/sheets/16-characters.jpg",
-      "sha256": "852ba3e5257e65ad99173a2150529b6e650446c6e47774053a36e7854598324a",
-      "bytes": 352746,
+      "sha256": "4e3cb76d606c0194c79e6c9c2334d0fa0fba74082cc26fd3901cd283d2df2197",
+      "bytes": 352698,
       "size": {
         "width": 2288,
         "height": 1254
@@ -487,7 +619,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 10.45,
+            "low": []
+          }
         },
         {
           "label": "Selected · saving",
@@ -497,7 +633,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 10.45,
+            "low": []
+          }
         },
         {
           "label": "Confirmed · taken",
@@ -507,7 +647,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 7.49,
+            "low": []
+          }
         },
         {
           "label": "Last seconds",
@@ -517,7 +661,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 7.49,
+            "low": []
+          }
         },
         {
           "label": "Assigned automatically",
@@ -527,7 +675,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 9.56,
+            "low": []
+          }
         }
       ],
       "problems": []
@@ -552,7 +704,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 10.45,
+            "low": []
+          }
         },
         {
           "label": "0:12 · card",
@@ -562,7 +718,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 10.45,
+            "low": []
+          }
         },
         {
           "label": "0:20 · film begins",
@@ -572,7 +732,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 10.7,
+            "low": []
+          }
         },
         {
           "label": "0:26 · film",
@@ -582,7 +746,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 10.7,
+            "low": []
+          }
         },
         {
           "label": "0:30 · Ready",
@@ -592,7 +760,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 9.79,
+            "low": []
+          }
         }
       ],
       "problems": []
@@ -602,8 +774,8 @@
       "slug": "role-stage-states",
       "title": "Role stage states",
       "file": "design/phone-ui/review/sheets/18-role-stage-states.jpg",
-      "sha256": "49d40f3ffb467a6d780f6b03ee7b55d163b7c062f32eb6d7c509e9d12e93c025",
-      "bytes": 340739,
+      "sha256": "8cb6668fa9444d750a953e2f9fc9bba25bccdc5b34f2656985a351c24d7887ff",
+      "bytes": 341325,
       "size": {
         "width": 2288,
         "height": 1278
@@ -617,7 +789,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 8.15,
+            "low": []
+          }
         },
         {
           "label": "Reduced motion",
@@ -627,7 +803,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 10.7,
+            "low": []
+          }
         },
         {
           "label": "Missing art",
@@ -637,7 +817,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 7.15,
+            "low": []
+          }
         },
         {
           "label": "Rejoined at 0:25",
@@ -647,7 +831,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 10.7,
+            "low": []
+          }
         },
         {
           "label": "Ready · waiting",
@@ -657,7 +845,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 9.79,
+            "low": []
+          }
         }
       ],
       "problems": []
@@ -667,8 +859,8 @@
       "slug": "boarding",
       "title": "Shared boarding into Round 1",
       "file": "design/phone-ui/review/sheets/19-boarding.jpg",
-      "sha256": "b8df7455ee615f8a4c00037542f96b778e1838f7762340f00f97ef72792f94b4",
-      "bytes": 253598,
+      "sha256": "b22e07326e7192b31961d70a463c0048d341b35f177ee5d682c245825383c89a",
+      "bytes": 253578,
       "size": {
         "width": 2288,
         "height": 1227
@@ -682,7 +874,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 10.7,
+            "low": []
+          }
         },
         {
           "label": "0:06",
@@ -692,7 +888,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 10.7,
+            "low": []
+          }
         },
         {
           "label": "Skipped locally",
@@ -702,7 +902,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 10.45,
+            "low": []
+          }
         },
         {
           "label": "Waiting for the server",
@@ -712,7 +916,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 10.45,
+            "low": []
+          }
         },
         {
           "label": "Round 1 begins",
@@ -722,7 +930,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 10.62,
+            "low": []
+          }
         }
       ],
       "problems": []
@@ -747,7 +959,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 10.62,
+            "low": []
+          }
         },
         {
           "label": "Your turn",
@@ -757,7 +973,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 9.79,
+            "low": []
+          }
         },
         {
           "label": "Targeting in the room",
@@ -767,7 +987,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 9.78,
+            "low": []
+          }
         },
         {
           "label": "Move within the room",
@@ -777,7 +1001,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 9.79,
+            "low": []
+          }
         }
       ],
       "problems": []
@@ -787,8 +1015,8 @@
       "slug": "room-b",
       "title": "Room B",
       "file": "design/phone-ui/review/sheets/21-room-b.jpg",
-      "sha256": "8993e0d8168dc4c4a80c4041a4ab3dc203ba8750a7d4400de63ff6059f7ffca9",
-      "bytes": 367254,
+      "sha256": "d7e349009a78f6c582f497bc6cbfb2019524effc3e1c6c2fa9fb22b7c9406c83",
+      "bytes": 367091,
       "size": {
         "width": 1943,
         "height": 1227
@@ -802,7 +1030,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 10.62,
+            "low": []
+          }
         },
         {
           "label": "Your turn",
@@ -812,7 +1044,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 9.79,
+            "low": []
+          }
         },
         {
           "label": "Private talk · choose",
@@ -822,7 +1058,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 7.05,
+            "low": []
+          }
         },
         {
           "label": "Officer’s block shown",
@@ -832,7 +1072,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 9.79,
+            "low": []
+          }
         }
       ],
       "problems": []
@@ -842,8 +1086,8 @@
       "slug": "command-room",
       "title": "Command Room",
       "file": "design/phone-ui/review/sheets/22-command-room.jpg",
-      "sha256": "5db8c169ee639529c047d0f83d3aff6832e3a440a44b9d0d1979fe2945064b87",
-      "bytes": 287068,
+      "sha256": "274cc39c6fc157ee49713488e6755391901caa97ecd66eb022a3229fbb1d2f52",
+      "bytes": 325954,
       "size": {
         "width": 1846,
         "height": 1227
@@ -857,7 +1101,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 9.79,
+            "low": []
+          }
         },
         {
           "label": "Captain console",
@@ -867,7 +1115,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 4.96,
+            "low": []
+          }
         },
         {
           "label": "Release · confirm",
@@ -877,7 +1129,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 4.74,
+            "low": []
+          }
         },
         {
           "label": "Commands used",
@@ -887,7 +1143,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 4.96,
+            "low": []
+          }
         }
       ],
       "problems": []
@@ -897,8 +1157,8 @@
       "slug": "hospital",
       "title": "Hospital",
       "file": "design/phone-ui/review/sheets/23-hospital.jpg",
-      "sha256": "dba83e3ed5141d2093fd1050979a239f4291c0f6afb4cfdabd6d385c14abd099",
-      "bytes": 211190,
+      "sha256": "cbc74ba83224a2f6af511d72b1816f4a2ad5349615350c2d07087818b816c0c0",
+      "bytes": 255454,
       "size": {
         "width": 1846,
         "height": 1227
@@ -912,7 +1172,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 6.17,
+            "low": []
+          }
         },
         {
           "label": "Hospital panel",
@@ -922,7 +1186,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 5.98,
+            "low": []
+          }
         },
         {
           "label": "Number entered",
@@ -932,7 +1200,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 5.98,
+            "low": []
+          }
         },
         {
           "label": "Request registered",
@@ -942,7 +1214,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 4.66,
+            "low": []
+          }
         }
       ],
       "problems": []
@@ -952,8 +1228,8 @@
       "slug": "jail",
       "title": "Jail",
       "file": "design/phone-ui/review/sheets/24-jail.jpg",
-      "sha256": "04b20e76daab53ff438b6f0ad1f175605b40a8f1ee461b007c36dfce7528bbe1",
-      "bytes": 236969,
+      "sha256": "36fb23fde84c1a058f049977219175469dcbe666ac090e203eed043d4b4883ca",
+      "bytes": 256563,
       "size": {
         "width": 1533,
         "height": 1227
@@ -967,7 +1243,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 10.62,
+            "low": []
+          }
         },
         {
           "label": "Jail vote from Jail",
@@ -977,7 +1257,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 10.62,
+            "low": []
+          }
         },
         {
           "label": "Eject from the console",
@@ -987,7 +1271,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 4.74,
+            "low": []
+          }
         }
       ],
       "problems": []
@@ -997,8 +1285,8 @@
       "slug": "private-talk",
       "title": "Private Talk capsule",
       "file": "design/phone-ui/review/sheets/25-private-talk.jpg",
-      "sha256": "140095a853ac4552764d136989643ac191d552153e22e80046fee842f5768a56",
-      "bytes": 283606,
+      "sha256": "defa2795e03d3dc1cd0c660318100c3cb7a021ca8c73084620e70e2fb00558b2",
+      "bytes": 321982,
       "size": {
         "width": 1846,
         "height": 1227
@@ -1012,7 +1300,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 7.5,
+            "low": []
+          }
         },
         {
           "label": "Claim · initiator",
@@ -1022,7 +1314,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 7.16,
+            "low": []
+          }
         },
         {
           "label": "Talk · 60 s",
@@ -1032,7 +1328,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 10.65,
+            "low": []
+          }
         },
         {
           "label": "Promise during talk",
@@ -1042,7 +1342,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 4.61,
+            "low": []
+          }
         }
       ],
       "problems": []
@@ -1052,8 +1356,8 @@
       "slug": "board",
       "title": "The whole board, and switching views",
       "file": "design/phone-ui/review/sheets/26-board.jpg",
-      "sha256": "ccd7fdeebbd7ad2cc7df9cf7f35361cac5cb0d9fc38784fff7ecc2c7fec95e51",
-      "bytes": 442176,
+      "sha256": "6ba23c28a3a8d1249afaa481f586fa2fc92d9650e099e2f7e4ee74842dddcb4d",
+      "bytes": 443232,
       "size": {
         "width": 1846,
         "height": 1227
@@ -1067,7 +1371,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 10.62,
+            "low": []
+          }
         },
         {
           "label": "Board view · tab says Room",
@@ -1077,7 +1385,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 8.67,
+            "low": []
+          }
         },
         {
           "label": "Move · choose a position",
@@ -1087,7 +1399,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 8.67,
+            "low": []
+          }
         },
         {
           "label": "Targets in another room",
@@ -1097,7 +1413,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 5.18,
+            "low": []
+          }
         }
       ],
       "problems": []
@@ -1107,8 +1427,8 @@
       "slug": "tab-destinations",
       "title": "Each tab, opened",
       "file": "design/phone-ui/review/sheets/27-tab-destinations.jpg",
-      "sha256": "246659133b8b08787e5db82a38217de17a2bc498bcf39949e97bc610489b6d58",
-      "bytes": 372750,
+      "sha256": "9aecfa1b0bf5ff6548f9098b9df90f499c4275ecc313fbd8161d2e770f0c7055",
+      "bytes": 410256,
       "size": {
         "width": 2288,
         "height": 1227
@@ -1122,7 +1442,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 8.67,
+            "low": []
+          }
         },
         {
           "label": "Actions",
@@ -1132,7 +1456,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 6.42,
+            "low": []
+          }
         },
         {
           "label": "Vote",
@@ -1142,7 +1470,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 10.62,
+            "low": []
+          }
         },
         {
           "label": "Card",
@@ -1152,7 +1484,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 7.58,
+            "low": []
+          }
         },
         {
           "label": "More",
@@ -1162,7 +1498,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 5.07,
+            "low": []
+          }
         }
       ],
       "problems": []
@@ -1172,8 +1512,8 @@
       "slug": "tap-board",
       "title": "Tap Board: the whole ship, and back",
       "file": "design/phone-ui/review/sheets/27.1-tap-board.jpg",
-      "sha256": "f9dcc56a0b00c10fe0f8a89a10db27556c753408c99bff50ec7d6b9f638e5ed9",
-      "bytes": 545707,
+      "sha256": "360f9da7aa8a7ff16d1939ccf1b8a94feade82baf8e943721a3989298ecff463",
+      "bytes": 546582,
       "size": {
         "width": 2288,
         "height": 1278
@@ -1188,7 +1528,11 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
-          "tap": true
+          "tap": true,
+          "contrast": {
+            "min": 10.62,
+            "low": []
+          }
         },
         {
           "label": "The whole ship · tap Room",
@@ -1199,7 +1543,11 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
-          "tap": true
+          "tap": true,
+          "contrast": {
+            "min": 8.67,
+            "low": []
+          }
         },
         {
           "label": "Back in your room",
@@ -1209,7 +1557,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 10.62,
+            "low": []
+          }
         },
         {
           "label": "Board while moving",
@@ -1219,7 +1571,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 8.67,
+            "low": []
+          }
         },
         {
           "label": "Board while choosing a person",
@@ -1229,7 +1585,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 5.18,
+            "low": []
+          }
         }
       ],
       "problems": []
@@ -1239,8 +1599,8 @@
       "slug": "tap-actions",
       "title": "Tap Actions: what you can do, then who",
       "file": "design/phone-ui/review/sheets/27.2-tap-actions.jpg",
-      "sha256": "abc1613a9f681e7721f804bd1c404e4f5206aa1916780f57420d13cbe70c101a",
-      "bytes": 479558,
+      "sha256": "d6851fa98c52ee0654b53be0152706fa7af1d0fcfd639edd39ff40b3af823743",
+      "bytes": 539390,
       "size": {
         "width": 2730,
         "height": 1326
@@ -1255,7 +1615,11 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
-          "tap": true
+          "tap": true,
+          "contrast": {
+            "min": 9.79,
+            "low": []
+          }
         },
         {
           "label": "Your actions · tap Rescue",
@@ -1266,7 +1630,11 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
-          "tap": true
+          "tap": true,
+          "contrast": {
+            "min": 6.42,
+            "low": []
+          }
         },
         {
           "label": "Choose a person · tap Ava",
@@ -1277,7 +1645,11 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
-          "tap": true
+          "tap": true,
+          "contrast": {
+            "min": 9.78,
+            "low": []
+          }
         },
         {
           "label": "Check · tap Register",
@@ -1288,7 +1660,11 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
-          "tap": true
+          "tap": true,
+          "contrast": {
+            "min": 5.3,
+            "low": []
+          }
         },
         {
           "label": "Registered",
@@ -1298,7 +1674,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 5.22,
+            "low": []
+          }
         },
         {
           "label": "Actions on another player’s turn",
@@ -1308,7 +1688,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 6.85,
+            "low": []
+          }
         }
       ],
       "problems": []
@@ -1318,8 +1702,8 @@
       "slug": "tap-pass",
       "title": "Tap Pass: end your turn (Vote in a vote)",
       "file": "design/phone-ui/review/sheets/27.3-tap-pass.jpg",
-      "sha256": "c8758b74008d1ba63458c74af69698fc1710e15c5855fc796bb16aceea81c352",
-      "bytes": 449812,
+      "sha256": "11295034063eddde07ae206dd8be6ef061b0198363e398eac0e359e6098a748b",
+      "bytes": 470925,
       "size": {
         "width": 2288,
         "height": 1258
@@ -1334,7 +1718,11 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
-          "tap": true
+          "tap": true,
+          "contrast": {
+            "min": 9.79,
+            "low": []
+          }
         },
         {
           "label": "One check · tap Pass",
@@ -1345,7 +1733,11 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
-          "tap": true
+          "tap": true,
+          "contrast": {
+            "min": 5.01,
+            "low": []
+          }
         },
         {
           "label": "The turn moves on",
@@ -1355,7 +1747,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 10.62,
+            "low": []
+          }
         },
         {
           "label": "A vote opens · tap Vote",
@@ -1366,7 +1762,11 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
-          "tap": true
+          "tap": true,
+          "contrast": {
+            "min": 10.62,
+            "low": []
+          }
         },
         {
           "label": "Your ballot",
@@ -1376,7 +1776,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 10.62,
+            "low": []
+          }
         }
       ],
       "problems": []
@@ -1386,8 +1790,8 @@
       "slug": "tap-card",
       "title": "Tap Card: your role, privately",
       "file": "design/phone-ui/review/sheets/27.4-tap-card.jpg",
-      "sha256": "54a8d58474bf8c8065d33c08140fb46eec96fdb1c6bd89415d4c9c558230ba84",
-      "bytes": 306688,
+      "sha256": "860b79d1801bf4d625d2aff81e2990b66a1e6c5eecae21887344e19dc5310a79",
+      "bytes": 354444,
       "size": {
         "width": 2288,
         "height": 1258
@@ -1402,7 +1806,11 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
-          "tap": true
+          "tap": true,
+          "contrast": {
+            "min": 10.62,
+            "low": []
+          }
         },
         {
           "label": "Your card · tap Knowledge",
@@ -1413,7 +1821,11 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
-          "tap": true
+          "tap": true,
+          "contrast": {
+            "min": 7.58,
+            "low": []
+          }
         },
         {
           "label": "Knowledge · tap Resources",
@@ -1424,7 +1836,11 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
-          "tap": true
+          "tap": true,
+          "contrast": {
+            "min": 6.53,
+            "low": []
+          }
         },
         {
           "label": "Resources · tap Hide",
@@ -1435,7 +1851,11 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
-          "tap": true
+          "tap": true,
+          "contrast": {
+            "min": 6.6,
+            "low": []
+          }
         },
         {
           "label": "Hidden",
@@ -1445,7 +1865,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 10.44,
+            "low": []
+          }
         }
       ],
       "problems": []
@@ -1455,8 +1879,8 @@
       "slug": "tap-more",
       "title": "Tap More: everything else",
       "file": "design/phone-ui/review/sheets/27.5-tap-more.jpg",
-      "sha256": "eb2c31ac413b72708b19022b3afbf3684f4319b310335e6706ec72ccea1c02a5",
-      "bytes": 365602,
+      "sha256": "db3a795ef7c27b9e55925aa021abde4402809a94ea08121f6d3e1e2f382d997e",
+      "bytes": 419506,
       "size": {
         "width": 2730,
         "height": 1284
@@ -1471,7 +1895,11 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
-          "tap": true
+          "tap": true,
+          "contrast": {
+            "min": 10.56,
+            "low": []
+          }
         },
         {
           "label": "More · tap Promises",
@@ -1482,7 +1910,11 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
-          "tap": true
+          "tap": true,
+          "contrast": {
+            "min": 5.07,
+            "low": []
+          }
         },
         {
           "label": "Promises",
@@ -1492,7 +1924,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 9.49,
+            "low": []
+          }
         },
         {
           "label": "Windows row",
@@ -1502,7 +1938,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 4.92,
+            "low": []
+          }
         },
         {
           "label": "Players row",
@@ -1512,7 +1952,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 6.11,
+            "low": []
+          }
         },
         {
           "label": "Display row",
@@ -1522,7 +1966,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 5.65,
+            "low": []
+          }
         }
       ],
       "problems": []
@@ -1532,8 +1980,8 @@
       "slug": "actions",
       "title": "Actions",
       "file": "design/phone-ui/review/sheets/28-actions.jpg",
-      "sha256": "c41b986fbbf4a5a8aa1b2f60504b9af28b6fa790b681435ed985029fb2ee40ef",
-      "bytes": 265364,
+      "sha256": "6fa267ef77e894b47305458d65eb0cbeafd6c78f8650a253e7a19d915aa6ffe0",
+      "bytes": 326183,
       "size": {
         "width": 1846,
         "height": 1227
@@ -1547,7 +1995,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 6.4,
+            "low": []
+          }
         },
         {
           "label": "Hacker · your turn",
@@ -1557,7 +2009,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 6.48,
+            "low": []
+          }
         },
         {
           "label": "Undercover · not your turn",
@@ -1567,7 +2023,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 6.85,
+            "low": []
+          }
         },
         {
           "label": "Registered and spent",
@@ -1577,7 +2037,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 6.42,
+            "low": []
+          }
         }
       ],
       "problems": []
@@ -1587,8 +2051,8 @@
       "slug": "targeting",
       "title": "Targeting and registering",
       "file": "design/phone-ui/review/sheets/29-targeting.jpg",
-      "sha256": "a78048b0f3a02865ed16cd9afc036ef66cfa515fe18635b1b4f345f3dfebc0f8",
-      "bytes": 394311,
+      "sha256": "146e3207893ae965175c3b49c92b6d732a597e472ac4f209b8da90bde23c33c9",
+      "bytes": 453142,
       "size": {
         "width": 2412,
         "height": 1258
@@ -1602,7 +2066,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 9.78,
+            "low": []
+          }
         },
         {
           "label": "Other rooms",
@@ -1612,7 +2080,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 5.23,
+            "low": []
+          }
         },
         {
           "label": "Check and register",
@@ -1622,7 +2094,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 5.3,
+            "low": []
+          }
         },
         {
           "label": "Registering",
@@ -1632,7 +2108,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 5.3,
+            "low": []
+          }
         },
         {
           "label": "Registered",
@@ -1642,7 +2122,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 5.22,
+            "low": []
+          }
         }
       ],
       "problems": []
@@ -1652,8 +2136,8 @@
       "slug": "blackout",
       "title": "Blackout",
       "file": "design/phone-ui/review/sheets/30-blackout.jpg",
-      "sha256": "711748ce0a0147743a40d349f2bcd2259cfe9faa8a1bb0c4e7d47cf5508bf889",
-      "bytes": 354595,
+      "sha256": "c818192f21f120b3025d151f8ba558742afc5b842e601f18221936f3efb29263",
+      "bytes": 368904,
       "size": {
         "width": 2354,
         "height": 1227
@@ -1667,7 +2151,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 5.39,
+            "low": []
+          }
         },
         {
           "label": "5 s lit · everyone",
@@ -1677,7 +2165,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 10.56,
+            "low": []
+          }
         },
         {
           "label": "10 s dark · everyone",
@@ -1687,7 +2179,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 9.79,
+            "low": []
+          }
         },
         {
           "label": "Dark · Disabler picks a position",
@@ -1697,7 +2193,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 9.79,
+            "low": []
+          }
         },
         {
           "label": "Position fixed",
@@ -1707,7 +2207,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 9.79,
+            "low": []
+          }
         }
       ],
       "problems": []
@@ -1717,8 +2221,8 @@
       "slug": "card",
       "title": "Card",
       "file": "design/phone-ui/review/sheets/31-card.jpg",
-      "sha256": "8d6b28aeafc324da6b53859816fb34d2201c3849792eb896346c126e6ddd7ec4",
-      "bytes": 205708,
+      "sha256": "af0cda97300bc668acdbf1e9a1cf82f4bb5bb94b7a6becac7a99a136e74eb91b",
+      "bytes": 251806,
       "size": {
         "width": 1846,
         "height": 1227
@@ -1732,7 +2236,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 7.58,
+            "low": []
+          }
         },
         {
           "label": "Knowledge · Hacker",
@@ -1742,7 +2250,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 7.22,
+            "low": []
+          }
         },
         {
           "label": "Resources",
@@ -1752,7 +2264,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 6.6,
+            "low": []
+          }
         },
         {
           "label": "Hidden",
@@ -1762,7 +2278,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 10.44,
+            "low": []
+          }
         }
       ],
       "problems": []
@@ -1772,8 +2292,8 @@
       "slug": "more",
       "title": "More",
       "file": "design/phone-ui/review/sheets/32-more.jpg",
-      "sha256": "4acb27e8b304a65c1b6447ede2b2530b7d9a99bcc107fc4796dd0f75a4ed0915",
-      "bytes": 292153,
+      "sha256": "0033e56ffbd025d9a6108d2605839337271e5c36f39ee2cd62d53fcb7a0e0584",
+      "bytes": 340342,
       "size": {
         "width": 2288,
         "height": 1227
@@ -1787,7 +2307,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 5.07,
+            "low": []
+          }
         },
         {
           "label": "More · host",
@@ -1797,7 +2321,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 5.07,
+            "low": []
+          }
         },
         {
           "label": "Players",
@@ -1807,7 +2335,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 6.11,
+            "low": []
+          }
         },
         {
           "label": "Round order",
@@ -1817,7 +2349,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 7.17,
+            "low": []
+          }
         },
         {
           "label": "Display",
@@ -1827,7 +2363,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 5.65,
+            "low": []
+          }
         }
       ],
       "problems": []
@@ -1837,8 +2377,8 @@
       "slug": "promises",
       "title": "Promises",
       "file": "design/phone-ui/review/sheets/33-promises.jpg",
-      "sha256": "ee974eaee30c99be760f9441d9f7e7838258004e314adebb27ffa94cf92610dd",
-      "bytes": 266712,
+      "sha256": "5cd9861f87c229c7e2464b32bf82621287143415063ce33477f17df08d113d33",
+      "bytes": 336384,
       "size": {
         "width": 2288,
         "height": 1227
@@ -1852,7 +2392,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 9.49,
+            "low": []
+          }
         },
         {
           "label": "Choose a kind",
@@ -1862,7 +2406,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 4.61,
+            "low": []
+          }
         },
         {
           "label": "Check the terms",
@@ -1872,7 +2420,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 5.63,
+            "low": []
+          }
         },
         {
           "label": "Offer received",
@@ -1882,7 +2434,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 5.54,
+            "low": []
+          }
         },
         {
           "label": "Results",
@@ -1892,7 +2448,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 5.07,
+            "low": []
+          }
         }
       ],
       "problems": []
@@ -1902,8 +2462,8 @@
       "slug": "windows",
       "title": "Windows",
       "file": "design/phone-ui/review/sheets/34-windows.jpg",
-      "sha256": "2fcc78ce65eea70bec8ca54481530349d0fcb40007557d563495166af1ebe9cb",
-      "bytes": 180013,
+      "sha256": "9aaade50985d9daae69e59a7469a622fdfc574d05d8008848270c9ab00158921",
+      "bytes": 223142,
       "size": {
         "width": 1846,
         "height": 1227
@@ -1917,7 +2477,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 4.92,
+            "low": []
+          }
         },
         {
           "label": "Draw at your station",
@@ -1927,7 +2491,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 4.92,
+            "low": []
+          }
         },
         {
           "label": "Shown",
@@ -1937,7 +2505,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 4.92,
+            "low": []
+          }
         },
         {
           "label": "No window here",
@@ -1947,7 +2519,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 4.61,
+            "low": []
+          }
         }
       ],
       "problems": []
@@ -1957,8 +2533,8 @@
       "slug": "vote-jail",
       "title": "Jail vote",
       "file": "design/phone-ui/review/sheets/35-vote-jail.jpg",
-      "sha256": "44bf5ed3708b0d301ee9c286aa64c036e8fd04f006369ab357376e621b9f84aa",
-      "bytes": 338953,
+      "sha256": "c77e1f64f396ead1beb2689726b59ef2b5d263522dd042b420e88ff030693531",
+      "bytes": 374929,
       "size": {
         "width": 2288,
         "height": 1227
@@ -1972,7 +2548,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 10.62,
+            "low": []
+          }
         },
         {
           "label": "Selected",
@@ -1982,7 +2562,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 9.79,
+            "low": []
+          }
         },
         {
           "label": "Submitted",
@@ -1992,7 +2576,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 9.15,
+            "low": []
+          }
         },
         {
           "label": "Abstained",
@@ -2002,7 +2590,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 9.15,
+            "low": []
+          }
         },
         {
           "label": "Closed",
@@ -2012,7 +2604,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 9.05,
+            "low": []
+          }
         }
       ],
       "problems": []
@@ -2022,8 +2618,8 @@
       "slug": "vote-captain",
       "title": "Captain election and stable placement",
       "file": "design/phone-ui/review/sheets/36-vote-captain.jpg",
-      "sha256": "c1a75d6b9a0a35ae6009bf655d14af36272dc051b4a3e37d5d1755c323d8174f",
-      "bytes": 348418,
+      "sha256": "6f64b2428ee1a2b23f51e1e3c13db7086bb3bb489651ff8dd01ffae46ce9663f",
+      "bytes": 388341,
       "size": {
         "width": 2288,
         "height": 1227
@@ -2037,7 +2633,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 10.62,
+            "low": []
+          }
         },
         {
           "label": "Runoff",
@@ -2047,7 +2647,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 10.62,
+            "low": []
+          }
         },
         {
           "label": "8 players",
@@ -2057,7 +2661,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 9.79,
+            "low": []
+          }
         },
         {
           "label": "7 players",
@@ -2067,7 +2675,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 10.62,
+            "low": []
+          }
         },
         {
           "label": "Can’t vote (eliminated)",
@@ -2077,7 +2689,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 4.61,
+            "low": []
+          }
         }
       ],
       "problems": []
@@ -2102,7 +2718,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 5.79,
+            "low": []
+          }
         },
         {
           "label": "Tie · runoff",
@@ -2112,7 +2732,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 5.79,
+            "low": []
+          }
         },
         {
           "label": "No Captain",
@@ -2122,7 +2746,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 5.79,
+            "low": []
+          }
         }
       ],
       "problems": []
@@ -2147,7 +2775,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 5.79,
+            "low": []
+          }
         },
         {
           "label": "Chosen · Jail full",
@@ -2157,7 +2789,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 5.79,
+            "low": []
+          }
         },
         {
           "label": "No one jailed",
@@ -2167,7 +2803,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 5.79,
+            "low": []
+          }
         },
         {
           "label": "8 players",
@@ -2177,7 +2817,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 5.79,
+            "low": []
+          }
         }
       ],
       "problems": []
@@ -2187,8 +2831,8 @@
       "slug": "offices",
       "title": "Captain and Officer",
       "file": "design/phone-ui/review/sheets/40-offices.jpg",
-      "sha256": "5201a587ffde5577d58a40fcaabb05f71a814a1df4f1666788eefafe1ef2d0a5",
-      "bytes": 235709,
+      "sha256": "b25308bb0f8e1fd99b7423fab030807711253b5d0eaa6e5828eaf2f762562175",
+      "bytes": 287210,
       "size": {
         "width": 1846,
         "height": 1227
@@ -2202,7 +2846,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 6.9,
+            "low": []
+          }
         },
         {
           "label": "Others wait",
@@ -2212,7 +2860,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 4.73,
+            "low": []
+          }
         },
         {
           "label": "Block movement",
@@ -2222,7 +2874,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 9.55,
+            "low": []
+          }
         },
         {
           "label": "Blocked",
@@ -2232,7 +2888,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 8.74,
+            "low": []
+          }
         }
       ],
       "problems": []
@@ -2242,8 +2902,8 @@
       "slug": "navigation",
       "title": "Navigation",
       "file": "design/phone-ui/review/sheets/41-navigation.jpg",
-      "sha256": "6ccf982cb89060bef4fbd34b516036283d0b019cf94b905824535f87c64cdd42",
-      "bytes": 224866,
+      "sha256": "bcbee69512adada315b2aa1928465d8fd790c357342c39b0a07ad118065bd2bf",
+      "bytes": 259870,
       "size": {
         "width": 2288,
         "height": 1227
@@ -2257,7 +2917,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 10.7,
+            "low": []
+          }
         },
         {
           "label": "Captain · route",
@@ -2267,7 +2931,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 7.89,
+            "low": []
+          }
         },
         {
           "label": "Officer · genuine tie",
@@ -2277,7 +2945,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 7.89,
+            "low": []
+          }
         },
         {
           "label": "Acknowledge · no veto",
@@ -2287,7 +2959,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 7.89,
+            "low": []
+          }
         },
         {
           "label": "Everyone · moved",
@@ -2297,7 +2973,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 10.72,
+            "low": []
+          }
         }
       ],
       "problems": []
@@ -2307,8 +2987,8 @@
       "slug": "scan-code",
       "title": "Hacker: Scan and the final Code",
       "file": "design/phone-ui/review/sheets/42-scan-code.jpg",
-      "sha256": "509880ea101807695344b9236f287193d5b2d90c111d05b0edea813df32aa9cd",
-      "bytes": 350184,
+      "sha256": "5d7f292d2b6eb42fb01fed95763d4efa6d71ad07d5ef72c5e865a20a516eb7f9",
+      "bytes": 403741,
       "size": {
         "width": 2288,
         "height": 1227
@@ -2322,7 +3002,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 9.79,
+            "low": []
+          }
         },
         {
           "label": "Scan · guess",
@@ -2332,7 +3016,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 5.38,
+            "low": []
+          }
         },
         {
           "label": "Scan · matched",
@@ -2342,7 +3030,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 5.39,
+            "low": []
+          }
         },
         {
           "label": "Code · four players",
@@ -2352,7 +3044,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 6.77,
+            "low": []
+          }
         },
         {
           "label": "Code · correct",
@@ -2362,7 +3058,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 5.38,
+            "low": []
+          }
         }
       ],
       "problems": []
@@ -2372,8 +3072,8 @@
       "slug": "hospital-panel",
       "title": "Hospital panel",
       "file": "design/phone-ui/review/sheets/43-hospital-panel.jpg",
-      "sha256": "cb3e12c2bc9fe1c3a7efaf1e6c2cc4f8ccb116c465297a52f8d935d93019eb2f",
-      "bytes": 186066,
+      "sha256": "5f74804bdf47c180e1fd04e2774974ea5bd461283321dbd6ce3a1d827b5483ab",
+      "bytes": 268713,
       "size": {
         "width": 2288,
         "height": 1258
@@ -2387,7 +3087,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 5.98,
+            "low": []
+          }
         },
         {
           "label": "Registered",
@@ -2397,7 +3101,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 4.66,
+            "low": []
+          }
         },
         {
           "label": "Wrong number",
@@ -2407,7 +3115,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 4.61,
+            "low": []
+          }
         },
         {
           "label": "Unavailable",
@@ -2417,7 +3129,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 4.61,
+            "low": []
+          }
         },
         {
           "label": "Attempt used",
@@ -2427,7 +3143,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 4.59,
+            "low": []
+          }
         }
       ],
       "problems": []
@@ -2437,8 +3157,8 @@
       "slug": "end",
       "title": "Blackhole, elimination and the end of a match",
       "file": "design/phone-ui/review/sheets/44-end.jpg",
-      "sha256": "e0c5a20dfbe53c1fad6f7f3cccca09377ce8564245c18547859dbc4228eb6458",
-      "bytes": 296993,
+      "sha256": "e6502a63f64e6696c187bc23da96a91d632765df25187c6d327e2cdbcfd523ba",
+      "bytes": 297077,
       "size": {
         "width": 2288,
         "height": 1227
@@ -2452,7 +3172,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 10.7,
+            "low": []
+          }
         },
         {
           "label": "Eliminated",
@@ -2462,7 +3186,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 6.17,
+            "low": []
+          }
         },
         {
           "label": "Blue wins",
@@ -2472,7 +3200,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 10.45,
+            "low": []
+          }
         },
         {
           "label": "Red wins",
@@ -2482,7 +3214,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 10.45,
+            "low": []
+          }
         },
         {
           "label": "No survivors",
@@ -2492,7 +3228,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 10.45,
+            "low": []
+          }
         }
       ],
       "problems": []
@@ -2502,8 +3242,8 @@
       "slug": "system",
       "title": "Loading, reconnecting and the unexpected",
       "file": "design/phone-ui/review/sheets/45-system.jpg",
-      "sha256": "c3c2596affdb0dbaf347339e25af49108f3f47affae2b5ca608122c880a77219",
-      "bytes": 333817,
+      "sha256": "5b360ec9ea89f3910fd70aba842da2efbd274b11485787c044e6f898f947285c",
+      "bytes": 348724,
       "size": {
         "width": 2288,
         "height": 1227
@@ -2517,7 +3257,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 6.14,
+            "low": []
+          }
         },
         {
           "label": "Reconnecting",
@@ -2527,7 +3271,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 10.07,
+            "low": []
+          }
         },
         {
           "label": "Outcome unknown",
@@ -2537,7 +3285,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 5.31,
+            "low": []
+          }
         },
         {
           "label": "Room art unavailable",
@@ -2547,7 +3299,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 9.56,
+            "low": []
+          }
         },
         {
           "label": "Phase closed",
@@ -2557,7 +3313,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 9.79,
+            "low": []
+          }
         }
       ],
       "problems": []
@@ -2567,8 +3327,8 @@
       "slug": "viewport-320",
       "title": "320 × 568",
       "file": "design/phone-ui/review/sheets/50-viewport-320.jpg",
-      "sha256": "8444f0bd7871b8a0e2aad4447ecdeb7a4088e3347ef4315eecfbd1444cb73169",
-      "bytes": 260914,
+      "sha256": "5fe096f8603c64cee8efffc0befeac2aeb23ff7223f67714d7dc8bd8b036c89b",
+      "bytes": 281323,
       "size": {
         "width": 1938,
         "height": 951
@@ -2582,7 +3342,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 9.79,
+            "low": []
+          }
         },
         {
           "label": "Actions",
@@ -2592,7 +3356,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 4.98,
+            "low": []
+          }
         },
         {
           "label": "Vote",
@@ -2602,7 +3370,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 5.73,
+            "low": []
+          }
         },
         {
           "label": "Card",
@@ -2612,7 +3384,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 4.92,
+            "low": []
+          }
         },
         {
           "label": "Characters",
@@ -2622,7 +3398,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 1
+          "clipped": 1,
+          "contrast": {
+            "min": 7.49,
+            "low": []
+          }
         }
       ],
       "problems": []
@@ -2632,8 +3412,8 @@
       "slug": "viewport-430",
       "title": "430 × 932",
       "file": "design/phone-ui/review/sheets/51-viewport-430.jpg",
-      "sha256": "bbba158725ccfd8e4fe6e5abd37e2002c3e2d93d9777f311fc9534707e00f735",
-      "bytes": 411332,
+      "sha256": "99d0e4c15268010769f7a1c3c446768f9e279ae170a34668fb521422e10f72da",
+      "bytes": 411486,
       "size": {
         "width": 2006,
         "height": 1315
@@ -2647,7 +3427,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 9.79,
+            "low": []
+          }
         },
         {
           "label": "Board",
@@ -2657,7 +3441,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 8.67,
+            "low": []
+          }
         },
         {
           "label": "Result",
@@ -2667,7 +3455,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 5.79,
+            "low": []
+          }
         },
         {
           "label": "Role stage",
@@ -2677,7 +3469,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 10.45,
+            "low": []
+          }
         }
       ],
       "problems": []
@@ -2687,8 +3483,8 @@
       "slug": "browser-chrome",
       "title": "In Safari, with its toolbars",
       "file": "design/phone-ui/review/sheets/52-browser-chrome.jpg",
-      "sha256": "68c7e2ff26e813e2ca431b9440348381311900a0ce346c68204f49d212a50919",
-      "bytes": 296000,
+      "sha256": "76917499d993bd167c1dfca5026e7462b1ec6f4dd437d709511147888d37e088",
+      "bytes": 302819,
       "size": {
         "width": 1846,
         "height": 1137
@@ -2702,7 +3498,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 9.79,
+            "low": []
+          }
         },
         {
           "label": "Vote",
@@ -2712,7 +3512,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 10.62,
+            "low": []
+          }
         },
         {
           "label": "Board",
@@ -2722,7 +3526,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 8.67,
+            "low": []
+          }
         },
         {
           "label": "Menu",
@@ -2732,7 +3540,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 5.58,
+            "low": []
+          }
         }
       ],
       "problems": []
@@ -2742,8 +3554,8 @@
       "slug": "larger-text",
       "title": "Larger text",
       "file": "design/phone-ui/review/sheets/53-larger-text.jpg",
-      "sha256": "687e6a3026ceed99404fbd70674384c429dbecfbbd921c6aec9d5c2674978f9a",
-      "bytes": 361964,
+      "sha256": "6244c56916fcaac5af062eb4688aa0fc5535f809b1e236727445728ad76979f7",
+      "bytes": 389610,
       "size": {
         "width": 2288,
         "height": 1227
@@ -2757,7 +3569,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 9.79,
+            "low": []
+          }
         },
         {
           "label": "Actions · Large",
@@ -2767,7 +3583,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 6.73,
+            "low": []
+          }
         },
         {
           "label": "Vote · Large",
@@ -2777,7 +3597,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 1
+          "clipped": 1,
+          "contrast": {
+            "min": 6.58,
+            "low": []
+          }
         },
         {
           "label": "More · Largest",
@@ -2787,7 +3611,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 1
+          "clipped": 1,
+          "contrast": {
+            "min": 5.07,
+            "low": []
+          }
         },
         {
           "label": "Join · Largest",
@@ -2797,7 +3625,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 5.62,
+            "low": []
+          }
         }
       ],
       "problems": []
@@ -2822,7 +3654,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 10.7,
+            "low": []
+          }
         },
         {
           "label": "Boarding · stills",
@@ -2832,7 +3668,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 10.7,
+            "low": []
+          }
         },
         {
           "label": "Blackout dark",
@@ -2842,7 +3682,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 9.79,
+            "low": []
+          }
         },
         {
           "label": "Result",
@@ -2852,7 +3696,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 5.79,
+            "low": []
+          }
         }
       ],
       "problems": []
@@ -2891,7 +3739,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 10.62,
+            "low": []
+          }
         },
         {
           "label": "",
@@ -2901,7 +3753,11 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0
+          "clipped": 0,
+          "contrast": {
+            "min": 10.45,
+            "low": []
+          }
         }
       ],
       "problems": []

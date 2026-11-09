@@ -202,7 +202,7 @@ export function paintRoom(host, opts) {
       if (status && seat.health === 'Eliminated') { const s = document.createElement('span'); s.className = 'status'; s.textContent = '· Out'; tag.append(s); }
       if (seat.seat === self) tag.dataset.self = '';
       if (seat.seat === active) tag.dataset.active = '';
-      if (dim) tag.style.opacity = '0.55';
+      if (dim) tag.dataset.dim = '';
       const cx = rect.left + rect.side / 2;
       const tagTop = Math.min(height - pad - 26, rect.top + rect.side - (compact ? 6 : 2));
       host.append(tag);
@@ -213,7 +213,7 @@ export function paintRoom(host, opts) {
         const b = document.createElement('span');
         b.className = 'pill'; b.dataset.tone = 'paper';
         b.innerHTML = `${iconSvg('block')}<span>Blocked</span>`;
-        Object.assign(b.style, { position: 'absolute', zIndex: 13, left: `${Math.max(4, Math.min(width - 96, cx - 44))}px`, top: `${Math.max(4, tagTop - 32)}px`, height: '24px', fontSize: '0.75rem' });
+        Object.assign(b.style, { position: 'absolute', zIndex: 3200, left: `${Math.max(4, Math.min(width - 96, cx - 44))}px`, top: `${Math.max(4, tagTop - 32)}px`, height: '24px', fontSize: '0.75rem' });
         host.append(b);
       }
     }

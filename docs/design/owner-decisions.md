@@ -19,12 +19,14 @@ The owner's messages are quoted as written.
 | "The owner's new presentation requirement is exactly 30 seconds: 0–20 seconds: the player's role card. 20–30 seconds: that role's existing ten-second animation." | The private role stage | Sheets 17–18; timing in [DSN-REQ-19](integration-requests.md#dsn-req-19) |
 | "The owner requires Blackout to be usable before voting." | The order drawn on sheet 02, labelled an Integration proposal | Sheet 02; [DSN-REQ-20](integration-requests.md#dsn-req-20) |
 
-**The owner's first look, the same day.** The owner opened the clickable review copy on a phone and looked at the room view (Room A, screen 9), then asked about the tab bar:
+**The owner's first look, the same day.** The owner opened the clickable review copy on a phone and looked at the room view (Room A, screen 9), then asked about the tab bar and the sheets' background:
 
 | What the owner said | What it decides | Where |
 | --- | --- | --- |
 | "it feel too zoom , we should a little bit zoomout the view" | The room view is framed wider: the space between the bars, at the smallest scale that still fills it with the room. People are drawn 23% smaller, and 30% more of the room's width shows (390 × 844). The view holds the room's centre and moves only to keep everyone present in view. The first draft had cut people off at the sides of the Hospital and the Jail | Sheets 20–31 and every screen over a room; [phone-ui.md](phone-ui.md#design-decisions) |
 | "can you also show add when suer click on each button in menu bar like action or card or more or board what it shows?" | Each bottom-bar button is drawn tap by tap, one sheet per button: a row of screens with a ring on what is tapped and an arrow to what it shows. The review copy opens on the player's own turn, its tab bar can be tapped, and its list has "The tab bar" with every button. Two corrections came with it. Pass now asks once before it ends the turn, as the runtime's confirm step for Pass already does. Move stays open on other players' turns, as the engine allows; the first draft had it closed | Sheets 27.1–27.5 (27.1 Board, 27.2 Actions, 27.3 Pass and Vote, 27.4 Card, 27.5 More), 28; the review copy |
+| "I dont like the background of them , lets make them glass transparent so user can see the room at the same time" | Every sheet over a room is glass: the room shows through it, and the room above it isn't dimmed. The text on glass is measured against what is really behind it and kept at 4.5:1 or more | Every sheet over a room; [phone-ui.md](phone-ui.md#design-decisions) |
+| "what us the glass transparent level? before you start to finish all, lets see 1 together"; on one screen, "more transparent, i want to see the room better"; of three levels, "Clearest" | The clearest level: a 20–34% tint, a 2 px blur, and the room behind darkened to 56%, so people and things show through almost sharp and the text still reads | The `--glass-*` values in `kit.css`; every sheet |
 
 **What it does not decide:**
 - **The round order and the stage timing:** Backend and Integration change them in the rules and the contract. Designer only draws them.

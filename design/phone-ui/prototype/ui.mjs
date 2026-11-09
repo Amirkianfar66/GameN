@@ -146,6 +146,8 @@ export function cell(p, { state = 'available', note = '', count = null, mark = n
   return h(interactive ? 'button.cell' : 'div.cell', {
     type: interactive ? 'button' : null, 'data-state': state, 'data-go': go,
     'aria-pressed': interactive ? String(state === 'selected') : null,
+    // An unavailable choice, drawn dimmed: taken, ineligible (the note says why), or faded once a ballot is in.
+    'aria-disabled': ['taken', 'ineligible', 'faded'].includes(state) ? 'true' : null,
     'aria-label': label ?? `Player ${p.seat}, ${p.name}${note ? `, ${note}` : ''}`,
   }, pt(p.character, 92, ''),
   h('span.cell-name', h('b.num', String(p.seat)), h('span', p.name)),
