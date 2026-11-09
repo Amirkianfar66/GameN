@@ -118,7 +118,7 @@ test('fixture labels stay outside the proposed interface', () => {
 });
 
 test('the pack is development-only and no game code imports it', () => {
-  const files = [...walk(join(PACK, 'prototype')), ...walk(join(PACK, 'sheets')), join(REPO, 'design/tools/phone-ui-render.mjs'), join(REPO, 'design/tools/phone-ui-assets.mjs')]
+  const files = [...walk(join(PACK, 'prototype')), ...walk(join(PACK, 'sheets')), join(REPO, 'design/tools/phone-ui-render.mjs'), join(REPO, 'design/tools/phone-ui-assets.mjs'), join(REPO, 'design/tools/phone-ui-clickable.mjs')]
     .filter(f => /\.(mjs|html|css)$/.test(f));
   for (const f of files) assert.match(readFileSync(f, 'utf8'), /mothership:dev-only/, f);
   const roots = ['apps/game/src', 'apps/game/hosted', 'packages/contracts/src', 'packages/engine/src', 'packages/presentation/src', 'services', 'infra'].map(p => join(REPO, p)).filter(existsSync);

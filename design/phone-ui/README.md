@@ -15,6 +15,7 @@ The complete phone interface of the Planet game, from the owner's playtest feedb
 python3 -m http.server 8000      # then open http://localhost:8000/design/phone-ui/prototype/index.html
 node design/tools/phone-ui-render.mjs        # every sheet, the contact sheet, checks.json (CHROME_PATH)
 node design/tools/phone-ui-assets.mjs --check
+node design/tools/phone-ui-clickable.mjs <folder>  # rendered screens + states.json for a static clickable review page
 node --test packages/design-tokens/test/phone-ui.test.mjs
 ```
 
