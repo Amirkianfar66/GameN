@@ -1,0 +1,2550 @@
+{
+  "generatedBy": "design/tools/phone-ui-render.mjs",
+  "browser": "Google Chrome for Testing 153.0.8010.12",
+  "note": "Desktop headless Chromium. Measurements are of this browser at each frame’s CSS size, not of a phone.",
+  "sheets": [
+    {
+      "id": "01",
+      "slug": "flow-map",
+      "title": "Flow map",
+      "file": "design/phone-ui/review/sheets/01-flow-map.jpg",
+      "sha256": "e80bfcc863bbcf3b949e2f69325a70de843749e82ba9bc1eae375f95574098c6",
+      "bytes": 203456,
+      "size": {
+        "width": 1640,
+        "height": 1233
+      },
+      "frames": [],
+      "problems": []
+    },
+    {
+      "id": "02",
+      "slug": "round-order",
+      "title": "Round order and the Blackout placement",
+      "file": "design/phone-ui/review/sheets/02-round-order.jpg",
+      "sha256": "ba61af5a8486dfc565afde5fc4fb9a1a8c83e32ecbfc0c0533642921bfc55418",
+      "bytes": 203963,
+      "size": {
+        "width": 1900,
+        "height": 901
+      },
+      "frames": [],
+      "problems": []
+    },
+    {
+      "id": "03",
+      "slug": "phase-action-matrix",
+      "title": "Phase and action matrix",
+      "file": "design/phone-ui/review/sheets/03-phase-action-matrix.jpg",
+      "sha256": "949fcc20683b7cc2e90b278b25497334986a8d41c19d289f1ddf790f1da58d1a",
+      "bytes": 273656,
+      "size": {
+        "width": 2397,
+        "height": 1279
+      },
+      "frames": [],
+      "problems": []
+    },
+    {
+      "id": "04",
+      "slug": "foundations",
+      "title": "Foundations: colour, type, space, depth, motion",
+      "file": "design/phone-ui/review/sheets/04-foundations.jpg",
+      "sha256": "cbbbc2dd99a9bf7f688e48f60b17280384b437f88bfac07ba03271f7df051b6b",
+      "bytes": 200996,
+      "size": {
+        "width": 1912,
+        "height": 1003
+      },
+      "frames": [],
+      "problems": []
+    },
+    {
+      "id": "05",
+      "slug": "icons",
+      "title": "Icon family",
+      "file": "design/phone-ui/review/sheets/05-icons.jpg",
+      "sha256": "88321f4fdc5a870c77522b5bfc9f5da92eebddc2338365b77a43567983aac418",
+      "bytes": 295924,
+      "size": {
+        "width": 1912,
+        "height": 1404
+      },
+      "frames": [],
+      "problems": []
+    },
+    {
+      "id": "06",
+      "slug": "controls",
+      "title": "Controls, lists, feedback and cards",
+      "file": "design/phone-ui/review/sheets/06-controls.jpg",
+      "sha256": "164d982924e1f1e2bcf03971a5590dec5867f5283e9bcf3813866c8f0437bbfe",
+      "bytes": 255266,
+      "size": {
+        "width": 2158,
+        "height": 1427
+      },
+      "frames": [],
+      "problems": []
+    },
+    {
+      "id": "07",
+      "slug": "top-bar",
+      "title": "Top bar",
+      "file": "design/phone-ui/review/sheets/07-top-bar.jpg",
+      "sha256": "ef9feca4a69c9a72f2211f5905fa9c97319b05b09db1121661575f507c06f3af",
+      "bytes": 111091,
+      "size": {
+        "width": 1533,
+        "height": 1319
+      },
+      "frames": [
+        {
+          "label": "Top bar variants",
+          "src": "s=topbars&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 1
+        }
+      ],
+      "problems": []
+    },
+    {
+      "id": "08",
+      "slug": "bottom-tabs",
+      "title": "Bottom navigation",
+      "file": "design/phone-ui/review/sheets/08-bottom-tabs.jpg",
+      "sha256": "1079f530cd2219dbb1cde801963744b73ae6301100797b8e8593a0e4f812dfa8",
+      "bytes": 109870,
+      "size": {
+        "width": 1533,
+        "height": 1298
+      },
+      "frames": [
+        {
+          "label": "Tab bar states",
+          "src": "s=navbars&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        }
+      ],
+      "problems": []
+    },
+    {
+      "id": "10",
+      "slug": "intro-menu",
+      "title": "Intro and main menu",
+      "file": "design/phone-ui/review/sheets/10-intro-menu.jpg",
+      "sha256": "0e099ea1640dee348ba4a9f5a22550e1f62bb12fa5c5386ff5f422ae4fd0a8f1",
+      "bytes": 147487,
+      "size": {
+        "width": 1846,
+        "height": 1278
+      },
+      "frames": [
+        {
+          "label": "Intro · 0.4 s",
+          "src": "s=intro&t=400&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Intro · 1.6 s",
+          "src": "s=intro&t=1600&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Main menu",
+          "src": "s=menu&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Offline",
+          "src": "s=menu&state=offline&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        }
+      ],
+      "problems": []
+    },
+    {
+      "id": "11",
+      "slug": "host",
+      "title": "Host setup and host lobby",
+      "file": "design/phone-ui/review/sheets/11-host.jpg",
+      "sha256": "eca7f77af83bd7fcf64343f3d478ca57b8dbe6e7be97d89555b11dea8b66c341",
+      "bytes": 201719,
+      "size": {
+        "width": 1846,
+        "height": 1278
+      },
+      "frames": [
+        {
+          "label": "Setup",
+          "src": "s=host-setup&count=9&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Lobby · requests",
+          "src": "s=host-lobby&state=requests&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Copied",
+          "src": "s=host-lobby&state=copied&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Full · Start enabled",
+          "src": "s=host-lobby&state=full&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        }
+      ],
+      "problems": []
+    },
+    {
+      "id": "12",
+      "slug": "join",
+      "title": "Join",
+      "file": "design/phone-ui/review/sheets/12-join.jpg",
+      "sha256": "0e211d6c1350458d8f08748a8b69869072a080dbb51eef20e42f014303054c76",
+      "bytes": 160623,
+      "size": {
+        "width": 1846,
+        "height": 1227
+      },
+      "frames": [
+        {
+          "label": "Empty",
+          "src": "s=join&state=empty&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "No such room",
+          "src": "s=join&state=no-room&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Name too long",
+          "src": "s=join&state=name&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Sending",
+          "src": "s=join&state=sending&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        }
+      ],
+      "problems": []
+    },
+    {
+      "id": "13",
+      "slug": "join-lobby",
+      "title": "Waiting for admission and the player lobby",
+      "file": "design/phone-ui/review/sheets/13-join-lobby.jpg",
+      "sha256": "3428cdee21ccdc45c54f7373e6fb9ce6387e5cbd6554b05dc08b85f44fa394b3",
+      "bytes": 152471,
+      "size": {
+        "width": 1846,
+        "height": 1227
+      },
+      "frames": [
+        {
+          "label": "Waiting for the host",
+          "src": "s=join-wait&state=pending&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Admitted · lobby",
+          "src": "s=join-wait&state=admitted&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Room started without you",
+          "src": "s=join-wait&state=closed&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Busy",
+          "src": "s=join&state=busy&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        }
+      ],
+      "problems": []
+    },
+    {
+      "id": "14",
+      "slug": "recover",
+      "title": "Recover",
+      "file": "design/phone-ui/review/sheets/14-recover.jpg",
+      "sha256": "8e5e3a9f506df3328a79d32c7fda41a0a1930a908af64266335750d96f647035",
+      "bytes": 213443,
+      "size": {
+        "width": 1846,
+        "height": 1278
+      },
+      "frames": [
+        {
+          "label": "Entry",
+          "src": "s=recover&state=entry&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Refused (wrong, used or expired)",
+          "src": "s=recover&state=refused&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Seat recovered",
+          "src": "s=recover&state=success&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Reconnecting",
+          "src": "s=room&room=room-a&state=reconnecting&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        }
+      ],
+      "problems": []
+    },
+    {
+      "id": "15",
+      "slug": "host-recovery",
+      "title": "Host controls and a recovery code",
+      "file": "design/phone-ui/review/sheets/15-host-recovery.jpg",
+      "sha256": "40e9458d8cb81ecedcb11a7638a5d49b91e380ccc994e6d8828168f2c9b907f7",
+      "bytes": 205929,
+      "size": {
+        "width": 1846,
+        "height": 1227
+      },
+      "frames": [
+        {
+          "label": "Host controls",
+          "src": "s=host-controls&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Code · hidden",
+          "src": "s=host-controls&state=code&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Code · revealed",
+          "src": "s=host-controls&state=code&reveal=1&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Abort · confirm",
+          "src": "s=host-controls&state=abort&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        }
+      ],
+      "problems": []
+    },
+    {
+      "id": "16",
+      "slug": "characters",
+      "title": "Character selection",
+      "file": "design/phone-ui/review/sheets/16-characters.jpg",
+      "sha256": "9170a42a3721fc0faddaaa087329de6bcd6b43364eaa3c153b637992360dea5e",
+      "bytes": 352689,
+      "size": {
+        "width": 2288,
+        "height": 1254
+      },
+      "frames": [
+        {
+          "label": "Open",
+          "src": "s=choose&state=open&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Selected · saving",
+          "src": "s=choose&state=selected&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Confirmed · taken",
+          "src": "s=choose&state=confirmed&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Last seconds",
+          "src": "s=choose&state=closing&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Assigned automatically",
+          "src": "s=choose&state=auto&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        }
+      ],
+      "problems": []
+    },
+    {
+      "id": "17",
+      "slug": "role-stage-timeline",
+      "title": "Private role stage · 30 seconds",
+      "file": "design/phone-ui/review/sheets/17-role-stage-timeline.jpg",
+      "sha256": "18cd7d70bdf8d3b97c367e0a212e1438764c3c6efba683f40be956d73a2a583c",
+      "bytes": 384528,
+      "size": {
+        "width": 2288,
+        "height": 1370
+      },
+      "frames": [
+        {
+          "label": "0:01 · card",
+          "src": "s=role&t=1000&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "0:12 · card",
+          "src": "s=role&t=12000&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "0:20 · film begins",
+          "src": "s=role&t=20200&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "0:26 · film",
+          "src": "s=role&t=26000&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "0:30 · Ready",
+          "src": "s=role&t=30000&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        }
+      ],
+      "problems": []
+    },
+    {
+      "id": "18",
+      "slug": "role-stage-states",
+      "title": "Role stage states",
+      "file": "design/phone-ui/review/sheets/18-role-stage-states.jpg",
+      "sha256": "49d40f3ffb467a6d780f6b03ee7b55d163b7c062f32eb6d7c509e9d12e93c025",
+      "bytes": 340739,
+      "size": {
+        "width": 2288,
+        "height": 1278
+      },
+      "frames": [
+        {
+          "label": "Concealed",
+          "src": "s=role&t=9000&state=concealed&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Reduced motion",
+          "src": "s=role&t=23000&state=reduced&safe=47%2C34&motion=reduced",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Missing art",
+          "src": "s=role&t=24000&state=missing&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Rejoined at 0:25",
+          "src": "s=role&t=25000&state=late&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Ready · waiting",
+          "src": "s=role&t=31000&state=waiting&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        }
+      ],
+      "problems": []
+    },
+    {
+      "id": "19",
+      "slug": "boarding",
+      "title": "Shared boarding into Round 1",
+      "file": "design/phone-ui/review/sheets/19-boarding.jpg",
+      "sha256": "9ac59b15aa3b659fc37150001033ff49bb199063b5c9f68c0128b6654160e81b",
+      "bytes": 256204,
+      "size": {
+        "width": 2288,
+        "height": 1227
+      },
+      "frames": [
+        {
+          "label": "0:01.5",
+          "src": "s=boarding&t=1500&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "0:06",
+          "src": "s=boarding&t=6000&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Skipped locally",
+          "src": "s=boarding&t=6000&state=skipped&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Waiting for the server",
+          "src": "s=boarding&t=10000&state=waiting&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Round 1 begins",
+          "src": "s=room&room=room-a&stamp=round1&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        }
+      ],
+      "problems": []
+    },
+    {
+      "id": "20",
+      "slug": "room-a",
+      "title": "Room A",
+      "file": "design/phone-ui/review/sheets/20-room-a.jpg",
+      "sha256": "9fe81b2a24355633a87eccf246b294981951e66e4797c3b308fdfd4f7e1dbcaa",
+      "bytes": 402666,
+      "size": {
+        "width": 1870,
+        "height": 1258
+      },
+      "frames": [
+        {
+          "label": "Another player’s turn",
+          "src": "s=room&room=room-a&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Your turn",
+          "src": "s=room&room=room-a&state=own&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Targeting in the room",
+          "src": "s=actions&role=Doctor&active=4&state=targeting&act=rescue&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Move within the room",
+          "src": "s=room&room=room-a&state=move&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        }
+      ],
+      "problems": []
+    },
+    {
+      "id": "21",
+      "slug": "room-b",
+      "title": "Room B",
+      "file": "design/phone-ui/review/sheets/21-room-b.jpg",
+      "sha256": "b382939a6fc822b4c1c8817acb53039d74901e4ce8b15b71276eb7e69f3b9620",
+      "bytes": 361382,
+      "size": {
+        "width": 1943,
+        "height": 1227
+      },
+      "frames": [
+        {
+          "label": "Another player’s turn",
+          "src": "s=room&room=room-b&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Your turn",
+          "src": "s=room&room=room-b&state=own&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Private talk · choose",
+          "src": "s=actions&role=Doctor&active=4&state=targeting&act=talk&room=room-b&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Officer’s block shown",
+          "src": "s=officer&state=others&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        }
+      ],
+      "problems": []
+    },
+    {
+      "id": "22",
+      "slug": "command-room",
+      "title": "Command Room",
+      "file": "design/phone-ui/review/sheets/22-command-room.jpg",
+      "sha256": "525735147c92255237038b2b203b67bed3b9e643a35a14ae80c5825383e14e94",
+      "bytes": 280955,
+      "size": {
+        "width": 1846,
+        "height": 1227
+      },
+      "frames": [
+        {
+          "label": "Captain’s turn",
+          "src": "s=room&room=command-room&state=own&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Captain console",
+          "src": "s=captain&state=console&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Release · confirm",
+          "src": "s=captain&state=release&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Commands used",
+          "src": "s=captain&state=used&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        }
+      ],
+      "problems": []
+    },
+    {
+      "id": "23",
+      "slug": "hospital",
+      "title": "Hospital",
+      "file": "design/phone-ui/review/sheets/23-hospital.jpg",
+      "sha256": "00abfcab4630f3a82a885e31cc54c00fc5c2d738d6aaa8a25dfca0287e8525b6",
+      "bytes": 205617,
+      "size": {
+        "width": 1846,
+        "height": 1227
+      },
+      "frames": [
+        {
+          "label": "Patient · another turn",
+          "src": "s=room&room=hospital&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Hospital panel",
+          "src": "s=panel&state=enter&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Number entered",
+          "src": "s=panel&state=entered&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Request registered",
+          "src": "s=panel&state=queued&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        }
+      ],
+      "problems": []
+    },
+    {
+      "id": "24",
+      "slug": "jail",
+      "title": "Jail",
+      "file": "design/phone-ui/review/sheets/24-jail.jpg",
+      "sha256": "cb8e732fc2c1253285a6a6ae660bfa1f377534816c5e085eda10a7981c156ab5",
+      "bytes": 229089,
+      "size": {
+        "width": 1533,
+        "height": 1227
+      },
+      "frames": [
+        {
+          "label": "Detained",
+          "src": "s=room&room=jail&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Jail vote from Jail",
+          "src": "s=vote&kind=jail&state=open&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Eject from the console",
+          "src": "s=captain&state=eject&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        }
+      ],
+      "problems": []
+    },
+    {
+      "id": "25",
+      "slug": "private-talk",
+      "title": "Private Talk capsule",
+      "file": "design/phone-ui/review/sheets/25-private-talk.jpg",
+      "sha256": "ddd931d6210a0e098516f46584dbd7ae05775ea746fef17d4ebfff62032206b0",
+      "bytes": 287386,
+      "size": {
+        "width": 1846,
+        "height": 1227
+      },
+      "frames": [
+        {
+          "label": "Declare a side · target",
+          "src": "s=talk&stage=declare&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Claim · initiator",
+          "src": "s=talk&stage=result&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Talk · 60 s",
+          "src": "s=talk&stage=talk&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Promise during talk",
+          "src": "s=promises&state=kinds&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        }
+      ],
+      "problems": []
+    },
+    {
+      "id": "26",
+      "slug": "board",
+      "title": "The whole board, and switching views",
+      "file": "design/phone-ui/review/sheets/26-board.jpg",
+      "sha256": "7db9db316dfa85942149d6d1e88b2ad435b93f2fe7b881cd906f32ac21b9617c",
+      "bytes": 443378,
+      "size": {
+        "width": 1846,
+        "height": 1227
+      },
+      "frames": [
+        {
+          "label": "Room view · tab says Board",
+          "src": "s=room&room=room-a&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Board view · tab says Room",
+          "src": "s=board&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Move · choose a position",
+          "src": "s=board&state=move&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Targets in another room",
+          "src": "s=board&state=targets&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        }
+      ],
+      "problems": []
+    },
+    {
+      "id": "27",
+      "slug": "tab-destinations",
+      "title": "Each tab, opened",
+      "file": "design/phone-ui/review/sheets/27-tab-destinations.jpg",
+      "sha256": "c31cdfdcfc08d4cb3185dad984003478fb14527aaba5b11ca2076b192814ed65",
+      "bytes": 377187,
+      "size": {
+        "width": 2288,
+        "height": 1227
+      },
+      "frames": [
+        {
+          "label": "Board",
+          "src": "s=board&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Actions",
+          "src": "s=actions&role=Doctor&active=4&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Vote",
+          "src": "s=vote&kind=jail&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Card",
+          "src": "s=card&role=Doctor&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "More",
+          "src": "s=more&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        }
+      ],
+      "problems": []
+    },
+    {
+      "id": "28",
+      "slug": "actions",
+      "title": "Actions",
+      "file": "design/phone-ui/review/sheets/28-actions.jpg",
+      "sha256": "c28bc8aed8d0bc05ccedfa60e0f8ccc95d3dc9b23667ca684b4ec462225e7fff",
+      "bytes": 270530,
+      "size": {
+        "width": 1846,
+        "height": 1227
+      },
+      "frames": [
+        {
+          "label": "Doctor · your turn",
+          "src": "s=actions&role=Doctor&active=4&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Hacker · your turn",
+          "src": "s=actions&role=Hacker&active=4&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Undercover · not your turn",
+          "src": "s=actions&role=Undercover&active=7&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Registered and spent",
+          "src": "s=actions&role=Doctor&active=4&state=spent&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        }
+      ],
+      "problems": []
+    },
+    {
+      "id": "29",
+      "slug": "targeting",
+      "title": "Targeting and registering",
+      "file": "design/phone-ui/review/sheets/29-targeting.jpg",
+      "sha256": "f4ad2b230b04a27833345b4a8b26a18c96af7c0ed17d4ab3451be0340e175ff3",
+      "bytes": 397984,
+      "size": {
+        "width": 2412,
+        "height": 1258
+      },
+      "frames": [
+        {
+          "label": "Choose in the scene",
+          "src": "s=actions&role=Doctor&active=4&state=targeting&act=rescue&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Other rooms",
+          "src": "s=actions&role=Doctor&active=4&state=offroom&act=rescue&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Check and register",
+          "src": "s=actions&role=Doctor&active=4&state=confirm&act=rescue&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Registering",
+          "src": "s=actions&role=Doctor&active=4&state=submitting&act=rescue&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Registered",
+          "src": "s=actions&role=Doctor&active=4&state=registered&act=rescue&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        }
+      ],
+      "problems": []
+    },
+    {
+      "id": "30",
+      "slug": "blackout",
+      "title": "Blackout",
+      "file": "design/phone-ui/review/sheets/30-blackout.jpg",
+      "sha256": "92f72e0fb7ed178efde75719df1b3a6cb61bc19e1fc259c4ee09ce36efbf98a4",
+      "bytes": 355308,
+      "size": {
+        "width": 2354,
+        "height": 1227
+      },
+      "frames": [
+        {
+          "label": "Request · confirm",
+          "src": "s=actions&role=Blue+Disabler&active=4&state=confirm&act=blackout&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "5 s lit · everyone",
+          "src": "s=blackout&state=lit&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "10 s dark · everyone",
+          "src": "s=blackout&state=dark&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Dark · Disabler picks a position",
+          "src": "s=blackout&state=pick&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Position fixed",
+          "src": "s=blackout&state=chosen&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        }
+      ],
+      "problems": []
+    },
+    {
+      "id": "31",
+      "slug": "card",
+      "title": "Card",
+      "file": "design/phone-ui/review/sheets/31-card.jpg",
+      "sha256": "56caa5c81bd8bb9b660db51da8e3349012641de383939e8ee02bfc561374aa1b",
+      "bytes": 208839,
+      "size": {
+        "width": 1846,
+        "height": 1227
+      },
+      "frames": [
+        {
+          "label": "Card",
+          "src": "s=card&role=Doctor&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Knowledge · Hacker",
+          "src": "s=card&role=Hacker&state=knows&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Resources",
+          "src": "s=card&role=Doctor&state=holds&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Hidden",
+          "src": "s=card&role=Doctor&state=hidden&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        }
+      ],
+      "problems": []
+    },
+    {
+      "id": "32",
+      "slug": "more",
+      "title": "More",
+      "file": "design/phone-ui/review/sheets/32-more.jpg",
+      "sha256": "f49da744660ec34ad76765cfa43dddf053a940fa69bc8da229cad1cc1cf74ae8",
+      "bytes": 298539,
+      "size": {
+        "width": 2288,
+        "height": 1227
+      },
+      "frames": [
+        {
+          "label": "More",
+          "src": "s=more&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "More · host",
+          "src": "s=more&host=1&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Players",
+          "src": "s=players&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Round order",
+          "src": "s=rules&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Display",
+          "src": "s=settings&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        }
+      ],
+      "problems": []
+    },
+    {
+      "id": "33",
+      "slug": "promises",
+      "title": "Promises",
+      "file": "design/phone-ui/review/sheets/33-promises.jpg",
+      "sha256": "857bc87659c106667b9dc9978a56e027cc6e1a38d7fdc00f6fb68bed01ad3aa1",
+      "bytes": 270473,
+      "size": {
+        "width": 2288,
+        "height": 1227
+      },
+      "frames": [
+        {
+          "label": "List · during talk",
+          "src": "s=promises&state=list&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Choose a kind",
+          "src": "s=promises&state=kinds&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Check the terms",
+          "src": "s=promises&state=confirm&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Offer received",
+          "src": "s=promises&state=incoming&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Results",
+          "src": "s=promises&state=results&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        }
+      ],
+      "problems": []
+    },
+    {
+      "id": "34",
+      "slug": "windows",
+      "title": "Windows",
+      "file": "design/phone-ui/review/sheets/34-windows.jpg",
+      "sha256": "a4eb960c0f5d47bf8cc56eec4acf97fe6a19b2c275540def64263f52ed6ee895",
+      "bytes": 183230,
+      "size": {
+        "width": 1846,
+        "height": 1227
+      },
+      "frames": [
+        {
+          "label": "View",
+          "src": "s=windows&state=view&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Draw at your station",
+          "src": "s=windows&state=draw&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Shown",
+          "src": "s=windows&state=shown&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "No window here",
+          "src": "s=windows&state=none&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        }
+      ],
+      "problems": []
+    },
+    {
+      "id": "35",
+      "slug": "vote-jail",
+      "title": "Jail vote",
+      "file": "design/phone-ui/review/sheets/35-vote-jail.jpg",
+      "sha256": "32733887019a6d41dcc3076c92a42dd58edda07c04e040861479955ce86d9e60",
+      "bytes": 342260,
+      "size": {
+        "width": 2288,
+        "height": 1227
+      },
+      "frames": [
+        {
+          "label": "Open",
+          "src": "s=vote&kind=jail&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Selected",
+          "src": "s=vote&kind=jail&state=selected&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Submitted",
+          "src": "s=vote&kind=jail&state=submitted&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Abstained",
+          "src": "s=vote&kind=jail&state=abstained&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Closed",
+          "src": "s=vote&kind=jail&state=closed&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        }
+      ],
+      "problems": []
+    },
+    {
+      "id": "36",
+      "slug": "vote-captain",
+      "title": "Captain election and stable placement",
+      "file": "design/phone-ui/review/sheets/36-vote-captain.jpg",
+      "sha256": "a4815b358923dc23e07b147c53c02d421060bfde4780b992d9858f06abfbb1d4",
+      "bytes": 351454,
+      "size": {
+        "width": 2288,
+        "height": 1227
+      },
+      "frames": [
+        {
+          "label": "Election · 9 players",
+          "src": "s=vote&kind=captain&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Runoff",
+          "src": "s=vote&kind=captain&state=runoff&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "8 players",
+          "src": "s=vote&kind=captain&roster=8&state=selected&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "7 players",
+          "src": "s=vote&kind=jail&roster=7&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Can’t vote (eliminated)",
+          "src": "s=vote&kind=jail&state=cannot&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        }
+      ],
+      "problems": []
+    },
+    {
+      "id": "37",
+      "slug": "results-captain",
+      "title": "Captain election results",
+      "file": "design/phone-ui/review/sheets/37-results-captain.jpg",
+      "sha256": "d4ec3dd159b53581bf8777629d4e0816bd5f5299676c4aab47cdbacf109ca4d5",
+      "bytes": 275364,
+      "size": {
+        "width": 1533,
+        "height": 1227
+      },
+      "frames": [
+        {
+          "label": "Elected",
+          "src": "s=result&outcome=CAPTAIN_ELECTED&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Tie · runoff",
+          "src": "s=result&outcome=RUNOFF_REQUIRED&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "No Captain",
+          "src": "s=result&outcome=NO_CAPTAIN_ELECTED&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        }
+      ],
+      "problems": []
+    },
+    {
+      "id": "38",
+      "slug": "results-jail",
+      "title": "Jail vote results",
+      "file": "design/phone-ui/review/sheets/38-results-jail.jpg",
+      "sha256": "2efe7236e114d3c08d63a20a10f3946556b0bfb95dd6f261f6862afa88d41101",
+      "bytes": 347593,
+      "size": {
+        "width": 1846,
+        "height": 1227
+      },
+      "frames": [
+        {
+          "label": "Jailed",
+          "src": "s=result&outcome=PLAYER_JAILED&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Chosen · Jail full",
+          "src": "s=result&outcome=JAIL_FULL&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "No one jailed",
+          "src": "s=result&outcome=NO_JAIL_SELECTION&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "8 players",
+          "src": "s=result&outcome=PLAYER_JAILED&roster=8&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        }
+      ],
+      "problems": []
+    },
+    {
+      "id": "40",
+      "slug": "offices",
+      "title": "Captain and Officer",
+      "file": "design/phone-ui/review/sheets/40-offices.jpg",
+      "sha256": "52e28da7992b747725cefd8fc073b0752df564a3675e6edb34ab1b2097b6d3f9",
+      "bytes": 239661,
+      "size": {
+        "width": 1846,
+        "height": 1227
+      },
+      "frames": [
+        {
+          "label": "Appoint an Officer",
+          "src": "s=captain&state=appoint&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Others wait",
+          "src": "s=captain&state=waiting&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Block movement",
+          "src": "s=officer&state=pick&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Blocked",
+          "src": "s=officer&state=done&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        }
+      ],
+      "problems": []
+    },
+    {
+      "id": "41",
+      "slug": "navigation",
+      "title": "Navigation",
+      "file": "design/phone-ui/review/sheets/41-navigation.jpg",
+      "sha256": "b0127d0a9a8351e2211e739421b6f3701de9e493120ffb7fcd21f4308d8f30cd",
+      "bytes": 228721,
+      "size": {
+        "width": 2288,
+        "height": 1227
+      },
+      "frames": [
+        {
+          "label": "Everyone · setting course",
+          "src": "s=nav&state=public&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Captain · route",
+          "src": "s=nav&state=route&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Officer · genuine tie",
+          "src": "s=nav&state=tie&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Acknowledge · no veto",
+          "src": "s=nav&state=confirm&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Everyone · moved",
+          "src": "s=nav&state=moved&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        }
+      ],
+      "problems": []
+    },
+    {
+      "id": "42",
+      "slug": "scan-code",
+      "title": "Hacker: Scan and the final Code",
+      "file": "design/phone-ui/review/sheets/42-scan-code.jpg",
+      "sha256": "eba5adc3991ae94b1cedf0cff5a06c2ed3f3fe66e31f17e927805812ff35121e",
+      "bytes": 353190,
+      "size": {
+        "width": 2288,
+        "height": 1227
+      },
+      "frames": [
+        {
+          "label": "Scan · choose",
+          "src": "s=scan&state=target&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Scan · guess",
+          "src": "s=scan&state=guess&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Scan · matched",
+          "src": "s=scan&state=result&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Code · four players",
+          "src": "s=code&state=confirm&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Code · correct",
+          "src": "s=code&state=correct&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        }
+      ],
+      "problems": []
+    },
+    {
+      "id": "43",
+      "slug": "hospital-panel",
+      "title": "Hospital panel",
+      "file": "design/phone-ui/review/sheets/43-hospital-panel.jpg",
+      "sha256": "4e749773765bca0c1083ecc4e136a540b29201f495d85cdc0ae39dee5b4b9a3e",
+      "bytes": 190846,
+      "size": {
+        "width": 2288,
+        "height": 1258
+      },
+      "frames": [
+        {
+          "label": "Enter",
+          "src": "s=panel&state=enter&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Registered",
+          "src": "s=panel&state=queued&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Wrong number",
+          "src": "s=panel&state=wrong&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Unavailable",
+          "src": "s=panel&state=unavailable&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Attempt used",
+          "src": "s=panel&state=spent&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        }
+      ],
+      "problems": []
+    },
+    {
+      "id": "44",
+      "slug": "end",
+      "title": "Blackhole, elimination and the end of a match",
+      "file": "design/phone-ui/review/sheets/44-end.jpg",
+      "sha256": "770945d9b95756ed4d10c46f50ef556f09c241ff1ee4242abf6157964a360752",
+      "bytes": 294707,
+      "size": {
+        "width": 2288,
+        "height": 1227
+      },
+      "frames": [
+        {
+          "label": "Ship synchronized · 6 s",
+          "src": "s=blackhole&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Eliminated",
+          "src": "s=eliminated&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Blue wins",
+          "src": "s=end&winner=Blue&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Red wins",
+          "src": "s=end&winner=Red&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "No survivors",
+          "src": "s=end&winner=none&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        }
+      ],
+      "problems": []
+    },
+    {
+      "id": "45",
+      "slug": "system",
+      "title": "Loading, reconnecting and the unexpected",
+      "file": "design/phone-ui/review/sheets/45-system.jpg",
+      "sha256": "7bdcb2d394300caa866c648d6f52d1953373e9d0468678610eb4e4e9c14744d4",
+      "bytes": 335533,
+      "size": {
+        "width": 2288,
+        "height": 1227
+      },
+      "frames": [
+        {
+          "label": "Loading",
+          "src": "s=system&state=loading&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Reconnecting",
+          "src": "s=room&room=room-a&state=reconnecting&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Outcome unknown",
+          "src": "s=system&state=unknown&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Room art unavailable",
+          "src": "s=system&state=asset&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Phase closed",
+          "src": "s=system&state=stale&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        }
+      ],
+      "problems": []
+    },
+    {
+      "id": "50",
+      "slug": "viewport-320",
+      "title": "320 × 568",
+      "file": "design/phone-ui/review/sheets/50-viewport-320.jpg",
+      "sha256": "2c038997bf301c718e84d31474e050691c4172d27d4ad6db18fa71f82444fbdb",
+      "bytes": 262787,
+      "size": {
+        "width": 1938,
+        "height": 951
+      },
+      "frames": [
+        {
+          "label": "Room",
+          "src": "s=room&room=room-a&state=own&safe=20%2C0",
+          "width": 320,
+          "height": 568,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Actions",
+          "src": "s=actions&role=Doctor&active=4&safe=20%2C0",
+          "width": 320,
+          "height": 568,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Vote",
+          "src": "s=vote&kind=jail&state=selected&safe=20%2C0",
+          "width": 320,
+          "height": 568,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Card",
+          "src": "s=card&role=Doctor&safe=20%2C0",
+          "width": 320,
+          "height": 568,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Characters",
+          "src": "s=choose&state=confirmed&safe=20%2C0",
+          "width": 320,
+          "height": 568,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 1
+        }
+      ],
+      "problems": []
+    },
+    {
+      "id": "51",
+      "slug": "viewport-430",
+      "title": "430 × 932",
+      "file": "design/phone-ui/review/sheets/51-viewport-430.jpg",
+      "sha256": "db5edc4398e25cc92eb9eeb3b53925df83784c3872dadce98b67c6fd57d56c55",
+      "bytes": 414737,
+      "size": {
+        "width": 2006,
+        "height": 1315
+      },
+      "frames": [
+        {
+          "label": "Room",
+          "src": "s=room&room=room-a&state=own&safe=59%2C34",
+          "width": 430,
+          "height": 932,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Board",
+          "src": "s=board&safe=59%2C34",
+          "width": 430,
+          "height": 932,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Result",
+          "src": "s=result&outcome=PLAYER_JAILED&safe=59%2C34",
+          "width": 430,
+          "height": 932,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Role stage",
+          "src": "s=role&t=12000&safe=59%2C34",
+          "width": 430,
+          "height": 932,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        }
+      ],
+      "problems": []
+    },
+    {
+      "id": "52",
+      "slug": "browser-chrome",
+      "title": "In Safari, with its toolbars",
+      "file": "design/phone-ui/review/sheets/52-browser-chrome.jpg",
+      "sha256": "5f35d543c52beb4ff0ede183c7c8c14015c9c1d2f1e6ff66302844a238e3298e",
+      "bytes": 296693,
+      "size": {
+        "width": 1846,
+        "height": 1137
+      },
+      "frames": [
+        {
+          "label": "Room",
+          "src": "s=room&room=room-a&state=own&safe=0%2C0&chrome=0",
+          "width": 390,
+          "height": 664,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Vote",
+          "src": "s=vote&kind=jail&safe=0%2C0&chrome=0",
+          "width": 390,
+          "height": 664,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Board",
+          "src": "s=board&safe=0%2C0&chrome=0",
+          "width": 390,
+          "height": 664,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Menu",
+          "src": "s=menu&safe=0%2C0&chrome=0",
+          "width": 390,
+          "height": 664,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        }
+      ],
+      "problems": []
+    },
+    {
+      "id": "53",
+      "slug": "larger-text",
+      "title": "Larger text",
+      "file": "design/phone-ui/review/sheets/53-larger-text.jpg",
+      "sha256": "b8e93952a14333c8b7da55da72d27327bd9382c0d6c5a62e7864976d2307dbb3",
+      "bytes": 364744,
+      "size": {
+        "width": 2288,
+        "height": 1227
+      },
+      "frames": [
+        {
+          "label": "Room · Large",
+          "src": "s=room&room=room-a&state=own&safe=47%2C34&text=1.5",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Actions · Large",
+          "src": "s=actions&role=Doctor&active=4&safe=47%2C34&text=1.5",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Vote · Large",
+          "src": "s=vote&kind=jail&state=selected&safe=47%2C34&text=1.5",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 1
+        },
+        {
+          "label": "More · Largest",
+          "src": "s=more&safe=47%2C34&text=2",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 1
+        },
+        {
+          "label": "Join · Largest",
+          "src": "s=join&state=no-room&safe=47%2C34&text=2",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        }
+      ],
+      "problems": []
+    },
+    {
+      "id": "54",
+      "slug": "reduced-motion",
+      "title": "Reduce motion",
+      "file": "design/phone-ui/review/sheets/54-reduced-motion.jpg",
+      "sha256": "43730d8ae065f871befbb703d8686680f3fe2f07f59ec19556f5917c9ee111c3",
+      "bytes": 240728,
+      "size": {
+        "width": 1846,
+        "height": 1254
+      },
+      "frames": [
+        {
+          "label": "Role film · stills",
+          "src": "s=role&t=23000&safe=47%2C34&motion=reduced",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Boarding · stills",
+          "src": "s=boarding&t=5200&safe=47%2C34&motion=reduced",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Blackout dark",
+          "src": "s=blackout&state=dark&safe=47%2C34&motion=reduced",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Result",
+          "src": "s=result&outcome=CAPTAIN_ELECTED&safe=47%2C34&motion=reduced",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        }
+      ],
+      "problems": []
+    },
+    {
+      "id": "60",
+      "slug": "art-status",
+      "title": "Approved art not yet in the playable build",
+      "file": "design/phone-ui/review/sheets/60-art-status.jpg",
+      "sha256": "a36e7ea09f5a4f37d94eb519b0ce00e807108793c96732730a953b9ad8068347",
+      "bytes": 361247,
+      "size": {
+        "width": 2112,
+        "height": 1313
+      },
+      "frames": [],
+      "problems": []
+    },
+    {
+      "id": "61",
+      "slug": "today-vs-proposal",
+      "title": "Today’s playable build and this proposal",
+      "file": "design/phone-ui/review/sheets/61-today-vs-proposal.jpg",
+      "sha256": "34ca09c1539d6884d9b2825f78815ecc6384c91795979289227277082bc9326e",
+      "bytes": 352862,
+      "size": {
+        "width": 1800,
+        "height": 1209
+      },
+      "frames": [
+        {
+          "label": "",
+          "src": "s=room&room=room-a&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "",
+          "src": "s=role&t=12000&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        }
+      ],
+      "problems": []
+    }
+  ]
+}

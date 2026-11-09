@@ -6,6 +6,24 @@ What the game owner decided about look, feel and presentation while working with
 
 The owner's messages are quoted as written.
 
+## 9 November 2026: the phone interface after the playtest
+
+**After a playtest, the owner asked for a complete phone interface design pack: a clean interface that feels like an iPhone app, around the approved comic-noir art.** The requirements came with the request of 9 November 2026. The owner's words are quoted below; Designer's answer is the pack in [phone-ui.md](phone-ui.md).
+
+| What the owner asked | What it decides | Where |
+| --- | --- | --- |
+| "a clean, intuitive interface with an iPhone app feel, while preserving GameN's approved comic-noir artwork, characters, rooms, cards, and animations" | The interface language: iOS-like chrome around the comic scenes | Sheets 04–08 |
+| "Remove introductory paragraphs, redundant headings, repeated status messages, and unnecessary instructions." | Short screens; only essential labels, errors and eligibility | Every sheet |
+| "The player's current room is the main full-screen scene." and "In room view, the navigation destination says 'Board'. In board view, it says 'Room'. A view switch must never move the player or spend movement." | Room view is the default; Board and Room switch views without moving anyone | Sheets 20–26 |
+| "During a voting phase, replace the central Pass control with Vote. Vote opens a 3×3 character grid." | Vote replaces Pass; one 3 × 3 roster for ballots and results | Sheets 35–38 |
+| "The owner's new presentation requirement is exactly 30 seconds: 0–20 seconds: the player's role card. 20–30 seconds: that role's existing ten-second animation." | The private role stage | Sheets 17–18; timing in [DSN-REQ-19](integration-requests.md#dsn-req-19) |
+| "The owner requires Blackout to be usable before voting." | The order drawn on sheet 02, labelled an Integration proposal | Sheet 02; [DSN-REQ-20](integration-requests.md#dsn-req-20) |
+
+**What it does not decide:**
+- **The round order and the stage timing:** Backend and Integration change them in the rules and the contract. Designer only draws them.
+- **Routine visual choices** (Join as the primary entry, sheets docked between the bars, the icon family, errors in paper rather than red): these were Designer's, under the owner's brief, and the owner can overrule any of them.
+- **Adoption:** nothing here is in the playable build.
+
 ## 8 November 2026: the pre-game films again, as AAA animation
 
 **The owner asked for the three films a player sees before the game to be made again, at a much higher finish, with the restyled crew and rooms.**

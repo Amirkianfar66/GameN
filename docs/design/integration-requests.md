@@ -24,6 +24,9 @@ Codex owns the root manifests, the lockfile, CI, the source lock, the workspace 
 | [DSN-REQ-15](#dsn-req-15) | Carry a Disabler's spent Disable, and the Officer's spent shot, in the seat's own view (ability art, slices 3 and 4) | A lasting "spent" mark in the Disabler's card, and an Officer's supplied weapon drawn as one that cannot be used. Today the receipt shows the charge or the round spent, and then the action is simply not offered again | None |
 | [DSN-REQ-16](#dsn-req-16) | Decide whether a stale or timed-out view hides the private card (raised by Frontend on PR #102) | The port of the closed folder. Recommended: keep the release's behaviour for the card; the folder only after the background | None |
 | [DSN-REQ-17](#dsn-req-17) | Register the crew drawing release `crew-drawing-1.0.0` (the owner-approved crew of nine, 7 November 2026) as `design-0.7.0` with tokens 0.5.0: pin its corrected sources and ports, add `apps/game/hosted/crew-drawing/` to the drawing-port fence, build its portraits, cards, standees and devices into the new release's bundles, retire the 27 old crew film drawings from that bundle | Frontend's port of the approved crew, by exact-release dispatch. Until then every surface draws today's crew | None |
+| [DSN-REQ-19](#dsn-req-19) | The owner's 30-second private role stage: the card for 20 s, then the role's film for 10 s, on one server interval, with Ready kept as a human action | The phone pack's role stage (sheets 17–18). Today the film starts when the player taps Reveal | None |
+| [DSN-REQ-20](#dsn-req-20) | The owner's Blackout before the Jail vote: an Integration proposal that changes the rules and the contract | The round order of sheet 02 and the matrix on sheet 03. The screens themselves work in either order | None |
+| [DSN-REQ-21](#dsn-req-21) | Small data items for the phone pack: distinct join and recovery refusals, a decline for admission, the Hospital panel's number pad, the Code's phase window | Better wording on sheets 12–15, a working keypad on sheet 43, and a consistent matrix | None |
 
 Nothing here installs anything. Every script Designer added uses Node built-ins only.
 
@@ -315,6 +318,59 @@ Every update is tested equal to a fresh draw, in Node and in desktop Chrome: con
 Frontend measures the result on a physical low-end Android phone and an iPhone, by the agreed protocol. Until it does, every performance figure stays unverified. Designer reviews the port's captures and video before Integration merges it.
 
 Until then, every surface keeps drawing today's crew, and nothing breaks. The release sits in `design/crew-drawing/` as dev-only sources, and the runtime does not import it.
+
+## DSN-REQ-19
+
+**The 30-second private role stage.** Raised by Designer on 9 November 2026 for the owner's playtest requirement:
+
+> exactly 30 seconds: 0–20 seconds: the player's role card. 20–30 seconds: that role's existing ten-second animation.
+
+The design is on sheets 17–18 of the phone pack ([phone-ui.md](phone-ui.md)).
+
+**Today:**
+- The reading stage has a 30-second minimum and every human's Ready (`services/game-api/src/planet-game.ts`).
+- The role film starts locally when the player taps Reveal, only if at least 10 s of the minimum remain (`apps/game/src/planet/pregame.ts`).
+
+**Requested from Backend and Integration (timing, not art):**
+1. **One server interval** for the stage: a start and an end of exactly 30 000 ms, like boarding's `setup.startedAt` and `setup.endsAt`. Each phone can then seek: the card to 20 s, the film from 20 s, Ready at 30 s. A reconnect, a return from the background or Reduce motion never restarts it.
+2. **Whether this interval is the existing 30-second reading minimum.** Designer assumes it is, so Ready opens when the film ends.
+3. **Ready stays a human action.** Neither the film's end nor Skip may confirm Ready or start boarding. Bots stay Ready automatically.
+4. **The card shows without a Reveal tap,** because the stage itself shows it. Concealment on blur or hiding stays as it is.
+
+## DSN-REQ-20
+
+**Blackout before the Jail vote.** The owner requires Blackout to be usable before voting. Designer draws this order on sheet 02 and labels it an **Integration proposal, pending the rules and contract update**:
+
+> Player turns and final private conversation → Blackhole Sync and its six-second presentation, when applicable → shared Blackout window: five seconds lit, ten seconds dark → Jail voting → five-second vote result → remaining resolution and navigation.
+
+**Today** (`packages/engine/src/planet-game/lifecycle.ts`):
+- `REQUEST_BLACKOUT` is the Disabler's Role Action on their own turn.
+- The window comes after `JAIL_VOTE` and `VOTE_RESULT`.
+- A Disabler who is no longer free and Healthy when the window starts (for example, just jailed) loses the request but keeps the use.
+
+**For Backend and Integration to settle before any screen depends on it:**
+- **When the strike resolves:** at the window, or with the other attacks after the vote.
+- **Fixed targets:** a position chosen before the vote may hold someone else, or no one, once the vote has moved its occupant to Jail.
+- **The cancellation when a Disabler is jailed:** with the window first, a Jail transfer after the vote meets an already chosen and already spent strike.
+- **The frozen board,** the windows that close while it is dark, and the order of Meet-in-room Promises against the window.
+
+**What stays the same in both orders:**
+- the same timing, look and sound in every round, for both Disablers;
+- the initiator never shown;
+- no injury or hit drawn because a position was selected.
+
+The screens are the same in either order; only the round order changes.
+
+## DSN-REQ-21
+
+**Small data items for the phone pack (9 November 2026).** None blocks the pack itself; each would let the interface say something true and specific.
+
+1. **Join refusals.** Today the server answers `NOT_ALLOWED` both when a room has started and when the same user asks again with another name or device. Distinct codes would let the phone say which.
+2. **Recovery refusals.** Today a wrong, used or expired code, and a caller who is already a member, all get `FORBIDDEN`. The pack writes one honest sentence covering all of them; a distinct "expired" would let it say just that.
+3. **Decline for admission.** The contract has a `declined` status, but no operation sends it. The pack shows Admit only. A decline (or "remove") operation would let a host turn away a request.
+4. **The Hospital panel's number pad.** The engine's `PANEL_CODE` offer has an empty `targetSeatIds`, while the controller builds the pad from that list. Against the real engine the pad would be empty. The pad should list every original player number, without telling anyone whether the pool has an injection.
+5. **The final Code's window.** The engine accepts `SUBMIT_CODE` in every phase from Round 2 until resolution, including the vote, its result and the declaration stage. P18 says "until navigation", while the October rules barred input during votes. The matrix (sheet 03) shows the engine's answer; please confirm which is intended.
+6. **The shared display's offices** come from the last finalized board until Sync. The pack's top bar uses only `offices` as the phone receives it.
 
 ## What Designer does next, and what it waits for
 
