@@ -50,7 +50,7 @@ export function paintScene(host, dims, s) {
   const fixture = s.fixture ?? ROOM_FIXTURES[s.room ?? 'room-a'];
   const seats = s.seats ?? seatsFor(fixture, { roster: s.roster ?? 9, place: s.place, health: s.health });
   const common = { roster: s.roster ?? 9, seats, self: SELF, active: s.active === undefined ? fixture.active : s.active, offices: s.offices ?? fixture.offices,
-    targets: s.targets ?? null, picked: s.picked ?? [], dimOthers: s.dimOthers ?? !!s.targets, slots: s.slots ?? null, dark: s.dark ?? false, blocked: s.blocked ?? null };
+    targets: s.targets ?? null, targetGo: s.targetGo ?? null, picked: s.picked ?? [], dimOthers: s.dimOthers ?? !!s.targets, slots: s.slots ?? null, dark: s.dark ?? false, blocked: s.blocked ?? null };
   if (s.kind === 'board') return paintBoard(host, dims, s, common);
   // The room view fills the space between the bars, framed wide (art.mjs phoneFrame).
   const between = dims.height - dims.top - dims.bottom;
@@ -123,6 +123,14 @@ export const FLOWS = Object.freeze([
     { label: 'Choose a character', go: 's=choose&state=open' },
     { label: 'Your role, 30 seconds', go: 's=role&t=4000' },
     { label: 'Boarding, 10 seconds', go: 's=boarding&t=1500' },
+  ] },
+  { title: 'The tab bar: what each button shows', steps: [
+    { label: 'Your turn · start here', go: 's=room&room=room-a&state=own' },
+    { label: 'Board', go: 's=board' },
+    { label: 'Actions', go: 's=actions&role=Doctor&active=4' },
+    { label: 'Pass', go: 's=room&room=room-a&state=pass' },
+    { label: 'Card', go: 's=card&role=Doctor' },
+    { label: 'More', go: 's=more' },
   ] },
   { title: 'Playing', steps: [
     { label: 'Your room', go: 's=room&room=room-a' },

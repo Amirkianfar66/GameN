@@ -35,7 +35,7 @@ function roleTiles(role, p, overrides = {}) {
   const q = extra => `s=actions&${roleQuery(p, extra)}`;
   const t = (key, icon, label, opts) => tile(icon, label, { ...opts, ...(overrides[key] ?? {}) });
   const common = [
-    t('move', 'move', 'Move', { note: 'Once a round', go: 's=room&room=room-a&state=move' }),
+    t('move', 'move', 'Move', { note: 'Once a round', go: `s=room&room=room-a&state=move${Number(p.active ?? SELF) === SELF ? '' : `&active=${p.active}`}` }),
     t('talk', 'talk', 'Private talk', { note: 'Once a match', go: q('&state=targeting&act=talk') }),
     t('shoot', 'shoot', 'Shoot', { state: 'unavailable', note: 'From Round 4' }),
   ];
@@ -66,28 +66,41 @@ function roomInteraction(room) {
 
 // ── I. The board ────────────────────────────────────────────────────────
 const MOVE_SLOTS = { 'room-a': { ids: ['A5'] }, 'room-b': { ids: ['B4', 'B5'] } };
+/** Whose turn follows the player's in the synthetic turn order. */
+const NEXT_SEAT = 5;
 
 export const GAME_SCREENS = {
-  /** H. The player's own room, full screen. state: turn | own | reconnecting | stale; stamp: round1. */
+  /**
+   * H. The player's own room, full screen. state: turn | own | move | pass (Pass asks once) | passed (the
+   * turn has moved on) | reconnecting; stamp: round1.
+   */
   room(root, p) {
     const room = p.room ?? 'room-a';
     const fixture = ROOM_FIXTURES[room];
     const state = p.state ?? 'turn';
-    const active = ['own', 'move'].includes(state) ? SELF : fixture.active;
+    const next = seatOf(NEXT_SEAT);
+    // Moving works on anyone's turn (p.active names whose); Pass and the rest are the player's own turn.
+    const active = p.active ? Number(p.active) : ['own', 'move', 'pass'].includes(state) ? SELF : state === 'passed' ? NEXT_SEAT : fixture.active;
     const top = state === 'reconnecting' ? topBar({ kind: 'phase', icon: 'retry', title: 'Reconnecting…', sub: 'Showing Round 3 as last seen', round: 3, seconds: null })
-      : turnBar({ active, round: p.stamp ? 1 : 3, seconds: p.stamp ? 60 : 42 });
+      : turnBar({ active, round: p.stamp ? 1 : 3, seconds: p.stamp || state === 'passed' ? 60 : 42 });
     const occupied = new Set(seatsFor(fixture).filter(x => x.location === ROOM_NAMES[room]).map(x => x.slot));
     const empty = { 'room-a': ['A1', 'A2', 'A3', 'A4', 'A5'], 'room-b': ['B1', 'B2', 'B3', 'B4', 'B5'] }[room]?.filter(id => !occupied.has(id)) ?? [];
+    // Pass asks once: the turn cannot be taken back. Moving is not lost by passing.
+    const passSheet = state === 'pass' ? sheet({ title: 'Pass your turn?', sub: `The turn goes to ${next.name} · Player ${next.seat}`,
+      body: [groupNote('Your move stays open on the other turns this round.')], close: false,
+      foot: [button('Cancel', { kind: 'secondary', go: `s=room&room=${room}&state=own` }), button('Pass', { icon: 'pass', go: `s=room&room=${room}&state=passed` })] }) : null;
     game(root, {
       top,
       scene: { kind: 'room', room, active, veil: state === 'reconnecting' ? 'rgba(10,13,19,0.45)' : null, slots: state === 'move' ? { ids: empty, picked: p.slot ?? null, icon: 'move' } : null },
-      tabs: { hero: active === SELF ? 'pass' : 'pass-off', go: { switch: 's=board', actions: `s=actions&role=Doctor&active=${active}`, card: 's=card&role=Doctor', more: 's=more', hero: 's=room&room=room-a' } },
+      tabs: { hero: active === SELF ? 'pass' : 'pass-off', go: { switch: 's=board', actions: `s=actions&role=Doctor&active=${active}`, card: 's=card&role=Doctor', more: 's=more', hero: active === SELF && state !== 'pass' ? `s=room&room=${room}&state=pass` : null } },
+      sheet: passSheet,
+      toast: state === 'passed' ? toast('Turn passed', 'info') : null,
       overlay: [
         state === 'reconnecting' ? banner({ icon: 'offline', title: 'Connection lost', sub: 'Controls return when the match is current', action: button('Retry', { kind: 'secondary', small: true }) }) : null,
         p.stamp ? h('div', { style: { position: 'absolute', inset: '0', display: 'grid', placeItems: 'center', zIndex: 3500, pointerEvents: 'none' } }, h('span.stamp', { 'data-tone': 'gold', style: { fontSize: '2.25rem', padding: '10px 20px 8px' } }, 'ROUND 1')) : null,
-        state === 'move' ? targetBar('move', p.slot ? `Move to ${p.slot}` : 'Move within Room A', p.slot ? 'Uses this round’s move · register to confirm' : 'Choose an empty position · or another room on the Board', { cancel: 's=room&room=room-a&state=own' }) : null,
+        state === 'move' ? targetBar('move', p.slot ? `Move to ${p.slot}` : 'Move within Room A', p.slot ? 'Uses this round’s move · register to confirm' : 'Choose an empty position · or another room on the Board', { cancel: active === SELF ? 's=room&room=room-a&state=own' : 's=room&room=room-a' }) : null,
         state === 'move' && !p.slot ? floating('Other rooms on the Board', { icon: 'board', go: 's=board&state=move' }) : null,
-        state !== 'reconnecting' && state !== 'move' && !p.stamp ? roomInteraction(room) : null,
+        !['reconnecting', 'move', 'pass'].includes(state) && !p.stamp ? roomInteraction(room) : null,
         room === 'jail' && state !== 'reconnecting' ? h('div.offroom', pill('Detained · you can still vote', { icon: 'jail', tone: 'paper' })) : null,
       ],
     });
@@ -180,18 +193,22 @@ export const GAME_SCREENS = {
     if (ACT && ACT.off && !['room-a', 'room-b'].includes(room)) ACT.off = [];
     if (state === 'list' || state === 'spent') {
       const overrides = state === 'spent' ? { talk: { state: 'spent', note: 'Used' }, rescue: { state: 'registered', note: 'Eli · after the vote' } } : {};
+      // Off your turn, Move (any turn, once a round) and the Hacker's Final Code (any phase from Round 2) stay
+      // open, as the engine allows; every other action waits for your turn.
       const body = [
         h('div.section-head', h('h3', own ? 'Your turn' : 'Not your turn'), h('span', 'Round 3')),
-        h('div.tiles', roleTiles(role, p, own ? overrides : Object.fromEntries(['rescue', 'protect', 'supply', 'blackout', 'suppress', 'clone', 'scan', 'code', 'move', 'talk'].map(k => [k, { state: 'unavailable', note: 'On your turn' }])))),
-        own ? null : groupNote('Movement is open on any turn while your round’s move is unused.'),
+        h('div.tiles', roleTiles(role, p, own ? overrides : Object.fromEntries(['rescue', 'protect', 'supply', 'blackout', 'suppress', 'clone', 'scan', 'talk'].map(k => [k, { state: 'unavailable', note: 'On your turn' }])))),
+        own ? null : groupNote(role === 'Hacker' ? 'Move and the Final Code work on any turn. The rest wait for your turn.' : 'Move works on any turn, once a round. The rest wait for your turn.'),
       ];
       game(root, { top: turnBar({ active: own ? SELF : 7, seconds: 42 }), scene, tabs: tabsCfg, sheet: sheet({ title: 'Actions', sub: `${role} · Room A`, body, close: 's=room&room=room-a' }) });
       return;
     }
     if (state === 'targeting') {
+      // Tapping a person picks them (one-target actions): the check opens with that person.
+      const pick = ['rescue', 'protect', 'talk'].includes(act) ? n => `s=actions&${roleQuery(p, `&state=confirm&act=${act}&target=${n}`)}` : null;
       game(root, {
         top: turnBar({ active: SELF, seconds: 36 }),
-        scene: { ...scene, targets: ACT.targets, picked: [] },
+        scene: { ...scene, targets: ACT.targets, targetGo: pick, picked: [] },
         tabs: { ...tabsCfg, open: null },
         overlay: [targetBar(ACT.icon, ACT.label, act === 'supply' ? 'Choose two players' : 'Choose a player'), ACT.off.length ? floating(`Other rooms · ${ACT.off.length}`, { icon: 'board', go: `s=actions&${roleQuery(p, `&state=offroom&act=${act}`)}` }) : null],
       });
@@ -205,23 +222,25 @@ export const GAME_SCREENS = {
       game(root, { top: turnBar({ active: SELF, seconds: 33 }), scene: { ...scene, targets: ACT.targets }, tabs: { ...tabsCfg, open: null }, sheet: sheet({ title: 'Other rooms', sub: 'Rescue reaches Hospital from Room A or B', body, back: `s=actions&${roleQuery(p, '&state=targeting&act=rescue')}`, close: false }) });
       return;
     }
-    const target = act === 'rescue' ? seatOf(5) : act === 'talk' ? seatOf(1) : act === 'protect' ? seatOf(7) : null;
+    const target = p.target ? seatOf(Number(p.target)) : act === 'rescue' ? seatOf(5) : act === 'talk' ? seatOf(1) : act === 'protect' ? seatOf(7) : null;
+    const targetRoom = target ? seatsFor(ROOM_FIXTURES[room]).find(x => x.seat === target.seat)?.location ?? ROOM_NAMES[room] : null;
     const confirmBody = [
       h('div.confirm-who', target ? pt(target.character, 64) : h('span.tile-icon', ic(ACT.icon, { filled: true })),
-        h('div', h('b', target ? `${ACT.verb} ${target.name}` : ACT.verb), h('span', target ? `Player ${target.seat} · ${act === 'rescue' ? 'Hospital' : 'Room A'}` : 'Only you see this'))),
+        h('div', h('b', target ? `${ACT.verb} ${target.seat === SELF ? 'yourself' : target.name}` : ACT.verb), h('span', target ? `Player ${target.seat} · ${targetRoom}` : 'Only you see this'))),
       h('ul.facts', ACT.facts.map(f => h('li', ic('info', { filled: true }), h('span', f)))),
     ];
     if (state === 'registered') {
-      const body = [h('div.registered', stamp('REGISTERED', 'amber'), h('p', target ? `${ACT.verb} ${target.name}` : ACT.verb), h('p', act === 'blackout' ? 'Nothing changes until the lights go out.' : 'Nothing happens yet. It resolves after the vote.'))];
+      const body = [h('div.registered', stamp('REGISTERED', 'amber'), h('p', target ? `${ACT.verb} ${target.seat === SELF ? 'yourself' : target.name}` : ACT.verb), h('p', act === 'blackout' ? 'Nothing changes until the lights go out.' : 'Nothing happens yet. It resolves after the vote.'))];
       game(root, { top: turnBar({ active: SELF, seconds: 29 }), scene, tabs: { ...tabsCfg, open: null }, sheet: sheet({ title: ACT.label, body, foot: [button('Done', { kind: 'secondary', go: 's=room&room=room-a&state=own' })], close: false }) });
       return;
     }
+    const picked = p.target ? `&target=${p.target}` : '';
     game(root, {
       top: turnBar({ active: SELF, seconds: 31 }),
-      scene: target && target.seat !== 5 ? { ...scene, targets: [target.seat], picked: [target.seat] } : scene,
+      scene: target && targetRoom === ROOM_NAMES[room] ? { ...scene, targets: [target.seat], picked: [target.seat] } : scene,
       tabs: { ...tabsCfg, open: null },
       sheet: sheet({ title: 'Check and register', body: confirmBody, close: false,
-        foot: [button('Cancel', { kind: 'secondary', go: `s=actions&${roleQuery(p)}` }), button(state === 'submitting' ? 'Registering…' : 'Register', { busy: state === 'submitting', go: `s=actions&${roleQuery(p, `&state=registered&act=${act}`)}` })] }),
+        foot: [button('Cancel', { kind: 'secondary', go: `s=actions&${roleQuery(p)}` }), button(state === 'submitting' ? 'Registering…' : 'Register', { busy: state === 'submitting', go: `s=actions&${roleQuery(p, `&state=registered&act=${act}${picked}`)}` })] }),
     });
   },
 

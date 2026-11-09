@@ -160,7 +160,7 @@ function officeBadge(kind) {
  */
 export function paintRoom(host, opts) {
   const { room, roster = 9, seats = [], width, height, cap = 0, pad = 8, dark = false, darkPeople = false,
-    targets = null, picked = [], dimOthers = false, slots = null, self = null, active = null, offices = {},
+    targets = null, targetGo = null, picked = [], dimOthers = false, slots = null, self = null, active = null, offices = {},
     tags = true, labelTop = 10, compact = false, blocked = null, status = true, fit = 'game' } = opts;
   host.replaceChildren();
   host.style.width = `${width}px`; host.style.height = `${height}px`;
@@ -232,6 +232,7 @@ export function paintRoom(host, opts) {
       b.dataset.target = '';
       if (picked.includes(seat.seat)) b.dataset.picked = '';
       b.setAttribute('aria-label', `${seat.name}, player ${seat.seat}`);
+      if (targetGo) b.dataset.go = targetGo(seat.seat);
       Object.assign(b.style, { left: `${rect.left}px`, top: `${rect.top}px`, width: `${rect.side}px`, height: `${rect.side}px` });
       host.append(b);
     }

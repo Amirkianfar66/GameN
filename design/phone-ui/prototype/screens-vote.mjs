@@ -5,7 +5,7 @@
 // than inventing players. Eligibility comes from the server's ballot (eligible voters and targets);
 // the fixture below only stands in for it.
 
-import { h, ic, pt, button, topBar, sheet, cell, stamp, pill, groupNote } from './ui.mjs';
+import { h, ic, pt, button, topBar, sheet, cell, stamp, pill, groupNote, toast } from './ui.mjs';
 import { RESULT_ART } from '../../../apps/game/hosted/scene-drawing/phone-kit-art.mjs';
 import { ROSTER, SELF, seatOf } from './fixtures.mjs';
 import { game } from './screens.mjs';
@@ -48,7 +48,10 @@ const RESULTS = {
 };
 
 export const VOTE_SCREENS = {
-  /** O. The ballot. state: open | selected | submitted | abstained | closed | runoff | cannot. */
+  /**
+   * O. The ballot. state: start (the vote has opened; Pass is now Vote) | open | selected | submitted |
+   * abstained | closed | runoff | cannot.
+   */
   vote(root, p) {
     const kind = p.kind ?? 'jail';
     const roster = Number(p.roster ?? 9);
@@ -56,8 +59,17 @@ export const VOTE_SCREENS = {
     const picked = ['selected', 'submitted'].includes(state) ? 1 : null;
     const locked = ['submitted', 'abstained', 'closed', 'cannot'].includes(state);
     const title = state === 'runoff' ? 'Captain runoff' : kind === 'captain' ? 'Captain election' : 'Jail vote';
-    const seconds = state === 'closed' ? 0 : state === 'runoff' ? 52 : 37;
+    const seconds = state === 'closed' ? 0 : state === 'runoff' ? 52 : state === 'start' ? 60 : 37;
     const sub = state === 'runoff' ? 'Ava and Ben tied' : 'Your ballot is private';
+    if (state === 'start') {
+      game(root, {
+        top: topBar({ kind: 'phase', icon: kind === 'captain' ? 'captain' : 'vote', title, sub, round: kind === 'captain' ? 2 : 3, seconds }),
+        scene: { kind: 'room', room: 'room-a', active: null },
+        tabs: { hero: 'vote', go: { switch: 's=board', card: 's=card&role=Doctor', more: 's=more', hero: `s=vote&kind=${kind}&roster=${roster}` } },
+        toast: toast(`${title} open`, 'info'),
+      });
+      return;
+    }
     const foot = locked
       ? [button(state === 'abstained' ? 'Abstained' : state === 'closed' ? 'Voting closed' : state === 'cannot' ? 'You can’t vote' : 'Ballot registered', { kind: 'secondary', disabled: true, icon: state === 'cannot' ? 'eliminated' : 'check' })]
       : [button('Abstain', { kind: 'secondary', go: `s=vote&kind=${kind}&roster=${roster}&state=abstained` }), button(picked ? `Vote for ${seatOf(picked).name}` : 'Vote', { disabled: !picked, go: `s=vote&kind=${kind}&roster=${roster}&state=submitted` })];

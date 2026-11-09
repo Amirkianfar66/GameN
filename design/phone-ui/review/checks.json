@@ -78,8 +78,8 @@
       "slug": "controls",
       "title": "Controls, lists, feedback and cards",
       "file": "design/phone-ui/review/sheets/06-controls.jpg",
-      "sha256": "164d982924e1f1e2bcf03971a5590dec5867f5283e9bcf3813866c8f0437bbfe",
-      "bytes": 255266,
+      "sha256": "ebac35971316ae9cf96ec1478dc21b3183b7eb14e45d2ffa027ada5885c71e26",
+      "bytes": 255279,
       "size": {
         "width": 2158,
         "height": 1427
@@ -252,8 +252,8 @@
       "slug": "join",
       "title": "Join",
       "file": "design/phone-ui/review/sheets/12-join.jpg",
-      "sha256": "b93ae032c0f12a7d3a859516dd094bd6d8bd6781ddf8d4dc65994687d80763ea",
-      "bytes": 160685,
+      "sha256": "a16aa4e68e692855099fa776a1e27d4d4f6f2c5ec46592ec4162484d6ff4edf3",
+      "bytes": 160654,
       "size": {
         "width": 1846,
         "height": 1227
@@ -307,8 +307,8 @@
       "slug": "join-lobby",
       "title": "Waiting for admission and the player lobby",
       "file": "design/phone-ui/review/sheets/13-join-lobby.jpg",
-      "sha256": "80b832d7e392e2f9ff4a46fcf053686f194c5998aa5f0f819eb2d658c0d24b20",
-      "bytes": 152495,
+      "sha256": "3bb15f33265652aea480542eefa08d7cfcd42ecc727ce57a3dd914f52d694ecb",
+      "bytes": 152470,
       "size": {
         "width": 1846,
         "height": 1227
@@ -472,8 +472,8 @@
       "slug": "characters",
       "title": "Character selection",
       "file": "design/phone-ui/review/sheets/16-characters.jpg",
-      "sha256": "27dbcae4f4dab9ad65e97d20cd777e5d1a4e9f4bee15099d0e8329f03741d397",
-      "bytes": 352740,
+      "sha256": "852ba3e5257e65ad99173a2150529b6e650446c6e47774053a36e7854598324a",
+      "bytes": 352746,
       "size": {
         "width": 2288,
         "height": 1254
@@ -667,8 +667,8 @@
       "slug": "boarding",
       "title": "Shared boarding into Round 1",
       "file": "design/phone-ui/review/sheets/19-boarding.jpg",
-      "sha256": "ced3f96103866a43dd1a101bdc6da975c52f2764b3369bfb13e84c1f08e87a9b",
-      "bytes": 253605,
+      "sha256": "b8df7455ee615f8a4c00037542f96b778e1838f7762340f00f97ef72792f94b4",
+      "bytes": 253598,
       "size": {
         "width": 2288,
         "height": 1227
@@ -732,8 +732,8 @@
       "slug": "room-a",
       "title": "Room A",
       "file": "design/phone-ui/review/sheets/20-room-a.jpg",
-      "sha256": "bbed477ba8d46a0fc959d116536104fab2aa16186ae206e0f9bb5a6fd1e864e4",
-      "bytes": 401336,
+      "sha256": "e9cd3133f04f153797fcb1eed76f446cb7f6888eb05fef73fec9e5d849681e58",
+      "bytes": 401356,
       "size": {
         "width": 1870,
         "height": 1258
@@ -787,8 +787,8 @@
       "slug": "room-b",
       "title": "Room B",
       "file": "design/phone-ui/review/sheets/21-room-b.jpg",
-      "sha256": "4d0799f066de87d866be6790aabfd4151489305a4ffa8988e11ec1efb9fb3d4a",
-      "bytes": 367211,
+      "sha256": "8993e0d8168dc4c4a80c4041a4ab3dc203ba8750a7d4400de63ff6059f7ffca9",
+      "bytes": 367254,
       "size": {
         "width": 1943,
         "height": 1227
@@ -842,8 +842,8 @@
       "slug": "command-room",
       "title": "Command Room",
       "file": "design/phone-ui/review/sheets/22-command-room.jpg",
-      "sha256": "8cc1d409bfe31f9112fed53593750fb1d93da8d5f641ebda288a8370a9b13d76",
-      "bytes": 287066,
+      "sha256": "5db8c169ee639529c047d0f83d3aff6832e3a440a44b9d0d1979fe2945064b87",
+      "bytes": 287068,
       "size": {
         "width": 1846,
         "height": 1227
@@ -997,7 +997,7 @@
       "slug": "private-talk",
       "title": "Private Talk capsule",
       "file": "design/phone-ui/review/sheets/25-private-talk.jpg",
-      "sha256": "809b2e3e09a0560ba34040379ad76f04b1039de79543ed5abfb37ce753fda3a7",
+      "sha256": "140095a853ac4552764d136989643ac191d552153e22e80046fee842f5768a56",
       "bytes": 283606,
       "size": {
         "width": 1846,
@@ -1168,12 +1168,372 @@
       "problems": []
     },
     {
+      "id": "27.1",
+      "slug": "tap-board",
+      "title": "Tap Board: the whole ship, and back",
+      "file": "design/phone-ui/review/sheets/27.1-tap-board.jpg",
+      "sha256": "f9dcc56a0b00c10fe0f8a89a10db27556c753408c99bff50ec7d6b9f638e5ed9",
+      "bytes": 545707,
+      "size": {
+        "width": 2288,
+        "height": 1278
+      },
+      "frames": [
+        {
+          "label": "Your room · tap Board",
+          "src": "s=room&room=room-a&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0,
+          "tap": true
+        },
+        {
+          "label": "The whole ship · tap Room",
+          "src": "s=board&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0,
+          "tap": true
+        },
+        {
+          "label": "Back in your room",
+          "src": "s=room&room=room-a&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Board while moving",
+          "src": "s=board&state=move&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Board while choosing a person",
+          "src": "s=board&state=targets&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        }
+      ],
+      "problems": []
+    },
+    {
+      "id": "27.2",
+      "slug": "tap-actions",
+      "title": "Tap Actions: what you can do, then who",
+      "file": "design/phone-ui/review/sheets/27.2-tap-actions.jpg",
+      "sha256": "abc1613a9f681e7721f804bd1c404e4f5206aa1916780f57420d13cbe70c101a",
+      "bytes": 479558,
+      "size": {
+        "width": 2730,
+        "height": 1326
+      },
+      "frames": [
+        {
+          "label": "Your turn · tap Actions",
+          "src": "s=room&room=room-a&state=own&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0,
+          "tap": true
+        },
+        {
+          "label": "Your actions · tap Rescue",
+          "src": "s=actions&role=Doctor&active=4&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0,
+          "tap": true
+        },
+        {
+          "label": "Choose a person · tap Ava",
+          "src": "s=actions&role=Doctor&active=4&state=targeting&act=rescue&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0,
+          "tap": true
+        },
+        {
+          "label": "Check · tap Register",
+          "src": "s=actions&role=Doctor&active=4&state=confirm&act=rescue&target=1&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0,
+          "tap": true
+        },
+        {
+          "label": "Registered",
+          "src": "s=actions&role=Doctor&active=4&state=registered&act=rescue&target=1&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Actions on another player’s turn",
+          "src": "s=actions&role=Doctor&active=7&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        }
+      ],
+      "problems": []
+    },
+    {
+      "id": "27.3",
+      "slug": "tap-pass",
+      "title": "Tap Pass: end your turn (Vote in a vote)",
+      "file": "design/phone-ui/review/sheets/27.3-tap-pass.jpg",
+      "sha256": "c8758b74008d1ba63458c74af69698fc1710e15c5855fc796bb16aceea81c352",
+      "bytes": 449812,
+      "size": {
+        "width": 2288,
+        "height": 1258
+      },
+      "frames": [
+        {
+          "label": "Your turn · tap Pass",
+          "src": "s=room&room=room-a&state=own&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0,
+          "tap": true
+        },
+        {
+          "label": "One check · tap Pass",
+          "src": "s=room&room=room-a&state=pass&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0,
+          "tap": true
+        },
+        {
+          "label": "The turn moves on",
+          "src": "s=room&room=room-a&state=passed&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "A vote opens · tap Vote",
+          "src": "s=vote&kind=jail&state=start&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0,
+          "tap": true
+        },
+        {
+          "label": "Your ballot",
+          "src": "s=vote&kind=jail&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        }
+      ],
+      "problems": []
+    },
+    {
+      "id": "27.4",
+      "slug": "tap-card",
+      "title": "Tap Card: your role, privately",
+      "file": "design/phone-ui/review/sheets/27.4-tap-card.jpg",
+      "sha256": "54a8d58474bf8c8065d33c08140fb46eec96fdb1c6bd89415d4c9c558230ba84",
+      "bytes": 306688,
+      "size": {
+        "width": 2288,
+        "height": 1258
+      },
+      "frames": [
+        {
+          "label": "Your room · tap Card",
+          "src": "s=room&room=room-a&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0,
+          "tap": true
+        },
+        {
+          "label": "Your card · tap Knowledge",
+          "src": "s=card&role=Doctor&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0,
+          "tap": true
+        },
+        {
+          "label": "Knowledge · tap Resources",
+          "src": "s=card&role=Doctor&state=knows&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0,
+          "tap": true
+        },
+        {
+          "label": "Resources · tap Hide",
+          "src": "s=card&role=Doctor&state=holds&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0,
+          "tap": true
+        },
+        {
+          "label": "Hidden",
+          "src": "s=card&role=Doctor&state=hidden&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        }
+      ],
+      "problems": []
+    },
+    {
+      "id": "27.5",
+      "slug": "tap-more",
+      "title": "Tap More: everything else",
+      "file": "design/phone-ui/review/sheets/27.5-tap-more.jpg",
+      "sha256": "eb2c31ac413b72708b19022b3afbf3684f4319b310335e6706ec72ccea1c02a5",
+      "bytes": 365602,
+      "size": {
+        "width": 2730,
+        "height": 1284
+      },
+      "frames": [
+        {
+          "label": "Your room · tap More",
+          "src": "s=room&room=room-a&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0,
+          "tap": true
+        },
+        {
+          "label": "More · tap Promises",
+          "src": "s=more&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0,
+          "tap": true
+        },
+        {
+          "label": "Promises",
+          "src": "s=promises&state=list&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Windows row",
+          "src": "s=windows&state=view&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Players row",
+          "src": "s=players&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        },
+        {
+          "label": "Display row",
+          "src": "s=settings&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0
+        }
+      ],
+      "problems": []
+    },
+    {
       "id": "28",
       "slug": "actions",
       "title": "Actions",
       "file": "design/phone-ui/review/sheets/28-actions.jpg",
-      "sha256": "8c5d53208cded6c7e86f047070c102d2cfda033cc63f32e0898efdabb09cf20e",
-      "bytes": 264780,
+      "sha256": "c41b986fbbf4a5a8aa1b2f60504b9af28b6fa790b681435ed985029fb2ee40ef",
+      "bytes": 265364,
       "size": {
         "width": 1846,
         "height": 1227
@@ -1227,8 +1587,8 @@
       "slug": "targeting",
       "title": "Targeting and registering",
       "file": "design/phone-ui/review/sheets/29-targeting.jpg",
-      "sha256": "ffb690536e10343e642722526c48c2a742d71d9c497d136b11982ca5f4f54e6a",
-      "bytes": 394195,
+      "sha256": "a78048b0f3a02865ed16cd9afc036ef66cfa515fe18635b1b4f345f3dfebc0f8",
+      "bytes": 394311,
       "size": {
         "width": 2412,
         "height": 1258
@@ -1292,8 +1652,8 @@
       "slug": "blackout",
       "title": "Blackout",
       "file": "design/phone-ui/review/sheets/30-blackout.jpg",
-      "sha256": "876374fb31ec1c8a14005592da84b6499ac890bdedf877cfc7342ac7ac85b0d5",
-      "bytes": 354611,
+      "sha256": "711748ce0a0147743a40d349f2bcd2259cfe9faa8a1bb0c4e7d47cf5508bf889",
+      "bytes": 354595,
       "size": {
         "width": 2354,
         "height": 1227
@@ -2077,7 +2437,7 @@
       "slug": "end",
       "title": "Blackhole, elimination and the end of a match",
       "file": "design/phone-ui/review/sheets/44-end.jpg",
-      "sha256": "a13b04491af2ef860e9e2c5ad42892064ed4da90789b46b26d5071c7b4784ccf",
+      "sha256": "e0c5a20dfbe53c1fad6f7f3cccca09377ce8564245c18547859dbc4228eb6458",
       "bytes": 296993,
       "size": {
         "width": 2288,

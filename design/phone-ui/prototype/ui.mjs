@@ -87,7 +87,7 @@ export function topBar({ kind = 'turn', who = null, self = false, pair = null, i
  */
 export function tabs({ view = 'room', open = null, hero = 'pass-off', disabled = {}, badges = {}, go = {} } = {}) {
   const tab = (key, icon, label, extra = {}) => h('button.tab', {
-    type: 'button', 'aria-expanded': ['actions', 'card', 'more'].includes(key) ? String(open === key) : null,
+    type: 'button', 'data-tab': key, 'aria-expanded': ['actions', 'card', 'more'].includes(key) ? String(open === key) : null,
     'aria-disabled': disabled[key] ? 'true' : null, 'data-go': go[key] ?? null, ...extra,
   }, ic(icon, { filled: open === key }), h('span', label), badges[key] ? h('b.badge-dot', { 'aria-label': `${badges[key]} new` }, String(badges[key])) : null);
   const heroMode = hero.startsWith('vote') ? (hero === 'voted' ? 'voted' : 'vote') : 'pass';
@@ -96,7 +96,7 @@ export function tabs({ view = 'room', open = null, hero = 'pass-off', disabled =
   return h('nav.tabs', { 'aria-label': 'Game' },
     view === 'room' ? tab('switch', 'board', 'Board', { 'aria-label': 'Show the whole board' }) : tab('switch', 'room', 'Room', { 'aria-label': 'Show my room' }),
     tab('actions', 'actions', 'Actions'),
-    h('div.tab.tab-hero', h('button.hero', { type: 'button', 'data-mode': heroMode, 'aria-disabled': heroOff ? 'true' : null, 'data-go': go.hero ?? null, 'aria-label': heroMode === 'pass' ? 'Pass your turn' : heroMode === 'voted' ? 'Ballot registered' : 'Open the ballot' },
+    h('div.tab.tab-hero', h('button.hero', { type: 'button', 'data-tab': 'hero', 'data-mode': heroMode, 'aria-disabled': heroOff ? 'true' : null, 'data-go': go.hero ?? null, 'aria-label': heroMode === 'pass' ? 'Pass your turn' : heroMode === 'voted' ? 'Ballot registered' : 'Open the ballot' },
       ic(heroMode === 'pass' ? 'pass' : 'vote', { filled: true }), h('b', heroLabel)), h('span.hero-label', heroLabel)),
     tab('card', 'card', 'Card'),
     tab('more', 'more', 'More'));

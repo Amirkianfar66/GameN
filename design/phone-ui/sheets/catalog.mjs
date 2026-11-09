@@ -69,6 +69,40 @@ export const SHEETS = Object.freeze([
   // ── K–N ───────────────────────────────────────────────────────────────
   { id: '27', slug: 'tab-destinations', section: 'K', title: 'Each tab, opened', sub: 'Sheets dock between the bars: the clock and Pass/Vote stay in view.', audience: 'Own phone', frames: [
     f('Board', 's=board'), f('Actions', 's=actions&role=Doctor&active=4'), f('Vote', 's=vote&kind=jail'), f('Card', 's=card&role=Doctor'), f('More', 's=more')] },
+  // Each tab, tap by tap: a storyboard per tab. A ring marks what is tapped in a frame; an arrow leads to
+  // what that tap shows. Frames without a ring show the same tab at another moment.
+  { id: '27.1', slug: 'tap-board', section: 'K', kind: 'taps', title: 'Tap Board: the whole ship, and back', sub: 'Board shows every room at once, with yours marked. The tab then says Room; tap it to come back. Switching never moves you.', audience: 'Own phone', frames: [
+    f('Your room · tap Board', 's=room&room=room-a', { tap: '[data-tab="switch"]' }),
+    f('The whole ship · tap Room', 's=board', { tap: '[data-tab="switch"]', notes: ['Your room carries the You badge.'] }),
+    f('Back in your room', 's=room&room=room-a', { notes: ['Nothing moved: switching views is local.'] }),
+    f('Board while moving', 's=board&state=move', { notes: ['From Actions → Move: every empty position on the ship.'] }),
+    f('Board while choosing a person', 's=board&state=targets', { notes: ['From an action’s Other rooms: people elsewhere, the rest dimmed.'] })] },
+  { id: '27.2', slug: 'tap-actions', section: 'K', kind: 'taps', title: 'Tap Actions: what you can do, then who', sub: 'Actions opens your action tiles. Tap one, then tap the person in the room, check, and register. Nothing happens until the action resolves.', audience: 'Own phone', frames: [
+    f('Your turn · tap Actions', 's=room&room=room-a&state=own', { tap: '[data-tab="actions"]' }),
+    f('Your actions · tap Rescue', 's=actions&role=Doctor&active=4', { tap: '.tile[aria-label^="Rescue"]' }),
+    f('Choose a person · tap Ava', 's=actions&role=Doctor&active=4&state=targeting&act=rescue', { tap: '.press[aria-label^="Ava"]', notes: ['People in other rooms: Other rooms.'] }),
+    f('Check · tap Register', 's=actions&role=Doctor&active=4&state=confirm&act=rescue&target=1', { tap: '.sheet-foot .btn:last-child' }),
+    f('Registered', 's=actions&role=Doctor&active=4&state=registered&act=rescue&target=1', { notes: ['Nothing happens yet: it resolves after the vote.'] }),
+    f('Actions on another player’s turn', 's=actions&role=Doctor&active=7', { notes: ['Move stays open on any turn, once a round.', 'The rest wait for your turn.'] })] },
+  { id: '27.3', slug: 'tap-pass', section: 'K', kind: 'taps', title: 'Tap Pass: end your turn (Vote in a vote)', sub: 'Pass asks once, then the turn moves on; it is grey outside your turn. While a ballot is open, the same button is Vote.', audience: 'Own phone', frames: [
+    f('Your turn · tap Pass', 's=room&room=room-a&state=own', { tap: '[data-tab="hero"]' }),
+    f('One check · tap Pass', 's=room&room=room-a&state=pass', { tap: '.sheet-foot .btn:last-child', notes: ['Passing does not spend your move.'] }),
+    f('The turn moves on', 's=room&room=room-a&state=passed', { notes: ['Pass is grey until your next turn.'] }),
+    f('A vote opens · tap Vote', 's=vote&kind=jail&state=start', { tap: '[data-tab="hero"]' }),
+    f('Your ballot', 's=vote&kind=jail', { notes: ['Choose a person or Abstain; one ballot, private.'] })] },
+  { id: '27.4', slug: 'tap-card', section: 'K', kind: 'taps', title: 'Tap Card: your role, privately', sub: 'Your role card, only on your phone. Knowledge and Resources are one tap away; Hide covers the card at once.', audience: 'Own phone', frames: [
+    f('Your room · tap Card', 's=room&room=room-a', { tap: '[data-tab="card"]' }),
+    f('Your card · tap Knowledge', 's=card&role=Doctor', { tap: '.seg [data-go*="state=knows"]' }),
+    f('Knowledge · tap Resources', 's=card&role=Doctor&state=knows', { tap: '.seg [data-go*="state=holds"]' }),
+    f('Resources · tap Hide', 's=card&role=Doctor&state=holds', { tap: '[aria-label="Hide card"]' }),
+    f('Hidden', 's=card&role=Doctor&state=hidden', { notes: ['Show brings the card back.'] })] },
+  { id: '27.5', slug: 'tap-more', section: 'K', kind: 'taps', title: 'Tap More: everything else', sub: 'Promises, Windows, Navigation, the Hospital panel, Players, Round order and Display. A row you cannot use now is grey with the reason.', audience: 'Own phone', frames: [
+    f('Your room · tap More', 's=room&room=room-a', { tap: '[data-tab="more"]' }),
+    f('More · tap Promises', 's=more', { tap: '[data-go^="s=promises"]' }),
+    f('Promises', 's=promises&state=list', { notes: ['‹ returns to More.'] }),
+    f('Windows row', 's=windows&state=view'),
+    f('Players row', 's=players'),
+    f('Display row', 's=settings')] },
   { id: '28', slug: 'actions', section: 'L', title: 'Actions', sub: 'Recognisable icons with short names instead of paragraphs; each tile names its state.', audience: 'Own phone', frames: [
     f('Doctor · your turn', 's=actions&role=Doctor&active=4'), f('Hacker · your turn', 's=actions&role=Hacker&active=4'), f('Undercover · not your turn', 's=actions&role=Undercover&active=7'), f('Registered and spent', 's=actions&role=Doctor&active=4&state=spent')] },
   { id: '29', slug: 'targeting', section: 'L', title: 'Targeting and registering', sub: 'Targets stay on the people in the scene; other rooms are one tap away. Registering is not an effect.', audience: 'Own phone', frames: [

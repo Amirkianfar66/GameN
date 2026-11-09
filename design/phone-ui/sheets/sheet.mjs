@@ -32,12 +32,19 @@ function header(sheet) {
       sheet.frames || ['timeline', 'compare'].includes(sheet.kind) ? h('span.chip', { 'data-tone': 'fixture' }, FIXTURE_LABEL) : null)));
 }
 
-function frameNode(fr) {
+const ARROW = '<svg viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15h20M17 8l7 7-7 7"/></svg>';
+
+/**
+ * One phone frame. fr.tap (a selector in the prototype) puts a ring on what is tapped in it; arrow draws
+ * the arrow from this frame to the next (tap-by-tap sheets). Both are review marks outside the phone.
+ */
+function frameNode(fr, { arrow = false } = {}) {
   const size = fr.size ?? '390x844';
   const [w, hgt] = size.split('x').map(Number);
-  const frame = h('iframe', { src: frameUrl(fr), width: String(w), height: String(hgt), title: fr.label, loading: 'eager', scrolling: 'no' });
-  const bezel = h('div.bezel', { 'data-size': size }, size === '390x664' ? h('div.safari-bar', 'gamen · Safari') : null, frame, size === '390x664' ? h('div.safari-bottom') : null);
-  return h('div.frame', h('div.frame-label', fr.label), bezel,
+  const frame = h('iframe', { src: frameUrl(fr), width: String(w), height: String(hgt), title: fr.label, loading: 'eager', scrolling: 'no', 'data-tap': fr.tap ?? null });
+  const bezel = h('div.bezel', { 'data-size': size }, size === '390x664' ? h('div.safari-bar', 'gamen · Safari') : null, frame, size === '390x664' ? h('div.safari-bottom') : null,
+    fr.tap ? h('span.tap-ring', { hidden: '', 'aria-hidden': 'true' }) : null);
+  return h('div.frame', { 'data-arrow': arrow ? '' : null }, arrow ? h('span.tap-arrow', { 'aria-hidden': 'true', html: ARROW }) : null, h('div.frame-label', fr.label), bezel,
     h('div.frame-meta', h('span', `${w} × ${hgt}${fr.text ? ` · text ${Number(fr.text) * 100}%` : ''}${fr.motion ? ' · Reduce motion' : ''}`), h('span', fr.q.replace(/^s=/, ''))),
     fr.notes?.length ? h('ul.frame-notes', fr.notes.map(n => h('li', n))) : null);
 }
@@ -46,6 +53,12 @@ const node = (label, sub, ref, icon = 'chevronRight', tone = null, extra = {}) =
 
 // ── Special sheets ───────────────────────────────────────────────────────
 const SPECIAL = {
+  /** Each tab, tap by tap: frames in order; an arrow follows every frame that taps something. */
+  taps(sheet) {
+    const n = sheet.frames.length;
+    return h('div.frames', { 'data-kind': 'taps' }, sheet.frames.map((fr, i) => frameNode(fr, { arrow: Boolean(fr.tap) && i < n - 1 })));
+  },
+
   flow() {
     return h('div.diagram',
       h('div.flow-cols',
@@ -200,6 +213,19 @@ function sheetPage(sheet) {
   return page;
 }
 
+/** Puts each tap ring on the element its frame taps, once the frames have drawn (same origin). */
+function placeTaps(frames) {
+  for (const f of frames) {
+    if (!f.dataset.tap) continue;
+    const ring = f.parentElement.querySelector('.tap-ring');
+    const el = f.contentDocument?.querySelector(f.dataset.tap);
+    if (!ring || !el) continue;
+    const r = el.getBoundingClientRect();
+    Object.assign(ring.style, { left: `${f.offsetLeft + r.left + r.width / 2}px`, top: `${f.offsetTop + r.top + r.height / 2}px` });
+    ring.hidden = false;
+  }
+}
+
 function measureFrame(win) {
   const doc = win.document;
   const vw = win.innerWidth;
@@ -239,6 +265,7 @@ if (document.body.dataset.page === 'contact') {
   document.body.append(sheet ? sheetPage(sheet) : h('p', 'No sheet'));
   const frames = [...document.querySelectorAll('iframe')];
   const ready = f => new Promise(done => { const t0 = Date.now(); const tick = () => { let ok = false; try { ok = f.contentWindow.__phoneReady === true || /\.(png|jpg)$/.test(f.src); } catch { ok = true; } if (ok || Date.now() - t0 > 20000) done(); else setTimeout(tick, 60); }; tick(); });
-  Promise.all(frames.map(ready)).then(() => { window.__sheetReady = true; });
-  window.__sheetChecks = () => frames.map(f => { let m; try { m = measureFrame(f.contentWindow); } catch (e) { m = { error: String(e) }; } return { label: f.title, src: f.getAttribute('src').replace(/^.*index\.html\?/, ''), width: Number(f.width), height: Number(f.height), ...m }; });
+  Promise.all(frames.map(ready)).then(() => { placeTaps(frames); window.__sheetReady = true; });
+  // tap: whether a tap-by-tap frame's tapped element exists (absent for frames that tap nothing).
+  window.__sheetChecks = () => frames.map(f => { let m; try { m = measureFrame(f.contentWindow); } catch (e) { m = { error: String(e) }; } const tap = f.dataset.tap ? Boolean(f.contentDocument?.querySelector(f.dataset.tap)) : undefined; return { label: f.title, src: f.getAttribute('src').replace(/^.*index\.html\?/, ''), width: Number(f.width), height: Number(f.height), ...m, ...(tap === undefined ? {} : { tap }) }; });
 }

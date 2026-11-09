@@ -8,6 +8,8 @@
 //     page error;
 //   - the room view is framed wider than the first draft (the owner found it too zoomed in, 9
 //     November 2026): it fills the space between the bars and keeps everyone present in view;
+//   - each tab (Board, Actions, Pass, Card, More) has a tap-by-tap sheet, and every tap the sheets
+//     draw lands on a control the prototype really shows;
 //   - the kit’s colours are tokens 0.5.0’s, the icon family is whole and its exports are current;
 //   - synthetic-fixture labels stay outside the proposed interface; everything is development-only,
 //     and no game code imports the pack.
@@ -38,7 +40,7 @@ test('the catalog covers every required screen group, view and diagram', () => {
   assert.equal(new Set(ids).size, ids.length, 'sheet numbers are unique');
   assert.deepEqual([...ids], [...ids].sort(), 'sheets are numbered in order');
   for (const section of 'ABCDEFGHIJKLMNOPQ') assert.ok(SHEETS.some(s => s.section === section), `section ${section} has a sheet`);
-  for (const kind of ['flow', 'phases', 'matrix', 'foundations', 'icons', 'controls', 'timeline', 'art', 'compare']) assert.ok(SHEETS.some(s => s.kind === kind), `a ${kind} sheet`);
+  for (const kind of ['flow', 'phases', 'matrix', 'foundations', 'icons', 'controls', 'timeline', 'art', 'compare', 'taps']) assert.ok(SHEETS.some(s => s.kind === kind), `a ${kind} sheet`);
   const frames = SHEETS.flatMap(s => s.frames ?? []);
   for (const size of ['320x568', '390x844', '430x932', '390x664']) assert.ok(frames.some(f => (f.size ?? '390x844') === size), `a frame at ${size}`);
   assert.ok(frames.some(f => f.text === '1.5') && frames.some(f => f.text === '2'), 'larger text at 150% and 200%');
@@ -97,6 +99,16 @@ test('the room view is framed wider than the first draft, fills the space betwee
     const fits = Math.max(...xs) - Math.min(...xs) <= panel.width - 2 * EDGE_CLEAR;
     for (const x of xs) assert.ok(fits ? x >= EDGE_CLEAR - 0.01 && x <= panel.width - EDGE_CLEAR + 0.01 : x >= 0 && x <= panel.width, `${room}: a person present at ${x.toFixed(0)} px is in view`);
   }
+});
+
+test('each tab has a tap-by-tap sheet, and every tap drawn lands on a real control', () => {
+  for (const key of ['switch', 'actions', 'hero', 'card', 'more']) {
+    assert.ok(SHEETS.some(s => s.kind === 'taps' && s.frames[0].tap === `[data-tab="${key}"]`), `a tap-by-tap sheet starts by tapping the ${key} tab`);
+  }
+  const checks = JSON.parse(read('design/phone-ui/review/checks.json'));
+  const recorded = checks.sheets.flatMap(s => s.frames.filter(f => 'tap' in f).map(f => ({ ...f, sheet: s.id })));
+  for (const f of recorded) assert.equal(f.tap, true, `${f.sheet} “${f.label}”: the tapped control is on screen`);
+  assert.equal(recorded.length, SHEETS.flatMap(s => (s.frames ?? []).filter(f => f.tap)).length, 'the render checked every tap');
 });
 
 test('the kit’s colours, type and motion are tokens 0.5.0', () => {

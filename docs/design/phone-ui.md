@@ -9,8 +9,8 @@
 
 | | |
 | --- | --- |
-| Sheets | [`design/phone-ui/review/sheets/`](../../design/phone-ui/review/sheets/): 50 numbered sheets. [`contact-sheet.jpg`](../../design/phone-ui/review/contact-sheet.jpg) shows all of them. |
-| Clickable prototype | [`design/phone-ui/prototype/index.html`](../../design/phone-ui/prototype/index.html). On a desktop it shows a phone and its flows; on a phone it fills the screen. `design/tools/phone-ui-clickable.mjs` exports it as rendered screens with each screen's own tap areas (216 states), which is how the owner's private review copy was made. |
+| Sheets | [`design/phone-ui/review/sheets/`](../../design/phone-ui/review/sheets/): 55 numbered sheets. [`contact-sheet.jpg`](../../design/phone-ui/review/contact-sheet.jpg) shows all of them. |
+| Clickable prototype | [`design/phone-ui/prototype/index.html`](../../design/phone-ui/prototype/index.html). On a desktop it shows a phone and its flows; on a phone it fills the screen. `design/tools/phone-ui-clickable.mjs` exports it as rendered screens with each screen's own tap areas (261 states), which is how the owner's private review copy was made. |
 | Frontend handoff | [phone-ui-handoff.md](phone-ui-handoff.md): each sheet mapped to components, states, assets, audiences and the data it needs. |
 | Backend and Integration | [DSN-REQ-19 to DSN-REQ-21](integration-requests.md#dsn-req-19): the dependencies, kept separate from the visual decisions. |
 | Measurements | [`design/phone-ui/review/checks.json`](../../design/phone-ui/review/checks.json): every frame measured as it was drawn. |
@@ -39,7 +39,7 @@ The requirements came with the request of 9 November 2026, from the owner's play
 | A–E | 10 intro and main menu · 11 host · 12 join · 13 waiting and the player lobby · 14 recover · 15 host controls and a recovery code · 16 character selection |
 | F–G | 17 the 30-second role stage (timeline) · 18 role stage states · 19 boarding into Round 1 |
 | H–I | 20 Room A · 21 Room B · 22 Command Room · 23 Hospital · 24 Jail · 25 Private Talk capsule · 26 the whole board and switching views |
-| K–N | 27 each tab, opened · 28 Actions · 29 targeting and registering · 30 Blackout · 31 Card · 32 More · 33 Promises · 34 Windows |
+| K–N | 27 each tab, opened · 27.1–27.5 each tab, tap by tap (Board, Actions, Pass and Vote, Card, More) · 28 Actions · 29 targeting and registering · 30 Blackout · 31 Card · 32 More · 33 Promises · 34 Windows |
 | O–P | 35 Jail vote · 36 Captain election and stable placement · 37 Captain results · 38 Jail results |
 | Q | 40 Captain and Officer · 41 navigation · 42 Scan and the final Code · 43 Hospital panel · 44 Blackhole, elimination and the end · 45 loading, reconnecting and the unexpected |
 | Viewports | 50 320 × 568 · 51 430 × 932 · 52 in Safari with its toolbars (390 × 664) · 53 larger text (150% and 200%) · 54 Reduce motion |
@@ -75,11 +75,14 @@ These are routine decisions, made by Designer under the brief. The owner can ove
 - The first tab names the other view: **Board** in room view, **Room** in board view.
 - Moving is always a separate action: tap Move, then an empty position, then Register. "Uses this round's move" is said each time.
 - Pass is a raised centre button. It is enabled only on your own turn.
+- Tapping Pass asks once: **Pass your turn?**, naming whose turn is next, with Cancel and Pass. A turn can't be taken back, and passing never spends the round's move.
 - During a ballot Pass becomes **Vote**, and after your ballot it becomes **Voted**.
+- What each button opens, and the taps after it, is drawn tap by tap on sheets 27.1–27.5 (the owner asked for this on 9 November).
 
 **Actions.**
 - Each action is a tile with an icon and a short name, and it states its own condition: "From Round 4", "Once a match", "Used".
-- Targeting happens on the people in the scene.
+- On another player's turn, Move stays open (once a round), and so does the Hacker's Final Code. Every other tile says "On your turn". The first draft showed Move closed there, which the engine does not do.
+- Targeting happens on the people in the scene: tapping a person opens the check with them.
 - An **Other rooms** chip reaches eligible people elsewhere, as a list or on the board.
 - Registering shows a REGISTERED stamp and "Nothing happens yet". No effect is drawn before the server resolves it.
 
@@ -204,6 +207,7 @@ Nothing in `apps/` or `packages/` imports the pack.
   - the catalog and every sheet's screens, kept in step with the registry;
   - the review files and their hashes;
   - the room view's framing, for every room's fixture: wider than the first draft, filling the space between the bars, with everyone present in view;
+  - a tap-by-tap sheet for each tab, and every tap it draws landing on a control the prototype shows;
   - the kit's colours against tokens 0.5.0;
   - the icon family and its exports;
   - the fixture label kept out of the interface;
@@ -218,7 +222,8 @@ Nothing in `apps/` or `packages/` imports the pack.
 ### Measured
 
 From `design/phone-ui/review/checks.json`, written by the render that produced the committed sheets (Google Chrome for Testing 153, headless, desktop):
-- 50 sheets and 180 phone frames.
+- 55 sheets and 207 phone frames.
+- Every one of the 15 taps drawn on sheets 27.1–27.5 lands on a control the prototype shows.
 - No frame scrolls sideways.
 - No control is under 44 px.
 - No text is under 11 px.
