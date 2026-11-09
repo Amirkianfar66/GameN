@@ -6,7 +6,9 @@
 //   - the committed review sheets are the ones the render tool recorded, and the recorded checks of
 //     every frame are clean: no sideways overflow, no control under 44 px, no text under 11 px, no
 //     page error;
-//   - the kit's colours are tokens 0.5.0's, the icon family is whole and its exports are current;
+//   - the room view is framed wider than the first draft (the owner found it too zoomed in, 9
+//     November 2026): it fills the space between the bars and keeps everyone present in view;
+//   - the kit’s colours are tokens 0.5.0’s, the icon family is whole and its exports are current;
 //   - synthetic-fixture labels stay outside the proposed interface; everything is development-only,
 //     and no game code imports the pack.
 
@@ -19,7 +21,10 @@ import { fileURLToPath } from 'node:url';
 import { SHEETS, SIZES } from '../../../design/phone-ui/sheets/catalog.mjs';
 import { screenRegistry } from '../../../design/phone-ui/prototype/screens.mjs';
 import { ICONS, ICON_NAMES } from '../../../design/phone-ui/prototype/icons.mjs';
-import { FIXTURE_LABEL } from '../../../design/phone-ui/prototype/fixtures.mjs';
+import { FIXTURE_LABEL, ROOM_FIXTURES, board } from '../../../design/phone-ui/prototype/fixtures.mjs';
+import { EDGE_CLEAR, LOCATION_OF, phoneFrame } from '../../../design/phone-ui/prototype/art.mjs';
+import { sceneOf, slotsOf } from '../../../apps/game/hosted/board-v2-drawing/slots-four.mjs';
+import { frameScene } from '../../../apps/game/hosted/scene-drawing/frame.mjs';
 import { phoneUiAssets } from '../../../design/tools/phone-ui-assets.mjs';
 
 const REPO = fileURLToPath(new URL('../../../', import.meta.url));
@@ -72,6 +77,26 @@ test('the review sheets are the recorded renders, and every measured frame is cl
   assert.ok(existsSync(join(PACK, 'review/contact-sheet.jpg')), 'the numbered contact sheet');
   const provenance = JSON.parse(read('design/phone-ui/review/inputs/provenance.json'));
   for (const input of provenance.inputs) assert.ok(existsSync(join(REPO, input.file)), input.file);
+});
+
+test('the room view is framed wider than the first draft, fills the space between the bars and keeps everyone present in view', () => {
+  // 390 × 844 with the bars at their default size: 99 px above (47 px safe area) and 92 px below (34 px).
+  const panel = { width: 390, height: 844 - 99 - 92, cap: 46, pad: 8 };
+  for (const [room, fixture] of Object.entries(ROOM_FIXTURES)) {
+    const scene = sceneOf(room, 9);
+    const present = board({ roster: 9, place: fixture.place }).filter(s => s.location === LOCATION_OF[room] && s.slot)
+      .map(s => slotsOf(room, 9).find(slot => slot.id === s.slot));
+    const frame = phoneFrame(scene, panel, present);
+    // The first draft framed the whole phone with the game's frameScene(), under the bars.
+    const first = frameScene(scene, { width: 390, height: 844, cap: 99 + 46, pad: 92 + 8 });
+    assert.ok(frame.k <= first.k * 0.8, `${room}: people at least a fifth smaller than in the first draft`);
+    const [ix0, iy0, ix1, iy1] = scene.inner;
+    assert.ok(frame.tx <= -ix0 * frame.k + 0.01 && frame.tx + ix1 * frame.k >= panel.width - 0.01, `${room}: the picture fills the width`);
+    assert.ok(frame.ty <= -iy0 * frame.k + 0.01 && frame.ty + iy1 * frame.k >= panel.height - 0.01, `${room}: the picture fills the height`);
+    const xs = present.map(slot => frame.tx + slot.pressAt[0] * frame.k);
+    const fits = Math.max(...xs) - Math.min(...xs) <= panel.width - 2 * EDGE_CLEAR;
+    for (const x of xs) assert.ok(fits ? x >= EDGE_CLEAR - 0.01 && x <= panel.width - EDGE_CLEAR + 0.01 : x >= 0 && x <= panel.width, `${room}: a person present at ${x.toFixed(0)} px is in view`);
+  }
 });
 
 test('the kit’s colours, type and motion are tokens 0.5.0', () => {

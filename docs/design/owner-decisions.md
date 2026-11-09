@@ -19,6 +19,12 @@ The owner's messages are quoted as written.
 | "The owner's new presentation requirement is exactly 30 seconds: 0–20 seconds: the player's role card. 20–30 seconds: that role's existing ten-second animation." | The private role stage | Sheets 17–18; timing in [DSN-REQ-19](integration-requests.md#dsn-req-19) |
 | "The owner requires Blackout to be usable before voting." | The order drawn on sheet 02, labelled an Integration proposal | Sheet 02; [DSN-REQ-20](integration-requests.md#dsn-req-20) |
 
+**The owner's first look, the same day.** The owner opened the clickable review copy on a phone and looked at the room view (Room A, screen 9):
+
+| What the owner said | What it decides | Where |
+| --- | --- | --- |
+| "it feel too zoom , we should a little bit zoomout the view" | The room view is framed wider: the space between the bars, at the smallest scale that still fills it with the room. People are drawn 23% smaller, and 30% more of the room's width shows (390 × 844). The view holds the room's centre and moves only to keep everyone present in view. The first draft had cut people off at the sides of the Hospital and the Jail | Sheets 20–31 and every screen over a room; [phone-ui.md](phone-ui.md#design-decisions) |
+
 **What it does not decide:**
 - **The round order and the stage timing:** Backend and Integration change them in the rules and the contract. Designer only draws them.
 - **Routine visual choices** (Join as the primary entry, sheets docked between the bars, the icon family, errors in paper rather than red): these were Designer's, under the owner's brief, and the owner can overrule any of them.

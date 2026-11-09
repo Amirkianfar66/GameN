@@ -52,9 +52,11 @@ export function paintScene(host, dims, s) {
   const common = { roster: s.roster ?? 9, seats, self: SELF, active: s.active === undefined ? fixture.active : s.active, offices: s.offices ?? fixture.offices,
     targets: s.targets ?? null, picked: s.picked ?? [], dimOthers: s.dimOthers ?? !!s.targets, slots: s.slots ?? null, dark: s.dark ?? false, blocked: s.blocked ?? null };
   if (s.kind === 'board') return paintBoard(host, dims, s, common);
-  const inner = h('div', { style: { position: 'absolute', inset: '0' } });
+  // The room view fills the space between the bars, framed wide (art.mjs phoneFrame).
+  const between = dims.height - dims.top - dims.bottom;
+  const inner = h('div', { style: { position: 'absolute', left: '0', top: `${dims.top}px`, overflow: 'hidden' } });
   host.append(inner);
-  paintRoom(inner, { ...common, room: s.room, width: dims.width, height: dims.height, cap: dims.top + 46, pad: dims.bottom + 8 });
+  paintRoom(inner, { ...common, room: s.room, width: dims.width, height: between, cap: 46, pad: 8, fit: 'phone' });
   if (s.label !== false) host.append(h('div.room-label', { style: { top: `${dims.top + 10}px` } }, caption(ROOM_NAMES[s.room])));
   if (s.veil) host.append(h('div.scene-veil', { style: { background: s.veil } }));
 }
@@ -79,10 +81,10 @@ function paintBoard(host, dims, s, common) {
     const panel = h('section.board-panel', { 'aria-label': ROOM_NAMES[room], style: { left: `${left}px`, top: `${top}px`, width: `${width}px`, height: `${height}px` }, 'data-current': own?.location === ROOM_NAMES[room] ? '' : null });
     const inner = h('div', { style: { position: 'absolute', inset: '0' } });
     panel.append(inner);
+    host.append(panel);
     paintRoom(inner, { ...common, room, width, height, cap: 30, pad: 4, compact: true, slots: s.slotsByRoom?.[room] ?? null });
     panel.append(h('div.room-label', caption(ROOM_NAMES[room])));
     if (own?.location === ROOM_NAMES[room]) panel.append(h('span.here', pill('You', { icon: 'self', tone: 'amber' })));
-    host.append(panel);
   }
   const [left, top, width, height] = boxes.capsule;
   const cap = h('section.board-panel', { 'aria-label': 'Private talk', style: { left: `${left}px`, top: `${top}px`, width: `${width}px`, height: `${height}px` } });

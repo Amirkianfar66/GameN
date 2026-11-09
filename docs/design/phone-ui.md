@@ -56,8 +56,13 @@ These are routine decisions, made by Designer under the brief. The owner can ove
 - The interface font is the system font (SF Pro on iPhone). Condensed lettering is kept for stamps, room captions, role names and results.
 
 **Layout.**
-- The top bar and the tabs are fixed. The room scene runs full bleed behind them.
-- Its positions are framed between the bars with the game's own framing and press areas, so every person is drawn where the game draws them.
+- The top bar and the tabs are fixed. The room scene fills the space between them.
+- The scene uses the game's own positions and press areas, so every person stands where the game puts them.
+- The room view is framed wider than the game's board panels: at the smallest scale that still fills that space with the room. The owner found the first draft too zoomed in on a phone (9 November).
+  - At 390 × 844, people are drawn 23% smaller than in the first draft, and 30% more of the room's width shows.
+  - Across, the view holds the room's centre, as the game does. It moves only as far as it must to keep everyone present 48 px inside the edges. When they are spread wider than that, it centres on them.
+  - A name tag near an edge moves inward to stay whole.
+  - The board's six panels keep the game's own framing.
 - Every in-game sheet docks between the bars, so the phase, the clock and Pass/Vote are always visible.
 - Sheets scroll inside themselves. The page never scrolls sideways.
 
@@ -198,6 +203,7 @@ Nothing in `apps/` or `packages/` imports the pack.
 - `packages/design-tokens/test/phone-ui.test.mjs` checks:
   - the catalog and every sheet's screens, kept in step with the registry;
   - the review files and their hashes;
+  - the room view's framing, for every room's fixture: wider than the first draft, filling the space between the bars, with everyone present in view;
   - the kit's colours against tokens 0.5.0;
   - the icon family and its exports;
   - the fixture label kept out of the interface;

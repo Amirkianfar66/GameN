@@ -6,13 +6,15 @@
 //   private-talk capsule from design/board-v2/assets);
 // - crew: the restyled nine (crew-drawing-1.0.0, design-0.7.0/0.8.0), drawn by the runtime port of
 //   the crew drawing; portraits, cards and role devices from design/crew-drawing/assets;
-// - placement: the playable build's own slots, framing and press areas (board-v2-drawing four-bed
-//   tables, scene-drawing/frame.mjs), so a room view puts each person where the game does.
+// - placement: the playable build's own slots and press areas (board-v2-drawing four-bed tables,
+//   scene-drawing/frame.mjs), so every view puts each person where the game does. The board's
+//   panels use the game's own framing too. The phone's room view frames the same scene wider
+//   (phoneFrame below), after the owner found it too zoomed in on a phone (9 November 2026).
 // Nothing here fetches by role, team or hidden fact; a fixture names what to draw.
 
 import { BOARD_ROOMS, LOCATION_OF, sceneOf, slotsOf } from '../../../apps/game/hosted/board-v2-drawing/slots-four.mjs';
-import { slotRects } from '../../../apps/game/hosted/board-v2-drawing/fit-four.mjs';
-import { frameScene } from '../../../apps/game/hosted/scene-drawing/frame.mjs';
+import { pressSide, slotRects } from '../../../apps/game/hosted/board-v2-drawing/fit-four.mjs';
+import { PRESS, frameScene, slotGeometry } from '../../../apps/game/hosted/scene-drawing/frame.mjs';
 import { FRAME } from '../../../apps/game/hosted/scene-drawing/body.mjs';
 import { INJURED, skeletonOf } from '../../../apps/game/hosted/scene-drawing/gestures.mjs';
 import { outfitFor } from '../../../apps/game/hosted/scene-drawing/wardrobe.mjs';
@@ -93,6 +95,53 @@ function figureNodes(seat, slot, frame, { dim = false } = {}) {
   return nodes;
 }
 
+const clamp = (value, lo, hi) => Math.min(hi, Math.max(lo, value));
+
+/** How far inside the view's side edges a person's press point is kept, in CSS pixels. */
+export const EDGE_CLEAR = 48;
+
+/**
+ * The phone room view's framing, for a tall panel (the space between the top bar and the tabs).
+ * The game's frameScene() spreads the bay its places are in across the panel's width, which on a
+ * portrait phone zooms a landscape room far in and cuts people off at the sides. This uses the
+ * smallest scale that still fills the panel with the picture (its inner box), so as much of the
+ * room shows as fits without empty bands. Across, it holds the bay's centre, as the game does, and
+ * moves only as far as it must to keep everyone present EDGE_CLEAR inside the sides; when they
+ * span more than the view, it centres on them. Vertically it keeps frameScene()'s band, from the
+ * back row's heads to the front row's press areas under the caption.
+ */
+export function phoneFrame(scene, { width, height, cap = 44, pad = 6 }, present = []) {
+  const [ix0, iy0, ix1, iy1] = scene.inner ?? [0, 0, 1024, 768];
+  const k = Math.max(width / (ix1 - ix0), height / (iy1 - iy0));
+  let cx = (scene.focus[0] + scene.focus[2]) / 2;
+  if (present.length) {
+    const xs = present.map(slot => slot.pressAt[0]);
+    const reach = width / (2 * k) - EDGE_CLEAR / k;
+    const lo = Math.max(...xs) - reach, hi = Math.min(...xs) + reach;
+    cx = lo <= hi ? clamp(cx, lo, hi) : (Math.min(...xs) + Math.max(...xs)) / 2;
+  }
+  const tx = clamp(width / 2 - cx * k, width - ix1 * k, -ix0 * k);
+  const half = PRESS / 2 / k;
+  const geometry = scene.slots.map(slot => slotGeometry(slot));
+  const top = Math.min(...geometry.map(g => g.headTop));
+  const bottom = Math.max(...geometry.map(g => g.press[1] + half));
+  const avail = height - cap - pad;
+  const ty = (bottom - top) * k > avail ? height - pad - bottom * k : cap + (avail - (bottom - top) * k) / 2 - top * k;
+  return { k, tx, ty: clamp(ty, height - iy1 * k, -iy0 * k) };
+}
+
+/** Each place's press area in a panel framed by `frame`: fit-four's slotRects(), for any framing. */
+function rectsIn(room, roster, panel, frame) {
+  const at = ([x, y]) => [frame.tx + x * frame.k, frame.ty + y * frame.k];
+  return slotsOf(room, roster).map(slot => {
+    const side = pressSide(slot.scale * frame.k);
+    const [px, py] = at(slot.pressAt);
+    const left = Math.min(panel.width - side, Math.max(0, px - side / 2));
+    const top = Math.min(panel.height - panel.pad - side, Math.max(panel.cap, py - side / 2));
+    return { id: slot.id, left, top, side, press: [px, py], frame };
+  });
+}
+
 function officeBadge(kind) {
   const b = document.createElement('i');
   b.className = 'office';
@@ -106,18 +155,22 @@ function officeBadge(kind) {
  * opts.seats: [{seat, name, character, location, slot, health, jailed}]
  * opts.targets: seat numbers offered as targets (others dim when opts.dimOthers); opts.picked: picked seats.
  * opts.slots: { ids, picked } empty-position targets (movement, Blackout).
+ * opts.fit: 'game' (the board's panels: the game's own framing) or 'phone' (the room view: phoneFrame).
  * Returns the press rectangles by seat number.
  */
 export function paintRoom(host, opts) {
   const { room, roster = 9, seats = [], width, height, cap = 0, pad = 8, dark = false, darkPeople = false,
     targets = null, picked = [], dimOthers = false, slots = null, self = null, active = null, offices = {},
-    tags = true, labelTop = 10, compact = false, blocked = null, status = true } = opts;
+    tags = true, labelTop = 10, compact = false, blocked = null, status = true, fit = 'game' } = opts;
   host.replaceChildren();
   host.style.width = `${width}px`; host.style.height = `${height}px`;
   const panel = { width, height, cap, pad };
   const scene = sceneOf(room, roster);
-  const frame = frameScene(scene, panel);
-  const rects = new Map(slotRects(room, roster, panel).map(r => [r.id, r]));
+  const location = LOCATION_OF[room];
+  const present = seats.filter(s => s.location === location && s.slot);
+  const placeOf = seat => slotsOf(room, roster).find(s => s.id === seat.slot);
+  const frame = fit === 'phone' ? phoneFrame(scene, panel, present.map(placeOf).filter(Boolean)) : frameScene(scene, panel);
+  const rects = new Map((fit === 'phone' ? rectsIn(room, roster, panel, frame) : slotRects(room, roster, panel)).map(r => [r.id, r]));
   for (const layer of artLayers(room, roster, { dark })) {
     const n = document.createElement('span');
     n.className = 'scene-art';
@@ -126,11 +179,9 @@ export function paintRoom(host, opts) {
       backgroundImage: layer.image, zIndex: String(2 * Math.round(layer.depth) + 1) });
     host.append(n);
   }
-  const location = LOCATION_OF[room];
-  const present = seats.filter(s => s.location === location && s.slot);
   const press = new Map();
   for (const seat of present) {
-    const slot = slotsOf(room, roster).find(s => s.id === seat.slot);
+    const slot = placeOf(seat);
     if (!slot) continue;
     const rect = rects.get(slot.id);
     press.set(seat.seat, rect);
@@ -154,8 +205,10 @@ export function paintRoom(host, opts) {
       if (dim) tag.style.opacity = '0.55';
       const cx = rect.left + rect.side / 2;
       const tagTop = Math.min(height - pad - 26, rect.top + rect.side - (compact ? 6 : 2));
-      Object.assign(tag.style, { left: `${Math.max(36, Math.min(width - 36, cx))}px`, top: `${tagTop}px` });
       host.append(tag);
+      // A tag stays whole on screen: its centre moves inward by half its own width (4 px clear).
+      const reach = tag.isConnected ? tag.offsetWidth / 2 + 4 : 36;
+      Object.assign(tag.style, { left: `${clamp(cx, reach, width - reach)}px`, top: `${tagTop}px` });
       if (blocked === seat.seat) {
         const b = document.createElement('span');
         b.className = 'pill'; b.dataset.tone = 'paper';
