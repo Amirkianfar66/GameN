@@ -6,11 +6,12 @@ The protocol-3 adapter runs the recorded `planet-game-1.1.0` engine through the 
 
 ## Configuration
 
-Before any Admin SDK initialization, the existing exact project, loopback Emulator Suite and origin validation is applied. Planet has three independent creation settings:
+Before any Admin SDK initialization, the existing exact project, loopback Emulator Suite and origin validation is applied. Planet has independently selected creation settings:
 
 - `MOTHERSHIP_PLANET_CREATION_ENABLED=true` enables new matches. Default is false. Invalid values fail startup.
 - `MOTHERSHIP_PLANET_ASSET_MANIFEST_VERSION=design-0.6.0` selects the approved candidate artwork for newly created matches. Production requires an explicit valid asset identity; historical sessions retain their saved identity. The emulator alone defaults to `0.0.0-no-assets`.
-- `MOTHERSHIP_PLANET_SETUP_FLOW_VERSION=2` selects the R17 boarding flow for new sessions only. Unset or `1` preserves historical setup; unsupported values fail startup. Deploy capable code to every worker before selecting `2` on the API. See the R17 release/rollback section below.
+- `MOTHERSHIP_PLANET_SETUP_FLOW_VERSION` accepts unset/`1` (historical setup), `2` (R17 boarding), or `3` (the versioned 20-second card plus 10-second role film and separate boarding). Unsupported values fail startup. Saved sessions retain their creation setting.
+- `MOTHERSHIP_PLANET_ENGINE_PROFILE=phone-private-choices-1.2` selects the separately registered engine 1.2 private-offer candidate. Absence preserves engine 1.1; unknown profiles fail startup. This is independent of setup flow and artwork. No setting is activated by this code change.
 
 Use the existing `MOTHERSHIP_ALLOWED_ORIGINS` canonical HTTPS allowlist in production. The endpoint verifies revoked Firebase ID tokens and App Check. App Check bypass is available only after the complete exact loopback `demo-mothership` environment guard succeeds. Caller UID is obtained from Auth and never accepted from JSON. Requests are strict shared operation envelopes, JSON POST only, up to 16,384 raw bytes; responses use `no-store, private`. There is no player-facing task callback.
 
@@ -46,7 +47,7 @@ The separate first service Auth/Firestore run passed six of seven cases; one nin
 
 ## Versioned boarding setup flow (R17)
 
-`MOTHERSHIP_PLANET_SETUP_FLOW_VERSION=2` selects the separately versioned boarding flow for **newly created** Planet sessions. Unset or `1` retains the historical flow and its omitted version field; any other value fails runtime initialization. This setting does not enable creation or select artwork. `MOTHERSHIP_PLANET_CREATION_ENABLED` and `MOTHERSHIP_PLANET_ASSET_MANIFEST_VERSION` retain their independent meanings. A saved session's creation-pinned `setupFlowVersion` controls its later processing even if the worker's current setting changes.
+`MOTHERSHIP_PLANET_SETUP_FLOW_VERSION=2` selects the separately versioned boarding flow for **newly created** Planet sessions. Unset or `1` retains the historical flow and its omitted version field; version `3` is the independent timed-reading successor described below; other values fail runtime initialization. This setting does not enable creation or select artwork. `MOTHERSHIP_PLANET_CREATION_ENABLED` and `MOTHERSHIP_PLANET_ASSET_MANIFEST_VERSION` retain their independent meanings. A saved session's creation-pinned `setupFlowVersion` controls its later processing even if the worker's current setting changes.
 
 All five existing Functions must run code that understands saved flow 2 before Integration enables it on `planetApi`; only the API's creation setting needs to be `2`. Workers can retain legacy creation defaults while processing saved flow-2 sessions. No new endpoint, queue, task payload kind, gameplay phase, artwork manifest or IAM role is introduced. Existing setup outbox records carry the boarding identity, private token and scheduled end. Their immutable identity, retry, stale refusal and repair behavior continue through the same private workers.
 
@@ -79,3 +80,12 @@ With the pinned Node 22.21.1/npm 10.9.4 toolchain and Java 21.0.13:
 Both suite processes exited successfully and all local emulators shut down. Early task delivery was refused for retry. Outstanding task requests logged connection refusal only during emulator shutdown after acceptance finished. No client manually advanced a stage or ran bots, no service clock was injected, and no cloud resource or IAM setting changed. These results do not establish live IAM, hosted consumer acceptance, physical-phone performance or human readiness/balance.
 
 Compiled service bytes stayed constant through both real-time suites: `planet-game.js` SHA-256 `a4ef2c85ff41ecd5993a95f809457c011d221bbd6f91a0e82dce1bbbfb054771`; contracts `planet-service.js` `49f71e46a7e6510727da31ed4676f6d0a0325dcc1c408090e9241166cb8cec75`; runtime `planet-runtime.js` `7af7c4c55dad8cfbf6dd35618481d91e38aa408a1c775ba28d2dbce133ae0eec`. The verification document records the final committed source identity.
+
+
+## Phone interface candidate: saved flow 3 and private offers
+
+[The Backend contract](../../docs/backend/planet-phone-interface-contract.md) and [technical compatibility descriptor](../../docs/backend/planet-phone-interface-compatibility-2026-11-10.json) define this inactive candidate. Engine 1.2 inherits the unchanged canonical 1.1 rules; the historical authority/tuples remain intact. The only engine changes are actor-private declaration choices and original-number Hospital keypad offers that do not reveal inventory through availability. Setup flow 3 is independently saved and publishes the exact 20+10 interval; manual Ready is accepted only after its end. Flow 2 and omitted saved setup retain their original behavior.
+
+The existing guarded Functions acceptance file supports a separate local run with both `MOTHERSHIP_PLANET_SETUP_FLOW_VERSION=3` and `MOTHERSHIP_PLANET_ENGINE_PROFILE=phone-private-choices-1.2`. It asserts exact saved candidate pins and automatic 7/8/9-player selection, reading, boarding and fresh PRE_TURN, without a manual advance/bot call or injected clock. Test evidence and actual limits are recorded in the [phone Backend verification handoff](../../docs/backend/planet-phone-interface-verification.md).
+
+A later authorized release must upgrade all five workers and publish the exact reviewed compatible consumer before selecting either new option for creation on the API. Workers continue to process saved session pins regardless of their current creation defaults. Rollback changes subsequent creation selection only; do not relabel saved sessions or remove their capable worker/consumer/art support. This task changes no environment file, cloud setting, IAM binding or deployed release.
