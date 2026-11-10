@@ -1,9 +1,9 @@
-import { PlanetVersionsSchema, PLANET_GAME_PINS, PLANET_PHONE_ENGINE_PROFILE } from '@mothership/contracts';
+import { PlanetVersionsSchema, PLANET_GAME_PINS, PLANET_PHONE_ENGINE_PROFILE, PLANET_BLACKOUT_ENGINE_PROFILE } from '@mothership/contracts';
 import { assertRuntimeEnvironment } from './runtime.js';
 import type { RuntimeConfiguration } from './runtime.js';
 
 export interface PlanetRuntimeConfiguration extends RuntimeConfiguration {
-  creationEnabled: boolean; setupFlowVersion?: 2|3; engineProfile?:typeof PLANET_PHONE_ENGINE_PROFILE;
+  creationEnabled: boolean; setupFlowVersion?: 2|3; engineProfile?:typeof PLANET_PHONE_ENGINE_PROFILE|typeof PLANET_BLACKOUT_ENGINE_PROFILE;
 }
 
 /** Planet has its own creation switch and artwork pin. Legacy release switches remain separate. */
@@ -21,7 +21,7 @@ export function assertPlanetRuntimeEnvironment(environment: Record<string, strin
     throw new Error('Unsupported Planet setup flow version');
   }
   const engineProfile=environment['MOTHERSHIP_PLANET_ENGINE_PROFILE'];
-  if(engineProfile!==undefined&&engineProfile!==PLANET_PHONE_ENGINE_PROFILE)throw new Error('Unsupported Planet engine profile');
+  if(engineProfile!==undefined&&engineProfile!==PLANET_PHONE_ENGINE_PROFILE&&engineProfile!==PLANET_BLACKOUT_ENGINE_PROFILE)throw new Error('Unsupported Planet engine profile');
   const assetManifestVersion = environment['MOTHERSHIP_PLANET_ASSET_MANIFEST_VERSION']
     ?? (configuration.emulator ? '0.0.0-no-assets' : undefined);
   if (!PlanetVersionsSchema.safeParse({ ...PLANET_GAME_PINS, assetManifestVersion }).success

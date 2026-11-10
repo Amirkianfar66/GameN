@@ -1,4 +1,4 @@
-import { PLANET_PHONE_OFFER_PINS } from '@mothership/contracts';
+import { PLANET_PHONE_OFFER_PINS, PLANET_BLACKOUT_PINS } from '@mothership/contracts';
 import type { PlanetVersions, PlanetRole, PlanetFaction, PlanetPhase, PlanetCommand, PlanetPromise, PlanetWindowDrawing, PlanetEvent, PlanetDirection, PlanetRoutePosition, PlanetResult, PlanetTally, PlanetSeatView, PlanetEngineerCapture, PlanetPanelRequest, SeatId } from '@mothership/contracts';
 export type { SeatId } from '@mothership/contracts';
 export interface PlanetGameContext { now:number; nextPhaseId:string; nextDeadlineToken:string; random:readonly number[]; phaseId?:string; deadlineToken?:string }
@@ -11,6 +11,15 @@ export interface PlanetPhysicalSeat {
   clone:{used:boolean;active:boolean;expiresAfterRound:number|null}; blackoutSpent:boolean; engineerSpent:boolean; engineerCapture?:PlanetEngineerCapture|null;
 }
 export interface PlanetRegisteredAction { actorSeatId:SeatId; commandId:string; command:PlanetCommand; order:number; boundRoom?:'Room A'|'Room B'|'Command Room'; selectedSlotId?:PlanetSeatView['slotId'] }
+export interface PlanetBlackoutAttempt {
+  actorSeatId:SeatId; commandId:string; order:number; boundRoom:'Room A'|'Room B'|'Command Room';
+  selection:'PENDING'|'SELECTED'|'TIMED_OUT'; selectedSlotId:PlanetSeatView['slotId']; selectedAt:number|null;
+  targetSeatId:SeatId|null; outcome:'MISS'|'BLOCKED'|'INJURED'|'ELIMINATED'|'NO_EFFECT'|null;
+}
+export interface PlanetBlackoutBatch {
+  round:number; windowId:string; startedAt:number; endsAt:number; completedAt:number|null;
+  status:'OPEN'|'RESOLVED'|'ABORTED'; snapshot:PlanetSeatView[]; attempts:PlanetBlackoutAttempt[];
+}
 export interface PlanetStoredEvent { event:PlanetEvent; recipients:SeatId[]|null }
 export interface PlanetWorld {
   seats:PlanetPhysicalSeat[]; actions:PlanetRegisteredAction[]; injectionsRemaining:number;
@@ -34,11 +43,12 @@ export interface PlanetGameState {
   matchId:string; versions:PlanetVersions; playerCount:7|8|9; round:number; evaluatedAt:number; phase:PlanetPhase; deadlineToken:string|null;
   roles:Record<SeatId,PlanetRole>; code:SeatId[]; worlds:Record<string,PlanetWorld>; realityOf:Record<SeatId,string>; currentWorldId:string;
   blackholeActive:boolean; blackoutPreviewComplete:boolean; nextWorldNumber:number; global:PlanetGlobal;
+  blackoutBatch?:PlanetBlackoutBatch|null;
   turnOrder:SeatId[]; turnIndex:number; activeSeatId:SeatId|null; hack:PlanetHack|null; panelOpen:boolean;
   ballot:{kind:'CAPTAIN_ELECTION'|'JAIL_VOTE';eligibleVoters:SeatId[];eligibleTargets:SeatId[];votes:Partial<Record<SeatId,SeatId|null>>; runoff:boolean; electionId:string}|null;
   lastTally:PlanetTally|null; afterVote:'RESOLVE'|'APPOINT'|'RUNOFF'|'NEXT_ROUND'|null; electionNeeded:boolean;
   navigation:{position:PlanetRoutePosition;direction:PlanetDirection|null;lastMovedRound:number;arrivedAt:PlanetDirection|null;started:boolean;settingTie?:boolean;settingDirection?:PlanetDirection|null};
-  result:PlanetResult|null; finalized:{round:number;seats:PlanetSeatView[];events:PlanetStoredEvent[]};
+  result:PlanetResult|null; finalized:{round:number;seats:PlanetSeatView[];events:PlanetStoredEvent[];checkpoint?:import('@mothership/contracts').PlanetBlackoutCheckpoint};
   revisions:{public:number;players:Record<SeatId,number>};
   eventPublications:Record<string,Record<string,{viewRevision:number;publishedAt:number}>>;
 }
@@ -68,4 +78,6 @@ export const planetHasSyncPresentation = (versions:PlanetVersions):boolean => ve
 export const planetHasPrivateFeedback = (versions:PlanetVersions):boolean => versions.engineVersion==='planet-game-1.1.0'||planetHasPhoneOffers(versions);
 
 /** Private offer metadata only; saved predecessors retain their exact packet bytes. */
-export const planetHasPhoneOffers = (versions:PlanetVersions):boolean => versions.engineVersion===PLANET_PHONE_OFFER_PINS.engineVersion;
+export const planetHasPhoneOffers = (versions:PlanetVersions):boolean => versions.engineVersion===PLANET_PHONE_OFFER_PINS.engineVersion||planetHasPreVoteBlackout(versions);
+
+export const planetHasPreVoteBlackout = (versions:PlanetVersions):boolean => versions.engineVersion===PLANET_BLACKOUT_PINS.engineVersion;

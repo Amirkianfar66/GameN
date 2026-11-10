@@ -1,11 +1,11 @@
 import { PLANET_GAME_PINS, PLANET_PHASE_DURATIONS, PlanetVersionsSchema, PlanetCommandRequestSchema, PlanetReceiptSchema, IdentifierSchema } from '@mothership/contracts';
-import type { PlanetCommandRequest, PlanetReceipt, PlanetPhaseKind, SeatId } from '@mothership/contracts';
-import { copyPlanet, seatIds, planetWorld, planetSeat, freeHealthy, alive, planetSeatView, storePlanetEvent, planetHasSyncPresentation, planetHasPrivateFeedback } from './model.js';
+import type { PlanetCommandRequest, PlanetReceipt, PlanetPhaseKind, PlanetBlackoutCheckpoint, SeatId } from '@mothership/contracts';
+import { copyPlanet, seatIds, planetWorld, planetSeat, freeHealthy, alive, planetSeatView, storePlanetEvent, planetHasSyncPresentation, planetHasPrivateFeedback, planetHasPreVoteBlackout } from './model.js';
 import type { PlanetGameSetup, PlanetGameContext, PlanetGameState, PlanetWorld } from './model.js';
 import { assertPlanetContext, assertPlanetGameState } from './validation.js';
 import { planetCommand } from './commands.js';
 import { projectPlanetPublic, projectPlanetPlayer, stampPlanetEventPublications } from './projection.js';
-import { resolvePlanetPhysical, jailPlanetSeat, planetSlotIds, panelExhaustedForEligibleRequest } from './physical.js';
+import { resolvePlanetPhysical, jailPlanetSeat, planetSlotIds, panelExhaustedForEligibleRequest, openPlanetBlackoutBatch, resolvePlanetBlackoutBatch } from './physical.js';
 import { finalizePlanetPromises } from './social.js';
 import { planetNavigationWeights, nextPlanetPosition } from './navigation.js';
 import { tallyElection, tallyJailVote } from '../full-game/votes.js';
@@ -16,8 +16,9 @@ function phase(state:PlanetGameState,kind:PlanetPhaseKind,ctx:PlanetGameContext)
   const duration=PLANET_PHASE_DURATIONS[kind];state.phase={id:ctx.nextPhaseId,kind,startedAt:ctx.now,endsAt:duration===null?null:ctx.now+duration};
   state.deadlineToken=duration===null?null:ctx.nextDeadlineToken;state.activeSeatId=null;state.blackoutPreviewComplete=false;
 }
-function publishBoard(state:PlanetGameState,round=state.finalized.round):void {
-  const world=planetWorld(state);state.finalized={round,seats:world.seats.map(s=>planetSeatView(world,s)),events:copyPlanet(world.events)};
+function publishBoard(state:PlanetGameState,round=state.finalized.round,checkpoint?:PlanetBlackoutCheckpoint):void {
+  const world=planetWorld(state);state.finalized={round,seats:world.seats.map(s=>planetSeatView(world,s)),events:copyPlanet(world.events),
+    ...(planetHasPreVoteBlackout(state.versions)?{checkpoint:checkpoint??state.finalized.checkpoint!}:{})};
 }
 function revisions(before:PlanetGameState,after:PlanetGameState):PlanetGameState {
   // Revisions count changed authorized views, never internal commands or hidden world operations.
@@ -39,7 +40,10 @@ function terminal(state:PlanetGameState,ctx:PlanetGameContext,reason:'ARRIVAL'|'
   const world=planetWorld(state),alien=world.seats.find(s=>state.roles[s.seatId]==='Alien');
   state.result={winner,reason,alienCoWinner:reason==='ARRIVAL'&&Boolean(alien&&alive(alien)&&state.global.blackholeSpent)};
   for(const w of Object.values(state.worlds))for(const s of w.seats){s.clone.active=false;if(s.medical)s.medical.rescueOpportunity='CLOSED';}
-  state.hack=null;state.panelOpen=false;state.ballot=null;finalizePlanetPromises(state,'MATCH_END');phase(state,reason==='ABORTED'?'ABORTED':'FINISHED',ctx);publishBoard(state,state.round);
+  state.hack=null;state.panelOpen=false;state.ballot=null;finalizePlanetPromises(state,'MATCH_END');phase(state,reason==='ABORTED'?'ABORTED':'FINISHED',ctx);
+  if(planetHasPreVoteBlackout(state.versions)&&reason==='ABORTED'){
+    if(state.blackoutBatch?.status==='OPEN'){state.blackoutBatch.status='ABORTED';state.blackoutBatch.completedAt=ctx.now;}
+  }else publishBoard(state,state.round,planetHasPreVoteBlackout(state.versions)?'ROUND_FINALIZED':undefined);
 }
 function appointmentDone(state:PlanetGameState,ctx:PlanetGameContext):void {
   const world=planetWorld(state);finalizePlanetPromises(state,'APPOINTMENT',{captainSeatId:world.captainSeatId,officerSeatId:world.officerSeatId,electionId:state.ballot?.electionId??state.phase.id});
@@ -54,6 +58,7 @@ function beginNextRound(state:PlanetGameState,ctx:PlanetGameContext):void {
   if(state.round>=Number.MAX_SAFE_INTEGER-2)throw Error('Planet round integer exhausted');state.round++;
   state.global.lastBlockedSeatId=state.global.blockedSeatId;state.global.blockedSeatId=null;state.global.movementSpent=[];state.global.hackSpent=[];
   state.blackholeActive=false;state.hack=null;state.panelOpen=true;state.navigation.direction=null;state.navigation.started=false;state.afterVote=null;state.ballot=null;
+  if(planetHasPreVoteBlackout(state.versions))state.blackoutBatch=null;
   if(planetHasPrivateFeedback(state.versions)){state.navigation.settingTie=false;state.navigation.settingDirection=null;}
   const world=planetWorld(state);world.actions=[];world.events=[];world.suppressedSeatIds=[];world.shipHackOverride=false;
   for(const seat of world.seats){seat.roleActionSpent=false;seat.shotSpent=false;if(seat.medical)seat.medical.rescueOpportunity=seat.medical.rescueDueAfterRound<=state.round?'CURRENT_NORMAL_ROUND':'NEXT_NORMAL_ROUND';}
@@ -64,7 +69,7 @@ function moveShip(state:PlanetGameState,ctx:PlanetGameContext):void {
   if(state.navigation.lastMovedRound>=state.round)throw Error('Movement already completed for round');
   const direction=state.round===1?'Blue':state.navigation.direction;if(direction===null)throw Error('Final direction required');
   state.navigation.position=nextPlanetPosition(state.navigation.position,direction);state.navigation.lastMovedRound=state.round;
-  const world=planetWorld(state);storePlanetEvent(state,world,'MOVEMENT_COMPLETED',[]);publishBoard(state,state.round);
+  const world=planetWorld(state);storePlanetEvent(state,world,'MOVEMENT_COMPLETED',[]);publishBoard(state,state.round,planetHasPreVoteBlackout(state.versions)?'ROUND_FINALIZED':undefined);
   finalizePlanetPromises(state,'ROUND_END');
   if(state.navigation.position==='Blue Planet'||state.navigation.position==='Red Planet'){
     state.navigation.arrivedAt=state.navigation.position==='Blue Planet'?'Blue':'Red';terminal(state,ctx,'ARRIVAL',state.navigation.arrivedAt);
@@ -77,7 +82,7 @@ function confirmation(state:PlanetGameState,ctx:PlanetGameContext,afterCaptain=f
   moveShip(state,ctx);
 }
 function resolveRound(state:PlanetGameState,ctx:PlanetGameContext):void {
-  const world=planetWorld(state);resolvePlanetPhysical(state,world);publishBoard(state,state.round);
+  const world=planetWorld(state);resolvePlanetPhysical(state,world);publishBoard(state,state.round,planetHasPreVoteBlackout(state.versions)?'ROUND_FINALIZED':undefined);
   if(world.seats.every(s=>!alive(s))){terminal(state,ctx,'NO_SURVIVORS');return;}
   state.navigation.started=true;
   if(state.round===1){state.navigation.direction=null;moveShip(state,ctx);return;}
@@ -102,6 +107,12 @@ function openJailVote(state:PlanetGameState,ctx:PlanetGameContext):void {
   const world=planetWorld(state);phase(state,'JAIL_VOTE',ctx);
   state.ballot={kind:'JAIL_VOTE',eligibleVoters:world.seats.filter(alive).map(s=>s.seatId),eligibleTargets:world.seats.filter(s=>alive(s)&&!s.jailed).map(s=>s.seatId),votes:{},runoff:false,electionId:state.phase.id};
 }
+function openBlackout(state:PlanetGameState,ctx:PlanetGameContext):void {
+  phase(state,'BLACKOUT',ctx);openPlanetBlackoutBatch(state);publishBoard(state,state.round,'PRE_BLACKOUT');
+}
+function afterTurns(state:PlanetGameState,ctx:PlanetGameContext):void {
+  if(planetHasPreVoteBlackout(state.versions))openBlackout(state,ctx);else openJailVote(state,ctx);
+}
 function syncAndVote(state:PlanetGameState,ctx:PlanetGameContext):void {
   state.panelOpen=false;state.hack=null;state.ballot=null;
   if(state.blackholeActive){
@@ -111,10 +122,10 @@ function syncAndVote(state:PlanetGameState,ctx:PlanetGameContext):void {
     if(planetHasPrivateFeedback(state.versions))finalizePlanetPanelSync(state,planetWorld(state));
     storePlanetEvent(state,planetWorld(state),'BLACKHOLE_SYNCED',[]);
     // Selected physical state is finalized, but attacks and Promise opportunities wait.
-    publishBoard(state,state.round);
+    publishBoard(state,state.round,planetHasPreVoteBlackout(state.versions)?'PRE_BLACKOUT':undefined);
     if(planetHasSyncPresentation(state.versions)){phase(state,'BLACKHOLE_PRESENTATION',ctx);return;}
   }
-  openJailVote(state,ctx);
+  afterTurns(state,ctx);
 }
 function nextTurn(state:PlanetGameState,ctx:PlanetGameContext):void {
   while(state.turnIndex<state.turnOrder.length&&!alive(planetSeat(planetWorld(state,state.turnOrder[state.turnIndex]!),state.turnOrder[state.turnIndex]!)))state.turnIndex++;
@@ -144,6 +155,7 @@ function voteClosed(state:PlanetGameState,ctx:PlanetGameContext):void {
 function afterVote(state:PlanetGameState,ctx:PlanetGameContext):void {
   const continuation=state.afterVote;state.afterVote=null;
   if(continuation==='RESOLVE'){
+    if(planetHasPreVoteBlackout(state.versions)){state.ballot=null;resolveRound(state,ctx);return;}
     const world=planetWorld(state);world.actions=world.actions.filter(a=>a.command.type!=='REQUEST_BLACKOUT'||freeHealthy(planetSeat(world,a.actorSeatId)));
     for(const a of world.actions)if(a.command.type==='REQUEST_BLACKOUT')a.boundRoom=planetSeat(world,a.actorSeatId).location as 'Room A'|'Room B'|'Command Room';
     state.ballot=null;phase(state,'BLACKOUT',ctx);
@@ -170,8 +182,9 @@ export function createPlanetGame(setup:PlanetGameSetup,ctx:PlanetGameContext):Pl
     phase:{id:ctx.nextPhaseId,kind:'PRE_TURN',startedAt:ctx.now,endsAt:ctx.now+15000},deadlineToken:ctx.nextDeadlineToken,roles:assigned,code:ids.filter(id=>['Undercover','Alien','Insider','Doctor'].includes(assigned[id]!)),worlds:{'world-0':world},realityOf:Object.fromEntries(ids.map(id=>[id,'world-0'])) as Record<SeatId,string>,currentWorldId:'world-0',blackholeActive:false,blackoutPreviewComplete:false,nextWorldNumber:1,
     global:{...(privateFeedback?{panelRequests:{}}:{}),promiseEvaluation:{},movementSpent:[],blockedSeatId:null,lastBlockedSeatId:null,blackholeSpent:false,blackholeRound:null,panelAttempts:[],scanResults:[],scanUsedRound:null,scanBlockedThroughRound:null,codeAttempted:false,shipHackUnlocked:false,hackCounts:Object.fromEntries(ids.map(id=>[id,0])) as Record<SeatId,number>,hackSpent:[],promises:[],promiseGiven:[],promiseReceived:[],declinedPromiseIds:[],drawings:[],roundOrders:{'1':[...setup.initialTurnOrder]}},
     turnOrder:[...setup.initialTurnOrder],turnIndex:0,activeSeatId:null,hack:null,panelOpen:true,ballot:null,lastTally:null,afterVote:null,electionNeeded:false,
+    ...(planetHasPreVoteBlackout(versions)?{blackoutBatch:null}:{}),
     navigation:{position:'Start',direction:null,lastMovedRound:0,arrivedAt:null,started:false,...(privateFeedback?{settingTie:false,settingDirection:null}:{})},result:null,finalized:{round:0,seats:[],events:[]},revisions:{public:0,players:Object.fromEntries(ids.map(id=>[id,0])) as Record<SeatId,number>},eventPublications:{}};
-  publishBoard(state,0);assertPlanetGameState(state);projectPlanetPublic(state);for(const id of ids)projectPlanetPlayer(state,id);return state;
+  publishBoard(state,0,planetHasPreVoteBlackout(versions)?'INITIAL':undefined);assertPlanetGameState(state);projectPlanetPublic(state);for(const id of ids)projectPlanetPlayer(state,id);return state;
 }
 export function applyPlanetCommand(before:PlanetGameState,actorId:SeatId,raw:PlanetCommandRequest,ctx:PlanetGameContext):{state:PlanetGameState;receipt:PlanetReceipt} {
   assertPlanetGameState(before);assertPlanetContext(ctx);ctx={...ctx,randomIndex:0} as TransitionContext;const request=PlanetCommandRequestSchema.parse(raw);
@@ -206,14 +219,16 @@ export function advancePlanetDeadline(before:PlanetGameState,ctx:PlanetGameConte
     case 'HACK_DECLARE':state.hack!.status='NO_DECLARATION';phase(state,'HACK_RESULT',ctx);state.activeSeatId=state.hack!.actorSeatId;break;
     case 'HACK_RESULT':phase(state,'HACK',ctx);state.activeSeatId=state.hack!.actorSeatId;break;
     case 'HACK':state.hack=null;state.turnIndex++;nextTurn(state,ctx);break;
-    case 'BLACKHOLE_PRESENTATION':openJailVote(state,ctx);break;
+    case 'BLACKHOLE_PRESENTATION':afterTurns(state,ctx);break;
     case 'CAPTAIN_ELECTION':case 'JAIL_VOTE':voteClosed(state,ctx);break;
     case 'VOTE_RESULT':afterVote(state,ctx);break;
     case 'OFFICER_APPOINTMENT':{
       const world=planetWorld(state),eligible=world.seats.filter(s=>s.seatId!==world.captainSeatId&&freeHealthy(s));
       world.officerSeatId=eligible.length?eligible[draw(ctx,eligible.length)]!.seatId:null;appointmentDone(state,ctx);break;
     }
-    case 'BLACKOUT':resolveRound(state,ctx);break;
+    case 'BLACKOUT':
+      if(planetHasPreVoteBlackout(state.versions)){resolvePlanetBlackoutBatch(state);publishBoard(state,state.round,'AFTER_BLACKOUT');openJailVote(state,ctx);}
+      else resolveRound(state,ctx);break;
     case 'NAV_SETTING':
       if(!planetHasPrivateFeedback(state.versions))throw Error('Navigation setting requires the private-feedback version');
       state.navigation.settingDirection=state.navigation.settingDirection??(draw(ctx,2)===0?'Blue':'Red');

@@ -4,7 +4,7 @@ import {randomUUID,createHash} from 'node:crypto';
 import {initializeApp,deleteApp} from 'firebase-admin/app';
 import {getFirestore} from 'firebase-admin/firestore';
 import {createFirestorePlanetStore} from '@mothership/game-api';
-import {PlanetSessionSnapshotSchema,PLANET_PHONE_ENGINE_PROFILE} from '@mothership/contracts';
+import {PlanetSessionSnapshotSchema,PLANET_PHONE_ENGINE_PROFILE,PLANET_BLACKOUT_ENGINE_PROFILE} from '@mothership/contracts';
 import {assertLocalEmulators,createEmulatorIdentity,firestoreRequest,projectId} from '../test/helpers.mjs';
 
 const setupFlowVersion=process.env.MOTHERSHIP_PLANET_SETUP_FLOW_VERSION==='2'?2:process.env.MOTHERSHIP_PLANET_SETUP_FLOW_VERSION==='3'?3:undefined;
@@ -121,7 +121,8 @@ test(`actual Planet private triggers and Tasks launch 7/8/9 bots after real setu
       const display=await snapshot(match.matchId,match.display);
       assert.ok(display.publicView);assert.equal(display.playerView,null);assert.equal(display.privateRole,null);assert.equal(display.selfSeatId,null);
       const authority=await store.transaction(tx=>tx.get('session/'+match.matchId));
-      assert.equal(authority.versions.engineVersion,process.env.MOTHERSHIP_PLANET_ENGINE_PROFILE===PLANET_PHONE_ENGINE_PROFILE?'planet-game-1.2.0':'planet-game-1.1.0');
+      assert.equal(authority.versions.engineVersion,process.env.MOTHERSHIP_PLANET_ENGINE_PROFILE===PLANET_BLACKOUT_ENGINE_PROFILE?'planet-game-1.3.0':
+        process.env.MOTHERSHIP_PLANET_ENGINE_PROFILE===PLANET_PHONE_ENGINE_PROFILE?'planet-game-1.2.0':'planet-game-1.1.0');
       assert.equal(authority.versions.assetManifestVersion,process.env.MOTHERSHIP_PLANET_ASSET_MANIFEST_VERSION??'design-0.6.0');
       assert.ok(authority.state);assert.equal(authority.members.length,match.count);
       const journals=(await db.collection('planetDocuments').where('namespace','==','journal').get()).docs.map(doc=>doc.get('key')).filter(key=>key.startsWith('journal/'+match.matchId+'/'));
