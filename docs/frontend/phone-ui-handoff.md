@@ -11,9 +11,13 @@ This is a native UI consumer of existing approved artwork. It imports **no file 
 - Active-player portrait/name, top-bar Promises and Settings, and Panels/Windows use the native controller's audience-limited projections. Private-talk participants get the existing capsule; private Clone/card drawings retain their existing consumers. No target is invented when the server supplies none.
 - Sheets reflow and scroll between the measured bars. Their footer remains outside the scrolling body. Names wrap fully at enlarged text. Native semantic icons have accessible names. Glass keeps the owner's direction, adds a bounded body backing for readability, and becomes solid with reduced transparency or without backdrop-filter. Reduced motion settles decoration without changing progression. No new ambient drawing or room redesign is adopted.
 
+Actions use a consistent native icon on each offered tile and retain that action's icon during selection, confirmation, sending and registration. Panels rows have distinct icons with visible labels and accessible names. These are native control paths, with no Designer prototype source or artwork import. During primary scene picking, the centre control becomes Cancel. Ordinary targets have scroll clearance above the prompt; dark fixed-slot picking removes the prompt overlay and keeps the cached room coordinates.
+
 ## Versions and authority
 
 Setup flow 3 consumes the exact server interval: card until `roleFilmStartsAt = startedAt + 20000`, then the existing film sought within the final 10000 ms, ending at `endsAt = startedAt + 30000`. Fresh authorized entry reveals the card; blur conceals it, and a fresh authorized foreground read seeks the current film time. Skip returns locally to the card. Film end and Skip send no Ready, advance or start command. Ready remains manual after the minimum. The separate full ten-second boarding interval follows the server's Ready transition; expiry waits for a running snapshot.
+
+Explicit Conceal is a separate reading-context privacy choice. A neutral UID/match/setup/seat marker holds it through failed reads, foreground and same-context reload; no role, character or knowledge is persisted. Explicit Reveal or a different reading context clears it. Automatic blur uses visibility concealment and does not create a manual choice. Corrupt/unreadable privacy state blocks automatic reveal and still permits an explicit authorized Reveal.
 
 Absent/2 setup flows keep their released Reveal/reading behavior and historical art. The old recovery-suppression omission (#205) is not claimed fixed for those flows. Flow 3 follows its explicit authoritative interval even after Return to lobby into a different match. A saved setup version or same-identity timed interval cannot silently change.
 
@@ -24,6 +28,8 @@ Receipts mean registration. Clone/Engineer refer to the current card state, talk
 ## Blackout
 
 No phase sequence or damage/cancellation outcome is changed. The UI follows the phase it receives; DSN-REQ-20 remains an owner/Backend decision.
+
+Subsequent owner decision: Integration recorded pre-vote Blackout **damage** at `8685e5fb12bfa64c609442d6cd7acb6e5052d54e`. This frozen phone candidate still consumes the historical 1.1/1.2 order. Integration explicitly requested finishing its evidence/PR first, then adopting Backend's separately versioned successor in a focused follow-up. Frontend accepted the technical checkpoint/physical-publication contract at `44d008df0f1cc6fbb2d6c4c0b4b9c95f50c752c3` for Backend implementation; final consumer/release acceptance remains separate. No local reordering or premature consequence is added here.
 
 Room framing derives from all fixed places, not occupants, so reconnecting directly into darkness needs no saved roster. The lit window caches only geometry for **both** Room and Board, including bar offsets, press rectangles and clinical badge coordinates. That safe cache survives conceal/reconnect until fresh phase data retires it. Darkness removes figures, names, roster accessibility content, drawings and private identity content from all alternate panels. Only the requesting player's offered fixed slots are selectable; authoritative `slotId` remains the command identity. No hit is inferred from a selection.
 

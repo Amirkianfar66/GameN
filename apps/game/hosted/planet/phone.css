@@ -18,7 +18,7 @@
 #planet-top-settings .planet-control-label{position:absolute;width:1px;height:1px;clip-path:inset(50%);overflow:hidden}
 #planet-top-promises .planet-control-label{font-size:.75rem}
 #planet-top-promises[data-count]:not([data-count='0'])::after{content:attr(data-count);font-size:.75rem}
-.planet-stage{position:absolute;top:var(--phone-top);bottom:var(--phone-nav);left:0;right:0;overflow:auto;overscroll-behavior:contain;scrollbar-width:thin}
+.planet-stage{position:absolute;top:var(--phone-top);bottom:var(--phone-nav);left:0;right:0;overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;scroll-padding-top:8px}
 .planet-board,.planet-targets{position:absolute;inset:0 0 auto;min-height:100%;width:100%}
 .planet-board .bv2-board{min-height:100%;height:100%;background:#10141C}
 .planet-stage[data-view=room] .bv2-room{border-radius:0}
@@ -30,6 +30,8 @@
 .planet-nav button[aria-pressed=true]{color:#F7D886;background:#FFFFFF0D}
 .planet-nav .planet-pass{border-radius:16px!important;background:#E9B64E!important;color:#10141C!important;box-shadow:none;border:0!important;font-size:.75rem!important;min-height:60px}
 .planet-nav .planet-pass:disabled{background:#293243!important;color:#DCE3EC!important}
+.planet-pass[data-picking=true] .planet-control-label{position:absolute;width:1px;height:1px;clip-path:inset(50%);overflow:hidden}
+.planet-scroll-space{pointer-events:none;width:1px}
 .planet-sheet,.planet-result{position:absolute;left:6px;right:6px;top:calc(var(--phone-top) + 8px);bottom:calc(var(--phone-nav) + 8px);width:auto;height:auto;max-height:none;margin:0;border:1px solid #FFFFFF33;border-radius:20px;box-shadow:0 -8px 30px #0005;background:linear-gradient(180deg,rgba(30,37,52,.20),rgba(14,18,26,.34));backdrop-filter:blur(2px) saturate(1.3) brightness(.56);color:var(--phone-text);z-index:5800;overflow:hidden}
 .planet-sheet{display:flex;flex-direction:column}
 .planet-sheet-body{flex:1;min-height:0;max-height:none!important;padding:14px;overflow:auto;overscroll-behavior:contain;background:rgba(8,11,18,.36);font-size:1rem}
@@ -38,6 +40,8 @@
 .planet-sheet-body p,.planet-result p{font-size:.875rem;line-height:1.45;margin:8px 0;color:var(--phone-secondary);overflow-wrap:anywhere}
 .planet-sheet-body>button{display:block;width:100%;margin:6px 0;text-align:start}
 .planet-sheet-body button{background:rgba(8,11,18,.72)}
+.planet-sheet-body>button.planet-action-tile,.planet-sheet-body>button.planet-panel-option,.planet-action-heading{display:flex;align-items:center;gap:12px}
+.planet-action-tile .planet-control-label,.planet-panel-option .planet-control-label,.planet-action-heading span{min-width:0;overflow-wrap:anywhere}
 .planet-sheet-foot{position:relative;inset:auto;flex:none;padding:8px;display:flex;justify-content:space-between;gap:8px;background:#141B27F2;border-top:1px solid #FFFFFF33;pointer-events:auto}
 .planet-sheet-foot>button{width:auto;flex:1;padding:10px}
 .planet-sheet-foot>#planet-confirm{background:#E9B64E;color:#10141C;border-color:transparent}
@@ -52,7 +56,7 @@
 .planet-roster-cell:disabled{border-style:dashed}.planet-roster-cell:disabled .planet-roster-portrait{filter:grayscale(1)}
 .planet-vote-count{font-size:1rem}.planet-roster-empty{border:1px dashed #FFFFFF22;border-radius:12px;min-height:44px}
 .planet-status{top:calc(var(--phone-top) + 4px);max-height:25vh;padding:10px;font-size:.875rem;color:#10141C;background:#F4EBDD;border-color:#10141C;z-index:6300}
-.planet-target-bar{position:absolute;left:6px;right:6px;bottom:calc(var(--phone-nav) + 6px);z-index:5900;background:#141B27F5;padding:8px;border-radius:14px;display:grid;grid-template-columns:1fr auto;gap:6px;max-height:40vh;overflow:auto}
+.planet-target-bar{position:absolute;left:6px;right:6px;bottom:calc(var(--phone-nav) + 6px);z-index:5900;background:#141B27F5;padding:8px;border-radius:14px;display:grid;grid-template-columns:1fr;gap:6px;max-height:40vh;overflow:auto}
 .planet-target-bar p{font-size:.875rem;margin:0}.planet-target-alternative{grid-column:1/-1}.planet-target-alternative summary{min-height:44px;display:flex;align-items:center;cursor:pointer;font-size:.875rem}.planet-target-alternative button{display:block;width:100%;margin:4px 0}
 .planet-targets .bv2-slot-target{background:#F4EBDD;color:#10141C;border-radius:50%;font-size:.875rem;z-index:5000}
 .planet-offboard{bottom:0}.planet-choice-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.planet-number-grid button{font-size:1rem;min-height:52px}

@@ -25,7 +25,7 @@ export async function mountPlanetApp(root,{connection,matchId,allowSynthetic=fal
  const document=root.ownerDocument,win=document.defaultView;
  const store=key=>({load:()=>win.sessionStorage.getItem(key),save:value=>win.sessionStorage.setItem(key,value),clear:()=>win.sessionStorage.removeItem(key)});
  const ports=injectedPorts??{clock:{now:()=>win.performance.now()},scheduler:{setTimeout:(f,ms)=>win.setTimeout(f,ms),clearTimeout:h=>win.clearTimeout(h)},ids:{next:()=>win.crypto.randomUUID()},unresolved:store('mothership:planet:command')};
- const stores=injectedStores??{resume:store('mothership:planet:resume'),requests:store('mothership:planet:requests')};
+ const stores=injectedStores??{resume:store('mothership:planet:resume'),requests:store('mothership:planet:requests'),rolePrivacy:store('mothership:planet:role-privacy')};
  const session=createPlanetSession(connection,ports,stores);
  let recoveringEntry=true;
  try{recoveringEntry=!!matchId||stores.resume.load()!==null||stores.requests.load()!==null||ports.unresolved.load()!==null;}catch{}
@@ -146,7 +146,7 @@ export async function mountPlanetApp(root,{connection,matchId,allowSynthetic=fal
  }
  const visibility=()=>{session.setVisible(document.visibilityState==='visible'&&document.hasFocus());if(document.visibilityState!=='visible')roleOpen=false;};
  const artReady=()=>{sessionKey=null;if(model)render(session.getModel());};
- const concealRole=()=>{roleOpen=false;recoveryShown=false;setupSettings=false;session.revealRole(false);session.setVisible(false);presentation.clear();};
+ const concealRole=()=>{roleOpen=false;recoveryShown=false;setupSettings=false;session.setVisible(false);presentation.clear();};
  document.addEventListener('visibilitychange',visibility);document.addEventListener('mothership:art-ready',artReady);win.addEventListener('blur',concealRole);win.addEventListener('focus',visibility);unsubscribe=session.subscribe(render);await session.start(matchId);
  return {session,artReady:Promise.all([commonArt,libraryAssets.ready]),get game(){return game;},get presentationStats(){return presentation.stats},dispose(){disposed=true;unsubscribe?.();document.removeEventListener('visibilitychange',visibility);document.removeEventListener('mothership:art-ready',artReady);win.removeEventListener('blur',concealRole);win.removeEventListener('focus',visibility);presentation.dispose();pregame.dispose();preferences.dispose();renderer?.dispose();game?.dispose();session.dispose();libraryAssets.dispose();void connection.dispose?.();delete root.dataset.crewArt;root.replaceChildren();}};
 }

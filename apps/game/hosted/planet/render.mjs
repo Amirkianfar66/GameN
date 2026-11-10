@@ -13,7 +13,7 @@ import {createPlanetMotion,planetOutcomeWords,planetOutcomeTakesPrecedence} from
 import {createPlanetLibrary} from './library.mjs';
 import {createPlanetCinematic} from './cinematic.mjs';
 import {phoneLayouts,phoneRoom,createBlackoutGeometry} from './phone-layout.mjs';
-import {labelPhoneControl} from './phone-controls.mjs';
+import {labelPhoneControl,phoneIcon,phoneActionIcon,phonePanelIcon} from './phone-controls.mjs';
 
 const windowNames={A_B:'Room A ↔ Room B',A_HOSPITAL:'Room A ↔ Hospital',B_JAIL:'Room B ↔ Jail'};
 const number=id=>id?`Player ${id.slice(5)}`:'—';
@@ -46,7 +46,8 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
  const rosterText=el('ul',null,'ms-visually-hidden');rosterText.setAttribute('aria-label','Authorized board facts');
  const resultPanel=el('section',null,'planet-result');resultPanel.setAttribute('aria-label','Authoritative result');
  const targetBar=el('div',null,'planet-target-bar');targetBar.hidden=true;
- stage.append(holder,targets);root.replaceChildren(stage,header,nav,sheet,status,words,resultPanel,rosterText,targetBar);
+ const scrollSpace=el('div',null,'planet-scroll-space');scrollSpace.setAttribute('aria-hidden','true');
+ stage.append(holder,targets,scrollSpace);root.replaceChildren(stage,header,nav,sheet,status,words,resultPanel,rosterText,targetBar);
  const media=win.matchMedia('(prefers-reduced-motion: reduce)'),motion=createPlanetMotion({transitDurationMs:cinematics.find(c=>c.name==='transit')?.durationMs??0}),capsule=createBoardV2Capsule(),blackout=createBoardV2Blackout(),films=createBoardV2Films(root,holder),rescue=createPlanetRescuePainter(holder),cinematic=createPlanetCinematic(holder,cinematics);
  let checkpointText='';
  let model=null,layout=null,frame=null,raf=null,disposed=false,more=false,uiKey=null,lastPanel='board',sceneMode='room',currentRoom='room-a',allLayouts=null;
@@ -59,7 +60,7 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   [{id:'back',cssVar:'--board-v2-film-scenes-hospital-ward-four-back',sceneDepth:-1000},...Object.entries(sceneOf(room,model.playerCount).layers).map(([id,layer])=>({id,cssVar:`--board-v2-film-scenes-hospital-ward-four-${id}`,sceneDepth:layer.depth}))]:
   [{id:'back',cssVar:`--bm-scene-${room}-back`,sceneDepth:-1000},...Object.entries(sceneOf(room,model.playerCount).layers).map(([id,layer])=>({id,cssVar:`--bm-scene-${room}-${id.replace(/[A-Z]/g,c=>'-'+c.toLowerCase())}`,sceneDepth:layer.depth}))];
  const addText=(text,tag='p')=>sheetBody.append(el(tag,text));
- const beginButton=type=>{const b=button(PLANET_ACTION_LABELS[type],'begin',type);b.id=`planet-action-${type}`;return b;};
+ const beginButton=type=>{const b=labelPhoneControl(button(PLANET_ACTION_LABELS[type],'begin',type),PLANET_ACTION_LABELS[type],phoneActionIcon(type));b.id=`planet-action-${type}`;b.classList.add('planet-action-tile');return b;};
  function rosterGrid({choices=[],selected=[],counts=null,result=false}={}){
   const grid=el('div',null,'planet-roster-grid');grid.setAttribute('aria-label',result?'Vote totals by player':'Choose a player');
   for(let n=1;n<=9;n++){
@@ -146,7 +147,7 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
  }
  function renderAction(){
   const action=model.action;if(!action)return false;
-  addText(action.label,'h2');if(!action.confirmation)addText(action.prompt);
+  const heading=el('h2',null,'planet-action-heading');heading.append(phoneIcon(document,phoneActionIcon(action.type)),el('span',action.label));sheetBody.append(heading);if(!action.confirmation)addText(action.prompt);
   if(action.confirmation)addText(action.confirmation);
   const boardChoice=!['PANEL_CODE','SUBMIT_CODE','VOTE'].includes(action.type)&&action.choices.some(c=>/^seat-[1-9]$/.test(c.value))||action.type==='MOVE'&&['targets','slots'].includes(action.step)||action.type==='SELECT_BLACKOUT_SLOT'&&action.step==='slots';
   if(boardChoice){sheet.hidden=true;return true;}
@@ -173,7 +174,7 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
    if(model.panel==='settings'){addText('Settings','h2');settings?.(sheetBody);}
    else if(model.dark){addText('Blackout','h2');addText('People and windows are hidden.');if(model.panel==='actions')for(const o of p?.offers??[])sheetBody.append(beginButton(o.type));}
    else if(model.phase?.expired){addText('Waiting for the server','h2');}
-   else if(more||model.panel==='panels'){addText('Panels','h2');for(const [label,value]of [['Windows','windows'],['Navigation','navigation'],['Hospital panel','hospital'],['Players','players'],['Round order','round-order']])sheetBody.append(button(label,'panel',value));}
+   else if(more||model.panel==='panels'){addText('Panels','h2');for(const [label,value]of [['Windows','windows'],['Navigation','navigation'],['Hospital panel','hospital'],['Players','players'],['Round order','round-order']]){const b=labelPhoneControl(button(label,'panel',value),label,phonePanelIcon(value));b.classList.add('planet-panel-option');sheetBody.append(b);}}
    else if(model.panel==='players'){addText('Players','h2');for(const seat of model.board?.seats??[]){const who=model.identities.find(i=>i.seatId===seat.seatId);addText(`${number(seat.seatId)} · ${who?.displayName??''} · ${seat.location??'Off board'} · ${seat.health}${seat.jailed?' · Detained':''}`);}}
    else if(model.panel==='round-order'){addText('Round order','h2');addText('Follow the current phase and the server clock.');addText('Player turns · Private talk · Sync when applicable · Jail vote · Result · Blackout · Resolution · Navigation');}
    else if(model.panel==='card')renderCard(p);
@@ -192,7 +193,7 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
     if(model.canMove)sheetBody.append(beginButton('MOVE'));
     if(p?.blackoutTargeting?.selectedSlotId)addText(`Your fixed selection: ${p.blackoutTargeting.selectedSlotId}.`);
     if(p?.ownBallot?.phaseId===model.phase.id)addText(`Your registered ballot: ${p.ownBallot.targetSeatId?number(p.ownBallot.targetSeatId):'Abstain'}.`);
-    if(p?.captainCommands)for(const [type,used]of [['CAPTAIN_RELEASE',p.captainCommands.releaseUsed],['CAPTAIN_EJECT',p.captainCommands.ejectUsed]]){const b=beginButton(type),available=p.offers?.some(o=>o.type===type);b.disabled=used||!available;b.textContent=`${PLANET_ACTION_LABELS[type]} · ${used?'USED':available?'AVAILABLE':'UNAVAILABLE'}`;b.dataset.captainPlate=used?'used':available?'available':'unavailable';b.style.backgroundImage=`var(--board-v2-film-captain-plate-${type==='CAPTAIN_RELEASE'?'release':'eject'}-${b.dataset.captainPlate})`;sheetBody.append(b);}
+    if(p?.captainCommands)for(const [type,used]of [['CAPTAIN_RELEASE',p.captainCommands.releaseUsed],['CAPTAIN_EJECT',p.captainCommands.ejectUsed]]){const b=beginButton(type),available=p.offers?.some(o=>o.type===type);b.disabled=used||!available;labelPhoneControl(b,`${PLANET_ACTION_LABELS[type]} · ${used?'USED':available?'AVAILABLE':'UNAVAILABLE'}`,phoneActionIcon(type));b.dataset.captainPlate=used?'used':available?'available':'unavailable';b.style.backgroundImage=`var(--board-v2-film-captain-plate-${type==='CAPTAIN_RELEASE'?'release':'eject'}-${b.dataset.captainPlate})`;sheetBody.append(b);}
     if(p?.hackFeedback)addText(p.hackFeedback.status==='DECLARED'?`Claim: ${p.hackFeedback.declaredSide}. Unverified.`:p.hackFeedback.status==='NO_DECLARATION'?'No side was declared.':'Waiting for the private claim.');
     const offers=p?.offers?.filter(o=>!['PASS_TURN','MOVE','SHOW_WINDOW','ACCEPT_PROMISE','DECLINE_PROMISE','OFFER_PROMISE','CHOOSE_NAV_DIRECTION','CONFIRM_NAVIGATION','PANEL_CODE','CAPTAIN_RELEASE','CAPTAIN_EJECT'].includes(o.type))??[];
     for(const offer of offers)sheetBody.append(beginButton(offer.type));
@@ -260,11 +261,11 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
    const room=roomFor(choice.value);if(!room||!['MOVE','SELECT_BLACKOUT_SLOT'].includes(action.type))continue;
    if(sceneMode==='room'&&room!==currentRoom)continue;
    const r=rects(room,model.playerCount,layout.board.panels[room]).find(s=>s.id===choice.value),b=layout.board.boxes[room];
-   const target=button(choice.label,'choose',choice.value);target.className='bv2-slot-target';target.id=`planet-slot-${choice.value}`;target.setAttribute('aria-label',`Choose ${action.type==='SELECT_BLACKOUT_SLOT'?'fixed':'empty'} position ${choice.label}`);putBox(target,{left:b.left+layout.board.shell.border+r.left,top:b.top+layout.board.shell.border+r.top,width:r.side,height:r.side});targets.append(target);
+   const target=button(choice.label,'choose',choice.value);target.className='bv2-slot-target';target.id=`planet-slot-${choice.value}`;target.setAttribute('aria-label',`Choose ${action.type==='SELECT_BLACKOUT_SLOT'?'fixed':'empty'} position ${choice.label}`);target.setAttribute('aria-describedby','ms-action-step');putBox(target,{left:b.left+layout.board.shell.border+r.left,top:b.top+layout.board.shell.border+r.top,width:r.side,height:r.side});targets.append(target);
   }
   const absent=action.choices.filter(c=>/^seat-[1-9]$/.test(c.value)&&!model.board?.seats.find(s=>s.seatId===c.value)?.location);
   if(absent.length){const memorial=el('div',null,'planet-offboard');memorial.append(el('span','Off board'));for(const choice of absent)memorial.append(button(choice.label,'choose',choice.value));targets.append(memorial);}
-  if(sheet.hidden){targetBar.hidden=false;targetBar.append(el('p',action.prompt),button('Cancel','close'));
+  if(sheet.hidden&&!model.dark){targetBar.hidden=false;targetBar.append(el('p',action.prompt));
    const alternatives=el('details',null,'planet-target-alternative');alternatives.append(el('summary','Target list'));
    for(const choice of action.choices)if(/^seat-[1-9]$/.test(choice.value)){const who=model.identities.find(i=>i.seatId===choice.value);alternatives.append(button(`${who?.displayName??choice.label} · ${number(choice.value)}`,'choose',choice.value));}
    if(alternatives.children.length>1&&!model.dark)targetBar.append(alternatives);
@@ -297,8 +298,9 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   if(model.concealed||model.dark)resultPanel.hidden=true;
   status.textContent=model.dark?'':model.message??'';status.hidden=!status.textContent||model.action?.prompt===model.message;
   const voting=['JAIL_VOTE','CAPTAIN_ELECTION'].includes(model.phase?.kind),voted=voting&&model.ownBallot?.phaseId===model.phase.id;
-  labelPhoneControl(pass,voting?voted?'Voted':'Vote':'Pass',voting?'vote':'pass');pass.dataset.value=voting?'VOTE':'PASS_TURN';
-  pass.disabled=voting?!model.canVote:!model.canPass;pass.setAttribute('aria-disabled',String(pass.disabled));pass.hidden=model.surface==='display'||model.concealed;
+  const picking=model.action&&['targets','slots'].includes(model.action.step)&&!['VOTE','SUBMIT_CODE','PANEL_CODE'].includes(model.action.type);
+  labelPhoneControl(pass,picking?`Cancel ${model.action.label}`:voting?voted?'Voted':'Vote':'Pass',picking?'close':voting?'vote':'pass');pass.dataset.planetAction=picking?'close':'begin';pass.dataset.value=voting?'VOTE':'PASS_TURN';pass.dataset.picking=String(!!picking);
+  pass.disabled=picking?false:voting?!model.canVote:!model.canPass;pass.setAttribute('aria-disabled',String(pass.disabled));pass.hidden=model.surface==='display'||model.concealed;
   nav.hidden=model.surface==='display'||model.concealed;
   if(lastPanel!==model.panel){drawings.clear();more=false;lastPanel=model.panel;}
   if(model.privateArea===null||model.concealed||model.dark||model.phase?.expired)drawings.clear();
@@ -333,6 +335,10 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   }else {frame=null;holder.replaceChildren();}
   const key=JSON.stringify([model.versions,model.panel,more,model.action,model.privateArea,model.recovery,model.concealed,model.phase?.expired,model.phase?.id,model.round,model.result,model.dark,model.identities,sceneMode,currentRoom,model.canMove]);
   if(key!==uiKey){uiKey=key;renderUI();}renderTargets();
+  // Scroll clearance lets every board target move above the prompt without moving
+  // any room, figure or fixed-slot coordinates. Darkness keeps only the frozen scene.
+  const clearance=targetBar.hidden?0:targetBar.getBoundingClientRect().height+16;
+  scrollSpace.style.height=`${(layout?.contentHeight??0)+clearance}px`;stage.style.scrollPaddingBottom=`${clearance}px`;
   const clock=model.presentation?{current:model.connection==='live'&&!model.phase.expired,kind:model.phase.kind,phaseId:model.phase.id,nowMs:model.presentation.nowMs,startedAt:model.presentation.startedAt,endsAt:model.presentation.endsAt}:null;
   const talk=model.talk&&clock?{hackId:model.talk.id,actorSeatId:model.talk.actorSeatId,targetSeatId:model.talk.targetSeatId,stage:model.phase.kind,phaseId:model.phase.id,current:clock.current,startedAt:clock.startedAt,endsAt:clock.endsAt,elapsedMs:clock.nowMs-clock.startedAt}:null;
   blackout.update(clock,model.presentation?.blackout?{...model.presentation.blackout,snapshotId:model.presentation.blackout.windowId}:null,{visible:!model.concealed&&document.visibilityState==='visible',reducedMotion:reduced()});
