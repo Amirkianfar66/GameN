@@ -1,6 +1,6 @@
 import {createHash,randomBytes,randomInt,randomUUID} from 'node:crypto';
 import {
-  PLANET_GAME_PINS,PLANET_PHONE_OFFER_PINS,PLANET_PHONE_ENGINE_PROFILE,PLANET_SETUP_FLOW_VERSION,PLANET_BOARDING_DURATION_MS,
+  PLANET_GAME_PINS,PLANET_PHONE_OFFER_PINS,PLANET_PHONE_ENGINE_PROFILE,PLANET_BLACKOUT_PINS,PLANET_BLACKOUT_ENGINE_PROFILE,PLANET_SETUP_FLOW_VERSION,PLANET_BOARDING_DURATION_MS,
   PLANET_TIMED_READING_SETUP_FLOW_VERSION,PLANET_ROLE_CARD_DURATION_MS,PLANET_ROLE_FILM_DURATION_MS,PLANET_READING_DURATION_MS,IdentifierSchema,
   PlanetServiceRequestSchema,PlanetSessionSnapshotSchema,PlanetReceiptSchema,
   PlanetPublicViewSchema,PlanetPlayerViewSchema,PlanetVersionsSchema,PlanetRecoveryResultSchema,CrewCharacterIdSchema,
@@ -71,17 +71,18 @@ function shuffle<T>(values:readonly T[],samples:number[]):T[] {
 export function createPlanetService<S extends PlanetStateEnvelope>(dependencies:{
   store:PlanetPersistence;engine:PlanetEnginePort<S>;clock?:()=>number;newId?:()=>string;
   randomSamples?:()=>number[];newRecoveryCode?:()=>string;assetManifestVersion?:string;enabled?:boolean;setupFlowVersion?:1|2|3;
-  engineProfile?:typeof PLANET_PHONE_ENGINE_PROFILE;
+  engineProfile?:typeof PLANET_PHONE_ENGINE_PROFILE|typeof PLANET_BLACKOUT_ENGINE_PROFILE;
 }){
   if(dependencies.setupFlowVersion!==undefined&&dependencies.setupFlowVersion!==1&&dependencies.setupFlowVersion!==2&&dependencies.setupFlowVersion!==3)
     throw new Error('Unsupported Planet setup flow version');
-  if(dependencies.engineProfile!==undefined&&dependencies.engineProfile!==PLANET_PHONE_ENGINE_PROFILE)
+  if(dependencies.engineProfile!==undefined&&dependencies.engineProfile!==PLANET_PHONE_ENGINE_PROFILE&&dependencies.engineProfile!==PLANET_BLACKOUT_ENGINE_PROFILE)
     throw new Error('Unsupported Planet engine profile');
   const engine:PlanetEnginePort<S>=dependencies.engine;
   const {store}=dependencies,clock=dependencies.clock??Date.now,newId=dependencies.newId??randomUUID;
   const randomSamples=dependencies.randomSamples??(()=>Array.from({length:64},()=>randomInt(0x1_0000_0000)/0x1_0000_0000));
   const newRecoveryCode=dependencies.newRecoveryCode??(()=>randomBytes(24).toString('base64url'));
-  const pins=dependencies.engineProfile===PLANET_PHONE_ENGINE_PROFILE?PLANET_PHONE_OFFER_PINS:PLANET_GAME_PINS;
+  const pins=dependencies.engineProfile===PLANET_BLACKOUT_ENGINE_PROFILE?PLANET_BLACKOUT_PINS:
+    dependencies.engineProfile===PLANET_PHONE_ENGINE_PROFILE?PLANET_PHONE_OFFER_PINS:PLANET_GAME_PINS;
   const versions=PlanetVersionsSchema.parse({...pins,assetManifestVersion:dependencies.assetManifestVersion??'design-0.5.0'});
   const context=():PlanetContext=>({now:clock(),nextPhaseId:newId(),nextDeadlineToken:newId(),random:randomSamples()});
   const success=(result:unknown):PlanetServiceResponse=>({ok:true,serverTimeMs:clock(),result});

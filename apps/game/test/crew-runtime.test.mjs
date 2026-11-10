@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import {test} from 'node:test';
-import {PLANET_GAME_PINS,PLANET_PHONE_OFFER_PINS} from '@mothership/contracts';
+import {PLANET_GAME_PINS,PLANET_PHONE_OFFER_PINS,PLANET_BLACKOUT_PINS} from '@mothership/contracts';
 import {hasCrewDrawing,crewFigureSvg,crewPortraitVariable,crewForVersions} from '../hosted/crew-runtime.mjs';
 import {CREW as oldCrew} from '../hosted/scene-drawing/crew.mjs';
 import {dressedFigureSvg as oldFigure} from '../hosted/scene-drawing/wardrobe.mjs';
@@ -40,4 +40,10 @@ test('private role/faction inputs cannot select a different public character dra
  const sk=skeletonOf('stand'),options={versions:current,prefix:'public-person'};
  const original=crewFigureSvg('c8',sk,options);
  for(const role of ['Doctor','Hacker','Alien'])for(const faction of ['Blue','Red','Alien'])assert.equal(crewFigureSvg('c8',sk,{...options,versions:{...current,role,faction}}),original);
+});
+test('exact 1.3 pre-vote pins retain all released crew, gown and prison drawings without admitting mixed tuples',()=>{
+ for(const assetManifestVersion of ['design-0.7.0','design-0.8.0']){const candidate={...PLANET_BLACKOUT_PINS,assetManifestVersion},released={...PLANET_GAME_PINS,assetManifestVersion};assert.equal(hasCrewDrawing(candidate),true);
+  for(let n=1;n<=9;n++)for(const outfit of ['crew','gown','prison'])for(const pose of ['stand','walk','tablet']){const options={prefix:'same-public-figure',outfit};assert.equal(crewPortraitVariable('c'+n,candidate),crewPortraitVariable('c'+n,released));assert.equal(crewFigureSvg('c'+n,skeletonOf(pose),{...options,versions:candidate}),crewFigureSvg('c'+n,skeletonOf(pose),{...options,versions:released}));}
+  for(const patch of [{engineVersion:'planet-game-1.3.1'},{rulesetVersion:PLANET_GAME_PINS.rulesetVersion},{rulesetHash:PLANET_GAME_PINS.rulesetHash}]){assert.equal(hasCrewDrawing({...candidate,...patch}),false);assert.equal(crewPortraitVariable('c1',{...candidate,...patch}),'none');}
+ }
 });

@@ -1,6 +1,6 @@
 import { PlanetCommandSchema, PlanetCommandRequestSchema, PlanetDrawingSchema } from '@mothership/contracts';
 import type { PlanetCommand, PlanetCommandRequest, PlanetDrawing, PlanetOffer, PlanetPlayerView, SeatId } from '@mothership/contracts';
-import { PLANET_ACTION_LABELS, ownPlanetWindows, planetConfirmation, planetIsPlayer, planetRolePresentation,planetPromiseTerms,planetPlayerNumberChoices,planetRegistrationText } from '@mothership/presentation';
+import { PLANET_ACTION_LABELS, ownPlanetWindows, planetConfirmation, planetIsPlayer, planetRolePresentation,planetPromiseTerms,planetPlayerNumberChoices,planetRegistrationText,planetHasPrivateOffers,planetHasPrivateFeedback,planetBoardLabel } from '@mothership/presentation';
 import type { PlanetActionModel, PlanetCommandType, PlanetPanel, PlanetScreenModel, PlanetView } from '@mothership/presentation';
 import type { PlayerPorts } from '../ports.js';
 import { createServerClock } from '../clock/server-clock.js';
@@ -110,7 +110,7 @@ export function createPlanetController(transport:PlanetTransport,ports:PlayerPor
    protocolVersion:3,versions:current?.versions??null,surface:expected.surface,mode:transport.mode,connection:failed?'error':connecting?'connecting':shown?'live':'stale',message,
    matchId:expected.matchId,playerCount:current?.playerCount??null,round:current?.round??null,revision:current?.viewRevision??null,
    board:currentBoard&&frozen&&current?.blackout?.windowId===frozen.id?frozen.board:currentBoard,
-   boardLabel:current&&expected.surface==='display'?`Last finalized board · Round ${current.board.finalizedRound}`:null,
+   boardLabel:current?planetBoardLabel(current):null,
    phase:current?{id:current.phase.id,kind:current.phase.kind,startedAt:current.phase.startedAt,endsAt:current.phase.endsAt,nowMs:time.status==='synced'?time.serverNowMs:null,remainingMs:time.status==='synced'&&current.phase.endsAt!==null?Math.max(0,current.phase.endsAt-time.serverNowMs):null,trusted:time.status==='synced',expired:!valid}:null,
    offices:current?.offices??null,activeSeatId:current?.activeSeatId??null,talk:current?.hackSession??null,navigation:current?.navigation??null,result:current?.result??null,endReveal:current?.endReveal??null,lastTally:current?.lastTally??null,
    identities:current&&!dark?transport.identities?.().filter(i=>current.board.seats.some(s=>s.seatId===i.seatId))??[]:[],
@@ -217,7 +217,7 @@ export function createPlanetController(transport:PlanetTransport,ports:PlayerPor
    draft.choices=targeting.slotIds.filter(s=>o.slotIds.includes(s)).map(value=>({value,label:value}));
   }else if(type==='CHOOSE_NAV_DIRECTION'||type==='DECLARE_HACK_SIDE'){
    draft.step=type==='CHOOSE_NAV_DIRECTION'?'direction':'faction';
-   draft.choices=(type==='CHOOSE_NAV_DIRECTION'?['Blue','Red']:p.versions.engineVersion==='planet-game-1.2.0'?o.declaredSides??[]:['Blue','Red','Alien']).map(value=>({value,label:value}));
+   draft.choices=(type==='CHOOSE_NAV_DIRECTION'?['Blue','Red']:planetHasPrivateOffers(p.versions)?o.declaredSides??[]:['Blue','Red','Alien']).map(value=>({value,label:value}));
   }else if(type==='ACCEPT_PROMISE'||type==='DECLINE_PROMISE'){
    draft.step='promise';draft.prompt='Select the exact incoming Promise.';
    draft.choices=p.promises.filter(x=>!x.accepted&&x.recipientSeatId===p.self.seatId&&x.round===p.round&&
@@ -279,7 +279,7 @@ export function createPlanetController(transport:PlanetTransport,ports:PlayerPor
   if(c.type==='SUPPLY')return c.targetSeatIds.every(id=>o.targetSeatIds.includes(id));
   if(c.type==='SUBMIT_CODE')return c.seatIds.every(id=>o.targetSeatIds.includes(id));
   if(c.type==='PANEL_CODE')return o.targetSeatIds.includes(c.doctorSeatId);
-  if(c.type==='DECLARE_HACK_SIDE'&&p.versions.engineVersion==='planet-game-1.2.0')return o.declaredSides?.includes(c.declaredSide)===true;
+  if(c.type==='DECLARE_HACK_SIDE'&&planetHasPrivateOffers(p.versions))return o.declaredSides?.includes(c.declaredSide)===true;
   if(c.type==='SELECT_BLACKOUT_SLOT')return isDark()&&!!p.blackoutTargeting?.selectable&&c.windowId===p.blackoutTargeting.windowId&&o.slotIds.includes(c.slotId)&&p.blackoutTargeting.slotIds.includes(c.slotId);
   if(c.type==='OFFER_PROMISE'){
    const talk=p.hackSession;const pair=talk&&[talk.actorSeatId,talk.targetSeatId];
@@ -298,7 +298,7 @@ export function createPlanetController(transport:PlanetTransport,ports:PlayerPor
  }
  function settle(payload:unknown,item:Unsettled):boolean{
   const receipt=readPlanetReceipt(payload,item.context);if(!receipt)return false;
-  if(receipt.status==='rejected'&&receipt.code==='NO_INJECTION'&&(!['planet-game-1.1.0','planet-game-1.2.0'].includes(view?.versions.engineVersion??'')||item.request&&item.request.command.type!=='PANEL_CODE'))return false;
+  if(receipt.status==='rejected'&&receipt.code==='NO_INJECTION'&&(!planetHasPrivateFeedback(view?.versions)||item.request&&item.request.command.type!=='PANEL_CODE'))return false;
   panelRejection=receipt.status==='rejected'&&receipt.code==='NO_INJECTION'&&interactionOpen&&view?{phaseId:view.phase.id,revision:view.viewRevision}:null;
   try{ports.unresolved.clear();}catch{storageBlocked=true;}
   unsettled=null;draft=null;

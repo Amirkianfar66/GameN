@@ -1,0 +1,100 @@
+{
+  "decision_id": "planet-blackout-before-vote-owner-decision-2026-11-10",
+  "status": "owner-confirmed-awaiting-versioned-implementation",
+  "recorded_on": "2026-11-10",
+  "integration_base_commit": "19564d0c618dae9995bbd92979d248e82dba0a8f",
+  "protocol_version": 3,
+  "engine_version": "planet-game-1.3.0",
+  "ruleset_version": "in-person-planet-blackout-before-vote-2026-11-10",
+  "authority": {
+    "conversation_id": "01a0de94-e774-7a53-80fd-5897c518c9bf",
+    "owner_answer": "I recommend resolving Blackout before the Jail vote",
+    "record_path": "docs/specifications/planet-successor/blackout-before-vote-owner-decision-2026-11-10.md",
+    "record_sha256": "120d6924801eda253011730ef53cf73e3c252b297507e099e73ba9b31e336256",
+    "adoption_commit": "7958c9f590b2bf0e074cd32c67ce0bf0202b6279",
+    "original_record_commit": "8685e5fb12bfa64c609442d6cd7acb6e5052d54e",
+    "scope": "The owner selected Proposal B after Integration explained that a later Jail vote cannot undo completed damage and that immediate Hospital-four overflow can permanently eliminate a victim before later Rescue frees a bed. Detailed engineering recommendations remain subject to implementation review."
+  },
+  "precedence": "This latest explicit owner decision supersedes only the conflicting Blackout order, admission/cancellation timing and physical/public checkpoint consequences below. All unsuperseded predecessor rules and privacy boundaries remain in force. Preserve every historical source byte and pinned match.",
+  "supersedes": [
+    "The post-Jail-vote/result Blackout placement in the 5 November successor resolution order and October Q-B02a / BLACKOUT-01.",
+    "The direct post-Sync-presentation-to-Jail-vote transition in P27: insert the complete Blackout targeting and committed outcome checkpoint between them; preserve the independent six-second presentation and full sixty-second vote.",
+    "Q-B02b / BLACKOUT-02 cancellation caused by that later same-round Jail vote: cancellation without lifetime consumption applies before admission only; later Jail cannot cancel or refund a committed attempt or completed strike.",
+    "The after-Jail room/snapshot timing in Q-B02c/d: bind admitted requesters and freeze current selected-world positions before the new pre-vote lit preview.",
+    "The combined interleaving of Blackout with ordinary shots: resolve admitted Blackout attempts before voting, while preserving remaining actions' relative Main-before-Shot order afterward.",
+    "The single combined Hospital admission checkpoint for Blackout candidates: settle their physical admission/overflow before voting, without credit for later queued Rescue; retain already-admitted occupants at later checkpoints.",
+    "The phone1.2 compatibility descriptor's inherited post-vote Blackout order and unresolved-order exclusion only; its private-offer semantics and independent setup-flow policy remain inherited.",
+    "The pending-choice status of Proposal B in docs/backend/planet-blackout-timing-proposals.md at commit19564d0c618dae9995bbd92979d248e82dba0a8f. That proposal document is supporting engineering context, not additional owner quotations or blanket approval of every implementation detail."
+  ],
+  "confirmed_rules": [
+    {
+      "id": "BHVOTE-01",
+      "rule": "Finish ordinary turns and the final private conversation. Preserve existing movement and Captain-command cutoffs, and close Hospital-panel submissions. If Blackhole is active, uniformly Sync one complete current reality, including its inherited pending actions, effects, reservations and costs, then run the independent six-second presentation. Without Blackhole, add no presentation delay. Never resolve an attack, Promise or ending in a discarded reality."
+    },
+    {
+      "id": "BHVOTE-02",
+      "rule": "Every normal round has the same shared15000ms BLACKOUT window before Jail voting:5000ms lit followed by10000ms dark, including zero surviving requests. Do not shorten either interval for early choices, absence of requests, disconnect, animation, reduced motion or missing assets. Keep logical positions fixed throughout the full window and do not reopen ordinary movement, Captain commands or Hospital-panel submissions."
+    },
+    {
+      "id": "BHVOTE-03",
+      "rule": "At window admission retain only eligible Healthy/free requesters from the selected reality. Cancel an ineligible untargeted request without spending its lifetime use. Bind each admitted request to the actor's current room and snapshot logical occupancy and health before the lit preview. Preserve fixed-position targeting, existing Command immunity and the existing selectable logical positions, including neutral empty/self/body positions."
+    },
+    {
+      "id": "BHVOTE-04",
+      "rule": "The first valid selection in the half-open dark interval locks the attempt and spends the lifetime use once. Invalid inputs do not lock or immediately spend; exact retries recover the original accepted choice. Empty/self/already-Eliminated snapshot occupants are consuming misses, with no replacement or self-damage. An admitted timeout consumes once, including disconnection. Capture every legitimate final target before damage; retain both attempts on the same occupant."
+    },
+    {
+      "id": "BHVOTE-05",
+      "rule": "At the full Blackout deadline, resolve only the admitted Blackout batch in stored actor order, against its frozen target identities. Later actor incapacity, including an earlier admitted strike incapacitating another requester, does not cancel a committed attempt. Recheck target health and existing defenses; preserve Clone-first priority, Protection consumption, one-damage effects, no replacement/refund after prior elimination, and next-round activation of newly queued Protection. Do not expire Clone at this partial checkpoint. A later Jail vote cannot undo damage or restore the spent use."
+    },
+    {
+      "id": "BHVOTE-06",
+      "rule": "Commit actual Blackout health, office and physical-placement consequences before voting. Hospital has exactly four physical beds including retained bodies. Reconcile new injury/second-hit-body candidates in existing numeric seat order against beds actually available at this checkpoint. Apply the existing permanent offboard overflow rule immediately when admission fails, clearing the denied candidate's medical/detention/office state and suppressing provisional clinical admission facts. Later queued Rescue cannot retroactively free a bed for an overflow-removed victim or revive an Eliminated player. Earlier admitted patients/bodies retain their places against later ordinary-attack candidates. No persistent waitlist, fifth bed or committed Injured occupant outside Hospital is introduced."
+    },
+    {
+      "id": "BHVOTE-07",
+      "rule": "After the Blackout batch and placement commit, start a fresh full60000ms JAIL_VOTE from its actual authoritative start; delayed delivery does not shorten it. Use the committed post-Blackout state for existing voter/target eligibility, eligible-count thresholds and offices. Living Injured/Jailed players retain their existing voting permissions. Evaluate giver-only Meet A/B at this actual voting opportunity after forced transfers. Actual Jail ballots and all other Promise types, quotas and opportunity rules are unchanged."
+    },
+    {
+      "id": "BHVOTE-08",
+      "rule": "Apply Jail admission/capacity and its full5000ms VOTE_RESULT normally. A selected Injured patient remains physically in Hospital, gaining detention/reservation only if capacity permits. Keep five-place accounting, physical-Jail command scope and unrelated Hospital reservations. A full Jail does not invalidate the actual ballot or its Promise. Do not add an empty-electorate shortcut to the full vote/result intervals."
+    },
+    {
+      "id": "BHVOTE-09",
+      "rule": "After the result, resolve only the remaining queued actions and ordinary attacks in their existing relative stored actor order, each Main Action before ordinary Shot. Preserve accepted fixed targets, costs and persistence after actor injury/Jail/elimination. Then resolve retained Doctor/panel Rescue, Round3 Supply, due medical deaths, final placement, permitted faction reveals and Clone expiry under existing rules. A queued treatment can heal a still-Injured target but cannot revive an Eliminated/overflow-removed player. Settle panel reservations only at their actual Rescue opportunity. Do not add a medical aging tick or change injury due rounds. Evaluate No survivors only after the relevant complete finalization, then follow existing navigation/arrival rules."
+    },
+    {
+      "id": "BHVOTE-10",
+      "rule": "The shared board may publish the selected current targeting positions and the authorized completed post-Blackout state as distinct finalized checkpoints while remaining ordinary actions/Rescue are pending. Publish a complete canonical board snapshot, not a mixture with stale positions. Registration is not resolution. Keep the target picker/request/cost private and preserve existing faction-reveal timing, exact-role/Code disclosure, route secrecy, speculative-state prohibition and absence of branch identifiers/counts."
+    },
+    {
+      "id": "BHVOTE-11",
+      "rule": "Keep public lighting/timing identical across no-request, canceled, miss, timeout and hit cases. Existing cause-neutral block events remain player-room-only, with recipients frozen from the target's actual physical room immediately before impact, including the subject and retained bodies but excluding later entrants, outsiders, nonparticipating host and shared display. Buffer complete-batch publication with canonical subject order, common checkpoint time and existing audience-scoped deduplication/freshness; reveal no hidden attacker/order, defense cause, grantor, role or resource count."
+    }
+  ],
+  "unchanged_inheritance": [
+    "The exact1.2 private-offer semantics: PANEL_CODE offers every original public identity in numeric order, including eliminated players, independently of stock; DECLARE_HACK_SIDE carries only the actor-private subset permitted by existing command rules. Existing command availability/cost validation and all historical packet shapes are preserved.",
+    "The1.1/P27/P28 private-feedback authority: global patient knowledge with world-local reservations, Engineer-private capture, giver-only Meet, the six-second actual-Sync presentation, neutral fixed NAV_SETTING from Round2, eligible private Officer tie choice, confirmations and Round1 movement.",
+    "Ordinary shooting remains available from Round4 under existing turn/ammunition rules; this decision changes Blackout priority, not ordinary shooting eligibility or a new action window.",
+    "The living Hacker's existing Round2-to-navigation final-Code permission, including Injured/Jailed status and independence from Role Action, remains unchanged.",
+    "Existing window endpoints, drawing/Show ownership, audience, expiry and dark-stage restrictions remain unchanged; no window bypass of darkness or extra communication channel is introduced.",
+    "Setup flow versions, the saved20+10 timed reading/manual Ready behavior, boarding, artwork selection and engine creation profiles remain independent. This decision changes no setup default or asset pin. Optional Original Powers remain off."
+  ],
+  "implementation_recommendations": [
+    "Reuse the existing BLACKOUT phase,15000ms interval and REQUEST_BLACKOUT/SELECT_BLACKOUT_SLOT commands. Keep the admitted frozen snapshot/health/target identities in private engine persistence, not a new public or player wire occupant map.",
+    "Persist private per-round/window and original-request completion evidence distinguishing registration, admitted/final choice or timeout, lifetime charge and resolved outcome. Atomically commit the complete Blackout batch, placement, completion markers, views, fresh full vote and deadline outbox. Stale/duplicate work cannot resolve or charge twice.",
+    "Split Blackout-only effects/placement from the remaining-action resolver. Remove or exclude only completed Blackout attempts from the later pending queue while preserving journal evidence and all other accepted actions. Never run the complete ordinary resolver early and reconstruct its queue afterward.",
+    "Use candidate-only public board checkpoint metadata distinguishing PRE_BLACKOUT, AFTER_BLACKOUT and ROUND_FINALIZED, with exact schema chosen/reviewed by Integration. AFTER_BLACKOUT identifies a completed partial batch, not a fully resolved round; do not expose a pending-action list. Historical packets omit the new field.",
+    "Animation, reconnect, reduced motion and missing assets consume the persisted server interval and cannot resolve strikes or advance voting. Verify rule/contract compatibility, original tuples, retries, medical checkpoints, audiences and fresh vote deadlines before release; these recommendations are not claims of completed checks."
+  ],
+  "version_boundary": {
+    "required_engine_version": "planet-game-1.3.0",
+    "required_ruleset_version": "in-person-planet-blackout-before-vote-2026-11-10",
+    "new_matches_only": true,
+    "historical_sources_rewritten": false,
+    "existing_matches_migrated": false,
+    "runtime_implemented_by_this_record": false,
+    "creation_default_activated_by_this_record": false,
+    "deployment_authorized_by_this_record": false
+  }
+}

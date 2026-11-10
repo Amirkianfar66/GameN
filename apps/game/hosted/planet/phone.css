@@ -13,6 +13,8 @@
 .planet-header .planet-timer{font-size:1rem;line-height:1.2;font-weight:700;padding:0 3px;color:var(--phone-text);white-space:nowrap}
 .planet-timer[data-urgent=true],.planet-app[data-own-turn=true] .planet-active-detail{color:#F7D886}
 .planet-header>small,.planet-header>p{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;clip-path:inset(50%)!important}
+.planet-app[data-surface=display] .planet-header>.planet-shared-checkpoint{position:static!important;width:auto!important;height:auto!important;overflow:visible!important;clip-path:none!important;grid-column:1/-1;display:block;min-width:0;max-width:100%;white-space:normal;text-overflow:clip;margin:0;font-size:.875rem;line-height:1.3;color:var(--phone-secondary);overflow-wrap:anywhere}
+.planet-app[data-surface=display][data-phase=BLACKOUT] .planet-header>.planet-shared-checkpoint{min-height:2.6em}
 .planet-header button{background:transparent;color:#DCE3EC;border:0;display:flex;align-items:center;justify-content:center;padding:8px;gap:4px}
 .planet-header button[aria-pressed=true]{color:#F7D886}
 #planet-top-settings .planet-control-label{position:absolute;width:1px;height:1px;clip-path:inset(50%);overflow:hidden}
@@ -25,6 +27,7 @@
 .planet-stage[data-view=room] .bv2-nameplate{--bv2-name-width:150px;font-size:.75rem;width:max-content;max-width:min(180px,70vw);white-space:normal;line-height:1.25}
 .planet-stage[data-view=room] .bv2-nameplate__name{overflow:visible;text-overflow:clip;overflow-wrap:anywhere}
 .planet-stage[data-view=room] .planet-office-badge{font-size:.625rem;line-height:1.2;max-width:110px}
+.planet-app .bv2-room-move:disabled .bv2-caption{opacity:.55;filter:grayscale(1);border-style:dashed}
 .planet-nav{inset:auto 0 0;position:absolute;height:auto;min-height:68px;padding:6px max(4px,env(safe-area-inset-right)) max(6px,env(safe-area-inset-bottom)) max(4px,env(safe-area-inset-left));grid-template-columns:repeat(5,minmax(0,1fr));gap:2px;border:0;border-top:1px solid #FFFFFF30;background:#141B27F5;z-index:6200;align-items:center}
 .planet-nav button,.planet-nav button:nth-child(3){position:relative;inset:auto;grid-column:auto;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-width:0;min-height:54px;padding:4px 0;border:0;background:transparent;color:#DCE3EC;font-size:.75rem;line-height:1.15;border-radius:12px}
 .planet-nav button[aria-pressed=true]{color:#F7D886;background:#FFFFFF0D}
