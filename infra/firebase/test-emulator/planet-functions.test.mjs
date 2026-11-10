@@ -4,10 +4,11 @@ import {randomUUID,createHash} from 'node:crypto';
 import {initializeApp,deleteApp} from 'firebase-admin/app';
 import {getFirestore} from 'firebase-admin/firestore';
 import {createFirestorePlanetStore} from '@mothership/game-api';
-import {PlanetSessionSnapshotSchema} from '@mothership/contracts';
+import {PlanetSessionSnapshotSchema,PLANET_PHONE_ENGINE_PROFILE} from '@mothership/contracts';
 import {assertLocalEmulators,createEmulatorIdentity,firestoreRequest,projectId} from '../test/helpers.mjs';
 
-const boardingEnabled=process.env.MOTHERSHIP_PLANET_SETUP_FLOW_VERSION==='2';
+const setupFlowVersion=process.env.MOTHERSHIP_PLANET_SETUP_FLOW_VERSION==='2'?2:process.env.MOTHERSHIP_PLANET_SETUP_FLOW_VERSION==='3'?3:undefined;
+const boardingEnabled=setupFlowVersion!==undefined,timedReading=setupFlowVersion===3;
 async function invoke(payload,identity) {
   const {functionsHost}=assertLocalEmulators();
   const response=await fetch(`http://${functionsHost}/${projectId}/us-central1/planetApi`,{
@@ -57,7 +58,7 @@ test(`actual Planet private triggers and Tasks launch 7/8/9 bots after real setu
       result(await invoke(operation('beginSetup',matchId),host));
       const choosing=await snapshot(matchId,host);
       assert.equal(choosing.status,'choosing');assert.equal(choosing.playerCount,count);assert.equal(choosing.members.length,count);
-      assert.equal(choosing.setupFlowVersion,boardingEnabled?2:undefined);
+      assert.equal(choosing.setupFlowVersion,setupFlowVersion);
       assert.equal(choosing.publicView,null);assert.equal(choosing.privateRole,null);
       matches.at(-1).choosing=choosing;matches.at(-1).display=display;
       const metadataId=createHash('sha256').update('session/'+matchId).digest('hex');
@@ -76,12 +77,20 @@ test(`actual Planet private triggers and Tasks launch 7/8/9 bots after real setu
       assert.ok(reading.setup.endsAt>=match.choosing.setup.endsAt+30_000);
       assert.equal(reading.publicView,null);assert.equal(reading.privateRole,null);
       assert.ok(reading.members.every(member=>member.controller==='bot'&&member.ready));
+      if(timedReading){
+        assert.equal(reading.setup.roleFilmStartsAt-reading.setup.startedAt,20_000);
+        assert.equal(reading.setup.endsAt-reading.setup.roleFilmStartsAt,10_000);
+        assert.equal(reading.setup.endsAt-reading.setup.startedAt,30_000);
+        const shared=await snapshot(match.matchId,match.display);assert.deepEqual(shared.setup,reading.setup);assert.equal(shared.privateRole,null);
+      }else{
+        assert.equal(Object.hasOwn(reading.setup,'startedAt'),false);assert.equal(Object.hasOwn(reading.setup,'roleFilmStartsAt'),false);
+      }
       match.reading=reading;
       if(boardingEnabled){
         const boarding=await waitFor(async()=>{
           const view=await snapshot(match.matchId,match.host);return view.status==='boarding'?view:false;
         },`${match.count}-player automatic boarding stage`,90_000);
-        assert.equal(boarding.setupFlowVersion,2);
+        assert.equal(boarding.setupFlowVersion,setupFlowVersion);
         assert.equal(boarding.setup.endsAt-boarding.setup.startedAt,10_000);
         assert.ok(boarding.setup.startedAt>=reading.setup.endsAt,'Boarding cannot consume the reading minimum');
         assert.notEqual(boarding.setup.id,reading.setup.id);
@@ -103,7 +112,7 @@ test(`actual Planet private triggers and Tasks launch 7/8/9 bots after real setu
         return view.status==='running'||view.status==='finished'?view:false;
       },`${match.count}-player automatic launch`,90_000);
       assert.ok(Date.now()>=reading.setup.endsAt);assert.ok(running.publicView);assert.equal(running.playerView,null);
-      assert.equal(running.setupFlowVersion,boardingEnabled?2:undefined);
+      assert.equal(running.setupFlowVersion,setupFlowVersion);
       if(boardingEnabled){
         assert.ok(running.publicView.phase.startedAt>=match.boarding.setup.endsAt,'Initialization follows the boarding deadline');
         assert.equal(running.publicView.phase.kind,'PRE_TURN');
@@ -112,7 +121,8 @@ test(`actual Planet private triggers and Tasks launch 7/8/9 bots after real setu
       const display=await snapshot(match.matchId,match.display);
       assert.ok(display.publicView);assert.equal(display.playerView,null);assert.equal(display.privateRole,null);assert.equal(display.selfSeatId,null);
       const authority=await store.transaction(tx=>tx.get('session/'+match.matchId));
-      assert.equal(authority.versions.engineVersion,'planet-game-1.1.0');assert.equal(authority.versions.assetManifestVersion,'design-0.6.0');
+      assert.equal(authority.versions.engineVersion,process.env.MOTHERSHIP_PLANET_ENGINE_PROFILE===PLANET_PHONE_ENGINE_PROFILE?'planet-game-1.2.0':'planet-game-1.1.0');
+      assert.equal(authority.versions.assetManifestVersion,process.env.MOTHERSHIP_PLANET_ASSET_MANIFEST_VERSION??'design-0.6.0');
       assert.ok(authority.state);assert.equal(authority.members.length,match.count);
       const journals=(await db.collection('planetDocuments').where('namespace','==','journal').get()).docs.map(doc=>doc.get('key')).filter(key=>key.startsWith('journal/'+match.matchId+'/'));
       const records=await Promise.all(journals.map(key=>store.transaction(tx=>tx.get(key))));
@@ -121,7 +131,7 @@ test(`actual Planet private triggers and Tasks launch 7/8/9 bots after real setu
       assert.equal(records.filter(record=>record.kind==='INITIALIZE').length,1);
       const boardingRecords=records.filter(record=>record.kind==='BOARDING_STARTED');
       assert.equal(boardingRecords.length,boardingEnabled?1:0);
-      if(boardingEnabled){assert.deepEqual(boardingRecords[0].setup,match.boarding.setup);assert.equal(boardingRecords[0].setupFlowVersion,2);}
+      if(boardingEnabled){assert.deepEqual(boardingRecords[0].setup,match.boarding.setup);assert.equal(boardingRecords[0].setupFlowVersion,setupFlowVersion);}
       await waitFor(async()=>{
         const values=(await db.collection('planetDocuments').where('namespace','==','journal').get()).docs.map(doc=>doc.get('key')).filter(key=>key.startsWith('journal/'+match.matchId+'/'));
         for(const key of values){const record=await store.transaction(tx=>tx.get(key));if(record.kind==='COMMAND'&&record.controller==='bot'&&record.receipt.status==='accepted')return true;}
