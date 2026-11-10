@@ -1,0 +1,22 @@
+{
+  "logSha256": "ad1a08073e6b7e8068dbea99a2b34e360f89ab1795ce09fd890247a8142cad5b",
+  "sourceLog": "/private/tmp/gamen-phone-connected-corrected-run.log",
+  "cliExit": 0,
+  "interactionCasesPassed": 13,
+  "browserRuntimeErrors": [],
+  "earlyDeadlineRetryErrors": 18,
+  "serverLogErrorFree": false,
+  "manualAdvanceOrBotCalls": 0,
+  "cleanup": {
+    "nativeAbortConfirmed": false,
+    "observed": {
+      "status": null,
+      "abortAccepted": false
+    },
+    "ephemeralStateDiscardedByShutdown": true,
+    "persistenceExportRequested": false,
+    "ownedEmulatorsStopped": true,
+    "canonicalPortsReleased": true
+  },
+  "notes": "Early task deliveries logged deadline-not-elapsed retries; actual server deadlines progressed successfully. Final native abort was not observed. Nonpersistent demo emulators shut down successfully; no cloud state was touched."
+}

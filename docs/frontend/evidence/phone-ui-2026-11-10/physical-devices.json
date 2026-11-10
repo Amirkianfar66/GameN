@@ -1,0 +1,13 @@
+{
+  "checkedAtUtc": "2026-11-10T22:32:52.975026+00:00",
+  "scope": "Read-only access probe, not physical-device validation",
+  "commands": {
+    "adb": null,
+    "idevice_id": null,
+    "ideviceinfo": null,
+    "ios-deploy": null
+  },
+  "devicectlAvailable": false,
+  "usbTopLevelGroups": 0,
+  "actualDeviceChecks": "Not run: real iPhone/Android startup, frame/input/memory, Safari and VoiceOver. No device claimed from desktop emulation."
+}

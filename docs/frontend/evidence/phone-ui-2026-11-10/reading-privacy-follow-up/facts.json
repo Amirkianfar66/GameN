@@ -1,0 +1,227 @@
+{
+  "scope": "Actual native Planet app/controller/renderer with excluded synthetic transport and frozen-release verified art. Desktop Chromium emulation only; source approval, multiplayer, phones and VoiceOver not implied.",
+  "generatedAt": "2026-11-10T23:01:08.147Z",
+  "provenance": "provenance.json",
+  "sourcesVerifiedBefore": true,
+  "browser": {
+    "protocolVersion": "1.3",
+    "product": "Chrome/157.0.8103.40",
+    "revision": "@6f75a8afa26ce5537c82b4887f152dfdc7183e05",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/157.0.0.0 Safari/537.36",
+    "jsVersion": "15.7.112.23"
+  },
+  "cases": [
+    {
+      "name": "flow-320-568-normal-setup3-engine12",
+      "passed": true,
+      "cardBefore20s": true,
+      "filmAfter20s": true,
+      "foregroundSeeks": true,
+      "skipDoesNotReady": true,
+      "manualReadyAfterMinimum": true,
+      "separateBoarding": true,
+      "expiryWaitsForServer": true,
+      "freshMatchAfterReturn": true,
+      "captures": {
+        "card": "flow-320-568-normal-card.jpg",
+        "film": "flow-320-568-normal-film.jpg",
+        "holding": "flow-320-568-normal-holding.jpg",
+        "fresh": "flow-320-568-normal-fresh-film.jpg"
+      }
+    },
+    {
+      "name": "flow-320-568-reduced-setup3-engine12",
+      "passed": true,
+      "cardBefore20s": true,
+      "filmAfter20s": true,
+      "foregroundSeeks": true,
+      "skipDoesNotReady": true,
+      "manualReadyAfterMinimum": true,
+      "separateBoarding": true,
+      "expiryWaitsForServer": true,
+      "freshMatchAfterReturn": true,
+      "captures": {
+        "card": "flow-320-568-reduced-card.jpg",
+        "film": "flow-320-568-reduced-film.jpg",
+        "holding": "flow-320-568-reduced-holding.jpg",
+        "fresh": "flow-320-568-reduced-fresh-film.jpg"
+      }
+    },
+    {
+      "name": "flow-390-844-normal-setup3-engine12",
+      "passed": true,
+      "cardBefore20s": true,
+      "filmAfter20s": true,
+      "foregroundSeeks": true,
+      "skipDoesNotReady": true,
+      "manualReadyAfterMinimum": true,
+      "separateBoarding": true,
+      "expiryWaitsForServer": true,
+      "freshMatchAfterReturn": true,
+      "captures": {
+        "card": "flow-390-844-normal-card.jpg",
+        "film": "flow-390-844-normal-film.jpg",
+        "holding": "flow-390-844-normal-holding.jpg",
+        "fresh": "flow-390-844-normal-fresh-film.jpg"
+      }
+    },
+    {
+      "name": "flow-390-844-reduced-setup3-engine12",
+      "passed": true,
+      "cardBefore20s": true,
+      "filmAfter20s": true,
+      "foregroundSeeks": true,
+      "skipDoesNotReady": true,
+      "manualReadyAfterMinimum": true,
+      "separateBoarding": true,
+      "expiryWaitsForServer": true,
+      "freshMatchAfterReturn": true,
+      "captures": {
+        "card": "flow-390-844-reduced-card.jpg",
+        "film": "flow-390-844-reduced-film.jpg",
+        "holding": "flow-390-844-reduced-holding.jpg",
+        "fresh": "flow-390-844-reduced-fresh-film.jpg"
+      }
+    },
+    {
+      "name": "flow-430-932-normal-setup3-engine12",
+      "passed": true,
+      "cardBefore20s": true,
+      "filmAfter20s": true,
+      "foregroundSeeks": true,
+      "skipDoesNotReady": true,
+      "manualReadyAfterMinimum": true,
+      "separateBoarding": true,
+      "expiryWaitsForServer": true,
+      "freshMatchAfterReturn": true,
+      "captures": {
+        "card": "flow-430-932-normal-card.jpg",
+        "film": "flow-430-932-normal-film.jpg",
+        "holding": "flow-430-932-normal-holding.jpg",
+        "fresh": "flow-430-932-normal-fresh-film.jpg"
+      }
+    },
+    {
+      "name": "flow-430-932-reduced-setup3-engine12",
+      "passed": true,
+      "cardBefore20s": true,
+      "filmAfter20s": true,
+      "foregroundSeeks": true,
+      "skipDoesNotReady": true,
+      "manualReadyAfterMinimum": true,
+      "separateBoarding": true,
+      "expiryWaitsForServer": true,
+      "freshMatchAfterReturn": true,
+      "captures": {
+        "card": "flow-430-932-reduced-card.jpg",
+        "film": "flow-430-932-reduced-film.jpg",
+        "holding": "flow-430-932-reduced-holding.jpg",
+        "fresh": "flow-430-932-reduced-fresh-film.jpg"
+      }
+    },
+    {
+      "name": "privacy-320-568-normal",
+      "passed": true,
+      "context": [
+        "phone-review-owner",
+        "planet-local",
+        "phone-reading",
+        "seat-6"
+      ],
+      "explicitHideSurvivesFailedRead": true,
+      "explicitHideSurvivesForeground": true,
+      "explicitHideSurvivesReload": true,
+      "explicitRevealSeeks": true,
+      "newContextAutoEntry": true,
+      "noReadyOrAdvance": true,
+      "capture": "privacy-320-568-normal-concealed-after-reconnect.jpg"
+    },
+    {
+      "name": "privacy-320-568-reduced",
+      "passed": true,
+      "context": [
+        "phone-review-owner",
+        "planet-local",
+        "phone-reading",
+        "seat-6"
+      ],
+      "explicitHideSurvivesFailedRead": true,
+      "explicitHideSurvivesForeground": true,
+      "explicitHideSurvivesReload": true,
+      "explicitRevealSeeks": true,
+      "newContextAutoEntry": true,
+      "noReadyOrAdvance": true,
+      "capture": "privacy-320-568-reduced-concealed-after-reconnect.jpg"
+    },
+    {
+      "name": "privacy-390-844-normal",
+      "passed": true,
+      "context": [
+        "phone-review-owner",
+        "planet-local",
+        "phone-reading",
+        "seat-6"
+      ],
+      "explicitHideSurvivesFailedRead": true,
+      "explicitHideSurvivesForeground": true,
+      "explicitHideSurvivesReload": true,
+      "explicitRevealSeeks": true,
+      "newContextAutoEntry": true,
+      "noReadyOrAdvance": true,
+      "capture": "privacy-390-844-normal-concealed-after-reconnect.jpg"
+    },
+    {
+      "name": "privacy-390-844-reduced",
+      "passed": true,
+      "context": [
+        "phone-review-owner",
+        "planet-local",
+        "phone-reading",
+        "seat-6"
+      ],
+      "explicitHideSurvivesFailedRead": true,
+      "explicitHideSurvivesForeground": true,
+      "explicitHideSurvivesReload": true,
+      "explicitRevealSeeks": true,
+      "newContextAutoEntry": true,
+      "noReadyOrAdvance": true,
+      "capture": "privacy-390-844-reduced-concealed-after-reconnect.jpg"
+    },
+    {
+      "name": "privacy-430-932-normal",
+      "passed": true,
+      "context": [
+        "phone-review-owner",
+        "planet-local",
+        "phone-reading",
+        "seat-6"
+      ],
+      "explicitHideSurvivesFailedRead": true,
+      "explicitHideSurvivesForeground": true,
+      "explicitHideSurvivesReload": true,
+      "explicitRevealSeeks": true,
+      "newContextAutoEntry": true,
+      "noReadyOrAdvance": true,
+      "capture": "privacy-430-932-normal-concealed-after-reconnect.jpg"
+    },
+    {
+      "name": "privacy-430-932-reduced",
+      "passed": true,
+      "context": [
+        "phone-review-owner",
+        "planet-local",
+        "phone-reading",
+        "seat-6"
+      ],
+      "explicitHideSurvivesFailedRead": true,
+      "explicitHideSurvivesForeground": true,
+      "explicitHideSurvivesReload": true,
+      "explicitRevealSeeks": true,
+      "newContextAutoEntry": true,
+      "noReadyOrAdvance": true,
+      "capture": "privacy-430-932-reduced-concealed-after-reconnect.jpg"
+    }
+  ],
+  "runtimeErrors": [],
+  "sourcesUnchangedThroughRun": true
+}
