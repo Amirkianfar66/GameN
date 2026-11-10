@@ -122,7 +122,9 @@ export function paintBoardV2(root,frame,boxes,{artForRoom,choices=[],marks=null,
   if(!section){section=create('section','bv2-room');section.dataset.room=room.room;section.setAttribute('aria-label',LOCATION_OF[room.room]);rooms.set(room.room,section);board.append(section);}
   setBox(section,boxes[room.room]);
   let caption=section.querySelector('.bv2-room-heading');
-  if(!caption){caption=create(canMove&&['room-a','room-b','command-room'].includes(room.room)?'button':'h2','bv2-room-heading');
+  const moveCaption=canMove&&['room-a','room-b','command-room'].includes(room.room);
+  if(caption&&(caption.tagName==='BUTTON')!==moveCaption){caption.remove();caption=null;}
+  if(!caption){caption=create(moveCaption?'button':'h2','bv2-room-heading');
    if(caption.tagName==='BUTTON'){caption.type='button';caption.classList.add('bv2-room-move');caption.id=`phone-move-${room.room}`;caption.dataset.moveRoom=LOCATION_OF[room.room];caption.setAttribute('aria-label',`Move to ${LOCATION_OF[room.room]}`);}
    const words=create('span','bv2-caption');words.textContent=LOCATION_OF[room.room];caption.append(words);section.append(caption);}
   for(const asset of artForRoom(room.room)??[]){

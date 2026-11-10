@@ -1,5 +1,5 @@
 import {crewPortraitVariable,disposeCrewMounts,setCrewMountActivity,setCrewPictureSurface} from '../crew-runtime.mjs';
-import {PLANET_ACTION_LABELS,PLANET_PROMISE_LABELS,planetPromiseTerms,planetBlackholePresentation,planetTerminalArrival,planetPanelRequestText} from '@mothership/presentation';
+import {PLANET_ACTION_LABELS,PLANET_PROMISE_LABELS,planetPromiseTerms,planetBlackholePresentation,planetTerminalArrival,planetPanelRequestText,planetHasPrivateFeedback} from '@mothership/presentation';
 import {PlanetDrawingSchema} from '@mothership/contracts';
 import {slotRects} from '../board-v2-drawing/fit-four.mjs';
 import {BOARD_ROOMS,sceneOf,slotsOf,LOCATION_OF} from '../board-v2-drawing/slots-four.mjs';
@@ -29,7 +29,7 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
  const el=(tag,text=null,cls=null)=>{const n=document.createElement(tag);if(text!==null)n.textContent=text;if(cls)n.className=cls;return n;};
  const button=(text,act,value=null)=>{const n=el('button',text);n.type='button';n.dataset.planetAction=act;if(value!==null)n.dataset.value=value;return n;};
  root.classList.add('ms-shell','planet-app');root.dataset.boardLayout='board-v2';root.dataset.screen='match';
- const header=el('header',null,'planet-header'),phase=el('strong'),timer=el('span',null,'planet-timer'),offices=el('small'),checkpoint=el('small'),instruction=el('p');
+ const header=el('header',null,'planet-header'),phase=el('strong'),timer=el('span',null,'planet-timer'),offices=el('small'),checkpoint=el('small',null,'planet-shared-checkpoint'),instruction=el('p');
  const portrait=el('span',null,'planet-active-portrait'),identity=el('div',null,'planet-active-identity'),detail=el('span',null,'planet-active-detail');portrait.setAttribute('aria-hidden','true');identity.append(phase,detail);
  const promises=labelPhoneControl(button('Promises','panel','promises'),'Promises','promises'),menu=labelPhoneControl(button('Settings','panel','settings'),'Settings','settings');promises.id='planet-top-promises';menu.id='planet-top-settings';
  instruction.id='ms-action-step';header.append(portrait,identity,promises,timer,menu,offices,checkpoint,instruction);
@@ -181,7 +181,7 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
    else if(model.panel==='promises')renderPromises(p);
    else if(model.panel==='windows')renderWindows(p);
    else if(model.panel==='navigation'){
-    addText('Navigation','h2');const setting=['planet-game-1.1.0','planet-game-1.2.0'].includes(model.versions?.engineVersion)&&model.phase?.kind==='NAV_SETTING';if(setting)addText('The course is being set.');if(p?.navigation){const picture=library.route(p.navigation);if(picture)sheetBody.append(picture);addText(`Position: ${p.navigation.position}`);if(!setting)addText(`Final direction: ${p.navigation.direction??'awaiting resolution'}`);if(p.offers?.some(o=>o.type==='CHOOSE_NAV_DIRECTION'))sheetBody.append(beginButton('CHOOSE_NAV_DIRECTION'));if(p.offers?.some(o=>o.type==='CONFIRM_NAVIGATION'))sheetBody.append(beginButton('CONFIRM_NAVIGATION'));}
+    addText('Navigation','h2');const setting=planetHasPrivateFeedback(model.versions)&&model.phase?.kind==='NAV_SETTING';if(setting)addText('The course is being set.');if(p?.navigation){const picture=library.route(p.navigation);if(picture)sheetBody.append(picture);addText(`Position: ${p.navigation.position}`);if(!setting)addText(`Final direction: ${p.navigation.direction??'awaiting resolution'}`);if(p.offers?.some(o=>o.type==='CHOOSE_NAV_DIRECTION'))sheetBody.append(beginButton('CHOOSE_NAV_DIRECTION'));if(p.offers?.some(o=>o.type==='CONFIRM_NAVIGATION'))sheetBody.append(beginButton('CONFIRM_NAVIGATION'));}
     else addText('Current route and direction are private to the offices.');
    }else if(model.panel==='hospital'){
     addText('Hospital panel','h2');addText('One patient attempt with the Doctor’s original player number. A registered request resolves later.');
@@ -190,7 +190,6 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
     if(p?.panelAttemptSpent){if(!requestText)addText('Your panel attempt is spent.');}else if(p?.offers?.some(o=>o.type==='PANEL_CODE'))sheetBody.append(beginButton('PANEL_CODE'));else addText('The panel is not currently available.');
    }else if(model.panel==='actions'){
     addText('Actions','h2');
-    if(model.canMove)sheetBody.append(beginButton('MOVE'));
     if(p?.blackoutTargeting?.selectedSlotId)addText(`Your fixed selection: ${p.blackoutTargeting.selectedSlotId}.`);
     if(p?.ownBallot?.phaseId===model.phase.id)addText(`Your registered ballot: ${p.ownBallot.targetSeatId?number(p.ownBallot.targetSeatId):'Abstain'}.`);
     if(p?.captainCommands)for(const [type,used]of [['CAPTAIN_RELEASE',p.captainCommands.releaseUsed],['CAPTAIN_EJECT',p.captainCommands.ejectUsed]]){const b=beginButton(type),available=p.offers?.some(o=>o.type===type);b.disabled=used||!available;labelPhoneControl(b,`${PLANET_ACTION_LABELS[type]} · ${used?'USED':available?'AVAILABLE':'UNAVAILABLE'}`,phoneActionIcon(type));b.dataset.captainPlate=used?'used':available?'available':'unavailable';b.style.backgroundImage=`var(--board-v2-film-captain-plate-${type==='CAPTAIN_RELEASE'?'release':'eject'}-${b.dataset.captainPlate})`;sheetBody.append(b);}
@@ -208,11 +207,11 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   const sample=motion.sample();films.beforePaint();clearBlocks();
   if(frame&&layout?.fits){
    const choosing=model.action?.choices??[],choices=choosing.filter(c=>/^seat-[1-9]$/.test(c.value)).map(c=>({...c,label:`${model.identities.find(i=>i.seatId===c.value)?.displayName??number(c.value)} · ${number(c.value)}`,id:`planet-seat-${c.value}`}));
-   paintBoardV2(holder,frame,layout.board.boxes,{artForRoom,choices,marks:model.action?{picked:model.action.selected,numbered:['SUPPLY','SUBMIT_CODE'].includes(model.action.type)}:null,capsule:model.dark?null:capsule.sample(),canMove:model.surface==='player',blackout:blackout.sample(),versions:model.versions,reducedMotion:reduced()});
+   paintBoardV2(holder,frame,layout.board.boxes,{artForRoom,choices,marks:model.action?{picked:model.action.selected,numbered:['SUPPLY','SUBMIT_CODE'].includes(model.action.type)}:null,capsule:model.dark?null:capsule.sample(),canMove:model.surface==='player'&&sceneMode==='board',blackout:blackout.sample(),versions:model.versions,reducedMotion:reduced()});
    for(const [id,node]of holder._boardV2Paint?.rooms??[])node.hidden=sceneMode==='room'&&id!==currentRoom;
    if(holder._boardV2Paint?.capsule)holder._boardV2Paint.capsule.hidden=sceneMode==='room'&&currentRoom!=='capsule';
    paintNight();
-   for(const heading of holder.querySelectorAll('button[data-move-room]')){heading.disabled=model.dark||model.action?.type==='MOVE'&&!model.moveRooms.includes(heading.dataset.moveRoom);heading.setAttribute('aria-label',`${model.action?.type==='MOVE'?'Choose':'View'} ${heading.dataset.moveRoom}`);}
+   for(const heading of holder.querySelectorAll('button[data-move-room]')){const available=!model.dark&&model.canMove&&model.moveRooms.includes(heading.dataset.moveRoom);heading.disabled=!available;heading.setAttribute('aria-disabled',String(!available));heading.setAttribute('aria-label',`Move to ${heading.dataset.moveRoom}${available?'':', unavailable'}`);}
    const seats=(model.board?.seats??[]).map(seat=>({...seat,...model.identities.find(i=>i.seatId===seat.seatId)}));
    root.dataset.phoneView=model.panel==='card'?'actions':model.panel;
    films.paint({sample:{...sample,items:sample.items.filter(entry=>entry.kind!=='medical'||entry.clinical!=='HEALED')},frame,board:{playerCount:model.playerCount},seats,geometry:{sceneOf,slotsOf,slotRects:rects},layout,enabled:completeArt()&&model.connection==='live'&&!model.concealed&&!model.phase?.expired,dark:model.dark||blackout.sample()?.dark===true,privateOpen:model.panel==='card',time:performance.now(),versions:model.versions});
@@ -273,12 +272,12 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
  }
  function render(next){
   if(disposed)return;model=next;setCrewPictureSurface(root,model.versions);
-  root.dataset.planetPanel=model.panel;root.dataset.connection=model.connection;root.dataset.surface=model.surface;root.dataset.mode=model.mode;root.dataset.motion=reduced()?'reduced':'normal';root.dataset.blackout=model.dark?'dark':'none';
+  root.dataset.planetPanel=model.panel;root.dataset.connection=model.connection;root.dataset.surface=model.surface;root.dataset.mode=model.mode;root.dataset.motion=reduced()?'reduced':'normal';root.dataset.blackout=model.dark?'dark':'none';root.dataset.phase=model.phase?.kind??'';
   const active=!model.dark&&model.phase?.kind==='ORDINARY_TURN'&&model.activeSeatId?model.identities.find(i=>i.seatId===model.activeSeatId):null;
   header.dataset.kind=active?'turn':'phase';
   const phaseNames={ORDINARY_TURN:'Turn',CAPTAIN_ELECTION:'Captain vote',JAIL_VOTE:'Jail vote',VOTE_RESULT:'Vote result',BLACKHOLE_PRESENTATION:'Ship synchronized',OFFICER_APPOINTMENT:'New Officer',NAV_SETTING:'Setting course',BLACKOUT:'Blackout',PRE_TURN:'Round begins',HACK:'Private talk',HACK_DECLARE:'Declare side',HACK_RESULT:'Private claim'};
   phase.textContent=active?.displayName??phaseNames[model.phase?.kind]??model.phase?.kind?.replaceAll('_',' ')??'Connecting';
-  detail.textContent=active?`${number(model.activeSeatId)} · ${model.activeSeatId===model.ownSeatId?'Your turn':'Turn'}`:model.boardLabel??(model.round===null?'':`Round ${model.round}`);
+  detail.textContent=model.phase?.kind==='BLACKOUT'?(model.round===null?'':`Round ${model.round}`):active?`${number(model.activeSeatId)} · ${model.activeSeatId===model.ownSeatId?'Your turn':'Turn'}`:model.surface==='display'?(model.round===null?'':`Round ${model.round}`):model.boardLabel??(model.round===null?'':`Round ${model.round}`);
   portrait.hidden=!active?.characterId;if(active?.characterId)portrait.style.backgroundImage=crewPortraitVariable(active.characterId,model.versions);else portrait.style.removeProperty('background-image');
   root.dataset.ownTurn=String(!model.dark&&model.activeSeatId===model.ownSeatId);
   promises.hidden=model.surface==='display'||['VOTE_RESULT','BLACKHOLE_PRESENTATION'].includes(model.phase?.kind);promises.dataset.count=String(model.promiseOfferCount);promises.setAttribute('aria-label',`Promises${model.promiseOfferCount?`, ${model.promiseOfferCount} waiting`:''}`);promises.setAttribute('aria-pressed',String(model.panel==='promises'));
@@ -350,7 +349,7 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
  }
  const onClick=e=>{
   const target=e.target.closest('button');if(!target||!root.contains(target)||target.disabled)return;
-  if(target.dataset.moveRoom){if(model.action?.type==='MOVE')controller.choose(target.dataset.moveRoom);else{currentRoom=phoneRoom(target.dataset.moveRoom)??currentRoom;sceneMode='room';uiKey=null;controller.dismiss();}return;}
+  if(target.dataset.moveRoom){if(sceneMode!=='board'||model.dark||!model.canMove||!model.moveRooms.includes(target.dataset.moveRoom))return;if(model.action?.type!=='MOVE')controller.begin('MOVE');controller.choose(target.dataset.moveRoom);return;}
   if(target.dataset.intent==='action/choose'){controller.choose(target.dataset.value);return;}
   const action=target.dataset.planetAction,value=target.dataset.value;
   if(action==='panel'){if(value==='board'){sceneMode=sceneMode==='room'?'board':'room';if(sceneMode==='room'&&!model.action&&lastOwnRoom)currentRoom=lastOwnTalk?'capsule':lastOwnRoom;uiKey=null;if(model.action)render(controller.getModel());else controller.dismiss();}else {more=false;controller.openPanel(value==='more'?'panels':value);}}

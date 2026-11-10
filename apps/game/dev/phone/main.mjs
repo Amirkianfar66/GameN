@@ -12,6 +12,7 @@ function fixture(scenario,options={}){
  const value=sessionScenario(scenario,{now:now(),count,tuple,...options});
  if(query.get('flow')==='2')value.setupFlowVersion=2;
  if(query.get('flow')==='3'||options.flow===3){value.setupFlowVersion=3;if(value.status==='reading'){const stamp=now()-Number(query.get('elapsed')??0);value.setup={id:'phone-reading',startedAt:stamp,roleFilmStartsAt:stamp+20000,endsAt:stamp+30000};}}
+ if(query.get('initial')==='1'&&tuple==='blackout')for(const p of [value.playerView,value.publicView].filter(Boolean)){p.round=1;p.board.finalizedRound=0;p.board.checkpoint='INITIAL';p.navigation.lastMovedRound=0;}
  return value;
 }
 let value=fixture(name==='join'?'display':name),requests=[];
