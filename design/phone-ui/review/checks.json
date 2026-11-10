@@ -2,6 +2,31 @@
   "generatedBy": "design/tools/phone-ui-render.mjs",
   "browser": "Google Chrome for Testing 153.0.8010.12",
   "note": "Desktop headless Chromium. Measurements are of this browser at each frame’s CSS size, not of a phone.",
+  "contrast": {
+    "method": "letter by letter: each letter’s ink from black- and white-text captures; its background from a transparent-text capture as drawn and with the rooms’ ambient motion held at each moment; the lowest WCAG 2 ratio at every ink pixel and the pixels touching it",
+    "moments": [
+      0,
+      15,
+      30,
+      45,
+      60,
+      75,
+      90,
+      105,
+      120,
+      135,
+      150,
+      165,
+      180,
+      195,
+      210,
+      225
+    ],
+    "thresholds": {
+      "text": 4.5,
+      "large": 3
+    }
+  },
   "sheets": [
     {
       "id": "01",
@@ -78,8 +103,8 @@
       "slug": "controls",
       "title": "Controls, lists, feedback and cards",
       "file": "design/phone-ui/review/sheets/06-controls.jpg",
-      "sha256": "461a827603626e820629d439518508e3ed33d2aaa43bf84dc7bdfceec66cae8c",
-      "bytes": 255305,
+      "sha256": "0a3b76c5619eb25c67619ce0dfcc197553891ffa62fac86edd9da4d06a1f107a",
+      "bytes": 255320,
       "size": {
         "width": 2158,
         "height": 1427
@@ -108,9 +133,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 387,
+            "noInk": 0,
+            "moving": 0,
             "min": 9.79,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "0:08",
+              "letter": "0",
+              "ratio": 9.79,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 0
           }
         },
         {
@@ -122,9 +164,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 292,
+            "noInk": 0,
+            "moving": 0,
             "min": 9.79,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "0:08",
+              "letter": "0",
+              "ratio": 9.79,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 0
           }
         }
       ],
@@ -151,9 +210,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 208,
+            "noInk": 0,
+            "moving": 0,
             "min": 9.79,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "Pass",
+              "letter": "P",
+              "ratio": 9.79,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 12
+            },
+            "moments": 0
           }
         },
         {
@@ -165,9 +241,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 168,
+            "noInk": 0,
+            "moving": 0,
             "min": 9.34,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "Voted",
+              "letter": "V",
+              "ratio": 9.34,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 15
+            },
+            "moments": 0
           }
         }
       ],
@@ -194,9 +287,20 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 0,
+            "noInk": 0,
+            "moving": 0,
             "min": null,
-            "low": []
+            "low": [],
+            "closest": null,
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 0
           }
         },
         {
@@ -208,9 +312,20 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 0,
+            "noInk": 0,
+            "moving": 0,
             "min": null,
-            "low": []
+            "low": [],
+            "closest": null,
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 0
           }
         },
         {
@@ -222,9 +337,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 57,
+            "noInk": 0,
+            "moving": 0,
             "min": 5.58,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "Enter a room code",
+              "letter": "E",
+              "ratio": 5.58,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 0
           }
         },
         {
@@ -236,9 +368,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 59,
+            "noInk": 0,
+            "moving": 0,
             "min": 13.16,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "No connection. Join, Host and Recover re",
+              "letter": "N",
+              "ratio": 13.16,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 57
+            },
+            "moments": 0
           }
         }
       ],
@@ -265,9 +414,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 133,
+            "noInk": 0,
+            "moving": 0,
             "min": 6.14,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "5 Blue · 3 Red · 1 Alien",
+              "letter": "5",
+              "ratio": 6.14,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 0
           }
         },
         {
@@ -279,9 +445,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 137,
+            "noInk": 0,
+            "moving": 0,
             "min": 6.7,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "Copy",
+              "letter": "C",
+              "ratio": 6.7,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 16,
+              "inactive": 23
+            },
+            "moments": 0
           }
         },
         {
@@ -293,9 +476,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 105,
+            "noInk": 0,
+            "moving": 0,
             "min": 6.14,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "4 more seats to fill",
+              "letter": "4",
+              "ratio": 6.14,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 23
+            },
+            "moments": 0
           }
         },
         {
@@ -307,9 +507,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 109,
+            "noInk": 0,
+            "moving": 0,
             "min": 6.7,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "Copy",
+              "letter": "C",
+              "ratio": 6.7,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 23,
+              "inactive": 0
+            },
+            "moments": 0
           }
         }
       ],
@@ -320,8 +537,8 @@
       "slug": "join",
       "title": "Join",
       "file": "design/phone-ui/review/sheets/12-join.jpg",
-      "sha256": "4a2d37fe7524779fc49a7b3e1a8e4fe5df354e9c827aac44dbc77a2103c495a8",
-      "bytes": 160645,
+      "sha256": "2291d5b8b35860daaf712f5823f6c21a19f04c73c9a587f5bebea5aaacaa40be",
+      "bytes": 160643,
       "size": {
         "width": 1846,
         "height": 1227
@@ -336,9 +553,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 87,
+            "noInk": 0,
+            "moving": 0,
             "min": 5.62,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "1–12 characters",
+              "letter": "1",
+              "ratio": 5.62,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 9
+            },
+            "moments": 0
           }
         },
         {
@@ -350,9 +584,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 126,
+            "noInk": 0,
+            "moving": 0,
             "min": 5.62,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "3/12",
+              "letter": "3",
+              "ratio": 5.62,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 0
           }
         },
         {
@@ -364,9 +615,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 109,
+            "noInk": 0,
+            "moving": 0,
             "min": 5.62,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "14/12",
+              "letter": "1",
+              "ratio": 5.62,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 9
+            },
+            "moments": 0
           }
         },
         {
@@ -378,9 +646,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 80,
+            "noInk": 0,
+            "moving": 0,
             "min": 5.62,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "3/12",
+              "letter": "3",
+              "ratio": 5.62,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 0
           }
         }
       ],
@@ -391,8 +676,8 @@
       "slug": "join-lobby",
       "title": "Waiting for admission and the player lobby",
       "file": "design/phone-ui/review/sheets/13-join-lobby.jpg",
-      "sha256": "3428cdee21ccdc45c54f7373e6fb9ce6387e5cbd6554b05dc08b85f44fa394b3",
-      "bytes": 152471,
+      "sha256": "653889e14ea76ad76213e983ad4f2caa30b8da94a9b14fdf52d7642de41957be",
+      "bytes": 152470,
       "size": {
         "width": 1846,
         "height": 1227
@@ -407,9 +692,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 53,
+            "noInk": 0,
+            "moving": 0,
             "min": 10.27,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "Cancel",
+              "letter": "C",
+              "ratio": 10.27,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 0
           }
         },
         {
@@ -421,9 +723,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 136,
+            "noInk": 0,
+            "moving": 0,
             "min": 6.14,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "Character selection starts when every se",
+              "letter": "C",
+              "ratio": 6.14,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 0
           }
         },
         {
@@ -435,9 +754,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 53,
+            "noInk": 0,
+            "moving": 0,
             "min": 10.27,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "Menu",
+              "letter": "M",
+              "ratio": 10.27,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 0
           }
         },
         {
@@ -449,9 +785,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 131,
+            "noInk": 0,
+            "moving": 0,
             "min": 5.62,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "3/12",
+              "letter": "3",
+              "ratio": 5.62,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 0
           }
         }
       ],
@@ -478,9 +831,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 144,
+            "noInk": 0,
+            "moving": 0,
             "min": 5.62,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "From the host",
+              "letter": "F",
+              "ratio": 5.62,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 11
+            },
+            "moments": 16
           }
         },
         {
@@ -492,9 +862,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 239,
+            "noInk": 0,
+            "moving": 0,
             "min": 6.14,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "The host makes a code for your seat in H",
+              "letter": "T",
+              "ratio": 6.14,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
           }
         },
         {
@@ -506,9 +893,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 62,
+            "noInk": 0,
+            "moving": 0,
             "min": 9.79,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "Continue",
+              "letter": "C",
+              "ratio": 9.79,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
           }
         },
         {
@@ -520,9 +924,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 10.07,
-            "low": []
+            "letters": 130,
+            "noInk": 0,
+            "moving": 0,
+            "min": 9.79,
+            "low": [],
+            "closest": {
+              "text": "Controls return when the match is curren",
+              "letter": "C",
+              "ratio": 9.79,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 5,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         }
       ],
@@ -533,8 +954,8 @@
       "slug": "host-recovery",
       "title": "Host controls and a recovery code",
       "file": "design/phone-ui/review/sheets/15-host-recovery.jpg",
-      "sha256": "8961557f8b006d4ffb763e122e85d265494f999b318ee04611728a99daa0d890",
-      "bytes": 261137,
+      "sha256": "a3ee2f0ad0cffc1e572e7f4ef713a2b84429b935cce5a43018155a42eae32225",
+      "bytes": 254938,
       "size": {
         "width": 1846,
         "height": 1227
@@ -549,9 +970,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 7.73,
-            "low": []
+            "letters": 233,
+            "noInk": 0,
+            "moving": 2,
+            "min": 6.58,
+            "low": [],
+            "closest": {
+              "text": "Recovery codes",
+              "letter": "o",
+              "ratio": 6.58,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -563,9 +1001,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 8.96,
-            "low": []
+            "letters": 237,
+            "noInk": 0,
+            "moving": 0,
+            "min": 6.72,
+            "low": [],
+            "closest": {
+              "text": "Show it only to Player 4. It never appea",
+              "letter": "s",
+              "ratio": 6.72,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -577,9 +1032,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 6.52,
-            "low": []
+            "letters": 237,
+            "noInk": 0,
+            "moving": 11,
+            "min": 6.16,
+            "low": [],
+            "closest": {
+              "text": "Show it only to Player 4. It never appea",
+              "letter": "r",
+              "ratio": 6.16,
+              "need": 4.5,
+              "at": "30 s"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -591,9 +1063,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 4.68,
-            "low": []
+            "letters": 132,
+            "noInk": 0,
+            "moving": 17,
+            "min": 5.48,
+            "low": [],
+            "closest": {
+              "text": "It ends now for everyone, with no winner",
+              "letter": "i",
+              "ratio": 5.48,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         }
       ],
@@ -604,8 +1093,8 @@
       "slug": "characters",
       "title": "Character selection",
       "file": "design/phone-ui/review/sheets/16-characters.jpg",
-      "sha256": "35cd16037f5b3f1a9aaf628ab39938b792b6a264a08ab3083b0d01d29e10f299",
-      "bytes": 351396,
+      "sha256": "6bdb3130f263095c27db326b5a58285b117cf330000cbb86f26b94bf8acdc83e",
+      "bytes": 351380,
       "size": {
         "width": 2288,
         "height": 1254
@@ -620,9 +1109,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 105,
+            "noInk": 0,
+            "moving": 0,
             "min": 10.45,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "Tap one to choose",
+              "letter": "T",
+              "ratio": 10.45,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 23
+            },
+            "moments": 0
           }
         },
         {
@@ -634,9 +1140,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 91,
+            "noInk": 0,
+            "moving": 0,
             "min": 10.45,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "Saving your choice",
+              "letter": "S",
+              "ratio": 10.45,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 57
+            },
+            "moments": 0
           }
         },
         {
@@ -648,9 +1171,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 96,
+            "noInk": 0,
+            "moving": 0,
             "min": 7.49,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "Yours",
+              "letter": "Y",
+              "ratio": 7.49,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 57
+            },
+            "moments": 0
           }
         },
         {
@@ -662,9 +1202,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 96,
+            "noInk": 0,
+            "moving": 0,
             "min": 7.49,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "Yours",
+              "letter": "Y",
+              "ratio": 7.49,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 57
+            },
+            "moments": 0
           }
         },
         {
@@ -676,9 +1233,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 78,
+            "noInk": 0,
+            "moving": 0,
             "min": 9.56,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "Assigned",
+              "letter": "A",
+              "ratio": 9.56,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 70
+            },
+            "moments": 0
           }
         }
       ],
@@ -705,9 +1279,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 129,
+            "noInk": 0,
+            "moving": 0,
             "min": 10.45,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "Your film starts in 0:19",
+              "letter": "Y",
+              "ratio": 10.45,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 5
+            },
+            "moments": 0
           }
         },
         {
@@ -719,9 +1310,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 129,
+            "noInk": 0,
+            "moving": 0,
             "min": 10.45,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "Your film starts in 0:08",
+              "letter": "Y",
+              "ratio": 10.45,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 5
+            },
+            "moments": 0
           }
         },
         {
@@ -733,9 +1341,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 12,
+            "noInk": 0,
+            "moving": 0,
             "min": 10.7,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "0:10",
+              "letter": "0",
+              "ratio": 10.7,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 0
           }
         },
         {
@@ -747,9 +1372,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 12,
+            "noInk": 0,
+            "moving": 0,
             "min": 10.7,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "0:04",
+              "letter": "0",
+              "ratio": 10.7,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 0
           }
         },
         {
@@ -761,9 +1403,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 136,
+            "noInk": 0,
+            "moving": 0,
             "min": 9.79,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "Ready",
+              "letter": "R",
+              "ratio": 9.79,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 0
           }
         }
       ],
@@ -790,9 +1449,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 65,
+            "noInk": 0,
+            "moving": 0,
             "min": 8.15,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "Role hidden",
+              "letter": "R",
+              "ratio": 8.15,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 5
+            },
+            "moments": 0
           }
         },
         {
@@ -804,9 +1480,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 12,
+            "noInk": 0,
+            "moving": 0,
             "min": 10.7,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "0:07",
+              "letter": "0",
+              "ratio": 10.7,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 0
           }
         },
         {
@@ -818,9 +1511,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 7.15,
-            "low": []
+            "letters": 183,
+            "noInk": 0,
+            "moving": 0,
+            "min": 5.23,
+            "low": [],
+            "closest": {
+              "text": "Picture unavailable",
+              "letter": "P",
+              "ratio": 5.23,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 5
+            },
+            "moments": 0
           }
         },
         {
@@ -832,9 +1542,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 38,
+            "noInk": 0,
+            "moving": 0,
             "min": 10.7,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "0:05",
+              "letter": "0",
+              "ratio": 10.7,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 0
           }
         },
         {
@@ -846,9 +1573,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 119,
+            "noInk": 0,
+            "moving": 0,
             "min": 9.79,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "Ready",
+              "letter": "R",
+              "ratio": 9.79,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 5
+            },
+            "moments": 0
           }
         }
       ],
@@ -859,8 +1603,8 @@
       "slug": "boarding",
       "title": "Shared boarding into Round 1",
       "file": "design/phone-ui/review/sheets/19-boarding.jpg",
-      "sha256": "0f175c5dac9d10c34ffd650fd433a99fac5db5be7592d31450b2c0a396ffe0e2",
-      "bytes": 255493,
+      "sha256": "2d8a4746a93b4a30f590a7cb262af574c3e0151e7c61cfeea93ac6829f905409",
+      "bytes": 255518,
       "size": {
         "width": 2288,
         "height": 1227
@@ -875,9 +1619,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 4,
+            "noInk": 0,
+            "moving": 0,
             "min": 10.7,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "Skip",
+              "letter": "S",
+              "ratio": 10.7,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
           }
         },
         {
@@ -889,9 +1650,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 4,
+            "noInk": 0,
+            "moving": 0,
             "min": 10.7,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "Skip",
+              "letter": "S",
+              "ratio": 10.7,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
           }
         },
         {
@@ -903,9 +1681,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 20,
+            "noInk": 0,
+            "moving": 0,
             "min": 10.45,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "Round 1 in 0:04",
+              "letter": "R",
+              "ratio": 10.45,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
           }
         },
         {
@@ -917,9 +1712,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 31,
+            "noInk": 0,
+            "moving": 0,
             "min": 10.45,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "Waiting for the ship",
+              "letter": "W",
+              "ratio": 10.45,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
           }
         },
         {
@@ -931,9 +1743,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 10.62,
-            "low": []
+            "letters": 6,
+            "noInk": 0,
+            "moving": 0,
+            "min": 10.86,
+            "low": [],
+            "closest": {
+              "text": "ROUND 1",
+              "letter": "R",
+              "ratio": 10.86,
+              "need": 3,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 76,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
           }
         }
       ],
@@ -944,8 +1773,8 @@
       "slug": "room-a",
       "title": "Room A",
       "file": "design/phone-ui/review/sheets/20-room-a.jpg",
-      "sha256": "15c7274cdda67354c0bb4439b00cddc08715b0d860f4becb9d3a13306936d409",
-      "bytes": 408793,
+      "sha256": "90e4a9247476b445ba6961dd2a26ff3502d4a602828cf2e0585bff2bd65caf08",
+      "bytes": 408743,
       "size": {
         "width": 1870,
         "height": 1258
@@ -960,9 +1789,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 10.62,
-            "low": []
+            "letters": 87,
+            "noInk": 0,
+            "moving": 0,
+            "min": 10.56,
+            "low": [],
+            "closest": {
+              "text": "Board",
+              "letter": "B",
+              "ratio": 10.56,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -974,9 +1820,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 95,
+            "noInk": 0,
+            "moving": 0,
             "min": 9.79,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "Pass",
+              "letter": "P",
+              "ratio": 9.79,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
           }
         },
         {
@@ -988,9 +1851,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 9.78,
-            "low": []
+            "letters": 112,
+            "noInk": 0,
+            "moving": 0,
+            "min": 9.68,
+            "low": [],
+            "closest": {
+              "text": "Choose a player",
+              "letter": "a",
+              "ratio": 9.68,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 5,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
           }
         },
         {
@@ -1002,9 +1882,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 9.79,
-            "low": []
+            "letters": 161,
+            "noInk": 0,
+            "moving": 0,
+            "min": 9.59,
+            "low": [],
+            "closest": {
+              "text": "Choose an empty position · or another ro",
+              "letter": "a",
+              "ratio": 9.59,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 5,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
           }
         }
       ],
@@ -1015,8 +1912,8 @@
       "slug": "room-b",
       "title": "Room B",
       "file": "design/phone-ui/review/sheets/21-room-b.jpg",
-      "sha256": "99c3582c9ee4bbe0294958a7847e4d809fed18f8b7a727d2ac6a1f2efb1fe185",
-      "bytes": 375363,
+      "sha256": "7df8c39a52b0dbd20504dfbd97368567d202085c9d489a320e0295363e3f1997",
+      "bytes": 375255,
       "size": {
         "width": 1943,
         "height": 1227
@@ -1031,9 +1928,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 10.62,
-            "low": []
+            "letters": 83,
+            "noInk": 0,
+            "moving": 0,
+            "min": 10.56,
+            "low": [],
+            "closest": {
+              "text": "Board",
+              "letter": "B",
+              "ratio": 10.56,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -1045,9 +1959,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 91,
+            "noInk": 0,
+            "moving": 0,
             "min": 9.79,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "Pass",
+              "letter": "P",
+              "ratio": 9.79,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
           }
         },
         {
@@ -1059,9 +1990,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 107,
+            "noInk": 0,
+            "moving": 0,
             "min": 7.05,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "4",
+              "letter": "4",
+              "ratio": 7.05,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 5,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
           }
         },
         {
@@ -1073,9 +2021,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 83,
+            "noInk": 0,
+            "moving": 0,
             "min": 9.79,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "0:09",
+              "letter": "0",
+              "ratio": 9.79,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         }
       ],
@@ -1086,8 +2051,8 @@
       "slug": "command-room",
       "title": "Command Room",
       "file": "design/phone-ui/review/sheets/22-command-room.jpg",
-      "sha256": "2abe5ff2fe99924dba598aea86a516e9cfadbd5639ecb161bdadc71856068e16",
-      "bytes": 341919,
+      "sha256": "bcfe7a1b51e4e9bbc8d36fd767534338ef6597a8cdfc8b15ed6e2c1920d29ec4",
+      "bytes": 340514,
       "size": {
         "width": 1846,
         "height": 1227
@@ -1102,9 +2067,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 88,
+            "noInk": 0,
+            "moving": 0,
             "min": 9.79,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "Pass",
+              "letter": "P",
+              "ratio": 9.79,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
           }
         },
         {
@@ -1116,9 +2098,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 4.96,
-            "low": []
+            "letters": 169,
+            "noInk": 0,
+            "moving": 0,
+            "min": 5.99,
+            "low": [],
+            "closest": {
+              "text": "Each command works once a match, whoever",
+              "letter": "k",
+              "ratio": 5.99,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 15,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
           }
         },
         {
@@ -1130,9 +2129,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 4.74,
-            "low": []
+            "letters": 217,
+            "noInk": 0,
+            "moving": 0,
+            "min": 5.76,
+            "low": [],
+            "closest": {
+              "text": "Once a match, on your turn in the Comman",
+              "letter": "R",
+              "ratio": 5.95,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 15,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
           }
         },
         {
@@ -1144,9 +2160,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 4.96,
-            "low": []
+            "letters": 164,
+            "noInk": 0,
+            "moving": 0,
+            "min": 5.99,
+            "low": [],
+            "closest": {
+              "text": "Each command works once a match, whoever",
+              "letter": "k",
+              "ratio": 5.99,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 15,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
           }
         }
       ],
@@ -1157,8 +2190,8 @@
       "slug": "hospital",
       "title": "Hospital",
       "file": "design/phone-ui/review/sheets/23-hospital.jpg",
-      "sha256": "f78d8fcb3a9ac6ad9bc464e8f12133a7728924b5cadf646a82b7ceb9a7bc389b",
-      "bytes": 260644,
+      "sha256": "59fc20294e8d56be815f3064a2f5ebed1810a18eb8b4e42d822cd7cb7d742e7c",
+      "bytes": 256040,
       "size": {
         "width": 1846,
         "height": 1227
@@ -1173,9 +2206,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 6.17,
-            "low": []
+            "letters": 109,
+            "noInk": 0,
+            "moving": 0,
+            "min": 6.11,
+            "low": [],
+            "closest": {
+              "text": "· Injured",
+              "letter": "d",
+              "ratio": 6.11,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -1187,9 +2237,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 5.98,
-            "low": []
+            "letters": 124,
+            "noInk": 0,
+            "moving": 0,
+            "min": 5.48,
+            "low": [],
+            "closest": {
+              "text": "One attempt: the Doctor’s player number.",
+              "letter": "a",
+              "ratio": 5.48,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 45,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -1201,9 +2268,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 5.98,
-            "low": []
+            "letters": 131,
+            "noInk": 0,
+            "moving": 0,
+            "min": 5.48,
+            "low": [],
+            "closest": {
+              "text": "One attempt: the Doctor’s player number.",
+              "letter": "a",
+              "ratio": 5.48,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 45,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -1215,9 +2299,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 4.66,
-            "low": []
+            "letters": 140,
+            "noInk": 0,
+            "moving": 0,
+            "min": 5.84,
+            "low": [],
+            "closest": {
+              "text": "Your request is queued for Rescue",
+              "letter": "q",
+              "ratio": 5.84,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 45,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         }
       ],
@@ -1228,8 +2329,8 @@
       "slug": "jail",
       "title": "Jail",
       "file": "design/phone-ui/review/sheets/24-jail.jpg",
-      "sha256": "0aa985fceacc3fedaf2fcab3794e4a922f4fc5f4b874efadb737a7fc9452ee43",
-      "bytes": 262842,
+      "sha256": "8745a5e3a61d9f0843e0e21d685937e0cd9b1c685b5d9118096f5f9fcfd8efb8",
+      "bytes": 260757,
       "size": {
         "width": 1533,
         "height": 1227
@@ -1244,9 +2345,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 10.62,
-            "low": []
+            "letters": 91,
+            "noInk": 0,
+            "moving": 0,
+            "min": 10.56,
+            "low": [],
+            "closest": {
+              "text": "Board",
+              "letter": "B",
+              "ratio": 10.56,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -1258,9 +2376,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 10.62,
-            "low": []
+            "letters": 107,
+            "noInk": 0,
+            "moving": 0,
+            "min": 8.08,
+            "low": [],
+            "closest": {
+              "text": "Board",
+              "letter": "B",
+              "ratio": 10.56,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 21
+            },
+            "moments": 16
           }
         },
         {
@@ -1272,9 +2407,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 4.74,
-            "low": []
+            "letters": 214,
+            "noInk": 0,
+            "moving": 0,
+            "min": 5.76,
+            "low": [],
+            "closest": {
+              "text": "Once a match, on your turn in the Comman",
+              "letter": "R",
+              "ratio": 5.95,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 15,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
           }
         }
       ],
@@ -1285,25 +2437,73 @@
       "slug": "private-talk",
       "title": "Private Talk capsule",
       "file": "design/phone-ui/review/sheets/25-private-talk.jpg",
-      "sha256": "42735d834e8435c9d04614a47c9e1641639978973c20da9659eaeb41a7b8dd29",
-      "bytes": 325061,
+      "sha256": "a997e6c030a4b3540f6d5e3fc5ce3c747340af87132dc2aa153a6cbf840f969e",
+      "bytes": 402131,
       "size": {
-        "width": 1846,
-        "height": 1227
+        "width": 2288,
+        "height": 1278
       },
       "frames": [
         {
-          "label": "Declare a side · target",
-          "src": "s=talk&stage=declare&safe=47%2C34",
+          "label": "Declare · own side only",
+          "src": "s=talk&stage=declare&role=Doctor&safe=47%2C34",
           "width": 390,
           "height": 844,
           "overflowX": false,
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 7.5,
-            "low": []
+            "letters": 179,
+            "noInk": 0,
+            "moving": 14,
+            "min": 5.72,
+            "low": [],
+            "closest": {
+              "text": "Declare a side. It is a claim, not a che",
+              "letter": "i",
+              "ratio": 6.13,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 40
+            },
+            "moments": 16
+          }
+        },
+        {
+          "label": "Declare · any side",
+          "src": "s=talk&stage=declare&role=Undercover&side=blue&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0,
+          "clippedText": [],
+          "contrast": {
+            "letters": 179,
+            "noInk": 0,
+            "moving": 12,
+            "min": 5.56,
+            "low": [],
+            "closest": {
+              "text": "Declare a side. It is a claim, not a che",
+              "letter": "i",
+              "ratio": 6.44,
+              "need": 4.5,
+              "at": "135 s"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -1315,9 +2515,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 7.16,
-            "low": []
+            "letters": 107,
+            "noInk": 0,
+            "moving": 1,
+            "min": 5.47,
+            "low": [],
+            "closest": {
+              "text": "Unverified · only Ava sees this",
+              "letter": "o",
+              "ratio": 5.47,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -1329,9 +2546,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 46,
+            "noInk": 0,
+            "moving": 0,
             "min": 10.65,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "Private talk",
+              "letter": "P",
+              "ratio": 10.65,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
           }
         },
         {
@@ -1343,9 +2577,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 4.61,
-            "low": []
+            "letters": 389,
+            "noInk": 0,
+            "moving": 28,
+            "min": 5.03,
+            "low": [],
+            "closest": {
+              "text": "Only during your private talk. It counts",
+              "letter": "p",
+              "ratio": 5.03,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         }
       ],
@@ -1356,8 +2607,8 @@
       "slug": "board",
       "title": "The whole board, and switching views",
       "file": "design/phone-ui/review/sheets/26-board.jpg",
-      "sha256": "58dce1491f0c1930e8549906f53b7ad760e7f192a9f2db5a91bd5fc9f35de58d",
-      "bytes": 448841,
+      "sha256": "3cc3bebc37aafebb08cf7d1094aa5549de124572fda4a92db418d160df6c6fc1",
+      "bytes": 451888,
       "size": {
         "width": 1846,
         "height": 1227
@@ -1372,9 +2623,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 10.62,
-            "low": []
+            "letters": 87,
+            "noInk": 0,
+            "moving": 0,
+            "min": 10.56,
+            "low": [],
+            "closest": {
+              "text": "Board",
+              "letter": "B",
+              "ratio": 10.56,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -1386,9 +2654,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 136,
+            "noInk": 0,
+            "moving": 0,
             "min": 8.67,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "· Injured",
+              "letter": "·",
+              "ratio": 8.67,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -1400,9 +2685,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 180,
+            "noInk": 0,
+            "moving": 0,
             "min": 8.67,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "· Injured",
+              "letter": "·",
+              "ratio": 8.67,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 15,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
           }
         },
         {
@@ -1414,9 +2716,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 5.18,
-            "low": []
+            "letters": 168,
+            "noInk": 0,
+            "moving": 0,
+            "min": 7.05,
+            "low": [],
+            "closest": {
+              "text": "2",
+              "letter": "2",
+              "ratio": 7.05,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 15,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
           }
         }
       ],
@@ -1427,8 +2746,8 @@
       "slug": "tab-destinations",
       "title": "Each tab, opened",
       "file": "design/phone-ui/review/sheets/27-tab-destinations.jpg",
-      "sha256": "c4f207cdb9615e6fc3a53da3a69545835475f0a3b71cec1d9dfbea5e6aca77fa",
-      "bytes": 423165,
+      "sha256": "80602f93e33b90671824b8a88d2cd3c9768a0e926014092d04c2b2cfdbb0f76e",
+      "bytes": 419392,
       "size": {
         "width": 2288,
         "height": 1227
@@ -1443,9 +2762,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 136,
+            "noInk": 0,
+            "moving": 0,
             "min": 8.67,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "· Injured",
+              "letter": "·",
+              "ratio": 8.67,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -1457,9 +2793,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 6.4,
-            "low": []
+            "letters": 145,
+            "noInk": 0,
+            "moving": 0,
+            "min": 5.55,
+            "low": [],
+            "closest": {
+              "text": "Your turn",
+              "letter": "r",
+              "ratio": 5.55,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 15
+            },
+            "moments": 16
           }
         },
         {
@@ -1471,9 +2824,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 10.62,
-            "low": []
+            "letters": 107,
+            "noInk": 0,
+            "moving": 0,
+            "min": 8.08,
+            "low": [],
+            "closest": {
+              "text": "Board",
+              "letter": "B",
+              "ratio": 10.56,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 21
+            },
+            "moments": 16
           }
         },
         {
@@ -1485,9 +2855,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 7.58,
-            "low": []
+            "letters": 178,
+            "noInk": 0,
+            "moving": 0,
+            "min": 7.5,
+            "low": [],
+            "closest": {
+              "text": "Only on this phone",
+              "letter": "O",
+              "ratio": 7.5,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -1499,9 +2886,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 9.78,
-            "low": []
+            "letters": 149,
+            "noInk": 0,
+            "moving": 0,
+            "min": 7.41,
+            "low": [],
+            "closest": {
+              "text": "Room A ↔ Room B · Room A ↔ Hospital",
+              "letter": "R",
+              "ratio": 9.78,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 60
+            },
+            "moments": 16
           }
         }
       ],
@@ -1512,8 +2916,8 @@
       "slug": "tap-board",
       "title": "Tap Board: the whole ship, and back",
       "file": "design/phone-ui/review/sheets/27.1-tap-board.jpg",
-      "sha256": "54cdfc14f4216b83c59b7fdbabefa07c9926cbd41f56d95e15716548deeb7ccd",
-      "bytes": 554304,
+      "sha256": "51c1680cb49e2c961bef273f67c567a918e926a9c081001443dca68da8d963b2",
+      "bytes": 559782,
       "size": {
         "width": 2288,
         "height": 1278
@@ -1527,11 +2931,28 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0,
           "tap": true,
+          "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 10.62,
-            "low": []
+            "letters": 87,
+            "noInk": 0,
+            "moving": 0,
+            "min": 10.56,
+            "low": [],
+            "closest": {
+              "text": "Board",
+              "letter": "B",
+              "ratio": 10.56,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -1542,11 +2963,28 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0,
           "tap": true,
+          "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 136,
+            "noInk": 0,
+            "moving": 0,
             "min": 8.67,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "· Injured",
+              "letter": "·",
+              "ratio": 8.67,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -1558,9 +2996,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 10.62,
-            "low": []
+            "letters": 87,
+            "noInk": 0,
+            "moving": 0,
+            "min": 10.56,
+            "low": [],
+            "closest": {
+              "text": "Board",
+              "letter": "B",
+              "ratio": 10.56,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -1572,9 +3027,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 180,
+            "noInk": 0,
+            "moving": 0,
             "min": 8.67,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "· Injured",
+              "letter": "·",
+              "ratio": 8.67,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 15,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
           }
         },
         {
@@ -1586,9 +3058,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 5.18,
-            "low": []
+            "letters": 168,
+            "noInk": 0,
+            "moving": 0,
+            "min": 7.05,
+            "low": [],
+            "closest": {
+              "text": "2",
+              "letter": "2",
+              "ratio": 7.05,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 15,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
           }
         }
       ],
@@ -1599,8 +3088,8 @@
       "slug": "tap-actions",
       "title": "Tap Actions: what you can do, then who",
       "file": "design/phone-ui/review/sheets/27.2-tap-actions.jpg",
-      "sha256": "69164473614249153ca3c8c96e909157f3774b868a07ce03033dccd273a97f49",
-      "bytes": 551058,
+      "sha256": "e2833ce992caa9c303619b5fb8875b66c5239b65f6656e06ddb20d0a73cd1d09",
+      "bytes": 545993,
       "size": {
         "width": 2730,
         "height": 1326
@@ -1614,11 +3103,28 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0,
           "tap": true,
+          "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 95,
+            "noInk": 0,
+            "moving": 0,
             "min": 9.79,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "Pass",
+              "letter": "P",
+              "ratio": 9.79,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
           }
         },
         {
@@ -1629,11 +3135,28 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0,
           "tap": true,
+          "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 6.4,
-            "low": []
+            "letters": 145,
+            "noInk": 0,
+            "moving": 0,
+            "min": 5.55,
+            "low": [],
+            "closest": {
+              "text": "Your turn",
+              "letter": "r",
+              "ratio": 5.55,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 15
+            },
+            "moments": 16
           }
         },
         {
@@ -1644,11 +3167,28 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0,
           "tap": true,
+          "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 9.78,
-            "low": []
+            "letters": 112,
+            "noInk": 0,
+            "moving": 0,
+            "min": 9.68,
+            "low": [],
+            "closest": {
+              "text": "Choose a player",
+              "letter": "a",
+              "ratio": 9.68,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 5,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
           }
         },
         {
@@ -1659,11 +3199,28 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0,
           "tap": true,
+          "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 5.3,
-            "low": []
+            "letters": 214,
+            "noInk": 0,
+            "moving": 3,
+            "min": 5.82,
+            "low": [],
+            "closest": {
+              "text": "Resolved at the end of the round, after ",
+              "letter": "n",
+              "ratio": 6.57,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
           }
         },
         {
@@ -1675,9 +3232,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 5.22,
-            "low": []
+            "letters": 233,
+            "noInk": 0,
+            "moving": 0,
+            "min": 6.23,
+            "low": [],
+            "closest": {
+              "text": "Rescue of Ava registered.",
+              "letter": "f",
+              "ratio": 6.23,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
           }
         },
         {
@@ -1689,9 +3263,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 6.85,
-            "low": []
+            "letters": 154,
+            "noInk": 0,
+            "moving": 0,
+            "min": 7.5,
+            "low": [],
+            "closest": {
+              "text": "Doctor · Room A",
+              "letter": "D",
+              "ratio": 7.5,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 57
+            },
+            "moments": 16
           }
         }
       ],
@@ -1702,8 +3293,8 @@
       "slug": "tap-pass",
       "title": "Tap Pass: end your turn (Vote in a vote)",
       "file": "design/phone-ui/review/sheets/27.3-tap-pass.jpg",
-      "sha256": "0f356d4436d60f25c29464bdb0eae553f303438a1eb026b313573e679f88ee2e",
-      "bytes": 478332,
+      "sha256": "a86ddd4b3dad503a724f711058a90c7225884f258f8f88895ce7ba9edeb32bd5",
+      "bytes": 476880,
       "size": {
         "width": 2288,
         "height": 1258
@@ -1717,11 +3308,28 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0,
           "tap": true,
+          "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 95,
+            "noInk": 0,
+            "moving": 0,
             "min": 9.79,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "Pass",
+              "letter": "P",
+              "ratio": 9.79,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
           }
         },
         {
@@ -1732,11 +3340,28 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0,
           "tap": true,
+          "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 5.01,
-            "low": []
+            "letters": 148,
+            "noInk": 0,
+            "moving": 0,
+            "min": 6.13,
+            "low": [],
+            "closest": {
+              "text": "Your move stays open on the other turns ",
+              "letter": "h",
+              "ratio": 6.13,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
           }
         },
         {
@@ -1748,9 +3373,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 10.62,
-            "low": []
+            "letters": 97,
+            "noInk": 0,
+            "moving": 0,
+            "min": 10.56,
+            "low": [],
+            "closest": {
+              "text": "Board",
+              "letter": "B",
+              "ratio": 10.56,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -1761,11 +3403,28 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0,
           "tap": true,
+          "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 10.62,
-            "low": []
+            "letters": 92,
+            "noInk": 0,
+            "moving": 0,
+            "min": 10.56,
+            "low": [],
+            "closest": {
+              "text": "Board",
+              "letter": "B",
+              "ratio": 10.56,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
           }
         },
         {
@@ -1777,9 +3436,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 10.62,
-            "low": []
+            "letters": 107,
+            "noInk": 0,
+            "moving": 0,
+            "min": 8.08,
+            "low": [],
+            "closest": {
+              "text": "Board",
+              "letter": "B",
+              "ratio": 10.56,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 21
+            },
+            "moments": 16
           }
         }
       ],
@@ -1790,8 +3466,8 @@
       "slug": "tap-card",
       "title": "Tap Card: your role, privately",
       "file": "design/phone-ui/review/sheets/27.4-tap-card.jpg",
-      "sha256": "532c45401a9b6cad3261e224348479b31bd0cb7fc32b4caecabd2b87cf67553c",
-      "bytes": 361602,
+      "sha256": "a2536628a97dcf565a098e5dfe7d2a4b1033f4828ae8464219cda13cab19fad4",
+      "bytes": 355974,
       "size": {
         "width": 2288,
         "height": 1258
@@ -1805,11 +3481,28 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0,
           "tap": true,
+          "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 10.62,
-            "low": []
+            "letters": 87,
+            "noInk": 0,
+            "moving": 0,
+            "min": 10.56,
+            "low": [],
+            "closest": {
+              "text": "Board",
+              "letter": "B",
+              "ratio": 10.56,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -1820,11 +3513,28 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0,
           "tap": true,
+          "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 7.58,
-            "low": []
+            "letters": 178,
+            "noInk": 0,
+            "moving": 0,
+            "min": 7.5,
+            "low": [],
+            "closest": {
+              "text": "Only on this phone",
+              "letter": "O",
+              "ratio": 7.5,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -1835,11 +3545,28 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0,
           "tap": true,
+          "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 6.54,
-            "low": []
+            "letters": 140,
+            "noInk": 0,
+            "moving": 30,
+            "min": 5.31,
+            "low": [],
+            "closest": {
+              "text": "Your role starts with no knowledge of ot",
+              "letter": "h",
+              "ratio": 5.31,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -1850,11 +3577,28 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0,
           "tap": true,
+          "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 6.6,
-            "low": []
+            "letters": 188,
+            "noInk": 0,
+            "moving": 4,
+            "min": 6.14,
+            "low": [],
+            "closest": {
+              "text": "Resources",
+              "letter": "R",
+              "ratio": 6.14,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -1866,9 +3610,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 10.44,
-            "low": []
+            "letters": 84,
+            "noInk": 0,
+            "moving": 0,
+            "min": 7.5,
+            "low": [],
+            "closest": {
+              "text": "Only on this phone",
+              "letter": "O",
+              "ratio": 7.5,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         }
       ],
@@ -1879,8 +3640,8 @@
       "slug": "tap-panels",
       "title": "Tap Panels: the match’s panels",
       "file": "design/phone-ui/review/sheets/27.5-tap-panels.jpg",
-      "sha256": "e6961ec61ab028b672c1805cae191e5784cf782487dd3e1661d97cd2d641b3de",
-      "bytes": 366841,
+      "sha256": "6fdee420de5444e0fe89e65c443bf3474376a045515b2f738ed0b88ac149c766",
+      "bytes": 363316,
       "size": {
         "width": 2288,
         "height": 1258
@@ -1894,11 +3655,28 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0,
           "tap": true,
+          "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 10.62,
-            "low": []
+            "letters": 87,
+            "noInk": 0,
+            "moving": 0,
+            "min": 10.56,
+            "low": [],
+            "closest": {
+              "text": "Board",
+              "letter": "B",
+              "ratio": 10.56,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -1909,11 +3687,28 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0,
           "tap": true,
+          "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 9.78,
-            "low": []
+            "letters": 149,
+            "noInk": 0,
+            "moving": 0,
+            "min": 7.41,
+            "low": [],
+            "closest": {
+              "text": "Room A ↔ Room B · Room A ↔ Hospital",
+              "letter": "R",
+              "ratio": 9.78,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 60
+            },
+            "moments": 16
           }
         },
         {
@@ -1925,9 +3720,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 4.92,
-            "low": []
+            "letters": 160,
+            "noInk": 0,
+            "moving": 0,
+            "min": 5.43,
+            "low": [],
+            "closest": {
+              "text": "Room A ↔ Room B",
+              "letter": "o",
+              "ratio": 5.43,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -1939,9 +3751,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 6.11,
-            "low": []
+            "letters": 231,
+            "noInk": 0,
+            "moving": 0,
+            "min": 6.92,
+            "low": [],
+            "closest": {
+              "text": "Public facts only: seats, rooms, health ",
+              "letter": "t",
+              "ratio": 6.92,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -1953,9 +3782,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 7.17,
-            "low": []
+            "letters": 350,
+            "noInk": 0,
+            "moving": 0,
+            "min": 6.36,
+            "low": [],
+            "closest": {
+              "text": "Current order. The owner’s Blackout-befo",
+              "letter": "n",
+              "ratio": 6.36,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         }
       ],
@@ -1966,8 +3812,8 @@
       "slug": "tap-top-bar",
       "title": "Tap the top bar: Promises and ⋮",
       "file": "design/phone-ui/review/sheets/27.6-tap-top-bar.jpg",
-      "sha256": "486ee42673b1227c4a0dfabe19b8275c903dffba70d293c7b04f434552bd3137",
-      "bytes": 423806,
+      "sha256": "866ee46a788f44be7757c768c8ba9f8419c22a0c0a8e9875aad14b2793aa5f47",
+      "bytes": 420167,
       "size": {
         "width": 2288,
         "height": 1304
@@ -1981,11 +3827,28 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0,
           "tap": true,
+          "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 10.62,
-            "low": []
+            "letters": 87,
+            "noInk": 0,
+            "moving": 0,
+            "min": 10.56,
+            "low": [],
+            "closest": {
+              "text": "Board",
+              "letter": "B",
+              "ratio": 10.56,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -1997,9 +3860,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 9.65,
-            "low": []
+            "letters": 163,
+            "noInk": 0,
+            "moving": 9,
+            "min": 5.84,
+            "low": [],
+            "closest": {
+              "text": "With Ava · talking now",
+              "letter": "g",
+              "ratio": 5.84,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -2010,11 +3890,28 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 0,
           "tap": true,
+          "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 10.62,
-            "low": []
+            "letters": 87,
+            "noInk": 0,
+            "moving": 0,
+            "min": 10.56,
+            "low": [],
+            "closest": {
+              "text": "Board",
+              "letter": "B",
+              "ratio": 10.56,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -2026,9 +3923,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 5.74,
-            "low": []
+            "letters": 184,
+            "noInk": 0,
+            "moving": 0,
+            "min": 5.64,
+            "low": [],
+            "closest": {
+              "text": "Display",
+              "letter": "y",
+              "ratio": 6.87,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -2040,9 +3954,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 5.24,
-            "low": []
+            "letters": 229,
+            "noInk": 0,
+            "moving": 0,
+            "min": 6.4,
+            "low": [],
+            "closest": {
+              "text": "These stay on this phone. They never cha",
+              "letter": "s",
+              "ratio": 6.4,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         }
       ],
@@ -2053,8 +3984,8 @@
       "slug": "actions",
       "title": "Actions",
       "file": "design/phone-ui/review/sheets/28-actions.jpg",
-      "sha256": "b05678859338441a34a8bf79b6c482aa301def30cfe10d7fefe6d47cb0ee57ae",
-      "bytes": 333524,
+      "sha256": "4063835e3b39b4841419c5ebcc7edc68bba3cbe589a3038f80dc9628e898144e",
+      "bytes": 331003,
       "size": {
         "width": 1846,
         "height": 1227
@@ -2069,9 +4000,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 6.4,
-            "low": []
+            "letters": 145,
+            "noInk": 0,
+            "moving": 0,
+            "min": 5.55,
+            "low": [],
+            "closest": {
+              "text": "Your turn",
+              "letter": "r",
+              "ratio": 5.55,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 15
+            },
+            "moments": 16
           }
         },
         {
@@ -2083,9 +4031,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 6.48,
-            "low": []
+            "letters": 158,
+            "noInk": 0,
+            "moving": 0,
+            "min": 5.55,
+            "low": [],
+            "closest": {
+              "text": "Your turn",
+              "letter": "r",
+              "ratio": 5.55,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 35
+            },
+            "moments": 16
           }
         },
         {
@@ -2097,9 +4062,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 6.85,
-            "low": []
+            "letters": 158,
+            "noInk": 0,
+            "moving": 0,
+            "min": 6.81,
+            "low": [],
+            "closest": {
+              "text": "Undercover · Room A",
+              "letter": "A",
+              "ratio": 6.81,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 57
+            },
+            "moments": 16
           }
         },
         {
@@ -2111,9 +4093,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 6.4,
-            "low": []
+            "letters": 106,
+            "noInk": 0,
+            "moving": 0,
+            "min": 5.55,
+            "low": [],
+            "closest": {
+              "text": "Your turn",
+              "letter": "r",
+              "ratio": 5.55,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 61
+            },
+            "moments": 16
           }
         }
       ],
@@ -2124,11 +4123,11 @@
       "slug": "targeting",
       "title": "Targeting and registering",
       "file": "design/phone-ui/review/sheets/29-targeting.jpg",
-      "sha256": "914322e7be8204f8c9c3ccd6dc5f02b883f432b3c4bd3d91c8a0fcc1aa7339d3",
-      "bytes": 462688,
+      "sha256": "68cb58eb26f743db415fa33cf204bad4452a25ae1ad2bafaaa090174b1c63d51",
+      "bytes": 564603,
       "size": {
-        "width": 2412,
-        "height": 1258
+        "width": 3037,
+        "height": 1304
       },
       "frames": [
         {
@@ -2139,14 +4138,64 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
+          "tap": true,
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 9.78,
-            "low": []
+            "letters": 112,
+            "noInk": 0,
+            "moving": 0,
+            "min": 9.68,
+            "low": [],
+            "closest": {
+              "text": "Choose a player",
+              "letter": "a",
+              "ratio": 9.68,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 5,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
           }
         },
         {
-          "label": "Other rooms",
+          "label": "Other rooms · on the board",
+          "src": "s=board&state=targets&role=Doctor&active=4&act=rescue&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "tap": true,
+          "clipped": 0,
+          "clippedText": [],
+          "contrast": {
+            "letters": 168,
+            "noInk": 0,
+            "moving": 0,
+            "min": 7.05,
+            "low": [],
+            "closest": {
+              "text": "2",
+              "letter": "2",
+              "ratio": 7.05,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 15,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
+          }
+        },
+        {
+          "label": "The same choice as a list",
           "src": "s=actions&role=Doctor&active=4&state=offroom&act=rescue&safe=47%2C34",
           "width": 390,
           "height": 844,
@@ -2154,51 +4203,397 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 5.23,
-            "low": []
+            "letters": 176,
+            "noInk": 0,
+            "moving": 13,
+            "min": 5.55,
+            "low": [],
+            "closest": {
+              "text": "Rescue · everyone you can reach",
+              "letter": "e",
+              "ratio": 6.11,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
           }
         },
         {
           "label": "Check and register",
-          "src": "s=actions&role=Doctor&active=4&state=confirm&act=rescue&safe=47%2C34",
+          "src": "s=actions&role=Doctor&active=4&state=confirm&act=rescue&target=5&safe=47%2C34",
           "width": 390,
           "height": 844,
           "overflowX": false,
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 5.3,
-            "low": []
+            "letters": 217,
+            "noInk": 0,
+            "moving": 3,
+            "min": 5.82,
+            "low": [],
+            "closest": {
+              "text": "Resolved at the end of the round, after ",
+              "letter": "n",
+              "ratio": 6.57,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
           }
         },
         {
           "label": "Registering",
-          "src": "s=actions&role=Doctor&active=4&state=submitting&act=rescue&safe=47%2C34",
+          "src": "s=actions&role=Doctor&active=4&state=submitting&act=rescue&target=5&safe=47%2C34",
           "width": 390,
           "height": 844,
           "overflowX": false,
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 5.3,
-            "low": []
+            "letters": 203,
+            "noInk": 0,
+            "moving": 3,
+            "min": 5.82,
+            "low": [],
+            "closest": {
+              "text": "Resolved at the end of the round, after ",
+              "letter": "n",
+              "ratio": 6.57,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
           }
         },
         {
           "label": "Registered",
-          "src": "s=actions&role=Doctor&active=4&state=registered&act=rescue&safe=47%2C34",
+          "src": "s=actions&role=Doctor&active=4&state=registered&act=rescue&target=5&safe=47%2C34",
           "width": 390,
           "height": 844,
           "overflowX": false,
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 5.22,
-            "low": []
+            "letters": 233,
+            "noInk": 0,
+            "moving": 0,
+            "min": 6.23,
+            "low": [],
+            "closest": {
+              "text": "Rescue of Eli registered.",
+              "letter": "f",
+              "ratio": 6.23,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
+          }
+        }
+      ],
+      "problems": []
+    },
+    {
+      "id": "29.1",
+      "slug": "registered-waiting",
+      "title": "Registered: waiting for the end of the round",
+      "file": "design/phone-ui/review/sheets/29.1-registered-waiting.jpg",
+      "sha256": "34a88d131fe5e1bf55f2fb9cc38a7069234276f194b1823f1b4c8226bb17937b",
+      "bytes": 433289,
+      "size": {
+        "width": 2735,
+        "height": 1254
+      },
+      "frames": [
+        {
+          "label": "Rescue",
+          "src": "s=actions&role=Doctor&active=4&state=registered&act=rescue&target=5&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0,
+          "clippedText": [],
+          "contrast": {
+            "letters": 233,
+            "noInk": 0,
+            "moving": 0,
+            "min": 6.23,
+            "low": [],
+            "closest": {
+              "text": "Rescue of Eli registered.",
+              "letter": "f",
+              "ratio": 6.23,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
+          }
+        },
+        {
+          "label": "Protection · active next round",
+          "src": "s=actions&role=Undercover&active=4&state=registered&act=protect&target=7&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0,
+          "clippedText": [],
+          "contrast": {
+            "letters": 279,
+            "noInk": 0,
+            "moving": 4,
+            "min": 5.47,
+            "low": [],
+            "closest": {
+              "text": "This is not a result. It is resolved at ",
+              "letter": "t",
+              "ratio": 5.47,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
+          }
+        },
+        {
+          "label": "Supply",
+          "src": "s=actions&role=Supplier&active=4&state=registered&act=supply&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0,
+          "clippedText": [],
+          "contrast": {
+            "letters": 225,
+            "noInk": 0,
+            "moving": 0,
+            "min": 6.16,
+            "low": [],
+            "closest": {
+              "text": "Supply for Ava and Gus registered.",
+              "letter": "f",
+              "ratio": 6.16,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
+          }
+        },
+        {
+          "label": "Shot · Round 4",
+          "src": "s=actions&role=Undercover&active=4&state=registered&act=shoot&target=7&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0,
+          "clippedText": [],
+          "contrast": {
+            "letters": 237,
+            "noInk": 0,
+            "moving": 0,
+            "min": 5.49,
+            "low": [],
+            "closest": {
+              "text": "This is not a result. Registered shots a",
+              "letter": "i",
+              "ratio": 5.49,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
+          }
+        },
+        {
+          "label": "Blackout",
+          "src": "s=actions&role=Blue+Disabler&active=4&state=registered&act=blackout&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0,
+          "clippedText": [],
+          "contrast": {
+            "letters": 258,
+            "noInk": 0,
+            "moving": 0,
+            "min": 5.47,
+            "low": [],
+            "closest": {
+              "text": "This is not a result. Nothing changes un",
+              "letter": "t",
+              "ratio": 5.47,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
+          }
+        }
+      ],
+      "problems": []
+    },
+    {
+      "id": "29.2",
+      "slug": "accepted-now",
+      "title": "Accepted: what happens at once",
+      "file": "design/phone-ui/review/sheets/29.2-accepted-now.jpg",
+      "sha256": "1c613717dfe1b6a1b533d24af66a1e654f6ddb1bd4921f72c8f24be091ad875d",
+      "bytes": 267130,
+      "size": {
+        "width": 1544,
+        "height": 1254
+      },
+      "frames": [
+        {
+          "label": "Private talk · after this turn",
+          "src": "s=actions&role=Doctor&active=4&state=registered&act=talk&target=1&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0,
+          "clippedText": [],
+          "contrast": {
+            "letters": 248,
+            "noInk": 0,
+            "moving": 0,
+            "min": 5.47,
+            "low": [],
+            "closest": {
+              "text": "It starts after this turn. The top bar s",
+              "letter": "t",
+              "ratio": 5.47,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
+          }
+        },
+        {
+          "label": "Clone · active now",
+          "src": "s=actions&role=Alien&active=4&state=registered&act=clone&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0,
+          "clippedText": [],
+          "contrast": {
+            "letters": 244,
+            "noInk": 0,
+            "moving": 0,
+            "min": 5.75,
+            "low": [],
+            "closest": {
+              "text": "Round 3 · when the server accepted it",
+              "letter": "i",
+              "ratio": 5.75,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
+          }
+        },
+        {
+          "label": "Engineer · captured now",
+          "src": "s=actions&role=Engineer&active=4&state=registered&act=suppress&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0,
+          "clippedText": [],
+          "contrast": {
+            "letters": 367,
+            "noInk": 0,
+            "moving": 39,
+            "min": 5.32,
+            "low": [],
+            "closest": {
+              "text": "Captured now: the 3 players in Room B. T",
+              "letter": "a",
+              "ratio": 5.32,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
           }
         }
       ],
@@ -2209,8 +4604,8 @@
       "slug": "blackout",
       "title": "Blackout",
       "file": "design/phone-ui/review/sheets/30-blackout.jpg",
-      "sha256": "7bb441ecffe08108d468b5ac3c2ca2d623dcd1b7fbb3ae155c9e03dcdc7f1c30",
-      "bytes": 374853,
+      "sha256": "b12c34bfb9606ad8d654943696224b4c3ac3acb634e0b710d5aba7c740a960b4",
+      "bytes": 375134,
       "size": {
         "width": 2354,
         "height": 1227
@@ -2225,9 +4620,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 5.39,
-            "low": []
+            "letters": 212,
+            "noInk": 0,
+            "moving": 3,
+            "min": 5.82,
+            "low": [],
+            "closest": {
+              "text": "Registered now · the lights go out later",
+              "letter": "h",
+              "ratio": 6.57,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
           }
         },
         {
@@ -2239,9 +4651,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 72,
+            "noInk": 0,
+            "moving": 0,
             "min": 10.56,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "Board",
+              "letter": "B",
+              "ratio": 10.56,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -2253,9 +4682,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 53,
+            "noInk": 0,
+            "moving": 0,
             "min": 9.79,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "0:08",
+              "letter": "0",
+              "ratio": 9.79,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 11
+            },
+            "moments": 16
           }
         },
         {
@@ -2267,9 +4713,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 103,
+            "noInk": 0,
+            "moving": 0,
             "min": 9.79,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "0:08",
+              "letter": "0",
+              "ratio": 9.79,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 5,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -2281,9 +4744,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 115,
+            "noInk": 0,
+            "moving": 0,
             "min": 9.79,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "Resolves after the window · no effect sh",
+              "letter": "R",
+              "ratio": 9.79,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 5,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         }
       ],
@@ -2294,8 +4774,8 @@
       "slug": "card",
       "title": "Card",
       "file": "design/phone-ui/review/sheets/31-card.jpg",
-      "sha256": "e1b1f7dea97e7b10c161a86ea818994589254f0ee2e450e57a482b52eb1991d8",
-      "bytes": 257048,
+      "sha256": "5b991c5c688883526b0bd6c19b6c24718cb031bf95b61c11e3cb85378bffd49e",
+      "bytes": 251452,
       "size": {
         "width": 1846,
         "height": 1227
@@ -2310,9 +4790,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 7.58,
-            "low": []
+            "letters": 178,
+            "noInk": 0,
+            "moving": 0,
+            "min": 7.5,
+            "low": [],
+            "closest": {
+              "text": "Only on this phone",
+              "letter": "O",
+              "ratio": 7.5,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -2324,9 +4821,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 7.22,
-            "low": []
+            "letters": 159,
+            "noInk": 0,
+            "moving": 9,
+            "min": 7.5,
+            "low": [],
+            "closest": {
+              "text": "Only on this phone",
+              "letter": "O",
+              "ratio": 7.5,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -2338,9 +4852,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 6.6,
-            "low": []
+            "letters": 188,
+            "noInk": 0,
+            "moving": 4,
+            "min": 6.14,
+            "low": [],
+            "closest": {
+              "text": "Resources",
+              "letter": "R",
+              "ratio": 6.14,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -2352,9 +4883,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 10.44,
-            "low": []
+            "letters": 84,
+            "noInk": 0,
+            "moving": 0,
+            "min": 7.5,
+            "low": [],
+            "closest": {
+              "text": "Only on this phone",
+              "letter": "O",
+              "ratio": 7.5,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         }
       ],
@@ -2365,8 +4913,8 @@
       "slug": "panels-settings",
       "title": "Panels and Settings",
       "file": "design/phone-ui/review/sheets/32-panels-settings.jpg",
-      "sha256": "be979b808cd6c59b634a4aa04adcae0001a6e8c1d8a3bbf0fae21ed523e895c6",
-      "bytes": 364494,
+      "sha256": "4e497e17465ac7e7dc847fc278aea241022431f708372199a0a548dc7eb4ac9b",
+      "bytes": 359357,
       "size": {
         "width": 2288,
         "height": 1254
@@ -2381,9 +4929,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 9.78,
-            "low": []
+            "letters": 149,
+            "noInk": 0,
+            "moving": 0,
+            "min": 7.41,
+            "low": [],
+            "closest": {
+              "text": "Room A ↔ Room B · Room A ↔ Hospital",
+              "letter": "R",
+              "ratio": 9.78,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 60
+            },
+            "moments": 16
           }
         },
         {
@@ -2395,9 +4960,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 6.11,
-            "low": []
+            "letters": 231,
+            "noInk": 0,
+            "moving": 0,
+            "min": 6.92,
+            "low": [],
+            "closest": {
+              "text": "Public facts only: seats, rooms, health ",
+              "letter": "t",
+              "ratio": 6.92,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -2409,9 +4991,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 7.17,
-            "low": []
+            "letters": 350,
+            "noInk": 0,
+            "moving": 0,
+            "min": 6.36,
+            "low": [],
+            "closest": {
+              "text": "Current order. The owner’s Blackout-befo",
+              "letter": "n",
+              "ratio": 6.36,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -2423,9 +5022,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 5.74,
-            "low": []
+            "letters": 184,
+            "noInk": 0,
+            "moving": 0,
+            "min": 5.64,
+            "low": [],
+            "closest": {
+              "text": "Display",
+              "letter": "y",
+              "ratio": 6.87,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -2437,9 +5053,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 5.24,
-            "low": []
+            "letters": 229,
+            "noInk": 0,
+            "moving": 0,
+            "min": 6.4,
+            "low": [],
+            "closest": {
+              "text": "These stay on this phone. They never cha",
+              "letter": "s",
+              "ratio": 6.4,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         }
       ],
@@ -2450,10 +5083,10 @@
       "slug": "promises",
       "title": "Promises",
       "file": "design/phone-ui/review/sheets/33-promises.jpg",
-      "sha256": "6f44c72986efbd48bac78de6047c02f414e21fa9450387a2d3298d7f7a948ce0",
-      "bytes": 341020,
+      "sha256": "a94e336f8a8c44255e7492323a6b06ee874aca63391c78a4203394dfab98d878",
+      "bytes": 279354,
       "size": {
-        "width": 2288,
+        "width": 1846,
         "height": 1227
       },
       "frames": [
@@ -2466,9 +5099,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 9.65,
-            "low": []
+            "letters": 163,
+            "noInk": 0,
+            "moving": 9,
+            "min": 5.84,
+            "low": [],
+            "closest": {
+              "text": "With Ava · talking now",
+              "letter": "g",
+              "ratio": 5.84,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -2480,9 +5130,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 4.61,
-            "low": []
+            "letters": 389,
+            "noInk": 0,
+            "moving": 28,
+            "min": 5.03,
+            "low": [],
+            "closest": {
+              "text": "Only during your private talk. It counts",
+              "letter": "p",
+              "ratio": 5.03,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -2494,9 +5161,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 5.71,
-            "low": []
+            "letters": 177,
+            "noInk": 0,
+            "moving": 16,
+            "min": 5.47,
+            "low": [],
+            "closest": {
+              "text": "Uses your one given Promise only if Ava ",
+              "letter": "v",
+              "ratio": 5.47,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -2508,23 +5192,165 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 5.67,
-            "low": []
+            "letters": 337,
+            "noInk": 0,
+            "moving": 12,
+            "min": 5.73,
+            "low": [],
+            "closest": {
+              "text": "A Promise is never forced: it is checked",
+              "letter": "s",
+              "ratio": 5.73,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
-        },
+        }
+      ],
+      "problems": []
+    },
+    {
+      "id": "33.1",
+      "slug": "promise-results",
+      "title": "Promise results, one match moment each",
+      "file": "design/phone-ui/review/sheets/33.1-promise-results.jpg",
+      "sha256": "aa8ede42c28030fba981194a84bfe3c8e597f650025ea4d72e1f4cb090765fde",
+      "bytes": 269864,
+      "size": {
+        "width": 1846,
+        "height": 1254
+      },
+      "frames": [
         {
-          "label": "Results",
-          "src": "s=promises&state=results&safe=47%2C34",
+          "label": "Pending",
+          "src": "s=promises&state=results&case=pending&safe=47%2C34",
           "width": 390,
           "height": 844,
           "overflowX": false,
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 255,
+            "noInk": 0,
+            "moving": 4,
+            "min": 5.32,
+            "low": [],
+            "closest": {
+              "text": "“Not fulfilled” is a fact about ballots ",
+              "letter": "n",
+              "ratio": 5.32,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
+          }
+        },
+        {
+          "label": "Fulfilled",
+          "src": "s=promises&state=results&case=fulfilled&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0,
+          "clippedText": [],
+          "contrast": {
+            "letters": 255,
+            "noInk": 0,
+            "moving": 10,
             "min": 5.07,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "Fulfilled",
+              "letter": "F",
+              "ratio": 5.07,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
+          }
+        },
+        {
+          "label": "Not fulfilled",
+          "src": "s=promises&state=results&case=not-fulfilled&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0,
+          "clippedText": [],
+          "contrast": {
+            "letters": 283,
+            "noInk": 0,
+            "moving": 11,
+            "min": 5.08,
+            "low": [],
+            "closest": {
+              "text": "In the runoff, a ballot in which Dev was",
+              "letter": "h",
+              "ratio": 5.08,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
+          }
+        },
+        {
+          "label": "Condition not met",
+          "src": "s=promises&state=results&case=condition&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0,
+          "clippedText": [],
+          "contrast": {
+            "letters": 269,
+            "noInk": 0,
+            "moving": 4,
+            "min": 5.32,
+            "low": [],
+            "closest": {
+              "text": "“Not fulfilled” is a fact about ballots ",
+              "letter": "n",
+              "ratio": 5.32,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         }
       ],
@@ -2535,8 +5361,8 @@
       "slug": "windows",
       "title": "Windows",
       "file": "design/phone-ui/review/sheets/34-windows.jpg",
-      "sha256": "5831fbd5a77607a0cd1f0ead7a267ee3d29b4d89c28eb0e2fddb4cf88558a098",
-      "bytes": 230417,
+      "sha256": "34c9cb7c0a7dcc25405b4166d1624598b7b30091369d5927b9b06d53e3af954f",
+      "bytes": 225623,
       "size": {
         "width": 1846,
         "height": 1227
@@ -2551,9 +5377,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 4.92,
-            "low": []
+            "letters": 160,
+            "noInk": 0,
+            "moving": 0,
+            "min": 5.44,
+            "low": [],
+            "closest": {
+              "text": "Room A ↔ Room B",
+              "letter": "o",
+              "ratio": 5.44,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -2565,9 +5408,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 4.92,
-            "low": []
+            "letters": 104,
+            "noInk": 0,
+            "moving": 0,
+            "min": 5.43,
+            "low": [],
+            "closest": {
+              "text": "Room A ↔ Hospital",
+              "letter": "s",
+              "ratio": 5.43,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 22,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -2579,9 +5439,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 4.92,
-            "low": []
+            "letters": 135,
+            "noInk": 0,
+            "moving": 0,
+            "min": 5.43,
+            "low": [],
+            "closest": {
+              "text": "Room A ↔ Hospital",
+              "letter": "s",
+              "ratio": 5.43,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 22,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -2593,9 +5470,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 4.62,
-            "low": []
+            "letters": 95,
+            "noInk": 0,
+            "moving": 17,
+            "min": 5.48,
+            "low": [],
+            "closest": {
+              "text": "The Command Room has no window",
+              "letter": "o",
+              "ratio": 5.48,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         }
       ],
@@ -2606,8 +5500,8 @@
       "slug": "vote-jail",
       "title": "Jail vote",
       "file": "design/phone-ui/review/sheets/35-vote-jail.jpg",
-      "sha256": "eb2f385866bb57e53c0f36c1df33e34be9c4cf90e4580b047909ab686b01a267",
-      "bytes": 377916,
+      "sha256": "4d110a6b8614af9378813f37b6137df72955ff6feb98ed7d01611c046cb485d5",
+      "bytes": 372748,
       "size": {
         "width": 2288,
         "height": 1227
@@ -2622,9 +5516,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 10.62,
-            "low": []
+            "letters": 107,
+            "noInk": 0,
+            "moving": 0,
+            "min": 8.08,
+            "low": [],
+            "closest": {
+              "text": "Board",
+              "letter": "B",
+              "ratio": 10.56,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 21
+            },
+            "moments": 16
           }
         },
         {
@@ -2636,9 +5547,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 9.79,
-            "low": []
+            "letters": 125,
+            "noInk": 0,
+            "moving": 0,
+            "min": 8.08,
+            "low": [],
+            "closest": {
+              "text": "Ava",
+              "letter": "a",
+              "ratio": 9.32,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 17
+            },
+            "moments": 16
           }
         },
         {
@@ -2650,9 +5578,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 9.15,
-            "low": []
+            "letters": 80,
+            "noInk": 0,
+            "moving": 0,
+            "min": 8.08,
+            "low": [],
+            "closest": {
+              "text": "Voted",
+              "letter": "V",
+              "ratio": 9.02,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 62
+            },
+            "moments": 16
           }
         },
         {
@@ -2664,9 +5609,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 9.15,
-            "low": []
+            "letters": 80,
+            "noInk": 0,
+            "moving": 0,
+            "min": 8.08,
+            "low": [],
+            "closest": {
+              "text": "Voted",
+              "letter": "V",
+              "ratio": 9.02,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 59
+            },
+            "moments": 16
           }
         },
         {
@@ -2678,9 +5640,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 9.05,
-            "low": []
+            "letters": 84,
+            "noInk": 0,
+            "moving": 0,
+            "min": 8.08,
+            "low": [],
+            "closest": {
+              "text": "0:00",
+              "letter": "0",
+              "ratio": 8.44,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 62
+            },
+            "moments": 16
           }
         }
       ],
@@ -2691,8 +5670,8 @@
       "slug": "vote-captain",
       "title": "Captain election and stable placement",
       "file": "design/phone-ui/review/sheets/36-vote-captain.jpg",
-      "sha256": "49610023f3f084b762dadba4ea7f7b6c0230b33880d00911a3bd70c55e70a1aa",
-      "bytes": 391371,
+      "sha256": "da323b68efbdd6ec48b5d319775ac139607ad45023e6728e126c28f955d0b525",
+      "bytes": 384902,
       "size": {
         "width": 2288,
         "height": 1227
@@ -2707,9 +5686,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 10.62,
-            "low": []
+            "letters": 117,
+            "noInk": 0,
+            "moving": 0,
+            "min": 8.08,
+            "low": [],
+            "closest": {
+              "text": "Board",
+              "letter": "B",
+              "ratio": 10.56,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 32
+            },
+            "moments": 16
           }
         },
         {
@@ -2721,9 +5717,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 10.62,
-            "low": []
+            "letters": 86,
+            "noInk": 0,
+            "moving": 0,
+            "min": 8.08,
+            "low": [],
+            "closest": {
+              "text": "Board",
+              "letter": "B",
+              "ratio": 10.56,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 114
+            },
+            "moments": 16
           }
         },
         {
@@ -2735,9 +5748,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 9.79,
-            "low": []
+            "letters": 143,
+            "noInk": 0,
+            "moving": 0,
+            "min": 7.5,
+            "low": [],
+            "closest": {
+              "text": "8 players",
+              "letter": "8",
+              "ratio": 7.5,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 21
+            },
+            "moments": 16
           }
         },
         {
@@ -2749,9 +5779,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 10.62,
-            "low": []
+            "letters": 110,
+            "noInk": 0,
+            "moving": 0,
+            "min": 7.48,
+            "low": [],
+            "closest": {
+              "text": "7 players",
+              "letter": "7",
+              "ratio": 7.48,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 14
+            },
+            "moments": 16
           }
         },
         {
@@ -2763,9 +5810,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 4.61,
-            "low": []
+            "letters": 107,
+            "noInk": 0,
+            "moving": 4,
+            "min": 5.04,
+            "low": [],
+            "closest": {
+              "text": "Eliminated players don’t vote. You can s",
+              "letter": "s",
+              "ratio": 5.04,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 66
+            },
+            "moments": 16
           }
         }
       ],
@@ -2776,8 +5840,8 @@
       "slug": "results-captain",
       "title": "Captain election results",
       "file": "design/phone-ui/review/sheets/37-results-captain.jpg",
-      "sha256": "35556b892afcbb7bc4964b40dfa6b2f9fddde7c2b6d0b13a200af2a5dbd5ef7d",
-      "bytes": 271565,
+      "sha256": "e6acab27c8ac3008b601801f0016b4523db06b9b6fbb7bd1ca7ca97ac3ac0b9a",
+      "bytes": 269781,
       "size": {
         "width": 1533,
         "height": 1227
@@ -2792,9 +5856,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 171,
+            "noInk": 0,
+            "moving": 0,
             "min": 5.79,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "2 votes",
+              "letter": "2",
+              "ratio": 5.79,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 22,
+              "scrolled": 0,
+              "inactive": 32
+            },
+            "moments": 16
           }
         },
         {
@@ -2806,9 +5887,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 168,
+            "noInk": 0,
+            "moving": 0,
             "min": 5.79,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "1 vote",
+              "letter": "1",
+              "ratio": 5.79,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 22,
+              "scrolled": 0,
+              "inactive": 32
+            },
+            "moments": 16
           }
         },
         {
@@ -2820,9 +5918,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 172,
+            "noInk": 0,
+            "moving": 0,
             "min": 5.79,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "0 votes",
+              "letter": "0",
+              "ratio": 5.79,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 22,
+              "scrolled": 0,
+              "inactive": 32
+            },
+            "moments": 16
           }
         }
       ],
@@ -2849,9 +5964,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 182,
+            "noInk": 0,
+            "moving": 0,
             "min": 5.79,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "1 vote",
+              "letter": "1",
+              "ratio": 5.79,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 22,
+              "scrolled": 0,
+              "inactive": 21
+            },
+            "moments": 16
           }
         },
         {
@@ -2863,9 +5995,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 211,
+            "noInk": 0,
+            "moving": 0,
             "min": 5.79,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "1 vote",
+              "letter": "1",
+              "ratio": 5.79,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 22,
+              "scrolled": 0,
+              "inactive": 21
+            },
+            "moments": 16
           }
         },
         {
@@ -2877,9 +6026,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 186,
+            "noInk": 0,
+            "moving": 0,
             "min": 5.79,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "3 votes",
+              "letter": "3",
+              "ratio": 5.79,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 22,
+              "scrolled": 0,
+              "inactive": 21
+            },
+            "moments": 16
           }
         },
         {
@@ -2891,9 +6057,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 182,
+            "noInk": 0,
+            "moving": 0,
             "min": 5.79,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "1 vote",
+              "letter": "1",
+              "ratio": 5.79,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 22,
+              "scrolled": 0,
+              "inactive": 14
+            },
+            "moments": 16
           }
         }
       ],
@@ -2904,8 +6087,8 @@
       "slug": "offices",
       "title": "Captain and Officer",
       "file": "design/phone-ui/review/sheets/40-offices.jpg",
-      "sha256": "6b8d86874b2975250ad1eda0d9c2113c1a71f52601419add7b0649b7bab27f58",
-      "bytes": 289649,
+      "sha256": "f9d342fe8c7fa1338910ab37a1300289f2521985414fc76f271a5c0d385b4177",
+      "bytes": 283971,
       "size": {
         "width": 1846,
         "height": 1227
@@ -2920,9 +6103,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 6.9,
-            "low": []
+            "letters": 115,
+            "noInk": 0,
+            "moving": 12,
+            "min": 8.04,
+            "low": [],
+            "closest": {
+              "text": "Selected",
+              "letter": "t",
+              "ratio": 8.04,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 15,
+              "scrolled": 0,
+              "inactive": 66
+            },
+            "moments": 16
           }
         },
         {
@@ -2934,9 +6134,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 4.73,
-            "low": []
+            "letters": 115,
+            "noInk": 0,
+            "moving": 45,
+            "min": 5.45,
+            "low": [],
+            "closest": {
+              "text": "Chosen at random if time runs out",
+              "letter": "t",
+              "ratio": 5.45,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 15,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -2948,9 +6165,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 9.56,
-            "low": []
+            "letters": 141,
+            "noInk": 0,
+            "moving": 0,
+            "min": 7.71,
+            "low": [],
+            "closest": {
+              "text": "Selected",
+              "letter": "S",
+              "ratio": 8.59,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 23,
+              "scrolled": 0,
+              "inactive": 32
+            },
+            "moments": 16
           }
         },
         {
@@ -2962,9 +6196,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 4.9,
-            "low": []
+            "letters": 137,
+            "noInk": 0,
+            "moving": 35,
+            "min": 5.84,
+            "low": [],
+            "closest": {
+              "text": "Gus can’t move this round",
+              "letter": "v",
+              "ratio": 5.84,
+              "need": 4.5,
+              "at": "150 s"
+            },
+            "skipped": {
+              "covered": 23,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         }
       ],
@@ -2975,8 +6226,8 @@
       "slug": "navigation",
       "title": "Navigation",
       "file": "design/phone-ui/review/sheets/41-navigation.jpg",
-      "sha256": "c50b51b01bff2c04517deaee2f2fe01efb8bf40e75d923427dac70d3c3ac3faf",
-      "bytes": 262343,
+      "sha256": "3ea714022223564533bdf1843fb3a9c3da181cc3aa014cac18d5f0ad3b1d0e82",
+      "bytes": 259137,
       "size": {
         "width": 2288,
         "height": 1227
@@ -2991,9 +6242,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 64,
+            "noInk": 0,
+            "moving": 0,
             "min": 10.7,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "0:11",
+              "letter": "0",
+              "ratio": 10.7,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
           }
         },
         {
@@ -3005,9 +6273,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 7.98,
-            "low": []
+            "letters": 163,
+            "noInk": 0,
+            "moving": 0,
+            "min": 7.01,
+            "low": [],
+            "closest": {
+              "text": "Only the Captain and Officer see this",
+              "letter": "y",
+              "ratio": 7.93,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 15,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -3019,9 +6304,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 7.98,
-            "low": []
+            "letters": 228,
+            "noInk": 0,
+            "moving": 0,
+            "min": 7.01,
+            "low": [],
+            "closest": {
+              "text": "A genuine tie. Choose the direction; no ",
+              "letter": "m",
+              "ratio": 7.52,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 15,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -3033,9 +6335,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 7.98,
-            "low": []
+            "letters": 198,
+            "noInk": 0,
+            "moving": 0,
+            "min": 7.01,
+            "low": [],
+            "closest": {
+              "text": "Only the Captain and Officer see this",
+              "letter": "y",
+              "ratio": 7.93,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 15,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -3047,9 +6366,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 63,
+            "noInk": 0,
+            "moving": 0,
             "min": 10.72,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "Round 3 complete",
+              "letter": "R",
+              "ratio": 10.72,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
           }
         }
       ],
@@ -3060,8 +6396,8 @@
       "slug": "scan-code",
       "title": "Hacker: Scan and the final Code",
       "file": "design/phone-ui/review/sheets/42-scan-code.jpg",
-      "sha256": "e9e6c5d113fc63bda8c6f20dfed25d167ae15b9f944864e048db4e448b7ec5ce",
-      "bytes": 412178,
+      "sha256": "8aab40dacbeb1d2a9f4095d7b23f0b3506534bc751f76b816cde87bb6831962b",
+      "bytes": 407772,
       "size": {
         "width": 2288,
         "height": 1227
@@ -3076,9 +6412,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 9.79,
-            "low": []
+            "letters": 108,
+            "noInk": 0,
+            "moving": 0,
+            "min": 9.68,
+            "low": [],
+            "closest": {
+              "text": "Choose a player in your room",
+              "letter": "a",
+              "ratio": 9.68,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 5,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
           }
         },
         {
@@ -3090,9 +6443,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 5.38,
-            "low": []
+            "letters": 153,
+            "noInk": 0,
+            "moving": 0,
+            "min": 6.45,
+            "low": [],
+            "closest": {
+              "text": "Guess a side. A wrong guess also blocks ",
+              "letter": "n",
+              "ratio": 6.45,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
           }
         },
         {
@@ -3104,9 +6474,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 5.39,
-            "low": []
+            "letters": 114,
+            "noInk": 0,
+            "moving": 0,
+            "min": 6.47,
+            "low": [],
+            "closest": {
+              "text": "Gus · Blue guess",
+              "letter": "l",
+              "ratio": 6.47,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
           }
         },
         {
@@ -3118,9 +6505,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 6.77,
-            "low": []
+            "letters": 150,
+            "noInk": 0,
+            "moving": 8,
+            "min": 7.48,
+            "low": [],
+            "closest": {
+              "text": "Only on this phone",
+              "letter": "O",
+              "ratio": 7.48,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 44,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -3132,9 +6536,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 5.46,
-            "low": []
+            "letters": 147,
+            "noInk": 0,
+            "moving": 38,
+            "min": 5.32,
+            "low": [],
+            "closest": {
+              "text": "Using it is a separate action on your tu",
+              "letter": "c",
+              "ratio": 5.32,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         }
       ],
@@ -3145,8 +6566,8 @@
       "slug": "hospital-panel",
       "title": "Hospital panel",
       "file": "design/phone-ui/review/sheets/43-hospital-panel.jpg",
-      "sha256": "f3dc3d08cc55b9bfcd1280dc480f026a25bc3c892f312d2ceca9ab1c265d68af",
-      "bytes": 275247,
+      "sha256": "c6259252d3fd882f404c982ae77b8cbc484221684367927e9309cf6ae4ae9cbb",
+      "bytes": 266587,
       "size": {
         "width": 2288,
         "height": 1258
@@ -3161,9 +6582,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 5.98,
-            "low": []
+            "letters": 124,
+            "noInk": 0,
+            "moving": 0,
+            "min": 5.48,
+            "low": [],
+            "closest": {
+              "text": "One attempt: the Doctor’s player number.",
+              "letter": "a",
+              "ratio": 5.48,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 45,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -3175,9 +6613,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 4.66,
-            "low": []
+            "letters": 140,
+            "noInk": 0,
+            "moving": 0,
+            "min": 5.84,
+            "low": [],
+            "closest": {
+              "text": "Your request is queued for Rescue",
+              "letter": "q",
+              "ratio": 5.84,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 45,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -3189,9 +6644,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 4.61,
-            "low": []
+            "letters": 107,
+            "noInk": 0,
+            "moving": 0,
+            "min": 5.84,
+            "low": [],
+            "closest": {
+              "text": "Your attempt is used",
+              "letter": "o",
+              "ratio": 5.84,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 45,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -3203,9 +6675,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 4.61,
-            "low": []
+            "letters": 108,
+            "noInk": 0,
+            "moving": 0,
+            "min": 5.84,
+            "low": [],
+            "closest": {
+              "text": "The panel is unavailable right now",
+              "letter": "n",
+              "ratio": 5.84,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 45,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -3217,9 +6706,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 4.59,
-            "low": []
+            "letters": 96,
+            "noInk": 0,
+            "moving": 0,
+            "min": 5.84,
+            "low": [],
+            "closest": {
+              "text": "Your attempt is used",
+              "letter": "o",
+              "ratio": 5.84,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 45,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         }
       ],
@@ -3230,7 +6736,7 @@
       "slug": "end",
       "title": "Blackhole, elimination and the end of a match",
       "file": "design/phone-ui/review/sheets/44-end.jpg",
-      "sha256": "d6f95b4e9f3192832f59065f11d82cb9d2253de416296f08e14205ebe5e2c0b5",
+      "sha256": "1533b416e2b1636b3572e7c7220b8c4a48f917d7c734f5824817cbafd1cebe4e",
       "bytes": 299089,
       "size": {
         "width": 2288,
@@ -3246,9 +6752,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 48,
+            "noInk": 0,
+            "moving": 0,
             "min": 10.7,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "0:04",
+              "letter": "0",
+              "ratio": 10.7,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
           }
         },
         {
@@ -3260,9 +6783,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 106,
+            "noInk": 0,
+            "moving": 0,
             "min": 6.17,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "· Out",
+              "letter": "·",
+              "ratio": 6.17,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 5,
+              "scrolled": 0,
+              "inactive": 11
+            },
+            "moments": 16
           }
         },
         {
@@ -3274,9 +6814,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 118,
+            "noInk": 7,
+            "moving": 0,
             "min": 10.45,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "Round 6",
+              "letter": "R",
+              "ratio": 10.45,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 80,
+              "inactive": 0
+            },
+            "moments": 16
           }
         },
         {
@@ -3288,9 +6845,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 115,
+            "noInk": 7,
+            "moving": 0,
             "min": 10.45,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "Round 6",
+              "letter": "R",
+              "ratio": 10.45,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 80,
+              "inactive": 0
+            },
+            "moments": 16
           }
         },
         {
@@ -3302,9 +6876,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 108,
+            "noInk": 7,
+            "moving": 0,
             "min": 10.45,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "Round 6",
+              "letter": "R",
+              "ratio": 10.45,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 80,
+              "inactive": 0
+            },
+            "moments": 16
           }
         }
       ],
@@ -3315,8 +6906,8 @@
       "slug": "system",
       "title": "Loading, reconnecting and the unexpected",
       "file": "design/phone-ui/review/sheets/45-system.jpg",
-      "sha256": "b680079fedf3224de6d5dfab2d7ca65a36ac7f7c26d86b7a3618e54d15b77754",
-      "bytes": 354866,
+      "sha256": "d4e8b0e48402bdf4edb2bd209fe13d0bb67f67cf22f5becc409ea96b600ec932",
+      "bytes": 354411,
       "size": {
         "width": 2288,
         "height": 1227
@@ -3331,9 +6922,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 53,
+            "noInk": 0,
+            "moving": 0,
             "min": 6.14,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "Every phone loads the same pictures.",
+              "letter": "E",
+              "ratio": 6.14,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
           }
         },
         {
@@ -3345,9 +6953,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 10.07,
-            "low": []
+            "letters": 130,
+            "noInk": 0,
+            "moving": 0,
+            "min": 9.79,
+            "low": [],
+            "closest": {
+              "text": "Controls return when the match is curren",
+              "letter": "C",
+              "ratio": 9.79,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 5,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -3359,9 +6984,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 5.31,
-            "low": []
+            "letters": 159,
+            "noInk": 0,
+            "moving": 0,
+            "min": 6.3,
+            "low": [],
+            "closest": {
+              "text": "Rescue Eli was sent, but no answer came ",
+              "letter": "s",
+              "ratio": 6.55,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -3373,9 +7015,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 134,
+            "noInk": 0,
+            "moving": 0,
             "min": 9.56,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "A1",
+              "letter": "A",
+              "ratio": 9.56,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 13,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -3387,9 +7046,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 9.79,
-            "low": []
+            "letters": 102,
+            "noInk": 0,
+            "moving": 0,
+            "min": 8.63,
+            "low": [],
+            "closest": {
+              "text": "Room A",
+              "letter": "R",
+              "ratio": 8.63,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 4,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         }
       ],
@@ -3400,8 +7076,8 @@
       "slug": "viewport-320",
       "title": "320 × 568",
       "file": "design/phone-ui/review/sheets/50-viewport-320.jpg",
-      "sha256": "748b918b5cee6421f99943e0991ae2a0205b49b63abba1863309a2b8daf49c16",
-      "bytes": 282252,
+      "sha256": "1bbf924059c1072d0fe0e5f64034bda4f39f138326141b9053428308c34ed73c",
+      "bytes": 280196,
       "size": {
         "width": 1938,
         "height": 951
@@ -3416,9 +7092,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 87,
+            "noInk": 0,
+            "moving": 0,
             "min": 9.79,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "Pass",
+              "letter": "P",
+              "ratio": 9.79,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
           }
         },
         {
@@ -3430,9 +7123,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 4.98,
-            "low": []
+            "letters": 137,
+            "noInk": 0,
+            "moving": 3,
+            "min": 5.74,
+            "low": [],
+            "closest": {
+              "text": "Doctor · Room A",
+              "letter": "m",
+              "ratio": 5.74,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 15
+            },
+            "moments": 16
           }
         },
         {
@@ -3444,9 +7154,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 5.73,
-            "low": []
+            "letters": 116,
+            "noInk": 0,
+            "moving": 0,
+            "min": 6.78,
+            "low": [],
+            "closest": {
+              "text": "Selected",
+              "letter": "S",
+              "ratio": 9.39,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 22,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -3458,9 +7185,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 4.92,
-            "low": []
+            "letters": 102,
+            "noInk": 0,
+            "moving": 0,
+            "min": 5.74,
+            "low": [],
+            "closest": {
+              "text": "Only on this phone",
+              "letter": "n",
+              "ratio": 5.74,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -3472,9 +7216,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 90,
+            "noInk": 6,
+            "moving": 0,
             "min": 7.49,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "Yours",
+              "letter": "Y",
+              "ratio": 7.49,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 57
+            },
+            "moments": 16
           }
         }
       ],
@@ -3485,8 +7246,8 @@
       "slug": "viewport-430",
       "title": "430 × 932",
       "file": "design/phone-ui/review/sheets/51-viewport-430.jpg",
-      "sha256": "f5bc6642dd81ddc323011de1a2379ac516c723227e9771fbae94eb2003e89019",
-      "bytes": 415453,
+      "sha256": "a557f8ab102d0c79e06045c8172591f2280fc973621eb2be2ba65a75d4c88c4a",
+      "bytes": 415414,
       "size": {
         "width": 2006,
         "height": 1315
@@ -3501,9 +7262,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 95,
+            "noInk": 0,
+            "moving": 0,
             "min": 9.79,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "Pass",
+              "letter": "P",
+              "ratio": 9.79,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
           }
         },
         {
@@ -3515,9 +7293,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 136,
+            "noInk": 0,
+            "moving": 0,
             "min": 8.67,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "· Injured",
+              "letter": "·",
+              "ratio": 8.67,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -3529,9 +7324,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 182,
+            "noInk": 0,
+            "moving": 0,
             "min": 5.79,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "1 vote",
+              "letter": "1",
+              "ratio": 5.79,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 22,
+              "scrolled": 0,
+              "inactive": 21
+            },
+            "moments": 16
           }
         },
         {
@@ -3543,9 +7355,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 129,
+            "noInk": 0,
+            "moving": 0,
             "min": 10.45,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "Your film starts in 0:08",
+              "letter": "Y",
+              "ratio": 10.45,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 5
+            },
+            "moments": 16
           }
         }
       ],
@@ -3556,8 +7385,8 @@
       "slug": "browser-chrome",
       "title": "In Safari, with its toolbars",
       "file": "design/phone-ui/review/sheets/52-browser-chrome.jpg",
-      "sha256": "8cd385cf3203f3f46183cebfb5c8d7f0b243dcbda4bc5b35e7927b9902f88b08",
-      "bytes": 306456,
+      "sha256": "d96a4db542c0520511290dc414da7065cf33735e515431cb8b3f65d2d344adae",
+      "bytes": 305316,
       "size": {
         "width": 1846,
         "height": 1137
@@ -3572,9 +7401,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 95,
+            "noInk": 0,
+            "moving": 0,
             "min": 9.79,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "Pass",
+              "letter": "P",
+              "ratio": 9.79,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
           }
         },
         {
@@ -3586,9 +7432,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 10.62,
-            "low": []
+            "letters": 98,
+            "noInk": 0,
+            "moving": 0,
+            "min": 6.9,
+            "low": [],
+            "closest": {
+              "text": "Jail vote",
+              "letter": "a",
+              "ratio": 6.9,
+              "need": 3,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 16,
+              "inactive": 14
+            },
+            "moments": 16
           }
         },
         {
@@ -3600,9 +7463,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 136,
+            "noInk": 0,
+            "moving": 0,
             "min": 8.67,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "· Injured",
+              "letter": "·",
+              "ratio": 8.67,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -3614,9 +7494,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 57,
+            "noInk": 0,
+            "moving": 0,
             "min": 5.58,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "Enter a room code",
+              "letter": "E",
+              "ratio": 5.58,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
           }
         }
       ],
@@ -3627,8 +7524,8 @@
       "slug": "larger-text",
       "title": "Larger text",
       "file": "design/phone-ui/review/sheets/53-larger-text.jpg",
-      "sha256": "a48117da460a91228081f73f8d0fe660d2182dfea7c2250e547e39ca7c67ef8d",
-      "bytes": 394013,
+      "sha256": "c8511621e80b75bd00cbb21c490081c1667ef939399c7a75b8d127987a6d608e",
+      "bytes": 388576,
       "size": {
         "width": 2288,
         "height": 1227
@@ -3643,9 +7540,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 85,
+            "noInk": 0,
+            "moving": 0,
             "min": 9.79,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "Pass",
+              "letter": "P",
+              "ratio": 9.79,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
           }
         },
         {
@@ -3657,9 +7571,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 6.73,
-            "low": []
+            "letters": 135,
+            "noInk": 0,
+            "moving": 5,
+            "min": 4.85,
+            "low": [],
+            "closest": {
+              "text": "Round 3",
+              "letter": "R",
+              "ratio": 4.85,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 0,
+              "inactive": 15
+            },
+            "moments": 16
           }
         },
         {
@@ -3671,9 +7602,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 6.58,
-            "low": []
+            "letters": 114,
+            "noInk": 0,
+            "moving": 0,
+            "min": 6.79,
+            "low": [],
+            "closest": {
+              "text": "Ava",
+              "letter": "a",
+              "ratio": 9.33,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 16,
+              "inactive": 10
+            },
+            "moments": 16
           }
         },
         {
@@ -3684,10 +7632,27 @@
           "overflowX": false,
           "small": [],
           "tinyText": [],
-          "clipped": 1,
+          "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 5.24,
-            "low": []
+            "letters": 111,
+            "noInk": 0,
+            "moving": 0,
+            "min": 6.65,
+            "low": [],
+            "closest": {
+              "text": "Panels",
+              "letter": "P",
+              "ratio": 6.65,
+              "need": 3,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 16,
+              "inactive": 60
+            },
+            "moments": 16
           }
         },
         {
@@ -3699,9 +7664,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 126,
+            "noInk": 0,
+            "moving": 0,
             "min": 5.62,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "3/12",
+              "letter": "3",
+              "ratio": 5.62,
+              "need": 3,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
           }
         }
       ],
@@ -3712,8 +7694,8 @@
       "slug": "reduced-motion",
       "title": "Reduce motion",
       "file": "design/phone-ui/review/sheets/54-reduced-motion.jpg",
-      "sha256": "b6b4bcca05e2e61f72dd4107aadc6921a011369dfaca91d7a6ef0f2e666a09b7",
-      "bytes": 244464,
+      "sha256": "dabe6d7e80a775c4e34be6991e6cc1f393584decad95658918bf3090b9fa5ab9",
+      "bytes": 243735,
       "size": {
         "width": 1846,
         "height": 1254
@@ -3728,9 +7710,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 12,
+            "noInk": 0,
+            "moving": 0,
             "min": 10.7,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "0:07",
+              "letter": "0",
+              "ratio": 10.7,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
           }
         },
         {
@@ -3742,9 +7741,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 4,
+            "noInk": 0,
+            "moving": 0,
             "min": 10.7,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "Skip",
+              "letter": "S",
+              "ratio": 10.7,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
           }
         },
         {
@@ -3756,9 +7772,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 53,
+            "noInk": 0,
+            "moving": 0,
             "min": 9.79,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "0:08",
+              "letter": "0",
+              "ratio": 9.79,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 11
+            },
+            "moments": 16
           }
         },
         {
@@ -3770,9 +7803,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 171,
+            "noInk": 0,
+            "moving": 0,
             "min": 5.79,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "2 votes",
+              "letter": "2",
+              "ratio": 5.79,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 22,
+              "scrolled": 0,
+              "inactive": 32
+            },
+            "moments": 16
           }
         }
       ],
@@ -3799,9 +7849,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 95,
+            "noInk": 0,
+            "moving": 0,
             "min": 9.79,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "Pass",
+              "letter": "P",
+              "ratio": 9.79,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
           }
         },
         {
@@ -3813,9 +7880,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 10.62,
-            "low": []
+            "letters": 83,
+            "noInk": 0,
+            "moving": 0,
+            "min": 10.56,
+            "low": [],
+            "closest": {
+              "text": "Board",
+              "letter": "B",
+              "ratio": 10.56,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -3827,9 +7911,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 88,
+            "noInk": 0,
+            "moving": 0,
             "min": 9.79,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "Pass",
+              "letter": "P",
+              "ratio": 9.79,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
           }
         },
         {
@@ -3841,9 +7942,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 6.17,
-            "low": []
+            "letters": 109,
+            "noInk": 0,
+            "moving": 0,
+            "min": 6.11,
+            "low": [],
+            "closest": {
+              "text": "· Injured",
+              "letter": "d",
+              "ratio": 6.11,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -3855,9 +7973,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
-            "min": 10.62,
-            "low": []
+            "letters": 91,
+            "noInk": 0,
+            "moving": 0,
+            "min": 10.56,
+            "low": [],
+            "closest": {
+              "text": "Board",
+              "letter": "B",
+              "ratio": 10.56,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -3869,9 +8004,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 46,
+            "noInk": 0,
+            "moving": 0,
             "min": 10.65,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "Private talk",
+              "letter": "P",
+              "ratio": 10.65,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 0
+            },
+            "moments": 16
           }
         },
         {
@@ -3883,9 +8035,227 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 53,
+            "noInk": 0,
+            "moving": 0,
             "min": 9.79,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "0:08",
+              "letter": "0",
+              "ratio": 9.79,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 11
+            },
+            "moments": 16
+          }
+        }
+      ],
+      "problems": []
+    },
+    {
+      "id": "56",
+      "slug": "small-phone-largest-text",
+      "title": "320 × 568 at the Largest text",
+      "file": "design/phone-ui/review/sheets/56-small-phone-largest-text.jpg",
+      "sha256": "906a52fb2e3a0e2e49994efc20a32ee3d3f3b54134edfcbf5715666973d1c906",
+      "bytes": 327103,
+      "size": {
+        "width": 2372,
+        "height": 978
+      },
+      "frames": [
+        {
+          "label": "Jail result",
+          "src": "s=result&outcome=PLAYER_JAILED&safe=20%2C0&text=2",
+          "width": 320,
+          "height": 568,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0,
+          "clippedText": [],
+          "contrast": {
+            "letters": 87,
+            "noInk": 0,
+            "moving": 0,
+            "min": 5.79,
+            "low": [],
+            "closest": {
+              "text": "1 vote",
+              "letter": "1",
+              "ratio": 5.79,
+              "need": 3,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 100,
+              "inactive": 4
+            },
+            "moments": 16
+          }
+        },
+        {
+          "label": "Captain result",
+          "src": "s=result&outcome=CAPTAIN_ELECTED&safe=20%2C0&text=2",
+          "width": 320,
+          "height": 568,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0,
+          "clippedText": [],
+          "contrast": {
+            "letters": 93,
+            "noInk": 0,
+            "moving": 0,
+            "min": 5.79,
+            "low": [],
+            "closest": {
+              "text": "2 votes",
+              "letter": "2",
+              "ratio": 5.79,
+              "need": 3,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 93,
+              "inactive": 4
+            },
+            "moments": 16
+          }
+        },
+        {
+          "label": "Runoff result",
+          "src": "s=result&outcome=RUNOFF_REQUIRED&safe=20%2C0&text=2",
+          "width": 320,
+          "height": 568,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0,
+          "clippedText": [],
+          "contrast": {
+            "letters": 91,
+            "noInk": 0,
+            "moving": 0,
+            "min": 6.3,
+            "low": [],
+            "closest": {
+              "text": "3 votes",
+              "letter": "3",
+              "ratio": 6.3,
+              "need": 3,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 93,
+              "inactive": 4
+            },
+            "moments": 16
+          }
+        },
+        {
+          "label": "Jail ballot · selected",
+          "src": "s=vote&kind=jail&state=selected&safe=20%2C0&text=2",
+          "width": 320,
+          "height": 568,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0,
+          "clippedText": [],
+          "contrast": {
+            "letters": 79,
+            "noInk": 0,
+            "moving": 6,
+            "min": 6.41,
+            "low": [],
+            "closest": {
+              "text": "Jail vote",
+              "letter": "o",
+              "ratio": 6.41,
+              "need": 3,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 42,
+              "inactive": 0
+            },
+            "moments": 16
+          }
+        },
+        {
+          "label": "Captain ballot",
+          "src": "s=vote&kind=captain&safe=20%2C0&text=2",
+          "width": 320,
+          "height": 568,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0,
+          "clippedText": [],
+          "contrast": {
+            "letters": 80,
+            "noInk": 0,
+            "moving": 4,
+            "min": 5.97,
+            "low": [],
+            "closest": {
+              "text": "Captain election",
+              "letter": "n",
+              "ratio": 5.97,
+              "need": 3,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 44,
+              "inactive": 4
+            },
+            "moments": 16
+          }
+        },
+        {
+          "label": "Runoff ballot",
+          "src": "s=vote&kind=captain&state=runoff&safe=20%2C0&text=2",
+          "width": 320,
+          "height": 568,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0,
+          "clippedText": [],
+          "contrast": {
+            "letters": 71,
+            "noInk": 0,
+            "moving": 2,
+            "min": 6.41,
+            "low": [],
+            "closest": {
+              "text": "Captain runoff",
+              "letter": "a",
+              "ratio": 6.41,
+              "need": 3,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 105,
+              "inactive": 9
+            },
+            "moments": 16
           }
         }
       ],
@@ -3926,9 +8296,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 87,
+            "noInk": 0,
+            "moving": 0,
             "min": 10.62,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "Board",
+              "letter": "B",
+              "ratio": 10.62,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
           }
         },
         {
@@ -3940,9 +8327,26 @@
           "small": [],
           "tinyText": [],
           "clipped": 0,
+          "clippedText": [],
           "contrast": {
+            "letters": 129,
+            "noInk": 0,
+            "moving": 0,
             "min": 10.45,
-            "low": []
+            "low": [],
+            "closest": {
+              "text": "Your film starts in 0:08",
+              "letter": "Y",
+              "ratio": 10.45,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 5
+            },
+            "moments": 16
           }
         }
       ],

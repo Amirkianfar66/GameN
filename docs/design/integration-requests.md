@@ -26,7 +26,8 @@ Codex owns the root manifests, the lockfile, CI, the source lock, the workspace 
 | [DSN-REQ-17](#dsn-req-17) | Register the crew drawing release `crew-drawing-1.0.0` (the owner-approved crew of nine, 7 November 2026) as `design-0.7.0` with tokens 0.5.0: pin its corrected sources and ports, add `apps/game/hosted/crew-drawing/` to the drawing-port fence, build its portraits, cards, standees and devices into the new release's bundles, retire the 27 old crew film drawings from that bundle | Frontend's port of the approved crew, by exact-release dispatch. Until then every surface draws today's crew | None |
 | [DSN-REQ-19](#dsn-req-19) | The owner's 30-second private role stage: the card for 20 s, then the role's film for 10 s, on one server interval, with Ready kept as a human action | The phone pack's role stage (sheets 17–18). Today the film starts when the player taps Reveal | None |
 | [DSN-REQ-20](#dsn-req-20) | The owner's Blackout before the Jail vote: an Integration proposal that changes the rules and the contract | The round order of sheet 02 and the matrix on sheet 03. The screens themselves work in either order | None |
-| [DSN-REQ-21](#dsn-req-21) | Small data items for the phone pack: distinct join and recovery refusals, a decline for admission, the Hospital panel's number pad, the Code's phase window | Better wording on sheets 12–15, a working keypad on sheet 43, and a consistent matrix | None |
+| [DSN-REQ-21](#dsn-req-21) | Small data items for the phone pack: distinct join and recovery refusals, a decline for admission, the Hospital panel's number pad (the Code's phase window is settled by P18) | Better wording on sheets 12–15 and a working keypad on sheet 43 | None |
+| [DSN-REQ-22](#dsn-req-22) | List the sides a hack target may declare in its own `DECLARE_HACK_SIDE` offer (HACK-DECLARE-02) | The declaration on sheet 25 without a role table on the phone. Frontend can derive the sides from the player's role meanwhile | None |
 
 Nothing here installs anything. Every script Designer added uses Node built-ins only.
 
@@ -337,6 +338,8 @@ The design is on sheets 17–18 of the phone pack ([phone-ui.md](phone-ui.md)).
 3. **Ready stays a human action.** Neither the film's end nor Skip may confirm Ready or start boarding. Bots stay Ready automatically.
 4. **The card shows without a Reveal tap,** because the stage itself shows it. Concealment on blur or hiding stays as it is.
 
+**Integration (review of `d52a8ae9`, 10 November 2026):** the direction stands: a server-owned interval with the 20-second card and the 10-second film, and Ready stays a manual action. The interval itself is Backend's to add.
+
 ## DSN-REQ-20
 
 **Blackout before the Jail vote.** The owner requires Blackout to be usable before voting. Designer draws this order on sheet 02 and labels it an **Integration proposal, pending the rules and contract update**:
@@ -361,6 +364,8 @@ The design is on sheets 17–18 of the phone pack ([phone-ui.md](phone-ui.md)).
 
 The screens are the same in either order; only the round order changes.
 
+**Integration (review of `d52a8ae9`, 10 November 2026):** strike timing, target binding and cancellation are Integration's to settle before any screen depends on this order. Separately, for Frontend in either order: freeze the camera's framing and every target's geometry for the whole Blackout, including the transition when the runtime hides the board ([handoff](phone-ui-handoff.md#motion)).
+
 ## DSN-REQ-21
 
 **Small data items for the phone pack (9 November 2026).** None blocks the pack itself; each would let the interface say something true and specific.
@@ -368,9 +373,20 @@ The screens are the same in either order; only the round order changes.
 1. **Join refusals.** Today the server answers `NOT_ALLOWED` both when a room has started and when the same user asks again with another name or device. Distinct codes would let the phone say which.
 2. **Recovery refusals.** Today a wrong, used or expired code, and a caller who is already a member, all get `FORBIDDEN`. The pack writes one honest sentence covering all of them; a distinct "expired" would let it say just that.
 3. **Decline for admission.** The contract has a `declined` status, but no operation sends it. The pack shows Admit only. A decline (or "remove") operation would let a host turn away a request.
-4. **The Hospital panel's number pad.** The engine's `PANEL_CODE` offer has an empty `targetSeatIds`, while the controller builds the pad from that list. Against the real engine the pad would be empty. The pad should list every original player number, without telling anyone whether the pool has an injection.
-5. **The final Code's window.** The engine accepts `SUBMIT_CODE` in every phase from Round 2 until resolution, including the vote, its result and the declaration stage. P18 says "until navigation", while the October rules barred input during votes. The matrix (sheet 03) shows the engine's answer; please confirm which is intended.
+4. **The Hospital panel's number pad.** The engine's `PANEL_CODE` offer has an empty `targetSeatIds`, while the controller builds the pad from that list. Against the real engine the pad would be empty. The pad should list every original player number, without telling anyone whether the pool has an injection. Integration confirmed this is still open (review of `d52a8ae9`).
+5. **The final Code's window: settled.** P18 sets it from Round 2 until navigation, and the matrix (sheet 03) draws exactly that. The October restriction on input during votes is superseded and is not reopened (Integration, review of `d52a8ae9`).
 6. **The shared display's offices** come from the last finalized board until Sync. The pack's top bar uses only `offices` as the phone receives it.
+
+## DSN-REQ-22
+
+**The sides a target may declare, in the offer (10 November 2026).** HACK-DECLARE-02 lets only the Undercover and the Alien bluff; every other role must declare its own faction, with identical three-side controls for all. The phone pack shows the three cards to every target and disables, on the target's own phone, the sides its role may not claim (sheet 25; [handoff](phone-ui-handoff.md#hack-declaration-eligibility)).
+
+**Today:**
+- The engine enforces the rule: any other side is `NOT_ALLOWED` (`packages/engine/src/full-game/lifecycle.ts` and `packages/engine/src/planet-game/commands.ts`, the `DECLARE_HACK_SIDE` cases).
+- The offer (`packages/engine/src/planet-game/offers.ts`) is added when any side is allowed, with `targetSeatIds` holding only the declaring seat. It does not say which sides.
+- So Frontend must derive them from `self.role`, by the same rule as the engine's `planetFaction` (`packages/engine/src/planet-game/model.ts`).
+
+**Requested from Backend and Integration (not blocking):** list the permitted sides in the target's own `DECLARE_HACK_SIDE` offer (for example `sides: ['Blue']`, or all three for the Undercover and the Alien), in the private view only. The phone then needs no role table, and the rule stays in one place. The initiator, the host and the shared display must never receive it (HACK-DECLARE-04).
 
 ## What Designer does next, and what it waits for
 

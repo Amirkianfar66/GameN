@@ -68,7 +68,7 @@ export function timer(seconds, { urgentAt = 10, ring = null } = {}) {
  * promises: false | { badge, go, disabled }; menu: false | { go }; open: 'promises' | 'menu' | null, the one
  * whose sheet is showing.
  */
-export function topBar({ kind = 'turn', who = null, self = false, pair = null, icon = 'hourglass', title = '', sub = '', round = null, seconds = null, tone = null, urgentAt = 10, ring = null, promises = null, menu = null, open = null }) {
+export function topBar({ kind = 'turn', who = null, self = false, pair = null, icon = 'hourglass', title = '', short = null, sub = '', round = null, seconds = null, tone = null, urgentAt = 10, ring = null, promises = null, menu = null, open = null }) {
   let left;
   if (kind === 'turn' && who) {
     left = h('div.tb-who', pt(who.character, 36, ''), h('div.tb-lines',
@@ -79,7 +79,9 @@ export function topBar({ kind = 'turn', who = null, self = false, pair = null, i
       h('span.tb-name', pair.map(p => p.name).join(' + ')), h('span.tb-sub', sub || 'Private talk')));
   } else {
     left = h('div.tb-who', h('span.tb-glyph', { 'data-tone': tone }, ic(icon, { filled: true })), h('div.tb-lines',
-      h('span.tb-name', title), sub ? h('span.tb-sub', sub) : null));
+      // A long phase title has a short form for the narrowest bars; the full title stays for screen readers.
+      short ? h('span.tb-name', h('span.tb-long', title), h('span.tb-short', { 'aria-hidden': 'true' }, short)) : h('span.tb-name', title),
+      sub ? h('span.tb-sub', sub) : null));
   }
   const inMatch = round !== null;
   const pr = promises === false || ((!inMatch || ring !== null) && !promises) ? null : { go: 's=promises&state=list', ...(promises ?? {}) };

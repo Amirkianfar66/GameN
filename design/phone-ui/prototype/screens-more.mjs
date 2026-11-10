@@ -29,13 +29,31 @@ const NUMBER = ['M120 70 L 150 50 L 150 220', 'M110 220 L 190 220', 'M260 60 C 3
 const FACE = ['M256 60 A 90 90 0 1 0 256.1 60', 'M220 120 L 222 132', 'M290 120 L 292 132', 'M210 180 C 240 205, 280 205, 305 180'];
 
 const PROMISES = [
-  ['captain', 'Captain Support', 'Vote for them in every ballot of the next election'],
+  ['captain', 'Captain Support', 'Next election: every ballot in which they are a candidate'],
   ['officer', 'Officer Selection', 'If you win the next election, appoint them'],
   ['jail', 'Jail Vote', 'Vote to jail a player you name at the next Jail vote'],
   ['block', 'No Jail Vote', 'Don’t vote to jail them at the next Jail vote'],
   ['room', 'Meet in Room A', 'Be in Room A when voting starts'],
   ['room', 'Meet in Room B', 'Be in Room B when voting starts'],
 ];
+
+/** HACK-DECLARE-02: the sides a target may declare: its own faction, or any of the three for the Undercover and the Alien. */
+export function declarableSides(role) {
+  return ['Undercover', 'Alien'].includes(role) ? ['blue', 'red', 'alien'] : [(ROLE_FIXTURES[role]?.team ?? 'Blue').toLowerCase()];
+}
+
+/**
+ * The four result states, one match moment each, within the lifetime quota (one given, one received).
+ * pending: the election has not happened; fulfilled: the Promise was kept; not-fulfilled: the opportunity
+ * came and the ballot or room differed; condition: the required opportunity never came (P23, P24).
+ */
+export const PROMISE_RESULTS = {
+  pending: { round: 3, quota: 'Given 0/1 · Received 1/1', received: { from: 1, kind: 'Captain Support', sub: 'From Ava · next Captain election', status: 'Pending', why: 'Checked when that election is held.' } },
+  fulfilled: { round: 4, quota: 'Given 1/1 · Received 0/1', given: { to: 1, kind: 'Meet in Room A', sub: 'To Ava · Round 3 voting', status: 'Fulfilled', why: 'Dev was in Room A when Round 3’s voting began.' } },
+  'not-fulfilled': { round: 5, quota: 'Given 0/1 · Received 1/1', received: { from: 1, kind: 'Captain Support', sub: 'From Ava · Round 4 election', status: 'Not fulfilled', why: 'In the runoff, a ballot in which Dev was a candidate, Ava voted for Ben.' } },
+  condition: { round: 5, quota: 'Given 0/1 · Received 1/1', received: { from: 1, kind: 'Captain Support', sub: 'From Ava · Round 4 election', status: 'Condition not met', why: 'Dev was a candidate in no ballot of that election.' } },
+};
+const promiseRow = x => row({ tag: 'div', lead: pt(seatOf(x.from ?? x.to).character, 36), title: x.kind, sub: x.sub, value: x.status === 'Fulfilled' ? pill(x.status, { icon: 'check', tone: 'amber' }) : pill(x.status) });
 
 function routeSvg({ position = 'B1', direction = null, tie = false } = {}) {
   const P = { Start: [180, 204], Junction: [180, 164], B1: [140, 126], B2: [106, 92], 'Blue Planet': [72, 54], R1: [220, 126], R2: [254, 92], 'Red Planet': [288, 54] };
@@ -72,23 +90,30 @@ export const MORE_SCREENS = {
     } else if (state === 'incoming') {
       title = 'Offer from Ava';
       body = [h('article.comic', { style: { padding: '14px' } }, h('div', { style: { display: 'flex', alignItems: 'center', gap: '10px' } }, pt(seatOf(1).character, 42), h('b', { style: { font: '800 1.25rem/1 var(--font-letter)', letterSpacing: '0.04em', textTransform: 'uppercase' } }, 'Captain Support')),
-        h('p', { style: { margin: '10px 0 0', font: '500 1rem/1.4 var(--font-ui)' } }, 'Ava votes for Dev in every ballot of the next Captain election, runoffs included.')),
-        h('ul.facts', h('li', ic('info', { filled: true }), h('span', 'Accepting uses your one received Promise')), h('li', ic('info', { filled: true }), h('span', 'A Promise is never forced: it is checked against real ballots')))];
+        // P23: every ballot of the specified election in which the recipient is a candidate; never a candidate is Condition not met.
+        h('p', { style: { margin: '10px 0 0', font: '500 1rem/1.4 var(--font-ui)' } }, 'Ava votes for Dev at the next Captain election: in every ballot of that election in which the recipient is a candidate.')),
+        h('ul.facts', h('li', ic('info', { filled: true }), h('span', 'If Dev is a candidate in no ballot of that election, the result is Condition not met')), h('li', ic('info', { filled: true }), h('span', 'Accepting uses your one received Promise')), h('li', ic('info', { filled: true }), h('span', 'A Promise is never forced: it is checked against real ballots')))];
       foot = [button('Decline', { kind: 'secondary', go: 's=promises&state=list' }), button('Accept', { go: 's=promises&state=results' })];
-    } else {
-      const results = state === 'results';
+    } else if (state === 'results') {
+      // A player gives at most one Promise and receives at most one in a match, so a phone's results hold at
+      // most two. Each scenario (case) is a separate match moment, one per result state (P23, P24).
+      const R = PROMISE_RESULTS[p.case ?? 'pending'] ?? PROMISE_RESULTS.pending;
+      title = 'Promises';
       body = [
-        list(row({ tag: 'div', icon: 'promise', tint: 'amber', title: 'Your quota', value: results ? 'Given 0/1 · Received 1/1' : 'Given 0/1 · Received 0/1' })),
+        list(row({ tag: 'div', icon: 'promise', tint: 'amber', title: 'Your quota', value: R.quota })),
+        groupLabel('Received'), R.received ? [list(promiseRow(R.received)), groupNote(R.received.why)] : groupNote('No Promise received.'),
+        groupLabel('Given'), R.given ? [list(promiseRow(R.given)), groupNote(R.given.why)] : groupNote('No Promise given.'),
+        groupNote('“Not fulfilled” is a fact about ballots or rooms. It is not proof of lying.'),
+      ];
+      game(root, { top: turnBar({ active: 7, seconds: 42, round: R.round, open: 'promises' }), scene: roomScene(), tabs: plainTabs(), sheet: sheet({ title, body, close: 's=room&room=room-a', detent: 'large' }) });
+      return;
+    } else {
+      body = [
+        list(row({ tag: 'div', icon: 'promise', tint: 'amber', title: 'Your quota', value: 'Given 0/1 · Received 0/1' })),
         state === 'offered' ? [groupLabel('Waiting for Ava'), list(row({ tag: 'div', lead: pt(seatOf(1).character, 36), title: 'Meet in Room A', sub: 'Offered to Ava · not counted yet', value: pill('Offered') }))] : null,
-        groupLabel(results ? 'Accepted' : 'With Ava · talking now'),
-        results ? list(
-          row({ tag: 'div', lead: pt(seatOf(1).character, 36), title: 'Captain Support', sub: 'From Ava · next election', value: pill('Pending') }),
-          row({ tag: 'div', lead: pt(seatOf(2).character, 36), title: 'Meet in Room B', sub: 'From Ben · Round 2', value: pill('Fulfilled', { icon: 'check', tone: 'amber' }) }),
-          row({ tag: 'div', lead: pt(seatOf(7).character, 36), title: 'Jail Vote · Player 8', sub: 'To Gus · Round 2', value: pill('Not fulfilled') }),
-          row({ tag: 'div', lead: pt(seatOf(3).character, 36), title: 'Officer Selection', sub: 'From Cleo · Round 2', value: pill('Condition not met') }))
-          : list(row({ icon: 'plus', tint: 'paper', title: 'Offer a Promise', sub: 'Six kinds · exact terms', chevron: true, go: 's=promises&state=kinds' }),
-            row({ icon: 'inbox', tint: 'amber', title: 'Ava offered you one', sub: 'Captain Support', chevron: true, go: 's=promises&state=incoming' })),
-        results ? groupNote('“Not fulfilled” is a fact about ballots or rooms. It is not proof of lying.') : null,
+        groupLabel('With Ava · talking now'),
+        list(row({ icon: 'plus', tint: 'paper', title: 'Offer a Promise', sub: 'Six kinds · exact terms', chevron: true, go: 's=promises&state=kinds' }),
+          row({ icon: 'inbox', tint: 'amber', title: 'Ava offered you one', sub: 'Captain Support', chevron: true, go: 's=promises&state=incoming' })),
       ];
     }
     game(root, { top: topBar({ kind: 'pair', pair: [seatOf(1), seatOf(SELF)], sub: 'Private talk', round: 3, seconds: 41, open: 'promises' }), scene: roomScene(), tabs: plainTabs(), sheet: sheet({ title, body, foot, back, close: 's=room&room=room-a', detent: 'large' }) });
@@ -188,7 +213,7 @@ export const MORE_SCREENS = {
       const body = state === 'waiting'
         ? [h('div.wait', pt(seatOf(2).character, 76), h('h2', { style: { fontSize: '1.25rem' } }, 'Ben is choosing an Officer'), h('p', 'Chosen at random if time runs out'))]
         : [h('div.grid9', Array.from({ length: 9 }, (_, i) => { const s = i + 1; return s === 4 ? pick(s, 'ineligible', 'You are Captain') : eligible.has(s) ? pick(s, s === 3 ? 'selected' : 'available', s === 3 ? 'Selected' : '', 's=captain&state=appoint') : pick(s, 'ineligible', s === 5 ? 'Injured' : s === 6 ? 'In Jail' : s === 9 ? 'Out' : 'In Hospital'); }))];
-      game(root, { top: topBar({ kind: 'phase', icon: 'officer', title: state === 'waiting' ? 'New Officer' : 'Appoint an Officer', sub: state === 'waiting' ? 'Ben chooses' : 'Random if time runs out', round: 2, seconds: 22 }), scene: roomScene('command-room', { fixture: { place: { 2: ['Room A', 'A5'], 4: ['Command Room', 'C1'] }, active: null, offices: { captain: 4 } } }), tabs: { hero: 'pass-off', go: {} },
+      game(root, { top: topBar({ kind: 'phase', icon: 'officer', title: state === 'waiting' ? 'New Officer' : 'Appoint Officer', sub: state === 'waiting' ? 'Ben chooses' : 'Random if time runs out', round: 2, seconds: 22 }), scene: roomScene('command-room', { fixture: { place: { 2: ['Room A', 'A5'], 4: ['Command Room', 'C1'] }, active: null, offices: { captain: 4 } } }), tabs: { hero: 'pass-off', go: {} },
         sheet: sheet({ title: state === 'waiting' ? 'Officer appointment' : 'Choose your Officer', body, foot: state === 'waiting' ? null : [button('Appoint Cleo', { icon: 'officer' })], detent: 'large', close: false }) });
       return;
     }
@@ -258,13 +283,24 @@ export const MORE_SCREENS = {
       return;
     }
     const declare = stage === 'declare';
-    const sides = declare ? ['blue', 'red', 'alien'] : ['blue'];
+    // HACK-DECLARE-02: the same three side controls for every role. A role that must declare its own side
+    // finds the other two disabled, on its own phone only; Undercover and Alien may claim any side.
+    const role = p.role ?? 'Doctor';
+    const allowed = declarableSides(role);
+    const bluff = allowed.length > 1;
+    const chosen = p.side ?? (ROLE_FIXTURES[role]?.team ?? 'Blue').toLowerCase();
+    const word = s => s[0].toUpperCase() + s.slice(1);
     const body = declare
       ? [h('div.confirm-who', pt(seatOf(1).character, 56), h('div', h('b', 'Ava asked to talk'), h('span', 'Declare a side. It is a claim, not a check.'))),
-        h('div', { style: { display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', marginTop: '6px' } }, sides.map(s => h('button.tile', { type: 'button', 'data-state': s === 'blue' ? 'selected' : 'available', style: { minHeight: '150px', background: '#0A1530' } }, art(HACK_ART[`hack-side-${s}`], 'hack-card'), h('b', s[0].toUpperCase() + s.slice(1)))))]
+        h('div.declare-sides', { role: 'radiogroup', 'aria-label': 'Side to declare' }, ['blue', 'red', 'alien'].map(s => {
+          const ok = allowed.includes(s);
+          return h('button.tile', { type: 'button', role: 'radio', 'aria-checked': String(ok && s === chosen), 'aria-disabled': ok ? null : 'true', 'data-state': !ok ? 'unavailable' : s === chosen ? 'selected' : 'available', 'data-go': ok ? `s=talk&stage=declare&role=${encodeURIComponent(role)}&side=${s}` : null },
+            art(HACK_ART[`hack-side-${s}`], 'hack-card'), h('b', word(s)), ok ? null : h('small', ic('lock', { filled: true }), 'Not for your role'));
+        })),
+        groupNote(bluff ? 'Your role may claim any side. Only you see this.' : `Your role declares its own side: ${word(allowed[0])}. Only you see this.`)]
       : [h('div.confirm-who', pt(seatOf(SELF).character, 56), h('div', h('b', 'Dev claims Blue'), h('span', 'Unverified · only Ava sees this'))), h('div', { style: { maxWidth: '160px', margin: '6px auto 0' } }, art(HACK_ART['hack-side-blue'], 'hack-card'))];
     game(root, { top, scene: roomScene('room-a', { active: null }), tabs: { hero: 'pass-off' },
-      sheet: sheet({ title: declare ? 'Declare your side' : 'Ava sees your claim', body, foot: declare ? [button('Declare Blue', { icon: 'declare' })] : null, close: false }) });
+      sheet: sheet({ title: declare ? 'Declare your side' : 'Ava sees your claim', body, foot: declare ? [button(`Declare ${word(chosen)}`, { icon: 'declare' })] : null, close: false }) });
     root.querySelectorAll('.hack-card svg').forEach(svg => { svg.style.width = '100%'; svg.style.height = 'auto'; svg.style.display = 'block'; });
   },
 

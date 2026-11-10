@@ -28,14 +28,15 @@ function eligibility(kind, roster, state) {
 
 function grid(kind, roster, { picked = null, locked = false, state = 'open' } = {}) {
   const el = eligibility(kind, roster, state);
-  return h('div.grid9.vote-grid', { role: 'group', 'aria-label': kind === 'captain' ? 'Captain candidates' : 'Jail vote candidates' },
+  // The wrap is a size container: where the text is large for the width, the 3 × 3 becomes a list (kit.css).
+  return h('div.grid-wrap', h('div.grid9.vote-grid', { role: 'group', 'aria-label': kind === 'captain' ? 'Captain candidates' : 'Jail vote candidates' },
     Array.from({ length: 9 }, (_, i) => {
       const p = seatOf(i + 1);
       if (i + 1 > roster) return cell(null);
       const e = el[p.seat];
       const st = !e.ok ? 'ineligible' : picked === p.seat ? (locked ? 'confirmed' : 'selected') : locked ? 'faded' : 'available';
       return cell(p, { state: st, note: picked === p.seat ? (locked ? 'Your vote' : 'Selected') : e.note, you: p.seat === SELF, mark: picked === p.seat ? 'check' : null, go: st === 'available' ? `s=vote&kind=${kind}&roster=${roster}&state=selected` : null });
-    }));
+    })));
 }
 
 const RESULTS = {
@@ -76,8 +77,9 @@ export const VOTE_SCREENS = {
     const body = [
       state === 'closed' ? h('div', { style: { margin: '0 0 10px' } }, pill('Closed · result next', { icon: 'lock', tone: 'paper' })) : null,
       state === 'cannot' ? groupNote('Eliminated players don’t vote. You can still watch.') : null,
+      // Above the roster, where it is seen without scrolling (not under the foot).
+      state === 'abstained' ? h('div', { style: { margin: '0 0 10px' } }, pill('You abstained', { icon: 'check', tone: 'paper' })) : null,
       grid(kind, roster, { picked: state === 'abstained' ? null : picked, locked, state }),
-      state === 'abstained' ? h('div', { style: { marginTop: '12px', textAlign: 'center' } }, pill('You abstained', { icon: 'check', tone: 'amber' })) : null,
     ];
     game(root, {
       top: topBar({ kind: 'phase', icon: kind === 'captain' ? 'captain' : 'vote', title, sub, round: kind === 'captain' ? 2 : 3, seconds }),
@@ -98,7 +100,7 @@ export const VOTE_SCREENS = {
     const total = Object.values(r.counts).reduce((a, b) => a + b, 0);
     const piece = h('span.piece', { html: RESULT_ART[r.piece]() });
     const head = h('div.result-head', { 'data-tone': r.tone }, piece,
-      h('div', { style: { minWidth: 0 } }, h('span', { style: { display: 'inline-block', marginBottom: '8px' } }, stamp(r.tag, r.tone === 'gold' ? 'amber' : null)), h('h2', r.title), h('p', r.sub ?? (kind === 'captain' ? `${total} votes · ${voters} could vote` : `${total} votes · 4 needed of ${voters}`))));
+      h('div', { style: { minWidth: 0 } }, h('span.result-stamp', stamp(r.tag, r.tone === 'gold' ? 'amber' : null)), h('h2', r.title), h('p', r.sub ?? (kind === 'captain' ? `${total} votes · ${voters} could vote` : `${total} votes · 4 needed of ${voters}`))));
     const cells = Array.from({ length: 9 }, (_, i) => {
       const seat = seatOf(i + 1);
       if (i + 1 > roster) return cell(null);
@@ -109,11 +111,14 @@ export const VOTE_SCREENS = {
       return cell(seat, { state: st, count: n, note: `${n} ${n === 1 ? 'vote' : 'votes'}`, label: `Player ${seat.seat}, ${seat.name}, ${n} votes`, you: seat.seat === SELF });
     });
     const gridEl = h('div.grid9', { role: 'group', 'aria-label': 'Result' }, cells.map(c => { if (c.tagName !== 'BUTTON') return c; const d = h('div.cell', { 'data-state': c.dataset.state, 'aria-label': c.getAttribute('aria-label') }); d.append(...c.childNodes); return d; }));
-    const win = h('section.result-window', { role: 'dialog', 'aria-label': `${kind === 'captain' ? 'Captain election' : 'Jail vote'} result` }, head,
-      h('div.result-body', gridEl),
-      h('div.result-foot', ic('lock', { filled: true }), h('span.grow', 'Ballots stay private'), h('span', `${kind === 'captain' ? 'Round 2' : 'Round 3'}`)));
+    // The head and the roster scroll together under the foot. Where the text is large for the width (the
+    // Largest text on a 320 phone) the stamp goes (the headline says the same), the roster becomes a list of
+    // whole names (kit.css) and the foot scrolls with the rest, so the names get the height (screens.css).
+    const win = h('section.result-window', { role: 'dialog', 'aria-label': `${kind === 'captain' ? 'Captain election' : 'Jail vote'} result` },
+      h('div.result-inner', h('div.result-scroll', head, h('div.result-body', gridEl)),
+        h('div.result-foot', ic('lock', { filled: true }), h('span.grow', 'Ballots stay private'), h('span.result-round', `${kind === 'captain' ? 'Round 2' : 'Round 3'}`))));
     game(root, {
-      top: topBar({ kind: 'phase', icon: kind === 'captain' ? 'captain' : 'jail', title: kind === 'captain' ? 'Captain election · result' : 'Jail vote · result', round: kind === 'captain' ? 2 : 3, seconds: Number(p.seconds ?? 4), ring: (5 - Number(p.seconds ?? 4)) / 5, urgentAt: -1 }),
+      top: topBar({ kind: 'phase', icon: kind === 'captain' ? 'captain' : 'jail', title: kind === 'captain' ? 'Election · result' : 'Jail vote · result', short: 'Vote result', round: kind === 'captain' ? 2 : 3, seconds: Number(p.seconds ?? 4), ring: (5 - Number(p.seconds ?? 4)) / 5, urgentAt: -1 }),
       scene: { kind: 'room', room: 'room-a', active: null },
       tabs: { hero: 'vote-off', go: { switch: 's=board', card: 's=card&role=Doctor', panels: 's=panels' } },
       overlay: [win],

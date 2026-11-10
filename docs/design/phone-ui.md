@@ -5,14 +5,14 @@
 - **Branch and base:** `claude/designer-phone-ui`, from `fb33cecbf4b0fc2bef5d107e79ae2aac0ed7be70`. That is `main` after #204, the reviewed playable baseline.
 - **Pins:** protocol 3, `planet-game-1.1.0`, `in-person-planet-private-feedback-2026-11-06`, art release `design-0.8.0`.
 - **Worktree:** a separate one, `/home/user/GameN-worktrees/designer-phone-ui`.
-- **Other work:** Designer's other worktrees and open PRs are untouched. That includes PR #197, the approved redrawn rooms, and PR #78's branch.
+- **Other work:** Designer's other worktrees and open PRs are untouched. That includes PR #197, the approved redrawn rooms, which stay a separate adoption, and PR #78's branch.
 
 | | |
 | --- | --- |
-| Sheets | [`design/phone-ui/review/sheets/`](../../design/phone-ui/review/sheets/): 57 numbered sheets. [`contact-sheet.jpg`](../../design/phone-ui/review/contact-sheet.jpg) shows all of them. |
-| Clickable prototype | [`design/phone-ui/prototype/index.html`](../../design/phone-ui/prototype/index.html). On a desktop it shows a phone and its flows; on a phone it fills the screen. `design/tools/phone-ui-clickable.mjs` exports it as rendered screens with each screen's own tap areas (261 states), which is how the owner's private review copy was made. |
+| Sheets | [`design/phone-ui/review/sheets/`](../../design/phone-ui/review/sheets/): 61 numbered sheets. [`contact-sheet.jpg`](../../design/phone-ui/review/contact-sheet.jpg) shows all of them. |
+| Clickable prototype | [`design/phone-ui/prototype/index.html`](../../design/phone-ui/prototype/index.html). On a desktop it shows a phone and its flows; on a phone it fills the screen. `design/tools/phone-ui-clickable.mjs` exports it as rendered screens with each screen's own tap areas (297 states), which is how the owner's private review copy is made. |
 | Frontend handoff | [phone-ui-handoff.md](phone-ui-handoff.md): each sheet mapped to components, states, assets, audiences and the data it needs. |
-| Backend and Integration | [DSN-REQ-19 to DSN-REQ-21](integration-requests.md#dsn-req-19): the dependencies, kept separate from the visual decisions. |
+| Backend and Integration | [DSN-REQ-19 to DSN-REQ-22](integration-requests.md#dsn-req-19): the dependencies, kept separate from the visual decisions. |
 | Measurements | [`design/phone-ui/review/checks.json`](../../design/phone-ui/review/checks.json): every frame measured as it was drawn. |
 
 Every name, seat, role, ballot and result in the sheets is a **labelled synthetic fixture** (`design/phone-ui/prototype/fixtures.mjs`). The label sits beside each frame, never inside the proposed interface.
@@ -40,10 +40,10 @@ The requirements came with the request of 9 November 2026, from the owner's play
 | A–E | 10 intro and main menu · 11 host · 12 join · 13 waiting and the player lobby · 14 recover · 15 host controls and a recovery code · 16 character selection |
 | F–G | 17 the 30-second role stage (timeline) · 18 role stage states · 19 boarding into Round 1 |
 | H–I | 20 Room A · 21 Room B · 22 Command Room · 23 Hospital · 24 Jail · 25 Private Talk capsule · 26 the whole board and switching views |
-| K–N | 27 each tab, opened · 27.1–27.5 each tab, tap by tap (Board, Actions, Pass and Vote, Card, Panels) · 27.6 the top bar's Promises and ⋮, tap by tap · 28 Actions · 29 targeting and registering · 30 Blackout · 31 Card · 32 Panels and Settings · 33 Promises · 34 Windows |
+| K–N | 27 each tab, opened · 27.1–27.5 each tab, tap by tap (Board, Actions, Pass and Vote, Card, Panels) · 27.6 the top bar's Promises and ⋮, tap by tap · 28 Actions · 29 targeting and registering · 29.1 registered: waiting for the end of the round · 29.2 accepted: what happens at once · 30 Blackout · 31 Card · 32 Panels and Settings · 33 Promises · 33.1 Promise results, one match moment each · 34 Windows |
 | O–P | 35 Jail vote · 36 Captain election and stable placement · 37 Captain results · 38 Jail results |
 | Q | 40 Captain and Officer · 41 navigation · 42 Scan and the final Code · 43 Hospital panel · 44 Blackhole, elimination and the end · 45 loading, reconnecting and the unexpected |
-| Viewports and motion | 50 320 × 568 · 51 430 × 932 · 52 in Safari with its toolbars (390 × 664) · 53 larger text (150% and 200%) · 54 Reduce motion · 55 ambient motion in the rooms |
+| Viewports and motion | 50 320 × 568 · 51 430 × 932 · 52 in Safari with its toolbars (390 × 664) · 53 larger text (150% and 200%) · 54 Reduce motion · 55 ambient motion in the rooms · 56 320 × 568 at the Largest text |
 | Art | 60 approved art not yet in the playable build · 61 today's build beside this proposal |
 
 ## Design decisions
@@ -53,9 +53,9 @@ These are routine decisions, made by Designer under the brief. The owner can ove
 **One interface language around the comic.**
 - The chrome is clean and dark, like iOS, with translucent bars, rounded controls, grouped lists and sheets.
 - **Sheets are clear glass over the room**, at the level the owner chose on 9 November (the clearest of three).
-  - A 20–34% tint, a 2 px blur, and the room behind darkened to 56%, with its colours raised to 130%. The room above a sheet isn't dimmed.
+  - A 20–34% tint, a 2 px blur, and the room behind darkened to 46%, with its colours raised to 130%. The room above a sheet isn't dimmed. The dim was 56% until the letter-by-letter check (below) found grey words over the brightest art under 4.5:1; the room still shows through.
   - Boxes inside a sheet are a light dark layer (24%) with a thin light edge, and grey text on glass is brighter (`#DCE3EC`).
-  - Text on glass stays at least 4.5:1 against what is really behind it (measured; see "Measured").
+  - Text on glass was measured letter by letter against what is drawn behind it, in these renders (see "What was checked").
   - Where the phone asks for less transparency, or glass can't be drawn, sheets are solid again.
 - The scenes, crew, role card, stamps and result window stay comic ink: hard ink outlines and offset shadows, halftone, captions.
 - One icon family is used everywhere: 79 icons on a 24 px grid with 1.8 px round strokes. Each has an outline form and a filled form for selected.
@@ -80,7 +80,8 @@ These are routine decisions, made by Designer under the brief. The owner can ove
   - The 5-second result and the 6-second Ship synchronized have no Promises button: there is no time to use it.
 - On the right: the round, the server's time and the settings menu **⋮** (the owner, 9 November). ⋮ opens Settings: Reduce motion and text size, which stay on the phone, and Host controls for the host.
 - Promises and ⋮ are 44-pixel targets. On a narrow bar the clock drops its icon, a phase drops its icon tile and a talk's two portraits overlap more.
-- To keep its title whole beside them, the Officer appointment's bar now reads **New Officer**, with "Ben chooses" under it.
+- To keep its title whole beside them, the Officer appointment's bar now reads **New Officer**, with "Ben chooses" under it, and the Captain's own reads **Appoint Officer**.
+- With larger text (the bar under 16 rem: 150% below 384 px, 200% below 512 px) the round leaves the bar, and a phase with a short title shows it: "Vote result" for "Jail vote · result" and "Election · result". With the Largest text on the smallest phones the title takes two lines instead of its subtitle. The full title stays for screen readers.
 - The last ten seconds turn amber, and the 5-second and 6-second stages show a ring.
 
 **Tabs.**
@@ -96,19 +97,30 @@ These are routine decisions, made by Designer under the brief. The owner can ove
 - Each action is a tile with an icon and a short name, and it states its own condition: "From Round 4", "Once a match", "Used".
 - On another player's turn, Move stays open (once a round), and so does the Hacker's Final Code. Every other tile says "On your turn". The first draft showed Move closed there, which the engine does not do.
 - Targeting happens on the people in the scene: tapping a person opens the check with them.
-- An **Other rooms** chip reaches eligible people elsewhere, as a list or on the board.
-- Registering shows a REGISTERED stamp and "Nothing happens yet". No effect is drawn before the server resolves it.
+- **Other rooms** opens the board with everyone the action can reach pressable where they stand, the rest dimmed (Integration's review: the owner wants actions applied by selecting characters in their rooms). The board's **List** gives the same choice as text, room by room, for screen readers or by preference (sheet 29).
+- After Register, each action says what the server's acceptance did, in Frontend's words where they exist (sheets 29.1 and 29.2; the [handoff](phone-ui-handoff.md#after-register) has the table):
+  - **Waiting** (Rescue, Protection, Supply, a shot, Blackout): an outline REGISTERED stamp, "This is not a result", and a time line whose next step is still open. Protection says it is active from the next round. Nothing is drawn on the target.
+  - **Accepted** (a private talk): it starts after the current turn; the top bar shows each step.
+  - **At once:** a Clone is ACTIVE from acceptance through the following round's attacks (CLONE-01, P17); the Engineer's capture names who was in the other room, now (P14).
 
 **Blackout.**
 - It is position targeting, shown as marks on the bound room's positions while it is dark.
 - Everyone sees the same lit and dark window.
 - Only the requesting Disabler's phone shows the positions.
 
+**Private talk.**
+- The target declares a side on three claim cards, the same three for every role (HACK-DECLARE-02). A role that must declare its own side finds the other two disabled ("Not for your role"), on its own phone only; the Undercover and the Alien may choose any. The [handoff](phone-ui-handoff.md#hack-declaration-eligibility) maps each role and [DSN-REQ-22](integration-requests.md#dsn-req-22) asks for the sides in the offer.
+
+**Promises.**
+- A player gives at most one Promise and receives at most one in a match, so the results list holds two at most. Sheet 33.1 shows each result state as its own match moment: Pending, Fulfilled, Not fulfilled, Condition not met.
+- Captain Support's terms: the giver votes for the recipient "in every ballot of that election in which the recipient is a candidate"; if the recipient is a candidate in none, the result is Condition not met (P23).
+
 **Votes and results.**
 - Both use one 3 × 3 roster in which seat *n* is always cell *n*.
 - In a 7- or 8-player match the last cells stay empty; no player is invented to fill them.
 - The result reuses the approved result art (star, tie burst, cell bars, empty cell and chair).
 - It shows the permitted counts and the number of eligible voters. It never shows who voted for whom.
+- **With the Largest text on a small phone** (sheet 56, 320 × 568 at 200%) the 3 × 3 becomes a list of whole names with their counts, the result's stamp and art step aside (its headline says the same), and the headline, the names and the foot scroll as one column. Seat badges grow with the text. At 390 × 844 and 100% nothing changes.
 
 **Main menu.**
 - **Join** is the primary entry, because most of the table joins.
@@ -158,7 +170,7 @@ The owner's order is drawn on sheet 02 and labelled **Integration proposal, pend
 
 > Player turns and final private conversation → Blackhole Sync and its six-second presentation, when applicable → shared Blackout window: five seconds lit, ten seconds dark → Jail voting → five-second vote result → remaining resolution and navigation.
 
-Its consequences for strike resolution, fixed targets and the cancellation when a Disabler is jailed are Backend's to settle ([DSN-REQ-20](integration-requests.md#dsn-req-20)). The screens are the same in either order.
+Its consequences for strike resolution, fixed targets and the cancellation when a Disabler is jailed are for Integration to settle ([DSN-REQ-20](integration-requests.md#dsn-req-20)). The screens are the same in either order. In both, Frontend freezes the camera's framing and every target's geometry for the whole Blackout, including the transition when the runtime hides the board.
 
 ## The current interface, audited
 
@@ -225,22 +237,25 @@ Nothing in `apps/` or `packages/` imports the pack.
 ## What was checked, and what was not
 
 **Run:**
-- `node design/tools/phone-ui-render.mjs` drew the sheets in headless desktop Chromium. Each frame is an iframe at its exact CSS viewport (390 × 844, 320 × 568, 430 × 932 and 390 × 664) with simulated safe areas, at 100%, 150% and 200% text, with and without Reduce motion.
+- `node design/tools/phone-ui-render.mjs` drew the sheets in headless desktop Chromium. Each frame is an iframe at its exact CSS viewport (390 × 844, 320 × 568, 430 × 932 and 390 × 664) with simulated safe areas, at 100%, 150% and 200% text, with and without Reduce motion. Sheet 56 is the smallest phone with the Largest text (320 × 568 at 200%).
 - While drawing, the tool measured every frame:
   - the page's horizontal overflow;
   - every control's box against 44 px (counting the declared hit-area extensions of small buttons and swatches);
-  - text under 11 px;
-  - ellipsis-clipped text;
+  - visible text under 11 px, including text screen readers skip (a short title, a count badge);
+  - **text cut off for good:** every character outside a box that clips without scrolling (an ellipsis, a line clamp, hidden overflow). Across, any part of a character's advance outside counts; down, its middle (a character's box is its font's full height, a pixel or two taller than a tight line). Text inside a scroller, which a player can scroll to, is counted separately and not as cut;
   - page errors;
-  - every text's contrast against what is really drawn behind it, glass and art included:
-    - first each text run's colour and place;
-    - then the same page with all text made transparent, captured losslessly and read back pixel by pixel;
-    - the ratio is taken against the 80th-percentile luminance behind light text, and the median behind dark text;
-    - text under another element, inactive controls and hidden text are left out.
+  - **text contrast, letter by letter:**
+    - every visible character of every text run, with its box, its run's colour (with its alpha and every ancestor's opacity) and its threshold: 4.5:1, or 3:1 for large text (24 px, or 18.66 px bold);
+    - four lossless captures of the page at 1 px per CSS px: as drawn, every letter filled black, every letter filled white, every letter transparent (text shadows and decorations removed too, so a halo is never credited);
+    - white minus black is each pixel's glyph coverage. A letter's ink is the pixels it covers at least half; where letter boxes overlap, a pixel goes to the nearest letter, and a fully covered pixel whose drawn colour disagrees with its run's colour over the background is not counted as that letter's;
+    - at every ink pixel and each pixel touching it, inside the letter's visible box, the WCAG 2 ratio between the run's colour (composited by its alpha) and the transparent-text capture. **A letter's ratio is its lowest pixel's; a run's is its lowest letter's;**
+    - **moving backgrounds:** wherever a frame shows a room, its ambient motion was held at 16 moments of the 240-second voyage (every 15 s) besides the frame's own, the transparent-text capture repeated at each, and every letter kept its lowest ratio over all of them. A letter is counted as over a moving background where its background changed between moments;
+    - not measured: characters under another element; visually hidden text; inactive controls (aria-disabled or disabled, which WCAG 1.4.3 exempts); text that is part of a picture (the rooms' art and ambient layer, a result's art); the simulated phone status bar; text inside the films (their own documents); and text in form fields (typed values, placeholders).
 - The results are in `checks.json`, and the "Measured" section below summarises them.
 - `packages/design-tokens/test/phone-ui.test.mjs` checks:
   - the catalog and every sheet's screens, kept in step with the registry;
-  - the review files and their hashes, and every frame's measurements (contrast included) clean;
+  - the review files and their hashes, and every frame's measurements clean: no text cut off, every letter at its threshold at every moment, the moments recorded, and the result and ballot at 320 × 568 with 200% text among the frames;
+  - each action's state after Register (no waiting action drawn as a result; a private talk, a Clone and the Engineer's capture as they happen), Other rooms chosen on the board with the list as its alternative, the declarable sides for every role, and Promise results that fit the lifetime quota, with Captain Support's terms;
   - the room view's framing, for every room's fixture: wider than the first draft, filling the space between the bars, with everyone present in view;
   - a tap-by-tap sheet for each tab and for the top bar's Promises and ⋮, and every tap it draws landing on a control the prototype shows;
   - the ambient motion: every room and the capsule, no team colour, the same markup every time, only the dimmed windows with the lights out, and still under Reduce motion;
@@ -250,8 +265,13 @@ Nothing in `apps/` or `packages/` imports the pack.
   - the dev-only markers;
   - that no game code imports the pack.
 
+**What the contrast check does not establish:**
+- It measures these renders: desktop Chromium's text rasterisation and its glass (`backdrop-filter`) at 1 device pixel per CSS pixel, in sRGB. A phone's screen, its brightness, glare, a different font rasteriser or 2× and 3× pixels were not measured.
+- The ambient motion was sampled at moments, not continuously: a small passer can cross behind a letter between two samples. The live room changes continuously; the margins below are what was seen at the samples.
+- The WCAG 2 ratio is a proxy for legibility. It says nothing about reading speed, colour vision or a screen reader.
+
 **Not done:**
-- No physical phone, no iOS Safari or Android Chrome, no screen reader and no performance measurement. The safe areas and Safari toolbars are simulated, not measured.
+- No physical phone, no iOS Safari or Android Chrome, **no screen reader** and no performance measurement. The safe areas and Safari toolbars are simulated, not measured.
 - The transitions were looked at in desktop Chromium's view transitions only.
 - The ambient motion was looked at frame by frame and in recorded clips from desktop Chromium. Its smoothness, battery use and frame rate on a phone were not measured.
 - None of this proves multiplayer correctness, pacing or balance.
@@ -259,28 +279,43 @@ Nothing in `apps/` or `packages/` imports the pack.
 ### Measured
 
 From `design/phone-ui/review/checks.json`, written by the render that produced the committed sheets (Google Chrome for Testing 153, headless, desktop):
-- 57 sheets and 220 phone frames.
-- Every one of the 17 taps drawn on sheets 27.1–27.6 lands on a control the prototype shows.
-- Every text run is at least 4.5:1 against what is drawn behind it (3:1 for large text). The lowest is 4.59:1, on sheet 43.
-- Measuring contrast found, and this pack fixed:
-  - the top bar and tab bar samples (07, 08), which were cut in half; each sheet now has two frames;
-  - the board's "You" badge and the role stage's "Ready" mark, which were amber on light;
-  - the status on the player's own tag ("· Injured", "· Out"), which was grey on paper;
-  - dimmed name tags, which are now muted rather than faded;
-  - the Officer's "Blocked" mark, which was hidden behind the room's art;
-  - a picked person's note on the 3 × 3 grids;
-  - the More badge at 200% text;
-  - grey words over glass on the brightest rooms.
-- No frame scrolls sideways.
-- No control is under 44 px.
-- No text is under 11 px.
-- There are no page errors.
-- One top-bar subtitle is shortened with an ellipsis, by design: "Player 7 · Turn" at 200% text (sheet 53). The full words stay in the accessible name. Before Promises and ⋮ joined the bar there were four.
+- 61 sheets and 239 phone frames.
+- Every one of the 19 taps drawn on the sheets lands on a control the prototype shows.
+- **32,427 letters** measured; 482 of them over a moving background. Every letter is at least 4.5:1 at every pixel of its ink (3:1 for large text), at every sampled moment. The closest to its threshold: 4.85:1 against 4.5:1, the “R” of “Round 3” at 150% text (sheet 53, Actions · Large).
+- 27 characters had no ink of their own to measure (marks too thin or too small to be half-covered); they are counted, not hidden.
+- **No text is cut off** in any frame.
+- The letter-by-letter check found what the earlier one (the 80th-percentile or median background behind a whole run) passed: 43 text runs below their threshold in 34 frames, the worst at 1:1. This pack fixed them all:
+  - grey words on glass over the brightest art: the glass now darkens the room to 46% (it was 56%);
+  - the amber target ring drawn across a name tag on the board: tags now sit above rings;
+  - "You abstained", which sat at the foot of the roster under the sheet's footer: it is now above the roster;
+  - a room-code letter's tail touching its box at 200% text: the boxes grow with their letter;
+  - seat badges that stayed 22 px while their digits grew with the text.
+- Cut-off text found and fixed: the Captain's "Appoint an Officer" title (now "Appoint Officer"), top-bar titles at 150% on a 390 phone (the round now leaves the bar there), and the result's title and names at 320 × 568 with 200% text.
+- No frame scrolls sideways. No control is under 44 px. No visible text is under 11 px. There are no page errors.
 
 These are measurements of one desktop browser at each CSS size, not of a phone.
 
+## Integration's review of `d52a8ae9` (10 November 2026)
+
+| Finding | What changed | Where |
+| --- | --- | --- |
+| 1. Large-text voting results | The result window and the ballot respond to text size: a list of whole names, the stamp and art aside, one scrolling column; seat badges scale; top-bar titles shorten at larger text | Sheets 35–38, 50, 53; **56** (320 × 568 at 200%, measured) |
+| 2. Action feedback | Each action's own state after Register, in Frontend's words where they exist | Sheets 27.2, 29, **29.1, 29.2**; [handoff](phone-ui-handoff.md#after-register) |
+| 3. Cross-room targeting | Other rooms opens the board with the reachable people pressable; the list is its text alternative | Sheets 26, 27.1, **29** |
+| 4. Hack declarations | Three identical side cards; the sides a role may not claim are disabled on its own phone | Sheet **25**; [handoff](phone-ui-handoff.md#hack-declaration-eligibility); [DSN-REQ-22](integration-requests.md#dsn-req-22) |
+| 5. Contrast evidence | The letter-by-letter check over bright and moving backgrounds, described above with its limits | `sheet.mjs`, `phone-ui-render.mjs`, `checks.json` |
+| 6. Promise examples | One match moment per result state, within the quota; Captain Support's P23 wording | Sheets 33, **33.1** |
+
+Recorded from the review's coordination notes:
+- **Blackout:** Frontend freezes the camera's framing and target geometry throughout, including the transition when the runtime hides the board ([handoff](phone-ui-handoff.md#motion)).
+- **DSN-REQ-19:** a server-owned 20-second card and 10-second film; Ready stays manual.
+- **DSN-REQ-20:** Blackout before voting waits for Integration's strike timing, target binding and cancellation.
+- **DSN-REQ-21:** the Hospital keypad still receives an empty target list. The final Code's window is settled by P18 (Round 2 until navigation), as the matrix draws it; the October voting restriction is superseded.
+- **PR #197's** redrawn rooms stay a separate adoption.
+
 ## Open questions for the owner
 
+- **The glass level:** to keep every letter at 4.5:1 over the brightest art, the glass now darkens the room to 46% instead of the 56% chosen on 9 November; tint, blur and colour are unchanged and the room still shows through. Keep 46%, or return to 56% with a different fix for the grey words (for example a darker layer behind text blocks only)?
 - **The main menu's hierarchy:** Join first and primary, as drawn, or Host first?
 - **The film and the Ready button:** Ready opens at 30 s, when the film ends. Should the film be skippable before then on a player's own phone? Skip is drawn and is local only.
 - **Pass in the centre outside your own turn:** it is drawn disabled, and it stays where it is so the bar never jumps.

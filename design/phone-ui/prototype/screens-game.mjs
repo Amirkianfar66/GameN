@@ -53,6 +53,40 @@ function roleTiles(role, p, overrides = {}) {
   return [...own, ...common];
 }
 
+// ── After Register ──────────────────────────────────────────────────────
+// What the server's acceptance did, action by action, in Frontend's words where it has them
+// (packages/presentation/src/copy/en.ts: acceptedTarget, acceptedDetail, supplyAccepted). A registered
+// action waits for the end of the round and is never drawn as an outcome; a Clone is active at once
+// (CLONE-01, P17); the Engineer's capture is fixed at once (P14); a private talk starts after the turn.
+export function afterRegister(act, target, room) {
+  const who = target ? (target.seat === SELF ? 'yourself' : target.name) : '';
+  const them = target ? (target.seat === SELF ? 'you' : target.name) : '';
+  const waits = 'This is not a result. Registered actions are resolved at the end of the round.';
+  const inB = seatsFor(ROOM_FIXTURES[room]).filter(x => x.location === 'Room B').map(x => seatOf(x.seat));
+  return {
+    rescue: { kind: 'waits', stamp: 'REGISTERED', tone: 'pending', title: `Rescue of ${who} registered.`, detail: waits,
+      steps: [['done', 'Registered', 'Round 3 · your turn'], ['next', 'End of Round 3', 'Rescue is resolved, after the attacks']] },
+    protect: { kind: 'waits', stamp: 'REGISTERED', tone: 'pending', title: `Protection for ${who} registered.`, detail: 'This is not a result. It is resolved at the end of this round and is active from Round 4.',
+      steps: [['done', 'Registered', 'Round 3 · your turn'], ['next', 'End of Round 3', 'Resolved with the round’s actions'], ['later', 'Round 4', `Protection for ${them}: active`]] },
+    supply: { kind: 'waits', stamp: 'REGISTERED', tone: 'pending', title: 'Supply for Ava and Gus registered.', detail: waits,
+      steps: [['done', 'Registered', 'Round 3 · your turn'], ['next', 'End of Round 3', 'Each gets one weapon']] },
+    shoot: { kind: 'waits', stamp: 'REGISTERED', tone: 'pending', title: `Shot at ${who} registered.`, detail: 'This is not a result. Registered shots are resolved at the end of the round.',
+      steps: [['done', 'Registered', 'Round 4 · your turn'], ['next', 'End of Round 4', 'Resolved; Protection and Clone are checked then']] },
+    blackout: { kind: 'waits', stamp: 'REGISTERED', tone: 'pending', title: 'Blackout registered.', detail: 'This is not a result. Nothing changes until the lights go out later this round.',
+      steps: [['done', 'Registered', 'Round 3 · your turn'], ['next', 'Later this round', '5 s lit, then 10 s dark'], ['later', 'While it is dark', 'You choose a frozen position']] },
+    talk: { kind: 'waits', stamp: 'ACCEPTED', tone: 'pending', title: `Private talk with ${who} accepted.`, detail: 'It starts after this turn. The top bar shows each step.',
+      steps: [['done', 'Accepted', 'Round 3 · your turn'], ['next', 'After this turn', `Up to 15 s for ${them} to declare a side`], ['later', 'Then', '5 s for the claim, then 60 s to talk']] },
+    clone: { kind: 'now', stamp: 'ACTIVE', tone: 'amber', title: 'Clone active.', detail: 'Active from now, through the attacks at the end of Round 4. It used your main action for this round.',
+      steps: [['done', 'Active now', 'Round 3 · when the server accepted it'], ['next', 'End of Round 4', 'Ends after that round’s attacks']] },
+    suppress: { kind: 'now', stamp: 'CAPTURED', tone: 'steel', title: 'Navigation suppressed.', detail: `Captured now: the ${inB.length} players in Room B. Their navigation weight is removed this round. Only you are told.`, people: inB,
+      steps: [['done', 'Captured', 'Round 3 · when the server accepted it'], ['next', 'This round’s navigation', 'Their weight is removed']] },
+  }[act];
+}
+
+/** A short time line: what has happened (done) and what is still to come (next, later). */
+const steps = items => h('ol.steps', items.map(([state, title, sub]) => h('li', { 'data-step': state },
+  h('span.step-dot', ic(state === 'done' ? 'check' : 'hourglass', { filled: state === 'done' })), h('div', h('b', title), h('span', sub)))));
+
 // ── H. Room views ───────────────────────────────────────────────────────
 function roomInteraction(room) {
   return {
@@ -111,14 +145,22 @@ export const GAME_SCREENS = {
     const state = p.state ?? 'overview';
     const s = { kind: 'board', room: 'room-a', active: 7 };
     if (state === 'move') s.slotsByRoom = MOVE_SLOTS;
-    if (state === 'targets') { s.targets = [5]; s.dimOthers = true; }
+    // Choosing a person in another room (from an action's Other rooms): everyone the action can reach is
+    // pressable where they stand, the rest dimmed; List is the same choice as text.
+    // The fixture's one cross-room action is the Doctor's Rescue: Room A's people and, in Hospital, Eli.
+    const act = 'rescue';
+    const here = seatsFor(ROOM_FIXTURES['room-a']).filter(x => x.location === 'Room A').map(x => x.seat);
+    const reach = { icon: 'rescue', label: 'Rescue', targets: [...here, 5] };
+    const q = extra => `role=${encodeURIComponent(p.role ?? 'Doctor')}&active=${p.active ?? SELF}${extra}`;
+    if (state === 'targets') { s.targets = reach.targets; s.dimOthers = true; s.targetGo = n => `s=actions&${q(`&state=confirm&act=${act}&target=${n}`)}`; }
     game(root, {
-      top: state === 'move' ? turnBar({ active: SELF, seconds: 38 }) : turnBar(),
+      top: state === 'move' || state === 'targets' ? turnBar({ active: SELF, seconds: 38 }) : turnBar(),
       scene: s,
-      tabs: { hero: state === 'move' ? 'pass' : 'pass-off', go: { switch: 's=room&room=room-a', actions: 's=actions&role=Doctor&active=4', card: 's=card&role=Doctor', panels: 's=panels' } },
+      tabs: { hero: state === 'move' || state === 'targets' ? 'pass' : 'pass-off', go: { switch: 's=room&room=room-a', actions: 's=actions&role=Doctor&active=4', card: 's=card&role=Doctor', panels: 's=panels' } },
       overlay: [
         state === 'move' ? targetBar('move', 'Move', 'Choose an empty position · uses this round’s move', { cancel: 's=room&room=room-a&state=own' }) : null,
-        state === 'targets' ? targetBar('rescue', 'Rescue', 'Choose a player · Hospital shown', { cancel: 's=actions&role=Doctor&active=4' }) : null,
+        state === 'targets' ? targetBar(reach.icon, reach.label, 'Choose a player · every room', { cancel: `s=actions&${q(`&state=targeting&act=${act}`)}` }) : null,
+        state === 'targets' ? floating('List', { icon: 'players', go: `s=actions&${q(`&state=offroom&act=${act}`)}` }) : null,
       ],
     });
   },
@@ -191,19 +233,20 @@ export const GAME_SCREENS = {
     const tabsCfg = { hero: own ? 'pass' : 'pass-off', open: state === 'list' ? 'actions' : null, go: { switch: 's=board', card: `s=card&role=${encodeURIComponent(role)}`, panels: 's=panels' } };
     const scene = { kind: 'room', room, active: own ? SELF : ROOM_FIXTURES[room].active };
     const ACT = {
-      rescue: { icon: 'rescue', label: 'Rescue', targets: [1, 4, 7, 9], off: [5], verb: 'Rescue', facts: ['Uses 1 of 2 shared injections', 'Registered now · resolves after the vote', 'Does not revive an eliminated player'] },
-      protect: { icon: 'protect', label: 'Grant Protection', targets: [1, 4, 7, 9], off: [], verb: 'Protect', facts: ['Starts next round', 'A player can be protected once a match'] },
-      talk: { icon: 'talk', label: 'Private talk', targets: [1, 7, 9], off: [], verb: 'Talk with', facts: ['Once a match', 'Starts after this turn: up to 15 s to declare, 5 s result, then 60 s'] },
-      supply: { icon: 'supply', label: 'Supply', targets: [1, 4, 7, 9], off: [], verb: 'Supply', facts: ['Choose two players', 'Each gets one weapon after the vote'] },
-      blackout: { icon: 'blackout', label: 'Blackout', targets: null, verb: 'Request Blackout', facts: ['Once a match', 'Registered now · the lights go out later this round', 'You will choose a position while it is dark'] },
-      suppress: { icon: 'suppress', label: 'Suppress navigation', targets: null, verb: 'Suppress navigation', facts: ['Once a match', 'Captures who is in Room B right now', 'Only their navigation weight, this round'] },
-      clone: { icon: 'clone', label: 'Clone', targets: null, verb: 'Activate Clone', facts: ['Once a match', 'Lasts through next round’s attacks'] },
+      rescue: { icon: 'rescue', label: 'Rescue', targets: [1, 4, 7, 9], off: [5], verb: 'Rescue', confirm: 'Register Rescue', facts: ['Uses 1 of 2 shared injections', 'Resolved at the end of the round, after the attacks', 'Does not revive an eliminated player'] },
+      protect: { icon: 'protect', label: 'Grant Protection', targets: [1, 4, 7, 9], off: [], verb: 'Protect', confirm: 'Register Protection', facts: ['Resolved at the end of the round, active from the next', 'A player can be protected once a match'] },
+      talk: { icon: 'talk', label: 'Private talk', targets: [1, 7, 9], off: [], verb: 'Talk with', confirm: 'Request private talk', busy: 'Requesting…', facts: ['Once a match', 'Starts after this turn: up to 15 s to declare, 5 s result, then 60 s'] },
+      supply: { icon: 'supply', label: 'Supply', targets: [1, 4, 7, 9], off: [], verb: 'Supply', confirm: 'Register Supply', facts: ['Choose two players', 'Each gets one weapon at the end of the round'] },
+      shoot: { icon: 'shoot', label: 'Shoot', targets: [1, 4, 7, 9], off: [], verb: 'Shoot', confirm: 'Register shot', facts: ['Uses 1 weapon', 'Resolved at the end of the round', 'Protection and Clone are checked then'] },
+      blackout: { icon: 'blackout', label: 'Blackout', targets: null, verb: 'Request Blackout', confirm: 'Request Blackout', facts: ['Once a match', 'Registered now · the lights go out later this round', 'You will choose a position while it is dark'] },
+      suppress: { icon: 'suppress', label: 'Suppress navigation', targets: null, verb: 'Suppress navigation', confirm: 'Suppress navigation', facts: ['Once a match', 'Captures who is in Room B right now', 'Only their navigation weight, this round'] },
+      clone: { icon: 'clone', label: 'Clone', targets: null, verb: 'Activate Clone', confirm: 'Activate Clone', busy: 'Activating…', facts: ['Once a match', 'Active as soon as the server accepts it', 'Lasts through next round’s attacks'] },
     }[act];
     const here = seatsFor(ROOM_FIXTURES[room]).filter(x => x.location === ROOM_NAMES[room]).map(x => x.seat);
     if (ACT && ACT.targets) ACT.targets = act === 'talk' ? here.filter(n => n !== SELF) : here;
     if (ACT && ACT.off && !['room-a', 'room-b'].includes(room)) ACT.off = [];
     if (state === 'list' || state === 'spent') {
-      const overrides = state === 'spent' ? { talk: { state: 'spent', note: 'Used' }, rescue: { state: 'registered', note: 'Eli · after the vote' } } : {};
+      const overrides = state === 'spent' ? { talk: { state: 'spent', note: 'Used' }, rescue: { state: 'registered', note: 'Eli · end of round' } } : {};
       // Off your turn, Move (any turn, once a round) and the Hacker's Final Code (any phase from Round 2) stay
       // open, as the engine allows; every other action waits for your turn.
       const body = [
@@ -221,16 +264,18 @@ export const GAME_SCREENS = {
         top: turnBar({ active: SELF, seconds: 36 }),
         scene: { ...scene, targets: ACT.targets, targetGo: pick, picked: [] },
         tabs: { ...tabsCfg, open: null },
-        overlay: [targetBar(ACT.icon, ACT.label, act === 'supply' ? 'Choose two players' : 'Choose a player'), ACT.off.length ? floating(`Other rooms · ${ACT.off.length}`, { icon: 'board', go: `s=actions&${roleQuery(p, `&state=offroom&act=${act}`)}` }) : null],
+        overlay: [targetBar(ACT.icon, ACT.label, act === 'supply' ? 'Choose two players' : 'Choose a player'), ACT.off.length ? floating(`Other rooms · ${ACT.off.length}`, { icon: 'board', go: `s=board&state=targets&${roleQuery(p, `&act=${act}`)}` }) : null],
       });
       return;
     }
     if (state === 'offroom') {
-      const body = [
-        h('div.offroom-list', groupLabel('Hospital'), list(row({ lead: pt(seatOf(5).character, 40), title: 'Eli', sub: 'Player 5 · Injured', chevron: true, go: `s=actions&${roleQuery(p, '&state=confirm&act=rescue')}` }))),
-        h('div', { style: { marginTop: '14px' } }, button('Show on board', { kind: 'secondary', block: true, icon: 'board', go: 's=board&state=targets' })),
-      ];
-      game(root, { top: turnBar({ active: SELF, seconds: 33 }), scene: { ...scene, targets: ACT.targets }, tabs: { ...tabsCfg, open: null }, sheet: sheet({ title: 'Other rooms', sub: 'Rescue reaches Hospital from Room A or B', body, back: `s=actions&${roleQuery(p, '&state=targeting&act=rescue')}`, close: false }) });
+      // The text alternative to choosing on the board (the board's List button): everyone the action can
+      // reach, room by room, each row going to the same check as a tap on the person.
+      const seats = seatsFor(ROOM_FIXTURES[room]);
+      const rowFor = n => { const x = seats.find(q => q.seat === n); const who = seatOf(n); return row({ lead: pt(who.character, 40), title: who.seat === SELF ? `${who.name} (you)` : who.name, sub: `Player ${n}${x?.health && x.health !== 'Healthy' ? ` · ${x.health}` : ''}`, chevron: true, go: `s=actions&${roleQuery(p, `&state=confirm&act=${act}&target=${n}`)}` }); };
+      const groups = [[ROOM_NAMES[room], ACT.targets], ['Hospital', ACT.off]].filter(([, seatsIn]) => seatsIn.length);
+      const body = [h('div.offroom-list', groups.map(([name, seatsIn]) => [groupLabel(name), list(seatsIn.map(rowFor))]))];
+      game(root, { top: turnBar({ active: SELF, seconds: 33 }), scene: { ...scene, targets: ACT.targets }, tabs: { ...tabsCfg, open: null }, sheet: sheet({ title: 'Choose from a list', sub: `${ACT.label} · everyone you can reach`, body, back: `s=board&state=targets&${roleQuery(p, `&act=${act}`)}`, close: false }) });
       return;
     }
     const target = p.target ? seatOf(Number(p.target)) : act === 'rescue' ? seatOf(5) : act === 'talk' ? seatOf(1) : act === 'protect' ? seatOf(7) : null;
@@ -241,8 +286,13 @@ export const GAME_SCREENS = {
       h('ul.facts', ACT.facts.map(f => h('li', ic('info', { filled: true }), h('span', f)))),
     ];
     if (state === 'registered') {
-      const body = [h('div.registered', stamp('REGISTERED', 'amber'), h('p', target ? `${ACT.verb} ${target.seat === SELF ? 'yourself' : target.name}` : ACT.verb), h('p', act === 'blackout' ? 'Nothing changes until the lights go out.' : 'Nothing happens yet. It resolves after the vote.'))];
-      game(root, { top: turnBar({ active: SELF, seconds: 29 }), scene, tabs: { ...tabsCfg, open: null }, sheet: sheet({ title: ACT.label, body, foot: [button('Done', { kind: 'secondary', go: 's=room&room=room-a&state=own' })], close: false }) });
+      const A = afterRegister(act, target, room);
+      const body = [h('div.after', { 'data-kind': A.kind },
+        h('div.after-head', { role: 'status' }, stamp(A.stamp, A.tone), h('h3', A.title)),
+        h('p.after-detail', A.detail),
+        A.people ? list(A.people.map(x => row({ tag: 'div', lead: pt(x.character, 36), title: x.name, sub: `Player ${x.seat} · in Room B when accepted` }))) : null,
+        steps(A.steps))];
+      game(root, { top: turnBar({ active: SELF, seconds: 29, round: act === 'shoot' ? 4 : 3 }), scene, tabs: { ...tabsCfg, open: null }, sheet: sheet({ title: ACT.label, body, foot: [button('Done', { kind: 'secondary', go: 's=room&room=room-a&state=own' })], close: false }) });
       return;
     }
     const picked = p.target ? `&target=${p.target}` : '';
@@ -251,7 +301,7 @@ export const GAME_SCREENS = {
       scene: target && targetRoom === ROOM_NAMES[room] ? { ...scene, targets: [target.seat], picked: [target.seat] } : scene,
       tabs: { ...tabsCfg, open: null },
       sheet: sheet({ title: 'Check and register', body: confirmBody, close: false,
-        foot: [button('Cancel', { kind: 'secondary', go: `s=actions&${roleQuery(p)}` }), button(state === 'submitting' ? 'Registering…' : 'Register', { busy: state === 'submitting', go: `s=actions&${roleQuery(p, `&state=registered&act=${act}${picked}`)}` })] }),
+        foot: [button('Cancel', { kind: 'secondary', go: `s=actions&${roleQuery(p)}` }), button(state === 'submitting' ? (ACT.busy ?? 'Registering…') : ACT.confirm, { busy: state === 'submitting', go: `s=actions&${roleQuery(p, `&state=registered&act=${act}${picked}`)}` })] }),
     });
   },
 

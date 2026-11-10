@@ -33,7 +33,7 @@
 .wait h2 { margin: 6px 0 0; font: 700 1.5rem/1.2 var(--font-ui); letter-spacing: -0.01em; }
 .wait p { margin: 0; color: var(--text-secondary); font: 500 1rem/1.4 var(--font-ui); }
 .seat-badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px 6px 6px; border-radius: 999px; background: var(--paper); color: var(--ink); font: 700 1rem/1 var(--font-ui); }
-.seat-badge .num { background: var(--ink); color: var(--paper); min-width: 30px; height: 30px; border-radius: 15px; font-size: 1rem; }
+.seat-badge .num { background: var(--ink); color: var(--paper); min-width: calc(30em / 16); height: calc(30em / 16); font-size: 1rem; }
 
 /* ── Character selection ─────────────────────────────────────────────── */
 .choose-grid { gap: 10px; }
@@ -113,6 +113,28 @@
 .facts { margin: 10px 0 0; padding: 0; list-style: none; display: grid; gap: 8px; }
 .facts li { display: flex; gap: 10px; align-items: flex-start; font: 500 0.9375rem/1.35 var(--font-ui); color: var(--text-secondary); }
 .facts li .ic { flex: none; width: 20px; height: 20px; color: var(--accent); --ic-knock: var(--surface-2); }
+/* After Register: what the server's acceptance did. A waiting action keeps an outline stamp and a time line
+   whose next steps are still open; nothing is drawn as an outcome. */
+.after { display: flex; flex-direction: column; gap: 12px; padding: 10px 0 4px; }
+.after-head { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+.after-head h3 { margin: 0; font: 700 1.125rem/1.3 var(--font-ui); color: var(--text-primary); }
+.after-detail { margin: 0; font: 500 0.9375rem/1.4 var(--font-ui); color: var(--text-secondary); }
+.steps { list-style: none; margin: 2px 0 0; padding: 0; }
+.steps li { position: relative; display: grid; grid-template-columns: 28px minmax(0, 1fr); column-gap: 12px; padding-bottom: 14px; }
+.steps li:last-child { padding-bottom: 0; }
+.steps li:not(:last-child)::before { content: ""; position: absolute; left: 13px; top: 30px; bottom: 2px; width: 2px; border-radius: 1px; background: var(--steel-mid); }
+.step-dot { box-sizing: border-box; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; }
+.step-dot .ic { width: 16px; height: 16px; }
+.steps [data-step="done"] .step-dot { background: var(--accent); color: var(--ink); --ic-knock: var(--accent); }
+.steps li:not([data-step="done"]) .step-dot { border: 2px dashed var(--steel-pale); color: var(--text-secondary); }
+.steps li > div > b { display: block; font: 700 0.9375rem/1.3 var(--font-ui); color: var(--text-primary); }
+.steps li > div > span { display: block; font: 500 0.875rem/1.35 var(--font-ui); color: var(--text-secondary); }
+/* The declaration's three sides (HACK-DECLARE-02): one row for every role, the unavailable ones dimmed. */
+.declare-sides { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 6px; }
+.declare-sides .tile { min-height: 150px; background: #0A1530; }
+.declare-sides .tile[data-state="unavailable"] .hack-card { opacity: 0.35; filter: grayscale(1); }
+.declare-sides .tile small { display: inline-flex; align-items: center; gap: 4px; }
+.declare-sides .tile small .ic { width: 14px; height: 14px; }
 .registered { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 18px 0 8px; text-align: center; }
 .registered p { margin: 0; color: var(--text-secondary); font: 500 0.9375rem/1.35 var(--font-ui); }
 .offroom-list .row .pt { width: 40px; height: 40px; }
@@ -128,7 +150,11 @@
 .result-head[data-tone="gold"] { --ground: #F7C52B; }
 .result-head[data-tone="steel"] { --ground: #9AA8BD; }
 .result-head[data-tone="paper"] { --ground: var(--paper-shade); }
-.result-body { flex: 1; min-height: 0; overflow: auto; padding: 12px; }
+.result-window { container: result / inline-size; }
+.result-inner { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.result-scroll { flex: 1; min-height: 0; overflow: auto; display: flex; flex-direction: column; }
+.result-stamp { display: inline-block; margin-bottom: 8px; }
+.result-body { flex: none; padding: 12px; container-type: inline-size; }
 .result-body .grid9 { gap: 8px; }
 .result-body .cell { background: var(--paper-shade); box-shadow: inset 0 0 0 1.5px rgba(21,25,35,0.15); color: var(--ink); padding: 6px 4px 7px; }
 .result-body .cell .pt { max-width: 74px; }
@@ -139,6 +165,17 @@
 .result-body .cell[data-state="ineligible"] .pt, .result-body .cell[data-state="ineligible"] .cell-name { opacity: 0.4; }
 .result-foot { flex: none; display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-top: 2px solid rgba(21,25,35,0.18); font: 600 0.875rem/1.2 var(--font-ui); }
 .result-foot .grow { flex: 1; }
+/* Large text on a small phone (the window under 14 of its own em): the art piece and the stamp step aside
+   (the headline says the same), the display title stops growing at 30 px, and the whole window scrolls as
+   one column, foot included, so the names get its height. */
+@container result (max-width: 14em) {
+  .result-inner { overflow: auto; }
+  .result-scroll { flex: none; overflow: visible; }
+  .result-head .piece, .result-stamp { display: none; }
+  .result-head h2 { font-size: min(1.5rem, 30px); }
+  .result-foot { flex-wrap: wrap; row-gap: 4px; }
+  .result-round { flex-basis: 100%; padding-left: 25px; }
+}
 
 /* ── Route instrument (offices only) ──────────────────────────────────── */
 .route { position: relative; height: 210px; margin: 4px 0 6px; border-radius: 16px; background: #0B1220; box-shadow: inset 0 0 0 1.5px var(--hairline); overflow: hidden; }

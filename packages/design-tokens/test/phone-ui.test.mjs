@@ -4,9 +4,14 @@
 //   - the catalog covers every required screen group (A–Q), the flow, the matrix, the components,
 //     the three phone sizes, larger text and Reduce motion, and every frame names a real screen;
 //   - the committed review sheets are the ones the render tool recorded, and the recorded checks of
-//     every frame are clean: no sideways overflow, no control under 44 px, no text under 11 px, text
-//     contrast of at least 4.5:1 (3:1 large) against what is really drawn behind it, glass sheets over
-//     the art included, and no page error;
+//     every frame are clean: no sideways overflow, no control under 44 px, no text under 11 px, no
+//     text cut off, every letter at least 4.5:1 (3:1 large) against what is drawn behind it at every
+//     pixel of its ink, glass and art included, at each sampled moment of the rooms' ambient motion,
+//     and no page error; the smallest phone with the Largest text is among the measured frames;
+//   - after Register, each action shows its own state: waiting ones are never drawn as a result; a
+//     private talk, a Clone and the Engineer's capture say what happened at once;
+//   - a hack declaration offers the same three sides to every role and lets only the Undercover and
+//     the Alien claim any; each Promise result is a valid match moment (one given, one received);
 //   - the room view is framed wider than the first draft (the owner found it too zoomed in, 9
 //     November 2026): it fills the space between the bars and keeps everyone present in view;
 //   - each tab (Board, Actions, Pass, Card, Panels) and the top bar's Promises and settings menu (⋮)
@@ -35,6 +40,9 @@ import { BOARD_ROOMS, sceneOf, slotsOf } from '../../../apps/game/hosted/board-v
 import { frameScene } from '../../../apps/game/hosted/scene-drawing/frame.mjs';
 import { phoneUiAssets } from '../../../design/tools/phone-ui-assets.mjs';
 import { AMBIENT_ROOMS, SKY, SKY_EPOCH, WINDOW_DELAY, ambientLayer, settleAmbient, windowCrossings } from '../../../design/phone-ui/prototype/ambient.mjs';
+import { afterRegister } from '../../../design/phone-ui/prototype/screens-game.mjs';
+import { PROMISE_RESULTS, declarableSides } from '../../../design/phone-ui/prototype/screens-more.mjs';
+import { CONTRAST_MOMENTS } from '../../../design/tools/phone-ui-render.mjs';
 import { NIGHT } from '../../../design/board-v2/scenes/lighting.mjs';
 
 const REPO = fileURLToPath(new URL('../../../', import.meta.url));
@@ -84,9 +92,16 @@ test('the review sheets are the recorded renders, and every measured frame is cl
       assert.deepEqual(f.tinyText, [], `${s.id} ${f.label}: no text under 11 px`);
       // Measured against what is drawn behind it, glass and art included (sheet.mjs, "Text contrast").
       assert.ok(f.contrast && !f.contrast.error, `${s.id} ${f.label}: text contrast measured`);
-      assert.deepEqual(f.contrast.low, [], `${s.id} ${f.label}: text contrast at least 4.5:1 (3:1 for large text)`);
+      assert.deepEqual(f.contrast.low, [], `${s.id} ${f.label}: every letter at least 4.5:1 (3:1 for large text) at every pixel of its ink`);
+      assert.ok([0, CONTRAST_MOMENTS.length].includes(f.contrast.moments), `${s.id} ${f.label}: measured at every sampled moment of the ambient motion`);
+      assert.equal(f.clipped, 0, `${s.id} ${f.label}: no text cut off (${f.clippedText})`);
     }
   }
+  assert.deepEqual(checks.contrast.moments, [...CONTRAST_MOMENTS], 'the recorded moments are the tool’s');
+  assert.ok(checks.sheets.some(s => s.frames.some(f => f.contrast.moving > 0)), 'some letters were measured over moving backgrounds');
+  // Integration's review of d52a8ae9: the results and ballots at 320 × 568 with the Largest (200%) text are measured.
+  const smallest = checks.sheets.flatMap(s => s.frames).filter(f => f.width === 320 && f.height === 568 && /text=2/.test(f.src) && /s=(result|vote)&/.test(f.src));
+  assert.ok(smallest.some(f => /s=result&/.test(f.src)) && smallest.some(f => /s=vote&/.test(f.src)), 'the result and the ballot at 320 × 568 with 200% text');
   assert.ok(existsSync(join(PACK, 'review/contact-sheet.jpg')), 'the numbered contact sheet');
   const provenance = JSON.parse(read('design/phone-ui/review/inputs/provenance.json'));
   for (const input of provenance.inputs) assert.ok(existsSync(join(REPO, input.file)), input.file);
@@ -182,6 +197,60 @@ test('the rooms’ ambient motion covers every room, shows no game fact and is s
   assert.match(css, /@media \(prefers-reduced-motion: reduce\) \{ \.amb \* \{ animation-play-state: paused !important; \} \}/, 'still under the system’s Reduce motion');
   assert.match(css, /\[data-motion="reduced"\] \.amb \*/, 'still under the game’s Reduce motion');
   assert.ok(SHEETS.some(s => s.slug === 'ambient-motion'), 'a review sheet shows a moment of each room');
+});
+
+test('after Register, each action says what happened, and a waiting action never looks resolved', () => {
+  const eli = { seat: 5, name: 'Eli' }, gus = { seat: 7, name: 'Gus' }, ava = { seat: 1, name: 'Ava' };
+  const waits = { rescue: eli, protect: gus, supply: null, shoot: gus, blackout: null };
+  for (const [act, target] of Object.entries(waits)) {
+    const a = afterRegister(act, target, 'room-a');
+    assert.equal(a.stamp, 'REGISTERED', act);
+    assert.equal(a.tone, 'pending', `${act}: an outline stamp, not a result's`);
+    assert.match(a.detail, /^This is not a result\./, `${act}: not a result`);
+    assert.equal(a.steps[0][0], 'done', act);
+    assert.ok(a.steps.slice(1).every(([state]) => state !== 'done'), `${act}: what follows is still to come`);
+  }
+  assert.match(afterRegister('protect', gus, 'room-a').detail, /active from Round 4/, 'Protection is active from the next round');
+  const talk = afterRegister('talk', ava, 'room-a');
+  assert.equal(talk.stamp, 'ACCEPTED');
+  assert.match(talk.detail, /starts after this turn/, 'a private talk starts after the current turn');
+  const clone = afterRegister('clone', null, 'room-a');
+  assert.equal(clone.stamp, 'ACTIVE');
+  assert.match(clone.detail, /^Active from now, through the attacks at the end of Round 4/, 'Clone: active at once (CLONE-01), through the next round’s attacks (P17)');
+  const capture = afterRegister('suppress', null, 'room-a');
+  assert.equal(capture.stamp, 'CAPTURED');
+  const inB = board({ roster: 9, place: ROOM_FIXTURES['room-a'].place }).filter(s => s.location === 'Room B').map(s => s.seat);
+  assert.deepEqual(capture.people.map(x => x.seat), inB, 'the Engineer’s capture names who was in Room B (P14)');
+  const source = read('design/phone-ui/prototype/screens-game.mjs');
+  assert.doesNotMatch(source, /Nothing happens yet\. It resolves after the vote/, 'the old generic line is gone');
+});
+
+test('other rooms are chosen on the board, with the list as its text alternative', () => {
+  const targeting = SHEETS.find(s => s.slug === 'targeting');
+  assert.ok(targeting.frames.some(f => /^s=board&state=targets&/.test(f.q) && f.tap), 'the board, with a person tapped');
+  assert.ok(targeting.frames.some(f => /state=offroom/.test(f.q)), 'the same choice as a list');
+  assert.ok(targeting.frames.some(f => /state=targeting/.test(f.q) && f.tap === '.offroom .btn'), 'Other rooms is tapped from the room');
+});
+
+test('a hack declaration: the same three sides for every role, any side only for the Undercover and the Alien', () => {
+  const own = { Doctor: 'blue', Insider: 'blue', 'Blue Disabler': 'blue', Supplier: 'blue', Engineer: 'blue', 'Red Disabler': 'red', Hacker: 'red' };
+  for (const [role, side] of Object.entries(own)) assert.deepEqual(declarableSides(role), [side], `${role} declares its own side`);
+  for (const role of ['Undercover', 'Alien']) assert.deepEqual(declarableSides(role), ['blue', 'red', 'alien'], `${role} may bluff`);
+  const talk = SHEETS.find(s => s.slug === 'private-talk');
+  assert.ok(talk.frames.some(f => /stage=declare&role=Doctor/.test(f.q)) && talk.frames.some(f => /stage=declare&role=Undercover/.test(f.q)), 'both cases drawn');
+});
+
+test('Promise results are valid match moments, and Captain Support says which ballots count', () => {
+  const statuses = new Set();
+  for (const [name, r] of Object.entries(PROMISE_RESULTS)) {
+    const [given, received] = /Given (\d)\/1 · Received (\d)\/1/.exec(r.quota).slice(1).map(Number);
+    assert.ok(given <= 1 && received <= 1, `${name}: within the lifetime quota`);
+    assert.equal(Boolean(r.given), given === 1, `${name}: the given Promise matches the quota`);
+    assert.equal(Boolean(r.received), received === 1, `${name}: the received Promise matches the quota`);
+    for (const x of [r.given, r.received].filter(Boolean)) statuses.add(x.status);
+  }
+  assert.deepEqual([...statuses].sort(), ['Condition not met', 'Fulfilled', 'Not fulfilled', 'Pending'], 'each result state is its own scenario');
+  assert.match(read('design/phone-ui/prototype/screens-more.mjs'), /in every ballot of that election in which the recipient is a candidate/, 'Captain Support’s terms (P23)');
 });
 
 test('the kit’s colours, type and motion are tokens 0.5.0', () => {

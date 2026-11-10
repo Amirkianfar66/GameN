@@ -213,70 +213,268 @@ function sheetPage(sheet) {
   return page;
 }
 
-// ── Text contrast, measured on what is drawn ─────────────────────────────
-// Sheets are glass over comic art, so a colour pair alone can't say whether text reads. For every
-// visible text run in a frame: its rectangles and colour (textRuns); then the render tool makes all
-// text transparent (hideText), captures the page, and contrastOf reads the background behind each run
-// from that capture. WCAG 2 ratio of the text against its background (for light text the 80th-percentile
-// luminance behind it, for dark text the median); large text (24 px, or 18.66 px bold) needs 3:1, other
-// text 4.5:1. Text under another element, inactive controls (aria-disabled) and hidden text are left out.
+// ── Text contrast, measured letter by letter on what is drawn ────────────
+// The sheets are glass over comic art and moving windows, so a colour pair alone can't say whether text
+// reads, and an average of what is behind a word can hide one bright spot behind one letter. So:
+// 1. textLetters: every visible character of every text run, with its box, its run's colour (and alpha,
+//    with every ancestor's opacity) and its threshold: 4.5:1, or 3:1 for large text (24 px, or 18.66 px
+//    bold). A character is left out when it is covered by another element, cut off (counted as clipped,
+//    or as scrolled out of view inside a scroller), visually hidden, in an inactive control (aria-disabled,
+//    disabled: WCAG 1.4.3 exempts them), in a picture (the rooms' art and ambient layer, a result's art) or
+//    in the simulated phone status bar. Text inside films (their own iframes) is not reached.
+// 2. The render tool captures the page four times, lossless at 1 px per CSS px: as drawn, with every letter
+//    filled black, with every letter filled white, and with every letter transparent (text shadows and
+//    decorations removed too, so a halo is never credited). White minus black is each pixel's glyph
+//    coverage. A letter's ink is the pixels it covers at least half (overlapping boxes go to the nearest
+//    letter); where the as-drawn pixel disagrees with the run's colour over the background, the pixel is
+//    not counted as that letter's.
+// 3. letterContrast: at every ink pixel, and each pixel touching it, the WCAG 2 ratio between the run's
+//    colour (composited by its alpha over that pixel) and the background pixel. A letter's ratio is the
+//    lowest of them; a run's is its lowest letter's.
+// 4. The rooms' ambient motion is then held at more moments of the 240-second voyage, the transparent-text
+//    capture is repeated at each, and every letter keeps its lowest ratio over all of them. A letter is
+//    "moving" where its background changed between moments.
 const rgba = c => { const m = /rgba?\(([^)]+)\)/.exec(c); if (!m) return null; const p = m[1].split(/[\s,/]+/).filter(Boolean).map(Number); return { r: p[0], g: p[1], b: p[2], a: p.length > 3 ? p[3] : 1 }; };
+const NOT_MEASURED = '.ph-status, svg.amb, .scene-art, .piece, .vh';
+const INACTIVE = '[aria-disabled="true"], :disabled';
+const MEASURE = { frames: [] };
 
-function textRuns(f) {
-  const win = f.contentWindow, doc = f.contentDocument, box = f.getBoundingClientRect();
-  const ox = box.left + f.clientLeft + scrollX, oy = box.top + f.clientTop + scrollY;
-  const runs = [];
-  const walker = doc.createTreeWalker(doc.body, NodeFilter.SHOW_TEXT);
-  for (let n = walker.nextNode(); n; n = walker.nextNode()) {
-    const text = n.textContent.trim();
-    const el = n.parentElement;
-    if (!text || !el || el.closest('[aria-hidden="true"], .vh, [aria-disabled="true"], :disabled')) continue;
-    const cs = win.getComputedStyle(el);
-    const color = rgba(cs.color);
-    let opacity = color?.a ?? 1;
-    for (let a = el; a; a = a.parentElement) opacity *= Number(win.getComputedStyle(a).opacity);
-    if (cs.visibility === 'hidden' || !color || opacity < 0.05) continue;
-    const range = doc.createRange();
-    range.selectNodeContents(n);
-    const rects = [...range.getClientRects()].map(r => ({ x: Math.max(0, r.left), y: Math.max(0, r.top), w: Math.min(win.innerWidth, r.right) - Math.max(0, r.left), h: Math.min(win.innerHeight, r.bottom) - Math.max(0, r.top) })).filter(r => r.w > 2 && r.h > 2);
-    const seen = rects.some(r => { const hit = doc.elementFromPoint(r.x + r.w / 2, r.y + r.h / 2); return hit && (hit === el || el.contains(hit) || hit.contains(el)); });
-    if (!seen) continue;
-    const size = parseFloat(cs.fontSize), weight = Number(cs.fontWeight) || 400;
-    runs.push({ text: text.slice(0, 40), color, opacity, large: size >= 24 || (size >= 18.66 && weight >= 700), rects: rects.map(r => ({ x: r.x + ox, y: r.y + oy, w: r.w, h: r.h })) });
+/**
+ * The box each element's text is visible inside now (view), and the box that cuts it off for good (hard):
+ * the clipping boxes between the text and its nearest scroller (what lies beyond a scroller's edge can be
+ * scrolled to, whatever clips the scroller itself).
+ */
+function clipsOf(win, el, cache) {
+  if (cache.has(el)) return cache.get(el);
+  const doc = win.document;
+  let view = { l: 0, t: 0, r: win.innerWidth, b: win.innerHeight }, hard = { l: -1e9, t: -1e9, r: 1e9, b: 1e9 }, hidden = false, scrolled = false;
+  for (let a = el; a && a !== doc.documentElement && a !== doc.body; a = a.parentElement) {
+    const cs = win.getComputedStyle(a);
+    if (cs.display === 'inline' || cs.display === 'contents') continue;
+    const clipsX = cs.overflowX !== 'visible', clipsY = cs.overflowY !== 'visible';
+    if (!clipsX && !clipsY) continue;
+    const box = a.getBoundingClientRect();
+    const svg = a instanceof win.SVGElement;
+    const l = svg ? box.left : box.left + a.clientLeft, t = svg ? box.top : box.top + a.clientTop;
+    const r = svg ? box.right : l + a.clientWidth, b = svg ? box.bottom : t + a.clientHeight;
+    if (r - l <= 2 || b - t <= 2) hidden = true;
+    const cut = { l: clipsX ? l : -1e9, t: clipsY ? t : -1e9, r: clipsX ? r : 1e9, b: clipsY ? b : 1e9 };
+    view = { l: Math.max(view.l, cut.l), t: Math.max(view.t, cut.t), r: Math.min(view.r, cut.r), b: Math.min(view.b, cut.b) };
+    if (/auto|scroll/.test(`${cs.overflowX} ${cs.overflowY}`)) scrolled = true;
+    else if (!scrolled) hard = { l: Math.max(hard.l, cut.l), t: Math.max(hard.t, cut.t), r: Math.min(hard.r, cut.r), b: Math.min(hard.b, cut.b) };
   }
-  return runs;
+  const out = { view, hard, hidden };
+  cache.set(el, out);
+  return out;
 }
 
-async function contrastOf(png, runsByFrame) {
+function textLetters(f) {
+  const win = f.contentWindow, doc = f.contentDocument, fb = f.getBoundingClientRect();
+  const ox = fb.left + f.clientLeft + scrollX, oy = fb.top + f.clientTop + scrollY;
+  const hits = doc.createElement('style');
+  hits.textContent = '* { pointer-events: auto !important; }';
+  doc.head.append(hits);
+  const cache = new Map(), range = doc.createRange();
+  const runs = [], clippedText = [];
+  const skipped = { covered: 0, scrolled: 0, inactive: 0 };
+  let clipped = 0;
+  const walker = doc.createTreeWalker(doc.body, NodeFilter.SHOW_TEXT);
+  for (let n = walker.nextNode(); n; n = walker.nextNode()) {
+    const text = n.textContent;
+    const el = n.parentElement;
+    if (!text.trim() || !el || el.closest(NOT_MEASURED)) continue;
+    const cs = win.getComputedStyle(el);
+    if (cs.visibility !== 'visible') continue;
+    const svg = el instanceof win.SVGElement;
+    const color = rgba(svg ? cs.fill : cs.webkitTextFillColor);
+    if (!color) continue;
+    let op = svg ? Number(cs.fillOpacity) : 1;
+    for (let a = el; a; a = a.parentElement) op *= Number(win.getComputedStyle(a).opacity);
+    if (op * color.a < 0.05) continue;
+    const { view, hard, hidden } = clipsOf(win, el, cache);
+    if (hidden) continue;
+    const inactive = Boolean(el.closest(INACTIVE));
+    const size = parseFloat(cs.fontSize), weight = Number(cs.fontWeight) || 400;
+    const large = size >= 24 || (size >= 18.66 && weight >= 700);
+
+    const run = { text: text.trim().slice(0, 40), color, op, large, need: large ? 3 : 4.5, letters: [] };
+    let cut = false;
+    for (let i = 0; i < text.length;) {
+      const len = text.codePointAt(i) > 0xffff ? 2 : 1;
+      const ch = text.slice(i, i + len);
+      range.setStart(n, i); range.setEnd(n, i + len);
+      i += len;
+      if (/\s/u.test(ch)) continue;
+      let l = Infinity, t = Infinity, r = -Infinity, b = -Infinity;
+      for (const q of range.getClientRects()) { if (q.width <= 0 || q.height <= 0) continue; l = Math.min(l, q.left); t = Math.min(t, q.top); r = Math.max(r, q.right); b = Math.max(b, q.bottom); }
+      if (!(r > l && b > t)) continue;
+      // Cut off for good by a box that clips without scrolling (an ellipsis, a line clamp, hidden overflow):
+      // across, any of its advance outside; down, its middle outside (a letter's box is its font's full height,
+      // a pixel or two taller than a tight line, so its top and bottom edges say nothing about its ink).
+      const mid = (t + b) / 2;
+      const lost = l < hard.l - 1 || r > hard.r + 1 || mid < hard.t || mid > hard.b;
+      if (lost) cut = true;
+      const v = { l: Math.max(l, view.l), t: Math.max(t, view.t), r: Math.min(r, view.r), b: Math.min(b, view.b) };
+      if (v.r - v.l < 1 || v.b - v.t < 1) { if (!lost) skipped.scrolled += 1; continue; }
+      const hit = doc.elementFromPoint((v.l + v.r) / 2, (v.t + v.b) / 2);
+      if (!hit || !(hit === el || el.contains(hit) || hit.contains(el))) { skipped.covered += 1; continue; }
+      if (inactive) { skipped.inactive += 1; continue; }
+      run.letters.push({ ch, x: v.l + ox, y: v.t + oy, w: v.r - v.l, h: v.b - v.t });
+    }
+    if (cut) { clipped += 1; if (clippedText.length < 8) clippedText.push(text.trim().slice(0, 40)); }
+    if (run.letters.length) runs.push(run);
+  }
+  hits.remove();
+  return { runs, clipped, clippedText, skipped };
+}
+
+async function decodePng(b64) {
   const img = new Image();
-  img.src = `data:image/png;base64,${png}`;
+  img.src = `data:image/png;base64,${b64}`;
   await img.decode();
   const canvas = document.createElement('canvas');
   canvas.width = img.width; canvas.height = img.height;
   const g = canvas.getContext('2d', { willReadFrequently: true });
   g.drawImage(img, 0, 0);
-  const lin = v => { v /= 255; return v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; };
-  const lum = (r, gr, b) => 0.2126 * lin(r) + 0.7152 * lin(gr) + 0.0722 * lin(b);
-  return runsByFrame.map(runs => {
-    if (!Array.isArray(runs)) return { error: runs?.error ?? 'not measured' };
-    const results = runs.map(run => {
-      const px = [];
-      for (const r of run.rects) {
-        const d = g.getImageData(Math.round(r.x), Math.round(r.y), Math.max(1, Math.round(r.w)), Math.max(1, Math.round(r.h))).data;
-        for (let i = 0; i < d.length; i += 4) px.push([d[i], d[i + 1], d[i + 2]]);
-      }
-      const ls = px.map(p => lum(...p)).sort((a, b) => a - b);
-      const mid = px[Math.floor(px.length / 2)];
-      const seen = [run.color.r, run.color.g, run.color.b].map((v, i) => v * run.opacity + mid[i] * (1 - run.opacity));
-      const lt = lum(...seen), median = ls[Math.floor(ls.length / 2)];
-      // Light text: the 80th-percentile background (glass and art vary under it). Dark text sits on a solid
-      // fill (a pill, a button, a stamp), whose rounded or tilted edges would otherwise count what is around it.
-      const lb = lt > median ? ls[Math.floor(ls.length * 0.8)] : median;
-      const ratio = (Math.max(lt, lb) + 0.05) / (Math.min(lt, lb) + 0.05);
-      return { text: run.text, ratio: Math.round(ratio * 100) / 100, need: run.large ? 3 : 4.5 };
-    });
-    return { min: results.length ? Math.min(...results.map(r => r.ratio)) : null, low: results.filter(r => r.ratio < r.need) };
+  return g.getImageData(0, 0, img.width, img.height);
+}
+
+const LIN = Float64Array.from({ length: 256 }, (_, v) => { const c = v / 255; return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4; });
+const linOf = v => { const c = Math.min(255, Math.max(0, v)) / 255; return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4; };
+
+/** Glyph ink for every letter, from the as-drawn (N), black (K), white (W) and transparent (B) captures (MEASURE.img). */
+function letterInk() {
+  const { drawn: N, black: K, white: W, hidden: B } = MEASURE.img;
+  const width = N.width, height = N.height;
+  const all = [];
+  for (const fr of MEASURE.frames) for (const run of fr.runs ?? []) for (const L of run.letters) all.push([run, L]);
+  const owner = new Int32Array(width * height).fill(-1);
+  const centre = all.map(([, L]) => [L.x + L.w / 2, L.y + L.h / 2]);
+  const box = ([, L]) => [Math.max(0, Math.floor(L.x)), Math.max(0, Math.floor(L.y)), Math.min(width, Math.ceil(L.x + L.w)), Math.min(height, Math.ceil(L.y + L.h))];
+  const cover = (i, run) => (((W.data[i] - K.data[i]) + (W.data[i + 1] - K.data[i + 1]) + (W.data[i + 2] - K.data[i + 2])) / 765) / run.op;
+  all.forEach((item, id) => {
+    const [x0, y0, x1, y1] = box(item);
+    for (let y = y0; y < y1; y++) for (let x = x0; x < x1; x++) {
+      const p = y * width + x;
+      if (cover(p * 4, item[0]) < 0.5) continue;
+      const o = owner[p];
+      if (o < 0) { owner[p] = id; continue; }
+      const d = (c) => (c[0] - x - 0.5) ** 2 + (c[1] - y - 0.5) ** 2;
+      if (d(centre[id]) < d(centre[o])) owner[p] = id;
+    }
   });
+  all.forEach((item, id) => {
+    const [run, L] = item;
+    const [x0, y0, x1, y1] = box(item);
+    const px = [];
+    let foreign = 0;
+    for (let y = y0; y < y1; y++) for (let x = x0; x < x1; x++) {
+      const p = y * width + x;
+      if (owner[p] !== id) continue;
+      const i = p * 4, cov = cover(i, run);
+      if (cov >= 0.8) {
+        // Near-full coverage: the as-drawn pixel should be this run's colour over the background.
+        const a = Math.min(1, cov) * run.op * run.color.a;
+        let diff = 0;
+        for (const [k, c] of [[0, run.color.r], [1, run.color.g], [2, run.color.b]]) diff += Math.abs(B.data[i + k] + (c - B.data[i + k]) * a - N.data[i + k]);
+        if (diff > 90) { foreign += 1; continue; }
+      }
+      px.push(p);
+    }
+    L.px = Int32Array.from(px);
+    L.foreign = foreign;
+    L.worst = Infinity; L.at = null; L.bgMin = Infinity; L.bgMax = -Infinity;
+  });
+  MEASURE.width = width; MEASURE.height = height;
+  letterContrast(B, 'as drawn');
+  MEASURE.img = {};
+}
+
+/** Each letter's lowest ratio against one transparent-text capture (B), held at one moment of the voyage. */
+function letterContrast(B, at, clip = { x: 0, y: 0 }) {
+  const width = MEASURE.width, bw = B.width, bh = B.height, d = B.data;
+  for (const fr of MEASURE.frames) for (const run of fr.runs ?? []) {
+    const a = run.op * run.color.a;
+    const tl = [run.color.r, run.color.g, run.color.b];
+    const solid = 0.2126 * linOf(tl[0]) + 0.7152 * linOf(tl[1]) + 0.0722 * linOf(tl[2]);
+    for (const L of run.letters) {
+      if (!L.px?.length) continue;
+      let worst = Infinity, sum = 0, n = 0;
+      // The pixels touching the ink are read only inside the letter's visible box (not past a scroller's edge).
+      const x0 = Math.max(0, Math.floor(L.x) - clip.x), y0 = Math.max(0, Math.floor(L.y) - clip.y);
+      const x1 = Math.min(bw, Math.ceil(L.x + L.w) - clip.x), y1 = Math.min(bh, Math.ceil(L.y + L.h) - clip.y);
+      for (const p of L.px) {
+        const x = (p % width) - clip.x, y = Math.floor(p / width) - clip.y;
+        for (const [dx, dy] of [[0, 0], [1, 0], [-1, 0], [0, 1], [0, -1]]) {
+          const qx = x + dx, qy = y + dy;
+          if (qx < x0 || qy < y0 || qx >= x1 || qy >= y1) continue;
+          const i = (qy * bw + qx) * 4;
+          const bg = 0.2126 * LIN[d[i]] + 0.7152 * LIN[d[i + 1]] + 0.0722 * LIN[d[i + 2]];
+          const fg = a >= 1 ? solid
+            : 0.2126 * linOf(d[i] + (tl[0] - d[i]) * a) + 0.7152 * linOf(d[i + 1] + (tl[1] - d[i + 1]) * a) + 0.0722 * linOf(d[i + 2] + (tl[2] - d[i + 2]) * a);
+          const ratio = (Math.max(fg, bg) + 0.05) / (Math.min(fg, bg) + 0.05);
+          if (ratio < worst) worst = ratio;
+          if (dx === 0 && dy === 0) { sum += bg; n += 1; }
+        }
+      }
+      if (worst < L.worst) { L.worst = worst; L.at = at; }
+      if (n) { const mean = sum / n; L.bgMin = Math.min(L.bgMin, mean); L.bgMax = Math.max(L.bgMax, mean); }
+    }
+  }
+}
+
+/** Holds every frame's ambient layer at t seconds of the voyage, everything else as drawn. */
+async function ambientAt(t) {
+  for (const fr of MEASURE.frameEls) {
+    try { for (const svg of fr.contentDocument.querySelectorAll('svg.amb')) for (const a of svg.getAnimations({ subtree: true })) { a.currentTime = t * 1000; a.pause(); } } catch {}
+  }
+  await new Promise(done => requestAnimationFrame(() => requestAnimationFrame(done)));
+}
+
+/** The letters' results, frame by frame. */
+function letterResults() {
+  return MEASURE.frames.map(fr => {
+    if (fr.error) return { error: fr.error };
+    const letters = fr.runs.flatMap(r => r.letters);
+    const inked = letters.filter(L => L.px?.length);
+    const runs = fr.runs.map(r => {
+      const ink = r.letters.filter(L => L.px?.length);
+      const w = ink.reduce((m, L) => (L.worst < m.worst ? L : m), { worst: Infinity });
+      return { text: r.text, need: r.need, ratio: w.worst, letter: w.ch, at: w.at };
+    }).filter(r => Number.isFinite(r.ratio));
+    const round = v => Math.round(v * 100) / 100;
+    return {
+      letters: inked.length,
+      noInk: letters.length - inked.length,
+      moving: inked.filter(L => L.bgMax - L.bgMin > 0.002).length,
+      min: runs.length ? round(Math.min(...runs.map(r => r.ratio))) : null,
+      low: runs.filter(r => r.ratio < r.need).map(r => ({ text: r.text, letter: r.letter, ratio: round(r.ratio), need: r.need, at: r.at })),
+      closest: runs.length ? (r => ({ text: r.text, letter: r.letter, ratio: round(r.ratio), need: r.need, at: r.at }))(runs.reduce((m, r) => (r.ratio / r.need < m.ratio / m.need ? r : m))) : null,
+      skipped: fr.skipped,
+      clipped: fr.clipped,
+      clippedText: fr.clippedText,
+    };
+  });
+}
+
+/** Every frame's text as drawn, filled black or white, or transparent; the sheet's tap rings off while measuring. */
+const FILLS = { black: '#000', white: '#fff', hidden: 'transparent' };
+function textFill(frames, mode) {
+  for (const f of frames) {
+    try {
+      const doc = f.contentDocument;
+      doc.getElementById('sheet-text-fill')?.remove();
+      const c = FILLS[mode];
+      if (!c) continue;
+      const s = doc.createElement('style');
+      s.id = 'sheet-text-fill';
+      s.textContent = `*, *::before, *::after { -webkit-text-fill-color: ${c} !important; text-shadow: none !important; text-decoration-color: transparent !important; -webkit-text-stroke-width: 0 !important; }
+        text:not(svg.amb text), tspan:not(svg.amb tspan) { fill: ${c} !important; fill-opacity: 1 !important; stroke: none !important; }`;
+      doc.head.append(s);
+    } catch {}
+  }
+  document.getElementById('sheet-overlays-off')?.remove();
+  if (mode) document.head.append(Object.assign(document.createElement('style'), { id: 'sheet-overlays-off', textContent: '.tap-ring, .tap-arrow { display: none !important; }' }));
 }
 
 /** Puts each tap ring on the element its frame taps, once the frames have drawn (same origin). */
@@ -295,7 +493,8 @@ function placeTaps(frames) {
 function measureFrame(win) {
   const doc = win.document;
   const vw = win.innerWidth;
-  const out = { overflowX: doc.documentElement.scrollWidth > vw + 1, small: [], tinyText: [], clipped: 0 };
+  // Clipped text is counted letter by letter with the contrast (textLetters), where cut-off and scrolled text are told apart.
+  const out = { overflowX: doc.documentElement.scrollWidth > vw + 1, small: [], tinyText: [] };
   for (const el of doc.querySelectorAll('button, a[href], input, select, [role="button"], [role="switch"], [role="radio"], [role="tab"]')) {
     const r = el.getBoundingClientRect();
     if (!r.width || !r.height) continue;
@@ -308,11 +507,11 @@ function measureFrame(win) {
   for (let n = walker.nextNode(); n; n = walker.nextNode()) {
     if (!n.textContent.trim()) continue;
     const el = n.parentElement;
-    if (!el || el.closest('.vh, [aria-hidden="true"]')) continue;
+    // Every visible text, including what screen readers skip (a short title, a count badge); not pictures or the simulated status bar.
+    if (!el || el.closest(NOT_MEASURED) || !el.getClientRects().length) continue;
     const size = parseFloat(win.getComputedStyle(el).fontSize);
     if (size < 11) out.tinyText.push(`${Math.round(size * 10) / 10}px “${n.textContent.trim().slice(0, 20)}”`);
   }
-  for (const el of doc.querySelectorAll('*')) { const cs = win.getComputedStyle(el); if (cs.textOverflow === 'ellipsis' && el.scrollWidth > el.clientWidth + 1) out.clipped += 1; }
   return out;
 }
 
@@ -332,13 +531,21 @@ if (document.body.dataset.page === 'contact') {
   const frames = [...document.querySelectorAll('iframe')];
   const ready = f => new Promise(done => { const t0 = Date.now(); const tick = () => { let ok = false; try { ok = f.contentWindow.__phoneReady === true || /\.(png|jpg)$/.test(f.src); } catch { ok = true; } if (ok || Date.now() - t0 > 20000) done(); else setTimeout(tick, 60); }; tick(); });
   Promise.all(frames.map(ready)).then(() => { placeTaps(frames); window.__sheetReady = true; });
-  window.__sheetTextRuns = () => frames.map(f => { try { return textRuns(f); } catch (e) { return { error: String(e) }; } });
-  window.__sheetHideText = () => {
-    const hide = '*, *::before, *::after { color: transparent !important; -webkit-text-fill-color: transparent !important; text-shadow: none !important; }';
-    for (const f of frames) { try { const s = f.contentDocument.createElement('style'); s.textContent = hide; f.contentDocument.head.append(s); } catch {} }
-    document.head.append(Object.assign(document.createElement('style'), { textContent: '.tap-ring, .tap-arrow { display: none !important; }' }));
+  // The render tool's text contrast steps (see "Text contrast" above), in this order.
+  window.__sheetLetters = () => {
+    MEASURE.frameEls = frames;
+    MEASURE.img = {};
+    MEASURE.frames = frames.map(f => { try { return /\.(png|jpg)$/.test(f.src) ? { runs: [], clipped: 0, clippedText: [], skipped: {} } : textLetters(f); } catch (e) { return { error: String(e) }; } });
+    return MEASURE.frames.reduce((n, fr) => n + (fr.runs ?? []).reduce((m, r) => m + r.letters.length, 0), 0);
   };
-  window.__sheetContrast = contrastOf;
+  window.__sheetFreeze = () => { for (const f of frames) { try { for (const a of f.contentDocument.getAnimations()) a.pause(); } catch {} } };
+  window.__sheetTextFill = mode => textFill(frames, mode);
+  window.__sheetDecode = async (name, png) => { MEASURE.img[name] = await decodePng(png); return true; };
+  window.__sheetLetterInk = () => { letterInk(); return true; };
+  window.__sheetHasAmbient = () => frames.some(f => { try { return Boolean(f.contentDocument.querySelector('svg.amb')); } catch { return false; } });
+  window.__sheetAmbientAt = ambientAt;
+  window.__sheetLetterContrast = async (png, at) => { letterContrast(await decodePng(png), at); return true; };
+  window.__sheetLetterResults = letterResults;
   // tap: whether a tap-by-tap frame's tapped element exists (absent for frames that tap nothing).
   window.__sheetChecks = () => frames.map(f => { let m; try { m = measureFrame(f.contentWindow); } catch (e) { m = { error: String(e) }; } const tap = f.dataset.tap ? Boolean(f.contentDocument?.querySelector(f.dataset.tap)) : undefined; return { label: f.title, src: f.getAttribute('src').replace(/^.*index\.html\?/, ''), width: Number(f.width), height: Number(f.height), ...m, ...(tap === undefined ? {} : { tap }) }; });
 }

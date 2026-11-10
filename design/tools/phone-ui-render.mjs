@@ -4,7 +4,8 @@
 // design/phone-ui/sheets/catalog.mjs is drawn on its sheet page in a headless Chromium-based
 // browser, each phone frame being the prototype at that frame's exact viewport; then the numbered
 // contact sheet. While drawing, it measures each frame (horizontal overflow, controls under 44 px,
-// text under 11 px, clipped text, page errors) and writes design/phone-ui/review/checks.json.
+// text under 11 px, text cut off for good, text contrast letter by letter over the rooms' ambient
+// motion, page errors) and writes design/phone-ui/review/checks.json.
 //
 //   node design/tools/phone-ui-render.mjs                 every sheet and the contact sheet
 //   node design/tools/phone-ui-render.mjs --only 07,12    some sheets (by number)
@@ -62,20 +63,46 @@ async function jpeg(page, file) {
   return { width: clip.width, height: clip.height };
 }
 
-/**
- * Each frame's text contrast against what is drawn behind it (sheet.mjs, "Text contrast"): the text
- * runs, then a lossless capture of the same page with every text made transparent, read back in the page.
- * Run after the sheet's picture: it changes the page.
- */
-async function measureContrast(page) {
-  const runs = await page.evaluate('window.__sheetTextRuns ? window.__sheetTextRuns() : []');
-  if (!runs.length) return [];
-  await page.evaluate('window.__sheetHideText()');
-  await page.evaluate('new Promise(done => setTimeout(done, 300))');
+/** The moments of the 240-second voyage at which the rooms' ambient motion is held for the contrast check: every 15 s. */
+export const CONTRAST_MOMENTS = Object.freeze(Array.from({ length: 16 }, (_, k) => k * 15));
+
+/** A lossless capture of the whole page at 1 px per CSS px. */
+async function png(page) {
   const { cssContentSize } = await page.send('Page.getLayoutMetrics');
   const clip = { x: 0, y: 0, width: Math.ceil(cssContentSize.width), height: Math.ceil(cssContentSize.height), scale: 1 };
-  const { data } = await page.send('Page.captureScreenshot', { format: 'png', captureBeyondViewport: true, clip });
-  return page.evaluate(`window.__sheetContrast(${JSON.stringify(data)}, ${JSON.stringify(runs)})`);
+  const { data } = await page.send('Page.captureScreenshot', { format: 'png', captureBeyondViewport: true, optimizeForSpeed: true, clip });
+  return data;
+}
+
+/**
+ * Each frame's text contrast, letter by letter, against what is drawn behind it (sheet.mjs, "Text
+ * contrast"): the letters, four captures (as drawn, text black, text white, text transparent) for each
+ * letter's ink and background, then the transparent-text capture again with the rooms' ambient motion
+ * held at each of CONTRAST_MOMENTS. Also counts text cut off for good. Run after the sheet's picture: it
+ * changes the page.
+ */
+async function measureContrast(page) {
+  const letters = await page.evaluate('window.__sheetLetters ? window.__sheetLetters() : 0');
+  if (!letters) return [];
+  await page.evaluate('window.__sheetFreeze()');
+  const frame = 'new Promise(done => requestAnimationFrame(() => requestAnimationFrame(done)))';
+  for (const mode of ['drawn', 'black', 'white', 'hidden']) {
+    await page.evaluate(`window.__sheetTextFill(${JSON.stringify(mode)})`);
+    await page.evaluate(frame);
+    await page.evaluate(`window.__sheetDecode(${JSON.stringify(mode)}, ${JSON.stringify(await png(page))})`);
+  }
+  await page.evaluate('window.__sheetLetterInk()');
+  let moments = 0;
+  if (await page.evaluate('window.__sheetHasAmbient()')) {
+    for (const t of CONTRAST_MOMENTS) {
+      await page.evaluate(`window.__sheetAmbientAt(${t})`);
+      await page.evaluate(`window.__sheetLetterContrast(${JSON.stringify(await png(page))}, ${JSON.stringify(`${t} s`)})`);
+      moments += 1;
+    }
+  }
+  const results = await page.evaluate('window.__sheetLetterResults()');
+  await page.evaluate('window.__sheetTextFill(null)');
+  return results.map(r => ({ ...r, moments }));
 }
 
 const args = process.argv.slice(2);
@@ -111,7 +138,10 @@ async function main() {
       const file = join(OUT, 'sheets', `${sheet.id}-${sheet.slug}.jpg`);
       const size = await jpeg(page, file);
       const contrast = await measureContrast(page);
-      frames.forEach((f, i) => { f.contrast = contrast[i] ?? { error: 'not measured' }; });
+      frames.forEach((f, i) => {
+        const { clipped = null, clippedText = [], ...c } = contrast[i] ?? { error: 'not measured' };
+        Object.assign(f, { clipped, clippedText, contrast: c });
+      });
       const bytes = await readFile(file);
       checks.push({ id: sheet.id, slug: sheet.slug, title: sheet.title, file: `design/phone-ui/review/sheets/${sheet.id}-${sheet.slug}.jpg`, sha256: createHash('sha256').update(bytes).digest('hex'), bytes: bytes.length, size, frames, problems: page.problems().filter(p => !/favicon/.test(p)) });
       console.log(`${sheet.id} ${sheet.slug}: ${frames.length} frames${page.problems().length ? `, problems: ${page.problems().join(' | ')}` : ''}`);
@@ -125,7 +155,8 @@ async function main() {
       await jpeg(page, join(OUT, 'contact-sheet.jpg'));
       await page.close();
     }
-    const record = { generatedBy: 'design/tools/phone-ui-render.mjs', browser: chrome.version, note: 'Desktop headless Chromium. Measurements are of this browser at each frame’s CSS size, not of a phone.', sheets: checks };
+    const record = { generatedBy: 'design/tools/phone-ui-render.mjs', browser: chrome.version, note: 'Desktop headless Chromium. Measurements are of this browser at each frame’s CSS size, not of a phone.',
+      contrast: { method: 'letter by letter: each letter’s ink from black- and white-text captures; its background from a transparent-text capture as drawn and with the rooms’ ambient motion held at each moment; the lowest WCAG 2 ratio at every ink pixel and the pixels touching it', moments: CONTRAST_MOMENTS, thresholds: { text: 4.5, large: 3 } }, sheets: checks };
     const previous = only ? JSON.parse(await readFile(join(OUT, 'checks.json'), 'utf8').catch(() => '{"sheets":[]}')) : { sheets: [] };
     const merged = only ? { ...record, sheets: [...previous.sheets.filter(s => !only.includes(s.id)), ...checks].sort((a, b) => a.id.localeCompare(b.id)) } : record;
     await writeFile(join(OUT, 'checks.json'), `${JSON.stringify(merged, null, 2)}\n`);

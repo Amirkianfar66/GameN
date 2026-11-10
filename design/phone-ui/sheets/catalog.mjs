@@ -62,7 +62,7 @@ export const SHEETS = Object.freeze([
   { id: '24', slug: 'jail', section: 'H', title: 'Jail', sub: 'A detained player still sees the room, votes and talks.', audience: 'Own phone (detained)', frames: [
     f('Detained', 's=room&room=jail'), f('Jail vote from Jail', 's=vote&kind=jail&state=open'), f('Eject from the console', 's=captain&state=eject')] },
   { id: '25', slug: 'private-talk', section: 'H', title: 'Private Talk capsule', sub: 'Up to 15 s to declare, 5 s for the claim, then the full 60 s in the capsule beside the Command Room.', audience: 'Pair (public: who is talking)', frames: [
-    f('Declare a side · target', 's=talk&stage=declare'), f('Claim · initiator', 's=talk&stage=result'), f('Talk · 60 s', 's=talk&stage=talk'), f('Promise during talk', 's=promises&state=kinds')] },
+    f('Declare · own side only', 's=talk&stage=declare&role=Doctor', { notes: ['A role that must declare its own side: the other two are disabled, on this phone only.'] }), f('Declare · any side', 's=talk&stage=declare&role=Undercover&side=blue', { notes: ['Undercover and Alien may claim any side: Blue here is a bluff.'] }), f('Claim · initiator', 's=talk&stage=result'), f('Talk · 60 s', 's=talk&stage=talk'), f('Promise during talk', 's=promises&state=kinds')] },
   { id: '26', slug: 'board', section: 'I', title: 'The whole board, and switching views', sub: 'Board shows the ship; Room shows your room. Switching never moves you or spends your move.', audience: 'Own phone', frames: [
     f('Room view · tab says Board', 's=room&room=room-a'), f('Board view · tab says Room', 's=board'), f('Move · choose a position', 's=board&state=move'), f('Targets in another room', 's=board&state=targets')] },
 
@@ -76,13 +76,13 @@ export const SHEETS = Object.freeze([
     f('The whole ship · tap Room', 's=board', { tap: '[data-tab="switch"]', notes: ['Your room carries the You badge.'] }),
     f('Back in your room', 's=room&room=room-a', { notes: ['Nothing moved: switching views is local.'] }),
     f('Board while moving', 's=board&state=move', { notes: ['From Actions → Move: every empty position on the ship.'] }),
-    f('Board while choosing a person', 's=board&state=targets', { notes: ['From an action’s Other rooms: people elsewhere, the rest dimmed.'] })] },
+    f('Board while choosing a person', 's=board&state=targets', { notes: ['From an action’s Other rooms: everyone it can reach, where they stand; List gives the same choice as text.'] })] },
   { id: '27.2', slug: 'tap-actions', section: 'K', kind: 'taps', title: 'Tap Actions: what you can do, then who', sub: 'Actions opens your action tiles. Tap one, then tap the person in the room, check, and register. Nothing happens until the action resolves.', audience: 'Own phone', frames: [
     f('Your turn · tap Actions', 's=room&room=room-a&state=own', { tap: '[data-tab="actions"]' }),
     f('Your actions · tap Rescue', 's=actions&role=Doctor&active=4', { tap: '.tile[aria-label^="Rescue"]' }),
-    f('Choose a person · tap Ava', 's=actions&role=Doctor&active=4&state=targeting&act=rescue', { tap: '.press[aria-label^="Ava"]', notes: ['People in other rooms: Other rooms.'] }),
+    f('Choose a person · tap Ava', 's=actions&role=Doctor&active=4&state=targeting&act=rescue', { tap: '.press[aria-label^="Ava"]', notes: ['People in other rooms: Other rooms opens the board.'] }),
     f('Check · tap Register', 's=actions&role=Doctor&active=4&state=confirm&act=rescue&target=1', { tap: '.sheet-foot .btn:last-child' }),
-    f('Registered', 's=actions&role=Doctor&active=4&state=registered&act=rescue&target=1', { notes: ['Nothing happens yet: it resolves after the vote.'] }),
+    f('Registered', 's=actions&role=Doctor&active=4&state=registered&act=rescue&target=1', { notes: ['Not a result: resolved at the end of the round.'] }),
     f('Actions on another player’s turn', 's=actions&role=Doctor&active=7', { notes: ['Move stays open on any turn, once a round.', 'The rest wait for your turn.'] })] },
   { id: '27.3', slug: 'tap-pass', section: 'K', kind: 'taps', title: 'Tap Pass: end your turn (Vote in a vote)', sub: 'Pass asks once, then the turn moves on; it is grey outside your turn. While a ballot is open, the same button is Vote.', audience: 'Own phone', frames: [
     f('Your turn · tap Pass', 's=room&room=room-a&state=own', { tap: '[data-tab="hero"]' }),
@@ -110,8 +110,19 @@ export const SHEETS = Object.freeze([
     f('Settings · host', 's=settings&host=1', { notes: ['The host also finds Host controls here.'] })] },
   { id: '28', slug: 'actions', section: 'L', title: 'Actions', sub: 'Recognisable icons with short names instead of paragraphs; each tile names its state.', audience: 'Own phone', frames: [
     f('Doctor · your turn', 's=actions&role=Doctor&active=4'), f('Hacker · your turn', 's=actions&role=Hacker&active=4'), f('Undercover · not your turn', 's=actions&role=Undercover&active=7'), f('Registered and spent', 's=actions&role=Doctor&active=4&state=spent')] },
-  { id: '29', slug: 'targeting', section: 'L', title: 'Targeting and registering', sub: 'Targets stay on the people in the scene; other rooms are one tap away. Registering is not an effect.', audience: 'Own phone', frames: [
-    f('Choose in the scene', 's=actions&role=Doctor&active=4&state=targeting&act=rescue'), f('Other rooms', 's=actions&role=Doctor&active=4&state=offroom&act=rescue'), f('Check and register', 's=actions&role=Doctor&active=4&state=confirm&act=rescue'), f('Registering', 's=actions&role=Doctor&active=4&state=submitting&act=rescue'), f('Registered', 's=actions&role=Doctor&active=4&state=registered&act=rescue', { notes: ['No heal, hit or injury is drawn until the server resolves it.'] })] },
+  { id: '29', slug: 'targeting', section: 'L', title: 'Targeting and registering', sub: 'Targets stay on the people where they stand: in your room, or on the board for other rooms, with a list as the text alternative. Registering is not an effect.', audience: 'Own phone', frames: [
+    f('Choose in the scene', 's=actions&role=Doctor&active=4&state=targeting&act=rescue', { tap: '.offroom .btn', notes: ['Other rooms opens the board.'] }),
+    f('Other rooms · on the board', 's=board&state=targets&role=Doctor&active=4&act=rescue', { tap: '.press[aria-label^="Eli"]', notes: ['Everyone Rescue can reach, where they stand; the rest dimmed.'] }),
+    f('The same choice as a list', 's=actions&role=Doctor&active=4&state=offroom&act=rescue', { notes: ['From the board’s List: for screen readers, or by preference.'] }),
+    f('Check and register', 's=actions&role=Doctor&active=4&state=confirm&act=rescue&target=5'), f('Registering', 's=actions&role=Doctor&active=4&state=submitting&act=rescue&target=5'),
+    f('Registered', 's=actions&role=Doctor&active=4&state=registered&act=rescue&target=5', { notes: ['No heal, hit or injury is drawn until the server resolves it.'] })] },
+  { id: '29.1', slug: 'registered-waiting', section: 'L', title: 'Registered: waiting for the end of the round', sub: 'What the server accepted, in Frontend’s words. Not a result: an outline stamp and a time line whose next step is still open. Nothing is drawn on the target.', audience: 'Own phone', frames: [
+    f('Rescue', 's=actions&role=Doctor&active=4&state=registered&act=rescue&target=5'), f('Protection · active next round', 's=actions&role=Undercover&active=4&state=registered&act=protect&target=7'),
+    f('Supply', 's=actions&role=Supplier&active=4&state=registered&act=supply'), f('Shot · Round 4', 's=actions&role=Undercover&active=4&state=registered&act=shoot&target=7'),
+    f('Blackout', 's=actions&role=Blue Disabler&active=4&state=registered&act=blackout')] },
+  { id: '29.2', slug: 'accepted-now', section: 'L', title: 'Accepted: what happens at once', sub: 'Three actions do something when the server accepts them: a private talk is set for after the turn, a Clone is active, the Engineer’s capture is fixed.', audience: 'Own phone', frames: [
+    f('Private talk · after this turn', 's=actions&role=Doctor&active=4&state=registered&act=talk&target=1'), f('Clone · active now', 's=actions&role=Alien&active=4&state=registered&act=clone'),
+    f('Engineer · captured now', 's=actions&role=Engineer&active=4&state=registered&act=suppress')] },
   { id: '30', slug: 'blackout', section: 'L', title: 'Blackout', sub: 'Position targeting, not character selection. Same timing and look for both Disablers; the initiator is never shown.', audience: 'Public window · Disabler’s own picker', frames: [
     f('Request · confirm', 's=actions&role=Blue Disabler&active=4&state=confirm&act=blackout'), f('5 s lit · everyone', 's=blackout&state=lit'), f('10 s dark · everyone', 's=blackout&state=dark'), f('Dark · Disabler picks a position', 's=blackout&state=pick'), f('Position fixed', 's=blackout&state=chosen')] },
   { id: '31', slug: 'card', section: 'M', title: 'Card', sub: 'A large, correctly fitted private card; knowledge and resources one tap away; a clear Hide.', audience: 'Own phone', frames: [
@@ -119,7 +130,9 @@ export const SHEETS = Object.freeze([
   { id: '32', slug: 'panels-settings', section: 'N', title: 'Panels and Settings', sub: 'Panels holds the match’s panels; ⋮ opens this phone’s Settings. Compact iOS-style rows; a destination only looks active for those it serves.', audience: 'Own phone', frames: [
     f('Panels', 's=panels'), f('Players', 's=players'), f('Round order', 's=rules'), f('Settings (⋮)', 's=settings'), f('Settings · host', 's=settings&host=1')] },
   { id: '33', slug: 'promises', section: 'N', title: 'Promises', sub: 'Six fixed kinds, exact terms, explicit acceptance, a lifetime quota and four result states. Pair-private.', audience: 'Pair', frames: [
-    f('List · during talk', 's=promises&state=list'), f('Choose a kind', 's=promises&state=kinds'), f('Check the terms', 's=promises&state=confirm'), f('Offer received', 's=promises&state=incoming'), f('Results', 's=promises&state=results')] },
+    f('List · during talk', 's=promises&state=list'), f('Choose a kind', 's=promises&state=kinds'), f('Check the terms', 's=promises&state=confirm'), f('Offer received', 's=promises&state=incoming')] },
+  { id: '33.1', slug: 'promise-results', section: 'N', title: 'Promise results, one match moment each', sub: 'A player gives one Promise and receives one in a match, so each phone holds two at most. Each frame is a separate moment, one per result state.', audience: 'Pair', frames: [
+    f('Pending', 's=promises&state=results&case=pending'), f('Fulfilled', 's=promises&state=results&case=fulfilled'), f('Not fulfilled', 's=promises&state=results&case=not-fulfilled'), f('Condition not met', 's=promises&state=results&case=condition')] },
   { id: '34', slug: 'windows', section: 'N', title: 'Windows', sub: 'View free at either end; draw and Show only at your station; shown drawings are immutable and expire with the round.', audience: 'Players at the window’s two rooms', frames: [
     f('View', 's=windows&state=view'), f('Draw at your station', 's=windows&state=draw'), f('Shown', 's=windows&state=shown'), f('No window here', 's=windows&state=none')] },
 
@@ -161,6 +174,9 @@ export const SHEETS = Object.freeze([
   { id: '55', slug: 'ambient-motion', section: 'V', title: 'Ambient motion in the rooms', sub: 'One voyage for the whole ship: every room at the same moment, 2:10 into the 4-minute voyage, as the teal world and the asteroid belt pass. Screens, keys and small lights move; the same on every phone, never a game fact. Lights out: only the windows, dimmed.', audience: 'Everyone', frames: [
     f('Room A · 2:10', 's=room&room=room-a&state=own&amb=130'), f('Room B · 2:10', 's=room&room=room-b&amb=130'), f('Command Room · 2:10', 's=room&room=command-room&state=own&amb=130'), f('Hospital · 2:10', 's=room&room=hospital&amb=130'),
     f('Jail · 2:10', 's=room&room=jail&amb=130'), f('Private talk · 2:10', 's=talk&stage=talk&amb=130'), f('Blackout · 2:10', 's=blackout&state=dark&amb=130')] },
+  { id: '56', slug: 'small-phone-largest-text', section: 'V', title: '320 × 568 at the Largest text', sub: 'The smallest phone with the game’s Largest (200%) text. Ballots and results become a list of whole names; the result’s headline, names and foot scroll as one column, its stamp and art set aside.', audience: '—', frames: [
+    f('Jail result', 's=result&outcome=PLAYER_JAILED', { size: '320x568', text: '2' }), f('Captain result', 's=result&outcome=CAPTAIN_ELECTED', { size: '320x568', text: '2' }), f('Runoff result', 's=result&outcome=RUNOFF_REQUIRED', { size: '320x568', text: '2' }),
+    f('Jail ballot · selected', 's=vote&kind=jail&state=selected', { size: '320x568', text: '2' }), f('Captain ballot', 's=vote&kind=captain', { size: '320x568', text: '2' }), f('Runoff ballot', 's=vote&kind=captain&state=runoff', { size: '320x568', text: '2' })] },
 
   // ── Art status and the change from today ──────────────────────────────
   { id: '60', slug: 'art-status', section: 'X', title: 'Approved art not yet in the playable build', kind: 'art', sub: 'So newer owner-approved art is not overlooked when this interface is built.' },

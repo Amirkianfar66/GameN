@@ -62,7 +62,7 @@
      through almost sharp (2 px blur) under a 20–34% tint; it is darkened to 56% behind the glass so the
      text stays readable, and the render measures every text's contrast against what is behind it. */
   --glass-tint: linear-gradient(180deg, rgba(30, 37, 52, 0.2) 0%, rgba(14, 18, 26, 0.34) 100%);
-  --glass-filter: blur(2px) saturate(1.3) brightness(0.56);
+  --glass-filter: blur(2px) saturate(1.3) brightness(0.46);
   --glass-edge: rgba(255, 255, 255, 0.2);
   --glass-line: rgba(255, 255, 255, 0.1);
   --glass-fill: rgba(8, 11, 18, 0.24);
@@ -120,6 +120,7 @@ button { cursor: pointer; }
 .tb-lines { min-width: 0; display: flex; flex-direction: column; gap: 1px; }
 .tb-name { font: 600 1.0625rem/1.2 var(--font-ui); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: -0.01em; }
 .tb-sub { font: 500 0.75rem/1.2 var(--font-ui); color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tb-short { display: none; }
 .tb-sub b { color: var(--accent); font-weight: 600; }
 .tb-right { display: flex; align-items: center; gap: 5px; flex: none; }
 .tb-round { font: 800 0.8125rem/1 var(--font-letter); letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-secondary); padding: 0; }
@@ -150,6 +151,22 @@ button { cursor: pointer; }
   .tb-pill { padding: 0; width: 36px; }
   .tb-pill-label, .tb-div, .timer > svg.ic, .tb[data-kind="phase"] .tb-glyph { display: none; }
   .tb-who .pt-pair .pt + .pt { margin-left: -20px; }
+}
+/* Larger text (the bar under 16 rem: 150% text below 384 px, 200% below 512 px). The round leaves the bar
+   (the Actions sheet and a result's foot name it) and a phase with a short title shows it ("Vote result" for
+   "Jail vote · result"), so the title reads whole; the full title stays for screen readers. */
+@container (max-width: 16rem) {
+  .tb-round { display: none; }
+  .tb-long { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .tb-short { display: inline; }
+}
+/* The largest text on the smallest phones (the bar under 12 rem: 200% text below 384 px). The time stops
+   growing at 22 px, and a phase's title takes two lines instead of its subtitle, so it reads whole. */
+@container (max-width: 12rem) {
+  .timer { font-size: min(1rem, 22px); }
+  .tb-name { white-space: normal; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-height: 1.1; }
+  /* The subtitle (whose turn, the player's number) makes way for the second line, read still by screen readers. */
+  .tb-sub { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 }
 
 /* ── Bottom tabs ───────────────────────────────────────────────────────── */
@@ -298,7 +315,8 @@ button { cursor: pointer; }
 .input .caret { display: inline-block; width: 2px; height: 1.2em; background: var(--accent); margin-left: 1px; vertical-align: -0.2em; }
 .input .count { margin-left: auto; color: var(--text-tertiary); font-size: 0.8125rem; font-variant-numeric: tabular-nums; }
 .code-boxes { display: grid; grid-template-columns: repeat(6, 1fr); gap: 7px; }
-.code-boxes b { height: 56px; border-radius: 12px; background: var(--surface-1); box-shadow: inset 0 0 0 1.5px var(--hairline); display: grid; place-items: center; font: 700 1.5rem/1 ui-monospace, "SF Mono", "JetBrains Mono", monospace; }
+/* Tall enough for a letter's tail at any text size (Q at 200%): 56 px, or 1.75 of the letter's own size. */
+.code-boxes b { height: max(56px, 1.75em); border-radius: 12px; background: var(--surface-1); box-shadow: inset 0 0 0 1.5px var(--hairline); display: grid; place-items: center; font: 700 1.5rem/1 ui-monospace, "SF Mono", "JetBrains Mono", monospace; }
 .code-boxes b[data-focus] { box-shadow: inset 0 0 0 2px var(--accent); }
 .code-boxes[data-invalid] b { box-shadow: inset 0 0 0 2px var(--paper); }
 .error { display: flex; gap: 8px; align-items: flex-start; margin: 8px 2px 0; padding: 10px 12px; border-radius: 12px; background: rgba(244, 235, 221, 0.08); font: 500 0.9375rem/1.35 var(--font-ui); color: var(--paper); }
@@ -307,8 +325,26 @@ button { cursor: pointer; }
 /* ── Portraits, grids and cells ───────────────────────────────────────── */
 .pt { display: block; width: 44px; height: 44px; object-fit: contain; }
 .pt-empty { display: grid; place-items: center; border-radius: 26%; background: var(--surface-3); color: var(--text-tertiary); box-shadow: inset 0 0 0 1.5px var(--hairline); }
-.num { display: inline-grid; place-items: center; min-width: 22px; height: 22px; padding: 0 5px; border-radius: 11px; background: var(--paper); color: var(--ink); font: 800 0.8125rem/1 var(--font-ui); font-variant-numeric: tabular-nums; }
+/* The badge is sized in its own em (22 px at the 13 px default), so it grows with the player's text size. */
+.num { display: inline-grid; place-items: center; min-width: calc(22em / 13); height: calc(22em / 13); padding: 0 calc(5em / 13); border-radius: 999px; background: var(--paper); color: var(--ink); font: 800 0.8125rem/1 var(--font-ui); font-variant-numeric: tabular-nums; }
 .grid9 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.grid-wrap { container-type: inline-size; }
+/* Where the 3 × 3 has under 13 of its em across (200% text, or 150% on the smallest phone), names would be
+   cut to a letter: the roster becomes a list in seat order, every name whole. Empty seats of a 7- or
+   8-player match drop out; the order is still seat by seat. */
+@container (max-width: 13em) {
+  :is(.grid-wrap, .result-body) .grid9 { grid-template-columns: 1fr; gap: 6px; }
+  :is(.grid-wrap, .result-body) .grid9 .cell {
+    display: grid; grid-template-columns: 40px minmax(0, 1fr) auto; grid-template-areas: "pt name count" "pt note badge";
+    align-items: center; column-gap: 10px; row-gap: 2px; padding: 6px 10px; text-align: left; }
+  :is(.grid-wrap, .result-body) .grid9 .cell .pt { grid-area: pt; width: 40px; max-width: 40px; }
+  :is(.grid-wrap, .result-body) .grid9 .cell .cell-name { grid-area: name; min-width: 0; }
+  :is(.grid-wrap, .result-body) .grid9 .cell .cell-name > span:last-child { white-space: normal; overflow: visible; text-overflow: clip; overflow-wrap: anywhere; }
+  :is(.grid-wrap, .result-body) .grid9 .cell .cell-note { grid-area: note; min-width: 0; min-height: 0; text-align: left; }
+  :is(.grid-wrap, .result-body) .grid9 .cell .count { grid-area: count; position: static; }
+  :is(.grid-wrap, .result-body) .grid9 .cell :is(.you, .cell-mark) { grid-area: badge; position: static; justify-self: end; }
+  :is(.grid-wrap, .result-body) .grid9 .cell[data-state="empty"] { display: none; }
+}
 .cell { position: relative; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px 4px 9px; border-radius: 16px; border: 0; background: var(--surface-1); box-shadow: inset 0 0 0 1.5px var(--hairline); color: inherit; min-width: 0; }
 .sheet .cell { background: var(--surface-3); box-shadow: none; }
 .cell .pt { width: 100%; max-width: 92px; height: auto; aspect-ratio: 1; }
@@ -332,6 +368,8 @@ button { cursor: pointer; }
 /* ── Comic accents: stamps, captions, cards ───────────────────────────── */
 .stamp { display: inline-block; padding: 5px 12px 4px; border: 3px solid var(--ink); border-radius: 7px; background: var(--paper); color: var(--ink); font: 800 1.125rem/1 var(--font-letter); letter-spacing: 0.06em; text-transform: uppercase; transform: rotate(-4deg); box-shadow: var(--shadow-ink); }
 .stamp[data-tone="amber"] { background: var(--accent); }
+/* Waiting, not a result: an outline only (a registered action, an accepted request). */
+.stamp[data-tone="pending"] { background: transparent; color: var(--paper); border-color: var(--paper); border-style: dashed; }
 .stamp[data-tone="gold"] { background: var(--caption); }
 .stamp[data-tone="steel"] { background: var(--steel-light); }
 .caption-tag { display: inline-block; padding: 4px 10px 3px; background: var(--caption); color: var(--ink); border: 2px solid var(--ink); font: 800 0.9375rem/1 var(--font-letter); letter-spacing: 0.06em; text-transform: uppercase; transform: skewX(-9deg) rotate(-1.4deg); box-shadow: 3px 3px 0 #05070B; }
@@ -372,8 +410,9 @@ button { cursor: pointer; }
 .fig > svg { display: block; width: 100%; height: 100%; overflow: visible; }
 .fig[data-dim] { opacity: 0.5; filter: saturate(0.4); }
 .fig[data-elim] { filter: grayscale(1) brightness(0.7); }
-.tag { position: absolute; z-index: 3000; display: inline-flex; align-items: center; gap: 5px; height: 26px; padding: 0 9px 0 3px; border-radius: 13px; background: rgba(12, 15, 22, 0.86); box-shadow: inset 0 0 0 1.5px rgba(244, 235, 221, 0.28); font: 600 0.8125rem/1 var(--font-ui); white-space: nowrap; transform: translateX(-50%); color: var(--text-primary); }
-.tag .num { min-width: 20px; height: 20px; font-size: 0.75rem; }
+/* Above a target's ring (.press, 3100), so a ring never crosses a name; taps pass through to the person. */
+.tag { position: absolute; z-index: 3150; pointer-events: none; display: inline-flex; align-items: center; gap: 5px; height: 26px; padding: 0 9px 0 3px; border-radius: 13px; background: rgba(12, 15, 22, 0.86); box-shadow: inset 0 0 0 1.5px rgba(244, 235, 221, 0.28); font: 600 0.8125rem/1 var(--font-ui); white-space: nowrap; transform: translateX(-50%); color: var(--text-primary); }
+.tag .num { min-width: calc(20em / 12); height: calc(20em / 12); font-size: 0.75rem; }
 .tag[data-self] { background: var(--paper); color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--ink); }
 .tag[data-self] .num { background: var(--ink); color: var(--paper); }
 .tag[data-self] .status { color: #5A5650; }
@@ -404,7 +443,7 @@ button { cursor: pointer; }
 .board-panel[data-current] { box-shadow: 0 0 0 2.5px var(--accent), 0 0 0 6px rgba(241, 184, 75, 0.2); }
 .board-panel .here { position: absolute; right: 6px; top: 6px; z-index: 3300; }
 .board-panel .tag { height: 22px; font-size: 0.6875rem; padding: 0 6px 0 2px; }
-.board-panel .tag .num { min-width: 17px; height: 17px; font-size: 0.6875rem; }
+.board-panel .tag .num { min-width: calc(17em / 11); height: calc(17em / 11); font-size: 0.6875rem; }
 
 /* Film and full-bleed media */
 .media { position: absolute; inset: 0; border: 0; width: 100%; height: 100%; background: #07090F; }
