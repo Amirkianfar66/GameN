@@ -320,8 +320,8 @@
       "slug": "join",
       "title": "Join",
       "file": "design/phone-ui/review/sheets/12-join.jpg",
-      "sha256": "2291d5b8b35860daaf712f5823f6c21a19f04c73c9a587f5bebea5aaacaa40be",
-      "bytes": 160643,
+      "sha256": "b93ae032c0f12a7d3a859516dd094bd6d8bd6781ddf8d4dc65994687d80763ea",
+      "bytes": 160685,
       "size": {
         "width": 1846,
         "height": 1227
@@ -391,8 +391,8 @@
       "slug": "join-lobby",
       "title": "Waiting for admission and the player lobby",
       "file": "design/phone-ui/review/sheets/13-join-lobby.jpg",
-      "sha256": "3bb15f33265652aea480542eefa08d7cfcd42ecc727ce57a3dd914f52d694ecb",
-      "bytes": 152470,
+      "sha256": "599d7dbe6e2eab59fa8cc9d6d574bc0dec27f1536045dbf1169362ee41e3e9df",
+      "bytes": 152515,
       "size": {
         "width": 1846,
         "height": 1227
@@ -462,8 +462,8 @@
       "slug": "recover",
       "title": "Recover",
       "file": "design/phone-ui/review/sheets/14-recover.jpg",
-      "sha256": "f4a4bdb036135083bbba9b09eedd4be42d47be393e5259eb21bb8b1ceacd1eee",
-      "bytes": 214543,
+      "sha256": "65a2a2c50dfbe5f07b064d6aea650839158533ff08ce51c91a82d53f2d6ad58e",
+      "bytes": 215054,
       "size": {
         "width": 1846,
         "height": 1278
@@ -533,8 +533,8 @@
       "slug": "host-recovery",
       "title": "Host controls and a recovery code",
       "file": "design/phone-ui/review/sheets/15-host-recovery.jpg",
-      "sha256": "ba4d800234497a269abe2e5104025717c84fd0695cdd0e09a3df815600d7326d",
-      "bytes": 260755,
+      "sha256": "8961557f8b006d4ffb763e122e85d265494f999b318ee04611728a99daa0d890",
+      "bytes": 261137,
       "size": {
         "width": 1846,
         "height": 1227
@@ -578,7 +578,7 @@
           "tinyText": [],
           "clipped": 0,
           "contrast": {
-            "min": 6.5,
+            "min": 6.52,
             "low": []
           }
         },
@@ -604,8 +604,8 @@
       "slug": "characters",
       "title": "Character selection",
       "file": "design/phone-ui/review/sheets/16-characters.jpg",
-      "sha256": "2512bb49e1956d35eb767e9ed1e5ea138d4f255840e91b069463cda9686ad733",
-      "bytes": 351427,
+      "sha256": "07bcb42b0b6e430736c9cefb98964604e23e278b03cd40be816edd4bc7485b57",
+      "bytes": 351385,
       "size": {
         "width": 2288,
         "height": 1254
@@ -859,8 +859,8 @@
       "slug": "boarding",
       "title": "Shared boarding into Round 1",
       "file": "design/phone-ui/review/sheets/19-boarding.jpg",
-      "sha256": "32c5aabd8f96efff8090d2f43ecd89e23e6f0b3250f4460473ed1315ce887d17",
-      "bytes": 254948,
+      "sha256": "d245083eb8d704d83e8836b8afca5692e6bedc2d3ea914de06042d9a836ef1e9",
+      "bytes": 255498,
       "size": {
         "width": 2288,
         "height": 1227
@@ -944,8 +944,8 @@
       "slug": "room-a",
       "title": "Room A",
       "file": "design/phone-ui/review/sheets/20-room-a.jpg",
-      "sha256": "b8353d4f5aeb95d383b6242554d8246bf402f7ba3c88e03a8efb8aa16c4b8c4e",
-      "bytes": 406502,
+      "sha256": "d957468bd3ac7194b5fb10b0900d948b4394cba9176cd44fbba2f465ffb1e716",
+      "bytes": 408805,
       "size": {
         "width": 1870,
         "height": 1258
@@ -1015,8 +1015,8 @@
       "slug": "room-b",
       "title": "Room B",
       "file": "design/phone-ui/review/sheets/21-room-b.jpg",
-      "sha256": "1b1b3c5dc5dd6215fd6273b0b5416197a07dddea085387467b8629ef2e023afd",
-      "bytes": 371602,
+      "sha256": "1e10642e2f8da72ce1835f4f4e52285c16179f3318317bf1c48610f3eec04bd1",
+      "bytes": 375043,
       "size": {
         "width": 1943,
         "height": 1227
@@ -1086,8 +1086,8 @@
       "slug": "command-room",
       "title": "Command Room",
       "file": "design/phone-ui/review/sheets/22-command-room.jpg",
-      "sha256": "a07da06edd215e0d816ec0f9876743583eaaf492bae902dcf12d3e0631c78722",
-      "bytes": 330956,
+      "sha256": "2abe5ff2fe99924dba598aea86a516e9cfadbd5639ecb161bdadc71856068e16",
+      "bytes": 341919,
       "size": {
         "width": 1846,
         "height": 1227
@@ -1157,8 +1157,8 @@
       "slug": "hospital",
       "title": "Hospital",
       "file": "design/phone-ui/review/sheets/23-hospital.jpg",
-      "sha256": "93a5b145dbc8ccc13f050ee699f4b356a88bd3d650ad3ec5c0d112a872c9297f",
-      "bytes": 260619,
+      "sha256": "f78d8fcb3a9ac6ad9bc464e8f12133a7728924b5cadf646a82b7ceb9a7bc389b",
+      "bytes": 260644,
       "size": {
         "width": 1846,
         "height": 1227
@@ -1228,8 +1228,8 @@
       "slug": "jail",
       "title": "Jail",
       "file": "design/phone-ui/review/sheets/24-jail.jpg",
-      "sha256": "9df384df655e64649a0b45b42d78d2029d7a6fd17b01c0d4154a19217db88085",
-      "bytes": 259825,
+      "sha256": "06f1381015e31b8c8a1ef23587b59cd7a286e5756595771a9cd451309c12de43",
+      "bytes": 262829,
       "size": {
         "width": 1533,
         "height": 1227
@@ -1285,8 +1285,8 @@
       "slug": "private-talk",
       "title": "Private Talk capsule",
       "file": "design/phone-ui/review/sheets/25-private-talk.jpg",
-      "sha256": "33ba50015cf281ceb9c638c36af6254d721668e058e5243b82c17cb020e9dd2f",
-      "bytes": 323764,
+      "sha256": "42735d834e8435c9d04614a47c9e1641639978973c20da9659eaeb41a7b8dd29",
+      "bytes": 325061,
       "size": {
         "width": 1846,
         "height": 1227
@@ -1356,8 +1356,8 @@
       "slug": "board",
       "title": "The whole board, and switching views",
       "file": "design/phone-ui/review/sheets/26-board.jpg",
-      "sha256": "301bc8df5f0cc5608f7190280f1b701a6aec0f82fd6b8f80366702c4125a2203",
-      "bytes": 448338,
+      "sha256": "58dce1491f0c1930e8549906f53b7ad760e7f192a9f2db5a91bd5fc9f35de58d",
+      "bytes": 448841,
       "size": {
         "width": 1846,
         "height": 1227
@@ -1427,8 +1427,8 @@
       "slug": "tab-destinations",
       "title": "Each tab, opened",
       "file": "design/phone-ui/review/sheets/27-tab-destinations.jpg",
-      "sha256": "b6505221157c11d4e0aad213b33112c40f29b2c798e72664451ed9139a73846b",
-      "bytes": 421969,
+      "sha256": "c4f207cdb9615e6fc3a53da3a69545835475f0a3b71cec1d9dfbea5e6aca77fa",
+      "bytes": 423165,
       "size": {
         "width": 2288,
         "height": 1227
@@ -1458,7 +1458,7 @@
           "tinyText": [],
           "clipped": 0,
           "contrast": {
-            "min": 6.42,
+            "min": 6.4,
             "low": []
           }
         },
@@ -1512,8 +1512,8 @@
       "slug": "tap-board",
       "title": "Tap Board: the whole ship, and back",
       "file": "design/phone-ui/review/sheets/27.1-tap-board.jpg",
-      "sha256": "05e742caa129476acb17c9a6ba6030081262dcbe55591a833bf1bb5855749792",
-      "bytes": 553173,
+      "sha256": "54cdfc14f4216b83c59b7fdbabefa07c9926cbd41f56d95e15716548deeb7ccd",
+      "bytes": 554304,
       "size": {
         "width": 2288,
         "height": 1278
@@ -1599,8 +1599,8 @@
       "slug": "tap-actions",
       "title": "Tap Actions: what you can do, then who",
       "file": "design/phone-ui/review/sheets/27.2-tap-actions.jpg",
-      "sha256": "3de86a874842b3e5bc331df3dbbee05bd5895561f7f0571c6baf0cc519fe5f96",
-      "bytes": 547131,
+      "sha256": "69164473614249153ca3c8c96e909157f3774b868a07ce03033dccd273a97f49",
+      "bytes": 551058,
       "size": {
         "width": 2730,
         "height": 1326
@@ -1632,7 +1632,7 @@
           "clipped": 0,
           "tap": true,
           "contrast": {
-            "min": 6.42,
+            "min": 6.4,
             "low": []
           }
         },
@@ -1702,8 +1702,8 @@
       "slug": "tap-pass",
       "title": "Tap Pass: end your turn (Vote in a vote)",
       "file": "design/phone-ui/review/sheets/27.3-tap-pass.jpg",
-      "sha256": "6e765ee2a9a740e16f9f37b390946ec9c65798cc0455e47c188e3934747e3821",
-      "bytes": 475829,
+      "sha256": "0f356d4436d60f25c29464bdb0eae553f303438a1eb026b313573e679f88ee2e",
+      "bytes": 478332,
       "size": {
         "width": 2288,
         "height": 1258
@@ -1790,8 +1790,8 @@
       "slug": "tap-card",
       "title": "Tap Card: your role, privately",
       "file": "design/phone-ui/review/sheets/27.4-tap-card.jpg",
-      "sha256": "6fd47d54b770241714b1f72dc4089a0a2da1554e7ed6b581b18fad1464219a2d",
-      "bytes": 360866,
+      "sha256": "532c45401a9b6cad3261e224348479b31bd0cb7fc32b4caecabd2b87cf67553c",
+      "bytes": 361602,
       "size": {
         "width": 2288,
         "height": 1258
@@ -1838,7 +1838,7 @@
           "clipped": 0,
           "tap": true,
           "contrast": {
-            "min": 6.53,
+            "min": 6.54,
             "low": []
           }
         },
@@ -1879,8 +1879,8 @@
       "slug": "tap-panels",
       "title": "Tap Panels: the match’s panels",
       "file": "design/phone-ui/review/sheets/27.5-tap-panels.jpg",
-      "sha256": "7165bb2cb5fa2d9d4fb45841d7a9e6fdecb38250e5f3353e5ff20677a0075971",
-      "bytes": 365672,
+      "sha256": "e6961ec61ab028b672c1805cae191e5784cf782487dd3e1661d97cd2d641b3de",
+      "bytes": 366841,
       "size": {
         "width": 2288,
         "height": 1258
@@ -1966,8 +1966,8 @@
       "slug": "tap-top-bar",
       "title": "Tap the top bar: Promises and ⋮",
       "file": "design/phone-ui/review/sheets/27.6-tap-top-bar.jpg",
-      "sha256": "1ffc3d50162965a8db744dca127df0fed1bcfa293ae6b3280cf7900ea08ac9af",
-      "bytes": 421034,
+      "sha256": "486ee42673b1227c4a0dfabe19b8275c903dffba70d293c7b04f434552bd3137",
+      "bytes": 423806,
       "size": {
         "width": 2288,
         "height": 1304
@@ -1998,7 +1998,7 @@
           "tinyText": [],
           "clipped": 0,
           "contrast": {
-            "min": 9.49,
+            "min": 9.65,
             "low": []
           }
         },
@@ -2053,8 +2053,8 @@
       "slug": "actions",
       "title": "Actions",
       "file": "design/phone-ui/review/sheets/28-actions.jpg",
-      "sha256": "b944a386f5bbc9bc2cb43fefea32df38b8ddd5831d1ac65dc89e6a567daa82cd",
-      "bytes": 331210,
+      "sha256": "b05678859338441a34a8bf79b6c482aa301def30cfe10d7fefe6d47cb0ee57ae",
+      "bytes": 333524,
       "size": {
         "width": 1846,
         "height": 1227
@@ -2112,7 +2112,7 @@
           "tinyText": [],
           "clipped": 0,
           "contrast": {
-            "min": 6.42,
+            "min": 6.4,
             "low": []
           }
         }
@@ -2124,8 +2124,8 @@
       "slug": "targeting",
       "title": "Targeting and registering",
       "file": "design/phone-ui/review/sheets/29-targeting.jpg",
-      "sha256": "e737b9385ee841a6a9345fd06629a2c112a5d78ba2e58bb5cacce5cf928e28dd",
-      "bytes": 459660,
+      "sha256": "a907b82346d8c1747024f10d7e2257397e89bed4bb8f9f8cdab67c9f6725f8cf",
+      "bytes": 462730,
       "size": {
         "width": 2412,
         "height": 1258
@@ -2209,8 +2209,8 @@
       "slug": "blackout",
       "title": "Blackout",
       "file": "design/phone-ui/review/sheets/30-blackout.jpg",
-      "sha256": "d496f9fd0892db896172087e0823531819311b79b483100cbe88351ef8c1b96c",
-      "bytes": 372689,
+      "sha256": "2f8db97a40120e11acb3267a95ea94d461b8ab5cf65b6935832bba8bf1e83096",
+      "bytes": 374961,
       "size": {
         "width": 2354,
         "height": 1227
@@ -2294,8 +2294,8 @@
       "slug": "card",
       "title": "Card",
       "file": "design/phone-ui/review/sheets/31-card.jpg",
-      "sha256": "83d31613cba4e3fab6fe8ed67c0ccd5e970feb6f21362b93ede58a4325d20c96",
-      "bytes": 256922,
+      "sha256": "e1b1f7dea97e7b10c161a86ea818994589254f0ee2e450e57a482b52eb1991d8",
+      "bytes": 257048,
       "size": {
         "width": 1846,
         "height": 1227
@@ -2365,8 +2365,8 @@
       "slug": "panels-settings",
       "title": "Panels and Settings",
       "file": "design/phone-ui/review/sheets/32-panels-settings.jpg",
-      "sha256": "62f21a02413e3f132d68e54ec5dbd5a870115ce3921afdcdc1ff07f097b9b63c",
-      "bytes": 362472,
+      "sha256": "be979b808cd6c59b634a4aa04adcae0001a6e8c1d8a3bbf0fae21ed523e895c6",
+      "bytes": 364494,
       "size": {
         "width": 2288,
         "height": 1254
@@ -2450,8 +2450,8 @@
       "slug": "promises",
       "title": "Promises",
       "file": "design/phone-ui/review/sheets/33-promises.jpg",
-      "sha256": "c895eb54317d5e7d64fca8e0f763e7c995d2c5b6d65676dd6a0bd651f25995fb",
-      "bytes": 340807,
+      "sha256": "6f44c72986efbd48bac78de6047c02f414e21fa9450387a2d3298d7f7a948ce0",
+      "bytes": 341020,
       "size": {
         "width": 2288,
         "height": 1227
@@ -2467,7 +2467,7 @@
           "tinyText": [],
           "clipped": 0,
           "contrast": {
-            "min": 9.49,
+            "min": 9.65,
             "low": []
           }
         },
@@ -2495,7 +2495,7 @@
           "tinyText": [],
           "clipped": 0,
           "contrast": {
-            "min": 5.63,
+            "min": 5.71,
             "low": []
           }
         },
@@ -2509,7 +2509,7 @@
           "tinyText": [],
           "clipped": 0,
           "contrast": {
-            "min": 5.54,
+            "min": 5.67,
             "low": []
           }
         },
@@ -2535,8 +2535,8 @@
       "slug": "windows",
       "title": "Windows",
       "file": "design/phone-ui/review/sheets/34-windows.jpg",
-      "sha256": "22048520b5a49189555bdddafd795888fec0f81c02e4c8a8cad336e82997f9af",
-      "bytes": 230267,
+      "sha256": "5831fbd5a77607a0cd1f0ead7a267ee3d29b4d89c28eb0e2fddb4cf88558a098",
+      "bytes": 230417,
       "size": {
         "width": 1846,
         "height": 1227
@@ -2594,7 +2594,7 @@
           "tinyText": [],
           "clipped": 0,
           "contrast": {
-            "min": 4.61,
+            "min": 4.62,
             "low": []
           }
         }
@@ -2606,8 +2606,8 @@
       "slug": "vote-jail",
       "title": "Jail vote",
       "file": "design/phone-ui/review/sheets/35-vote-jail.jpg",
-      "sha256": "15c0fc86e904fb5e7104e95515b49ff1ab9f6b2222271f4b6b0b02093ed91ab2",
-      "bytes": 377845,
+      "sha256": "eb2f385866bb57e53c0f36c1df33e34be9c4cf90e4580b047909ab686b01a267",
+      "bytes": 377916,
       "size": {
         "width": 2288,
         "height": 1227
@@ -2691,8 +2691,8 @@
       "slug": "vote-captain",
       "title": "Captain election and stable placement",
       "file": "design/phone-ui/review/sheets/36-vote-captain.jpg",
-      "sha256": "e693051ab98069ac82e46dac5355efb3a7cd6d157859097a3a89ef67fd07f732",
-      "bytes": 391283,
+      "sha256": "49610023f3f084b762dadba4ea7f7b6c0230b33880d00911a3bd70c55e70a1aa",
+      "bytes": 391371,
       "size": {
         "width": 2288,
         "height": 1227
@@ -2776,8 +2776,8 @@
       "slug": "results-captain",
       "title": "Captain election results",
       "file": "design/phone-ui/review/sheets/37-results-captain.jpg",
-      "sha256": "b20ba59f5611f089a3d82196ef55b8eb57230bf52104fe64a78b454839e4dc83",
-      "bytes": 271496,
+      "sha256": "35556b892afcbb7bc4964b40dfa6b2f9fddde7c2b6d0b13a200af2a5dbd5ef7d",
+      "bytes": 271565,
       "size": {
         "width": 1533,
         "height": 1227
@@ -2833,8 +2833,8 @@
       "slug": "results-jail",
       "title": "Jail vote results",
       "file": "design/phone-ui/review/sheets/38-results-jail.jpg",
-      "sha256": "8e5e91dfd3f2989a3d352e00122c131c9be78a046bdfaa87eb73662483d65a29",
-      "bytes": 343466,
+      "sha256": "94cdf9b831c3f0ed8f783285c721d8286624c19dcc1dd770c76ea20e4c693009",
+      "bytes": 343438,
       "size": {
         "width": 1846,
         "height": 1227
@@ -2904,8 +2904,8 @@
       "slug": "offices",
       "title": "Captain and Officer",
       "file": "design/phone-ui/review/sheets/40-offices.jpg",
-      "sha256": "92cf4aff3ce44250403941913da2ba8e5986a1a4e7df087844784d5fd377d4d6",
-      "bytes": 288885,
+      "sha256": "bbd6be683ed2e7c43a1216c21017c4feae3ec3ffbaa796e75761c37d4b5278e9",
+      "bytes": 289701,
       "size": {
         "width": 1846,
         "height": 1227
@@ -2949,7 +2949,7 @@
           "tinyText": [],
           "clipped": 0,
           "contrast": {
-            "min": 9.55,
+            "min": 9.56,
             "low": []
           }
         },
@@ -2963,7 +2963,7 @@
           "tinyText": [],
           "clipped": 0,
           "contrast": {
-            "min": 8.74,
+            "min": 7.63,
             "low": []
           }
         }
@@ -2975,8 +2975,8 @@
       "slug": "navigation",
       "title": "Navigation",
       "file": "design/phone-ui/review/sheets/41-navigation.jpg",
-      "sha256": "c7e022313376e1fc5f31fa4b4d1a26548fd4f2ddbb35418f4742c0af2585503b",
-      "bytes": 262298,
+      "sha256": "ec06aa0da8a84c385909563c7d72e53e50f33632715336d3e40e9c7c1bc8e7fe",
+      "bytes": 262336,
       "size": {
         "width": 2288,
         "height": 1227
@@ -3006,7 +3006,7 @@
           "tinyText": [],
           "clipped": 0,
           "contrast": {
-            "min": 7.89,
+            "min": 7.98,
             "low": []
           }
         },
@@ -3020,7 +3020,7 @@
           "tinyText": [],
           "clipped": 0,
           "contrast": {
-            "min": 7.89,
+            "min": 7.98,
             "low": []
           }
         },
@@ -3034,7 +3034,7 @@
           "tinyText": [],
           "clipped": 0,
           "contrast": {
-            "min": 7.89,
+            "min": 7.98,
             "low": []
           }
         },
@@ -3060,8 +3060,8 @@
       "slug": "scan-code",
       "title": "Hacker: Scan and the final Code",
       "file": "design/phone-ui/review/sheets/42-scan-code.jpg",
-      "sha256": "301818b56ec429da8ea382c2c97580414e9455d1bfc48e50753d01448b392b08",
-      "bytes": 410265,
+      "sha256": "e9e6c5d113fc63bda8c6f20dfed25d167ae15b9f944864e048db4e448b7ec5ce",
+      "bytes": 412178,
       "size": {
         "width": 2288,
         "height": 1227
@@ -3133,7 +3133,7 @@
           "tinyText": [],
           "clipped": 0,
           "contrast": {
-            "min": 5.38,
+            "min": 5.46,
             "low": []
           }
         }
@@ -3145,8 +3145,8 @@
       "slug": "hospital-panel",
       "title": "Hospital panel",
       "file": "design/phone-ui/review/sheets/43-hospital-panel.jpg",
-      "sha256": "085246a7b099daa39082ca2e897cb8851e956fb7b574cd019e7ac52268a1a777",
-      "bytes": 275251,
+      "sha256": "f3dc3d08cc55b9bfcd1280dc480f026a25bc3c892f312d2ceca9ab1c265d68af",
+      "bytes": 275247,
       "size": {
         "width": 2288,
         "height": 1258
@@ -3230,8 +3230,8 @@
       "slug": "end",
       "title": "Blackhole, elimination and the end of a match",
       "file": "design/phone-ui/review/sheets/44-end.jpg",
-      "sha256": "9354fa8ef2307a9a1ff971349ee2c0cd30a284934587e323dfb6a0e555b1c5f2",
-      "bytes": 298475,
+      "sha256": "d6f95b4e9f3192832f59065f11d82cb9d2253de416296f08e14205ebe5e2c0b5",
+      "bytes": 299089,
       "size": {
         "width": 2288,
         "height": 1227
@@ -3315,8 +3315,8 @@
       "slug": "system",
       "title": "Loading, reconnecting and the unexpected",
       "file": "design/phone-ui/review/sheets/45-system.jpg",
-      "sha256": "417869bcfe953e5e2f515e35eff8e35d151fe14c7699443ae7b354be1d1389a9",
-      "bytes": 353234,
+      "sha256": "b680079fedf3224de6d5dfab2d7ca65a36ac7f7c26d86b7a3618e54d15b77754",
+      "bytes": 354866,
       "size": {
         "width": 2288,
         "height": 1227
@@ -3400,8 +3400,8 @@
       "slug": "viewport-320",
       "title": "320 × 568",
       "file": "design/phone-ui/review/sheets/50-viewport-320.jpg",
-      "sha256": "5699753224ab7f011b106386c95da55de965451f280ffeb47d96f4a7eb9baf8b",
-      "bytes": 282088,
+      "sha256": "748b918b5cee6421f99943e0991ae2a0205b49b63abba1863309a2b8daf49c16",
+      "bytes": 282252,
       "size": {
         "width": 1938,
         "height": 951
@@ -3485,8 +3485,8 @@
       "slug": "viewport-430",
       "title": "430 × 932",
       "file": "design/phone-ui/review/sheets/51-viewport-430.jpg",
-      "sha256": "9d490c18b9d3b5cb1b87b7d40233daae6a4a7695bc3aa3377e35cd5af6df7685",
-      "bytes": 414508,
+      "sha256": "f5bc6642dd81ddc323011de1a2379ac516c723227e9771fbae94eb2003e89019",
+      "bytes": 415453,
       "size": {
         "width": 2006,
         "height": 1315
@@ -3556,8 +3556,8 @@
       "slug": "browser-chrome",
       "title": "In Safari, with its toolbars",
       "file": "design/phone-ui/review/sheets/52-browser-chrome.jpg",
-      "sha256": "94d6b8cc91af81ad040c712ce915a2ad61989be631e7752f06faa5ccbf38526a",
-      "bytes": 306038,
+      "sha256": "8cd385cf3203f3f46183cebfb5c8d7f0b243dcbda4bc5b35e7927b9902f88b08",
+      "bytes": 306456,
       "size": {
         "width": 1846,
         "height": 1137
@@ -3627,8 +3627,8 @@
       "slug": "larger-text",
       "title": "Larger text",
       "file": "design/phone-ui/review/sheets/53-larger-text.jpg",
-      "sha256": "be4e1e5c540c06a8fdcf84ff0641153293501ed4019573319f09d579d7932c09",
-      "bytes": 392963,
+      "sha256": "a48117da460a91228081f73f8d0fe660d2182dfea7c2250e547e39ca7c67ef8d",
+      "bytes": 394013,
       "size": {
         "width": 2288,
         "height": 1227
@@ -3712,8 +3712,8 @@
       "slug": "reduced-motion",
       "title": "Reduce motion",
       "file": "design/phone-ui/review/sheets/54-reduced-motion.jpg",
-      "sha256": "baba1f2c5432c4b19c15b1f97c9e308db21a540087813a8ed087d2b0870047b5",
-      "bytes": 242316,
+      "sha256": "c930ece55058adb1f9310dfe057255d8f8418ef33c222296449116191d523d74",
+      "bytes": 244282,
       "size": {
         "width": 1846,
         "height": 1254
@@ -3779,6 +3779,119 @@
       "problems": []
     },
     {
+      "id": "55",
+      "slug": "ambient-motion",
+      "title": "Ambient motion in the rooms",
+      "file": "design/phone-ui/review/sheets/55-ambient-motion.jpg",
+      "sha256": "af175623387289ea3b050c53b0b5e461edb163b6c243d1adbb44216f8b7bfb9d",
+      "bytes": 583975,
+      "size": {
+        "width": 3172,
+        "height": 1254
+      },
+      "frames": [
+        {
+          "label": "Room A · 45 s",
+          "src": "s=room&room=room-a&state=own&amb=45&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0,
+          "contrast": {
+            "min": 9.79,
+            "low": []
+          }
+        },
+        {
+          "label": "Room B · 46 s",
+          "src": "s=room&room=room-b&amb=46&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0,
+          "contrast": {
+            "min": 10.62,
+            "low": []
+          }
+        },
+        {
+          "label": "Command Room · 58 s",
+          "src": "s=room&room=command-room&state=own&amb=58&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0,
+          "contrast": {
+            "min": 9.79,
+            "low": []
+          }
+        },
+        {
+          "label": "Hospital · 1.6 s",
+          "src": "s=room&room=hospital&amb=1.6&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0,
+          "contrast": {
+            "min": 6.17,
+            "low": []
+          }
+        },
+        {
+          "label": "Jail · 2.5 s",
+          "src": "s=room&room=jail&amb=2.5&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0,
+          "contrast": {
+            "min": 10.62,
+            "low": []
+          }
+        },
+        {
+          "label": "Private talk · 4 s",
+          "src": "s=talk&stage=talk&amb=4&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0,
+          "contrast": {
+            "min": 10.65,
+            "low": []
+          }
+        },
+        {
+          "label": "Blackout · 45 s",
+          "src": "s=blackout&state=dark&amb=45&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0,
+          "contrast": {
+            "min": 9.79,
+            "low": []
+          }
+        }
+      ],
+      "problems": []
+    },
+    {
       "id": "60",
       "slug": "art-status",
       "title": "Approved art not yet in the playable build",
@@ -3797,8 +3910,8 @@
       "slug": "today-vs-proposal",
       "title": "Today’s playable build and this proposal",
       "file": "design/phone-ui/review/sheets/61-today-vs-proposal.jpg",
-      "sha256": "9eb3cb25d42d2d3be42d339a97f05edc0e1bca0ab450f2f7a8bb0aab85fd7744",
-      "bytes": 352722,
+      "sha256": "f5c45070a0eeba1c89eb2ba6a95e865abec49fe52244753958d08d2a0f008146",
+      "bytes": 353322,
       "size": {
         "width": 1800,
         "height": 1209

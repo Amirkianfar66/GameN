@@ -6,7 +6,7 @@ The complete phone interface of the Planet game, from the owner's playtest feedb
 
 | Path | What it is |
 | --- | --- |
-| `prototype/` | The editable source: `index.html` (the clickable prototype; `?s=<screen>&…` draws one state), `kit.css` (the shared components, tokens 0.5.0), `screens.css`, `icons.mjs` (the icon family), `ui.mjs` (components), `art.mjs` (the game's own art and placement, read-only), `fixtures.mjs` (synthetic), `screens-*.mjs` (every screen) |
+| `prototype/` | The editable source: `index.html` (the clickable prototype; `?s=<screen>&…` draws one state), `kit.css` (the shared components, tokens 0.5.0), `screens.css`, `icons.mjs` (the icon family), `ui.mjs` (components), `art.mjs` (the game's own art and placement, read-only), `ambient.mjs` and `ambient.css` (the rooms' ambient motion), `fixtures.mjs` (synthetic), `screens-*.mjs` (every screen) |
 | `sheets/` | `catalog.mjs` (the numbered sheets and their frames), `sheet.html` (one sheet), `contact.html` (all of them) |
 | `assets/` | Reusable exports: `icons.svg` (sprite) and `icons.json` (names, accessible labels, hashes), written by `design/tools/phone-ui-assets.mjs` |
 | `review/` | The rendered sheets (`sheets/*.jpg`), the contact sheet, `checks.json` (every frame measured) and `inputs/` (two review images from PR 197, with provenance) |

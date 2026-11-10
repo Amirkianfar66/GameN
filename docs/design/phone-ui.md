@@ -9,7 +9,7 @@
 
 | | |
 | --- | --- |
-| Sheets | [`design/phone-ui/review/sheets/`](../../design/phone-ui/review/sheets/): 56 numbered sheets. [`contact-sheet.jpg`](../../design/phone-ui/review/contact-sheet.jpg) shows all of them. |
+| Sheets | [`design/phone-ui/review/sheets/`](../../design/phone-ui/review/sheets/): 57 numbered sheets. [`contact-sheet.jpg`](../../design/phone-ui/review/contact-sheet.jpg) shows all of them. |
 | Clickable prototype | [`design/phone-ui/prototype/index.html`](../../design/phone-ui/prototype/index.html). On a desktop it shows a phone and its flows; on a phone it fills the screen. `design/tools/phone-ui-clickable.mjs` exports it as rendered screens with each screen's own tap areas (261 states), which is how the owner's private review copy was made. |
 | Frontend handoff | [phone-ui-handoff.md](phone-ui-handoff.md): each sheet mapped to components, states, assets, audiences and the data it needs. |
 | Backend and Integration | [DSN-REQ-19 to DSN-REQ-21](integration-requests.md#dsn-req-19): the dependencies, kept separate from the visual decisions. |
@@ -29,6 +29,7 @@ The requirements came with the request of 9 November 2026, from the owner's play
 - **Voting.** Vote replaces Pass during a vote and opens a 3 × 3 grid of the real participants. Results use the same grid.
 - **The role stage.** The private role stage lasts exactly 30 seconds: the role card for 20 seconds, then the role's existing ten-second film.
 - **Blackout.** It must be usable before voting.
+- **A ship that moves.** Then the owner asked for rooms that are not static: windows where the ship seems to move through space, live screens, and keys and lights going on and off (9 and 10 November; see "Ambient motion in the rooms" below).
 
 ## The sheets
 
@@ -42,7 +43,7 @@ The requirements came with the request of 9 November 2026, from the owner's play
 | K–N | 27 each tab, opened · 27.1–27.5 each tab, tap by tap (Board, Actions, Pass and Vote, Card, Panels) · 27.6 the top bar's Promises and ⋮, tap by tap · 28 Actions · 29 targeting and registering · 30 Blackout · 31 Card · 32 Panels and Settings · 33 Promises · 34 Windows |
 | O–P | 35 Jail vote · 36 Captain election and stable placement · 37 Captain results · 38 Jail results |
 | Q | 40 Captain and Officer · 41 navigation · 42 Scan and the final Code · 43 Hospital panel · 44 Blackhole, elimination and the end · 45 loading, reconnecting and the unexpected |
-| Viewports | 50 320 × 568 · 51 430 × 932 · 52 in Safari with its toolbars (390 × 664) · 53 larger text (150% and 200%) · 54 Reduce motion |
+| Viewports and motion | 50 320 × 568 · 51 430 × 932 · 52 in Safari with its toolbars (390 × 664) · 53 larger text (150% and 200%) · 54 Reduce motion · 55 ambient motion in the rooms |
 | Art | 60 approved art not yet in the playable build · 61 today's build beside this proposal |
 
 ## Design decisions
@@ -119,6 +120,20 @@ These are routine decisions, made by Designer under the brief. The owner can ove
 - Recovery codes stay on the host's phone, hidden until revealed.
 - A view or tab switch reveals nothing new.
 
+## Ambient motion in the rooms (sheet 55)
+
+The owner asked on 9 November: "The monitors and screens look not static. Windows of spaceship in any room not static feeling like the spaceship moving in space. Some color buttons and lights on/ off generally some dynamic environment". Room A was drawn first and approved, and its window was made a voyage; Room B got a window; then: "Yes i am happy you can go for all rooms". The source is `prototype/ambient.mjs` and `ambient.css`; the timings are in the [handoff](phone-ui-handoff.md#ambient-motion-in-the-rooms).
+
+- **Windows: a voyage each.** Stars drift past at three depths, dust clouds and a far galaxy slower still, with now and then a shooting star. Over one loop the room's own planet leaves and comes back, and other things cross the glass:
+  - Room A (90 s): a ringed gold giant, a grey moon, a comet and tumbling asteroids;
+  - Room B (110 s): its middle screen is now a three-pane window in the room's own style, with a teal planet, a cream banded giant, two small moons, a comet and asteroids. Its atom diagram moved to the small screen on the right wall, where the slit window was;
+  - Command Room (120 s): its vast cream world sinks out of sight and rises again; a comet, a ringed cream giant, a far double star, an asteroid belt and a moon pass;
+  - Hospital (100 s): its cream world sinks and rises in the tall window; a comet, a small ringed giant, asteroids and a moon go by.
+- **Screens, keys and lights.** Screens retype, scroll, ping and beat (Room A's monitors and console, Room B's atom screen and readout, the Command Room's four consoles, the Hospital's heart monitor). Keys light in turn, small lights blink, bubbles rise in Room B's tank, the ward's ceiling vent turns. The Jail (no window) keeps a blinking cursor on its keypad, a standby scan on the door's display, light running along its pipes and dust in its lamp's light; the private-talk capsule's panel lamps blink and dust drifts in its lamp's light.
+- **Never a game fact.** It is the same on every phone at every moment and is drawn from the room alone. No window shows a blue, red or lavender world or a black hole, and nothing follows the ship's course, which only the Captain and Officer know. No team colour is used. Nothing moves that the game uses to say something: the Command Room's chart table, the Hospital's berth monitors and lamps, the Jail's keypad keys and lamp, and the capsule's door light stay as drawn.
+- **Lights out.** In the Blackout's dark pictures every screen and light is off. The windows keep moving, dimmed by the dark pictures' own rule for space (42% of the colour over the night's dark), and Room B keeps its window and moved screen in the dark.
+- **Reduce motion** holds it still. The review sheets hold it at a fixed moment (`amb=<seconds>`, otherwise 0 s); `live=1` lets it run in the prototype.
+
 ## The role stage (F): 30 seconds
 
 1. **0 to 20 s:** the role card, large: the player's own character with the role's device, the role's name, the team and two facts.
@@ -187,6 +202,7 @@ Frontend's documents have similar stale lines (for example `docs/frontend/planet
 # View: any static server at the repository root, then open the prototype
 python3 -m http.server 8000   # http://localhost:8000/design/phone-ui/prototype/index.html
 # One state: index.html?s=vote&kind=jail&state=selected&safe=47,34
+# Ambient motion: …&live=1 lets it run; …&amb=45 holds it at 45 s (otherwise at 0 s)
 # Render every sheet, the contact sheet and checks.json (needs a Chromium-based browser in CHROME_PATH)
 node design/tools/phone-ui-render.mjs
 # Regenerate (or check) the icon exports
@@ -197,6 +213,7 @@ The prototype imports the game's own drawing modules and art, read-only:
 - the four-bed slot tables and framing from `apps/game/hosted/board-v2-drawing` and `scene-drawing`;
 - the crew drawing port, `apps/game/hosted/crew-drawing`;
 - the scene, lighting and capsule art from `design/board-motion` and `design/board-v2`, and the four-bed ward art;
+- the night rule for lights out, `design/board-v2/scenes/lighting.mjs`;
 - the crew portraits, cards and devices from `design/crew-drawing/assets`;
 - the result and claim art from `scene-drawing/phone-kit-art.mjs`;
 - the posters from `apps/game/candidates/planet-library`;
@@ -225,6 +242,7 @@ Nothing in `apps/` or `packages/` imports the pack.
   - the review files and their hashes, and every frame's measurements (contrast included) clean;
   - the room view's framing, for every room's fixture: wider than the first draft, filling the space between the bars, with everyone present in view;
   - a tap-by-tap sheet for each tab and for the top bar's Promises and ⋮, and every tap it draws landing on a control the prototype shows;
+  - the ambient motion: every room and the capsule, no team colour, the same markup every time, only the dimmed windows with the lights out, and still under Reduce motion;
   - the kit's colours against tokens 0.5.0;
   - the icon family and its exports;
   - the fixture label kept out of the interface;
@@ -234,12 +252,13 @@ Nothing in `apps/` or `packages/` imports the pack.
 **Not done:**
 - No physical phone, no iOS Safari or Android Chrome, no screen reader and no performance measurement. The safe areas and Safari toolbars are simulated, not measured.
 - The transitions were looked at in desktop Chromium's view transitions only.
+- The ambient motion was looked at frame by frame and in recorded clips from desktop Chromium. Its smoothness, battery use and frame rate on a phone were not measured.
 - None of this proves multiplayer correctness, pacing or balance.
 
 ### Measured
 
 From `design/phone-ui/review/checks.json`, written by the render that produced the committed sheets (Google Chrome for Testing 153, headless, desktop):
-- 56 sheets and 213 phone frames.
+- 57 sheets and 220 phone frames.
 - Every one of the 17 taps drawn on sheets 27.1–27.6 lands on a control the prototype shows.
 - Every text run is at least 4.5:1 against what is drawn behind it (3:1 for large text). The lowest is 4.59:1, on sheet 43.
 - Measuring contrast found, and this pack fixed:

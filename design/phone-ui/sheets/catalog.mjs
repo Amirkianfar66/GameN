@@ -158,6 +158,9 @@ export const SHEETS = Object.freeze([
     f('Room · Large', 's=room&room=room-a&state=own', { text: '1.5' }), f('Actions · Large', 's=actions&role=Doctor&active=4', { text: '1.5' }), f('Vote · Large', 's=vote&kind=jail&state=selected', { text: '1.5' }), f('Panels · Largest', 's=panels', { text: '2' }), f('Join · Largest', 's=join&state=no-room', { text: '2' })] },
   { id: '54', slug: 'reduced-motion', section: 'V', title: 'Reduce motion', sub: 'Films become their reviewed stills; sheets, results and the Blackout change directly or with the 80 ms fade. Same facts, same controls.', audience: '—', frames: [
     f('Role film · stills', 's=role&t=23000', { motion: 'reduced' }), f('Boarding · stills', 's=boarding&t=5200', { motion: 'reduced' }), f('Blackout dark', 's=blackout&state=dark', { motion: 'reduced' }), f('Result', 's=result&outcome=CAPTAIN_ELECTED', { motion: 'reduced' })] },
+  { id: '55', slug: 'ambient-motion', section: 'V', title: 'Ambient motion in the rooms', sub: 'Each window passes its own voyage; screens, keys and small lights move. One moment of each, held still; the same on every phone, never a game fact. Lights out: only the windows, dimmed.', audience: 'Everyone', frames: [
+    f('Room A · 45 s', 's=room&room=room-a&state=own&amb=45'), f('Room B · 46 s', 's=room&room=room-b&amb=46'), f('Command Room · 58 s', 's=room&room=command-room&state=own&amb=58'), f('Hospital · 1.6 s', 's=room&room=hospital&amb=1.6'),
+    f('Jail · 2.5 s', 's=room&room=jail&amb=2.5'), f('Private talk · 4 s', 's=talk&stage=talk&amb=4'), f('Blackout · 45 s', 's=blackout&state=dark&amb=45')] },
 
   // ── Art status and the change from today ──────────────────────────────
   { id: '60', slug: 'art-status', section: 'X', title: 'Approved art not yet in the playable build', kind: 'art', sub: 'So newer owner-approved art is not overlooked when this interface is built.' },

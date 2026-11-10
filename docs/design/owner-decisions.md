@@ -6,6 +6,27 @@ What the game owner decided about look, feel and presentation while working with
 
 The owner's messages are quoted as written.
 
+## 9 and 10 November 2026: a ship that moves
+
+**With the top bar settled, the owner asked for rooms that are not static.** Designer drew Room A first and sent a short silent video before doing the rest, as the owner prefers. The pack's account is in [phone-ui.md](phone-ui.md#ambient-motion-in-the-rooms-sheet-55).
+
+| What the owner said | What it decides | Where |
+| --- | --- | --- |
+| "Perfect some other points make the result better is : The monitors and screens look not static. Windows of spaceship in any room not static feeling like the spaceship moving in space. Some color buttons and lights on/ off generally some dynamic environment" | Every room gets an ambient layer: space goes by in its windows, screens retype, scroll and ping, keys and small lights go on and off. It is decorative and the same on every phone | `ambient.mjs`, `ambient.css`; sheet 55 |
+| "Room A is fine just for the window i try to create different stars planets effect to make the vast space interesting" | Room A's window shows a 90-second voyage: its planet leaves and returns, while a ringed giant, a moon, a comet and asteroids pass, stars drift at three depths, and dust, a galaxy and shooting stars go by | Room A |
+| "Lets create a window for Room B too" | Room B's middle screen becomes a three-pane window with its own 110-second voyage. Its atom diagram moves to the small screen on the right wall, where the slit window was | Room B |
+| "Yes i am happy you can go for all rooms" | The Command Room (120 s) and the Hospital (100 s) get voyages of their own; screens, keys and lights move in every room. The Jail, which has no window, and the private-talk capsule get quieter motion: a cursor, a scan, light along pipes, blinking lamps, and dust in a lamp's light | Sheet 55; the review copy's videos |
+
+**Designer's rules for it, which the owner can overrule:**
+- No window shows a blue, red or lavender world or a black hole, nothing follows the ship's course (only the Captain and Officer know it), and no team colour is used.
+- Nothing moves that the game uses to say something: the chart table, the berths' monitors and lamps, the Jail's keypad keys and lamp, the capsule's door light.
+- With the lights out (the Blackout), every screen and light is off and only the windows move, dimmed like the dark pictures' own windows.
+- Reduce motion holds it still.
+
+**What it does not decide:**
+- **Cost on phones:** not measured. The clips are desktop Chromium.
+- **Adoption:** nothing here is in the playable build. Frontend decides how to build it.
+
 ## 9 November 2026: the phone interface after the playtest
 
 **After a playtest, the owner asked for a complete phone interface design pack: a clean interface that feels like an iPhone app, around the approved comic-noir art.** The requirements came with the request of 9 November 2026. The owner's words are quoted below; Designer's answer is the pack in [phone-ui.md](phone-ui.md).

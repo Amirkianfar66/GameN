@@ -5,13 +5,15 @@
 //   …&safe=47,34                               simulated safe areas (top,bottom) for review frames
 //   …&text=1.5                                 the game's Large text setting (1, 1.5 or 2)
 //   …&motion=reduced                           Reduce motion
-//   …&live=1                                   clickable: controls move to the state they name
+//   …&live=1                                   clickable: controls move to the state they name; the rooms' ambient motion runs
+//   …&amb=3.5                                  the rooms' ambient motion held still at 3.5 s (otherwise at 0)
 //   index.html                                 the clickable prototype's stage (a phone and its flows)
 // Synthetic fixtures only; nothing here talks to a server.
 
 import { screenRegistry, FLOWS } from './screens.mjs';
 import { h, ic } from './ui.mjs';
 import { FIXTURE_LABEL } from './fixtures.mjs';
+import { settleAmbient } from './ambient.mjs';
 
 const app = document.getElementById('app');
 const read = () => Object.fromEntries(new URLSearchParams(location.search));
@@ -25,7 +27,7 @@ function applyEnvironment(p) {
 export function renderScreen(p) {
   applyEnvironment(p);
   const builder = screenRegistry()[p.s];
-  const root = h('div.ph', { 'data-screen': p.s, 'data-motion': p.motion === 'reduced' ? 'reduced' : null });
+  const root = h('div.ph', { 'data-screen': p.s, 'data-motion': p.motion === 'reduced' ? 'reduced' : null, 'data-live': p.live ? '' : null });
   if (p.safe) {
     const [t, b] = p.safe.split(',').map(Number);
     root.style.setProperty('--safe-t', `${t}px`);
@@ -35,6 +37,7 @@ export function renderScreen(p) {
   app.replaceChildren(root);
   if (!builder) { root.append(h('p', { style: { padding: '40px 20px' } }, `No screen "${p.s}".`)); return; }
   builder(root, p);
+  settleAmbient(root, { live: Boolean(p.live), at: Number(p.amb ?? 0) });
   if (p.safe && p.chrome !== '0') {
     root.append(h('div.ph-status', { 'aria-hidden': 'true' }, h('span', '9:41'), h('i')));
     if (Number(p.safe.split(',')[1]) > 0) root.append(h('div.ph-home', { 'aria-hidden': 'true' }));

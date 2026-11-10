@@ -19,7 +19,7 @@ import { SHEETS } from '../phone-ui/sheets/catalog.mjs';
 import { FLOWS, screenRegistry } from '../phone-ui/prototype/screens.mjs';
 
 const VIEW = Object.freeze({ width: 390, height: 844, scale: 1.5, safe: '47,34' });
-const DROP = new Set(['safe', 'chrome', 'text', 'live']);
+const DROP = new Set(['safe', 'chrome', 'text', 'live', 'amb']);
 
 /** One state's canonical address: its parameters without viewing options, in a fixed order. */
 export function stateKey(query) {

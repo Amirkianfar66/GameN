@@ -12,6 +12,9 @@
 //   - each tab (Board, Actions, Pass, Card, Panels) and the top bar's Promises and settings menu (⋮)
 //     have a tap-by-tap sheet (the owner, 9 November 2026), and every tap the sheets draw lands on a
 //     control the prototype really shows;
+//   - the rooms’ ambient motion (the owner, 9 and 10 November 2026) covers every room and the private-
+//     talk capsule, draws the same on every phone from nothing but the room, never uses a team’s
+//     colour, keeps only the windows (dimmed) with the lights out, and holds still under Reduce motion;
 //   - the kit’s colours are tokens 0.5.0’s, the icon family is whole and its exports are current;
 //   - synthetic-fixture labels stay outside the proposed interface; everything is development-only,
 //     and no game code imports the pack.
@@ -30,6 +33,8 @@ import { EDGE_CLEAR, LOCATION_OF, phoneFrame } from '../../../design/phone-ui/pr
 import { sceneOf, slotsOf } from '../../../apps/game/hosted/board-v2-drawing/slots-four.mjs';
 import { frameScene } from '../../../apps/game/hosted/scene-drawing/frame.mjs';
 import { phoneUiAssets } from '../../../design/tools/phone-ui-assets.mjs';
+import { AMBIENT_ROOMS, ambientLayer } from '../../../design/phone-ui/prototype/ambient.mjs';
+import { NIGHT } from '../../../design/board-v2/scenes/lighting.mjs';
 
 const REPO = fileURLToPath(new URL('../../../', import.meta.url));
 const PACK = join(REPO, 'design/phone-ui');
@@ -118,6 +123,48 @@ test('each tab and each top-bar button has a tap-by-tap sheet, and every tap dra
   const recorded = checks.sheets.flatMap(s => s.frames.filter(f => 'tap' in f).map(f => ({ ...f, sheet: s.id })));
   for (const f of recorded) assert.equal(f.tap, true, `${f.sheet} “${f.label}”: the tapped control is on screen`);
   assert.equal(recorded.length, SHEETS.flatMap(s => (s.frames ?? []).filter(f => f.tap)).length, 'the render checked every tap');
+});
+
+test('the rooms’ ambient motion covers every room, shows no game fact and is still under Reduce motion', () => {
+  const rooms = ['room-a', 'room-b', 'command-room', 'hospital', 'jail', 'capsule'];
+  assert.deepEqual(Object.keys(AMBIENT_ROOMS).sort(), [...rooms].sort(), 'every room and the capsule');
+  for (const room of ['room-a', 'room-b', 'command-room', 'hospital']) assert.ok(AMBIENT_ROOMS[room].windows?.[0]?.voyage, `${room} has a window with its own voyage`);
+  for (const room of ['jail', 'capsule']) assert.equal(AMBIENT_ROOMS[room].windows, undefined, `${room} has no window`);
+  // What the game uses to say something never moves: no keypad keys or lamp in the Jail.
+  assert.equal(AMBIENT_ROOMS.jail.keys, undefined, 'the Jail keypad’s keys never light');
+  assert.equal(AMBIENT_ROOMS.jail.lights, undefined, 'the Jail’s lamp is left as drawn');
+  const kinds = new Set(['giant', 'banded', 'ringed', 'moon', 'twins', 'binary', 'comet', 'rocks', 'belt']);
+  for (const [room, def] of Object.entries(AMBIENT_ROOMS)) for (const v of def.windows ?? []) {
+    for (const fb of v.voyage.flybys) assert.ok(kinds.has(fb.kind), `${room}: ${fb.kind} is one of the windows’ own things (never a black hole)`);
+    assert.ok(['room-a', 'teal', 'command', 'ward'].includes(v.voyage.home.kind), `${room}: its own world`);
+  }
+  // Drawn from the room alone: the module imports only the night rule, and draws the same markup every time.
+  const source = read('design/phone-ui/prototype/ambient.mjs');
+  assert.deepEqual([...source.matchAll(/^import .* from '([^']+)';$/gm)].map(m => m[1]), ['../../board-v2/scenes/lighting.mjs']);
+  const tokens = JSON.parse(read('packages/design-tokens/src/tokens-0.5.0.json'));
+  const css = read('design/phone-ui/prototype/ambient.css');
+  for (const hex of Object.values(tokens.color.factionPrivateOrRevealed)) {
+    assert.doesNotMatch(source + css, new RegExp(String(hex), 'i'), `no team colour (${hex})`);
+  }
+  const before = globalThis.document;
+  globalThis.document = { createElementNS: () => ({ attrs: {}, style: {}, dataset: {}, setAttribute(k, v) { this.attrs[k] = v; }, innerHTML: '' }) };
+  try {
+    const draw = (room, opts) => ambientLayer(room, { tx: 0, ty: 0, k: 1 }, opts)?.innerHTML.replace(/amb\d+-/g, 'amb-');
+    for (const room of rooms) assert.equal(draw(room), draw(room), `${room} draws the same every time`);
+    // Lights out: only the windows move, dimmed by the night rule; no screen, key or light.
+    for (const room of ['room-a', 'room-b', 'command-room', 'hospital']) {
+      const dark = draw(room, { dark: true });
+      assert.ok(dark.includes(`fill="${NIGHT.low}" opacity="${Number((1 - NIGHT.space).toFixed(2))}"`), `${room}: its windows dimmed with the lights out`);
+      assert.doesNotMatch(dark, /amb-(key|led|type|cursor|bar|ping|scroll|bubble|mote|glint|scan)/, `${room}: every screen and light off`);
+    }
+    for (const room of ['jail', 'capsule']) assert.equal(draw(room, { dark: true }), undefined, `${room}: nothing moves with the lights out`);
+  } finally {
+    globalThis.document = before;
+  }
+  assert.match(css, /mothership:dev-only/);
+  assert.match(css, /@media \(prefers-reduced-motion: reduce\) \{ \.amb \* \{ animation-play-state: paused !important; \} \}/, 'still under the system’s Reduce motion');
+  assert.match(css, /\[data-motion="reduced"\] \.amb \*/, 'still under the game’s Reduce motion');
+  assert.ok(SHEETS.some(s => s.slug === 'ambient-motion'), 'a review sheet shows a moment of each room');
 });
 
 test('the kit’s colours, type and motion are tokens 0.5.0', () => {

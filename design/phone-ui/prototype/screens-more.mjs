@@ -252,7 +252,7 @@ export const MORE_SCREENS = {
       const dims = measure(root);
       const host = h('div', { style: { position: 'absolute', left: '0', top: `${dims.top}px`, width: `${dims.width}px`, height: `${dims.height - dims.top}px` } });
       root.querySelector('.scene').append(host);
-      paintCapsule(host, { width: dims.width, height: dims.height - dims.top, pair: [1, SELF], seats: seatsFor(), busy: true, self: SELF });
+      paintCapsule(host, { width: dims.width, height: dims.height - dims.top, pair: [1, SELF], seats: seatsFor(), busy: true, self: SELF, ambient: true });
       root.append(h('div.menu-actions', { style: { gap: '10px' } },
         h('div', { style: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' } }, button('Promises', { kind: 'secondary', icon: 'promise', go: 's=promises&state=list' }), button('My card', { kind: 'secondary', icon: 'card', go: 's=card&role=Doctor' }))));
       return;

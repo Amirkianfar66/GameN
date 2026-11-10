@@ -81,6 +81,31 @@ Throughout the stage:
 
 None of these sets a deadline, and a missed animation never blocks a control.
 
+### Ambient motion in the rooms
+
+Source: `design/phone-ui/prototype/ambient.mjs` (what is drawn, per room) and `ambient.css` (the keyframes). One SVG per room, in the scene's own coordinates, placed with the art's frame just above the back picture (z −1998; the capsule's z 1) and under every person. It takes no taps and reads nothing but the room's name and whether the lights are out.
+
+| What | Motion | Pace |
+| --- | --- | --- |
+| Window stars | Three depths drift right to left, a tile each | 84 s, 42 s and 20 s per tile |
+| Dust clouds and the galaxy | Drift with the far stars, slower | One voyage per tile |
+| Shooting stars | Two, each now and then | Every 12 s and 17 s |
+| A window's voyage | The room's planet leaves and returns; other things cross once a loop | Room A 90 s · Room B 110 s · Command Room 120 s · Hospital 100 s |
+| Lines on a screen | Retype | 6.4 s |
+| A cursor | Blinks | 1.1 s |
+| A trace, a heartbeat | Scroll | 2.8 s; a beat every 1.2 s |
+| Console readouts | Change length in steps | 3.6–5.4 s |
+| A sonar ping | Rings out | 2.4 s |
+| Keys | Light one after another | 0.9 s apart (the capsule 1.6 s) |
+| Small lights | Blink: slow, fast, flicker | 2.2 s, 1.3 s, 3.1 s |
+| Bubbles, a vent, pipes, a display, dust | Rise, turn, glint, scan, drift | 4.2–6.9 s, 5 s, 7 s, 5 s, 9–16 s |
+
+- Only transforms, opacity, fills and stroke offsets animate. Everything starts at 0 s when the room is shown, so a still taken at a given time (`amb=<seconds>`) is the same picture everywhere.
+- **Lights out:** with the dark picture, only the windows are drawn, over it (z 2802): the same voyage under a #0C1018 layer at 58% (the night rule's space mix). Every screen and light is off. Room B's window and moved screen are drawn in the night colours.
+- **Reduce motion** pauses every animation where it stands (the system's setting and the game's).
+- It must stay decorative: no game state, role, team, route or timer may drive it, and no team colour may enter it.
+- Its cost on phones was not measured. If it costs too much there, slow the far layers first; a still frame at 0 s is always correct.
+
 ## Accessibility
 
 - Every control has words or an accessible name: the icon labels are in `icons.json`.

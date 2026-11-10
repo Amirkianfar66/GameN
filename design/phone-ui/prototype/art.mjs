@@ -23,6 +23,7 @@ import { dressedFigureSvg } from '../../../apps/game/hosted/crew-drawing/wardrob
 import { CAPSULE_SEATS, CAPSULE_SIZE, capsuleTargets, frameCapsule } from '../../../apps/game/hosted/board-v2-drawing/capsule-scene.mjs';
 import { sittingPose } from '../../../apps/game/hosted/board-v2-drawing/capsule-figures.mjs';
 import { iconSvg } from './icons.mjs';
+import { ambientLayer } from './ambient.mjs';
 
 export { BOARD_ROOMS, LOCATION_OF, CREW };
 
@@ -161,7 +162,7 @@ function officeBadge(kind) {
 export function paintRoom(host, opts) {
   const { room, roster = 9, seats = [], width, height, cap = 0, pad = 8, dark = false, darkPeople = false,
     targets = null, targetGo = null, picked = [], dimOthers = false, slots = null, self = null, active = null, offices = {},
-    tags = true, labelTop = 10, compact = false, blocked = null, status = true, fit = 'game' } = opts;
+    tags = true, labelTop = 10, compact = false, blocked = null, status = true, fit = 'game', ambient = false } = opts;
   host.replaceChildren();
   host.style.width = `${width}px`; host.style.height = `${height}px`;
   const panel = { width, height, cap, pad };
@@ -179,6 +180,10 @@ export function paintRoom(host, opts) {
       backgroundImage: layer.image, zIndex: String(2 * Math.round(layer.depth) + 1) });
     host.append(n);
   }
+  // Ambient motion (ambient.mjs): windows, screens and lights, just above the back picture; with the
+  // lights out, only the windows, dimmed, over the dark picture.
+  const amb = ambient ? ambientLayer(room, frame, { dark }) : null;
+  if (amb) host.append(amb);
   const press = new Map();
   for (const seat of present) {
     const slot = placeOf(seat);
@@ -255,7 +260,7 @@ export function paintRoom(host, opts) {
 }
 
 /** The private-talk capsule beside the Command Room, with the two participants seated. */
-export function paintCapsule(host, { width, height, pair = [], seats = [], dark = false, busy = true, self = null }) {
+export function paintCapsule(host, { width, height, pair = [], seats = [], dark = false, busy = true, self = null, ambient = false }) {
   host.replaceChildren();
   host.style.width = `${width}px`; host.style.height = `${height}px`;
   const panel = { width, height };
@@ -268,6 +273,9 @@ export function paintCapsule(host, { width, height, pair = [], seats = [], dark 
       backgroundImage: `url("${DESIGN}board-v2/assets/capsule/${id}.svg")`, zIndex: String(z) });
     host.append(n);
   }
+  // Ambient motion (ambient.mjs): the control panel's lamps and keys and dust in the lamp's light, just above the cabin's back.
+  const amb = ambient ? ambientLayer('capsule', scene, { dark }) : null;
+  if (amb) host.append(amb);
   const targets = capsuleTargets(panel);
   pair.forEach((seatNo, i) => {
     const seat = seats.find(s => s.seat === seatNo);

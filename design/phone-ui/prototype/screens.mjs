@@ -56,7 +56,7 @@ export function paintScene(host, dims, s) {
   const between = dims.height - dims.top - dims.bottom;
   const inner = h('div', { style: { position: 'absolute', left: '0', top: `${dims.top}px`, overflow: 'hidden' } });
   host.append(inner);
-  paintRoom(inner, { ...common, room: s.room, width: dims.width, height: between, cap: 46, pad: 8, fit: 'phone' });
+  paintRoom(inner, { ...common, room: s.room, width: dims.width, height: between, cap: 46, pad: 8, fit: 'phone', ambient: s.ambient ?? true });
   if (s.label !== false) host.append(h('div.room-label', { style: { top: `${dims.top + 10}px` } }, caption(ROOM_NAMES[s.room])));
   if (s.veil) host.append(h('div.scene-veil', { style: { background: s.veil } }));
 }
