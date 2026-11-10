@@ -1,6 +1,6 @@
 import type { ClinicalPresentationAnchor, PlanetCommand, PlanetOffer, PlanetSeatView, PlanetSlotId, SeatId } from '@mothership/contracts';
 import { registerPlanetPanelRequest, resolvePlanetPanelReservation } from './feedback.js';
-import { alive, canRoleAction, copyPlanet, freeHealthy, ordinaryStage, ownTurn, planetFaction, planetSeat, planetWorld, seatIds, storePlanetEvent, planetHasPrivateFeedback } from './model.js';
+import { alive, canRoleAction, copyPlanet, freeHealthy, ordinaryStage, ownTurn, planetFaction, planetSeat, planetWorld, seatIds, storePlanetEvent, planetHasPrivateFeedback, planetHasPhoneOffers } from './model.js';
 import type { PlanetGameState, PlanetPhysicalSeat, PlanetRegisteredAction, PlanetWorld } from './model.js';
 
 type PlanetLocation = NonNullable<PlanetSeatView['location']>;
@@ -162,8 +162,13 @@ export function planetPhysicalOffers(state:PlanetGameState,actorId:SeatId):Plane
   const supply=new Set<SeatId>();for(let a=0;a<ids.length;a++)for(let b=a+1;b<ids.length;b++)if(canPlanetPhysicalCommand(state,actorId,{type:'SUPPLY',targetSeatIds:[ids[a]!,ids[b]!]})){supply.add(ids[a]!);supply.add(ids[b]!);}
   if(supply.size)add('SUPPLY',[...supply]);
   for(const type of ['ACTIVATE_CLONE','REQUEST_BLACKOUT','ENGINEER_SUPPRESS','CAPTAIN_RELEASE','CAPTAIN_EJECT'] as const)if(canPlanetPhysicalCommand(state,actorId,{type}))add(type,[actorId]);
-  // Test availability using an arbitrary number, never offer the secret Doctor identity.
-  if(canPlanetPhysicalCommand(state,actorId,{type:'PANEL_CODE',doctorSeatId:ids[0]!}))add('PANEL_CODE');
+  if(planetHasPhoneOffers(state.versions)){
+    // Original public numbers are keypad choices, not correctness or stock feedback.
+    if(panelEligibleWithoutInventory(state,actorId))add('PANEL_CODE',[...ids].sort((a,b)=>numeric(a)-numeric(b)));
+  }else{
+    // Preserve historical availability probing and its empty metadata exactly.
+    if(canPlanetPhysicalCommand(state,actorId,{type:'PANEL_CODE',doctorSeatId:ids[0]!}))add('PANEL_CODE');
+  }
   return out;
 }
 
