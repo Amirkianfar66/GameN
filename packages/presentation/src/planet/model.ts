@@ -2,7 +2,7 @@ import type { PlanetBoardView, PlanetCommand, PlanetPlayerView, PlanetPublicView
 
 export type PlanetCommandType = PlanetCommand['type'];
 export type PlanetView = PlanetPublicView | PlanetPlayerView;
-export type PlanetPanel = 'board'|'actions'|'card'|'promises'|'windows'|'navigation'|'hospital';
+export type PlanetPanel = 'board'|'actions'|'card'|'promises'|'windows'|'navigation'|'hospital'|'panels'|'settings'|'players'|'round-order';
 export interface PlanetIdentity { readonly seatId: SeatId; readonly characterId: string | null; readonly displayName: string | null }
 export interface PlanetChoice { readonly value: string; readonly label: string }
 export interface PlanetActionModel {
@@ -22,6 +22,9 @@ export interface PlanetScreenModel {
   readonly endReveal: PlanetPublicView['endReveal']; readonly lastTally: PlanetPublicView['lastTally'];
   readonly identities: readonly PlanetIdentity[]; readonly panel: PlanetPanel; readonly concealed: boolean;
   readonly activeSeatId: SeatId | null; readonly ownSeatId: SeatId | null; readonly canPass: boolean; readonly canMove: boolean; readonly moveRooms:readonly ('Room A'|'Room B'|'Command Room')[]; readonly dark: boolean;
+  readonly ballot: PlanetPublicView['ballot'] | null;
+  readonly canVote: boolean; readonly ownBallot: PlanetPlayerView['ownBallot'];
+  readonly promiseOfferCount: number;
   readonly action: PlanetActionModel | null;
   readonly privateArea: null | {
     readonly role?: { readonly name: PlanetRole; readonly faction: string; readonly guide: string; readonly device: string | null };
@@ -89,11 +92,25 @@ export const PLANET_PROMISE_LABELS = Object.freeze({CAPTAIN_SUPPORT:'Captain Sup
 export function planetPromiseTerms(p:Pick<PlanetPlayerView['promises'][number],'kind'|'giverSeatId'|'recipientSeatId'|'targetSeatId'|'round'|'electionId'>):string {
  const giver=`Player ${p.giverSeatId.slice(5)}`,recipient=`Player ${p.recipientSeatId.slice(5)}`;
  switch(p.kind){
-  case 'CAPTAIN_SUPPORT':return `${giver} votes for ${recipient} in every applicable ballot, including runoffs, of the specified next Captain election agreed in Round ${p.round}.`;
+  case 'CAPTAIN_SUPPORT':return `${giver} votes for ${recipient} in every ballot of the specified next Captain election in which ${recipient} is a candidate, including runoffs (agreed in Round ${p.round}).`;
   case 'OFFICER_SELECTION':return `If ${giver} wins the specified next Captain election, appoint ${recipient} as Officer.`;
   case 'JAIL_VOTE':return `${giver} votes for Player ${p.targetSeatId?.slice(5)} at the next Jail vote of Round ${p.round}; admission is not required.`;
   case 'NO_JAIL_VOTE':return `${giver} does not vote for ${recipient} at the next Jail vote of Round ${p.round}.`;
   case 'MEET_A':return `${giver} will be in Room A when Round ${p.round}'s voting begins, after Sync.`;
   case 'MEET_B':return `${giver} will be in Room B when Round ${p.round}'s voting begins, after Sync.`;
+ }
+}
+
+/** A receipt confirms registration. Only an authorized projection may describe its effect. */
+export function planetRegistrationText(type:PlanetCommandType):string {
+ switch(type){
+  case 'ACTIVATE_CLONE':case 'ENGINEER_SUPPRESS':return 'Registered. Check your card for the current state.';
+  case 'REQUEST_HACK':case 'DECLARE_HACK_SIDE':return 'Registered. Private talk follows the current turn.';
+  case 'PROTECT':return 'Registered. Protection applies from the next normal round.';
+  case 'REGISTER_SHOT':case 'RESCUE':case 'SELECT_BLACKOUT_SLOT':return 'Registered. Resolution is pending.';
+  case 'VOTE':return 'Ballot registered.';
+  case 'MOVE':return 'Move registered. Waiting for the current board.';
+  case 'PANEL_CODE':return 'Attempt registered. Check the Hospital panel for its current state.';
+  default:return 'Registered. Waiting for the authoritative view.';
  }
 }

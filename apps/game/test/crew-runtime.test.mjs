@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import {test} from 'node:test';
-import {PLANET_GAME_PINS} from '@mothership/contracts';
+import {PLANET_GAME_PINS,PLANET_PHONE_OFFER_PINS} from '@mothership/contracts';
 import {hasCrewDrawing,crewFigureSvg,crewPortraitVariable,crewForVersions} from '../hosted/crew-runtime.mjs';
 import {CREW as oldCrew} from '../hosted/scene-drawing/crew.mjs';
 import {dressedFigureSvg as oldFigure} from '../hosted/scene-drawing/wardrobe.mjs';
@@ -29,6 +29,12 @@ test('all nine picture bindings use square app icons only on the selected crew r
   assert.equal(crewPortraitVariable(`c${n}`,historical),`var(--ms-asset-piece-crew-card-c${n}, none)`);
  }
  assert.equal(crewPortraitVariable('bad',current),'none');
+});
+test('exact phone1.2 pins retain every approved0.7/0.8 portrait and figure; near-miss tuples stay rejected',()=>{
+ for(const assetManifestVersion of ['design-0.7.0','design-0.8.0']){const phone={...PLANET_PHONE_OFFER_PINS,assetManifestVersion},released={...PLANET_GAME_PINS,assetManifestVersion};assert.equal(hasCrewDrawing(phone),true);
+  for(let n=1;n<=9;n++)for(const outfit of ['crew','gown','prison'])for(const pose of ['stand','walk','tablet']){const options={prefix:'same-public-figure',outfit};assert.equal(crewPortraitVariable('c'+n,phone),crewPortraitVariable('c'+n,released));assert.equal(crewFigureSvg('c'+n,skeletonOf(pose),{...options,versions:phone}),crewFigureSvg('c'+n,skeletonOf(pose),{...options,versions:released}));}
+  for(const patch of [{engineVersion:'planet-game-1.2.1'},{rulesetHash:'0'.repeat(64)},{rulesetVersion:'other'}]){assert.equal(hasCrewDrawing({...phone,...patch}),false);assert.equal(crewPortraitVariable('c1',{...phone,...patch}),'none');}
+ }
 });
 test('private role/faction inputs cannot select a different public character drawing',()=>{
  const sk=skeletonOf('stand'),options={versions:current,prefix:'public-person'};

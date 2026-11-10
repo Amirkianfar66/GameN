@@ -28,11 +28,20 @@ test('unknown explicit setup flow fails closed while historical reading keeps it
  const legacy=sessionRig();await legacy.session.start('planet-local');assert.equal(legacy.session.getModel().setupFlowVersion,null);assert.equal(legacy.session.getModel().status,'reading');legacy.session.revealRole(true);assert.equal(legacy.session.getModel().ownRole.role,'Hacker');legacy.session.dispose();
 });
 
-test('the schema compatibility checkpoint never exposes an unfinished timed role flow',async()=>{
+test('flow3 reveals its card on entry, uses the exact interval and still requires manual Ready',async()=>{
  const r=sessionRig();r.value.setupFlowVersion=3;r.value.setup={id:'timed-reading',startedAt:1000,roleFilmStartsAt:21000,endsAt:31000};
- await r.session.start('planet-local');r.session.revealRole(true);
- assert.equal(r.session.getModel().connection,'error');assert.equal(r.session.getModel().ownRole,null);assert.equal(r.session.getModel().canReady,false);assert.equal(r.session.getModel().setup,null);
- await r.advance(31000);await r.session.operate({operation:'ready',matchId:'planet-local'});assert.equal(r.requests.some(q=>q.operation==='ready'),false);r.session.dispose();
+ await r.session.start('planet-local');assert.equal(r.session.getModel().connection,'live');assert.equal(r.session.getModel().ownRole.role,'Hacker');assert.deepEqual(r.session.getModel().setup,r.value.setup);
+ await r.advance(25000);await r.session.refresh();assert.equal(r.session.getModel().canReady,false);assert.equal(r.session.getModel().ownRole.role,'Hacker');
+ r.session.setVisible(false);assert.equal(r.session.getModel().ownRole,null);r.session.setVisible(true);await r.session.refresh();assert.equal(r.session.getModel().ownRole.role,'Hacker');assert.equal(r.session.getModel().setup.roleFilmStartsAt,21000);
+ await r.advance(5001);await r.session.refresh();assert.equal(r.session.getModel().canReady,true);assert.equal(r.requests.some(q=>q.operation==='ready'||q.operation==='advance'),false);
+ await r.session.operate({operation:'ready',matchId:'planet-local'});assert.equal(r.requests.filter(q=>q.operation==='ready').length,1);assert.equal(r.session.getModel().ownRole,null);r.session.dispose();
+});
+test('a saved flow cannot change within a match and malformed timed boundaries fail closed',async()=>{
+ for(const setup of [{id:'x',endsAt:31000},{id:'x',startedAt:1000,roleFilmStartsAt:21001,endsAt:31000}]){const r=sessionRig();r.value.setupFlowVersion=3;r.value.setup=setup;await r.session.start('planet-local');assert.equal(r.session.getModel().connection,'error');assert.equal(r.session.getModel().ownRole,null);r.session.dispose();}
+ const r=sessionRig();await r.session.start('planet-local');r.value.setupFlowVersion=3;r.value.setup={id:'x',startedAt:1000,roleFilmStartsAt:21000,endsAt:31000};await r.session.refresh();assert.equal(r.session.getModel().connection,'error');assert.equal(r.session.getModel().ownRole,null);r.session.dispose();
+});
+test('a timed reading interval cannot restart under the same setup identity',async()=>{
+ const r=sessionRig();r.value.setupFlowVersion=3;r.value.setup={id:'timed',startedAt:1000,roleFilmStartsAt:21000,endsAt:31000};await r.session.start('planet-local');r.value.setup={id:'timed',startedAt:2000,roleFilmStartsAt:22000,endsAt:32000};await r.session.refresh();assert.equal(r.session.getModel().connection,'error');assert.equal(r.session.getModel().ownRole,null);assert.equal(r.session.getModel().canReady,false);r.session.dispose();
 });
 
 test('30-second minimum role reading and Ready require server-confirmed time; role starts concealed',async()=>{

@@ -85,7 +85,7 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
    members:s?.members??[],pendingAdmissions:s?.isHost?s.pendingAdmissions:[],setup:s?.setup??null,setupFlowVersion:s?.setupFlowVersion??null,setupClock:admitted()?t:{status:'unsynced'},remainingMs:remaining===null?null:Math.max(0,remaining),
    canChoose:!!s&&s.status==='choosing'&&!!own&&t.status==='synced'&&remaining!==null&&remaining>t.uncertaintyMs&&!busy&&!uncertain,
    canReady:!!s&&s.status==='reading'&&!!own&&!own.ready&&t.status==='synced'&&remaining!==null&&remaining<=-t.uncertaintyMs&&!busy&&!uncertain,
-   canReturnToLobby:canReturnToLobby(),busy,uncertain,ownRole:s?.status==='reading'&&revealed&&!own?.ready?s.privateRole:null,recoveryCode:s?code:null,
+   canReturnToLobby:canReturnToLobby(),busy,uncertain,ownRole:s?.status==='reading'&&revealed&&!own?.ready&&(s.setupFlowVersion!==3||t.status==='synced'&&s.setup?.startedAt!==undefined&&t.serverNowMs-t.uncertaintyMs>=s.setup.startedAt)?s.privateRole:null,recoveryCode:s?code:null,
    pendingAdmission:visible&&auth()&&join&&!knownAdmitted()?{kind:join.kind,roomCode:join.roomCode,status:snapshot&&standingMatches(snapshot)?snapshot.admission?.status??null:null}:null};
  }
  function emit(){if(disposed)return;const model=getModel();for(const listener of listeners)listener(model);}
@@ -113,9 +113,7 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
   const parsed=PlanetSessionSnapshotSchema.safeParse(response.result);
   if(!parsed.success||parsed.data.matchId!==matchId||!planetSupportsAssets(parsed.data.versions)){conceal('The session response could not be verified.',true);return;}
   const next=parsed.data;
-  // Compatibility checkpoint only: widened contract types do not enable a new film schedule.
-  // A following reviewed consumer implements flow 3's interval before this guard is lifted.
-  if(next.setupFlowVersion!==undefined&&next.setupFlowVersion!==2){conceal('This setup flow requires an updated app.',true);return;}
+  if(next.setupFlowVersion!==undefined&&next.setupFlowVersion!==2&&next.setupFlowVersion!==3){conceal('This setup flow requires an updated app.',true);return;}
   if(recoveredSeat!==null&&next.selfSeatId!==recoveredSeat){conceal('The recovered seat could not be verified.',true);return;}
   if([next.publicView,next.playerView].some(v=>v&&(v.matchId!==next.matchId||JSON.stringify(v.versions)!==JSON.stringify(next.versions)))){conceal('The session view versions could not be verified.',true);return;}
   if(!standingMatches(next)){conceal('The admission request could not be verified.',true);return;}
@@ -135,7 +133,10 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
    conceal('The session audience could not be verified.',true);return;
   }
   if(snapshot&&JSON.stringify(snapshot.versions)!==JSON.stringify(next.versions)){conceal('The session version changed unexpectedly.',true);return;}
-  if(snapshot?.setup?.id!==next.setup?.id||snapshot?.status!==next.status)revealed=false;
+  if(snapshot&&snapshot.setupFlowVersion!==next.setupFlowVersion){conceal('The saved setup flow changed unexpectedly.',true);return;}
+  if(next.setupFlowVersion===3&&next.status==='reading'&&snapshot?.status==='reading'&&snapshot.setup?.id===next.setup?.id&&JSON.stringify(snapshot.setup)!==JSON.stringify(next.setup)){conceal('The timed role interval changed unexpectedly.',true);return;}
+  const entering=snapshot?.setup?.id!==next.setup?.id||snapshot?.status!==next.status||!fresh;
+  if(entering)revealed=next.status==='reading'&&next.setupFlowVersion===3;
   // Keep the original caller/request binding across approval and reload. A recovered
   // member clears it only after the verified recovery response, before reading its seat.
   if(!join&&next.admission)join={matchId:next.matchId,roomCode:next.roomCode,requestId:next.admission.requestId,kind:next.admission.kind};

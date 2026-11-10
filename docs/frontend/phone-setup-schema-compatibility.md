@@ -1,5 +1,7 @@
 # Setup schema compatibility checkpoint
 
+Historical narrow dependency at `eec7a5f8`. The subsequent [full phone consumer](phone-ui-handoff.md) replaces its temporary non-2 guard with the reviewed setup3 interval implementation. The checkpoint and its Integration review remain useful as the independently tested schema/build bridge.
+
 Base: `fb33cecbf4b0fc2bef5d107e79ae2aac0ed7be70`. This narrow Frontend dependency lets the shared schema honestly include setup flow 3 while its native timed-reading consumer is under review.
 
 The model derives `setupFlowVersion` and the complete `setup` interval from `PlanetSessionSnapshot`, including the candidate's `roleFilmStartsAt`. The actual Backend candidate at `packages/contracts/src/planet-service.ts` was read on 10 November: flow 3 reading requires `startedAt`, `roleFilmStartsAt = startedAt + 20000`, and `endsAt = startedAt + 30000` with a complete character roster; boarding remains a separate 10000 ms interval.

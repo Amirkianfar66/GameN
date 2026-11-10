@@ -1,0 +1,7 @@
+// Native semantic controls. Designer #207 icon/source adoption is reviewed separately.
+const paths={board:'M3 3h7v7H3z M14 3h7v7h-7z M3 14h7v7H3z M14 14h7v7h-7z',room:'M4 21V4l12-2v19 M16 7h4v14 M11 12h1',actions:'m13 2-9 12h7l-1 8 10-13h-8z',card:'M5 3h14v18H5z M9 8h6 M9 12h6 M9 16h3',panels:'m12 3 10 5-10 5L2 8z M3 12l9 5 9-5 M3 17l9 5 9-5',pass:'m5 4 12 8L5 20z M20 4v16',vote:'m7 10 4 4 7-9 M4 12H2v9h20v-9h-3',promises:'m2 8 5-4 5 2 5-2 5 4-3 8-5 4-4-3-4-1z M7 8l4-2 5 5-3 3-5-3',settings:'M12 5h.01 M12 12h.01 M12 19h.01',close:'m6 6 12 12 M6 18 18 6',clock:'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18 M12 7v6l4 2'};
+export function phoneIcon(document,name){
+ const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.classList.add('planet-icon');svg.setAttribute('viewBox','0 0 24 24');svg.setAttribute('aria-hidden','true');svg.setAttribute('focusable','false');
+ const path=document.createElementNS(svg.namespaceURI,'path');path.setAttribute('d',paths[name]??paths.actions);path.setAttribute('fill','none');path.setAttribute('stroke','currentColor');path.setAttribute('stroke-width',name==='settings'?'3.8':'1.8');path.setAttribute('stroke-linecap','round');path.setAttribute('stroke-linejoin','round');svg.append(path);return svg;
+}
+export function labelPhoneControl(node,label,icon){node.replaceChildren(phoneIcon(node.ownerDocument,icon));const text=node.ownerDocument.createElement('span');text.className='planet-control-label';text.textContent=label;node.append(text);node.setAttribute('aria-label',label);node.title=label;return node;}

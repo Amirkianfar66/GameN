@@ -28,7 +28,7 @@ export function boardV2SceneFrame(roster,seats,{panels,pressAreas,geometry={scen
  if(problems.length)return {rooms:[],problems};
  for(const room of BOARD_ROOMS){
   const panel=panels[room];if(!panel||panel.width<=0||panel.height<=0){problems.push(`${room}: missing laid-out panel`);continue;}
-  const scene=geometry.sceneOf(room,roster),frame=frameScene(scene,panel),slots=geometry.slotsOf(room,roster);
+  const scene=geometry.sceneOf(room,roster),frame=(geometry.frameScene??frameScene)(scene,panel,room),slots=geometry.slotsOf(room,roster);
   // The revised approved layout supplies its exact slot rectangles. Do not substitute
   // the historical fixed-44 helper or copy an unadopted fit implementation here.
   const presses=new Map((pressAreas[room]??[]).map(rect=>[rect.id,rect]));

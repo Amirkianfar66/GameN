@@ -40,6 +40,7 @@ export function createPlanetPregame(clock:MonotonicClock,seenStore:UnresolvedCom
  let model:PlanetSessionModel|null=null,visibility:PregameVisibility={visible:false,focused:false,uid:null},receivedAt=clock.now(),disposed=false;
  let active:{film:PregameFilm;started:number;binding:string}|null=null,entryConsumed=skipEntry,suppressRole=skipRoleOnEntry,storageUsable=true;
  let boardingKey:string|null=null,maxBoardingElapsed=0;
+ let timedRoleKey:string|null=null,maxTimedRoleElapsed=0;
  const seen=new Set<string>(),dismissedBoarding=new Set<string>();
  try{const raw=seenStore.load();if(raw!==null){const list:unknown=JSON.parse(raw);if(!Array.isArray(list)||list.length>128||list.some(s=>typeof s!=='string'||s.length>1024))throw new Error();for(const value of list)seen.add(value as string);}}catch{storageUsable=false;}
  const remember=(key:string)=>{if(seen.has(key))return true;if(!storageUsable)return false;try{seen.add(key);while(seen.size>128)seen.delete(seen.values().next().value!);seenStore.save(JSON.stringify([...seen]));return true;}catch{storageUsable=false;seen.delete(key);return false;}};
@@ -56,6 +57,17 @@ export function createPlanetPregame(clock:MonotonicClock,seenStore:UnresolvedCom
  function sample():PregameFilm|null{
   if(!safe()||!model){active=null;return null;}
   const now=clock.now();
+  if(model.status==='reading'&&model.setupFlowVersion===3){
+   active=null;const own=ownFilm(),time=model.setupClock,setup=model.setup;
+   if(!own||time.status!=='synced'||!setup||setup.startedAt===undefined||setup.roleFilmStartsAt===undefined||setup.roleFilmStartsAt-setup.startedAt!==20000||setup.endsAt-setup.roleFilmStartsAt!==10000)return null;
+   const serverNow=time.serverNowMs+Math.max(0,now-receivedAt);
+   if(serverNow-time.uncertaintyMs<setup.roleFilmStartsAt||serverNow+time.uncertaintyMs>=setup.endsAt)return null;
+   const key=JSON.stringify(['timed-role',visibility.uid,model.matchId,setup.id,model.selfSeatId]);
+   if(seen.has(key)||dismissedBoarding.has(key))return null;
+   if(timedRoleKey!==key){timedRoleKey=key;maxTimedRoleElapsed=0;}
+   maxTimedRoleElapsed=Math.max(maxTimedRoleElapsed,serverNow-setup.roleFilmStartsAt);
+   return {kind:'role',key,t:maxTimedRoleElapsed,durationMs:10000,role:own.role,character:own.character,seat:own.seat};
+  }
   if(active){
    const t=Math.max(0,now-active.started);
    if(active.film.kind==='brand'){
@@ -66,7 +78,7 @@ export function createPlanetPregame(clock:MonotonicClock,seenStore:UnresolvedCom
    }
    if(active)return {...active.film,t};
   }
-  if(model.status!=='boarding'||model.setupFlowVersion!==2||!release()||model.setup===null||!('startedAt' in model.setup)||model.setupClock.status!=='synced')return null;
+  if(model.status!=='boarding'||![2,3].includes(model.setupFlowVersion??0)||!release()||model.setup===null||!('startedAt' in model.setup)||model.setupClock.status!=='synced')return null;
   const {id,startedAt,endsAt}=model.setup;
   if(typeof startedAt!=='number'||!Number.isFinite(startedAt)||!Number.isFinite(endsAt)||endsAt-startedAt!==10000)return null;
   const serverNow=model.setupClock.serverNowMs+Math.max(0,now-receivedAt),uncertainty=model.setupClock.uncertaintyMs;
@@ -90,7 +102,7 @@ export function createPlanetPregame(clock:MonotonicClock,seenStore:UnresolvedCom
    }
    if(model.status!=='reading'){
     if(active?.film.kind==='role')active=null;
-   }else if(!active){
+   }else if(model.setupFlowVersion!==3&&!active){
     const own=ownFilm(),key=readingKey(),time=model.setupClock;
     if(own&&key&&!seen.has(key)&&!suppressRole&&time.status==='synced'&&model.remainingMs!==null&&model.remainingMs-time.uncertaintyMs>=10000&&remember(key)){
      active={film:{kind:'role',key,t:0,durationMs:10000,role:own.role,character:own.character,seat:own.seat},started:clock.now(),binding:own.binding};
@@ -98,7 +110,7 @@ export function createPlanetPregame(clock:MonotonicClock,seenStore:UnresolvedCom
    }
    sample();
   },sample,
-  skip(){const film=sample();if(film?.kind==='boarding'){dismissedBoarding.add(film.key);remember(film.key);}active=null;},
+  skip(){const film=sample();if(film?.kind==='boarding'||film?.kind==='role'&&model?.setupFlowVersion===3){dismissedBoarding.add(film.key);remember(film.key);}active=null;},
   suppressRolePlayback(){suppressRole=true;active=null;},
   dispose(){disposed=true;model=null;active=null;seen.clear();dismissedBoarding.clear();boardingKey=null;},
  };
