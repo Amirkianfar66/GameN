@@ -223,8 +223,9 @@ function sheetPage(sheet) {
 //    disabled: WCAG 1.4.3 exempts them), in a picture (the rooms' art and ambient layer, a result's art) or
 //    in the simulated phone status bar. Text inside films (their own iframes) is not reached.
 // 2. The render tool captures the page four times, lossless at 1 px per CSS px: as drawn, with every letter
-//    filled black, with every letter filled white, and with every letter transparent (text shadows and
-//    decorations removed too, so a halo is never credited). White minus black is each pixel's glyph
+//    filled black, with every letter filled white (both without shadows), and with every letter transparent
+//    (a text's own halo, a shadow with no offset, kept as background, as WCAG's Understanding of 1.4.3
+//    counts a wide halo; drop shadows and decorations removed). White minus black is each pixel's glyph
 //    coverage. A letter's ink is the pixels it covers at least half (overlapping boxes go to the nearest
 //    letter); where the as-drawn pixel disagrees with the run's colour over the background, the pixel is
 //    not counted as that letter's.
@@ -328,15 +329,18 @@ function textLetters(f) {
   return { runs, clipped, clippedText, skipped };
 }
 
+/** A capture's exact pixels. Decoded from bytes, not a data: URL, so no network event carries the picture back to the render tool (which keeps every event). */
 async function decodePng(b64) {
-  const img = new Image();
-  img.src = `data:image/png;base64,${b64}`;
-  await img.decode();
+  const bin = atob(b64);
+  const bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  const bitmap = await createImageBitmap(new Blob([bytes], { type: 'image/png' }), { colorSpaceConversion: 'none', premultiplyAlpha: 'none' });
   const canvas = document.createElement('canvas');
-  canvas.width = img.width; canvas.height = img.height;
+  canvas.width = bitmap.width; canvas.height = bitmap.height;
   const g = canvas.getContext('2d', { willReadFrequently: true });
-  g.drawImage(img, 0, 0);
-  return g.getImageData(0, 0, img.width, img.height);
+  g.drawImage(bitmap, 0, 0);
+  bitmap.close();
+  return g.getImageData(0, 0, canvas.width, canvas.height);
 }
 
 const LIN = Float64Array.from({ length: 256 }, (_, v) => { const c = v / 255; return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4; });
@@ -457,20 +461,35 @@ function letterResults() {
   });
 }
 
-/** Every frame's text as drawn, filled black or white, or transparent; the sheet's tap rings off while measuring. */
+/**
+ * Every frame's text as drawn, filled black or white, or transparent; the sheet's tap rings off while
+ * measuring. Black and white draw the letters alone (no shadow), for their ink. Transparent keeps a text's
+ * own halo, a shadow with no offset, as part of what is behind it (WCAG's Understanding of 1.4.3 counts a
+ * wide halo as background), and removes drop shadows and decorations.
+ */
 const FILLS = { black: '#000', white: '#fff', hidden: 'transparent' };
+const OFFSET_SHADOWS = new Set();
+const hasOffset = shadow => shadow.split(/,(?![^(]*\))/).some(one => { const [x, y] = one.replace(/rgba?\([^)]*\)|#[0-9a-f]+|[a-z]+/gi, ' ').trim().split(/\s+/).map(parseFloat); return (x || 0) !== 0 || (y || 0) !== 0; });
 function textFill(frames, mode) {
+  for (const el of OFFSET_SHADOWS) el.style.removeProperty('text-shadow');
+  OFFSET_SHADOWS.clear();
   for (const f of frames) {
     try {
-      const doc = f.contentDocument;
+      const doc = f.contentDocument, win = f.contentWindow;
       doc.getElementById('sheet-text-fill')?.remove();
       const c = FILLS[mode];
       if (!c) continue;
       const s = doc.createElement('style');
       s.id = 'sheet-text-fill';
-      s.textContent = `*, *::before, *::after { -webkit-text-fill-color: ${c} !important; text-shadow: none !important; text-decoration-color: transparent !important; -webkit-text-stroke-width: 0 !important; }
+      s.textContent = `*, *::before, *::after { -webkit-text-fill-color: ${c} !important; ${mode === 'hidden' ? '' : 'text-shadow: none !important; '}text-decoration-color: transparent !important; -webkit-text-stroke-width: 0 !important; }
         text:not(svg.amb text), tspan:not(svg.amb tspan) { fill: ${c} !important; fill-opacity: 1 !important; stroke: none !important; }`;
       doc.head.append(s);
+      if (mode === 'hidden') {
+        for (const el of doc.querySelectorAll('*')) {
+          const shadow = win.getComputedStyle(el).textShadow;
+          if (shadow && shadow !== 'none' && hasOffset(shadow)) { el.style.setProperty('text-shadow', 'none', 'important'); OFFSET_SHADOWS.add(el); }
+        }
+      }
     } catch {}
   }
   document.getElementById('sheet-overlays-off')?.remove();

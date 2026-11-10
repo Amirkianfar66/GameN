@@ -53,7 +53,8 @@ These are routine decisions, made by Designer under the brief. The owner can ove
 **One interface language around the comic.**
 - The chrome is clean and dark, like iOS, with translucent bars, rounded controls, grouped lists and sheets.
 - **Sheets are clear glass over the room**, at the level the owner chose on 9 November (the clearest of three).
-  - A 20–34% tint, a 2 px blur, and the room behind darkened to 46%, with its colours raised to 130%. The room above a sheet isn't dimmed. The dim was 56% until the letter-by-letter check (below) found grey words over the brightest art under 4.5:1; the room still shows through.
+  - A 20–34% tint, a 2 px blur, and the room behind darkened to 56%, with its colours raised to 130%. The room above a sheet isn't dimmed. The owner kept this level on 10 November.
+  - Light words on glass carry a soft dark halo (three shadows with no offset, 1, 3 and 8 px). It darkens only what is right around each letter, so the glass stays clear while grey words keep 4.5:1 over the brightest art. Dark words on light fills (buttons, paper pills, stamps, badges, the comic cards) have none.
   - Boxes inside a sheet are a light dark layer (24%) with a thin light edge, and grey text on glass is brighter (`#DCE3EC`).
   - Text on glass was measured letter by letter against what is drawn behind it, in these renders (see "What was checked").
   - Where the phone asks for less transparency, or glass can't be drawn, sheets are solid again.
@@ -120,7 +121,8 @@ These are routine decisions, made by Designer under the brief. The owner can ove
 - In a 7- or 8-player match the last cells stay empty; no player is invented to fill them.
 - The result reuses the approved result art (star, tie burst, cell bars, empty cell and chair).
 - It shows the permitted counts and the number of eligible voters. It never shows who voted for whom.
-- **With the Largest text on a small phone** (sheet 56, 320 × 568 at 200%) the 3 × 3 becomes a list of whole names with their counts, the result's stamp and art step aside (its headline says the same), and the headline, the names and the foot scroll as one column. Seat badges grow with the text. At 390 × 844 and 100% nothing changes.
+- **With the Largest text on a small phone** (sheet 56, 320 × 568 at 200%) the 3 × 3 becomes a list of whole names with their counts, the result's stamp and art step aside (its headline says the same), and the headline, the names and the foot scroll as one column. Seat badges grow with the text. In each row the portrait is the size of the seat number beside it and on the name's line, and the count matches them (the owner, 10 November). At 390 × 844 and 100% nothing changes.
+- In the 3 × 3 results the count holds a cell's top-left corner and "You" its top-right one, so neither covers the other. Each count is shown once, by its badge: no "N votes" line under the name (the owner, 10 November); the cell's accessible name still says it.
 
 **Main menu.**
 - **Join** is the primary entry, because most of the table joins.
@@ -246,7 +248,7 @@ Nothing in `apps/` or `packages/` imports the pack.
   - page errors;
   - **text contrast, letter by letter:**
     - every visible character of every text run, with its box, its run's colour (with its alpha and every ancestor's opacity) and its threshold: 4.5:1, or 3:1 for large text (24 px, or 18.66 px bold);
-    - four lossless captures of the page at 1 px per CSS px: as drawn, every letter filled black, every letter filled white, every letter transparent (text shadows and decorations removed too, so a halo is never credited);
+    - four lossless captures of the page at 1 px per CSS px: as drawn, every letter filled black, every letter filled white (both without shadows), and every letter transparent. The transparent capture keeps a text's own halo, a shadow with no offset, as part of its background, as WCAG's Understanding of 1.4.3 counts a wide halo as background; drop shadows and decorations are removed;
     - white minus black is each pixel's glyph coverage. A letter's ink is the pixels it covers at least half; where letter boxes overlap, a pixel goes to the nearest letter, and a fully covered pixel whose drawn colour disagrees with its run's colour over the background is not counted as that letter's;
     - at every ink pixel and each pixel touching it, inside the letter's visible box, the WCAG 2 ratio between the run's colour (composited by its alpha) and the transparent-text capture. **A letter's ratio is its lowest pixel's; a run's is its lowest letter's;**
     - **moving backgrounds:** wherever a frame shows a room, its ambient motion was held at 16 moments of the 240-second voyage (every 15 s) besides the frame's own, the transparent-text capture repeated at each, and every letter kept its lowest ratio over all of them. A letter is counted as over a moving background where its background changed between moments;
@@ -281,15 +283,16 @@ Nothing in `apps/` or `packages/` imports the pack.
 From `design/phone-ui/review/checks.json`, written by the render that produced the committed sheets (Google Chrome for Testing 153, headless, desktop):
 - 61 sheets and 239 phone frames.
 - Every one of the 19 taps drawn on the sheets lands on a control the prototype shows.
-- **32,427 letters** measured; 482 of them over a moving background. Every letter is at least 4.5:1 at every pixel of its ink (3:1 for large text), at every sampled moment. The closest to its threshold: 4.85:1 against 4.5:1, the “R” of “Round 3” at 150% text (sheet 53, Actions · Large).
+- **32,078 letters** measured; 370 of them over a moving background. Every letter is at least 4.5:1 at every pixel of its ink (3:1 for large text), at every sampled moment. The closest to its threshold: 4.71:1 against 4.5:1, the “n” of “Be in Room A when voting starts”, a Promise kind's small print on glass (sheets 25 and 33).
 - 27 characters had no ink of their own to measure (marks too thin or too small to be half-covered); they are counted, not hidden.
 - **No text is cut off** in any frame.
 - The letter-by-letter check found what the earlier one (the 80th-percentile or median background behind a whole run) passed: 43 text runs below their threshold in 34 frames, the worst at 1:1. This pack fixed them all:
-  - grey words on glass over the brightest art: the glass now darkens the room to 46% (it was 56%);
+  - grey words on glass over the brightest art: a soft dark halo under light words on glass, with the glass kept at 56% (the owner, 10 November);
   - the amber target ring drawn across a name tag on the board: tags now sit above rings;
   - "You abstained", which sat at the foot of the roster under the sheet's footer: it is now above the roster;
   - a room-code letter's tail touching its box at 200% text: the boxes grow with their letter;
   - seat badges that stayed 22 px while their digits grew with the text.
+- Found by eye and fixed: in the 3 × 3 results "You" covered the player's own vote count; in the large-text rows a portrait was smaller than the seat number beside it and sat between two lines (the owner, 10 November).
 - Cut-off text found and fixed: the Captain's "Appoint an Officer" title (now "Appoint Officer"), top-bar titles at 150% on a 390 phone (the round now leaves the bar there), and the result's title and names at 320 × 568 with 200% text.
 - No frame scrolls sideways. No control is under 44 px. No visible text is under 11 px. There are no page errors.
 
@@ -315,7 +318,6 @@ Recorded from the review's coordination notes:
 
 ## Open questions for the owner
 
-- **The glass level:** to keep every letter at 4.5:1 over the brightest art, the glass now darkens the room to 46% instead of the 56% chosen on 9 November; tint, blur and colour are unchanged and the room still shows through. Keep 46%, or return to 56% with a different fix for the grey words (for example a darker layer behind text blocks only)?
 - **The main menu's hierarchy:** Join first and primary, as drawn, or Host first?
 - **The film and the Ready button:** Ready opens at 30 s, when the film ends. Should the film be skippable before then on a player's own phone? Skip is drawn and is local only.
 - **Pass in the centre outside your own turn:** it is drawn disabled, and it stays where it is so the bar never jumps.

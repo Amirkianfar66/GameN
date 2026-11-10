@@ -108,7 +108,8 @@ export const VOTE_SCREENS = {
       if (!e.ok) return cell(seat, { state: 'ineligible', note: e.note });
       const n = r.counts[seat.seat] ?? 0;
       const st = r.winner === seat.seat || r.tied?.includes(seat.seat) ? 'winner' : 'available';
-      return cell(seat, { state: st, count: n, note: `${n} ${n === 1 ? 'vote' : 'votes'}`, label: `Player ${seat.seat}, ${seat.name}, ${n} votes`, you: seat.seat === SELF });
+      // The count is said once, by its badge (the owner, 10 November); the accessible name still says it.
+      return cell(seat, { state: st, count: n, label: `Player ${seat.seat}, ${seat.name}, ${n} ${n === 1 ? 'vote' : 'votes'}`, you: seat.seat === SELF });
     });
     const gridEl = h('div.grid9', { role: 'group', 'aria-label': 'Result' }, cells.map(c => { if (c.tagName !== 'BUTTON') return c; const d = h('div.cell', { 'data-state': c.dataset.state, 'aria-label': c.getAttribute('aria-label') }); d.append(...c.childNodes); return d; }));
     // The head and the roster scroll together under the foot. Where the text is large for the width (the

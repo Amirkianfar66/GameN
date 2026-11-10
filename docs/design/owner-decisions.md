@@ -6,6 +6,18 @@ What the game owner decided about look, feel and presentation while working with
 
 The owner's messages are quoted as written.
 
+## 10 November 2026: the glass stays, and the rows line up
+
+**After Integration's review of the pack, the owner looked at the corrected sheets.** The pack's account is in [phone-ui.md](phone-ui.md).
+
+| What the owner said | What it decides | Where |
+| --- | --- | --- |
+| "keep the glass at 56%" | The glass sheets keep the level the owner chose on 9 November: the room behind a sheet at 56%, with its tint and blur. To keep every letter at 4.5:1 over the brightest art, light words on glass carry a soft dark halo instead, which darkens only what is right around each letter. Designer had proposed 46% | Every sheet with a glass sheet; the [handoff](phone-ui-handoff.md#the-shell), "Sheet" |
+| "also in sheets I saw vote results or some other results panel which the character Icon is not match with right number right to it vertically and in terms of size" | Where ballots and results become rows (larger text), each portrait is the size of the seat number beside it and on the name's line, and the vote count matches them. In the 3 × 3 results, "You" moves to the top-right corner so it no longer covers the vote count | Sheets 35–38, 53, 56 |
+| "why  we have under each the N votes text again, I think the number is clear" | A result says each player's count once, by its badge: the "N votes" line under the name is gone from the 3 × 3 and the rows. The cell's accessible name still says "Player 2, Ben, 4 votes"; reasons such as "In Jail" stay | Sheets 37, 38, 51, 54, 56 |
+
+**What it does not decide:** how the halo looks on a phone's screen; it was measured in desktop Chromium only.
+
 ## 9 and 10 November 2026: a ship that moves
 
 **With the top bar settled, the owner asked for rooms that are not static.** Designer drew Room A first and sent a short silent video before doing the rest, as the owner prefers. The pack's account is in [phone-ui.md](phone-ui.md#ambient-motion-in-the-rooms-sheet-55).

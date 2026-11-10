@@ -160,6 +160,8 @@
 .result-body .cell .pt { max-width: 74px; }
 .result-body .cell .cell-note { color: rgba(21,25,35,0.72); }
 .result-body .cell .num { background: var(--ink); color: var(--paper); }
+/* The count holds the top-left corner, so "You" takes the top-right one (a result has no check mark). */
+.result-body .cell .you { left: auto; right: 6px; }
 .result-body .cell[data-state="winner"] { background: #FBE7A1; box-shadow: inset 0 0 0 3px var(--ink); }
 .result-body .cell[data-state="empty"] { background: none; box-shadow: inset 0 0 0 1.5px rgba(21,25,35,0.12); }
 .result-body .cell[data-state="ineligible"] .pt, .result-body .cell[data-state="ineligible"] .cell-name { opacity: 0.4; }

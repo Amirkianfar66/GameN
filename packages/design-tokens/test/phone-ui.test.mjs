@@ -12,6 +12,7 @@
 //     private talk, a Clone and the Engineer's capture say what happened at once;
 //   - a hack declaration offers the same three sides to every role and lets only the Undercover and
 //     the Alien claim any; each Promise result is a valid match moment (one given, one received);
+//   - the glass keeps the owner's 56% with a halo under light words, and a result says each count once;
 //   - the room view is framed wider than the first draft (the owner found it too zoomed in, 9
 //     November 2026): it fills the space between the bars and keeps everyone present in view;
 //   - each tab (Board, Actions, Pass, Card, Panels) and the top bar's Promises and settings menu (⋮)
@@ -251,6 +252,16 @@ test('Promise results are valid match moments, and Captain Support says which ba
   }
   assert.deepEqual([...statuses].sort(), ['Condition not met', 'Fulfilled', 'Not fulfilled', 'Pending'], 'each result state is its own scenario');
   assert.match(read('design/phone-ui/prototype/screens-more.mjs'), /in every ballot of that election in which the recipient is a candidate/, 'Captain Support’s terms (P23)');
+});
+
+test('the glass keeps the owner’s level, light words on it carry a halo, and a result says each count once', () => {
+  const css = read('design/phone-ui/prototype/kit.css');
+  assert.match(css, /--glass-filter: blur\(2px\) saturate\(1\.3\) brightness\(0\.56\);/, 'the room at 56% behind glass (the owner, 9 November; kept 10 November)');
+  assert.match(css, /\.sheet \{[^}]*text-shadow: var\(--glass-halo\);/, 'light words on glass carry the halo');
+  assert.match(css, /--glass-halo: 0 0 1px [^;]+, 0 0 3px [^;]+, 0 0 8px [^;]+;/, 'the halo has no offset, so it surrounds each letter');
+  const vote = read('design/phone-ui/prototype/screens-vote.mjs');
+  assert.doesNotMatch(vote, /note: `\$\{n\} \$\{n === 1/, 'no “N votes” line under a counted name (the owner, 10 November)');
+  assert.match(vote, /label: `Player \$\{seat\.seat\}, \$\{seat\.name\}, \$\{n\} \$\{n === 1 \? 'vote' : 'votes'\}`/, 'the accessible name still says the count');
 });
 
 test('the kit’s colours, type and motion are tokens 0.5.0', () => {
