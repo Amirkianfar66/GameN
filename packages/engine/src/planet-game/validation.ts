@@ -1,14 +1,62 @@
-import { IdentifierSchema, PlanetVersionsSchema, PlanetRoundSchema, PlanetPhaseSchema, PlanetPromiseSchema, PlanetWindowDrawingSchema, PlanetEventSchema, PlanetResultSchema, PlanetTallySchema, PlanetCommandSchema, PlanetBoardViewSchema, validClinicalAnchorForPlayerCount, PlanetEngineerCaptureSchema, PlanetPanelRequestSchema, planetSupportsPhase } from '@mothership/contracts';
+import { IdentifierSchema, TimestampSchema, PlanetVersionsSchema, PlanetRoundSchema, PlanetPhaseSchema, PlanetPromiseSchema, PlanetWindowDrawingSchema, PlanetEventSchema, PlanetResultSchema, PlanetTallySchema, PlanetCommandSchema, PlanetBoardViewSchema, validClinicalAnchorForPlayerCount, PlanetEngineerCaptureSchema, PlanetPanelRequestSchema, planetSupportsPhase, PlanetBlackoutCheckpointSchema, planetCheckpointMatchesPhase } from '@mothership/contracts';
 import type { SeatId } from '@mothership/contracts';
 import type { PlanetGameContext, PlanetGameState } from './model.js';
-import { planetFaction, seatIds, planetWorld, freeHealthy, planetHasSyncPresentation, planetHasPrivateFeedback } from './model.js';
-import { planetSlotIds, planetJailOccupancy } from './physical.js';
+import { planetFaction, seatIds, planetWorld, planetSeat, planetSeatView, freeHealthy, planetHasSyncPresentation, planetHasPrivateFeedback, planetHasPreVoteBlackout } from './model.js';
+import { planetSlotIds, planetJailOccupancy, planetFrozenBlackoutTarget } from './physical.js';
 export function assertPlanetContext(context:PlanetGameContext):void {
   if(!Number.isSafeInteger(context.now)||context.now<0||context.now>Number.MAX_SAFE_INTEGER-60000||!IdentifierSchema.safeParse(context.nextPhaseId).success
     ||!IdentifierSchema.safeParse(context.nextDeadlineToken).success||!Array.isArray(context.random)||context.random.some(x=>!Number.isFinite(x)||x<0||x>=1))throw Error('Invalid recorded planet transition context');
 }
 function fail(ok:unknown,label:string):asserts ok {if(!ok)throw Error(`Invalid planet authority: ${label}`);}
 const distinct=(xs:readonly string[])=>new Set(xs).size===xs.length;
+function assertBlackoutBatch(s:PlanetGameState,ids:SeatId[]):void {
+  const candidate=planetHasPreVoteBlackout(s.versions);
+  if(!candidate){fail(!Object.hasOwn(s,'blackoutBatch')&&!Object.hasOwn(s.finalized,'checkpoint'),'historical Blackout shape');return;}
+  fail(Object.hasOwn(s,'blackoutBatch')&&s.blackoutBatch!==undefined,'candidate Blackout ledger');
+  const checkpoint=PlanetBlackoutCheckpointSchema.parse(s.finalized.checkpoint);
+  fail(planetCheckpointMatchesPhase(checkpoint,s.finalized.round,s.round,s.phase.kind),'shared physical publication checkpoint');
+  const batch=s.blackoutBatch;
+  if(batch===null){fail(!['BLACKOUT','JAIL_VOTE'].includes(s.phase.kind)&&checkpoint!=='AFTER_BLACKOUT','unopened Blackout');return;}
+  fail(batch!==undefined&&batch.round===s.round&&IdentifierSchema.safeParse(batch.windowId).success,'Blackout identity');
+  fail(TimestampSchema.safeParse(batch.startedAt).success&&TimestampSchema.safeParse(batch.endsAt).success&&batch.endsAt-batch.startedAt===15000,'saved Blackout interval');
+  fail(['OPEN','RESOLVED','ABORTED'].includes(batch.status)&&!s.blackholeActive&&Object.keys(s.worlds).length===1,'selected Blackout status');
+  PlanetBoardViewSchema.parse({kind:'FINALIZED',finalizedRound:batch.round,seats:batch.snapshot});
+  fail(batch.snapshot.length===ids.length&&batch.snapshot.every(seat=>ids.includes(seat.seatId)),'complete frozen original board');
+  fail(Array.isArray(batch.attempts)&&batch.attempts.length<=2&&distinct(batch.attempts.map(row=>row.actorSeatId)),'independent admitted attempts');
+  const world=planetWorld(s),requests=world.actions.filter(action=>action.command.type==='REQUEST_BLACKOUT');
+  if(batch.status==='OPEN'){
+    fail(s.phase.kind==='BLACKOUT'&&batch.windowId===s.phase.id&&batch.startedAt===s.phase.startedAt&&batch.endsAt===s.phase.endsAt&&batch.completedAt===null,'live Blackout binding');
+    fail(JSON.stringify(batch.snapshot)===JSON.stringify(world.seats.map(seat=>planetSeatView(world,seat))),'frozen Blackout occupancy and health');
+  }else{
+    fail(TimestampSchema.safeParse(batch.completedAt).success&&batch.completedAt!<=s.evaluatedAt&&batch.completedAt!>=batch.startedAt,'Blackout completion clock');
+    if(batch.status==='RESOLVED')fail(batch.completedAt!>=batch.endsAt&&s.phase.kind!=='BLACKOUT'&&requests.length===0,'completed Blackout cannot resolve twice');
+    else fail(s.phase.kind==='ABORTED','canceled pending batch only on match abort');
+  }
+  if(batch.status!=='RESOLVED')fail(requests.length===batch.attempts.length,'all admitted requests retained until completion');
+  for(const [index,row]of batch.attempts.entries()){
+    const original=batch.snapshot.find(seat=>seat.seatId===row.actorSeatId);
+    fail(original&&original.health==='Healthy'&&!original.jailed&&['Room A','Room B','Command Room'].includes(original.location??'')
+      &&row.boundRoom===original.location&&['Blue Disabler','Red Disabler'].includes(s.roles[row.actorSeatId]!)
+      &&IdentifierSchema.safeParse(row.commandId).success&&row.order===s.turnOrder.indexOf(row.actorSeatId)
+      &&(index===0||batch.attempts[index-1]!.order<row.order),'admitted actor and stored turn order');
+    fail(['PENDING','SELECTED','TIMED_OUT'].includes(row.selection),'attempt selection');
+    if(row.selection==='SELECTED'){
+      fail(row.selectedSlotId!==null&&planetSlotIds(row.boundRoom).includes(row.selectedSlotId)&&TimestampSchema.safeParse(row.selectedAt).success
+        &&row.selectedAt!>=batch.startedAt+5000&&row.selectedAt!<batch.endsAt
+        &&row.targetSeatId===planetFrozenBlackoutTarget(batch,row,row.selectedSlotId),'first frozen target or miss');
+    }else fail(row.selectedSlotId===null&&row.selectedAt===null&&row.targetSeatId===null,'no fabricated timeout choice');
+    fail(row.selection!=='TIMED_OUT'||batch.status==='RESOLVED','timeout only at completed window');
+    fail(planetSeat(world,row.actorSeatId).blackoutSpent===(row.selection!=='PENDING'),'exact lifetime spending');
+    if(batch.status==='RESOLVED'){
+      fail(row.selection!=='PENDING'&&['MISS','BLOCKED','INJURED','ELIMINATED','NO_EFFECT'].includes(row.outcome!)
+        &&(row.targetSeatId===null?row.outcome==='MISS':row.outcome!=='MISS'),'terminal attempt outcome');
+    }else{
+      fail(row.outcome===null,'unresolved attempt has no outcome');
+      const action=requests.find(value=>value.actorSeatId===row.actorSeatId&&value.commandId===row.commandId);
+      fail(action&&action.order===row.order&&action.boundRoom===row.boundRoom&&action.selectedSlotId===row.selectedSlotId,'request and admission agree');
+    }
+  }
+}
 export function assertPlanetGameState(value:unknown):asserts value is PlanetGameState {
   fail(value!==null&&typeof value==='object'&&!Array.isArray(value),'object');const s=value as PlanetGameState;
   PlanetVersionsSchema.parse(s.versions);fail(planetSupportsPhase(s.versions,s.phase.kind),'versioned phase');PlanetRoundSchema.parse(s.round);PlanetPhaseSchema.parse(s.phase);IdentifierSchema.parse(s.matchId);
@@ -97,6 +145,7 @@ export function assertPlanetGameState(value:unknown):asserts value is PlanetGame
   PlanetBoardViewSchema.parse({kind:'FINALIZED',finalizedRound:s.finalized?.round,seats:s.finalized?.seats});
   fail(s.finalized&&s.finalized.seats.length===ids.length&&isIds(s.finalized.seats.map(x=>x.seatId)),'finalized board');
   fail(Number.isInteger(s.finalized.round)&&s.finalized.round>=0&&s.finalized.round<=s.round,'finalized checkpoint');
+  assertBlackoutBatch(s,ids);
   fail(s.eventPublications!==null&&typeof s.eventPublications==='object','publication ledger');
   fail(Number.isInteger(s.revisions.public)&&s.revisions.public>=0&&ids.every(id=>Number.isInteger(s.revisions.players[id])&&s.revisions.players[id]!>=0),'audience revisions');
   if(s.ballot)fail(isIds(s.ballot.eligibleVoters)&&isIds(s.ballot.eligibleTargets)&&Object.entries(s.ballot.votes).every(([id,target])=>s.ballot!.eligibleVoters.includes(id as SeatId)&&(target===null||s.ballot!.eligibleTargets.includes(target))),'actual ballots');

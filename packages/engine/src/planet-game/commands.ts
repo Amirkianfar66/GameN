@@ -1,7 +1,7 @@
 import type { PlanetCommand, SeatId } from '@mothership/contracts';
-import { copyPlanet, planetWorld, planetSeat, alive, freeHealthy, ownTurn, canRoleAction, planetFaction, seatIds, planetHasPrivateFeedback } from './model.js';
+import { copyPlanet, planetWorld, planetSeat, alive, freeHealthy, ownTurn, canRoleAction, planetFaction, seatIds, planetHasPrivateFeedback, planetHasPreVoteBlackout } from './model.js';
 import type { PlanetGameState } from './model.js';
-import { physicalPlanetCommand, planetLocalTarget, planetSlotIds } from './physical.js';
+import { physicalPlanetCommand, planetLocalTarget, planetSlotIds, planetFrozenBlackoutTarget } from './physical.js';
 import { socialPlanetCommand } from './social.js';
 
 export function planetMovementOpen(state:PlanetGameState):boolean {
@@ -60,6 +60,15 @@ export function planetBaseCommand(state:PlanetGameState,actorId:SeatId,command:P
         ||(command.targetSeatId!==null&&!state.ballot.eligibleTargets.includes(command.targetSeatId)))return false;
       state.ballot.votes[actorId]=command.targetSeatId;return true;
     case 'SELECT_BLACKOUT_SLOT': {
+      if(planetHasPreVoteBlackout(state.versions)){
+        const batch=state.blackoutBatch,attempt=batch?.attempts.find(row=>row.actorSeatId===actorId);
+        if(state.phase.kind!=='BLACKOUT'||!batch||batch.status!=='OPEN'||command.windowId!==batch.windowId
+          ||now<batch.startedAt+5000||now>=batch.endsAt||!attempt||attempt.selection!=='PENDING'||!planetSlotIds(attempt.boundRoom).includes(command.slotId))return false;
+        attempt.selection='SELECTED';attempt.selectedSlotId=command.slotId;attempt.selectedAt=now;
+        attempt.targetSeatId=planetFrozenBlackoutTarget(batch,attempt,command.slotId);actor.blackoutSpent=true;
+        const request=world.actions.find(action=>action.actorSeatId===actorId&&action.commandId===attempt.commandId&&action.command.type==='REQUEST_BLACKOUT');
+        if(!request)throw Error('Missing admitted Blackout request');request.selectedSlotId=command.slotId;return true;
+      }
       const request=world.actions.find(a=>a.actorSeatId===actorId&&a.command.type==='REQUEST_BLACKOUT');
       if(state.phase.kind!=='BLACKOUT'||command.windowId!==state.phase.id||now<state.phase.startedAt+5000||!request||!freeHealthy(actor)||request.selectedSlotId!==null
         ||!request.boundRoom||!planetSlotIds(request.boundRoom).includes(command.slotId))return false;
