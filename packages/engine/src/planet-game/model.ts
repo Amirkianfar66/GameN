@@ -1,3 +1,4 @@
+import { PLANET_PHONE_OFFER_PINS } from '@mothership/contracts';
 import type { PlanetVersions, PlanetRole, PlanetFaction, PlanetPhase, PlanetCommand, PlanetPromise, PlanetWindowDrawing, PlanetEvent, PlanetDirection, PlanetRoutePosition, PlanetResult, PlanetTally, PlanetSeatView, PlanetEngineerCapture, PlanetPanelRequest, SeatId } from '@mothership/contracts';
 export type { SeatId } from '@mothership/contracts';
 export interface PlanetGameContext { now:number; nextPhaseId:string; nextDeadlineToken:string; random:readonly number[]; phaseId?:string; deadlineToken?:string }
@@ -62,6 +63,9 @@ export function storePlanetEvent(state:PlanetGameState,world:PlanetWorld,kind:Pl
 }
 
 // Immutable P27 behavior gate; never enable a timing change merely by changing defaults.
-export const planetHasSyncPresentation = (versions:PlanetVersions):boolean => versions.engineVersion==='planet-game-1.0.1'||versions.engineVersion==='planet-game-1.1.0';
+export const planetHasSyncPresentation = (versions:PlanetVersions):boolean => versions.engineVersion==='planet-game-1.0.1'||versions.engineVersion==='planet-game-1.1.0'||planetHasPhoneOffers(versions);
 
-export const planetHasPrivateFeedback = (versions:PlanetVersions):boolean => versions.engineVersion==='planet-game-1.1.0';
+export const planetHasPrivateFeedback = (versions:PlanetVersions):boolean => versions.engineVersion==='planet-game-1.1.0'||planetHasPhoneOffers(versions);
+
+/** Private offer metadata only; saved predecessors retain their exact packet bytes. */
+export const planetHasPhoneOffers = (versions:PlanetVersions):boolean => versions.engineVersion===PLANET_PHONE_OFFER_PINS.engineVersion;
