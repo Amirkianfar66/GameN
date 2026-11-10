@@ -27,6 +27,8 @@ No phase sequence or damage/cancellation outcome is changed. The UI follows the 
 
 Room framing derives from all fixed places, not occupants, so reconnecting directly into darkness needs no saved roster. The lit window caches only geometry for **both** Room and Board, including bar offsets, press rectangles and clinical badge coordinates. That safe cache survives conceal/reconnect until fresh phase data retires it. Darkness removes figures, names, roster accessibility content, drawings and private identity content from all alternate panels. Only the requesting player's offered fixed slots are selectable; authoritative `slotId` remains the command identity. No hit is inferred from a selection.
 
+An offered P18 final-Code action remains usable in darkness, including by a living injured/jailed Hacker. Its keypad uses original numbers only, without names, portraits or current positions. Concealing the board never removes that authoritative permission.
+
 ## Review and evidence
 
 Final exact commit/hash inventory, commands, capture provenance and actual results are recorded in `phone-ui-verification.json` and `phone-ui-consumer-inventory.json` after the final run. The excluded development harness executes the candidate's native app/controller/render modules. Its unchanged asset plugins read and verify art from a clean exact `fb33cecb` release tree. Every loaded candidate module, relevant TypeScript source, asset-tooling file and emitted art file is hashed; captures verify candidate hashes before and after. This does **not** mean ordinary production packaging accepts the changed source.

@@ -64,7 +64,7 @@ export function createPlanetController(transport:PlanetTransport,ports:PlayerPor
  const isDark=()=>{const time=reading();return view?.phase.kind==='BLACKOUT'&&(time.status!=='synced'||view.blackout===null||time.serverNowMs+time.uncertaintyMs>=view.blackout.previewEndsAt);};
  const canAct=()=>usable()&&player()!==null&&unsettled===null&&accepted===null&&!storageBlocked;
  const ballotOpen=()=>view?.phase.kind==='JAIL_VOTE'||view?.phase.kind==='CAPTAIN_ELECTION';
- const phaseAllows=(type:PlanetCommandType)=>!(isDark()&&type!=='SELECT_BLACKOUT_SLOT')&&!(type==='VOTE'&&(!ballotOpen()||!player()?.ballot.eligibleVoters.includes(player()!.self.seatId)||player()?.ownBallot?.phaseId===view?.phase.id))&&!(view?.phase.kind==='BLACKHOLE_PRESENTATION'&&['MOVE','PANEL_CODE','PASS_TURN'].includes(type))&&
+ const phaseAllows=(type:PlanetCommandType)=>!(isDark()&&!['SELECT_BLACKOUT_SLOT','SUBMIT_CODE'].includes(type))&&!(type==='VOTE'&&(!ballotOpen()||!player()?.ballot.eligibleVoters.includes(player()!.self.seatId)||player()?.ownBallot?.phaseId===view?.phase.id))&&!(view?.phase.kind==='BLACKHOLE_PRESENTATION'&&['MOVE','PANEL_CODE','PASS_TURN'].includes(type))&&
   !(type==='CHOOSE_NAV_DIRECTION'&&!['NAV_SETTING','NAV_TIE'].includes(view?.phase.kind??''))&&
   !(type==='CONFIRM_NAVIGATION'&&!['NAV_CAPTAIN_CONFIRM','NAV_OFFICER_CONFIRM'].includes(view?.phase.kind??''));
  const offer=(type:PlanetCommandType):PlanetOffer|null=>phaseAllows(type)&&!(type==='OFFER_PROMISE'&&player()?.promiseQuota.given)&&!(type==='ACCEPT_PROMISE'&&player()?.promiseQuota.received)?player()?.offers.find(o=>o.type===type)??null:null;
@@ -102,7 +102,7 @@ export function createPlanetController(transport:PlanetTransport,ports:PlayerPor
   let action:PlanetActionModel|null=null;
   if(valid&&interactionOpen&&draft){action={type:draft.type,label:PLANET_ACTION_LABELS[draft.type],step:draft.step,selected:[...draft.selected],choices:[...draft.choices],prompt:draft.prompt,confirmation:draft.command?confirmationFor(draft.command):null,canConfirm:canAct()&&draft.step==='confirm'&&draft.command!==null};}
   if(valid&&interactionOpen&&unsettled?.status==='sending'&&unsettled.request)action={type:unsettled.request.command.type,label:PLANET_ACTION_LABELS[unsettled.request.command.type],step:'sending',selected:[],choices:[],prompt:'Registering…',confirmation:null,canConfirm:false};
-  if(p&&dark&&panel==='actions'){privateArea.blackoutTargeting=p.blackoutTargeting;privateArea.offers=canAct()?p.offers.filter(o=>o.type==='SELECT_BLACKOUT_SLOT'):[];}
+  if(p&&dark&&panel==='actions'){privateArea.blackoutTargeting=p.blackoutTargeting;privateArea.offers=canAct()?p.offers.filter(o=>['SELECT_BLACKOUT_SLOT','SUBMIT_CODE'].includes(o.type)&&offer(o.type)!==null):[];}
   if(p&&dark&&panel==='windows')privateArea.windows=[];
   if(valid&&interactionOpen&&accepted)action={type:accepted.type,label:PLANET_ACTION_LABELS[accepted.type],step:'accepted',selected:[],choices:[],prompt:planetRegistrationText(accepted.type),confirmation:null,canConfirm:false};
   const currentBoard=dark?null:current?.board??null;
