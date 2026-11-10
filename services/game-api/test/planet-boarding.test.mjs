@@ -145,7 +145,7 @@ test('creation retry preserves the saved legacy flow while a genuinely new reque
   const sameArt=await planetServiceHarness({setupFlowVersion:2,assetManifestVersion:'design-0.6.0'});assert.equal((await sameArt.current()).setupFlowVersion,2);
 });
 
-for(const version of [1,3,'2',null])test(`unsupported saved setup version ${JSON.stringify(version)} fails closed without mutating the session`,async()=>{
+for(const version of [1,4,'2',null])test(`unsupported saved setup version ${JSON.stringify(version)} fails closed without mutating the session`,async()=>{
   const h=await planetServiceHarness(),session=await h.current();session.setupFlowVersion=version;
   await h.store.transaction(tx=>tx.set('session/'+h.matchId,session));
   denied(await h.invoke(h.host,'read',{matchId:h.matchId}),'UNAVAILABLE');denied(await h.invoke(h.host,'advance',{matchId:h.matchId}),'UNAVAILABLE');
