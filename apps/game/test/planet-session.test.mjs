@@ -28,6 +28,13 @@ test('unknown explicit setup flow fails closed while historical reading keeps it
  const legacy=sessionRig();await legacy.session.start('planet-local');assert.equal(legacy.session.getModel().setupFlowVersion,null);assert.equal(legacy.session.getModel().status,'reading');legacy.session.revealRole(true);assert.equal(legacy.session.getModel().ownRole.role,'Hacker');legacy.session.dispose();
 });
 
+test('the schema compatibility checkpoint never exposes an unfinished timed role flow',async()=>{
+ const r=sessionRig();r.value.setupFlowVersion=3;r.value.setup={id:'timed-reading',startedAt:1000,roleFilmStartsAt:21000,endsAt:31000};
+ await r.session.start('planet-local');r.session.revealRole(true);
+ assert.equal(r.session.getModel().connection,'error');assert.equal(r.session.getModel().ownRole,null);assert.equal(r.session.getModel().canReady,false);assert.equal(r.session.getModel().setup,null);
+ await r.advance(31000);await r.session.operate({operation:'ready',matchId:'planet-local'});assert.equal(r.requests.some(q=>q.operation==='ready'),false);r.session.dispose();
+});
+
 test('30-second minimum role reading and Ready require server-confirmed time; role starts concealed',async()=>{
  const r=sessionRig();await r.session.start('planet-local');assert.equal(r.session.getModel().ownRole,null);assert.equal(r.session.getModel().canReady,false);
  await r.session.operate({operation:'ready',matchId:'planet-local'});assert.equal(r.requests.some(x=>x.operation==='ready'),false);

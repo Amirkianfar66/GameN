@@ -23,7 +23,7 @@ export interface PlanetSessionModel {
  readonly isHost:boolean;readonly selfSeatId:PlanetSessionSnapshot['selfSeatId'];readonly playerCount:7|8|9|null;
  readonly members:PlanetSessionSnapshot['members'];readonly pendingAdmissions:PlanetSessionSnapshot['pendingAdmissions'];
  /** Admitted setup metadata and the existing synchronized display clock; neither grants start authority. */
- readonly setup:PlanetSessionSnapshot['setup'];readonly setupFlowVersion:2|null;readonly setupClock:ClockReading;
+ readonly setup:PlanetSessionSnapshot['setup'];readonly setupFlowVersion:NonNullable<PlanetSessionSnapshot['setupFlowVersion']>|null;readonly setupClock:ClockReading;
  readonly remainingMs:number|null;readonly canChoose:boolean;readonly canReady:boolean;readonly canReturnToLobby:boolean;readonly busy:boolean;readonly uncertain:boolean;
  readonly ownRole:PlanetSessionSnapshot['privateRole'];readonly recoveryCode:string|null;
  /** A registered request is context for waiting, never evidence of admission. */
@@ -113,6 +113,9 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
   const parsed=PlanetSessionSnapshotSchema.safeParse(response.result);
   if(!parsed.success||parsed.data.matchId!==matchId||!planetSupportsAssets(parsed.data.versions)){conceal('The session response could not be verified.',true);return;}
   const next=parsed.data;
+  // Compatibility checkpoint only: widened contract types do not enable a new film schedule.
+  // A following reviewed consumer implements flow 3's interval before this guard is lifted.
+  if(next.setupFlowVersion!==undefined&&next.setupFlowVersion!==2){conceal('This setup flow requires an updated app.',true);return;}
   if(recoveredSeat!==null&&next.selfSeatId!==recoveredSeat){conceal('The recovered seat could not be verified.',true);return;}
   if([next.publicView,next.playerView].some(v=>v&&(v.matchId!==next.matchId||JSON.stringify(v.versions)!==JSON.stringify(next.versions)))){conceal('The session view versions could not be verified.',true);return;}
   if(!standingMatches(next)){conceal('The admission request could not be verified.',true);return;}
