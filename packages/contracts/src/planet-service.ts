@@ -37,7 +37,11 @@ export type PlanetRecoveryResult=z.infer<typeof PlanetRecoveryResultSchema>;
 /** Service setup version, independent of engine/rules/artwork. Legacy packets omit it. */
 export const PLANET_SETUP_FLOW_VERSION=2 as const;
 export const PLANET_BOARDING_DURATION_MS=10_000;
-export const PlanetSetupFlowVersionSchema=z.literal(PLANET_SETUP_FLOW_VERSION);
+export const PLANET_TIMED_READING_SETUP_FLOW_VERSION=3 as const;
+export const PLANET_ROLE_CARD_DURATION_MS=20_000;
+export const PLANET_ROLE_FILM_DURATION_MS=10_000;
+export const PLANET_READING_DURATION_MS=30_000;
+export const PlanetSetupFlowVersionSchema=z.union([z.literal(PLANET_SETUP_FLOW_VERSION),z.literal(PLANET_TIMED_READING_SETUP_FLOW_VERSION)]);
 export const PlanetSessionSnapshotSchema=z.strictObject({
   matchId:IdentifierSchema,roomCode:z.string().regex(/^[A-Z0-9]{6}$/),versions:PlanetVersionsSchema,
   setupFlowVersion:PlanetSetupFlowVersionSchema.optional(),
@@ -46,7 +50,7 @@ export const PlanetSessionSnapshotSchema=z.strictObject({
   admission:PlanetAdmissionStandingSchema.nullable(),
   members:z.array(z.strictObject({seatId:SeatIdSchema,displayName:name,characterId:CrewCharacterIdSchema.nullable(),controller:z.enum(['human','bot']),ready:z.boolean()})).max(9),
   pendingAdmissions:z.array(z.strictObject({id:IdentifierSchema,kind:z.enum(['player','display']),displayName:name})),
-  setup:z.strictObject({id:IdentifierSchema,startedAt:TimestampSchema.optional(),endsAt:TimestampSchema}).nullable(),
+  setup:z.strictObject({id:IdentifierSchema,startedAt:TimestampSchema.optional(),roleFilmStartsAt:TimestampSchema.optional(),endsAt:TimestampSchema}).nullable(),
   privateRole:z.strictObject({
     role:PlanetRoleSchema,faction:PlanetFactionSchema,
     knowledge:PlanetPlayerViewSchema.shape.knowledge,
@@ -55,7 +59,7 @@ export const PlanetSessionSnapshotSchema=z.strictObject({
 }).superRefine((value,ctx)=>{
   const denied=value.admission!==null&&value.admission.status!=='admitted';
   if(value.status==='boarding'){
-    if(value.setupFlowVersion!==PLANET_SETUP_FLOW_VERSION)
+    if(value.setupFlowVersion!==PLANET_SETUP_FLOW_VERSION&&value.setupFlowVersion!==PLANET_TIMED_READING_SETUP_FLOW_VERSION)
       ctx.addIssue({code:'custom',message:'Boarding requires its saved setup flow version'});
     if(value.privateRole!==null||value.publicView!==null||value.playerView!==null)
       ctx.addIssue({code:'custom',message:'Boarding exposes no private role or game views'});
@@ -63,8 +67,17 @@ export const PlanetSessionSnapshotSchema=z.strictObject({
       ||value.setup.endsAt-value.setup.startedAt!==PLANET_BOARDING_DURATION_MS
       ||value.members.length!==value.playerCount||value.members.some(member=>member.characterId===null||!member.ready)))
       ctx.addIssue({code:'custom',message:'Admitted boarding requires an exact interval and the complete ready public roster'});
+  }else if(value.status==='reading'&&value.setupFlowVersion===PLANET_TIMED_READING_SETUP_FLOW_VERSION){
+    if(!denied&&(!value.setup||value.setup.startedAt===undefined||value.setup.roleFilmStartsAt===undefined
+      ||value.setup.roleFilmStartsAt-value.setup.startedAt!==PLANET_ROLE_CARD_DURATION_MS
+      ||value.setup.endsAt-value.setup.roleFilmStartsAt!==PLANET_ROLE_FILM_DURATION_MS
+      ||value.setup.endsAt-value.setup.startedAt!==PLANET_READING_DURATION_MS
+      ||value.members.length!==value.playerCount||value.members.some(member=>member.characterId===null)))
+      ctx.addIssue({code:'custom',message:'Timed reading requires its exact saved card and film interval and full roster'});
   }else if(value.setup?.startedAt!==undefined)
-    ctx.addIssue({code:'custom',message:'Only boarding carries a setup start timestamp'});
+    ctx.addIssue({code:'custom',message:'Only boarding or versioned timed reading carries a setup start timestamp'});
+  if(value.setup?.roleFilmStartsAt!==undefined&&(value.status!=='reading'||value.setupFlowVersion!==PLANET_TIMED_READING_SETUP_FLOW_VERSION))
+    ctx.addIssue({code:'custom',message:'Only versioned timed reading carries a role film boundary'});
   if(denied&&(value.isHost||value.selfSeatId!==null||value.members.length!==0||value.pendingAdmissions.length!==0
     ||value.setup!==null||value.privateRole!==null||value.publicView!==null||value.playerView!==null))
     ctx.addIssue({code:'custom',message:'Unapproved admission carries no admitted audience data'});

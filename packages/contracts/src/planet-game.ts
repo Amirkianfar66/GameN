@@ -18,11 +18,16 @@ export const PLANET_GAME_PINS = Object.freeze({
   rulesetVersion: 'in-person-planet-private-feedback-2026-11-06' as const,
   rulesetHash: '4a1fc0e0dc21255253e31ae46e6042f9bd71e3fdec0f82f8a79b3ce213d01bfa' as const,
 });
+/** Compatible private-offer implementation; canonical gameplay rules and creation defaults stay unchanged. */
+export const PLANET_PHONE_OFFER_PINS = Object.freeze({
+  ...PLANET_GAME_PINS, engineVersion: 'planet-game-1.2.0' as const,
+});
+export const PLANET_PHONE_ENGINE_PROFILE = 'phone-private-choices-1.2' as const;
 const assetVersion = z.string().regex(/^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$/);
 const pinnedVersions = <E extends string,R extends string,H extends string>(pins:{engineVersion:E;rulesetVersion:R;rulesetHash:H}) => z.strictObject({
   protocolVersion:z.literal(3),engineVersion:z.literal(pins.engineVersion),rulesetVersion:z.literal(pins.rulesetVersion),rulesetHash:z.literal(pins.rulesetHash),assetManifestVersion:assetVersion,
 });
-export const PlanetVersionsSchema = z.union([pinnedVersions(PLANET_GAME_PINS),pinnedVersions(PLANET_SYNC_PINS),pinnedVersions(PLANET_ORIGINAL_PINS)]);
+export const PlanetVersionsSchema = z.union([pinnedVersions(PLANET_PHONE_OFFER_PINS),pinnedVersions(PLANET_GAME_PINS),pinnedVersions(PLANET_SYNC_PINS),pinnedVersions(PLANET_ORIGINAL_PINS)]);
 export type PlanetVersions = z.infer<typeof PlanetVersionsSchema>;
 export const PlanetRoundSchema = z.number().int().min(1).max(Number.MAX_SAFE_INTEGER - 2);
 export const PlanetRoleSchema = z.enum(['Insider','Doctor','Blue Disabler','Supplier','Undercover','Hacker','Alien','Red Disabler','Engineer']);
@@ -118,8 +123,9 @@ export const PlanetPhaseSchema = z.strictObject({
   p.endsAt!==null && p.endsAt-p.startedAt===PLANET_PHASE_DURATIONS[p.kind], 'Exact authoritative phase duration required');
 export type PlanetPhase = z.infer<typeof PlanetPhaseSchema>;
 export function planetSupportsPhase(versions:PlanetVersions,kind:PlanetPhaseKind):boolean {
-  if(kind==='NAV_SETTING')return versions.engineVersion==='planet-game-1.1.0';
-  if(kind==='NAV_TIE')return versions.engineVersion!=='planet-game-1.1.0';
+  const feedback=versions.engineVersion==='planet-game-1.1.0'||versions.engineVersion===PLANET_PHONE_OFFER_PINS.engineVersion;
+  if(kind==='NAV_SETTING')return feedback;
+  if(kind==='NAV_TIE')return !feedback;
   if(kind==='BLACKHOLE_PRESENTATION')return versions.engineVersion!=='planet-game-1.0.0';
   return true;
 }
@@ -210,6 +216,10 @@ export type PlanetPublicView = z.infer<typeof PlanetPublicViewSchema>;
 export const PlanetOfferSchema = z.strictObject({
   type:PlanetCommandTypeSchema,targetSeatIds:ids,slotIds:z.array(PlanetSlotIdSchema),windowIds:z.array(PlanetWindowIdSchema),
   promiseTargetSeatIds:ids.default([]),
+  declaredSides:z.array(PlanetFactionSchema).min(1).max(3).refine(values=>new Set(values).size===values.length,'Distinct private declarations required').optional(),
+}).superRefine((offer,ctx)=>{
+  if(offer.declaredSides!==undefined&&offer.type!=='DECLARE_HACK_SIDE')
+    ctx.addIssue({code:'custom',message:'Declaration permissions belong only to the private declaration offer'});
 });
 export type PlanetOffer = z.infer<typeof PlanetOfferSchema>;
 export const PlanetPlayerViewSchema = z.strictObject({
@@ -239,7 +249,19 @@ export const PlanetPlayerViewSchema = z.strictObject({
   windows:z.array(z.strictObject({windowId:PlanetWindowIdSchema,canDraw:z.boolean(),drawings:z.array(PlanetWindowDrawingSchema)})),
 }).superRefine((v,ctx)=>{
   if(!planetSupportsPhase(v.versions,v.phase.kind)) ctx.addIssue({code:'custom',message:'Phase is unavailable under this exact tuple'});
-  const latest=v.versions.engineVersion==='planet-game-1.1.0';
+  const phone=v.versions.engineVersion===PLANET_PHONE_OFFER_PINS.engineVersion;
+  const latest=v.versions.engineVersion==='planet-game-1.1.0'||phone;
+  for(const offer of v.offers){
+    if(!phone&&Object.hasOwn(offer,'declaredSides'))ctx.addIssue({code:'custom',message:'Historical offers omit private declaration permissions'});
+    if(phone&&offer.type==='DECLARE_HACK_SIDE'){
+      const expected=['Undercover','Alien'].includes(v.self.role)?['Blue','Red','Alien']:[v.self.faction];
+      if(JSON.stringify(offer.declaredSides)!==JSON.stringify(expected))ctx.addIssue({code:'custom',message:'Exact actor-private declaration permissions required'});
+    }
+    if(phone&&offer.type==='PANEL_CODE'){
+      const expected=Array.from({length:v.playerCount},(_,i)=>`seat-${i+1}`);
+      if(JSON.stringify(offer.targetSeatIds)!==JSON.stringify(expected))ctx.addIssue({code:'custom',message:'Panel choices require every original public player identity'});
+    }
+  }
   for(const key of ['engineerCapture','panelRequest'] as const) {
     if(latest ? !Object.hasOwn(v.abilities,key)||v.abilities[key]===undefined : Object.hasOwn(v.abilities,key))
       ctx.addIssue({code:'custom',message:'Private feedback fields are exact-version bound'});
