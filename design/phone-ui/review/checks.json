@@ -78,8 +78,8 @@
       "slug": "controls",
       "title": "Controls, lists, feedback and cards",
       "file": "design/phone-ui/review/sheets/06-controls.jpg",
-      "sha256": "0a3b76c5619eb25c67619ce0dfcc197553891ffa62fac86edd9da4d06a1f107a",
-      "bytes": 255320,
+      "sha256": "461a827603626e820629d439518508e3ed33d2aaa43bf84dc7bdfceec66cae8c",
+      "bytes": 255305,
       "size": {
         "width": 2158,
         "height": 1427
@@ -320,8 +320,8 @@
       "slug": "join",
       "title": "Join",
       "file": "design/phone-ui/review/sheets/12-join.jpg",
-      "sha256": "b93ae032c0f12a7d3a859516dd094bd6d8bd6781ddf8d4dc65994687d80763ea",
-      "bytes": 160685,
+      "sha256": "4a2d37fe7524779fc49a7b3e1a8e4fe5df354e9c827aac44dbc77a2103c495a8",
+      "bytes": 160645,
       "size": {
         "width": 1846,
         "height": 1227
@@ -391,8 +391,8 @@
       "slug": "join-lobby",
       "title": "Waiting for admission and the player lobby",
       "file": "design/phone-ui/review/sheets/13-join-lobby.jpg",
-      "sha256": "599d7dbe6e2eab59fa8cc9d6d574bc0dec27f1536045dbf1169362ee41e3e9df",
-      "bytes": 152515,
+      "sha256": "3428cdee21ccdc45c54f7373e6fb9ce6387e5cbd6554b05dc08b85f44fa394b3",
+      "bytes": 152471,
       "size": {
         "width": 1846,
         "height": 1227
@@ -604,8 +604,8 @@
       "slug": "characters",
       "title": "Character selection",
       "file": "design/phone-ui/review/sheets/16-characters.jpg",
-      "sha256": "07bcb42b0b6e430736c9cefb98964604e23e278b03cd40be816edd4bc7485b57",
-      "bytes": 351385,
+      "sha256": "35cd16037f5b3f1a9aaf628ab39938b792b6a264a08ab3083b0d01d29e10f299",
+      "bytes": 351396,
       "size": {
         "width": 2288,
         "height": 1254
@@ -859,8 +859,8 @@
       "slug": "boarding",
       "title": "Shared boarding into Round 1",
       "file": "design/phone-ui/review/sheets/19-boarding.jpg",
-      "sha256": "d245083eb8d704d83e8836b8afca5692e6bedc2d3ea914de06042d9a836ef1e9",
-      "bytes": 255498,
+      "sha256": "0f175c5dac9d10c34ffd650fd433a99fac5db5be7592d31450b2c0a396ffe0e2",
+      "bytes": 255493,
       "size": {
         "width": 2288,
         "height": 1227
@@ -944,8 +944,8 @@
       "slug": "room-a",
       "title": "Room A",
       "file": "design/phone-ui/review/sheets/20-room-a.jpg",
-      "sha256": "d957468bd3ac7194b5fb10b0900d948b4394cba9176cd44fbba2f465ffb1e716",
-      "bytes": 408805,
+      "sha256": "15c7274cdda67354c0bb4439b00cddc08715b0d860f4becb9d3a13306936d409",
+      "bytes": 408793,
       "size": {
         "width": 1870,
         "height": 1258
@@ -1015,8 +1015,8 @@
       "slug": "room-b",
       "title": "Room B",
       "file": "design/phone-ui/review/sheets/21-room-b.jpg",
-      "sha256": "1e10642e2f8da72ce1835f4f4e52285c16179f3318317bf1c48610f3eec04bd1",
-      "bytes": 375043,
+      "sha256": "99c3582c9ee4bbe0294958a7847e4d809fed18f8b7a727d2ac6a1f2efb1fe185",
+      "bytes": 375363,
       "size": {
         "width": 1943,
         "height": 1227
@@ -1228,8 +1228,8 @@
       "slug": "jail",
       "title": "Jail",
       "file": "design/phone-ui/review/sheets/24-jail.jpg",
-      "sha256": "06f1381015e31b8c8a1ef23587b59cd7a286e5756595771a9cd451309c12de43",
-      "bytes": 262829,
+      "sha256": "0aa985fceacc3fedaf2fcab3794e4a922f4fc5f4b874efadb737a7fc9452ee43",
+      "bytes": 262842,
       "size": {
         "width": 1533,
         "height": 1227
@@ -2124,8 +2124,8 @@
       "slug": "targeting",
       "title": "Targeting and registering",
       "file": "design/phone-ui/review/sheets/29-targeting.jpg",
-      "sha256": "a907b82346d8c1747024f10d7e2257397e89bed4bb8f9f8cdab67c9f6725f8cf",
-      "bytes": 462730,
+      "sha256": "914322e7be8204f8c9c3ccd6dc5f02b883f432b3c4bd3d91c8a0fcc1aa7339d3",
+      "bytes": 462688,
       "size": {
         "width": 2412,
         "height": 1258
@@ -2209,8 +2209,8 @@
       "slug": "blackout",
       "title": "Blackout",
       "file": "design/phone-ui/review/sheets/30-blackout.jpg",
-      "sha256": "2f8db97a40120e11acb3267a95ea94d461b8ab5cf65b6935832bba8bf1e83096",
-      "bytes": 374961,
+      "sha256": "7bb441ecffe08108d468b5ac3c2ca2d623dcd1b7fbb3ae155c9e03dcdc7f1c30",
+      "bytes": 374853,
       "size": {
         "width": 2354,
         "height": 1227
@@ -2904,8 +2904,8 @@
       "slug": "offices",
       "title": "Captain and Officer",
       "file": "design/phone-ui/review/sheets/40-offices.jpg",
-      "sha256": "bbd6be683ed2e7c43a1216c21017c4feae3ec3ffbaa796e75761c37d4b5278e9",
-      "bytes": 289701,
+      "sha256": "6b8d86874b2975250ad1eda0d9c2113c1a71f52601419add7b0649b7bab27f58",
+      "bytes": 289649,
       "size": {
         "width": 1846,
         "height": 1227
@@ -2963,7 +2963,7 @@
           "tinyText": [],
           "clipped": 0,
           "contrast": {
-            "min": 7.63,
+            "min": 4.9,
             "low": []
           }
         }
@@ -2975,8 +2975,8 @@
       "slug": "navigation",
       "title": "Navigation",
       "file": "design/phone-ui/review/sheets/41-navigation.jpg",
-      "sha256": "ec06aa0da8a84c385909563c7d72e53e50f33632715336d3e40e9c7c1bc8e7fe",
-      "bytes": 262336,
+      "sha256": "c50b51b01bff2c04517deaee2f2fe01efb8bf40e75d923427dac70d3c3ac3faf",
+      "bytes": 262343,
       "size": {
         "width": 2288,
         "height": 1227
@@ -3712,8 +3712,8 @@
       "slug": "reduced-motion",
       "title": "Reduce motion",
       "file": "design/phone-ui/review/sheets/54-reduced-motion.jpg",
-      "sha256": "c930ece55058adb1f9310dfe057255d8f8418ef33c222296449116191d523d74",
-      "bytes": 244282,
+      "sha256": "b6b4bcca05e2e61f72dd4107aadc6921a011369dfaca91d7a6ef0f2e666a09b7",
+      "bytes": 244464,
       "size": {
         "width": 1846,
         "height": 1254
@@ -3783,16 +3783,16 @@
       "slug": "ambient-motion",
       "title": "Ambient motion in the rooms",
       "file": "design/phone-ui/review/sheets/55-ambient-motion.jpg",
-      "sha256": "af175623387289ea3b050c53b0b5e461edb163b6c243d1adbb44216f8b7bfb9d",
-      "bytes": 583975,
+      "sha256": "71035bb3322357692c021dcc8a6dd9e75f075a2a460c558dce29727706ab117b",
+      "bytes": 590877,
       "size": {
         "width": 3172,
-        "height": 1254
+        "height": 1280
       },
       "frames": [
         {
-          "label": "Room A · 45 s",
-          "src": "s=room&room=room-a&state=own&amb=45&safe=47%2C34",
+          "label": "Room A · 2:10",
+          "src": "s=room&room=room-a&state=own&amb=130&safe=47%2C34",
           "width": 390,
           "height": 844,
           "overflowX": false,
@@ -3805,8 +3805,8 @@
           }
         },
         {
-          "label": "Room B · 46 s",
-          "src": "s=room&room=room-b&amb=46&safe=47%2C34",
+          "label": "Room B · 2:10",
+          "src": "s=room&room=room-b&amb=130&safe=47%2C34",
           "width": 390,
           "height": 844,
           "overflowX": false,
@@ -3819,8 +3819,8 @@
           }
         },
         {
-          "label": "Command Room · 58 s",
-          "src": "s=room&room=command-room&state=own&amb=58&safe=47%2C34",
+          "label": "Command Room · 2:10",
+          "src": "s=room&room=command-room&state=own&amb=130&safe=47%2C34",
           "width": 390,
           "height": 844,
           "overflowX": false,
@@ -3833,8 +3833,8 @@
           }
         },
         {
-          "label": "Hospital · 1.6 s",
-          "src": "s=room&room=hospital&amb=1.6&safe=47%2C34",
+          "label": "Hospital · 2:10",
+          "src": "s=room&room=hospital&amb=130&safe=47%2C34",
           "width": 390,
           "height": 844,
           "overflowX": false,
@@ -3847,8 +3847,8 @@
           }
         },
         {
-          "label": "Jail · 2.5 s",
-          "src": "s=room&room=jail&amb=2.5&safe=47%2C34",
+          "label": "Jail · 2:10",
+          "src": "s=room&room=jail&amb=130&safe=47%2C34",
           "width": 390,
           "height": 844,
           "overflowX": false,
@@ -3861,8 +3861,8 @@
           }
         },
         {
-          "label": "Private talk · 4 s",
-          "src": "s=talk&stage=talk&amb=4&safe=47%2C34",
+          "label": "Private talk · 2:10",
+          "src": "s=talk&stage=talk&amb=130&safe=47%2C34",
           "width": 390,
           "height": 844,
           "overflowX": false,
@@ -3875,8 +3875,8 @@
           }
         },
         {
-          "label": "Blackout · 45 s",
-          "src": "s=blackout&state=dark&amb=45&safe=47%2C34",
+          "label": "Blackout · 2:10",
+          "src": "s=blackout&state=dark&amb=130&safe=47%2C34",
           "width": 390,
           "height": 844,
           "overflowX": false,

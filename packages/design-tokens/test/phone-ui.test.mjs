@@ -13,8 +13,9 @@
 //     have a tap-by-tap sheet (the owner, 9 November 2026), and every tap the sheets draw lands on a
 //     control the prototype really shows;
 //   - the rooms’ ambient motion (the owner, 9 and 10 November 2026) covers every room and the private-
-//     talk capsule, draws the same on every phone from nothing but the room, never uses a team’s
-//     colour, keeps only the windows (dimmed) with the lights out, and holds still under Reduce motion;
+//     talk capsule, draws the same on every phone from nothing but the room, shows one voyage for the
+//     whole ship on one clock, never uses a team’s colour, keeps only the windows (dimmed) with the
+//     lights out, and holds still under Reduce motion;
 //   - the kit’s colours are tokens 0.5.0’s, the icon family is whole and its exports are current;
 //   - synthetic-fixture labels stay outside the proposed interface; everything is development-only,
 //     and no game code imports the pack.
@@ -30,10 +31,10 @@ import { screenRegistry } from '../../../design/phone-ui/prototype/screens.mjs';
 import { ICONS, ICON_NAMES } from '../../../design/phone-ui/prototype/icons.mjs';
 import { FIXTURE_LABEL, ROOM_FIXTURES, board } from '../../../design/phone-ui/prototype/fixtures.mjs';
 import { EDGE_CLEAR, LOCATION_OF, phoneFrame } from '../../../design/phone-ui/prototype/art.mjs';
-import { sceneOf, slotsOf } from '../../../apps/game/hosted/board-v2-drawing/slots-four.mjs';
+import { BOARD_ROOMS, sceneOf, slotsOf } from '../../../apps/game/hosted/board-v2-drawing/slots-four.mjs';
 import { frameScene } from '../../../apps/game/hosted/scene-drawing/frame.mjs';
 import { phoneUiAssets } from '../../../design/tools/phone-ui-assets.mjs';
-import { AMBIENT_ROOMS, ambientLayer } from '../../../design/phone-ui/prototype/ambient.mjs';
+import { AMBIENT_ROOMS, SKY, SKY_EPOCH, WINDOW_DELAY, ambientLayer, settleAmbient, windowCrossings } from '../../../design/phone-ui/prototype/ambient.mjs';
 import { NIGHT } from '../../../design/board-v2/scenes/lighting.mjs';
 
 const REPO = fileURLToPath(new URL('../../../', import.meta.url));
@@ -128,16 +129,32 @@ test('each tab and each top-bar button has a tap-by-tap sheet, and every tap dra
 test('the rooms’ ambient motion covers every room, shows no game fact and is still under Reduce motion', () => {
   const rooms = ['room-a', 'room-b', 'command-room', 'hospital', 'jail', 'capsule'];
   assert.deepEqual(Object.keys(AMBIENT_ROOMS).sort(), [...rooms].sort(), 'every room and the capsule');
-  for (const room of ['room-a', 'room-b', 'command-room', 'hospital']) assert.ok(AMBIENT_ROOMS[room].windows?.[0]?.voyage, `${room} has a window with its own voyage`);
+  for (const room of ['room-a', 'room-b', 'command-room', 'hospital']) assert.ok(AMBIENT_ROOMS[room].windows?.[0]?.voyage, `${room} has a window`);
   for (const room of ['jail', 'capsule']) assert.equal(AMBIENT_ROOMS[room].windows, undefined, `${room} has no window`);
   // What the game uses to say something never moves: no keypad keys or lamp in the Jail.
   assert.equal(AMBIENT_ROOMS.jail.keys, undefined, 'the Jail keypad’s keys never light');
   assert.equal(AMBIENT_ROOMS.jail.lights, undefined, 'the Jail’s lamp is left as drawn');
-  const kinds = new Set(['giant', 'banded', 'ringed', 'moon', 'twins', 'binary', 'comet', 'rocks', 'belt']);
-  for (const [room, def] of Object.entries(AMBIENT_ROOMS)) for (const v of def.windows ?? []) {
-    for (const fb of v.voyage.flybys) assert.ok(kinds.has(fb.kind), `${room}: ${fb.kind} is one of the windows’ own things (never a black hole)`);
-    assert.ok(['room-a', 'teal', 'command', 'ward'].includes(v.voyage.home.kind), `${room}: its own world`);
+  // One voyage for the whole ship (the owner, 10 November 2026): one sky, one clock, one speed.
+  const kinds = new Set(['giant', 'banded', 'ringed', 'moon', 'twins', 'binary', 'comet', 'rocks', 'belt', 'teal']);
+  for (const fb of SKY.flybys) assert.ok(kinds.has(fb.kind), `${fb.kind} is one of the sky’s own things (never a black hole)`);
+  const windowed = BOARD_ROOMS.filter(room => AMBIENT_ROOMS[room]?.windows);
+  assert.deepEqual(windowed, ['command-room', 'room-a', 'room-b', 'hospital'], 'four rooms have a window');
+  for (const [k, room] of windowed.entries()) {
+    const v = AMBIENT_ROOMS[room].windows[0];
+    assert.equal(v.delay, WINDOW_DELAY[room], `${room} sits on the ship’s line`);
+    if (k) assert.ok(v.delay > AMBIENT_ROOMS[windowed[k - 1]].windows[0].delay, `${room} sees the sky after ${windowed[k - 1]}, front to back as the board stacks them`);
+    assert.ok(['room-a', 'command', 'ward', 'cream'].includes(v.voyage.home.kind), `${room}: the one cream world at rest`);
+    // Every passer crosses every window within one loop, so a still at 0 s shows only the home world and the stars.
+    const box = v.shape === 'round' ? { w: 2 * v.r } : v.box ?? { w: v.w };
+    for (const c of windowCrossings(box, v.delay)) assert.ok(c.from >= 0 && c.to <= SKY.period, `${room}: the ${c.kind} crosses within the voyage`);
   }
+  // One clock: live, every room is at the ship’s time and runs on; held, at the review’s time.
+  const animation = () => ({ currentTime: 0, paused: false, pause() { this.paused = true; } });
+  const layer = list => ({ querySelectorAll: () => [{ getAnimations: () => list }] });
+  const [live, held] = [animation(), animation()];
+  settleAmbient(layer([live]), { live: true, now: SKY_EPOCH + 61000 });
+  settleAmbient(layer([held]), { at: 45 });
+  assert.deepEqual([live.currentTime, live.paused, held.currentTime, held.paused], [61000, false, 45000, true]);
   // Drawn from the room alone: the module imports only the night rule, and draws the same markup every time.
   const source = read('design/phone-ui/prototype/ambient.mjs');
   assert.deepEqual([...source.matchAll(/^import .* from '([^']+)';$/gm)].map(m => m[1]), ['../../board-v2/scenes/lighting.mjs']);

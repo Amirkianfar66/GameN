@@ -49,22 +49,45 @@ const TEAL_PALE = '#A6DFD0';
 const STEEL = { shadow: '#34415A', mid: '#55657E', light: '#8696AE', pale: '#B9C4D3' };
 
 /**
- * A window's voyage: over one loop, things pass the glass right to left at their own depth and speed.
- * home: the room's own planet, which starts in place (so a still frame is the approved art), drifts
- * out (leave, by out %), and comes back from the other side (back, from from %). flybys: at, the scene
- * point each is drawn around; enter/leave, its offsets outside the glass; span, when it crosses, in %
- * of the loop; front, drawn in front of the home planet. dust: halftone clouds; sparkle: a bright star
- * [x, y, scale]; glare: [path, opacity] on the glass.
+ * The ship's one voyage (the owner, 10 November 2026: "the windows motion outside of all rooms are align
+ * together? because overall the complete spaceship passing space", then "yes align them"). One sky passes
+ * every window on one clock, so every room and every phone shows the same moment of it:
+ * - home: the cream world every window shows at rest (as Room A's, the Command Room's and the ward's art
+ *   draw it) sinks out of sight together by out % of the loop, and rises back together from from %;
+ * - flybys: what the ship passes, the same in every window. at: when it crosses the middle of the
+ *   foremost window; y: its height from a window's middle; speed: its depth, in scene units a second;
+ *   slope: a comet falls as it goes; half: half its drawn width; front: drawn in front of the home world;
+ * - stars and dust drift at the same speed in every window, three depths of stars and the dust slower.
+ * A window further back along the ship (WINDOW_DELAY) sees each passer a few seconds later.
  */
-const VOYAGE_A = {
-  period: 90,
-  home: { kind: 'room-a', cx: 600, cy: 322, r: 132, leave: [-340, 36], out: 38, back: [340, -30], from: 80 },
+export const SKY = {
+  period: 240,
+  home: { out: 10, from: 90 },
+  // Room A's approved pace: its port's star tile (192) crossed in 84, 42 and 20 s, its dust tile (260) in 90 s.
+  stars: [192 / 84, 192 / 42, 192 / 20],
+  dust: 260 / 90,
   flybys: [
-    { kind: 'giant', at: [512, 198], enter: [150, 10], leave: [-150, -10], span: [29, 78] },
-    { kind: 'moon', at: [512, 156], enter: [125, 18], leave: [-125, -8], span: [63, 92] },
-    { kind: 'comet', at: [512, 150], enter: [200, -36], leave: [-210, 44], span: [9, 40] },
-    { kind: 'rocks', at: [500, 236], enter: [170, -20], leave: [-170, 30], span: [50, 61], front: true },
+    { kind: 'comet', at: 30, y: -40, speed: 22, slope: 0.2, half: 85 },
+    { kind: 'giant', at: 58, y: -8, speed: 9, half: 52 },
+    { kind: 'binary', at: 84, y: -44, speed: 6, half: 18 },
+    { kind: 'teal', at: 108, y: 18, speed: 6, half: 52 },
+    { kind: 'belt', at: 128, y: 30, speed: 28, half: 175, front: true },
+    { kind: 'ringed', at: 146, y: -14, speed: 9, half: 50, scale: 0.8 },
+    { kind: 'banded', at: 168, y: 6, speed: 9, half: 30 },
+    { kind: 'moon', at: 186, y: -36, speed: 9, half: 16 },
+    { kind: 'twins', at: 200, y: -20, speed: 9, half: 24 },
   ],
+};
+
+/** Where each window sits along the ship, front to back as the board stacks the rooms: seconds after the Command Room's window that a passer reaches it. */
+export const WINDOW_DELAY = Object.freeze({ 'command-room': 0, 'room-a': 6, 'room-b': 12, hospital: 18 });
+
+/**
+ * Each window's own view of the sky: its home world as its art draws it (kind and geometry) and how far it
+ * sinks to leave the glass; its dust clouds; a bright star [x, y, scale]; the glare on its glass [path, opacity].
+ */
+const VIEW_A = {
+  home: { kind: 'room-a', cx: 600, cy: 322, r: 132, sink: 140 },
   dust: { tile: 260, clouds: [
     { d: 'M430 254 C450 224 500 230 520 248 C548 238 590 252 584 278 C560 298 470 300 440 286 C420 278 418 264 430 254 Z', tone: 'teal' },
     { d: 'M560 138 C580 118 640 124 652 146 C670 158 660 186 630 184 C600 190 566 176 560 158 Z', tone: 'ochre' },
@@ -74,16 +97,9 @@ const VOYAGE_A = {
   glare: [['M436 176 L496 118 L524 118 L430 210 Z', 0.16], ['M446 232 L560 120 L574 124 L452 246 Z', 0.1]],
 };
 
-/** Room B's voyage: its own teal planet, a cream banded giant, two small moons, a comet, asteroids. */
-const VOYAGE_B = {
-  period: 110,
-  home: { kind: 'teal', cx: 430, cy: 330, r: 130, leave: [-320, 40], out: 36, back: [470, -40], from: 78 },
-  flybys: [
-    { kind: 'banded', at: [512, 184], enter: [175, 8], leave: [-175, -8], span: [24, 70] },
-    { kind: 'twins', at: [512, 160], enter: [165, 14], leave: [-165, -10], span: [52, 84] },
-    { kind: 'comet', at: [512, 150], enter: [200, -24], leave: [-205, 34], span: [6, 34] },
-    { kind: 'rocks', at: [500, 222], enter: [205, -16], leave: [-205, 22], span: [40, 50], front: true },
-  ],
+/** Room B's new window shows the same cream world, low in the glass. */
+const VIEW_B = {
+  home: { kind: 'cream', cx: 512, cy: 640, r: 430, sink: 90 },
   dust: { tile: 300, clouds: [
     { d: 'M560 214 C580 190 630 192 646 214 C664 226 652 252 624 252 C596 258 566 244 560 228 Z', tone: 'teal' },
     { d: 'M396 140 C410 124 456 126 466 144 C480 156 470 176 446 174 C420 178 400 164 396 150 Z', tone: 'ochre' },
@@ -93,21 +109,9 @@ const VOYAGE_B = {
   glare: [['M388 240 L474 128 L502 128 L404 252 Z', 0.1], ['M562 252 L636 156 L646 160 L574 252 Z', 0.07]],
 };
 
-/**
- * The Command Room's voyage, across its wide window: its own vast cream world sinks out of sight
- * and rises again (it moves only up and down, so its drawn edges stay hidden behind the frame);
- * meanwhile a comet, a ringed cream giant, a far double star, an asteroid belt and a grey moon pass.
- */
-const VOYAGE_C = {
-  period: 120,
-  home: { kind: 'command', cx: 512, cy: 900, r: 668, leave: [0, 128], out: 30, back: [0, 128], from: 80 },
-  flybys: [
-    { kind: 'comet', at: [512, 150], enter: [400, -44], leave: [-420, 60], span: [5, 28] },
-    { kind: 'ringed', at: [512, 192], enter: [400, -6], leave: [-400, 8], span: [24, 72] },
-    { kind: 'binary', at: [512, 138], enter: [380, 6], leave: [-380, -4], span: [40, 92] },
-    { kind: 'belt', at: [512, 236], enter: [480, -16], leave: [-480, 20], span: [50, 66], front: true },
-    { kind: 'moon', at: [512, 170], enter: [380, 16], leave: [-380, -6], span: [70, 94] },
-  ],
+/** The Command Room's vast cream world sinks and rises: it moves only up and down, so its drawn edges stay behind the frame. */
+const VIEW_C = {
+  home: { kind: 'command', cx: 512, cy: 900, r: 668, sink: 128 },
   dust: { tile: 640, clouds: [
     { d: 'M262 222 C290 196 350 200 372 222 C398 214 430 230 420 254 C392 270 300 268 272 254 C252 246 250 232 262 222 Z', tone: 'teal' },
     { d: 'M620 140 C640 120 700 124 714 146 C734 158 722 186 690 184 C660 190 626 176 620 158 Z', tone: 'ochre' },
@@ -117,16 +121,9 @@ const VOYAGE_C = {
   glare: [['M210 250 L330 130 L362 130 L210 284 Z', 0.14], ['M600 292 L760 130 L776 134 L620 292 Z', 0.1]],
 };
 
-/** The Hospital's voyage, in its tall narrow window: its cream world sinks and rises; a comet, a small ringed giant, asteroids and a moon go by. */
-const VOYAGE_H = {
-  period: 100,
-  home: { kind: 'ward', cx: 760, cy: 372, r: 130, leave: [0, 120], out: 30, back: [0, 120], from: 82 },
-  flybys: [
-    { kind: 'comet', at: [807, 156], enter: [110, -26], leave: [-120, 34], span: [8, 24] },
-    { kind: 'ringed', at: [807, 196], enter: [120, 4], leave: [-120, -4], span: [30, 58], scale: 0.62 },
-    { kind: 'rocks', at: [800, 240], enter: [130, -10], leave: [-130, 14], span: [46, 54], front: true, scale: 0.7 },
-    { kind: 'moon', at: [807, 168], enter: [100, 10], leave: [-100, -6], span: [62, 80] },
-  ],
+/** The ward's cream world, in its tall window. */
+const VIEW_H = {
+  home: { kind: 'ward', cx: 760, cy: 372, r: 130, sink: 120 },
   dust: { tile: 150, clouds: [
     { d: 'M770 236 C786 220 818 222 826 238 C838 248 830 266 808 266 C788 270 772 258 770 246 Z', tone: 'teal' },
     { d: 'M818 142 C830 130 856 132 862 146 C870 156 862 170 846 168 C828 172 818 162 818 152 Z', tone: 'ochre' },
@@ -139,7 +136,7 @@ const VOYAGE_H = {
 const ROOM_A = {
   // Room A's blues, as the export prints the neutral family.
   tone: { pale: '#A9CAEB', mid: '#2D609E', light: '#5C92CC' },
-  windows: [{ shape: 'round', cx: 512, cy: 210, r: 89.8, voyage: VOYAGE_A }],
+  windows: [{ shape: 'round', cx: 512, cy: 210, r: 89.8, voyage: VIEW_A, delay: WINDOW_DELAY['room-a'] }],
   monitors: [{ x: 450, y: 318, w: 66, h: 48, tilt: -4, phase: 0 }, { x: 526, y: 312, w: 70, h: 52, tilt: 3, phase: 2.7 }],
   consoles: [{ x: 170, y: 134, w: 102, h: 58, rx: 4, ping: [254, 176] }],
   keys: [{ x: 172, y: 204, w: 22, h: 16, lit: GOLD }, { x: 202, y: 204, w: 22, h: 16, lit: TEAL }, { x: 232, y: 204, w: 22, h: 16, lit: PAPER }],
@@ -157,7 +154,7 @@ const ROOM_A = {
 const ROOM_B = {
   // Room B's purples, as the export prints the neutral family.
   tone: { pale: '#DCB6EE', mid: '#7A3CAD', light: '#AE6CD3', shadow: '#4B2079' },
-  windows: [{ shape: 'rect', x: 382, y: 128, w: 260, h: 124, frame: 'paned', voyage: VOYAGE_B,
+  windows: [{ shape: 'rect', x: 382, y: 128, w: 260, h: 124, frame: 'paned', voyage: VIEW_B, delay: WINDOW_DELAY['room-b'],
     // The ceiling's two light cones fall across the window as they fell across the screen.
     cones: [[[300, 58], [462, 58], [580, 640], [250, 640]], [[562, 58], [716, 58], [820, 650], [500, 650]]], coneOpacity: 0.09 }],
   atoms: [{ x: 742, y: 126, w: 130, h: 46 }],
@@ -176,7 +173,7 @@ const ROOM_B = {
 const COMMAND_ROOM = {
   // The Command Room's golds, as the export prints the neutral family.
   tone: { pale: '#F9E48C', mid: '#C4950F', light: '#EFC62F', shadow: '#7A5A0C' },
-  windows: [{ shape: 'path', d: 'M207 118.4 L226.9 107 H797.1 L817 118.4 V281 H207 Z', box: { x: 207, y: 107, w: 610, h: 174 }, voyage: VOYAGE_C,
+  windows: [{ shape: 'path', d: 'M207 118.4 L226.9 107 H797.1 L817 118.4 V281 H207 Z', box: { x: 207, y: 107, w: 610, h: 174 }, voyage: VIEW_C, delay: WINDOW_DELAY['command-room'],
     // The two mullions and the frame's glint, drawn again over the view, as the art draws them over its glass.
     over: `<rect x="398" y="96" width="16" height="196" fill="#F9E48C" stroke="${INK}" stroke-width="5"/>
       <rect x="610" y="96" width="16" height="196" fill="#F9E48C" stroke="${INK}" stroke-width="5"/>
@@ -197,7 +194,7 @@ const COMMAND_ROOM = {
 const HOSPITAL = {
   // The Hospital's teals, as the export prints the neutral family.
   tone: { pale: '#A6DFD0', mid: '#1F8A80', light: '#57BBA8', shadow: '#155B58' },
-  windows: [{ shape: 'rect', x: 751, y: 131, w: 112, h: 160, rx: 5, voyage: VOYAGE_H }],
+  windows: [{ shape: 'rect', x: 751, y: 131, w: 112, h: 160, rx: 5, voyage: VIEW_H, delay: WINDOW_DELAY.hospital }],
   ecgs: [{ x: 172, y: 142, w: 106, h: 72, rx: 5, base: 182, from: 180 }],
   keys: [{ x: 174, y: 226, w: 22, h: 14, lit: GOLD, unlit: PAPER }, { x: 204, y: 226, w: 22, h: 14, lit: PAPER, unlit: '#A6DFD0' }],
   // The ceiling's air vent between the lamps turns, and the small light beside it blinks: what a phone's view keeps in sight.
@@ -313,12 +310,32 @@ function planetWard(clip) {
   </g>`;
 }
 
-/** Each window's own world, by kind. */
+/**
+ * The same cream world in a window that has no drawn one (Room B's): lit along its limb, shaded at the
+ * right, its bands drifting. Its lit limb is paper's shade, not paper: the phone's glass sheets put text
+ * over this window, and at the brightest it kept their grey text under 4.5:1.
+ */
+function planetCream(clip, { cx, cy, r }) {
+  const top = cy - r;
+  return `<g class="amb-bob">
+    <circle cx="${cx}" cy="${cy}" r="${r}" fill="${PAPER_SHADE}"/>
+    <g clip-path="url(#${clip.id})">
+      <circle cx="${cx}" cy="${cy + 14}" r="${r}" fill="${PAPER_DEEP}"/>
+      <circle cx="${cx + 150}" cy="${cy + 34}" r="${r}" fill="url(#${clip.ht}-m)"/>
+      <g class="amb-bands">
+        <path d="M${cx - 160} ${top + 52} Q${cx} ${top + 4} ${cx + 160} ${top + 52} M${cx - 120} ${top + 52} Q${cx} ${top + 16} ${cx + 120} ${top + 52}" fill="none" stroke="${INK}" stroke-width="2.5" stroke-linecap="round"/>
+      </g>
+    </g>
+    <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${INK}" stroke-width="5"/>
+  </g>`;
+}
+
+/** Each window's own view of the home world, by kind. */
 const HOMES = Object.freeze({
   'room-a': clip => planetRoomA(clip),
-  teal: (clip, home) => planetTeal(clip, home),
   command: clip => planetCommand(clip),
   ward: clip => planetWard(clip),
+  cream: (clip, home) => planetCream(clip, home),
 });
 
 /** Stars in three depths, drifting right to left at three speeds, each tile drawn twice so it loops. */
@@ -327,10 +344,10 @@ function starfield(b, rand) {
   // As many stars for the glass's area as Room A's port holds (about 180 × 180), so a wide or a narrow window is as full.
   const area = (b.w * b.h) / 32400, fill = Math.abs(area - 1) < 0.2 ? 1 : area;
   const layers = [
-    { n: 26, r: [0.7, 1.1], o: 0.6, dur: 84 },
-    { n: 13, r: [1.1, 1.6], o: 0.85, dur: 42 },
-    { n: 6, r: [1.7, 2.3], o: 1, dur: 20 },
-  ];
+    { n: 26, r: [0.7, 1.1], o: 0.6 },
+    { n: 13, r: [1.1, 1.6], o: 0.85 },
+    { n: 6, r: [1.7, 2.3], o: 1 },
+  ].map((L, li) => ({ ...L, dur: f(tile / SKY.stars[li]) }));
   return layers.map((L, li) => {
     const stars = Array.from({ length: Math.max(2, Math.round(L.n * fill)) }, (_, i) => {
       const x = x0 + rand() * tile, y = y0 + rand() * sh, r = L.r[0] + rand() * (L.r[1] - L.r[0]);
@@ -354,11 +371,11 @@ function galaxy(x, y) {
 /** A bright star with four points, twinkling. */
 const sparkle = (x, y, s = 1) => `<g transform="translate(${f(x)} ${f(y)}) scale(${s})"><path class="amb-sparkle" d="M0 -7 L1.8 -1.8 L7 0 L1.8 1.8 L0 7 L-1.8 1.8 L-7 0 L-1.8 -1.8 Z" fill="${PAPER}"/></g>`;
 
-/** Dust clouds in halftone dots, teal and ochre, drifting slower than the farthest stars. */
+/** Dust clouds in halftone dots, teal and ochre, drifting at the sky's dust speed. */
 function dust(V, p) {
   const { tile, clouds } = V.dust;
   const all = clouds.map(c => `<path d="${c.d}" fill="url(#${p}-dust-${c.tone})"${c.o ? ` opacity="${c.o}"` : ''}/>`).join('');
-  return `<g class="amb-drift" style="--dur:${V.period}s;--dx:-${tile}px">${all}<g transform="translate(${tile} 0)">${all}</g></g>`;
+  return `<g class="amb-drift" style="--dur:${f(tile / SKY.dust)}s;--dx:-${tile}px">${all}<g transform="translate(${tile} 0)">${all}</g></g>`;
 }
 
 /** The things a window's voyage passes, each drawn around (0, 0), comic ink like the room. */
@@ -421,6 +438,8 @@ const PASSERS = {
     <circle r="30" fill="none" stroke="${INK}" stroke-width="3"/>
     <path d="M-58 0 A58 12 0 0 0 58 0" fill="none" stroke="${INK}" stroke-width="5" transform="rotate(16)"/>
     <path d="M-58 0 A58 12 0 0 0 58 0" fill="none" stroke="${TEAL_PALE}" stroke-width="2.6" transform="rotate(16)"/>`,
+  // The teal world (Room B's first), passing far off: the same drawing, a third of the size.
+  teal: p => `<g transform="scale(0.36)">${planetTeal({ id: `${p}-tealw`, ht: `${p}-ht` }, { cx: 0, cy: 0, r: 130 })}</g>`,
   // A far double star: two small suns turning slowly round each other.
   binary: () => `<g class="amb-spin" style="--dur:40s">
       <g transform="translate(-9 0)"><circle r="8" fill="${GOLD_PALE}" opacity="0.18"/><path d="${star4(5)}" fill="${PAPER}"/></g>
@@ -446,14 +465,29 @@ function rocksOf(list) {
   }).join('');
 }
 
-/** The keyframes of one window's voyage: each passer crosses once a loop; the room's planet leaves and returns. */
-function voyageCss(V, w) {
-  const { period, home, flybys } = V;
-  const t = ([x, y]) => `translate(${x}px, ${y}px)`;
-  let css = `@keyframes ${w}-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } ${home.out}% { transform: ${t(home.leave)}; } ${home.out + 0.01}%, ${home.from}% { transform: ${t(home.back)}; animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } }
+/**
+ * The keyframes of one window's view of the voyage, all on the sky's one loop: its home world sinks and
+ * rises with every other window's; each passer crosses its glass right to left, at the sky's time plus
+ * the window's delay, from just outside its right edge to just outside its left.
+ */
+export function windowCrossings(box, delay) {
+  return SKY.flybys.map(fb => {
+    const reach = box.w / 2 + fb.half, centre = fb.at + delay;
+    return { kind: fb.kind, from: centre - reach / fb.speed, to: centre + reach / fb.speed, reach };
+  });
+}
+
+function voyageCss(V, w, box, delay) {
+  const { period, home } = SKY;
+  const pct = t => f((t / period) * 100);
+  const sink = `translate(0px, ${V.home.sink}px)`;
+  let css = `@keyframes ${w}-home { 0% { transform: translate(0, 0); animation-timing-function: ease-in; } ${home.out}% { transform: ${sink}; } ${home.from}% { transform: ${sink}; animation-timing-function: ease-out; } 100% { transform: translate(0, 0); } }
   .amb .${w}-home { animation: ${w}-home ${period}s linear infinite; }`;
-  flybys.forEach((fb, k) => {
-    css += `@keyframes ${w}-fly${k} { 0%, ${fb.span[0]}% { transform: ${t(fb.enter)}; } ${fb.span[1]}%, 100% { transform: ${t(fb.leave)}; } }
+  windowCrossings(box, delay).forEach((c, k) => {
+    const fb = SKY.flybys[k], slope = fb.slope ?? 0;
+    if (c.from < 0 || c.to > period) throw new Error(`${fb.kind} does not cross this window within the voyage`);
+    const at = dx => `translate(${f(dx)}px, ${f(-dx * slope)}px)`;
+    css += `@keyframes ${w}-fly${k} { 0%, ${pct(c.from)}% { transform: ${at(c.reach)}; } ${pct(c.to)}%, 100% { transform: ${at(-c.reach)}; } }
     .amb .${w}-fly${k} { animation: ${w}-fly${k} ${period}s linear infinite; }`;
   });
   return `<style>${css}</style>`;
@@ -480,14 +514,15 @@ function panedFrame(v, tone, p, i) {
 function windowView(v, p, i, rand, tone, night = false) {
   const b = boxOf(v), V = v.voyage, w = `${p}-w${i}`;
   const clip = { id: `${p}-home${i}`, ht: `${p}-ht` };
-  const passers = V.flybys.map((fb, k) => {
+  const mx = f(b.x + b.w / 2), my = b.y + b.h / 2;
+  const passers = SKY.flybys.map((fb, k) => {
     const art = PASSERS[fb.kind](p);
-    return { front: Boolean(fb.front), svg: `<g transform="translate(${fb.at[0]} ${fb.at[1]})"><g class="${w}-fly${k}">${fb.scale ? `<g transform="scale(${fb.scale})">${art}</g>` : art}</g></g>` };
+    return { front: Boolean(fb.front), svg: `<g transform="translate(${mx} ${f(my + fb.y)})"><g class="${w}-fly${k}">${fb.scale ? `<g transform="scale(${fb.scale})">${art}</g>` : art}</g></g>` };
   });
   const home = HOMES[V.home.kind](clip, V.home);
   const [m1x, m1y] = [f(b.x + b.w * 1.02), f(b.y + b.h * 0.045)], [m2x, m2y] = [f(b.x + b.w * 0.94), f(b.y + b.h * 0.7)];
   const cones = !night && v.frame !== 'paned' && v.cones ? `<g clip-path="url(#${p}-cone${i})">${v.cones.map(pts => `<polygon points="${pts.map(q => q.join(',')).join(' ')}" fill="${PAPER}" opacity="${v.coneOpacity}"/>`).join('')}</g>` : '';
-  return `${voyageCss(V, w)}<g clip-path="url(#${p}-glass${i})">
+  return `${voyageCss(V, w, b, v.delay ?? 0)}<g clip-path="url(#${p}-glass${i})">
     ${v.shape === 'round' ? `<circle cx="${v.cx}" cy="${v.cy}" r="${v.r + 8}" fill="${SPACE}"/>` : `<rect x="${b.x - 8}" y="${b.y - 8}" width="${b.w + 16}" height="${b.h + 16}" fill="${SPACE}"/>`}
     ${dust(V, p)}
     ${starfield(b, rand)}
@@ -669,7 +704,7 @@ export function ambientLayer(room, frame, { dark = false } = {}) {
       <pattern id="${p}-dust-ochre" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(30)"><circle cx="3.5" cy="3.5" r="1.3" fill="${GOLD_SHADOW}"/></pattern>
       <linearGradient id="${p}-tail" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="${PAPER}" stop-opacity="0.85"/><stop offset="1" stop-color="${TEAL_PALE}" stop-opacity="0"/></linearGradient>
       <clipPath id="${p}-giant"><circle r="22"/></clipPath><clipPath id="${p}-moon"><circle r="13"/></clipPath>
-      <clipPath id="${p}-banded"><circle r="26"/></clipPath><clipPath id="${p}-twin"><circle r="5.5"/></clipPath><clipPath id="${p}-ringed"><circle r="30"/></clipPath>
+      <clipPath id="${p}-banded"><circle r="26"/></clipPath><clipPath id="${p}-twin"><circle r="5.5"/></clipPath><clipPath id="${p}-ringed"><circle r="30"/></clipPath><clipPath id="${p}-tealw"><circle r="127.5"/></clipPath>
       ${windows.map((v, i) => `<clipPath id="${p}-glass${i}">${glassShape(v)}</clipPath>
         <clipPath id="${p}-home${i}"><circle cx="${v.voyage.home.cx}" cy="${v.voyage.home.cy}" r="${v.voyage.home.r - 2.5}"/></clipPath>
         ${v.frame ? `<clipPath id="${p}-frame${i}"><rect x="${v.x - 13}" y="${v.y - 13}" width="${v.w + 26}" height="${v.h + 26}"/></clipPath>` : ''}${v.cones && !v.frame ? `<clipPath id="${p}-cone${i}">${glassShape(v)}${(v.overBoxes ?? []).map(([x, y, w, h]) => `<rect x="${x}" y="${y}" width="${w}" height="${h}"/>`).join('')}</clipPath>` : ''}`).join('')}</defs>`;
@@ -699,13 +734,20 @@ export function ambientLayer(room, frame, { dark = false } = {}) {
   return svg;
 }
 
+/** The ship's one clock starts here: live, every window on every phone shows the voyage at the same moment. */
+export const SKY_EPOCH = Date.UTC(2026, 10, 1);
+
 /**
- * Live, the layer runs. Otherwise it is held still at `at` seconds, so every review render of a
- * state is the same picture.
+ * Live, the layer runs on the ship's one clock (the time since SKY_EPOCH; in the game, the match's server
+ * time), so every room and every phone is at the same moment and switching rooms carries on. Otherwise it
+ * is held still at `at` seconds, so every review render of a state is the same picture.
  */
-export function settleAmbient(root, { live = false, at = 0 } = {}) {
-  if (live) return;
+export function settleAmbient(root, { live = false, at = 0, now = Date.now() } = {}) {
+  const ms = live ? now - SKY_EPOCH : at * 1000;
   for (const svg of root.querySelectorAll('svg.amb')) {
-    for (const a of svg.getAnimations({ subtree: true })) { a.pause(); a.currentTime = at * 1000; }
+    for (const a of svg.getAnimations({ subtree: true })) {
+      a.currentTime = ms;
+      if (!live) a.pause();
+    }
   }
 }

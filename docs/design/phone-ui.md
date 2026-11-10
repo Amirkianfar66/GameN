@@ -124,15 +124,16 @@ These are routine decisions, made by Designer under the brief. The owner can ove
 
 The owner asked on 9 November: "The monitors and screens look not static. Windows of spaceship in any room not static feeling like the spaceship moving in space. Some color buttons and lights on/ off generally some dynamic environment". Room A was drawn first and approved, and its window was made a voyage; Room B got a window; then: "Yes i am happy you can go for all rooms". The source is `prototype/ambient.mjs` and `ambient.css`; the timings are in the [handoff](phone-ui-handoff.md#ambient-motion-in-the-rooms).
 
-- **Windows: a voyage each.** Stars drift past at three depths, dust clouds and a far galaxy slower still, with now and then a shooting star. Over one loop the room's own planet leaves and comes back, and other things cross the glass:
-  - Room A (90 s): a ringed gold giant, a grey moon, a comet and tumbling asteroids;
-  - Room B (110 s): its middle screen is now a three-pane window in the room's own style, with a teal planet, a cream banded giant, two small moons, a comet and asteroids. Its atom diagram moved to the small screen on the right wall, where the slit window was;
-  - Command Room (120 s): its vast cream world sinks out of sight and rises again; a comet, a ringed cream giant, a far double star, an asteroid belt and a moon pass;
-  - Hospital (100 s): its cream world sinks and rises in the tall window; a comet, a small ringed giant, asteroids and a moon go by.
+- **Windows: one voyage for the whole ship.** The owner asked whether the windows were aligned, "because overall the complete spaceship passing space", then: "yes align them". So every window looks out at one sky on one clock:
+  - **One sky.** The same things pass every window, right to left: a comet, a ringed gold giant, a far double star, a teal world, an asteroid belt, a ringed cream giant, a cream banded giant, a grey moon and two small moons. Each reaches the Command Room's window first, then Room A's, Room B's and the Hospital's, 6 s apart, in the order the board stacks the rooms.
+  - **One home world.** At rest every window shows the same cream world low in the glass, as Room A's, the Command Room's and the ward's art draw it; Room B's new window shows it too. It sinks out of every window together and rises back together.
+  - **One speed and one clock.** Stars at each depth, dust and every passer move at the same speed in every room. The 4-minute voyage runs on the ship's one clock (the match's server time in the game), so every room and every phone shows the same moment, and switching rooms carries on instead of starting again.
+  - Stars drift at three depths, dust clouds and a far galaxy slower still, with now and then a shooting star.
+  - Room B's middle screen is now a three-pane window in the room's own style; its atom diagram moved to the small screen on the right wall, where the slit window was.
 - **Screens, keys and lights.** Screens retype, scroll, ping and beat (Room A's monitors and console, Room B's atom screen and readout, the Command Room's four consoles, the Hospital's heart monitor). Keys light in turn, small lights blink, bubbles rise in Room B's tank, the ward's ceiling vent turns. The Jail (no window) keeps a blinking cursor on its keypad, a standby scan on the door's display, light running along its pipes and dust in its lamp's light; the private-talk capsule's panel lamps blink and dust drifts in its lamp's light.
 - **Never a game fact.** It is the same on every phone at every moment and is drawn from the room alone. No window shows a blue, red or lavender world or a black hole, and nothing follows the ship's course, which only the Captain and Officer know. No team colour is used. Nothing moves that the game uses to say something: the Command Room's chart table, the Hospital's berth monitors and lamps, the Jail's keypad keys and lamp, and the capsule's door light stay as drawn.
 - **Lights out.** In the Blackout's dark pictures every screen and light is off. The windows keep moving, dimmed by the dark pictures' own rule for space (42% of the colour over the night's dark), and Room B keeps its window and moved screen in the dark.
-- **Reduce motion** holds it still. The review sheets hold it at a fixed moment (`amb=<seconds>`, otherwise 0 s); `live=1` lets it run in the prototype.
+- **Reduce motion** holds it still. The review sheets hold every room at the same moment (`amb=<seconds>`, otherwise 0 s); `live=1` runs it in the prototype on the ship's clock.
 
 ## The role stage (F): 30 seconds
 

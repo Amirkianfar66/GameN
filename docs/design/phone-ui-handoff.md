@@ -87,10 +87,10 @@ Source: `design/phone-ui/prototype/ambient.mjs` (what is drawn, per room) and `a
 
 | What | Motion | Pace |
 | --- | --- | --- |
-| Window stars | Three depths drift right to left, a tile each | 84 s, 42 s and 20 s per tile |
-| Dust clouds and the galaxy | Drift with the far stars, slower | One voyage per tile |
+| Window stars | Three depths drift right to left, at the same speed in every window | 2.3, 4.6 and 9.6 scene units a second |
+| Dust clouds and the galaxy | Drift slower than the near stars, the same in every window | 2.9 scene units a second |
 | Shooting stars | Two, each now and then | Every 12 s and 17 s |
-| A window's voyage | The room's planet leaves and returns; other things cross once a loop | Room A 90 s · Room B 110 s · Command Room 120 s · Hospital 100 s |
+| The ship's voyage | One sky for every window: the cream world sinks from every window together (0–24 s) and rises back together (216–240 s); nine passers cross each window once a loop, reaching the Command Room first, then Room A, Room B and the Hospital, 6 s apart | 240 s; passers 6–28 scene units a second |
 | Lines on a screen | Retype | 6.4 s |
 | A cursor | Blinks | 1.1 s |
 | A trace, a heartbeat | Scroll | 2.8 s; a beat every 1.2 s |
@@ -100,7 +100,8 @@ Source: `design/phone-ui/prototype/ambient.mjs` (what is drawn, per room) and `a
 | Small lights | Blink: slow, fast, flicker | 2.2 s, 1.3 s, 3.1 s |
 | Bubbles, a vent, pipes, a display, dust | Rise, turn, glint, scan, drift | 4.2–6.9 s, 5 s, 7 s, 5 s, 9–16 s |
 
-- Only transforms, opacity, fills and stroke offsets animate. Everything starts at 0 s when the room is shown, so a still taken at a given time (`amb=<seconds>`) is the same picture everywhere.
+- Only transforms, opacity, fills and stroke offsets animate.
+- **One clock.** Every animation's time is the ship's one clock: the time since `SKY_EPOCH` (1 November 2026, UTC), taken in the game from the match's server time. Every room and every phone is then at the same moment of the voyage, and a room shown again carries on rather than starting over. A still taken at a given time (`amb=<seconds>`) is the same picture in every room.
 - **Lights out:** with the dark picture, only the windows are drawn, over it (z 2802): the same voyage under a #0C1018 layer at 58% (the night rule's space mix). Every screen and light is off. Room B's window and moved screen are drawn in the night colours.
 - **Reduce motion** pauses every animation where it stands (the system's setting and the game's).
 - It must stay decorative: no game state, role, team, route or timer may drive it, and no team colour may enter it.
