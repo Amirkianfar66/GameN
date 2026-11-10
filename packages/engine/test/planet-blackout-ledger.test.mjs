@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {test} from 'node:test';
 import {PLANET_BLACKOUT_PINS,PLANET_PHONE_OFFER_PINS} from '@mothership/contracts';
-import {assertPlanetGameState,decodePlanetGameState,encodePlanetGameState,advancePlanetDeadline} from '../dist/index.js';
+import {assertPlanetGameState,decodePlanetGameState,encodePlanetGameState,advancePlanetDeadline,abortPlanetGame} from '../dist/index.js';
 import {resolvePlanetBlackoutBatch} from '../dist/planet-game/physical.js';
 import {planetWorldDriver,currentWorld,worldSeat} from './planet-world-helper.mjs';
 const copy=value=>structuredClone(value);
@@ -72,4 +72,44 @@ test('historical tuples reject candidate publication and private admission field
   const d=planetWorldDriver(7,{versions:{...PLANET_PHONE_OFFER_PINS,assetManifestVersion:'planet-world-test-art'}});
   assertPlanetGameState(d.state);
   rejectMutations(d.state,[['candidate batch',s=>s.blackoutBatch=null],['candidate checkpoint',s=>s.finalized.checkpoint='INITIAL']]);
+});
+
+for(const count of [7,8,9])test(`${count}: empty terminal batch markers restore only under their matching current publication checkpoint`,()=>{
+  const d=planetWorldDriver(count,{versions:{...PLANET_BLACKOUT_PINS,assetManifestVersion:'planet-world-test-art'}});
+  const initial=copy(d.state);
+  const abort=(state,label)=>abortPlanetGame(state,{now:state.evaluatedAt+1,nextPhaseId:`marker-abort-${label}-${count}`,nextDeadlineToken:`marker-token-${label}-${count}`,random:[]});
+  d.until(s=>s.phase.kind==='BLACKOUT');const openOne=copy(d.state),canceledOne=abort(openOne,'open-one');
+  assert.equal(openOne.blackoutBatch.attempts.length,0);
+  d.deadline();const afterOne=copy(d.state),afterAbort=abort(afterOne,'after-one');
+  d.until(s=>s.round===2&&s.phase.kind==='BLACKOUT');const canceledTwo=abort(d.state,'open-two');
+  d.until(s=>s.round===2&&s.phase.kind==='NAV_SETTING');const completed=copy(d.state),completedAbort=abort(completed,'completed');
+  d.until(s=>s.round===3);const carried=copy(d.state),carriedAbort=abort(carried,'carried');
+  const initialAbort=abort(initial,'initial');
+  for(const state of [initial,initialAbort,openOne,canceledOne,afterOne,afterAbort,completed,completedAbort,carried,carriedAbort]){
+    assert.deepEqual(decodePlanetGameState(encodePlanetGameState(state)),state,'Legitimate native/current or preserved-abort checkpoint restores');
+  }
+  assert.equal(afterOne.finalized.checkpoint,'AFTER_BLACKOUT');assert.equal(afterOne.blackoutBatch.status,'RESOLVED');
+  assert.equal(completed.finalized.checkpoint,'ROUND_FINALIZED');assert.equal(completed.finalized.round,completed.round);
+  assert.equal(carried.finalized.round,carried.round-1);assert.equal(carried.blackoutBatch,null);
+  const transplanted=(destination,source,claimCurrentRound=false)=>{
+    const state=copy(destination);state.blackoutBatch=copy(source.blackoutBatch);
+    if(claimCurrentRound)state.blackoutBatch.round=state.round;
+    state.evaluatedAt=Math.max(state.evaluatedAt,state.blackoutBatch.completedAt??state.evaluatedAt);
+    return state;
+  };
+  const invalid=[
+    ['resolved under INITIAL/PRE_TURN',transplanted(initial,afterOne)],
+    ['resolved under INITIAL/ABORTED',transplanted(initialAbort,afterOne)],
+    ['resolved under preserved PRE_BLACKOUT',transplanted(canceledOne,afterOne)],
+    ['resolved on prior-round carry',transplanted(carried,completed,true)],
+    ['resolved on preserved prior-round carry',transplanted(carriedAbort,completed,true)],
+    ['aborted pending under INITIAL',transplanted(initialAbort,canceledOne)],
+    ['aborted pending under AFTER_BLACKOUT',transplanted(afterAbort,canceledOne)],
+    ['aborted pending under completed round',transplanted(completedAbort,canceledTwo)],
+    ['aborted pending on prior-round carry',transplanted(carriedAbort,canceledTwo,true)],
+  ];
+  for(const [label,state]of invalid){
+    const before=copy(state);assert.throws(()=>decodePlanetGameState(state),undefined,label);
+    assert.deepEqual(state,before,'Invalid restore is rejected without repair or mutation');
+  }
 });

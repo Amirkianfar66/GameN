@@ -29,8 +29,9 @@ function assertBlackoutBatch(s:PlanetGameState,ids:SeatId[]):void {
     fail(JSON.stringify(batch.snapshot)===JSON.stringify(world.seats.map(seat=>planetSeatView(world,seat))),'frozen Blackout occupancy and health');
   }else{
     fail(TimestampSchema.safeParse(batch.completedAt).success&&batch.completedAt!<=s.evaluatedAt&&batch.completedAt!>=batch.startedAt,'Blackout completion clock');
-    if(batch.status==='RESOLVED')fail(batch.completedAt!>=batch.endsAt&&s.phase.kind!=='BLACKOUT'&&requests.length===0,'completed Blackout cannot resolve twice');
-    else fail(s.phase.kind==='ABORTED','canceled pending batch only on match abort');
+    if(batch.status==='RESOLVED')fail(batch.completedAt!>=batch.endsAt&&requests.length===0&&s.finalized.round===s.round
+      &&['AFTER_BLACKOUT','ROUND_FINALIZED'].includes(checkpoint),'completed Blackout requires its current physical publication');
+    else fail(s.phase.kind==='ABORTED'&&checkpoint==='PRE_BLACKOUT'&&s.finalized.round===s.round,'canceled pending batch requires its preserved pre-Blackout publication');
   }
   if(batch.status!=='RESOLVED')fail(requests.length===batch.attempts.length,'all admitted requests retained until completion');
   for(const [index,row]of batch.attempts.entries()){
