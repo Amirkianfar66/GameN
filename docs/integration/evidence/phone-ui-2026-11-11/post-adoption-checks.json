@@ -55,5 +55,45 @@
     "failed": 0,
     "skipped": 0,
     "durationMs": 17996.813042
+  },
+  "preCopyVerifyInterrupted": {
+    "sourceCommit": "81f3eeb355816b234ac006b611c25c0e6dc446ac",
+    "exitCode": 130,
+    "reason": "Integration intentionally stopped the earlier run to adopt the reviewed copy-only follow-up and verify the final clean candidate. Not a completed full verification.",
+    "completedPassed": {
+      "bootstrap": 204,
+      "engine": 1536,
+      "backend": 395,
+      "tooling": 317,
+      "presentation": 218,
+      "app": 733,
+      "design": 301,
+      "balanceStatic": 103
+    },
+    "scenarioCatalogue": {
+      "passed": 516,
+      "reviewedBlocked": 33,
+      "manual": 6
+    },
+    "remainingIncomplete": [
+      "Scenario playout/report gate",
+      "Capacity"
+    ],
+    "log": "docs/integration/evidence/phone-ui-2026-11-11/pre-copy-verify-interrupted.log"
+  },
+  "roundOrderFollowup": {
+    "nativeCommit": "d1a03c87e80de7b5923c97a15a968c1ba6f5b40c",
+    "focusedLibraryTests": {
+      "passed": 7,
+      "failed": 0
+    },
+    "report": "docs/integration/evidence/phone-ui-2026-11-11/round-order-review.json",
+    "sourceIntegrity": "passed",
+    "fullTooling": {
+      "passed": 317,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 20220.195042
+    }
   }
 }

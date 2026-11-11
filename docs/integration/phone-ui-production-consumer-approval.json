@@ -2,7 +2,7 @@
   "schema": "mothership.phone-ui-production-consumer-approval/1",
   "status": "approved-production-consumer",
   "scope": "Exact reviewed native phone and pre-vote Blackout consumer. Preserved artwork and historical source identities; no rule activation or cloud operation.",
-  "nativeCommit": "b63403e6a8d1b5f68f48ec13f4a392a79870bfcd",
+  "nativeCommit": "d1a03c87e80de7b5923c97a15a968c1ba6f5b40c",
   "backendDependency": {
     "pr": 213,
     "head": "1900566f7237bc5a8032acdfb09208f95e68e2c0",
@@ -90,9 +90,9 @@
         "b18fa2c7c4065ecf12623719eeed439586aa998e636664c520ad8174bee142d2",
         "d8f1d3e14278aed096c9a19e8e0c6b30e6d15bccdf38e6d31b4b81f8826f3beb"
       ],
-      "sha256": "eebeedc53ce57753a9825cdfe9dc012c7391e67c30f2dcdf46be7e1b68079594",
-      "bytes": 50680,
-      "candidateBlob": "design/releases/candidate-blobs/eebeedc53ce57753a9825cdfe9dc012c7391e67c30f2dcdf46be7e1b68079594"
+      "sha256": "f1d32153c5d324ca0c7b47bd5d21bda8d7a6c1033b95090bc2ad85cb5458ece3",
+      "bytes": 50620,
+      "candidateBlob": "design/releases/candidate-blobs/f1d32153c5d324ca0c7b47bd5d21bda8d7a6c1033b95090bc2ad85cb5458ece3"
     },
     "apps/game/src/planet/controller.ts": {
       "previousSha256": "4491782063738ea4d8c8fac72204e019dcf935fa27872513bfa40e7c137a4c57",
@@ -138,9 +138,9 @@
         "4e370ff02c4e9d5405e407f49d3dedaceb9a989252274f90dc9e8bb4e2143b17",
         "b4b283f5dc3fbc296f756014c97ac7bca786dedeb2617b124c191187d4f9c2c3"
       ],
-      "sha256": "2c5e91394ed76db8a814dbb91dc4a4708027b763547564a186cb6e1e59b9a122",
-      "bytes": 3343,
-      "candidateBlob": "design/releases/candidate-blobs/2c5e91394ed76db8a814dbb91dc4a4708027b763547564a186cb6e1e59b9a122"
+      "sha256": "da670888f095071215d0d963cb5b5c635ae068afa4f66aa37a7a297bd44b8e68",
+      "bytes": 3871,
+      "candidateBlob": "design/releases/candidate-blobs/da670888f095071215d0d963cb5b5c635ae068afa4f66aa37a7a297bd44b8e68"
     },
     "packages/presentation/src/planet/model.ts": {
       "previousSha256": "d611b72dec085315aa1935065a43126bb2f2b9de56f69fd7d4d9c6bb3fe527c9",
@@ -166,13 +166,13 @@
       },
       {
         "path": "docs/frontend/pre-vote-consumer-inventory.json",
-        "sha256": "544bb892a52c6a9d1c8b4095002b32b67234a6a4074fa5457fa6b4922ecc3168",
-        "bytes": 5780
+        "sha256": "ad280b31ba9fb21b67aee7d2f174d9fbc3af419641dc2974b526d986a520b67d",
+        "bytes": 6453
       },
       {
         "path": "docs/frontend/pre-vote-consumer-verification.json",
-        "sha256": "983124007a937a0d0de5e4aa779aba12dd6587d0172f04d785a82660d3b0394e",
-        "bytes": 8927
+        "sha256": "d3d42d0621da06b29a7d2ff253684264d8071d82cada8dd484f6979115b5d48d",
+        "bytes": 12902
       },
       {
         "path": "docs/frontend/evidence/pre-vote-consumer-2026-11-11/connected/facts.json",
@@ -233,6 +233,26 @@
         "path": "docs/integration/evidence/phone-ui-2026-11-11/designer-focused.log",
         "sha256": "7b7d3c7dfa46f6b7975a8ac6b6ef62fc6e54f14077360353653b652a1865f8b9",
         "bytes": 3516
+      },
+      {
+        "path": "docs/frontend/evidence/pre-vote-consumer-2026-11-11/round-order/facts.json",
+        "sha256": "357860bbebe9b53cb437238223c5216fc022a9afe3133c4f99a32ddb1e048d8d",
+        "bytes": 5737
+      },
+      {
+        "path": "docs/frontend/evidence/pre-vote-consumer-2026-11-11/round-order/provenance.json",
+        "sha256": "3422043a13b4c7889c965b22bad4b06e4ba52cd795b7367fef974806471852f0",
+        "bytes": 39470
+      },
+      {
+        "path": "docs/integration/evidence/phone-ui-2026-11-11/round-order-review.json",
+        "sha256": "3c1b3cd8b7bb63426581307dd00459a630c48df1bc412bd7c2fb27cafad43c86",
+        "bytes": 1948
+      },
+      {
+        "path": "docs/integration/evidence/phone-ui-2026-11-11/round-order-focused.log",
+        "sha256": "19d71d4291c5e9997048496a3965d634dc9d4f836673e9808dd24a75ed7d0769",
+        "bytes": 1741
       }
     ],
     "files": [
@@ -285,12 +305,27 @@
         "path": "docs/frontend/evidence/pre-vote-consumer-2026-11-11/presentation/320-568-200-8-reduced-keyboard-choice.jpg",
         "sha256": "996dd4a2644484eeae6bb3948a3a9f076af66836baa799da8d2f3cd17a455237",
         "bytes": 38141
+      },
+      {
+        "path": "docs/frontend/evidence/pre-vote-consumer-2026-11-11/round-order/blackout-390-844-100-top.jpg",
+        "sha256": "b49ba19fde4c11846374d3288cf591f3dba8199e0b8da0d411e475fd746b23ac",
+        "bytes": 44391
+      },
+      {
+        "path": "docs/frontend/evidence/pre-vote-consumer-2026-11-11/round-order/blackout-320-568-200-bottom.jpg",
+        "sha256": "aef24e454f692afde919c2bb52a6e6d8094c1c9b72fdbaf2cf330a9452b6ec94",
+        "bytes": 42405
+      },
+      {
+        "path": "docs/frontend/evidence/pre-vote-consumer-2026-11-11/round-order/phone-390-844-100-top.jpg",
+        "sha256": "7ef4ae9ace512ef746b44d15a949393306785a453dcc75bee49ff6f5146be5a9",
+        "bytes": 41319
       }
     ],
     "acceptance": {
       "path": "docs/integration/evidence/phone-ui-2026-11-11/integration-acceptance.json",
-      "sha256": "c996016a4f1838d9fe001dcc3cb5765e06f13ca59f29689fa0be9f62a7214ad7",
-      "bytes": 4534
+      "sha256": "d832d049f80e6f6756702e3809d240168ef6f79cdf90032f5f7624ad104652ea",
+      "bytes": 5712
     }
   }
 }

@@ -5,8 +5,8 @@
   "parentApprovalSha256": "1dafdb0d823f8e561cea94660a02f0cb9a049a92527c92d3f51a2f42e662003b",
   "productionConsumerApproval": {
     "path": "docs/integration/phone-ui-production-consumer-approval.json",
-    "sha256": "1ec8ae1c1350bdce938a657abb19ab5d79960f73067c49a2af6da3d7968d4756",
-    "bytes": 14113
+    "sha256": "295063f3a64443cc5bc9a6baf4c7ffd3344c37d98f0a556387b1219997ff9057",
+    "bytes": 15700
   },
   "scope": "Exact native consumers and reviewed build verification only. No new drawing ports, source pins, styles or prototype imports.",
   "requiredFiles": {
@@ -16,7 +16,7 @@
     "apps/game/hosted/planet/phone-controls.mjs": "34a9e2b9253e4b81c09b0e3aab594efccac056adf7a4b05e9cd2e0b392834758",
     "apps/game/hosted/planet/phone-layout.mjs": "e2f336ce00048cac3e24710a2f2faa37abd422ac937345ce3dada7a2891ecfb2",
     "apps/game/hosted/planet/phone.css": "d1d70c3fd7d38dab73095858d38697c70f0a9edfc36d9851e3e547b5dfb8328d",
-    "apps/game/hosted/planet/render.mjs": "eebeedc53ce57753a9825cdfe9dc012c7391e67c30f2dcdf46be7e1b68079594",
+    "apps/game/hosted/planet/render.mjs": "f1d32153c5d324ca0c7b47bd5d21bda8d7a6c1033b95090bc2ad85cb5458ece3",
     "apps/game/src/planet/controller.ts": "aad0033bad2eb6efaab4f814435f455bcbdaa065e05da75c931a28c4930e9abf",
     "apps/game/src/planet/pregame.ts": "58bf5dc183eab8a22b1e749e8249af63cb628419fb95b444573dd7cc682282ab",
     "apps/game/src/planet/session.ts": "214ce6d2f8cbf62427aaeaba70aa774aafa1803328666bf6179382a7d56966df",
@@ -32,6 +32,11 @@
     "docs/frontend/evidence/pre-vote-consumer-2026-11-11/presentation/390-844-100-9-reduced-result.jpg": "9ae2eaecf6cf2f4149defc5f467bb7e00e15ebc7f1171a9e9bb34f7fbd058e1f",
     "docs/frontend/evidence/pre-vote-consumer-2026-11-11/presentation/facts.json": "10c750a3b8d6d7ce88c74fced007954de2b9b546f17a25892cac08740913de3c",
     "docs/frontend/evidence/pre-vote-consumer-2026-11-11/presentation/provenance.json": "08c65a1f80157c91b88bca44725a3b3fe89d3f5a4a541ec69acc5f054873a977",
+    "docs/frontend/evidence/pre-vote-consumer-2026-11-11/round-order/blackout-320-568-200-bottom.jpg": "aef24e454f692afde919c2bb52a6e6d8094c1c9b72fdbaf2cf330a9452b6ec94",
+    "docs/frontend/evidence/pre-vote-consumer-2026-11-11/round-order/blackout-390-844-100-top.jpg": "b49ba19fde4c11846374d3288cf591f3dba8199e0b8da0d411e475fd746b23ac",
+    "docs/frontend/evidence/pre-vote-consumer-2026-11-11/round-order/facts.json": "357860bbebe9b53cb437238223c5216fc022a9afe3133c4f99a32ddb1e048d8d",
+    "docs/frontend/evidence/pre-vote-consumer-2026-11-11/round-order/phone-390-844-100-top.jpg": "7ef4ae9ace512ef746b44d15a949393306785a453dcc75bee49ff6f5146be5a9",
+    "docs/frontend/evidence/pre-vote-consumer-2026-11-11/round-order/provenance.json": "3422043a13b4c7889c965b22bad4b06e4ba52cd795b7367fef974806471852f0",
     "docs/frontend/evidence/pre-vote-consumer-2026-11-11/synthetic/320-568-7-normal-room-tag-slots.jpg": "c73c079cbf80dc67eb82b162f6e059fd98fb01653c9202015d89e5b21e82439f",
     "docs/frontend/evidence/pre-vote-consumer-2026-11-11/synthetic/390-844-8-reduced-public-after-blackout.jpg": "dfc6c2acafbe7850e46fcd8899d354a721678d58032ed15bf5332382dbbe84aa",
     "docs/frontend/evidence/pre-vote-consumer-2026-11-11/synthetic/430-932-9-normal-dark-code.jpg": "6093c7c73ab84be19dc253814989540c12c7dd1a4443d468bcf2302ecc8020d1",
@@ -39,20 +44,22 @@
     "docs/frontend/evidence/pre-vote-consumer-2026-11-11/synthetic/provenance.json": "241e4904a017172d7885164157530826e27ed5cd7c954b247d43abe7e2b2d925",
     "docs/frontend/phone-ui-consumer-inventory.json": "d171d506f7538769b2539d279e6909589e2fe47d2e061ce737c9283768110f99",
     "docs/frontend/phone-ui-verification.json": "91d48c2223f0f49945854f33e1e47d57bc15582c9f5c1ae507b380118031401f",
-    "docs/frontend/pre-vote-consumer-inventory.json": "544bb892a52c6a9d1c8b4095002b32b67234a6a4074fa5457fa6b4922ecc3168",
-    "docs/frontend/pre-vote-consumer-verification.json": "983124007a937a0d0de5e4aa779aba12dd6587d0172f04d785a82660d3b0394e",
+    "docs/frontend/pre-vote-consumer-inventory.json": "ad280b31ba9fb21b67aee7d2f174d9fbc3af419641dc2974b526d986a520b67d",
+    "docs/frontend/pre-vote-consumer-verification.json": "d3d42d0621da06b29a7d2ff253684264d8071d82cada8dd484f6979115b5d48d",
     "docs/integration/evidence/phone-ui-2026-11-11/blackout-focused.log": "b604ad90f1e333e9b6d75f5b02a9174a8f1f68ceddf683323c9a9567a4a5f613",
     "docs/integration/evidence/phone-ui-2026-11-11/designer-focused.log": "7b7d3c7dfa46f6b7975a8ac6b6ef62fc6e54f14077360353653b652a1865f8b9",
     "docs/integration/evidence/phone-ui-2026-11-11/designer-review.json": "b4b17fb49c26d44d9403c928b550c953d2d038326a9917fed543ebb6946a58d9",
-    "docs/integration/evidence/phone-ui-2026-11-11/integration-acceptance.json": "c996016a4f1838d9fe001dcc3cb5765e06f13ca59f29689fa0be9f62a7214ad7",
+    "docs/integration/evidence/phone-ui-2026-11-11/integration-acceptance.json": "d832d049f80e6f6756702e3809d240168ef6f79cdf90032f5f7624ad104652ea",
     "docs/integration/evidence/phone-ui-2026-11-11/phone-boundaries-c5.log": "1ab34fd3bbd1e812786765be100306b95fce396106fb6b92fc898cf7e7bd5e7b",
+    "docs/integration/evidence/phone-ui-2026-11-11/round-order-focused.log": "19d71d4291c5e9997048496a3965d634dc9d4f836673e9808dd24a75ed7d0769",
+    "docs/integration/evidence/phone-ui-2026-11-11/round-order-review.json": "3c1b3cd8b7bb63426581307dd00459a630c48df1bc412bd7c2fb27cafad43c86",
     "docs/integration/evidence/phone-ui-2026-11-11/runtime-review.json": "168d89f36e6e4d9cf1b859e3b8c79a49255fb3b43b59045aec888a1155e7c04f",
     "docs/integration/evidence/phone-ui-2026-11-11/tooling-read-only-review.json": "3c1659fbdce4cf68f56f190428db0e34bdc19b7921a211a7db4c51ef549082a9",
-    "docs/integration/phone-ui-production-consumer-approval.json": "1ec8ae1c1350bdce938a657abb19ab5d79960f73067c49a2af6da3d7968d4756",
-    "packages/presentation/src/planet/library.ts": "2c5e91394ed76db8a814dbb91dc4a4708027b763547564a186cb6e1e59b9a122",
+    "docs/integration/phone-ui-production-consumer-approval.json": "295063f3a64443cc5bc9a6baf4c7ffd3344c37d98f0a556387b1219997ff9057",
+    "packages/presentation/src/planet/library.ts": "da670888f095071215d0d963cb5b5c635ae068afa4f66aa37a7a297bd44b8e68",
     "packages/presentation/src/planet/model.ts": "c8598cfbdb96614dd743c473523db0d8105c54e5e5bc65a4257062c6c8f6fb7b",
     "scripts/hosted-art-releases.mjs": "3b5afa004c9bc61db833a4be6c7b9cd371df4b0e4d957082d0124686d0ad4529",
-    "scripts/phone-ui-consumer-approval.mjs": "4b9bd25a8fc76c6e185f8c2013cd7a22b27a99c759d459457460dc391975e230",
+    "scripts/phone-ui-consumer-approval.mjs": "8d79034fa0d4c5631e47c998293d192abd0bde7cdf9eee32f35a7bdcc1a099aa",
     "scripts/pregame-consumer-approval.mjs": "cb46419830248470bfb47e7ad7a6843d0715bcaa632dbed8896258cd0dbdaf50",
     "scripts/pregame-consumer-candidate.mjs": "56bf1986f65929f9f9f936adec19e64e3b2f8f99e575b6ec29ca46ce3e2002da",
     "scripts/prepare-hosted-preview.mjs": "9bc95c1ccd30a98f1e28ecfd4e8e1520da04244ec6b986c98020c79c6145edd7"
@@ -65,7 +72,7 @@
       ]
     },
     "apps/game/hosted/planet/render.mjs": {
-      "sha256": "eebeedc53ce57753a9825cdfe9dc012c7391e67c30f2dcdf46be7e1b68079594",
+      "sha256": "f1d32153c5d324ca0c7b47bd5d21bda8d7a6c1033b95090bc2ad85cb5458ece3",
       "permittedLiterals": [
         "board-v2"
       ]

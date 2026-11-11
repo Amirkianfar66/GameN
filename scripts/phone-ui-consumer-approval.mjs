@@ -5,7 +5,7 @@ import {posix, resolve} from 'node:path';
 
 export const PHONE_UI_CONSUMER_APPROVAL = 'docs/integration/phone-ui-production-consumer-approval.json';
 // Filled only after the exact source and evidence receive Integration review.
-export const PHONE_UI_CONSUMER_APPROVAL_SHA256 = '1ec8ae1c1350bdce938a657abb19ab5d79960f73067c49a2af6da3d7968d4756';
+export const PHONE_UI_CONSUMER_APPROVAL_SHA256 = '295063f3a64443cc5bc9a6baf4c7ffd3344c37d98f0a556387b1219997ff9057';
 const PARENT_APPROVAL = 'docs/integration/pregame-production-consumer-approval-2026-11-08.json';
 const PARENT_APPROVAL_SHA256 = '5f749f5f7db1286520fcf8b77e8f8e4c001dd5c77d8aff4f1c5791911eec81e6';
 const PARENT_CANDIDATE = 'docs/integration/pregame-consumer-candidate-2026-11-08.json';

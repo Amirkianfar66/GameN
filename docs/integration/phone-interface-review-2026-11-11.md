@@ -8,7 +8,7 @@ The owner selected Blackout resolution before the Jail vote. Backend records tha
 
 - Backend phone/setup base: `19564d0c618dae9995bbd92979d248e82dba0a8f`, PR #210.
 - Native phone source: `838558bdc8d9eb3793d268375583260d8e4c4433`; evidence-only follow-up `bd5042a15b630ed270c8147f7c0d3f9694e4a3ac`, PR #212.
-- First pre-vote native source: `5a891e7a3094eb78c0ffd292626a180656e96795`. The corrected fixed-slot camera is `c5a70b7eea1c3f755f655d37ac729e5f78d24efc`. Final native source is `b63403e6a8d1b5f68f48ec13f4a392a79870bfcd`, which changes only `phone.css` and `render.mjs` from the corrected camera commit.
+- First pre-vote native source: `5a891e7a3094eb78c0ffd292626a180656e96795`. The corrected fixed-slot camera is `c5a70b7eea1c3f755f655d37ac729e5f78d24efc`. The glass/roster native source is `b63403e6a8d1b5f68f48ec13f4a392a79870bfcd`, which changes only `phone.css` and `render.mjs` from the corrected camera commit.
 - Final Backend head: `1900566f7237bc5a8032acdfb09208f95e68e2c0`, PR #213. Runtime is frozen at `c492523845567c7e4e672991e11c058e88ccea27`; subsequent changes are tests and audit documentation.
 - Pre-vote Blackout contract: `44d008df0f1cc6fbb2d6c4c0b4b9c95f50c752c3`; authority SHA-256 `2505515ad41e9d49c06bd14aaf9dab56dcf0adb471725c1c15d877a0f0b97556`. Integration and Frontend accepted this contract for implementation. Final runtime and consumer review are separate.
 - Designer reference: PR #207 at `e4fd047fec2cde1d6534b3276a2ae39d5ca10a9b`, superseding the reviewed `d52a8ae94f7639dd853f04b4e897b9b77aecff42`. Its prototype sources and the new room artwork in #197 are not runtime inputs in this candidate.
@@ -70,3 +70,11 @@ Read-only staging metadata still identifies source `fb33cecbf4b0fc2bef5d107e79ae
 The exact native inventory is b63403e6; PR #216 carries its evidence at 05d2746bc608db66a7f609e4e519d6f1036ab76c. Frontend reports 951 passing presentation/app tests (218 + 733), with its first sandbox-only loopback EPERM attempt preserved separately. Integration independently passed source integrity and all 53 focused adoption, predecessor, tamper, fence and release-metadata tests in 16,630.225417 ms. The first focused run rejected the tampered files correctly but two tests expected the old diagnostic prefix; only the exact accepted diagnostic alternatives changed, and every rejection assertion remains. Full combined verification and final release CI are still required.
 
 Designer PR #207 was independently read back as merged at 76eb5d1f1f9d9dc4e1f5da1ebe5b0ae2a945e060 on 11 November 2026, after all nine checks passed on e4fd047f. That design-only merge does not publish the native interface or activate the new gameplay profile.
+
+## Exact-tuple Round order correction
+
+The final review found that the native Round order panel still described the historical post-vote Blackout sequence. Frontend corrected only `render.mjs` and `library.ts` at `d1a03c87e80de7b5923c97a15a968c1ba6f5b40c`, with one focused regression. PR #216 carries the evidence at `1c221832566469ada9bc8a34294370b6427f9b37`. This is the final native inventory, superseding b634 only for these two consumer files. No gameplay, artwork, camera, layout, receipt or timer logic changed.
+
+Integration reviewed the exact diff, independently passed all seven focused library tests, verified 112 committed and 59 built module hashes against the six new native panel cases, and visually checked the 1.3 ordinary/enlarged-text panels and saved 1.2 panel. The captured tree is marked dirty because of review work; every captured committed-module byte matched the native Git commit. Earlier c5a/b634 evidence retains its original identity. Frontend also reports a fresh passing 952-test suite (219 presentation + 733 app).
+
+The prior clean Integration verification at 81f3eeb3 was intentionally interrupted after the unit, design, static and catalogue stages; its remaining playout/report/capacity gates were not completed. Its actual log and exit 130 are retained. Final clean verification and GitHub CI on the repinned candidate remain required.
