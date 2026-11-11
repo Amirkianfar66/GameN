@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {createPlanetSession} from '../dist/index.js';
-import {readPlanetBlackoutFraming} from '../dist/planet/blackout-framing.js';
+import {readPlanetBlackoutFraming,readPlanetBlackoutFrameInput} from '../dist/planet/blackout-framing.js';
 import {sessionScenario} from '../dev/planet/scenarios.mjs';
 import {phoneLayouts,createBlackoutGeometry} from '../hosted/planet/phone-layout.mjs';
 import {rig} from './planet-support.mjs';
@@ -15,8 +15,8 @@ test('cold entry reads only same-response public positions, independent of audie
   const s=fixture(count);s.playerView.viewRevision=37;s.publicView.viewRevision=4;
   Object.assign(s.playerView.board.seats[0],{location:'Jail',slotId:'J1',jailed:true});
   const positions=readPlanetBlackoutFraming(s,contextOf(s),synced);
-  assert.deepEqual(positions,s.publicView.board.seats.map(({location,slotId})=>({location,slotId})));
-  assert.ok(positions.every(p=>Object.keys(p).sort().join(',')==='location,slotId'));
+  assert.deepEqual(positions,s.publicView.board.seats.map(({location,slotId,health})=>({location,slotId,eliminated:health==='Eliminated'})));
+  assert.ok(positions.every(p=>Object.keys(p).sort().join(',')==='eliminated,location,slotId'));
   positions[0].location='Hospital';assert.equal(s.publicView.board.seats[0].location,'Room A','No reference to the original snapshot escapes');
  }
 });
@@ -58,7 +58,7 @@ function sessionRig(){
 }
 
 test('session bridge requires fresh authorization and suppresses callbacks while hidden, stale, changed-user or expired',async()=>{
- const r=sessionRig();let calls=0;const prepare=positions=>{calls++;return phoneLayouts({width:390,height:844,top:80,nav:72},9,positions);};
+ const r=sessionRig();let calls=0;const prepare=input=>{calls++;return phoneLayouts({width:390,height:844,top:80,nav:72},9,input.kind==='lit'?input.positions:[],{frameAll:input.kind==='all'});};
  assert.equal(r.session.withBlackoutFraming(r.context,prepare),null);await r.session.start('planet-local');
  const geometry=r.session.withBlackoutFraming(r.context,prepare);assert.ok(geometry);assert.equal(calls,1);
  assert.ok(!/seatId|displayName|characterId|health|occupied/.test(JSON.stringify(geometry)));
@@ -70,11 +70,28 @@ test('session bridge requires fresh authorization and suppresses callbacks while
 });
 
 test('cold reconstruction retains every neutral slot and freezes through later dark snapshots and reconnect',async()=>{
- const r=sessionRig();await r.session.start('planet-local');const cache=createBlackoutGeometry(),prepare=()=>r.session.withBlackoutFraming(r.context,positions=>phoneLayouts({width:390,height:844,top:80,nav:72},9,positions));
+ const r=sessionRig();await r.session.start('planet-local');const cache=createBlackoutGeometry(),prepare=()=>r.session.withBlackoutFraming(r.context,input=>phoneLayouts({width:390,height:844,top:80,nav:72},9,input.kind==='lit'?input.positions:[],{frameAll:input.kind==='all'}));
  const geometry=cache.read('window',prepare);assert.ok(geometry);for(const [room,presses]of Object.entries(geometry.roomPresses))assert.deepEqual(presses.map(p=>p.id),phoneLayouts({width:390,height:844,top:80,nav:72},9).roomPresses[room].map(p=>p.id));
  r.value.publicView.viewRevision++;Object.assign(r.value.publicView.board.seats[0],{location:'Jail',slotId:'J1',jailed:true});await r.session.refresh();
  assert.strictEqual(cache.read('window',prepare),geometry,'A later dark packet cannot move the saved camera');
  r.setLost(true);await r.session.refresh();assert.strictEqual(cache.read('window',prepare),geometry);r.setLost(false);await r.session.refresh();assert.strictEqual(cache.read('window',prepare),geometry);
  const bad=structuredClone(r.context);bad.windowId='not-this-window';assert.equal(r.session.withBlackoutFraming(bad,()=>{throw Error('wrong window');}),null);
  r.session.dispose();assert.equal(r.session.withBlackoutFraming(r.context,()=>{throw Error('disposed');}),null);
+});
+
+test('Designer frameAll applies only to a trusted current window with no recoverable public checkpoint',()=>{
+ for(const tuple of ['current','phone','original','sync','blackout']){
+  const s=sessionScenario('blackout',{now:10000,tuple}),context=contextOf(s);s.publicView=null;
+  assert.deepEqual(readPlanetBlackoutFrameInput(s,context,synced),{kind:'all'},tuple);
+  assert.equal(readPlanetBlackoutFrameInput(s,context,{...synced,serverNowMs:context.endsAt}),null);
+  const wrong={...context,windowId:'wrong'};assert.equal(readPlanetBlackoutFrameInput(s,wrong,synced),null);
+ }
+ const s=fixture(),context=contextOf(s);s.publicView.phase.id='wrong-public-phase';assert.deepEqual(readPlanetBlackoutFrameInput(s,context,synced),{kind:'all'});
+ const malformed=fixture();malformed.publicView.board.checkpoint='AFTER_BLACKOUT';assert.equal(readPlanetBlackoutFrameInput(malformed,context,synced),null,'A structurally invalid packet does not regain authority through fallback');
+ const bad=fixture();bad.playerView.phase.id='wrong';assert.equal(readPlanetBlackoutFrameInput(bad,context,synced),null);
+});
+test('authorization loss never enters the canonical fallback and retires ownership of cached bounds',async()=>{
+ const r=sessionRig();await r.session.start('planet-local');assert.equal(r.session.ownsBlackoutFraming(r.context),true);
+ r.setUid('revoked');assert.equal(r.session.ownsBlackoutFraming(r.context),false);assert.equal(r.session.withBlackoutFraming(r.context,()=>{throw Error('unauthorized fallback');}),null);
+ r.setUid('framing-user');r.value.publicView=null;await r.session.refresh();assert.deepEqual(r.session.withBlackoutFraming(r.context,x=>x),{kind:'all'});r.session.dispose();
 });

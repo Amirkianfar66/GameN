@@ -21,7 +21,7 @@ const putBox=(node,r)=>{if(!r)return;for(const k of ['left','top','width','heigh
 const roomFor=slot=>BOARD_ROOMS.find(room=>slotsOf(room,9).some(s=>s.id===slot));
 
 /** Native consumer renderer: public scene DTOs feed approved pure drawings, never legacy wire views. */
-export function mountPlanetRenderer(root,controller,{cinematics=[],terminalAction=null,settings=null,blackoutLayout=null}={}){
+export function mountPlanetRenderer(root,controller,{cinematics=[],terminalAction=null,settings=null,blackoutLayout=null,blackoutOwner=null}={}){
  const document=root.ownerDocument,win=document.defaultView;
  const library=createPlanetLibrary(document);
  const readInsets=()=>{const probe=document.createElement('div');probe.style.cssText='position:fixed;visibility:hidden;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)';document.body.append(probe);const style=win.getComputedStyle(probe),value={top:parseFloat(style.paddingTop)||0,right:parseFloat(style.paddingRight)||0,bottom:parseFloat(style.paddingBottom)||0,left:parseFloat(style.paddingLeft)||0};probe.remove();return value;};
@@ -51,7 +51,9 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
  const media=win.matchMedia('(prefers-reduced-motion: reduce)'),motion=createPlanetMotion({transitDurationMs:cinematics.find(c=>c.name==='transit')?.durationMs??0}),capsule=createBoardV2Capsule(),blackout=createBoardV2Blackout(),films=createBoardV2Films(root,holder),rescue=createPlanetRescuePainter(holder),cinematic=createPlanetCinematic(holder,cinematics);
  let checkpointText='';
  let model=null,layout=null,frame=null,raf=null,disposed=false,more=false,uiKey=null,lastPanel='board',sceneMode='room',currentRoom='room-a',allLayouts=null;
- const blackoutGeometry=createBlackoutGeometry();let targetKey=null,lastOwnRoom=null,lastOwnTalk=null;
+ const blackoutGeometry=createBlackoutGeometry();let targetKey=null,lastOwnRoom=null,lastOwnTalk=null,lastBlackoutContext=null,lastViewportKey=null;
+ const pointers=new Map();let cancelledPointerClick=false;
+ function cancelPointerGesture(){if(!pointers.size)return;cancelledPointerClick=true;for(const [pointerId,target]of pointers){target.dispatchEvent(new win.PointerEvent('pointercancel',{bubbles:true,pointerId}));if(target.hasPointerCapture?.(pointerId))target.releasePointerCapture(pointerId);}}
  const rects=(room,count,panel)=>sceneMode==='room'?allLayouts.roomPresses[room]:allLayouts.boardPresses[room];
  const drawings=new Map();
  const reduced=()=>model?.motion==='reduced'||document.documentElement.dataset.motion==='reduced'||media.matches;
@@ -321,12 +323,17 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   for(const n of nav.querySelectorAll('[data-planet-action="panel"]'))n.setAttribute('aria-pressed',String(n.dataset.value===model.panel&&model.panel!=='board'));
   const top=header.getBoundingClientRect().height,bottom=model.surface==='display'?safeInsets.bottom:nav.getBoundingClientRect().height;
   root.style.setProperty('--phone-top',`${top}px`);root.style.setProperty('--phone-nav',`${bottom}px`);
-  // Keep this coordinate-only cache through conceal/reconnect. Fresh phase data or
-  // disposal retires it; no people, names, identities or private selections enter it.
+  // Derived public numeric bounds survive a transient read failure, but never an
+  // authority/window loss. No occupied slot IDs, roster or identities are retained.
   const viewport={width:win.innerWidth,height:win.innerHeight,top,nav:bottom},window=model.phase?.kind==='BLACKOUT'?model.presentation?.blackout:null;
   const context=window?{matchId:model.matchId,round:model.round,playerCount:model.playerCount,versions:model.versions,phaseId:model.phase.id,windowId:window.windowId,startedAt:model.phase.startedAt,previewEndsAt:window.previewEndsAt,endsAt:window.endsAt}:null;
-  const windowKey=context?JSON.stringify(context):null;
-  allLayouts=model.playerCount?blackoutGeometry.read(windowKey,()=>model.dark&&model.surface==='player'?blackoutLayout?.(context,viewport)??null:phoneLayouts(viewport,model.playerCount,model.board?.seats??[]),{dark:model.dark}):null;
+  const windowKey=context?JSON.stringify(context):null,viewportKey=JSON.stringify([...Object.values(viewport),win.getComputedStyle(document.documentElement).fontSize]);
+  if(lastViewportKey!==null&&lastViewportKey!==viewportKey)cancelPointerGesture();lastViewportKey=viewportKey;
+  if(context)lastBlackoutContext=context;
+  if(model.connection==='live'&&model.phase?.kind!=='BLACKOUT')lastBlackoutContext=null;
+  const owned=!lastBlackoutContext||model.surface!=='player'||(blackoutOwner?blackoutOwner(lastBlackoutContext):model.connection==='live'&&model.phase?.trusted&&!model.phase.expired);
+  if(!owned){blackoutGeometry.clear();lastBlackoutContext=null;}
+  allLayouts=owned&&model.playerCount?blackoutGeometry.read(windowKey,()=>model.dark&&model.surface==='player'?blackoutLayout?.(context,viewport)??null:phoneLayouts(viewport,model.playerCount,model.board?.seats??[]),{viewportKey,reflow:roomInputs=>phoneLayouts(viewport,model.playerCount,[],{roomInputs})}):null;
   if(allLayouts){root.style.setProperty('--phone-top',`${allLayouts.top}px`);root.style.setProperty('--phone-nav',`${allLayouts.nav}px`);}
   layout=allLayouts?.[sceneMode]??null;
   holder.hidden=model.concealed||!layout?.fits;
@@ -365,6 +372,9 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   if(action==='check')void controller.checkReceipt();
   if(action==='retry')void controller.retry();
  };
+ const onPointerDown=e=>{if(!pointers.size)cancelledPointerClick=false;pointers.set(e.pointerId,e.target);};
+ const onPointerEnd=e=>{if(e.isTrusted)pointers.delete(e.pointerId);};
+ const onPointerClick=e=>{if(cancelledPointerClick&&e.detail>0){cancelledPointerClick=false;e.preventDefault();e.stopImmediatePropagation();}};
  const onKey=e=>{if(e.key==='Escape'){more=false;controller.dismiss();document.getElementById('planet-nav-board')?.focus();}};
  const onVisibility=()=>{controller.setVisible(document.visibilityState==='visible');if(document.visibilityState!=='visible'){motion.cancel();capsule.settle();blackout.settle();films.clear();rescue.clear();cinematic.clear();clearBlocks();drawings.clear();if(raf!==null)win.cancelAnimationFrame(raf);raf=null;}};
  const onMotion=()=>{motion.cancel();capsule.settle();blackout.settle();films.clear();rescue.clear();cinematic.clear();clearBlocks();if(raf!==null)win.cancelAnimationFrame(raf);raf=null;if(model)render(controller.getModel());};
@@ -373,7 +383,7 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
  const onFocus=()=>{if(model)render(controller.getModel());};
  const onResize=()=>{safeInsets=readInsets();uiKey=null;if(model)render(controller.getModel());};
  const barsObserver=new win.ResizeObserver(()=>{if(model&&!disposed)render(controller.getModel());});barsObserver.observe(header);barsObserver.observe(nav);
- root.addEventListener('click',onClick);root.addEventListener('keydown',onKey);document.addEventListener('visibilitychange',onVisibility);document.addEventListener('mothership:art-ready',onArt);document.addEventListener('mothership:preferences-change',onResize);media.addEventListener('change',onMotion);win.addEventListener('resize',onResize);win.addEventListener('blur',onBlur);win.addEventListener('focus',onFocus);
+ root.addEventListener('click',onClick);root.addEventListener('click',onPointerClick,true);root.addEventListener('pointerdown',onPointerDown,true);win.addEventListener('pointerup',onPointerEnd,true);win.addEventListener('pointercancel',onPointerEnd,true);root.addEventListener('keydown',onKey);document.addEventListener('visibilitychange',onVisibility);document.addEventListener('mothership:art-ready',onArt);document.addEventListener('mothership:preferences-change',onResize);media.addEventListener('change',onMotion);win.addEventListener('resize',onResize);win.addEventListener('blur',onBlur);win.addEventListener('focus',onFocus);
  const stop=controller.subscribe(render);
- return {settingsChanged(){if(model?.panel==='settings'){uiKey=null;render(controller.getModel());}},dispose(){disposed=true;stop();barsObserver.disconnect();blackoutGeometry.clear();root.removeEventListener('click',onClick);root.removeEventListener('keydown',onKey);document.removeEventListener('visibilitychange',onVisibility);document.removeEventListener('mothership:art-ready',onArt);document.removeEventListener('mothership:preferences-change',onResize);media.removeEventListener('change',onMotion);win.removeEventListener('resize',onResize);win.removeEventListener('blur',onBlur);win.removeEventListener('focus',onFocus);if(raf!==null)win.cancelAnimationFrame(raf);disposeCrewMounts(holder);motion.dispose();capsule.dispose();blackout.dispose();films.dispose();rescue.dispose();cinematic.dispose();drawings.clear();delete root.dataset.crewArt;root.replaceChildren();}};
+ return {settingsChanged(){if(model?.panel==='settings'){uiKey=null;render(controller.getModel());}},dispose(){disposed=true;stop();barsObserver.disconnect();blackoutGeometry.clear();root.removeEventListener('click',onClick);root.removeEventListener('click',onPointerClick,true);root.removeEventListener('pointerdown',onPointerDown,true);win.removeEventListener('pointerup',onPointerEnd,true);win.removeEventListener('pointercancel',onPointerEnd,true);pointers.clear();root.removeEventListener('keydown',onKey);document.removeEventListener('visibilitychange',onVisibility);document.removeEventListener('mothership:art-ready',onArt);document.removeEventListener('mothership:preferences-change',onResize);media.removeEventListener('change',onMotion);win.removeEventListener('resize',onResize);win.removeEventListener('blur',onBlur);win.removeEventListener('focus',onFocus);if(raf!==null)win.cancelAnimationFrame(raf);disposeCrewMounts(holder);motion.dispose();capsule.dispose();blackout.dispose();films.dispose();rescue.dispose();cinematic.dispose();drawings.clear();delete root.dataset.crewArt;root.replaceChildren();}};
 }

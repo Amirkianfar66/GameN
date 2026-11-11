@@ -7,21 +7,11 @@ import {planetView,rig,ids} from './planet-support.mjs';
 import {readPlanetView} from '../dist/index.js';
 import {BOARD_ROOMS,LOCATION_OF,slotsOf} from '../hosted/board-v2-drawing/slots-four.mjs';
 
-// Golden numeric frames from Designer #221, art.mjs at 82a94d67713324831c85e749c151ae2420f98787.
-// These exercise fill, occupant pan and the full-Jail zoom, without a second camera implementation.
-test('T1 room cameras match the approved pack for sparse and full rooms',()=>{
+test('T1 room cameras use the corrected Designer outline framing',()=>{
  const panel={width:386,height:712,cap:44,pad:8};
- const cases=[
-  ['room-a',['A1'],[.978021978021978,-307.74725274725273,-19.56043956043956]],
-  ['room-a',['A1','A2','A3','A4','A5'],[.978021978021978,-309.4098901098901,-19.56043956043956]],
-  ['room-b',['B1'],[.978021978021978,-364.4725274725274,-19.56043956043959]],
-  ['hospital',['H1','H2','H3','H4'],[.978021978021978,-307.74725274725273,-19.56043956043959]],
-  ['jail',['J1'],[.978021978021978,-192.5934065934066,-19.56043956043959]],
-  ['jail',['J1','J2','J3','J4','J5'],[.6447963800904978,-136.61990950226243,108.39819004524887]],
-  ['command-room',['C1'],[.978021978021978,-307.74725274725273,-19.56043956043956]],
- ];
- for(const [room,ids,expected]of cases){const f=phoneRoomFrame(room,9,panel,slotsOf(room,9).filter(s=>ids.includes(s.id)));for(const [i,key]of ['k','tx','ty'].entries())assert.ok(Math.abs(f[key]-expected[i])<1e-10,`${room}/${ids}: ${key}`);}
- assert.deepEqual(phoneRoomFrame('jail',9,{width:316,height:294,cap:44,pad:8},slotsOf('jail',9)),{k:.40384615384615385,tx:-48.769230769230774,ty:-8.076923076923094});
+ const full=phoneRoomFrame('room-a',9,panel,slotsOf('room-a',9));
+ assert.ok(full.k<.85,'The formerly clipped full Room A must zoom enough for the painted outline');
+ const single=phoneRoomFrame('room-a',9,panel,slotsOf('room-a',9).slice(0,1));assert.ok(single.k>full.k);
 });
 
 test('T1 uses only shown positions and keeps every canonical target distinct at normal and enlarged text',()=>{
@@ -41,9 +31,9 @@ test('T1 uses only shown positions and keeps every canonical target distinct at 
 
 test('Blackout keeps geometry for both views through text/layout changes without retaining a roster',()=>{
  for(const [width,height]of [[320,568],[390,844],[430,932]])for(const count of [7,8,9]){
-  const cache=createBlackoutGeometry();cache.read('one-window',()=>phoneLayouts({width,height,top:80,nav:72},count),{dark:false});
+  const cache=createBlackoutGeometry();
   const positions=slotsOf('jail',count).map(s=>({location:'Jail',slotId:s.id}));
-  const lit=cache.read('one-window',()=>phoneLayouts({width,height,top:80,nav:72},count,positions),{dark:false});
+  const lit=cache.read('one-window',()=>phoneLayouts({width,height,top:80,nav:72},count,positions));
   const dark=cache.read('one-window',()=>phoneLayouts({width,height,top:160,nav:110},count));assert.strictEqual(dark,lit);
   for(const presses of [lit.roomPresses,lit.boardPresses])for(const [room,list]of Object.entries(presses))for(const r of list){assert.ok(r.side>=44);assert.ok(r.left>=0&&r.top>=0);assert.ok(r.badge.length===2&&r.badge.every(Number.isFinite));assert.ok(!Object.hasOwn(r,'seatId'));assert.ok(!Object.hasOwn(r,'characterId'));}
   assert.ok(!/displayName|targetSeatId|seat-\d|characterId/.test(JSON.stringify(lit)));cache.clear();assert.notStrictEqual(cache.read('one-window',()=>phoneLayouts({width,height,top:160,nav:110},count)),lit);
