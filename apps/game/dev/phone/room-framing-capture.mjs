@@ -10,6 +10,7 @@ import {checkCrewArt,checkRoomFigures} from './art-checks.mjs';
 
 const directory=resolve(process.argv[2]??'/private/tmp/gamen-phone-preview');
 const out=resolve(process.argv[3]??'/private/tmp/gamen-phone-room-framing-review');
+const reduced=!process.argv.includes('--motion');
 await mkdir(out,{recursive:true});
 const provenance=JSON.parse(await readFile(resolve(directory,'review-provenance.json'),'utf8'));
 async function verify(){for(const entry of provenance.candidate.modules)assert.equal(createHash('sha256').update(await readFile(resolve(provenance.candidate.root,entry.path))).digest('hex'),entry.sha256,'Source changed: '+entry.path);}
@@ -21,7 +22,7 @@ const server=createServer(async(req,res)=>{try{
 }catch{res.statusCode=404;res.end();}});
 await new Promise(done=>server.listen(0,'127.0.0.1',done));
 const origin=`http://127.0.0.1:${server.address().port}`,chrome=await launchBrowser(),browser=await connect(chrome.endpoint);
-const facts={scope:'T1 native room and cold-Blackout regression with explicit synthetic authority; desktop Chromium only. No production admission, physical-device or multiplayer claim.',candidate:provenance.candidate.head,browser:await browser.send('Browser.getVersion'),rooms:[],blackout:[],figureFailures:[]};
+const facts={scope:'T1 native room and cold-Blackout regression with explicit synthetic authority; desktop Chromium only. No production admission, physical-device or multiplayer claim.',candidate:provenance.candidate.head,reduced,browser:await browser.send('Browser.getVersion'),rooms:[],blackout:[],figureFailures:[]};
 async function picture(page,name){const {data}=await page.send('Page.captureScreenshot',{format:'jpeg',quality:85,captureBeyondViewport:false});await writeFile(resolve(out,name+'.jpg'),Buffer.from(data,'base64'));return name+'.jpg';}
 async function visit(page,scenario,count,text){
  await page.goto(`${origin}/?scenario=${scenario}&count=${count}&tuple=blackout`,'window.planetHarness');
@@ -41,7 +42,7 @@ try{
  for(const count of [7,8,9])for(const [width,height,text]of [[390,844,1],[320,568,2]]){
   const page=await openPage(browser,{width,height,mobile:true,ownContext:true}),prefix=`${width}-${height}-${text*100}-${count}`;
   try{
-   await page.media({'prefers-reduced-motion':'reduce'});await visit(page,'doctor',count,text);
+   await page.media({'prefers-reduced-motion':reduced?'reduce':'no-preference'});await visit(page,'doctor',count,text);
    for(const [room,location,slotPrefix,capacity]of [['room-a','Room A','A',5],['room-b','Room B','B',5],['command-room','Command Room','C',1],['hospital','Hospital','H',4],['jail','Jail','J',5]])for(const size of new Set([1,capacity])){
     const chosen=[2,1,3,4,5].slice(0,size).map(n=>'seat-'+n);
     await page.evaluate(`(()=>{
