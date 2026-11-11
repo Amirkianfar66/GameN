@@ -25,6 +25,22 @@ Neither can deliver alone: the crate has to go up before it can cross the rib, a
 
 Both are ordinary presses of the attacker's own control. Both phones see each danger coming one press ahead: a flashing lamp, a warning mark, and on the attacker's phone the very button striped and saying what it will do. Nothing asks to confirm; the press acts.
 
+**And accidents happen** (the owner's decision). Near one of them, if both move at the same moment, the jolt can kill by mistake. So the crossing over the Boom is a moment to take turns, and any death on a Task might have been an accident, which is what the survivor will say.
+
+### Accidents
+
+The owner asked for it on 11 November 2026: *"if Player A and B position and the result near each other and there is a small movement in both parts there is chance they kill each other by mistake"*.
+
+| | |
+| --- | --- |
+| Where | Two zones, hatched on the annotated room. **Beside the Boom:** the crate in the top row over or next to the pulpit, or hanging just beside the operator's head (columns 4 to 6). **At the cab:** the gantry at the cab's door (column 2) |
+| When | **Both move within half a second of each other** (PROPOSED) while the machine is in a zone, before or after the second move. A move counts; a bump, a key or a refused press does not. A press that would attack but was made on an older picture, or a held button's repeat, is not an attack: it only jerks the winch or the drive, and with the partner moving at the same moment it counts as movement |
+| Then | The server rolls: **1 in 4** (PROPOSED) is an accident. Beside the Boom, the crate swings into the Boom operator (WHAM!); at the cab, the gantry lurches into the cab (CRASH!). Otherwise it is a **close call**: the crate swings close, or the gantry jolts toward the cab, and back (WHOA!) |
+| An accident | Lethal, not the Hospital, like an attack, and the Task goes on or is lost the same way (lost unless the crate is docked). It is **no one's attack: it uses no attack opportunity** |
+| Protection | PROPOSED: a Protected participant only ever has a close call. No STOPPED, so an accident shows nothing about Protection |
+| On the phones | In a zone, both hints say **"One at a time"** (near Cleo, near you, near the cab). After a close call: "Close call! Move one at a time." The victim's card says it was an accident; so does the survivor's |
+| For everyone else | A death, as any death. No cause is shown, so the survivor can always say it was an accident, whether or not it was |
+
 **Machinarium as inspiration, Mothership as the look.** Every press turns something you can see: a drum winds, wheels turn, the cable sways, a clunk when something blocks. Causes and effects are mechanical and visible, never explained by text alone. The drawing is the crew's own ink and noir light, the rooms' halftone, the comic lettering of the board (THUD!, SLAM!, CLANK!) and the phone pack's interface.
 
 ![The Supply Room, annotated](../../design/food-supply/review/layout.png)
@@ -60,13 +76,13 @@ Each participant's phone shows the same view of the Supply Room, then their own 
 | Top bar | The pack's pair bar: both participants, "Food Supply · you run the Hoist", the Task's time |
 | View | The machine's part of the room, the same crop on both phones, with the pack's name tags (you in paper). An image with a text equivalent: where the crate and the gantry are, and whether a warning shows |
 | Role row | "Hoist · up and down" and the partner, with Out or Offline |
-| Hint | One line: the next press, a wait, a warning, a bump's reason, a stop. A polite live region. At most 40 characters, so it fits three lines at the largest text |
+| Hint | One line: the next press, a wait, a warning, "one at a time" in an accident zone, a close call, a bump's reason, a stop. A polite live region. At most 40 characters, so it fits three lines at the largest text |
 | Controls | Raise above Lower (the Hoist); Left beside Right (the Boom). One press, one step; holding repeats (PROPOSED every 300 ms, the server's own interval). Arrow keys on the participant's own axis |
 | The next press | Glows (an amber ring), from the cooperative route |
 | A press that attacks | **Striped like the room's hazard markings**, and it says what it does: "Lower · Drops it on Cleo", "Left · Rams Hana's cab". Its accessible name says the warning. No confirmation, no arming |
 | Keys | Docked, the Hoist's Raise becomes **Turn key**; at the end stop, the Boom's Right does. Turned: **Key turned**, waiting for the other |
 | Cards | The briefing (who runs what, the route, the stripes, the countdown); **You are out** for the victim (killed in the Supply Room, not the Hospital, out of the match); **Delivered** (+5 packages); **Task lost**; **Task cancelled**. After a kill, the card waits for the impact to play (0.9 s), so both see the cause first. Then the return |
-| Banners | "Stopped · the safety catch held" (or the spring buffer); "Reconnecting… The Task goes on without your presses" on a participant's own phone when it loses the connection |
+| Banners | "Stopped · the safety catch held" (or the spring buffer); "Close call · move one at a time"; "Reconnecting… The Task goes on without your presses" on a participant's own phone when it loses the connection |
 
 **Large text.** At 320 × 568 with 200% text, the view gives way to the words, down to a 112-pixel letterboxed strip; the controls keep their places and grow; the role row goes (the buttons, hint and tags say the same); cards scroll. Each phone measures itself on the sheet: every control whole, no word cut, no hint scrolling.
 
@@ -97,6 +113,8 @@ Each storyboard is a scripted run of presses played through the design's mechani
 | Survivor completion | Docked; the Hoist's key turned; the Boom rams instead; the crate stays clamped; the Boom's key alone sends it | [board-survivor](../../design/food-supply/review/board-survivor.png) | [film](../../design/food-supply/review/film-survivor.mp4) |
 | Protection against the drop | The cable's safety catch stops the crate: CLANK!, STOPPED; the Task goes on to a delivery | [board-protection-drop](../../design/food-supply/review/board-protection-drop.png) | [film](../../design/food-supply/review/film-protection-drop.mp4) |
 | Protection against the ram | The cab's spring buffer stops the gantry: CLANK!, STOPPED; delivered | [board-protection-ram](../../design/food-supply/review/board-protection-ram.png) | [film](../../design/food-supply/review/film-protection-ram.mp4) |
+| An accident | Both move at once beside the Boom: the crate swings into Cleo, WHAM!; lost. Hana's attack is not used | [board-accident](../../design/food-supply/review/board-accident.png) | [film](../../design/food-supply/review/film-accident.mp4) |
+| A close call | The same jolt with a lucky roll: WHOA!; then one at a time, and delivered | [board-near-miss](../../design/food-supply/review/board-near-miss.png) | [film](../../design/food-supply/review/film-near-miss.mp4) |
 | Lost: the time runs out | The crate left over the open deck; the timer runs down | [board-timeout](../../design/food-supply/review/board-timeout.png) | [film](../../design/food-supply/review/film-timeout.mp4) |
 | Disconnect | Cleo's phone drops; the Task runs on through the grace; cancelled; both return | [board-disconnect](../../design/food-supply/review/board-disconnect.png) | [film](../../design/food-supply/review/film-disconnect.mp4) |
 
@@ -131,6 +149,9 @@ All timings PROPOSED. **Presentation only**: a cue never delays a press, and a n
 | Send (the cradle rises, +5) | 1100 ms | in-out | The cradle gone at once; the +5 stamp still |
 | A warning (the lamp flashes) | 330 ms on, 330 ms off | | The lamp lit steadily; no flashing; the warning mark shown |
 | The ending dim | 600 ms | | Dimmed at once |
+| An accident: the swing (the crate into the Boom operator, and back) | 380 ms, then 520 ms back | in-out | The crate shown against the operator at once; WHAM! still |
+| An accident: the lurch (the gantry into the cab) | 160 ms | in | The gantry at the cab at once; CRASH! still |
+| A close call (the crate swings close, or the gantry jolts, and back) | 700 ms | in-out | WHOA! shown still for 700 ms; nothing swings |
 
 The warning lamp flashes 1.5 times a second, well under three. Nothing shakes. Reduce motion keeps every state and every word; it removes travel, sway, growth and flashing. The prototype draws a key turned at once; the 140 ms turn is the specification.
 
@@ -149,8 +170,9 @@ The design's mechanics model, `design/food-supply/task.mjs`, is a reference, not
 
 - **State** (`state` in the handoff): phase, seats, the gantry's column, the crate's cell, docked, keys, alive, online, the deadline and the outcome, all seen by both participants; the attack opportunities, Protection and each participant's last accepted press, held by the server only.
 - **Start**: each player has **one attack for the whole match**, and **a blocked attack uses it up** (the owner's decisions). The server holds it across Tasks and passes it into each one; once used, it never returns. Protection is read as the existing rules decide, at the moment of the press.
-- **One press** (`act`): refused (briefing, too soon, down, ended, not your axis, stale, repeat), or one of MOVED, BUMPED (with why), DOCKED, KEY, KEY_RELEASED, STOPPED, KILLED (then lost unless docked), SENT and ENDED. The events and their visibility are listed in the handoff (`events`).
-- **Deliberate attacks only (PROPOSED).** A press attacks only if it is a fresh press on a button that showed the warning. A press made on an older picture (another press moved the crate over the Boom first) or a hold's repeat is refused instead. The flags can only stop the presser's own attack; the server's state decides everything else. This keeps a network race or a held button from killing by accident, and it is not a confirmation: one press of the same button acts.
+- **One press** (`act`): refused (briefing, too soon, down, ended, not your axis, stale, repeat), or one of MOVED, BUMPED (with why), DOCKED, KEY, KEY_RELEASED, STOPPED, KILLED (then lost unless docked), JERKED, NEAR_MISS, SENT and ENDED. The events and their visibility are listed in the handoff (`events`).
+- **Attacks are deliberate (PROPOSED).** A press attacks only if it is a fresh press on a button that showed the warning. A press made on an older picture (another press moved the crate over the Boom first) or a hold's repeat is not an attack: alone it is refused; with the partner moving at the same moment it is a jerk. The flags can only stop the presser's own attack; the server's state decides everything else. It is not a confirmation: one press of the same button acts.
+- **Accidents** (the owner's decision; numbers PROPOSED, in the handoff's `accidents`): after each move or jerk, if the partner moved the machine less than 500 ms before and the machine is in a zone before or after this move, roll the server's own random number: below 0.25, the zone's victim dies (KILLED with `accident`, kind `swing` or `lurch`), unless Protected; otherwise NEAR_MISS. Accidents never touch attack opportunities. The roll never reaches a phone.
 - **Clock**: the briefing's end, the deadline (lost: time), the grace (cancelled: disconnect).
 - **Connection**: out of contact, the Task runs on through the grace (PROPOSED 8 s); back in time, nothing paused; out longer, cancelled. A death that resolved first stands.
 - **Command**: `TASK_MOVE { taskId, dir, shown, repeat }` (a proposal for the shared contract; Integration owns `packages/contracts/`). The answer is the new state with its events to both participants; a refusal to the presser only.
@@ -162,6 +184,7 @@ The design's mechanics model, `design/food-supply/task.mjs`, is a reference, not
 - **Timing**, all PROPOSED: 15 s for a Partner to answer, 4 s briefing, 45 s deadline (the route itself is eleven presses, a few seconds of play), 8 s grace, 300 ms between presses.
 - **The food economy**: five packages, five per delivery, one dose per player at each Eating step, one Task initiation per player per match. How often Eating comes decides whether Tasks can keep up; with the stock short, the Eating order decides who goes to the Hospital.
 - **Trust windows**: the Boom is exposed for one step (the crossing); the Hoist whenever the gantry can reach the cab, and most after docking, when the ram also delivers.
+- **Accidents**: more deaths, and cover for every death. The numbers (1 in 4, half a second, the zones) are PROPOSED for tuning; the crossing is where they matter most, since the route goes through the Boom's zone.
 
 ## Visibility
 
@@ -170,13 +193,14 @@ The design's mechanics model, `design/food-supply/task.mjs`, is a reference, not
 | The two participants | The whole Supply Room: every move and bump, both warnings, both keys, the time, each other's alive or offline state, and a STOPPED alike with no reason. Never an attack opportunity, Protection, or the other's refused presses |
 | Every other player | Never the Supply Room. Who is away, from the board: the two places are empty (the owner's decision); the banner names no one. PROPOSED: the result only as the food stock shows it (delivered or not), never how it went. PROPOSED: not who was asked, or who declined |
 | A death | Shown on the return as any death: Eliminated at the participant's previous place. No phone says who, how, or that the Task did it |
-| Protection | Never shown |
+| Protection | Never shown. An accident never shows a STOPPED: a Protected participant only has a close call, like a lucky roll |
+| Accidents | The two participants see an accident or a close call as it happens, and the cards say it was an accident. Everyone else sees only the death, with no cause |
 | The food stock | PROPOSED public: the count (the ship-life food capsules) and the warning at one package |
 | Only the server | Attack opportunities, Protection, and why a STOPPED happened |
 
 ## Acceptance scenarios
 
-Twenty-five, each a start, a list of timed steps and what must follow, in [handoff.json](../../design/food-supply/handoff.json) (`acceptance`) and `design/food-supply/scenarios.mjs`. `packages/design-tokens/test/food-supply.test.mjs` plays each through the mechanics model.
+Thirty-two, each a start, a list of timed steps and what must follow, in [handoff.json](../../design/food-supply/handoff.json) (`acceptance`) and `design/food-supply/scenarios.mjs`. `packages/design-tokens/test/food-supply.test.mjs` plays each through the mechanics model.
 
 | Scenario | Given and when | Then |
 | --- | --- | --- |
@@ -202,7 +226,14 @@ Twenty-five, each a start, a list of timed steps and what must follow, in [hando
 | death-stands | The Boom offline; the drop lands in the grace | Lost (not in the cradle), not cancelled |
 | offline-victim-docked | Docked; the Hoist offline; the ram | Delivered alone; the death stands |
 | dead-cannot-press | The Hoist killed; the Hoist presses | Refused (down) |
-| race-refused | Lower pressed on the old picture as the Boom drives the crate over itself | Refused (stale); a fresh Lower on the warning drops it |
+| accident | Both move at once beside the Boom; an unlucky roll | The Boom killed by accident; lost; no attack used |
+| near-miss | The same jolt; a lucky roll | A close call; then delivered |
+| race-jolt | Lower pressed on the old picture as the Boom drives the crate over itself | Not an attack: a jerk and a close call; a fresh Lower on the warning then drops it |
+| race-accident | The same race, an unlucky roll | The Boom killed by accident; the Hoist's attack not used |
+| cab-lurch | The gantry at the cab's door, both move at once, an unlucky roll | The Hoist killed by accident; lost |
+| protected-close-call | The Boom Protected, an unlucky roll | Only a close call: no kill, no STOPPED |
+| one-at-a-time | The crossing, the Hoist waits until the Boom has stopped | No jolt, whatever the roll |
+| together-bump | Both press at once, but the Hoist's press only bumps | No jolt |
 | hold-stops-at-warning | A held Lower's repeat reaches the warning | Refused (repeat); no stop, no kill |
 | cancel-without-death | The Hoist offline for the whole grace | Cancelled; both alive |
 
@@ -213,7 +244,7 @@ Four tensions inside the confirmed rules, each with a solution that stays inside
 1. **No escape, and a disconnect cancels.** If a disconnect cancelled at once, switching off the network would escape an attack. **Solution:** the server judges a disconnect only after a grace (PROPOSED 8 s) in which the Task runs on and an attack resolves; a death before the cancellation stands. *Left open:* a participant can still end a Task they dislike by staying offline; whether that should cost anything.
 2. **Both can betray, and a survivor completes only from the correct position.** The drop puts the crate onto the Boom, out of the cradle, so a Hoist who drops can never complete; only the Boom's ram after docking kills and still delivers. **Solution:** the server assigns the controls at random (PROPOSED), so neither player picks the stronger seat; both phones show both risks equally; the two-key send makes docking a visible standoff. *Left open:* accepting the asymmetry, for Game Balance and the owner.
 3. **Protection applies, and Protection is not disclosed.** An attacker who knows they still had their opportunity learns from a failed attack that the victim is Protected. **Solution:** one STOPPED, identical for Protection and for a spent opportunity, with no reason on either phone; the victim cannot tell which; no one else learns anything. The attacker's inference cannot be removed without a third cause for a stop, which the rules do not have. *Left open:* the owner confirms that inference is acceptable.
-4. **No automatic attribution, and the return shows the dead.** With two participants, the survivor is the only possible killer to anyone who knows who went. **Solution:** no phone states a killer, a cause or a Task death. *Settled:* the owner decided that other players can see on the board who is away, so after a death everyone can work out the survivor. That is accepted, and nothing states it.
+4. **No automatic attribution, and the return shows the dead.** With two participants, the survivor is the only possible killer to anyone who knows who went. **Solution:** no phone states a killer, a cause or a Task death. *Settled:* the owner decided that other players can see on the board who is away, so after a death everyone can work out the survivor. That is accepted, and nothing states it. And since accidents happen, the survivor can always say it was one.
 
 ## Open items
 
@@ -229,7 +260,9 @@ Four tensions inside the confirmed rules, each with a solution that stays inside
 | The timing (15 s, 4 s, 45 s, 8 s, 300 ms) | Game Balance |
 | The survivor asymmetry and the food economy | Game Balance |
 | The Eating step's place and order | The owner, Game Balance |
-| Deliberate attacks only (PROPOSED) | The owner, Backend |
+| Attacks are deliberate: a stale press or a repeat never attacks, and counts toward an accident instead (PROPOSED) | The owner, Backend |
+| The accident numbers: 1 in 4, half a second, the two zones (PROPOSED) | Game Balance |
+| Whether Protection saves a participant from an accident (PROPOSED: yes, as a close call) | The owner |
 | `TASK_MOVE`, the Task projection and the ruleset version that adopts this Task | Integration |
 | The Engine Task (not designed here) | The owner |
 
@@ -238,13 +271,13 @@ Four tensions inside the confirmed rules, each with a solution that stays inside
 | File | What it is |
 | --- | --- |
 | [review/layout.png](../../design/food-supply/review/layout.png) | The room annotated: grid, regions, route, callouts |
-| `review/board-<id>.png` (8) | Each storyboard, beat by beat, with both phones and the return |
+| `review/board-<id>.png` (10) | Each storyboard, beat by beat, with both phones and the return |
 | [review/phones-hoist.png](../../design/food-supply/review/phones-hoist.png), [review/phones-boom.png](../../design/food-supply/review/phones-boom.png) | Every state of each participant's phone |
 | [review/flow.png](../../design/food-supply/review/flow.png) | Starting a Task, the Partner, the other phones, the return, the food warning |
 | [review/machine.png](../../design/food-supply/review/machine.png) | The machine's parts and their states |
 | [review/motion.png](../../design/food-supply/review/motion.png) | Each cue's frames and its Reduce motion form |
 | [review/large-text.png](../../design/food-supply/review/large-text.png) | 320 × 568 at 200% text, each phone's measured layout |
-| `review/film-<id>.mp4` (10) | The storyboards as silent films; cooperation and the drop also with Reduce motion |
+| `review/film-<id>.mp4` (12) | The storyboards as silent films; cooperation and the drop also with Reduce motion |
 | [review/renders.json](../../design/food-supply/review/renders.json) | Each file's SHA-256 and the browser |
 
 To regenerate: `node design/tools/food-supply-export.mjs` (the art and the handoff; `--check` compares), `node design/tools/food-supply-render.mjs --sheets --films` (needs Chromium and ffmpeg). The pages themselves: `design/food-supply/review.html`, `phone.html` (`?s=task&board=drop&t=7300&as=hoist`, `&text=2`, `&motion=reduced`, `&live=1`) and `film.html`.

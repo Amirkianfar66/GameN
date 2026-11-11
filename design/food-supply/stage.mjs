@@ -28,6 +28,9 @@ export const CUES = Object.freeze({
   send: { ms: 1100, ease: 'in-out', reduced: 'The cradle gone at once; the +5 stamp shown still' },
   warning: { ms: 660, flash: 330, reduced: 'The lamp lit steadily, no flashing; the warning mark shown' }, // a 660 ms cycle: 330 ms lit, 330 ms dark
   dim: { ms: 600, reduced: 'Dimmed at once' },
+  swing: { ms: 380, ease: 'in-out', reduced: 'The crate shown against the Boom operator at once; WHAM! still' },
+  lurch: { ms: 160, ease: 'in', reduced: 'The gantry at the cab at once; CRASH! still' },
+  closeCall: { ms: 700, ease: 'in-out', reduced: 'WHOA! shown still for 700 ms; nothing swings' },
 });
 
 const ease = {
@@ -120,20 +123,46 @@ export function poseAt(frames, t, { reduced = false, tags = null, guide = true }
               pose.effects.push({ kind: 'letters', text: 'THUD!', at: [640, BOXES.console[1] - 150], size: 66, angle: -8, opacity: 1 });
             }
           }
+        } else if (e.kind === 'swing') {
+          // An accident: the jolt swings the crate on its cable into the Boom operator's head, and it hangs back.
+          const { v, reach } = towardHead(e.at);
+          const out = reduced ? (dt < CUES.impact.ms ? 1 : 0) : dt < CUES.swing.ms ? ease['in-out'](clamp01(dt / CUES.swing.ms)) : Math.max(0, 1 - (dt - CUES.swing.ms) / 520);
+          if (out > 0) pose.swing = { dx: v[0] * reach * out, dy: v[1] * reach * out };
+          if (!reduced) pose.tilt = -Math.sign(v[0] || 1) * 0.18 * out;
+          if (dt < CUES.swing.ms && !reduced) pose.alive.boom = true;
+          if (dt < CUES.impact.ms && (dt >= CUES.swing.ms || reduced)) {
+            const g = reduced ? 1 : ease.out(clamp01((dt - CUES.swing.ms) / 220));
+            pose.effects.push({ kind: 'burst', at: [HEAD_AT[0], HEAD_AT[1] - 10], r: 80, t: g, seed: 175 });
+            pose.effects.push({ kind: 'letters', text: 'WHAM!', at: [HEAD_AT[0] + 150, HEAD_AT[1] - 120], size: 62, angle: -9 });
+          }
         } else {
-          if (dt < CUES.ram.ms && !reduced) {
-            const u = ease.in(clamp01(dt / CUES.ram.ms));
+          // The ram, or the lurch (an accident at the cab's door): the gantry into the cab.
+          const ms = e.accident ? CUES.lurch.ms : CUES.ram.ms;
+          if (dt < ms && !reduced) {
+            const u = ease.in(clamp01(dt / ms));
             pose.gantry = lerp(FIXTURES.buffer.col, FIXTURES.cab.col, u);
             if (!e.docked) pose.crate = { col: pose.gantry, row: e.at[1] };
             pose.alive.hoist = true; pose.cab.crushed = false; pose.plate.dented = false;
             pose.effects.push({ kind: 'speed', at: [carriageX(pose.gantry) + 70, RAIL.bottom + 30], dir: [-1, 0], len: 54, spread: 50 });
           }
-          if (dt < CUES.impact.ms && (dt >= CUES.ram.ms || reduced)) {
-            const g = reduced ? 1 : ease.out(clamp01((dt - CUES.ram.ms) / 220));
+          if (dt < CUES.impact.ms && (dt >= ms || reduced)) {
+            const g = reduced ? 1 : ease.out(clamp01((dt - ms) / 220));
             pose.effects.push({ kind: 'burst', at: [BOXES.cab[0] + BOXES.cab[2], RAIL.bottom + 40], r: 84, t: g });
-            pose.effects.push({ kind: 'letters', text: 'SLAM!', at: [320, 230], size: 62, angle: -10 });
+            pose.effects.push({ kind: 'letters', text: e.accident ? 'CRASH!' : 'SLAM!', at: [320, 230], size: 62, angle: -10 });
           }
         }
+      }
+      if (e.type === 'NEAR_MISS') {
+        // A close call: the crate swings toward the Boom operator, or the gantry jolts toward the cab, and back.
+        const k = reduced ? 0 : dt < CUES.closeCall.ms ? Math.sin(clamp01(dt / CUES.closeCall.ms) * Math.PI) : 0;
+        if (e.zone === 'boom') {
+          const { v, reach } = towardHead(e.at);
+          if (k > 0) { pose.swing = { dx: v[0] * reach * 0.6 * k, dy: v[1] * reach * 0.6 * k }; pose.tilt = -Math.sign(v[0] || 1) * 0.12 * k; }
+        } else if (k > 0) {
+          pose.gantry = e.carriage - 0.3 * k;
+          if (!s.docked && pose.crate) pose.crate = { ...pose.crate, col: pose.gantry };
+        }
+        if (dt < CUES.closeCall.ms) pose.effects.push({ kind: 'letters', text: 'WHOA!', at: e.zone === 'boom' ? [HEAD_AT[0] + 170, HEAD_AT[1] - 150] : [340, 300], size: 54, angle: -7 });
       }
       if (e.type === 'STOPPED') {
         const u = reduced ? 1 : clamp01(dt / CUES.stopped.ms);
@@ -185,6 +214,15 @@ export function poseAt(frames, t, { reduced = false, tags = null, guide = true }
   // The route the cooperative presses take from here, while the Task runs.
   if (guide && s.phase !== 'ended' && !s.docked && pose.crate) pose.guide = { path: routePath(pose.crate), next: 1 };
   return pose;
+}
+
+/** Where a swinging crate meets the Boom operator's head, and how far it travels to get there from its cell. */
+const HEAD_AT = Object.freeze([OPERATORS.boom.feet[0], OPERATORS.boom.head + 22]);
+function towardHead(at) {
+  const from = [carriageX(at[0]), crateY(at[1])];
+  const v = [HEAD_AT[0] - from[0], HEAD_AT[1] - from[1]];
+  const len = Math.hypot(v[0], v[1]) || 1;
+  return { v, reach: Math.max(0, len - 72) / len };
 }
 
 /** The time at which the run's last event ends, with its cues played out. */

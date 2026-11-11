@@ -17,7 +17,7 @@ import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { test } from 'node:test';
-import { FIXTURES, FOOD, GRID, ROLES, ROUTE, TIMING, act, hazards, simulate, startTask, view } from '../../../design/food-supply/task.mjs';
+import { ACCIDENT, FIXTURES, FOOD, GRID, NEAR, ROLES, ROUTE, TIMING, act, hazards, nearZone, simulate, startTask, view } from '../../../design/food-supply/task.mjs';
 import { REGIONS, VIEW } from '../../../design/food-supply/layout.mjs';
 import { BOARDS, CAST } from '../../../design/food-supply/boards.mjs';
 import { CUES, run } from '../../../design/food-supply/stage.mjs';
@@ -35,9 +35,9 @@ const start = (o = {}) => startTask({ seats: SEATS, at: 0, ...o });
 const press = (at, role, dir, extra = {}) => ({ at, seat: SEATS[role], dir, ...extra });
 const finalOf = frames => frames[frames.length - 1].state;
 
-test('every acceptance scenario ends as it says: the eight storyboards and the edge cases', () => {
-  assert.equal(BOARDS.length, 8);
-  assert.deepEqual(BOARDS.map(b => b.id), ['cooperation', 'drop', 'ram', 'survivor', 'protection-drop', 'protection-ram', 'timeout', 'disconnect']);
+test('every acceptance scenario ends as it says: the ten storyboards and the edge cases', () => {
+  assert.equal(BOARDS.length, 10);
+  assert.deepEqual(BOARDS.map(b => b.id), ['cooperation', 'drop', 'ram', 'survivor', 'protection-drop', 'protection-ram', 'accident', 'near-miss', 'timeout', 'disconnect']);
   assert.ok(EDGES.length >= 15);
   for (const s of SCENARIOS) assert.deepEqual(differences(s), [], s.id);
 });
@@ -163,6 +163,44 @@ test('deliberate attacks only (PROPOSED): a stale press or a held repeat never a
   assert.ok(act(ready, press(B + 3600, 'hoist', 'up', { shown: false, repeat: true })).events.some(e => e.type === 'BUMPED' || e.type === 'MOVED'));
 });
 
+test('accidents (the owner, 11 November 2026): both moving at once near one of them can kill by mistake, and uses no attack', () => {
+  assert.ok(RULES.some(r => r.id === 'accidents'));
+  assert.equal(ACCIDENT.window, 500);
+  assert.equal(ACCIDENT.chance, 0.25);
+  // The zones: beside the Boom operator's head, and the cab's door.
+  assert.equal(nearZone([5, 3], 5), 'boom');
+  assert.equal(nearZone([4, 3], 4), 'boom');
+  assert.equal(nearZone([1, 3], 1), 'cab');
+  assert.equal(nearZone([2, 3], 2), null);
+  assert.equal(nearZone([6, 1], 6, true), null);
+  assert.equal(NEAR.boom.victim, 'boom');
+  assert.equal(NEAR.cab.victim, 'hoist');
+  // The accident: lethal, flagged as an accident, with no one's name on it, and every attack still unused.
+  for (const id of ['accident', 'race-accident', 'cab-lurch']) {
+    const got = play(SCENARIOS.find(x => x.id === id));
+    const kill = got.events.find(e => e.type === 'KILLED');
+    assert.ok(kill?.accident, id);
+    assert.equal(kill.by, undefined, `${id}: an accident is no one's attack`);
+    assert.deepEqual(got.attack, { hoist: true, boom: true }, `${id}: no attack used`);
+    assert.doesNotMatch(JSON.stringify(got.events), /hospital/i);
+  }
+  // No jolt without both moving at once in a zone.
+  for (const id of ['cooperation', 'drop', 'ram', 'survivor', 'one-at-a-time', 'together-bump']) {
+    const events = id.includes('-') || !BOARDS.some(b => b.id === id) ? play(SCENARIOS.find(x => x.id === id)).events : run(BOARDS.find(b => b.id === id)).flatMap(f => f.events);
+    assert.ok(!events.some(e => e.type === 'NEAR_MISS' || e.accident), id);
+  }
+});
+
+test('an accident shows nothing about Protection: a Protected victim and a lucky roll look the same to both phones', () => {
+  const steps = [press(B + 600, 'hoist', 'up'), press(B + 1100, 'hoist', 'up'), press(B + 1600, 'hoist', 'up'), press(B + 2300, 'boom', 'right'), press(B + 2800, 'boom', 'right'), press(B + 3300, 'boom', 'right')];
+  const unlucky = simulate(start({ protection: { hoist: false, boom: true } }), [...steps, press(B + 3500, 'hoist', 'down', { roll: 0.1 })]);
+  const lucky = simulate(start(), [...steps, press(B + 3500, 'hoist', 'down', { roll: 0.9 })]);
+  const seen = frames => frames.map(f => ({ events: f.events, hoist: view(f.state, SEATS.hoist, f.at), boom: view(f.state, SEATS.boom, f.at) }));
+  assert.deepEqual(seen(unlucky), seen(lucky));
+  assert.ok(unlucky.flatMap(f => f.events).some(e => e.type === 'NEAR_MISS'));
+  assert.ok(!unlucky.flatMap(f => f.events).some(e => e.type === 'STOPPED' || e.type === 'KILLED'));
+});
+
 test('a disconnect cancels after the grace; back in time nothing paused; a death before the cancellation stands', () => {
   const disconnect = play(SCENARIOS.find(s => s.id === 'disconnect'));
   assert.deepEqual(disconnect.outcome, { result: 'cancelled', why: 'disconnect', who: 'boom' });
@@ -197,7 +235,7 @@ test('every motion cue has its timing and a Reduce motion form', () => {
 });
 
 test('the rules record: each confirmed rule met, the conflicts with a solution, visibility for every audience', () => {
-  assert.equal(RULES.length, 19);
+  assert.equal(RULES.length, 20);
   // The owner's answers of 11 November 2026: who is away shows on the board, and a Partner can decline.
   for (const id of ['away-visible', 'partner-decline']) assert.ok(RULES.some(r => r.id === id), id);
   assert.ok(!OPEN_ITEMS.some(o => o.id === 'public-away'), 'who is away is decided, not open');

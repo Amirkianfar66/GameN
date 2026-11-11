@@ -17,8 +17,8 @@ export const CAST = Object.freeze({
 const SEATS = Object.freeze({ hoist: CAST.hoist.seat, boom: CAST.boom.seat });
 const B = TIMING.briefing;
 
-/** Presses: [t, role, dir] → steps for ./task.mjs. */
-const presses = list => list.map(([at, role, dir]) => ({ at, seat: SEATS[role], dir }));
+/** Presses: [t, role, dir, extra] → steps for ./task.mjs (extra: e.g. the server's roll for a jolt). */
+const presses = list => list.map(([at, role, dir, extra = {}]) => ({ at, seat: SEATS[role], dir, ...extra }));
 const up3 = (t0 = B + 600) => [[t0, 'hoist', 'up'], [t0 + 500, 'hoist', 'up'], [t0 + 1000, 'hoist', 'up']];
 const toCradle = (t0, from = 3) => Array.from({ length: 7 - from }, (_, k) => [t0 + k * 500, 'boom', 'right']);
 
@@ -112,6 +112,32 @@ export const BOARDS = Object.freeze([
       [B + 5800, B + 9000, 'The Task goes on; Cleo drives the crate across after all.', B + 7600],
       [B + 9000, B + 13000, 'Docked, both keys: delivered.', B + 11000],
     ],
+  }),
+  board({
+    id: 'accident',
+    title: 'An accident: moving together near the Boom',
+    about: 'Both move at once while the crate hangs beside the Boom operator: the jolt swings it into them',
+    steps: presses([...up3(), [B + 2300, 'boom', 'right'], [B + 2800, 'boom', 'right'], [B + 3300, 'boom', 'right'], [B + 3500, 'hoist', 'down', { roll: 0.1 }]]),
+    captions: [
+      [0, B + 3300, 'The crate goes up and across, over Cleo\'s head. Near Cleo, both phones say: one at a time.', B + 3000],
+      [B + 3300, B + 3600, 'Cleo drives it on, beside Cleo\'s head, and Hana starts lowering at the same moment.', B + 3450],
+      [B + 3600, B + 4600, 'The jolt swings the crate into Cleo: WHAM! An accident: no one\'s attack, and lethal.', B + 3950],
+      [B + 4600, B + 7000, 'Lost: the crate never reached the cradle. Back in Room B, everyone sees Cleo is dead; Hana can say it was an accident, and this time it was.', B + 6000],
+    ],
+    proposed: ['A 1 in 4 chance when both move within half a second near someone'],
+  }),
+  board({
+    id: 'near-miss',
+    title: 'A close call',
+    about: 'The same jolt beside the Boom operator, and this time the crate only swings close',
+    steps: presses([...up3(), [B + 2300, 'boom', 'right'], [B + 2800, 'boom', 'right'], [B + 3300, 'boom', 'right'], [B + 3500, 'hoist', 'down', { roll: 0.9 }],
+      [B + 4500, 'boom', 'right'], [B + 5100, 'hoist', 'down'], [B + 5700, 'hoist', 'up'], [B + 6300, 'boom', 'right']]),
+    captions: [
+      [0, B + 3400, 'The crate crosses over Cleo, and Cleo drives it on, beside Cleo\'s head.', B + 3350],
+      [B + 3400, B + 4400, 'Hana lowers at the same moment: the crate swings close to Cleo. WHOA! A close call, and both phones say so.', B + 3750],
+      [B + 4400, B + 9000, 'One at a time now: across, down into the cradle, both keys. Delivered.', B + 6700],
+    ],
+    proposed: ['A 1 in 4 chance when both move within half a second near someone'],
   }),
   board({
     id: 'timeout',

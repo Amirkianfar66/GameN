@@ -100,9 +100,35 @@ export const EDGES = Object.freeze([
     expect: { outcome: null, refused: ['down'], alive: { hoist: false, boom: true } },
   },
   {
-    id: 'race-refused', about: "PROPOSED deliberate attacks only. The crate hangs over the open deck; Cleo drives it over the pulpit just as Hana's Lower, pressed on the old picture, arrives: refused as stale, no drop. A fresh Lower on the warning drops it.",
+    id: 'race-jolt', about: "Attacks are deliberate. Cleo drives the crate back over Cleo's own head just as Hana's Lower, pressed on the old picture, arrives: not an attack, only a jerk of the winch; with both moving at once it is a jolt, here a close call. A fresh Lower on the warning then drops it.",
     steps: [...lift(), ...drive(B + 2300, 5), press(B + 4000, 'boom', 'left'), { ...press(B + 4050, 'hoist', 'down'), shown: false }, { ...press(B + 4700, 'hoist', 'down'), shown: true }],
-    expect: { outcome: { result: 'lost', why: 'not-in-cradle' }, refused: ['stale'], alive: { hoist: true, boom: false } },
+    expect: { outcome: { result: 'lost', why: 'not-in-cradle' }, present: ['JERKED', 'NEAR_MISS'], alive: { hoist: true, boom: false } },
+  },
+  {
+    id: 'race-accident', about: 'The same race with an unlucky roll: the jerk and the drive together swing the crate into Cleo. An accident: Hana\'s attack is not used.',
+    steps: [...lift(), ...drive(B + 2300, 5), press(B + 4000, 'boom', 'left'), { ...press(B + 4050, 'hoist', 'down'), shown: false, roll: 0.1 }],
+    expect: { outcome: { result: 'lost', why: 'not-in-cradle' }, accident: true, alive: { hoist: true, boom: false }, attack: { hoist: true, boom: true } },
+  },
+  {
+    id: 'cab-lurch', about: "The gantry at the cab's door and both moving at once: an unlucky roll lurches it into the cab. An accident: the Hoist is killed and the Task is lost.",
+    steps: [...lift(), press(B + 2300, 'boom', 'left'), { ...press(B + 2500, 'hoist', 'down'), roll: 0.1 }],
+    expect: { outcome: { result: 'lost', why: 'not-in-cradle' }, accident: true, alive: { hoist: false, boom: true }, attack: { hoist: true, boom: true } },
+  },
+  {
+    id: 'protected-close-call', about: 'The Boom is Protected and the roll is unlucky: still only a close call. No STOPPED, so an accident shows nothing about Protection.',
+    protection: { hoist: false, boom: true },
+    steps: [...lift(), ...drive(B + 2300, 5), { ...press(B + 3500, 'hoist', 'down'), roll: 0.1 }],
+    expect: { outcome: null, alive: { hoist: true, boom: true }, present: ['NEAR_MISS'], absent: ['KILLED', 'STOPPED'] },
+  },
+  {
+    id: 'one-at-a-time', about: 'The same crossing, but Hana waits until Cleo has stopped: no jolt, whatever the roll.',
+    steps: [...lift(), ...drive(B + 2300, 5), { ...press(B + 3900, 'hoist', 'down'), roll: 0 }],
+    expect: { outcome: null, absent: ['NEAR_MISS', 'KILLED'] },
+  },
+  {
+    id: 'together-bump', about: "Both press at once at the cab's door, but Hana's Raise only bumps the rail: nothing moved, so no jolt.",
+    steps: [...lift(), press(B + 2300, 'boom', 'left'), { ...press(B + 2400, 'hoist', 'up'), roll: 0 }],
+    expect: { outcome: null, bumped: ['rail'], absent: ['NEAR_MISS', 'KILLED'] },
   },
   {
     id: 'hold-stops-at-warning', about: 'PROPOSED deliberate attacks only. A held Raise or Lower repeats, but a repeat never carries into an attack: it stops at the warning, and only a fresh press attacks.',
@@ -121,7 +147,7 @@ export function play({ attack = { hoist: true, boom: true }, protection = { hois
   const frames = simulate(startTask({ seats: SEATS, attack, protection, at: 0 }), steps);
   const last = frames[frames.length - 1].state;
   const events = frames.flatMap(f => f.events);
-  return { outcome: last.outcome, alive: { ...last.alive }, events };
+  return { outcome: last.outcome, alive: { ...last.alive }, attack: { ...last.attack }, events };
 }
 
 /** The differences between a scenario's expectation and its run (none: the model agrees). */
@@ -139,6 +165,8 @@ export function differences(scenario) {
   for (const why of e.bumped ?? []) if (!got.events.some(x => x.type === 'BUMPED' && x.why === why)) out.push(`no bump (${why})`);
   if (e.moves !== undefined && types.filter(t => t === 'MOVED').length !== e.moves) out.push(`${types.filter(t => t === 'MOVED').length} moves`);
   if (e.stops !== undefined && types.filter(t => t === 'STOPPED').length !== e.stops) out.push(`${types.filter(t => t === 'STOPPED').length} stops`);
+  if (e.accident !== undefined && !got.events.some(x => x.type === 'KILLED' && Boolean(x.accident) === e.accident)) out.push(`no ${e.accident ? 'accident' : 'attack'} kill`);
+  if (e.attack && !same(got.attack, e.attack)) out.push(`attack ${JSON.stringify(got.attack)}`);
   return out;
 }
 
@@ -150,6 +178,8 @@ export const BOARD_EXPECT = Object.freeze({
   survivor: { outcome: { result: 'delivered', packages: 5, alone: true }, alive: { hoist: false, boom: true }, present: ['DOCKED', 'KILLED', 'SENT'] },
   'protection-drop': { outcome: { result: 'delivered', packages: 5, alone: false }, alive: { hoist: true, boom: true }, present: ['STOPPED', 'SENT'], absent: ['KILLED'] },
   'protection-ram': { outcome: { result: 'delivered', packages: 5, alone: false }, alive: { hoist: true, boom: true }, present: ['STOPPED', 'SENT'], absent: ['KILLED'] },
+  accident: { outcome: { result: 'lost', why: 'not-in-cradle' }, alive: { hoist: true, boom: false }, accident: true, attack: { hoist: true, boom: true } },
+  'near-miss': { outcome: { result: 'delivered', packages: 5, alone: false }, alive: { hoist: true, boom: true }, present: ['NEAR_MISS', 'SENT'], absent: ['KILLED'] },
   timeout: { outcome: { result: 'lost', why: 'time' }, alive: { hoist: true, boom: true }, absent: ['KILLED', 'SENT'] },
   disconnect: { outcome: { result: 'cancelled', why: 'disconnect', who: 'boom' }, alive: { hoist: true, boom: true }, present: ['OFFLINE'], absent: ['SENT'] },
 });

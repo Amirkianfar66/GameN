@@ -26,6 +26,7 @@ export const RULES = Object.freeze([
   ['away-visible', 'Other players can check on the board who is not here, so they can understand who went on the Task.', 'While the Task runs, the two participants\' places are empty on every board. A banner says that two players are away on the Food Supply Task, without names: the board shows who.'],
   ['opportunity-per-match', 'One attack opportunity per match, not one per Task.', 'The server holds each player\'s attack for the whole match and passes it into every Task they join; once used, it is gone for the rest of the match.'],
   ['block-uses-it', 'A blocked attack uses up the opportunity.', 'A STOPPED attack spends it as a kill would: the attacker cannot try again, in this Task or a later one.'],
+  ['accidents', 'Near each other, a small movement by both can kill one of them by mistake (a chance).', 'Two zones: the crate over or beside the Boom operator\'s head, and the gantry at the cab\'s door. When both move within half a second there, the jolt kills the one in danger by chance (PROPOSED: 1 in 4); otherwise it is a close call (WHOA!). An accident is no one\'s attack: it uses no attack opportunity. PROPOSED: a Protected participant only ever has a close call.'],
   ['partner-decline', 'The Partner can decline.', 'The Partner request has Decline and Join. After a decline the Volunteer asks someone else or closes. PROPOSED: 15 s to answer, and no answer is a decline; the Volunteer\'s Task is used only when a Partner joins.'],
 ].map(([id, rule, design]) => Object.freeze({ id, rule, design })));
 
@@ -35,7 +36,8 @@ export const VISIBILITY = Object.freeze({
   others: 'Never the Supply Room. The board shows who is away: the two participants\' places are empty, so anyone can tell who went (the owner, 11 November 2026). A banner says only that two players are away on the Food Supply Task. PROPOSED: the result as the food stock shows it, delivered (+5) or nothing delivered; not how it went.',
   ask: 'PROPOSED: a Partner request and its answer are private to the two players: no one else learns who was asked, or that someone declined.',
   death: 'A participant killed on the Task is Eliminated at their previous position on the return, as any death is shown. No phone says who killed them, how, or that a Task killed them; the two participants already know.',
-  protection: 'Never shown. A blocked attack is the same STOPPED as an attack by a participant with no opportunity left (see conflict 3).',
+  protection: 'Never shown. A blocked attack is the same STOPPED as an attack by a participant with no opportunity left (see conflict 3). An accident never shows a STOPPED: a Protected participant has only a close call, exactly like a lucky roll.',
+  accidents: 'Both participants see an accident or a close call as it happens (WHAM!, CRASH!, WHOA!), and the victim\'s card says it was an accident. Everyone else sees only the death, as any death: no cause, so a survivor can always say it was an accident.',
   foodStock: 'PROPOSED public: the count (the ship-life food capsules show it) and the warning at one package.',
   server: 'Only the server holds attack opportunities, Protection, and the reason for a STOPPED.',
 });
@@ -67,7 +69,7 @@ export const CONFLICTS = Object.freeze([
     id: 'deduced-attribution',
     rules: ['visibility', 'return'],
     conflict: 'With two participants, a death on the Task names the killer to anyone who knows who went: the return shows the body, and the other participant is the only possible cause. The rules forbid automatic attribution but make it deducible.',
-    solution: 'No phone states a killer, a cause or a Task death; the death is shown as any death. The owner has decided that other players can see on the board who is away (11 November 2026), so after a death everyone can work out the survivor; that is accepted, and nothing states it.',
+    solution: 'No phone states a killer, a cause or a Task death; the death is shown as any death. The owner has decided that other players can see on the board who is away (11 November 2026), so after a death everyone can work out the survivor; that is accepted, and nothing states it. Accidents (the owner\'s decision, the same day) make any Task death possibly an accident, so the survivor always has a story.',
     residual: 'Settled by the owner\'s decision: nothing left to decide.',
   },
 ]);
@@ -84,7 +86,9 @@ export const OPEN_ITEMS = Object.freeze([
   { id: 'timing', owner: 'Game Balance', item: 'The PROPOSED timing: 4 s briefing, 45 s deadline, 8 s grace, 300 ms between presses.' },
   { id: 'asymmetry', owner: 'Game Balance', item: 'The survivor asymmetry (conflict 2) and the food economy: five packages, five per delivery, one dose per player at each Eating step.' },
   { id: 'eating-order', owner: 'owner, Game Balance', item: 'The Eating step\'s place in the round and its order: with the stock short, the order decides who goes to the Hospital.' },
-  { id: 'deliberate-attacks', owner: 'owner, Backend', item: 'PROPOSED deliberate attacks only: a hold\'s repeat stops at a warning, and a press made on an older picture never attacks (TASK_MOVE shown and repeat).' },
+  { id: 'deliberate-attacks', owner: 'owner, Backend', item: 'PROPOSED: attacks are deliberate. A press made on an older picture, or a hold\'s repeat, never attacks; with the partner moving at the same moment it counts toward an accident instead (TASK_MOVE shown and repeat).' },
+  { id: 'accident-numbers', owner: 'Game Balance', item: 'The accident numbers: a 1 in 4 chance, a half-second window, and the two zones (PROPOSED).' },
+  { id: 'accident-protection', owner: 'owner', item: 'Whether Protection saves a participant from an accident. PROPOSED: yes, as a close call, which reveals nothing.' },
   { id: 'contract', owner: 'Integration', item: 'TASK_MOVE and the Task projection in packages/contracts/, and the ruleset version that adopts this Task.' },
   { id: 'engine-task', owner: 'owner', item: 'The Engine Task is not designed here.' },
 ].map(Object.freeze));

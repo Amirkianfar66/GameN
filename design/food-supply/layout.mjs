@@ -6,7 +6,7 @@
 // receding to y 748); the machine stands in a plane near the front, its deck line at y 640, so
 // that every cell is a 128-pixel square and every move reads as a straight step.
 
-import { FIXTURES, GRID } from './task.mjs';
+import { FIXTURES, GRID, NEAR } from './task.mjs';
 
 /** The picture. */
 export const BOX = Object.freeze([1024, 768]);
@@ -60,6 +60,9 @@ export const REGIONS = Object.freeze({
   rib: Object.freeze({ cells: [0, 1, 2].map(r => [FIXTURES.rib.col, r]), box: BOXES.rib, about: 'The rib: blocks the crate below the top row' }),
   pulpit: Object.freeze({ cells: [0, 1, 2].map(r => [FIXTURES.pulpit.col, r]), box: BOXES.pulpit, about: 'The pulpit and its operator: the crate may not enter it from the side' }),
   intake: Object.freeze({ cells: [[FIXTURES.intake.col, 0]], box: cellBox(FIXTURES.intake.col, 0), about: 'The intake hatch, where the crate starts; it rests on the deck only here' }),
+  // Accidents (the owner, 11 November 2026): where both moving at once can kill one of them by mistake.
+  nearBoom: Object.freeze({ cells: NEAR.boom.cells, boxes: NEAR.boom.cells.map(([c, r]) => cellBox(c, r)), about: NEAR.boom.about }),
+  nearCab: Object.freeze({ cols: NEAR.cab.carriage, box: [X0 + CELL * NEAR.cab.carriage[0], RAIL.top, CELL, 300], about: NEAR.cab.about }),
 });
 
 /**

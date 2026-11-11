@@ -105,23 +105,28 @@
       "design": "A STOPPED attack spends it as a kill would: the attacker cannot try again, in this Task or a later one."
     },
     {
+      "id": "accidents",
+      "rule": "Near each other, a small movement by both can kill one of them by mistake (a chance).",
+      "design": "Two zones: the crate over or beside the Boom operator's head, and the gantry at the cab's door. When both move within half a second there, the jolt kills the one in danger by chance (PROPOSED: 1 in 4); otherwise it is a close call (WHOA!). An accident is no one's attack: it uses no attack opportunity. PROPOSED: a Protected participant only ever has a close call."
+    },
+    {
       "id": "partner-decline",
       "rule": "The Partner can decline.",
       "design": "The Partner request has Decline and Join. After a decline the Volunteer asks someone else or closes. PROPOSED: 15 s to answer, and no answer is a decline; the Volunteer's Task is used only when a Partner joins."
     }
   ],
   "sources": {
-    "design/food-supply/task.mjs": "5820e48e58cee560edd5336ade052b4fdeed272974b3158201da82cd65a00723",
-    "design/food-supply/layout.mjs": "b3193ab9ed05739750dae06a48584d024163598fda955c185d2dfc79267fafa9",
+    "design/food-supply/task.mjs": "2bd86044ce05fe6ad77a15b1cbfe0a22704492059fdcbf60c559195c987ca4d1",
+    "design/food-supply/layout.mjs": "9bd257d96e21502a2cb8d33119e0aaa45004d8a21c9e0907a31eb25bd4e436ad",
     "design/food-supply/room.mjs": "43d82db22f9cc43c389db2c4e713ae7a924ea4dbf8f252412118dbcbdd4c1c5e",
-    "design/food-supply/machine.mjs": "622098559ab5ee84d5622c829273d31d1bc3fae11ce9c637dd5a86fd9e9b80bf",
-    "design/food-supply/scene.mjs": "625e66ab4f033a1d028543a754170d2c419b723a56b27001be6166244e3971e7",
-    "design/food-supply/stage.mjs": "410c8261c6a27d25948ba676947c20d57c505b17ebc503fe3acc1a60f271662e",
-    "design/food-supply/boards.mjs": "f909921ba635fb5395d7cdb758474daf2d18793b4bd270363cbb7e676dcfd8b5",
-    "design/food-supply/scenarios.mjs": "6f44901562f33d08df086f7c5d58536ed72cfe1de944f1b092dc9b092b59fbef",
-    "design/food-supply/rules.mjs": "7526738333cbcf58d5ceb34225c54fe1811b3b8d865a8300d4dcfd4f316ee71c",
-    "design/food-supply/phone.mjs": "f69bbaa1d435911c1ee618279f8b66bdfceed883207167af0e9cc9ae6f92b77a",
-    "design/food-supply/phone.css": "f846b1d2a9221e31de118d4962bd28e4a6c22cd342aedd6c6b97d84287449ffb"
+    "design/food-supply/machine.mjs": "fdd21693f951094203b2feb3a6b06165949cda8e3fd3258a0e015c37bfc7e078",
+    "design/food-supply/scene.mjs": "7982d36d4f2f42d3e643ce1e1c690e9482618b66c0c128f3384d76d2117a6b53",
+    "design/food-supply/stage.mjs": "2333eb70db8d9dccda85845fc641357daecb4bef31779a39b73f44f369ab3325",
+    "design/food-supply/boards.mjs": "ecb0372b24d36554c0ec38710f9199ef1d7119db36f7cce8980465e0390d144b",
+    "design/food-supply/scenarios.mjs": "0b2cfdb820a93d826e16b2138b3b41c91dd2e6e438f6cf65da8a108083147216",
+    "design/food-supply/rules.mjs": "a277ba36f53decb0c40e97f28e1984b0b0d112e6b67c3420d715f00f9063bc14",
+    "design/food-supply/phone.mjs": "ff2ae7cc3a615b91a046c8ef99cfb4aaf512566b0e7e9e3537b2c1bba7d5372f",
+    "design/food-supply/phone.css": "7c97c4fe9390bab8c7da02a1b396a21ee35f892299c4f955284b947866034a20"
   },
   "fixtures": {
     "roster": "design/phone-ui/prototype/fixtures.mjs (invented names)",
@@ -489,6 +494,65 @@
         128
       ],
       "about": "The intake hatch, where the crate starts; it rests on the deck only here"
+    },
+    "nearBoom": {
+      "cells": [
+        [
+          3,
+          3
+        ],
+        [
+          4,
+          3
+        ],
+        [
+          5,
+          3
+        ],
+        [
+          5,
+          2
+        ]
+      ],
+      "boxes": [
+        [
+          448,
+          128,
+          128,
+          128
+        ],
+        [
+          576,
+          128,
+          128,
+          128
+        ],
+        [
+          704,
+          128,
+          128,
+          128
+        ],
+        [
+          704,
+          256,
+          128,
+          128
+        ]
+      ],
+      "about": "The crate over or beside the Boom operator's head: moving together, the swinging crate can hit them"
+    },
+    "nearCab": {
+      "cols": [
+        1
+      ],
+      "box": [
+        192,
+        74,
+        128,
+        300
+      ],
+      "about": "The gantry at the cab's door: moving together, it can lurch into the cab"
     }
   },
   "operators": {
@@ -619,7 +683,7 @@
       "hazard": "At the cab's door, Left is striped and says 'Rams <name>'s cab'."
     },
     "press": "One press, one step. Holding repeats every 300 ms (PROPOSED), the server's own interval: a press inside it is refused (too-soon). No drag, swipe or gesture; two big buttons for the participant's own axis only.",
-    "deliberate": "PROPOSED: a hold's repeat stops at a warning, and an attack needs a fresh press on a button that showed it (TASK_MOVE shown and repeat). Not a confirmation or an armed mode: one press of the same button acts.",
+    "deliberate": "PROPOSED: attacks are deliberate. A hold's repeat stops at a warning, and an attack needs a fresh press on a button that showed it (TASK_MOVE shown and repeat). Not a confirmation or an armed mode: one press of the same button acts. A press that is not an attack still moves, or jerks, the machine, and moving together near someone can cause an accident (the owner's decision; see accidents).",
     "next": "The press the cooperative route asks for next glows (amber ring), on both phones for their own button.",
     "keyboard": "Arrow keys on the participant's own axis; the others do nothing.",
     "accessibility": "Each button's accessible name says its warning (\"Lower. Warning: drops it on Cleo.\"). The view is an image with a text equivalent (where the crate and the gantry are, and whether a warning shows). The hint is a polite live region. Large text: the controls keep their places (Raise above Lower, Left beside Right) and grow; the view gives way; cards scroll.",
@@ -636,11 +700,15 @@
         },
         {
           "field": "shown",
-          "about": "PROPOSED: whether the pressed button showed the attack warning when pressed. A press that would attack with shown = false is refused (stale)."
+          "about": "PROPOSED: whether the pressed button showed the attack warning when pressed. A press that would attack with shown = false is not an attack: refused (stale), or, with the partner moving at the same moment, a jerk (JERKED) toward an accident."
         },
         {
           "field": "repeat",
-          "about": "PROPOSED: whether the press is a hold's repeat. A repeat never attacks (refused: repeat); a fresh press on the warning does."
+          "about": "PROPOSED: whether the press is a hold's repeat. A repeat never attacks (refused: repeat, or a jerk as above); a fresh press on the warning does."
+        },
+        {
+          "field": "(no roll)",
+          "about": "The accident roll is the server's own random number for the press; the phone never sends or sees it."
         }
       ],
       "answer": "The new revision of the Task state with the events, to both participants; REFUSED to the presser only."
@@ -692,6 +760,46 @@
     "ending": 2500,
     "answer": 15000,
     "proposed": true
+  },
+  "accidents": {
+    "decision": "The owner, 11 November 2026: \"if Player A and B position and the result near each other and there is a small movement in both parts there is chance they kill each other by mistake\".",
+    "window": 500,
+    "chance": 0.25,
+    "proposed": true,
+    "zones": {
+      "boom": {
+        "victim": "boom",
+        "kind": "swing",
+        "cells": [
+          [
+            3,
+            3
+          ],
+          [
+            4,
+            3
+          ],
+          [
+            5,
+            3
+          ],
+          [
+            5,
+            2
+          ]
+        ],
+        "about": "The crate over or beside the Boom operator's head: moving together, the swinging crate can hit them"
+      },
+      "cab": {
+        "victim": "hoist",
+        "kind": "lurch",
+        "carriage": [
+          1
+        ],
+        "about": "The gantry at the cab's door: moving together, it can lurch into the cab"
+      }
+    },
+    "rule": "A jolt: both participants move the machine (a move, or a jerk) within the window, and the machine is in a zone before or after the second move. The server rolls: below the chance, an accident kills the zone's victim (unless Protected: then a close call); otherwise a close call. No attack opportunity is used. Bumps, keys and refusals are not movement."
   },
   "food": {
     "initial": 5,
@@ -759,6 +867,21 @@
       "dim": {
         "ms": 600,
         "reduced": "Dimmed at once"
+      },
+      "swing": {
+        "ms": 380,
+        "ease": "in-out",
+        "reduced": "The crate shown against the Boom operator at once; WHAM! still"
+      },
+      "lurch": {
+        "ms": 160,
+        "ease": "in",
+        "reduced": "The gantry at the cab at once; CRASH! still"
+      },
+      "closeCall": {
+        "ms": 700,
+        "ease": "in-out",
+        "reduced": "WHOA! shown still for 700 ms; nothing swings"
       }
     },
     "proposed": true,
@@ -830,6 +953,11 @@
       "field": "lastMove",
       "holds": "{ hoist, boom }: the time of each participant's last accepted press",
       "seenBy": "the server only"
+    },
+    {
+      "field": "stir",
+      "holds": "{ hoist, boom }: the time each last moved the machine (a move or a jerk), for jolts",
+      "seenBy": "the server only"
     }
   ],
   "events": [
@@ -877,8 +1005,20 @@
     },
     {
       "type": "KILLED",
-      "fields": "kind (drop | ram), by, victim, docked",
-      "about": "An unblocked attack: lethal, no escape, not the Hospital.",
+      "fields": "kind (drop | ram | swing | lurch), by (an attack only), accident (an accident only), victim, docked",
+      "about": "An unblocked attack, or an accident: lethal, no escape, not the Hospital.",
+      "seenBy": "both participants"
+    },
+    {
+      "type": "JERKED",
+      "fields": "by, dir",
+      "about": "A press that would attack, made on an older picture or as a hold's repeat, while the partner is moving: not an attack; it counts toward a jolt.",
+      "seenBy": "both participants"
+    },
+    {
+      "type": "NEAR_MISS",
+      "fields": "zone (boom | cab), kind, victim",
+      "about": "A jolt that did not kill: a close call (WHOA!). The same for a lucky roll and for a Protected participant.",
       "seenBy": "both participants"
     },
     {
@@ -959,7 +1099,8 @@
     "others": "Never the Supply Room. The board shows who is away: the two participants' places are empty, so anyone can tell who went (the owner, 11 November 2026). A banner says only that two players are away on the Food Supply Task. PROPOSED: the result as the food stock shows it, delivered (+5) or nothing delivered; not how it went.",
     "ask": "PROPOSED: a Partner request and its answer are private to the two players: no one else learns who was asked, or that someone declined.",
     "death": "A participant killed on the Task is Eliminated at their previous position on the return, as any death is shown. No phone says who killed them, how, or that a Task killed them; the two participants already know.",
-    "protection": "Never shown. A blocked attack is the same STOPPED as an attack by a participant with no opportunity left (see conflict 3).",
+    "protection": "Never shown. A blocked attack is the same STOPPED as an attack by a participant with no opportunity left (see conflict 3). An accident never shows a STOPPED: a Protected participant has only a close call, exactly like a lucky roll.",
+    "accidents": "Both participants see an accident or a close call as it happens (WHAM!, CRASH!, WHOA!), and the victim's card says it was an accident. Everyone else sees only the death, as any death: no cause, so a survivor can always say it was an accident.",
     "foodStock": "PROPOSED public: the count (the ship-life food capsules show it) and the warning at one package.",
     "server": "Only the server holds attack opportunities, Protection, and the reason for a STOPPED."
   },
@@ -1582,6 +1723,181 @@
           "KILLED"
         ]
       }
+    },
+    {
+      "id": "accident",
+      "about": "Both move at once while the crate hangs beside the Boom operator: the jolt swings it into them",
+      "kind": "storyboard",
+      "given": {
+        "seats": {
+          "hoist": 8,
+          "boom": 3
+        },
+        "attack": {
+          "hoist": true,
+          "boom": true
+        },
+        "protection": {
+          "hoist": false,
+          "boom": false
+        },
+        "briefingEndsAt": 4000
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 5100,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 5600,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 6300,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 6800,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 7300,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 7500,
+          "seat": 8,
+          "dir": "down",
+          "roll": 0.1
+        }
+      ],
+      "then": {
+        "outcome": {
+          "result": "lost",
+          "why": "not-in-cradle"
+        },
+        "alive": {
+          "hoist": true,
+          "boom": false
+        },
+        "accident": true,
+        "attack": {
+          "hoist": true,
+          "boom": true
+        }
+      },
+      "proposed": [
+        "A 1 in 4 chance when both move within half a second near someone"
+      ]
+    },
+    {
+      "id": "near-miss",
+      "about": "The same jolt beside the Boom operator, and this time the crate only swings close",
+      "kind": "storyboard",
+      "given": {
+        "seats": {
+          "hoist": 8,
+          "boom": 3
+        },
+        "attack": {
+          "hoist": true,
+          "boom": true
+        },
+        "protection": {
+          "hoist": false,
+          "boom": false
+        },
+        "briefingEndsAt": 4000
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 5100,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 5600,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 6300,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 6800,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 7300,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 7500,
+          "seat": 8,
+          "dir": "down",
+          "roll": 0.9
+        },
+        {
+          "at": 8500,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 9100,
+          "seat": 8,
+          "dir": "down"
+        },
+        {
+          "at": 9700,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 10300,
+          "seat": 3,
+          "dir": "right"
+        }
+      ],
+      "then": {
+        "outcome": {
+          "result": "delivered",
+          "packages": 5,
+          "alone": false
+        },
+        "alive": {
+          "hoist": true,
+          "boom": true
+        },
+        "present": [
+          "NEAR_MISS",
+          "SENT"
+        ],
+        "absent": [
+          "KILLED"
+        ]
+      },
+      "proposed": [
+        "A 1 in 4 chance when both move within half a second near someone"
+      ]
     },
     {
       "id": "timeout",
@@ -2693,8 +3009,8 @@
       }
     },
     {
-      "id": "race-refused",
-      "about": "PROPOSED deliberate attacks only. The crate hangs over the open deck; Cleo drives it over the pulpit just as Hana's Lower, pressed on the old picture, arrives: refused as stale, no drop. A fresh Lower on the warning drops it.",
+      "id": "race-jolt",
+      "about": "Attacks are deliberate. Cleo drives the crate back over Cleo's own head just as Hana's Lower, pressed on the old picture, arrives: not an attack, only a jerk of the winch; with both moving at once it is a jolt, here a close call. A fresh Lower on the warning then drops it.",
       "kind": "edge",
       "given": {
         "seats": {
@@ -2765,13 +3081,351 @@
           "result": "lost",
           "why": "not-in-cradle"
         },
-        "refused": [
-          "stale"
+        "present": [
+          "JERKED",
+          "NEAR_MISS"
         ],
         "alive": {
           "hoist": true,
           "boom": false
         }
+      }
+    },
+    {
+      "id": "race-accident",
+      "about": "The same race with an unlucky roll: the jerk and the drive together swing the crate into Cleo. An accident: Hana's attack is not used.",
+      "kind": "edge",
+      "given": {
+        "seats": {
+          "hoist": 8,
+          "boom": 3
+        },
+        "attack": {
+          "hoist": true,
+          "boom": true
+        },
+        "protection": {
+          "hoist": false,
+          "boom": false
+        },
+        "briefingEndsAt": 4000
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 5100,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 5600,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 6300,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 6800,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 7300,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 8000,
+          "seat": 3,
+          "dir": "left"
+        },
+        {
+          "at": 8050,
+          "seat": 8,
+          "dir": "down",
+          "shown": false,
+          "roll": 0.1
+        }
+      ],
+      "then": {
+        "outcome": {
+          "result": "lost",
+          "why": "not-in-cradle"
+        },
+        "accident": true,
+        "alive": {
+          "hoist": true,
+          "boom": false
+        },
+        "attack": {
+          "hoist": true,
+          "boom": true
+        }
+      }
+    },
+    {
+      "id": "cab-lurch",
+      "about": "The gantry at the cab's door and both moving at once: an unlucky roll lurches it into the cab. An accident: the Hoist is killed and the Task is lost.",
+      "kind": "edge",
+      "given": {
+        "seats": {
+          "hoist": 8,
+          "boom": 3
+        },
+        "attack": {
+          "hoist": true,
+          "boom": true
+        },
+        "protection": {
+          "hoist": false,
+          "boom": false
+        },
+        "briefingEndsAt": 4000
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 5100,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 5600,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 6300,
+          "seat": 3,
+          "dir": "left"
+        },
+        {
+          "at": 6500,
+          "seat": 8,
+          "dir": "down",
+          "roll": 0.1
+        }
+      ],
+      "then": {
+        "outcome": {
+          "result": "lost",
+          "why": "not-in-cradle"
+        },
+        "accident": true,
+        "alive": {
+          "hoist": false,
+          "boom": true
+        },
+        "attack": {
+          "hoist": true,
+          "boom": true
+        }
+      }
+    },
+    {
+      "id": "protected-close-call",
+      "about": "The Boom is Protected and the roll is unlucky: still only a close call. No STOPPED, so an accident shows nothing about Protection.",
+      "kind": "edge",
+      "given": {
+        "seats": {
+          "hoist": 8,
+          "boom": 3
+        },
+        "attack": {
+          "hoist": true,
+          "boom": true
+        },
+        "protection": {
+          "hoist": false,
+          "boom": true
+        },
+        "briefingEndsAt": 4000
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 5100,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 5600,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 6300,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 6800,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 7300,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 7500,
+          "seat": 8,
+          "dir": "down",
+          "roll": 0.1
+        }
+      ],
+      "then": {
+        "outcome": null,
+        "alive": {
+          "hoist": true,
+          "boom": true
+        },
+        "present": [
+          "NEAR_MISS"
+        ],
+        "absent": [
+          "KILLED",
+          "STOPPED"
+        ]
+      }
+    },
+    {
+      "id": "one-at-a-time",
+      "about": "The same crossing, but Hana waits until Cleo has stopped: no jolt, whatever the roll.",
+      "kind": "edge",
+      "given": {
+        "seats": {
+          "hoist": 8,
+          "boom": 3
+        },
+        "attack": {
+          "hoist": true,
+          "boom": true
+        },
+        "protection": {
+          "hoist": false,
+          "boom": false
+        },
+        "briefingEndsAt": 4000
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 5100,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 5600,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 6300,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 6800,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 7300,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 7900,
+          "seat": 8,
+          "dir": "down",
+          "roll": 0
+        }
+      ],
+      "then": {
+        "outcome": null,
+        "absent": [
+          "NEAR_MISS",
+          "KILLED"
+        ]
+      }
+    },
+    {
+      "id": "together-bump",
+      "about": "Both press at once at the cab's door, but Hana's Raise only bumps the rail: nothing moved, so no jolt.",
+      "kind": "edge",
+      "given": {
+        "seats": {
+          "hoist": 8,
+          "boom": 3
+        },
+        "attack": {
+          "hoist": true,
+          "boom": true
+        },
+        "protection": {
+          "hoist": false,
+          "boom": false
+        },
+        "briefingEndsAt": 4000
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 5100,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 5600,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 6300,
+          "seat": 3,
+          "dir": "left"
+        },
+        {
+          "at": 6400,
+          "seat": 8,
+          "dir": "up",
+          "roll": 0
+        }
+      ],
+      "then": {
+        "outcome": null,
+        "bumped": [
+          "rail"
+        ],
+        "absent": [
+          "NEAR_MISS",
+          "KILLED"
+        ]
       }
     },
     {
@@ -2938,7 +3592,7 @@
         "return"
       ],
       "conflict": "With two participants, a death on the Task names the killer to anyone who knows who went: the return shows the body, and the other participant is the only possible cause. The rules forbid automatic attribution but make it deducible.",
-      "solution": "No phone states a killer, a cause or a Task death; the death is shown as any death. The owner has decided that other players can see on the board who is away (11 November 2026), so after a death everyone can work out the survivor; that is accepted, and nothing states it.",
+      "solution": "No phone states a killer, a cause or a Task death; the death is shown as any death. The owner has decided that other players can see on the board who is away (11 November 2026), so after a death everyone can work out the survivor; that is accepted, and nothing states it. Accidents (the owner's decision, the same day) make any Task death possibly an accident, so the survivor always has a story.",
       "residual": "Settled by the owner's decision: nothing left to decide."
     }
   ],
@@ -2996,7 +3650,17 @@
     {
       "id": "deliberate-attacks",
       "owner": "owner, Backend",
-      "item": "PROPOSED deliberate attacks only: a hold's repeat stops at a warning, and a press made on an older picture never attacks (TASK_MOVE shown and repeat)."
+      "item": "PROPOSED: attacks are deliberate. A press made on an older picture, or a hold's repeat, never attacks; with the partner moving at the same moment it counts toward an accident instead (TASK_MOVE shown and repeat)."
+    },
+    {
+      "id": "accident-numbers",
+      "owner": "Game Balance",
+      "item": "The accident numbers: a 1 in 4 chance, a half-second window, and the two zones (PROPOSED)."
+    },
+    {
+      "id": "accident-protection",
+      "owner": "owner",
+      "item": "Whether Protection saves a participant from an accident. PROPOSED: yes, as a close call, which reveals nothing."
     },
     {
       "id": "contract",
@@ -3041,6 +3705,14 @@
       {
         "id": "protection-ram",
         "title": "Protection against the ram"
+      },
+      {
+        "id": "accident",
+        "title": "An accident: moving together near the Boom"
+      },
+      {
+        "id": "near-miss",
+        "title": "A close call"
       },
       {
         "id": "timeout",

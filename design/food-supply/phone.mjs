@@ -91,8 +91,11 @@ function taskScreen(root, p) {
   const kill = frames.find(f => f.at <= t && f.events.some(e => e.type === 'KILLED'));
   const settled = !kill || t - kill.at >= CUES.impact.ms;
   if (v.phase === 'briefing') root.append(briefingCard(role, v, top));
-  else if (v.you === 'down' && settled) root.append(outcomeCard({ title: 'You are out', stamp: 'Eliminated', body: [h('p', 'You were killed in the Supply Room. Not the Hospital: you are out of the match.'), h('p', `You return to ${ROOM_NAMES[CAST[role].from.room]} as you fell.`)] }, top + 24));
-  else if (v.phase === 'ended' && settled) root.append(endCard(v, role, top));
+  const accident = kill?.events.find(e => e.type === 'KILLED' && e.accident);
+  const how = accident ? (accident.kind === 'swing' ? 'An accident: the swinging crate hit you.' : 'An accident: the gantry crashed into your cab.') : 'You were killed in the Supply Room.';
+  if (v.you === 'down' && settled) root.append(outcomeCard({ title: 'You are out', stamp: 'Eliminated', body: [h('p', `${how} Not the Hospital: you are out of the match.`), h('p', `You return to ${ROOM_NAMES[CAST[role].from.room]} as you fell.`)] }, top + 24));
+  else if (v.phase === 'ended' && settled) root.append(endCard(v, role, top, accident));
+  if (recent.some(e => e.type === 'NEAR_MISS') && v.phase === 'running') root.append(h('div.fs-banner', { style: { top: `${top + 12}px` } }, toast('Close call · move one at a time', 'warning')));
   const stop = recent.find(e => e.type === 'STOPPED');
   if (stop) root.append(h('div.fs-banner', { style: { top: `${top + 12}px` } }, toast(stop.kind === 'ram' ? 'Stopped · the spring buffer held' : 'Stopped · the safety catch held', 'block')));
   if (now.state.online[role] === false) root.append(h('div.fs-banner', { style: { top: `${top + 12}px` } }, banner({ icon: 'offline', title: 'Reconnecting…', sub: 'The Task goes on without your presses.' })));
@@ -139,6 +142,7 @@ function briefingCard(role, v, top) {
     h('ul',
       h('li', ic('move', { filled: true }), h('span', 'Lift it out, drive it across, lower it into the cradle, then both turn a key.')),
       h('li', ic('warning', { filled: true }), h('span', 'The crate passes over the Boom; the gantry can reach the Hoist\'s cab. Watch the stripes.')),
+      h('li', ic('warning', { filled: true }), h('span', 'Near either of you, move one at a time: moving together can cause an accident.')),
       h('li', ic('info', { filled: true }), h('span', 'Press, or hold to repeat. Arrow keys work too.'))),
     h('div', { style: { display: 'flex', alignItems: 'baseline', gap: '10px' } }, h('span.fs-count', String(v.briefingLeft)), h('p', 'Starting')));
 }
@@ -148,12 +152,13 @@ function outcomeCard({ title, stamp, tone = null, body }, top) {
     stamp ? h('span.stamp.fs-stamp', { 'data-tone': tone }, stamp) : null, h('h2', title), body);
 }
 
-function endCard(v, role, top) {
+function endCard(v, role, top, accident = null) {
   const o = v.outcome;
   const back = h('p', `Returning to ${ROOM_NAMES[CAST[role].from.room]}…`);
   if (o.result === 'delivered') return outcomeCard({ title: 'Delivered', stamp: `+${o.packages} packages`, tone: 'accent', body: [h('p', 'The crate went up to the galley. The ship\'s food stock rises by five.'), back] }, top + 24);
   if (o.result === 'cancelled') return outcomeCard({ title: 'Task cancelled', stamp: 'Cancelled', body: [h('p', o.who === role ? 'You lost your connection. Nothing was delivered.' : `${person(other(role)).name} lost their connection. Nothing was delivered.`), back] }, top + 24);
-  return outcomeCard({ title: 'Task lost', stamp: 'Lost', body: [h('p', o.why === 'time' ? 'The time ran out before the crate reached the galley.' : 'The crate never reached the cradle.'), back] }, top + 24);
+  const lost = o.why === 'time' ? 'The time ran out before the crate reached the galley.' : accident ? `An accident killed ${person(accident.victim).name}. The crate never reached the cradle.` : 'The crate never reached the cradle.';
+  return outcomeCard({ title: 'Task lost', stamp: 'Lost', body: [h('p', lost), back] }, top + 24);
 }
 
 /** Live mode: a press plays the storyboard on to its next frame (a fixture: nothing is sent). */

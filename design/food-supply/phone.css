@@ -24,6 +24,8 @@
 .fs-hint[data-tone="next"] .ic { color: var(--accent); }
 .fs-hint[data-tone="hazard"] { background: #F4EBDD; color: #151923; }
 .fs-hint[data-tone="hazard"] .ic { color: #151923; }
+.fs-hint[data-tone="caution"] { background: rgba(241, 184, 75, 0.16); box-shadow: inset 0 0 0 2px rgba(241, 184, 75, 0.7); }
+.fs-hint[data-tone="caution"] .ic { color: var(--accent); }
 .fs-hint[data-tone="quiet"] { background: transparent; box-shadow: inset 0 0 0 1px var(--hairline); color: var(--text-secondary); }
 
 /* The controls: two big buttons for the participant's own axis. Hold to repeat; no drag gesture. */

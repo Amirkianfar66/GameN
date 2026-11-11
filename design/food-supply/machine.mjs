@@ -145,14 +145,14 @@ export function gantry(cv, x, { wheel = 0, drum = 0, dented = false, nudge = 0 }
   plate(cv, box(px + pw, py + 26, 20, 16), F.shadow, 92, { depth: 0 });
 }
 
-/** The cable from the drum to the hook block, two strands; slack: a fall, the strands loose. */
-export function cable(cv, x, hookY, { slack = 0 } = {}) {
+/** The cable from the drum to the hook block, two strands; slack: a fall, the strands loose; fromX: the drum, when the crate swings away from under it. */
+export function cable(cv, x, hookY, { slack = 0, fromX = x } = {}) {
   const top = RAIL.bottom + 44, bottom = hookY - 30;
   if (bottom <= top) return;
   for (const [k, dx] of [-5, 5].entries()) {
     const pts = slack > 0
-      ? [[x + dx, top], [x + dx + 10 * slack, (top * 2 + bottom) / 3], [x + dx - 10 * slack, (top + bottom * 2) / 3], [x + dx, bottom]]
-      : [[x + dx, top], [x + dx, bottom]];
+      ? [[fromX + dx, top], [x + dx + 10 * slack, (top * 2 + bottom) / 3], [x + dx - 10 * slack, (top + bottom * 2) / 3], [x + dx, bottom]]
+      : [[fromX + dx, top], [x + dx, bottom]];
     cv.line(pts, { weight: 2, taper: 'none', seed: 100 + k, tension: 1 });
   }
 }

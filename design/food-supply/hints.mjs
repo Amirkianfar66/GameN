@@ -30,6 +30,14 @@ export function hintFor(v, recent) {
   const bump = recent.find(e => e.type === 'BUMPED');
   const stopped = recent.find(e => e.type === 'STOPPED');
   if (stopped) return { tone: 'quiet', icon: 'block', text: stopped.kind === 'ram' ? 'Stopped: the spring buffer held.' : 'Stopped: the safety catch held.' };
+  // Accidents (the owner, 11 November 2026): near one of them, both moving at once can kill by mistake.
+  if (recent.some(e => e.type === 'NEAR_MISS')) return { tone: 'caution', icon: 'warning', text: 'Close call! Move one at a time.' };
+  if (v.near) {
+    const text = v.near.zone === 'boom'
+      ? (v.near.you ? 'One at a time: the crate is near you.' : `One at a time near ${partner}.`)
+      : (v.near.you ? 'One at a time near your cab.' : `One at a time near ${partner}'s cab.`);
+    return { tone: 'caution', icon: 'warning', text };
+  }
   if (v.docked) {
     if (v.keys.you) return { tone: 'quiet', icon: 'key', text: `Key turned. Waiting for ${partner}.` };
     return { tone: 'next', icon: 'key', text: v.role === 'boom' && !v.buttons.some(b => b.key) ? 'Docked. Turn your key at the end stop.' : 'Docked. Turn your key.' };

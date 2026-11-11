@@ -71,6 +71,30 @@ export const ROUTE = Object.freeze([
  */
 export const TIMING = Object.freeze({ step: 240, interval: 300, briefing: 4000, deadline: 45000, grace: 8000, ending: 2500, answer: 15000 });
 
+/**
+ * Accidents (the owner, 11 November 2026: "if Player A and B position and the result near each other
+ * and there is a small movement in both parts there is chance they kill each other by mistake").
+ * When both participants move within `window` ms of each other while the machine is near one of
+ * them (NEAR), the jolt can kill that one: `chance` per jolt, rolled by the server. Otherwise it is
+ * a close call. An accident is no one's attack and uses no attack opportunity. PROPOSED: the numbers
+ * and the zones; and a Protected participant only ever has a close call, so an accident shows
+ * nothing about Protection.
+ */
+export const ACCIDENT = Object.freeze({ window: 500, chance: 0.25 });
+
+/** Where moving together is dangerous, and for whom. */
+export const NEAR = Object.freeze({
+  boom: Object.freeze({ victim: 'boom', kind: 'swing', cells: Object.freeze([[3, 3], [4, 3], [5, 3], [5, 2]].map(c => Object.freeze(c))), about: "The crate over or beside the Boom operator's head: moving together, the swinging crate can hit them" }),
+  cab: Object.freeze({ victim: 'hoist', kind: 'lurch', carriage: Object.freeze([1]), about: "The gantry at the cab's door: moving together, it can lurch into the cab" }),
+});
+
+/** The danger zone the machine is in ('boom' or 'cab'), or null. */
+export function nearZone(crate, carriage, docked = false) {
+  if (!docked && NEAR.boom.cells.some(([c, r]) => c === crate[0] && r === crate[1])) return 'boom';
+  if (NEAR.cab.carriage.includes(carriage)) return 'cab';
+  return null;
+}
+
 /** Food: five packages to start (shown by the ship-life capsules), five per delivery, a warning at one. Confirmed. */
 export const FOOD = Object.freeze({ initial: 5, perDelivery: 5, warnAt: 1 });
 
@@ -102,6 +126,7 @@ export function startTask({ seats, attack = { hoist: true, boom: true }, protect
     carriage: START.carriage, crate: [...START.crate], docked: false,
     keys: { hoist: false, boom: false },
     lastMove: { hoist: -Infinity, boom: -Infinity },
+    stir: { hoist: -Infinity, boom: -Infinity },
     outcome: null, endedAt: null,
   };
 }
@@ -162,14 +187,45 @@ export function refusal(state, role, at) {
  * One participant's press. dir: 'up' | 'down' for the Hoist, 'left' | 'right' for the Boom.
  * shown: whether the pressed button showed the attack warning on the presser's phone when pressed
  * (omitted: as if it did). repeat: whether the press is a hold's repeat rather than a fresh press.
- * PROPOSED (deliberate attacks only): a press attacks only if it is a fresh press on a button that
- * showed the warning; otherwise, when it would attack, it is refused (REFUSED stale or repeat), so a
- * network race or a held button never kills by accident. Neither flag can start an attack the
- * server's own state does not allow: each can only stop the presser's own.
- * Returns { state, events }: MOVED, BUMPED (why), DOCKED, KEY, KEY_RELEASED, STOPPED, KILLED, SENT,
- * ENDED, or REFUSED (why) when the press does nothing at all.
+ * roll: the server's random number for this press, in [0, 1), used only if it makes a jolt
+ * (omitted: 1, never an accident).
+ * Attacks are deliberate (PROPOSED): only a fresh press on a button that showed the warning attacks.
+ * A press that would attack but was made on an older picture, or a hold's repeat, only jerks the
+ * machine: on its own it is refused (REFUSED stale or repeat); with the partner moving at the same
+ * moment it is a jolt (JERKED), which can cause an accident (ACCIDENT). Neither flag can start an
+ * attack the server's own state does not allow: each can only stop the presser's own.
+ * Returns { state, events }: MOVED, BUMPED (why), DOCKED, KEY, KEY_RELEASED, STOPPED, KILLED,
+ * JERKED, NEAR_MISS, SENT, ENDED, or REFUSED (why) when the press does nothing at all.
  */
-export function act(prev, { seat, dir, at, shown, repeat = false }) {
+export function act(prev, step) {
+  const { state, events } = press(prev, step);
+  const role = roleOf(state, step.seat);
+  const stirred = events.some(e => (e.type === 'MOVED' || e.type === 'JERKED') && e.by === role);
+  if (!stirred || state.phase !== 'running') return { state, events };
+  // A jolt: both moved within the window, and the machine is (or was, a moment ago) near one of them.
+  const partner = other(role);
+  const together = state.alive[partner] && step.at - state.stir[partner] < ACCIDENT.window;
+  state.stir[role] = step.at;
+  const zone = nearZone(prev.crate, prev.carriage, prev.docked) ?? nearZone(state.crate, state.carriage, state.docked);
+  if (together && zone) jolt(state, zone, step.at, step.roll ?? 1, events);
+  return { state, events };
+}
+
+/** A jolt in a danger zone: an accident by chance, otherwise a close call. Never a STOPPED. */
+function jolt(state, zone, at, roll, events) {
+  const { victim, kind } = NEAR[zone];
+  if (!state.alive[victim]) return;
+  if (roll < ACCIDENT.chance && !state.protection[victim]) {
+    state.alive[victim] = false;
+    state.keys[victim] = false;
+    // The lurch: the gantry jumps the last step into the cab, the crate with it unless it is docked.
+    if (zone === 'cab') { if (!state.docked) state.crate = [FIXTURES.cab.col, state.crate[1]]; state.carriage = FIXTURES.cab.col; }
+    events.push({ type: 'KILLED', kind, accident: true, victim, at: [...state.crate], carriage: state.carriage, docked: state.docked });
+    afterDeath(state, at, events);
+  } else events.push({ type: 'NEAR_MISS', zone, kind, victim, at: [...state.crate], carriage: state.carriage });
+}
+
+function press(prev, { seat, dir, at, shown, repeat = false }) {
   let { state, events } = tick(prev, at);
   state = clone(state);
   const role = roleOf(state, seat);
@@ -178,8 +234,14 @@ export function act(prev, { seat, dir, at, shown, repeat = false }) {
   if (!ROLES[role].dirs.includes(dir)) return { state, events: [...events, { type: 'REFUSED', seat, dir, why: 'not-your-axis' }] };
   const h = hazards(state);
   const attacks = (role === 'hoist' && dir === 'down' && h.drop) || (role === 'boom' && dir === 'left' && h.ram);
-  if (attacks && shown === false) return { state, events: [...events, { type: 'REFUSED', seat, dir, why: 'stale' }] };
-  if (attacks && repeat) return { state, events: [...events, { type: 'REFUSED', seat, dir, why: 'repeat' }] };
+  if (attacks && (shown === false || repeat)) {
+    // Not a deliberate attack: the press only jerks the winch or the drive. On its own it does
+    // nothing; with the partner moving at the same moment, act() counts it toward a jolt.
+    const partner = other(role);
+    if (!(state.alive[partner] && at - state.stir[partner] < ACCIDENT.window)) return { state, events: [...events, { type: 'REFUSED', seat, dir, why: shown === false ? 'stale' : 'repeat' }] };
+    state.lastMove[role] = at;
+    return { state, events: [...events, { type: 'JERKED', by: role, dir }] };
+  }
   state.lastMove[role] = at;
   const [c, r] = state.crate;
   const bump = reason => events.push({ type: 'BUMPED', by: role, dir, why: reason, at: [...state.crate], carriage: state.carriage });
@@ -345,6 +407,7 @@ export function view(state, seat, at = state.at) {
     role, roleName: ROLES[role].name, axis: ROLES[role].axis, seat, partnerSeat: state.seats[partner],
     phase: state.phase, you: state.alive[role] ? 'alive' : 'down', partner: state.alive[partner] ? (state.online[partner] ? 'alive' : 'offline') : 'down',
     buttons, warnings, docked: state.docked,
+    near: (() => { const zone = state.phase === 'running' ? nearZone(state.crate, state.carriage, state.docked) : null; return zone && state.alive[NEAR[zone].victim] ? { zone, you: NEAR[zone].victim === role } : null; })(),
     keys: { you: state.keys[role], partner: state.keys[partner], needed: ['hoist', 'boom'].filter(r => state.alive[r]).length },
     secondsLeft: state.phase === 'briefing' ? Math.ceil(TIMING.deadline / 1000) : Math.max(0, Math.ceil((state.deadline - at) / 1000)),
     briefingLeft: state.phase === 'briefing' ? Math.max(0, Math.ceil((state.runningAt - at) / 1000)) : 0,

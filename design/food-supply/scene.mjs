@@ -21,7 +21,7 @@ export const roomBack = () => (back ??= supplyRoomSvg());
 /** The rest pose: the Task's start, nothing moving. */
 export const restPose = () => ({
   gantry: FIXTURES.intake.col, crate: { col: FIXTURES.intake.col, row: 0 }, docked: false, hookRow: 0,
-  tilt: 0, slack: 0, wheel: 0, drum: 0,
+  tilt: 0, slack: 0, wheel: 0, drum: 0, swing: null,
   cradle: { rise: 0, closed: false, lamp: false },
   keys: { hoist: false, boom: false }, lamps: { cab: false, pulpit: false },
   cab: { crushed: false, caught: 0 }, plate: { dented: false, nudge: 0 },
@@ -78,9 +78,12 @@ export function sceneSvg(pose, { characters = { hoist: 'c2', boom: 'c6' }, prefi
   // The crate dropped on the Boom operator comes to rest on the console, over them.
   const resting = pose.crate && !pose.alive.boom && Math.round(pose.crate.col) === FIXTURES.pulpit.col && pose.crate.row <= FIXTURES.pulpit.head;
   const crateAt = pose.crate && [carriageX(pose.crate.col), resting ? BOXES.console[1] - CRATE / 2 + 4 : crateY(pose.crate.row) - pose.cradle.rise * 532];
+  // A swing (an accident or a close call): the crate leaves its place under the drum, on its cable.
+  const drumX = crateAt && crateAt[0];
+  if (crateAt && pose.swing) { crateAt[0] += pose.swing.dx; crateAt[1] += pose.swing.dy; }
   if (pose.crate && !pose.docked) {
     const hookY = crateAt[1] - CRATE / 2 - 6;
-    M.cable(cv, crateAt[0], hookY, { slack: pose.slack });
+    M.cable(cv, crateAt[0], hookY, { slack: pose.slack, fromX: drumX });
     M.hook(cv, crateAt[0], hookY, { engaged: true });
   } else {
     const hookY = crateY(pose.hookRow ?? 3.4) - CRATE / 2 - 6;

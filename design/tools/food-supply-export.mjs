@@ -16,7 +16,7 @@ import { readFileSync } from 'node:fs';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { FIXTURES, FOOD, GRID, ROLES, ROUTE, TIMING } from '../food-supply/task.mjs';
+import { ACCIDENT, FIXTURES, FOOD, GRID, NEAR, ROLES, ROUTE, TIMING } from '../food-supply/task.mjs';
 import { BOX, BOXES, CELL, CRATE, DECK, OPERATORS, RAIL, REGIONS, TAGS, VIEW, X0 } from '../food-supply/layout.mjs';
 import { FAMILY, supplyRoomSvg } from '../food-supply/room.mjs';
 import { AMBER } from '../food-supply/machine.mjs';
@@ -64,6 +64,7 @@ const STATE = [
   ['attack', '{ hoist, boom }: whether each still has their one attack opportunity of the match (a kill or a blocked attack uses it up; it never returns)', 'the server only'],
   ['protection', '{ hoist, boom }: whether each is Protected, as the existing rules decide', 'the server only'],
   ['lastMove', '{ hoist, boom }: the time of each participant\'s last accepted press', 'the server only'],
+  ['stir', '{ hoist, boom }: the time each last moved the machine (a move or a jerk), for jolts', 'the server only'],
 ].map(([field, holds, seenBy]) => ({ field, holds, seenBy }));
 
 /** The events the server sends the two participants, in order, with each press's result. */
@@ -75,7 +76,9 @@ const EVENTS = [
   ['KEY', 'by', 'A key turned (the Hoist\'s Raise or the Boom\'s Right at the end stop, docked).'],
   ['KEY_RELEASED', 'by', 'The Boom drove away from the end stop: its key turned back.'],
   ['STOPPED', 'kind (drop | ram), by', 'An attack press that did not kill: Protection, or no attack opportunity left. Identical either way.'],
-  ['KILLED', 'kind (drop | ram), by, victim, docked', 'An unblocked attack: lethal, no escape, not the Hospital.'],
+  ['KILLED', 'kind (drop | ram | swing | lurch), by (an attack only), accident (an accident only), victim, docked', 'An unblocked attack, or an accident: lethal, no escape, not the Hospital.'],
+  ['JERKED', 'by, dir', 'A press that would attack, made on an older picture or as a hold\'s repeat, while the partner is moving: not an attack; it counts toward a jolt.'],
+  ['NEAR_MISS', 'zone (boom | cab), kind, victim', 'A jolt that did not kill: a close call (WHOA!). The same for a lucky roll and for a Protected participant.'],
   ['OFFLINE', 'who', 'The server lost a participant\'s connection; the Task goes on.'],
   ['ONLINE', 'who', 'Back within the grace: nothing paused.'],
   ['SENT', 'by (the living participants)', 'Every living participant\'s key is turned: the lift goes up.'],
@@ -116,8 +119,9 @@ const COMMAND = {
   fields: [
     { field: 'taskId', about: 'The Task in progress.' },
     { field: 'dir', about: "'up' | 'down' (the Hoist) or 'left' | 'right' (the Boom). The key presses are the same buttons: the Hoist's up, the Boom's right at the end stop, when docked." },
-    { field: 'shown', about: "PROPOSED: whether the pressed button showed the attack warning when pressed. A press that would attack with shown = false is refused (stale)." },
-    { field: 'repeat', about: 'PROPOSED: whether the press is a hold\'s repeat. A repeat never attacks (refused: repeat); a fresh press on the warning does.' },
+    { field: 'shown', about: "PROPOSED: whether the pressed button showed the attack warning when pressed. A press that would attack with shown = false is not an attack: refused (stale), or, with the partner moving at the same moment, a jerk (JERKED) toward an accident." },
+    { field: 'repeat', about: 'PROPOSED: whether the press is a hold\'s repeat. A repeat never attacks (refused: repeat, or a jerk as above); a fresh press on the warning does.' },
+    { field: '(no roll)', about: 'The accident roll is the server\'s own random number for the press; the phone never sends or sees it.' },
   ],
   answer: 'The new revision of the Task state with the events, to both participants; REFUSED to the presser only.',
 };
@@ -157,7 +161,7 @@ export function build(artText) {
     controls: {
       ...controls,
       press: `One press, one step. Holding repeats every ${TIMING.interval} ms (PROPOSED), the server's own interval: a press inside it is refused (too-soon). No drag, swipe or gesture; two big buttons for the participant's own axis only.`,
-      deliberate: 'PROPOSED: a hold\'s repeat stops at a warning, and an attack needs a fresh press on a button that showed it (TASK_MOVE shown and repeat). Not a confirmation or an armed mode: one press of the same button acts.',
+      deliberate: 'PROPOSED: attacks are deliberate. A hold\'s repeat stops at a warning, and an attack needs a fresh press on a button that showed it (TASK_MOVE shown and repeat). Not a confirmation or an armed mode: one press of the same button acts. A press that is not an attack still moves, or jerks, the machine, and moving together near someone can cause an accident (the owner\'s decision; see accidents).',
       next: 'The press the cooperative route asks for next glows (amber ring), on both phones for their own button.',
       keyboard: 'Arrow keys on the participant\'s own axis; the others do nothing.',
       accessibility: 'Each button\'s accessible name says its warning ("Lower. Warning: drops it on Cleo."). The view is an image with a text equivalent (where the crate and the gantry are, and whether a warning shows). The hint is a polite live region. Large text: the controls keep their places (Raise above Lower, Left beside Right) and grow; the view gives way; cards scroll.',
@@ -165,6 +169,12 @@ export function build(artText) {
       ask: ASK,
     },
     timing: { ...TIMING, proposed: true },
+    accidents: {
+      decision: 'The owner, 11 November 2026: "if Player A and B position and the result near each other and there is a small movement in both parts there is chance they kill each other by mistake".',
+      ...ACCIDENT, proposed: true,
+      zones: NEAR,
+      rule: 'A jolt: both participants move the machine (a move, or a jerk) within the window, and the machine is in a zone before or after the second move. The server rolls: below the chance, an accident kills the zone\'s victim (unless Protected: then a close call); otherwise a close call. No attack opportunity is used. Bumps, keys and refusals are not movement.',
+    },
     food: { ...FOOD, confirmed: true, eating: 'Each player eats one package at their Eating step; not eating sends them to the Hospital under the existing Hospital rules (confirmed). The Eating step\'s place in the round and the order of eating are not designed here (see the open items).' },
     motion: { cues: CUES, proposed: true, rule: 'Presentation only: a cue never delays a press, and the next authoritative state replaces a cue still playing. Reduce motion: each cue\'s reduced form; no flashing, no shake, no travel.', cards: 'After a kill, the phones hold the outcome card until the impact cue has played, so both participants see the cause before the card covers the view.' },
     state: STATE,

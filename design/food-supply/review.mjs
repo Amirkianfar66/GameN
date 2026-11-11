@@ -79,6 +79,9 @@ function layout() {
   for (let c = 0; c < GRID.cols; c += 1) s.push(`<text class="axis" x="${X0 + c * CELL + CELL / 2}" y="${DECK + 30}">${c + 1}</text>`);
   for (let k = 0; k < GRID.rows; k += 1) s.push(`<text class="axis" x="${X0 + GRID.cols * CELL + 22}" y="${DECK - k * CELL - CELL / 2 + 6}">${k}</text>`);
   // The regions.
+  // The accident zones, under the attack regions: moving together here can kill by mistake.
+  for (const b of REGIONS.nearBoom.boxes) s.push(r(b, 'near'));
+  s.push(r(REGIONS.nearCab.box, 'near'));
   s.push(r(REGIONS.drop.box, 'hazard'), r(REGIONS.dropWarning.box, 'warn'), r([X0, 74, CELL, 300], 'hazard'), r([X0 + CELL, 74, CELL, 300], 'warn'), r(REGIONS.cradle.box, 'goal'), r(REGIONS.rib.box, 'block'), r(REGIONS.pulpit.box, 'block'), r(REGIONS.intake.box, 'start'));
   const callouts = [
     [1, [118, 92], 'Hoist cab', 'The Hoist operator: raises and lowers the crate. The ram\'s target.'],
@@ -95,10 +98,11 @@ function layout() {
   const path = routePath({ col: 2, row: 0 });
   s.push(`<polyline class="route" points="${path.map(q => q.join(',')).join(' ')}"/>`);
   for (const [n, [x, y]] of callouts) s.push(`<g class="callout"><circle cx="${x}" cy="${y}" r="17"/><text x="${x}" y="${y + 6}">${n}</text></g>`);
-  art.append(el('div', { class: 'overlay' }, `<svg viewBox="0 0 ${BOX[0]} ${BOX[1] + 40}">${s.join('')}</svg>`));
+  const defs = '<defs><pattern id="near-hatch" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="4" height="10" fill="rgba(241,184,75,0.3)"/></pattern></defs>';
+  art.append(el('div', { class: 'overlay' }, `<svg viewBox="0 0 ${BOX[0]} ${BOX[1] + 40}">${defs}${s.join('')}</svg>`));
   const legend = el('ol', { class: 'legend' });
   for (const [n, , title, text] of callouts) legend.append(el('li', {}, `<b>${n} · ${title}</b> ${text}`));
-  const keys = el('ul', { class: 'keys' }, ['<i class="k hazard"></i> An attack: the drop (the Boom\'s head) and the ram (the cab)', '<i class="k warn"></i> One press from it: both phones warn, the press is striped', '<i class="k goal"></i> The cradle: the correct position', '<i class="k block"></i> Solid: the crate cannot enter it', '<i class="k start"></i> Where the crate starts', '<i class="k route"></i> The cooperative route: 3 Raise, 4 Right, 2 Lower, two keys'].map(t => `<li>${t}</li>`).join(''));
+  const keys = el('ul', { class: 'keys' }, ['<i class="k hazard"></i> An attack: the drop (the Boom\'s head) and the ram (the cab)', '<i class="k warn"></i> One press from it: both phones warn, the press is striped', '<i class="k goal"></i> The cradle: the correct position', '<i class="k near"></i> Move one at a time: moving together here can cause an accident (a 1 in 4 chance, PROPOSED)', '<i class="k block"></i> Solid: the crate cannot enter it', '<i class="k start"></i> Where the crate starts', '<i class="k route"></i> The cooperative route: 3 Raise, 4 Right, 2 Lower, two keys'].map(t => `<li>${t}</li>`).join(''));
   const side = el('div', { class: 'side' });
   side.append(legend, keys);
   wrap.append(art, side);
@@ -137,6 +141,7 @@ const STATES = {
     ['cooperation', B + 5300, 'Docked: turn your key'], ['survivor', B + 6000, 'Key turned: waiting'], ['ram', B + 5300, 'Killed: out of the match'],
     ['cooperation', B + 7000, 'Delivered'], ['drop', B + 6000, 'Lost: not in the cradle'], ['disconnect', B + 3000 + TIMING.grace - 2000, 'Partner offline: the Task goes on'],
     ['disconnect', B + 3000 + TIMING.grace + 1500, 'Cancelled'], ['timeout', B + TIMING.deadline + 1500, 'Lost: the time ran out'],
+    ['near-miss', B + 3380, 'Caution: one at a time near Cleo'], ['near-miss', B + 3700, 'Close call: moving together'],
   ],
   boom: [
     ['cooperation', 2500, 'Briefing'], ['cooperation', B + 700, 'Waiting: Hana lifts'], ['cooperation', B + 1100, 'Bump: the rib'],
@@ -144,6 +149,7 @@ const STATES = {
     ['protection-ram', B + 4500, 'Stopped: the spring buffer'], ['survivor', B + 5300, 'Docked: turn your key'], ['survivor', B + 8650, 'Partner out: send it alone'],
     ['drop', B + 4600, 'Killed: out of the match'], ['survivor', B + 12300, 'Delivered alone'], ['disconnect', B + 3000 + TIMING.grace - 2000, 'Own phone reconnecting'],
     ['disconnect', B + 3000 + TIMING.grace + 1500, 'Cancelled'], ['ram', B + 6400, 'Lost: not in the cradle'],
+    ['near-miss', B + 3380, 'Caution: the crate near you'], ['accident', B + 4600, 'An accident: out of the match'],
   ],
 };
 
@@ -211,6 +217,8 @@ function motion() {
     ['Stopped: the spring buffer', 'protection-ram', B + 4300, [0, 80, 160, 240, 600], [10, 40, 460, 420], CUES.stopped],
     ['Dock', 'cooperation', B + 5100, [0, 70, 140, 220, 300], [700, 40, 324, 620], CUES.dock],
     ['Send', 'cooperation', B + 6300, [0, 275, 550, 825, 1100], [700, 0, 324, 660], CUES.send],
+    ['An accident: the swing', 'accident', B + 3500, [0, 130, 260, 380, 700], [500, 120, 440, 480], CUES.swing],
+    ['A close call', 'near-miss', B + 3500, [0, 175, 350, 525, 700], [500, 120, 440, 480], CUES.closeCall],
   ];
   const table = el('div', { class: 'cues' });
   for (const [name, id, t0, offsets, crop, cue] of cues) {
