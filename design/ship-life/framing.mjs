@@ -5,32 +5,42 @@
 // walls, ceiling, equipment, and space between stations are visible ... Prepare the current framing
 // alongside two wider alternatives for each main room").
 //
-// today: the phone pack's own framing (design/phone-ui/prototype/art.mjs phoneFrame, the
-//   specification since the owner's decision of 11 November 2026), reproduced here and tested equal.
-// wider: the same, its scale the filled view's times zoom (0.9 and 0.8: a tenth and a fifth less
-//   magnification), or a crowd's own zoom-out where that is already wider (a full Jail). The
+// All three are the phone pack's framing (design/phone-ui/prototype/art.mjs phoneFrame, the
+// specification since the owner's decision of 11 November 2026, corrected on #222 so that nobody
+// present is cut off as drawn), run here with each figure's outline doing its place's activity:
+// - the outline: the pack's own (paintedExtent: the resting gesture's measured pixels, Injured
+//   included, and the margin for the crew's own motion), joined with the activity's measured
+//   outline (./activity-extents.mjs: every pose and what the hands hold), with the same margin;
+// - today: that framing, which equals the pack's phoneFrame wherever no activity reaches past the
+//   resting outline (the test runs the pack's own outline through it and compares);
+// - wider: its scale the filled view's times zoom (0.9 and 0.8: a tenth and a fifth less
+//   magnification), or today's where a crowd already zoomed it out further (a full Jail). The
 //   interface keeps its size (bars, tags, buttons, 44-pixel press areas): only the room is smaller.
-//   Across, it keeps everyone present clear of the sides, and the room's food capsule, its visitor's
-//   spot and the walk to it too where they fit, so a visit stays in view; when they cannot all fit,
-//   the people win. Up and down, it centres the band from the back row's heads to the front row's
-//   press areas, as today; the picture's extension (./extend.mjs) fills what the picture no longer
-//   does. The framing is fixed for the room: it never moves for an activity or a visit, and the
-//   Blackout keeps it (as the pack: the framing depends only on who the lit room shows).
+//   Across, it keeps every outline whole and every press point clear of the sides, and the room's
+//   food capsule and its visitor's spot in view too where they fit; when they cannot all fit, the
+//   people win. Up and down, the band from the back row's heads to the front row's press areas and
+//   outlines is centred as today; the picture's extension (./extend.mjs) fills what the picture no
+//   longer does.
+// The framing is fixed for the room: it never moves for an activity or a visit, and the Blackout
+// keeps it (as the pack: the framing depends only on who the lit room shows).
 
 import { FRAME } from '../board-motion/figures/body.mjs';
 import { PRESS, slotGeometry } from '../board-motion/scenes/frame.mjs';
+import { EDGE_CLEAR, FIGURE_CLEAR, MOTION_ALLOWANCE, paintedExtent } from '../phone-ui/prototype/art.mjs';
+import { FIGURE_MOTION_REACH } from '../phone-ui/prototype/figure-extents.mjs';
+import { ACTIVITY_EXTENTS } from './activity-extents.mjs';
 import { REACH } from './extend.mjs';
 import { CAPSULES } from './positions.mjs';
 
-/** How far inside the view's sides a person's press point is kept (the pack's EDGE_CLEAR). */
-export const EDGE_CLEAR = 48;
+export { EDGE_CLEAR, FIGURE_CLEAR };
 /** The framings compared: today's, a tenth wider, a fifth wider. */
 export const ZOOMS = Object.freeze([
-  Object.freeze({ id: 'today', zoom: 1, name: 'Today', note: 'The phone pack\'s framing, unchanged' }),
-  Object.freeze({ id: 'wider-10', zoom: 0.9, name: 'A tenth wider', note: '0.9 × today\'s scale' }),
-  Object.freeze({ id: 'wider-20', zoom: 0.8, name: 'A fifth wider', note: '0.8 × today\'s scale' }),
+  Object.freeze({ id: 'today', zoom: 1, name: 'Today', note: 'The phone pack\'s framing, with the activities' }),
+  Object.freeze({ id: 'wider-10', zoom: 0.9, name: 'A tenth wider', note: '0.9 × the filled view\'s scale' }),
+  Object.freeze({ id: 'wider-20', zoom: 0.8, name: 'A fifth wider', note: '0.8 × the filled view\'s scale' }),
 ]);
 
+const [AX, AY] = FRAME.anchor;
 const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
 const within = (value, lo, hi) => (lo <= hi ? clamp(value, lo, hi) : (lo + hi) / 2);
 /** A press area's side in CSS pixels for a figure of scale unit (the game's pressSide: at least PRESS). */
@@ -40,48 +50,84 @@ export const pressSide = unit => Math.max(PRESS, Math.min(64, 0.26 * 214 * unit)
 export const pressAt = slot => slotGeometry(slot).press;
 
 /**
- * A room's framing in a panel (the room view between the bars): { k, tx, ty }, scene units to CSS
- * pixels. present: the slots of everyone the lit room shows. zoom: 1 for today's; below 1, wider.
- * room: the room's id, for its capsule (a wider view keeps it and its visitor in view where it can).
+ * A present figure's outline doing its place's activity, in scene units, [x0, y0, x1, y1]: the
+ * pack's own outline at rest (paintedExtent), joined with the activity's measured outline
+ * (ACTIVITY_EXTENTS) and the same margin for the crew's own motion (MOTION_ALLOWANCE, or the
+ * resting gesture's measured reach where that is further), mirrored with the place and held to the
+ * picture. An Eliminated figure does no activity: its outline is the pack's alone.
  */
-export function roomFrame(scene, { width, height, cap = 46, pad = 8 }, present = [], { zoom = 1, room = null } = {}) {
+export function activityOutline(slot) {
+  const rest = paintedExtent(slot);
+  const box = slot.eliminated ? null : ACTIVITY_EXTENTS[slot.id];
+  if (!box) return rest;
+  const reach = [slot.gesture, `${slot.gesture}+injured`].map(g => FIGURE_MOTION_REACH[g] ?? [0, 0, 0, 0]);
+  const most = i => Math.max(...reach.map(r => r[i]));
+  const fx0 = box[0] - Math.max(MOTION_ALLOWANCE.x, most(0)), fx1 = box[2] + Math.max(MOTION_ALLOWANCE.x, most(2));
+  const fy0 = box[1] - Math.max(MOTION_ALLOWANCE.top, most(1)), fy1 = box[3] + Math.max(MOTION_ALLOWANCE.bottom, most(3));
+  const s = slot.scale, [x, y] = slot.at;
+  const a = x + (fx0 - AX) * s, b = x + (fx1 - AX) * s;
+  const [x0, x1] = slot.mirror ? [2 * x - b, 2 * x - a] : [a, b];
+  const act = [Math.max(0, x0), Math.max(0, y + (fy0 - AY) * s), Math.min(1024, x1), Math.min(768, y + (fy1 - AY) * s)];
+  return [Math.min(rest[0], act[0]), Math.min(rest[1], act[1]), Math.max(rest[2], act[2]), Math.max(rest[3], act[3])];
+}
+
+/**
+ * A room's framing in a panel (the room view between the bars): { k, tx, ty, zoom, fill }, scene
+ * units to CSS pixels. present: the slots of everyone the lit room shows. zoom: 1 for today's;
+ * below 1, wider. room: the room's id, for its capsule (a wider view keeps it and its visitor in view
+ * where it can). outline: each present figure's outline (the activity's, by default; the pack's
+ * paintedExtent reproduces the pack's phoneFrame exactly).
+ */
+export function roomFrame(scene, { width, height, cap = 46, pad = 8 }, present = [], { zoom = 1, room = null, outline = activityOutline } = {}) {
   const [ix0, iy0, ix1, iy1] = scene.inner ?? [0, 0, 1024, 768];
   const fill = Math.max(width / (ix1 - ix0), height / (iy1 - iy0));
   let k = fill;
   let cx = (scene.focus[0] + scene.focus[2]) / 2;
   const xs = present.map(slot => pressAt(slot)[0]);
-  if (xs.length) {
+  const outlines = present.map(outline);
+  const fx0 = Math.min(...outlines.map(o => o[0])), fx1 = Math.max(...outlines.map(o => o[2]));
+  if (present.length) {
     const span = Math.max(...xs) - Math.min(...xs);
     if (span > 0 && span * k + PRESS > width) k = (width - PRESS) / span;
+    if ((fx1 - fx0) * k + 2 * FIGURE_CLEAR > width) k = (width - 2 * FIGURE_CLEAR) / (fx1 - fx0);
   }
-  // Wider: the filled view's scale times zoom, unless a crowd already zoomed it out further (the
-  // owner's T1, a full Jail): a wider framing is never smaller than that.
+  // Up and down: every place's outline and press area, whoever is present (as the pack).
+  const geometry = scene.slots.map(slot => ({ g: slotGeometry(slot), o: outline(slot) }));
+  const top = Math.min(...geometry.map(({ g, o }) => Math.min(g.headTop, o[1])));
+  const band = kk => Math.max(...geometry.map(({ g, o }) => Math.max(g.press[1] + PRESS / 2 / kk, o[3]))) - top;
+  const roomFor = height - pad - FIGURE_CLEAR;
+  for (let i = 0; i < 4 && band(k) * k > roomFor; i += 1) k = (roomFor - PRESS / 2) / (band(k) - PRESS / 2 / k);
+  // Wider: the filled view's scale times zoom, unless the crowd already zoomed it out further.
   k = Math.min(k, fill * zoom);
-  const reach = width / (2 * k) - EDGE_CLEAR / k;
-  if (xs.length) {
-    const lo = Math.max(...xs) - reach, hi = Math.min(...xs) + reach;
-    cx = lo <= hi ? clamp(cx, lo, hi) : (Math.min(...xs) + Math.max(...xs)) / 2;
+  const half = width / (2 * k);
+  let lo = -Infinity, hi = Infinity;
+  if (present.length) {
+    lo = Math.max(Math.max(...xs) + EDGE_CLEAR / k, fx1 + FIGURE_CLEAR / k) - half;
+    hi = Math.min(Math.min(...xs) - EDGE_CLEAR / k, fx0 - FIGURE_CLEAR / k) + half;
+    if (lo <= hi) cx = clamp(cx, lo, hi);
+    else {
+      // Press points that cannot all keep EDGE_CLEAR: the outlines stay whole, centred between them.
+      const flo = fx1 + FIGURE_CLEAR / k - half, fhi = fx0 - FIGURE_CLEAR / k + half;
+      cx = flo <= fhi ? clamp((Math.min(...xs) + Math.max(...xs)) / 2, flo, fhi) : (fx0 + fx1) / 2;
+    }
   }
-  // Wider: the capsule, its visitor's spot and the people together, if they fit; else the people.
+  // Wider: the capsule and its visitor's spot in view too, where they fit with the people.
   const device = zoom < 1 && room ? CAPSULES[room] : null;
   if (device) {
-    const half = width / (2 * k) - 8 / k;
     const extra = [device.box[0], device.box[0] + device.box[2], device.spot[0] - 30 * device.scale, device.spot[0] + 30 * device.scale];
-    const all = [...xs, ...extra];
-    const lo = Math.max(...all) - half, hi = Math.min(...all) + half;
-    if (lo <= hi) cx = clamp(cx, lo, hi);
-    if (xs.length) { const plo = Math.max(...xs) - reach, phi = Math.min(...xs) + reach; cx = plo <= phi ? clamp(cx, plo, phi) : cx; }
+    const dlo = Math.max(lo, Math.max(...extra) + 8 / k - half), dhi = Math.min(hi, Math.min(...extra) - 8 / k + half);
+    if (dlo <= dhi) cx = clamp(cx, dlo, dhi);
   }
-  const tx = within(width / 2 - cx * k, width - ix1 * k, -ix0 * k);
-  const half = PRESS / 2 / k;
-  const geometry = scene.slots.map(slot => slotGeometry(slot));
-  const top = Math.min(...geometry.map(g => g.headTop));
-  const bottom = Math.max(...geometry.map(g => g.press[1] + half));
+  // Across, the picture's inner box covers the view, unless an outline needs the picture's own border.
+  const [bx0, bx1] = present.length ? [Math.min(ix0, fx0 - FIGURE_CLEAR / k), Math.max(ix1, fx1 + FIGURE_CLEAR / k)] : [ix0, ix1];
+  const tx = within(width / 2 - cx * k, width - Math.min(1024, bx1) * k, -Math.max(0, bx0) * k);
+  const bottom = top + band(k);
   const avail = height - cap - pad;
   const ty = (bottom - top) * k > avail ? height - pad - bottom * k : cap + (avail - (bottom - top) * k) / 2 - top * k;
-  // Today's is held inside the picture's inner box; a wider one inside the picture and its extension.
-  const [y0, y1] = zoom < 1 ? [-REACH, 768 + REACH] : [iy0, iy1];
-  return { k, tx, ty: within(ty, height - y1 * k, -y0 * k), zoom, fill };
+  // Today's is held inside the picture (its border where an outline reaches it); a wider one inside
+  // the picture and its extension.
+  const [by0, by1] = zoom < 1 ? [-REACH, 768 + REACH] : [Math.max(0, Math.min(iy0, top - FIGURE_CLEAR / k)), Math.min(768, Math.max(iy1, bottom))];
+  return { k, tx, ty: within(ty, height - by1 * k, -by0 * k), zoom, fill };
 }
 
 /** What a framing shows: the scene units across and down, and whether each edge is inside the art. */
@@ -120,7 +166,7 @@ export function overlaps(rects) {
 
 /** The figure box of a place at a framing (the piece's left, top and side in CSS pixels). */
 export function figureBox(slot, frame) {
-  const [ax, ay] = FRAME.anchor, [bx, by, bw] = FRAME.box;
+  const [bx, by, bw] = FRAME.box;
   const s = slot.scale * frame.k;
-  return { left: frame.tx + slot.at[0] * frame.k - (ax - bx) * s, top: frame.ty + slot.at[1] * frame.k - (ay - by) * s, side: bw * s };
+  return { left: frame.tx + slot.at[0] * frame.k - (AX - bx) * s, top: frame.ty + slot.at[1] * frame.k - (AY - by) * s, side: bw * s };
 }

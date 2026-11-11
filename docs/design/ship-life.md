@@ -169,19 +169,26 @@ The private-talk capsule is a separate space and has no food device.
 
 [`framings-<room>.png`](../../design/ship-life/review) sets each room's three framings side by side. The phones are 320 × 568, 390 × 844 and 430 × 932, between the pack's bars, with the position ids, the press areas, the capsule and its visitor's spot.
 
-- **Today:** the phone pack's framing, unchanged (tested equal to `phoneFrame`).
-- **A tenth wider and a fifth wider.** The filled view's scale is multiplied by 0.9 and 0.8. Where a crowd already zoomed it out further, as a full Jail does under T1, that zoom-out stands.
+- **Today:** the phone pack's framing, `phoneFrame`. It was corrected in #229 so that nobody present is cut off as drawn: each figure's measured outline stays whole, not only its press area.
+  - **With the activities:** each present figure's outline is also its activity's.
+    - `activity-extents.mjs` holds every pose each place's activity takes, with what the hands hold, measured for all nine characters by `design/tools/ship-life-extents.mjs`.
+    - Some reach well past the resting pose: A5's wire work by 18 units, J5 sitting up on the cot by 18, A1 by 15.
+  - **Tested:** given the pack's own outlines, this framing is `phoneFrame` exactly.
+- **A tenth wider and a fifth wider.** The filled view's scale is multiplied by 0.9 and 0.8. Where the people present already zoomed it out further, that zoom-out stands.
   - Only the room is smaller. Bars, tags, buttons and press areas keep their size, and press areas stay at least 44 pixels.
-  - Across, the view keeps everyone clear of the sides, and the capsule and its visitor too where they fit.
+  - Across, every figure stays whole doing its activity, 4 px inside the sides, and every press point 48 px inside. The capsule and its visitor stay in view too where they fit.
   - The framing never moves for an activity or a visit, and the Blackout keeps it.
-- **The ceiling and deck past the picture.** Each room picture ends at its drawn border; a wider view shows more height than that. The extension bands continue the ceiling above and the deck below. They are sampled from the picture's own edge and feathered over it, then fall into the room's shadow, 160 units each way. They also fill the bands a full Jail shows today.
+- **A full room is already smaller today.** The sheets show each room full, the busiest case.
+  - A full Room A, Hospital or Jail zooms out under T1, so that everyone stays whole doing their activities. There, a tenth wider is today's framing.
+  - With fewer people present, today's framing is the filled view, and the wider ones differ in full.
+- **The ceiling and deck past the picture.** Each room picture ends at its drawn border; a wider view shows more height than that. The extension bands continue the ceiling above and the deck below. They are sampled from the picture's own edge and feathered over it, then fall into the room's shadow, 200 units each way. They also fill the bands a full Jail shows today.
 
 **Results at 390 × 844 (`handoff.json` has every phone):**
 
-| Room | Today | A tenth wider | A fifth wider |
+| Room (as on the sheets) | Today | A tenth wider | A fifth wider |
 | --- | --- | --- | --- |
 | Command Room | Capsule outside | In view | In view |
-| Room A | Capsule outside | In view | In view |
+| Room A (full) | In view: the full room zooms out | In view (today's framing) | In view |
 | Room B | Capsule outside | Outside | In view |
 | Hospital | No capsule | — | — |
 | Jail (full) | In view | In view | In view |
@@ -204,9 +211,10 @@ The private-talk capsule is a separate space and has no food device.
 
 **What to port** (the review files show the target at the same state and size):
 
-- the modules in `design/ship-life/`: activities, props, capsule, eating, schedule, framing;
+- the modules in `design/ship-life/`: activities, props, capsule, eating, schedule, framing, and the measured activity outlines (`activity-extents.mjs`; measure again with `node design/tools/ship-life-extents.mjs` when an activity changes, as its test asks);
 - the five extension pictures;
-- the numbers in `handoff.json`.
+- the numbers in `handoff.json`;
+- the pack's corrected framing (#229), which every framing here builds on.
 
 The stage shows the composition. Each live figure is posed in place with the crew release's `crewPoseFrame` and `applyCrewPose`, and remounted when the rig switches what cannot blend, as the crew review does.
 

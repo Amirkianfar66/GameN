@@ -13,8 +13,10 @@
 //  - the scheduler keeps the after-turn order, never puts two visitors at a capsule, shortens or drops
 //    a long wait, plays nothing for unknown availability, the Hospital, the Eliminated or Reduce
 //    motion, stops a visit for a real event, and never replays one;
-//  - today's framing is the phone pack's own; a wider one keeps 44-pixel press areas and, a fifth
-//    wider, every capsule in view on the pack's phones;
+//  - today's framing is the phone pack's own (its phoneFrame, given the pack's own outlines), each
+//    present figure whole doing its activity; a wider one keeps 44-pixel press areas and every figure
+//    whole and, a fifth wider, every capsule in view on the pack's phones; each activity's measured
+//    outline was measured from the drawing as it is;
 //  - the capsule's states differ (unknown never draws as empty); the extensions and the handoff record
 //    are what the tools write; every file carries the development-only mark and nothing in the game's
 //    code refers to the package.
@@ -30,10 +32,11 @@ import { BUILDERS, activityAt, activityTimeline } from '../../../design/ship-lif
 import { STATES, capsuleSvg } from '../../../design/ship-life/capsule.mjs';
 import { KINDS, storyboard, visitAt, visitTimeline } from '../../../design/ship-life/eating.mjs';
 import { REACH, extensionSvg } from '../../../design/ship-life/extend.mjs';
-import { ZOOMS, pressRects, roomFrame } from '../../../design/ship-life/framing.mjs';
+import { FIGURE_CLEAR, ZOOMS, activityOutline, pressRects, roomFrame } from '../../../design/ship-life/framing.mjs';
+import { ACTIVITY_EXTENTS, ACTIVITY_EXTENTS_SOURCES } from '../../../design/ship-life/activity-extents.mjs';
 import { ACTIVITIES, CAPSULES, EATING_ROOMS, PLACE_ORDER } from '../../../design/ship-life/positions.mjs';
 import { CANCEL_MS, WAIT, onResume, planRoom, visitKey } from '../../../design/ship-life/schedule.mjs';
-import { phoneFrame } from '../../../design/phone-ui/prototype/art.mjs';
+import { paintedExtent, phoneFrame } from '../../../design/phone-ui/prototype/art.mjs';
 import { slotGeometry } from '../../../design/board-motion/scenes/frame.mjs';
 
 const root = new URL('../../../', import.meta.url);
@@ -146,18 +149,28 @@ test('the scheduler: after-turn order, one visitor at a capsule, long waits shor
   assert.equal(onResume([v], v.start + 1500).length, 0);
 });
 
-test('today\'s framing is the phone pack\'s own; wider ones keep 44-pixel press areas and, a fifth wider, every capsule in view', () => {
+test('today\'s framing is the phone pack\'s own; every figure stays whole doing its activity; wider ones keep 44-pixel press areas and, a fifth wider, every capsule in view', () => {
   for (const r of ROOMS) {
     for (const phone of PHONES) {
       const panel = panelOf(phone);
       const present = r.scene.slots.map(s => ({ ...s, pressAt: slotGeometry(s).press }));
       const pack = phoneFrame(r.scene, panel, present);
-      const ours = roomFrame(r.scene, panel, r.scene.slots, { zoom: 1, room: r.id });
-      for (const key of ['k', 'tx', 'ty']) assert.ok(Math.abs(pack[key] - ours[key]) < 1e-9, `${r.id} ${panel.width}: today's ${key} is the pack's`);
+      // The pack's own outline through this framing is the pack's phoneFrame exactly.
+      const same = roomFrame(r.scene, panel, r.scene.slots, { zoom: 1, room: r.id, outline: paintedExtent });
+      for (const key of ['k', 'tx', 'ty']) assert.ok(Math.abs(pack[key] - same[key]) < 1e-9, `${r.id} ${panel.width}: given the pack's outlines, today's ${key} is the pack's`);
+      const today = roomFrame(r.scene, panel, r.scene.slots, { zoom: 1, room: r.id });
+      assert.ok(today.k <= pack.k + 1e-9, `${r.id} ${panel.width}: doing their activities, never closer than the pack`);
       for (const z of ZOOMS) {
         const frame = roomFrame(r.scene, panel, r.scene.slots, { zoom: z.zoom, room: r.id });
-        assert.ok(Math.abs(frame.k - Math.min(pack.k, frame.fill * z.zoom)) < 1e-9, 'only the room is smaller: the filled view times zoom, or a crowd\'s own zoom-out');
-        assert.ok(frame.k <= pack.k + 1e-9, 'never closer than today');
+        assert.ok(Math.abs(frame.k - Math.min(today.k, frame.fill * z.zoom)) < 1e-9, 'only the room is smaller: the filled view times zoom, or a crowd\'s own zoom-out');
+        assert.ok(frame.k <= today.k + 1e-9, 'never closer than today');
+        // Everyone whole, doing their activities: each outline inside the view, 4 px clear across.
+        for (const slot of r.scene.slots) {
+          const [x0, y0, x1, y1] = activityOutline(slot);
+          const l = frame.tx + x0 * frame.k, right = frame.tx + x1 * frame.k, t = frame.ty + y0 * frame.k, b = frame.ty + y1 * frame.k;
+          assert.ok(l >= FIGURE_CLEAR - 0.01 && right <= panel.width - FIGURE_CLEAR + 0.01, `${r.id} ${panel.width} ${z.id}: ${slot.id} is whole across (${l.toFixed(1)}–${right.toFixed(1)})`);
+          assert.ok(t >= -0.01 && b <= panel.height + 0.01, `${r.id} ${panel.width} ${z.id}: ${slot.id} is whole down (${t.toFixed(1)}–${b.toFixed(1)})`);
+        }
         for (const rect of pressRects(r.scene.slots, panel, frame)) assert.ok(rect.side >= 44, `${r.id} ${z.id}: a press area is at least 44 pixels`);
         const c = CAPSULES[r.id];
         if (c && z.zoom === 0.8) {
@@ -168,6 +181,18 @@ test('today\'s framing is the phone pack\'s own; wider ones keep 44-pixel press 
         if (z.zoom < 1) assert.ok(frame.ty <= REACH * frame.k + 1e-6 && frame.ty + (768 + REACH) * frame.k >= panel.height - 1e-6, `${r.id} ${panel.width} ${z.id}: the extension covers the view`);
       }
     }
+  }
+});
+
+test('each place\'s activity outline was measured from the drawing as it is, and holds its resting pose', () => {
+  assert.deepEqual(Object.keys(ACTIVITY_EXTENTS).sort(), [...PLACE_ORDER].sort(), 'every place');
+  for (const [path, sha] of Object.entries(ACTIVITY_EXTENTS_SOURCES)) {
+    assert.equal(createHash('sha256').update(readFileSync(new URL(path, root))).digest('hex'), sha, `${path} changed since the activities were measured: run design/tools/ship-life-extents.mjs`);
+  }
+  for (const id of PLACE_ORDER) {
+    const slot = slotOf(id);
+    const rest = paintedExtent(slot), doing = activityOutline(slot);
+    assert.ok(doing[0] <= rest[0] && doing[1] <= rest[1] && doing[2] >= rest[2] && doing[3] >= rest[3], `${id}: the activity's outline holds the resting one`);
   }
 });
 

@@ -1,32 +1,32 @@
 {
   "outputs": {
     "design/ship-life/review/framings-command-room.png": {
-      "sha256": "11d858428c6df38068b5ae6907b3fe86b21e289985c9d716852114f18c693181",
+      "sha256": "c2c69af9a38813623c1b73e6718d711aa0787c84f8ed907c4543cc879f33b7a5",
       "width": 1500,
       "height": 2947
     },
     "design/ship-life/review/framings-room-a.png": {
-      "sha256": "5ff8fb81af2c934cedf450202fcf1296e4193dd3313219f5f94c256c19b7f5e4",
+      "sha256": "2c72b04b8d03bf91aacac9996245667a5a20c9ec9c0609fb68bcb5ed35284798",
       "width": 1500,
       "height": 2947
     },
     "design/ship-life/review/framings-room-b.png": {
-      "sha256": "56765c3e1eaccfa6378165eeabe0078fa7ad17ad6d6c02b9c0ad75e78582bc81",
+      "sha256": "9fd87b2509cdb3d1c22195a3c2829f53f5220e66d1a1d88d68f2d635d6b530e3",
       "width": 1500,
       "height": 2947
     },
     "design/ship-life/review/framings-hospital.png": {
-      "sha256": "767f1d70f563057610bc31bd6c99e1536bb4571e7049bba65fd3a65201589e49",
+      "sha256": "c645fc68d23b110cd019c76cde0c8227bdf394a9bea7e2267dd9006dce9054e9",
       "width": 1500,
       "height": 2947
     },
     "design/ship-life/review/framings-jail.png": {
-      "sha256": "98bf1c6c949b5aa8ca6182004e45d50906f1b87d10ca8b0e681e4e76c2282811",
+      "sha256": "f7ed82a1a0365c5720d5332c45aeb1827f5c3c50718721cefb444eea657911d6",
       "width": 1500,
       "height": 2947
     },
     "design/ship-life/review/framings-board.png": {
-      "sha256": "eb171828a9b88d3cf8f717d4765604a4fce26966cc86e8993c873ef9d31ccf78",
+      "sha256": "0258e3ad576d1bee62b76ebcd3601bc1e00741b2b02c7a965870cf2a815aae6e",
       "width": 560,
       "height": 1054
     },

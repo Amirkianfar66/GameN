@@ -16,8 +16,12 @@
 
 import { FAMILIES } from '../room-pilot/rooms.mjs';
 
-/** How far each band reaches past the picture, in scene units: enough for a view a fifth wider than the phone's filled view on any phone the pack reviews. */
-export const REACH = 160;
+/**
+ * How far each band reaches past the picture, in scene units: enough for a view a fifth wider than
+ * the phone's filled view on any phone the pack reviews, and for a full Jail, which T1 zooms out
+ * further still to keep everyone whole doing their activities (up to 179 units each way at 430 × 932).
+ */
+export const REACH = 200;
 /** Where each band starts inside the picture (its feather), and where its sampled colours were read. */
 export const SEAM = Object.freeze({ top: { feather: [14, 30], sample: 22 }, bottom: { feather: [730, 750], sample: 736 } });
 

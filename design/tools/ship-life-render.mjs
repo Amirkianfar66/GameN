@@ -18,7 +18,10 @@ import { spawn } from 'node:child_process';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { join, relative } from 'node:path';
 import { connect, launchBrowser, openPage } from './lib/chrome.mjs';
-import { DESIGN_ROOT, startStaticServer } from './lib/static-server.mjs';
+import { DESIGN_ROOT } from './lib/static-server.mjs';
+// The repository's root, as the phone pack's tools serve it: the framing reads the pack's art.mjs,
+// which draws with the game's hosted modules (apps/game/hosted).
+import { startServer } from './phone-ui-render.mjs';
 import { REACH, SEAM, extensionSvg } from '../ship-life/extend.mjs';
 
 const ROOT = join(DESIGN_ROOT, '..');
@@ -88,12 +91,12 @@ async function film(page, out, { fps = 30, duration }) {
   return frames + 1;
 }
 
-const server = await startStaticServer();
+const server = await startServer();
 const chrome = await launchBrowser();
 const browser = await connect(chrome.endpoint);
 const record = { tool: 'design/tools/ship-life-render.mjs', outputs: {} };
 try {
-  const origin = server.origin;
+  const origin = `${server.origin}/design`;
   if (flag('--extend')) {
     const page = await openPage(browser, { width: 1024, height: 768 });
     for (const file of await extend(page, origin)) record.outputs[file] = sha256(await readFile(join(ROOT, file)));
@@ -108,7 +111,7 @@ try {
       const duration = await page.evaluate('window.__ship.duration');
       const out = join(REVIEW, `${f.name}.mp4`);
       const frames = await film(page, out, { duration });
-      const problems = page.problems();
+      const problems = page.problems().filter(p => !/favicon/.test(p));
       if (problems.length) throw new Error(`${f.name}: ${problems.join(' | ')}`);
       record.outputs[rel(out)] = { sha256: sha256(await readFile(out)), frames, duration: Math.round(duration) };
       await page.close();
@@ -124,7 +127,7 @@ try {
       await page.fitHeight();
       const out = join(REVIEW, `${s.name}.png`);
       const size = await page.screenshot(out);
-      const problems = page.problems();
+      const problems = page.problems().filter(p => !/favicon/.test(p));
       if (problems.length) throw new Error(`${s.name}: ${problems.join(' | ')}`);
       record.outputs[rel(out)] = { sha256: sha256(await readFile(out)), ...size };
       await page.close();
