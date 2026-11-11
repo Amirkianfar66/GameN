@@ -192,7 +192,13 @@ test('every motion cue has its timing and a Reduce motion form', () => {
 });
 
 test('the rules record: each confirmed rule met, the conflicts with a solution, visibility for every audience', () => {
-  assert.equal(RULES.length, 15);
+  assert.equal(RULES.length, 17);
+  // The owner's answers of 11 November 2026: who is away shows on the board, and a Partner can decline.
+  for (const id of ['away-visible', 'partner-decline']) assert.ok(RULES.some(r => r.id === id), id);
+  assert.ok(!OPEN_ITEMS.some(o => o.id === 'public-away'), 'who is away is decided, not open');
+  assert.match(CONFLICTS.find(c => c.id === 'deduced-attribution').residual, /Settled/);
+  assert.match(VISIBILITY.others, /board shows who is away/);
+  assert.ok(Number.isFinite(TIMING.answer) && TIMING.answer > 0, 'a time to answer the request');
   for (const r of RULES) assert.ok(r.rule && r.design, r.id);
   assert.ok(CONFLICTS.length >= 3);
   for (const c of CONFLICTS) {

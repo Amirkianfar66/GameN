@@ -77,12 +77,13 @@ Each participant's phone shows the same view of the Supply Room, then their own 
 ![Starting a Task, the other phones, the return and the food warning](../../design/food-supply/review/flow.png)
 
 1. **The Volunteer** opens Tasks, outside the turn order, and chooses Food Supply. The sheet says each player can start one Task per match, Food or Engine, and that joining as a Partner does not use theirs.
-2. **Chooses a Partner** from the players (PROPOSED: a living player outside the Hospital and the Jail, not on a Task).
-3. **The Partner is told** they were chosen and that their place is kept. PROPOSED: no decline.
-4. **Both are briefed** (PROPOSED 4 s), then play (PROPOSED 45 s).
-5. **The return**: each is back at their place; a participant killed on the Task lies there, Eliminated, as the board draws any death.
-6. **Other players** never see the Supply Room. PROPOSED: a banner that the two are away on the Task, and the result as the stock shows it.
-7. **The food warning**: "Food low: 1 package left" (PROPOSED: on every phone).
+2. **Asks a Partner** from the players (PROPOSED: a living player outside the Hospital and the Jail, not on a Task), then waits; Cancel withdraws the request.
+3. **The Partner can join or decline** (the owner's decision). The request says who asks, that their place is kept, and that joining does not use their own Task. PROPOSED: 15 s to answer, and no answer is a decline.
+4. **After a decline**, the Volunteer sees who declined and asks someone else, or closes. The Volunteer's Task is used only when a Partner joins (PROPOSED). The request and its answer stay between the two (PROPOSED).
+5. **Both are briefed** (PROPOSED 4 s), then play (PROPOSED 45 s).
+6. **Other players** never see the Supply Room. Their board shows the two places empty, so anyone can tell who went (the owner's decision); a banner says only that two players are away on the Food Supply Task. PROPOSED: the result shows only as the food stock.
+7. **The return**: each is back at their place; a participant killed on the Task lies there, Eliminated, as the board draws any death.
+8. **The food warning**: "Food low: 1 package left" (PROPOSED: on every phone).
 
 ## Storyboards
 
@@ -153,11 +154,12 @@ The design's mechanics model, `design/food-supply/task.mjs`, is a reference, not
 - **Clock**: the briefing's end, the deadline (lost: time), the grace (cancelled: disconnect).
 - **Connection**: out of contact, the Task runs on through the grace (PROPOSED 8 s); back in time, nothing paused; out longer, cancelled. A death that resolved first stands.
 - **Command**: `TASK_MOVE { taskId, dir, shown, repeat }` (a proposal for the shared contract; Integration owns `packages/contracts/`). The answer is the new state with its events to both participants; a refusal to the presser only.
+- **Asking a Partner** (proposals, around the owner's decision that a Partner can decline): `TASK_ASK { kind, partner }` from the Volunteer, `TASK_ANSWER { askId, join }` from the asked player within the answer time, `TASK_ASK_WITHDRAW { askId }`; events `TASK_ASKED` to the asked player, `TASK_DECLINED` to the Volunteer (a decline or no answer), `TASK_STARTED` to both. The Volunteer's initiation is spent on `TASK_STARTED` (PROPOSED). Details in the handoff (`controls.ask`).
 
 ## For Game Balance
 
 - **The survivor asymmetry** (conflict 2): only the Boom can kill and still deliver.
-- **Timing**, all PROPOSED: 4 s briefing, 45 s deadline (the route itself is eleven presses, a few seconds of play), 8 s grace, 300 ms between presses.
+- **Timing**, all PROPOSED: 15 s for a Partner to answer, 4 s briefing, 45 s deadline (the route itself is eleven presses, a few seconds of play), 8 s grace, 300 ms between presses.
 - **The food economy**: five packages, five per delivery, one dose per player at each Eating step, one Task initiation per player per match. How often Eating comes decides whether Tasks can keep up; with the stock short, the Eating order decides who goes to the Hospital.
 - **Trust windows**: the Boom is exposed for one step (the crossing); the Hoist whenever the gantry can reach the cab, and most after docking, when the ram also delivers.
 
@@ -166,7 +168,7 @@ The design's mechanics model, `design/food-supply/task.mjs`, is a reference, not
 | Who | Sees |
 | --- | --- |
 | The two participants | The whole Supply Room: every move and bump, both warnings, both keys, the time, each other's alive or offline state, and a STOPPED alike with no reason. Never an attack opportunity, Protection, or the other's refused presses |
-| Every other player | Never the Supply Room. PROPOSED: that two named players are away on the Food Supply Task, and the result as the food stock shows it (delivered or not); not how it went |
+| Every other player | Never the Supply Room. Who is away, from the board: the two places are empty (the owner's decision); the banner names no one. PROPOSED: the result only as the food stock shows it (delivered or not), never how it went. PROPOSED: not who was asked, or who declined |
 | A death | Shown on the return as any death: Eliminated at the participant's previous place. No phone says who, how, or that the Task did it |
 | Protection | Never shown |
 | The food stock | PROPOSED public: the count (the ship-life food capsules) and the warning at one package |
@@ -211,7 +213,7 @@ Four tensions inside the confirmed rules, each with a solution that stays inside
 1. **No escape, and a disconnect cancels.** If a disconnect cancelled at once, switching off the network would escape an attack. **Solution:** the server judges a disconnect only after a grace (PROPOSED 8 s) in which the Task runs on and an attack resolves; a death before the cancellation stands. *Left open:* a participant can still end a Task they dislike by staying offline; whether that should cost anything.
 2. **Both can betray, and a survivor completes only from the correct position.** The drop puts the crate onto the Boom, out of the cradle, so a Hoist who drops can never complete; only the Boom's ram after docking kills and still delivers. **Solution:** the server assigns the controls at random (PROPOSED), so neither player picks the stronger seat; both phones show both risks equally; the two-key send makes docking a visible standoff. *Left open:* accepting the asymmetry, for Game Balance and the owner.
 3. **Protection applies, and Protection is not disclosed.** An attacker who knows they still had their opportunity learns from a failed attack that the victim is Protected. **Solution:** one STOPPED, identical for Protection and for a spent opportunity, with no reason on either phone; the victim cannot tell which; no one else learns anything. The attacker's inference cannot be removed without a third cause for a stop, which the rules do not have. *Left open:* the owner confirms that inference is acceptable.
-4. **No automatic attribution, and the return shows the dead.** With two participants, the survivor is the only possible killer to anyone who knows who went. **Solution:** no phone states a killer, a cause or a Task death. Whether others learn who is away (PROPOSED: yes, as their places are empty) is the one lever. *Left open:* keeping the pair private would need the board to hide the two absences.
+4. **No automatic attribution, and the return shows the dead.** With two participants, the survivor is the only possible killer to anyone who knows who went. **Solution:** no phone states a killer, a cause or a Task death. *Settled:* the owner decided that other players can see on the board who is away, so after a death everyone can work out the survivor. That is accepted, and nothing states it.
 
 ## Open items
 
@@ -220,13 +222,13 @@ Four tensions inside the confirmed rules, each with a solution that stays inside
 | The attack opportunity's reset scope across repeated Task participation (not chosen anywhere in the design) | The owner |
 | Whether a blocked attack spends the opportunity (PROPOSED: yes) | The owner |
 | Whether one dose is one package (PROPOSED: yes) | The owner |
-| When the initiation is spent (PROPOSED: on the start; a Task cancelled by the Partner's disconnect gives it back, by the Volunteer's own does not) | The owner |
+| When the initiation is spent (PROPOSED: when a Partner joins and the Task starts, so a decline does not spend it; a Task cancelled by the Partner's disconnect gives it back, by the Volunteer's own does not) | The owner |
 | Whether a deliberate disconnect costs anything (conflict 1) | The owner |
-| Partner eligibility and whether a Partner may decline (PROPOSED: living, outside the Hospital and the Jail, not on a Task; no decline) | The owner |
+| Who can be asked as a Partner (PROPOSED: living, outside the Hospital and the Jail, not on a Task), the time to answer (PROPOSED: 15 s, no answer declines), and asking the same player again after a decline (PROPOSED: not for this start). That a Partner can decline is decided | The owner |
 | Who runs which control (PROPOSED: the server at random; conflict 2) | The owner |
-| Whether others see who is away and the result (PROPOSED: yes; conflict 4) | The owner |
+| Whether others learn the result (PROPOSED: only as the food stock shows it). That they can see who is away is decided | The owner |
 | When a Task may start, and whether two may run at once | The owner, Backend |
-| The timing (4 s, 45 s, 8 s, 300 ms) | Game Balance |
+| The timing (15 s, 4 s, 45 s, 8 s, 300 ms) | Game Balance |
 | The survivor asymmetry and the food economy | Game Balance |
 | The Eating step's place and order | The owner, Game Balance |
 | Deliberate attacks only (PROPOSED) | The owner, Backend |

@@ -22,12 +22,16 @@ export const RULES = Object.freeze([
   ['visibility', 'Other players do not see the Task space on their phones. This does not automatically authorize public killer attribution or Protection disclosure.', 'Only the two participants\' phones draw the Supply Room. No phone ever shows a killer, an attack kind or Protection to anyone else (see the visibility).'],
   ['return', 'The ordinary return flow restores participants to their previous positions, accounting for death and cancellation.', 'Each returns to the place they left; a dead participant is shown Eliminated there, as the board draws any death.'],
   ['experience', 'A short, understandable cooperative activity; low puzzle difficulty; coordination and trust are the challenge; both contribute without talking.', 'Nine presses and two keys; the next press glows on the right phone; every risk is visible to both.'],
+  // The owner's answers to Designer's questions, the same day.
+  ['away-visible', 'Other players can check on the board who is not here, so they can understand who went on the Task.', 'While the Task runs, the two participants\' places are empty on every board. A banner says that two players are away on the Food Supply Task, without names: the board shows who.'],
+  ['partner-decline', 'The Partner can decline.', 'The Partner request has Decline and Join. After a decline the Volunteer asks someone else or closes. PROPOSED: 15 s to answer, and no answer is a decline; the Volunteer\'s Task is used only when a Partner joins.'],
 ].map(([id, rule, design]) => Object.freeze({ id, rule, design })));
 
 /** Who sees what. */
 export const VISIBILITY = Object.freeze({
   participants: 'Both see the whole Supply Room and its shared machine, every move and bump, both warnings, both keys, the time, and each other\'s alive or offline state. Both see a STOPPED alike, with no reason. Neither ever sees an attack opportunity, Protection, or the other\'s refused presses.',
-  others: 'Never the Supply Room. PROPOSED: a banner that two named players are away on the Food Supply Task (their places in the rooms are empty while they are away), and the result as the food stock shows it: delivered (+5) or nothing delivered. Not how it went.',
+  others: 'Never the Supply Room. The board shows who is away: the two participants\' places are empty, so anyone can tell who went (the owner, 11 November 2026). A banner says only that two players are away on the Food Supply Task. PROPOSED: the result as the food stock shows it, delivered (+5) or nothing delivered; not how it went.',
+  ask: 'PROPOSED: a Partner request and its answer are private to the two players: no one else learns who was asked, or that someone declined.',
   death: 'A participant killed on the Task is Eliminated at their previous position on the return, as any death is shown. No phone says who killed them, how, or that a Task killed them; the two participants already know.',
   protection: 'Never shown. A blocked attack is the same STOPPED as an attack by a participant with no opportunity left (see conflict 3).',
   foodStock: 'PROPOSED public: the count (the ship-life food capsules show it) and the warning at one package.',
@@ -61,8 +65,8 @@ export const CONFLICTS = Object.freeze([
     id: 'deduced-attribution',
     rules: ['visibility', 'return'],
     conflict: 'With two participants, a death on the Task names the killer to anyone who knows who went: the return shows the body, and the other participant is the only possible cause. The rules forbid automatic attribution but make it deducible.',
-    solution: 'No phone states a killer, a cause or a Task death; the death is shown as any death. Whether other players learn who is away (PROPOSED: yes, as their places are empty) is the one lever, listed as an open item.',
-    residual: 'If the owner wants the pair private, the board must hide the two participants\' absence; Frontend and Backend would then need a decoy presence.',
+    solution: 'No phone states a killer, a cause or a Task death; the death is shown as any death. The owner has decided that other players can see on the board who is away (11 November 2026), so after a death everyone can work out the survivor; that is accepted, and nothing states it.',
+    residual: 'Settled by the owner\'s decision: nothing left to decide.',
   },
 ]);
 
@@ -71,11 +75,11 @@ export const OPEN_ITEMS = Object.freeze([
   { id: 'opportunity-reset', owner: 'owner', item: 'The attack opportunity\'s reset scope across repeated Task participation (unspecified by the owner; the design never chooses it).' },
   { id: 'block-spends', owner: 'owner', item: 'Whether a blocked attack spends the attacker\'s opportunity. PROPOSED: yes, an attempt is the opportunity.' },
   { id: 'dose-package', owner: 'owner', item: 'Whether one dose is one package. PROPOSED: yes.' },
-  { id: 'initiation-spent', owner: 'owner', item: 'When a Volunteer\'s initiation is spent. PROPOSED: on the start; a Task cancelled by the Partner\'s disconnect gives it back, one cancelled by the Volunteer\'s own does not.' },
+  { id: 'initiation-spent', owner: 'owner', item: 'When a Volunteer\'s initiation is spent. PROPOSED: when a Partner joins and the Task starts (a decline or a withdrawn request does not spend it); a Task cancelled by the Partner\'s disconnect gives it back, one cancelled by the Volunteer\'s own does not.' },
   { id: 'deliberate-disconnect', owner: 'owner', item: 'Whether a deliberate disconnect costs anything (conflict 1).' },
-  { id: 'partner', owner: 'owner', item: 'Who can be a Partner (PROPOSED: a living player outside the Hospital and the Jail, not on a Task) and whether a Partner may decline (PROPOSED: no).' },
+  { id: 'partner', owner: 'owner', item: 'Who can be asked as a Partner (PROPOSED: a living player outside the Hospital and the Jail, not on a Task), how long they have to answer (PROPOSED: 15 s, and no answer is a decline), and whether a Volunteer may ask the same player again after a decline (PROPOSED: not for this start). That a Partner can decline is the owner\'s decision.' },
   { id: 'roles', owner: 'owner', item: 'Who runs which control. PROPOSED: the server at random (conflict 2).' },
-  { id: 'public-away', owner: 'owner', item: 'Whether other players see who is away on a Task (PROPOSED: yes; conflict 4) and the outcome (PROPOSED: delivered or not).' },
+  { id: 'public-result', owner: 'owner', item: 'Whether other players learn the result. PROPOSED: only as the food stock shows it, delivered (+5) or not. That they can see who is away is the owner\'s decision.' },
   { id: 'when', owner: 'owner, Backend', item: 'When a Task may start (which phases count as outside ordinary turns), and whether two Tasks may run at once.' },
   { id: 'timing', owner: 'Game Balance', item: 'The PROPOSED timing: 4 s briefing, 45 s deadline, 8 s grace, 300 ms between presses.' },
   { id: 'asymmetry', owner: 'Game Balance', item: 'The survivor asymmetry (conflict 2) and the food economy: five packages, five per delivery, one dose per player at each Eating step.' },

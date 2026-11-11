@@ -22,8 +22,17 @@ The owner's messages are quoted as written.
 
 The owner also asked for low puzzle difficulty with coordination and trust as the challenge, Machinarium as inspiration for expressive machinery, and Mothership's own look; and for genuine rule conflicts to be highlighted separately, with solutions inside the confirmed rules ([four of them](food-supply.md#genuine-rule-conflicts)).
 
+**The same day, the owner answered two of Designer's open questions:**
+
+| What the owner said | What it decides | Where |
+| --- | --- | --- |
+| "other player can check on board who is not here so they can understand who went for task" | Who is away on a Task is public, through the board: the two participants' places are empty while they are away. The banner on other phones names no one. This settles rule conflict 4: after a death, everyone can work out the survivor, and no phone states it | [food-supply.md](food-supply.md#visibility); the flow sheet |
+| "yes they can decline" | The asked Partner can decline. The request has Decline and Join; after a decline, the Volunteer asks someone else or closes. The time to answer, and whether a decline spends the Volunteer's Task, stay PROPOSED (15 s, no answer declines; the Task is used only when a Partner joins) | [food-supply.md](food-supply.md#the-phones); the flow sheet |
+
+The owner asked what the other two questions mean (the attack opportunity's reset across repeated Tasks, and whether a blocked attack uses it up); Designer has explained them, and both remain open.
+
 **What it does not decide:**
-- **The proposals.** Everything marked PROPOSED in the design (timings, the grace, random roles, the Partner's eligibility, what other players see, deliberate attacks only) waits for the owner. The [open items](food-supply.md#open-items) list them, with the attack opportunity's reset scope, which the design leaves unchosen as asked.
+- **The proposals.** Everything marked PROPOSED in the design (timings, the grace, random roles, the Partner's eligibility and time to answer, whether others learn the result, deliberate attacks only) waits for the owner. The [open items](food-supply.md#open-items) list them, with the attack opportunity's reset scope, which the design leaves unchosen as asked.
 - **The game.** No rule, contract, engine or ruleset changes here. Backend implements the rules, Integration owns the contract, and a ruleset version adopts the Task; until then nothing is playable.
 - **The owner's detailed handoff file.** `docs/design/food-supply-requirements-2026-11-11.md` and its concept images were on the owner's computer, not in the repository; the design follows the highlights above and will be reconciled with that file.
 

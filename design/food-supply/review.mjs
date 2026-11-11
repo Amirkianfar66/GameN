@@ -155,12 +155,13 @@ function phones(as) {
 }
 
 function flow() {
-  app.append(header('Starting a Task, the other phones, the return and the food warning', 'A Volunteer chooses the Task and a Partner; the Partner is told; the others see who is away (PROPOSED); afterwards everyone is back at their places.'));
+  app.append(header('Starting a Task, the other phones, the return and the food warning', 'A Volunteer chooses the Task and asks a Partner, who can join or decline (the owner, 11 November 2026). While the two are away, the board shows who is not here. Afterwards everyone is back at their places.'));
   const grid = el('div', { class: 'grid' });
   for (const [q, label] of [
-    ['s=volunteer&step=task', '1 · Volunteer: start a Task'], ['s=volunteer&step=partner', '2 · Volunteer: choose a Partner'], ['s=volunteer&step=starting', '3 · Volunteer: starting'],
-    ['s=called', '4 · Partner: chosen'], ['s=task&board=cooperation&t=2500&as=boom', '5 · Both: briefing'], ['s=away', '6 · Another player meanwhile (PROPOSED)'],
-    ['s=return&board=cooperation&as=hoist', '7 · Return after a delivery'], ['s=return&board=drop&as=other', '8 · Another player after a death'], ['s=stock&n=1', '9 · Food warning: one package (PROPOSED public)'],
+    ['s=volunteer&step=task', '1 · Volunteer: start a Task'], ['s=volunteer&step=partner', '2 · Volunteer: ask a Partner'], ['s=volunteer&step=asking', '3 · Volunteer: waiting for the answer'],
+    ['s=called', '4 · Partner: Join or Decline (15 s PROPOSED)'], ['s=volunteer&step=declined', '5 · Volunteer: declined, ask another'], ['s=called&answer=join', '6 · Partner: joined'],
+    ['s=volunteer&step=starting', '7 · Volunteer: starting'], ['s=task&board=cooperation&t=2500&as=boom', '8 · Both: briefing'], ['s=away', '9 · Another player: the board shows who is away'],
+    ['s=return&board=cooperation&as=hoist', '10 · Return after a delivery'], ['s=return&board=drop&as=other', '11 · Another player after a death'], ['s=stock&n=1', '12 · Food warning: one package (PROPOSED public)'],
   ]) grid.append(phone(q, { label }));
   app.append(grid);
 }

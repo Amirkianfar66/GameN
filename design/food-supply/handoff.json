@@ -88,10 +88,20 @@
       "id": "experience",
       "rule": "A short, understandable cooperative activity; low puzzle difficulty; coordination and trust are the challenge; both contribute without talking.",
       "design": "Nine presses and two keys; the next press glows on the right phone; every risk is visible to both."
+    },
+    {
+      "id": "away-visible",
+      "rule": "Other players can check on the board who is not here, so they can understand who went on the Task.",
+      "design": "While the Task runs, the two participants' places are empty on every board. A banner says that two players are away on the Food Supply Task, without names: the board shows who."
+    },
+    {
+      "id": "partner-decline",
+      "rule": "The Partner can decline.",
+      "design": "The Partner request has Decline and Join. After a decline the Volunteer asks someone else or closes. PROPOSED: 15 s to answer, and no answer is a decline; the Volunteer's Task is used only when a Partner joins."
     }
   ],
   "sources": {
-    "design/food-supply/task.mjs": "6414eb481cb5fe877ffd7d8784f859dc1ac9e3a6d27251717a4938ea9ba7fe1d",
+    "design/food-supply/task.mjs": "5cf5019d7639cf63d1db5a07c095e1c94f01822eaf2b513e7bc7233aba4f7199",
     "design/food-supply/layout.mjs": "b3193ab9ed05739750dae06a48584d024163598fda955c185d2dfc79267fafa9",
     "design/food-supply/room.mjs": "43d82db22f9cc43c389db2c4e713ae7a924ea4dbf8f252412118dbcbdd4c1c5e",
     "design/food-supply/machine.mjs": "622098559ab5ee84d5622c829273d31d1bc3fae11ce9c637dd5a86fd9e9b80bf",
@@ -99,9 +109,9 @@
     "design/food-supply/stage.mjs": "410c8261c6a27d25948ba676947c20d57c505b17ebc503fe3acc1a60f271662e",
     "design/food-supply/boards.mjs": "9edc904897cb97b3bda40ec905239c366f7f7f6fa3d41e0aaa4b73234f1758a0",
     "design/food-supply/scenarios.mjs": "2578bf5fdd6f51f410267b17aa1d08005e0e2d027203a66fe5d90b513fa2e1a3",
-    "design/food-supply/rules.mjs": "88cc868e55b0b72322b254f3d8a7065a0ee398bd1343b36caeefe2383aa25e79",
-    "design/food-supply/phone.mjs": "92191e693bc8999345bb9a1788f292010625b9b10ec3bf69d29917fdf19b737f",
-    "design/food-supply/phone.css": "aee1ef0d3f66aa23a55a054c488b2eb324192c4343d63c03790813840773daa6"
+    "design/food-supply/rules.mjs": "ce8248df6c0245705d68185c7639dd21de6561a755f17bc058f53ec75935351c",
+    "design/food-supply/phone.mjs": "f69bbaa1d435911c1ee618279f8b66bdfceed883207167af0e9cc9ae6f92b77a",
+    "design/food-supply/phone.css": "f846b1d2a9221e31de118d4962bd28e4a6c22cd342aedd6c6b97d84287449ffb"
   },
   "fixtures": {
     "roster": "design/phone-ui/prototype/fixtures.mjs (invented names)",
@@ -624,6 +634,43 @@
         }
       ],
       "answer": "The new revision of the Task state with the events, to both participants; REFUSED to the presser only."
+    },
+    "ask": {
+      "commands": [
+        {
+          "name": "TASK_ASK { kind: \"food\", partner }",
+          "from": "the Volunteer",
+          "about": "Ask one player. Refused if the Volunteer has used their initiation, or the player cannot be asked."
+        },
+        {
+          "name": "TASK_ANSWER { askId, join }",
+          "from": "the asked player",
+          "about": "Join or decline, within 15 s (PROPOSED); no answer is a decline."
+        },
+        {
+          "name": "TASK_ASK_WITHDRAW { askId }",
+          "from": "the Volunteer",
+          "about": "Cancel while waiting; nothing is used."
+        }
+      ],
+      "events": [
+        {
+          "type": "TASK_ASKED",
+          "to": "the asked player",
+          "about": "Who asks, and the time to answer."
+        },
+        {
+          "type": "TASK_DECLINED",
+          "to": "the Volunteer",
+          "about": "Declined or no answer. The Volunteer asks someone else or closes."
+        },
+        {
+          "type": "TASK_STARTED",
+          "to": "both",
+          "about": "Joined: the roles, then the briefing. Every board now shows the two places empty."
+        }
+      ],
+      "visibility": "PROPOSED: private to the two. Other players learn nothing until the Task starts, and then only that two players are away (the board shows who)."
     }
   },
   "timing": {
@@ -633,6 +680,7 @@
     "deadline": 45000,
     "grace": 8000,
     "ending": 2500,
+    "answer": 15000,
     "proposed": true
   },
   "food": {
@@ -898,7 +946,8 @@
   ],
   "visibility": {
     "participants": "Both see the whole Supply Room and its shared machine, every move and bump, both warnings, both keys, the time, and each other's alive or offline state. Both see a STOPPED alike, with no reason. Neither ever sees an attack opportunity, Protection, or the other's refused presses.",
-    "others": "Never the Supply Room. PROPOSED: a banner that two named players are away on the Food Supply Task (their places in the rooms are empty while they are away), and the result as the food stock shows it: delivered (+5) or nothing delivered. Not how it went.",
+    "others": "Never the Supply Room. The board shows who is away: the two participants' places are empty, so anyone can tell who went (the owner, 11 November 2026). A banner says only that two players are away on the Food Supply Task. PROPOSED: the result as the food stock shows it, delivered (+5) or nothing delivered; not how it went.",
+    "ask": "PROPOSED: a Partner request and its answer are private to the two players: no one else learns who was asked, or that someone declined.",
     "death": "A participant killed on the Task is Eliminated at their previous position on the return, as any death is shown. No phone says who killed them, how, or that a Task killed them; the two participants already know.",
     "protection": "Never shown. A blocked attack is the same STOPPED as an attack by a participant with no opportunity left (see conflict 3).",
     "foodStock": "PROPOSED public: the count (the ship-life food capsules show it) and the warning at one package.",
@@ -906,8 +955,9 @@
   },
   "flow": [
     "A Volunteer opens Tasks (outside the turn order) and chooses Food Supply: one Task initiation per match across Food and Engine.",
-    "The Volunteer chooses a Partner (PROPOSED eligibility: a living player outside the Hospital and the Jail, not already on a Task). Joining as a Partner never spends an initiation.",
-    "The server assigns the controls (PROPOSED: at random) and starts the Task: both travel to the Supply Room, separate from normal movement.",
+    "The Volunteer asks a Partner (PROPOSED eligibility: a living player outside the Hospital and the Jail, not already on a Task). Joining as a Partner never spends the Partner's own initiation.",
+    "The Partner can join or decline (the owner, 11 November 2026). PROPOSED: 15 s to answer, and no answer is a decline. After a decline the Volunteer asks someone else or closes; the Volunteer's initiation is used only when a Partner joins (PROPOSED). The request and its answer are private to the two (PROPOSED).",
+    "The server assigns the controls (PROPOSED: at random) and starts the Task: both travel to the Supply Room, separate from normal movement. Every board shows their two places empty, so anyone can see who went (the owner, 11 November 2026).",
     "Briefing (4 s PROPOSED): who runs which control, the route, the warning stripes. The controls do nothing yet.",
     "Running (45 s PROPOSED): presses, the shared machine, the warnings, the keys.",
     "Ended: the outcome card (2.5 s PROPOSED), then the ordinary return flow restores each participant to their previous position, the dead as Eliminated where they were."
@@ -2884,8 +2934,8 @@
         "return"
       ],
       "conflict": "With two participants, a death on the Task names the killer to anyone who knows who went: the return shows the body, and the other participant is the only possible cause. The rules forbid automatic attribution but make it deducible.",
-      "solution": "No phone states a killer, a cause or a Task death; the death is shown as any death. Whether other players learn who is away (PROPOSED: yes, as their places are empty) is the one lever, listed as an open item.",
-      "residual": "If the owner wants the pair private, the board must hide the two participants' absence; Frontend and Backend would then need a decoy presence."
+      "solution": "No phone states a killer, a cause or a Task death; the death is shown as any death. The owner has decided that other players can see on the board who is away (11 November 2026), so after a death everyone can work out the survivor; that is accepted, and nothing states it.",
+      "residual": "Settled by the owner's decision: nothing left to decide."
     }
   ],
   "openItems": [
@@ -2907,7 +2957,7 @@
     {
       "id": "initiation-spent",
       "owner": "owner",
-      "item": "When a Volunteer's initiation is spent. PROPOSED: on the start; a Task cancelled by the Partner's disconnect gives it back, one cancelled by the Volunteer's own does not."
+      "item": "When a Volunteer's initiation is spent. PROPOSED: when a Partner joins and the Task starts (a decline or a withdrawn request does not spend it); a Task cancelled by the Partner's disconnect gives it back, one cancelled by the Volunteer's own does not."
     },
     {
       "id": "deliberate-disconnect",
@@ -2917,7 +2967,7 @@
     {
       "id": "partner",
       "owner": "owner",
-      "item": "Who can be a Partner (PROPOSED: a living player outside the Hospital and the Jail, not on a Task) and whether a Partner may decline (PROPOSED: no)."
+      "item": "Who can be asked as a Partner (PROPOSED: a living player outside the Hospital and the Jail, not on a Task), how long they have to answer (PROPOSED: 15 s, and no answer is a decline), and whether a Volunteer may ask the same player again after a decline (PROPOSED: not for this start). That a Partner can decline is the owner's decision."
     },
     {
       "id": "roles",
@@ -2925,9 +2975,9 @@
       "item": "Who runs which control. PROPOSED: the server at random (conflict 2)."
     },
     {
-      "id": "public-away",
+      "id": "public-result",
       "owner": "owner",
-      "item": "Whether other players see who is away on a Task (PROPOSED: yes; conflict 4) and the outcome (PROPOSED: delivered or not)."
+      "item": "Whether other players learn the result. PROPOSED: only as the food stock shows it, delivered (+5) or not. That they can see who is away is the owner's decision."
     },
     {
       "id": "when",

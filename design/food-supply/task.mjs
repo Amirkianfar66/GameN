@@ -66,9 +66,10 @@ export const ROUTE = Object.freeze([
  * (holding a button repeats at this rate); briefing: who controls what, before the controls work;
  * deadline: the time to deliver, from the end of the briefing; grace: how long a participant may
  * be out of contact before the Task is cancelled (see the rule conflict in food-supply.md); ending:
- * the outcome card before the return.
+ * the outcome card before the return; answer: how long an asked Partner has to join or decline before
+ * no answer counts as a decline.
  */
-export const TIMING = Object.freeze({ step: 240, interval: 300, briefing: 4000, deadline: 45000, grace: 8000, ending: 2500 });
+export const TIMING = Object.freeze({ step: 240, interval: 300, briefing: 4000, deadline: 45000, grace: 8000, ending: 2500, answer: 15000 });
 
 /** Food: five packages to start (shown by the ship-life capsules), five per delivery, a warning at one. Confirmed. */
 export const FOOD = Object.freeze({ initial: 5, perDelivery: 5, warnAt: 1 });

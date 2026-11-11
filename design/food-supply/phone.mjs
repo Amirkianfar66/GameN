@@ -166,14 +166,15 @@ function wireControls(controls, p) {
 
 // ── Outside the Task space ──────────────────────────────────────────────
 
-function roomView(root, { room = 'room-b', seats, self, top: bar, tabsCfg = { hero: 'pass-off' } }) {
+function roomView(root, { room = 'room-b', seats, self, top: bar, tabsCfg = { hero: 'pass-off' }, label = true }) {
   root.append(bar);
   root.append(tabs({ view: 'room', ...tabsCfg }));
   const top = root.querySelector('.tb').offsetHeight, bottom = root.querySelector('.tabs').offsetHeight;
   const host = h('div', { style: { position: 'absolute', left: '0', top: `${top}px`, overflow: 'hidden' } });
   root.prepend(h('div.scene', { 'aria-label': 'Your room' }, host));
   paintRoom(host, { room, roster: 9, seats, self, width: root.clientWidth, height: root.clientHeight - top - bottom, cap: 46, pad: 8, fit: 'phone', ambient: true });
-  root.append(h('div.room-label', { style: { top: `${top + 10}px` } }, caption(ROOM_NAMES[room])));
+  // The room's label is left out under a tall sheet, which would otherwise sit beneath it.
+  if (label) root.append(h('div.room-label', { style: { top: `${top + 10}px` } }, caption(ROOM_NAMES[room])));
   return { top, bottom };
 }
 
@@ -182,7 +183,8 @@ const phaseBar = (title, sub, seconds = null) => topBar({ kind: 'phase', icon: '
 function volunteer(root, p) {
   const step = p.step ?? 'task';
   const seats = fixtureBoard({ roster: 9 });
-  roomView(root, { seats, self: CAST.hoist.seat, top: phaseBar('Tasks', 'Outside the turn order'), tabsCfg: { open: 'actions', hero: 'pass-off' } });
+  roomView(root, { seats, self: CAST.hoist.seat, top: phaseBar('Tasks', 'Outside the turn order'), tabsCfg: { open: 'actions', hero: 'pass-off' }, label: step !== 'partner' && step !== 'declined' });
+  const asked = seatOf(CAST.boom.seat).name;
   if (step === 'task') {
     root.append(...sheet({ title: 'Start a Task', sub: 'With a Partner you choose. Outside the turn order.', detent: 'auto', body: [
       list(
@@ -190,33 +192,57 @@ function volunteer(root, p) {
         row({ icon: 'panel', title: 'Engine', sub: 'Its own Task, designed separately', disabled: true })),
       groupNote('You can start one Task this match, Food or Engine. Joining someone else\'s Task as their Partner does not use yours.'),
     ] }));
-  } else if (step === 'partner') {
+  } else if (step === 'partner' || step === 'declined') {
+    // After a decline, the player who declined is marked, and the Volunteer asks someone else (here: Fay, seat 6).
+    const declined = step === 'declined';
+    const pick = declined ? 6 : CAST.boom.seat;
     const choices = seats.filter(s => s.seat !== CAST.hoist.seat);
-    root.append(...sheet({ title: 'Choose your Partner', sub: 'Food Supply Task', back: 's=volunteer&step=task', detent: 'large', body: [
+    root.append(...sheet({ title: declined ? `${asked} declined` : 'Choose your Partner', sub: declined ? 'Ask someone else, or close: your Task is not used yet' : 'Food Supply Task', back: 's=volunteer&step=task', detent: 'large', body: [
       groupLabel('Players'),
-      list(...choices.map(s => row({ lead: h('b.num', String(s.seat)), title: s.name, sub: s.location === 'Hospital' || s.location === 'Jail' ? 'Not available now' : s.location, disabled: s.location === 'Hospital' || s.location === 'Jail', trail: s.seat === CAST.boom.seat ? ic('check', { filled: true }) : null }))),
-      groupNote('Who can be a Partner comes from the game (PROPOSED: a living player outside the Hospital and the Jail, not already on a Task). The game assigns the controls.'),
-    ], foot: button(`Start with ${seatOf(CAST.boom.seat).name}`, { icon: 'supply', block: true, go: 's=volunteer&step=starting' }) }));
+      list(...choices.map(s => {
+        const away = s.location === 'Hospital' || s.location === 'Jail';
+        const no = declined && s.seat === CAST.boom.seat;
+        return row({ lead: h('b.num', String(s.seat)), title: s.name, sub: no ? 'Declined' : away ? 'Not available now' : s.location, disabled: away || no, trail: s.seat === pick ? ic('check', { filled: true }) : null });
+      })),
+      groupNote('The player you ask can join or decline. Who can be asked comes from the game (PROPOSED: a living player outside the Hospital and the Jail, not already on a Task). The game assigns the controls.'),
+    ], foot: button(`Ask ${seatOf(pick).name}`, { icon: 'supply', block: true, go: 's=volunteer&step=asking' }) }));
+  } else if (step === 'asking') {
+    root.append(...sheet({ title: `Waiting for ${asked}`, sub: 'Food Supply Task', close: false, body: [h('p.group-note', `${asked} can join or decline. Your Task is not used until a Partner joins.`)],
+      foot: [button('Waiting…', { busy: true, block: true, disabled: true }), button('Cancel', { kind: 'plain', block: true, go: 's=volunteer&step=task' })] }));
   } else {
-    root.append(...sheet({ title: 'Starting the Food Supply Task', sub: `With ${seatOf(CAST.boom.seat).name}`, close: false, body: [h('p.group-note', 'Going to the Supply Room…')], foot: button('Starting…', { busy: true, block: true, disabled: true }) }));
+    root.append(...sheet({ title: 'Starting the Food Supply Task', sub: `${asked} joined`, close: false, body: [h('p.group-note', 'Going to the Supply Room…')], foot: button('Starting…', { busy: true, block: true, disabled: true }) }));
   }
 }
 
-function called(root) {
+/** The Partner is asked: Join or Decline (the owner, 11 November 2026), with a time to answer (PROPOSED). */
+function called(root, p) {
   const seats = fixtureBoard({ roster: 9 });
   const { top } = roomView(root, { seats, self: CAST.boom.seat, top: phaseBar('Tasks', 'Outside the turn order') });
-  root.append(h('section.fs-card', { role: 'alertdialog', 'aria-label': 'Chosen for a Task', style: { top: `${top + 60}px` } },
-    h('span.stamp.fs-stamp', { 'data-tone': 'accent' }, 'Partner'),
-    h('h2', `${seatOf(CAST.hoist.seat).name} chose you for the Food Supply Task`),
-    h('p', 'You are going to the Supply Room. Your place in Room B is kept for your return.'),
-    h('p', h('b', 'Briefing in a moment.'))));
+  const volunteerName = seatOf(CAST.hoist.seat).name;
+  const style = { top: `${top + 60}px`, maxHeight: `calc(100% - ${top + 72}px)` };
+  if (p.answer === 'join') {
+    root.append(h('section.fs-card', { role: 'alertdialog', 'aria-label': 'Joined a Task', style },
+      h('span.stamp.fs-stamp', { 'data-tone': 'accent' }, 'Partner'),
+      h('h2', `You joined ${volunteerName}'s Food Supply Task`),
+      h('p', 'You are going to the Supply Room. Your place in Room B is kept for your return.'),
+      h('p', h('b', 'Briefing in a moment.'))));
+    return;
+  }
+  root.append(h('section.fs-card', { role: 'alertdialog', 'aria-label': 'Asked to join a Task', style },
+    h('span.stamp.fs-stamp', { 'data-tone': 'accent' }, 'Partner request'),
+    h('h2', `${volunteerName} asks you to join the Food Supply Task`),
+    h('p', 'You would go to the Supply Room together, one of you on each control. Your place in Room B is kept for your return.'),
+    h('p', 'Joining does not use your own Task.'),
+    h('div.fs-answer', button('Decline', { kind: 'secondary', block: true, go: 's=away' }), button('Join', { icon: 'check', block: true, go: 's=called&answer=join' })),
+    h('p.fs-timer', `Answer within ${Math.round(TIMING.answer / 1000)} s. No answer counts as a decline.`)));
 }
 
 function away(root) {
   const seats = fixtureBoard({ roster: 9 }).filter(s => s.seat !== CAST.hoist.seat && s.seat !== CAST.boom.seat);
   const self = 6;
   const { top } = roomView(root, { seats, self, top: phaseBar('Tasks', 'Outside the turn order') });
-  root.append(h('div.fs-banner', { style: { top: `${top + 44}px` } }, banner({ icon: 'supply', title: `${seatOf(CAST.hoist.seat).name} and ${seatOf(CAST.boom.seat).name} are on the Food Supply Task`, sub: 'PROPOSED public: who is away. The Task itself shows on their phones only.' })));
+  // The owner, 11 November 2026: other players can check on the board who is not here. The banner names no one.
+  root.append(h('div.fs-banner', { style: { top: `${top + 44}px` } }, banner({ icon: 'supply', title: 'Two players are away on the Food Supply Task', sub: 'The board shows who is not here. The Task itself shows on their phones only.' })));
 }
 
 function returned(root, p) {

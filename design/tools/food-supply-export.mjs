@@ -96,6 +96,21 @@ const PROJECTION = [
   ['outcome', 'Once ended.'],
 ].map(([fields, about]) => ({ fields, about, never: undefined })).concat([{ fields: '(never)', about: 'Attack opportunity, Protection, the other participant\'s refusals, and why a STOPPED happened: no phone can show them.' }]);
 
+/** Asking a Partner: proposals for the shared contract, around the owner's decision that a Partner can decline. */
+const ASK = {
+  commands: [
+    { name: 'TASK_ASK { kind: "food", partner }', from: 'the Volunteer', about: 'Ask one player. Refused if the Volunteer has used their initiation, or the player cannot be asked.' },
+    { name: 'TASK_ANSWER { askId, join }', from: 'the asked player', about: `Join or decline, within ${TIMING.answer / 1000} s (PROPOSED); no answer is a decline.` },
+    { name: 'TASK_ASK_WITHDRAW { askId }', from: 'the Volunteer', about: 'Cancel while waiting; nothing is used.' },
+  ],
+  events: [
+    { type: 'TASK_ASKED', to: 'the asked player', about: 'Who asks, and the time to answer.' },
+    { type: 'TASK_DECLINED', to: 'the Volunteer', about: 'Declined or no answer. The Volunteer asks someone else or closes.' },
+    { type: 'TASK_STARTED', to: 'both', about: 'Joined: the roles, then the briefing. Every board now shows the two places empty.' },
+  ],
+  visibility: 'PROPOSED: private to the two. Other players learn nothing until the Task starts, and then only that two players are away (the board shows who).',
+};
+
 const COMMAND = {
   name: 'TASK_MOVE (a proposal for the shared contract; Integration owns packages/contracts/)',
   fields: [
@@ -147,6 +162,7 @@ export function build(artText) {
       keyboard: 'Arrow keys on the participant\'s own axis; the others do nothing.',
       accessibility: 'Each button\'s accessible name says its warning ("Lower. Warning: drops it on Cleo."). The view is an image with a text equivalent (where the crate and the gantry are, and whether a warning shows). The hint is a polite live region. Large text: the controls keep their places (Raise above Lower, Left beside Right) and grow; the view gives way; cards scroll.',
       command: COMMAND,
+      ask: ASK,
     },
     timing: { ...TIMING, proposed: true },
     food: { ...FOOD, confirmed: true, eating: 'Each player eats one package at their Eating step; not eating sends them to the Hospital under the existing Hospital rules (confirmed). The Eating step\'s place in the round and the order of eating are not designed here (see the open items).' },
@@ -157,8 +173,9 @@ export function build(artText) {
     visibility: VISIBILITY,
     flow: [
       'A Volunteer opens Tasks (outside the turn order) and chooses Food Supply: one Task initiation per match across Food and Engine.',
-      'The Volunteer chooses a Partner (PROPOSED eligibility: a living player outside the Hospital and the Jail, not already on a Task). Joining as a Partner never spends an initiation.',
-      'The server assigns the controls (PROPOSED: at random) and starts the Task: both travel to the Supply Room, separate from normal movement.',
+      'The Volunteer asks a Partner (PROPOSED eligibility: a living player outside the Hospital and the Jail, not already on a Task). Joining as a Partner never spends the Partner\'s own initiation.',
+      `The Partner can join or decline (the owner, 11 November 2026). PROPOSED: ${TIMING.answer / 1000} s to answer, and no answer is a decline. After a decline the Volunteer asks someone else or closes; the Volunteer\'s initiation is used only when a Partner joins (PROPOSED). The request and its answer are private to the two (PROPOSED).`,
+      'The server assigns the controls (PROPOSED: at random) and starts the Task: both travel to the Supply Room, separate from normal movement. Every board shows their two places empty, so anyone can see who went (the owner, 11 November 2026).',
       `Briefing (${TIMING.briefing / 1000} s PROPOSED): who runs which control, the route, the warning stripes. The controls do nothing yet.`,
       `Running (${TIMING.deadline / 1000} s PROPOSED): presses, the shared machine, the warnings, the keys.`,
       `Ended: the outcome card (${TIMING.ending / 1000} s PROPOSED), then the ordinary return flow restores each participant to their previous position, the dead as Eliminated where they were.`,

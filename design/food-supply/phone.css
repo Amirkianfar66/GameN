@@ -65,6 +65,9 @@
 .fs-roles b { font: 800 1rem/1.2 var(--font-ui); color: var(--text-primary); }
 
 .fs-banner { position: absolute; left: 12px; right: 12px; z-index: 30; }
+/* The Partner request: Decline and Join side by side, Join last (the thumb's side); they stack when the words need it. */
+.fs-answer { display: grid; grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr)); gap: 8px; }
+.fs-card p.fs-timer { font-size: 0.8125rem; }
 .fs-art .tag { position: absolute; transform: translate(-50%, 0); z-index: 5; }
 .fs-art .tag[data-anchor="start"] { transform: none; }
 /* A card longer than the screen scrolls; its last lines fade to say there is more. */
