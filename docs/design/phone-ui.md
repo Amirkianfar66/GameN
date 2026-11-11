@@ -66,7 +66,7 @@ These are routine decisions, made by Designer under the brief. The owner can ove
 **Layout.**
 - The top bar and the tabs are fixed. The room scene fills the space between them.
 - The scene uses the game's own positions and press areas, so every person stands where the game puts them.
-- The room view is framed wider than the game's board panels: at the smallest scale that still fills that space with the room. The owner found the first draft too zoomed in on a phone (9 November).
+- The room view is framed wider than the game's board panels: at the smallest scale that still fills that space with the room. The owner found the first draft too zoomed in on a phone (9 November). Nobody present is cut off: a crowd spread wider than that, such as a full Jail, is zoomed out just far enough to keep everyone whole, with bands above and below (the owner's decision of 11 November, T1).
   - At 390 × 844, people are drawn 23% smaller than in the first draft, and 30% more of the room's width shows.
   - Across, the view holds the room's centre, as the game does. It moves only as far as it must to keep everyone present 48 px inside the edges. When they are spread wider than that, it centres on them.
   - A name tag near an edge moves inward to stay whole.

@@ -32,7 +32,7 @@ Since then the owner has decided that the pack is the specification for the phon
 
 ## To change before acceptance
 
-1. **Fill the room's space.** The room is fitted to the screen's width, with dark bands above and below it (Room A, Room B, the Hospital and the Jail at 390 × 844). The pack fills the space between the bars at the smallest scale that still fills it, with everyone in view: sheets 20–24 and the owner's "too zoom" decision. The room's own control, such as "Window · Hospital", is missing too.
+1. **Fill the room's space.** The room is fitted to the screen's width, with dark bands above and below it (Room A, Room B, the Hospital and the Jail at 390 × 844). The pack fills the space between the bars at the smallest scale that still fills it, with everyone in view: sheets 20–24 and the owner's "too zoom" decision. The room's own control, such as "Window · Hospital", is missing too. The owner settled how this meets the fixed places in the Blackout on 11 November (T1 in [owner-decisions.md](owner-decisions.md#11-november-2026-the-build-follows-the-pack)): fill, zoom out only to keep a crowd as wide as a full Jail whole, and hold the framing still through the Blackout.
 2. **The tab bar.**
    - At 320 px with 200 % text the labels break mid-word: "Boar/d", "Actio/ns", "Panel/s". Keep every label whole on one line, at its ordinary size, as on sheet 56.
    - The open tab is teal (Actions, Panels and sometimes Vote). The pack's selected tab is amber with a filled icon (sheet 08).
@@ -46,8 +46,8 @@ Since then the owner has decided that the pack is the specification for the phon
 6. **The words after Register.** Scan says "Registered. Waiting for the authoritative view.", which is developer wording on a player's screen. Each action's state after Register is in the handoff's [After Register](phone-ui-handoff.md#after-register) table. Scan's should say that it is registered and that its private result appears when it arrives.
 7. **The Round order panel** is one run-on line. The pack lists each phase on its own row, with an icon and its timing (Panels, then Round order), in the 1.3 order with the Blackout before the Jail vote.
 8. **The role card and Ready.** The role is shown as a text panel, and Ready is amber while the card is up, before it can be used. The pack shows the card large (sheets 17 and 31), with Ready dimmed until the film ends.
-9. **Cancel while choosing a target.** The centre button becomes "×". The pack keeps Cancel in the targeting bar (sheet 29) and leaves the centre button alone.
-10. **Density.** The Actions and Panels rows are tall and mostly empty. The pack's action tiles carry each action's state, and a Panels row that cannot be used says why (sheets 28 and 32).
+9. **Cancel while choosing a target.** The centre button becomes "×". The pack keeps Cancel in the targeting bar (sheet 29) and leaves the centre button alone. The owner confirmed the pack on 11 November (T2).
+10. **Density.** The Actions and Panels rows are tall and mostly empty. The pack's action tiles carry each action's state, and a Panels row that cannot be used says why (sheets 28 and 32). For Actions, the owner confirmed on 11 November (T3) that every action of the role is a tile, greyed with the server's reason when it is not available.
 11. **Name tags at large text.** On the board they are clipped to "Cr…" (source `838558bd`). In Room B at 320 × 568 with 200 % text, the tags of Players 6 and 8 and "You" run into each other (`d1a03c87`).
 12. **Clone.** The "CLONE ACTIVE" stamp is drawn over "Clone active through Round 7." (earlier source `0af438bc`).
 
