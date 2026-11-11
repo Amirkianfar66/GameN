@@ -259,7 +259,7 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   }
  }
  function renderTargets(){
-  targets.replaceChildren();targetBar.replaceChildren();targetBar.hidden=true;const action=model.action;if(!layout?.fits||!action)return;
+  targets.replaceChildren();targetBar.replaceChildren();targetBar.hidden=true;const action=model.action;if(!frame||!layout?.fits||!action)return;
   for(const choice of action.choices){
    if(action.type==='MOVE'&&action.step==='targets')continue;
    const room=roomFor(choice.value);if(!room||!['MOVE','SELECT_BLACKOUT_SLOT'].includes(action.type))continue;
