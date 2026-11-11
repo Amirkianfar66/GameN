@@ -48,9 +48,12 @@ try{
    const textReflow=await geometry(page,count,mode),reflowCapture=count===9?await picture(page,prefix+'-reflow'):null;
    const confirmPoint=await page.evaluate("(()=>{const r=document.querySelector('#planet-confirm').getBoundingClientRect();return {x:r.x+r.width/2,y:r.y+r.height/2};})()");
    await page.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[confirmPoint]});await page.evaluate("window.dispatchEvent(new Event('blur'))");await page.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
-   assert.equal(await page.evaluate('window.planetHarness.app.game.getModel().action'),null);await page.tap('#planet-nav-actions');await page.tap('#planet-action-SELECT_BLACKOUT_SLOT');await page.tap('#planet-slot-A2');assert.equal(await page.evaluate('window.planetHarness.app.game.getModel().action.step'),'confirm');
+   assert.equal(await page.evaluate('window.planetHarness.app.game?.getModel().action??null'),null);
+   assert.equal(await page.evaluate("document.querySelectorAll('.bv2-slot-target').length"),0);
+   await page.evaluate("window.dispatchEvent(new Event('focus'));window.planetHarness.app.session.refresh()");await page.waitFor('window.planetHarness.app.game?.getModel().phase?.trusted&&window.planetHarness.app.game.getModel().dark','fresh authorized game after blur');
+   await page.tap('#planet-nav-actions');assert.equal(await page.evaluate('window.planetHarness.app.game.getModel().privateArea.blackoutTargeting.selectedSlotId'),'A3');await page.tap('#planet-action-SELECT_BLACKOUT_SLOT');await page.tap('#planet-slot-A2');assert.equal(await page.evaluate('window.planetHarness.app.game.getModel().action.step'),'confirm');
    await page.evaluate("window.planetHarness.setUid('revoked');window.planetHarness.app.session.refresh()");await page.waitFor("!document.querySelector('.bv2-slot-target')",'revoked targeting removed');
-   assert.equal(await page.evaluate('window.planetHarness.app.game.getModel().action'),null);
+   assert.equal(await page.evaluate('window.planetHarness.app.game?.getModel().action??null'),null);
    assert.equal(await page.evaluate("window.planetHarness.requests.filter(r=>r.operation==='command').length"),0);
    facts.cases.push({name,count,width,height,text,mode,cold,resized,textReflow,initial,reflowCapture,pointerCancelled:true,localChoicePreserved:true,acceptedSlotPreserved:true,noCommand:true,revokedTargetsRemoved:true});
   }catch(error){facts.failure={case:prefix,error:error.stack};await picture(page,prefix+'-failure');throw error;}finally{await page.close();}
