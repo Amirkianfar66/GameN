@@ -12,7 +12,8 @@
 //    portion only when there is one, and ends at the place it began, in its resting pose;
 //  - the scheduler keeps the after-turn order, never puts two visitors at a capsule, shortens or drops
 //    a long wait, plays nothing for unknown availability, the Hospital, the Eliminated or Reduce
-//    motion, stops a visit for a real event, and never replays one;
+//    motion, stops a visit for a real event and drops one still waiting for the capsule, and never
+//    replays one (coming back, only a visit under way, recently begun and not stopped);
 //  - today's framing is the phone pack's own (its phoneFrame, given the pack's own outlines), each
 //    present figure whole doing its activity; a wider one keeps 44-pixel press areas and every figure
 //    whole and, a fifth wider, every capsule in view on the pack's phones; each activity's measured
@@ -141,12 +142,34 @@ test('the scheduler: after-turn order, one visitor at a capsule, long waits shor
   assert.equal(stopped.visits[0].cancelAt, 4000);
   assert.equal(stopped.visits[1].cancelAt, 9000);
   assert.ok(CANCEL_MS <= 300);
+  // A stop while a visitor still waits for the capsule drops that visit: it never begins, so nothing
+  // walks after the phase has changed (Integration's review of #230: A1 ends at 1000, A4 at 2400 and
+  // waits until 6172.586; a phase change at 4286.293).
+  const pair = turns.slice(0, 2);
+  const waiting = planRoom(pair, { capsule: CAPSULES['room-a'], availability: 'stocked' }).visits[1];
+  assert.equal(waiting.seat, 4);
+  assert.ok(waiting.waited > 0, 'A4 waits for the capsule');
+  const mid = (pair[1].at + waiting.start) / 2;
+  const phase = planRoom(pair, { capsule: CAPSULES['room-a'], availability: 'stocked', stops: [{ at: mid, seat: null }] });
+  assert.deepEqual(phase.visits.map(v => [v.seat, v.cancelAt]), [[1, mid]], 'a phase change cancels the visit under way and drops the one waiting');
+  assert.ok(phase.none.some(n => n.seat === 4 && /before it began/.test(n.why)));
+  assert.ok(phase.visits.every(v => v.start < mid), 'no visit begins at or after the stop');
+  const atStart = planRoom(pair, { capsule: CAPSULES['room-a'], availability: 'stocked', stops: [{ at: waiting.start, seat: null }] });
+  assert.deepEqual(atStart.visits.map(v => v.seat), [1], 'a stop at the moment a visit would begin drops it');
+  const own = planRoom(pair, { capsule: CAPSULES['room-a'], availability: 'stocked', stops: [{ at: mid, seat: 4 }] });
+  assert.deepEqual(own.visits.map(v => [v.seat, v.cancelAt]), [[1, null]], 'the waiting seat\'s own event drops only its visit');
+  assert.ok(own.none.some(n => n.seat === 4 && /before it began/.test(n.why)));
+  for (const plan of [stopped, phase, own, atStart]) for (const v of plan.visits) assert.ok(v.cancelAt == null || v.cancelAt > v.start, 'a stopped visit had begun');
   // No replay: a visit played on this phone is not played again; coming back, only one that began under a second ago.
   const played = new Set([visitKey(0, 1)]);
   assert.equal(planRoom(turns.slice(0, 1), { capsule: CAPSULES['room-a'], availability: 'stocked', played }).visits.length, 0);
   const v = visits[0];
   assert.equal(onResume([v], v.start + 500).length, 1);
   assert.equal(onResume([v], v.start + 1500).length, 0);
+  // Only a visit under way: one yet to start plays when it starts, and a stopped one is done.
+  assert.equal(onResume([v], v.start - 500).length, 0, 'a visit yet to start is not resumed');
+  assert.equal(onResume([{ ...v, cancelAt: v.start + 200 }], v.start + 500).length, 0, 'a visit already stopped is done');
+  assert.equal(onResume([{ ...v, cancelAt: v.start + 800 }], v.start + 500).length, 1, 'one to be stopped later plays from its start');
 });
 
 test('today\'s framing is the phone pack\'s own; every figure stays whole doing its activity; wider ones keep 44-pixel press areas and, a fifth wider, every capsule in view', () => {

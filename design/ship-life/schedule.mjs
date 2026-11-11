@@ -18,12 +18,16 @@
 //   the lights going out (the Blackout keeps the frame and the places frozen), and, on this phone
 //   only, a targeting the player opens (nothing is sent; other phones carry on, so a private choice
 //   changes nothing anyone else sees).
+// The same event before a visit begins (while the visitor still waits for the capsule, or at the
+// moment it would begin) drops it: it never begins, so nothing walks after the phase has changed or
+// the lights have gone out, and the capsule stays free for the next visitor.
 // Nothing plays: in the Hospital (no capsule; the patients rest), for an Eliminated character, when
 // the capsule's availability is unknown, or with Reduce motion.
 //
 // No replay: each visit has a key (the round and the seat). A phone that comes back (a reload, a
-// reconnection, the app brought back) plays a visit only if it started less than RESUME_MS ago by the
-// game's clock, from its start; an older one, or one this phone already played, is done.
+// reconnection, the app brought back) plays a visit already under way only if it started less than
+// RESUME_MS ago by the game's clock and has not been stopped, from its start; an older one, a stopped
+// one, or one this phone already played, is done. A visit yet to start plays when it starts.
 //
 // The game decides nothing here, and this decides nothing for the game: no food is spent or counted
 // by a visit, and no visit's end tells the game anything. Availability (stocked, empty, unknown) is a
@@ -46,6 +50,8 @@ export const visitKey = (round, seat) => `${round}:${seat}`;
  * round }] as the game ends them (after-turn order). capsule: CAPSULES[room] or null. availability:
  * 'stocked' | 'empty' | 'unknown' (the contract's; a fixture in the preview). stops: [{ at, seat }]
  * (seat null: everyone, as a phase change or lights out). eliminated: seats that play nothing.
+ * A stop from the turn's end until the visit would begin drops the visit (it never begins, and the
+ * capsule stays free); a stop after it has begun cancels it at that moment (cancelAt > start).
  * Returns [{ seat, place, round, key, start, kind, end, cancelAt, waited, timeline }] and the
  * turns that play nothing, with why.
  */
@@ -66,7 +72,9 @@ export function planRoom(turns, { capsule, availability = 'unknown', stops = [],
     if (waited > WAIT.full && kind === 'stocked') kind = 'brief';
     const start = turn.at + waited;
     const timeline = visitTimeline(turn.place, capsule, { kind, start });
-    const stop = stops.filter(s => (s.seat == null || s.seat === turn.seat) && s.at >= start && s.at < timeline.end).sort((a, b) => a.at - b.at)[0];
+    // The first stop for this seat (or everyone) from the turn's end until the visit would be over.
+    const stop = stops.filter(s => (s.seat == null || s.seat === turn.seat) && s.at >= turn.at && s.at < timeline.end).sort((a, b) => a.at - b.at)[0];
+    if (stop && stop.at <= start) { none.push({ seat: turn.seat, why: 'stopped before it began' }); continue; }
     visits.push({ seat: turn.seat, place: turn.place.id, round: turn.round ?? 0, key, start, kind, end: timeline.end, cancelAt: stop ? stop.at : null, waited, timeline });
     free = timeline.atCapsule[1];
   }
@@ -74,9 +82,10 @@ export function planRoom(turns, { capsule, availability = 'unknown', stops = [],
 }
 
 /**
- * Coming back to the app at now (the game's clock): which planned visits to play, and from when.
- * A visit that started less than RESUME_MS ago plays from its start; an older one is done.
+ * Coming back to the app at now (the game's clock): which visits already under way to play, from
+ * their start. Only one that has started, less than RESUME_MS ago, and has not been stopped; an
+ * older or stopped one is done, and one yet to start plays when it starts, as planned.
  */
 export function onResume(visits, now) {
-  return visits.filter(v => now - v.start < RESUME_MS && now < v.end);
+  return visits.filter(v => v.start <= now && now - v.start < RESUME_MS && now < v.end && (v.cancelAt == null || now < v.cancelAt));
 }
