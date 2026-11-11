@@ -1,7 +1,8 @@
 import {turnsLayout} from '../board-v2-drawing/turns-four.mjs';
 import {pressSide,slotRects} from '../board-v2-drawing/fit-four.mjs';
 import {BOARD_ROOMS,LOCATION_OF,sceneOf,slotsOf} from '../board-v2-drawing/slots-four.mjs';
-import {frameScene,slotGeometry} from '../scene-drawing/frame.mjs';
+import {frameScene} from '../scene-drawing/frame.mjs';
+import {FRAME} from '../scene-drawing/body.mjs';
 
 const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
 export const phoneRoom=location=>BOARD_ROOMS.find(room=>LOCATION_OF[room]===location)??null;
@@ -10,16 +11,16 @@ export const phoneRoom=location=>BOARD_ROOMS.find(room=>LOCATION_OF[room]===loca
  * This also makes a reconnect directly into darkness deterministic without retaining people. */
 export function phoneRoomFrame(room,count,panel){
  const scene=sceneOf(room,count),[x0,y0,x1,y1]=scene.inner??[0,0,1024,768];
- const k=Math.max(panel.width/(x1-x0),panel.height/(y1-y0));
- const places=slotsOf(room,count),xs=places.map(s=>s.pressAt[0]);
- const lo=Math.min(...xs),hi=Math.max(...xs),margin=48;
- let tx=panel.width/2-(scene.focus[0]+scene.focus[2])/2*k;
- if((hi-lo)*k>panel.width-2*margin)tx=panel.width/2-(lo+hi)/2*k;
- else tx=clamp(tx,margin-lo*k,panel.width-margin-hi*k);
- tx=clamp(tx,panel.width-x1*k,-x0*k);
- const gs=places.map(s=>slotGeometry(s)),top=Math.min(...gs.map(g=>g.headTop)),bottom=Math.max(...gs.map(g=>g.press[1]+22/k));
- const avail=panel.height-panel.cap-panel.pad;
- const ty=clamp((bottom-top)*k>avail?panel.height-panel.pad-bottom*k:panel.cap+(avail-(bottom-top)*k)/2-top*k,panel.height-y1*k,-y0*k);
+ const [bx,by,side]=FRAME.box,[ax,ay]=FRAME.anchor,margin=8;
+ // Fit the complete public rig canvas at every fixed place. Cover-only framing
+ // could keep a clamped hitbox on screen while cropping its actual person away.
+ // All places participate regardless of occupants, health or private permission.
+ const boxes=slotsOf(room,count).map(s=>({left:s.at[0]-(ax-bx)*s.scale,top:s.at[1]-(ay-by)*s.scale,side:side*s.scale}));
+ const lo=Math.min(...boxes.map(b=>b.left)),hi=Math.max(...boxes.map(b=>b.left+b.side)),top=Math.min(...boxes.map(b=>b.top)),bottom=Math.max(...boxes.map(b=>b.top+b.side));
+ const availableWidth=panel.width-2*margin,availableHeight=panel.height-panel.cap-panel.pad-2*margin;
+ const k=Math.min(Math.max(panel.width/(x1-x0),panel.height/(y1-y0)),availableWidth/(hi-lo),availableHeight/(bottom-top));
+ const tx=clamp(panel.width/2-(scene.focus[0]+scene.focus[2])/2*k,margin-lo*k,panel.width-margin-hi*k);
+ const ty=panel.cap+margin+(availableHeight-(bottom-top)*k)/2-top*k;
  return {k,tx,ty};
 }
 export function phoneSlotRects(room,count,panel,frame=phoneRoomFrame(room,count,panel)){
