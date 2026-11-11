@@ -125,6 +125,21 @@ These are routine decisions, made by Designer under the brief. The owner can ove
 - **With the Largest text on a small phone** (sheet 56, 320 × 568 at 200%) the 3 × 3 becomes a list of whole names with their counts, the result's stamp and art step aside (its headline says the same), and the headline, the names and the foot scroll as one column. Seat badges grow with the text. In each row the portrait is the size of the seat number beside it and on the name's line, and the count matches them (the owner, 10 November). At 390 × 844 and 100% nothing changes.
 - In the 3 × 3 results the count holds a cell's top-left corner and "You" its top-right one, so neither covers the other. Each count is shown once, by its badge: no "N votes" line under the name (the owner, 10 November); the cell's accessible name still says it.
 
+**Larger text on a narrow phone** (the owner, 11 November: "Yes, apply the Actions fix to all screens").
+- Words reflow instead of being cut off. At 100% text every screen is as before, pixel for pixel.
+- The layouts follow the phone's width in em, the player's text size included: under 19 em is the Large or Largest text on any phone up to 456 px. The [handoff](phone-ui-handoff.md#larger-text-on-a-narrow-phone) has every threshold.
+- **Action tiles** become rows: the icon on the left, the name and state beside it, REGISTERED under them, as ballots and results become rows.
+- **A list's value** goes under its title: "Your quota", then "Given 0/1 · Received 1/1".
+- **A segmented control** whose words no longer fit (Card · Knowledge · Resources; Standard · Large · Largest) stacks, one option per row.
+- **Buttons** that no longer fit side by side take a row each. A label wraps inside its button.
+- **Pills, chips and toasts** wrap onto two lines, 16 px clear of the phone's sides.
+- **Sheets on short phones** (320 × 568, and 390 × 664 in Safari, at the Largest text): the title scrolls with the content, and the buttons at the foot stay in place.
+- **The room code** takes the card's width, all six characters inside it, and Copy goes under it.
+- **The end of a match** scrolls as one column, the poster, title and roles, above Return to lobby. The title stops growing where its longest word fits.
+- **The board** is a map at a fixed scale: its tags and captions stop growing at the Large size, and your room's You badge keeps only its icon.
+- Also: the main menu's actions scroll when offline, the role stage's card and foot share the height, the room-art fallback is one column, and the private talk's two buttons stack.
+- Sheet 56 shows them at 320 × 568 with the Largest text.
+
 **Main menu.**
 - **Join** is the primary entry, because most of the table joins.
 - **Host** is secondary. **Recover my seat** is a quiet link.
@@ -282,9 +297,9 @@ Nothing in `apps/` or `packages/` imports the pack.
 ### Measured
 
 From `design/phone-ui/review/checks.json`, written by the render that produced the committed sheets (Google Chrome for Testing 153, headless, desktop):
-- 61 sheets and 239 phone frames.
+- 61 sheets and 245 phone frames.
 - Every one of the 19 taps drawn on the sheets lands on a control the prototype shows.
-- **32,078 letters** measured; 370 of them over a moving background. Every letter is at least 4.5:1 at every pixel of its ink (3:1 for large text), at every sampled moment. The closest to its threshold: 4.71:1 against 4.5:1, the “n” of “Be in Room A when voting starts”, a Promise kind's small print on glass (sheets 25 and 33).
+- **32,613 letters** measured; 381 of them over a moving background. Every letter is at least 4.5:1 at every pixel of its ink (3:1 for large text), at every sampled moment. The closest to its threshold: 4.71:1 against 4.5:1, the “n” of “Be in Room A when voting starts”, a Promise kind's small print on glass (sheets 25 and 33).
 - 27 characters had no ink of their own to measure (marks too thin or too small to be half-covered); they are counted, not hidden.
 - **No text is cut off** in any frame.
 - The letter-by-letter check found what the earlier one (the 80th-percentile or median background behind a whole run) passed: 43 text runs below their threshold in 34 frames, the worst at 1:1. This pack fixed them all:
@@ -295,6 +310,7 @@ From `design/phone-ui/review/checks.json`, written by the render that produced t
   - seat badges that stayed 22 px while their digits grew with the text.
 - Found by eye and fixed: in the 3 × 3 results "You" covered the player's own vote count; in the large-text rows a portrait was smaller than the seat number beside it and sat between two lines (the owner, 10 November).
 - Cut-off text found and fixed: the Captain's "Appoint an Officer" title (now "Appoint Officer"), top-bar titles at 150% on a 390 phone (the round now leaves the bar there), and the result's title and names at 320 × 568 with 200% text.
+- Then, at 320 × 568 with 200% text, every state of the pack (195: every part of the native comparison and every review frame) was loaded and each character checked: words were cut off in 49 of them, from the action tiles to the end of a match (11 November). They now reflow ("Larger text on a narrow phone" above), and none is cut at 150% or 200% on the 320, 390 and 430 phones. At 100% text all 197 states drawn at 390 × 844, 320 × 568 and 430 × 932 are the same as before, pixel for pixel. Both were one-off checks in desktop Chromium, not kept as tools.
 - No frame scrolls sideways. No control is under 44 px. No visible text is under 11 px. There are no page errors.
 
 These are measurements of one desktop browser at each CSS size, not of a phone.

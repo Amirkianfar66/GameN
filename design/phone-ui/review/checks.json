@@ -7524,8 +7524,8 @@
       "slug": "larger-text",
       "title": "Larger text",
       "file": "design/phone-ui/review/sheets/53-larger-text.jpg",
-      "sha256": "a28054b2732445baab9cc82af76a449e9451e3c0ccbbc411733c1641d0458a96",
-      "bytes": 392212,
+      "sha256": "514649b97da89ceae28cb2cdd6650a09d7a35be78b245ea7fc204af5d63593d6",
+      "bytes": 394153,
       "size": {
         "width": 2288,
         "height": 1227
@@ -7575,13 +7575,13 @@
           "contrast": {
             "letters": 135,
             "noInk": 0,
-            "moving": 2,
-            "min": 5.64,
+            "moving": 0,
+            "min": 5.93,
             "low": [],
             "closest": {
-              "text": "Round 3",
-              "letter": "o",
-              "ratio": 5.64,
+              "text": "2 injections",
+              "letter": "2",
+              "ratio": 5.93,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -8065,11 +8065,11 @@
       "slug": "small-phone-largest-text",
       "title": "320 × 568 at the Largest text",
       "file": "design/phone-ui/review/sheets/56-small-phone-largest-text.jpg",
-      "sha256": "7f8b29796fdb754e64749ee8f36f1c22d61e48961e127f7d9a56c9ab9e3d1014",
-      "bytes": 337514,
+      "sha256": "97d21f1d7e9de3e51ee97eea85d7b0bcd24a85169f88b2e920cb379b96f7820a",
+      "bytes": 616261,
       "size": {
-        "width": 2372,
-        "height": 978
+        "width": 4653,
+        "height": 1054
       },
       "frames": [
         {
@@ -8254,6 +8254,192 @@
               "covered": 21,
               "scrolled": 105,
               "inactive": 9
+            },
+            "moments": 16
+          }
+        },
+        {
+          "label": "Actions · tiles as rows",
+          "src": "s=actions&role=Doctor&active=4&safe=20%2C0&text=2",
+          "width": 320,
+          "height": 568,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0,
+          "clippedText": [],
+          "contrast": {
+            "letters": 114,
+            "noInk": 0,
+            "moving": 7,
+            "min": 6.09,
+            "low": [],
+            "closest": {
+              "text": "Round 3",
+              "letter": "R",
+              "ratio": 6.09,
+              "need": 3,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 25,
+              "inactive": 0
+            },
+            "moments": 16
+          }
+        },
+        {
+          "label": "Check and register",
+          "src": "s=actions&state=confirm&safe=20%2C0&text=2",
+          "width": 320,
+          "height": 568,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0,
+          "clippedText": [],
+          "contrast": {
+            "letters": 91,
+            "noInk": 0,
+            "moving": 2,
+            "min": 4.63,
+            "low": [],
+            "closest": {
+              "text": "Player 5 · Hospital",
+              "letter": "l",
+              "ratio": 4.63,
+              "need": 3,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 105,
+              "inactive": 0
+            },
+            "moments": 16
+          }
+        },
+        {
+          "label": "Card · Resources",
+          "src": "s=card&role=Doctor&state=holds&safe=20%2C0&text=2",
+          "width": 320,
+          "height": 568,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0,
+          "clippedText": [],
+          "contrast": {
+            "letters": 82,
+            "noInk": 0,
+            "moving": 4,
+            "min": 5.05,
+            "low": [],
+            "closest": {
+              "text": "Resources",
+              "letter": "c",
+              "ratio": 5.05,
+              "need": 3,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 84,
+              "inactive": 4
+            },
+            "moments": 16
+          }
+        },
+        {
+          "label": "Display, from the menu",
+          "src": "s=settings&from=menu&safe=20%2C0&text=2",
+          "width": 320,
+          "height": 568,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0,
+          "clippedText": [],
+          "contrast": {
+            "letters": 99,
+            "noInk": 0,
+            "moving": 0,
+            "min": 5.61,
+            "low": [],
+            "closest": {
+              "text": "These stay on this phone. They never cha",
+              "letter": "T",
+              "ratio": 5.61,
+              "need": 3,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 30,
+              "inactive": 0
+            },
+            "moments": 16
+          }
+        },
+        {
+          "label": "Promise result",
+          "src": "s=promises&state=results&case=condition&safe=20%2C0&text=2",
+          "width": 320,
+          "height": 568,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0,
+          "clippedText": [],
+          "contrast": {
+            "letters": 96,
+            "noInk": 0,
+            "moving": 0,
+            "min": 6.76,
+            "low": [],
+            "closest": {
+              "text": "Received",
+              "letter": "e",
+              "ratio": 6.76,
+              "need": 3,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 21,
+              "scrolled": 151,
+              "inactive": 4
+            },
+            "moments": 16
+          }
+        },
+        {
+          "label": "End of the match",
+          "src": "s=end&winner=Blue&safe=20%2C0&text=2",
+          "width": 320,
+          "height": 568,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0,
+          "clippedText": [],
+          "contrast": {
+            "letters": 53,
+            "noInk": 0,
+            "moving": 0,
+            "min": 10.45,
+            "low": [],
+            "closest": {
+              "text": "Round 6",
+              "letter": "R",
+              "ratio": 10.45,
+              "need": 3,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 152,
+              "inactive": 0
             },
             "moments": 16
           }

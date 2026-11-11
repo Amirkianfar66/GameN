@@ -9,9 +9,9 @@ import { game, turnBar, seatsFor } from './screens.mjs';
 import { roleCard } from './screens-pregame.mjs';
 
 // ── Shared pieces ───────────────────────────────────────────────────────
-/** A floating chip above the tabs: a room's own interaction, or the way to targets in other rooms. */
+/** A floating chip above the tabs: a room's own interaction, or the way to targets in other rooms (kit.css `.offroom`). */
 export const floating = (label, { icon = 'chevronRight', go = null, tone = 'paper' } = {}) =>
-  h('div.offroom', h('button.btn.btn-sm', { type: 'button', 'data-go': go, style: { background: tone === 'paper' ? 'var(--paper)' : 'var(--surface-3)', color: tone === 'paper' ? 'var(--ink)' : 'var(--text-primary)', borderRadius: '999px', minHeight: '44px', padding: '0 16px', boxShadow: 'var(--shadow-soft)', '--ic-knock': 'var(--paper)' } }, ic(icon, { filled: true }), h('span', label)));
+  h('div.offroom', h('button.btn.btn-sm', { type: 'button', 'data-go': go, 'data-tone': tone === 'paper' ? null : 'surface' }, ic(icon, { filled: true }), h('span', label)));
 
 /** The target bar that replaces the sheet while a player picks on the scene. */
 export const targetBar = (icon, title, sub, { cancel = 's=actions&role=Doctor&active=4' } = {}) =>
@@ -311,7 +311,8 @@ export const GAME_SCREENS = {
     const role = p.role ?? 'Doctor';
     const state = p.state ?? 'card';
     const fx = ROLE_FIXTURES[role];
-    const seg = h('div.seg', { role: 'tablist', style: { margin: '10px 0 2px', flex: 'none' } },
+    // data-stack: with the largest text the three words no longer fit side by side, so they stack (kit.css).
+    const seg = h('div.seg', { role: 'tablist', 'data-stack': '', style: { margin: '10px 0 2px', flex: 'none' } },
       [['card', 'Card'], ['knows', 'Knowledge'], ['holds', 'Resources']].map(([k, l]) => h('button', { type: 'button', role: 'tab', 'aria-selected': String(state === k), 'aria-pressed': String(state === k), 'data-go': `s=card&role=${encodeURIComponent(role)}&state=${k}` }, l)));
     let body;
     if (state === 'hidden') body = [h('div.cardback', { style: { maxWidth: '240px' } }, ic('hide'), h('p', 'Hidden'), button('Show', { kind: 'secondary', small: true, icon: 'show', go: `s=card&role=${encodeURIComponent(role)}` }))];

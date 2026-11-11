@@ -156,7 +156,7 @@ export const MORE_SCREENS = {
     const display = [
       list(row({ tag: 'div', icon: 'motion', tint: 'steel', title: 'Reduce motion', sub: 'Films become stills; no shake or travel', trail: h('button.switch', { type: 'button', role: 'switch', 'aria-checked': p.reduced === '1' ? 'true' : 'false', 'aria-label': 'Reduce motion', 'data-go': `s=settings&reduced=${p.reduced === '1' ? '0' : '1'}${keep}` }) })),
       groupLabel('Text size'),
-      h('div.seg', { role: 'radiogroup', 'aria-label': 'Text size' }, [['1', 'Standard'], ['1.5', 'Large'], ['2', 'Largest']].map(([v, l]) => h('button', { type: 'button', role: 'radio', 'aria-checked': String(text === v), 'data-go': `s=settings&size=${v}${keep}` }, l))),
+      h('div.seg', { role: 'radiogroup', 'aria-label': 'Text size', 'data-stack': '' }, [['1', 'Standard'], ['1.5', 'Large'], ['2', 'Largest']].map(([v, l]) => h('button', { type: 'button', role: 'radio', 'aria-checked': String(text === v), 'data-go': `s=settings&size=${v}${keep}` }, l))),
       groupNote('These stay on this phone. They never change the match.'),
     ];
     if (p.from === 'menu') { root.append(h('div.screen', h('div.nav-bar', h('button.btn.btn-plain', { type: 'button', 'data-go': 's=menu' }, ic('chevronLeft'), h('span', 'Menu')), h('h1', 'Display'), h('span.spacer')), ...display)); return; }
@@ -279,7 +279,7 @@ export const MORE_SCREENS = {
       root.querySelector('.scene').append(host);
       paintCapsule(host, { width: dims.width, height: dims.height - dims.top, pair: [1, SELF], seats: seatsFor(), busy: true, self: SELF, ambient: true });
       root.append(h('div.menu-actions', { style: { gap: '10px' } },
-        h('div', { style: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' } }, button('Promises', { kind: 'secondary', icon: 'promise', go: 's=promises&state=list' }), button('My card', { kind: 'secondary', icon: 'card', go: 's=card&role=Doctor' }))));
+        h('div.btn-pair', button('Promises', { kind: 'secondary', icon: 'promise', go: 's=promises&state=list' }), button('My card', { kind: 'secondary', icon: 'card', go: 's=card&role=Doctor' }))));
       return;
     }
     const declare = stage === 'declare';
@@ -388,16 +388,19 @@ export const MORE_SCREENS = {
   end(root, p) {
     const winner = p.winner ?? 'Blue';
     const poster = winner === 'Red' ? 'arrival-red' : winner === 'Blue' || winner === 'alien' ? 'arrival-blue' : null;
-    root.append(h('div.end-hero', { style: poster ? { backgroundImage: `url("${LIBRARY}${poster}.poster.webp")` } : { background: 'radial-gradient(circle at 50% 40%, #1B2333, #0A0D14)' } }));
+    // The poster, the title and the roles, then Return to lobby: at larger text the first three are one column
+    // that scrolls above the button (screens.css .end-page).
+    const scroll = h('div.end-scroll');
+    scroll.append(h('div.end-hero', { style: poster ? { backgroundImage: `url("${LIBRARY}${poster}.poster.webp")` } : { background: 'radial-gradient(circle at 50% 40%, #1B2333, #0A0D14)' } }));
     const title = { Blue: 'Blue reached Blue Planet', Red: 'Red reached Red Planet', alien: 'Blue reached Blue Planet', none: 'No survivors', aborted: 'Match aborted' }[winner];
     const tag = { Blue: 'BLUE WINS', Red: 'RED WINS', alien: 'BLUE WINS · ALIEN TOO', none: 'NO WINNER', aborted: 'NO WINNER' }[winner];
-    root.append(h('div.end-title', stamp(tag, winner === 'none' || winner === 'aborted' ? null : 'gold'), h('h1', title), h('p', winner === 'alien' ? 'The Alien survived and used Blackhole' : winner === 'aborted' ? 'The host ended the match' : 'Round 6')));
+    scroll.append(h('div.end-title', stamp(tag, winner === 'none' || winner === 'aborted' ? null : 'gold'), h('h1', title), h('p', winner === 'alien' ? 'The Alien survived and used Blackhole' : winner === 'aborted' ? 'The host ended the match' : 'Round 6')));
     if (winner !== 'aborted') {
       const roles = [[1, 'Doctor', 'Blue'], [2, 'Insider', 'Blue'], [3, 'Blue Disabler', 'Blue'], [4, 'Supplier', 'Blue'], [5, 'Engineer', 'Blue'], [6, 'Undercover', 'Red'], [7, 'Hacker', 'Red'], [8, 'Red Disabler', 'Red'], [9, 'Alien', 'Alien']];
-      root.append(h('div.end-list', h('p.group-label', { style: { marginTop: 0 } }, 'Roles'), roles.map(([s, r, t]) => h('div.reveal-row', pt(seatOf(s).character, 34), h('b', `${s} · ${seatOf(s).name}${s === SELF ? ' (you)' : ''}`), h('span.team-chip', { 'data-team': t }, h('i'), r))),
+      scroll.append(h('div.end-list', h('p.group-label', { style: { marginTop: 0 } }, 'Roles'), roles.map(([s, r, t]) => h('div.reveal-row', pt(seatOf(s).character, 34), h('b', `${s} · ${seatOf(s).name}${s === SELF ? ' (you)' : ''}`), h('span.team-chip', { 'data-team': t }, h('i'), r))),
         h('p.group-note', 'Original Code: Players 2, 5, 6, 9')));
     }
-    root.append(h('div.menu-actions', button('Return to lobby', { block: true, kind: 'secondary', icon: 'leave', go: 's=menu' })));
+    root.append(h('div.end-page', scroll, h('div.menu-actions', button('Return to lobby', { block: true, kind: 'secondary', icon: 'leave', go: 's=menu' }))));
   },
 
   // ── Q. System states ──────────────────────────────────────────────────
@@ -411,9 +414,10 @@ export const MORE_SCREENS = {
       return;
     }
     if (state === 'asset') {
+      // The banner, then the room's people as cards (screens.css .asset-fallback: one column at larger text).
       game(root, { top: turnBar(), scene: roomScene('room-a', { veil: '#202837' }), tabs: { hero: 'pass-off' },
-        overlay: [h('div', { style: { position: 'absolute', left: '16px', right: '16px', top: 'calc(var(--top) + 60px)', zIndex: 40, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' } }, seatsFor().filter(s => s.location === 'Room A').map(s => h('div.cell', { 'data-state': 'available' }, pt(s.character, 60), h('span.cell-name', h('b.num', String(s.seat)), h('span', s.seat === SELF ? 'You' : s.name)), h('span.cell-note', s.slot)))),
-          banner({ icon: 'warning', title: 'Room picture unavailable', sub: 'Positions and controls still work' })] });
+        overlay: [h('div.asset-fallback', banner({ icon: 'warning', title: 'Room picture unavailable', sub: 'Positions and controls still work' }),
+          h('div.asset-grid', seatsFor().filter(s => s.location === 'Room A').map(s => h('div.cell', { 'data-state': 'available' }, pt(s.character, 60), h('span.cell-name', h('b.num', String(s.seat)), h('span', s.seat === SELF ? 'You' : s.name)), h('span.cell-note', s.slot)))))] });
       return;
     }
     if (state === 'stale') {

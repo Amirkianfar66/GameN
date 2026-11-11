@@ -6,6 +6,16 @@ What the game owner decided about look, feel and presentation while working with
 
 The owner's messages are quoted as written.
 
+## 11 November 2026: larger text on the smallest phone
+
+**At 320 × 568 with the Largest text, many screens of the phone pack cut words off.** Designer showed the owner the Actions tiles turned into rows at large text, as ballots and results already were, before and after, at 320 × 568 and 390 × 844.
+
+| What the owner said | What it decides | Where |
+| --- | --- | --- |
+| "Yes, apply the Actions fix to all screens" | With the Large or Largest text on a narrow phone, words reflow instead of being cut: action tiles become rows, a list's value goes under its title, segmented controls stack, buttons, pills, chips and toasts wrap, and the end of a match scrolls as one column. At 100% text every screen stays exactly as it was. This is a change to the pack, the specification Frontend builds from | Sheet 56; [phone-ui.md](phone-ui.md); the [handoff](phone-ui-handoff.md#larger-text-on-a-narrow-phone) |
+
+**What it does not decide:** how it looks on a real phone, or with a screen reader; it was drawn and checked in desktop Chromium only.
+
 ## 11 November 2026: the build follows the pack
 
 **The owner asked whether the game uses Designer's design in every part, from the menu to the end of a match.** Designer set each part of Frontend's native interface beside the pack's screen for the same state. Of 49 parts, 4 are the same, 8 are close and 37 differ ([the native review](phone-ui-native-review.md#part-by-part-from-the-menu-to-the-end)). The owner asked why, and approved Designer's proposal to fix it.

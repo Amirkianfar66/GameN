@@ -228,8 +228,11 @@ export function paintRoom(host, opts) {
         const b = document.createElement('span');
         b.className = 'pill'; b.dataset.tone = 'paper';
         b.innerHTML = `${iconSvg('block')}<span>Blocked</span>`;
-        Object.assign(b.style, { position: 'absolute', zIndex: 3200, left: `${Math.max(4, Math.min(width - 96, cx - 44))}px`, top: `${Math.max(4, tagTop - 32)}px`, height: '24px', fontSize: '0.75rem' });
+        Object.assign(b.style, { position: 'absolute', zIndex: 3200, top: `${Math.max(4, tagTop - 32)}px`, height: '24px', fontSize: '0.75rem' });
         host.append(b);
+        // Kept whole on screen. At 100% text the pill is under 96 px; a wider one (larger text) is placed by its own width.
+        const w = b.isConnected ? b.offsetWidth : 0;
+        b.style.left = `${w > 96 ? Math.max(4, Math.min(width - w - 4, cx - w / 2)) : Math.max(4, Math.min(width - 96, cx - 44))}px`;
       }
     }
     if (seat.seat === active && !compact) {

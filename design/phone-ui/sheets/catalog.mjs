@@ -174,9 +174,15 @@ export const SHEETS = Object.freeze([
   { id: '55', slug: 'ambient-motion', section: 'V', title: 'Ambient motion in the rooms', sub: 'One voyage for the whole ship: every room at the same moment, 2:10 into the 4-minute voyage, as the teal world and the asteroid belt pass. Screens, keys and small lights move; the same on every phone, never a game fact. Lights out: only the windows, dimmed.', audience: 'Everyone', frames: [
     f('Room A · 2:10', 's=room&room=room-a&state=own&amb=130'), f('Room B · 2:10', 's=room&room=room-b&amb=130'), f('Command Room · 2:10', 's=room&room=command-room&state=own&amb=130'), f('Hospital · 2:10', 's=room&room=hospital&amb=130'),
     f('Jail · 2:10', 's=room&room=jail&amb=130'), f('Private talk · 2:10', 's=talk&stage=talk&amb=130'), f('Blackout · 2:10', 's=blackout&state=dark&amb=130')] },
-  { id: '56', slug: 'small-phone-largest-text', section: 'V', title: '320 × 568 at the Largest text', sub: 'The smallest phone with the game’s Largest (200%) text. Ballots and results become a list of whole names; the result’s headline, names and foot scroll as one column, its stamp and art set aside.', audience: '—', frames: [
+  { id: '56', slug: 'small-phone-largest-text', section: 'V', title: '320 × 568 at the Largest text', sub: 'The smallest phone with the game’s Largest (200%) text. Words reflow instead of being cut: ballots, results and action tiles become rows, a list’s value goes under its title, a segmented control stacks, buttons wrap, and the end of a match scrolls as one column.', audience: '—', frames: [
     f('Jail result', 's=result&outcome=PLAYER_JAILED', { size: '320x568', text: '2' }), f('Captain result', 's=result&outcome=CAPTAIN_ELECTED', { size: '320x568', text: '2' }), f('Runoff result', 's=result&outcome=RUNOFF_REQUIRED', { size: '320x568', text: '2' }),
-    f('Jail ballot · selected', 's=vote&kind=jail&state=selected', { size: '320x568', text: '2' }), f('Captain ballot', 's=vote&kind=captain', { size: '320x568', text: '2' }), f('Runoff ballot', 's=vote&kind=captain&state=runoff', { size: '320x568', text: '2' })] },
+    f('Jail ballot · selected', 's=vote&kind=jail&state=selected', { size: '320x568', text: '2' }), f('Captain ballot', 's=vote&kind=captain', { size: '320x568', text: '2' }), f('Runoff ballot', 's=vote&kind=captain&state=runoff', { size: '320x568', text: '2' }),
+    f('Actions · tiles as rows', 's=actions&role=Doctor&active=4', { size: '320x568', text: '2', notes: ['Each tile is a row: icon, name and state.'] }),
+    f('Check and register', 's=actions&state=confirm', { size: '320x568', text: '2', notes: ['The buttons stack; the title scrolls with the rest.'] }),
+    f('Card · Resources', 's=card&role=Doctor&state=holds', { size: '320x568', text: '2', notes: ['Card, Knowledge and Resources stack.', 'Each value goes under its title.'] }),
+    f('Display, from the menu', 's=settings&from=menu', { size: '320x568', text: '2', notes: ['Standard, Large and Largest stack.'] }),
+    f('Promise result', 's=promises&state=results&case=condition', { size: '320x568', text: '2', notes: ['The quota and the result go under their titles.'] }),
+    f('End of the match', 's=end&winner=Blue', { size: '320x568', text: '2', notes: ['Poster, title and roles scroll as one column.'] })] },
 
   // ── Art status and the change from today ──────────────────────────────
   { id: '60', slug: 'art-status', section: 'X', title: 'Approved art not yet in the playable build', kind: 'art', sub: 'So newer owner-approved art is not overlooked when this interface is built.' },
