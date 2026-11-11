@@ -109,3 +109,4 @@ Not compared, because the harness has no such state: the Blackhole presentation,
 
 - Sheets 02 and 03 and the pack's Round order panel still call the Blackout before the vote a proposal. Engine 1.3 makes it the order for new matches (#217), so they will show it as the current order, keeping the earlier order for older matches.
 - Designer reviews Frontend's next captures against this list, then gives the visual acceptance.
+- Frontend's fix list, in priority order with three trade-offs to settle, is [#222](https://github.com/Amirkianfar66/GameN/issues/222).
