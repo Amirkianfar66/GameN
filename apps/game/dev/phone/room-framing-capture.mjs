@@ -21,7 +21,7 @@ const server=createServer(async(req,res)=>{try{
 }catch{res.statusCode=404;res.end();}});
 await new Promise(done=>server.listen(0,'127.0.0.1',done));
 const origin=`http://127.0.0.1:${server.address().port}`,chrome=await launchBrowser(),browser=await connect(chrome.endpoint);
-const facts={scope:'T1 native room and cold-Blackout regression with explicit synthetic authority; desktop Chromium only. No production admission, physical-device or multiplayer claim.',candidate:provenance.candidate.head,browser:await browser.send('Browser.getVersion'),rooms:[],blackout:[]};
+const facts={scope:'T1 native room and cold-Blackout regression with explicit synthetic authority; desktop Chromium only. No production admission, physical-device or multiplayer claim.',candidate:provenance.candidate.head,browser:await browser.send('Browser.getVersion'),rooms:[],blackout:[],figureFailures:[]};
 async function picture(page,name){const {data}=await page.send('Page.captureScreenshot',{format:'jpeg',quality:85,captureBeyondViewport:false});await writeFile(resolve(out,name+'.jpg'),Buffer.from(data,'base64'));return name+'.jpg';}
 async function visit(page,scenario,count,text){
  await page.goto(`${origin}/?scenario=${scenario}&count=${count}&tuple=blackout`,'window.planetHarness');
@@ -54,9 +54,15 @@ try{
      p.offices={captainSeatId:location==='Command Room'?chosen[0]:null,officerSeatId:null,blockedSeatId:null};v.playerView=p;v.publicView=h.publicPlanet(p);return h.replace(v);
     })()`);
     await page.waitFor(`document.querySelector('.bv2-room[data-room="${room}"]:not([hidden]) .bv2-actor[data-seat="seat-2"] svg')`,'room body drawn');
-    await sleep(100);const art=await checkCrewArt(page),figures=await checkRoomFigures(page,{seats:chosen});
-    const capture=count===9?await picture(page,prefix+'-'+room+'-'+size):null;
-    facts.rooms.push({width,height,text,count,room,size,artFigures:art.figures.length,figures,capture});
+    await sleep(100);const art=await checkCrewArt(page);let figures=[],wholeFigures=true;
+    try{figures=await checkRoomFigures(page,{seats:chosen});}catch(error){
+     wholeFigures=false;facts.figureFailures.push({width,height,text,count,room,size,error:error.message});
+     // Complete the other states for Designer, while keeping the whole-figure assertion
+     // a failing result for this run. This diagnostic does not grant visual acceptance.
+     figures=await checkRoomFigures(page,{seats:chosen,minVisibleRatio:0});
+    }
+    const capture=count===9||!wholeFigures?await picture(page,prefix+'-'+room+'-'+size):null;
+    facts.rooms.push({width,height,text,count,room,size,artFigures:art.figures.length,figures,wholeFigures,capture});
    }
    await visit(page,'blackout',count,text);await page.waitFor("document.querySelector('.bv2-room:not([hidden]) [data-planet-night=marker]')",'cold dark neutral geometry');
    const cold=await assertDark(page),coldCapture=count===9?await picture(page,prefix+'-blackout-cold'):null;
@@ -78,4 +84,5 @@ try{
  await verify();facts.sourcesUnchangedThroughRun=true;facts.runtimeErrors=browser.events.filter(e=>e.method==='Runtime.exceptionThrown').map(e=>e.params.exceptionDetails.exception?.description??e.params.exceptionDetails.text);
  await writeFile(resolve(out,'facts.json'),JSON.stringify(facts,null,2)+'\n');browser.close();await chrome.close();await new Promise(done=>server.close(done));
 }
-assert.deepEqual(facts.runtimeErrors,[]);console.log(JSON.stringify({rooms:facts.rooms.length,blackout:facts.blackout.length,out}));
+console.log(JSON.stringify({rooms:facts.rooms.length,blackout:facts.blackout.length,figureFailures:facts.figureFailures.length,out}));
+assert.deepEqual(facts.runtimeErrors,[]);assert.deepEqual(facts.figureFailures,[],'Every shown figure must be whole; failures require Designer agreement in #222 before changing the camera');
