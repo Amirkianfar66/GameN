@@ -9,7 +9,7 @@ This maps each sheet to its components, states, assets, audience and the data it
 It is a design to build from, not an adoption:
 - The pack's code (`design/phone-ui/prototype`) is a dev-only reference; port the look, not the modules.
 - The server's offers still decide every control.
-- What needs Backend or Integration first is in [DSN-REQ-19 to 22](integration-requests.md#dsn-req-19).
+- What needs Backend or Integration first is in [DSN-REQ-19 to 22](integration-requests.md#dsn-req-19). The rooms' ambient motion, not yet in the native interface, is requested from Frontend as [DSN-REQ-23](integration-requests.md#dsn-req-23).
 
 ## The shell
 
@@ -121,6 +121,8 @@ None of these sets a deadline, and a missed animation never blocks a control.
 **Blackout (Integration, review of `d52a8ae9`):** Frontend freezes the camera's framing and every target's geometry for the whole Blackout: the lit 5 s, the dark 10 s and the transition when the runtime hides the board. Nothing re-centres, zooms or moves a press area while a Disabler may be choosing a position, so a position chosen in the dark is the one drawn.
 
 ### Ambient motion in the rooms
+
+**Status (11 November 2026):** not yet in the native interface adopted in #217, whose rooms are still. Requested from Frontend as [DSN-REQ-23](integration-requests.md#dsn-req-23).
 
 Source: `design/phone-ui/prototype/ambient.mjs` (what is drawn, per room) and `ambient.css` (the keyframes). One SVG per room, in the scene's own coordinates, placed with the art's frame just above the back picture (z −1998; the capsule's z 1) and under every person. It takes no taps and reads nothing but the room's name and whether the lights are out.
 

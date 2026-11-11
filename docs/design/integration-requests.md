@@ -28,6 +28,7 @@ Codex owns the root manifests, the lockfile, CI, the source lock, the workspace 
 | [DSN-REQ-20](#dsn-req-20) | The owner's Blackout before the Jail vote: an Integration proposal that changes the rules and the contract | The round order of sheet 02 and the matrix on sheet 03. The screens themselves work in either order | None |
 | [DSN-REQ-21](#dsn-req-21) | Small data items for the phone pack: distinct join and recovery refusals, a decline for admission, the Hospital panel's number pad (the Code's phase window is settled by P18) | Better wording on sheets 12–15 and a working keypad on sheet 43 | None |
 | [DSN-REQ-22](#dsn-req-22) | List the sides a hack target may declare in its own `DECLARE_HACK_SIDE` offer (HACK-DECLARE-02) | The declaration on sheet 25 without a role table on the phone. Frontend can derive the sides from the player's role meanwhile | None |
+| [DSN-REQ-23](#dsn-req-23) | Build the rooms' ambient motion into the native phone interface: the windows' one voyage on the server clock, and the screens, keys and small lights, as the phone pack draws it (sheet 55, `ambient.mjs`, the handoff) | The moving rooms the owner asked for and approved. Until then the rooms stay still, which is correct | None |
 
 Nothing here installs anything. Every script Designer added uses Node built-ins only.
 
@@ -387,6 +388,35 @@ The screens are the same in either order; only the round order changes.
 - So Frontend must derive them from `self.role`, by the same rule as the engine's `planetFaction` (`packages/engine/src/planet-game/model.ts`).
 
 **Requested from Backend and Integration (not blocking):** list the permitted sides in the target's own `DECLARE_HACK_SIDE` offer (for example `sides: ['Blue']`, or all three for the Undercover and the Alien), in the private view only. The phone then needs no role table, and the rule stays in one place. The initiator, the host and the shared display must never receive it (HACK-DECLARE-04).
+
+## DSN-REQ-23
+
+**Build the rooms' ambient motion into the native phone interface (11 November 2026).** For Frontend, with Integration for the source admission and the release, as for #217.
+
+The owner asked for rooms that are not static:
+
+> Windows of spaceship in any room not static feeling like the spaceship moving in space. Some color buttons and lights on/ off
+
+The owner then approved Room A's pilot and Room B's window, the rollout ("Yes i am happy you can go for all rooms") and one voyage for the whole ship ("yes align them", then "Perfect" on the side-by-side preview); see [owner-decisions.md](owner-decisions.md). The phone pack draws it (PR #207, merged at `76eb5d1f`): sheet 55, the prototype's `design/phone-ui/prototype/ambient.mjs` and `ambient.css`, and every layer, pace and rule in the [handoff](phone-ui-handoff.md#ambient-motion-in-the-rooms).
+
+**Today:** the native interface adopted in #217 has the glass, the rosters and the pre-vote Blackout, but no ambient motion: the rooms' windows, screens and lights are still. Integration recorded that the pack's prototype is the interface reference and is not shipped by that change (`docs/integration/phone-blackout-release-2026-11-11.md`). Nothing in `apps/game` or `packages/presentation` draws it yet.
+
+**Requested:**
+1. **Frontend builds the ambient layer natively**, from the handoff:
+   - per room, one drawing in the scene's coordinates, just above the back picture and under every person, that takes no taps;
+   - the windows' one voyage: a 240-second loop whose nine passers reach the Command Room first, then Room A, Room B and the Hospital, 6 s apart; the three star depths, the dust and the galaxy, and the two shooting stars;
+   - the screens, keys and small lights, and the quieter motion of the Jail and the private-talk capsule.
+
+   The prototype's `ambient.mjs` is the drawing reference: port it or redraw it, but keep its positions and paces.
+2. **One clock, from the server.** The voyage's time is `serverNowMs` from the client's server clock (`apps/game/src/clock/server-clock.ts`, the estimate the phase timers already use) minus `SKY_EPOCH` (1 November 2026, UTC), within the 240-second loop. Every phone and every room then shows the same moment, and a room shown again carries on. Until the clock is synced, draw the still frame at 0 s. No contract or server change is needed.
+3. **The rules stay as drawn:**
+   - It is decoration only: no game state, role, team, route or timer drives it. It has no team colour, no blue, red or lavender world and no black hole.
+   - Nothing moves on what the game uses to signal: the chart table, the berths' monitors and lamps, the Jail's keypad keys and lamp, the capsule's door light.
+   - With the lights out, only the windows move, dimmed by the night rule (#0C1018 at 58%). Every screen and light is off.
+   - Reduce motion, the system's or the game's, holds everything where it stands.
+   - It never moves the camera's framing or a press area, so the Blackout framing freeze holds.
+4. **Measure its cost** on a physical low-end Android phone and an iPhone: frame rate, battery and memory. If it costs too much, slow or drop the far layers first. The still frame is always correct.
+5. **Designer reviews captures** of each room, lit and with the lights out, and with Reduce motion, before it is activated.
 
 ## What Designer does next, and what it waits for
 

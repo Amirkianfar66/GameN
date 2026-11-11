@@ -12,7 +12,7 @@
 | Sheets | [`design/phone-ui/review/sheets/`](../../design/phone-ui/review/sheets/): 61 numbered sheets. [`contact-sheet.jpg`](../../design/phone-ui/review/contact-sheet.jpg) shows all of them. |
 | Clickable prototype | [`design/phone-ui/prototype/index.html`](../../design/phone-ui/prototype/index.html). On a desktop it shows a phone and its flows; on a phone it fills the screen. `design/tools/phone-ui-clickable.mjs` exports it as rendered screens with each screen's own tap areas (297 states), which is how the owner's private review copy is made. |
 | Frontend handoff | [phone-ui-handoff.md](phone-ui-handoff.md): each sheet mapped to components, states, assets, audiences and the data it needs. |
-| Backend and Integration | [DSN-REQ-19 to DSN-REQ-22](integration-requests.md#dsn-req-19): the dependencies, kept separate from the visual decisions. |
+| Backend and Integration | [DSN-REQ-19 to DSN-REQ-22](integration-requests.md#dsn-req-19): the dependencies, kept separate from the visual decisions. [DSN-REQ-23](integration-requests.md#dsn-req-23) asks Frontend to build the rooms' ambient motion, which the native interface (#217) does not have yet. |
 | Measurements | [`design/phone-ui/review/checks.json`](../../design/phone-ui/review/checks.json): every frame measured as it was drawn. |
 
 Every name, seat, role, ballot and result in the sheets is a **labelled synthetic fixture** (`design/phone-ui/prototype/fixtures.mjs`). The label sits beside each frame, never inside the proposed interface.
