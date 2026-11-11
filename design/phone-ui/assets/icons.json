@@ -1,0 +1,574 @@
+{
+  "schema": "mothership.phone-ui-icons/1",
+  "version": "phone-ui-icons-1.0.0",
+  "generatedBy": "design/tools/phone-ui-assets.mjs",
+  "source": "design/phone-ui/prototype/icons.mjs",
+  "status": "Designer proposal for the phone interface pack (9 November 2026). Not registered in any art release.",
+  "provenance": "Original vector drawings made for Game N by the Visual and Motion Designer (Claude Code). No third-party icon set is used.",
+  "conventions": {
+    "grid": "24 × 24, 2 px clear margin, 1.8 px round-capped strokes",
+    "colour": "currentColor; a filled icon cuts its inner lines in var(--ic-knock), the colour of the ground behind it",
+    "forms": "ic-<name> at rest, ic-<name>-filled when selected",
+    "meaning": "An icon never carries meaning alone: its control has words or an accessible name (label below)"
+  },
+  "sprite": {
+    "path": "design/phone-ui/assets/icons.svg",
+    "sha256": "b36e6004c8961f8c594959bbaabedcc353a03f79fad8f22a27a88f9b3cd944c8",
+    "bytes": 62523
+  },
+  "icons": [
+    {
+      "name": "board",
+      "label": "Board",
+      "group": "navigation",
+      "outline": "31dd3caea8823575e2284b2e78ca3f3fafe45de811a5ff87829dd0c5f6359524",
+      "filled": "91f1126db253399ba365546730ec66b3e1241dc12daceb89815674569c5f26f1"
+    },
+    {
+      "name": "room",
+      "label": "Room",
+      "group": "navigation",
+      "outline": "5b48aa3a783c6fbc4cd4466ef0dfac911d2e5cacd03ec9fe83ed9de3bf9ebb4d",
+      "filled": "64b1489d4723c317de7d0cae5057bc696328291169db084b91cbf0f2071cbec7"
+    },
+    {
+      "name": "actions",
+      "label": "Actions",
+      "group": "navigation",
+      "outline": "7dceb057509abf591c2e2ad88af6860a5a250354f1cea59ffc0ec2a076751c51",
+      "filled": "8004fe002585f2de29c30c649b58c6bffaea429e32add8478ccaf177c059c416"
+    },
+    {
+      "name": "pass",
+      "label": "Pass",
+      "group": "navigation",
+      "outline": "ae2172225ca96af8bad77cbcb732ff12842af8cd4ae91d1d1088253d9e8e99ab",
+      "filled": "f693ea1fa3bb22f006e39aabd8a0499da0ac0e8a57d887b6cfa7c96d25d2f877"
+    },
+    {
+      "name": "vote",
+      "label": "Vote",
+      "group": "navigation",
+      "outline": "0e38dc9132f70459f6024fd664de0eefc889c60c3e7ed7e920c0dd2d5de53709",
+      "filled": "778c6720a783aa655ecc26e9179e9c0a12107d703533fb36dcc1a08b481eacfc"
+    },
+    {
+      "name": "card",
+      "label": "Card",
+      "group": "navigation",
+      "outline": "10c89a310a5b9a9ab96bc9946f7f888c7b6f5de00696491128beddef212b56aa",
+      "filled": "4008851cf2ca98a018e0797c5b95e50822f9ab595eb49fc117c1f6c5cc2b969f"
+    },
+    {
+      "name": "panels",
+      "label": "Panels",
+      "group": "navigation",
+      "outline": "3f02a206f4a8d3fd0c053c4c8db16993d0af817d41e8f41f9550236c507c3d1e",
+      "filled": "c3c3f6ad911f934fc31c143a3fe97af1db0b8e0c29b649527d1419658d4cdb45"
+    },
+    {
+      "name": "menu",
+      "label": "Settings menu",
+      "group": "navigation",
+      "outline": "a8345f3b967a4e8dc1032dd41c5c4117e26b4098773f320b342a8a9f6e355c9e",
+      "filled": "a8345f3b967a4e8dc1032dd41c5c4117e26b4098773f320b342a8a9f6e355c9e"
+    },
+    {
+      "name": "shoot",
+      "label": "Shoot",
+      "group": "action",
+      "outline": "8f6d300dbc1b790c83dd53fba4395b8aade5e704b3f2da4e181538833055c6f3",
+      "filled": "8f6d300dbc1b790c83dd53fba4395b8aade5e704b3f2da4e181538833055c6f3"
+    },
+    {
+      "name": "protect",
+      "label": "Grant Protection",
+      "group": "action",
+      "outline": "acb92cbd33ee516fdcb746df679b8cf9b96c3a0bbebe79b19635574c17a58850",
+      "filled": "570544e5f73bcac06e97e29dd7584dcb99e60079c2bc9f8fcb1c7f6aaedef7b8"
+    },
+    {
+      "name": "rescue",
+      "label": "Rescue",
+      "group": "action",
+      "outline": "3f10f6879a03c79cae9de01852bbdede779bab75126f0952003d8982a7f6f471",
+      "filled": "b1839a86f13eeb94a52b56dcb46102be4657055ba7619b01c2f377cc9ffa5554"
+    },
+    {
+      "name": "supply",
+      "label": "Supply",
+      "group": "action",
+      "outline": "4e710e6751500354c9fedc9390785c5ce666df2bf722cad758dcf2d320c6e806",
+      "filled": "1bd1af8087b0311cbfe925a28af109653d85952df8f00f12811dc1ce395fa82b"
+    },
+    {
+      "name": "scan",
+      "label": "Scan",
+      "group": "action",
+      "outline": "f2a215506810ed10117ad4fdb24ac384daaa7b373d8778989d540c4ef67ce4ce",
+      "filled": "9cd08e62188539cfe20c788eccaef1451bcfd6905d497049ab124cbe136ff38e"
+    },
+    {
+      "name": "code",
+      "label": "Submit final Code",
+      "group": "action",
+      "outline": "215a41c907b4084b89c17ed22ea68e048d67dbc1efe37bf0a0dec0672cb9258c",
+      "filled": "cce43c7e376ac531a1dca04ab78d8ae82294628f7da1ab288b8fce95c47dca78"
+    },
+    {
+      "name": "shipHack",
+      "label": "Hack Spaceship",
+      "group": "action",
+      "outline": "95f669c9087753db836cd851e558cb0de4476e3f63fefa7536e03e3f810eac26",
+      "filled": "2816b6d0814b92255a8a75a0f1726b3b9f7404d91ba097331b8902d805aa6edc"
+    },
+    {
+      "name": "suppress",
+      "label": "Suppress navigation",
+      "group": "action",
+      "outline": "222066760e98359ceed992b4019835d3cbcb39697a8fd1cbff9ad95837493f7c",
+      "filled": "8827cea6ec98c4b2461d26498939d36e7f878ac5d7e581478612b8051e4234ca"
+    },
+    {
+      "name": "blackhole",
+      "label": "Activate Blackhole",
+      "group": "action",
+      "outline": "3c74e94959ac481dfeba1d4457b39efc739608f3db28a48b0c8ebfca1a182820",
+      "filled": "3c74e94959ac481dfeba1d4457b39efc739608f3db28a48b0c8ebfca1a182820"
+    },
+    {
+      "name": "clone",
+      "label": "Activate Clone",
+      "group": "action",
+      "outline": "73bb870497762826b3e70938e798c1aa8e28f57d594bd0684f3df85ebfc9cd41",
+      "filled": "c755724ebfd0d4b6cca11a6e864c2f0978c2a31e64ba653fbec5ec9b979e72b2"
+    },
+    {
+      "name": "blackout",
+      "label": "Request Blackout",
+      "group": "action",
+      "outline": "691aee1474035d496d467b236fcf473f59a5f0dff9add0aa0329e72a25c0ddc6",
+      "filled": "691aee1474035d496d467b236fcf473f59a5f0dff9add0aa0329e72a25c0ddc6"
+    },
+    {
+      "name": "position",
+      "label": "Choose a position",
+      "group": "action",
+      "outline": "fa86eb7e2dfb25845a9a1613a303a0b92bce007cc634ebd298087314daa88a4f",
+      "filled": "bd089fb5227c34caf1361d647b95b18bd4334602924cca5dc3486eb7645a6d02"
+    },
+    {
+      "name": "release",
+      "label": "Release",
+      "group": "action",
+      "outline": "e9204db57dbb81ebc62c12dd5c229d9eb5b1af43da3536f8284e8d889dc33392",
+      "filled": "7187b026dfe65b8413dc8268c181ef283a0ed0fdca35999e66a0d1911125e7f1"
+    },
+    {
+      "name": "eject",
+      "label": "Eject",
+      "group": "action",
+      "outline": "1d6128bfd1ee4433d7fd249920714901dd72208628caec8c11bba563d7321d54",
+      "filled": "72e2d8bda0c2b5069c7868c219155ff22a59d3eb76a00508eff1b4c19811704a"
+    },
+    {
+      "name": "appoint",
+      "label": "Appoint Officer",
+      "group": "action",
+      "outline": "5f501006855280420a72e76417c67d1f0e9ad2293f094123872cde513c05dd44",
+      "filled": "b9dadb51aec7d825bf709bf55daeffa42b1e92b7b065931f4a2a6f3a3164ee1a"
+    },
+    {
+      "name": "block",
+      "label": "Block movement",
+      "group": "action",
+      "outline": "3d500a4c90962bca28239ec40c1af3669980c33167270eff9c6077facd48c24c",
+      "filled": "3d500a4c90962bca28239ec40c1af3669980c33167270eff9c6077facd48c24c"
+    },
+    {
+      "name": "direction",
+      "label": "Choose tie direction",
+      "group": "action",
+      "outline": "ced082fcceeac17709fffce7faf38e09d62b9badfc05aac37808847c8e97613b",
+      "filled": "ced082fcceeac17709fffce7faf38e09d62b9badfc05aac37808847c8e97613b"
+    },
+    {
+      "name": "acknowledge",
+      "label": "Acknowledge direction",
+      "group": "action",
+      "outline": "09714ae8d79efd477616902ae49f256262f0db34aaf80df600844aaee087a891",
+      "filled": "e79947aa231140a040e453669377bc030156ca29110a759939a4f3b9bc327a02"
+    },
+    {
+      "name": "talk",
+      "label": "Private talk",
+      "group": "action",
+      "outline": "6ef57f683f1b218c7656a389f28b3e2be3bfeb4e575fc6d6ee9c3fe596bc5f81",
+      "filled": "6325baea25dcf27081b3de33d14992e369eefda07892c8c80006292272be9542"
+    },
+    {
+      "name": "declare",
+      "label": "Declare side",
+      "group": "action",
+      "outline": "807fd2c9f7c0003ad0ea09d2b82e09e88d721eccf5664811e40fd8988d317858",
+      "filled": "335f80ac4f0b881a00432853d43bcdba83cbfae81f345e5c85670d642b1127e1"
+    },
+    {
+      "name": "panel",
+      "label": "Hospital panel",
+      "group": "action",
+      "outline": "6b7117571c386620339ff1329f82189d2f7a9eb6fddd5ee22e84eac3860d104d",
+      "filled": "1f23bdf3c5af3bdd70bf6396999abb5123c4cf4918213872dd8c3a2d6fab88ef"
+    },
+    {
+      "name": "promise",
+      "label": "Promises",
+      "group": "action",
+      "outline": "36cf3a20b1c68ac1448d842a6daea5df077741763f1adaba469a0c3a26c5bef1",
+      "filled": "aead92610c92b8f31faf29704d06a6f37537fdc94bc31efb0366871492ada37c"
+    },
+    {
+      "name": "window",
+      "label": "Windows",
+      "group": "action",
+      "outline": "7247be48bfa70058a8c599d5162ac0a879ac2d3ef933f60a967661276d6b38e3",
+      "filled": "51bf30d2535399c338d3bb4793867dacc89d0f144d04c49d7532b92c3cb385aa"
+    },
+    {
+      "name": "draw",
+      "label": "Draw",
+      "group": "action",
+      "outline": "179e8c5da8a9bf919eebaa32241cd66856e334e087a363987c68b784b8be3f75",
+      "filled": "7ebe535d06a9a1fc41fb5f2855268930e9421061bb59047171be9c1ace593882"
+    },
+    {
+      "name": "show",
+      "label": "Show",
+      "group": "action",
+      "outline": "53b3b707c6b1a38952eba48aab822f3b6f23286a7235f456c3b8806d9b791dd6",
+      "filled": "4ad44390da73c51c593ae5876b69cc83e9ee0689d11aacd6f9f28e88fd0af5b2"
+    },
+    {
+      "name": "hide",
+      "label": "Hide",
+      "group": "utility",
+      "outline": "29ba7707eb902dd94149276dae26e9e4d520a0498a00b06011f3497f88b24a8f",
+      "filled": "29ba7707eb902dd94149276dae26e9e4d520a0498a00b06011f3497f88b24a8f"
+    },
+    {
+      "name": "move",
+      "label": "Move",
+      "group": "action",
+      "outline": "c0455d047a046c820e2457665f1b81d03dfa3eee45fea9c857ec64531ae895d9",
+      "filled": "c0455d047a046c820e2457665f1b81d03dfa3eee45fea9c857ec64531ae895d9"
+    },
+    {
+      "name": "skip",
+      "label": "Skip",
+      "group": "utility",
+      "outline": "3a1f9fe237cf37989c6fb4e73829e54ed23bd49c9eb9e25cc0e15d72185a9479",
+      "filled": "5f69d8fcc913288cedbeeccf1e0021e3ad3d35734e1dfb820a163ad2503277fd"
+    },
+    {
+      "name": "captain",
+      "label": "Captain",
+      "group": "status",
+      "outline": "34e5f38b793966c3546e9cae6f297085f143d2a2a38cbbf72a4920e22c5b258b",
+      "filled": "0ed64cf1049be7a0d4caf95776444315dcc7bbcc57ac2adfcaf608e95a8cdbba"
+    },
+    {
+      "name": "officer",
+      "label": "Officer",
+      "group": "status",
+      "outline": "c912ef36377299e740a0f57d2955b80575698afe3e3d41903205c9e24374999a",
+      "filled": "e51694eaa4b3c58061a496323c349cb13904da1c4053c188a54d18f12ee1c398"
+    },
+    {
+      "name": "jail",
+      "label": "Jail",
+      "group": "status",
+      "outline": "963c815451adcd2e816e9457989989be8de61d9eaef8e2a48d9f10fca4642d24",
+      "filled": "963c815451adcd2e816e9457989989be8de61d9eaef8e2a48d9f10fca4642d24"
+    },
+    {
+      "name": "hospital",
+      "label": "Hospital",
+      "group": "status",
+      "outline": "bbf9f6548c59e49b9e9b56b40bf102d9f65dd7828a3e271331910a78ad82b333",
+      "filled": "a22f4c6e5284cd74d49c399a8063efd9f9fbdca81332ee6330aec6ed4b3b9f93"
+    },
+    {
+      "name": "injured",
+      "label": "Injured",
+      "group": "status",
+      "outline": "d64dde8969e56070cbf09f6bc63cd2077a08f412162cad97834745d76a57dc99",
+      "filled": "45490c0930a5614fd25fac43a73d4a2359b559d62f1a4771d6f431e2113e4535"
+    },
+    {
+      "name": "eliminated",
+      "label": "Eliminated",
+      "group": "status",
+      "outline": "4bb5d4842597fa30b9eeeccb1a9cd43eeaaad76d5603b9ed02e697d050f8df79",
+      "filled": "4bb5d4842597fa30b9eeeccb1a9cd43eeaaad76d5603b9ed02e697d050f8df79"
+    },
+    {
+      "name": "self",
+      "label": "You",
+      "group": "status",
+      "outline": "9fa29b67a3446b8b2c515f369114e5b132243b6e6455a39805578d52c6277924",
+      "filled": "9f0be8b028c86b9df2c9682a100d937ec834e2b4adc440f360c84f43fa2489af"
+    },
+    {
+      "name": "turn",
+      "label": "Turn",
+      "group": "status",
+      "outline": "15cae6407b1d6af27be021e8ed56c80773c6c1c2d7535b128cd18b063182e2c8",
+      "filled": "b037ccf0728e93fc67d7315d971571fcf6c58367c710ebb21d7a903bc9f93561"
+    },
+    {
+      "name": "timer",
+      "label": "Time remaining",
+      "group": "phase",
+      "outline": "270bfb175f3db0c3b7e7d25c7387d5d68d38d635d8a27c8a4887386c10a4ebab",
+      "filled": "270bfb175f3db0c3b7e7d25c7387d5d68d38d635d8a27c8a4887386c10a4ebab"
+    },
+    {
+      "name": "hourglass",
+      "label": "Waiting",
+      "group": "phase",
+      "outline": "689489d8e1170518c8ddabd0dde7e94053b416e436faf667c3e3177b7b3db821",
+      "filled": "4565a9c10c8542e82fd3889e1202b9ff7e75b786b9215d5b7b67be9eee4b9544"
+    },
+    {
+      "name": "lit",
+      "label": "Lights on",
+      "group": "phase",
+      "outline": "ed470a721f401373fac128690ff9c33fc303399c78e6848409a2616185f58efd",
+      "filled": "d1ff6ba553de566e62918b15c57726ff093acfd962f548c632d2e97dcd260e6b"
+    },
+    {
+      "name": "dark",
+      "label": "Dark",
+      "group": "phase",
+      "outline": "0c414f1ff486ff916b7eee74172d43620bf5e5930e102b7e59b0dd04c69be1fa",
+      "filled": "b254d65ca76f8b62691675f806fdf0225d0749e5851b7641f84873971ef86946"
+    },
+    {
+      "name": "course",
+      "label": "Setting course",
+      "group": "phase",
+      "outline": "3ef49394b733a6eec211e410041867a4208a9a2a0dffc5c70356bf20f4262599",
+      "filled": "250cd8f01a9b24696dfed07d50795a444dc9f826b7b5f279550f89ace1ea72c1"
+    },
+    {
+      "name": "planet",
+      "label": "Planet",
+      "group": "phase",
+      "outline": "7e91ce2cd5de21ebacf6540fe8b94453b29e86c8547dc57cc793f0ce360a83a8",
+      "filled": "6c86d69e6e06edce1c4dee192db6b3cdeb3a81f9eb78c681a6761c1e653a3acb"
+    },
+    {
+      "name": "flag",
+      "label": "Arrival",
+      "group": "phase",
+      "outline": "90e8c6cf2a0d84f340ed377889d98ab5cb4554374d3cb0b36e79fd03641fef89",
+      "filled": "6f32fa18a55faa77a9d92f5c471e70a78f0252a39f3b377c2231760a98efc580"
+    },
+    {
+      "name": "host",
+      "label": "Host",
+      "group": "entry",
+      "outline": "d826f5633088cdd2ee4a6baa286695b6a182a60245125659c0d79c4e9f030781",
+      "filled": "e72c2ad51eb9cd83418e769fe44010c29c3a7f3beb5ce6d25dcb405b9cf86e95"
+    },
+    {
+      "name": "join",
+      "label": "Join",
+      "group": "entry",
+      "outline": "25d065e895811e52387d1a22020b959aa16c200ae68843015881ddbc762a8c91",
+      "filled": "ffaa61e43bf2c9ace461ca4cf5475d26c28a40a1832c5b9d389749dcaacd84ea"
+    },
+    {
+      "name": "key",
+      "label": "Recover",
+      "group": "entry",
+      "outline": "6112baf9d89febd1a7db3dd4baa2fc4908914dc1b31895eac644c6d9b866f12d",
+      "filled": "87739597d4ca3cb2ad4b0f425c30b4f123dddada5019f906d82f1364387e2f5d"
+    },
+    {
+      "name": "copy",
+      "label": "Copy",
+      "group": "utility",
+      "outline": "de418cad032f1e9dcd8f959f8b9eff46450947adcf71b6ef85f5a09ae0d1e693",
+      "filled": "986fed6d9d1deda4129f6317638fc1afefb337e940550ba8ba8db950cb832978"
+    },
+    {
+      "name": "check",
+      "label": "Done",
+      "group": "utility",
+      "outline": "ebdcefcf6f1c6be95264e4599edda484c70fb478bd09dde7c51f90ba305141b5",
+      "filled": "ebdcefcf6f1c6be95264e4599edda484c70fb478bd09dde7c51f90ba305141b5"
+    },
+    {
+      "name": "close",
+      "label": "Close",
+      "group": "utility",
+      "outline": "408990f1b8907864dc64ed2504bfd4c74a9c99a87cacaccd05aa795ff38b2685",
+      "filled": "408990f1b8907864dc64ed2504bfd4c74a9c99a87cacaccd05aa795ff38b2685"
+    },
+    {
+      "name": "chevronRight",
+      "label": "Open",
+      "group": "utility",
+      "outline": "943b510938d2be1070b81319565ce49437e85fad06fcf67f9f837db8c2a45242",
+      "filled": "943b510938d2be1070b81319565ce49437e85fad06fcf67f9f837db8c2a45242"
+    },
+    {
+      "name": "chevronLeft",
+      "label": "Back",
+      "group": "utility",
+      "outline": "91b176dfa8ac3ef989ac4afbd43e551c264a7480eaa8729c2e127791a172a403",
+      "filled": "91b176dfa8ac3ef989ac4afbd43e551c264a7480eaa8729c2e127791a172a403"
+    },
+    {
+      "name": "chevronDown",
+      "label": "Show more",
+      "group": "utility",
+      "outline": "3c4b55391dd5254add189634c50a8dd2888af5748490ada41b5c40813d1b7ea1",
+      "filled": "3c4b55391dd5254add189634c50a8dd2888af5748490ada41b5c40813d1b7ea1"
+    },
+    {
+      "name": "lock",
+      "label": "Locked",
+      "group": "utility",
+      "outline": "477044d8dc34fed680c16d9c1111058166872597d29cc483038a211126b847d3",
+      "filled": "d331e924f7f2a9abea024158a3208d3e4fd87bdbfea9637c1a0d271658f34412"
+    },
+    {
+      "name": "settings",
+      "label": "Settings",
+      "group": "utility",
+      "outline": "7ea7ce75a45f383a779ab977d426b7cf5af6e2a25596f43fd4a0a5d574142de0",
+      "filled": "f2c3a8beb4327e640cfd4d5e83b181c7844d55f2dd674bde66ba18d457e8621f"
+    },
+    {
+      "name": "players",
+      "label": "Players",
+      "group": "utility",
+      "outline": "1feb2b68f3f960a4d06accbecc1232fcf8d355e90b5fcfda20ba14b6330dc14a",
+      "filled": "4717e1792e22ea7a432e05bb70fb3af98b2a18a811b2c440998efb0e1d41f2a7"
+    },
+    {
+      "name": "rules",
+      "label": "Rules",
+      "group": "utility",
+      "outline": "872741b7a3955cbecacb3234fd5eb77c869b3979c8967ab13e873496cdf98b7f",
+      "filled": "42cfd951379dbc72183cfa63fde3c988161006bfcb69e023dffc4a1664fdf2d7"
+    },
+    {
+      "name": "retry",
+      "label": "Try again",
+      "group": "utility",
+      "outline": "179e35b371409dfdf0e59653bff0d6cffb58a28fb89e406e41dc477e09f4343f",
+      "filled": "179e35b371409dfdf0e59653bff0d6cffb58a28fb89e406e41dc477e09f4343f"
+    },
+    {
+      "name": "warning",
+      "label": "Warning",
+      "group": "utility",
+      "outline": "515b00f3a8953638409684c86a5022c80cc209b75778fc25b2bb4a4f3af9b2ac",
+      "filled": "aebf8b452cc6b88fd5521bc157fdf7be03edcc38eaad160d34aeac368071375e"
+    },
+    {
+      "name": "info",
+      "label": "Information",
+      "group": "utility",
+      "outline": "edd22d0cb68bef395640e0fd7b77e2b462b93acbb54a6108c50c6c673227615f",
+      "filled": "8cf15326af230235526e3b5f8e8b8a18acadaec8a009efca9ce4188aa7c69163"
+    },
+    {
+      "name": "offline",
+      "label": "Offline",
+      "group": "utility",
+      "outline": "d7cb7372d8ab9ee719cc7182c0434ebdcf055a3c8f4231c1da26a80eb19a419a",
+      "filled": "d7cb7372d8ab9ee719cc7182c0434ebdcf055a3c8f4231c1da26a80eb19a419a"
+    },
+    {
+      "name": "bot",
+      "label": "Bot",
+      "group": "utility",
+      "outline": "c110ec288ffd4e6eaaf179fa553151ba1106b8699e9d7bf957011fe513364b3f",
+      "filled": "549216f254aa6097a9c4f0969a4124d83d2d750cc7fa8e38324f50c63eda5a6e"
+    },
+    {
+      "name": "display",
+      "label": "Shared display",
+      "group": "utility",
+      "outline": "9b62d7c3e810fef99cddba34a6ea1a9fdf7fb30899b1f9ef4f4e9cc625443a56",
+      "filled": "b4836c2666b7d9ab3ab01f1168bb996fe7332536934ba792b73e27c61ad1c8db"
+    },
+    {
+      "name": "phone",
+      "label": "Player phone",
+      "group": "utility",
+      "outline": "8a847e8b1950ebdbb05ac6635a80d9a5805742a6d1cdf19f37e5651fa84e6e7b",
+      "filled": "1e4a349c3016bb9d223374cc511066c3bdc1acf9e59139813a5f1a0d436f9681"
+    },
+    {
+      "name": "motion",
+      "label": "Reduce motion",
+      "group": "utility",
+      "outline": "a8bd0dfc34318e3943f00355e132d16f38192c727d1b922d7ecc0eb878c3b3f4",
+      "filled": "a8bd0dfc34318e3943f00355e132d16f38192c727d1b922d7ecc0eb878c3b3f4"
+    },
+    {
+      "name": "textSize",
+      "label": "Text size",
+      "group": "utility",
+      "outline": "8c6fe8ab93dcd3f8bd66559086619ae7e3cbd5ad6d161c711bf2a83e1c8bb56c",
+      "filled": "8c6fe8ab93dcd3f8bd66559086619ae7e3cbd5ad6d161c711bf2a83e1c8bb56c"
+    },
+    {
+      "name": "sound",
+      "label": "Sound",
+      "group": "utility",
+      "outline": "354497902ba3934cbd3afdbfd2e0ca5f367efa270db1d2193aa2286faec612d0",
+      "filled": "954911049066655a353c8be7c940803233c9914d0f8abcde1bafe663ea429088"
+    },
+    {
+      "name": "leave",
+      "label": "Leave",
+      "group": "utility",
+      "outline": "2f7b1550e051aab46e5aa99aeebb0984fd41365f2b48b2493ec184f8988863f3",
+      "filled": "2f7b1550e051aab46e5aa99aeebb0984fd41365f2b48b2493ec184f8988863f3"
+    },
+    {
+      "name": "history",
+      "label": "History",
+      "group": "utility",
+      "outline": "28ddf5823915e047cdcb3425f2ddfb551244db40b3851f09ef1b186adbca10a8",
+      "filled": "28ddf5823915e047cdcb3425f2ddfb551244db40b3851f09ef1b186adbca10a8"
+    },
+    {
+      "name": "inbox",
+      "label": "Offers",
+      "group": "utility",
+      "outline": "71543d90c9df552259d2c46bfd2a6e7486c96074002a1d8e5c5bc1e7caff4618",
+      "filled": "92d62c31d8b8410106f8ba00a4b51fea01dc641ace724c1d2a175be7bc84fbfe"
+    },
+    {
+      "name": "plus",
+      "label": "Add",
+      "group": "utility",
+      "outline": "76a8fec7606e7293c1133a4b502b421defd528707b3e993659fc49f123dde5aa",
+      "filled": "76a8fec7606e7293c1133a4b502b421defd528707b3e993659fc49f123dde5aa"
+    },
+    {
+      "name": "minus",
+      "label": "Remove",
+      "group": "utility",
+      "outline": "60360ef820709c281b1504069892b646cc0b542875582834039fab18356cb045",
+      "filled": "60360ef820709c281b1504069892b646cc0b542875582834039fab18356cb045"
+    }
+  ]
+}
