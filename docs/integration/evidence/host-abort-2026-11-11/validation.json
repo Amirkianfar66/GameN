@@ -1,0 +1,52 @@
+{
+  "nativeCommit": "f0fdf1aeb083e5793a6c28e88e3cf233bd3a5bea",
+  "frontendEvidenceCommit": "3e1bea667bd7e64c9f7b81fff1de71aa7bce9a19",
+  "checks": {
+    "build": "passed",
+    "workspace": "passed",
+    "sourceIntegrity": "passed",
+    "typecheck": "passed",
+    "focusedSessionTests": 2,
+    "focusedAdoptionTests": 38,
+    "fullToolingPassed": 321,
+    "frontendPassed": 954,
+    "frontendCounts": {
+      "presentation": 219,
+      "game": 735
+    },
+    "productionExclusion": "passed"
+  },
+  "earlierAttempts": [
+    {
+      "log": "tooling-initial.log",
+      "result": "320 pass, 1 failed exact diagnostic expectation; altered bytes were correctly rejected. Standard content-diff wording restored; rejection assertions unchanged."
+    },
+    {
+      "log": "frontend-sandbox.log",
+      "result": "8 loopback HTTP fixture cases blocked by listen EPERM; rerun with loopback permission passed all 954."
+    }
+  ],
+  "evidence": [
+    {
+      "path": "tooling-initial.log",
+      "sha256": "36b158a068f0a33c3338cc89a765faf4dd9e765126b34510261dbf71b6efe6fb"
+    },
+    {
+      "path": "tooling-final.log",
+      "sha256": "f7af9805f7c3b2777f26c4d851ea41647359e802e24ec1f881fa76436b1142f8"
+    },
+    {
+      "path": "frontend-sandbox.log",
+      "sha256": "35a0c0b5fbcfac171460afdc109545cc3b8898682d7fab7cf27aa89992fe5917"
+    },
+    {
+      "path": "frontend-final.log",
+      "sha256": "40e9e543009d44dabe68480eaf8e1281ddceabc9d490517b0697062629f0c0fb"
+    },
+    {
+      "path": "typecheck.log",
+      "sha256": "6f72798fd15ce115a8b7ff71e5ea0087def11d297d7066d0bbd8575fc9ca7448"
+    }
+  ],
+  "release": "Combined CI, merge and Hosting-only publication remain pending. Backend and creation selections do not change."
+}

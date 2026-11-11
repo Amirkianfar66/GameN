@@ -1,0 +1,17 @@
+{
+  "nativeCommit": "f0fdf1aeb083e5793a6c28e88e3cf233bd3a5bea",
+  "sourceCounts": {
+    "committed": 110,
+    "built": 59,
+    "devHarness": 2
+  },
+  "mismatches": [],
+  "review": "Exact one-line Settings invalidation change reviewed; native actual first-click regression, close/Escape, single abort, reload/original request and terminal command receipt evidence reviewed. Representative ordinary and enlarged-text screenshots inspected.",
+  "captureScope": "Desktop Chromium, actual native modules, synthetic service; captured tree dirty due harness/evidence additions, every recorded module matches exact source or reviewed committed harness.",
+  "limits": [
+    "No new live-server flow",
+    "No physical iPhone/Android, Safari or VoiceOver",
+    "No gameplay or art change"
+  ],
+  "acceptance": "Exact native source accepted; combined source gate, required CI and publication remain separate"
+}

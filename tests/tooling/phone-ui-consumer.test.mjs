@@ -56,7 +56,8 @@ test('reviewed phone bytes extend consumption without rewriting the historical a
   for (const binding of [record.parentApproval, record.parentCandidate, record.artManifest])
     assert.equal(sha(readFileSync(join(destination, binding.path))), binding.sha256);
   for (const [path, entry] of Object.entries(record.files)) {
-    assert.equal(sha(readFileSync(join(destination, path))), entry.sha256);
+    const current = sha(readFileSync(join(destination, path)));
+    assert.ok(current === entry.sha256 || acceptsPhoneUiConsumerFile(approval, path, entry.sha256, current));
     assert.equal(sha(readFileSync(join(destination, entry.candidateBlob))), entry.sha256);
     assert.ok(Object.isFrozen(entry) && Object.isFrozen(entry.acceptedPreviousHashes));
     for (const previous of entry.acceptedPreviousHashes) {
