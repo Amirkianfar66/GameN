@@ -1,0 +1,34 @@
+
+> mothership-workspace@0.1.0 check:sources
+> node scripts/check-sources.mjs
+
+Board V2 exact runtime ports: 27 pinned source/derivative pairs; runtime adoption is reviewed separately
+Reviewed common setup/motion art: 25 exact SVGs
+Source integrity: 119 original Canvas files + 1 unbound example; 7 rule sources; 24 pinned source files; token proposal unchanged
+Approved V1 source integrity: 21 immutable owner decisions; historical source pin preserved
+Capacity owner source integrity: six confirmed decisions; separate exact behavior tuple; historical bytes preserved
+Capacity resolution integrity: six latest owner decisions; exact historical tuples preserved
+Vote result integrity: approved five-second checkpoints and exact new tuple bound
+Declared Hack integrity: approved claim, bounded flow and exact historical tuple preservation
+Public Hack draft integrity: public pair and approved turn-stage movement isolated to exact new tuple; creation defaults unchanged
+Board/medical draft integrity: final owner slots and episode rules bound to separate inactive tuple; historical pins preserved
+Captain outcome candidate integrity: exact successor; historical source and activation pins retained
+Blackout candidate integrity: exact fixed-window successor and private room outcome boundary
+Clone candidate integrity: exact lifetime/normal-round successor; historical pins and defaults retained
+file:///private/tmp/gamen-frontend-host-abort-confirmation/scripts/phone-ui-consumer-approval.mjs:18
+const check = (condition, message) => {if (!condition) throw Error(`Phone UI production consumer: ${message}`);};
+                                                             ^
+
+Error: Phone UI production consumer: current content differs: apps/game/hosted/planet/app.mjs
+    at check (file:///private/tmp/gamen-frontend-host-abort-confirmation/scripts/phone-ui-consumer-approval.mjs:18:62)
+    at readPhoneUiConsumerApproval (file:///private/tmp/gamen-frontend-host-abort-confirmation/scripts/phone-ui-consumer-approval.mjs:70:5)
+    at readVerifiedPregameConsumerInventory (file:///private/tmp/gamen-frontend-host-abort-confirmation/scripts/pregame-consumer-candidate.mjs:54:21)
+    at readPregameProductionConsumerApproval (file:///private/tmp/gamen-frontend-host-abort-confirmation/scripts/pregame-consumer-approval.mjs:55:21)
+    at readRelease (file:///private/tmp/gamen-frontend-host-abort-confirmation/scripts/runtime-art-release.mjs:124:7)
+    at readRuntimeArtRelease (file:///private/tmp/gamen-frontend-host-abort-confirmation/scripts/runtime-art-release.mjs:92:10)
+    at file:///private/tmp/gamen-frontend-host-abort-confirmation/scripts/check-sources.mjs:120:19
+    at ModuleJob.run (node:internal/modules/esm/module_job:343:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:665:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+
+Node.js v22.21.1

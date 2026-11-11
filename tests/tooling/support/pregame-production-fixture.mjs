@@ -1,9 +1,10 @@
 import {cpSync, existsSync, mkdirSync, readFileSync, rmSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {dirname, join} from 'node:path';
-import {PREGAME_PRODUCTION_DRAWING_POLICY, PHONE_UI_PRODUCTION_DRAWING_POLICY} from '../../../design/tools/lib/drawing-port-fence.mjs';
+import {PREGAME_PRODUCTION_DRAWING_POLICY, PHONE_UI_PRODUCTION_DRAWING_POLICY, HOST_ABORT_DRAWING_POLICY} from '../../../design/tools/lib/drawing-port-fence.mjs';
 import {PREGAME_PRODUCTION_CONSUMER_APPROVAL, readPregameConsumerApproval} from '../../../scripts/pregame-consumer-approval.mjs';
-import {PHONE_UI_CONSUMER_APPROVAL, readPhoneUiConsumerApproval} from '../../../scripts/phone-ui-consumer-approval.mjs';
+import {PHONE_UI_CONSUMER_APPROVAL, readPhoneUiConsumerApproval, HOST_ABORT_CONSUMER_APPROVAL,
+  readHostAbortConsumerApproval} from '../../../scripts/phone-ui-consumer-approval.mjs';
 
 /** Copy only actual verified adoption evidence. An absent record creates no acceptance. */
 export function pregameProductionFixturePaths(root) {
@@ -30,6 +31,12 @@ export function pregameProductionFixturePaths(root) {
     for (const reference of [...phone.captureEvidence.reports, ...phone.captureEvidence.files,
       phone.captureEvidence.acceptance]) paths.add(reference.path);
   }
+  const abort = readHostAbortConsumerApproval(root);
+  if (abort) {
+    paths.add(HOST_ABORT_CONSUMER_APPROVAL); paths.add(abort.file.candidateBlob);
+    for (const reference of abort.evidence) paths.add(reference.path);
+    if (existsSync(join(root, HOST_ABORT_DRAWING_POLICY))) paths.add(HOST_ABORT_DRAWING_POLICY);
+  }
   return paths;
 }
 
@@ -37,7 +44,8 @@ export function pregameProductionFixturePaths(root) {
 export function restoreHistoricalPregameFixture(root, destination) {
   const phone = readPhoneUiConsumerApproval(root);
   if (!phone) return;
-  for (const path of [PHONE_UI_CONSUMER_APPROVAL, PHONE_UI_PRODUCTION_DRAWING_POLICY])
+  for (const path of [PHONE_UI_CONSUMER_APPROVAL, PHONE_UI_PRODUCTION_DRAWING_POLICY,
+    HOST_ABORT_CONSUMER_APPROVAL, HOST_ABORT_DRAWING_POLICY])
     rmSync(join(destination, path), {force: true});
   const restore = (path, digest) => {
     const source = join(root, 'design/releases/historical-blobs', digest);

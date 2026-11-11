@@ -1,0 +1,9 @@
+# Running Host Settings Abort confirmation
+
+Issue [#219](https://github.com/Amirkianfar66/GameN/issues/219), branch `codex/frontend-host-abort-confirmation`, base `74d64700a5b99388ca99f2c39fb7ea7a9519215e`, native source `f0fdf1aeb083e5793a6c28e88e3cf233bd3a5bea`.
+
+The first “Abort match” click changed local confirmation state, but that state was absent from the running Settings cache key. App render therefore skipped the existing renderer refresh. The one-line fix adds `abortConfirm` to that key, so the same open panel immediately shows “Confirm abort · No winner”. The first click remains local; only the explicit confirmation submits the existing session abort request. Close/Escape do not submit. No gameplay, deadline, art, camera, layout, authority or server request behavior changes.
+
+[The exact thirteen-file inventory](host-abort-confirmation-inventory.json) shows only `apps/game/hosted/planet/app.mjs` differs from the released base. [Verification](host-abort-confirmation-verification.json) and [before/after evidence](evidence/host-abort-confirmation-2026-11-11/) retain separate source identities. Both focused session tests and all954 Frontend tests passed, along with pure/browser typecheck and production exclusion. Six native browser cases cover immediate confirmation, safe close/Escape, exactly one commit, lost-response reload recovery and terminal original-command receipt recovery. The baseline is marked rejected, not passed acceptance.
+
+The production source guard correctly rejects the new pinned app hash. Integration must review/adopt the exact source and run combined production CI before its merge/release. Shared approval files and prior inventories/evidence are untouched. Physical phones, Safari, VoiceOver and a new live multiplayer journey were not run for this cache-only correction. No room IDs, assigned private roles, credentials or raw request payloads appear in evidence.
