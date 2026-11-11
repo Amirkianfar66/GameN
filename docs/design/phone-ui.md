@@ -68,6 +68,10 @@ These are routine decisions, made by Designer under the brief. The owner can ove
 - The scene uses the game's own positions and press areas, so every person stands where the game puts them.
 - The room view is framed wider than the game's board panels: at the smallest scale that still fills that space with the room. The owner found the first draft too zoomed in on a phone (9 November).
 - Nobody present is cut off (the owner's decision of 11 November, T1): not their press area, and no part of their figure as drawn. When the people present reach past the filled view, it zooms out just far enough to keep each of them whole. The bands above and below are the cost.
+- **Next: a fifth wider** (the owner, 11 November, with ship life: [#230](https://github.com/Amirkianfar66/GameN/pull/230), [ship-life.md](ship-life.md#wider-rooms)).
+  - The room view is drawn at 0.8 of the filled view's scale, or less where everyone must stay whole. The ceiling and deck continue past the picture, so there are no bands.
+  - This replaces "fills the space between the bars". Everything else here stands.
+  - It comes with the approved room pictures (#197), whose extension it draws. Until then, the framing above.
   - Where nobody needs more room, people at 390 × 844 are drawn 23% smaller than in the first draft, and 30% more of the room's width shows.
   - Across, the view holds the room's centre, as the game does. It moves only as far as it must to keep everyone present 48 px inside the edges and every figure 4 px inside. When they are spread wider than that, it centres on them.
   - **Each figure as drawn.** The frame uses each present figure's outline, not only its press point. Frontend and Integration found on #222 that press points alone cut A3's reach at the floor hatch in a full Room A.

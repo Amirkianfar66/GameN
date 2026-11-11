@@ -1,13 +1,13 @@
 # Ship life: activities, wider rooms and local food capsules
 
-**A design package for the owner and Frontend (11 November 2026).** It covers four things:
+**A design package for the owner and Frontend (11 November 2026). The owner approved it and chose a fifth wider** ([owner-decisions.md](owner-decisions.md#11-november-2026-ship-life-approved-the-rooms-a-fifth-wider)). It covers four things:
 
 - what the people at each of the 20 places do while others take their turns;
 - today's room framing beside two wider ones;
 - a food capsule in each room but the Hospital;
 - the visit a character makes to it after their turn.
 
-Every part is a design asset or a working preview with labelled fixtures. **None of it is in the game, in a release, or wired to a match.** No phone has run it. The previews and films are desktop Chrome renders.
+Every part is a design asset or a working preview with labelled fixtures. **None of it is in the game, in a release, or wired to a match yet;** Frontend builds it. No phone has run it. The previews and films are desktop Chrome renders.
 
 The owner's request is recorded in [owner-decisions.md](owner-decisions.md#11-november-2026-ship-life-the-request). The package keeps to it:
 
@@ -26,7 +26,7 @@ The owner's request is recorded in [owner-decisions.md](owner-decisions.md#11-no
 | The four food capsules and their states | [`capsule.mjs`](../../design/ship-life/capsule.mjs); placements in `positions.mjs` | Design |
 | The visit (stocked, brief, empty) | [`eating.mjs`](../../design/ship-life/eating.mjs) | Design, previewed |
 | When visits play, and what stops them | [`schedule.mjs`](../../design/ship-life/schedule.mjs) | Proposal, previewed with fixtures |
-| Today's framing and two wider ones | [`framing.mjs`](../../design/ship-life/framing.mjs) | Proposal for the owner |
+| Today's framing and two wider ones | [`framing.mjs`](../../design/ship-life/framing.mjs) | The owner chose a fifth wider |
 | The ceiling and deck past each picture | [`extend.mjs`](../../design/ship-life/extend.mjs), [`assets/*.extend.svg`](../../design/ship-life/assets) | Design |
 | The live stage and the preview | [`stage.mjs`](../../design/ship-life/stage.mjs), [`preview.html`](../../design/ship-life/preview.html) | Working preview |
 | Sheets, storyboards and silent films | [`framings.html`](../../design/ship-life/framings.html), [`boards.html`](../../design/ship-life/boards.html), [`review/`](../../design/ship-life/review) | Review files |
@@ -193,9 +193,11 @@ The private-talk capsule is a separate space and has no food device.
 | Hospital | No capsule | — | — |
 | Jail (full) | In view | In view | In view |
 
-**Designer recommends a fifth wider.** It is the only framing that shows every capsule, and so every visit, on every phone the pack reviews. It also gives the rooms the space the owner asked for.
+**The owner chose a fifth wider** ("approved, go with a fifth wider", 11 November). It is the only framing that shows every capsule, and so every visit, on every phone the pack reviews, and it gives the rooms the space the owner asked for. The sheets mark it "the owner's choice".
+- **What to build:** `roomFrame(scene, panel, present, { zoom: 0.8, room })`. It is the pack's corrected framing (#229) at 0.8 of the filled view's scale, with each figure's activity outline, the capsule kept in view where it fits, and the extension bands past the picture.
+- **When:** with the approved room pictures (#197), since the bands are drawn for them. Until then the game keeps the corrected T1 framing (#229).
 
-**The cost** is smaller figures: on the 390 phone about 156 pixels tall instead of 195. On the narrow phone a fifth wider makes figures about 110 pixels tall. A tenth wider there, about 125, may read better. The owner chooses.
+**The cost** is smaller figures: on the 390 phone about 156 pixels tall instead of 195, and on the narrow phone about 110.
 
 **The board overview** keeps the game's own framing in each panel ([`framings-board.png`](../../design/ship-life/review/framings-board.png)). The capsules are drawn and their lights show availability. Everyone holds the resting pose, and no activity or visit plays: at that size no gesture reads, and it saves the work.
 

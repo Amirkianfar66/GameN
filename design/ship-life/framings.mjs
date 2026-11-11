@@ -85,7 +85,7 @@ function phone(r, spec, z) {
     shared.length ? `Press areas overlap: ${shared.map(([a, b]) => `${a}/${b}`).join(', ')}` : 'No press areas overlap',
   ];
   const cell = el('figure', 'cell');
-  cell.append(el('figcaption', 'what', `${z.name}`), box);
+  cell.append(el('figcaption', 'what', z.chosen ? `${z.name} · the owner's choice` : z.name), box);
   const ul = el('ul', 'facts');
   for (const f of facts) ul.append(el('li', null, f));
   cell.append(ul);

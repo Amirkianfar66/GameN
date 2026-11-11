@@ -158,6 +158,8 @@ test('today\'s framing is the phone pack\'s own; every figure stays whole doing 
       // The pack's own outline through this framing is the pack's phoneFrame exactly.
       const same = roomFrame(r.scene, panel, r.scene.slots, { zoom: 1, room: r.id, outline: paintedExtent });
       for (const key of ['k', 'tx', 'ty']) assert.ok(Math.abs(pack[key] - same[key]) < 1e-9, `${r.id} ${panel.width}: given the pack's outlines, today's ${key} is the pack's`);
+      // The owner chose a fifth wider (11 November 2026): the one framing marked chosen.
+      assert.deepEqual(ZOOMS.filter(z => z.chosen).map(z => z.id), ['wider-20']);
       const today = roomFrame(r.scene, panel, r.scene.slots, { zoom: 1, room: r.id });
       assert.ok(today.k <= pack.k + 1e-9, `${r.id} ${panel.width}: doing their activities, never closer than the pack`);
       for (const z of ZOOMS) {

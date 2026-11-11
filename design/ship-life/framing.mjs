@@ -33,11 +33,14 @@ import { REACH } from './extend.mjs';
 import { CAPSULES } from './positions.mjs';
 
 export { EDGE_CLEAR, FIGURE_CLEAR };
-/** The framings compared: today's, a tenth wider, a fifth wider. */
+/**
+ * The framings compared: today's, a tenth wider, a fifth wider. The owner chose a fifth wider
+ * ("approved, go with a fifth wider", 11 November 2026): chosen marks it.
+ */
 export const ZOOMS = Object.freeze([
   Object.freeze({ id: 'today', zoom: 1, name: 'Today', note: 'The phone pack\'s framing, with the activities' }),
   Object.freeze({ id: 'wider-10', zoom: 0.9, name: 'A tenth wider', note: '0.9 × the filled view\'s scale' }),
-  Object.freeze({ id: 'wider-20', zoom: 0.8, name: 'A fifth wider', note: '0.8 × the filled view\'s scale' }),
+  Object.freeze({ id: 'wider-20', zoom: 0.8, name: 'A fifth wider', note: '0.8 × the filled view\'s scale', chosen: 'the owner, 11 November 2026' }),
 ]);
 
 const [AX, AY] = FRAME.anchor;
