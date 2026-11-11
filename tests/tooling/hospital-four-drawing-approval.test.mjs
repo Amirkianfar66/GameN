@@ -101,7 +101,7 @@ test('Planet board metadata never authorizes a changed renderer or a prototype i
   const target = fixture(t), path = 'apps/game/hosted/planet/render.mjs';
   append(target, path, "\nimport '../../../../design/board-v2/js/app.mjs';\n");
   if (readPregameConsumerApproval(root)) {
-    await refuses(target, /^Pregame consumer candidate: current content differs: apps\/game\/hosted\/planet\/render\.mjs$/);
+    await refuses(target, /^(?:Pregame consumer candidate|Phone UI production consumer): current content differs: apps\/game\/hosted\/planet\/render\.mjs$/);
     assert.ok(prototypeReferences(path, readFileSync(join(target, path), 'utf8')).includes('../../../../design/board-v2/js/app.mjs'));
   } else {
     await refuses(target, /planet\/render\.mjs: reviewed native metadata file content hash differs/);

@@ -22,5 +22,38 @@
     "mergeCommit": "76eb5d1f1f9d9dc4e1f5da1ebe5b0ae2a945e060",
     "mergedAt": "2026-11-11T00:29:49Z",
     "allNineChecks": "passed"
+  },
+  "firstFullVerify": {
+    "sourceCommit": "673aac8614f6ff2d15bcd30cfdc865bd75b8b4d7",
+    "bootstrap": {
+      "passed": 204,
+      "failed": 0
+    },
+    "engine": {
+      "passed": 1536,
+      "failed": 0
+    },
+    "backend": {
+      "passed": 395,
+      "failed": 0
+    },
+    "tooling": {
+      "passed": 316,
+      "failed": 1
+    },
+    "reason": "A third historical negative test required the old guard diagnostic prefix for the same rejected renderer mutation. The rejection itself occurred. The exact historical/successor prefix alternatives and exact file path remain required.",
+    "remainingNotRunInThisAttempt": [
+      "Frontend",
+      "Design",
+      "Balance",
+      "Scenarios",
+      "Capacity"
+    ]
+  },
+  "fullToolingAfterDiagnosticUpdate": {
+    "passed": 317,
+    "failed": 0,
+    "skipped": 0,
+    "durationMs": 17996.813042
   }
 }
