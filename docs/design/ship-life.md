@@ -153,8 +153,13 @@ The private-talk capsule is a separate space and has no food device.
 - **One visitor at a capsule at a time.** A visitor whose capsule is in use keeps working, then sets off to arrive just as the one before leaves. They pass in the room, never at the capsule.
   - A wait of more than 1.5 seconds makes the visit brief.
   - A wait of more than 6 seconds drops it. There is never a queue of people.
-- **What stops a visit at once:** a real move, an injury or elimination, a conversation the character is in, a phase change, or the lights going out. The figure is back at its place in 0.3 seconds: out where it stands, in at its place. The real event then plays from the place as today. A phase change stops everything, so the last player's visit is cut short and never delays the next phase.
+- **What stops a visit at once:** a real move, an injury or elimination, a conversation the character is in, the game leaving turn play, or the lights going out. The figure is back at its place in 0.3 seconds: out where it stands, in at its place. The real event then plays from the place as today. Leaving turn play stops everything, so the last visits are cut short and never delay the next phase.
   - The same event before a visit begins, while the visitor still waits for the capsule, drops it. The visit never begins, so nobody walks after the phase has changed or the lights have gone out, and the capsule stays free for the next visitor.
+  - **Which phase change stops** (Integration's review of #230). The engine opens a new phase, with a new id, at every player's turn, and a visit carries on into the next player's turn, so a new phase id alone is not a stop.
+    - **Turn play** is a player's turn, `ORDINARY_TURN`, and the Hack steps inside it, `HACK_DECLARE`, `HACK_RESULT` and `HACK`. In the full and the planet game alike, the engine goes from these only to the next player's turn or out of turn play.
+    - **Every visit stops** when the public phase's kind leaves turn play. That covers the lights going out (`BLACKOUT`), a vote or its result, a Blackhole's presentation, a new round's start, the Showdown, the end, an abort, and any kind not on this list, such as a later version's.
+    - `schedule.mjs` exports the list as `TURN_PLAY` and the check as `phaseStops(kind)`, and `handoff.json` carries the list as `turnPlayPhases`. This changes no game rule.
+    - In today's engine the round's last turn ends as turn play does, so that turn's visit does not begin.
 - **Targeting is private.** When a player opens a targeting choice, their own phone puts every visitor back at their place and starts none while it is open. Nothing is sent and other phones carry on, so a private choice changes nothing anyone else sees.
 - **The Blackout** keeps the frame and the places frozen: no visit or activity plays with the lights out.
 - **No replay.** A visit is keyed by its round and seat. A phone that comes back (a reload, a reconnection, the app brought back) plays a visit already under way only if it began less than a second ago by the game's clock and has not been stopped. An older one, a stopped one, or one already played on that phone, is done. A visit yet to begin plays when it begins.
@@ -209,7 +214,7 @@ The private-talk capsule is a separate space and has no food device.
 1. Each turn's end, in order, with the seat, its room and place, and the round.
 2. Each room's food availability: stocked, empty or unknown. Unknown plays no visit.
 3. Whether availability is public. A player who may not know it sees unknown.
-4. Real moves, injuries, eliminations, conversations, phase changes and lights out, as today.
+4. Real moves, injuries, eliminations, conversations and the public phase's kind, as today. Every visit stops when the phase leaves turn play; a new player's turn is not a stop.
 5. The game's clock, for the no-replay rule.
 
 **What to port** (the review files show the target at the same state and size):
@@ -249,6 +254,12 @@ Depth is the place's (`slot.depth`, else its feet), or the path's on a walk.
 - **Food availability and its visibility** come from the future approved gameplay contract. The package invents no stock count, no shared or local inventory and no hunger.
 - **Who eats:** every character outside the Hospital who ends a turn, Jailed included (at the ration hatch). Whether a character who does not take a turn eats is the contract's.
 - **The round and the turn-end event** in the public view, for the order and the no-replay key.
+- **Integration's requirements for adoption** (#230, 11 November 2026). These are integration requirements, not food rules:
+  - No eating visit plays until approved food availability, with its audience, and authoritative, ordered turn endings exist. Today's projected events are not a public stream of ordinary turn endings, and neither `activeSeatId` nor the private journal may stand in for one.
+  - Unknown is not empty.
+  - During a Blackhole, a branch's own placements never become shared-screen information.
+  - The future, versioned contract binds each occurrence to the match, round and seat, the original server time, its audience and a stable identity. A retry, a reconnection or a discarded reality never replays a meal.
+  - Still undefined: the initial and change policy, the Blackhole's inventory scope, the audience, and any visit for a player without an ordinary turn.
 
 ## Review files
 

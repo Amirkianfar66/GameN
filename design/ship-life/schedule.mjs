@@ -14,8 +14,9 @@
 //
 // What stops a visit at once (the figure goes back to its place in CANCEL_MS: out where it stands,
 // in at its place; the real event then plays from the place as the game plays it today):
-//   the character's real move, an injury or elimination, a conversation they are in, a phase change,
-//   the lights going out (the Blackout keeps the frame and the places frozen), and, on this phone
+//   the character's real move, an injury or elimination, a conversation they are in, the game leaving
+//   turn play (TURN_PLAY below: a new player's turn is not a stop), the lights going out among it (the
+//   Blackout keeps the frame and the places frozen), and, on this phone
 //   only, a targeting the player opens (nothing is sent; other phones carry on, so a private choice
 //   changes nothing anyone else sees).
 // The same event before a visit begins (while the visitor still waits for the capsule, or at the
@@ -42,6 +43,21 @@ export const CANCEL_MS = 300;
 /** A phone that comes back plays a visit that started less than this long ago, from its start. */
 export const RESUME_MS = 1000;
 
+/**
+ * Which phase changes stop visits (Integration's review of #230). The engine opens a new phase, with
+ * a new id, at each player's turn, and a visit carries on into the next player's turn: a new phase id
+ * alone is not a stop. Turn play is a player's turn and the Hack steps inside it; in the full and the
+ * planet game alike, the engine goes from them only to the next player's turn or out of turn play
+ * (packages/engine/src/full-game/lifecycle.ts and planet-game/lifecycle.ts). Every visit stops, as a
+ * stop for everyone (seat null), when the public phase's kind leaves turn play: the lights going out
+ * (BLACKOUT), a vote or its result, a Blackhole's presentation, a new round's start, the Showdown,
+ * the end, an abort, and a kind this list does not know (a later version's) alike. In today's engine
+ * the round's last turn ends as turn play does, so that turn's visit does not begin.
+ */
+export const TURN_PLAY = Object.freeze(['ORDINARY_TURN', 'HACK_DECLARE', 'HACK_RESULT', 'HACK']);
+/** Whether entering a public phase of this kind stops every visit: true for any kind outside turn play. */
+export const phaseStops = kind => !TURN_PLAY.includes(kind);
+
 /** The key of a visit, for not playing it twice: the round and the seat. */
 export const visitKey = (round, seat) => `${round}:${seat}`;
 
@@ -49,7 +65,8 @@ export const visitKey = (round, seat) => `${round}:${seat}`;
  * The visits of one room, in the order turns end there. turns: [{ seat, place (a slot), at (ms),
  * round }] as the game ends them (after-turn order). capsule: CAPSULES[room] or null. availability:
  * 'stocked' | 'empty' | 'unknown' (the contract's; a fixture in the preview). stops: [{ at, seat }]
- * (seat null: everyone, as a phase change or lights out). eliminated: seats that play nothing.
+ * (seat null: everyone, when the public phase leaves turn play, phaseStops; the lights going out are
+ * one such change). eliminated: seats that play nothing.
  * A stop from the turn's end until the visit would begin drops the visit (it never begins, and the
  * capsule stays free); a stop after it has begun cancels it at that moment (cancelAt > start).
  * Returns [{ seat, place, round, key, start, kind, end, cancelAt, waited, timeline }] and the

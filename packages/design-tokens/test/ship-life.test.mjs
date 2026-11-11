@@ -36,7 +36,7 @@ import { REACH, extensionSvg } from '../../../design/ship-life/extend.mjs';
 import { FIGURE_CLEAR, ZOOMS, activityOutline, pressRects, roomFrame } from '../../../design/ship-life/framing.mjs';
 import { ACTIVITY_EXTENTS, ACTIVITY_EXTENTS_SOURCES } from '../../../design/ship-life/activity-extents.mjs';
 import { ACTIVITIES, CAPSULES, EATING_ROOMS, PLACE_ORDER } from '../../../design/ship-life/positions.mjs';
-import { CANCEL_MS, WAIT, onResume, planRoom, visitKey } from '../../../design/ship-life/schedule.mjs';
+import { CANCEL_MS, TURN_PLAY, WAIT, onResume, phaseStops, planRoom, visitKey } from '../../../design/ship-life/schedule.mjs';
 import { paintedExtent, phoneFrame } from '../../../design/phone-ui/prototype/art.mjs';
 import { slotGeometry } from '../../../design/board-motion/scenes/frame.mjs';
 
@@ -160,6 +160,17 @@ test('the scheduler: after-turn order, one visitor at a capsule, long waits shor
   assert.deepEqual(own.visits.map(v => [v.seat, v.cancelAt]), [[1, null]], 'the waiting seat\'s own event drops only its visit');
   assert.ok(own.none.some(n => n.seat === 4 && /before it began/.test(n.why)));
   for (const plan of [stopped, phase, own, atStart]) for (const v of plan.visits) assert.ok(v.cancelAt == null || v.cancelAt > v.start, 'a stopped visit had begun');
+  // Which phase change stops (Integration's addendum on #230): the game leaving turn play, not every
+  // new phase id. A1's visit carries on through the next player's turn and a Hack inside it, and
+  // stops when the vote opens.
+  assert.deepEqual(TURN_PLAY, ['ORDINARY_TURN', 'HACK_DECLARE', 'HACK_RESULT', 'HACK']);
+  for (const kind of TURN_PLAY) assert.equal(phaseStops(kind), false, kind);
+  for (const kind of ['RELEASE_CHOICE', 'RELEASE_VOTE', 'JAIL_VOTE', 'CAPTAIN_ELECTION', 'VOTE_RESULT', 'BLACKOUT', 'SHOWDOWN', 'FINISHED', 'ABORTED',
+    'PRE_TURN', 'OFFICER_APPOINTMENT', 'BLACKHOLE_PRESENTATION', 'NAV_SETTING', 'NAV_TIE', 'NAV_CAPTAIN_CONFIRM', 'NAV_OFFICER_CONFIRM', 'A_LATER_KIND']) assert.equal(phaseStops(kind), true, kind);
+  const phases = [['ORDINARY_TURN', 1000], ['HACK_DECLARE', 2000], ['HACK_RESULT', 3000], ['HACK', 3500], ['ORDINARY_TURN', 4000], ['JAIL_VOTE', 7000]];
+  const fromPhases = phases.filter(([kind]) => phaseStops(kind)).map(([, at]) => ({ at, seat: null }));
+  const through = planRoom(turns.slice(0, 1), { capsule: CAPSULES['room-a'], availability: 'stocked', stops: fromPhases });
+  assert.deepEqual(through.visits.map(v => [v.seat, v.cancelAt]), [[1, 7000]], 'a visit carries on into the next turns and stops when turn play ends');
   // No replay: a visit played on this phone is not played again; coming back, only one that began under a second ago.
   const played = new Set([visitKey(0, 1)]);
   assert.equal(planRoom(turns.slice(0, 1), { capsule: CAPSULES['room-a'], availability: 'stocked', played }).visits.length, 0);

@@ -22,7 +22,7 @@ import { BEATS, KINDS, WALK, visitTimeline } from '../ship-life/eating.mjs';
 import { REACH, SEAM } from '../ship-life/extend.mjs';
 import { ZOOMS, frameReport, overlaps, pressRects, roomFrame } from '../ship-life/framing.mjs';
 import { ACTIVITIES, CAPSULES, EATING_ROOMS, PLACE_ORDER } from '../ship-life/positions.mjs';
-import { CANCEL_MS, RESUME_MS, WAIT } from '../ship-life/schedule.mjs';
+import { CANCEL_MS, RESUME_MS, TURN_PLAY, WAIT } from '../ship-life/schedule.mjs';
 
 const ROOT = resolve(fileURLToPath(new URL('../../', import.meta.url)));
 const OUT = resolve(ROOT, 'design/ship-life/handoff.json');
@@ -95,7 +95,7 @@ export function build() {
       'the interface over all of it, unchanged: press areas, tags, marks, labels',
     ],
     timing: {
-      beatsMs: BEATS, walk: WALK, kinds: KINDS, waitMs: WAIT, cancelMs: CANCEL_MS, resumeMs: RESUME_MS,
+      beatsMs: BEATS, walk: WALK, kinds: KINDS, waitMs: WAIT, cancelMs: CANCEL_MS, resumeMs: RESUME_MS, turnPlayPhases: TURN_PLAY,
       activityRestMs: [1600, 4200], hospitalRestMs: [0, 300],
     },
     extension: { reach: REACH, seam: SEAM },
@@ -104,8 +104,8 @@ export function build() {
       'Each turn\'s end, in order, with the seat, its room and place, and the round (the after-turn order: a visit is keyed by round and seat)',
       'Per room, the food availability: stocked, empty or unknown (the future approved gameplay contract; unknown plays no visit)',
       'Whether availability is public to every player; if a player may not know it, that player\'s phone shows unknown',
-      'Real moves, injuries, eliminations, conversations, phase changes and the lights going out, as today, to stop a visit at once',
-      'The game\'s clock, so a phone that comes back plays only a visit that began less than a second ago',
+      'Real moves, injuries, eliminations, conversations, and the public phase\'s kind, as today, to stop a visit at once: every visit stops when the phase leaves turn play (turnPlayPhases; a new player\'s turn, with its new phase id, is not a stop; the lights going out are one such change)',
+      'The game\'s clock, so a phone that comes back plays only a visit under way that began less than a second ago and has not been stopped',
     ],
   };
 }
