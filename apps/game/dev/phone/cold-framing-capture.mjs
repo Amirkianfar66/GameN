@@ -46,6 +46,9 @@ try{
    await page.evaluate(`document.documentElement.style.fontSize='${text===1?200:100}%';document.dispatchEvent(new CustomEvent('mothership:preferences-change'))`);await sleep(120);
    assert.equal(await page.evaluate('JSON.stringify(window.planetHarness.app.game.getModel().action)'),choice);assert.equal(await page.evaluate('window.planetHarness.app.game.getModel().privateArea.blackoutTargeting.selectedSlotId'),'A3');
    const textReflow=await geometry(page,count,mode),reflowCapture=count===9?await picture(page,prefix+'-reflow'):null;
+   const confirmPoint=await page.evaluate("(()=>{const r=document.querySelector('#planet-confirm').getBoundingClientRect();return {x:r.x+r.width/2,y:r.y+r.height/2};})()");
+   await page.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[confirmPoint]});await page.evaluate("window.dispatchEvent(new Event('blur'))");await page.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
+   assert.equal(await page.evaluate('window.planetHarness.app.game.getModel().action'),null);await page.tap('#planet-nav-actions');await page.tap('#planet-action-SELECT_BLACKOUT_SLOT');await page.tap('#planet-slot-A2');assert.equal(await page.evaluate('window.planetHarness.app.game.getModel().action.step'),'confirm');
    await page.evaluate("window.planetHarness.setUid('revoked');window.planetHarness.app.session.refresh()");await page.waitFor("!document.querySelector('.bv2-slot-target')",'revoked targeting removed');
    assert.equal(await page.evaluate('window.planetHarness.app.game.getModel().action'),null);
    assert.equal(await page.evaluate("window.planetHarness.requests.filter(r=>r.operation==='command').length"),0);

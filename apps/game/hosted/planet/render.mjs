@@ -54,6 +54,7 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
  const blackoutGeometry=createBlackoutGeometry();let targetKey=null,lastOwnRoom=null,lastOwnTalk=null,lastBlackoutContext=null,lastViewportKey=null;
  const pointers=new Map();let cancelledPointerClick=false;
  function cancelPointerGesture(){if(!pointers.size)return;cancelledPointerClick=true;for(const [pointerId,target]of pointers){target.dispatchEvent(new win.PointerEvent('pointercancel',{bubbles:true,pointerId}));if(target.hasPointerCapture?.(pointerId))target.releasePointerCapture(pointerId);}}
+ function clearPointerGestures(){cancelPointerGesture();pointers.clear();}
  const rects=(room,count,panel)=>sceneMode==='room'?allLayouts.roomPresses[room]:allLayouts.boardPresses[room];
  const drawings=new Map();
  const reduced=()=>model?.motion==='reduced'||document.documentElement.dataset.motion==='reduced'||media.matches;
@@ -376,10 +377,10 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
  const onPointerEnd=e=>{if(e.isTrusted)pointers.delete(e.pointerId);};
  const onPointerClick=e=>{if(cancelledPointerClick&&e.detail>0){e.preventDefault();e.stopImmediatePropagation();}};
  const onKey=e=>{if(e.key==='Escape'){more=false;controller.dismiss();document.getElementById('planet-nav-board')?.focus();}};
- const onVisibility=()=>{controller.setVisible(document.visibilityState==='visible');if(document.visibilityState!=='visible'){motion.cancel();capsule.settle();blackout.settle();films.clear();rescue.clear();cinematic.clear();clearBlocks();drawings.clear();if(raf!==null)win.cancelAnimationFrame(raf);raf=null;}};
+ const onVisibility=()=>{controller.setVisible(document.visibilityState==='visible');if(document.visibilityState!=='visible'){clearPointerGestures();motion.cancel();capsule.settle();blackout.settle();films.clear();rescue.clear();cinematic.clear();clearBlocks();drawings.clear();if(raf!==null)win.cancelAnimationFrame(raf);raf=null;}};
  const onMotion=()=>{motion.cancel();capsule.settle();blackout.settle();films.clear();rescue.clear();cinematic.clear();clearBlocks();if(raf!==null)win.cancelAnimationFrame(raf);raf=null;if(model)render(controller.getModel());};
  const onArt=()=>{uiKey=null;if(model)render(controller.getModel());};
- const onBlur=()=>{controller.dismiss();motion.cancel();capsule.settle();blackout.settle();films.clear();rescue.clear();cinematic.clear();clearBlocks();drawings.clear();if(raf!==null)win.cancelAnimationFrame(raf);raf=null;};
+ const onBlur=()=>{clearPointerGestures();controller.dismiss();motion.cancel();capsule.settle();blackout.settle();films.clear();rescue.clear();cinematic.clear();clearBlocks();drawings.clear();if(raf!==null)win.cancelAnimationFrame(raf);raf=null;};
  const onFocus=()=>{if(model)render(controller.getModel());};
  const onResize=()=>{safeInsets=readInsets();uiKey=null;if(model)render(controller.getModel());};
  const barsObserver=new win.ResizeObserver(()=>{if(model&&!disposed)render(controller.getModel());});barsObserver.observe(header);barsObserver.observe(nav);
