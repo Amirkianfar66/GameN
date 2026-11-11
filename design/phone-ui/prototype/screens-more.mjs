@@ -353,14 +353,20 @@ export const MORE_SCREENS = {
   },
 
   // ── Q. Blackout ───────────────────────────────────────────────────────
-  /** state: lit | dark | pick | chosen. Identical for everyone except the Disabler's own position picker. */
+  /**
+   * state: lit | dark | pick | chosen, and cold | cold-pick: a phone that opens (or reloads) while it
+   * is dark and cannot recover the lit room's frame (#222). It frames the room as if every place were
+   * occupied and shows the dark room's neutral positions, exactly as any dark room; nothing else
+   * changes. Identical for everyone except the Disabler's own position picker.
+   */
   blackout(root, p) {
     const state = p.state ?? 'lit';
     const dark = state !== 'lit';
-    const disabler = state === 'pick' || state === 'chosen';
+    const cold = state === 'cold' || state === 'cold-pick';
+    const disabler = state === 'pick' || state === 'chosen' || state === 'cold-pick';
     game(root, {
       top: topBar({ kind: 'phase', icon: dark ? 'dark' : 'lit', title: 'Blackout', sub: dark ? 'Dark · positions fixed' : 'Lights out in 0:03', round: 3, seconds: dark ? 8 : 13, tone: dark ? 'dark' : null }),
-      scene: roomScene('room-a', { active: null, dark, slots: disabler ? { ids: ['A1', 'A2', 'A3', 'A4', 'A5'], picked: state === 'chosen' ? 'A3' : null } : null }),
+      scene: roomScene('room-a', { active: null, dark, frameAll: cold, slots: disabler ? { ids: ['A1', 'A2', 'A3', 'A4', 'A5'], picked: state === 'chosen' ? 'A3' : null } : null }),
       tabs: { hero: 'pass-off', disabled: dark ? { actions: !disabler } : {} },
       overlay: [disabler ? targetBar('position', state === 'chosen' ? 'Position A3 fixed' : 'Choose a position', state === 'chosen' ? 'Resolves after the window · no effect shown now' : 'Room A · any position, even empty', { cancel: 's=blackout&state=pick' }) : null],
     });
