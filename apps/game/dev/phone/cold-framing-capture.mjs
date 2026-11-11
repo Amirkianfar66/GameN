@@ -38,6 +38,9 @@ try{
    const changed=width===390?{width:320,height:568}:{width:390,height:844};await page.send('Emulation.setDeviceMetricsOverride',{...changed,deviceScaleFactor:1,mobile:true});await sleep(160);
    await page.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});await sleep(100);
    assert.equal(await page.evaluate('window.planetHarness.app.game.getModel().action.step'),'slots','No position may be chosen by the old gesture');assert.ok(await page.evaluate('window.__pointerCancelled>0'));
+   // Replay duplicate delayed clicks from the cancelled gesture, explicitly synthetic.
+   await page.evaluate("(()=>{const n=document.querySelector('#planet-slot-A1');for(let i=0;i<2;i++)n.dispatchEvent(new MouseEvent('click',{bubbles:true,detail:1}));})()");
+   assert.equal(await page.evaluate('window.planetHarness.app.game.getModel().action.step'),'slots','Every delayed click stays cancelled until a new pointer gesture');
    const resized=await geometry(page,count,mode);await page.tap('#planet-slot-A2');assert.equal(await page.evaluate('window.planetHarness.app.game.getModel().action.step'),'confirm');
    const choice=await page.evaluate('JSON.stringify(window.planetHarness.app.game.getModel().action)');
    await page.evaluate(`document.documentElement.style.fontSize='${text===1?200:100}%';document.dispatchEvent(new CustomEvent('mothership:preferences-change'))`);await sleep(120);

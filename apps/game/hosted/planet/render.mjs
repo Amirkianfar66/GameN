@@ -374,7 +374,7 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
  };
  const onPointerDown=e=>{if(!pointers.size)cancelledPointerClick=false;pointers.set(e.pointerId,e.target);};
  const onPointerEnd=e=>{if(e.isTrusted)pointers.delete(e.pointerId);};
- const onPointerClick=e=>{if(cancelledPointerClick&&e.detail>0){cancelledPointerClick=false;e.preventDefault();e.stopImmediatePropagation();}};
+ const onPointerClick=e=>{if(cancelledPointerClick&&e.detail>0){e.preventDefault();e.stopImmediatePropagation();}};
  const onKey=e=>{if(e.key==='Escape'){more=false;controller.dismiss();document.getElementById('planet-nav-board')?.focus();}};
  const onVisibility=()=>{controller.setVisible(document.visibilityState==='visible');if(document.visibilityState!=='visible'){motion.cancel();capsule.settle();blackout.settle();films.clear();rescue.clear();cinematic.clear();clearBlocks();drawings.clear();if(raf!==null)win.cancelAnimationFrame(raf);raf=null;}};
  const onMotion=()=>{motion.cancel();capsule.settle();blackout.settle();films.clear();rescue.clear();cinematic.clear();clearBlocks();if(raf!==null)win.cancelAnimationFrame(raf);raf=null;if(model)render(controller.getModel());};
