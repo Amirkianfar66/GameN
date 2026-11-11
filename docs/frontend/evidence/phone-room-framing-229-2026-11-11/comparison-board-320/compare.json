@@ -1,0 +1,66 @@
+{
+  "tool": "design/tools/phone-ui-native-compare.mjs",
+  "createdAt": "2026-11-11T19:13:40.502Z",
+  "browser": "Google Chrome 157.0.8103.40",
+  "view": "Drawn at each part's phone size, 1.5× pixels",
+  "pack": {
+    "commit": "388cc052f2a608a3bdbbba457e53e8686abd54e6",
+    "dirty": false
+  },
+  "build": {
+    "folder": "/private/tmp/gamen-phone-preview-229-accepted-inputs",
+    "head": "675d548be40aa4caf617323a172aa99d717073fa",
+    "dirty": false,
+    "artwork": "8cbe5e896e2fa84f8d7c9df8da0b21cc9d55359d"
+  },
+  "findingsDate": null,
+  "count": 9,
+  "parts": [
+    {
+      "id": "board",
+      "stage": "rooms",
+      "title": "The whole board",
+      "sheet": "26",
+      "view": {
+        "size": "390x844",
+        "text": 1
+      },
+      "pack": {
+        "address": "/design/phone-ui/prototype/index.html?s=board&safe=47%2C34",
+        "image": "img/board-pack.jpg",
+        "width": 585,
+        "height": 1266,
+        "problems": []
+      },
+      "build": {
+        "address": "/?scenario=board&count=9&tuple=phone",
+        "steps": [
+          [
+            "tap",
+            "#planet-nav-board"
+          ],
+          [
+            "wait",
+            900
+          ]
+        ],
+        "image": "img/board-build.jpg",
+        "width": 585,
+        "height": 1266,
+        "log": [
+          "tap: Board Board"
+        ],
+        "problems": []
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "same",
+        "note": "The same layout, and the first tab reads “Room”."
+      },
+      "now": null
+    }
+  ],
+  "stageSheets": [
+    "stages/01-rooms.jpg"
+  ]
+}

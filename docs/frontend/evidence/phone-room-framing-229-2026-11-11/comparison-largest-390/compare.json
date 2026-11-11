@@ -1,0 +1,55 @@
+{
+  "tool": "design/tools/phone-ui-native-compare.mjs",
+  "createdAt": "2026-11-11T19:06:41.551Z",
+  "browser": "Google Chrome 157.0.8103.40",
+  "view": "Drawn at each part's phone size, 1.5× pixels",
+  "pack": {
+    "commit": "388cc052f2a608a3bdbbba457e53e8686abd54e6",
+    "dirty": false
+  },
+  "build": {
+    "folder": "/private/tmp/gamen-phone-preview-229-accepted-inputs",
+    "head": "675d548be40aa4caf617323a172aa99d717073fa",
+    "dirty": false,
+    "artwork": "8cbe5e896e2fa84f8d7c9df8da0b21cc9d55359d"
+  },
+  "findingsDate": null,
+  "count": 9,
+  "parts": [
+    {
+      "id": "largest-text",
+      "stage": "rooms",
+      "title": "Smallest phone, Largest text",
+      "sheet": "56",
+      "view": {
+        "size": "320x568",
+        "text": 2
+      },
+      "pack": {
+        "address": "/design/phone-ui/prototype/index.html?s=result&outcome=PLAYER_JAILED&safe=20%2C0&text=2",
+        "image": "img/largest-text-pack.jpg",
+        "width": 480,
+        "height": 852,
+        "problems": []
+      },
+      "build": {
+        "address": "/?scenario=vote&count=9&tuple=phone",
+        "steps": [],
+        "image": "img/largest-text-build.jpg",
+        "width": 480,
+        "height": 852,
+        "log": [],
+        "problems": []
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "differs",
+        "note": "At 320 × 568 with 200 % text, the tab labels break mid-word (“Boar/d”), the result names no one, and the top bar takes about 130 px, with the clock on a row of its own. The design keeps whole labels, the result’s headline, and a two-line title with the clock beside it."
+      },
+      "now": null
+    }
+  ],
+  "stageSheets": [
+    "stages/01-rooms.jpg"
+  ]
+}

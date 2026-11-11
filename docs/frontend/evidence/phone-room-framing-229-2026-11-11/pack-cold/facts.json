@@ -1,0 +1,59 @@
+{
+  "scope": "Supplemental exact Designer sheet30 cold and cold-pick reference states; desktop Chromium only.",
+  "designHead": "388cc052f2a608a3bdbbba457e53e8686abd54e6",
+  "cases": [
+    {
+      "width": 390,
+      "height": 844,
+      "text": 1,
+      "state": "cold",
+      "address": "/design/phone-ui/prototype/index.html?s=blackout&state=cold&safe=47%2C34",
+      "counts": {
+        "figures": 0,
+        "tags": 0,
+        "positions": 0
+      },
+      "file": "390-844-100-cold.jpg"
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "text": 1,
+      "state": "cold-pick",
+      "address": "/design/phone-ui/prototype/index.html?s=blackout&state=cold-pick&safe=47%2C34",
+      "counts": {
+        "figures": 0,
+        "tags": 0,
+        "positions": 0
+      },
+      "file": "390-844-100-cold-pick.jpg"
+    },
+    {
+      "width": 320,
+      "height": 568,
+      "text": 2,
+      "state": "cold",
+      "address": "/design/phone-ui/prototype/index.html?s=blackout&state=cold&safe=20%2C0&text=2",
+      "counts": {
+        "figures": 0,
+        "tags": 0,
+        "positions": 0
+      },
+      "file": "320-568-200-cold.jpg"
+    },
+    {
+      "width": 320,
+      "height": 568,
+      "text": 2,
+      "state": "cold-pick",
+      "address": "/design/phone-ui/prototype/index.html?s=blackout&state=cold-pick&safe=20%2C0&text=2",
+      "counts": {
+        "figures": 0,
+        "tags": 0,
+        "positions": 0
+      },
+      "file": "320-568-200-cold-pick.jpg"
+    }
+  ],
+  "runtimeErrors": []
+}

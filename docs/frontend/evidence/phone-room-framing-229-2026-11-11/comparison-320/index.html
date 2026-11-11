@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pack and build</title>
+<style>
+  :root { --bg: #0b0e14; --panel: #121722; --ink: #f4ebdd; --muted: #a9b1be; --amber: #f1b84b; --same: #7ed3a2; --close: #93b7e6; --differs: #ff9576; --line: #263042; }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.45 system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  header, main { max-width: 1340px; margin: 0 auto; padding: 16px; }
+  h1 { margin: 8px 0 4px; font-size: 22px; }
+  header p { margin: 4px 0; color: var(--muted); }
+  h2 { color: var(--amber); font-size: 18px; margin: 28px 0 12px; }
+  .pairs { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 400px), 1fr)); gap: 22px; }
+  .pair { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 12px; min-width: 0; }
+  h3 { margin: 0 0 6px; font-size: 16px; }
+  .sheet { color: var(--muted); font-weight: 400; font-size: 13px; }
+  .sides { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  figure { margin: 0; min-width: 0; }
+  img { display: block; width: 100%; height: auto; border-radius: 6px; background: #000; }
+  figcaption { color: var(--muted); font-size: 12px; margin-top: 4px; }
+  .missing div { aspect-ratio: 390 / 844; display: grid; place-items: center; padding: 12px; text-align: center; color: var(--muted); border: 1px dashed var(--line); border-radius: 6px; font-size: 13px; }
+  .finding { margin: 8px 0 0; font-size: 13px; color: var(--muted); }
+  .finding b { margin-right: 4px; }
+  .when { color: var(--muted); }
+  [data-v=same] { color: var(--same); } [data-v=close] { color: var(--close); } [data-v=differs] { color: var(--differs); }
+  details { margin-top: 8px; font-size: 12px; color: var(--muted); }
+  code { word-break: break-all; color: var(--ink); }
+  .failed { color: var(--differs); }
+  body.sheet-mode details, body.sheet-mode .earlier, body.sheet-mode .note { display: none; }
+  section.stage { display: flow-root; }
+  body.sheet-mode section.stage { padding: 4px 16px 16px; }
+  body.sheet-mode .pairs { grid-template-columns: repeat(3, 1fr); }
+</style>
+</head>
+<body>
+<header>
+  <h1>The pack beside the build</h1>
+  <p>33 parts · 0 same · 6 close · 27 differs, as Designer found them on 11 November 2026</p>
+  <p>The pack: <code>388cc052f2a608a3bdbbba457e53e8686abd54e6</code>. The build: <code>675d548be40aa4caf617323a172aa99d717073fa</code>. Drawn at each part&#39;s phone size, 1.5× pixels.</p>
+  <p>Desktop Chromium with sample matches on both sides: not a phone, a live match, VoiceOver or motion.</p>
+</header>
+<main>
+  <section class="stage" data-stage="rooms">
+    <h2>In the rooms</h2>
+    <div class="pairs">
+      <article class="pair" id="room-b">
+        <h3>Room B, your turn <span class="sheet">sheet 21</span></h3>
+        <p class="finding current"><span class="when">11 November 2026:</span> <b data-v="differs">Differs</b> <span class="note">The room is shrunk to the screen’s width, with dark bands above and below, and people drawn smaller. The design fills the space between the bars (the owner’s “too zoom” decision). Pass is a flat tab, and the room’s own “Windows” control is missing.</span></p>
+        <div class="sides"><figure><img src="img/room-b-pack.jpg" alt="The pack" width="585" height="1266"><figcaption>The pack</figcaption></figure><figure><img src="img/room-b-build.jpg" alt="The build" width="585" height="1266"><figcaption>The build</figcaption></figure></div>
+        
+        
+        <details><summary>How each side was drawn</summary>
+          <p>The pack: <code>/design/phone-ui/prototype/index.html?room=room-b&amp;s=room&amp;state=own&amp;safe=47%2C34</code></p>
+          <p>The build: <code>/?scenario=board&amp;count=9&amp;tuple=phone</code></p>
+          
+        </details>
+      </article>
+      <article class="pair" id="room-a">
+        <h3>Room A <span class="sheet">sheet 20</span></h3>
+        <p class="finding current"><span class="when">11 November 2026:</span> <b data-v="differs">Differs</b> <span class="note">Shrunk the same way. The “Window · Hospital” control is missing.</span></p>
+        <div class="sides"><figure><img src="img/room-a-pack.jpg" alt="The pack" width="585" height="1266"><figcaption>The pack</figcaption></figure><figure><img src="img/room-a-build.jpg" alt="The build" width="585" height="1266"><figcaption>The build</figcaption></figure></div>
+        
+        
+        <details><summary>How each side was drawn</summary>
+          <p>The pack: <code>/design/phone-ui/prototype/index.html?room=room-a&amp;s=room&amp;state=own&amp;safe=47%2C34</code></p>
+          <p>The build: <code>/?scenario=doctor&amp;count=9&amp;tuple=phone</code></p>
+          
+        </details>
+      </article>
+      <article class="pair" id="command-room">
+        <h3>Command Room <span class="sheet">sheet 22</span></h3>
+        <p class="finding current"><span class="when">11 November 2026:</span> <b data-v="differs">Differs</b> <span class="note">It fills better, as its picture is taller, but the “Captain console” control is missing.</span></p>
+        <div class="sides"><figure><img src="img/command-room-pack.jpg" alt="The pack" width="585" height="1266"><figcaption>The pack</figcaption></figure><figure><img src="img/command-room-build.jpg" alt="The build" width="585" height="1266"><figcaption>The build</figcaption></figure></div>
+        
+        
+        <details><summary>How each side was drawn</summary>
+          <p>The pack: <code>/design/phone-ui/prototype/index.html?room=command-room&amp;s=room&amp;state=own&amp;safe=47%2C34</code></p>
+          <p>The build: <code>/?scenario=alien&amp;count=9&amp;tuple=phone</code></p>
+          
+        </details>
+      </article>
+      <article class="pair" id="hospital">
+        <h3>Hospital <span class="sheet">sheet 23</span></h3>
+        <p class="finding current"><span class="when">11 November 2026:</span> <b data-v="differs">Differs</b> <span class="note">The worst case: the ward small at the top over an empty band, the patients tiny. The “Hospital panel” control is missing.</span></p>
+        <div class="sides"><figure><img src="img/hospital-pack.jpg" alt="The pack" width="585" height="1266"><figcaption>The pack</figcaption></figure><figure><img src="img/hospital-build.jpg" alt="The build" width="585" height="1266"><figcaption>The build</figcaption></figure></div>
+        
+        
+        <details><summary>How each side was drawn</summary>
+          <p>The pack: <code>/design/phone-ui/prototype/index.html?room=hospital&amp;s=room&amp;safe=47%2C34</code></p>
+          <p>The build: <code>/?scenario=hospital&amp;count=9&amp;tuple=phone</code></p>
+          
+        </details>
+      </article>
+      <article class="pair" id="largest-text">
+        <h3>Smallest phone, Largest text <span class="sheet">sheet 56</span></h3>
+        <p class="finding current"><span class="when">11 November 2026:</span> <b data-v="differs">Differs</b> <span class="note">At 320 × 568 with 200 % text, the tab labels break mid-word (“Boar/d”), the result names no one, and the top bar takes about 130 px, with the clock on a row of its own. The design keeps whole labels, the result’s headline, and a two-line title with the clock beside it.</span></p>
+        <div class="sides"><figure><img src="img/largest-text-pack.jpg" alt="The pack" width="480" height="852"><figcaption>The pack</figcaption></figure><figure><img src="img/largest-text-build.jpg" alt="The build" width="480" height="852"><figcaption>The build</figcaption></figure></div>
+        
+        
+        <details><summary>How each side was drawn</summary>
+          <p>The pack: <code>/design/phone-ui/prototype/index.html?s=result&amp;outcome=PLAYER_JAILED&amp;safe=20%2C0&amp;text=2</code></p>
+          <p>The build: <code>/?scenario=vote&amp;count=9&amp;tuple=phone</code></p>
+          
+        </details>
+      </article>
+    </div>
+  </section>
+  <section class="stage" data-stage="turn">
+    <h2>Your turn</h2>
+    <div class="pairs">
+      <article class="pair" id="pass">
+        <h3>Pass <span class="sheet">sheet 27.3</span></h3>
+        <p class="finding current"><span class="when">11 November 2026:</span> <b data-v="differs">Differs</b> <span class="note">Only “Pass?”. The design says “Pass your turn? The turn goes to Eli · Player 5” and that your move stays open.</span></p>
+        <div class="sides"><figure><img src="img/pass-pack.jpg" alt="The pack" width="585" height="1266"><figcaption>The pack</figcaption></figure><figure><img src="img/pass-build.jpg" alt="The build" width="585" height="1266"><figcaption>The build</figcaption></figure></div>
+        
+        
+        <details><summary>How each side was drawn</summary>
+          <p>The pack: <code>/design/phone-ui/prototype/index.html?room=room-a&amp;s=room&amp;state=pass&amp;safe=47%2C34</code></p>
+          <p>The build: <code>/?scenario=board&amp;count=9&amp;tuple=phone</code>, then <code>[[&quot;tap&quot;,&quot;#planet-pass&quot;],[&quot;wait&quot;,600]]</code></p>
+          
+        </details>
+      </article>
+      <article class="pair" id="actions">
+        <h3>Actions <span class="sheet">sheet 28</span></h3>
+        <p class="finding current"><span class="when">11 November 2026:</span> <b data-v="differs">Differs</b> <span class="note">Only the offered actions, one tall row each, in an otherwise empty sheet. The design shows every action of your role as a tile with its state: 2 injections, Once a round, From Round 4.</span></p>
+        <div class="sides"><figure><img src="img/actions-pack.jpg" alt="The pack" width="585" height="1266"><figcaption>The pack</figcaption></figure><figure><img src="img/actions-build.jpg" alt="The build" width="585" height="1266"><figcaption>The build</figcaption></figure></div>
+        
+        
+        <details><summary>How each side was drawn</summary>
+          <p>The pack: <code>/design/phone-ui/prototype/index.html?active=4&amp;role=Doctor&amp;s=actions&amp;safe=47%2C34</code></p>
+          <p>The build: <code>/?scenario=doctor&amp;count=9&amp;tuple=phone</code>, then <code>[[&quot;tap&quot;,&quot;#planet-nav-actions&quot;],[&quot;wait&quot;,600]]</code></p>
+          
+        </details>
+      </article>
+      <article class="pair" id="targeting">
+        <h3>Choosing a target <span class="sheet">sheet 29</span></h3>
+        <p class="finding current"><span class="when">11 November 2026:</span> <b data-v="close">Close</b> <span class="note">Targets are the people where they stand. There is no “Rescue · Choose a player · Cancel” bar, and the centre Pass becomes “×”.</span></p>
+        <div class="sides"><figure><img src="img/targeting-pack.jpg" alt="The pack" width="585" height="1266"><figcaption>The pack</figcaption></figure><figure><img src="img/targeting-build.jpg" alt="The build" width="585" height="1266"><figcaption>The build</figcaption></figure></div>
+        
+        
+        <details><summary>How each side was drawn</summary>
+          <p>The pack: <code>/design/phone-ui/prototype/index.html?act=rescue&amp;active=4&amp;role=Doctor&amp;s=actions&amp;state=targeting&amp;safe=47%2C34</code></p>
+          <p>The build: <code>/?scenario=doctor&amp;count=9&amp;tuple=phone</code>, then <code>[[&quot;tap&quot;,&quot;#planet-nav-actions&quot;],[&quot;wait&quot;,500],[&quot;tapText&quot;,&quot;Rescue&quot;],[&quot;wait&quot;,700]]</code></p>
+          
+        </details>
+      </article>
+      <article class="pair" id="target-check">
+        <h3>Check before Register <span class="sheet">sheet 29</span></h3>
+        <p class="finding current"><span class="when">11 November 2026:</span> <b data-v="differs">Differs</b> <span class="note">Only “Rescue — Player 3?”. The design shows the person and what the action costs and does: “Uses 1 of 2 shared injections”, and when it resolves.</span></p>
+        <div class="sides"><figure><img src="img/target-check-pack.jpg" alt="The pack" width="585" height="1266"><figcaption>The pack</figcaption></figure><figure><img src="img/target-check-build.jpg" alt="The build" width="585" height="1266"><figcaption>The build</figcaption></figure></div>
+        
+        
+        <details><summary>How each side was drawn</summary>
+          <p>The pack: <code>/design/phone-ui/prototype/index.html?act=rescue&amp;active=4&amp;role=Doctor&amp;s=actions&amp;state=confirm&amp;target=1&amp;safe=47%2C34</code></p>
+          <p>The build: <code>/?scenario=doctor&amp;count=9&amp;tuple=phone</code>, then <code>[[&quot;tap&quot;,&quot;#planet-nav-actions&quot;],[&quot;wait&quot;,500],[&quot;tapText&quot;,&quot;Rescue&quot;],[&quot;wait&quot;,600],[&quot;tapText&quot;,&quot;Crew|Player \\d&quot;,{&quot;exclude&quot;:&quot;nav|top|pass&quot;}],[&quot;wait&quot;,600]]</code></p>
+          
+        </details>
+      </article>
+      <article class="pair" id="registered">
+        <h3>After Register <span class="sheet">sheet 29.1</span></h3>
+        <p class="finding current"><span class="when">11 November 2026:</span> <b data-v="differs">Differs</b> <span class="note">“Registered. Resolution is pending.” (Scan says “Waiting for the authoritative view.”) The design says what will happen and when, with a REGISTERED stamp and a time line.</span></p>
+        <div class="sides"><figure><img src="img/registered-pack.jpg" alt="The pack" width="585" height="1266"><figcaption>The pack</figcaption></figure><figure><img src="img/registered-build.jpg" alt="The build" width="585" height="1266"><figcaption>The build</figcaption></figure></div>
+        
+        
+        <details><summary>How each side was drawn</summary>
+          <p>The pack: <code>/design/phone-ui/prototype/index.html?act=rescue&amp;active=4&amp;role=Doctor&amp;s=actions&amp;state=registered&amp;target=1&amp;safe=47%2C34</code></p>
+          <p>The build: <code>/?scenario=doctor&amp;count=9&amp;tuple=phone</code>, then <code>[[&quot;tap&quot;,&quot;#planet-nav-actions&quot;],[&quot;wait&quot;,500],[&quot;tapText&quot;,&quot;Rescue&quot;],[&quot;wait&quot;,600],[&quot;tapText&quot;,&quot;Crew|Player \\d&quot;,{&quot;exclude&quot;:&quot;nav|top|pass&quot;}],[&quot;wait&quot;,600],[&quot;tapText&quot;,&quot;^Register&quot;],[&quot;wait&quot;,1200]]</code></p>
+          
+        </details>
+      </article>
+      <article class="pair" id="scan">
+        <h3>Hacker: Scan <span class="sheet">sheet 42</span></h3>
+        <p class="finding current"><span class="when">11 November 2026:</span> <b data-v="differs">Differs</b> <span class="note">Choosing whom to scan opens the whole board, and the guess that follows is three plain buttons. The design keeps your room with a Scan bar, then puts the person and the guess on one card.</span></p>
+        <div class="sides"><figure><img src="img/scan-pack.jpg" alt="The pack" width="585" height="1266"><figcaption>The pack</figcaption></figure><figure><img src="img/scan-build.jpg" alt="The build" width="585" height="1266"><figcaption>The build</figcaption></figure></div>
+        
+        
+        <details><summary>How each side was drawn</summary>
+          <p>The pack: <code>/design/phone-ui/prototype/index.html?s=scan&amp;state=target&amp;safe=47%2C34</code></p>
+          <p>The build: <code>/?scenario=hacker&amp;count=9&amp;tuple=phone</code>, then <code>[[&quot;tap&quot;,&quot;#planet-nav-actions&quot;],[&quot;wait&quot;,500],[&quot;tapText&quot;,&quot;^Scan&quot;],[&quot;wait&quot;,700]]</code></p>
+          
+        </details>
+      </article>
+      <article class="pair" id="code">
+        <h3>Hacker: final Code <span class="sheet">sheet 42</span></h3>
+        <p class="finding current"><span class="when">11 November 2026:</span> <b data-v="differs">Differs</b> <span class="note">Nine “Player n” text buttons. The design uses the nine portraits with names and marks Pick 1–4.</span></p>
+        <div class="sides"><figure><img src="img/code-pack.jpg" alt="The pack" width="585" height="1266"><figcaption>The pack</figcaption></figure><figure><img src="img/code-build.jpg" alt="The build" width="585" height="1266"><figcaption>The build</figcaption></figure></div>
+        
+        
+        <details><summary>How each side was drawn</summary>
+          <p>The pack: <code>/design/phone-ui/prototype/index.html?s=code&amp;state=pick&amp;safe=47%2C34</code></p>
+          <p>The build: <code>/?scenario=hacker&amp;count=9&amp;tuple=phone</code>, then <code>[[&quot;tap&quot;,&quot;#planet-nav-actions&quot;],[&quot;wait&quot;,500],[&quot;tapText&quot;,&quot;final Code&quot;],[&quot;wait&quot;,700]]</code></p>
+          
+        </details>
+      </article>
+      <article class="pair" id="clone">
+        <h3>Alien: Clone <span class="sheet">sheet 29.2</span></h3>
+        <p class="finding current"><span class="when">11 November 2026:</span> <b data-v="differs">Differs</b> <span class="note">The “CLONE ACTIVE” stamp is drawn over its own sentence. The design confirms the Clone with an ACTIVE stamp and a time line.</span></p>
+        <div class="sides"><figure><img src="img/clone-pack.jpg" alt="The pack" width="585" height="1266"><figcaption>The pack</figcaption></figure><figure><img src="img/clone-build.jpg" alt="The build" width="585" height="1266"><figcaption>The build</figcaption></figure></div>
+        
+        
+        <details><summary>How each side was drawn</summary>
+          <p>The pack: <code>/design/phone-ui/prototype/index.html?act=clone&amp;active=4&amp;role=Alien&amp;s=actions&amp;state=registered&amp;safe=47%2C34</code></p>
+          <p>The build: <code>/?scenario=alien&amp;count=9&amp;tuple=phone</code>, then <code>[[&quot;tap&quot;,&quot;#planet-nav-card&quot;],[&quot;wait&quot;,700]]</code></p>
+          
+        </details>
+      </article>
+      <article class="pair" id="card">
+        <h3>Card <span class="sheet">sheet 31</span></h3>
+        <p class="finding current"><span class="when">11 November 2026:</span> <b data-v="differs">Differs</b> <span class="note">A dark box of paragraphs. The design shows the large illustrated card with Card, Knowledge and Resources, and a Hide button.</span></p>
+        <div class="sides"><figure><img src="img/card-pack.jpg" alt="The pack" width="585" height="1266"><figcaption>The pack</figcaption></figure><figure><img src="img/card-build.jpg" alt="The build" width="585" height="1266"><figcaption>The build</figcaption></figure></div>
+        
+        
+        <details><summary>How each side was drawn</summary>
+          <p>The pack: <code>/design/phone-ui/prototype/index.html?role=Hacker&amp;s=card&amp;safe=47%2C34</code></p>
+          <p>The build: <code>/?scenario=board&amp;count=9&amp;tuple=phone</code>, then <code>[[&quot;tap&quot;,&quot;#planet-nav-card&quot;],[&quot;wait&quot;,700]]</code></p>
+          
+        </details>
+      </article>
+    </div>
+  </section>
+  <section class="stage" data-stage="panels">
+    <h2>Panels and Promises</h2>
+    <div class="pairs">
+      <article class="pair" id="panels">
+        <h3>Panels <span class="sheet">sheet 32</span></h3>
+        <p class="finding current"><span class="when">11 November 2026:</span> <b data-v="differs">Differs</b> <span class="note">Tall rows without explanations. The design’s rows say what each panel shows and who can use it, such as “Navigation · Captain and Officer only”.</span></p>
+        <div class="sides"><figure><img src="img/panels-pack.jpg" alt="The pack" width="585" height="1266"><figcaption>The pack</figcaption></figure><figure><img src="img/panels-build.jpg" alt="The build" width="585" height="1266"><figcaption>The build</figcaption></figure></div>
+        
+        
+        <details><summary>How each side was drawn</summary>
+          <p>The pack: <code>/design/phone-ui/prototype/index.html?s=panels&amp;safe=47%2C34</code></p>
+          <p>The build: <code>/?scenario=board&amp;count=9&amp;tuple=phone</code>, then <code>[[&quot;tap&quot;,&quot;#planet-nav-panels&quot;],[&quot;wait&quot;,600]]</code></p>
+          
+        </details>
+      </article>
+      <article class="pair" id="settings">
+        <h3>Settings (⋮) <span class="sheet">sheet 32</span></h3>
+        <p class="finding current"><span class="when">11 November 2026:</span> <b data-v="differs">Differs</b> <span class="note">A checkbox and a drop-down under a folded line. The design has a switch with its explanation and Standard / Large / Largest.</span></p>
+        <div class="sides"><figure><img src="img/settings-pack.jpg" alt="The pack" width="585" height="1266"><figcaption>The pack</figcaption></figure><figure><img src="img/settings-build.jpg" alt="The build" width="585" height="1266"><figcaption>The build</figcaption></figure></div>
+        
+        
+        <details><summary>How each side was drawn</summary>
+          <p>The pack: <code>/design/phone-ui/prototype/index.html?s=settings&amp;safe=47%2C34</code></p>
+          <p>The build: <code>/?scenario=board&amp;count=9&amp;tuple=phone</code>, then <code>[[&quot;tap&quot;,&quot;#planet-top-settings&quot;],[&quot;wait&quot;,500],[&quot;tap&quot;,&quot;summary&quot;],[&quot;wait&quot;,500]]</code></p>
+          
+        </details>
+      </article>
+      <article class="pair" id="players">
+        <h3>Players <span class="sheet">sheet 32</span></h3>
+        <p class="finding current"><span class="when">11 November 2026:</span> <b data-v="differs">Differs</b> <span class="note">Plain text lines (“Player 1 · Crew 1 · Room A · Healthy”). The design has portraits, names, Captain and Officer badges, and injuries.</span></p>
+        <div class="sides"><figure><img src="img/players-pack.jpg" alt="The pack" width="585" height="1266"><figcaption>The pack</figcaption></figure><figure><img src="img/players-build.jpg" alt="The build" width="585" height="1266"><figcaption>The build</figcaption></figure></div>
+        
+        
+        <details><summary>How each side was drawn</summary>
+          <p>The pack: <code>/design/phone-ui/prototype/index.html?s=players&amp;safe=47%2C34</code></p>
+          <p>The build: <code>/?scenario=board&amp;count=9&amp;tuple=phone</code>, then <code>[[&quot;tap&quot;,&quot;#planet-nav-panels&quot;],[&quot;wait&quot;,500],[&quot;tapText&quot;,&quot;^Players&quot;],[&quot;wait&quot;,600]]</code></p>
+          
+        </details>
+      </article>
+      <article class="pair" id="round-order">
+        <h3>Round order <span class="sheet">sheet 32</span></h3>
+        <p class="finding current"><span class="when">11 November 2026:</span> <b data-v="differs">Differs</b> <span class="note">One long sentence. The design lists each phase on its own row with its timing.</span></p>
+        <div class="sides"><figure><img src="img/round-order-pack.jpg" alt="The pack" width="585" height="1266"><figcaption>The pack</figcaption></figure><figure><img src="img/round-order-build.jpg" alt="The build" width="585" height="1266"><figcaption>The build</figcaption></figure></div>
+        
+        
+        <details><summary>How each side was drawn</summary>
+          <p>The pack: <code>/design/phone-ui/prototype/index.html?s=rules&amp;safe=47%2C34</code></p>
+          <p>The build: <code>/?scenario=board&amp;count=9&amp;tuple=phone</code>, then <code>[[&quot;tap&quot;,&quot;#planet-nav-panels&quot;],[&quot;wait&quot;,500],[&quot;tapText&quot;,&quot;^Round order&quot;],[&quot;wait&quot;,600]]</code></p>
+          
+        </details>
+      </article>
+      <article class="pair" id="windows">
+        <h3>Windows <span class="sheet">sheet 34</span></h3>
+        <p class="finding current"><span class="when">11 November 2026:</span> <b data-v="close">Close</b> <span class="note">Window pairs, the drawings and “Unverified” match. Player numbers instead of names.</span></p>
+        <div class="sides"><figure><img src="img/windows-pack.jpg" alt="The pack" width="585" height="1266"><figcaption>The pack</figcaption></figure><figure><img src="img/windows-build.jpg" alt="The build" width="585" height="1266"><figcaption>The build</figcaption></figure></div>
+        
+        
+        <details><summary>How each side was drawn</summary>
+          <p>The pack: <code>/design/phone-ui/prototype/index.html?s=windows&amp;state=view&amp;safe=47%2C34</code></p>
+          <p>The build: <code>/?scenario=windows&amp;count=9&amp;tuple=phone</code>, then <code>[[&quot;tap&quot;,&quot;#planet-nav-panels&quot;],[&quot;wait&quot;,500],[&quot;tapText&quot;,&quot;^Windows&quot;],[&quot;wait&quot;,700]]</code></p>
+          
+        </details>
+      </article>
+      <article class="pair" id="hospital-panel">
+        <h3>Hospital panel <span class="sheet">sheet 43</span></h3>
+        <p class="finding current"><span class="when">11 November 2026:</span> <b data-v="close">Close</b> <span class="note">The keypad 1–9 and its one-attempt rule match.</span></p>
+        <div class="sides"><figure><img src="img/hospital-panel-pack.jpg" alt="The pack" width="585" height="1266"><figcaption>The pack</figcaption></figure><figure><img src="img/hospital-panel-build.jpg" alt="The build" width="585" height="1266"><figcaption>The build</figcaption></figure></div>
+        
+        
+        <details><summary>How each side was drawn</summary>
+          <p>The pack: <code>/design/phone-ui/prototype/index.html?s=panel&amp;state=enter&amp;safe=47%2C34</code></p>
+          <p>The build: <code>/?scenario=hospital&amp;count=9&amp;tuple=phone</code>, then <code>[[&quot;tap&quot;,&quot;#planet-nav-panels&quot;],[&quot;wait&quot;,500],[&quot;tapText&quot;,&quot;Hospital panel&quot;],[&quot;wait&quot;,600],[&quot;tapText&quot;,&quot;Hospital panel&quot;,{&quot;scope&quot;:&quot;.planet-sheet&quot;}],[&quot;wait&quot;,700]]</code></p>
+          
+        </details>
+      </article>
+      <article class="pair" id="promise-offer">
+        <h3>Offer a Promise <span class="sheet">sheet 33</span></h3>
+        <p class="finding current"><span class="when">11 November 2026:</span> <b data-v="differs">Differs</b> <span class="note">It first asks you to pick your private-talk partner, who is already known. The design goes straight to “Offer to Ava” and the six kinds.</span></p>
+        <div class="sides"><figure><img src="img/promise-offer-pack.jpg" alt="The pack" width="585" height="1266"><figcaption>The pack</figcaption></figure><figure><img src="img/promise-offer-build.jpg" alt="The build" width="585" height="1266"><figcaption>The build</figcaption></figure></div>
+        
+        
+        <details><summary>How each side was drawn</summary>
+          <p>The pack: <code>/design/phone-ui/prototype/index.html?s=promises&amp;state=kinds&amp;safe=47%2C34</code></p>
+          <p>The build: <code>/?scenario=promises&amp;count=9&amp;tuple=phone</code>, then <code>[[&quot;tap&quot;,&quot;#planet-top-promises&quot;],[&quot;wait&quot;,600],[&quot;tapText&quot;,&quot;Offer a Promise&quot;],[&quot;wait&quot;,700]]</code></p>
+          
+        </details>
+      </article>
+      <article class="pair" id="promise-incoming">
+        <h3>A Promise offered to you <span class="sheet">sheet 33</span></h3>
+        <p class="finding current"><span class="when">11 November 2026:</span> <b data-v="differs">Differs</b> <span class="note">A line of counts and Accept / Decline rows. The design shows the offer as a card with its exact terms, then Decline or Accept.</span></p>
+        <div class="sides"><figure><img src="img/promise-incoming-pack.jpg" alt="The pack" width="585" height="1266"><figcaption>The pack</figcaption></figure><figure><img src="img/promise-incoming-build.jpg" alt="The build" width="585" height="1266"><figcaption>The build</figcaption></figure></div>
+        
+        
+        <details><summary>How each side was drawn</summary>
+          <p>The pack: <code>/design/phone-ui/prototype/index.html?s=promises&amp;state=incoming&amp;safe=47%2C34</code></p>
+          <p>The build: <code>/?scenario=promises&amp;count=9&amp;tuple=phone</code>, then <code>[[&quot;tap&quot;,&quot;#planet-top-promises&quot;],[&quot;wait&quot;,600]]</code></p>
+          
+        </details>
+      </article>
+      <article class="pair" id="promise-results">
+        <h3>Promise results <span class="sheet">sheet 33.1</span></h3>
+        <p class="finding current"><span class="when">11 November 2026:</span> <b data-v="close">Close</b> <span class="note">Cards with Pending and Not fulfilled, within the quota. Player numbers instead of names and portraits.</span></p>
+        <div class="sides"><figure><img src="img/promise-results-pack.jpg" alt="The pack" width="585" height="1266"><figcaption>The pack</figcaption></figure><figure><img src="img/promise-results-build.jpg" alt="The build" width="585" height="1266"><figcaption>The build</figcaption></figure></div>
+        
+        
+        <details><summary>How each side was drawn</summary>
+          <p>The pack: <code>/design/phone-ui/prototype/index.html?case=fulfilled&amp;s=promises&amp;state=results&amp;safe=47%2C34</code></p>
+          <p>The build: <code>/?scenario=promise-results&amp;count=9&amp;tuple=phone</code>, then <code>[[&quot;tap&quot;,&quot;#planet-top-promises&quot;],[&quot;wait&quot;,600]]</code></p>
+          
+        </details>
+      </article>
+    </div>
+  </section>
+  <section class="stage" data-stage="votes">
+    <h2>Votes and offices</h2>
+    <div class="pairs">
+      <article class="pair" id="jail-ballot">
+        <h3>Jail vote <span class="sheet">sheet 35</span></h3>
+        <p class="finding current"><span class="when">11 November 2026:</span> <b data-v="close">Close</b> <span class="note">The 3 × 3 roster and Abstain.</span></p>
+        <div class="sides"><figure><img src="img/jail-ballot-pack.jpg" alt="The pack" width="585" height="1266"><figcaption>The pack</figcaption></figure><figure><img src="img/jail-ballot-build.jpg" alt="The build" width="585" height="1266"><figcaption>The build</figcaption></figure></div>
+        
+        
+        <details><summary>How each side was drawn</summary>
+          <p>The pack: <code>/design/phone-ui/prototype/index.html?kind=jail&amp;s=vote&amp;safe=47%2C34</code></p>
+          <p>The build: <code>/?scenario=board&amp;count=9&amp;tuple=phone</code>, then <code>[[&quot;eval&quot;,&quot;window.planetHarness.openJailVote()&quot;],[&quot;wait&quot;,900],[&quot;tap&quot;,&quot;#planet-pass&quot;],[&quot;wait&quot;,700]]</code></p>
+          
+        </details>
+      </article>
+      <article class="pair" id="jail-result">
+        <h3>Jail result <span class="sheet">sheet 38</span></h3>
+        <p class="finding current"><span class="when">11 November 2026:</span> <b data-v="differs">Differs</b> <span class="note">It names no one (“Jail full · no transfer”), sits on dark glass, and shows zero as “–”. The design names the outcome on the paper card, “GUS CHOSEN · JAIL FULL”, with its stamp.</span></p>
+        <div class="sides"><figure><img src="img/jail-result-pack.jpg" alt="The pack" width="585" height="1266"><figcaption>The pack</figcaption></figure><figure><img src="img/jail-result-build.jpg" alt="The build" width="585" height="1266"><figcaption>The build</figcaption></figure></div>
+        
+        
+        <details><summary>How each side was drawn</summary>
+          <p>The pack: <code>/design/phone-ui/prototype/index.html?outcome=JAIL_FULL&amp;s=result&amp;safe=47%2C34</code></p>
+          <p>The build: <code>/?scenario=vote&amp;count=9&amp;tuple=phone</code></p>
+          
+        </details>
+      </article>
+      <article class="pair" id="appointment">
+        <h3>Officer appointment <span class="sheet">sheet 40</span></h3>
+        <p class="finding current"><span class="when">11 November 2026:</span> <b data-v="differs">Differs</b> <span class="note">A row inside Actions. The design opens “Choose your Officer” by itself for its 30 seconds, with portraits and the reason someone can’t be chosen.</span></p>
+        <div class="sides"><figure><img src="img/appointment-pack.jpg" alt="The pack" width="585" height="1266"><figcaption>The pack</figcaption></figure><figure><img src="img/appointment-build.jpg" alt="The build" width="585" height="1266"><figcaption>The build</figcaption></figure></div>
+        
+        
+        <details><summary>How each side was drawn</summary>
+          <p>The pack: <code>/design/phone-ui/prototype/index.html?s=captain&amp;state=appoint&amp;safe=47%2C34</code></p>
+          <p>The build: <code>/?scenario=appointment&amp;count=9&amp;tuple=phone</code>, then <code>[[&quot;tap&quot;,&quot;#planet-nav-actions&quot;],[&quot;wait&quot;,700]]</code></p>
+          
+        </details>
+      </article>
+      <article class="pair" id="block">
+        <h3>Officer’s block <span class="sheet">sheet 40</span></h3>
+        <p class="finding current"><span class="when">11 November 2026:</span> <b data-v="differs">Differs</b> <span class="note">A row inside Actions. The design opens “Block movement” by itself, with portraits, Skip and Block.</span></p>
+        <div class="sides"><figure><img src="img/block-pack.jpg" alt="The pack" width="585" height="1266"><figcaption>The pack</figcaption></figure><figure><img src="img/block-build.jpg" alt="The build" width="585" height="1266"><figcaption>The build</figcaption></figure></div>
+        
+        
+        <details><summary>How each side was drawn</summary>
+          <p>The pack: <code>/design/phone-ui/prototype/index.html?s=officer&amp;state=pick&amp;safe=47%2C34</code></p>
+          <p>The build: <code>/?scenario=block&amp;count=9&amp;tuple=phone</code>, then <code>[[&quot;tap&quot;,&quot;#planet-nav-actions&quot;],[&quot;wait&quot;,700]]</code></p>
+          
+        </details>
+      </article>
+      <article class="pair" id="tie">
+        <h3>Navigation tie <span class="sheet">sheet 41</span></h3>
+        <p class="finding current"><span class="when">11 November 2026:</span> <b data-v="differs">Differs</b> <span class="note">The route map matches, but the choice is in Panels, then Navigation, then “Choose tie direction”. The design shows Blue and Red to the offices directly.</span></p>
+        <div class="sides"><figure><img src="img/tie-pack.jpg" alt="The pack" width="585" height="1266"><figcaption>The pack</figcaption></figure><figure><img src="img/tie-build.jpg" alt="The build" width="585" height="1266"><figcaption>The build</figcaption></figure></div>
+        
+        
+        <details><summary>How each side was drawn</summary>
+          <p>The pack: <code>/design/phone-ui/prototype/index.html?s=nav&amp;state=tie&amp;safe=47%2C34</code></p>
+          <p>The build: <code>/?scenario=tie&amp;count=9&amp;tuple=phone</code>, then <code>[[&quot;tap&quot;,&quot;#planet-nav-panels&quot;],[&quot;wait&quot;,500],[&quot;tapText&quot;,&quot;^Navigation&quot;],[&quot;wait&quot;,700]]</code></p>
+          
+        </details>
+      </article>
+      <article class="pair" id="nav-public">
+        <h3>Navigation, for everyone <span class="sheet">sheet 41</span></h3>
+        <p class="finding current"><span class="when">11 November 2026:</span> <b data-v="differs">Differs</b> <span class="note">A line of text in Panels. The design shows everyone the ship travelling for the same 15 seconds.</span></p>
+        <div class="sides"><figure><img src="img/nav-public-pack.jpg" alt="The pack" width="585" height="1266"><figcaption>The pack</figcaption></figure><figure><img src="img/nav-public-build.jpg" alt="The build" width="585" height="1266"><figcaption>The build</figcaption></figure></div>
+        
+        
+        <details><summary>How each side was drawn</summary>
+          <p>The pack: <code>/design/phone-ui/prototype/index.html?s=nav&amp;state=public&amp;safe=47%2C34</code></p>
+          <p>The build: <code>/?scenario=board&amp;count=9&amp;tuple=phone</code>, then <code>[[&quot;tap&quot;,&quot;#planet-nav-panels&quot;],[&quot;wait&quot;,500],[&quot;tapText&quot;,&quot;^Navigation&quot;],[&quot;wait&quot;,600]]</code></p>
+          
+        </details>
+      </article>
+      <article class="pair" id="blackout">
+        <h3>Blackout, dark <span class="sheet">sheet 30</span></h3>
+        <p class="finding current"><span class="when">11 November 2026:</span> <b data-v="close">Close</b> <span class="note">The dark room with every position as a ring, and the Disabler choosing a position.</span></p>
+        <div class="sides"><figure><img src="img/blackout-pack.jpg" alt="The pack" width="585" height="1266"><figcaption>The pack</figcaption></figure><figure><img src="img/blackout-build.jpg" alt="The build" width="585" height="1266"><figcaption>The build</figcaption></figure></div>
+        
+        
+        <details><summary>How each side was drawn</summary>
+          <p>The pack: <code>/design/phone-ui/prototype/index.html?s=blackout&amp;state=dark&amp;safe=47%2C34</code></p>
+          <p>The build: <code>/?scenario=blackout&amp;count=9&amp;tuple=phone</code></p>
+          
+        </details>
+      </article>
+    </div>
+  </section>
+  <section class="stage" data-stage="system">
+    <h2>Host and connection</h2>
+    <div class="pairs">
+      <article class="pair" id="host-controls">
+        <h3>Host controls in a match <span class="sheet">sheet 15</span></h3>
+        <p class="finding current"><span class="when">11 November 2026:</span> <b data-v="differs">Differs</b> <span class="note">Inside Settings, as “Check server deadline”, “Run eligible bots” and “Issue recovery for Player 6”. The design has its own sheet in plain words with a code for each seat.</span></p>
+        <div class="sides"><figure><img src="img/host-controls-pack.jpg" alt="The pack" width="585" height="1266"><figcaption>The pack</figcaption></figure><figure><img src="img/host-controls-build.jpg" alt="The build" width="585" height="1266"><figcaption>The build</figcaption></figure></div>
+        
+        
+        <details><summary>How each side was drawn</summary>
+          <p>The pack: <code>/design/phone-ui/prototype/index.html?s=host-controls&amp;safe=47%2C34</code></p>
+          <p>The build: <code>/?scenario=board&amp;count=9&amp;tuple=phone</code>, then <code>[[&quot;eval&quot;,&quot;(() =&gt; { const h = window.planetHarness, v = structuredClone(h.value); v.isHost = true; return h.replace(v); })()&quot;],[&quot;wait&quot;,600],[&quot;tap&quot;,&quot;#planet-top-settings&quot;],[&quot;wait&quot;,500],[&quot;reveal&quot;,&quot;Check server deadline&quot;],[&quot;wait&quot;,400]]</code></p>
+          
+        </details>
+      </article>
+      <article class="pair" id="reconnecting">
+        <h3>Reconnecting <span class="sheet">sheet 45</span></h3>
+        <p class="finding current"><span class="when">11 November 2026:</span> <b data-v="differs">Differs</b> <span class="note">The room disappears behind “Connection interrupted. Your command recovery is retained.” The design keeps the last room, dimmed, with “Connection lost” and Retry.</span></p>
+        <div class="sides"><figure><img src="img/reconnecting-pack.jpg" alt="The pack" width="585" height="1266"><figcaption>The pack</figcaption></figure><figure><img src="img/reconnecting-build.jpg" alt="The build" width="585" height="1266"><figcaption>The build</figcaption></figure></div>
+        
+        
+        <details><summary>How each side was drawn</summary>
+          <p>The pack: <code>/design/phone-ui/prototype/index.html?room=room-a&amp;s=room&amp;state=reconnecting&amp;safe=47%2C34</code></p>
+          <p>The build: <code>/?scenario=board&amp;count=9&amp;tuple=phone</code>, then <code>[[&quot;eval&quot;,&quot;window.planetHarness.setReadFailure(true)&quot;],[&quot;eval&quot;,&quot;window.planetHarness.app.session.refresh()&quot;],[&quot;wait&quot;,2500]]</code></p>
+          
+        </details>
+      </article>
+    </div>
+  </section>
+  <section class="stage" data-stage="end">
+    <h2>End of the match</h2>
+    <div class="pairs">
+      <article class="pair" id="end">
+        <h3>End of the match <span class="sheet">sheet 44</span></h3>
+        <p class="finding current"><span class="when">11 November 2026:</span> <b data-v="differs">Differs</b> <span class="note">A text list on glass. The design shows the planet and the ship, the “RED WINS” stamp, and every player’s portrait with their role.</span></p>
+        <div class="sides"><figure><img src="img/end-pack.jpg" alt="The pack" width="585" height="1266"><figcaption>The pack</figcaption></figure><figure><img src="img/end-build.jpg" alt="The build" width="585" height="1266"><figcaption>The build</figcaption></figure></div>
+        
+        
+        <details><summary>How each side was drawn</summary>
+          <p>The pack: <code>/design/phone-ui/prototype/index.html?s=end&amp;winner=Red&amp;safe=47%2C34</code></p>
+          <p>The build: <code>/?scenario=finished&amp;count=9&amp;tuple=phone</code></p>
+          
+        </details>
+      </article>
+    </div>
+  </section>
+</main>
+<script>if (new URLSearchParams(location.search).has('sheet')) document.body.classList.add('sheet-mode');</script>
+</body>
+</html>
