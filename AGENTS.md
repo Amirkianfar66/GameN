@@ -43,6 +43,24 @@ Shared files (`packages/contracts/`, canonical rule definitions, root manifests/
 
 Agents are task roles, not GitHub user accounts. Use real GitHub assignees only when their identities are known and assignment is authorized.
 
+## Phone interface specification and merge gate
+
+The owner's **11 November 2026** decision in [docs/design/owner-decisions.md](docs/design/owner-decisions.md#11-november-2026-the-build-follows-the-pack) makes the phone design pack the specification, not an optional reference. Follow [the sheets](design/phone-ui/review/sheets/), [phone-ui.md](docs/design/phone-ui.md), and [the handoff](docs/design/phone-ui-handoff.md) for layout, controls, words and behavior. [Issue #222](https://github.com/Amirkianfar66/GameN/issues/222) is the prioritized native-interface fix list. Different fixture names, player counts and device data do not require pixel-identical screenshots.
+
+**Integration must not merge a PR that changes the phone interface without Designer's explicit visual approval in that PR.** This includes phone layout, controls, wording, interaction states, motion and adopted artwork, whether the change is in Frontend or a shared dependency. CI passing, owner approval of the source artwork, an old review, or Integration's technical review does not substitute for Designer's review of the implemented interface.
+
+Before merge:
+
+1. List the affected part IDs from `node design/tools/phone-ui-native-compare.mjs --list`, and the corresponding sheet/state. Use [the comparison tool](docs/design/phone-ui-native-compare.md) from PR #223 to put the pack beside the PR's native build. Include `compare.json` and harness provenance identifying the design, candidate and artwork commits. The candidate must represent the PR being merged; disclose dirty or mismatched inputs rather than calling them approval evidence.
+2. Attach the changed states at **390 × 844**, plus **320 × 568 at 200% text** wherever text is involved. Supply an explicitly identified, reproducible supplemental comparison for a state or size the tool cannot yet capture. A missing state, capture error, historical `same`/`close` finding, or a tool run alone is not visual acceptance. Include motion evidence and reduced-motion states when motion changes.
+3. Obtain a PR comment or review from the Visual and Motion Designer that explicitly accepts the affected parts and identifies the reviewed candidate commit and comparison evidence. If later changes affect those parts or their rendered dependencies, refresh the evidence and obtain renewed approval. For unrelated later edits, Integration records why the approved rendered inputs remain unchanged.
+4. A departure from a sheet needs **both Designer's agreement and the owner's explicit approval before implementation**. Record the exact sheet/state, proposed departure, reason, both approval references, scope and date in [docs/design/owner-decisions.md](docs/design/owner-decisions.md). A rule, privacy, contract, accessibility or platform conflict is raised with Designer in #222; it is not permission to silently substitute another interface or alter gameplay. Existing authoritative rules and disclosure limits remain in force until an owner-approved specification change resolves the conflict.
+5. Integration verifies the approval and any exception record, then the existing required checks and technical review. Source-only design proposals, review tooling and documentation that do not change the playable phone interface may be marked not applicable with a concrete explanation; their merge does not approve or activate a native interface.
+
+The PR template records this gate. It is a required human merge review, not a claim that CI or GitHub branch protection can identify the Designer's agent role. Do not infer a Designer approval from a GitHub username shared by several agents.
+
+The already-approved T1–T3 are not open questions: fill the room between the bars and zoom out only enough for the visible crowd, freezing framing and targets from lights-out to lights-on; keep Cancel in the targeting bar; show all of the viewer's role-action tiles, enable only server offers, and use the server's unavailable reason or **Not available now**. Never derive an unavailable reason from gameplay rules on the phone. T1 supersedes #208's geometry-only framing.
+
 ## Current delivery status
 
 The source/context transfer is imported into `Amirkianfar66/GameN` on `main`. GitHub Issues track the bootstrap and four implementation workstreams. The bootstrap adds the eight workspace shells and draft shared contracts; it does not implement the production game or create background agents. Its contract and review/merge gate are in `docs/integration-baseline.md`. The existing Canvas/facilitator source remains under `reference/design-canvas/`.

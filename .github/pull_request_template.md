@@ -21,6 +21,21 @@ List only checks actually run, with commands/results or linked artifacts. State 
 - Public/private visibility impact:
 - Unresolved decisions and dependencies:
 
+## Phone interface visual gate
+
+Required by the owner's 11 November 2026 decision and `AGENTS.md`. A green CI run does not replace Designer's visual approval of the native build.
+
+- Phone interface changed: yes / no. If no, explain why this PR cannot change the playable phone interface:
+- Affected comparison part IDs (`node design/tools/phone-ui-native-compare.mjs --list`), sheet IDs and states:
+- Compared candidate commit, design commit and artwork release; link to `compare.json` and harness provenance:
+- Side-by-side captures: 390 × 844; text-bearing states also 320 × 568 at 200% text:
+- Supplemental states/sizes not supported by the comparison tool, capture errors, and motion/reduced-motion evidence where relevant:
+- Designer's explicit visual acceptance **in this PR**, with reviewed commit, parts and evidence (pending until given):
+- Exceptions from the sheets: none, or link to the exact `docs/design/owner-decisions.md` record containing Designer's agreement and the owner's approval:
+- Changes since visual acceptance: none, renewed Designer approval, or Integration's evidence that the approved rendered inputs are unchanged:
+
+Do not mark the visual gate complete using a historical `same`/`close` finding, a source-art approval or self-approval by Frontend/Integration. A missing comparison state needs supplemental evidence, not an automatic pass.
+
 ## Readiness
 
 - [ ] Scope matches the assigned issue and ownership boundaries.
@@ -28,3 +43,4 @@ List only checks actually run, with commands/results or linked artifacts. State 
 - [ ] Relevant verification passed; untested areas are documented.
 - [ ] No secrets or private production match data are included.
 - [ ] Shared contracts and dependencies have been reviewed.
+- [ ] Phone visual gate satisfied: Designer's approval and required comparisons/exceptions are linked above, or Integration has verified the stated no-interface-change reason.

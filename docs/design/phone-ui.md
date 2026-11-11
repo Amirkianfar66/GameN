@@ -66,9 +66,15 @@ These are routine decisions, made by Designer under the brief. The owner can ove
 **Layout.**
 - The top bar and the tabs are fixed. The room scene fills the space between them.
 - The scene uses the game's own positions and press areas, so every person stands where the game puts them.
-- The room view is framed wider than the game's board panels: at the smallest scale that still fills that space with the room. The owner found the first draft too zoomed in on a phone (9 November). Nobody present is cut off: a crowd spread wider than that, such as a full Jail, is zoomed out just far enough to keep everyone whole, with bands above and below (the owner's decision of 11 November, T1).
-  - At 390 × 844, people are drawn 23% smaller than in the first draft, and 30% more of the room's width shows.
-  - Across, the view holds the room's centre, as the game does. It moves only as far as it must to keep everyone present 48 px inside the edges. When they are spread wider than that, it centres on them.
+- The room view is framed wider than the game's board panels: at the smallest scale that still fills that space with the room. The owner found the first draft too zoomed in on a phone (9 November).
+- Nobody present is cut off (the owner's decision of 11 November, T1): not their press area, and no part of their figure as drawn. When the people present reach past the filled view, it zooms out just far enough to keep each of them whole. The bands above and below are the cost.
+  - Where nobody needs more room, people at 390 × 844 are drawn 23% smaller than in the first draft, and 30% more of the room's width shows.
+  - Across, the view holds the room's centre, as the game does. It moves only as far as it must to keep everyone present 48 px inside the edges and every figure 4 px inside. When they are spread wider than that, it centres on them.
+  - **Each figure as drawn.** The frame uses each present figure's outline, not only its press point. Frontend and Integration found on #222 that press points alone cut A3's reach at the floor hatch in a full Room A.
+    - `figure-extents.mjs` holds every gesture's outline (plain, Injured and still), measured from its pixels. Each is the union over the nine characters, three outfits and both layers, drawn by `design/tools/phone-ui-figure-extents.mjs`.
+    - A margin covers the crew's own motion: the head's idle drift and tilt, and Mira's and Echo's hanging hair. It is 8 units across and 6 above. Where the same tool measured that motion reaching further, the measured reach applies instead. Only the hair of a figure lying on the Jail's cot does.
+    - An Eliminated figure counts as its place's still pose.
+  - Up and down, the view keeps every place's outline and press area, whoever is present. It may show the picture's own border where an outline reaches it.
   - A name tag near an edge moves inward to stay whole.
   - The board's six panels keep the game's own framing.
 - Every in-game sheet docks between the bars, so the phase, the clock and Pass/Vote are always visible.
@@ -175,6 +181,13 @@ The owner's order is drawn on sheet 02 and labelled **Integration proposal, pend
 
 Its consequences for strike resolution, fixed targets and the cancellation when a Disabler is jailed are for Integration to settle ([DSN-REQ-20](integration-requests.md#dsn-req-20)). The screens are the same in either order. In both, Frontend freezes the camera's framing and every target's geometry for the whole Blackout, including the transition when the runtime hides the board.
 
+**Opened in the dark** (#222; sheet 30's last two frames). A phone that opens or reloads during the dark window rebuilds its frame from the same window's public lit board, as Integration confirmed on #222. When it cannot, it does not guess:
+- **When:** the same response's public PRE_BLACKOUT board is missing or fails any of Integration's checks, or the match runs a tuple before 1.3, which has no such board.
+- **Framing:** the room is framed as if every one of its places were occupied, by the same `phoneFrame` (`paintRoom`'s `frameAll`). That depends only on the room, the match's player count and the phone's own view, all known without the board.
+- **What shows:** exactly the dark room of sheet 30. There are no figures, names, tags or occupancy. For the Disabler, every position is a target, as in any dark room, with the list of positions as the text alternative. There is no new copy, and nothing says the frame was rebuilt.
+- **Held:** for the rest of the window, as any dark frame.
+- **The phone's view:** no earlier camera or view is ever restored, and the server keeps none. Every frame, the lit one too, is computed for the phone's current view. If the view changes in the dark (rotation, window size, text size), the frame is recomputed from the same inputs, and a picked position stays picked by its id.
+
 ## The current interface, audited
 
 The playable build at `fb33cecb` already has:
@@ -223,6 +236,10 @@ python3 -m http.server 8000   # http://localhost:8000/design/phone-ui/prototype/
 node design/tools/phone-ui-render.mjs
 # Regenerate (or check) the icon exports
 node design/tools/phone-ui-assets.mjs [--check]
+# Measure every gesture's outline and the crew motion's reach (writes prototype/figure-extents.mjs)
+node design/tools/phone-ui-figure-extents.mjs [--check]
+# Count every figure's pixels inside the room view (writes review/framing-check.jpg and .json)
+node design/tools/phone-ui-framing-check.mjs
 ```
 
 The prototype imports the game's own drawing modules and art, read-only:
@@ -255,11 +272,23 @@ Nothing in `apps/` or `packages/` imports the pack.
     - **moving backgrounds:** wherever a frame shows a room, its ambient motion was held at 16 moments of the 240-second voyage (every 15 s) besides the frame's own, the transparent-text capture repeated at each, and every letter kept its lowest ratio over all of them. A letter is counted as over a moving background where its background changed between moments;
     - not measured: characters under another element; visually hidden text; inactive controls (aria-disabled or disabled, which WCAG 1.4.3 exempts); text that is part of a picture (the rooms' art and ambient layer, a result's art); the simulated phone status bar; text inside the films (their own documents); and text in form fields (typed values, placeholders).
 - The results are in `checks.json`, and the "Measured" section below summarises them.
+- **The room view keeps everyone whole** (T1, corrected on #222).
+  - **The outlines:** `node design/tools/phone-ui-figure-extents.mjs` measured every gesture's outline. It drew each gesture plain, Injured and still, with each of the nine characters in each outfit, both layers: 2,592 drawings in all.
+  - **The crew's motion:** the tool read its range from `crew-drawing/motion.mjs` (the head's drift up to 1.3 and 0.35 units and its tilt up to 2.4°; the hanging hair up to 6). It then drew every gesture that moves at each corner of that range: 6,720 drawings. The motion reaches at most 8 units across, 1.7 above and nothing below, except the hair of a figure lying on the Jail's cot (9.4 across, 7.4 below).
+  - **The pixel check:** `node design/tools/phone-ui-framing-check.mjs` counts each figure's pixels inside the room view, as Frontend's native check does.
+    - It covers every room full, standing and with everyone Eliminated in place.
+    - The nine characters are turned through the places, with 7, 8 and 9 players.
+    - Each case is drawn on Frontend's native 386 × 712 panel and the pack's 390 × 844, 320 × 568, 320 × 568 at 200% text and 430 × 932, with Frontend's own failing case among them.
+    - Each figure is counted as drawn and at every corner of the crew's motion.
+  - **Result:** 452 cases, 1,810 figures, 2,350 figure layers, every one 100% visible (`review/framing-check.json`, with its picture).
+  - **Against `main`:** the same check at `606537fe`, before the correction, run on 52 cases (each room's first turn of characters, and Frontend's case), finds someone cut in 33 of them, the worst at 55.6% visible.
 - `packages/design-tokens/test/phone-ui.test.mjs` checks:
   - the catalog and every sheet's screens, kept in step with the registry;
   - the review files and their hashes, and every frame's measurements clean: no text cut off, every letter at its threshold at every moment, the moments recorded, and the result and ballot at 320 × 568 with 200% text among the frames;
   - each action's state after Register (no waiting action drawn as a result; a private talk, a Clone and the Engineer's capture as they happen), Other rooms chosen on the board with the list as its alternative, the declarable sides for every role, and Promise results that fit the lifetime quota, with Captain Support's terms;
   - the room view's framing, for every room's fixture: wider than the first draft, filling the space between the bars, with everyone present in view;
+  - every present figure whole in over 500 framings (every room, 7 to 9 players, each place alone, each pair and everyone, standing and Eliminated, on five panels): its outline 4 px inside the view and its press area whole;
+  - each outline holding its gesture standing and Injured, and the crew motion's measured reach, and the outlines measured from the modules as they are (their hashes);
   - a tap-by-tap sheet for each tab and for the top bar's Promises and ⋮, and every tap it draws landing on a control the prototype shows;
   - the ambient motion: every room and the capsule, no team colour, the same markup every time, only the dimmed windows with the lights out, and still under Reduce motion;
   - the kit's colours against tokens 0.5.0;
