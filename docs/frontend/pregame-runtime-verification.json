@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "issue": "https://github.com/Amirkianfar66/GameN/issues/201",
+  "branch": "codex/frontend-pregame-runtime",
+  "runtimeAssetVersion": "design-0.8.0",
+  "runtimeManifestSha256": "c2e5b6a423d2a583be669147b70a23e2391fce770372137e99f46c3c75b13b5d",
+  "sourceHead": "e43d5e675cecf5a5a3c8afadea246f8c22cb8a7c",
+  "designMerge": "32055776d09235be0e55d41ac24407d02c6fafa9",
+  "backendMerge": "89e0c78ec6cc8dfc1b1afaf8c36e8c728cd8009f",
+  "registrationCheckpoint": "f32df2ee0113308a6c1efe13daac606fd0876abc",
+  "productionAdoption": "2a8917468fd6402f23128afd6fec83e59417b931",
+  "designFenceFollowup": "3a70c968a64df631548260c3ccaf8686a9884b86",
+  "frozenPorts": 22,
+  "frozenConsumers": 11,
+  "behavior": {
+    "entry": "Identity-free2000ms, once per app entry before lobby; skip active/recovering/uncertain context.",
+    "role": "Own admitted revealed role/selected character/seat only;10000ms inside the existing minimum. Late reveals use the role card. Skip/completion never sends Ready; refresh/recovery never replays.",
+    "boarding": "Only explicit flow2 boarding with exact startedAt/endsAt interval and public7/8/9 roster. Seek by synchronized server time. Expiry/Skip waits for authoritative running."
+  },
+  "checks": {
+    "typecheck": "Both pure and browser targets passed.",
+    "frontend": {
+      "presentation": 218,
+      "app": 699,
+      "total": 917,
+      "passed": true
+    },
+    "design": {
+      "tests": 286,
+      "passed": true
+    },
+    "defaultSourceGuard": "Passed with MOTHERSHIP_PREGAME_CONSUMER_REVIEW unset.",
+    "hostedPreparation": "Passed; clean-tree final metadata check recorded separately.",
+    "hostedExclusion": "76reachable,258scanned,102devlabeled; no fixture/development content.",
+    "referenceComparisons": {
+      "jobs": 108,
+      "pairs": 1056,
+      "maxChangedPixelFractionAbove8": 0.00012152144853566654,
+      "maxMeanChannelError": 0.014638271154858832,
+      "duplicateOrDanglingIdFrames": 0,
+      "browserProblems": 0,
+      "desktopPaintP95Ms": 28,
+      "desktopPaintMaximumMs": 801.1000000238419,
+      "maximumCause": "Unprofiled first paint during bulk comparison. Not a phone or display-frame benchmark."
+    },
+    "hosted": {
+      "checks": 16,
+      "normalCaptures": 68,
+      "largeTextCaptures": 4,
+      "videos": 6,
+      "allContextAudit": 6,
+      "auditProblems": 0,
+      "runtimeExceptions": 0
+    }
+  },
+  "evidence": {
+    "root": "evidence/pregame-runtime-2026-11-08/",
+    "reference": "retained-reference-comparison.json",
+    "hosted": "hosted-checks.json",
+    "allContextAudit": "all-context-errors.json",
+    "largeText": "large-text-checks.json",
+    "devices": "physical-devices.json"
+  },
+  "scopeLimitations": [
+    "Actual hosted consumer used synthetic transport; this is not real multiplayer acceptance. Backend real Functions/Firestore evidence is separate.",
+    "The original full visual-run problems field covered only its final context. The separate six-context audit is the complete browser-error report.",
+    "Videos are sampled VFR runtime recordings, not source film exports or app/device FPS measurements. Actual encoding durations are in hosted-checks.json.",
+    "No accessible physical iPhone/low-end Android; startup/frame/input/memory measurements remain unrun. No physical screen-reader/Safari/device acceptance."
+  ],
+  "releaseDependencies": [
+    "Integration final combined review and required CI gates.",
+    "Root/Integration owns merge, deployment and explicit new-match art/setup settings.",
+    "All five Planet worker exports must support flow2 before separate R17 activation. Existing saved pins and immutable releases remain preserved."
+  ]
+}

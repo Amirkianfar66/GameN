@@ -6,6 +6,70 @@ What the game owner decided about look, feel and presentation while working with
 
 The owner's messages are quoted as written.
 
+## 10 November 2026: the glass stays, and the rows line up
+
+**After Integration's review of the pack, the owner looked at the corrected sheets.** The pack's account is in [phone-ui.md](phone-ui.md).
+
+| What the owner said | What it decides | Where |
+| --- | --- | --- |
+| "keep the glass at 56%" | The glass sheets keep the level the owner chose on 9 November: the room behind a sheet at 56%, with its tint and blur. To keep every letter at 4.5:1 over the brightest art, light words on glass carry a soft dark halo instead, which darkens only what is right around each letter. Designer had proposed 46% | Every sheet with a glass sheet; the [handoff](phone-ui-handoff.md#the-shell), "Sheet" |
+| "also in sheets I saw vote results or some other results panel which the character Icon is not match with right number right to it vertically and in terms of size" | Where ballots and results become rows (larger text), each portrait is the size of the seat number beside it and on the name's line, and the vote count matches them. In the 3 × 3 results, "You" moves to the top-right corner so it no longer covers the vote count | Sheets 35–38, 53, 56 |
+| "why  we have under each the N votes text again, I think the number is clear" | A result says each player's count once, by its badge: the "N votes" line under the name is gone from the 3 × 3 and the rows. The cell's accessible name still says "Player 2, Ben, 4 votes"; reasons such as "In Jail" stay | Sheets 37, 38, 51, 54, 56 |
+
+**What it does not decide:** how the halo looks on a phone's screen; it was measured in desktop Chromium only.
+
+## 9 and 10 November 2026: a ship that moves
+
+**With the top bar settled, the owner asked for rooms that are not static.** Designer drew Room A first and sent a short silent video before doing the rest, as the owner prefers. The pack's account is in [phone-ui.md](phone-ui.md#ambient-motion-in-the-rooms-sheet-55).
+
+| What the owner said | What it decides | Where |
+| --- | --- | --- |
+| "Perfect some other points make the result better is : The monitors and screens look not static. Windows of spaceship in any room not static feeling like the spaceship moving in space. Some color buttons and lights on/ off generally some dynamic environment" | Every room gets an ambient layer: space goes by in its windows, screens retype, scroll and ping, keys and small lights go on and off. It is decorative and the same on every phone | `ambient.mjs`, `ambient.css`; sheet 55 |
+| "Room A is fine just for the window i try to create different stars planets effect to make the vast space interesting" | Room A's window shows a voyage: its planet leaves and returns, while a ringed giant, a moon, a comet and asteroids pass, stars drift at three depths, and dust, a galaxy and shooting stars go by. Since made one voyage for the whole ship (below) | Room A |
+| "Lets create a window for Room B too" | Room B's middle screen becomes a three-pane window with a voyage of its own, since made part of the ship's one voyage (below). Its atom diagram moves to the small screen on the right wall, where the slit window was | Room B |
+| "Yes i am happy you can go for all rooms" | The Command Room and the Hospital get voyages too; screens, keys and lights move in every room. The Jail, which has no window, and the private-talk capsule get quieter motion: a cursor, a scan, light along pipes, blinking lamps, and dust in a lamp's light | Sheet 55; the review copy's videos |
+| "just a question the windows motion outside of all rooms are align together? because overall the complete spaceship passing space", then "yes align them" | One voyage for the whole ship: one sky, the same things passing every window and reaching the Command Room first, then Room A, Room B and the Hospital, 6 s apart; one speed for each depth; one cream world sinking and rising in every window together; and one clock, so every room and phone shows the same moment and switching rooms carries on. Room B's teal planet becomes one of the things the ship passes | `ambient.mjs` (`SKY`, `WINDOW_DELAY`, `settleAmbient`); sheet 55 |
+
+**Designer's rules for it, which the owner can overrule:**
+- No window shows a blue, red or lavender world or a black hole, nothing follows the ship's course (only the Captain and Officer know it), and no team colour is used.
+- Nothing moves that the game uses to say something: the chart table, the berths' monitors and lamps, the Jail's keypad keys and lamp, the capsule's door light.
+- With the lights out (the Blackout), every screen and light is off and only the windows move, dimmed like the dark pictures' own windows.
+- Reduce motion holds it still.
+
+**What it does not decide:**
+- **Cost on phones:** not measured. The clips are desktop Chromium.
+- **Adoption:** nothing here is in the playable build. Frontend decides how to build it.
+
+## 9 November 2026: the phone interface after the playtest
+
+**After a playtest, the owner asked for a complete phone interface design pack: a clean interface that feels like an iPhone app, around the approved comic-noir art.** The requirements came with the request of 9 November 2026. The owner's words are quoted below; Designer's answer is the pack in [phone-ui.md](phone-ui.md).
+
+| What the owner asked | What it decides | Where |
+| --- | --- | --- |
+| "a clean, intuitive interface with an iPhone app feel, while preserving GameN's approved comic-noir artwork, characters, rooms, cards, and animations" | The interface language: iOS-like chrome around the comic scenes | Sheets 04–08 |
+| "Remove introductory paragraphs, redundant headings, repeated status messages, and unnecessary instructions." | Short screens; only essential labels, errors and eligibility | Every sheet |
+| "The player's current room is the main full-screen scene." and "In room view, the navigation destination says 'Board'. In board view, it says 'Room'. A view switch must never move the player or spend movement." | Room view is the default; Board and Room switch views without moving anyone | Sheets 20–26 |
+| "During a voting phase, replace the central Pass control with Vote. Vote opens a 3×3 character grid." | Vote replaces Pass; one 3 × 3 roster for ballots and results | Sheets 35–38 |
+| "The owner's new presentation requirement is exactly 30 seconds: 0–20 seconds: the player's role card. 20–30 seconds: that role's existing ten-second animation." | The private role stage | Sheets 17–18; timing in [DSN-REQ-19](integration-requests.md#dsn-req-19) |
+| "The owner requires Blackout to be usable before voting." | The order drawn on sheet 02, labelled an Integration proposal | Sheet 02; [DSN-REQ-20](integration-requests.md#dsn-req-20) |
+
+**The owner's first look, the same day.** The owner opened the clickable review copy on a phone and looked at the room view (Room A, screen 9), then asked about the tab bar and the sheets' background, and sent a picture of screen 9 with the top bar and tab bar as the owner wanted them:
+
+| What the owner said | What it decides | Where |
+| --- | --- | --- |
+| "it feel too zoom , we should a little bit zoomout the view" | The room view is framed wider: the space between the bars, at the smallest scale that still fills it with the room. People are drawn 23% smaller, and 30% more of the room's width shows (390 × 844). The view holds the room's centre and moves only to keep everyone present in view. The first draft had cut people off at the sides of the Hospital and the Jail | Sheets 20–31 and every screen over a room; [phone-ui.md](phone-ui.md#design-decisions) |
+| "can you also show add when suer click on each button in menu bar like action or card or more or board what it shows?" | Each bottom-bar button is drawn tap by tap, one sheet per button: a row of screens with a ring on what is tapped and an arrow to what it shows. The review copy opens on the player's own turn, its tab bar can be tapped, and its list has "The tab bar" with every button. Two corrections came with it. Pass now asks once before it ends the turn, as the runtime's confirm step for Pass already does. Move stays open on other players' turns, as the engine allows; the first draft had it closed | Sheets 27.1–27.5 (27.1 Board, 27.2 Actions, 27.3 Pass and Vote, 27.4 Card, 27.5 More, now Panels), 28; the review copy |
+| "I dont like the background of them , lets make them glass transparent so user can see the room at the same time" | Every sheet over a room is glass: the room shows through it, and the room above it isn't dimmed. The text on glass is measured against what is really behind it and kept at 4.5:1 or more | Every sheet over a room; [phone-ui.md](phone-ui.md#design-decisions) |
+| "what us the glass transparent level? before you start to finish all, lets see 1 together"; on one screen, "more transparent, i want to see the room better"; of three levels, "Clearest" | The clearest level: a 20–34% tint, a 2 px blur, and the room behind darkened to 56%, so people and things show through almost sharp and the text still reads | The `--glass-*` values in `kit.css`; every sheet |
+| With the picture: "Settings: Moved the three-dot menu to the top-right, beside the timer, and changed it to vertical (⋮)." "Promises: Added a Promises button with a handshake icon in the top bar, after the player's name." "Bottom navigation: Renamed More to Panels." "Panels icon: Replaced the three dots with a blue stacked-layers icon, clearly different from the Board" | The top bar holds Promises (a handshake) after the name and the settings menu ⋮ beside the clock. ⋮ opens Settings: the phone's display settings and, for the host, Host controls. More is now Panels, with a stacked-layers icon; it keeps Windows, Navigation, the Hospital panel, Players and Round order. Promises shows its word on a turn bar, as drawn; on a phase or talk bar, a narrow phone or larger text it is the handshake alone, so titles keep their room | Sheets 07, 08, 27, 27.5, 27.6, 32 and every screen in a match; `topBar` and `tabs` in `ui.mjs` |
+| On the preview of that one screen: "The panels button icon color should be the same as other menu bar icon" | The Panels icon is the same grey as the other tabs, and amber while open, like any open tab. The first preview's blue is gone | `kit.css`; every screen with the tabs |
+| Then: "Also Promise icon should be same icon color" | The Promises handshake is the same grey as the other icons (the clock's and the tabs'); the button turns amber only while Promises is open | `kit.css`; every top bar in a match |
+
+**What it does not decide:**
+- **The round order and the stage timing:** Backend and Integration change them in the rules and the contract. Designer only draws them.
+- **Routine visual choices** (Join as the primary entry, sheets docked between the bars, the icon family, errors in paper rather than red): these were Designer's, under the owner's brief, and the owner can overrule any of them.
+- **Adoption:** nothing here is in the playable build.
+
 ## 8 November 2026: the pre-game films again, as AAA animation
 
 **The owner asked for the three films a player sees before the game to be made again, at a much higher finish, with the restyled crew and rooms.**

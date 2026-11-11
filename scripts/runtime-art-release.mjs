@@ -1,6 +1,9 @@
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { resolve, sep } from 'node:path';
+import { readPregameConsumerCandidate, acceptsPregameCandidateFile } from './pregame-consumer-candidate.mjs';
+import { readPregameProductionConsumerApproval, acceptsPregameProductionFile } from './pregame-consumer-approval.mjs';
+import { readPregameSourceApproval, verifyPregameRuntimePorts, PREGAME_APPROVAL, PREGAME_APPROVAL_SHA256 } from './pregame-runtime-ports.mjs';
 
 export const RUNTIME_ART_VERSION = 'design-0.5.0';
 export const RUNTIME_ART_MANIFEST = 'design/releases/design-0.5.0.json';
@@ -8,6 +11,8 @@ export const PLANET_ART_VERSION = 'design-0.6.0';
 export const PLANET_ART_MANIFEST = 'design/releases/design-0.6.0.json';
 export const CREW_ART_VERSION = 'design-0.7.0';
 export const CREW_ART_MANIFEST = 'design/releases/design-0.7.0.json';
+export const PREGAME_ART_VERSION = 'design-0.8.0';
+export const PREGAME_ART_MANIFEST = 'design/releases/design-0.8.0.json';
 export const CREW_CONSUMER_APPROVAL = 'docs/integration/crew-consumer-approval-2026-11-07.json';
 const CREW_CONSUMER_APPROVAL_SHA256 = '8675a1d45cbf55aa69ccc65e18593d28c7ac54282ed52eb5c10e9b70e2c0511e';
 // The release selects this reviewed art set; historical manifests remain immutable.
@@ -75,6 +80,13 @@ const releases = {
   }, bundles: ['abilities', 'board-v2-art', 'board-v2-films-art', 'board-v2-motion-art', 'player-ui', 'public-board', 'roles', 'scene-art', 'setup-art'] },
 };
 
+
+// Source registration is separate from runtime adoption. Existing default exports
+// and historical manifests keep their identities; new consumers still require review.
+releases[PREGAME_ART_VERSION] = { ...releases[CREW_ART_VERSION],
+  manifestSha256: 'c2e5b6a423d2a583be669147b70a23e2391fce770372137e99f46c3c75b13b5d',
+  baseManifest: CREW_ART_MANIFEST, pregame: true };
+
 /** Build-time only. Match pins name this immutable art set, not the Hosting digest. */
 export function readRuntimeArtRelease(root, version = RUNTIME_ART_VERSION) {
   return readRelease(root, version, false);
@@ -91,11 +103,14 @@ export function readCrewConsumerApproval(root) {
   const bytes = readFileSync(resolve(root, CREW_CONSUMER_APPROVAL));
   check(sha(bytes) === CREW_CONSUMER_APPROVAL_SHA256, 'crew consumer approval differs');
   const approval = JSON.parse(bytes);
+  const candidate = readPregameConsumerCandidate(root);
+  const production = readPregameProductionConsumerApproval(root);
   check(approval.schema === 'mothership.crew-consumer-approval/1', 'invalid crew consumer approval');
   for (const [path, digest] of Object.entries(approval.requiredFiles)) {
     check(!path.includes('..') && !path.includes('\\') && !path.startsWith('/')
       && /^[a-f0-9]{64}$/.test(digest), 'invalid consumer evidence path');
-    check(sha(readFileSync(resolve(root, path))) === digest, `crew consumer content differs: ${path}`);
+    const actual = sha(readFileSync(resolve(root, path)));
+    check(actual === digest || acceptsPregameProductionFile(production, path, digest, actual) || acceptsPregameCandidateFile(candidate, path, digest, actual), `crew consumer content differs: ${path}`);
   }
   return approval;
 }
@@ -104,15 +119,18 @@ function readRelease(root, version, fromSnapshot) {
   root = resolve(root);
   check(Object.hasOwn(releases, version), 'unknown art release');
   const expected = releases[version];
+  const candidate = fromSnapshot ? null : readPregameConsumerCandidate(root);
+  const production = !fromSnapshot && [PLANET_ART_VERSION, CREW_ART_VERSION, PREGAME_ART_VERSION].includes(version)
+    ? readPregameProductionConsumerApproval(root) : null;
   const bytes = readFileSync(resolve(root, `design/releases/${version}.json`));
   if (fromSnapshot) check(sha(bytes) === historical[version], 'historical manifest differs');
   if (expected.manifestSha256) check(sha(bytes) === expected.manifestSha256, 'approved manifest differs');
   const manifest = JSON.parse(bytes);
   check(manifest.schema === 'mothership.runtime-art-release/1' && manifest.manifestVersion === version, 'unreviewed manifest version');
   check(JSON.stringify(manifest.gameplayPins) === JSON.stringify(expected.gameplay), 'gameplay compatibility differs');
-  const consumer = !fromSnapshot && [PLANET_ART_VERSION, CREW_ART_VERSION].includes(version)
+  const consumer = !fromSnapshot && [PLANET_ART_VERSION, CREW_ART_VERSION, PREGAME_ART_VERSION].includes(version)
     ? readCrewConsumerApproval(root) : null;
-  if (version === CREW_ART_VERSION) {
+  if (version === CREW_ART_VERSION || version === PREGAME_ART_VERSION) {
     check(manifest.consumerApproval?.path === CREW_CONSUMER_APPROVAL
       && manifest.consumerApproval.sha256 === CREW_CONSUMER_APPROVAL_SHA256, 'crew consumer binding differs');
   }
@@ -124,7 +142,10 @@ function readRelease(root, version, fromSnapshot) {
     const inventoryPath = fromSnapshot ? `${HISTORICAL_ART_BLOBS}/${digest}` : path;
     const actual = sha(readFileSync(resolve(root, inventoryPath)));
     const compatibility = consumer?.historicalRuntimeOverrides?.[version]?.[path];
-    if (compatibility) {
+    if (acceptsPregameProductionFile(production, path, digest, actual) || acceptsPregameCandidateFile(candidate, path, digest, actual)) {
+      // The complete production approval or explicit local review verifies this
+      // exact successor. Immutable inventories and prior bytes remain preserved.
+    } else if (compatibility) {
       // Preserve the published manifest and original bytes. Only this reviewed
       // successor consumer is permitted; no wildcard or unverified fallback.
       check(compatibility.previousSha256 === digest
@@ -137,7 +158,7 @@ function readRelease(root, version, fromSnapshot) {
   const names = Object.keys(manifest.bundles ?? {}).sort();
   check(JSON.stringify(names) === JSON.stringify(expected.bundles), 'complete uniform bundle set required');
   for (const entry of Object.values(manifest.bundles)) {
-    const validUrl = version === PLANET_ART_VERSION || version === CREW_ART_VERSION
+    const validUrl = version === PLANET_ART_VERSION || version === CREW_ART_VERSION || version === PREGAME_ART_VERSION
       ? /^\/art\/(?:planet-library\/)?[a-z0-9.-]+\.css$/.test(entry.url)
       : /^\/art\/[a-z0-9.-]+\.css$/.test(entry.url);
     check(validUrl && /^[a-f0-9]{64}$/.test(entry.sha256), 'invalid bundle identity');
@@ -173,6 +194,25 @@ function readRelease(root, version, fromSnapshot) {
     check(manifest.tokens?.version === '0.5.0' && manifest.tokens.path === 'packages/design-tokens/src/tokens-0.5.0.json'
       && manifest.tokens.sha256 === 'cfd8604611196fa6799367e1b438570ec96e914f937859199629317a4ac8ac5d'
       && manifest.sources[manifest.tokens.path] === manifest.tokens.sha256, 'crew token binding differs');
+  }
+  if (expected.pregame) {
+    check(manifest.registrationScope === 'source-ports', 'pregame consumer adoption requires separate approval');
+    const approval = readPregameSourceApproval(root);
+    check(manifest.pregameIntegrationApproval?.path === PREGAME_APPROVAL
+      && manifest.pregameIntegrationApproval.sha256 === PREGAME_APPROVAL_SHA256, 'pregame approval binding differs');
+    verifyPregameRuntimePorts(root);
+    check(manifest.pregameRelease?.sourceHead === approval.sourceHead
+      && manifest.pregameRelease.ports === 22
+      && JSON.stringify(manifest.pregameRelease.catalog) === JSON.stringify(approval.catalog)
+      && JSON.stringify(manifest.pregameRelease.entrypoints) === JSON.stringify(approval.entrypoints), 'pregame source catalog differs');
+    for (const [path, digest] of Object.entries(approval.sourcePins))
+      check(manifest.sources[path] === digest, `pregame source inventory differs: ${path}`);
+    for (const [path, digest] of Object.entries(approval.runtimePins))
+      check(manifest.runtimeFiles[path] === digest, `pregame runtime inventory differs: ${path}`);
+    check(manifest.pregameRelease.boardingSetupFlowVersion === 2
+      && JSON.stringify(manifest.pregameRelease.durationsMs) === JSON.stringify({brand:2000,role:10000,boarding:10000}), 'pregame presentation description differs');
+    check(![...sources, ...runtime].some(([path]) => /\/(review|stills)\//.test(path)
+      || /(?:stage|renders|films)\.(?:mjs|html)$/.test(path) && path.startsWith('design/pregame-films/')), 'review-only pregame input in runtime inventory');
   }
   return Object.freeze({ ...manifest, manifestSha256: sha(bytes) });
 }

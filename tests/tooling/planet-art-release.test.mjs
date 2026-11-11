@@ -1,3 +1,4 @@
+import {pregameProductionFixturePaths} from './support/pregame-production-fixture.mjs';
 import assert from 'node:assert/strict';
 import { cpSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
@@ -12,7 +13,7 @@ function candidate(t) {
   const output=mkdtempSync(join(tmpdir(),'gamen-planet-art-'));
   t.after(()=>rmSync(output,{recursive:true,force:true}));
   const release=manifest();
-  const files=new Set([PLANET_ART_MANIFEST,release.baseManifest.path,release.integrationApproval.path,
+  const files=new Set([...pregameProductionFixturePaths(root),PLANET_ART_MANIFEST,release.baseManifest.path,release.integrationApproval.path,
     CREW_CONSUMER_APPROVAL,...Object.keys(readCrewConsumerApproval(root).requiredFiles),
     ...Object.keys(release.sources),...Object.keys(release.runtimeFiles)]);
   for(const path of files){mkdirSync(dirname(join(output,path)),{recursive:true});cpSync(join(root,path),join(output,path));}

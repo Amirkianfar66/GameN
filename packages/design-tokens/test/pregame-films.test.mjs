@@ -13,12 +13,15 @@
 //     own character is drawn in colour;
 //   - the boarding takes the public roster alone;
 //   - the review renders are exactly their lengths, silent, and match their records;
-//   - the films are development code that nothing in the game imports.
+//   - prototype films remain development-only; only exact reviewed runtime ports may ship.
 
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { test } from 'node:test';
+import { fileURLToPath } from 'node:url';
+import { prototypeReferences, productionDrawingProblems } from '../../../design/tools/lib/drawing-port-fence.mjs';
+import { verifyPregameRuntimePorts } from '../../../scripts/pregame-runtime-ports.mjs';
 import { FACTION_ACCENTS, MIN_ACCENT_DISTANCE, cie76 } from '../../../design/board-v2/fx/blocked.mjs';
 import { BEATS as BRAND_BEATS, BRAND, BRAND_MS, NIGHT, brandSvg } from '../../../design/pregame-films/brand/brand.mjs';
 import { CHANGES, PANEL_STARTS, ROLE_MS, STILLS as ROLE_STILLS, roleFrame } from '../../../design/pregame-films/roles/clock.mjs';
@@ -259,7 +262,7 @@ test('the review renders are exactly their lengths, silent, and match their reco
   }
 });
 
-test('the films are development code: marked dev-only, and nothing in the game refers to them', () => {
+test('prototype films remain development-only and the game uses only exact reviewed runtime ports', async () => {
   const walk = dir => readdirSync(new URL(dir, root)).flatMap(name => {
     const path = `${dir}${name}`;
     return statSync(new URL(path, root)).isDirectory() ? walk(`${path}/`) : [path];
@@ -271,5 +274,10 @@ test('the films are development code: marked dev-only, and nothing in the game r
   const shipped = ['apps/game/src/', 'apps/game/hosted/', 'packages/presentation/src/'].flatMap(walk)
     .filter(path => /\.(?:m?js|ts|tsx|json|html|css|svg)$/.test(path));
   assert.ok(shipped.length > 0);
-  for (const path of shipped) assert.ok(!text(path).includes('pregame-films'), `${path} refers to the pre-game films`);
+  for (const path of shipped) {
+    const references = prototypeReferences(path, text(path)).filter(problem => problem.includes('pregame-films prototype'));
+    assert.deepEqual(references, [], `${path} refers to the pregame prototype`);
+  }
+  assert.equal(verifyPregameRuntimePorts(fileURLToPath(root)), 22);
+  assert.deepEqual(await productionDrawingProblems(fileURLToPath(root)), []);
 });

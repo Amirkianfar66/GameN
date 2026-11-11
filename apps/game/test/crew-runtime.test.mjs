@@ -8,7 +8,12 @@ import {skeletonOf} from '../hosted/scene-drawing/gestures.mjs';
 const current={...PLANET_GAME_PINS,assetManifestVersion:'design-0.7.0'},historical={...current,assetManifestVersion:'design-0.6.0'};
 test('crew dispatch requires every approved gameplay and art pin',()=>{
  assert.equal(hasCrewDrawing(current),true);assert.equal(hasCrewDrawing(historical),false);assert.equal(hasCrewDrawing(null),false);
- for(const patch of [{protocolVersion:2},{engineVersion:'planet-game-1.0.1'},{rulesetVersion:'other'},{rulesetHash:'0'.repeat(64)},{assetManifestVersion:'design-0.8.0'}])assert.equal(hasCrewDrawing({...current,...patch}),false);
+ for(const patch of [{protocolVersion:2},{engineVersion:'planet-game-1.0.1'},{rulesetVersion:'other'},{rulesetHash:'0'.repeat(64)},{assetManifestVersion:'design-0.9.0'}])assert.equal(hasCrewDrawing({...current,...patch}),false);
+});
+test('pregame release preserves every selected crew appearance and exact gameplay pin',()=>{
+ const pregame={...current,assetManifestVersion:'design-0.8.0'};assert.equal(hasCrewDrawing(pregame),true);assert.equal(crewForVersions(pregame),crewForVersions(current));
+ for(let n=1;n<=9;n++)for(const pose of ['stand','walk','tablet']){const sk=skeletonOf(pose);assert.equal(crewFigureSvg(`c${n}`,sk,{versions:pregame,prefix:'same-person'}),crewFigureSvg(`c${n}`,sk,{versions:current,prefix:'same-person'}));assert.equal(crewPortraitVariable(`c${n}`,pregame),crewPortraitVariable(`c${n}`,current));}
+ assert.equal(crewPortraitVariable('c1',{...pregame,rulesetHash:'0'.repeat(64)}),'none');assert.equal(crewFigureSvg('c1',skeletonOf('stand'),{versions:{...pregame,rulesetHash:'0'.repeat(64)}}),null);
 });
 test('historical figures remain byte-identical to the original drawing factory',()=>{
  for(const id of ['c1','c4','c8','c9'])for(const outfit of ['crew','gown','prison']){

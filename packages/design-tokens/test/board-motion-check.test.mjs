@@ -1,4 +1,5 @@
 // mothership:dev-only
+import {pregameProductionFixturePaths} from '../../../tests/tooling/support/pregame-production-fixture.mjs';
 import assert from 'node:assert/strict';
 import { execFile } from 'node:child_process';
 import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
@@ -6,6 +7,8 @@ import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { after, describe, test } from 'node:test';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { CANDIDATE_DRAWING_POLICY, PLANET_DRAWING_POLICY, CREW_DRAWING_POLICY, CREW_CONSUMER_DRAWING_POLICY,
+  PREGAME_DRAWING_POLICY, readDrawingPolicy } from '../../../design/tools/lib/drawing-port-fence.mjs';
 
 // The check of the board-motion prototype (issue #87) is only worth something if it can fail.
 // Each test copies what the check reads to a scratch directory, makes one mistake the way a
@@ -33,6 +36,17 @@ function scratchCopy() {
     'packages/presentation/src/model/actions.ts', 'packages/presentation/src/markup/comic-shell.ts', 'packages/contracts/src/full-game.ts', 'apps/game/hosted', BUILT_COPY, ...RELEASE_FILES]) {
     mkdirSync(dirname(join(root, path)), { recursive: true });
     cpSync(join(repoRoot, path), join(root, path), { recursive: true });
+  }
+  // The production fence still checks every exact current drawing input in scratch.
+  const policy = readDrawingPolicy(repoRoot), drawingInputs = new Set([...pregameProductionFixturePaths(repoRoot),
+    CANDIDATE_DRAWING_POLICY, PLANET_DRAWING_POLICY, CREW_DRAWING_POLICY, CREW_CONSUMER_DRAWING_POLICY, PREGAME_DRAWING_POLICY,
+    ...Object.keys(policy.requiredFiles), ...Object.keys(policy.sourceHashes), ...Object.keys(policy.ports), ...Object.keys(policy.styles),
+    ...Object.keys(policy.metadataFiles), ...Object.keys(policy.buildFiles), ...Object.values(policy.styles).map(entry => entry.source),
+    ...Object.values(policy.buildFiles).flatMap(entry => Object.keys(entry.assetHashes)),
+  ]);
+  for (const path of drawingInputs) {
+    mkdirSync(dirname(join(root, path)), { recursive: true });
+    cpSync(join(repoRoot, path), join(root, path));
   }
   // The captures are checked for being listed, present and current: empty stand-ins keep the copy small.
   cpSync(join(repoRoot, 'design/board-motion'), join(root, 'design/board-motion'), { recursive: true, filter: source => !source.includes('/review/') });

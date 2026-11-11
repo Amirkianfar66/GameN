@@ -1,0 +1,30 @@
+{
+  "inputs": [
+    {
+      "file": "design/phone-ui/review/inputs/approved-rooms-pr197.jpg",
+      "source": "design/room-pilot/review/board.png",
+      "sourceBranch": "claude/designer-room-pilot",
+      "sourceCommit": "d32cfe198c20e059ccdd58e58b60996f7a9ea3b5",
+      "sourcePr": "Amirkianfar66/GameN#197",
+      "sourceSha256": "b53f81942d6dc4916df1bc949411b6bddce0d16314ae7d3fa0a6b033f0a85047",
+      "size": [
+        1400,
+        852
+      ],
+      "note": "A downscaled copy of the review image, for the phone pack\u2019s art-status sheet. Not source art: the art is room-drawing-1.0.0 in PR 197."
+    },
+    {
+      "file": "design/phone-ui/review/inputs/approved-room-films-pr197.jpg",
+      "source": "design/room-drawing/review/films.png",
+      "sourceBranch": "claude/designer-room-pilot",
+      "sourceCommit": "d32cfe198c20e059ccdd58e58b60996f7a9ea3b5",
+      "sourcePr": "Amirkianfar66/GameN#197",
+      "sourceSha256": "eedfbb69de24496d17ed35981d28b76e4839bedad39b949cf1abdd261c670e5e",
+      "size": [
+        1400,
+        1230
+      ],
+      "note": "A downscaled copy of the review image, for the phone pack\u2019s art-status sheet. Not source art: the art is room-drawing-1.0.0 in PR 197."
+    }
+  ]
+}
