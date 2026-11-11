@@ -1,0 +1,267 @@
+{
+  "scope": "Real local Auth/Firestore/HTTP/Functions/Tasks plus native consumer, nine players. A labelled native-history prefix is seeded once before any role was disclosed. Desktop Chromium emulation, no physical-device/performance or human-balance claim.",
+  "generatedAt": "2026-11-10T23:43:37.161Z",
+  "browser": {
+    "protocolVersion": "1.3",
+    "product": "Chrome/157.0.8103.40",
+    "revision": "@6f75a8afa26ce5537c82b4887f152dfdc7183e05",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/157.0.0.0 Safari/537.36",
+    "jsVersion": "15.7.112.23"
+  },
+  "sourcesVerifiedBefore": true,
+  "cases": [
+    {
+      "name": "lit-native-preview",
+      "passed": true,
+      "crewArt": {
+        "versions": {
+          "protocolVersion": 3,
+          "engineVersion": "planet-game-1.3.0",
+          "rulesetVersion": "in-person-planet-blackout-before-vote-2026-11-10",
+          "rulesetHash": "2505515ad41e9d49c06bd14aaf9dab56dcf0adb471725c1c15d877a0f0b97556",
+          "assetManifestVersion": "design-0.8.0"
+        },
+        "crewSurface": "crew-drawing-1.0.0",
+        "pictures": [],
+        "figures": [
+          {
+            "seat": "seat-1",
+            "hasSvg": true,
+            "width": 86.29999542236328,
+            "height": 199.52125549316406,
+            "paths": 67,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-2",
+            "hasSvg": true,
+            "width": 88.80001068115234,
+            "height": 238.5524444580078,
+            "paths": 80,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-3",
+            "hasSvg": true,
+            "width": 175.70071411132812,
+            "height": 189.10372924804688,
+            "paths": 84,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-5",
+            "hasSvg": true,
+            "width": 103.52519989013672,
+            "height": 234.38604736328125,
+            "paths": 78,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-8",
+            "hasSvg": true,
+            "width": 98.30000305175781,
+            "height": 246.24630737304688,
+            "paths": 73,
+            "missingReferences": 0
+          }
+        ],
+        "duplicateIds": [],
+        "instances": [
+          "crew-renderer-1-mount-1-body",
+          "crew-renderer-1-mount-2-body",
+          "crew-renderer-1-mount-3-body",
+          "crew-renderer-1-mount-4-body",
+          "crew-renderer-1-mount-5-body",
+          "crew-renderer-1-mount-6-body",
+          "crew-renderer-1-mount-7-body",
+          "crew-renderer-1-mount-8-body",
+          "crew-renderer-1-mount-9-body",
+          "crew-renderer-1-mount-10-front"
+        ],
+        "duplicateInstances": []
+      },
+      "geometry": [
+        {
+          "id": "A1",
+          "x": 172.625,
+          "y": 419.875,
+          "width": 55.5,
+          "height": 55.5
+        },
+        {
+          "id": "A2",
+          "x": 51.109375,
+          "y": 383.0625,
+          "width": 55.765625,
+          "height": 55.765625
+        },
+        {
+          "id": "A3",
+          "x": 304.359375,
+          "y": 506.734375,
+          "width": 58.21875,
+          "height": 58.21875
+        },
+        {
+          "id": "A4",
+          "x": 316.921875,
+          "y": 267.15625,
+          "width": 51.6875,
+          "height": 51.6875
+        },
+        {
+          "id": "A5",
+          "x": 21.640625,
+          "y": 253.4375,
+          "width": 51.140625,
+          "height": 51.140625
+        }
+      ],
+      "capture": "lit-native-preview.png"
+    },
+    {
+      "name": "dark-native-picker",
+      "passed": true,
+      "sameLitGeometry": true,
+      "noPeopleOrIdentity": true,
+      "capture": "dark-native-picker.png"
+    },
+    {
+      "name": "dark-native-code",
+      "passed": true,
+      "originalNumbersOnly": true,
+      "submitted": false,
+      "capture": "dark-native-code.png"
+    },
+    {
+      "name": "real-damage-before-full-vote",
+      "passed": true,
+      "crewArt": {
+        "versions": {
+          "protocolVersion": 3,
+          "engineVersion": "planet-game-1.3.0",
+          "rulesetVersion": "in-person-planet-blackout-before-vote-2026-11-10",
+          "rulesetHash": "2505515ad41e9d49c06bd14aaf9dab56dcf0adb471725c1c15d877a0f0b97556",
+          "assetManifestVersion": "design-0.8.0"
+        },
+        "crewSurface": "crew-drawing-1.0.0",
+        "pictures": [],
+        "figures": [
+          {
+            "seat": "seat-1",
+            "hasSvg": true,
+            "width": 86.29999542236328,
+            "height": 198.1030731201172,
+            "paths": 67,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-2",
+            "hasSvg": true,
+            "width": 88.80001068115234,
+            "height": 239.1327362060547,
+            "paths": 80,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-5",
+            "hasSvg": true,
+            "width": 102.99051666259766,
+            "height": 230.86044311523438,
+            "paths": 78,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-4",
+            "hasSvg": true,
+            "width": 90.19999694824219,
+            "height": 234.00901794433594,
+            "paths": 90,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-6",
+            "hasSvg": true,
+            "width": 102.73351287841797,
+            "height": 185.6688995361328,
+            "paths": 87,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-7",
+            "hasSvg": true,
+            "width": 92.69999694824219,
+            "height": 242.64498901367188,
+            "paths": 78,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-9",
+            "hasSvg": true,
+            "width": 87.82036590576172,
+            "height": 207.54959106445312,
+            "paths": 62,
+            "missingReferences": 0
+          }
+        ],
+        "duplicateIds": [],
+        "instances": [
+          "crew-renderer-1-mount-11-body",
+          "crew-renderer-1-mount-12-body",
+          "crew-renderer-1-mount-13-body",
+          "crew-renderer-1-mount-14-body",
+          "crew-renderer-1-mount-15-body",
+          "crew-renderer-1-mount-16-body",
+          "crew-renderer-1-mount-17-body",
+          "crew-renderer-1-mount-18-front",
+          "crew-renderer-1-mount-19-body",
+          "crew-renderer-1-mount-20-front",
+          "crew-renderer-1-mount-21-body",
+          "crew-renderer-1-mount-22-front",
+          "crew-renderer-1-mount-23-body",
+          "crew-renderer-1-mount-24-front",
+          "crew-renderer-1-mount-25-body",
+          "crew-renderer-1-mount-26-front"
+        ],
+        "duplicateInstances": []
+      },
+      "fullVoteMs": 60000,
+      "injured": [
+        "seat-3",
+        "seat-8"
+      ],
+      "rescueStillPending": true,
+      "capture": "real-damage-before-full-vote.png"
+    },
+    {
+      "name": "real-ballot-response-lost",
+      "passed": true,
+      "responseDroppedAfterHttpSuccess": true,
+      "capture": "real-ballot-response-lost.png"
+    }
+  ],
+  "networkInterceptionErrors": [],
+  "matchId": "a096ebc1-461e-4912-9924-c83568236574",
+  "nativePrefix": {
+    "label": "Native factory, legal role commands and trusted historical deadlines; adopted from lobby before disclosure",
+    "engineVersion": "planet-game-1.3.0",
+    "commands": [
+      "RESCUE",
+      "REQUEST_BLACKOUT",
+      "REQUEST_BLACKOUT"
+    ],
+    "deadlineCount": 25,
+    "setupFlowVersion": 3,
+    "startsAt": 1794354244185,
+    "previewEndsAt": 1794354249185,
+    "endsAt": 1794354259185
+  },
+  "privateChoicesDoNotChangePublicView": true,
+  "failure": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n\n+ null\n- {\n-   phaseId: '02b1a426-3ada-4f2d-8024-3a16ea3841b2',\n-   targetSeatId: 'seat-3'\n- }\n\n    at file:///private/tmp/gamen-frontend-blackout-consumer/apps/game/dev/phone/blackout-connected.mjs:49:523",
+  "cleanup": {
+    "abortAccepted": true,
+    "status": "aborted"
+  },
+  "sourcesUnchangedThroughRun": true,
+  "runtimeErrors": []
+}

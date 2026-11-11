@@ -1,0 +1,90 @@
+{
+  "schema": "mothership.frontend-host-abort-verification/1",
+  "issue": 219,
+  "baseCommit": "74d64700a5b99388ca99f2c39fb7ea7a9519215e",
+  "nativeCandidateCommit": "f0fdf1aeb083e5793a6c28e88e3cf233bd3a5bea",
+  "inventory": "host-abort-confirmation-inventory.json",
+  "checks": {
+    "typecheck": {
+      "command": "npm run typecheck",
+      "exitCode": 0,
+      "pure": true,
+      "browser": true,
+      "log": "evidence/host-abort-confirmation-2026-11-11/checks/typecheck.txt",
+      "sourceCommit": "f0fdf1aeb083e5793a6c28e88e3cf233bd3a5bea"
+    },
+    "focusedSessionRegressions": {
+      "command": "node --test apps/game/test/planet-host-abort.test.mjs",
+      "passed": 2,
+      "failed": 0,
+      "checks": [
+        "A committed lost abort survives reload and retries exactly the original request",
+        "A busy abort submits once and waits for authoritative terminal readback"
+      ],
+      "log": "evidence/host-abort-confirmation-2026-11-11/checks/focused-tests.txt",
+      "sourceCommit": "f0fdf1aeb083e5793a6c28e88e3cf233bd3a5bea"
+    },
+    "frontend": {
+      "command": "npm run test:frontend",
+      "exitCode": 0,
+      "presentation": 219,
+      "app": 735,
+      "total": 954,
+      "failed": 0,
+      "skipped": 0,
+      "log": "evidence/host-abort-confirmation-2026-11-11/checks/frontend-tests.txt",
+      "sourceCommit": "f0fdf1aeb083e5793a6c28e88e3cf233bd3a5bea"
+    },
+    "productionExclusion": {
+      "reachableModules": 76,
+      "productionEntries": 2,
+      "scannedFiles": 226,
+      "labelledDevFiles": 117,
+      "leaks": 0,
+      "sourceCommit": "f0fdf1aeb083e5793a6c28e88e3cf233bd3a5bea"
+    },
+    "sourceGuard": {
+      "command": "npm run check:sources",
+      "exitCode": 1,
+      "status": "Expected refusal pending Integration pin review",
+      "reason": "Phone UI production consumer: current content differs: apps/game/hosted/planet/app.mjs",
+      "approvalFilesModified": false,
+      "log": "evidence/host-abort-confirmation-2026-11-11/checks/source-guard.txt",
+      "sourceCommit": "f0fdf1aeb083e5793a6c28e88e3cf233bd3a5bea"
+    }
+  },
+  "nativeBrowser": {
+    "fixedCases": 6,
+    "baselineCases": 1,
+    "baselineAcceptance": false,
+    "baseline": "Released source first click retains Abort match, submits no abort, and exposes confirmation only after reopening Settings",
+    "fixed": [
+      "Four host-display/host-player cases at390×844 ordinary/normal motion and320×568 at200%/reduced motion: same open panel updates immediately; first click/Close/Escape send no abort; explicit confirmation commits once; local terminal return sends no service mutation",
+      "Dropped committed abort response survives reload; retry uses identical original request: two attempts, one commit",
+      "Simulated external abort keeps an unresolved original game command; local return waits for its matching original receipt: one command, one receipt query"
+    ],
+    "service": "Explicit synthetic service; actual native app/session/controller/renderer and real touch/Escape/browser reload inputs",
+    "runtimeExceptions": 0,
+    "sourceHashesVerifiedBeforeAndAfter": true,
+    "recordedData": "Sanitized labels, counters, public terminal status and identity equality booleans only; no room IDs, roles, tokens, credentials or raw request payloads",
+    "facts": "evidence/host-abort-confirmation-2026-11-11/fixed/facts.json"
+  },
+  "evidenceSha256": {
+    "baseline": {
+      "facts.json": "693b9c284ac8659a399109794fdd39bc723ca60f3bc7dfcb4c992042fdfac3a8",
+      "provenance.json": "03dbf514caeca392c9af8a7af7d612a47c8ab13cfdd70e54d4f48c4c3e3941b4"
+    },
+    "fixed": {
+      "facts.json": "8b77ac21ba1bbf515a2ef936708fbcab7c099041bbc50be4ead23f8a51249837",
+      "provenance.json": "0df9416af5a9ee3c8bc4128cc740927368c74a9d2a9316ee228f36ff08a3ed8c"
+    }
+  },
+  "notRun": [
+    "Fresh live-server/emulator multiplayer journey for this cache-only fix",
+    "Physical phones",
+    "Safari",
+    "VoiceOver",
+    "Mobile startup/frame/input/memory measurements"
+  ],
+  "releaseBoundary": "Reviewer-owned exact pin approval, combined production CI, merge and deployment remain separate. Historical source approvals, previous evidence and rules are preserved."
+}

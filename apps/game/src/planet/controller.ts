@@ -1,6 +1,6 @@
 import { PlanetCommandSchema, PlanetCommandRequestSchema, PlanetDrawingSchema } from '@mothership/contracts';
 import type { PlanetCommand, PlanetCommandRequest, PlanetDrawing, PlanetOffer, PlanetPlayerView, SeatId } from '@mothership/contracts';
-import { PLANET_ACTION_LABELS, ownPlanetWindows, planetConfirmation, planetIsPlayer, planetRolePresentation,planetPromiseTerms,planetPlayerNumberChoices } from '@mothership/presentation';
+import { PLANET_ACTION_LABELS, ownPlanetWindows, planetConfirmation, planetIsPlayer, planetRolePresentation,planetPromiseTerms,planetPlayerNumberChoices,planetRegistrationText,planetHasPrivateOffers,planetHasPrivateFeedback,planetBoardLabel } from '@mothership/presentation';
 import type { PlanetActionModel, PlanetCommandType, PlanetPanel, PlanetScreenModel, PlanetView } from '@mothership/presentation';
 import type { PlayerPorts } from '../ports.js';
 import { createServerClock } from '../clock/server-clock.js';
@@ -64,10 +64,10 @@ export function createPlanetController(transport:PlanetTransport,ports:PlayerPor
  const isDark=()=>{const time=reading();return view?.phase.kind==='BLACKOUT'&&(time.status!=='synced'||view.blackout===null||time.serverNowMs+time.uncertaintyMs>=view.blackout.previewEndsAt);};
  const canAct=()=>usable()&&player()!==null&&unsettled===null&&accepted===null&&!storageBlocked;
  const ballotOpen=()=>view?.phase.kind==='JAIL_VOTE'||view?.phase.kind==='CAPTAIN_ELECTION';
- const phaseAllows=(type:PlanetCommandType)=>!(type==='VOTE'&&!ballotOpen())&&!(view?.phase.kind==='BLACKHOLE_PRESENTATION'&&['MOVE','PANEL_CODE','PASS_TURN'].includes(type))&&
+ const phaseAllows=(type:PlanetCommandType)=>!(isDark()&&!['SELECT_BLACKOUT_SLOT','SUBMIT_CODE'].includes(type))&&!(type==='VOTE'&&(!ballotOpen()||!player()?.ballot.eligibleVoters.includes(player()!.self.seatId)||player()?.ownBallot?.phaseId===view?.phase.id))&&!(view?.phase.kind==='BLACKHOLE_PRESENTATION'&&['MOVE','PANEL_CODE','PASS_TURN'].includes(type))&&
   !(type==='CHOOSE_NAV_DIRECTION'&&!['NAV_SETTING','NAV_TIE'].includes(view?.phase.kind??''))&&
   !(type==='CONFIRM_NAVIGATION'&&!['NAV_CAPTAIN_CONFIRM','NAV_OFFICER_CONFIRM'].includes(view?.phase.kind??''));
- const offer=(type:PlanetCommandType):PlanetOffer|null=>phaseAllows(type)?player()?.offers.find(o=>o.type===type)??null:null;
+ const offer=(type:PlanetCommandType):PlanetOffer|null=>phaseAllows(type)&&!(type==='OFFER_PROMISE'&&player()?.promiseQuota.given)&&!(type==='ACCEPT_PROMISE'&&player()?.promiseQuota.received)?player()?.offers.find(o=>o.type===type)??null:null;
  const emit=()=>{if(disposed)return;const model=getModel();for(const listener of listeners)listener(model);};
  const clearPrivate=()=>{draft=null;panel='board';interactionOpen=false;};
  const invalidate=(text:string,error=false)=>{fresh=false;failed=error;message=text;clearPrivate();frozen=null;panelRejection=null;emit();};
@@ -84,7 +84,7 @@ export function createPlanetController(transport:PlanetTransport,ports:PlayerPor
   const current=shown?view:null;
   const dark=!!current&&isDark();
   const privateArea:{-readonly [K in keyof NonNullable<PlanetScreenModel['privateArea']>]:NonNullable<PlanetScreenModel['privateArea']>[K]}={};
-  if(p){
+  if(p&&!dark){
    if(panel==='card'){
     privateArea.role=planetRolePresentation(p); privateArea.abilities=p.abilities;privateArea.knowledge={...p.knowledge,insiderSeatIds:[...p.knowledge.insiderSeatIds].sort()};
     privateArea.resources={ordinaryWeapons:p.self.ordinaryWeapons,roleActionSpent:p.self.roleActionSpent,movementSpent:p.self.movementSpent};
@@ -94,7 +94,7 @@ export function createPlanetController(transport:PlanetTransport,ports:PlayerPor
     privateArea.offers=canAct()?p.offers.filter(o=>phaseAllows(o.type)):[];privateArea.hackFeedback=p.hackFeedback;privateArea.captainCommands=p.abilities.captainCommands;privateArea.ownBallot=p.ownBallot;
     if(p.phase.kind==='BLACKOUT')privateArea.blackoutTargeting=p.blackoutTargeting;
    }
-   if(panel==='promises'){privateArea.promises=p.promises;privateArea.promiseQuota=p.promiseQuota;privateArea.offers=canAct()?p.offers.filter(o=>['OFFER_PROMISE','ACCEPT_PROMISE','DECLINE_PROMISE'].includes(o.type)):[];}
+   if(panel==='promises'){privateArea.promises=p.promises;privateArea.promiseQuota=p.promiseQuota;privateArea.offers=canAct()?p.offers.filter(o=>['OFFER_PROMISE','ACCEPT_PROMISE','DECLINE_PROMISE'].includes(o.type)&&offer(o.type)!==null):[];}
    if(panel==='windows'){privateArea.windows=ownPlanetWindows(p,{dark:isDark()});const shown=canAct()&&!isDark()?p.offers.filter(o=>o.type==='SHOW_WINDOW'):[];if(shown.length)privateArea.offers=shown;}
    if(panel==='navigation'){privateArea.navigation=p.privateNavigation;privateArea.offers=canAct()?p.offers.filter(o=>['CHOOSE_NAV_DIRECTION','CONFIRM_NAVIGATION'].includes(o.type)&&phaseAllows(o.type)):[];}
    if(panel==='hospital'){privateArea.panelAttemptSpent=p.abilities.panelAttemptSpent;if(p.abilities.panelRequest!==undefined)privateArea.panelRequest=p.abilities.panelRequest;privateArea.offers=canAct()?p.offers.filter(o=>o.type==='PANEL_CODE'&&phaseAllows(o.type)):[];}
@@ -102,18 +102,22 @@ export function createPlanetController(transport:PlanetTransport,ports:PlayerPor
   let action:PlanetActionModel|null=null;
   if(valid&&interactionOpen&&draft){action={type:draft.type,label:PLANET_ACTION_LABELS[draft.type],step:draft.step,selected:[...draft.selected],choices:[...draft.choices],prompt:draft.prompt,confirmation:draft.command?confirmationFor(draft.command):null,canConfirm:canAct()&&draft.step==='confirm'&&draft.command!==null};}
   if(valid&&interactionOpen&&unsettled?.status==='sending'&&unsettled.request)action={type:unsettled.request.command.type,label:PLANET_ACTION_LABELS[unsettled.request.command.type],step:'sending',selected:[],choices:[],prompt:'Registering…',confirmation:null,canConfirm:false};
-  if(valid&&interactionOpen&&accepted)action={type:accepted.type,label:PLANET_ACTION_LABELS[accepted.type],step:'accepted',selected:[],choices:[],prompt:'Registered. Waiting for the authoritative view.',confirmation:null,canConfirm:false};
+  if(p&&dark&&panel==='actions'){privateArea.blackoutTargeting=p.blackoutTargeting;privateArea.offers=canAct()?p.offers.filter(o=>['SELECT_BLACKOUT_SLOT','SUBMIT_CODE'].includes(o.type)&&offer(o.type)!==null):[];}
+  if(p&&dark&&panel==='windows')privateArea.windows=[];
+  if(valid&&interactionOpen&&accepted)action={type:accepted.type,label:PLANET_ACTION_LABELS[accepted.type],step:'accepted',selected:[],choices:[],prompt:planetRegistrationText(accepted.type),confirmation:null,canConfirm:false};
   const currentBoard=dark?null:current?.board??null;
   return {
    protocolVersion:3,versions:current?.versions??null,surface:expected.surface,mode:transport.mode,connection:failed?'error':connecting?'connecting':shown?'live':'stale',message,
    matchId:expected.matchId,playerCount:current?.playerCount??null,round:current?.round??null,revision:current?.viewRevision??null,
    board:currentBoard&&frozen&&current?.blackout?.windowId===frozen.id?frozen.board:currentBoard,
-   boardLabel:current&&expected.surface==='display'?`Last finalized board · Round ${current.board.finalizedRound}`:null,
+   boardLabel:current?planetBoardLabel(current):null,
    phase:current?{id:current.phase.id,kind:current.phase.kind,startedAt:current.phase.startedAt,endsAt:current.phase.endsAt,nowMs:time.status==='synced'?time.serverNowMs:null,remainingMs:time.status==='synced'&&current.phase.endsAt!==null?Math.max(0,current.phase.endsAt-time.serverNowMs):null,trusted:time.status==='synced',expired:!valid}:null,
    offices:current?.offices??null,activeSeatId:current?.activeSeatId??null,talk:current?.hackSession??null,navigation:current?.navigation??null,result:current?.result??null,endReveal:current?.endReveal??null,lastTally:current?.lastTally??null,
-   identities:current?transport.identities?.().filter(i=>current.board.seats.some(s=>s.seatId===i.seatId))??[]:[],
-   panel:p?panel:'board',concealed:!visible,ownSeatId:binding?.seatId??null,
+   identities:current&&!dark?transport.identities?.().filter(i=>current.board.seats.some(s=>s.seatId===i.seatId))??[]:[],
+   panel:p||shown&&panel==='settings'?panel:'board',concealed:!visible,ownSeatId:binding?.seatId??null,
    canPass:canAct()&&offer('PASS_TURN')!==null,canMove:canAct()&&offer('MOVE')!==null,moveRooms:canAct()?['Room A','Room B','Command Room'].filter(room=>offer('MOVE')?.slotIds.some(slot=>roomFor(slot)===room&&allowedSlot(slot,offer('MOVE')!))) as ('Room A'|'Room B'|'Command Room')[]:[],dark:!!dark,action,
+   ballot:current&&!dark?current.ballot:null,canVote:canAct()&&offer('VOTE')!==null,
+   ownBallot:p&&!dark?p.ownBallot:null,promiseOfferCount:p&&!dark?p.promises.filter(x=>!x.accepted&&x.recipientSeatId===p.self.seatId&&x.offerStatus==='offered').length:0,
    privateArea:p&&Object.keys(privateArea).length?privateArea:null,
    presentation:current&&valid&&time.status==='synced'?{nowMs:time.serverNowMs,startedAt:current.phase.startedAt,endsAt:current.phase.endsAt,events:dark?[]:current.events,blackout:current.blackout,clone:panel==='card'&&p?p.abilities.clone:null}:null,
    recovery:unsettled&&unsettled.status!=='sending'?{status:unsettled.status,canCheck:visible&&authValid()&&unsettled.status==='unknown',canRetry:visible&&canRetry()}:null,
@@ -142,7 +146,7 @@ export function createPlanetController(transport:PlanetTransport,ports:PlayerPor
  function tick(){
   if(disposed||!visible)return;
   if(!authValid()){invalidate('Your signed-in identity changed. Reconnect this seat.',true);unsubscribe?.();unsubscribe=null;return;}
-  if(!usable())clearPrivate();else if(draft?.command&&!commandAllowed(draft.command))draft=null;
+  if(!usable())clearPrivate();else if(draft&&(!offer(draft.type)||draft.command&&!commandAllowed(draft.command)))draft=null;
   scheduleTick();emit();if(reading().status!=='synced'||ports.clock.now()-lastSync>15_000)void syncTime();
  }
  function receive(snapshot:PlanetSnapshot){
@@ -169,7 +173,7 @@ export function createPlanetController(transport:PlanetTransport,ports:PlayerPor
   if(!next.blackout)frozen=null;
   if(!panelRejection||panelRejection.phaseId!==next.phase.id||panelRejection.revision!==next.viewRevision){panelRejection=null;message=null;}
   view=next;fresh=true;connecting=false;failed=false;
-  if(draft?.command&&!commandAllowed(draft.command))draft=null;
+  if(draft&&(!offer(draft.type)||draft.command&&!commandAllowed(draft.command)))draft=null;
   scheduleTick();emit();
  }
  function listen(){
@@ -213,7 +217,7 @@ export function createPlanetController(transport:PlanetTransport,ports:PlayerPor
    draft.choices=targeting.slotIds.filter(s=>o.slotIds.includes(s)).map(value=>({value,label:value}));
   }else if(type==='CHOOSE_NAV_DIRECTION'||type==='DECLARE_HACK_SIDE'){
    draft.step=type==='CHOOSE_NAV_DIRECTION'?'direction':'faction';
-   draft.choices=(type==='CHOOSE_NAV_DIRECTION'?['Blue','Red']:['Blue','Red','Alien']).map(value=>({value,label:value}));
+   draft.choices=(type==='CHOOSE_NAV_DIRECTION'?['Blue','Red']:planetHasPrivateOffers(p.versions)?o.declaredSides??[]:['Blue','Red','Alien']).map(value=>({value,label:value}));
   }else if(type==='ACCEPT_PROMISE'||type==='DECLINE_PROMISE'){
    draft.step='promise';draft.prompt='Select the exact incoming Promise.';
    draft.choices=p.promises.filter(x=>!x.accepted&&x.recipientSeatId===p.self.seatId&&x.round===p.round&&
@@ -222,7 +226,7 @@ export function createPlanetController(transport:PlanetTransport,ports:PlayerPor
   }else if(type==='SHOW_WINDOW'){
    draft=null;panel='windows';
   }else{
-   draft.step=type==='PANEL_CODE'?'number':'targets';draft.prompt=type==='SUBMIT_CODE'?'Choose four distinct original player numbers.':type==='SUPPLY'?'Choose two distinct offered players.':type==='PANEL_CODE'?'Enter the Doctor’s player number.':type==='OFFER_PROMISE'?'Choose your current private-talk partner.':'Choose an offered character on the board.';
+   draft.step=type==='PANEL_CODE'?'number':'targets';draft.prompt=type==='SUBMIT_CODE'?'Choose four distinct original player numbers.':type==='SUPPLY'?'Choose two distinct offered players.':type==='PANEL_CODE'?'Enter the Doctor’s player number.':type==='OFFER_PROMISE'?'Choose your current private-talk partner.':type==='VOTE'?'Choose a player.':'Choose an offered character on the board.';
    draft.choices=type==='PANEL_CODE'?[...planetPlayerNumberChoices(o.targetSeatIds)]:o.targetSeatIds.map(value=>({value,label:number(value)}));
    if(type==='VOTE')draft.choices.push({value:'abstain',label:'Abstain'});
   }
@@ -275,6 +279,7 @@ export function createPlanetController(transport:PlanetTransport,ports:PlayerPor
   if(c.type==='SUPPLY')return c.targetSeatIds.every(id=>o.targetSeatIds.includes(id));
   if(c.type==='SUBMIT_CODE')return c.seatIds.every(id=>o.targetSeatIds.includes(id));
   if(c.type==='PANEL_CODE')return o.targetSeatIds.includes(c.doctorSeatId);
+  if(c.type==='DECLARE_HACK_SIDE'&&planetHasPrivateOffers(p.versions))return o.declaredSides?.includes(c.declaredSide)===true;
   if(c.type==='SELECT_BLACKOUT_SLOT')return isDark()&&!!p.blackoutTargeting?.selectable&&c.windowId===p.blackoutTargeting.windowId&&o.slotIds.includes(c.slotId)&&p.blackoutTargeting.slotIds.includes(c.slotId);
   if(c.type==='OFFER_PROMISE'){
    const talk=p.hackSession;const pair=talk&&[talk.actorSeatId,talk.targetSeatId];
@@ -293,13 +298,13 @@ export function createPlanetController(transport:PlanetTransport,ports:PlayerPor
  }
  function settle(payload:unknown,item:Unsettled):boolean{
   const receipt=readPlanetReceipt(payload,item.context);if(!receipt)return false;
-  if(receipt.status==='rejected'&&receipt.code==='NO_INJECTION'&&(view?.versions.engineVersion!=='planet-game-1.1.0'||item.request&&item.request.command.type!=='PANEL_CODE'))return false;
+  if(receipt.status==='rejected'&&receipt.code==='NO_INJECTION'&&(!planetHasPrivateFeedback(view?.versions)||item.request&&item.request.command.type!=='PANEL_CODE'))return false;
   panelRejection=receipt.status==='rejected'&&receipt.code==='NO_INJECTION'&&interactionOpen&&view?{phaseId:view.phase.id,revision:view.viewRevision}:null;
   try{ports.unresolved.clear();}catch{storageBlocked=true;}
   unsettled=null;draft=null;
   if(receipt.status==='accepted'){
    if(view?.phase.id===item.context.phaseId&&view.viewRevision<=item.revision&&item.request)accepted={revision:item.revision,phaseId:item.context.phaseId,type:item.request.command.type};
-   message='Registered. The authoritative view determines the outcome.';
+   message=item.request?planetRegistrationText(item.request.command.type):'Registered. The authoritative view determines the outcome.';
   }else message=receipt.code==='NO_INJECTION'&&interactionOpen?'No injection was available. Your panel attempt was not spent.':receipt.code==='PHASE_CLOSED'?'The server closed that phase.':'The server did not allow that command.';
   emit();return true;
  }
@@ -332,7 +337,7 @@ export function createPlanetController(transport:PlanetTransport,ports:PlayerPor
  async function retry(){if(!canRetry())return;const item=unsettled!;item.status='sending';emit();await send(item);}
  return {
   start,getModel,subscribe(listener){listeners.add(listener);listener(getModel());return()=>listeners.delete(listener);},begin,choose,showDrawing,confirm,checkReceipt,retry,
-  openPanel(next){if(!usable()||!player())return;panel=next;draft=null;interactionOpen=false;emit();},
+  openPanel(next){if(!usable()||!player()&&next!=='settings')return;panel=next;draft=null;interactionOpen=false;emit();},
   dismiss(){draft=null;panel='board';interactionOpen=false;if(panelRejection){panelRejection=null;message=null;}emit();},
   setVisible(next){
    if(visible===next||disposed)return;visible=next;generation++;clearPrivate();clock.invalidate();fresh=false;frozen=null;if(panelRejection){panelRejection=null;message=null;}

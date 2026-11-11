@@ -1,0 +1,1449 @@
+{
+  "scope": "Real loopback demo-mothership Auth/Firestore/Functions/Tasks and native UI; desktop Chromium phone emulation. No synthetic snapshots or injected clock. App Check is emulator-bypassed; no production or device claim.",
+  "generatedAt": "2026-11-10T23:02:18.461Z",
+  "browser": {
+    "protocolVersion": "1.3",
+    "product": "Chrome/157.0.8103.40",
+    "revision": "@6f75a8afa26ce5537c82b4887f152dfdc7183e05",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/157.0.0.0 Safari/537.36",
+    "jsVersion": "15.7.112.23"
+  },
+  "cases": [
+    {
+      "name": "host-created",
+      "passed": true,
+      "playerCount": 7,
+      "assetManifestVersion": "design-0.8.0",
+      "screenshot": "host-created.png"
+    },
+    {
+      "name": "display-pending",
+      "passed": true,
+      "redacted": true,
+      "noGameMounted": true,
+      "screenshot": "display-pending.png"
+    },
+    {
+      "name": "display-admitted",
+      "passed": true,
+      "explicitStanding": true,
+      "noPlayerView": true,
+      "screenshot": "display-admitted.png"
+    },
+    {
+      "name": "human-character-selected",
+      "passed": true,
+      "characterId": "c4",
+      "serverSelectionEndsAt": 1794351783578,
+      "crewArt": {
+        "versions": {
+          "protocolVersion": 3,
+          "engineVersion": "planet-game-1.2.0",
+          "rulesetVersion": "in-person-planet-private-feedback-2026-11-06",
+          "rulesetHash": "4a1fc0e0dc21255253e31ae46e6042f9bd71e3fdec0f82f8a79b3ce213d01bfa",
+          "assetManifestVersion": "design-0.8.0"
+        },
+        "crewSurface": "crew-drawing-1.0.0",
+        "pictures": [
+          {
+            "character": "c1",
+            "decoded": true,
+            "visible": true,
+            "imagePresent": true
+          },
+          {
+            "character": "c2",
+            "decoded": true,
+            "visible": true,
+            "imagePresent": true
+          },
+          {
+            "character": "c3",
+            "decoded": true,
+            "visible": true,
+            "imagePresent": true
+          },
+          {
+            "character": "c4",
+            "decoded": true,
+            "visible": true,
+            "imagePresent": true
+          },
+          {
+            "character": "c5",
+            "decoded": true,
+            "visible": true,
+            "imagePresent": true
+          },
+          {
+            "character": "c6",
+            "decoded": true,
+            "visible": true,
+            "imagePresent": true
+          },
+          {
+            "character": "c7",
+            "decoded": true,
+            "visible": true,
+            "imagePresent": true
+          },
+          {
+            "character": "c8",
+            "decoded": true,
+            "visible": true,
+            "imagePresent": true
+          },
+          {
+            "character": "c9",
+            "decoded": true,
+            "visible": true,
+            "imagePresent": true
+          }
+        ],
+        "figures": [],
+        "duplicateIds": [],
+        "instances": [],
+        "duplicateInstances": []
+      },
+      "screenshot": "human-character-selected.png"
+    },
+    {
+      "name": "explicit-conceal-after-foreground",
+      "passed": true,
+      "roleStillConcealed": true,
+      "screenshot": "explicit-conceal-after-foreground.png"
+    },
+    {
+      "name": "timed-reading-card",
+      "passed": true,
+      "serverStartedAt": 1794351788687,
+      "serverFilmStartsAt": 1794351808687,
+      "serverEndsAt": 1794351818687,
+      "screenshot": "timed-reading-card.png"
+    },
+    {
+      "name": "timed-reading-film",
+      "passed": true,
+      "insideServerInterval": true,
+      "screenshot": "timed-reading-film.png"
+    },
+    {
+      "name": "timed-reading-local-skip",
+      "passed": true,
+      "minimumReadMs": 30000,
+      "serverReadingEndsAt": 1794351818687,
+      "privateRoleOnlyOnHuman": true,
+      "screenshot": "timed-reading-local-skip.png"
+    },
+    {
+      "name": "boarding-local-skip",
+      "passed": true,
+      "serverStartedAt": 1794351819279,
+      "serverEndsAt": 1794351829279,
+      "stillBoarding": true,
+      "screenshot": "boarding-local-skip.png"
+    },
+    {
+      "name": "human-running",
+      "passed": true,
+      "engineVersion": "planet-game-1.2.0",
+      "humanSeatId": "seat-1",
+      "characterId": "c4",
+      "botsConfigured": 6,
+      "automaticBotReadiness": true,
+      "crewArt": {
+        "versions": {
+          "protocolVersion": 3,
+          "engineVersion": "planet-game-1.2.0",
+          "rulesetVersion": "in-person-planet-private-feedback-2026-11-06",
+          "rulesetHash": "4a1fc0e0dc21255253e31ae46e6042f9bd71e3fdec0f82f8a79b3ce213d01bfa",
+          "assetManifestVersion": "design-0.8.0"
+        },
+        "crewSurface": "crew-drawing-1.0.0",
+        "pictures": [],
+        "figures": [
+          {
+            "seat": "seat-1",
+            "hasSvg": true,
+            "width": 91.29999542236328,
+            "height": 188.2049560546875,
+            "paths": 62,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-4",
+            "hasSvg": true,
+            "width": 88.80001068115234,
+            "height": 238.52598571777344,
+            "paths": 80,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-5",
+            "hasSvg": true,
+            "width": 175.70071411132812,
+            "height": 177.4554443359375,
+            "paths": 84,
+            "missingReferences": 0
+          }
+        ],
+        "duplicateIds": [],
+        "instances": [
+          "crew-renderer-1-mount-1-body",
+          "crew-renderer-1-mount-2-body",
+          "crew-renderer-1-mount-3-body",
+          "crew-renderer-1-mount-4-body",
+          "crew-renderer-1-mount-5-body",
+          "crew-renderer-1-mount-6-body",
+          "crew-renderer-1-mount-7-body",
+          "crew-renderer-1-mount-8-front"
+        ],
+        "duplicateInstances": []
+      },
+      "screenshot": "human-running.png"
+    },
+    {
+      "name": "public-running",
+      "passed": true,
+      "publicOnly": true,
+      "crewArt": {
+        "versions": {
+          "protocolVersion": 3,
+          "engineVersion": "planet-game-1.2.0",
+          "rulesetVersion": "in-person-planet-private-feedback-2026-11-06",
+          "rulesetHash": "4a1fc0e0dc21255253e31ae46e6042f9bd71e3fdec0f82f8a79b3ce213d01bfa",
+          "assetManifestVersion": "design-0.8.0"
+        },
+        "crewSurface": "crew-drawing-1.0.0",
+        "pictures": [],
+        "figures": [
+          {
+            "seat": "seat-1",
+            "hasSvg": true,
+            "width": 91.29999542236328,
+            "height": 188.94577026367188,
+            "paths": 62,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-4",
+            "hasSvg": true,
+            "width": 88.80001068115234,
+            "height": 239.07980346679688,
+            "paths": 80,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-5",
+            "hasSvg": true,
+            "width": 175.70071411132812,
+            "height": 179.77540588378906,
+            "paths": 84,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-2",
+            "hasSvg": true,
+            "width": 90.60248565673828,
+            "height": 229.9103546142578,
+            "paths": 86,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-3",
+            "hasSvg": true,
+            "width": 92.66999053955078,
+            "height": 176.68206787109375,
+            "paths": 87,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-6",
+            "hasSvg": true,
+            "width": 92.69999694824219,
+            "height": 251.50164794921875,
+            "paths": 82,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-7",
+            "hasSvg": true,
+            "width": 86.83245086669922,
+            "height": 216.9971160888672,
+            "paths": 66,
+            "missingReferences": 0
+          }
+        ],
+        "duplicateIds": [],
+        "instances": [
+          "crew-renderer-1-mount-1-body",
+          "crew-renderer-1-mount-2-body",
+          "crew-renderer-1-mount-3-body",
+          "crew-renderer-1-mount-4-body",
+          "crew-renderer-1-mount-5-body",
+          "crew-renderer-1-mount-6-body",
+          "crew-renderer-1-mount-7-body",
+          "crew-renderer-1-mount-8-front"
+        ],
+        "duplicateInstances": []
+      },
+      "screenshot": "public-running.png"
+    },
+    {
+      "name": "recovered-member-running",
+      "passed": true,
+      "sameSeat": true,
+      "sameCharacter": true,
+      "sameOwnRole": true,
+      "requestContextCleared": true,
+      "crewArt": {
+        "versions": {
+          "protocolVersion": 3,
+          "engineVersion": "planet-game-1.2.0",
+          "rulesetVersion": "in-person-planet-private-feedback-2026-11-06",
+          "rulesetHash": "4a1fc0e0dc21255253e31ae46e6042f9bd71e3fdec0f82f8a79b3ce213d01bfa",
+          "assetManifestVersion": "design-0.8.0"
+        },
+        "crewSurface": "crew-drawing-1.0.0",
+        "pictures": [],
+        "figures": [
+          {
+            "seat": "seat-1",
+            "hasSvg": true,
+            "width": 91.29999542236328,
+            "height": 188.55191040039062,
+            "paths": 62,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-4",
+            "hasSvg": true,
+            "width": 88.80001068115234,
+            "height": 239.0512237548828,
+            "paths": 80,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-5",
+            "hasSvg": true,
+            "width": 175.70071411132812,
+            "height": 178.1936492919922,
+            "paths": 84,
+            "missingReferences": 0
+          }
+        ],
+        "duplicateIds": [],
+        "instances": [
+          "crew-renderer-1-mount-1-body",
+          "crew-renderer-1-mount-2-body",
+          "crew-renderer-1-mount-3-body",
+          "crew-renderer-1-mount-4-body",
+          "crew-renderer-1-mount-5-body",
+          "crew-renderer-1-mount-6-body",
+          "crew-renderer-1-mount-7-body",
+          "crew-renderer-1-mount-8-front"
+        ],
+        "duplicateInstances": []
+      },
+      "screenshot": "recovered-member-running.png"
+    },
+    {
+      "name": "old-identity-revoked",
+      "passed": true,
+      "noRosterOrPrivateView": true,
+      "notConvertedToPending": true,
+      "screenshot": "old-identity-revoked.png"
+    }
+  ],
+  "provenance": "provenance.json",
+  "sourcesVerifiedBefore": true,
+  "productionSourceApproval": "Pending; this excluded preview verifies frozen released art separately from candidate native code",
+  "storageCheckedOnAllFourIdentities": true,
+  "operations": [
+    [
+      {
+        "operation": "create",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "approveAdmission",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "approveAdmission",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "setBots",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "beginSetup",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "issueRecovery",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      }
+    ],
+    [
+      {
+        "operation": "requestAdmission",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "chooseCharacter",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "ready",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 403,
+        "ok": false,
+        "code": "FORBIDDEN"
+      }
+    ],
+    [
+      {
+        "operation": "requestAdmission",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      }
+    ],
+    [
+      {
+        "operation": "redeemRecovery",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      },
+      {
+        "operation": "read",
+        "status": 200,
+        "ok": true,
+        "code": null
+      }
+    ]
+  ],
+  "matchId": "a9024475-b856-4edc-a61d-cf3c0f80e141",
+  "tokensPersisted": false,
+  "manualAdvanceOrBotCalls": 0,
+  "sourcesUnchangedThroughRun": true,
+  "runtimeErrors": [],
+  "cleanup": {
+    "status": null,
+    "abortAccepted": false
+  }
+}

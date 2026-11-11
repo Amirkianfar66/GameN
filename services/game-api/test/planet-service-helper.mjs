@@ -34,11 +34,11 @@ export function memoryPlanetStore(seed=[]) {
     export:()=>clone([...records]),retryNext:()=>{retry=true;},loseNextAcknowledgement:(prefix='')=>{loseAck=prefix;}};
 }
 
-export async function planetServiceHarness({count=7,humans=1,store=memoryPlanetStore(),assetManifestVersion='design-0.6.0',sample=.999999,setupFlowVersion}={}) {
+export async function planetServiceHarness({count=7,humans=1,store=memoryPlanetStore(),assetManifestVersion='design-0.6.0',sample=.999999,setupFlowVersion,engineProfile}={}) {
   const prefix='ps-'+randomUUID();let sequence=0,now=1_800_000_000_000,draws=0;
   const nextId=()=>prefix+'-'+(++sequence);
   const options={store,engine,clock:()=>now,newId:nextId,randomSamples:()=>{draws++;return Array(64).fill(sample);},
-    newRecoveryCode:()=>nextId()+'-recovery',assetManifestVersion,...(setupFlowVersion===undefined?{}:{setupFlowVersion})};
+    newRecoveryCode:()=>nextId()+'-recovery',assetManifestVersion,...(setupFlowVersion===undefined?{}:{setupFlowVersion}),...(engineProfile===undefined?{}:{engineProfile})};
   let service=createPlanetService(options);
   const host=prefix+'-host',players=Array.from({length:humans},(_,i)=>prefix+'-player-'+(i+1)),display=prefix+'-display';
   const invoke=(uid,operation,fields={})=>service.handle(uid,{operation,...fields});

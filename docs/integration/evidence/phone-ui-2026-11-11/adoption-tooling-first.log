@@ -1,0 +1,393 @@
+TAP version 13
+# Subtest: DSN-REQ-17 binds exact source, 17 exact-copy ports and explicit tokens without replacing historical exports
+ok 1 - DSN-REQ-17 binds exact source, 17 exact-copy ports and explicit tokens without replacing historical exports
+  ---
+  duration_ms: 234.521292
+  type: 'test'
+  ...
+# Subtest: published Planet manifest and original consumer bytes survive exact successor adoption
+ok 2 - published Planet manifest and original consumer bytes survive exact successor adoption
+  ---
+  duration_ms: 173.206125
+  type: 'test'
+  ...
+# Subtest: compatibility cannot substitute changed current code, erase historical evidence or approve itself
+not ok 3 - compatibility cannot substitute changed current code, erase historical evidence or approve itself
+  ---
+  duration_ms: 590.176083
+  type: 'test'
+  location: '/private/tmp/gamen-phone-consumer-adoption/tests/tooling/crew-art-release.test.mjs:84:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /^Error: Pregame consumer candidate: current content differs:/. Input:
+    
+    'Error: Phone UI production consumer: current content differs: apps/game/hosted/planet/app.mjs'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+  error: 'Phone UI production consumer: current content differs: apps/game/hosted/planet/app.mjs'
+  stack: |-
+    check (file:///private/tmp/gamen-phone-consumer-adoption/scripts/phone-ui-consumer-approval.mjs:18:62)
+    readPhoneUiConsumerApproval (file:///private/tmp/gamen-phone-consumer-adoption/scripts/phone-ui-consumer-approval.mjs:70:5)
+    readVerifiedPregameConsumerInventory (file:///private/tmp/gamen-phone-consumer-adoption/scripts/pregame-consumer-candidate.mjs:54:21)
+    readPregameProductionConsumerApproval (file:///private/tmp/gamen-phone-consumer-adoption/scripts/pregame-consumer-approval.mjs:55:21)
+    readRelease (file:///private/tmp/gamen-phone-consumer-adoption/scripts/runtime-art-release.mjs:124:7)
+    readRuntimeArtRelease (file:///private/tmp/gamen-phone-consumer-adoption/scripts/runtime-art-release.mjs:92:10)
+    file:///private/tmp/gamen-phone-consumer-adoption/tests/tooling/crew-art-release.test.mjs:91:27
+    getActual (node:assert:609:5)
+    Function.throws (node:assert:757:24)
+    verifyBoth (file:///private/tmp/gamen-phone-consumer-adoption/tests/tooling/crew-art-release.test.mjs:91:14)
+  operator: 'throws'
+  stack: |-
+    verifyBoth (file:///private/tmp/gamen-phone-consumer-adoption/tests/tooling/crew-art-release.test.mjs:91:14)
+    TestContext.<anonymous> (file:///private/tmp/gamen-phone-consumer-adoption/tests/tooling/crew-art-release.test.mjs:95:3)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: new uniform bundles contain exactly the 36 approved exports and retire only the 27 obsolete film properties
+ok 4 - new uniform bundles contain exactly the 36 approved exports and retire only the 27 obsolete film properties
+  ---
+  duration_ms: 98.109833
+  type: 'test'
+  ...
+# Subtest: build emits complete historical and new release output side by side; a damaged new bundle is rejected
+ok 5 - build emits complete historical and new release output side by side; a damaged new bundle is rejected
+  ---
+  duration_ms: 274.528417
+  type: 'test'
+  ...
+# Subtest: changed source, runtime port or asset cannot authorize itself through the candidate manifest
+ok 6 - changed source, runtime port or asset cannot authorize itself through the candidate manifest
+  ---
+  duration_ms: 374.550125
+  type: 'test'
+  ...
+# Subtest: the fence rejects unknown, changed and missing crew ports, and a self-edited approval
+ok 7 - the fence rejects unknown, changed and missing crew ports, and a self-edited approval
+  ---
+  duration_ms: 2230.671542
+  type: 'test'
+  ...
+# Subtest: verified final adoption reports08 while retaining the root V1 identity and historical validation
+ok 8 - verified final adoption reports08 while retaining the root V1 identity and historical validation
+  ---
+  duration_ms: 421.648667
+  type: 'test'
+  ...
+# Subtest: explicit new-match metadata uses the reviewed gameplay tuple without changing artwork or historical defaults
+ok 9 - explicit new-match metadata uses the reviewed gameplay tuple without changing artwork or historical defaults
+  ---
+  duration_ms: 884.541625
+  type: 'test'
+  ...
+# Subtest: real emitted output retains all27 Planet assets for06,07 and08 and rejects damage to each release
+ok 10 - real emitted output retains all27 Planet assets for06,07 and08 and rejects damage to each release
+  ---
+  duration_ms: 462.927625
+  type: 'test'
+  ...
+# Subtest: absence preserves history, but invalid or dangling approval cannot become absence
+ok 11 - absence preserves history, but invalid or dangling approval cannot become absence
+  ---
+  duration_ms: 4.680333
+  type: 'test'
+  ...
+# Subtest: reviewed phone bytes extend consumption without rewriting the historical acceptance or artwork
+ok 12 - reviewed phone bytes extend consumption without rewriting the historical acceptance or artwork
+  ---
+  duration_ms: 160.256584
+  type: 'test'
+  ...
+# Subtest: a claimed or cloned approval, unknown path and unreviewed digest have no acceptance capability
+ok 13 - a claimed or cloned approval, unknown path and unreviewed digest have no acceptance capability
+  ---
+  duration_ms: 120.472542
+  type: 'test'
+  ...
+# Subtest: current files, candidate blobs, preserved predecessors and evidence are independently required
+ok 14 - current files, candidate blobs, preserved predecessors and evidence are independently required
+  ---
+  duration_ms: 172.606584
+  type: 'test'
+  ...
+# Subtest: editing parent records or the artwork manifest cannot repin the native candidate
+ok 15 - editing parent records or the artwork manifest cannot repin the native candidate
+  ---
+  duration_ms: 133.783541
+  type: 'test'
+  ...
+# Subtest: a native or evidence symlink is rejected even when its target contains the approved bytes
+ok 16 - a native or evidence symlink is rejected even when its target contains the approved bytes
+  ---
+  duration_ms: 108.585209
+  type: 'test'
+  ...
+# Subtest: pregame source registration preserves published artwork, gameplay pins and creation defaults
+ok 17 - pregame source registration preserves published artwork, gameplay pins and creation defaults
+  ---
+  duration_ms: 270.389584
+  type: 'test'
+  ...
+# Subtest: source checkpoint excludes review artifacts and does not authorize the pending app consumer
+not ok 18 - source checkpoint excludes review artifacts and does not authorize the pending app consumer
+  ---
+  duration_ms: 670.487125
+  type: 'test'
+  location: '/private/tmp/gamen-phone-consumer-adoption/tests/tooling/pregame-art-release.test.mjs:55:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /^Error: Pregame consumer candidate: current content differs:/. Input:
+    
+    'Error: Phone UI production consumer: current content differs: apps/game/hosted/crew-runtime.mjs'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+  error: 'Phone UI production consumer: current content differs: apps/game/hosted/crew-runtime.mjs'
+  stack: |-
+    check (file:///private/tmp/gamen-phone-consumer-adoption/scripts/phone-ui-consumer-approval.mjs:18:62)
+    readPhoneUiConsumerApproval (file:///private/tmp/gamen-phone-consumer-adoption/scripts/phone-ui-consumer-approval.mjs:70:5)
+    readVerifiedPregameConsumerInventory (file:///private/tmp/gamen-phone-consumer-adoption/scripts/pregame-consumer-candidate.mjs:54:21)
+    readPregameProductionConsumerApproval (file:///private/tmp/gamen-phone-consumer-adoption/scripts/pregame-consumer-approval.mjs:55:21)
+    readRelease (file:///private/tmp/gamen-phone-consumer-adoption/scripts/runtime-art-release.mjs:124:7)
+    readRuntimeArtRelease (file:///private/tmp/gamen-phone-consumer-adoption/scripts/runtime-art-release.mjs:92:10)
+    file:///private/tmp/gamen-phone-consumer-adoption/tests/tooling/pregame-art-release.test.mjs:65:23
+    getActual (node:assert:609:5)
+    Function.throws (node:assert:757:24)
+    TestContext.<anonymous> (file:///private/tmp/gamen-phone-consumer-adoption/tests/tooling/pregame-art-release.test.mjs:65:12)
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///private/tmp/gamen-phone-consumer-adoption/tests/tooling/pregame-art-release.test.mjs:65:12)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: source or runtime drift and a self-edited candidate manifest fail independently
+ok 19 - source or runtime drift and a self-edited candidate manifest fail independently
+  ---
+  duration_ms: 541.166709
+  type: 'test'
+  ...
+# Subtest: new build guard validates source registration without emitting assets or activating setup
+ok 20 - new build guard validates source registration without emitting assets or activating setup
+  ---
+  duration_ms: 603.594792
+  type: 'test'
+  ...
+# Subtest: unchanged complete uniform output validates for06,07 and source registration08
+ok 21 - unchanged complete uniform output validates for06,07 and source registration08
+  ---
+  duration_ms: 378.839458
+  type: 'test'
+  ...
+# Subtest: explicit local review accepts only the complete reviewed candidate while preserving old release identities
+ok 22 - explicit local review accepts only the complete reviewed candidate while preserving old release identities
+  ---
+  duration_ms: 469.221458
+  type: 'test'
+  ...
+# Subtest: candidate review is disabled without exactly the one explicit flag and reads no files
+ok 23 - candidate review is disabled without exactly the one explicit flag and reads no files
+  ---
+  duration_ms: 0.745792
+  type: 'test'
+  ...
+# Subtest: the independently pinned record permits only the exact eleven local consumer files
+ok 24 - the independently pinned record permits only the exact eleven local consumer files
+  ---
+  duration_ms: 39.302083
+  type: 'test'
+  ...
+# Subtest: accepted previous identities include the baseline and exact 06/07/08 inventory hashes
+ok 25 - accepted previous identities include the baseline and exact 06/07/08 inventory hashes
+  ---
+  duration_ms: 5.562042
+  type: 'test'
+  ...
+# Subtest: local review rejects changed current consumer
+ok 26 - local review rejects changed current consumer
+  ---
+  duration_ms: 18.90025
+  type: 'test'
+  ...
+# Subtest: local review rejects changed candidate review blob
+ok 27 - local review rejects changed candidate review blob
+  ---
+  duration_ms: 19.137583
+  type: 'test'
+  ...
+# Subtest: local review rejects changed preserved previous blob
+ok 28 - local review rejects changed preserved previous blob
+  ---
+  duration_ms: 26.91975
+  type: 'test'
+  ...
+# Subtest: local review rejects changed 08 art manifest
+ok 29 - local review rejects changed 08 art manifest
+  ---
+  duration_ms: 60.417125
+  type: 'test'
+  ...
+# Subtest: local review rejects changed existing immutable consumer approval
+ok 30 - local review rejects changed existing immutable consumer approval
+  ---
+  duration_ms: 37.953375
+  type: 'test'
+  ...
+# Subtest: local review rejects changed candidate approval
+ok 31 - local review rejects changed candidate approval
+  ---
+  duration_ms: 16.3745
+  type: 'test'
+  ...
+# Subtest: changing candidate bytes, blob and record together cannot authorize another consumer
+ok 32 - changing candidate bytes, blob and record together cannot authorize another consumer
+  ---
+  duration_ms: 17.195167
+  type: 'test'
+  ...
+# Subtest: local review rejects a symlink substituted for the consumer
+ok 33 - local review rejects a symlink substituted for the consumer
+  ---
+  duration_ms: 19.48175
+  type: 'test'
+  ...
+# Subtest: local review rejects a symlink substituted for the candidate blob
+ok 34 - local review rejects a symlink substituted for the candidate blob
+  ---
+  duration_ms: 16.768583
+  type: 'test'
+  ...
+# Subtest: local review rejects a symlink substituted for the previous blob
+ok 35 - local review rejects a symlink substituted for the previous blob
+  ---
+  duration_ms: 28.579584
+  type: 'test'
+  ...
+# Subtest: local review rejects a symlink substituted for the approval
+ok 36 - local review rejects a symlink substituted for the approval
+  ---
+  duration_ms: 20.220583
+  type: 'test'
+  ...
+# Subtest: local review rejects a symlink in a consumer parent directory
+ok 37 - local review rejects a symlink in a consumer parent directory
+  ---
+  duration_ms: 26.250834
+  type: 'test'
+  ...
+# Subtest: phone adoption retains every drawing port, source pin and style while admitting exact native files only
+ok 38 - phone adoption retains every drawing port, source pin and style while admitting exact native files only
+  ---
+  duration_ms: 1790.975334
+  type: 'test'
+  ...
+# Subtest: a malformed or symlinked phone fence supplement cannot silently fall back
+ok 39 - a malformed or symlinked phone fence supplement cannot silently fall back
+  ---
+  duration_ms: 236.890542
+  type: 'test'
+  ...
+# Subtest: pregame supplements authorize exactly 22 named drawing derivatives while all historical policies still pass
+ok 40 - pregame supplements authorize exactly 22 named drawing derivatives while all historical policies still pass
+  ---
+  duration_ms: 1282.551584
+  type: 'test'
+  ...
+# Subtest: every unlisted pregame file is refused, including nested review media and fixture/stage entries
+ok 41 - every unlisted pregame file is refused, including nested review media and fixture/stage entries
+  ---
+  duration_ms: 2568.955834
+  type: 'test'
+  ...
+# Subtest: missing or altered pregame ports and fixture-tail reinsertion cannot inherit directory approval
+ok 42 - missing or altered pregame ports and fixture-tail reinsertion cannot inherit directory approval
+  ---
+  duration_ms: 704.917375
+  type: 'test'
+  ...
+# Subtest: altered source and frozen crew/rig dependencies fail independently of unchanged derivative metadata
+ok 43 - altered source and frozen crew/rig dependencies fail independently of unchanged derivative metadata
+  ---
+  duration_ms: 1581.379333
+  type: 'test'
+  ...
+# Subtest: catalog or source-approval claims cannot repin an altered runtime port
+ok 44 - catalog or source-approval claims cannot repin an altered runtime port
+  ---
+  duration_ms: 1630.40125
+  type: 'test'
+  ...
+# Subtest: deleting the pregame supplement cannot certify remaining ports under historical approval
+ok 45 - deleting the pregame supplement cannot certify remaining ports under historical approval
+  ---
+  duration_ms: 422.502958
+  type: 'test'
+  ...
+# Subtest: registration manifest and verification code remain exact approved inputs
+ok 46 - registration manifest and verification code remain exact approved inputs
+  ---
+  duration_ms: 711.187833
+  type: 'test'
+  ...
+# Subtest: new drawing directories do not follow symlinks as an unreviewed file escape
+ok 47 - new drawing directories do not follow symlinks as an unreviewed file escape
+  ---
+  duration_ms: 663.810458
+  type: 'test'
+  ...
+# Subtest: design pregame stage/fixture references remain forbidden outside the named runtime derivatives
+ok 48 - design pregame stage/fixture references remain forbidden outside the named runtime derivatives
+  ---
+  duration_ms: 1327.665584
+  type: 'test'
+  ...
+# Subtest: the exact consumer set requires local review or verified production acceptance
+ok 49 - the exact consumer set requires local review or verified production acceptance
+  ---
+  duration_ms: 1268.542125
+  type: 'test'
+  ...
+# Subtest: an adopted production policy requires its final approval even in local-review mode
+ok 50 - an adopted production policy requires its final approval even in local-review mode
+  ---
+  duration_ms: 146.619417
+  type: 'test'
+  ...
+# Subtest: local review rejects changed consumers, missing preserved bytes and self-edited approval
+ok 51 - local review rejects changed consumers, missing preserved bytes and self-edited approval
+  ---
+  duration_ms: 148.885791
+  type: 'test'
+  ...
+# Subtest: local consumer review retains prototype, drawing inventory and frozen source checks
+ok 52 - local consumer review retains prototype, drawing inventory and frozen source checks
+  ---
+  duration_ms: 999.128041
+  type: 'test'
+  ...
+# Subtest: a dangling production policy is invalid and cannot masquerade as historical absence
+ok 53 - a dangling production policy is invalid and cannot masquerade as historical absence
+  ---
+  duration_ms: 139.434042
+  type: 'test'
+  ...
+1..53
+# tests 53
+# suites 0
+# pass 51
+# fail 2
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 16010.545666

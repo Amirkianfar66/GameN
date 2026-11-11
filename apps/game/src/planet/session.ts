@@ -23,7 +23,7 @@ export interface PlanetSessionModel {
  readonly isHost:boolean;readonly selfSeatId:PlanetSessionSnapshot['selfSeatId'];readonly playerCount:7|8|9|null;
  readonly members:PlanetSessionSnapshot['members'];readonly pendingAdmissions:PlanetSessionSnapshot['pendingAdmissions'];
  /** Admitted setup metadata and the existing synchronized display clock; neither grants start authority. */
- readonly setup:PlanetSessionSnapshot['setup'];readonly setupFlowVersion:2|null;readonly setupClock:ClockReading;
+ readonly setup:PlanetSessionSnapshot['setup'];readonly setupFlowVersion:NonNullable<PlanetSessionSnapshot['setupFlowVersion']>|null;readonly setupClock:ClockReading;
  readonly remainingMs:number|null;readonly canChoose:boolean;readonly canReady:boolean;readonly canReturnToLobby:boolean;readonly busy:boolean;readonly uncertain:boolean;
  readonly ownRole:PlanetSessionSnapshot['privateRole'];readonly recoveryCode:string|null;
  /** A registered request is context for waiting, never evidence of admission. */
@@ -55,7 +55,7 @@ export function readPlanetServiceAnswer(value:unknown):Answer|null {
 }
 
 /** HTTP snapshots are server-confirmed reads. They are not Firestore cache documents. */
-export function createPlanetSession(connection:PlanetServiceConnection,ports:PlayerPorts,stores:{resume:UnresolvedCommandStore;requests:UnresolvedCommandStore}):PlanetSessionController {
+export function createPlanetSession(connection:PlanetServiceConnection,ports:PlayerPorts,stores:{resume:UnresolvedCommandStore;requests:UnresolvedCommandStore;rolePrivacy?:UnresolvedCommandStore}):PlanetSessionController {
  const clock=createServerClock(ports.clock),listeners=new Set<(value:PlanetSessionModel)=>void>();
  const feeds=new Set<{surface:'player'|'display';seatId:PlanetSessionSnapshot['selfSeatId'];snapshot(value:PlanetSnapshot):void;error():void}>();
  let knownRole:{role:string;faction:string}|null=null;
@@ -64,6 +64,12 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
  let join:{matchId:string;kind:'player'|'display';roomCode:string;requestId:string}|null=null;
  let busy=false,uncertain=false,pending:PlanetServiceRequest|null=null,code:string|null=null,message:string|null=null,connectionState:PlanetSessionModel['connection']='connecting';
  let poll:unknown=null,ticker:unknown=null,refreshing:Promise<void>|null=null,generation=0,started=false;
+ let roleReadingContext:string|null=null,explicitRoleConceal=false;
+ const readingContext=(s:PlanetSessionSnapshot)=>s.status==='reading'&&s.setup&&s.selfSeatId&&uid?JSON.stringify([uid,s.matchId,s.setup.id,s.selfSeatId]):null;
+ function readRolePrivacy(context:string):boolean {
+  if(!stores.rolePrivacy)return false;
+  try{const raw=stores.rolePrivacy.load();if(raw===null)return false;const value:unknown=JSON.parse(raw);if(!Array.isArray(value)||value.length!==4||value.some(x=>typeof x!=='string'||x.length===0||x.length>256)||!/^seat-[1-9]$/.test(value[3]))return true;if(JSON.stringify(value)===context)return true;stores.rolePrivacy.clear();return false;}catch{return true;}
+ }
  const timeouts=new Set<unknown>();
  const bounded=<T>(run:()=>Promise<T>):Promise<T|null>=>new Promise(resolve=>{
   let done=false;const finish=(value:T|null)=>{if(done)return;done=true;ports.scheduler.clearTimeout(handle);timeouts.delete(handle);resolve(value);};
@@ -85,7 +91,7 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
    members:s?.members??[],pendingAdmissions:s?.isHost?s.pendingAdmissions:[],setup:s?.setup??null,setupFlowVersion:s?.setupFlowVersion??null,setupClock:admitted()?t:{status:'unsynced'},remainingMs:remaining===null?null:Math.max(0,remaining),
    canChoose:!!s&&s.status==='choosing'&&!!own&&t.status==='synced'&&remaining!==null&&remaining>t.uncertaintyMs&&!busy&&!uncertain,
    canReady:!!s&&s.status==='reading'&&!!own&&!own.ready&&t.status==='synced'&&remaining!==null&&remaining<=-t.uncertaintyMs&&!busy&&!uncertain,
-   canReturnToLobby:canReturnToLobby(),busy,uncertain,ownRole:s?.status==='reading'&&revealed&&!own?.ready?s.privateRole:null,recoveryCode:s?code:null,
+   canReturnToLobby:canReturnToLobby(),busy,uncertain,ownRole:s?.status==='reading'&&revealed&&!own?.ready&&(s.setupFlowVersion!==3||t.status==='synced'&&s.setup?.startedAt!==undefined&&t.serverNowMs-t.uncertaintyMs>=s.setup.startedAt)?s.privateRole:null,recoveryCode:s?code:null,
    pendingAdmission:visible&&auth()&&join&&!knownAdmitted()?{kind:join.kind,roomCode:join.roomCode,status:snapshot&&standingMatches(snapshot)?snapshot.admission?.status??null:null}:null};
  }
  function emit(){if(disposed)return;const model=getModel();for(const listener of listeners)listener(model);}
@@ -113,6 +119,7 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
   const parsed=PlanetSessionSnapshotSchema.safeParse(response.result);
   if(!parsed.success||parsed.data.matchId!==matchId||!planetSupportsAssets(parsed.data.versions)){conceal('The session response could not be verified.',true);return;}
   const next=parsed.data;
+  if(next.setupFlowVersion!==undefined&&next.setupFlowVersion!==2&&next.setupFlowVersion!==3){conceal('This setup flow requires an updated app.',true);return;}
   if(recoveredSeat!==null&&next.selfSeatId!==recoveredSeat){conceal('The recovered seat could not be verified.',true);return;}
   if([next.publicView,next.playerView].some(v=>v&&(v.matchId!==next.matchId||JSON.stringify(v.versions)!==JSON.stringify(next.versions)))){conceal('The session view versions could not be verified.',true);return;}
   if(!standingMatches(next)){conceal('The admission request could not be verified.',true);return;}
@@ -132,7 +139,12 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
    conceal('The session audience could not be verified.',true);return;
   }
   if(snapshot&&JSON.stringify(snapshot.versions)!==JSON.stringify(next.versions)){conceal('The session version changed unexpectedly.',true);return;}
-  if(snapshot?.setup?.id!==next.setup?.id||snapshot?.status!==next.status)revealed=false;
+  if(snapshot&&snapshot.setupFlowVersion!==next.setupFlowVersion){conceal('The saved setup flow changed unexpectedly.',true);return;}
+  if(next.setupFlowVersion===3&&next.status==='reading'&&snapshot?.status==='reading'&&snapshot.setup?.id===next.setup?.id&&JSON.stringify(snapshot.setup)!==JSON.stringify(next.setup)){conceal('The timed role interval changed unexpectedly.',true);return;}
+  const entering=snapshot?.setup?.id!==next.setup?.id||snapshot?.status!==next.status||!fresh;
+  const nextReading=readingContext(next);
+  if(nextReading&&nextReading!==roleReadingContext){roleReadingContext=nextReading;explicitRoleConceal=next.setupFlowVersion===3&&readRolePrivacy(nextReading);}
+  if(entering)revealed=next.status==='reading'&&next.setupFlowVersion===3&&!explicitRoleConceal;
   // Keep the original caller/request binding across approval and reload. A recovered
   // member clears it only after the verified recovery response, before reading its seat.
   if(!join&&next.admission)join={matchId:next.matchId,roomCode:next.roomCode,requestId:next.admission.requestId,kind:next.admission.kind};
@@ -221,7 +233,15 @@ export function createPlanetSession(connection:PlanetServiceConnection,ports:Pla
    for(const feed of feeds)feed.error();emit();return true;
   },
   subscribe(listener){listeners.add(listener);listener(getModel());return()=>listeners.delete(listener);},
-  revealRole(open){revealed=open&&live()&&snapshot?.status==='reading';emit();},
+  revealRole(open){
+   if(!open)revealed=false;
+   else if(live()&&snapshot?.status==='reading')revealed=true;
+   if(snapshot?.status==='reading'&&snapshot.setupFlowVersion===3&&roleReadingContext&&(!open||revealed)){
+    explicitRoleConceal=!open;
+    try{if(open)stores.rolePrivacy?.clear();else stores.rolePrivacy?.save(roleReadingContext);}catch{if(!open)message='Your role is concealed in this tab. That privacy choice could not be saved.';}
+   }
+   emit();
+  },
   setVisible(next){
    if(next===visible||disposed)return;visible=next;generation++;revealed=false;code=null;fresh=false;clock.invalidate();
    if(poll!==null)ports.scheduler.clearTimeout(poll);if(ticker!==null)ports.scheduler.clearTimeout(ticker);emit();for(const feed of feeds)feed.error();

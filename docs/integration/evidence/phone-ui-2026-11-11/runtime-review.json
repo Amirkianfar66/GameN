@@ -1,0 +1,46 @@
+{
+  "schema": "mothership.phone-blackout-integration-verification/1",
+  "status": "Runtime review passed; consumer and combined release review pending",
+  "reviewedRuntimeSource": "c492523845567c7e4e672991e11c058e88ccea27",
+  "testCheckout": "0478c962528ae1347c4da66bf0f91d6816e042e0",
+  "toolchain": {
+    "node": "22.21.1",
+    "npm": "10.9.4"
+  },
+  "checks": [
+    {
+      "command": "npm ci --offline --cache /private/tmp/gamen-planet-npm-cache",
+      "result": "passed"
+    },
+    {
+      "command": "tsc --build packages/engine",
+      "result": "passed"
+    },
+    {
+      "command": "node --test packages/engine/test/planet-blackout-before-vote-independent.test.mjs packages/engine/test/planet-blackout-before-vote-restore-audit.test.mjs packages/engine/test/planet-blackout-abort.test.mjs packages/engine/test/planet-blackout-ledger.test.mjs packages/engine/test/planet-blackout-predecessor.test.mjs",
+      "result": "passed",
+      "tests": 114,
+      "failures": 0,
+      "skipped": 0,
+      "durationMs": 140799.093167
+    }
+  ],
+  "knownPairedDependency": "Backend-only whole-workspace build reproduced TS2322 at apps/game/src/planet/session.ts:85 because its older Frontend setup type lacks 3. Reviewed Frontend #212 supplies that compatibility; combined build is required.",
+  "logs": {
+    "blackout-focused.log": {
+      "path": "docs/integration/evidence/phone-ui-2026-11-11/blackout-focused.log",
+      "sha256": "b604ad90f1e333e9b6d75f5b02a9174a8f1f68ceddf683323c9a9567a4a5f613",
+      "bytes": 34360
+    },
+    "blackout-engine-build.log": {
+      "path": "docs/integration/evidence/phone-ui-2026-11-11/blackout-engine-build.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    }
+  },
+  "limits": [
+    "No physical-device or human-balance assertion.",
+    "No root cloud deployment, creation activation or merge during this review.",
+    "The final Frontend source and exact native source approval are still pending."
+  ]
+}

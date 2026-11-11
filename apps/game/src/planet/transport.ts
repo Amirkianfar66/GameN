@@ -41,6 +41,7 @@ export function readPlanetView(payload:unknown,matchId:string,seatId:SeatId|null
   if(view.blackoutTargeting){const t=view.blackoutTargeting,prefix=t.boundRoom==='Room A'?'A':t.boundRoom==='Room B'?'B':'C';if(view.phase.kind!=='BLACKOUT'||t.windowId!==view.blackout?.windowId||t.slotIds.some(id=>!id.startsWith(prefix)))return null;}
   if(view.offers.some(o=>o.targetSeatIds.some(id=>!has(id))))return null;
   if(view.promises.some(p=>!has(p.giverSeatId)||!has(p.recipientSeatId)||!has(p.targetSeatId)))return null;
+  if(view.promises.filter(p=>p.accepted&&p.giverSeatId===view.self.seatId).length>1||view.promises.filter(p=>p.accepted&&p.recipientSeatId===view.self.seatId).length>1)return null;
   if(view.windows.some(w=>w.drawings.some(d=>!has(d.authorSeatId)||!PlanetDrawingSchema.safeParse(d.drawing).success)))return null;
  }
  return view;

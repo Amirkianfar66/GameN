@@ -1,0 +1,148 @@
+{
+  "scope": "Round-order copy only: actual native panel against explicit synthetic saved-tuple projections. No gameplay/timer/device claim; prior evidence retains its actual source identity.",
+  "generatedAt": "2026-11-11T00:51:18.519Z",
+  "browser": {
+    "protocolVersion": "1.3",
+    "product": "Chrome/157.0.8103.40",
+    "revision": "@6f75a8afa26ce5537c82b4887f152dfdc7183e05",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/157.0.0.0 Safari/537.36",
+    "jsVersion": "15.7.112.23"
+  },
+  "sourcesVerifiedBefore": true,
+  "cases": [
+    {
+      "name": "original-390-844-100",
+      "passed": true,
+      "heading": "Round order",
+      "text": "Player turns · Private talk · Sync when applicable · Jail vote · Result · Blackout · Resolution · Navigation",
+      "versions": {
+        "protocolVersion": 3,
+        "engineVersion": "planet-game-1.0.0",
+        "rulesetVersion": "in-person-planet-2026-11-05",
+        "rulesetHash": "32cde63d777ed93744637f911c134247272dc862524bd5aa9d0c3cd405dbe8ea",
+        "assetManifestVersion": "design-0.5.0"
+      },
+      "allLinesWithinWidth": true,
+      "scrollHeight": 637,
+      "clientHeight": 637,
+      "lastLineReachable": true,
+      "commandRequests": 0,
+      "captures": {
+        "top": "original-390-844-100-top.jpg",
+        "bottom": "original-390-844-100-bottom.jpg"
+      }
+    },
+    {
+      "name": "sync-390-844-100",
+      "passed": true,
+      "heading": "Round order",
+      "text": "Player turns · Private talk · Sync when applicable · Jail vote · Result · Blackout · Resolution · Navigation",
+      "versions": {
+        "protocolVersion": 3,
+        "engineVersion": "planet-game-1.0.1",
+        "rulesetVersion": "in-person-planet-sync-six-2026-11-05",
+        "rulesetHash": "4f26343641fcff00480bb3c0ba852703418f772bb677117a272828ad229c8b1c",
+        "assetManifestVersion": "design-0.5.0"
+      },
+      "allLinesWithinWidth": true,
+      "scrollHeight": 637,
+      "clientHeight": 637,
+      "lastLineReachable": true,
+      "commandRequests": 0,
+      "captures": {
+        "top": "sync-390-844-100-top.jpg",
+        "bottom": "sync-390-844-100-bottom.jpg"
+      }
+    },
+    {
+      "name": "current-390-844-100",
+      "passed": true,
+      "heading": "Round order",
+      "text": "Player turns · Private talk · Sync when applicable · Jail vote · Result · Blackout · Resolution · Navigation",
+      "versions": {
+        "protocolVersion": 3,
+        "engineVersion": "planet-game-1.1.0",
+        "rulesetVersion": "in-person-planet-private-feedback-2026-11-06",
+        "rulesetHash": "4a1fc0e0dc21255253e31ae46e6042f9bd71e3fdec0f82f8a79b3ce213d01bfa",
+        "assetManifestVersion": "design-0.6.0"
+      },
+      "allLinesWithinWidth": true,
+      "scrollHeight": 637,
+      "clientHeight": 637,
+      "lastLineReachable": true,
+      "commandRequests": 0,
+      "captures": {
+        "top": "current-390-844-100-top.jpg",
+        "bottom": "current-390-844-100-bottom.jpg"
+      }
+    },
+    {
+      "name": "phone-390-844-100",
+      "passed": true,
+      "heading": "Round order",
+      "text": "Player turns · Private talk · Sync when applicable · Jail vote · Result · Blackout · Resolution · Navigation",
+      "versions": {
+        "protocolVersion": 3,
+        "engineVersion": "planet-game-1.2.0",
+        "rulesetVersion": "in-person-planet-private-feedback-2026-11-06",
+        "rulesetHash": "4a1fc0e0dc21255253e31ae46e6042f9bd71e3fdec0f82f8a79b3ce213d01bfa",
+        "assetManifestVersion": "design-0.8.0"
+      },
+      "allLinesWithinWidth": true,
+      "scrollHeight": 637,
+      "clientHeight": 637,
+      "lastLineReachable": true,
+      "commandRequests": 0,
+      "captures": {
+        "top": "phone-390-844-100-top.jpg",
+        "bottom": "phone-390-844-100-bottom.jpg"
+      }
+    },
+    {
+      "name": "blackout-390-844-100",
+      "passed": true,
+      "heading": "Round order",
+      "text": "Player turns · Private talk · Sync when applicable · Blackout · Damage and Hospital placement · Jail vote · Result · Remaining resolution and Rescue · Navigation",
+      "versions": {
+        "protocolVersion": 3,
+        "engineVersion": "planet-game-1.3.0",
+        "rulesetVersion": "in-person-planet-blackout-before-vote-2026-11-10",
+        "rulesetHash": "2505515ad41e9d49c06bd14aaf9dab56dcf0adb471725c1c15d877a0f0b97556",
+        "assetManifestVersion": "design-0.8.0"
+      },
+      "allLinesWithinWidth": true,
+      "scrollHeight": 637,
+      "clientHeight": 637,
+      "lastLineReachable": true,
+      "commandRequests": 0,
+      "captures": {
+        "top": "blackout-390-844-100-top.jpg",
+        "bottom": "blackout-390-844-100-bottom.jpg"
+      }
+    },
+    {
+      "name": "blackout-320-568-200",
+      "passed": true,
+      "heading": "Round order",
+      "text": "Player turns · Private talk · Sync when applicable · Blackout · Damage and Hospital placement · Jail vote · Result · Remaining resolution and Rescue · Navigation",
+      "versions": {
+        "protocolVersion": 3,
+        "engineVersion": "planet-game-1.3.0",
+        "rulesetVersion": "in-person-planet-blackout-before-vote-2026-11-10",
+        "rulesetHash": "2505515ad41e9d49c06bd14aaf9dab56dcf0adb471725c1c15d877a0f0b97556",
+        "assetManifestVersion": "design-0.8.0"
+      },
+      "allLinesWithinWidth": true,
+      "scrollHeight": 612,
+      "clientHeight": 242,
+      "lastLineReachable": true,
+      "commandRequests": 0,
+      "captures": {
+        "top": "blackout-320-568-200-top.jpg",
+        "bottom": "blackout-320-568-200-bottom.jpg"
+      }
+    }
+  ],
+  "sourcesUnchangedThroughRun": true,
+  "runtimeErrors": []
+}

@@ -1,0 +1,287 @@
+{
+  "schema": "mothership.frontend-pre-vote-consumer-verification/1",
+  "status": "Frontend verified; independent Integration adoption and release checks remain separate",
+  "nativeCandidateCommit": "d1a03c87e80de7b5923c97a15a968c1ba6f5b40c",
+  "behaviorEvidenceCommit": "c5a70b7eea1c3f755f655d37ac729e5f78d24efc",
+  "inventory": "pre-vote-consumer-inventory.json",
+  "checks": {
+    "typecheck": {
+      "sourceCommit": "d1a03c87e80de7b5923c97a15a968c1ba6f5b40c",
+      "command": "npm run typecheck",
+      "exitCode": 0,
+      "pure": true,
+      "browser": true,
+      "log": "evidence/pre-vote-consumer-2026-11-11/checks/round-order-typecheck.txt"
+    },
+    "frontend": {
+      "sourceCommit": "d1a03c87e80de7b5923c97a15a968c1ba6f5b40c",
+      "command": "npm run test:frontend",
+      "exitCode": 0,
+      "presentationTests": 219,
+      "appTests": 733,
+      "totalTests": 952,
+      "failed": 0,
+      "skipped": 0,
+      "log": "evidence/pre-vote-consumer-2026-11-11/checks/round-order-frontend-tests.txt"
+    },
+    "productionExclusion": {
+      "reachableModules": 76,
+      "productionEntries": 2,
+      "shippedOrSourceFilesScanned": 226,
+      "labelledDevelopmentFiles": 113,
+      "fixtureTestDevLeaks": 0
+    },
+    "sourceGuard": {
+      "command": "npm run check:sources",
+      "exitCode": 1,
+      "status": "Expected refusal by unmodified historical approval fence",
+      "reason": "Pregame consumer candidate: current content differs: apps/game/hosted/crew-runtime.mjs",
+      "owner": "Integration must adopt the exact new consumer closure; Frontend did not edit approval records/readers",
+      "log": "evidence/pre-vote-consumer-2026-11-11/checks/final-source-guard.txt",
+      "sourceCommit": "b63403e6a8d1b5f68f48ec13f4a392a79870bfcd",
+      "rerunForCopyCorrection": false,
+      "attribution": "Previous consumer-branch refusal retained; Integration independently re-pins and verifies the corrected combined release"
+    }
+  },
+  "syntheticNativePresentation": {
+    "sourceCommit": "c5a70b7eea1c3f755f655d37ac729e5f78d24efc",
+    "cases": 6,
+    "sizes": [
+      "320×568 / 7 players",
+      "390×844 / 8 players",
+      "430×932 / 9 players"
+    ],
+    "motions": [
+      "normal",
+      "reduced"
+    ],
+    "mainFlowTextScale": 2,
+    "roomViews": 60,
+    "paintedBodyChecks": 240,
+    "targetChecks": 240,
+    "minimumPlainVisibleRatio": 1,
+    "minimumTargetVisibleRatio": 1,
+    "minimumTargetSizePx": 44,
+    "scopes": [
+      "Direct eligible room-tag MOVE and explicit slot confirmation; Board/Room sends no command; unavailable Command disabled; no Move in Actions",
+      "Visible unclipped INITIAL/PRE_BLACKOUT/AFTER_BLACKOUT/ROUND_FINALIZED and carried active-turn publication labels",
+      "Full declared Blackout fixture window elapses before restored lit post-damage Hospital board; frozen anonymous dark geometry and numeric-only offered final Code",
+      "All fixed-room views including Jail J1–J5 at normal and 200% text; actual SVG paint, masks, on-screen body bounds and reachable target centres"
+    ],
+    "phaseTimingLimitation": "Projection fixtures do not prove real sixty/five-second Jail/result durations",
+    "facts": "evidence/pre-vote-consumer-2026-11-11/synthetic/facts.json"
+  },
+  "realConnectedJourney": {
+    "sourceCommit": "c5a70b7eea1c3f755f655d37ac729e5f78d24efc",
+    "playerCount": 9,
+    "passedCases": 9,
+    "services": [
+      "Auth",
+      "Firestore",
+      "HTTP",
+      "Functions",
+      "Tasks"
+    ],
+    "entry": "One labelled legal native command/deadline history is seeded from an admitted local lobby before role disclosure; not fresh lobby-to-Blackout",
+    "afterPrefix": "Real authoritative timers, commands and projections; no browser snapshot/clock injection",
+    "blackoutLitMs": 5000,
+    "blackoutDarkMs": 10000,
+    "freshJailVoteMs": 60000,
+    "resultMs": 5000,
+    "bothDisablersStrike": true,
+    "damageAndHospitalBeforeJail": true,
+    "resultBeforeQueuedRescue": true,
+    "laterRescuePlacement": "Healthy and still detained in actual Jail J1; painted-body visibility ratio 1.0",
+    "ballotRecovery": {
+      "droppedSuccessfulResponse": true,
+      "originalReceiptMatched": true,
+      "voteCommandRequests": 1
+    },
+    "manualAdvanceOrBotCalls": 0,
+    "cleanup": {
+      "abortAccepted": true,
+      "status": "aborted"
+    },
+    "canonicalPortsReleased": true,
+    "serverLogSummary": "evidence/pre-vote-consumer-2026-11-11/checks/connected-server-summary.json",
+    "facts": "evidence/pre-vote-consumer-2026-11-11/connected/facts.json",
+    "provenanceCorrection": "Only scope wording corrected after review; original candidate head, module inputs and hashes preserved"
+  },
+  "finalPresentation": {
+    "sourceCommit": "b63403e6a8d1b5f68f48ec13f4a392a79870bfcd",
+    "passedCases": 14,
+    "ballotResultCases": 12,
+    "solidFallbackCases": 2,
+    "playerCounts": [
+      7,
+      8,
+      9
+    ],
+    "sizes": [
+      "320×568 / 200% text",
+      "390×844 / ordinary text"
+    ],
+    "motions": [
+      "normal",
+      "reduced"
+    ],
+    "checks": [
+      "Exact blur 2px / brightness .56 / tint .20–.34 and inherited three no-offset shadows",
+      "Dark words on light primary control, seat/count/You badges and role/comic cards explicitly have no halo",
+      "Under-13em aligned rows: 1.375rem portrait/number/count, name on first line; no clipped longest names",
+      "Ordinary 3×3 count top-left and You top-right without overlap",
+      "One visible count per result cell, full accessible Player n/Name/N votes group, no repeated visible votes line",
+      "Real Tab to last seat, visible reachable focus, Enter to focused confirmation, Enter registers exactly one VOTE",
+      "Solid #202837 with no backdrop filter under reduced transparency"
+    ],
+    "runtimeExceptions": 0,
+    "nativeInputsUnchanged": true,
+    "facts": "evidence/pre-vote-consumer-2026-11-11/presentation/facts.json",
+    "attribution": "All fourteen cases remain attributed to b634. The later d1a round-order-only correction does not relabel or rerun those captures or the c5a real timer/receipt journey."
+  },
+  "pureNativeBoundaryTests": {
+    "includedInFrontendSuite": true,
+    "nativeProjectionHistories": 6,
+    "combinations": "7/8/9 × Sync/no-Sync",
+    "checks": [
+      "Damage/Hospital precedes fresh Jail vote; five-second result retains AFTER_BLACKOUT; later Rescue and ROUND_FINALIZED; no second Blackout",
+      "Exact dispatcher and near-match rejection; 1.1/1.2 compatibility; original-number final Code offered to living healthy/injured/jailed Hacker",
+      "Original slot receipt settles across reconnect into vote; original ballot receipt/ownBallot recovered without replacement command",
+      "All fixed rig canvases and distinct >=44px target centres at all three viewports and both bar/text sizes"
+    ]
+  },
+  "preservedAttempts": [
+    {
+      "folder": "connected-first-attempt",
+      "head": "5a891e7a3094eb78c0ffd292626a180656e96795",
+      "result": "Failed own-ballot assertion immediately after receipt settlement. Replacement explicitly waits for fresh authoritative readback; original evidence retained."
+    },
+    {
+      "folder": "connected-cropped-room-attempt",
+      "head": "f9ac63e5f64a98b0fde1e6b726e06d058747a857",
+      "nativeSource": "5a891e7a3094eb78c0ffd292626a180656e96795",
+      "result": "Nine logical cases passed but Jail J1 figure was cropped; failed visual acceptance. Corrected camera and fresh c5a evidence supersede it."
+    },
+    {
+      "folder": "synthetic-first-timing-attempt",
+      "head": "5a891e7a3094eb78c0ffd292626a180656e96795",
+      "result": "Six logical cases passed but fixture advanced before the declared 15-second Blackout window; dark post-Blackout image failed visual acceptance. Replacement waits for the complete interval."
+    }
+  ],
+  "evidenceSha256": {
+    "synthetic": {
+      "facts.json": "8bbc3e4ffc8b9fa0d27035e1cbe4bd3165baa0262e1fbb98e52b9e7bb7de6b9c",
+      "provenance.json": "241e4904a017172d7885164157530826e27ed5cd7c954b247d43abe7e2b2d925"
+    },
+    "connected": {
+      "facts.json": "f54c430003a0011fa11b1a470acf71307346d99fd8ba273ca6a730fb9be08e2c",
+      "provenance.json": "0df30732e24b36993de252a2bd66866fb50db21890c992200ff9c4c386f7fd8f"
+    },
+    "presentation": {
+      "facts.json": "10c750a3b8d6d7ce88c74fced007954de2b9b546f17a25892cac08740913de3c",
+      "provenance.json": "08c65a1f80157c91b88bca44725a3b3fe89d3f5a4a541ec69acc5f054873a977"
+    },
+    "round-order": {
+      "facts.json": "357860bbebe9b53cb437238223c5216fc022a9afe3133c4f99a32ddb1e048d8d",
+      "provenance.json": "3422043a13b4c7889c965b22bad4b06e4ba52cd795b7367fef974806471852f0"
+    }
+  },
+  "historicalPhone12Evidence": "phone-ui-2026-11-10 and phone-ui-consumer-inventory remain unchanged",
+  "notRun": [
+    "Physical iPhone/Android startup, frame rate, input latency and memory",
+    "Safari",
+    "VoiceOver",
+    "Human balance acceptance",
+    "Fresh lobby-to-Blackout end-to-end journey"
+  ],
+  "notPerformed": [
+    "Designer source/art adoption",
+    "Ambient/new-room adoption",
+    "Historical approval-reader relaxation",
+    "Creation-default changes",
+    "Cloud configuration changes",
+    "Merge",
+    "Deployment",
+    "Activation"
+  ],
+  "presentationEvidenceCommit": "b63403e6a8d1b5f68f48ec13f4a392a79870bfcd",
+  "presentationSourceChecks": {
+    "typecheck": {
+      "sourceCommit": "b63403e6a8d1b5f68f48ec13f4a392a79870bfcd",
+      "command": "npm run typecheck",
+      "exitCode": 0,
+      "pure": true,
+      "browser": true,
+      "log": "evidence/pre-vote-consumer-2026-11-11/checks/final-typecheck.txt"
+    },
+    "frontend": {
+      "sourceCommit": "b63403e6a8d1b5f68f48ec13f4a392a79870bfcd",
+      "command": "npm run test:frontend",
+      "exitCode": 0,
+      "presentationTests": 218,
+      "appTests": 733,
+      "totalTests": 951,
+      "failed": 0,
+      "skipped": 0,
+      "log": "evidence/pre-vote-consumer-2026-11-11/checks/final-frontend-tests.txt",
+      "sandboxAttempt": "Eight local HTTP/stream tests initially returned listen EPERM under the sandbox; rerun with loopback access passed all 951 tests. Original attempt retained."
+    },
+    "productionExclusion": {
+      "reachableModules": 76,
+      "productionEntries": 2,
+      "shippedOrSourceFilesScanned": 226,
+      "labelledDevelopmentFiles": 112,
+      "fixtureTestDevLeaks": 0
+    },
+    "sourceGuard": {
+      "command": "npm run check:sources",
+      "exitCode": 1,
+      "status": "Expected refusal by unmodified historical approval fence",
+      "reason": "Pregame consumer candidate: current content differs: apps/game/hosted/crew-runtime.mjs",
+      "owner": "Integration must adopt the exact new consumer closure; Frontend did not edit approval records/readers",
+      "log": "evidence/pre-vote-consumer-2026-11-11/checks/final-source-guard.txt"
+    }
+  },
+  "roundOrderCorrection": {
+    "sourceCommit": "d1a03c87e80de7b5923c97a15a968c1ba6f5b40c",
+    "changedNativeFiles": [
+      "apps/game/hosted/planet/render.mjs",
+      "packages/presentation/src/planet/library.ts"
+    ],
+    "helper": "planetRoundOrderText reuses the existing matches helper for all four PLANET_BLACKOUT_PINS gameplay pins",
+    "exact13Copy": "Player turns · Private talk · Sync when applicable · Blackout · Damage and Hospital placement · Jail vote · Result · Remaining resolution and Rescue · Navigation",
+    "historicalCopy": "Player turns · Private talk · Sync when applicable · Jail vote · Result · Blackout · Resolution · Navigation",
+    "focusedTests": {
+      "command": "node --test packages/presentation/test/planet-library.test.mjs",
+      "passed": 7,
+      "addedRegressionTests": 1,
+      "checks": [
+        "Exact 1.3 places Blackout, Damage and Hospital placement before Jail vote",
+        "Original 1.0.0, Sync 1.0.1, 1.1 and 1.2 preserve the exact previous copy",
+        "Protocol/engine/ruleset/hash mixed tuples and absent tuple never acquire 1.3 copy"
+      ],
+      "log": "evidence/pre-vote-consumer-2026-11-11/checks/round-order-focused-tests.txt"
+    },
+    "browser": {
+      "cases": 6,
+      "historicalTuples": [
+        "planet-game-1.0.0",
+        "planet-game-1.0.1",
+        "planet-game-1.1.0",
+        "planet-game-1.2.0"
+      ],
+      "sizes": [
+        "390×844 ordinary text for all five saved tuples",
+        "320×568 at 200% text for 1.3"
+      ],
+      "visibleLineWidthChecks": true,
+      "lastLineReachable": true,
+      "commandRequests": 0,
+      "runtimeExceptions": 0,
+      "nativeHashesUnchanged": true,
+      "facts": "evidence/pre-vote-consumer-2026-11-11/round-order/facts.json"
+    },
+    "evidenceAttribution": "Copy-only verification on d1a; all older c5a/b634 capture files, metadata and logs are preserved byte-for-byte",
+    "captureScriptSha256": "3a09d75ca01f27513b1c5f3f66a0e39e1c6f5094f1099a3cf6c18d7ee160938a"
+  }
+}

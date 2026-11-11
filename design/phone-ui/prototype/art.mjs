@@ -97,6 +97,8 @@ function figureNodes(seat, slot, frame, { dim = false } = {}) {
 }
 
 const clamp = (value, lo, hi) => Math.min(hi, Math.max(lo, value));
+/** clamp(), except that a picture smaller than the panel (lo above hi) is centred in it. */
+const within = (value, lo, hi) => (lo <= hi ? clamp(value, lo, hi) : (lo + hi) / 2);
 
 /** How far inside the view's side edges a person's press point is kept, in CSS pixels. */
 export const EDGE_CLEAR = 48;
@@ -110,25 +112,33 @@ export const EDGE_CLEAR = 48;
  * moves only as far as it must to keep everyone present EDGE_CLEAR inside the sides; when they
  * span more than the view, it centres on them. Vertically it keeps frameScene()'s band, from the
  * back row's heads to the front row's press areas under the caption.
+ *
+ * The owner's decision of 11 November 2026 (T1): nobody present is cut off. When even centring on
+ * them would put a press area past a side, the view zooms out just far enough to show every press
+ * area whole; the bands that leaves are the cost. Only a crowd spread wider than the filled view,
+ * such as a full Jail, needs it. The framing depends only on who the lit room already shows, and the
+ * game holds it still from lights-out to lights-on (phone-ui.md, the Blackout).
  */
 export function phoneFrame(scene, { width, height, cap = 44, pad = 6 }, present = []) {
   const [ix0, iy0, ix1, iy1] = scene.inner ?? [0, 0, 1024, 768];
-  const k = Math.max(width / (ix1 - ix0), height / (iy1 - iy0));
+  let k = Math.max(width / (ix1 - ix0), height / (iy1 - iy0));
   let cx = (scene.focus[0] + scene.focus[2]) / 2;
   if (present.length) {
     const xs = present.map(slot => slot.pressAt[0]);
+    const span = Math.max(...xs) - Math.min(...xs);
+    if (span > 0 && span * k + PRESS > width) k = (width - PRESS) / span;
     const reach = width / (2 * k) - EDGE_CLEAR / k;
     const lo = Math.max(...xs) - reach, hi = Math.min(...xs) + reach;
     cx = lo <= hi ? clamp(cx, lo, hi) : (Math.min(...xs) + Math.max(...xs)) / 2;
   }
-  const tx = clamp(width / 2 - cx * k, width - ix1 * k, -ix0 * k);
+  const tx = within(width / 2 - cx * k, width - ix1 * k, -ix0 * k);
   const half = PRESS / 2 / k;
   const geometry = scene.slots.map(slot => slotGeometry(slot));
   const top = Math.min(...geometry.map(g => g.headTop));
   const bottom = Math.max(...geometry.map(g => g.press[1] + half));
   const avail = height - cap - pad;
   const ty = (bottom - top) * k > avail ? height - pad - bottom * k : cap + (avail - (bottom - top) * k) / 2 - top * k;
-  return { k, tx, ty: clamp(ty, height - iy1 * k, -iy0 * k) };
+  return { k, tx, ty: within(ty, height - iy1 * k, -iy0 * k) };
 }
 
 /** Each place's press area in a panel framed by `frame`: fit-four's slotRects(), for any framing. */

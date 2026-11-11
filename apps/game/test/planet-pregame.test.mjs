@@ -63,3 +63,22 @@ test('boarding Skip is local even when persistence fails, and terminal/running s
 test('disposal drops all presentation state and cannot be restarted',()=>{
  const r=rig();r.update(state());r.controller.dispose();assert.equal(r.controller.sample(),null);r.update(state());assert.equal(r.controller.sample(),null);
 });
+
+function timed(now){return {...state(),setupFlowVersion:3,setup:{id:'timed-reading',startedAt:1000,roleFilmStartsAt:21000,endsAt:31000},setupClock:{status:'synced',serverNowMs:now,uncertaintyMs:0},remainingMs:Math.max(0,31000-now)};}
+test('flow3 keeps card for20s and seeks its final10s without advancing any authority',()=>{
+ const r=rig({skipRoleOnEntry:true});r.update(timed(1000));assert.equal(r.controller.sample(),null);r.advance(19999);assert.equal(r.controller.sample(),null);r.advance(1);assert.equal(r.controller.sample().t,0);r.advance(5000);assert.equal(r.controller.sample().t,5000);r.advance(5000);assert.equal(r.controller.sample(),null);
+ assert.equal(timed(31000).members[3].ready,false);assert.equal(r.store.value,null);
+});
+test('timed late load, background/recovery and clock correction seek without restarting',()=>{
+ const r=rig({skipRoleOnEntry:true});r.update(timed(26000));assert.equal(r.controller.sample().t,5000);r.update(timed(26000),{...visibility,focused:false});assert.equal(r.controller.sample(),null);r.update(timed(28000));assert.equal(r.controller.sample().t,7000);r.update(timed(27000));assert.equal(r.controller.sample().t,7000);
+ const reloaded=rig({},r.store);reloaded.update(timed(29000));assert.equal(reloaded.controller.sample().t,8000);
+ for(const value of [{...timed(26000),ownRole:null},{...timed(26000),connection:'stale'},{...timed(26000),setupClock:{status:'unsynced'}},{...timed(26000),setup:{id:'bad',startedAt:1000,roleFilmStartsAt:22000,endsAt:31000}}]){const x=rig();x.update(value);assert.equal(x.controller.sample(),null);}
+});
+test('timed Skip persists only neutral identifiers; no new match inherits that Skip',()=>{
+ const r=rig();r.update(timed(26000));r.controller.skip();assert.equal(r.controller.sample(),null);r.update(timed(27000));assert.equal(r.controller.sample(),null);const reloaded=rig({},r.store);reloaded.update(timed(28000));assert.equal(reloaded.controller.sample(),null);
+ for(const secret of ['Hacker','hacker','c4','knowledge'])assert.ok(!r.store.value.includes(secret));
+ r.update({...timed(28000),matchId:'different-match'});assert.equal(r.controller.sample().t,7000);
+});
+test('flow3 boarding is the independent full10s interval and timed expiry never creates it',()=>{
+ const r=rig();r.update(timed(31000));assert.equal(r.controller.sample(),null);r.update({...boarding(),setupFlowVersion:3});assert.equal(r.controller.sample().kind,'boarding');r.advance(10000);assert.equal(r.controller.sample(),null);
+});

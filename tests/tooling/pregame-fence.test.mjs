@@ -1,4 +1,4 @@
-import {pregameProductionFixturePaths} from './support/pregame-production-fixture.mjs';
+import {pregameProductionFixturePaths,restoreHistoricalPregameFixture} from './support/pregame-production-fixture.mjs';
 import {PREGAME_PRODUCTION_CONSUMER_APPROVAL,readPregameConsumerApproval} from '../../scripts/pregame-consumer-approval.mjs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
@@ -8,7 +8,8 @@ import {dirname,join} from 'node:path';
 import {tmpdir} from 'node:os';
 import {fileURLToPath} from 'node:url';
 import {CANDIDATE_DRAWING_POLICY,PLANET_DRAWING_POLICY,CREW_DRAWING_POLICY,CREW_CONSUMER_DRAWING_POLICY,
-  PREGAME_DRAWING_POLICY,PREGAME_PRODUCTION_DRAWING_POLICY,readDrawingPolicy,productionDrawingProblems,prototypeReferences} from '../../design/tools/lib/drawing-port-fence.mjs';
+  PREGAME_DRAWING_POLICY,PREGAME_PRODUCTION_DRAWING_POLICY,PHONE_UI_PRODUCTION_DRAWING_POLICY,
+  readDrawingPolicy,productionDrawingProblems,prototypeReferences} from '../../design/tools/lib/drawing-port-fence.mjs';
 import {PREGAME_CONSUMER_CANDIDATE,PREGAME_CONSUMER_REVIEW_ENV} from '../../scripts/pregame-consumer-candidate.mjs';
 
 const root=fileURLToPath(new URL('../../',import.meta.url));
@@ -26,8 +27,30 @@ function fixture(t){
 }
 const append=(target,path,value)=>writeFileSync(join(target,path),readFileSync(join(target,path),'utf8')+value);
 const rejects=async(target,pattern)=>assert.match((await productionDrawingProblems(target)).join('\n'),pattern);
+
+test('phone adoption retains every drawing port, source pin and style while admitting exact native files only', async t=>{
+  const target=fixture(t),current=readDrawingPolicy(target);
+  rmSync(join(target,PHONE_UI_PRODUCTION_DRAWING_POLICY));
+  const previous=readDrawingPolicy(target);
+  for(const key of ['ports','sourceHashes','styles'])assert.deepEqual(current[key],previous[key],key);
+  assert.equal(Object.keys(current.ports).length,78);
+  assert.equal(Object.keys(current.sourceHashes).length,83);
+  assert.notDeepEqual(current.requiredFiles,previous.requiredFiles);
+  assert.notDeepEqual(await productionDrawingProblems(target),[], 'new native bytes require their exact fence supplement');
+  cpSync(join(root,PHONE_UI_PRODUCTION_DRAWING_POLICY),join(target,PHONE_UI_PRODUCTION_DRAWING_POLICY));
+  assert.deepEqual(await productionDrawingProblems(target),[]);
+});
+
+test('a malformed or symlinked phone fence supplement cannot silently fall back', t=>{
+  const target=fixture(t),path=join(target,PHONE_UI_PRODUCTION_DRAWING_POLICY);
+  append(target,PHONE_UI_PRODUCTION_DRAWING_POLICY,'\n');
+  assert.throws(()=>readDrawingPolicy(target),/Phone UI drawing approval content hash differs/);
+  rmSync(path);symlinkSync(join(root,PHONE_UI_PRODUCTION_DRAWING_POLICY),path);
+  assert.throws(()=>readDrawingPolicy(target),/Phone UI drawing approval must be a regular file/);
+});
 function candidateFixture(t){
   const target=fixture(t),candidate=JSON.parse(readFileSync(join(target,PREGAME_CONSUMER_CANDIDATE)));
+  restoreHistoricalPregameFixture(root,target);
   for(const [path,entry] of Object.entries(candidate.files)){
     mkdirSync(dirname(join(target,path)),{recursive:true});cpSync(join(target,entry.candidateBlob),join(target,path));
   }

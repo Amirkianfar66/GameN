@@ -1,0 +1,1917 @@
+
+> mothership-workspace@0.1.0 test:tooling
+> node --test tests/tooling/*.test.mjs
+
+TAP version 13
+# Subtest: reviewed full reports pass, including zero-transition setup/rejection cases and null serialized digests
+ok 1 - reviewed full reports pass, including zero-transition setup/rejection cases and null serialized digests
+  ---
+  duration_ms: 9.60875
+  type: 'test'
+  ...
+# Subtest: scenario guard rejects filtered catalogue despite green aggregates
+ok 2 - scenario guard rejects filtered catalogue despite green aggregates
+  ---
+  duration_ms: 2.205834
+  type: 'test'
+  ...
+# Subtest: scenario guard rejects duplicate replaces an omitted ID at unchanged total
+ok 3 - scenario guard rejects duplicate replaces an omitted ID at unchanged total
+  ---
+  duration_ms: 3.61575
+  type: 'test'
+  ...
+# Subtest: scenario guard rejects unknown ID replaces a real case
+ok 4 - scenario guard rejects unknown ID replaces a real case
+  ---
+  duration_ms: 1.748917
+  type: 'test'
+  ...
+# Subtest: scenario guard rejects ready scenario silently not run
+ok 5 - scenario guard rejects ready scenario silently not run
+  ---
+  duration_ms: 1.660833
+  type: 'test'
+  ...
+# Subtest: scenario guard rejects ready scenario failed
+ok 6 - scenario guard rejects ready scenario failed
+  ---
+  duration_ms: 0.78375
+  type: 'test'
+  ...
+# Subtest: scenario guard rejects blocked scenario promoted to passed
+ok 7 - scenario guard rejects blocked scenario promoted to passed
+  ---
+  duration_ms: 1.943292
+  type: 'test'
+  ...
+# Subtest: scenario guard rejects manual scenario promoted to passed
+ok 8 - scenario guard rejects manual scenario promoted to passed
+  ---
+  duration_ms: 3.181209
+  type: 'test'
+  ...
+# Subtest: scenario guard rejects ready and blocked statuses swapped without changing counts
+ok 9 - scenario guard rejects ready and blocked statuses swapped without changing counts
+  ---
+  duration_ms: 1.332083
+  type: 'test'
+  ...
+# Subtest: scenario guard rejects manual reason silently changed
+ok 10 - scenario guard rejects manual reason silently changed
+  ---
+  duration_ms: 2.595084
+  type: 'test'
+  ...
+# Subtest: scenario guard rejects unprobed blocked case executed unexpectedly
+ok 11 - scenario guard rejects unprobed blocked case executed unexpectedly
+  ---
+  duration_ms: 0.768541
+  type: 'test'
+  ...
+# Subtest: scenario guard rejects blocked probe has a concealed failure
+ok 12 - scenario guard rejects blocked probe has a concealed failure
+  ---
+  duration_ms: 1.488917
+  type: 'test'
+  ...
+# Subtest: scenario guard rejects invariant failure on a blocked case
+ok 13 - scenario guard rejects invariant failure on a blocked case
+  ---
+  duration_ms: 1.521792
+  type: 'test'
+  ...
+# Subtest: scenario guard rejects missing invariant evidence
+ok 14 - scenario guard rejects missing invariant evidence
+  ---
+  duration_ms: 0.919042
+  type: 'test'
+  ...
+# Subtest: scenario guard rejects blocked probes omitted
+ok 15 - scenario guard rejects blocked probes omitted
+  ---
+  duration_ms: 1.476125
+  type: 'test'
+  ...
+# Subtest: scenario guard rejects probe outcome omitted
+ok 16 - scenario guard rejects probe outcome omitted
+  ---
+  duration_ms: 1.135541
+  type: 'test'
+  ...
+# Subtest: scenario guard rejects wrong group
+ok 17 - scenario guard rejects wrong group
+  ---
+  duration_ms: 0.581792
+  type: 'test'
+  ...
+# Subtest: scenario guard rejects wrong mode
+ok 18 - scenario guard rejects wrong mode
+  ---
+  duration_ms: 1.614416
+  type: 'test'
+  ...
+# Subtest: scenario guard rejects wrong seed
+ok 19 - scenario guard rejects wrong seed
+  ---
+  duration_ms: 1.253958
+  type: 'test'
+  ...
+# Subtest: scenario guard rejects wrong decision IDs
+ok 20 - scenario guard rejects wrong decision IDs
+  ---
+  duration_ms: 1.941459
+  type: 'test'
+  ...
+# Subtest: scenario guard rejects aggregate counters lie
+ok 21 - scenario guard rejects aggregate counters lie
+  ---
+  duration_ms: 5.404959
+  type: 'test'
+  ...
+# Subtest: scenario guard rejects missing group summary
+ok 22 - scenario guard rejects missing group summary
+  ---
+  duration_ms: 5.351
+  type: 'test'
+  ...
+# Subtest: scenario guard rejects group summary counters lie
+ok 23 - scenario guard rejects group summary counters lie
+  ---
+  duration_ms: 3.863209
+  type: 'test'
+  ...
+# Subtest: scenario guard rejects negative transition count
+ok 24 - scenario guard rejects negative transition count
+  ---
+  duration_ms: 2.028625
+  type: 'test'
+  ...
+# Subtest: scenario guard rejects fractional command count
+ok 25 - scenario guard rejects fractional command count
+  ---
+  duration_ms: 1.353084
+  type: 'test'
+  ...
+# Subtest: scenario guard rejects green statuses but zero execution
+ok 26 - scenario guard rejects green statuses but zero execution
+  ---
+  duration_ms: 3.562375
+  type: 'test'
+  ...
+# Subtest: scenario guard rejects zero execution for mode 7 despite other modes running
+ok 27 - scenario guard rejects zero execution for mode 7 despite other modes running
+  ---
+  duration_ms: 2.784542
+  type: 'test'
+  ...
+# Subtest: scenario guard rejects zero execution for mode 8 despite other modes running
+ok 28 - scenario guard rejects zero execution for mode 8 despite other modes running
+  ---
+  duration_ms: 3.389459
+  type: 'test'
+  ...
+# Subtest: scenario guard rejects zero execution for mode 9 despite other modes running
+ok 29 - scenario guard rejects zero execution for mode 9 despite other modes running
+  ---
+  duration_ms: 3.750208
+  type: 'test'
+  ...
+# Subtest: scenario provenance rejects unavailable engine
+ok 30 - scenario provenance rejects unavailable engine
+  ---
+  duration_ms: 1.56575
+  type: 'test'
+  ...
+# Subtest: scenario provenance rejects mislabeled engine role commit
+ok 31 - scenario provenance rejects mislabeled engine role commit
+  ---
+  duration_ms: 1.47
+  type: 'test'
+  ...
+# Subtest: scenario provenance rejects dirty checkout suffix
+ok 32 - scenario provenance rejects dirty checkout suffix
+  ---
+  duration_ms: 1.606083
+  type: 'test'
+  ...
+# Subtest: scenario provenance rejects wrong source digest
+ok 33 - scenario provenance rejects wrong source digest
+  ---
+  duration_ms: 1.30025
+  type: 'test'
+  ...
+# Subtest: scenario provenance rejects wrong catalogue digest
+ok 34 - scenario provenance rejects wrong catalogue digest
+  ---
+  duration_ms: 1.407334
+  type: 'test'
+  ...
+# Subtest: scenario provenance rejects wrong rulebook digest
+ok 35 - scenario provenance rejects wrong rulebook digest
+  ---
+  duration_ms: 1.243209
+  type: 'test'
+  ...
+# Subtest: scenario provenance rejects missing runtime owner decision evidence
+ok 36 - scenario provenance rejects missing runtime owner decision evidence
+  ---
+  duration_ms: 1.530291
+  type: 'test'
+  ...
+# Subtest: scenario provenance rejects changed runtime owner decision evidence
+ok 37 - scenario provenance rejects changed runtime owner decision evidence
+  ---
+  duration_ms: 1.141791
+  type: 'test'
+  ...
+# Subtest: scenario provenance rejects wrong overlay digest
+ok 38 - scenario provenance rejects wrong overlay digest
+  ---
+  duration_ms: 1.331625
+  type: 'test'
+  ...
+# Subtest: scenario provenance rejects wrong protocol
+ok 39 - scenario provenance rejects wrong protocol
+  ---
+  duration_ms: 0.654834
+  type: 'test'
+  ...
+# Subtest: scenario provenance rejects missing binary provenance
+ok 40 - scenario provenance rejects missing binary provenance
+  ---
+  duration_ms: 0.841333
+  type: 'test'
+  ...
+# Subtest: scenario provenance rejects wrong binary ruleset
+ok 41 - scenario provenance rejects wrong binary ruleset
+  ---
+  duration_ms: 0.545917
+  type: 'test'
+  ...
+# Subtest: scenario provenance rejects capacity gameplay falsely labels the frozen catalogue
+ok 42 - scenario provenance rejects capacity gameplay falsely labels the frozen catalogue
+  ---
+  duration_ms: 0.488208
+  type: 'test'
+  ...
+# Subtest: scenario provenance rejects wrong runtime
+ok 43 - scenario provenance rejects wrong runtime
+  ---
+  duration_ms: 0.637458
+  type: 'test'
+  ...
+# Subtest: scenario provenance rejects external engine origin
+ok 44 - scenario provenance rejects external engine origin
+  ---
+  duration_ms: 1.55825
+  type: 'test'
+  ...
+# Subtest: scenario provenance rejects stale generation timestamp
+ok 45 - scenario provenance rejects stale generation timestamp
+  ---
+  duration_ms: 1.431208
+  type: 'test'
+  ...
+# Subtest: scenario provenance rejects future generation timestamp
+ok 46 - scenario provenance rejects future generation timestamp
+  ---
+  duration_ms: 1.24125
+  type: 'test'
+  ...
+# Subtest: scenario provenance rejects missing generation timestamp
+ok 47 - scenario provenance rejects missing generation timestamp
+  ---
+  duration_ms: 1.421333
+  type: 'test'
+  ...
+# Subtest: control guard rejects not-run verdict
+ok 48 - control guard rejects not-run verdict
+  ---
+  duration_ms: 0.105417
+  type: 'test'
+  ...
+# Subtest: control guard rejects failed verdict
+ok 49 - control guard rejects failed verdict
+  ---
+  duration_ms: 0.043
+  type: 'test'
+  ...
+# Subtest: control guard rejects missing mode
+ok 50 - control guard rejects missing mode
+  ---
+  duration_ms: 0.047417
+  type: 'test'
+  ...
+# Subtest: control guard rejects zero controls falsely green
+ok 51 - control guard rejects zero controls falsely green
+  ---
+  duration_ms: 0.042417
+  type: 'test'
+  ...
+# Subtest: control guard rejects missing baseline
+ok 52 - control guard rejects missing baseline
+  ---
+  duration_ms: 0.041958
+  type: 'test'
+  ...
+# Subtest: control guard rejects missing control at equal detected count
+ok 53 - control guard rejects missing control at equal detected count
+  ---
+  duration_ms: 0.040375
+  type: 'test'
+  ...
+# Subtest: control guard rejects undetected count
+ok 54 - control guard rejects undetected count
+  ---
+  duration_ms: 0.035083
+  type: 'test'
+  ...
+# Subtest: control guard rejects baseline failure count
+ok 55 - control guard rejects baseline failure count
+  ---
+  duration_ms: 0.1205
+  type: 'test'
+  ...
+# Subtest: control guard rejects undetected list despite zero counters
+ok 56 - control guard rejects undetected list despite zero counters
+  ---
+  duration_ms: 0.056417
+  type: 'test'
+  ...
+# Subtest: control guard rejects baseline failure list despite green verdict
+ok 57 - control guard rejects baseline failure list despite green verdict
+  ---
+  duration_ms: 0.038375
+  type: 'test'
+  ...
+# Subtest: control guard rejects missing baseline evidence
+ok 58 - control guard rejects missing baseline evidence
+  ---
+  duration_ms: 0.03425
+  type: 'test'
+  ...
+# Subtest: control guard rejects wrong engine commit
+ok 59 - control guard rejects wrong engine commit
+  ---
+  duration_ms: 0.034792
+  type: 'test'
+  ...
+# Subtest: playout guard rejects zero requested seeds
+ok 60 - playout guard rejects zero requested seeds
+  ---
+  duration_ms: 0.077666
+  type: 'test'
+  ...
+# Subtest: playout guard rejects wrong seed labels
+ok 61 - playout guard rejects wrong seed labels
+  ---
+  duration_ms: 0.038042
+  type: 'test'
+  ...
+# Subtest: playout guard rejects missing mode
+ok 62 - playout guard rejects missing mode
+  ---
+  duration_ms: 0.043042
+  type: 'test'
+  ...
+# Subtest: playout guard rejects zero executed playouts
+ok 63 - playout guard rejects zero executed playouts
+  ---
+  duration_ms: 0.040041
+  type: 'test'
+  ...
+# Subtest: playout guard rejects unfinished playout
+ok 64 - playout guard rejects unfinished playout
+  ---
+  duration_ms: 0.050958
+  type: 'test'
+  ...
+# Subtest: playout guard rejects concealed unfinished terminal
+ok 65 - playout guard rejects concealed unfinished terminal
+  ---
+  duration_ms: 0.043041
+  type: 'test'
+  ...
+# Subtest: playout guard rejects invariant violation
+ok 66 - playout guard rejects invariant violation
+  ---
+  duration_ms: 0.039791
+  type: 'test'
+  ...
+# Subtest: playout guard rejects hint mismatch
+ok 67 - playout guard rejects hint mismatch
+  ---
+  duration_ms: 0.0905
+  type: 'test'
+  ...
+# Subtest: playout guard rejects replay mismatch
+ok 68 - playout guard rejects replay mismatch
+  ---
+  duration_ms: 0.038875
+  type: 'test'
+  ...
+# Subtest: playout guard rejects missing error counter
+ok 69 - playout guard rejects missing error counter
+  ---
+  duration_ms: 0.085375
+  type: 'test'
+  ...
+# Subtest: playout guard rejects error examples despite zero counters
+ok 70 - playout guard rejects error examples despite zero counters
+  ---
+  duration_ms: 0.045291
+  type: 'test'
+  ...
+# Subtest: playout guard rejects fractional execution counter
+ok 71 - playout guard rejects fractional execution counter
+  ---
+  duration_ms: 0.05375
+  type: 'test'
+  ...
+# Subtest: playout guard rejects no phase execution
+ok 72 - playout guard rejects no phase execution
+  ---
+  duration_ms: 0.044083
+  type: 'test'
+  ...
+# Subtest: playout guard rejects different policy
+ok 73 - playout guard rejects different policy
+  ---
+  duration_ms: 0.039333
+  type: 'test'
+  ...
+# Subtest: playout guard rejects unavailable engine
+ok 74 - playout guard rejects unavailable engine
+  ---
+  duration_ms: 0.029166
+  type: 'test'
+  ...
+# Subtest: missing/null reports never pass and failures do not print private report payloads
+ok 75 - missing/null reports never pass and failures do not print private report payloads
+  ---
+  duration_ms: 0.3895
+  type: 'test'
+  ...
+# Subtest: disk source pins fail before accepting a changed reviewed artifact
+ok 76 - disk source pins fail before accepting a changed reviewed artifact
+  ---
+  duration_ms: 85.890291
+  type: 'test'
+  ...
+# Subtest: static suite requires positive complete execution and rejects every nonpassing state
+ok 77 - static suite requires positive complete execution and rejects every nonpassing state
+  ---
+  duration_ms: 2.02625
+  type: 'test'
+  ...
+# Subtest: required engine plan runs all three local CLIs, actual HEAD, fresh reports, and ten seeds without filters
+ok 78 - required engine plan runs all three local CLIs, actual HEAD, fresh reports, and ten seeds without filters
+  ---
+  duration_ms: 0.906625
+  type: 'test'
+  ...
+# Subtest: actual Git HEAD is read and dirty or unknown provenance cannot become engine evidence
+ok 79 - actual Git HEAD is read and dirty or unknown provenance cannot become engine evidence
+  ---
+  duration_ms: 0.800209
+  type: 'test'
+  ...
+# Subtest: static suite requires all six reviewed files and the materialization/traceability checkers
+ok 80 - static suite requires all six reviewed files and the materialization/traceability checkers
+  ---
+  duration_ms: 7.619166
+  type: 'test'
+  ...
+# Subtest: child failure, unavailable executable, signal and timeout fail even when output claims success
+ok 81 - child failure, unavailable executable, signal and timeout fail even when output claims success
+  ---
+  duration_ms: 5.953833
+  type: 'test'
+  ...
+# Subtest: captured child execution removes nested Node test context and bounds runtime/output
+ok 82 - captured child execution removes nested Node test context and bounds runtime/output
+  ---
+  duration_ms: 2.104042
+  type: 'test'
+  ...
+# Subtest: zero-exit CLI without a fresh report and malformed reports fail closed
+ok 83 - zero-exit CLI without a fresh report and malformed reports fail closed
+  ---
+  duration_ms: 1.111167
+  type: 'test'
+  ...
+# Subtest: long controls remain bounded and a timeout cannot become passing evidence
+ok 84 - long controls remain bounded and a timeout cannot become passing evidence
+  ---
+  duration_ms: 1.845584
+  type: 'test'
+  ...
+# Subtest: report gate reuses exactly the fresh reports and pins the actual clean candidate without trial flags
+ok 85 - report gate reuses exactly the fresh reports and pins the actual clean candidate without trial flags
+  ---
+  duration_ms: 0.35475
+  type: 'test'
+  ...
+# Subtest: G17 engine capability and version are required even if legacy engine exports remain available
+ok 86 - G17 engine capability and version are required even if legacy engine exports remain available
+  ---
+  duration_ms: 1.059833
+  type: 'test'
+  ...
+# Subtest: one deterministic common bundle includes all twenty original drawings, with no geometry changes
+ok 87 - one deterministic common bundle includes all twenty original drawings, with no geometry changes
+  ---
+  duration_ms: 16.863083
+  type: 'test'
+  ...
+# Subtest: source drift is refused before an altered drawing can be published
+ok 88 - source drift is refused before an altered drawing can be published
+  ---
+  duration_ms: 15.246417
+  type: 'test'
+  ...
+# Subtest: missing art cannot silently create an incomplete common bundle
+ok 89 - missing art cannot silently create an incomplete common bundle
+  ---
+  duration_ms: 14.899958
+  type: 'test'
+  ...
+# Subtest: an edited catalog cannot approve new paths, bytes or a partial bundle itself
+ok 90 - an edited catalog cannot approve new paths, bytes or a partial bundle itself
+  ---
+  duration_ms: 10.573458
+  type: 'test'
+  ...
+# Subtest: ward layer metadata preserves Claude depth interleaving and roster-specific beds
+ok 91 - ward layer metadata preserves Claude depth interleaving and roster-specific beds
+  ---
+  duration_ms: 0.274958
+  type: 'test'
+  ...
+# Subtest: all 27 Board V2 ports reconstruct from their original source with only recorded adaptations
+ok 92 - all 27 Board V2 ports reconstruct from their original source with only recorded adaptations
+  ---
+  duration_ms: 10.010625
+  type: 'test'
+  ...
+# Subtest: historical validation cannot certify the larger current drawing inventory
+ok 93 - historical validation cannot certify the larger current drawing inventory
+  ---
+  duration_ms: 1.973458
+  type: 'test'
+  ...
+# Subtest: current validation cannot fall back when the candidate supplement is absent
+ok 94 - current validation cannot fall back when the candidate supplement is absent
+  ---
+  duration_ms: 39.308917
+  type: 'test'
+  ...
+# Subtest: the new supplement does not permit additional drawing modules
+ok 95 - the new supplement does not permit additional drawing modules
+  ---
+  duration_ms: 39.792416
+  type: 'test'
+  ...
+# Subtest: the new supplement rejects changed runtime bytes
+ok 96 - the new supplement rejects changed runtime bytes
+  ---
+  duration_ms: 50.466875
+  type: 'test'
+  ...
+# Subtest: the new supplement rejects changed source bytes
+ok 97 - the new supplement rejects changed source bytes
+  ---
+  duration_ms: 45.362958
+  type: 'test'
+  ...
+# Subtest: the supplement catalog cannot authorize changed derivatives by editing itself
+ok 98 - the supplement catalog cannot authorize changed derivatives by editing itself
+  ---
+  duration_ms: 52.612084
+  type: 'test'
+  ...
+# Subtest: the corrected runtime helper distinguishes four physical beds from valid roster-sized clinical anchors
+ok 99 - the corrected runtime helper distinguishes four physical beds from valid roster-sized clinical anchors
+  ---
+  duration_ms: 0.604167
+  type: 'test'
+  ...
+# Subtest: the corrected helper still protects retained beds after explicit wire identity normalization
+ok 100 - the corrected helper still protects retained beds after explicit wire identity normalization
+  ---
+  duration_ms: 6.589292
+  type: 'test'
+  ...
+# Subtest: S1/S4 share one static common bundle with no viewer or gameplay input
+ok 101 - S1/S4 share one static common bundle with no viewer or gameplay input
+  ---
+  duration_ms: 14.313542
+  type: 'test'
+  ...
+# Subtest: S1/S4 refuse changed reviewed input design/releases/board-v2-motion-art.json
+ok 102 - S1/S4 refuse changed reviewed input design/releases/board-v2-motion-art.json
+  ---
+  duration_ms: 19.853958
+  type: 'test'
+  ...
+# Subtest: S1/S4 refuse changed reviewed input design/board-v2/assets/lighting/command-room.dark.svg
+ok 103 - S1/S4 refuse changed reviewed input design/board-v2/assets/lighting/command-room.dark.svg
+  ---
+  duration_ms: 21.485291
+  type: 'test'
+  ...
+# Subtest: S1/S4 refuse changed reviewed input design/board-v2/assets/lighting/fx-bolt.svg
+ok 104 - S1/S4 refuse changed reviewed input design/board-v2/assets/lighting/fx-bolt.svg
+  ---
+  duration_ms: 16.819
+  type: 'test'
+  ...
+# Subtest: S1/S4 refuse changed reviewed input design/board-v2/assets/lighting/fx-impact-1.svg
+ok 105 - S1/S4 refuse changed reviewed input design/board-v2/assets/lighting/fx-impact-1.svg
+  ---
+  duration_ms: 12.960125
+  type: 'test'
+  ...
+# Subtest: S1/S4 refuse changed reviewed input design/board-v2/assets/lighting/fx-impact-2.svg
+ok 106 - S1/S4 refuse changed reviewed input design/board-v2/assets/lighting/fx-impact-2.svg
+  ---
+  duration_ms: 10.906791
+  type: 'test'
+  ...
+# Subtest: S1/S4 refuse changed reviewed input design/board-v2/assets/lighting/fx-impact-3.svg
+ok 107 - S1/S4 refuse changed reviewed input design/board-v2/assets/lighting/fx-impact-3.svg
+  ---
+  duration_ms: 14.042167
+  type: 'test'
+  ...
+# Subtest: S1/S4 refuse changed reviewed input design/board-v2/assets/lighting/fx-spark-1.svg
+ok 108 - S1/S4 refuse changed reviewed input design/board-v2/assets/lighting/fx-spark-1.svg
+  ---
+  duration_ms: 13.474917
+  type: 'test'
+  ...
+# Subtest: S1/S4 refuse changed reviewed input design/board-v2/assets/lighting/fx-spark-2.svg
+ok 109 - S1/S4 refuse changed reviewed input design/board-v2/assets/lighting/fx-spark-2.svg
+  ---
+  duration_ms: 14.4225
+  type: 'test'
+  ...
+# Subtest: S1/S4 refuse changed reviewed input design/board-v2/assets/lighting/fx-spark-3.svg
+ok 110 - S1/S4 refuse changed reviewed input design/board-v2/assets/lighting/fx-spark-3.svg
+  ---
+  duration_ms: 15.050334
+  type: 'test'
+  ...
+# Subtest: S1/S4 refuse changed reviewed input design/board-v2/assets/lighting/hospital-ward-7.dark.svg
+ok 111 - S1/S4 refuse changed reviewed input design/board-v2/assets/lighting/hospital-ward-7.dark.svg
+  ---
+  duration_ms: 26.987875
+  type: 'test'
+  ...
+# Subtest: S1/S4 refuse changed reviewed input design/board-v2/assets/lighting/hospital-ward-8.dark.svg
+ok 112 - S1/S4 refuse changed reviewed input design/board-v2/assets/lighting/hospital-ward-8.dark.svg
+  ---
+  duration_ms: 21.198542
+  type: 'test'
+  ...
+# Subtest: S1/S4 refuse changed reviewed input design/board-v2/assets/lighting/hospital-ward-9.dark.svg
+ok 113 - S1/S4 refuse changed reviewed input design/board-v2/assets/lighting/hospital-ward-9.dark.svg
+  ---
+  duration_ms: 23.451375
+  type: 'test'
+  ...
+# Subtest: S1/S4 refuse changed reviewed input design/board-v2/assets/lighting/jail.dark.svg
+ok 114 - S1/S4 refuse changed reviewed input design/board-v2/assets/lighting/jail.dark.svg
+  ---
+  duration_ms: 32.985
+  type: 'test'
+  ...
+# Subtest: S1/S4 refuse changed reviewed input design/board-v2/assets/lighting/marker-chosen.svg
+ok 115 - S1/S4 refuse changed reviewed input design/board-v2/assets/lighting/marker-chosen.svg
+  ---
+  duration_ms: 39.34125
+  type: 'test'
+  ...
+# Subtest: S1/S4 refuse changed reviewed input design/board-v2/assets/lighting/marker-dark.svg
+ok 116 - S1/S4 refuse changed reviewed input design/board-v2/assets/lighting/marker-dark.svg
+  ---
+  duration_ms: 15.685834
+  type: 'test'
+  ...
+# Subtest: S1/S4 refuse changed reviewed input design/board-v2/assets/lighting/marker-preview.svg
+ok 117 - S1/S4 refuse changed reviewed input design/board-v2/assets/lighting/marker-preview.svg
+  ---
+  duration_ms: 11.747417
+  type: 'test'
+  ...
+# Subtest: S1/S4 refuse changed reviewed input design/board-v2/assets/lighting/room-a.dark.svg
+ok 118 - S1/S4 refuse changed reviewed input design/board-v2/assets/lighting/room-a.dark.svg
+  ---
+  duration_ms: 11.478666
+  type: 'test'
+  ...
+# Subtest: S1/S4 refuse changed reviewed input design/board-v2/assets/lighting/room-b.dark.svg
+ok 119 - S1/S4 refuse changed reviewed input design/board-v2/assets/lighting/room-b.dark.svg
+  ---
+  duration_ms: 13.732333
+  type: 'test'
+  ...
+# Subtest: S1/S4 refuse changed reviewed input design/board-v2/assets/fx/fx-block-particles-1.svg
+ok 120 - S1/S4 refuse changed reviewed input design/board-v2/assets/fx/fx-block-particles-1.svg
+  ---
+  duration_ms: 28.246875
+  type: 'test'
+  ...
+# Subtest: S1/S4 refuse changed reviewed input design/board-v2/assets/fx/fx-block-particles-2.svg
+ok 121 - S1/S4 refuse changed reviewed input design/board-v2/assets/fx/fx-block-particles-2.svg
+  ---
+  duration_ms: 59.843208
+  type: 'test'
+  ...
+# Subtest: S1/S4 refuse changed reviewed input design/board-v2/assets/fx/fx-block-particles-3.svg
+ok 122 - S1/S4 refuse changed reviewed input design/board-v2/assets/fx/fx-block-particles-3.svg
+  ---
+  duration_ms: 16.723917
+  type: 'test'
+  ...
+# Subtest: S1/S4 refuse changed reviewed input design/board-v2/assets/fx/fx-block-ring.svg
+ok 123 - S1/S4 refuse changed reviewed input design/board-v2/assets/fx/fx-block-ring.svg
+  ---
+  duration_ms: 17.718416
+  type: 'test'
+  ...
+# Subtest: S1/S4 refuse changed reviewed input design/board-v2/assets/fx/fx-shield-1.svg
+ok 124 - S1/S4 refuse changed reviewed input design/board-v2/assets/fx/fx-shield-1.svg
+  ---
+  duration_ms: 14.754458
+  type: 'test'
+  ...
+# Subtest: S1/S4 refuse changed reviewed input design/board-v2/assets/fx/fx-shield-2.svg
+ok 125 - S1/S4 refuse changed reviewed input design/board-v2/assets/fx/fx-shield-2.svg
+  ---
+  duration_ms: 14.889958
+  type: 'test'
+  ...
+# Subtest: S1/S4 refuse changed reviewed input design/board-v2/assets/fx/fx-shield-3.svg
+ok 126 - S1/S4 refuse changed reviewed input design/board-v2/assets/fx/fx-shield-3.svg
+  ---
+  duration_ms: 19.508208
+  type: 'test'
+  ...
+# Subtest: capacity gate accepts complete synthetic reports for the reviewed catalogue and tuple
+ok 127 - capacity gate accepts complete synthetic reports for the reviewed catalogue and tuple
+  ---
+  duration_ms: 3.571084
+  type: 'test'
+  ...
+# Subtest: capacity scenarios reject old ruleset
+ok 128 - capacity scenarios reject old ruleset
+  ---
+  duration_ms: 0.881084
+  type: 'test'
+  ...
+# Subtest: capacity scenarios reject wrong engine tuple
+ok 129 - capacity scenarios reject wrong engine tuple
+  ---
+  duration_ms: 0.590334
+  type: 'test'
+  ...
+# Subtest: capacity scenarios reject stated source only
+ok 130 - capacity scenarios reject stated source only
+  ---
+  duration_ms: 0.161958
+  type: 'test'
+  ...
+# Subtest: capacity scenarios reject dirty engine
+ok 131 - capacity scenarios reject dirty engine
+  ---
+  duration_ms: 0.14575
+  type: 'test'
+  ...
+# Subtest: capacity scenarios reject different build
+ok 132 - capacity scenarios reject different build
+  ---
+  duration_ms: 0.139667
+  type: 'test'
+  ...
+# Subtest: capacity scenarios reject old report
+ok 133 - capacity scenarios reject old report
+  ---
+  duration_ms: 0.170791
+  type: 'test'
+  ...
+# Subtest: capacity scenarios reject wrong fixture digest
+ok 134 - capacity scenarios reject wrong fixture digest
+  ---
+  duration_ms: 0.16575
+  type: 'test'
+  ...
+# Subtest: capacity scenarios reject missing case
+ok 135 - capacity scenarios reject missing case
+  ---
+  duration_ms: 0.683917
+  type: 'test'
+  ...
+# Subtest: capacity scenarios reject duplicate case
+ok 136 - capacity scenarios reject duplicate case
+  ---
+  duration_ms: 1.826916
+  type: 'test'
+  ...
+# Subtest: capacity scenarios reject failure hidden by green totals
+ok 137 - capacity scenarios reject failure hidden by green totals
+  ---
+  duration_ms: 0.79525
+  type: 'test'
+  ...
+# Subtest: capacity scenarios reject manual case counted as passed
+ok 138 - capacity scenarios reject manual case counted as passed
+  ---
+  duration_ms: 0.348875
+  type: 'test'
+  ...
+# Subtest: capacity scenarios reject invariant hidden by green totals
+ok 139 - capacity scenarios reject invariant hidden by green totals
+  ---
+  duration_ms: 0.732459
+  type: 'test'
+  ...
+# Subtest: capacity scenarios reject no transitions
+ok 140 - capacity scenarios reject no transitions
+  ---
+  duration_ms: 1.486083
+  type: 'test'
+  ...
+# Subtest: capacity scenarios reject missing mode totals
+ok 141 - capacity scenarios reject missing mode totals
+  ---
+  duration_ms: 0.446292
+  type: 'test'
+  ...
+# Subtest: capacity playouts reject missing mode
+ok 142 - capacity playouts reject missing mode
+  ---
+  duration_ms: 0.128208
+  type: 'test'
+  ...
+# Subtest: capacity playouts reject fewer playouts
+ok 143 - capacity playouts reject fewer playouts
+  ---
+  duration_ms: 0.073458
+  type: 'test'
+  ...
+# Subtest: capacity playouts reject hint mismatch
+ok 144 - capacity playouts reject hint mismatch
+  ---
+  duration_ms: 0.172916
+  type: 'test'
+  ...
+# Subtest: capacity playouts reject replay mismatch
+ok 145 - capacity playouts reject replay mismatch
+  ---
+  duration_ms: 0.177625
+  type: 'test'
+  ...
+# Subtest: capacity playouts reject unfinished game
+ok 146 - capacity playouts reject unfinished game
+  ---
+  duration_ms: 0.088541
+  type: 'test'
+  ...
+# Subtest: capacity playouts reject over-capacity phase
+ok 147 - capacity playouts reject over-capacity phase
+  ---
+  duration_ms: 0.083083
+  type: 'test'
+  ...
+# Subtest: capacity playouts reject accepted move into full room
+ok 148 - capacity playouts reject accepted move into full room
+  ---
+  duration_ms: 0.072542
+  type: 'test'
+  ...
+# Subtest: capacity playouts reject no full-room attempts
+ok 149 - capacity playouts reject no full-room attempts
+  ---
+  duration_ms: 0.229459
+  type: 'test'
+  ...
+# Subtest: capacity playouts reject different setup policy
+ok 150 - capacity playouts reject different setup policy
+  ---
+  duration_ms: 0.217
+  type: 'test'
+  ...
+# Subtest: DSN-REQ-17 binds exact source, 17 exact-copy ports and explicit tokens without replacing historical exports
+ok 151 - DSN-REQ-17 binds exact source, 17 exact-copy ports and explicit tokens without replacing historical exports
+  ---
+  duration_ms: 185.099333
+  type: 'test'
+  ...
+# Subtest: published Planet manifest and original consumer bytes survive exact successor adoption
+ok 152 - published Planet manifest and original consumer bytes survive exact successor adoption
+  ---
+  duration_ms: 154.65575
+  type: 'test'
+  ...
+# Subtest: compatibility cannot substitute changed current code, erase historical evidence or approve itself
+ok 153 - compatibility cannot substitute changed current code, erase historical evidence or approve itself
+  ---
+  duration_ms: 835.723333
+  type: 'test'
+  ...
+# Subtest: new uniform bundles contain exactly the 36 approved exports and retire only the 27 obsolete film properties
+ok 154 - new uniform bundles contain exactly the 36 approved exports and retire only the 27 obsolete film properties
+  ---
+  duration_ms: 123.64025
+  type: 'test'
+  ...
+# Subtest: build emits complete historical and new release output side by side; a damaged new bundle is rejected
+ok 155 - build emits complete historical and new release output side by side; a damaged new bundle is rejected
+  ---
+  duration_ms: 498.656958
+  type: 'test'
+  ...
+# Subtest: changed source, runtime port or asset cannot authorize itself through the candidate manifest
+ok 156 - changed source, runtime port or asset cannot authorize itself through the candidate manifest
+  ---
+  duration_ms: 698.303083
+  type: 'test'
+  ...
+# Subtest: the fence rejects unknown, changed and missing crew ports, and a self-edited approval
+ok 157 - the fence rejects unknown, changed and missing crew ports, and a self-edited approval
+  ---
+  duration_ms: 3419.678209
+  type: 'test'
+  ...
+# Subtest: emulator grouping retains every suite and isolates newly added service tests from live triggers
+ok 158 - emulator grouping retains every suite and isolates newly added service tests from live triggers
+  ---
+  duration_ms: 10.677791
+  type: 'test'
+  ...
+# Subtest: missing actual Functions acceptance cannot silently pass the data suite
+ok 159 - missing actual Functions acceptance cannot silently pass the data suite
+  ---
+  duration_ms: 6.397959
+  type: 'test'
+  ...
+# Subtest: emulator command construction refuses shell metacharacters in discovered test names
+ok 160 - emulator command construction refuses shell metacharacters in discovered test names
+  ---
+  duration_ms: 3.348292
+  type: 'test'
+  ...
+# Subtest: missing and empty Frontend suites or exclusion checker fail instead of skipping
+ok 161 - missing and empty Frontend suites or exclusion checker fail instead of skipping
+  ---
+  duration_ms: 12.205833
+  type: 'test'
+  ...
+# Subtest: TAP completion requires executed tests and no failures, skips, todos or cancellations
+ok 162 - TAP completion requires executed tests and no failures, skips, todos or cancellations
+  ---
+  duration_ms: 1.81525
+  type: 'test'
+  ...
+# Subtest: real node:test skipped and todo results fail Frontend verification
+ok 163 - real node:test skipped and todo results fail Frontend verification
+  ---
+  duration_ms: 112.830625
+  type: 'test'
+  ...
+# Subtest: the exact current candidate passes alongside the unchanged historical drawing policy
+ok 164 - the exact current candidate passes alongside the unchanged historical drawing policy
+  ---
+  duration_ms: 3612.08825
+  type: 'test'
+  ...
+# Subtest: a candidate cannot approve itself by changing its supplement
+ok 165 - a candidate cannot approve itself by changing its supplement
+  ---
+  duration_ms: 308.063542
+  type: 'test'
+  ...
+# Subtest: the candidate cannot substitute a different historical policy
+ok 166 - the candidate cannot substitute a different historical policy
+  ---
+  duration_ms: 302.836458
+  type: 'test'
+  ...
+# Subtest: removing the supplement cannot certify the new ports under historical approval
+ok 167 - removing the supplement cannot certify the new ports under historical approval
+  ---
+  duration_ms: 729.287084
+  type: 'test'
+  ...
+# Subtest: missing or changed candidate ports remain rejected
+ok 168 - missing or changed candidate ports remain rejected
+  ---
+  duration_ms: 1005.161292
+  type: 'test'
+  ...
+# Subtest: the reviewed clone comment never permits a prototype import or copied module
+ok 169 - the reviewed clone comment never permits a prototype import or copied module
+  ---
+  duration_ms: 757.002
+  type: 'test'
+  ...
+# Subtest: exact catalog source metadata does not permit copied catalogs
+ok 170 - exact catalog source metadata does not permit copied catalogs
+  ---
+  duration_ms: 450.758583
+  type: 'test'
+  ...
+# Subtest: native metadata changes and injected prototype imports lose their exception
+ok 171 - native metadata changes and injected prototype imports lose their exception
+  ---
+  duration_ms: 761.673333
+  type: 'test'
+  ...
+# Subtest: candidate source snapshots and common-art assets remain hash-bound
+ok 172 - candidate source snapshots and common-art assets remain hash-bound
+  ---
+  duration_ms: 770.342334
+  type: 'test'
+  ...
+# Subtest: ability references are detected through escaped, split and encoded paths
+ok 173 - ability references are detected through escaped, split and encoded paths
+  ---
+  duration_ms: 1.130125
+  type: 'test'
+  ...
+# Subtest: Planet native metadata requires the exact independently pinned supplement
+ok 174 - Planet native metadata requires the exact independently pinned supplement
+  ---
+  duration_ms: 154.423334
+  type: 'test'
+  ...
+# Subtest: Planet board metadata never authorizes a changed renderer or a prototype import
+ok 175 - Planet board metadata never authorizes a changed renderer or a prototype import
+  ---
+  duration_ms: 150.7775
+  type: 'test'
+  ...
+# Subtest: verified final adoption reports08 while retaining the root V1 identity and historical validation
+ok 176 - verified final adoption reports08 while retaining the root V1 identity and historical validation
+  ---
+  duration_ms: 553.750417
+  type: 'test'
+  ...
+# Subtest: explicit new-match metadata uses the reviewed gameplay tuple without changing artwork or historical defaults
+ok 177 - explicit new-match metadata uses the reviewed gameplay tuple without changing artwork or historical defaults
+  ---
+  duration_ms: 1444.589625
+  type: 'test'
+  ...
+# Subtest: real emitted output retains all27 Planet assets for06,07 and08 and rejects damage to each release
+ok 178 - real emitted output retains all27 Planet assets for06,07 and08 and rejects damage to each release
+  ---
+  duration_ms: 738.0775
+  type: 'test'
+  ...
+# Subtest: the actual hosted bundle uses exactly the app registry selected by the pinned client SDK
+ok 179 - the actual hosted bundle uses exactly the app registry selected by the pinned client SDK
+  ---
+  duration_ms: 1054.275292
+  type: 'test'
+  ...
+# Subtest: the hosted build fails closed if resolution would include both installed app registries
+ok 180 - the hosted build fails closed if resolution would include both installed app registries
+  ---
+  duration_ms: 731.583042
+  type: 'test'
+  ...
+# Subtest: the hosted resolution initializes App Check against its app without a browser, network request or token
+ok 181 - the hosted resolution initializes App Check against its app without a browser, network request or token
+  ---
+  duration_ms: 408.528208
+  type: 'test'
+  ...
+# Subtest: the shipped phone CSS clears the runtime art individual translation
+ok 182 - the shipped phone CSS clears the runtime art individual translation
+  ---
+  duration_ms: 675.482125
+  type: 'test'
+  ...
+# Subtest: generated Hosting CSP permits the installed App Check SDK exchange endpoint
+ok 183 - generated Hosting CSP permits the installed App Check SDK exchange endpoint
+  ---
+  duration_ms: 1.626292
+  type: 'test'
+  ...
+# Subtest: cinematic playback is limited to same-origin media without weakening the default
+ok 184 - cinematic playback is limited to same-origin media without weakening the default
+  ---
+  duration_ms: 1.149167
+  type: 'test'
+  ...
+# Subtest: absence preserves history, but invalid or dangling approval cannot become absence
+ok 185 - absence preserves history, but invalid or dangling approval cannot become absence
+  ---
+  duration_ms: 3.295333
+  type: 'test'
+  ...
+# Subtest: reviewed phone bytes extend consumption without rewriting the historical acceptance or artwork
+ok 186 - reviewed phone bytes extend consumption without rewriting the historical acceptance or artwork
+  ---
+  duration_ms: 217.1725
+  type: 'test'
+  ...
+# Subtest: a claimed or cloned approval, unknown path and unreviewed digest have no acceptance capability
+ok 187 - a claimed or cloned approval, unknown path and unreviewed digest have no acceptance capability
+  ---
+  duration_ms: 171.7895
+  type: 'test'
+  ...
+# Subtest: current files, candidate blobs, preserved predecessors and evidence are independently required
+ok 188 - current files, candidate blobs, preserved predecessors and evidence are independently required
+  ---
+  duration_ms: 248.24225
+  type: 'test'
+  ...
+# Subtest: editing parent records or the artwork manifest cannot repin the native candidate
+ok 189 - editing parent records or the artwork manifest cannot repin the native candidate
+  ---
+  duration_ms: 148.769
+  type: 'test'
+  ...
+# Subtest: a native or evidence symlink is rejected even when its target contains the approved bytes
+ok 190 - a native or evidence symlink is rejected even when its target contains the approved bytes
+  ---
+  duration_ms: 235.713167
+  type: 'test'
+  ...
+# Subtest: Planet registry binds the reviewed exact authority, common catalogue and inherited board
+ok 191 - Planet registry binds the reviewed exact authority, common catalogue and inherited board
+  ---
+  duration_ms: 105.275459
+  type: 'test'
+  ...
+# Subtest: every emitted Planet stylesheet and film has the exact registered publication bytes
+ok 192 - every emitted Planet stylesheet and film has the exact registered publication bytes
+  ---
+  duration_ms: 117.223083
+  type: 'test'
+  ...
+# Subtest: substitution of a review movie cannot be authorized by editing the manifest
+ok 193 - substitution of a review movie cannot be authorized by editing the manifest
+  ---
+  duration_ms: 723.514
+  type: 'test'
+  ...
+# Subtest: changed approval and changed source bytes fail the independent release check
+ok 194 - changed approval and changed source bytes fail the independent release check
+  ---
+  duration_ms: 771.62775
+  type: 'test'
+  ...
+# Subtest: pregame source registration preserves published artwork, gameplay pins and creation defaults
+ok 195 - pregame source registration preserves published artwork, gameplay pins and creation defaults
+  ---
+  duration_ms: 353.297584
+  type: 'test'
+  ...
+# Subtest: source checkpoint excludes review artifacts and does not authorize the pending app consumer
+ok 196 - source checkpoint excludes review artifacts and does not authorize the pending app consumer
+  ---
+  duration_ms: 997.638292
+  type: 'test'
+  ...
+# Subtest: source or runtime drift and a self-edited candidate manifest fail independently
+ok 197 - source or runtime drift and a self-edited candidate manifest fail independently
+  ---
+  duration_ms: 993.605542
+  type: 'test'
+  ...
+# Subtest: new build guard validates source registration without emitting assets or activating setup
+ok 198 - new build guard validates source registration without emitting assets or activating setup
+  ---
+  duration_ms: 787.340416
+  type: 'test'
+  ...
+# Subtest: unchanged complete uniform output validates for06,07 and source registration08
+ok 199 - unchanged complete uniform output validates for06,07 and source registration08
+  ---
+  duration_ms: 506.32
+  type: 'test'
+  ...
+# Subtest: explicit local review accepts only the complete reviewed candidate while preserving old release identities
+ok 200 - explicit local review accepts only the complete reviewed candidate while preserving old release identities
+  ---
+  duration_ms: 733.374375
+  type: 'test'
+  ...
+# Subtest: candidate review is disabled without exactly the one explicit flag and reads no files
+ok 201 - candidate review is disabled without exactly the one explicit flag and reads no files
+  ---
+  duration_ms: 1.284833
+  type: 'test'
+  ...
+# Subtest: the independently pinned record permits only the exact eleven local consumer files
+ok 202 - the independently pinned record permits only the exact eleven local consumer files
+  ---
+  duration_ms: 25.306625
+  type: 'test'
+  ...
+# Subtest: accepted previous identities include the baseline and exact 06/07/08 inventory hashes
+ok 203 - accepted previous identities include the baseline and exact 06/07/08 inventory hashes
+  ---
+  duration_ms: 3.582583
+  type: 'test'
+  ...
+# Subtest: local review rejects changed current consumer
+ok 204 - local review rejects changed current consumer
+  ---
+  duration_ms: 20.555125
+  type: 'test'
+  ...
+# Subtest: local review rejects changed candidate review blob
+ok 205 - local review rejects changed candidate review blob
+  ---
+  duration_ms: 19.659625
+  type: 'test'
+  ...
+# Subtest: local review rejects changed preserved previous blob
+ok 206 - local review rejects changed preserved previous blob
+  ---
+  duration_ms: 22.851875
+  type: 'test'
+  ...
+# Subtest: local review rejects changed 08 art manifest
+ok 207 - local review rejects changed 08 art manifest
+  ---
+  duration_ms: 26.147541
+  type: 'test'
+  ...
+# Subtest: local review rejects changed existing immutable consumer approval
+ok 208 - local review rejects changed existing immutable consumer approval
+  ---
+  duration_ms: 32.034125
+  type: 'test'
+  ...
+# Subtest: local review rejects changed candidate approval
+ok 209 - local review rejects changed candidate approval
+  ---
+  duration_ms: 36.013958
+  type: 'test'
+  ...
+# Subtest: changing candidate bytes, blob and record together cannot authorize another consumer
+ok 210 - changing candidate bytes, blob and record together cannot authorize another consumer
+  ---
+  duration_ms: 21.282125
+  type: 'test'
+  ...
+# Subtest: local review rejects a symlink substituted for the consumer
+ok 211 - local review rejects a symlink substituted for the consumer
+  ---
+  duration_ms: 29.627084
+  type: 'test'
+  ...
+# Subtest: local review rejects a symlink substituted for the candidate blob
+ok 212 - local review rejects a symlink substituted for the candidate blob
+  ---
+  duration_ms: 34.805458
+  type: 'test'
+  ...
+# Subtest: local review rejects a symlink substituted for the previous blob
+ok 213 - local review rejects a symlink substituted for the previous blob
+  ---
+  duration_ms: 16.1535
+  type: 'test'
+  ...
+# Subtest: local review rejects a symlink substituted for the approval
+ok 214 - local review rejects a symlink substituted for the approval
+  ---
+  duration_ms: 23.91575
+  type: 'test'
+  ...
+# Subtest: local review rejects a symlink in a consumer parent directory
+ok 215 - local review rejects a symlink in a consumer parent directory
+  ---
+  duration_ms: 39.851167
+  type: 'test'
+  ...
+# Subtest: phone adoption retains every drawing port, source pin and style while admitting exact native files only
+ok 216 - phone adoption retains every drawing port, source pin and style while admitting exact native files only
+  ---
+  duration_ms: 2928.7305
+  type: 'test'
+  ...
+# Subtest: a malformed or symlinked phone fence supplement cannot silently fall back
+ok 217 - a malformed or symlinked phone fence supplement cannot silently fall back
+  ---
+  duration_ms: 292.784166
+  type: 'test'
+  ...
+# Subtest: pregame supplements authorize exactly 22 named drawing derivatives while all historical policies still pass
+ok 218 - pregame supplements authorize exactly 22 named drawing derivatives while all historical policies still pass
+  ---
+  duration_ms: 1700.794125
+  type: 'test'
+  ...
+# Subtest: every unlisted pregame file is refused, including nested review media and fixture/stage entries
+ok 219 - every unlisted pregame file is refused, including nested review media and fixture/stage entries
+  ---
+  duration_ms: 2664.599333
+  type: 'test'
+  ...
+# Subtest: missing or altered pregame ports and fixture-tail reinsertion cannot inherit directory approval
+ok 220 - missing or altered pregame ports and fixture-tail reinsertion cannot inherit directory approval
+  ---
+  duration_ms: 764.418667
+  type: 'test'
+  ...
+# Subtest: altered source and frozen crew/rig dependencies fail independently of unchanged derivative metadata
+ok 221 - altered source and frozen crew/rig dependencies fail independently of unchanged derivative metadata
+  ---
+  duration_ms: 1518.045458
+  type: 'test'
+  ...
+# Subtest: catalog or source-approval claims cannot repin an altered runtime port
+ok 222 - catalog or source-approval claims cannot repin an altered runtime port
+  ---
+  duration_ms: 1510.627333
+  type: 'test'
+  ...
+# Subtest: deleting the pregame supplement cannot certify remaining ports under historical approval
+ok 223 - deleting the pregame supplement cannot certify remaining ports under historical approval
+  ---
+  duration_ms: 378.117084
+  type: 'test'
+  ...
+# Subtest: registration manifest and verification code remain exact approved inputs
+ok 224 - registration manifest and verification code remain exact approved inputs
+  ---
+  duration_ms: 688.342541
+  type: 'test'
+  ...
+# Subtest: new drawing directories do not follow symlinks as an unreviewed file escape
+ok 225 - new drawing directories do not follow symlinks as an unreviewed file escape
+  ---
+  duration_ms: 657.219417
+  type: 'test'
+  ...
+# Subtest: design pregame stage/fixture references remain forbidden outside the named runtime derivatives
+ok 226 - design pregame stage/fixture references remain forbidden outside the named runtime derivatives
+  ---
+  duration_ms: 1225.608375
+  type: 'test'
+  ...
+# Subtest: the exact consumer set requires local review or verified production acceptance
+ok 227 - the exact consumer set requires local review or verified production acceptance
+  ---
+  duration_ms: 1155.643291
+  type: 'test'
+  ...
+# Subtest: an adopted production policy requires its final approval even in local-review mode
+ok 228 - an adopted production policy requires its final approval even in local-review mode
+  ---
+  duration_ms: 140.691958
+  type: 'test'
+  ...
+# Subtest: local review rejects changed consumers, missing preserved bytes and self-edited approval
+ok 229 - local review rejects changed consumers, missing preserved bytes and self-edited approval
+  ---
+  duration_ms: 141.170083
+  type: 'test'
+  ...
+# Subtest: local consumer review retains prototype, drawing inventory and frozen source checks
+ok 230 - local consumer review retains prototype, drawing inventory and frozen source checks
+  ---
+  duration_ms: 911.841125
+  type: 'test'
+  ...
+# Subtest: a dangling production policy is invalid and cannot masquerade as historical absence
+ok 231 - a dangling production policy is invalid and cannot masquerade as historical absence
+  ---
+  duration_ms: 127.142291
+  type: 'test'
+  ...
+# Subtest: pregame registration binds 22 exact named derivatives and their full frozen dependency closure
+ok 232 - pregame registration binds 22 exact named derivatives and their full frozen dependency closure
+  ---
+  duration_ms: 161.072375
+  type: 'test'
+  ...
+# Subtest: every frozen dependency retains its earlier separately reviewed source and runtime hashes
+ok 233 - every frozen dependency retains its earlier separately reviewed source and runtime hashes
+  ---
+  duration_ms: 0.854458
+  type: 'test'
+  ...
+# Subtest: the reconstruction permits only the first marker, two import rewrites, roster tail and exact cast patch
+ok 234 - the reconstruction permits only the first marker, two import rewrites, roster tail and exact cast patch
+  ---
+  duration_ms: 11.450083
+  type: 'test'
+  ...
+# Subtest: pregame registration rejects changed original drawing
+ok 235 - pregame registration rejects changed original drawing
+  ---
+  duration_ms: 117.146125
+  type: 'test'
+  ...
+# Subtest: pregame registration rejects changed ported drawing
+ok 236 - pregame registration rejects changed ported drawing
+  ---
+  duration_ms: 97.847625
+  type: 'test'
+  ...
+# Subtest: pregame registration rejects changed frozen dependency source
+ok 237 - pregame registration rejects changed frozen dependency source
+  ---
+  duration_ms: 87.753125
+  type: 'test'
+  ...
+# Subtest: pregame registration rejects changed frozen dependency runtime
+ok 238 - pregame registration rejects changed frozen dependency runtime
+  ---
+  duration_ms: 109.368458
+  type: 'test'
+  ...
+# Subtest: pregame registration rejects changed hook evidence
+ok 239 - pregame registration rejects changed hook evidence
+  ---
+  duration_ms: 90.12375
+  type: 'test'
+  ...
+# Subtest: pregame registration rejects changed source approval
+ok 240 - pregame registration rejects changed source approval
+  ---
+  duration_ms: 93.621041
+  type: 'test'
+  ...
+# Subtest: pregame registration rejects changed runtime catalog
+ok 241 - pregame registration rejects changed runtime catalog
+  ---
+  duration_ms: 62.465416
+  type: 'test'
+  ...
+# Subtest: changing an approval and catalog together cannot authorize another drawing or hook
+ok 242 - changing an approval and catalog together cannot authorize another drawing or hook
+  ---
+  duration_ms: 110.646583
+  type: 'test'
+  ...
+# Subtest: pregame registration rejects unlisted review/fixture.mjs
+ok 243 - pregame registration rejects unlisted review/fixture.mjs
+  ---
+  duration_ms: 77.39975
+  type: 'test'
+  ...
+# Subtest: pregame registration rejects unlisted stage.mjs
+ok 244 - pregame registration rejects unlisted stage.mjs
+  ---
+  duration_ms: 67.1505
+  type: 'test'
+  ...
+# Subtest: pregame registration rejects unlisted films.mjs
+ok 245 - pregame registration rejects unlisted films.mjs
+  ---
+  duration_ms: 79.150459
+  type: 'test'
+  ...
+# Subtest: pregame registration rejects unlisted renders.mjs
+ok 246 - pregame registration rejects unlisted renders.mjs
+  ---
+  duration_ms: 70.913083
+  type: 'test'
+  ...
+# Subtest: pregame registration rejects unlisted extra.mjs
+ok 247 - pregame registration rejects unlisted extra.mjs
+  ---
+  duration_ms: 73.379375
+  type: 'test'
+  ...
+# Subtest: pregame registration rejects missing files and symlink substitutions
+ok 248 - pregame registration rejects missing files and symlink substitutions
+  ---
+  duration_ms: 68.565875
+  type: 'test'
+  ...
+# Subtest: the synthetic roster tail and arbitrary hook edits fail independently of inventory
+ok 249 - the synthetic roster tail and arbitrary hook edits fail independently of inventory
+  ---
+  duration_ms: 88.975416
+  type: 'test'
+  ...
+# Subtest: the public-only roster extraction preserves 7, 8 and 9 member behavior and exports no fixtures
+ok 250 - the public-only roster extraction preserves 7, 8 and 9 member behavior and exports no fixtures
+  ---
+  duration_ms: 1.258333
+  type: 'test'
+  ...
+# Subtest: the exact cast hook preserves 108 default drawings and restores nested and throwing scopes
+ok 251 - the exact cast hook preserves 108 default drawings and restores nested and throwing scopes
+  ---
+  duration_ms: 500.955917
+  type: 'test'
+  ...
+# Subtest: absent production approval returns null through both public reader names
+ok 252 - absent production approval returns null through both public reader names
+  ---
+  duration_ms: 3.189125
+  type: 'test'
+  ...
+# Subtest: a present invalid production approval throws without a fallback
+ok 253 - a present invalid production approval throws without a fallback
+  ---
+  duration_ms: 4.051417
+  type: 'test'
+  ...
+# Subtest: a dangling approval symlink is invalid rather than absent
+ok 254 - a dangling approval symlink is invalid rather than absent
+  ---
+  duration_ms: 2.648417
+  type: 'test'
+  ...
+# Subtest: default local mode remains disabled before any file reads for every non-1 value
+ok 255 - default local mode remains disabled before any file reads for every non-1 value
+  ---
+  duration_ms: 0.345584
+  type: 'test'
+  ...
+# Subtest: default production approval binds the actual complete eleven, evidence and immutable artwork identities
+ok 256 - default production approval binds the actual complete eleven, evidence and immutable artwork identities
+  ---
+  duration_ms: 58.508167
+  type: 'test'
+  ...
+# Subtest: production capabilities reject clones, unknown paths and every unapproved prior or current hash
+ok 257 - production capabilities reject clones, unknown paths and every unapproved prior or current hash
+  ---
+  duration_ms: 51.588667
+  type: 'test'
+  ...
+# Subtest: internal inventory verification grants neither local nor production approval capabilities
+ok 258 - internal inventory verification grants neither local nor production approval capabilities
+  ---
+  duration_ms: 41.716125
+  type: 'test'
+  ...
+# Subtest: production approval rejects drift in native consumer
+ok 259 - production approval rejects drift in native consumer
+  ---
+  duration_ms: 42.630375
+  type: 'test'
+  ...
+# Subtest: production approval rejects drift in reviewed candidate blob
+ok 260 - production approval rejects drift in reviewed candidate blob
+  ---
+  duration_ms: 62.996875
+  type: 'test'
+  ...
+# Subtest: production approval rejects drift in preserved previous blob
+ok 261 - production approval rejects drift in preserved previous blob
+  ---
+  duration_ms: 57.995084
+  type: 'test'
+  ...
+# Subtest: production approval rejects drift in capture report
+ok 262 - production approval rejects drift in capture report
+  ---
+  duration_ms: 61.841875
+  type: 'test'
+  ...
+# Subtest: production approval rejects drift in captured artifact
+ok 263 - production approval rejects drift in captured artifact
+  ---
+  duration_ms: 47.547167
+  type: 'test'
+  ...
+# Subtest: production approval rejects drift in actual acceptance artifact
+ok 264 - production approval rejects drift in actual acceptance artifact
+  ---
+  duration_ms: 40.50425
+  type: 'test'
+  ...
+# Subtest: production approval rejects drift in candidate record
+ok 265 - production approval rejects drift in candidate record
+  ---
+  duration_ms: 29.876
+  type: 'test'
+  ...
+# Subtest: production approval rejects drift in production record
+ok 266 - production approval rejects drift in production record
+  ---
+  duration_ms: 39.860625
+  type: 'test'
+  ...
+# Subtest: production approval rejects drift in 08 art manifest
+ok 267 - production approval rejects drift in 08 art manifest
+  ---
+  duration_ms: 38.340417
+  type: 'test'
+  ...
+# Subtest: production approval rejects drift in old consumer approval
+ok 268 - production approval rejects drift in old consumer approval
+  ---
+  duration_ms: 57.175958
+  type: 'test'
+  ...
+# Subtest: rewriting the record and native/blob hashes together cannot self-authorize another consumer
+ok 269 - rewriting the record and native/blob hashes together cannot self-authorize another consumer
+  ---
+  duration_ms: 60.710458
+  type: 'test'
+  ...
+# Subtest: production approval rejects symlink substitution of native consumer
+ok 270 - production approval rejects symlink substitution of native consumer
+  ---
+  duration_ms: 42.040708
+  type: 'test'
+  ...
+# Subtest: production approval rejects symlink substitution of candidate review blob
+ok 271 - production approval rejects symlink substitution of candidate review blob
+  ---
+  duration_ms: 46.314459
+  type: 'test'
+  ...
+# Subtest: production approval rejects symlink substitution of preserved prior blob
+ok 272 - production approval rejects symlink substitution of preserved prior blob
+  ---
+  duration_ms: 36.751375
+  type: 'test'
+  ...
+# Subtest: production approval rejects symlink substitution of capture report
+ok 273 - production approval rejects symlink substitution of capture report
+  ---
+  duration_ms: 63.830833
+  type: 'test'
+  ...
+# Subtest: production approval rejects symlink substitution of capture output
+ok 274 - production approval rejects symlink substitution of capture output
+  ---
+  duration_ms: 52.801292
+  type: 'test'
+  ...
+# Subtest: production approval rejects symlink substitution of acceptance artifact
+ok 275 - production approval rejects symlink substitution of acceptance artifact
+  ---
+  duration_ms: 46.6845
+  type: 'test'
+  ...
+# Subtest: production approval rejects symlink substitution of candidate record
+ok 276 - production approval rejects symlink substitution of candidate record
+  ---
+  duration_ms: 50.80925
+  type: 'test'
+  ...
+# Subtest: production approval rejects symlink substitution of production record
+ok 277 - production approval rejects symlink substitution of production record
+  ---
+  duration_ms: 39.900667
+  type: 'test'
+  ...
+# Subtest: production approval rejects missing native, blob and capture inputs
+ok 278 - production approval rejects missing native, blob and capture inputs
+  ---
+  duration_ms: 55.108625
+  type: 'test'
+  ...
+# Subtest: production approval rejects symlinked consumer and evidence parent directories
+ok 279 - production approval rejects symlinked consumer and evidence parent directories
+  ---
+  duration_ms: 60.522667
+  type: 'test'
+  ...
+# Subtest: the explicit candidate binds nine common bundles to the exact four-bed successor
+ok 280 - the explicit candidate binds nine common bundles to the exact four-bed successor
+  ---
+  duration_ms: 27.418833
+  type: 'test'
+  ...
+# Subtest: the release metadata selects the exact reviewed four-bed artwork and gameplay pair
+ok 281 - the release metadata selects the exact reviewed four-bed artwork and gameplay pair
+  ---
+  duration_ms: 62.818833
+  type: 'test'
+  ...
+# Subtest: the historical declared-Hack source and runtime artwork remain independently verifiable
+ok 282 - the historical declared-Hack source and runtime artwork remain independently verifiable
+  ---
+  duration_ms: 3.674958
+  type: 'test'
+  ...
+# Subtest: the historical Board V2 manifest retains its exact hash and Clone agreement
+ok 283 - the historical Board V2 manifest retains its exact hash and Clone agreement
+  ---
+  duration_ms: 19.754375
+  type: 'test'
+  ...
+# Subtest: historical verification cannot be substituted for a candidate or an unknown release
+ok 284 - historical verification cannot be substituted for a candidate or an unknown release
+  ---
+  duration_ms: 1.370541
+  type: 'test'
+  ...
+# Subtest: the new common film bundle matches the registered complete output
+ok 285 - the new common film bundle matches the registered complete output
+  ---
+  duration_ms: 41.657917
+  type: 'test'
+  ...
+# Subtest: all adopted drawing-module imports remain within the pinned runtime closure
+ok 286 - all adopted drawing-module imports remain within the pinned runtime closure
+  ---
+  duration_ms: 27.679208
+  type: 'test'
+  ...
+# Subtest: immutable art release rejects reused historical version
+ok 287 - immutable art release rejects reused historical version
+  ---
+  duration_ms: 279.005541
+  type: 'test'
+  ...
+# Subtest: immutable art release rejects crossed gameplay tuple
+ok 288 - immutable art release rejects crossed gameplay tuple
+  ---
+  duration_ms: 248.916625
+  type: 'test'
+  ...
+# Subtest: immutable art release rejects missing public bundle
+ok 289 - immutable art release rejects missing public bundle
+  ---
+  duration_ms: 205.858083
+  type: 'test'
+  ...
+# Subtest: immutable art release rejects missing board supplement
+ok 290 - immutable art release rejects missing board supplement
+  ---
+  duration_ms: 214.164667
+  type: 'test'
+  ...
+# Subtest: immutable art release rejects missing motion supplement
+ok 291 - immutable art release rejects missing motion supplement
+  ---
+  duration_ms: 172.947708
+  type: 'test'
+  ...
+# Subtest: immutable art release rejects missing films supplement
+ok 292 - immutable art release rejects missing films supplement
+  ---
+  duration_ms: 227.628291
+  type: 'test'
+  ...
+# Subtest: immutable art release rejects missing setup supplement
+ok 293 - immutable art release rejects missing setup supplement
+  ---
+  duration_ms: 236.761125
+  type: 'test'
+  ...
+# Subtest: immutable art release rejects role-selected remote art URL
+ok 294 - immutable art release rejects role-selected remote art URL
+  ---
+  duration_ms: 216.879917
+  type: 'test'
+  ...
+# Subtest: immutable art release rejects empty runtime inventory
+ok 295 - immutable art release rejects empty runtime inventory
+  ---
+  duration_ms: 193.005875
+  type: 'test'
+  ...
+# Subtest: immutable art release rejects escaping source path
+ok 296 - immutable art release rejects escaping source path
+  ---
+  duration_ms: 176.165708
+  type: 'test'
+  ...
+# Subtest: immutable art release rejects changed sources
+ok 297 - immutable art release rejects changed sources
+  ---
+  duration_ms: 140.707416
+  type: 'test'
+  ...
+# Subtest: immutable art release rejects changed runtimeFiles
+ok 298 - immutable art release rejects changed runtimeFiles
+  ---
+  duration_ms: 158.173375
+  type: 'test'
+  ...
+# Subtest: bundle output must have both the reviewed URL and exact content
+ok 299 - bundle output must have both the reviewed URL and exact content
+  ---
+  duration_ms: 14.869333
+  type: 'test'
+  ...
+# Subtest: historical snapshot validation works without Git or the old runtime checkout
+ok 300 - historical snapshot validation works without Git or the old runtime checkout
+  ---
+  duration_ms: 60.93375
+  type: 'test'
+  ...
+# Subtest: a changed current UI never falls back silently to preserved historical bytes
+ok 301 - a changed current UI never falls back silently to preserved historical bytes
+  ---
+  duration_ms: 157.134958
+  type: 'test'
+  ...
+# Subtest: historical evidence rejects changed manifest bytes even when their structure remains valid
+ok 302 - historical evidence rejects changed manifest bytes even when their structure remains valid
+  ---
+  duration_ms: 68.240542
+  type: 'test'
+  ...
+# Subtest: historical evidence rejects a changed content-addressed blob
+ok 303 - historical evidence rejects a changed content-addressed blob
+  ---
+  duration_ms: 63.120292
+  type: 'test'
+  ...
+# Subtest: the role-card back is one static common bundle, with no private input
+ok 304 - the role-card back is one static common bundle, with no private input
+  ---
+  duration_ms: 3.770042
+  type: 'test'
+  ...
+# Subtest: setup art rejects changed catalog
+ok 305 - setup art rejects changed catalog
+  ---
+  duration_ms: 8.735166
+  type: 'test'
+  ...
+# Subtest: setup art rejects changed source
+ok 306 - setup art rejects changed source
+  ---
+  duration_ms: 9.384542
+  type: 'test'
+  ...
+# Subtest: setup art rejects changed asset
+ok 307 - setup art rejects changed asset
+  ---
+  duration_ms: 9.509666
+  type: 'test'
+  ...
+# Subtest: setup art rejects changed reference-css
+ok 308 - setup art rejects changed reference-css
+  ---
+  duration_ms: 8.77975
+  type: 'test'
+  ...
+# Workspace boundaries: 8 explicit packages; TS/TSX imports checked; pure and browser programs separated; exact runtime subpaths; fixture and reference imports excluded
+# Subtest: TSX static, export, dynamic and type imports reject fixture and unreviewed subpaths
+ok 309 - TSX static, export, dynamic and type imports reject fixture and unreviewed subpaths
+  ---
+  duration_ms: 16.51475
+  type: 'test'
+  ...
+# Subtest: runtime accepts only the reviewed React and Firebase modular specifiers
+ok 310 - runtime accepts only the reviewed React and Firebase modular specifiers
+  ---
+  duration_ms: 1.635125
+  type: 'test'
+  ...
+# Subtest: development-only dependencies do not grant a runtime import or runtime manifest permission
+ok 311 - development-only dependencies do not grant a runtime import or runtime manifest permission
+  ---
+  duration_ms: 0.448459
+  type: 'test'
+  ...
+# Subtest: pure presentation, engine and service cannot import browser dependencies even as types
+ok 312 - pure presentation, engine and service cannot import browser dependencies even as types
+  ---
+  duration_ms: 2.083208
+  type: 'test'
+  ...
+# Subtest: relative traversal and nonliteral imports cannot bypass exact runtime permissions
+ok 313 - relative traversal and nonliteral imports cannot bypass exact runtime permissions
+  ---
+  duration_ms: 0.678375
+  type: 'test'
+  ...
+# Subtest: browser gets document while pure programs and package builds reject document
+ok 314 - browser gets document while pure programs and package builds reject document
+  ---
+  duration_ms: 2575.666125
+  type: 'test'
+  ...
+# Subtest: workspace discovery checks TSX even when a build include accidentally omits it
+ok 315 - workspace discovery checks TSX even when a build include accidentally omits it
+  ---
+  duration_ms: 40.566291
+  type: 'test'
+  ...
+# Subtest: source reference directives cannot inject ambient browser types or bypass source boundaries
+ok 316 - source reference directives cannot inject ambient browser types or bypass source boundaries
+  ---
+  duration_ms: 1.076625
+  type: 'test'
+  ...
+# Subtest: the portable snapshot digest permits only the exact reviewed SHA-2 entry
+ok 317 - the portable snapshot digest permits only the exact reviewed SHA-2 entry
+  ---
+  duration_ms: 0.744041
+  type: 'test'
+  ...
+1..317
+# tests 317
+# suites 0
+# pass 317
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 17996.813042
