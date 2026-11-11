@@ -1,0 +1,5795 @@
+{
+  "scope": "T1 native room and cold-Blackout regression with explicit synthetic authority; desktop Chromium only. No production admission, physical-device or multiplayer claim.",
+  "candidate": "d27d6240e9021b569d9c31ad085d327d6da24d1a",
+  "reduced": false,
+  "browser": {
+    "protocolVersion": "1.3",
+    "product": "Chrome/157.0.8103.40",
+    "revision": "@6f75a8afa26ce5537c82b4887f152dfdc7183e05",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/157.0.0.0 Safari/537.36",
+    "jsVersion": "15.7.112.23"
+  },
+  "rooms": [
+    {
+      "width": 390,
+      "height": 844,
+      "text": 1,
+      "count": 7,
+      "room": "room-a",
+      "size": 1,
+      "artFigures": 1,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "A1",
+          "room": "room-a",
+          "clinical": false,
+          "paintedPixels": 26547,
+          "rawSvgBounds": {
+            "x": 19.80000114440918,
+            "y": 48.53975296020508,
+            "width": 86.29999542236328,
+            "height": 191.4602508544922
+          },
+          "bounds": {
+            "left": 161.458984375,
+            "right": 245.04293823242188,
+            "top": 379.6199951171875,
+            "bottom": 567.8300170898438,
+            "width": 83.58395385742188,
+            "height": 188.21002197265625
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": true,
+      "capture": null
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "text": 1,
+      "count": 7,
+      "room": "room-a",
+      "size": 5,
+      "artFigures": 5,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "A1",
+          "room": "room-a",
+          "clinical": false,
+          "paintedPixels": 26544,
+          "rawSvgBounds": {
+            "x": 19.80000114440918,
+            "y": 48.53975296020508,
+            "width": 86.29999542236328,
+            "height": 191.4602508544922
+          },
+          "bounds": {
+            "left": 159.787109375,
+            "right": 243.37106323242188,
+            "top": 379.6199951171875,
+            "bottom": 567.8300170898438,
+            "width": 83.58395385742188,
+            "height": 188.21002197265625
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-1",
+          "slot": "A2",
+          "room": "room-a",
+          "clinical": false,
+          "paintedPixels": 37399,
+          "rawSvgBounds": {
+            "x": 18.099998474121094,
+            "y": -5.547369003295898,
+            "width": 90.76045989990234,
+            "height": 247.14736938476562
+          },
+          "bounds": {
+            "left": 30.4112548828125,
+            "right": 120.27914428710938,
+            "top": 334.6734313964844,
+            "bottom": 581.3695983886719,
+            "width": 89.86788940429688,
+            "height": 246.6961669921875
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A3",
+          "room": "room-a",
+          "clinical": false,
+          "paintedPixels": 33806,
+          "rawSvgBounds": {
+            "x": -32.363521575927734,
+            "y": 57.56590270996094,
+            "width": 175.70071411132812,
+            "height": 190.38304138183594
+          },
+          "bounds": {
+            "left": 271.5147705078125,
+            "right": 446.8782958984375,
+            "top": 456.611083984375,
+            "bottom": 646.6904296875,
+            "width": 175.363525390625,
+            "height": 190.079345703125
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 0.6756549244106481,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-4",
+          "slot": "A4",
+          "room": "room-a",
+          "clinical": false,
+          "paintedPixels": 34201,
+          "rawSvgBounds": {
+            "x": 6.900001525878906,
+            "y": 4.156863689422607,
+            "width": 102.2879409790039,
+            "height": 237.44314575195312
+          },
+          "bounds": {
+            "left": 290.5921325683594,
+            "right": 383.68505859375,
+            "top": 231.36474609375,
+            "bottom": 449.6703796386719,
+            "width": 93.09292602539062,
+            "height": 218.30563354492188
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-5",
+          "slot": "A5",
+          "room": "room-a",
+          "clinical": false,
+          "paintedPixels": 37204,
+          "rawSvgBounds": {
+            "x": 7.59999942779541,
+            "y": 5.438755035400391,
+            "width": 98.30000305175781,
+            "height": 236.1612548828125
+          },
+          "bounds": {
+            "left": 2.9243469238281286,
+            "right": 91.26553344726562,
+            "top": 220.96746826171875,
+            "bottom": 435.8951110839844,
+            "width": 88.3411865234375,
+            "height": 214.92764282226562
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": false,
+      "capture": "390-844-100-7-room-a-5.jpg"
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "text": 1,
+      "count": 7,
+      "room": "room-b",
+      "size": 1,
+      "artFigures": 1,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "B1",
+          "room": "room-b",
+          "clinical": false,
+          "paintedPixels": 36772,
+          "rawSvgBounds": {
+            "x": 16.099998474121094,
+            "y": 4.782711982727051,
+            "width": 87.80000305175781,
+            "height": 236.81729125976562
+          },
+          "bounds": {
+            "left": 142.85675048828125,
+            "right": 235.69122314453125,
+            "top": 454.121826171875,
+            "bottom": 699.204833984375,
+            "width": 92.83447265625,
+            "height": 245.0830078125
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": true,
+      "capture": null
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "text": 1,
+      "count": 7,
+      "room": "room-b",
+      "size": 5,
+      "artFigures": 5,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "B1",
+          "room": "room-b",
+          "clinical": false,
+          "paintedPixels": 36775,
+          "rawSvgBounds": {
+            "x": 16.099998474121094,
+            "y": 4.806583881378174,
+            "width": 87.80000305175781,
+            "height": 236.79342651367188
+          },
+          "bounds": {
+            "left": 162.32550048828125,
+            "right": 255.15997314453125,
+            "top": 453.5029296875,
+            "bottom": 699.204833984375,
+            "width": 92.83447265625,
+            "height": 245.701904296875
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-1",
+          "slot": "B2",
+          "room": "room-b",
+          "clinical": false,
+          "paintedPixels": 28457,
+          "rawSvgBounds": {
+            "x": 4.899999618530273,
+            "y": 48.8304328918457,
+            "width": 104.32364654541016,
+            "height": 191.96958923339844
+          },
+          "bounds": {
+            "left": 11.532104492187486,
+            "right": 114.2776184082031,
+            "top": 502.77716064453125,
+            "bottom": 700.7041015625,
+            "width": 102.74551391601561,
+            "height": 197.92694091796875
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-3",
+          "slot": "B3",
+          "room": "room-b",
+          "clinical": false,
+          "paintedPixels": 34627,
+          "rawSvgBounds": {
+            "x": 18.400001525878906,
+            "y": -9.698895454406738,
+            "width": 92.69999694824219,
+            "height": 251.2989044189453
+          },
+          "bounds": {
+            "left": 301.402099609375,
+            "right": 399.806640625,
+            "top": 430.314453125,
+            "bottom": 693.345458984375,
+            "width": 98.404541015625,
+            "height": 263.031005859375
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 0.9003436170344733,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-4",
+          "slot": "B4",
+          "room": "room-b",
+          "clinical": false,
+          "paintedPixels": 32318,
+          "rawSvgBounds": {
+            "x": 20.799999237060547,
+            "y": 23.242189407348633,
+            "width": 83.84146118164062,
+            "height": 211.5578155517578
+          },
+          "bounds": {
+            "left": 185.25234985351562,
+            "right": 259.8355712890625,
+            "top": 324.8580322265625,
+            "bottom": 521.3875427246094,
+            "width": 74.58322143554688,
+            "height": 196.52951049804688
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B5",
+          "room": "room-b",
+          "clinical": false,
+          "paintedPixels": 34968,
+          "rawSvgBounds": {
+            "x": 2.8999998569488525,
+            "y": 7.45966100692749,
+            "width": 105.5999984741211,
+            "height": 226.34036254882812
+          },
+          "bounds": {
+            "left": -4.267395019531247,
+            "right": 91.07644653320312,
+            "top": 316.121337890625,
+            "bottom": 520.8143310546875,
+            "width": 95.34384155273438,
+            "height": 204.6929931640625
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 0.9552420486731598,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": false,
+      "capture": "390-844-100-7-room-b-5.jpg"
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "text": 1,
+      "count": 7,
+      "room": "command-room",
+      "size": 1,
+      "artFigures": 1,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "C1",
+          "room": "command-room",
+          "clinical": false,
+          "paintedPixels": 30495,
+          "rawSvgBounds": {
+            "x": 24.899999618530273,
+            "y": 25.034528732299805,
+            "width": 80.35243225097656,
+            "height": 215.76548767089844
+          },
+          "bounds": {
+            "left": 153.43661499023438,
+            "right": 245.58206176757812,
+            "top": 360.43896484375,
+            "bottom": 613.4951171875,
+            "width": 92.14544677734375,
+            "height": 253.05615234375
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": true,
+      "capture": null
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "text": 1,
+      "count": 7,
+      "room": "hospital",
+      "size": 1,
+      "artFigures": 1,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "H1",
+          "room": "hospital",
+          "clinical": true,
+          "paintedPixels": 16133,
+          "rawSvgBounds": {
+            "x": -200,
+            "y": -200,
+            "width": 600,
+            "height": 600
+          },
+          "bounds": {
+            "left": 19.800537109374993,
+            "right": 108.49609374999999,
+            "top": 611.87158203125,
+            "bottom": 759.96875,
+            "width": 88.695556640625,
+            "height": 148.09716796875
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": true,
+      "capture": null
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "text": 1,
+      "count": 7,
+      "room": "hospital",
+      "size": 4,
+      "artFigures": 4,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "H1",
+          "room": "hospital",
+          "clinical": true,
+          "paintedPixels": 16169,
+          "rawSvgBounds": {
+            "x": -200,
+            "y": -200,
+            "width": 600,
+            "height": 600
+          },
+          "bounds": {
+            "left": -3.418212890625007,
+            "right": 85.27734374999999,
+            "top": 611.82470703125,
+            "bottom": 759.921875,
+            "width": 88.695556640625,
+            "height": 148.09716796875
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 0.9614612837430531,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-1",
+          "slot": "H2",
+          "room": "hospital",
+          "clinical": true,
+          "paintedPixels": 23901,
+          "rawSvgBounds": {
+            "x": 31.30000114440918,
+            "y": 98.59685516357422,
+            "width": 80.35372924804688,
+            "height": 166.30313110351562
+          },
+          "bounds": {
+            "left": 292.71319580078125,
+            "right": 400.93804931640625,
+            "top": 558.914306640625,
+            "bottom": 782.6875,
+            "width": 108.224853515625,
+            "height": 223.773193359375
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 0.8720674449398105,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-3",
+          "slot": "H3",
+          "room": "hospital",
+          "clinical": true,
+          "paintedPixels": 21829,
+          "rawSvgBounds": {
+            "x": 32.29999923706055,
+            "y": 96.94745635986328,
+            "width": 74.67842102050781,
+            "height": 167.55255126953125
+          },
+          "bounds": {
+            "left": -3.717498779296882,
+            "right": 80.17611694335938,
+            "top": 379.8016357421875,
+            "bottom": 569.59375,
+            "width": 83.89361572265625,
+            "height": 189.7921142578125
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 0.9556879418383093,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-4",
+          "slot": "H4",
+          "room": "hospital",
+          "clinical": true,
+          "paintedPixels": 17795,
+          "rawSvgBounds": {
+            "x": -200,
+            "y": -200,
+            "width": 600,
+            "height": 600
+          },
+          "bounds": {
+            "left": 310.3346862792969,
+            "right": 396.9789123535156,
+            "top": 427.94158935546875,
+            "bottom": 550.34375,
+            "width": 86.64422607421875,
+            "height": 122.40216064453125
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 0.9194532322611141,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": false,
+      "capture": "390-844-100-7-hospital-4.jpg"
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "text": 1,
+      "count": 7,
+      "room": "jail",
+      "size": 1,
+      "artFigures": 1,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "J1",
+          "room": "jail",
+          "clinical": false,
+          "paintedPixels": 24663,
+          "rawSvgBounds": {
+            "x": 18.899999618530273,
+            "y": 78.9194564819336,
+            "width": 88.00000762939453,
+            "height": 165.88055419921875
+          },
+          "bounds": {
+            "left": 9.906005859375007,
+            "right": 93.02050781250001,
+            "top": 289.89227294921875,
+            "bottom": 448.8206787109375,
+            "width": 83.114501953125,
+            "height": 158.92840576171875
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": true,
+      "capture": null
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "text": 1,
+      "count": 7,
+      "room": "jail",
+      "size": 5,
+      "artFigures": 5,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "J1",
+          "room": "jail",
+          "clinical": false,
+          "paintedPixels": 24686,
+          "rawSvgBounds": {
+            "x": 18.899999618530273,
+            "y": 78.45433044433594,
+            "width": 88.00000762939453,
+            "height": 166.34567260742188
+          },
+          "bounds": {
+            "left": -2.4418945312500018,
+            "right": 52.35351562499999,
+            "top": 333.5335693359375,
+            "bottom": 438.311279296875,
+            "width": 54.79541015624999,
+            "height": 104.7777099609375
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 0.9554361483144865,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-1",
+          "slot": "J2",
+          "room": "jail",
+          "clinical": false,
+          "paintedPixels": 36866,
+          "rawSvgBounds": {
+            "x": 14.09999942779541,
+            "y": -4.307885646820068,
+            "width": 95.3499984741211,
+            "height": 245.9078826904297
+          },
+          "bounds": {
+            "left": 167.427978515625,
+            "right": 224.004638671875,
+            "top": 281.967529296875,
+            "bottom": 432.4759521484375,
+            "width": 56.57666015625,
+            "height": 150.5084228515625
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-3",
+          "slot": "J3",
+          "room": "jail",
+          "clinical": false,
+          "paintedPixels": 34553,
+          "rawSvgBounds": {
+            "x": 12.299999237060547,
+            "y": -5.47728157043457,
+            "width": 97.612548828125,
+            "height": 247.07728576660156
+          },
+          "bounds": {
+            "left": 334.109130859375,
+            "right": 395.56884765625,
+            "top": 280.58935546875,
+            "bottom": 436.4600830078125,
+            "width": 61.459716796875,
+            "height": 155.8707275390625
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 0.9093902812039454,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J4",
+          "room": "jail",
+          "clinical": false,
+          "paintedPixels": 24830,
+          "rawSvgBounds": {
+            "x": 12.799999237060547,
+            "y": 101.16241455078125,
+            "width": 98.39999389648438,
+            "height": 140.4375762939453
+          },
+          "bounds": {
+            "left": 75.23547363281251,
+            "right": 145.46990966796875,
+            "top": 528.6817626953125,
+            "bottom": 628.0073852539062,
+            "width": 70.23443603515624,
+            "height": 99.32562255859375
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-5",
+          "slot": "J5",
+          "room": "jail",
+          "clinical": false,
+          "paintedPixels": 25086,
+          "rawSvgBounds": {
+            "x": -37.425331115722656,
+            "y": 165.72999572753906,
+            "width": 227.916259765625,
+            "height": 78.37063598632812
+          },
+          "bounds": {
+            "left": 216.202880859375,
+            "right": 376.20440673828125,
+            "top": 578.636962890625,
+            "bottom": 629.3387451171875,
+            "width": 160.00152587890625,
+            "height": 50.7017822265625
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": false,
+      "capture": "390-844-100-7-jail-5.jpg"
+    },
+    {
+      "width": 320,
+      "height": 568,
+      "text": 2,
+      "count": 7,
+      "room": "room-a",
+      "size": 1,
+      "artFigures": 1,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "A1",
+          "room": "room-a",
+          "clinical": false,
+          "paintedPixels": 26547,
+          "rawSvgBounds": {
+            "x": 19.80000114440918,
+            "y": 48.543636322021484,
+            "width": 86.29999542236328,
+            "height": 191.45635986328125
+          },
+          "bounds": {
+            "left": 144.376953125,
+            "right": 183.28213500976562,
+            "top": 279.2388916015625,
+            "bottom": 366.84356689453125,
+            "width": 38.905181884765625,
+            "height": 87.60467529296875
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": true,
+      "capture": null
+    },
+    {
+      "width": 320,
+      "height": 568,
+      "text": 2,
+      "count": 7,
+      "room": "room-a",
+      "size": 5,
+      "artFigures": 5,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "A1",
+          "room": "room-a",
+          "clinical": false,
+          "paintedPixels": 26541,
+          "rawSvgBounds": {
+            "x": 19.80000114440918,
+            "y": 48.531986236572266,
+            "width": 86.29999542236328,
+            "height": 191.468017578125
+          },
+          "bounds": {
+            "left": 144.376953125,
+            "right": 183.28213500976562,
+            "top": 279.5109558105469,
+            "bottom": 366.84356689453125,
+            "width": 38.905181884765625,
+            "height": 87.33261108398438
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-1",
+          "slot": "A2",
+          "room": "room-a",
+          "clinical": false,
+          "paintedPixels": 37391,
+          "rawSvgBounds": {
+            "x": 18.099998474121094,
+            "y": -5.533163070678711,
+            "width": 90.61621856689453,
+            "height": 247.13316345214844
+          },
+          "bounds": {
+            "left": 84.15110778808592,
+            "right": 125.9823760986328,
+            "top": 258.3184509277344,
+            "bottom": 373.1493835449219,
+            "width": 41.831268310546875,
+            "height": 114.8309326171875
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A3",
+          "room": "room-a",
+          "clinical": false,
+          "paintedPixels": 33796,
+          "rawSvgBounds": {
+            "x": -32.363521575927734,
+            "y": 57.416500091552734,
+            "width": 175.70071411132812,
+            "height": 190.53244018554688
+          },
+          "bounds": {
+            "left": 196.380615234375,
+            "right": 278.005126953125,
+            "top": 315.06689453125,
+            "bottom": 403.541015625,
+            "width": 81.62451171875,
+            "height": 88.47412109375
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-4",
+          "slot": "A4",
+          "room": "room-a",
+          "clinical": false,
+          "paintedPixels": 34212,
+          "rawSvgBounds": {
+            "x": 6.900001525878906,
+            "y": 3.9725756645202637,
+            "width": 102.29993438720703,
+            "height": 237.62742614746094
+          },
+          "bounds": {
+            "left": 205.26205444335938,
+            "right": 248.59130859375,
+            "top": 210.22412109374997,
+            "bottom": 311.8324890136719,
+            "width": 43.329254150390625,
+            "height": 101.6083679199219
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-5",
+          "slot": "A5",
+          "room": "room-a",
+          "clinical": false,
+          "paintedPixels": 37203,
+          "rawSvgBounds": {
+            "x": 7.59999942779541,
+            "y": 5.540113925933838,
+            "width": 98.30000305175781,
+            "height": 236.0598907470703
+          },
+          "bounds": {
+            "left": 71.359619140625,
+            "right": 112.479736328125,
+            "top": 205.37255859375,
+            "bottom": 305.414794921875,
+            "width": 41.1201171875,
+            "height": 100.042236328125
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": true,
+      "capture": null
+    },
+    {
+      "width": 320,
+      "height": 568,
+      "text": 2,
+      "count": 7,
+      "room": "room-b",
+      "size": 1,
+      "artFigures": 1,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "B1",
+          "room": "room-b",
+          "clinical": false,
+          "paintedPixels": 36766,
+          "rawSvgBounds": {
+            "x": 16.099998474121094,
+            "y": 4.780030250549316,
+            "width": 87.80000305175781,
+            "height": 236.81997680664062
+          },
+          "bounds": {
+            "left": 135.7205810546875,
+            "right": 178.9334716796875,
+            "top": 313.9091796875,
+            "bottom": 427.9912109375,
+            "width": 43.212890625,
+            "height": 114.08203125
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": true,
+      "capture": null
+    },
+    {
+      "width": 320,
+      "height": 568,
+      "text": 2,
+      "count": 7,
+      "room": "room-b",
+      "size": 5,
+      "artFigures": 5,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "B1",
+          "room": "room-b",
+          "clinical": false,
+          "paintedPixels": 36769,
+          "rawSvgBounds": {
+            "x": 16.099998474121094,
+            "y": 4.792710304260254,
+            "width": 87.80000305175781,
+            "height": 236.8072967529297
+          },
+          "bounds": {
+            "left": 135.7205810546875,
+            "right": 178.9334716796875,
+            "top": 313.9091796875,
+            "bottom": 427.9912109375,
+            "width": 43.212890625,
+            "height": 114.08203125
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-1",
+          "slot": "B2",
+          "room": "room-b",
+          "clinical": false,
+          "paintedPixels": 28478,
+          "rawSvgBounds": {
+            "x": 4.899999618530273,
+            "y": 48.829833984375,
+            "width": 103.87076568603516,
+            "height": 191.97018432617188
+          },
+          "bounds": {
+            "left": 65.523193359375,
+            "right": 113.34674072265625,
+            "top": 336.2697143554688,
+            "bottom": 428.689453125,
+            "width": 47.82354736328125,
+            "height": 92.4197387695312
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-3",
+          "slot": "B3",
+          "room": "room-b",
+          "clinical": false,
+          "paintedPixels": 34642,
+          "rawSvgBounds": {
+            "x": 18.400001525878906,
+            "y": -9.918376922607422,
+            "width": 92.69999694824219,
+            "height": 251.5183868408203
+          },
+          "bounds": {
+            "left": 200.4677734375,
+            "right": 246.2734375,
+            "top": 302.8359375,
+            "bottom": 425.2724609375,
+            "width": 45.8056640625,
+            "height": 122.4365234375
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-4",
+          "slot": "B4",
+          "room": "room-b",
+          "clinical": false,
+          "paintedPixels": 32333,
+          "rawSvgBounds": {
+            "x": 20.799999237060547,
+            "y": 23.290781021118164,
+            "width": 83.48779296875,
+            "height": 211.50921630859375
+          },
+          "bounds": {
+            "left": 146.39492797851562,
+            "right": 180.85562133789062,
+            "top": 253.74084472656247,
+            "bottom": 345.2137145996094,
+            "width": 34.460693359375,
+            "height": 91.4728698730469
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B5",
+          "room": "room-b",
+          "clinical": false,
+          "paintedPixels": 34970,
+          "rawSvgBounds": {
+            "x": 2.8999998569488525,
+            "y": 7.893182277679443,
+            "width": 105.5999984741211,
+            "height": 225.90682983398438
+          },
+          "bounds": {
+            "left": 58.16552734375,
+            "right": 102.545166015625,
+            "top": 249.673828125,
+            "bottom": 344.9521484375,
+            "width": 44.379638671875,
+            "height": 95.2783203125
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": true,
+      "capture": null
+    },
+    {
+      "width": 320,
+      "height": 568,
+      "text": 2,
+      "count": 7,
+      "room": "command-room",
+      "size": 1,
+      "artFigures": 1,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "C1",
+          "room": "command-room",
+          "clinical": false,
+          "paintedPixels": 30485,
+          "rawSvgBounds": {
+            "x": 24.899999618530273,
+            "y": 24.929670333862305,
+            "width": 81.04022979736328,
+            "height": 215.87034606933594
+          },
+          "bounds": {
+            "left": 140.646728515625,
+            "right": 183.85595703125,
+            "top": 270.30078125,
+            "bottom": 388.0859375,
+            "width": 43.209228515625,
+            "height": 117.78515625
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": true,
+      "capture": null
+    },
+    {
+      "width": 320,
+      "height": 568,
+      "text": 2,
+      "count": 7,
+      "room": "hospital",
+      "size": 1,
+      "artFigures": 1,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "H1",
+          "room": "hospital",
+          "clinical": true,
+          "paintedPixels": 16069,
+          "rawSvgBounds": {
+            "x": -200,
+            "y": -200,
+            "width": 600,
+            "height": 600
+          },
+          "bounds": {
+            "left": 67.63821411132812,
+            "right": 108.92236328125,
+            "top": 387.66058349609375,
+            "bottom": 456.59375,
+            "width": 41.284149169921875,
+            "height": 68.93316650390625
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": true,
+      "capture": null
+    },
+    {
+      "width": 320,
+      "height": 568,
+      "text": 2,
+      "count": 7,
+      "room": "hospital",
+      "size": 4,
+      "artFigures": 4,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "H1",
+          "room": "hospital",
+          "clinical": true,
+          "paintedPixels": 16098,
+          "rawSvgBounds": {
+            "x": -200,
+            "y": -200,
+            "width": 600,
+            "height": 600
+          },
+          "bounds": {
+            "left": 67.63821411132812,
+            "right": 108.92236328125,
+            "top": 387.66058349609375,
+            "bottom": 456.59375,
+            "width": 41.284149169921875,
+            "height": 68.93316650390625
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-1",
+          "slot": "H2",
+          "room": "hospital",
+          "clinical": true,
+          "paintedPixels": 23917,
+          "rawSvgBounds": {
+            "x": 31.30000114440918,
+            "y": 98.52189636230469,
+            "width": 79.58135986328125,
+            "height": 166.3780975341797
+          },
+          "bounds": {
+            "left": 205.86062622070312,
+            "right": 255.85610961914062,
+            "top": 362.6671142578125,
+            "bottom": 467.203125,
+            "width": 49.9954833984375,
+            "height": 104.5360107421875
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 0.9771310863784931,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-3",
+          "slot": "H3",
+          "room": "hospital",
+          "clinical": true,
+          "paintedPixels": 21824,
+          "rawSvgBounds": {
+            "x": 32.29999923706055,
+            "y": 97.03527069091797,
+            "width": 74.23870849609375,
+            "height": 167.4647216796875
+          },
+          "bounds": {
+            "left": 67.502685546875,
+            "right": 106.551025390625,
+            "top": 279.6611328125,
+            "bottom": 368,
+            "width": 39.04833984375,
+            "height": 88.3388671875
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-4",
+          "slot": "H4",
+          "room": "hospital",
+          "clinical": true,
+          "paintedPixels": 17814,
+          "rawSvgBounds": {
+            "x": -200,
+            "y": -200,
+            "width": 600,
+            "height": 600
+          },
+          "bounds": {
+            "left": 213.67449951171872,
+            "right": 254.00311279296872,
+            "top": 302.07470703125,
+            "bottom": 359.046875,
+            "width": 40.32861328125,
+            "height": 56.97216796875
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": false,
+      "capture": "320-568-200-7-hospital-4.jpg"
+    },
+    {
+      "width": 320,
+      "height": 568,
+      "text": 2,
+      "count": 7,
+      "room": "jail",
+      "size": 1,
+      "artFigures": 1,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "J1",
+          "room": "jail",
+          "clinical": false,
+          "paintedPixels": 24640,
+          "rawSvgBounds": {
+            "x": 18.899999618530273,
+            "y": 79.14893341064453,
+            "width": 88.00000762939453,
+            "height": 165.65109252929688
+          },
+          "bounds": {
+            "left": 31.3275146484375,
+            "right": 70.01220703125,
+            "top": 237.46701049804688,
+            "bottom": 311.43841552734375,
+            "width": 38.6846923828125,
+            "height": 73.97140502929688
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": true,
+      "capture": null
+    },
+    {
+      "width": 320,
+      "height": 568,
+      "text": 2,
+      "count": 7,
+      "room": "jail",
+      "size": 5,
+      "artFigures": 5,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "J1",
+          "room": "jail",
+          "clinical": false,
+          "paintedPixels": 24655,
+          "rawSvgBounds": {
+            "x": 18.899999618530273,
+            "y": 79.22730255126953,
+            "width": 88.00000762939453,
+            "height": 165.57272338867188
+          },
+          "bounds": {
+            "left": 20.6087646484375,
+            "right": 59.29345703125,
+            "top": 237.46701049804688,
+            "bottom": 311.43841552734375,
+            "width": 38.6846923828125,
+            "height": 73.97140502929688
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-1",
+          "slot": "J2",
+          "room": "jail",
+          "clinical": false,
+          "paintedPixels": 36875,
+          "rawSvgBounds": {
+            "x": 14.09999942779541,
+            "y": -4.0092854499816895,
+            "width": 95.3499984741211,
+            "height": 245.60928344726562
+          },
+          "bounds": {
+            "left": 140.52716064453125,
+            "right": 180.47454833984375,
+            "top": 200.80099487304688,
+            "bottom": 307.3273620605469,
+            "width": 39.9473876953125,
+            "height": 106.5263671875
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-3",
+          "slot": "J3",
+          "room": "jail",
+          "clinical": false,
+          "paintedPixels": 34559,
+          "rawSvgBounds": {
+            "x": 12.299999237060547,
+            "y": -5.5798773765563965,
+            "width": 97.71037292480469,
+            "height": 247.1798858642578
+          },
+          "bounds": {
+            "left": 258.21502685546875,
+            "right": 301.6046142578125,
+            "top": 199.82785034179688,
+            "bottom": 310.1315002441406,
+            "width": 43.38958740234375,
+            "height": 110.30364990234375
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J4",
+          "room": "jail",
+          "clinical": false,
+          "paintedPixels": 24834,
+          "rawSvgBounds": {
+            "x": 12.799999237060547,
+            "y": 101.14368438720703,
+            "width": 98.39999389648438,
+            "height": 140.45631408691406
+          },
+          "bounds": {
+            "left": 75.43507385253905,
+            "right": 125.0189971923828,
+            "top": 375.2362060546875,
+            "bottom": 445.35784912109375,
+            "width": 49.58392333984375,
+            "height": 70.12164306640625
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-5",
+          "slot": "J5",
+          "room": "jail",
+          "clinical": false,
+          "paintedPixels": 25079,
+          "rawSvgBounds": {
+            "x": -37.09016036987305,
+            "y": 165.72999572753906,
+            "width": 227.5811004638672,
+            "height": 78.21609497070312
+          },
+          "bounds": {
+            "left": 174.961181640625,
+            "right": 287.91864013671875,
+            "top": 410.511474609375,
+            "bottom": 446.3057861328125,
+            "width": 112.95745849609375,
+            "height": 35.7943115234375
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": true,
+      "capture": null
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "text": 1,
+      "count": 8,
+      "room": "room-a",
+      "size": 1,
+      "artFigures": 1,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "A1",
+          "room": "room-a",
+          "clinical": false,
+          "paintedPixels": 26548,
+          "rawSvgBounds": {
+            "x": 19.80000114440918,
+            "y": 48.53752136230469,
+            "width": 86.29999542236328,
+            "height": 191.4624786376953
+          },
+          "bounds": {
+            "left": 161.458984375,
+            "right": 245.04293823242188,
+            "top": 379.6199951171875,
+            "bottom": 567.8300170898438,
+            "width": 83.58395385742188,
+            "height": 188.21002197265625
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": true,
+      "capture": null
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "text": 1,
+      "count": 8,
+      "room": "room-a",
+      "size": 5,
+      "artFigures": 5,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "A1",
+          "room": "room-a",
+          "clinical": false,
+          "paintedPixels": 26542,
+          "rawSvgBounds": {
+            "x": 19.80000114440918,
+            "y": 48.531986236572266,
+            "width": 86.29999542236328,
+            "height": 191.468017578125
+          },
+          "bounds": {
+            "left": 159.787109375,
+            "right": 243.37106323242188,
+            "top": 380.2044982910156,
+            "bottom": 567.8300170898438,
+            "width": 83.58395385742188,
+            "height": 187.62551879882812
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-1",
+          "slot": "A2",
+          "room": "room-a",
+          "clinical": false,
+          "paintedPixels": 37395,
+          "rawSvgBounds": {
+            "x": 18.099998474121094,
+            "y": -5.526281356811523,
+            "width": 90.63297271728516,
+            "height": 247.12628173828125
+          },
+          "bounds": {
+            "left": 30.4112548828125,
+            "right": 120.27914428710938,
+            "top": 334.6734313964844,
+            "bottom": 581.3695983886719,
+            "width": 89.86788940429688,
+            "height": 246.6961669921875
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A3",
+          "room": "room-a",
+          "clinical": false,
+          "paintedPixels": 33798,
+          "rawSvgBounds": {
+            "x": -32.363521575927734,
+            "y": 57.43640899658203,
+            "width": 175.70071411132812,
+            "height": 190.51254272460938
+          },
+          "bounds": {
+            "left": 271.5147705078125,
+            "right": 446.8782958984375,
+            "top": 456.611083984375,
+            "bottom": 646.6904296875,
+            "width": 175.363525390625,
+            "height": 190.079345703125
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 0.6756549244106481,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-4",
+          "slot": "A4",
+          "room": "room-a",
+          "clinical": false,
+          "paintedPixels": 34210,
+          "rawSvgBounds": {
+            "x": 6.900001525878906,
+            "y": 3.992668628692627,
+            "width": 102.29058074951172,
+            "height": 237.60733032226562
+          },
+          "bounds": {
+            "left": 290.5921325683594,
+            "right": 383.68505859375,
+            "top": 231.36474609375,
+            "bottom": 449.6703796386719,
+            "width": 93.09292602539062,
+            "height": 218.30563354492188
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-5",
+          "slot": "A5",
+          "room": "room-a",
+          "clinical": false,
+          "paintedPixels": 37203,
+          "rawSvgBounds": {
+            "x": 7.59999942779541,
+            "y": 5.529930591583252,
+            "width": 98.30000305175781,
+            "height": 236.070068359375
+          },
+          "bounds": {
+            "left": 2.9243469238281286,
+            "right": 91.26553344726562,
+            "top": 220.96746826171875,
+            "bottom": 435.8951110839844,
+            "width": 88.3411865234375,
+            "height": 214.92764282226562
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": false,
+      "capture": "390-844-100-8-room-a-5.jpg"
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "text": 1,
+      "count": 8,
+      "room": "room-b",
+      "size": 1,
+      "artFigures": 1,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "B1",
+          "room": "room-b",
+          "clinical": false,
+          "paintedPixels": 36768,
+          "rawSvgBounds": {
+            "x": 16.099998474121094,
+            "y": 4.785252571105957,
+            "width": 87.80000305175781,
+            "height": 236.81475830078125
+          },
+          "bounds": {
+            "left": 142.85675048828125,
+            "right": 235.69122314453125,
+            "top": 454.121826171875,
+            "bottom": 699.204833984375,
+            "width": 92.83447265625,
+            "height": 245.0830078125
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": true,
+      "capture": null
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "text": 1,
+      "count": 8,
+      "room": "room-b",
+      "size": 5,
+      "artFigures": 5,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "B1",
+          "room": "room-b",
+          "clinical": false,
+          "paintedPixels": 36768,
+          "rawSvgBounds": {
+            "x": 16.099998474121094,
+            "y": 4.802249908447266,
+            "width": 87.80000305175781,
+            "height": 236.79776000976562
+          },
+          "bounds": {
+            "left": 162.32550048828125,
+            "right": 255.15997314453125,
+            "top": 454.121826171875,
+            "bottom": 699.204833984375,
+            "width": 92.83447265625,
+            "height": 245.0830078125
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-1",
+          "slot": "B2",
+          "room": "room-b",
+          "clinical": false,
+          "paintedPixels": 28464,
+          "rawSvgBounds": {
+            "x": 4.899999618530273,
+            "y": 48.824790954589844,
+            "width": 104.15837097167969,
+            "height": 191.9752197265625
+          },
+          "bounds": {
+            "left": 11.532104492187486,
+            "right": 114.2776184082031,
+            "top": 502.77716064453125,
+            "bottom": 700.7041015625,
+            "width": 102.74551391601561,
+            "height": 197.92694091796875
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-3",
+          "slot": "B3",
+          "room": "room-b",
+          "clinical": false,
+          "paintedPixels": 34625,
+          "rawSvgBounds": {
+            "x": 18.400001525878906,
+            "y": -9.77009391784668,
+            "width": 92.69999694824219,
+            "height": 251.37010192871094
+          },
+          "bounds": {
+            "left": 301.402099609375,
+            "right": 399.806640625,
+            "top": 430.314453125,
+            "bottom": 693.345458984375,
+            "width": 98.404541015625,
+            "height": 263.031005859375
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 0.9003436170344733,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-4",
+          "slot": "B4",
+          "room": "room-b",
+          "clinical": false,
+          "paintedPixels": 32328,
+          "rawSvgBounds": {
+            "x": 20.799999237060547,
+            "y": 23.24980926513672,
+            "width": 83.7239990234375,
+            "height": 211.55020141601562
+          },
+          "bounds": {
+            "left": 185.25234985351562,
+            "right": 259.8355712890625,
+            "top": 324.8580322265625,
+            "bottom": 521.3875427246094,
+            "width": 74.58322143554688,
+            "height": 196.52951049804688
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B5",
+          "room": "room-b",
+          "clinical": false,
+          "paintedPixels": 34966,
+          "rawSvgBounds": {
+            "x": 2.8999998569488525,
+            "y": 7.609680652618408,
+            "width": 105.5999984741211,
+            "height": 226.19033813476562
+          },
+          "bounds": {
+            "left": -4.267395019531247,
+            "right": 91.07644653320312,
+            "top": 316.121337890625,
+            "bottom": 520.8143310546875,
+            "width": 95.34384155273438,
+            "height": 204.6929931640625
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 0.9552420486731598,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": false,
+      "capture": "390-844-100-8-room-b-5.jpg"
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "text": 1,
+      "count": 8,
+      "room": "command-room",
+      "size": 1,
+      "artFigures": 1,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "C1",
+          "room": "command-room",
+          "clinical": false,
+          "paintedPixels": 30494,
+          "rawSvgBounds": {
+            "x": 24.899999618530273,
+            "y": 24.98672103881836,
+            "width": 80.6210708618164,
+            "height": 215.81329345703125
+          },
+          "bounds": {
+            "left": 153.43661499023438,
+            "right": 245.58206176757812,
+            "top": 360.43896484375,
+            "bottom": 613.4951171875,
+            "width": 92.14544677734375,
+            "height": 253.05615234375
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": true,
+      "capture": null
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "text": 1,
+      "count": 8,
+      "room": "hospital",
+      "size": 1,
+      "artFigures": 1,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "H1",
+          "room": "hospital",
+          "clinical": true,
+          "paintedPixels": 16104,
+          "rawSvgBounds": {
+            "x": -200,
+            "y": -200,
+            "width": 600,
+            "height": 600
+          },
+          "bounds": {
+            "left": 19.800537109374993,
+            "right": 108.49609374999999,
+            "top": 611.88720703125,
+            "bottom": 759.984375,
+            "width": 88.695556640625,
+            "height": 148.09716796875
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": true,
+      "capture": null
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "text": 1,
+      "count": 8,
+      "room": "hospital",
+      "size": 4,
+      "artFigures": 4,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "H1",
+          "room": "hospital",
+          "clinical": true,
+          "paintedPixels": 16145,
+          "rawSvgBounds": {
+            "x": -200,
+            "y": -200,
+            "width": 600,
+            "height": 600
+          },
+          "bounds": {
+            "left": -3.418212890625007,
+            "right": 85.27734374999999,
+            "top": 611.85595703125,
+            "bottom": 759.953125,
+            "width": 88.695556640625,
+            "height": 148.09716796875
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 0.9614612837430531,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-1",
+          "slot": "H2",
+          "room": "hospital",
+          "clinical": true,
+          "paintedPixels": 23916,
+          "rawSvgBounds": {
+            "x": 31.30000114440918,
+            "y": 98.64878845214844,
+            "width": 80.06267547607422,
+            "height": 166.25120544433594
+          },
+          "bounds": {
+            "left": 292.71319580078125,
+            "right": 400.93804931640625,
+            "top": 558.945556640625,
+            "bottom": 782.71875,
+            "width": 108.224853515625,
+            "height": 223.773193359375
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 0.8719419087645212,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-3",
+          "slot": "H3",
+          "room": "hospital",
+          "clinical": true,
+          "paintedPixels": 21827,
+          "rawSvgBounds": {
+            "x": 32.29999923706055,
+            "y": 96.96493530273438,
+            "width": 74.57984924316406,
+            "height": 167.53506469726562
+          },
+          "bounds": {
+            "left": -3.717498779296882,
+            "right": 80.17611694335938,
+            "top": 379.8328857421875,
+            "bottom": 569.625,
+            "width": 83.89361572265625,
+            "height": 189.7921142578125
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 0.9556879418383093,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-4",
+          "slot": "H4",
+          "room": "hospital",
+          "clinical": true,
+          "paintedPixels": 17804,
+          "rawSvgBounds": {
+            "x": -200,
+            "y": -200,
+            "width": 600,
+            "height": 600
+          },
+          "bounds": {
+            "left": 310.3346862792969,
+            "right": 396.9789123535156,
+            "top": 427.97283935546875,
+            "bottom": 550.375,
+            "width": 86.64422607421875,
+            "height": 122.40216064453125
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 0.9194532322611141,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": false,
+      "capture": "390-844-100-8-hospital-4.jpg"
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "text": 1,
+      "count": 8,
+      "room": "jail",
+      "size": 1,
+      "artFigures": 1,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "J1",
+          "room": "jail",
+          "clinical": false,
+          "paintedPixels": 24659,
+          "rawSvgBounds": {
+            "x": 18.899999618530273,
+            "y": 79.12478637695312,
+            "width": 88.00000762939453,
+            "height": 165.6752166748047
+          },
+          "bounds": {
+            "left": 9.906005859375007,
+            "right": 93.02050781250001,
+            "top": 289.89227294921875,
+            "bottom": 448.8206787109375,
+            "width": 83.114501953125,
+            "height": 158.92840576171875
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": true,
+      "capture": null
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "text": 1,
+      "count": 8,
+      "room": "jail",
+      "size": 5,
+      "artFigures": 5,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "J1",
+          "room": "jail",
+          "clinical": false,
+          "paintedPixels": 24682,
+          "rawSvgBounds": {
+            "x": 18.899999618530273,
+            "y": 78.65837860107422,
+            "width": 88.00000762939453,
+            "height": 166.14163208007812
+          },
+          "bounds": {
+            "left": -2.4418945312500018,
+            "right": 52.35351562499999,
+            "top": 333.5335693359375,
+            "bottom": 438.311279296875,
+            "width": 54.79541015624999,
+            "height": 104.7777099609375
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 0.9554361483144865,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-1",
+          "slot": "J2",
+          "room": "jail",
+          "clinical": false,
+          "paintedPixels": 36871,
+          "rawSvgBounds": {
+            "x": 14.09999942779541,
+            "y": -4.241701126098633,
+            "width": 95.3499984741211,
+            "height": 245.84169006347656
+          },
+          "bounds": {
+            "left": 167.427978515625,
+            "right": 224.004638671875,
+            "top": 281.967529296875,
+            "bottom": 432.4759521484375,
+            "width": 56.57666015625,
+            "height": 150.5084228515625
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-3",
+          "slot": "J3",
+          "room": "jail",
+          "clinical": false,
+          "paintedPixels": 34552,
+          "rawSvgBounds": {
+            "x": 12.299999237060547,
+            "y": -5.469764709472656,
+            "width": 97.63909912109375,
+            "height": 247.06976318359375
+          },
+          "bounds": {
+            "left": 334.109130859375,
+            "right": 395.56884765625,
+            "top": 280.58935546875,
+            "bottom": 436.4600830078125,
+            "width": 61.459716796875,
+            "height": 155.8707275390625
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 0.9093902812039454,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J4",
+          "room": "jail",
+          "clinical": false,
+          "paintedPixels": 24837,
+          "rawSvgBounds": {
+            "x": 12.799999237060547,
+            "y": 101.15300750732422,
+            "width": 98.39999389648438,
+            "height": 140.44699096679688
+          },
+          "bounds": {
+            "left": 75.23547363281251,
+            "right": 145.46990966796875,
+            "top": 528.6817626953125,
+            "bottom": 628.0073852539062,
+            "width": 70.23443603515624,
+            "height": 99.32562255859375
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-5",
+          "slot": "J5",
+          "room": "jail",
+          "clinical": false,
+          "paintedPixels": 25083,
+          "rawSvgBounds": {
+            "x": -37.357425689697266,
+            "y": 165.72999572753906,
+            "width": 227.84835815429688,
+            "height": 78.34063720703125
+          },
+          "bounds": {
+            "left": 216.202880859375,
+            "right": 376.20440673828125,
+            "top": 578.636962890625,
+            "bottom": 629.3387451171875,
+            "width": 160.00152587890625,
+            "height": 50.7017822265625
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": false,
+      "capture": "390-844-100-8-jail-5.jpg"
+    },
+    {
+      "width": 320,
+      "height": 568,
+      "text": 2,
+      "count": 8,
+      "room": "room-a",
+      "size": 1,
+      "artFigures": 1,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "A1",
+          "room": "room-a",
+          "clinical": false,
+          "paintedPixels": 26547,
+          "rawSvgBounds": {
+            "x": 19.80000114440918,
+            "y": 48.543636322021484,
+            "width": 86.29999542236328,
+            "height": 191.45635986328125
+          },
+          "bounds": {
+            "left": 144.376953125,
+            "right": 183.28213500976562,
+            "top": 279.2388916015625,
+            "bottom": 366.84356689453125,
+            "width": 38.905181884765625,
+            "height": 87.60467529296875
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": true,
+      "capture": null
+    },
+    {
+      "width": 320,
+      "height": 568,
+      "text": 2,
+      "count": 8,
+      "room": "room-a",
+      "size": 5,
+      "artFigures": 5,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "A1",
+          "room": "room-a",
+          "clinical": false,
+          "paintedPixels": 26541,
+          "rawSvgBounds": {
+            "x": 19.80000114440918,
+            "y": 48.531986236572266,
+            "width": 86.29999542236328,
+            "height": 191.468017578125
+          },
+          "bounds": {
+            "left": 144.376953125,
+            "right": 183.28213500976562,
+            "top": 279.5109558105469,
+            "bottom": 366.84356689453125,
+            "width": 38.905181884765625,
+            "height": 87.33261108398438
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-1",
+          "slot": "A2",
+          "room": "room-a",
+          "clinical": false,
+          "paintedPixels": 37390,
+          "rawSvgBounds": {
+            "x": 18.099998474121094,
+            "y": -5.526927471160889,
+            "width": 90.59269714355469,
+            "height": 247.12693786621094
+          },
+          "bounds": {
+            "left": 84.15110778808592,
+            "right": 125.9823760986328,
+            "top": 258.3184509277344,
+            "bottom": 373.1493835449219,
+            "width": 41.831268310546875,
+            "height": 114.8309326171875
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A3",
+          "room": "room-a",
+          "clinical": false,
+          "paintedPixels": 33797,
+          "rawSvgBounds": {
+            "x": -32.363521575927734,
+            "y": 57.39669418334961,
+            "width": 175.70071411132812,
+            "height": 190.55224609375
+          },
+          "bounds": {
+            "left": 196.380615234375,
+            "right": 278.005126953125,
+            "top": 315.06689453125,
+            "bottom": 403.541015625,
+            "width": 81.62451171875,
+            "height": 88.47412109375
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-4",
+          "slot": "A4",
+          "room": "room-a",
+          "clinical": false,
+          "paintedPixels": 34218,
+          "rawSvgBounds": {
+            "x": 6.900001525878906,
+            "y": 3.9358010292053223,
+            "width": 102.2923812866211,
+            "height": 237.66419982910156
+          },
+          "bounds": {
+            "left": 205.26205444335938,
+            "right": 248.59130859375,
+            "top": 210.22412109374997,
+            "bottom": 311.8324890136719,
+            "width": 43.329254150390625,
+            "height": 101.6083679199219
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-5",
+          "slot": "A5",
+          "room": "room-a",
+          "clinical": false,
+          "paintedPixels": 37202,
+          "rawSvgBounds": {
+            "x": 7.59999942779541,
+            "y": 5.55539608001709,
+            "width": 98.30000305175781,
+            "height": 236.04461669921875
+          },
+          "bounds": {
+            "left": 71.359619140625,
+            "right": 112.479736328125,
+            "top": 205.37255859375,
+            "bottom": 305.414794921875,
+            "width": 41.1201171875,
+            "height": 100.042236328125
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": true,
+      "capture": null
+    },
+    {
+      "width": 320,
+      "height": 568,
+      "text": 2,
+      "count": 8,
+      "room": "room-b",
+      "size": 1,
+      "artFigures": 1,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "B1",
+          "room": "room-b",
+          "clinical": false,
+          "paintedPixels": 36765,
+          "rawSvgBounds": {
+            "x": 16.099998474121094,
+            "y": 4.780030250549316,
+            "width": 87.80000305175781,
+            "height": 236.81997680664062
+          },
+          "bounds": {
+            "left": 135.7205810546875,
+            "right": 178.9334716796875,
+            "top": 313.9091796875,
+            "bottom": 427.9912109375,
+            "width": 43.212890625,
+            "height": 114.08203125
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": true,
+      "capture": null
+    },
+    {
+      "width": 320,
+      "height": 568,
+      "text": 2,
+      "count": 8,
+      "room": "room-b",
+      "size": 5,
+      "artFigures": 5,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "B1",
+          "room": "room-b",
+          "clinical": false,
+          "paintedPixels": 36772,
+          "rawSvgBounds": {
+            "x": 16.099998474121094,
+            "y": 4.782711982727051,
+            "width": 87.80000305175781,
+            "height": 236.81729125976562
+          },
+          "bounds": {
+            "left": 135.7205810546875,
+            "right": 178.9334716796875,
+            "top": 313.9091796875,
+            "bottom": 427.9912109375,
+            "width": 43.212890625,
+            "height": 114.08203125
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-1",
+          "slot": "B2",
+          "room": "room-b",
+          "clinical": false,
+          "paintedPixels": 28478,
+          "rawSvgBounds": {
+            "x": 4.899999618530273,
+            "y": 48.8282585144043,
+            "width": 103.87553405761719,
+            "height": 191.9717559814453
+          },
+          "bounds": {
+            "left": 65.523193359375,
+            "right": 113.34674072265625,
+            "top": 336.2697143554688,
+            "bottom": 428.689453125,
+            "width": 47.82354736328125,
+            "height": 92.4197387695312
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-3",
+          "slot": "B3",
+          "room": "room-b",
+          "clinical": false,
+          "paintedPixels": 34643,
+          "rawSvgBounds": {
+            "x": 18.400001525878906,
+            "y": -9.912805557250977,
+            "width": 92.69999694824219,
+            "height": 251.5128173828125
+          },
+          "bounds": {
+            "left": 200.4677734375,
+            "right": 246.2734375,
+            "top": 302.8359375,
+            "bottom": 425.2724609375,
+            "width": 45.8056640625,
+            "height": 122.4365234375
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-4",
+          "slot": "B4",
+          "room": "room-b",
+          "clinical": false,
+          "paintedPixels": 32335,
+          "rawSvgBounds": {
+            "x": 20.799999237060547,
+            "y": 23.28569221496582,
+            "width": 83.49821472167969,
+            "height": 211.51431274414062
+          },
+          "bounds": {
+            "left": 146.39492797851562,
+            "right": 180.85562133789062,
+            "top": 253.74084472656247,
+            "bottom": 345.2137145996094,
+            "width": 34.460693359375,
+            "height": 91.4728698730469
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B5",
+          "room": "room-b",
+          "clinical": false,
+          "paintedPixels": 34969,
+          "rawSvgBounds": {
+            "x": 2.8999998569488525,
+            "y": 7.886299133300781,
+            "width": 105.5999984741211,
+            "height": 225.91372680664062
+          },
+          "bounds": {
+            "left": 58.16552734375,
+            "right": 102.545166015625,
+            "top": 249.673828125,
+            "bottom": 344.9521484375,
+            "width": 44.379638671875,
+            "height": 95.2783203125
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": true,
+      "capture": null
+    },
+    {
+      "width": 320,
+      "height": 568,
+      "text": 2,
+      "count": 8,
+      "room": "command-room",
+      "size": 1,
+      "artFigures": 1,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "C1",
+          "room": "command-room",
+          "clinical": false,
+          "paintedPixels": 30486,
+          "rawSvgBounds": {
+            "x": 24.899999618530273,
+            "y": 24.93273162841797,
+            "width": 81.02474975585938,
+            "height": 215.86727905273438
+          },
+          "bounds": {
+            "left": 140.646728515625,
+            "right": 183.85595703125,
+            "top": 270.30078125,
+            "bottom": 388.0859375,
+            "width": 43.209228515625,
+            "height": 117.78515625
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": true,
+      "capture": null
+    },
+    {
+      "width": 320,
+      "height": 568,
+      "text": 2,
+      "count": 8,
+      "room": "hospital",
+      "size": 1,
+      "artFigures": 1,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "H1",
+          "room": "hospital",
+          "clinical": true,
+          "paintedPixels": 16073,
+          "rawSvgBounds": {
+            "x": -200,
+            "y": -200,
+            "width": 600,
+            "height": 600
+          },
+          "bounds": {
+            "left": 67.63821411132812,
+            "right": 108.92236328125,
+            "top": 387.66058349609375,
+            "bottom": 456.59375,
+            "width": 41.284149169921875,
+            "height": 68.93316650390625
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": true,
+      "capture": null
+    },
+    {
+      "width": 320,
+      "height": 568,
+      "text": 2,
+      "count": 8,
+      "room": "hospital",
+      "size": 4,
+      "artFigures": 4,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "H1",
+          "room": "hospital",
+          "clinical": true,
+          "paintedPixels": 16120,
+          "rawSvgBounds": {
+            "x": -200,
+            "y": -200,
+            "width": 600,
+            "height": 600
+          },
+          "bounds": {
+            "left": 67.63821411132812,
+            "right": 108.92236328125,
+            "top": 387.66058349609375,
+            "bottom": 456.59375,
+            "width": 41.284149169921875,
+            "height": 68.93316650390625
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-1",
+          "slot": "H2",
+          "room": "hospital",
+          "clinical": true,
+          "paintedPixels": 23913,
+          "rawSvgBounds": {
+            "x": 31.30000114440918,
+            "y": 98.64801788330078,
+            "width": 79.59636688232422,
+            "height": 166.25198364257812
+          },
+          "bounds": {
+            "left": 205.86062622070312,
+            "right": 255.85610961914062,
+            "top": 362.6671142578125,
+            "bottom": 467.203125,
+            "width": 49.9954833984375,
+            "height": 104.5360107421875
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 0.9771310863784931,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-3",
+          "slot": "H3",
+          "room": "hospital",
+          "clinical": true,
+          "paintedPixels": 21834,
+          "rawSvgBounds": {
+            "x": 32.29999923706055,
+            "y": 97.01761627197266,
+            "width": 74.31625366210938,
+            "height": 167.48239135742188
+          },
+          "bounds": {
+            "left": 67.502685546875,
+            "right": 106.551025390625,
+            "top": 279.6611328125,
+            "bottom": 368,
+            "width": 39.04833984375,
+            "height": 88.3388671875
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-4",
+          "slot": "H4",
+          "room": "hospital",
+          "clinical": true,
+          "paintedPixels": 17812,
+          "rawSvgBounds": {
+            "x": -200,
+            "y": -200,
+            "width": 600,
+            "height": 600
+          },
+          "bounds": {
+            "left": 213.67449951171872,
+            "right": 254.00311279296872,
+            "top": 302.07470703125,
+            "bottom": 359.046875,
+            "width": 40.32861328125,
+            "height": 56.97216796875
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": false,
+      "capture": "320-568-200-8-hospital-4.jpg"
+    },
+    {
+      "width": 320,
+      "height": 568,
+      "text": 2,
+      "count": 8,
+      "room": "jail",
+      "size": 1,
+      "artFigures": 1,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "J1",
+          "room": "jail",
+          "clinical": false,
+          "paintedPixels": 24637,
+          "rawSvgBounds": {
+            "x": 18.899999618530273,
+            "y": 79.17735290527344,
+            "width": 88.00000762939453,
+            "height": 165.62265014648438
+          },
+          "bounds": {
+            "left": 31.3275146484375,
+            "right": 70.01220703125,
+            "top": 237.46701049804688,
+            "bottom": 311.43841552734375,
+            "width": 38.6846923828125,
+            "height": 73.97140502929688
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": true,
+      "capture": null
+    },
+    {
+      "width": 320,
+      "height": 568,
+      "text": 2,
+      "count": 8,
+      "room": "jail",
+      "size": 5,
+      "artFigures": 5,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "J1",
+          "room": "jail",
+          "clinical": false,
+          "paintedPixels": 24655,
+          "rawSvgBounds": {
+            "x": 18.899999618530273,
+            "y": 79.18602752685547,
+            "width": 88.00000762939453,
+            "height": 165.61398315429688
+          },
+          "bounds": {
+            "left": 20.6087646484375,
+            "right": 59.29345703125,
+            "top": 237.46701049804688,
+            "bottom": 311.43841552734375,
+            "width": 38.6846923828125,
+            "height": 73.97140502929688
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-1",
+          "slot": "J2",
+          "room": "jail",
+          "clinical": false,
+          "paintedPixels": 36876,
+          "rawSvgBounds": {
+            "x": 14.09999942779541,
+            "y": -4.055967807769775,
+            "width": 95.3499984741211,
+            "height": 245.6559600830078
+          },
+          "bounds": {
+            "left": 140.52716064453125,
+            "right": 180.47454833984375,
+            "top": 200.80099487304688,
+            "bottom": 307.3273620605469,
+            "width": 39.9473876953125,
+            "height": 106.5263671875
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-3",
+          "slot": "J3",
+          "room": "jail",
+          "clinical": false,
+          "paintedPixels": 34546,
+          "rawSvgBounds": {
+            "x": 12.299999237060547,
+            "y": -5.547368049621582,
+            "width": 97.71006774902344,
+            "height": 247.14736938476562
+          },
+          "bounds": {
+            "left": 258.21502685546875,
+            "right": 301.6046142578125,
+            "top": 200.0892333984375,
+            "bottom": 310.1315002441406,
+            "width": 43.38958740234375,
+            "height": 110.04226684570312
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J4",
+          "room": "jail",
+          "clinical": false,
+          "paintedPixels": 24838,
+          "rawSvgBounds": {
+            "x": 12.799999237060547,
+            "y": 101.14368438720703,
+            "width": 98.39999389648438,
+            "height": 140.45631408691406
+          },
+          "bounds": {
+            "left": 75.43507385253905,
+            "right": 125.0189971923828,
+            "top": 375.2362060546875,
+            "bottom": 445.35784912109375,
+            "width": 49.58392333984375,
+            "height": 70.12164306640625
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-5",
+          "slot": "J5",
+          "room": "jail",
+          "clinical": false,
+          "paintedPixels": 25078,
+          "rawSvgBounds": {
+            "x": -37.139801025390625,
+            "y": 165.72999572753906,
+            "width": 227.6307373046875,
+            "height": 78.24528503417969
+          },
+          "bounds": {
+            "left": 174.961181640625,
+            "right": 287.91864013671875,
+            "top": 410.511474609375,
+            "bottom": 446.3057861328125,
+            "width": 112.95745849609375,
+            "height": 35.7943115234375
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": true,
+      "capture": null
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "text": 1,
+      "count": 9,
+      "room": "room-a",
+      "size": 1,
+      "artFigures": 1,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "A1",
+          "room": "room-a",
+          "clinical": false,
+          "paintedPixels": 26548,
+          "rawSvgBounds": {
+            "x": 19.80000114440918,
+            "y": 48.53752136230469,
+            "width": 86.29999542236328,
+            "height": 191.4624786376953
+          },
+          "bounds": {
+            "left": 161.458984375,
+            "right": 245.04293823242188,
+            "top": 379.6199951171875,
+            "bottom": 567.8300170898438,
+            "width": 83.58395385742188,
+            "height": 188.21002197265625
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": true,
+      "capture": "390-844-100-9-room-a-1.jpg"
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "text": 1,
+      "count": 9,
+      "room": "room-a",
+      "size": 5,
+      "artFigures": 5,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "A1",
+          "room": "room-a",
+          "clinical": false,
+          "paintedPixels": 26544,
+          "rawSvgBounds": {
+            "x": 19.80000114440918,
+            "y": 48.53975296020508,
+            "width": 86.29999542236328,
+            "height": 191.4602508544922
+          },
+          "bounds": {
+            "left": 159.787109375,
+            "right": 243.37106323242188,
+            "top": 379.6199951171875,
+            "bottom": 567.8300170898438,
+            "width": 83.58395385742188,
+            "height": 188.21002197265625
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-1",
+          "slot": "A2",
+          "room": "room-a",
+          "clinical": false,
+          "paintedPixels": 37399,
+          "rawSvgBounds": {
+            "x": 18.099998474121094,
+            "y": -5.547369003295898,
+            "width": 90.76045989990234,
+            "height": 247.14736938476562
+          },
+          "bounds": {
+            "left": 30.4112548828125,
+            "right": 120.27914428710938,
+            "top": 334.6734313964844,
+            "bottom": 581.3695983886719,
+            "width": 89.86788940429688,
+            "height": 246.6961669921875
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A3",
+          "room": "room-a",
+          "clinical": false,
+          "paintedPixels": 33803,
+          "rawSvgBounds": {
+            "x": -32.363521575927734,
+            "y": 57.56590270996094,
+            "width": 175.70071411132812,
+            "height": 190.38304138183594
+          },
+          "bounds": {
+            "left": 271.5147705078125,
+            "right": 446.8782958984375,
+            "top": 456.611083984375,
+            "bottom": 646.6904296875,
+            "width": 175.363525390625,
+            "height": 190.079345703125
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 0.6756549244106481,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-4",
+          "slot": "A4",
+          "room": "room-a",
+          "clinical": false,
+          "paintedPixels": 34201,
+          "rawSvgBounds": {
+            "x": 6.900001525878906,
+            "y": 4.156863689422607,
+            "width": 102.2879409790039,
+            "height": 237.44314575195312
+          },
+          "bounds": {
+            "left": 290.5921325683594,
+            "right": 383.68505859375,
+            "top": 231.36474609375,
+            "bottom": 449.6703796386719,
+            "width": 93.09292602539062,
+            "height": 218.30563354492188
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-5",
+          "slot": "A5",
+          "room": "room-a",
+          "clinical": false,
+          "paintedPixels": 37203,
+          "rawSvgBounds": {
+            "x": 7.59999942779541,
+            "y": 5.428752899169922,
+            "width": 98.30000305175781,
+            "height": 236.17124938964844
+          },
+          "bounds": {
+            "left": 2.9243469238281286,
+            "right": 91.26553344726562,
+            "top": 220.96746826171875,
+            "bottom": 435.8951110839844,
+            "width": 88.3411865234375,
+            "height": 214.92764282226562
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": false,
+      "capture": "390-844-100-9-room-a-5.jpg"
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "text": 1,
+      "count": 9,
+      "room": "room-b",
+      "size": 1,
+      "artFigures": 1,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "B1",
+          "room": "room-b",
+          "clinical": false,
+          "paintedPixels": 36772,
+          "rawSvgBounds": {
+            "x": 16.099998474121094,
+            "y": 4.782711982727051,
+            "width": 87.80000305175781,
+            "height": 236.81729125976562
+          },
+          "bounds": {
+            "left": 142.85675048828125,
+            "right": 235.69122314453125,
+            "top": 454.121826171875,
+            "bottom": 699.204833984375,
+            "width": 92.83447265625,
+            "height": 245.0830078125
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": true,
+      "capture": "390-844-100-9-room-b-1.jpg"
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "text": 1,
+      "count": 9,
+      "room": "room-b",
+      "size": 5,
+      "artFigures": 5,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "B1",
+          "room": "room-b",
+          "clinical": false,
+          "paintedPixels": 36783,
+          "rawSvgBounds": {
+            "x": 16.099998474121094,
+            "y": 4.819977283477783,
+            "width": 87.80000305175781,
+            "height": 236.780029296875
+          },
+          "bounds": {
+            "left": 162.32550048828125,
+            "right": 255.15997314453125,
+            "top": 453.5029296875,
+            "bottom": 699.204833984375,
+            "width": 92.83447265625,
+            "height": 245.701904296875
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-1",
+          "slot": "B2",
+          "room": "room-b",
+          "clinical": false,
+          "paintedPixels": 28447,
+          "rawSvgBounds": {
+            "x": 4.899999618530273,
+            "y": 48.82900619506836,
+            "width": 104.53173065185547,
+            "height": 191.97100830078125
+          },
+          "bounds": {
+            "left": 11.532104492187486,
+            "right": 114.2776184082031,
+            "top": 502.77716064453125,
+            "bottom": 700.7041015625,
+            "width": 102.74551391601561,
+            "height": 197.92694091796875
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-3",
+          "slot": "B3",
+          "room": "room-b",
+          "clinical": false,
+          "paintedPixels": 34622,
+          "rawSvgBounds": {
+            "x": 18.400001525878906,
+            "y": -9.608606338500977,
+            "width": 92.69999694824219,
+            "height": 251.2086181640625
+          },
+          "bounds": {
+            "left": 301.402099609375,
+            "right": 399.806640625,
+            "top": 430.314453125,
+            "bottom": 693.345458984375,
+            "width": 98.404541015625,
+            "height": 263.031005859375
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 0.9003436170344733,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-4",
+          "slot": "B4",
+          "room": "room-b",
+          "clinical": false,
+          "paintedPixels": 32321,
+          "rawSvgBounds": {
+            "x": 20.799999237060547,
+            "y": 23.217323303222656,
+            "width": 83.97404479980469,
+            "height": 211.5826873779297
+          },
+          "bounds": {
+            "left": 185.25234985351562,
+            "right": 259.8355712890625,
+            "top": 324.8580322265625,
+            "bottom": 521.3875427246094,
+            "width": 74.58322143554688,
+            "height": 196.52951049804688
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B5",
+          "room": "room-b",
+          "clinical": false,
+          "paintedPixels": 34985,
+          "rawSvgBounds": {
+            "x": 2.8999998569488525,
+            "y": 7.269531726837158,
+            "width": 105.5999984741211,
+            "height": 226.53048706054688
+          },
+          "bounds": {
+            "left": -4.267395019531247,
+            "right": 91.07644653320312,
+            "top": 316.121337890625,
+            "bottom": 520.8143310546875,
+            "width": 95.34384155273438,
+            "height": 204.6929931640625
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 0.9552420486731598,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": false,
+      "capture": "390-844-100-9-room-b-5.jpg"
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "text": 1,
+      "count": 9,
+      "room": "command-room",
+      "size": 1,
+      "artFigures": 1,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "C1",
+          "room": "command-room",
+          "clinical": false,
+          "paintedPixels": 30494,
+          "rawSvgBounds": {
+            "x": 24.899999618530273,
+            "y": 25.067228317260742,
+            "width": 80.14094543457031,
+            "height": 215.7327880859375
+          },
+          "bounds": {
+            "left": 153.43661499023438,
+            "right": 245.58206176757812,
+            "top": 360.43896484375,
+            "bottom": 613.4951171875,
+            "width": 92.14544677734375,
+            "height": 253.05615234375
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": true,
+      "capture": "390-844-100-9-command-room-1.jpg"
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "text": 1,
+      "count": 9,
+      "room": "hospital",
+      "size": 1,
+      "artFigures": 1,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "H1",
+          "room": "hospital",
+          "clinical": true,
+          "paintedPixels": 16163,
+          "rawSvgBounds": {
+            "x": -200,
+            "y": -200,
+            "width": 600,
+            "height": 600
+          },
+          "bounds": {
+            "left": 19.800537109374993,
+            "right": 108.49609374999999,
+            "top": 611.82470703125,
+            "bottom": 759.921875,
+            "width": 88.695556640625,
+            "height": 148.09716796875
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": true,
+      "capture": "390-844-100-9-hospital-1.jpg"
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "text": 1,
+      "count": 9,
+      "room": "hospital",
+      "size": 4,
+      "artFigures": 4,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "H1",
+          "room": "hospital",
+          "clinical": true,
+          "paintedPixels": 16223,
+          "rawSvgBounds": {
+            "x": -200,
+            "y": -200,
+            "width": 600,
+            "height": 600
+          },
+          "bounds": {
+            "left": -3.418212890625007,
+            "right": 85.27734374999999,
+            "top": 610.901611328125,
+            "bottom": 759.8125,
+            "width": 88.695556640625,
+            "height": 148.910888671875
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 0.9614612837430531,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-1",
+          "slot": "H2",
+          "room": "hospital",
+          "clinical": true,
+          "paintedPixels": 23900,
+          "rawSvgBounds": {
+            "x": 31.30000114440918,
+            "y": 98.48519897460938,
+            "width": 81.0263671875,
+            "height": 166.414794921875
+          },
+          "bounds": {
+            "left": 291.89947509765625,
+            "right": 400.93804931640625,
+            "top": 558.820556640625,
+            "bottom": 782.59375,
+            "width": 109.03857421875,
+            "height": 223.773193359375
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 0.8731760663551196,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-3",
+          "slot": "H3",
+          "room": "hospital",
+          "clinical": true,
+          "paintedPixels": 21837,
+          "rawSvgBounds": {
+            "x": 32.29999923706055,
+            "y": 96.90644836425781,
+            "width": 74.81663513183594,
+            "height": 167.5935516357422
+          },
+          "bounds": {
+            "left": -3.717498779296882,
+            "right": 80.17611694335938,
+            "top": 379.7078857421875,
+            "bottom": 569.5,
+            "width": 83.89361572265625,
+            "height": 189.7921142578125
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 0.9556879418383093,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-4",
+          "slot": "H4",
+          "room": "hospital",
+          "clinical": true,
+          "paintedPixels": 17806,
+          "rawSvgBounds": {
+            "x": -200,
+            "y": -200,
+            "width": 600,
+            "height": 600
+          },
+          "bounds": {
+            "left": 310.3346862792969,
+            "right": 396.9789123535156,
+            "top": 427.84783935546875,
+            "bottom": 550.25,
+            "width": 86.64422607421875,
+            "height": 122.40216064453125
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 0.9194532322611141,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": false,
+      "capture": "390-844-100-9-hospital-4.jpg"
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "text": 1,
+      "count": 9,
+      "room": "jail",
+      "size": 1,
+      "artFigures": 1,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "J1",
+          "room": "jail",
+          "clinical": false,
+          "paintedPixels": 24689,
+          "rawSvgBounds": {
+            "x": 18.899999618530273,
+            "y": 78.40090942382812,
+            "width": 88.00000762939453,
+            "height": 166.3990936279297
+          },
+          "bounds": {
+            "left": 9.906005859375007,
+            "right": 93.02050781250001,
+            "top": 289.89227294921875,
+            "bottom": 448.8206787109375,
+            "width": 83.114501953125,
+            "height": 158.92840576171875
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": true,
+      "capture": "390-844-100-9-jail-1.jpg"
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "text": 1,
+      "count": 9,
+      "room": "jail",
+      "size": 5,
+      "artFigures": 5,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "J1",
+          "room": "jail",
+          "clinical": false,
+          "paintedPixels": 24709,
+          "rawSvgBounds": {
+            "x": 18.899999618530273,
+            "y": 77.85005950927734,
+            "width": 88.00000762939453,
+            "height": 166.949951171875
+          },
+          "bounds": {
+            "left": -2.4418945312500018,
+            "right": 52.35351562499999,
+            "top": 333.163330078125,
+            "bottom": 438.311279296875,
+            "width": 54.79541015624999,
+            "height": 105.14794921875
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 0.9554361483144865,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-1",
+          "slot": "J2",
+          "room": "jail",
+          "clinical": false,
+          "paintedPixels": 36874,
+          "rawSvgBounds": {
+            "x": 14.09999942779541,
+            "y": -4.473705291748047,
+            "width": 95.3499984741211,
+            "height": 246.07369995117188
+          },
+          "bounds": {
+            "left": 167.427978515625,
+            "right": 224.004638671875,
+            "top": 281.967529296875,
+            "bottom": 432.4759521484375,
+            "width": 56.57666015625,
+            "height": 150.5084228515625
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-3",
+          "slot": "J3",
+          "room": "jail",
+          "clinical": false,
+          "paintedPixels": 34567,
+          "rawSvgBounds": {
+            "x": 12.299999237060547,
+            "y": -5.672317028045654,
+            "width": 97.498046875,
+            "height": 247.27232360839844
+          },
+          "bounds": {
+            "left": 334.109130859375,
+            "right": 395.56884765625,
+            "top": 280.2191162109375,
+            "bottom": 436.4600830078125,
+            "width": 61.459716796875,
+            "height": 156.240966796875
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 0.9093902812039454,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J4",
+          "room": "jail",
+          "clinical": false,
+          "paintedPixels": 24836,
+          "rawSvgBounds": {
+            "x": 12.799999237060547,
+            "y": 101.20523071289062,
+            "width": 98.39999389648438,
+            "height": 140.39476013183594
+          },
+          "bounds": {
+            "left": 75.23547363281251,
+            "right": 145.46990966796875,
+            "top": 528.6817626953125,
+            "bottom": 628.0073852539062,
+            "width": 70.23443603515624,
+            "height": 99.32562255859375
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-5",
+          "slot": "J5",
+          "room": "jail",
+          "clinical": false,
+          "paintedPixels": 25082,
+          "rawSvgBounds": {
+            "x": -37.56066131591797,
+            "y": 165.72999572753906,
+            "width": 228.05160522460938,
+            "height": 78.42991638183594
+          },
+          "bounds": {
+            "left": 216.202880859375,
+            "right": 376.20440673828125,
+            "top": 578.636962890625,
+            "bottom": 629.3387451171875,
+            "width": 160.00152587890625,
+            "height": 50.7017822265625
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": false,
+      "capture": "390-844-100-9-jail-5.jpg"
+    },
+    {
+      "width": 320,
+      "height": 568,
+      "text": 2,
+      "count": 9,
+      "room": "room-a",
+      "size": 1,
+      "artFigures": 1,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "A1",
+          "room": "room-a",
+          "clinical": false,
+          "paintedPixels": 26547,
+          "rawSvgBounds": {
+            "x": 19.80000114440918,
+            "y": 48.543636322021484,
+            "width": 86.29999542236328,
+            "height": 191.45635986328125
+          },
+          "bounds": {
+            "left": 144.376953125,
+            "right": 183.28213500976562,
+            "top": 279.2388916015625,
+            "bottom": 366.84356689453125,
+            "width": 38.905181884765625,
+            "height": 87.60467529296875
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": true,
+      "capture": "320-568-200-9-room-a-1.jpg"
+    },
+    {
+      "width": 320,
+      "height": 568,
+      "text": 2,
+      "count": 9,
+      "room": "room-a",
+      "size": 5,
+      "artFigures": 5,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "A1",
+          "room": "room-a",
+          "clinical": false,
+          "paintedPixels": 26544,
+          "rawSvgBounds": {
+            "x": 19.80000114440918,
+            "y": 48.533634185791016,
+            "width": 86.29999542236328,
+            "height": 191.46636962890625
+          },
+          "bounds": {
+            "left": 144.376953125,
+            "right": 183.28213500976562,
+            "top": 279.2388916015625,
+            "bottom": 366.84356689453125,
+            "width": 38.905181884765625,
+            "height": 87.60467529296875
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-1",
+          "slot": "A2",
+          "room": "room-a",
+          "clinical": false,
+          "paintedPixels": 37393,
+          "rawSvgBounds": {
+            "x": 18.099998474121094,
+            "y": -5.549770832061768,
+            "width": 90.81741333007812,
+            "height": 247.1497802734375
+          },
+          "bounds": {
+            "left": 84.15110778808592,
+            "right": 125.9823760986328,
+            "top": 258.3184509277344,
+            "bottom": 373.1493835449219,
+            "width": 41.831268310546875,
+            "height": 114.8309326171875
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-3",
+          "slot": "A3",
+          "room": "room-a",
+          "clinical": false,
+          "paintedPixels": 33795,
+          "rawSvgBounds": {
+            "x": -32.363521575927734,
+            "y": 57.61588668823242,
+            "width": 175.70071411132812,
+            "height": 190.3330535888672
+          },
+          "bounds": {
+            "left": 196.380615234375,
+            "right": 278.005126953125,
+            "top": 315.06689453125,
+            "bottom": 403.541015625,
+            "width": 81.62451171875,
+            "height": 88.47412109375
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-4",
+          "slot": "A4",
+          "room": "room-a",
+          "clinical": false,
+          "paintedPixels": 34206,
+          "rawSvgBounds": {
+            "x": 6.900001525878906,
+            "y": 4.220654487609863,
+            "width": 102.2827377319336,
+            "height": 237.3793487548828
+          },
+          "bounds": {
+            "left": 205.26205444335938,
+            "right": 248.59130859375,
+            "top": 210.22412109374997,
+            "bottom": 311.8324890136719,
+            "width": 43.329254150390625,
+            "height": 101.6083679199219
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-5",
+          "slot": "A5",
+          "room": "room-a",
+          "clinical": false,
+          "paintedPixels": 37199,
+          "rawSvgBounds": {
+            "x": 7.59999942779541,
+            "y": 5.398303985595703,
+            "width": 98.30000305175781,
+            "height": 236.2017059326172
+          },
+          "bounds": {
+            "left": 71.359619140625,
+            "right": 112.479736328125,
+            "top": 205.37255859375,
+            "bottom": 305.414794921875,
+            "width": 41.1201171875,
+            "height": 100.042236328125
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": true,
+      "capture": "320-568-200-9-room-a-5.jpg"
+    },
+    {
+      "width": 320,
+      "height": 568,
+      "text": 2,
+      "count": 9,
+      "room": "room-b",
+      "size": 1,
+      "artFigures": 1,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "B1",
+          "room": "room-b",
+          "clinical": false,
+          "paintedPixels": 36768,
+          "rawSvgBounds": {
+            "x": 16.099998474121094,
+            "y": 4.787087917327881,
+            "width": 87.80000305175781,
+            "height": 236.8129119873047
+          },
+          "bounds": {
+            "left": 135.7205810546875,
+            "right": 178.9334716796875,
+            "top": 313.9091796875,
+            "bottom": 427.9912109375,
+            "width": 43.212890625,
+            "height": 114.08203125
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": true,
+      "capture": "320-568-200-9-room-b-1.jpg"
+    },
+    {
+      "width": 320,
+      "height": 568,
+      "text": 2,
+      "count": 9,
+      "room": "room-b",
+      "size": 5,
+      "artFigures": 5,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "B1",
+          "room": "room-b",
+          "clinical": false,
+          "paintedPixels": 36787,
+          "rawSvgBounds": {
+            "x": 16.099998474121094,
+            "y": 4.824448585510254,
+            "width": 87.80000305175781,
+            "height": 236.7755584716797
+          },
+          "bounds": {
+            "left": 135.7205810546875,
+            "right": 178.9334716796875,
+            "top": 313.62109375,
+            "bottom": 427.9912109375,
+            "width": 43.212890625,
+            "height": 114.3701171875
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-1",
+          "slot": "B2",
+          "room": "room-b",
+          "clinical": false,
+          "paintedPixels": 28445,
+          "rawSvgBounds": {
+            "x": 4.899999618530273,
+            "y": 48.82604217529297,
+            "width": 104.55103302001953,
+            "height": 191.97396850585938
+          },
+          "bounds": {
+            "left": 65.523193359375,
+            "right": 113.34674072265625,
+            "top": 336.56311035156256,
+            "bottom": 428.689453125,
+            "width": 47.82354736328125,
+            "height": 92.12634277343744
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-3",
+          "slot": "B3",
+          "room": "room-b",
+          "clinical": false,
+          "paintedPixels": 34624,
+          "rawSvgBounds": {
+            "x": 18.400001525878906,
+            "y": -9.59283447265625,
+            "width": 92.69999694824219,
+            "height": 251.19284057617188
+          },
+          "bounds": {
+            "left": 200.4677734375,
+            "right": 246.2734375,
+            "top": 302.8359375,
+            "bottom": 425.2724609375,
+            "width": 45.8056640625,
+            "height": 122.4365234375
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-4",
+          "slot": "B4",
+          "room": "room-b",
+          "clinical": false,
+          "paintedPixels": 32322,
+          "rawSvgBounds": {
+            "x": 20.799999237060547,
+            "y": 23.214839935302734,
+            "width": 83.97917175292969,
+            "height": 211.5851593017578
+          },
+          "bounds": {
+            "left": 146.39492797851562,
+            "right": 181.1090087890625,
+            "top": 253.74084472656247,
+            "bottom": 345.2137145996094,
+            "width": 34.714080810546875,
+            "height": 91.4728698730469
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-5",
+          "slot": "B5",
+          "room": "room-b",
+          "clinical": false,
+          "paintedPixels": 34981,
+          "rawSvgBounds": {
+            "x": 2.8999998569488525,
+            "y": 7.255906105041504,
+            "width": 105.5999984741211,
+            "height": 226.5441131591797
+          },
+          "bounds": {
+            "left": 58.16552734375,
+            "right": 102.545166015625,
+            "top": 249.673828125,
+            "bottom": 344.9521484375,
+            "width": 44.379638671875,
+            "height": 95.2783203125
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": true,
+      "capture": "320-568-200-9-room-b-5.jpg"
+    },
+    {
+      "width": 320,
+      "height": 568,
+      "text": 2,
+      "count": 9,
+      "room": "command-room",
+      "size": 1,
+      "artFigures": 1,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "C1",
+          "room": "command-room",
+          "clinical": false,
+          "paintedPixels": 30502,
+          "rawSvgBounds": {
+            "x": 24.899999618530273,
+            "y": 25.066665649414062,
+            "width": 80.11417388916016,
+            "height": 215.7333526611328
+          },
+          "bounds": {
+            "left": 140.646728515625,
+            "right": 183.535888671875,
+            "top": 270.30078125,
+            "bottom": 388.0859375,
+            "width": 42.88916015625,
+            "height": 117.78515625
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": true,
+      "capture": "320-568-200-9-command-room-1.jpg"
+    },
+    {
+      "width": 320,
+      "height": 568,
+      "text": 2,
+      "count": 9,
+      "room": "hospital",
+      "size": 1,
+      "artFigures": 1,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "H1",
+          "room": "hospital",
+          "clinical": true,
+          "paintedPixels": 16162,
+          "rawSvgBounds": {
+            "x": -200,
+            "y": -200,
+            "width": 600,
+            "height": 600
+          },
+          "bounds": {
+            "left": 67.63821411132812,
+            "right": 108.92236328125,
+            "top": 387.59808349609375,
+            "bottom": 456.53125,
+            "width": 41.284149169921875,
+            "height": 68.93316650390625
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": true,
+      "capture": "320-568-200-9-hospital-1.jpg"
+    },
+    {
+      "width": 320,
+      "height": 568,
+      "text": 2,
+      "count": 9,
+      "room": "hospital",
+      "size": 4,
+      "artFigures": 4,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "H1",
+          "room": "hospital",
+          "clinical": true,
+          "paintedPixels": 16229,
+          "rawSvgBounds": {
+            "x": -200,
+            "y": -200,
+            "width": 600,
+            "height": 600
+          },
+          "bounds": {
+            "left": 67.63821411132812,
+            "right": 108.92236328125,
+            "top": 387.0943298339844,
+            "bottom": 456.40625,
+            "width": 41.284149169921875,
+            "height": 69.31192016601562
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-1",
+          "slot": "H2",
+          "room": "hospital",
+          "clinical": true,
+          "paintedPixels": 23900,
+          "rawSvgBounds": {
+            "x": 31.30000114440918,
+            "y": 98.47525787353516,
+            "width": 81.10845184326172,
+            "height": 166.42474365234375
+          },
+          "bounds": {
+            "left": 205.10311889648438,
+            "right": 255.85610961914062,
+            "top": 362.8583679199219,
+            "bottom": 467.015625,
+            "width": 50.75299072265625,
+            "height": 104.15725708007812
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 0.978848089304942,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-3",
+          "slot": "H3",
+          "room": "hospital",
+          "clinical": true,
+          "paintedPixels": 21840,
+          "rawSvgBounds": {
+            "x": 32.29999923706055,
+            "y": 96.90970611572266,
+            "width": 74.83085632324219,
+            "height": 167.59030151367188
+          },
+          "bounds": {
+            "left": 67.502685546875,
+            "right": 106.551025390625,
+            "top": 279.4736328125,
+            "bottom": 367.8125,
+            "width": 39.04833984375,
+            "height": 88.3388671875
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-4",
+          "slot": "H4",
+          "room": "hospital",
+          "clinical": true,
+          "paintedPixels": 17806,
+          "rawSvgBounds": {
+            "x": -200,
+            "y": -200,
+            "width": 600,
+            "height": 600
+          },
+          "bounds": {
+            "left": 213.67449951171872,
+            "right": 254.00311279296872,
+            "top": 301.88720703125,
+            "bottom": 358.859375,
+            "width": 40.32861328125,
+            "height": 56.97216796875
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": false,
+      "capture": "320-568-200-9-hospital-4.jpg"
+    },
+    {
+      "width": 320,
+      "height": 568,
+      "text": 2,
+      "count": 9,
+      "room": "jail",
+      "size": 1,
+      "artFigures": 1,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "J1",
+          "room": "jail",
+          "clinical": false,
+          "paintedPixels": 24692,
+          "rawSvgBounds": {
+            "x": 18.899999618530273,
+            "y": 78.34030151367188,
+            "width": 88.00000762939453,
+            "height": 166.45970153808594
+          },
+          "bounds": {
+            "left": 31.3275146484375,
+            "right": 70.01220703125,
+            "top": 237.46701049804688,
+            "bottom": 311.43841552734375,
+            "width": 38.6846923828125,
+            "height": 73.97140502929688
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": true,
+      "capture": "320-568-200-9-jail-1.jpg"
+    },
+    {
+      "width": 320,
+      "height": 568,
+      "text": 2,
+      "count": 9,
+      "room": "jail",
+      "size": 5,
+      "artFigures": 5,
+      "figures": [
+        {
+          "seat": "seat-2",
+          "slot": "J1",
+          "room": "jail",
+          "clinical": false,
+          "paintedPixels": 24707,
+          "rawSvgBounds": {
+            "x": 18.899999618530273,
+            "y": 77.86439514160156,
+            "width": 88.00000762939453,
+            "height": 166.93560791015625
+          },
+          "bounds": {
+            "left": 20.6087646484375,
+            "right": 59.29345703125,
+            "top": 237.20562744140625,
+            "bottom": 311.43841552734375,
+            "width": 38.6846923828125,
+            "height": 74.2327880859375
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-1",
+          "slot": "J2",
+          "room": "jail",
+          "clinical": false,
+          "paintedPixels": 36874,
+          "rawSvgBounds": {
+            "x": 14.09999942779541,
+            "y": -4.478717803955078,
+            "width": 95.3499984741211,
+            "height": 246.07870483398438
+          },
+          "bounds": {
+            "left": 140.52716064453125,
+            "right": 180.47454833984375,
+            "top": 201.05706787109375,
+            "bottom": 307.3273620605469,
+            "width": 39.9473876953125,
+            "height": 106.27029418945312
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-3",
+          "slot": "J3",
+          "room": "jail",
+          "clinical": false,
+          "paintedPixels": 34564,
+          "rawSvgBounds": {
+            "x": 12.299999237060547,
+            "y": -5.6573405265808105,
+            "width": 97.50120544433594,
+            "height": 247.25733947753906
+          },
+          "bounds": {
+            "left": 258.21502685546875,
+            "right": 301.6046142578125,
+            "top": 199.82785034179688,
+            "bottom": 310.1315002441406,
+            "width": 43.38958740234375,
+            "height": 110.30364990234375
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-4",
+          "slot": "J4",
+          "room": "jail",
+          "clinical": false,
+          "paintedPixels": 24834,
+          "rawSvgBounds": {
+            "x": 12.799999237060547,
+            "y": 101.20030212402344,
+            "width": 98.39999389648438,
+            "height": 140.39968872070312
+          },
+          "bounds": {
+            "left": 75.43507385253905,
+            "right": 125.0189971923828,
+            "top": 375.2362060546875,
+            "bottom": 445.35784912109375,
+            "width": 49.58392333984375,
+            "height": 70.12164306640625
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        },
+        {
+          "seat": "seat-5",
+          "slot": "J5",
+          "room": "jail",
+          "clinical": false,
+          "paintedPixels": 25082,
+          "rawSvgBounds": {
+            "x": -37.557777404785156,
+            "y": 165.72999572753906,
+            "width": 228.0487060546875,
+            "height": 78.42611694335938
+          },
+          "bounds": {
+            "left": 174.961181640625,
+            "right": 287.91864013671875,
+            "top": 410.511474609375,
+            "bottom": 446.3057861328125,
+            "width": 112.95745849609375,
+            "height": 35.7943115234375
+          },
+          "clip": {
+            "left": 0,
+            "right": 320,
+            "top": 129.390625,
+            "bottom": 464.8125
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        }
+      ],
+      "wholeFigures": true,
+      "capture": "320-568-200-9-jail-5.jpg"
+    }
+  ],
+  "blackout": [
+    {
+      "width": 390,
+      "height": 844,
+      "text": 1,
+      "count": 7,
+      "cold": [
+        {
+          "room": "room-a",
+          "id": "A1",
+          "x": 172.625,
+          "y": 419.875,
+          "width": 55.5,
+          "height": 55.5
+        },
+        {
+          "room": "room-a",
+          "id": "A2",
+          "x": 51.109375,
+          "y": 383.0625,
+          "width": 55.765625,
+          "height": 55.765625
+        },
+        {
+          "room": "room-a",
+          "id": "A3",
+          "x": 304.359375,
+          "y": 506.734375,
+          "width": 58.21875,
+          "height": 58.21875
+        },
+        {
+          "room": "room-a",
+          "id": "A4",
+          "x": 316.921875,
+          "y": 267.15625,
+          "width": 51.6875,
+          "height": 51.6875
+        },
+        {
+          "room": "room-a",
+          "id": "A5",
+          "x": 21.640625,
+          "y": 253.4375,
+          "width": 51.140625,
+          "height": 51.140625
+        }
+      ],
+      "lit": [
+        {
+          "room": "room-a",
+          "id": "A1",
+          "x": 172.625,
+          "y": 419.875,
+          "width": 55.5,
+          "height": 55.5
+        },
+        {
+          "room": "room-a",
+          "id": "A2",
+          "x": 51.109375,
+          "y": 383.0625,
+          "width": 55.765625,
+          "height": 55.765625
+        },
+        {
+          "room": "room-a",
+          "id": "A3",
+          "x": 304.359375,
+          "y": 506.734375,
+          "width": 58.21875,
+          "height": 58.21875
+        },
+        {
+          "room": "room-a",
+          "id": "A4",
+          "x": 316.921875,
+          "y": 267.15625,
+          "width": 51.6875,
+          "height": 51.6875
+        },
+        {
+          "room": "room-a",
+          "id": "A5",
+          "x": 21.640625,
+          "y": 253.4375,
+          "width": 51.140625,
+          "height": 51.140625
+        }
+      ],
+      "targets": [
+        {
+          "id": "A1",
+          "width": 55.5,
+          "height": 55.5,
+          "reachable": true
+        },
+        {
+          "id": "A2",
+          "width": 55.765625,
+          "height": 55.765625,
+          "reachable": true
+        },
+        {
+          "id": "A3",
+          "width": 58.21875,
+          "height": 58.21875,
+          "reachable": true
+        },
+        {
+          "id": "A4",
+          "width": 51.6875,
+          "height": 51.6875,
+          "reachable": true
+        },
+        {
+          "id": "A5",
+          "width": 51.140625,
+          "height": 51.140625,
+          "reachable": true
+        }
+      ],
+      "coldCapture": null,
+      "darkCapture": null,
+      "freezeAcrossDarkUpdates": true,
+      "reconnectPreservesGeometry": true,
+      "noCommandSent": true
+    },
+    {
+      "width": 320,
+      "height": 568,
+      "text": 2,
+      "count": 7,
+      "cold": [
+        {
+          "room": "room-a",
+          "id": "A1",
+          "x": 141.953125,
+          "y": 292.265625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A2",
+          "x": 73.625,
+          "y": 271.625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A3",
+          "x": 216.890625,
+          "y": 341.921875,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A4",
+          "x": 222.125,
+          "y": 205.21875,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A5",
+          "x": 55.734375,
+          "y": 197.34375,
+          "width": 44,
+          "height": 44
+        }
+      ],
+      "lit": [
+        {
+          "room": "room-a",
+          "id": "A1",
+          "x": 141.265625,
+          "y": 288.890625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A2",
+          "x": 84.78125,
+          "y": 271.8125,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A3",
+          "x": 203.234375,
+          "y": 329.953125,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A4",
+          "x": 207.546875,
+          "y": 216.90625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A5",
+          "x": 69.984375,
+          "y": 210.40625,
+          "width": 44,
+          "height": 44
+        }
+      ],
+      "targets": [
+        {
+          "id": "A1",
+          "width": 44,
+          "height": 44,
+          "reachable": true
+        },
+        {
+          "id": "A2",
+          "width": 44,
+          "height": 44,
+          "reachable": true
+        },
+        {
+          "id": "A3",
+          "width": 44,
+          "height": 44,
+          "reachable": true
+        },
+        {
+          "id": "A4",
+          "width": 44,
+          "height": 44,
+          "reachable": true
+        },
+        {
+          "id": "A5",
+          "width": 44,
+          "height": 44,
+          "reachable": true
+        }
+      ],
+      "coldCapture": null,
+      "darkCapture": null,
+      "freezeAcrossDarkUpdates": true,
+      "reconnectPreservesGeometry": true,
+      "noCommandSent": true
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "text": 1,
+      "count": 8,
+      "cold": [
+        {
+          "room": "room-a",
+          "id": "A1",
+          "x": 172.625,
+          "y": 419.875,
+          "width": 55.5,
+          "height": 55.5
+        },
+        {
+          "room": "room-a",
+          "id": "A2",
+          "x": 51.109375,
+          "y": 383.0625,
+          "width": 55.765625,
+          "height": 55.765625
+        },
+        {
+          "room": "room-a",
+          "id": "A3",
+          "x": 304.359375,
+          "y": 506.734375,
+          "width": 58.21875,
+          "height": 58.21875
+        },
+        {
+          "room": "room-a",
+          "id": "A4",
+          "x": 316.921875,
+          "y": 267.15625,
+          "width": 51.6875,
+          "height": 51.6875
+        },
+        {
+          "room": "room-a",
+          "id": "A5",
+          "x": 21.640625,
+          "y": 253.4375,
+          "width": 51.140625,
+          "height": 51.140625
+        }
+      ],
+      "lit": [
+        {
+          "room": "room-a",
+          "id": "A1",
+          "x": 172.625,
+          "y": 419.875,
+          "width": 55.5,
+          "height": 55.5
+        },
+        {
+          "room": "room-a",
+          "id": "A2",
+          "x": 51.109375,
+          "y": 383.0625,
+          "width": 55.765625,
+          "height": 55.765625
+        },
+        {
+          "room": "room-a",
+          "id": "A3",
+          "x": 304.359375,
+          "y": 506.734375,
+          "width": 58.21875,
+          "height": 58.21875
+        },
+        {
+          "room": "room-a",
+          "id": "A4",
+          "x": 316.921875,
+          "y": 267.15625,
+          "width": 51.6875,
+          "height": 51.6875
+        },
+        {
+          "room": "room-a",
+          "id": "A5",
+          "x": 21.640625,
+          "y": 253.4375,
+          "width": 51.140625,
+          "height": 51.140625
+        }
+      ],
+      "targets": [
+        {
+          "id": "A1",
+          "width": 55.5,
+          "height": 55.5,
+          "reachable": true
+        },
+        {
+          "id": "A2",
+          "width": 55.765625,
+          "height": 55.765625,
+          "reachable": true
+        },
+        {
+          "id": "A3",
+          "width": 58.21875,
+          "height": 58.21875,
+          "reachable": true
+        },
+        {
+          "id": "A4",
+          "width": 51.6875,
+          "height": 51.6875,
+          "reachable": true
+        },
+        {
+          "id": "A5",
+          "width": 51.140625,
+          "height": 51.140625,
+          "reachable": true
+        }
+      ],
+      "coldCapture": null,
+      "darkCapture": null,
+      "freezeAcrossDarkUpdates": true,
+      "reconnectPreservesGeometry": true,
+      "noCommandSent": true
+    },
+    {
+      "width": 320,
+      "height": 568,
+      "text": 2,
+      "count": 8,
+      "cold": [
+        {
+          "room": "room-a",
+          "id": "A1",
+          "x": 141.953125,
+          "y": 292.265625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A2",
+          "x": 73.625,
+          "y": 271.625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A3",
+          "x": 216.890625,
+          "y": 341.921875,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A4",
+          "x": 222.125,
+          "y": 205.21875,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A5",
+          "x": 55.734375,
+          "y": 197.34375,
+          "width": 44,
+          "height": 44
+        }
+      ],
+      "lit": [
+        {
+          "room": "room-a",
+          "id": "A1",
+          "x": 141.265625,
+          "y": 288.890625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A2",
+          "x": 84.78125,
+          "y": 271.8125,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A3",
+          "x": 203.234375,
+          "y": 329.953125,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A4",
+          "x": 207.546875,
+          "y": 216.90625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A5",
+          "x": 69.984375,
+          "y": 210.40625,
+          "width": 44,
+          "height": 44
+        }
+      ],
+      "targets": [
+        {
+          "id": "A1",
+          "width": 44,
+          "height": 44,
+          "reachable": true
+        },
+        {
+          "id": "A2",
+          "width": 44,
+          "height": 44,
+          "reachable": true
+        },
+        {
+          "id": "A3",
+          "width": 44,
+          "height": 44,
+          "reachable": true
+        },
+        {
+          "id": "A4",
+          "width": 44,
+          "height": 44,
+          "reachable": true
+        },
+        {
+          "id": "A5",
+          "width": 44,
+          "height": 44,
+          "reachable": true
+        }
+      ],
+      "coldCapture": null,
+      "darkCapture": null,
+      "freezeAcrossDarkUpdates": true,
+      "reconnectPreservesGeometry": true,
+      "noCommandSent": true
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "text": 1,
+      "count": 9,
+      "cold": [
+        {
+          "room": "room-a",
+          "id": "A1",
+          "x": 172.625,
+          "y": 419.875,
+          "width": 55.5,
+          "height": 55.5
+        },
+        {
+          "room": "room-a",
+          "id": "A2",
+          "x": 51.109375,
+          "y": 383.0625,
+          "width": 55.765625,
+          "height": 55.765625
+        },
+        {
+          "room": "room-a",
+          "id": "A3",
+          "x": 304.359375,
+          "y": 506.734375,
+          "width": 58.21875,
+          "height": 58.21875
+        },
+        {
+          "room": "room-a",
+          "id": "A4",
+          "x": 316.921875,
+          "y": 267.15625,
+          "width": 51.6875,
+          "height": 51.6875
+        },
+        {
+          "room": "room-a",
+          "id": "A5",
+          "x": 21.640625,
+          "y": 253.4375,
+          "width": 51.140625,
+          "height": 51.140625
+        }
+      ],
+      "lit": [
+        {
+          "room": "room-a",
+          "id": "A1",
+          "x": 172.625,
+          "y": 419.875,
+          "width": 55.5,
+          "height": 55.5
+        },
+        {
+          "room": "room-a",
+          "id": "A2",
+          "x": 51.109375,
+          "y": 383.0625,
+          "width": 55.765625,
+          "height": 55.765625
+        },
+        {
+          "room": "room-a",
+          "id": "A3",
+          "x": 304.359375,
+          "y": 506.734375,
+          "width": 58.21875,
+          "height": 58.21875
+        },
+        {
+          "room": "room-a",
+          "id": "A4",
+          "x": 316.921875,
+          "y": 267.15625,
+          "width": 51.6875,
+          "height": 51.6875
+        },
+        {
+          "room": "room-a",
+          "id": "A5",
+          "x": 21.640625,
+          "y": 253.4375,
+          "width": 51.140625,
+          "height": 51.140625
+        }
+      ],
+      "targets": [
+        {
+          "id": "A1",
+          "width": 55.5,
+          "height": 55.5,
+          "reachable": true
+        },
+        {
+          "id": "A2",
+          "width": 55.765625,
+          "height": 55.765625,
+          "reachable": true
+        },
+        {
+          "id": "A3",
+          "width": 58.21875,
+          "height": 58.21875,
+          "reachable": true
+        },
+        {
+          "id": "A4",
+          "width": 51.6875,
+          "height": 51.6875,
+          "reachable": true
+        },
+        {
+          "id": "A5",
+          "width": 51.140625,
+          "height": 51.140625,
+          "reachable": true
+        }
+      ],
+      "coldCapture": "390-844-100-9-blackout-cold.jpg",
+      "darkCapture": "390-844-100-9-blackout-frozen.jpg",
+      "freezeAcrossDarkUpdates": true,
+      "reconnectPreservesGeometry": true,
+      "noCommandSent": true
+    },
+    {
+      "width": 320,
+      "height": 568,
+      "text": 2,
+      "count": 9,
+      "cold": [
+        {
+          "room": "room-a",
+          "id": "A1",
+          "x": 141.953125,
+          "y": 292.265625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A2",
+          "x": 73.625,
+          "y": 271.625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A3",
+          "x": 216.890625,
+          "y": 341.921875,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A4",
+          "x": 222.125,
+          "y": 205.21875,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A5",
+          "x": 55.734375,
+          "y": 197.34375,
+          "width": 44,
+          "height": 44
+        }
+      ],
+      "lit": [
+        {
+          "room": "room-a",
+          "id": "A1",
+          "x": 141.265625,
+          "y": 288.890625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A2",
+          "x": 84.78125,
+          "y": 271.8125,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A3",
+          "x": 203.234375,
+          "y": 329.953125,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A4",
+          "x": 207.546875,
+          "y": 216.90625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A5",
+          "x": 69.984375,
+          "y": 210.40625,
+          "width": 44,
+          "height": 44
+        }
+      ],
+      "targets": [
+        {
+          "id": "A1",
+          "width": 44,
+          "height": 44,
+          "reachable": true
+        },
+        {
+          "id": "A2",
+          "width": 44,
+          "height": 44,
+          "reachable": true
+        },
+        {
+          "id": "A3",
+          "width": 44,
+          "height": 44,
+          "reachable": true
+        },
+        {
+          "id": "A4",
+          "width": 44,
+          "height": 44,
+          "reachable": true
+        },
+        {
+          "id": "A5",
+          "width": 44,
+          "height": 44,
+          "reachable": true
+        }
+      ],
+      "coldCapture": "320-568-200-9-blackout-cold.jpg",
+      "darkCapture": "320-568-200-9-blackout-frozen.jpg",
+      "freezeAcrossDarkUpdates": true,
+      "reconnectPreservesGeometry": true,
+      "noCommandSent": true
+    }
+  ],
+  "figureFailures": [
+    {
+      "width": 390,
+      "height": 844,
+      "text": 1,
+      "count": 7,
+      "room": "room-a",
+      "size": 5,
+      "error": "Drawn figure is clipped: {\"seat\":\"seat-3\",\"slot\":\"A3\",\"room\":\"room-a\",\"clinical\":false,\"paintedPixels\":33796,\"rawSvgBounds\":{\"x\":-32.363521575927734,\"y\":57.4911003112793,\"width\":175.70071411132812,\"height\":190.4578399658203},\"bounds\":{\"left\":271.5147705078125,\"right\":446.8782958984375,\"top\":456.611083984375,\"bottom\":646.6904296875,\"width\":175.363525390625,\"height\":190.079345703125},\"clip\":{\"left\":0,\"right\":390,\"top\":60,\"bottom\":776},\"visibleRatio\":0.6756549244106481,\"opacity\":1}"
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "text": 1,
+      "count": 7,
+      "room": "room-b",
+      "size": 5,
+      "error": "Drawn figure is clipped: {\"seat\":\"seat-3\",\"slot\":\"B3\",\"room\":\"room-b\",\"clinical\":false,\"paintedPixels\":34624,\"rawSvgBounds\":{\"x\":18.400001525878906,\"y\":-9.71316146850586,\"width\":92.69999694824219,\"height\":251.31317138671875},\"bounds\":{\"left\":301.402099609375,\"right\":399.806640625,\"top\":430.314453125,\"bottom\":693.345458984375,\"width\":98.404541015625,\"height\":263.031005859375},\"clip\":{\"left\":0,\"right\":390,\"top\":60,\"bottom\":776},\"visibleRatio\":0.9003436170344733,\"opacity\":1}"
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "text": 1,
+      "count": 7,
+      "room": "hospital",
+      "size": 4,
+      "error": "Drawn figure is clipped: {\"seat\":\"seat-2\",\"slot\":\"H1\",\"room\":\"hospital\",\"clinical\":true,\"paintedPixels\":16163,\"rawSvgBounds\":{\"x\":-200,\"y\":-200,\"width\":600,\"height\":600},\"bounds\":{\"left\":-3.418212890625007,\"right\":85.27734374999999,\"top\":611.82470703125,\"bottom\":759.921875,\"width\":88.695556640625,\"height\":148.09716796875},\"clip\":{\"left\":0,\"right\":390,\"top\":60,\"bottom\":776},\"visibleRatio\":0.9614612837430531,\"opacity\":1}"
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "text": 1,
+      "count": 7,
+      "room": "jail",
+      "size": 5,
+      "error": "Drawn figure is clipped: {\"seat\":\"seat-2\",\"slot\":\"J1\",\"room\":\"jail\",\"clinical\":false,\"paintedPixels\":24689,\"rawSvgBounds\":{\"x\":18.899999618530273,\"y\":78.53677368164062,\"width\":88.00000762939453,\"height\":166.2632293701172},\"bounds\":{\"left\":-2.4418945312500018,\"right\":52.35351562499999,\"top\":333.5335693359375,\"bottom\":438.311279296875,\"width\":54.79541015624999,\"height\":104.7777099609375},\"clip\":{\"left\":0,\"right\":390,\"top\":60,\"bottom\":776},\"visibleRatio\":0.9554361483144865,\"opacity\":1}"
+    },
+    {
+      "width": 320,
+      "height": 568,
+      "text": 2,
+      "count": 7,
+      "room": "hospital",
+      "size": 4,
+      "error": "Drawn figure is clipped: {\"seat\":\"seat-1\",\"slot\":\"H2\",\"room\":\"hospital\",\"clinical\":true,\"paintedPixels\":23920,\"rawSvgBounds\":{\"x\":31.30000114440918,\"y\":98.45891571044922,\"width\":79.57377624511719,\"height\":166.44107055664062},\"bounds\":{\"left\":205.86062622070312,\"right\":255.85610961914062,\"top\":362.6671142578125,\"bottom\":467.203125,\"width\":49.9954833984375,\"height\":104.5360107421875},\"clip\":{\"left\":0,\"right\":320,\"top\":129.390625,\"bottom\":464.8125},\"visibleRatio\":0.9771310863784931,\"opacity\":1}"
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "text": 1,
+      "count": 8,
+      "room": "room-a",
+      "size": 5,
+      "error": "Drawn figure is clipped: {\"seat\":\"seat-3\",\"slot\":\"A3\",\"room\":\"room-a\",\"clinical\":false,\"paintedPixels\":33797,\"rawSvgBounds\":{\"x\":-32.363521575927734,\"y\":57.401641845703125,\"width\":175.70071411132812,\"height\":190.54730224609375},\"bounds\":{\"left\":271.5147705078125,\"right\":446.8782958984375,\"top\":456.611083984375,\"bottom\":646.6904296875,\"width\":175.363525390625,\"height\":190.079345703125},\"clip\":{\"left\":0,\"right\":390,\"top\":60,\"bottom\":776},\"visibleRatio\":0.6756549244106481,\"opacity\":1}"
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "text": 1,
+      "count": 8,
+      "room": "room-b",
+      "size": 5,
+      "error": "Drawn figure is clipped: {\"seat\":\"seat-3\",\"slot\":\"B3\",\"room\":\"room-b\",\"clinical\":false,\"paintedPixels\":34626,\"rawSvgBounds\":{\"x\":18.400001525878906,\"y\":-9.794239044189453,\"width\":92.69999694824219,\"height\":251.3942413330078},\"bounds\":{\"left\":301.402099609375,\"right\":399.806640625,\"top\":430.314453125,\"bottom\":693.345458984375,\"width\":98.404541015625,\"height\":263.031005859375},\"clip\":{\"left\":0,\"right\":390,\"top\":60,\"bottom\":776},\"visibleRatio\":0.9003436170344733,\"opacity\":1}"
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "text": 1,
+      "count": 8,
+      "room": "hospital",
+      "size": 4,
+      "error": "Drawn figure is clipped: {\"seat\":\"seat-2\",\"slot\":\"H1\",\"room\":\"hospital\",\"clinical\":true,\"paintedPixels\":16143,\"rawSvgBounds\":{\"x\":-200,\"y\":-200,\"width\":600,\"height\":600},\"bounds\":{\"left\":-3.418212890625007,\"right\":85.27734374999999,\"top\":611.85595703125,\"bottom\":759.953125,\"width\":88.695556640625,\"height\":148.09716796875},\"clip\":{\"left\":0,\"right\":390,\"top\":60,\"bottom\":776},\"visibleRatio\":0.9614612837430531,\"opacity\":1}"
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "text": 1,
+      "count": 8,
+      "room": "jail",
+      "size": 5,
+      "error": "Drawn figure is clipped: {\"seat\":\"seat-2\",\"slot\":\"J1\",\"room\":\"jail\",\"clinical\":false,\"paintedPixels\":24670,\"rawSvgBounds\":{\"x\":18.899999618530273,\"y\":78.80473327636719,\"width\":88.00000762939453,\"height\":165.99526977539062},\"bounds\":{\"left\":-2.4418945312500018,\"right\":52.35351562499999,\"top\":333.5335693359375,\"bottom\":438.311279296875,\"width\":54.79541015624999,\"height\":104.7777099609375},\"clip\":{\"left\":0,\"right\":390,\"top\":60,\"bottom\":776},\"visibleRatio\":0.9554361483144865,\"opacity\":1}"
+    },
+    {
+      "width": 320,
+      "height": 568,
+      "text": 2,
+      "count": 8,
+      "room": "hospital",
+      "size": 4,
+      "error": "Drawn figure is clipped: {\"seat\":\"seat-1\",\"slot\":\"H2\",\"room\":\"hospital\",\"clinical\":true,\"paintedPixels\":23917,\"rawSvgBounds\":{\"x\":31.30000114440918,\"y\":98.53073120117188,\"width\":79.57762145996094,\"height\":166.3692626953125},\"bounds\":{\"left\":205.86062622070312,\"right\":255.85610961914062,\"top\":362.6671142578125,\"bottom\":467.203125,\"width\":49.9954833984375,\"height\":104.5360107421875},\"clip\":{\"left\":0,\"right\":320,\"top\":129.390625,\"bottom\":464.8125},\"visibleRatio\":0.9771310863784931,\"opacity\":1}"
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "text": 1,
+      "count": 9,
+      "room": "room-a",
+      "size": 5,
+      "error": "Drawn figure is clipped: {\"seat\":\"seat-3\",\"slot\":\"A3\",\"room\":\"room-a\",\"clinical\":false,\"paintedPixels\":33795,\"rawSvgBounds\":{\"x\":-32.363521575927734,\"y\":57.53097152709961,\"width\":175.70071411132812,\"height\":190.41796875},\"bounds\":{\"left\":271.5147705078125,\"right\":446.8782958984375,\"top\":456.611083984375,\"bottom\":646.6904296875,\"width\":175.363525390625,\"height\":190.079345703125},\"clip\":{\"left\":0,\"right\":390,\"top\":60,\"bottom\":776},\"visibleRatio\":0.6756549244106481,\"opacity\":1}"
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "text": 1,
+      "count": 9,
+      "room": "room-b",
+      "size": 5,
+      "error": "Drawn figure is clipped: {\"seat\":\"seat-3\",\"slot\":\"B3\",\"room\":\"room-b\",\"clinical\":false,\"paintedPixels\":34626,\"rawSvgBounds\":{\"x\":18.400001525878906,\"y\":-9.623015403747559,\"width\":92.69999694824219,\"height\":251.2230224609375},\"bounds\":{\"left\":301.402099609375,\"right\":399.806640625,\"top\":430.314453125,\"bottom\":693.345458984375,\"width\":98.404541015625,\"height\":263.031005859375},\"clip\":{\"left\":0,\"right\":390,\"top\":60,\"bottom\":776},\"visibleRatio\":0.9003436170344733,\"opacity\":1}"
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "text": 1,
+      "count": 9,
+      "room": "hospital",
+      "size": 4,
+      "error": "Drawn figure is clipped: {\"seat\":\"seat-2\",\"slot\":\"H1\",\"room\":\"hospital\",\"clinical\":true,\"paintedPixels\":16224,\"rawSvgBounds\":{\"x\":-200,\"y\":-200,\"width\":600,\"height\":600},\"bounds\":{\"left\":-3.418212890625007,\"right\":85.27734374999999,\"top\":610.901611328125,\"bottom\":759.8125,\"width\":88.695556640625,\"height\":148.910888671875},\"clip\":{\"left\":0,\"right\":390,\"top\":60,\"bottom\":776},\"visibleRatio\":0.9614612837430531,\"opacity\":1}"
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "text": 1,
+      "count": 9,
+      "room": "jail",
+      "size": 5,
+      "error": "Drawn figure is clipped: {\"seat\":\"seat-2\",\"slot\":\"J1\",\"room\":\"jail\",\"clinical\":false,\"paintedPixels\":24707,\"rawSvgBounds\":{\"x\":18.899999618530273,\"y\":77.87873840332031,\"width\":88.00000762939453,\"height\":166.9212646484375},\"bounds\":{\"left\":-2.4418945312500018,\"right\":52.35351562499999,\"top\":333.163330078125,\"bottom\":438.311279296875,\"width\":54.79541015624999,\"height\":105.14794921875},\"clip\":{\"left\":0,\"right\":390,\"top\":60,\"bottom\":776},\"visibleRatio\":0.9554361483144865,\"opacity\":1}"
+    },
+    {
+      "width": 320,
+      "height": 568,
+      "text": 2,
+      "count": 9,
+      "room": "hospital",
+      "size": 4,
+      "error": "Drawn figure is clipped: {\"seat\":\"seat-1\",\"slot\":\"H2\",\"room\":\"hospital\",\"clinical\":true,\"paintedPixels\":23899,\"rawSvgBounds\":{\"x\":31.30000114440918,\"y\":98.4885482788086,\"width\":81.05039978027344,\"height\":166.41143798828125},\"bounds\":{\"left\":205.10311889648438,\"right\":255.85610961914062,\"top\":362.8583679199219,\"bottom\":467.015625,\"width\":50.75299072265625,\"height\":104.15725708007812},\"clip\":{\"left\":0,\"right\":320,\"top\":129.390625,\"bottom\":464.8125},\"visibleRatio\":0.978848089304942,\"opacity\":1}"
+    }
+  ],
+  "sourcesUnchangedThroughRun": true,
+  "runtimeErrors": []
+}

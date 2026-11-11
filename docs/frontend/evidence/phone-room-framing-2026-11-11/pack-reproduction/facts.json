@@ -1,0 +1,93 @@
+{
+  "pack": "89935bd6c0a37abfbe6da8130205d6d8a16e80e1",
+  "scope": "Exact approved pack paintRoom with the same 7-player full-Room-A native reproduction fixture and 386x712 panel; camera/art reproduction only.",
+  "seats": [
+    {
+      "seat": 2,
+      "name": "Crew 2",
+      "character": "c2",
+      "location": "Room A",
+      "slot": "A1",
+      "health": "Healthy",
+      "jailed": false
+    },
+    {
+      "seat": 1,
+      "name": "Crew 1",
+      "character": "c1",
+      "location": "Room A",
+      "slot": "A2",
+      "health": "Healthy",
+      "jailed": false
+    },
+    {
+      "seat": 3,
+      "name": "Crew 3",
+      "character": "c3",
+      "location": "Room A",
+      "slot": "A3",
+      "health": "Healthy",
+      "jailed": false
+    },
+    {
+      "seat": 4,
+      "name": "Crew 4",
+      "character": "c4",
+      "location": "Room A",
+      "slot": "A4",
+      "health": "Healthy",
+      "jailed": false
+    },
+    {
+      "seat": 5,
+      "name": "Crew 5",
+      "character": "c5",
+      "location": "Room A",
+      "slot": "A5",
+      "health": "Healthy",
+      "jailed": false
+    }
+  ],
+  "frame": {
+    "k": 0.978021978021978,
+    "tx": -309.4098901098901,
+    "ty": -19.56043956043956
+  },
+  "figures": [
+    {
+      "seat": 2,
+      "left": 157.09371989160775,
+      "right": 243.18246011684337,
+      "top": 377.3659248405695,
+      "bottom": 567.7520795279742
+    },
+    {
+      "seat": 1,
+      "left": 26.69645423173904,
+      "right": 119.98892788052558,
+      "top": 333.0682624538491,
+      "bottom": 581.1330822817235
+    },
+    {
+      "seat": 3,
+      "left": 268.6735481508573,
+      "right": 452.53702460527415,
+      "top": 449.8141705663999,
+      "bottom": 648.7953261113166
+    },
+    {
+      "seat": 4,
+      "left": 290.79682954271635,
+      "right": 385.54374851822854,
+      "top": 228.62767611594248,
+      "bottom": 449.45117388815925
+    },
+    {
+      "seat": 5,
+      "left": 0.538416140625877,
+      "right": 90.9078616545101,
+      "top": 217.60885649080078,
+      "bottom": 435.67821131423113
+    }
+  ]
+}
