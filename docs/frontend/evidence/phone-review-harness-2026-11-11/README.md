@@ -1,0 +1,11 @@
+# Current-main review harness repair
+
+Base: `d574d3714414f1d51ca4b8da8bbe6ddde565cfbe`. Harness code/captures: `e7bf3c4a0c836c7dde62cdb7498230b994d749de`. Documentation location correction/final full checks: `f771b8ec048a6f1c3becfe185fa0c9a47429a467`. Only the instructions moved after the capture build; every recorded native module and review-tool byte still matches the final candidate. No native interface file changed.
+
+The old config rejected current main’s legitimate production-verifier changes because its development baseline was locked to `fb33cecb`. The new owned helper requires a separate clean baseline in fetched `origin/main` history, compares the asset plugins’ complete relative JavaScript dependency graph with both committed and on-disk baseline bytes, and then runs the unchanged production asset/source/port/consumer checks. The actual current-main baseline and candidate/review tool hashes are separate in `review-provenance.json`.
+
+Five targeted guards, pure/browser typecheck, source integrity and all959 Frontend tests passed. The original obsolete-baseline failure and the documentation-location rejection remain in `checks/`; no production fence was relaxed to fix either.
+
+Designer’s exact #223 tool (`d51bb06f`) drew all49 catalogued parts without page or request problems. Forty-eight native states were drawn; Boarding is the existing documented pack-only case because the harness has no boarding scenario. Eight stage sheets are committed. The complete self-contained comparison, including per-part images, remains outside the repository at `/private/tmp/gamen-phone-harness-comparison-e7bf3c4a`; `compare.json` retains its original relative image paths. Reproduce with [the harness instructions](../../phone-review-harness.md) and Designer’s comparison command. The committed stage sheets demonstrate tooling compatibility, not design parity or acceptance. Existing same/close/differs findings remain the unmodified baseline; #222 remains open.
+
+Changed part IDs: **none** (development review infrastructure only). All thirteen pinned native interface files are byte-identical to main. Phone-interface changes will have their own PRs, changed part IDs, required size/text captures and Designer approval. No deployment, shared approval, historical hash, rule, art, native runtime or source-fence change is included here.

@@ -1,0 +1,142 @@
+{
+  "schema": "mothership.phone-review-harness-verification/1",
+  "base": "d574d3714414f1d51ca4b8da8bbe6ddde565cfbe",
+  "harnessCodeCommit": "e7bf3c4a0c836c7dde62cdb7498230b994d749de",
+  "documentationCorrectionCommit": "f771b8ec048a6f1c3becfe185fa0c9a47429a467",
+  "changedPartIds": [],
+  "nativeInterfaceChanged": false,
+  "nativeFiles": [
+    {
+      "path": "apps/game/hosted/board-v2-scene.mjs",
+      "sha256": "4a55917bba96fdf8eb394565529060378c190a432a8d9b9fac283de11a6aa95c",
+      "unchangedFromMain": true
+    },
+    {
+      "path": "apps/game/hosted/crew-runtime.mjs",
+      "sha256": "38c2da495f43162f928a8ff5e2fce2247e6748b2cbefba250b3b1f20138cdd3f",
+      "unchangedFromMain": true
+    },
+    {
+      "path": "apps/game/hosted/planet/app.mjs",
+      "sha256": "5d1e370917f7f7b55ffe4cf71321384fad9b76a39830682c708e28d51f129aed",
+      "unchangedFromMain": true
+    },
+    {
+      "path": "apps/game/hosted/planet/phone-controls.mjs",
+      "sha256": "34a9e2b9253e4b81c09b0e3aab594efccac056adf7a4b05e9cd2e0b392834758",
+      "unchangedFromMain": true
+    },
+    {
+      "path": "apps/game/hosted/planet/phone-layout.mjs",
+      "sha256": "e2f336ce00048cac3e24710a2f2faa37abd422ac937345ce3dada7a2891ecfb2",
+      "unchangedFromMain": true
+    },
+    {
+      "path": "apps/game/hosted/planet/phone.css",
+      "sha256": "d1d70c3fd7d38dab73095858d38697c70f0a9edfc36d9851e3e547b5dfb8328d",
+      "unchangedFromMain": true
+    },
+    {
+      "path": "apps/game/hosted/planet/render.mjs",
+      "sha256": "f1d32153c5d324ca0c7b47bd5d21bda8d7a6c1033b95090bc2ad85cb5458ece3",
+      "unchangedFromMain": true
+    },
+    {
+      "path": "apps/game/src/planet/controller.ts",
+      "sha256": "aad0033bad2eb6efaab4f814435f455bcbdaa065e05da75c931a28c4930e9abf",
+      "unchangedFromMain": true
+    },
+    {
+      "path": "apps/game/src/planet/pregame.ts",
+      "sha256": "58bf5dc183eab8a22b1e749e8249af63cb628419fb95b444573dd7cc682282ab",
+      "unchangedFromMain": true
+    },
+    {
+      "path": "apps/game/src/planet/session.ts",
+      "sha256": "214ce6d2f8cbf62427aaeaba70aa774aafa1803328666bf6179382a7d56966df",
+      "unchangedFromMain": true
+    },
+    {
+      "path": "apps/game/src/planet/transport.ts",
+      "sha256": "c4472e4e0713360ca24d33ecc7b982b4b3a45c3d8cef08104e51ff55e07c94ed",
+      "unchangedFromMain": true
+    },
+    {
+      "path": "packages/presentation/src/planet/library.ts",
+      "sha256": "da670888f095071215d0d963cb5b5c635ae068afa4f66aa37a7a297bd44b8e68",
+      "unchangedFromMain": true
+    },
+    {
+      "path": "packages/presentation/src/planet/model.ts",
+      "sha256": "c8598cfbdb96614dd743c473523db0d8105c54e5e5bc65a4257062c6c8f6fb7b",
+      "unchangedFromMain": true
+    }
+  ],
+  "build": {
+    "passed": true,
+    "output": "/private/tmp/gamen-phone-preview",
+    "artifactProvenance": "review-provenance.json",
+    "baselineHead": "d574d3714414f1d51ca4b8da8bbe6ddde565cfbe",
+    "fetchedMainHead": "d574d3714414f1d51ca4b8da8bbe6ddde565cfbe",
+    "verifiedAssetToolingFiles": 15,
+    "recordedCandidateModules": 171,
+    "assetOutputs": 30
+  },
+  "checks": {
+    "typecheck": "passed at e7bf; only documentation moved afterward",
+    "sourceIntegrity": "passed; production approvals/readers/fences untouched",
+    "reviewBaseGuards": {
+      "passed": 5,
+      "checks": [
+        "Clean main baseline accepted with transitive verifier hashes",
+        "Dirty baseline rejected",
+        "Transitive candidate verifier drift rejected",
+        "Clean unmerged branch rejected",
+        "Assume-unchanged hidden baseline verifier drift rejected"
+      ]
+    },
+    "frontend": {
+      "source": "f771b8ec048a6f1c3becfe185fa0c9a47429a467",
+      "passed": 959,
+      "presentation": 219,
+      "app": 740,
+      "failed": 0,
+      "skipped": 0
+    },
+    "productionExclusion": {
+      "reachable": 76,
+      "scanned": 226,
+      "devLabelled": 118,
+      "leaks": 0
+    }
+  },
+  "comparison": {
+    "toolHead": "d51bb06ff77036967cff0aa3978c4c4677cadeb5",
+    "candidateHead": "e7bf3c4a0c836c7dde62cdb7498230b994d749de",
+    "pack": {
+      "commit": "d51bb06ff77036967cff0aa3978c4c4677cadeb5",
+      "dirty": false
+    },
+    "cataloguedParts": 49,
+    "nativeStatesDrawn": 48,
+    "packOnly": [
+      "boarding"
+    ],
+    "stageSheets": 8,
+    "pageOrRequestProblems": 0,
+    "fullReviewFolder": "/private/tmp/gamen-phone-harness-comparison-e7bf3c4a",
+    "committedImages": "stages/",
+    "acceptance": "Tool interoperability only; Designer baseline findings are retained and no native visual acceptance is claimed"
+  },
+  "preservedFailures": [
+    "Original fb33/current-main tooling mismatch",
+    "README initially placed in code-only dev tree; exclusion rejected it and documentation was moved without changing the guard"
+  ],
+  "limits": [
+    "Desktop Chromium synthetic snapshots",
+    "No physical phones, Safari, VoiceOver or performance tests",
+    "No live game or deployment",
+    "No interface parts accepted or issue222 closure"
+  ],
+  "approvalBoundary": "Clean baseline is on fetched origin/main; every asset-verifier module matches its committed baseline bytes; unchanged plugins still enforce full source/asset/port/consumer approvals. Harness success does not authorize candidate production bytes."
+}
