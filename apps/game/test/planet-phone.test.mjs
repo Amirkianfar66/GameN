@@ -5,6 +5,20 @@ import {planetRegistrationText,planetPromiseTerms} from '@mothership/presentatio
 import {phoneLayouts,createBlackoutGeometry} from '../hosted/planet/phone-layout.mjs';
 import {planetView,rig,ids} from './planet-support.mjs';
 import {readPlanetView} from '../dist/index.js';
+import {FRAME} from '../hosted/scene-drawing/body.mjs';
+import {BOARD_ROOMS,slotsOf} from '../hosted/board-v2-drawing/slots-four.mjs';
+
+test('room cameras contain every fixed rig canvas and keep distinct tappable slot centres at normal and enlarged text',()=>{
+ const [bx,by,side]=FRAME.box,[ax,ay]=FRAME.anchor;
+ for(const [width,height]of [[320,568],[390,844],[430,932]])for(const count of [7,8,9])for(const [top,nav]of [[60,74],[160,110]]){
+  const layouts=phoneLayouts({width,height,top,nav},count),panel=layouts.roomPanel;
+  for(const room of BOARD_ROOMS){const f=layouts.roomFrames[room],presses=layouts.roomPresses[room];for(const slot of slotsOf(room,count)){
+   const left=f.tx+(slot.at[0]-(ax-bx)*slot.scale)*f.k,upper=f.ty+(slot.at[1]-(ay-by)*slot.scale)*f.k,size=side*slot.scale*f.k;
+   assert.ok(left>=7.99&&left+size<=panel.width-7.99,`${room}/${slot.id} complete rig width`);assert.ok(upper>=panel.cap+7.99&&upper+size<=panel.height-panel.pad-7.99,`${room}/${slot.id} complete rig height`);assert.ok(size>=44,'Visible rig canvas remains identifiable');
+   const r=presses.find(p=>p.id===slot.id),centre=[r.left+r.side/2,r.top+r.side/2];assert.ok(r.side>=44);assert.ok(!presses.some(other=>other!==r&&centre[0]>other.left&&centre[0]<other.left+other.side&&centre[1]>other.top&&centre[1]<other.top+other.side),`${room}/${slot.id} target centre belongs to its own slot`);
+  }}
+ }
+});
 
 test('Blackout keeps geometry for both views through text/layout changes without retaining a roster',()=>{
  for(const [width,height]of [[320,568],[390,844],[430,932]])for(const count of [7,8,9]){
