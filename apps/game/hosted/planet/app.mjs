@@ -10,6 +10,7 @@ import {mountPregamePresentation} from './pregame.mjs';
 import {createPlanetPreferences} from './preferences.mjs';
 import {CREW} from '../crew-drawing/crew.mjs';
 import {labelPhoneControl} from './phone-controls.mjs';
+import {phoneLayouts} from './phone-layout.mjs';
 import '../comic-tokens.css';
 import '../comic.css';
 import '../comic-layout.css';
@@ -129,7 +130,7 @@ export async function mountPlanetApp(root,{connection,matchId,allowSynthetic=fal
   const running=['running','finished'].includes(model.status),surface=model.selfSeatId?'player':'display';
   if(running){
    const nextKey=`${model.matchId}:${surface}:${model.selfSeatId}`;
-   if(key!==nextKey){renderer?.dispose();game?.dispose();root.className='planet-container';root.replaceChildren();gameRoot=el('div');root.append(gameRoot);key=nextKey;game=createPlanetController(session.gameTransport(surface),ports,{matchId:model.matchId,surface});terminalReturn=returnButton();terminalReturn.hidden=true;renderer=mountPlanetRenderer(gameRoot,game,{cinematics:planetHasLibraryArt(model.versions)?PLANET_LIBRARY_MEDIA:[],terminalAction:terminalReturn,settings:parent=>{preferences.controls(parent);if(model.isHost&&!game?.getModel().dark)hostControls(parent);}});void game.start();}
+   if(key!==nextKey){renderer?.dispose();game?.dispose();root.className='planet-container';root.replaceChildren();gameRoot=el('div');root.append(gameRoot);key=nextKey;game=createPlanetController(session.gameTransport(surface),ports,{matchId:model.matchId,surface});terminalReturn=returnButton();terminalReturn.hidden=true;renderer=mountPlanetRenderer(gameRoot,game,{cinematics:planetHasLibraryArt(model.versions)?PLANET_LIBRARY_MEDIA:[],terminalAction:terminalReturn,blackoutLayout:(context,viewport)=>session.withBlackoutFraming(context,positions=>phoneLayouts(viewport,context.playerCount,positions)),settings:parent=>{preferences.controls(parent);if(model.isHost&&!game?.getModel().dark)hostControls(parent);}});void game.start();}
    const nextHostState=JSON.stringify([model.isHost,model.busy,model.uncertain,model.recoveryCode,model.pendingAdmissions,model.status,abortConfirm]);if(nextHostState!==hostState){hostState=nextHostState;recoveryShown=false;renderer?.settingsChanged();}return;
   }
   // A stale/hidden session does not discard a command's controller or recovery identifiers.

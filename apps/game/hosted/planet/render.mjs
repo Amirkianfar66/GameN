@@ -21,7 +21,7 @@ const putBox=(node,r)=>{if(!r)return;for(const k of ['left','top','width','heigh
 const roomFor=slot=>BOARD_ROOMS.find(room=>slotsOf(room,9).some(s=>s.id===slot));
 
 /** Native consumer renderer: public scene DTOs feed approved pure drawings, never legacy wire views. */
-export function mountPlanetRenderer(root,controller,{cinematics=[],terminalAction=null,settings=null}={}){
+export function mountPlanetRenderer(root,controller,{cinematics=[],terminalAction=null,settings=null,blackoutLayout=null}={}){
  const document=root.ownerDocument,win=document.defaultView;
  const library=createPlanetLibrary(document);
  const readInsets=()=>{const probe=document.createElement('div');probe.style.cssText='position:fixed;visibility:hidden;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)';document.body.append(probe);const style=win.getComputedStyle(probe),value={top:parseFloat(style.paddingTop)||0,right:parseFloat(style.paddingRight)||0,bottom:parseFloat(style.paddingBottom)||0,left:parseFloat(style.paddingLeft)||0};probe.remove();return value;};
@@ -323,7 +323,10 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   root.style.setProperty('--phone-top',`${top}px`);root.style.setProperty('--phone-nav',`${bottom}px`);
   // Keep this coordinate-only cache through conceal/reconnect. Fresh phase data or
   // disposal retires it; no people, names, identities or private selections enter it.
-  allLayouts=model.playerCount?blackoutGeometry.read(model.phase?.kind==='BLACKOUT'?model.presentation?.blackout?.windowId:null,()=>phoneLayouts({width:win.innerWidth,height:win.innerHeight,top,nav:bottom},model.playerCount)):null;
+  const viewport={width:win.innerWidth,height:win.innerHeight,top,nav:bottom},window=model.phase?.kind==='BLACKOUT'?model.presentation?.blackout:null;
+  const context=window?{matchId:model.matchId,round:model.round,playerCount:model.playerCount,versions:model.versions,phaseId:model.phase.id,windowId:window.windowId,startedAt:model.phase.startedAt,previewEndsAt:window.previewEndsAt,endsAt:window.endsAt}:null;
+  const windowKey=context?JSON.stringify(context):null;
+  allLayouts=model.playerCount?blackoutGeometry.read(windowKey,()=>model.dark&&model.surface==='player'?blackoutLayout?.(context,viewport)??null:phoneLayouts(viewport,model.playerCount,model.board?.seats??[]),{dark:model.dark}):null;
   if(allLayouts){root.style.setProperty('--phone-top',`${allLayouts.top}px`);root.style.setProperty('--phone-nav',`${allLayouts.nav}px`);}
   layout=allLayouts?.[sceneMode]??null;
   holder.hidden=model.concealed||!layout?.fits;
