@@ -1,0 +1,30 @@
+<!doctype html>
+<!-- mothership:dev-only · the room view's framing checked the way Frontend checks it (#222): design/phone-ui/prototype/framing-check.mjs. A desktop Chrome measurement; not the game. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Room framing check</title>
+<link rel="stylesheet" href="../../board-motion/assets/board-motion.scenes.css">
+<link rel="stylesheet" href="../../../apps/game/candidates/planet-library/successor.css">
+<link rel="stylesheet" href="./kit.css">
+<link rel="stylesheet" href="./screens.css">
+<style>
+  body { margin: 0; background: #F4EBDD; color: #151923; font: 13px/1.35 system-ui, sans-serif; }
+  h1 { font-size: 20px; margin: 18px 22px 4px; }
+  p.lede { margin: 0 22px 12px; max-width: 1200px; color: #5B6170; }
+  #cases { display: flex; flex-wrap: wrap; gap: 16px 14px; padding: 0 22px 22px; align-items: flex-start; }
+  figure { margin: 0; }
+  figcaption { max-width: 300px; margin-top: 4px; }
+  /* isolate: the room's back picture sits at a negative z-index, inside the panel as on the phone (kit.css .ph). */
+  .panel { position: relative; overflow: hidden; isolation: isolate; background: #0D1017; outline: 2px solid #151923; }
+</style>
+</head>
+<body>
+<h1>Every full room, every figure whole: the corrected framing (T1, #222)</h1>
+<p class="lede">Frontend's own failing case, then each room full on Frontend's native 386 × 712 panel and the pack's phones, painted by the pack's own paintRoom: standing and everyone Eliminated in place, with the nine characters turned through the places (7, 8 and 9 players in turn) so each character stands in each place; the first turn is shown, every turn is measured (framing-check.json). Each caption gives the least visible share of any figure's painted pixels, both layers, counted the way Frontend counts them: the figure drawn again past its own box and each painted pixel tested against the panel; as drawn (Reduce motion) and at every corner of the crew's own motion (the head's idle drift and tilt, the hanging hair's swing). Before the correction, Frontend measured A3 at 67.6 %, B3 at 90.0 %, H1 at 96.1 %, J1 at 95.5 % (386 × 712) and H2 at 97.7 % (320 × 568, 200 % text).</p>
+<div id="cases"></div>
+<script type="module" src="./framing-check.mjs"></script>
+</body>
+</html>

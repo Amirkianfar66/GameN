@@ -39,9 +39,13 @@ import { SHEETS, SIZES } from '../../../design/phone-ui/sheets/catalog.mjs';
 import { screenRegistry } from '../../../design/phone-ui/prototype/screens.mjs';
 import { ICONS, ICON_NAMES } from '../../../design/phone-ui/prototype/icons.mjs';
 import { FIXTURE_LABEL, ROOM_FIXTURES, board } from '../../../design/phone-ui/prototype/fixtures.mjs';
-import { EDGE_CLEAR, LOCATION_OF, phoneFrame } from '../../../design/phone-ui/prototype/art.mjs';
+import { EDGE_CLEAR, FIGURE_CLEAR, LOCATION_OF, MOTION_ALLOWANCE, paintedExtent, phoneFrame } from '../../../design/phone-ui/prototype/art.mjs';
+import { FIGURE_EXTENTS, FIGURE_EXTENTS_SOURCES, FIGURE_MOTION_RANGE, FIGURE_MOTION_REACH } from '../../../design/phone-ui/prototype/figure-extents.mjs';
+import { GESTURES } from '../../../apps/game/hosted/scene-drawing/gestures.mjs';
+import { isStill } from '../../../apps/game/hosted/crew-drawing/motion.mjs';
 import { BOARD_ROOMS, sceneOf, slotsOf } from '../../../apps/game/hosted/board-v2-drawing/slots-four.mjs';
 import { PRESS, frameScene } from '../../../apps/game/hosted/scene-drawing/frame.mjs';
+import { FRAME } from '../../../apps/game/hosted/scene-drawing/body.mjs';
 import { phoneUiAssets } from '../../../design/tools/phone-ui-assets.mjs';
 import { AMBIENT_ROOMS, SKY, SKY_EPOCH, WINDOW_DELAY, ambientLayer, settleAmbient, windowCrossings } from '../../../design/phone-ui/prototype/ambient.mjs';
 import { afterRegister } from '../../../design/phone-ui/prototype/screens-game.mjs';
@@ -123,8 +127,19 @@ test('the room view is framed wider than the first draft, fills the space betwee
     const first = frameScene(scene, { width: 390, height: 844, cap: 99 + 46, pad: 92 + 8 });
     assert.ok(frame.k <= first.k * 0.8, `${room}: people at least a fifth smaller than in the first draft`);
     const [ix0, iy0, ix1, iy1] = scene.inner;
-    assert.ok(frame.tx <= -ix0 * frame.k + 0.01 && frame.tx + ix1 * frame.k >= panel.width - 0.01, `${room}: the picture fills the width`);
-    assert.ok(frame.ty <= -iy0 * frame.k + 0.01 && frame.ty + iy1 * frame.k >= panel.height - 0.01, `${room}: the picture fills the height`);
+    // The picture fills the panel, unless T1 drew the room smaller to keep everyone whole: then it is centred.
+    const filled = phoneFrame(scene, panel, []);
+    if (frame.k >= filled.k - 1e-9) {
+      assert.ok(frame.tx <= -ix0 * frame.k + 0.01 && frame.tx + ix1 * frame.k >= panel.width - 0.01, `${room}: the picture fills the width`);
+      assert.ok(frame.ty <= -iy0 * frame.k + 0.01 && frame.ty + iy1 * frame.k >= panel.height - 0.01, `${room}: the picture fills the height`);
+    } else {
+      // Centred: its inner box, or with its own border where a figure's outline reaches into it.
+      const centred = [[iy0, iy1], [iy0, 768], [0, iy1], [0, 768]].some(([a, b]) => {
+        const top = frame.ty + a * frame.k, bottom = frame.ty + b * frame.k;
+        return bottom - top >= panel.height - 0.01 || Math.abs(top - (panel.height - bottom)) < 0.01;
+      });
+      assert.ok(centred, `${room}: drawn smaller to keep everyone whole, the picture is centred`);
+    }
     const xs = present.map(slot => frame.tx + slot.pressAt[0] * frame.k);
     const fits = Math.max(...xs) - Math.min(...xs) <= panel.width - 2 * EDGE_CLEAR;
     for (const x of xs) assert.ok(fits ? x >= EDGE_CLEAR - 0.01 && x <= panel.width - EDGE_CLEAR + 0.01 : x >= 0 && x <= panel.width, `${room}: a person present at ${x.toFixed(0)} px is in view`);
@@ -146,6 +161,90 @@ test("a crowd wider than the filled view is zoomed out, never cut off (the owner
     const top = frame.ty + iy0 * frame.k, bottom = frame.ty + iy1 * frame.k;
     if (bottom - top < panel.height) assert.ok(Math.abs(top - (panel.height - bottom)) < 0.01, `${panel.width}: the smaller picture is centred, with equal bands`);
     assert.ok(frame.tx + ix0 * frame.k <= 0.01 || Math.abs(frame.tx + ix0 * frame.k - (panel.width - (frame.tx + ix1 * frame.k))) < 0.01, `${panel.width}: the picture fills the width, or is centred in it`);
+  }
+});
+
+test("every present figure stays whole on screen, its painted outline and its press area (T1, corrected on #222)", () => {
+  // The room view's panel on the pack's phones, between the bars (kit.css), and Frontend's native panel (#222).
+  const panels = [[390, 653], [386, 712], [320, 438], [320, 335], [430, 741]].map(([width, height]) => ({ width, height, cap: 46, pad: 8 }));
+  const pick = (room, roster, ids, eliminated = false) => slotsOf(room, roster).filter(s => ids.includes(s.id)).map(s => ({ ...s, eliminated }));
+  let cases = 0;
+  for (const room of BOARD_ROOMS) {
+    for (const roster of [7, 8, 9]) {
+      const ids = slotsOf(room, roster).map(s => s.id);
+      // Everyone, each alone, each pair (the widest spreads), standing and Eliminated.
+      const groups = [ids, ...ids.map(id => [id]), ...ids.flatMap((a, i) => ids.slice(i + 1).map(b => [a, b]))];
+      for (const panel of panels) {
+        for (const group of groups) {
+          for (const down of [false, true]) {
+            const present = pick(room, roster, group, down);
+            const frame = phoneFrame(sceneOf(room, roster), panel, present);
+            for (const slot of present) {
+              const [x0, y0, x1, y1] = paintedExtent(slot);
+              const l = frame.tx + x0 * frame.k, r = frame.tx + x1 * frame.k, t = frame.ty + y0 * frame.k, b = frame.ty + y1 * frame.k;
+              const where = `${room} ${roster} ${panel.width}x${panel.height} [${group}]${down ? ' down' : ''}: ${slot.id}`;
+              assert.ok(l >= FIGURE_CLEAR - 0.01 && r <= panel.width - FIGURE_CLEAR + 0.01, `${where}'s outline across (${l.toFixed(1)}–${r.toFixed(1)})`);
+              assert.ok(t >= -0.01 && b <= panel.height + 0.01, `${where}'s outline down (${t.toFixed(1)}–${b.toFixed(1)})`);
+              const px = frame.tx + slot.pressAt[0] * frame.k;
+              assert.ok(px >= 22 - 0.01 && px <= panel.width - 22 + 0.01, `${where}'s press area is whole`);
+            }
+            cases += 1;
+          }
+        }
+      }
+    }
+  }
+  assert.ok(cases > 500);
+  // The rendered failures Frontend reported (#222): full Room A, B, Hospital and Jail on the native 386 x 712 panel.
+  const native = { width: 386, height: 712, cap: 46, pad: 8 };
+  for (const room of ['room-a', 'room-b', 'hospital', 'jail']) {
+    const everyone = slotsOf(room, 7).map(s => ({ ...s, eliminated: false }));
+    assert.ok(phoneFrame(sceneOf(room, 7), native, everyone).k < phoneFrame(sceneOf(room, 7), native, []).k, `${room}: a full room is drawn smaller than the filled view`);
+  }
+  // An injury never moves the camera: a place's outline already holds its gesture standing and Injured.
+  const [ax, ay] = FRAME.anchor;
+  for (const slot of BOARD_ROOMS.flatMap(room => slotsOf(room, 9))) {
+    const [x0, y0, x1, y1] = paintedExtent({ ...slot, at: [512, 520], scale: 1, mirror: false });
+    for (const gesture of [slot.gesture, `${slot.gesture}+injured`]) {
+      const [g0, h0, g1, h1] = FIGURE_EXTENTS[gesture];
+      assert.ok(x0 <= 512 + g0 - ax && y0 <= 520 + h0 - ay && x1 >= 512 + g1 - ax && y1 >= 520 + h1 - ay, `${slot.id}: the outline holds ${gesture}`);
+    }
+  }
+  assert.ok(MOTION_ALLOWANCE.x > 0 && MOTION_ALLOWANCE.top > 0);
+});
+
+test('the measured figure outlines cover every gesture, and were measured from the drawing as it is', () => {
+  for (const name of Object.keys(GESTURES)) for (const mark of ['', '+injured', '+still']) {
+    const box = FIGURE_EXTENTS[name + mark];
+    assert.ok(box && box[0] < box[2] && box[1] < box[3], `${name + mark} has an outline`);
+  }
+  for (const [path, sha] of Object.entries(FIGURE_EXTENTS_SOURCES)) {
+    assert.equal(createHash('sha256').update(readFileSync(join(REPO, path))).digest('hex'), sha, `${path} changed since the outlines were measured: run design/tools/phone-ui-figure-extents.mjs`);
+  }
+  assert.ok(FIGURE_EXTENTS_SOURCES['apps/game/hosted/crew-drawing/motion.mjs'], 'the crew motion module is among those measured');
+});
+
+test('each outline covers the crew’s own motion, as measured on every gesture that moves', () => {
+  // The native game moves each figure that is not gone still: the head's idle drift and tilt, and
+  // Mira's and Echo's hanging hair (crew-drawing/motion.mjs). The measurement drew every such
+  // gesture at the corners of that range; each place's outline must hold where that motion reached.
+  assert.ok(FIGURE_MOTION_RANGE.dx > 0 && FIGURE_MOTION_RANGE.tilt > 0 && FIGURE_MOTION_RANGE.hair > 0, 'a motion range was measured');
+  const moving = Object.keys(FIGURE_EXTENTS).filter(g => !isStill(g));
+  assert.deepEqual(Object.keys(FIGURE_MOTION_REACH).sort(), moving.sort(), 'every gesture that moves was measured moving');
+  // A place in the open, at scale 1, plain and mirrored: no edge of the picture near enough to hold the outline.
+  const [ax, ay] = FRAME.anchor, at = [512, 520];
+  for (const name of Object.keys(GESTURES)) {
+    for (const mirror of [false, true]) {
+      const outline = paintedExtent({ gesture: name, at, scale: 1, mirror });
+      for (const gesture of [name, `${name}+injured`]) {
+        const [x0, y0, x1, y1] = FIGURE_EXTENTS[gesture], [l, t, r, b] = FIGURE_MOTION_REACH[gesture] ?? [0, 0, 0, 0];
+        const across = [at[0] + x0 - l - ax, at[0] + x1 + r - ax];
+        const [m0, m1] = mirror ? [2 * at[0] - across[1], 2 * at[0] - across[0]] : across;
+        const reached = [m0, at[1] + y0 - t - ay, m1, at[1] + y1 + b - ay];
+        const holds = outline[0] <= reached[0] + 1e-9 && outline[1] <= reached[1] + 1e-9 && outline[2] >= reached[2] - 1e-9 && outline[3] >= reached[3] - 1e-9;
+        assert.ok(holds, `${gesture}${mirror ? ' mirrored' : ''}: the outline [${outline.map(v => v.toFixed(1))}] holds the motion [${reached.map(v => v.toFixed(1))}]`);
+      }
+    }
   }
 });
 

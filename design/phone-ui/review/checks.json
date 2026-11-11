@@ -103,8 +103,8 @@
       "slug": "controls",
       "title": "Controls, lists, feedback and cards",
       "file": "design/phone-ui/review/sheets/06-controls.jpg",
-      "sha256": "bbef2d2a73391ab95aec41f1d17386975a700e01885e7f1e2cce08263edf8e28",
-      "bytes": 255338,
+      "sha256": "0a3b76c5619eb25c67619ce0dfcc197553891ffa62fac86edd9da4d06a1f107a",
+      "bytes": 255320,
       "size": {
         "width": 2158,
         "height": 1427
@@ -676,8 +676,8 @@
       "slug": "join-lobby",
       "title": "Waiting for admission and the player lobby",
       "file": "design/phone-ui/review/sheets/13-join-lobby.jpg",
-      "sha256": "a9a83407bcce443dc4de9e81651bd5e2449f1f9df34256528058f7658c91354e",
-      "bytes": 152487,
+      "sha256": "632d4602305502be0824195d7e5af24c9cac8c2e2e3f6eab3c079ad6264a013c",
+      "bytes": 152458,
       "size": {
         "width": 1846,
         "height": 1227
@@ -815,8 +815,8 @@
       "slug": "recover",
       "title": "Recover",
       "file": "design/phone-ui/review/sheets/14-recover.jpg",
-      "sha256": "65a2a2c50dfbe5f07b064d6aea650839158533ff08ce51c91a82d53f2d6ad58e",
-      "bytes": 215054,
+      "sha256": "9c81de220fd4d1f62311347e81e38aacb3efb1119627dc4570693e54a9b72f60",
+      "bytes": 214586,
       "size": {
         "width": 1846,
         "height": 1278
@@ -929,12 +929,12 @@
             "letters": 130,
             "noInk": 0,
             "moving": 0,
-            "min": 9.79,
+            "min": 9.68,
             "low": [],
             "closest": {
               "text": "Controls return when the match is curren",
               "letter": "C",
-              "ratio": 9.79,
+              "ratio": 9.68,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -954,8 +954,8 @@
       "slug": "host-recovery",
       "title": "Host controls and a recovery code",
       "file": "design/phone-ui/review/sheets/15-host-recovery.jpg",
-      "sha256": "561ff45ae8052cc639f1047c5576c5f83d7f566ecb22ecd7115f76716b86e17d",
-      "bytes": 263091,
+      "sha256": "df52c5b5c90f786dafd082a23a2d27fc963e813a00bd7a9adb09467567cfdc6a",
+      "bytes": 261807,
       "size": {
         "width": 1846,
         "height": 1227
@@ -974,13 +974,13 @@
           "contrast": {
             "letters": 233,
             "noInk": 0,
-            "moving": 2,
-            "min": 7.66,
+            "moving": 6,
+            "min": 5.9,
             "low": [],
             "closest": {
               "text": "Recovery codes",
-              "letter": "o",
-              "ratio": 7.66,
+              "letter": "s",
+              "ratio": 5.9,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -1006,12 +1006,12 @@
             "letters": 237,
             "noInk": 0,
             "moving": 0,
-            "min": 7.63,
+            "min": 5.99,
             "low": [],
             "closest": {
               "text": "Show it only to Player 4. It never appea",
-              "letter": "e",
-              "ratio": 7.63,
+              "letter": "y",
+              "ratio": 7.58,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -1036,13 +1036,13 @@
           "contrast": {
             "letters": 237,
             "noInk": 0,
-            "moving": 7,
-            "min": 6.3,
+            "moving": 9,
+            "min": 5.99,
             "low": [],
             "closest": {
               "text": "Show it only to Player 4. It never appea",
-              "letter": "4",
-              "ratio": 6.3,
+              "letter": "P",
+              "ratio": 6.46,
               "need": 4.5,
               "at": "30 s"
             },
@@ -1067,13 +1067,13 @@
           "contrast": {
             "letters": 132,
             "noInk": 0,
-            "moving": 13,
-            "min": 6.02,
+            "moving": 15,
+            "min": 5.9,
             "low": [],
             "closest": {
               "text": "It ends now for everyone, with no winner",
-              "letter": "i",
-              "ratio": 6.02,
+              "letter": "n",
+              "ratio": 5.9,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -1093,8 +1093,8 @@
       "slug": "characters",
       "title": "Character selection",
       "file": "design/phone-ui/review/sheets/16-characters.jpg",
-      "sha256": "9737104d7e70cb897161fcc84c4a95b7127786387246d0e713ac4f491709a85b",
-      "bytes": 351353,
+      "sha256": "a78a4a834a46c272e755e5ff2ee5e3dbb7d9583fbac484e73178277471a12cf4",
+      "bytes": 351387,
       "size": {
         "width": 2288,
         "height": 1254
@@ -1603,8 +1603,8 @@
       "slug": "boarding",
       "title": "Shared boarding into Round 1",
       "file": "design/phone-ui/review/sheets/19-boarding.jpg",
-      "sha256": "831cff6e455b6e5c44ac2fb44b17583a246d4cae26c34c2813670b90c535d1d5",
-      "bytes": 255519,
+      "sha256": "95b7ea6391ae09d89895cc9e4a48da492e8726c2e933471032cdb5c3a55305c7",
+      "bytes": 255194,
       "size": {
         "width": 2288,
         "height": 1227
@@ -1773,8 +1773,8 @@
       "slug": "room-a",
       "title": "Room A",
       "file": "design/phone-ui/review/sheets/20-room-a.jpg",
-      "sha256": "90e4a9247476b445ba6961dd2a26ff3502d4a602828cf2e0585bff2bd65caf08",
-      "bytes": 408743,
+      "sha256": "a5f698f8a4c7b2dd813401b7bfa4746075a4349209aa67b5ec4657babc389544",
+      "bytes": 403734,
       "size": {
         "width": 1870,
         "height": 1258
@@ -1856,12 +1856,12 @@
             "letters": 112,
             "noInk": 0,
             "moving": 0,
-            "min": 9.68,
+            "min": 9.49,
             "low": [],
             "closest": {
               "text": "Choose a player",
-              "letter": "a",
-              "ratio": 9.68,
+              "letter": "C",
+              "ratio": 9.49,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -1887,12 +1887,12 @@
             "letters": 161,
             "noInk": 0,
             "moving": 0,
-            "min": 9.59,
+            "min": 9.36,
             "low": [],
             "closest": {
               "text": "Choose an empty position · or another ro",
-              "letter": "a",
-              "ratio": 9.59,
+              "letter": "o",
+              "ratio": 9.36,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -1912,8 +1912,8 @@
       "slug": "room-b",
       "title": "Room B",
       "file": "design/phone-ui/review/sheets/21-room-b.jpg",
-      "sha256": "a9b89a79cd0e5adf7157a352be865fea55cba9b8ae9fe543f7478f38ea09051e",
-      "bytes": 375274,
+      "sha256": "f4cdb378e26f561a25c29120e91f858dbd8b8191ca5c0ecc81aa46095cefa1e4",
+      "bytes": 375475,
       "size": {
         "width": 1943,
         "height": 1227
@@ -2190,8 +2190,8 @@
       "slug": "hospital",
       "title": "Hospital",
       "file": "design/phone-ui/review/sheets/23-hospital.jpg",
-      "sha256": "a3bcb0bf9ccfa090156bcb25f04a20c13fc0b316e95c57f260022daee2c4695c",
-      "bytes": 261583,
+      "sha256": "c3dcef9d15f930c9ef6fd2efae50d7907a172dbef7fd3475e82cefaabc10b7f0",
+      "bytes": 260500,
       "size": {
         "width": 1846,
         "height": 1227
@@ -2242,12 +2242,12 @@
             "letters": 124,
             "noInk": 0,
             "moving": 0,
-            "min": 5.86,
+            "min": 6.48,
             "low": [],
             "closest": {
               "text": "One attempt: the Doctor’s player number.",
-              "letter": "a",
-              "ratio": 5.86,
+              "letter": "O",
+              "ratio": 6.71,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -2273,12 +2273,12 @@
             "letters": 131,
             "noInk": 0,
             "moving": 0,
-            "min": 5.86,
+            "min": 6.48,
             "low": [],
             "closest": {
               "text": "One attempt: the Doctor’s player number.",
-              "letter": "a",
-              "ratio": 5.86,
+              "letter": "O",
+              "ratio": 6.71,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -2304,12 +2304,12 @@
             "letters": 140,
             "noInk": 0,
             "moving": 0,
-            "min": 6.39,
+            "min": 6.09,
             "low": [],
             "closest": {
-              "text": "Nothing happens until then",
-              "letter": "h",
-              "ratio": 6.39,
+              "text": "Your request is queued for Rescue",
+              "letter": "Y",
+              "ratio": 6.09,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -2329,8 +2329,8 @@
       "slug": "jail",
       "title": "Jail",
       "file": "design/phone-ui/review/sheets/24-jail.jpg",
-      "sha256": "6ed8dd70add7ffb152e58b225b7225c8b7aed89087894c939e97303f2bd88c06",
-      "bytes": 263776,
+      "sha256": "422665ac7fc73c4f42635f5b3ff52addc5c96ed198c431b6b1005312af8a0008",
+      "bytes": 263439,
       "size": {
         "width": 1533,
         "height": 1227
@@ -2381,7 +2381,7 @@
             "letters": 107,
             "noInk": 0,
             "moving": 0,
-            "min": 9.08,
+            "min": 7.41,
             "low": [],
             "closest": {
               "text": "Board",
@@ -2437,8 +2437,8 @@
       "slug": "private-talk",
       "title": "Private Talk capsule",
       "file": "design/phone-ui/review/sheets/25-private-talk.jpg",
-      "sha256": "fef079cb730e381ae8a8a671a351d53c65e6c1ae90c65636ac7750da0b173976",
-      "bytes": 406602,
+      "sha256": "ee47d7624ad9b15e011d7badcfc0a7a9834e2fb66feeee0a60a2b9ee4f21f0bd",
+      "bytes": 404582,
       "size": {
         "width": 2288,
         "height": 1278
@@ -2457,8 +2457,8 @@
           "contrast": {
             "letters": 179,
             "noInk": 0,
-            "moving": 11,
-            "min": 6.09,
+            "moving": 17,
+            "min": 6.12,
             "low": [],
             "closest": {
               "text": "Your role declares its own side: Blue. O",
@@ -2488,13 +2488,13 @@
           "contrast": {
             "letters": 179,
             "noInk": 0,
-            "moving": 2,
-            "min": 6.69,
+            "moving": 6,
+            "min": 6.18,
             "low": [],
             "closest": {
               "text": "Your role may claim any side. Only you s",
-              "letter": "y",
-              "ratio": 6.73,
+              "letter": "d",
+              "ratio": 6.67,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -2520,12 +2520,12 @@
             "letters": 107,
             "noInk": 0,
             "moving": 0,
-            "min": 6.18,
+            "min": 5.91,
             "low": [],
             "closest": {
               "text": "Unverified · only Ava sees this",
-              "letter": "o",
-              "ratio": 6.18,
+              "letter": "i",
+              "ratio": 5.91,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -2581,13 +2581,13 @@
           "contrast": {
             "letters": 389,
             "noInk": 0,
-            "moving": 24,
-            "min": 4.71,
+            "moving": 32,
+            "min": 4.75,
             "low": [],
             "closest": {
               "text": "Be in Room A when voting starts",
-              "letter": "n",
-              "ratio": 4.71,
+              "letter": "A",
+              "ratio": 4.75,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -2607,8 +2607,8 @@
       "slug": "board",
       "title": "The whole board, and switching views",
       "file": "design/phone-ui/review/sheets/26-board.jpg",
-      "sha256": "f14865cbe061ca648b2ea85eb121a32df068b7684e488e8c58e23221a4b3fe2a",
-      "bytes": 451811,
+      "sha256": "32f852440af9b0ea5a532cf1e89929d7a2e15186bf5fd941d4e8746a325af782",
+      "bytes": 450942,
       "size": {
         "width": 1846,
         "height": 1227
@@ -2746,8 +2746,8 @@
       "slug": "tab-destinations",
       "title": "Each tab, opened",
       "file": "design/phone-ui/review/sheets/27-tab-destinations.jpg",
-      "sha256": "a731c757eb2a6260bf249faa60f5e8ed1e6ce5797e6df8367564828c12abc8da",
-      "bytes": 423599,
+      "sha256": "b3cb6046926118d1e19ec16d57a8046ed9a7325cfa18d18d21f185edc1e760bc",
+      "bytes": 421229,
       "size": {
         "width": 2288,
         "height": 1227
@@ -2797,13 +2797,13 @@
           "contrast": {
             "letters": 145,
             "noInk": 0,
-            "moving": 0,
-            "min": 5.71,
+            "moving": 1,
+            "min": 6.07,
             "low": [],
             "closest": {
               "text": "Your turn",
-              "letter": "n",
-              "ratio": 5.71,
+              "letter": "u",
+              "ratio": 6.07,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -2829,7 +2829,7 @@
             "letters": 107,
             "noInk": 0,
             "moving": 0,
-            "min": 9.08,
+            "min": 7.41,
             "low": [],
             "closest": {
               "text": "Board",
@@ -2860,7 +2860,7 @@
             "letters": 178,
             "noInk": 0,
             "moving": 0,
-            "min": 7.49,
+            "min": 7.15,
             "low": [],
             "closest": {
               "text": "Card",
@@ -2891,7 +2891,7 @@
             "letters": 149,
             "noInk": 0,
             "moving": 0,
-            "min": 8.44,
+            "min": 9.23,
             "low": [],
             "closest": {
               "text": "Room A ↔ Room B · Room A ↔ Hospital",
@@ -2916,8 +2916,8 @@
       "slug": "tap-board",
       "title": "Tap Board: the whole ship, and back",
       "file": "design/phone-ui/review/sheets/27.1-tap-board.jpg",
-      "sha256": "51c1680cb49e2c961bef273f67c567a918e926a9c081001443dca68da8d963b2",
-      "bytes": 559782,
+      "sha256": "ecb7cfca45713f65f5ec89126fd886a64b0086965fe71d47666fb083aeced3ab",
+      "bytes": 557664,
       "size": {
         "width": 2288,
         "height": 1278
@@ -3088,8 +3088,8 @@
       "slug": "tap-actions",
       "title": "Tap Actions: what you can do, then who",
       "file": "design/phone-ui/review/sheets/27.2-tap-actions.jpg",
-      "sha256": "734e9146749a39ab6f40c4d4f0f17de286fadf329e628d19be90379f37989b49",
-      "bytes": 551690,
+      "sha256": "c1761cc8c49611addfe5f13b8412c029cddc52caa337a7ebd780a7b9ac569f90",
+      "bytes": 551746,
       "size": {
         "width": 2730,
         "height": 1326
@@ -3141,13 +3141,13 @@
           "contrast": {
             "letters": 145,
             "noInk": 0,
-            "moving": 0,
-            "min": 5.71,
+            "moving": 1,
+            "min": 6.07,
             "low": [],
             "closest": {
               "text": "Your turn",
-              "letter": "n",
-              "ratio": 5.71,
+              "letter": "u",
+              "ratio": 6.07,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -3174,12 +3174,12 @@
             "letters": 112,
             "noInk": 0,
             "moving": 0,
-            "min": 9.68,
+            "min": 9.49,
             "low": [],
             "closest": {
               "text": "Choose a player",
-              "letter": "a",
-              "ratio": 9.68,
+              "letter": "C",
+              "ratio": 9.49,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -3206,12 +3206,12 @@
             "letters": 214,
             "noInk": 0,
             "moving": 0,
-            "min": 7.1,
+            "min": 7,
             "low": [],
             "closest": {
               "text": "Resolved at the end of the round, after ",
               "letter": "d",
-              "ratio": 7.1,
+              "ratio": 7,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -3237,12 +3237,12 @@
             "letters": 233,
             "noInk": 0,
             "moving": 0,
-            "min": 6.78,
+            "min": 7,
             "low": [],
             "closest": {
-              "text": "Rescue of Ava registered.",
-              "letter": "f",
-              "ratio": 6.78,
+              "text": "Round 3 · your turn",
+              "letter": "·",
+              "ratio": 7,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -3268,12 +3268,12 @@
             "letters": 154,
             "noInk": 0,
             "moving": 0,
-            "min": 7.87,
+            "min": 7.79,
             "low": [],
             "closest": {
-              "text": "Doctor · Room A",
-              "letter": "D",
-              "ratio": 7.87,
+              "text": "Not your turn",
+              "letter": "y",
+              "ratio": 7.79,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -3293,8 +3293,8 @@
       "slug": "tap-pass",
       "title": "Tap Pass: end your turn (Vote in a vote)",
       "file": "design/phone-ui/review/sheets/27.3-tap-pass.jpg",
-      "sha256": "d3c1f2c9b11a750d2d0521ae09385f075c7e15ff0b1456bcb2fc59f5bd81b456",
-      "bytes": 478909,
+      "sha256": "58d13a503f3ed37314b95ef6eb497eabe1672bc41647d6e2173dc3a5da020acc",
+      "bytes": 474639,
       "size": {
         "width": 2288,
         "height": 1258
@@ -3347,12 +3347,12 @@
             "letters": 148,
             "noInk": 0,
             "moving": 0,
-            "min": 6.2,
+            "min": 6.19,
             "low": [],
             "closest": {
               "text": "The turn goes to Eli · Player 5",
               "letter": "·",
-              "ratio": 6.2,
+              "ratio": 6.19,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -3441,7 +3441,7 @@
             "letters": 107,
             "noInk": 0,
             "moving": 0,
-            "min": 9.08,
+            "min": 7.41,
             "low": [],
             "closest": {
               "text": "Board",
@@ -3466,8 +3466,8 @@
       "slug": "tap-card",
       "title": "Tap Card: your role, privately",
       "file": "design/phone-ui/review/sheets/27.4-tap-card.jpg",
-      "sha256": "3df9174e5bdd8f7befbe1a7d9b959bac06a7acebca59c9876ad882e81aa17eb9",
-      "bytes": 362769,
+      "sha256": "bc6f38902d7174f6a8f6cc1afb840fbdbd9832518ded8f12925fe1ca32d5b5f6",
+      "bytes": 360548,
       "size": {
         "width": 2288,
         "height": 1258
@@ -3520,7 +3520,7 @@
             "letters": 178,
             "noInk": 0,
             "moving": 0,
-            "min": 7.49,
+            "min": 7.15,
             "low": [],
             "closest": {
               "text": "Card",
@@ -3551,15 +3551,15 @@
           "contrast": {
             "letters": 140,
             "noInk": 0,
-            "moving": 30,
-            "min": 5.57,
+            "moving": 25,
+            "min": 5.27,
             "low": [],
             "closest": {
-              "text": "Your role starts with no knowledge of ot",
+              "text": "Knowledge",
               "letter": "d",
-              "ratio": 5.57,
+              "ratio": 5.27,
               "need": 4.5,
-              "at": "150 s"
+              "at": "as drawn"
             },
             "skipped": {
               "covered": 21,
@@ -3583,13 +3583,13 @@
           "contrast": {
             "letters": 188,
             "noInk": 0,
-            "moving": 4,
-            "min": 5.27,
+            "moving": 0,
+            "min": 5.35,
             "low": [],
             "closest": {
               "text": "Resources",
-              "letter": "R",
-              "ratio": 5.27,
+              "letter": "s",
+              "ratio": 5.35,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -3615,12 +3615,12 @@
             "letters": 84,
             "noInk": 0,
             "moving": 0,
-            "min": 8.06,
+            "min": 7.15,
             "low": [],
             "closest": {
-              "text": "Only on this phone",
-              "letter": "O",
-              "ratio": 8.06,
+              "text": "Card",
+              "letter": "C",
+              "ratio": 10.44,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -3640,8 +3640,8 @@
       "slug": "tap-panels",
       "title": "Tap Panels: the match’s panels",
       "file": "design/phone-ui/review/sheets/27.5-tap-panels.jpg",
-      "sha256": "0a4986f85b6699e9b95c9aac32fca3c1c632355ee59480f4a19ce9f3612cd69a",
-      "bytes": 369255,
+      "sha256": "9ee97932497fd868db80969a0464b257fce70e81986282e54af4a7e7cae0ae6f",
+      "bytes": 366192,
       "size": {
         "width": 2288,
         "height": 1258
@@ -3694,7 +3694,7 @@
             "letters": 149,
             "noInk": 0,
             "moving": 0,
-            "min": 8.44,
+            "min": 9.23,
             "low": [],
             "closest": {
               "text": "Room A ↔ Room B · Room A ↔ Hospital",
@@ -3725,12 +3725,12 @@
             "letters": 160,
             "noInk": 0,
             "moving": 0,
-            "min": 6.09,
+            "min": 6.26,
             "low": [],
             "closest": {
               "text": "Room A ↔ Room B",
-              "letter": "m",
-              "ratio": 6.09,
+              "letter": "R",
+              "ratio": 6.26,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -3756,12 +3756,12 @@
             "letters": 231,
             "noInk": 0,
             "moving": 0,
-            "min": 7.32,
+            "min": 7.18,
             "low": [],
             "closest": {
               "text": "Public facts only: seats, rooms, health ",
-              "letter": "t",
-              "ratio": 7.32,
+              "letter": ".",
+              "ratio": 8.67,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -3787,12 +3787,12 @@
             "letters": 350,
             "noInk": 0,
             "moving": 0,
-            "min": 7.27,
+            "min": 6.67,
             "low": [],
             "closest": {
               "text": "Current order. The owner’s Blackout-befo",
-              "letter": "t",
-              "ratio": 7.27,
+              "letter": "e",
+              "ratio": 6.67,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -3812,8 +3812,8 @@
       "slug": "tap-top-bar",
       "title": "Tap the top bar: Promises and ⋮",
       "file": "design/phone-ui/review/sheets/27.6-tap-top-bar.jpg",
-      "sha256": "a56ea91a6688fc9001bfe9604f3e77ac162bd3d5aae54ce9d0ba552d05f602ec",
-      "bytes": 425686,
+      "sha256": "7207250bb8354929e85328a0de0a9d9f2fa7340451e540f8c08db98cf0376266",
+      "bytes": 425567,
       "size": {
         "width": 2288,
         "height": 1304
@@ -3864,15 +3864,15 @@
           "contrast": {
             "letters": 163,
             "noInk": 0,
-            "moving": 8,
-            "min": 6.08,
+            "moving": 10,
+            "min": 6.2,
             "low": [],
             "closest": {
               "text": "With Ava · talking now",
-              "letter": "w",
-              "ratio": 6.08,
+              "letter": "A",
+              "ratio": 6.2,
               "need": 4.5,
-              "at": "150 s"
+              "at": "as drawn"
             },
             "skipped": {
               "covered": 21,
@@ -3928,12 +3928,12 @@
             "letters": 184,
             "noInk": 0,
             "moving": 0,
-            "min": 6.5,
+            "min": 6.16,
             "low": [],
             "closest": {
               "text": "Standard",
               "letter": "d",
-              "ratio": 6.5,
+              "ratio": 6.16,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -3959,12 +3959,12 @@
             "letters": 229,
             "noInk": 0,
             "moving": 0,
-            "min": 5.66,
+            "min": 5.58,
             "low": [],
             "closest": {
               "text": "Standard",
-              "letter": "t",
-              "ratio": 5.66,
+              "letter": "d",
+              "ratio": 5.58,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -3984,8 +3984,8 @@
       "slug": "actions",
       "title": "Actions",
       "file": "design/phone-ui/review/sheets/28-actions.jpg",
-      "sha256": "c91e6ef962b4b975669f07c065a7f23bf567fa3964fb2417fd1f9adb1057e6e8",
-      "bytes": 335013,
+      "sha256": "6c9b0a071791bb5534844269c933f3f77fd8d3e5fab37aa4c70fc64ac2299cbe",
+      "bytes": 332417,
       "size": {
         "width": 1846,
         "height": 1227
@@ -4004,13 +4004,13 @@
           "contrast": {
             "letters": 145,
             "noInk": 0,
-            "moving": 0,
-            "min": 5.71,
+            "moving": 1,
+            "min": 6.07,
             "low": [],
             "closest": {
               "text": "Your turn",
-              "letter": "n",
-              "ratio": 5.71,
+              "letter": "u",
+              "ratio": 6.07,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -4035,13 +4035,13 @@
           "contrast": {
             "letters": 158,
             "noInk": 0,
-            "moving": 0,
-            "min": 5.71,
+            "moving": 1,
+            "min": 5.75,
             "low": [],
             "closest": {
-              "text": "Your turn",
-              "letter": "n",
-              "ratio": 5.71,
+              "text": "Hacker · Room A",
+              "letter": "r",
+              "ratio": 5.75,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -4067,14 +4067,14 @@
             "letters": 158,
             "noInk": 0,
             "moving": 0,
-            "min": 7.59,
+            "min": 7.29,
             "low": [],
             "closest": {
               "text": "Undercover · Room A",
               "letter": "A",
-              "ratio": 7.59,
+              "ratio": 7.29,
               "need": 4.5,
-              "at": "as drawn"
+              "at": "75 s"
             },
             "skipped": {
               "covered": 21,
@@ -4097,13 +4097,13 @@
           "contrast": {
             "letters": 106,
             "noInk": 0,
-            "moving": 0,
-            "min": 5.71,
+            "moving": 1,
+            "min": 6.07,
             "low": [],
             "closest": {
               "text": "Your turn",
-              "letter": "n",
-              "ratio": 5.71,
+              "letter": "u",
+              "ratio": 6.07,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -4123,8 +4123,8 @@
       "slug": "targeting",
       "title": "Targeting and registering",
       "file": "design/phone-ui/review/sheets/29-targeting.jpg",
-      "sha256": "892cfcceb3cd3384fb9866dfde174a16bbaed4e77df6313fa381bc221a781c6f",
-      "bytes": 570328,
+      "sha256": "5534f8a8b175b6714a693793abbb7c071edf1220138a88171d4e4186e7455010",
+      "bytes": 569296,
       "size": {
         "width": 3037,
         "height": 1304
@@ -4145,12 +4145,12 @@
             "letters": 112,
             "noInk": 0,
             "moving": 0,
-            "min": 9.68,
+            "min": 9.49,
             "low": [],
             "closest": {
               "text": "Choose a player",
-              "letter": "a",
-              "ratio": 9.68,
+              "letter": "C",
+              "ratio": 9.49,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -4207,13 +4207,13 @@
           "contrast": {
             "letters": 176,
             "noInk": 0,
-            "moving": 7,
-            "min": 6.45,
+            "moving": 12,
+            "min": 5.06,
             "low": [],
             "closest": {
               "text": "Rescue · everyone you can reach",
-              "letter": "v",
-              "ratio": 6.84,
+              "letter": "h",
+              "ratio": 5.06,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -4239,12 +4239,12 @@
             "letters": 217,
             "noInk": 0,
             "moving": 0,
-            "min": 7.08,
+            "min": 6.86,
             "low": [],
             "closest": {
               "text": "Resolved at the end of the round, after ",
               "letter": "d",
-              "ratio": 7.1,
+              "ratio": 7,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -4270,12 +4270,12 @@
             "letters": 203,
             "noInk": 0,
             "moving": 0,
-            "min": 7.08,
+            "min": 6.86,
             "low": [],
             "closest": {
               "text": "Resolved at the end of the round, after ",
               "letter": "d",
-              "ratio": 7.1,
+              "ratio": 7,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -4301,12 +4301,12 @@
             "letters": 233,
             "noInk": 0,
             "moving": 0,
-            "min": 6.96,
+            "min": 7,
             "low": [],
             "closest": {
-              "text": "Rescue of Eli registered.",
-              "letter": "f",
-              "ratio": 6.96,
+              "text": "Round 3 · your turn",
+              "letter": "·",
+              "ratio": 7,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -4326,8 +4326,8 @@
       "slug": "registered-waiting",
       "title": "Registered: waiting for the end of the round",
       "file": "design/phone-ui/review/sheets/29.1-registered-waiting.jpg",
-      "sha256": "f9d0a8a109c56a3f5c0134fbe2664670ba00c1aff1d2350657275bd09b3c5052",
-      "bytes": 442492,
+      "sha256": "011b139750523986e4acc4bc88ca243d6f0133a2d4d9574997f719f6cf2847e8",
+      "bytes": 442733,
       "size": {
         "width": 2735,
         "height": 1254
@@ -4347,12 +4347,12 @@
             "letters": 233,
             "noInk": 0,
             "moving": 0,
-            "min": 6.96,
+            "min": 7,
             "low": [],
             "closest": {
-              "text": "Rescue of Eli registered.",
-              "letter": "f",
-              "ratio": 6.96,
+              "text": "Round 3 · your turn",
+              "letter": "·",
+              "ratio": 7,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -4377,13 +4377,13 @@
           "contrast": {
             "letters": 279,
             "noInk": 0,
-            "moving": 2,
-            "min": 6,
+            "moving": 7,
+            "min": 5.73,
             "low": [],
             "closest": {
               "text": "This is not a result. It is resolved at ",
-              "letter": "a",
-              "ratio": 6,
+              "letter": "s",
+              "ratio": 5.73,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -4409,12 +4409,12 @@
             "letters": 225,
             "noInk": 0,
             "moving": 0,
-            "min": 7.09,
+            "min": 7,
             "low": [],
             "closest": {
               "text": "Round 3 · your turn",
               "letter": "·",
-              "ratio": 7.09,
+              "ratio": 7,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -4440,12 +4440,12 @@
             "letters": 237,
             "noInk": 0,
             "moving": 0,
-            "min": 6.41,
+            "min": 6.31,
             "low": [],
             "closest": {
               "text": "This is not a result. Registered shots a",
-              "letter": "i",
-              "ratio": 6.41,
+              "letter": ".",
+              "ratio": 6.31,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -4471,12 +4471,12 @@
             "letters": 258,
             "noInk": 0,
             "moving": 0,
-            "min": 6,
+            "min": 5.73,
             "low": [],
             "closest": {
               "text": "This is not a result. Nothing changes un",
-              "letter": "a",
-              "ratio": 6,
+              "letter": "s",
+              "ratio": 5.73,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -4496,8 +4496,8 @@
       "slug": "accepted-now",
       "title": "Accepted: what happens at once",
       "file": "design/phone-ui/review/sheets/29.2-accepted-now.jpg",
-      "sha256": "d2d3be219cab384edb90de25c804452b88af180dedef5c84703c6c9168e9eb76",
-      "bytes": 273586,
+      "sha256": "71b0df23eb5bce42c0effee1256917c3f7774f16fc9c337ed312ced31d8f3253",
+      "bytes": 274669,
       "size": {
         "width": 1544,
         "height": 1254
@@ -4516,13 +4516,13 @@
           "contrast": {
             "letters": 248,
             "noInk": 0,
-            "moving": 0,
-            "min": 5.82,
+            "moving": 2,
+            "min": 5.9,
             "low": [],
             "closest": {
               "text": "It starts after this turn. The top bar s",
-              "letter": "r",
-              "ratio": 5.82,
+              "letter": "s",
+              "ratio": 5.9,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -4548,12 +4548,12 @@
             "letters": 244,
             "noInk": 0,
             "moving": 0,
-            "min": 5.81,
+            "min": 6.57,
             "low": [],
             "closest": {
-              "text": "Round 3 · when the server accepted it",
-              "letter": "i",
-              "ratio": 5.81,
+              "text": "Active from now, through the attacks at ",
+              "letter": "f",
+              "ratio": 6.57,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -4578,13 +4578,13 @@
           "contrast": {
             "letters": 367,
             "noInk": 0,
-            "moving": 36,
-            "min": 5.85,
+            "moving": 38,
+            "min": 5.64,
             "low": [],
             "closest": {
-              "text": "CAPTURED",
-              "letter": "C",
-              "ratio": 5.85,
+              "text": "Captured now: the 3 players in Room B. T",
+              "letter": "3",
+              "ratio": 5.64,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -4604,10 +4604,10 @@
       "slug": "blackout",
       "title": "Blackout",
       "file": "design/phone-ui/review/sheets/30-blackout.jpg",
-      "sha256": "fd07ae80c34eba0eb116923d394af30d67c345122c61f25c76040f72c6a48350",
-      "bytes": 376437,
+      "sha256": "287f837bcc59bca7f26af92e9cf081c0136d3e983b7358bc9e5af5f9cad3cf18",
+      "bytes": 485013,
       "size": {
-        "width": 2354,
+        "width": 3238,
         "height": 1227
       },
       "frames": [
@@ -4625,12 +4625,12 @@
             "letters": 212,
             "noInk": 0,
             "moving": 0,
-            "min": 7.03,
+            "min": 6.98,
             "low": [],
             "closest": {
-              "text": "Registered now · the lights go out later",
-              "letter": "·",
-              "ratio": 7.03,
+              "text": "Once a match",
+              "letter": "h",
+              "ratio": 6.99,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -4765,6 +4765,68 @@
             },
             "moments": 16
           }
+        },
+        {
+          "label": "Opened in the dark · no lit frame to recover",
+          "src": "s=blackout&state=cold&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0,
+          "clippedText": [],
+          "contrast": {
+            "letters": 53,
+            "noInk": 0,
+            "moving": 0,
+            "min": 9.79,
+            "low": [],
+            "closest": {
+              "text": "0:08",
+              "letter": "0",
+              "ratio": 9.79,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 0,
+              "scrolled": 0,
+              "inactive": 11
+            },
+            "moments": 16
+          }
+        },
+        {
+          "label": "Opened in the dark · Disabler picks",
+          "src": "s=blackout&state=cold-pick&safe=47%2C34",
+          "width": 390,
+          "height": 844,
+          "overflowX": false,
+          "small": [],
+          "tinyText": [],
+          "clipped": 0,
+          "clippedText": [],
+          "contrast": {
+            "letters": 103,
+            "noInk": 0,
+            "moving": 0,
+            "min": 9.79,
+            "low": [],
+            "closest": {
+              "text": "0:08",
+              "letter": "0",
+              "ratio": 9.79,
+              "need": 4.5,
+              "at": "as drawn"
+            },
+            "skipped": {
+              "covered": 5,
+              "scrolled": 0,
+              "inactive": 4
+            },
+            "moments": 16
+          }
         }
       ],
       "problems": []
@@ -4774,8 +4836,8 @@
       "slug": "card",
       "title": "Card",
       "file": "design/phone-ui/review/sheets/31-card.jpg",
-      "sha256": "fb59cc7d55f08c6db66f37a1ac92cbe599c6ea024a221eb1932863a5dd2ea2ca",
-      "bytes": 258307,
+      "sha256": "093f73ab2756fc245a27d2f0c3e4532408078d8d26a46f04e49b62cbd8a40a84",
+      "bytes": 256903,
       "size": {
         "width": 1846,
         "height": 1227
@@ -4795,7 +4857,7 @@
             "letters": 178,
             "noInk": 0,
             "moving": 0,
-            "min": 7.49,
+            "min": 7.15,
             "low": [],
             "closest": {
               "text": "Card",
@@ -4825,13 +4887,13 @@
           "contrast": {
             "letters": 159,
             "noInk": 0,
-            "moving": 9,
-            "min": 7.12,
+            "moving": 5,
+            "min": 5.27,
             "low": [],
             "closest": {
-              "text": "Card",
-              "letter": "C",
-              "ratio": 7.12,
+              "text": "Knowledge",
+              "letter": "d",
+              "ratio": 5.27,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -4856,13 +4918,13 @@
           "contrast": {
             "letters": 188,
             "noInk": 0,
-            "moving": 4,
-            "min": 5.27,
+            "moving": 0,
+            "min": 5.35,
             "low": [],
             "closest": {
               "text": "Resources",
-              "letter": "R",
-              "ratio": 5.27,
+              "letter": "s",
+              "ratio": 5.35,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -4888,12 +4950,12 @@
             "letters": 84,
             "noInk": 0,
             "moving": 0,
-            "min": 8.06,
+            "min": 7.15,
             "low": [],
             "closest": {
-              "text": "Only on this phone",
-              "letter": "O",
-              "ratio": 8.06,
+              "text": "Card",
+              "letter": "C",
+              "ratio": 10.44,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -4913,8 +4975,8 @@
       "slug": "panels-settings",
       "title": "Panels and Settings",
       "file": "design/phone-ui/review/sheets/32-panels-settings.jpg",
-      "sha256": "19f15a19f4e266cb7d07428b38d09b89e72ba4dfe5916dba0dc1e10b337736cc",
-      "bytes": 367617,
+      "sha256": "727fe78a989f237e22443427630777ad4e1c404c5fdbacdaa54b639d1eb9df0c",
+      "bytes": 368405,
       "size": {
         "width": 2288,
         "height": 1254
@@ -4934,7 +4996,7 @@
             "letters": 149,
             "noInk": 0,
             "moving": 0,
-            "min": 8.44,
+            "min": 9.23,
             "low": [],
             "closest": {
               "text": "Room A ↔ Room B · Room A ↔ Hospital",
@@ -4965,12 +5027,12 @@
             "letters": 231,
             "noInk": 0,
             "moving": 0,
-            "min": 7.32,
+            "min": 7.18,
             "low": [],
             "closest": {
               "text": "Public facts only: seats, rooms, health ",
-              "letter": "t",
-              "ratio": 7.32,
+              "letter": ".",
+              "ratio": 8.67,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -4996,12 +5058,12 @@
             "letters": 350,
             "noInk": 0,
             "moving": 0,
-            "min": 7.27,
+            "min": 6.67,
             "low": [],
             "closest": {
               "text": "Current order. The owner’s Blackout-befo",
-              "letter": "t",
-              "ratio": 7.27,
+              "letter": "e",
+              "ratio": 6.67,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -5027,12 +5089,12 @@
             "letters": 184,
             "noInk": 0,
             "moving": 0,
-            "min": 6.5,
+            "min": 6.16,
             "low": [],
             "closest": {
               "text": "Standard",
               "letter": "d",
-              "ratio": 6.5,
+              "ratio": 6.16,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -5058,12 +5120,12 @@
             "letters": 229,
             "noInk": 0,
             "moving": 0,
-            "min": 5.66,
+            "min": 5.58,
             "low": [],
             "closest": {
               "text": "Standard",
-              "letter": "t",
-              "ratio": 5.66,
+              "letter": "d",
+              "ratio": 5.58,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -5083,8 +5145,8 @@
       "slug": "promises",
       "title": "Promises",
       "file": "design/phone-ui/review/sheets/33-promises.jpg",
-      "sha256": "f5bc505e899af30e7c3cd1d495a294bc98384b45c147a21c27e18f70f691b8c0",
-      "bytes": 286227,
+      "sha256": "a9a028e922616d0b12f7f4be524dda9f3235f521e0f63571a14356c8fc21a2eb",
+      "bytes": 285140,
       "size": {
         "width": 1846,
         "height": 1227
@@ -5103,15 +5165,15 @@
           "contrast": {
             "letters": 163,
             "noInk": 0,
-            "moving": 8,
-            "min": 6.08,
+            "moving": 10,
+            "min": 6.2,
             "low": [],
             "closest": {
               "text": "With Ava · talking now",
-              "letter": "w",
-              "ratio": 6.08,
+              "letter": "A",
+              "ratio": 6.2,
               "need": 4.5,
-              "at": "150 s"
+              "at": "as drawn"
             },
             "skipped": {
               "covered": 21,
@@ -5134,13 +5196,13 @@
           "contrast": {
             "letters": 389,
             "noInk": 0,
-            "moving": 24,
-            "min": 4.71,
+            "moving": 32,
+            "min": 4.75,
             "low": [],
             "closest": {
               "text": "Be in Room A when voting starts",
-              "letter": "n",
-              "ratio": 4.71,
+              "letter": "A",
+              "ratio": 4.75,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -5165,13 +5227,13 @@
           "contrast": {
             "letters": 177,
             "noInk": 0,
-            "moving": 11,
-            "min": 6.19,
+            "moving": 10,
+            "min": 5.9,
             "low": [],
             "closest": {
               "text": "Uses your one given Promise only if Ava ",
-              "letter": "P",
-              "ratio": 6.19,
+              "letter": "i",
+              "ratio": 5.9,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -5196,13 +5258,13 @@
           "contrast": {
             "letters": 337,
             "noInk": 0,
-            "moving": 0,
-            "min": 6.24,
+            "moving": 1,
+            "min": 6.48,
             "low": [],
             "closest": {
               "text": "A Promise is never forced: it is checked",
-              "letter": "r",
-              "ratio": 6.24,
+              "letter": "i",
+              "ratio": 6.48,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -5222,8 +5284,8 @@
       "slug": "promise-results",
       "title": "Promise results, one match moment each",
       "file": "design/phone-ui/review/sheets/33.1-promise-results.jpg",
-      "sha256": "28438436da701eb87c52f26f0e7c4daf325c447f05eee4054b686550b032453c",
-      "bytes": 280907,
+      "sha256": "918f5fb538956ff55c6cdaca3823d22a72cfed7006536cb2b03b655040cce058",
+      "bytes": 278537,
       "size": {
         "width": 1846,
         "height": 1254
@@ -5242,13 +5304,13 @@
           "contrast": {
             "letters": 255,
             "noInk": 0,
-            "moving": 1,
-            "min": 5.49,
+            "moving": 3,
+            "min": 5.3,
             "low": [],
             "closest": {
               "text": "“Not fulfilled” is a fact about ballots ",
-              "letter": "i",
-              "ratio": 5.49,
+              "letter": "l",
+              "ratio": 5.3,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -5273,13 +5335,13 @@
           "contrast": {
             "letters": 255,
             "noInk": 0,
-            "moving": 7,
-            "min": 5.55,
+            "moving": 12,
+            "min": 5.24,
             "low": [],
             "closest": {
               "text": "“Not fulfilled” is a fact about ballots ",
-              "letter": "g",
-              "ratio": 5.55,
+              "letter": "y",
+              "ratio": 5.24,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -5304,13 +5366,13 @@
           "contrast": {
             "letters": 283,
             "noInk": 0,
-            "moving": 8,
-            "min": 5.05,
+            "moving": 15,
+            "min": 4.97,
             "low": [],
             "closest": {
               "text": "In the runoff, a ballot in which Dev was",
               "letter": "i",
-              "ratio": 5.05,
+              "ratio": 4.97,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -5335,13 +5397,13 @@
           "contrast": {
             "letters": 269,
             "noInk": 0,
-            "moving": 1,
-            "min": 5.49,
+            "moving": 3,
+            "min": 5.3,
             "low": [],
             "closest": {
               "text": "“Not fulfilled” is a fact about ballots ",
-              "letter": "i",
-              "ratio": 5.49,
+              "letter": "l",
+              "ratio": 5.3,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -5361,8 +5423,8 @@
       "slug": "windows",
       "title": "Windows",
       "file": "design/phone-ui/review/sheets/34-windows.jpg",
-      "sha256": "07e98997752315ac681004557a08117aeae347fd2ed3b4027e365a6b25ef6015",
-      "bytes": 231773,
+      "sha256": "5d71d508c8f424df20aa0f300683a544e7113734171d5c761ed1635a5f98708d",
+      "bytes": 230783,
       "size": {
         "width": 1846,
         "height": 1227
@@ -5382,12 +5444,12 @@
             "letters": 160,
             "noInk": 0,
             "moving": 0,
-            "min": 6.09,
+            "min": 6.26,
             "low": [],
             "closest": {
               "text": "Room A ↔ Room B",
-              "letter": "m",
-              "ratio": 6.09,
+              "letter": "R",
+              "ratio": 6.26,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -5413,12 +5475,12 @@
             "letters": 104,
             "noInk": 0,
             "moving": 0,
-            "min": 6.19,
+            "min": 6.08,
             "low": [],
             "closest": {
               "text": "Your station · A2",
-              "letter": "2",
-              "ratio": 6.19,
+              "letter": "i",
+              "ratio": 6.08,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -5444,12 +5506,12 @@
             "letters": 135,
             "noInk": 0,
             "moving": 0,
-            "min": 6.14,
+            "min": 5.9,
             "low": [],
             "closest": {
               "text": "Shown this round",
-              "letter": "h",
-              "ratio": 6.14,
+              "letter": "n",
+              "ratio": 5.9,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -5474,13 +5536,13 @@
           "contrast": {
             "letters": 95,
             "noInk": 0,
-            "moving": 12,
-            "min": 6.21,
+            "moving": 11,
+            "min": 5.83,
             "low": [],
             "closest": {
               "text": "The Command Room has no window",
-              "letter": "d",
-              "ratio": 6.21,
+              "letter": "w",
+              "ratio": 5.83,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -5500,8 +5562,8 @@
       "slug": "vote-jail",
       "title": "Jail vote",
       "file": "design/phone-ui/review/sheets/35-vote-jail.jpg",
-      "sha256": "914eafb3b3f7b489ea496de22b66430604459d229a90d960a0d8d7134b1ace6d",
-      "bytes": 379990,
+      "sha256": "f425b4d97630050f42c69059d6187bf8cd97908e076bb6119bf2aaf8cfad4b82",
+      "bytes": 378843,
       "size": {
         "width": 2288,
         "height": 1227
@@ -5521,7 +5583,7 @@
             "letters": 107,
             "noInk": 0,
             "moving": 0,
-            "min": 9.08,
+            "min": 7.41,
             "low": [],
             "closest": {
               "text": "Board",
@@ -5551,13 +5613,13 @@
           "contrast": {
             "letters": 125,
             "noInk": 0,
-            "moving": 0,
-            "min": 8.15,
+            "moving": 4,
+            "min": 7.41,
             "low": [],
             "closest": {
-              "text": "Ava",
-              "letter": "a",
-              "ratio": 8.15,
+              "text": "Selected",
+              "letter": "c",
+              "ratio": 7.89,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -5583,7 +5645,7 @@
             "letters": 80,
             "noInk": 0,
             "moving": 0,
-            "min": 9.02,
+            "min": 7.41,
             "low": [],
             "closest": {
               "text": "Voted",
@@ -5614,7 +5676,7 @@
             "letters": 80,
             "noInk": 0,
             "moving": 0,
-            "min": 9.02,
+            "min": 7.41,
             "low": [],
             "closest": {
               "text": "Voted",
@@ -5645,7 +5707,7 @@
             "letters": 84,
             "noInk": 0,
             "moving": 0,
-            "min": 8.44,
+            "min": 7.41,
             "low": [],
             "closest": {
               "text": "0:00",
@@ -5670,8 +5732,8 @@
       "slug": "vote-captain",
       "title": "Captain election and stable placement",
       "file": "design/phone-ui/review/sheets/36-vote-captain.jpg",
-      "sha256": "44cb78339aa04e955c0102e3c5ee4778273bb6df5b31470ec9e4bbeaa5a231f0",
-      "bytes": 392491,
+      "sha256": "2df833a3ebd4d9ec92988d7282293a5a798a567fbcab1233792400695a911636",
+      "bytes": 390930,
       "size": {
         "width": 2288,
         "height": 1227
@@ -5691,13 +5753,13 @@
             "letters": 117,
             "noInk": 0,
             "moving": 0,
-            "min": 9.5,
+            "min": 6.87,
             "low": [],
             "closest": {
-              "text": "Board",
-              "letter": "B",
-              "ratio": 10.56,
-              "need": 4.5,
+              "text": "Captain election",
+              "letter": "l",
+              "ratio": 6.87,
+              "need": 3,
               "at": "as drawn"
             },
             "skipped": {
@@ -5722,7 +5784,7 @@
             "letters": 86,
             "noInk": 0,
             "moving": 0,
-            "min": 9.5,
+            "min": 7.5,
             "low": [],
             "closest": {
               "text": "Board",
@@ -5752,13 +5814,13 @@
           "contrast": {
             "letters": 143,
             "noInk": 0,
-            "moving": 0,
-            "min": 8.15,
+            "moving": 4,
+            "min": 6.09,
             "low": [],
             "closest": {
-              "text": "Ava",
-              "letter": "a",
-              "ratio": 8.15,
+              "text": "Selected",
+              "letter": "c",
+              "ratio": 7.89,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -5784,12 +5846,12 @@
             "letters": 110,
             "noInk": 0,
             "moving": 0,
-            "min": 7.36,
+            "min": 7.99,
             "low": [],
             "closest": {
-              "text": "7 players",
-              "letter": "7",
-              "ratio": 7.36,
+              "text": "Board",
+              "letter": "B",
+              "ratio": 10.56,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -5815,12 +5877,12 @@
             "letters": 107,
             "noInk": 0,
             "moving": 0,
-            "min": 5.44,
+            "min": 5.82,
             "low": [],
             "closest": {
               "text": "Eliminated players don’t vote. You can s",
-              "letter": "d",
-              "ratio": 5.44,
+              "letter": "i",
+              "ratio": 5.82,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -5840,8 +5902,8 @@
       "slug": "results-captain",
       "title": "Captain election results",
       "file": "design/phone-ui/review/sheets/37-results-captain.jpg",
-      "sha256": "8aa6fb48d7385cb23426d9ec73f9912b6f24e2bf422e322d11c36268c6480ae5",
-      "bytes": 263365,
+      "sha256": "39ed5f4c573a3c0191a821bf6b37b02523d6071256290c63918bf4e5763a5f6c",
+      "bytes": 261276,
       "size": {
         "width": 1533,
         "height": 1227
@@ -5948,8 +6010,8 @@
       "slug": "results-jail",
       "title": "Jail vote results",
       "file": "design/phone-ui/review/sheets/38-results-jail.jpg",
-      "sha256": "aeff2c5d1453bc5f4dd8b6b9d5a9b1841271bdde43f02da6eae3d2e10898a0eb",
-      "bytes": 333873,
+      "sha256": "3b0067d99f0ed33441b02700e40c308443741340575fb4b1a50afeb863aac2f6",
+      "bytes": 330487,
       "size": {
         "width": 1846,
         "height": 1227
@@ -6087,8 +6149,8 @@
       "slug": "offices",
       "title": "Captain and Officer",
       "file": "design/phone-ui/review/sheets/40-offices.jpg",
-      "sha256": "9654c66fec2591135694ca1bb8dba2faddf26af38d48b64a8be045ea7526780a",
-      "bytes": 290739,
+      "sha256": "072b40405bd40c5c3dd9eac1436b72a6515737f676780b2362701403c437681d",
+      "bytes": 291008,
       "size": {
         "width": 1846,
         "height": 1227
@@ -6170,12 +6232,12 @@
             "letters": 141,
             "noInk": 0,
             "moving": 0,
-            "min": 7.35,
+            "min": 7.32,
             "low": [],
             "closest": {
               "text": "Selected",
               "letter": "S",
-              "ratio": 7.35,
+              "ratio": 7.32,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -6200,7 +6262,7 @@
           "contrast": {
             "letters": 137,
             "noInk": 0,
-            "moving": 32,
+            "moving": 33,
             "min": 6.38,
             "low": [],
             "closest": {
@@ -6396,8 +6458,8 @@
       "slug": "scan-code",
       "title": "Hacker: Scan and the final Code",
       "file": "design/phone-ui/review/sheets/42-scan-code.jpg",
-      "sha256": "4b9963b71dd5d8d5562d5b548003b5ccb25bda469adf2a93bc62cf5a95fa32f6",
-      "bytes": 413242,
+      "sha256": "a5584796f6e184e1d515aee44ad4af6e57fdab3b57592badb9e6f2c3163c1b53",
+      "bytes": 409021,
       "size": {
         "width": 2288,
         "height": 1227
@@ -6417,12 +6479,12 @@
             "letters": 108,
             "noInk": 0,
             "moving": 0,
-            "min": 9.68,
+            "min": 9.36,
             "low": [],
             "closest": {
               "text": "Choose a player in your room",
-              "letter": "a",
-              "ratio": 9.68,
+              "letter": "o",
+              "ratio": 9.36,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -6452,7 +6514,7 @@
             "low": [],
             "closest": {
               "text": "Blue",
-              "letter": "B",
+              "letter": "e",
               "ratio": 5.59,
               "need": 4.5,
               "at": "as drawn"
@@ -6479,12 +6541,12 @@
             "letters": 114,
             "noInk": 0,
             "moving": 0,
-            "min": 6.8,
+            "min": 6.57,
             "low": [],
             "closest": {
               "text": "Gus · Blue guess",
-              "letter": "·",
-              "ratio": 6.8,
+              "letter": "s",
+              "ratio": 6.57,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -6510,12 +6572,12 @@
             "letters": 150,
             "noInk": 0,
             "moving": 8,
-            "min": 6.77,
+            "min": 6.99,
             "low": [],
             "closest": {
-              "text": "Ben",
-              "letter": "B",
-              "ratio": 6.77,
+              "text": "Pick 1",
+              "letter": "P",
+              "ratio": 6.99,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -6540,15 +6602,15 @@
           "contrast": {
             "letters": 147,
             "noInk": 0,
-            "moving": 35,
-            "min": 6.09,
+            "moving": 30,
+            "min": 6.35,
             "low": [],
             "closest": {
-              "text": "Using it is a separate action on your tu",
+              "text": "Hack Spaceship is unlocked",
               "letter": "a",
-              "ratio": 6.09,
+              "ratio": 6.35,
               "need": 4.5,
-              "at": "as drawn"
+              "at": "150 s"
             },
             "skipped": {
               "covered": 21,
@@ -6566,8 +6628,8 @@
       "slug": "hospital-panel",
       "title": "Hospital panel",
       "file": "design/phone-ui/review/sheets/43-hospital-panel.jpg",
-      "sha256": "f2a53f86641fbc2aa97609e81ad067cf851856624f67e7b41168476f0115bce1",
-      "bytes": 276659,
+      "sha256": "8894d3f7bd538a7e23e65a4838f4454f930e960e96e649d38ed778530b605fa9",
+      "bytes": 273218,
       "size": {
         "width": 2288,
         "height": 1258
@@ -6587,12 +6649,12 @@
             "letters": 124,
             "noInk": 0,
             "moving": 0,
-            "min": 5.86,
+            "min": 6.48,
             "low": [],
             "closest": {
               "text": "One attempt: the Doctor’s player number.",
-              "letter": "a",
-              "ratio": 5.86,
+              "letter": "O",
+              "ratio": 6.71,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -6618,12 +6680,12 @@
             "letters": 140,
             "noInk": 0,
             "moving": 0,
-            "min": 6.39,
+            "min": 6.09,
             "low": [],
             "closest": {
-              "text": "Nothing happens until then",
-              "letter": "h",
-              "ratio": 6.39,
+              "text": "Your request is queued for Rescue",
+              "letter": "Y",
+              "ratio": 6.09,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -6649,12 +6711,12 @@
             "letters": 107,
             "noInk": 0,
             "moving": 0,
-            "min": 6.12,
+            "min": 6.48,
             "low": [],
             "closest": {
               "text": "Your attempt is used",
-              "letter": "o",
-              "ratio": 6.12,
+              "letter": "m",
+              "ratio": 6.48,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -6680,12 +6742,12 @@
             "letters": 108,
             "noInk": 0,
             "moving": 0,
-            "min": 6.38,
+            "min": 5.84,
             "low": [],
             "closest": {
               "text": "The panel is unavailable right now",
               "letter": "i",
-              "ratio": 6.38,
+              "ratio": 5.84,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -6711,12 +6773,12 @@
             "letters": 96,
             "noInk": 0,
             "moving": 0,
-            "min": 6.12,
+            "min": 6.37,
             "low": [],
             "closest": {
               "text": "Your attempt is used",
-              "letter": "o",
-              "ratio": 6.12,
+              "letter": "m",
+              "ratio": 6.37,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -6736,8 +6798,8 @@
       "slug": "end",
       "title": "Blackhole, elimination and the end of a match",
       "file": "design/phone-ui/review/sheets/44-end.jpg",
-      "sha256": "20d52cc298cfb72ef554bafff9fcc158435af5c5e1a20077f47d72bfe1c39462",
-      "bytes": 299089,
+      "sha256": "78cbcddb3fd8384b22fc75db26a47fac87d9c804b90c5aee70d5a56470418876",
+      "bytes": 292874,
       "size": {
         "width": 2288,
         "height": 1227
@@ -6906,8 +6968,8 @@
       "slug": "system",
       "title": "Loading, reconnecting and the unexpected",
       "file": "design/phone-ui/review/sheets/45-system.jpg",
-      "sha256": "179c985edb4eba741b7eb61dfee1991a38f37d914abf37c3f064d28389207bac",
-      "bytes": 355536,
+      "sha256": "461bc7730629c1193d4c02be1728f9169750fe067d467449cd61e97ff8e75f8a",
+      "bytes": 352624,
       "size": {
         "width": 2288,
         "height": 1227
@@ -6958,12 +7020,12 @@
             "letters": 130,
             "noInk": 0,
             "moving": 0,
-            "min": 9.79,
+            "min": 9.68,
             "low": [],
             "closest": {
               "text": "Controls return when the match is curren",
               "letter": "C",
-              "ratio": 9.79,
+              "ratio": 9.68,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -7076,8 +7138,8 @@
       "slug": "viewport-320",
       "title": "320 × 568",
       "file": "design/phone-ui/review/sheets/50-viewport-320.jpg",
-      "sha256": "c99d63e3495c2e4fccf41d8b0a6f8d533d7d6b112a51c25499f483cf1b2a9957",
-      "bytes": 282735,
+      "sha256": "db0ed1cd5f9da50d62e218758945c53ab21ab52d8556506d23cf179f2390085d",
+      "bytes": 282297,
       "size": {
         "width": 1938,
         "height": 951
@@ -7127,7 +7189,7 @@
           "contrast": {
             "letters": 137,
             "noInk": 0,
-            "moving": 2,
+            "moving": 1,
             "min": 6.28,
             "low": [],
             "closest": {
@@ -7164,7 +7226,7 @@
             "closest": {
               "text": "Selected",
               "letter": "S",
-              "ratio": 8.28,
+              "ratio": 8.71,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -7246,8 +7308,8 @@
       "slug": "viewport-430",
       "title": "430 × 932",
       "file": "design/phone-ui/review/sheets/51-viewport-430.jpg",
-      "sha256": "9c981516bee74eef3fa7d51762db7037229c3c44d3725c46aa651c0e7a1cbbf7",
-      "bytes": 412821,
+      "sha256": "e89cdc642c63cc8198d955810d09fb2a04fcdefb2dae5a5be7b1ee7a87100033",
+      "bytes": 410288,
       "size": {
         "width": 2006,
         "height": 1315
@@ -7385,8 +7447,8 @@
       "slug": "browser-chrome",
       "title": "In Safari, with its toolbars",
       "file": "design/phone-ui/review/sheets/52-browser-chrome.jpg",
-      "sha256": "aec433b34936bd7ae70e2f63c3807eac86d5a5af7b30770c88b7308d9a04e695",
-      "bytes": 306527,
+      "sha256": "8805755e84d4c16297cdb63c24229236c20fccd46cc2c159fee2a8a288487772",
+      "bytes": 306511,
       "size": {
         "width": 1846,
         "height": 1137
@@ -7437,7 +7499,7 @@
             "letters": 98,
             "noInk": 0,
             "moving": 0,
-            "min": 8.32,
+            "min": 8.81,
             "low": [],
             "closest": {
               "text": "Board",
@@ -7524,8 +7586,8 @@
       "slug": "larger-text",
       "title": "Larger text",
       "file": "design/phone-ui/review/sheets/53-larger-text.jpg",
-      "sha256": "514649b97da89ceae28cb2cdd6650a09d7a35be78b245ea7fc204af5d63593d6",
-      "bytes": 394153,
+      "sha256": "997887959d40294eedbb8092515d31dcd8977697c2d4ff53cc6cba03c237dcd5",
+      "bytes": 393018,
       "size": {
         "width": 2288,
         "height": 1227
@@ -7575,13 +7637,13 @@
           "contrast": {
             "letters": 135,
             "noInk": 0,
-            "moving": 0,
-            "min": 5.93,
+            "moving": 5,
+            "min": 5.79,
             "low": [],
             "closest": {
-              "text": "2 injections",
-              "letter": "2",
-              "ratio": 5.93,
+              "text": "Doctor · Room A",
+              "letter": "m",
+              "ratio": 5.79,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -7606,13 +7668,13 @@
           "contrast": {
             "letters": 114,
             "noInk": 0,
-            "moving": 0,
+            "moving": 2,
             "min": 7.59,
             "low": [],
             "closest": {
               "text": "Ava",
-              "letter": "a",
-              "ratio": 8.15,
+              "letter": "A",
+              "ratio": 7.89,
               "need": 4.5,
               "at": "as drawn"
             },
@@ -7694,8 +7756,8 @@
       "slug": "reduced-motion",
       "title": "Reduce motion",
       "file": "design/phone-ui/review/sheets/54-reduced-motion.jpg",
-      "sha256": "17e89adc62d92061a81b75802613190c5f1fdbda4a23385b4543efe5c84403fd",
-      "bytes": 242137,
+      "sha256": "e79be0f140ab18622689f8d0b5fb65f688a082d286e121a0aaad7760f7727aa0",
+      "bytes": 241761,
       "size": {
         "width": 1846,
         "height": 1254
@@ -7833,8 +7895,8 @@
       "slug": "ambient-motion",
       "title": "Ambient motion in the rooms",
       "file": "design/phone-ui/review/sheets/55-ambient-motion.jpg",
-      "sha256": "71035bb3322357692c021dcc8a6dd9e75f075a2a460c558dce29727706ab117b",
-      "bytes": 590877,
+      "sha256": "2d8b33207b461ed024969ffe4ab460491a7bf79af233c4e2295e266f28a977bf",
+      "bytes": 590618,
       "size": {
         "width": 3172,
         "height": 1280
@@ -8466,8 +8528,8 @@
       "slug": "today-vs-proposal",
       "title": "Today’s playable build and this proposal",
       "file": "design/phone-ui/review/sheets/61-today-vs-proposal.jpg",
-      "sha256": "f5c45070a0eeba1c89eb2ba6a95e865abec49fe52244753958d08d2a0f008146",
-      "bytes": 353322,
+      "sha256": "f9f517e6af9ae2c3f3edd3d726145f5bdd219ea45bd27abca4bc53b5ed3b3035",
+      "bytes": 352424,
       "size": {
         "width": 1800,
         "height": 1209
