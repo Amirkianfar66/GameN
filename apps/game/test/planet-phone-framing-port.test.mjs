@@ -42,3 +42,10 @@ test('dark viewport reflow uses immutable numeric bounds and canonical fallback 
  const fallback=phoneLayouts(view,9,[],{frameAll:true});assert.deepEqual(phoneLayouts(view,9,[{location:'Room A',slotId:'A3',health:'Injured'}],{frameAll:true}),fallback);
  assert.ok(!/seatId|slotId|characterId|displayName|eliminated|health/.test(JSON.stringify(reflow.roomInputs)));
 });
+
+test('a failed new-window reconstruction retires the former window bounds',()=>{
+ const cache=createBlackoutGeometry(),view={width:390,height:844,top:60,nav:68};
+ cache.read('old',()=>phoneLayouts(view,9,[],{frameAll:true}));
+ assert.equal(cache.read('new',()=>null),null);
+ assert.equal(cache.read('old',()=>null),null,'No camera from the retired window can be resurrected');
+});

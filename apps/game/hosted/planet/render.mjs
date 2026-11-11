@@ -332,7 +332,7 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
   if(lastViewportKey!==null&&lastViewportKey!==viewportKey)cancelPointerGesture();lastViewportKey=viewportKey;
   if(context)lastBlackoutContext=context;
   if(model.connection==='live'&&model.phase?.kind!=='BLACKOUT')lastBlackoutContext=null;
-  const owned=!lastBlackoutContext||model.surface!=='player'||(blackoutOwner?blackoutOwner(lastBlackoutContext):model.connection==='live'&&model.phase?.trusted&&!model.phase.expired);
+  const owned=model.connection!=='error'&&(!lastBlackoutContext||model.surface!=='player'||(blackoutOwner?blackoutOwner(lastBlackoutContext):model.connection==='live'&&model.phase?.trusted&&!model.phase.expired));
   if(!owned){blackoutGeometry.clear();lastBlackoutContext=null;}
   allLayouts=owned&&model.playerCount?blackoutGeometry.read(windowKey,()=>model.dark&&model.surface==='player'?blackoutLayout?.(context,viewport)??null:phoneLayouts(viewport,model.playerCount,model.board?.seats??[]),{viewportKey,reflow:roomInputs=>phoneLayouts(viewport,model.playerCount,[],{roomInputs})}):null;
   if(allLayouts){root.style.setProperty('--phone-top',`${allLayouts.top}px`);root.style.setProperty('--phone-nav',`${allLayouts.nav}px`);}

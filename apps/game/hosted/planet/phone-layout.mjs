@@ -43,6 +43,7 @@ export function createBlackoutGeometry(){
  return {read(windowId,make,{viewportKey=null,reflow=null}={}){
   if(!windowId){saved=null;return make();}
   if(saved?.id===windowId){if(viewportKey!==saved.viewportKey&&reflow){const geometry=reflow(saved.geometry.roomInputs);if(!geometry)return null;saved={id:windowId,geometry,viewportKey};}return saved.geometry;}
+  saved=null;
   const geometry=make();if(geometry)saved={id:windowId,geometry,viewportKey};return geometry;
  },clear(){saved=null;}};
 }
