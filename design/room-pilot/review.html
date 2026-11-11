@@ -1,0 +1,36 @@
+<!doctype html>
+<!-- mothership:dev-only. The room pilot's review page (design/room-pilot/review.mjs): ?view=compare&room=<id> (the default), ?view=board or ?view=room&room=<id>. A design review page, not the game. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Room pilot</title>
+<style>
+  :root { --ink: #151923; --paper: #F4EBDD; --shade: #E3D6C2; --muted: #5B6170; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font: 15px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  header { padding: 22px 28px 6px; }
+  h1 { margin: 0 0 4px; font-size: 26px; }
+  header p { margin: 0; max-width: 1100px; color: var(--muted); }
+  h2 { margin: 0 0 8px; font-size: 16px; }
+  h2 small { font-weight: 400; color: var(--muted); }
+  .row { display: flex; gap: 24px; padding: 14px 28px; align-items: flex-start; }
+  .grid { display: grid; grid-template-columns: repeat(3, 512px); gap: 18px 24px; padding: 14px 28px; }
+  .cell { flex: none; }
+  /* A room: the scene's 1024 x 768 pictures with the crew in its places, layered as the board layers them. */
+  .frame { position: relative; overflow: hidden; border-radius: 6px; background: var(--ink); box-shadow: 0 1px 0 #0002, 0 6px 18px #0002; }
+  .scene { position: absolute; left: 0; top: 0; width: 1024px; height: 768px; transform-origin: 0 0; }
+  .scene > img { position: absolute; left: 0; top: 0; width: 1024px; height: 768px; display: block; }
+  .piece { position: absolute; }
+  .piece svg { width: 100%; height: 100%; display: block; }
+  .piece[data-mirror="true"] { transform: scaleX(-1); }
+  footer { padding: 4px 28px 24px; color: var(--muted); font-size: 13px; }
+  html[data-view="room"] body { background: var(--ink); }
+  html[data-view="room"] .frame { border-radius: 0; box-shadow: none; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="module" src="./review.mjs"></script>
+</body>
+</html>

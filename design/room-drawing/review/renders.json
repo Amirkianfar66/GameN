@@ -1,0 +1,211 @@
+{
+  "tool": "design/tools/room-drawing-render.mjs",
+  "browser": "Chrome/153.0.8010.12",
+  "outputs": {
+    "design/room-drawing/review/night.png": {
+      "kind": "image",
+      "page": "design/room-drawing/review.html",
+      "width": 1672,
+      "height": 2085,
+      "bytes": 1890267,
+      "sha256": "4a370f3cf80f94c8ae06b1d2daef693978cf2b0d28a9c18f39f59eb3afbb86a6"
+    },
+    "design/room-drawing/review/films.png": {
+      "kind": "image",
+      "page": "design/room-drawing/review.html?view=films",
+      "width": 1640,
+      "height": 1441,
+      "bytes": 646157,
+      "sha256": "eedfbb69de24496d17ed35981d28b76e4839bedad39b949cf1abdd261c670e5e"
+    }
+  },
+  "trim": {
+    "scale": 2,
+    "worstOver32Share": 0.01765,
+    "exports": {
+      "design/room-drawing/assets/command-room.back.svg": {
+        "pixels": 3145728,
+        "over8": 116766,
+        "over32": 55516,
+        "over8Share": 0.03712,
+        "over32Share": 0.01765
+      },
+      "design/room-drawing/assets/command-room.table.svg": {
+        "pixels": 3145728,
+        "over8": 20596,
+        "over32": 13204,
+        "over8Share": 0.00655,
+        "over32Share": 0.0042
+      },
+      "design/room-drawing/assets/command-room.dark.svg": {
+        "pixels": 3145728,
+        "over8": 95820,
+        "over32": 45360,
+        "over8Share": 0.03046,
+        "over32Share": 0.01442
+      },
+      "design/room-drawing/assets/room-a.back.svg": {
+        "pixels": 3145728,
+        "over8": 135168,
+        "over32": 51479,
+        "over8Share": 0.04297,
+        "over32Share": 0.01636
+      },
+      "design/room-drawing/assets/room-a.dark.svg": {
+        "pixels": 3145728,
+        "over8": 113860,
+        "over32": 43128,
+        "over8Share": 0.0362,
+        "over32Share": 0.01371
+      },
+      "design/room-drawing/assets/room-b.back.svg": {
+        "pixels": 3145728,
+        "over8": 121323,
+        "over32": 47781,
+        "over8Share": 0.03857,
+        "over32Share": 0.01519
+      },
+      "design/room-drawing/assets/room-b.bench.svg": {
+        "pixels": 3145728,
+        "over8": 25436,
+        "over32": 14835,
+        "over8Share": 0.00809,
+        "over32Share": 0.00472
+      },
+      "design/room-drawing/assets/room-b.dark.svg": {
+        "pixels": 3145728,
+        "over8": 104299,
+        "over32": 47520,
+        "over8Share": 0.03316,
+        "over32Share": 0.01511
+      },
+      "design/room-drawing/assets/hospital.back.svg": {
+        "pixels": 3145728,
+        "over8": 85482,
+        "over32": 31552,
+        "over8Share": 0.02717,
+        "over32Share": 0.01003
+      },
+      "design/room-drawing/assets/hospital.berth-four-h3.svg": {
+        "pixels": 3145728,
+        "over8": 7187,
+        "over32": 4880,
+        "over8Share": 0.00228,
+        "over32Share": 0.00155
+      },
+      "design/room-drawing/assets/hospital.berth-four-h4.svg": {
+        "pixels": 3145728,
+        "over8": 7188,
+        "over32": 4870,
+        "over8Share": 0.00229,
+        "over32Share": 0.00155
+      },
+      "design/room-drawing/assets/hospital.berth-four-h1-head.svg": {
+        "pixels": 3145728,
+        "over8": 10171,
+        "over32": 6024,
+        "over8Share": 0.00323,
+        "over32Share": 0.00191
+      },
+      "design/room-drawing/assets/hospital.berth-four-h2-head.svg": {
+        "pixels": 3145728,
+        "over8": 10156,
+        "over32": 5994,
+        "over8Share": 0.00323,
+        "over32Share": 0.00191
+      },
+      "design/room-drawing/assets/hospital.berth-four-h1.svg": {
+        "pixels": 3145728,
+        "over8": 7507,
+        "over32": 5257,
+        "over8Share": 0.00239,
+        "over32Share": 0.00167
+      },
+      "design/room-drawing/assets/hospital.berth-four-h2.svg": {
+        "pixels": 3145728,
+        "over8": 7508,
+        "over32": 5254,
+        "over8Share": 0.00239,
+        "over32Share": 0.00167
+      },
+      "design/room-drawing/assets/hospital.dark.svg": {
+        "pixels": 3145728,
+        "over8": 106703,
+        "over32": 48962,
+        "over8Share": 0.03392,
+        "over32Share": 0.01556
+      },
+      "design/room-drawing/assets/jail.back.svg": {
+        "pixels": 3145728,
+        "over8": 109551,
+        "over32": 44900,
+        "over8Share": 0.03483,
+        "over32Share": 0.01427
+      },
+      "design/room-drawing/assets/jail.dark.svg": {
+        "pixels": 3145728,
+        "over8": 90536,
+        "over32": 43320,
+        "over8Share": 0.02878,
+        "over32Share": 0.01377
+      },
+      "design/room-drawing/assets/capsule.back.svg": {
+        "pixels": 1572864,
+        "over8": 55107,
+        "over32": 19794,
+        "over8Share": 0.03504,
+        "over32Share": 0.01258
+      },
+      "design/room-drawing/assets/capsule.door-0.svg": {
+        "pixels": 1572864,
+        "over8": 6532,
+        "over32": 3522,
+        "over8Share": 0.00415,
+        "over32Share": 0.00224
+      },
+      "design/room-drawing/assets/capsule.door-1.svg": {
+        "pixels": 1572864,
+        "over8": 4598,
+        "over32": 2661,
+        "over8Share": 0.00292,
+        "over32Share": 0.00169
+      },
+      "design/room-drawing/assets/capsule.door-2.svg": {
+        "pixels": 1572864,
+        "over8": 3714,
+        "over32": 2242,
+        "over8Share": 0.00236,
+        "over32Share": 0.00143
+      },
+      "design/room-drawing/assets/capsule.door-3.svg": {
+        "pixels": 1572864,
+        "over8": 0,
+        "over32": 0,
+        "over8Share": 0,
+        "over32Share": 0
+      },
+      "design/room-drawing/assets/capsule.busy.svg": {
+        "pixels": 1572864,
+        "over8": 977,
+        "over32": 761,
+        "over8Share": 0.00062,
+        "over32Share": 0.00048
+      },
+      "design/room-drawing/assets/capsule.dark.svg": {
+        "pixels": 1572864,
+        "over8": 42718,
+        "over32": 19021,
+        "over8Share": 0.02716,
+        "over32Share": 0.01209
+      }
+    }
+  },
+  "doorAtRest": {
+    "what": "design/room-drawing/source/captain.mjs jailDoorSvg() at rest, over the release's Jail in JAIL_DOOR.box, against the Jail alone, at twice its pixels",
+    "pixels": 3145728,
+    "over8": 3612,
+    "over32": 2392,
+    "over8Share": 0.00115,
+    "over32Share": 0.00076
+  }
+}
