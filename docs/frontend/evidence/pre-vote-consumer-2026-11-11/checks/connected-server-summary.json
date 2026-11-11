@@ -1,0 +1,10 @@
+{
+  "sourceCommit": "c5a70b7eea1c3f755f655d37ac729e5f78d24efc",
+  "logSha256": "23afc9e8ecf4b224850fe0632e1f861441d1129dfdf79d36b7ccc4777dabbc93",
+  "logBytes": 156573,
+  "scriptExitCode": 0,
+  "successfulExitRecorded": true,
+  "earlyDeadlineNotElapsedErrors": 15,
+  "ECONNREFUSEDMessages": 0,
+  "interpretation": "Tasks retries were present. This is not an error-free server-log claim. The nine browser cases passed, the host abort was accepted, and all owned emulators were stopped before the shared ports were released. Raw emulator log is retained locally; no full private server payloads are published."
+}
