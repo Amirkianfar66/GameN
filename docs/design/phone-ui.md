@@ -1,6 +1,6 @@
 # Phone interface pack
 
-**A complete phone interface design for owner review**, made from the owner's latest playtest feedback (9 November 2026). Every screen, tab and important state of the Planet game has its own sheet, plus a flow map, a phase and action matrix, a component sheet and a clickable prototype. It is a design proposal: nothing here changes the game, a rule, a contract or a deadline.
+**A complete phone interface design for owner review**, made from the owner's latest playtest feedback (9 November 2026). Every screen, tab and important state of the Planet game has its own sheet, plus a flow map, a phase and action matrix, a component sheet and a clickable prototype. Since 11 November 2026 it is the specification Frontend builds the phone interface from, sheet by sheet, and a change from a sheet is an exception agreed by Designer and the owner ([owner-decisions.md](owner-decisions.md#11-november-2026-the-build-follows-the-pack)). It changes no game rule, contract or deadline.
 
 - **Branch and base:** `claude/designer-phone-ui`, from `fb33cecbf4b0fc2bef5d107e79ae2aac0ed7be70`. That is `main` after #204, the reviewed playable baseline.
 - **Pins:** protocol 3, `planet-game-1.1.0`, `in-person-planet-private-feedback-2026-11-06`, art release `design-0.8.0`.
@@ -13,7 +13,7 @@
 | Clickable prototype | [`design/phone-ui/prototype/index.html`](../../design/phone-ui/prototype/index.html). On a desktop it shows a phone and its flows; on a phone it fills the screen. `design/tools/phone-ui-clickable.mjs` exports it as rendered screens with each screen's own tap areas (297 states), which is how the owner's private review copy is made. |
 | Frontend handoff | [phone-ui-handoff.md](phone-ui-handoff.md): each sheet mapped to components, states, assets, audiences and the data it needs. |
 | Backend and Integration | [DSN-REQ-19 to DSN-REQ-22](integration-requests.md#dsn-req-19): the dependencies, kept separate from the visual decisions. [DSN-REQ-23](integration-requests.md#dsn-req-23) asks Frontend to build the rooms' ambient motion, which the native interface (#217) does not have yet. |
-| Native review | [phone-ui-native-review.md](phone-ui-native-review.md): Designer's visual review of the native interface adopted in #217, against these sheets. |
+| Native review | [phone-ui-native-review.md](phone-ui-native-review.md): Designer's visual review of the native interface adopted in #217, against these sheets, part by part from the menu to the end, with pictures. Not accepted yet. |
 | Measurements | [`design/phone-ui/review/checks.json`](../../design/phone-ui/review/checks.json): every frame measured as it was drawn. |
 
 Every name, seat, role, ballot and result in the sheets is a **labelled synthetic fixture** (`design/phone-ui/prototype/fixtures.mjs`). The label sits beside each frame, never inside the proposed interface.

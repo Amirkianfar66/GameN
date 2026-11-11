@@ -4,6 +4,8 @@
 
 The native interface follows the phone pack on the glass, the large-text lists, the counts, the Blackout-before-vote sequence and the role stage's timing. It differs from the pack on four things every player sees each round: the room's framing, the tab bar, the top bar at large text and the results. Designer accepts it once those four are changed. The other eight can follow.
 
+Since then the owner has decided that the pack is the specification for the phone interface, and that Designer's visual acceptance comes before a phone-interface merge ([owner-decisions.md](owner-decisions.md#11-november-2026-the-build-follows-the-pack)).
+
 ![The pack beside the native interface](evidence/phone-ui-native-review-2026-11-11/comparison.jpg)
 
 ## What was reviewed
@@ -52,6 +54,19 @@ The native interface follows the phone pack on the glass, the large-text lists, 
 ## Part by part, from the menu to the end
 
 A second pass covered every part of a match. Designer built Frontend's review harness (`apps/game/dev/phone`) at `d1a03c87`, Frontend's last native commit. Its interface code differs from `main` only in the host's abort confirmation, which #220's own captures show. Each state was captured at 390 × 844 and set beside the pack's screen for the same state.
+
+Of the 49 parts, 4 are the same, 8 are close and 37 differ. The pictures are in eight sheets, one for each stage of a match, with the pack on the left and the native interface on the right:
+
+1. [Start: menu, hosting, joining](evidence/phone-ui-native-review-2026-11-11/01-start.jpg)
+2. [Before Round 1](evidence/phone-ui-native-review-2026-11-11/02-pregame.jpg)
+3. [In the rooms](evidence/phone-ui-native-review-2026-11-11/03-rooms.jpg)
+4. [Your turn](evidence/phone-ui-native-review-2026-11-11/04-turn.jpg)
+5. [Panels and Promises](evidence/phone-ui-native-review-2026-11-11/05-panels.jpg)
+6. [Votes and offices](evidence/phone-ui-native-review-2026-11-11/06-votes.jpg)
+7. [Host and connection](evidence/phone-ui-native-review-2026-11-11/07-system.jpg)
+8. [End of the match](evidence/phone-ui-native-review-2026-11-11/08-end.jpg)
+
+Three of the native pictures are Frontend's own committed captures: the boarding film, the smallest phone at the Largest text, and the host controls in a match.
 
 | Part | The native interface, against the pack |
 | --- | --- |

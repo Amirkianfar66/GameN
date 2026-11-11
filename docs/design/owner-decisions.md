@@ -6,6 +6,27 @@ What the game owner decided about look, feel and presentation while working with
 
 The owner's messages are quoted as written.
 
+## 11 November 2026: the build follows the pack
+
+**The owner asked whether the game uses Designer's design in every part, from the menu to the end of a match.** Designer set each part of Frontend's native interface beside the pack's screen for the same state. Of 49 parts, 4 are the same, 8 are close and 37 differ ([the native review](phone-ui-native-review.md#part-by-part-from-the-menu-to-the-end)). The owner asked why, and approved Designer's proposal to fix it.
+
+| What the owner said | What it decides | Where |
+| --- | --- | --- |
+| "Another question does the game and frontend using exactly your design for each part of app?", then "I mean in all part of game from menu to end of game what are the differences" | Designer compares the native interface with the pack, part by part, and records each difference with its picture | [phone-ui-native-review.md](phone-ui-native-review.md) and its evidence |
+| "Just a question why this difference happened and can we solve it to frontend follow exactly the designer claude work?", then "Yes do it" to Designer's proposal | 1. **The phone pack is the specification.** Frontend builds the phone interface from the pack on `main`, each sheet as drawn: its layout, controls, words and behaviour. It cannot match pixel for pixel, since sample matches and real phones differ.<br>2. **A change is an exception.** A change from a sheet needs Designer's and the owner's agreement first, and is recorded on this page. A rule, test or platform reason found while building comes to Designer as a question, not as a quiet change.<br>3. **Designer accepts before a merge.** A pull request that changes the phone interface merges after Designer's visual acceptance, given from a side-by-side of the states it changes.<br>4. **Frontend gets one fix list,** in priority order, with three trade-offs to settle together instead of copying the sheet blindly | This page; [phone-ui-native-review.md](phone-ui-native-review.md); Frontend's fix list |
+
+**What it does not decide:**
+- **The merge gate itself.** Merges are Integration's, and so are `AGENTS.md` and CI, where such a gate is written. The gate applies once Integration adds it. The owner's instruction to Integration asks for that.
+- **The three trade-offs:**
+  - the room's framing against people's fixed places in the Blackout;
+  - where Cancel goes while a target is chosen;
+  - whether actions the server does not offer show, greyed, with their reason.
+
+  Frontend, Integration, Designer and the owner settle them together.
+- **The game's rules.** The pack draws the rules; it does not make them. Where a sheet and a rule disagree, the rule stands until the owner decides it in the decision register.
+- **When Frontend does the work:** that is Frontend's plan, with Integration.
+- **Phones.** The comparison was made in desktop Chromium with Frontend's review harness and its sample matches. It shows what each screen draws, not how it behaves on a phone or in a live match.
+
 ## 10 November 2026: the glass stays, and the rows line up
 
 **After Integration's review of the pack, the owner looked at the corrected sheets.** The pack's account is in [phone-ui.md](phone-ui.md).
