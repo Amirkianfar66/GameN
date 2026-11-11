@@ -6,6 +6,38 @@ What the game owner decided about look, feel and presentation while working with
 
 The owner's messages are quoted as written.
 
+## 11 November 2026: ship life approved, the rooms a fifth wider
+
+**The owner watched the eleven ship-life films and the framing sheets, then answered Designer's two questions:** whether the look was right, and which framing the game uses.
+
+| What the owner said | What it decides | Where |
+| --- | --- | --- |
+| "approved, go with a fifth wider" | **The look is approved as designed:** the 20 places' activities, the four food capsules and their states, and the visit in its stocked, brief and empty forms. Frontend may build them, the visits once the game supplies food availability (below) | [ship-life.md](ship-life.md); [#230](https://github.com/Amirkianfar66/GameN/pull/230) |
+| The same | **The room views are a fifth wider.** The scale is 0.8 of the filled view's, or less where the people present need more room to stay whole. Bars, tags, buttons and 44-pixel press areas keep their size. The ceiling and deck continue past the picture (the extension bands), and the framing keeps the room's capsule and its visitor in view where they fit. This replaces T1's first point, that the room fills the space between the bars. T1's other points stand: nobody present is cut off, and the framing follows only who the lit room shows and is held still through the Blackout | [ship-life.md](ship-life.md#wider-rooms) (`framing.mjs`, `roomFrame` with `zoom: 0.8`); [phone-ui.md](phone-ui.md) |
+
+**What it does not decide:**
+- **When it ships.** The extension bands are drawn for the approved room pictures (`room-drawing-1.0.0`, #197), so the wider framing comes with them. Until then the game keeps the corrected T1 framing (#229).
+- **Food itself.** Availability (stocked, empty or unknown), who may know it, and the turn-end event the visits follow are for a future gameplay contract (Integration and Backend). Until it exists, no one eats: unknown plays no visit.
+
+## 11 November 2026: ship life (the request)
+
+**The owner asked Designer for a package that makes the ship feel inhabited.** It covers what the people at each place do while others take their turns, wider room views, and a meal from a local food capsule after each turn. Designer's answer is [ship-life.md](ship-life.md): design assets and working previews with labelled fixtures, none of it in the game.
+
+| What the owner said | What it decides | Where |
+| --- | --- | --- |
+| "Activities belong to positions, not secret roles. Any of the nine characters occupying a position must be able to perform its activity" | Each of the 20 places has its own activity; it never depends on a role, a team, an inventory or a choice | [ship-life.md](ship-life.md#the-20-places) |
+| "Typing does not perform Hack or reveal information. Handling crates does not grant food or weapons. Working with cables does not repair Engine. No activity consumes a move, Role Action, Public Action, or cooperative Task allowance" | Every activity and visit is decoration only | The same |
+| C1: "Do not reveal a navigation direction or imply that a navigation confirmation occurred"; the Jail: "Do not depict an escape, lock picking, recovery, or another unearned gameplay outcome" | C1 never points, draws or sets anything on the chart; J2's slit does nothing | The same |
+| "Hospital has NO food capsule and NO eating animation. Patients remain in their resting poses" | No capsule and no visit in the Hospital; a character who comes in plays none | [ship-life.md](ship-life.md#the-food-capsules) |
+| "Use the latest after-turn order: Player 1 finishes → Player 1 eats while play advances ... Do not use the earlier reverse-order proposal" and "never introduce an extra eating phase" | Visits follow the order turns end; play never waits for one | [ship-life.md](ship-life.md#when-visits-play) |
+| "EMPTY VERSION ... Do not invent hunger damage, a penalty, or an alarm"; "Unknown must not be presented as empty" | An empty capsule gets a small reaction and nothing else; unknown has its own look and plays no visit | [ship-life.md](ship-life.md#the-visit) |
+| "Prepare the current framing alongside two wider alternatives for each main room ... Do not obtain the wider view by shrinking the entire UI" | Today's framing beside a tenth and a fifth wider, the interface at its size | [ship-life.md](ship-life.md#wider-rooms) |
+
+**What it does not decide:**
+- **Which framing the game uses.** Designer recommends a fifth wider. The owner chooses, and the pack's T1 framing stands until then. *(Decided the same day: a fifth wider; see above.)*
+- **Food itself.** Availability, stock, shared or local inventory, consumption and any consequence come from a future approved gameplay contract. The preview uses labelled fixtures.
+- **When Frontend builds it.** That is Frontend's plan, with Integration.
+
 ## 11 November 2026: larger text on the smallest phone
 
 **At 320 × 568 with the Largest text, many screens of the phone pack cut words off.** Designer showed the owner the Actions tiles turned into rows at large text, as ballots and results already were, before and after, at 320 × 568 and 390 × 844.
