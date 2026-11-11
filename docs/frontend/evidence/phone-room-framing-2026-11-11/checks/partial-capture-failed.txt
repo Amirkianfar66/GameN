@@ -1,0 +1,16 @@
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected visible crew SVG content
+    at checkCrewArt (file:///private/tmp/gamen-frontend-phone-room-framing/apps/game/dev/phone/art-checks.mjs:17:14)
+    at async file:///private/tmp/gamen-frontend-phone-room-framing/apps/game/dev/phone/room-framing-capture.mjs:57:32 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v22.21.1

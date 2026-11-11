@@ -1,0 +1,5 @@
+
+> @mothership/game@0.1.0 check:exclusion
+> tsc --build && node scripts/check-production-exclusion.mjs
+
+Production exclusion: 77 modules reachable from 2 production entries, 229 shipped or source files scanned, 120 development files labeled; no fixture, test or development module or marker found

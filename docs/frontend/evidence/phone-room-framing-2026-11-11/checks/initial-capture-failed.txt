@@ -1,0 +1,16 @@
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Drawn figure is clipped: {"seat":"seat-3","slot":"A3","room":"room-a","paintedPixels":33807,"rawSvgBounds":{"x":-32.363521575927734,"y":57.80171585083008,"width":175.70071411132812,"height":190.14723205566406},"bounds":{"left":271.5147705078125,"right":446.8782958984375,"top":456.611083984375,"bottom":646.6904296875,"width":175.363525390625,"height":190.079345703125},"clip":{"left":0,"right":390,"top":60,"bottom":776},"visibleRatio":0.6756549244106481,"opacity":1}
+    at checkRoomFigures (file:///private/tmp/gamen-frontend-phone-room-framing/apps/game/dev/phone/art-checks.mjs:39:161)
+    at async file:///private/tmp/gamen-frontend-phone-room-framing/apps/game/dev/phone/room-framing-capture.mjs:57:65 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v22.21.1
