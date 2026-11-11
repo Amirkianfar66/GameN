@@ -1,7 +1,7 @@
 {
   "schema": "mothership.frontend-pre-vote-consumer-proposal/1",
   "status": "Frontend source-specific verification complete; independent Integration adoption required",
-  "nativeCandidateCommit": "b63403e6a8d1b5f68f48ec13f4a392a79870bfcd",
+  "nativeCandidateCommit": "d1a03c87e80de7b5923c97a15a968c1ba6f5b40c",
   "frontendIssue": 214,
   "phoneDependency": {
     "pr": 212,
@@ -66,8 +66,8 @@
     },
     {
       "path": "apps/game/hosted/planet/render.mjs",
-      "sha256": "eebeedc53ce57753a9825cdfe9dc012c7391e67c30f2dcdf46be7e1b68079594",
-      "bytes": 50680,
+      "sha256": "f1d32153c5d324ca0c7b47bd5d21bda8d7a6c1033b95090bc2ad85cb5458ece3",
+      "bytes": 50620,
       "phone12Sha256": "de7e3626e29ef4585b5b9a4455bb549598293683db12d78975ea3f5e4c5cee22",
       "changedFromPhone12": true
     },
@@ -101,8 +101,8 @@
     },
     {
       "path": "packages/presentation/src/planet/library.ts",
-      "sha256": "2c5e91394ed76db8a814dbb91dc4a4708027b763547564a186cb6e1e59b9a122",
-      "bytes": 3343,
+      "sha256": "da670888f095071215d0d963cb5b5c635ae068afa4f66aa37a7a297bd44b8e68",
+      "bytes": 3871,
       "phone12Sha256": "7605e8480c9d26df78882dff2160c3831a60fa31a933fcdf551bbc3be4ffbd5f",
       "changedFromPhone12": true
     },
@@ -131,6 +131,18 @@
   },
   "presentationChangedFromBehaviorEvidence": [
     "apps/game/hosted/planet/phone.css",
-    "apps/game/hosted/planet/render.mjs"
-  ]
+    "apps/game/hosted/planet/render.mjs",
+    "packages/presentation/src/planet/library.ts"
+  ],
+  "presentationEvidenceCommit": "b63403e6a8d1b5f68f48ec13f4a392a79870bfcd",
+  "previousNativeCandidate": "b63403e6a8d1b5f68f48ec13f4a392a79870bfcd",
+  "roundOrderCorrection": {
+    "sourceCommit": "d1a03c87e80de7b5923c97a15a968c1ba6f5b40c",
+    "changedNativeFiles": [
+      "apps/game/hosted/planet/render.mjs",
+      "packages/presentation/src/planet/library.ts"
+    ],
+    "regressionFile": "packages/presentation/test/planet-library.test.mjs",
+    "scope": "Exact four-pin PLANET_BLACKOUT_PINS round-order copy only; predecessors and mixed tuples retain the original string; no gameplay/art/camera/layout change"
+  }
 }

@@ -1,10 +1,11 @@
 # Pre-vote consumer evidence
 
-Final presentation source: `b63403e6a8d1b5f68f48ec13f4a392a79870bfcd`. Behavioral/room-camera and real connected source: `c5a70b7eea1c3f755f655d37ac729e5f78d24efc`. Only native roster DOM/styles changed after that behavioral freeze. Backend is exact final PR #213 head `1900566f7237bc5a8032acdfb09208f95e68e2c0`, runtime `c492523845567c7e4e672991e11c058e88ccea27`. The thirteen-file closure is in [the inventory](../../pre-vote-consumer-inventory.json); actual results are in [verification](../../pre-vote-consumer-verification.json).
+Current native round-order correction: `d1a03c87e80de7b5923c97a15a968c1ba6f5b40c`. Glass/roster presentation capture source: `b63403e6a8d1b5f68f48ec13f4a392a79870bfcd`. Behavioral/room-camera and real connected source: `c5a70b7eea1c3f755f655d37ac729e5f78d24efc`. The glass/roster follow-up changed native roster DOM/styles; the later copy-only correction changes renderer text and its exact-tuple library helper. Backend is exact final PR #213 head `1900566f7237bc5a8032acdfb09208f95e68e2c0`, runtime `c492523845567c7e4e672991e11c058e88ccea27`. The thirteen-file closure is in [the inventory](../../pre-vote-consumer-inventory.json); actual results are in [verification](../../pre-vote-consumer-verification.json).
 
 | Folder | Scope |
 | --- | --- |
 | `synthetic/` | Native Chromium projections/controls at 320×568, 390×844 and 430×932, both motion settings. Each case checks all five rooms at normal/200% text, painted figure bounds and reachable 44 px targets. It also checks direct room-tag movement, complete Blackout-window geometry, visible public publication labels, a lit post-damage Hospital patient, and numeric-only dark Code |
+| `round-order/` | Six corrected-source native panel captures for saved 1.0/Sync/1.1/1.2 and exact 1.3, plus 1.3 at 200% text; no gameplay or command claim |
 | `presentation/` | Fourteen final-source ballot/result/glass/focus cases: 7/8/9 players, 320×568 at 200% and ordinary 390×844, both motions, solid fallback; explicit longest-name and scrolled representative-name captures |
 | `connected/` | Real local Auth/Firestore/HTTP/Functions/Tasks and nine-player native UI after a labelled native-history prefix. Actual timers, both strikes, independently read own ballot after a dropped successful response, original receipt, later Rescue, on-screen Jail figure and abort cleanup |
 | `checks/` | Typecheck/Frontend logs and the unmodified source guard's expected refusal pending Integration adoption; emulator summaries distinguish browser results from server retry/shutdown logs |
@@ -32,6 +33,7 @@ npm run test:frontend
 GAMEN_PHONE_BLACKOUT=1 GAMEN_PHONE_ART_BASE=/path/to/clean-fb33 node node_modules/vite/bin/vite.js build --config apps/game/dev/phone/vite.config.mjs
 node apps/game/dev/phone/blackout-capture.mjs /path/to/synthetic-evidence
 node apps/game/dev/phone/presentation-capture.mjs /path/to/presentation-evidence
+node apps/game/dev/phone/round-order-capture.mjs /path/to/round-order-evidence
 ```
 
 The focused room-only variant is `--rooms-only`; `--quick --rooms-only` covers all rooms at 320×568 with both text sizes. Keep native inputs fixed during capture. Before the connected run, obtain the canonical emulator-port reservation (including 9150 and UI 5173):

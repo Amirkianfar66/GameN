@@ -2,7 +2,7 @@
 
 Issue #214. This follows phone PR #212 at `bd5042a15b630ed270c8147f7c0d3f9694e4a3ac`, with its native source `838558bdc8d9eb3793d268375583260d8e4c4433` and 1.2 evidence preserved unchanged. Backend dependency is PR #213 at `1900566f7237bc5a8032acdfb09208f95e68e2c0`, frozen runtime `c492523845567c7e4e672991e11c058e88ccea27`. The reviewed contract is `44d008df0f1cc6fbb2d6c4c0b4b9c95f50c752c3`.
 
-Final native presentation is frozen at **`b63403e6a8d1b5f68f48ec13f4a392a79870bfcd`**. Gameplay, room-camera and real Tasks evidence remain frozen at **`c5a70b7eea1c3f755f655d37ac729e5f78d24efc`**; only phone styles and roster DOM differ between those commits. Seven of the thirteen phone consumer files differ from the 1.2 candidate: board scene caption lifecycle, crew dispatch, room-camera fitting, phone styles, renderer, controller and presentation library. Exact bytes and unchanged dependencies are in [the inventory](pre-vote-consumer-inventory.json). Integration owns the separate approval records/readers; none are edited here.
+Native source is frozen at **`d1a03c87e80de7b5923c97a15a968c1ba6f5b40c`** after the narrow round-order copy correction. Gameplay, room-camera and real Tasks evidence remain at **`c5a70b7eea1c3f755f655d37ac729e5f78d24efc`**; the fourteen glass/roster captures remain at **`b63403e6a8d1b5f68f48ec13f4a392a79870bfcd`**. Only renderer copy and its presentation helper change after that presentation source. Seven of the thirteen phone consumer files differ from the 1.2 candidate: board scene caption lifecycle, crew dispatch, room-camera fitting, phone styles, renderer, controller and presentation library. Exact bytes and unchanged dependencies are in [the inventory](pre-vote-consumer-inventory.json). Integration owns the separate approval records/readers; none are edited here.
 
 ## Exact dispatch and authority
 
@@ -31,13 +31,19 @@ The owner's confirmed full-board room-tag interaction is restored. Board/Room na
 
 The room camera fits the complete shared rig canvas at every fixed public place, keeping the authoritative anchors intact. A cover-only camera could leave a clamped hitbox on screen while its person was cropped away; the corrected camera uses consistent fixed-place bounds instead. Tall phones retain deliberate vertical room margins. Geometry never depends on occupants, health or private eligibility. Pure tests cover all fixed canvases and target centres, and browser checks measure actual painted SVG pixels and reachable target centres at normal and 200% text, including all J1–J5.
 
+## Exact-tuple round order
+
+The round-order panel previously showed the historical post-vote Blackout sequence for every tuple. At `d1a03c87e80de7b5923c97a15a968c1ba6f5b40c`, the native renderer calls `planetRoundOrderText`, which uses the presentation library’s existing exact four-pin match against `PLANET_BLACKOUT_PINS`. Only 1.3 now shows Blackout → Damage and Hospital placement → Jail vote → Result → Remaining resolution and Rescue → Navigation. Original 1.0, Sync 1.0.1, 1.1, 1.2, mixed and absent tuples keep the previous text. This is a copy correction; gameplay, art, camera and layout are unchanged.
+
+The focused regression covers the exact successor and every historical/mixed pin. Six native panel captures cover all five saved tuples at 390×844 plus 1.3 at 320×568/200% text, confirming readable line widths, reachable final text and zero command requests. Pure/browser typecheck and all 952 Frontend tests (219 presentation + 733 app) passed. All prior evidence retains its actual source identity.
+
 ## Owner presentation corrections
 
 Designer PR #207 at exact `e4fd047fec2cde1d6534b3276a2ae39d5ca10a9b` supplies the owner’s three presentation decisions. The native sheet/result keeps the 20–34% tint and `blur(2px) saturate(1.3) brightness(.56)`. Light text inherits exactly `0 0 1px rgba(8,11,18,.85), 0 0 3px rgba(8,11,18,.7), 0 0 8px rgba(8,11,18,.45)`. Primary controls, paper/amber seat/count/You badges and role/comic cards explicitly remove that halo. The solid reduced-transparency fallback is retained.
 
 Under 13 em of roster width, each player becomes an aligned row. The portrait, seat number and result count are all 1.375rem high on the name’s first line; notes and You follow the name. Ordinary three-column results keep the count top-left and You top-right. Every count appears once, while the accessible group names the player number, full name and vote total. Missing counts retain a dash and “count not published”; they do not become zero.
 
-Fourteen focused Chromium cases at the final source cover 7/8/9 players, 320×568 with 200% text and ordinary 390×844, both motions and solid fallback. They include longest names, accessible result groups, scrolled own rows, visible keyboard focus and a single registered ballot. This presentation follow-up does not relabel the earlier c5a real Tasks journey as final screenshots or rerun its gameplay for CSS-only changes.
+Fourteen focused Chromium cases at `b63403e6a8d1b5f68f48ec13f4a392a79870bfcd` cover 7/8/9 players, 320×568 with 200% text and ordinary 390×844, both motions and solid fallback. They include longest names, accessible result groups, scrolled own rows, visible keyboard focus and a single registered ballot. This presentation follow-up does not relabel the earlier c5a real Tasks journey as final screenshots or rerun its gameplay for CSS-only changes.
 
 ## Evidence and limits
 
