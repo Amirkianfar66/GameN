@@ -1,0 +1,136 @@
+{
+  "schema": "mothership.frontend-pre-vote-consumer-proposal/1",
+  "status": "Frontend source-specific verification complete; independent Integration adoption required",
+  "nativeCandidateCommit": "b63403e6a8d1b5f68f48ec13f4a392a79870bfcd",
+  "frontendIssue": 214,
+  "phoneDependency": {
+    "pr": 212,
+    "head": "bd5042a15b630ed270c8147f7c0d3f9694e4a3ac",
+    "native": "838558bdc8d9eb3793d268375583260d8e4c4433"
+  },
+  "backendDependency": {
+    "pr": 213,
+    "head": "1900566f7237bc5a8032acdfb09208f95e68e2c0",
+    "runtime": "c492523845567c7e4e672991e11c058e88ccea27",
+    "contract": "44d008df0f1cc6fbb2d6c4c0b4b9c95f50c752c3"
+  },
+  "tuple": {
+    "protocolVersion": 3,
+    "engineVersion": "planet-game-1.3.0",
+    "rulesetVersion": "in-person-planet-blackout-before-vote-2026-11-10",
+    "rulesetHash": "2505515ad41e9d49c06bd14aaf9dab56dcf0adb471725c1c15d877a0f0b97556",
+    "assetManifestVersion": "design-0.8.0"
+  },
+  "nativeFiles": [
+    {
+      "path": "apps/game/hosted/board-v2-scene.mjs",
+      "sha256": "4a55917bba96fdf8eb394565529060378c190a432a8d9b9fac283de11a6aa95c",
+      "bytes": 15737,
+      "phone12Sha256": "238a3acdae361e19a90017f138ecec0157bb78b500dff9b2e58b41d763ad377a",
+      "changedFromPhone12": true
+    },
+    {
+      "path": "apps/game/hosted/crew-runtime.mjs",
+      "sha256": "38c2da495f43162f928a8ff5e2fce2247e6748b2cbefba250b3b1f20138cdd3f",
+      "bytes": 11540,
+      "phone12Sha256": "9ec309d996e5f054b89d417eecf0d3488a4034062649625ebfb2bef1b74da1e5",
+      "changedFromPhone12": true
+    },
+    {
+      "path": "apps/game/hosted/planet/app.mjs",
+      "sha256": "39f80ec23d3d189865a4a54252a4a7880ad8333ab4257c8ae7963c706623b04e",
+      "bytes": 22562,
+      "phone12Sha256": "39f80ec23d3d189865a4a54252a4a7880ad8333ab4257c8ae7963c706623b04e",
+      "changedFromPhone12": false
+    },
+    {
+      "path": "apps/game/hosted/planet/phone-controls.mjs",
+      "sha256": "34a9e2b9253e4b81c09b0e3aab594efccac056adf7a4b05e9cd2e0b392834758",
+      "bytes": 3661,
+      "phone12Sha256": "34a9e2b9253e4b81c09b0e3aab594efccac056adf7a4b05e9cd2e0b392834758",
+      "changedFromPhone12": false
+    },
+    {
+      "path": "apps/game/hosted/planet/phone-layout.mjs",
+      "sha256": "e2f336ce00048cac3e24710a2f2faa37abd422ac937345ce3dada7a2891ecfb2",
+      "bytes": 4265,
+      "phone12Sha256": "b48a9346c568cf1c37a8bd96aeff11670ad680cc81e9116d116e8a63ed5c8f24",
+      "changedFromPhone12": true
+    },
+    {
+      "path": "apps/game/hosted/planet/phone.css",
+      "sha256": "d1d70c3fd7d38dab73095858d38697c70f0a9edfc36d9851e3e547b5dfb8328d",
+      "bytes": 17089,
+      "phone12Sha256": "73f903f551ca31f2a5810c99b88f3b074b84cf79afa18fd55a3727f17a98392b",
+      "changedFromPhone12": true
+    },
+    {
+      "path": "apps/game/hosted/planet/render.mjs",
+      "sha256": "eebeedc53ce57753a9825cdfe9dc012c7391e67c30f2dcdf46be7e1b68079594",
+      "bytes": 50680,
+      "phone12Sha256": "de7e3626e29ef4585b5b9a4455bb549598293683db12d78975ea3f5e4c5cee22",
+      "changedFromPhone12": true
+    },
+    {
+      "path": "apps/game/src/planet/controller.ts",
+      "sha256": "aad0033bad2eb6efaab4f814435f455bcbdaa065e05da75c931a28c4930e9abf",
+      "bytes": 30726,
+      "phone12Sha256": "98390a533a3d778bc9ba27e8b9e4b4f3e0515d7b284838364de29b55d98c5c9c",
+      "changedFromPhone12": true
+    },
+    {
+      "path": "apps/game/src/planet/pregame.ts",
+      "sha256": "58bf5dc183eab8a22b1e749e8249af63cb628419fb95b444573dd7cc682282ab",
+      "bytes": 8763,
+      "phone12Sha256": "58bf5dc183eab8a22b1e749e8249af63cb628419fb95b444573dd7cc682282ab",
+      "changedFromPhone12": false
+    },
+    {
+      "path": "apps/game/src/planet/session.ts",
+      "sha256": "214ce6d2f8cbf62427aaeaba70aa774aafa1803328666bf6179382a7d56966df",
+      "bytes": 23049,
+      "phone12Sha256": "214ce6d2f8cbf62427aaeaba70aa774aafa1803328666bf6179382a7d56966df",
+      "changedFromPhone12": false
+    },
+    {
+      "path": "apps/game/src/planet/transport.ts",
+      "sha256": "c4472e4e0713360ca24d33ecc7b982b4b3a45c3d8cef08104e51ff55e07c94ed",
+      "bytes": 4743,
+      "phone12Sha256": "c4472e4e0713360ca24d33ecc7b982b4b3a45c3d8cef08104e51ff55e07c94ed",
+      "changedFromPhone12": false
+    },
+    {
+      "path": "packages/presentation/src/planet/library.ts",
+      "sha256": "2c5e91394ed76db8a814dbb91dc4a4708027b763547564a186cb6e1e59b9a122",
+      "bytes": 3343,
+      "phone12Sha256": "7605e8480c9d26df78882dff2160c3831a60fa31a933fcdf551bbc3be4ffbd5f",
+      "changedFromPhone12": true
+    },
+    {
+      "path": "packages/presentation/src/planet/model.ts",
+      "sha256": "c8598cfbdb96614dd743c473523db0d8105c54e5e5bc65a4257062c6c8f6fb7b",
+      "bytes": 13130,
+      "phone12Sha256": "c8598cfbdb96614dd743c473523db0d8105c54e5e5bc65a4257062c6c8f6fb7b",
+      "changedFromPhone12": false
+    }
+  ],
+  "historicalEvidencePreserved": "docs/frontend/evidence/phone-ui-2026-11-10/",
+  "historicalInventoryPreserved": "docs/frontend/phone-ui-consumer-inventory.json",
+  "sourceApproval": "Independent Integration adoption required; historical approvals and scripts remain untouched",
+  "designerSourceOrArtImports": [],
+  "ambientOrNewRoomAdoption": false,
+  "creationDefaultsChanged": false,
+  "cloudChanges": false,
+  "physicalDeviceAcceptance": false,
+  "supersededNativeCandidate": "5a891e7a3094eb78c0ffd292626a180656e96795",
+  "behaviorEvidenceCommit": "c5a70b7eea1c3f755f655d37ac729e5f78d24efc",
+  "presentationDecisionSource": {
+    "pr": 207,
+    "head": "e4fd047fec2cde1d6534b3276a2ae39d5ca10a9b",
+    "scope": "Owner halo, roster rows and one-count/accessible-name corrections only; no Designer source files or art imported"
+  },
+  "presentationChangedFromBehaviorEvidence": [
+    "apps/game/hosted/planet/phone.css",
+    "apps/game/hosted/planet/render.mjs"
+  ]
+}

@@ -1,0 +1,468 @@
+{
+  "scope": "Real local Auth/Firestore/HTTP/Functions/Tasks plus native consumer, nine players. A labelled native-history prefix is seeded once before any role was disclosed. Desktop Chromium emulation, no physical-device/performance or human-balance claim.",
+  "generatedAt": "2026-11-11T00:07:48.796Z",
+  "browser": {
+    "protocolVersion": "1.3",
+    "product": "Chrome/157.0.8103.40",
+    "revision": "@6f75a8afa26ce5537c82b4887f152dfdc7183e05",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/157.0.0.0 Safari/537.36",
+    "jsVersion": "15.7.112.23"
+  },
+  "sourcesVerifiedBefore": true,
+  "cases": [
+    {
+      "name": "lit-native-preview",
+      "passed": true,
+      "crewArt": {
+        "versions": {
+          "protocolVersion": 3,
+          "engineVersion": "planet-game-1.3.0",
+          "rulesetVersion": "in-person-planet-blackout-before-vote-2026-11-10",
+          "rulesetHash": "2505515ad41e9d49c06bd14aaf9dab56dcf0adb471725c1c15d877a0f0b97556",
+          "assetManifestVersion": "design-0.8.0"
+        },
+        "crewSurface": "crew-drawing-1.0.0",
+        "pictures": [],
+        "figures": [
+          {
+            "seat": "seat-1",
+            "hasSvg": true,
+            "width": 86.29999542236328,
+            "height": 199.18692016601562,
+            "paths": 67,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-2",
+            "hasSvg": true,
+            "width": 88.80001068115234,
+            "height": 238.78834533691406,
+            "paths": 80,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-3",
+            "hasSvg": true,
+            "width": 175.70071411132812,
+            "height": 188.5428924560547,
+            "paths": 84,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-5",
+            "hasSvg": true,
+            "width": 103.38202667236328,
+            "height": 234.04415893554688,
+            "paths": 78,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-8",
+            "hasSvg": true,
+            "width": 98.30000305175781,
+            "height": 245.72703552246094,
+            "paths": 73,
+            "missingReferences": 0
+          }
+        ],
+        "duplicateIds": [],
+        "instances": [
+          "crew-renderer-1-mount-1-body",
+          "crew-renderer-1-mount-2-body",
+          "crew-renderer-1-mount-3-body",
+          "crew-renderer-1-mount-4-body",
+          "crew-renderer-1-mount-5-body",
+          "crew-renderer-1-mount-6-body",
+          "crew-renderer-1-mount-7-body",
+          "crew-renderer-1-mount-8-body",
+          "crew-renderer-1-mount-9-body",
+          "crew-renderer-1-mount-10-front"
+        ],
+        "duplicateInstances": []
+      },
+      "geometry": [
+        {
+          "id": "A1",
+          "x": 163.203125,
+          "y": 431.25,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "id": "A2",
+          "x": 89.765625,
+          "y": 409.0625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "id": "A3",
+          "x": 243.75,
+          "y": 484.625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "id": "A4",
+          "x": 249.359375,
+          "y": 337.6875,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "id": "A5",
+          "x": 70.53125,
+          "y": 329.234375,
+          "width": 44,
+          "height": 44
+        }
+      ],
+      "capture": "lit-native-preview.png"
+    },
+    {
+      "name": "dark-native-picker",
+      "passed": true,
+      "sameLitGeometry": true,
+      "noPeopleOrIdentity": true,
+      "capture": "dark-native-picker.png"
+    },
+    {
+      "name": "dark-native-code",
+      "passed": true,
+      "originalNumbersOnly": true,
+      "submitted": false,
+      "capture": "dark-native-code.png"
+    },
+    {
+      "name": "real-damage-before-full-vote",
+      "passed": true,
+      "crewArt": {
+        "versions": {
+          "protocolVersion": 3,
+          "engineVersion": "planet-game-1.3.0",
+          "rulesetVersion": "in-person-planet-blackout-before-vote-2026-11-10",
+          "rulesetHash": "2505515ad41e9d49c06bd14aaf9dab56dcf0adb471725c1c15d877a0f0b97556",
+          "assetManifestVersion": "design-0.8.0"
+        },
+        "crewSurface": "crew-drawing-1.0.0",
+        "pictures": [],
+        "figures": [
+          {
+            "seat": "seat-1",
+            "hasSvg": true,
+            "width": 86.29999542236328,
+            "height": 199.4756317138672,
+            "paths": 67,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-2",
+            "hasSvg": true,
+            "width": 88.80001068115234,
+            "height": 238.52001953125,
+            "paths": 80,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-5",
+            "hasSvg": true,
+            "width": 103.29403686523438,
+            "height": 234.06483459472656,
+            "paths": 78,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-4",
+            "hasSvg": true,
+            "width": 90.19999694824219,
+            "height": 234.01185607910156,
+            "paths": 90,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-6",
+            "hasSvg": true,
+            "width": 102.22099304199219,
+            "height": 185.64418029785156,
+            "paths": 87,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-7",
+            "hasSvg": true,
+            "width": 92.69999694824219,
+            "height": 242.7060546875,
+            "paths": 78,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-9",
+            "hasSvg": true,
+            "width": 86.31743621826172,
+            "height": 209.38394165039062,
+            "paths": 62,
+            "missingReferences": 0
+          }
+        ],
+        "duplicateIds": [],
+        "instances": [
+          "crew-renderer-1-mount-11-body",
+          "crew-renderer-1-mount-12-body",
+          "crew-renderer-1-mount-13-body",
+          "crew-renderer-1-mount-14-body",
+          "crew-renderer-1-mount-15-body",
+          "crew-renderer-1-mount-16-body",
+          "crew-renderer-1-mount-17-body",
+          "crew-renderer-1-mount-18-front",
+          "crew-renderer-1-mount-19-body",
+          "crew-renderer-1-mount-20-front",
+          "crew-renderer-1-mount-21-body",
+          "crew-renderer-1-mount-22-front",
+          "crew-renderer-1-mount-23-body",
+          "crew-renderer-1-mount-24-front",
+          "crew-renderer-1-mount-25-body",
+          "crew-renderer-1-mount-26-front"
+        ],
+        "duplicateInstances": []
+      },
+      "fullVoteMs": 60000,
+      "injured": [
+        "seat-3",
+        "seat-8"
+      ],
+      "rescueStillPending": true,
+      "capture": "real-damage-before-full-vote.png"
+    },
+    {
+      "name": "real-ballot-response-lost",
+      "passed": true,
+      "responseDroppedAfterHttpSuccess": true,
+      "capture": "real-ballot-response-lost.png"
+    },
+    {
+      "name": "real-ballot-recovered",
+      "passed": true,
+      "sameOriginalCommandId": true,
+      "commandRequests": 1,
+      "authoritativeFreshReadBack": true,
+      "ownBallotPreserved": true,
+      "capture": "real-ballot-recovered.png"
+    },
+    {
+      "name": "real-five-second-result-before-rescue",
+      "passed": true,
+      "fullResultMs": 5000,
+      "injuryRetained": true,
+      "detentionCommitted": true,
+      "rescueStillPending": true,
+      "capture": "real-five-second-result-before-rescue.png"
+    },
+    {
+      "name": "real-complete-shared-board",
+      "passed": true,
+      "crewArt": {
+        "versions": {
+          "protocolVersion": 3,
+          "engineVersion": "planet-game-1.3.0",
+          "rulesetVersion": "in-person-planet-blackout-before-vote-2026-11-10",
+          "rulesetHash": "2505515ad41e9d49c06bd14aaf9dab56dcf0adb471725c1c15d877a0f0b97556",
+          "assetManifestVersion": "design-0.8.0"
+        },
+        "crewSurface": "crew-drawing-1.0.0",
+        "pictures": [],
+        "figures": [
+          {
+            "seat": "seat-1",
+            "hasSvg": true,
+            "width": 86.29999542236328,
+            "height": 198.12527465820312,
+            "paths": 67,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-2",
+            "hasSvg": true,
+            "width": 88.80001068115234,
+            "height": 238.95130920410156,
+            "paths": 80,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-5",
+            "hasSvg": true,
+            "width": 102.93072509765625,
+            "height": 230.67135620117188,
+            "paths": 78,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-4",
+            "hasSvg": true,
+            "width": 90.19999694824219,
+            "height": 233.8825225830078,
+            "paths": 90,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-6",
+            "hasSvg": true,
+            "width": 104.07483673095703,
+            "height": 185.68701171875,
+            "paths": 87,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-7",
+            "hasSvg": true,
+            "width": 92.69999694824219,
+            "height": 241.43040466308594,
+            "paths": 78,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-9",
+            "hasSvg": true,
+            "width": 86.28546905517578,
+            "height": 207.65231323242188,
+            "paths": 62,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-3",
+            "hasSvg": true,
+            "width": 88.00000762939453,
+            "height": 177.56689453125,
+            "paths": 57,
+            "missingReferences": 0
+          }
+        ],
+        "duplicateIds": [],
+        "instances": [
+          "crew-renderer-1-mount-11-body",
+          "crew-renderer-1-mount-12-body",
+          "crew-renderer-1-mount-13-body",
+          "crew-renderer-1-mount-14-body",
+          "crew-renderer-1-mount-15-body",
+          "crew-renderer-1-mount-16-body",
+          "crew-renderer-1-mount-17-body",
+          "crew-renderer-1-mount-18-front",
+          "crew-renderer-1-mount-21-body",
+          "crew-renderer-1-mount-22-front",
+          "crew-renderer-1-mount-32-body",
+          "crew-renderer-1-mount-33-front",
+          "crew-renderer-1-mount-31-body"
+        ],
+        "duplicateInstances": []
+      },
+      "completedRound": 2,
+      "noSecondBlackout": true,
+      "rescuePlacement": "Jail",
+      "capture": "real-complete-shared-board.png"
+    },
+    {
+      "name": "real-rescue-keeps-playable-figure",
+      "passed": true,
+      "crewArt": {
+        "versions": {
+          "protocolVersion": 3,
+          "engineVersion": "planet-game-1.3.0",
+          "rulesetVersion": "in-person-planet-blackout-before-vote-2026-11-10",
+          "rulesetHash": "2505515ad41e9d49c06bd14aaf9dab56dcf0adb471725c1c15d877a0f0b97556",
+          "assetManifestVersion": "design-0.8.0"
+        },
+        "crewSurface": "crew-drawing-1.0.0",
+        "pictures": [],
+        "figures": [
+          {
+            "seat": "seat-3",
+            "hasSvg": true,
+            "width": 88.00000762939453,
+            "height": 177.17208862304688,
+            "paths": 57,
+            "missingReferences": 0
+          }
+        ],
+        "duplicateIds": [],
+        "instances": [
+          "crew-renderer-1-mount-11-body",
+          "crew-renderer-1-mount-12-body",
+          "crew-renderer-1-mount-13-body",
+          "crew-renderer-1-mount-14-body",
+          "crew-renderer-1-mount-15-body",
+          "crew-renderer-1-mount-16-body",
+          "crew-renderer-1-mount-17-body",
+          "crew-renderer-1-mount-18-front",
+          "crew-renderer-1-mount-21-body",
+          "crew-renderer-1-mount-22-front",
+          "crew-renderer-1-mount-32-body",
+          "crew-renderer-1-mount-33-front",
+          "crew-renderer-1-mount-31-body"
+        ],
+        "duplicateInstances": []
+      },
+      "drawnFigureBounds": [
+        {
+          "seat": "seat-3",
+          "slot": "J1",
+          "room": "jail",
+          "paintedPixels": 25138,
+          "rawSvgBounds": {
+            "x": 18.899999618530273,
+            "y": 67.62793731689453,
+            "width": 88.00000762939453,
+            "height": 177.17208862304688
+          },
+          "bounds": {
+            "left": 58.46875,
+            "right": 96.625,
+            "top": 349.7265625,
+            "bottom": 427.328125,
+            "width": 38.15625,
+            "height": 77.6015625
+          },
+          "clip": {
+            "left": 0,
+            "right": 390,
+            "top": 60,
+            "bottom": 776
+          },
+          "visibleRatio": 1,
+          "opacity": 1
+        }
+      ],
+      "healthy": true,
+      "stillDetained": true,
+      "physicalRoom": "Jail",
+      "capture": "real-rescue-keeps-playable-figure.png"
+    }
+  ],
+  "networkInterceptionErrors": [],
+  "matchId": "1a5bcafd-5410-4326-918b-6785f43f847b",
+  "nativePrefix": {
+    "label": "Native factory, legal role commands and trusted historical deadlines; adopted from lobby before disclosure",
+    "engineVersion": "planet-game-1.3.0",
+    "commands": [
+      "RESCUE",
+      "REQUEST_BLACKOUT",
+      "REQUEST_BLACKOUT"
+    ],
+    "deadlineCount": 25,
+    "setupFlowVersion": 3,
+    "startsAt": 1794355695227,
+    "previewEndsAt": 1794355700227,
+    "endsAt": 1794355710227
+  },
+  "privateChoicesDoNotChangePublicView": true,
+  "ballotRecovery": {
+    "droppedSuccessfulResponse": true,
+    "originalReceiptMatched": true,
+    "voteCommandRequests": 1
+  },
+  "manualAdvanceOrBotCalls": 0,
+  "cleanup": {
+    "abortAccepted": true,
+    "status": "aborted"
+  },
+  "sourcesUnchangedThroughRun": true,
+  "runtimeErrors": []
+}

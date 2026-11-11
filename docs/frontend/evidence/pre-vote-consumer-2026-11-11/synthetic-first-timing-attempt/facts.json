@@ -1,0 +1,2906 @@
+{
+  "scope": "Native 1.3 consumer with explicit synthetic authority. Desktop Chromium emulation; real Backend projections and real connected acceptance are separate records.",
+  "generatedAt": "2026-11-10T23:42:00.482Z",
+  "browser": {
+    "protocolVersion": "1.3",
+    "product": "Chrome/157.0.8103.40",
+    "revision": "@6f75a8afa26ce5537c82b4887f152dfdc7183e05",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/157.0.0.0 Safari/537.36",
+    "jsVersion": "15.7.112.23"
+  },
+  "sourcesVerifiedBefore": true,
+  "cases": [
+    {
+      "name": "320-568-7-normal",
+      "passed": true,
+      "art": {
+        "versions": {
+          "protocolVersion": 3,
+          "engineVersion": "planet-game-1.3.0",
+          "rulesetVersion": "in-person-planet-blackout-before-vote-2026-11-10",
+          "rulesetHash": "2505515ad41e9d49c06bd14aaf9dab56dcf0adb471725c1c15d877a0f0b97556",
+          "assetManifestVersion": "design-0.8.0"
+        },
+        "crewSurface": "crew-drawing-1.0.0",
+        "pictures": [],
+        "figures": [
+          {
+            "seat": "seat-6",
+            "hasSvg": true,
+            "width": 93.21813201904297,
+            "height": 238.8404998779297,
+            "paths": 90,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-7",
+            "hasSvg": true,
+            "width": 93.02059173583984,
+            "height": 182.33648681640625,
+            "paths": 87,
+            "missingReferences": 0
+          }
+        ],
+        "duplicateIds": [],
+        "instances": [
+          "crew-renderer-1-mount-1-body",
+          "crew-renderer-1-mount-2-body",
+          "crew-renderer-1-mount-3-body",
+          "crew-renderer-1-mount-4-body",
+          "crew-renderer-1-mount-5-body",
+          "crew-renderer-1-mount-6-body",
+          "crew-renderer-1-mount-7-body"
+        ],
+        "duplicateInstances": []
+      },
+      "finalArt": {
+        "versions": {
+          "protocolVersion": 3,
+          "engineVersion": "planet-game-1.3.0",
+          "rulesetVersion": "in-person-planet-blackout-before-vote-2026-11-10",
+          "rulesetHash": "2505515ad41e9d49c06bd14aaf9dab56dcf0adb471725c1c15d877a0f0b97556",
+          "assetManifestVersion": "design-0.8.0"
+        },
+        "crewSurface": "crew-drawing-1.0.0",
+        "pictures": [],
+        "figures": [
+          {
+            "seat": "seat-3",
+            "hasSvg": true,
+            "width": 175.70071411132812,
+            "height": 191.2369384765625,
+            "paths": 84,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-4",
+            "hasSvg": true,
+            "width": 102.07909393310547,
+            "height": 238.6362762451172,
+            "paths": 78,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-5",
+            "hasSvg": true,
+            "width": 98.30000305175781,
+            "height": 235.68295288085938,
+            "paths": 85,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-1",
+            "hasSvg": true,
+            "width": 86.29999542236328,
+            "height": 198.220947265625,
+            "paths": 67,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-6",
+            "hasSvg": true,
+            "width": 93.52435302734375,
+            "height": 238.8921356201172,
+            "paths": 90,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-7",
+            "hasSvg": true,
+            "width": 92.84624481201172,
+            "height": 182.34063720703125,
+            "paths": 87,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-2",
+            "hasSvg": true,
+            "width": 88.00000762939453,
+            "height": 165.90957641601562,
+            "paths": 57,
+            "missingReferences": 0
+          }
+        ],
+        "duplicateIds": [],
+        "instances": [
+          "crew-renderer-1-mount-9-body",
+          "crew-renderer-1-mount-10-body",
+          "crew-renderer-1-mount-11-body",
+          "crew-renderer-1-mount-21-body",
+          "crew-renderer-1-mount-12-body",
+          "crew-renderer-1-mount-13-body",
+          "crew-renderer-1-mount-18-body"
+        ],
+        "duplicateInstances": []
+      },
+      "viewSwitchSendsNoCommand": true,
+      "moveAbsentFromActions": true,
+      "roomTagOpensOnlyOfferedSlots": true,
+      "sameRoomRepositionConfirmed": true,
+      "visiblePublicCheckpoints": {
+        "initial": {
+          "text": "Initial board",
+          "x": 8,
+          "y": 126.390625,
+          "width": 304,
+          "height": 36.390625,
+          "display": "block",
+          "visibility": "visible",
+          "clipPath": "none",
+          "textClipped": false,
+          "onscreen": true,
+          "hit": true
+        },
+        "before": {
+          "text": "Before Blackout · Round 1",
+          "x": 8,
+          "y": 126.390625,
+          "width": 304,
+          "height": 72.796875,
+          "display": "block",
+          "visibility": "visible",
+          "clipPath": "none",
+          "textClipped": false,
+          "onscreen": true,
+          "hit": true
+        },
+        "dark": {
+          "text": "Blackout",
+          "x": 8,
+          "y": 126.390625,
+          "width": 304,
+          "height": 72.796875,
+          "display": "block",
+          "visibility": "visible",
+          "clipPath": "none",
+          "textClipped": false,
+          "onscreen": true,
+          "hit": true
+        },
+        "after": {
+          "text": "After Blackout · Round 6",
+          "x": 8,
+          "y": 126.390625,
+          "width": 304,
+          "height": 36.390625,
+          "display": "block",
+          "visibility": "visible",
+          "clipPath": "none",
+          "textClipped": false,
+          "onscreen": true,
+          "hit": true
+        },
+        "completed": {
+          "text": "Round 6 complete · The course is being set.",
+          "x": 8,
+          "y": 126.390625,
+          "width": 304,
+          "height": 72.78125,
+          "display": "block",
+          "visibility": "visible",
+          "clipPath": "none",
+          "textClipped": false,
+          "onscreen": true,
+          "hit": true
+        },
+        "carried": {
+          "text": "Round 6 complete",
+          "x": 8,
+          "y": 126.390625,
+          "width": 304,
+          "height": 36.390625,
+          "display": "block",
+          "visibility": "visible",
+          "clipPath": "none",
+          "textClipped": false,
+          "onscreen": true,
+          "hit": true
+        }
+      },
+      "inaccessibleDestinationOpacity": "0.55",
+      "litRoom": [
+        {
+          "room": "room-a",
+          "id": "A1",
+          "x": 141.265625,
+          "y": 288.890625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A2",
+          "x": 84.78125,
+          "y": 271.8125,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A3",
+          "x": 203.234375,
+          "y": 329.953125,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A4",
+          "x": 207.546875,
+          "y": 216.90625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A5",
+          "x": 69.984375,
+          "y": 210.40625,
+          "width": 44,
+          "height": 44
+        }
+      ],
+      "litBoard": [
+        {
+          "room": "command-room",
+          "id": "C1",
+          "x": 84,
+          "y": 180.390625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "hospital",
+          "id": "H1",
+          "x": 14.375,
+          "y": 565.8125,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "hospital",
+          "id": "H2",
+          "x": 96.609375,
+          "y": 565.8125,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "hospital",
+          "id": "H3",
+          "x": 14.375,
+          "y": 519.796875,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "hospital",
+          "id": "H4",
+          "x": 96.609375,
+          "y": 519.796875,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "jail",
+          "id": "J1",
+          "x": 172,
+          "y": 490.3125,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "jail",
+          "id": "J2",
+          "x": 220.34375,
+          "y": 475.8125,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "jail",
+          "id": "J3",
+          "x": 269,
+          "y": 476.15625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "jail",
+          "id": "J4",
+          "x": 188.9375,
+          "y": 565.8125,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "jail",
+          "id": "J5",
+          "x": 244.484375,
+          "y": 565.8125,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A1",
+          "x": 58.15625,
+          "y": 349.328125,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A2",
+          "x": 12.109375,
+          "y": 335.421875,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A3",
+          "x": 104,
+          "y": 382.796875,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A4",
+          "x": 104,
+          "y": 290.671875,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A5",
+          "x": 7,
+          "y": 287.5,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-b",
+          "id": "B1",
+          "x": 219.265625,
+          "y": 350.625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-b",
+          "id": "B2",
+          "x": 172,
+          "y": 370.859375,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-b",
+          "id": "B3",
+          "x": 267.96875,
+          "y": 347.390625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-b",
+          "id": "B4",
+          "x": 222.609375,
+          "y": 299.984375,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-b",
+          "id": "B5",
+          "x": 172,
+          "y": 296.765625,
+          "width": 44,
+          "height": 44
+        }
+      ],
+      "reachableDarkSlots": [
+        {
+          "id": "planet-slot-A1",
+          "reachable": true
+        },
+        {
+          "id": "planet-slot-A2",
+          "reachable": true
+        },
+        {
+          "id": "planet-slot-A3",
+          "reachable": true
+        },
+        {
+          "id": "planet-slot-A4",
+          "reachable": true
+        },
+        {
+          "id": "planet-slot-A5",
+          "reachable": true
+        }
+      ],
+      "geometrySurvivesFailedRead": true,
+      "partialCheckpointDoesNotClaimCompletion": true,
+      "fullVoteAndResultMetadata": true,
+      "noSecondBlackout": true,
+      "p18LivingInjuredJailedNumbers": [
+        "Player 1",
+        "Player 2",
+        "Player 3",
+        "Player 4",
+        "Player 5",
+        "Player 6",
+        "Player 7"
+      ],
+      "captures": {
+        "roomTagSlots": "320-568-7-normal-room-tag-slots.jpg",
+        "roomTagConfirmation": "320-568-7-normal-room-tag-confirm.jpg",
+        "darkSlots": "320-568-7-normal-dark-slots.jpg",
+        "vote": "320-568-7-normal-post-damage-vote.jpg",
+        "initial": "320-568-7-normal-public-initial-active-turn.jpg",
+        "publicBefore": "320-568-7-normal-public-before-blackout.jpg",
+        "publicDark": "320-568-7-normal-public-dark-neutral.jpg",
+        "publicAfter": "320-568-7-normal-public-after-blackout.jpg",
+        "result": "320-568-7-normal-result-before-rescue.jpg",
+        "completed": "320-568-7-normal-completed-board.jpg",
+        "carried": "320-568-7-normal-public-prior-round-active-turn.jpg",
+        "code": "320-568-7-normal-dark-code.jpg"
+      }
+    },
+    {
+      "name": "320-568-7-reduced",
+      "passed": true,
+      "art": {
+        "versions": {
+          "protocolVersion": 3,
+          "engineVersion": "planet-game-1.3.0",
+          "rulesetVersion": "in-person-planet-blackout-before-vote-2026-11-10",
+          "rulesetHash": "2505515ad41e9d49c06bd14aaf9dab56dcf0adb471725c1c15d877a0f0b97556",
+          "assetManifestVersion": "design-0.8.0"
+        },
+        "crewSurface": "crew-drawing-1.0.0",
+        "pictures": [],
+        "figures": [
+          {
+            "seat": "seat-6",
+            "hasSvg": true,
+            "width": 92.623046875,
+            "height": 238.73153686523438,
+            "paths": 90,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-7",
+            "hasSvg": true,
+            "width": 92.21112823486328,
+            "height": 182.33042907714844,
+            "paths": 87,
+            "missingReferences": 0
+          }
+        ],
+        "duplicateIds": [],
+        "instances": [
+          "crew-renderer-1-mount-1-body",
+          "crew-renderer-1-mount-2-body",
+          "crew-renderer-1-mount-3-body",
+          "crew-renderer-1-mount-4-body",
+          "crew-renderer-1-mount-5-body",
+          "crew-renderer-1-mount-6-body",
+          "crew-renderer-1-mount-7-body"
+        ],
+        "duplicateInstances": []
+      },
+      "finalArt": {
+        "versions": {
+          "protocolVersion": 3,
+          "engineVersion": "planet-game-1.3.0",
+          "rulesetVersion": "in-person-planet-blackout-before-vote-2026-11-10",
+          "rulesetHash": "2505515ad41e9d49c06bd14aaf9dab56dcf0adb471725c1c15d877a0f0b97556",
+          "assetManifestVersion": "design-0.8.0"
+        },
+        "crewSurface": "crew-drawing-1.0.0",
+        "pictures": [],
+        "figures": [
+          {
+            "seat": "seat-3",
+            "hasSvg": true,
+            "width": 175.70071411132812,
+            "height": 190.14723205566406,
+            "paths": 84,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-4",
+            "hasSvg": true,
+            "width": 101.97549438476562,
+            "height": 237.6708984375,
+            "paths": 78,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-5",
+            "hasSvg": true,
+            "width": 98.30000305175781,
+            "height": 237.20648193359375,
+            "paths": 85,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-1",
+            "hasSvg": true,
+            "width": 86.29999542236328,
+            "height": 198.70875549316406,
+            "paths": 67,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-6",
+            "hasSvg": true,
+            "width": 92.623046875,
+            "height": 238.73153686523438,
+            "paths": 90,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-7",
+            "hasSvg": true,
+            "width": 92.21112823486328,
+            "height": 182.33042907714844,
+            "paths": 87,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-2",
+            "hasSvg": true,
+            "width": 88.00000762939453,
+            "height": 165.56002807617188,
+            "paths": 57,
+            "missingReferences": 0
+          }
+        ],
+        "duplicateIds": [],
+        "instances": [
+          "crew-renderer-1-mount-9-body",
+          "crew-renderer-1-mount-10-body",
+          "crew-renderer-1-mount-11-body",
+          "crew-renderer-1-mount-19-body",
+          "crew-renderer-1-mount-12-body",
+          "crew-renderer-1-mount-13-body",
+          "crew-renderer-1-mount-18-body"
+        ],
+        "duplicateInstances": []
+      },
+      "viewSwitchSendsNoCommand": true,
+      "moveAbsentFromActions": true,
+      "roomTagOpensOnlyOfferedSlots": true,
+      "sameRoomRepositionConfirmed": true,
+      "visiblePublicCheckpoints": {
+        "initial": {
+          "text": "Initial board",
+          "x": 8,
+          "y": 126.390625,
+          "width": 304,
+          "height": 36.390625,
+          "display": "block",
+          "visibility": "visible",
+          "clipPath": "none",
+          "textClipped": false,
+          "onscreen": true,
+          "hit": true
+        },
+        "before": {
+          "text": "Before Blackout · Round 1",
+          "x": 8,
+          "y": 126.390625,
+          "width": 304,
+          "height": 72.796875,
+          "display": "block",
+          "visibility": "visible",
+          "clipPath": "none",
+          "textClipped": false,
+          "onscreen": true,
+          "hit": true
+        },
+        "dark": {
+          "text": "Blackout",
+          "x": 8,
+          "y": 126.390625,
+          "width": 304,
+          "height": 72.796875,
+          "display": "block",
+          "visibility": "visible",
+          "clipPath": "none",
+          "textClipped": false,
+          "onscreen": true,
+          "hit": true
+        },
+        "after": {
+          "text": "After Blackout · Round 6",
+          "x": 8,
+          "y": 126.390625,
+          "width": 304,
+          "height": 36.390625,
+          "display": "block",
+          "visibility": "visible",
+          "clipPath": "none",
+          "textClipped": false,
+          "onscreen": true,
+          "hit": true
+        },
+        "completed": {
+          "text": "Round 6 complete · The course is being set.",
+          "x": 8,
+          "y": 126.390625,
+          "width": 304,
+          "height": 72.78125,
+          "display": "block",
+          "visibility": "visible",
+          "clipPath": "none",
+          "textClipped": false,
+          "onscreen": true,
+          "hit": true
+        },
+        "carried": {
+          "text": "Round 6 complete",
+          "x": 8,
+          "y": 126.390625,
+          "width": 304,
+          "height": 36.390625,
+          "display": "block",
+          "visibility": "visible",
+          "clipPath": "none",
+          "textClipped": false,
+          "onscreen": true,
+          "hit": true
+        }
+      },
+      "inaccessibleDestinationOpacity": "0.55",
+      "litRoom": [
+        {
+          "room": "room-a",
+          "id": "A1",
+          "x": 141.265625,
+          "y": 288.890625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A2",
+          "x": 84.78125,
+          "y": 271.8125,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A3",
+          "x": 203.234375,
+          "y": 329.953125,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A4",
+          "x": 207.546875,
+          "y": 216.90625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A5",
+          "x": 69.984375,
+          "y": 210.40625,
+          "width": 44,
+          "height": 44
+        }
+      ],
+      "litBoard": [
+        {
+          "room": "command-room",
+          "id": "C1",
+          "x": 84,
+          "y": 180.390625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "hospital",
+          "id": "H1",
+          "x": 14.375,
+          "y": 565.8125,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "hospital",
+          "id": "H2",
+          "x": 96.609375,
+          "y": 565.8125,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "hospital",
+          "id": "H3",
+          "x": 14.375,
+          "y": 519.796875,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "hospital",
+          "id": "H4",
+          "x": 96.609375,
+          "y": 519.796875,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "jail",
+          "id": "J1",
+          "x": 172,
+          "y": 490.3125,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "jail",
+          "id": "J2",
+          "x": 220.34375,
+          "y": 475.8125,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "jail",
+          "id": "J3",
+          "x": 269,
+          "y": 476.15625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "jail",
+          "id": "J4",
+          "x": 188.9375,
+          "y": 565.8125,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "jail",
+          "id": "J5",
+          "x": 244.484375,
+          "y": 565.8125,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A1",
+          "x": 58.15625,
+          "y": 349.328125,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A2",
+          "x": 12.109375,
+          "y": 335.421875,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A3",
+          "x": 104,
+          "y": 382.796875,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A4",
+          "x": 104,
+          "y": 290.671875,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A5",
+          "x": 7,
+          "y": 287.5,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-b",
+          "id": "B1",
+          "x": 219.265625,
+          "y": 350.625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-b",
+          "id": "B2",
+          "x": 172,
+          "y": 370.859375,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-b",
+          "id": "B3",
+          "x": 267.96875,
+          "y": 347.390625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-b",
+          "id": "B4",
+          "x": 222.609375,
+          "y": 299.984375,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-b",
+          "id": "B5",
+          "x": 172,
+          "y": 296.765625,
+          "width": 44,
+          "height": 44
+        }
+      ],
+      "reachableDarkSlots": [
+        {
+          "id": "planet-slot-A1",
+          "reachable": true
+        },
+        {
+          "id": "planet-slot-A2",
+          "reachable": true
+        },
+        {
+          "id": "planet-slot-A3",
+          "reachable": true
+        },
+        {
+          "id": "planet-slot-A4",
+          "reachable": true
+        },
+        {
+          "id": "planet-slot-A5",
+          "reachable": true
+        }
+      ],
+      "geometrySurvivesFailedRead": true,
+      "partialCheckpointDoesNotClaimCompletion": true,
+      "fullVoteAndResultMetadata": true,
+      "noSecondBlackout": true,
+      "p18LivingInjuredJailedNumbers": [
+        "Player 1",
+        "Player 2",
+        "Player 3",
+        "Player 4",
+        "Player 5",
+        "Player 6",
+        "Player 7"
+      ],
+      "captures": {
+        "roomTagSlots": "320-568-7-reduced-room-tag-slots.jpg",
+        "roomTagConfirmation": "320-568-7-reduced-room-tag-confirm.jpg",
+        "darkSlots": "320-568-7-reduced-dark-slots.jpg",
+        "vote": "320-568-7-reduced-post-damage-vote.jpg",
+        "initial": "320-568-7-reduced-public-initial-active-turn.jpg",
+        "publicBefore": "320-568-7-reduced-public-before-blackout.jpg",
+        "publicDark": "320-568-7-reduced-public-dark-neutral.jpg",
+        "publicAfter": "320-568-7-reduced-public-after-blackout.jpg",
+        "result": "320-568-7-reduced-result-before-rescue.jpg",
+        "completed": "320-568-7-reduced-completed-board.jpg",
+        "carried": "320-568-7-reduced-public-prior-round-active-turn.jpg",
+        "code": "320-568-7-reduced-dark-code.jpg"
+      }
+    },
+    {
+      "name": "390-844-8-normal",
+      "passed": true,
+      "art": {
+        "versions": {
+          "protocolVersion": 3,
+          "engineVersion": "planet-game-1.3.0",
+          "rulesetVersion": "in-person-planet-blackout-before-vote-2026-11-10",
+          "rulesetHash": "2505515ad41e9d49c06bd14aaf9dab56dcf0adb471725c1c15d877a0f0b97556",
+          "assetManifestVersion": "design-0.8.0"
+        },
+        "crewSurface": "crew-drawing-1.0.0",
+        "pictures": [],
+        "figures": [
+          {
+            "seat": "seat-6",
+            "hasSvg": true,
+            "width": 93.22736358642578,
+            "height": 238.8455047607422,
+            "paths": 90,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-7",
+            "hasSvg": true,
+            "width": 93.03713989257812,
+            "height": 182.33963012695312,
+            "paths": 87,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-8",
+            "hasSvg": true,
+            "width": 93.5999984741211,
+            "height": 248.0709686279297,
+            "paths": 69,
+            "missingReferences": 0
+          }
+        ],
+        "duplicateIds": [],
+        "instances": [
+          "crew-renderer-1-mount-1-body",
+          "crew-renderer-1-mount-2-body",
+          "crew-renderer-1-mount-3-body",
+          "crew-renderer-1-mount-4-body",
+          "crew-renderer-1-mount-5-body",
+          "crew-renderer-1-mount-6-body",
+          "crew-renderer-1-mount-7-body",
+          "crew-renderer-1-mount-8-body"
+        ],
+        "duplicateInstances": []
+      },
+      "finalArt": {
+        "versions": {
+          "protocolVersion": 3,
+          "engineVersion": "planet-game-1.3.0",
+          "rulesetVersion": "in-person-planet-blackout-before-vote-2026-11-10",
+          "rulesetHash": "2505515ad41e9d49c06bd14aaf9dab56dcf0adb471725c1c15d877a0f0b97556",
+          "assetManifestVersion": "design-0.8.0"
+        },
+        "crewSurface": "crew-drawing-1.0.0",
+        "pictures": [],
+        "figures": [
+          {
+            "seat": "seat-1",
+            "hasSvg": true,
+            "width": 86.29999542236328,
+            "height": 198.0662841796875,
+            "paths": 67,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-3",
+            "hasSvg": true,
+            "width": 175.70071411132812,
+            "height": 190.05633544921875,
+            "paths": 84,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-4",
+            "hasSvg": true,
+            "width": 101.62905883789062,
+            "height": 237.03585815429688,
+            "paths": 78,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-5",
+            "hasSvg": true,
+            "width": 98.30000305175781,
+            "height": 236.4386444091797,
+            "paths": 85,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-6",
+            "hasSvg": true,
+            "width": 92.5462417602539,
+            "height": 238.67709350585938,
+            "paths": 90,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-7",
+            "hasSvg": true,
+            "width": 91.33628845214844,
+            "height": 182.3103790283203,
+            "paths": 87,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-8",
+            "hasSvg": true,
+            "width": 93.5999984741211,
+            "height": 247.1685333251953,
+            "paths": 69,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-2",
+            "hasSvg": true,
+            "width": 88.00000762939453,
+            "height": 165.93801879882812,
+            "paths": 57,
+            "missingReferences": 0
+          }
+        ],
+        "duplicateIds": [],
+        "instances": [
+          "crew-renderer-1-mount-26-body",
+          "crew-renderer-1-mount-27-body",
+          "crew-renderer-1-mount-28-body",
+          "crew-renderer-1-mount-29-body",
+          "crew-renderer-1-mount-30-body",
+          "crew-renderer-1-mount-31-body",
+          "crew-renderer-1-mount-32-body",
+          "crew-renderer-1-mount-33-body"
+        ],
+        "duplicateInstances": []
+      },
+      "viewSwitchSendsNoCommand": true,
+      "moveAbsentFromActions": true,
+      "roomTagOpensOnlyOfferedSlots": true,
+      "sameRoomRepositionConfirmed": true,
+      "visiblePublicCheckpoints": {
+        "initial": {
+          "text": "Initial board",
+          "x": 8,
+          "y": 126.390625,
+          "width": 374,
+          "height": 36.390625,
+          "display": "block",
+          "visibility": "visible",
+          "clipPath": "none",
+          "textClipped": false,
+          "onscreen": true,
+          "hit": true
+        },
+        "before": {
+          "text": "Before Blackout · Round 1",
+          "x": 8,
+          "y": 126.390625,
+          "width": 374,
+          "height": 72.796875,
+          "display": "block",
+          "visibility": "visible",
+          "clipPath": "none",
+          "textClipped": false,
+          "onscreen": true,
+          "hit": true
+        },
+        "dark": {
+          "text": "Blackout",
+          "x": 8,
+          "y": 126.390625,
+          "width": 374,
+          "height": 72.796875,
+          "display": "block",
+          "visibility": "visible",
+          "clipPath": "none",
+          "textClipped": false,
+          "onscreen": true,
+          "hit": true
+        },
+        "after": {
+          "text": "After Blackout · Round 6",
+          "x": 8,
+          "y": 126.390625,
+          "width": 374,
+          "height": 36.390625,
+          "display": "block",
+          "visibility": "visible",
+          "clipPath": "none",
+          "textClipped": false,
+          "onscreen": true,
+          "hit": true
+        },
+        "completed": {
+          "text": "Round 6 complete · The course is being set.",
+          "x": 8,
+          "y": 126.390625,
+          "width": 374,
+          "height": 72.78125,
+          "display": "block",
+          "visibility": "visible",
+          "clipPath": "none",
+          "textClipped": false,
+          "onscreen": true,
+          "hit": true
+        },
+        "carried": {
+          "text": "Round 6 complete",
+          "x": 8,
+          "y": 126.390625,
+          "width": 374,
+          "height": 36.390625,
+          "display": "block",
+          "visibility": "visible",
+          "clipPath": "none",
+          "textClipped": false,
+          "onscreen": true,
+          "hit": true
+        }
+      },
+      "inaccessibleDestinationOpacity": "0.55",
+      "litRoom": [
+        {
+          "room": "room-a",
+          "id": "A1",
+          "x": 177.328125,
+          "y": 436.703125,
+          "width": 47.34375,
+          "height": 47.34375
+        },
+        {
+          "room": "room-a",
+          "id": "A2",
+          "x": 73.65625,
+          "y": 405.296875,
+          "width": 47.578125,
+          "height": 47.578125
+        },
+        {
+          "room": "room-a",
+          "id": "A3",
+          "x": 289.71875,
+          "y": 510.796875,
+          "width": 49.671875,
+          "height": 49.671875
+        },
+        {
+          "room": "room-a",
+          "id": "A4",
+          "x": 300.4375,
+          "y": 306.40625,
+          "width": 44.09375,
+          "height": 44.09375
+        },
+        {
+          "room": "room-a",
+          "id": "A5",
+          "x": 48.34375,
+          "y": 294.53125,
+          "width": 44,
+          "height": 44
+        }
+      ],
+      "litBoard": [
+        {
+          "room": "command-room",
+          "id": "C1",
+          "x": 107.328125,
+          "y": 197.3125,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "hospital",
+          "id": "H1",
+          "x": 25.984375,
+          "y": 679.015625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "hospital",
+          "id": "H2",
+          "x": 120,
+          "y": 679.015625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "hospital",
+          "id": "H3",
+          "x": 25.984375,
+          "y": 624.890625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "hospital",
+          "id": "H4",
+          "x": 120,
+          "y": 624.890625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "jail",
+          "id": "J1",
+          "x": 207,
+          "y": 599.03125,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "jail",
+          "id": "J2",
+          "x": 272.84375,
+          "y": 583.296875,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "jail",
+          "id": "J3",
+          "x": 339,
+          "y": 583.90625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "jail",
+          "id": "J4",
+          "x": 239.265625,
+          "y": 680.15625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "jail",
+          "id": "J5",
+          "x": 298.640625,
+          "y": 681.8125,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A1",
+          "x": 76.328125,
+          "y": 426.015625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A2",
+          "x": 18.84375,
+          "y": 408.65625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A3",
+          "x": 139,
+          "y": 467.796875,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A4",
+          "x": 139,
+          "y": 352.796875,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A5",
+          "x": 7,
+          "y": 346.171875,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-b",
+          "id": "B1",
+          "x": 271.453125,
+          "y": 427.15625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-b",
+          "id": "B2",
+          "x": 207,
+          "y": 452.421875,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-b",
+          "id": "B3",
+          "x": 332.265625,
+          "y": 423.109375,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-b",
+          "id": "B4",
+          "x": 275.625,
+          "y": 363.9375,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-b",
+          "id": "B5",
+          "x": 207,
+          "y": 359.9375,
+          "width": 44,
+          "height": 44
+        }
+      ],
+      "reachableDarkSlots": [
+        {
+          "id": "planet-slot-A1",
+          "reachable": true
+        },
+        {
+          "id": "planet-slot-A2",
+          "reachable": true
+        },
+        {
+          "id": "planet-slot-A3",
+          "reachable": true
+        },
+        {
+          "id": "planet-slot-A4",
+          "reachable": true
+        },
+        {
+          "id": "planet-slot-A5",
+          "reachable": true
+        }
+      ],
+      "geometrySurvivesFailedRead": true,
+      "partialCheckpointDoesNotClaimCompletion": true,
+      "fullVoteAndResultMetadata": true,
+      "noSecondBlackout": true,
+      "p18LivingInjuredJailedNumbers": [
+        "Player 1",
+        "Player 2",
+        "Player 3",
+        "Player 4",
+        "Player 5",
+        "Player 6",
+        "Player 7",
+        "Player 8"
+      ],
+      "captures": {
+        "roomTagSlots": "390-844-8-normal-room-tag-slots.jpg",
+        "roomTagConfirmation": "390-844-8-normal-room-tag-confirm.jpg",
+        "darkSlots": "390-844-8-normal-dark-slots.jpg",
+        "vote": "390-844-8-normal-post-damage-vote.jpg",
+        "initial": "390-844-8-normal-public-initial-active-turn.jpg",
+        "publicBefore": "390-844-8-normal-public-before-blackout.jpg",
+        "publicDark": "390-844-8-normal-public-dark-neutral.jpg",
+        "publicAfter": "390-844-8-normal-public-after-blackout.jpg",
+        "result": "390-844-8-normal-result-before-rescue.jpg",
+        "completed": "390-844-8-normal-completed-board.jpg",
+        "carried": "390-844-8-normal-public-prior-round-active-turn.jpg",
+        "code": "390-844-8-normal-dark-code.jpg"
+      }
+    },
+    {
+      "name": "390-844-8-reduced",
+      "passed": true,
+      "art": {
+        "versions": {
+          "protocolVersion": 3,
+          "engineVersion": "planet-game-1.3.0",
+          "rulesetVersion": "in-person-planet-blackout-before-vote-2026-11-10",
+          "rulesetHash": "2505515ad41e9d49c06bd14aaf9dab56dcf0adb471725c1c15d877a0f0b97556",
+          "assetManifestVersion": "design-0.8.0"
+        },
+        "crewSurface": "crew-drawing-1.0.0",
+        "pictures": [],
+        "figures": [
+          {
+            "seat": "seat-6",
+            "hasSvg": true,
+            "width": 92.623046875,
+            "height": 238.73153686523438,
+            "paths": 90,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-7",
+            "hasSvg": true,
+            "width": 92.21112823486328,
+            "height": 182.33042907714844,
+            "paths": 87,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-8",
+            "hasSvg": true,
+            "width": 93.5999984741211,
+            "height": 247.26571655273438,
+            "paths": 69,
+            "missingReferences": 0
+          }
+        ],
+        "duplicateIds": [],
+        "instances": [
+          "crew-renderer-1-mount-1-body",
+          "crew-renderer-1-mount-2-body",
+          "crew-renderer-1-mount-3-body",
+          "crew-renderer-1-mount-4-body",
+          "crew-renderer-1-mount-5-body",
+          "crew-renderer-1-mount-6-body",
+          "crew-renderer-1-mount-7-body",
+          "crew-renderer-1-mount-8-body"
+        ],
+        "duplicateInstances": []
+      },
+      "finalArt": {
+        "versions": {
+          "protocolVersion": 3,
+          "engineVersion": "planet-game-1.3.0",
+          "rulesetVersion": "in-person-planet-blackout-before-vote-2026-11-10",
+          "rulesetHash": "2505515ad41e9d49c06bd14aaf9dab56dcf0adb471725c1c15d877a0f0b97556",
+          "assetManifestVersion": "design-0.8.0"
+        },
+        "crewSurface": "crew-drawing-1.0.0",
+        "pictures": [],
+        "figures": [
+          {
+            "seat": "seat-3",
+            "hasSvg": true,
+            "width": 175.70071411132812,
+            "height": 190.14723205566406,
+            "paths": 84,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-4",
+            "hasSvg": true,
+            "width": 101.97549438476562,
+            "height": 237.6708984375,
+            "paths": 78,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-5",
+            "hasSvg": true,
+            "width": 98.30000305175781,
+            "height": 237.20648193359375,
+            "paths": 85,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-1",
+            "hasSvg": true,
+            "width": 86.29999542236328,
+            "height": 198.70875549316406,
+            "paths": 67,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-6",
+            "hasSvg": true,
+            "width": 92.623046875,
+            "height": 238.73153686523438,
+            "paths": 90,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-7",
+            "hasSvg": true,
+            "width": 92.21112823486328,
+            "height": 182.33042907714844,
+            "paths": 87,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-8",
+            "hasSvg": true,
+            "width": 93.5999984741211,
+            "height": 247.26571655273438,
+            "paths": 69,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-2",
+            "hasSvg": true,
+            "width": 88.00000762939453,
+            "height": 165.56002807617188,
+            "paths": 57,
+            "missingReferences": 0
+          }
+        ],
+        "duplicateIds": [],
+        "instances": [
+          "crew-renderer-1-mount-10-body",
+          "crew-renderer-1-mount-11-body",
+          "crew-renderer-1-mount-12-body",
+          "crew-renderer-1-mount-21-body",
+          "crew-renderer-1-mount-13-body",
+          "crew-renderer-1-mount-14-body",
+          "crew-renderer-1-mount-15-body",
+          "crew-renderer-1-mount-20-body"
+        ],
+        "duplicateInstances": []
+      },
+      "viewSwitchSendsNoCommand": true,
+      "moveAbsentFromActions": true,
+      "roomTagOpensOnlyOfferedSlots": true,
+      "sameRoomRepositionConfirmed": true,
+      "visiblePublicCheckpoints": {
+        "initial": {
+          "text": "Initial board",
+          "x": 8,
+          "y": 126.390625,
+          "width": 374,
+          "height": 36.390625,
+          "display": "block",
+          "visibility": "visible",
+          "clipPath": "none",
+          "textClipped": false,
+          "onscreen": true,
+          "hit": true
+        },
+        "before": {
+          "text": "Before Blackout · Round 1",
+          "x": 8,
+          "y": 126.390625,
+          "width": 374,
+          "height": 72.796875,
+          "display": "block",
+          "visibility": "visible",
+          "clipPath": "none",
+          "textClipped": false,
+          "onscreen": true,
+          "hit": true
+        },
+        "dark": {
+          "text": "Blackout",
+          "x": 8,
+          "y": 126.390625,
+          "width": 374,
+          "height": 72.796875,
+          "display": "block",
+          "visibility": "visible",
+          "clipPath": "none",
+          "textClipped": false,
+          "onscreen": true,
+          "hit": true
+        },
+        "after": {
+          "text": "After Blackout · Round 6",
+          "x": 8,
+          "y": 126.390625,
+          "width": 374,
+          "height": 36.390625,
+          "display": "block",
+          "visibility": "visible",
+          "clipPath": "none",
+          "textClipped": false,
+          "onscreen": true,
+          "hit": true
+        },
+        "completed": {
+          "text": "Round 6 complete · The course is being set.",
+          "x": 8,
+          "y": 126.390625,
+          "width": 374,
+          "height": 72.78125,
+          "display": "block",
+          "visibility": "visible",
+          "clipPath": "none",
+          "textClipped": false,
+          "onscreen": true,
+          "hit": true
+        },
+        "carried": {
+          "text": "Round 6 complete",
+          "x": 8,
+          "y": 126.390625,
+          "width": 374,
+          "height": 36.390625,
+          "display": "block",
+          "visibility": "visible",
+          "clipPath": "none",
+          "textClipped": false,
+          "onscreen": true,
+          "hit": true
+        }
+      },
+      "inaccessibleDestinationOpacity": "0.55",
+      "litRoom": [
+        {
+          "room": "room-a",
+          "id": "A1",
+          "x": 177.328125,
+          "y": 436.703125,
+          "width": 47.34375,
+          "height": 47.34375
+        },
+        {
+          "room": "room-a",
+          "id": "A2",
+          "x": 73.65625,
+          "y": 405.296875,
+          "width": 47.578125,
+          "height": 47.578125
+        },
+        {
+          "room": "room-a",
+          "id": "A3",
+          "x": 289.71875,
+          "y": 510.796875,
+          "width": 49.671875,
+          "height": 49.671875
+        },
+        {
+          "room": "room-a",
+          "id": "A4",
+          "x": 300.4375,
+          "y": 306.40625,
+          "width": 44.09375,
+          "height": 44.09375
+        },
+        {
+          "room": "room-a",
+          "id": "A5",
+          "x": 48.34375,
+          "y": 294.53125,
+          "width": 44,
+          "height": 44
+        }
+      ],
+      "litBoard": [
+        {
+          "room": "command-room",
+          "id": "C1",
+          "x": 107.328125,
+          "y": 197.3125,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "hospital",
+          "id": "H1",
+          "x": 25.984375,
+          "y": 679.015625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "hospital",
+          "id": "H2",
+          "x": 120,
+          "y": 679.015625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "hospital",
+          "id": "H3",
+          "x": 25.984375,
+          "y": 624.890625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "hospital",
+          "id": "H4",
+          "x": 120,
+          "y": 624.890625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "jail",
+          "id": "J1",
+          "x": 207,
+          "y": 599.03125,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "jail",
+          "id": "J2",
+          "x": 272.84375,
+          "y": 583.296875,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "jail",
+          "id": "J3",
+          "x": 339,
+          "y": 583.90625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "jail",
+          "id": "J4",
+          "x": 239.265625,
+          "y": 680.15625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "jail",
+          "id": "J5",
+          "x": 298.640625,
+          "y": 681.8125,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A1",
+          "x": 76.328125,
+          "y": 426.015625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A2",
+          "x": 18.84375,
+          "y": 408.65625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A3",
+          "x": 139,
+          "y": 467.796875,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A4",
+          "x": 139,
+          "y": 352.796875,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A5",
+          "x": 7,
+          "y": 346.171875,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-b",
+          "id": "B1",
+          "x": 271.453125,
+          "y": 427.15625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-b",
+          "id": "B2",
+          "x": 207,
+          "y": 452.421875,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-b",
+          "id": "B3",
+          "x": 332.265625,
+          "y": 423.109375,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-b",
+          "id": "B4",
+          "x": 275.625,
+          "y": 363.9375,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-b",
+          "id": "B5",
+          "x": 207,
+          "y": 359.9375,
+          "width": 44,
+          "height": 44
+        }
+      ],
+      "reachableDarkSlots": [
+        {
+          "id": "planet-slot-A1",
+          "reachable": true
+        },
+        {
+          "id": "planet-slot-A2",
+          "reachable": true
+        },
+        {
+          "id": "planet-slot-A3",
+          "reachable": true
+        },
+        {
+          "id": "planet-slot-A4",
+          "reachable": true
+        },
+        {
+          "id": "planet-slot-A5",
+          "reachable": true
+        }
+      ],
+      "geometrySurvivesFailedRead": true,
+      "partialCheckpointDoesNotClaimCompletion": true,
+      "fullVoteAndResultMetadata": true,
+      "noSecondBlackout": true,
+      "p18LivingInjuredJailedNumbers": [
+        "Player 1",
+        "Player 2",
+        "Player 3",
+        "Player 4",
+        "Player 5",
+        "Player 6",
+        "Player 7",
+        "Player 8"
+      ],
+      "captures": {
+        "roomTagSlots": "390-844-8-reduced-room-tag-slots.jpg",
+        "roomTagConfirmation": "390-844-8-reduced-room-tag-confirm.jpg",
+        "darkSlots": "390-844-8-reduced-dark-slots.jpg",
+        "vote": "390-844-8-reduced-post-damage-vote.jpg",
+        "initial": "390-844-8-reduced-public-initial-active-turn.jpg",
+        "publicBefore": "390-844-8-reduced-public-before-blackout.jpg",
+        "publicDark": "390-844-8-reduced-public-dark-neutral.jpg",
+        "publicAfter": "390-844-8-reduced-public-after-blackout.jpg",
+        "result": "390-844-8-reduced-result-before-rescue.jpg",
+        "completed": "390-844-8-reduced-completed-board.jpg",
+        "carried": "390-844-8-reduced-public-prior-round-active-turn.jpg",
+        "code": "390-844-8-reduced-dark-code.jpg"
+      }
+    },
+    {
+      "name": "430-932-9-normal",
+      "passed": true,
+      "art": {
+        "versions": {
+          "protocolVersion": 3,
+          "engineVersion": "planet-game-1.3.0",
+          "rulesetVersion": "in-person-planet-blackout-before-vote-2026-11-10",
+          "rulesetHash": "2505515ad41e9d49c06bd14aaf9dab56dcf0adb471725c1c15d877a0f0b97556",
+          "assetManifestVersion": "design-0.8.0"
+        },
+        "crewSurface": "crew-drawing-1.0.0",
+        "pictures": [],
+        "figures": [
+          {
+            "seat": "seat-6",
+            "hasSvg": true,
+            "width": 92.84033966064453,
+            "height": 238.7911834716797,
+            "paths": 90,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-7",
+            "hasSvg": true,
+            "width": 92.67485809326172,
+            "height": 182.33169555664062,
+            "paths": 87,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-8",
+            "hasSvg": true,
+            "width": 93.5999984741211,
+            "height": 247.77154541015625,
+            "paths": 69,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-9",
+            "hasSvg": true,
+            "width": 88.1751480102539,
+            "height": 207.5427703857422,
+            "paths": 62,
+            "missingReferences": 0
+          }
+        ],
+        "duplicateIds": [],
+        "instances": [
+          "crew-renderer-1-mount-1-body",
+          "crew-renderer-1-mount-2-body",
+          "crew-renderer-1-mount-3-body",
+          "crew-renderer-1-mount-4-body",
+          "crew-renderer-1-mount-5-body",
+          "crew-renderer-1-mount-6-body",
+          "crew-renderer-1-mount-7-body",
+          "crew-renderer-1-mount-8-body",
+          "crew-renderer-1-mount-9-body",
+          "crew-renderer-1-mount-10-front"
+        ],
+        "duplicateInstances": []
+      },
+      "finalArt": {
+        "versions": {
+          "protocolVersion": 3,
+          "engineVersion": "planet-game-1.3.0",
+          "rulesetVersion": "in-person-planet-blackout-before-vote-2026-11-10",
+          "rulesetHash": "2505515ad41e9d49c06bd14aaf9dab56dcf0adb471725c1c15d877a0f0b97556",
+          "assetManifestVersion": "design-0.8.0"
+        },
+        "crewSurface": "crew-drawing-1.0.0",
+        "pictures": [],
+        "figures": [
+          {
+            "seat": "seat-3",
+            "hasSvg": true,
+            "width": 175.70071411132812,
+            "height": 191.07720947265625,
+            "paths": 84,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-4",
+            "hasSvg": true,
+            "width": 102.14698028564453,
+            "height": 238.3922576904297,
+            "paths": 78,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-5",
+            "hasSvg": true,
+            "width": 98.30000305175781,
+            "height": 235.73922729492188,
+            "paths": 85,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-1",
+            "hasSvg": true,
+            "width": 86.29999542236328,
+            "height": 198.22581481933594,
+            "paths": 67,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-6",
+            "hasSvg": true,
+            "width": 93.2618408203125,
+            "height": 238.86045837402344,
+            "paths": 90,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-7",
+            "hasSvg": true,
+            "width": 92.67609405517578,
+            "height": 182.34303283691406,
+            "paths": 87,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-8",
+            "hasSvg": true,
+            "width": 93.5999984741211,
+            "height": 248.1373291015625,
+            "paths": 69,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-9",
+            "hasSvg": true,
+            "width": 87.89437866210938,
+            "height": 207.49278259277344,
+            "paths": 62,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-2",
+            "hasSvg": true,
+            "width": 88.00000762939453,
+            "height": 165.9319610595703,
+            "paths": 57,
+            "missingReferences": 0
+          }
+        ],
+        "duplicateIds": [],
+        "instances": [
+          "crew-renderer-1-mount-12-body",
+          "crew-renderer-1-mount-13-body",
+          "crew-renderer-1-mount-14-body",
+          "crew-renderer-1-mount-25-body",
+          "crew-renderer-1-mount-15-body",
+          "crew-renderer-1-mount-16-body",
+          "crew-renderer-1-mount-17-body",
+          "crew-renderer-1-mount-18-body",
+          "crew-renderer-1-mount-19-front",
+          "crew-renderer-1-mount-24-body"
+        ],
+        "duplicateInstances": []
+      },
+      "viewSwitchSendsNoCommand": true,
+      "moveAbsentFromActions": true,
+      "roomTagOpensOnlyOfferedSlots": true,
+      "sameRoomRepositionConfirmed": true,
+      "visiblePublicCheckpoints": {
+        "initial": {
+          "text": "Initial board",
+          "x": 8,
+          "y": 126.390625,
+          "width": 414,
+          "height": 36.390625,
+          "display": "block",
+          "visibility": "visible",
+          "clipPath": "none",
+          "textClipped": false,
+          "onscreen": true,
+          "hit": true
+        },
+        "before": {
+          "text": "Before Blackout · Round 1",
+          "x": 8,
+          "y": 126.390625,
+          "width": 414,
+          "height": 72.796875,
+          "display": "block",
+          "visibility": "visible",
+          "clipPath": "none",
+          "textClipped": false,
+          "onscreen": true,
+          "hit": true
+        },
+        "dark": {
+          "text": "Blackout",
+          "x": 8,
+          "y": 126.390625,
+          "width": 414,
+          "height": 72.796875,
+          "display": "block",
+          "visibility": "visible",
+          "clipPath": "none",
+          "textClipped": false,
+          "onscreen": true,
+          "hit": true
+        },
+        "after": {
+          "text": "After Blackout · Round 6",
+          "x": 8,
+          "y": 126.390625,
+          "width": 414,
+          "height": 36.390625,
+          "display": "block",
+          "visibility": "visible",
+          "clipPath": "none",
+          "textClipped": false,
+          "onscreen": true,
+          "hit": true
+        },
+        "completed": {
+          "text": "Round 6 complete · The course is being set.",
+          "x": 8,
+          "y": 126.390625,
+          "width": 414,
+          "height": 72.78125,
+          "display": "block",
+          "visibility": "visible",
+          "clipPath": "none",
+          "textClipped": false,
+          "onscreen": true,
+          "hit": true
+        },
+        "carried": {
+          "text": "Round 6 complete",
+          "x": 8,
+          "y": 126.390625,
+          "width": 414,
+          "height": 36.390625,
+          "display": "block",
+          "visibility": "visible",
+          "clipPath": "none",
+          "textClipped": false,
+          "onscreen": true,
+          "hit": true
+        }
+      },
+      "inaccessibleDestinationOpacity": "0.55",
+      "litRoom": [
+        {
+          "room": "room-a",
+          "id": "A1",
+          "x": 194.765625,
+          "y": 480.9375,
+          "width": 54.203125,
+          "height": 54.203125
+        },
+        {
+          "room": "room-a",
+          "id": "A2",
+          "x": 76.078125,
+          "y": 444.96875,
+          "width": 54.46875,
+          "height": 54.46875
+        },
+        {
+          "room": "room-a",
+          "id": "A3",
+          "x": 323.4375,
+          "y": 565.765625,
+          "width": 56.859375,
+          "height": 56.859375
+        },
+        {
+          "room": "room-a",
+          "id": "A4",
+          "x": 335.703125,
+          "y": 331.765625,
+          "width": 50.484375,
+          "height": 50.484375
+        },
+        {
+          "room": "room-a",
+          "id": "A5",
+          "x": 47.296875,
+          "y": 318.375,
+          "width": 49.953125,
+          "height": 49.953125
+        }
+      ],
+      "litBoard": [
+        {
+          "room": "command-room",
+          "id": "C1",
+          "x": 120.65625,
+          "y": 213.890625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "hospital",
+          "id": "H1",
+          "x": 30.640625,
+          "y": 763.28125,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "hospital",
+          "id": "H2",
+          "x": 135.34375,
+          "y": 763.28125,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "hospital",
+          "id": "H3",
+          "x": 30.640625,
+          "y": 703.015625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "hospital",
+          "id": "H4",
+          "x": 135.34375,
+          "y": 703.015625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "jail",
+          "id": "J1",
+          "x": 234.296875,
+          "y": 685.8125,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "jail",
+          "id": "J2",
+          "x": 302.84375,
+          "y": 669.90625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "jail",
+          "id": "J3",
+          "x": 371.265625,
+          "y": 670.53125,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "jail",
+          "id": "J4",
+          "x": 268.90625,
+          "y": 767.8125,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "jail",
+          "id": "J5",
+          "x": 328.921875,
+          "y": 769.8125,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A1",
+          "x": 86.703125,
+          "y": 488.265625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A2",
+          "x": 22.703125,
+          "y": 468.921875,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A3",
+          "x": 156.90625,
+          "y": 534.78125,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A4",
+          "x": 159,
+          "y": 406.71875,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A5",
+          "x": 7,
+          "y": 399.34375,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-b",
+          "id": "B1",
+          "x": 301.28125,
+          "y": 489.53125,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-b",
+          "id": "B2",
+          "x": 229.296875,
+          "y": 517.65625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-b",
+          "id": "B3",
+          "x": 369,
+          "y": 485.015625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-b",
+          "id": "B4",
+          "x": 305.9375,
+          "y": 419.109375,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-b",
+          "id": "B5",
+          "x": 227,
+          "y": 414.65625,
+          "width": 44,
+          "height": 44
+        }
+      ],
+      "reachableDarkSlots": [
+        {
+          "id": "planet-slot-A1",
+          "reachable": true
+        },
+        {
+          "id": "planet-slot-A2",
+          "reachable": true
+        },
+        {
+          "id": "planet-slot-A3",
+          "reachable": true
+        },
+        {
+          "id": "planet-slot-A4",
+          "reachable": true
+        },
+        {
+          "id": "planet-slot-A5",
+          "reachable": true
+        }
+      ],
+      "geometrySurvivesFailedRead": true,
+      "partialCheckpointDoesNotClaimCompletion": true,
+      "fullVoteAndResultMetadata": true,
+      "noSecondBlackout": true,
+      "p18LivingInjuredJailedNumbers": [
+        "Player 1",
+        "Player 2",
+        "Player 3",
+        "Player 4",
+        "Player 5",
+        "Player 6",
+        "Player 7",
+        "Player 8",
+        "Player 9"
+      ],
+      "captures": {
+        "roomTagSlots": "430-932-9-normal-room-tag-slots.jpg",
+        "roomTagConfirmation": "430-932-9-normal-room-tag-confirm.jpg",
+        "darkSlots": "430-932-9-normal-dark-slots.jpg",
+        "vote": "430-932-9-normal-post-damage-vote.jpg",
+        "initial": "430-932-9-normal-public-initial-active-turn.jpg",
+        "publicBefore": "430-932-9-normal-public-before-blackout.jpg",
+        "publicDark": "430-932-9-normal-public-dark-neutral.jpg",
+        "publicAfter": "430-932-9-normal-public-after-blackout.jpg",
+        "result": "430-932-9-normal-result-before-rescue.jpg",
+        "completed": "430-932-9-normal-completed-board.jpg",
+        "carried": "430-932-9-normal-public-prior-round-active-turn.jpg",
+        "code": "430-932-9-normal-dark-code.jpg"
+      }
+    },
+    {
+      "name": "430-932-9-reduced",
+      "passed": true,
+      "art": {
+        "versions": {
+          "protocolVersion": 3,
+          "engineVersion": "planet-game-1.3.0",
+          "rulesetVersion": "in-person-planet-blackout-before-vote-2026-11-10",
+          "rulesetHash": "2505515ad41e9d49c06bd14aaf9dab56dcf0adb471725c1c15d877a0f0b97556",
+          "assetManifestVersion": "design-0.8.0"
+        },
+        "crewSurface": "crew-drawing-1.0.0",
+        "pictures": [],
+        "figures": [
+          {
+            "seat": "seat-6",
+            "hasSvg": true,
+            "width": 92.623046875,
+            "height": 238.73153686523438,
+            "paths": 90,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-7",
+            "hasSvg": true,
+            "width": 92.21112823486328,
+            "height": 182.33042907714844,
+            "paths": 87,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-8",
+            "hasSvg": true,
+            "width": 93.5999984741211,
+            "height": 247.26571655273438,
+            "paths": 69,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-9",
+            "hasSvg": true,
+            "width": 86.18000793457031,
+            "height": 207.3200225830078,
+            "paths": 62,
+            "missingReferences": 0
+          }
+        ],
+        "duplicateIds": [],
+        "instances": [
+          "crew-renderer-1-mount-1-body",
+          "crew-renderer-1-mount-2-body",
+          "crew-renderer-1-mount-3-body",
+          "crew-renderer-1-mount-4-body",
+          "crew-renderer-1-mount-5-body",
+          "crew-renderer-1-mount-6-body",
+          "crew-renderer-1-mount-7-body",
+          "crew-renderer-1-mount-8-body",
+          "crew-renderer-1-mount-9-body",
+          "crew-renderer-1-mount-10-front"
+        ],
+        "duplicateInstances": []
+      },
+      "finalArt": {
+        "versions": {
+          "protocolVersion": 3,
+          "engineVersion": "planet-game-1.3.0",
+          "rulesetVersion": "in-person-planet-blackout-before-vote-2026-11-10",
+          "rulesetHash": "2505515ad41e9d49c06bd14aaf9dab56dcf0adb471725c1c15d877a0f0b97556",
+          "assetManifestVersion": "design-0.8.0"
+        },
+        "crewSurface": "crew-drawing-1.0.0",
+        "pictures": [],
+        "figures": [
+          {
+            "seat": "seat-3",
+            "hasSvg": true,
+            "width": 175.70071411132812,
+            "height": 190.14723205566406,
+            "paths": 84,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-4",
+            "hasSvg": true,
+            "width": 101.97549438476562,
+            "height": 237.6708984375,
+            "paths": 78,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-5",
+            "hasSvg": true,
+            "width": 98.30000305175781,
+            "height": 237.20648193359375,
+            "paths": 85,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-1",
+            "hasSvg": true,
+            "width": 86.29999542236328,
+            "height": 198.70875549316406,
+            "paths": 67,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-6",
+            "hasSvg": true,
+            "width": 92.623046875,
+            "height": 238.73153686523438,
+            "paths": 90,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-7",
+            "hasSvg": true,
+            "width": 92.21112823486328,
+            "height": 182.33042907714844,
+            "paths": 87,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-8",
+            "hasSvg": true,
+            "width": 93.5999984741211,
+            "height": 247.26571655273438,
+            "paths": 69,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-9",
+            "hasSvg": true,
+            "width": 86.18000793457031,
+            "height": 207.3200225830078,
+            "paths": 62,
+            "missingReferences": 0
+          },
+          {
+            "seat": "seat-2",
+            "hasSvg": true,
+            "width": 88.00000762939453,
+            "height": 165.56002807617188,
+            "paths": 57,
+            "missingReferences": 0
+          }
+        ],
+        "duplicateIds": [],
+        "instances": [
+          "crew-renderer-1-mount-12-body",
+          "crew-renderer-1-mount-13-body",
+          "crew-renderer-1-mount-14-body",
+          "crew-renderer-1-mount-25-body",
+          "crew-renderer-1-mount-15-body",
+          "crew-renderer-1-mount-16-body",
+          "crew-renderer-1-mount-17-body",
+          "crew-renderer-1-mount-18-body",
+          "crew-renderer-1-mount-19-front",
+          "crew-renderer-1-mount-24-body"
+        ],
+        "duplicateInstances": []
+      },
+      "viewSwitchSendsNoCommand": true,
+      "moveAbsentFromActions": true,
+      "roomTagOpensOnlyOfferedSlots": true,
+      "sameRoomRepositionConfirmed": true,
+      "visiblePublicCheckpoints": {
+        "initial": {
+          "text": "Initial board",
+          "x": 8,
+          "y": 126.390625,
+          "width": 414,
+          "height": 36.390625,
+          "display": "block",
+          "visibility": "visible",
+          "clipPath": "none",
+          "textClipped": false,
+          "onscreen": true,
+          "hit": true
+        },
+        "before": {
+          "text": "Before Blackout · Round 1",
+          "x": 8,
+          "y": 126.390625,
+          "width": 414,
+          "height": 72.796875,
+          "display": "block",
+          "visibility": "visible",
+          "clipPath": "none",
+          "textClipped": false,
+          "onscreen": true,
+          "hit": true
+        },
+        "dark": {
+          "text": "Blackout",
+          "x": 8,
+          "y": 126.390625,
+          "width": 414,
+          "height": 72.796875,
+          "display": "block",
+          "visibility": "visible",
+          "clipPath": "none",
+          "textClipped": false,
+          "onscreen": true,
+          "hit": true
+        },
+        "after": {
+          "text": "After Blackout · Round 6",
+          "x": 8,
+          "y": 126.390625,
+          "width": 414,
+          "height": 36.390625,
+          "display": "block",
+          "visibility": "visible",
+          "clipPath": "none",
+          "textClipped": false,
+          "onscreen": true,
+          "hit": true
+        },
+        "completed": {
+          "text": "Round 6 complete · The course is being set.",
+          "x": 8,
+          "y": 126.390625,
+          "width": 414,
+          "height": 72.78125,
+          "display": "block",
+          "visibility": "visible",
+          "clipPath": "none",
+          "textClipped": false,
+          "onscreen": true,
+          "hit": true
+        },
+        "carried": {
+          "text": "Round 6 complete",
+          "x": 8,
+          "y": 126.390625,
+          "width": 414,
+          "height": 36.390625,
+          "display": "block",
+          "visibility": "visible",
+          "clipPath": "none",
+          "textClipped": false,
+          "onscreen": true,
+          "hit": true
+        }
+      },
+      "inaccessibleDestinationOpacity": "0.55",
+      "litRoom": [
+        {
+          "room": "room-a",
+          "id": "A1",
+          "x": 194.765625,
+          "y": 480.9375,
+          "width": 54.203125,
+          "height": 54.203125
+        },
+        {
+          "room": "room-a",
+          "id": "A2",
+          "x": 76.078125,
+          "y": 444.96875,
+          "width": 54.46875,
+          "height": 54.46875
+        },
+        {
+          "room": "room-a",
+          "id": "A3",
+          "x": 323.4375,
+          "y": 565.765625,
+          "width": 56.859375,
+          "height": 56.859375
+        },
+        {
+          "room": "room-a",
+          "id": "A4",
+          "x": 335.703125,
+          "y": 331.765625,
+          "width": 50.484375,
+          "height": 50.484375
+        },
+        {
+          "room": "room-a",
+          "id": "A5",
+          "x": 47.296875,
+          "y": 318.375,
+          "width": 49.953125,
+          "height": 49.953125
+        }
+      ],
+      "litBoard": [
+        {
+          "room": "command-room",
+          "id": "C1",
+          "x": 120.65625,
+          "y": 213.890625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "hospital",
+          "id": "H1",
+          "x": 30.640625,
+          "y": 763.28125,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "hospital",
+          "id": "H2",
+          "x": 135.34375,
+          "y": 763.28125,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "hospital",
+          "id": "H3",
+          "x": 30.640625,
+          "y": 703.015625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "hospital",
+          "id": "H4",
+          "x": 135.34375,
+          "y": 703.015625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "jail",
+          "id": "J1",
+          "x": 234.296875,
+          "y": 685.8125,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "jail",
+          "id": "J2",
+          "x": 302.84375,
+          "y": 669.90625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "jail",
+          "id": "J3",
+          "x": 371.265625,
+          "y": 670.53125,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "jail",
+          "id": "J4",
+          "x": 268.90625,
+          "y": 767.8125,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "jail",
+          "id": "J5",
+          "x": 328.921875,
+          "y": 769.8125,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A1",
+          "x": 86.703125,
+          "y": 488.265625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A2",
+          "x": 22.703125,
+          "y": 468.921875,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A3",
+          "x": 156.90625,
+          "y": 534.78125,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A4",
+          "x": 159,
+          "y": 406.71875,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-a",
+          "id": "A5",
+          "x": 7,
+          "y": 399.34375,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-b",
+          "id": "B1",
+          "x": 301.28125,
+          "y": 489.53125,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-b",
+          "id": "B2",
+          "x": 229.296875,
+          "y": 517.65625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-b",
+          "id": "B3",
+          "x": 369,
+          "y": 485.015625,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-b",
+          "id": "B4",
+          "x": 305.9375,
+          "y": 419.109375,
+          "width": 44,
+          "height": 44
+        },
+        {
+          "room": "room-b",
+          "id": "B5",
+          "x": 227,
+          "y": 414.65625,
+          "width": 44,
+          "height": 44
+        }
+      ],
+      "reachableDarkSlots": [
+        {
+          "id": "planet-slot-A1",
+          "reachable": true
+        },
+        {
+          "id": "planet-slot-A2",
+          "reachable": true
+        },
+        {
+          "id": "planet-slot-A3",
+          "reachable": true
+        },
+        {
+          "id": "planet-slot-A4",
+          "reachable": true
+        },
+        {
+          "id": "planet-slot-A5",
+          "reachable": true
+        }
+      ],
+      "geometrySurvivesFailedRead": true,
+      "partialCheckpointDoesNotClaimCompletion": true,
+      "fullVoteAndResultMetadata": true,
+      "noSecondBlackout": true,
+      "p18LivingInjuredJailedNumbers": [
+        "Player 1",
+        "Player 2",
+        "Player 3",
+        "Player 4",
+        "Player 5",
+        "Player 6",
+        "Player 7",
+        "Player 8",
+        "Player 9"
+      ],
+      "captures": {
+        "roomTagSlots": "430-932-9-reduced-room-tag-slots.jpg",
+        "roomTagConfirmation": "430-932-9-reduced-room-tag-confirm.jpg",
+        "darkSlots": "430-932-9-reduced-dark-slots.jpg",
+        "vote": "430-932-9-reduced-post-damage-vote.jpg",
+        "initial": "430-932-9-reduced-public-initial-active-turn.jpg",
+        "publicBefore": "430-932-9-reduced-public-before-blackout.jpg",
+        "publicDark": "430-932-9-reduced-public-dark-neutral.jpg",
+        "publicAfter": "430-932-9-reduced-public-after-blackout.jpg",
+        "result": "430-932-9-reduced-result-before-rescue.jpg",
+        "completed": "430-932-9-reduced-completed-board.jpg",
+        "carried": "430-932-9-reduced-public-prior-round-active-turn.jpg",
+        "code": "430-932-9-reduced-dark-code.jpg"
+      }
+    }
+  ],
+  "sourcesUnchangedThroughRun": true,
+  "runtimeErrors": []
+}
