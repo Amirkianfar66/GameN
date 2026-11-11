@@ -95,3 +95,13 @@ test('authorization loss never enters the canonical fallback and retires ownersh
  r.setUid('revoked');assert.equal(r.session.ownsBlackoutFraming(r.context),false);assert.equal(r.session.withBlackoutFraming(r.context,()=>{throw Error('unauthorized fallback');}),null);
  r.setUid('framing-user');r.value.publicView=null;await r.session.refresh();assert.deepEqual(r.session.withBlackoutFraming(r.context,x=>x),{kind:'all'});r.session.dispose();
 });
+
+test('canonical fallback geometry never grants an unoffered selection',async()=>{
+ for(const tuple of ['phone','blackout'])for(const count of [7,8,9]){
+  const s=sessionScenario('blackout',{now:10000,count,tuple});s.publicView=null;s.playerView.offers=[];
+  const input=readPlanetBlackoutFrameInput(s,contextOf(s),synced);assert.deepEqual(input,{kind:'all'});
+  assert.equal(phoneLayouts({width:390,height:844,top:60,nav:68},count,[],{frameAll:true}).roomPresses['room-a'].length,5);
+  const r=rig(s.playerView,{now:10000});await r.controller.start();assert.equal(r.read().dark,true);
+  r.controller.begin('SELECT_BLACKOUT_SLOT');assert.equal(r.read().action,null);assert.equal(r.sent.length,0);r.controller.dispose();
+ }
+});
