@@ -16,7 +16,7 @@ export const RULES = Object.freeze([
   ['betrayal', 'Both can betray their partner using movement of the same controller: dropping the crate onto the other player, or driving a moving panel into them.', 'The Hoist\'s Lower over the pulpit drops the crate on the Boom operator; the Boom\'s Left at the cab\'s door drives the gantry\'s bumper plate into the Hoist\'s cab.'],
   ['no-attack-button', 'There is no separate attack button, special trigger, confirmation or armed mode.', 'The attack is the same button\'s ordinary press. The button is striped and says what it will do; nothing asks to confirm.'],
   ['no-escape', 'There is no escape opportunity. An unblocked attack is lethal and does not send its victim to Hospital. Protection applies.', 'An attack resolves on the press, at once; the victim has nothing to press. KILLED is final (Eliminated); Protection gives STOPPED.'],
-  ['one-opportunity', 'Each player has one attack opportunity. Its reset scope across repeated Task participation remains unspecified; do not silently choose it.', 'The server passes each participant\'s opportunity into the Task; the design never resets it and never shows it.'],
+  ['one-opportunity', 'Each player has one attack opportunity. Its reset scope across repeated Task participation remains unspecified; do not silently choose it.', 'The server passes each participant\'s opportunity into the Task and the design never resets it or shows it. The owner has since decided the scope: one per match, and a blocked attack uses it up (below).'],
   ['survivor', 'After a partner dies, the survivor can complete the delivery alone if the crate is in the correct position. Otherwise the Task is lost.', 'The correct position is the cradle (docked). A death with the crate docked: the survivor\'s key alone sends it. Otherwise: lost.'],
   ['disconnect', 'A participant disconnect cancels the Task.', 'Cancelled after the grace (PROPOSED 8 s, see conflict 1). Nothing delivered; both return.'],
   ['visibility', 'Other players do not see the Task space on their phones. This does not automatically authorize public killer attribution or Protection disclosure.', 'Only the two participants\' phones draw the Supply Room. No phone ever shows a killer, an attack kind or Protection to anyone else (see the visibility).'],
@@ -24,6 +24,8 @@ export const RULES = Object.freeze([
   ['experience', 'A short, understandable cooperative activity; low puzzle difficulty; coordination and trust are the challenge; both contribute without talking.', 'Nine presses and two keys; the next press glows on the right phone; every risk is visible to both.'],
   // The owner's answers to Designer's questions, the same day.
   ['away-visible', 'Other players can check on the board who is not here, so they can understand who went on the Task.', 'While the Task runs, the two participants\' places are empty on every board. A banner says that two players are away on the Food Supply Task, without names: the board shows who.'],
+  ['opportunity-per-match', 'One attack opportunity per match, not one per Task.', 'The server holds each player\'s attack for the whole match and passes it into every Task they join; once used, it is gone for the rest of the match.'],
+  ['block-uses-it', 'A blocked attack uses up the opportunity.', 'A STOPPED attack spends it as a kill would: the attacker cannot try again, in this Task or a later one.'],
   ['partner-decline', 'The Partner can decline.', 'The Partner request has Decline and Join. After a decline the Volunteer asks someone else or closes. PROPOSED: 15 s to answer, and no answer is a decline; the Volunteer\'s Task is used only when a Partner joins.'],
 ].map(([id, rule, design]) => Object.freeze({ id, rule, design })));
 
@@ -72,8 +74,6 @@ export const CONFLICTS = Object.freeze([
 
 /** What the owner, Game Balance, Backend or Integration still decide. */
 export const OPEN_ITEMS = Object.freeze([
-  { id: 'opportunity-reset', owner: 'owner', item: 'The attack opportunity\'s reset scope across repeated Task participation (unspecified by the owner; the design never chooses it).' },
-  { id: 'block-spends', owner: 'owner', item: 'Whether a blocked attack spends the attacker\'s opportunity. PROPOSED: yes, an attempt is the opportunity.' },
   { id: 'dose-package', owner: 'owner', item: 'Whether one dose is one package. PROPOSED: yes.' },
   { id: 'initiation-spent', owner: 'owner', item: 'When a Volunteer\'s initiation is spent. PROPOSED: when a Partner joins and the Task starts (a decline or a withdrawn request does not spend it); a Task cancelled by the Partner\'s disconnect gives it back, one cancelled by the Volunteer\'s own does not.' },
   { id: 'deliberate-disconnect', owner: 'owner', item: 'Whether a deliberate disconnect costs anything (conflict 1).' },

@@ -95,10 +95,9 @@ export const BOARDS = Object.freeze([
     captions: [
       [0, B + 3600, 'The crate hangs over Cleo. Hana presses Lower.', B + 3300],
       [B + 3600, B + 5000, 'Cleo is Protected: the cable\'s safety catch stops the crate, CLANK! Both phones show the same STOPPED and nothing else; a participant without an attack opportunity is stopped the same way.', B + 3800],
-      [B + 5000, B + 8000, "PROPOSED: the block spends Hana's one attack opportunity. Both alive, the Task goes on.", B + 6000],
+      [B + 5000, B + 8000, "The block used up Hana's one attack for the match. Both alive, the Task goes on.", B + 6000],
       [B + 8000, B + 11000, 'Docked, both keys: delivered.', B + 8700],
     ],
-    proposed: ['A blocked attack spends the attacker\'s opportunity'],
   }),
   board({
     id: 'protection-ram',
@@ -113,7 +112,6 @@ export const BOARDS = Object.freeze([
       [B + 5800, B + 9000, 'The Task goes on; Cleo drives the crate across after all.', B + 7600],
       [B + 9000, B + 13000, 'Docked, both keys: delivered.', B + 11000],
     ],
-    proposed: ['A blocked attack spends the attacker\'s opportunity'],
   }),
   board({
     id: 'timeout',

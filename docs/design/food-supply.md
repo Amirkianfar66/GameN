@@ -148,7 +148,7 @@ The warning lamp flashes 1.5 times a second, well under three. Nothing shakes. R
 The design's mechanics model, `design/food-supply/task.mjs`, is a reference, not the engine: Backend implements the rules; this fixes the geometry and the cause and effect so the phones, the storyboards and the tests agree.
 
 - **State** (`state` in the handoff): phase, seats, the gantry's column, the crate's cell, docked, keys, alive, online, the deadline and the outcome, all seen by both participants; the attack opportunities, Protection and each participant's last accepted press, held by the server only.
-- **Start**: the server passes each participant's attack opportunity in as it holds it; **the design never resets it** (its scope is the owner's open question). Protection is read as the existing rules decide, at the moment of the press.
+- **Start**: each player has **one attack for the whole match**, and **a blocked attack uses it up** (the owner's decisions). The server holds it across Tasks and passes it into each one; once used, it never returns. Protection is read as the existing rules decide, at the moment of the press.
 - **One press** (`act`): refused (briefing, too soon, down, ended, not your axis, stale, repeat), or one of MOVED, BUMPED (with why), DOCKED, KEY, KEY_RELEASED, STOPPED, KILLED (then lost unless docked), SENT and ENDED. The events and their visibility are listed in the handoff (`events`).
 - **Deliberate attacks only (PROPOSED).** A press attacks only if it is a fresh press on a button that showed the warning. A press made on an older picture (another press moved the crate over the Boom first) or a hold's repeat is refused instead. The flags can only stop the presser's own attack; the server's state decides everything else. This keeps a network race or a held button from killing by accident, and it is not a confirmation: one press of the same button acts.
 - **Clock**: the briefing's end, the deadline (lost: time), the grace (cancelled: disconnect).
@@ -219,8 +219,6 @@ Four tensions inside the confirmed rules, each with a solution that stays inside
 
 | Item | For |
 | --- | --- |
-| The attack opportunity's reset scope across repeated Task participation (not chosen anywhere in the design) | The owner |
-| Whether a blocked attack spends the opportunity (PROPOSED: yes) | The owner |
 | Whether one dose is one package (PROPOSED: yes) | The owner |
 | When the initiation is spent (PROPOSED: when a Partner joins and the Task starts, so a decline does not spend it; a Task cancelled by the Partner's disconnect gives it back, by the Volunteer's own does not) | The owner |
 | Whether a deliberate disconnect costs anything (conflict 1) | The owner |

@@ -16,12 +16,12 @@
       "height": 2885
     },
     "design/food-supply/review/board-protection-drop.png": {
-      "sha256": "29d2cc23c9cd130b39ca069e08c26b3a59e8cdde2243f03e0f872d4e647d09c4",
+      "sha256": "b66cae537aa913b569851824837903edc5fea422242324f2d07a48845742cc58",
       "width": 1720,
       "height": 2386
     },
     "design/food-supply/review/board-protection-ram.png": {
-      "sha256": "4dc1cb12fc1c0a7729ceedb2c5e1a894217eed6ca79257df22c2c2cbef985e68",
+      "sha256": "1c859407110009485bc618ef8b019cb19104c83e2779ddf5d424b737f67ad49e",
       "width": 1720,
       "height": 2386
     },
@@ -66,7 +66,7 @@
       "duration": 11000
     },
     "design/food-supply/review/film-protection-drop.mp4": {
-      "sha256": "ae6e8d3fa6c11c6012d002bbb2c59014b40cb25f1c24eeb7dbc1a1e0b0d8b15b",
+      "sha256": "e24d0a4da006f812737c57e01e1baa160c8c581a6e2c1c892e68e589cfde517c",
       "frames": 451,
       "duration": 15000
     },

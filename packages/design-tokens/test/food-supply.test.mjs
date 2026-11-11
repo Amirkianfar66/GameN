@@ -146,7 +146,12 @@ test('the design never resets an attack opportunity: it comes in with the Task a
       for (const role of ['hoist', 'boom']) assert.ok(!(f.state.attack[role] && !frames[i - 1].state.attack[role]), `${b.id}: ${role} regained an opportunity`);
     }
   }
-  assert.ok(OPEN_ITEMS.some(o => o.id === 'opportunity-reset'));
+  // The owner decided the scope (11 November 2026): one per match, and a blocked attack uses it up.
+  for (const id of ['opportunity-per-match', 'block-uses-it']) assert.ok(RULES.some(r => r.id === id), id);
+  for (const id of ['opportunity-reset', 'block-spends']) assert.ok(!OPEN_ITEMS.some(o => o.id === id), `${id} is decided`);
+  const blocked = finalOf(run(BOARDS.find(b => b.id === 'protection-drop')));
+  assert.equal(blocked.attack.hoist, false, 'the block used up the Hoist\'s attack');
+  assert.equal(blocked.alive.boom, true);
 });
 
 test('deliberate attacks only (PROPOSED): a stale press or a held repeat never attacks; a fresh press on the warning does', () => {
@@ -192,7 +197,7 @@ test('every motion cue has its timing and a Reduce motion form', () => {
 });
 
 test('the rules record: each confirmed rule met, the conflicts with a solution, visibility for every audience', () => {
-  assert.equal(RULES.length, 17);
+  assert.equal(RULES.length, 19);
   // The owner's answers of 11 November 2026: who is away shows on the board, and a Partner can decline.
   for (const id of ['away-visible', 'partner-decline']) assert.ok(RULES.some(r => r.id === id), id);
   assert.ok(!OPEN_ITEMS.some(o => o.id === 'public-away'), 'who is away is decided, not open');

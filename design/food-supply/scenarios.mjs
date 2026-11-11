@@ -58,13 +58,13 @@ export const EDGES = Object.freeze([
     expect: { outcome: null, bumped: ['pulpit'], absent: ['KILLED', 'STOPPED'] },
   },
   {
-    id: 'no-opportunity', about: 'A Hoist with no attack opportunity left lowers over the Boom: STOPPED, exactly as Protection would show.',
+    id: 'no-opportunity', about: 'A Hoist who used the one attack of the match in an earlier Task lowers over the Boom: STOPPED, exactly as Protection would show.',
     attack: { hoist: false, boom: true },
     steps: [...lift(), ...drive(B + 2300, 4), press(B + 3600, 'hoist', 'down')],
     expect: { outcome: null, alive: { hoist: true, boom: true }, present: ['STOPPED'], absent: ['KILLED'] },
   },
   {
-    id: 'blocked-twice', about: 'A Protected Boom: the drop is stopped, and again on a second try (PROPOSED: the first block spent the opportunity).',
+    id: 'blocked-twice', about: 'A Protected Boom: the drop is stopped, and again on a second try: the first block used up the Hoist\'s one attack.',
     protection: { hoist: false, boom: true },
     steps: [...lift(), ...drive(B + 2300, 4), press(B + 3600, 'hoist', 'down'), press(B + 4200, 'hoist', 'down')],
     expect: { outcome: null, alive: { hoist: true, boom: true }, stops: 2, absent: ['KILLED'] },
@@ -117,8 +117,8 @@ export const EDGES = Object.freeze([
 ].map(Object.freeze));
 
 /** What a scenario's run gave: the outcome, who is alive, and the events. */
-export function play({ attack = { hoist: true, boom: true }, protection = { hoist: false, boom: false }, blockSpends = true, steps }) {
-  const frames = simulate(startTask({ seats: SEATS, attack, protection, at: 0, blockSpends }), steps);
+export function play({ attack = { hoist: true, boom: true }, protection = { hoist: false, boom: false }, steps }) {
+  const frames = simulate(startTask({ seats: SEATS, attack, protection, at: 0 }), steps);
   const last = frames[frames.length - 1].state;
   const events = frames.flatMap(f => f.events);
   return { outcome: last.outcome, alive: { ...last.alive }, events };

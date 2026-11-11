@@ -61,7 +61,7 @@ const STATE = [
   ['online', '{ hoist, boom }: as the server observes the connection', 'participants'],
   ['deadline', 'the game-clock time the Task is lost', 'participants'],
   ['outcome', "{ result: 'delivered' (packages, alone) | 'lost' (why: 'not-in-cradle' | 'time') | 'cancelled' (why: 'disconnect', who) }", 'participants; PROPOSED public: delivered or not'],
-  ['attack', '{ hoist, boom }: whether each still has their one attack opportunity', 'the server only'],
+  ['attack', '{ hoist, boom }: whether each still has their one attack opportunity of the match (a kill or a blocked attack uses it up; it never returns)', 'the server only'],
   ['protection', '{ hoist, boom }: whether each is Protected, as the existing rules decide', 'the server only'],
   ['lastMove', '{ hoist, boom }: the time of each participant\'s last accepted press', 'the server only'],
 ].map(([field, holds, seenBy]) => ({ field, holds, seenBy }));

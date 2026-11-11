@@ -13,8 +13,8 @@
 //    onto the other player, the horizontal one by driving a moving panel into them. There is no
 //    attack button, trigger, confirmation or armed mode, and no escape. An unblocked attack is
 //    lethal and does not send its victim to Hospital. Protection applies.
-//  - Each player has one attack opportunity (how it resets across repeated Tasks is unspecified:
-//    the caller passes it in, and this module never decides it).
+//  - Each player has one attack opportunity for the whole match, and a blocked attack uses it up
+//    (the owner's answers, the same day). The server holds it across Tasks and passes it in.
 //  - After a partner dies, the survivor can complete the delivery alone if the crate is in the
 //    correct position; otherwise the Task is lost. A disconnect cancels the Task.
 //  - A delivery adds five packages to the food stock.
@@ -86,20 +86,19 @@ const other = role => (role === 'hoist' ? 'boom' : 'hoist');
 const clone = state => JSON.parse(JSON.stringify(state));
 
 /**
- * A new Task. seats: { hoist, boom } (player numbers). attack: whether each still has their attack
- * opportunity, as the server holds it (its reset scope is not decided here). protection: whether
- * each is Protected now, as the existing rules decide. at: the Task's start on the game's clock.
- * blockSpends: whether a blocked attack spends the attacker's opportunity (PROPOSED: yes, "one
- * attack opportunity"; listed as an open item for confirmation).
+ * A new Task. seats: { hoist, boom } (player numbers). attack: whether each still has their one
+ * attack opportunity for the match, as the server holds it (a kill or a blocked attack in an earlier
+ * Task has used it up). protection: whether each is Protected now, as the existing rules decide.
+ * at: the Task's start on the game's clock.
  */
-export function startTask({ seats, attack = { hoist: true, boom: true }, protection = { hoist: false, boom: false }, at = 0, blockSpends = true } = {}) {
+export function startTask({ seats, attack = { hoist: true, boom: true }, protection = { hoist: false, boom: false }, at = 0 } = {}) {
   if (!seats?.hoist || !seats?.boom || seats.hoist === seats.boom) throw new Error('A Task needs two different participants');
   return {
     phase: 'briefing', at, startedAt: at, runningAt: at + TIMING.briefing, deadline: at + TIMING.briefing + TIMING.deadline,
     seats: { ...seats },
     alive: { hoist: true, boom: true },
     online: { hoist: true, boom: true }, offlineSince: { hoist: null, boom: null },
-    attack: { ...attack }, protection: { ...protection }, blockSpends,
+    attack: { ...attack }, protection: { ...protection },
     carriage: START.carriage, crate: [...START.crate], docked: false,
     keys: { hoist: false, boom: false },
     lastMove: { hoist: -Infinity, boom: -Infinity },
@@ -135,8 +134,8 @@ function attackMove(state, role, at, events, { lethal, stopped }) {
   const kind = ROLES[role].attack;
   if (!state.attack[role] || state.protection[victim]) {
     // The same safety catch either way: nothing outside the server tells a Protection block from
-    // a participant whose opportunity is already spent.
-    if (state.attack[role] && state.protection[victim] && state.blockSpends) state.attack[role] = false;
+    // a participant whose opportunity is already spent. A blocked attack uses the opportunity up.
+    if (state.attack[role] && state.protection[victim]) state.attack[role] = false;
     stopped();
     events.push({ type: 'STOPPED', kind, by: role, at: [...state.crate], carriage: state.carriage });
     return;

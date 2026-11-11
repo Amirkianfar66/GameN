@@ -62,7 +62,7 @@
     {
       "id": "one-opportunity",
       "rule": "Each player has one attack opportunity. Its reset scope across repeated Task participation remains unspecified; do not silently choose it.",
-      "design": "The server passes each participant's opportunity into the Task; the design never resets it and never shows it."
+      "design": "The server passes each participant's opportunity into the Task and the design never resets it or shows it. The owner has since decided the scope: one per match, and a blocked attack uses it up (below)."
     },
     {
       "id": "survivor",
@@ -95,21 +95,31 @@
       "design": "While the Task runs, the two participants' places are empty on every board. A banner says that two players are away on the Food Supply Task, without names: the board shows who."
     },
     {
+      "id": "opportunity-per-match",
+      "rule": "One attack opportunity per match, not one per Task.",
+      "design": "The server holds each player's attack for the whole match and passes it into every Task they join; once used, it is gone for the rest of the match."
+    },
+    {
+      "id": "block-uses-it",
+      "rule": "A blocked attack uses up the opportunity.",
+      "design": "A STOPPED attack spends it as a kill would: the attacker cannot try again, in this Task or a later one."
+    },
+    {
       "id": "partner-decline",
       "rule": "The Partner can decline.",
       "design": "The Partner request has Decline and Join. After a decline the Volunteer asks someone else or closes. PROPOSED: 15 s to answer, and no answer is a decline; the Volunteer's Task is used only when a Partner joins."
     }
   ],
   "sources": {
-    "design/food-supply/task.mjs": "5cf5019d7639cf63d1db5a07c095e1c94f01822eaf2b513e7bc7233aba4f7199",
+    "design/food-supply/task.mjs": "5820e48e58cee560edd5336ade052b4fdeed272974b3158201da82cd65a00723",
     "design/food-supply/layout.mjs": "b3193ab9ed05739750dae06a48584d024163598fda955c185d2dfc79267fafa9",
     "design/food-supply/room.mjs": "43d82db22f9cc43c389db2c4e713ae7a924ea4dbf8f252412118dbcbdd4c1c5e",
     "design/food-supply/machine.mjs": "622098559ab5ee84d5622c829273d31d1bc3fae11ce9c637dd5a86fd9e9b80bf",
     "design/food-supply/scene.mjs": "625e66ab4f033a1d028543a754170d2c419b723a56b27001be6166244e3971e7",
     "design/food-supply/stage.mjs": "410c8261c6a27d25948ba676947c20d57c505b17ebc503fe3acc1a60f271662e",
-    "design/food-supply/boards.mjs": "9edc904897cb97b3bda40ec905239c366f7f7f6fa3d41e0aaa4b73234f1758a0",
-    "design/food-supply/scenarios.mjs": "2578bf5fdd6f51f410267b17aa1d08005e0e2d027203a66fe5d90b513fa2e1a3",
-    "design/food-supply/rules.mjs": "ce8248df6c0245705d68185c7639dd21de6561a755f17bc058f53ec75935351c",
+    "design/food-supply/boards.mjs": "f909921ba635fb5395d7cdb758474daf2d18793b4bd270363cbb7e676dcfd8b5",
+    "design/food-supply/scenarios.mjs": "6f44901562f33d08df086f7c5d58536ed72cfe1de944f1b092dc9b092b59fbef",
+    "design/food-supply/rules.mjs": "7526738333cbcf58d5ceb34225c54fe1811b3b8d865a8300d4dcfd4f316ee71c",
     "design/food-supply/phone.mjs": "f69bbaa1d435911c1ee618279f8b66bdfceed883207167af0e9cc9ae6f92b77a",
     "design/food-supply/phone.css": "f846b1d2a9221e31de118d4962bd28e4a6c22cd342aedd6c6b97d84287449ffb"
   },
@@ -808,7 +818,7 @@
     },
     {
       "field": "attack",
-      "holds": "{ hoist, boom }: whether each still has their one attack opportunity",
+      "holds": "{ hoist, boom }: whether each still has their one attack opportunity of the match (a kill or a blocked attack uses it up; it never returns)",
       "seenBy": "the server only"
     },
     {
@@ -1451,10 +1461,7 @@
         "absent": [
           "KILLED"
         ]
-      },
-      "proposed": [
-        "A blocked attack spends the attacker's opportunity"
-      ]
+      }
     },
     {
       "id": "protection-ram",
@@ -1574,10 +1581,7 @@
         "absent": [
           "KILLED"
         ]
-      },
-      "proposed": [
-        "A blocked attack spends the attacker's opportunity"
-      ]
+      }
     },
     {
       "id": "timeout",
@@ -1980,7 +1984,7 @@
     },
     {
       "id": "no-opportunity",
-      "about": "A Hoist with no attack opportunity left lowers over the Boom: STOPPED, exactly as Protection would show.",
+      "about": "A Hoist who used the one attack of the match in an earlier Task lowers over the Boom: STOPPED, exactly as Protection would show.",
       "kind": "edge",
       "given": {
         "seats": {
@@ -2045,7 +2049,7 @@
     },
     {
       "id": "blocked-twice",
-      "about": "A Protected Boom: the drop is stopped, and again on a second try (PROPOSED: the first block spent the opportunity).",
+      "about": "A Protected Boom: the drop is stopped, and again on a second try: the first block used up the Hoist's one attack.",
       "kind": "edge",
       "given": {
         "seats": {
@@ -2939,16 +2943,6 @@
     }
   ],
   "openItems": [
-    {
-      "id": "opportunity-reset",
-      "owner": "owner",
-      "item": "The attack opportunity's reset scope across repeated Task participation (unspecified by the owner; the design never chooses it)."
-    },
-    {
-      "id": "block-spends",
-      "owner": "owner",
-      "item": "Whether a blocked attack spends the attacker's opportunity. PROPOSED: yes, an attempt is the opportunity."
-    },
     {
       "id": "dose-package",
       "owner": "owner",

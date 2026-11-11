@@ -29,10 +29,14 @@ The owner also asked for low puzzle difficulty with coordination and trust as th
 | "other player can check on board who is not here so they can understand who went for task" | Who is away on a Task is public, through the board: the two participants' places are empty while they are away. The banner on other phones names no one. This settles rule conflict 4: after a death, everyone can work out the survivor, and no phone states it | [food-supply.md](food-supply.md#visibility); the flow sheet |
 | "yes they can decline" | The asked Partner can decline. The request has Decline and Join; after a decline, the Volunteer asks someone else or closes. The time to answer, and whether a decline spends the Volunteer's Task, stay PROPOSED (15 s, no answer declines; the Task is used only when a Partner joins) | [food-supply.md](food-supply.md#the-phones); the flow sheet |
 
-The owner asked what the other two questions mean (the attack opportunity's reset across repeated Tasks, and whether a blocked attack uses it up); Designer has explained them, and both remain open.
+The owner asked what the other two questions meant. Designer put them in plain words, each with two answers and an example: is the one attack per match (A) or per Task (B); and does a blocked attack use it up (A) or not (B). The owner answered:
+
+| What the owner said | What it decides | Where |
+| --- | --- | --- |
+| "A and A" | 1. **One attack per match, not per Task.** If Hana attacks on one Task, Hana cannot attack on any later Task this match. The server holds it across Tasks.<br>2. **A blocked attack uses it up.** If Protection stops Hana's attack, Hana cannot try again, in that Task or a later one. Both were open items; the design never chose either | `design/food-supply/task.mjs`, the scenarios, [food-supply.md](food-supply.md#for-backend) |
 
 **What it does not decide:**
-- **The proposals.** Everything marked PROPOSED in the design (timings, the grace, random roles, the Partner's eligibility and time to answer, whether others learn the result, deliberate attacks only) waits for the owner. The [open items](food-supply.md#open-items) list them, with the attack opportunity's reset scope, which the design leaves unchosen as asked.
+- **The proposals.** Everything marked PROPOSED in the design (timings, the grace, random roles, the Partner's eligibility and time to answer, whether others learn the result, deliberate attacks only) waits for the owner. The [open items](food-supply.md#open-items) list them.
 - **The game.** No rule, contract, engine or ruleset changes here. Backend implements the rules, Integration owns the contract, and a ruleset version adopts the Task; until then nothing is playable.
 - **The owner's detailed handoff file.** `docs/design/food-supply-requirements-2026-11-11.md` and its concept images were on the owner's computer, not in the repository; the design follows the highlights above and will be reconciled with that file.
 
