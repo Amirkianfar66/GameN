@@ -62,17 +62,19 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
  const addText=(text,tag='p')=>sheetBody.append(el(tag,text));
  const beginButton=type=>{const b=labelPhoneControl(button(PLANET_ACTION_LABELS[type],'begin',type),PLANET_ACTION_LABELS[type],phoneActionIcon(type));b.id=`planet-action-${type}`;b.classList.add('planet-action-tile');return b;};
  function rosterGrid({choices=[],selected=[],counts=null,result=false}={}){
+  const wrap=el('div',null,'planet-roster');
   const grid=el('div',null,'planet-roster-grid');grid.setAttribute('aria-label',result?'Vote totals by player':'Choose a player');
   for(let n=1;n<=9;n++){
    if(n>model.playerCount){const empty=el('span',null,'planet-roster-empty');empty.setAttribute('aria-hidden','true');grid.append(empty);continue;}
    const id=`seat-${n}`,who=model.identities.find(i=>i.seatId===id),choice=choices.find(c=>c.value===id);
    const cell=result?el('div',null,'planet-roster-cell'):button('', 'choose',id);cell.classList.add('planet-roster-cell');cell.dataset.seat=id;
    const image=el('span',null,'planet-roster-portrait');image.setAttribute('aria-hidden','true');if(who?.characterId)image.style.backgroundImage=crewPortraitVariable(who.characterId,model.versions);
-   cell.append(image,el('b',`Player ${n}${id===model.ownSeatId?' · You':''}`),el('span',who?.displayName??number(id),'planet-roster-name'));
-   if(result){cell.append(el('strong',Object.hasOwn(counts,id)?String(counts[id]):'—','planet-vote-count'));cell.dataset.winner=String(model.lastTally.selectedSeatId===id);}
-   else{cell.id=`planet-choice-${id}`;cell.disabled=!choice;cell.setAttribute('aria-pressed',String(selected.includes(id)));cell.setAttribute('aria-label',`${who?.displayName??number(id)}, Player ${n}${choice?'':', unavailable'}`);if(!choice)cell.append(el('small','Unavailable'));}
+   const seat=el('b',String(n),'planet-roster-seat'),name=el('span',who?.displayName??number(id),'planet-roster-name');seat.setAttribute('aria-hidden','true');cell.append(seat,image,name);cell.dataset.result=String(result);
+   if(id===model.ownSeatId){const you=el('small','You','planet-roster-you');you.setAttribute('aria-hidden','true');cell.append(you);}
+   if(result){const published=Object.hasOwn(counts,id),count=el('strong',published?String(counts[id]):'—','planet-vote-count');count.setAttribute('aria-hidden','true');name.setAttribute('aria-hidden','true');cell.append(count);cell.dataset.winner=String(model.lastTally.selectedSeatId===id);cell.setAttribute('role','group');cell.setAttribute('aria-label',`Player ${n}, ${who?.displayName??number(id)}, ${published?`${counts[id]} votes`:'count not published'}${id===model.ownSeatId?', You':''}`);}
+   else{cell.id=`planet-choice-${id}`;cell.disabled=!choice;cell.setAttribute('aria-pressed',String(selected.includes(id)));cell.setAttribute('aria-label',`Player ${n}, ${who?.displayName??number(id)}${id===model.ownSeatId?', You':''}${choice?'':', unavailable'}`);if(!choice)cell.append(el('small','Unavailable','planet-roster-note'));}
    grid.append(cell);
-  }return grid;
+  }wrap.append(grid);return wrap;
  }
  function renderCard(p){
   if(!p?.role)return;
