@@ -1,5 +1,5 @@
 import {crewPortraitVariable,disposeCrewMounts,setCrewMountActivity,setCrewPictureSurface} from '../crew-runtime.mjs';
-import {PLANET_ACTION_LABELS,PLANET_PROMISE_LABELS,planetPromiseTerms,planetBlackholePresentation,planetTerminalArrival,planetPanelRequestText,planetHasPrivateFeedback} from '@mothership/presentation';
+import {PLANET_ACTION_LABELS,PLANET_PROMISE_LABELS,planetPromiseTerms,planetBlackholePresentation,planetTerminalArrival,planetPanelRequestText,planetHasPrivateFeedback,planetRoundOrderText} from '@mothership/presentation';
 import {PlanetDrawingSchema} from '@mothership/contracts';
 import {slotRects} from '../board-v2-drawing/fit-four.mjs';
 import {BOARD_ROOMS,sceneOf,slotsOf,LOCATION_OF} from '../board-v2-drawing/slots-four.mjs';
@@ -178,7 +178,7 @@ export function mountPlanetRenderer(root,controller,{cinematics=[],terminalActio
    else if(model.phase?.expired){addText('Waiting for the server','h2');}
    else if(more||model.panel==='panels'){addText('Panels','h2');for(const [label,value]of [['Windows','windows'],['Navigation','navigation'],['Hospital panel','hospital'],['Players','players'],['Round order','round-order']]){const b=labelPhoneControl(button(label,'panel',value),label,phonePanelIcon(value));b.classList.add('planet-panel-option');sheetBody.append(b);}}
    else if(model.panel==='players'){addText('Players','h2');for(const seat of model.board?.seats??[]){const who=model.identities.find(i=>i.seatId===seat.seatId);addText(`${number(seat.seatId)} · ${who?.displayName??''} · ${seat.location??'Off board'} · ${seat.health}${seat.jailed?' · Detained':''}`);}}
-   else if(model.panel==='round-order'){addText('Round order','h2');addText('Follow the current phase and the server clock.');addText('Player turns · Private talk · Sync when applicable · Jail vote · Result · Blackout · Resolution · Navigation');}
+   else if(model.panel==='round-order'){addText('Round order','h2');addText('Follow the current phase and the server clock.');addText(planetRoundOrderText(model.versions));}
    else if(model.panel==='card')renderCard(p);
    else if(model.panel==='promises')renderPromises(p);
    else if(model.panel==='windows')renderWindows(p);

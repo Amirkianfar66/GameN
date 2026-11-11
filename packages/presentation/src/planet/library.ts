@@ -6,6 +6,13 @@ const matches=(v:PlanetVersions|null|undefined,pins:Omit<PlanetVersions,'assetMa
 export const planetHasPrivateOffers=(v:PlanetVersions|null|undefined):boolean=>[PLANET_PHONE_OFFER_PINS,PLANET_BLACKOUT_PINS].some(p=>matches(v,p));
 export const planetHasPrivateFeedback=(v:PlanetVersions|null|undefined):boolean=>[PLANET_GAME_PINS,PLANET_PHONE_OFFER_PINS,PLANET_BLACKOUT_PINS].some(p=>matches(v,p));
 
+/** Saved predecessors keep their original order; only the exact successor moves Blackout before the vote. */
+export function planetRoundOrderText(v:PlanetVersions|null|undefined):string{
+ return matches(v,PLANET_BLACKOUT_PINS)
+  ?'Player turns · Private talk · Sync when applicable · Blackout · Damage and Hospital placement · Jail vote · Result · Remaining resolution and Rescue · Navigation'
+  :'Player turns · Private talk · Sync when applicable · Jail vote · Result · Blackout · Resolution · Navigation';
+}
+
 /** New library art belongs only to the reviewed new gameplay tuple. */
 export function planetHasLibraryArt(v:PlanetVersions|null|undefined):boolean{
  return planetHasPrivateFeedback(v)&&(v?.assetManifestVersion==='design-0.6.0'||v?.assetManifestVersion==='design-0.7.0'||v?.assetManifestVersion==='design-0.8.0');

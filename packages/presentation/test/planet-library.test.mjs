@@ -1,7 +1,15 @@
 import assert from 'node:assert/strict';
 import {test} from 'node:test';
-import {planetPlayerNumberChoices,planetPanelRequestText,planetTerminalArrival,planetHasLibraryArt,planetSupportsAssets} from '../dist/index.js';
-import {PLANET_GAME_PINS,PLANET_SYNC_PINS} from '@mothership/contracts';
+import {planetPlayerNumberChoices,planetPanelRequestText,planetTerminalArrival,planetHasLibraryArt,planetSupportsAssets,planetRoundOrderText} from '../dist/index.js';
+import {PLANET_GAME_PINS,PLANET_SYNC_PINS,PLANET_ORIGINAL_PINS,PLANET_PHONE_OFFER_PINS,PLANET_BLACKOUT_PINS} from '@mothership/contracts';
+test('round order names pre-vote Blackout damage only for exact 1.3, preserving historical and mixed tuples',()=>{
+ const legacy='Player turns · Private talk · Sync when applicable · Jail vote · Result · Blackout · Resolution · Navigation';
+ const current={...PLANET_BLACKOUT_PINS,assetManifestVersion:'design-0.8.0'},steps=planetRoundOrderText(current).split(' · ');
+ assert.deepEqual(steps.slice(3),['Blackout','Damage and Hospital placement','Jail vote','Result','Remaining resolution and Rescue','Navigation']);
+ for(const pins of [PLANET_ORIGINAL_PINS,PLANET_SYNC_PINS,PLANET_GAME_PINS,PLANET_PHONE_OFFER_PINS])assert.equal(planetRoundOrderText({...pins,assetManifestVersion:'design-0.8.0'}),legacy);
+ for(const patch of [{protocolVersion:2},{engineVersion:'planet-game-1.3.1'},{engineVersion:PLANET_PHONE_OFFER_PINS.engineVersion},{rulesetVersion:PLANET_GAME_PINS.rulesetVersion},{rulesetHash:PLANET_GAME_PINS.rulesetHash}])assert.equal(planetRoundOrderText({...current,...patch}),legacy);
+ for(const missing of [null,undefined])assert.equal(planetRoundOrderText(missing),legacy);
+});
 test('library activation requires the exact reviewed art and gameplay pairing',()=>{
  const versions={...PLANET_GAME_PINS,assetManifestVersion:'design-0.6.0'};assert.equal(planetHasLibraryArt(versions),true);assert.equal(planetHasLibraryArt(null),false);assert.equal(planetHasLibraryArt({...versions,assetManifestVersion:'design-0.5.0'}),false);assert.equal(planetSupportsAssets({...versions,assetManifestVersion:'design-0.5.0'}),true);assert.equal(planetSupportsAssets({...PLANET_SYNC_PINS,assetManifestVersion:'design-0.6.0'}),false);
 });
