@@ -24,6 +24,8 @@ import { roomOf } from '../room-pilot/rooms.mjs';
 import { activityAt, activityTimeline } from './activities.mjs';
 import { capsuleSvg } from './capsule.mjs';
 import { visitAt, visitTimeline } from './eating.mjs';
+import { CANCEL_MS } from './schedule.mjs';
+import { REACH } from './extend.mjs';
 import { CAPSULES } from './positions.mjs';
 import { propsSvg, restingSvg } from './props.mjs';
 
@@ -36,6 +38,8 @@ const NS = 'http://www.w3.org/2000/svg';
 export const roomPicture = (room, name = 'back') => `../room-drawing/assets/${room}.${name}.svg`;
 
 const el = (tag, cls) => { const node = document.createElement(tag); if (cls) node.className = cls; return node; };
+// Every stage draws under its own prefix: two stages of a room on one page must not share an SVG id.
+let stages = 0;
 
 /** A figure mounted live on the stage: its body (with its props) and front, placed and posed each frame. */
 function mountFigure(scene, c, prefix, outfit) {
@@ -53,12 +57,17 @@ function mountFigure(scene, c, prefix, outfit) {
     }
   };
   return {
-    place([x, y], s, mirror) {
-      const ox = (AX - BX) * s, oy = (AY - BY) * s, depth = Math.round(y);
+    place([x, y], s, mirror, depth = y) {
+      const ox = (AX - BX) * s, oy = (AY - BY) * s;
+      depth = Math.round(depth);
       for (const [node, z] of [[body, depth * 2], [front, 1500 + depth]]) {
         Object.assign(node.style, { left: `${x - ox}px`, top: `${y - oy}px`, width: `${BW * s}px`, height: `${BW * s}px`, transformOrigin: `${ox}px ${oy}px`, zIndex: String(z) });
         node.dataset.mirror = String(Boolean(mirror));
       }
+    },
+    fade(alpha) {
+      const value = alpha >= 1 ? '' : String(Math.max(0, alpha));
+      if (body.style.opacity !== value) { body.style.opacity = value; front.style.opacity = value; held.style.opacity = value; }
     },
     show(sk, motion, props, anchors) {
       if (state.sk === null || state.front !== hasFront(sk)) draw(sk, motion);
@@ -84,14 +93,15 @@ function mountFigure(scene, c, prefix, outfit) {
  * a turn when), reduced (Reduce motion: every place at rest, no visit), ambient (the room's ambient
  * motion). Returns { root, set(t), visits }.
  */
-export function roomStage({ room, cast, capsule = 'unknown', visits = [], reduced = false, ambient = true }) {
+export function roomStage({ room, cast, capsule = 'unknown', visits = [], reduced = false, ambient = true, extend = false, capsuleOpen = 0 }) {
   const r = roomOf(room);
   if (!r) throw new Error(`No room ${room}`);
   const device = CAPSULES[room] ?? null;
   if (visits.length && !device) throw new Error(`${r.name} has no food capsule: no visit plays there`);
-  if (visits.some(v => v.kind !== capsule)) throw new Error('A visit shows the capsule\'s fixture: stocked visits a stocked capsule, empty an empty one');
+  if (visits.some(v => (v.kind === 'empty') !== (capsule === 'empty'))) throw new Error('A visit shows the capsule\'s fixture: stocked or brief visits a stocked capsule, empty an empty one');
   if (capsule === 'unknown' && visits.length) throw new Error('Unknown availability plays no visit');
 
+  const sid = `s${(stages += 1)}`;
   const root = el('div', 'stage');
   root.dataset.room = room;
   const scene = el('div', 'scene');
@@ -101,6 +111,14 @@ export function roomStage({ room, cast, capsule = 'unknown', visits = [], reduce
   Object.assign(back, { src: roomPicture(room), alt: '', width: 1024, height: 768 });
   back.style.zIndex = '0';
   scene.append(back);
+  // A wider view's ceiling and deck past the picture (./extend.mjs), over the picture's border.
+  if (extend) {
+    const ext = el('img');
+    Object.assign(ext, { src: `./assets/${room}.extend.svg`, alt: '', width: 1024, height: 768 + 2 * REACH });
+    ext.className = 'extend';
+    Object.assign(ext.style, { top: `${-REACH}px`, height: `${768 + 2 * REACH}px`, zIndex: '0' });
+    scene.append(ext);
+  }
   for (const [id, layer] of Object.entries(r.scene.layers ?? {})) {
     const img = el('img');
     Object.assign(img, { src: roomPicture(room, id), alt: '', width: 1024, height: 768 });
@@ -117,7 +135,7 @@ export function roomStage({ room, cast, capsule = 'unknown', visits = [], reduce
   if (device) {
     cap = el('div', 'capsule');
     const [x, y, w, h] = device.box;
-    Object.assign(cap.style, { left: `${x}px`, top: `${y}px`, width: `${w}px`, height: `${h}px`, zIndex: '2' });
+    Object.assign(cap.style, { left: `${x}px`, top: `${y}px`, width: `${w}px`, height: `${h}px`, zIndex: String(device.z ?? 2) });
     scene.append(cap);
   }
   const showCapsule = (open, portion) => {
@@ -125,21 +143,21 @@ export function roomStage({ room, cast, capsule = 'unknown', visits = [], reduce
     const key = `${capsule}|${open.toFixed(3)}|${portion}`;
     if (key === capKey) return;
     capKey = key;
-    cap.innerHTML = capsuleSvg({ box: device.box, hatch: device.hatch, state: capsule, open, portion: capsule === 'stocked' && portion, family: r.family, kind: device.kind, light: device.light ?? null, prefix: `cap-${room}` });
+    cap.innerHTML = capsuleSvg({ box: device.box, hatch: device.hatch, state: capsule, open, portion: capsule === 'stocked' && portion, family: r.family, kind: device.kind, light: device.light ?? null, prefix: `${sid}-cap-${room}` });
   };
 
   const slots = r.scene.slots.filter(slot => cast[slot.id]);
   const people = slots.map((slot, seat) => {
     const c = CREW[cast[slot.id]];
-    const fig = mountFigure(scene, c, `sl-${room}-${slot.id}`, outfitFor(r.name));
-    const own = visits.filter(v => v.place === slot.id).sort((a, b) => a.at - b.at);
+    const fig = mountFigure(scene, c, `${sid}-${room}-${slot.id}`, outfitFor(r.name));
+    const own = visits.filter(v => v.place === slot.id).map(v => ({ ...v, start: v.start ?? v.at })).sort((a, b) => a.start - b.start);
     const runs = [activityTimeline(slot.id, slot.gesture, { seat })];
     // What waits at the place (A4's parcel on the crate top): drawn at the place, behind its occupant, while not held.
     let set = null;
     if (Object.keys(runs[0].resting).length) {
       set = el('div', 'piece');
       const [x, y] = slot.at, s = slot.scale, ox = (AX - BX) * s, oy = (AY - BY) * s;
-      Object.assign(set.style, { left: `${x - ox}px`, top: `${y - oy}px`, width: `${BW * s}px`, height: `${BW * s}px`, transformOrigin: `${ox}px ${oy}px`, zIndex: String(Math.round(y) * 2 - 1) });
+      Object.assign(set.style, { left: `${x - ox}px`, top: `${y - oy}px`, width: `${BW * s}px`, height: `${BW * s}px`, transformOrigin: `${ox}px ${oy}px`, zIndex: String(Math.round(slot.depth ?? y) * 2 - 1) });
       set.dataset.mirror = String(Boolean(slot.mirror));
       set.dataset.set = slot.id;
       scene.append(set);
@@ -151,8 +169,10 @@ export function roomStage({ room, cast, capsule = 'unknown', visits = [], reduce
   for (const p of people) {
     for (const [i, v] of p.own.entries()) {
       const before = p.runs[p.runs.length - 1];
-      const from = activityAt(before, v.at);
-      const visit = visitTimeline(p.slot, device, { kind: v.kind, start: v.at, from: from.sk, fromProps: Object.keys(from.props).length ? from.props : null });
+      const from = activityAt(before, v.start);
+      const visit = visitTimeline(p.slot, device, { kind: v.kind, start: v.start, from: from.sk, fromProps: Object.keys(from.props).length ? from.props : null });
+      // A stopped visit: its figure goes back to its place in CANCEL_MS, and the work starts again after.
+      if (v.cancelAt != null && v.cancelAt < visit.end) { visit.cancelAt = v.cancelAt; visit.end = v.cancelAt + CANCEL_MS; }
       p.visits.push(visit);
       p.runs.push(activityTimeline(p.slot.id, p.slot.gesture, { seat: p.seat, start: visit.end, round: i + 1 }));
     }
@@ -164,13 +184,27 @@ export function roomStage({ room, cast, capsule = 'unknown', visits = [], reduce
     const dt = restart ? 0 : t - last;
     last = t;
     if (amb) settleAmbient(scene, { at: reduced ? 0 : t / 1000 });
-    let open = 0, portion = true;
+    // capsuleOpen: a review sheet's capsule held open with nobody at it (boards.mjs).
+    let open = capsuleOpen, portion = true;
     for (const p of people) {
       const visit = reduced ? null : p.visits.find(v => t >= v.start && t < v.end);
-      let sk, pos = p.slot.at, scale = p.slot.scale, mirror = Boolean(p.slot.mirror), props = {}, anchors = {};
-      if (visit) {
+      let sk, pos = p.slot.at, scale = p.slot.scale, mirror = Boolean(p.slot.mirror), props = {}, anchors = {}, depth = p.slot.depth ?? p.slot.at[1];
+      let alpha = 1;
+      if (visit && visit.cancelAt != null && t >= visit.cancelAt) {
+        // Stopped: out where it stands (the hatch closing), then in at its place, resting.
+        const u = (t - visit.cancelAt) / (CANCEL_MS / 2);
+        if (u < 1) {
+          const now = visitAt(visit, visit.cancelAt);
+          ({ sk, pos, scale, mirror, props, depth } = now);
+          open = now.open * (1 - u);
+          alpha = 1 - u;
+        } else {
+          sk = p.runs[0].rest;
+          alpha = u - 1;
+        }
+      } else if (visit) {
         const now = visitAt(visit, t);
-        ({ sk, pos, scale, mirror, props } = now);
+        ({ sk, pos, scale, mirror, props, depth } = now);
         open = now.open;
         portion = now.portion;
       } else {
@@ -188,14 +222,17 @@ export function roomStage({ room, cast, capsule = 'unknown', visits = [], reduce
       p.acc.world = world; p.acc.head = head;
       const follow = reduced ? null : p.follow.step(dt, p.acc.local[0], p.acc.local[1]);
       const motion = crewMotion(t, p.c.id, { reduced, seat: p.seat, follow: visit ? follow : null });
-      p.fig.place(pos, scale, mirror);
+      p.fig.place(pos, scale, mirror, depth);
       p.fig.show(sk, motion, props, anchors);
+      p.fig.fade(alpha);
       if (p.set) {
-        const key = Object.keys(props).sort().join(',');
-        if (key !== p.setKey) { p.set.innerHTML = restingSvg(p.runs[0].resting, props, { prefix: `sl-${room}-${p.slot.id}-r` }); p.setKey = key; }
+        // What the occupant holds, or has on the lap (the rig's own prop): not drawn as waiting.
+        const held = { ...props, ...(sk.prop ? { [sk.prop.item]: 'lap' } : {}) };
+        const key = Object.keys(held).sort().join(',');
+        if (key !== p.setKey) { p.set.innerHTML = restingSvg(p.runs[0].resting, held, { prefix: `${sid}-${room}-${p.slot.id}-r` }); p.setKey = key; }
       }
     }
     showCapsule(open, portion);
   }
-  return { root, set, visits: people.flatMap(p => p.visits), people };
+  return { root, scene, set, visits: people.flatMap(p => p.visits), people, room: r, device };
 }

@@ -1,0 +1,41 @@
+<!doctype html>
+<!-- mothership:dev-only. Ship life's storyboards (design/ship-life/boards.mjs): ?view=visit&room=<id>&place=<id>&kind=<k>, ?view=activities&room=<id>, ?view=devices. A design sheet, not the game. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ship life storyboards</title>
+<style>
+  :root { --ink: #151923; --paper: #F4EBDD; --muted: #5B6170; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font: 15px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  #root { padding: 22px 28px 26px; }
+  h1 { margin: 0 0 6px; font-size: 24px; }
+  .lede { margin: 0 0 14px; max-width: 1240px; color: var(--muted); }
+  .strip { display: flex; flex-wrap: wrap; gap: 14px 12px; max-width: 1560px; }
+  .cell { margin: 0; }
+  .cell figcaption { margin-top: 5px; max-width: 300px; font-size: 13px; }
+  .cell.small figcaption { max-width: 150px; color: var(--muted); font-size: 12px; }
+  .cell .time { color: var(--muted); }
+  .row { display: flex; gap: 10px; align-items: flex-start; margin: 0 0 14px; }
+  .row .what { width: 230px; flex: none; display: flex; flex-direction: column; gap: 3px; font-size: 13px; }
+  .row .what i { color: var(--muted); }
+  .crop { position: relative; overflow: hidden; border-radius: 6px; background: var(--ink); box-shadow: 0 1px 0 #0002, 0 4px 12px #0002; }
+  .stage { position: absolute; inset: 0; }
+  .scene { position: absolute; left: 0; top: 0; width: 1024px; height: 768px; transform-origin: 0 0; }
+  .scene > img { position: absolute; left: 0; top: 0; width: 1024px; height: 768px; display: block; }
+  .scene > .amb { position: absolute; left: 0; top: 0; }
+  .capsule { position: absolute; }
+  .capsule svg { display: block; width: 100%; height: 100%; overflow: visible; }
+  .piece { position: absolute; }
+  .piece .layer, .piece .layer > svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .piece[data-mirror="true"] { transform: scaleX(-1); }
+  .foot { color: var(--muted); font-size: 13px; margin-top: 16px; }
+</style>
+<link rel="stylesheet" href="../phone-ui/prototype/ambient.css">
+</head>
+<body>
+<div id="root"></div>
+<script type="module" src="./boards.mjs"></script>
+</body>
+</html>

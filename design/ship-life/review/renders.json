@@ -1,0 +1,156 @@
+{
+  "outputs": {
+    "design/ship-life/review/framings-command-room.png": {
+      "sha256": "11d858428c6df38068b5ae6907b3fe86b21e289985c9d716852114f18c693181",
+      "width": 1500,
+      "height": 2947
+    },
+    "design/ship-life/review/framings-room-a.png": {
+      "sha256": "5ff8fb81af2c934cedf450202fcf1296e4193dd3313219f5f94c256c19b7f5e4",
+      "width": 1500,
+      "height": 2947
+    },
+    "design/ship-life/review/framings-room-b.png": {
+      "sha256": "56765c3e1eaccfa6378165eeabe0078fa7ad17ad6d6c02b9c0ad75e78582bc81",
+      "width": 1500,
+      "height": 2947
+    },
+    "design/ship-life/review/framings-hospital.png": {
+      "sha256": "767f1d70f563057610bc31bd6c99e1536bb4571e7049bba65fd3a65201589e49",
+      "width": 1500,
+      "height": 2947
+    },
+    "design/ship-life/review/framings-jail.png": {
+      "sha256": "98bf1c6c949b5aa8ca6182004e45d50906f1b87d10ca8b0e681e4e76c2282811",
+      "width": 1500,
+      "height": 2947
+    },
+    "design/ship-life/review/framings-board.png": {
+      "sha256": "eb171828a9b88d3cf8f717d4765604a4fce26966cc86e8993c873ef9d31ccf78",
+      "width": 560,
+      "height": 1054
+    },
+    "design/ship-life/review/activities-command-room.png": {
+      "sha256": "3656e3511c44bd92681d2256efde444d948fc7c5c696c4832a2bcdce57f692dc",
+      "width": 1100,
+      "height": 800
+    },
+    "design/ship-life/review/activities-room-a.png": {
+      "sha256": "b48bb99541bada7896b3182668292f415860c97e20402aa1a32540abc10cdc08",
+      "width": 1100,
+      "height": 1261
+    },
+    "design/ship-life/review/activities-room-b.png": {
+      "sha256": "17404ea4b7c32db099327f167bca648236eeff894d4cf03f1a2c80f41d79617b",
+      "width": 1100,
+      "height": 1261
+    },
+    "design/ship-life/review/activities-hospital.png": {
+      "sha256": "8c72c101ea45ee12815d13b69cc78957f69bdb154091a548a79d3b09a1bd9eec",
+      "width": 1100,
+      "height": 1023
+    },
+    "design/ship-life/review/activities-jail.png": {
+      "sha256": "25ad26eb3d9773be76d9eb93c041053ddae655a63959a49221d91b9b0f3ef979",
+      "width": 1100,
+      "height": 1261
+    },
+    "design/ship-life/review/visit-room-a-stocked.png": {
+      "sha256": "35010a30e0310f203dcc077f92f58149608b1f7d61cbf6deff46e83ee6091a11",
+      "width": 1600,
+      "height": 1045
+    },
+    "design/ship-life/review/visit-room-a-brief.png": {
+      "sha256": "31bce8fd5e0b574792acb1b8e8dfe0c0ae99bcc718e050de70797394faaf4346",
+      "width": 1600,
+      "height": 800
+    },
+    "design/ship-life/review/visit-room-a-empty.png": {
+      "sha256": "5fcaf186ebedec83e0a743d8e5a7bf39de7378d45729e9665082985609312db6",
+      "width": 1600,
+      "height": 1090
+    },
+    "design/ship-life/review/visit-room-b-stocked.png": {
+      "sha256": "3126321782df9141565feefc081011b0b64b3e2ebba890e7f0c696f25b1b678c",
+      "width": 1600,
+      "height": 822
+    },
+    "design/ship-life/review/visit-command-room-stocked.png": {
+      "sha256": "2059fa9b0bd0df11d804d23700f04dc7616ad8ba2af5052a60bb2dbe2a3f0304",
+      "width": 1600,
+      "height": 928
+    },
+    "design/ship-life/review/visit-jail-stocked.png": {
+      "sha256": "7a9018347567f2aec2b1aef991041f2cbbdc977b5eebe3b8d13b812b85c3a840",
+      "width": 1600,
+      "height": 800
+    },
+    "design/ship-life/review/visit-jail-empty.png": {
+      "sha256": "6013c20f7d6a501062d35756e788a9540d2dfb821690b3741c42a5a01a6ad8a0",
+      "width": 1600,
+      "height": 2065
+    },
+    "design/ship-life/review/devices.png": {
+      "sha256": "7db65ed64822607fa8e171de58f1ca8ed1a3b1a6069f152142adc5d58b5c5bf2",
+      "width": 1200,
+      "height": 1211
+    },
+    "design/ship-life/review/room-a-stocked.mp4": {
+      "sha256": "c5e04b35a1470002186e5069f141004d6d1ebad95876dacb88b5ba3808b17d5c",
+      "frames": 378,
+      "duration": 12545
+    },
+    "design/ship-life/review/room-a-empty.mp4": {
+      "sha256": "711019c611c144d68d56111dc6d1645fc5965c8b67a0a551a9c00e1b831b10bb",
+      "frames": 290,
+      "duration": 9610
+    },
+    "design/ship-life/review/room-a-unknown.mp4": {
+      "sha256": "ebf6df98bcdacd0e45a9d69906f3c6ed6ace7da055f1fa354a30fa28d821b88f",
+      "frames": 127,
+      "duration": 4200
+    },
+    "design/ship-life/review/room-a-reduced.mp4": {
+      "sha256": "58669430d60979178bbdefdc78cdfd4b6cea9beb36d80d317b4f5cb02cfde0f1",
+      "frames": 79,
+      "duration": 2600
+    },
+    "design/ship-life/review/room-a-order.mp4": {
+      "sha256": "d119533f7b3c5c61cbe799b0c205ff49c7a2d67fa70671fd852ce9b5bd49784f",
+      "frames": 481,
+      "duration": 16000
+    },
+    "design/ship-life/review/room-b-stocked.mp4": {
+      "sha256": "06116b4d825b06c9d2c5f9eff663d61c8857ff3828c3f2fc6f482f1c6f3c66e1",
+      "frames": 376,
+      "duration": 12480
+    },
+    "design/ship-life/review/room-b-stop.mp4": {
+      "sha256": "4c63b6fc67e6921a691bb1389a0542b854827a85a49aecd9f6cd94fc3f3c2a9c",
+      "frames": 271,
+      "duration": 9000
+    },
+    "design/ship-life/review/command-room-stocked.mp4": {
+      "sha256": "4220a1624f196b710b1ee4cfeaa8354af6075ca4f475cfd5b77b71fc8fcd6b2f",
+      "frames": 376,
+      "duration": 12480
+    },
+    "design/ship-life/review/jail-stocked.mp4": {
+      "sha256": "a01a1f476d2ab7e8d2f80fdbd03953861daf0f71a9174c4d46b078f9acc24585",
+      "frames": 376,
+      "duration": 12480
+    },
+    "design/ship-life/review/jail-empty.mp4": {
+      "sha256": "188500ec401a543fb60617aad3732082fe8242baa6c0712e30e23cf2a15f7eb5",
+      "frames": 326,
+      "duration": 10825
+    },
+    "design/ship-life/review/hospital-life.mp4": {
+      "sha256": "00942eebdf5f657039a197af17cd239e08411948c0777318e71bfd745eb97c89",
+      "frames": 421,
+      "duration": 14000
+    }
+  },
+  "tool": "design/tools/ship-life-render.mjs",
+  "browser": "Chrome/153.0.8010.12"
+}

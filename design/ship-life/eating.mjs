@@ -42,6 +42,9 @@ export const BEATS = Object.freeze({
   peek: 300, look: 520, shake: 190, breathe: 260, sigh: 340,
 });
 
+/** The scale of a figure whose feet are at room height y, from a room's depth line [y0, scale at y0, change per unit]. */
+export const depthScale = (y, [y0, s0, k]) => s0 + (y - y0) * k;
+
 /** A room point as the frame of a figure standing at spot with scale s sees it (unmirrored). */
 export const toFigure = ([x, y], spot, s) => [62 + (x - spot[0]) / s, 233 - (spot[1] - y) / s];
 
@@ -132,7 +135,11 @@ export function capsulePoses(capsule) {
   return { mirror, side, left, at: AT, front: FRONT, grip, open, reachIn, take, chest, hold, bite, chew, peek, shake, breathe, sigh, closeGrip: open, close: grip };
 }
 
-/** Along a path of points: its length, and the point and the segment's direction at a distance d. */
+/**
+ * Along a path of points ([x, y], or [x, y, depth] where the board layers a figure at another depth
+ * than its feet: behind Room B's bench, behind the Command Room's table): its length, and the
+ * point, the depth and the segment's direction at a distance d.
+ */
 function along(points) {
   const legs = [];
   let total = 0;
@@ -147,12 +154,20 @@ function along(points) {
       const x = Math.max(0, Math.min(total, d));
       const leg = legs.find(l => x <= l.start + l.len) ?? legs[legs.length - 1];
       const u = leg.len ? (x - leg.start) / leg.len : 1;
-      return { pos: [leg.from[0] + (leg.to[0] - leg.from[0]) * u, leg.from[1] + (leg.to[1] - leg.from[1]) * u], right: leg.to[0] > leg.from[0] };
+      const d0 = leg.from[2] ?? leg.from[1], d1 = leg.to[2] ?? leg.to[1];
+      return { pos: [leg.from[0] + (leg.to[0] - leg.from[0]) * u, leg.from[1] + (leg.to[1] - leg.from[1]) * u], depth: d0 + (d1 - d0) * u, right: leg.to[0] > leg.from[0] };
     },
   };
 }
 
 const SEATED = /^(consoleBack|laptopStool|benchHunched|floorSit|cotLying|captainTable|slump)/;
+
+/**
+ * The kinds of visit: stocked (the full visit: two bites, one after a long walk), brief (one quick
+ * bite: for a visitor who waited for the capsule, or the last player of a phase), empty (the
+ * capsule found empty). Unknown availability plays no visit.
+ */
+export const KINDS = Object.freeze(['stocked', 'brief', 'empty']);
 
 /**
  * A visit's whole timeline. place: the scene's slot ({ id, at, scale, gesture, mirror }).
@@ -163,22 +178,23 @@ const SEATED = /^(consoleBack|laptopStool|benchHunched|floorSit|cotLying|captain
  * key times; tray: whether a portion is on it; props: what the hands hold from a time on.
  */
 export function visitTimeline(place, capsule, { kind = 'stocked', start = 0, from = null, fromProps = null } = {}) {
-  if (!['stocked', 'empty'].includes(kind)) throw new Error(`A visit is stocked or empty, not ${kind}`);
+  if (!KINDS.includes(kind)) throw new Error(`A visit is ${KINDS.join(', ')}, not ${kind}`);
   const rest = skeletonOf(place.gesture);
   const restMirror = Boolean(place.mirror);
   const P = capsulePoses(capsule);
-  const route = [place.at, ...(capsule.paths?.[place.id] ?? []), capsule.spot];
+  const home = [place.at[0], place.at[1], place.depth ?? place.at[1]];
+  const route = [home, ...(capsule.paths?.[place.id] ?? []), capsule.spot];
   const there = along(route), back = along([...route].reverse());
   const seated = SEATED.test(place.gesture);
 
   const keys = [], walks = [], hatch = [], tray = [], props = [];
   let t = start;
-  const key = (ms, sk, mirror, ease = 'standard') => { t += ms; keys.push({ at: t, sk, mirror, ease }); };
+  const key = (ms, sk, mirror, ease = 'standard', label = null) => { t += ms; keys.push({ at: t, sk, mirror, ease, ...(label ? { label } : {}) }); };
   const lid = open => hatch.push({ at: t, open });
   const hold = what => props.push({ at: t, props: what });
   keys.push({ at: t, sk: from ?? rest, mirror: restMirror });
   hatch.push({ at: t, open: 0 });
-  tray.push({ at: t, portion: kind === 'stocked' });
+  tray.push({ at: t, portion: kind !== 'empty' });
   props.push({ at: t, props: fromProps });
   // What the activity held is let go of at the middle of the first beat, as the rig switches a hand's item.
   props.push({ at: t + BEATS.stop / 2, props: null });
@@ -189,41 +205,60 @@ export function visitTimeline(place, capsule, { kind = 'stocked', start = 0, fro
     const first = path.at(0).right, last = path.at(path.total).right;
     key(getUp, walkPose(0), first, 'snap');
     const t0 = t;
-    walks.push({ from: t0, to: t0 + ms, path, halves, scales });
+    walks.push({ from: t0, to: t0 + ms, path, halves, scales, line: capsule.depth ?? null });
     t += ms;
     keys.push({ at: t, sk: walkPose(halves * 0.5), mirror: last, ease: 'linear', walk: true });
   };
 
   // Stop, get up, walk to the capsule.
-  key(BEATS.stop, rest, restMirror, 'settle');
+  key(BEATS.stop, rest, restMirror, 'settle', 'The turn ends: the work stops');
   walk(there, seated ? BEATS.rise : BEATS.up, [place.scale, capsule.scale]);
-  key(BEATS.arrive, P.at, P.mirror, 'settle');
+  key(BEATS.arrive, P.at, P.mirror, 'settle', 'At the capsule');
 
   // Open the hatch: the hand to its handle, then up with it.
   key(BEATS.grip, P.grip, P.mirror);
   lid(0);
-  key(BEATS.open, P.open, P.mirror);
+  key(BEATS.open, P.open, P.mirror, 'standard', 'The hatch up');
   lid(1);
 
   let bites = 0;
   if (kind === 'empty') {
     key(BEATS.peek, P.peek, P.mirror);
-    key(BEATS.look, P.peek, P.mirror, 'linear');
+    key(BEATS.look, P.peek, P.mirror, 'linear', 'Empty');
     key(BEATS.shake, P.shake(-1), P.mirror);
-    key(BEATS.shake, P.shake(1), P.mirror);
+    key(BEATS.shake, P.shake(1), P.mirror, 'standard', 'A shake of the head');
     key(BEATS.shake, P.peek, P.mirror);
     key(BEATS.breathe, P.breathe, P.mirror);
-    key(BEATS.sigh, P.sigh, P.mirror, 'settle');
+    key(BEATS.sigh, P.sigh, P.mirror, 'settle', 'A breath out');
     key(BEATS.closeGrip, P.closeGrip, P.mirror);
     lid(1);
     key(BEATS.close, P.close, P.mirror);
     lid(0);
     key(BEATS.down, P.at, P.mirror);
+  } else if (kind === 'brief') {
+    // Brief: the portion taken and the hatch shut at once, one bite turned to the room, and away
+    // (the wrapper goes in a pocket): about half the time at the capsule.
+    key(BEATS.reachIn, P.reachIn, P.mirror);
+    tray.push({ at: t, portion: false });
+    hold({ portion: P.side });
+    key(BEATS.take, P.take, P.mirror, 'standard', 'A portion taken');
+    key(BEATS.closeGrip, P.closeGrip, P.mirror);
+    lid(1);
+    key(BEATS.close, P.close, P.mirror);
+    lid(0);
+    key(BEATS.toChest, P.chest, P.mirror);
+    hold(null);
+    key(BEATS.turn, P.hold, false);
+    props.push({ at: t - BEATS.turn / 2, props: { portion: P.side } });
+    bites = 1;
+    key(BEATS.bite, P.bite, false, 'standard', 'One bite');
+    key(BEATS.chew * 0.35, P.chew, false);
+    hold(null);
   } else {
     key(BEATS.reachIn, P.reachIn, P.mirror);
     tray.push({ at: t, portion: false });
     hold({ portion: P.side });
-    key(BEATS.take, P.take, P.mirror);
+    key(BEATS.take, P.take, P.mirror, 'standard', 'A portion taken');
     key(BEATS.toChest, P.chest, P.mirror);
     // From behind the hand at the chest is hidden, and the portion with it, until the turn's middle.
     hold(null);
@@ -231,7 +266,7 @@ export function visitTimeline(place, capsule, { kind = 'stocked', start = 0, fro
     props.push({ at: t - BEATS.turn / 2, props: { portion: P.side } });
     bites = there.total > 300 ? 1 : 2;
     for (let i = 0; i < bites; i += 1) {
-      key(BEATS.bite, P.bite, false);
+      key(BEATS.bite, P.bite, false, 'standard', i === 0 ? 'Turned to the room, a bite' : 'Another bite');
       key(BEATS.chew * 0.45, P.chew, false);
       key(BEATS.chew * 0.55, P.hold, false, 'linear');
     }
@@ -240,21 +275,32 @@ export function visitTimeline(place, capsule, { kind = 'stocked', start = 0, fro
     hold({ wrapper: P.side });
     key(BEATS.turn, P.chest, P.mirror);
     props.push({ at: t - BEATS.turn / 2, props: null });
-    key(BEATS.put, P.reachIn, P.mirror);
+    key(BEATS.put, P.reachIn, P.mirror, 'standard', 'The wrapper back in the tray');
     props.push({ at: t - BEATS.put * 0.6, props: { wrapper: P.side } });
     props.push({ at: t + 60, props: null });
     key(BEATS.closeGrip, P.closeGrip, P.mirror);
     lid(1);
-    key(BEATS.close, P.close, P.mirror);
+    key(BEATS.close, P.close, P.mirror, 'standard', 'The hatch shut');
     lid(0);
     key(BEATS.down, P.at, P.mirror);
   }
 
   // Back to the place, and settle into its resting pose; the activity resumes from there.
   walk(back, BEATS.up, [capsule.scale, place.scale]);
-  key(seated ? BEATS.settle + 120 : BEATS.settle, rest, restMirror, 'settle');
+  key(seated ? BEATS.settle + 120 : BEATS.settle, rest, restMirror, 'settle', 'Home: the work starts again');
   props.sort((a, b) => a.at - b.at);
-  return { start, end: t, kind, bites, keys, walks, hatch, tray, props, place: place.id, home: { at: place.at, scale: place.scale } };
+  // At the capsule: from the end of the walk there to the start of the walk back (its getting up).
+  const atCapsule = [walks[0].to, walks[1].from - BEATS.up];
+  return { start, end: t, kind, bites, keys, walks, hatch, tray, props, atCapsule, place: place.id, home: { at: place.at, scale: place.scale, depth: place.depth ?? place.at[1] } };
+}
+
+/** A visit's storyboard: its labelled beats and the middle of each walk, in time order: [{ at, label }]. */
+export function storyboard(visit) {
+  const beats = visit.keys.filter(k => k.label).map(k => ({ at: k.at, label: k.label }));
+  const [there, back] = visit.walks;
+  beats.push({ at: (there.from + there.to) / 2, label: 'Across the room (the place is still theirs)' });
+  beats.push({ at: (back.from + back.to) / 2, label: 'Back across' });
+  return beats.sort((a, b) => a.at - b.at);
 }
 
 const lastAt = (list, t) => { let v = list[0]; for (const item of list) { if (item.at > t) break; v = item; } return v; };
@@ -266,14 +312,23 @@ const lastAt = (list, t) => { let v = list[0]; for (const item of list) { if (it
  */
 export function visitAt(visit, t) {
   const walking = visit.walks.find(w => t >= w.from && t < w.to);
-  let sk, mirror, pos, scale;
+  let sk, mirror, pos, scale, depth;
   if (walking) {
     const u = (t - walking.from) / (walking.to - walking.from);
     const here = walking.path.at(u * walking.path.total);
     sk = walkPose(u * walking.halves * 0.5);
     mirror = here.right;
     pos = here.pos;
-    scale = walking.scales[0] + (walking.scales[1] - walking.scales[0]) * u;
+    depth = here.depth;
+    // The room's depth line between, the place's and the spot's own scales kept exactly at the ends.
+    const [s0, s1] = walking.scales;
+    if (walking.line) {
+      const line = y => depthScale(y, walking.line);
+      const a = walking.path.at(0).pos[1], b = walking.path.at(walking.path.total).pos[1];
+      scale = line(pos[1]) + (s0 - line(a)) * (1 - u) + (s1 - line(b)) * u;
+    } else {
+      scale = s0 + (s1 - s0) * u;
+    }
   } else {
     const keys = visit.keys;
     let i = keys.findIndex(k => k.at >= t);
@@ -288,7 +343,9 @@ export function visitAt(visit, t) {
     }
     const done = visit.walks.filter(w => t >= w.to).length;
     const atCapsule = done === 1;
-    pos = atCapsule ? visit.walks[0].path.at(visit.walks[0].path.total).pos : visit.home.at;
+    const end = visit.walks[0].path.at(visit.walks[0].path.total);
+    pos = atCapsule ? end.pos : visit.home.at;
+    depth = atCapsule ? end.depth : visit.home.depth;
     scale = atCapsule ? visit.walks[0].scales[1] : visit.home.scale;
   }
   // The hatch follows the hand: eased as the hand is.
@@ -299,5 +356,5 @@ export function visitAt(visit, t) {
     if (t > a.at && a.open !== b.open) open = a.open + (b.open - a.open) * EASE.standard((t - a.at) / Math.max(1, b.at - a.at));
     break;
   }
-  return { sk, pos, scale, mirror, open, portion: lastAt(visit.tray, t).portion, props: lastAt(visit.props, t).props ?? {} };
+  return { sk, pos, scale, mirror, depth, open, portion: lastAt(visit.tray, t).portion, props: lastAt(visit.props, t).props ?? {} };
 }

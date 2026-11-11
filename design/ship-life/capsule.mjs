@@ -11,8 +11,9 @@
 //            unknown availability never reads as empty.
 // No number, no word, no team colour, no alarm. The Hospital has no capsule.
 //
-// The Jail's variant is a ration hatch in the wall (kind 'hatch'): the same hatch, tray and
-// indicator, set flush in a steel frame, reached without leaving the Jail.
+// The kinds share the hatch, tray, indicator and vent and differ only in how they are mounted: a wall
+// unit on a bracket (Room A), a counter unit on a foot (Room B's bench, the Command Room's console),
+// and the Jail's ration hatch, set flush in a heavy steel frame and reached without leaving the Jail.
 
 import { inkCanvas } from '../crew-drawing/source/ink.mjs';
 import { INK, PAPER, PAPER_DEEP, PAPER_SHADE, STEEL } from '../board-motion/figures/rig.mjs';
@@ -42,14 +43,22 @@ export function capsuleSvg({ box, hatch, state = 'unknown', open = 0, portion = 
     flatForm(rect(1, 8, w - 2, h - 16), STEEL.mid, { weight: 2.4, depth: 4.2, seed: 23 });
     cv.line([[4, 13], [w - 4, 13]], { weight: 1, color: STEEL.light, taper: 'none' });
     for (const [x, y] of [[6, 11], [w - 6, 11], [6, h - 11], [w - 6, h - 11]]) cv.flat([[x - 1.3, y], [x, y - 1.3], [x + 1.3, y], [x, y + 1.3]], STEEL.pale);
+  } else if (kind === 'counter') {
+    // Standing on a counter: a foot in the room's colour, the housing with a rounded top over it.
+    flatForm(rect(0, h - 7, w, 7), family.shadow, { weight: 2, depth: 1.6, seed: 21 });
+    const top = 7, r = Math.min(8, w / 3);
+    const body = [[2, h - 6], [2, top + r], [2 + r * 0.3, top + r * 0.3], [2 + r, top], [w - 2 - r, top], [w - 2 - r * 0.3, top + r * 0.3], [w - 2, top + r], [w - 2, h - 6]];
+    cv.form(body, STEEL.mid, { weight: 2.4, depth: 4.2, tension: 0.25, step: 1, seed: 23 });
+    cv.line([[6, top + 4], [w - 6, top + 4]], { weight: 1, color: STEEL.light, taper: 'none' });
+    for (const [x, y] of [[6, h - 12], [w - 6, h - 12]]) cv.flat([[x - 1.3, y], [x, y - 1.3], [x + 1.3, y], [x, y + 1.3]], STEEL.pale);
   } else {
     // The Jail's ration hatch: a heavy steel frame flush in the wall.
     flatForm(rect(0, 0, w, h), STEEL.shadow, { weight: 2.6, depth: 3.4, seed: 25 });
     flatForm(rect(3, 3, w - 6, h - 6), STEEL.mid, { weight: 1.4, depth: 2.4, seed: 27, hatch: false });
   }
 
-  // The indicator.
-  const lamp = [w / 2, kind === 'wall' ? 22 : 10];
+  // The indicator, above the hatch.
+  const lamp = [w / 2, Math.max(kind === 'counter' ? 15 : 9, hy - 12)];
   const r = 4.2;
   const circle = ([cx, cy], rr, n = 14) => Array.from({ length: n }, (_, i) => [cx + Math.cos((i / n) * Math.PI * 2) * rr, cy + Math.sin((i / n) * Math.PI * 2) * rr]);
   if (state === 'stocked') {

@@ -1,0 +1,1813 @@
+{
+  "devOnly": "mothership:dev-only",
+  "what": "Ship life: activities at the 20 places, wider room framings, local food capsules and the visit to them. A design proposal for the owner and Frontend (11 November 2026), in no release and not in the game.",
+  "sources": {
+    "rooms": "room-drawing-1.0.0 (release candidate, PR #197): design/room-drawing/assets/",
+    "crew": "crew-drawing-1.0.0: design/crew-drawing/source/ (imported unchanged)",
+    "rig": "board-motion-0.3.0 figures: design/board-motion/figures/ (imported unchanged)",
+    "places": "design/board-motion/scenes/ and the Hospital ward of four, design/room-pilot/ward-four.mjs",
+    "ambient": "the phone pack's ambient motion: design/phone-ui/prototype/ambient.mjs (imported unchanged)",
+    "hashes": {
+      "design/room-drawing/assets/command-room.back.svg": "fe57eabca9ad533524feab1dd437889f811678411997a48284cb5ffff546ca00",
+      "design/room-drawing/assets/room-a.back.svg": "7afcf022570930297b656d31e29978622f073461088bea591c028039776f3bf8",
+      "design/room-drawing/assets/room-b.back.svg": "1e64b95cc54f46cdb26da20e5bfac31b473f234cf66aad907f725de01c45520e",
+      "design/room-drawing/assets/hospital.back.svg": "dcf715266b396a7ef1b57e28a3e7c35148809f2a012cf33334d28c6a1a24abdb",
+      "design/room-drawing/assets/jail.back.svg": "78168810dc7c6ac040e3bd0d9c0a94850e297205adc868c3ad98db62d95e0baf",
+      "design/ship-life/assets/command-room.extend.svg": "8d4bfbc7a7c8ea1ba01d3a96b12eb45f4950bc76ff980b07df8b459fbb8dacaa",
+      "design/ship-life/assets/room-a.extend.svg": "160d945c8336ef729f6417ccc8d07f1a11daf4ca1025a0024494d2c9910dd889",
+      "design/ship-life/assets/room-b.extend.svg": "ec083de4ba3735afff87b441c6cbf8a24153145ef8e3f97827c8efe2edfd288e",
+      "design/ship-life/assets/hospital.extend.svg": "d40fd9fe1d82b10c17a76e8a2523652ba8c8aaf7ed7f6eae6bbaeb78eaa9a53c",
+      "design/ship-life/assets/jail.extend.svg": "e13d3180cfe50fe195adee6f617652e8372516aa5039dfd12392be0d9c4e0bbe",
+      "design/room-drawing/assets/room-b.bench.svg": "1feacaf2ed97d4d256484673dda8de2fe2871feabde093290bdd648fbe06b6b8",
+      "design/room-drawing/assets/command-room.table.svg": "7cda0f00304f9abb297720ada9683c8221af39df05041063132cb41fdf967618"
+    }
+  },
+  "places": [
+    {
+      "id": "A1",
+      "room": "room-a",
+      "name": "PC workstation",
+      "does": "Types, pauses to read a monitor, adjusts a control, types again",
+      "props": [],
+      "gesture": "consoleBack",
+      "at": [
+        518,
+        530
+      ],
+      "scale": 1.02,
+      "depth": 530,
+      "mirror": false,
+      "builder": "pcWork",
+      "restBetweenCycles": [
+        1600,
+        4200
+      ]
+    },
+    {
+      "id": "A2",
+      "room": "room-a",
+      "name": "Open deck",
+      "does": "Reads a maintenance checklist, glances round, lowers it",
+      "props": [
+        "clipboard"
+      ],
+      "gesture": "think",
+      "at": [
+        392,
+        542
+      ],
+      "scale": 1.025,
+      "depth": 542,
+      "mirror": true,
+      "builder": "checklist",
+      "restBetweenCycles": [
+        1600,
+        4200
+      ]
+    },
+    {
+      "id": "A3",
+      "room": "room-a",
+      "name": "Floor hatch",
+      "does": "Small turns of the wrench in the hatch, inspects the fitting, rests",
+      "props": [
+        "wrench"
+      ],
+      "gesture": "crouchHatch",
+      "at": [
+        690,
+        604
+      ],
+      "scale": 1.07,
+      "depth": 604,
+      "mirror": false,
+      "builder": "hatchWork",
+      "restBetweenCycles": [
+        1600,
+        4200
+      ]
+    },
+    {
+      "id": "A4",
+      "room": "room-a",
+      "name": "Crates",
+      "does": "Reads a label, tightens a strap, lifts a small parcel and puts it back",
+      "props": [
+        "parcel"
+      ],
+      "gesture": "leanCrates",
+      "at": [
+        664,
+        408
+      ],
+      "scale": 0.95,
+      "depth": 408,
+      "mirror": false,
+      "builder": "crateWork",
+      "restBetweenCycles": [
+        1600,
+        4200
+      ],
+      "waitingProps": {
+        "parcel": {
+          "at": [
+            100,
+            78
+          ],
+          "angle": 0
+        }
+      }
+    },
+    {
+      "id": "A5",
+      "room": "room-a",
+      "name": "Electrical panel",
+      "does": "Traces the cables, holds a wire, checks a connector, settles",
+      "props": [
+        "wire"
+      ],
+      "gesture": "wallPanelBack",
+      "at": [
+        366,
+        394
+      ],
+      "scale": 0.94,
+      "depth": 394,
+      "mirror": false,
+      "builder": "cableWork",
+      "restBetweenCycles": [
+        1600,
+        4200
+      ],
+      "anchors": {
+        "wire": [
+          30,
+          80
+        ]
+      }
+    },
+    {
+      "id": "B1",
+      "room": "room-b",
+      "name": "Tablet",
+      "does": "Scrolls a neutral diagram, taps, looks at the equipment nearby",
+      "props": [
+        "tablet"
+      ],
+      "gesture": "tablet",
+      "at": [
+        562,
+        662
+      ],
+      "scale": 1.08,
+      "depth": 662,
+      "mirror": true,
+      "builder": "tabletWork",
+      "restBetweenCycles": [
+        1600,
+        4200
+      ]
+    },
+    {
+      "id": "B2",
+      "room": "room-b",
+      "name": "Laptop",
+      "does": "Types, pauses, tilts the screen a little, carries on",
+      "props": [
+        "laptop"
+      ],
+      "gesture": "laptopStool",
+      "at": [
+        424,
+        664
+      ],
+      "scale": 1.1,
+      "depth": 664,
+      "mirror": false,
+      "builder": "laptopWork",
+      "restBetweenCycles": [
+        1600,
+        4200
+      ],
+      "waitingProps": {
+        "laptop": {
+          "at": [
+            56,
+            191
+          ],
+          "angle": 0
+        }
+      }
+    },
+    {
+      "id": "B3",
+      "room": "room-b",
+      "name": "Specimen tank",
+      "does": "Wipes a patch of the glass, looks at what is inside",
+      "props": [
+        "cloth"
+      ],
+      "gesture": "tankBack",
+      "at": [
+        706,
+        656
+      ],
+      "scale": 1.08,
+      "depth": 656,
+      "mirror": false,
+      "builder": "tankWork",
+      "restBetweenCycles": [
+        1600,
+        4200
+      ]
+    },
+    {
+      "id": "B4",
+      "room": "room-b",
+      "name": "Sample bench",
+      "does": "Lifts a container, looks at it, puts it back, straightens the tray",
+      "props": [
+        "vial"
+      ],
+      "gesture": "leanBench",
+      "at": [
+        576,
+        488
+      ],
+      "scale": 0.95,
+      "depth": 400,
+      "mirror": false,
+      "builder": "benchWork",
+      "restBetweenCycles": [
+        1600,
+        4200
+      ]
+    },
+    {
+      "id": "B5",
+      "room": "room-b",
+      "name": "Microscope",
+      "does": "Looks through it, turns the focus, looks up for a moment, looks again",
+      "props": [],
+      "gesture": "microscope",
+      "at": [
+        400,
+        488
+      ],
+      "scale": 0.94,
+      "depth": 400,
+      "mirror": false,
+      "builder": "microscopeWork",
+      "restBetweenCycles": [
+        1600,
+        4200
+      ]
+    },
+    {
+      "id": "C1",
+      "room": "command-room",
+      "name": "Captain's table",
+      "does": "Checks neutral instruments, shifts the hands, reads a small status tablet",
+      "props": [
+        "tablet"
+      ],
+      "never": "A direction, a course or a confirmed navigation",
+      "gesture": "captainTable",
+      "at": [
+        512,
+        574
+      ],
+      "scale": 1.2,
+      "depth": 440,
+      "mirror": false,
+      "builder": "captainWork",
+      "restBetweenCycles": [
+        1600,
+        4200
+      ]
+    },
+    {
+      "id": "H1",
+      "room": "hospital",
+      "name": "Front-left berth",
+      "does": "Breathes quietly, blinks, settles the pillow or an arm",
+      "props": [],
+      "rests": true,
+      "gesture": "bedLying",
+      "at": [
+        362.7,
+        694.7
+      ],
+      "scale": 1.42,
+      "depth": 694.7,
+      "mirror": false,
+      "builder": "lyingRest",
+      "restBetweenCycles": [
+        0,
+        300
+      ]
+    },
+    {
+      "id": "H2",
+      "room": "hospital",
+      "name": "Front-right berth",
+      "does": "Straightens the blanket, glances at a neutral bedside display, rests",
+      "props": [],
+      "rests": true,
+      "gesture": "bedSitting",
+      "at": [
+        682.3,
+        718
+      ],
+      "scale": 1.42,
+      "depth": 718,
+      "mirror": true,
+      "builder": "sittingRest",
+      "restBetweenCycles": [
+        0,
+        300
+      ]
+    },
+    {
+      "id": "H3",
+      "room": "hospital",
+      "name": "Back-left berth",
+      "does": "Settles against the pillow, a small move of a hand or the head",
+      "props": [],
+      "rests": true,
+      "gesture": "bedSitting",
+      "at": [
+        341.4,
+        506.1
+      ],
+      "scale": 1.2,
+      "depth": 506.1,
+      "mirror": false,
+      "builder": "sittingRest",
+      "restBetweenCycles": [
+        0,
+        300
+      ]
+    },
+    {
+      "id": "H4",
+      "room": "hospital",
+      "name": "Back-right berth",
+      "does": "Breathes quietly, turns the head a little",
+      "props": [],
+      "rests": true,
+      "gesture": "bedLying",
+      "at": [
+        664.8,
+        486.4
+      ],
+      "scale": 1.2,
+      "depth": 486.4,
+      "mirror": true,
+      "builder": "lyingTurn",
+      "restBetweenCycles": [
+        0,
+        300
+      ]
+    },
+    {
+      "id": "J1",
+      "room": "jail",
+      "name": "Bench",
+      "does": "Rubs the hands, shifts the elbows on the knees, looks up for a moment",
+      "props": [],
+      "gesture": "benchHunched",
+      "at": [
+        246,
+        404
+      ],
+      "scale": 0.98,
+      "depth": 404,
+      "mirror": false,
+      "builder": "benchRestless",
+      "restBetweenCycles": [
+        1600,
+        4200
+      ]
+    },
+    {
+      "id": "J2",
+      "room": "jail",
+      "name": "Door",
+      "does": "Glances through the inspection slit (it does nothing), settles",
+      "props": [],
+      "never": "An escape, lock picking or any way out",
+      "gesture": "doorBack",
+      "at": [
+        512,
+        398
+      ],
+      "scale": 0.96,
+      "depth": 398,
+      "mirror": false,
+      "builder": "doorGlance",
+      "restBetweenCycles": [
+        1600,
+        4200
+      ]
+    },
+    {
+      "id": "J3",
+      "room": "jail",
+      "name": "Wall",
+      "does": "Shifts the weight, unfolds and folds the arms, looks round",
+      "props": [],
+      "gesture": "wallLean",
+      "at": [
+        776,
+        404
+      ],
+      "scale": 0.98,
+      "depth": 404,
+      "mirror": false,
+      "builder": "wallRestless",
+      "restBetweenCycles": [
+        1600,
+        4200
+      ]
+    },
+    {
+      "id": "J4",
+      "room": "jail",
+      "name": "Floor",
+      "does": "Settles the seat, taps the fingers on a knee",
+      "props": [],
+      "gesture": "floorSit",
+      "at": [
+        380,
+        700
+      ],
+      "scale": 1.1,
+      "depth": 700,
+      "mirror": true,
+      "builder": "floorRestless",
+      "restBetweenCycles": [
+        1600,
+        4200
+      ]
+    },
+    {
+      "id": "J5",
+      "room": "jail",
+      "name": "Cot",
+      "does": "Moves the head on the cot, stretches a hand, settles",
+      "props": [],
+      "gesture": "cotLying",
+      "at": [
+        652,
+        704
+      ],
+      "scale": 1.1,
+      "depth": 704,
+      "mirror": false,
+      "builder": "cotRestless",
+      "restBetweenCycles": [
+        1600,
+        4200
+      ]
+    }
+  ],
+  "capsules": {
+    "room-a": {
+      "kind": "wall",
+      "box": [
+        727,
+        212,
+        29,
+        100
+      ],
+      "hatch": [
+        731,
+        258,
+        21,
+        24
+      ],
+      "z": 2,
+      "spot": [
+        786,
+        414
+      ],
+      "scale": 0.952,
+      "depthLine": [
+        394,
+        0.94,
+        0.00062
+      ],
+      "paths": {
+        "A5": [
+          [
+            452,
+            474
+          ],
+          [
+            640,
+            470
+          ]
+        ],
+        "A2": [
+          [
+            470,
+            492
+          ],
+          [
+            640,
+            474
+          ]
+        ]
+      },
+      "light": {
+        "points": [
+          [
+            562,
+            58
+          ],
+          [
+            716,
+            58
+          ],
+          [
+            812,
+            612
+          ],
+          [
+            470,
+            612
+          ]
+        ],
+        "y": [
+          58,
+          612
+        ],
+        "stops": [
+          [
+            0,
+            0.4
+          ],
+          [
+            0.5,
+            0.16
+          ],
+          [
+            1,
+            0.07
+          ]
+        ]
+      },
+      "visits": {
+        "A1": {
+          "stocked": {
+            "ms": 7745,
+            "atCapsule": [
+              1533,
+              6073
+            ],
+            "bites": 2
+          },
+          "brief": {
+            "ms": 6025,
+            "atCapsule": [
+              1533,
+              4353
+            ],
+            "bites": 1
+          },
+          "empty": {
+            "ms": 6875,
+            "atCapsule": [
+              1533,
+              5203
+            ],
+            "bites": 0
+          }
+        },
+        "A2": {
+          "stocked": {
+            "ms": 7440,
+            "atCapsule": [
+              1700,
+              5600
+            ],
+            "bites": 1
+          },
+          "brief": {
+            "ms": 6360,
+            "atCapsule": [
+              1700,
+              4520
+            ],
+            "bites": 1
+          },
+          "empty": {
+            "ms": 7210,
+            "atCapsule": [
+              1700,
+              5370
+            ],
+            "bites": 0
+          }
+        },
+        "A3": {
+          "stocked": {
+            "ms": 7010,
+            "atCapsule": [
+              1165,
+              5705
+            ],
+            "bites": 2
+          },
+          "brief": {
+            "ms": 5290,
+            "atCapsule": [
+              1165,
+              3985
+            ],
+            "bites": 1
+          },
+          "empty": {
+            "ms": 6140,
+            "atCapsule": [
+              1165,
+              4835
+            ],
+            "bites": 0
+          }
+        },
+        "A4": {
+          "stocked": {
+            "ms": 6480,
+            "atCapsule": [
+              900,
+              5440
+            ],
+            "bites": 2
+          },
+          "brief": {
+            "ms": 4760,
+            "atCapsule": [
+              900,
+              3720
+            ],
+            "bites": 1
+          },
+          "empty": {
+            "ms": 5610,
+            "atCapsule": [
+              900,
+              4570
+            ],
+            "bites": 0
+          }
+        },
+        "A5": {
+          "stocked": {
+            "ms": 7440,
+            "atCapsule": [
+              1700,
+              5600
+            ],
+            "bites": 1
+          },
+          "brief": {
+            "ms": 6360,
+            "atCapsule": [
+              1700,
+              4520
+            ],
+            "bites": 1
+          },
+          "empty": {
+            "ms": 7210,
+            "atCapsule": [
+              1700,
+              5370
+            ],
+            "bites": 0
+          }
+        }
+      }
+    },
+    "room-b": {
+      "kind": "counter",
+      "box": [
+        790,
+        322,
+        36,
+        60
+      ],
+      "hatch": [
+        795,
+        342,
+        26,
+        20
+      ],
+      "z": 942,
+      "spot": [
+        858,
+        508
+      ],
+      "scale": 0.96,
+      "depthLine": [
+        488,
+        0.945,
+        0.000785
+      ],
+      "paths": {
+        "B1": [
+          [
+            845,
+            684
+          ]
+        ],
+        "B2": [
+          [
+            845,
+            684
+          ]
+        ],
+        "B3": [
+          [
+            722,
+            692
+          ],
+          [
+            845,
+            684
+          ]
+        ],
+        "B4": [
+          [
+            700,
+            480,
+            390
+          ],
+          [
+            892,
+            470,
+            390
+          ],
+          [
+            894,
+            500
+          ]
+        ],
+        "B5": [
+          [
+            560,
+            482,
+            390
+          ],
+          [
+            892,
+            470,
+            390
+          ],
+          [
+            894,
+            500
+          ]
+        ]
+      },
+      "visits": {
+        "B1": {
+          "stocked": {
+            "ms": 7440,
+            "atCapsule": [
+              1700,
+              5600
+            ],
+            "bites": 1
+          },
+          "brief": {
+            "ms": 6360,
+            "atCapsule": [
+              1700,
+              4520
+            ],
+            "bites": 1
+          },
+          "empty": {
+            "ms": 7210,
+            "atCapsule": [
+              1700,
+              5370
+            ],
+            "bites": 0
+          }
+        },
+        "B2": {
+          "stocked": {
+            "ms": 7680,
+            "atCapsule": [
+              1820,
+              5720
+            ],
+            "bites": 1
+          },
+          "brief": {
+            "ms": 6600,
+            "atCapsule": [
+              1820,
+              4640
+            ],
+            "bites": 1
+          },
+          "empty": {
+            "ms": 7450,
+            "atCapsule": [
+              1820,
+              5490
+            ],
+            "bites": 0
+          }
+        },
+        "B3": {
+          "stocked": {
+            "ms": 7160,
+            "atCapsule": [
+              1560,
+              5460
+            ],
+            "bites": 1
+          },
+          "brief": {
+            "ms": 6080,
+            "atCapsule": [
+              1560,
+              4380
+            ],
+            "bites": 1
+          },
+          "empty": {
+            "ms": 6930,
+            "atCapsule": [
+              1560,
+              5230
+            ],
+            "bites": 0
+          }
+        },
+        "B4": {
+          "stocked": {
+            "ms": 7437,
+            "atCapsule": [
+              1698,
+              5598
+            ],
+            "bites": 1
+          },
+          "brief": {
+            "ms": 6357,
+            "atCapsule": [
+              1698,
+              4518
+            ],
+            "bites": 1
+          },
+          "empty": {
+            "ms": 7207,
+            "atCapsule": [
+              1698,
+              5368
+            ],
+            "bites": 0
+          }
+        },
+        "B5": {
+          "stocked": {
+            "ms": 7440,
+            "atCapsule": [
+              1700,
+              5600
+            ],
+            "bites": 1
+          },
+          "brief": {
+            "ms": 6360,
+            "atCapsule": [
+              1700,
+              4520
+            ],
+            "bites": 1
+          },
+          "empty": {
+            "ms": 7210,
+            "atCapsule": [
+              1700,
+              5370
+            ],
+            "bites": 0
+          }
+        }
+      }
+    },
+    "command-room": {
+      "kind": "counter",
+      "box": [
+        830,
+        262,
+        34,
+        56
+      ],
+      "hatch": [
+        834,
+        280,
+        26,
+        20
+      ],
+      "z": 2,
+      "spot": [
+        804,
+        424
+      ],
+      "scale": 1.04,
+      "depthLine": [
+        424,
+        1.04,
+        0.0011
+      ],
+      "paths": {
+        "C1": [
+          [
+            512,
+            432,
+            440
+          ],
+          [
+            740,
+            416
+          ]
+        ]
+      },
+      "visits": {
+        "C1": {
+          "stocked": {
+            "ms": 7680,
+            "atCapsule": [
+              1820,
+              5720
+            ],
+            "bites": 1
+          },
+          "brief": {
+            "ms": 6600,
+            "atCapsule": [
+              1820,
+              4640
+            ],
+            "bites": 1
+          },
+          "empty": {
+            "ms": 7450,
+            "atCapsule": [
+              1820,
+              5490
+            ],
+            "bites": 0
+          }
+        }
+      }
+    },
+    "jail": {
+      "kind": "hatch",
+      "box": [
+        692,
+        252,
+        38,
+        78
+      ],
+      "hatch": [
+        697,
+        274,
+        28,
+        26
+      ],
+      "z": 2,
+      "spot": [
+        652,
+        420
+      ],
+      "scale": 0.979,
+      "depthLine": [
+        400,
+        0.97,
+        0.00043
+      ],
+      "paths": {},
+      "visits": {
+        "J1": {
+          "stocked": {
+            "ms": 7680,
+            "atCapsule": [
+              1820,
+              5720
+            ],
+            "bites": 1
+          },
+          "brief": {
+            "ms": 6600,
+            "atCapsule": [
+              1820,
+              4640
+            ],
+            "bites": 1
+          },
+          "empty": {
+            "ms": 7450,
+            "atCapsule": [
+              1820,
+              5490
+            ],
+            "bites": 0
+          }
+        },
+        "J2": {
+          "stocked": {
+            "ms": 6566,
+            "atCapsule": [
+              943,
+              5483
+            ],
+            "bites": 2
+          },
+          "brief": {
+            "ms": 4846,
+            "atCapsule": [
+              943,
+              3763
+            ],
+            "bites": 1
+          },
+          "empty": {
+            "ms": 5696,
+            "atCapsule": [
+              943,
+              4613
+            ],
+            "bites": 0
+          }
+        },
+        "J3": {
+          "stocked": {
+            "ms": 6480,
+            "atCapsule": [
+              900,
+              5440
+            ],
+            "bites": 2
+          },
+          "brief": {
+            "ms": 4760,
+            "atCapsule": [
+              900,
+              3720
+            ],
+            "bites": 1
+          },
+          "empty": {
+            "ms": 5610,
+            "atCapsule": [
+              900,
+              4570
+            ],
+            "bites": 0
+          }
+        },
+        "J4": {
+          "stocked": {
+            "ms": 7680,
+            "atCapsule": [
+              1820,
+              5720
+            ],
+            "bites": 1
+          },
+          "brief": {
+            "ms": 6600,
+            "atCapsule": [
+              1820,
+              4640
+            ],
+            "bites": 1
+          },
+          "empty": {
+            "ms": 7450,
+            "atCapsule": [
+              1820,
+              5490
+            ],
+            "bites": 0
+          }
+        },
+        "J5": {
+          "stocked": {
+            "ms": 7695,
+            "atCapsule": [
+              1508,
+              6048
+            ],
+            "bites": 2
+          },
+          "brief": {
+            "ms": 5975,
+            "atCapsule": [
+              1508,
+              4328
+            ],
+            "bites": 1
+          },
+          "empty": {
+            "ms": 6825,
+            "atCapsule": [
+              1508,
+              5178
+            ],
+            "bites": 0
+          }
+        }
+      }
+    }
+  },
+  "noCapsule": [
+    "hospital"
+  ],
+  "layers": [
+    "z 0: the room picture; its extension (wider framings only) over the picture's border",
+    "z 1: the ambient layer (windows, screens, lights)",
+    "z 2 (942 in Room B, over the bench): the food capsule",
+    "z 2 x depth - 1: what waits at a place (A4's parcel, B2's laptop)",
+    "z 2 x depth: a figure's body with what its hands hold; depth is the place's (slot.depth, else its feet), on a walk the path's",
+    "z 2 x depth + 1: a room layer (Room B's bench, the Command Room's table, the ward's berths)",
+    "z 1500 + depth: a figure's front layer",
+    "the interface over all of it, unchanged: press areas, tags, marks, labels"
+  ],
+  "timing": {
+    "beatsMs": {
+      "stop": 220,
+      "rise": 400,
+      "up": 280,
+      "arrive": 300,
+      "settle": 360,
+      "grip": 280,
+      "open": 320,
+      "reachIn": 220,
+      "take": 240,
+      "toChest": 200,
+      "turn": 320,
+      "bite": 240,
+      "chew": 400,
+      "put": 280,
+      "closeGrip": 240,
+      "close": 320,
+      "down": 220,
+      "peek": 300,
+      "look": 520,
+      "shake": 190,
+      "breathe": 260,
+      "sigh": 340
+    },
+    "walk": {
+      "speed": 0.32,
+      "min": 400,
+      "max": 1200,
+      "stepMs": 200
+    },
+    "kinds": [
+      "stocked",
+      "brief",
+      "empty"
+    ],
+    "waitMs": {
+      "full": 1500,
+      "skip": 6000
+    },
+    "cancelMs": 300,
+    "resumeMs": 1000,
+    "activityRestMs": [
+      1600,
+      4200
+    ],
+    "hospitalRestMs": [
+      0,
+      300
+    ]
+  },
+  "extension": {
+    "reach": 160,
+    "seam": {
+      "top": {
+        "feather": [
+          14,
+          30
+        ],
+        "sample": 22
+      },
+      "bottom": {
+        "feather": [
+          730,
+          750
+        ],
+        "sample": 736
+      }
+    }
+  },
+  "framings": {
+    "zooms": [
+      {
+        "id": "today",
+        "zoom": 1,
+        "name": "Today",
+        "note": "The phone pack's framing, unchanged"
+      },
+      {
+        "id": "wider-10",
+        "zoom": 0.9,
+        "name": "A tenth wider",
+        "note": "0.9 × today's scale"
+      },
+      {
+        "id": "wider-20",
+        "zoom": 0.8,
+        "name": "A fifth wider",
+        "note": "0.8 × today's scale"
+      }
+    ],
+    "phones": [
+      {
+        "id": "320x568",
+        "width": 320,
+        "height": 568,
+        "safeTop": 20,
+        "safeBottom": 0,
+        "bar": 52,
+        "tabs": 58
+      },
+      {
+        "id": "390x844",
+        "width": 390,
+        "height": 844,
+        "safeTop": 47,
+        "safeBottom": 34,
+        "bar": 52,
+        "tabs": 58
+      },
+      {
+        "id": "430x932",
+        "width": 430,
+        "height": 932,
+        "safeTop": 47,
+        "safeBottom": 34,
+        "bar": 52,
+        "tabs": 58
+      }
+    ],
+    "rooms": {
+      "command-room": {
+        "320x568": {
+          "today": {
+            "k": 0.6016,
+            "tx": -148,
+            "ty": -12,
+            "across": 532,
+            "down": 728,
+            "pastPicture": false,
+            "capsuleInView": false,
+            "minPress": 44,
+            "overlaps": []
+          },
+          "wider-10": {
+            "k": 0.5415,
+            "tx": -155.8,
+            "ty": 27.8,
+            "across": 591,
+            "down": 809,
+            "pastPicture": true,
+            "capsuleInView": true,
+            "minPress": 44,
+            "overlaps": []
+          },
+          "wider-20": {
+            "k": 0.4813,
+            "tx": -103.9,
+            "ty": 50,
+            "across": 665,
+            "down": 910,
+            "pastPicture": true,
+            "capsuleInView": true,
+            "minPress": 44,
+            "overlaps": []
+          }
+        },
+        "390x844": {
+          "today": {
+            "k": 0.897,
+            "tx": -264.3,
+            "ty": -17.9,
+            "across": 435,
+            "down": 728,
+            "pastPicture": false,
+            "capsuleInView": false,
+            "minPress": 60,
+            "overlaps": []
+          },
+          "wider-10": {
+            "k": 0.8073,
+            "tx": -315.5,
+            "ty": 37.6,
+            "across": 483,
+            "down": 809,
+            "pastPicture": true,
+            "capsuleInView": true,
+            "minPress": 54,
+            "overlaps": []
+          },
+          "wider-20": {
+            "k": 0.7176,
+            "tx": -238,
+            "ty": 70.5,
+            "across": 543,
+            "down": 910,
+            "pastPicture": true,
+            "capsuleInView": true,
+            "minPress": 48,
+            "overlaps": []
+          }
+        },
+        "430x932": {
+          "today": {
+            "k": 1.0179,
+            "tx": -306.1,
+            "ty": -20.4,
+            "across": 422,
+            "down": 728,
+            "pastPicture": false,
+            "capsuleInView": false,
+            "minPress": 64,
+            "overlaps": []
+          },
+          "wider-10": {
+            "k": 0.9161,
+            "tx": -369.5,
+            "ty": 41.5,
+            "across": 469,
+            "down": 809,
+            "pastPicture": true,
+            "capsuleInView": true,
+            "minPress": 61,
+            "overlaps": []
+          },
+          "wider-20": {
+            "k": 0.8143,
+            "tx": -281.5,
+            "ty": 79,
+            "across": 528,
+            "down": 910,
+            "pastPicture": true,
+            "capsuleInView": true,
+            "minPress": 54,
+            "overlaps": []
+          }
+        }
+      },
+      "room-a": {
+        "320x568": {
+          "today": {
+            "k": 0.6016,
+            "tx": -148,
+            "ty": -12,
+            "across": 532,
+            "down": 728,
+            "pastPicture": false,
+            "capsuleInView": true,
+            "minPress": 44,
+            "overlaps": []
+          },
+          "wider-10": {
+            "k": 0.5415,
+            "tx": -129.1,
+            "ty": 40,
+            "across": 591,
+            "down": 809,
+            "pastPicture": true,
+            "capsuleInView": true,
+            "minPress": 44,
+            "overlaps": []
+          },
+          "wider-20": {
+            "k": 0.4813,
+            "tx": -86.4,
+            "ty": 60.8,
+            "across": 665,
+            "down": 910,
+            "pastPicture": true,
+            "capsuleInView": true,
+            "minPress": 44,
+            "overlaps": []
+          }
+        },
+        "390x844": {
+          "today": {
+            "k": 0.897,
+            "tx": -264.3,
+            "ty": -17.9,
+            "across": 435,
+            "down": 728,
+            "pastPicture": false,
+            "capsuleInView": false,
+            "minPress": 47,
+            "overlaps": []
+          },
+          "wider-10": {
+            "k": 0.8073,
+            "tx": -244.7,
+            "ty": 55.7,
+            "across": 483,
+            "down": 809,
+            "pastPicture": true,
+            "capsuleInView": true,
+            "minPress": 44,
+            "overlaps": []
+          },
+          "wider-20": {
+            "k": 0.7176,
+            "tx": -202.5,
+            "ty": 86.7,
+            "across": 543,
+            "down": 910,
+            "pastPicture": true,
+            "capsuleInView": true,
+            "minPress": 44,
+            "overlaps": []
+          }
+        },
+        "430x932": {
+          "today": {
+            "k": 1.0179,
+            "tx": -306.1,
+            "ty": -20.4,
+            "across": 422,
+            "down": 728,
+            "pastPicture": false,
+            "capsuleInView": false,
+            "minPress": 53,
+            "overlaps": []
+          },
+          "wider-10": {
+            "k": 0.9161,
+            "tx": -254,
+            "ty": 62.1,
+            "across": 469,
+            "down": 809,
+            "pastPicture": true,
+            "capsuleInView": false,
+            "minPress": 48,
+            "overlaps": []
+          },
+          "wider-20": {
+            "k": 0.8143,
+            "tx": -241.3,
+            "ty": 97.3,
+            "across": 528,
+            "down": 910,
+            "pastPicture": true,
+            "capsuleInView": true,
+            "minPress": 44,
+            "overlaps": []
+          }
+        }
+      },
+      "room-b": {
+        "320x568": {
+          "today": {
+            "k": 0.6016,
+            "tx": -182.9,
+            "ty": -12,
+            "across": 532,
+            "down": 728,
+            "pastPicture": false,
+            "capsuleInView": true,
+            "minPress": 44,
+            "overlaps": []
+          },
+          "wider-10": {
+            "k": 0.5415,
+            "tx": -166.2,
+            "ty": 2.5,
+            "across": 591,
+            "down": 809,
+            "pastPicture": true,
+            "capsuleInView": true,
+            "minPress": 44,
+            "overlaps": []
+          },
+          "wider-20": {
+            "k": 0.4813,
+            "tx": -114.8,
+            "ty": 27.4,
+            "across": 665,
+            "down": 910,
+            "pastPicture": true,
+            "capsuleInView": true,
+            "minPress": 44,
+            "overlaps": []
+          }
+        },
+        "390x844": {
+          "today": {
+            "k": 0.897,
+            "tx": -306.7,
+            "ty": -17.9,
+            "across": 435,
+            "down": 728,
+            "pastPicture": false,
+            "capsuleInView": false,
+            "minPress": 47,
+            "overlaps": []
+          },
+          "wider-10": {
+            "k": 0.8073,
+            "tx": -265.1,
+            "ty": -0.2,
+            "across": 483,
+            "down": 809,
+            "pastPicture": true,
+            "capsuleInView": false,
+            "minPress": 44,
+            "overlaps": []
+          },
+          "wider-20": {
+            "k": 0.7176,
+            "tx": -235.8,
+            "ty": 36.9,
+            "across": 543,
+            "down": 910,
+            "pastPicture": true,
+            "capsuleInView": true,
+            "minPress": 44,
+            "overlaps": []
+          }
+        },
+        "430x932": {
+          "today": {
+            "k": 1.0179,
+            "tx": -354.6,
+            "ty": -20.4,
+            "across": 422,
+            "down": 728,
+            "pastPicture": false,
+            "capsuleInView": false,
+            "minPress": 53,
+            "overlaps": []
+          },
+          "wider-10": {
+            "k": 0.9161,
+            "tx": -307.2,
+            "ty": -1.4,
+            "across": 469,
+            "down": 809,
+            "pastPicture": true,
+            "capsuleInView": false,
+            "minPress": 48,
+            "overlaps": []
+          },
+          "wider-20": {
+            "k": 0.8143,
+            "tx": -274,
+            "ty": 40.8,
+            "across": 528,
+            "down": 910,
+            "pastPicture": true,
+            "capsuleInView": true,
+            "minPress": 44,
+            "overlaps": []
+          }
+        }
+      },
+      "hospital": {
+        "320x568": {
+          "today": {
+            "k": 0.6016,
+            "tx": -148,
+            "ty": -12,
+            "across": 532,
+            "down": 728,
+            "pastPicture": false,
+            "capsuleInView": null,
+            "minPress": 44,
+            "overlaps": []
+          },
+          "wider-10": {
+            "k": 0.5415,
+            "tx": -117.2,
+            "ty": -42,
+            "across": 591,
+            "down": 809,
+            "pastPicture": true,
+            "capsuleInView": null,
+            "minPress": 44,
+            "overlaps": []
+          },
+          "wider-20": {
+            "k": 0.4813,
+            "tx": -86.4,
+            "ty": -8.7,
+            "across": 665,
+            "down": 910,
+            "pastPicture": true,
+            "capsuleInView": null,
+            "minPress": 44,
+            "overlaps": []
+          }
+        },
+        "390x844": {
+          "today": {
+            "k": 0.897,
+            "tx": -264.2,
+            "ty": -17.9,
+            "across": 435,
+            "down": 728,
+            "pastPicture": false,
+            "capsuleInView": null,
+            "minPress": 60,
+            "overlaps": []
+          },
+          "wider-10": {
+            "k": 0.8073,
+            "tx": -218.3,
+            "ty": -66.6,
+            "across": 483,
+            "down": 809,
+            "pastPicture": true,
+            "capsuleInView": null,
+            "minPress": 54,
+            "overlaps": []
+          },
+          "wider-20": {
+            "k": 0.7176,
+            "tx": -172.4,
+            "ty": -12.9,
+            "across": 543,
+            "down": 910,
+            "pastPicture": true,
+            "capsuleInView": null,
+            "minPress": 48,
+            "overlaps": []
+          }
+        },
+        "430x932": {
+          "today": {
+            "k": 1.0179,
+            "tx": -306.1,
+            "ty": -20.4,
+            "across": 422,
+            "down": 728,
+            "pastPicture": false,
+            "capsuleInView": null,
+            "minPress": 64,
+            "overlaps": []
+          },
+          "wider-10": {
+            "k": 0.9161,
+            "tx": -254,
+            "ty": -76.6,
+            "across": 469,
+            "down": 809,
+            "pastPicture": true,
+            "capsuleInView": null,
+            "minPress": 61,
+            "overlaps": []
+          },
+          "wider-20": {
+            "k": 0.8143,
+            "tx": -201.9,
+            "ty": -14.7,
+            "across": 528,
+            "down": 910,
+            "pastPicture": true,
+            "capsuleInView": null,
+            "minPress": 54,
+            "overlaps": []
+          }
+        }
+      },
+      "jail": {
+        "320x568": {
+          "today": {
+            "k": 0.5204,
+            "tx": -106,
+            "ty": 19.2,
+            "across": 615,
+            "down": 842,
+            "pastPicture": true,
+            "capsuleInView": true,
+            "minPress": 44,
+            "overlaps": []
+          },
+          "wider-10": {
+            "k": 0.5204,
+            "tx": -106,
+            "ty": 5.1,
+            "across": 615,
+            "down": 842,
+            "pastPicture": true,
+            "capsuleInView": true,
+            "minPress": 44,
+            "overlaps": []
+          },
+          "wider-20": {
+            "k": 0.4813,
+            "tx": -86,
+            "ty": 21.8,
+            "across": 665,
+            "down": 910,
+            "pastPicture": true,
+            "capsuleInView": true,
+            "minPress": 44,
+            "overlaps": []
+          }
+        },
+        "390x844": {
+          "today": {
+            "k": 0.6523,
+            "tx": -138.5,
+            "ty": 76,
+            "across": 598,
+            "down": 1001,
+            "pastPicture": true,
+            "capsuleInView": true,
+            "minPress": 44,
+            "overlaps": []
+          },
+          "wider-10": {
+            "k": 0.6523,
+            "tx": -138.5,
+            "ty": 56.4,
+            "across": 598,
+            "down": 1001,
+            "pastPicture": true,
+            "capsuleInView": true,
+            "minPress": 44,
+            "overlaps": []
+          },
+          "wider-20": {
+            "k": 0.6523,
+            "tx": -138.5,
+            "ty": 56.4,
+            "across": 598,
+            "down": 1001,
+            "pastPicture": true,
+            "capsuleInView": true,
+            "minPress": 44,
+            "overlaps": []
+          }
+        },
+        "430x932": {
+          "today": {
+            "k": 0.7278,
+            "tx": -157,
+            "ty": 91,
+            "across": 591,
+            "down": 1018,
+            "pastPicture": true,
+            "capsuleInView": true,
+            "minPress": 44,
+            "overlaps": []
+          },
+          "wider-10": {
+            "k": 0.7278,
+            "tx": -157,
+            "ty": 68.2,
+            "across": 591,
+            "down": 1018,
+            "pastPicture": true,
+            "capsuleInView": true,
+            "minPress": 44,
+            "overlaps": []
+          },
+          "wider-20": {
+            "k": 0.7278,
+            "tx": -157,
+            "ty": 68.2,
+            "across": 591,
+            "down": 1018,
+            "pastPicture": true,
+            "capsuleInView": true,
+            "minPress": 44,
+            "overlaps": []
+          }
+        }
+      }
+    }
+  },
+  "theGameMustSupply": [
+    "Each turn's end, in order, with the seat, its room and place, and the round (the after-turn order: a visit is keyed by round and seat)",
+    "Per room, the food availability: stocked, empty or unknown (the future approved gameplay contract; unknown plays no visit)",
+    "Whether availability is public to every player; if a player may not know it, that player's phone shows unknown",
+    "Real moves, injuries, eliminations, conversations, phase changes and the lights going out, as today, to stop a visit at once",
+    "The game's clock, so a phone that comes back plays only a visit that began less than a second ago"
+  ]
+}

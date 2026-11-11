@@ -1,12 +1,13 @@
 // mothership:dev-only
 //
 // Ship life: the props the rig does not draw, in the crew's ink (design/crew-drawing/source/ink.mjs):
-// a small parcel, a wire out of a panel, a food portion and its wrapper. Each is drawn in the
+// a small parcel, a wire out of a panel, a cleaning cloth, a food portion and its wrapper. Each is drawn in the
 // figure's own frame (design/board-motion/figures/body.mjs: viewBox -90 -40 300 300, the floor at
 // y 233), at the hand that holds it, so it moves, scales and mirrors with the figure. Public tones
 // only: no team colour, nothing written, nothing that says what a role is or holds.
 
 import { FRAME } from '../board-motion/figures/body.mjs';
+import { item } from '../crew-drawing/source/figure.mjs';
 import { inkCanvas } from '../crew-drawing/source/ink.mjs';
 import { INK, PAPER, PAPER_DEEP, PAPER_SHADE, STEEL } from '../board-motion/figures/rig.mjs';
 
@@ -40,6 +41,15 @@ function wrapper(cv, [x, y], angle) {
   });
 }
 
+function cloth(cv, [x, y], angle) {
+  // A small cleaning cloth bunched in the hand, a fold or two showing.
+  cv.group(`translate(${x} ${y}) rotate(${angle})`, () => {
+    cv.form([[-6, -4], [-1, -6.5], [5, -4.5], [6.5, 1], [3, 6], [-3, 5.5], [-6.5, 2]], PAPER_SHADE, { weight: 1.3, depth: 1.4, tension: 0.6, seed: 17 });
+    cv.line([[-3, -3], [1, 0], [4, -1]], { weight: 0.8, color: PAPER_DEEP });
+    cv.line([[-4, 2], [0, 3.5]], { weight: 0.8, color: PAPER_DEEP });
+  });
+}
+
 function wire(cv, from, to) {
   // A pale cable with an ink edge, so it reads over the dark inside of a panel and over its door.
   const mid = [(from[0] + to[0]) / 2 + 2, Math.max(from[1], to[1]) + 9];
@@ -62,6 +72,7 @@ export function restingSvg(resting, held = {}, { prefix = 'rest' } = {}) {
     const { at, angle = 0 } = resting[kind];
     if (kind === 'parcel') parcel(cv, at, angle);
     else if (kind === 'portion') portion(cv, at, angle);
+    else if (kind === 'laptop') item(cv, 'laptop', at, angle);
     else throw new Error(`Nothing waits as ${kind}`);
   }
   const [minX, minY, w, h] = FRAME.box;
@@ -70,7 +81,7 @@ export function restingSvg(resting, held = {}, { prefix = 'rest' } = {}) {
 
 /**
  * The props a figure holds this frame, as one SVG in the figure's frame. props: { parcel: 'N' |
- * 'F' | 'between', portion: 'N' | 'F', wrapper: 'N' | 'F', wire: 'F' | 'N' }; anchors: fixed points
+ * 'F' | 'between', portion: 'N' | 'F', wrapper: 'N' | 'F', wire: 'F' | 'N', cloth: 'F' | 'N' }; anchors: fixed points
  * a prop comes from ({ wire: [x, y] }, the panel the wire leaves).
  */
 export function propsSvg(sk, props, { prefix = 'prop', anchors = {} } = {}) {
@@ -83,6 +94,7 @@ export function propsSvg(sk, props, { prefix = 'prop', anchors = {} } = {}) {
   if (props.parcel) parcel(cv, at(props.parcel), angleOf(props.parcel));
   if (props.portion) portion(cv, at(props.portion), angleOf(props.portion));
   if (props.wrapper) wrapper(cv, at(props.wrapper), angleOf(props.wrapper));
+  if (props.cloth) cloth(cv, at(props.cloth), angleOf(props.cloth));
   const [minX, minY, w, h] = FRAME.box;
   return cv.svg({ viewBox: `${minX} ${minY} ${w} ${h}`, width: w, height: h });
 }
