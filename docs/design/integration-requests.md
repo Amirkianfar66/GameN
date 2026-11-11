@@ -24,6 +24,7 @@ Codex owns the root manifests, the lockfile, CI, the source lock, the workspace 
 | [DSN-REQ-15](#dsn-req-15) | Carry a Disabler's spent Disable, and the Officer's spent shot, in the seat's own view (ability art, slices 3 and 4) | A lasting "spent" mark in the Disabler's card, and an Officer's supplied weapon drawn as one that cannot be used. Today the receipt shows the charge or the round spent, and then the action is simply not offered again | None |
 | [DSN-REQ-16](#dsn-req-16) | Decide whether a stale or timed-out view hides the private card (raised by Frontend on PR #102) | The port of the closed folder. Recommended: keep the release's behaviour for the card; the folder only after the background | None |
 | [DSN-REQ-17](#dsn-req-17) | Register the crew drawing release `crew-drawing-1.0.0` (the owner-approved crew of nine, 7 November 2026) as `design-0.7.0` with tokens 0.5.0: pin its corrected sources and ports, add `apps/game/hosted/crew-drawing/` to the drawing-port fence, build its portraits, cards, standees and devices into the new release's bundles, retire the 27 old crew film drawings from that bundle | Frontend's port of the approved crew, by exact-release dispatch. Until then every surface draws today's crew | None |
+| [DSN-REQ-18](#dsn-req-18) | Register the room drawing release `room-drawing-1.0.0` (the five rooms the owner approved on 8 November 2026) after `design-0.7.0`: build its 25 pictures into the new release's bundles, each set whole, port the films' code to `apps/game/hosted/room-drawing/`, pin its inputs, and leave the old Hospitals as they are | Frontend's port of the approved rooms and films, by exact-release dispatch. Until then every surface draws today's rooms and films | None |
 | [DSN-REQ-19](#dsn-req-19) | The owner's 30-second private role stage: the card for 20 s, then the role's film for 10 s, on one server interval, with Ready kept as a human action | The phone pack's role stage (sheets 17–18). Today the film starts when the player taps Reveal | None |
 | [DSN-REQ-20](#dsn-req-20) | The owner's Blackout before the Jail vote: an Integration proposal that changes the rules and the contract | The round order of sheet 02 and the matrix on sheet 03. The screens themselves work in either order | None |
 | [DSN-REQ-21](#dsn-req-21) | Small data items for the phone pack: distinct join and recovery refusals, a decline for admission, the Hospital panel's number pad (the Code's phase window is settled by P18) | Better wording on sheets 12–15 and a working keypad on sheet 43 | None |
@@ -320,6 +321,46 @@ Every update is tested equal to a fresh draw, in Node and in desktop Chrome: con
 Frontend measures the result on a physical low-end Android phone and an iPhone, by the agreed protocol. Until it does, every performance figure stays unverified. Designer reviews the port's captures and video before Integration merges it.
 
 Until then, every surface keeps drawing today's crew, and nothing breaks. The release sits in `design/crew-drawing/` as dev-only sources, and the runtime does not import it.
+
+## DSN-REQ-18
+
+**Register the room drawing release.** Raised by Designer on 8 November 2026, after the owner approved the five rooms redrawn to match the crew ([PR #197](https://github.com/Amirkianfar66/GameN/pull/197); [owner-decisions.md](owner-decisions.md)). For Integration, with Frontend, who checks the consumers.
+
+The release is in [room-drawing-release.md](room-drawing-release.md), with its machine-readable record in `design/room-drawing/release-candidate.json`. It contains 25 baked pictures with their manifest:
+- each room's back picture;
+- the layers drawn in front of its places: Room B's bench, the Command Room's table and the ward's six berth layers;
+- each room's lights-out picture;
+- the private-talk capsule: its cabin, door frames, busy light and lights-out picture.
+
+It also contains the films' code. The owner asked about the animations that would need updating: the films that draw parts of a room again are redrawn with the rooms. There are two drop-ins with the same exports and geometry:
+- `design/room-drawing/source/captain.mjs`, for the Jail's door at rest (the redrawn room itself) and the EJECT airlock;
+- `medical.mjs`, for the Hospital's drone, berth monitors and lamps.
+
+Each comes with the art it draws, generated. It changes no rule, scene, place, slot, press area, token or public id, and none of Integration's files.
+
+Requested:
+
+1. **Build the pictures into the new release's bundles, each set whole.** `assets/manifest.json` names, for each picture, the bundle, the CSS property and the picture it replaces, with that picture's SHA-256:
+   - `scene-art`: `--bm-scene-<room>-back`, `--bm-scene-room-b-bench` and `--bm-scene-command-room-table`, for the Command Room, Room A, Room B and the Jail;
+   - `board-v2-films-art`: the four-berth ward's `--board-v2-film-scenes-hospital-ward-four-*` and `--board-v2-film-lighting-hospital-ward-four-dark`;
+   - `board-v2-motion-art`: `--board-v2-motion-<room>-dark` for the other four;
+   - `board-v2-art`: the capsule's `--board-v2-art-capsule-<back|door-0..3|busy|dark>` (its badge stays).
+2. **Port the films' code into `apps/game/hosted/room-drawing/`** (Frontend, with Integration's pins):
+   - `captain-fx.mjs`, `jail-door-art.mjs`, `medical-fx.mjs` and `medical-art.mjs`.
+   - Each is an exact copy with its first line dropped and the import specifiers in `release-candidate.json` rewritten to `../board-v2-drawing/`. The record gives each port's SHA-256.
+   - Under this release, `board-v2-films.mjs` takes `jailDoorSvg()`, `airlockSvg()`, `droneSvg()`, `berthScreenSvg()` and `lampSvg()` from them. Earlier releases keep `board-v2-drawing/`.
+3. **Pin the inputs.** `release-candidate.json` gives the SHA-256 of each source, dependency, input and port. The tool rewrites everything exactly: `node design/tools/room-drawing-export.mjs --check`.
+4. **Leave the old Hospitals as they are.** The two-bed sick bay (`--bm-scene-hospital-*`) and the roster-sized ward of the earlier ruleset are not the board's Hospital now and are not redrawn.
+5. **Register the release after `design-0.7.0`**, with the crew. Historical releases stay as they are.
+6. **Dispatch by exact release** (Frontend). A match pinned to an earlier release keeps today's rooms and films. A board draws the new rooms only with the new crew, under the release that registers both.
+
+**Size.** The 25 pictures are 1.17 MB, 309 KB gzipped, against 261 KB (54 KB gzipped) for the pictures they replace.
+- They are trimmed from 3.99 MB (1.24 MB gzipped) by keeping only the outline points needed to stay within a quarter unit, so each picture draws the same: at most 1.8% of pixels differ, on outline edges, at twice their pixels in Chrome.
+- The films' code ports are 44, 51, 26 and 63 KB raw.
+- The pieces the films write again on a changed frame grow. The Jail door overlay goes to about 25 KB while it slides (5 KB today), the airlock to 12 KB (5 KB) and the drone to 13 KB (3.5 KB).
+- Integration reports the bundles' sizes. Frontend measures decode, frame time and memory on a physical low-end Android phone and an iPhone. Until then, every performance figure stays unverified.
+
+Until then, every surface keeps drawing today's rooms and films. The release sits in `design/room-drawing/`, and the runtime does not import it.
 
 ## DSN-REQ-19
 

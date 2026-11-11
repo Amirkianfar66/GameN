@@ -1,0 +1,659 @@
+{
+  "schema": "mothership.room-drawing-assets/1",
+  "release": "room-drawing-1.0.0",
+  "status": "Designer candidate (DSN-REQ-18), for an art release after design-0.7.0. Not registered: no shipped manifest, bundle or catalog is changed; Integration builds bundles from these.",
+  "generatedBy": "design/tools/room-drawing-export.mjs",
+  "provenance": {
+    "drawn": "Drawn in code for this repository by the Visual and Motion Designer (Claude Code): Room A by hand (design/room-pilot/room-a.mjs), the other four shape for shape from today's pictures (design/room-pilot/ink-room.mjs), all with the approved crew's ink canvas (design/crew-drawing/source/ink.mjs) in each room's colour family (tokens 0.5.0 color.room.*). The lights-out pictures follow the reviewed night rule (design/board-v2/scenes/lighting.mjs).",
+    "rights": "Original work for the Mothership project. No third-party artwork, font, stock asset or photograph. Use inside the project only."
+  },
+  "conventions": {
+    "box": "Every picture has the box of the picture it replaces in its scene units (a room 0 0 1024 768, the capsule 0 0 512 768), drawn in the same camera, so every place, slot, focus, frame and press area is unchanged.",
+    "layers": "A back picture is drawn behind every place; a layer at its depth (the board paints it at z 2 * depth + 1, over the places behind it); a dark picture is the back and its layers together, as the lights-out pictures it replaces are.",
+    "markup": "Each export is an SVG element (no XML declaration or comment), static: no script, style, foreign object, image or external reference; every url() and href points inside the file.",
+    "audience": "Public art, the same on every screen: nothing drawn depends on a role, team, ability, private choice or seat."
+  },
+  "assets": [
+    {
+      "path": "design/room-drawing/assets/command-room.back.svg",
+      "sha256": "fe57eabca9ad533524feab1dd437889f811678411997a48284cb5ffff546ca00",
+      "bytes": 82864,
+      "gzipBytes": 24026,
+      "kind": "back",
+      "room": "command-room",
+      "layer": "back",
+      "depth": null,
+      "audience": "public",
+      "viewBox": "0 0 1024 768",
+      "width": 1024,
+      "height": 768,
+      "drawn": {
+        "bytes": 337301,
+        "gzipBytes": 111423
+      },
+      "replaces": {
+        "bundle": "scene-art",
+        "cssVariable": "--bm-scene-command-room-back",
+        "stylesheet": "design/board-motion/assets/board-motion.scenes.css",
+        "path": "design/board-motion/assets/scenes/command-room.back.svg",
+        "sha256": "04d58e9cea19ff6c6e8433e4a77e0f8c30c02d540eb0700fa5e08bc6d03c658e"
+      }
+    },
+    {
+      "path": "design/room-drawing/assets/command-room.table.svg",
+      "sha256": "7cda0f00304f9abb297720ada9683c8221af39df05041063132cb41fdf967618",
+      "bytes": 11046,
+      "gzipBytes": 3711,
+      "kind": "layer",
+      "room": "command-room",
+      "layer": "table",
+      "depth": 470,
+      "audience": "public",
+      "viewBox": "0 0 1024 768",
+      "width": 1024,
+      "height": 768,
+      "drawn": {
+        "bytes": 38606,
+        "gzipBytes": 13921
+      },
+      "replaces": {
+        "bundle": "scene-art",
+        "cssVariable": "--bm-scene-command-room-table",
+        "stylesheet": "design/board-motion/assets/board-motion.scenes.css",
+        "path": "design/board-motion/assets/scenes/command-room.table.svg",
+        "sha256": "3fdbbbb935a424c6b7291f56a3cb2b2226ce7686e65de8615ec82e97d6a6e9e5"
+      }
+    },
+    {
+      "path": "design/room-drawing/assets/command-room.dark.svg",
+      "sha256": "72b68d796ce42ee4eb2e6835ae6ba768b9ad26a1fa8c371d620214c8b02eb1ff",
+      "bytes": 87447,
+      "gzipBytes": 24941,
+      "kind": "dark",
+      "room": "command-room",
+      "layer": "dark",
+      "depth": null,
+      "audience": "public",
+      "viewBox": "0 0 1024 768",
+      "width": 1024,
+      "height": 768,
+      "drawn": {
+        "bytes": 365674,
+        "gzipBytes": 121303
+      },
+      "replaces": {
+        "bundle": "board-v2-motion-art",
+        "cssVariable": "--board-v2-motion-command-room-dark",
+        "catalog": "design/releases/board-v2-motion-art.json",
+        "path": "design/board-v2/assets/lighting/command-room.dark.svg",
+        "sha256": "bdea7e82684acf648d0bb07e5b1e1b448ad1a3f2ad898d32d372f05fd37ef062"
+      }
+    },
+    {
+      "path": "design/room-drawing/assets/room-a.back.svg",
+      "sha256": "7afcf022570930297b656d31e29978622f073461088bea591c028039776f3bf8",
+      "bytes": 126164,
+      "gzipBytes": 32305,
+      "kind": "back",
+      "room": "room-a",
+      "layer": "back",
+      "depth": null,
+      "audience": "public",
+      "viewBox": "0 0 1024 768",
+      "width": 1024,
+      "height": 768,
+      "drawn": {
+        "bytes": 337020,
+        "gzipBytes": 105786
+      },
+      "replaces": {
+        "bundle": "scene-art",
+        "cssVariable": "--bm-scene-room-a-back",
+        "stylesheet": "design/board-motion/assets/board-motion.scenes.css",
+        "path": "design/board-motion/assets/scenes/room-a.back.svg",
+        "sha256": "a6d816298b3c29ac6a1c5373c9d654bfb89549f77838842a67e2656d5e482eba"
+      }
+    },
+    {
+      "path": "design/room-drawing/assets/room-a.dark.svg",
+      "sha256": "cf3c9a8c90bba0f63d735296e1bb0308d1bcaba51318b827111c8fd0fdfbaadc",
+      "bytes": 117066,
+      "gzipBytes": 30041,
+      "kind": "dark",
+      "room": "room-a",
+      "layer": "dark",
+      "depth": null,
+      "audience": "public",
+      "viewBox": "0 0 1024 768",
+      "width": 1024,
+      "height": 768,
+      "drawn": {
+        "bytes": 320679,
+        "gzipBytes": 100002
+      },
+      "replaces": {
+        "bundle": "board-v2-motion-art",
+        "cssVariable": "--board-v2-motion-room-a-dark",
+        "catalog": "design/releases/board-v2-motion-art.json",
+        "path": "design/board-v2/assets/lighting/room-a.dark.svg",
+        "sha256": "8988d6b617a4295ad14a25b562987774d4a64722a41a47cb7960c5ef8c54efc3"
+      }
+    },
+    {
+      "path": "design/room-drawing/assets/room-b.back.svg",
+      "sha256": "1e64b95cc54f46cdb26da20e5bfac31b473f234cf66aad907f725de01c45520e",
+      "bytes": 109509,
+      "gzipBytes": 27536,
+      "kind": "back",
+      "room": "room-b",
+      "layer": "back",
+      "depth": null,
+      "audience": "public",
+      "viewBox": "0 0 1024 768",
+      "width": 1024,
+      "height": 768,
+      "drawn": {
+        "bytes": 379572,
+        "gzipBytes": 114330
+      },
+      "replaces": {
+        "bundle": "scene-art",
+        "cssVariable": "--bm-scene-room-b-back",
+        "stylesheet": "design/board-motion/assets/board-motion.scenes.css",
+        "path": "design/board-motion/assets/scenes/room-b.back.svg",
+        "sha256": "0dcf87ee23959fb3246b113fbbb67363b5927d68e650f4084160431bb8a3b819"
+      }
+    },
+    {
+      "path": "design/room-drawing/assets/room-b.bench.svg",
+      "sha256": "1feacaf2ed97d4d256484673dda8de2fe2871feabde093290bdd648fbe06b6b8",
+      "bytes": 26208,
+      "gzipBytes": 6823,
+      "kind": "layer",
+      "room": "room-b",
+      "layer": "bench",
+      "depth": 470,
+      "audience": "public",
+      "viewBox": "0 0 1024 768",
+      "width": 1024,
+      "height": 768,
+      "drawn": {
+        "bytes": 87702,
+        "gzipBytes": 26134
+      },
+      "replaces": {
+        "bundle": "scene-art",
+        "cssVariable": "--bm-scene-room-b-bench",
+        "stylesheet": "design/board-motion/assets/board-motion.scenes.css",
+        "path": "design/board-motion/assets/scenes/room-b.bench.svg",
+        "sha256": "104adf377bbdb106ab0caac63026b40795370f8a32d8f802d5d7fabb682f7bd3"
+      }
+    },
+    {
+      "path": "design/room-drawing/assets/room-b.dark.svg",
+      "sha256": "f33e59d7f4c64b91d5e7f86c3ce061c60e71c85c81ae8da612951760df6f9bf5",
+      "bytes": 126638,
+      "gzipBytes": 30912,
+      "kind": "dark",
+      "room": "room-b",
+      "layer": "dark",
+      "depth": null,
+      "audience": "public",
+      "viewBox": "0 0 1024 768",
+      "width": 1024,
+      "height": 768,
+      "drawn": {
+        "bytes": 450537,
+        "gzipBytes": 134038
+      },
+      "replaces": {
+        "bundle": "board-v2-motion-art",
+        "cssVariable": "--board-v2-motion-room-b-dark",
+        "catalog": "design/releases/board-v2-motion-art.json",
+        "path": "design/board-v2/assets/lighting/room-b.dark.svg",
+        "sha256": "b8676a47b4604e87c6db02b97a9805221b19591b9babd268ccb2f8fd3fbf1b2b"
+      }
+    },
+    {
+      "path": "design/room-drawing/assets/hospital.back.svg",
+      "sha256": "dcf715266b396a7ef1b57e28a3e7c35148809f2a012cf33334d28c6a1a24abdb",
+      "bytes": 71006,
+      "gzipBytes": 19115,
+      "kind": "back",
+      "room": "hospital",
+      "layer": "back",
+      "depth": null,
+      "audience": "public",
+      "viewBox": "0 0 1024 768",
+      "width": 1024,
+      "height": 768,
+      "drawn": {
+        "bytes": 247464,
+        "gzipBytes": 78332
+      },
+      "replaces": {
+        "bundle": "board-v2-films-art",
+        "cssVariable": "--board-v2-film-scenes-hospital-ward-four-back",
+        "catalog": "apps/game/hosted/board-v2-film-art/catalog.json",
+        "path": "apps/game/hosted/board-v2-film-art/scenes/hospital-ward-four.back.svg",
+        "sha256": "0746fb73c302b37bd84c92da08a42e3f5e8f199fb35a72aa122752d12fcfcd33",
+        "source": "design/board-v2/assets/scenes/hospital-ward-four.back.svg",
+        "sourceCommit": "cb9386bd716dc346160509d5e49d7348fdaf4f84"
+      }
+    },
+    {
+      "path": "design/room-drawing/assets/hospital.berth-four-h3.svg",
+      "sha256": "e74a0dba22760cca3b0d14a609ce15a557cc20209a48f51e46dc4e0c8c27b297",
+      "bytes": 5241,
+      "gzipBytes": 1633,
+      "kind": "layer",
+      "room": "hospital",
+      "layer": "berth-four-h3",
+      "depth": 560,
+      "audience": "public",
+      "viewBox": "0 0 1024 768",
+      "width": 1024,
+      "height": 768,
+      "drawn": {
+        "bytes": 17233,
+        "gzipBytes": 5376
+      },
+      "replaces": {
+        "bundle": "board-v2-films-art",
+        "cssVariable": "--board-v2-film-scenes-hospital-ward-four-berth-four-h3",
+        "catalog": "apps/game/hosted/board-v2-film-art/catalog.json",
+        "path": "apps/game/hosted/board-v2-film-art/scenes/hospital-ward-four.berth-four-h3.svg",
+        "sha256": "78358c8041adbb534a2c89b8fab1cfa7cc6d12a662bbc7688f17e4a134abc06f",
+        "source": "design/board-v2/assets/scenes/hospital-ward-four.berth-four-h3.svg",
+        "sourceCommit": "cb9386bd716dc346160509d5e49d7348fdaf4f84"
+      }
+    },
+    {
+      "path": "design/room-drawing/assets/hospital.berth-four-h4.svg",
+      "sha256": "36a35e8c76842666c8e3fa68320950f6a8c61eda4f7b3794eb220e267517646e",
+      "bytes": 5241,
+      "gzipBytes": 1621,
+      "kind": "layer",
+      "room": "hospital",
+      "layer": "berth-four-h4",
+      "depth": 560,
+      "audience": "public",
+      "viewBox": "0 0 1024 768",
+      "width": 1024,
+      "height": 768,
+      "drawn": {
+        "bytes": 17233,
+        "gzipBytes": 5355
+      },
+      "replaces": {
+        "bundle": "board-v2-films-art",
+        "cssVariable": "--board-v2-film-scenes-hospital-ward-four-berth-four-h4",
+        "catalog": "apps/game/hosted/board-v2-film-art/catalog.json",
+        "path": "apps/game/hosted/board-v2-film-art/scenes/hospital-ward-four.berth-four-h4.svg",
+        "sha256": "0130cda7df893dbd9637913fec72bcc312e08709b02aa404a4b6b83424084995",
+        "source": "design/board-v2/assets/scenes/hospital-ward-four.berth-four-h4.svg",
+        "sourceCommit": "cb9386bd716dc346160509d5e49d7348fdaf4f84"
+      }
+    },
+    {
+      "path": "design/room-drawing/assets/hospital.berth-four-h1-head.svg",
+      "sha256": "defbe5a8bdf9eed36ee057742dd073ff4ad3d52baba2c9760aeb053ca4ee4895",
+      "bytes": 10427,
+      "gzipBytes": 3047,
+      "kind": "layer",
+      "room": "hospital",
+      "layer": "berth-four-h1-head",
+      "depth": 600,
+      "audience": "public",
+      "viewBox": "0 0 1024 768",
+      "width": 1024,
+      "height": 768,
+      "drawn": {
+        "bytes": 25701,
+        "gzipBytes": 8126
+      },
+      "replaces": {
+        "bundle": "board-v2-films-art",
+        "cssVariable": "--board-v2-film-scenes-hospital-ward-four-berth-four-h1-head",
+        "catalog": "apps/game/hosted/board-v2-film-art/catalog.json",
+        "path": "apps/game/hosted/board-v2-film-art/scenes/hospital-ward-four.berth-four-h1-head.svg",
+        "sha256": "4aa2550ab6eaa26c25839e9c4d203ab43522ad4555a4c9c05c5d2633f8d3fb35",
+        "source": "design/board-v2/assets/scenes/hospital-ward-four.berth-four-h1-head.svg",
+        "sourceCommit": "cb9386bd716dc346160509d5e49d7348fdaf4f84"
+      }
+    },
+    {
+      "path": "design/room-drawing/assets/hospital.berth-four-h2-head.svg",
+      "sha256": "8a124bf3c1b0593909bafa3bf6433ec070d446425787179baba907ae1a1c8f27",
+      "bytes": 10411,
+      "gzipBytes": 3038,
+      "kind": "layer",
+      "room": "hospital",
+      "layer": "berth-four-h2-head",
+      "depth": 600,
+      "audience": "public",
+      "viewBox": "0 0 1024 768",
+      "width": 1024,
+      "height": 768,
+      "drawn": {
+        "bytes": 25789,
+        "gzipBytes": 8124
+      },
+      "replaces": {
+        "bundle": "board-v2-films-art",
+        "cssVariable": "--board-v2-film-scenes-hospital-ward-four-berth-four-h2-head",
+        "catalog": "apps/game/hosted/board-v2-film-art/catalog.json",
+        "path": "apps/game/hosted/board-v2-film-art/scenes/hospital-ward-four.berth-four-h2-head.svg",
+        "sha256": "fa884d4f994f045287dfcccc5508fa2845ab59f78996850909d8eee74a7a8d5e",
+        "source": "design/board-v2/assets/scenes/hospital-ward-four.berth-four-h2-head.svg",
+        "sourceCommit": "cb9386bd716dc346160509d5e49d7348fdaf4f84"
+      }
+    },
+    {
+      "path": "design/room-drawing/assets/hospital.berth-four-h1.svg",
+      "sha256": "f1ec9f3e88c543176310bb115e21fe7bd7aadcc4d4b99aeb425c6a3e270ec4a8",
+      "bytes": 4304,
+      "gzipBytes": 1410,
+      "kind": "layer",
+      "room": "hospital",
+      "layer": "berth-four-h1",
+      "depth": 770,
+      "audience": "public",
+      "viewBox": "0 0 1024 768",
+      "width": 1024,
+      "height": 768,
+      "drawn": {
+        "bytes": 12240,
+        "gzipBytes": 4090
+      },
+      "replaces": {
+        "bundle": "board-v2-films-art",
+        "cssVariable": "--board-v2-film-scenes-hospital-ward-four-berth-four-h1",
+        "catalog": "apps/game/hosted/board-v2-film-art/catalog.json",
+        "path": "apps/game/hosted/board-v2-film-art/scenes/hospital-ward-four.berth-four-h1.svg",
+        "sha256": "87b3849ed4cfd12a39dde880bc3b439044658d4d2b139b0ead15e7613bd627a9",
+        "source": "design/board-v2/assets/scenes/hospital-ward-four.berth-four-h1.svg",
+        "sourceCommit": "cb9386bd716dc346160509d5e49d7348fdaf4f84"
+      }
+    },
+    {
+      "path": "design/room-drawing/assets/hospital.berth-four-h2.svg",
+      "sha256": "6f62227148ed33c3d6737f7bfb4329f043884b5da5331cf49bcbb6fa6e5dba1d",
+      "bytes": 4296,
+      "gzipBytes": 1406,
+      "kind": "layer",
+      "room": "hospital",
+      "layer": "berth-four-h2",
+      "depth": 770,
+      "audience": "public",
+      "viewBox": "0 0 1024 768",
+      "width": 1024,
+      "height": 768,
+      "drawn": {
+        "bytes": 12240,
+        "gzipBytes": 4072
+      },
+      "replaces": {
+        "bundle": "board-v2-films-art",
+        "cssVariable": "--board-v2-film-scenes-hospital-ward-four-berth-four-h2",
+        "catalog": "apps/game/hosted/board-v2-film-art/catalog.json",
+        "path": "apps/game/hosted/board-v2-film-art/scenes/hospital-ward-four.berth-four-h2.svg",
+        "sha256": "d608539540a67d289a6d0d5b9cf91a1be63499f0a7ca018ad7bc99b3eea37e65",
+        "source": "design/board-v2/assets/scenes/hospital-ward-four.berth-four-h2.svg",
+        "sourceCommit": "cb9386bd716dc346160509d5e49d7348fdaf4f84"
+      }
+    },
+    {
+      "path": "design/room-drawing/assets/hospital.dark.svg",
+      "sha256": "855b2b454f5c4bd3c99ba2d2af8c465f0f1fa598e56d05057ad9f50030ed87e1",
+      "bytes": 99671,
+      "gzipBytes": 25831,
+      "kind": "dark",
+      "room": "hospital",
+      "layer": "dark",
+      "depth": null,
+      "audience": "public",
+      "viewBox": "0 0 1024 768",
+      "width": 1024,
+      "height": 768,
+      "drawn": {
+        "bytes": 339833,
+        "gzipBytes": 104588
+      },
+      "replaces": {
+        "bundle": "board-v2-films-art",
+        "cssVariable": "--board-v2-film-lighting-hospital-ward-four-dark",
+        "catalog": "apps/game/hosted/board-v2-film-art/catalog.json",
+        "path": "apps/game/hosted/board-v2-film-art/lighting/hospital-ward-four.dark.svg",
+        "sha256": "7ae42d0c52f9018a83a00a4efa7cc6905596a46341233ee5f427953cf6ab979d",
+        "source": "design/board-v2/assets/lighting/hospital-ward-four.dark.svg",
+        "sourceCommit": "cb9386bd716dc346160509d5e49d7348fdaf4f84"
+      }
+    },
+    {
+      "path": "design/room-drawing/assets/jail.back.svg",
+      "sha256": "78168810dc7c6ac040e3bd0d9c0a94850e297205adc868c3ad98db62d95e0baf",
+      "bytes": 74587,
+      "gzipBytes": 19486,
+      "kind": "back",
+      "room": "jail",
+      "layer": "back",
+      "depth": null,
+      "audience": "public",
+      "viewBox": "0 0 1024 768",
+      "width": 1024,
+      "height": 768,
+      "drawn": {
+        "bytes": 276295,
+        "gzipBytes": 84259
+      },
+      "replaces": {
+        "bundle": "scene-art",
+        "cssVariable": "--bm-scene-jail-back",
+        "stylesheet": "design/board-motion/assets/board-motion.scenes.css",
+        "path": "design/board-motion/assets/scenes/jail.back.svg",
+        "sha256": "0bf39be0c62dfe6ac520d34ffd5464c40d8ccce1ed7bae515628768c13c0d84e"
+      }
+    },
+    {
+      "path": "design/room-drawing/assets/jail.dark.svg",
+      "sha256": "d409e19a9ad958819a9f54c3f009efd94a50f9641e30a0927d40aca789ab13e9",
+      "bytes": 69954,
+      "gzipBytes": 18096,
+      "kind": "dark",
+      "room": "jail",
+      "layer": "dark",
+      "depth": null,
+      "audience": "public",
+      "viewBox": "0 0 1024 768",
+      "width": 1024,
+      "height": 768,
+      "drawn": {
+        "bytes": 267881,
+        "gzipBytes": 81025
+      },
+      "replaces": {
+        "bundle": "board-v2-motion-art",
+        "cssVariable": "--board-v2-motion-jail-dark",
+        "catalog": "design/releases/board-v2-motion-art.json",
+        "path": "design/board-v2/assets/lighting/jail.dark.svg",
+        "sha256": "c0978c8e1cd1678c19a412ea295af7fd8ac2f8bff56839af0bb286ee0cfae638"
+      }
+    },
+    {
+      "path": "design/room-drawing/assets/capsule.back.svg",
+      "sha256": "d4168c5dc058794ef75c00bb1f052a0de82dddb34650a42a9c51df6aa26e6213",
+      "bytes": 46285,
+      "gzipBytes": 12459,
+      "kind": "back",
+      "room": "capsule",
+      "layer": "back",
+      "depth": null,
+      "audience": "public",
+      "viewBox": "0 0 512 768",
+      "width": 512,
+      "height": 768,
+      "drawn": {
+        "bytes": 167478,
+        "gzipBytes": 52153
+      },
+      "replaces": {
+        "bundle": "board-v2-art",
+        "cssVariable": "--board-v2-art-capsule-back",
+        "catalog": "design/releases/board-v2-art-candidate.json",
+        "path": "design/board-v2/assets/capsule/back.svg",
+        "sha256": "1bcfd91e11e73d5c6a6205abf0c12b9b111ee4887c872975fca1dc8b41e87cc5"
+      }
+    },
+    {
+      "path": "design/room-drawing/assets/capsule.door-0.svg",
+      "sha256": "721be42a2369e2f78666f8a35c6ea96e711a31c4d06ba5638bc437fc35748d4c",
+      "bytes": 7597,
+      "gzipBytes": 2067,
+      "kind": "layer",
+      "room": "capsule",
+      "layer": "door-0",
+      "depth": null,
+      "audience": "public",
+      "viewBox": "0 0 512 768",
+      "width": 512,
+      "height": 768,
+      "drawn": {
+        "bytes": 22609,
+        "gzipBytes": 6759
+      },
+      "replaces": {
+        "bundle": "board-v2-art",
+        "cssVariable": "--board-v2-art-capsule-door-0",
+        "catalog": "design/releases/board-v2-art-candidate.json",
+        "path": "design/board-v2/assets/capsule/door-0.svg",
+        "sha256": "63026f9971904a750fed9b6caa04e061f74d0b39b42e40165dea8f812314491e"
+      }
+    },
+    {
+      "path": "design/room-drawing/assets/capsule.door-1.svg",
+      "sha256": "a4e79590e0806436b4bdfc1ff71fc954002f23ef2fa23937c51a3a05d0f2ac14",
+      "bytes": 7633,
+      "gzipBytes": 2090,
+      "kind": "layer",
+      "room": "capsule",
+      "layer": "door-1",
+      "depth": null,
+      "audience": "public",
+      "viewBox": "0 0 512 768",
+      "width": 512,
+      "height": 768,
+      "drawn": {
+        "bytes": 22819,
+        "gzipBytes": 6914
+      },
+      "replaces": {
+        "bundle": "board-v2-art",
+        "cssVariable": "--board-v2-art-capsule-door-1",
+        "catalog": "design/releases/board-v2-art-candidate.json",
+        "path": "design/board-v2/assets/capsule/door-1.svg",
+        "sha256": "ddb0d2d2855c352366db5ca4a9e2470440fa134f613cf92cd8e0a1a47aedc24f"
+      }
+    },
+    {
+      "path": "design/room-drawing/assets/capsule.door-2.svg",
+      "sha256": "6b395e8ef2d26487c89f4b7f746b10ff5e85d010851e3a670c1645f1e7ebe8a7",
+      "bytes": 7609,
+      "gzipBytes": 2101,
+      "kind": "layer",
+      "room": "capsule",
+      "layer": "door-2",
+      "depth": null,
+      "audience": "public",
+      "viewBox": "0 0 512 768",
+      "width": 512,
+      "height": 768,
+      "drawn": {
+        "bytes": 22835,
+        "gzipBytes": 6883
+      },
+      "replaces": {
+        "bundle": "board-v2-art",
+        "cssVariable": "--board-v2-art-capsule-door-2",
+        "catalog": "design/releases/board-v2-art-candidate.json",
+        "path": "design/board-v2/assets/capsule/door-2.svg",
+        "sha256": "9b7d9fdd9f6f02fcfc190a03fcd3d19b6a2d2123a78ce4187c27c5294dc784c9"
+      }
+    },
+    {
+      "path": "design/room-drawing/assets/capsule.door-3.svg",
+      "sha256": "c5ca57c7d160d538f67d8371910e55aeca2b950e1d21df57b0d7a72b78e551e6",
+      "bytes": 1097,
+      "gzipBytes": 483,
+      "kind": "layer",
+      "room": "capsule",
+      "layer": "door-3",
+      "depth": null,
+      "audience": "public",
+      "viewBox": "0 0 512 768",
+      "width": 512,
+      "height": 768,
+      "drawn": {
+        "bytes": 1097,
+        "gzipBytes": 483
+      },
+      "replaces": {
+        "bundle": "board-v2-art",
+        "cssVariable": "--board-v2-art-capsule-door-3",
+        "catalog": "design/releases/board-v2-art-candidate.json",
+        "path": "design/board-v2/assets/capsule/door-3.svg",
+        "sha256": "55cc7717d8f733ce38e6ac5c7c14ac19e8b0296ce44ba0d95ad98415fb8b31e7"
+      }
+    },
+    {
+      "path": "design/room-drawing/assets/capsule.busy.svg",
+      "sha256": "ac7f504e921102027b0c0790350016d414838a408c63891bd0f927759ac55b30",
+      "bytes": 2028,
+      "gzipBytes": 798,
+      "kind": "layer",
+      "room": "capsule",
+      "layer": "busy",
+      "depth": null,
+      "audience": "public",
+      "viewBox": "0 0 512 768",
+      "width": 512,
+      "height": 768,
+      "drawn": {
+        "bytes": 4764,
+        "gzipBytes": 1616
+      },
+      "replaces": {
+        "bundle": "board-v2-art",
+        "cssVariable": "--board-v2-art-capsule-busy",
+        "catalog": "design/releases/board-v2-art-candidate.json",
+        "path": "design/board-v2/assets/capsule/busy.svg",
+        "sha256": "d5e45edd0af0115e0e87b64f0da8985d04d1166ee27ebbf8df2b687f6871dca9"
+      }
+    },
+    {
+      "path": "design/room-drawing/assets/capsule.dark.svg",
+      "sha256": "c0d072a88664a31867243d8ec2c75c3e27d5714c4d78b8762ccc384429cf7623",
+      "bytes": 52486,
+      "gzipBytes": 13757,
+      "kind": "dark",
+      "room": "capsule",
+      "layer": "dark",
+      "depth": null,
+      "audience": "public",
+      "viewBox": "0 0 512 768",
+      "width": 512,
+      "height": 768,
+      "drawn": {
+        "bytes": 188691,
+        "gzipBytes": 58298
+      },
+      "replaces": {
+        "bundle": "board-v2-art",
+        "cssVariable": "--board-v2-art-capsule-dark",
+        "catalog": "design/releases/board-v2-art-candidate.json",
+        "path": "design/board-v2/assets/capsule/dark.svg",
+        "sha256": "bae4c518d7732b2ccbf8179351ed3d7d815d0204dd4a1666b190148cee237185"
+      }
+    }
+  ]
+}

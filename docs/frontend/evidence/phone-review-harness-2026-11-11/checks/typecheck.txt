@@ -1,0 +1,12 @@
+
+> mothership-workspace@0.1.0 typecheck
+> npm run typecheck:pure && npm run typecheck:browser
+
+
+> mothership-workspace@0.1.0 typecheck:pure
+> tsc --project tsconfig.check.json --noEmit
+
+
+> mothership-workspace@0.1.0 typecheck:browser
+> tsc --project tsconfig.check.browser.json --noEmit
+

@@ -14,7 +14,7 @@ The owner's messages are quoted as written.
 | --- | --- | --- |
 | "Another question does the game and frontend using exactly your design for each part of app?", then "I mean in all part of game from menu to end of game what are the differences" | Designer compares the native interface with the pack, part by part, and records each difference with its picture | [phone-ui-native-review.md](phone-ui-native-review.md) and its evidence |
 | "Just a question why this difference happened and can we solve it to frontend follow exactly the designer claude work?", then "Yes do it" to Designer's proposal | 1. **The phone pack is the specification.** Frontend builds the phone interface from the pack on `main`, each sheet as drawn: its layout, controls, words and behaviour. It cannot match pixel for pixel, since sample matches and real phones differ.<br>2. **A change is an exception.** A change from a sheet needs Designer's and the owner's agreement first, and is recorded on this page. A rule, test or platform reason found while building comes to Designer as a question, not as a quiet change.<br>3. **Designer accepts before a merge.** A pull request that changes the phone interface merges after Designer's visual acceptance, given from a side-by-side of the states it changes.<br>4. **Frontend gets one fix list,** in priority order, with three trade-offs to settle together instead of copying the sheet blindly | This page; [phone-ui-native-review.md](phone-ui-native-review.md); Frontend's fix list, [#222](https://github.com/Amirkianfar66/GameN/issues/222) |
-| "agree with T1–T3", answering Designer's recommendation for each of the three trade-offs | **T1, the room's framing.** The room fills the space between the bars, as drawn. Nobody present is cut off: when the people in the room are spread wider than the filled view can show, the view zooms out just far enough to keep each of them whole on screen, and the bands this leaves are the cost. Only a crowd as wide as a full Jail needs it. The framing depends only on who the lit room already shows, and it is held still from lights-out to lights-on. This replaces the framing that never depends on who is present (#208), which kept every room small.<br>**T2, Cancel.** While a target is chosen, Cancel is in the target bar, as drawn. The centre button is not turned into Cancel.<br>**T3, actions that are not available.** Every action of the role is a tile, as drawn. The ones the server offers can be used. The others are greyed, with the reason the server gives; where it gives none, the tile says only that the action is not available now. The phone never works out a reason from the rules itself | `phoneFrame` in `design/phone-ui/prototype/art.mjs`; the [handoff](phone-ui-handoff.md#the-shell)'s Room scene, Target bar and Tile; [#222](https://github.com/Amirkianfar66/GameN/issues/222) |
+| "agree with T1–T3", answering Designer's recommendation for each of the three trade-offs | **T1, the room's framing.** The room fills the space between the bars, as drawn. Nobody present is cut off: when the people in the room are spread wider than the filled view can show, the view zooms out just far enough to keep each of them whole on screen, and the bands this leaves are the cost. Only a crowd as wide as a full Jail needs it. *(Corrected the same day, #222: whole means each figure as drawn, not only its press area, so a full Room A or Hospital also zooms out a little at some sizes. The decision is unchanged.)* The framing depends only on who the lit room already shows, and it is held still from lights-out to lights-on. This replaces the framing that never depends on who is present (#208), which kept every room small.<br>**T2, Cancel.** While a target is chosen, Cancel is in the target bar, as drawn. The centre button is not turned into Cancel.<br>**T3, actions that are not available.** Every action of the role is a tile, as drawn. The ones the server offers can be used. The others are greyed, with the reason the server gives; where it gives none, the tile says only that the action is not available now. The phone never works out a reason from the rules itself | `phoneFrame` in `design/phone-ui/prototype/art.mjs`; the [handoff](phone-ui-handoff.md#the-shell)'s Room scene, Target bar and Tile; [#222](https://github.com/Amirkianfar66/GameN/issues/222) |
 
 **What it does not decide:**
 - **The merge gate itself.** Merges are Integration's, and so are `AGENTS.md` and CI, where such a gate is written. The gate applies once Integration adds it. The owner's instruction to Integration asks for that.
@@ -114,6 +114,31 @@ What changes is how each beat is drawn, lit, staged and finished ([pregame-films
 - A caution Designer keeps on record: the title, from 7.8 seconds, now shows the team's colour on the player's own phone. A neighbour who glimpses that screen sees the team as well as the role. The owner decided it; the role card the phone shows next carries the team too.
 - Adoption: no client plays any of them. The boarding still has no stage to play in (R17 in [pregame-films.md](pregame-films.md)).
 - Sound: the films stay silent.
+
+## 7 and 8 November 2026: the rooms redrawn to match the crew
+
+**The owner asked for the rooms to match the restyled crew, saw one room as a test, then approved all five.**
+
+| When | What the owner said | What it decides |
+| --- | --- | --- |
+| 7 November | "can you also improve each room match with he quality of the new characters? lets start with 1 room image as a test? what do you think?" | One room first, as a test. Designer proposed Room A, the crew bay, drawn by hand in the crew's ink |
+| 8 November | "I am really happy with rooms let do it for all", on seeing Room A redrawn | Room A stands as drawn. The other four are redrawn in the same hand and as dark: the Command Room, Room B, the Hospital (the four-berth ward the board shows today) and the Jail |
+| 8 November | "yes I am happy", on seeing the five ([PR #197](https://github.com/Amirkianfar66/GameN/pull/197)) | The five rooms stand as drawn: the crew's ink, the noir light, each room's own colour family, and Room A's frame drawn behind its props |
+
+**The approval covers:**
+- The drawing only: the places, slots, camera, focus, press areas, props and colour families are today's.
+- Room A's one correction: its frame line is drawn behind the props, as today's scenes draw it.
+
+**What it does not decide:** adoption.
+- The approved rooms are packaged as `room-drawing-1.0.0`, with lights-out pictures drawn from them ([room-drawing-release.md](room-drawing-release.md), [DSN-REQ-18](integration-requests.md#dsn-req-18)).
+- The owner then asked: "what about the animations which need to update?" The films that draw parts of a room again are redrawn with the rooms in the same release:
+  - the Captain's Jail door, lamp, keypad and airlock;
+  - the Hospital's drone, berth monitors and lamps;
+  - the private-talk capsule.
+
+  The films' other art (insets, tags and effects with no room behind them) is left as it is.
+- The game, the board and the films are unchanged until Integration registers it and Frontend adopts it.
+- The owner has not seen the lights-out pictures or the films' pieces separately.
 
 ## 7 November 2026: the character restyle, a pilot of three
 
