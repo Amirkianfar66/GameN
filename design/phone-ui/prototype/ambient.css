@@ -1,0 +1,107 @@
+/* mothership:dev-only
+ * Ambient motion in the rooms and the capsule (ambient.mjs; the owner, 9 and 10 November 2026). Stars
+ * drift past the windows at three depths while each window's voyage passes; screens retype, scroll,
+ * beat and ping; keys and small lights go on and off. Movement and fades only, plus the keys' and
+ * lights' colour. Decorative and the same on every phone. Under Reduce motion it holds still.
+ */
+.amb { position: absolute; pointer-events: none; overflow: visible; }
+
+/* The window: three depths of stars, right to left, as if the ship moves on. */
+.amb .amb-drift { animation: amb-drift var(--dur) linear infinite; }
+@keyframes amb-drift { from { transform: translateX(0); } to { transform: translateX(var(--dx)); } }
+.amb .amb-twinkle { animation: amb-twinkle var(--d) ease-in-out var(--o) infinite; }
+@keyframes amb-twinkle { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+.amb .amb-sparkle { transform-box: fill-box; transform-origin: center; animation: amb-sparkle 3.4s ease-in-out infinite; }
+@keyframes amb-sparkle { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.3); opacity: 0.7; } }
+.amb .amb-meteor { opacity: 0; animation: amb-meteor 12s linear -7s infinite; }
+@keyframes amb-meteor {
+  0%, 86% { opacity: 0; transform: translate(0, 0); }
+  87.5% { opacity: 1; }
+  95% { opacity: 1; transform: translate(-150px, 70px); }
+  97%, 100% { opacity: 0; transform: translate(-165px, 77px); }
+}
+.amb .amb-bob { animation: amb-bob 18s ease-in-out infinite; }
+@keyframes amb-bob { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(-5px, 3px); } }
+.amb .amb-bands { animation: amb-bands 26s ease-in-out infinite; }
+@keyframes amb-bands { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(-14px); } }
+
+/* Screens: lines retype, a trace scrolls, a cursor blinks; a console's marks change, its dial pings. */
+.amb .amb-type { animation: amb-type 6.4s linear var(--d) infinite; }
+@keyframes amb-type { 0%, 62% { stroke-dashoffset: 0; } 64% { stroke-dashoffset: var(--len); } 100% { stroke-dashoffset: 0; } }
+.amb .amb-cursor { animation: amb-blink 1.1s steps(1, end) var(--d) infinite; }
+@keyframes amb-blink { 0% { opacity: 1; } 50% { opacity: 0; } }
+.amb .amb-trace { animation: amb-trace 2.8s linear var(--d) infinite; }
+@keyframes amb-trace { to { transform: translateX(var(--dx)); } }
+.amb .amb-bar { animation: amb-bar 4.8s steps(1, end) infinite; }
+.amb .amb-bar1 { animation-duration: 3.6s; animation-delay: -1.2s; }
+.amb .amb-bar2 { animation-duration: 5.4s; animation-delay: -2.5s; }
+@keyframes amb-bar {
+  0% { stroke-dashoffset: 0; }
+  25% { stroke-dashoffset: calc(var(--len) * 0.38); }
+  50% { stroke-dashoffset: calc(var(--len) * 0.14); }
+  75% { stroke-dashoffset: calc(var(--len) * 0.6); }
+}
+.amb .amb-ping { transform-box: fill-box; transform-origin: center; animation: amb-ping 2.4s ease-out infinite; }
+@keyframes amb-ping { 0% { transform: scale(1); opacity: 0.9; } 100% { transform: scale(3); opacity: 0; } }
+.amb .amb-dot { animation: amb-blink 1.2s steps(1, end) infinite; }
+
+/* Keys light one after another; small lights blink, each at its own pace. */
+.amb .amb-key { animation: amb-key var(--dur) steps(1, end) var(--d) infinite; }
+@keyframes amb-key { 0% { fill: var(--lit); } 33.34% { fill: var(--unlit); } }
+.amb .amb-led-slow { --dur: 2.2s; }
+.amb .amb-led-fast { --dur: 1.3s; }
+.amb .amb-led-flicker { --dur: 3.1s; }
+.amb .amb-led-core { animation: amb-led var(--dur) steps(1, end) infinite; }
+.amb .amb-led-glow { opacity: 0.35; animation: amb-led-glow var(--dur) steps(1, end) infinite; }
+.amb .amb-led-flicker .amb-led-core { animation-name: amb-led-flick; }
+.amb .amb-led-flicker .amb-led-glow { animation-name: amb-led-glow-flick; }
+@keyframes amb-led { 0% { fill: var(--on); } 60% { fill: var(--off); } }
+@keyframes amb-led-glow { 0% { opacity: 0.35; } 60% { opacity: 0; } }
+@keyframes amb-led-flick { 0% { fill: var(--on); } 70% { fill: var(--off); } 73% { fill: var(--on); } 77% { fill: var(--off); } 80% { fill: var(--on); } }
+@keyframes amb-led-glow-flick { 0% { opacity: 0.35; } 70% { opacity: 0; } 73% { opacity: 0.35; } 77% { opacity: 0; } 80% { opacity: 0.35; } }
+
+/* Reduce motion: one still picture. */
+html[data-motion="reduced"] .amb *, .ph[data-motion="reduced"] .amb * { animation-play-state: paused !important; }
+@media (prefers-reduced-motion: reduce) { .amb * { animation-play-state: paused !important; } }
+
+/* A window's voyage: tumbling rocks and a second, lower shooting star (the passers' crossings are each
+   window's own keyframes, written by ambient.mjs). */
+.amb .amb-spin { transform-box: fill-box; transform-origin: center; animation: amb-spin var(--dur) linear infinite; }
+.amb .amb-spin[data-dir="ccw"] { animation-direction: reverse; }
+@keyframes amb-spin { to { transform: rotate(360deg); } }
+.amb .amb-meteor2 { opacity: 0; animation: amb-meteor2 17s linear -3s infinite; }
+@keyframes amb-meteor2 {
+  0%, 70% { opacity: 0; transform: translate(0, 0); }
+  71% { opacity: 1; }
+  77% { opacity: 1; transform: translate(-120px, 40px); }
+  79%, 100% { opacity: 0; transform: translate(-132px, 44px); }
+}
+
+/* The other rooms (the owner, 10 November 2026: "go for all rooms"): a heart monitor's trace runs
+   on; a display's light scans to and fro; light runs along pipes now and then; dust drifts in a
+   lamp's cone, each mote on its own path. */
+.amb .amb-scroll { animation: amb-trace var(--dur) linear infinite; }
+.amb .amb-scan { animation: amb-scan 5s ease-in-out infinite; }
+@keyframes amb-scan { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(var(--dx)); } }
+.amb .amb-glint { opacity: 0; animation: amb-glint var(--dur) linear var(--d) infinite; }
+@keyframes amb-glint {
+  0% { transform: translateX(0); opacity: 0; }
+  8%, 46% { opacity: 0.85; }
+  54%, 100% { transform: translateX(var(--dx)); opacity: 0; }
+}
+.amb .amb-mote { animation: amb-mote var(--dur) ease-in-out var(--d) infinite; }
+@keyframes amb-mote {
+  0%, 100% { transform: translate(0, 0); opacity: var(--o); }
+  30% { transform: translate(var(--mx), var(--my)); opacity: calc(var(--o) * 0.4); }
+  65% { transform: translate(calc(var(--mx) * -0.6), calc(var(--my) * -1.4)); opacity: var(--o); }
+}
+
+/* Bubbles rising through a tank's liquid, swaying a little. */
+.amb .amb-bubble { animation: amb-bubble var(--dur) linear var(--d) infinite; }
+@keyframes amb-bubble {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(3px, calc(var(--rise) * 0.25)); }
+  50% { transform: translate(-2px, calc(var(--rise) * 0.5)); }
+  75% { transform: translate(3px, calc(var(--rise) * 0.75)); }
+  100% { transform: translate(0, var(--rise)); }
+}
