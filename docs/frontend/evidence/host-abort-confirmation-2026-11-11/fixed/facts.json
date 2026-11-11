@@ -1,0 +1,147 @@
+{
+  "scope": "Actual native app/session/controller/renderer with an excluded synthetic service. Only sanitized labels, counters and identity-equality booleans are recorded; no room IDs, roles, tokens or credentials. Desktop Chromium only.",
+  "acceptance": true,
+  "generatedAt": "2026-11-11T02:30:35.386Z",
+  "browser": {
+    "protocolVersion": "1.3",
+    "product": "Chrome/157.0.8103.40",
+    "revision": "@6f75a8afa26ce5537c82b4887f152dfdc7183e05",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/157.0.0.0 Safari/537.36",
+    "jsVersion": "15.7.112.23"
+  },
+  "sourcesVerifiedBefore": true,
+  "cases": [
+    {
+      "name": "display-390-844-100-normal",
+      "passed": true,
+      "firstClickLabel": "Confirm abort · No winner",
+      "firstClickSendsNoAbort": true,
+      "closeAndEscapeSendNoAbort": true,
+      "explicitConfirmationSubmitsOnce": true,
+      "terminal": {
+        "abortAttempts": 1,
+        "abortCommits": 1,
+        "originalAbortRetried": false,
+        "commandRequests": 0,
+        "receiptRequests": 0,
+        "originalCommandReceipt": false,
+        "status": "aborted",
+        "uncertain": false,
+        "canReturnToLobby": true
+      },
+      "localReturnSendsNoAbort": true,
+      "captures": {
+        "confirmation": "display-390-844-100-normal-first-click-confirmation.jpg",
+        "terminal": "display-390-844-100-normal-terminal.jpg"
+      }
+    },
+    {
+      "name": "display-320-568-200-reduced",
+      "passed": true,
+      "firstClickLabel": "Confirm abort · No winner",
+      "firstClickSendsNoAbort": true,
+      "closeAndEscapeSendNoAbort": true,
+      "explicitConfirmationSubmitsOnce": true,
+      "terminal": {
+        "abortAttempts": 1,
+        "abortCommits": 1,
+        "originalAbortRetried": false,
+        "commandRequests": 0,
+        "receiptRequests": 0,
+        "originalCommandReceipt": false,
+        "status": "aborted",
+        "uncertain": false,
+        "canReturnToLobby": true
+      },
+      "localReturnSendsNoAbort": true,
+      "captures": {
+        "confirmation": "display-320-568-200-reduced-first-click-confirmation.jpg",
+        "terminal": "display-320-568-200-reduced-terminal.jpg"
+      }
+    },
+    {
+      "name": "player-390-844-100-normal",
+      "passed": true,
+      "firstClickLabel": "Confirm abort · No winner",
+      "firstClickSendsNoAbort": true,
+      "closeAndEscapeSendNoAbort": true,
+      "explicitConfirmationSubmitsOnce": true,
+      "terminal": {
+        "abortAttempts": 1,
+        "abortCommits": 1,
+        "originalAbortRetried": false,
+        "commandRequests": 0,
+        "receiptRequests": 0,
+        "originalCommandReceipt": false,
+        "status": "aborted",
+        "uncertain": false,
+        "canReturnToLobby": true
+      },
+      "localReturnSendsNoAbort": true,
+      "captures": {
+        "confirmation": "player-390-844-100-normal-first-click-confirmation.jpg",
+        "terminal": "player-390-844-100-normal-terminal.jpg"
+      }
+    },
+    {
+      "name": "player-320-568-200-reduced",
+      "passed": true,
+      "firstClickLabel": "Confirm abort · No winner",
+      "firstClickSendsNoAbort": true,
+      "closeAndEscapeSendNoAbort": true,
+      "explicitConfirmationSubmitsOnce": true,
+      "terminal": {
+        "abortAttempts": 1,
+        "abortCommits": 1,
+        "originalAbortRetried": false,
+        "commandRequests": 0,
+        "receiptRequests": 0,
+        "originalCommandReceipt": false,
+        "status": "aborted",
+        "uncertain": false,
+        "canReturnToLobby": true
+      },
+      "localReturnSendsNoAbort": true,
+      "captures": {
+        "confirmation": "player-320-568-200-reduced-first-click-confirmation.jpg",
+        "terminal": "player-320-568-200-reduced-terminal.jpg"
+      }
+    },
+    {
+      "name": "lost-abort-reload-original-retry",
+      "passed": true,
+      "abortAttempts": 2,
+      "abortCommits": 1,
+      "originalAbortRetried": true,
+      "commandRequests": 0,
+      "receiptRequests": 0,
+      "originalCommandReceipt": false,
+      "status": "aborted",
+      "uncertain": false,
+      "canReturnToLobby": true,
+      "captures": {
+        "pending": "lost-abort-after-reload.jpg",
+        "settled": "lost-abort-settled.jpg"
+      }
+    },
+    {
+      "name": "terminal-original-command-receipt",
+      "passed": true,
+      "abortAttempts": 0,
+      "abortCommits": 0,
+      "originalAbortRetried": false,
+      "commandRequests": 1,
+      "receiptRequests": 1,
+      "originalCommandReceipt": true,
+      "status": "aborted",
+      "uncertain": false,
+      "canReturnToLobby": true,
+      "captures": {
+        "pending": "terminal-original-command-pending.jpg",
+        "settled": "terminal-original-command-settled.jpg"
+      }
+    }
+  ],
+  "sourcesUnchangedThroughRun": true,
+  "runtimeErrors": []
+}
