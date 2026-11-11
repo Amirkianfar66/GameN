@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pack and build</title>
+<style>
+  :root { --bg: #0b0e14; --panel: #121722; --ink: #f4ebdd; --muted: #a9b1be; --amber: #f1b84b; --same: #7ed3a2; --close: #93b7e6; --differs: #ff9576; --line: #263042; }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.45 system-ui, -apple-system, 'Segoe UI', sans-serif; }
+  header, main { max-width: 1340px; margin: 0 auto; padding: 16px; }
+  h1 { margin: 8px 0 4px; font-size: 22px; }
+  header p { margin: 4px 0; color: var(--muted); }
+  h2 { color: var(--amber); font-size: 18px; margin: 28px 0 12px; }
+  .pairs { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 400px), 1fr)); gap: 22px; }
+  .pair { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 12px; min-width: 0; }
+  h3 { margin: 0 0 6px; font-size: 16px; }
+  .sheet { color: var(--muted); font-weight: 400; font-size: 13px; }
+  .sides { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  figure { margin: 0; min-width: 0; }
+  img { display: block; width: 100%; height: auto; border-radius: 6px; background: #000; }
+  figcaption { color: var(--muted); font-size: 12px; margin-top: 4px; }
+  .missing div { aspect-ratio: 390 / 844; display: grid; place-items: center; padding: 12px; text-align: center; color: var(--muted); border: 1px dashed var(--line); border-radius: 6px; font-size: 13px; }
+  .finding { margin: 8px 0 0; font-size: 13px; color: var(--muted); }
+  .finding b { margin-right: 4px; }
+  .when { color: var(--muted); }
+  [data-v=same] { color: var(--same); } [data-v=close] { color: var(--close); } [data-v=differs] { color: var(--differs); }
+  details { margin-top: 8px; font-size: 12px; color: var(--muted); }
+  code { word-break: break-all; color: var(--ink); }
+  .failed { color: var(--differs); }
+  body.sheet-mode details, body.sheet-mode .earlier, body.sheet-mode .note { display: none; }
+  section.stage { display: flow-root; }
+  body.sheet-mode section.stage { padding: 4px 16px 16px; }
+  body.sheet-mode .pairs { grid-template-columns: repeat(3, 1fr); }
+</style>
+</head>
+<body>
+<header>
+  <h1>The pack beside the build</h1>
+  <p>1 parts · 0 same · 0 close · 1 differs, as Designer found them on 11 November 2026</p>
+  <p>The pack: <code>39aafaa31f0c060ff432cdb4a0fdf38e20116512</code>. The build: <code>e68cdcb987743b74c16538631fac5879a7bfe1e4</code>. Every part drawn at 390 × 844 with 200 % text, 1.5× pixels.</p>
+  <p>The findings shown were made at each part's own phone size and text size, not at this run's.</p>
+  <p>Desktop Chromium with sample matches on both sides: not a phone, a live match, VoiceOver or motion.</p>
+</header>
+<main>
+  <section class="stage" data-stage="rooms">
+    <h2>In the rooms</h2>
+    <div class="pairs">
+      <article class="pair" id="largest-text">
+        <h3>Smallest phone, Largest text <span class="sheet">sheet 56</span></h3>
+        <p class="finding current"><span class="when">11 November 2026:</span> <b data-v="differs">Differs</b> <span class="note">At 320 × 568 with 200 % text, the tab labels break mid-word (“Boar/d”), the result names no one, and the top bar takes about 130 px, with the clock on a row of its own. The design keeps whole labels, the result’s headline, and a two-line title with the clock beside it.</span></p>
+        <div class="sides"><figure><img src="img/largest-text-pack.jpg" alt="The pack" width="585" height="1266"><figcaption>The pack</figcaption></figure><figure><img src="img/largest-text-build.jpg" alt="The build" width="585" height="1266"><figcaption>The build</figcaption></figure></div>
+        
+        
+        <details><summary>How each side was drawn</summary>
+          <p>The pack: <code>/design/phone-ui/prototype/index.html?s=result&amp;outcome=PLAYER_JAILED&amp;safe=47%2C34&amp;text=2</code></p>
+          <p>The build: <code>/?scenario=vote&amp;count=9&amp;tuple=phone</code></p>
+          
+        </details>
+      </article>
+    </div>
+  </section>
+</main>
+<script>if (new URLSearchParams(location.search).has('sheet')) document.body.classList.add('sheet-mode');</script>
+</body>
+</html>

@@ -1,0 +1,1557 @@
+{
+  "tool": "design/tools/phone-ui-native-compare.mjs",
+  "createdAt": "2026-11-11T13:00:48.922Z",
+  "browser": "Google Chrome 157.0.8103.40",
+  "view": "Every part drawn at 320 × 568 with 200 % text, 1.5× pixels",
+  "viewOverride": {
+    "size": "320x568",
+    "text": 2
+  },
+  "pack": {
+    "commit": "39aafaa31f0c060ff432cdb4a0fdf38e20116512",
+    "dirty": false
+  },
+  "build": {
+    "folder": "/private/tmp/gamen-phone-room-preview-e68cdcb9",
+    "head": "e68cdcb987743b74c16538631fac5879a7bfe1e4",
+    "dirty": false,
+    "artwork": "89935bd6c0a37abfbe6da8130205d6d8a16e80e1"
+  },
+  "findingsDate": null,
+  "count": 9,
+  "parts": [
+    {
+      "id": "room-b",
+      "stage": "rooms",
+      "title": "Room B, your turn",
+      "sheet": "21",
+      "view": {
+        "size": "320x568",
+        "text": 2
+      },
+      "pack": {
+        "address": "/design/phone-ui/prototype/index.html?room=room-b&s=room&state=own&safe=20%2C0&text=2",
+        "image": "img/room-b-pack.jpg",
+        "width": 480,
+        "height": 852,
+        "problems": []
+      },
+      "build": {
+        "address": "/?scenario=board&count=9&tuple=phone",
+        "steps": [],
+        "image": "img/room-b-build.jpg",
+        "width": 480,
+        "height": 852,
+        "log": [],
+        "problems": []
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "differs",
+        "note": "The room is shrunk to the screen’s width, with dark bands above and below, and people drawn smaller. The design fills the space between the bars (the owner’s “too zoom” decision). Pass is a flat tab, and the room’s own “Windows” control is missing."
+      },
+      "now": null
+    },
+    {
+      "id": "room-a",
+      "stage": "rooms",
+      "title": "Room A",
+      "sheet": "20",
+      "view": {
+        "size": "320x568",
+        "text": 2
+      },
+      "pack": {
+        "address": "/design/phone-ui/prototype/index.html?room=room-a&s=room&state=own&safe=20%2C0&text=2",
+        "image": "img/room-a-pack.jpg",
+        "width": 480,
+        "height": 852,
+        "problems": []
+      },
+      "build": {
+        "address": "/?scenario=doctor&count=9&tuple=phone",
+        "steps": [],
+        "image": "img/room-a-build.jpg",
+        "width": 480,
+        "height": 852,
+        "log": [],
+        "problems": []
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "differs",
+        "note": "Shrunk the same way. The “Window · Hospital” control is missing."
+      },
+      "now": null
+    },
+    {
+      "id": "command-room",
+      "stage": "rooms",
+      "title": "Command Room",
+      "sheet": "22",
+      "view": {
+        "size": "320x568",
+        "text": 2
+      },
+      "pack": {
+        "address": "/design/phone-ui/prototype/index.html?room=command-room&s=room&state=own&safe=20%2C0&text=2",
+        "image": "img/command-room-pack.jpg",
+        "width": 480,
+        "height": 852,
+        "problems": []
+      },
+      "build": {
+        "address": "/?scenario=alien&count=9&tuple=phone",
+        "steps": [],
+        "image": "img/command-room-build.jpg",
+        "width": 480,
+        "height": 852,
+        "log": [],
+        "problems": []
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "differs",
+        "note": "It fills better, as its picture is taller, but the “Captain console” control is missing."
+      },
+      "now": null
+    },
+    {
+      "id": "hospital",
+      "stage": "rooms",
+      "title": "Hospital",
+      "sheet": "23",
+      "view": {
+        "size": "320x568",
+        "text": 2
+      },
+      "pack": {
+        "address": "/design/phone-ui/prototype/index.html?room=hospital&s=room&safe=20%2C0&text=2",
+        "image": "img/hospital-pack.jpg",
+        "width": 480,
+        "height": 852,
+        "problems": []
+      },
+      "build": {
+        "address": "/?scenario=hospital&count=9&tuple=phone",
+        "steps": [],
+        "image": "img/hospital-build.jpg",
+        "width": 480,
+        "height": 852,
+        "log": [],
+        "problems": []
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "differs",
+        "note": "The worst case: the ward small at the top over an empty band, the patients tiny. The “Hospital panel” control is missing."
+      },
+      "now": null
+    },
+    {
+      "id": "largest-text",
+      "stage": "rooms",
+      "title": "Smallest phone, Largest text",
+      "sheet": "56",
+      "view": {
+        "size": "320x568",
+        "text": 2
+      },
+      "pack": {
+        "address": "/design/phone-ui/prototype/index.html?s=result&outcome=PLAYER_JAILED&safe=20%2C0&text=2",
+        "image": "img/largest-text-pack.jpg",
+        "width": 480,
+        "height": 852,
+        "problems": []
+      },
+      "build": {
+        "address": "/?scenario=vote&count=9&tuple=phone",
+        "steps": [],
+        "image": "img/largest-text-build.jpg",
+        "width": 480,
+        "height": 852,
+        "log": [],
+        "problems": []
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "differs",
+        "note": "At 320 × 568 with 200 % text, the tab labels break mid-word (“Boar/d”), the result names no one, and the top bar takes about 130 px, with the clock on a row of its own. The design keeps whole labels, the result’s headline, and a two-line title with the clock beside it."
+      },
+      "now": null
+    },
+    {
+      "id": "pass",
+      "stage": "turn",
+      "title": "Pass",
+      "sheet": "27.3",
+      "view": {
+        "size": "320x568",
+        "text": 2
+      },
+      "pack": {
+        "address": "/design/phone-ui/prototype/index.html?room=room-a&s=room&state=pass&safe=20%2C0&text=2",
+        "image": "img/pass-pack.jpg",
+        "width": 480,
+        "height": 852,
+        "problems": []
+      },
+      "build": {
+        "address": "/?scenario=board&count=9&tuple=phone",
+        "steps": [
+          [
+            "tap",
+            "#planet-pass"
+          ],
+          [
+            "wait",
+            600
+          ]
+        ],
+        "image": "img/pass-build.jpg",
+        "width": 480,
+        "height": 852,
+        "log": [
+          "tap: Pass Pass"
+        ],
+        "problems": []
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "differs",
+        "note": "Only “Pass?”. The design says “Pass your turn? The turn goes to Eli · Player 5” and that your move stays open."
+      },
+      "now": null
+    },
+    {
+      "id": "actions",
+      "stage": "turn",
+      "title": "Actions",
+      "sheet": "28",
+      "view": {
+        "size": "320x568",
+        "text": 2
+      },
+      "pack": {
+        "address": "/design/phone-ui/prototype/index.html?active=4&role=Doctor&s=actions&safe=20%2C0&text=2",
+        "image": "img/actions-pack.jpg",
+        "width": 480,
+        "height": 852,
+        "problems": []
+      },
+      "build": {
+        "address": "/?scenario=doctor&count=9&tuple=phone",
+        "steps": [
+          [
+            "tap",
+            "#planet-nav-actions"
+          ],
+          [
+            "wait",
+            600
+          ]
+        ],
+        "image": "img/actions-build.jpg",
+        "width": 480,
+        "height": 852,
+        "log": [
+          "tap: Actions Actions"
+        ],
+        "problems": []
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "differs",
+        "note": "Only the offered actions, one tall row each, in an otherwise empty sheet. The design shows every action of your role as a tile with its state: 2 injections, Once a round, From Round 4."
+      },
+      "now": null
+    },
+    {
+      "id": "targeting",
+      "stage": "turn",
+      "title": "Choosing a target",
+      "sheet": "29",
+      "view": {
+        "size": "320x568",
+        "text": 2
+      },
+      "pack": {
+        "address": "/design/phone-ui/prototype/index.html?act=rescue&active=4&role=Doctor&s=actions&state=targeting&safe=20%2C0&text=2",
+        "image": "img/targeting-pack.jpg",
+        "width": 480,
+        "height": 852,
+        "problems": []
+      },
+      "build": {
+        "address": "/?scenario=doctor&count=9&tuple=phone",
+        "steps": [
+          [
+            "tap",
+            "#planet-nav-actions"
+          ],
+          [
+            "wait",
+            500
+          ],
+          [
+            "tapText",
+            "Rescue"
+          ],
+          [
+            "wait",
+            700
+          ]
+        ],
+        "image": "img/targeting-build.jpg",
+        "width": 480,
+        "height": 852,
+        "log": [
+          "tap: Actions Actions",
+          "tapText: Rescue Rescue"
+        ],
+        "problems": []
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "close",
+        "note": "Targets are the people where they stand. There is no “Rescue · Choose a player · Cancel” bar, and the centre Pass becomes “×”."
+      },
+      "now": null
+    },
+    {
+      "id": "target-check",
+      "stage": "turn",
+      "title": "Check before Register",
+      "sheet": "29",
+      "view": {
+        "size": "320x568",
+        "text": 2
+      },
+      "pack": {
+        "address": "/design/phone-ui/prototype/index.html?act=rescue&active=4&role=Doctor&s=actions&state=confirm&target=1&safe=20%2C0&text=2",
+        "image": "img/target-check-pack.jpg",
+        "width": 480,
+        "height": 852,
+        "problems": []
+      },
+      "build": {
+        "address": "/?scenario=doctor&count=9&tuple=phone",
+        "steps": [
+          [
+            "tap",
+            "#planet-nav-actions"
+          ],
+          [
+            "wait",
+            500
+          ],
+          [
+            "tapText",
+            "Rescue"
+          ],
+          [
+            "wait",
+            600
+          ],
+          [
+            "tapText",
+            "Crew|Player \\d",
+            {
+              "exclude": "nav|top|pass"
+            }
+          ],
+          [
+            "wait",
+            600
+          ]
+        ],
+        "image": "img/target-check-build.jpg",
+        "width": 480,
+        "height": 852,
+        "log": [
+          "tap: Actions Actions",
+          "tapText: Rescue Rescue",
+          "tapText: Crew 3 · Player 3 at their actual position"
+        ],
+        "problems": []
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "differs",
+        "note": "Only “Rescue — Player 3?”. The design shows the person and what the action costs and does: “Uses 1 of 2 shared injections”, and when it resolves."
+      },
+      "now": null
+    },
+    {
+      "id": "registered",
+      "stage": "turn",
+      "title": "After Register",
+      "sheet": "29.1",
+      "view": {
+        "size": "320x568",
+        "text": 2
+      },
+      "pack": {
+        "address": "/design/phone-ui/prototype/index.html?act=rescue&active=4&role=Doctor&s=actions&state=registered&target=1&safe=20%2C0&text=2",
+        "image": "img/registered-pack.jpg",
+        "width": 480,
+        "height": 852,
+        "problems": []
+      },
+      "build": {
+        "address": "/?scenario=doctor&count=9&tuple=phone",
+        "steps": [
+          [
+            "tap",
+            "#planet-nav-actions"
+          ],
+          [
+            "wait",
+            500
+          ],
+          [
+            "tapText",
+            "Rescue"
+          ],
+          [
+            "wait",
+            600
+          ],
+          [
+            "tapText",
+            "Crew|Player \\d",
+            {
+              "exclude": "nav|top|pass"
+            }
+          ],
+          [
+            "wait",
+            600
+          ],
+          [
+            "tapText",
+            "^Register"
+          ],
+          [
+            "wait",
+            1200
+          ]
+        ],
+        "image": "img/registered-build.jpg",
+        "width": 480,
+        "height": 852,
+        "log": [
+          "tap: Actions Actions",
+          "tapText: Rescue Rescue",
+          "tapText: Crew 3 · Player 3 at their actual position",
+          "tapText: Register"
+        ],
+        "problems": []
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "differs",
+        "note": "“Registered. Resolution is pending.” (Scan says “Waiting for the authoritative view.”) The design says what will happen and when, with a REGISTERED stamp and a time line."
+      },
+      "now": null
+    },
+    {
+      "id": "scan",
+      "stage": "turn",
+      "title": "Hacker: Scan",
+      "sheet": "42",
+      "view": {
+        "size": "320x568",
+        "text": 2
+      },
+      "pack": {
+        "address": "/design/phone-ui/prototype/index.html?s=scan&state=target&safe=20%2C0&text=2",
+        "image": "img/scan-pack.jpg",
+        "width": 480,
+        "height": 852,
+        "problems": []
+      },
+      "build": {
+        "address": "/?scenario=hacker&count=9&tuple=phone",
+        "steps": [
+          [
+            "tap",
+            "#planet-nav-actions"
+          ],
+          [
+            "wait",
+            500
+          ],
+          [
+            "tapText",
+            "^Scan"
+          ],
+          [
+            "wait",
+            700
+          ]
+        ],
+        "image": "img/scan-build.jpg",
+        "width": 480,
+        "height": 852,
+        "log": [
+          "tap: Actions Actions",
+          "tapText: Scan Scan"
+        ],
+        "problems": []
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "differs",
+        "note": "Choosing whom to scan opens the whole board, and the guess that follows is three plain buttons. The design keeps your room with a Scan bar, then puts the person and the guess on one card."
+      },
+      "now": null
+    },
+    {
+      "id": "code",
+      "stage": "turn",
+      "title": "Hacker: final Code",
+      "sheet": "42",
+      "view": {
+        "size": "320x568",
+        "text": 2
+      },
+      "pack": {
+        "address": "/design/phone-ui/prototype/index.html?s=code&state=pick&safe=20%2C0&text=2",
+        "image": "img/code-pack.jpg",
+        "width": 480,
+        "height": 852,
+        "problems": []
+      },
+      "build": {
+        "address": "/?scenario=hacker&count=9&tuple=phone",
+        "steps": [
+          [
+            "tap",
+            "#planet-nav-actions"
+          ],
+          [
+            "wait",
+            500
+          ],
+          [
+            "tapText",
+            "final Code"
+          ],
+          [
+            "wait",
+            700
+          ]
+        ],
+        "image": "img/code-build.jpg",
+        "width": 480,
+        "height": 852,
+        "log": [
+          "tap: Actions Actions",
+          "tapText: Submit final Code Submit final Code"
+        ],
+        "problems": []
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "differs",
+        "note": "Nine “Player n” text buttons. The design uses the nine portraits with names and marks Pick 1–4."
+      },
+      "now": null
+    },
+    {
+      "id": "clone",
+      "stage": "turn",
+      "title": "Alien: Clone",
+      "sheet": "29.2",
+      "view": {
+        "size": "320x568",
+        "text": 2
+      },
+      "pack": {
+        "address": "/design/phone-ui/prototype/index.html?act=clone&active=4&role=Alien&s=actions&state=registered&safe=20%2C0&text=2",
+        "image": "img/clone-pack.jpg",
+        "width": 480,
+        "height": 852,
+        "problems": []
+      },
+      "build": {
+        "address": "/?scenario=alien&count=9&tuple=phone",
+        "steps": [
+          [
+            "tap",
+            "#planet-nav-card"
+          ],
+          [
+            "wait",
+            700
+          ]
+        ],
+        "image": "img/clone-build.jpg",
+        "width": 480,
+        "height": 852,
+        "log": [
+          "tap: Card Card"
+        ],
+        "problems": []
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "differs",
+        "note": "The “CLONE ACTIVE” stamp is drawn over its own sentence. The design confirms the Clone with an ACTIVE stamp and a time line."
+      },
+      "now": null
+    },
+    {
+      "id": "card",
+      "stage": "turn",
+      "title": "Card",
+      "sheet": "31",
+      "view": {
+        "size": "320x568",
+        "text": 2
+      },
+      "pack": {
+        "address": "/design/phone-ui/prototype/index.html?role=Hacker&s=card&safe=20%2C0&text=2",
+        "image": "img/card-pack.jpg",
+        "width": 480,
+        "height": 852,
+        "problems": []
+      },
+      "build": {
+        "address": "/?scenario=board&count=9&tuple=phone",
+        "steps": [
+          [
+            "tap",
+            "#planet-nav-card"
+          ],
+          [
+            "wait",
+            700
+          ]
+        ],
+        "image": "img/card-build.jpg",
+        "width": 480,
+        "height": 852,
+        "log": [
+          "tap: Card Card"
+        ],
+        "problems": []
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "differs",
+        "note": "A dark box of paragraphs. The design shows the large illustrated card with Card, Knowledge and Resources, and a Hide button."
+      },
+      "now": null
+    },
+    {
+      "id": "panels",
+      "stage": "panels",
+      "title": "Panels",
+      "sheet": "32",
+      "view": {
+        "size": "320x568",
+        "text": 2
+      },
+      "pack": {
+        "address": "/design/phone-ui/prototype/index.html?s=panels&safe=20%2C0&text=2",
+        "image": "img/panels-pack.jpg",
+        "width": 480,
+        "height": 852,
+        "problems": []
+      },
+      "build": {
+        "address": "/?scenario=board&count=9&tuple=phone",
+        "steps": [
+          [
+            "tap",
+            "#planet-nav-panels"
+          ],
+          [
+            "wait",
+            600
+          ]
+        ],
+        "image": "img/panels-build.jpg",
+        "width": 480,
+        "height": 852,
+        "log": [
+          "tap: Panels Panels"
+        ],
+        "problems": []
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "differs",
+        "note": "Tall rows without explanations. The design’s rows say what each panel shows and who can use it, such as “Navigation · Captain and Officer only”."
+      },
+      "now": null
+    },
+    {
+      "id": "settings",
+      "stage": "panels",
+      "title": "Settings (⋮)",
+      "sheet": "32",
+      "view": {
+        "size": "320x568",
+        "text": 2
+      },
+      "pack": {
+        "address": "/design/phone-ui/prototype/index.html?s=settings&safe=20%2C0&text=2",
+        "image": "img/settings-pack.jpg",
+        "width": 480,
+        "height": 852,
+        "problems": []
+      },
+      "build": {
+        "address": "/?scenario=board&count=9&tuple=phone",
+        "steps": [
+          [
+            "tap",
+            "#planet-top-settings"
+          ],
+          [
+            "wait",
+            500
+          ],
+          [
+            "tap",
+            "summary"
+          ],
+          [
+            "wait",
+            500
+          ]
+        ],
+        "image": "img/settings-build.jpg",
+        "width": 480,
+        "height": 852,
+        "log": [
+          "tap: Settings Settings",
+          "tap: Display settings"
+        ],
+        "problems": []
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "differs",
+        "note": "A checkbox and a drop-down under a folded line. The design has a switch with its explanation and Standard / Large / Largest."
+      },
+      "now": null
+    },
+    {
+      "id": "players",
+      "stage": "panels",
+      "title": "Players",
+      "sheet": "32",
+      "view": {
+        "size": "320x568",
+        "text": 2
+      },
+      "pack": {
+        "address": "/design/phone-ui/prototype/index.html?s=players&safe=20%2C0&text=2",
+        "image": "img/players-pack.jpg",
+        "width": 480,
+        "height": 852,
+        "problems": []
+      },
+      "build": {
+        "address": "/?scenario=board&count=9&tuple=phone",
+        "steps": [
+          [
+            "tap",
+            "#planet-nav-panels"
+          ],
+          [
+            "wait",
+            500
+          ],
+          [
+            "tapText",
+            "^Players"
+          ],
+          [
+            "wait",
+            600
+          ]
+        ],
+        "image": "img/players-build.jpg",
+        "width": 480,
+        "height": 852,
+        "log": [
+          "tap: Panels Panels",
+          "tapText: Players Players"
+        ],
+        "problems": []
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "differs",
+        "note": "Plain text lines (“Player 1 · Crew 1 · Room A · Healthy”). The design has portraits, names, Captain and Officer badges, and injuries."
+      },
+      "now": null
+    },
+    {
+      "id": "round-order",
+      "stage": "panels",
+      "title": "Round order",
+      "sheet": "32",
+      "view": {
+        "size": "320x568",
+        "text": 2
+      },
+      "pack": {
+        "address": "/design/phone-ui/prototype/index.html?s=rules&safe=20%2C0&text=2",
+        "image": "img/round-order-pack.jpg",
+        "width": 480,
+        "height": 852,
+        "problems": []
+      },
+      "build": {
+        "address": "/?scenario=board&count=9&tuple=phone",
+        "steps": [
+          [
+            "tap",
+            "#planet-nav-panels"
+          ],
+          [
+            "wait",
+            500
+          ],
+          [
+            "tapText",
+            "^Round order"
+          ],
+          [
+            "wait",
+            600
+          ]
+        ],
+        "image": "img/round-order-build.jpg",
+        "width": 480,
+        "height": 852,
+        "log": [
+          "tap: Panels Panels",
+          "tapText: Round order Round order"
+        ],
+        "problems": []
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "differs",
+        "note": "One long sentence. The design lists each phase on its own row with its timing."
+      },
+      "now": null
+    },
+    {
+      "id": "windows",
+      "stage": "panels",
+      "title": "Windows",
+      "sheet": "34",
+      "view": {
+        "size": "320x568",
+        "text": 2
+      },
+      "pack": {
+        "address": "/design/phone-ui/prototype/index.html?s=windows&state=view&safe=20%2C0&text=2",
+        "image": "img/windows-pack.jpg",
+        "width": 480,
+        "height": 852,
+        "problems": []
+      },
+      "build": {
+        "address": "/?scenario=windows&count=9&tuple=phone",
+        "steps": [
+          [
+            "tap",
+            "#planet-nav-panels"
+          ],
+          [
+            "wait",
+            500
+          ],
+          [
+            "tapText",
+            "^Windows"
+          ],
+          [
+            "wait",
+            700
+          ]
+        ],
+        "image": "img/windows-build.jpg",
+        "width": 480,
+        "height": 852,
+        "log": [
+          "tap: Panels Panels",
+          "tapText: Windows Windows"
+        ],
+        "problems": []
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "close",
+        "note": "Window pairs, the drawings and “Unverified” match. Player numbers instead of names."
+      },
+      "now": null
+    },
+    {
+      "id": "hospital-panel",
+      "stage": "panels",
+      "title": "Hospital panel",
+      "sheet": "43",
+      "view": {
+        "size": "320x568",
+        "text": 2
+      },
+      "pack": {
+        "address": "/design/phone-ui/prototype/index.html?s=panel&state=enter&safe=20%2C0&text=2",
+        "image": "img/hospital-panel-pack.jpg",
+        "width": 480,
+        "height": 852,
+        "problems": []
+      },
+      "build": {
+        "address": "/?scenario=hospital&count=9&tuple=phone",
+        "steps": [
+          [
+            "tap",
+            "#planet-nav-panels"
+          ],
+          [
+            "wait",
+            500
+          ],
+          [
+            "tapText",
+            "Hospital panel"
+          ],
+          [
+            "wait",
+            600
+          ],
+          [
+            "tapText",
+            "Hospital panel",
+            {
+              "scope": ".planet-sheet"
+            }
+          ],
+          [
+            "wait",
+            700
+          ]
+        ],
+        "image": "img/hospital-panel-build.jpg",
+        "width": 480,
+        "height": 852,
+        "log": [
+          "tap: Panels Panels",
+          "tapText: Hospital panel Hospital panel",
+          "tapText: Hospital panel Hospital panel"
+        ],
+        "problems": []
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "close",
+        "note": "The keypad 1–9 and its one-attempt rule match."
+      },
+      "now": null
+    },
+    {
+      "id": "promise-offer",
+      "stage": "panels",
+      "title": "Offer a Promise",
+      "sheet": "33",
+      "view": {
+        "size": "320x568",
+        "text": 2
+      },
+      "pack": {
+        "address": "/design/phone-ui/prototype/index.html?s=promises&state=kinds&safe=20%2C0&text=2",
+        "image": "img/promise-offer-pack.jpg",
+        "width": 480,
+        "height": 852,
+        "problems": []
+      },
+      "build": {
+        "address": "/?scenario=promises&count=9&tuple=phone",
+        "steps": [
+          [
+            "tap",
+            "#planet-top-promises"
+          ],
+          [
+            "wait",
+            600
+          ],
+          [
+            "tapText",
+            "Offer a Promise"
+          ],
+          [
+            "wait",
+            700
+          ]
+        ],
+        "image": "img/promise-offer-build.jpg",
+        "width": 480,
+        "height": 852,
+        "log": [
+          "tap: Promises, 1 waiting Promises",
+          "tapText: Offer a Promise Offer a Promise"
+        ],
+        "problems": []
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "differs",
+        "note": "It first asks you to pick your private-talk partner, who is already known. The design goes straight to “Offer to Ava” and the six kinds."
+      },
+      "now": null
+    },
+    {
+      "id": "promise-incoming",
+      "stage": "panels",
+      "title": "A Promise offered to you",
+      "sheet": "33",
+      "view": {
+        "size": "320x568",
+        "text": 2
+      },
+      "pack": {
+        "address": "/design/phone-ui/prototype/index.html?s=promises&state=incoming&safe=20%2C0&text=2",
+        "image": "img/promise-incoming-pack.jpg",
+        "width": 480,
+        "height": 852,
+        "problems": []
+      },
+      "build": {
+        "address": "/?scenario=promises&count=9&tuple=phone",
+        "steps": [
+          [
+            "tap",
+            "#planet-top-promises"
+          ],
+          [
+            "wait",
+            600
+          ]
+        ],
+        "image": "img/promise-incoming-build.jpg",
+        "width": 480,
+        "height": 852,
+        "log": [
+          "tap: Promises, 1 waiting Promises"
+        ],
+        "problems": []
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "differs",
+        "note": "A line of counts and Accept / Decline rows. The design shows the offer as a card with its exact terms, then Decline or Accept."
+      },
+      "now": null
+    },
+    {
+      "id": "promise-results",
+      "stage": "panels",
+      "title": "Promise results",
+      "sheet": "33.1",
+      "view": {
+        "size": "320x568",
+        "text": 2
+      },
+      "pack": {
+        "address": "/design/phone-ui/prototype/index.html?case=fulfilled&s=promises&state=results&safe=20%2C0&text=2",
+        "image": "img/promise-results-pack.jpg",
+        "width": 480,
+        "height": 852,
+        "problems": []
+      },
+      "build": {
+        "address": "/?scenario=promise-results&count=9&tuple=phone",
+        "steps": [
+          [
+            "tap",
+            "#planet-top-promises"
+          ],
+          [
+            "wait",
+            600
+          ]
+        ],
+        "image": "img/promise-results-build.jpg",
+        "width": 480,
+        "height": 852,
+        "log": [
+          "tap: Promises Promises"
+        ],
+        "problems": []
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "close",
+        "note": "Cards with Pending and Not fulfilled, within the quota. Player numbers instead of names and portraits."
+      },
+      "now": null
+    },
+    {
+      "id": "jail-ballot",
+      "stage": "votes",
+      "title": "Jail vote",
+      "sheet": "35",
+      "view": {
+        "size": "320x568",
+        "text": 2
+      },
+      "pack": {
+        "address": "/design/phone-ui/prototype/index.html?kind=jail&s=vote&safe=20%2C0&text=2",
+        "image": "img/jail-ballot-pack.jpg",
+        "width": 480,
+        "height": 852,
+        "problems": []
+      },
+      "build": {
+        "address": "/?scenario=board&count=9&tuple=phone",
+        "steps": [
+          [
+            "eval",
+            "window.planetHarness.openJailVote()"
+          ],
+          [
+            "wait",
+            900
+          ],
+          [
+            "tap",
+            "#planet-pass"
+          ],
+          [
+            "wait",
+            700
+          ]
+        ],
+        "image": "img/jail-ballot-build.jpg",
+        "width": 480,
+        "height": 852,
+        "log": [
+          null,
+          "tap: Vote Vote"
+        ],
+        "problems": []
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "close",
+        "note": "The 3 × 3 roster and Abstain."
+      },
+      "now": null
+    },
+    {
+      "id": "jail-result",
+      "stage": "votes",
+      "title": "Jail result",
+      "sheet": "38",
+      "view": {
+        "size": "320x568",
+        "text": 2
+      },
+      "pack": {
+        "address": "/design/phone-ui/prototype/index.html?outcome=JAIL_FULL&s=result&safe=20%2C0&text=2",
+        "image": "img/jail-result-pack.jpg",
+        "width": 480,
+        "height": 852,
+        "problems": []
+      },
+      "build": {
+        "address": "/?scenario=vote&count=9&tuple=phone",
+        "steps": [],
+        "image": "img/jail-result-build.jpg",
+        "width": 480,
+        "height": 852,
+        "log": [],
+        "problems": []
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "differs",
+        "note": "It names no one (“Jail full · no transfer”), sits on dark glass, and shows zero as “–”. The design names the outcome on the paper card, “GUS CHOSEN · JAIL FULL”, with its stamp."
+      },
+      "now": null
+    },
+    {
+      "id": "appointment",
+      "stage": "votes",
+      "title": "Officer appointment",
+      "sheet": "40",
+      "view": {
+        "size": "320x568",
+        "text": 2
+      },
+      "pack": {
+        "address": "/design/phone-ui/prototype/index.html?s=captain&state=appoint&safe=20%2C0&text=2",
+        "image": "img/appointment-pack.jpg",
+        "width": 480,
+        "height": 852,
+        "problems": []
+      },
+      "build": {
+        "address": "/?scenario=appointment&count=9&tuple=phone",
+        "steps": [
+          [
+            "tap",
+            "#planet-nav-actions"
+          ],
+          [
+            "wait",
+            700
+          ]
+        ],
+        "image": "img/appointment-build.jpg",
+        "width": 480,
+        "height": 852,
+        "log": [
+          "tap: Actions Actions"
+        ],
+        "problems": []
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "differs",
+        "note": "A row inside Actions. The design opens “Choose your Officer” by itself for its 30 seconds, with portraits and the reason someone can’t be chosen."
+      },
+      "now": null
+    },
+    {
+      "id": "block",
+      "stage": "votes",
+      "title": "Officer’s block",
+      "sheet": "40",
+      "view": {
+        "size": "320x568",
+        "text": 2
+      },
+      "pack": {
+        "address": "/design/phone-ui/prototype/index.html?s=officer&state=pick&safe=20%2C0&text=2",
+        "image": "img/block-pack.jpg",
+        "width": 480,
+        "height": 852,
+        "problems": []
+      },
+      "build": {
+        "address": "/?scenario=block&count=9&tuple=phone",
+        "steps": [
+          [
+            "tap",
+            "#planet-nav-actions"
+          ],
+          [
+            "wait",
+            700
+          ]
+        ],
+        "image": "img/block-build.jpg",
+        "width": 480,
+        "height": 852,
+        "log": [
+          "tap: Actions Actions"
+        ],
+        "problems": []
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "differs",
+        "note": "A row inside Actions. The design opens “Block movement” by itself, with portraits, Skip and Block."
+      },
+      "now": null
+    },
+    {
+      "id": "tie",
+      "stage": "votes",
+      "title": "Navigation tie",
+      "sheet": "41",
+      "view": {
+        "size": "320x568",
+        "text": 2
+      },
+      "pack": {
+        "address": "/design/phone-ui/prototype/index.html?s=nav&state=tie&safe=20%2C0&text=2",
+        "image": "img/tie-pack.jpg",
+        "width": 480,
+        "height": 852,
+        "problems": []
+      },
+      "build": {
+        "address": "/?scenario=tie&count=9&tuple=phone",
+        "steps": [
+          [
+            "tap",
+            "#planet-nav-panels"
+          ],
+          [
+            "wait",
+            500
+          ],
+          [
+            "tapText",
+            "^Navigation"
+          ],
+          [
+            "wait",
+            700
+          ]
+        ],
+        "image": "img/tie-build.jpg",
+        "width": 480,
+        "height": 852,
+        "log": [
+          "tap: Panels Panels",
+          "tapText: Navigation Navigation"
+        ],
+        "problems": []
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "differs",
+        "note": "The route map matches, but the choice is in Panels, then Navigation, then “Choose tie direction”. The design shows Blue and Red to the offices directly."
+      },
+      "now": null
+    },
+    {
+      "id": "nav-public",
+      "stage": "votes",
+      "title": "Navigation, for everyone",
+      "sheet": "41",
+      "view": {
+        "size": "320x568",
+        "text": 2
+      },
+      "pack": {
+        "address": "/design/phone-ui/prototype/index.html?s=nav&state=public&safe=20%2C0&text=2",
+        "image": "img/nav-public-pack.jpg",
+        "width": 480,
+        "height": 852,
+        "problems": []
+      },
+      "build": {
+        "address": "/?scenario=board&count=9&tuple=phone",
+        "steps": [
+          [
+            "tap",
+            "#planet-nav-panels"
+          ],
+          [
+            "wait",
+            500
+          ],
+          [
+            "tapText",
+            "^Navigation"
+          ],
+          [
+            "wait",
+            600
+          ]
+        ],
+        "image": "img/nav-public-build.jpg",
+        "width": 480,
+        "height": 852,
+        "log": [
+          "tap: Panels Panels",
+          "tapText: Navigation Navigation"
+        ],
+        "problems": []
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "differs",
+        "note": "A line of text in Panels. The design shows everyone the ship travelling for the same 15 seconds."
+      },
+      "now": null
+    },
+    {
+      "id": "blackout",
+      "stage": "votes",
+      "title": "Blackout, dark",
+      "sheet": "30",
+      "view": {
+        "size": "320x568",
+        "text": 2
+      },
+      "pack": {
+        "address": "/design/phone-ui/prototype/index.html?s=blackout&state=dark&safe=20%2C0&text=2",
+        "image": "img/blackout-pack.jpg",
+        "width": 480,
+        "height": 852,
+        "problems": []
+      },
+      "build": {
+        "address": "/?scenario=blackout&count=9&tuple=phone",
+        "steps": [],
+        "image": "img/blackout-build.jpg",
+        "width": 480,
+        "height": 852,
+        "log": [],
+        "problems": []
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "close",
+        "note": "The dark room with every position as a ring, and the Disabler choosing a position."
+      },
+      "now": null
+    },
+    {
+      "id": "host-controls",
+      "stage": "system",
+      "title": "Host controls in a match",
+      "sheet": "15",
+      "view": {
+        "size": "320x568",
+        "text": 2
+      },
+      "pack": {
+        "address": "/design/phone-ui/prototype/index.html?s=host-controls&safe=20%2C0&text=2",
+        "image": "img/host-controls-pack.jpg",
+        "width": 480,
+        "height": 852,
+        "problems": []
+      },
+      "build": {
+        "address": "/?scenario=board&count=9&tuple=phone",
+        "steps": [
+          [
+            "eval",
+            "(() => { const h = window.planetHarness, v = structuredClone(h.value); v.isHost = true; return h.replace(v); })()"
+          ],
+          [
+            "wait",
+            600
+          ],
+          [
+            "tap",
+            "#planet-top-settings"
+          ],
+          [
+            "wait",
+            500
+          ],
+          [
+            "reveal",
+            "Check server deadline"
+          ],
+          [
+            "wait",
+            400
+          ]
+        ],
+        "image": "img/host-controls-build.jpg",
+        "width": 480,
+        "height": 852,
+        "log": [
+          null,
+          "tap: Settings Settings",
+          "reveal: Check server deadline"
+        ],
+        "problems": []
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "differs",
+        "note": "Inside Settings, as “Check server deadline”, “Run eligible bots” and “Issue recovery for Player 6”. The design has its own sheet in plain words with a code for each seat."
+      },
+      "now": null
+    },
+    {
+      "id": "reconnecting",
+      "stage": "system",
+      "title": "Reconnecting",
+      "sheet": "45",
+      "view": {
+        "size": "320x568",
+        "text": 2
+      },
+      "pack": {
+        "address": "/design/phone-ui/prototype/index.html?room=room-a&s=room&state=reconnecting&safe=20%2C0&text=2",
+        "image": "img/reconnecting-pack.jpg",
+        "width": 480,
+        "height": 852,
+        "problems": []
+      },
+      "build": {
+        "address": "/?scenario=board&count=9&tuple=phone",
+        "steps": [
+          [
+            "eval",
+            "window.planetHarness.setReadFailure(true)"
+          ],
+          [
+            "eval",
+            "window.planetHarness.app.session.refresh()"
+          ],
+          [
+            "wait",
+            2500
+          ]
+        ],
+        "image": "img/reconnecting-build.jpg",
+        "width": 480,
+        "height": 852,
+        "log": [
+          null,
+          null
+        ],
+        "problems": []
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "differs",
+        "note": "The room disappears behind “Connection interrupted. Your command recovery is retained.” The design keeps the last room, dimmed, with “Connection lost” and Retry."
+      },
+      "now": null
+    },
+    {
+      "id": "end",
+      "stage": "end",
+      "title": "End of the match",
+      "sheet": "44",
+      "view": {
+        "size": "320x568",
+        "text": 2
+      },
+      "pack": {
+        "address": "/design/phone-ui/prototype/index.html?s=end&winner=Red&safe=20%2C0&text=2",
+        "image": "img/end-pack.jpg",
+        "width": 480,
+        "height": 852,
+        "problems": []
+      },
+      "build": {
+        "address": "/?scenario=finished&count=9&tuple=phone",
+        "steps": [],
+        "image": "img/end-build.jpg",
+        "width": 480,
+        "height": 852,
+        "log": [],
+        "problems": []
+      },
+      "was": {
+        "date": "2026-11-11",
+        "verdict": "differs",
+        "note": "A text list on glass. The design shows the planet and the ship, the “RED WINS” stamp, and every player’s portrait with their role."
+      },
+      "now": null
+    }
+  ],
+  "stageSheets": [
+    "stages/01-rooms.jpg",
+    "stages/02-turn.jpg",
+    "stages/03-panels.jpg",
+    "stages/04-votes.jpg",
+    "stages/05-system.jpg",
+    "stages/06-end.jpg"
+  ]
+}

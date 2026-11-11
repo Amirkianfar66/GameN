@@ -16,6 +16,8 @@ The base is main `606537fe3e0e5437d41c2905d8d4dce21da12e64`, including the manda
 
 The [verification manifest](verification.json) identifies all captured candidate commits and hashes. All captured module bytes, including 113 tracked sources for each capture, match evidence-preparation commit `4de97327e34faa4a10ded30071e2b5844e38e08b`. Later code commits changed only excluded diagnostic tools; the rebase added repository instructions. Generated module bytes were checked separately. Subsequent evidence files are documentation only. This equivalence is supplied for Integration review; it is not Designer approval of a later head.
 
+The completed size supplements capture PR head `e68cdcb987743b74c16538631fac5879a7bfe1e4` using Designer's #226 tool/pack head `39aafaa31f0c060ff432cdb4a0fdf38e20116512`, which was unmerged when used. The manifest records its separate identity and proves that the `design/phone-ui`, approved board/motion/crew art, hosted artwork/geometry and design-token source trees are identical to normative `89935bd6`. Only four tool/documentation/test files differ. The supplement does not introduce a new camera or grant visual approval.
+
 Primary comparison IDs: `room-a`, `room-b`, `command-room`, `hospital`, `blackout`. Camera changes also affect the room visible behind existing sheets; the full 33-ID inventory, with sheet IDs, is in [parts.md](parts.md). A full-Jail state has no dedicated #223 ID and is explicitly supplemental. Existing sheet/control/wording differences remain in #222.
 
 ## Completed diagnostics
@@ -27,6 +29,7 @@ Primary comparison IDs: `room-a`, `room-b`, `command-room`, `hospital`, `blackou
 | Production exclusion | Passed; 77 reachable modules, 229 shipped/source files, 120 labelled development files, no leaks |
 | Production source integrity | Rejected unadmitted changed `apps/game/hosted/planet/app.mjs`; approval fence preserved |
 | Exact merged-main #223 comparison | 49 parts captured, 48 native images, zero page/request problems; Boarding explicitly pack-only; legacy dark-state limitation above |
+| #226 size supplements | All 33 affected IDs captured on both sides at 320×568/200%, plus Largest text at 390×844/200%; zero page/request problems |
 | Reduced-motion room diagnostic | All 54 cases completed; **12 whole-silhouette failures**, so command exits 1 |
 | Normal-motion room diagnostic | All 54 cases completed; **15 whole-silhouette failures**, so command exits 1 |
 | Cold 1.3 dark entry / reconnect / freeze / targets | Six cases per motion setting passed: 7/8/9 players × 390×844 at 100% and 320×568 at 200% text |
@@ -39,7 +42,8 @@ The twelve completed cold-entry cases confirm no figures/names/identities, all f
 
 ## Pictures and reports
 
-- [The pack beside the build: room stage](comparison/stages/03-rooms.jpg), [raw comparison report](comparison/compare.json), [comparison provenance](comparison/review-provenance.json). All eight stage sheets are retained in that folder. The complete per-part browser output remains at `/private/tmp/gamen-phone-room-comparison-59415533/`.
+- [Full default pack/build comparison](comparison/index.html), [room stage](comparison/stages/03-rooms.jpg), [raw comparison report](comparison/compare.json), [comparison provenance](comparison/review-provenance.json). All per-part images and eight stage sheets are committed beside the self-contained index.
+- [All affected parts at 320×568/200%](comparison-320/index.html), [supplement report](comparison-320/compare.json), [exact candidate provenance](comparison-320/review-provenance.json); [Largest text at 390×844/200%](comparison-largest-390/index.html). Every paired image is committed. The known pack Actions-grid crop at the smallest size is acknowledged in #226; these captures do not claim that unrelated sheet defect is fixed.
 - [Original full Room A native failure](original-failures/native-full-room-a.jpg) and [the exact pack reproduction](pack-reproduction/pack-full-room-a.png), with [pack reproduction facts](pack-reproduction/facts.json).
 - [Reduced-motion facts and captures](reduced/facts.json), [normal-motion facts and captures](normal/facts.json). Every referenced diagnostic capture is included beside its report. File names state width, height, text percentage, player count, room and occupancy. They include 390×844 and 320×568/200% versions and both cold/frozen dark states.
 - [All command logs](checks/), including both original failed partial runs, completed failing room runs, passing suite/typecheck/exclusion and the preserved source-integrity rejection.
@@ -56,6 +60,13 @@ node design/tools/phone-ui-native-compare.mjs --build /private/tmp/gamen-phone-p
 node apps/game/dev/phone/room-framing-capture.mjs /private/tmp/gamen-phone-preview /private/tmp/gamen-phone-t1-reduced
 node apps/game/dev/phone/room-framing-capture.mjs /private/tmp/gamen-phone-preview /private/tmp/gamen-phone-t1-normal --motion
 node apps/game/dev/phone/pack-framing-reproduce.mjs /private/tmp/gamen-phone-t1-pack /private/tmp/gamen-phone-t1-pack-reproduction
+```
+
+For the all-part size supplements, run the exact #226 tool from its own clean worktree against the candidate's build, with the 33 IDs in `parts.md`:
+
+```sh
+node design/tools/phone-ui-native-compare.mjs --build /private/tmp/gamen-phone-preview --out /private/tmp/gamen-phone-t1-small --only room-b,room-a,command-room,hospital,largest-text,pass,actions,targeting,target-check,registered,scan,code,clone,card,panels,settings,players,round-order,windows,hospital-panel,promise-offer,promise-incoming,promise-results,jail-ballot,jail-result,appointment,block,tie,nav-public,blackout,host-controls,reconnecting,end --view 320x568@2 --stage-sheets
+node design/tools/phone-ui-native-compare.mjs --build /private/tmp/gamen-phone-preview --out /private/tmp/gamen-phone-t1-largest --only largest-text --view 390x844@2 --stage-sheets
 ```
 
 The room commands intentionally remain failing until Designer's corrected authoritative camera passes the unchanged whole-figure requirement. The camera candidate must remain draft meanwhile.
