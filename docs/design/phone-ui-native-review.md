@@ -49,6 +49,43 @@ The native interface follows the phone pack on the glass, the large-text lists, 
 11. **Board name tags** are clipped to "Cr…" at large text.
 12. **Clone.** The "CLONE ACTIVE" stamp is drawn over "Clone active through Round 7." (earlier source `0af438bc`).
 
+## Part by part, from the menu to the end
+
+A second pass covered every part of a match. Designer built Frontend's review harness (`apps/game/dev/phone`) at `d1a03c87`, Frontend's last native commit. Its interface code differs from `main` only in the host's abort confirmation, which #220's own captures show. Each state was captured at 390 × 844 and set beside the pack's screen for the same state.
+
+| Part | The native interface, against the pack |
+| --- | --- |
+| Brand intro, role films, boarding film | **Match:** the approved films, with Skip. |
+| Main menu | **Differs:** titled "Mothership", the project's working name, instead of Game N. Join, Host and Recover are tabs above an open Join form with a "Device" choice. The pack is a menu: Join first and largest, Host second, Recover a quiet link (sheet 10). |
+| Host setup and lobby | **Differs:** players and bots are drop-downs, and the seats are folded away ("9 of 9 seats filled"). The pack has 7/8/9 buttons with the team mix, every seat listed and a − / + for bots (sheet 11). |
+| Join, waiting, Recover | **Differs:** one code field, a Device drop-down and "Request admission"; the wait reads "Waiting for the server to confirm admission". The pack has a box per code character, Player phone / Shared display, "Ask to join", and "Waiting for the host" with the room and the name. Recover lacks its line on where the code comes from (sheets 12–14). |
+| Settings (⋮) | **Differs:** a folded "Display settings" with a checkbox and a drop-down. The pack has a switch and Standard / Large / Largest (sheet 32). |
+| Host controls in a match | **Differs:** inside Settings, as "Check server deadline", "Run eligible bots" and "Issue recovery for Player 6". The pack has its own sheet in plain words, with a code for each seat (sheet 15). |
+| Character selection | **Close:** the timer is small text under the grid instead of in the header (sheet 16). |
+| Role card and Ready | **Differs:** see item 8 above. There is also no "Your film starts in 0:16". |
+| Room view | **Differs:** see item 1. The Hospital is the worst case, the ward small at the top over an empty band. Each room's own control is missing: "Windows · 2", "Window · Hospital", "Captain console", "Hospital panel". |
+| Private talk capsule | **Differs:** the room fills, but the name tags sit on the bottom edge, away from the two people, and the full tab bar stays. The pack gives the talk its own "Promises" and "My card" (sheet 25). |
+| The whole board | **Match** (sheet 26). |
+| Pass | **Differs:** "Pass?" alone. The pack says "Pass your turn? The turn goes to Eli · Player 5" and that the move stays open (sheet 27.3). |
+| Actions | **Differs:** only the offered actions, one tall row each, in an otherwise empty full-height sheet. The pack shows every action of the role as a tile with its state ("2 injections", "Once a round", "From Round 4"), in a sheet that leaves the room in view (sheet 28). |
+| The check before Register | **Differs:** "Rescue — Player 3?". The pack shows the person and what the action costs and does ("Uses 1 of 2 shared injections", when it resolves) (sheet 29). |
+| After Register | **Differs:** "Registered. Resolution is pending." (Rescue) and "Waiting for the authoritative view." (Scan). The pack gives each action its own state, stamp and time line (sheets 29.1–29.2). |
+| Hacker: Scan and the final Code | **Differs:** the guess is three plain buttons, and the Code is nine "Player n" buttons. The pack uses the portraits and names, and marks Pick 1–4 (sheet 42). |
+| Alien: Clone | **Differs:** "CLONE ACTIVE" is drawn over "Clone active through Round 7." (still so at `d1a03c87`). |
+| Card | **Differs:** a dark panel of paragraphs. The pack shows the large card, with Card, Knowledge and Resources, and a Hide (sheet 31). |
+| Panels, Players, Round order | **Differs:** tall rows without the reason a row cannot be used. Players is plain text lines without portraits or office badges. Round order is one run-on line (sheet 32). |
+| Windows; the Hospital's keypad | **Close:** window pairs, drawings and "Unverified"; the keypad 1–9 once the panel is open (sheets 34 and 43). |
+| Promises | **Differs:** a line of counts with Offer, Accept and Decline rows. Offering asks for the talk's partner first, though the partner is known. The pack goes straight to "Offer to Ava" and the six kinds. The results are close, as cards with their state, but with player numbers instead of names and portraits (sheets 33 and 33.1). |
+| Jail vote | **Close** (sheet 35). |
+| Results | **Differs:** see items 4 and 5. Zero also shows as "–". |
+| Officer appointment and block | **Differs:** each is a row inside Actions. The pack opens the choice by itself for its 30 s or 15 s, as portraits with reasons. The Captain's console art in Actions has its labels drawn over the lock icons (sheet 40). |
+| Navigation tie | **Differs:** Panels, then Navigation, then "Choose tie direction"; the route map itself matches. The pack shows the choice to the offices directly (sheet 41). |
+| Blackout before the vote | **Match** (sheet 30, as #217's order). |
+| Reconnecting | **Differs:** the room disappears behind "Connection interrupted. Your command recovery is retained." The pack keeps the last room, dimmed, with "Connection lost · Controls return when the match is current · Retry" (sheet 45). |
+| End of the match; aborted | **Differs:** a text list on glass, and "Match aborted · No winner" as text. The pack has the planet with the ship, the "RED WINS" stamp, every player's portrait with their role, and a "NO WINNER" stamp when aborted (sheet 44). |
+
+Not compared, because the harness has no such state: the Blackhole presentation, an eliminated player's phone, the Captain election and its result, and the loading states.
+
 ## Not built yet
 
 - The rooms' ambient motion: requested as [DSN-REQ-23](integration-requests.md#dsn-req-23).
