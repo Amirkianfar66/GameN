@@ -124,7 +124,7 @@
     "design/food-supply/stage.mjs": "2333eb70db8d9dccda85845fc641357daecb4bef31779a39b73f44f369ab3325",
     "design/food-supply/boards.mjs": "ecb0372b24d36554c0ec38710f9199ef1d7119db36f7cce8980465e0390d144b",
     "design/food-supply/scenarios.mjs": "0b2cfdb820a93d826e16b2138b3b41c91dd2e6e438f6cf65da8a108083147216",
-    "design/food-supply/rules.mjs": "a277ba36f53decb0c40e97f28e1984b0b0d112e6b67c3420d715f00f9063bc14",
+    "design/food-supply/rules.mjs": "3fdc3699d54b85982fe7ba848d1495ab3a90891ff814162c371e8f35668819d1",
     "design/food-supply/phone.mjs": "ff2ae7cc3a615b91a046c8ef99cfb4aaf512566b0e7e9e3537b2c1bba7d5372f",
     "design/food-supply/phone.css": "7c97c4fe9390bab8c7da02a1b396a21ee35f892299c4f955284b947866034a20"
   },
@@ -3583,7 +3583,7 @@
       ],
       "conflict": "Protection applies, but a blocked attack is something the attacker sees fail. An attacker who knows they still had their opportunity learns that the victim is Protected, which \"does not automatically authorize Protection disclosure\".",
       "solution": "The design discloses as little as the rules allow: one STOPPED for Protection and for a spent opportunity alike, with no reason on either phone; the victim cannot tell which it was; no one else learns anything. The attacker's inference cannot be removed without a third reason for a stop, which the rules do not have.",
-      "residual": "The owner confirms that the attacker's inference is acceptable, or chooses a different block."
+      "residual": "Accepted by the owner (11 November 2026): the attacker may infer Protection from a failed attack."
     },
     {
       "id": "deduced-attribution",

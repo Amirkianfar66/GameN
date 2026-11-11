@@ -63,7 +63,7 @@ export const CONFLICTS = Object.freeze([
     rules: ['no-escape', 'visibility', 'one-opportunity'],
     conflict: 'Protection applies, but a blocked attack is something the attacker sees fail. An attacker who knows they still had their opportunity learns that the victim is Protected, which "does not automatically authorize Protection disclosure".',
     solution: 'The design discloses as little as the rules allow: one STOPPED for Protection and for a spent opportunity alike, with no reason on either phone; the victim cannot tell which it was; no one else learns anything. The attacker\'s inference cannot be removed without a third reason for a stop, which the rules do not have.',
-    residual: 'The owner confirms that the attacker\'s inference is acceptable, or chooses a different block.',
+    residual: 'Accepted by the owner (11 November 2026): the attacker may infer Protection from a failed attack.',
   },
   {
     id: 'deduced-attribution',
