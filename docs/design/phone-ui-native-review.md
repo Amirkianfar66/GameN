@@ -37,7 +37,7 @@ Since then the owner has decided that the pack is the specification for the phon
    - At 320 px with 200 % text the labels break mid-word: "Boar/d", "Actio/ns", "Panel/s". Keep every label whole on one line, at its ordinary size, as on sheet 56.
    - The open tab is teal (Actions, Panels and sometimes Vote). The pack's selected tab is amber with a filled icon (sheet 08).
    - Pass and Vote are a flat tab. The pack's centre button is raised and round, and amber when it is the player's to press.
-3. **The top bar at large text.** At 320 × 568 with 200 % text, the subtitle ("Current board · shared: After Blackout · Round 6") takes three lines. With the clock's row, the bar takes about a third of the screen. At that size the pack moves the round out of the bar and gives the title two lines instead of its subtitle: sheet 56 and the top bar's rules in [phone-ui.md](phone-ui.md). The phase is also said twice ("Blackout · Round 1", then "Before Blackout · Round 1").
+3. **The top bar at large text.** At 320 × 568 with 200 % text, the bar takes about 130 px of the 568 at `d1a03c87`: the title, its subtitle ("Round 6", or "Player 6 · Your turn"), then Promises, the clock and ⋮ on a row of their own. At that size the pack gives the title two lines, with the clock and ⋮ beside it, and moves the round out of the bar: sheet 56 and the top bar's rules in [phone-ui.md](phone-ui.md). Frontend's earlier captures were worse: a three-line subtitle ("Current board · shared: After Blackout · Round 6", source `b63403e6`) and the phase said twice ("Blackout · Round 1", then "Before Blackout · Round 1"). The build at `d1a03c87` no longer does either.
 4. **Results name the outcome.** The native result says "Jail full · no transfer" or "Player detained", on dark glass. The pack's result is the paper card whose headline names the player and the outcome: "GUS GOES TO JAIL · 7 votes · 4 needed of 8", "GUS CHOSEN · JAIL FULL", "NO ONE GOES TO JAIL", "BEN IS CAPTAIN" (sheets 37 and 38). At the Largest text its stamp and art step aside, but the headline stays (sheet 56).
 
 ## To change after
@@ -48,7 +48,7 @@ Since then the owner has decided that the pack is the specification for the phon
 8. **The role card and Ready.** The role is shown as a text panel, and Ready is amber while the card is up, before it can be used. The pack shows the card large (sheets 17 and 31), with Ready dimmed until the film ends.
 9. **Cancel while choosing a target.** The centre button becomes "×". The pack keeps Cancel in the targeting bar (sheet 29) and leaves the centre button alone.
 10. **Density.** The Actions and Panels rows are tall and mostly empty. The pack's action tiles carry each action's state, and a Panels row that cannot be used says why (sheets 28 and 32).
-11. **Board name tags** are clipped to "Cr…" at large text.
+11. **Name tags at large text.** On the board they are clipped to "Cr…" (source `838558bd`). In Room B at 320 × 568 with 200 % text, the tags of Players 6 and 8 and "You" run into each other (`d1a03c87`).
 12. **Clone.** The "CLONE ACTIVE" stamp is drawn over "Clone active through Round 7." (earlier source `0af438bc`).
 
 ## Part by part, from the menu to the end
@@ -66,7 +66,7 @@ Of the 49 parts, 4 are the same, 8 are close and 37 differ. The pictures are in 
 7. [Host and connection](evidence/phone-ui-native-review-2026-11-11/07-system.jpg)
 8. [End of the match](evidence/phone-ui-native-review-2026-11-11/08-end.jpg)
 
-Three of the native pictures are Frontend's own committed captures: the boarding film, the smallest phone at the Largest text, and the host controls in a match.
+Three of the native pictures are Frontend's own committed captures: the boarding film, the smallest phone at the Largest text (source `b63403e6`, before the top bar's shorter subtitle), and the host controls in a match.
 
 | Part | The native interface, against the pack |
 | --- | --- |
