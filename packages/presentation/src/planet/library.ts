@@ -1,11 +1,33 @@
+import {PLANET_GAME_PINS,PLANET_PHONE_OFFER_PINS,PLANET_BLACKOUT_PINS} from '@mothership/contracts';
 import type {SeatId,PlanetVersions} from '@mothership/contracts';
-import type {PlanetScreenModel} from './model.js';
+import type {PlanetScreenModel,PlanetView} from './model.js';
+
+const matches=(v:PlanetVersions|null|undefined,pins:Omit<PlanetVersions,'assetManifestVersion'>)=>!!v&&Object.entries(pins).every(([key,value])=>v[key as keyof PlanetVersions]===value);
+export const planetHasPrivateOffers=(v:PlanetVersions|null|undefined):boolean=>[PLANET_PHONE_OFFER_PINS,PLANET_BLACKOUT_PINS].some(p=>matches(v,p));
+export const planetHasPrivateFeedback=(v:PlanetVersions|null|undefined):boolean=>[PLANET_GAME_PINS,PLANET_PHONE_OFFER_PINS,PLANET_BLACKOUT_PINS].some(p=>matches(v,p));
+
+/** Saved predecessors keep their original order; only the exact successor moves Blackout before the vote. */
+export function planetRoundOrderText(v:PlanetVersions|null|undefined):string{
+ return matches(v,PLANET_BLACKOUT_PINS)
+  ?'Player turns · Private talk · Sync when applicable · Blackout · Damage and Hospital placement · Jail vote · Result · Remaining resolution and Rescue · Navigation'
+  :'Player turns · Private talk · Sync when applicable · Jail vote · Result · Blackout · Resolution · Navigation';
+}
 
 /** New library art belongs only to the reviewed new gameplay tuple. */
 export function planetHasLibraryArt(v:PlanetVersions|null|undefined):boolean{
- return v?.protocolVersion===3&&v.engineVersion==='planet-game-1.1.0'&&v.rulesetVersion==='in-person-planet-private-feedback-2026-11-06'&&v.rulesetHash==='4a1fc0e0dc21255253e31ae46e6042f9bd71e3fdec0f82f8a79b3ce213d01bfa'&&(v.assetManifestVersion==='design-0.6.0'||v.assetManifestVersion==='design-0.7.0'||v.assetManifestVersion==='design-0.8.0');
+ return planetHasPrivateFeedback(v)&&(v?.assetManifestVersion==='design-0.6.0'||v?.assetManifestVersion==='design-0.7.0'||v?.assetManifestVersion==='design-0.8.0');
 }
 export function planetSupportsAssets(v:PlanetVersions):boolean{return v.assetManifestVersion==='design-0.5.0'||planetHasLibraryArt(v);}
+
+/** Publication metadata names the last shared board, including on PLAYER_CURRENT. */
+export function planetBoardLabel(view:Pick<PlanetView,'versions'|'board'>):string|null{
+ const board=view.board;
+ if(!matches(view.versions,PLANET_BLACKOUT_PINS))return board.kind==='FINALIZED'?`Last finalized board · Round ${board.finalizedRound}`:null;
+ if(!board.checkpoint)return null;
+ const labels={INITIAL:'Initial board',PRE_BLACKOUT:`Before Blackout · Round ${board.finalizedRound}`,AFTER_BLACKOUT:`After Blackout · Round ${board.finalizedRound}`,ROUND_FINALIZED:`Round ${board.finalizedRound} complete`};
+ const shared=labels[board.checkpoint];
+ return board.kind==='FINALIZED'?shared:`Current board · shared: ${shared}`;
+}
 
 /** Number labels never replace the canonical identities carried by a command. */
 export function planetPlayerNumberChoices(ids:readonly SeatId[]):readonly {value:SeatId;label:string}[]{

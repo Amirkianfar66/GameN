@@ -1,0 +1,148 @@
+TAP version 13
+# Subtest: room cameras contain every fixed rig canvas and keep distinct tappable slot centres at normal and enlarged text
+ok 1 - room cameras contain every fixed rig canvas and keep distinct tappable slot centres at normal and enlarged text
+  ---
+  duration_ms: 35.846916
+  type: 'test'
+  ...
+# Subtest: Blackout keeps geometry for both views through text/layout changes without retaining a roster
+ok 2 - Blackout keeps geometry for both views through text/layout changes without retaining a roster
+  ---
+  duration_ms: 5.218083
+  type: 'test'
+  ...
+# Subtest: darkness removes identities and private content from every alternate panel; only bound slots remain
+ok 3 - darkness removes identities and private content from every alternate panel; only bound slots remain
+  ---
+  duration_ms: 7.129042
+  type: 'test'
+  ...
+# Subtest: voting requires an authoritative offer and voter eligibility and never exposes an own ballot to display
+ok 4 - voting requires an authoritative offer and voter eligibility and never exposes an own ballot to display
+  ---
+  duration_ms: 2.452625
+  type: 'test'
+  ...
+# Subtest: candidate private declarations use exactly the offered permission subset; historical offers stay unchanged
+ok 5 - candidate private declarations use exactly the offered permission subset; historical offers stay unchanged
+  ---
+  duration_ms: 3.4485
+  type: 'test'
+  ...
+# Subtest: candidate Hospital number choices include eliminated original seats and preserve stable command IDs
+ok 6 - candidate Hospital number choices include eliminated original seats and preserve stable command IDs
+  ---
+  duration_ms: 0.855458
+  type: 'test'
+  ...
+# Subtest: accepted receipt words distinguish immediate state, queued effects, talk and next-round Protection
+ok 7 - accepted receipt words distinguish immediate state, queued effects, talk and next-round Protection
+  ---
+  duration_ms: 0.35875
+  type: 'test'
+  ...
+# Subtest: lifetime Promise quotas block another acceptance and impossible accepted histories fail closed
+ok 8 - lifetime Promise quotas block another acceptance and impossible accepted histories fail closed
+  ---
+  duration_ms: 0.964583
+  type: 'test'
+  ...
+# Subtest: P18 retains offered final Code during darkness, including a living injured or jailed Hacker
+ok 9 - P18 retains offered final Code during darkness, including a living injured or jailed Hacker
+  ---
+  duration_ms: 1.450458
+  type: 'test'
+  ...
+# Subtest: 1.3 explicitly inherits private feedback and offer permissions; mixed tuples never acquire art or permissions
+ok 10 - 1.3 explicitly inherits private feedback and offer permissions; mixed tuples never acquire art or permissions
+  ---
+  duration_ms: 4.572791
+  type: 'test'
+  ...
+# Subtest: physical publication labels distinguish partial checkpoints and never certify a current actor board as fully resolved
+ok 11 - physical publication labels distinguish partial checkpoints and never certify a current actor board as fully resolved
+  ---
+  duration_ms: 5.161916
+  type: 'test'
+  ...
+# Subtest: missing or misplaced 1.3 checkpoints and checkpoint metadata on predecessors fail closed for both audiences
+ok 12 - missing or misplaced 1.3 checkpoints and checkpoint metadata on predecessors fail closed for both audiences
+  ---
+  duration_ms: 4.215708
+  type: 'test'
+  ...
+# Subtest: 1.3 declaration choices and final validation follow the exact private offer subset
+ok 13 - 1.3 declaration choices and final validation follow the exact private offer subset
+  ---
+  duration_ms: 4.662708
+  type: 'test'
+  ...
+# Subtest: 1.3 NO_INJECTION remains panel-only registration evidence and does not spend the unused attempt
+ok 14 - 1.3 NO_INJECTION remains panel-only registration evidence and does not spend the unused attempt
+  ---
+  duration_ms: 0.975292
+  type: 'test'
+  ...
+# Subtest: 7/8/9-player pre-vote darkness keeps offered original-number Code for healthy, jailed and injured living Hackers
+ok 15 - 7/8/9-player pre-vote darkness keeps offered original-number Code for healthy, jailed and injured living Hackers
+  ---
+  duration_ms: 4.490958
+  type: 'test'
+  ...
+# Subtest: a pre-vote fixed-slot receipt can settle after reconnect into the fresh full Jail vote without replay or inferred damage
+ok 16 - a pre-vote fixed-slot receipt can settle after reconnect into the fresh full Jail vote without replay or inferred damage
+  ---
+  duration_ms: 7.171208
+  type: 'test'
+  ...
+# Subtest: post-Blackout ballot recovery uses the original receipt and own ballot, then waits for authoritative result/finalization
+ok 17 - post-Blackout ballot recovery uses the original receipt and own ballot, then waits for authoritative result/finalization
+  ---
+  duration_ms: 3.860583
+  type: 'test'
+  ...
+# Subtest: 7, Sync false: native projections publish Blackout damage before the full vote, then Jail/result before later Rescue
+ok 18 - 7, Sync false: native projections publish Blackout damage before the full vote, then Jail/result before later Rescue
+  ---
+  duration_ms: 1269.282042
+  type: 'test'
+  ...
+# Subtest: 7, Sync true: native projections publish Blackout damage before the full vote, then Jail/result before later Rescue
+ok 19 - 7, Sync true: native projections publish Blackout damage before the full vote, then Jail/result before later Rescue
+  ---
+  duration_ms: 2336.293042
+  type: 'test'
+  ...
+# Subtest: 8, Sync false: native projections publish Blackout damage before the full vote, then Jail/result before later Rescue
+ok 20 - 8, Sync false: native projections publish Blackout damage before the full vote, then Jail/result before later Rescue
+  ---
+  duration_ms: 1820.163375
+  type: 'test'
+  ...
+# Subtest: 8, Sync true: native projections publish Blackout damage before the full vote, then Jail/result before later Rescue
+ok 21 - 8, Sync true: native projections publish Blackout damage before the full vote, then Jail/result before later Rescue
+  ---
+  duration_ms: 4018.88925
+  type: 'test'
+  ...
+# Subtest: 9, Sync false: native projections publish Blackout damage before the full vote, then Jail/result before later Rescue
+ok 22 - 9, Sync false: native projections publish Blackout damage before the full vote, then Jail/result before later Rescue
+  ---
+  duration_ms: 3468.820917
+  type: 'test'
+  ...
+# Subtest: 9, Sync true: native projections publish Blackout damage before the full vote, then Jail/result before later Rescue
+ok 23 - 9, Sync true: native projections publish Blackout damage before the full vote, then Jail/result before later Rescue
+  ---
+  duration_ms: 5927.757083
+  type: 'test'
+  ...
+1..23
+# tests 23
+# suites 0
+# pass 23
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 18983.84425

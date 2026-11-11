@@ -1,6 +1,7 @@
 import {createHash,randomBytes,randomInt,randomUUID} from 'node:crypto';
 import {
-  PLANET_GAME_PINS,PLANET_SETUP_FLOW_VERSION,PLANET_BOARDING_DURATION_MS,IdentifierSchema,
+  PLANET_GAME_PINS,PLANET_PHONE_OFFER_PINS,PLANET_PHONE_ENGINE_PROFILE,PLANET_BLACKOUT_PINS,PLANET_BLACKOUT_ENGINE_PROFILE,PLANET_SETUP_FLOW_VERSION,PLANET_BOARDING_DURATION_MS,
+  PLANET_TIMED_READING_SETUP_FLOW_VERSION,PLANET_ROLE_CARD_DURATION_MS,PLANET_ROLE_FILM_DURATION_MS,PLANET_READING_DURATION_MS,IdentifierSchema,
   PlanetServiceRequestSchema,PlanetSessionSnapshotSchema,PlanetReceiptSchema,
   PlanetPublicViewSchema,PlanetPlayerViewSchema,PlanetVersionsSchema,PlanetRecoveryResultSchema,CrewCharacterIdSchema,
 } from '@mothership/contracts';
@@ -41,9 +42,9 @@ interface Member {
 interface Admission {id:string;requestId:string;uid:string;kind:'player'|'display';displayName:string;approved:boolean}
 interface Session<S> {
   matchId:string;roomCode:string;hostUid:string;versions:PlanetVersions;playerCount:7|8|9;journalSequence:number;
-  setupFlowVersion?:2;
+  setupFlowVersion?:2|3;
   status:PlanetSessionSnapshot['status'];members:Member[];displays:string[];admissions:Admission[];
-  setup:{id:string;endsAt:number;token:string;startedAt?:number}|null;prepared:PlanetSetup|null;preparedState:S|null;state:S|null;
+  setup:{id:string;endsAt:number;token:string;startedAt?:number;roleFilmStartsAt?:number}|null;prepared:PlanetSetup|null;preparedState:S|null;state:S|null;
 }
 interface StoredReceipt {fingerprint:string;response:PlanetServiceResponse}
 export interface PlanetDeadlineJob {
@@ -69,15 +70,20 @@ function shuffle<T>(values:readonly T[],samples:number[]):T[] {
 /** No Firebase globals: the same transactional orchestration is exercised by emulator and unit tests. */
 export function createPlanetService<S extends PlanetStateEnvelope>(dependencies:{
   store:PlanetPersistence;engine:PlanetEnginePort<S>;clock?:()=>number;newId?:()=>string;
-  randomSamples?:()=>number[];newRecoveryCode?:()=>string;assetManifestVersion?:string;enabled?:boolean;setupFlowVersion?:1|2;
+  randomSamples?:()=>number[];newRecoveryCode?:()=>string;assetManifestVersion?:string;enabled?:boolean;setupFlowVersion?:1|2|3;
+  engineProfile?:typeof PLANET_PHONE_ENGINE_PROFILE|typeof PLANET_BLACKOUT_ENGINE_PROFILE;
 }){
-  if(dependencies.setupFlowVersion!==undefined&&dependencies.setupFlowVersion!==1&&dependencies.setupFlowVersion!==2)
+  if(dependencies.setupFlowVersion!==undefined&&dependencies.setupFlowVersion!==1&&dependencies.setupFlowVersion!==2&&dependencies.setupFlowVersion!==3)
     throw new Error('Unsupported Planet setup flow version');
+  if(dependencies.engineProfile!==undefined&&dependencies.engineProfile!==PLANET_PHONE_ENGINE_PROFILE&&dependencies.engineProfile!==PLANET_BLACKOUT_ENGINE_PROFILE)
+    throw new Error('Unsupported Planet engine profile');
   const engine:PlanetEnginePort<S>=dependencies.engine;
   const {store}=dependencies,clock=dependencies.clock??Date.now,newId=dependencies.newId??randomUUID;
   const randomSamples=dependencies.randomSamples??(()=>Array.from({length:64},()=>randomInt(0x1_0000_0000)/0x1_0000_0000));
   const newRecoveryCode=dependencies.newRecoveryCode??(()=>randomBytes(24).toString('base64url'));
-  const versions=PlanetVersionsSchema.parse({...PLANET_GAME_PINS,assetManifestVersion:dependencies.assetManifestVersion??'design-0.5.0'});
+  const pins=dependencies.engineProfile===PLANET_BLACKOUT_ENGINE_PROFILE?PLANET_BLACKOUT_PINS:
+    dependencies.engineProfile===PLANET_PHONE_ENGINE_PROFILE?PLANET_PHONE_OFFER_PINS:PLANET_GAME_PINS;
+  const versions=PlanetVersionsSchema.parse({...pins,assetManifestVersion:dependencies.assetManifestVersion??'design-0.5.0'});
   const context=():PlanetContext=>({now:clock(),nextPhaseId:newId(),nextDeadlineToken:newId(),random:randomSamples()});
   const success=(result:unknown):PlanetServiceResponse=>({ok:true,serverTimeMs:clock(),result});
   const failure=(code:FailureCode):PlanetServiceResponse=>({ok:false,serverTimeMs:clock(),error:{code}});
@@ -92,15 +98,27 @@ export function createPlanetService<S extends PlanetStateEnvelope>(dependencies:
     if(s.matchId!==matchId)throw new Error('Saved session identity mismatch');
     // Absence is the historical flow. A new deployment must never reinterpret a
     // saved lobby, deal or running match using its current creation configuration.
-    if(Object.hasOwn(s,'setupFlowVersion')&&s.setupFlowVersion!==PLANET_SETUP_FLOW_VERSION)throw new Error('Unsupported saved Planet setup flow version');
+    if(Object.hasOwn(s,'setupFlowVersion')&&s.setupFlowVersion!==PLANET_SETUP_FLOW_VERSION&&s.setupFlowVersion!==PLANET_TIMED_READING_SETUP_FLOW_VERSION)
+      throw new Error('Unsupported saved Planet setup flow version');
     if(s.status==='boarding'){
-      if(s.setupFlowVersion!==PLANET_SETUP_FLOW_VERSION||!s.setup||!Number.isSafeInteger(s.setup.startedAt)||s.setup.startedAt!<0
+      if((s.setupFlowVersion!==PLANET_SETUP_FLOW_VERSION&&s.setupFlowVersion!==PLANET_TIMED_READING_SETUP_FLOW_VERSION)||!s.setup||!Number.isSafeInteger(s.setup.startedAt)||s.setup.startedAt!<0
         ||!Number.isSafeInteger(s.setup.endsAt)||s.setup.endsAt!==s.setup.startedAt!+PLANET_BOARDING_DURATION_MS
+        ||Object.hasOwn(s.setup,'roleFilmStartsAt')
         ||!IdentifierSchema.safeParse(s.setup.id).success||!IdentifierSchema.safeParse(s.setup.token).success
         ||!s.prepared||!s.preparedState||s.state!==null
         ||s.members.length!==s.playerCount||!s.members.every(m=>m.ready&&m.characterId!==null))
         throw new Error('Invalid saved Planet boarding stage');
-    }else if(s.setup&&Object.hasOwn(s.setup,'startedAt'))throw new Error('Boarding timestamp outside boarding stage');
+    }else if(s.status==='reading'&&s.setupFlowVersion===PLANET_TIMED_READING_SETUP_FLOW_VERSION){
+      if(!s.setup||!Number.isSafeInteger(s.setup.startedAt)||s.setup.startedAt!<0
+        ||!Number.isSafeInteger(s.setup.roleFilmStartsAt)||s.setup.roleFilmStartsAt!==s.setup.startedAt!+PLANET_ROLE_CARD_DURATION_MS
+        ||!Number.isSafeInteger(s.setup.endsAt)||s.setup.endsAt!==s.setup.roleFilmStartsAt!+PLANET_ROLE_FILM_DURATION_MS
+        ||s.setup.endsAt!==s.setup.startedAt!+PLANET_READING_DURATION_MS
+        ||!IdentifierSchema.safeParse(s.setup.id).success||!IdentifierSchema.safeParse(s.setup.token).success
+        ||!s.prepared||!s.preparedState||s.state!==null
+        ||s.members.length!==s.playerCount||!s.members.every(m=>m.characterId!==null&&(m.controller!=='bot'||m.ready)))
+        throw new Error('Invalid saved Planet timed reading stage');
+    }else if(s.setup&&(Object.hasOwn(s.setup,'startedAt')||Object.hasOwn(s.setup,'roleFilmStartsAt')))
+      throw new Error('Setup timestamps outside their versioned stage');
     PlanetVersionsSchema.parse(s.versions);
     for(const state of [s.state,s.preparedState])if(state){engine.assertPlanetGameState(state);
       if(state.matchId!==s.matchId||!same(state.versions,s.versions))throw new Error('Saved session identity or version mismatch');}
@@ -112,7 +130,7 @@ export function createPlanetService<S extends PlanetStateEnvelope>(dependencies:
   function record(tx:PlanetTransaction,s:Session<S>,event:Record<string,unknown>):void{
     s.journalSequence=(s.journalSequence??0)+1;
     tx.set('journal/'+s.matchId+'/'+String(s.journalSequence).padStart(12,'0'),{...event,matchId:s.matchId,sequence:s.journalSequence,versions:s.versions,
-      ...(s.setupFlowVersion===2?{setupFlowVersion:2}:{})});
+      ...(s.setupFlowVersion===undefined?{}:{setupFlowVersion:s.setupFlowVersion})});
   }
   async function publish(tx:PlanetTransaction,s:Session<S>):Promise<void>{
     // Keep full authority server-only. The HTTP read path constructs the caller's audience.
@@ -139,12 +157,13 @@ export function createPlanetService<S extends PlanetStateEnvelope>(dependencies:
     const prepared=!denied&&s.status==='reading'&&own&&s.preparedState?engine.projectPlanetPlayer(s.preparedState,own.seatId):null;
     return PlanetSessionSnapshotSchema.parse({
       matchId:s.matchId,roomCode:s.roomCode,versions:s.versions,status:s.status,playerCount:s.playerCount,isHost:!denied&&isHost,selfSeatId:denied?null:own?.seatId??null,
-      ...(s.setupFlowVersion===2?{setupFlowVersion:2}:{}),
+      ...(s.setupFlowVersion===undefined?{}:{setupFlowVersion:s.setupFlowVersion}),
       admission:standing,
       members:denied?[]:s.members.map(({seatId,displayName,characterId,controller,ready})=>({seatId,displayName,characterId,controller,ready})),
       pendingAdmissions:!denied&&isHost?s.admissions.filter(a=>!a.approved).map(({id,kind,displayName})=>({id,kind,displayName})):[],
       setup:!denied&&s.setup?{id:s.setup.id,endsAt:s.setup.endsAt,
-        ...(s.status==='boarding'?{startedAt:s.setup.startedAt}:{})}:null,
+        ...(s.status==='boarding'||s.status==='reading'&&s.setupFlowVersion===PLANET_TIMED_READING_SETUP_FLOW_VERSION?{startedAt:s.setup.startedAt}:{}),
+        ...(s.status==='reading'&&s.setupFlowVersion===PLANET_TIMED_READING_SETUP_FLOW_VERSION?{roleFilmStartsAt:s.setup.roleFilmStartsAt}:{})}:null,
       privateRole:prepared?{role:prepared.self.role,faction:prepared.self.faction,knowledge:prepared.knowledge}:null,
       publicView:running?PlanetPublicViewSchema.parse(engine.projectPlanetPublic(s.state!)):null,
       playerView:running&&own?PlanetPlayerViewSchema.parse(engine.projectPlanetPlayer(s.state!,own.seatId)):null,
@@ -165,7 +184,8 @@ export function createPlanetService<S extends PlanetStateEnvelope>(dependencies:
     s.prepared={matchId:s.matchId,playerCount:s.playerCount,roleOrder:shuffle(roles(s.playerCount),samples),initialRooms,
       initialTurnOrder:shuffle(s.members.map(m=>m.seatId),samples),assetManifestVersion:s.versions.assetManifestVersion,versions:s.versions};
     s.preparedState=engine.createPlanetGame(s.prepared,ctx);
-    s.status='reading';s.setup={id:ctx.nextPhaseId,endsAt:ctx.now+30_000,token:ctx.nextDeadlineToken};
+    s.status='reading';s.setup={id:ctx.nextPhaseId,endsAt:ctx.now+PLANET_READING_DURATION_MS,token:ctx.nextDeadlineToken,
+      ...(s.setupFlowVersion===PLANET_TIMED_READING_SETUP_FLOW_VERSION?{startedAt:ctx.now,roleFilmStartsAt:ctx.now+PLANET_ROLE_CARD_DURATION_MS}:{})};
     for(const m of s.members)m.ready=m.controller==='bot';
     record(tx,s,{kind:'PREPARE',setup:s.prepared,context:ctx});
   }
@@ -176,7 +196,7 @@ export function createPlanetService<S extends PlanetStateEnvelope>(dependencies:
   }
   function startIfReady(s:Session<S>,ctx:PlanetContext,tx:PlanetTransaction):boolean{
     if(s.status!=='reading'||!s.setup||ctx.now<s.setup.endsAt||!s.members.every(m=>m.ready))return false;
-    if(s.setupFlowVersion===2){
+    if(s.setupFlowVersion===PLANET_SETUP_FLOW_VERSION||s.setupFlowVersion===PLANET_TIMED_READING_SETUP_FLOW_VERSION){
       if(!s.prepared||!s.preparedState||s.state!==null)throw new Error('Missing prepared boarding deal');
       if(ctx.nextPhaseId===s.setup.id||ctx.nextDeadlineToken===s.setup.token)throw new Error('Fresh boarding identities required');
       s.status='boarding';s.setup={id:ctx.nextPhaseId,startedAt:ctx.now,endsAt:ctx.now+PLANET_BOARDING_DURATION_MS,token:ctx.nextDeadlineToken};
@@ -209,7 +229,7 @@ export function createPlanetService<S extends PlanetStateEnvelope>(dependencies:
         const matchId=generatedId,roomCode=hash([generatedId,ctx.random]).slice(0,6).toUpperCase();
         if(await tx.get('room/'+roomCode))reject('UNAVAILABLE');
         const s:Session<S>={matchId,roomCode,hostUid:uid,versions,playerCount:request.playerCount,journalSequence:0,status:'lobby',members:[],displays:[],admissions:[],setup:null,prepared:null,preparedState:null,state:null,
-          ...(dependencies.setupFlowVersion===2?{setupFlowVersion:2 as const}:{})};
+          ...(dependencies.setupFlowVersion===2||dependencies.setupFlowVersion===3?{setupFlowVersion:dependencies.setupFlowVersion}:{})};
         const response=success({matchId,roomCode});
         tx.set('room/'+roomCode,{matchId});record(tx,s,{kind:'CREATE',context:ctx});await publish(tx,s);tx.set(receiptKey,{fingerprint,response});
         return response;
@@ -314,7 +334,9 @@ export function createPlanetService<S extends PlanetStateEnvelope>(dependencies:
           own.characterId=request.characterId;break;
         }
         case 'ready':{
-          const own=requireMember(s,uid);if(s.status!=='reading')reject('NOT_ALLOWED');own.ready=true;startIfReady(s,ctx,tx);break;
+          const own=requireMember(s,uid);if(s.status!=='reading'
+            ||s.setupFlowVersion===PLANET_TIMED_READING_SETUP_FLOW_VERSION&&(!s.setup||ctx.now<s.setup.endsAt))reject('NOT_ALLOWED');
+          own.ready=true;startIfReady(s,ctx,tx);break;
         }
         case 'abort':
           requireHost(s,uid);if(s.status==='finished')reject('NOT_ALLOWED');if(s.state)s.state=engine.abortPlanetGame(s.state,ctx);s.status='aborted';s.setup=null;break;

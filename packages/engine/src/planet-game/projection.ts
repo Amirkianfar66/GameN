@@ -1,6 +1,6 @@
 import { PlanetPublicViewSchema, PlanetPlayerViewSchema, PlanetEventSchema, validClinicalAnchorForPlayerCount } from '@mothership/contracts';
 import type { PlanetEvent, PlanetPlayerView, PlanetPublicView, SeatId } from '@mothership/contracts';
-import { copyPlanet, freeHealthy, planetFaction, planetSeat, planetSeatView, planetWorld, planetHasPrivateFeedback } from './model.js';
+import { copyPlanet, freeHealthy, planetFaction, planetSeat, planetSeatView, planetWorld, planetHasPrivateFeedback, planetHasPreVoteBlackout } from './model.js';
 import type { PlanetGameState, PlanetStoredEvent, PlanetWorld } from './model.js';
 import { planetOffers } from './offers.js';
 import { planetBlackoutRequest, planetSlotIds } from './physical.js';
@@ -78,7 +78,7 @@ function audienceEvents(state: PlanetGameState, seatId?: SeatId): PlanetEvent[] 
 
 function common(state: PlanetGameState, world: PlanetWorld, player?: SeatId) {
   // Before Sync the public offices, like the board, cannot reveal a speculative EJECT.
-  const offices = player !== undefined || !state.panelOpen
+  const offices = player !== undefined || !planetHasPreVoteBlackout(state.versions)&&!state.panelOpen
     ? { captainSeatId: world.captainSeatId, officerSeatId: world.officerSeatId }
     : { captainSeatId: state.finalized.seats.find(s => s.captain)?.seatId ?? null,
       officerSeatId: state.finalized.seats.find(s => s.officer)?.seatId ?? null };
@@ -104,13 +104,20 @@ function common(state: PlanetGameState, world: PlanetWorld, player?: SeatId) {
 /** The shared screen never receives an unfinalized world, physical cost or private occurrence. */
 export function projectPlanetPublic(state: PlanetGameState): PlanetPublicView {
   return PlanetPublicViewSchema.parse({ ...common(state, planetWorld(state)),
-    board: { kind: 'FINALIZED', finalizedRound: state.finalized.round, seats: copyPlanet(state.finalized.seats) },
+    board: { kind: 'FINALIZED', finalizedRound: state.finalized.round, seats: copyPlanet(state.finalized.seats),
+      ...(planetHasPreVoteBlackout(state.versions)?{checkpoint:state.finalized.checkpoint!}:{}) },
     events: audienceEvents(state),
   });
 }
 
 function blackoutTargeting(state: PlanetGameState, world: PlanetWorld, id: SeatId): PlanetPlayerView['blackoutTargeting'] {
   if (state.phase.kind !== 'BLACKOUT' || !['Blue Disabler', 'Red Disabler'].includes(state.roles[id]!)) return null;
+  if(planetHasPreVoteBlackout(state.versions)){
+    const batch=state.blackoutBatch,attempt=batch?.attempts.find(row=>row.actorSeatId===id);
+    if(!batch||batch.status!=='OPEN'||!attempt)return null;
+    return {windowId:batch.windowId,boundRoom:attempt.boundRoom,selectable:attempt.selection==='PENDING'&&state.evaluatedAt>=batch.startedAt+5000&&state.evaluatedAt<batch.endsAt,
+      selectedSlotId:attempt.selectedSlotId,slotIds:planetSlotIds(attempt.boundRoom)};
+  }
   const request = planetBlackoutRequest(world, id);
   if (!request?.boundRoom) return null;
   const boundRoom = request.boundRoom, slotIds = planetSlotIds(boundRoom);
@@ -140,7 +147,8 @@ export function projectPlanetPlayer(state: PlanetGameState, id: SeatId): PlanetP
     ? { id: state.hack.id, status: state.hack.status, declaredSide: state.hack.declaredSide } : null;
   return PlanetPlayerViewSchema.parse({ ...common(state, world, id),
     board: { kind: 'PLAYER_CURRENT', finalizedRound: state.finalized.round,
-      seats: orderedIds(state).map(seatId => planetSeatView(world, planetSeat(world, seatId))) },
+      seats: orderedIds(state).map(seatId => planetSeatView(world, planetSeat(world, seatId))),
+      ...(planetHasPreVoteBlackout(state.versions)?{checkpoint:state.finalized.checkpoint!}:{}) },
     events: audienceEvents(state, id),
     self: { seatId: id, role, faction: planetFaction(role), ordinaryWeapons: self.ordinaryWeapons,
       movementSpent: state.global.movementSpent.includes(id),

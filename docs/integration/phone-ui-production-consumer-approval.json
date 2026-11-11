@@ -1,0 +1,331 @@
+{
+  "schema": "mothership.phone-ui-production-consumer-approval/1",
+  "status": "approved-production-consumer",
+  "scope": "Exact reviewed native phone and pre-vote Blackout consumer. Preserved artwork and historical source identities; no rule activation or cloud operation.",
+  "nativeCommit": "d1a03c87e80de7b5923c97a15a968c1ba6f5b40c",
+  "backendDependency": {
+    "pr": 213,
+    "head": "1900566f7237bc5a8032acdfb09208f95e68e2c0",
+    "runtime": "c492523845567c7e4e672991e11c058e88ccea27",
+    "contract": "44d008df0f1cc6fbb2d6c4c0b4b9c95f50c752c3"
+  },
+  "tuple": {
+    "protocolVersion": 3,
+    "engineVersion": "planet-game-1.3.0",
+    "rulesetVersion": "in-person-planet-blackout-before-vote-2026-11-10",
+    "rulesetHash": "2505515ad41e9d49c06bd14aaf9dab56dcf0adb471725c1c15d877a0f0b97556",
+    "assetManifestVersion": "design-0.8.0"
+  },
+  "parentApproval": {
+    "path": "docs/integration/pregame-production-consumer-approval-2026-11-08.json",
+    "sha256": "5f749f5f7db1286520fcf8b77e8f8e4c001dd5c77d8aff4f1c5791911eec81e6",
+    "bytes": 9066
+  },
+  "parentCandidate": {
+    "path": "docs/integration/pregame-consumer-candidate-2026-11-08.json",
+    "sha256": "e8799855b67fc81c68089f0bd295715eb5ca6ffe0548eee2f911725b33b7d702",
+    "bytes": 5821
+  },
+  "artManifest": {
+    "path": "design/releases/design-0.8.0.json",
+    "sha256": "c2e5b6a423d2a583be669147b70a23e2391fce770372137e99f46c3c75b13b5d",
+    "bytes": 82967
+  },
+  "files": {
+    "apps/game/hosted/board-v2-scene.mjs": {
+      "previousSha256": "5aceb09010bfdb8708fe7de8357a782375355a51146927c0e20851d56b363bd8",
+      "acceptedPreviousHashes": [
+        "5aceb09010bfdb8708fe7de8357a782375355a51146927c0e20851d56b363bd8"
+      ],
+      "sha256": "4a55917bba96fdf8eb394565529060378c190a432a8d9b9fac283de11a6aa95c",
+      "bytes": 15737,
+      "candidateBlob": "design/releases/candidate-blobs/4a55917bba96fdf8eb394565529060378c190a432a8d9b9fac283de11a6aa95c"
+    },
+    "apps/game/hosted/crew-runtime.mjs": {
+      "previousSha256": "3ead960a67a8fe3b9154eb19cb4ca0de6eb122bb0b38392745968ff0b429cb32",
+      "acceptedPreviousHashes": [
+        "3ead960a67a8fe3b9154eb19cb4ca0de6eb122bb0b38392745968ff0b429cb32",
+        "b87470745a0afac4a2d9147d26c4eb622ed4c2f6d8abf710f285d35b50eb2cf5"
+      ],
+      "sha256": "38c2da495f43162f928a8ff5e2fce2247e6748b2cbefba250b3b1f20138cdd3f",
+      "bytes": 11540,
+      "candidateBlob": "design/releases/candidate-blobs/38c2da495f43162f928a8ff5e2fce2247e6748b2cbefba250b3b1f20138cdd3f"
+    },
+    "apps/game/hosted/planet/app.mjs": {
+      "previousSha256": "610711ad7b38bc77936c4f7817dc6c389ce83110c70b198d3b476373b1cca0ca",
+      "acceptedPreviousHashes": [
+        "5ec4dab00a8f959efab6d1e711e8fa0f304b0209e121df7109b6532e3a281261",
+        "610711ad7b38bc77936c4f7817dc6c389ce83110c70b198d3b476373b1cca0ca",
+        "f107ee5fd6a829a8cd61d4f9a82e19ee7e465208584d9635450464df9740f1d1"
+      ],
+      "sha256": "39f80ec23d3d189865a4a54252a4a7880ad8333ab4257c8ae7963c706623b04e",
+      "bytes": 22562,
+      "candidateBlob": "design/releases/candidate-blobs/39f80ec23d3d189865a4a54252a4a7880ad8333ab4257c8ae7963c706623b04e"
+    },
+    "apps/game/hosted/planet/phone-controls.mjs": {
+      "previousSha256": null,
+      "acceptedPreviousHashes": [],
+      "sha256": "34a9e2b9253e4b81c09b0e3aab594efccac056adf7a4b05e9cd2e0b392834758",
+      "bytes": 3661,
+      "candidateBlob": "design/releases/candidate-blobs/34a9e2b9253e4b81c09b0e3aab594efccac056adf7a4b05e9cd2e0b392834758"
+    },
+    "apps/game/hosted/planet/phone-layout.mjs": {
+      "previousSha256": null,
+      "acceptedPreviousHashes": [],
+      "sha256": "e2f336ce00048cac3e24710a2f2faa37abd422ac937345ce3dada7a2891ecfb2",
+      "bytes": 4265,
+      "candidateBlob": "design/releases/candidate-blobs/e2f336ce00048cac3e24710a2f2faa37abd422ac937345ce3dada7a2891ecfb2"
+    },
+    "apps/game/hosted/planet/phone.css": {
+      "previousSha256": null,
+      "acceptedPreviousHashes": [],
+      "sha256": "d1d70c3fd7d38dab73095858d38697c70f0a9edfc36d9851e3e547b5dfb8328d",
+      "bytes": 17089,
+      "candidateBlob": "design/releases/candidate-blobs/d1d70c3fd7d38dab73095858d38697c70f0a9edfc36d9851e3e547b5dfb8328d"
+    },
+    "apps/game/hosted/planet/render.mjs": {
+      "previousSha256": "42ecc7f23a496cb341455c6c388648c35de18c2b51dcaec99201f296e1768b4d",
+      "acceptedPreviousHashes": [
+        "42ecc7f23a496cb341455c6c388648c35de18c2b51dcaec99201f296e1768b4d",
+        "b18fa2c7c4065ecf12623719eeed439586aa998e636664c520ad8174bee142d2",
+        "d8f1d3e14278aed096c9a19e8e0c6b30e6d15bccdf38e6d31b4b81f8826f3beb"
+      ],
+      "sha256": "f1d32153c5d324ca0c7b47bd5d21bda8d7a6c1033b95090bc2ad85cb5458ece3",
+      "bytes": 50620,
+      "candidateBlob": "design/releases/candidate-blobs/f1d32153c5d324ca0c7b47bd5d21bda8d7a6c1033b95090bc2ad85cb5458ece3"
+    },
+    "apps/game/src/planet/controller.ts": {
+      "previousSha256": "4491782063738ea4d8c8fac72204e019dcf935fa27872513bfa40e7c137a4c57",
+      "acceptedPreviousHashes": [
+        "4491782063738ea4d8c8fac72204e019dcf935fa27872513bfa40e7c137a4c57"
+      ],
+      "sha256": "aad0033bad2eb6efaab4f814435f455bcbdaa065e05da75c931a28c4930e9abf",
+      "bytes": 30726,
+      "candidateBlob": "design/releases/candidate-blobs/aad0033bad2eb6efaab4f814435f455bcbdaa065e05da75c931a28c4930e9abf"
+    },
+    "apps/game/src/planet/pregame.ts": {
+      "previousSha256": "e9e3a368f5d1b802dcc6c8b9a21923791c430f562d0f9a8c43e854e00cbe9ed4",
+      "acceptedPreviousHashes": [
+        "e9e3a368f5d1b802dcc6c8b9a21923791c430f562d0f9a8c43e854e00cbe9ed4"
+      ],
+      "sha256": "58bf5dc183eab8a22b1e749e8249af63cb628419fb95b444573dd7cc682282ab",
+      "bytes": 8763,
+      "candidateBlob": "design/releases/candidate-blobs/58bf5dc183eab8a22b1e749e8249af63cb628419fb95b444573dd7cc682282ab"
+    },
+    "apps/game/src/planet/session.ts": {
+      "previousSha256": "51da0ccf3122facc0a64d2f82de5ca7696f7ef23b387886d84d30ff3c28c057f",
+      "acceptedPreviousHashes": [
+        "51da0ccf3122facc0a64d2f82de5ca7696f7ef23b387886d84d30ff3c28c057f",
+        "8e2cb552b43c81746efccdc6dbf5e85b5effb6d1d42b47ad11f3b720209eeb67"
+      ],
+      "sha256": "214ce6d2f8cbf62427aaeaba70aa774aafa1803328666bf6179382a7d56966df",
+      "bytes": 23049,
+      "candidateBlob": "design/releases/candidate-blobs/214ce6d2f8cbf62427aaeaba70aa774aafa1803328666bf6179382a7d56966df"
+    },
+    "apps/game/src/planet/transport.ts": {
+      "previousSha256": "b1f7651bc1dfa4ef9cf97ac25bb340a9351982f07b754fae83815f234759335b",
+      "acceptedPreviousHashes": [
+        "b1f7651bc1dfa4ef9cf97ac25bb340a9351982f07b754fae83815f234759335b"
+      ],
+      "sha256": "c4472e4e0713360ca24d33ecc7b982b4b3a45c3d8cef08104e51ff55e07c94ed",
+      "bytes": 4743,
+      "candidateBlob": "design/releases/candidate-blobs/c4472e4e0713360ca24d33ecc7b982b4b3a45c3d8cef08104e51ff55e07c94ed"
+    },
+    "packages/presentation/src/planet/library.ts": {
+      "previousSha256": "304db05495cec9ab77054c0ad26a400ab122475e03f3abc89d05cc1e5d7c89e1",
+      "acceptedPreviousHashes": [
+        "304db05495cec9ab77054c0ad26a400ab122475e03f3abc89d05cc1e5d7c89e1",
+        "4e370ff02c4e9d5405e407f49d3dedaceb9a989252274f90dc9e8bb4e2143b17",
+        "b4b283f5dc3fbc296f756014c97ac7bca786dedeb2617b124c191187d4f9c2c3"
+      ],
+      "sha256": "da670888f095071215d0d963cb5b5c635ae068afa4f66aa37a7a297bd44b8e68",
+      "bytes": 3871,
+      "candidateBlob": "design/releases/candidate-blobs/da670888f095071215d0d963cb5b5c635ae068afa4f66aa37a7a297bd44b8e68"
+    },
+    "packages/presentation/src/planet/model.ts": {
+      "previousSha256": "d611b72dec085315aa1935065a43126bb2f2b9de56f69fd7d4d9c6bb3fe527c9",
+      "acceptedPreviousHashes": [
+        "d611b72dec085315aa1935065a43126bb2f2b9de56f69fd7d4d9c6bb3fe527c9"
+      ],
+      "sha256": "c8598cfbdb96614dd743c473523db0d8105c54e5e5bc65a4257062c6c8f6fb7b",
+      "bytes": 13130,
+      "candidateBlob": "design/releases/candidate-blobs/c8598cfbdb96614dd743c473523db0d8105c54e5e5bc65a4257062c6c8f6fb7b"
+    }
+  },
+  "captureEvidence": {
+    "reports": [
+      {
+        "path": "docs/frontend/phone-ui-consumer-inventory.json",
+        "sha256": "d171d506f7538769b2539d279e6909589e2fe47d2e061ce737c9283768110f99",
+        "bytes": 6007
+      },
+      {
+        "path": "docs/frontend/phone-ui-verification.json",
+        "sha256": "91d48c2223f0f49945854f33e1e47d57bc15582c9f5c1ae507b380118031401f",
+        "bytes": 7444
+      },
+      {
+        "path": "docs/frontend/pre-vote-consumer-inventory.json",
+        "sha256": "ad280b31ba9fb21b67aee7d2f174d9fbc3af419641dc2974b526d986a520b67d",
+        "bytes": 6453
+      },
+      {
+        "path": "docs/frontend/pre-vote-consumer-verification.json",
+        "sha256": "d3d42d0621da06b29a7d2ff253684264d8071d82cada8dd484f6979115b5d48d",
+        "bytes": 12902
+      },
+      {
+        "path": "docs/frontend/evidence/pre-vote-consumer-2026-11-11/connected/facts.json",
+        "sha256": "f54c430003a0011fa11b1a470acf71307346d99fd8ba273ca6a730fb9be08e2c",
+        "bytes": 14097
+      },
+      {
+        "path": "docs/frontend/evidence/pre-vote-consumer-2026-11-11/connected/provenance.json",
+        "sha256": "0df30732e24b36993de252a2bd66866fb50db21890c992200ff9c4c386f7fd8f",
+        "bytes": 39440
+      },
+      {
+        "path": "docs/frontend/evidence/pre-vote-consumer-2026-11-11/synthetic/facts.json",
+        "sha256": "8bbc3e4ffc8b9fa0d27035e1cbe4bd3165baa0262e1fbb98e52b9e7bb7de6b9c",
+        "bytes": 612348
+      },
+      {
+        "path": "docs/frontend/evidence/pre-vote-consumer-2026-11-11/synthetic/provenance.json",
+        "sha256": "241e4904a017172d7885164157530826e27ed5cd7c954b247d43abe7e2b2d925",
+        "bytes": 39457
+      },
+      {
+        "path": "docs/frontend/evidence/pre-vote-consumer-2026-11-11/presentation/facts.json",
+        "sha256": "10c750a3b8d6d7ce88c74fced007954de2b9b546f17a25892cac08740913de3c",
+        "bytes": 270792
+      },
+      {
+        "path": "docs/frontend/evidence/pre-vote-consumer-2026-11-11/presentation/provenance.json",
+        "sha256": "08c65a1f80157c91b88bca44725a3b3fe89d3f5a4a541ec69acc5f054873a977",
+        "bytes": 39470
+      },
+      {
+        "path": "docs/integration/evidence/phone-ui-2026-11-11/runtime-review.json",
+        "sha256": "168d89f36e6e4d9cf1b859e3b8c79a49255fb3b43b59045aec888a1155e7c04f",
+        "bytes": 2007
+      },
+      {
+        "path": "docs/integration/evidence/phone-ui-2026-11-11/blackout-focused.log",
+        "sha256": "b604ad90f1e333e9b6d75f5b02a9174a8f1f68ceddf683323c9a9567a4a5f613",
+        "bytes": 34360
+      },
+      {
+        "path": "docs/integration/evidence/phone-ui-2026-11-11/phone-boundaries-c5.log",
+        "sha256": "1ab34fd3bbd1e812786765be100306b95fce396106fb6b92fc898cf7e7bd5e7b",
+        "bytes": 6683
+      },
+      {
+        "path": "docs/integration/evidence/phone-ui-2026-11-11/tooling-read-only-review.json",
+        "sha256": "3c1659fbdce4cf68f56f190428db0e34bdc19b7921a211a7db4c51ef549082a9",
+        "bytes": 1725
+      },
+      {
+        "path": "docs/integration/evidence/phone-ui-2026-11-11/designer-review.json",
+        "sha256": "b4b17fb49c26d44d9403c928b550c953d2d038326a9917fed543ebb6946a58d9",
+        "bytes": 1159
+      },
+      {
+        "path": "docs/integration/evidence/phone-ui-2026-11-11/designer-focused.log",
+        "sha256": "7b7d3c7dfa46f6b7975a8ac6b6ef62fc6e54f14077360353653b652a1865f8b9",
+        "bytes": 3516
+      },
+      {
+        "path": "docs/frontend/evidence/pre-vote-consumer-2026-11-11/round-order/facts.json",
+        "sha256": "357860bbebe9b53cb437238223c5216fc022a9afe3133c4f99a32ddb1e048d8d",
+        "bytes": 5737
+      },
+      {
+        "path": "docs/frontend/evidence/pre-vote-consumer-2026-11-11/round-order/provenance.json",
+        "sha256": "3422043a13b4c7889c965b22bad4b06e4ba52cd795b7367fef974806471852f0",
+        "bytes": 39470
+      },
+      {
+        "path": "docs/integration/evidence/phone-ui-2026-11-11/round-order-review.json",
+        "sha256": "3c1b3cd8b7bb63426581307dd00459a630c48df1bc412bd7c2fb27cafad43c86",
+        "bytes": 1948
+      },
+      {
+        "path": "docs/integration/evidence/phone-ui-2026-11-11/round-order-focused.log",
+        "sha256": "19d71d4291c5e9997048496a3965d634dc9d4f836673e9808dd24a75ed7d0769",
+        "bytes": 1741
+      }
+    ],
+    "files": [
+      {
+        "path": "docs/frontend/evidence/pre-vote-consumer-2026-11-11/connected/real-rescue-keeps-playable-figure.png",
+        "sha256": "e8af0b5f3290a2195b4139b270a77d3d5c5daaa8863e1759a332724655751eb7",
+        "bytes": 90575
+      },
+      {
+        "path": "docs/frontend/evidence/pre-vote-consumer-2026-11-11/connected/real-damage-before-full-vote.png",
+        "sha256": "cf9f7d08e6e37afbaf825d01910ffcca7b412845ebea3102a1d0366101fe38f8",
+        "bytes": 216375
+      },
+      {
+        "path": "docs/frontend/evidence/pre-vote-consumer-2026-11-11/synthetic/320-568-7-normal-room-tag-slots.jpg",
+        "sha256": "c73c079cbf80dc67eb82b162f6e059fd98fb01653c9202015d89e5b21e82439f",
+        "bytes": 50529
+      },
+      {
+        "path": "docs/frontend/evidence/pre-vote-consumer-2026-11-11/synthetic/390-844-8-reduced-public-after-blackout.jpg",
+        "sha256": "dfc6c2acafbe7850e46fcd8899d354a721678d58032ed15bf5332382dbbe84aa",
+        "bytes": 89268
+      },
+      {
+        "path": "docs/frontend/evidence/pre-vote-consumer-2026-11-11/synthetic/430-932-9-normal-dark-code.jpg",
+        "sha256": "6093c7c73ab84be19dc253814989540c12c7dd1a4443d468bcf2302ecc8020d1",
+        "bytes": 63170
+      },
+      {
+        "path": "docs/frontend/evidence/pre-vote-consumer-2026-11-11/presentation/320-568-200-9-normal-result-own-row.jpg",
+        "sha256": "d383a750240ee96ff4f2c2cabb6a0a30df5d84654373311819fbe2126c345d77",
+        "bytes": 35563
+      },
+      {
+        "path": "docs/frontend/evidence/pre-vote-consumer-2026-11-11/presentation/390-844-100-7-normal-result.jpg",
+        "sha256": "4bbd30540a6a0824f345c59316b9d053cee133370b2adc3b068d714092c1b5a9",
+        "bytes": 62437
+      },
+      {
+        "path": "docs/frontend/evidence/pre-vote-consumer-2026-11-11/presentation/320-568-200-7-reduced-ballot.jpg",
+        "sha256": "48710f675315a727d5870f69801c714074cc796fba6a4fba992672aaf9f850af",
+        "bytes": 35009
+      },
+      {
+        "path": "docs/frontend/evidence/pre-vote-consumer-2026-11-11/presentation/390-844-100-9-reduced-result.jpg",
+        "sha256": "9ae2eaecf6cf2f4149defc5f467bb7e00e15ebc7f1171a9e9bb34f7fbd058e1f",
+        "bytes": 68425
+      },
+      {
+        "path": "docs/frontend/evidence/pre-vote-consumer-2026-11-11/presentation/320-568-200-8-reduced-keyboard-choice.jpg",
+        "sha256": "996dd4a2644484eeae6bb3948a3a9f076af66836baa799da8d2f3cd17a455237",
+        "bytes": 38141
+      },
+      {
+        "path": "docs/frontend/evidence/pre-vote-consumer-2026-11-11/round-order/blackout-390-844-100-top.jpg",
+        "sha256": "b49ba19fde4c11846374d3288cf591f3dba8199e0b8da0d411e475fd746b23ac",
+        "bytes": 44391
+      },
+      {
+        "path": "docs/frontend/evidence/pre-vote-consumer-2026-11-11/round-order/blackout-320-568-200-bottom.jpg",
+        "sha256": "aef24e454f692afde919c2bb52a6e6d8094c1c9b72fdbaf2cf330a9452b6ec94",
+        "bytes": 42405
+      },
+      {
+        "path": "docs/frontend/evidence/pre-vote-consumer-2026-11-11/round-order/phone-390-844-100-top.jpg",
+        "sha256": "7ef4ae9ace512ef746b44d15a949393306785a453dcc75bee49ff6f5146be5a9",
+        "bytes": 41319
+      }
+    ],
+    "acceptance": {
+      "path": "docs/integration/evidence/phone-ui-2026-11-11/integration-acceptance.json",
+      "sha256": "d832d049f80e6f6756702e3809d240168ef6f79cdf90032f5f7624ad104652ea",
+      "bytes": 5712
+    }
+  }
+}

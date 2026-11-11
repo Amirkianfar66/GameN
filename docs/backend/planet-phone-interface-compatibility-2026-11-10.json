@@ -1,0 +1,57 @@
+{
+  "schema": "mothership.planet-implementation-compatibility/1",
+  "status": "Candidate for implementation review; inactive until explicit new-match selection and integration acceptance",
+  "baseCommit": "fb33cecbf4b0fc2bef5d107e79ae2aac0ed7be70",
+  "candidatePins": {
+    "protocolVersion": 3,
+    "engineVersion": "planet-game-1.2.0",
+    "rulesetVersion": "in-person-planet-private-feedback-2026-11-06",
+    "rulesetHash": "4a1fc0e0dc21255253e31ae46e6042f9bd71e3fdec0f82f8a79b3ce213d01bfa"
+  },
+  "creationProfile": "phone-private-choices-1.2",
+  "canonicalAuthority": {
+    "path": "rules/planet-successor-private-feedback-authority-2026-11-06.json",
+    "sha256": "4a1fc0e0dc21255253e31ae46e6042f9bd71e3fdec0f82f8a79b3ce213d01bfa",
+    "declaredEngineVersion": "planet-game-1.1.0",
+    "relationship": "The frozen authority declares engine1.1.0. This separate technical record registers1.2.0 as a compatible implementation of the same canonical rules; it does not rewrite or reinterpret that authority."
+  },
+  "inherits": [
+    "P27 six-second post-Sync presentation",
+    "P28 fixed NAV_SETTING and eligible Officer tie privacy; no NAV_TIE revival",
+    "R8/R12 Engineer and patient private evidence",
+    "Giver-only Meet evaluation at its specified post-Sync opportunity",
+    "All accepted commands, resources, original roster identities and P18 final-Code eligibility",
+    "Current post-vote Blackout order until unresolved outcome/cancellation decisions are approved"
+  ],
+  "changes": [
+    {
+      "scope": "PANEL_CODE private offer",
+      "behavior": "All original seat identities in original public-number order, including eliminated players; offer presence and choices independent of injection inventory. Existing authoritative availability-before-guess validation and attempt costs remain unchanged."
+    },
+    {
+      "scope": "DECLARE_HACK_SIDE private offer.declaredSides",
+      "behavior": "Exact allowed side subset derived from existing command eligibility, actor-private only; omitted from historical tuples and unrelated offers. No bluffing permission, public projection, asset or sound change."
+    }
+  ],
+  "setupFlow": {
+    "version": 3,
+    "independentOfEngineProfile": true,
+    "cardDurationMs": 20000,
+    "filmDurationMs": 10000,
+    "readingDurationMs": 30000,
+    "boardingDurationMs": 10000,
+    "meaning": "Saved service timing version independent of protocol/rules/engine/art. Manual Ready after reading minimum; film/Skip never sends Ready or advances phases. Existing absent/2 behavior and current defaults remain unchanged."
+  },
+  "designerEvidence": {
+    "pr": 207,
+    "head": "d52a8ae94f7639dd853f04b4e897b9b77aecff42",
+    "path": "docs/design/owner-decisions.md",
+    "scope": "Owner-approved20+10 schedule; visual assets remain a separate proposed adoption."
+  },
+  "excluded": [
+    "Issue206 transaction retries",
+    "Unresolved pre-vote Blackout resolution/target-binding/cancellation mechanics",
+    "Cloud configuration, IAM, merge, deployment and creation-default activation",
+    "Frontend or Designer implementation ownership"
+  ]
+}

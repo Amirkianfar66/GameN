@@ -1,0 +1,694 @@
+TAP version 13
+# Subtest: 7: abort/reconnect preserves INITIAL and carried completed-round publication identity
+ok 1 - 7: abort/reconnect preserves INITIAL and carried completed-round publication identity
+  ---
+  duration_ms: 1698.183
+  type: 'test'
+  ...
+# Subtest: 7: aborting an admitted window retains selected cost, cancels pending admission without damage and preserves PRE_BLACKOUT
+ok 2 - 7: aborting an admitted window retains selected cost, cancels pending admission without damage and preserves PRE_BLACKOUT
+  ---
+  duration_ms: 622.599083
+  type: 'test'
+  ...
+# Subtest: 7: abort/reconnect preserves selected PRE_BLACKOUT presentation and published AFTER_BLACKOUT injury occurrences
+ok 3 - 7: abort/reconnect preserves selected PRE_BLACKOUT presentation and published AFTER_BLACKOUT injury occurrences
+  ---
+  duration_ms: 2800.853375
+  type: 'test'
+  ...
+# Subtest: 7: constructed divergent private offices cannot leak through abort publication
+ok 4 - 7: constructed divergent private offices cannot leak through abort publication
+  ---
+  duration_ms: 1438.517
+  type: 'test'
+  ...
+# Subtest: 8: abort/reconnect preserves INITIAL and carried completed-round publication identity
+ok 5 - 8: abort/reconnect preserves INITIAL and carried completed-round publication identity
+  ---
+  duration_ms: 2682.486625
+  type: 'test'
+  ...
+# Subtest: 8: aborting an admitted window retains selected cost, cancels pending admission without damage and preserves PRE_BLACKOUT
+ok 6 - 8: aborting an admitted window retains selected cost, cancels pending admission without damage and preserves PRE_BLACKOUT
+  ---
+  duration_ms: 1246.392666
+  type: 'test'
+  ...
+# Subtest: 8: abort/reconnect preserves selected PRE_BLACKOUT presentation and published AFTER_BLACKOUT injury occurrences
+ok 7 - 8: abort/reconnect preserves selected PRE_BLACKOUT presentation and published AFTER_BLACKOUT injury occurrences
+  ---
+  duration_ms: 4128.978292
+  type: 'test'
+  ...
+# Subtest: 8: constructed divergent private offices cannot leak through abort publication
+ok 8 - 8: constructed divergent private offices cannot leak through abort publication
+  ---
+  duration_ms: 1808.33525
+  type: 'test'
+  ...
+# Subtest: 9: abort/reconnect preserves INITIAL and carried completed-round publication identity
+ok 9 - 9: abort/reconnect preserves INITIAL and carried completed-round publication identity
+  ---
+  duration_ms: 2917.960792
+  type: 'test'
+  ...
+# Subtest: 9: aborting an admitted window retains selected cost, cancels pending admission without damage and preserves PRE_BLACKOUT
+ok 10 - 9: aborting an admitted window retains selected cost, cancels pending admission without damage and preserves PRE_BLACKOUT
+  ---
+  duration_ms: 1292.296584
+  type: 'test'
+  ...
+# Subtest: 9: abort/reconnect preserves selected PRE_BLACKOUT presentation and published AFTER_BLACKOUT injury occurrences
+ok 11 - 9: abort/reconnect preserves selected PRE_BLACKOUT presentation and published AFTER_BLACKOUT injury occurrences
+  ---
+  duration_ms: 4928.680791
+  type: 'test'
+  ...
+# Subtest: 9: constructed divergent private offices cannot leak through abort publication
+ok 12 - 9: constructed divergent private offices cannot leak through abort publication
+  ---
+  duration_ms: 2394.111291
+  type: 'test'
+  ...
+# Subtest: historical1.1/1.2 abort semantics and omitted checkpoint fields stay unchanged
+ok 13 - historical1.1/1.2 abort semantics and omitted checkpoint fields stay unchanged
+  ---
+  duration_ms: 233.361
+  type: 'test'
+  ...
+# Subtest: 7: native no-Sync path has full pre-vote Blackout, fresh vote/result clocks, strict checkpoint packets and exact replay
+ok 14 - 7: native no-Sync path has full pre-vote Blackout, fresh vote/result clocks, strict checkpoint packets and exact replay
+  ---
+  duration_ms: 1564.221917
+  type: 'test'
+  ...
+# Subtest: 7: native whole-world Sync retains the admitted queue, waits six seconds, then Blackout commits before voting
+ok 15 - 7: native whole-world Sync retains the admitted queue, waits six seconds, then Blackout commits before voting
+  ---
+  duration_ms: 4634.093417
+  type: 'test'
+  ...
+# Subtest: 7: native Sync never admits or charges a request that exists only in the discarded reality
+ok 16 - 7: native Sync never admits or charges a request that exists only in the discarded reality
+  ---
+  duration_ms: 4571.78425
+  type: 'test'
+  ...
+# Subtest: 7: native Meet checks the giver after Blackout forces Hospital, while its recipient stays in the promised room
+ok 17 - 7: native Meet checks the giver after Blackout forces Hospital, while its recipient stays in the promised room
+  ---
+  duration_ms: 2119.474459
+  type: 'test'
+  ...
+# Subtest: 7: constructed full H4 commits permanent overflow before reserved panel and Doctor Rescue can free a bed or heal the victim
+ok 18 - 7: constructed full H4 commits permanent overflow before reserved panel and Doctor Rescue can free a bed or heal the victim
+  ---
+  duration_ms: 3096.470625
+  type: 'test'
+  ...
+# Subtest: 7: constructed early admission keeps its bed against a lower-numbered later ordinary victim and the injured shooter's registration survives
+ok 19 - 7: constructed early admission keeps its bed against a lower-numbered later ordinary victim and the injured shooter's registration survives
+  ---
+  duration_ms: 495.787458
+  type: 'test'
+  ...
+# Subtest: 7: constructed partial commit leaves ordinary Main-before-Shot, new Protection and accepted Rescue pending despite the actor's injury
+ok 20 - 7: constructed partial commit leaves ordinary Main-before-Shot, new Protection and accepted Rescue pending despite the actor's injury
+  ---
+  duration_ms: 1363.781208
+  type: 'test'
+  ...
+# Subtest: 7: constructed accepted Doctor Rescue survives the Doctor's pre-vote injury without an early heal or refund
+ok 21 - 7: constructed accepted Doctor Rescue survives the Doctor's pre-vote injury without an early heal or refund
+  ---
+  duration_ms: 572.387459
+  type: 'test'
+  ...
+# Subtest: 7: constructed Clone blocks before Protection, survives the partial checkpoint and expires only after the remaining attack
+ok 22 - 7: constructed Clone blocks before Protection, survives the partial checkpoint and expires only after the remaining attack
+  ---
+  duration_ms: 597.793084
+  type: 'test'
+  ...
+# Subtest: 7: constructed partial checkpoint does not age existing injuries or apply Round-3 Supply, Protection grants or Clone expiry
+ok 23 - 7: constructed partial checkpoint does not age existing injuries or apply Round-3 Supply, Protection grants or Clone expiry
+  ---
+  duration_ms: 1700.304541
+  type: 'test'
+  ...
+# Subtest: 7: constructed empty electorate still receives full Blackout/vote/result before No survivors finalization
+ok 24 - 7: constructed empty electorate still receives full Blackout/vote/result before No survivors finalization
+  ---
+  duration_ms: 19.055459
+  type: 'test'
+  ...
+# Subtest: 7: constructed living Hacker retains P18 through lit/dark Blackout, vote and result while Healthy, Injured or Jailed
+ok 25 - 7: constructed living Hacker retains P18 through lit/dark Blackout, vote and result while Healthy, Injured or Jailed
+  ---
+  duration_ms: 3423.110334
+  type: 'test'
+  ...
+# Subtest: 7: constructed hidden request, consuming miss and timeout leave public and unrelated player packets identical
+ok 26 - 7: constructed hidden request, consuming miss and timeout leave public and unrelated player packets identical
+  ---
+  duration_ms: 516.819209
+  type: 'test'
+  ...
+# Subtest: 7: constructed targeting rejects early/wrong-window/wrong-room input, then locks one consuming self or empty miss; timeout also spends once
+ok 27 - 7: constructed targeting rejects early/wrong-window/wrong-room input, then locks one consuming self or empty miss; timeout also spends once
+  ---
+  duration_ms: 838.930625
+  type: 'test'
+  ...
+# Subtest: 7: constructed ineligible untargeted requester is not admitted, charged or offered a picker
+ok 28 - 7: constructed ineligible untargeted requester is not admitted, charged or offered a picker
+  ---
+  duration_ms: 194.164375
+  type: 'test'
+  ...
+# Subtest: 7: constructed defensive feedback is identical for Clone and Protection and remains limited to the actual impact room, including its retained body
+ok 29 - 7: constructed defensive feedback is identical for Clone and Protection and remains limited to the actual impact room, including its retained body
+  ---
+  duration_ms: 659.159459
+  type: 'test'
+  ...
+# Subtest: 7: historical planet-game-1.1.0 keeps vote/result before Blackout, omits candidate checkpoint and replays exactly
+ok 30 - 7: historical planet-game-1.1.0 keeps vote/result before Blackout, omits candidate checkpoint and replays exactly
+  ---
+  duration_ms: 914.55075
+  type: 'test'
+  ...
+# Subtest: 7: historical planet-game-1.2.0 keeps vote/result before Blackout, omits candidate checkpoint and replays exactly
+ok 31 - 7: historical planet-game-1.2.0 keeps vote/result before Blackout, omits candidate checkpoint and replays exactly
+  ---
+  duration_ms: 846.588125
+  type: 'test'
+  ...
+# Subtest: 7: native publication categories survive reconnect and abort at every boundary, including the Jail republish and next-round carry
+ok 32 - 7: native publication categories survive reconnect and abort at every boundary, including the Jail republish and next-round carry
+  ---
+  duration_ms: 2967.8365
+  type: 'test'
+  ...
+# Subtest: 7: native abort before Sync preserves the earlier public board instead of publishing a private reposition or a new publication round
+ok 33 - 7: native abort before Sync preserves the earlier public board instead of publishing a private reposition or a new publication round
+  ---
+  duration_ms: 924.423416
+  type: 'test'
+  ...
+# Subtest: 7: native abort with an admitted selected Blackout batch preserves the targeting checkpoint and never resolves the pending hit
+ok 34 - 7: native abort with an admitted selected Blackout batch preserves the targeting checkpoint and never resolves the pending hit
+  ---
+  duration_ms: 408.502667
+  type: 'test'
+  ...
+# Subtest: 7: native Round-2 election, tie runoff, both result intervals and appointment preserve the carried finalized checkpoint
+ok 35 - 7: native Round-2 election, tie runoff, both result intervals and appointment preserve the carried finalized checkpoint
+  ---
+  duration_ms: 1876.069541
+  type: 'test'
+  ...
+# Subtest: 7: constructed no eligible Officer skips appointment while an Alien Captain still receives the optional Sync, presentation and full Blackout
+ok 36 - 7: constructed no eligible Officer skips appointment while an Alien Captain still receives the optional Sync, presentation and full Blackout
+  ---
+  duration_ms: 1266.873125
+  type: 'test'
+  ...
+# Subtest: 8: native no-Sync path has full pre-vote Blackout, fresh vote/result clocks, strict checkpoint packets and exact replay
+ok 37 - 8: native no-Sync path has full pre-vote Blackout, fresh vote/result clocks, strict checkpoint packets and exact replay
+  ---
+  duration_ms: 1439.457958
+  type: 'test'
+  ...
+# Subtest: 8: native whole-world Sync retains the admitted queue, waits six seconds, then Blackout commits before voting
+ok 38 - 8: native whole-world Sync retains the admitted queue, waits six seconds, then Blackout commits before voting
+  ---
+  duration_ms: 4429.623916
+  type: 'test'
+  ...
+# Subtest: 8: native Sync never admits or charges a request that exists only in the discarded reality
+ok 39 - 8: native Sync never admits or charges a request that exists only in the discarded reality
+  ---
+  duration_ms: 4156.323083
+  type: 'test'
+  ...
+# Subtest: 8: native Meet checks the giver after Blackout forces Hospital, while its recipient stays in the promised room
+ok 40 - 8: native Meet checks the giver after Blackout forces Hospital, while its recipient stays in the promised room
+  ---
+  duration_ms: 2025.64225
+  type: 'test'
+  ...
+# Subtest: 8: constructed full H4 commits permanent overflow before reserved panel and Doctor Rescue can free a bed or heal the victim
+ok 41 - 8: constructed full H4 commits permanent overflow before reserved panel and Doctor Rescue can free a bed or heal the victim
+  ---
+  duration_ms: 3141.669708
+  type: 'test'
+  ...
+# Subtest: 8: constructed early admission keeps its bed against a lower-numbered later ordinary victim and the injured shooter's registration survives
+ok 42 - 8: constructed early admission keeps its bed against a lower-numbered later ordinary victim and the injured shooter's registration survives
+  ---
+  duration_ms: 522.006625
+  type: 'test'
+  ...
+# Subtest: 8: constructed partial commit leaves ordinary Main-before-Shot, new Protection and accepted Rescue pending despite the actor's injury
+ok 43 - 8: constructed partial commit leaves ordinary Main-before-Shot, new Protection and accepted Rescue pending despite the actor's injury
+  ---
+  duration_ms: 1534.668833
+  type: 'test'
+  ...
+# Subtest: 8: constructed accepted Doctor Rescue survives the Doctor's pre-vote injury without an early heal or refund
+ok 44 - 8: constructed accepted Doctor Rescue survives the Doctor's pre-vote injury without an early heal or refund
+  ---
+  duration_ms: 599.221166
+  type: 'test'
+  ...
+# Subtest: 8: constructed Clone blocks before Protection, survives the partial checkpoint and expires only after the remaining attack
+ok 45 - 8: constructed Clone blocks before Protection, survives the partial checkpoint and expires only after the remaining attack
+  ---
+  duration_ms: 608.872
+  type: 'test'
+  ...
+# Subtest: 8: constructed partial checkpoint does not age existing injuries or apply Round-3 Supply, Protection grants or Clone expiry
+ok 46 - 8: constructed partial checkpoint does not age existing injuries or apply Round-3 Supply, Protection grants or Clone expiry
+  ---
+  duration_ms: 1852.882042
+  type: 'test'
+  ...
+# Subtest: 8: constructed empty electorate still receives full Blackout/vote/result before No survivors finalization
+ok 47 - 8: constructed empty electorate still receives full Blackout/vote/result before No survivors finalization
+  ---
+  duration_ms: 23.459291
+  type: 'test'
+  ...
+# Subtest: 8: constructed living Hacker retains P18 through lit/dark Blackout, vote and result while Healthy, Injured or Jailed
+ok 48 - 8: constructed living Hacker retains P18 through lit/dark Blackout, vote and result while Healthy, Injured or Jailed
+  ---
+  duration_ms: 3579.65625
+  type: 'test'
+  ...
+# Subtest: 8: constructed hidden request, consuming miss and timeout leave public and unrelated player packets identical
+ok 49 - 8: constructed hidden request, consuming miss and timeout leave public and unrelated player packets identical
+  ---
+  duration_ms: 613.284208
+  type: 'test'
+  ...
+# Subtest: 8: constructed targeting rejects early/wrong-window/wrong-room input, then locks one consuming self or empty miss; timeout also spends once
+ok 50 - 8: constructed targeting rejects early/wrong-window/wrong-room input, then locks one consuming self or empty miss; timeout also spends once
+  ---
+  duration_ms: 984.756375
+  type: 'test'
+  ...
+# Subtest: 8: constructed ineligible untargeted requester is not admitted, charged or offered a picker
+ok 51 - 8: constructed ineligible untargeted requester is not admitted, charged or offered a picker
+  ---
+  duration_ms: 239.46225
+  type: 'test'
+  ...
+# Subtest: 8: constructed defensive feedback is identical for Clone and Protection and remains limited to the actual impact room, including its retained body
+ok 52 - 8: constructed defensive feedback is identical for Clone and Protection and remains limited to the actual impact room, including its retained body
+  ---
+  duration_ms: 748.651208
+  type: 'test'
+  ...
+# Subtest: 8: historical planet-game-1.1.0 keeps vote/result before Blackout, omits candidate checkpoint and replays exactly
+ok 53 - 8: historical planet-game-1.1.0 keeps vote/result before Blackout, omits candidate checkpoint and replays exactly
+  ---
+  duration_ms: 1119.539291
+  type: 'test'
+  ...
+# Subtest: 8: historical planet-game-1.2.0 keeps vote/result before Blackout, omits candidate checkpoint and replays exactly
+ok 54 - 8: historical planet-game-1.2.0 keeps vote/result before Blackout, omits candidate checkpoint and replays exactly
+  ---
+  duration_ms: 1099.985542
+  type: 'test'
+  ...
+# Subtest: 8: native publication categories survive reconnect and abort at every boundary, including the Jail republish and next-round carry
+ok 55 - 8: native publication categories survive reconnect and abort at every boundary, including the Jail republish and next-round carry
+  ---
+  duration_ms: 4063.780958
+  type: 'test'
+  ...
+# Subtest: 8: native abort before Sync preserves the earlier public board instead of publishing a private reposition or a new publication round
+ok 56 - 8: native abort before Sync preserves the earlier public board instead of publishing a private reposition or a new publication round
+  ---
+  duration_ms: 1310.415208
+  type: 'test'
+  ...
+# Subtest: 8: native abort with an admitted selected Blackout batch preserves the targeting checkpoint and never resolves the pending hit
+ok 57 - 8: native abort with an admitted selected Blackout batch preserves the targeting checkpoint and never resolves the pending hit
+  ---
+  duration_ms: 639.054334
+  type: 'test'
+  ...
+# Subtest: 8: native Round-2 election, tie runoff, both result intervals and appointment preserve the carried finalized checkpoint
+ok 58 - 8: native Round-2 election, tie runoff, both result intervals and appointment preserve the carried finalized checkpoint
+  ---
+  duration_ms: 2663.024542
+  type: 'test'
+  ...
+# Subtest: 8: constructed no eligible Officer skips appointment while an Alien Captain still receives the optional Sync, presentation and full Blackout
+ok 59 - 8: constructed no eligible Officer skips appointment while an Alien Captain still receives the optional Sync, presentation and full Blackout
+  ---
+  duration_ms: 1782.961167
+  type: 'test'
+  ...
+# Subtest: 9: native no-Sync path has full pre-vote Blackout, fresh vote/result clocks, strict checkpoint packets and exact replay
+ok 60 - 9: native no-Sync path has full pre-vote Blackout, fresh vote/result clocks, strict checkpoint packets and exact replay
+  ---
+  duration_ms: 1914.840875
+  type: 'test'
+  ...
+# Subtest: 9: native whole-world Sync retains the admitted queue, waits six seconds, then Blackout commits before voting
+ok 61 - 9: native whole-world Sync retains the admitted queue, waits six seconds, then Blackout commits before voting
+  ---
+  duration_ms: 6060.981375
+  type: 'test'
+  ...
+# Subtest: 9: native Sync never admits or charges a request that exists only in the discarded reality
+ok 62 - 9: native Sync never admits or charges a request that exists only in the discarded reality
+  ---
+  duration_ms: 5988.005458
+  type: 'test'
+  ...
+# Subtest: 9: native Meet checks the giver after Blackout forces Hospital, while its recipient stays in the promised room
+ok 63 - 9: native Meet checks the giver after Blackout forces Hospital, while its recipient stays in the promised room
+  ---
+  duration_ms: 2965.748667
+  type: 'test'
+  ...
+# Subtest: 9: constructed full H4 commits permanent overflow before reserved panel and Doctor Rescue can free a bed or heal the victim
+ok 64 - 9: constructed full H4 commits permanent overflow before reserved panel and Doctor Rescue can free a bed or heal the victim
+  ---
+  duration_ms: 4812.08225
+  type: 'test'
+  ...
+# Subtest: 9: constructed early admission keeps its bed against a lower-numbered later ordinary victim and the injured shooter's registration survives
+ok 65 - 9: constructed early admission keeps its bed against a lower-numbered later ordinary victim and the injured shooter's registration survives
+  ---
+  duration_ms: 769.679959
+  type: 'test'
+  ...
+# Subtest: 9: constructed partial commit leaves ordinary Main-before-Shot, new Protection and accepted Rescue pending despite the actor's injury
+ok 66 - 9: constructed partial commit leaves ordinary Main-before-Shot, new Protection and accepted Rescue pending despite the actor's injury
+  ---
+  duration_ms: 2138.163833
+  type: 'test'
+  ...
+# Subtest: 9: constructed accepted Doctor Rescue survives the Doctor's pre-vote injury without an early heal or refund
+ok 67 - 9: constructed accepted Doctor Rescue survives the Doctor's pre-vote injury without an early heal or refund
+  ---
+  duration_ms: 790.51725
+  type: 'test'
+  ...
+# Subtest: 9: constructed Clone blocks before Protection, survives the partial checkpoint and expires only after the remaining attack
+ok 68 - 9: constructed Clone blocks before Protection, survives the partial checkpoint and expires only after the remaining attack
+  ---
+  duration_ms: 840.131458
+  type: 'test'
+  ...
+# Subtest: 9: constructed partial checkpoint does not age existing injuries or apply Round-3 Supply, Protection grants or Clone expiry
+ok 69 - 9: constructed partial checkpoint does not age existing injuries or apply Round-3 Supply, Protection grants or Clone expiry
+  ---
+  duration_ms: 2664.674
+  type: 'test'
+  ...
+# Subtest: 9: constructed empty electorate still receives full Blackout/vote/result before No survivors finalization
+ok 70 - 9: constructed empty electorate still receives full Blackout/vote/result before No survivors finalization
+  ---
+  duration_ms: 29.86725
+  type: 'test'
+  ...
+# Subtest: 9: constructed living Hacker retains P18 through lit/dark Blackout, vote and result while Healthy, Injured or Jailed
+ok 71 - 9: constructed living Hacker retains P18 through lit/dark Blackout, vote and result while Healthy, Injured or Jailed
+  ---
+  duration_ms: 5212.113875
+  type: 'test'
+  ...
+# Subtest: 9: constructed hidden request, consuming miss and timeout leave public and unrelated player packets identical
+ok 72 - 9: constructed hidden request, consuming miss and timeout leave public and unrelated player packets identical
+  ---
+  duration_ms: 843.511416
+  type: 'test'
+  ...
+# Subtest: 9: constructed targeting rejects early/wrong-window/wrong-room input, then locks one consuming self or empty miss; timeout also spends once
+ok 73 - 9: constructed targeting rejects early/wrong-window/wrong-room input, then locks one consuming self or empty miss; timeout also spends once
+  ---
+  duration_ms: 1367.162209
+  type: 'test'
+  ...
+# Subtest: 9: constructed ineligible untargeted requester is not admitted, charged or offered a picker
+ok 74 - 9: constructed ineligible untargeted requester is not admitted, charged or offered a picker
+  ---
+  duration_ms: 333.177125
+  type: 'test'
+  ...
+# Subtest: 9: constructed defensive feedback is identical for Clone and Protection and remains limited to the actual impact room, including its retained body
+ok 75 - 9: constructed defensive feedback is identical for Clone and Protection and remains limited to the actual impact room, including its retained body
+  ---
+  duration_ms: 1062.889958
+  type: 'test'
+  ...
+# Subtest: 9: historical planet-game-1.1.0 keeps vote/result before Blackout, omits candidate checkpoint and replays exactly
+ok 76 - 9: historical planet-game-1.1.0 keeps vote/result before Blackout, omits candidate checkpoint and replays exactly
+  ---
+  duration_ms: 1696.323708
+  type: 'test'
+  ...
+# Subtest: 9: historical planet-game-1.2.0 keeps vote/result before Blackout, omits candidate checkpoint and replays exactly
+ok 77 - 9: historical planet-game-1.2.0 keeps vote/result before Blackout, omits candidate checkpoint and replays exactly
+  ---
+  duration_ms: 1612.931292
+  type: 'test'
+  ...
+# Subtest: 9: native publication categories survive reconnect and abort at every boundary, including the Jail republish and next-round carry
+ok 78 - 9: native publication categories survive reconnect and abort at every boundary, including the Jail republish and next-round carry
+  ---
+  duration_ms: 5829.711792
+  type: 'test'
+  ...
+# Subtest: 9: native abort before Sync preserves the earlier public board instead of publishing a private reposition or a new publication round
+ok 79 - 9: native abort before Sync preserves the earlier public board instead of publishing a private reposition or a new publication round
+  ---
+  duration_ms: 1996.982292
+  type: 'test'
+  ...
+# Subtest: 9: native abort with an admitted selected Blackout batch preserves the targeting checkpoint and never resolves the pending hit
+ok 80 - 9: native abort with an admitted selected Blackout batch preserves the targeting checkpoint and never resolves the pending hit
+  ---
+  duration_ms: 850.660083
+  type: 'test'
+  ...
+# Subtest: 9: native Round-2 election, tie runoff, both result intervals and appointment preserve the carried finalized checkpoint
+ok 81 - 9: native Round-2 election, tie runoff, both result intervals and appointment preserve the carried finalized checkpoint
+  ---
+  duration_ms: 3862.149375
+  type: 'test'
+  ...
+# Subtest: 9: constructed no eligible Officer skips appointment while an Alien Captain still receives the optional Sync, presentation and full Blackout
+ok 82 - 9: constructed no eligible Officer skips appointment while an Alien Captain still receives the optional Sync, presentation and full Blackout
+  ---
+  duration_ms: 2658.710375
+  type: 'test'
+  ...
+# Subtest: 8: constructed both admitted Disablers strike despite first-strike actor incapacity and remain spent after later Jail
+ok 83 - 8: constructed both admitted Disablers strike despite first-strike actor incapacity and remain spent after later Jail
+  ---
+  duration_ms: 1590.647958
+  type: 'test'
+  ...
+# Subtest: 8: constructed same-slot strikes produce one second-hit body; active Protection absorbs only the first attempt
+ok 84 - 8: constructed same-slot strikes produce one second-hit body; active Protection absorbs only the first attempt
+  ---
+  duration_ms: 1088.712292
+  type: 'test'
+  ...
+# Subtest: 8: constructed two new candidates compete numerically for the last bed while an existing body keeps its place
+ok 85 - 8: constructed two new candidates compete numerically for the last bed while an existing body keeps its place
+  ---
+  duration_ms: 449.334625
+  type: 'test'
+  ...
+# Subtest: 8: constructed same-batch second-hit body cannot displace any of four retained Hospital bodies
+ok 86 - 8: constructed same-batch second-hit body cannot displace any of four retained Hospital bodies
+  ---
+  duration_ms: 243.584292
+  type: 'test'
+  ...
+# Subtest: 8: constructed two blocked subjects publish in numeric subject order with one timestamp and no stored attacker-order cue
+ok 87 - 8: constructed two blocked subjects publish in numeric subject order with one timestamp and no stored attacker-order cue
+  ---
+  duration_ms: 513.505584
+  type: 'test'
+  ...
+# Subtest: 8: constructed mutual overflow of the last two living Disablers waits for full empty vote and result before No survivors
+ok 88 - 8: constructed mutual overflow of the last two living Disablers waits for full empty vote and result before No survivors
+  ---
+  duration_ms: 125.510041
+  type: 'test'
+  ...
+# Subtest: 9: constructed both admitted Disablers strike despite first-strike actor incapacity and remain spent after later Jail
+ok 89 - 9: constructed both admitted Disablers strike despite first-strike actor incapacity and remain spent after later Jail
+  ---
+  duration_ms: 2271.144167
+  type: 'test'
+  ...
+# Subtest: 9: constructed same-slot strikes produce one second-hit body; active Protection absorbs only the first attempt
+ok 90 - 9: constructed same-slot strikes produce one second-hit body; active Protection absorbs only the first attempt
+  ---
+  duration_ms: 1443.353792
+  type: 'test'
+  ...
+# Subtest: 9: constructed two new candidates compete numerically for the last bed while an existing body keeps its place
+ok 91 - 9: constructed two new candidates compete numerically for the last bed while an existing body keeps its place
+  ---
+  duration_ms: 611.057291
+  type: 'test'
+  ...
+# Subtest: 9: constructed same-batch second-hit body cannot displace any of four retained Hospital bodies
+ok 92 - 9: constructed same-batch second-hit body cannot displace any of four retained Hospital bodies
+  ---
+  duration_ms: 367.31025
+  type: 'test'
+  ...
+# Subtest: 9: constructed two blocked subjects publish in numeric subject order with one timestamp and no stored attacker-order cue
+ok 93 - 9: constructed two blocked subjects publish in numeric subject order with one timestamp and no stored attacker-order cue
+  ---
+  duration_ms: 702.782167
+  type: 'test'
+  ...
+# Subtest: 9: constructed mutual overflow of the last two living Disablers waits for full empty vote and result before No survivors
+ok 94 - 9: constructed mutual overflow of the last two living Disablers waits for full empty vote and result before No survivors
+  ---
+  duration_ms: 199.477333
+  type: 'test'
+  ...
+# Subtest: 7: independent restore matrix binds completed and aborted batches to their actual publication category and round
+ok 95 - 7: independent restore matrix binds completed and aborted batches to their actual publication category and round
+  ---
+  duration_ms: 3187.489209
+  type: 'test'
+  ...
+# Subtest: 8: independent restore matrix binds completed and aborted batches to their actual publication category and round
+ok 96 - 8: independent restore matrix binds completed and aborted batches to their actual publication category and round
+  ---
+  duration_ms: 4664.431667
+  type: 'test'
+  ...
+# Subtest: 9: independent restore matrix binds completed and aborted batches to their actual publication category and round
+ok 97 - 9: independent restore matrix binds completed and aborted batches to their actual publication category and round
+  ---
+  duration_ms: 6987.276084
+  type: 'test'
+  ...
+# Subtest: 7: private admission/choice/completion ledger reconnects exactly and malformed states fail closed
+ok 98 - 7: private admission/choice/completion ledger reconnects exactly and malformed states fail closed
+  ---
+  duration_ms: 795.670583
+  type: 'test'
+  ...
+# Subtest: 8: private admission/choice/completion ledger reconnects exactly and malformed states fail closed
+ok 99 - 8: private admission/choice/completion ledger reconnects exactly and malformed states fail closed
+  ---
+  duration_ms: 1091.651
+  type: 'test'
+  ...
+# Subtest: 9: private admission/choice/completion ledger reconnects exactly and malformed states fail closed
+ok 100 - 9: private admission/choice/completion ledger reconnects exactly and malformed states fail closed
+  ---
+  duration_ms: 1555.19475
+  type: 'test'
+  ...
+# Subtest: historical tuples reject candidate publication and private admission fields without migration
+ok 101 - historical tuples reject candidate publication and private admission fields without migration
+  ---
+  duration_ms: 23.058584
+  type: 'test'
+  ...
+# Subtest: 7: empty terminal batch markers restore only under their matching current publication checkpoint
+ok 102 - 7: empty terminal batch markers restore only under their matching current publication checkpoint
+  ---
+  duration_ms: 1723.235833
+  type: 'test'
+  ...
+# Subtest: 8: empty terminal batch markers restore only under their matching current publication checkpoint
+ok 103 - 8: empty terminal batch markers restore only under their matching current publication checkpoint
+  ---
+  duration_ms: 2454.995375
+  type: 'test'
+  ...
+# Subtest: 9: empty terminal batch markers restore only under their matching current publication checkpoint
+ok 104 - 9: empty terminal batch markers restore only under their matching current publication checkpoint
+  ---
+  duration_ms: 3964.167125
+  type: 'test'
+  ...
+# Subtest: pre-vote Blackout predecessor fixture has exact committed1.2 provenance and all three roster sizes
+ok 105 - pre-vote Blackout predecessor fixture has exact committed1.2 provenance and all three roster sizes
+  ---
+  duration_ms: 0.693459
+  type: 'test'
+  ...
+# Subtest: 7/native-feedback-sync-code: saved1.2 commands, audience bytes and post-vote Blackout remain immutable
+ok 106 - 7/native-feedback-sync-code: saved1.2 commands, audience bytes and post-vote Blackout remain immutable
+  ---
+  duration_ms: 5559.741209
+  type: 'test'
+  ...
+# Subtest: 7/native-neutral-tie: saved1.2 commands, audience bytes and post-vote Blackout remain immutable
+ok 107 - 7/native-neutral-tie: saved1.2 commands, audience bytes and post-vote Blackout remain immutable
+  ---
+  duration_ms: 4987.837375
+  type: 'test'
+  ...
+# Subtest: 7/native-empty-panel-wrong-code: saved1.2 commands, audience bytes and post-vote Blackout remain immutable
+ok 108 - 7/native-empty-panel-wrong-code: saved1.2 commands, audience bytes and post-vote Blackout remain immutable
+  ---
+  duration_ms: 2942.846208
+  type: 'test'
+  ...
+# Subtest: 8/native-feedback-sync-code: saved1.2 commands, audience bytes and post-vote Blackout remain immutable
+ok 109 - 8/native-feedback-sync-code: saved1.2 commands, audience bytes and post-vote Blackout remain immutable
+  ---
+  duration_ms: 6556.993917
+  type: 'test'
+  ...
+# Subtest: 8/native-neutral-tie: saved1.2 commands, audience bytes and post-vote Blackout remain immutable
+ok 110 - 8/native-neutral-tie: saved1.2 commands, audience bytes and post-vote Blackout remain immutable
+  ---
+  duration_ms: 5397.660041
+  type: 'test'
+  ...
+# Subtest: 8/native-empty-panel-wrong-code: saved1.2 commands, audience bytes and post-vote Blackout remain immutable
+ok 111 - 8/native-empty-panel-wrong-code: saved1.2 commands, audience bytes and post-vote Blackout remain immutable
+  ---
+  duration_ms: 3104.775083
+  type: 'test'
+  ...
+# Subtest: 9/native-feedback-sync-code: saved1.2 commands, audience bytes and post-vote Blackout remain immutable
+ok 112 - 9/native-feedback-sync-code: saved1.2 commands, audience bytes and post-vote Blackout remain immutable
+  ---
+  duration_ms: 8083.925625
+  type: 'test'
+  ...
+# Subtest: 9/native-neutral-tie: saved1.2 commands, audience bytes and post-vote Blackout remain immutable
+ok 113 - 9/native-neutral-tie: saved1.2 commands, audience bytes and post-vote Blackout remain immutable
+  ---
+  duration_ms: 6854.862292
+  type: 'test'
+  ...
+# Subtest: 9/native-empty-panel-wrong-code: saved1.2 commands, audience bytes and post-vote Blackout remain immutable
+ok 114 - 9/native-empty-panel-wrong-code: saved1.2 commands, audience bytes and post-vote Blackout remain immutable
+  ---
+  duration_ms: 3965.186584
+  type: 'test'
+  ...
+1..114
+# tests 114
+# suites 0
+# pass 114
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 140799.093167

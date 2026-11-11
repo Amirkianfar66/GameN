@@ -1,0 +1,38 @@
+{
+  "scope": "Independent Integration review of the exact-tuple round-order copy correction only",
+  "nativeCommit": "d1a03c87e80de7b5923c97a15a968c1ba6f5b40c",
+  "previousNativeCommit": "b63403e6a8d1b5f68f48ec13f4a392a79870bfcd",
+  "changedNativeFiles": [
+    "apps/game/hosted/planet/render.mjs",
+    "packages/presentation/src/planet/library.ts"
+  ],
+  "changes": "Reuse the existing four-pin matcher. Exact 1.3 names Blackout damage and Hospital placement before Jail voting; original/Sync/1.1/1.2 and mixed tuples retain the old sequence. No gameplay, art, camera or layout change.",
+  "focusedLibraryTests": {
+    "passed": 7,
+    "failed": 0,
+    "log": "docs/integration/evidence/phone-ui-2026-11-11/round-order-focused.log"
+  },
+  "captureProvenance": {
+    "committedModules": 112,
+    "builtModules": 59,
+    "digestOrSizeMismatches": 0,
+    "captureTreeMarkedDirty": true,
+    "qualification": "All captured committed-module bytes matched git show at the native commit and all built modules matched a fresh Integration build. The capture does not claim a clean whole working tree."
+  },
+  "syntheticBrowserCases": 6,
+  "visuallyReviewed": [
+    "docs/frontend/evidence/pre-vote-consumer-2026-11-11/round-order/blackout-390-844-100-top.jpg",
+    "docs/frontend/evidence/pre-vote-consumer-2026-11-11/round-order/blackout-320-568-200-bottom.jpg",
+    "docs/frontend/evidence/pre-vote-consumer-2026-11-11/round-order/phone-390-844-100-top.jpg"
+  ],
+  "observations": [
+    "The exact 1.3 visible sequence places Damage and Hospital placement before Jail vote",
+    "The enlarged-text lower copy is reachable by panel scroll and fits the width",
+    "Saved 1.2 retains its old visible sequence"
+  ],
+  "limits": [
+    "Synthetic native panel review, not a new multiplayer journey",
+    "Prior c5a and b634 evidence remains attributed to those exact native sources",
+    "No physical-phone, Safari, VoiceOver or human balance evidence"
+  ]
+}

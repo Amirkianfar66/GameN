@@ -1,7 +1,7 @@
 import type { ClinicalPresentationAnchor, PlanetCommand, PlanetOffer, PlanetSeatView, PlanetSlotId, SeatId } from '@mothership/contracts';
 import { registerPlanetPanelRequest, resolvePlanetPanelReservation } from './feedback.js';
-import { alive, canRoleAction, copyPlanet, freeHealthy, ordinaryStage, ownTurn, planetFaction, planetSeat, planetWorld, seatIds, storePlanetEvent, planetHasPrivateFeedback } from './model.js';
-import type { PlanetGameState, PlanetPhysicalSeat, PlanetRegisteredAction, PlanetWorld } from './model.js';
+import { alive, canRoleAction, copyPlanet, freeHealthy, ordinaryStage, ownTurn, planetFaction, planetSeat, planetSeatView, planetWorld, seatIds, storePlanetEvent, planetHasPrivateFeedback, planetHasPhoneOffers, planetHasPreVoteBlackout } from './model.js';
+import type { PlanetGameState, PlanetPhysicalSeat, PlanetRegisteredAction, PlanetWorld, PlanetBlackoutAttempt, PlanetBlackoutBatch } from './model.js';
 
 type PlanetLocation = NonNullable<PlanetSeatView['location']>;
 const numeric = (id:SeatId):number => Number(id.slice(5));
@@ -162,8 +162,13 @@ export function planetPhysicalOffers(state:PlanetGameState,actorId:SeatId):Plane
   const supply=new Set<SeatId>();for(let a=0;a<ids.length;a++)for(let b=a+1;b<ids.length;b++)if(canPlanetPhysicalCommand(state,actorId,{type:'SUPPLY',targetSeatIds:[ids[a]!,ids[b]!]})){supply.add(ids[a]!);supply.add(ids[b]!);}
   if(supply.size)add('SUPPLY',[...supply]);
   for(const type of ['ACTIVATE_CLONE','REQUEST_BLACKOUT','ENGINEER_SUPPRESS','CAPTAIN_RELEASE','CAPTAIN_EJECT'] as const)if(canPlanetPhysicalCommand(state,actorId,{type}))add(type,[actorId]);
-  // Test availability using an arbitrary number, never offer the secret Doctor identity.
-  if(canPlanetPhysicalCommand(state,actorId,{type:'PANEL_CODE',doctorSeatId:ids[0]!}))add('PANEL_CODE');
+  if(planetHasPhoneOffers(state.versions)){
+    // Original public numbers are keypad choices, not correctness or stock feedback.
+    if(panelEligibleWithoutInventory(state,actorId))add('PANEL_CODE',[...ids].sort((a,b)=>numeric(a)-numeric(b)));
+  }else{
+    // Preserve historical availability probing and its empty metadata exactly.
+    if(canPlanetPhysicalCommand(state,actorId,{type:'PANEL_CODE',doctorSeatId:ids[0]!}))add('PANEL_CODE');
+  }
   return out;
 }
 
@@ -179,9 +184,101 @@ export function jailPlanetSeat(state:PlanetGameState,world:PlanetWorld,targetId:
   target.jailed=true;recordPlacementChanges(state,world,before);clearPlanetOffices(state,world);return true;
 }
 
+/** Admission occurs only after whole-state Sync and fixes one common neutral board. */
+export function openPlanetBlackoutBatch(state:PlanetGameState):void {
+  if(!planetHasPreVoteBlackout(state.versions)||state.phase.kind!=='BLACKOUT'||state.blackholeActive||state.blackoutBatch!==null)throw Error('Invalid Blackout admission checkpoint');
+  const world=planetWorld(state),attempts:PlanetBlackoutAttempt[]=[];
+  world.actions=world.actions.filter(action=>{
+    if(action.command.type!=='REQUEST_BLACKOUT')return true;
+    const actor=planetSeat(world,action.actorSeatId);
+    if(!freeHealthy(actor)||actor.blackoutSpent)return false;
+    action.boundRoom=actor.location as PlanetBlackoutAttempt['boundRoom'];action.selectedSlotId=null;
+    attempts.push({actorSeatId:actor.seatId,commandId:action.commandId,order:action.order,boundRoom:action.boundRoom,
+      selection:'PENDING',selectedSlotId:null,selectedAt:null,targetSeatId:null,outcome:null});return true;
+  });
+  attempts.sort((a,b)=>a.order-b.order);
+  state.blackoutBatch={round:state.round,windowId:state.phase.id,startedAt:state.phase.startedAt,endsAt:state.phase.endsAt!,
+    completedAt:null,status:'OPEN',snapshot:world.seats.map(seat=>planetSeatView(world,seat)),attempts};
+}
+/** No later live-slot lookup may acquire another occupant or reveal a frozen miss. */
+export function planetFrozenBlackoutTarget(batch:PlanetBlackoutBatch,attempt:PlanetBlackoutAttempt,slotId:NonNullable<PlanetSeatView['slotId']>):SeatId|null {
+  const target=batch.snapshot.find(seat=>seat.location===attempt.boundRoom&&seat.slotId===slotId);
+  return target&&target.health!=='Eliminated'&&target.seatId!==attempt.actorSeatId&&target.location!=='Command Room'?target.seatId:null;
+}
+
+function planetDamageBatch(state:PlanetGameState,world:PlanetWorld) {
+  const candidates=new Set<SeatId>(),before=placements(world),offset=world.events.length;
+  const eliminate=(target:PlanetPhysicalSeat)=>{
+    const wasAlive=alive(target);target.health='Eliminated';target.rescueDueAfterRound=null;target.medical=null;target.clone.active=false;
+    if(wasAlive)storePlanetEvent(state,world,'ELIMINATED',[target.seatId]);
+  };
+  const strike=(id:SeatId):NonNullable<PlanetBlackoutAttempt['outcome']>=>{
+    const target=planetSeat(world,id);if(!alive(target))return 'NO_EFFECT';
+    const blocked=target.clone.active||(target.protection!==null&&!target.protection.consumed&&target.protection.activeFromRound<=state.round);
+    if(blocked){
+      if(!target.clone.active)target.protection!.consumed=true;
+      const room=target.location;if(room===null)throw Error('Missing impact room');
+      storePlanetEvent(state,world,'ATTACK_BLOCKED',[target.seatId],room,world.seats.filter(seat=>seat.location===room).map(seat=>seat.seatId));
+      world.events[world.events.length-1]!.event.slotId=target.slotId;return 'BLOCKED';
+    }
+    const outcome=target.health==='Healthy'?'INJURED':'ELIMINATED';
+    if(target.health==='Healthy'){candidates.add(target.seatId);target.health='Injured';target.rescueDueAfterRound=state.round+1;target.medical={admittedRound:state.round,rescueDueAfterRound:state.round+1,rescueOpportunity:'NEXT_NORMAL_ROUND'};storePlanetEvent(state,world,'INJURED',[target.seatId]);}
+    else eliminate(target);
+    clearPlanetOffices(state,world);return outcome;
+  };
+  return {candidates,before,offset,eliminate,strike};
+}
+type PlanetDamageBatch=ReturnType<typeof planetDamageBatch>;
+
+/** Actual physical settlement only; full-round aging/Rescue/expiry are separate. */
+function settlePlanetDamage(state:PlanetGameState,world:PlanetWorld,batch:PlanetDamageBatch,finalize:boolean):void {
+  const {candidates,before,offset,eliminate}=batch,denied=new Set<SeatId>();
+  const returners=world.seats.filter(s=>s.health==='Healthy'&&!s.jailed&&(candidates.has(s.seatId)||s.location==='Hospital'||s.location==='Jail'||(s.location==='Command Room'&&world.captainSeatId!==s.seatId))).sort((a,b)=>numeric(a.seatId)-numeric(b.seatId));
+  const candidatesSorted=world.seats.filter(s=>candidates.has(s.seatId)).sort((a,b)=>numeric(a.seatId)-numeric(b.seatId));
+  const jailReturners=world.seats.filter(s=>s.health==='Healthy'&&s.jailed&&(s.location==='Hospital'||candidates.has(s.seatId))).sort((a,b)=>numeric(a.seatId)-numeric(b.seatId));
+  for(const target of [...returners,...candidatesSorted,...jailReturners]){target.location=null;target.slotId=null;}
+  for(const target of candidatesSorted){
+    if(returners.includes(target)||jailReturners.includes(target))continue;
+    if(target.health==='Healthy')throw Error('Missing healed return placement');
+    const bed=freeSlot(world,'Hospital');
+    if(bed){target.location='Hospital';target.slotId=bed;}
+    else{eliminate(target);target.location=null;target.slotId=null;target.jailed=false;denied.add(target.seatId);}
+  }
+  for(const target of jailReturners)movePhysical(world,target,'Jail');
+  for(const target of returners)returnOrdinary(world,target);
+  if(finalize)for(const target of world.seats){
+    if(target.health==='Eliminated')target.revealedFaction=planetFaction(state.roles[target.seatId]!);
+    if(target.clone.active&&target.clone.expiresAfterRound!==null&&target.clone.expiresAfterRound<=state.round)target.clone.active=false;
+  }
+  // Earlier published batches are immutable; only this unpublished suffix is resealed.
+  const retained=world.events.slice(offset).filter(record=>!(clinicalKinds.has(record.event.kind)&&record.event.seatIds.some(id=>denied.has(id))));
+  world.events=world.events.slice(0,offset);
+  for(const record of retained){const event=record.event;storePlanetEvent(state,world,event.kind,event.seatIds,event.location,record.recipients,event.actorSeatId,event.slotId,event.clinicalAnchor);}
+  sealClinicalAnchors(state,world,offset,before);
+  for(const id of [...denied].sort((a,b)=>numeric(a)-numeric(b)))storePlanetEvent(state,world,'HOSPITAL_OVERFLOW_REMOVED',[id]);
+  recordPlacementChanges(state,world,before);clearPlanetOffices(state,world);
+}
+
+/** Resolve a complete admitted batch once, before voting, without running unrelated actions. */
+export function resolvePlanetBlackoutBatch(state:PlanetGameState):void {
+  const batch=state.blackoutBatch,world=planetWorld(state);
+  if(!planetHasPreVoteBlackout(state.versions)||state.phase.kind!=='BLACKOUT'||state.blackholeActive||!batch||batch.status!=='OPEN'
+    ||batch.windowId!==state.phase.id||state.evaluatedAt<batch.endsAt)throw Error('Invalid Blackout resolution checkpoint');
+  const damage=planetDamageBatch(state,world);
+  for(const attempt of batch.attempts){
+    if(attempt.selection==='PENDING')attempt.selection='TIMED_OUT';
+    planetSeat(world,attempt.actorSeatId).blackoutSpent=true;
+    attempt.outcome=attempt.targetSeatId===null?'MISS':damage.strike(attempt.targetSeatId);
+  }
+  settlePlanetDamage(state,world,damage,false);
+  world.actions=world.actions.filter(action=>action.command.type!=='REQUEST_BLACKOUT');
+  batch.status='RESOLVED';batch.completedAt=state.evaluatedAt;
+}
+
 /** Complete selected-world resolution. No attack, heal, Promise or ending runs before Sync. */
 export function resolvePlanetPhysical(state:PlanetGameState,world:PlanetWorld):void {
-  const candidates=new Set<SeatId>(),denied=new Set<SeatId>(),before=placements(world),offset=world.events.length;
+  if(planetHasPreVoteBlackout(state.versions)&&(state.blackoutBatch?.status!=='RESOLVED'||world.actions.some(action=>action.command.type==='REQUEST_BLACKOUT')))throw Error('Remaining resolution requires completed Blackout');
+  const damage=planetDamageBatch(state,world),{eliminate,strike}=damage;
   const ordered=state.turnOrder.flatMap(id=>world.actions.filter(a=>a.actorSeatId===id));
   if(ordered.length!==world.actions.length)throw Error('Unknown registered physical actor');
   // Freeze all admitted Blackout hits against the same pre-attack positions.
@@ -194,23 +291,6 @@ export function resolvePlanetPhysical(state:PlanetGameState,world:PlanetWorld):v
     const target=world.seats.find(s=>s.location===action.boundRoom&&s.slotId===action.selectedSlotId);
     blackoutTargets.set(action,target&&alive(target)&&target.seatId!==actor.seatId&&target.location!=='Command Room'?target.seatId:null);
   }
-  const eliminate=(target:PlanetPhysicalSeat)=>{
-    const wasAlive=alive(target);target.health='Eliminated';target.rescueDueAfterRound=null;target.medical=null;target.clone.active=false;
-    if(wasAlive)storePlanetEvent(state,world,'ELIMINATED',[target.seatId]);
-  };
-  const strike=(id:SeatId)=>{
-    const target=planetSeat(world,id);if(!alive(target))return;
-    const blocked=target.clone.active || (target.protection!==null&&!target.protection.consumed&&target.protection.activeFromRound<=state.round);
-    if(blocked){
-      if(!target.clone.active)target.protection!.consumed=true;
-      const room=target.location;if(room===null)throw Error('Missing impact room');
-      storePlanetEvent(state,world,'ATTACK_BLOCKED',[target.seatId],room,world.seats.filter(s=>s.location===room).map(s=>s.seatId));
-      world.events[world.events.length-1]!.event.slotId=target.slotId;return;
-    }
-    if(target.health==='Healthy'){candidates.add(target.seatId);target.health='Injured';target.rescueDueAfterRound=state.round+1;target.medical={admittedRound:state.round,rescueDueAfterRound:state.round+1,rescueOpportunity:'NEXT_NORMAL_ROUND'};storePlanetEvent(state,world,'INJURED',[target.seatId]);}
-    else eliminate(target);
-    clearPlanetOffices(state,world);
-  };
   for(const actorId of state.turnOrder){
     const actions=ordered.filter(a=>a.actorSeatId===actorId);
     for(const action of [...actions.filter(a=>['PROTECT','REQUEST_BLACKOUT'].includes(a.command.type)),...actions.filter(a=>a.command.type==='REGISTER_SHOT')]){
@@ -229,36 +309,5 @@ export function resolvePlanetPhysical(state:PlanetGameState,world:PlanetWorld):v
   if(state.round===3)for(const action of ordered)if(action.command.type==='SUPPLY')for(const id of action.command.targetSeatIds){const target=planetSeat(world,id);if(alive(target))target.ordinaryWeapons++;}
   for(const target of world.seats)if(target.health==='Injured'&&target.rescueDueAfterRound!==null&&target.rescueDueAfterRound<=state.round)eliminate(target);
   clearPlanetOffices(state,world);
-  // Work with the same seat objects: remove all departing candidates/returners before
-  // choosing beds, so no temporary fifth Hospital occupant or invented Jail place exists.
-  const returners=world.seats.filter(s=>s.health==='Healthy'&&!s.jailed&&(candidates.has(s.seatId)||s.location==='Hospital'||s.location==='Jail'||(s.location==='Command Room'&&world.captainSeatId!==s.seatId))).sort((a,b)=>numeric(a.seatId)-numeric(b.seatId));
-  const candidatesSorted=world.seats.filter(s=>candidates.has(s.seatId)).sort((a,b)=>numeric(a.seatId)-numeric(b.seatId));
-  const jailReturners=world.seats.filter(s=>s.health==='Healthy'&&s.jailed&&(s.location==='Hospital'||candidates.has(s.seatId))).sort((a,b)=>numeric(a.seatId)-numeric(b.seatId));
-  for(const target of [...returners,...candidatesSorted,...jailReturners]){target.location=null;target.slotId=null;}
-  for(const target of candidatesSorted){
-    if(returners.includes(target)||jailReturners.includes(target))continue;
-    if(target.health==='Healthy')throw Error('Missing healed return placement');
-    const bed=freeSlot(world,'Hospital');
-    if(bed){target.location='Hospital';target.slotId=bed;}
-    else{eliminate(target);target.location=null;target.slotId=null;target.jailed=false;denied.add(target.seatId);}
-  }
-  for(const target of jailReturners)movePhysical(world,target,'Jail');
-  for(const target of returners)returnOrdinary(world,target);
-  for(const target of world.seats){
-    if(target.health==='Eliminated')target.revealedFaction=planetFaction(state.roles[target.seatId]!);
-    if(target.clone.active&&target.clone.expiresAfterRound!==null&&target.clone.expiresAfterRound<=state.round)target.clone.active=false;
-  }
-  // No provisional clinical consequence/anchor may turn denied overflow into a bed admission.
-  const retained=world.events.slice(offset).filter(record=>
-    !(clinicalKinds.has(record.event.kind)&&record.event.seatIds.some(id=>denied.has(id))));
-  // These suffix occurrences have never been published. Reissue only this batch
-  // after suppression so length-based private storage IDs cannot collide.
-  world.events=world.events.slice(0,offset);
-  for(const record of retained){const event=record.event;
-    storePlanetEvent(state,world,event.kind,event.seatIds,event.location,record.recipients,event.actorSeatId,event.slotId,event.clinicalAnchor);
-  }
-  sealClinicalAnchors(state,world,offset,before);
-  for(const id of [...denied].sort((a,b)=>numeric(a)-numeric(b)))storePlanetEvent(state,world,'HOSPITAL_OVERFLOW_REMOVED',[id]);
-  recordPlacementChanges(state,world,before);
-  clearPlanetOffices(state,world);world.actions=[];
+  settlePlanetDamage(state,world,damage,true);world.actions=[];
 }

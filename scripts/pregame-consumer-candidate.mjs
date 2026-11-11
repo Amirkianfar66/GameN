@@ -2,6 +2,7 @@
 import {createHash} from 'node:crypto';
 import {lstatSync, readFileSync} from 'node:fs';
 import {posix, resolve} from 'node:path';
+import {readPhoneUiConsumerApproval, acceptsPhoneUiConsumerFile} from './phone-ui-consumer-approval.mjs';
 
 export const PREGAME_CONSUMER_CANDIDATE = 'docs/integration/pregame-consumer-candidate-2026-11-08.json';
 export const PREGAME_CONSUMER_CANDIDATE_SHA256 = 'e8799855b67fc81c68089f0bd295715eb5ca6ffe0548eee2f911725b33b7d702';
@@ -50,12 +51,14 @@ export function readVerifiedPregameConsumerInventory(root) {
     candidate.existingConsumerApproval.sha256 === PREVIOUS_APPROVAL_SHA256 &&
     sha(read(root, PREVIOUS_APPROVAL)) === PREVIOUS_APPROVAL_SHA256, 'existing consumer approval differs');
   check(candidate.historicalBlobsDirectory === BLOBS, 'historical blob directory differs');
+  const successor = readPhoneUiConsumerApproval(root);
   for (const [path, entry] of Object.entries(candidate.files)) {
     check(entry.candidateBlob === `design/releases/candidate-blobs/${entry.sha256}`, `candidate blob path differs: ${path}`);
     const blob = read(root, entry.candidateBlob);
     check(blob.length === entry.bytes && sha(blob) === entry.sha256, `candidate blob content differs: ${path}`);
     const current = read(root, path);
-    check(current.length === entry.bytes && sha(current) === entry.sha256, `current content differs: ${path}`);
+    check(current.length === entry.bytes && sha(current) === entry.sha256 ||
+      acceptsPhoneUiConsumerFile(successor, path, entry.sha256, sha(current)), `current content differs: ${path}`);
     check(Array.isArray(entry.acceptedPreviousHashes) &&
       (entry.previousSha256 === null || entry.acceptedPreviousHashes.includes(entry.previousSha256)), `previous identity differs: ${path}`);
     for (const digest of entry.acceptedPreviousHashes) {

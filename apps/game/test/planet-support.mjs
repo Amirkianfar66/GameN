@@ -11,15 +11,16 @@ export function planetView(role='Hacker',count=9){
   knowledge:{insiderSeatIds:[],knownUndercoverSeatId:role==='Hacker'?'seat-5':null,scanResults:[]},offers:['PASS_TURN','MOVE','SCAN','SUBMIT_CODE'].map(type=>({type,targetSeatIds:ids.slice(0,count),slotIds:type==='MOVE'?['A1','B5','C1']:[],windowIds:[]})),privateNavigation:null,hackFeedback:null,blackoutTargeting:null,promises:[],promiseQuota:{given:false,received:false},ownBallot:null,windows:[]};
 }
 export function rig(initial=planetView(),options={}){
+ const matchId=initial.matchId;
  let now=options.now??1000,uid='local-uid',listener=null,saved=null,serial=0,reply=options.reply??'accepted',timerId=0;
  const timers=new Map(),sent=[],lookups=[];
  const response=request=>({receipt:{protocolVersion:3,matchId:request.matchId,phaseId:request.phaseId,commandId:request.commandId,status:'accepted',code:'REGISTERED'},serverTimeMs:now});
  const ports={clock:{now:()=>now},scheduler:{setTimeout(fn,ms){const id=++timerId;timers.set(id,{fn,due:now+ms});return id;},clearTimeout(id){timers.delete(id);}},ids:{next:()=>`planet-command-${++serial}`},unresolved:{load:()=>saved,save:value=>{saved=value;},clear:()=>{saved=null;}}};
- const transport={mode:'synthetic',currentUid:()=>uid,authenticate:async()=>({uid:'local-uid',matchId:'planet-local',seatId:options.display?null:initial.self.seatId}),serverTime:async()=>now,
+ const transport={mode:'synthetic',currentUid:()=>uid,authenticate:async()=>({uid:'local-uid',matchId,seatId:options.display?null:initial.self.seatId}),serverTime:async()=>now,
   listen(audience,next){listener=next;next.snapshot({value:initial,fresh:true});return()=>{listener=null;};},
   async command(request){sent.push(structuredClone(request));if(reply==='lost')throw Error('lost');if(reply==='never')return new Promise(()=>{});return response(request);},
   async receipt(context){lookups.push(context);return reply==='lost'?null:response(context);},identities:()=>[]};
- const controller=createPlanetController(transport,ports,{matchId:'planet-local',surface:options.display?'display':'player'});
+ const controller=createPlanetController(transport,ports,{matchId,surface:options.display?'display':'player'});
  return {controller,ports,transport,sent,lookups,read:()=>controller.getModel(),saved:()=>saved,setSaved:value=>{saved=value;},setUid:value=>{uid=value;},setReply:value=>{reply=value;},
   push(value,fresh=true){initial=value;listener?.snapshot({value,fresh});},
   async advance(ms){now+=ms;for(const [id,t]of [...timers])if(t.due<=now){timers.delete(id);t.fn();}await Promise.resolve();await Promise.resolve();},

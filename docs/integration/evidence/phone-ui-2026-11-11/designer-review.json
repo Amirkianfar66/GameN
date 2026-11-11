@@ -1,0 +1,36 @@
+{
+  "pr": 207,
+  "exactHead": "e4fd047fec2cde1d6534b3276a2ae39d5ca10a9b",
+  "sourceDeltaReviewedFrom": "d52a8ae94f7639dd853f04b4e897b9b77aecff42",
+  "visualReview": [
+    {
+      "path": "design/phone-ui/review/sheets/37-results-captain.jpg",
+      "sha256": "8aa6fb48d7385cb23426d9ec73f9912b6f24e2bf422e322d11c36268c6480ae5"
+    },
+    {
+      "path": "design/phone-ui/review/sheets/56-small-phone-largest-text.jpg",
+      "sha256": "7f8b29796fdb754e64749ee8f36f1c22d61e48961e127f7d9a56c9ab9e3d1014"
+    },
+    {
+      "path": "design/phone-ui/review/sheets/29.1-registered-waiting.jpg",
+      "sha256": "f9d0a8a109c56a3f5c0134fbe2664670ba00c1aff1d2350657275bd09b3c5052"
+    }
+  ],
+  "independentFocusedTests": {
+    "command": "node --test packages/design-tokens/test/phone-ui.test.mjs",
+    "node": "22.21.1",
+    "pass": 15,
+    "fail": 0,
+    "skipped": 0,
+    "durationMs": 145.212375
+  },
+  "scope": "Three owner corrections accepted as design reference; native adoption separately reviewed",
+  "notRepeated": [
+    "Full pack rendering",
+    "Pixel contrast sampling",
+    "Physical phones",
+    "Safari",
+    "Screen reader",
+    "Performance"
+  ]
+}

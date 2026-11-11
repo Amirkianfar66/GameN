@@ -1,6 +1,6 @@
 // Frontend lifecycle and exact-snapshot dispatch around the reviewed drawing copies.
 // Drawing sources remain exact; all inputs here are public identity, pose and match pins.
-import { PLANET_GAME_PINS } from '@mothership/contracts';
+import { PLANET_GAME_PINS, PLANET_PHONE_OFFER_PINS, PLANET_BLACKOUT_PINS } from '@mothership/contracts';
 import { CREW as HISTORICAL_CREW } from './scene-drawing/crew.mjs';
 import { dressedFigureSvg as historicalFigure, outfitFor } from './scene-drawing/wardrobe.mjs';
 import { CREW } from './crew-drawing/crew.mjs';
@@ -16,7 +16,7 @@ let rendererSequence = 0, definitionSequence = 0, externalSequence = 0;
 export const crewInstancePrefix = () => `crew-inline-${++externalSequence}`;
 export function hasCrewDrawing(versions) {
   return requestsCrewDrawing(versions)
-    && Object.entries(PLANET_GAME_PINS).every(([key, value]) => versions[key] === value);
+    && [PLANET_GAME_PINS,PLANET_PHONE_OFFER_PINS,PLANET_BLACKOUT_PINS].some(pins=>Object.entries(pins).every(([key, value]) => versions[key] === value));
 }
 export const crewForVersions = versions => hasCrewDrawing(versions) ? CREW : HISTORICAL_CREW;
 export function crewPortraitVariable(characterId, versions) {

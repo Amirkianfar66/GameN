@@ -1,0 +1,20 @@
+
+> mothership-workspace@0.1.0 check:sources
+> node scripts/check-sources.mjs
+
+Board V2 exact runtime ports: 27 pinned source/derivative pairs; runtime adoption is reviewed separately
+Reviewed common setup/motion art: 25 exact SVGs
+Source integrity: 119 original Canvas files + 1 unbound example; 7 rule sources; 24 pinned source files; token proposal unchanged
+Approved V1 source integrity: 21 immutable owner decisions; historical source pin preserved
+Capacity owner source integrity: six confirmed decisions; separate exact behavior tuple; historical bytes preserved
+Capacity resolution integrity: six latest owner decisions; exact historical tuples preserved
+Vote result integrity: approved five-second checkpoints and exact new tuple bound
+Declared Hack integrity: approved claim, bounded flow and exact historical tuple preservation
+Public Hack draft integrity: public pair and approved turn-stage movement isolated to exact new tuple; creation defaults unchanged
+Board/medical draft integrity: final owner slots and episode rules bound to separate inactive tuple; historical pins preserved
+Captain outcome candidate integrity: exact successor; historical source and activation pins retained
+Blackout candidate integrity: exact fixed-window successor and private room outcome boundary
+Clone candidate integrity: exact lifetime/normal-round successor; historical pins and defaults retained
+Planet art integrity: 17 common stylesheets and 5 approved film pairs; historical releases preserved
+Crew art registration: 17 exact ports; 3 new uniform bundles; tokens 0.5.0; runtime activation remains separate
+Pregame art registration: 22 exact named modules; frozen dependencies; consumer review and setup flow activation remain separate
