@@ -54,12 +54,13 @@ try{
      p.offices={captainSeatId:location==='Command Room'?chosen[0]:null,officerSeatId:null,blockedSeatId:null};v.playerView=p;v.publicView=h.publicPlanet(p);return h.replace(v);
     })()`);
     await page.waitFor(`document.querySelector('.bv2-room[data-room="${room}"]:not([hidden]) .bv2-actor[data-seat="seat-2"] svg')`,'room body drawn');
-    await sleep(100);const art=await checkCrewArt(page);let figures=[],wholeFigures=true;
-    try{figures=await checkRoomFigures(page,{seats:chosen});}catch(error){
+    const clinical=room==='hospital';if(clinical)await page.waitFor("document.querySelector('[data-film-part=critical-seat-2-body] svg')",'painted clinical patient');
+    await sleep(100);const art=await checkCrewArt(page,{clinical});let figures=[],wholeFigures=true;
+    try{figures=await checkRoomFigures(page,{seats:chosen,clinical});}catch(error){
      wholeFigures=false;facts.figureFailures.push({width,height,text,count,room,size,error:error.message});
      // Complete the other states for Designer, while keeping the whole-figure assertion
      // a failing result for this run. This diagnostic does not grant visual acceptance.
-     figures=await checkRoomFigures(page,{seats:chosen,minVisibleRatio:0});
+     figures=await checkRoomFigures(page,{seats:chosen,minVisibleRatio:0,clinical});
     }
     const capture=count===9||!wholeFigures?await picture(page,prefix+'-'+room+'-'+size):null;
     facts.rooms.push({width,height,text,count,room,size,artFigures:art.figures.length,figures,wholeFigures,capture});
