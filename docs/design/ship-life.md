@@ -154,9 +154,10 @@ The private-talk capsule is a separate space and has no food device.
   - A wait of more than 1.5 seconds makes the visit brief.
   - A wait of more than 6 seconds drops it. There is never a queue of people.
 - **What stops a visit at once:** a real move, an injury or elimination, a conversation the character is in, a phase change, or the lights going out. The figure is back at its place in 0.3 seconds: out where it stands, in at its place. The real event then plays from the place as today. A phase change stops everything, so the last player's visit is cut short and never delays the next phase.
+  - The same event before a visit begins, while the visitor still waits for the capsule, drops it. The visit never begins, so nobody walks after the phase has changed or the lights have gone out, and the capsule stays free for the next visitor.
 - **Targeting is private.** When a player opens a targeting choice, their own phone puts every visitor back at their place and starts none while it is open. Nothing is sent and other phones carry on, so a private choice changes nothing anyone else sees.
 - **The Blackout** keeps the frame and the places frozen: no visit or activity plays with the lights out.
-- **No replay.** A visit is keyed by its round and seat. A phone that comes back (a reload, a reconnection, the app brought back) plays a visit only if it began less than a second ago by the game's clock. An older one, or one already played on that phone, is done.
+- **No replay.** A visit is keyed by its round and seat. A phone that comes back (a reload, a reconnection, the app brought back) plays a visit already under way only if it began less than a second ago by the game's clock and has not been stopped. An older one, a stopped one, or one already played on that phone, is done. A visit yet to begin plays when it begins.
 - **Nothing plays** in the Hospital, for an Eliminated character, when availability is unknown, or with Reduce motion.
 
 **The logical place never moves.**
