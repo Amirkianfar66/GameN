@@ -1,0 +1,328 @@
+TAP version 13
+# Subtest: DSN-REQ-17 binds exact source, 17 exact-copy ports and explicit tokens without replacing historical exports
+ok 1 - DSN-REQ-17 binds exact source, 17 exact-copy ports and explicit tokens without replacing historical exports
+  ---
+  duration_ms: 202.266208
+  type: 'test'
+  ...
+# Subtest: published Planet manifest and original consumer bytes survive exact successor adoption
+ok 2 - published Planet manifest and original consumer bytes survive exact successor adoption
+  ---
+  duration_ms: 145.070417
+  type: 'test'
+  ...
+# Subtest: compatibility cannot substitute changed current code, erase historical evidence or approve itself
+ok 3 - compatibility cannot substitute changed current code, erase historical evidence or approve itself
+  ---
+  duration_ms: 463.400166
+  type: 'test'
+  ...
+# Subtest: new uniform bundles contain exactly the 36 approved exports and retire only the 27 obsolete film properties
+ok 4 - new uniform bundles contain exactly the 36 approved exports and retire only the 27 obsolete film properties
+  ---
+  duration_ms: 98.280333
+  type: 'test'
+  ...
+# Subtest: build emits complete historical and new release output side by side; a damaged new bundle is rejected
+ok 5 - build emits complete historical and new release output side by side; a damaged new bundle is rejected
+  ---
+  duration_ms: 272.649291
+  type: 'test'
+  ...
+# Subtest: changed source, runtime port or asset cannot authorize itself through the candidate manifest
+ok 6 - changed source, runtime port or asset cannot authorize itself through the candidate manifest
+  ---
+  duration_ms: 413.833791
+  type: 'test'
+  ...
+# Subtest: the fence rejects unknown, changed and missing crew ports, and a self-edited approval
+ok 7 - the fence rejects unknown, changed and missing crew ports, and a self-edited approval
+  ---
+  duration_ms: 2269.665459
+  type: 'test'
+  ...
+# Subtest: verified final adoption reports08 while retaining the root V1 identity and historical validation
+ok 8 - verified final adoption reports08 while retaining the root V1 identity and historical validation
+  ---
+  duration_ms: 356.367125
+  type: 'test'
+  ...
+# Subtest: explicit new-match metadata uses the reviewed gameplay tuple without changing artwork or historical defaults
+ok 9 - explicit new-match metadata uses the reviewed gameplay tuple without changing artwork or historical defaults
+  ---
+  duration_ms: 826.169333
+  type: 'test'
+  ...
+# Subtest: real emitted output retains all27 Planet assets for06,07 and08 and rejects damage to each release
+ok 10 - real emitted output retains all27 Planet assets for06,07 and08 and rejects damage to each release
+  ---
+  duration_ms: 486.085459
+  type: 'test'
+  ...
+# Subtest: absence preserves history, but invalid or dangling approval cannot become absence
+ok 11 - absence preserves history, but invalid or dangling approval cannot become absence
+  ---
+  duration_ms: 3.947792
+  type: 'test'
+  ...
+# Subtest: reviewed phone bytes extend consumption without rewriting the historical acceptance or artwork
+ok 12 - reviewed phone bytes extend consumption without rewriting the historical acceptance or artwork
+  ---
+  duration_ms: 120.006458
+  type: 'test'
+  ...
+# Subtest: a claimed or cloned approval, unknown path and unreviewed digest have no acceptance capability
+ok 13 - a claimed or cloned approval, unknown path and unreviewed digest have no acceptance capability
+  ---
+  duration_ms: 104.719583
+  type: 'test'
+  ...
+# Subtest: current files, candidate blobs, preserved predecessors and evidence are independently required
+ok 14 - current files, candidate blobs, preserved predecessors and evidence are independently required
+  ---
+  duration_ms: 135.042417
+  type: 'test'
+  ...
+# Subtest: editing parent records or the artwork manifest cannot repin the native candidate
+ok 15 - editing parent records or the artwork manifest cannot repin the native candidate
+  ---
+  duration_ms: 92.678333
+  type: 'test'
+  ...
+# Subtest: a native or evidence symlink is rejected even when its target contains the approved bytes
+ok 16 - a native or evidence symlink is rejected even when its target contains the approved bytes
+  ---
+  duration_ms: 93.394916
+  type: 'test'
+  ...
+# Subtest: pregame source registration preserves published artwork, gameplay pins and creation defaults
+ok 17 - pregame source registration preserves published artwork, gameplay pins and creation defaults
+  ---
+  duration_ms: 285.841
+  type: 'test'
+  ...
+# Subtest: source checkpoint excludes review artifacts and does not authorize the pending app consumer
+ok 18 - source checkpoint excludes review artifacts and does not authorize the pending app consumer
+  ---
+  duration_ms: 578.126167
+  type: 'test'
+  ...
+# Subtest: source or runtime drift and a self-edited candidate manifest fail independently
+ok 19 - source or runtime drift and a self-edited candidate manifest fail independently
+  ---
+  duration_ms: 561.672625
+  type: 'test'
+  ...
+# Subtest: new build guard validates source registration without emitting assets or activating setup
+ok 20 - new build guard validates source registration without emitting assets or activating setup
+  ---
+  duration_ms: 639.441959
+  type: 'test'
+  ...
+# Subtest: unchanged complete uniform output validates for06,07 and source registration08
+ok 21 - unchanged complete uniform output validates for06,07 and source registration08
+  ---
+  duration_ms: 379.726083
+  type: 'test'
+  ...
+# Subtest: explicit local review accepts only the complete reviewed candidate while preserving old release identities
+ok 22 - explicit local review accepts only the complete reviewed candidate while preserving old release identities
+  ---
+  duration_ms: 458.582875
+  type: 'test'
+  ...
+# Subtest: candidate review is disabled without exactly the one explicit flag and reads no files
+ok 23 - candidate review is disabled without exactly the one explicit flag and reads no files
+  ---
+  duration_ms: 1.49925
+  type: 'test'
+  ...
+# Subtest: the independently pinned record permits only the exact eleven local consumer files
+ok 24 - the independently pinned record permits only the exact eleven local consumer files
+  ---
+  duration_ms: 27.023375
+  type: 'test'
+  ...
+# Subtest: accepted previous identities include the baseline and exact 06/07/08 inventory hashes
+ok 25 - accepted previous identities include the baseline and exact 06/07/08 inventory hashes
+  ---
+  duration_ms: 3.54625
+  type: 'test'
+  ...
+# Subtest: local review rejects changed current consumer
+ok 26 - local review rejects changed current consumer
+  ---
+  duration_ms: 18.986917
+  type: 'test'
+  ...
+# Subtest: local review rejects changed candidate review blob
+ok 27 - local review rejects changed candidate review blob
+  ---
+  duration_ms: 12.077583
+  type: 'test'
+  ...
+# Subtest: local review rejects changed preserved previous blob
+ok 28 - local review rejects changed preserved previous blob
+  ---
+  duration_ms: 13.925583
+  type: 'test'
+  ...
+# Subtest: local review rejects changed 08 art manifest
+ok 29 - local review rejects changed 08 art manifest
+  ---
+  duration_ms: 17.16575
+  type: 'test'
+  ...
+# Subtest: local review rejects changed existing immutable consumer approval
+ok 30 - local review rejects changed existing immutable consumer approval
+  ---
+  duration_ms: 21.026208
+  type: 'test'
+  ...
+# Subtest: local review rejects changed candidate approval
+ok 31 - local review rejects changed candidate approval
+  ---
+  duration_ms: 44.510917
+  type: 'test'
+  ...
+# Subtest: changing candidate bytes, blob and record together cannot authorize another consumer
+ok 32 - changing candidate bytes, blob and record together cannot authorize another consumer
+  ---
+  duration_ms: 20.251375
+  type: 'test'
+  ...
+# Subtest: local review rejects a symlink substituted for the consumer
+ok 33 - local review rejects a symlink substituted for the consumer
+  ---
+  duration_ms: 18.581666
+  type: 'test'
+  ...
+# Subtest: local review rejects a symlink substituted for the candidate blob
+ok 34 - local review rejects a symlink substituted for the candidate blob
+  ---
+  duration_ms: 16.13875
+  type: 'test'
+  ...
+# Subtest: local review rejects a symlink substituted for the previous blob
+ok 35 - local review rejects a symlink substituted for the previous blob
+  ---
+  duration_ms: 16.490708
+  type: 'test'
+  ...
+# Subtest: local review rejects a symlink substituted for the approval
+ok 36 - local review rejects a symlink substituted for the approval
+  ---
+  duration_ms: 14.61275
+  type: 'test'
+  ...
+# Subtest: local review rejects a symlink in a consumer parent directory
+ok 37 - local review rejects a symlink in a consumer parent directory
+  ---
+  duration_ms: 21.634208
+  type: 'test'
+  ...
+# Subtest: phone adoption retains every drawing port, source pin and style while admitting exact native files only
+ok 38 - phone adoption retains every drawing port, source pin and style while admitting exact native files only
+  ---
+  duration_ms: 1625.354875
+  type: 'test'
+  ...
+# Subtest: a malformed or symlinked phone fence supplement cannot silently fall back
+ok 39 - a malformed or symlinked phone fence supplement cannot silently fall back
+  ---
+  duration_ms: 224.808125
+  type: 'test'
+  ...
+# Subtest: pregame supplements authorize exactly 22 named drawing derivatives while all historical policies still pass
+ok 40 - pregame supplements authorize exactly 22 named drawing derivatives while all historical policies still pass
+  ---
+  duration_ms: 1337.644958
+  type: 'test'
+  ...
+# Subtest: every unlisted pregame file is refused, including nested review media and fixture/stage entries
+ok 41 - every unlisted pregame file is refused, including nested review media and fixture/stage entries
+  ---
+  duration_ms: 2619.963292
+  type: 'test'
+  ...
+# Subtest: missing or altered pregame ports and fixture-tail reinsertion cannot inherit directory approval
+ok 42 - missing or altered pregame ports and fixture-tail reinsertion cannot inherit directory approval
+  ---
+  duration_ms: 715.108833
+  type: 'test'
+  ...
+# Subtest: altered source and frozen crew/rig dependencies fail independently of unchanged derivative metadata
+ok 43 - altered source and frozen crew/rig dependencies fail independently of unchanged derivative metadata
+  ---
+  duration_ms: 1670.50625
+  type: 'test'
+  ...
+# Subtest: catalog or source-approval claims cannot repin an altered runtime port
+ok 44 - catalog or source-approval claims cannot repin an altered runtime port
+  ---
+  duration_ms: 1876.22175
+  type: 'test'
+  ...
+# Subtest: deleting the pregame supplement cannot certify remaining ports under historical approval
+ok 45 - deleting the pregame supplement cannot certify remaining ports under historical approval
+  ---
+  duration_ms: 433.1045
+  type: 'test'
+  ...
+# Subtest: registration manifest and verification code remain exact approved inputs
+ok 46 - registration manifest and verification code remain exact approved inputs
+  ---
+  duration_ms: 767.336917
+  type: 'test'
+  ...
+# Subtest: new drawing directories do not follow symlinks as an unreviewed file escape
+ok 47 - new drawing directories do not follow symlinks as an unreviewed file escape
+  ---
+  duration_ms: 729.382708
+  type: 'test'
+  ...
+# Subtest: design pregame stage/fixture references remain forbidden outside the named runtime derivatives
+ok 48 - design pregame stage/fixture references remain forbidden outside the named runtime derivatives
+  ---
+  duration_ms: 1406.282708
+  type: 'test'
+  ...
+# Subtest: the exact consumer set requires local review or verified production acceptance
+ok 49 - the exact consumer set requires local review or verified production acceptance
+  ---
+  duration_ms: 1429.522833
+  type: 'test'
+  ...
+# Subtest: an adopted production policy requires its final approval even in local-review mode
+ok 50 - an adopted production policy requires its final approval even in local-review mode
+  ---
+  duration_ms: 161.397166
+  type: 'test'
+  ...
+# Subtest: local review rejects changed consumers, missing preserved bytes and self-edited approval
+ok 51 - local review rejects changed consumers, missing preserved bytes and self-edited approval
+  ---
+  duration_ms: 154.080834
+  type: 'test'
+  ...
+# Subtest: local consumer review retains prototype, drawing inventory and frozen source checks
+ok 52 - local consumer review retains prototype, drawing inventory and frozen source checks
+  ---
+  duration_ms: 1020.335292
+  type: 'test'
+  ...
+# Subtest: a dangling production policy is invalid and cannot masquerade as historical absence
+ok 53 - a dangling production policy is invalid and cannot masquerade as historical absence
+  ---
+  duration_ms: 134.844375
+  type: 'test'
+  ...
+1..53
+# tests 53
+# suites 0
+# pass 53
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 16630.225417
