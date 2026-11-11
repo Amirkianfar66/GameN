@@ -1,0 +1,93 @@
+{
+  "schema": "mothership.phone-native-predecessors/1",
+  "status": "Preserved prior bytes only; this inventory grants no current source approval",
+  "baseCommit": "fb33cecbf4b0fc2bef5d107e79ae2aac0ed7be70",
+  "files": {
+    "apps/game/hosted/board-v2-scene.mjs": {
+      "previousSha256": "5aceb09010bfdb8708fe7de8357a782375355a51146927c0e20851d56b363bd8",
+      "acceptedPreviousHashes": [
+        "5aceb09010bfdb8708fe7de8357a782375355a51146927c0e20851d56b363bd8"
+      ]
+    },
+    "apps/game/hosted/crew-runtime.mjs": {
+      "previousSha256": "3ead960a67a8fe3b9154eb19cb4ca0de6eb122bb0b38392745968ff0b429cb32",
+      "acceptedPreviousHashes": [
+        "3ead960a67a8fe3b9154eb19cb4ca0de6eb122bb0b38392745968ff0b429cb32",
+        "b87470745a0afac4a2d9147d26c4eb622ed4c2f6d8abf710f285d35b50eb2cf5"
+      ]
+    },
+    "apps/game/hosted/planet/app.mjs": {
+      "previousSha256": "610711ad7b38bc77936c4f7817dc6c389ce83110c70b198d3b476373b1cca0ca",
+      "acceptedPreviousHashes": [
+        "5ec4dab00a8f959efab6d1e711e8fa0f304b0209e121df7109b6532e3a281261",
+        "610711ad7b38bc77936c4f7817dc6c389ce83110c70b198d3b476373b1cca0ca",
+        "f107ee5fd6a829a8cd61d4f9a82e19ee7e465208584d9635450464df9740f1d1"
+      ]
+    },
+    "apps/game/hosted/planet/phone-controls.mjs": {
+      "previousSha256": null,
+      "acceptedPreviousHashes": []
+    },
+    "apps/game/hosted/planet/phone-layout.mjs": {
+      "previousSha256": null,
+      "acceptedPreviousHashes": []
+    },
+    "apps/game/hosted/planet/phone.css": {
+      "previousSha256": null,
+      "acceptedPreviousHashes": []
+    },
+    "apps/game/hosted/planet/render.mjs": {
+      "previousSha256": "42ecc7f23a496cb341455c6c388648c35de18c2b51dcaec99201f296e1768b4d",
+      "acceptedPreviousHashes": [
+        "42ecc7f23a496cb341455c6c388648c35de18c2b51dcaec99201f296e1768b4d",
+        "b18fa2c7c4065ecf12623719eeed439586aa998e636664c520ad8174bee142d2",
+        "d8f1d3e14278aed096c9a19e8e0c6b30e6d15bccdf38e6d31b4b81f8826f3beb"
+      ]
+    },
+    "apps/game/src/planet/controller.ts": {
+      "previousSha256": "4491782063738ea4d8c8fac72204e019dcf935fa27872513bfa40e7c137a4c57",
+      "acceptedPreviousHashes": [
+        "4491782063738ea4d8c8fac72204e019dcf935fa27872513bfa40e7c137a4c57"
+      ]
+    },
+    "apps/game/src/planet/pregame.ts": {
+      "previousSha256": "e9e3a368f5d1b802dcc6c8b9a21923791c430f562d0f9a8c43e854e00cbe9ed4",
+      "acceptedPreviousHashes": [
+        "e9e3a368f5d1b802dcc6c8b9a21923791c430f562d0f9a8c43e854e00cbe9ed4"
+      ]
+    },
+    "apps/game/src/planet/session.ts": {
+      "previousSha256": "51da0ccf3122facc0a64d2f82de5ca7696f7ef23b387886d84d30ff3c28c057f",
+      "acceptedPreviousHashes": [
+        "51da0ccf3122facc0a64d2f82de5ca7696f7ef23b387886d84d30ff3c28c057f",
+        "8e2cb552b43c81746efccdc6dbf5e85b5effb6d1d42b47ad11f3b720209eeb67"
+      ]
+    },
+    "apps/game/src/planet/transport.ts": {
+      "previousSha256": "b1f7651bc1dfa4ef9cf97ac25bb340a9351982f07b754fae83815f234759335b",
+      "acceptedPreviousHashes": [
+        "b1f7651bc1dfa4ef9cf97ac25bb340a9351982f07b754fae83815f234759335b"
+      ]
+    },
+    "packages/presentation/src/planet/library.ts": {
+      "previousSha256": "304db05495cec9ab77054c0ad26a400ab122475e03f3abc89d05cc1e5d7c89e1",
+      "acceptedPreviousHashes": [
+        "304db05495cec9ab77054c0ad26a400ab122475e03f3abc89d05cc1e5d7c89e1",
+        "4e370ff02c4e9d5405e407f49d3dedaceb9a989252274f90dc9e8bb4e2143b17",
+        "b4b283f5dc3fbc296f756014c97ac7bca786dedeb2617b124c191187d4f9c2c3"
+      ]
+    },
+    "packages/presentation/src/planet/model.ts": {
+      "previousSha256": "d611b72dec085315aa1935065a43126bb2f2b9de56f69fd7d4d9c6bb3fe527c9",
+      "acceptedPreviousHashes": [
+        "d611b72dec085315aa1935065a43126bb2f2b9de56f69fd7d4d9c6bb3fe527c9"
+      ]
+    }
+  },
+  "tooling": {
+    "scripts/pregame-consumer-approval.mjs": "e68bbcd928c70169c4133bcc34be0ea6905b5ff73cd5f967a5dfb12171947ea3",
+    "scripts/pregame-consumer-candidate.mjs": "f2ee796489b9ecb51127341b35e4d23125a7c81162978af22fa5e70a36656f72",
+    "scripts/hosted-art-releases.mjs": "ec3b375cc9be5981582f038918e74d291c9667f5f7e8c3a2cdc0276a138d0caa",
+    "scripts/prepare-hosted-preview.mjs": "de9118b972b0340352c0b6b36e37effa934a67c3f1272b32f272314f023ce70b"
+  }
+}

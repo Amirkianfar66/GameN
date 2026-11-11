@@ -2,6 +2,7 @@
 import {createHash} from 'node:crypto';
 import {lstatSync, readFileSync} from 'node:fs';
 import {posix, resolve} from 'node:path';
+import {readPhoneUiConsumerApproval, acceptsPhoneUiConsumerFile} from './phone-ui-consumer-approval.mjs';
 import {isDeepStrictEqual} from 'node:util';
 import {PREGAME_CONSUMER_CANDIDATE, PREGAME_CONSUMER_CANDIDATE_SHA256,
   readVerifiedPregameConsumerInventory} from './pregame-consumer-candidate.mjs';
@@ -10,6 +11,7 @@ export const PREGAME_PRODUCTION_CONSUMER_APPROVAL = 'docs/integration/pregame-pr
 // Independent immutable acceptance anchor; the source artwork manifest is unchanged.
 export const PREGAME_PRODUCTION_CONSUMER_APPROVAL_SHA256 = '5f749f5f7db1286520fcf8b77e8f8e4c001dd5c77d8aff4f1c5791911eec81e6';
 const verified = new WeakSet();
+const successors = new WeakMap();
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 const check = (condition, message) => { if (!condition) throw Error(`Pregame production consumer: ${message}`); };
 function read(root, path) {
@@ -61,13 +63,15 @@ export function readPregameProductionConsumerApproval(root) {
     approval.captureEvidence.acceptance]) evidence(root, reference);
   freeze(approval);
   verified.add(approval);
+  successors.set(approval, readPhoneUiConsumerApproval(root));
   return approval;
 }
 
 export function acceptsPregameProductionFile(approval, path, expectedDigest, actualDigest) {
-  if (!approval || !verified.has(approval) || !Object.hasOwn(approval.files, path)) return false;
-  const entry = approval.files[path];
-  return entry.sha256 === actualDigest && entry.acceptedPreviousHashes.includes(expectedDigest);
+  if (!approval || !verified.has(approval)) return false;
+  const entry = Object.hasOwn(approval.files, path) ? approval.files[path] : null;
+  return Boolean(entry && entry.sha256 === actualDigest && entry.acceptedPreviousHashes.includes(expectedDigest)) ||
+    acceptsPhoneUiConsumerFile(successors.get(approval), path, expectedDigest, actualDigest);
 }
 
 export const readPregameConsumerApproval = readPregameProductionConsumerApproval;

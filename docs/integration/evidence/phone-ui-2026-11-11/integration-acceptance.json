@@ -1,0 +1,78 @@
+{
+  "schema": "mothership.phone-ui-integration-acceptance/1",
+  "status": "accepted-exact-native-source",
+  "nativeCommit": "b63403e6a8d1b5f68f48ec13f4a392a79870bfcd",
+  "designerReference": {
+    "pr": 207,
+    "head": "e4fd047fec2cde1d6534b3276a2ae39d5ca10a9b"
+  },
+  "backendRuntime": "c492523845567c7e4e672991e11c058e88ccea27",
+  "scope": "Exact native consumer acceptance; full combined verification, GitHub checks, merge and staging publication remain separate required steps",
+  "reviewedReports": [
+    "docs/frontend/phone-ui-consumer-inventory.json",
+    "docs/frontend/phone-ui-verification.json",
+    "docs/frontend/pre-vote-consumer-inventory.json",
+    "docs/frontend/pre-vote-consumer-verification.json",
+    "docs/frontend/evidence/pre-vote-consumer-2026-11-11/connected/facts.json",
+    "docs/frontend/evidence/pre-vote-consumer-2026-11-11/connected/provenance.json",
+    "docs/frontend/evidence/pre-vote-consumer-2026-11-11/synthetic/facts.json",
+    "docs/frontend/evidence/pre-vote-consumer-2026-11-11/synthetic/provenance.json",
+    "docs/frontend/evidence/pre-vote-consumer-2026-11-11/presentation/facts.json",
+    "docs/frontend/evidence/pre-vote-consumer-2026-11-11/presentation/provenance.json",
+    "docs/integration/evidence/phone-ui-2026-11-11/runtime-review.json",
+    "docs/integration/evidence/phone-ui-2026-11-11/blackout-focused.log",
+    "docs/integration/evidence/phone-ui-2026-11-11/phone-boundaries-c5.log",
+    "docs/integration/evidence/phone-ui-2026-11-11/tooling-read-only-review.json",
+    "docs/integration/evidence/phone-ui-2026-11-11/designer-review.json",
+    "docs/integration/evidence/phone-ui-2026-11-11/designer-focused.log"
+  ],
+  "reviewedCaptures": [
+    "docs/frontend/evidence/pre-vote-consumer-2026-11-11/connected/real-rescue-keeps-playable-figure.png",
+    "docs/frontend/evidence/pre-vote-consumer-2026-11-11/connected/real-damage-before-full-vote.png",
+    "docs/frontend/evidence/pre-vote-consumer-2026-11-11/synthetic/320-568-7-normal-room-tag-slots.jpg",
+    "docs/frontend/evidence/pre-vote-consumer-2026-11-11/synthetic/390-844-8-reduced-public-after-blackout.jpg",
+    "docs/frontend/evidence/pre-vote-consumer-2026-11-11/synthetic/430-932-9-normal-dark-code.jpg",
+    "docs/frontend/evidence/pre-vote-consumer-2026-11-11/presentation/320-568-200-9-normal-result-own-row.jpg",
+    "docs/frontend/evidence/pre-vote-consumer-2026-11-11/presentation/390-844-100-7-normal-result.jpg",
+    "docs/frontend/evidence/pre-vote-consumer-2026-11-11/presentation/320-568-200-7-reduced-ballot.jpg",
+    "docs/frontend/evidence/pre-vote-consumer-2026-11-11/presentation/390-844-100-9-reduced-result.jpg",
+    "docs/frontend/evidence/pre-vote-consumer-2026-11-11/presentation/320-568-200-8-reduced-keyboard-choice.jpg"
+  ],
+  "sourceVerification": [
+    {
+      "evidence": "connected",
+      "nativeCommit": "c5a70b7eea1c3f755f655d37ac729e5f78d24efc",
+      "committedModules": 111,
+      "builtModules": 59,
+      "digestOrSizeMismatches": 0,
+      "actualCases": 9
+    },
+    {
+      "evidence": "presentation",
+      "nativeCommit": "b63403e6a8d1b5f68f48ec13f4a392a79870bfcd",
+      "committedModules": 112,
+      "builtModules": 59,
+      "digestOrSizeMismatches": 0,
+      "actualCases": 14
+    }
+  ],
+  "boundary": "Only phone.css and render.mjs changed between the c5 real timer/receipt run and b634. They have source-specific synthetic browser coverage. The real journey used one explicitly labelled native-history prefix, not an end-to-end fresh lobby-to-Blackout run.",
+  "correctionsClosed": [
+    "Direct room-tag movement without spending movement for view changes",
+    "Exact 1.3 dispatch and truthful publication checkpoints",
+    "Frozen geometry throughout the shared lighting window",
+    "Visible whole fixed-slot room figures, including the rescued detained Jail player",
+    "56-percent glass and light-text halo with dark-on-light exceptions",
+    "Aligned enlarged-text roster rows, one result count and distinct You badge",
+    "Original receipt recovery without a duplicate ballot command"
+  ],
+  "limits": [
+    "Physical iPhone and Android not run",
+    "Safari and VoiceOver not run",
+    "Low-end device frame time, memory and first-paint budget not measured",
+    "No claim of human playtest balance",
+    "Tall-room aspect-ratio margins and enlarged-text panel scrolling remain intentional",
+    "Designer has not separately reviewed this final native rendering",
+    "The separate PR 197 room redraw and prototype ambient art are not adopted"
+  ]
+}

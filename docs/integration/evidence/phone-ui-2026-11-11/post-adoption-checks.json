@@ -1,0 +1,26 @@
+{
+  "scope": "Actual local checks after exact native-source adoption; complete clean release verification and GitHub CI remain separate",
+  "nativeCommit": "b63403e6a8d1b5f68f48ec13f4a392a79870bfcd",
+  "sourceIntegrity": "passed",
+  "focusedTooling": {
+    "firstRun": {
+      "passed": 51,
+      "failed": 2,
+      "reason": "Negative tamper tests expected the older guard diagnostic prefix; the new guard still rejected both mutations"
+    },
+    "correction": "Accept either exact historical or successor diagnostic for the same rejected content/predecessor mutation; retain every rejection assertion",
+    "finalRun": {
+      "passed": 53,
+      "failed": 0,
+      "skipped": 0,
+      "durationMs": 16630.225417
+    }
+  },
+  "designerMerge": {
+    "pr": 207,
+    "head": "e4fd047fec2cde1d6534b3276a2ae39d5ca10a9b",
+    "mergeCommit": "76eb5d1f1f9d9dc4e1f5da1ebe5b0ae2a945e060",
+    "mergedAt": "2026-11-11T00:29:49Z",
+    "allNineChecks": "passed"
+  }
+}

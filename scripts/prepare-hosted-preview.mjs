@@ -14,7 +14,7 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const configPath = process.argv[2];
 if (!configPath || process.argv.length !== 3) throw new Error('Usage: node scripts/prepare-hosted-preview.mjs PUBLIC_CONFIG_JSON');
 const config = readHostedConfiguration(JSON.parse(await readFile(resolve(configPath), 'utf8')));
-const artReleases = readHostedArtReleases(root);
+const artReleases = readHostedArtReleases(root, {engineProfile: process.env.MOTHERSHIP_PLANET_ENGINE_PROFILE});
 const art = artReleases.rootArt;
 await build({ configFile: join(root, 'apps/game/hosted/vite.config.mjs') });
 const output = join(root, 'dist/hosted-preview');

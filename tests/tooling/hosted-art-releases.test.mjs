@@ -11,6 +11,8 @@ import {comicAssetsPlugin} from '../../apps/game/hosted/comic-assets.mjs';
 import {planetLibraryAssetsPlugin} from '../../apps/game/hosted/build/planet-library-art.mjs';
 import {crewDrawingAssetsPlugin} from '../../scripts/crew-drawing-art.mjs';
 import {pregameAssetsPlugin} from '../../scripts/pregame-art-release.mjs';
+import {PLANET_PHONE_ENGINE_PROFILE, PLANET_PHONE_OFFER_PINS,
+  PLANET_BLACKOUT_ENGINE_PROFILE, PLANET_BLACKOUT_PINS} from '../../packages/contracts/dist/index.js';
 
 const root = fileURLToPath(new URL('../../', import.meta.url));
 
@@ -27,6 +29,23 @@ test('verified final adoption reports08 while retaining the root V1 identity and
     ['design-0.5.0', 'design-0.6.0', 'design-0.7.0', 'design-0.8.0']);
   assert.deepEqual(releases.planetRelease, {entryPath: '/planet/', assetManifestVersion: 'design-0.8.0',
     artManifestSha256: releases.planetArt.manifestSha256, gameplayPins: releases.planetArt.gameplayPins});
+});
+
+test('explicit new-match metadata uses the reviewed gameplay tuple without changing artwork or historical defaults', () => {
+  const historical = readHostedArtReleases(root);
+  for (const [engineProfile, pins] of [[PLANET_PHONE_ENGINE_PROFILE, PLANET_PHONE_OFFER_PINS],
+    [PLANET_BLACKOUT_ENGINE_PROFILE, PLANET_BLACKOUT_PINS]]) {
+    const selected = readHostedArtReleases(root, {engineProfile});
+    assert.deepEqual(selected.planetRelease.gameplayPins, pins);
+    assert.equal(selected.planetRelease.creationProfile, engineProfile);
+    assert.equal(selected.planetRelease.selectionScope, 'new-matches-only');
+    assert.deepEqual(selected.planetArt, historical.planetArt);
+    assert.deepEqual(selected.rootArt, historical.rootArt);
+    assert.deepEqual(selected.validationReleases, historical.validationReleases);
+  }
+  assert.equal(readHostedArtReleases(root).planetRelease.gameplayPins.engineVersion, 'planet-game-1.1.0');
+  for (const engineProfile of ['', 'planet-game-1.3.0', 'blackout-before-vote-1.4'])
+    assert.throws(() => readHostedArtReleases(root, {engineProfile}), /Unsupported Planet creation profile/);
 });
 
 test('real emitted output retains all27 Planet assets for06,07 and08 and rejects damage to each release', t => {

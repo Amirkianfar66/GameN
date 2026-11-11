@@ -15,6 +15,8 @@ export const CREW_DRAWING_POLICY = 'design/releases/crew-drawing-approval.json';
 export const CREW_CONSUMER_DRAWING_POLICY = 'design/releases/crew-consumer-drawing-approval.json';
 export const PREGAME_DRAWING_POLICY = 'design/releases/pregame-drawing-approval.json';
 export const PREGAME_PRODUCTION_DRAWING_POLICY = 'design/releases/pregame-production-drawing-approval.json';
+export const PHONE_UI_PRODUCTION_DRAWING_POLICY = 'design/releases/phone-ui-production-drawing-approval.json';
+const PHONE_UI_PRODUCTION_DRAWING_POLICY_SHA256 = 'de11a07b59d0a5c21cee320d3179037576c8cba700f585529dc91b44b839fab6';
 const PREGAME_PRODUCTION_DRAWING_POLICY_SHA256 = '1dafdb0d823f8e561cea94660a02f0cb9a049a92527c92d3f51a2f42e662003b';
 const PREGAME_DRAWING_POLICY_SHA256 = 'd93469af3e96ddcd35fa41b650ebc6161b34a396dc68a29610c58ce4697fc60e';
 const CREW_CONSUMER_DRAWING_POLICY_SHA256 = 'c7ebfa715d1b197c160156c199c8d90c14276f516b96fd99210cc5bb4a3ef9dc';
@@ -73,6 +75,17 @@ export function readDrawingPolicy(root) {
   if (production.parentApprovalSha256 !== PREGAME_DRAWING_POLICY_SHA256) throw Error('Pregame production drawing parent differs');
   for (const key of ['requiredFiles', 'metadataFiles', 'buildFiles']) policy[key] = { ...policy[key], ...production[key] };
   policy.productionConsumerApproval = true;
+  let phoneStat;
+  try { phoneStat = lstatSync(resolve(root, PHONE_UI_PRODUCTION_DRAWING_POLICY)); }
+  catch (error) { if (error.code === 'ENOENT') return policy; throw error; }
+  if (phoneStat.isSymbolicLink() || !phoneStat.isFile()) throw Error('Phone UI drawing approval must be a regular file');
+  const phoneBytes = readFileSync(resolve(root, PHONE_UI_PRODUCTION_DRAWING_POLICY));
+  if (contentSha256(phoneBytes) !== PHONE_UI_PRODUCTION_DRAWING_POLICY_SHA256) throw Error('Phone UI drawing approval content hash differs');
+  const phone = JSON.parse(phoneBytes);
+  if (phone.schema !== 'mothership.phone-ui-production-drawing-approval/1' ||
+    phone.parentApprovalSha256 !== PREGAME_PRODUCTION_DRAWING_POLICY_SHA256) throw Error('Phone UI drawing parent differs');
+  // This native consumer supplement cannot add a drawing port or change source pins.
+  for (const key of ['requiredFiles', 'metadataFiles', 'buildFiles']) policy[key] = { ...policy[key], ...phone[key] };
   return policy;
 }
 const DRAWING_DIRECTORIES = ['apps/game/hosted/scene-drawing/', 'apps/game/hosted/board-v2-drawing/', 'apps/game/hosted/crew-drawing/', 'apps/game/hosted/pregame-films/'];
