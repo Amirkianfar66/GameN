@@ -38,7 +38,7 @@ import { ICONS, ICON_NAMES } from '../../../design/phone-ui/prototype/icons.mjs'
 import { FIXTURE_LABEL, ROOM_FIXTURES, board } from '../../../design/phone-ui/prototype/fixtures.mjs';
 import { EDGE_CLEAR, LOCATION_OF, phoneFrame } from '../../../design/phone-ui/prototype/art.mjs';
 import { BOARD_ROOMS, sceneOf, slotsOf } from '../../../apps/game/hosted/board-v2-drawing/slots-four.mjs';
-import { frameScene } from '../../../apps/game/hosted/scene-drawing/frame.mjs';
+import { PRESS, frameScene } from '../../../apps/game/hosted/scene-drawing/frame.mjs';
 import { phoneUiAssets } from '../../../design/tools/phone-ui-assets.mjs';
 import { AMBIENT_ROOMS, SKY, SKY_EPOCH, WINDOW_DELAY, ambientLayer, settleAmbient, windowCrossings } from '../../../design/phone-ui/prototype/ambient.mjs';
 import { afterRegister } from '../../../design/phone-ui/prototype/screens-game.mjs';
@@ -125,6 +125,24 @@ test('the room view is framed wider than the first draft, fills the space betwee
     const xs = present.map(slot => frame.tx + slot.pressAt[0] * frame.k);
     const fits = Math.max(...xs) - Math.min(...xs) <= panel.width - 2 * EDGE_CLEAR;
     for (const x of xs) assert.ok(fits ? x >= EDGE_CLEAR - 0.01 && x <= panel.width - EDGE_CLEAR + 0.01 : x >= 0 && x <= panel.width, `${room}: a person present at ${x.toFixed(0)} px is in view`);
+  }
+});
+
+test("a crowd wider than the filled view is zoomed out, never cut off (the owner's T1, 11 November 2026)", () => {
+  for (const panel of [{ width: 390, height: 653, cap: 46, pad: 8 }, { width: 320, height: 438, cap: 46, pad: 8 }]) {
+    const scene = sceneOf('jail', 9);
+    const everyone = slotsOf('jail', 9);
+    const filled = phoneFrame(scene, panel, []);
+    const frame = phoneFrame(scene, panel, everyone);
+    assert.ok(frame.k < filled.k, `${panel.width}: a full Jail is drawn smaller than the filled view`);
+    for (const slot of everyone) {
+      const x = frame.tx + slot.pressAt[0] * frame.k;
+      assert.ok(x >= PRESS / 2 - 0.01 && x <= panel.width - PRESS / 2 + 0.01, `${panel.width}: ${slot.id}'s press area is whole on screen (${x.toFixed(0)} px)`);
+    }
+    const [ix0, iy0, ix1, iy1] = scene.inner;
+    const top = frame.ty + iy0 * frame.k, bottom = frame.ty + iy1 * frame.k;
+    if (bottom - top < panel.height) assert.ok(Math.abs(top - (panel.height - bottom)) < 0.01, `${panel.width}: the smaller picture is centred, with equal bands`);
+    assert.ok(frame.tx + ix0 * frame.k <= 0.01 || Math.abs(frame.tx + ix0 * frame.k - (panel.width - (frame.tx + ix1 * frame.k))) < 0.01, `${panel.width}: the picture fills the width, or is centred in it`);
   }
 });
 
