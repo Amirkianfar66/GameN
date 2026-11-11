@@ -1,0 +1,3011 @@
+{
+  "schema": "mothership.design.food-supply-handoff/1",
+  "status": "A design proposal on synthetic fixtures (11 November 2026), in no release. PROPOSED marks the design's own choices for review; the rest follows the owner's confirmed rules. Nothing here activates gameplay.",
+  "base": {
+    "commit": "8cbe5e896e2fa84f8d7c9df8da0b21cc9d55359d",
+    "ruleset": {
+      "authority": "rules/planet-successor-blackout-before-vote-authority-2026-11-10.json",
+      "rulesetVersion": "in-person-planet-blackout-before-vote-2026-11-10",
+      "engineVersion": "planet-game-1.3.0",
+      "overlay": "rules/overlays/planet-blackout-before-vote-owner-decision-2026-11-10.json",
+      "successor": "rules/planet-successor-authority-2026-11-05.json (in-person-planet-2026-11-05)"
+    },
+    "owner": "docs/design/owner-decisions.md, 11 November 2026: the Food Supply Task's confirmed highlights",
+    "note": "At this commit no Task, Food or Supply Room rule exists under rules/: the owner's 11 November highlights are the only rule source for this Task. Backend versions any adoption."
+  },
+  "rules": [
+    {
+      "id": "food-stock",
+      "rule": "Initial food stock: five packages. Each successful supply delivery adds five packages.",
+      "design": "FOOD.initial 5, FOOD.perDelivery 5; the delivered card and the return toast say +5 packages."
+    },
+    {
+      "id": "food-warning",
+      "rule": "The food warning appears when one package remains.",
+      "design": "FOOD.warnAt 1: the room banner \"Food low: 1 package left\" (PROPOSED: on every phone)."
+    },
+    {
+      "id": "eating",
+      "rule": "Each player consumes one dose at their Eating step. Not eating transfers them to Hospital under the existing Hospital rules.",
+      "design": "Not designed here (ship life shows the eating visits); see the open items."
+    },
+    {
+      "id": "volunteer-partner",
+      "rule": "A volunteer selects a Partner. Tasks happen outside ordinary turns; Task travel is separate from normal movement.",
+      "design": "Tasks sheet outside the turn order, then Choose your Partner; both travel to the Supply Room and back without a move."
+    },
+    {
+      "id": "one-initiation",
+      "rule": "Each player may initiate one Task total per match across Food and Engine. Partner participation can repeat without spending that initiation.",
+      "design": "The Tasks sheet says so; the server spends the Volunteer's initiation (when, see the open items)."
+    },
+    {
+      "id": "axes",
+      "rule": "One participant controls vertical movement; the other controls horizontal movement.",
+      "design": "The Hoist: Raise and Lower. The Boom: Left and Right. Two buttons each, nothing else."
+    },
+    {
+      "id": "betrayal",
+      "rule": "Both can betray their partner using movement of the same controller: dropping the crate onto the other player, or driving a moving panel into them.",
+      "design": "The Hoist's Lower over the pulpit drops the crate on the Boom operator; the Boom's Left at the cab's door drives the gantry's bumper plate into the Hoist's cab."
+    },
+    {
+      "id": "no-attack-button",
+      "rule": "There is no separate attack button, special trigger, confirmation or armed mode.",
+      "design": "The attack is the same button's ordinary press. The button is striped and says what it will do; nothing asks to confirm."
+    },
+    {
+      "id": "no-escape",
+      "rule": "There is no escape opportunity. An unblocked attack is lethal and does not send its victim to Hospital. Protection applies.",
+      "design": "An attack resolves on the press, at once; the victim has nothing to press. KILLED is final (Eliminated); Protection gives STOPPED."
+    },
+    {
+      "id": "one-opportunity",
+      "rule": "Each player has one attack opportunity. Its reset scope across repeated Task participation remains unspecified; do not silently choose it.",
+      "design": "The server passes each participant's opportunity into the Task; the design never resets it and never shows it."
+    },
+    {
+      "id": "survivor",
+      "rule": "After a partner dies, the survivor can complete the delivery alone if the crate is in the correct position. Otherwise the Task is lost.",
+      "design": "The correct position is the cradle (docked). A death with the crate docked: the survivor's key alone sends it. Otherwise: lost."
+    },
+    {
+      "id": "disconnect",
+      "rule": "A participant disconnect cancels the Task.",
+      "design": "Cancelled after the grace (PROPOSED 8 s, see conflict 1). Nothing delivered; both return."
+    },
+    {
+      "id": "visibility",
+      "rule": "Other players do not see the Task space on their phones. This does not automatically authorize public killer attribution or Protection disclosure.",
+      "design": "Only the two participants' phones draw the Supply Room. No phone ever shows a killer, an attack kind or Protection to anyone else (see the visibility)."
+    },
+    {
+      "id": "return",
+      "rule": "The ordinary return flow restores participants to their previous positions, accounting for death and cancellation.",
+      "design": "Each returns to the place they left; a dead participant is shown Eliminated there, as the board draws any death."
+    },
+    {
+      "id": "experience",
+      "rule": "A short, understandable cooperative activity; low puzzle difficulty; coordination and trust are the challenge; both contribute without talking.",
+      "design": "Nine presses and two keys; the next press glows on the right phone; every risk is visible to both."
+    }
+  ],
+  "sources": {
+    "design/food-supply/task.mjs": "6414eb481cb5fe877ffd7d8784f859dc1ac9e3a6d27251717a4938ea9ba7fe1d",
+    "design/food-supply/layout.mjs": "b3193ab9ed05739750dae06a48584d024163598fda955c185d2dfc79267fafa9",
+    "design/food-supply/room.mjs": "43d82db22f9cc43c389db2c4e713ae7a924ea4dbf8f252412118dbcbdd4c1c5e",
+    "design/food-supply/machine.mjs": "622098559ab5ee84d5622c829273d31d1bc3fae11ce9c637dd5a86fd9e9b80bf",
+    "design/food-supply/scene.mjs": "625e66ab4f033a1d028543a754170d2c419b723a56b27001be6166244e3971e7",
+    "design/food-supply/stage.mjs": "410c8261c6a27d25948ba676947c20d57c505b17ebc503fe3acc1a60f271662e",
+    "design/food-supply/boards.mjs": "9edc904897cb97b3bda40ec905239c366f7f7f6fa3d41e0aaa4b73234f1758a0",
+    "design/food-supply/scenarios.mjs": "2578bf5fdd6f51f410267b17aa1d08005e0e2d027203a66fe5d90b513fa2e1a3",
+    "design/food-supply/rules.mjs": "88cc868e55b0b72322b254f3d8a7065a0ee398bd1343b36caeefe2383aa25e79",
+    "design/food-supply/phone.mjs": "92191e693bc8999345bb9a1788f292010625b9b10ec3bf69d29917fdf19b737f",
+    "design/food-supply/phone.css": "aee1ef0d3f66aa23a55a054c488b2eb324192c4343d63c03790813840773daa6"
+  },
+  "fixtures": {
+    "roster": "design/phone-ui/prototype/fixtures.mjs (invented names)",
+    "cast": {
+      "hoist": {
+        "seat": 8,
+        "name": "Hana",
+        "character": "c2",
+        "from": {
+          "room": "room-b",
+          "place": "B3"
+        }
+      },
+      "boom": {
+        "seat": 3,
+        "name": "Cleo",
+        "character": "c6",
+        "from": {
+          "room": "room-b",
+          "place": "B1"
+        }
+      }
+    }
+  },
+  "art": {
+    "back": {
+      "file": "design/food-supply/art/supply-room.back.svg",
+      "sha256": "99d8dbe13cd5ec3a4eb770bd65f2ac1cc6c3af676d892292ed75310500aa7070",
+      "viewBox": [
+        0,
+        0,
+        1024,
+        768
+      ],
+      "family": {
+        "deep": "#2B1A10",
+        "shadow": "#4C2D17",
+        "mid": "#82512A",
+        "light": "#BC8448",
+        "pale": "#E6C590"
+      },
+      "accent": "#F1B84B"
+    },
+    "parts": "design/food-supply/machine.mjs: each moving part and its states, drawn per pose; design/food-supply/scene.mjs: the layer order.",
+    "layers": [
+      "the room back (art)",
+      "cab back",
+      "Hoist operator",
+      "cab front (window, lamp, key, spring buffer)",
+      "festoon cable",
+      "gantry (drum, wheels, bumper plate)",
+      "Boom's key at the end stop",
+      "cradle back",
+      "Boom operator",
+      "pulpit console",
+      "cable and hook",
+      "drop line (warning)",
+      "crate",
+      "cradle jaws",
+      "ram warning mark",
+      "route guide",
+      "effects (lettering, bursts, speed lines, clunks, the safety catch)",
+      "name tags (the phone: the pack's .tag)"
+    ],
+    "characters": "The crew rig (design/board-motion/figures): the Boom stands at the console (leanBench; down: slumpBench), the Hoist sits in the cab (wheelchair; down: slumpDesk). Down, a figure slumps over its own controls, as the board draws an Eliminated figure: no wound, no mark."
+  },
+  "plane": {
+    "grid": {
+      "cols": 7,
+      "rows": 4
+    },
+    "cell": 128,
+    "origin": {
+      "x": 64,
+      "deck": 640
+    },
+    "rail": {
+      "top": 74,
+      "bottom": 104,
+      "left": 30,
+      "right": 994
+    },
+    "crate": 108,
+    "cellBox": "x = 64 + 128 × column, y = 640 − 128 × (row + 1), 128 × 128, in the 1024 × 768 picture",
+    "start": {
+      "carriage": 2,
+      "crate": [
+        2,
+        0
+      ]
+    },
+    "phoneView": {
+      "crop": [
+        16,
+        44,
+        992,
+        612
+      ],
+      "about": "The same crop of the picture on both phones; the view gives way to the words at large text sizes, down to 112 px, letterboxed."
+    }
+  },
+  "fixturesInRoom": {
+    "cab": {
+      "col": 0,
+      "rows": [
+        2,
+        3
+      ],
+      "about": "The Hoist operator's cab, hung from the left end of the rail. The gantry's bumper plate reaches it only when the gantry is driven into column 0: the ram."
+    },
+    "buffer": {
+      "col": 1,
+      "about": "The cab's door: the gantry here is one step from the ram. The cab's lamp lights on both phones."
+    },
+    "intake": {
+      "col": 2,
+      "row": 0,
+      "about": "The intake hatch in the deck: the supply crate rises out of it on the hook. The gantry starts above it."
+    },
+    "rib": {
+      "col": 3,
+      "rows": [
+        0,
+        1,
+        2
+      ],
+      "about": "A hull rib: the crate passes column 3 only at the top row."
+    },
+    "pulpit": {
+      "col": 4,
+      "rows": [
+        0,
+        1,
+        2
+      ],
+      "head": 2,
+      "about": "The Boom operator's drive pulpit, a raised platform under the rail: the operator's head reaches row 2. Lowering the crate from row 3 here drops it on them: the drop."
+    },
+    "open": {
+      "col": 5,
+      "about": "Open deck: the crate may be lowered here."
+    },
+    "cradle": {
+      "col": 6,
+      "row": 1,
+      "about": "The galley lift's cradle: lowering the crate into it docks it. The correct position for a survivor."
+    },
+    "liftBase": {
+      "col": 6,
+      "row": 0,
+      "about": "The lift's machinery, under the cradle."
+    },
+    "stop": {
+      "col": 6,
+      "about": "The rail's end stop, with the Boom operator's key lever: driving into it with the crate docked turns that key."
+    }
+  },
+  "boxes": {
+    "cab": [
+      30,
+      104,
+      176,
+      300
+    ],
+    "cabWindow": [
+      58,
+      172,
+      136,
+      152
+    ],
+    "buffer": [
+      192,
+      104,
+      128,
+      160
+    ],
+    "intake": [
+      326,
+      630,
+      116,
+      24
+    ],
+    "rib": [
+      458,
+      264,
+      108,
+      376
+    ],
+    "pulpit": [
+      580,
+      432,
+      120,
+      208
+    ],
+    "console": [
+      586,
+      432,
+      108,
+      90
+    ],
+    "platform": [
+      574,
+      522,
+      132,
+      14
+    ],
+    "shaft": [
+      838,
+      70,
+      116,
+      570
+    ],
+    "cradle": [
+      832,
+      384,
+      128,
+      128
+    ],
+    "liftBase": [
+      832,
+      512,
+      128,
+      128
+    ],
+    "stop": [
+      958,
+      92,
+      30,
+      86
+    ],
+    "porthole": [
+      258,
+      132,
+      120,
+      120
+    ]
+  },
+  "regions": {
+    "dropWarning": {
+      "cells": [
+        [
+          4,
+          3
+        ]
+      ],
+      "box": [
+        576,
+        128,
+        128,
+        128
+      ],
+      "about": "The crate over the Boom operator: one Lower from the drop"
+    },
+    "drop": {
+      "cells": [
+        [
+          4,
+          2
+        ]
+      ],
+      "box": [
+        576,
+        256,
+        128,
+        128
+      ],
+      "about": "The Boom operator's head: the crate entering it is the drop"
+    },
+    "ramWarning": {
+      "cols": [
+        1
+      ],
+      "box": [
+        192,
+        74,
+        128,
+        300
+      ],
+      "about": "The gantry at the cab's door: one Left from the ram"
+    },
+    "ram": {
+      "cols": [
+        0
+      ],
+      "box": [
+        64,
+        74,
+        128,
+        300
+      ],
+      "about": "The cab: the gantry's bumper plate entering it is the ram"
+    },
+    "cradle": {
+      "cells": [
+        [
+          6,
+          1
+        ]
+      ],
+      "box": [
+        832,
+        384,
+        128,
+        128
+      ],
+      "about": "The cradle: the correct position. Docked here, a survivor can send the crate alone"
+    },
+    "rib": {
+      "cells": [
+        [
+          3,
+          0
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          3,
+          2
+        ]
+      ],
+      "box": [
+        458,
+        264,
+        108,
+        376
+      ],
+      "about": "The rib: blocks the crate below the top row"
+    },
+    "pulpit": {
+      "cells": [
+        [
+          4,
+          0
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          4,
+          2
+        ]
+      ],
+      "box": [
+        580,
+        432,
+        120,
+        208
+      ],
+      "about": "The pulpit and its operator: the crate may not enter it from the side"
+    },
+    "intake": {
+      "cells": [
+        [
+          2,
+          0
+        ]
+      ],
+      "box": [
+        320,
+        512,
+        128,
+        128
+      ],
+      "about": "The intake hatch, where the crate starts; it rests on the deck only here"
+    }
+  },
+  "operators": {
+    "boom": {
+      "gesture": "leanBench",
+      "down": "slumpBench",
+      "feet": [
+        640,
+        522
+      ],
+      "scale": 0.96,
+      "head": 282,
+      "front": "console"
+    },
+    "hoist": {
+      "gesture": "wheelchair",
+      "down": "slumpDesk",
+      "feet": [
+        118,
+        372
+      ],
+      "scale": 0.7,
+      "head": 200,
+      "front": "cab"
+    }
+  },
+  "tags": {
+    "boom": [
+      640,
+      604
+    ],
+    "hoist": [
+      118,
+      432
+    ]
+  },
+  "route": [
+    {
+      "role": "hoist",
+      "dir": "up"
+    },
+    {
+      "role": "hoist",
+      "dir": "up"
+    },
+    {
+      "role": "hoist",
+      "dir": "up"
+    },
+    {
+      "role": "boom",
+      "dir": "right"
+    },
+    {
+      "role": "boom",
+      "dir": "right"
+    },
+    {
+      "role": "boom",
+      "dir": "right"
+    },
+    {
+      "role": "boom",
+      "dir": "right"
+    },
+    {
+      "role": "hoist",
+      "dir": "down"
+    },
+    {
+      "role": "hoist",
+      "dir": "down"
+    },
+    {
+      "role": "hoist",
+      "dir": "up",
+      "key": true
+    },
+    {
+      "role": "boom",
+      "dir": "right",
+      "key": true
+    }
+  ],
+  "controls": {
+    "hoist": {
+      "axis": "vertical",
+      "station": "cab",
+      "attack": "drop",
+      "about": "Raises and lowers the crate from the cab at the left end of the rail",
+      "buttons": [
+        {
+          "dir": "up",
+          "label": "Raise",
+          "key": "ArrowUp",
+          "arrow": "up"
+        },
+        {
+          "dir": "down",
+          "label": "Lower",
+          "key": "ArrowDown",
+          "arrow": "down"
+        }
+      ],
+      "docked": "Raise becomes 'Turn key' (then 'Key turned'); Lower is disabled.",
+      "hazard": "With the crate over the Boom operator, Lower is striped and says 'Drops it on <name>'."
+    },
+    "boom": {
+      "axis": "horizontal",
+      "station": "pulpit",
+      "attack": "ram",
+      "about": "Drives the gantry along the rail from the pulpit in the middle of the room",
+      "buttons": [
+        {
+          "dir": "left",
+          "label": "Left",
+          "key": "ArrowLeft",
+          "arrow": "left"
+        },
+        {
+          "dir": "right",
+          "label": "Right",
+          "key": "ArrowRight",
+          "arrow": "right"
+        }
+      ],
+      "docked": "At the end stop, Right becomes 'Turn key' (then 'Key turned'); Left drives away and releases the key.",
+      "hazard": "At the cab's door, Left is striped and says 'Rams <name>'s cab'."
+    },
+    "press": "One press, one step. Holding repeats every 300 ms (PROPOSED), the server's own interval: a press inside it is refused (too-soon). No drag, swipe or gesture; two big buttons for the participant's own axis only.",
+    "deliberate": "PROPOSED: a hold's repeat stops at a warning, and an attack needs a fresh press on a button that showed it (TASK_MOVE shown and repeat). Not a confirmation or an armed mode: one press of the same button acts.",
+    "next": "The press the cooperative route asks for next glows (amber ring), on both phones for their own button.",
+    "keyboard": "Arrow keys on the participant's own axis; the others do nothing.",
+    "accessibility": "Each button's accessible name says its warning (\"Lower. Warning: drops it on Cleo.\"). The view is an image with a text equivalent (where the crate and the gantry are, and whether a warning shows). The hint is a polite live region. Large text: the controls keep their places (Raise above Lower, Left beside Right) and grow; the view gives way; cards scroll.",
+    "command": {
+      "name": "TASK_MOVE (a proposal for the shared contract; Integration owns packages/contracts/)",
+      "fields": [
+        {
+          "field": "taskId",
+          "about": "The Task in progress."
+        },
+        {
+          "field": "dir",
+          "about": "'up' | 'down' (the Hoist) or 'left' | 'right' (the Boom). The key presses are the same buttons: the Hoist's up, the Boom's right at the end stop, when docked."
+        },
+        {
+          "field": "shown",
+          "about": "PROPOSED: whether the pressed button showed the attack warning when pressed. A press that would attack with shown = false is refused (stale)."
+        },
+        {
+          "field": "repeat",
+          "about": "PROPOSED: whether the press is a hold's repeat. A repeat never attacks (refused: repeat); a fresh press on the warning does."
+        }
+      ],
+      "answer": "The new revision of the Task state with the events, to both participants; REFUSED to the presser only."
+    }
+  },
+  "timing": {
+    "step": 240,
+    "interval": 300,
+    "briefing": 4000,
+    "deadline": 45000,
+    "grace": 8000,
+    "ending": 2500,
+    "proposed": true
+  },
+  "food": {
+    "initial": 5,
+    "perDelivery": 5,
+    "warnAt": 1,
+    "confirmed": true,
+    "eating": "Each player eats one package at their Eating step; not eating sends them to the Hospital under the existing Hospital rules (confirmed). The Eating step's place in the round and the order of eating are not designed here (see the open items)."
+  },
+  "motion": {
+    "cues": {
+      "move": {
+        "ms": 240,
+        "ease": "in-out",
+        "reduced": "The part is at its new place at once"
+      },
+      "sway": {
+        "ms": 700,
+        "reduced": "None"
+      },
+      "bump": {
+        "ms": 180,
+        "reduced": "A clunk mark at the contact for 400 ms; nothing moves"
+      },
+      "drop": {
+        "ms": 160,
+        "ease": "in",
+        "reduced": "The crate is on the pulpit at once; THUD! shown still"
+      },
+      "ram": {
+        "ms": 140,
+        "ease": "in",
+        "reduced": "The gantry is at the cab at once; SLAM! shown still"
+      },
+      "stopped": {
+        "ms": 320,
+        "reduced": "The catch shown thrown out, still, with CLANK! for 600 ms"
+      },
+      "impact": {
+        "ms": 900,
+        "ease": "out",
+        "reduced": "The burst and the lettering shown still for 900 ms"
+      },
+      "dock": {
+        "ms": 140,
+        "reduced": "The jaws shut at once"
+      },
+      "hookUp": {
+        "ms": 300,
+        "reduced": "The empty hook at the gantry at once"
+      },
+      "key": {
+        "ms": 140,
+        "reduced": "The key turned and its lamp lit at once"
+      },
+      "send": {
+        "ms": 1100,
+        "ease": "in-out",
+        "reduced": "The cradle gone at once; the +5 stamp shown still"
+      },
+      "warning": {
+        "ms": 660,
+        "flash": 330,
+        "reduced": "The lamp lit steadily, no flashing; the warning mark shown"
+      },
+      "dim": {
+        "ms": 600,
+        "reduced": "Dimmed at once"
+      }
+    },
+    "proposed": true,
+    "rule": "Presentation only: a cue never delays a press, and the next authoritative state replaces a cue still playing. Reduce motion: each cue's reduced form; no flashing, no shake, no travel.",
+    "cards": "After a kill, the phones hold the outcome card until the impact cue has played, so both participants see the cause before the card covers the view."
+  },
+  "state": [
+    {
+      "field": "phase",
+      "holds": "'briefing' | 'running' | 'ended'",
+      "seenBy": "participants"
+    },
+    {
+      "field": "seats",
+      "holds": "{ hoist, boom }: the participants' player numbers",
+      "seenBy": "participants"
+    },
+    {
+      "field": "carriage",
+      "holds": "the gantry's column, 0 to 6",
+      "seenBy": "participants"
+    },
+    {
+      "field": "crate",
+      "holds": "[column, row]",
+      "seenBy": "participants"
+    },
+    {
+      "field": "docked",
+      "holds": "whether the crate is clamped in the cradle",
+      "seenBy": "participants"
+    },
+    {
+      "field": "keys",
+      "holds": "{ hoist, boom }: each key turned",
+      "seenBy": "participants"
+    },
+    {
+      "field": "alive",
+      "holds": "{ hoist, boom }",
+      "seenBy": "participants (deaths become public as any death does, on the return)"
+    },
+    {
+      "field": "online",
+      "holds": "{ hoist, boom }: as the server observes the connection",
+      "seenBy": "participants"
+    },
+    {
+      "field": "deadline",
+      "holds": "the game-clock time the Task is lost",
+      "seenBy": "participants"
+    },
+    {
+      "field": "outcome",
+      "holds": "{ result: 'delivered' (packages, alone) | 'lost' (why: 'not-in-cradle' | 'time') | 'cancelled' (why: 'disconnect', who) }",
+      "seenBy": "participants; PROPOSED public: delivered or not"
+    },
+    {
+      "field": "attack",
+      "holds": "{ hoist, boom }: whether each still has their one attack opportunity",
+      "seenBy": "the server only"
+    },
+    {
+      "field": "protection",
+      "holds": "{ hoist, boom }: whether each is Protected, as the existing rules decide",
+      "seenBy": "the server only"
+    },
+    {
+      "field": "lastMove",
+      "holds": "{ hoist, boom }: the time of each participant's last accepted press",
+      "seenBy": "the server only"
+    }
+  ],
+  "events": [
+    {
+      "type": "RUNNING",
+      "fields": "",
+      "about": "The briefing ended; the controls work.",
+      "seenBy": "both participants"
+    },
+    {
+      "type": "MOVED",
+      "fields": "by, dir, from { crate, carriage }, to { crate, carriage }",
+      "about": "One step: the crate on the hook, or the gantry with it.",
+      "seenBy": "both participants"
+    },
+    {
+      "type": "BUMPED",
+      "fields": "by, dir, why (rib | pulpit | lift | deck | rail | wall | stop | in-intake | cradle | key-turned)",
+      "about": "Blocked: a clunk, nothing moves. The presser's hint says why.",
+      "seenBy": "both participants"
+    },
+    {
+      "type": "DOCKED",
+      "fields": "",
+      "about": "The crate entered the cradle: the jaws shut. The correct position.",
+      "seenBy": "both participants"
+    },
+    {
+      "type": "KEY",
+      "fields": "by",
+      "about": "A key turned (the Hoist's Raise or the Boom's Right at the end stop, docked).",
+      "seenBy": "both participants"
+    },
+    {
+      "type": "KEY_RELEASED",
+      "fields": "by",
+      "about": "The Boom drove away from the end stop: its key turned back.",
+      "seenBy": "both participants"
+    },
+    {
+      "type": "STOPPED",
+      "fields": "kind (drop | ram), by",
+      "about": "An attack press that did not kill: Protection, or no attack opportunity left. Identical either way.",
+      "seenBy": "both participants"
+    },
+    {
+      "type": "KILLED",
+      "fields": "kind (drop | ram), by, victim, docked",
+      "about": "An unblocked attack: lethal, no escape, not the Hospital.",
+      "seenBy": "both participants"
+    },
+    {
+      "type": "OFFLINE",
+      "fields": "who",
+      "about": "The server lost a participant's connection; the Task goes on.",
+      "seenBy": "both participants"
+    },
+    {
+      "type": "ONLINE",
+      "fields": "who",
+      "about": "Back within the grace: nothing paused.",
+      "seenBy": "both participants"
+    },
+    {
+      "type": "SENT",
+      "fields": "by (the living participants)",
+      "about": "Every living participant's key is turned: the lift goes up.",
+      "seenBy": "both participants"
+    },
+    {
+      "type": "ENDED",
+      "fields": "outcome",
+      "about": "Delivered, lost or cancelled. The outcome card shows, then the return.",
+      "seenBy": "both participants"
+    },
+    {
+      "type": "REFUSED",
+      "fields": "seat, dir, why (briefing | too-soon | down | ended | not-your-axis | stale | repeat | not-a-participant)",
+      "about": "The press did nothing; only the presser is told, and the phone shows the current state.",
+      "seenBy": "the presser"
+    }
+  ],
+  "projection": [
+    {
+      "fields": "role, roleName, axis",
+      "about": "Their own control: the Hoist (vertical) or the Boom (horizontal)."
+    },
+    {
+      "fields": "partnerSeat",
+      "about": "The other participant."
+    },
+    {
+      "fields": "phase",
+      "about": "'briefing' | 'running' | 'ended'"
+    },
+    {
+      "fields": "you, partner",
+      "about": "'alive' | 'down'; the partner also 'offline'."
+    },
+    {
+      "fields": "buttons[]",
+      "about": "{ dir, label, key, hazard, enabled, next }: the two buttons. key: the button turns a key now. hazard: this press would attack. next: the cooperative route asks for it."
+    },
+    {
+      "fields": "warnings[]",
+      "about": "'crate-over-partner' | 'crate-over-you' | 'bumper-at-partner-cab' | 'bumper-at-your-cab': both participants see each position one press from an attack."
+    },
+    {
+      "fields": "docked, keys { you, partner, needed }",
+      "about": "The cradle and the keys; needed counts the living participants."
+    },
+    {
+      "fields": "secondsLeft, briefingLeft",
+      "about": "The Task's time left; the briefing's countdown."
+    },
+    {
+      "fields": "outcome",
+      "about": "Once ended."
+    },
+    {
+      "fields": "(never)",
+      "about": "Attack opportunity, Protection, the other participant's refusals, and why a STOPPED happened: no phone can show them."
+    }
+  ],
+  "visibility": {
+    "participants": "Both see the whole Supply Room and its shared machine, every move and bump, both warnings, both keys, the time, and each other's alive or offline state. Both see a STOPPED alike, with no reason. Neither ever sees an attack opportunity, Protection, or the other's refused presses.",
+    "others": "Never the Supply Room. PROPOSED: a banner that two named players are away on the Food Supply Task (their places in the rooms are empty while they are away), and the result as the food stock shows it: delivered (+5) or nothing delivered. Not how it went.",
+    "death": "A participant killed on the Task is Eliminated at their previous position on the return, as any death is shown. No phone says who killed them, how, or that a Task killed them; the two participants already know.",
+    "protection": "Never shown. A blocked attack is the same STOPPED as an attack by a participant with no opportunity left (see conflict 3).",
+    "foodStock": "PROPOSED public: the count (the ship-life food capsules show it) and the warning at one package.",
+    "server": "Only the server holds attack opportunities, Protection, and the reason for a STOPPED."
+  },
+  "flow": [
+    "A Volunteer opens Tasks (outside the turn order) and chooses Food Supply: one Task initiation per match across Food and Engine.",
+    "The Volunteer chooses a Partner (PROPOSED eligibility: a living player outside the Hospital and the Jail, not already on a Task). Joining as a Partner never spends an initiation.",
+    "The server assigns the controls (PROPOSED: at random) and starts the Task: both travel to the Supply Room, separate from normal movement.",
+    "Briefing (4 s PROPOSED): who runs which control, the route, the warning stripes. The controls do nothing yet.",
+    "Running (45 s PROPOSED): presses, the shared machine, the warnings, the keys.",
+    "Ended: the outcome card (2.5 s PROPOSED), then the ordinary return flow restores each participant to their previous position, the dead as Eliminated where they were."
+  ],
+  "acceptance": [
+    {
+      "id": "cooperation",
+      "about": "Lift it out, drive it across, lower it into the cradle, both turn a key",
+      "kind": "storyboard",
+      "given": {
+        "seats": {
+          "hoist": 8,
+          "boom": 3
+        },
+        "attack": {
+          "hoist": true,
+          "boom": true
+        },
+        "protection": {
+          "hoist": false,
+          "boom": false
+        },
+        "briefingEndsAt": 4000
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 5000,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 5300,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 5800,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 6500,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 7000,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 7500,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 8000,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 8600,
+          "seat": 8,
+          "dir": "down"
+        },
+        {
+          "at": 9100,
+          "seat": 8,
+          "dir": "down"
+        },
+        {
+          "at": 9700,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 10300,
+          "seat": 3,
+          "dir": "right"
+        }
+      ],
+      "then": {
+        "outcome": {
+          "result": "delivered",
+          "packages": 5,
+          "alone": false
+        },
+        "alive": {
+          "hoist": true,
+          "boom": true
+        },
+        "present": [
+          "BUMPED",
+          "DOCKED",
+          "SENT"
+        ],
+        "absent": [
+          "KILLED",
+          "STOPPED"
+        ]
+      }
+    },
+    {
+      "id": "drop",
+      "about": "Lower while the crate hangs over the Boom operator",
+      "kind": "storyboard",
+      "given": {
+        "seats": {
+          "hoist": 8,
+          "boom": 3
+        },
+        "attack": {
+          "hoist": true,
+          "boom": true
+        },
+        "protection": {
+          "hoist": false,
+          "boom": false
+        },
+        "briefingEndsAt": 4000
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 5100,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 5600,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 6300,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 6800,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 7600,
+          "seat": 8,
+          "dir": "down"
+        }
+      ],
+      "then": {
+        "outcome": {
+          "result": "lost",
+          "why": "not-in-cradle"
+        },
+        "alive": {
+          "hoist": true,
+          "boom": false
+        },
+        "present": [
+          "KILLED"
+        ]
+      }
+    },
+    {
+      "id": "ram",
+      "about": "Drive the gantry into the Hoist operator's cab",
+      "kind": "storyboard",
+      "given": {
+        "seats": {
+          "hoist": 8,
+          "boom": 3
+        },
+        "attack": {
+          "hoist": true,
+          "boom": true
+        },
+        "protection": {
+          "hoist": false,
+          "boom": false
+        },
+        "briefingEndsAt": 4000
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 5100,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 5600,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 6300,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 7000,
+          "seat": 3,
+          "dir": "left"
+        },
+        {
+          "at": 7500,
+          "seat": 3,
+          "dir": "left"
+        },
+        {
+          "at": 8300,
+          "seat": 3,
+          "dir": "left"
+        }
+      ],
+      "then": {
+        "outcome": {
+          "result": "lost",
+          "why": "not-in-cradle"
+        },
+        "alive": {
+          "hoist": false,
+          "boom": true
+        },
+        "present": [
+          "KILLED"
+        ]
+      }
+    },
+    {
+      "id": "survivor",
+      "about": "The ram after docking: the crate stays clamped, and the survivor sends it alone",
+      "kind": "storyboard",
+      "given": {
+        "seats": {
+          "hoist": 8,
+          "boom": 3
+        },
+        "attack": {
+          "hoist": true,
+          "boom": true
+        },
+        "protection": {
+          "hoist": false,
+          "boom": false
+        },
+        "briefingEndsAt": 4000
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 5100,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 5600,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 6300,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 6800,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 7300,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 7800,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 8600,
+          "seat": 8,
+          "dir": "down"
+        },
+        {
+          "at": 9100,
+          "seat": 8,
+          "dir": "down"
+        },
+        {
+          "at": 9700,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 10400,
+          "seat": 3,
+          "dir": "left"
+        },
+        {
+          "at": 10780,
+          "seat": 3,
+          "dir": "left"
+        },
+        {
+          "at": 11160,
+          "seat": 3,
+          "dir": "left"
+        },
+        {
+          "at": 11540,
+          "seat": 3,
+          "dir": "left"
+        },
+        {
+          "at": 11920,
+          "seat": 3,
+          "dir": "left"
+        },
+        {
+          "at": 12300,
+          "seat": 3,
+          "dir": "left"
+        },
+        {
+          "at": 13200,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 13580,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 13960,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 14340,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 14720,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 15100,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 15700,
+          "seat": 3,
+          "dir": "right"
+        }
+      ],
+      "then": {
+        "outcome": {
+          "result": "delivered",
+          "packages": 5,
+          "alone": true
+        },
+        "alive": {
+          "hoist": false,
+          "boom": true
+        },
+        "present": [
+          "DOCKED",
+          "KILLED",
+          "SENT"
+        ]
+      }
+    },
+    {
+      "id": "protection-drop",
+      "about": "The Boom operator is Protected: the safety catch stops the crate",
+      "kind": "storyboard",
+      "given": {
+        "seats": {
+          "hoist": 8,
+          "boom": 3
+        },
+        "attack": {
+          "hoist": true,
+          "boom": true
+        },
+        "protection": {
+          "hoist": false,
+          "boom": true
+        },
+        "briefingEndsAt": 4000
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 5100,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 5600,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 6300,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 6800,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 7600,
+          "seat": 8,
+          "dir": "down"
+        },
+        {
+          "at": 9200,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 9700,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 10300,
+          "seat": 8,
+          "dir": "down"
+        },
+        {
+          "at": 10800,
+          "seat": 8,
+          "dir": "down"
+        },
+        {
+          "at": 11400,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 12000,
+          "seat": 3,
+          "dir": "right"
+        }
+      ],
+      "then": {
+        "outcome": {
+          "result": "delivered",
+          "packages": 5,
+          "alone": false
+        },
+        "alive": {
+          "hoist": true,
+          "boom": true
+        },
+        "present": [
+          "STOPPED",
+          "SENT"
+        ],
+        "absent": [
+          "KILLED"
+        ]
+      },
+      "proposed": [
+        "A blocked attack spends the attacker's opportunity"
+      ]
+    },
+    {
+      "id": "protection-ram",
+      "about": "The Hoist operator is Protected: the cab's spring buffer stops the gantry",
+      "kind": "storyboard",
+      "given": {
+        "seats": {
+          "hoist": 8,
+          "boom": 3
+        },
+        "attack": {
+          "hoist": true,
+          "boom": true
+        },
+        "protection": {
+          "hoist": true,
+          "boom": false
+        },
+        "briefingEndsAt": 4000
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 5100,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 5600,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 6300,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 7000,
+          "seat": 3,
+          "dir": "left"
+        },
+        {
+          "at": 7500,
+          "seat": 3,
+          "dir": "left"
+        },
+        {
+          "at": 8300,
+          "seat": 3,
+          "dir": "left"
+        },
+        {
+          "at": 9900,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 10350,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 10800,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 11250,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 11700,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 12600,
+          "seat": 8,
+          "dir": "down"
+        },
+        {
+          "at": 13100,
+          "seat": 8,
+          "dir": "down"
+        },
+        {
+          "at": 13700,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 14300,
+          "seat": 3,
+          "dir": "right"
+        }
+      ],
+      "then": {
+        "outcome": {
+          "result": "delivered",
+          "packages": 5,
+          "alone": false
+        },
+        "alive": {
+          "hoist": true,
+          "boom": true
+        },
+        "present": [
+          "STOPPED",
+          "SENT"
+        ],
+        "absent": [
+          "KILLED"
+        ]
+      },
+      "proposed": [
+        "A blocked attack spends the attacker's opportunity"
+      ]
+    },
+    {
+      "id": "timeout",
+      "about": "The crate never reaches the cradle before the deadline",
+      "kind": "storyboard",
+      "given": {
+        "seats": {
+          "hoist": 8,
+          "boom": 3
+        },
+        "attack": {
+          "hoist": true,
+          "boom": true
+        },
+        "protection": {
+          "hoist": false,
+          "boom": false
+        },
+        "briefingEndsAt": 4000
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 5100,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 5600,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 6300,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 6800,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 7300,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 49000
+        }
+      ],
+      "then": {
+        "outcome": {
+          "result": "lost",
+          "why": "time"
+        },
+        "alive": {
+          "hoist": true,
+          "boom": true
+        },
+        "absent": [
+          "KILLED",
+          "SENT"
+        ]
+      },
+      "proposed": [
+        "A 45-second deadline"
+      ]
+    },
+    {
+      "id": "disconnect",
+      "about": "A participant is out of contact longer than the grace",
+      "kind": "storyboard",
+      "given": {
+        "seats": {
+          "hoist": 8,
+          "boom": 3
+        },
+        "attack": {
+          "hoist": true,
+          "boom": true
+        },
+        "protection": {
+          "hoist": false,
+          "boom": false
+        },
+        "briefingEndsAt": 4000
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 5100,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 5600,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 6300,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 7000,
+          "seat": 3,
+          "online": false
+        },
+        {
+          "at": 15000
+        }
+      ],
+      "then": {
+        "outcome": {
+          "result": "cancelled",
+          "why": "disconnect",
+          "who": "boom"
+        },
+        "alive": {
+          "hoist": true,
+          "boom": true
+        },
+        "present": [
+          "OFFLINE"
+        ],
+        "absent": [
+          "SENT"
+        ]
+      },
+      "proposed": [
+        "An 8-second grace before a disconnect cancels"
+      ]
+    },
+    {
+      "id": "briefing-refused",
+      "about": "A press during the briefing does nothing.",
+      "kind": "edge",
+      "given": {
+        "seats": {
+          "hoist": 8,
+          "boom": 3
+        },
+        "attack": {
+          "hoist": true,
+          "boom": true
+        },
+        "protection": {
+          "hoist": false,
+          "boom": false
+        },
+        "briefingEndsAt": 4000
+      },
+      "when": [
+        {
+          "at": 1000,
+          "seat": 8,
+          "dir": "up"
+        }
+      ],
+      "then": {
+        "outcome": null,
+        "refused": [
+          "briefing"
+        ],
+        "absent": [
+          "MOVED"
+        ]
+      }
+    },
+    {
+      "id": "too-soon",
+      "about": "A second press within the interval is refused; holding a button repeats at the interval.",
+      "kind": "edge",
+      "given": {
+        "seats": {
+          "hoist": 8,
+          "boom": 3
+        },
+        "attack": {
+          "hoist": true,
+          "boom": true
+        },
+        "protection": {
+          "hoist": false,
+          "boom": false
+        },
+        "briefingEndsAt": 4000
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 4800,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 4900,
+          "seat": 8,
+          "dir": "up"
+        }
+      ],
+      "then": {
+        "outcome": null,
+        "refused": [
+          "too-soon"
+        ],
+        "moves": 2
+      }
+    },
+    {
+      "id": "not-your-axis",
+      "about": "A participant cannot press the other axis: the Hoist has no Left.",
+      "kind": "edge",
+      "given": {
+        "seats": {
+          "hoist": 8,
+          "boom": 3
+        },
+        "attack": {
+          "hoist": true,
+          "boom": true
+        },
+        "protection": {
+          "hoist": false,
+          "boom": false
+        },
+        "briefingEndsAt": 4000
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "dir": "left"
+        }
+      ],
+      "then": {
+        "outcome": null,
+        "refused": [
+          "not-your-axis"
+        ]
+      }
+    },
+    {
+      "id": "intake-holds",
+      "about": "While the crate sits in the intake hatch, driving the gantry is a bump.",
+      "kind": "edge",
+      "given": {
+        "seats": {
+          "hoist": 8,
+          "boom": 3
+        },
+        "attack": {
+          "hoist": true,
+          "boom": true
+        },
+        "protection": {
+          "hoist": false,
+          "boom": false
+        },
+        "briefingEndsAt": 4000
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 3,
+          "dir": "right"
+        }
+      ],
+      "then": {
+        "outcome": null,
+        "bumped": [
+          "in-intake"
+        ],
+        "moves": 0
+      }
+    },
+    {
+      "id": "rib-blocks",
+      "about": "The crate crosses the rib only at the top row.",
+      "kind": "edge",
+      "given": {
+        "seats": {
+          "hoist": 8,
+          "boom": 3
+        },
+        "attack": {
+          "hoist": true,
+          "boom": true
+        },
+        "protection": {
+          "hoist": false,
+          "boom": false
+        },
+        "briefingEndsAt": 4000
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 5100,
+          "seat": 3,
+          "dir": "right"
+        }
+      ],
+      "then": {
+        "outcome": null,
+        "bumped": [
+          "rib"
+        ]
+      }
+    },
+    {
+      "id": "pulpit-blocks",
+      "about": "Lowering from the top row elsewhere is free; below the top row the crate cannot enter the pulpit's column from the side.",
+      "kind": "edge",
+      "given": {
+        "seats": {
+          "hoist": 8,
+          "boom": 3
+        },
+        "attack": {
+          "hoist": true,
+          "boom": true
+        },
+        "protection": {
+          "hoist": false,
+          "boom": false
+        },
+        "briefingEndsAt": 4000
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 5100,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 5600,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 6300,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 6800,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 7300,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 7800,
+          "seat": 8,
+          "dir": "down"
+        },
+        {
+          "at": 8400,
+          "seat": 3,
+          "dir": "left"
+        }
+      ],
+      "then": {
+        "outcome": null,
+        "bumped": [
+          "pulpit"
+        ],
+        "absent": [
+          "KILLED",
+          "STOPPED"
+        ]
+      }
+    },
+    {
+      "id": "no-opportunity",
+      "about": "A Hoist with no attack opportunity left lowers over the Boom: STOPPED, exactly as Protection would show.",
+      "kind": "edge",
+      "given": {
+        "seats": {
+          "hoist": 8,
+          "boom": 3
+        },
+        "attack": {
+          "hoist": false,
+          "boom": true
+        },
+        "protection": {
+          "hoist": false,
+          "boom": false
+        },
+        "briefingEndsAt": 4000
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 5100,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 5600,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 6300,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 6800,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 7600,
+          "seat": 8,
+          "dir": "down"
+        }
+      ],
+      "then": {
+        "outcome": null,
+        "alive": {
+          "hoist": true,
+          "boom": true
+        },
+        "present": [
+          "STOPPED"
+        ],
+        "absent": [
+          "KILLED"
+        ]
+      }
+    },
+    {
+      "id": "blocked-twice",
+      "about": "A Protected Boom: the drop is stopped, and again on a second try (PROPOSED: the first block spent the opportunity).",
+      "kind": "edge",
+      "given": {
+        "seats": {
+          "hoist": 8,
+          "boom": 3
+        },
+        "attack": {
+          "hoist": true,
+          "boom": true
+        },
+        "protection": {
+          "hoist": false,
+          "boom": true
+        },
+        "briefingEndsAt": 4000
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 5100,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 5600,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 6300,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 6800,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 7600,
+          "seat": 8,
+          "dir": "down"
+        },
+        {
+          "at": 8200,
+          "seat": 8,
+          "dir": "down"
+        }
+      ],
+      "then": {
+        "outcome": null,
+        "alive": {
+          "hoist": true,
+          "boom": true
+        },
+        "stops": 2,
+        "absent": [
+          "KILLED"
+        ]
+      }
+    },
+    {
+      "id": "key-release",
+      "about": "The Boom's key turns only at the end stop with the crate docked; driving away releases it.",
+      "kind": "edge",
+      "given": {
+        "seats": {
+          "hoist": 8,
+          "boom": 3
+        },
+        "attack": {
+          "hoist": true,
+          "boom": true
+        },
+        "protection": {
+          "hoist": false,
+          "boom": false
+        },
+        "briefingEndsAt": 4000
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 5100,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 5600,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 6300,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 6800,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 7300,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 7800,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 8600,
+          "seat": 8,
+          "dir": "down"
+        },
+        {
+          "at": 9100,
+          "seat": 8,
+          "dir": "down"
+        },
+        {
+          "at": 9700,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 10300,
+          "seat": 3,
+          "dir": "left"
+        }
+      ],
+      "then": {
+        "outcome": null,
+        "present": [
+          "DOCKED",
+          "KEY",
+          "KEY_RELEASED"
+        ],
+        "absent": [
+          "SENT"
+        ]
+      }
+    },
+    {
+      "id": "docked-hoist-down",
+      "about": "Docked, the Hoist cannot lower further: a bump, and no drop is possible.",
+      "kind": "edge",
+      "given": {
+        "seats": {
+          "hoist": 8,
+          "boom": 3
+        },
+        "attack": {
+          "hoist": true,
+          "boom": true
+        },
+        "protection": {
+          "hoist": false,
+          "boom": false
+        },
+        "briefingEndsAt": 4000
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 5100,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 5600,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 6300,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 6800,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 7300,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 7800,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 8600,
+          "seat": 8,
+          "dir": "down"
+        },
+        {
+          "at": 9100,
+          "seat": 8,
+          "dir": "down"
+        },
+        {
+          "at": 9700,
+          "seat": 8,
+          "dir": "down"
+        }
+      ],
+      "then": {
+        "outcome": null,
+        "bumped": [
+          "cradle"
+        ]
+      }
+    },
+    {
+      "id": "reconnect-in-grace",
+      "about": "Out of contact for less than the grace: the Task never paused, and it goes on.",
+      "kind": "edge",
+      "given": {
+        "seats": {
+          "hoist": 8,
+          "boom": 3
+        },
+        "attack": {
+          "hoist": true,
+          "boom": true
+        },
+        "protection": {
+          "hoist": false,
+          "boom": false
+        },
+        "briefingEndsAt": 4000
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 5100,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 5600,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 6000,
+          "seat": 3,
+          "online": false
+        },
+        {
+          "at": 13000,
+          "seat": 3,
+          "online": true
+        },
+        {
+          "at": 14000,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 14500,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 15000,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 15500,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 17000
+        }
+      ],
+      "then": {
+        "outcome": null,
+        "present": [
+          "OFFLINE",
+          "ONLINE"
+        ],
+        "moves": 7
+      }
+    },
+    {
+      "id": "death-stands",
+      "about": "An attack that lands while the partner is out of contact stands: the Task ends lost, not cancelled.",
+      "kind": "edge",
+      "given": {
+        "seats": {
+          "hoist": 8,
+          "boom": 3
+        },
+        "attack": {
+          "hoist": true,
+          "boom": true
+        },
+        "protection": {
+          "hoist": false,
+          "boom": false
+        },
+        "briefingEndsAt": 4000
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 5100,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 5600,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 6300,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 6800,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 7300,
+          "seat": 3,
+          "online": false
+        },
+        {
+          "at": 7600,
+          "seat": 8,
+          "dir": "down"
+        },
+        {
+          "at": 15800
+        }
+      ],
+      "then": {
+        "outcome": {
+          "result": "lost",
+          "why": "not-in-cradle"
+        },
+        "alive": {
+          "hoist": true,
+          "boom": false
+        }
+      }
+    },
+    {
+      "id": "offline-victim-docked",
+      "about": "Docked; the Hoist drops out of contact and the Boom rams the cab. The death stands, the dead Hoist's connection no longer matters, and the Boom sends alone.",
+      "kind": "edge",
+      "given": {
+        "seats": {
+          "hoist": 8,
+          "boom": 3
+        },
+        "attack": {
+          "hoist": true,
+          "boom": true
+        },
+        "protection": {
+          "hoist": false,
+          "boom": false
+        },
+        "briefingEndsAt": 4000
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 5100,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 5600,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 6300,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 6800,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 7300,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 7800,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 8600,
+          "seat": 8,
+          "dir": "down"
+        },
+        {
+          "at": 9100,
+          "seat": 8,
+          "dir": "down"
+        },
+        {
+          "at": 9600,
+          "seat": 8,
+          "online": false
+        },
+        {
+          "at": 10000,
+          "seat": 3,
+          "dir": "left"
+        },
+        {
+          "at": 10400,
+          "seat": 3,
+          "dir": "left"
+        },
+        {
+          "at": 10800,
+          "seat": 3,
+          "dir": "left"
+        },
+        {
+          "at": 11200,
+          "seat": 3,
+          "dir": "left"
+        },
+        {
+          "at": 11600,
+          "seat": 3,
+          "dir": "left"
+        },
+        {
+          "at": 12000,
+          "seat": 3,
+          "dir": "left"
+        },
+        {
+          "at": 12600,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 13000,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 13400,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 13800,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 14200,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 14600,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 15000,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 21600
+        }
+      ],
+      "then": {
+        "outcome": {
+          "result": "delivered",
+          "packages": 5,
+          "alone": true
+        },
+        "alive": {
+          "hoist": false,
+          "boom": true
+        }
+      }
+    },
+    {
+      "id": "dead-cannot-press",
+      "about": "A killed participant's presses do nothing.",
+      "kind": "edge",
+      "given": {
+        "seats": {
+          "hoist": 8,
+          "boom": 3
+        },
+        "attack": {
+          "hoist": true,
+          "boom": true
+        },
+        "protection": {
+          "hoist": false,
+          "boom": false
+        },
+        "briefingEndsAt": 4000
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 5100,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 5600,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 6300,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 6800,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 7300,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 7800,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 8600,
+          "seat": 8,
+          "dir": "down"
+        },
+        {
+          "at": 9100,
+          "seat": 8,
+          "dir": "down"
+        },
+        {
+          "at": 10000,
+          "seat": 3,
+          "dir": "left"
+        },
+        {
+          "at": 10400,
+          "seat": 3,
+          "dir": "left"
+        },
+        {
+          "at": 10800,
+          "seat": 3,
+          "dir": "left"
+        },
+        {
+          "at": 11200,
+          "seat": 3,
+          "dir": "left"
+        },
+        {
+          "at": 11600,
+          "seat": 3,
+          "dir": "left"
+        },
+        {
+          "at": 12000,
+          "seat": 3,
+          "dir": "left"
+        },
+        {
+          "at": 12600,
+          "seat": 8,
+          "dir": "up"
+        }
+      ],
+      "then": {
+        "outcome": null,
+        "refused": [
+          "down"
+        ],
+        "alive": {
+          "hoist": false,
+          "boom": true
+        }
+      }
+    },
+    {
+      "id": "race-refused",
+      "about": "PROPOSED deliberate attacks only. The crate hangs over the open deck; Cleo drives it over the pulpit just as Hana's Lower, pressed on the old picture, arrives: refused as stale, no drop. A fresh Lower on the warning drops it.",
+      "kind": "edge",
+      "given": {
+        "seats": {
+          "hoist": 8,
+          "boom": 3
+        },
+        "attack": {
+          "hoist": true,
+          "boom": true
+        },
+        "protection": {
+          "hoist": false,
+          "boom": false
+        },
+        "briefingEndsAt": 4000
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 5100,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 5600,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 6300,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 6800,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 7300,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 8000,
+          "seat": 3,
+          "dir": "left"
+        },
+        {
+          "at": 8050,
+          "seat": 8,
+          "dir": "down",
+          "shown": false
+        },
+        {
+          "at": 8700,
+          "seat": 8,
+          "dir": "down",
+          "shown": true
+        }
+      ],
+      "then": {
+        "outcome": {
+          "result": "lost",
+          "why": "not-in-cradle"
+        },
+        "refused": [
+          "stale"
+        ],
+        "alive": {
+          "hoist": true,
+          "boom": false
+        }
+      }
+    },
+    {
+      "id": "hold-stops-at-warning",
+      "about": "PROPOSED deliberate attacks only. A held Raise or Lower repeats, but a repeat never carries into an attack: it stops at the warning, and only a fresh press attacks.",
+      "kind": "edge",
+      "given": {
+        "seats": {
+          "hoist": 8,
+          "boom": 3
+        },
+        "attack": {
+          "hoist": true,
+          "boom": true
+        },
+        "protection": {
+          "hoist": false,
+          "boom": false
+        },
+        "briefingEndsAt": 4000
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 5100,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 5600,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 6300,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 6800,
+          "seat": 3,
+          "dir": "right"
+        },
+        {
+          "at": 7600,
+          "seat": 8,
+          "dir": "down",
+          "repeat": true,
+          "shown": true
+        }
+      ],
+      "then": {
+        "outcome": null,
+        "refused": [
+          "repeat"
+        ],
+        "alive": {
+          "hoist": true,
+          "boom": true
+        },
+        "absent": [
+          "KILLED",
+          "STOPPED"
+        ]
+      }
+    },
+    {
+      "id": "cancel-without-death",
+      "about": "A participant out of contact for the whole grace: the Task is cancelled; both are alive and return.",
+      "kind": "edge",
+      "given": {
+        "seats": {
+          "hoist": 8,
+          "boom": 3
+        },
+        "attack": {
+          "hoist": true,
+          "boom": true
+        },
+        "protection": {
+          "hoist": false,
+          "boom": false
+        },
+        "briefingEndsAt": 4000
+      },
+      "when": [
+        {
+          "at": 4600,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 5100,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 5600,
+          "seat": 8,
+          "dir": "up"
+        },
+        {
+          "at": 6000,
+          "seat": 8,
+          "online": false
+        },
+        {
+          "at": 14000
+        }
+      ],
+      "then": {
+        "outcome": {
+          "result": "cancelled",
+          "why": "disconnect",
+          "who": "hoist"
+        },
+        "alive": {
+          "hoist": true,
+          "boom": true
+        }
+      }
+    }
+  ],
+  "conflicts": [
+    {
+      "id": "disconnect-escape",
+      "rules": [
+        "no-escape",
+        "disconnect"
+      ],
+      "conflict": "If a disconnect cancelled the Task at once, a player could escape an attack by dropping their connection (switching off the network), which \"no escape\" forbids, and a network blip would wipe out a Task.",
+      "solution": "The server judges a disconnect only after a grace (PROPOSED 8 s) in which the Task runs on: an attack pressed in the grace resolves, and a death that resolved before the cancellation stands (a dead participant's connection no longer matters). Back in time, nothing paused. Out longer, the Task is cancelled and both return.",
+      "residual": "A participant can still end a Task they dislike by staying offline. Whether a deliberate disconnect should cost anything is the owner's call (open item)."
+    },
+    {
+      "id": "survivor-asymmetry",
+      "rules": [
+        "betrayal",
+        "survivor"
+      ],
+      "conflict": "The drop puts the crate onto the Boom operator, out of the cradle, so a Hoist who drops can never complete alone. Only the Boom's ram, after docking, can kill and still deliver. The rules make the two betrayals unequal.",
+      "solution": "Inside the rules: the server assigns the controls at random (PROPOSED), so neither player chooses the stronger seat; both phones show both risks equally; the two-key send makes docking a visible standoff (the Hoist's key turned and waiting is the moment to watch the gantry). Game Balance to judge the asymmetry with tools/balance.",
+      "residual": "Accepting the asymmetry, or asking for a symmetric mechanic, is the owner's decision."
+    },
+    {
+      "id": "blocked-attack-disclosure",
+      "rules": [
+        "no-escape",
+        "visibility",
+        "one-opportunity"
+      ],
+      "conflict": "Protection applies, but a blocked attack is something the attacker sees fail. An attacker who knows they still had their opportunity learns that the victim is Protected, which \"does not automatically authorize Protection disclosure\".",
+      "solution": "The design discloses as little as the rules allow: one STOPPED for Protection and for a spent opportunity alike, with no reason on either phone; the victim cannot tell which it was; no one else learns anything. The attacker's inference cannot be removed without a third reason for a stop, which the rules do not have.",
+      "residual": "The owner confirms that the attacker's inference is acceptable, or chooses a different block."
+    },
+    {
+      "id": "deduced-attribution",
+      "rules": [
+        "visibility",
+        "return"
+      ],
+      "conflict": "With two participants, a death on the Task names the killer to anyone who knows who went: the return shows the body, and the other participant is the only possible cause. The rules forbid automatic attribution but make it deducible.",
+      "solution": "No phone states a killer, a cause or a Task death; the death is shown as any death. Whether other players learn who is away (PROPOSED: yes, as their places are empty) is the one lever, listed as an open item.",
+      "residual": "If the owner wants the pair private, the board must hide the two participants' absence; Frontend and Backend would then need a decoy presence."
+    }
+  ],
+  "openItems": [
+    {
+      "id": "opportunity-reset",
+      "owner": "owner",
+      "item": "The attack opportunity's reset scope across repeated Task participation (unspecified by the owner; the design never chooses it)."
+    },
+    {
+      "id": "block-spends",
+      "owner": "owner",
+      "item": "Whether a blocked attack spends the attacker's opportunity. PROPOSED: yes, an attempt is the opportunity."
+    },
+    {
+      "id": "dose-package",
+      "owner": "owner",
+      "item": "Whether one dose is one package. PROPOSED: yes."
+    },
+    {
+      "id": "initiation-spent",
+      "owner": "owner",
+      "item": "When a Volunteer's initiation is spent. PROPOSED: on the start; a Task cancelled by the Partner's disconnect gives it back, one cancelled by the Volunteer's own does not."
+    },
+    {
+      "id": "deliberate-disconnect",
+      "owner": "owner",
+      "item": "Whether a deliberate disconnect costs anything (conflict 1)."
+    },
+    {
+      "id": "partner",
+      "owner": "owner",
+      "item": "Who can be a Partner (PROPOSED: a living player outside the Hospital and the Jail, not on a Task) and whether a Partner may decline (PROPOSED: no)."
+    },
+    {
+      "id": "roles",
+      "owner": "owner",
+      "item": "Who runs which control. PROPOSED: the server at random (conflict 2)."
+    },
+    {
+      "id": "public-away",
+      "owner": "owner",
+      "item": "Whether other players see who is away on a Task (PROPOSED: yes; conflict 4) and the outcome (PROPOSED: delivered or not)."
+    },
+    {
+      "id": "when",
+      "owner": "owner, Backend",
+      "item": "When a Task may start (which phases count as outside ordinary turns), and whether two Tasks may run at once."
+    },
+    {
+      "id": "timing",
+      "owner": "Game Balance",
+      "item": "The PROPOSED timing: 4 s briefing, 45 s deadline, 8 s grace, 300 ms between presses."
+    },
+    {
+      "id": "asymmetry",
+      "owner": "Game Balance",
+      "item": "The survivor asymmetry (conflict 2) and the food economy: five packages, five per delivery, one dose per player at each Eating step."
+    },
+    {
+      "id": "eating-order",
+      "owner": "owner, Game Balance",
+      "item": "The Eating step's place in the round and its order: with the stock short, the order decides who goes to the Hospital."
+    },
+    {
+      "id": "deliberate-attacks",
+      "owner": "owner, Backend",
+      "item": "PROPOSED deliberate attacks only: a hold's repeat stops at a warning, and a press made on an older picture never attacks (TASK_MOVE shown and repeat)."
+    },
+    {
+      "id": "contract",
+      "owner": "Integration",
+      "item": "TASK_MOVE and the Task projection in packages/contracts/, and the ruleset version that adopts this Task."
+    },
+    {
+      "id": "engine-task",
+      "owner": "owner",
+      "item": "The Engine Task is not designed here."
+    }
+  ],
+  "review": {
+    "sheets": "design/food-supply/review/*.png (design/tools/food-supply-render.mjs --sheets)",
+    "films": "design/food-supply/review/film-*.mp4, silent (design/tools/food-supply-render.mjs --films)",
+    "pages": [
+      "design/food-supply/review.html",
+      "design/food-supply/phone.html",
+      "design/food-supply/film.html"
+    ],
+    "storyboards": [
+      {
+        "id": "cooperation",
+        "title": "Cooperation"
+      },
+      {
+        "id": "drop",
+        "title": "The Hoist's attack: the drop"
+      },
+      {
+        "id": "ram",
+        "title": "The Boom's attack: the ram"
+      },
+      {
+        "id": "survivor",
+        "title": "Survivor completion"
+      },
+      {
+        "id": "protection-drop",
+        "title": "Protection against the drop"
+      },
+      {
+        "id": "protection-ram",
+        "title": "Protection against the ram"
+      },
+      {
+        "id": "timeout",
+        "title": "Lost: the time runs out"
+      },
+      {
+        "id": "disconnect",
+        "title": "Disconnect: the Task is cancelled"
+      }
+    ]
+  }
+}

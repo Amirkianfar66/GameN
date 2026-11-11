@@ -6,6 +6,27 @@ What the game owner decided about look, feel and presentation while working with
 
 The owner's messages are quoted as written.
 
+## 11 November 2026: the Food Supply Task
+
+**The owner asked Designer to design Mothership's two-player Food Supply Task** from confirmed highlights, developing the design solution itself: the room, the operators, the mechanical paths, the hazard regions, the controls, the feedback and the crate's position for survivor completion. Designer's design is [food-supply.md](food-supply.md), a proposal.
+
+| What the owner confirmed | Where the design meets it |
+| --- | --- |
+| "Initial food stock: five packages. Each successful supply delivery adds five packages." "Food warning appears when one package remains." | +5 on delivery; the warning banner at one package |
+| "Each player consumes one dose at their Eating step. Not eating transfers them to Hospital under the existing Hospital rules." | Not designed here; an open item |
+| "A volunteer selects a Partner. Tasks happen outside ordinary turns; Task travel is separate from normal movement." "Each player may initiate one Task total per match across Food and Engine. Partner participation can repeat without spending that initiation." | The Tasks sheet and the Partner choice; travel to the Supply Room and back without a move |
+| "One participant controls vertical movement; the other controls horizontal movement." "Both can betray their partner using movement of the same controller: dropping the crate onto the other player, or driving a moving panel into them." "There is no separate attack button, special trigger, confirmation or armed mode." | The Hoist raises and lowers; the Boom drives the gantry. The Hoist's Lower over the pulpit drops the crate; the Boom's Left drives the bumper plate into the cab |
+| "There is no escape opportunity. An unblocked attack is lethal and does not send its victim to Hospital. Protection applies." "Each player has one attack opportunity. Its reset scope across repeated Task participation remains unspecified; do not silently choose it." | KILLED on the press; STOPPED under Protection; the opportunity comes from the server and the design never resets it |
+| "After a partner dies, the survivor can complete the delivery alone if the crate is in the correct position. Otherwise the Task is lost." "A participant disconnect cancels the Task." | The cradle is the correct position; cancelled after a grace |
+| "Other players do not see the Task space on their phones. This does not automatically authorize public killer attribution or Protection disclosure." "The ordinary return flow restores participants to their previous positions, accounting for death and cancellation." | Only the participants' phones draw it; no attribution, no Protection shown; the return to each place |
+
+The owner also asked for low puzzle difficulty with coordination and trust as the challenge, Machinarium as inspiration for expressive machinery, and Mothership's own look; and for genuine rule conflicts to be highlighted separately, with solutions inside the confirmed rules ([four of them](food-supply.md#genuine-rule-conflicts)).
+
+**What it does not decide:**
+- **The proposals.** Everything marked PROPOSED in the design (timings, the grace, random roles, the Partner's eligibility, what other players see, deliberate attacks only) waits for the owner. The [open items](food-supply.md#open-items) list them, with the attack opportunity's reset scope, which the design leaves unchosen as asked.
+- **The game.** No rule, contract, engine or ruleset changes here. Backend implements the rules, Integration owns the contract, and a ruleset version adopts the Task; until then nothing is playable.
+- **The owner's detailed handoff file.** `docs/design/food-supply-requirements-2026-11-11.md` and its concept images were on the owner's computer, not in the repository; the design follows the highlights above and will be reconciled with that file.
+
 ## 11 November 2026: the build follows the pack
 
 **The owner asked whether the game uses Designer's design in every part, from the menu to the end of a match.** Designer set each part of Frontend's native interface beside the pack's screen for the same state. Of 49 parts, 4 are the same, 8 are close and 37 differ ([the native review](phone-ui-native-review.md#part-by-part-from-the-menu-to-the-end)). The owner asked why, and approved Designer's proposal to fix it.

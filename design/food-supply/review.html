@@ -1,0 +1,71 @@
+<!doctype html>
+<!-- mothership:dev-only · Food Supply Task (11 November 2026): the review sheets. A design proposal on synthetic fixtures; not the game. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Food Supply · review</title>
+<style>
+  :root { --ink: #151923; --paper: #F4EBDD; --muted: #B9C4D3; --accent: #F1B84B; --panel: #1C2331; }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 28px 32px 40px; background: #0D1118; color: var(--paper); font: 400 15px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; width: 1720px; }
+  body[data-sheet="layout"] { width: 1660px; }
+  body[data-sheet="motion"] { width: 2080px; }
+  .head h1 { margin: 0 0 6px; font: 800 30px/1.15 system-ui, sans-serif; letter-spacing: -0.01em; }
+  .head p { margin: 0 0 4px; color: var(--muted); max-width: 1180px; }
+  .head .fixture { font-size: 12px; opacity: 0.7; margin-bottom: 20px; }
+  .scene svg { display: block; width: 100%; height: auto; border-radius: 10px; }
+  .layout { display: grid; grid-template-columns: 1040px 1fr; gap: 28px; align-items: start; }
+  .layout .art { position: relative; }
+  .layout .overlay { position: absolute; inset: 0 0 auto; }
+  .layout .overlay svg { display: block; width: 100%; height: auto; overflow: visible; }
+  .grid line { stroke: rgba(244,235,221,0.32); stroke-width: 1.5; stroke-dasharray: 4 6; }
+  text.axis { fill: var(--paper); font: 700 18px system-ui, sans-serif; text-anchor: middle; }
+  rect.hazard { fill: rgba(21,25,35,0.0); stroke: var(--paper); stroke-width: 4; stroke-dasharray: 14 8; }
+  rect.warn { fill: rgba(241,184,75,0.12); stroke: var(--accent); stroke-width: 4; }
+  rect.goal { fill: rgba(241,184,75,0.18); stroke: var(--accent); stroke-width: 6; }
+  rect.block { fill: rgba(21,25,35,0.28); stroke: rgba(244,235,221,0.5); stroke-width: 2; }
+  rect.start { fill: none; stroke: var(--paper); stroke-width: 3; stroke-dasharray: 3 5; }
+  polyline.route { fill: none; stroke: var(--accent); stroke-width: 5; stroke-dasharray: 2 12; stroke-linecap: round; }
+  .callout circle { fill: var(--accent); stroke: var(--ink); stroke-width: 3; }
+  .callout text { fill: var(--ink); font: 800 19px system-ui, sans-serif; text-anchor: middle; }
+  .legend { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+  .legend li { padding: 10px 12px; border-radius: 10px; background: var(--panel); color: var(--muted); }
+  .legend b { color: var(--paper); display: block; }
+  .keys { list-style: none; margin: 18px 0 0; padding: 0; display: grid; gap: 8px; color: var(--muted); }
+  .k { display: inline-block; width: 28px; height: 16px; margin-right: 8px; vertical-align: -3px; border-radius: 3px; }
+  .k.hazard { border: 3px dashed var(--paper); } .k.warn { border: 3px solid var(--accent); background: rgba(241,184,75,0.12); }
+  .k.goal { border: 4px solid var(--accent); background: rgba(241,184,75,0.18); } .k.block { border: 2px solid rgba(244,235,221,0.5); background: rgba(21,25,35,0.6); }
+  .k.start { border: 3px dotted var(--paper); } .k.route { border-top: 4px dotted var(--accent); height: 0; }
+  .beats { display: grid; gap: 22px; }
+  .beat { display: grid; grid-template-columns: 640px auto 1fr; gap: 20px; align-items: start; padding: 16px; border-radius: 14px; background: var(--panel); }
+  .beat-phones { display: flex; gap: 12px; }
+  .beat-phones.wide { grid-column: span 1; }
+  .beat .time { margin: 8px 0 0; color: var(--accent); font: 700 14px system-ui, sans-serif; }
+  .beat .caption { margin: 0; font-size: 17px; line-height: 1.5; }
+  .phone { margin: 0; }
+  .phone-box { overflow: hidden; border-radius: 22px; box-shadow: 0 0 0 2px #2A3346; }
+  .phone iframe { border: 0; display: block; }
+  .phone figcaption { margin-top: 6px; font: 600 13px/1.3 system-ui, sans-serif; color: var(--muted); }
+  .grid { display: grid; grid-template-columns: repeat(7, auto); gap: 18px 16px; justify-content: start; }
+  body[data-sheet="large"] { width: 1400px; }
+  body[data-sheet="large"] .grid { grid-template-columns: repeat(4, auto); }
+  .phone figcaption.measure { margin-top: 2px; font-weight: 500; color: var(--accent); }
+  body[data-sheet="flow"] .grid { grid-template-columns: repeat(5, auto); }
+  .parts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .part { margin: 0; padding: 10px; border-radius: 12px; background: var(--panel); }
+  .part.wide { grid-column: span 4; }
+  .part figcaption { margin-top: 8px; color: var(--muted); font-size: 14px; }
+  .cues { display: grid; gap: 18px; }
+  .cue h2 { margin: 0 0 8px; font: 800 18px system-ui, sans-serif; } .cue h2 small { margin-left: 10px; color: var(--muted); font-weight: 600; font-size: 14px; }
+  .strip { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; }
+  .strip figure { margin: 0; } .strip figcaption { margin-top: 4px; color: var(--muted); font-size: 13px; }
+  .strip .reduced { padding: 6px; border-radius: 12px; box-shadow: inset 0 0 0 2px var(--accent); }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script type="module" src="./review.mjs"></script>
+</body>
+</html>

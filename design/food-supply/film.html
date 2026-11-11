@@ -1,0 +1,23 @@
+<!doctype html>
+<!-- mothership:dev-only · Food Supply Task (11 November 2026): the film stage. A design proposal on synthetic fixtures; not the game. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<title>Food Supply · film</title>
+<style>
+  html, body { margin: 0; background: #0D1118; }
+  .stage { position: relative; width: 1024px; height: 768px; overflow: hidden; }
+  .stage > div, .stage > div > svg { position: absolute; inset: 0; width: 1024px; height: 768px; }
+  .bar { display: flex; gap: 18px; align-items: center; width: 1024px; height: 92px; box-sizing: border-box; padding: 0 24px; background: #0D1118; color: #F4EBDD; font: 500 19px/1.35 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  .bar b { flex: none; color: #F1B84B; font-weight: 800; font-size: 15px; letter-spacing: 0.04em; text-transform: uppercase; max-width: 210px; }
+  .cut { position: absolute; left: 50%; top: 40%; transform: translate(-50%, -50%); padding: 14px 22px; border-radius: 14px; background: #F4EBDD; color: #151923; font: 800 26px system-ui, sans-serif; box-shadow: 0 0 0 4px #151923; }
+  .label { position: absolute; right: 10px; bottom: 8px; color: rgba(244,235,221,0.45); font: 600 11px system-ui, sans-serif; }
+</style>
+</head>
+<body>
+<div class="stage"><div id="back"></div><div id="live"></div><div class="cut" id="cut" hidden></div><span class="label">Design proposal · synthetic fixture · silent</span></div>
+<div class="bar"><b id="title"></b><span id="caption"></span></div>
+<script type="module" src="./film.mjs"></script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+{
+  "outputs": {
+    "design/food-supply/review/board-cooperation.png": {
+      "sha256": "f192021bd1bb81db4083a850133a750d0b23b6c8d110c575d92d477f19bb2a28",
+      "width": 1720,
+      "height": 3444
+    },
+    "design/food-supply/review/board-disconnect.png": {
+      "sha256": "0986d86f2c4ab81f815dfd1b5ca3493c2008068c3bb80d4cec94235bbabe2cd0",
+      "width": 1720,
+      "height": 2326
+    },
+    "design/food-supply/review/board-drop.png": {
+      "sha256": "b524d95fa5529e9d3bda618e4ba428c8fbd4c53814210b886c60b07f2acc4ff7",
+      "width": 1720,
+      "height": 2885
+    },
+    "design/food-supply/review/board-protection-drop.png": {
+      "sha256": "29d2cc23c9cd130b39ca069e08c26b3a59e8cdde2243f03e0f872d4e647d09c4",
+      "width": 1720,
+      "height": 2386
+    },
+    "design/food-supply/review/board-protection-ram.png": {
+      "sha256": "4dc1cb12fc1c0a7729ceedb2c5e1a894217eed6ca79257df22c2c2cbef985e68",
+      "width": 1720,
+      "height": 2386
+    },
+    "design/food-supply/review/board-ram.png": {
+      "sha256": "dc0f1d1889bccac535ae5ea71b077de72a2eacf9adef6eb3a6ae883ccfb4e557",
+      "width": 1720,
+      "height": 2386
+    },
+    "design/food-supply/review/board-survivor.png": {
+      "sha256": "d3c2909cf5fc750d8ebfbac1d69b446c2cdba287778473be0e06946e365bcac6",
+      "width": 1720,
+      "height": 3444
+    },
+    "design/food-supply/review/board-timeout.png": {
+      "sha256": "1cc6bbec938efa04167f5463e8a7b79b2f148a328f2aba6b6613a9c8a278921b",
+      "width": 1720,
+      "height": 1827
+    },
+    "design/food-supply/review/film-cooperation-reduced.mp4": {
+      "sha256": "5148356624a8291e7eda81b0c53fdfc2fed2cc10ce6f339d1b2f425710d753be",
+      "frames": 391,
+      "duration": 13000
+    },
+    "design/food-supply/review/film-cooperation.mp4": {
+      "sha256": "9a76d1525d058840aecb1d84753bd587163f00f7fa79a04684668988784fcef2",
+      "frames": 391,
+      "duration": 13000
+    },
+    "design/food-supply/review/film-disconnect.mp4": {
+      "sha256": "5ad89fae1e92e844e9b22f515873c11654b052dffcbb5959f5f565ee535a701e",
+      "frames": 424,
+      "duration": 14100
+    },
+    "design/food-supply/review/film-drop-reduced.mp4": {
+      "sha256": "8345d2b864f3b11eb5c54d0313e0567a1071da7a5bdc1bb6d2daa157f8bec785",
+      "frames": 331,
+      "duration": 11000
+    },
+    "design/food-supply/review/film-drop.mp4": {
+      "sha256": "e57efdb6acbd0c81c23553a36c3674aca02181d1b24ce11f23480a54c48e33e9",
+      "frames": 331,
+      "duration": 11000
+    },
+    "design/food-supply/review/film-protection-drop.mp4": {
+      "sha256": "ae6e8d3fa6c11c6012d002bbb2c59014b40cb25f1c24eeb7dbc1a1e0b0d8b15b",
+      "frames": 451,
+      "duration": 15000
+    },
+    "design/food-supply/review/film-protection-ram.mp4": {
+      "sha256": "3485494226eb92f655ca20c22d998bc234484a1900f8c555a850c08498d45bcf",
+      "frames": 511,
+      "duration": 17000
+    },
+    "design/food-supply/review/film-ram.mp4": {
+      "sha256": "97c60a8a4e40e7f70ece761077191c8198d49915da38057922ff2bf1bb4a5686",
+      "frames": 346,
+      "duration": 11500
+    },
+    "design/food-supply/review/film-survivor.mp4": {
+      "sha256": "a920ba9cc40e3afe7b7825b89776c0df65e94a867ece1cf2b35abc6ec011ba1e",
+      "frames": 556,
+      "duration": 18500
+    },
+    "design/food-supply/review/film-timeout.mp4": {
+      "sha256": "a24afa2b5d90c9947c3e300eeef65604c1b8c6ffe863ad10ff1af41aa4f833bc",
+      "frames": 469,
+      "duration": 15600
+    },
+    "design/food-supply/review/flow.png": {
+      "sha256": "d099a432104cb412f8d78fa9d2f69aeb0fd87b83317f6f5d32f28a541228993b",
+      "width": 1720,
+      "height": 1096
+    },
+    "design/food-supply/review/large-text.png": {
+      "sha256": "8fd6bac80b948953023172adccaaaf6fe1dbb14ebde0ab25275b0ffbce237736",
+      "width": 1400,
+      "height": 1431
+    },
+    "design/food-supply/review/layout.png": {
+      "sha256": "e1f1e6824ca80fc24fc69833c49989b0155b18e147903858250ebcf6544a08b3",
+      "width": 1660,
+      "height": 1120
+    },
+    "design/food-supply/review/machine.png": {
+      "sha256": "619404c255bfcaabe954eb1f225e45afa750a8ec4a6ce0d106bee4bf2ad67218",
+      "width": 1720,
+      "height": 3149
+    },
+    "design/food-supply/review/motion.png": {
+      "sha256": "e883bb96e092a87fd876818e9a180e22c4b672461452d82ddd23b95846ac855e",
+      "width": 2080,
+      "height": 4185
+    },
+    "design/food-supply/review/phones-boom.png": {
+      "sha256": "dd71b16e2479da031a135cfbe8f488bca346254241b6c8794b4f8cfcd581675f",
+      "width": 1720,
+      "height": 1101
+    },
+    "design/food-supply/review/phones-hoist.png": {
+      "sha256": "2f4f4b823b1b3e15a158e7984eb6e72fac705ed96df23f56752fe5a475fd33bd",
+      "width": 1720,
+      "height": 1135
+    }
+  },
+  "tool": "design/tools/food-supply-render.mjs",
+  "browser": "Chrome/153.0.8010.12",
+  "note": "Desktop headless Chromium at each page's CSS size; not a phone. Films are silent."
+}
