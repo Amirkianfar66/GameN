@@ -1,0 +1,40 @@
+TAP version 13
+# Subtest: phone review accepts a clean main snapshot while recording its exact transitive verifier inputs
+ok 1 - phone review accepts a clean main snapshot while recording its exact transitive verifier inputs
+  ---
+  duration_ms: 182.84225
+  type: 'test'
+  ...
+# Subtest: a dirty artwork snapshot cannot become review authority
+ok 2 - a dirty artwork snapshot cannot become review authority
+  ---
+  duration_ms: 109.00725
+  type: 'test'
+  ...
+# Subtest: candidate verifier drift is rejected even when the old artwork baseline is on main
+ok 3 - candidate verifier drift is rejected even when the old artwork baseline is on main
+  ---
+  duration_ms: 188.27325
+  type: 'test'
+  ...
+# Subtest: a clean unmerged branch cannot supply the artwork baseline
+ok 4 - a clean unmerged branch cannot supply the artwork baseline
+  ---
+  duration_ms: 203.61
+  type: 'test'
+  ...
+# Subtest: hidden baseline verifier changes cannot pass a clean git status
+ok 5 - hidden baseline verifier changes cannot pass a clean git status
+  ---
+  duration_ms: 216.788167
+  type: 'test'
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 5
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1061.859708
