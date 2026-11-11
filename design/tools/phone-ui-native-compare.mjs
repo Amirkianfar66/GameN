@@ -11,7 +11,8 @@
 //   stages/NN-<stage>.jpg      one picture per stage, with --stage-sheets
 //
 //   node design/tools/phone-ui-native-compare.mjs --build <built harness folder> --out <folder>
-//        [--only id,id] [--stage id] [--findings file.json] [--stage-sheets] [--count 9] [--list]
+//        [--only id,id] [--stage id] [--view 320x568@2] [--findings file.json] [--stage-sheets]
+//        [--count 9] [--list]
 //
 // Build the harness first, with its own Vite config, from the commit under review:
 // docs/design/phone-ui-native-compare.md says how. Needs a Chromium-based browser (CHROME_PATH).
@@ -38,10 +39,27 @@ export function parseArgs(argv) {
   const options = {
     build: value('--build'), out: value('--out'), findings: value('--findings'), stage: value('--stage'),
     only: value('--only')?.split(',').map(id => id.trim()).filter(Boolean) ?? null,
+    view: parseView(value('--view')),
     count: Number(value('--count') ?? 9), stageSheets: argv.includes('--stage-sheets'), list: argv.includes('--list'),
   };
   if (![7, 8, 9].includes(options.count)) throw new Error('--count is 7, 8 or 9');
   return options;
+}
+
+/**
+ * `--view 320x568@2`: one phone size and text size for every part a run draws, on both sides. The merge
+ * gate asks for every text-bearing state at 320 × 568 with 200 % text as well as at 390 × 844.
+ */
+export function parseView(text) {
+  if (text === null || text === undefined) return null;
+  const match = /^(\d+x\d+)(?:@(1|1\.5|2))?$/.exec(text);
+  if (!match || !SIZES[match[1]]) throw new Error(`--view is a phone size (${Object.keys(SIZES).join(', ')}), then optionally @1, @1.5 or @2 for the text size`);
+  return { size: match[1], text: Number(match[2] ?? 1) };
+}
+
+/** The parts drawn at the run's view instead of their own; the catalog itself is left as it is. */
+export function withView(parts, view) {
+  return view ? parts.map(part => ({ ...part, view: { ...view } })) : parts;
 }
 
 /** The parts a run draws: all of them, one stage's, or the ones named. */
@@ -150,6 +168,7 @@ export function pageHtml(report) {
   <h1>The pack beside the build</h1>
   <p>${report.parts.length} parts · ${escape(counts)}, as Designer found them on ${escape(asFound)}</p>
   <p>The pack: <code>${escape(report.pack.commit)}</code>${report.pack.dirty ? ' with uncommitted changes' : ''}. The build: <code>${escape(report.build.head ?? 'unknown commit')}</code>${report.build.dirty ? ' with uncommitted changes' : ''}. ${escape(report.view)}.</p>
+  ${report.viewOverride ? '<p>The findings shown were made at each part\'s own phone size and text size, not at this run\'s.</p>' : ''}
   <p>Desktop Chromium with sample matches on both sides: not a phone, a live match, VoiceOver or motion.</p>
 </header>
 <main>${stages.map(({ stage, parts }) => `
@@ -357,7 +376,7 @@ async function stageSheets(browser, folder, stages) {
 
 async function main() {
   const options = parseArgs(process.argv.slice(2));
-  const parts = selectParts(options);
+  const parts = withView(selectParts(options), options.view);
   if (options.list) {
     for (const p of parts) console.log(`${p.id.padEnd(18)} ${p.stage.padEnd(8)} sheet ${p.sheet.padEnd(7)} ${p.was.verdict.padEnd(8)} ${p.title}`);
     return;
@@ -381,7 +400,8 @@ async function main() {
     tool: 'design/tools/phone-ui-native-compare.mjs',
     createdAt: new Date().toISOString(),
     browser: chrome.version,
-    view: `Drawn at each part's phone size, ${SCALE}× pixels`,
+    view: options.view ? `Every part drawn at ${options.view.size.replace('x', ' × ')} with ${options.view.text * 100} % text, ${SCALE}× pixels` : `Drawn at each part's phone size, ${SCALE}× pixels`,
+    viewOverride: options.view,
     pack: { commit: git(['rev-parse', 'HEAD']) ?? 'unknown', dirty: Boolean(status) },
     build: { folder: buildFolder, head: provenance?.candidate?.head ?? null, dirty: provenance?.candidate?.dirty ?? null, artwork: provenance?.artwork?.head ?? null },
     findingsDate: findings?.date ?? null,

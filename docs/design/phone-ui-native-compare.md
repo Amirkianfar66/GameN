@@ -14,7 +14,7 @@ Each part names a state twice:
 - **The pack:** its address in the pack's prototype (`design/phone-ui/prototype/index.html?…`), as the sheets and the clickable export name it.
 - **The build:** the scenario in Frontend's review harness (`apps/game/dev/phone`) and the taps that reach the state. The harness runs the native interface's own code with sample matches.
 
-Both sides are drawn at the same phone size and text size: 390 × 844 unless the part says otherwise. The part for the smallest phone uses 320 × 568 with 200 % text. Everything is drawn at 1.5× pixels.
+Both sides are drawn at the same phone size and text size: 390 × 844 unless the part says otherwise, or at the size `--view` gives for the whole run. The part for the smallest phone uses 320 × 568 with 200 % text. Everything is drawn at 1.5× pixels.
 
 Each part also carries Designer's finding of 11 November 2026 (same, close or differs, and why). That is the baseline the next review is read against. It is a record, not a rule.
 
@@ -49,6 +49,7 @@ It writes into the output folder:
    | `--list` | Lists the parts: id, stage, sheet, the last finding, title |
    | `--only menu,room-b` | Draws only these parts |
    | `--stage votes` | Draws one stage |
+   | `--view 320x568@2` | Draws every selected part at that phone size and text size, on both sides: `320x568`, `390x844`, `430x932` or `390x664`, then `@1`, `@1.5` or `@2`. The findings shown stay the ones made at each part's own size |
    | `--findings <file>` | Shows a later review's findings beside the 11 November ones |
    | `--count 7` | Seven, eight or nine players in the harness's matches (nine by default) |
 
@@ -59,7 +60,7 @@ It ends with an error when a part could not be drawn, and the page says which an
 ## On a pull request
 
 1. Frontend's pull request says which parts it changes, by their ids from `--list`.
-2. Designer builds the harness from the pull request's head and draws those parts with `--only`.
+2. Designer builds the harness from the pull request's head and draws those parts with `--only`. For every part that carries text, Designer draws them again into another folder with `--view 320x568@2`, as the merge gate asks.
 3. Designer answers in the pull request: accepted, or what still differs, part by part. The answer goes in a findings file, so the next run shows it:
 
    ```json
