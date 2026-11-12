@@ -147,7 +147,7 @@ const STATES = {
     ['cooperation', B + 3000, 'Wait: Lower would miss'], ['cooperation', B + 5250, 'Lower now: over the platform'], ['protection-drop', B + 3850, 'Stopped: the winch brake'],
     ['mistakes', B + 4350, 'Missed: raise it again'], ['cooperation', B + 5800, 'Landed: turn your key'], ['standoff', B + 6600, 'Key turned: waiting'],
     ['chop', B + 4200, 'Killed: out of the match'], ['drop', B + 6000, 'Cleo out: lower it in alone'], ['drop', B + 8300, 'Delivered alone'],
-    ['disconnect', B + 2300 + G - 2000, 'Partner offline: the Task goes on'], ['disconnect', B + 2300 + G + 1500, 'Cancelled'], ['timeout', B + TIMING.deadline + 1500, 'Lost: the time ran out'],
+    ['disconnect', B + 2300 + G - 2000, 'Partner offline: the Task goes on'], ['disconnect', B + 2300 + G + 1500, 'Cancelled'], ['timeout', TIMING.deadline + 1500, 'Lost: the time ran out'],
   ],
   panel: [
     ['cooperation', 2500, 'Briefing'], ['cooperation', B + 300, 'Waiting: Hana raises'], ['cooperation', B + 1300, 'RELEASE: the next press'],

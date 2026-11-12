@@ -129,14 +129,13 @@ export const BOARDS = Object.freeze([
     id: 'timeout',
     title: 'Lost: the time runs out',
     about: 'The crate never lands before the deadline',
-    steps: presses([...upAndAway(), [B + 2000, 'panel', 'lock']]).concat([{ at: B + TIMING.deadline }]),
-    cuts: [[0, B + 4400], [B + TIMING.deadline - 4000, B + TIMING.deadline + 3200]],
+    steps: presses([...upAndAway(), [B + 2000, 'panel', 'lock']]).concat([{ at: TIMING.deadline }]),
+    cuts: [[0, B + 4400], [TIMING.deadline - 4000, TIMING.deadline + 3200]],
     captions: [
       [0, B + 4400, 'Up and released; Cleo locks it at stop 3, short of the platform, and neither presses again.', B + 3000],
-      [B + TIMING.deadline - 4000, B + TIMING.deadline, 'The timer runs down on both phones (PROPOSED: 45 seconds).', B + TIMING.deadline - 1500],
-      [B + TIMING.deadline, B + TIMING.deadline + 3200, 'Time: the Task is lost. Nothing is delivered; both return.', B + TIMING.deadline + 1500],
+      [TIMING.deadline - 4000, TIMING.deadline, 'The timer runs down on both phones: 30 seconds for the whole Task, the briefing included (the owner).', TIMING.deadline - 1500],
+      [TIMING.deadline, TIMING.deadline + 3200, 'Time: the Task is lost. Nothing is delivered; both return.', TIMING.deadline + 1500],
     ],
-    proposed: ['A 45-second deadline'],
   }),
   board({
     id: 'disconnect',

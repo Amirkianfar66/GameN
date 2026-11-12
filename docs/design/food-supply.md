@@ -59,6 +59,7 @@ All PROPOSED, for Game Balance to tune:
 | The zones | A falling crate lands where its swing has it. Within 0.3 of a stop of the platform it lands; within 0.42 of the console it falls on the operator; within 0.42 of the intake it goes back in; anywhere else it misses (CLUNK), and the Winch raises it again |
 | The danger, in practice | Locked over the platform, the swing is out over the console about a second after the lock, and never again after about 2.3 s. Patience is safe; haste is not |
 | Raise, fall | 0.45 s to raise; 0.3 s to fall (the outcome is decided on the press) |
+| The time limit | 30 seconds for the whole Task, the briefing inside it (the owner, 12 November 2026): the timer counts down from 0:30 at the Task's start, and the controls work for the last 26 s. A cooperative run takes about 11 s from the start |
 
 ![The Supply Room, annotated](../../design/food-supply/review/layout.png)
 
@@ -122,7 +123,7 @@ Each storyboard is a scripted run of presses played through the design's mechani
 | Protection against the cut | The cab's roof buffer catches the blade: CLANK!, STOPPED, the same as the catch's luck; delivered | [board-protection-cut](../../design/food-supply/review/board-protection-cut.png) | [film](../../design/food-supply/review/film-protection-cut.mp4) |
 | Protection against the drop | The winch's brake catches the crate: CLANK!, STOPPED, the same as the catch's luck; it swings on; delivered | [board-protection-drop](../../design/food-supply/review/board-protection-drop.png) | [film](../../design/food-supply/review/film-protection-drop.mp4) |
 | Mistakes that cost only time | A lock one stop early, over Cleo; released and locked again; a Lower too soon misses (CLUNK); raised again, landed, delivered | [board-mistakes](../../design/food-supply/review/board-mistakes.png) | [film](../../design/food-supply/review/film-mistakes.mp4) |
-| Lost: the time runs out | Locked at 3, short of the platform; the timer runs down | [board-timeout](../../design/food-supply/review/board-timeout.png) | [film](../../design/food-supply/review/film-timeout.mp4) |
+| Lost: the time runs out | Locked at 3, short of the platform; the 30-second timer (briefing included) runs down | [board-timeout](../../design/food-supply/review/board-timeout.png) | [film](../../design/food-supply/review/film-timeout.mp4) |
 | Disconnect | Cleo's phone drops with the panel running; the Task runs on through the grace; cancelled; both return | [board-disconnect](../../design/food-supply/review/board-disconnect.png) | [film](../../design/food-supply/review/film-disconnect.mp4) |
 
 ![The drop, beat by beat](../../design/food-supply/review/board-drop.png)
@@ -214,7 +215,7 @@ The design's mechanics model, `design/food-supply/task.mjs`, is a reference, not
 ## For Game Balance
 
 - **The two kill-and-deliver paths** (conflict 2): the Winch's drop from the platform stop, which can pass as a mistake, against the Panel's cut in the standoff, which cannot. Is either more tempting? The server assigns the controls at random (PROPOSED).
-- **The timing:** the sweep (220 ms a stop), the swing (0.9, settling to 0.38, 2.2 s, 1.3 s), the zones (0.3 and 0.42), and the presses' 300 ms allowance. Faster or wider means more mistakes, and more cover for attacks. A cooperative run takes about 7 seconds; the deadline is 45 s (PROPOSED).
+- **The timing:** the sweep (220 ms a stop), the swing (0.9, settling to 0.38, 2.2 s, 1.3 s), the zones (0.3 and 0.42), and the presses' 300 ms allowance. Faster or wider means more mistakes, and more cover for betrayal. A cooperative run takes about 11 seconds from the start; the owner set the whole Task's time at 30 seconds, the briefing inside it.
 - **Mistakes:** each costs time (a lock in the wrong place, a miss) or a life (a lock at 7, a Lower over the console). A kill is not an attack and costs its presser nothing (the owner); the catch saves one in four.
 - **The food economy:** five packages, five per delivery, one dose per player at each Eating step, one Task initiation per player per match. How often Eating comes decides whether Tasks can keep up; with the stock short, the Eating order decides who goes to the Hospital.
 
@@ -301,7 +302,7 @@ Five tensions inside the owner's decisions, each with a solution that stays insi
 | Who runs which control (PROPOSED: the server at random; conflict 2) | The owner |
 | Whether others learn the result (PROPOSED: only as the food stock shows it). That they can see who is away is decided | The owner |
 | When a Task may start, and whether two may run at once | The owner, Backend |
-| The timing: the sweep, the swing, the zones, the raise and the fall, the 45 s deadline, the 8 s grace, the 4 s briefing | Game Balance |
+| The timing: the sweep, the swing, the zones, the raise and the fall, the 8 s grace, the 4 s briefing (the 30 s deadline is the owner's) | Game Balance |
 | The two kill-and-deliver paths, and the food economy | Game Balance |
 | The Eating step's place and order | The owner, Game Balance |
 | Press timing: the clock sync and the 300 ms allowance (PROPOSED) | Backend, Integration |

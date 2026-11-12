@@ -135,22 +135,27 @@
       "design": "A lethal press on an unprotected participant is stopped one time in four by the server's own roll, exactly as Protection stops it: the roof buffer catches the blade, or the winch's brake catches the crate (CLANK!). A Protected participant is always saved. So a CLANK! proves nothing."
     },
     {
+      "id": "time-limit",
+      "rule": "The overall time to complete the Task is 30 seconds, the briefing inside it.",
+      "design": "The timer on both phones counts down from 0:30 from the Task's start; the briefing (PROPOSED 4 s) runs inside it, so the controls work for the last 26 s. At 0:00 the Task is lost and nothing is delivered. A cooperative run takes about 11 seconds from the start."
+    },
+    {
       "id": "pendulum",
       "rule": "The crate swings like a pendulum, so lowering it without killing the partner takes attention.",
       "design": "A lock sets the crate swinging, wide at first and calming but never still (PROPOSED: 0.9 of a stop, settling to 0.38, a swing every 1.3 s). Lowered, it falls where its swing has it: over the platform it lands, over the console it falls on the Panel operator, anywhere else it misses."
     }
   ],
   "sources": {
-    "design/food-supply/task.mjs": "a34863c333e771de4cb25affef663f40419806c3177ece3f347a6624596ac48a",
+    "design/food-supply/task.mjs": "04565ada8d8d6aeda2bb21c60c68dd5c9e7cce976497f66f94c8060fa77e1bd7",
     "design/food-supply/layout.mjs": "8979c72608fef5cb162fece7c9fd8e4cf0a30781214121740b727abda534bb51",
     "design/food-supply/room.mjs": "dd1f7127a5cbcbf02351b7ef9278edd69446011cb534e85629ec70e70cc69128",
     "design/food-supply/machine.mjs": "449e5ac81b9638dcbde254bce30a8c8eb499a682ac79f613150e45a34d0d798a",
     "design/food-supply/scene.mjs": "ae084a4ed6b188050a0d0420464b22ef0f9339b496802eb61463b764481ac6c4",
     "design/food-supply/stage.mjs": "b040684114e14a7f128d4d6a4d8fbd2e24514270190103089e4a6e0ad4841093",
-    "design/food-supply/boards.mjs": "c796c907f06317220acc6f7d9eea0b236c8c0afbd378d9154b8373968c2a76a3",
-    "design/food-supply/scenarios.mjs": "4a5a59ecadab67044317f1b47eba245522141fe053f75b4aa715b8c18805a29d",
+    "design/food-supply/boards.mjs": "b26e24b562c891453155e1cbb8c587af7f64620d839de1651a755c97ce9105e8",
+    "design/food-supply/scenarios.mjs": "83dc66099f555cd84828619e9fc90e4c3377d7656bef49009d1fb35d5bb4cd65",
     "design/food-supply/hints.mjs": "f4dd6fc062dafb34ee7d972fd1992af3a0aa6e17e8791d485c80a6569a120272",
-    "design/food-supply/rules.mjs": "92f25819b7cbeb7e6f0e84d01da53d1509ee6e4eef790a7fed760509245e25b9",
+    "design/food-supply/rules.mjs": "b8bee49d3d5b37e7c9a87b29d60357a25601276b85d7e3325da20d08a3701a1b",
     "design/food-supply/phone.mjs": "9c882de569e444720734276dcae30510299cf12179d63db34216b74026fd65d2",
     "design/food-supply/phone.css": "8b86c8a56ee3917f6269a96db51df14a7562a7e151c568e2c550e3d6c079b8f6"
   },
@@ -633,12 +638,15 @@
     "raise": 450,
     "lower": 300,
     "briefing": 4000,
-    "deadline": 45000,
+    "deadline": 30000,
     "grace": 8000,
     "ending": 2500,
     "answer": 15000,
     "lag": 300,
-    "proposed": true
+    "proposed": true,
+    "confirmed": {
+      "deadline": "The owner, 12 November 2026: the overall time to complete the Task is 30 seconds, the briefing inside it; the deadline counts from the Task's start. The rest is PROPOSED."
+    }
   },
   "food": {
     "initial": 5,
@@ -775,7 +783,7 @@
     },
     {
       "field": "deadline",
-      "holds": "the game-clock time the Task is lost",
+      "holds": "the game-clock time the Task is lost: TIMING.deadline (30 s, the owner's) after it starts, the briefing included",
       "seenBy": "participants"
     },
     {
@@ -955,8 +963,8 @@
     "The Volunteer asks a Partner (PROPOSED eligibility: a living player outside the Hospital and the Jail, not already on a Task). Joining as a Partner never spends the Partner's own initiation.",
     "The Partner can join or decline (the owner, 11 November 2026). PROPOSED: 15 s to answer, and no answer is a decline. After a decline the Volunteer asks someone else or closes; the Volunteer's initiation is used only when a Partner joins (PROPOSED). The request and its answer are private to the two (PROPOSED).",
     "The server assigns the controls (PROPOSED: at random) and starts the Task: both travel to the Supply Room, separate from normal movement. Every board shows their two places empty, so anyone can see who went (the owner, 11 November 2026).",
-    "Briefing (4 s PROPOSED): who runs which control, the route, the dangers. The controls do nothing yet.",
-    "Running (45 s PROPOSED): raise, release, lock over the platform, lower as the swing passes over it, the keys.",
+    "The whole Task has 30 s from its start, the briefing inside it (the owner). Briefing (4 s PROPOSED): who runs which control, the route, the dangers; the controls do nothing yet.",
+    "Running (the remaining 26 s): raise, release, lock over the platform, lower as the swing passes over it, the keys.",
     "Ended: the outcome card (2.5 s PROPOSED), then the ordinary return flow restores each participant to their previous position, the dead as Eliminated where they were."
   ],
   "acceptance": [
@@ -1500,7 +1508,7 @@
           "act": "lock"
         },
         {
-          "at": 49000
+          "at": 30000
         }
       ],
       "then": {
@@ -1519,10 +1527,7 @@
           "KILLED",
           "SENT"
         ]
-      },
-      "proposed": [
-        "A 45-second deadline"
-      ]
+      }
     },
     {
       "id": "disconnect",
@@ -2887,7 +2892,7 @@
           "act": "lower"
         },
         {
-          "at": 49000
+          "at": 30000
         }
       ],
       "then": {
@@ -3038,7 +3043,7 @@
     {
       "id": "timing",
       "owner": "Game Balance",
-      "item": "The PROPOSED timing: a 4 s briefing, a 45 s deadline, an 8 s grace; the panel at 0.22 s a stop; the swing (0.9 of a stop after a lock, settling to 0.38 with a 2.2 s time constant, a swing every 1.3 s; 0.25 after a raise); the zones (0.3 of a stop either side of the platform, 0.42 either side of the console and the intake); 0.45 s to raise, 0.3 s to fall."
+      "item": "The PROPOSED timing (the 30 s deadline is the owner's): a 4 s briefing, an 8 s grace; the panel at 0.22 s a stop; the swing (0.9 of a stop after a lock, settling to 0.38 with a 2.2 s time constant, a swing every 1.3 s; 0.25 after a raise); the zones (0.3 of a stop either side of the platform, 0.42 either side of the console and the intake); 0.45 s to raise, 0.3 s to fall."
     },
     {
       "id": "paths",

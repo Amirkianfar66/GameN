@@ -235,8 +235,13 @@ test('every motion cue has its timing and a Reduce motion form; the sweep and th
 });
 
 test('the rules record: each confirmed rule met, the conflicts with a solution, visibility for every audience', () => {
-  assert.equal(RULES.length, 25);
-  for (const id of ['away-visible', 'partner-decline', 'crane-sides', 'locking-panel', 'pendulum', 'task-kills', 'lucky-catch']) assert.ok(RULES.some(r => r.id === id), id);
+  assert.equal(RULES.length, 26);
+  for (const id of ['away-visible', 'partner-decline', 'crane-sides', 'locking-panel', 'pendulum', 'task-kills', 'lucky-catch', 'time-limit']) assert.ok(RULES.some(r => r.id === id), id);
+  assert.equal(TIMING.deadline, 30000, 'the owner: 30 seconds to complete the Task');
+  const s = start();
+  assert.equal(s.deadline - s.startedAt, 30000, 'counted from the Task\'s start: the briefing is inside it');
+  assert.equal(view(s, SEATS.winch, 0).secondsLeft, 30);
+  assert.equal(view(s, SEATS.winch, TIMING.briefing).secondsLeft, 26, 'the controls work for the last 26 s');
   assert.ok(!OPEN_ITEMS.some(o => o.id === 'public-away'), 'who is away is decided, not open');
   assert.match(CONFLICTS.find(c => c.id === 'deduced-attribution').residual, /Settled/);
   assert.match(CONFLICTS.find(c => c.id === 'blocked-attack-disclosure').residual, /Settled by the owner/);

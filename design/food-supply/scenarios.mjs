@@ -160,7 +160,7 @@ export const EDGES = Object.freeze([
   },
   {
     id: 'survivor-out-of-time', about: 'After the drop, the Winch can finish alone, but only before the deadline: here Hana never lowers it in, and the Task is lost on time.',
-    steps: [...up(), press(PLATFORM_AT, 'panel', 'lock'), press(OVER_CONSOLE, 'winch', 'lower'), { at: B + TIMING.deadline }],
+    steps: [...up(), press(PLATFORM_AT, 'panel', 'lock'), press(OVER_CONSOLE, 'winch', 'lower'), { at: TIMING.deadline }],
     expect: { outcome: { result: 'lost', why: 'time' }, alive: { winch: true, panel: false } },
   },
   {

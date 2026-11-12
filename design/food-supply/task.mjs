@@ -75,16 +75,17 @@ export const ROUTE = Object.freeze([
 ].map(Object.freeze));
 
 /**
- * Timing, in milliseconds. PROPOSED, for Game Balance to tune: none of these is a confirmed rule.
+ * Timing, in milliseconds. PROPOSED, for Game Balance to tune, except the deadline: the owner set the
+ * overall time to complete the Task at 30 seconds, the briefing inside it (12 November 2026).
  * stop: the panel's sweep, per stop (end to end in 1.32 s); raise: the winch lifting the crate to its
  * hanging height; lower: the crate's fall (its outcome is decided on the press); briefing: who
- * controls what, before the controls work; deadline: the time to deliver, from the end of the
- * briefing; grace: how long a participant may be out of contact before the Task is cancelled (see
+ * controls what, before the controls work; deadline: the whole Task's time, from its start, the
+ * briefing included (the controls work for the rest of it); grace: how long a participant may be out of contact before the Task is cancelled (see
  * the rule conflict in food-supply.md); ending: the outcome card before the return; answer: how long
  * an asked Partner has to join or decline; lag: how old a press may be on arrival and still count at
  * the moment its phone showed (see press timing in food-supply.md).
  */
-export const TIMING = Object.freeze({ stop: 220, raise: 450, lower: 300, briefing: 4000, deadline: 45000, grace: 8000, ending: 2500, answer: 15000, lag: 300 });
+export const TIMING = Object.freeze({ stop: 220, raise: 450, lower: 300, briefing: 4000, deadline: 30000, grace: 8000, ending: 2500, answer: 15000, lag: 300 });
 
 /**
  * The crate's swing, in stops along the rail. PROPOSED. A lock with the crate hanging starts a swing
@@ -178,7 +179,7 @@ export function inPosition(state) {
 export function startTask({ seats, protection = { winch: false, panel: false }, at = 0 } = {}) {
   if (!seats?.winch || !seats?.panel || seats.winch === seats.panel) throw new Error('A Task needs two different participants');
   return {
-    phase: 'briefing', at, startedAt: at, runningAt: at + TIMING.briefing, deadline: at + TIMING.briefing + TIMING.deadline,
+    phase: 'briefing', at, startedAt: at, runningAt: at + TIMING.briefing, deadline: at + TIMING.deadline,
     changedAt: at,
     seats: { ...seats },
     alive: { winch: true, panel: true },
@@ -463,7 +464,7 @@ export function view(state, seat, t = state.at) {
     crate: { state: c.state, x: r3(crateX(state, t)), settled: done },
     zone: h.zone, buttons, warnings,
     keys: { you: state.keys[role], partner: state.keys[partner], needed: ROLE_KEYS.filter(r => state.alive[r]).length },
-    secondsLeft: state.phase === 'briefing' ? Math.ceil(TIMING.deadline / 1000) : Math.max(0, Math.ceil((state.deadline - t) / 1000)),
+    secondsLeft: Math.max(0, Math.ceil((state.deadline - t) / 1000)),
     briefingLeft: state.phase === 'briefing' ? Math.max(0, Math.ceil((state.runningAt - t) / 1000)) : 0,
     outcome: state.outcome,
   };
