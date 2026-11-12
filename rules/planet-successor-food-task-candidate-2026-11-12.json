@@ -1,0 +1,88 @@
+{
+  "status": "owner-confirmed-inactive-candidate-awaiting-contract-and-implementation",
+  "recorded_on": "2026-11-12",
+  "integration_base_commit": "8cbe5e896e2fa84f8d7c9df8da0b21cc9d55359d",
+  "protocol_version": 3,
+  "engine_version": "planet-game-1.4.0",
+  "ruleset_version": "in-person-planet-food-task-2026-11-12",
+  "version_allocation": "Planning allocation only. No supported runtime tuple, creation profile or deployment is registered by this candidate.",
+  "parent_authority": {
+    "path": "rules/planet-successor-blackout-before-vote-authority-2026-11-10.json",
+    "sha256": "2505515ad41e9d49c06bd14aaf9dab56dcf0adb471725c1c15d877a0f0b97556",
+    "protocol_version": 3,
+    "engine_version": "planet-game-1.3.0",
+    "ruleset_version": "in-person-planet-blackout-before-vote-2026-11-10"
+  },
+  "precedence": "The focused owner-confirmed Food overlay supersedes only incompatible Food proposals and adds the Food step, Task, meals and hunger. All unsuperseded parent rules and original source pins remain inherited. Do not combine superseded highlights with current decisions or activate proposed mechanics constants.",
+  "sources": [
+    {
+      "path": "docs/specifications/planet-successor/food-task-owner-decision-2026-11-12.md",
+      "sha256": "361bdd55b3f99920a384b3427b4dfc00c0f43d79dda123d3b309b992a5505eed"
+    },
+    {
+      "path": "rules/overlays/planet-food-task-owner-decision-2026-11-12.json",
+      "sha256": "a3011b893a64809d76e56b8d90d1d1baa24b0401b6e28d18ee59b33b8aa4a36c"
+    }
+  ],
+  "pinned_design_evidence": {
+    "repository": "Amirkianfar66/GameN",
+    "pull_request": 231,
+    "commit": "4e329bbb31c916a4c722b8a5d2eb0de4182bb2eb",
+    "designer_response": "https://github.com/Amirkianfar66/GameN/pull/231#issuecomment-6830762961",
+    "files": [
+      {
+        "path": "docs/design/owner-decisions.md",
+        "sha256": "813a71ff4619c2790e7a614ba9333b70c7043a0e7527fd082e9b8abe92fbb153"
+      },
+      {
+        "path": "docs/design/food-supply.md",
+        "sha256": "945a466ff19df732eb8b1e8196f2d7498e38f27d44bb1554b553f1b6abafcbb4"
+      },
+      {
+        "path": "design/food-supply/rules.mjs",
+        "sha256": "746eb9b3f196db4adde0c106b9215b7c53303cc2c02bf5bb43f9549b2f10e0d4"
+      },
+      {
+        "path": "design/food-supply/handoff.json",
+        "sha256": "7b32dd342f1c53cdf8898629347cfcadc3b3315ee0d1155bcf9d87e22a74a120"
+      },
+      {
+        "path": "design/food-supply/task.mjs",
+        "sha256": "5094fd4f9874d7fdb8dd3f54a42ce87bb875c4d47c85699cfd5d4ddcc33b6e18"
+      }
+    ],
+    "interpretation": "Read these bytes at the pinned design commit. They need not exist on the candidate base checkout before PR231 merges, and later edits to living design documents do not rewrite this record. Design code and handoff defaults are evidence, not executable authority."
+  },
+  "source_hash_policy": "The parent and its transitive historical authorities/manifests remain byte-identical. Local source hashes bind the owner record and focused overlay. Design evidence hashes bind Git objects at the exact reviewed commit, not mutable latest files. This document has no self-hash; do not register its external digest as an executable ruleset until its open contract/rule precision gates are resolved and reviewed.",
+  "contract_families_for_design_only": [
+    "TASK_ASK",
+    "TASK_ANSWER",
+    "TASK_ASK_WITHDRAW",
+    "TASK_PRESS"
+  ],
+  "implementation_gate": {
+    "readiness_handoff": "docs/backend/food-task-candidate-2026-11-12.md",
+    "remaining_rule_precision": [
+      "Still-proposed briefing split, swing/collision and raise/fall constants",
+      "Exact hunger sub-order and already-injured/eliminated hunger behavior where not determined by the inherited rules",
+      "Any alternative accessible timing mode"
+    ],
+    "technical_review": [
+      "Strict authenticated candidate-only commands and durable receipts",
+      "Request, Task, presence, deadline and fixed-return state machine",
+      "Audience-scoped event cursors and authorized branch/finalized-stock projections",
+      "Whole-reality food inventory, hunger and once-only ordinary-turn meals",
+      "Historical version isolation and replay/reconnect checks"
+    ],
+    "runtime_construction_accepted": false
+  },
+  "activation_boundary": {
+    "runtime_implemented_by_this_record": false,
+    "contract_accepted_by_this_record": false,
+    "creation_default_activated_by_this_record": false,
+    "existing_matches_migrated_by_this_record": false,
+    "setup_flow_changed_by_this_record": false,
+    "artwork_adopted_by_this_record": false,
+    "deployment_authorized_by_this_record": false
+  }
+}

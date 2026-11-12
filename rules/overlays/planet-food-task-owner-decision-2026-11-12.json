@@ -1,0 +1,142 @@
+{
+  "decision_id": "planet-food-task-owner-decision-2026-11-12",
+  "status": "owner-confirmed-candidate-awaiting-contract-and-implementation",
+  "recorded_on": "2026-11-12",
+  "integration_base_commit": "8cbe5e896e2fa84f8d7c9df8da0b21cc9d55359d",
+  "design_reference_commit": "4e329bbb31c916a4c722b8a5d2eb0de4182bb2eb",
+  "protocol_version": 3,
+  "engine_version": "planet-game-1.4.0",
+  "ruleset_version": "in-person-planet-food-task-2026-11-12",
+  "authority": {
+    "conversation_id": "01a0de94-e774-7a53-80fd-5897c518c9bf",
+    "owner_confirmation": "I asked Designer to decide them, and Designer's recommendations are now my decisions",
+    "record_path": "docs/specifications/planet-successor/food-task-owner-decision-2026-11-12.md",
+    "designer_reply": "https://github.com/Amirkianfar66/GameN/pull/231#issuecomment-6830762961"
+  },
+  "parent": {
+    "path": "rules/planet-successor-blackout-before-vote-authority-2026-11-10.json",
+    "sha256": "2505515ad41e9d49c06bd14aaf9dab56dcf0adb471725c1c15d877a0f0b97556",
+    "protocol_version": 3,
+    "engine_version": "planet-game-1.3.0",
+    "ruleset_version": "in-person-planet-blackout-before-vote-2026-11-10"
+  },
+  "precedence": "Apply these owner-confirmed Food decisions over conflicting Food proposals only. Inherit unsuperseded parent rules; do not globally alter ordinary attacks, role allowances, offices, navigation, medical rules or versioned setup. Earlier Food highlights are historical evidence, not parallel active rules.",
+  "decisions": [
+    {
+      "id": "FOOD-01",
+      "rule": "One exclusive Food Supply step at the start of each round, after any Captain election and before PRE_TURN. At most one Task starts per round; no concurrent Tasks. Skip when fewer than two players qualify. Asking lasts 30000 ms. A request made within it keeps its full 15000 ms answer interval. Without a Task, close after asking and any timely outstanding answer interval. Ordinary turns, movement, shots, Hack, votes and Captain commands are unavailable during the step."
+    },
+    {
+      "id": "FOOD-02",
+      "rule": "The Volunteer and Partner are two distinct living players outside Hospital and Jail, neither of whom participated in the preceding round's Food Task. These requirements are authoritative, not inferred from a phone's appearance."
+    },
+    {
+      "id": "FOOD-03",
+      "rule": "One outstanding Partner request at a time; the first to reach the server counts. Request and answer are private to those two players. Others receive only the anonymous someone-is-asking state. The Partner may join or decline within 15000 ms. No answer is decline; withdrawal is refusal. Join, withdrawal and expiry are serialized by the server, with only one accepted terminal result."
+    },
+    {
+      "id": "FOOD-04",
+      "rule": "After a refusal another eligible Volunteer may ask while the original asking interval remains open. The refused Volunteer cannot ask again this round but may be asked as Partner. Starting a Task records both participants as excluded from next round's Food step, whether delivered, lost or cancelled. A refusal does not trigger that next-round exclusion. No lifetime Food Task initiation limit applies; this rule does not extend to the separately undesigned Engine Task."
+    },
+    {
+      "id": "FOOD-05",
+      "rule": "The server assigns Winch and Panel randomly when the Task starts. Winch controls vertical Raise/Lower; Panel controls horizontal Release/Lock. Task travel does not consume voluntary movement. No separate attack button, arming trigger, confirmation or escape input is added. The Supply Room is a Task scene, not a new ordinary movement destination."
+    },
+    {
+      "id": "FOOD-06",
+      "rule": "The complete Task lasts 30000 ms from its authoritative start, including briefing. The locking panel clicks stop to stop: 100 ms snap then 400 ms rest. Lock takes the stop at rest or the destination stop during its snap. The warning margin is 150 ms. These approved numbers are not evidence of real-network safety or equivalent timing access."
+    },
+    {
+      "id": "FOOD-07",
+      "rule": "Task hazards arise from the ordinary crane controls: a drop on the Panel operator or a Lock at the Winch cab. An unblocked lethal press eliminates immediately without Hospital admission. Task kills, including mistakes, are not attacks and never read or spend an ordinary attack opportunity; repeated participation creates no Task kill quota."
+    },
+    {
+      "id": "FOOD-08",
+      "rule": "Read applicable existing Protection at each lethal resolution. It stops the hazard and is consumed under its existing activation/use rules. Without applicable Protection, the server's safety catch stops that lethal press with 25% probability. Clone does not apply. Protection and lucky catches have identical participant feedback, with no cause, role, grantor or defensive resource disclosed. Server randomness and Protection consumption must be retained once with the resolved result."
+    },
+    {
+      "id": "FOOD-09",
+      "rule": "After a partner dies, the survivor may deliver only from the correct platform position; otherwise the Task is lost. The design's accepted recovery paths include the Winch re-raising after a drop with the panel still locked over the platform, and the Panel turning its own key after the crate has landed and the Winch dies. Both living operators turn their keys for ordinary delivery; a legitimate survivor uses their own key. This records the design solution without approving its still-proposed swing and collision constants."
+    },
+    {
+      "id": "FOOD-10",
+      "rule": "A living participant's disconnect has 8000 ms grace while the Task and hazards continue. Reconnection within grace does not pause, restart or reset it. Expired grace cancels; already-resolved deaths remain. A dead participant's connection does not cancel the survivor's eligible continuation. Deliberate leaving has no extra penalty. Ended results and deliveries cannot be repeated or undone by reconnect, retry or late timeout processing."
+    },
+    {
+      "id": "FOOD-11",
+      "rule": "Both participants return at startedAt + 32500 ms for every outcome, including early success, loss, death and cancellation. Restore each recorded starting place; a killed participant is shown Eliminated there. No outside movement or forced transfer runs during this exclusive step, so those places remain reserved. Outcome timing must not shorten or extend public absence."
+    },
+    {
+      "id": "FOOD-12",
+      "rule": "Only the participants see the Supply Room, control effects, warnings, keys, timer and their partner's alive/offline state. Others may infer participants from their vacant board places and see a generic two-away banner. Do not send others a Task result, killer, hazard kind, Protection cause or private refusal. Public result information is the food count and normal board death/return status; accepted social deduction from those observations remains possible."
+    },
+    {
+      "id": "FOOD-13",
+      "rule": "Initial stock is five packages, two doses per package. A successful delivery adds five packages, exactly once. Stock is public in packages, including half-package changes. Show the warning whenever one package or less remains. A non-delivery adds nothing and emits no public Task-result message."
+    },
+    {
+      "id": "FOOD-14",
+      "rule": "At the end of each player's own ordinary turn, including Pass and timeout, each living player outside Hospital consumes one dose. Jail prisoners eat; Hospital patients do not. With insufficient stock, recorded ordinary turn order determines who eats. The server performs consumption; an omitted, delayed or replayed ship-life visit cannot affect it. A private Hack continuation is not a second ordinary turn end."
+    },
+    {
+      "id": "FOOD-15",
+      "rule": "A player unable to eat becomes hungry. At round end after whole-reality Sync, process retained hunger with the round's retained actions in recorded turn order, causing Injury and Hospital consequences under inherited medical rules. Hunger is not an attack; Protection and Clone do not stop it. Preserve the four-bed limit, permanent overflow elimination, detention, retained Rescue eligibility and full following-round rescue deadline. Do not revive an Eliminated player or extend an existing injury deadline by inference."
+    },
+    {
+      "id": "FOOD-16",
+      "rule": "No Blackhole is active during Food Supply: it precedes PRE_TURN activation. All subsequently created realities inherit the completed Task state, including deaths, consumed Protection, delivery and participation. Branching does not refill anything. Meals, remaining food and hunger are reality-local. Sync retains the selected whole reality's inventory and hunger, including inherited consumption, and discards the others without recombining effects and costs. Hunger resolves only afterward."
+    },
+    {
+      "id": "FOOD-17",
+      "rule": "Preserve the predecessor's audience model during branching: players receive authorized state for their reality and the shared display retains its labeled finalized checkpoint. Public food information does not authorize branch identifiers, branch counts, unselected-world stock or speculative shared outcomes. Requests, receipts, Protection, randomness and private refusals retain their specified audiences."
+    },
+    {
+      "id": "FOOD-18",
+      "rule": "This is an inactive successor candidate for new matches only after contract and integration acceptance. Existing matches retain exact saved protocol/engine/ruleset/art/setup pins and payloads. Optional Original Powers stay as previously configured. No Studio save, design merge or candidate record changes live authority. No Engine Task is specified or enabled here."
+    }
+  ],
+  "approved_parameters": {
+    "asking_ms": 30000,
+    "answer_ms": 15000,
+    "task_total_ms_including_briefing": 30000,
+    "return_offset_ms": 32500,
+    "disconnect_grace_ms": 8000,
+    "snap_ms": 100,
+    "rest_ms": 400,
+    "warning_margin_ms": 150,
+    "unprotected_catch_probability": 0.25,
+    "initial_packages": 5,
+    "packages_per_delivery": 5,
+    "doses_per_package": 2,
+    "doses_per_eligible_ordinary_turn": 1,
+    "warning_at_or_below_packages": 1,
+    "maximum_started_tasks_per_round": 1
+  },
+  "remaining_unapproved_tuning": {
+    "status": "proposals-in-pinned-design-not-adopted-by-this-record",
+    "briefing_ms": 4000,
+    "raise_ms": 450,
+    "fall_ms": 300,
+    "swing": {
+      "period_ms": 1300,
+      "settle_ms": 2200,
+      "lock_amplitude_stops": 0.9,
+      "least_amplitude_stops": 0.38,
+      "lift_amplitude_stops": 0.25
+    },
+    "collision_half_width_stops": {
+      "platform": 0.3,
+      "console": 0.42,
+      "intake": 0.42
+    },
+    "accessible_slower_mode": "not-decided"
+  },
+  "activation_boundary": {
+    "runtime_implemented": false,
+    "contract_accepted": false,
+    "creation_default_activated": false,
+    "existing_matches_migrated": false,
+    "artwork_adopted": false,
+    "deployment_authorized": false
+  }
+}
